@@ -28,9 +28,10 @@ use Sabre\VObject\Property\Text;
 
 class Converter {
 
-	public function __construct() {
-	}
-
+	/**
+	 * @param IUser $user
+	 * @return VCard
+	 */
 	public function createCardFromUser(IUser $user) {
 
 		$uid = $user->getUID();
@@ -60,6 +61,11 @@ class Converter {
 		return $vCard;
 	}
 
+	/**
+	 * @param VCard $vCard
+	 * @param IUser $user
+	 * @return bool
+	 */
 	public function updateCard(VCard $vCard, IUser $user) {
 		$uid = $user->getUID();
 		$displayName = $user->getDisplayName();
@@ -105,6 +111,12 @@ class Converter {
 		return $updated;
 	}
 
+	/**
+	 * @param VCard $vCard
+	 * @param string $name
+	 * @param string|IImage $newValue
+	 * @return bool
+	 */
 	private function propertyNeedsUpdate(VCard $vCard, $name, $newValue) {
 		if (is_null($newValue)) {
 			return false;

@@ -71,14 +71,14 @@ class User implements IUser {
 	 * @param string $uid
 	 * @param \OC_User_Interface $backend
 	 * @param \OC\Hooks\Emitter $emitter
-	 * @param \OCP\IConfig $config
+	 * @param IConfig|null $config
+	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $avatarManager = null, $urlGenerator = null) {
+	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
 		$this->config = $config;
-		$this->avatarManager = $avatarManager;
 		$this->urlGenerator = $urlGenerator;
 		if ($this->config) {
 			$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
@@ -87,9 +87,6 @@ class User implements IUser {
 		} else {
 			$this->enabled = true;
 			$this->lastLogin = \OC::$server->getConfig()->getUserValue($uid, 'login', 'lastLogin', 0);
-		}
-		if (is_null($this->avatarManager)) {
-			$this->avatarManager = \OC::$server->getAvatarManager();
 		}
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
@@ -106,7 +103,7 @@ class User implements IUser {
 	}
 
 	/**
-	 * get the displayname for the user, if no specific displayname is set it will fallback to the user id
+	 * get the display name for the user, if no specific display name is set it will fallback to the user id
 	 *
 	 * @return string
 	 */
@@ -326,6 +323,11 @@ class User implements IUser {
 	 * @since 9.0.0
 	 */
 	public function getAvatarImage($size) {
+		// delay the initialization
+		if (is_null($this->avatarManager)) {
+			$this->avatarManager = \OC::$server->getAvatarManager();
+		}
+
 		$avatar = $this->avatarManager->getAvatar($this->uid);
 		$image = $avatar->get(-1);
 		if ($image) {

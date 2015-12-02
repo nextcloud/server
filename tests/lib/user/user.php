@@ -475,7 +475,7 @@ class User extends \Test\TestCase {
 				->method('getAbsoluteURL')
 				->withAnyParameters()
 				->willReturn('http://localhost:8888/owncloud');
-		$user = new \OC\User\User('foo', $backend, null, null, null, $urlGenerator);
+		$user = new \OC\User\User('foo', $backend, null, null, $urlGenerator);
 		$this->assertEquals("foo@localhost:8888/owncloud", $user->getCloudId());
 	}
 }
