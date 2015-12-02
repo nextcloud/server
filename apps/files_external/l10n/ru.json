@@ -14,6 +14,7 @@
     "Not permitted to use authentication mechanism \"%s\"" : "Не допускается использование механизма авторизации \"%s\"",
     "Unsatisfied backend parameters" : "Недопустимые настройки бэкенда",
     "Unsatisfied authentication mechanism parameters" : "Недопустимые настройки механизма авторизации",
+    "Insufficient data: %s" : "Недостаточно данных: %s",
     "Personal" : "Личное",
     "System" : "Система",
     "Grant access" : "Предоставить доступ",
@@ -99,6 +100,7 @@
     "Add storage" : "Добавить хранилище",
     "Advanced settings" : "Расширенные настройки",
     "Delete" : "Удалить",
+    "Allow users to mount external storage" : "Разрешить пользователями монтировать внешние накопители",
     "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }
