@@ -23,12 +23,15 @@ namespace OCP\Files\Cache;
 
 /**
  * meta data for a file or folder
+ *
+ * @since 9.0.0
  */
 interface ICacheEntry {
 	/**
 	 * Get the numeric id of a file
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getId();
 
@@ -36,6 +39,7 @@ interface ICacheEntry {
 	 * Get the numeric id for the storage
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getStorageId();
 
@@ -43,6 +47,7 @@ interface ICacheEntry {
 	 * Get the path of the file relative to the storage root
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getPath();
 
@@ -50,6 +55,7 @@ interface ICacheEntry {
 	 * Get the file name
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getName();
 
@@ -57,6 +63,7 @@ interface ICacheEntry {
 	 * Get the full mimetype
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getMimeType();
 
@@ -64,6 +71,7 @@ interface ICacheEntry {
 	 * Get the first part of the mimetype
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getMimePart();
 
@@ -71,6 +79,7 @@ interface ICacheEntry {
 	 * Get the file size in bytes
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getSize();
 
@@ -78,6 +87,7 @@ interface ICacheEntry {
 	 * Get the last modified date as unix timestamp
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getMTime();
 
@@ -88,6 +98,7 @@ interface ICacheEntry {
 	 * This can differ from the mtime on the underlying storage which usually only changes when a direct child is added, removed or renamed
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getStorageMTime();
 
@@ -98,6 +109,7 @@ interface ICacheEntry {
 	 * Etag for folders change whenever a file in the folder has changed
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getEtag();
 
@@ -106,6 +118,7 @@ interface ICacheEntry {
 	 * \OCP\PERMISSION_UPDATE, \OCP\PERMISSION_DELETE and \OCP\PERMISSION_SHARE
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getPermissions();
 
@@ -113,6 +126,7 @@ interface ICacheEntry {
 	 * Check if the file is encrypted
 	 *
 	 * @return bool
+	 * @since 9.0.0
 	 */
 	public function isEncrypted();
 }

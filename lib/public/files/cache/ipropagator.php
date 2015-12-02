@@ -23,12 +23,15 @@ namespace OCP\Files\Cache;
 
 /**
  * Propagate etags and mtimes within the storage
+ *
+ * @since 9.0.0
  */
 interface IPropagator {
 	/**
 	 * @param string $internalPath
 	 * @param int $time
 	 * @return array[] all propagated cache entries
+	 * @since 9.0.0
 	 */
 	public function propagateChange($internalPath, $time);
 }

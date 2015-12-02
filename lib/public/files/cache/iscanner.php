@@ -23,6 +23,8 @@ namespace OCP\Files\Cache;
 
 /**
  * Scan files form the storage and save to the cache
+ *
+ * @since 9.0.0
  */
 interface IScanner {
 	const SCAN_RECURSIVE = true;
@@ -42,6 +44,7 @@ interface IScanner {
 	 * @return array an array of metadata of the scanned file
 	 * @throws \OC\ServerNotAvailableException
 	 * @throws \OCP\Lock\LockedException
+	 * @since 9.0.0
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true);
 
@@ -53,6 +56,7 @@ interface IScanner {
 	 * @param int $reuse
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @return array an array of the meta data of the scanned file or folder
+	 * @since 9.0.0
 	 */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true);
 
@@ -63,11 +67,14 @@ interface IScanner {
 	 *
 	 * @param string $file
 	 * @return boolean
+	 * @since 9.0.0
 	 */
 	public static function isPartialFile($file);
 
 	/**
 	 * walk over any folders that are not fully scanned yet and scan them
+	 *
+	 * @since 9.0.0
 	 */
 	public function backgroundScan();
 }

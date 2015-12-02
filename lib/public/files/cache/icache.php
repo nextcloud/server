@@ -30,6 +30,8 @@ namespace OCP\Files\Cache;
  * - Watcher: checks for changes made to the filesystem outside of the ownCloud instance and rescans files and folder when a change is detected
  * - Updater: listens to changes made to the filesystem inside of the ownCloud instance and updates the cache where needed
  * - ChangePropagator: updates the mtime and etags of parent folders whenever a change to the cache is made to the cache by the updater
+ *
+ * @since 9.0.0
  */
 interface ICache {
 	const NOT_FOUND = 0;
@@ -41,6 +43,7 @@ interface ICache {
 	 * Get the numeric storage id for this cache's storage
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getNumericStorageId();
 
@@ -49,6 +52,7 @@ interface ICache {
 	 *
 	 * @param string | int $file either the path of a file or folder or the file id for a file or folder
 	 * @return ICacheEntry[]|false the cache entry or false if the file is not found in the cache
+	 * @since 9.0.0
 	 */
 	public function get($file);
 
@@ -57,6 +61,7 @@ interface ICache {
 	 *
 	 * @param string $folder
 	 * @return ICacheEntry[]
+	 * @since 9.0.0
 	 */
 	public function getFolderContents($folder);
 
@@ -65,6 +70,7 @@ interface ICache {
 	 *
 	 * @param int $fileId the file id of the folder
 	 * @return ICacheEntry[]
+	 * @since 9.0.0
 	 */
 	public function getFolderContentsById($fileId);
 
@@ -76,6 +82,7 @@ interface ICache {
 	 *
 	 * @return int file id
 	 * @throws \RuntimeException
+	 * @since 9.0.0
 	 */
 	public function put($file, array $data);
 
@@ -84,6 +91,7 @@ interface ICache {
 	 *
 	 * @param int $id the fileid of the existing file or folder
 	 * @param array $data [$key => $value] the metadata to update, only the fields provided in the array will be updated, non-provided values will remain unchanged
+	 * @since 9.0.0
 	 */
 	public function update($id, array $data);
 
@@ -96,6 +104,7 @@ interface ICache {
 	 *
 	 * @param string $file
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getId($file);
 
@@ -104,6 +113,7 @@ interface ICache {
 	 *
 	 * @param string $file
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getParentId($file);
 
@@ -112,6 +122,7 @@ interface ICache {
 	 *
 	 * @param string $file
 	 * @return bool
+	 * @since 9.0.0
 	 */
 	public function inCache($file);
 
@@ -121,6 +132,7 @@ interface ICache {
 	 * when removing a folder from the cache all files and folders inside the folder will be removed as well
 	 *
 	 * @param string $file
+	 * @since 9.0.0
 	 */
 	public function remove($file);
 
@@ -129,6 +141,7 @@ interface ICache {
 	 *
 	 * @param string $source
 	 * @param string $target
+	 * @since 9.0.0
 	 */
 	public function move($source, $target);
 
@@ -139,11 +152,14 @@ interface ICache {
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 * @throws \OC\DatabaseException
+	 * @since 9.0.0
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath);
 
 	/**
 	 * remove all entries for files that are stored on the storage from the cache
+	 *
+	 * @since 9.0.0
 	 */
 	public function clear();
 
@@ -158,6 +174,7 @@ interface ICache {
 	 * @param string $file
 	 *
 	 * @return int ICache::NOT_FOUND, ICache::PARTIAL, ICache::SHALLOW or ICache::COMPLETE
+	 * @since 9.0.0
 	 */
 	public function getStatus($file);
 
@@ -166,6 +183,7 @@ interface ICache {
 	 *
 	 * @param string $pattern the search pattern using SQL search syntax (e.g. '%searchstring%')
 	 * @return ICacheEntry[] an array of cache entries where the name matches the search pattern
+	 * @since 9.0.0
 	 */
 	public function search($pattern);
 
@@ -175,6 +193,7 @@ interface ICache {
 	 * @param string $mimetype either a full mimetype to search ('text/plain') or only the first part of a mimetype ('image')
 	 *        where it will search for all mimetypes in the group ('image/*')
 	 * @return ICacheEntry[] an array of cache entries where the mimetype matches the search
+	 * @since 9.0.0
 	 */
 	public function searchByMime($mimetype);
 
@@ -186,6 +205,7 @@ interface ICache {
 	 * @param string|int $tag name or tag id
 	 * @param string $userId owner of the tags
 	 * @return ICacheEntry[] file data
+	 * @since 9.0.0
 	 */
 	public function searchByTag($tag, $userId);
 
@@ -194,6 +214,7 @@ interface ICache {
 	 *
 	 * @param string|boolean $path
 	 * @param array $data (optional) meta data of the folder
+	 * @since 9.0.0
 	 */
 	public function correctFolderSize($path, $data = null);
 
@@ -203,6 +224,7 @@ interface ICache {
 	 * @param string $path
 	 * @param array $entry (optional) meta data of the folder
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function calculateFolderSize($path, $entry = null);
 
@@ -210,6 +232,7 @@ interface ICache {
 	 * get all file ids on the files on the storage
 	 *
 	 * @return int[]
+	 * @since 9.0.0
 	 */
 	public function getAll();
 
@@ -221,6 +244,7 @@ interface ICache {
 	 * likely the folder where we stopped scanning previously
 	 *
 	 * @return string|bool the path of the folder or false when no folder matched
+	 * @since 9.0.0
 	 */
 	public function getIncomplete();
 
@@ -229,6 +253,7 @@ interface ICache {
 	 *
 	 * @param int $id the file id of the file or folder to search
 	 * @return string|null the path of the file (relative to the storage) or null if a file with the given id does not exists within this cache
+	 * @since 9.0.0
 	 */
 	public function getPathById($id);
 
@@ -237,6 +262,7 @@ interface ICache {
 	 *
 	 * @param string $path
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function normalize($path);
 }

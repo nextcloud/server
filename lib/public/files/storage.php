@@ -476,26 +476,31 @@ interface Storage {
 
 	/**
 	 * @return ICache
+	 * @since 9.0.0
 	 */
 	public function getCache();
 
 	/**
 	 * @return IPropagator
+	 * @since 9.0.0
 	 */
 	public function getPropagator();
 
 	/**
 	 * @return IScanner
+	 * @since 9.0.0
 	 */
 	public function getScanner();
 
 	/**
 	 * @return IUpdater
+	 * @since 9.0.0
 	 */
 	public function getUpdater();
 
 	/**
 	 * @return IWatcher
+	 * @since 9.0.0
 	 */
 	public function getWatcher();
 }
