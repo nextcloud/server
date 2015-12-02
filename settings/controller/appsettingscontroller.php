@@ -132,6 +132,7 @@ class AppSettingsController extends Controller {
 		$params = [];
 		$params['experimentalEnabled'] = $this->config->getSystemValue('appstore.experimental.enabled', false);
 		$params['category'] = $category;
+		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
 		$this->navigationManager->setActiveEntry('core_apps');
 
 		$templateResponse = new TemplateResponse($this->appName, 'apps', $params, 'user');
