@@ -25,6 +25,7 @@
 namespace OC\Files\ObjectStore;
 
 use Icewind\Streams\IteratorDirectory;
+use OC\Files\Cache\CacheEntry;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common {
@@ -192,7 +193,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function stat($path) {
 		$path = $this->normalizePath($path);
-		return $this->getCache()->get($path);
+		$cacheEntry = $this->getCache()->get($path);
+		if ($cacheEntry instanceof CacheEntry) {
+			return $cacheEntry->getData();
+		} else {
+			return false;
+		}
 	}
 
 	/**
