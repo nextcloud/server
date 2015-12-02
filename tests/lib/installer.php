@@ -14,14 +14,15 @@ class Test_Installer extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->appstore = OC_Config::getValue('appstoreenabled', true);
-		OC_Config::setValue('appstoreenabled', true);
+		$config = \OC::$server->getConfig();
+		$this->appstore = $config->setSystemValue('appstoreenabled', true);
+		$config->setSystemValue('appstoreenabled', true);
 		OC_Installer::removeApp(self::$appid);
 	}
 
 	protected function tearDown() {
 		OC_Installer::removeApp(self::$appid);
-		OC_Config::setValue('appstoreenabled', $this->appstore);
+		\OC::$server->getConfig()->setSystemValue('appstoreenabled', $this->appstore);
 
 		parent::tearDown();
 	}

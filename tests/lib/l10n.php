@@ -118,10 +118,12 @@ class Test_L10n extends \Test\TestCase {
 	 */
 	public function testFindLanguage($default, $preference, $expected) {
 		OC_User::setUserId(null);
+
+		$config = \OC::$server->getConfig();
 		if (is_null($default)) {
-			OC_Config::deleteKey('default_language');
+			$config->deleteSystemValue('default_language');
 		} else {
-			OC_Config::setValue('default_language', $default);
+			$config->setSystemValue('default_language', $default);
 		}
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $preference;
 
