@@ -361,9 +361,10 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getDefaultEmailAddress($user_part) {
-		$user_part = \OC_Config::getValue('mail_from_address', $user_part);
+		$config = \OC::$server->getConfig();
+		$user_part = $config->getSystemValue('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
-		$host_name = \OC_Config::getValue('mail_domain', $host_name);
+		$host_name = $config->getSystemValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
 		$mailer = \OC::$server->getMailer();
