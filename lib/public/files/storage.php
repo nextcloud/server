@@ -37,6 +37,7 @@ use OCP\Files\Cache\ICache;
 use OCP\Files\Cache\IPropagator;
 use OCP\Files\Cache\IScanner;
 use OCP\Files\Cache\IUpdater;
+use OCP\Files\Cache\IWatcher;
 use OCP\Files\InvalidPathException;
 use OCP\Lock\ILockingProvider;
 
@@ -492,4 +493,9 @@ interface Storage {
 	 * @return IUpdater
 	 */
 	public function getUpdater();
+
+	/**
+	 * @return IWatcher
+	 */
+	public function getWatcher();
 }

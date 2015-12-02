@@ -22,14 +22,13 @@
  */
 
 namespace OC\Files\Cache;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Cache\IWatcher;
 
 /**
  * check the storage backends for updates and change the cache accordingly
  */
-class Watcher {
-	const CHECK_NEVER = 0; // never check the underlying filesystem for updates
-	const CHECK_ONCE = 1; // check the underlying filesystem for updates once every request for each file
-	const CHECK_ALWAYS = 2; // always check the underlying filesystem for updates
+class Watcher implements IWatcher {
 
 	protected $watchPolicy = self::CHECK_ONCE;
 
@@ -77,7 +76,7 @@ class Watcher {
 	 * check $path for updates and update if needed
 	 *
 	 * @param string $path
-	 * @param array $cachedEntry
+	 * @param ICacheEntry|null $cachedEntry
 	 * @return boolean true if path was updated
 	 */
 	public function checkUpdate($path, $cachedEntry = null) {
@@ -96,7 +95,7 @@ class Watcher {
 	 * Update the cache for changes to $path
 	 *
 	 * @param string $path
-	 * @param array $cachedData
+	 * @param ICacheEntry $cachedData
 	 */
 	public function update($path, $cachedData) {
 		if ($this->storage->is_dir($path)) {
@@ -114,7 +113,7 @@ class Watcher {
 	 * Check if the cache for $path needs to be updated
 	 *
 	 * @param string $path
-	 * @param array $cachedData
+	 * @param ICacheEntry $cachedData
 	 * @return bool
 	 */
 	public function needsUpdate($path, $cachedData) {
