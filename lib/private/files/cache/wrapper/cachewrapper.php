@@ -25,6 +25,7 @@
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
+use OCP\Files\Cache\ICacheEntry;
 
 class CacheWrapper extends Cache {
 	/**
@@ -42,8 +43,8 @@ class CacheWrapper extends Cache {
 	/**
 	 * Make it easy for wrappers to modify every returned cache entry
 	 *
-	 * @param array $entry
-	 * @return array
+	 * @param ICacheEntry $entry
+	 * @return ICacheEntry
 	 */
 	protected function formatCacheEntry($entry) {
 		return $entry;
@@ -53,7 +54,7 @@ class CacheWrapper extends Cache {
 	 * get the stored metadata of a file or folder
 	 *
 	 * @param string /int $file
-	 * @return array|false
+	 * @return ICacheEntry|false
 	 */
 	public function get($file) {
 		$result = $this->cache->get($file);
@@ -67,7 +68,7 @@ class CacheWrapper extends Cache {
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param string $folder
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function getFolderContents($folder) {
 		// cant do a simple $this->cache->.... call here since getFolderContentsById needs to be called on this
@@ -178,7 +179,7 @@ class CacheWrapper extends Cache {
 	 * search for files matching $pattern
 	 *
 	 * @param string $pattern
-	 * @return array an array of file data
+	 * @return ICacheEntry[] an array of file data
 	 */
 	public function search($pattern) {
 		$results = $this->cache->search($pattern);
@@ -189,7 +190,7 @@ class CacheWrapper extends Cache {
 	 * search for files by mimetype
 	 *
 	 * @param string $mimetype
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function searchByMime($mimetype) {
 		$results = $this->cache->searchByMime($mimetype);
@@ -201,7 +202,7 @@ class CacheWrapper extends Cache {
 	 *
 	 * @param string|int $tag name or tag id
 	 * @param string $userId owner of the tags
-	 * @return array file data
+	 * @return ICacheEntry[] file data
 	 */
 	public function searchByTag($tag, $userId) {
 		$results = $this->cache->searchByTag($tag, $userId);

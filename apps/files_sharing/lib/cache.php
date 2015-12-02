@@ -33,6 +33,7 @@
 namespace OC\Files\Cache;
 
 use OC\User\NoUserException;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Share_Backend_Collection;
 
 /**
@@ -98,8 +99,8 @@ class Shared_Cache extends Cache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param string $file
-	 * @return array|false
+	 * @param string|int $file
+	 * @return ICacheEntry|false
 	 */
 	public function get($file) {
 		$mimetypeLoader = \OC::$server->getMimeTypeLoader();
@@ -161,7 +162,7 @@ class Shared_Cache extends Cache {
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param string $folderId
-	 * @return array|false
+	 * @return ICacheEntry[]|false
 	 */
 	public function getFolderContentsById($folderId) {
 		$cache = $this->getSourceCache('');
@@ -281,7 +282,7 @@ class Shared_Cache extends Cache {
 	 * search for files matching $pattern
 	 *
 	 * @param string $pattern
-	 * @return array of file data
+	 * @return ICacheEntry[] of file data
 	 */
 	public function search($pattern) {
 
@@ -320,7 +321,7 @@ class Shared_Cache extends Cache {
 	 * search for files by mimetype
 	 *
 	 * @param string $mimetype
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function searchByMime($mimetype) {
 		$mimepart = null;
@@ -373,7 +374,7 @@ class Shared_Cache extends Cache {
 	 *
 	 * @param string|int $tag tag to search for
 	 * @param string $userId owner of the tags
-	 * @return array file data
+	 * @return ICacheEntry[] file data
 	 */
 	public function searchByTag($tag, $userId) {
 		// TODO: inject this

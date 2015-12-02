@@ -34,6 +34,7 @@
 namespace OC\Files\Cache;
 
 use OCP\Files\Cache\ICache;
+use OCP\Files\Cache\ICacheEntry;
 use \OCP\Files\IMimeTypeLoader;
 use OCP\IDBConnection;
 
@@ -48,11 +49,6 @@ use OCP\IDBConnection;
  * - ChangePropagator: updates the mtime and etags of parent folders whenever a change to the cache is made to the cache by the updater
  */
 class Cache implements ICache {
-	const NOT_FOUND = 0;
-	const PARTIAL = 1; //only partial data available, file not cached in the database
-	const SHALLOW = 2; //folder in cache, but not all child files are completely scanned
-	const COMPLETE = 3;
-
 	/**
 	 * @var array partial data for the cache
 	 */
@@ -106,28 +102,8 @@ class Cache implements ICache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * the returned cache entry contains at least the following values:
-	 * [
-	 *        'fileid' => int, the numeric id of a file (see getId)
-	 *        'storage' => int, the numeric id of the storage the file is stored on
-	 *        'path' => string, the path of the file within the storage ('foo/bar.txt')
-	 *        'name' => string, the basename of a file ('bar.txt)
-	 *        'mimetype' => string, the full mimetype of the file ('text/plain')
-	 *        'mimepart' => string, the first half of the mimetype ('text')
-	 *        'size' => int, the size of the file or folder in bytes
-	 *        'mtime' => int, the last modified date of the file as unix timestamp as shown in the ui
-	 *        'storage_mtime' => int, the last modified date of the file as unix timestamp as stored on the storage
-	 *            Note that when a file is updated we also update the mtime of all parent folders to make it visible to the user which folder has had updates most recently
-	 *            This can differ from the mtime on the underlying storage which usually only changes when a direct child is added, removed or renamed
-	 *        'etag' => string, the etag for the file
-	 *            An etag is used for change detection of files and folders, an etag of a file changes whenever the content of the file changes
-	 *            Etag for folders change whenever a file in the folder has changed
-	 *        'permissions' int, the permissions for the file stored as bitwise combination of \OCP\PERMISSION_READ, \OCP\PERMISSION_CREATE
-	 *            \OCP\PERMISSION_UPDATE, \OCP\PERMISSION_DELETE and \OCP\PERMISSION_SHARE
-	 * ]
-	 *
 	 * @param string | int $file either the path of a file or folder or the file id for a file or folder
-	 * @return array|false the cache entry as array of false if the file is not found in the cache
+	 * @return ICacheEntry|false the cache entry as array of false if the file is not found in the cache
 	 */
 	public function get($file) {
 		if (is_string($file) or $file == '') {
@@ -157,6 +133,7 @@ class Cache implements ICache {
 			if (isset($this->partial[$file])) {
 				$data = $this->partial[$file];
 			}
+			return $data;
 		} else {
 			//fix types
 			$data['fileid'] = (int)$data['fileid'];
@@ -172,16 +149,15 @@ class Cache implements ICache {
 				$data['storage_mtime'] = $data['mtime'];
 			}
 			$data['permissions'] = (int)$data['permissions'];
+			return new CacheEntry($data);
 		}
-
-		return $data;
 	}
 
 	/**
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param string $folder
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function getFolderContents($folder) {
 		$fileId = $this->getId($folder);
@@ -192,7 +168,7 @@ class Cache implements ICache {
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param int $fileId the file id of the folder
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function getFolderContentsById($fileId) {
 		if ($fileId > -1) {
@@ -212,7 +188,9 @@ class Cache implements ICache {
 				$file['storage_mtime'] = (int)$file['storage_mtime'];
 				$file['size'] = 0 + $file['size'];
 			}
-			return $files;
+			return array_map(function (array $data) {
+				return new CacheEntry($data);
+			}, $files);
 		} else {
 			return array();
 		}
@@ -393,7 +371,7 @@ class Cache implements ICache {
 			return -1;
 		} else {
 			$parent = $this->getParentPath($file);
-			return (int) $this->getId($parent);
+			return (int)$this->getId($parent);
 		}
 	}
 
@@ -482,12 +460,12 @@ class Cache implements ICache {
 	/**
 	 * Move a file or folder in the cache
 	 *
-	 * @param \OC\Files\Cache\Cache $sourceCache
+	 * @param \OCP\Files\Cache\ICache $sourceCache
 	 * @param string $sourcePath
 	 * @param string $targetPath
 	 * @throws \OC\DatabaseException
 	 */
-	public function moveFromCache(Cache $sourceCache, $sourcePath, $targetPath) {
+	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
 		// normalize source and target
 		$sourcePath = $this->normalize($sourcePath);
 		$targetPath = $this->normalize($targetPath);
@@ -572,7 +550,7 @@ class Cache implements ICache {
 	 * search for files matching $pattern
 	 *
 	 * @param string $pattern the search pattern using SQL search syntax (e.g. '%searchstring%')
-	 * @return array an array of cache entries where the name matches the search pattern
+	 * @return ICacheEntry[] an array of cache entries where the name matches the search pattern
 	 */
 	public function search($pattern) {
 		// normalize pattern
@@ -595,7 +573,9 @@ class Cache implements ICache {
 			$row['mimepart'] = $this->mimetypeLoader->getMimetypeById($row['mimepart']);
 			$files[] = $row;
 		}
-		return $files;
+		return array_map(function(array $data) {
+			return new CacheEntry($data);
+		}, $files);
 	}
 
 	/**
@@ -603,7 +583,7 @@ class Cache implements ICache {
 	 *
 	 * @param string $mimetype either a full mimetype to search ('text/plain') or only the first part of a mimetype ('image')
 	 *        where it will search for all mimetypes in the group ('image/*')
-	 * @return array  an array of cache entries where the mimetype matches the search
+	 * @return ICacheEntry[] an array of cache entries where the mimetype matches the search
 	 */
 	public function searchByMime($mimetype) {
 		if (strpos($mimetype, '/')) {
@@ -621,7 +601,9 @@ class Cache implements ICache {
 			$row['mimepart'] = $this->mimetypeLoader->getMimetypeById($row['mimepart']);
 			$files[] = $row;
 		}
-		return $files;
+		return array_map(function (array $data) {
+			return new CacheEntry($data);
+		}, $files);
 	}
 
 	/**
@@ -631,7 +613,7 @@ class Cache implements ICache {
 	 *
 	 * @param string|int $tag name or tag id
 	 * @param string $userId owner of the tags
-	 * @return array file data
+	 * @return ICacheEntry[] file data
 	 */
 	public function searchByTag($tag, $userId) {
 		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, ' .
@@ -666,7 +648,9 @@ class Cache implements ICache {
 		while ($row = $result->fetch()) {
 			$files[] = $row;
 		}
-		return $files;
+		return array_map(function (array $data) {
+			return new CacheEntry($data);
+		}, $files);
 	}
 
 	/**

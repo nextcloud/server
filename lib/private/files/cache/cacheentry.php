@@ -107,4 +107,8 @@ class CacheEntry implements ICacheEntry, \ArrayAccess {
 	public function isEncrypted() {
 		return isset($this->data['encrypted']) && $this->data['encrypted'];
 	}
+
+	public function getData() {
+		return $this->data;
+	}
 }

@@ -47,28 +47,8 @@ interface ICache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * the returned cache entry contains at least the following values:
-	 * [
-	 *        'fileid' => int, the numeric id of a file (see getId)
-	 *        'storage' => int, the numeric id of the storage the file is stored on
-	 *        'path' => string, the path of the file within the storage ('foo/bar.txt')
-	 *        'name' => string, the basename of a file ('bar.txt)
-	 *        'mimetype' => string, the full mimetype of the file ('text/plain')
-	 *        'mimepart' => string, the first half of the mimetype ('text')
-	 *        'size' => int, the size of the file or folder in bytes
-	 *        'mtime' => int, the last modified date of the file as unix timestamp as shown in the ui
-	 *        'storage_mtime' => int, the last modified date of the file as unix timestamp as stored on the storage
-	 *            Note that when a file is updated we also update the mtime of all parent folders to make it visible to the user which folder has had updates most recently
-	 *            This can differ from the mtime on the underlying storage which usually only changes when a direct child is added, removed or renamed
-	 *        'etag' => string, the etag for the file
-	 *            An etag is used for change detection of files and folders, an etag of a file changes whenever the content of the file changes
-	 *            Etag for folders change whenever a file in the folder has changed
-	 *        'permissions' int, the permissions for the file stored as bitwise combination of \OCP\PERMISSION_READ, \OCP\PERMISSION_CREATE
-	 *            \OCP\PERMISSION_UPDATE, \OCP\PERMISSION_DELETE and \OCP\PERMISSION_SHARE
-	 * ]
-	 *
 	 * @param string | int $file either the path of a file or folder or the file id for a file or folder
-	 * @return array|false the cache entry as array of false if the file is not found in the cache
+	 * @return ICacheEntry[]|false the cache entry or false if the file is not found in the cache
 	 */
 	public function get($file);
 
@@ -76,7 +56,7 @@ interface ICache {
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param string $folder
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function getFolderContents($folder);
 
@@ -84,7 +64,7 @@ interface ICache {
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param int $fileId the file id of the folder
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function getFolderContentsById($fileId);
 
@@ -185,7 +165,7 @@ interface ICache {
 	 * search for files matching $pattern
 	 *
 	 * @param string $pattern the search pattern using SQL search syntax (e.g. '%searchstring%')
-	 * @return array an array of cache entries where the name matches the search pattern
+	 * @return ICacheEntry[] an array of cache entries where the name matches the search pattern
 	 */
 	public function search($pattern);
 
@@ -194,7 +174,7 @@ interface ICache {
 	 *
 	 * @param string $mimetype either a full mimetype to search ('text/plain') or only the first part of a mimetype ('image')
 	 *        where it will search for all mimetypes in the group ('image/*')
-	 * @return array  an array of cache entries where the mimetype matches the search
+	 * @return ICacheEntry[] an array of cache entries where the mimetype matches the search
 	 */
 	public function searchByMime($mimetype);
 
@@ -205,7 +185,7 @@ interface ICache {
 	 *
 	 * @param string|int $tag name or tag id
 	 * @param string $userId owner of the tags
-	 * @return array file data
+	 * @return ICacheEntry[] file data
 	 */
 	public function searchByTag($tag, $userId);
 

@@ -160,6 +160,7 @@ class Scanner extends BasicEmitter {
 					$data['parent'] = $parentId;
 				}
 				if (is_null($cacheData)) {
+					/** @var CacheEntry $cacheData */
 					$cacheData = $this->cache->get($file);
 				}
 				if ($cacheData and $reuseExisting and isset($cacheData['fileid'])) {
@@ -182,7 +183,7 @@ class Scanner extends BasicEmitter {
 						}
 					}
 					// Only update metadata that has changed
-					$newData = array_diff_assoc($data, $cacheData);
+					$newData = array_diff_assoc($data, $cacheData->getData());
 				} else {
 					$newData = $data;
 					$fileId = -1;
