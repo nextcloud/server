@@ -46,4 +46,12 @@ interface IMountProviderCollection {
 	 * @since 8.0.0
 	 */
 	public function registerProvider(IMountProvider $provider);
+
+	/**
+	 * Get the mount cache which can be used to search for mounts without setting up the filesystem
+	 *
+	 * @return IUserMountCache
+	 * @since 9.0.0
+	 */
+	public function getMountCache();
 }

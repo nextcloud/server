@@ -25,6 +25,8 @@ use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 
 /**
+ * Cache mounts points per user in the cache so we can easily look them up
+ *
  * @since 9.0.0
  */
 interface IUserMountCache {

@@ -25,6 +25,8 @@ use OCP\Files\Node;
 use OCP\IUser;
 
 /**
+ * Holds information about a mount for a user
+ *
  * @since 9.0.0
  */
 interface ICachedMountInfo {

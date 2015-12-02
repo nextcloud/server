@@ -428,7 +428,7 @@ class Filesystem {
 			$mounts = $mountConfigManager->getMountsForUser($userObject);
 			array_walk($mounts, array(self::$mounts, 'addMount'));
 			$mounts[] = $mount;
-			$mountConfigManager->cacheMounts($userObject, $mounts);
+			$mountConfigManager->registerMounts($userObject, $mounts);
 		}
 
 		self::listenForNewMountProviders($mountConfigManager, $userManager);

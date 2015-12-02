@@ -18,16 +18,6 @@ use OCP\IUserManager;
 use Test\TestCase;
 use Test\Util\User\Dummy;
 
-class NullLogger extends Log {
-	public function __construct($logger = null) {
-		//disable original constructor
-	}
-
-	public function log($level, $message, array $context = array()) {
-		//noop
-	}
-}
-
 /**
  * @group DB
  */
@@ -54,7 +44,7 @@ class UserMountCache extends TestCase {
 		$userBackend->createUser('u1', '');
 		$userBackend->createUser('u2', '');
 		$this->userManager->registerBackend($userBackend);
-		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, new NullLogger());
+		$this->cache = new \OC\Files\Config\UserMountCache($this->connection, $this->userManager, $this->getMock('\OC\Log'));
 	}
 
 	public function tearDown() {

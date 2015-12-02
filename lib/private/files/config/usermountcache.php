@@ -31,6 +31,9 @@ use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 
+/**
+ * Cache mounts points per user in the cache so we can easilly look them up
+ */
 class UserMountCache implements IUserMountCache {
 	/**
 	 * @var IDBConnection
@@ -64,15 +67,16 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	public function registerMounts(IUser $user, array $mounts) {
+		// filter out non-proper storages coming from unit tests
 		$mounts = array_filter($mounts, function (IMountPoint $mount) {
 			return $mount->getStorage()->getCache();
 		});
-		$mounts = array_values($mounts);
 		/** @var ICachedMountInfo[] $newMounts */
 		$newMounts = array_map(function (IMountPoint $mount) use ($user) {
 			$storage = $mount->getStorage();
 			$rootId = (int)$storage->getCache()->getId('');
 			$storageId = (int)$storage->getStorageCache()->getNumericId();
+			// filter out any storages which aren't scanned yet since we aren't interested in files from those storages (yet)
 			if ($rootId === -1) {
 				return null;
 			} else {
@@ -80,9 +84,10 @@ class UserMountCache implements IUserMountCache {
 			}
 		}, $mounts);
 		$newMounts = array_values(array_filter($newMounts));
-		$cachedMounts = $this->getMountsForUser($user);
 
+		$cachedMounts = $this->getMountsForUser($user);
 		$mountDiff = function (ICachedMountInfo $mount1, ICachedMountInfo $mount2) {
+			// since we are only looking for mounts for a specific user comparing on root id is enough
 			return $mount1->getRootId() - $mount2->getRootId();
 		};
 
@@ -97,7 +102,8 @@ class UserMountCache implements IUserMountCache {
 		}
 		foreach ($removedMounts as $mount) {
 			$this->removeFromCache($mount);
-			$this->mountsForUsers[$user->getUID()] = [];
+			$index = array_search($mount, $this->mountsForUsers[$user->getUID()]);
+			unset($this->mountsForUsers[$user->getUID()][$index]);
 		}
 	}
 
@@ -121,6 +127,8 @@ class UserMountCache implements IUserMountCache {
 			$query->execute();
 		} catch (UniqueConstraintViolationException $e) {
 			// seems to mainly happen in tests
+			// can also happen during concurrent access but we can safely ignore it
+			// since inserting the same data twice will still result in the correct data being inserted
 			$this->logger->error('Duplicate entry while inserting mount');
 			$this->logger->logException($e);
 		}
@@ -145,14 +153,17 @@ class UserMountCache implements IUserMountCache {
 	 * @return ICachedMountInfo[]
 	 */
 	public function getMountsForUser(IUser $user) {
-		$builder = $this->connection->getQueryBuilder();
-		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point')
-			->from('mounts')
-			->where($builder->expr()->eq('user_id', $builder->createPositionalParameter($user->getUID())));
+		if (!isset($this->mountsForUsers[$user->getUID()])) {
+			$builder = $this->connection->getQueryBuilder();
+			$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point')
+				->from('mounts')
+				->where($builder->expr()->eq('user_id', $builder->createPositionalParameter($user->getUID())));
 
-		$rows = $query->execute()->fetchAll();
+			$rows = $query->execute()->fetchAll();
 
-		return array_map([$this, 'dbRowToMountInfo'], $rows);
+			$this->mountsForUsers[$user->getUID()] = array_map([$this, 'dbRowToMountInfo'], $rows);
+		}
+		return $this->mountsForUsers[$user->getUID()];
 	}
 
 	/**
