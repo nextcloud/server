@@ -21,6 +21,9 @@
 
 namespace OCA\DAV\SystemTag;
 
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\SimpleCollection;
 
 class SystemTagsRelationsCollection extends SimpleCollection {

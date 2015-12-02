@@ -23,7 +23,6 @@ namespace OCA\DAV\SystemTag;
 
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\ICollection;
 
@@ -31,7 +30,6 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\TagNotFoundException;
-use OC\SystemTag\SystemTag;
 
 /**
  * Collection containing tags by object id

@@ -22,7 +22,6 @@
 namespace OCA\DAV\SystemTag;
 
 use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\MethodNotAllowed;
 
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -53,6 +52,10 @@ class SystemTagMappingNode extends SystemTagNode {
 	 * Sets up the node, expects a full path name
 	 *
 	 * @param ISystemTag $tag system tag
+	 * @param string $objectId
+	 * @param string $objectType
+	 * @param ISystemTagManager $tagManager
+	 * @param ISystemTagObjectMapper $tagMapper
 	 */
 	public function __construct(
 		ISystemTag $tag,

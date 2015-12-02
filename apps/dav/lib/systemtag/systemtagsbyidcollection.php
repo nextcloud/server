@@ -29,7 +29,6 @@ use Sabre\DAV\ICollection;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\TagNotFoundException;
-use OC\SystemTag\SystemTag;
 
 class SystemTagsByIdCollection implements ICollection {
 

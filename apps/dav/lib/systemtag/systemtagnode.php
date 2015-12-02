@@ -21,6 +21,7 @@
 
 namespace OCA\DAV\SystemTag;
 
+use OCP\SystemTag\TagAlreadyExistsException;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\Conflict;
@@ -45,6 +46,7 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 * Sets up the node, expects a full path name
 	 *
 	 * @param ISystemTag $tag system tag
+	 * @param ISystemTagManager $tagManager
 	 */
 	public function __construct(ISystemTag $tag, ISystemTagManager $tagManager) {
 		$this->tag = $tag;
@@ -84,6 +86,7 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 * @param string $name new tag name
 	 * @param bool $userVisible user visible
 	 * @param bool $userAssignable user assignable
+	 * @throws Conflict
 	 */
 	public function update($name, $userVisible, $userAssignable) {
 		try {

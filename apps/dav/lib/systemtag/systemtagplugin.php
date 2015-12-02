@@ -20,16 +20,18 @@
  */
 namespace OCA\DAV\SystemTag;
 
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\UnsupportedMediaType;
 use Sabre\DAV\Exception\Conflict;
 
-use OCA\DAV\SystemTag\SystemTagNode;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagAlreadyExistsException;
+use Sabre\HTTP\RequestInterface;
+use Sabre\HTTP\ResponseInterface;
 
 class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
@@ -72,7 +74,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	public function initialize(\Sabre\DAV\Server $server) {
 
-		$server->xmlNamespaces[self::NS_OWNCLOUD] = 'oc';
+		$server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
 		$server->protectedProperties[] = self::ID_PROPERTYNAME;
 
@@ -130,11 +132,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 *
 	 * @param string $data
 	 * @param string $contentType content type of the data
-	 *
 	 * @return ISystemTag newly created system tag
 	 *
-	 * @throws UnsupportedMediaType if the content type is not supported
 	 * @throws BadRequest if a field was missing
+	 * @throws Conflict
+	 * @throws UnsupportedMediaType if the content type is not supported
 	 */
 	private function createTag($data, $contentType = 'application/json') {
 		if ($contentType === 'application/json') {
@@ -212,15 +214,15 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			self::USERVISIBLE_PROPERTYNAME,
 			self::USERASSIGNABLE_PROPERTYNAME,
 		], function($props) use ($path) {
-			$node = $this->tree->getNodeForPath($path);
+			$node = $this->server->tree->getNodeForPath($path);
 			if (!($node instanceof SystemTagNode)) {
 				return;
 			}
 
-			$tag = $node->getTag();
+			$tag = $node->getSystemTag();
 			$name = $tag->getName();
-			$userVisible = $tag->getUserVisible();
-			$userAssignable = $tag->getUserAssignable();
+			$userVisible = $tag->isUserVisible();
+			$userAssignable = $tag->isUserAssignable();
 
 			if (isset($props[self::DISPLAYNAME_PROPERTYNAME])) {
 				$name = $props[self::DISPLAYNAME_PROPERTYNAME];
