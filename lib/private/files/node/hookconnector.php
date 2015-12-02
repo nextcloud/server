@@ -21,9 +21,9 @@
 
 namespace OC\Files\Node;
 
+use OCP\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\View;
-use OCP\Files\FileInfo;
 use OCP\Util;
 
 class HookConnector {
@@ -36,6 +36,11 @@ class HookConnector {
 	 * @var View
 	 */
 	private $view;
+
+	/**
+	 * @var FileInfo[]
+	 */
+	private $deleteMetaCache = [];
 
 	/**
 	 * HookConnector constructor.
@@ -90,11 +95,13 @@ class HookConnector {
 
 	public function delete($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
+		$this->deleteMetaCache[$node->getPath()] = $node->getFileInfo();
 		$this->root->emit('\OC\Files', 'preDelete', [$node]);
 	}
 
 	public function postDelete($arguments) {
 		$node = $this->getNodeForPath($arguments['path']);
+		unset($this->deleteMetaCache[$node->getPath()]);
 		$this->root->emit('\OC\Files', 'postDelete', [$node]);
 	}
 
@@ -135,11 +142,17 @@ class HookConnector {
 	private function getNodeForPath($path) {
 		$info = Filesystem::getView()->getFileInfo($path);
 		if (!$info) {
+
 			$fullPath = Filesystem::getView()->getAbsolutePath($path);
-			if (Filesystem::is_dir($path)) {
-				return new NonExistingFolder($this->root, $this->view, $fullPath);
+			if (isset($this->deleteMetaCache[$fullPath])) {
+				$info = $this->deleteMetaCache[$fullPath];
 			} else {
-				return new NonExistingFile($this->root, $this->view, $fullPath);
+				$info = null;
+			}
+			if (Filesystem::is_dir($path)) {
+				return new NonExistingFolder($this->root, $this->view, $fullPath, $info);
+			} else {
+				return new NonExistingFile($this->root, $this->view, $fullPath, $info);
 			}
 		}
 		if ($info->getType() === FileInfo::TYPE_FILE) {
