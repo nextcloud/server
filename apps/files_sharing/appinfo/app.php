@@ -52,7 +52,10 @@ $application->setupPropagation();
 \OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
 
 \OCP\Util::addScript('files_sharing', 'share');
-\OCP\Util::addScript('files_sharing', 'external');
+
+if (\OC::$server->getConfig()->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes') {
+	\OCP\Util::addScript('files_sharing', 'external');
+}
 
 \OC::$server->getActivityManager()->registerExtension(function() {
 		return new \OCA\Files_Sharing\Activity(
