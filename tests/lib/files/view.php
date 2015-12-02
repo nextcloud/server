@@ -2389,4 +2389,39 @@ class View extends \Test\TestCase {
 		$view = new \OC\Files\View('/' . $this->user . '/files');
 		$this->assertEquals('foo', $view->rmdir('mount'));
 	}
+
+	public function mimeFilterProvider() {
+		return [
+			[null, ['test1.txt', 'test2.txt', 'test3.md', 'test4.png']],
+			['text/plain', ['test1.txt', 'test2.txt']],
+			['text/markdown', ['test3.md']],
+			['text', ['test1.txt', 'test2.txt', 'test3.md']],
+		];
+	}
+
+	/**
+	 * @param string $filter
+	 * @param string[] $expected
+	 * @dataProvider mimeFilterProvider
+	 */
+	public function testGetDirectoryContentMimeFilter($filter, $expected) {
+		$storage1 = new Temporary();
+		$root = $this->getUniqueID('/');
+		\OC\Files\Filesystem::mount($storage1, array(), $root . '/');
+		$view = new \OC\Files\View($root);
+
+		$view->file_put_contents('test1.txt', 'asd');
+		$view->file_put_contents('test2.txt', 'asd');
+		$view->file_put_contents('test3.md', 'asd');
+		$view->file_put_contents('test4.png', '');
+
+		$content = $view->getDirectoryContent('', $filter);
+
+		$files = array_map(function(FileInfo $info) {
+			return $info->getName();
+		}, $content);
+		sort($files);
+
+		$this->assertEquals($expected, $files);
+	}
 }

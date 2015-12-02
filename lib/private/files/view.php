@@ -1427,13 +1427,9 @@ class View {
 			if ($mimetype_filter) {
 				$files = array_filter($files, function (FileInfo $file) use ($mimetype_filter) {
 					if (strpos($mimetype_filter, '/')) {
-						if ($file->getMimetype() === $mimetype_filter) {
-							$result[] = $file;
-						}
+						return $file->getMimetype() === $mimetype_filter;
 					} else {
-						if ($file->getMimePart() === $mimetype_filter) {
-							$result[] = $file;
-						}
+						return $file->getMimePart() === $mimetype_filter;
 					}
 				});
 			}
