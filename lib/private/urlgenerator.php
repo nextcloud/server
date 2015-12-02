@@ -114,7 +114,7 @@ class URLGenerator implements IURLGenerator {
 				$urlLinkTo = \OC::$WEBROOT . '/core/' . $file;
 			} else {
 				if ($frontControllerActive && $file === 'index.php') {
-					$urlLinkTo = \OC::$WEBROOT;
+					$urlLinkTo = \OC::$WEBROOT . '/';
 				} else {
 					$urlLinkTo = \OC::$WEBROOT . '/' . $file;
 				}
