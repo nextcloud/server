@@ -2243,7 +2243,13 @@ class Share extends Constants {
 				} else {
 					// TODO Don't check if inside folder
 					$result['parent'] = $checkReshare['id'];
-					$result['expirationDate'] = min($expirationDate, $checkReshare['expiration']);
+
+					$result['expirationDate'] = $expirationDate;
+					// $checkReshare['expiration'] could be null and then is always less than any value
+					if(isset($checkReshare['expiration']) && $checkReshare['expiration'] < $expirationDate) {
+						$result['expirationDate'] = $checkReshare['expiration'];
+					}
+
 					// only suggest the same name as new target if it is a reshare of the
 					// same file/folder and not the reshare of a child
 					if ($checkReshare[$column] === $itemSource) {
