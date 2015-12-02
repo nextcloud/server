@@ -171,37 +171,7 @@ class MailNotificationsTest extends \Test\TestCase {
 	}
 
 	public function testSendLinkShareMailException() {
-		$message = $this->getMockBuilder('\OC\Mail\Message')
-			->disableOriginalConstructor()->getMock();
-
-		$message
-			->expects($this->once())
-			->method('setSubject')
-			->with('TestUser shared »MyFile« with you');
-		$message
-			->expects($this->once())
-			->method('setTo')
-			->with(['lukas@owncloud.com']);
-		$message
-			->expects($this->once())
-			->method('setHtmlBody');
-		$message
-			->expects($this->once())
-			->method('setPlainBody');
-		$message
-			->expects($this->once())
-			->method('setFrom')
-			->with([\OCP\Util::getDefaultEmailAddress('sharing-noreply') => 'TestUser via UnitTestCloud']);
-
-		$this->mailer
-			->expects($this->once())
-			->method('createMessage')
-			->will($this->returnValue($message));
-		$this->mailer
-			->expects($this->once())
-			->method('send')
-			->with($message)
-			->will($this->throwException(new Exception('Some Exception Message')));
+		$this->setupMailerMock('TestUser shared »MyFile« with you', ['lukas@owncloud.com']);
 
 		$mailNotifications = new MailNotifications(
 			$this->user,
@@ -214,4 +184,73 @@ class MailNotificationsTest extends \Test\TestCase {
 		$this->assertSame(['lukas@owncloud.com'], $mailNotifications->sendLinkShareMail('lukas@owncloud.com', 'MyFile', 'https://owncloud.com/file/?foo=bar', 3600));
 	}
 
+	public function testSendInternalShareMail() {
+		$this->setupMailerMock('TestUser shared »welcome.txt« with you', ['recipient@owncloud.com' => 'Recipient'], false);
+
+		/** @var MailNotifications | PHPUnit_Framework_MockObject_MockObject $mailNotifications */
+		$mailNotifications = $this->getMock('OC\Share\MailNotifications',['getItemSharedWithUser'], [
+				$this->user,
+				$this->l10n,
+				$this->mailer,
+				$this->logger,
+				$this->defaults]);
+
+		$mailNotifications->method('getItemSharedWithUser')
+			->withAnyParameters()
+			->willReturn([
+				['file_target' => '/welcome.txt']
+			]);
+
+		$recipient = $this->getMockBuilder('\OCP\IUser')
+				->disableOriginalConstructor()->getMock();
+		$recipient
+				->expects($this->once())
+				->method('getEMailAddress')
+				->willReturn('recipient@owncloud.com');
+		$recipient
+				->expects($this->once())
+				->method('getDisplayName')
+				->willReturn('Recipient');
+
+		$recipientList = [$recipient];
+		$result = $mailNotifications->sendInternalShareMail($recipientList, '3', 'file');
+		$this->assertSame([], $result);
+
+	}
+
+	protected function setupMailerMock($subject, $to, $exceptionOnSend = true) {
+		$message = $this->getMockBuilder('\OC\Mail\Message')
+				->disableOriginalConstructor()->getMock();
+
+		$message
+				->expects($this->once())
+				->method('setSubject')
+				->with($subject);
+		$message
+				->expects($this->once())
+				->method('setTo')
+				->with($to);
+		$message
+				->expects($this->once())
+				->method('setHtmlBody');
+		$message
+				->expects($this->once())
+				->method('setPlainBody');
+		$message
+				->expects($this->once())
+				->method('setFrom')
+				->with([\OCP\Util::getDefaultEmailAddress('sharing-noreply') => 'TestUser via UnitTestCloud']);
+
+		$this->mailer
+				->expects($this->once())
+				->method('createMessage')
+				->will($this->returnValue($message));
+		if ($exceptionOnSend) {
+			$this->mailer
+					->expects($this->once())
+					->method('send')
+					->with($message)
+					->will($this->throwException(new Exception('Some Exception Message')));
+		}
+	}
 }

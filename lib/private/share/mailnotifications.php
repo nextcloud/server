@@ -99,7 +99,7 @@ class MailNotifications {
 				continue;
 			}
 
-			$items = \OCP\Share::getItemSharedWithUser($itemType, $itemSource, $recipient);
+			$items = $this->getItemSharedWithUser($itemSource, $itemType, $recipient);
 			$filename = trim($items[0]['file_target'], '/');
 			$subject = (string) $this->l->t('%s shared »%s« with you', array($this->senderDisplayName, $filename));
 			$expiration = null;
@@ -130,7 +130,7 @@ class MailNotifications {
 				);
 			}
 
-			$link = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
+			$link = Util::linkToAbsolute('files', 'index.php', $args);
 
 			list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration, 'internal');
 
@@ -142,7 +142,7 @@ class MailNotifications {
 				$message->setHtmlBody($htmlBody);
 				$message->setPlainBody($textBody);
 				$message->setFrom([
-					\OCP\Util::getDefaultEmailAddress('sharing-noreply') =>
+					Util::getDefaultEmailAddress('sharing-noreply') =>
 						(string)$this->l->t('%s via %s', [
 							$this->senderDisplayName,
 							$this->defaults->getName()
@@ -183,7 +183,7 @@ class MailNotifications {
 			$message->setHtmlBody($htmlBody);
 			$message->setPlainBody($textBody);
 			$message->setFrom([
-				\OCP\Util::getDefaultEmailAddress('sharing-noreply') =>
+				Util::getDefaultEmailAddress('sharing-noreply') =>
 					(string)$this->l->t('%s via %s', [
 						$this->senderDisplayName,
 						$this->defaults->getName()
@@ -206,7 +206,7 @@ class MailNotifications {
 	 * @param string $filename the shared file
 	 * @param string $link link to the shared file
 	 * @param int $expiration expiration date (timestamp)
-	 * @param bool $prefix prefix of mail template files
+	 * @param string $prefix prefix of mail template files
 	 * @return array an array of the html mail body and the plain text mail body
 	 */
 	private function createMailBody($filename, $link, $expiration, $prefix = '') {
