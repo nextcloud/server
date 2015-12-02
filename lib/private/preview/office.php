@@ -79,8 +79,9 @@ abstract class Office extends Provider {
 	private function initCmd() {
 		$cmd = '';
 
-		if (is_string(\OC_Config::getValue('preview_libreoffice_path', null))) {
-			$cmd = \OC_Config::getValue('preview_libreoffice_path', null);
+		$libreOfficePath = \OC::$server->getConfig()->getSystemValue('preview_libreoffice_path', null);
+		if (is_string($libreOfficePath)) {
+			$cmd = $libreOfficePath;
 		}
 
 		$whichLibreOffice = shell_exec('command -v libreoffice');

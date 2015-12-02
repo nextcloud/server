@@ -1149,7 +1149,7 @@ class Share extends Constants {
 					if (!empty($ids)) {
 						$ids = "'".implode("','", $ids)."'";
 						// TODO this should be done with Doctrine platform objects
-						if (\OC_Config::getValue( "dbtype") === 'oci') {
+						if (\OC::$server->getConfig()->getSystemValue("dbtype") === 'oci') {
 							$andOp = 'BITAND(`permissions`, ?)';
 						} else {
 							$andOp = '`permissions` & ?';
