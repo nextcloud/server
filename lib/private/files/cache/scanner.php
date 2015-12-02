@@ -37,6 +37,7 @@ namespace OC\Files\Cache;
 use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
 use OCP\Config;
+use OCP\Files\Cache\IScanner;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -50,7 +51,7 @@ use OCP\Lock\ILockingProvider;
  *
  * @package OC\Files\Cache
  */
-class Scanner extends BasicEmitter {
+class Scanner extends BasicEmitter implements IScanner {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -81,12 +82,6 @@ class Scanner extends BasicEmitter {
 	 */
 	protected $lockingProvider;
 
-	const SCAN_RECURSIVE = true;
-	const SCAN_SHALLOW = false;
-
-	const REUSE_ETAG = 1;
-	const REUSE_SIZE = 2;
-
 	public function __construct(\OC\Files\Storage\Storage $storage) {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
@@ -112,7 +107,7 @@ class Scanner extends BasicEmitter {
 	 * @param string $path
 	 * @return array an array of metadata of the file
 	 */
-	public function getData($path) {
+	protected function getData($path) {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
 			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);

@@ -35,7 +35,7 @@ class SharedScanner extends Scanner {
 	 *
 	 * @return array an array of metadata of the file
 	 */
-	public function getData($path){
+	protected function getData($path){
 		$data = parent::getData($path);
 		$sourcePath = $this->storage->getSourcePath($path);
 		list($sourceStorage, $internalPath) = \OC\Files\Filesystem::resolvePath($sourcePath);
