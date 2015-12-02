@@ -60,8 +60,5 @@ if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == '
 	"name" => $l->t('External storage')
 ]);
 
-// connecting hooks
-OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
-
 $mountProvider = $appContainer->query('OCA\Files_External\Config\ConfigAdapter');
 \OC::$server->getMountProviderCollection()->registerProvider($mountProvider);

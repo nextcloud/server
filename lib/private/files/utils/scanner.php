@@ -26,8 +26,6 @@
 
 namespace OC\Files\Utils;
 
-use OC\Files\View;
-use OC\Files\Cache\ChangePropagator;
 use OC\Files\Filesystem;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
@@ -51,11 +49,6 @@ class Scanner extends PublicEmitter {
 	private $user;
 
 	/**
-	 * @var \OC\Files\Cache\ChangePropagator
-	 */
-	protected $propagator;
-
-	/**
 	 * @var \OCP\IDBConnection
 	 */
 	protected $db;
@@ -73,7 +66,6 @@ class Scanner extends PublicEmitter {
 	public function __construct($user, $db, ILogger $logger) {
 		$this->logger = $logger;
 		$this->user = $user;
-		$this->propagator = new ChangePropagator(new View(''));
 		$this->db = $db;
 	}
 
@@ -116,14 +108,6 @@ class Scanner extends PublicEmitter {
 		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount, $emitter) {
 			$emitter->emit('\OC\Files\Utils\Scanner', 'postScanFolder', array($mount->getMountPoint() . $path));
 		});
-		// propagate etag and mtimes when files are changed or removed
-		$propagator = $this->propagator;
-		$propagatorListener = function ($path) use ($mount, $propagator) {
-			$fullPath = Filesystem::normalizePath($mount->getMountPoint() . $path);
-			$propagator->addChange($fullPath);
-		};
-		$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', $propagatorListener);
-		$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', $propagatorListener);
 	}
 
 	/**
@@ -139,7 +123,6 @@ class Scanner extends PublicEmitter {
 			$this->attachListener($mount);
 			$scanner->backgroundScan();
 		}
-		$this->propagator->propagateChanges(time());
 	}
 
 	/**
@@ -181,7 +164,6 @@ class Scanner extends PublicEmitter {
 				$this->db->commit();
 			}
 		}
-		$this->propagator->propagateChanges(time());
 	}
 }
 

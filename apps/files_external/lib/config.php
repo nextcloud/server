@@ -75,36 +75,6 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * Hook that mounts the given user's visible mount points
-	 *
-	 * @param array $data
-	 */
-	public static function initMountPointsHook($data) {
-		if ($data['user']) {
-			$user = \OC::$server->getUserManager()->get($data['user']);
-			if (!$user) {
-				\OC::$server->getLogger()->warning(
-					'Cannot init external mount points for non-existant user "' . $data['user'] . '".',
-					['app' => 'files_external']
-				);
-				return;
-			}
-			$userView = new \OC\Files\View('/' . $user->getUID() . '/files');
-			$changePropagator = new \OC\Files\Cache\ChangePropagator($userView);
-			$etagPropagator = new \OCA\Files_External\EtagPropagator($user, $changePropagator, \OC::$server->getConfig());
-			$etagPropagator->propagateDirtyMountPoints();
-			\OCP\Util::connectHook(
-				\OC\Files\Filesystem::CLASSNAME,
-				\OC\Files\Filesystem::signal_create_mount,
-				$etagPropagator, 'updateHook');
-			\OCP\Util::connectHook(
-				\OC\Files\Filesystem::CLASSNAME,
-				\OC\Files\Filesystem::signal_delete_mount,
-				$etagPropagator, 'updateHook');
-		}
-	}
-
-	/**
 	 * Returns the mount points for the given user.
 	 * The mount point is relative to the data directory.
 	 *
