@@ -23,6 +23,7 @@ namespace OCA\Files\Controller;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
@@ -215,10 +216,15 @@ class ViewController extends Controller {
 		$params['appContents'] = $contentItems;
 		$this->navigationManager->setActiveEntry('files_index');
 
-		return new TemplateResponse(
+		$response = new TemplateResponse(
 			$this->appName,
 			'index',
 			$params
 		);
+		$policy = new ContentSecurityPolicy();
+		$policy->addAllowedFrameDomain('\'self\'');
+		$response->setContentSecurityPolicy($policy);
+
+		return $response;
 	}
 }

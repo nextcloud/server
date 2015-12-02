@@ -245,6 +245,9 @@ class ViewControllerTest extends TestCase {
 				],
 			]
 		);
+		$policy = new Http\ContentSecurityPolicy();
+		$policy->addAllowedFrameDomain('\'self\'');
+		$expected->setContentSecurityPolicy($policy);
 		$this->assertEquals($expected, $this->viewController->index('MyDir', 'MyView'));
 	}
 }
