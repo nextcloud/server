@@ -30,61 +30,56 @@
 namespace OC\User;
 
 use OC\Hooks\Emitter;
+use OCP\IAvatarManager;
+use OCP\IImage;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IConfig;
 
 class User implements IUser {
-	/**
-	 * @var string $uid
-	 */
+	/** @var string $uid */
 	private $uid;
 
-	/**
-	 * @var string $displayName
-	 */
+	/** @var string $displayName */
 	private $displayName;
 
-	/**
-	 * @var \OC_User_Interface $backend
-	 */
+	/** @var \OC_User_Interface $backend */
 	private $backend;
 
-	/**
-	 * @var bool $enabled
-	 */
+	/** @var bool $enabled */
 	private $enabled;
 
-	/**
-	 * @var Emitter|Manager $emitter
-	 */
+	/** @var Emitter|Manager $emitter */
 	private $emitter;
 
-	/**
-	 * @var string $home
-	 */
+	/** @var string $home */
 	private $home;
 
-	/**
-	 * @var int $lastLogin
-	 */
+	/** @var int $lastLogin */
 	private $lastLogin;
 
-	/**
-	 * @var \OCP\IConfig $config
-	 */
+	/** @var \OCP\IConfig $config */
 	private $config;
+
+	/** @var IAvatarManager */
+	private $avatarManager;
+
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * @param string $uid
 	 * @param \OC_User_Interface $backend
 	 * @param \OC\Hooks\Emitter $emitter
-	 * @param \OCP\IConfig $config
+	 * @param IConfig|null $config
+	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct($uid, $backend, $emitter = null, IConfig $config = null) {
+	public function __construct($uid, $backend, $emitter = null, IConfig $config = null, $urlGenerator = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
 		$this->config = $config;
+		$this->urlGenerator = $urlGenerator;
 		if ($this->config) {
 			$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
 			$this->enabled = ($enabled === 'true');
@@ -92,6 +87,9 @@ class User implements IUser {
 		} else {
 			$this->enabled = true;
 			$this->lastLogin = \OC::$server->getConfig()->getUserValue($uid, 'login', 'lastLogin', 0);
+		}
+		if (is_null($this->urlGenerator)) {
+			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
 	}
 
@@ -105,7 +103,7 @@ class User implements IUser {
 	}
 
 	/**
-	 * get the displayname for the user, if no specific displayname is set it will fallback to the user id
+	 * get the display name for the user, if no specific display name is set it will fallback to the user id
 	 *
 	 * @return string
 	 */
@@ -315,5 +313,53 @@ class User implements IUser {
 	 */
 	public function getEMailAddress() {
 		return $this->config->getUserValue($this->uid, 'settings', 'email');
+	}
+
+	/**
+	 * get the avatar image if it exists
+	 *
+	 * @param int $size
+	 * @return IImage|null
+	 * @since 9.0.0
+	 */
+	public function getAvatarImage($size) {
+		// delay the initialization
+		if (is_null($this->avatarManager)) {
+			$this->avatarManager = \OC::$server->getAvatarManager();
+		}
+
+		$avatar = $this->avatarManager->getAvatar($this->uid);
+		$image = $avatar->get(-1);
+		if ($image) {
+			return $image;
+		}
+
+		return null;
+	}
+
+	/**
+	 * get the federation cloud id
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getCloudId() {
+		$uid = $this->getUID();
+		$server = $this->urlGenerator->getAbsoluteURL('/');
+		return $uid . '@' . rtrim( $this->removeProtocolFromUrl($server), '/');
+	}
+
+	/**
+	 * @param string $url
+	 * @return string
+	 */
+	private function removeProtocolFromUrl($url) {
+		if (strpos($url, 'https://') === 0) {
+			return substr($url, strlen('https://'));
+		} else if (strpos($url, 'http://') === 0) {
+			return substr($url, strlen('http://'));
+		}
+
+		return $url;
 	}
 }

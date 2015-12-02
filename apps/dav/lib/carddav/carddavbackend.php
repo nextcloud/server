@@ -108,7 +108,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		return $addressBooks;
 	}
 
-	private function getAddressBooksByUri($addressBookUri) {
+	public function getAddressBooksByUri($addressBookUri) {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
 			->from('addressbooks')
@@ -117,10 +117,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		$row = $result->fetch();
-		if (is_null($row)) {
+		$result->closeCursor();
+		if ($row === false) {
 			return null;
 		}
-		$result->closeCursor();
 
 		return [
 				'id'  => $row['id'],

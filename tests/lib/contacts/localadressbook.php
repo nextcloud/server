@@ -98,6 +98,11 @@ class SimpleUserForTesting implements IUser {
 	}
 
 	public function getEMailAddress() {
-		// TODO: Implement getEMailAddress() method.
+	}
+
+	public function getAvatarImage($size) {
+	}
+
+	public function getCloudId() {
 	}
 }

@@ -134,4 +134,11 @@ interface IUserManager {
 	 * @since 8.0.0
 	 */
 	public function countUsers();
+
+	/**
+	 * @param \Closure $callback
+	 * @return void
+	 * @since 9.0.0
+	 */
+	public function callForAllUsers (\Closure $callback, $search = '');
 }
