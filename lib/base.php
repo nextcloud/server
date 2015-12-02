@@ -169,6 +169,14 @@ class OC {
 			}
 		}
 
+		// Resolve /owncloud to /owncloud/ to ensure to always have a trailing
+		// slash which is required by URL generation.
+		if($_SERVER['REQUEST_URI'] === \OC::$WEBROOT &&
+				substr($_SERVER['REQUEST_URI'], -1) !== '/') {
+			header('Location: '.\OC::$WEBROOT.'/');
+			exit();
+		}
+
 		// search the 3rdparty folder
 		OC::$THIRDPARTYROOT = OC_Config::getValue('3rdpartyroot', null);
 		OC::$THIRDPARTYWEBROOT = OC_Config::getValue('3rdpartyurl', null);
