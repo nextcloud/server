@@ -76,6 +76,8 @@ class File extends \Test\TestCase {
 			$test->assertInstanceOf('\OC\Files\Node\NonExistingFile', $node);
 			$test->assertEquals('foo', $node->getInternalPath());
 			$test->assertEquals('/bar/foo', $node->getPath());
+			$test->assertEquals(1, $node->getId());
+			$test->assertEquals('text/plain', $node->getMimeType());
 			$hooksRun++;
 		};
 
@@ -94,7 +96,7 @@ class File extends \Test\TestCase {
 		$view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1))));
+			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1, 'mimetype' => 'text/plain'))));
 
 		$view->expects($this->once())
 			->method('unlink')

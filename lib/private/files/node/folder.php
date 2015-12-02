@@ -295,8 +295,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 	public function delete() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(array('preDelete'));
+			$fileInfo = $this->getFileInfo();
 			$this->view->rmdir($this->path);
-			$nonExisting = new NonExistingFolder($this->root, $this->view, $this->path);
+			$nonExisting = new NonExistingFolder($this->root, $this->view, $this->path, $fileInfo);
 			$this->root->emit('\OC\Files', 'postDelete', array($nonExisting));
 			$this->exists = false;
 		} else {
