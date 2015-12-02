@@ -88,13 +88,15 @@ class Test_Files_Sharing_Watcher extends OCA\Files_sharing\Tests\TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		$fileinfo = $this->view->getFileInfo('container/shareddir');
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
+		if ($this->view) {
+			$fileinfo = $this->view->getFileInfo('container/shareddir');
+			\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+					self::TEST_FILES_SHARING_API_USER2);
 
-		$this->view->deleteAll('container');
+			$this->view->deleteAll('container');
 
-		$this->ownerCache->clear();
+			$this->ownerCache->clear();
+		}
 
 		parent::tearDown();
 	}

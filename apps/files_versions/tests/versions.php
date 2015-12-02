@@ -86,10 +86,12 @@ class Test_Files_Versioning extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
-		$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files/');
-		$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files/');
-		$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files_versions/');
-		$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files_versions/');
+		if ($this->rootView) {
+			$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files/');
+			$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files/');
+			$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files_versions/');
+			$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files_versions/');
+		}
 
 		\OC_Hook::clear();
 

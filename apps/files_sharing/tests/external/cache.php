@@ -75,7 +75,9 @@ class Cache extends TestCase {
 	}
 
 	protected function tearDown() {
-		$this->cache->clear();
+		if ($this->cache) {
+			$this->cache->clear();
+		}
 		parent::tearDown();
 	}
 
