@@ -322,7 +322,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function callForAllUsers(\Closure $callback, $search = '') {
 		foreach($this->getBackends() as $backend) {
-			$limit = 50;
+			$limit = 500;
 			$offset = 0;
 			do {
 				$users = $backend->getUsers($search, $limit, $offset);

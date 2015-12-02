@@ -117,10 +117,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		$row = $result->fetch();
+		$result->closeCursor();
 		if ($row === false) {
 			return null;
 		}
-		$result->closeCursor();
 
 		return [
 				'id'  => $row['id'],

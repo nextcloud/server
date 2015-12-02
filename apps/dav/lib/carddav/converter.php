@@ -68,17 +68,17 @@ class Converter {
 		$image = $user->getAvatarImage(-1);
 
 		$updated = false;
-		if((is_null($vCard->FN) && !empty($image)) || (!is_null($vCard->FN) && $vCard->FN->getValue() !== $displayName)) {
+		if((is_null($vCard->FN) && !empty($displayName)) || (!is_null($vCard->FN) && $vCard->FN->getValue() !== $displayName)) {
 			$vCard->FN = new Text($vCard, 'FN', $displayName);
 			unset($vCard->N);
 			$vCard->add(new Text($vCard, 'N', $this->splitFullName($displayName)));
 			$updated = true;
 		}
-		if((is_null($vCard->EMail) && !empty($image)) || (!is_null($vCard->EMail) && $vCard->EMail->getValue() !== $emailAddress)) {
+		if((is_null($vCard->EMail) && !empty($emailAddress)) || (!is_null($vCard->EMail) && $vCard->EMail->getValue() !== $emailAddress)) {
 			$vCard->EMAIL = new Text($vCard, 'EMAIL', $emailAddress);
 			$updated = true;
 		}
-		if((is_null($vCard->CLOUD) && !empty($image)) || (!is_null($vCard->CLOUD) && $vCard->CLOUD->getValue() !== $cloudId)) {
+		if((is_null($vCard->CLOUD) && !empty($cloudId)) || (!is_null($vCard->CLOUD) && $vCard->CLOUD->getValue() !== $cloudId)) {
 			$vCard->CLOUD = new Text($vCard, 'CLOUD', $cloudId);
 			$updated = true;
 		}
