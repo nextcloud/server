@@ -291,8 +291,12 @@ class Server extends SimpleContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
-		$this->registerService('AvatarManager', function ($c) {
-			return new AvatarManager();
+		$this->registerService('AvatarManager', function (Server $c) {
+			return new AvatarManager(
+				$c->getUserManager(),
+				$c->getRootFolder(),
+				$c->getL10N('lib')
+			);
 		});
 		$this->registerService('Logger', function (Server $c) {
 			$logClass = $c->query('AllConfig')->getSystemValue('log_type', 'owncloud');

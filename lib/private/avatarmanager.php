@@ -27,12 +27,32 @@
 namespace OC;
 
 use OCP\IAvatarManager;
-use OC\Avatar;
+use OCP\IUserManager;
+use OCP\Files\IRootFolder;
+use OCP\IL10N;
 
 /**
  * This class implements methods to access Avatar functionality
  */
 class AvatarManager implements IAvatarManager {
+
+	/** @var  IUserManager */
+	private $userManager;
+
+	/** @var  IRootFolder */
+	private $rootFolder;
+
+	/** @var IL10N */
+	private $l;
+
+	public function __construct(
+			IUserManager $userManager,
+			IRootFolder $rootFolder,
+			IL10N $l) {
+		$this->userManager = $userManager;
+		$this->rootFolder = $rootFolder;
+		$this->l = $l;
+	}
 
 	/**
 	 * return a user specific instance of \OCP\IAvatar
@@ -42,6 +62,9 @@ class AvatarManager implements IAvatarManager {
 	 * @throws \Exception In case the username is potentially dangerous
 	 */
 	public function getAvatar($user) {
-		return new Avatar($user);
+		if (!$this->userManager->userExists($user)) {
+			throw new \Exception('user does not exist');
+		}
+		return new Avatar($this->rootFolder->getUserFolder($user)->getParent(), $this->l);
 	}
 }

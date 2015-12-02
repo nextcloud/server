@@ -196,10 +196,10 @@ class OC_Helper {
 	 * shows whether the user has an avatar
 	 * @param string $user username
 	 * @return bool avatar set or not
+	 * @deprecated 9.0.0 Use \OC::$server->getAvatarManager()->getAvatar($user)->exists();
 	**/
 	public static function userAvatarSet($user) {
-		$avatar = new \OC\Avatar($user);
-		return $avatar->exists();
+		return \OC::$server->getAvatarManager()->getAvatar($user)->exists();
 	}
 
 	/**
