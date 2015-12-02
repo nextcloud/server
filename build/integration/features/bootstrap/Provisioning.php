@@ -175,7 +175,7 @@ trait Provisioning {
 	 * @Given /^user "([^"]*)" belongs to group "([^"]*)"$/
 	 */
 	public function assureUserBelongsToGroup($user, $group){
-		if (!$this->userBelongsToGroup($user, $group)){			
+		if (!$this->userBelongsToGroup($user, $group)){
 			$previous_user = $this->currentUser;
 			$this->currentUser = "admin";
 			$this->addingUserToGroup($user, $group);
@@ -431,7 +431,7 @@ trait Provisioning {
 		$this->theSubadminGroupsShouldBe($groupsList);
 	}
 
-		/**
+	/**
 	 * Parses the xml answer to get the array of users returned.
 	 * @param ResponseInterface $resp
 	 * @return array
@@ -508,6 +508,20 @@ trait Provisioning {
 		$respondedArray = $this->getArrayOfAppsResponded($this->response);
 		PHPUnit_Framework_Assert::assertContains($app, $respondedArray);
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @Given user :user has a quota of :quota
+	 */
+	public function userHasAQuotaOf($user, $quota)
+	{
+		$body = new \Behat\Gherkin\Node\TableNode([
+			0 => ['key', 'quota'],
+			1 => ['value', $quota],
+		]);
+
+		// method used from BasicStructure trait
+		$this->sendingToWith("PUT", "/cloud/users/" . $user, $body);
 	}
 
 	/**
