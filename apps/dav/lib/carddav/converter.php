@@ -21,6 +21,7 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OCP\IImage;
 use OCP\IUser;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
@@ -68,21 +69,22 @@ class Converter {
 		$image = $user->getAvatarImage(-1);
 
 		$updated = false;
-		if((is_null($vCard->FN) && !empty($displayName)) || (!is_null($vCard->FN) && $vCard->FN->getValue() !== $displayName)) {
+		if($this->propertyNeedsUpdate($vCard, 'FN', $displayName)) {
 			$vCard->FN = new Text($vCard, 'FN', $displayName);
 			unset($vCard->N);
 			$vCard->add(new Text($vCard, 'N', $this->splitFullName($displayName)));
 			$updated = true;
 		}
-		if((is_null($vCard->EMail) && !empty($emailAddress)) || (!is_null($vCard->EMail) && $vCard->EMail->getValue() !== $emailAddress)) {
+		if($this->propertyNeedsUpdate($vCard, 'EMAIL', $emailAddress)) {
 			$vCard->EMAIL = new Text($vCard, 'EMAIL', $emailAddress);
 			$updated = true;
 		}
-		if((is_null($vCard->CLOUD) && !empty($cloudId)) || (!is_null($vCard->CLOUD) && $vCard->CLOUD->getValue() !== $cloudId)) {
+		if($this->propertyNeedsUpdate($vCard, 'CLOUD', $cloudId)) {
 			$vCard->CLOUD = new Text($vCard, 'CLOUD', $cloudId);
 			$updated = true;
 		}
-		if((is_null($vCard->PHOTO) && !empty($image)) || (!is_null($vCard->PHOTO) && $vCard->PHOTO->getValue() !== $image)) {
+
+		if($this->propertyNeedsUpdate($vCard, 'PHOTO', $image)) {
 			$vCard->add('PHOTO', $image->data(), ['ENCODING' => 'b', 'TYPE' => $image->mimeType()]);
 			$updated = true;
 		}
@@ -101,6 +103,20 @@ class Converter {
 		}
 
 		return $updated;
+	}
+
+	private function propertyNeedsUpdate(VCard $vCard, $name, $newValue) {
+		if (is_null($newValue)) {
+			return false;
+		}
+		$value = $vCard->__get($name);
+		if (!is_null($value)) {
+			$value = $value->getValue();
+			$newValue = $newValue instanceof IImage ? $newValue->data() : $newValue;
+
+			return $value !== $newValue;
+		}
+		return true;
 	}
 
 	/**
@@ -126,4 +142,5 @@ class Converter {
 
 		return $result;
 	}
+
 }
