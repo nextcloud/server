@@ -73,6 +73,24 @@ trait WebDav{
 	}
 
 	/**
+	 * @When /^Downloading last public shared file with range "([^"]*)"$/
+	 */
+	public function downloadPublicFileWithRange($range){
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav";
+		$headers['Range'] = $range;
+
+		$client = new GClient();
+		$options = [];
+		$options['auth'] = [$token, ""];
+		
+		$request = $client->createRequest("GET", $fullUrl, $options);
+		$request->addHeader('Range', $range);
+
+		$this->response = $client->send($request);
+	}
+
+	/**
 	 * @Then /^Downloaded content should be "([^"]*)"$/
 	 */
 	public function downloadedContentShouldBe($content){
