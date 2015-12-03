@@ -10,13 +10,20 @@
  */
 class Test_Comments_FakeFactory extends Test\TestCase implements \OCP\Comments\ICommentsManagerFactory {
 
-	public function testNothing() {
-		// If there would not be at least one test, phpunit would scream failure
-		// So we have one and skip it.
-		$this->markTestSkipped();
-	}
-
 	public function getManager() {
 		return $this->getMock('\OCP\Comments\ICommentsManager');
+	}
+
+	public function testOverwriteDefaultManager() {
+		$config = \oc::$server->getConfig();
+		$defaultManagerFactory = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
+
+		$managerMock = $this->getMock('\OCP\Comments\ICommentsManager');
+
+		$config->setSystemValue('comments.managerFactory', 'Test_Comments_FakeFactory');
+		$manager = \oc::$server->getCommentsManager();
+		$this->assertEquals($managerMock, $manager);
+
+		$config->setSystemValue('comments.managerFactory', $defaultManagerFactory);
 	}
 }

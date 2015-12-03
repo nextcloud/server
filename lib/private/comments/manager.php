@@ -23,15 +23,10 @@ class Manager implements ICommentsManager {
 
 	public function __construct(
 		IDBConnection $dbConn,
-		Emitter $userManager,
 		ILogger $logger
 	) {
 		$this->dbConn = $dbConn;
 		$this->logger = $logger;
-		$userManager->listen('\OC\User', 'postDelete', function($user) {
-			/** @var \OCP\IUser $user */
-			$this->deleteReferencesOfActor('user', $user->getUid());
-		});
 	}
 
 	/**

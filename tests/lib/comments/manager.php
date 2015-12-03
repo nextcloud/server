@@ -475,10 +475,10 @@ class Test_Comments_Manager extends Test\TestCase
 	}
 
 	public function testDeleteReferencesOfActorWithUserManagement() {
-		$user = \oc::$server->getUserManager()->createUser('xenia', '123456');
+		$user = \OC::$server->getUserManager()->createUser('xenia', '123456');
 		$this->assertTrue($user instanceof \OCP\IUser);
 
-		$manager = $this->getManager();
+		$manager = \OC::$server->getCommentsManager();
 		$comment = $manager->create('user', $user->getUID(), 'file', 'file64');
 		$comment
 			->setMessage('Most important comment I ever left on the Internet.')
@@ -489,7 +489,7 @@ class Test_Comments_Manager extends Test\TestCase
 		$commentID = $comment->getId();
 		$user->delete();
 
-		$comment =$manager->get($commentID);
+		$comment = $manager->get($commentID);
 		$this->assertSame($comment->getActorType(), \OCP\Comments\ICommentsManager::DELETED_USER);
 		$this->assertSame($comment->getActorId(), \OCP\Comments\ICommentsManager::DELETED_USER);
 	}
@@ -542,19 +542,6 @@ class Test_Comments_Manager extends Test\TestCase
 		// we still expect to get true back
 		$wasSuccessful = $manager->deleteCommentsAtObject('file', 'file64');
 		$this->assertTrue($wasSuccessful);
-	}
-
-	public function testOverwriteDefaultManager() {
-		$config = \oc::$server->getConfig();
-		$defaultManagerFactory = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
-
-		$managerMock = $this->getMock('\OCP\Comments\ICommentsManager');
-
-		$config->setSystemValue('comments.managerFactory', 'Test_Comments_FakeFactory');
-		$manager = \oc::$server->getCommentsManager();
-		$this->assertEquals($managerMock, $manager);
-
-		$config->setSystemValue('comments.managerFactory', $defaultManagerFactory);
 	}
 
 }

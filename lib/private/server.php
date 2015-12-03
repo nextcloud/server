@@ -1128,6 +1128,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		return $this->query('NotificationManager');
 	}
 
+	/**
+	 * @return \OCP\Comments\ICommentsManager
+	 */
 	public function getCommentsManager() {
 		return $this->query('CommentsManager');
 	}
