@@ -27,26 +27,27 @@
 namespace OCA\Provisioning_API\Tests;
 
 use OCA\Provisioning_API\Users;
+use OCP\API;
 use OCP\IUserManager;
 use OCP\IConfig;
-use OCP\IGroupManager;
 use OCP\IUserSession;
+use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase as OriginalTest;
 use OCP\ILogger;
 
 class UsersTest extends OriginalTest {
 	
-	/** @var IUserManager */
+	/** @var IUserManager | PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
-	/** @var IConfig */
+	/** @var IConfig | PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
-	/** @var \OC\Group\Manager */
+	/** @var \OC\Group\Manager | PHPUnit_Framework_MockObject_MockObject */
 	protected $groupManager;
-	/** @var IUserSession */
+	/** @var IUserSession | PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
-	/** @var ILogger */
+	/** @var ILogger | PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
-	/** @var Users */
+	/** @var Users | PHPUnit_Framework_MockObject_MockObject */
 	protected $api;
 
 	protected function tearDown() {
@@ -83,7 +84,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->getUsers());
 	}
 
@@ -203,7 +204,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->getUsers());
 	}
 
@@ -464,7 +465,7 @@ class UsersTest extends OriginalTest {
 			->with()
 			->willReturn($subAdminManager);
 
-		$expected = new \OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->addUser());	
 	}
 
@@ -653,7 +654,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
 	}
 
@@ -669,7 +670,7 @@ class UsersTest extends OriginalTest {
 			->with('UserToGet')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested user could not be found');
+		$expected = new \OC_OCS_Result(null, API::RESPOND_NOT_FOUND, 'The requested user could not be found');
 		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
 	}
 
@@ -680,6 +681,9 @@ class UsersTest extends OriginalTest {
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$targetUser = $this->getMock('\OCP\IUser');
+		$targetUser->expects($this->once())
+			->method('getEMailAddress')
+			->willReturn('demo@owncloud.org');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -704,11 +708,6 @@ class UsersTest extends OriginalTest {
 			->method('fillStorageInfo')
 			->with('UserToGet')
 			->will($this->returnValue(['DummyValue']));
-		$this->config
-			->expects($this->at(1))
-			->method('getUserValue')
-			->with('UserToGet', 'settings', 'email')
-			->will($this->returnValue('demo@owncloud.org'));
 		$targetUser
 			->expects($this->once())
 			->method('getDisplayName')
@@ -732,6 +731,10 @@ class UsersTest extends OriginalTest {
 			->method('getUID')
 			->will($this->returnValue('subadmin'));
 		$targetUser = $this->getMock('\OCP\IUser');
+		$targetUser
+				->expects($this->once())
+				->method('getEMailAddress')
+				->willReturn('demo@owncloud.org');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -768,11 +771,6 @@ class UsersTest extends OriginalTest {
 			->method('fillStorageInfo')
 			->with('UserToGet')
 			->will($this->returnValue(['DummyValue']));
-		$this->config
-			->expects($this->at(1))
-			->method('getUserValue')
-			->with('UserToGet', 'settings', 'email')
-			->will($this->returnValue('demo@owncloud.org'));
 		$targetUser
 			->expects($this->once())
 			->method('getDisplayName')
@@ -823,7 +821,7 @@ class UsersTest extends OriginalTest {
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
 
-		$expected = new \OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->getUser(['userid' => 'UserToGet']));
 	}
 
@@ -865,15 +863,14 @@ class UsersTest extends OriginalTest {
 			->method('fillStorageInfo')
 			->with('subadmin')
 			->will($this->returnValue(['DummyValue']));
-		$this->config
-			->expects($this->once())
-			->method('getUserValue')
-			->with('subadmin', 'settings', 'email')
-			->will($this->returnValue('subadmin@owncloud.org'));
 		$targetUser
 			->expects($this->once())
 			->method('getDisplayName')
 			->will($this->returnValue('Subadmin User'));
+		$targetUser
+			->expects($this->once())
+			->method('getEMailAddress')
+			->will($this->returnValue('subadmin@owncloud.org'));
 
 		$expected = new \OC_OCS_Result([
 			'quota' => ['DummyValue'],
@@ -889,7 +886,7 @@ class UsersTest extends OriginalTest {
 			->method('getUser')
 			->will($this->returnValue(null));
 
-		$expected = new \OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		$expected = new \OC_OCS_Result(null, API::RESPOND_UNAUTHORISED);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit']));
 	}
 

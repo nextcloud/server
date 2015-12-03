@@ -41,11 +41,11 @@ class OC_OCS_Cloud {
 	}
 	
 	public static function getCurrentUser() {
-		$email=\OC::$server->getConfig()->getUserValue(OC_User::getUser(), 'settings', 'email', '');
+		$userObject = \OC::$server->getUserManager()->get(OC_User::getUser());
 		$data  = array(
-			'id' => OC_User::getUser(),
-			'display-name' => OC_User::getDisplayName(),
-			'email' => $email,
+			'id' => $userObject->getUID(),
+			'display-name' => $userObject->getDisplayName(),
+			'email' => $userObject->getEMailAddress(),
 		);
 		return new OC_OCS_Result($data);
 	}

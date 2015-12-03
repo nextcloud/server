@@ -35,6 +35,8 @@
  *
  */
 
+use OCP\IUser;
+
 OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
@@ -135,17 +137,23 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$itemSource = (string)$_POST['itemSource'];
 			$recipient = (string)$_POST['recipient'];
 
+			$userManager = \OC::$server->getUserManager();
+			$recipientList = [];
 			if($shareType === \OCP\Share::SHARE_TYPE_USER) {
-				$recipientList[] = $recipient;
+				$recipientList[] = $userManager->get($recipient);
 			} elseif ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
 				$recipientList = \OC_Group::usersInGroup($recipient);
+				$group = \OC::$server->getGroupManager()->get($recipient);
+				$recipientList = $group->searchUsers('');
 			}
 			// don't send a mail to the user who shared the file
-			$recipientList = array_diff($recipientList, array(\OCP\User::getUser()));
+			$recipientList = array_filter($recipientList, function($user) {
+				/** @var IUser $user */
+				return $user->getUID() !== \OCP\User::getUser();
+			});
 
 			$mailNotification = new \OC\Share\MailNotifications(
-				\OC::$server->getUserSession()->getUser()->getUID(),
-				\OC::$server->getConfig(),
+				\OC::$server->getUserSession()->getUser(),
 				\OC::$server->getL10N('lib'),
 				\OC::$server->getMailer(),
 				\OC::$server->getLogger(),
@@ -183,8 +191,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$to_address = (string)$_POST['toaddress'];
 
 			$mailNotification = new \OC\Share\MailNotifications(
-				\OC::$server->getUserSession()->getUser()->getUID(),
-				\OC::$server->getConfig(),
+				\OC::$server->getUserSession()->getUser(),
 				\OC::$server->getL10N('lib'),
 				\OC::$server->getMailer(),
 				\OC::$server->getLogger(),
@@ -199,7 +206,6 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				} catch (Exception $e) {
 					\OCP\Util::writeLog('sharing', "Couldn't read date: " . $e->getMessage(), \OCP\Util::ERROR);
 				}
-
 			}
 
 			$result = $mailNotification->sendLinkShareMail($to_address, $file, $link, $expiration);

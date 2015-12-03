@@ -199,7 +199,7 @@ class Users {
 
 		// Find the data
 		$data['quota'] = $this->fillStorageInfo($userId);
-		$data['email'] = $this->config->getUserValue($userId, 'settings', 'email');
+		$data['email'] = $targetUserObject->getEMailAddress();
 		$data['displayname'] = $targetUserObject->getDisplayName();
 
 		return new OC_OCS_Result($data);
