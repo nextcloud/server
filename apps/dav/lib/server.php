@@ -3,6 +3,7 @@
 namespace OCA\DAV;
 
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
+use OCA\DAV\Connector\FedAuth;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Files\CustomPropertiesBackend;
@@ -35,7 +36,9 @@ class Server {
 		$this->server->setBaseUri($this->baseUri);
 
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
-		$this->server->addPlugin(new Plugin($authBackend, 'ownCloud'));
+		$authPlugin = new Plugin($authBackend, 'ownCloud');
+		$authPlugin->addBackend(new FedAuth(\OC::$server->getDatabaseConnection()));
+		$this->server->addPlugin($authPlugin);
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $logger));
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());

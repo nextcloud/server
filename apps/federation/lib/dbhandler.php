@@ -111,7 +111,7 @@ class DbHandler {
 	 */
 	public function getAllServer() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['url', 'id', 'status'])->from($this->dbTable);
+		$query->select(['url', 'id', 'status', 'shared_secret', 'sync_token'])->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		return $result;
 	}
@@ -265,6 +265,23 @@ class DbHandler {
 		$normalized = trim($normalized, '/');
 
 		return $normalized;
+	}
+
+	/**
+	 * @param $username
+	 * @param $password
+	 * @return bool
+	 */
+	public function auth($username, $password) {
+		if ($username !== 'system') {
+			return false;
+		}
+		$query = $this->connection->getQueryBuilder();
+		$query->select('url')->from($this->dbTable)
+				->where($query->expr()->eq('shared_secret', $query->createNamedParameter($password)));
+
+		$result = $query->execute()->fetch();
+		return !empty($result);
 	}
 
 }

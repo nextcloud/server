@@ -34,7 +34,7 @@
 				<name>token</name>
 				<type>text</type>
 				<length>128</length>
-				<comments>toke used to exchange the shared secret</comments>
+				<comments>token used to exchange the shared secret</comments>
 			</field>
 			<field>
 				<name>shared_secret</name>
@@ -49,6 +49,13 @@
 				<notnull>true</notnull>
 				<default>2</default>
 				<comments>current status of the connection</comments>
+			</field>
+			<field>
+				<name>sync_token</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<default>0</default>
+				<comments>cardDav sync token</comments>
 			</field>
 			<index>
 				<name>url_hash</name>
