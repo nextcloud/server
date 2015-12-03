@@ -229,7 +229,10 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setActor($actorType, $actorId) {
-		if(!is_string($actorType) || !is_string($actorId)) {
+		if(
+		       !is_string($actorType) || empty($actorType)
+		    || !is_string($actorId)   || empty($actorId)
+		) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$this->data['actorType'] = $actorType;
@@ -312,7 +315,10 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setObject($objectType, $objectId) {
-		if(!is_string($objectType) || !is_string($objectId)) {
+		if(
+		       !is_string($objectType) || empty($objectType)
+		    || !is_string($objectId)   || empty($objectId)
+		) {
 			throw new \InvalidArgumentException('String expected.');
 		}
 		$this->data['objectType'] = $objectType;

@@ -354,20 +354,9 @@ class Manager implements ICommentsManager {
 	 * @param string $objectType the object type the comment is attached to
 	 * @param string $objectId the object id the comment is attached to
 	 * @return IComment
-	 * @throws \InvalidArgumentException
 	 * @since 9.0.0
 	 */
 	public function create($actorType, $actorId, $objectType, $objectId) {
-		if(
-			   !is_string($actorType)  || empty($actorType)
-			|| !is_string($actorId)    || empty($actorId)
-		    || !is_string($objectType) || empty($objectType)
-		    || !is_string($objectId)   || empty($objectId)
-		) {
-			// unsure whether it's a good place to enforce it here, since the
-			// comment instance can be manipulated anyway.
-			throw new \InvalidArgumentException('All arguments must be non-empty strings');
-		}
 		$comment = new Comment();
 		$comment
 			->setActor($actorType, $actorId)
