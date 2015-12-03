@@ -14,7 +14,7 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\ControllerMethodReflector;
-
+use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
@@ -91,7 +91,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @CORS
-	 * @expectedException \OC\AppFramework\Middleware\Security\SecurityException
+	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\SecurityException
 	 */
 	public function testCorsIgnoredIfWithCredentialsHeaderPresent() {
 		$request = new Request(
@@ -160,7 +160,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @CORS
-	 * @expectedException \OC\AppFramework\Middleware\Security\SecurityException
+	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\SecurityException
 	 */
 	public function testCORSShouldNotAllowCookieAuth() {
 		$request = new Request(

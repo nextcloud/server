@@ -23,6 +23,7 @@
 
 namespace OC\AppFramework\Middleware\Security;
 
+use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
