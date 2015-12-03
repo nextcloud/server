@@ -36,6 +36,7 @@ use \OCA\Files_External\Appinfo\Application;
 use \OCA\Files_External\Lib\Backend\LegacyBackend;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\Backend\Backend;
+use \OCP\Files\StorageNotAvailableException;
 
 /**
  * Class to configure mount.json globally and for users
@@ -47,11 +48,6 @@ class OC_Mount_Config {
 	const MOUNT_TYPE_GROUP = 'group';
 	const MOUNT_TYPE_USER = 'user';
 	const MOUNT_TYPE_PERSONAL = 'personal';
-
-	// getBackendStatus return types
-	const STATUS_SUCCESS = 0;
-	const STATUS_ERROR = 1;
-	const STATUS_INDETERMINATE = 2;
 
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
@@ -219,7 +215,7 @@ class OC_Mount_Config {
 	 */
 	public static function getBackendStatus($class, $options, $isPersonal) {
 		if (self::$skipTest) {
-			return self::STATUS_SUCCESS;
+			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
 		foreach ($options as &$option) {
 			$option = self::setUserVars(OCP\User::getUser(), $option);
@@ -233,7 +229,7 @@ class OC_Mount_Config {
 					$result = $storage->test($isPersonal);
 					$storage->setAvailability($result);
 					if ($result) {
-						return self::STATUS_SUCCESS;
+						return StorageNotAvailableException::STATUS_SUCCESS;
 					}
 				} catch (\Exception $e) {
 					$storage->setAvailability(false);
@@ -244,7 +240,7 @@ class OC_Mount_Config {
 				throw $exception;
 			}
 		}
-		return self::STATUS_ERROR;
+		return StorageNotAvailableException::STATUS_ERROR;
 	}
 
 	/**
