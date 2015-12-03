@@ -314,4 +314,17 @@ class SMB extends Common {
 			|| Server::NativeAvailable()
 		) ? true : ['smbclient'];
 	}
+
+	/**
+	 * Test a storage for availability
+	 *
+	 * @return bool
+	 */
+	public function test() {
+		try {
+			return parent::test();
+		} catch (Exception $e) {
+			return false;
+		}
+	}
 }

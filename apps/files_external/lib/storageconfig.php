@@ -24,6 +24,7 @@
 
 namespace OCA\Files_external\Lib;
 
+use OCA\Files_External\Lib\Auth\IUserProvided;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 
@@ -406,6 +407,7 @@ class StorageConfig implements \JsonSerializable {
 		if (!is_null($this->statusMessage)) {
 			$result['statusMessage'] = $this->statusMessage;
 		}
+		$result['userProvided'] = $this->authMechanism instanceof IUserProvided;
 		$result['type'] = ($this->getType() === self::MOUNT_TYPE_PERSONAl) ? 'personal': 'system';
 		return $result;
 	}

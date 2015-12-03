@@ -22,15 +22,15 @@ if (!OCA.External.StatusManager) {
 
 OCA.External.StatusManager = {
 
-	mountStatus : null,
-	mountPointList : null,
+	mountStatus: null,
+	mountPointList: null,
 
 	/**
 	 * Function
 	 * @param {callback} afterCallback
 	 */
 
-	getMountStatus : function(afterCallback) {
+	getMountStatus: function (afterCallback) {
 		var self = this;
 		if (typeof afterCallback !== 'function' || self.isGetMountStatusRunning) {
 			return;
@@ -46,9 +46,9 @@ OCA.External.StatusManager = {
 	 * @param {string} mount_point
 	 */
 
-	getMountPointListElement : function(mount_point) {
+	getMountPointListElement: function (mount_point) {
 		var element;
-		$.each(this.mountPointList, function(key, value){
+		$.each(this.mountPointList, function (key, value) {
 			if (value.mount_point === mount_point) {
 				element = value;
 				return false;
@@ -63,7 +63,7 @@ OCA.External.StatusManager = {
 	 * @param {string} mount_point
 	 */
 
-	getMountStatusForMount : function(mountData, afterCallback) {
+	getMountStatusForMount: function (mountData, afterCallback) {
 		var self = this;
 		if (typeof afterCallback !== 'function' || self.isGetMountStatusRunning) {
 			return $.Deferred().resolve();
@@ -72,41 +72,46 @@ OCA.External.StatusManager = {
 		var defObj;
 		if (self.mountStatus[mountData.mount_point]) {
 			defObj = $.Deferred();
-				afterCallback(mountData, self.mountStatus[mountData.mount_point]);
+			afterCallback(mountData, self.mountStatus[mountData.mount_point]);
 			defObj.resolve();  // not really useful, but it'll keep the same behaviour
 		} else {
 			defObj = $.ajax({
-				type : 'GET',
+				type: 'GET',
 				url: OC.webroot + '/index.php/apps/files_external/' + ((mountData.type === 'personal') ? 'userstorages' : 'userglobalstorages') + '/' + mountData.id,
-				success : function(response) {
+				success: function (response) {
 					if (response && response.status === 0) {
 						self.mountStatus[mountData.mount_point] = response;
 					} else {
-						if (response && response.statusMessage) {
-							// failure response with error message
-							self.mountStatus[mountData.mount_point] = { type: mountData.type,
-																		status: 1,
-																		error: response.statusMessage};
-						} else {
-							self.mountStatus[mountData.mount_point] = { type: mountData.type,
-																		status: 1,
-																		error: t('files_external', 'Empty response from the server')};
-						}
+						var statusCode = response.status ? response.status : 1;
+						var statusMessage = response.statusMessage ? response.statusMessage : t('files_external', 'Empty response from the server')
+						// failure response with error message
+						self.mountStatus[mountData.mount_point] = {
+							type: mountData.type,
+							status: statusCode,
+							id: mountData.id,
+							error: statusMessage,
+							userProvided: response.userProvided
+						};
 					}
 					afterCallback(mountData, self.mountStatus[mountData.mount_point]);
 				},
-				error : function(jqxhr, state, error) {
+				error: function (jqxhr, state, error) {
 					var message;
-					if(mountData.location === 3){
+					if (mountData.location === 3) {
 						// In this case the error is because  mount point use Login credentials and don't exist in the session
 						message = t('files_external', 'Couldn\'t access. Please logout and login to activate this mount point');
 					} else {
-						message = t('files_external', 'Couldn\'t get the information from the ownCloud server: {code} {type}', {code: jqxhr.status, type: error});
+						message = t('files_external', 'Couldn\'t get the information from the ownCloud server: {code} {type}', {
+							code: jqxhr.status,
+							type: error
+						});
 					}
-					self.mountStatus[mountData.mount_point] = { type: mountData.type,
-																status: 1,
-																location: mountData.location,
-																error: message};
+					self.mountStatus[mountData.mount_point] = {
+						type: mountData.type,
+						status: 1,
+						location: mountData.location,
+						error: message
+					};
 					afterCallback(mountData, self.mountStatus[mountData.mount_point]);
 				}
 			});
@@ -119,7 +124,7 @@ OCA.External.StatusManager = {
 	 * @param {function} afterCallback function to be executed
 	 */
 
-	getMountPointList : function(afterCallback) {
+	getMountPointList: function (afterCallback) {
 		var self = this;
 		if (typeof afterCallback !== 'function' || self.isGetMountPointListRunning) {
 			return;
@@ -130,11 +135,11 @@ OCA.External.StatusManager = {
 		} else {
 			self.isGetMountPointListRunning = true;
 			$.ajax({
-				type : 'GET',
-				url : OC.linkToOCS('apps/files_external/api/v1') + 'mounts?format=json',
-				success : function(response) {
+				type: 'GET',
+				url: OC.linkToOCS('apps/files_external/api/v1') + 'mounts?format=json',
+				success: function (response) {
 					self.mountPointList = [];
-					_.each(response.ocs.data, function(mount){
+					_.each(response.ocs.data, function (mount) {
 						var element = {};
 						element.mount_point = mount.name;
 						element.type = mount.scope;
@@ -147,11 +152,11 @@ OCA.External.StatusManager = {
 					});
 					afterCallback(self.mountPointList);
 				},
-				error : function(jqxhr, state, error) {
+				error: function (jqxhr, state, error) {
 					self.mountPointList = [];
-					OC.Notification.showTemporary(t('files_external', 'Couldn\'t get the list of external mount points: {type}', {type : error}));
+					OC.Notification.showTemporary(t('files_external', 'Couldn\'t get the list of external mount points: {type}', {type: error}));
 				},
-				complete : function() {
+				complete: function () {
 					self.isGetMountPointListRunning = false;
 				}
 			});
@@ -163,21 +168,25 @@ OCA.External.StatusManager = {
 	 * @param {string} name MountPoint Name
 	 */
 
-	manageMountPointError : function(name) {
-		var self = this;
-		this.getMountStatus($.proxy(function(allMountStatus) {
-			if (typeof allMountStatus[name] !== 'undefined' || allMountStatus[name].status === 1) {
+	manageMountPointError: function (name) {
+		this.getMountStatus($.proxy(function (allMountStatus) {
+			if (allMountStatus.hasOwnProperty(name) && allMountStatus[name].status > 0 && allMountStatus[name].status < 7) {
 				var mountData = allMountStatus[name];
 				if (mountData.type === "system") {
-					OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in admin settings page?', t('files_external', 'External mount error'), function(e){
-						if(e === true) {
-							window.location.href = OC.generateUrl('/settings/admin#files_external');
-						}
-					});
+					if (mountData.userProvided) {
+						// personal mount whit credentials problems
+						this.showCredentialsDialog(name, mountData, 'fakesavecredentials.php');
+					} else {
+						OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in admin settings page?', t('files_external', 'External mount error'), function (e) {
+							if (e === true) {
+								window.location.href = OC.generateUrl('/settings/admin#files_external');
+							}
+						});
+					}
 				} else {
-					OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in personal settings page?', t('files_external', 'External mount error'), function(e){
-						if(e === true) {
-							window.location.href = OC.generateUrl('/settings/personal#external-storage');
+					OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in personal settings page?', t('files_external', 'External mount error'), function (e) {
+						if (e === true) {
+							window.location.href = OC.generateUrl('/settings/personal#' + t('files_external', 'goto-external-storage'));
 						}
 					});
 				}
@@ -191,13 +200,13 @@ OCA.External.StatusManager = {
 	 * @param {object} mountStatus
 	 */
 
-	processMountStatusIndividual : function(mountData, mountStatus) {
+	processMountStatusIndividual: function (mountData, mountStatus) {
 
 		var mountPoint = mountData.mount_point;
-		if (mountStatus.status === 1) {
+		if (mountStatus.status > 0) {
 			var trElement = FileList.findFileEl(OCA.External.StatusManager.Utils.jqSelEscape(mountPoint));
 
-			route = OCA.External.StatusManager.Utils.getIconRoute(trElement) + '-error';
+			var route = OCA.External.StatusManager.Utils.getIconRoute(trElement) + '-error';
 
 			if (OCA.External.StatusManager.Utils.isCorrectViewAndRootFolder()) {
 				OCA.External.StatusManager.Utils.showIconError(mountPoint, $.proxy(OCA.External.StatusManager.manageMountPointError, OCA.External.StatusManager), route);
@@ -218,9 +227,9 @@ OCA.External.StatusManager = {
 	 * @param {object} mountStatus
 	 */
 
-	processMountList : function(mountList) {
+	processMountList: function (mountList) {
 		var elementList = null;
-		$.each(mountList, function(name, value){
+		$.each(mountList, function (name, value) {
 			var trElement = $('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(value.mount_point) + '\"]'); //FileList.findFileEl(OCA.External.StatusManager.Utils.jqSelEscape(value.mount_point));
 			trElement.attr('data-external-backend', value.backend);
 			if (elementList) {
@@ -247,9 +256,9 @@ OCA.External.StatusManager = {
 	 * Function to process the whole mount point list in relation with their status (Async queue)
 	 */
 
-	launchFullConnectivityCheckOneByOne : function() {
+	launchFullConnectivityCheckOneByOne: function () {
 		var self = this;
-		this.getMountPointList(function(list){
+		this.getMountPointList(function (list) {
 			// check if we have a list first
 			if (list === undefined && !self.emptyWarningShown) {
 				self.emptyWarningShown = true;
@@ -264,17 +273,19 @@ OCA.External.StatusManager = {
 				}
 
 				var ajaxQueue = [];
-				$.each(list, function(key, value){
-					var queueElement = {funcName: $.proxy(self.getMountStatusForMount, self),
-										funcArgs: [value,
-													$.proxy(self.processMountStatusIndividual, self)]};
+				$.each(list, function (key, value) {
+					var queueElement = {
+						funcName: $.proxy(self.getMountStatusForMount, self),
+						funcArgs: [value,
+							$.proxy(self.processMountStatusIndividual, self)]
+					};
 					ajaxQueue.push(queueElement);
 				});
 
-				var rolQueue = new OCA.External.StatusManager.RollingQueue(ajaxQueue, 4, function(){
+				var rolQueue = new OCA.External.StatusManager.RollingQueue(ajaxQueue, 4, function () {
 					if (!self.notificationHasShown) {
 						var showNotification = false;
-						$.each(self.mountStatus, function(key, value){
+						$.each(self.mountStatus, function (key, value) {
 							if (value.status === 1) {
 								self.notificationHasShown = true;
 								showNotification = true;
@@ -297,20 +308,22 @@ OCA.External.StatusManager = {
 	 * @param {boolean} recheck delete cached info and force api call to check mount point status
 	 */
 
-	launchPartialConnectivityCheck : function(mountListData, recheck) {
+	launchPartialConnectivityCheck: function (mountListData, recheck) {
 		if (mountListData.length === 0) {
 			return;
 		}
 
 		var self = this;
 		var ajaxQueue = [];
-		$.each(mountListData, function(key, value){
+		$.each(mountListData, function (key, value) {
 			if (recheck && value.mount_point in self.mountStatus) {
 				delete self.mountStatus[value.mount_point];
 			}
-			var queueElement = {funcName: $.proxy(self.getMountStatusForMount, self),
-								funcArgs: [value,
-											$.proxy(self.processMountStatusIndividual, self)]};
+			var queueElement = {
+				funcName: $.proxy(self.getMountStatusForMount, self),
+				funcArgs: [value,
+					$.proxy(self.processMountStatusIndividual, self)]
+			};
 			ajaxQueue.push(queueElement);
 		});
 		new OCA.External.StatusManager.RollingQueue(ajaxQueue, 4).runQueue();
@@ -323,21 +336,19 @@ OCA.External.StatusManager = {
 	 * @param {boolean} recheck delete cached info and force api call to check mount point status
 	 */
 
-	recheckConnectivityForMount : function(mountListNames, recheck) {
+	recheckConnectivityForMount: function (mountListNames, recheck) {
 		if (mountListNames.length === 0) {
 			return;
 		}
 
 		var self = this;
 		var mountListData = [];
-		var recheckPersonalGlobal = false;
-		var recheckAdminGlobal = false;
 
 		if (!self.mountStatus) {
 			self.mountStatus = {};
 		}
 
-		$.each(mountListNames, function(key, value){
+		$.each(mountListNames, function (key, value) {
 			var mountData = self.getMountPointListElement(value);
 			if (mountData) {
 				mountListData.push(mountData);
@@ -346,7 +357,7 @@ OCA.External.StatusManager = {
 
 		// for all mounts in the list, delete the cached status values
 		if (recheck) {
-			$.each(mountListData, function(key, value){
+			$.each(mountListData, function (key, value) {
 				if (value.mount_point in self.mountStatus) {
 					delete self.mountStatus[value.mount_point];
 				}
@@ -355,12 +366,84 @@ OCA.External.StatusManager = {
 
 		self.processMountList(mountListData);
 		self.launchPartialConnectivityCheck(mountListData, recheck);
+	},
+
+	/**
+	 * Function to display custom dialog to enter credentials
+	 * @param mountPoint
+	 * @param mountData
+	 */
+	showCredentialsDialog: function (mountPoint, mountData) {
+		var $popup = $('<div id="files_external_div_form"/>').attr('title', t('files_external', 'Mount Credentials'));
+
+		var $inner = $('<div/>');
+		$popup.append($inner);
+
+		$inner.append($('<div/>').text(t('files_external', 'Please enter the credentials for the {mount} mount', {
+			'mount': mountPoint
+		})));
+
+		var $form = $('<form/>');
+		$inner.append($form);
+		var $username = $('<input type="text" name="username"/>').attr('placeholder', t('files_external', 'Username'));
+		var $password = $('<input type="password" name="password"/>').attr('placeholder', t('files_external', 'Password'));
+		$form.append($username);
+		$form.append($password);
+		$form.on('submit', apply);
+
+		var apply = function () {
+			var username = $username.val();
+			var password = $password.val();
+			var endpoint = OC.generateUrl('apps/files_external/userglobalstorages/{id}', {
+				id: mountData.id
+			});
+			$('.oc-dialog-close').hide();
+			$.ajax({
+				type: 'PUT',
+				url: endpoint,
+				data: {
+					backendOptions: {
+						user: username,
+						password: password
+					}
+				},
+				success: function (data) {
+					console.log(data);
+					OC.Notification.showTemporary(t('files_external', 'Credentials saved'));
+					$popup.ocdialog('close');
+					/* Trigger status check again */
+					OCA.External.StatusManager.recheckConnectivityForMount([OC.basename(data.mountPoint)], true);
+				},
+				error: function () {
+					$('.oc-dialog-close').show();
+					OC.Notification.showTemporary(t('files_external', 'Credentials saving failed'));
+				}
+			});
+			console.log('apply', username, password, endpoint);
+		};
+
+		var ocdialogParams = {
+			modal: true,
+			buttons: [{
+				text: t('files_external', 'Save'),
+				click: apply,
+				closeOnEscape: true
+			}],
+			closeOnExcape: true
+		};
+
+		$('body').append($popup);
+
+		$popup.ocdialog(ocdialogParams)
+			.bind('ocdialogclose', function () {
+				$popup.ocdialog('destroy').remove();
+			});
 	}
 };
 
 OCA.External.StatusManager.Utils = {
 
-	showIconError: function(folder, clickAction, errorImageUrl) {
+	showIconError: function (folder, clickAction, errorImageUrl) {
 		var imageUrl = "url(" + errorImageUrl + ")";
 		var trFolder = $('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(folder) + '\"]'); //FileList.findFileEl(OCA.External.StatusManager.Utils.jqSelEscape(folder));
 		this.changeFolderIcon(folder, imageUrl);
@@ -371,14 +454,14 @@ OCA.External.StatusManager.Utils = {
 	/**
 	 * @param folder string with the folder or jQuery element pointing to the tr element
 	 */
-	storeDefaultFolderIconAndBgcolor: function(folder) {
+	storeDefaultFolderIconAndBgcolor: function (folder) {
 		var trFolder;
 		if (folder instanceof $) {
 			trFolder = folder;
 		} else {
 			trFolder = $('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(folder) + '\"]'); //FileList.findFileEl(OCA.External.StatusManager.Utils.jqSelEscape(folder)); //$('#fileList tr[data-file=\"' + OCA.External.StatusManager.Utils.jqSelEscape(folder) + '\"]');
 		}
-		trFolder.each(function(){
+		trFolder.each(function () {
 			var thisElement = $(this);
 			if (thisElement.data('oldbgcolor') === undefined) {
 				thisElement.data('oldbgcolor', thisElement.css('background-color'));
@@ -386,7 +469,7 @@ OCA.External.StatusManager.Utils = {
 		});
 
 		var icon = trFolder.find('td:first-child div.thumbnail');
-		icon.each(function(){
+		icon.each(function () {
 			var thisElement = $(this);
 			if (thisElement.data('oldImage') === undefined) {
 				thisElement.data('oldImage', thisElement.css('background-image'));
@@ -397,7 +480,7 @@ OCA.External.StatusManager.Utils = {
 	/**
 	 * @param folder string with the folder or jQuery element pointing to the tr element
 	 */
-	restoreFolder: function(folder) {
+	restoreFolder: function (folder) {
 		var trFolder;
 		if (folder instanceof $) {
 			trFolder = folder;
@@ -407,7 +490,7 @@ OCA.External.StatusManager.Utils = {
 		}
 		trFolder.removeClass('externalErroredRow').removeClass('externalDisabledRow');
 		tdChilds = trFolder.find("td:first-child div.thumbnail");
-		tdChilds.each(function(){
+		tdChilds.each(function () {
 			var thisElement = $(this);
 			thisElement.css('background-image', thisElement.data('oldImage'));
 		});
@@ -417,12 +500,12 @@ OCA.External.StatusManager.Utils = {
 	 * @param folder string with the folder or jQuery element pointing to the first td element
 	 * of the tr matching the folder name
 	 */
-	changeFolderIcon: function(filename) {
+	changeFolderIcon: function (filename) {
 		var file;
 		var route;
 		if (filename instanceof $) {
 			//trElementList
-			$.each(filename, function(index){
+			$.each(filename, function (index) {
 				route = OCA.External.StatusManager.Utils.getIconRoute($(this));
 				$(this).attr("data-icon", route);
 				$(this).find('td:first-child div.thumbnail').css('background-image', "url(" + route + ")").css('display', 'none').css('display', 'inline');
@@ -440,7 +523,7 @@ OCA.External.StatusManager.Utils = {
 	 * @param backend string with the name of the external storage backend
 	 * of the tr matching the folder name
 	 */
-	getIconRoute: function(tr) {
+	getIconRoute: function (tr) {
 		var icon = OC.imagePath('core', 'filetypes/folder-external');
 		var backend = null;
 
@@ -460,7 +543,7 @@ OCA.External.StatusManager.Utils = {
 		return icon;
 	},
 
-	toggleLink: function(filename, active, action) {
+	toggleLink: function (filename, active, action) {
 		var link;
 		if (filename instanceof $) {
 			link = filename;
@@ -473,7 +556,7 @@ OCA.External.StatusManager.Utils = {
 		} else {
 			link.find('.fileactions, .nametext .action').remove();  // from files/js/fileactions (display)
 			link.off('click.connectivity');
-			link.on('click.connectivity', function(e){
+			link.on('click.connectivity', function (e) {
 				if (action && $.isFunction(action)) {
 					action(filename);
 				}
@@ -483,7 +566,7 @@ OCA.External.StatusManager.Utils = {
 		}
 	},
 
-	isCorrectViewAndRootFolder: function() {
+	isCorrectViewAndRootFolder: function () {
 		// correct views = files & extstoragemounts
 		if (OCA.Files.App.getActiveView() === 'files' || OCA.Files.App.getActiveView() === 'extstoragemounts') {
 			return OCA.Files.App.getCurrentAppContainer().find('#dir').val() === '/';
@@ -492,15 +575,15 @@ OCA.External.StatusManager.Utils = {
 	},
 
 	/* escape a selector expression for jQuery */
-	jqSelEscape: function(expression) {
-		if(expression){
+	jqSelEscape: function (expression) {
+		if (expression) {
 			return expression.replace(/[!"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~]/g, '\\$&');
 		}
 		return null;
 	},
 
 	/* Copied from http://stackoverflow.com/questions/2631001/javascript-test-for-existence-of-nested-object-key */
-	checkNested: function(cobj /*, level1, level2, ... levelN*/) {
+	checkNested: function (cobj /*, level1, level2, ... levelN*/) {
 		var args = Array.prototype.slice.call(arguments),
 			obj = args.shift();
 
