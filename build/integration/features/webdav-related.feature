@@ -24,6 +24,15 @@ Feature: sharing
 		When User "user0" uploads file "data/textfile.txt" to "/asdf.txt"
 		Then the HTTP status code should be "507"
 
+	Scenario: download a public shared file with range
+		Given user "user0" exists
+		And As an "user0"
+		When creating a share with
+			| path | welcome.txt |
+			| shareType | 3 |
+		And Downloading last public shared file with range "bytes=51-77"
+		Then Downloaded content should be "example file for developers"
+
 
 
 
