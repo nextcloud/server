@@ -55,11 +55,11 @@ class Manager implements ICommentsManager {
 	 * @throws \UnexpectedValueException
 	 */
 	protected function prepareCommentForDatabaseWrite(IComment $comment) {
-		if(    empty($comment->getActorType())
-			|| empty($comment->getActorId())
-			|| empty($comment->getObjectType())
-			|| empty($comment->getObjectId())
-			|| empty($comment->getVerb())
+		if(    !$comment->getActorType()
+			|| !$comment->getActorId()
+			|| !$comment->getObjectType()
+			|| !$comment->getObjectId()
+			|| !$comment->getVerb()
 		) {
 			throw new \UnexpectedValueException('Actor, Object and Verb information must be provided for saving');
 		}
@@ -430,7 +430,7 @@ class Manager implements ICommentsManager {
 			$result = $this->update($comment);
 		}
 
-		if($result && !empty($comment->getParentId())) {
+		if($result && !!$comment->getParentId()) {
 			$this->updateChildrenInformation(
 					$comment->getParentId(),
 					$comment->getCreationDateTime()
