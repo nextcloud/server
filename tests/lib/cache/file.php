@@ -63,8 +63,9 @@ class FileCache extends \Test_Cache {
 		$storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::mount($storage,array(),'/');
 		$datadir = str_replace('local::', '', $storage->getId());
-		$this->datadir = \OC_Config::getValue('cachedirectory', \OC::$SERVERROOT.'/data/cache');
-		\OC_Config::setValue('cachedirectory', $datadir);
+		$config = \OC::$server->getConfig();
+		$this->datadir = $config->getSystemValue('cachedirectory', \OC::$SERVERROOT.'/data/cache');
+		$config->setSystemValue('cachedirectory', $datadir);
 
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new \Test\Util\User\Dummy());
@@ -89,7 +90,7 @@ class FileCache extends \Test_Cache {
 		$this->instance->remove('hack', 'hack');
 
 		\OC_User::setUserId($this->user);
-		\OC_Config::setValue('cachedirectory', $this->datadir);
+		\OC::$server->getConfig()->setSystemValue('cachedirectory', $this->datadir);
 
 		// Restore the original mount point
 		\OC\Files\Filesystem::clearMounts();

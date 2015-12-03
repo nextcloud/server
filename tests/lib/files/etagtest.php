@@ -37,16 +37,17 @@ class EtagTest extends \Test\TestCase {
 		\OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
 		\OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
 
-		$this->datadir = \OC_Config::getValue('datadirectory');
+		$config = \OC::$server->getConfig();
+		$this->datadir = $config->getSystemValue('datadirectory');
 		$this->tmpDir = \OC_Helper::tmpFolder();
-		\OC_Config::setValue('datadirectory', $this->tmpDir);
+		$config->setSystemValue('datadirectory', $this->tmpDir);
 
 		$this->userBackend = new \Test\Util\User\Dummy();
 		\OC_User::useBackend($this->userBackend);
 	}
 
 	protected function tearDown() {
-		\OC_Config::setValue('datadirectory', $this->datadir);
+		\OC::$server->getConfig()->setSystemValue('datadirectory', $this->datadir);
 
 		$this->logout();
 		parent::tearDown();
