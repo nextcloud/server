@@ -118,7 +118,7 @@ class ServerFactory {
 			$userFolder = \OC::$server->getUserFolder();
 			
 			/** @var \OC\Files\View $view */
-			$view = $viewCallBack();
+			$view = $viewCallBack($server);
 			$rootInfo = $view->getFileInfo('');
 
 			// Create ownCloud Dir
