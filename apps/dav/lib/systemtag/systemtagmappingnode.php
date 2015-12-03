@@ -71,6 +71,24 @@ class SystemTagMappingNode extends SystemTagNode {
 	}
 
 	/**
+	 * Returns the object id of the relationship
+	 *
+	 * @return string object id
+	 */
+	public function getObjectId() {
+		return $this->objectId;
+	}
+
+	/**
+	 * Returns the object type of the relationship
+	 *
+	 * @return string object type
+	 */
+	public function getObjectType() {
+		return $this->objectType;
+	}
+
+	/**
 	 * Delete tag to object association
 	 */
 	public function delete() {

@@ -88,18 +88,18 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	/**
 	 * We intercept this to handle POST requests on calendars.
 	 *
-	 * @param RequestInterface $request
-	 * @param ResponseInterface $response
+	 * @param RequestInterface $request request object
+	 * @param ResponseInterface $response response object
 	 * @return null|false
 	 */
-	function httpPost(RequestInterface $request, ResponseInterface $response) {
+	public function httpPost(RequestInterface $request, ResponseInterface $response) {
 		$path = $request->getPath();
 
 		// Making sure the node exists
 		try {
 			$node = $this->server->tree->getNodeForPath($path);
 		} catch (NotFound $e) {
-			return;
+			return null;
 		}
 
 		if ($node instanceof SystemTagsByIdCollection || $node instanceof SystemTagsObjectMappingCollection) {
@@ -159,7 +159,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		}
 
 		if (isset($data['userAssignable'])) {
-			$userVisible = (bool)$data['userAssignable'];
+			$userAssignable = (bool)$data['userAssignable'];
 		}
 		try {
 			return $this->tagManager->createTag($tagName, $userVisible, $userAssignable);

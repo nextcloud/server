@@ -21,7 +21,6 @@
 
 namespace OCA\DAV\SystemTag;
 
-use OCP\SystemTag\TagAlreadyExistsException;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\Conflict;
@@ -29,6 +28,7 @@ use Sabre\DAV\Exception\Conflict;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\SystemTag\TagAlreadyExistsException;
 
 class SystemTagNode implements \Sabre\DAV\INode {
 
@@ -76,23 +76,31 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 *
 	 * @param string $name The new name
 	 *
-	 * @throws \Sabre\DAV\Exception\MethodNotAllowed
+	 * @throws MethodNotAllowed not allowed to rename node
 	 */
 	public function setName($name) {
 		throw new MethodNotAllowed();
 	}
 
 	/**
+	 * Update tag
+	 *
 	 * @param string $name new tag name
 	 * @param bool $userVisible user visible
 	 * @param bool $userAssignable user assignable
-	 * @throws Conflict
+	 * @throws NotFound whenever the given tag id does not exist
+	 * @throws Conflict whenever a tag already exists with the given attributes
 	 */
 	public function update($name, $userVisible, $userAssignable) {
 		try {
-			$this->tagManager->updateTag($name, $userVisible, $userAssignable);
+			$this->tagManager->updateTag($this->tag->getId(), $name, $userVisible, $userAssignable);
+		} catch (TagNotFoundException $e) {
+			throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
 		} catch (TagAlreadyExistsException $e) {
-			throw new Conflict('Tag with the properties "' . $name . '", ' . $userVisible, ', ' . $userAssignable . ' already exists');
+			throw new Conflict(
+				'Tag with the properties "' . $name . '", ' .
+				$userVisible . ', ' . $userAssignable . ' already exists'
+			);
 		}
 	}
 

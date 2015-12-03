@@ -24,6 +24,7 @@ namespace OCA\DAV\SystemTag;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\Exception\PreconditionFailed;
 use Sabre\DAV\ICollection;
 
 use OCP\SystemTag\ISystemTagManager;
@@ -75,7 +76,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		try {
 			$this->tagMapper->assignTags($this->objectId, $this->objectType, $tagId);
 		} catch (TagNotFoundException $e) {
-			throw new Forbidden('Tag with id ' . $tagId . ' does not exist, cannot assign');
+			throw new PreconditionFailed('Tag with id ' . $tagId . ' does not exist, cannot assign');
 		}
 	}
 
@@ -103,9 +104,9 @@ class SystemTagsObjectMappingCollection implements ICollection {
 			return [];
 		}
 		$tags = $this->tagManager->getTagsById($tagIds);
-		return array_map(function($tag) {
+		return array_values(array_map(function($tag) {
 			return $this->makeNode($tag);
-		}, $tags);
+		}, $tags));
 	}
 
 	function childExists($tagId) {
@@ -114,7 +115,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
 		} catch (TagNotFoundException $e) {
-			throw new NotFound('Tag with id ' . $tagId . ' not found', 0, $e);
+			return false;
 		}
 	}
 
