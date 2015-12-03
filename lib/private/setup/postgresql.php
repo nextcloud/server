@@ -66,7 +66,8 @@ class PostgreSQL extends AbstractDatabase {
 			$this->createDBUser($connection);
 		}
 
-		\OC_Config::setValues([
+		$systemConfig = \OC::$server->getSystemConfig();
+		$systemConfig->setValues([
 			'dbuser'		=> $this->dbUser,
 			'dbpassword'	=> $this->dbPassword,
 		]);
@@ -78,8 +79,8 @@ class PostgreSQL extends AbstractDatabase {
 		pg_close($connection);
 
 		// connect to the ownCloud database (dbname=$this->dbname) and check if it needs to be filled
-		$this->dbUser = \OC_Config::getValue('dbuser');
-		$this->dbPassword = \OC_Config::getValue('dbpassword');
+		$this->dbUser = $systemConfig->getValue('dbuser');
+		$this->dbPassword = $systemConfig->getValue('dbpassword');
 
 		$e_host = addslashes($this->dbHost);
 		$e_dbname = addslashes($this->dbName);
