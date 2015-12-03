@@ -62,6 +62,7 @@ class URLGenerator implements IURLGenerator {
 	 * Returns a url to the given route.
 	 */
 	public function linkToRoute($route, $parameters = array()) {
+		// TODO: mock router
 		$urlLinkTo = \OC::$server->getRouter()->generate($route, $parameters);
 		return $urlLinkTo;
 	}
@@ -89,7 +90,7 @@ class URLGenerator implements IURLGenerator {
 	 * Returns a url to the given app and file.
 	 */
 	public function linkTo( $app, $file, $args = array() ) {
-		$frontControllerActive=($this->config->getSystemValue('front_controller_active', 'false') == 'true');
+		$frontControllerActive = (getenv('front_controller_active') === 'true');
 
 		if( $app != '' ) {
 			$app_path = \OC_App::getAppPath($app);
@@ -113,7 +114,7 @@ class URLGenerator implements IURLGenerator {
 				$urlLinkTo = \OC::$WEBROOT . '/core/' . $file;
 			} else {
 				if ($frontControllerActive && $file === 'index.php') {
-					$urlLinkTo = \OC::$WEBROOT;
+					$urlLinkTo = \OC::$WEBROOT . '/';
 				} else {
 					$urlLinkTo = \OC::$WEBROOT . '/' . $file;
 				}

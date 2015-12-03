@@ -42,7 +42,7 @@ use OCP\Security\ISecureRandom;
  */
 class Request implements \ArrayAccess, \Countable, IRequest {
 
-	const USER_AGENT_IE = '/MSIE/';
+	const USER_AGENT_IE = '/(MSIE)|(Trident)/';
 	const USER_AGENT_IE_8 = '/MSIE 8.0/';
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
@@ -541,7 +541,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		if (isset($this->server['HTTPS'])
 			&& $this->server['HTTPS'] !== null
-			&& $this->server['HTTPS'] !== 'off') {
+			&& $this->server['HTTPS'] !== 'off'
+			&& $this->server['HTTPS'] !== '') {
 			return 'https';
 		}
 
@@ -674,6 +675,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool true if at least one of the given agent matches, false otherwise
 	 */
 	public function isUserAgent(array $agent) {
+		if (!isset($this->server['HTTP_USER_AGENT'])) {
+			return false;
+		}
 		foreach ($agent as $regex) {
 			if (preg_match($regex, $this->server['HTTP_USER_AGENT'])) {
 				return true;

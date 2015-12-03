@@ -31,6 +31,8 @@ use OCA\Files_sharing\Tests\TestCase;
 
 /**
  * Class Test_Files_Sharing_Api
+ *
+ * @group DB
  */
 class Test_Files_Sharing_Api extends TestCase {
 

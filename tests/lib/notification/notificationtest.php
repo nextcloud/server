@@ -62,14 +62,6 @@ class NotificationTest extends TestCase {
 		return $dataSets;
 	}
 
-	protected function dataValidInt() {
-		return [
-			[0],
-			[1],
-			[time()],
-		];
-	}
-
 	protected function dataInvalidInt() {
 		return [
 			[true],
@@ -93,7 +85,7 @@ class NotificationTest extends TestCase {
 	 */
 	public function testSetApp($app) {
 		$this->assertSame('', $this->notification->getApp());
-		$this->notification->setApp($app);
+		$this->assertSame($this->notification, $this->notification->setApp($app));
 		$this->assertSame($app, $this->notification->getApp());
 	}
 
@@ -121,7 +113,7 @@ class NotificationTest extends TestCase {
 	 */
 	public function testSetUser($user) {
 		$this->assertSame('', $this->notification->getUser());
-		$this->notification->setUser($user);
+		$this->assertSame($this->notification, $this->notification->setUser($user));
 		$this->assertSame($user, $this->notification->getUser());
 	}
 
@@ -139,52 +131,68 @@ class NotificationTest extends TestCase {
 		$this->notification->setUser($user);
 	}
 
-	public function dataSetTimestamp() {
-		return $this->dataValidInt();
+	public function dataSetDateTime() {
+		$past = new \DateTime();
+		$past->sub(new \DateInterval('P1Y'));
+		$current = new \DateTime();
+		$future = new \DateTime();
+		$future->add(new \DateInterval('P1Y'));
+
+		return [
+			[$past],
+			[$current],
+			[$future],
+		];
 	}
 
 	/**
-	 * @dataProvider dataSetTimestamp
-	 * @param int $timestamp
+	 * @dataProvider dataSetDateTime
+	 * @param \DateTime $dateTime
 	 */
-	public function testSetTimestamp($timestamp) {
-		$this->assertSame(0, $this->notification->getTimestamp());
-		$this->notification->setTimestamp($timestamp);
-		$this->assertSame($timestamp, $this->notification->getTimestamp());
+	public function testSetDateTime(\DateTime $dateTime) {
+		$this->assertSame(0, $this->notification->getDateTime()->getTimestamp());
+		$this->assertSame($this->notification, $this->notification->setDateTime($dateTime));
+		$this->assertSame($dateTime, $this->notification->getDateTime());
 	}
 
-	public function dataSetTimestampInvalid() {
-		return $this->dataInvalidInt();
+	public function dataSetDateTimeZero() {
+		$nineTeenSeventy = new \DateTime();
+		$nineTeenSeventy->setTimestamp(0);
+		return [
+			[$nineTeenSeventy],
+		];
 	}
 
 	/**
-	 * @dataProvider dataSetTimestampInvalid
-	 * @param mixed $timestamp
+	 * @dataProvider dataSetDateTimeZero
+	 * @param \DateTime $dateTime
 	 *
 	 * @expectedException \InvalidArgumentException
+	 * @expectedMessage 'The given date time is invalid'
 	 */
-	public function testSetTimestampInvalid($timestamp) {
-		$this->notification->setTimestamp($timestamp);
+	public function testSetDateTimeZero($dateTime) {
+		$this->notification->setDateTime($dateTime);
 	}
 
 	public function dataSetObject() {
 		return [
-			['a', 1],
-			[str_repeat('a', 64), time()],
+			['a', '21', '21'],
+			[str_repeat('a', 64), 42, '42'],
 		];
 	}
 
 	/**
 	 * @dataProvider dataSetObject
 	 * @param string $type
-	 * @param int $id
+	 * @param int|string $id
+	 * @param string $exptectedId
 	 */
-	public function testSetObject($type, $id) {
+	public function testSetObject($type, $id, $exptectedId) {
 		$this->assertSame('', $this->notification->getObjectType());
-		$this->assertSame(0, $this->notification->getObjectId());
-		$this->notification->setObject($type, $id);
+		$this->assertSame('', $this->notification->getObjectId());
+		$this->assertSame($this->notification, $this->notification->setObject($type, $id));
 		$this->assertSame($type, $this->notification->getObjectType());
-		$this->assertSame($id, $this->notification->getObjectId());
+		$this->assertSame($exptectedId, $this->notification->getObjectId());
 	}
 
 	public function dataSetObjectTypeInvalid() {
@@ -203,7 +211,14 @@ class NotificationTest extends TestCase {
 	}
 
 	public function dataSetObjectIdInvalid() {
-		return $this->dataInvalidInt();
+		return [
+			[true],
+			[false],
+			[''],
+			[str_repeat('a', 64 + 1)],
+			[[]],
+			[[str_repeat('a', 64 + 1)]],
+		];
 	}
 
 	/**
@@ -233,7 +248,7 @@ class NotificationTest extends TestCase {
 	public function testSetSubject($subject, $parameters) {
 		$this->assertSame('', $this->notification->getSubject());
 		$this->assertSame([], $this->notification->getSubjectParameters());
-		$this->notification->setSubject($subject, $parameters);
+		$this->assertSame($this->notification, $this->notification->setSubject($subject, $parameters));
 		$this->assertSame($subject, $this->notification->getSubject());
 		$this->assertSame($parameters, $this->notification->getSubjectParameters());
 	}
@@ -262,7 +277,7 @@ class NotificationTest extends TestCase {
 	 */
 	public function testSetParsedSubject($subject) {
 		$this->assertSame('', $this->notification->getParsedSubject());
-		$this->notification->setParsedSubject($subject);
+		$this->assertSame($this->notification, $this->notification->setParsedSubject($subject));
 		$this->assertSame($subject, $this->notification->getParsedSubject());
 	}
 
@@ -296,7 +311,7 @@ class NotificationTest extends TestCase {
 	public function testSetMessage($message, $parameters) {
 		$this->assertSame('', $this->notification->getMessage());
 		$this->assertSame([], $this->notification->getMessageParameters());
-		$this->notification->setMessage($message, $parameters);
+		$this->assertSame($this->notification, $this->notification->setMessage($message, $parameters));
 		$this->assertSame($message, $this->notification->getMessage());
 		$this->assertSame($parameters, $this->notification->getMessageParameters());
 	}
@@ -325,7 +340,7 @@ class NotificationTest extends TestCase {
 	 */
 	public function testSetParsedMessage($message) {
 		$this->assertSame('', $this->notification->getParsedMessage());
-		$this->notification->setParsedMessage($message);
+		$this->assertSame($this->notification, $this->notification->setParsedMessage($message));
 		$this->assertSame($message, $this->notification->getParsedMessage());
 	}
 
@@ -353,7 +368,7 @@ class NotificationTest extends TestCase {
 	 */
 	public function testSetLink($link) {
 		$this->assertSame('', $this->notification->getLink());
-		$this->notification->setLink($link);
+		$this->assertSame($this->notification, $this->notification->setLink($link));
 		$this->assertSame($link, $this->notification->getLink());
 	}
 
@@ -369,34 +384,6 @@ class NotificationTest extends TestCase {
 	 */
 	public function testSetLinkInvalid($link) {
 		$this->notification->setLink($link);
-	}
-
-	public function dataSetIcon() {
-		return $this->dataValidString(64);
-	}
-
-	/**
-	 * @dataProvider dataSetIcon
-	 * @param string $icon
-	 */
-	public function testSetIcon($icon) {
-		$this->assertSame('', $this->notification->getIcon());
-		$this->notification->setIcon($icon);
-		$this->assertSame($icon, $this->notification->getIcon());
-	}
-
-	public function dataSetIconInvalid() {
-		return $this->dataInvalidString(64);
-	}
-
-	/**
-	 * @dataProvider dataSetIconInvalid
-	 * @param mixed $icon
-	 *
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testSetIconInvalid($icon) {
-		$this->notification->setIcon($icon);
 	}
 
 	public function testCreateAction() {
@@ -415,7 +402,7 @@ class NotificationTest extends TestCase {
 		$action->expects($this->never())
 			->method('isValidParsed');
 
-		$this->notification->addAction($action);
+		$this->assertSame($this->notification, $this->notification->addAction($action));
 
 		$this->assertEquals([$action], $this->notification->getActions());
 		$this->assertEquals([], $this->notification->getParsedActions());
@@ -438,6 +425,24 @@ class NotificationTest extends TestCase {
 		$this->notification->addAction($action);
 	}
 
+	public function testAddActionSecondPrimary() {
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
+			->disableOriginalConstructor()
+			->getMock();
+		$action->expects($this->exactly(2))
+			->method('isValid')
+			->willReturn(true);
+		$action->expects($this->exactly(2))
+			->method('isPrimary')
+			->willReturn(true);
+
+		$this->assertSame($this->notification, $this->notification->addAction($action));
+
+		$this->setExpectedException('\InvalidArgumentException');
+		$this->notification->addAction($action);
+	}
+
 	public function testAddParsedAction() {
 		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
 		$action = $this->getMockBuilder('OC\Notification\IAction')
@@ -449,7 +454,7 @@ class NotificationTest extends TestCase {
 		$action->expects($this->never())
 			->method('isValid');
 
-		$this->notification->addParsedAction($action);
+		$this->assertSame($this->notification, $this->notification->addParsedAction($action));
 
 		$this->assertEquals([$action], $this->notification->getParsedActions());
 		$this->assertEquals([], $this->notification->getActions());
@@ -469,6 +474,24 @@ class NotificationTest extends TestCase {
 		$action->expects($this->never())
 			->method('isValid');
 
+		$this->notification->addParsedAction($action);
+	}
+
+	public function testAddActionSecondParsedPrimary() {
+		/** @var \OC\Notification\IAction|\PHPUnit_Framework_MockObject_MockObject $action */
+		$action = $this->getMockBuilder('OC\Notification\IAction')
+			->disableOriginalConstructor()
+			->getMock();
+		$action->expects($this->exactly(2))
+			->method('isValidParsed')
+			->willReturn(true);
+		$action->expects($this->exactly(2))
+			->method('isPrimary')
+			->willReturn(true);
+
+		$this->assertSame($this->notification, $this->notification->addParsedAction($action));
+
+		$this->setExpectedException('\InvalidArgumentException');
 		$this->notification->addParsedAction($action);
 	}
 
@@ -545,12 +568,12 @@ class NotificationTest extends TestCase {
 
 	public function dataIsValidCommon() {
 		return [
-			['', '', 0, '', 0, false],
-			['app', '', 0, '', 0, false],
-			['app', 'user', 0, '', 0, false],
-			['app', 'user', time(), '', 0, false],
-			['app', 'user', time(), 'type', 0, false],
-			['app', 'user', time(), 'type', 42, true],
+			['', '', 0, '', '', false],
+			['app', '', 0, '', '', false],
+			['app', 'user', 0, '', '', false],
+			['app', 'user', time(), '', '', false],
+			['app', 'user', time(), 'type', '', false],
+			['app', 'user', time(), 'type', '42', true],
 		];
 	}
 
@@ -561,7 +584,7 @@ class NotificationTest extends TestCase {
 	 * @param string $user
 	 * @param int $timestamp
 	 * @param string $objectType
-	 * @param int $objectId
+	 * @param string $objectId
 	 * @param bool $expected
 	 */
 	public function testIsValidCommon($app, $user, $timestamp, $objectType, $objectId, $expected) {
@@ -570,7 +593,7 @@ class NotificationTest extends TestCase {
 			->setMethods([
 				'getApp',
 				'getUser',
-				'getTimestamp',
+				'getDateTime',
 				'getObjectType',
 				'getObjectId',
 			])
@@ -584,9 +607,12 @@ class NotificationTest extends TestCase {
 			->method('getUser')
 			->willReturn($user);
 
+		$dateTime = new \DateTime();
+		$dateTime->setTimestamp($timestamp);
+
 		$notification->expects($this->any())
-			->method('getTimestamp')
-			->willReturn($timestamp);
+			->method('getDateTime')
+			->willReturn($dateTime);
 
 		$notification->expects($this->any())
 			->method('getObjectType')

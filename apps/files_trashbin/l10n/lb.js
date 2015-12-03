@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Konnt %s net erëmhierstellen",
     "Deleted files" : "Geläscht Fichieren",
     "Restore" : "Erëmhierstellen",
+    "Delete" : "Läschen",
     "Delete permanently" : "Permanent läschen",
     "Error" : "Fehler",
     "restored" : "erëmhiergestallt",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "No entries found in this folder" : "Keng Elementer an dësem Dossier fonnt",
     "Select all" : "All auswielen",
     "Name" : "Numm",
-    "Deleted" : "Geläscht",
-    "Delete" : "Läschen"
+    "Deleted" : "Geläscht"
 },
 "nplurals=2; plural=(n != 1);");

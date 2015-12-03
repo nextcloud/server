@@ -21,7 +21,7 @@ OC.L10N.register(
     "External Storage" : "Ārējā krātuve",
     "Folder name" : "Mapes nosaukums",
     "Configuration" : "Konfigurācija",
-    "Delete" : "Dzēst",
-    "Add storage" : "Pievienot krātuvi"
+    "Add storage" : "Pievienot krātuvi",
+    "Delete" : "Dzēst"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

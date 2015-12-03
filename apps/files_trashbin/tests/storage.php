@@ -27,6 +27,13 @@ namespace OCA\Files_trashbin\Tests\Storage;
 use OC\Files\Storage\Temporary;
 use OC\Files\Filesystem;
 
+/**
+ * Class Storage
+ *
+ * @group DB
+ *
+ * @package OCA\Files_trashbin\Tests\Storage
+ */
 class Storage extends \Test\TestCase {
 	/**
 	 * @var string

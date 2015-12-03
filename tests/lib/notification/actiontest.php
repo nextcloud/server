@@ -49,7 +49,7 @@ class ActionTest extends TestCase {
 	 */
 	public function testSetLabel($label) {
 		$this->assertSame('', $this->action->getLabel());
-		$this->action->setLabel($label);
+		$this->assertSame($this->action, $this->action->setLabel($label));
 		$this->assertSame($label, $this->action->getLabel());
 	}
 
@@ -68,7 +68,7 @@ class ActionTest extends TestCase {
 
 	/**
 	 * @dataProvider dataSetLabelInvalid
-	 * @param string $label
+	 * @param mixed $label
 	 *
 	 * @expectedException \InvalidArgumentException
 	 */
@@ -90,7 +90,7 @@ class ActionTest extends TestCase {
 	 */
 	public function testSetParsedLabel($label) {
 		$this->assertSame('', $this->action->getParsedLabel());
-		$this->action->setParsedLabel($label);
+		$this->assertSame($this->action, $this->action->setParsedLabel($label));
 		$this->assertSame($label, $this->action->getParsedLabel());
 	}
 
@@ -108,7 +108,7 @@ class ActionTest extends TestCase {
 
 	/**
 	 * @dataProvider dataSetParsedLabelInvalid
-	 * @param string $label
+	 * @param mixed $label
 	 *
 	 * @expectedException \InvalidArgumentException
 	 */
@@ -132,7 +132,7 @@ class ActionTest extends TestCase {
 	 */
 	public function testSetLink($link, $type) {
 		$this->assertSame('', $this->action->getLink());
-		$this->action->setLink($link, $type);
+		$this->assertSame($this->action, $this->action->setLink($link, $type));
 		$this->assertSame($link, $this->action->getLink());
 		$this->assertSame($type, $this->action->getRequestType());
 	}
@@ -162,8 +162,8 @@ class ActionTest extends TestCase {
 
 	/**
 	 * @dataProvider dataSetLinkInvalid
-	 * @param string $link
-	 * @param string $type
+	 * @param mixed $link
+	 * @param mixed $type
 	 *
 	 * @expectedException \InvalidArgumentException
 	 */
@@ -171,45 +171,42 @@ class ActionTest extends TestCase {
 		$this->action->setLink($link, $type);
 	}
 
-	public function dataSetIcon() {
-		return [
-			['test1'],
-			[str_repeat('a', 1)],
-			[str_repeat('a', 64)],
-		];
-	}
-
-	/**
-	 * @dataProvider dataSetIcon
-	 * @param string $icon
-	 */
-	public function testSetIcon($icon) {
-		$this->assertSame('', $this->action->getIcon());
-		$this->action->setIcon($icon);
-		$this->assertSame($icon, $this->action->getIcon());
-	}
-
-	public function dataSetIconInvalid() {
+	public function dataSetPrimary() {
 		return [
 			[true],
 			[false],
-			[0],
-			[1],
-			[''],
-			[str_repeat('a', 65)],
-			[[]],
-			[[str_repeat('a', 65)]],
 		];
 	}
 
 	/**
-	 * @dataProvider dataSetIconInvalid
-	 * @param string $icon
+	 * @dataProvider dataSetPrimary
+	 * @param bool $primary
+	 */
+	public function testSetPrimary($primary) {
+		$this->assertSame(false, $this->action->isPrimary());
+		$this->assertSame($this->action, $this->action->setPrimary($primary));
+		$this->assertSame($primary, $this->action->isPrimary());
+	}
+
+	public function dataSetPrimaryInvalid() {
+		return [
+			[0],
+			[1],
+			[''],
+			[str_repeat('a', 257)],
+			[[]],
+			[[str_repeat('a', 257)]],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSetPrimaryInvalid
+	 * @param mixed $primary
 	 *
 	 * @expectedException \InvalidArgumentException
 	 */
-	public function testSetIconInvalid($icon) {
-		$this->action->setIcon($icon);
+	public function testSetPrimaryInvalid($primary) {
+		$this->action->setPrimary($primary);
 	}
 
 	public function testIsValid() {

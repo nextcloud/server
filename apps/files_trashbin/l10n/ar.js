@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete" : "إلغاء",
     "Delete permanently" : "حذف بشكل دائم",
     "Error" : "خطأ",
+    "This operation is forbidden" : "هذة العملية ممنوعة ",
     "restored" : "تمت الاستعادة",
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",
     "Select all" : "تحديد الكل ",

@@ -24,6 +24,13 @@ namespace Test\Repair;
 use OC\Repair\RemoveGetETagEntries;
 use Test\TestCase;
 
+/**
+ * Class RemoveGetETagEntriesTest
+ *
+ * @group DB
+ *
+ * @package Test\Repair
+ */
 class RemoveGetETagEntriesTest extends TestCase {
 	/** @var \OCP\IDBConnection */
 	protected $connection;

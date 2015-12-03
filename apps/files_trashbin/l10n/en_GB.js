@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Couldn't restore %s",
     "Deleted files" : "Deleted files",
     "Restore" : "Restore",
+    "Delete" : "Delete",
     "Delete permanently" : "Delete permanently",
     "Error" : "Error",
     "restored" : "restored",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "No entries found in this folder" : "No entries found in this folder",
     "Select all" : "Select all",
     "Name" : "Name",
-    "Deleted" : "Deleted",
-    "Delete" : "Delete"
+    "Deleted" : "Deleted"
 },
 "nplurals=2; plural=(n != 1);");

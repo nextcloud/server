@@ -127,8 +127,6 @@
     "Please ask your server administrator to restart the web server." : "Будь ласка, зверніться до адміністратора, щоб перезавантажити сервер.",
     "PostgreSQL >= 9 required" : "Потрібно PostgreSQL> = 9",
     "Please upgrade your database version" : "Оновіть версію бази даних",
-    "Error occurred while checking PostgreSQL version" : "Сталася помилка при перевірці версії PostgreSQL",
-    "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Переконайтеся що версія PostgreSQL> = 9 або перевірте журнали для отримання додаткової інформацією про помилку",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Змініть права доступу на 0770, щоб інші користувачі не могли отримати список файлів цього каталогу.",
     "Data directory (%s) is readable by other users" : "Каталог даних (%s) доступний для читання іншим користувачам",
     "Data directory (%s) must be an absolute path" : "Тека з даними (%s) має бути задана абсолютним шляхом",

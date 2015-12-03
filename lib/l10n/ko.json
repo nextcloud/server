@@ -138,8 +138,6 @@
     "Please ask your server administrator to restart the web server." : "서버 관리자에게 웹 서버 재시작을 요청하십시오.",
     "PostgreSQL >= 9 required" : "PostgreSQL 버전 9 이상이 필요합니다",
     "Please upgrade your database version" : "데이터베이스 버전을 업그레이드 하십시오",
-    "Error occurred while checking PostgreSQL version" : "PostgreSQL 버전을 확인하는 중 오류가 발생했습니다",
-    "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "PostgreSQL 버전 9 이상이 있는지 확인하시고, 자세한 정보는 로그를 확인하십시오",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "권한을 0770으로 변경하여 다른 사용자가 읽을 수 없도록 하십시오.",
     "Data directory (%s) is readable by other users" : "데이터 디렉터리(%s)를 다른 사용자가 읽을 수 있음",
     "Data directory (%s) must be an absolute path" : "데이터 디렉터리(%s)는 반드시 절대 경로여야 함",

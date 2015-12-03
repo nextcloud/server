@@ -290,18 +290,18 @@ if ($_['cronErrors']) {
 			$relative_time = relative_modified_date($_['lastcron']);
 			$absolute_time = OC_Util::formatDate($_['lastcron']);
 			if (time() - $_['lastcron'] <= 3600): ?>
-				<span class="cronstatus success"></span>
+				<span class="status success"></span>
 				<span class="crondate" original-title="<?php p($absolute_time);?>">
 					<?php p($l->t("Last cron job execution: %s.", [$relative_time]));?>
 				</span>
 			<?php else: ?>
-				<span class="cronstatus error"></span>
+				<span class="status error"></span>
 				<span class="crondate" original-title="<?php p($absolute_time);?>">
 					<?php p($l->t("Last cron job execution: %s. Something seems wrong.", [$relative_time]));?>
 				</span>
 			<?php endif;
 		else: ?>
-			<span class="cronstatus error"></span>
+			<span class="status error"></span>
 			<?php p($l->t("Cron was not executed yet!"));
 		endif; ?>
 	</p>
@@ -491,15 +491,6 @@ if ($_['cronErrors']) {
 
 <div class="section" id="log-section">
 	<h2><?php p($l->t('Log'));?></h2>
-	<?php p($l->t('Log level'));?> <select name='loglevel' id='loglevel'>
-<?php for ($i = 0; $i < 5; $i++):
-	$selected = '';
-	if ($i == $_['loglevel']):
-		$selected = 'selected="selected"';
-	endif; ?>
-		<option value='<?php p($i)?>' <?php p($selected) ?>><?php p($levelLabels[$i])?></option>
-<?php endfor;?>
-</select>
 <?php if ($_['showLog'] && $_['doesLogFileExist']): ?>
 	<table id="log" class="grid">
 		<?php foreach ($_['entries'] as $entry): ?>
@@ -537,6 +528,16 @@ if ($_['cronErrors']) {
 	</em>
 	<?php endif; ?>
 	<?php endif; ?>
+
+	<p><?php p($l->t('What to log'));?> <select name='loglevel' id='loglevel'>
+	<?php for ($i = 0; $i < 5; $i++):
+		$selected = '';
+		if ($i == $_['loglevel']):
+			$selected = 'selected="selected"';
+		endif; ?>
+			<option value='<?php p($i)?>' <?php p($selected) ?>><?php p($levelLabels[$i])?></option>
+	<?php endfor;?>
+	</select></p>
 </div>
 
 <div class="section" id="admin-tips">

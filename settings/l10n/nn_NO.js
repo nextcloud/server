@@ -47,7 +47,6 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "Utfør éi oppgåve for kvar sidelasting",
     "Encryption" : "Kryptering",
     "Server address" : "Tenaradresse",
-    "Log level" : "Log nivå",
     "More" : "Meir",
     "Less" : "Mindre",
     "Version" : "Utgåve",

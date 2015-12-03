@@ -16,14 +16,12 @@ OC.L10N.register(
     "Rename" : "Namakan",
     "Delete" : "Padam",
     "Pending" : "Dalam proses",
-    "Error" : "Ralat",
     "Name" : "Nama",
     "Size" : "Saiz",
     "Modified" : "Dimodifikasi",
     "New" : "Baru",
-    "Upload" : "Muat naik",
-    "Text file" : "Fail teks",
     "Folder" : "Folder",
+    "Upload" : "Muat naik",
     "You created %1$s" : "Anda telah membina %1$s",
     "%2$s created %1$s" : "%2$s membina %1$s",
     "You changed %1$s" : "Anda menukar %1$s",
@@ -35,6 +33,7 @@ OC.L10N.register(
     "Cancel upload" : "Batal muat naik",
     "Upload too large" : "Muatnaik terlalu besar",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fail yang cuba dimuat naik melebihi saiz maksimum fail upload server",
-    "Files are being scanned, please wait." : "Fail sedang diimbas, harap bersabar."
+    "Files are being scanned, please wait." : "Fail sedang diimbas, harap bersabar.",
+    "Text file" : "Fail teks"
 },
 "nplurals=1; plural=0;");

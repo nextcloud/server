@@ -39,7 +39,7 @@ OC.L10N.register(
     "Folder name" : "Mappanév",
     "Configuration" : "Beállítások",
     "Available for" : "Elérhető számukra",
-    "Delete" : "Törlés",
-    "Add storage" : "Tároló becsatolása"
+    "Add storage" : "Tároló becsatolása",
+    "Delete" : "Törlés"
 },
 "nplurals=2; plural=(n != 1);");

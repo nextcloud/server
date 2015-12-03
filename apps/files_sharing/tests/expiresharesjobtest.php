@@ -23,6 +23,13 @@ namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files_Sharing\ExpireSharesJob;
 
+/**
+ * Class ExpireSharesJobTest
+ *
+ * @group DB
+ *
+ * @package OCA\Files_Sharing\Tests
+ */
 class ExpireSharesJobTest extends \Test\TestCase {
 
 	/**

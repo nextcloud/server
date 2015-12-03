@@ -27,7 +27,6 @@ use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ServerPlugin;
-use Sabre\DAV\Tree;
 use Sabre\HTTP\RequestInterface;
 
 class LockPlugin extends ServerPlugin {
@@ -37,18 +36,6 @@ class LockPlugin extends ServerPlugin {
 	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
-
-	/**
-	 * @var \Sabre\DAV\Tree
-	 */
-	private $tree;
-
-	/**
-	 * @param \Sabre\DAV\Tree $tree tree
-	 */
-	public function __construct(Tree $tree) {
-		$this->tree = $tree;
-	}
 
 	/**
 	 * {@inheritdoc}
@@ -66,7 +53,7 @@ class LockPlugin extends ServerPlugin {
 			return;
 		}
 		try {
-			$node = $this->tree->getNodeForPath($request->getPath());
+			$node = $this->server->tree->getNodeForPath($request->getPath());
 		} catch (NotFound $e) {
 			return;
 		}
@@ -84,7 +71,7 @@ class LockPlugin extends ServerPlugin {
 			return;
 		}
 		try {
-			$node = $this->tree->getNodeForPath($request->getPath());
+			$node = $this->server->tree->getNodeForPath($request->getPath());
 		} catch (NotFound $e) {
 			return;
 		}

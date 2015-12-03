@@ -50,7 +50,7 @@ class Migration {
 	 */
 	public function __construct(IConfig $config, View $view, IDBConnection $connection, ILogger $logger) {
 		$this->view = $view;
-		$this->view->getUpdater()->disable();
+		$this->view->disableCacheUpdate();
 		$this->connection = $connection;
 		$this->moduleId = \OCA\Encryption\Crypto\Encryption::ID;
 		$this->config = $config;
@@ -237,7 +237,7 @@ class Migration {
 	/**
 	 * rename system wide public key
 	 *
-	 * @param $privateKey private key for which we want to rename the corresponding public key
+	 * @param string $privateKey private key for which we want to rename the corresponding public key
 	 */
 	private function renameSystemPublicKey($privateKey) {
 		$publicKey = substr($privateKey,0 , strrpos($privateKey, '.privateKey')) . '.publicKey';

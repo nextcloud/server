@@ -5,11 +5,11 @@ OC.L10N.register(
     "Couldn't restore %s" : "No se pudo restaurar %s",
     "Deleted files" : "Archivos borrados",
     "Restore" : "Recuperar",
+    "Delete" : "Borrar",
     "Delete permanently" : "Borrar permanentemente",
     "Error" : "Error",
     "restored" : "recuperado",
     "Name" : "Nombre",
-    "Deleted" : "Borrado",
-    "Delete" : "Borrar"
+    "Deleted" : "Borrado"
 },
 "nplurals=2; plural=(n != 1);");

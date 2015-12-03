@@ -22,6 +22,13 @@ namespace OCA\Files;
 
 use \OCA\Files\Service\TagService;
 
+/**
+ * Class TagServiceTest
+ *
+ * @group DB
+ *
+ * @package OCA\Files
+ */
 class TagServiceTest extends \Test\TestCase {
 
 	/**

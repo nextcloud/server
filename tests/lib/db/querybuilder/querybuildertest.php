@@ -27,6 +27,13 @@ use OC\DB\QueryBuilder\Parameter;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\IDBConnection;
 
+/**
+ * Class QueryBuilderTest
+ *
+ * @group DB
+ *
+ * @package Test\DB\QueryBuilder
+ */
 class QueryBuilderTest extends \Test\TestCase {
 	/** @var QueryBuilder */
 	protected $queryBuilder;
@@ -159,24 +166,25 @@ class QueryBuilderTest extends \Test\TestCase {
 	}
 
 	public function dataSelect() {
+		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection());
 		return [
 			// select('column1')
-			[['column1'], ['`column1`'], '`column1`'],
+			[['configvalue'], ['configvalue' => '99']],
 
 			// select('column1', 'column2')
-			[['column1', 'column2'], ['`column1`', '`column2`'], '`column1`, `column2`'],
+			[['configvalue', 'configkey'], ['configvalue' => '99', 'configkey' => 'testing1']],
 
 			// select(['column1', 'column2'])
-			[[['column1', 'column2']], ['`column1`', '`column2`'], '`column1`, `column2`'],
+			[[['configvalue', 'configkey']], ['configvalue' => '99', 'configkey' => 'testing1']],
 
 			// select(new Literal('column1'))
-			[[new Literal('column1')], ['column1'], 'column1'],
+			[[$queryBuilder->expr()->literal('column1')], [], 'column1'],
 
 			// select('column1', 'column2')
-			[[new Literal('column1'), 'column2'], ['column1', '`column2`'], 'column1, `column2`'],
+			[[$queryBuilder->expr()->literal('column1'), 'configkey'], ['configkey' => 'testing1'], 'column1'],
 
 			// select(['column1', 'column2'])
-			[[[new Literal('column1'), 'column2']], ['column1', '`column2`'], 'column1, `column2`'],
+			[[[$queryBuilder->expr()->literal('column1'), 'configkey']], ['configkey' => 'testing1'], 'column1'],
 		];
 	}
 
@@ -184,45 +192,106 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @dataProvider dataSelect
 	 *
 	 * @param array $selectArguments
-	 * @param array $expectedQueryPart
-	 * @param string $expectedSelect
+	 * @param array $expected
+	 * @param string $expectedLiteral
 	 */
-	public function testSelect($selectArguments, $expectedQueryPart, $expectedSelect) {
+	public function testSelect($selectArguments, $expected, $expectedLiteral = '') {
+		$this->deleteTestingRows();
+		$this->createTestingRows();
+
 		call_user_func_array(
 			[$this->queryBuilder, 'select'],
 			$selectArguments
 		);
 
-		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('select')
+		$this->queryBuilder->from('*PREFIX*appconfig')
+			->where($this->queryBuilder->expr()->eq(
+				'appid',
+				$this->queryBuilder->expr()->literal('testFirstResult')
+			))
+			->orderBy('configkey', 'ASC')
+			->setMaxResults(1);
+
+		$query = $this->queryBuilder->execute();
+		$row = $query->fetch();
+		$query->closeCursor();
+
+		foreach ($expected as $key => $value) {
+			$this->assertArrayHasKey($key, $row);
+			$this->assertEquals($value, $row[$key]);
+			unset($row[$key]);
+		}
+
+		if ($expectedLiteral) {
+			$this->assertEquals([$expectedLiteral], array_values($row));
+		} else {
+			$this->assertEmpty($row);
+		}
+
+		$this->deleteTestingRows();
+	}
+
+	public function dataSelectAlias() {
+		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection());
+		return [
+			['configvalue', 'cv', ['cv' => '99']],
+			[$queryBuilder->expr()->literal('column1'), 'thing', ['thing' => 'column1']],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSelectAlias
+	 *
+	 * @param mixed $select
+	 * @param array $alias
+	 * @param array $expected
+	 */
+	public function testSelectAlias($select, $alias, $expected) {
+		$this->deleteTestingRows();
+		$this->createTestingRows();
+
+		$this->queryBuilder->selectAlias($select, $alias);
+
+		$this->queryBuilder->from('*PREFIX*appconfig')
+			->where($this->queryBuilder->expr()->eq(
+				'appid',
+				$this->queryBuilder->expr()->literal('testFirstResult')
+			))
+			->orderBy('configkey', 'ASC')
+			->setMaxResults(1);
+
+		$query = $this->queryBuilder->execute();
+		$row = $query->fetch();
+		$query->closeCursor();
+
+		$this->assertEquals(
+			$expected,
+			$row
 		);
 
-		$this->assertSame(
-			'SELECT ' . $expectedSelect . ' FROM ',
-			$this->queryBuilder->getSQL()
-		);
+		$this->deleteTestingRows();
 	}
 
 	public function dataAddSelect() {
+		$queryBuilder = new QueryBuilder(\OC::$server->getDatabaseConnection());
 		return [
 			// addSelect('column1')
-			[['column1'], ['`column`', '`column1`'], '`column`, `column1`'],
+			[['configvalue'], ['appid' => 'testFirstResult', 'configvalue' => '99']],
 
 			// addSelect('column1', 'column2')
-			[['column1', 'column2'], ['`column`', '`column1`', '`column2`'], '`column`, `column1`, `column2`'],
+			[['configvalue', 'configkey'], ['appid' => 'testFirstResult', 'configvalue' => '99', 'configkey' => 'testing1']],
 
 			// addSelect(['column1', 'column2'])
-			[[['column1', 'column2']], ['`column`', '`column1`', '`column2`'], '`column`, `column1`, `column2`'],
+			[[['configvalue', 'configkey']], ['appid' => 'testFirstResult', 'configvalue' => '99', 'configkey' => 'testing1']],
 
 			// select(new Literal('column1'))
-			[[new Literal('column1')], ['`column`', 'column1'], '`column`, column1'],
+			[[$queryBuilder->expr()->literal('column1')], ['appid' => 'testFirstResult'], 'column1'],
 
 			// select('column1', 'column2')
-			[[new Literal('column1'), 'column2'], ['`column`', 'column1', '`column2`'], '`column`, column1, `column2`'],
+			[[$queryBuilder->expr()->literal('column1'), 'configkey'], ['appid' => 'testFirstResult', 'configkey' => 'testing1'], 'column1'],
 
 			// select(['column1', 'column2'])
-			[[[new Literal('column1'), 'column2']], ['`column`', 'column1', '`column2`'], '`column`, column1, `column2`'],
+			[[[$queryBuilder->expr()->literal('column1'), 'configkey']], ['appid' => 'testFirstResult', 'configkey' => 'testing1'], 'column1'],
 		];
 	}
 
@@ -230,25 +299,45 @@ class QueryBuilderTest extends \Test\TestCase {
 	 * @dataProvider dataAddSelect
 	 *
 	 * @param array $selectArguments
-	 * @param array $expectedQueryPart
-	 * @param string $expectedSelect
+	 * @param array $expected
+	 * @param string $expectedLiteral
 	 */
-	public function testAddSelect($selectArguments, $expectedQueryPart, $expectedSelect) {
-		$this->queryBuilder->select('column');
+	public function testAddSelect($selectArguments, $expected, $expectedLiteral = '') {
+		$this->deleteTestingRows();
+		$this->createTestingRows();
+
+		$this->queryBuilder->select('appid');
+
 		call_user_func_array(
 			[$this->queryBuilder, 'addSelect'],
 			$selectArguments
 		);
 
-		$this->assertSame(
-			$expectedQueryPart,
-			$this->queryBuilder->getQueryPart('select')
-		);
+		$this->queryBuilder->from('*PREFIX*appconfig')
+			->where($this->queryBuilder->expr()->eq(
+				'appid',
+				$this->queryBuilder->expr()->literal('testFirstResult')
+			))
+			->orderBy('configkey', 'ASC')
+			->setMaxResults(1);
 
-		$this->assertSame(
-			'SELECT ' . $expectedSelect . ' FROM ',
-			$this->queryBuilder->getSQL()
-		);
+		$query = $this->queryBuilder->execute();
+		$row = $query->fetch();
+		$query->closeCursor();
+
+		foreach ($expected as $key => $value) {
+			$this->assertArrayHasKey($key, $row);
+			$this->assertEquals($value, $row[$key]);
+			unset($row[$key]);
+		}
+
+		if ($expectedLiteral) {
+			$this->assertEquals([$expectedLiteral], array_values($row));
+		} else {
+			$this->assertEmpty($row);
+		}
+
+		$this->deleteTestingRows();
 	}
 
 	public function dataDelete() {

@@ -30,6 +30,13 @@ use \OCA\user_ldap\lib\Access;
 use \OCA\user_ldap\lib\Connection;
 use \OCA\user_ldap\lib\ILDAPWrapper;
 
+/**
+ * Class Test_Group_Ldap
+ *
+ * @group DB
+ *
+ * @package OCA\user_ldap\tests
+ */
 class Test_Group_Ldap extends \Test\TestCase {
 	private function getAccessMock() {
 		static $conMethods;

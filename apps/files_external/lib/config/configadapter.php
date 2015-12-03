@@ -32,7 +32,6 @@ use OCP\IUser;
 use OCA\Files_external\Service\UserStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Lib\StorageConfig;
-use OCP\Files\StorageNotAvailableException;
 use OCA\Files_External\Lib\FailedStorage;
 
 /**

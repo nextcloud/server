@@ -11,6 +11,13 @@ namespace OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest;
 use OC\Files\View;
 use Test\Traits\EncryptionTrait;
 
+/**
+ * Class EncryptionUploadTest
+ *
+ * @group DB
+ *
+ * @package OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest
+ */
 class EncryptionUploadTest extends UploadTest {
 	use EncryptionTrait;
 

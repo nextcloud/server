@@ -39,6 +39,9 @@ class Action implements IAction {
 	/** @var string */
 	protected $icon;
 
+	/** @var bool */
+	protected $primary;
+
 	/**
 	 * Constructor
 	 */
@@ -47,7 +50,7 @@ class Action implements IAction {
 		$this->labelParsed = '';
 		$this->link = '';
 		$this->requestType = '';
-		$this->icon = '';
+		$this->primary = false;
 	}
 
 	/**
@@ -95,6 +98,29 @@ class Action implements IAction {
 	}
 
 	/**
+	 * @param $primary bool
+	 * @return $this
+	 * @throws \InvalidArgumentException if $primary is invalid
+	 * @since 9.0.0
+	 */
+	public function setPrimary($primary) {
+		if (!is_bool($primary)) {
+			throw new \InvalidArgumentException('The given primary option is invalid');
+		}
+
+		$this->primary = $primary;
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function isPrimary() {
+		return $this->primary;
+	}
+
+	/**
 	 * @param string $link
 	 * @param string $requestType
 	 * @return $this
@@ -127,28 +153,6 @@ class Action implements IAction {
 	 */
 	public function getRequestType() {
 		return $this->requestType;
-	}
-
-	/**
-	 * @param string $icon
-	 * @return $this
-	 * @throws \InvalidArgumentException if the icon is invalid
-	 * @since 8.2.0
-	 */
-	public function setIcon($icon) {
-		if (!is_string($icon) || $icon === '' || isset($icon[64])) {
-			throw new \InvalidArgumentException('The given icon is invalid');
-		}
-		$this->icon = $icon;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 * @since 8.2.0
-	 */
-	public function getIcon() {
-		return $this->icon;
 	}
 
 	/**

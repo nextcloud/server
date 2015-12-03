@@ -22,6 +22,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class CommonTest
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class CommonTest extends Storage {
 	/**
 	 * @var string tmpDir

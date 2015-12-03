@@ -141,7 +141,7 @@ class UserHooks implements IHook {
 	 *
 	 * @note This method should never be called for users using client side encryption
 	 * @param array $params
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function login($params) {
 
@@ -199,7 +199,7 @@ class UserHooks implements IHook {
 	 * If the password can't be changed within ownCloud, than update the key password in advance.
 	 *
 	 * @param array $params : uid, password
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function preSetPassphrase($params) {
 		if (App::isEnabled('encryption')) {
@@ -216,7 +216,7 @@ class UserHooks implements IHook {
 	 * Change a user's encryption passphrase
 	 *
 	 * @param array $params keys: uid, password
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function setPassphrase($params) {
 

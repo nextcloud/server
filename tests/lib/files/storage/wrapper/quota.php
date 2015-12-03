@@ -11,6 +11,13 @@ namespace Test\Files\Storage\Wrapper;
 //ensure the constants are loaded
 \OC::$loader->load('\OC\Files\Filesystem');
 
+/**
+ * Class Quota
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage\Wrapper
+ */
 class Quota extends \Test\Files\Storage\Storage {
 	/**
 	 * @var string tmpDir

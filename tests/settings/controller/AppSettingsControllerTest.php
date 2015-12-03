@@ -220,9 +220,14 @@ class AppSettingsControllerTest extends TestCase {
 
 	public function testViewApps() {
 		$this->config
-			->expects($this->once())
+			->expects($this->at(0))
 			->method('getSystemValue')
 			->with('appstore.experimental.enabled', false);
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(true));
 		$this->navigationManager
 			->expects($this->once())
 			->method('setActiveEntry')
@@ -231,7 +236,7 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://apps.owncloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['experimentalEnabled' => false, 'category' => 'enabled'], 'user');
+		$expected = new TemplateResponse('settings', 'apps', ['experimentalEnabled' => false, 'category' => 'enabled', 'appstoreEnabled' => true], 'user');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps());
@@ -239,9 +244,14 @@ class AppSettingsControllerTest extends TestCase {
 
 	public function testViewAppsNotEnabled() {
 		$this->config
-			->expects($this->once())
+			->expects($this->at(0))
 			->method('getSystemValue')
 			->with('appstore.experimental.enabled', false);
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(true));
 		$this->navigationManager
 			->expects($this->once())
 			->method('setActiveEntry')
@@ -250,9 +260,33 @@ class AppSettingsControllerTest extends TestCase {
 		$policy = new ContentSecurityPolicy();
 		$policy->addAllowedImageDomain('https://apps.owncloud.com');
 
-		$expected = new TemplateResponse('settings', 'apps', ['experimentalEnabled' => false, 'category' => 'disabled'], 'user');
+		$expected = new TemplateResponse('settings', 'apps', ['experimentalEnabled' => false, 'category' => 'disabled', 'appstoreEnabled' => true], 'user');
 		$expected->setContentSecurityPolicy($policy);
 
 		$this->assertEquals($expected, $this->appSettingsController->viewApps('disabled'));
+	}
+
+	public function testViewAppsAppstoreNotEnabled() {
+		$this->config
+			->expects($this->at(0))
+			->method('getSystemValue')
+			->with('appstore.experimental.enabled', false);
+		$this->config
+			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('appstoreenabled', true)
+			->will($this->returnValue(false));
+		$this->navigationManager
+			->expects($this->once())
+			->method('setActiveEntry')
+			->with('core_apps');
+
+		$policy = new ContentSecurityPolicy();
+		$policy->addAllowedImageDomain('https://apps.owncloud.com');
+
+		$expected = new TemplateResponse('settings', 'apps', ['experimentalEnabled' => false, 'category' => 'enabled', 'appstoreEnabled' => false], 'user');
+		$expected->setContentSecurityPolicy($policy);
+
+		$this->assertEquals($expected, $this->appSettingsController->viewApps());
 	}
 }

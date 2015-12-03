@@ -26,12 +26,12 @@
 
 namespace OC\Files\Utils;
 
-use OC\Files\View;
-use OC\Files\Cache\ChangePropagator;
 use OC\Files\Filesystem;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
+use OCP\Files\StorageNotAvailableException;
+use OCP\ILogger;
 
 /**
  * Class Scanner
@@ -49,22 +49,23 @@ class Scanner extends PublicEmitter {
 	private $user;
 
 	/**
-	 * @var \OC\Files\Cache\ChangePropagator
-	 */
-	protected $propagator;
-
-	/**
 	 * @var \OCP\IDBConnection
 	 */
 	protected $db;
 
 	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+
+	/**
 	 * @param string $user
 	 * @param \OCP\IDBConnection $db
+	 * @param ILogger $logger
 	 */
-	public function __construct($user, $db) {
+	public function __construct($user, $db, ILogger $logger) {
+		$this->logger = $logger;
 		$this->user = $user;
-		$this->propagator = new ChangePropagator(new View(''));
 		$this->db = $db;
 	}
 
@@ -107,14 +108,6 @@ class Scanner extends PublicEmitter {
 		$scanner->listen('\OC\Files\Cache\Scanner', 'postScanFolder', function ($path) use ($mount, $emitter) {
 			$emitter->emit('\OC\Files\Utils\Scanner', 'postScanFolder', array($mount->getMountPoint() . $path));
 		});
-		// propagate etag and mtimes when files are changed or removed
-		$propagator = $this->propagator;
-		$propagatorListener = function ($path) use ($mount, $propagator) {
-			$fullPath = Filesystem::normalizePath($mount->getMountPoint() . $path);
-			$propagator->addChange($fullPath);
-		};
-		$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', $propagatorListener);
-		$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', $propagatorListener);
 	}
 
 	/**
@@ -130,7 +123,6 @@ class Scanner extends PublicEmitter {
 			$this->attachListener($mount);
 			$scanner->backgroundScan();
 		}
-		$this->propagator->propagateChanges(time());
 	}
 
 	/**
@@ -161,12 +153,17 @@ class Scanner extends PublicEmitter {
 			if (!$isDbLocking) {
 				$this->db->beginTransaction();
 			}
-			$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+			try {
+				$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+			} catch (StorageNotAvailableException $e) {
+				$this->logger->error('Storage ' . $storage->getId() . ' not available');
+				$this->logger->logException($e);
+				$this->emit('\OC\Files\Utils\Scanner', 'StorageNotAvailable', [$e]);
+			}
 			if (!$isDbLocking) {
 				$this->db->commit();
 			}
 		}
-		$this->propagator->propagateChanges(time());
 	}
 }
 

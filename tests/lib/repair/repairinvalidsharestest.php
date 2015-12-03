@@ -16,6 +16,8 @@ use Test\TestCase;
 /**
  * Tests for repairing invalid shares
  *
+ * @group DB
+ *
  * @see \OC\Repair\RepairInvalidShares
  */
 class RepairInvalidSharesTest extends TestCase {
@@ -162,7 +164,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->orderBy('id', 'ASC')
 			->execute();
 		$rows = $result->fetchAll();
-		$this->assertSame([['id' => $parent], ['id' => $validChild], ['id' => $invalidChild]], $rows);
+		$this->assertEquals([['id' => $parent], ['id' => $validChild], ['id' => $invalidChild]], $rows);
 		$result->closeCursor();
 
 		$this->repair->run();
@@ -173,7 +175,7 @@ class RepairInvalidSharesTest extends TestCase {
 			->orderBy('id', 'ASC')
 			->execute();
 		$rows = $result->fetchAll();
-		$this->assertSame([['id' => $parent], ['id' => $validChild]], $rows);
+		$this->assertEquals([['id' => $parent], ['id' => $validChild]], $rows);
 		$result->closeCursor();
 	}
 
@@ -181,15 +183,7 @@ class RepairInvalidSharesTest extends TestCase {
 	 * @return int
 	 */
 	protected function getLastShareId() {
-		// select because lastInsertId does not work with OCI
-		$query = $this->connection->getQueryBuilder();
-		$result = $query->select('id')
-			->from('share')
-			->orderBy('id', 'DESC')
-			->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-		return $row['id'];
+		return $this->connection->lastInsertId('*PREFIX*share');
 	}
 }
 

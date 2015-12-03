@@ -41,7 +41,6 @@ OC.L10N.register(
     "Server address" : "כתובת שרת",
     "Port" : "פורט",
     "Credentials" : "פרטי גישה",
-    "Log level" : "רמת הדיווח",
     "More" : "יותר",
     "Less" : "פחות",
     "Version" : "גרסא",

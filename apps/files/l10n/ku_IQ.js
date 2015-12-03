@@ -6,10 +6,9 @@ OC.L10N.register(
     "Close" : "دابخه",
     "Download" : "داگرتن",
     "Select" : "دیاریکردنی",
-    "Error" : "هه‌ڵه",
     "Name" : "ناو",
-    "Upload" : "بارکردن",
     "Folder" : "بوخچه",
+    "Upload" : "بارکردن",
     "Save" : "پاشکه‌وتکردن",
     "Settings" : "ڕێکخستنه‌کان"
 },

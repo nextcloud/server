@@ -171,7 +171,6 @@ OC.L10N.register(
     "Store credentials" : "Сачувај акредитиве",
     "Test email settings" : "Тестирај поставке е-поште",
     "Send email" : "Пошаљи е-пошту",
-    "Log level" : "Ниво бележења",
     "Download logfile" : "Преузми записник",
     "More" : "Више",
     "Less" : "Мање",

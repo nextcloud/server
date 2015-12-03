@@ -181,7 +181,6 @@ OC.L10N.register(
     "Store credentials" : "Gem brugeroplysninger",
     "Test email settings" : "Test e-mail-indstillinger",
     "Send email" : "Send e-mail",
-    "Log level" : "Log niveau",
     "Download logfile" : "Hent logfil",
     "More" : "Mere",
     "Less" : "Mindre",

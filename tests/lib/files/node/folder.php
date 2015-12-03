@@ -16,6 +16,13 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OC\Files\View;
 
+/**
+ * Class Folder
+ *
+ * @group DB
+ *
+ * @package Test\Files\Node
+ */
 class Folder extends \Test\TestCase {
 	private $user;
 
@@ -75,6 +82,7 @@ class Folder extends \Test\TestCase {
 			$test->assertInstanceOf('\OC\Files\Node\NonExistingFolder', $node);
 			$test->assertEquals('foo', $node->getInternalPath());
 			$test->assertEquals('/bar/foo', $node->getPath());
+			$test->assertEquals(1, $node->getId());
 			$hooksRun++;
 		};
 

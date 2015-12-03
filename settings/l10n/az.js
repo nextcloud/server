@@ -145,7 +145,6 @@ OC.L10N.register(
     "Store credentials" : "Səlahiyyətləri saxla",
     "Test email settings" : "Email qurmalarını test et",
     "Send email" : "Email yolla",
-    "Log level" : "Jurnal səviyyəsi",
     "Download logfile" : "Jurnal faylını endir",
     "More" : "Yenə",
     "Less" : "Az",

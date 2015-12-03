@@ -52,12 +52,16 @@ echo "samba container: $container"
 # put container IDs into a file to drop them after the test run (keep in mind that multiple tests run in parallel on the same host)
 echo $container >> $thisFolder/dockerContainerSilvershell.$EXECUTOR_NUMBER.smb
 
+echo -n "Waiting for samba initialization"
+if ! "$thisFolder"/env/wait-for-connection ${host} 445 60; then
+    echo "[ERROR] Waited 60 seconds, no response" >&2
+    exit 1
+fi
+sleep 1
+
 if [ -n "$DEBUG" ]; then
     cat $thisFolder/config.smb.php
     cat $thisFolder/dockerContainerSilvershell.$EXECUTOR_NUMBER.smb
 fi
 
-# TODO find a way to determine the successful initialization inside the docker container
-echo "Waiting 5 seconds for smbd initialization ... "
-sleep 5
 

@@ -266,7 +266,6 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "若這個訊息持續出現，請聯絡系統管理員",
     "Thank you for your patience." : "感謝您的耐心",
     "You are accessing the server from an untrusted domain." : "你正在從一個未信任的網域存取伺服器",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "請聯絡您的系統管理員，如果您就是系統管理員，請設定 config/config.php 中的 \"trusted_domain\" 選項。範例設定提供於 config/config.sample.php",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "依照設定而定，您身為系統管理員可能也可以使用底下的按鈕來信任這個網域",
     "Add \"%s\" as trusted domain" : "將 %s 加入到信任的網域",
     "App update required" : "需要更新應用程式",

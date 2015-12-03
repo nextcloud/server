@@ -62,7 +62,6 @@ OC.L10N.register(
     "Encryption" : "Cifrado",
     "Server address" : "Dirección del servidor",
     "Port" : "Puerto",
-    "Log level" : "Nivel de registro",
     "More" : "Más",
     "Less" : "Menos",
     "Version" : "Versión",

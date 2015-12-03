@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Error" : "ਗਲਤੀ",
-    "Delete" : "ਹਟਾਓ"
+    "Delete" : "ਹਟਾਓ",
+    "Error" : "ਗਲਤੀ"
 },
 "nplurals=2; plural=(n != 1);");

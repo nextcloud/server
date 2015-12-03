@@ -60,7 +60,7 @@ class Files {
 	 * @since 5.0.0
 	 */
 	static function getMimeType( $path ) {
-		return(\OC_Helper::getMimeType( $path ));
+		return \OC::$server->getMimeTypeDetector()->detect($path);
 	}
 
 	/**

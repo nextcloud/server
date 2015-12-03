@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Files" : "கோப்புகள்",
     "Details" : "விவரங்கள்",
-    "Upload" : "பதிவேற்று",
     "New folder" : "புதிய கோப்புறை",
+    "Upload" : "பதிவேற்று",
     "A new file or folder has been <strong>created</strong>" : "ஒரு புதிய கோப்புறை அல்லது ஆவணம் <strong> உருவாக்கப்பட்டுள்ளது.</strong>",
     "A file or folder has been <strong>changed</strong>" : "ஒரு கோப்புறை அல்லது ஆவணம் <strong>மாற்றம் செய்யப்பட்டுள்ளது.</strong>",
     "A file or folder has been <strong>deleted</strong>" : "ஒரு கோப்புறை அல்லது ஆவணம்  <strong> நீக்கப்பட்டுள்ளது. </strong>",

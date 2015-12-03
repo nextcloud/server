@@ -27,6 +27,8 @@ use OCA\Files\Share;
 
 /**
  * Class Test_Files_Sharing
+ *
+ * @group DB
  */
 class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 

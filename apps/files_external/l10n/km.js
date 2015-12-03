@@ -19,7 +19,7 @@ OC.L10N.register(
     "External Storage" : "ឃ្លាំងផ្ទុក​ខាងក្រៅ",
     "Folder name" : "ឈ្មោះ​ថត",
     "Configuration" : "ការ​កំណត់​សណ្ឋាន",
-    "Delete" : "លុប",
-    "Add storage" : "បន្ថែម​ឃ្លាំងផ្ទុក"
+    "Add storage" : "បន្ថែម​ឃ្លាំងផ្ទុក",
+    "Delete" : "លុប"
 },
 "nplurals=1; plural=0;");

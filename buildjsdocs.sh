@@ -11,7 +11,7 @@ NPM="$(which npm 2>/dev/null)"
 PREFIX="build"
 OUTPUT_DIR="build/jsdocs"
 
-JS_FILES="core/js/*.js apps/*/js/*.js"
+JS_FILES="core/js/*.js core/js/**/*.js apps/*/js/*.js"
 
 if test -z "$NPM"
 then

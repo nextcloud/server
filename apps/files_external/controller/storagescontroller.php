@@ -238,21 +238,35 @@ abstract class StoragesController extends Controller {
 			);
 		} catch (InsufficientDataForMeaningfulAnswerException $e) {
 			$storage->setStatus(
-				\OC_Mount_Config::STATUS_INDETERMINATE,
+				StorageNotAvailableException::STATUS_INDETERMINATE,
 				$this->l10n->t('Insufficient data: %s', [$e->getMessage()])
 			);
 		} catch (StorageNotAvailableException $e) {
 			$storage->setStatus(
-				\OC_Mount_Config::STATUS_ERROR,
-				$e->getMessage()
+				$e->getCode(),
+				$this->l10n->t('%s', [$e->getMessage()])
 			);
 		} catch (\Exception $e) {
 			// FIXME: convert storage exceptions to StorageNotAvailableException
 			$storage->setStatus(
-				\OC_Mount_Config::STATUS_ERROR,
+				StorageNotAvailableException::STATUS_ERROR,
 				get_class($e).': '.$e->getMessage()
 			);
 		}
+	}
+
+	/**
+	 * Get all storage entries
+	 *
+	 * @return DataResponse
+	 */
+	public function index() {
+		$storages = $this->service->getAllStorages();
+
+		return new DataResponse(
+			$storages,
+			Http::STATUS_OK
+		);
 	}
 
 	/**

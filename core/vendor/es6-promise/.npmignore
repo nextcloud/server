@@ -1,0 +1,11 @@
+/node_modules/
+/tmp
+/tasks
+/test
+/vendor
+/.jshintrc
+/.npmignore
+/.travis.yml
+/Gruntfile.js
+/component.json
+/index.html

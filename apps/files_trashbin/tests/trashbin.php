@@ -29,6 +29,8 @@ use OCA\Files_Trashbin;
 
 /**
  * Class Test_Encryption
+ *
+ * @group DB
  */
 class Test_Trashbin extends \Test\TestCase {
 
@@ -65,14 +67,14 @@ class Test_Trashbin extends \Test\TestCase {
 		\OC::registerShareHooks();
 		$application = new \OCA\Files_Sharing\AppInfo\Application();
 		$application->registerMountProviders();
-		$application->setupPropagation();
 
 		//disable encryption
 		\OC_App::disable('encryption');
 
+		$config = \OC::$server->getConfig();
 		//configure trashbin
-		self::$rememberRetentionObligation = \OC_Config::getValue('trashbin_retention_obligation', Files_Trashbin\Expiration::DEFAULT_RETENTION_OBLIGATION);
-		\OC_Config::setValue('trashbin_retention_obligation', 'auto, 2');
+		self::$rememberRetentionObligation = $config->getSystemValue('trashbin_retention_obligation', Files_Trashbin\Expiration::DEFAULT_RETENTION_OBLIGATION);
+		$config->setSystemValue('trashbin_retention_obligation', 'auto, 2');
 
 		// register hooks
 		Files_Trashbin\Trashbin::registerHooks();
@@ -88,7 +90,7 @@ class Test_Trashbin extends \Test\TestCase {
 		// cleanup test user
 		\OC_User::deleteUser(self::TEST_TRASHBIN_USER1);
 
-		\OC_Config::setValue('trashbin_retention_obligation', self::$rememberRetentionObligation);
+		\OC::$server->getConfig()->setSystemValue('trashbin_retention_obligation', self::$rememberRetentionObligation);
 
 		\OC_Hook::clear();
 

@@ -6,6 +6,11 @@
  * See the COPYING-README file.
  */
 
+/**
+ * Class TestMySqlMigration
+ *
+ * @group DB
+ */
 class TestMySqlMigration extends \Test\TestCase {
 
 	/** @var \Doctrine\DBAL\Connection */

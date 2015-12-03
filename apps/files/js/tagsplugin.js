@@ -161,6 +161,38 @@
 				fileInfo.tags = tags;
 				return fileInfo;
 			};
+
+			var NS_OC = 'http://owncloud.org/ns';
+
+			var oldGetWebdavProperties = fileList._getWebdavProperties;
+			fileList._getWebdavProperties = function() {
+				var props = oldGetWebdavProperties.apply(this, arguments);
+				props.push('{' + NS_OC + '}tags');
+				props.push('{' + NS_OC + '}favorite');
+				return props;
+			};
+
+			fileList.filesClient.addFileInfoParser(function(response) {
+				var data = {};
+				var props = response.propStat[0].properties;
+				var tags = props['{' + NS_OC + '}tags'];
+				var favorite = props['{' + NS_OC + '}favorite'];
+				if (tags && tags.length) {
+					tags = _.chain(tags).filter(function(xmlvalue) {
+						return (xmlvalue.namespaceURI === NS_OC && xmlvalue.nodeName.split(':')[1] === 'tag');
+					}).map(function(xmlvalue) {
+						return xmlvalue.textContent || xmlvalue.text;
+					}).value();
+				}
+				if (tags) {
+					data.tags = tags;
+				}
+				if (favorite && parseInt(favorite, 10) !== 0) {
+					data.tags = data.tags || [];
+					data.tags.push(OC.TAG_FAVORITE);
+				}
+				return data;
+			});
 		},
 
 		attach: function(fileList) {

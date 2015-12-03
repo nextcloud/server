@@ -164,6 +164,10 @@ class UsersController extends Controller {
 			$subAdminGroups[$key] = $subAdminGroup->getGID();
 		}
 
+		$displayName = $user->getEMailAddress();
+		if (is_null($displayName)) {
+			$displayName = '';
+		}
 		return [
 			'name' => $user->getUID(),
 			'displayname' => $user->getDisplayName(),
@@ -173,7 +177,7 @@ class UsersController extends Controller {
 			'storageLocation' => $user->getHome(),
 			'lastLogin' => $user->getLastLogin() * 1000,
 			'backend' => $user->getBackendClassName(),
-			'email' => $this->config->getUserValue($user->getUID(), 'settings', 'email', ''),
+			'email' => $displayName,
 			'isRestoreDisabled' => !$restorePossible,
 		];
 	}
@@ -585,4 +589,58 @@ class UsersController extends Controller {
 		);
 	}
 
+
+	/**
+	 * Set the displayName of a user
+	 *
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
+	 *
+	 * @param string $username
+	 * @param string $displayName
+	 * @return DataResponse
+	 */
+	public function setDisplayName($username, $displayName) {
+		$currentUser = $this->userSession->getUser();
+
+		if ($username === null) {
+			$username = $currentUser->getUID();
+		}
+
+		$user = $this->userManager->get($username);
+
+		if ($user === null ||
+			!$user->canChangeDisplayName() ||
+			(
+				!$this->groupManager->isAdmin($currentUser->getUID()) &&
+				!$this->groupManager->getSubAdmin()->isUserAccessible($currentUser, $user) &&
+				$currentUser !== $user)
+			) {
+			return new DataResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $this->l10n->t('Authentication error'),
+				],
+			]);
+		}
+
+		if ($user->setDisplayName($displayName)) {
+			return new DataResponse([
+				'status' => 'success',
+				'data' => [
+					'message' => $this->l10n->t('Your full name has been changed.'),
+					'username' => $username,
+					'displayName' => $displayName,
+				],
+			]);
+		} else {
+			return new DataResponse([
+				'status' => 'error',
+				'data' => [
+					'message' => $this->l10n->t('Unable to change full name'),
+					'displayName' => $user->getDisplayName(),
+				],
+			]);
+		}
+	}
 }

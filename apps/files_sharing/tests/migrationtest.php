@@ -24,6 +24,11 @@
 use OCA\Files_Sharing\Tests\TestCase;
 use OCA\Files_Sharing\Migration;
 
+/**
+ * Class MigrationTest
+ *
+ * @group DB
+ */
 class MigrationTest extends TestCase {
 
 	/**

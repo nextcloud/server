@@ -24,6 +24,13 @@
 
 namespace Test;
 
+/**
+ * Class Server
+ *
+ * @group DB
+ *
+ * @package Test
+ */
 class Server extends \Test\TestCase {
 	/** @var \OC\Server */
 	protected $server;

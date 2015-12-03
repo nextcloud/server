@@ -47,6 +47,13 @@ class DummyUser extends User {
 	}
 }
 
+/**
+ * Class Home
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class Home extends Storage {
 	/**
 	 * @var string tmpDir

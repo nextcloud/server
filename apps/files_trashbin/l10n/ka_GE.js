@@ -5,10 +5,10 @@ OC.L10N.register(
     "Couldn't restore %s" : "%s–ის აღდგენა ვერ მოხერხდა",
     "Deleted files" : "წაშლილი ფაილები",
     "Restore" : "აღდგენა",
+    "Delete" : "წაშლა",
     "Delete permanently" : "სრულად წაშლა",
     "Error" : "შეცდომა",
     "Name" : "სახელი",
-    "Deleted" : "წაშლილი",
-    "Delete" : "წაშლა"
+    "Deleted" : "წაშლილი"
 },
 "nplurals=1; plural=0;");

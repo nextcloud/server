@@ -4,9 +4,8 @@ OC.L10N.register(
     "Files" : "फाइलें ",
     "Close" : "बंद करें ",
     "Details" : "विवरण ",
-    "Error" : "त्रुटि",
-    "Upload" : "अपलोड ",
     "New folder" : "नया फ़ोल्डर",
+    "Upload" : "अपलोड ",
     "Save" : "सहेजें",
     "Settings" : "सेटिंग्स"
 },

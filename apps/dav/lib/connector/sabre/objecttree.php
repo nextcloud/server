@@ -25,10 +25,12 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\Exception\Forbidden;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 use OCA\DAV\Connector\Sabre\Exception\FileLocked;
 use OC\Files\FileInfo;
 use OC\Files\Mount\MoveableMount;
+use OCP\Files\ForbiddenException;
 use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\Lock\LockedException;
@@ -235,6 +237,8 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			}
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+		} catch (ForbiddenException $ex) {
+			throw new Forbidden($ex->getMessage(), $ex->getRetry());
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
@@ -274,6 +278,8 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			$this->fileView->copy($source, $destination);
 		} catch (StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+		} catch (ForbiddenException $ex) {
+			throw new Forbidden($ex->getMessage(), $ex->getRetry());
 		} catch (LockedException $e) {
 			throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 		}

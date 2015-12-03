@@ -239,6 +239,24 @@ interface IQueryBuilder {
 	public function select($select = null);
 
 	/**
+	 * Specifies an item that is to be returned with a different name in the query result.
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->selectAlias('u.id', 'user_id')
+	 *         ->from('users', 'u')
+	 *         ->leftJoin('u', 'phonenumbers', 'p', 'u.id = p.user_id');
+	 * </code>
+	 *
+	 * @param mixed $select The selection expressions.
+	 * @param string $alias The column alias used in the constructed query.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
+	 * @since 8.2.1
+	 */
+	public function selectAlias($select, $alias);
+
+	/**
 	 * Adds an item that is to be returned in the query result.
 	 *
 	 * <code>

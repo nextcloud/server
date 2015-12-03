@@ -46,12 +46,15 @@ $application->registerRoutes($this, [
 		['name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'],
 		['name' => 'AppSettings#changeExperimentalConfigState', 'url' => '/settings/apps/experimental', 'verb' => 'POST'],
 		['name' => 'SecuritySettings#trustedDomains', 'url' => '/settings/admin/security/trustedDomains', 'verb' => 'POST'],
+		['name' => 'Users#setDisplayName', 'url' => '/settings/users/{username}/displayName', 'verb' => 'POST'],
 		['name' => 'Users#setMailAddress', 'url' => '/settings/users/{id}/mailAddress', 'verb' => 'PUT'],
 		['name' => 'Users#stats', 'url' => '/settings/users/stats', 'verb' => 'GET'],
 		['name' => 'LogSettings#setLogLevel', 'url' => '/settings/admin/log/level', 'verb' => 'POST'],
 		['name' => 'LogSettings#getEntries', 'url' => '/settings/admin/log/entries', 'verb' => 'GET'],
 		['name' => 'LogSettings#download', 'url' => '/settings/admin/log/download', 'verb' => 'GET'],
 		['name' => 'CheckSetup#check', 'url' => '/settings/ajax/checksetup', 'verb' => 'GET'],
+		['name' => 'CheckSetup#getFailedIntegrityCheckFiles', 'url' => '/settings/integrity/failed', 'verb' => 'GET'],
+		['name' => 'CheckSetup#rescanFailedIntegrityCheck', 'url' => '/settings/integrity/rescan', 'verb' => 'GET'],
 		['name' => 'Certificate#addPersonalRootCertificate', 'url' => '/settings/personal/certificate', 'verb' => 'POST'],
 		['name' => 'Certificate#removePersonalRootCertificate', 'url' => '/settings/personal/certificate/{certificateIdentifier}', 'verb' => 'DELETE'],
 	]
@@ -79,8 +82,6 @@ $this->create('settings_ajax_togglesubadmins', '/settings/ajax/togglesubadmins.p
 $this->create('settings_users_changepassword', '/settings/users/changepassword')
 	->post()
 	->action('OC\Settings\ChangePassword\Controller', 'changeUserPassword');
-$this->create('settings_ajax_changedisplayname', '/settings/ajax/changedisplayname.php')
-	->actionInclude('settings/ajax/changedisplayname.php');
 $this->create('settings_ajax_changegorupname', '/settings/ajax/changegroupname.php')
 	->actionInclude('settings/ajax/changegroupname.php');	
 // personal

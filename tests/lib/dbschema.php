@@ -9,6 +9,11 @@
 
 use OCP\Security\ISecureRandom;
 
+/**
+ * Class Test_DBSchema
+ *
+ * @group DB
+ */
 class Test_DBSchema extends \Test\TestCase {
 	protected $schema_file = 'static://test_db_scheme';
 	protected $schema_file2 = 'static://test_db_scheme2';

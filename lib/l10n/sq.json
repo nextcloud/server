@@ -138,14 +138,13 @@
     "Please ask your server administrator to restart the web server." : "Ju lutemi, kërkojini përgjegjësit të shërbyesit tuaj të rinisë shërbyesin web.",
     "PostgreSQL >= 9 required" : "Lypset PostgreSQL >= 9",
     "Please upgrade your database version" : "Ju lutemi, përmirësoni bazën tuaj të të dhënave me një version më të ri.",
-    "Error occurred while checking PostgreSQL version" : "Ndodhi një gabim teksa kontrollohej versioni i PostgreSQL-së",
-    "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" : "Ju lutemi, sigurohuni që keni PostgreSQL >= 9 ose kontrolloni regjistrat për më tepër të dhëna rreth gabimit",
     "Please change the permissions to 0770 so that the directory cannot be listed by other users." : "Ju lutemi, kalojani lejet në 0770, që kështu atë drejtori të mos mund ta shfaqin përdorues të tjerë.",
     "Data directory (%s) is readable by other users" : "Drejtoria e të dhënave (%s) është e lexueshme nga përdorues të tjerë",
     "Data directory (%s) must be an absolute path" : "Drejtoria e të dhënave (%s) duhet të jepë një shteg absolut",
     "Check the value of \"datadirectory\" in your configuration" : "Kontrolloni vlerën e \"datadirectory\" te formësimi juaj",
     "Data directory (%s) is invalid" : "Drejtoria e të dhënave (%s) është e pavlefshme",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Ju lutemi, kontrolloni që drejtoria e të dhënave përmban në rrënjën e saj një kartelë \".ocdata\".",
+    "Could not obtain lock type %d on \"%s\"." : "S’u mor dot lloj kyçjeje %d në \"%s\".",
     "Storage not available" : "Pa depozitë gati"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

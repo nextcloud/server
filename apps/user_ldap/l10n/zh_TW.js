@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "無法偵測到Base DN，請手動輸入",
     "{nthServer}. Server" : "{nthServer}. 伺服器",
     "No object found in the given Base DN. Please revise." : "在Base DN中找不到物件，請重新修改",
-    "More than 1.000 directory entries available." : "目前有超過 1.000 個資料夾項目是可以使用的",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "產生錯誤，請檢查Base DN，以及連線設定和驗證",
     "Do you really want to delete the current Server Configuration?" : "您真的要刪除現在的伺服器設定嗎？",
     "Confirm Deletion" : "確認刪除",

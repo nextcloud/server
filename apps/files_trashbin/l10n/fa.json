@@ -6,6 +6,8 @@
     "Delete" : "حذف",
     "Delete permanently" : "حذف قطعی",
     "Error" : "خطا",
+    "This operation is forbidden" : "این عملیات غیرمجاز است",
+    "This directory is unavailable, please check the logs or contact the administrator" : "پوشه‌ در دسترس نیست، لطفا لاگ‌ها را بررسی کنید یا به مدیر سیستم اطلاع دهید",
     "restored" : "بازیابی شد",
     "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",
     "Select all" : "انتخاب همه",

@@ -9,10 +9,18 @@
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OC\Files\Storage\Local;
+use OCP\Files\ForbiddenException;
 use Test\HookHelper;
 use OC\Files\Filesystem;
 use OCP\Lock\ILockingProvider;
 
+/**
+ * Class File
+ *
+ * @group DB
+ *
+ * @package Test\Connector\Sabre
+ */
 class File extends \Test\TestCase {
 
 	/**
@@ -40,6 +48,9 @@ class File extends \Test\TestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * @param string $string
+	 */
 	private function getStream($string) {
 		$stream = fopen('php://temp', 'r+');
 		fwrite($stream, $string);
@@ -71,6 +82,10 @@ class File extends \Test\TestCase {
 			[
 				new \OCP\Files\InvalidPathException(),
 				'Sabre\DAV\Exception\Forbidden'
+			],
+			[
+				new \OCP\Files\ForbiddenException('', true),
+				'OCA\DAV\Connector\Sabre\Exception\Forbidden'
 			],
 			[
 				new \OCP\Files\LockNotAcquiredException('/test.txt', 1),
@@ -234,7 +249,7 @@ class File extends \Test\TestCase {
 	 * @param string $path path to put the file into
 	 * @param string $viewRoot root to use for the view
 	 *
-	 * @return result of the PUT operaiton which is usually the etag
+	 * @return null|string of the PUT operaiton which is usually the etag
 	 */
 	private function doPut($path, $viewRoot = null) {
 		$view = \OC\Files\Filesystem::getView();
@@ -691,6 +706,29 @@ class File extends \Test\TestCase {
 	}
 
 	/**
+	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\Forbidden
+	 */
+	public function testDeleteThrowsWhenDeletionThrows() {
+		// setup
+		$view = $this->getMock('\OC\Files\View',
+			array());
+
+		// but fails
+		$view->expects($this->once())
+			->method('unlink')
+			->willThrowException(new ForbiddenException('', true));
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions' => \OCP\Constants::PERMISSION_ALL
+		), null);
+
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+
+		// action
+		$file->delete();
+	}
+
+	/**
 	 * Asserts hook call
 	 *
 	 * @param array $callData hook call data to check
@@ -826,6 +864,24 @@ class File extends \Test\TestCase {
 		$view->expects($this->atLeastOnce())
 			->method('fopen')
 			->will($this->returnValue(false));
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions' => \OCP\Constants::PERMISSION_ALL
+		), null);
+
+		$file = new \OCA\DAV\Connector\Sabre\File($view, $info);
+
+		$file->get();
+	}
+
+	/**
+	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\Forbidden
+	 */
+	public function testGetFopenThrows() {
+		$view = $this->getMock('\OC\Files\View', ['fopen'], array());
+		$view->expects($this->atLeastOnce())
+			->method('fopen')
+			->willThrowException(new ForbiddenException('', true));
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
 			'permissions' => \OCP\Constants::PERMISSION_ALL

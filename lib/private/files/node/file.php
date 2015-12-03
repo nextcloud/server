@@ -99,8 +99,9 @@ class File extends Node implements \OCP\Files\File {
 	public function delete() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(array('preDelete'));
+			$fileInfo = $this->getFileInfo();
 			$this->view->unlink($this->path);
-			$nonExisting = new NonExistingFile($this->root, $this->view, $this->path);
+			$nonExisting = new NonExistingFile($this->root, $this->view, $this->path, $fileInfo);
 			$this->root->emit('\OC\Files', 'postDelete', array($nonExisting));
 			$this->exists = false;
 			$this->fileInfo = null;

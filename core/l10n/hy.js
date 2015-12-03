@@ -46,6 +46,7 @@ OC.L10N.register(
     "Very weak password" : "Շատ թույլ գաղտնաբառ",
     "Weak password" : "Թույլ գաղտնաբառ",
     "Good password" : "Լավ գաղտնաբառ",
+    "Error" : "Սխալ",
     "Share link" : "Կիսվել հղմամբ",
     "Link" : "Հղում",
     "Password" : "Գաղտնաբառ",
@@ -57,6 +58,7 @@ OC.L10N.register(
     "Delete" : "Ջնջել",
     "Add" : "Ավելացնել",
     "New password" : "Նոր գաղտնաբառ",
-    "Personal" : "Անձնական"
+    "Personal" : "Անձնական",
+    "Username" : "Օգտանուն"
 },
 "nplurals=2; plural=(n != 1);");

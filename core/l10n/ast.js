@@ -183,7 +183,6 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contauta col alministrador si esti problema sigui apaeciendo.",
     "Thank you for your patience." : "Gracies pola to paciencia.",
     "You are accessing the server from an untrusted domain." : "Tas accediendo al sirvidor dende un dominiu non confiáu.",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Por favor, contauta col alministrador. Si yes l'alministrador, configura l'axuste \"trusted_domain\" en config/config.php. Hai un exemplu en config/config.sample.php.",
     "Add \"%s\" as trusted domain" : "Amestáu \"%s\" como dominiu de confianza",
     "The theme %s has been disabled." : "Deshabilitóse'l tema %s.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Enantes de siguir, asegúrate de que se fizo una copia de seguridá de la base de datos, la carpeta de configuración y la carpeta de datos.",

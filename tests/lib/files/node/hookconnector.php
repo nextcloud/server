@@ -17,6 +17,13 @@ use Test\TestCase;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
+/**
+ * Class HookConnector
+ *
+ * @group DB
+ *
+ * @package Test\Files\Node
+ */
 class HookConnector extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
@@ -172,5 +179,25 @@ class HookConnector extends TestCase {
 		$this->assertTrue($hookCalled);
 		$this->assertEquals('/' . $this->userId . '/files/source', $hookSourceNode->getPath());
 		$this->assertEquals('/' . $this->userId . '/files/target', $hookTargetNode->getPath());
+	}
+
+	public function testPostDeleteMeta() {
+		$connector = new \OC\Files\Node\HookConnector($this->root, $this->view);
+		$connector->viewToNode();
+		$hookCalled = false;
+		/** @var Node $hookNode */
+		$hookNode = null;
+
+		$this->root->listen('\OC\Files', 'postDelete', function ($node) use (&$hookNode, &$hookCalled) {
+			$hookCalled = true;
+			$hookNode = $node;
+		});
+
+		Filesystem::file_put_contents('test.txt', 'asd');
+		$info = Filesystem::getFileInfo('test.txt');
+		Filesystem::unlink('test.txt');
+
+		$this->assertTrue($hookCalled);
+		$this->assertEquals($hookNode->getId(), $info->getId());
 	}
 }

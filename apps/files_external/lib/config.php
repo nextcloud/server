@@ -33,10 +33,10 @@
 
 use phpseclib\Crypt\AES;
 use \OCA\Files_External\Appinfo\Application;
-use \OCA\Files_External\Lib\BackendConfig;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Backend\LegacyBackend;
 use \OCA\Files_External\Lib\StorageConfig;
+use \OCA\Files_External\Lib\Backend\Backend;
+use \OCP\Files\StorageNotAvailableException;
 
 /**
  * Class to configure mount.json globally and for users
@@ -48,11 +48,6 @@ class OC_Mount_Config {
 	const MOUNT_TYPE_GROUP = 'group';
 	const MOUNT_TYPE_USER = 'user';
 	const MOUNT_TYPE_PERSONAL = 'personal';
-
-	// getBackendStatus return types
-	const STATUS_SUCCESS = 0;
-	const STATUS_ERROR = 1;
-	const STATUS_INDETERMINATE = 2;
 
 	// whether to skip backend test (for unit tests, as this static class is not mockable)
 	public static $skipTest = false;
@@ -73,36 +68,6 @@ class OC_Mount_Config {
 		$backendService->registerBackend(new LegacyBackend($class, $definition, $auth));
 
 		return true;
-	}
-
-	/*
-	 * Hook that mounts the given user's visible mount points
-	 *
-	 * @param array $data
-	 */
-	public static function initMountPointsHook($data) {
-		if ($data['user']) {
-			$user = \OC::$server->getUserManager()->get($data['user']);
-			if (!$user) {
-				\OC::$server->getLogger()->warning(
-					'Cannot init external mount points for non-existant user "' . $data['user'] . '".',
-					['app' => 'files_external']
-				);
-				return;
-			}
-			$userView = new \OC\Files\View('/' . $user->getUID() . '/files');
-			$changePropagator = new \OC\Files\Cache\ChangePropagator($userView);
-			$etagPropagator = new \OCA\Files_External\EtagPropagator($user, $changePropagator, \OC::$server->getConfig());
-			$etagPropagator->propagateDirtyMountPoints();
-			\OCP\Util::connectHook(
-				\OC\Files\Filesystem::CLASSNAME,
-				\OC\Files\Filesystem::signal_create_mount,
-				$etagPropagator, 'updateHook');
-			\OCP\Util::connectHook(
-				\OC\Files\Filesystem::CLASSNAME,
-				\OC\Files\Filesystem::signal_delete_mount,
-				$etagPropagator, 'updateHook');
-		}
 	}
 
 	/**
@@ -244,24 +209,27 @@ class OC_Mount_Config {
 	 *
 	 * @param string $class backend class name
 	 * @param array $options backend configuration options
+	 * @param boolean $isPersonal
 	 * @return int see self::STATUS_*
+	 * @throws Exception
 	 */
 	public static function getBackendStatus($class, $options, $isPersonal) {
 		if (self::$skipTest) {
-			return self::STATUS_SUCCESS;
+			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
 		foreach ($options as &$option) {
 			$option = self::setUserVars(OCP\User::getUser(), $option);
 		}
 		if (class_exists($class)) {
 			try {
+				/** @var \OC\Files\Storage\Common $storage */
 				$storage = new $class($options);
 
 				try {
 					$result = $storage->test($isPersonal);
 					$storage->setAvailability($result);
 					if ($result) {
-						return self::STATUS_SUCCESS;
+						return StorageNotAvailableException::STATUS_SUCCESS;
 					}
 				} catch (\Exception $e) {
 					$storage->setAvailability(false);
@@ -272,7 +240,7 @@ class OC_Mount_Config {
 				throw $exception;
 			}
 		}
-		return self::STATUS_ERROR;
+		return StorageNotAvailableException::STATUS_ERROR;
 	}
 
 	/**
@@ -322,7 +290,7 @@ class OC_Mount_Config {
 	 * Get backend dependency message
 	 * TODO: move into AppFramework along with templates
 	 *
-	 * @param BackendConfig[] $backends
+	 * @param Backend[] $backends
 	 * @return string
 	 */
 	public static function dependencyMessage($backends) {
@@ -361,11 +329,11 @@ class OC_Mount_Config {
 	private static function getSingleDependencyMessage(\OCP\IL10N $l, $module, $backend) {
 		switch (strtolower($module)) {
 			case 'curl':
-				return $l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
+				return (string)$l->t('<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
 			case 'ftp':
-				return $l->t('<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
+				return (string)$l->t('<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it.', $backend);
 			default:
-				return $l->t('<b>Note:</b> "%s" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.', array($module, $backend));
+				return (string)$l->t('<b>Note:</b> "%s" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it.', array($module, $backend));
 		}
 	}
 

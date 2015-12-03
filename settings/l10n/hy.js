@@ -17,6 +17,7 @@ OC.L10N.register(
     "Cancel" : "Չեղարկել",
     "Language" : "Լեզու",
     "Help translate" : "Օգնել թարգմանել",
+    "Username" : "Օգտանուն",
     "Group" : "Խումբ",
     "Other" : "Այլ"
 },

@@ -98,9 +98,9 @@ OC.L10N.register(
     "Authentication" : "Autentisering",
     "Configuration" : "Konfigurasjon",
     "Available for" : "Tilgjengelig for",
+    "Add storage" : "Legg til lagringsplass",
     "Advanced settings" : "Avanserte innstillinger",
     "Delete" : "Slett",
-    "Add storage" : "Legg til lagringsplass",
     "Allow users to mount the following external storage" : "Tillat brukere å koble opp følgende eksterne lagring"
 },
 "nplurals=2; plural=(n != 1);");

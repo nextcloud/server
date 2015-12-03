@@ -19,6 +19,11 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Class Test_Share
+ *
+ * @group DB
+ */
 class Test_Share extends \Test\TestCase {
 
 	protected $itemType;

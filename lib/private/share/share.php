@@ -1149,7 +1149,7 @@ class Share extends Constants {
 					if (!empty($ids)) {
 						$ids = "'".implode("','", $ids)."'";
 						// TODO this should be done with Doctrine platform objects
-						if (\OC_Config::getValue( "dbtype") === 'oci') {
+						if (\OC::$server->getConfig()->getSystemValue("dbtype") === 'oci') {
 							$andOp = 'BITAND(`permissions`, ?)';
 						} else {
 							$andOp = '`permissions` & ?';
@@ -1811,7 +1811,7 @@ class Share extends Constants {
 				}
 			}
 			// Check if resharing is allowed, if not remove share permission
-			if (isset($row['permissions']) && (!self::isResharingAllowed() | \OC_Util::isSharingDisabledForUser())) {
+			if (isset($row['permissions']) && (!self::isResharingAllowed() | \OCP\Util::isSharingDisabledForUser())) {
 				$row['permissions'] &= ~\OCP\Constants::PERMISSION_SHARE;
 			}
 			// Add display names to result
@@ -2243,7 +2243,13 @@ class Share extends Constants {
 				} else {
 					// TODO Don't check if inside folder
 					$result['parent'] = $checkReshare['id'];
-					$result['expirationDate'] = min($expirationDate, $checkReshare['expiration']);
+
+					$result['expirationDate'] = $expirationDate;
+					// $checkReshare['expiration'] could be null and then is always less than any value
+					if(isset($checkReshare['expiration']) && $checkReshare['expiration'] < $expirationDate) {
+						$result['expirationDate'] = $checkReshare['expiration'];
+					}
+
 					// only suggest the same name as new target if it is a reshare of the
 					// same file/folder and not the reshare of a child
 					if ($checkReshare[$column] === $itemSource) {
@@ -2332,22 +2338,7 @@ class Share extends Constants {
 
 		$id = false;
 		if ($result) {
-			$id =  \OC::$server->getDatabaseConnection()->lastInsertId();
-			// Fallback, if lastInterId() doesn't work we need to perform a select
-			// to get the ID (seems to happen sometimes on Oracle)
-			if (!$id) {
-				$getId = \OC_DB::prepare('
-					SELECT `id`
-					FROM`*PREFIX*share`
-					WHERE `uid_owner` = ? AND `item_target` = ? AND `item_source` = ? AND `stime` = ?
-					');
-				$r = $getId->execute(array($shareData['uidOwner'], $shareData['itemTarget'], $shareData['itemSource'], $shareData['shareTime']));
-				if ($r) {
-					$row = $r->fetchRow();
-					$id = $row['id'];
-				}
-			}
-
+			$id =  \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share');
 		}
 
 		return $id;
@@ -2581,7 +2572,10 @@ class Share extends Constants {
 			$result = self::tryHttpPost($url, $fields);
 			$status = json_decode($result['result'], true);
 
-			return ($result['success'] && $status['ocs']['meta']['statuscode'] === 100);
+			if ($result['success'] && $status['ocs']['meta']['statuscode'] === 100) {
+				\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $remote]);
+				return true;
+			}
 
 		}
 

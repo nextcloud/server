@@ -82,15 +82,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * @param string $key
-	 * @return string url to the online documentation
-	 * @deprecated Use \OC::$server->getURLGenerator()->linkToDocs($key)
-	 */
-	public static function linkToDocs($key) {
-		return OC::$server->getURLGenerator()->linkToDocs($key);
-	}
-
-	/**
 	 * Creates an absolute url
 	 * @param string $app app
 	 * @param string $file file
@@ -205,10 +196,10 @@ class OC_Helper {
 	 * shows whether the user has an avatar
 	 * @param string $user username
 	 * @return bool avatar set or not
+	 * @deprecated 9.0.0 Use \OC::$server->getAvatarManager()->getAvatar($user)->exists();
 	**/
 	public static function userAvatarSet($user) {
-		$avatar = new \OC\Avatar($user);
-		return $avatar->exists();
+		return \OC::$server->getAvatarManager()->getAvatar($user)->exists();
 	}
 
 	/**
@@ -399,18 +390,6 @@ class OC_Helper {
 	 */
 	static public function getFileNameMimeType($path) {
 		return \OC::$server->getMimeTypeDetector()->detectPath($path);
-	}
-
-	/**
-	 * get the mimetype form a local file
-	 *
-	 * @param string $path
-	 * @return string
-	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
-	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->detect($path)
-	 */
-	static function getMimeType($path) {
-		return \OC::$server->getMimeTypeDetector()->detect($path);
 	}
 
 	/**
@@ -642,37 +621,6 @@ class OC_Helper {
 			$ret[mb_convert_case($k, $case, $encoding)] = $v;
 		}
 		return $ret;
-	}
-
-	/**
-	 * replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
-	 *
-	 * @param string $string
-	 * @param string $replacement The replacement string.
-	 * @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
-	 * @param int $length Length of the part to be replaced
-	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	 * @return string
-	 * @deprecated 8.2.0 Use substr_replace() instead.
-	 */
-	public static function mb_substr_replace($string, $replacement, $start, $length = 0, $encoding = 'UTF-8') {
-		return substr_replace($string, $replacement, $start, $length);
-	}
-
-	/**
-	 * Replace all occurrences of the search string with the replacement string
-	 *
-	 * @param string $search The value being searched for, otherwise known as the needle.
-	 * @param string $replace The replacement
-	 * @param string $subject The string or array being searched and replaced on, otherwise known as the haystack.
-	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	 * @param int $count If passed, this will be set to the number of replacements performed.
-	 * @return string
-	 * @deprecated 8.2.0 Use str_replace() instead.
-	 *
-	 */
-	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
-		return str_replace($search, $replace, $subject, $count);
 	}
 
 	/**

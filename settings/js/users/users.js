@@ -687,7 +687,7 @@ $(document).ready(function () {
 							$div.imageplaceholder(uid, displayName);
 						}
 						$.post(
-							OC.filePath('settings', 'ajax', 'changedisplayname.php'),
+							OC.generateUrl('/settings/users/{id}/displayName', {id: uid}),
 							{username: uid, displayName: $(this).val()},
 							function (result) {
 								if (result && result.status==='success' && $div.length){

@@ -32,7 +32,6 @@ OC.L10N.register(
     "Encryption" : "شىفىرلاش",
     "Server address" : "مۇلازىمېتىر ئادرىسى",
     "Port" : "ئېغىز",
-    "Log level" : "خاتىرە دەرىجىسى",
     "More" : "تېخىمۇ كۆپ",
     "Less" : "ئاز",
     "Version" : "نەشرى",

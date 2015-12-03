@@ -70,7 +70,7 @@ function changeDisplayName () {
 		// Serialize the data
 		var post = $("#displaynameform").serialize();
 		// Ajax foo
-		$.post('ajax/changedisplayname.php', post, function (data) {
+		$.post(OC.generateUrl('/settings/users/{id}/displayName', {id: OC.currentUser}), post, function (data) {
 			if (data.status === "success") {
 				$('#oldDisplayName').val($('#displayName').val());
 				// update displayName on the top right expand button
@@ -195,9 +195,9 @@ $(document).ready(function () {
 					$('#password-error').removeClass('inlineblock').addClass('hidden');
 				} else {
 					if (typeof(data.data) !== "undefined") {
-						$('#password-error').html(data.data.message);
+						$('#password-error').text(data.data.message);
 					} else {
-						$('#password-error').html(t('Unable to change password'));
+						$('#password-error').text(t('Unable to change password'));
 					}
 					// Hide a possible successmsg and show errormsg
 					$('#password-changed').removeClass('inlineblock').addClass('hidden');
@@ -226,7 +226,7 @@ $(document).ready(function () {
 				location.reload();
 			}
 			else {
-				$('#passworderror').html(data.data.message);
+				$('#passworderror').text(data.data.message);
 			}
 		});
 		return false;

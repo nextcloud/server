@@ -4,6 +4,7 @@
     "Turned on maintenance mode" : "Įjungta priežiūros veiksena",
     "Turned off maintenance mode" : "Išjungta priežiūros veiksena",
     "Maintenance mode is kept active" : "Priežiūros veiksena yra aktyvi",
+    "Updating database schema" : "Atnaujinama duomenų bazės struktūra",
     "Updated database" : "Atnaujinta duomenų bazė",
     "Checked database schema update" : "Tikrinama duomenų bazės struktūra",
     "Checked database schema update for apps" : "Tikrinama duomenų bazės struktūra įskiepiams",

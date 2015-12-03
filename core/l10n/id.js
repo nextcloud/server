@@ -269,7 +269,6 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
     "Thank you for your patience." : "Terima kasih atas kesabaran anda.",
     "You are accessing the server from an untrusted domain." : "Anda mengakses server dari domain yang tidak terpercaya.",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Mohon hubungi administrator Anda. Jika Anda seorang administrator dari instansi ini, konfigurasikan pengaturan \"trusted_domain\" didalam config/config.php. Contoh konfigurasi talah disediakan didalam config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Tergantung pada konfigurasi Anda, sebagai seorang administrator Anda kemungkinan dapat menggunakan tombol bawah untuk mempercayai domain ini.",
     "Add \"%s\" as trusted domain" : "tambahkan \"%s\" sebagai domain terpercaya",
     "App update required" : "Diperlukan perbarui aplikasi",

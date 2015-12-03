@@ -432,6 +432,8 @@ class Scanner extends BasicEmitter {
 				// skip unavailable storages
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
 				// skip unavailable storages
+			} catch (\OCP\Files\ForbiddenException $e) {
+				// skip forbidden storages
 			} catch (\OCP\Lock\LockedException $e) {
 				// skip unavailable storages
 			}

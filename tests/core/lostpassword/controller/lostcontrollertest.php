@@ -20,8 +20,18 @@
  */
 
 namespace OC\Core\LostPassword\Controller;
-use OC\Core\Application;
+
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
+use OCP\IL10N;
+use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IUser;
+use OCP\IUserManager;
+use OCP\Mail\IMailer;
+use OCP\Security\ISecureRandom;
+use PHPUnit_Framework_MockObject_MockObject;
 
 /**
  * Class LostControllerTest
@@ -30,47 +40,84 @@ use OCP\AppFramework\Http\TemplateResponse;
  */
 class LostControllerTest extends \PHPUnit_Framework_TestCase {
 
-	private $container;
 	/** @var LostController */
 	private $lostController;
+	/** @var IUser */
+	private $existingUser;
+	/** @var IURLGenerator | PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
+	/** @var IL10N */
+	private $l10n;
+	/** @var IUserManager | PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
+	/** @var \OC_Defaults */
+	private $defaults;
+	/** @var IConfig | PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+	/** @var IMailer | PHPUnit_Framework_MockObject_MockObject */
+	private $mailer;
+	/** @var ISecureRandom | PHPUnit_Framework_MockObject_MockObject */
+	private $secureRandom;
+	/** @var ITimeFactory | PHPUnit_Framework_MockObject_MockObject */
+	private $timeFactory;
+	/** @var IRequest */
+	private $request;
 
 	protected function setUp() {
-		$app = new Application();
-		$this->container = $app->getContainer();
-		$this->container['AppName'] = 'core';
-		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
+
+		$this->existingUser = $this->getMockBuilder('OCP\IUser')
+				->disableOriginalConstructor()->getMock();
+
+		$this->existingUser
+			->expects($this->any())
+			->method('getEMailAddress')
+			->willReturn('test@example.com');
+
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
-		$this->container['L10N'] = $this->getMockBuilder('\OCP\IL10N')
+		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()->getMock();
-		$this->container['L10N']
+		$this->l10n
 			->expects($this->any())
 			->method('t')
 			->will($this->returnCallback(function($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
 			}));
-		$this->container['Defaults'] = $this->getMockBuilder('\OC_Defaults')
+		$this->defaults = $this->getMockBuilder('\OC_Defaults')
 			->disableOriginalConstructor()->getMock();
-		$this->container['UserManager'] = $this->getMockBuilder('\OCP\IUserManager')
+		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
 			->disableOriginalConstructor()->getMock();
-		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
+		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
 			->disableOriginalConstructor()->getMock();
-		$this->container['URLGenerator'] = $this->getMockBuilder('\OCP\IURLGenerator')
+		$this->mailer = $this->getMockBuilder('\OCP\Mail\IMailer')
 			->disableOriginalConstructor()->getMock();
-		$this->container['Mailer'] = $this->getMockBuilder('\OCP\Mail\IMailer')
+		$this->secureRandom = $this->getMockBuilder('\OCP\Security\ISecureRandom')
 			->disableOriginalConstructor()->getMock();
-		$this->container['SecureRandom'] = $this->getMockBuilder('\OCP\Security\ISecureRandom')
+		$this->timeFactory = $this->getMockBuilder('\OCP\AppFramework\Utility\ITimeFactory')
 			->disableOriginalConstructor()->getMock();
-		$this->container['TimeFactory'] = $this->getMockBuilder('\OCP\AppFramework\Utility\ITimeFactory')
+		$this->request = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()->getMock();
-		$this->container['IsEncryptionEnabled'] = true;
-		$this->lostController = $this->container['LostController'];
+		$this->lostController = new LostController(
+			'Core',
+			$this->request,
+			$this->urlGenerator,
+			$this->userManager,
+			$this->defaults,
+			$this->l10n,
+			$this->config,
+			$this->secureRandom,
+			'lostpassword-noreply@localhost',
+			true,
+			$this->mailer,
+			$this->timeFactory
+		);
 	}
 
 	public function testResetFormUnsuccessful() {
 		$userId = 'admin';
 		$token = 'MySecretToken';
 
-		$this->container['URLGenerator']
+		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with('core.lost.setPassword', array('userId' => 'admin', 'token' => 'MySecretToken'))
@@ -89,7 +136,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	public function testEmailUnsucessful() {
 		$existingUser = 'ExistingUser';
 		$nonExistingUser = 'NonExistingUser';
-		$this->container['UserManager']
+		$this->userManager
 			->expects($this->any())
 			->method('userExists')
 			->will($this->returnValueMap(array(
@@ -106,7 +153,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame($expectedResponse, $response);
 
 		// With no mail address
-		$this->container['Config']
+		$this->config
 			->expects($this->any())
 			->method('getUserValue')
 			->with($existingUser, 'settings', 'email')
@@ -120,35 +167,35 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testEmailSuccessful() {
-		$randomToken = $this->container['SecureRandom'];
-		$this->container['SecureRandom']
+		$randomToken = $this->secureRandom;
+		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
 			->with('21')
 			->will($this->returnValue('ThisIsMaybeANotSoSecretToken!'));
-		$this->container['UserManager']
-			->expects($this->once())
-			->method('userExists')
-			->with('ExistingUser')
-			->will($this->returnValue(true));
-		$this->container['TimeFactory']
+		$this->userManager
+				->expects($this->once())
+				->method('userExists')
+				->with('ExistingUser')
+				->will($this->returnValue(true));
+		$this->userManager
+				->expects($this->any())
+				->method('get')
+				->with('ExistingUser')
+				->willReturn($this->existingUser);
+		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
 			->will($this->returnValue(12348));
-		$this->container['Config']
-			->expects($this->once())
-			->method('getUserValue')
-			->with('ExistingUser', 'settings', 'email')
-			->will($this->returnValue('test@example.com'));
-		$this->container['SecureRandom']
+		$this->secureRandom
 			->expects($this->once())
 			->method('getMediumStrengthGenerator')
 			->will($this->returnValue($randomToken));
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('setUserValue')
 			->with('ExistingUser', 'owncloud', 'lostpassword', '12348:ThisIsMaybeANotSoSecretToken!');
-		$this->container['URLGenerator']
+		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
@@ -171,11 +218,11 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->expects($this->at(3))
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
-		$this->container['Mailer']
+		$this->mailer
 			->expects($this->at(0))
 			->method('createMessage')
 			->will($this->returnValue($message));
-		$this->container['Mailer']
+		$this->mailer
 			->expects($this->at(1))
 			->method('send')
 			->with($message);
@@ -186,35 +233,35 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testEmailCantSendException() {
-		$randomToken = $this->container['SecureRandom'];
-		$this->container['SecureRandom']
+		$randomToken = $this->secureRandom;
+		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
 			->with('21')
 			->will($this->returnValue('ThisIsMaybeANotSoSecretToken!'));
-		$this->container['UserManager']
+		$this->userManager
 			->expects($this->once())
 			->method('userExists')
 			->with('ExistingUser')
 			->will($this->returnValue(true));
-		$this->container['Config']
-			->expects($this->once())
-			->method('getUserValue')
-			->with('ExistingUser', 'settings', 'email')
-			->will($this->returnValue('test@example.com'));
-		$this->container['SecureRandom']
+		$this->userManager
+				->expects($this->any())
+				->method('get')
+				->with('ExistingUser')
+				->willReturn($this->existingUser);
+		$this->secureRandom
 			->expects($this->once())
 			->method('getMediumStrengthGenerator')
 			->will($this->returnValue($randomToken));
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('setUserValue')
 			->with('ExistingUser', 'owncloud', 'lostpassword', '12348:ThisIsMaybeANotSoSecretToken!');
-		$this->container['TimeFactory']
+		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
 			->will($this->returnValue(12348));
-		$this->container['URLGenerator']
+		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
@@ -237,11 +284,11 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->expects($this->at(3))
 			->method('setFrom')
 			->with(['lostpassword-noreply@localhost' => null]);
-		$this->container['Mailer']
+		$this->mailer
 			->expects($this->at(0))
 			->method('createMessage')
 			->will($this->returnValue($message));
-		$this->container['Mailer']
+		$this->mailer
 			->expects($this->at(1))
 			->method('send')
 			->with($message)
@@ -253,7 +300,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetPasswordUnsuccessful() {
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('getUserValue')
 			->with('InvalidTokenUser', 'owncloud', 'lostpassword', null)
@@ -275,7 +322,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetPasswordSuccessful() {
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('getUserValue')
 			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
@@ -290,16 +337,16 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->method('setPassword')
 			->with('NewPassword')
 			->will($this->returnValue(true));
-		$this->container['UserManager']
+		$this->userManager
 			->expects($this->once())
 			->method('get')
 			->with('ValidTokenUser')
 			->will($this->returnValue($user));
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('deleteUserValue')
 			->with('ValidTokenUser', 'owncloud', 'lostpassword');
-		$this->container['TimeFactory']
+		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
 			->will($this->returnValue(12348));
@@ -310,19 +357,19 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetPasswordExpiredToken() {
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('getUserValue')
 			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
 			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()->getMock();
-		$this->container['UserManager']
+		$this->userManager
 			->expects($this->once())
 			->method('get')
 			->with('ValidTokenUser')
 			->will($this->returnValue($user));
-		$this->container['TimeFactory']
+		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
 			->will($this->returnValue(55546));
@@ -336,14 +383,14 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetPasswordInvalidDataInDb() {
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('getUserValue')
 			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
 			->will($this->returnValue('TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()->getMock();
-		$this->container['UserManager']
+		$this->userManager
 			->expects($this->once())
 			->method('get')
 			->with('ValidTokenUser')
@@ -358,7 +405,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSetPasswordExpiredTokenDueToLogin() {
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('getUserValue')
 			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
@@ -369,12 +416,12 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->expects($this->once())
 			->method('getLastLogin')
 			->will($this->returnValue(12346));
-		$this->container['UserManager']
+		$this->userManager
 			->expects($this->once())
 			->method('get')
 			->with('ValidTokenUser')
 			->will($this->returnValue($user));
-		$this->container['TimeFactory']
+		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
 			->will($this->returnValue(12345));
@@ -388,7 +435,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testIsSetPasswordWithoutTokenFailing() {
-		$this->container['Config']
+		$this->config
 			->expects($this->once())
 			->method('getUserValue')
 			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)

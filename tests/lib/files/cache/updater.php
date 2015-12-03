@@ -12,6 +12,13 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 
+/**
+ * Class Updater
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache
+ */
 class Updater extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage
@@ -39,9 +46,7 @@ class Updater extends \Test\TestCase {
 		$this->loginAsUser();
 
 		$this->storage = new Temporary(array());
-		Filesystem::mount($this->storage, array(), '/');
-		$this->view = new View('');
-		$this->updater = new \OC\Files\Cache\Updater($this->view);
+		$this->updater = $this->storage->getUpdater();
 		$this->cache = $this->storage->getCache();
 	}
 
@@ -56,7 +61,7 @@ class Updater extends \Test\TestCase {
 		$this->storage->file_put_contents('foo.txt', 'bar');
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 
-		$this->updater->update('/foo.txt');
+		$this->updater->update('foo.txt');
 
 		$this->assertTrue($this->cache->inCache('foo.txt'));
 		$cached = $this->cache->get('foo.txt');
@@ -65,7 +70,9 @@ class Updater extends \Test\TestCase {
 	}
 
 	public function testUpdatedFile() {
-		$this->view->file_put_contents('/foo.txt', 'bar');
+		$this->storage->file_put_contents('foo.txt', 'bar');
+		$this->updater->update('foo.txt');
+
 		$cached = $this->cache->get('foo.txt');
 		$this->assertEquals(3, $cached['size']);
 		$this->assertEquals('text/plain', $cached['mimetype']);
@@ -131,7 +138,7 @@ class Updater extends \Test\TestCase {
 		$this->assertTrue($this->cache->inCache('foo.txt'));
 		$this->assertFalse($this->cache->inCache('bar.txt'));
 
-		$this->updater->rename('foo.txt', 'bar.txt');
+		$this->updater->renameFromStorage($this->storage, 'foo.txt', 'bar.txt');
 
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$this->assertTrue($this->cache->inCache('bar.txt'));
@@ -149,7 +156,7 @@ class Updater extends \Test\TestCase {
 
 		$cached = $this->cache->get('bar.txt');
 
-		$this->updater->rename('foo.txt', 'bar.txt');
+		$this->updater->renameFromStorage($this->storage, 'foo.txt', 'bar.txt');
 
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$this->assertTrue($this->cache->inCache('bar.txt'));
@@ -186,7 +193,7 @@ class Updater extends \Test\TestCase {
 		// some storages (like Dropbox) change storage mtime on rename
 		$this->storage->touch('sub2/bar.txt', $testmtime);
 
-		$this->updater->rename('sub/foo.txt', 'sub2/bar.txt');
+		$this->updater->renameFromStorage($this->storage, 'sub/foo.txt', 'sub2/bar.txt');
 
 		$cachedTargetParent = $this->cache->get('sub2');
 		$cachedTarget = $this->cache->get('sub2/bar.txt');
@@ -212,26 +219,6 @@ class Updater extends \Test\TestCase {
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 	}
 
-	public function testMoveDisabled() {
-		$this->storage->file_put_contents('foo.txt', 'qwerty');
-		$this->updater->update('foo.txt');
-
-		$this->assertTrue($this->cache->inCache('foo.txt'));
-		$this->assertFalse($this->cache->inCache('bar.txt'));
-		$cached = $this->cache->get('foo.txt');
-
-		$this->storage->rename('foo.txt', 'bar.txt');
-
-		$this->assertTrue($this->cache->inCache('foo.txt'));
-		$this->assertFalse($this->cache->inCache('bar.txt'));
-
-		$this->updater->disable();
-		$this->updater->rename('foo.txt', 'bar.txt');
-
-		$this->assertTrue($this->cache->inCache('foo.txt'));
-		$this->assertFalse($this->cache->inCache('bar.txt'));
-	}
-
 	public function testMoveCrossStorage() {
 		$storage2 = new Temporary(array());
 		$cache2 = $storage2->getCache();
@@ -251,7 +238,7 @@ class Updater extends \Test\TestCase {
 		$this->assertTrue($this->cache->inCache('foo.txt'));
 		$this->assertFalse($cache2->inCache('bar.txt'));
 
-		$this->updater->rename('foo.txt', 'bar/bar.txt');
+		$storage2->getUpdater()->renameFromStorage($this->storage, 'foo.txt', 'bar.txt');
 
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$this->assertTrue($cache2->inCache('bar.txt'));
@@ -288,7 +275,8 @@ class Updater extends \Test\TestCase {
 		$cached[] = $this->cache->get('foo/bar/bar.txt');
 
 		// add extension to trigger the possible mimetype change
-		$this->view->rename('/foo', '/bar/foo.b');
+		$storage2->moveFromStorage($this->storage, 'foo', 'foo.b');
+		$storage2->getUpdater()->renameFromStorage($this->storage, 'foo', 'foo.b');
 
 		$this->assertFalse($this->cache->inCache('foo'));
 		$this->assertFalse($this->cache->inCache('foo/foo.txt'));

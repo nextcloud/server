@@ -11,6 +11,8 @@ namespace Test\Repair;
 /**
  * Tests for the cleaning the tags tables
  *
+ * @group DB
+ *
  * @see \OC\Repair\CleanTags
  */
 class CleanTags extends \Test\TestCase {
@@ -165,20 +167,6 @@ class CleanTags extends \Test\TestCase {
 	 * @return int
 	 */
 	protected function getLastInsertID($tableName, $idName) {
-		$id = $this->connection->lastInsertId();
-		if ($id) {
-			return $id;
-		}
-
-		// FIXME !!!! ORACLE WORKAROUND DO NOT COPY
-		// FIXME INSTEAD HELP FIXING DOCTRINE
-		// FIXME https://github.com/owncloud/core/issues/13303
-		// FIXME ALSO FIX https://github.com/owncloud/core/commit/2dd85ec984c12d3be401518f22c90d2327bec07a
-		$qb = $this->connection->getQueryBuilder();
-		$result = $qb->select($qb->createFunction('MAX(`' . $idName . '`)'))
-			->from($tableName)
-			->execute();
-
-		return (int) $result->fetchColumn();
+		return $this->connection->lastInsertId("*PREFIX*$tableName");
 	}
 }

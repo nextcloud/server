@@ -6,6 +6,7 @@
     "dav",
     "enterprise_key",
     "external",
+    "federation",
     "files",
     "files_antivirus",
     "files_drop",
@@ -24,6 +25,7 @@
     "gallery",
     "notifications",
     "objectstore",
+    "password_policy",
     "provisioning_api",
     "sharepoint",
     "templateeditor",
@@ -31,7 +33,8 @@
     "user_external",
     "user_ldap",
     "user_shibboleth",
-    "windows_network_drive"
+    "windows_network_drive",
+    "workflow"
   ],
   "alwaysEnabled": [
     "files",

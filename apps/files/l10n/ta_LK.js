@@ -21,16 +21,13 @@ OC.L10N.register(
     "Details" : "விவரங்கள்",
     "Select" : "தெரிக",
     "Pending" : "நிலுவையிலுள்ள",
-    "Error" : "வழு",
-    "{new_name} already exists" : "{new_name} ஏற்கனவே உள்ளது",
     "Name" : "பெயர்",
     "Size" : "அளவு",
     "Modified" : "மாற்றப்பட்டது",
     "New" : "புதிய",
     "Favorite" : "விருப்பமான",
-    "Upload" : "பதிவேற்றுக",
-    "Text file" : "கோப்பு உரை",
     "Folder" : "கோப்புறை",
+    "Upload" : "பதிவேற்றுக",
     "File handling" : "கோப்பு கையாளுதல்",
     "Maximum upload size" : "பதிவேற்றக்கூடிய ஆகக்கூடிய அளவு ",
     "max. possible: " : "ஆகக் கூடியது:",
@@ -39,6 +36,7 @@ OC.L10N.register(
     "Cancel upload" : "பதிவேற்றலை இரத்து செய்க",
     "Upload too large" : "பதிவேற்றல் மிகப்பெரியது",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "நீங்கள் பதிவேற்ற முயற்சிக்கும் கோப்புகளானது இந்த சேவையகத்தில் கோப்பு பதிவேற்றக்கூடிய ஆகக்கூடிய அளவிலும் கூடியது.",
-    "Files are being scanned, please wait." : "கோப்புகள் வருடப்படுகின்றன, தயவுசெய்து காத்திருங்கள்."
+    "Files are being scanned, please wait." : "கோப்புகள் வருடப்படுகின்றன, தயவுசெய்து காத்திருங்கள்.",
+    "Text file" : "கோப்பு உரை"
 },
 "nplurals=2; plural=(n != 1);");

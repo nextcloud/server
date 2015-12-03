@@ -11,6 +11,8 @@ namespace Test\Repair;
 /**
  * Tests for the converting of legacy storages to home storages.
  *
+ * @group DB
+ *
  * @see \OC\Repair\RepairMimeTypes
  */
 class RepairMimeTypes extends \Test\TestCase {

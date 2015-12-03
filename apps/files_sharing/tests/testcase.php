@@ -36,6 +36,8 @@ use OCA\Files_Sharing\Appinfo\Application;
 /**
  * Class Test_Files_Sharing_Base
  *
+ * @group DB
+ *
  * Base class for sharing tests.
  */
 abstract class TestCase extends \Test\TestCase {
@@ -61,7 +63,6 @@ abstract class TestCase extends \Test\TestCase {
 
 		$application = new Application();
 		$application->registerMountProviders();
-		$application->setupPropagation();
 		
 		// reset backend
 		\OC_User::clearBackends();

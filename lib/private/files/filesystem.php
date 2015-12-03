@@ -386,7 +386,7 @@ class Filesystem {
 			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
 		}
 
-		$homeStorage = \OC_Config::getValue('objectstore');
+		$homeStorage = \OC::$server->getConfig()->getSystemValue('objectstore');
 		if (!empty($homeStorage)) {
 			// sanity checks
 			if (empty($homeStorage['class'])) {
@@ -458,7 +458,7 @@ class Filesystem {
 	 * @param string $user user name
 	 */
 	private static function mountCacheDir($user) {
-		$cacheBaseDir = \OC_Config::getValue('cache_path', '');
+		$cacheBaseDir = \OC::$server->getConfig()->getSystemValue('cache_path', '');
 		if ($cacheBaseDir !== '') {
 			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user;
 			if (!file_exists($cacheDir)) {
@@ -603,7 +603,7 @@ class Filesystem {
 	static public function isFileBlacklisted($filename) {
 		$filename = self::normalizePath($filename);
 
-		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
+		$blacklist = \OC::$server->getConfig()->getSystemValue('blacklisted_files', array('.htaccess'));
 		$filename = strtolower(basename($filename));
 		return in_array($filename, $blacklist);
 	}

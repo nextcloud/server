@@ -54,6 +54,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUser;
+
 class OC_Util {
 	public static $scripts = array();
 	public static $styles = array();
@@ -218,20 +223,21 @@ class OC_Util {
 
 	/**
 	 * check if sharing is disabled for the current user
-	 *
-	 * @return boolean
+	 * @param IConfig $config
+	 * @param IGroupManager $groupManager
+	 * @param IUser|null $user
+	 * @return bool
 	 */
-	public static function isSharingDisabledForUser() {
-		if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
-			$user = \OCP\User::getUser();
-			$groupsList = \OC::$server->getAppConfig()->getValue('core', 'shareapi_exclude_groups_list', '');
+	public static function isSharingDisabledForUser(IConfig $config, IGroupManager $groupManager, $user) {
+		if ($config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
+			$groupsList = $config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$excludedGroups = json_decode($groupsList);
 			if (is_null($excludedGroups)) {
 				$excludedGroups = explode(',', $groupsList);
 				$newValue = json_encode($excludedGroups);
-				\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', $newValue);
+				$config->setAppValue('core', 'shareapi_exclude_groups_list', $newValue);
 			}
-			$usersGroups = \OC_Group::getUserGroups($user);
+			$usersGroups = $groupManager->getUserGroupIds($user);
 			if (!empty($usersGroups)) {
 				$remainingGroups = array_diff($usersGroups, $excludedGroups);
 				// if the user is only in groups which are disabled for sharing then
@@ -615,6 +621,9 @@ class OC_Util {
 		$webServerRestart = false;
 		$setup = new \OC\Setup($config, \OC::$server->getIniWrapper(), \OC::$server->getL10N('lib'),
 			new \OC_Defaults(), \OC::$server->getLogger(), \OC::$server->getSecureRandom());
+
+		$urlGenerator = \OC::$server->getURLGenerator();
+
 		$availableDatabases = $setup->getSupportedDatabases();
 		if (empty($availableDatabases)) {
 			$errors[] = array(
@@ -643,7 +652,7 @@ class OC_Util {
 				'error' => $l->t('Cannot write into "config" directory'),
 				'hint' => $l->t('This can usually be fixed by '
 					. '%sgiving the webserver write access to the config directory%s.',
-					array('<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
+					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
 			);
 		}
 
@@ -658,7 +667,7 @@ class OC_Util {
 					'hint' => $l->t('This can usually be fixed by '
 						. '%sgiving the webserver write access to the apps directory%s'
 						. ' or disabling the appstore in the config file.',
-						array('<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
+						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
 				);
 			}
 		}
@@ -673,14 +682,14 @@ class OC_Util {
 						'error' => $l->t('Cannot create "data" directory (%s)', array($CONFIG_DATADIRECTORY)),
 						'hint' => $l->t('This can usually be fixed by '
 							. '<a href="%s" target="_blank">giving the webserver write access to the root directory</a>.',
-							array(OC_Helper::linkToDocs('admin-dir_permissions')))
+							array($urlGenerator->linkToDocs('admin-dir_permissions')))
 					);
 				}
 			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 				//common hint for all file permissions error messages
 				$permissionsHint = $l->t('Permissions can usually be fixed by '
 					. '%sgiving the webserver write access to the root directory%s.',
-					array('<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'));
+					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'));
 				$errors[] = array(
 					'error' => 'Data directory (' . $CONFIG_DATADIRECTORY . ') not writable by ownCloud',
 					'hint' => $permissionsHint
@@ -858,12 +867,9 @@ class OC_Util {
 					}
 				}
 			} catch (\Doctrine\DBAL\DBALException $e) {
-				\OCP\Util::logException('core', $e);
-				$errors[] = array(
-					'error' => $l->t('Error occurred while checking PostgreSQL version'),
-					'hint' => $l->t('Please make sure you have PostgreSQL >= 9 or'
-						. ' check the logs for more information about the error')
-				);
+				$logger = \OC::$server->getLogger();
+				$logger->warning('Error occurred while checking PostgreSQL version, assuming >= 9');
+				$logger->logException($e);
 			}
 		}
 		return $errors;
@@ -948,6 +954,7 @@ class OC_Util {
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		$parameters['rememberLoginAllowed'] = self::rememberLoginAllowed();
+		\OC_Hook::emit('OC_Util', 'pre_displayLoginPage', array('parameters' => $parameters));
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -1066,7 +1073,12 @@ class OC_Util {
 						break;
 					}
 				}
-				$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
+
+				if(getenv('front_controller_active') === 'true') {
+					$location = $urlGenerator->getAbsoluteURL('/apps/' . $appId . '/');
+				} else {
+					$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
+				}
 			}
 		}
 		return $location;

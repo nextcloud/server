@@ -2,8 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Unknown error" : "უცნობი შეცდომა",
-    "Could not move %s - File with this name already exists" : "%s –ის გადატანა ვერ მოხერხდა – ფაილი ამ სახელით უკვე არსებობს",
-    "Could not move %s" : "%s –ის გადატანა ვერ მოხერხდა",
     "No file was uploaded. Unknown error" : "ფაილი არ აიტვირთა. უცნობი შეცდომა",
     "There is no error, the file uploaded with success" : "ჭოცდომა არ დაფიქსირდა, ფაილი წარმატებით აიტვირთა",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "ატვირთული ფაილი აჭარბებს upload_max_filesize დირექტივას php.ini ფაილში",
@@ -26,8 +24,6 @@ OC.L10N.register(
     "Delete" : "წაშლა",
     "Details" : "დეტალური ინფორმაცია",
     "Pending" : "მოცდის რეჟიმში",
-    "Error" : "შეცდომა",
-    "{new_name} already exists" : "{new_name} უკვე არსებობს",
     "Name" : "სახელი",
     "Size" : "ზომა",
     "Modified" : "შეცვლილია",
@@ -36,10 +32,9 @@ OC.L10N.register(
     "Your storage is full, files can not be updated or synced anymore!" : "თქვენი საცავი გადაივსო. ფაილების განახლება და სინქრონიზირება ვერ მოხერხდება!",
     "Your storage is almost full ({usedSpacePercent}%)" : "თქვენი საცავი თითქმის გადაივსო ({usedSpacePercent}%)",
     "Favorite" : "ფავორიტი",
-    "Upload" : "ატვირთვა",
-    "Text file" : "ტექსტური ფაილი",
     "Folder" : "საქაღალდე",
     "New folder" : "ახალი ფოლდერი",
+    "Upload" : "ატვირთვა",
     "File handling" : "ფაილის დამუშავება",
     "Maximum upload size" : "მაქსიმუმ ატვირთის ზომა",
     "max. possible: " : "მაქს. შესაძლებელი:",
@@ -49,6 +44,7 @@ OC.L10N.register(
     "Cancel upload" : "ატვირთვის გაუქმება",
     "Upload too large" : "ასატვირთი ფაილი ძალიან დიდია",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",
-    "Files are being scanned, please wait." : "მიმდინარეობს ფაილების სკანირება, გთხოვთ დაელოდოთ."
+    "Files are being scanned, please wait." : "მიმდინარეობს ფაილების სკანირება, გთხოვთ დაელოდოთ.",
+    "Text file" : "ტექსტური ფაილი"
 },
 "nplurals=1; plural=0;");

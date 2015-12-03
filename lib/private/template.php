@@ -114,6 +114,7 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle("icons",null,true);
 			OC_Util::addStyle("mobile",null,true);
 			OC_Util::addStyle("header",null,true);
+			OC_Util::addStyle("inputs",null,true);
 			OC_Util::addStyle("styles",null,true);
 
 			// avatars
@@ -142,7 +143,9 @@ class OC_Template extends \OC\Template\Base {
 			OC_Util::addStyle("jquery.ocdialog");
 			OC_Util::addScript("compatibility", null, true);
 			OC_Util::addScript("placeholders", null, true);
-			
+			OC_Util::addScript('files/fileinfo');
+			OC_Util::addScript('files/client');
+
 			// Add the stuff we need always
 			// following logic will import all vendor libraries that are
 			// specified in core/js/core.json
@@ -157,7 +160,12 @@ class OC_Template extends \OC\Template\Base {
 			} else {
 				throw new \Exception('Cannot read core/js/core.json');
 			}
-			
+
+			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {
+				// shim for the davclient.js library
+				\OCP\Util::addScript('files/iedavclient');
+			}
+
 			self::$initTemplateEngineFirstRun = false;
 		}
 	
@@ -379,6 +387,17 @@ class OC_Template extends \OC\Template\Base {
 	 * @return bool
 	 */
 	public static function isAssetPipelineEnabled() {
+		try {
+			if (\OCP\Util::needUpgrade()) {
+				// Don't use the compiled asset when we need to do an update
+				return false;
+			}
+		} catch (\Exception $e) {
+			// Catch any exception, because this code is also called when displaying
+			// an exception error page.
+			return false;
+		}
+
 		// asset management enabled?
 		$config = \OC::$server->getConfig();
 		$useAssetPipeline = $config->getSystemValue('asset-pipeline.enabled', false);

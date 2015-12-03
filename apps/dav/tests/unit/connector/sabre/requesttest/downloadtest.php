@@ -11,6 +11,13 @@ namespace OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest;
 use OCP\AppFramework\Http;
 use OCP\Lock\ILockingProvider;
 
+/**
+ * Class DownloadTest
+ *
+ * @group DB
+ *
+ * @package OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest
+ */
 class DownloadTest extends RequestTest {
 	public function testDownload() {
 		$user = $this->getUniqueID();

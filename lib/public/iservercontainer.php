@@ -470,4 +470,22 @@ interface IServerContainer {
 	 * @since 8.2.0
 	 */
 	public function getNotificationManager();
+
+	/**
+	 * Returns the system-tag manager
+	 *
+	 * @return \OCP\SystemTag\ISystemTagManager
+	 *
+	 * @since 9.0.0
+	 */
+	public function getSystemTagManager();
+
+	/**
+	 * Returns the system-tag object mapper
+	 *
+	 * @return \OCP\SystemTag\ISystemTagObjectMapper
+	 *
+	 * @since 9.0.0
+	 */
+	public function getSystemTagObjectMapper();
 }

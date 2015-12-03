@@ -563,16 +563,19 @@ button.loading {
 #app-content > .section:first-child {
 	border-top: none;
 }
-.section h2 {
+
+/* heading styles */
+h2 {
 	font-size: 20px;
-	margin-bottom: 12px;
 	font-weight: 300;
+	margin-bottom: 12px;
 }
-.section h3 {
+h3 {
 	font-size: 15px;
 	font-weight: 300;
 	margin: 12px 0;
 }
+
 /* slight position correction of checkboxes and radio buttons */
 .section input[type="checkbox"],
 .section input[type="radio"] {

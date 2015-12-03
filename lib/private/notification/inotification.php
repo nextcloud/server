@@ -61,25 +61,26 @@ interface INotification {
 	public function getUser();
 
 	/**
-	 * @param int $timestamp
+	 * @param \DateTime $dateTime
 	 * @return $this
-	 * @throws \InvalidArgumentException if the timestamp are invalid
-	 * @since 8.2.0
+	 * @throws \InvalidArgumentException if the $dateTime is invalid
+	 * @since 9.0.0
 	 */
-	public function setTimestamp($timestamp);
+	public function setDateTime(\DateTime $dateTime);
 
 	/**
-	 * @return int
-	 * @since 8.2.0
+	 * @return \DateTime
+	 * @since 9.0.0
 	 */
-	public function getTimestamp();
+	public function getDateTime();
 
 	/**
 	 * @param string $type
-	 * @param int $id
+	 * @param string $id
 	 * @return $this
-	 * @throws \InvalidArgumentException if the object type or id are invalid
+	 * @throws \InvalidArgumentException if the object type or id is invalid
 	 * @since 8.2.0
+	 * @changed 9.0.0 Type of $id changed to string
 	 */
 	public function setObject($type, $id);
 
@@ -90,8 +91,9 @@ interface INotification {
 	public function getObjectType();
 
 	/**
-	 * @return int
+	 * @return string
 	 * @since 8.2.0
+	 * @changed 9.0.0 Return type changed to string
 	 */
 	public function getObjectId();
 
@@ -178,20 +180,6 @@ interface INotification {
 	 * @since 8.2.0
 	 */
 	public function getLink();
-
-	/**
-	 * @param string $icon
-	 * @return $this
-	 * @throws \InvalidArgumentException if the icon are invalid
-	 * @since 8.2.0
-	 */
-	public function setIcon($icon);
-
-	/**
-	 * @return string
-	 * @since 8.2.0
-	 */
-	public function getIcon();
 
 	/**
 	 * @return IAction

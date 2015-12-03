@@ -268,7 +268,6 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakt systemadministratoren, hvis denne meddelelse fortsætter eller optrådte uventet.",
     "Thank you for your patience." : "Tak for din tålmodighed.",
     "You are accessing the server from an untrusted domain." : "Du tilgår serveren fra et utroværdigt domæne",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kontakt venligst din administrator. Hvis du er administrator, konfigurer \"trusted_domain\" indstillingen i config/config.php. Et eksempel kan ses i config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Afhænger af din konfiguration, da du som administrator eventuelt også er i stand til at gøre brug af knappen nedenfor til at tildele tillid til dette domæne.",
     "Add \"%s\" as trusted domain" : "Tilføj \"%s\" som et troværdigt domæne",
     "App update required" : "Opdatering af app påkræves",

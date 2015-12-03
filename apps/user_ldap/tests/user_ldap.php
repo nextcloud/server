@@ -31,6 +31,13 @@ use \OCA\user_ldap\lib\Access;
 use \OCA\user_ldap\lib\Connection;
 use \OCA\user_ldap\lib\ILDAPWrapper;
 
+/**
+ * Class Test_User_Ldap_Direct
+ *
+ * @group DB
+ *
+ * @package OCA\user_ldap\tests
+ */
 class Test_User_Ldap_Direct extends \Test\TestCase {
 	protected $backend;
 	protected $access;

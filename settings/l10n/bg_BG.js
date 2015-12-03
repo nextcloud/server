@@ -142,7 +142,6 @@ OC.L10N.register(
     "Store credentials" : "Запазвай креденциите",
     "Test email settings" : "Настройки на проверяващия имейл",
     "Send email" : "Изпрати имейл",
-    "Log level" : "Детайли на доклада",
     "Download logfile" : "Изтегли log файла",
     "More" : "Още",
     "Less" : "По-малко",

@@ -26,6 +26,7 @@
 namespace OCA\Files\Command;
 
 use OC\ForbiddenException;
+use OCP\Files\StorageNotAvailableException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -74,13 +75,16 @@ class Scan extends Command {
 	}
 
 	protected function scanFiles($user, $path, $quiet, OutputInterface $output) {
-		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection());
+		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 		if (!$quiet) {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 				$output->writeln("Scanning file   <info>$path</info>");
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 				$output->writeln("Scanning folder <info>$path</info>");
+			});
+			$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
+				$output->writeln("Error while scanning, storage not available (" . $e->getMessage() . ")");
 			});
 		}
 		try {

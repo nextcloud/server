@@ -24,9 +24,16 @@ namespace OCA\Files_Trashbin\Tests\Command;
 use OCA\Files_Trashbin\Command\Expire;
 use Test\TestCase;
 
+/**
+ * Class ExpireTest
+ *
+ * @group DB
+ *
+ * @package OCA\Files_Trashbin\Tests\Command
+ */
 class ExpireTest extends TestCase {
 	public function testExpireNonExistingUser() {
-		$command = new Expire('test', 0);
+		$command = new Expire('test');
 		$command->handle();
 
 		$this->assertTrue(true);

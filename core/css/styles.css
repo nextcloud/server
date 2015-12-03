@@ -12,18 +12,6 @@ table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
 a, a *, input, input *, select, .button span, label { cursor:pointer; }
 ul { list-style:none; }
-select {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	background: url('../../core/img/actions/triangle-s.svg') no-repeat right 8px center rgba(240, 240, 240, 0.90);
-	outline: 0;
-	padding-right: 24px !important;
-}
-
-select:hover {
-	background-color: #fefefe;
-}
 
 body {
 	background-color: #ffffff;
@@ -85,154 +73,6 @@ body {
 	color: #ddd;
 }
 
-
-
-/* INPUTS */
-
-/* specifically override browser styles */
-input, textarea, select, button {
-	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="search"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="time"],
-input[type="date"],
-textarea,
-select,
-button, .button,
-input[type="submit"],
-input[type="button"],
-#quota,
-.pager li a {
-	width: 130px;
-	margin: 3px 3px 3px 0;
-	padding: 7px 6px 5px;
-	font-size: 13px;
-	background-color: #fff;
-	color: #333;
-	border: 1px solid #ddd;
-	outline: none;
-	border-radius: 3px;
-}
-input[type="hidden"] {
-	height: 0;
-	width: 0;
-}
-input[type="text"],
-input[type="password"],
-input[type="search"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="time"],
-textarea {
-	background: #fff;
-	color: #555;
-	cursor: text;
-	font-family: inherit; /* use default ownCloud font instead of default textarea monospace */
-}
-input[type="text"],
-input[type="password"],
-input[type="search"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="time"] {
-	-webkit-appearance:textfield; -moz-appearance:textfield;
-	-webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box;
-}
-input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
-input[type="password"]:hover, input[type="password"]:focus, input[type="password"]:active,
-input[type="number"]:hover, input[type="number"]:focus, input[type="number"]:active,
-.searchbox input[type="search"]:hover, .searchbox input[type="search"]:focus, .searchbox input[type="search"]:active,
-input[type="email"]:hover, input[type="email"]:focus, input[type="email"]:active,
-input[type="url"]:hover, input[type="url"]:focus, input[type="url"]:active,
-input[type="time"]:hover, input[type="time"]:focus, input[type="time"]:active,
-textarea:hover, textarea:focus, textarea:active {
-	color: #333;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	opacity: 1;
-}
-
-.ie8 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
-.ie8 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
-
-/* ie8 doesn't support :checked */
-html:not(.ie8) input[type="checkbox"].checkbox {
-	margin:0;
-	padding:0;
-	height:auto;
-	width:auto;
-	display: none;
-}
-
-html:not(.ie8) input[type="checkbox"].checkbox + label:before {
-	content: "";
-	display: inline-block;
-
-	height: 20px;
-	width: 20px;
-	vertical-align: middle;
-
-	background: url('../img/actions/checkbox.svg') left top no-repeat;
-	opacity: 0.7;
-}
-
-html:not(.ie8) input[type="checkbox"].checkbox:disabled +label:before { opacity: .6; }
-
-html:not(.ie8) input[type="checkbox"].checkbox.u-left +label:before { float: left; }
-html:not(.ie8) input[type="checkbox"].checkbox.u-hidden + label:before { display: none; }
-
-html:not(.ie8) input[type="checkbox"].checkbox--white + label:before {
-	background-image: url('../img/actions/checkbox-white.svg');
-}
-
-html:not(.ie8) input[type="checkbox"].checkbox:checked + label:before {
-	background-image: url('../img/actions/checkbox-checked.svg');
-}
-
-html:not(.ie8) input[type="checkbox"].checkbox--white:checked + label:before {
-	background-image: url('../img/actions/checkbox-checked-white.svg');
-}
-
-html:not(.ie8) input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
-	color:#111 !important;
-}
-
-input[type="time"] {
-	width: initial;
-	height: 31px;
-	-moz-box-sizing: border-box; box-sizing: border-box;
-}
-
-.select2-choices {
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	color: #333;
-	background-image: none;
-}
-.select2-dropdown-open .select2-choices {
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	border: 1px solid #3875d7;
-}
-
-/* correctly align images inside of buttons */
-input img, button img, .button img {
-	vertical-align: text-bottom;
-}
-
-#quota {
-	cursor: default;
-	margin: 30px;
-}
-
-
 /* SCROLLING */
 ::-webkit-scrollbar {
 	width: 8px;
@@ -243,72 +83,6 @@ input img, button img, .button img {
 ::-webkit-scrollbar-thumb {
 	background: #ddd;
 }
-
-
-/* BUTTONS */
-input[type="submit"], input[type="button"],
-button, .button,
-#quota, select, .pager li a {
-	width: auto;
-	min-width: 25px;
-	padding: 5px;
-	background-color: rgba(240,240,240,.9);
-	font-weight: 600;
-	color: #555;
-	border: 1px solid rgba(240,240,240,.9);
-	cursor: pointer;
-}
-select, .button.multiselect {
-	font-weight: 400;
-}
-input[type="submit"]:hover, input[type="submit"]:focus,
-input[type="button"]:hover, input[type="button"]:focus,
-button:hover, button:focus,
-.button:hover, .button:focus,
-.button a:focus,
-select:hover, select:focus, select:active {
-	background-color: rgba(255, 255, 255, .95);
-	color: #111;
-}
-input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
-#header .button {
-	border: none;
-	box-shadow: none;
-}
-
-/* disabled input fields and buttons */
-input:disabled, input:disabled:hover, input:disabled:focus,
-button:disabled, button:disabled:hover, button:disabled:focus,
-.button:disabled, .button:disabled:hover, .button:disabled:focus,
-a.disabled, a.disabled:hover, a.disabled:focus,
-textarea:disabled {
-	background-color: rgba(230,230,230,.9);
-	color: #999;
-	cursor: default;
-}
-input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
-	color: #999 !important;
-	cursor: default;
-}
-
-/* Primary action button, use sparingly */
-.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
-	border: 1px solid #1d2d44;
-	background-color: #35537a;
-	color: #ddd;
-}
-	.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,
-	.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {
-		background-color: #304d76;
-		color: #fff;
-	}
-	.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active,
-	.primary:disabled, input[type="submit"].primary:disabled, input[type="button"].primary:disabled, button.primary:disabled, .button.primary:disabled,
-	.primary:disabled:hover, input[type="submit"].primary:disabled:hover, input[type="button"].primary:disabled:hover, button.primary:disabled:hover, .button.primary:disabled:hover,
-	.primary:disabled:focus, input[type="submit"].primary:disabled:focus, input[type="button"].primary:disabled:focus, button.primary:disabled:focus, .button.primary:disabled:focus {
-		background-color: #1d2d44;
-		color: #bbb;
-	}
 
 /* Searchbox */
 .searchbox input[type="search"] {
@@ -340,21 +114,6 @@ input:disabled+label, input:disabled:hover+label, input:disabled:focus+label {
 	cursor: text;
 	background-color: #112;
 }
-
-input[type="submit"].enabled {
-	background-color: #66f866;
-	border: 1px solid #5e5;
-}
-
-.input-button-inline {
-	position: absolute !important;
-	right: 0;
-	background-color: transparent !important;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
-	opacity: .3;
-}
-
-
 
 /* CONTENT ------------------------------------------------------------------ */
 #controls {
@@ -436,7 +195,6 @@ input[type="submit"].enabled {
 #emptycontent h2,
 .emptycontent h2 {
 	font-weight: 600;
-	font-size: 22px;
 	margin-bottom: 10px;
 }
 #emptycontent [class^="icon-"],
@@ -482,9 +240,7 @@ input[type="submit"].enabled {
 }
 
 #body-login .update h2 {
-	font-size: 20px;
-	line-height: 130%;
-	margin-bottom: 30px;
+	margin: 12px 0 20px;
 }
 
 #body-login .update a {
@@ -781,6 +537,8 @@ html.ie8 #body-login form input[type="checkbox"] {
 }
 .error a.button {
 	color: #555 !important;
+	display: inline-block;
+	text-align: center;
 }
 .error pre {
 	white-space: pre-wrap;
@@ -940,6 +698,8 @@ tbody tr:active {
 code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace; }
 
 #quota {
+	cursor: default;
+	margin: 30px;
 	position: relative;
 	padding: 0;
 }

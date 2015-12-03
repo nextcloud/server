@@ -10,6 +10,8 @@ namespace Test\Repair;
 /**
  * Tests for the converting of MySQL tables to InnoDB engine
  *
+ * @group DB
+ *
  * @see \OC\Repair\RepairMimeTypes
  */
 class RepairInnoDB extends \Test\TestCase {

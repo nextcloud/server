@@ -20,6 +20,11 @@
 *
 */
 
+/**
+ * Class Test_Group_Database
+ *
+ * @group DB
+ */
 class Test_Group_Database extends Test_Group_Backend {
 	private $groups=array();
 

@@ -412,13 +412,13 @@ table.grid td.date{
 .cronlog {
 	margin-left: 10px;
 }
-.cronstatus {
+.status {
 	display: inline-block;
 	height: 16px;
 	width: 16px;
 	vertical-align: text-bottom;
 }
-.cronstatus.success {
+.status.success {
 	border-radius: 50%;
 }
 

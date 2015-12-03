@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete" : "Suprimir",
     "Delete permanently" : "Suprimir de faiçon definitiva",
     "Error" : "Error",
+    "This operation is forbidden" : "L'operacion es interdicha",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Aqueste repertòri es pas disponible. Consultatz los logs o contactatz vòstre administrator",
     "restored" : "restablit",
     "No deleted files" : "Cap de fichièr pas suprimit",
     "You will be able to recover deleted files from here" : "Poiretz restablir vòstres fichièrs suprimits aicí",

@@ -52,27 +52,37 @@ class SFTP extends \OC\Files\Storage\Common {
 	protected $client;
 
 	/**
+	 * @param string $host protocol://server:port
+	 * @return array [$server, $port]
+	 */
+	private function splitHost($host) {
+		$input = $host;
+		if (strpos($host, '://') === false) {
+			// add a protocol to fix parse_url behavior with ipv6
+			$host = 'http://' . $host;
+		}
+
+		$parsed = parse_url($host);
+		if(is_array($parsed) && isset($parsed['port'])) {
+			return [$parsed['host'], $parsed['port']];
+		} else if (is_array($parsed)) {
+			return [$parsed['host'], 22];
+		} else {
+			return [$input, 22];
+		}
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function __construct($params) {
 		// Register sftp://
 		Stream::register();
 
-		$this->host = $params['host'];
+		$parsedHost =  $this->splitHost($params['host']);
 
-		//deals with sftp://server example
-		$proto = strpos($this->host, '://');
-		if ($proto != false) {
-			$this->host = substr($this->host, $proto+3);
-		}
-
-		//deals with server:port
-		$hasPort = strpos($this->host,':');
-		if($hasPort != false) {
-			$pieces = explode(":", $this->host);
-			$this->host = $pieces[0];
-			$this->port = $pieces[1];
-		}
+		$this->host = $parsedHost[0];
+		$this->port = $parsedHost[1];
 
 		$this->user = $params['user'];
 
@@ -185,7 +195,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @return bool|string
+	 * @return string|false
 	 */
 	private function hostKeysPath() {
 		try {

@@ -33,6 +33,7 @@ OC.L10N.register(
     "Every time the filesystem is used" : "ทุกครั้งที่แฟ้มระบบถูกใช้งาน",
     "All users. Type to select user or group." : "ผู้ใช้ทุกคน พิมพ์เพื่อเลือกผู้ใช้หรือกลุ่ม",
     "(group)" : "(กลุ่ม)",
+    "Admin defined" : "ถูกกำหนดโดยผู้ดูแลระบบ",
     "Saved" : "บันทึกแล้ว",
     "Access key" : "คีย์การเข้าถึง",
     "Secret key" : "คีย์ลับ",
@@ -99,9 +100,9 @@ OC.L10N.register(
     "Authentication" : "รับรองความถูกต้อง",
     "Configuration" : "การกำหนดค่า",
     "Available for" : "สามารถใช้ได้สำหรับ",
+    "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Delete" : "ลบ",
-    "Add storage" : "เพิ่มพื้นที่จัดเก็บข้อมูล",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
     "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้"
 },

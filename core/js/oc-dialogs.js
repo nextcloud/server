@@ -759,7 +759,7 @@ var OCdialogs = {
 					filename: entry.name,
 					date: OC.Util.relativeModifiedDate(entry.mtime)
 				});
-				if (entry.isPreviewAvailable) {
+				if (entry.type === 'file') {
 					var urlSpec = {
 						file: dir + '/' + entry.name
 					};

@@ -31,6 +31,7 @@ use \OCA\Files_external\NotFoundException;
 use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use \OCP\Files\StorageNotAvailableException;
 
 /**
  * Service class to manage external storages
@@ -221,17 +222,26 @@ abstract class StoragesService {
 						$currentStorage->setMountPoint($relativeMountPath);
 					}
 
-					$this->populateStorageConfigWithLegacyOptions(
-						$currentStorage,
-						$mountType,
-						$applicable,
-						$storageOptions
-					);
+					try {
+						$this->populateStorageConfigWithLegacyOptions(
+								$currentStorage,
+								$mountType,
+								$applicable,
+								$storageOptions
+						);
 
-					if ($hasId) {
-						$storages[$configId] = $currentStorage;
-					} else {
-						$storagesWithConfigHash[$configId] = $currentStorage;
+						if ($hasId) {
+							$storages[$configId] = $currentStorage;
+						} else {
+							$storagesWithConfigHash[$configId] = $currentStorage;
+						}
+					} catch (\UnexpectedValueException $e) {
+						// dont die if a storage backend doesn't exist
+						\OCP\Util::writeLog(
+								'files_external',
+								'Could not load storage: "' . $e->getMessage() . '"',
+								\OCP\Util::ERROR
+						);
 					}
 				}
 			}
@@ -402,7 +412,7 @@ abstract class StoragesService {
 
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 
-		$newStorage->setStatus(\OC_Mount_Config::STATUS_SUCCESS);
+		$newStorage->setStatus(StorageNotAvailableException::STATUS_SUCCESS);
 		return $newStorage;
 	}
 

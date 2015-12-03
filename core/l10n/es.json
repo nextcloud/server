@@ -261,7 +261,6 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte con su administrador de sistemas si este mensaje persiste o aparece de forma inesperada.",
     "Thank you for your patience." : "Gracias por su paciencia.",
     "You are accessing the server from an untrusted domain." : "Está accediendo al servidor desde un dominio inseguro.",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Contacte con su administrador. Si usted es el administrador, configure \"trusted_domain\" en config/config.php. En config/config.sample.php se encuentra un ejemplo para la configuración.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Dependiendo de su configuración, como administrador, debería poder usar el botón de abajo para confiar en este dominio.",
     "Add \"%s\" as trusted domain" : "Agregar \"%s\" como dominio de confianza",
     "App update required" : "Es necesaria una actualización en la aplicación",

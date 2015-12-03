@@ -68,7 +68,6 @@
     "Please ask your server administrator to restart the web server." : "Bonvolu peti viajn serviladministranton, ke ŝi/li reekfunkciigu la TTT-servilon.",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 necesas",
     "Please upgrade your database version" : "Bonvolu ĝisdatigi la eldonon de via datumbazo",
-    "Error occurred while checking PostgreSQL version" : "Eraro okazis dum kontrolo de eldono de PostgreSQL",
     "Data directory (%s) is readable by other users" : "Dosierujo de datumoj (%s) legeblas de aliaj uzantoj",
     "Data directory (%s) must be an absolute path" : "Dosierujo de datumoj (%s) devas specifiĝi per absoluta vojo",
     "Data directory (%s) is invalid" : "Dosierujo de datumoj (%s) ne validas"

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Không thể khôi phục %s",
     "Deleted files" : "File đã bị xóa",
     "Restore" : "Khôi phục",
+    "Delete" : "Xóa",
     "Delete permanently" : "Xóa vĩnh vễn",
     "Error" : "Lỗi",
     "restored" : "khôi phục",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "No entries found in this folder" : "Chưa có mục nào trong thư mục",
     "Select all" : "Chọn tất cả",
     "Name" : "Tên",
-    "Deleted" : "Đã xóa",
-    "Delete" : "Xóa"
+    "Deleted" : "Đã xóa"
 },
 "nplurals=1; plural=0;");

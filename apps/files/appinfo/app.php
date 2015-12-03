@@ -25,12 +25,14 @@
  */
 \OCP\App::registerAdmin('files', 'admin');
 
+
 \OC::$server->getNavigationManager()->add(function () {
+	$urlGenerator = \OC::$server->getURLGenerator();
 	$l = \OC::$server->getL10N('files');
 	return [
 		'id' => 'files_index',
 		'order' => 0,
-		'href' => \OCP\Util::linkTo('files', 'index.php'),
+		'href' => $urlGenerator->linkToRoute('files.view.index'),
 		'icon' => \OCP\Util::imagePath('core', 'places/files.svg'),
 		'name' => $l->t('Files'),
 	];
@@ -63,6 +65,7 @@ $templateManager->registerTemplate('application/vnd.oasis.opendocument.spreadshe
 		new \OCA\Files\ActivityHelper(
 			\OC::$server->getTagManager()
 		),
+		\OC::$server->getDatabaseConnection(),
 		\OC::$server->getConfig()
 	);
 });

@@ -134,7 +134,6 @@ OC.L10N.register(
     "Store credentials" : "Zapisz poświadczenia",
     "Test email settings" : "Ustawienia testowej wiadomości",
     "Send email" : "Wyślij email",
-    "Log level" : "Poziom logów",
     "Download logfile" : "Pobierz plik log",
     "More" : "Więcej",
     "Less" : "Mniej",

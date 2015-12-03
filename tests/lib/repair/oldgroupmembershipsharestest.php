@@ -11,6 +11,13 @@ namespace Test\Repair;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Share\Constants;
 
+/**
+ * Class OldGroupMembershipSharesTest
+ *
+ * @group DB
+ *
+ * @package Test\Repair
+ */
 class OldGroupMembershipSharesTest extends \Test\TestCase {
 
 	/** @var OldGroupMembershipShares */
@@ -72,7 +79,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 			->orderBy('id', 'ASC')
 			->execute();
 		$rows = $result->fetchAll();
-		$this->assertSame([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member], ['id' => $notAMember]], $rows);
+		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member], ['id' => $notAMember]], $rows);
 		$result->closeCursor();
 
 		$repair->run();
@@ -83,7 +90,7 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 			->orderBy('id', 'ASC')
 			->execute();
 		$rows = $result->fetchAll();
-		$this->assertSame([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member]], $rows);
+		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member]], $rows);
 		$result->closeCursor();
 	}
 
@@ -118,21 +125,6 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 			->values($shareValues)
 			->execute();
 
-		return $this->getLastShareId();
-	}
-
-	/**
-	 * @return int
-	 */
-	protected function getLastShareId() {
-		// select because lastInsertId does not work with OCI
-		$query = $this->connection->getQueryBuilder();
-		$result = $query->select('id')
-			->from('share')
-			->orderBy('id', 'DESC')
-			->execute();
-		$row = $result->fetch();
-		$result->closeCursor();
-		return $row['id'];
+		return $this->connection->lastInsertId('*PREFIX*share');
 	}
 }

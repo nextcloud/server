@@ -33,6 +33,7 @@ OC.L10N.register(
     "Every time the filesystem is used" : "Chaque fois que le système de fichiers est utilisé",
     "All users. Type to select user or group." : "Tous les utilisateurs. Cliquez ici pour restreindre.",
     "(group)" : "(groupe)",
+    "Admin defined" : "Défini par l'administrateur",
     "Saved" : "Sauvegardé",
     "Access key" : "Clé d'accès",
     "Secret key" : "Clé secrète",
@@ -99,9 +100,9 @@ OC.L10N.register(
     "Authentication" : "Authentification",
     "Configuration" : "Configuration",
     "Available for" : "Disponible pour",
+    "Add storage" : "Ajouter un support de stockage",
     "Advanced settings" : "Paramètres avancés",
     "Delete" : "Supprimer",
-    "Add storage" : "Ajouter un support de stockage",
     "Allow users to mount external storage" : "Autoriser les utilisateurs à monter des espaces de stockage externes",
     "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"
 },

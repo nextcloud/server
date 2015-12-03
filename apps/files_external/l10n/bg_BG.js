@@ -59,9 +59,9 @@ OC.L10N.register(
     "Folder name" : "Име на папката",
     "Configuration" : "Настройки",
     "Available for" : "Достъпно за",
+    "Add storage" : "Добави дисково пространство",
     "Advanced settings" : "Разширени настройки",
     "Delete" : "Изтрий",
-    "Add storage" : "Добави дисково пространство",
     "Allow users to mount the following external storage" : "Разреши на потребителите да прикачват следното външно дисково пространство"
 },
 "nplurals=2; plural=(n != 1);");

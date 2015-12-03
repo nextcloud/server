@@ -29,7 +29,7 @@ script(
 	</li>
 {{/each}}
 
-<?php if(OC_Config::getValue('appstoreenabled', true) === true): ?>
+<?php if($_['appstoreEnabled']): ?>
 	<li>
 		<a class="app-external" target="_blank" href="https://owncloud.org/dev"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>

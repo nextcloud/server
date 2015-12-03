@@ -5,11 +5,11 @@ OC.L10N.register(
     "Couldn't restore %s" : "Klarte ikkje gjenoppretta %s",
     "Deleted files" : "Sletta filer",
     "Restore" : "Gjenopprett",
+    "Delete" : "Slett",
     "Delete permanently" : "Slett for godt",
     "Error" : "Feil",
     "restored" : "gjenoppretta",
     "Name" : "Namn",
-    "Deleted" : "Sletta",
-    "Delete" : "Slett"
+    "Deleted" : "Sletta"
 },
 "nplurals=2; plural=(n != 1);");

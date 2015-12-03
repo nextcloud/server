@@ -1,6 +1,4 @@
 { "translations": {
-    "Could not move %s - File with this name already exists" : "%s সরানো যায়নি-এই নামে আগে থেকেই ফাইল আছে",
-    "Could not move %s" : "%s সরানো যায়নি",
     "No file was uploaded. Unknown error" : "কোন ফাইল আপলোড করা হয় নি।অজানা ত্রুটি",
     "There is no error, the file uploaded with success" : "কোন ত্রুটি নেই,ফাইল সাফল্যের সঙ্গে আপলোড করা হয়েছে",
     "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "আপলোড করা ফাইল-php.ini মধ্যে upload_max_filesize নির্দেশ অতিক্রম করে:",
@@ -17,7 +15,6 @@
     "Rename" : "পুনঃনামকরণ",
     "Delete" : "মুছে ফেলা",
     "Pending" : "মুলতুবি",
-    "Error" : "ভুল",
     "Name" : "নাম",
     "Size" : "আকার",
     "Folder" : "ফোল্ডার",

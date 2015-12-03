@@ -26,24 +26,23 @@ class OCSShareWrapper {
 	 * @return Share20OCS
 	 */
 	private function getShare20OCS() {
-		return new Share20OCS(new \OC\Share20\Manager(
-		                   \OC::$server->getUserSession()->getUser(),
-		                   \OC::$server->getUserManager(),
-		                   \OC::$server->getGroupManager(),
-		                   \OC::$server->getLogger(),
-		                   \OC::$server->getAppConfig(),
-		                   \OC::$server->getUserFolder(),
-		                    new \OC\Share20\DefaultShareProvider(
-		                       \OC::$server->getDatabaseConnection(),
-							   \OC::$server->getUserManager(),
-							   \OC::$server->getGroupManager(),
-							   \OC::$server->getUserFolder()
-		                   )
-		               ),
-		               \OC::$server->getGroupManager(),
-		               \OC::$server->getUserManager(),
-		               \OC::$server->getRequest(),
-		               \OC::$server->getUserFolder());
+		return new Share20OCS(
+			new \OC\Share20\Manager(
+				\OC::$server->getLogger(),
+				\OC::$server->getAppConfig(),
+				new \OC\Share20\DefaultShareProvider(
+					\OC::$server->getDatabaseConnection(),
+					\OC::$server->getUserManager(),
+					\OC::$server->getGroupManager(),
+					\OC::$server->getRootFolder()
+				)
+			),
+			\OC::$server->getGroupManager(),
+			\OC::$server->getUserManager(),
+			\OC::$server->getRequest(),
+			\OC::$server->getRootFolder(),
+			\OC::$server->getURLGenerator(),
+			\OC::$server->getUserSession()->getUser());
 	}
 
 	public function getAllShares($params) {
@@ -55,7 +54,8 @@ class OCSShareWrapper {
 	}
 
 	public function getShare($params) {
-		return \OCA\Files_Sharing\API\Local::getShare($params);
+		$id = $params['id'];
+		return $this->getShare20OCS()->getShare($id);
 	}
 
 	public function updateShare($params) {
@@ -63,7 +63,7 @@ class OCSShareWrapper {
 	}
 
 	public function deleteShare($params) {
-		$id = (int)$params['id'];
+		$id = $params['id'];
 		return $this->getShare20OCS()->deleteShare($id);
 	}
 }

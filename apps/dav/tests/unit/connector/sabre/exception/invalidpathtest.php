@@ -1,15 +1,15 @@
 <?php
-
-namespace OCA\DAV\Tests\Unit\Connector\Sabre\Exception;
-
-use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
-
 /**
  * Copyright (c) 2015 Thomas Müller <deepdiver@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
+
+namespace OCA\DAV\Tests\Unit\Connector\Sabre\Exception;
+
+use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+
 class InvalidPathTest extends \Test\TestCase {
 
 	public function testSerialization() {

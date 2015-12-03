@@ -24,7 +24,6 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Tidak dapat mendeteksi Base DN, mohon masukkan secara manual.",
     "{nthServer}. Server" : "{nthServer}. Server",
     "No object found in the given Base DN. Please revise." : "Tidak ada obyek ditemukan di Base DN yang diberikan. Mohon diperiksa kembali.",
-    "More than 1.000 directory entries available." : "Lebih dari 1.000 entri direktori yang tersedia.",
     " entries available within the provided Base DN" : "entri tersedia didalam Base DN yang diberikan",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Terjadi kesalahan. Silakan periksa Base DN, serta pengaturan sambungan dan kredensial.",
     "Do you really want to delete the current Server Configuration?" : "Apakan Anda ingin menghapus Konfigurasi Server saat ini?",

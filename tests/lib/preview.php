@@ -28,6 +28,13 @@ use OC\Files\View;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
+/**
+ * Class Preview
+ *
+ * @group DB
+ *
+ * @package Test
+ */
 class Preview extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;

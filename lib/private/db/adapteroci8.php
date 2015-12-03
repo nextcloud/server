@@ -26,6 +26,9 @@ namespace OC\DB;
 
 class AdapterOCI8 extends Adapter {
 	public function lastInsertId($table) {
+		if (is_null($table)) {
+			throw new \InvalidArgumentException('Oracle requires a table name to be passed into lastInsertId()');
+		}
 		if ($table !== null) {
 			$suffix = '_SEQ';
 			$table = '"' . $table . $suffix . '"';

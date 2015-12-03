@@ -43,6 +43,13 @@ class DummyUser extends \OC\User\User {
 	}
 }
 
+/**
+ * Class HomeCache
+ *
+ * @group DB
+ *
+ * @package Test\Files\Cache
+ */
 class HomeCache extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Home $storage

@@ -130,6 +130,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getQueryLogger();
 		});
 
+		$this->registerService('OCP\\Files\\IMimeTypeDetector', function($c) {
+			return $this->getServer()->getMimeTypeDetector();
+		});
+
 		$this->registerService('OCP\\Files\\Config\\IMountProviderCollection', function($c) {
 			return $this->getServer()->getMountProviderCollection();
 		});
@@ -206,6 +210,14 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getSecureRandom();
 		});
 
+		$this->registerService('OCP\\SystemTag\\ISystemTagManager', function() {
+			return $this->getServer()->getSystemTagManager();
+		});
+
+		$this->registerService('OCP\\SystemTag\\ISystemTagObjectMapper', function() {
+			return $this->getServer()->getSystemTagObjectMapper();
+		});
+
 		$this->registerService('OCP\\IURLGenerator', function($c) {
 			return $this->getServer()->getURLGenerator();
 		});
@@ -224,6 +236,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('ServerContainer', function ($c) {
 			return $this->getServer();
+		});
+		$this->registerAlias('OCP\\IServerContainer', 'ServerContainer');
+
+		$this->registerService('Symfony\Component\EventDispatcher\EventDispatcherInterface', function ($c) {
+			return $this->getServer()->getEventDispatcher();
 		});
 
 		$this->registerService('OCP\\AppFramework\\IAppContainer', function ($c) {

@@ -183,7 +183,7 @@ class OC_Group {
 	 *
 	 * This function fetches all groups a user belongs to. It does not check
 	 * if the user exists at all.
-	 * @deprecated Use \OC::$server->getGroupManager->getuserGroupIds($user)
+	 * @deprecated Use \OC::$server->getGroupManager->getUserGroupIds($user)
 	 */
 	public static function getUserGroups($uid) {
 		$user = self::getUserManager()->get($uid);

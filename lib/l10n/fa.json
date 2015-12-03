@@ -68,7 +68,6 @@
     "PHP module %s not installed." : "ماژول PHP %s نصب نشده است.",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است",
     "Please upgrade your database version" : "لطفا نسخه‌ی پایگاه‌داده‌ی خود را بروز کنید",
-    "Error occurred while checking PostgreSQL version" : "خطا در هنگام بررسی نسخه‌ی PostgreSQL",
     "Storage not available" : "فضای ذخیره سازی موجود نیست"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

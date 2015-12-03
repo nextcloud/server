@@ -24,6 +24,8 @@
 
 /**
  * Tests for the external Storage class for remote shares.
+ *
+ * @group DB
  */
 class Test_Files_Sharing_External_Storage extends \Test\TestCase {
 

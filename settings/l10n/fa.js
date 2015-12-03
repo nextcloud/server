@@ -144,7 +144,6 @@ OC.L10N.register(
     "SMTP Password" : "رمز عبور SMTP",
     "Test email settings" : "تنظیمات ایمیل آزمایشی",
     "Send email" : "ارسال ایمیل",
-    "Log level" : "سطح ورود",
     "Download logfile" : "دانلود فایل لاگ",
     "More" : "بیش‌تر",
     "Less" : "کم‌تر",

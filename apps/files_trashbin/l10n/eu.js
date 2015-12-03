@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Ezin izan da %s berreskuratu",
     "Deleted files" : "Ezabatutako fitxategiak",
     "Restore" : "Berrezarri",
+    "Delete" : "Ezabatu",
     "Delete permanently" : "Ezabatu betirako",
     "Error" : "Errorea",
     "restored" : "Berrezarrita",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",
     "Select all" : "Hautatu dena",
     "Name" : "Izena",
-    "Deleted" : "Ezabatuta",
-    "Delete" : "Ezabatu"
+    "Deleted" : "Ezabatuta"
 },
 "nplurals=2; plural=(n != 1);");

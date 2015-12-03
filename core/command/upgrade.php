@@ -53,6 +53,7 @@ class Upgrade extends Command {
 
 	/**
 	 * @param IConfig $config
+	 * @param ILogger $logger
 	 */
 	public function __construct(IConfig $config, ILogger $logger) {
 		parent::__construct();
@@ -122,9 +123,12 @@ class Upgrade extends Command {
 			}
 
 			$self = $this;
-			$updater = new Updater(\OC::$server->getHTTPHelper(),
-				$this->config,
-				$this->logger);
+			$updater = new Updater(
+					\OC::$server->getHTTPHelper(),
+					$this->config,
+					\OC::$server->getIntegrityCodeChecker(),
+					$this->logger
+			);
 
 			$updater->setSimulateStepEnabled($simulateStepEnabled);
 			$updater->setUpdateStepEnabled($updateStepEnabled);

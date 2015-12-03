@@ -25,6 +25,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class AmazonS3
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class AmazonS3 extends Storage {
 
 	private $config;

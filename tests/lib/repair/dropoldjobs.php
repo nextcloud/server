@@ -13,6 +13,8 @@ use OCP\BackgroundJob\IJobList;
 /**
  * Tests for the dropping old tables
  *
+ * @group DB
+ *
  * @see \OC\Repair\DropOldTables
  */
 class DropOldJobs extends \Test\TestCase {

@@ -32,7 +32,6 @@ OC.L10N.register(
     "Port" : "連接埠",
     "SMTP Username" : "SMTP 使用者名稱",
     "SMTP Password" : "SMTP 密碼",
-    "Log level" : "日誌等級",
     "More" : "更多",
     "Version" : "版本",
     "Forum" : "討論區",

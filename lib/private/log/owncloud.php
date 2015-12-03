@@ -66,13 +66,16 @@ class OC_Log_Owncloud {
 
 		// default to ISO8601
 		$format = $config->getValue('logdateformat', 'c');
-		$logtimezone = $config->getValue( "logtimezone", 'UTC' );
+		$logTimeZone = $config->getValue( "logtimezone", 'UTC' );
 		try {
-			$timezone = new DateTimeZone($logtimezone);
+			$timezone = new DateTimeZone($logTimeZone);
 		} catch (Exception $e) {
 			$timezone = new DateTimeZone('UTC');
 		}
-		$time = new DateTime(null, $timezone);
+		$time = DateTime::createFromFormat("U.u", microtime(true), $timezone);
+		if ($time === false) {
+			$time = new DateTime(null, $timezone);
+		}
 		$request = \OC::$server->getRequest();
 		$reqId = $request->getId();
 		$remoteAddr = $request->getRemoteAddress();

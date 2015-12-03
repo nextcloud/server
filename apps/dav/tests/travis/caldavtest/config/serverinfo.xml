@@ -180,7 +180,7 @@
 		<!-- relative path to main principal collection-->
 		<substitution>
 			<key>$principalcollection:</key>
-			<value>$root:principals/</value>
+			<value>$root:principals/users/</value>
 		</substitution>
 
 		<!-- the core recored type collections-->
@@ -569,7 +569,7 @@
 			<!-- relative path to user addressbook home-->
 			<substitution>
 				<key>$addressbookhome%d:</key>
-				<value>$addressbooks_uids:$userguid%d:</value>
+				<value>$addressbooks:users/$userid%d:</value>
 			</substitution>
 			<!-- relative path to user addressbook-->
 			<substitution>

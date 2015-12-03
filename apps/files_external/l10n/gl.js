@@ -67,9 +67,9 @@ OC.L10N.register(
     "Folder name" : "Nome do cartafol",
     "Configuration" : "Configuración",
     "Available for" : "Dispoñíbel para",
+    "Add storage" : "Engadir almacenamento",
     "Advanced settings" : "Axustes avanzados",
     "Delete" : "Eliminar",
-    "Add storage" : "Engadir almacenamento",
     "Allow users to mount the following external storage" : "Permitirlle aos usuarios montar o seguinte almacenamento externo"
 },
 "nplurals=2; plural=(n != 1);");

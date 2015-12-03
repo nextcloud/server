@@ -26,8 +26,12 @@
 namespace OC\Settings\Controller;
 
 use GuzzleHttp\Exception\ClientException;
+use OC\AppFramework\Http;
+use OC\IntegrityCheck\Checker;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -49,6 +53,8 @@ class CheckSetupController extends Controller {
 	private $urlGenerator;
 	/** @var IL10N */
 	private $l10n;
+	/** @var Checker */
+	private $checker;
 
 	/**
 	 * @param string $AppName
@@ -58,6 +64,7 @@ class CheckSetupController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 * @param \OC_Util $util
 	 * @param IL10N $l10n
+	 * @param Checker $checker
 	 */
 	public function __construct($AppName,
 								IRequest $request,
@@ -65,13 +72,15 @@ class CheckSetupController extends Controller {
 								IClientService $clientService,
 								IURLGenerator $urlGenerator,
 								\OC_Util $util,
-								IL10N $l10n) {
+								IL10N $l10n,
+								Checker $checker) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
 		$this->util = $util;
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
+		$this->checker = $checker;
 	}
 
 	/**
@@ -248,6 +257,72 @@ class CheckSetupController extends Controller {
 	}
 
 	/**
+	 * @return RedirectResponse
+	 */
+	public function rescanFailedIntegrityCheck() {
+		$this->checker->runInstanceVerification();
+		return new RedirectResponse(
+			$this->urlGenerator->linkToRoute('settings_admin')
+		);
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @return DataResponse
+	 */
+	public function getFailedIntegrityCheckFiles() {
+		$completeResults = $this->checker->getResults();
+
+		if(!empty($completeResults)) {
+			$formattedTextResponse = 'Technical information
+=====================
+The following list covers which files have failed the integrity check. Please read
+the previous linked documentation to learn more about the errors and how to fix
+them.
+
+Results
+=======
+';
+			foreach($completeResults as $context => $contextResult) {
+				$formattedTextResponse .= "- $context\n";
+
+				foreach($contextResult as $category => $result) {
+					$formattedTextResponse .= "\t- $category\n";
+					if($category !== 'EXCEPTION') {
+						foreach ($result as $key => $results) {
+							$formattedTextResponse .= "\t\t- $key\n";
+						}
+					} else {
+						foreach ($result as $key => $results) {
+							$formattedTextResponse .= "\t\t- $results\n";
+						}
+					}
+
+				}
+			}
+
+			$formattedTextResponse .= '
+Raw output
+==========
+';
+			$formattedTextResponse .= print_r($completeResults, true);
+		} else {
+			$formattedTextResponse = 'No errors have been found.';
+		}
+
+
+		$response = new DataDisplayResponse(
+			$formattedTextResponse,
+			Http::STATUS_OK,
+			[
+				'Content-Type' => 'text/plain',
+			]
+		);
+
+		return $response;
+	}
+
+	/**
 	 * @return DataResponse
 	 */
 	public function check() {
@@ -263,7 +338,9 @@ class CheckSetupController extends Controller {
 				'phpSupported' => $this->isPhpSupported(),
 				'forwardedForHeadersWorking' => $this->forwardedForHeadersWorking(),
 				'reverseProxyDocs' => $this->urlGenerator->linkToDocs('admin-reverse-proxy'),
-				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled()
+				'isCorrectMemcachedPHPModuleInstalled' => $this->isCorrectMemcachedPHPModuleInstalled(),
+				'hasPassedCodeIntegrityCheck' => $this->checker->hasPassedCheck(),
+				'codeIntegrityCheckerDocumentation' => $this->urlGenerator->linkToDocs('admin-code-integrity'),
 			]
 		);
 	}

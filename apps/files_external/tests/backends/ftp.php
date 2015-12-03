@@ -26,6 +26,13 @@
 
 namespace Test\Files\Storage;
 
+/**
+ * Class FTP
+ *
+ * @group DB
+ *
+ * @package Test\Files\Storage
+ */
 class FTP extends Storage {
 	private $config;
 

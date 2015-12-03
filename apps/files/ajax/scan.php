@@ -47,9 +47,8 @@ $listener = new ScanListener($eventSource);
 
 foreach ($users as $user) {
 	$eventSource->send('user', $user);
-	$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection());
+	$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 	$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', array($listener, 'file'));
-	$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', array($listener, 'folder'));
 	try {
 		if ($force) {
 			$scanner->scan($dir);
@@ -79,13 +78,6 @@ class ScanListener {
 	 */
 	public function __construct($eventSource) {
 		$this->eventSource = $eventSource;
-	}
-
-	/**
-	 * @param string $path
-	 */
-	public function folder($path) {
-		$this->eventSource->send('folder', $path);
 	}
 
 	public function file() {

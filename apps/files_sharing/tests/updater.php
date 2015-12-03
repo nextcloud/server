@@ -25,6 +25,8 @@
 
 /**
  * Class Test_Files_Sharing_Updater
+ *
+ * @group DB
  */
 class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
 

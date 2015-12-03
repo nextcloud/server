@@ -4,9 +4,6 @@ OC.L10N.register(
     "Storage not available" : "ບໍ່ມີພື້ນທີ່ເກັບຂໍ້ມູນ",
     "Storage invalid" : "ພື້ນທີ່ເກັບຂໍ້ມູນບໍ່ຖືກຕ້ອງ",
     "Unknown error" : "ຂໍ້ຜິດພາດທີ່ບໍ່ຮູ້ສາເຫດ",
-    "Could not move %s - File with this name already exists" : "ບໍ່ສາມາດຍ້າຍໄຟລ໌ %s ນີ້ໄດ້ - ຊື່ໄຟລ໌ນີ້ຖືກນຳໃຊ້ແລ້ວ",
-    "Could not move %s" : "ບໍ່ສາມາດຍ້າຍ %s ໄດ້",
-    "Permission denied" : "ບໍ່ທີສິດໃນການເຂົ້າເຖິງ",
     "The target folder has been moved or deleted." : "ໂຟນເດີທີ່ທ່ານເລືອກໄດ້ຖືກຍ້າຍ ຫຼື ລຶບອອກແລ້ວ"
 },
 "nplurals=1; plural=0;");

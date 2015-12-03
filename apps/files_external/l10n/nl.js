@@ -33,6 +33,7 @@ OC.L10N.register(
     "Every time the filesystem is used" : "Elke keer bij gebruik bestandssysteem",
     "All users. Type to select user or group." : "Alle gebruikers. Tikken om een gebruiker of groep te selecteren.",
     "(group)" : "(groep)",
+    "Admin defined" : "Beheerder gedefinieerd",
     "Saved" : "Bewaard",
     "Access key" : "Access Key",
     "Secret key" : "Geheime sleutel",
@@ -99,9 +100,9 @@ OC.L10N.register(
     "Authentication" : "Authenticatie",
     "Configuration" : "Configuratie",
     "Available for" : "Beschikbaar voor",
+    "Add storage" : "Toevoegen opslag",
     "Advanced settings" : "Geavanceerde instellingen",
     "Delete" : "Verwijder",
-    "Add storage" : "Toevoegen opslag",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
     "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen"
 },

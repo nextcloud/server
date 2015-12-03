@@ -21,6 +21,13 @@
 
 namespace Test\Preview;
 
+/**
+ * Class Bitmap
+ *
+ * @group DB
+ *
+ * @package Test\Preview
+ */
 class Bitmap extends Provider {
 
 	public function setUp() {

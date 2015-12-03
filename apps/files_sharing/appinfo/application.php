@@ -27,8 +27,6 @@ namespace OCA\Files_Sharing\AppInfo;
 
 use OCA\Files_Sharing\Helper;
 use OCA\Files_Sharing\MountProvider;
-use OCA\Files_Sharing\Propagation\PropagationManager;
-use OCA\Files_Sharing\Propagation\GroupPropagationManager;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files_Sharing\Controllers\ExternalSharesController;
@@ -116,8 +114,7 @@ class Application extends App {
 			/** @var \OCP\IServerContainer $server */
 			$server = $c->query('ServerContainer');
 			return new MountProvider(
-				$server->getConfig(),
-				$c->query('PropagationManager')
+				$server->getConfig()
 			);
 		});
 
@@ -129,25 +126,6 @@ class Application extends App {
 				function() use ($c) {
 					return $c->query('ExternalManager');
 				}
-			);
-		});
-
-		$container->registerService('PropagationManager', function (IContainer $c) {
-			/** @var \OCP\IServerContainer $server */
-			$server = $c->query('ServerContainer');
-			return new PropagationManager(
-				$server->getUserSession(),
-				$server->getConfig()
-			);
-		});
-
-		$container->registerService('GroupPropagationManager', function (IContainer $c) {
-			/** @var \OCP\IServerContainer $server */
-			$server = $c->query('ServerContainer');
-			return new GroupPropagationManager(
-				$server->getUserSession(),
-				$server->getGroupManager(),
-				$c->query('PropagationManager')
 			);
 		});
 
@@ -163,12 +141,5 @@ class Application extends App {
 		$mountProviderCollection = $server->getMountProviderCollection();
 		$mountProviderCollection->registerProvider($this->getContainer()->query('MountProvider'));
 		$mountProviderCollection->registerProvider($this->getContainer()->query('ExternalMountProvider'));
-	}
-
-	public function setupPropagation() {
-		$propagationManager = $this->getContainer()->query('PropagationManager');
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', $propagationManager, 'globalSetup');
-
-		$this->getContainer()->query('GroupPropagationManager')->globalSetup();
 	}
 }

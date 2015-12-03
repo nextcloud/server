@@ -233,6 +233,7 @@ class Local {
 					if (\OC::$server->getPreviewManager()->isMimeSupported($share['mimetype'])) {
 						$share['isPreviewAvailable'] = true;
 					}
+					unset($share['path']);
 				}
 			}
 			$result = new \OC_OCS_Result($shares);

@@ -67,9 +67,9 @@ OC.L10N.register(
     "Folder name" : "Nazwa folderu",
     "Configuration" : "Konfiguracja",
     "Available for" : "Dostępne przez",
+    "Add storage" : "Dodaj zasoby dyskowe",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Delete" : "Usuń",
-    "Add storage" : "Dodaj zasoby dyskowe",
     "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

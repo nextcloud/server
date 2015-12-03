@@ -5,15 +5,17 @@ OC.L10N.register(
     "Couldn't restore %s" : "Não foi possível restaurar %s",
     "Deleted files" : "Ficheiros eliminados",
     "Restore" : "Restaurar",
+    "Delete" : "Eliminar",
     "Delete permanently" : "Eliminar permanentemente",
     "Error" : "Erro",
+    "This operation is forbidden" : "Esta operação é proibida",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Esta diretoria está indisponível, por favor, verifique os registos ou contacte o administrador",
     "restored" : "Restaurado",
     "No deleted files" : "Sem ficheiros eliminados",
     "You will be able to recover deleted files from here" : "Poderá recuperar ficheiros apagados aqui",
     "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
     "Select all" : "Seleccionar todos",
     "Name" : "Nome",
-    "Deleted" : "Eliminado",
-    "Delete" : "Eliminar"
+    "Deleted" : "Eliminado"
 },
 "nplurals=2; plural=(n != 1);");

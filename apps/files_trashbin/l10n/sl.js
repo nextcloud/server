@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Ni mogoče obnoviti %s",
     "Deleted files" : "Izbrisane datoteke",
     "Restore" : "Obnovi",
+    "Delete" : "Izbriši",
     "Delete permanently" : "Izbriši dokončno",
     "Error" : "Napaka",
     "restored" : "obnovljeno",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
     "Select all" : "izberi vse",
     "Name" : "Ime",
-    "Deleted" : "Izbrisano",
-    "Delete" : "Izbriši"
+    "Deleted" : "Izbrisano"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

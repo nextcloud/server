@@ -31,6 +31,7 @@
     "Every time the filesystem is used" : "Sa herë që përdoret sistemi i kartelave",
     "All users. Type to select user or group." : "Krejt përdoruesit. Shtypni që të përzgjidhet përdorues ose grup.",
     "(group)" : "(grup)",
+    "Admin defined" : "Përcaktuar nga përgjegjësi",
     "Saved" : "U ruajt",
     "Access key" : "Kyç hyrjesh",
     "Secret key" : "Kyç i fshehtë",
@@ -45,6 +46,7 @@
     "OpenStack" : "OpenStack",
     "Username" : "Emër përdoruesi",
     "Password" : "Fjalëkalim",
+    "Tenant name" : "Emër qiraxhiu",
     "Rackspace" : "Rackspace",
     "API key" : "Kyç API",
     "Username and password" : "Emër përdoruesi dhe fjalëkalim",
@@ -95,9 +97,9 @@
     "Authentication" : "Mirëfilltësim",
     "Configuration" : "Formësim",
     "Available for" : "E gatshme për",
+    "Add storage" : "Shtoni depozitë",
     "Advanced settings" : "Rregullime të mëtejshme",
     "Delete" : "Fshije",
-    "Add storage" : "Shtoni depozitë",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
     "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

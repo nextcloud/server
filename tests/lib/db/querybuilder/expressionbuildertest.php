@@ -24,6 +24,13 @@ namespace Test\DB\QueryBuilder;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder;
 
+/**
+ * Class ExpressionBuilderTest
+ *
+ * @group DB
+ *
+ * @package Test\DB\QueryBuilder
+ */
 class ExpressionBuilderTest extends \Test\TestCase {
 	/** @var ExpressionBuilder */
 	protected $expressionBuilder;

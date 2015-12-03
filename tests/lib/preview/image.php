@@ -21,6 +21,13 @@
 
 namespace Test\Preview;
 
+/**
+ * Class Image
+ *
+ * @group DB
+ *
+ * @package Test\Preview
+ */
 class Image extends Provider {
 
 	public function setUp() {

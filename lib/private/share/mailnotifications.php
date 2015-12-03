@@ -28,11 +28,12 @@
 namespace OC\Share;
 
 use DateTime;
-use OCP\IConfig;
 use OCP\IL10N;
+use OCP\IUser;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
 use OCP\Defaults;
+use OCP\Util;
 
 /**
  * Class MailNotifications
@@ -41,16 +42,14 @@ use OCP\Defaults;
  */
 class MailNotifications {
 
-	/** @var string sender userId */
-	private $userId;
+	/** @var IUser sender userId */
+	private $user;
 	/** @var string sender email address */
 	private $replyTo;
 	/** @var string */
 	private $senderDisplayName;
 	/** @var IL10N */
 	private $l;
-	/** @var IConfig */
-	private $config;
 	/** @var IMailer */
 	private $mailer;
 	/** @var Defaults */
@@ -59,34 +58,31 @@ class MailNotifications {
 	private $logger;
 
 	/**
-	 * @param string $uid user id
-	 * @param IConfig $config
+	 * @param IUser $user
 	 * @param IL10N $l10n
 	 * @param IMailer $mailer
 	 * @param ILogger $logger
 	 * @param Defaults $defaults
 	 */
-	public function __construct($uid,
-								IConfig $config,
+	public function __construct(IUser $user,
 								IL10N $l10n,
 								IMailer $mailer,
 								ILogger $logger,
 								Defaults $defaults) {
 		$this->l = $l10n;
-		$this->userId = $uid;
-		$this->config = $config;
+		$this->user = $user;
 		$this->mailer = $mailer;
 		$this->logger = $logger;
 		$this->defaults = $defaults;
 
-		$this->replyTo = $this->config->getUserValue($this->userId, 'settings', 'email', null);
-		$this->senderDisplayName = \OCP\User::getDisplayName($this->userId);
+		$this->replyTo = $this->user->getEMailAddress();
+		$this->senderDisplayName = $this->user->getDisplayName();
 	}
 
 	/**
 	 * inform users if a file was shared with them
 	 *
-	 * @param array $recipientList list of recipients
+	 * @param IUser[] $recipientList list of recipients
 	 * @param string $itemSource shared item source
 	 * @param string $itemType shared item type
 	 * @return array list of user to whom the mail send operation failed
@@ -95,15 +91,15 @@ class MailNotifications {
 		$noMail = [];
 
 		foreach ($recipientList as $recipient) {
-			$recipientDisplayName = \OCP\User::getDisplayName($recipient);
-			$to = $this->config->getUserValue($recipient, 'settings', 'email', '');
+			$recipientDisplayName = $recipient->getDisplayName();
+			$to = $recipient->getEMailAddress();
 
 			if ($to === '') {
 				$noMail[] = $recipientDisplayName;
 				continue;
 			}
 
-			$items = \OCP\Share::getItemSharedWithUser($itemType, $itemSource, $recipient);
+			$items = $this->getItemSharedWithUser($itemSource, $itemType, $recipient);
 			$filename = trim($items[0]['file_target'], '/');
 			$subject = (string) $this->l->t('%s shared »%s« with you', array($this->senderDisplayName, $filename));
 			$expiration = null;
@@ -134,7 +130,7 @@ class MailNotifications {
 				);
 			}
 
-			$link = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
+			$link = Util::linkToAbsolute('files', 'index.php', $args);
 
 			list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration, 'internal');
 
@@ -146,7 +142,7 @@ class MailNotifications {
 				$message->setHtmlBody($htmlBody);
 				$message->setPlainBody($textBody);
 				$message->setFrom([
-					\OCP\Util::getDefaultEmailAddress('sharing-noreply') =>
+					Util::getDefaultEmailAddress('sharing-noreply') =>
 						(string)$this->l->t('%s via %s', [
 							$this->senderDisplayName,
 							$this->defaults->getName()
@@ -187,7 +183,7 @@ class MailNotifications {
 			$message->setHtmlBody($htmlBody);
 			$message->setPlainBody($textBody);
 			$message->setFrom([
-				\OCP\Util::getDefaultEmailAddress('sharing-noreply') =>
+				Util::getDefaultEmailAddress('sharing-noreply') =>
 					(string)$this->l->t('%s via %s', [
 						$this->senderDisplayName,
 						$this->defaults->getName()
@@ -210,7 +206,7 @@ class MailNotifications {
 	 * @param string $filename the shared file
 	 * @param string $link link to the shared file
 	 * @param int $expiration expiration date (timestamp)
-	 * @param bool $prefix prefix of mail template files
+	 * @param string $prefix prefix of mail template files
 	 * @return array an array of the html mail body and the plain text mail body
 	 */
 	private function createMailBody($filename, $link, $expiration, $prefix = '') {
@@ -231,6 +227,16 @@ class MailNotifications {
 		$plainTextMail = $plainText->fetchPage();
 
 		return [$htmlMail, $plainTextMail];
+	}
+
+	/**
+	 * @param $itemSource
+	 * @param $itemType
+	 * @param IUser $recipient
+	 * @return array
+	 */
+	protected function getItemSharedWithUser($itemSource, $itemType, $recipient) {
+		return Share::getItemSharedWithUser($itemType, $itemSource, $recipient->getUID());
 	}
 
 }

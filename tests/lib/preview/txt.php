@@ -21,6 +21,13 @@
 
 namespace Test\Preview;
 
+/**
+ * Class TXT
+ *
+ * @group DB
+ *
+ * @package Test\Preview
+ */
 class TXT extends Provider {
 
 	public function setUp() {

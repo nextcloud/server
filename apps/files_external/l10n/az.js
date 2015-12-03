@@ -57,9 +57,9 @@ OC.L10N.register(
     "Folder name" : "Qovluq adı",
     "Configuration" : "Konfiqurasiya",
     "Available for" : "Üçün mövcuddur",
+    "Add storage" : "Deponu əlavə et",
     "Advanced settings" : "İrəliləmiş quraşdırmalar",
     "Delete" : "Sil",
-    "Add storage" : "Deponu əlavə et",
     "Allow users to mount the following external storage" : "Göstərilən kənar deponun bərkidilməsi üçün istifadəçilərə izin ver"
 },
 "nplurals=2; plural=(n != 1);");

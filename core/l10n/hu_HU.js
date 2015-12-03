@@ -269,7 +269,7 @@ OC.L10N.register(
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ha ez az üzenet ismételten vagy indokolatlanul megjelenik, akkor keresse a rendszergazda segítségét!",
     "Thank you for your patience." : "Köszönjük a türelmét.",
     "You are accessing the server from an untrusted domain." : "A kiszolgálót nem megbízható tartományból éri el.",
-    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kérjük keresse fel a rendszergazdát! Ha ennek a telepítésnek Ön a rendszergazdája, akkor állítsa be a config/config.php állományban a \"trusted_domain\" paramétert! A config/config.sample.php állományban talál példát a beállításra.",
+    "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kérjük keresse fel a rendszergazdát! Ha ennek a telepítésnek Ön a rendszergazdája, akkor állítsa be a config/config.php állományban a \"trusted_domain\" paramétert! A config/config.sample.php állományban talál példát a beállításra.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "A beállításoktól függően, rendszergazdaként lehetséges, hogy az alábbi gombot is használhatja a tartomány megbízhatóvá tételéhez.",
     "Add \"%s\" as trusted domain" : "Adjuk hozzá \"%s\"-t a megbízható tartományokhoz!",
     "App update required" : "Alkalmazás frissítés szükséges",

@@ -98,9 +98,9 @@ OC.L10N.register(
     "Authentication" : "Otentikasi",
     "Configuration" : "Konfigurasi",
     "Available for" : "Tersedia untuk",
+    "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
     "Delete" : "Hapus",
-    "Add storage" : "Tambahkan penyimpanan",
     "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
 },
 "nplurals=1; plural=0;");

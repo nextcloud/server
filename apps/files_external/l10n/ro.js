@@ -29,8 +29,8 @@ OC.L10N.register(
     "External Storage" : "Stocare externă",
     "Folder name" : "Denumire director",
     "Configuration" : "Configurație",
-    "Delete" : "Șterge",
     "Add storage" : "Adauga stocare",
+    "Delete" : "Șterge",
     "Allow users to mount the following external storage" : "Permite utilizatorilor să monteze următoarea unitate de stocare"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -4,7 +4,7 @@
 <!--[if (gt IE 9)|!(IE)]><!--><html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" ><!--<![endif]-->
 	<head data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>"
 		<?php if ($_['updateAvailable']): ?>
-			data-update-version="<?php print($_['updateVersion']); ?>" data-update-link="<?php print_unescaped($_['updateLink']); ?>"
+			data-update-version="<?php p($_['updateVersion']); ?>" data-update-link="<?php p($_['updateLink']); ?>"
 		<?php endif; ?>
 		>
 		<meta charset="utf-8">

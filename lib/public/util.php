@@ -173,7 +173,11 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function isSharingDisabledForUser() {
-		return \OC_Util::isSharingDisabledForUser();
+		return \OC_Util::isSharingDisabledForUser(
+				\OC::$server->getConfig(),
+				\OC::$server->getGroupManager(),
+				\OC::$server->getUserSession()->getUser()
+		);
 	}
 
 	/**
@@ -357,9 +361,10 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function getDefaultEmailAddress($user_part) {
-		$user_part = \OC_Config::getValue('mail_from_address', $user_part);
+		$config = \OC::$server->getConfig();
+		$user_part = $config->getSystemValue('mail_from_address', $user_part);
 		$host_name = self::getServerHostName();
-		$host_name = \OC_Config::getValue('mail_domain', $host_name);
+		$host_name = $config->getSystemValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
 		$mailer = \OC::$server->getMailer();
@@ -540,7 +545,7 @@ class Util {
 	 * @deprecated 8.2.0 Use substr_replace() instead.
 	 */
 	public static function mb_substr_replace($string, $replacement, $start, $length = null, $encoding = 'UTF-8') {
-		return(\OC_Helper::mb_substr_replace($string, $replacement, $start, $length, $encoding));
+		return substr_replace($string, $replacement, $start, $length);
 	}
 
 	/**
@@ -556,7 +561,7 @@ class Util {
 	 * @deprecated 8.2.0 Use str_replace() instead.
 	 */
 	public static function mb_str_replace($search, $replace, $subject, $encoding = 'UTF-8', &$count = null) {
-		return(\OC_Helper::mb_str_replace($search, $replace, $subject, $encoding, $count));
+		return str_replace($search, $replace, $subject, $count);
 	}
 
 	/**

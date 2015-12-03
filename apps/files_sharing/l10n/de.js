@@ -62,7 +62,7 @@ OC.L10N.register(
     "Password" : "Passwort",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Name" : "Name",
-    "Share time" : "Zeitpunkt der Freigabe",
+    "Share time" : "Freigabezeitpunkt",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",
     "Reasons might be:" : "Gründe könnten sein:",
     "the item was removed" : "Das Element wurde entfernt",

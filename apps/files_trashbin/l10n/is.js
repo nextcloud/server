@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Gat ekki endurheimt %s",
     "Deleted files" : "eyddar skrár",
     "Restore" : "Endurheimta",
+    "Delete" : "Eyða",
     "Delete permanently" : "Eyða varanlega",
     "Error" : "Villa",
     "restored" : "endurheimt",
@@ -13,7 +14,6 @@ OC.L10N.register(
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Select all" : "Velja allt",
     "Name" : "Nafn",
-    "Deleted" : "Eytt",
-    "Delete" : "Eyða"
+    "Deleted" : "Eytt"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
