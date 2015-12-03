@@ -154,7 +154,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 		$statement = $this->replaceTablePrefix($statement);
 		$statement = $this->adapter->fixupStatement($statement);
 
-		if(\OC_Config::getValue( 'log_query', false)) {
+		if(\OC::$server->getSystemConfig()->getValue( 'log_query', false)) {
 			\OCP\Util::writeLog('core', 'DB prepare : '.$statement, \OCP\Util::DEBUG);
 		}
 		return parent::prepare($statement);

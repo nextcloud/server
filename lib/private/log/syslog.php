@@ -35,7 +35,7 @@ class OC_Log_Syslog {
 	 * Init class data
 	 */
 	public static function init() {
-		openlog(OC_Config::getValue("syslog_tag", "ownCloud"), LOG_PID | LOG_CONS, LOG_USER);
+		openlog(\OC::$server->getSystemConfig()->getValue("syslog_tag", "ownCloud"), LOG_PID | LOG_CONS, LOG_USER);
 		// Close at shutdown
 		register_shutdown_function('closelog');
 	}
