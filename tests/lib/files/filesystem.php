@@ -410,10 +410,11 @@ class Filesystem extends \Test\TestCase {
 	public function testMountExternalCacheDir() {
 		$userId = $this->getUniqueID('user_');
 
-		$oldCachePath = \OC_Config::getValue('cache_path', '');
+		$config = \OC::$server->getConfig();
+		$oldCachePath = $config->getSystemValue('cache_path', '');
 		// set cache path to temp dir
 		$cachePath = \OC_Helper::tmpFolder() . '/extcache';
-		\OC_Config::setValue('cache_path', $cachePath);
+		$config->setSystemValue('cache_path', $cachePath);
 
 		\OC_User::createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
@@ -427,7 +428,7 @@ class Filesystem extends \Test\TestCase {
 		$this->assertEquals('', $internalPath);
 		\OC_User::deleteUser($userId);
 
-		\OC_Config::setValue('cache_path', $oldCachePath);
+		$config->setSystemValue('cache_path', $oldCachePath);
 	}
 
 	public function testRegisterMountProviderAfterSetup() {
