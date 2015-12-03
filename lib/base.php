@@ -898,7 +898,7 @@ class OC {
 		// this is needed to prevent "Token expired" messages while login if a session is expired
 		// @see https://github.com/owncloud/core/pull/8443#issuecomment-42425583
 		if(isset($_GET['logout']) && !OC_User::isLoggedIn()) {
-			header("Location: " . OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
+			header("Location: " . \OC::$server->getURLGenerator()->getAbsoluteURL('/'));
 			return;
 		}
 
@@ -914,7 +914,7 @@ class OC {
 				}
 				OC_User::logout();
 				// redirect to webroot and add slash if webroot is empty
-				header("Location: " . OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
+				header("Location: " . \OC::$server->getURLGenerator()->getAbsoluteURL('/'));
 			} else {
 				// Redirect to default application
 				OC_Util::redirectToDefaultPage();
