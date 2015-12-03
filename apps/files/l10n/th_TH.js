@@ -44,6 +44,7 @@ OC.L10N.register(
     "Could not move \"{file}\"" : "ไม่สามารถย้ายไฟล์ \"{file}\"",
     "{newName} already exists" : "{newName} มีอยู่แล้ว",
     "Could not rename \"{fileName}\", it does not exist any more" : "ไม่สามารถเปลี่ยนชื่อไฟล์ \"{fileName}\" ไฟล์นั้นไม่มีอยู่",
+    "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "ชื่อโฟลเดอร์ \"{targetName}\" มีอยู่แล้วใน \"{dir}\" กรุณาใช้ชื่อที่แตกต่างกัน",
     "Could not rename \"{fileName}\"" : "ไม่สามารถเปลี่ยนชื่อไฟล์ \"{fileName}\"",
     "Could not create file \"{file}\"" : "ไม่สามารถสร้างไฟล์ \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "ไม่สามารถสร้างไฟล์ \"{file}\" เพราะมันมีอยู่แล้ว",

@@ -254,7 +254,7 @@ OC.L10N.register(
     "Issued By" : "授权由",
     "Valid until %s" : "有效期至 %s",
     "Import root certificate" : "导入根证书",
-    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "由 {communityopen}ownCloud 社区{linkclose}开发，{githubopen}源代码{linkclose}在 {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr> 许可证{linkclose}下发布。",
+    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "由 {communityopen}ownCloud 社区{linkclose}开发，{githubopen}源代码{linkclose}的发布需遵守 {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr> 许可协议{linkclose}。",
     "Show storage location" : "显示存储位置",
     "Show last log in" : "显示最后登录",
     "Show user backend" : "显示用户后端",
