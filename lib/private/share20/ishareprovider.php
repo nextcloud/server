@@ -62,11 +62,13 @@ interface IShareProvider {
 	 *
 	 * @param IUser $user
 	 * @param int $shareType
+	 * @param \OCP\Files\File|\OCP\Files\Folder $path
+	 * @param bool $reshares
+	 * @param int $limit The maximum number of shares to be returned, -1 for all shares
 	 * @param int $offset
-	 * @param int $limit
 	 * @return Share[]
 	 */
-	public function getShares(IUser $user, $shareType, $offset, $limit);
+	public function getSharesBy(IUser $user, $shareType, $path, $reshares, $limit, $offset);
 
 	/**
 	 * Get share by id
@@ -98,9 +100,11 @@ interface IShareProvider {
 	 *
 	 * @param IUser $user
 	 * @param int $shareType
+	 * @param int $limit The max number of entries returned, -1 for all
+	 * @param int $offset
 	 * @param Share
 	 */
-	public function getSharedWithMe(IUser $user, $shareType = null);
+	public function getSharedWith(IUser $user, $shareType, $limit, $offset);
 
 	/**
 	 * Get a share by token
