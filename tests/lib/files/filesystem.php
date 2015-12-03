@@ -314,7 +314,6 @@ class Filesystem extends \Test\TestCase {
 	 * @expectedException \OC\User\NoUserException
 	 */
 	public function testLocalMountWhenUserDoesNotExist() {
-		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 		$userId = $this->getUniqueID('user_');
 
 		\OC\Files\Filesystem::initMountPoints($userId);
@@ -352,7 +351,7 @@ class Filesystem extends \Test\TestCase {
 		if (getenv('RUN_OBJECTSTORE_TESTS')) {
 			$this->markTestSkipped('legacy storage unrelated to objectstore environments');
 		}
-		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
+		$datadir = \OC::$server->getConfig()->getSystemValue("datadirectory", \OC::$SERVERROOT . "/data");
 		$userId = $this->getUniqueID('user_');
 
 		// insert storage into DB by constructing it
@@ -384,9 +383,10 @@ class Filesystem extends \Test\TestCase {
 	 */
 	public function testMountDefaultCacheDir() {
 		$userId = $this->getUniqueID('user_');
-		$oldCachePath = \OC_Config::getValue('cache_path', '');
+		$config = \OC::$server->getConfig();
+		$oldCachePath = $config->getSystemValue('cache_path', '');
 		// no cache path configured
-		\OC_Config::setValue('cache_path', '');
+		$config->setSystemValue('cache_path', '');
 
 		\OC_User::createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
@@ -400,7 +400,7 @@ class Filesystem extends \Test\TestCase {
 		$this->assertEquals('cache', $internalPath);
 		\OC_User::deleteUser($userId);
 
-		\OC_Config::setValue('cache_path', $oldCachePath);
+		$config->setSystemValue('cache_path', $oldCachePath);
 	}
 
 	/**
