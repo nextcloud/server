@@ -26,4 +26,30 @@ namespace OCP\SystemTag;
  *
  * @since 9.0.0
  */
-class TagNotFoundException extends \RuntimeException {}
+class TagNotFoundException extends \RuntimeException {
+
+	/** @var string[] */
+	protected $tags;
+
+	/**
+	 * TagNotFoundException constructor.
+	 *
+	 * @param string $message
+	 * @param int $code
+	 * @param \Exception $previous
+	 * @param string[] $tags
+	 * @since 9.0.0
+	 */
+	public function __construct($message = '', $code = 0, \Exception $previous = null, array $tags = []) {
+		parent::__construct($message, $code, $previous);
+		$this->tags = $tags;
+	}
+
+	/**
+	 * @return string[]
+	 * @since 9.0.0
+	 */
+	public function getMissingTags() {
+		return $this->tags;
+	}
+}

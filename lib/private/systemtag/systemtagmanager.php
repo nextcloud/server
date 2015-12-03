@@ -94,7 +94,9 @@ class SystemTagManager implements ISystemTagManager {
 		$result->closeCursor();
 
 		if (count($tags) !== count($tagIds)) {
-			throw new TagNotFoundException(json_encode(array_diff($tagIds, array_keys($tags))));
+			throw new TagNotFoundException(
+				'Tag id(s) not found', 0, null, array_diff($tagIds, array_keys($tags))
+			);
 		}
 
 		return $tags;
@@ -218,7 +220,7 @@ class SystemTagManager implements ISystemTagManager {
 		try {
 			if ($query->execute() === 0) {
 				throw new TagNotFoundException(
-					'Tag ("' . $tagName . '", '. $userVisible . ', ' . $userAssignable . ') does not exist'
+					'Tag does not exist', 0, null, [$tagId]
 				);
 			}
 		} catch (UniqueConstraintViolationException $e) {
@@ -238,6 +240,13 @@ class SystemTagManager implements ISystemTagManager {
 			$tagIds = [$tagIds];
 		}
 
+		$tagNotFoundException = null;
+		try {
+			$this->getTagsById($tagIds);
+		} catch (TagNotFoundException $e) {
+			$tagNotFoundException = $e;
+		}
+
 		// delete relationships first
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(SystemTagObjectMapper::RELATION_TABLE)
@@ -248,11 +257,12 @@ class SystemTagManager implements ISystemTagManager {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(self::TAG_TABLE)
 			->where($query->expr()->in('id', $query->createParameter('tagids')))
-			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY);
+			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY)
+			->execute();
 
-		if ($query->execute() === 0) {
+		if ($tagNotFoundException !== null) {
 			throw new TagNotFoundException(
-				'Tag does not exist'
+				'Tag id(s) not found', 0, $tagNotFoundException, $tagNotFoundException->getMissingTags()
 			);
 		}
 	}

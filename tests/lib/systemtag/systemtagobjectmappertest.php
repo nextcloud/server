@@ -62,6 +62,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->pruneTagsTables();
 
 		$this->tagManager = $this->getMockBuilder('OCP\SystemTag\ISystemTagManager')
 			->getMock();
@@ -92,9 +93,14 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->tagMapper->assignTags(1, 'testtype', $this->tag2->getId());
 		$this->tagMapper->assignTags(2, 'testtype', $this->tag1->getId());
 		$this->tagMapper->assignTags(3, 'anothertype', $this->tag1->getId());
-	} 
+	}
 
 	public function tearDown() {
+		$this->pruneTagsTables();
+		parent::tearDown();
+	}
+
+	protected function pruneTagsTables() {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(SystemTagObjectMapper::RELATION_TABLE)->execute();
 		$query->delete(SystemTagManager::TAG_TABLE)->execute();

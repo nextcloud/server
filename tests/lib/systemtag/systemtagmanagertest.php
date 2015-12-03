@@ -40,9 +40,15 @@ class SystemTagManagerTest extends TestCase {
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->tagManager = new SystemTagManager($this->connection);
-	} 
+		$this->pruneTagsTables();
+	}
 
 	public function tearDown() {
+		$this->pruneTagsTables();
+		parent::tearDown();
+	}
+
+	protected function pruneTagsTables() {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete(SystemTagObjectMapper::RELATION_TABLE)->execute();
 		$query->delete(SystemTagManager::TAG_TABLE)->execute();
