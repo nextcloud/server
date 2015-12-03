@@ -401,6 +401,97 @@ class Test_Util extends \Test\TestCase {
 			$this->assertNotEmpty($errors);
 		}
 	}
+
+	protected function setUp() {
+		parent::setUp();
+
+		\OC_Util::$scripts = [];
+		\OC_Util::$styles = [];
+	}
+	protected function tearDown() {
+		parent::tearDown();
+
+		\OC_Util::$scripts = [];
+		\OC_Util::$styles = [];
+	}
+
+	public function testAddScript() {
+		\OC_Util::addScript('core', 'myFancyJSFile1');
+		\OC_Util::addScript('myApp', 'myFancyJSFile2');
+		\OC_Util::addScript('core', 'myFancyJSFile0', true);
+		\OC_Util::addScript('core', 'myFancyJSFile10', true);
+		// add duplicate
+		\OC_Util::addScript('core', 'myFancyJSFile1');
+
+		$this->assertEquals([
+			'core/js/myFancyJSFile10',
+			'core/js/myFancyJSFile0',
+			'core/js/myFancyJSFile1',
+			'myApp/l10n/en',
+			'myApp/js/myFancyJSFile2',
+		], \OC_Util::$scripts);
+		$this->assertEquals([], \OC_Util::$styles);
+	}
+
+	public function testAddVendorScript() {
+		\OC_Util::addVendorScript('core', 'myFancyJSFile1');
+		\OC_Util::addVendorScript('myApp', 'myFancyJSFile2');
+		\OC_Util::addVendorScript('core', 'myFancyJSFile0', true);
+		\OC_Util::addVendorScript('core', 'myFancyJSFile10', true);
+		// add duplicate
+		\OC_Util::addVendorScript('core', 'myFancyJSFile1');
+
+		$this->assertEquals([
+			'core/vendor/myFancyJSFile10',
+			'core/vendor/myFancyJSFile0',
+			'core/vendor/myFancyJSFile1',
+			'myApp/vendor/myFancyJSFile2',
+		], \OC_Util::$scripts);
+		$this->assertEquals([], \OC_Util::$styles);
+	}
+
+	public function testAddTranslations() {
+		\OC_Util::addTranslations('appId', 'de');
+
+		$this->assertEquals([
+			'appId/l10n/de'
+		], \OC_Util::$scripts);
+		$this->assertEquals([], \OC_Util::$styles);
+	}
+
+	public function testAddStyle() {
+		\OC_Util::addStyle('core', 'myFancyCSSFile1');
+		\OC_Util::addStyle('myApp', 'myFancyCSSFile2');
+		\OC_Util::addStyle('core', 'myFancyCSSFile0', true);
+		\OC_Util::addStyle('core', 'myFancyCSSFile10', true);
+		// add duplicate
+		\OC_Util::addStyle('core', 'myFancyCSSFile1');
+
+		$this->assertEquals([], \OC_Util::$scripts);
+		$this->assertEquals([
+			'core/css/myFancyCSSFile10',
+			'core/css/myFancyCSSFile0',
+			'core/css/myFancyCSSFile1',
+			'myApp/css/myFancyCSSFile2',
+		], \OC_Util::$styles);
+	}
+
+	public function testAddVendorStyle() {
+		\OC_Util::addVendorStyle('core', 'myFancyCSSFile1');
+		\OC_Util::addVendorStyle('myApp', 'myFancyCSSFile2');
+		\OC_Util::addVendorStyle('core', 'myFancyCSSFile0', true);
+		\OC_Util::addVendorStyle('core', 'myFancyCSSFile10', true);
+		// add duplicate
+		\OC_Util::addVendorStyle('core', 'myFancyCSSFile1');
+
+		$this->assertEquals([], \OC_Util::$scripts);
+		$this->assertEquals([
+			'core/vendor/myFancyCSSFile10',
+			'core/vendor/myFancyCSSFile0',
+			'core/vendor/myFancyCSSFile1',
+			'myApp/vendor/myFancyCSSFile2',
+		], \OC_Util::$styles);
+	}
 }
 
 /**
