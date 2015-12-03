@@ -195,4 +195,17 @@ class UserMountCache implements IUserMountCache {
 
 		return array_map([$this, 'dbRowToMountInfo'], $rows);
 	}
+
+	/**
+	 * Remove all cached mounts for a user
+	 *
+	 * @param IUser $user
+	 */
+	public function removeUserMounts(IUser $user) {
+		$builder = $this->connection->getQueryBuilder();
+
+		$query = $builder->delete('mounts')
+				->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())));
+		$query->execute();
+	}
 }

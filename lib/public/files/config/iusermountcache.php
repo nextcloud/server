@@ -31,7 +31,7 @@ use OCP\IUser;
  */
 interface IUserMountCache {
 	/**
-	 * Register a mount for a user to the cache
+	 * Register mounts for a user to the cache
 	 *
 	 * @param IUser $user
 	 * @param IMountPoint[] $mounts
@@ -59,4 +59,12 @@ interface IUserMountCache {
 	 * @since 9.0.0
 	 */
 	public function getMountsForRootId($rootFileId);
+
+	/**
+	 * Remove all cached mounts for a user
+	 *
+	 * @param IUser $user
+	 * @since 9.0.0
+	 */
+	public function removeUserMounts(IUser $user);
 }
