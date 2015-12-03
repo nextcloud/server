@@ -27,37 +27,40 @@ class Test_Log_Owncloud extends Test\TestCase
 
 	protected function setUp() {
 		parent::setUp();
-		$this->restore_logfile = OC_Config::getValue("logfile");
-		$this->restore_logdateformat = OC_Config::getValue('logdateformat');
+		$config = \OC::$server->getConfig();
+		$this->restore_logfile = $config->getSystemValue("logfile");
+		$this->restore_logdateformat = $config->getSystemValue('logdateformat');
 		
-		OC_Config::setValue("logfile", OC_Config::getValue('datadirectory') . "/logtest");
+		$config->setSystemValue("logfile", $config->getSystemValue('datadirectory') . "/logtest");
 		OC_Log_Owncloud::init();
 	}
 	protected function tearDown() {
+		$config = \OC::$server->getConfig();
 		if (isset($this->restore_logfile)) {
-			OC_Config::setValue("logfile", $this->restore_logfile);
+			$config->getSystemValue("logfile", $this->restore_logfile);
 		} else {
-			OC_Config::deleteKey("logfile");
+			$config->deleteSystemValue("logfile");
 		}		
 		if (isset($this->restore_logdateformat)) {
-			OC_Config::setValue("logdateformat", $this->restore_logdateformat);
+			$config->getSystemValue("logdateformat", $this->restore_logdateformat);
 		} else {
-			OC_Config::deleteKey("restore_logdateformat");
+			$config->deleteSystemValue("restore_logdateformat");
 		}		
 		OC_Log_Owncloud::init();
 		parent::tearDown();
 	}
 	
 	public function testMicrosecondsLogTimestamp() {
+		$config = \OC::$server->getConfig();
 		# delete old logfile
-		unlink(OC_Config::getValue('logfile'));
+		unlink($config->getSystemValue('logfile'));
 
 		# set format & write log line
-		OC_Config::setValue('logdateformat', 'u');
+		$config->setSystemValue('logdateformat', 'u');
 		OC_Log_Owncloud::write('test', 'message', \OCP\Util::ERROR);
 		
 		# read log line
-		$handle = @fopen(OC_Config::getValue('logfile'), 'r');
+		$handle = @fopen($config->getSystemValue('logfile'), 'r');
 		$line = fread($handle, 1000);
 		fclose($handle);
 		

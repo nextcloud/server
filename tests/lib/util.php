@@ -143,23 +143,25 @@ class Test_Util extends \Test\TestCase {
 	}
 
 	function testGetDefaultEmailAddressFromConfig() {
-		OC_Config::setValue('mail_domain', 'example.com');
+		$config = \OC::$server->getConfig();
+		$config->setSystemValue('mail_domain', 'example.com');
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
 		$this->assertEquals('no-reply@example.com', $email);
-		OC_Config::deleteKey('mail_domain');
+		$config->deleteSystemValue('mail_domain');
 	}
 
 	function testGetConfiguredEmailAddressFromConfig() {
-		OC_Config::setValue('mail_domain', 'example.com');
-		OC_Config::setValue('mail_from_address', 'owncloud');
+		$config = \OC::$server->getConfig();
+		$config->setSystemValue('mail_domain', 'example.com');
+		$config->setSystemValue('mail_from_address', 'owncloud');
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
 		$this->assertEquals('owncloud@example.com', $email);
-		OC_Config::deleteKey('mail_domain');
-		OC_Config::deleteKey('mail_from_address');
+		$config->deleteSystemValue('mail_domain');
+		$config->deleteSystemValue('mail_from_address');
 	}
 
 	function testGetInstanceIdGeneratesValidId() {
-		OC_Config::deleteKey('instanceid');
+		\OC::$server->getConfig()->deleteSystemValue('instanceid');
 		$instanceId = OC_Util::getInstanceId();
 		$this->assertStringStartsWith('oc', $instanceId);
 		$matchesRegex = preg_match('/^[a-z0-9]+$/', $instanceId);
@@ -362,19 +364,20 @@ class Test_Util extends \Test\TestCase {
 	 * Test needUpgrade() when the core version is increased
 	 */
 	public function testNeedUpgradeCore() {
-		$oldConfigVersion = OC_Config::getValue('version', '0.0.0');
+		$config = \OC::$server->getConfig();
+		$oldConfigVersion = $config->getSystemValue('version', '0.0.0');
 		$oldSessionVersion = \OC::$server->getSession()->get('OC_Version');
 
 		$this->assertFalse(\OCP\Util::needUpgrade());
 
-		OC_Config::setValue('version', '7.0.0.0');
+		$config->setSystemValue('version', '7.0.0.0');
 		\OC::$server->getSession()->set('OC_Version', array(7, 0, 0, 1));
 		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', array(null));
 
 		$this->assertTrue(\OCP\Util::needUpgrade());
 
-		OC_Config::setValue('version', $oldConfigVersion);
-		$oldSessionVersion = \OC::$server->getSession()->set('OC_Version', $oldSessionVersion);
+		$config->setSystemValue('version', $oldConfigVersion);
+		\OC::$server->getSession()->set('OC_Version', $oldSessionVersion);
 		self::invokePrivate(new \OCP\Util, 'needUpgradeCache', array(null));
 
 		$this->assertFalse(\OCP\Util::needUpgrade());
