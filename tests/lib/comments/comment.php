@@ -1,6 +1,10 @@
 <?php
 
-class Test_Comments_Comment extends Test\TestCase
+namespace Test\Comments;
+
+use Test\TestCase;
+
+class Test_Comments_Comment extends TestCase
 {
 
 	public function testSettersValidInput() {

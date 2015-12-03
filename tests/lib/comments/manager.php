@@ -1,13 +1,16 @@
 <?php
 
+namespace Test\Comments;
+
 use OCP\Comments\ICommentsManager;
+use Test\TestCase;
 
 /**
  * Class Test_Comments_Manager
  *
  * @group DB
  */
-class Test_Comments_Manager extends Test\TestCase
+class Test_Comments_Manager extends TestCase
 {
 
 	public function setUp() {
