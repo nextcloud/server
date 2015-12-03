@@ -13,8 +13,8 @@ class Test_Comments_Manager extends Test\TestCase
 	public function setUp() {
 		parent::setUp();
 
-		$sql = \oc::$server->getDatabaseConnection()->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
-		\oc::$server->getDatabaseConnection()->prepare($sql)->execute();
+		$sql = \OC::$server->getDatabaseConnection()->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
+		\OC::$server->getDatabaseConnection()->prepare($sql)->execute();
 	}
 
 	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null) {
@@ -25,7 +25,7 @@ class Test_Comments_Manager extends Test\TestCase
 			$latestChildDT = new \DateTime('yesterday');
 		}
 
-		$qb = \oc::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb
 			->insert('comments')
 			->values([
@@ -43,7 +43,7 @@ class Test_Comments_Manager extends Test\TestCase
 			])
 			->execute();
 
-		return \oc::$server->getDatabaseConnection()->lastInsertId('*PREFIX*comments');
+		return \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*comments');
 	}
 
 	protected function getManager() {
@@ -69,7 +69,7 @@ class Test_Comments_Manager extends Test\TestCase
 		$creationDT = new \DateTime();
 		$latestChildDT = new \DateTime('yesterday');
 
-		$qb = \oc::$server->getDatabaseConnection()->getQueryBuilder();
+		$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 		$qb
 			->insert('comments')
 			->values([
@@ -87,7 +87,7 @@ class Test_Comments_Manager extends Test\TestCase
 			])
 			->execute();
 
-		$id = strval(\oc::$server->getDatabaseConnection()->lastInsertId('*PREFIX*comments'));
+		$id = strval(\OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*comments'));
 
 		$comment = $manager->get($id);
 		$this->assertTrue($comment instanceof \OCP\Comments\IComment);
