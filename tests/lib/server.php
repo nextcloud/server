@@ -174,4 +174,16 @@ class Server extends \Test\TestCase {
 		$this->assertInstanceOf('\OC_EventSource', $this->server->createEventSource(), 'service returned by "createEventSource" did not return the right class');
 		$this->assertInstanceOf('\OCP\IEventSource', $this->server->createEventSource(), 'service returned by "createEventSource" did not return the right class');
 	}
+
+	public function testOverwriteDefaultCommentsManager() {
+		$config = $this->server->getConfig();
+		$defaultManagerFactory = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
+
+		$config->setSystemValue('comments.managerFactory', '\Test\Comments\FakeFactory');
+
+		$manager = $this->server->getCommentsManager();
+		$this->assertInstanceOf('\OCP\Comments\ICommentsManager', $manager);
+
+		$config->setSystemValue('comments.managerFactory', $defaultManagerFactory);
+	}
 }
