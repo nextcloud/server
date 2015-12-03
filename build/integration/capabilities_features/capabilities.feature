@@ -12,9 +12,6 @@ Feature: capabilities
 			| core | webdav-root | remote.php/webdav | |
 			| files_sharing | api_enabled | 1 | |
 			| files_sharing | public | enabled | 1 |
-			| files_sharing | public | password | 1 |
-			| files_sharing | public | expire_date | 1 |
-			| files_sharing | public | send_mail | 1 |
 			| files_sharing | public | upload | 1 |
 			| files_sharing | resharing | 1 | |
 			| files_sharing | federation | outgoing | 1 |

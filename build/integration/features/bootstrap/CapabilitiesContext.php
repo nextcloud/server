@@ -29,15 +29,19 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		
 		foreach ($fd as $row) {
 			if ($row['value'] === ''){
-				$answeredValue = (string)$capabilitiesXML->$row['capability']->$row['feature']->$row['value_or_subfeature'];
-				if ( !$answeredValue ===  $row['value_or_subfeature']){
-					PHPUnit_Framework_Assert::fail("Answered value $answeredValue is different to expected " . $row['value_or_subfeature']);
-				}
+				$answeredValue = (string)$capabilitiesXML->$row['capability']->$row['feature'];
+				PHPUnit_Framework_Assert::assertEquals(
+					$answeredValue, 
+					$row['value_or_subfeature'], 
+					"Failed field " . $row['capability'] . " " . $row['feature']
+				);
 			} else{
-				$answeredValue = (string)$capabilitiesXML->$row['capability']->$row['feature']->$row['value_or_subfeature']->$row['value'];
-				if ( !$answeredValue ===  $row['value']){
-					PHPUnit_Framework_Assert::fail("Answered value $answeredValue is different to expected " . $row['value']);
-				}
+				$answeredValue = (string)$capabilitiesXML->$row['capability']->$row['feature']->$row['value_or_subfeature'];
+				PHPUnit_Framework_Assert::assertEquals(	
+					$answeredValue, 
+					$row['value'], 
+					"Failed field: " . $row['capability'] . " " . $row['feature'] . " " . $row['value_or_subfeature']
+				);
 			}
 		}
 	}
