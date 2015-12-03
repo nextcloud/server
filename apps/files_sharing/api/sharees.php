@@ -120,6 +120,7 @@ class Sharees {
 	protected function getUsers($search) {
 		$this->result['users'] = $this->result['exact']['users'] = $users = [];
 
+		$userGroups = [];
 		if ($this->shareWithGroupOnly) {
 			// Search in all the groups this user is part of
 			$userGroups = $this->groupManager->getUserGroupIds($this->userSession->getUser());
@@ -171,13 +172,23 @@ class Sharees {
 			// user id and if so, we add that to the exact match list
 			$user = $this->userManager->get($search);
 			if ($user instanceof IUser) {
-				array_push($this->result['exact']['users'], [
-					'label' => $user->getDisplayName(),
-					'value' => [
-						'shareType' => Share::SHARE_TYPE_USER,
-						'shareWith' => $user->getUID(),
-					],
-				]);
+				$addUser = true;
+
+				if ($this->shareWithGroupOnly) {
+					// Only add, if we have a common group
+					$commonGroups = array_intersect($userGroups, $this->groupManager->getUserGroupIds($user));
+					$addUser = !empty($commonGroups);
+				}
+
+				if ($addUser) {
+					array_push($this->result['exact']['users'], [
+						'label' => $user->getDisplayName(),
+						'value' => [
+							'shareType' => Share::SHARE_TYPE_USER,
+							'shareWith' => $user->getUID(),
+						],
+					]);
+				}
 			}
 		}
 
