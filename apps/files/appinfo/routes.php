@@ -75,8 +75,6 @@ $this->create('files_ajax_newfolder', 'ajax/newfolder.php')
 	->actionInclude('files/ajax/newfolder.php');
 $this->create('files_ajax_rename', 'ajax/rename.php')
 	->actionInclude('files/ajax/rename.php');
-$this->create('files_ajax_scan', 'ajax/scan.php')
-	->actionInclude('files/ajax/scan.php');
 $this->create('files_ajax_upload', 'ajax/upload.php')
 	->actionInclude('files/ajax/upload.php');
 
