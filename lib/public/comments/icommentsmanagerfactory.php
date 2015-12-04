@@ -3,9 +3,10 @@
 namespace OCP\Comments;
 
 /**
- * Interface IComment
+ * Interface ICommentsManagerFactory
  *
- * This class represents a comment and offers methods for modification.
+ * This class is responsible for instantiating and returning an ICommentsManager
+ * instance.
  *
  * @package OCP\Comments
  * @since 9.0.0
