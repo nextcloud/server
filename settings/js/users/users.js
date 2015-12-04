@@ -65,8 +65,7 @@ var UserList = {
 		 * Avatar or placeholder
 		 */
 		if ($tr.find('div.avatardiv').length){
-			$tr.find('.avatardiv').imageplaceholder(user.name, user.displayname);
-			$('div.avatardiv', $tr).avatar(user.name, 32);
+			$('div.avatardiv', $tr).avatar(user.name, 32, undefined, undefined, undefined, user.displayname);
 		}
 
 		/**

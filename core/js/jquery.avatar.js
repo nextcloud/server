@@ -47,7 +47,7 @@
  */
 
 (function ($) {
-	$.fn.avatar = function(user, size, ie8fix, hidedefault, callback) {
+	$.fn.avatar = function(user, size, ie8fix, hidedefault, callback, displayname) {
 		if (typeof(size) === 'undefined') {
 			if (this.height() > 0) {
 				size = this.height();
@@ -79,30 +79,51 @@
 			'/avatar/{user}/{size}',
 			{user: user, size: Math.ceil(size * window.devicePixelRatio)});
 
-		$.get(url, function(result) {
-			if (typeof(result) === 'object') {
-				if (!hidedefault) {
-					if (result.data && result.data.displayname) {
-						$div.imageplaceholder(user, result.data.displayname);
+		// If the displayname is not defined we use the old code path
+		if (typeof(displayname) === 'undefined') {
+			$.get(url, function(result) {
+				if (typeof(result) === 'object') {
+					if (!hidedefault) {
+						if (result.data && result.data.displayname) {
+							$div.imageplaceholder(user, result.data.displayname);
+						} else {
+							// User does not exist
+							$div.imageplaceholder(user, 'X');
+							$div.css('background-color', '#b9b9b9');
+						}
 					} else {
-						// User does not exist
-						$div.imageplaceholder(user, 'X');
-						$div.css('background-color', '#b9b9b9');
+						$div.hide();
 					}
 				} else {
-					$div.hide();
+					$div.show();
+					if (ie8fix === true) {
+						$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'#'+Math.floor(Math.random()*1000)+'">');
+					} else {
+						$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'">');
+					}
 				}
-			} else {
+				if(typeof callback === 'function') {
+					callback();
+				}
+			});
+		} else {
+			// We already have the displayname so set the placeholder (to show at least something)
+			if (!hidedefault) {
+				$div.imageplaceholder(displayname);
+			}
+
+			var img = new Image();
+
+			// If the new image loads successfull set it.
+			img.onload = function() {
 				$div.show();
-				if (ie8fix === true) {
-					$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'#'+Math.floor(Math.random()*1000)+'">');
-				} else {
-					$div.html('<img width="' + size + '" height="' + size + '" src="'+url+'">');
-				}
+				$div.text('');
+				$div.append(img);
 			}
-			if(typeof callback === 'function') {
-				callback();
-			}
-		});
+
+			img.width = size;
+			img.height = size;
+			img.src = url;
+		}
 	};
 }(jQuery));
