@@ -13,7 +13,7 @@ A personal cloud which runs on your own server.**
 ![](https://github.com/owncloud/screenshots/blob/master/files/sidebar_1.png)
 
 ## Why is this so awesome?
-* :file_folder: **Acess your Data** You can store your files, contacts, calendars and more on a server of your choosing.
+* :file_folder: **Access your Data** You can store your files, contacts, calendars and more on a server of your choosing.
 * :package: **Sync your Data** You keep your files, contacts, calendars and more synchronized amongst your devices.
 * :arrows_counterclockwise: **Share your Data** You share your data with others, and give them access to your latest photo galleries, your calendar or anything else you want them to see.
 * :rocket: **Expandable with dozens of Apps** ...like Calendar, Contacts, Mail or News.
