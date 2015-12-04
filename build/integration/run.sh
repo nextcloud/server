@@ -24,7 +24,7 @@ echo $PHPPID_FED
 export TEST_SERVER_URL="http://localhost:$PORT/ocs/"
 export TEST_SERVER_FED_URL="http://localhost:$PORT_FED/ocs/"
 
-vendor/bin/behat -f junit -f pretty $1
+vendor/bin/behat -f junit -f pretty $SCENARIO_TO_RUN
 RESULT=$?
 
 kill $PHPPID
