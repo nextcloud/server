@@ -60,24 +60,24 @@ class Test_Comments_Comment extends TestCase
 
 	public function simpleSetterProvider() {
 		return [
-			['Id'],
-			['ParentId'],
-			['Message'],
-			['Verb'],
-			['ChildrenCount'],
+			['Id', true],
+			['ParentId', true],
+			['Message', true],
+			['Verb', true],
+			['Verb', ''],
+			['ChildrenCount', true],
 		];
 	}
 
 	/**
 	 * @dataProvider simpleSetterProvider
 	 */
-	public function testSimpleSetterInvalidInput($field) {
+	public function testSimpleSetterInvalidInput($field, $input) {
 		$comment = new \OC\Comments\Comment();
 		$setter = 'set' . $field;
 
 		$this->setExpectedException('InvalidArgumentException');
-		// we have no field that is supposed to accept a Bool
-		$comment->$setter(true);
+		$comment->$setter($input);
 	}
 
 	public function roleSetterProvider() {
@@ -85,9 +85,11 @@ class Test_Comments_Comment extends TestCase
 			['Actor', true, true],
 			['Actor', 'user', true],
 			['Actor', true, 'alice'],
+			['Actor', ' ', ' '],
 			['Object', true, true],
 			['Object', 'file', true],
 			['Object', true, 'file64'],
+			['Object', ' ', ' '],
 		];
 	}
 

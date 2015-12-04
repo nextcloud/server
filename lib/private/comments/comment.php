@@ -66,6 +66,7 @@ class Comment implements IComment {
 			throw new \InvalidArgumentException('String expected.');
 		}
 
+		$id = trim($id);
 		if($this->data['id'] === '' || ($this->data['id'] !== '' && $id === '')) {
 			$this->data['id'] = $id;
 			return $this;
@@ -95,7 +96,7 @@ class Comment implements IComment {
 		if(!is_string($parentId)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
-		$this->data['parentId'] = $parentId;
+		$this->data['parentId'] = trim($parentId);
 		return $this;
 	}
 
@@ -121,7 +122,7 @@ class Comment implements IComment {
 		if(!is_string($id)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
-		$this->data['topmostParentId'] = $id;
+		$this->data['topmostParentId'] = trim($id);
 		return $this;
 	}
 
@@ -171,7 +172,7 @@ class Comment implements IComment {
 		if(!is_string($message)) {
 			throw new \InvalidArgumentException('String expected.');
 		}
-		$this->data['message'] = $message;
+		$this->data['message'] = trim($message);
 		return $this;
 	}
 
@@ -193,10 +194,10 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setVerb($verb) {
-		if(!is_string($verb)) {
-			throw new \InvalidArgumentException('String expected.');
+		if(!is_string($verb) || empty(trim($verb))) {
+			throw new \InvalidArgumentException('Non-empty String expected.');
 		}
-		$this->data['verb'] = $verb;
+		$this->data['verb'] = trim($verb);
 		return $this;
 	}
 
@@ -230,13 +231,13 @@ class Comment implements IComment {
 	 */
 	public function setActor($actorType, $actorId) {
 		if(
-		       !is_string($actorType) || empty($actorType)
-		    || !is_string($actorId)   || empty($actorId)
+		       !is_string($actorType) || empty(trim($actorType))
+		    || !is_string($actorId)   || empty(trim($actorId))
 		) {
 			throw new \InvalidArgumentException('String expected.');
 		}
-		$this->data['actorType'] = $actorType;
-		$this->data['actorId']   = $actorId;
+		$this->data['actorType'] = trim($actorType);
+		$this->data['actorId']   = trim($actorId);
 		return $this;
 	}
 
@@ -316,13 +317,13 @@ class Comment implements IComment {
 	 */
 	public function setObject($objectType, $objectId) {
 		if(
-		       !is_string($objectType) || empty($objectType)
-		    || !is_string($objectId)   || empty($objectId)
+		       !is_string($objectType) || empty(trim($objectType))
+		    || !is_string($objectId)   || empty(trim($objectId))
 		) {
 			throw new \InvalidArgumentException('String expected.');
 		}
-		$this->data['objectType'] = $objectType;
-		$this->data['objectId']   = $objectId;
+		$this->data['objectType'] = trim($objectType);
+		$this->data['objectId']   = trim($objectId);
 		return $this;
 	}
 
