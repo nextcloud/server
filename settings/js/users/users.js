@@ -64,8 +64,12 @@ var UserList = {
 		/**
 		 * Avatar or placeholder
 		 */
-		if ($tr.find('div.avatardiv').length){
-			$('div.avatardiv', $tr).avatar(user.name, 32, undefined, undefined, undefined, user.displayname);
+		if ($tr.find('div.avatardiv').length) {
+			if (user.isAvatarAvailable === true) {
+				$('div.avatardiv', $tr).avatar(user.name, 32, undefined, undefined, undefined, user.displayname);
+			} else {
+				$('div.avatardiv', $tr).imageplaceholder(user.displayname);
+			}
 		}
 
 		/**
