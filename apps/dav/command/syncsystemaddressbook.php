@@ -88,6 +88,18 @@ class SyncSystemAddressBook extends Command {
 			}
 			$progress->advance();
 		});
+
+		// remove no longer existing
+		$allCards = $this->backend->getCards($systemAddressBook['id']);
+		foreach($allCards as $card) {
+			$vCard = Reader::read($card['carddata']);
+			$uid = $vCard->UID->getValue();
+			// load backend and see if user exists
+			if (!$this->userManager->userExists($uid)) {
+				$this->backend->deleteCard($systemAddressBook['id'], $card['uri']);
+			}
+		}
+
 		$progress->finish();
 		$output->writeln('');
 	}
