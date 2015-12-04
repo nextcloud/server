@@ -35,7 +35,7 @@
 
 OC_Util::checkSubAdminUser();
 
-OC_App::setActiveNavigationEntry( 'core_users' );
+\OC::$server->getNavigationManager()->setActiveEntry('core_users');
 
 $userManager = \OC_User::getManager();
 $groupManager = \OC_Group::getManager();
