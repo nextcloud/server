@@ -361,20 +361,6 @@ class OC_App {
 	}
 
 	/**
-	 * gets the active Menu entry
-	 *
-	 * @return string id or empty string
-	 *
-	 * This function returns the id of the active navigation entry (set by
-	 * setActiveNavigationEntry
-	 *
-	 * @deprecated Use \OC::$server->getNavigationManager()->getActiveEntry() instead
-	 */
-	public static function getActiveNavigationEntry() {
-		return OC::$server->getNavigationManager()->getActiveEntry();
-	}
-
-	/**
 	 * Returns the Settings Navigation
 	 *
 	 * @return string[]
