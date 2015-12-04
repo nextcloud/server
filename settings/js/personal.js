@@ -408,7 +408,7 @@ $(document).ready(function () {
 
 	// Load the big avatar
 	if (oc_config.enable_avatars) {
-		$('#avatar .avatardiv').avatar(OC.currentUser, 128);
+		$('#avatar .avatardiv').avatar(OC.currentUser, 145);
 	}
 });
 
