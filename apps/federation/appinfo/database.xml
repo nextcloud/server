@@ -52,9 +52,8 @@
 			</field>
 			<field>
 				<name>sync_token</name>
-				<type>integer</type>
-				<notnull>true</notnull>
-				<default>0</default>
+				<type>text</type>
+				<length>512</length>
 				<comments>cardDav sync token</comments>
 			</field>
 			<index>

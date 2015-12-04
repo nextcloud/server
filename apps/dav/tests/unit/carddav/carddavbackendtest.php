@@ -45,9 +45,6 @@ class CardDavBackendTest extends TestCase {
 	/** @var  Principal | \PHPUnit_Framework_MockObject_MockObject */
 	private $principal;
 
-	/** @var  ILogger | \PHPUnit_Framework_MockObject_MockObject */
-	private $logger;
-
 	/** @var  IDBConnection */
 	private $db;
 
@@ -70,11 +67,10 @@ class CardDavBackendTest extends TestCase {
 			->willReturn([
 				'uri' => 'principals/best-friend'
 			]);
-		$this->logger = $this->getMock('\OCP\ILogger');
 
 		$this->db = \OC::$server->getDatabaseConnection();
 
-		$this->backend = new CardDavBackend($this->db, $this->principal, $this->logger);
+		$this->backend = new CardDavBackend($this->db, $this->principal);
 
 		// start every test with a empty cards_properties and cards table
 		$query = $this->db->getQueryBuilder();
@@ -129,7 +125,7 @@ class CardDavBackendTest extends TestCase {
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
 		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
-				->setConstructorArgs([$this->db, $this->principal, $this->logger])
+				->setConstructorArgs([$this->db, $this->principal])
 				->setMethods(['updateProperties', 'purgeProperties'])->getMock();
 
 		// create a new address book
@@ -175,7 +171,7 @@ class CardDavBackendTest extends TestCase {
 	public function testMultiCard() {
 
 		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
-			->setConstructorArgs([$this->db, $this->principal, $this->logger])
+			->setConstructorArgs([$this->db, $this->principal])
 			->setMethods(['updateProperties'])->getMock();
 
 		// create a new address book
@@ -222,7 +218,7 @@ class CardDavBackendTest extends TestCase {
 	public function testSyncSupport() {
 
 		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
-			->setConstructorArgs([$this->db, $this->principal, $this->logger])
+			->setConstructorArgs([$this->db, $this->principal])
 			->setMethods(['updateProperties'])->getMock();
 
 		// create a new address book
@@ -279,7 +275,7 @@ class CardDavBackendTest extends TestCase {
 		$cardId = 2;
 
 		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
-			->setConstructorArgs([$this->db, $this->principal, $this->logger])
+			->setConstructorArgs([$this->db, $this->principal])
 			->setMethods(['getCardId'])->getMock();
 
 		$backend->expects($this->any())->method('getCardId')->willReturn($cardId);

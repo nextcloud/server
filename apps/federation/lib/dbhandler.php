@@ -207,14 +207,15 @@ class DbHandler {
 	 * @param string $url
 	 * @param int $status
 	 */
-	public function setServerStatus($url, $status) {
+	public function setServerStatus($url, $status, $token = null) {
 		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
 		$query->update($this->dbTable)
-				->set('status', $query->createParameter('status'))
-				->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
-				->setParameter('url_hash', $hash)
-				->setParameter('status', $status);
+				->set('status', $query->createNamedParameter($status))
+				->where($query->expr()->eq('url_hash', $query->createNamedParameter($hash)));
+		if (!is_null($token)) {
+			$query->set('sync_token', $query->createNamedParameter($token));
+		}
 		$query->execute();
 	}
 

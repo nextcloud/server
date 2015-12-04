@@ -19,6 +19,21 @@
  *
  */
 
+use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Connector\Sabre\Principal;
+
+\OC::$server->registerService('CardDAVSyncService', function() {
+	$principalBackend = new Principal(
+		$this->config,
+		$this->userManager
+	);
+
+	$backend = new CardDavBackend($this->dbConnection, $principalBackend);
+
+	return new SyncService($backend);
+});
+
 $cm = \OC::$server->getContactsManager();
 $cm->register(function() use ($cm) {
 	$userId = \OC::$server->getUserSession()->getUser()->getUID();
