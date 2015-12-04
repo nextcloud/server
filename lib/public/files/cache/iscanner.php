@@ -22,7 +22,7 @@
 namespace OCP\Files\Cache;
 
 /**
- * Scan files form the storage and save to the cache
+ * Scan files from the storage and save to the cache
  *
  * @since 9.0.0
  */
@@ -49,7 +49,7 @@ interface IScanner {
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true);
 
 	/**
-	 * scan a folder and all it's children
+	 * scan a folder and all its children
 	 *
 	 * @param string $path
 	 * @param bool $recursive

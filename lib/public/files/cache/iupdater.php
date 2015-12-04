@@ -20,7 +20,8 @@
  */
 
 namespace OCP\Files\Cache;
-use OCP\Files\Storage;
+
+use OCP\Files\Storage\IStorage;
 
 /**
  * Update the cache and propagate changes
@@ -65,10 +66,10 @@ interface IUpdater {
 	/**
 	 * Rename a file or folder in the cache and update the size, etag and mtime of the parent folders
 	 *
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param IStorage $sourceStorage
 	 * @param string $source
 	 * @param string $target
 	 * @since 9.0.0
 	 */
-	public function renameFromStorage(Storage $sourceStorage, $source, $target);
+	public function renameFromStorage(IStorage $sourceStorage, $source, $target);
 }

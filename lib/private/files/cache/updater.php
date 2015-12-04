@@ -25,6 +25,7 @@
 
 namespace OC\Files\Cache;
 use OCP\Files\Cache\IUpdater;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Update the cache and propagate changes
@@ -146,11 +147,11 @@ class Updater implements IUpdater {
 	/**
 	 * Rename a file or folder in the cache and update the size, etag and mtime of the parent folders
 	 *
-	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param IStorage $sourceStorage
 	 * @param string $source
 	 * @param string $target
 	 */
-	public function renameFromStorage(\OCP\Files\Storage $sourceStorage, $source, $target) {
+	public function renameFromStorage(IStorage $sourceStorage, $source, $target) {
 		if (!$this->enabled or Scanner::isPartialFile($source) or Scanner::isPartialFile($target)) {
 			return;
 		}
