@@ -44,6 +44,16 @@ class SharedMount extends MountPoint implements MoveableMount {
 	private $recipientView;
 
 	/**
+	 * @var \OC\Files\View
+	 */
+	private $ownerView;
+
+	/**
+	 * @var array
+	 */
+	private $share;
+
+	/**
 	 * @var string
 	 */
 	private $user;
@@ -53,8 +63,21 @@ class SharedMount extends MountPoint implements MoveableMount {
 		$this->recipientView = new View('/' . $this->user . '/files');
 		$newMountPoint = $this->verifyMountPoint($arguments['share']);
 		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
-		$arguments['ownerView'] = new View('/' . $arguments['share']['uid_owner'] . '/files');
+		$this->share = $arguments['share'];
+		$this->ownerView = new View('/' . $arguments['share']['uid_owner'] . '/files');
+		$arguments['ownerView'] = $this->ownerView;
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
+	}
+
+	/**
+	 * Get the full path of the share source
+	 *
+	 * @return string
+	 * @throws \OCP\Files\NotFoundException
+	 */
+	public function getSourcePath() {
+		$path = $this->ownerView->getPath($this->share['file_source']);
+		return $this->ownerView->getAbsolutePath($path);
 	}
 
 	/**

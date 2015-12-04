@@ -31,6 +31,7 @@ use \OC\Files\Filesystem;
 use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Storage;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\Storage\IStorageFactory;
 
 class MountPoint implements IMountPoint {
 	/**
@@ -238,5 +239,21 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getOptions() {
 		return $this->mountOptions;
+	}
+
+	/**
+	 * Get all arguments for the storage
+	 *
+	 * @return array
+	 */
+	public function getStorageArguments() {
+		return $this->arguments;
+	}
+
+	/**
+	 * @return IStorageFactory
+	 */
+	public function getStorageFactory() {
+		return $this->loader;
 	}
 }

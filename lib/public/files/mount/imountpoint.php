@@ -21,6 +21,7 @@
  */
 
 namespace OCP\Files\Mount;
+use OCP\Files\Storage\IStorageFactory;
 
 /**
  * A storage mounted to folder on the filesystem
@@ -94,4 +95,16 @@ interface IMountPoint {
 	 * @since 8.1.0
 	 */
 	public function getOptions();
+
+	/**
+	 * Get all arguments for the storage
+	 *
+	 * @return array
+	 */
+	public function getStorageArguments();
+
+	/**
+	 * @return IStorageFactory
+	 */
+	public function getStorageFactory();
 }

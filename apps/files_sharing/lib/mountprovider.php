@@ -23,8 +23,10 @@
 namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
-use OC\User\NoUserException;
+use OC\Files\Mount\MountPoint;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Mount\IMountManager;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IUser;
@@ -36,10 +38,17 @@ class MountProvider implements IMountProvider {
 	protected $config;
 
 	/**
-	 * @param \OCP\IConfig $config
+	 * @var IMountManager
 	 */
-	public function __construct(IConfig $config) {
+	protected $mountManager;
+
+	/**
+	 * @param \OCP\IConfig $config
+	 * @param IMountManager $mountManager
+	 */
+	public function __construct(IConfig $config, IMountManager $mountManager) {
 		$this->config = $config;
+		$this->mountManager = $mountManager;
 	}
 
 
@@ -56,6 +65,7 @@ class MountProvider implements IMountProvider {
 			return $share['permissions'] > 0;
 		});
 		$shares = array_map(function ($share) use ($user, $storageFactory) {
+			Filesystem::initMountPoints($share['uid_owner']);
 
 			return new SharedMount(
 				'\OC\Files\Storage\Shared',
@@ -67,7 +77,32 @@ class MountProvider implements IMountProvider {
 				$storageFactory
 			);
 		}, $shares);
+
+		$subMounts = array_map(function (SharedMount $mountPoint) {
+			$sourcePath = $mountPoint->getSourcePath();
+			$sourceMounts = $this->mountManager->findIn($sourcePath);
+			return array_map(function ($sourceMount) use ($mountPoint, $sourcePath) {
+				return $this->copyMount($sourceMount, $mountPoint->getMountPoint(), $sourcePath);
+			}, $sourceMounts);
+		}, $shares);
+
+		$subMounts = array_reduce($subMounts, function($allSubMounts, $shareSubMounts) {
+			return array_merge($allSubMounts, $shareSubMounts);
+		}, []);
+
 		// array_filter removes the null values from the array
-		return array_filter($shares);
+		return array_merge($shares, $subMounts);
+	}
+
+	/**
+	 * @param IMountPoint $sourceMount
+	 * @param string $shareTargetPath
+	 * @param string $shareSourcePath
+	 * @return IMountPoint
+	 */
+	private function copyMount(IMountPoint $sourceMount, $shareTargetPath, $shareSourcePath) {
+		$subPath = substr($sourceMount->getMountPoint(), strlen($shareSourcePath) + 1);
+		$targetMountPoint = $shareTargetPath . $subPath;
+		return new MountPoint($sourceMount->getStorage(), $targetMountPoint, $sourceMount->getStorageArguments(), $sourceMount->getStorageFactory());
 	}
 }
