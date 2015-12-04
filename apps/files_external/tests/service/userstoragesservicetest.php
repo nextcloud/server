@@ -26,36 +26,33 @@ use \OC\Files\Filesystem;
 use \OCA\Files_external\Service\UserStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
+use Test\Traits\UserTrait;
 
+/**
+ * @group DB
+ */
 class UserStoragesServiceTest extends StoragesServiceTest {
+	use UserTrait;
+
+	private $user;
+
+	private $userId;
 
 	public function setUp() {
 		parent::setUp();
 
-		$userManager = \OC::$server->getUserManager();
-
 		$this->userId = $this->getUniqueID('user_');
-		$this->user = $userManager->createUser(
-			$this->userId,
-			$this->userId
-		);
+		$this->createUser($this->userId, $this->userId);
+		$this->user = \OC::$server->getUserManager()->get($this->userId);
 
+		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
 		$userSession = $this->getMock('\OCP\IUserSession');
 		$userSession
 			->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
 
-		$this->service = new UserStoragesService($this->backendService, $userSession);
-
-		// create home folder
-		mkdir($this->dataDir . '/' . $this->userId . '/');
-	}
-
-	public function tearDown() {
-		@unlink($this->dataDir . '/' . $this->userId . '/mount.json');
-		$this->user->delete();
-		parent::tearDown();
+		$this->service = new UserStoragesService($this->backendService, $this->dbConfig, $userSession);
 	}
 
 	private function makeTestStorageData() {
@@ -79,15 +76,14 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 
 		$newStorage = $this->service->addStorage($storage);
 
-		$this->assertEquals(1, $newStorage->getId());
+		$id = $newStorage->getId();
 
-		$newStorage = $this->service->getStorage(1);
+		$newStorage = $this->service->getStorage($id);
 
 		$this->assertEquals($storage->getMountPoint(), $newStorage->getMountPoint());
 		$this->assertEquals($storage->getBackend(), $newStorage->getBackend());
 		$this->assertEquals($storage->getAuthMechanism(), $newStorage->getAuthMechanism());
 		$this->assertEquals($storage->getBackendOptions(), $newStorage->getBackendOptions());
-		$this->assertEquals(1, $newStorage->getId());
 		$this->assertEquals(0, $newStorage->getStatus());
 
 		// hook called once for user
@@ -99,9 +95,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			$this->userId
 		);
 
-		// next one gets id 2
 		$nextStorage = $this->service->addStorage($storage);
-		$this->assertEquals(2, $nextStorage->getId());
+		$this->assertEquals($id + 1, $nextStorage->getId());
 	}
 
 	public function testUpdateStorage() {
@@ -117,7 +112,6 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		]);
 
 		$newStorage = $this->service->addStorage($storage);
-		$this->assertEquals(1, $newStorage->getId());
 
 		$backendOptions = $newStorage->getBackendOptions();
 		$backendOptions['password'] = 'anotherPassword';
@@ -131,7 +125,6 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		// these attributes are unused for user storages
 		$this->assertEmpty($newStorage->getApplicableUsers());
 		$this->assertEmpty($newStorage->getApplicableGroups());
-		$this->assertEquals(1, $newStorage->getId());
 		$this->assertEquals(0, $newStorage->getStatus());
 
 		// no hook calls
@@ -180,90 +173,5 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			\OC_Mount_Config::MOUNT_TYPE_USER,
 			$this->userId
 		);
-	}
-
-	/**
-	 * Make sure it uses the correct format when reading/writing
-	 * the legacy config
-	 */
-	public function testLegacyConfigConversion() {
-		$configFile = $this->dataDir . '/' . $this->userId . '/mount.json';
-
-		$storage = $this->makeTestStorageData();
-		$storage = $this->service->addStorage($storage);
-
-		$json = json_decode(file_get_contents($configFile), true);
-
-		$this->assertCount(1, $json);
-
-		$this->assertEquals([\OC_Mount_Config::MOUNT_TYPE_USER], array_keys($json));
-		$this->assertEquals([$this->userId], array_keys($json[\OC_Mount_config::MOUNT_TYPE_USER]));
-
-		$mountPointData = $json[\OC_Mount_config::MOUNT_TYPE_USER][$this->userId];
-		$this->assertEquals(['/' . $this->userId . '/files/mountpoint'], array_keys($mountPointData));
-
-		$mountPointOptions = current($mountPointData);
-		$this->assertEquals(1, $mountPointOptions['id']);
-		$this->assertEquals('identifier:\OCA\Files_External\Lib\Backend\SMB', $mountPointOptions['backend']);
-		$this->assertEquals('identifier:\Auth\Mechanism', $mountPointOptions['authMechanism']);
-		$this->assertEquals(false, $mountPointOptions['mountOptions']['preview']);
-
-		$backendOptions = $mountPointOptions['options'];
-		$this->assertEquals('value1', $backendOptions['option1']);
-		$this->assertEquals('value2', $backendOptions['option2']);
-		$this->assertEquals('', $backendOptions['password']);
-		$this->assertNotEmpty($backendOptions['password_encrypted']);
-	}
-
-	/**
-	 * Test reading in a legacy config and generating config ids.
-	 */
-	public function testReadLegacyConfigAndGenerateConfigId() {
-		$configFile = $this->dataDir . '/' . $this->userId . '/mount.json';
-
-		$legacyBackendOptions = [
-			'user' => 'someuser',
-			'password' => 'somepassword',
-		];
-		$legacyBackendOptions = \OC_Mount_Config::encryptPasswords($legacyBackendOptions);
-
-		$legacyConfig = [
-			'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
-			'authMechanism' => 'identifier:\Auth\Mechanism',
-			'options' => $legacyBackendOptions,
-			'mountOptions' => ['preview' => false],
-		];
-		// different mount options
-		$legacyConfig2 = [
-			'backend' => 'identifier:\OCA\Files_External\Lib\Backend\SMB',
-			'authMechanism' => 'identifier:\Auth\Mechanism',
-			'options' => $legacyBackendOptions,
-			'mountOptions' => ['preview' => true],
-		];
-
-		$json = ['user' => []];
-		$json['user'][$this->userId] = [
-			'/$user/files/somemount' => $legacyConfig,
-			'/$user/files/anothermount' => $legacyConfig2,
-		];
-
-		file_put_contents($configFile, json_encode($json));
-
-		$allStorages = $this->service->getAllStorages();
-
-		$this->assertCount(2, $allStorages);
-
-		$storage1 = $allStorages[1];
-		$storage2 = $allStorages[2];
-
-		$this->assertEquals('/somemount', $storage1->getMountPoint());
-		$this->assertEquals('someuser', $storage1->getBackendOptions()['user']);
-		$this->assertEquals('somepassword', $storage1->getBackendOptions()['password']);
-		$this->assertEquals(['preview' => false], $storage1->getMountOptions());
-
-		$this->assertEquals('/anothermount', $storage2->getMountPoint());
-		$this->assertEquals('someuser', $storage2->getBackendOptions()['user']);
-		$this->assertEquals('somepassword', $storage2->getBackendOptions()['password']);
-		$this->assertEquals(['preview' => true], $storage2->getMountOptions());
 	}
 }

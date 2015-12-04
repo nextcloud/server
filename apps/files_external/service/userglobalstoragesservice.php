@@ -41,15 +41,17 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 
 	/**
 	 * @param BackendService $backendService
+	 * @param DBConfigService $dbConfig
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
 	 */
 	public function __construct(
 		BackendService $backendService,
+		DBConfigService $dbConfig,
 		IUserSession $userSession,
 		IGroupManager $groupManager
 	) {
-		parent::__construct($backendService);
+		parent::__construct($backendService, $dbConfig);
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 	}
@@ -67,46 +69,27 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		}
 	}
 
-	/**
-	 * Read legacy config data
-	 *
-	 * @return array list of mount configs
-	 */
-	protected function readLegacyConfig() {
-		// read global config
-		$data = parent::readLegacyConfig();
-		$userId = $this->getUser()->getUID();
-
-		// don't use array_filter() with ARRAY_FILTER_USE_KEY, it's PHP 5.6+
-		if (isset($data[\OC_Mount_Config::MOUNT_TYPE_USER])) {
-			$newData = [];
-			foreach ($data[\OC_Mount_Config::MOUNT_TYPE_USER] as $key => $value) {
-				if (strtolower($key) === strtolower($userId) || $key === 'all') {
-					$newData[$key] = $value;
-				}
-			}
-			$data[\OC_Mount_Config::MOUNT_TYPE_USER] = $newData;
+	protected function readDBConfig() {
+		$userMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
+		$globalMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		$groups = $this->groupManager->getUserGroupIds($this->getUser());
+		if (is_array($groups) && count($groups) !== 0) {
+			$groupMounts = $this->dbConfig->getAdminMountsForMultiple(DBConfigService::APPLICABLE_TYPE_GROUP, $groups);
+		} else {
+			$groupMounts = [];
 		}
-
-		if (isset($data[\OC_Mount_Config::MOUNT_TYPE_GROUP])) {
-			$newData = [];
-			foreach ($data[\OC_Mount_Config::MOUNT_TYPE_GROUP] as $key => $value) {
-				if ($this->groupManager->isInGroup($userId, $key)) {
-					$newData[$key] = $value;
-				}
-			}
-			$data[\OC_Mount_Config::MOUNT_TYPE_GROUP] = $newData;
-		}
-
-		return $data;
+		return array_merge($userMounts, $groupMounts, $globalMounts);
 	}
 
-	/**
-	 * Write legacy config data
-	 *
-	 * @param array $mountPoints
-	 */
-	protected function writeLegacyConfig(array $mountPoints) {
+	public function addStorage(StorageConfig $newStorage) {
+		throw new \DomainException('UserGlobalStoragesService writing disallowed');
+	}
+
+	public function updateStorage(StorageConfig $updatedStorage) {
+		throw new \DomainException('UserGlobalStoragesService writing disallowed');
+	}
+
+	public function removeStorage($id) {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
@@ -126,7 +109,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 
 		$result = [];
 		foreach ($storagesByMountpoint as $storageList) {
-			$storage = array_reduce($storageList, function($carry, $item) {
+			$storage = array_reduce($storageList, function ($carry, $item) {
 				if (isset($carry)) {
 					$carryPriorityType = $this->getPriorityType($carry);
 					$itemPriorityType = $this->getPriorityType($item);

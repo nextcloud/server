@@ -42,88 +42,60 @@ abstract class StoragesService {
 	protected $backendService;
 
 	/**
+	 * @var DBConfigService
+	 */
+	protected $dbConfig;
+
+	/**
 	 * @param BackendService $backendService
+	 * @param DBConfigService $dbConfigService
 	 */
-	public function __construct(BackendService $backendService) {
+	public function __construct(BackendService $backendService, DBConfigService $dbConfigService) {
 		$this->backendService = $backendService;
+		$this->dbConfig = $dbConfigService;
 	}
 
-	/**
-	 * Read legacy config data
-	 *
-	 * @return array list of mount configs
-	 */
-	protected function readLegacyConfig() {
-		// read global config
-		return \OC_Mount_Config::readData();
+	protected function readDBConfig() {
+		return $this->dbConfig->getAdminMounts();
 	}
 
-	/**
-	 * Write legacy config data
-	 *
-	 * @param array $mountPoints
-	 */
-	protected function writeLegacyConfig(array $mountPoints) {
-		// write global config
-		\OC_Mount_Config::writeData(null, $mountPoints);
-	}
+	protected function getStorageConfigFromDBMount(array $mount) {
+		$applicableUsers = array_filter($mount['applicable'], function ($applicable) {
+			return $applicable['type'] === DBConfigService::APPLICABLE_TYPE_USER;
+		});
+		$applicableUsers = array_map(function ($applicable) {
+			return $applicable['value'];
+		}, $applicableUsers);
 
-	/**
-	 * Copy legacy storage options into the given storage config object.
-	 *
-	 * @param StorageConfig $storageConfig storage config to populate
-	 * @param string $mountType mount type
-	 * @param string $applicable applicable user or group
-	 * @param array $storageOptions legacy storage options
-	 *
-	 * @return StorageConfig populated storage config
-	 */
-	protected function populateStorageConfigWithLegacyOptions(
-		&$storageConfig,
-		$mountType,
-		$applicable,
-		$storageOptions
-	) {
-		$backend = $this->backendService->getBackend($storageOptions['backend']);
-		if (!$backend) {
-			throw new \UnexpectedValueException('Invalid backend '.$storageOptions['backend']);
-		}
-		$storageConfig->setBackend($backend);
+		$applicableGroups = array_filter($mount['applicable'], function ($applicable) {
+			return $applicable['type'] === DBConfigService::APPLICABLE_TYPE_GROUP;
+		});
+		$applicableGroups = array_map(function ($applicable) {
+			return $applicable['value'];
+		}, $applicableGroups);
 
-		if (isset($storageOptions['authMechanism']) && $storageOptions['authMechanism'] !== 'builtin::builtin') {
-			$authMechanism = $this->backendService->getAuthMechanism($storageOptions['authMechanism']);
-		} else {
-			$authMechanism = $backend->getLegacyAuthMechanism($storageOptions);
-			$storageOptions['authMechanism'] = 'null'; // to make error handling easier
+		try {
+			$config = $this->createStorage(
+				$mount['mount_point'],
+				$mount['storage_backend'],
+				$mount['auth_backend'],
+				$mount['config'],
+				$mount['options'],
+				array_values($applicableUsers),
+				array_values($applicableGroups),
+				$mount['priority']
+			);
+			$config->setId((int)$mount['mount_id']);
+			return $config;
+		} catch (\UnexpectedValueException $e) {
+			// dont die if a storage backend doesn't exist
+			\OCP\Util::writeLog(
+				'files_external',
+				'Could not load storage: "' . $e->getMessage() . '"',
+				\OCP\Util::ERROR
+			);
+			return null;
 		}
-		if (!$authMechanism) {
-			throw new \UnexpectedValueException('Invalid authentication mechanism '.$storageOptions['authMechanism']);
-		}
-		$storageConfig->setAuthMechanism($authMechanism);
-
-		$storageConfig->setBackendOptions($storageOptions['options']);
-		if (isset($storageOptions['mountOptions'])) {
-			$storageConfig->setMountOptions($storageOptions['mountOptions']);
-		}
-		if (!isset($storageOptions['priority'])) {
-			$storageOptions['priority'] = $backend->getPriority();
-		}
-		$storageConfig->setPriority($storageOptions['priority']);
-
-		if ($mountType === \OC_Mount_Config::MOUNT_TYPE_USER) {
-			$applicableUsers = $storageConfig->getApplicableUsers();
-			if ($applicable !== 'all') {
-				$applicableUsers[] = $applicable;
-				$storageConfig->setApplicableUsers($applicableUsers);
-			}
-		} else if ($mountType === \OC_Mount_Config::MOUNT_TYPE_GROUP) {
-			$applicableGroups = $storageConfig->getApplicableGroups();
-			$applicableGroups[] = $applicable;
-			$storageConfig->setApplicableGroups($applicableGroups);
-		}
-
-
-		return $storageConfig;
 	}
 
 	/**
@@ -132,197 +104,18 @@ abstract class StoragesService {
 	 * @return array map of storage id to storage config
 	 */
 	protected function readConfig() {
-		$mountPoints = $this->readLegacyConfig();
+		$mounts = $this->readDBConfig();
+		$configs = array_map([$this, 'getStorageConfigFromDBMount'], $mounts);
+		$configs = array_filter($configs, function ($config) {
+			return $config instanceof StorageConfig;
+		});
 
-		/**
-		 * Here is the how the horribly messy mount point array looks like
-		 * from the mount.json file:
-		 *
-		 * $storageOptions = $mountPoints[$mountType][$applicable][$mountPath]
-		 *
-		 * - $mountType is either "user" or "group"
-		 * - $applicable is the name of a user or group (or the current user for personal mounts)
-		 * - $mountPath is the mount point path (where the storage must be mounted)
-		 * - $storageOptions is a map of storage options:
-		 *     - "priority": storage priority
-		 *     - "backend": backend identifier
-		 *     - "class": LEGACY backend class name
-		 *     - "options": backend-specific options
-		 *     - "authMechanism": authentication mechanism identifier
-		 *     - "mountOptions": mount-specific options (ex: disable previews, scanner, etc)
-		 */
+		$keys = array_map(function (StorageConfig $config) {
+			return $config->getId();
+		}, $configs);
 
-		// group by storage id
-		$storages = [];
-
-		// for storages without id (legacy), group by config hash for
-		// later processing
-		$storagesWithConfigHash = [];
-
-		foreach ($mountPoints as $mountType => $applicables) {
-			foreach ($applicables as $applicable => $mountPaths) {
-				foreach ($mountPaths as $rootMountPath => $storageOptions) {
-					$currentStorage = null;
-
-					/**
-					 * Flag whether the config that was read already has an id.
-					 * If not, it will use a config hash instead and generate
-					 * a proper id later
-					 *
-					 * @var boolean
-					 */
-					$hasId = false;
-
-					// the root mount point is in the format "/$user/files/the/mount/point"
-					// we remove the "/$user/files" prefix
-					$parts = explode('/', ltrim($rootMountPath, '/'), 3);
-					if (count($parts) < 3) {
-						// something went wrong, skip
-						\OCP\Util::writeLog(
-							'files_external',
-							'Could not parse mount point "' . $rootMountPath . '"',
-							\OCP\Util::ERROR
-						);
-						continue;
-					}
-
-					$relativeMountPath = rtrim($parts[2], '/');
-
-					// note: we cannot do this after the loop because the decrypted config
-					// options might be needed for the config hash
-					$storageOptions['options'] = \OC_Mount_Config::decryptPasswords($storageOptions['options']);
-
-					if (!isset($storageOptions['backend'])) {
-						$storageOptions['backend'] = $storageOptions['class']; // legacy compat
-					}
-					if (!isset($storageOptions['authMechanism'])) {
-						$storageOptions['authMechanism'] = null; // ensure config hash works
-					}
-
-					if (isset($storageOptions['id'])) {
-						$configId = (int)$storageOptions['id'];
-						if (isset($storages[$configId])) {
-							$currentStorage = $storages[$configId];
-						}
-						$hasId = true;
-					} else {
-						// missing id in legacy config, need to generate
-						// but at this point we don't know the max-id, so use
-						// first group it by config hash
-						$storageOptions['mountpoint'] = $rootMountPath;
-						$configId = \OC_Mount_Config::makeConfigHash($storageOptions);
-						if (isset($storagesWithConfigHash[$configId])) {
-							$currentStorage = $storagesWithConfigHash[$configId];
-						}
-					}
-
-					if (is_null($currentStorage)) {
-						// create new
-						$currentStorage = new StorageConfig($configId);
-						$currentStorage->setMountPoint($relativeMountPath);
-					}
-
-					try {
-						$this->populateStorageConfigWithLegacyOptions(
-								$currentStorage,
-								$mountType,
-								$applicable,
-								$storageOptions
-						);
-
-						if ($hasId) {
-							$storages[$configId] = $currentStorage;
-						} else {
-							$storagesWithConfigHash[$configId] = $currentStorage;
-						}
-					} catch (\UnexpectedValueException $e) {
-						// dont die if a storage backend doesn't exist
-						\OCP\Util::writeLog(
-								'files_external',
-								'Could not load storage: "' . $e->getMessage() . '"',
-								\OCP\Util::ERROR
-						);
-					}
-				}
-			}
-		}
-
-		// process storages with config hash, they must get a real id
-		if (!empty($storagesWithConfigHash)) {
-			$this->setRealStorageIds($storages, $storagesWithConfigHash);
-		}
-
-		// convert parameter values
-		foreach ($storages as $storage) {
-			$storage->getBackend()->validateStorageDefinition($storage);
-			$storage->getAuthMechanism()->validateStorageDefinition($storage);
-		}
-
-		return $storages;
+		return array_combine($keys, $configs);
 	}
-
-	/**
-	 * Replace config hash ID with real IDs, for migrating legacy storages
-	 *
-	 * @param StorageConfig[] $storages Storages with real IDs
-	 * @param StorageConfig[] $storagesWithConfigHash Storages with config hash IDs
-	 */
-	protected function setRealStorageIds(array &$storages, array $storagesWithConfigHash) {
-		$nextId = $this->generateNextId($storages);
-		foreach ($storagesWithConfigHash as $storage) {
-			$storage->setId($nextId);
-			$storages[$nextId] = $storage;
-			$nextId++;
-		}
-
-		// re-save the config with the generated ids
-		$this->writeConfig($storages);
-	}
-
-	/**
-	 * Add mount point into the messy mount point structure
-	 *
-	 * @param array $mountPoints messy array of mount points
-	 * @param string $mountType mount type
-	 * @param string $applicable single applicable user or group
-	 * @param string $rootMountPoint root mount point to use
-	 * @param array $storageConfig storage config to set to the mount point
-	 */
-	protected function addMountPoint(&$mountPoints, $mountType, $applicable, $rootMountPoint, $storageConfig) {
-		if (!isset($mountPoints[$mountType])) {
-			$mountPoints[$mountType] = [];
-		}
-
-		if (!isset($mountPoints[$mountType][$applicable])) {
-			$mountPoints[$mountType][$applicable] = [];
-		}
-
-		$options = [
-			'id' => $storageConfig->getId(),
-			'backend' => $storageConfig->getBackend()->getIdentifier(),
-			//'class' => $storageConfig->getBackend()->getClass(),
-			'authMechanism' => $storageConfig->getAuthMechanism()->getIdentifier(),
-			'options' => $storageConfig->getBackendOptions(),
-		];
-
-		if (!is_null($storageConfig->getPriority())) {
-			$options['priority'] = $storageConfig->getPriority();
-		}
-
-		$mountOptions = $storageConfig->getMountOptions();
-		if (!empty($mountOptions)) {
-			$options['mountOptions'] = $mountOptions;
-		}
-
-		$mountPoints[$mountType][$applicable][$rootMountPoint] = $options;
-	}
-
-	/**
-	 * Write the storages to the configuration.
-	 *
-	 * @param array $storages map of storage id to storage config
-	 */
-	abstract protected function writeConfig($storages);
 
 	/**
 	 * Get a storage with status
@@ -333,19 +126,19 @@ abstract class StoragesService {
 	 * @throws NotFoundException if the storage with the given id was not found
 	 */
 	public function getStorage($id) {
-		$allStorages = $this->readConfig();
+		$mount = $this->dbConfig->getMountById($id);
 
-		if (!isset($allStorages[$id])) {
+		if (!is_array($mount)) {
 			throw new NotFoundException('Storage with id "' . $id . '" not found');
 		}
 
-		return $allStorages[$id];
+		return $this->getStorageConfigFromDBMount($mount);
 	}
 
 	/**
 	 * Gets all storages, valid or not
 	 *
-	 * @return array array of storage configs
+	 * @return StorageConfig[] array of storage configs
 	 */
 	public function getAllStorages() {
 		return $this->readConfig();
@@ -354,7 +147,7 @@ abstract class StoragesService {
 	/**
 	 * Gets all valid storages
 	 *
-	 * @return array
+	 * @return StorageConfig[]
 	 */
 	public function getStorages() {
 		return array_filter($this->getAllStorages(), [$this, 'validateStorage']);
@@ -392,23 +185,49 @@ abstract class StoragesService {
 	 */
 	abstract public function getVisibilityType();
 
+	protected function getType() {
+		return DBConfigService::MOUNT_TYPE_ADMIN;
+	}
+
 	/**
 	 * Add new storage to the configuration
 	 *
-	 * @param array $newStorage storage attributes
+	 * @param StorageConfig $newStorage storage attributes
 	 *
 	 * @return StorageConfig storage config, with added id
 	 */
 	public function addStorage(StorageConfig $newStorage) {
 		$allStorages = $this->readConfig();
 
-		$configId = $this->generateNextId($allStorages);
+		$configId = $this->dbConfig->addMount(
+			$newStorage->getMountPoint(),
+			$newStorage->getBackend()->getIdentifier(),
+			$newStorage->getAuthMechanism()->getIdentifier(),
+			$newStorage->getPriority(),
+			$this->getType()
+		);
+
 		$newStorage->setId($configId);
+
+		foreach ($newStorage->getApplicableUsers() as $user) {
+			$this->dbConfig->addApplicable($configId, DBConfigService::APPLICABLE_TYPE_USER, $user);
+		}
+		foreach ($newStorage->getApplicableGroups() as $group) {
+			$this->dbConfig->addApplicable($configId, DBConfigService::APPLICABLE_TYPE_GROUP, $group);
+		}
+		foreach ($newStorage->getBackendOptions() as $key => $value) {
+			$this->dbConfig->setConfig($configId, $key, $value);
+		}
+		foreach ($newStorage->getMountOptions() as $key => $value) {
+			$this->dbConfig->setOption($configId, $key, $value);
+		}
+
+		if (count($newStorage->getApplicableUsers()) === 0 && count($newStorage->getApplicableGroups()) === 0) {
+			$this->dbConfig->addApplicable($configId, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		}
 
 		// add new storage
 		$allStorages[$configId] = $newStorage;
-
-		$this->writeConfig($allStorages);
 
 		$this->triggerHooks($newStorage, Filesystem::signal_create_mount);
 
@@ -442,11 +261,11 @@ abstract class StoragesService {
 	) {
 		$backend = $this->backendService->getBackend($backendIdentifier);
 		if (!$backend) {
-			throw new \InvalidArgumentException('Unable to get backend for '.$backendIdentifier);
+			throw new \InvalidArgumentException('Unable to get backend for ' . $backendIdentifier);
 		}
 		$authMechanism = $this->backendService->getAuthMechanism($authMechanismIdentifier);
 		if (!$authMechanism) {
-			throw new \InvalidArgumentException('Unable to get authentication mechanism for '.$authMechanismIdentifier);
+			throw new \InvalidArgumentException('Unable to get authentication mechanism for ' . $authMechanismIdentifier);
 		}
 		$newStorage = new StorageConfig();
 		$newStorage->setMountPoint($mountPoint);
@@ -519,21 +338,56 @@ abstract class StoragesService {
 	 * @throws NotFoundException if the given storage does not exist in the config
 	 */
 	public function updateStorage(StorageConfig $updatedStorage) {
-		$allStorages = $this->readConfig();
-
 		$id = $updatedStorage->getId();
-		if (!isset($allStorages[$id])) {
-			throw new NotFoundException('Storage with id "' . $id . '" not found');
-		}
-		$oldStorage = $allStorages[$id];
 
-		// ensure objectstore is persistent
-		if ($objectstore = $oldStorage->getBackendOption('objectstore')) {
-			$updatedStorage->setBackendOption('objectstore', $objectstore);
+		$existingMount = $this->dbConfig->getMountById($id);
+
+		if (!is_array($existingMount)) {
+			throw new NotFoundException('Storage with id "' . $id . '" not found while updating storage');
 		}
 
-		$allStorages[$id] = $updatedStorage;
-		$this->writeConfig($allStorages);
+		$oldStorage = $this->getStorageConfigFromDBMount($existingMount);
+
+		$removedUsers = array_diff($oldStorage->getApplicableUsers(), $updatedStorage->getApplicableUsers());
+		$removedGroups = array_diff($oldStorage->getApplicableGroups(), $updatedStorage->getApplicableGroups());
+		$addedUsers = array_diff($updatedStorage->getApplicableUsers(), $oldStorage->getApplicableUsers());
+		$addedGroups = array_diff($updatedStorage->getApplicableGroups(), $oldStorage->getApplicableGroups());
+
+		$oldUserCount = count($oldStorage->getApplicableUsers());
+		$oldGroupCount = count($oldStorage->getApplicableGroups());
+		$newUserCount = count($oldStorage->getApplicableUsers());
+		$newGroupCount = count($oldStorage->getApplicableGroups());
+		$wasGlobal = ($oldUserCount + $oldGroupCount) === 0;
+		$isGlobal = ($newUserCount + $newGroupCount) === 0;
+
+		foreach ($removedUsers as $user) {
+			$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, $user);
+		}
+		foreach ($removedGroups as $group) {
+			$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_GROUP, $group);
+		}
+		foreach ($addedUsers as $user) {
+			$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, $user);
+		}
+		foreach ($addedGroups as $group) {
+			$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GROUP, $group);
+		}
+
+		if ($wasGlobal && !$isGlobal) {
+			$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		} else if (!$wasGlobal && $isGlobal) {
+			$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		}
+
+		$changedConfig = array_diff_assoc($updatedStorage->getBackendOptions(), $oldStorage->getBackendOptions());
+		$changedOptions = array_diff_assoc($updatedStorage->getMountOptions(), $oldStorage->getMountOptions());
+
+		foreach ($changedConfig as $key => $value) {
+			$this->dbConfig->setConfig($id, $key, $value);
+		}
+		foreach ($changedOptions as $key => $value) {
+			$this->dbConfig->setOption($id, $key, $value);
+		}
 
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);
 
@@ -548,17 +402,15 @@ abstract class StoragesService {
 	 * @throws NotFoundException if no storage was found with the given id
 	 */
 	public function removeStorage($id) {
-		$allStorages = $this->readConfig();
+		$existingMount = $this->dbConfig->getMountById($id);
 
-		if (!isset($allStorages[$id])) {
+		if (!is_array($existingMount)) {
 			throw new NotFoundException('Storage with id "' . $id . '" not found');
 		}
 
-		$deletedStorage = $allStorages[$id];
-		unset($allStorages[$id]);
+		$this->dbConfig->removeMount($id);
 
-		$this->writeConfig($allStorages);
-
+		$deletedStorage = $this->getStorageConfigFromDBMount($existingMount);
 		$this->triggerHooks($deletedStorage, Filesystem::signal_delete_mount);
 
 		// delete oc_storages entries and oc_filecache
@@ -575,24 +427,6 @@ abstract class StoragesService {
 				\OCP\Util::ERROR
 			);
 		}
-	}
-
-	/**
-	 * Generates a configuration id to use for a new configuration entry.
-	 *
-	 * @param array $allStorages array of all storage configs
-	 *
-	 * @return int id
-	 */
-	protected function generateNextId($allStorages) {
-		if (empty($allStorages)) {
-			return 1;
-		}
-		// note: this will mess up with with concurrency,
-		// but so did the mount.json. This horribly hack
-		// will disappear once we move to DB tables to
-		// store the config
-		return (max(array_keys($allStorages)) + 1);
 	}
 
 	/**
