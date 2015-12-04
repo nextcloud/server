@@ -570,6 +570,7 @@ class Connection extends LDAPUtility {
 	 * @param string $host
 	 * @param string $port
 	 * @return false|void
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function doConnect($host, $port) {
 		if(empty($host)) {
@@ -582,6 +583,8 @@ class Connection extends LDAPUtility {
 					$this->ldap->startTls($this->ldapConnectionRes);
 				}
 			}
+		} else {
+			throw new \OC\ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
 	}
 
