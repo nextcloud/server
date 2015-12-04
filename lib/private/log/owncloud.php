@@ -38,8 +38,9 @@ class OC_Log_Owncloud {
 	 * Init class data
 	 */
 	public static function init() {
-		$defaultLogFile = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data').'/owncloud.log';
-		self::$logFile = OC_Config::getValue("logfile", $defaultLogFile);
+		$systemConfig = \OC::$server->getSystemConfig();
+		$defaultLogFile = $systemConfig->getValue("datadirectory", OC::$SERVERROOT.'/data').'/owncloud.log';
+		self::$logFile = $systemConfig->getValue("logfile", $defaultLogFile);
 
 		/*
 		* Fall back to default log file if specified logfile does not exist
@@ -110,7 +111,7 @@ class OC_Log_Owncloud {
 	 */
 	public static function getEntries($limit=50, $offset=0) {
 		self::init();
-		$minLevel=OC_Config::getValue( "loglevel", \OCP\Util::WARN );
+		$minLevel = \OC::$server->getSystemConfig()->getValue("loglevel", \OCP\Util::WARN);
 		$entries = array();
 		$handle = @fopen(self::$logFile, 'rb');
 		if ($handle) {
