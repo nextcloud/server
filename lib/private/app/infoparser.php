@@ -61,7 +61,7 @@ class InfoParser {
 		if ($xml == false) {
 			return null;
 		}
-		$array = $this->xmlToArray($xml, false);
+		$array = $this->xmlToArray($xml);
 		if (is_null($array)) {
 			return null;
 		}
