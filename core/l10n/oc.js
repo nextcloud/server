@@ -187,7 +187,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Impossible de reïnicializar lo senhal perque lo geton es pas valable.",
     "Couldn't reset password because the token is expired" : "Impossible de reïnicializar lo senhal perque lo geton a expirat.",
     "Couldn't send reset email. Please make sure your username is correct." : "Impossible de mandar lo corrièl de reïnicializacion. Verificatz que vòstre nom d'utilizaire es corrècte.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Impossible de mandar lo corrièl de reïnicializacion perque i a pas cap d'adreça de corrièl per aqueste utilizaire. Contactatz vòstre administrator.",
     "%s password reset" : "Reïnicializacion de vòstre senhal %s",
     "Use the following link to reset your password: {link}" : "Utilizatz lo ligam seguent per reïnicializar vòstre senhal : {link}",
     "New password" : "Senhal novèl",

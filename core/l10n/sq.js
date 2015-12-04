@@ -191,7 +191,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "S’u ricaktua dot fjalëkalimi, ngaqë token-i është i pavlefshëm",
     "Couldn't reset password because the token is expired" : "S’u ricaktua dot fjalëkalimi, ngaqë token-i ka skaduar",
     "Couldn't send reset email. Please make sure your username is correct." : "S’u dërgua dot email ricaktimi. Ju lutemi, sigurohuni që emri juaj i përdoruesit është i saktë.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "S’u dërgua dot email ricaktimi, ngaqë s’ka adresë email për këtë përdoruesi. Ju lutemi, lidhuni me përgjegjësin tuaj.",
     "%s password reset" : "U ricaktua fjalëkalimi për %s",
     "Use the following link to reset your password: {link}" : "Që të ricaktoni fjalëkalimin tuaj, përdorni lidhjen vijuese: {link}",
     "New password" : "Fjalëkalim i ri",

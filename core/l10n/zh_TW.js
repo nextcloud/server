@@ -186,7 +186,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "無法重設密碼因為 token 無效",
     "Couldn't reset password because the token is expired" : "無法重設密碼，因為 token 過期",
     "Couldn't send reset email. Please make sure your username is correct." : "無法寄送重設 email ，請確認您的帳號輸入正確",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "無法寄送重設 email ，因為這個帳號沒有設定 email 地址，請聯絡您的系統管理員",
     "%s password reset" : "%s 密碼重設",
     "Use the following link to reset your password: {link}" : "請至以下連結重設您的密碼： {link}",
     "New password" : "新密碼",

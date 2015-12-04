@@ -185,7 +185,6 @@
     "Couldn't reset password because the token is invalid" : "Belirteç geçersiz olduğundan parola sıfırlanamadı",
     "Couldn't reset password because the token is expired" : "Jeton zaman aşımına uğradığından parola sıfırlanamadı",
     "Couldn't send reset email. Please make sure your username is correct." : "Sıfırlama e-postası gönderilemedi. Lütfen kullanıcı adınızın doğru olduğundan emin olun.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Sıfırlama e-postası, bu kullanıcı için bir e-posta adresi olmadığından gönderilemedi. Lütfen yöneticiniz ile iletişime geçin.",
     "%s password reset" : "%s parola sıfırlama",
     "Use the following link to reset your password: {link}" : "Parolanızı sıfırlamak için bu bağlantıyı kullanın: {link}",
     "New password" : "Yeni parola",

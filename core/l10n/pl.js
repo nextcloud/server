@@ -143,7 +143,6 @@ OC.L10N.register(
     "The update was successful. Redirecting you to ownCloud now." : "Aktualizacji zakończyła się powodzeniem. Przekierowuję do ownCloud.",
     "Couldn't reset password because the token is invalid" : "Nie można zresetować hasła, ponieważ token jest niepoprawny",
     "Couldn't send reset email. Please make sure your username is correct." : "Nie mogę wysłać maila resetującego. Sprawdź czy nazwa użytkownika jest poprawna.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Nie mogę wysłać maila resetującego. Sprawdź czy nazwa użytkownika  lub adres email jest poprawny. Skontaktuj się z administratorem.",
     "%s password reset" : "%s reset hasła",
     "Use the following link to reset your password: {link}" : "Użyj tego odnośnika by zresetować hasło: {link}",
     "New password" : "Nowe hasło",

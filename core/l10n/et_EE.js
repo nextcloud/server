@@ -158,7 +158,6 @@ OC.L10N.register(
     "The update was successful. Redirecting you to ownCloud now." : "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi.",
     "Couldn't reset password because the token is invalid" : "Ei saanud parooli taastada, kuna märgend on vigane",
     "Couldn't send reset email. Please make sure your username is correct." : "Ei suutnud lähtestada e-maili. Palun veendu, et kasutajatunnus on õige.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Ei suutnud lähtestada e-maili, kuna sellel kasutajal pole e-posti määratud. Palun kontakteeru süsteemihalduriga.",
     "%s password reset" : "%s parooli lähtestus",
     "Use the following link to reset your password: {link}" : "Kasuta järgnevat linki oma parooli taastamiseks: {link}",
     "New password" : "Uus parool",

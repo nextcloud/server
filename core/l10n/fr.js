@@ -191,7 +191,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Impossible de réinitialiser le mot de passe car le jeton n'est pas valable.",
     "Couldn't reset password because the token is expired" : "Impossible de réinitialiser le mot de passe car le jeton a expiré.",
     "Couldn't send reset email. Please make sure your username is correct." : "Impossible d'envoyer le courriel de réinitialisation. Veuillez vérifier que votre nom d'utilisateur est correct.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Impossible d'envoyer le courriel de réinitialisation car il n'y a aucune adresse de courriel pour cet utilisateur. Veuillez contacter votre administrateur.",
     "%s password reset" : "Réinitialisation de votre mot de passe %s",
     "Use the following link to reset your password: {link}" : "Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}",
     "New password" : "Nouveau mot de passe",

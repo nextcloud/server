@@ -145,7 +145,6 @@ OC.L10N.register(
     "The update was successful. Redirecting you to ownCloud now." : "Обновяването е успешно. Сега Ви пренасочваме към ownCloud.",
     "Couldn't reset password because the token is invalid" : "Промяната на паролата е невъзможно, защото връзката за удостоверение не е валидна",
     "Couldn't send reset email. Please make sure your username is correct." : "Неуспешно изпращане на имейл за възстановяване на паролата. Моля, уверете се, че потребителското име е правилно.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Неуспешно изпращане на имейл за възстановяване на паролата, защото липсва имейл, свързан с това потребителско име. Моля, свържете се с администратора.",
     "%s password reset" : "Паролата на %s е променена.",
     "Use the following link to reset your password: {link}" : "Използвайте следната връзка, за да възстановите паролата си: {link}",
     "New password" : "Нова парола",

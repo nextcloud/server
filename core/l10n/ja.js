@@ -187,7 +187,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "トークンが無効なため、パスワードをリセットできませんでした",
     "Couldn't reset password because the token is expired" : "トークンが期限切れのため、パスワードをリセットできませんでした",
     "Couldn't send reset email. Please make sure your username is correct." : "リセットメールを送信できませんでした。ユーザー名が正しいことを確認してください。",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "このユーザー名に紐付けられたメールアドレスがないため、リセットメールを送信できませんでした。管理者に問い合わせてください。",
     "%s password reset" : "%s パスワードリセット",
     "Use the following link to reset your password: {link}" : "パスワードをリセットするには次のリンクをクリックしてください: {link}",
     "New password" : "新しいパスワードを入力",

@@ -178,7 +178,6 @@
     "Couldn't reset password because the token is invalid" : "Nemožno zmeniť heslo pre neplatnosť tokenu.",
     "Couldn't reset password because the token is expired" : "Nepodarilo sa obnoviť heslo, pretože platnosť tokenu uplynula.",
     "Couldn't send reset email. Please make sure your username is correct." : "Nemožno poslať email pre obnovu. Uistite sa, či vkladáte správne používateľské meno.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Nemožno poslať email pre obnovu hesla, pretože pre tohoto používateľa nie je uvedená žiadna emailová adresa. Prosím, obráťte sa na administrátora.",
     "%s password reset" : "reset hesla %s",
     "Use the following link to reset your password: {link}" : "Použite nasledujúci odkaz pre obnovenie vášho hesla: {link}",
     "New password" : "Nové heslo",

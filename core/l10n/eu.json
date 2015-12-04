@@ -137,7 +137,6 @@
     "The update was successful. Redirecting you to ownCloud now." : "Eguneraketa ongi egin da. Orain zure ownClouderea berbideratua izango zara.",
     "Couldn't reset password because the token is invalid" : "Ezin izan da pasahitza berrezarri tokena baliogabea delako",
     "Couldn't send reset email. Please make sure your username is correct." : "Ezin izan da berrezartzeko eposta bidali. Ziurtatu zure erabiltzaile izena egokia dela.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Ezin izan da berrezartzeko eposta bidali erabiltzaile izen honetarako eposta helbiderik ez dagoelako. Mesedez harremanetan jarri kudeatzailearekin.",
     "%s password reset" : "%s pasahitza berrezarri",
     "Use the following link to reset your password: {link}" : "Eribili hurrengo lotura zure pasahitza berrezartzeko: {link}",
     "New password" : "Pasahitz berria",

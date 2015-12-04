@@ -138,7 +138,6 @@ OC.L10N.register(
     "The update was successful. Redirecting you to ownCloud now." : "Ažuriranje je uspelo. Prosleđivanje na ownCloud.",
     "Couldn't reset password because the token is invalid" : "Nije bilo moguće ponovo postaviti lozinku zbog nevažećeg kontrolnog broja",
     "Couldn't send reset email. Please make sure your username is correct." : "Nije bilo moguće poslati Email za ponovno postavljanje. Molimo Vas da proverite da li je Vaše korisničko ime ispravno.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Nije bilo moguće poslati Email za ponovno postavljanje lozinke jer nema Email adrese za ovo korisničko ime. Molimo Vas da kontaktirate Vašeg administratora.",
     "%s password reset" : "%s lozinka ponovo postavljena",
     "Use the following link to reset your password: {link}" : "Koristite sledeći link za reset lozinke: {link}",
     "New password" : "Nova lozinka",

@@ -166,7 +166,6 @@
     "The update was successful. Redirecting you to ownCloud now." : "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud.",
     "Couldn't reset password because the token is invalid" : "No, foi posíbel restabelecer o contrasinal, a marca non é correcta",
     "Couldn't send reset email. Please make sure your username is correct." : "Non foi posíbel enviar o correo do restabelecemento. Asegúrese de que o nome de usuario é o correcto.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Non foi posíbel enviar o correo do restabelecemento. Semella que este correo non corresponde con este nome de usuario. Póñase en contacto co administrador.",
     "%s password reset" : "Restabelecer o contrasinal %s",
     "Use the following link to reset your password: {link}" : "Usa a seguinte ligazón para restabelecer o contrasinal: {link}",
     "New password" : "Novo contrasinal",

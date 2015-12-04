@@ -179,7 +179,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Não foi possível repor a palavra-passe porque a senha é inválida",
     "Couldn't reset password because the token is expired" : "Não foi possível repor a palavra-passe porque a senha expirou",
     "Couldn't send reset email. Please make sure your username is correct." : "Ocorreu um problema com o envio do e-mail, por favor confirme o seu utilizador.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Ocorreu um problema com o envio do e-mail, por favor contacte o administrador.",
     "%s password reset" : "%s reposição da palavra-passe",
     "Use the following link to reset your password: {link}" : "Utilize a seguinte hiperligação para repor a sua palavra-passe: {link}",
     "New password" : "Nova palavra-chave",

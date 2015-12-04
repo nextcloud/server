@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_external",
     {
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Nepavyko atsiųsti užklausos žymės. Patikrinkite savo programos raktą ir paslaptį.",
+    "Step 1 failed. Exception: %s" : "1 žingsnio klaida: %s",
     "External storage" : "Išorinė saugykla",
     "Personal" : "Asmeniniai",
     "Grant access" : "Suteikti priėjimą",

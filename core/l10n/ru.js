@@ -187,7 +187,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Невозможно сбросить пароль из-за неверного токена",
     "Couldn't reset password because the token is expired" : "Не удается сбросить пароль, так как токен истек.",
     "Couldn't send reset email. Please make sure your username is correct." : "Не удалось отправить письмо для сброса пароля. Убедитесь, что имя пользователя указано верно.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Невозможно отправить письмо для сброса пароля, для вашей учетной записи не указан адрес электронной почты. Пожалуйста, свяжитесь с администратором.",
     "%s password reset" : "Сброс пароля %s",
     "Use the following link to reset your password: {link}" : "Используйте следующую ссылку чтобы сбросить пароль: {link}",
     "New password" : "Новый пароль",

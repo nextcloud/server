@@ -185,7 +185,6 @@
     "Couldn't reset password because the token is invalid" : "Αδυναμία επαναφοράς κωδικού πρόσβασης καθώς το τεκμήριο είναι άκυρο",
     "Couldn't reset password because the token is expired" : "Αδυναμία επαναφοράς κωδικού πρόσβασης επειδή το token έχει λήξει",
     "Couldn't send reset email. Please make sure your username is correct." : "Αδυναμία αποστολής ηλ. μηνύματος επαναφοράς. Παρακαλώ ελέγξτε ότι το όνομα χρήστη σας είναι ορθό.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Αδυναμία αποστολής ηλ. μηνύματος επαναφοράς καθώς δεν αντιστοιχεί καμμία διεύθυνση ηλ. ταχυδρομείου σε αυτό το όνομα χρήστη. Παρακαλώ επικοινωνήστε με το διαχειριστή σας.",
     "%s password reset" : "%s επαναφορά κωδικού πρόσβασης",
     "Use the following link to reset your password: {link}" : "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}",
     "New password" : "Νέο συνθηματικό",

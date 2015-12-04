@@ -186,7 +186,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Kunne ikke nulstille kodeordet, fordi symboludtrykket er ugyldigt",
     "Couldn't reset password because the token is expired" : "Kunne ikke nulstille kodeord, da tokenet er udløbet",
     "Couldn't send reset email. Please make sure your username is correct." : "Der opstod et problem under afsendelse af nulstillings-e-mailen. Kontroller venligst om dit brugernavnet er korrekt",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Der opstod et problem under afsendelse af nulstillings-e-mailen. Der ikke er nogen email adresse tilknyttet denne bruger konto. Kontakt venligst systemadministratoren",
     "%s password reset" : "%s adgangskode nulstillet",
     "Use the following link to reset your password: {link}" : "Anvend følgende link til at nulstille din adgangskode: {link}",
     "New password" : "Ny adgangskode",

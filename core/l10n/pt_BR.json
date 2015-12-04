@@ -189,7 +189,6 @@
     "Couldn't reset password because the token is invalid" : "Não foi possível redefinir a senha porque o token é inválido",
     "Couldn't reset password because the token is expired" : "Não foi possível redefinir a senha porque o token expirou",
     "Couldn't send reset email. Please make sure your username is correct." : "Não foi possível enviar e-mail de redefinição. Verifique se o seu nome de usuário está correto.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Não foi possível enviar e-mail de redefinição, porque não há nenhum endereço de e-mail para este nome de usuário. Por favor, contate o administrador.",
     "%s password reset" : "%s redefinir senha",
     "Use the following link to reset your password: {link}" : "Use o seguinte link para redefinir sua senha: {link}",
     "New password" : "Nova senha",

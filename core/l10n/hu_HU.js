@@ -187,7 +187,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Nem lehet a jelszót törölni, mert a token érvénytelen.",
     "Couldn't reset password because the token is expired" : "Nem lehet a jelszót törölni, mert a token lejárt.",
     "Couldn't send reset email. Please make sure your username is correct." : "Visszaállítási e-mail nem küldhető. Kérjük, lépjen kapcsolatba a rendszergazdával. ",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Visszaállítási e-mail nem küldhető, mert nem tartozik e-mail cím ehhez a felhasználóhoz. Kérjük, lépjen kapcsolatba a rendszergazdával.",
     "%s password reset" : "%s jelszó visszaállítás",
     "Use the following link to reset your password: {link}" : "Használja ezt a linket a jelszó ismételt beállításához: {link}",
     "New password" : "Az új jelszó",

@@ -187,7 +187,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Kon het wachtwoord niet herstellen, omdat het token ongeldig is",
     "Couldn't reset password because the token is expired" : "Kon het wachtwoord niet herstellen, omdat het token verlopen is",
     "Couldn't send reset email. Please make sure your username is correct." : "Kon e-mail niet versturen. Verifieer of uw gebruikersnaam correct is.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Kon geen herstel e-mail versturen, omdat er geen e-mailadres bekend is bij deze gebruikersnaam. Neem contact op met uw beheerder.",
     "%s password reset" : "%s wachtwoord reset",
     "Use the following link to reset your password: {link}" : "Gebruik de volgende link om uw wachtwoord te resetten: {link}",
     "New password" : "Nieuw wachtwoord",

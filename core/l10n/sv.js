@@ -144,7 +144,6 @@ OC.L10N.register(
     "The update was successful. Redirecting you to ownCloud now." : "Uppdateringen lyckades. Du omdirigeras nu till OwnCloud.",
     "Couldn't reset password because the token is invalid" : "Kunde inte återställa lösenordet på grund av felaktig token",
     "Couldn't send reset email. Please make sure your username is correct." : "Kunde inte skicka återställningsmail. Vänligen kontrollera att ditt användarnamn är korrekt.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Kunde inte skicka något återställningsmail därför att det inte finns någon e-mailadress kopplad till detta användarnamn. Vänligen kontakta din administratör.",
     "%s password reset" : "%s återställ lösenord",
     "Use the following link to reset your password: {link}" : "Använd följande länk för att återställa lösenordet: {link}",
     "New password" : "Nytt lösenord",

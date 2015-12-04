@@ -153,7 +153,6 @@
     "The update was successful. Redirecting you to ownCloud now." : "The update was successful. Redirecting you to ownCloud now.",
     "Couldn't reset password because the token is invalid" : "Couldn't reset password because the token is invalid",
     "Couldn't send reset email. Please make sure your username is correct." : "Couldn't send reset email. Please make sure your username is correct.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Couldn't send reset email because there is no email address for this username. Please contact your administrator.",
     "%s password reset" : "%s password reset",
     "Use the following link to reset your password: {link}" : "Use the following link to reset your password: {link}",
     "New password" : "New password",

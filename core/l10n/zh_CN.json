@@ -185,7 +185,6 @@
     "Couldn't reset password because the token is invalid" : "令牌无效，无法重置密码",
     "Couldn't reset password because the token is expired" : "无法重设密码，因为令牌已过期",
     "Couldn't send reset email. Please make sure your username is correct." : "无法发送重置邮件，请检查您的用户名是否正确。",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "此用户名的电子邮件地址不存在导致无法发送重置邮件，请联系管理员。",
     "%s password reset" : "重置 %s 的密码",
     "Use the following link to reset your password: {link}" : "使用以下链接重置您的密码：{link}",
     "New password" : "新密码",

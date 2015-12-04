@@ -168,7 +168,6 @@
     "Couldn't reset password because the token is invalid" : "No es pot restablir la contrasenya perquè el testimoni no és vàlid",
     "Couldn't reset password because the token is expired" : "No es pot restablir la contrasenya perquè el testimoni ha vençut",
     "Couldn't send reset email. Please make sure your username is correct." : "No s'ha pogut enviar el correu de restabliment. Assegureu-vos que el vostre nom d'usuari és correcte.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "No s'ha pogut enviar el correu de restabliment perquè no hi ha cap correu electrònic per aquest usuari. Contacteu amb l'administrador.",
     "%s password reset" : "restableix la contrasenya %s",
     "Use the following link to reset your password: {link}" : "Useu l'enllaç següent per restablir la contrasenya: {link}",
     "New password" : "Contrasenya nova",

@@ -187,7 +187,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "토큰이 잘못되었기 때문에 암호를 초기화할 수 없습니다",
     "Couldn't reset password because the token is expired" : "토큰이 만료되어 암호를 초기화할 수 없습니다",
     "Couldn't send reset email. Please make sure your username is correct." : "재설정 메일을 보낼 수 없습니다. 사용자 이름이 올바른지 확인하십시오.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "해당 사용자 이름에 등록된 이메일 주소가 없어서 재설정 메일을 보낼 수 없습니다. 관리자에게 문의하십시오.",
     "%s password reset" : "%s 암호 재설정",
     "Use the following link to reset your password: {link}" : "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",
     "New password" : "새 암호",

@@ -38,6 +38,8 @@ OC.L10N.register(
     "OpenStack" : "OpenStack",
     "Username" : "Benutzername",
     "Password" : "Passwort",
+    "Tenant name" : "Name des Mieters",
+    "Rackspace" : "Rackspace",
     "API key" : "API-Schlüssel",
     "Username and password" : "Benutzername und Passwort",
     "RSA public key" : "RSA öffentlicher Schlüssel",

@@ -176,7 +176,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Ni mogoče ponastaviti gesla zaradi neustreznega žetona.",
     "Couldn't reset password because the token is expired" : "Ne moremo ponastaviti gesla, ker je ključ potekel.",
     "Couldn't send reset email. Please make sure your username is correct." : "Ni mogoče poslati elektronskega sporočila. Prepričajte se, da je uporabniško ime pravilno.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Ni mogoče poslati elektronskega sporočila za ponastavitev gesla, ker ni navedenega elektronskega naslova. Stopite v stik s skrbnikom sistema.",
     "%s password reset" : "Ponastavitev gesla %s",
     "Use the following link to reset your password: {link}" : "Za ponastavitev gesla uporabite povezavo: {link}",
     "New password" : "Novo geslo",

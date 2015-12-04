@@ -179,7 +179,6 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Das Passwort konnte aufgrund eines ungültigen Tokens nicht zurückgesetzt werden",
     "Couldn't reset password because the token is expired" : "Das Passwort konnte nicht zurückgesetzt werden, da der Token abgelaufen ist",
     "Couldn't send reset email. Please make sure your username is correct." : "E-Mail zum Zurücksetzen kann nicht versendet werden. Bitte stellen Sie sicher, dass Ihr Benutzername richtig ist.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Die E-Mail zum Zurücksetzen konnte nicht versandt werden, weil für diesen Benutzernamen keine E-Mail-Adresse hinterlegt ist. Bitte kontaktieren Sie Ihren Administrator.",
     "%s password reset" : "%s-Passwort zurücksetzen",
     "Use the following link to reset your password: {link}" : "Benutzen Sie den folgenden Link, um Ihr Passwort zurückzusetzen: {link}",
     "New password" : "Neues Passwort",

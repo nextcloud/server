@@ -169,7 +169,6 @@
     "Couldn't reset password because the token is invalid" : "Неможливо скинути пароль, бо маркер є недійсним",
     "Couldn't reset password because the token is expired" : "Неможливо скинути пароль, бо маркер застарів",
     "Couldn't send reset email. Please make sure your username is correct." : "Не вдалося відправити скидання паролю. Будь ласка, переконайтеся, що ваше ім'я користувача є правильним.",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Не вдалося відправити скидання паролю, тому що немає адреси електронної пошти для цього користувача. Будь ласка, зверніться до адміністратора.",
     "%s password reset" : "%s скидання паролю",
     "Use the following link to reset your password: {link}" : "Використовуйте наступне посилання для скидання пароля: {link}",
     "New password" : "Новий пароль",

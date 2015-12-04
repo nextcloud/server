@@ -132,7 +132,6 @@
     "The update was successful. Redirecting you to ownCloud now." : "L'anovamientu fízose con ésitu. Redirixiendo agora al to ownCloud.",
     "Couldn't reset password because the token is invalid" : "Nun pudo reaniciase la contraseña porque'l token ye inválidu",
     "Couldn't send reset email. Please make sure your username is correct." : "Nun pudo unviase'l corréu. Por favor, asegurate que'l to nome d'usuariu seya correutu",
-    "Couldn't send reset email because there is no email address for this username. Please contact your administrator." : "Nun pudo unviase'l corréu porque nun hai direición de corréu pa esti nome d'usuariu. Por favor, contauta col alministrador",
     "%s password reset" : "%s restablecer contraseña",
     "Use the following link to reset your password: {link}" : "Usa'l siguiente enllaz pa restablecer la to contraseña: {link}",
     "New password" : "Contraseña nueva",
