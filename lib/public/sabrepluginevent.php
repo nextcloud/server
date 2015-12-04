@@ -23,6 +23,7 @@ namespace OCP;
 
 
 use OCP\AppFramework\Http;
+use Sabre\DAV\Server;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -36,12 +37,16 @@ class SabrePluginEvent extends Event {
 	/** @var string */
 	protected $message;
 
+	/** @var Server */
+	protected $server;
+
 	/**
 	 * @since 8.2.0
 	 */
-	public function __construct() {
+	public function __construct($server = null) {
 		$this->message = '';
 		$this->statusCode = Http::STATUS_OK;
+		$this->server = $server;
 	}
 
 	/**
@@ -78,5 +83,13 @@ class SabrePluginEvent extends Event {
 	 */
 	public function getMessage() {
 		return $this->message;
+	}
+
+	/**
+	 * @return null|Server
+	 * @since 9.0.0
+	 */
+	public function getServer() {
+		return $this->server;
 	}
 }

@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\DAV\Connector;
+namespace OCA\Federation\DAV;
 
 use OCA\Federation\DbHandler;
 use OCP\IDBConnection;
