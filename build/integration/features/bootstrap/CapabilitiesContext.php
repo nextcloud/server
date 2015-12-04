@@ -14,6 +14,25 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 	use Provisioning;
 	use Sharing;
 
+	private $apacheUser = '';
+
+	/**
+	 * @Given /^parameter "([^"]*)" is set to "([^"]*)"$/
+	 */
+	public function modifyServerConfig($parameter, $value){
+		$this->apacheUser = exec('ps axho user,comm|grep -E "httpd|apache"|uniq|grep -v "root"|awk \'END {if ($1) print $1}\'');
+		$comando = 'sudo -u ' . $this->apacheUser . ' ../../occ config:app:set ' . $parameter . ' ' . $value;
+		echo "COMANDO: $comando\n";
+		$expectedAnswer = "Config value $value for app $parameter set to";
+		$output = exec($comando);
+		PHPUnit_Framework_Assert::assertEquals(
+					$output, 
+					$expectedAnswer, 
+					"Failed setting $parameter to $value"
+		);
+
+	}
+
 	/**
 	 * @Then /^fields of capabilities match with$/
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
