@@ -51,8 +51,8 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 		$tag = new SystemTag(123, 'Test', true, false);
 
 		$this->tagManager->expects($this->once())
-			->method('getTagsById')
-			->with('123')
+			->method('getTagsByIds')
+			->with(['123'])
 			->will($this->returnValue([$tag]));
 
 		$childNode = $this->node->getChild('123');
@@ -67,8 +67,8 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	 */
 	public function testGetChildInvalidName() {
 		$this->tagManager->expects($this->once())
-			->method('getTagsById')
-			->with('invalid')
+			->method('getTagsByIds')
+			->with(['invalid'])
 			->will($this->throwException(new \InvalidArgumentException()));
 
 		$this->node->getChild('invalid');
@@ -79,8 +79,8 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	 */
 	public function testGetChildNotFound() {
 		$this->tagManager->expects($this->once())
-			->method('getTagsById')
-			->with('444')
+			->method('getTagsByIds')
+			->with(['444'])
 			->will($this->throwException(new TagNotFoundException()));
 
 		$this->node->getChild('444');
@@ -117,8 +117,8 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 		$tag = new SystemTag(123, 'One', true, false);
 
 		$this->tagManager->expects($this->once())
-			->method('getTagsById')
-			->with('123')
+			->method('getTagsByIds')
+			->with(['123'])
 			->will($this->returnValue([$tag]));
 
 		$this->assertTrue($this->node->childExists('123'));
@@ -126,8 +126,8 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 
 	public function testChildExistsNotFound() {
 		$this->tagManager->expects($this->once())
-			->method('getTagsById')
-			->with('123')
+			->method('getTagsByIds')
+			->with(['123'])
 			->will($this->throwException(new TagNotFoundException()));
 
 		$this->assertFalse($this->node->childExists('123'));
@@ -138,8 +138,8 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	 */
 	public function testChildExistsBadRequest() {
 		$this->tagManager->expects($this->once())
-			->method('getTagsById')
-			->with('invalid')
+			->method('getTagsByIds')
+			->with(['invalid'])
 			->will($this->throwException(new \InvalidArgumentException()));
 
 		$this->node->childExists('invalid');

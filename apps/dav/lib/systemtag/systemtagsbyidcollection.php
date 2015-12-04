@@ -56,7 +56,7 @@ class SystemTagsByIdCollection implements ICollection {
 
 	function getChild($name) {
 		try {
-			$tags = $this->tagManager->getTagsById($name);
+			$tags = $this->tagManager->getTagsByIds([$name]);
 			return $this->makeNode(current($tags));
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
@@ -66,7 +66,6 @@ class SystemTagsByIdCollection implements ICollection {
 	}
 
 	function getChildren() {
-		// TODO: set visibility filter based on principal/permissions ?
 		$tags = $this->tagManager->getAllTags(true);
 		return array_map(function($tag) {
 			return $this->makeNode($tag);
@@ -75,7 +74,7 @@ class SystemTagsByIdCollection implements ICollection {
 
 	function childExists($name) {
 		try {
-			$this->tagManager->getTagsById($name);
+			$this->tagManager->getTagsByIds([$name]);
 			return true;
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);

@@ -33,6 +33,13 @@ use OCP\SystemTag\TagAlreadyExistsException;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
+/**
+ * Sabre plugin to handle system tags:
+ *
+ * - makes it possible to create new tags with POST operation
+ * - get/set Webdav properties for tags
+ *
+ */
 class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 
 	// namespace
@@ -86,7 +93,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * We intercept this to handle POST requests on calendars.
+	 * POST operation on system tag collections
 	 *
 	 * @param RequestInterface $request request object
 	 * @param ResponseInterface $response response object
@@ -130,18 +137,17 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	/**
 	 * Creates a new tag
 	 *
-	 * @param string $data
+	 * @param string $data JSON encoded string containing the properties of the tag to create
 	 * @param string $contentType content type of the data
 	 * @return ISystemTag newly created system tag
 	 *
 	 * @throws BadRequest if a field was missing
-	 * @throws Conflict
+	 * @throws Conflict if a tag with the same properties already exists
 	 * @throws UnsupportedMediaType if the content type is not supported
 	 */
 	private function createTag($data, $contentType = 'application/json') {
 		if ($contentType === 'application/json') {
 			$data = json_decode($data, true);
-			// TODO: application/x-www-form-urlencoded ?
 		} else {
 			throw new UnsupportedMediaType();
 		}
@@ -164,7 +170,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		try {
 			return $this->tagManager->createTag($tagName, $userVisible, $userAssignable);
 		} catch (TagAlreadyExistsException $e) {
-			throw new Conflict('Tag already exists');
+			throw new Conflict('Tag already exists', 0, $e);
 		}
 	}
 

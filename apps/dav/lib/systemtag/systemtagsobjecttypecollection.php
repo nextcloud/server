@@ -62,7 +62,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	}
 
 	function createFile($name, $data = null) {
-		throw new Forbidden('Permission denied to create collections');
+		throw new Forbidden('Permission denied to create nodes');
 	}
 
 	function createDirectory($name) {

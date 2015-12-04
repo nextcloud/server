@@ -250,7 +250,7 @@ class SystemTagManagerTest extends TestCase {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$tag2 = $this->tagManager->createTag('two', false, true);
 
-		$tagList = $this->tagManager->getTagsById([$tag1->getId(), $tag2->getId()]);
+		$tagList = $this->tagManager->getTagsByIds([$tag1->getId(), $tag2->getId()]);
 
 		$this->assertCount(2, $tagList);
 
@@ -270,7 +270,7 @@ class SystemTagManagerTest extends TestCase {
 	 */
 	public function testGetNonExistingTagsById() {
 		$tag1 = $this->tagManager->createTag('one', true, false);
-		$this->tagManager->getTagsById([$tag1->getId(), 100, 101]);
+		$this->tagManager->getTagsByIds([$tag1->getId(), 100, 101]);
 	}
 
 	/**
@@ -278,7 +278,7 @@ class SystemTagManagerTest extends TestCase {
 	 */
 	public function testGetInvalidTagIdFormat() {
 		$tag1 = $this->tagManager->createTag('one', true, false);
-		$this->tagManager->getTagsById([$tag1->getId() . 'suffix']);
+		$this->tagManager->getTagsByIds([$tag1->getId() . 'suffix']);
 	}
 
 	public function updateTagProvider() {

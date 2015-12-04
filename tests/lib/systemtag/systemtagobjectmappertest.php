@@ -74,7 +74,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->tag3 = new SystemTag(3, 'testtag3', false, false);
 
 		$this->tagManager->expects($this->any())
-			->method('getTagsById')
+			->method('getTagsByIds')
 			->will($this->returnCallback(function($tagIds) {
 				$result = [];
 				if (in_array(1, $tagIds)) {

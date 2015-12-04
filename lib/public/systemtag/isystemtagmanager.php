@@ -41,7 +41,7 @@ interface ISystemTagManager {
 	 *
 	 * @since 9.0.0
 	 */
-	public function getTagsById($tagIds);
+	public function getTagsByIds($tagIds);
 
 	/**
 	 * Returns the tag object matching the given attributes.

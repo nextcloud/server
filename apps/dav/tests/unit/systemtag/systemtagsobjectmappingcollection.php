@@ -76,13 +76,13 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
-			->with(111, 'files', '555', true)
+			->with([111], 'files', '555', true)
 			->will($this->returnValue(true));
 
 		$this->tagManager->expects($this->once())
-			->method('getTagsById')
-			->with('555')
-			->will($this->returnValue([$tag]));
+			->method('getTagsByIds')
+			->with(['555'])
+			->will($this->returnValue(['555' => $tag]));
 
 		$childNode = $this->node->getChild('555');
 
@@ -96,7 +96,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	public function testGetChildRelationNotFound() {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
-			->with(111, 'files', '777')
+			->with([111], 'files', '777')
 			->will($this->returnValue(false));
 
 		$this->node->getChild('777');
@@ -108,7 +108,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	public function testGetChildInvalidId() {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
-			->with(111, 'files', 'badid')
+			->with([111], 'files', 'badid')
 			->will($this->throwException(new \InvalidArgumentException()));
 
 		$this->node->getChild('badid');
@@ -120,7 +120,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	public function testGetChildTagDoesNotExist() {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
-			->with(111, 'files', '777')
+			->with([111], 'files', '777')
 			->will($this->throwException(new TagNotFoundException()));
 
 		$this->node->getChild('777');
@@ -132,11 +132,11 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 
 		$this->tagMapper->expects($this->once())
 			->method('getTagIdsForObjects')
-			->with(111, 'files')
+			->with([111], 'files')
 			->will($this->returnValue(['111' => ['555', '556']]));
 
 		$this->tagManager->expects($this->once())
-			->method('getTagsById')
+			->method('getTagsByIds')
 			->with(['555', '556'])
 			->will($this->returnValue(['555' => $tag1, '666' => $tag2]));
 
@@ -159,7 +159,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	public function testChildExists() {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
-			->with(111, 'files', '555')
+			->with([111], 'files', '555')
 			->will($this->returnValue(true));
 
 		$this->assertTrue($this->node->childExists('555'));
@@ -168,7 +168,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	public function testChildExistsNotFound() {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
-			->with(111, 'files', '555')
+			->with([111], 'files', '555')
 			->will($this->returnValue(false));
 
 		$this->assertFalse($this->node->childExists('555'));
@@ -177,7 +177,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	public function testChildExistsTagNotFound() {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
-			->with(111, 'files', '555')
+			->with([111], 'files', '555')
 			->will($this->throwException(new TagNotFoundException()));
 
 		$this->assertFalse($this->node->childExists('555'));
@@ -189,7 +189,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	public function testChildExistsInvalidId() {
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
-			->with(111, 'files', '555')
+			->with([111], 'files', '555')
 			->will($this->throwException(new \InvalidArgumentException()));
 
 		$this->node->childExists('555');

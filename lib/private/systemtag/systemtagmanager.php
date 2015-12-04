@@ -63,7 +63,7 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getTagsById($tagIds) {
+	public function getTagsByIds($tagIds) {
 		if (!is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -242,7 +242,7 @@ class SystemTagManager implements ISystemTagManager {
 
 		$tagNotFoundException = null;
 		try {
-			$this->getTagsById($tagIds);
+			$this->getTagsByIds($tagIds);
 		} catch (TagNotFoundException $e) {
 			$tagNotFoundException = $e;
 		}

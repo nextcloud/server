@@ -86,8 +86,8 @@ class SystemTagsObjectMappingCollection implements ICollection {
 
 	function getChild($tagId) {
 		try {
-			if ($this->tagMapper->haveTag($this->objectId, $this->objectType, $tagId, true)) {
-				$tag = $this->tagManager->getTagsById($tagId);
+			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true)) {
+				$tag = $this->tagManager->getTagsByIds([$tagId]);
 				return $this->makeNode(current($tag));
 			}
 			throw new NotFound('Tag with id ' . $tagId . ' not present for object ' . $this->objectId);
@@ -99,11 +99,11 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	}
 
 	function getChildren() {
-		$tagIds = current($this->tagMapper->getTagIdsForObjects($this->objectId, $this->objectType));
+		$tagIds = current($this->tagMapper->getTagIdsForObjects([$this->objectId], $this->objectType));
 		if (empty($tagIds)) {
 			return [];
 		}
-		$tags = $this->tagManager->getTagsById($tagIds);
+		$tags = $this->tagManager->getTagsByIds($tagIds);
 		return array_values(array_map(function($tag) {
 			return $this->makeNode($tag);
 		}, $tags));
@@ -111,7 +111,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 
 	function childExists($tagId) {
 		try {
-			return ($this->tagMapper->haveTag($this->objectId, $this->objectType, $tagId, true));
+			return ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true));
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
 		} catch (TagNotFoundException $e) {
@@ -141,7 +141,8 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	}
 
 	/**
-	 * Create a sabre node for the given system tag
+	 * Create a sabre node for the mapping of the 
+	 * given system tag to the collection's object
 	 *
 	 * @param ISystemTag $tag
 	 *
