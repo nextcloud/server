@@ -2,6 +2,9 @@
 
 composer install
 
+SCENARIO_TO_RUN=$1
+HIDE_OC_LOGS=$2
+
 # avoid port collision on jenkins - use $EXECUTOR_NUMBER
 if [ -z "$EXECUTOR_NUMBER" ]; then
     EXECUTOR_NUMBER=0
@@ -27,7 +30,9 @@ RESULT=$?
 kill $PHPPID
 kill $PHPPID_FED
 
-tail "../../data/owncloud.log"
+if [ -z $HIDE_OC_LOGS ]; then
+	tail "../../data/owncloud.log"
+fi
 
 exit $RESULT
 
