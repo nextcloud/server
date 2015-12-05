@@ -15,6 +15,7 @@
     "Unsatisfied backend parameters" : "Parametri del motore non soddisfatti",
     "Unsatisfied authentication mechanism parameters" : "Parametri del meccanismo di autenticazione non soddisfatti",
     "Insufficient data: %s" : "Dati insufficienti: %s",
+    "%s" : "%s",
     "Personal" : "Personale",
     "System" : "Sistema",
     "Grant access" : "Concedi l'accesso",

@@ -191,6 +191,7 @@ OC.L10N.register(
     "Couldn't reset password because the token is invalid" : "Heslo nebylo změněno kvůli neplatnému tokenu",
     "Couldn't reset password because the token is expired" : "Heslo nebylo změněno z důvodu vypršení tokenu",
     "Couldn't send reset email. Please make sure your username is correct." : "Nelze odeslat email pro změnu hesla. Ujistěte se prosím, že zadáváte správné uživatelské jméno.",
+    "Could not send reset email because there is no email address for this username. Please contact your administrator." : "Nelze odeslat email pro změnu hesla, protože u tohoto uživatelského jména není uvedena emailová adresa. Kontaktujte prosím svého administrátora.",
     "%s password reset" : "reset hesla %s",
     "Use the following link to reset your password: {link}" : "Heslo obnovíte použitím následujícího odkazu: {link}",
     "New password" : "Nové heslo",

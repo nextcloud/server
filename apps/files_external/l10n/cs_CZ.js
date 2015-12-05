@@ -17,6 +17,7 @@ OC.L10N.register(
     "Unsatisfied backend parameters" : "Neuspokojivé parametry služby",
     "Unsatisfied authentication mechanism parameters" : "Neuspokojivé parametry ověřovacího mechanismu",
     "Insufficient data: %s" : "Nedostatečná data: %s",
+    "%s" : "%s",
     "Personal" : "Osobní",
     "System" : "Systém",
     "Grant access" : "Povolit přístup",
