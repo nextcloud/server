@@ -29,9 +29,7 @@ namespace OC\AppFramework\Utility;
 use ReflectionClass;
 use ReflectionException;
 use Closure;
-
 use Pimple\Container;
-
 use OCP\AppFramework\QueryException;
 use OCP\IContainer;
 

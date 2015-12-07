@@ -27,7 +27,6 @@
 namespace OC\Settings\Controller;
 
 use OC\AppFramework\Http;
-use OC\Settings\Factory\SubAdminFactory;
 use OC\User\User;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
