@@ -1,0 +1,11 @@
+{
+  "maxReviewers": 3,
+  "numFilesToCheck": 5,
+  "alwaysNotifyForPaths": [
+    {
+      "name": "DeepDiver1975", 
+      "files": ["apps/dav/**"] 
+    }
+  ],
+  "userBlacklist": ["owncloud-bot"] 
+}
