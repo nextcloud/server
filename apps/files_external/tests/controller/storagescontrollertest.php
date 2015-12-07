@@ -48,6 +48,9 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		\OC_Mount_Config::$skipTest = false;
 	}
 
+	/**
+	 * @return \OCA\Files_External\Lib\Backend\Backend
+	 */
 	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OC\Files\Storage\SMB') {
 		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
 			->disableOriginalConstructor()
@@ -59,6 +62,9 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		return $backend;
 	}
 
+	/**
+	 * @return \OCA\Files_External\Lib\Auth\AuthMechanism
+	 */
 	protected function getAuthMechMock($scheme = 'null', $class = '\OCA\Files_External\Lib\Auth\NullMechanism') {
 		$authMech = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\AuthMechanism')
 			->disableOriginalConstructor()

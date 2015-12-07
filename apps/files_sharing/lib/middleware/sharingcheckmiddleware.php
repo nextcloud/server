@@ -27,7 +27,6 @@ namespace OCA\Files_Sharing\Middleware;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Middleware;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
