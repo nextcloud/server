@@ -14,6 +14,10 @@
     Header set X-Robots-Tag "none"
     Header set X-Frame-Options "SAMEORIGIN"
     SetEnv modHeadersAvailable true
+
+    # Add CSP header if not set, used for static resources
+    Header append Content-Security-Policy ""
+    Header edit Content-Security-Policy "^$" "default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'"
   </IfModule>
 
   # Add cache control for CSS and JS files
