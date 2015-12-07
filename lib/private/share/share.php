@@ -745,10 +745,8 @@ class Share extends Constants {
 			// The check for each user in the group is done inside the put() function
 			if ($checkExists = self::getItems($itemType, $itemSource, self::SHARE_TYPE_GROUP, $shareWith,
 				null, self::FORMAT_NONE, null, 1, true, true)) {
-				// Only allow the same share to occur again if it is the same
-				// owner and is not a group share, this use case is for increasing
-				// permissions for a specific user
-				if ($checkExists['uid_owner'] != $uidOwner || $checkExists['share_type'] == $shareType) {
+
+				if ($checkExists['share_with'] === $shareWith && $checkExists['share_type'] === \OCP\Share::SHARE_TYPE_GROUP) {
 					$message = 'Sharing %s failed, because this item is already shared with %s';
 					$message_t = $l->t('Sharing %s failed, because this item is already shared with %s', array($itemSourceName, $shareWith));
 					\OCP\Util::writeLog('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OCP\Util::DEBUG);
