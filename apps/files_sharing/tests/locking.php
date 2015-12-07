@@ -24,7 +24,6 @@ namespace OCA\Files_sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
-use OC\Lock\MemcacheLockingProvider;
 use OCP\Lock\ILockingProvider;
 
 /**
