@@ -204,7 +204,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 
 		$dn = $user->getDN();
 		//check if user really still exists by reading its entry
-		if(!is_array($this->access->readAttribute($dn, ''))) {
+		if(!is_array($this->access->readAttribute($dn, '', $this->access->connection->ldapUserFilter))) {
 			$lcr = $this->access->connection->getConnectionResource();
 			if(is_null($lcr)) {
 				throw new \Exception('No LDAP Connection to server ' . $this->access->connection->ldapHost);
