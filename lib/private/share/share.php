@@ -764,6 +764,11 @@ class Share extends Constants {
 			$updateExistingShare = false;
 			if (\OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
 
+				// IF the password is changed via the old ajax endpoint verify it before deleting the old share
+				if ($passwordChanged === true) {
+					self::verifyPassword($shareWith);
+				}
+
 				// when updating a link share
 				// FIXME Don't delete link if we update it
 				if ($checkExists = self::getItems($itemType, $itemSource, self::SHARE_TYPE_LINK, null,
