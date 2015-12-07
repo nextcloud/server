@@ -66,7 +66,7 @@ class Shared_Cache extends Cache {
 			try {
 				\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
 			} catch(NoUserException $e) {
-				\OC::$server->getLogger()->logException($e, ['app' => 'files_sharing']);
+				\OCP\Util::logException('files_sharing', $e);
 				return false;
 			}
 			$mounts = \OC\Files\Filesystem::getMountByNumericId($source['storage']);

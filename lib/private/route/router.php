@@ -316,7 +316,7 @@ class Router implements IRouter {
 		try {
 			return $this->getGenerator()->generate($name, $parameters, $absolute);
 		} catch (RouteNotFoundException $e) {
-			$this->logger->logException($e);
+			\OCP\Util::logException('router', $e);
 			return '';
 		}
 	}
