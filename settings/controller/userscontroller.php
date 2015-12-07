@@ -43,6 +43,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use OCP\IAvatarManager;
 
 /**
  * @package OC\Settings\Controller
@@ -74,6 +75,8 @@ class UsersController extends Controller {
 	private $isEncryptionAppEnabled;
 	/** @var bool contains the state of the admin recovery setting */
 	private $isRestoreEnabled = false;
+	/** @var IAvatarManager */
+	private $avatarManager;
 
 	/**
 	 * @param string $appName
@@ -104,7 +107,8 @@ class UsersController extends Controller {
 								IMailer $mailer,
 								$fromMailAddress,
 								IURLGenerator $urlGenerator,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								IAvatarManager $avatarManager) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -117,6 +121,7 @@ class UsersController extends Controller {
 		$this->mailer = $mailer;
 		$this->fromMailAddress = $fromMailAddress;
 		$this->urlGenerator = $urlGenerator;
+		$this->avatarManager = $avatarManager;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
@@ -168,6 +173,12 @@ class UsersController extends Controller {
 		if (is_null($displayName)) {
 			$displayName = '';
 		}
+
+		$avatarAvailable = false;
+		if ($this->config->getSystemValue('enable_avatars', true) === true) {
+			$avatarAvailable = $this->avatarManager->getAvatar($user->getUID())->exists();
+		}
+
 		return [
 			'name' => $user->getUID(),
 			'displayname' => $user->getDisplayName(),
@@ -179,6 +190,7 @@ class UsersController extends Controller {
 			'backend' => $user->getBackendClassName(),
 			'email' => $displayName,
 			'isRestoreDisabled' => !$restorePossible,
+			'isAvatarAvailable' => $avatarAvailable,
 		];
 	}
 
