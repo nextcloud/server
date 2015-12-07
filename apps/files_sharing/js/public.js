@@ -102,12 +102,12 @@ OCA.Sharing.PublicApp = {
 
 		// dynamically load image previews
 		var bottomMargin = 350;
-		var previewWidth = Math.ceil($(window).width() * window.devicePixelRatio);
-		var previewHeight = Math.ceil(($(window).height() - bottomMargin) * window.devicePixelRatio);
+		var previewWidth = $(window).width();
+		var previewHeight = $(window).height() - bottomMargin;
 		previewHeight = Math.max(200, previewHeight);
 		var params = {
-			x: previewWidth,
-			y: previewHeight,
+			x: Math.ceil(previewWidth * window.devicePixelRatio),
+			y: Math.ceil(previewHeight * window.devicePixelRatio),
 			a: 'true',
 			file: encodeURIComponent(this.initialDir + $('#filename').val()),
 			t: token,
@@ -115,6 +115,10 @@ OCA.Sharing.PublicApp = {
 		};
 
 		var img = $('<img class="publicpreview" alt="">');
+		img.css({
+			'max-width': previewWidth,
+			'max-height': previewHeight
+		});
 
 		var fileSize = parseInt($('#filesize').val(), 10);
 		var maxGifSize = parseInt($('#maxSizeAnimateGif').val(), 10);
