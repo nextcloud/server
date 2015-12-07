@@ -1237,7 +1237,11 @@ class OC_Util {
 
 		// accessing the file via http
 		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT . '/data' . $fileName);
-		$content = self::getUrlContent($url);
+		try {
+			$content = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+		} catch (\Exception $e) {
+			$content = false;
+		}
 
 		// cleanup
 		@unlink($testFile);
@@ -1310,23 +1314,6 @@ class OC_Util {
 	 */
 	public static function generateRandomBytes($length = 30) {
 		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
-	}
-
-	/**
-	 * Get URL content
-	 * @param string $url Url to get content
-	 * @throws Exception If the URL does not start with http:// or https://
-	 * @return string of the response or false on error
-	 * This function get the content of a page via curl, if curl is enabled.
-	 * If not, file_get_contents is used.
-	 * @deprecated Use \OC::$server->getHTTPClientService()->newClient()->get($url);
-	 */
-	public static function getUrlContent($url) {
-		try {
-			return \OC::$server->getHTTPHelper()->getUrlContent($url);
-		} catch (\Exception $e) {
-			throw $e;
-		}
 	}
 
 	/**
