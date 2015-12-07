@@ -88,6 +88,10 @@ class ShareesTest extends TestCase {
 		);
 	}
 
+	/**
+	 * @param string $uid
+	 * @param string $displayName
+	 */
 	protected function getUserMock($uid, $displayName) {
 		$user = $this->getMockBuilder('OCP\IUser')
 			->disableOriginalConstructor()
@@ -104,6 +108,9 @@ class ShareesTest extends TestCase {
 		return $user;
 	}
 
+	/**
+	 * @param string $gid
+	 */
 	protected function getGroupMock($gid) {
 		$group = $this->getMockBuilder('OCP\IGroup')
 			->disableOriginalConstructor()

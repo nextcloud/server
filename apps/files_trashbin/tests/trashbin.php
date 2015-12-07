@@ -248,8 +248,8 @@ class Test_Trashbin extends \Test\TestCase {
 
 	/**
 	 * verify that the array contains the expected results
-	 * @param array $result
-	 * @param array $expected
+	 * @param OCP\Files\FileInfo[] $result
+	 * @param string[] $expected
 	 */
 	private function verifyArray($result, $expected) {
 		$this->assertSame(count($expected), count($result));
@@ -268,6 +268,11 @@ class Test_Trashbin extends \Test\TestCase {
 		}
 	}
 
+	/**
+	 * @param OCP\Files\FileInfo[] $files
+	 * @param string $trashRoot
+	 * @param integer $expireDate
+	 */
 	private function manipulateDeleteTime($files, $trashRoot, $expireDate) {
 		$counter = 0;
 		foreach ($files as &$file) {
@@ -627,7 +632,6 @@ class Test_Trashbin extends \Test\TestCase {
 	/**
 	 * @param string $user
 	 * @param bool $create
-	 * @param bool $password
 	 */
 	public static function loginHelper($user, $create = false) {
 		if ($create) {
@@ -650,11 +654,20 @@ class Test_Trashbin extends \Test\TestCase {
 
 // just a dummy class to make protected methods available for testing
 class TrashbinForTesting extends Files_Trashbin\Trashbin {
+
+	/**
+	 * @param OCP\Files\FileInfo[] $files
+	 * @param integer $limit
+	 */
 	public function dummyDeleteExpiredFiles($files, $limit) {
 		// dummy value for $retention_obligation because it is not needed here
 		return parent::deleteExpiredFiles($files, \Test_Trashbin::TEST_TRASHBIN_USER1, $limit, 0);
 	}
 
+	/**
+	 * @param OCP\Files\FileInfo[] $files
+	 * @param integer $availableSpace
+	 */
 	public function dummyDeleteFiles($files, $availableSpace) {
 		return parent::deleteFiles($files, \Test_Trashbin::TEST_TRASHBIN_USER1, $availableSpace);
 	}

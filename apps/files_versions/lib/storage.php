@@ -649,7 +649,7 @@ class Storage {
 	/**
 	 * Expire versions which exceed the quota
 	 *
-	 * @param $filename
+	 * @param string $filename
 	 * @param int|null $versionsSize
 	 * @param int $offset
 	 * @return bool|int|null

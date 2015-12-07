@@ -48,6 +48,11 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	private $user;
 
+	/**
+	 * @param string $storage
+	 * @param string $mountpoint
+	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 */
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		$this->user = $arguments['user'];
 		$this->recipientView = new View('/' . $this->user . '/files');

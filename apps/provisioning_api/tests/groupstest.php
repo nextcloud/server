@@ -58,6 +58,9 @@ class GroupsTest extends \Test\TestCase {
 		);
 	}
 
+	/**
+	 * @param string $gid
+	 */
 	private function createGroup($gid) {
 		$group = $this->getMock('OCP\IGroup');
 		$group
@@ -66,6 +69,9 @@ class GroupsTest extends \Test\TestCase {
 		return $group;
 	}
 
+	/**
+	 * @param string $uid
+	 */
 	private function createUser($uid) {
 		$user = $this->getMock('OCP\IUser');
 		$user
