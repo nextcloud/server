@@ -108,8 +108,24 @@ html:not(.ie8) input[type="checkbox"].checkbox:checked + label:before {
 	background-image: url('../img/actions/checkbox-checked.svg');
 }
 
+html:not(.ie8) input[type="checkbox"].checkbox:disabled + label:before {
+	background-image: url('../img/actions/checkbox-disabled.svg');
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox:checked:disabled + label:before {
+	background-image: url('../img/actions/checkbox-checked-disabled.svg');
+}
+
 html:not(.ie8) input[type="checkbox"].checkbox--white:checked + label:before {
 	background-image: url('../img/actions/checkbox-checked-white.svg');
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox--white:disabled + label:before {
+	background-image: url('../img/actions/checkbox-disabled-white.svg');
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox--white:checked:disabled + label:before {
+	background-image: url('../img/actions/checkbox-checked-disabled.svg');
 }
 
 html:not(.ie8) input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
