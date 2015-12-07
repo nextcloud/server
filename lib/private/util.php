@@ -948,9 +948,11 @@ class OC_Util {
 		}
 
 		$parameters['canResetPassword'] = true;
-		$user = \OC::$server->getUserManager()->get($_REQUEST['user']);
-		if ($user instanceof IUser) {
-			$parameters['canResetPassword'] = $user->canChangePassword();
+		if (!\OC::$server->getSystemConfig()->getValue('lost_password_link')) {
+			$user = \OC::$server->getUserManager()->get($_REQUEST['user']);
+			if ($user instanceof IUser) {
+				$parameters['canResetPassword'] = $user->canChangePassword();
+			}
 		}
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
