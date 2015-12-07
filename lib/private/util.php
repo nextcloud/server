@@ -947,6 +947,14 @@ class OC_Util {
 			$parameters['redirect_url'] = $_REQUEST['redirect_url'];
 		}
 
+		$parameters['canResetPassword'] = true;
+		if (!\OC::$server->getSystemConfig()->getValue('lost_password_link')) {
+			$user = \OC::$server->getUserManager()->get($_REQUEST['user']);
+			if ($user instanceof IUser) {
+				$parameters['canResetPassword'] = $user->canChangePassword();
+			}
+		}
+
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		$parameters['rememberLoginAllowed'] = self::rememberLoginAllowed();
 		\OC_Hook::emit('OC_Util', 'pre_displayLoginPage', array('parameters' => $parameters));

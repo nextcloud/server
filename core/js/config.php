@@ -141,6 +141,7 @@ $array = array(
 			'version'			=> implode('.', OC_Util::getVersion()),
 			'versionstring'		=> OC_Util::getVersionString(),
 			'enable_avatars'	=> \OC::$server->getConfig()->getSystemValue('enable_avatars', true),
+			'lost_password_link'=> \OC::$server->getConfig()->getSystemValue('lost_password_link', null),
 			'modRewriteWorking'	=> (getenv('front_controller_active') === 'true'),
 		)
 	),
