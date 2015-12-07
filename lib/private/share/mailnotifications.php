@@ -180,10 +180,12 @@ class MailNotifications {
 		$subject = (string)$this->l->t('%s shared »%s« with you', [$this->senderDisplayName, $filename]);
 		list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration);
 
+		$recipient = str_replace([', ', '; ', ',', ';', ' '], ',', $recipient);
+		$recipients = explode(',', $recipient);
 		try {
 			$message = $this->mailer->createMessage();
 			$message->setSubject($subject);
-			$message->setTo([$recipient]);
+			$message->setTo($recipients);
 			$message->setHtmlBody($htmlBody);
 			$message->setPlainBody($textBody);
 			$message->setFrom([
