@@ -18,34 +18,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Federation\DAV;
 
+
+namespace OCA\Federation\Tests\DAV;
+
+use OCA\Federation\DAV\FedAuth;
 use OCA\Federation\DbHandler;
-use Sabre\DAV\Auth\Backend\AbstractBasic;
+use Test\TestCase;
 
-class FedAuth extends AbstractBasic {
+class FedAuthTest extends TestCase {
 
 	/**
-	 * FedAuth constructor.
+	 * @dataProvider providesUser
 	 *
-	 * @param DbHandler $db
+	 * @param array $expected
+	 * @param string $user
+	 * @param string $password
 	 */
-	public function __construct(DbHandler $db) {
-		$this->db = $db;
-		$this->principalPrefix = 'principals/system/';
+	public function testFedAuth($expected, $user, $password) {
+		/** @var DbHandler | \PHPUnit_Framework_MockObject_MockObject $db */
+		$db = $this->getMockBuilder('OCA\Federation\DbHandler')->disableOriginalConstructor()->getMock();
+		$db->method('auth')->willReturn(true);
+		$auth = new FedAuth($db);
+		$result = $this->invokePrivate($auth, 'validateUserPass', [$user, $password]);
+		$this->assertEquals($expected, $result);
 	}
 
-	/**
-	 * Validates a username and password
-	 *
-	 * This method should return true or false depending on if login
-	 * succeeded.
-	 *
-	 * @param string $username
-	 * @param string $password
-	 * @return bool
-	 */
-	protected function validateUserPass($username, $password) {
-		return $this->db->auth($username, $password);
+	public function providesUser() {
+		return [
+			[true, 'system', '123456']
+		];
 	}
 }

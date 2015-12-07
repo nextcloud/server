@@ -153,8 +153,10 @@ class Application extends \OCP\AppFramework\App {
 			if ($event instanceof SabrePluginEvent) {
 				$authPlugin = $event->getServer()->getPlugin('auth');
 				if ($authPlugin instanceof Plugin) {
-					$db = $container->getServer()->getDatabaseConnection();
-					$authPlugin->addBackend(new FedAuth($db));
+					$h = new DbHandler($container->getServer()->getDatabaseConnection(),
+							$container->getServer()->getL10N('federation')
+					);
+					$authPlugin->addBackend(new FedAuth($h));
 				}
 			}
 		});

@@ -206,6 +206,7 @@ class DbHandler {
 	 *
 	 * @param string $url
 	 * @param int $status
+	 * @param string|null $token
 	 */
 	public function setServerStatus($url, $status, $token = null) {
 		$hash = $this->hash($url);

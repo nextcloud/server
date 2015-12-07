@@ -34,6 +34,16 @@ class SyncService {
 		$this->backend = $backend;
 	}
 
+	/**
+	 * @param string $url
+	 * @param string $userName
+	 * @param string $sharedSecret
+	 * @param string $syncToken
+	 * @param int $targetBookId
+	 * @param string $targetPrincipal
+	 * @param array $targetProperties
+	 * @return string
+	 */
 	public function syncRemoteAddressBook($url, $userName, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetProperties) {
 		// 1. create addressbook
 		$book = $this->ensureSystemAddressBookExists($targetPrincipal, $targetBookId, $targetProperties);
@@ -62,6 +72,13 @@ class SyncService {
 		return $response['token'];
 	}
 
+	/**
+	 * @param string $principal
+	 * @param string $id
+	 * @param array $properties
+	 * @return array|null
+	 * @throws \Sabre\DAV\Exception\BadRequest
+	 */
 	protected function ensureSystemAddressBookExists($principal, $id, $properties) {
 		$book = $this->backend->getAddressBooksByUri($id);
 		if (!is_null($book)) {
@@ -104,7 +121,13 @@ class SyncService {
 		return $result;
 	}
 
-	private function download($url, $sharedSecret, $changeSet) {
+	/**
+	 * @param string $url
+	 * @param string $sharedSecret
+	 * @param string $resourcePath
+	 * @return array
+	 */
+	private function download($url, $sharedSecret, $resourcePath) {
 		$settings = [
 			'baseUri' => $url,
 			'userName' => 'system',
@@ -113,11 +136,15 @@ class SyncService {
 		$client = new Client($settings);
 		$client->setThrowExceptions(true);
 
-		$response = $client->request('GET', $changeSet);
+		$response = $client->request('GET', $resourcePath);
 		return $response;
 	}
 
-	function buildSyncCollectionRequestBody($synToken) {
+	/**
+	 * @param string|null $synToken
+	 * @return string
+	 */
+	private function buildSyncCollectionRequestBody($synToken) {
 
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
@@ -137,6 +164,11 @@ class SyncService {
 		return $body;
 	}
 
+	/**
+	 * @param string $body
+	 * @return array
+	 * @throws \Sabre\Xml\ParseException
+	 */
 	private function parseMultiStatus($body) {
 		$xml = new Service();
 
