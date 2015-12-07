@@ -24,7 +24,6 @@
 	background-image: url('../img/loading-small.gif');
 }
 .icon-32 {
-	-webkit-background-size: 32px !important;
 	background-size: 32px !important;
 }
 
