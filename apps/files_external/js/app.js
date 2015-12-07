@@ -73,5 +73,42 @@ $(document).ready(function() {
 	$('#app-content-extstoragemounts').on('hide', function() {
 		OCA.External.App.removeList();
 	});
+
+	/* Status Manager */
+	if ($('#filesApp').val()) {
+
+		$('#app-content-files')
+			.add('#app-content-extstoragemounts')
+			.on('changeDirectory', function(e){
+				if (e.dir === '/') {
+					var mount_point = e.previousDir.split('/', 2)[1];
+					// Every time that we return to / root folder from a mountpoint, mount_point status is rechecked
+					OCA.External.StatusManager.getMountPointList(function() {
+						OCA.External.StatusManager.recheckConnectivityForMount([mount_point], true);
+					});
+				}
+			})
+			.on('fileActionsReady', function(e){
+			if ($.isArray(e.$files)) {
+				if (OCA.External.StatusManager.mountStatus === null ||
+						OCA.External.StatusManager.mountPointList === null ||
+						_.size(OCA.External.StatusManager.mountStatus) !== _.size(OCA.External.StatusManager.mountPointList)) {
+					// Will be the very first check when the files view will be loaded
+					OCA.External.StatusManager.launchFullConnectivityCheckOneByOne();
+				} else {
+					// When we change between general files view and external files view
+					OCA.External.StatusManager.getMountPointList(function(){
+						var fileNames = [];
+						$.each(e.$files, function(key, value){
+							fileNames.push(value.attr('data-file'));
+						});
+						// Recheck if launched but work from cache
+						OCA.External.StatusManager.recheckConnectivityForMount(fileNames, false);
+					});
+				}
+			}
+		});
+	}
+	/* End Status Manager */
 });
 
