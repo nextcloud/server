@@ -82,7 +82,8 @@ class App {
 	 * @since 4.0.0
 	 */
 	public static function setActiveNavigationEntry( $id ) {
-		return \OC_App::setActiveNavigationEntry( $id );
+		\OC::$server->getNavigationManager()->setActiveEntry($id);
+		return true;
 	}
 
 	/**
