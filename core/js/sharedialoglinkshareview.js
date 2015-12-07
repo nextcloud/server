@@ -48,7 +48,7 @@
 			'    {{/if}}' +
 			'{{else}}' +
 			// FIXME: this doesn't belong in this view
-			'<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>' +
+			'{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}' +
 			'{{/if}}'
 		;
 
@@ -238,15 +238,18 @@
 
 		render: function() {
 			var linkShareTemplate = this.template();
+			var resharingAllowed = this.model.sharePermissionPossible();
 
-			if(    !this.model.sharePermissionPossible()
+			if(!resharingAllowed
 				|| !this.showLink
 				|| !this.configModel.isShareWithLinkAllowed())
 			{
-				this.$el.html(linkShareTemplate({
-					shareAllowed: false,
-					noSharingPlaceholder: t('core', 'Resharing is not allowed')
-				}));
+				var templateData = {shareAllowed: false};
+				if (!resharingAllowed) {
+					// add message
+					templateData.noSharingPlaceholder = t('core', 'Resharing is not allowed');
+				}
+				this.$el.html(linkShareTemplate(templateData));
 				return this;
 			}
 
