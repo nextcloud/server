@@ -124,7 +124,7 @@ class ShareController extends Controller {
 	 * @UseSession
 	 *
 	 * Authenticates against password-protected shares
-	 * @param $token
+	 * @param string $token
 	 * @param string $password
 	 * @return RedirectResponse|TemplateResponse
 	 */
