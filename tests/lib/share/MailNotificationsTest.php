@@ -119,7 +119,21 @@ class MailNotificationsTest extends \Test\TestCase {
 		$this->assertSame([], $mailNotifications->sendLinkShareMail('lukas@owncloud.com', 'MyFile', 'https://owncloud.com/file/?foo=bar', 3600));
 	}
 
-	public function testSendLinkShareMailWithReplyTo() {
+	public function dataSendLinkShareMailWithReplyTo() {
+		return [
+			['lukas@owncloud.com nickvergessen@owncloud.com'],
+			['lukas@owncloud.com,nickvergessen@owncloud.com'],
+			['lukas@owncloud.com, nickvergessen@owncloud.com'],
+			['lukas@owncloud.com;nickvergessen@owncloud.com'],
+			['lukas@owncloud.com; nickvergessen@owncloud.com'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSendLinkShareMailWithReplyTo
+	 * @param string $to
+	 */
+	public function testSendLinkShareMailWithReplyTo($to) {
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 			->disableOriginalConstructor()->getMock();
 
@@ -130,7 +144,7 @@ class MailNotificationsTest extends \Test\TestCase {
 		$message
 			->expects($this->once())
 			->method('setTo')
-			->with(['lukas@owncloud.com']);
+			->with(['lukas@owncloud.com', 'nickvergessen@owncloud.com']);
 		$message
 			->expects($this->once())
 			->method('setHtmlBody');
@@ -175,7 +189,7 @@ class MailNotificationsTest extends \Test\TestCase {
 			$this->logger,
 			$this->defaults
 		);
-		$this->assertSame([], $mailNotifications->sendLinkShareMail('lukas@owncloud.com', 'MyFile', 'https://owncloud.com/file/?foo=bar', 3600));
+		$this->assertSame([], $mailNotifications->sendLinkShareMail($to, 'MyFile', 'https://owncloud.com/file/?foo=bar', 3600));
 	}
 
 	public function testSendLinkShareMailException() {
