@@ -5,10 +5,10 @@
    <feGaussianBlur stdDeviation="3"/>
   </filter>
  </defs>
- <g transform="matrix(.83333 0 0 .83333 2.6667 -847.67)" filter="url(#a)" stroke="#000" stroke-width="2.4">
-  <path d="m4 1024.4 24 12-24 12z" stroke="#000" stroke-width="2.4"/>
+ <g filter="url(#a)" stroke="#000" stroke-width="2.4" transform="matrix(.83333 0 0 .83333 2.6667 -847.67)">
+  <path stroke="#000" stroke-width="2.4" d="m4 1024.4 24 12-24 12z"/>
  </g>
  <g transform="matrix(.83333 0 0 .83333 2.6667 -847.67)">
-  <path fill="#fff" d="m4 1024.4 24 12-24 12z"/>
+  <path d="m4 1024.4 24 12-24 12z" fill="#fff"/>
  </g>
 </svg>
