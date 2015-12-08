@@ -23,7 +23,6 @@
 
 namespace OC\Session;
 
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;

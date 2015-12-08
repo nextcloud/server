@@ -24,7 +24,6 @@
 	background-image: url('../img/loading-small.gif');
 }
 .icon-32 {
-	-webkit-background-size: 32px !important;
 	background-size: 32px !important;
 }
 
@@ -47,9 +46,11 @@
 .icon-checkmark {
 	background-image: url('../img/actions/checkmark.svg');
 }
-
 .icon-checkmark-white {
 	background-image: url('../img/actions/checkmark-white.svg');
+}
+.icon-checkmark-color {
+	background-image: url('../img/actions/checkmark-color.svg');
 }
 
 .icon-close {
@@ -80,6 +81,16 @@
 
 .icon-edit {
 	background-image: url('../img/actions/edit.svg');
+}
+
+.icon-error {
+	background-image: url('../img/actions/error.svg');
+}
+.icon-error-white {
+	background-image: url('../img/actions/error-white.svg');
+}
+.icon-error-color {
+	background-image: url('../img/actions/error-color.svg');
 }
 
 .icon-external {

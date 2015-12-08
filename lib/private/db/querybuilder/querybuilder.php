@@ -325,6 +325,28 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	/**
+	 * Specifies an item that is to be returned uniquely in the query result.
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->selectDistinct('type')
+	 *         ->from('users');
+	 * </code>
+	 *
+	 * @param mixed $select The selection expressions.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
+	 */
+	public function selectDistinct($select) {
+
+		$this->queryBuilder->addSelect(
+			'DISTINCT ' . $this->helper->quoteColumnName($select)
+		);
+
+		return $this;
+	}
+
+	/**
 	 * Adds an item that is to be returned in the query result.
 	 *
 	 * <code>
@@ -1024,14 +1046,46 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	/**
+	 * Used to get the id of the last inserted element
+	 * @return int
+	 * @throws \BadMethodCallException When being called before an insert query has been run.
+	 */
+	public function getLastInsertId() {
+		$from = $this->getQueryPart('from');
+
+		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && !empty($from)) {
+			return (int) $this->connection->lastInsertId($from['table']);
+		}
+
+		throw new \BadMethodCallException('Invalid call to getLastInsertId without using insert() before.');
+	}
+
+	/**
+	 * Returns the table name quoted and with database prefix as needed by the implementation
+	 *
 	 * @param string $table
 	 * @return string
 	 */
-	private function getTableName($table) {
+	public function getTableName($table) {
 		if ($this->automaticTablePrefix === false || strpos($table, '*PREFIX*') === 0) {
 			return $this->helper->quoteColumnName($table);
 		}
 
 		return $this->helper->quoteColumnName('*PREFIX*' . $table);
+	}
+
+	/**
+	 * Returns the column name quoted and with table alias prefix as needed by the implementation
+	 *
+	 * @param string $column
+	 * @param string $tableAlias
+	 * @return string
+	 */
+	public function getColumnName($column, $tableAlias = '') {
+		if ($tableAlias !== '') {
+			$tableAlias .= '.';
+		}
+
+		return $this->helper->quoteColumnName($tableAlias . $column);
 	}
 }

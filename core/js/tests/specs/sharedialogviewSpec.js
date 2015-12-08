@@ -218,6 +218,7 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.render();
 
 			expect(dialog.$el.find('.linkCheckbox').length).toEqual(0);
+			expect(dialog.$el.find('.shareWithField').length).toEqual(1);
 		});
 		it('shows populated link share when a link share exists', function() {
 			// this is how the OC.Share class does it...

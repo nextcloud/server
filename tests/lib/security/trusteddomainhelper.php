@@ -64,6 +64,8 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 			// do not trust invalid localhosts
 			[$trustedHostTestList, 'localhost:1:2', false],
 			[$trustedHostTestList, 'localhost: evil.host', false],
+			// do not trust casting
+			[[1], '1', false],
 		];
 	}
 

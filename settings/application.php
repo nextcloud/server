@@ -136,7 +136,8 @@ class Application extends App {
 				$c->query('Mailer'),
 				$c->query('DefaultMailAddress'),
 				$c->query('URLGenerator'),
-				$c->query('OCP\\App\\IAppManager')
+				$c->query('OCP\\App\\IAppManager'),
+				$c->query('OCP\\IAvatarManager')
 			);
 		});
 		$container->registerService('LogSettingsController', function(IContainer $c) {

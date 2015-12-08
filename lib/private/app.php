@@ -361,37 +361,6 @@ class OC_App {
 	}
 
 	/**
-	 * marks a navigation entry as active
-	 *
-	 * @param string $id id of the entry
-	 * @return bool
-	 *
-	 * This function sets a navigation entry as active and removes the 'active'
-	 * property from all other entries. The templates can use this for
-	 * highlighting the current position of the user.
-	 *
-	 * @deprecated Use \OC::$server->getNavigationManager()->setActiveEntry() instead
-	 */
-	public static function setActiveNavigationEntry($id) {
-		OC::$server->getNavigationManager()->setActiveEntry($id);
-		return true;
-	}
-
-	/**
-	 * gets the active Menu entry
-	 *
-	 * @return string id or empty string
-	 *
-	 * This function returns the id of the active navigation entry (set by
-	 * setActiveNavigationEntry
-	 *
-	 * @deprecated Use \OC::$server->getNavigationManager()->getActiveEntry() instead
-	 */
-	public static function getActiveNavigationEntry() {
-		return OC::$server->getNavigationManager()->getActiveEntry();
-	}
-
-	/**
 	 * Returns the Settings Navigation
 	 *
 	 * @return string[]
@@ -505,9 +474,13 @@ class OC_App {
 	 * search for an app in all app-directories
 	 *
 	 * @param string $appId
-	 * @return mixed (bool|string)
+	 * @return false|string
 	 */
 	protected static function findAppInDirectories($appId) {
+		$sanitizedAppId = self::cleanAppId($appId);
+		if($sanitizedAppId !== $appId) {
+			return false;
+		}
 		static $app_dir = array();
 
 		if (isset($app_dir[$appId])) {

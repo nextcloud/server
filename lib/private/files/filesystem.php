@@ -58,7 +58,6 @@
 
 namespace OC\Files;
 
-use OC\Cache\File;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Config\IMountProvider;

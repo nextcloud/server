@@ -40,7 +40,6 @@ use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
 use OC\Repair\FillETags;
 use OC\Repair\InnoDB;
-use OC\Repair\RepairConfig;
 use OC\Repair\RepairLegacyStorages;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SearchLuceneTables;
@@ -107,7 +106,6 @@ class Repair extends BasicEmitter {
 		return [
 			new RepairMimeTypes(\OC::$server->getConfig()),
 			new RepairLegacyStorages(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new RepairConfig(),
 			new AssetCache(),
 			new FillETags(\OC::$server->getDatabaseConnection()),
 			new CleanTags(\OC::$server->getDatabaseConnection()),
@@ -138,13 +136,12 @@ class Repair extends BasicEmitter {
 	 * @return array of RepairStep instances
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
-		$steps = array(
+		$steps = [
 			new InnoDB(),
 			new Collation(\OC::$server->getConfig(), \OC_DB::getConnection()),
 			new SqliteAutoincrement(\OC_DB::getConnection()),
 			new SearchLuceneTables(),
-			new RepairConfig()
-		);
+		];
 
 		//There is no need to delete all previews on every single update
 		//only 7.0.0 through 7.0.2 generated broken previews

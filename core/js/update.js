@@ -84,7 +84,7 @@
 						.append(t('core', 'The update was successful. Redirecting you to ownCloud now.'))
 						.appendTo($el);
 					setTimeout(function () {
-						OC.redirect(OC.webroot);
+						OC.redirect(OC.webroot + '/');
 					}, 3000);
 				}
 			});

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Unsatisfied backend parameters" : "Paramètres manquants pour le service",
     "Unsatisfied authentication mechanism parameters" : "Paramètres manquants pour la méthode d'authentification",
     "Insufficient data: %s" : "Données insuffisantes : %s",
+    "%s" : "%s",
     "Personal" : "Personnel",
     "System" : "Système",
     "Grant access" : "Autoriser l'accès",

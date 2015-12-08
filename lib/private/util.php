@@ -947,6 +947,14 @@ class OC_Util {
 			$parameters['redirect_url'] = $_REQUEST['redirect_url'];
 		}
 
+		$parameters['canResetPassword'] = true;
+		if (!\OC::$server->getSystemConfig()->getValue('lost_password_link')) {
+			$user = \OC::$server->getUserManager()->get($_REQUEST['user']);
+			if ($user instanceof IUser) {
+				$parameters['canResetPassword'] = $user->canChangePassword();
+			}
+		}
+
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		$parameters['rememberLoginAllowed'] = self::rememberLoginAllowed();
 		\OC_Hook::emit('OC_Util', 'pre_displayLoginPage', array('parameters' => $parameters));
@@ -1169,14 +1177,16 @@ class OC_Util {
 	 * This function is used to sanitize HTML and should be applied on any
 	 * string or array of strings before displaying it on a web page.
 	 *
-	 * @param string|array &$value
+	 * @param string|array $value
 	 * @return string|array an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
-	public static function sanitizeHTML(&$value) {
+	public static function sanitizeHTML($value) {
 		if (is_array($value)) {
-			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
+			$value = array_map(function($value) {
+				return self::sanitizeHTML($value);
+			}, $value);
 		} else {
-			//Specify encoding for PHP<5.4
+			// Specify encoding for PHP<5.4
 			$value = htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
 		}
 		return $value;
@@ -1237,7 +1247,11 @@ class OC_Util {
 
 		// accessing the file via http
 		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT . '/data' . $fileName);
-		$content = self::getUrlContent($url);
+		try {
+			$content = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
+		} catch (\Exception $e) {
+			$content = false;
+		}
 
 		// cleanup
 		@unlink($testFile);
@@ -1310,23 +1324,6 @@ class OC_Util {
 	 */
 	public static function generateRandomBytes($length = 30) {
 		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
-	}
-
-	/**
-	 * Get URL content
-	 * @param string $url Url to get content
-	 * @throws Exception If the URL does not start with http:// or https://
-	 * @return string of the response or false on error
-	 * This function get the content of a page via curl, if curl is enabled.
-	 * If not, file_get_contents is used.
-	 * @deprecated Use \OC::$server->getHTTPClientService()->newClient()->get($url);
-	 */
-	public static function getUrlContent($url) {
-		try {
-			return \OC::$server->getHTTPHelper()->getUrlContent($url);
-		} catch (\Exception $e) {
-			throw $e;
-		}
 	}
 
 	/**
@@ -1418,7 +1415,7 @@ class OC_Util {
 		}
 		// XCache
 		if (function_exists('xcache_clear_cache')) {
-			if (ini_get('xcache.admin.enable_auth')) {
+			if (\OC::$server->getIniWrapper()->getBool('xcache.admin.enable_auth')) {
 				\OCP\Util::writeLog('core', 'XCache opcode cache will not be cleared because "xcache.admin.enable_auth" is enabled.', \OCP\Util::WARN);
 			} else {
 				@xcache_clear_cache(XC_TYPE_PHP, 0);

@@ -55,7 +55,7 @@ input[type="email"],
 input[type="url"],
 input[type="time"] {
 	-webkit-appearance:textfield; -moz-appearance:textfield;
-	-webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box;
+	box-sizing:content-box;
 }
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
 input[type="password"]:hover, input[type="password"]:focus, input[type="password"]:active,
@@ -108,8 +108,24 @@ html:not(.ie8) input[type="checkbox"].checkbox:checked + label:before {
 	background-image: url('../img/actions/checkbox-checked.svg');
 }
 
+html:not(.ie8) input[type="checkbox"].checkbox:disabled + label:before {
+	background-image: url('../img/actions/checkbox-disabled.svg');
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox:checked:disabled + label:before {
+	background-image: url('../img/actions/checkbox-checked-disabled.svg');
+}
+
 html:not(.ie8) input[type="checkbox"].checkbox--white:checked + label:before {
 	background-image: url('../img/actions/checkbox-checked-white.svg');
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox--white:disabled + label:before {
+	background-image: url('../img/actions/checkbox-disabled-white.svg');
+}
+
+html:not(.ie8) input[type="checkbox"].checkbox--white:checked:disabled + label:before {
+	background-image: url('../img/actions/checkbox-checked-disabled.svg');
 }
 
 html:not(.ie8) input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
@@ -119,7 +135,7 @@ html:not(.ie8) input[type="checkbox"].checkbox:hover+label:before, input[type="c
 input[type="time"] {
 	width: initial;
 	height: 31px;
-	-moz-box-sizing: border-box; box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 select {

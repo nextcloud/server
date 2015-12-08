@@ -54,6 +54,30 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->container['OCP\\App\\IAppManager'] = $this->getMockBuilder('OCP\\App\\IAppManager')
 			->disableOriginalConstructor()->getMock();
+
+
+		/*
+		 * Set default avtar behaviour for whole testsuite
+		 */
+		$this->container['OCP\\IAvatarManager'] = $this->getMock('OCP\IAvatarManager');
+
+		$avatarExists = $this->getMock('OCP\IAvatar');
+		$avatarExists->method('exists')->willReturn(true);
+		$avatarNotExists = $this->getMock('OCP\IAvatar');
+		$avatarNotExists->method('exists')->willReturn(false);
+		$this->container['OCP\\IAvatarManager']
+			->method('getAvatar')
+			->will($this->returnValueMap([
+				['foo', $avatarExists],
+				['bar', $avatarExists],
+				['admin', $avatarNotExists],
+			]));
+
+		$this->container['Config']
+			->method('getSystemValue')
+			->with('enable_avatars', true)
+			->willReturn(true);
+
 	}
 
 	public function testIndexAdmin() {
@@ -62,7 +86,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$foo
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$foo
@@ -86,7 +110,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$admin
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$admin
@@ -112,7 +136,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('bar'));
 		$bar
@@ -188,7 +212,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getSubAdmin')
 			->will($this->returnValue($subadmin));
 
-
 		$expectedResponse = new DataResponse(
 			array(
 				0 => array(
@@ -202,6 +225,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => 'OC_User_Database',
 					'email' => 'foo@bar.com',
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => true,
 				),
 				1 => array(
 					'name' => 'admin',
@@ -214,6 +238,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'admin@bar.com',
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => false,
 				),
 				2 => array(
 					'name' => 'bar',
@@ -226,6 +251,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => true,
 				),
 			)
 		);
@@ -246,7 +272,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$foo
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$foo
@@ -270,7 +296,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$admin
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$admin
@@ -296,7 +322,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('bar'));
 		$bar
@@ -401,6 +427,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => true,
 				],
 				1=> [
 					'name' => 'foo',
@@ -413,6 +440,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => 'OC_User_Database',
 					'email' => 'foo@bar.com',
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => true,
 				],
 				2 => [
 					'name' => 'admin',
@@ -425,6 +453,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'admin@bar.com',
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => false,
 				],
 			]
 		);
@@ -443,7 +472,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$foo
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$foo
@@ -467,7 +496,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$admin
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$admin
@@ -493,7 +522,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('bar'));
 		$bar
@@ -553,6 +582,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => 'OC_User_Database',
 					'email' => 'foo@bar.com',
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => true,
 				),
 				1 => array(
 					'name' => 'admin',
@@ -565,6 +595,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'admin@bar.com',
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => false,
 				),
 				2 => array(
 					'name' => 'bar',
@@ -577,6 +608,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => '\Test\Util\User\Dummy',
 					'email' => 'bar@dummy.com',
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => true,
 				),
 			)
 		);
@@ -590,7 +622,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$user
@@ -648,6 +680,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'backend' => 'OC_User_Database',
 					'email' => null,
 					'isRestoreDisabled' => false,
+					'isAvatarAvailable' => true,
 				)
 			)
 		);
@@ -719,6 +752,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'subadmin' => array(),
 				'email' => null,
 				'isRestoreDisabled' => false,
+				'isAvatarAvailable' => true,
 			),
 			Http::STATUS_CREATED
 		);
@@ -807,6 +841,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'subadmin' => [],
 				'email' => null,
 				'isRestoreDisabled' => false,
+				'isAvatarAvailable' => true,
 			),
 			Http::STATUS_CREATED
 		);
@@ -889,6 +924,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'subadmin' => array(),
 				'email' => null,
 				'isRestoreDisabled' => false,
+				'isAvatarAvailable' => true,
 			),
 			Http::STATUS_CREATED
 		);
@@ -984,6 +1020,7 @@ class UsersControllerTest extends \Test\TestCase {
 				'subadmin' => [],
 				'email' => null,
 				'isRestoreDisabled' => false,
+				'isAvatarAvailable' => true,
 			),
 			Http::STATUS_CREATED
 		);
@@ -1480,6 +1517,7 @@ class UsersControllerTest extends \Test\TestCase {
 			'backend' => $backend,
 			'email' => null,
 			'isRestoreDisabled' => false,
+			'isAvatarAvailable' => true,
 		];
 
 		return [$user, $result];

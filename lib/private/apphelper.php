@@ -36,6 +36,12 @@ class AppHelper implements \OCP\IHelper {
 	 * @deprecated 8.1.0 Use \OCP\IServerContainer::getHTTPClientService
 	 */
 	public function getUrlContent($url) {
-		return \OC_Util::getUrlContent($url);
+		try {
+			$client = \OC::$server->getHTTPClientService()->newClient();
+			$response = $client->get($url);
+			return $response->getBody();
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 }

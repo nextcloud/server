@@ -12,7 +12,7 @@ script('core', [
 <form method="post" name="login">
 	<fieldset>
 	<?php if (!empty($_['redirect_url'])) {
-		print_unescaped('<input type="hidden" name="redirect_url" value="' . OC_Util::sanitizeHTML($_['redirect_url']) . '">');
+		print_unescaped('<input type="hidden" name="redirect_url" value="' . \OCP\Util::sanitizeHTML($_['redirect_url']) . '">');
 	} ?>
 		<?php if (isset($_['apacheauthfailed']) && ($_['apacheauthfailed'])): ?>
 			<div class="warning">
@@ -56,11 +56,15 @@ script('core', [
 			<input type="submit" id="submit" class="login primary icon-confirm svg" title="<?php p($l->t('Log in')); ?>" value="" disabled="disabled"/>
 		</p>
 
-		<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
+		<?php if (!empty($_['invalidpassword']) && !empty($_['canResetPassword'])) { ?>
 		<a id="lost-password" class="warning" href="">
 			<?php p($l->t('Wrong password. Reset it?')); ?>
 		</a>
-		<?php endif; ?>
+		<?php } else if (!empty($_['invalidpassword'])) { ?>
+			<p class="warning">
+				<?php p($l->t('Wrong password.')); ?>
+			</p>
+		<?php } ?>
 		<?php if ($_['rememberLoginAllowed'] === true) : ?>
 		<div class="remember-login-container">
 			<input type="checkbox" name="remember_login" value="1" id="remember_login" class="checkbox checkbox--white">

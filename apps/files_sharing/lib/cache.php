@@ -98,7 +98,7 @@ class Shared_Cache extends Cache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param string|int $file
+	 * @param string $file
 	 * @return array|false
 	 */
 	public function get($file) {

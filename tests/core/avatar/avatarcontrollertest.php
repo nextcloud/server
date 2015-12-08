@@ -23,14 +23,11 @@ namespace OC\Core\Avatar;
 use OC;
 use OC\Core\Application;
 use OCP\AppFramework\IAppContainer;
-use OC\Files\Filesystem;
 use OCP\AppFramework\Http;
-use OCP\Image;
 use OCP\Files\Folder;
 use OCP\Files\File;
 use OCP\IUser;
 use OCP\IAvatar;
-
 use Test\Traits\UserTrait;
 
 /**

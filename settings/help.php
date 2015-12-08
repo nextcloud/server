@@ -30,7 +30,7 @@ OC_Util::checkLoggedIn();
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );
-OC_App::setActiveNavigationEntry( "help" );
+\OC::$server->getNavigationManager()->setActiveEntry('help');
 
 
 if(isset($_GET['mode']) and $_GET['mode'] === 'admin') {

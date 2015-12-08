@@ -354,9 +354,18 @@ class Swift extends \OC\Files\Storage\Common {
 				}
 				$tmpFile = \OCP\Files::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
-				if ($this->file_exists($path)) {
+				// Fetch existing file if required
+				if ($mode[0] !== 'w' && $this->file_exists($path)) {
+					if ($mode[0] === 'x') {
+						// File cannot already exist
+						return false;
+					}
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
+					// Seek to end if required
+					if ($mode[0] === 'a') {
+						fseek($tmpFile, 0, SEEK_END);
+					}
 				}
 				self::$tmpFiles[$tmpFile] = $path;
 

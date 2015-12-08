@@ -10,7 +10,6 @@
 
 namespace OC\AppFramework\Http;
 
-use OC\Security\Crypto;
 use OCP\Security\ISecureRandom;
 use OCP\IConfig;
 

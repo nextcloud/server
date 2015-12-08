@@ -257,6 +257,22 @@ interface IQueryBuilder {
 	public function selectAlias($select, $alias);
 
 	/**
+	 * Specifies an item that is to be returned uniquely in the query result.
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->selectDistinct('type')
+	 *         ->from('users');
+	 * </code>
+	 *
+	 * @param mixed $select The selection expressions.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
+	 * @since 9.0.0
+	 */
+	public function selectDistinct($select);
+
+	/**
 	 * Adds an item that is to be returned in the query result.
 	 *
 	 * <code>
@@ -796,4 +812,31 @@ interface IQueryBuilder {
 	 * @since 8.2.0
 	 */
 	public function createFunction($call);
+
+	/**
+	 * Used to get the id of the last inserted element
+	 * @return int
+	 * @throws \BadMethodCallException When being called before an insert query has been run.
+	 * @since 9.0.0
+	 */
+	public function getLastInsertId();
+
+	/**
+	 * Returns the table name quoted and with database prefix as needed by the implementation
+	 *
+	 * @param string $table
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getTableName($table);
+
+	/**
+	 * Returns the column name quoted and with table alias prefix as needed by the implementation
+	 *
+	 * @param string $column
+	 * @param string $tableAlias
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getColumnName($column, $tableAlias = '');
 }

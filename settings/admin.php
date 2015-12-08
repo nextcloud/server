@@ -33,7 +33,7 @@
 use OC\Lock\NoopLockingProvider;
 
 OC_Util::checkAdminUser();
-OC_App::setActiveNavigationEntry("admin");
+\OC::$server->getNavigationManager()->setActiveEntry("admin");
 
 $template = new OC_Template('settings', 'admin', 'user');
 $l = \OC::$server->getL10N('settings');

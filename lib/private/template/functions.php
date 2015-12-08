@@ -33,7 +33,7 @@
  * @param string $string the string which will be escaped and printed
  */
 function p($string) {
-	print(OC_Util::sanitizeHTML($string));
+	print(\OCP\Util::sanitizeHTML($string));
 }
 
 /**
@@ -262,7 +262,7 @@ function html_select_options($options, $selected, $params=array()) {
 			$label = $label[$label_name];
 		}
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
-		$html .= '<option value="' . OC_Util::sanitizeHTML($value) . '"' . $select . '>' . OC_Util::sanitizeHTML($label) . '</option>'."\n";
+		$html .= '<option value="' . \OCP\Util::sanitizeHTML($value) . '"' . $select . '>' . \OCP\Util::sanitizeHTML($label) . '</option>'."\n";
 	}
 	return $html;
 }

@@ -67,7 +67,8 @@ module.exports = function(config) {
 					// up with the global namespace/classes/state
 					'apps/files_external/js/app.js',
 					'apps/files_external/js/mountsfilelist.js',
-					'apps/files_external/js/settings.js'
+					'apps/files_external/js/settings.js',
+					'apps/files_external/js/statusmanager.js'
 				],
 				testFiles: ['apps/files_external/tests/js/*.js']
 			},

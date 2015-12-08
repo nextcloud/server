@@ -213,7 +213,7 @@ class TempManager implements ITempManager {
 		if ($temp = $this->config->getSystemValue('tempdirectory', null)) {
 			$directories[] = $temp;
 		}
-		if ($temp = ini_get('upload_tmp_dir')) {
+		if ($temp = \OC::$server->getIniWrapper()->get('upload_tmp_dir')) {
 			$directories[] = $temp;
 		}
 		if ($temp = getenv('TMP')) {

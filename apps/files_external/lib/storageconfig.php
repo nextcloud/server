@@ -163,7 +163,7 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
-	 * @param Backend
+	 * @param Backend $backend
 	 */
 	public function setBackend(Backend $backend) {
 		$this->backend= $backend;
@@ -177,7 +177,7 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
-	 * @param AuthMechanism
+	 * @param AuthMechanism $authMechanism
 	 */
 	public function setAuthMechanism(AuthMechanism $authMechanism) {
 		$this->authMechanism = $authMechanism;
