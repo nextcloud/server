@@ -48,12 +48,12 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->queryBuilder = new QueryBuilder($this->connection);
 	}
 
-	protected function createTestingRows() {
+	protected function createTestingRows($appId = 'testFirstResult') {
 		$qB = $this->connection->getQueryBuilder();
 		for ($i = 1; $i < 10; $i++) {
 			$qB->insert('*PREFIX*appconfig')
 				->values([
-					'appid' => $qB->expr()->literal('testFirstResult'),
+					'appid' => $qB->expr()->literal($appId),
 					'configkey' => $qB->expr()->literal('testing' . $i),
 					'configvalue' => $qB->expr()->literal(100 - $i),
 				])
@@ -80,11 +80,11 @@ class QueryBuilderTest extends \Test\TestCase {
 		return $rows;
 	}
 
-	protected function deleteTestingRows() {
+	protected function deleteTestingRows($appId = 'testFirstResult') {
 		$qB = $this->connection->getQueryBuilder();
 
 		$qB->delete('*PREFIX*appconfig')
-			->where($qB->expr()->eq('appid', $qB->expr()->literal('testFirstResult')))
+			->where($qB->expr()->eq('appid', $qB->expr()->literal($appId)))
 			->execute();
 	}
 
@@ -270,6 +270,34 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->deleteTestingRows();
+	}
+
+	public function testSelectDistinct() {
+		$this->deleteTestingRows('testFirstResult1');
+		$this->deleteTestingRows('testFirstResult2');
+		$this->createTestingRows('testFirstResult1');
+		$this->createTestingRows('testFirstResult2');
+
+		$this->queryBuilder->selectDistinct('appid');
+
+		$this->queryBuilder->from('*PREFIX*appconfig')
+			->where($this->queryBuilder->expr()->in(
+				'appid',
+				[$this->queryBuilder->expr()->literal('testFirstResult1'), $this->queryBuilder->expr()->literal('testFirstResult2')]
+			))
+			->orderBy('appid', 'DESC');
+
+		$query = $this->queryBuilder->execute();
+		$rows = $query->fetchAll();
+		$query->closeCursor();
+
+		$this->assertEquals(
+			[['appid' => 'testFirstResult2'], ['appid' => 'testFirstResult1']],
+			$rows
+		);
+
+		$this->deleteTestingRows('testFirstResult1');
+		$this->deleteTestingRows('testFirstResult2');
 	}
 
 	public function dataAddSelect() {

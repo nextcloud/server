@@ -257,6 +257,22 @@ interface IQueryBuilder {
 	public function selectAlias($select, $alias);
 
 	/**
+	 * Specifies an item that is to be returned uniquely in the query result.
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->selectDistinct('type')
+	 *         ->from('users');
+	 * </code>
+	 *
+	 * @param mixed $select The selection expressions.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
+	 * @since 9.0.0
+	 */
+	public function selectDistinct($select);
+
+	/**
 	 * Adds an item that is to be returned in the query result.
 	 *
 	 * <code>
