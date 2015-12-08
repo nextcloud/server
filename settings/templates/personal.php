@@ -14,7 +14,7 @@
 		if (isset($form['anchor'])) {
 			$anchor = '#' . $form['anchor'];
 			$sectionName = $form['section-name'];
-			print_unescaped(sprintf("<li><a href='%s'>%s</a></li>", OC_Util::sanitizeHTML($anchor), OC_Util::sanitizeHTML($sectionName)));
+			print_unescaped(sprintf("<li><a href='%s'>%s</a></li>", \OCP\Util::sanitizeHTML($anchor), \OCP\Util::sanitizeHTML($sectionName)));
 		}
 	}?>
 	</ul>
