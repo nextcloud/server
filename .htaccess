@@ -50,9 +50,6 @@
 
   # Rewrite rules for `front_controller_active`
   Options -MultiViews
-  <IfModule mod_dir.c>
-    DirectorySlash off
-  </IfModule>
   RewriteRule ^core/js/oc.js$ index.php/core/js/oc.js [PT,E=PATH_INFO:$1]
   RewriteRule ^core/preview.png$ index.php/core/preview.png [PT,E=PATH_INFO:$1]
   RewriteCond %{REQUEST_FILENAME} !\.(css|js|svg|gif|png|html|ttf|woff)$
