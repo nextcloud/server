@@ -396,6 +396,11 @@ class Setup {
 	 * Append the correct ErrorDocument path for Apache hosts
 	 */
 	public static function updateHtaccess() {
+		// From CLI we don't know the defined web root. Thus we can't write any
+		// directives into the .htaccess file.
+		if(\OC::$CLI) {
+			return;
+		}
 		$setupHelper = new \OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(),
 			\OC::$server->getL10N('lib'), new \OC_Defaults(), \OC::$server->getLogger(),
 			\OC::$server->getSecureRandom());
