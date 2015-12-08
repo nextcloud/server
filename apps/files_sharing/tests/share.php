@@ -220,6 +220,10 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 
 	}
 
+	/**
+	 * @param OC\Files\FileInfo[] $content
+	 * @param string[] $expected
+	 */
 	public function verifyDirContent($content, $expected) {
 		foreach ($content as $c) {
 			if (!in_array($c['name'], $expected)) {

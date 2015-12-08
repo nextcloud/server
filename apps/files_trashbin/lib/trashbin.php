@@ -147,7 +147,7 @@ class Trashbin {
 	 *
 	 * @param string $sourcePath
 	 * @param string $owner
-	 * @param $targetPath
+	 * @param string $targetPath
 	 * @param $user
 	 * @param integer $timestamp
 	 */
@@ -410,7 +410,7 @@ class Trashbin {
 	 * @param string $uniqueFilename new file name to restore the file without overwriting existing files
 	 * @param string $location location if file
 	 * @param int $timestamp deletion time
-	 * @return bool
+	 * @return false|null
 	 */
 	private static function restoreVersions(\OC\Files\View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 
@@ -500,9 +500,10 @@ class Trashbin {
 
 	/**
 	 * @param \OC\Files\View $view
-	 * @param $file
-	 * @param $filename
-	 * @param $timestamp
+	 * @param string $file
+	 * @param string $filename
+	 * @param integer|null $timestamp
+	 * @param string $user
 	 * @return int
 	 */
 	private static function deleteVersions(\OC\Files\View $view, $file, $filename, $timestamp, $user) {
@@ -684,7 +685,7 @@ class Trashbin {
 	 *
 	 * @param array $files list of files sorted by mtime
 	 * @param string $user
-	 * @return array size of deleted files and number of deleted files
+	 * @return integer[] size of deleted files and number of deleted files
 	 */
 	public static function deleteExpiredFiles($files, $user) {
 		$application = new Application();
