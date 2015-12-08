@@ -74,11 +74,6 @@ class TrustedDomainHelper {
 			return false;
 		}
 
-		// TODO: Workaround for older instances still with port applied. Remove for ownCloud 9.
-		if(in_array($domainWithPort, $trustedList)) {
-			return true;
-		}
-
 		// Always allow access from localhost
 		if (preg_match(Request::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
