@@ -95,16 +95,22 @@ class Test_Util extends \Test\TestCase {
 	}
 
 	function testSanitizeHTML() {
-		$badArray = array(
+		$badArray = [
 			'While it is unusual to pass an array',
 			'this function actually <blink>supports</blink> it.',
-			'And therefore there needs to be a <script>alert("Unit"+\'test\')</script> for it!'
-		);
-		$goodArray = array(
+			'And therefore there needs to be a <script>alert("Unit"+\'test\')</script> for it!',
+			[
+				'And It Even May <strong>Nest</strong>',
+			],
+		];
+		$goodArray = [
 			'While it is unusual to pass an array',
 			'this function actually &lt;blink&gt;supports&lt;/blink&gt; it.',
-			'And therefore there needs to be a &lt;script&gt;alert(&quot;Unit&quot;+&#039;test&#039;)&lt;/script&gt; for it!'
-		);
+			'And therefore there needs to be a &lt;script&gt;alert(&quot;Unit&quot;+&#039;test&#039;)&lt;/script&gt; for it!',
+			[
+				'And It Even May &lt;strong&gt;Nest&lt;/strong&gt;'
+			],
+		];
 		$result = OC_Util::sanitizeHTML($badArray);
 		$this->assertEquals($goodArray, $result);
 

@@ -226,12 +226,12 @@ class OC_Template extends \OC\Template\Base {
 			// Add custom headers
 			$headers = '';
 			foreach(OC_Util::$headers as $header) {
-				$headers .= '<'.OC_Util::sanitizeHTML($header['tag']);
+				$headers .= '<'.\OCP\Util::sanitizeHTML($header['tag']);
 				foreach($header['attributes'] as $name=>$value) {
-					$headers .= ' '.OC_Util::sanitizeHTML($name).'="'.OC_Util::sanitizeHTML($value).'"';
+					$headers .= ' '.\OCP\Util::sanitizeHTML($name).'="'.\OCP\Util::sanitizeHTML($value).'"';
 				}
 				if ($header['text'] !== null) {
-					$headers .= '>'.OC_Util::sanitizeHTML($header['text']).'</'.OC_Util::sanitizeHTML($header['tag']).'>';
+					$headers .= '>'.\OCP\Util::sanitizeHTML($header['text']).'</'.\OCP\Util::sanitizeHTML($header['tag']).'>';
 				} else {
 					$headers .= '/>';
 				}
