@@ -49,7 +49,7 @@ try {
 			 * pass (like e.g. expected syntax error).
 			 */
 			try {
-				$ldapWrapper->read($connection->getConnectionResource(), 'neverwhere', 'objectClass=*', array('dn'));
+				$ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', array('dn'));
 			} catch (\Exception $e) {
 				if($e->getCode() === 1) {
 					OCP\JSON::error(array('message' => $l->t('The configuration is invalid: anonymous bind is not allowed.')));
