@@ -213,7 +213,7 @@ class KeyManager {
 	}
 
 	/**
-	 * @param $password
+	 * @param string $password
 	 * @return bool
 	 */
 	public function checkRecoveryPassword($password) {
