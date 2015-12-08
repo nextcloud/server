@@ -265,4 +265,12 @@ class Storage extends DAV implements ISharedStorage {
 		list(, $remote) = explode('://', $this->remote, 2);
 		return $this->remoteUser . '@' . $remote;
 	}
+
+	public function isSharable($path) {
+		if (\OCP\Util::isSharingDisabledForUser() || !\OC\Share\Share::isResharingAllowed()) {
+			return false;
+		}
+		return ($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
+	}
+
 }
