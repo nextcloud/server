@@ -796,4 +796,12 @@ interface IQueryBuilder {
 	 * @since 8.2.0
 	 */
 	public function createFunction($call);
+
+	/**
+	 * Used to get the id of the last inserted element
+	 * @return int
+	 * @throws \BadMethodCallException When being called before an insert query has been run.
+	 * @since 9.0.0
+	 */
+	public function getLastInsertId();
 }

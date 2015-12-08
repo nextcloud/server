@@ -1086,6 +1086,31 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
+	public function testGetLastInsertId() {
+		$qB = $this->connection->getQueryBuilder();
+
+		try {
+			$qB->getLastInsertId();
+			$this->fail('getLastInsertId() should throw an exception, when being called before insert()');
+		} catch (\BadMethodCallException $e) {
+			$this->assertTrue(true);
+		}
+
+		$qB->insert('appconfig')
+			->values([
+				'appid' => $qB->expr()->literal('testFirstResult'),
+				'configkey' => $qB->expr()->literal('testing' . 50),
+				'configvalue' => $qB->expr()->literal(100 - 50),
+			])
+			->execute();
+
+		$actual = $qB->getLastInsertId();
+
+		$this->assertNotNull($actual);
+		$this->assertInternalType('int', $actual);
+		$this->assertEquals($this->connection->lastInsertId('*PREFIX*appconfig'), $actual);
+	}
+
 	public function dataGetTableName() {
 		return [
 			['*PREFIX*table', null, '`*PREFIX*table`'],

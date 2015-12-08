@@ -1024,6 +1024,21 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	/**
+	 * Used to get the id of the last inserted element
+	 * @return int
+	 * @throws \BadMethodCallException When being called before an insert query has been run.
+	 */
+	public function getLastInsertId() {
+		$from = $this->getQueryPart('from');
+
+		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && !empty($from)) {
+			return (int) $this->connection->lastInsertId($from['table']);
+		}
+
+		throw new \BadMethodCallException('Invalid call to getLastInsertId without using insert() before.');
+	}
+
+	/**
 	 * @param string $table
 	 * @return string
 	 */
