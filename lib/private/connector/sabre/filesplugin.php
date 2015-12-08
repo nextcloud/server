@@ -31,6 +31,7 @@ use \Sabre\DAV\PropFind;
 use \Sabre\DAV\PropPatch;
 use \Sabre\HTTP\RequestInterface;
 use \Sabre\HTTP\ResponseInterface;
+use OCP\Files\StorageNotAvailableException;
 
 class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 
@@ -188,9 +189,14 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		if ($node instanceof \OC\Connector\Sabre\File) {
 			$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, function() use ($node) {
 				/** @var $node \OC\Connector\Sabre\File */
-				$directDownloadUrl = $node->getDirectDownload();
-				if (isset($directDownloadUrl['url'])) {
-					return $directDownloadUrl['url'];
+				try {
+					$directDownloadUrl = $node->getDirectDownload();
+					if (isset($directDownloadUrl['url'])) {
+						return $directDownloadUrl['url'];
+					}
+				} catch (StorageNotAvailableException $e) {
+					// return empty download link when storage not available
+					return false;
 				}
 				return false;
 			});

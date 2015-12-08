@@ -2,6 +2,8 @@
 
 namespace Tests\Connector\Sabre;
 
+use OCP\Files\StorageNotAvailableException;
+
 /**
  * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -112,6 +114,29 @@ class FilesPlugin extends \Test\TestCase {
 		$this->assertEquals('DWCKMSR', $propFind->get(self::PERMISSIONS_PROPERTYNAME));
 		$this->assertEquals('http://example.com/', $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
 		$this->assertEquals(array(self::SIZE_PROPERTYNAME), $propFind->get404Properties());
+	}
+
+	public function testGetPropertiesStorageNotAvailable() {
+		$node = $this->createTestNode('\OC\Connector\Sabre\File');
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/dummyPath',
+			array(
+				self::DOWNLOADURL_PROPERTYNAME,
+			),
+			0
+		);
+
+		$node->expects($this->once())
+			->method('getDirectDownload')
+			->will($this->throwException(new StorageNotAvailableException()));
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$node
+		);
+
+		$this->assertEquals('', $propFind->get(self::DOWNLOADURL_PROPERTYNAME));
 	}
 
 	public function testGetPublicPermissions() {
