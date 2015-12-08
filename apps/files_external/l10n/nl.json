@@ -15,6 +15,7 @@
     "Unsatisfied backend parameters" : "Onvoldoende backend parameters",
     "Unsatisfied authentication mechanism parameters" : "Onvoldoende authenticatiemechanisme parameters",
     "Insufficient data: %s" : "Onvoldoende gegevens: %s",
+    "%s" : "%s",
     "Personal" : "Persoonlijk",
     "System" : "Systeem",
     "Grant access" : "Sta toegang toe",
