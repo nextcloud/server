@@ -1165,7 +1165,27 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->assertSame(
 			$expected,
-			$this->invokePrivate($this->queryBuilder, 'getTableName', [$tableName])
+			$this->queryBuilder->getTableName($tableName)
+		);
+	}
+
+	public function dataGetColumnName() {
+		return [
+			['column', '', '`column`'],
+			['column', 'a', 'a.`column`'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetColumnName
+	 * @param string $column
+	 * @param string $prefix
+	 * @param string $expected
+	 */
+	public function testGetColumnName($column, $prefix, $expected) {
+		$this->assertSame(
+			$expected,
+			$this->queryBuilder->getColumnName($column, $prefix)
 		);
 	}
 }

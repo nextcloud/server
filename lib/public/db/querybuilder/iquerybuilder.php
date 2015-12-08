@@ -820,4 +820,23 @@ interface IQueryBuilder {
 	 * @since 9.0.0
 	 */
 	public function getLastInsertId();
+
+	/**
+	 * Returns the table name quoted and with database prefix as needed by the implementation
+	 *
+	 * @param string $table
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getTableName($table);
+
+	/**
+	 * Returns the column name quoted and with table alias prefix as needed by the implementation
+	 *
+	 * @param string $column
+	 * @param string $tableAlias
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getColumnName($column, $tableAlias = '');
 }
