@@ -37,6 +37,7 @@ interface IRouter {
 	 *
 	 * @return string[]
 	 * @since 7.0.0
+	 * @deprecated 9.0.0
 	 */
 	public function getRoutingFiles();
 
@@ -47,9 +48,11 @@ interface IRouter {
 	public function getCacheKey();
 
 	/**
-	 * loads the api routes
-	 * @return void
+	 * Loads the routes
+	 *
+	 * @param null|string $app
 	 * @since 7.0.0
+	 * @deprecated 9.0.0
 	 */
 	public function loadRoutes($app = null);
 
@@ -59,6 +62,7 @@ interface IRouter {
 	 * @param string $name Name of the collection to use.
 	 * @return void
 	 * @since 7.0.0
+	 * @deprecated 9.0.0
 	 */
 	public function useCollection($name);
 
@@ -67,6 +71,7 @@ interface IRouter {
 	 *
 	 * @return string the collection name
 	 * @since 8.0.0
+	 * @deprecated 9.0.0
 	 */
 	public function getCurrentCollection();
 
@@ -79,6 +84,7 @@ interface IRouter {
 	 * @param array $requirements An array of requirements for parameters (regexes)
 	 * @return \OCP\Route\IRoute
 	 * @since 7.0.0
+	 * @deprecated 9.0.0
 	 */
 	public function create($name, $pattern, array $defaults = array(), array $requirements = array());
 
@@ -89,6 +95,7 @@ interface IRouter {
 	 * @throws \Exception
 	 * @return void
 	 * @since 7.0.0
+	 * @deprecated 9.0.0
 	 */
 	public function match($url);
 
@@ -96,6 +103,7 @@ interface IRouter {
 	 * Get the url generator
 	 *
 	 * @since 7.0.0
+	 * @deprecated 9.0.0
 	 */
 	public function getGenerator();
 
@@ -107,6 +115,7 @@ interface IRouter {
 	 * @param bool $absolute
 	 * @return string
 	 * @since 7.0.0
+	 * @deprecated 9.0.0
 	 */
 	public function generate($name, $parameters = array(), $absolute = false);
 
