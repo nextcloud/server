@@ -139,12 +139,12 @@ interface ICommentsManager {
 	 * Throws NotFoundException when a comment that is to be updated does not
 	 * exist anymore at this point of time.
 	 *
-	 * @param IComment &$comment
+	 * @param IComment $comment
 	 * @return bool
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
-	public function save(IComment &$comment);
+	public function save(IComment $comment);
 
 	/**
 	 * removes references to specific actor (e.g. on user delete) of a comment.

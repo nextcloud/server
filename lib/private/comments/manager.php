@@ -51,7 +51,8 @@ class Manager implements ICommentsManager {
 	 * all necessary fields have a value assigned.
 	 *
 	 * @param IComment $comment
-	 * @return IComment
+	 * @return IComment returns the same updated IComment instance as provided
+	 *                  by parameter for convenience
 	 * @throws \UnexpectedValueException
 	 */
 	protected function prepareCommentForDatabaseWrite(IComment $comment) {
@@ -406,14 +407,13 @@ class Manager implements ICommentsManager {
 	 * Throws NotFoundException when a comment that is to be updated does not
 	 * exist anymore at this point of time.
 	 *
-	 * @param IComment &$comment
+	 * @param IComment $comment
 	 * @return bool
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
-	public function save(IComment &$comment) {
-		$comment = $this->prepareCommentForDatabaseWrite($comment);
-		if($comment->getId() === '') {
+	public function save(IComment $comment) {
+		if($this->prepareCommentForDatabaseWrite($comment)->getId() === '') {
 			$result = $this->insert($comment);
 		} else {
 			$result = $this->update($comment);
