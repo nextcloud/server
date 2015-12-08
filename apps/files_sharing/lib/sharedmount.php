@@ -51,6 +51,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	/**
 	 * @param string $storage
 	 * @param string $mountpoint
+	 * @param array|null $arguments
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 */
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
@@ -64,6 +65,9 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 	/**
 	 * check if the parent folder exists otherwise move the mount point up
+	 *
+	 * @param array $share
+	 * @return string
 	 */
 	private function verifyMountPoint(&$share) {
 
@@ -126,6 +130,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 *
 	 * @param string $path the absolute path
 	 * @return string e.g. turns '/admin/files/test.txt' into '/test.txt'
+	 * @throws \OCA\Files_Sharing\Exceptions\BrokenPath
 	 */
 	protected function stripUserFilesPath($path) {
 		$trimmed = ltrim($path, '/');
@@ -188,7 +193,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	public function removeMount() {
 		$mountManager = \OC\Files\Filesystem::getMountManager();
-		/** @var \OC\Files\Storage\Shared */
+		/** @var $storage \OC\Files\Storage\Shared */
 		$storage = $this->getStorage();
 		$result = $storage->unshareStorage();
 		$mountManager->removeMount($this->mountPoint);
@@ -196,7 +201,12 @@ class SharedMount extends MountPoint implements MoveableMount {
 		return $result;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getShare() {
-		return $this->getStorage()->getShare();
+		/** @var $storage \OC\Files\Storage\Shared */
+		$storage = $this->getStorage();
+		return $storage->getShare();
 	}
 }

@@ -91,6 +91,7 @@ class ShareesTest extends TestCase {
 	/**
 	 * @param string $uid
 	 * @param string $displayName
+	 * @return \OCP\IUser|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getUserMock($uid, $displayName) {
 		$user = $this->getMockBuilder('OCP\IUser')
@@ -110,6 +111,7 @@ class ShareesTest extends TestCase {
 
 	/**
 	 * @param string $gid
+	 * @return \OCP\IGroup|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getGroupMock($gid) {
 		$group = $this->getMockBuilder('OCP\IGroup')
