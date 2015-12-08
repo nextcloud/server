@@ -31,8 +31,16 @@ class Folder extends \Test\TestCase {
 		$this->user = new \OC\User\User('', new \Test\Util\User\Dummy);
 	}
 
+	protected function getMockStorage() {
+		$storage = $this->getMock('\OCP\Files\Storage');
+		$storage->expects($this->any())
+			->method('getId')
+			->will($this->returnValue('home::someuser'));
+		return $storage;
+	}
+
 	protected function getFileInfo($data) {
-		return new FileInfo('', null, '', $data, null);
+		return new FileInfo('', $this->getMockStorage(), '', $data, null);
 	}
 
 	public function testDelete() {
