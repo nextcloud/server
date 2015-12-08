@@ -61,14 +61,23 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		$this->objectType = $objectType;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create nodes');
 	}
 
+	/**
+	 * @param string $name
+	 */
 	function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
+	/**
+	 * @param string $objectId
+	 */
 	function getChild($objectId) {
 		return new SystemTagsObjectMappingCollection(
 			$objectId,
@@ -83,6 +92,9 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		throw new MethodNotAllowed();
 	}
 
+	/**
+	 * @param string $name
+	 */
 	function childExists($name) {
 		return true;
 	}
@@ -95,6 +107,9 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		return $this->objectType;
 	}
 
+	/**
+	 * @param string $name
+	 */
 	function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
 	}

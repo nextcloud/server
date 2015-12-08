@@ -185,6 +185,9 @@ abstract class StoragesService {
 	 */
 	abstract public function getVisibilityType();
 
+	/**
+	 * @return integer
+	 */
 	protected function getType() {
 		return DBConfigService::MOUNT_TYPE_ADMIN;
 	}

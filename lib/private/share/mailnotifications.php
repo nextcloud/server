@@ -170,7 +170,7 @@ class MailNotifications {
 	 * @param string $filename the shared file
 	 * @param string $link the public link
 	 * @param int $expiration expiration date (timestamp)
-	 * @return array $result of failed recipients
+	 * @return string[] $result of failed recipients
 	 */
 	public function sendLinkShareMail($recipient, $filename, $link, $expiration) {
 		$subject = (string)$this->l->t('%s shared »%s« with you', [$this->senderDisplayName, $filename]);
@@ -232,8 +232,8 @@ class MailNotifications {
 	}
 
 	/**
-	 * @param $itemSource
-	 * @param $itemType
+	 * @param string $itemSource
+	 * @param string $itemType
 	 * @param IUser $recipient
 	 * @return array
 	 */
