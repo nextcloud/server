@@ -78,7 +78,7 @@ class TrustedDomainHelper {
 		if (preg_match(Request::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
 		}
-		return in_array($domain, $trustedList);
+		return in_array($domain, $trustedList, true);
 	}
 
 }
