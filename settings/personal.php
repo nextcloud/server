@@ -165,6 +165,7 @@ $l = \OC::$server->getL10N('settings');
 $formsAndMore = [];
 $formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];
 $formsAndMore[]= ['anchor' => 'passwordform', 'section-name' => $l->t('Personal info')];
+$formsAndMore[]= ['anchor' => 'groups', 'section-name' => $l->t('Groups')];
 
 $forms=OC_App::getForms('personal');
 
