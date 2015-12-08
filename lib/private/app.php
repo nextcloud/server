@@ -474,9 +474,13 @@ class OC_App {
 	 * search for an app in all app-directories
 	 *
 	 * @param string $appId
-	 * @return mixed (bool|string)
+	 * @return false|string
 	 */
 	protected static function findAppInDirectories($appId) {
+		$sanitizedAppId = self::cleanAppId($appId);
+		if($sanitizedAppId !== $appId) {
+			return false;
+		}
 		static $app_dir = array();
 
 		if (isset($app_dir[$appId])) {
