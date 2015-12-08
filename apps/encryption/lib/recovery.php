@@ -68,10 +68,6 @@ class Recovery {
 	 * @var IFile
 	 */
 	private $file;
-	/**
-	 * @var string
-	 */
-	private $recoveryKeyId;
 
 	/**
 	 * @param IUserSession $user
