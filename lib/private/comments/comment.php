@@ -194,7 +194,7 @@ class Comment implements IComment {
 	 * @since 9.0.0
 	 */
 	public function setVerb($verb) {
-		if(!is_string($verb) || empty(trim($verb))) {
+		if(!is_string($verb) || !trim($verb)) {
 			throw new \InvalidArgumentException('Non-empty String expected.');
 		}
 		$this->data['verb'] = trim($verb);
@@ -231,8 +231,8 @@ class Comment implements IComment {
 	 */
 	public function setActor($actorType, $actorId) {
 		if(
-		       !is_string($actorType) || empty(trim($actorType))
-		    || !is_string($actorId)   || empty(trim($actorId))
+		       !is_string($actorType) || !trim($actorType)
+		    || !is_string($actorId)   || !trim($actorId)
 		) {
 			throw new \InvalidArgumentException('String expected.');
 		}
@@ -317,8 +317,8 @@ class Comment implements IComment {
 	 */
 	public function setObject($objectType, $objectId) {
 		if(
-		       !is_string($objectType) || empty(trim($objectType))
-		    || !is_string($objectId)   || empty(trim($objectId))
+		       !is_string($objectType) || !trim($objectType)
+		    || !is_string($objectId)   || !trim($objectId)
 		) {
 			throw new \InvalidArgumentException('String expected.');
 		}
