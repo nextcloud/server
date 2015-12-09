@@ -44,10 +44,12 @@ class Test_Comments_Comment extends TestCase
 		$this->assertSame($object['id'], $comment->getObjectId());
 	}
 
+	/**
+	 * @expectedException \OCP\Comments\IllegalIDChangeException
+	 */
 	public function testSetIdIllegalInput() {
 		$comment = new \OC\Comments\Comment();
 
-		$this->setExpectedException('\OCP\Comments\IllegalIDChangeException');
 		$comment->setId('c23');
 		$comment->setId('c17');
 	}
@@ -71,12 +73,12 @@ class Test_Comments_Comment extends TestCase
 
 	/**
 	 * @dataProvider simpleSetterProvider
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSimpleSetterInvalidInput($field, $input) {
 		$comment = new \OC\Comments\Comment();
 		$setter = 'set' . $field;
 
-		$this->setExpectedException('InvalidArgumentException');
 		$comment->$setter($input);
 	}
 
@@ -95,11 +97,11 @@ class Test_Comments_Comment extends TestCase
 
 	/**
 	 * @dataProvider roleSetterProvider
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testSetRoleInvalidInput($role, $type, $id){
 		$comment = new \OC\Comments\Comment();
 		$setter = 'set' . $role;
-		$this->setExpectedException('InvalidArgumentException');
 		$comment->$setter($type, $id);
 	}
 

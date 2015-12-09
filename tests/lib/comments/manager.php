@@ -54,15 +54,19 @@ class Test_Comments_Manager extends TestCase
 		return $factory->getManager();
 	}
 
+	/**
+	 * @expectedException \OCP\Comments\NotFoundException
+	 */
 	public function testGetCommentNotFound() {
 		$manager = $this->getManager();
-		$this->setExpectedException('\OCP\Comments\NotFoundException');
 		$manager->get('22');
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testGetCommentNotFoundInvalidInput() {
 		$manager = $this->getManager();
-		$this->setExpectedException('\InvalidArgumentException');
 		$manager->get('unexisting22');
 	}
 
@@ -108,15 +112,19 @@ class Test_Comments_Manager extends TestCase
 		$this->assertEquals($comment->getLatestChildDateTime(), $latestChildDT);
 	}
 
+	/**
+	 * @expectedException \OCP\Comments\NotFoundException
+	 */
 	public function testGetTreeNotFound() {
 		$manager = $this->getManager();
-		$this->setExpectedException('\OCP\Comments\NotFoundException');
 		$manager->getTree('22');
 	}
 
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
 	public function testGetTreeNotFoundInvalidIpnut() {
 		$manager = $this->getManager();
-		$this->setExpectedException('\InvalidArgumentException');
 		$manager->getTree('unexisting22');
 	}
 
@@ -301,10 +309,10 @@ class Test_Comments_Manager extends TestCase
 
 	/**
 	 * @dataProvider invalidCreateArgsProvider
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testCreateCommentInvalidArguments($aType, $aId, $oType, $oId) {
 		$manager = $this->getManager();
-		$this->setExpectedException('\InvalidArgumentException');
 		$manager->create($aType, $aId, $oType, $oId);
 	}
 
@@ -322,6 +330,9 @@ class Test_Comments_Manager extends TestCase
 		$this->assertSame($comment->getObjectId(), $objectId);
 	}
 
+	/**
+	 * @expectedException \OCP\Comments\NotFoundException
+	 */
 	public function testDelete() {
 		$manager = $this->getManager();
 
@@ -339,7 +350,6 @@ class Test_Comments_Manager extends TestCase
 		$this->assertTrue($comment instanceof \OCP\Comments\IComment);
 		$done = $manager->delete($id);
 		$this->assertTrue($done);
-		$this->setExpectedException('\OCP\Comments\NotFoundException');
 		$manager->get($id);
 	}
 
@@ -381,6 +391,9 @@ class Test_Comments_Manager extends TestCase
 		$this->assertSame($comment->getMessage(), $loadedComment->getMessage());
 	}
 
+	/**
+	 * @expectedException \OCP\Comments\NotFoundException
+	 */
 	public function testSaveUpdateException() {
 		$manager = $this->getManager();
 		$comment = new \OC\Comments\Comment();
@@ -394,15 +407,16 @@ class Test_Comments_Manager extends TestCase
 
 		$manager->delete($comment->getId());
 		$comment->setMessage('very beautiful, I am really so much impressed!');
-		$this->setExpectedException('\OCP\Comments\NotFoundException');
 		$manager->save($comment);
 	}
 
+	/**
+	 * @expectedException \UnexpectedValueException
+	 */
 	public function testSaveIncomplete() {
 		$manager = $this->getManager();
 		$comment = new \OC\Comments\Comment();
 		$comment->setMessage('from no one to nothing');
-		$this->setExpectedException('\UnexpectedValueException');
 		$manager->save($comment);
 	}
 
@@ -442,10 +456,10 @@ class Test_Comments_Manager extends TestCase
 
 	/**
 	 * @dataProvider invalidActorArgsProvider
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testDeleteReferencesOfActorInvalidInput($type, $id) {
 		$manager = $this->getManager();
-		$this->setExpectedException('\InvalidArgumentException');
 		$manager->deleteReferencesOfActor($type, $id);
 	}
 
@@ -508,10 +522,10 @@ class Test_Comments_Manager extends TestCase
 
 	/**
 	 * @dataProvider invalidObjectArgsProvider
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testDeleteCommentsAtObjectInvalidInput($type, $id) {
 		$manager = $this->getManager();
-		$this->setExpectedException('\InvalidArgumentException');
 		$manager->deleteCommentsAtObject($type, $id);
 	}
 
