@@ -25,7 +25,7 @@ class FakeManager implements \OCP\Comments\ICommentsManager {
 
 	public function delete($id) {}
 
-	public function save(\OCP\Comments\IComment &$comment) {}
+	public function save(\OCP\Comments\IComment $comment) {}
 
 	public function deleteReferencesOfActor($actorType, $actorId) {}
 
