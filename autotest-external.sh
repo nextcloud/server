@@ -193,7 +193,8 @@ EOF
 		echo "name: $name"
 
 		# execute start file
-		if ./$FILES_EXTERNAL_BACKEND_ENV_PATH/$startFile; then
+		./$FILES_EXTERNAL_BACKEND_ENV_PATH/$startFile
+		if [ $? -eq 0 ]; then
 			# getting backend to test from filename
 			# it's the part between the dots startSomething.TestToRun.sh
 			testToRun=`echo $startFile | cut -d '-' -f 2`
@@ -209,6 +210,8 @@ EOF
 				"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1-$name.xml" "$FILES_EXTERNAL_BACKEND_PATH/$testToRun.php"
 				RESULT=$?
 			fi
+		else
+		    DOEXIT=1
 		fi
 
 		# calculate stop file
@@ -217,6 +220,10 @@ EOF
 		if [ -f $FILES_EXTERNAL_BACKEND_ENV_PATH/$stopFile ]; then
 			# execute stop file if existant
 			./$FILES_EXTERNAL_BACKEND_ENV_PATH/$stopFile
+		fi
+		if [ "$DOEXIT" ]; then
+		    echo "Error during start file execution ... terminating"
+		    exit $DOEXIT
 		fi
 	done;
 }
