@@ -189,6 +189,8 @@ class User implements IUser {
 
 			// Delete the users entry in the storage table
 			\OC\Files\Cache\Storage::remove('home::' . $this->uid);
+
+			\OC::$server->getCommentsManager()->deleteReferencesOfActor('user', $this->uid);
 		}
 
 		if ($this->emitter) {

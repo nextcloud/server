@@ -472,6 +472,12 @@ interface IServerContainer {
 	public function getNotificationManager();
 
 	/**
+	 * @return \OCP\Comments\ICommentsManager
+	 * @since 9.0.0
+	 */
+	public function getCommentsManager();
+
+	/**
 	 * Returns the system-tag manager
 	 *
 	 * @return \OCP\SystemTag\ISystemTagManager

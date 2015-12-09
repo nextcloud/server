@@ -528,6 +528,13 @@ class Server extends SimpleContainer implements IServerContainer {
 			});
 			return $manager;
 		});
+		$this->registerService('CommentsManager', function(Server $c) {
+			$config = $c->getConfig();
+			$factoryClass = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
+			/** @var \OCP\Comments\ICommentsManagerFactory $factory */
+			$factory = new $factoryClass();
+			return $factory->getManager();
+		});
 		$this->registerService('EventDispatcher', function() {
 			return new EventDispatcher();
 		});
@@ -1119,6 +1126,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	public function getNotificationManager() {
 		return $this->query('NotificationManager');
+	}
+
+	/**
+	 * @return \OCP\Comments\ICommentsManager
+	 */
+	public function getCommentsManager() {
+		return $this->query('CommentsManager');
 	}
 
 	/**
