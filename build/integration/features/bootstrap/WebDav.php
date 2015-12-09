@@ -97,6 +97,15 @@ trait WebDav{
 		PHPUnit_Framework_Assert::assertEquals($content, (string)$this->response->getBody());
 	}
 
+	/**
+	 * @Then /^Downloaded content when downloading file "([^"]*)" with range "([^"]*)" should be "([^"]*)"$/
+	 */
+	public function downloadedContentWhenDownloadindShouldBe($fileSource, $range, $content){
+		$this->downloadFileWithRange($fileSource, $range);
+		$this->downloadedContentShouldBe($content);
+	}
+
+
 	/*Returns the elements of a propfind, $folderDepth requires 1 to see elements without children*/
 	public function listFolder($user, $path, $folderDepth){
 		$fullUrl = substr($this->baseUrl, 0, -4);
