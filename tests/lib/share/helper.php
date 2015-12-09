@@ -19,6 +19,10 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * @group DB
+ * Class Test_Share_Helper
+ */
 class Test_Share_Helper extends \Test\TestCase {
 
 	public function expireDateProvider() {
@@ -99,5 +103,38 @@ class Test_Share_Helper extends \Test\TestCase {
 	 */
 	public function testFixRemoteURLInShareWith($remote, $expected) {
 		$this->assertSame($expected, \OC\Share\Helper::fixRemoteURLInShareWith($remote));
+	}
+
+	/**
+	 * @dataProvider dataTestCompareServerAddresses
+	 *
+	 * @param string $server1
+	 * @param string $server2
+	 * @param bool $expected
+	 */
+	public function testIsSameUserOnSameServer($user1, $server1, $user2, $server2, $expected) {
+		$this->assertSame($expected,
+			\OC\Share\Helper::isSameUserOnSameServer($user1, $server1, $user2, $server2)
+		);
+	}
+
+	public function dataTestCompareServerAddresses() {
+		return [
+			['user1', 'http://server1', 'user1', 'http://server1', true],
+			['user1', 'https://server1', 'user1', 'http://server1', true],
+			['user1', 'http://serVer1', 'user1', 'http://server1', true],
+			['user1', 'http://server1/',  'user1', 'http://server1', true],
+			['user1', 'server1', 'user1', 'http://server1', true],
+			['user1', 'http://server1', 'user1', 'http://server2', false],
+			['user1', 'https://server1', 'user1', 'http://server2', false],
+			['user1', 'http://serVer1', 'user1', 'http://serer2', false],
+			['user1', 'http://server1/', 'user1', 'http://server2', false],
+			['user1', 'server1', 'user1', 'http://server2', false],
+			['user1', 'http://server1', 'user2', 'http://server1', false],
+			['user1', 'https://server1', 'user2', 'http://server1', false],
+			['user1', 'http://serVer1', 'user2', 'http://server1', false],
+			['user1', 'http://server1/',  'user2', 'http://server1', false],
+			['user1', 'server1', 'user2', 'http://server1', false],
+		];
 	}
 }

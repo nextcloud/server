@@ -251,4 +251,27 @@ class Helper extends \OC\Share\Constants {
 
 		return rtrim($shareWith, '/');
 	}
+
+	/**
+	 * check if two federated cloud IDs refer to the same user
+	 *
+	 * @param string $user1
+	 * @param string $server1
+	 * @param string $user2
+	 * @param string $server2
+	 * @return bool true if both users and servers are the same
+	 */
+	public static function isSameUserOnSameServer($user1, $server1, $user2, $server2) {
+		$normalizedServer1 = strtolower(\OC\Share\Share::removeProtocolFromUrl($server1));
+		$normalizedServer2 = strtolower(\OC\Share\Share::removeProtocolFromUrl($server2));
+
+		if (
+				rtrim($normalizedServer1, '/') === rtrim($normalizedServer2, '/') &&
+				strtolower($user1) === strtolower($user2)
+		){
+			return true;
+		}
+
+		return false;
+	}
 }
