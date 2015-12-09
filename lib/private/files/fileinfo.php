@@ -100,6 +100,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 			return $this->getType();
 		} else if ($offset === 'etag') {
 			return $this->getEtag();
+		} elseif ($offset === 'permissions') {
+			return $this->getPermissions();
 		} elseif (isset($this->data[$offset])) {
 			return $this->data[$offset];
 		} else {
@@ -193,7 +195,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int
 	 */
 	public function getPermissions() {
-		return $this->data['permissions'];
+		$perms = $this->data['permissions'];
+		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC\Share\Share::isResharingAllowed())) {
+			$perms = $perms & ~\OCP\Constants::PERMISSION_SHARE;
+		}
+		return $perms;
 	}
 
 	/**
