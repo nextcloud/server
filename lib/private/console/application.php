@@ -53,7 +53,12 @@ class Application {
 		$application = $this->application;
 		require_once \OC::$SERVERROOT . '/core/register_command.php';
 		if ($this->config->getSystemValue('installed', false)) {
-			if (!\OCP\Util::needUpgrade()) {
+			if (\OCP\Util::needUpgrade()) {
+				$output->writeln("ownCloud or one of the apps require upgrade - only a limited number of commands are available");
+				$output->writeln("You may use your browser or the occ upgrade command to do the upgrade");
+			} elseif ($this->config->getSystemValue('maintenance', false)) {
+				$output->writeln("ownCloud is in maintenance mode - no app have been loaded");
+			} else {
 				OC_App::loadApps();
 				foreach (\OC::$server->getAppManager()->getInstalledApps() as $app) {
 					$appPath = \OC_App::getAppPath($app);
@@ -63,8 +68,6 @@ class Application {
 						require $file;
 					}
 				}
-			} else {
-				$output->writeln("ownCloud or one of the apps require upgrade - only a limited number of commands are available");
 			}
 		} else {
 			$output->writeln("ownCloud is not installed - only a limited number of commands are available");
