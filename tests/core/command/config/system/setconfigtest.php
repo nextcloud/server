@@ -126,31 +126,20 @@ class SetConfigTest extends TestCase {
 
 	public function castValueProvider() {
 		return [
-			[null, 'integer', null],
-			[null, 'string', null],
+			[null, 'string', ['value' => '', 'readable-value' => 'empty string']],
 
-			['abc', 'string', 'abc'],
-			['dEF', 'str', 'dEF'],
-			['123', 's', '123'],
+			['abc', 'string', ['value' => 'abc', 'readable-value' => 'string abc']],
 
-			['123', 'integer', 123],
-			['456', 'int', 456],
-			['-666', 'i', -666],
+			['123', 'integer', ['value' => 123, 'readable-value' => 'integer 123']],
+			['456', 'int', ['value' => 456, 'readable-value' => 'integer 456']],
 
-			// only use powers of 2 to avoid precision errors
-			['2', 'double', 2.0],
-			['0.25', 'd', 0.25],
-			['0.5', 'float', 0.5],
-			['0.125', 'f', 0.125],
+			['2.25', 'double', ['value' => 2.25, 'readable-value' => 'double 2.25']],
+			['0.5', 'float', ['value' => 0.5, 'readable-value' => 'double 0.5']],
 
-			['true', 'boolean', true],
-			['false', 'bool', false],
-			['yes', 'b', true],
-			['no', 'b', false],
-			['y', 'b', true],
-			['n', 'b', false],
-			['1', 'b', true],
-			['0', 'b', false],
+			['', 'null', ['value' => null, 'readable-value' => 'null']],
+
+			['true', 'boolean', ['value' => true, 'readable-value' => 'boolean true']],
+			['false', 'bool', ['value' => false, 'readable-value' => 'boolean false']],
 		];
 	}
 
@@ -167,6 +156,7 @@ class SetConfigTest extends TestCase {
 		return [
 			['123', 'foobar'],
 
+			[null, 'integer'],
 			['abc', 'integer'],
 			['76ggg', 'double'],
 			['true', 'float'],

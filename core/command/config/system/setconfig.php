@@ -83,7 +83,7 @@ class SetConfig extends Base {
 			$existingValue = $this->systemConfig->getValue($configName);
 
 			$newValue = $this->mergeArrayValue(
-				array_slice($configNames, 1), $existingValue, $configValue, $updateOnly
+				array_slice($configNames, 1), $existingValue, $configValue['value'], $updateOnly
 			);
 
 			$this->systemConfig->setValue($configName, $newValue);
@@ -92,10 +92,10 @@ class SetConfig extends Base {
 				throw new \UnexpectedValueException('Config parameter does not exist');
 			}
 
-			$this->systemConfig->setValue($configName, $configValue);
+			$this->systemConfig->setValue($configName, $configValue['value']);
 		}
 
-		$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' set to ' . $configValue . '</info>');
+		$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' set to ' . $configValue['readable-value'] . '</info>');
 		return 0;
 	}
 
@@ -106,57 +106,62 @@ class SetConfig extends Base {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function castValue($value, $type) {
-		if ($value === null) {
-			return null;
-		}
-
-		$type = strtolower($type);
 		switch ($type) {
-		case 'string':
-		case 'str':
-		case 's':
-			return $value;
+			case 'integer':
+			case 'int':
+				if (!is_numeric($value)) {
+					throw new \InvalidArgumentException('Non-numeric value specified');
+				}
+				return [
+					'value' => (int) $value,
+					'readable-value' => 'integer ' . (int) $value,
+				];
 
-		case 'integer':
-		case 'int':
-		case 'i':
-			if (!is_numeric($value)) {
-				throw new \InvalidArgumentException('Non-numeric value specified');
-			}
-			return (int) $value;
+			case 'double':
+			case 'float':
+				if (!is_numeric($value)) {
+					throw new \InvalidArgumentException('Non-numeric value specified');
+				}
+				return [
+					'value' => (double) $value,
+					'readable-value' => 'double ' . (double) $value,
+				];
 
-		case 'double':
-		case 'd':
-		case 'float':
-		case 'f':
-			if (!is_numeric($value)) {
-				throw new \InvalidArgumentException('Non-numeric value specified');
-			}
-			return (double) $value;
+			case 'boolean':
+			case 'bool':
+				$value = strtolower($value);
+				switch ($value) {
+					case 'true':
+						return [
+							'value' => true,
+							'readable-value' => 'boolean ' . $value,
+						];
 
-		case 'boolean':
-		case 'bool':
-		case 'b':
-			$value = strtolower($value);
-			switch ($value) {
-			case 'true':
-			case 'yes':
-			case 'y':
-			case '1':
-				return true;
+					case 'false':
+						return [
+							'value' => false,
+							'readable-value' => 'boolean ' . $value,
+						];
 
-			case 'false':
-			case 'no':
-			case 'n':
-			case '0':
-				return false;
+					default:
+						throw new \InvalidArgumentException('Unable to parse value as boolean');
+				}
+
+			case 'null':
+				return [
+					'value' => null,
+					'readable-value' => 'null',
+				];
+
+			case 'string':
+				$value = (string) $value;
+				return [
+					'value' => $value,
+					'readable-value' => ($value === '') ? 'empty string' : 'string ' . $value,
+				];
 
 			default:
-				throw new \InvalidArgumentException('Unable to parse value as boolean');
-			}
-
-		default:
-			throw new \InvalidArgumentException('Invalid type');
+				throw new \InvalidArgumentException('Invalid type');
 		}
 	}
 
