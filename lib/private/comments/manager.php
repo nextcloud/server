@@ -3,7 +3,6 @@
 namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
-use OC\Hooks\Emitter;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
