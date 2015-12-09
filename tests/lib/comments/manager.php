@@ -46,7 +46,7 @@ class Test_Comments_Manager extends TestCase
 			])
 			->execute();
 
-		return \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*comments');
+		return $qb->getLastInsertId();
 	}
 
 	protected function getManager() {
@@ -90,7 +90,7 @@ class Test_Comments_Manager extends TestCase
 			])
 			->execute();
 
-		$id = strval(\OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*comments'));
+		$id = strval($qb->getLastInsertId());
 
 		$comment = $manager->get($id);
 		$this->assertTrue($comment instanceof \OCP\Comments\IComment);
