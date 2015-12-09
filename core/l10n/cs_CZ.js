@@ -266,6 +266,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Prosím zkuste to znovu nebo kontaktujte vašeho správce.",
     "Log in" : "Přihlásit",
     "Wrong password. Reset it?" : "Nesprávné heslo. Resetovat?",
+    "Wrong password." : "Chybné heslo.",
     "Stay logged in" : "Neodhlašovat",
     "Alternative Logins" : "Alternativní přihlášení",
     "This ownCloud instance is currently in single user mode." : "Tato instalace ownCloudu je momentálně v jednouživatelském módu.",

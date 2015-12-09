@@ -266,6 +266,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Yritä uudestaan tai ota yhteys ylläpitäjään.",
     "Log in" : "Kirjaudu sisään",
     "Wrong password. Reset it?" : "Väärä salasana. Haluatko palauttaa salasanan?",
+    "Wrong password." : "Väärä salasana.",
     "Stay logged in" : "Pysy sisäänkirjautuneena",
     "Alternative Logins" : "Vaihtoehtoiset kirjautumiset",
     "This ownCloud instance is currently in single user mode." : "Tämä ownCloud-asennus on parhaillaan single user -tilassa.",

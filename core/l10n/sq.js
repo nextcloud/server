@@ -266,6 +266,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Ju lutemi, riprovoni ose lidhuni me përgjegjësin tuaj.",
     "Log in" : "Hyni",
     "Wrong password. Reset it?" : "Fjalëkalim i gabuar. Të ricaktohet?",
+    "Wrong password." : "Fjalëkalim i gabuar.",
     "Stay logged in" : "Qëndro i futur",
     "Alternative Logins" : "Hyrje Alternative",
     "This ownCloud instance is currently in single user mode." : "Kjo instancë ownCloud është aktualisht në gjendje me përdorues të vetëm.",
