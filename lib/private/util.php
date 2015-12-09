@@ -642,13 +642,15 @@ class OC_Util {
 		}
 
 		// Check if config folder is writable.
-		if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
-			$errors[] = array(
-				'error' => $l->t('Cannot write into "config" directory'),
-				'hint' => $l->t('This can usually be fixed by '
-					. '%sgiving the webserver write access to the config directory%s.',
-					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
-			);
+		if(!OC_Helper::isReadOnlyConfigEnabled()) {
+			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
+				$errors[] = array(
+					'error' => $l->t('Cannot write into "config" directory'),
+					'hint' => $l->t('This can usually be fixed by '
+						. '%sgiving the webserver write access to the config directory%s.',
+						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
+				);
+			}
 		}
 
 		// Check if there is a writable install folder.
