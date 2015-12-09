@@ -40,6 +40,9 @@ class QueryBuilder implements IQueryBuilder {
 	/** @var bool */
 	private $automaticTablePrefix = true;
 
+	/** @var string */
+	protected $lastInsertedTable;
+
 	/**
 	 * Initializes a new QueryBuilder.
 	 *
@@ -444,6 +447,8 @@ class QueryBuilder implements IQueryBuilder {
 		$this->queryBuilder->insert(
 			$this->getTableName($insert)
 		);
+
+		$this->lastInsertedTable = $insert;
 
 		return $this;
 	}
@@ -1051,10 +1056,10 @@ class QueryBuilder implements IQueryBuilder {
 	 * @throws \BadMethodCallException When being called before an insert query has been run.
 	 */
 	public function getLastInsertId() {
-		$from = $this->getQueryPart('from');
-
-		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && !empty($from)) {
-			return (int) $this->connection->lastInsertId($from['table']);
+		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
+			// lastInsertId() needs the prefix but no quotes
+			$table = $this->prefixTableName($this->lastInsertedTable);
+			return (int) $this->connection->lastInsertId($table);
 		}
 
 		throw new \BadMethodCallException('Invalid call to getLastInsertId without using insert() before.');
@@ -1067,11 +1072,22 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return string
 	 */
 	public function getTableName($table) {
+		$table = $this->prefixTableName($table);
+		return $this->helper->quoteColumnName($table);
+	}
+
+	/**
+	 * Returns the table name with database prefix as needed by the implementation
+	 *
+	 * @param string $table
+	 * @return string
+	 */
+	protected function prefixTableName($table) {
 		if ($this->automaticTablePrefix === false || strpos($table, '*PREFIX*') === 0) {
-			return $this->helper->quoteColumnName($table);
+			return $table;
 		}
 
-		return $this->helper->quoteColumnName('*PREFIX*' . $table);
+		return '*PREFIX*' . $table;
 	}
 
 	/**
