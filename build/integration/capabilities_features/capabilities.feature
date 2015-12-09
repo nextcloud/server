@@ -22,7 +22,7 @@ Feature: capabilities
 
 	Scenario: Changing api_enabled
 		Given As an "admin"
-		And parameter "shareapi_allow_public_upload" is set to "0"
+		And parameter "shareapi_allow_public_upload" of app "core" is set to "no"
 		When sending "GET" to "/cloud/capabilities"
 		Then the HTTP status code should be "200"
 		And fields of capabilities match with
@@ -31,7 +31,7 @@ Feature: capabilities
 			| core | webdav-root | remote.php/webdav | |
 			| files_sharing | api_enabled | 1 | |
 			| files_sharing | public | enabled | 1 |
-			| files_sharing | public | upload | 0 |
+			| files_sharing | public | upload | EMPTY |
 			| files_sharing | resharing | 1 | |
 			| files_sharing | federation | outgoing | 1 |
 			| files_sharing | federation | incoming | 1 |

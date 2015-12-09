@@ -14,23 +14,16 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 	use Provisioning;
 	use Sharing;
 
-	private $apacheUser = '';
+	private $apacheUser = NULL;
 
 	/**
-	 * @Given /^parameter "([^"]*)" is set to "([^"]*)"$/
+	 * @Given /^parameter "([^"]*)" of app "([^"]*)" is set to "([^"]*)"$/
 	 */
-	public function modifyServerConfig($parameter, $value){
-		$this->apacheUser = exec('ps axho user,comm|grep -E "httpd|apache"|uniq|grep -v "root"|awk \'END {if ($1) print $1}\'');
-		$comando = 'sudo -u ' . $this->apacheUser . ' ../../occ config:app:set ' . $parameter . ' ' . $value;
-		echo "COMANDO: $comando\n";
-		$expectedAnswer = "Config value $value for app $parameter set to";
-		$output = exec($comando);
-		PHPUnit_Framework_Assert::assertEquals(
-					$output, 
-					$expectedAnswer, 
-					"Failed setting $parameter to $value"
-		);
-
+	public function serverParameterIsSetTo($parameter, $app, $value){
+		if (!isset($this->apacheUser)){
+			$this->apacheUser = $this->getOSApacheUser();
+		}
+		$this->modifyServerConfig($this->apacheUser, $parameter, $app, $value);
 	}
 
 	/**
@@ -56,11 +49,43 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 				$answeredValue = (string)$capabilitiesXML->$row['capability']->$row['feature']->$row['value_or_subfeature'];
 				PHPUnit_Framework_Assert::assertEquals(	
 					$answeredValue, 
-					$row['value'], 
+					$row['value']==="EMPTY" ? '' : $row['value'], 
 					"Failed field: " . $row['capability'] . " " . $row['feature'] . " " . $row['value_or_subfeature']
 				);
 			}
 		}
+	}
+
+	public static function modifyServerConfig($apacheUser, $parameter, $app, $value){
+		$comando = 'sudo -u ' . $apacheUser . ' ../../occ config:app:set ' . $app . " " . $parameter . ' --value=' . $value;
+		$expectedAnswer = "Config value $parameter for app $app set to $value";
+		$output = exec($comando);
+		PHPUnit_Framework_Assert::assertEquals(
+					$output, 
+					$expectedAnswer, 
+					"Failed setting $parameter to $value"
+		);
+
+	}
+
+	public static function getOSApacheUser(){
+		return exec('ps axho user,comm|grep -E "httpd|apache"|uniq|grep -v "root"|awk \'END {if ($1) print $1}\'');
+	}
+
+	/**
+	 * @BeforeSuite
+	 */
+	public static function prepareParameters(){
+		$apacheUser = self::getOSApacheUser();
+		self::modifyServerConfig($apacheUser, "shareapi_allow_public_upload", "core", "yes");
+	}
+
+	/**
+	 * @AfterSuite
+	 */
+	public static function undoChangingParameters(){
+		$apacheUser = self::getOSApacheUser();
+		self::modifyServerConfig($apacheUser, "shareapi_allow_public_upload", "core", "yes");
 	}
 
 }
