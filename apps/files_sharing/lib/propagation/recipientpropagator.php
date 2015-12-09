@@ -25,6 +25,8 @@ namespace OCA\Files_Sharing\Propagation;
 use OC\Files\Cache\ChangePropagator;
 use OC\Files\View;
 use OC\Share\Share;
+use OCP\IGroupManager;
+use OCP\IUser;
 
 /**
  * Propagate etags for share recipients
@@ -51,18 +53,31 @@ class RecipientPropagator {
 	private $manager;
 
 	/**
-	 * @param string $userId current user, must match the propagator's
+	 * @var IGroupManager
+	 */
+	private $groupManager;
+
+	/**
+	 * @var IUser
+	 */
+	private $user;
+
+	/**
+	 * @param IUser $user current user, must match the propagator's
 	 * user
 	 * @param \OC\Files\Cache\ChangePropagator $changePropagator change propagator
 	 * initialized with a view for $user
 	 * @param \OCP\IConfig $config
 	 * @param PropagationManager $manager
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct($userId, $changePropagator, $config, PropagationManager $manager) {
-		$this->userId = $userId;
+	public function __construct(IUser $user, $changePropagator, $config, PropagationManager $manager, IGroupManager $groupManager) {
+		$this->userId = $user->getUID();
+		$this->user = $user;
 		$this->changePropagator = $changePropagator;
 		$this->config = $config;
 		$this->manager = $manager;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -139,7 +154,7 @@ class RecipientPropagator {
 			$this->markDirty($share, microtime(true));
 
 			// propagate up the share tree
-			if ($share['share_with'] === $this->userId) {
+			if ($this->isRecipientOfShare($share)) {
 				$user = $share['uid_owner'];
 				$view = new View('/' . $user . '/files');
 				$path = $view->getPath($share['file_source']);
@@ -149,5 +164,22 @@ class RecipientPropagator {
 		}
 
 		unset($this->propagatingIds[$id]);
+	}
+
+	/**
+	 * Check if the user for this recipient propagator is the recipient of a share
+	 *
+	 * @param array $share
+	 * @return bool
+	 */
+	private function isRecipientOfShare($share) {
+		if ($share['share_with'] === $this->userId && $share['share_type'] == \OCP\Share::SHARE_TYPE_USER) { // == since 'share_type' is a string
+			return true;
+		}
+		if ($share['share_type'] == \OCP\Share::SHARE_TYPE_GROUP) {
+			$groups = $this->groupManager->getUserGroupIds($this->user);
+			return in_array($share['share_with'], $groups);
+		}
+		return false;
 	}
 }

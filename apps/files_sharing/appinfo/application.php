@@ -136,7 +136,9 @@ class Application extends App {
 			$server = $c->query('ServerContainer');
 			return new PropagationManager(
 				$server->getUserSession(),
-				$server->getConfig()
+				$server->getConfig(),
+				$server->getGroupManager(),
+				$server->getUserManager()
 			);
 		});
 

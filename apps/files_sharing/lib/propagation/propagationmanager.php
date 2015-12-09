@@ -24,6 +24,9 @@ namespace OCA\Files_Sharing\Propagation;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IUser;
+use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Util;
 
@@ -56,9 +59,21 @@ class PropagationManager {
 	 */
 	private $sharePropagators = [];
 
-	public function __construct(IUserSession $userSession, IConfig $config) {
+	/**
+	 * @var IGroupManager
+	 */
+	private $groupManager;
+
+	/**
+	 * @var IUserManager
+	 */
+	private $userManager;
+
+	public function __construct(IUserSession $userSession, IConfig $config, IGroupManager $groupManager, IUserManager $userManager) {
 		$this->userSession = $userSession;
 		$this->config = $config;
+		$this->groupManager = $groupManager;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -97,15 +112,18 @@ class PropagationManager {
 	}
 
 	/**
-	 * @param string $user
+	 * @param IUser|string $user
 	 * @return \OCA\Files_Sharing\Propagation\RecipientPropagator
 	 */
 	public function getSharePropagator($user) {
-		if (isset($this->sharePropagators[$user])) {
-			return $this->sharePropagators[$user];
+		if (!$user instanceof IUser) {
+			$user = $this->userManager->get($user);
 		}
-		$this->sharePropagators[$user] = new RecipientPropagator($user, $this->getChangePropagator($user), $this->config, $this);
-		return $this->sharePropagators[$user];
+		if (isset($this->sharePropagators[$user->getUID()])) {
+			return $this->sharePropagators[$user->getUID()];
+		}
+		$this->sharePropagators[$user->getUID()] = new RecipientPropagator($user, $this->getChangePropagator($user->getUID()), $this->config, $this, $this->groupManager);
+		return $this->sharePropagators[$user->getUID()];
 	}
 
 	/**
@@ -130,7 +148,7 @@ class PropagationManager {
 		if (!$user) {
 			return;
 		}
-		$recipientPropagator = $this->getSharePropagator($user->getUID());
+		$recipientPropagator = $this->getSharePropagator($user);
 		$watcher = new ChangeWatcher(Filesystem::getView(), $recipientPropagator);
 
 		// for marking shares owned by the active user as dirty when a file inside them changes
