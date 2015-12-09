@@ -49,6 +49,14 @@ if(!\OCP\Util::isValidFileName($name)) {
 	exit();
 }
 
+$currentUser = \OC::$server->getUserSession()->getUser()->getUID();
+$currentServer = \OC::$server->getURLGenerator()->getAbsoluteURL('/');
+if (\OC\Share\Helper::isSameUserOnSameServer($owner, $remote, $currentUser, $currentServer )) {
+	\OCP\JSON::error(array('data' => array('message' => $l->t('Not allowed to create a federated share with the same user server'))));
+	exit();
+}
+
+
 $externalManager = new \OCA\Files_Sharing\External\Manager(
 		\OC::$server->getDatabaseConnection(),
 		\OC\Files\Filesystem::getMountManager(),

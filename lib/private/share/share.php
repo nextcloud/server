@@ -849,11 +849,20 @@ class Share extends Constants {
 					throw new \Exception($message_t);
 			}
 
+			// don't allow federated shares if source and target server are the same
+			list($user, $remote) = Helper::splitUserRemote($shareWith);
+			$currentServer = self::removeProtocolFromUrl(\OC::$server->getURLGenerator()->getAbsoluteURL('/'));
+			$currentUser = \OC::$server->getUserSession()->getUser()->getUID();
+			if (Helper::isSameUserOnSameServer($user, $remote, $currentUser, $currentServer)) {
+				$message = 'Not allowed to create a federated share with the same user.';
+				$message_t = $l->t('Not allowed to create a federated share with the same user');
+				\OCP\Util::writeLog('OCP\Share', $message, \OCP\Util::DEBUG);
+				throw new \Exception($message_t);
+			}
 
 			$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(self::TOKEN_LENGTH, \OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
 				\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
-			list($user, $remote) = Helper::splitUserRemote($shareWith);
 			$shareWith = $user . '@' . $remote;
 			$shareId = self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, null, $token, $itemSourceName);
 
@@ -2510,7 +2519,7 @@ class Share extends Constants {
 	 * @param string $url
 	 * @return string
 	 */
-	private static function removeProtocolFromUrl($url) {
+	public static function removeProtocolFromUrl($url) {
 		if (strpos($url, 'https://') === 0) {
 			return substr($url, strlen('https://'));
 		} else if (strpos($url, 'http://') === 0) {
