@@ -44,6 +44,7 @@ $application->add(new \OC\Core\Command\Integrity\SignCore(
 if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\Disable());
 	$application->add(new OC\Core\Command\App\Enable());
+	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps());
 
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
