@@ -80,14 +80,12 @@
 				<length>64</length>
 			</field>
 			<index>
-				<name>mount_id_app_index</name>
 				<field>
 					<name>mount_id</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
 			<index>
-				<name>applicable_value_index</name>
 				<field>
 					<name>type</name>
 					<sorting>ascending</sorting>
@@ -98,7 +96,6 @@
 				</field>
 			</index>
 			<index>
-				<name>applicable_value_mount_index</name>
 				<unique>true</unique>
 				<field>
 					<name>type</name>
@@ -147,14 +144,12 @@
 			</field>
 
 			<index>
-				<name>config_mount_id</name>
 				<field>
 					<name>mount_id</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
 			<index>
-				<name>config_mount_key</name>
 				<unique>true</unique>
 				<field>
 					<name>mount_id</name>
@@ -199,7 +194,6 @@
 			</field>
 
 			<index>
-				<name>option_mount_id</name>
 				<field>
 					<name>mount_id</name>
 					<sorting>ascending</sorting>
