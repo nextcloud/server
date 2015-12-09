@@ -48,16 +48,20 @@ class Application {
 
 	/**
 	 * @param OutputInterface $output
+	 * @throws \Exception
 	 */
 	public function loadCommands(OutputInterface $output) {
 		// $application is required to be defined in the register_command scripts
 		$application = $this->application;
-		require_once \OC::$SERVERROOT . '/core/register_command.php';
+		require_once __DIR__ . '/../../../core/register_command.php';
 		if ($this->config->getSystemValue('installed', false)) {
 			if (!\OCP\Util::needUpgrade()) {
 				OC_App::loadApps();
 				foreach (\OC::$server->getAppManager()->getInstalledApps() as $app) {
 					$appPath = \OC_App::getAppPath($app);
+					if($appPath === false) {
+						continue;
+					}
 					\OC::$loader->addValidRoot($appPath);
 					$file = $appPath . '/appinfo/register_command.php';
 					if (file_exists($file)) {
@@ -85,6 +89,11 @@ class Application {
 		}
 	}
 
+	/**
+	 * Sets whether to automatically exit after a command execution or not.
+	 *
+	 * @param bool $boolean Whether to automatically exit after a command execution or not
+	 */
 	public function setAutoExit($boolean) {
 		$this->application->setAutoExit($boolean);
 	}
