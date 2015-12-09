@@ -32,6 +32,7 @@ interface IMemcacheTTL extends IMemcache {
 	 *
 	 * @param string $key
 	 * @param int $ttl time to live in seconds
+	 * @since 9.0.0
 	 */
 	public function setTTL($key, $ttl);
 }
