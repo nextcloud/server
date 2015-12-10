@@ -77,7 +77,11 @@ class Swift implements IObjectStore {
 			$serviceName = $this->params['serviceName'];
 		}
 
-		$this->objectStoreService = $this->client->objectStoreService($serviceName, $this->params['region']);
+		$urlType = null;
+		if ($this->params['urlType']) {
+			$urlType = $this->params['urlType'];
+		}
+		$this->objectStoreService = $this->client->objectStoreService($serviceName, $this->params['region'], $urlType);
 
 		try {
 			$this->container = $this->objectStoreService->getContainer($this->params['container']);
