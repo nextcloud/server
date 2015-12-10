@@ -323,7 +323,10 @@ class Swift extends \OC\Files\Storage\Common {
 					$streamInterface->rewind();
 					$stream = $streamInterface->getStream();
 					stream_context_set_option($stream, 'swift','content', $streamInterface);
-					return $stream;
+					if(is_resource($stream)) {
+						return $stream;
+					}
+					return false;
 				} catch (\Guzzle\Http\Exception\BadResponseException $e) {
 					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 					return false;
