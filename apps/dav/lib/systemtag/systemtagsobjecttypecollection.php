@@ -63,6 +63,8 @@ class SystemTagsObjectTypeCollection implements ICollection {
 
 	/**
 	 * @param string $name
+	 * @param resource|string $data Initial payload
+	 * @throws Forbidden
 	 */
 	function createFile($name, $data = null) {
 		throw new Forbidden('Permission denied to create nodes');

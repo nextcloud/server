@@ -48,6 +48,8 @@ class SystemTagsByIdCollection implements ICollection {
 
 	/**
 	 * @param string $name
+	 * @param resource|string $data Initial payload
+	 * @throws Forbidden
 	 */
 	function createFile($name, $data = null) {
 		throw new Forbidden('Cannot create tags by id');
