@@ -181,13 +181,7 @@ if ($_['cronErrors']) {
 	<div class="loading"></div>
 	<ul class="errors hidden"></ul>
 	<ul class="warnings hidden"></ul>
-	<ul class="info hidden">
-		<?php if ($_['fileLockingType'] === 'db'):?>
-		<li>
-			<?php print_unescaped($l->t('Transactional file locking is using the database as locking backend, for best performance it\'s advised to configure a memcache for locking. See the <a target="_blank" href="%s">documentation ↗</a> for more information.', link_to_docs('admin-transactional-locking'))); ?>
-		</li>
-		<?php endif; ?>
-	</ul>
+	<ul class="info hidden"></ul>
 	<p class="hint hidden">
 		<?php print_unescaped($l->t('Please double check the <a target="_blank" href="%s">installation guides ↗</a>, and check for any errors or warnings in the <a href="#log-section">log</a>.', link_to_docs('admin-install'))); ?>
 	</p>
