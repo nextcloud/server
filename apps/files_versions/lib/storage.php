@@ -152,14 +152,7 @@ class Storage {
 			// create all parent folders
 			self::createMissingDirectories($filename, $users_view);
 
-			$versionsSize = self::getVersionsSize($uid);
-
-			// assumption: we need filesize($filename) for the new version +
-			// some more free space for the modified file which might be
-			// 1.5 times as large as the current version -> 2.5
-			$neededSpace = $files_view->filesize($filename) * 2.5;
-
-			self::scheduleExpire($uid, $filename, $versionsSize, $neededSpace);
+			self::scheduleExpire($uid, $filename);
 
 			// store a new version of a file
 			$mtime = $users_view->filemtime('files/' . $filename);
@@ -537,11 +530,9 @@ class Storage {
 	 *
 	 * @param string $uid owner of the file
 	 * @param string $fileName file/folder for which to schedule expiration
-	 * @param int|null $versionsSize current versions size
-	 * @param int $neededSpace requested versions size
 	 */
-	private static function scheduleExpire($uid, $fileName, $versionsSize = null, $neededSpace = 0) {
-		$command = new Expire($uid, $fileName, $versionsSize, $neededSpace);
+	private static function scheduleExpire($uid, $fileName) {
+		$command = new Expire($uid, $fileName);
 		\OC::$server->getCommandBus()->push($command);
 	}
 
@@ -549,11 +540,9 @@ class Storage {
 	 * Expire versions which exceed the quota
 	 *
 	 * @param $filename
-	 * @param int|null $versionsSize
-	 * @param int $offset
 	 * @return bool|int|null
 	 */
-	public static function expire($filename, $versionsSize = null, $offset = 0) {
+	public static function expire($filename) {
 		$config = \OC::$server->getConfig();
 		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
@@ -577,9 +566,7 @@ class Storage {
 			}
 
 			// make sure that we have the current size of the version history
-			if ( $versionsSize === null ) {
-				$versionsSize = self::getVersionsSize($uid);
-			}
+			$versionsSize = self::getVersionsSize($uid);
 
 			// calculate available space for version history
 			// subtract size of files and current versions size from quota
@@ -588,12 +575,12 @@ class Storage {
 				$rootInfo = $files_view->getFileInfo('/', false);
 				$free = $quota-$rootInfo['size']; // remaining free space for user
 				if ( $free > 0 ) {
-					$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - ($versionsSize + $offset); // how much space can be used for versions
+					$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
 				} else {
-					$availableSpace = $free - $versionsSize - $offset;
+					$availableSpace = $free - $versionsSize;
 				}
 			} else {
-				$availableSpace = $quota - $offset;
+				$availableSpace = $quota;
 			}
 
 			$allVersions = Storage::getVersions($uid, $filename);
