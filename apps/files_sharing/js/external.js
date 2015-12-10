@@ -18,6 +18,7 @@
 	 * @param {bool} passwordProtected true if the share is password protected
 	 */
 	OCA.Sharing.showAddExternalDialog = function (share, passwordProtected, callback) {
+			console.error('showAddExternalDialog', shares);
 		var remote = share.remote;
 		var owner = share.owner;
 		var name = share.name;
@@ -120,9 +121,11 @@
 		processSharesToConfirm: function() {
 			var fileList = this.filesApp.fileList;
 			// check for new server-to-server shares which need to be approved
+			console.error('BEFORE AJAX');
 			$.get(OC.generateUrl('/apps/files_sharing/api/externalShares'),
 			{},
 			function(shares) {
+			console.error('AFTER AJAX, go shares', shares);
 				var index;
 				for (index = 0; index < shares.length; ++index) {
 					OCA.Sharing.showAddExternalDialog(
