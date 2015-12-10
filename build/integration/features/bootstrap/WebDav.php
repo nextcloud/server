@@ -97,6 +97,15 @@ trait WebDav{
 		PHPUnit_Framework_Assert::assertEquals($content, (string)$this->response->getBody());
 	}
 
+	/**
+	 * @Then /^Downloaded content when downloading file "([^"]*)" with range "([^"]*)" should be "([^"]*)"$/
+	 */
+	public function downloadedContentWhenDownloadindShouldBe($fileSource, $range, $content){
+		$this->downloadFileWithRange($fileSource, $range);
+		$this->downloadedContentShouldBe($content);
+	}
+
+
 	/*Returns the elements of a propfind, $folderDepth requires 1 to see elements without children*/
 	public function listFolder($user, $path, $folderDepth){
 		$fullUrl = substr($this->baseUrl, 0, -4);
@@ -126,7 +135,7 @@ trait WebDav{
 	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
 	 */
 	public function checkElementList($user, $expectedElements){
-		$elementList = $this->listFolder($user, '/', 2);
+		$elementList = $this->listFolder($user, '/', 3);
 		if ($expectedElements instanceof \Behat\Gherkin\Node\TableNode) {
 			$elementRows = $expectedElements->getRows();
 			$elementsSimplified = $this->simplifyArray($elementRows);
@@ -147,6 +156,18 @@ trait WebDav{
 		$file = \GuzzleHttp\Stream\Stream::factory(fopen($source, 'r'));
 		try {
 			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 4xx and 5xx responses cause an exception
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @Given User :user created a folder :destination
+	 */
+	public function userCreatedAFolder($user, $destination){
+		try {
+			$this->response = $this->makeDavRequest($user, "MKCOL", $destination, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 4xx and 5xx responses cause an exception
 			$this->response = $e->getResponse();

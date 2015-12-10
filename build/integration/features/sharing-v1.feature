@@ -379,6 +379,47 @@ Feature: sharing
       | /CHILD/child.txt |
     And the HTTP status code should be "200"
 
+  Scenario: Share a file by multiple channels 
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And group "group0" exists
+    And user "user1" belongs to group "group0"
+    And user "user2" belongs to group "group0"
+    And user "user0" created a folder "/common"
+    And user "user0" created a folder "/common/sub"
+    And file "common" of user "user0" is shared with group "group0"
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And User "user1" moved file "/textfile0.txt" to "/common/textfile0.txt"
+    And User "user1" moved file "/common/textfile0.txt" to "/common/sub/textfile0.txt"
+    And As an "user2"
+    When Downloading file "/common/sub/textfile0.txt" with range "bytes=9-17"
+    Then Downloaded content should be "test text"
+    And Downloaded content when downloading file "/textfile0.txt" with range "bytes=9-17" should be "test text"
+    And user "user2" should see following elements
+      | /common/sub/textfile0.txt |
+
+  Scenario: Share a file by multiple channels
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And group "group0" exists
+    And user "user1" belongs to group "group0"
+    And user "user2" belongs to group "group0"
+    And user "user0" created a folder "/common"
+    And user "user0" created a folder "/common/sub"
+    And file "common" of user "user0" is shared with group "group0"
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And User "user1" moved file "/textfile0.txt" to "/common/textfile0.txt"
+    And User "user1" moved file "/common/textfile0.txt" to "/common/sub/textfile0.txt"
+    And As an "user2"
+    When Downloading file "/textfile0.txt" with range "bytes=9-17"
+    Then Downloaded content should be "test text"
+    And user "user2" should see following elements
+      | /common/sub/textfile0.txt |
+
   Scenario: Delete all group shares
     Given As an "admin"
     And user "user0" exists
