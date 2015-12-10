@@ -18,7 +18,7 @@
 	 * @param {bool} passwordProtected true if the share is password protected
 	 */
 	OCA.Sharing.showAddExternalDialog = function (share, passwordProtected, callback) {
-			console.error('showAddExternalDialog', shares);
+			console.error('showAddExternalDialog', share, passwordProtected);
 		var remote = share.remote;
 		var owner = share.owner;
 		var name = share.name;
