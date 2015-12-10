@@ -266,6 +266,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Veuillez réessayer ou contacter votre administrateur.",
     "Log in" : "Se connecter",
     "Wrong password. Reset it?" : "Mot de passe incorrect. Réinitialiser ?",
+    "Wrong password." : "Mot de passe incorrect.",
     "Stay logged in" : "Rester connecté",
     "Alternative Logins" : "Identifiants alternatifs",
     "This ownCloud instance is currently in single user mode." : "Cette instance de ownCloud est actuellement en mode utilisateur unique.",

@@ -17,6 +17,7 @@ OC.L10N.register(
     "Unsatisfied backend parameters" : "バックエンドのためのパラメーターが不十分です。",
     "Unsatisfied authentication mechanism parameters" : "認証のためのパラメータが不十分です",
     "Insufficient data: %s" : "データが不足しています: %s",
+    "%s" : "%s",
     "Personal" : "個人",
     "System" : "システム",
     "Grant access" : "アクセスを許可",

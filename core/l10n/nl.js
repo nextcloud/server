@@ -266,6 +266,7 @@ OC.L10N.register(
     "Please try again or contact your administrator." : "Probeer het opnieuw of neem contact op met uw beheerder.",
     "Log in" : "Meld u aan",
     "Wrong password. Reset it?" : "Onjuist wachtwoord. Resetten?",
+    "Wrong password." : "Onjuist wachtwoord.",
     "Stay logged in" : "Ingelogd blijven",
     "Alternative Logins" : "Alternatieve inlogs",
     "This ownCloud instance is currently in single user mode." : "Deze ownCloud werkt momenteel in enkele gebruiker modus.",
