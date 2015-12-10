@@ -56,6 +56,44 @@ class Shared_Updater {
 	 */
 	static public function renameHook($params) {
 		self::renameChildren($params['oldpath'], $params['newpath']);
+		self::moveShareToShare($params['newpath']);
+	}
+
+	/**
+	 * Fix for https://github.com/owncloud/core/issues/20769
+	 *
+	 * The owner is allowed to move their files (if they are shared) into a receiving folder
+	 * In this case we need to update the parent of the moved share. Since they are
+	 * effectively handing over ownership of the file the rest of the code needs to know
+	 * they need to build up the reshare tree.
+	 *
+	 * @param string $path
+	 */
+	static private function moveShareToShare($path) {
+		$userFolder = \OC::$server->getUserFolder();
+		$src = $userFolder->get($path);
+
+		$type = $src instanceof \OCP\Files\File ? 'file' : 'folder';
+		$shares = \OCP\Share::getItemShared($type, $src->getId());
+
+		// If the path we move is not a share we don't care
+		if (empty($shares)) {
+			return;
+		}
+
+		// Check if the destination is inside a share
+		$mountManager = \OC\Files\Filesystem::getMountManager();
+		$dstMount = $mountManager->find($src->getPath());
+		if (!($dstMount instanceof \OCA\Files_Sharing\SharedMount)) {
+			return;
+		}
+
+		$parenShare = $dstMount->getShare();
+
+		foreach ($shares as $share) {
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `parent` = ? WHERE `id` = ?');
+			$query->execute([$parenShare['id'], $share['id']]);
+		}
 	}
 
 	/**
