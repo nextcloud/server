@@ -44,4 +44,7 @@ class StartSessionListener implements PHPUnit_Framework_TestListener {
 	public function endTestSuite(PHPUnit_Framework_TestSuite $suite) {
 	}
 
+	public function addWarning(\PHPUnit_Framework_Test $test, \PHPUnit_Framework_Warning $e, $time) {
+	}
+
 }
