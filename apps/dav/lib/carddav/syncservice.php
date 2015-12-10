@@ -96,7 +96,7 @@ class SyncService {
 	 * @param string $syncToken
 	 * @return array
 	 */
-	private function requestSyncReport($url, $userName, $sharedSecret, $syncToken) {
+	protected function requestSyncReport($url, $userName, $sharedSecret, $syncToken) {
 		$settings = [
 			'baseUri' => $url,
 			'userName' => $userName,
