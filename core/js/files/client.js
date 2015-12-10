@@ -137,6 +137,8 @@
 				});
 				return result;
 			};
+
+			OC.registerXHRForErrorProcessing(xhr);
 			return xhr;
 		},
 

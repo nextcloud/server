@@ -1427,13 +1427,6 @@
 			delete this._reloadCall;
 			this.hideMask();
 
-			if (status === 401) {
-				// TODO: append current URL to be able to get back after logging in again
-				OC.redirect(OC.generateUrl('apps/files'));
-				OC.Notification.show(result);
-				return false;
-			}
-
 			// Firewall Blocked request?
 			if (status === 403) {
 				// Go home

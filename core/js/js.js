@@ -235,6 +235,13 @@ var OC={
 	},
 
 	/**
+	 * Reloads the current page
+	 */
+	reload: function() {
+		window.location.reload();
+	},
+
+	/**
 	 * Protocol that is used to access this ownCloud instance
 	 * @return {string} Used protocol
 	 */
@@ -727,6 +734,56 @@ var OC={
 	isUserAdmin: function() {
 		return oc_isadmin;
 	},
+
+	/**
+	 * Process ajax error, redirects to main page
+	 * if an error/auth error status was returned.
+	 */
+	_processAjaxError: function(xhr) {
+		// purposefully aborted request ?
+		if (xhr.status === 0 && (xhr.statusText === 'abort' || xhr.statusText === 'timeout')) {
+			return;
+		}
+
+		if (_.contains([0, 302, 307, 401], xhr.status)) {
+			OC.reload();
+		}
+	},
+
+	/**
+	 * Registers XmlHttpRequest object for global error processing.
+	 *
+	 * This means that if this XHR object returns 401 or session timeout errors,
+	 * the current page will automatically be reloaded.
+	 *
+	 * @param {XMLHttpRequest} xhr
+	 */
+	registerXHRForErrorProcessing: function(xhr) {
+		var loadCallback = function() {
+			if (xhr.readyState !== 4) {
+				return;
+			}
+
+			if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
+				return;
+			}
+
+			// fire jquery global ajax error handler
+			$(document).trigger(new $.Event('ajaxError'), xhr);
+		};
+
+		var errorCallback = function() {
+			// fire jquery global ajax error handler
+			$(document).trigger(new $.Event('ajaxError'), xhr);
+		};
+
+		// FIXME: also needs an IE8 way
+		if (xhr.addEventListener) {
+			xhr.addEventListener('load', loadCallback);
+			xhr.addEventListener('error', errorCallback);
+		}
+
+	}
 };
 
 /**
@@ -1311,11 +1368,11 @@ function initCore() {
 		$('html').addClass('edge');
 	}
 
-	$( document ).ajaxError(function( event, request, settings ) {
-		if (_.contains([302, 307, 401], request.status)) {
-			var app = $('#content').attr('class').substring(4);
-			OC.redirect(OC.generateUrl('apps/' + app));
+	$(document).on('ajaxError.main', function( event, request, settings ) {
+		if (settings && settings.allowAuthErrors) {
+			return;
 		}
+		OC._processAjaxError(request);
 	});
 
 	/**

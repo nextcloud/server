@@ -40,7 +40,8 @@
 						'<d:propfind xmlns:d="DAV:">' +
 						'<d:prop><d:resourcetype/></d:prop>' +
 						'</d:propfind>',
-				complete: afterCall
+				complete: afterCall,
+				allowAuthErrors: true
 			});
 			return deferred.promise();
 		},
@@ -157,7 +158,8 @@
 
 			$.ajax({
 				type: 'GET',
-				url: OC.generateUrl('settings/ajax/checksetup')
+				url: OC.generateUrl('settings/ajax/checksetup'),
+				allowAuthErrors: true
 			}).then(afterCall, afterCall);
 			return deferred.promise();
 		},
@@ -181,7 +183,8 @@
 
 			$.ajax({
 				type: 'GET',
-				url: OC.generateUrl('heartbeat')
+				url: OC.generateUrl('heartbeat'),
+				allowAuthErrors: true
 			}).then(afterCall, afterCall);
 
 			return deferred.promise();
