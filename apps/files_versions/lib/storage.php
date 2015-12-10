@@ -41,6 +41,7 @@
 
 namespace OCA\Files_Versions;
 
+use OC\Files\Filesystem;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
 use OCP\Lock\ILockingProvider;
@@ -81,18 +82,7 @@ class Storage {
 	 * @throws \OC\User\NoUserException
 	 */
 	public static function getUidAndFilename($filename) {
-		$uid = \OC\Files\Filesystem::getOwner($filename);
-		\OC\Files\Filesystem::initMountPoints($uid);
-		if ( $uid != \OCP\User::getUser() ) {
-			$info = \OC\Files\Filesystem::getFileInfo($filename);
-			$ownerView = new \OC\Files\View('/'.$uid.'/files');
-			try {
-				$filename = $ownerView->getPath($info['fileid']);
-			} catch (NotFoundException $e) {
-				$filename = null;
-			}
-		}
-		return [$uid, $filename];
+		return Filesystem::getView()->getUidAndFilename($filename);
 	}
 
 	/**

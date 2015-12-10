@@ -44,7 +44,6 @@
 namespace OC\Files;
 
 use Icewind\Streams\CallbackWrapper;
-use OC\Files\Cache\Updater;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\User\User;
@@ -2016,5 +2015,29 @@ class View {
 			return $parts[2];
 		}
 		return '';
+	}
+
+	/**
+	 * @param string $filename
+	 * @return array
+	 * @throws \OC\User\NoUserException
+	 * @throws NotFoundException
+	 */
+	public function getUidAndFilename($filename) {
+		$info = $this->getFileInfo($filename);
+		if (!$info instanceof \OCP\Files\FileInfo) {
+			throw new NotFoundException($this->getAbsolutePath($filename) . 'not found');
+		}
+		$uid = $info->getOwner()->getUID();
+		if ($uid != \OCP\User::getUser()) {
+			Filesystem::initMountPoints($uid);
+			$ownerView = new View('/' . $uid . '/files');
+			try {
+				$filename = $ownerView->getPath($info['fileid']);
+			} catch (NotFoundException $e) {
+				throw new NotFoundException('File with id ' . $info['fileid'] . 'not found for user ' . $uid);
+			}
+		}
+		return [$uid, $filename];
 	}
 }
