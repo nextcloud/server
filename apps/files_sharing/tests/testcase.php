@@ -84,9 +84,15 @@ abstract class TestCase extends \Test\TestCase {
 		$groupBackend = new \OC_Group_Dummy();
 		$groupBackend->createGroup(self::TEST_FILES_SHARING_API_GROUP1);
 		$groupBackend->createGroup('group');
+		$groupBackend->createGroup('group1');
+		$groupBackend->createGroup('group2');
+		$groupBackend->createGroup('group3');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER1, 'group');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group1');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group2');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER4, 'group3');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
 		\OC_Group::useBackend($groupBackend);
 

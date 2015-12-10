@@ -34,31 +34,7 @@ use OC\Files\View;
  *
  * @package OCA\Files_sharing\Tests
  */
-class EtagPropagation extends TestCase {
-	/**
-	 * @var \OC\Files\View
-	 */
-	private $rootView;
-	protected $fileIds = []; // [$user=>[$path=>$id]]
-	protected $fileEtags = []; // [$id=>$etag]
-
-	public static function setUpBeforeClass() {
-		parent::setUpBeforeClass();
-		\OCA\Files_Sharing\Helper::registerHooks();
-	}
-
-	protected function setUp() {
-		parent::setUp();
-		$this->setUpShares();
-	}
-
-	protected function tearDown() {
-		\OC_Hook::clear('OC_Filesystem', 'post_write');
-		\OC_Hook::clear('OC_Filesystem', 'post_delete');
-		\OC_Hook::clear('OC_Filesystem', 'post_rename');
-		\OC_Hook::clear('OCP\Share', 'post_update_permissions');
-		parent::tearDown();
-	}
+class EtagPropagation extends PropagationTestCase {
 
 	/**
 	 * "user1" is the admin who shares a folder "sub1/sub2/folder" with "user2" and "user3"
@@ -67,7 +43,7 @@ class EtagPropagation extends TestCase {
 	 * "user2" reshares the subdir "sub1/sub2/folder/inside" with "user4"
 	 * "user4" puts the received "inside" folder into "sub1/sub2/inside" (this is to check if it propagates across multiple subfolders)
 	 */
-	private function setUpShares() {
+	protected function setUpShares() {
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1] = [];
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER2] = [];
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER3] = [];
@@ -134,58 +110,6 @@ class EtagPropagation extends TestCase {
 				$this->fileEtags[$id] = $this->rootView->getFileInfo($path)->getEtag();
 			}
 		}
-	}
-
-	/**
-	 * @param string[] $users
-	 * @param string $subPath
-	 */
-	private function assertEtagsChanged($users, $subPath = '') {
-		$oldUser = \OC::$server->getUserSession()->getUser();
-		foreach ($users as $user) {
-			$this->loginAsUser($user);
-			$id = $this->fileIds[$user][$subPath];
-			$path = $this->rootView->getPath($id);
-			$etag = $this->rootView->getFileInfo($path)->getEtag();
-			$this->assertNotEquals($this->fileEtags[$id], $etag, 'Failed asserting that the etag for "' . $subPath . '" of user ' . $user . ' has changed');
-			$this->fileEtags[$id] = $etag;
-		}
-		$this->loginAsUser($oldUser->getUID());
-	}
-
-	/**
-	 * @param string[] $users
-	 * @param string $subPath
-	 */
-	private function assertEtagsNotChanged($users, $subPath = '') {
-		$oldUser = \OC::$server->getUserSession()->getUser();
-		foreach ($users as $user) {
-			$this->loginAsUser($user);
-			$id = $this->fileIds[$user][$subPath];
-			$path = $this->rootView->getPath($id);
-			$etag = $this->rootView->getFileInfo($path)->getEtag();
-			$this->assertEquals($this->fileEtags[$id], $etag, 'Failed asserting that the etag for "' . $subPath . '" of user ' . $user . ' has not changed');
-			$this->fileEtags[$id] = $etag;
-		}
-		$this->loginAsUser($oldUser->getUID());
-	}
-
-	/**
-	 * Assert that the etags for the root, /sub1 and /sub1/sub2 have changed
-	 *
-	 * @param string[] $users
-	 */
-	private function assertEtagsForFoldersChanged($users) {
-		$this->assertEtagsChanged($users);
-
-		$this->assertEtagsChanged($users, 'sub1');
-		$this->assertEtagsChanged($users, 'sub1/sub2');
-	}
-
-	private function assertAllUnchanged() {
-		$users = [self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2,
-			self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER4];
-		$this->assertEtagsNotChanged($users);
 	}
 
 	public function testOwnerWritesToShare() {
