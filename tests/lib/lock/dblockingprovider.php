@@ -78,13 +78,7 @@ class DBLockingProvider extends LockingProvider {
 
 		$this->assertEquals(3, $this->getLockEntryCount());
 
-		$this->instance->cleanEmptyLocks();
-
-		$this->assertEquals(3, $this->getLockEntryCount());
-
-		$this->instance->releaseAll();
-
-		$this->instance->cleanEmptyLocks();
+		$this->instance->cleanExpiredLocks();
 
 		$this->assertEquals(2, $this->getLockEntryCount());
 	}
