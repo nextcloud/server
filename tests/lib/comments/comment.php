@@ -58,6 +58,8 @@ class Test_Comments_Comment extends TestCase
 		$comment = new \OC\Comments\Comment();
 		$comment->setId('c23');
 		$comment->setId('');
+
+		$this->assertSame('', $comment->getId());
 	}
 
 	public function simpleSetterProvider() {
