@@ -51,8 +51,6 @@ class DBLockingProvider extends AbstractLockingProvider {
 
 	private $sharedLocks = [];
 
-	const TTL = 3600; // how long until we clear stray locks in seconds
-
 	/**
 	 * Check if we have an open shared lock for a path
 	 *
