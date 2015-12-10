@@ -137,10 +137,6 @@ abstract class Common implements Storage {
 	}
 
 	public function isSharable($path) {
-		if (\OC_Util::isSharingDisabledForUser()) {
-			return false;
-		}
-
 		return $this->isReadable($path);
 	}
 
