@@ -60,7 +60,7 @@ class MountProvider implements IMountProvider {
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $storageFactory) {
 		$shares = \OCP\Share::getItemsSharedWithUser('file', $user->getUID());
-		$propagator = $this->propagationManager->getSharePropagator($user->getUID());
+		$propagator = $this->propagationManager->getSharePropagator($user);
 		$propagator->propagateDirtyMountPoints($shares);
 		$shares = array_filter($shares, function ($share) {
 			return $share['permissions'] > 0;
