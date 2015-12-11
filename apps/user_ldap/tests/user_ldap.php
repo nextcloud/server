@@ -686,6 +686,14 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 							return false;
 				   }
 			   }));
+
+		$userMapper = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$access->expects($this->any())
+			->method('getUserMapper')
+			->will($this->returnValue($userMapper));
 	}
 
 	public function testGetDisplayName() {
