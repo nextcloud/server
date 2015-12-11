@@ -439,6 +439,9 @@ class Setup {
 		$content.="\n  RewriteBase ".$webRoot;
 		$content .= "\n  <IfModule mod_env.c>";
 		$content .= "\n    SetEnv front_controller_active true";
+		$content .= "\n    <IfModule mod_dir.c>";
+		$content .= "\n      DirectorySlash off";
+		$content .= "\n    </IfModule>";
 		$content.="\n  </IfModule>";
 		$content.="\n</IfModule>";
 
