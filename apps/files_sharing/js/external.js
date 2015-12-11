@@ -124,10 +124,13 @@
 			console.error('BEFORE AJAX');
 			$.get(OC.generateUrl('/apps/files_sharing/api/externalShares'),
 			{},
-			function(shares) {
-			console.error('AFTER AJAX, go shares', shares);
+			function(shares, statusText, xhr) {
+			console.error('AFTER AJAX, got shares ', shares);
+			console.error('status: ' + xhr.status);
+			console.error('response text: ' + xhr.responseText);
 				var index;
 				for (index = 0; index < shares.length; ++index) {
+					console.error('share: ' + index);
 					OCA.Sharing.showAddExternalDialog(
 							shares[index],
 							false,
