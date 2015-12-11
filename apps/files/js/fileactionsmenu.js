@@ -81,6 +81,7 @@
 		 * Renders the menu with the currently set items
 		 */
 		render: function() {
+			var self = this;
 			var fileActions = this._context.fileActions;
 			var actions = fileActions.getActions(
 				fileActions.getCurrentMimeType(),
@@ -99,6 +100,13 @@
 					actionSpec.type === OCA.Files.FileActions.TYPE_DROPDOWN &&
 					(!defaultAction || actionSpec.name !== defaultAction.name)
 				);
+			});
+			items = _.map(items, function(item) {
+				if (_.isFunction(item.displayName)) {
+					item = _.extend({}, item);
+					item.displayName = item.displayName(self._context);
+				}
+				return item;
 			});
 			items = items.sort(function(actionA, actionB) {
 				var orderA = actionA.order || 0;
