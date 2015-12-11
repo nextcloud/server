@@ -213,7 +213,18 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			if(is_null($lcr)) {
 				throw new \Exception('No LDAP Connection to server ' . $this->access->connection->ldapHost);
 			}
-			return false;
+
+			try {
+				$uuid = $this->access->getUserMapper()->getUUIDByDN($dn);
+				if(!$uuid) {
+					return false;
+				}
+				$newDn = $this->access->getUserDnByUuid($uuid);
+				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
+				return true;
+			} catch (\Exception $e) {
+				return false;
+			}
 		}
 
 		if($user instanceof OfflineUser) {
@@ -306,7 +317,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		}
 
 		$user = $this->access->userManager->get($uid);
-		if(is_null($user) || ($user instanceof OfflineUser && !$this->userExistsOnLDAP($user->getUID()))) {
+		if(is_null($user) || ($user instanceof OfflineUser && !$this->userExistsOnLDAP($user->getOCName()))) {
 			throw new NoUserException($uid . ' is not a valid user anymore');
 		}
 		if($user instanceof OfflineUser) {

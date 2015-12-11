@@ -1277,6 +1277,58 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * reverse lookup of a DN given a known UUID
+	 *
+	 * @param string $uuid
+	 * @return string
+	 * @throws \Exception
+	 */
+	public function getUserDnByUuid($uuid) {
+		$uuidOverride = $this->connection->ldapExpertUUIDUserAttr;
+		$filter       = $this->connection->ldapUserFilter;
+		$base         = $this->connection->ldapBaseUsers;
+
+		if($this->connection->ldapUuidUserAttribute === 'auto' && empty($uuidOverride)) {
+			// Sacrebleu! The UUID attribute is unknown :( We need first an
+			// existing DN to be able to reliably detect it.
+			$result = $this->search($filter, $base, ['dn'], 1);
+			if(!isset($result[0]) || !isset($result[0]['dn'])) {
+				throw new \Exception('Cannot determine UUID attribute');
+			}
+			$dn = $result[0]['dn'][0];
+			if(!$this->detectUuidAttribute($dn, true)) {
+				throw new \Exception('Cannot determine UUID attribute');
+			}
+		} else {
+			// The UUID attribute is either known or an override is given.
+			// By calling this method we ensure that $this->connection->$uuidAttr
+			// is definitely set
+			if(!$this->detectUuidAttribute('', true)) {
+				throw new \Exception('Cannot determine UUID attribute');
+			}
+		}
+
+		$uuidAttr = $this->connection->ldapUuidUserAttribute;
+		if($uuidAttr === 'guid' || $uuidAttr === 'objectguid') {
+			$dn = '<GUID={' . $uuid . '}>';
+			$result = $this->readAttribute($dn, 'dn');
+			if(is_array($result) && isset($result[0])) {
+				return $result[0];
+			}
+		} else {
+			$filter = $uuidAttr . '=' . $uuid;
+			$result = $this->searchUsers($filter, ['dn'], 2);
+			if(is_array($result) && isset($result[0]) && isset($result[0]['dn']) && count($result) === 1) {
+				// we put the count into account to make sure that this is
+				// really unique
+				return $result[0]['dn'][0];
+			}
+		}
+
+		throw new \Exception('Cannot determine UUID attribute');
+	}
+
+	/**
 	 * auto-detects the directory's UUID attribute
 	 * @param string $dn a known DN used to check against
 	 * @param bool $isUser
