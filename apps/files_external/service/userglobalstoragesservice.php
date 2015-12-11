@@ -89,6 +89,9 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
+	/**
+	 * @param integer $id
+	 */
 	public function removeStorage($id) {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}

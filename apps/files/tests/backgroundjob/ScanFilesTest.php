@@ -24,7 +24,6 @@ use Test\TestCase;
 use OCP\IConfig;
 use OCP\IUserManager;
 use OCA\Files\BackgroundJob\ScanFiles;
-use OCP\ILogger;
 
 /**
  * Class ScanFilesTest

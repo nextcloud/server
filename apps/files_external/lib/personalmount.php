@@ -40,7 +40,7 @@ class PersonalMount extends MountPoint implements MoveableMount {
 	/**
 	 * @param UserStoragesService $storagesService
 	 * @param int $storageId
-	 * @param string|\OC\Files\Storage\Storage $storage
+	 * @param \OCP\Files\Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional) configuration for the storage backend
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
