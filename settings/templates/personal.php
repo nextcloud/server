@@ -58,7 +58,7 @@
 	<div style="width:<?php p($_['usage_relative']);?>%"
 		<?php if($_['usage_relative'] > 80): ?> class="quota-warning" <?php endif; ?>>
 		<p id="quotatext">
-			<?php print_unescaped($l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>',
+			<?php print_unescaped($l->t('You are using <strong>%s</strong> of <strong>%s</strong>',
 			array($_['usage'], $_['total_space'])));?>
 		</p>
 	</div>
