@@ -135,7 +135,6 @@ OC.L10N.register(
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "我们强烈建议安装在系统上所需的软件包支持以下区域设置之一： %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "如果你不是安装在网域根目录而且又使用系统定时计划任务，那么可以导致 URL 链接生成问题。为了避免这些问题，请在你的 Config.php 文件中设置 \\\"overwrite.cli.url\\\" 选项为 webroot 安装根目录 (建议: \\\"%s\\\")",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "由于下面的错误，无法通过 CLI 执行定时计划任务:",
-    "Transactional file locking is using the database as locking backend, for best performance it's advised to configure a memcache for locking. See the <a target=\"_blank\" href=\"%s\">documentation ↗</a> for more information." : "事务文件锁定正在使用的数据库作为锁定后端，为获得最佳的性能建议配置的 memcache 用来锁定。请参阅<a target=\"_blank\" href=\"%s\">文档↗</a>了解详情。",
     "Please double check the <a target=\"_blank\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "请点击检查 <a target=\\\"_blank\\\" href=\\\"%s\\\"> 安装向导 ↗</a>, 点击 <a href=\\\"#log-section\\\"> 日志 </a>查看详细错误和警告。",
     "All checks passed." : "所有检查已通过。",
     "Open documentation" : "打开文档",

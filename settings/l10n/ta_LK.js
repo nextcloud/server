@@ -2,9 +2,9 @@ OC.L10N.register(
     "settings",
     {
     "External Storage" : "வெளி சேமிப்பு",
-    "Authentication error" : "அத்தாட்சிப்படுத்தலில் வழு",
     "Language changed" : "மொழி மாற்றப்பட்டது",
     "Invalid request" : "செல்லுபடியற்ற வேண்டுகோள்",
+    "Authentication error" : "அத்தாட்சிப்படுத்தலில் வழு",
     "Unable to add user to group %s" : "குழு %s இல் பயனாளரை சேர்க்க முடியாது",
     "Unable to remove user from group %s" : "குழு %s இலிருந்து பயனாளரை நீக்கமுடியாது",
     "Email saved" : "மின்னஞ்சல் சேமிக்கப்பட்டது",

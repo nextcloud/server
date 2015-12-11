@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "External Storage" : "Spoljašnje skladište",
     "Updates" : "Ažuriranja",
-    "Authentication error" : "Greška pri autentifikaciji",
     "Language changed" : "Jezik je izmenjen",
     "Invalid request" : "Neispravan zahtev",
+    "Authentication error" : "Greška pri autentifikaciji",
     "Saved" : "Sačuvano",
     "Email sent" : "Email poslat",
     "Very weak password" : "Veoma slaba lozinka",
