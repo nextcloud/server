@@ -29,21 +29,18 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		$capabilitiesXML = $this->response->xml()->data->capabilities;
 
 		foreach ($formData->getHash() as $row) {
-			if ($row['value'] === ''){
-				$answeredValue = (string)$capabilitiesXML->$row['capability']->$row['feature'];
-				PHPUnit_Framework_Assert::assertEquals(
-					$row['value_or_subfeature']==="EMPTY" ? '' : $row['value_or_subfeature'],
-					$answeredValue,
-					"Failed field " . $row['capability'] . " " . $row['feature']
-				);
-			} else{
-				$answeredValue = (string)$capabilitiesXML->$row['capability']->$row['feature']->$row['value_or_subfeature'];
-				PHPUnit_Framework_Assert::assertEquals(
-					$row['value']==="EMPTY" ? '' : $row['value'],
-					$answeredValue,
-					"Failed field: " . $row['capability'] . " " . $row['feature'] . " " . $row['value_or_subfeature']
-				);
+			$path_to_element = explode('@@@', $row['path_to_element']);
+			$answeredValue = $capabilitiesXML->$row['capability'];
+			for ($i = 0; $i < count($path_to_element); $i++){
+				$answeredValue = $answeredValue->$path_to_element[$i];
 			}
+			$answeredValue = (string)$answeredValue;
+			PHPUnit_Framework_Assert::assertEquals(
+				$row['value']==="EMPTY" ? '' : $row['value'],
+				$answeredValue,
+				"Failed field " . $row['capability'] . " " . $row['path_to_element']
+			);
+
 		}
 	}
 
@@ -57,6 +54,10 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
 		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
 		$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_enforce_links_password', 'no');
+		$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
+		$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
+		$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
 	}
 
 	/**
@@ -69,6 +70,10 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
 		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
 		$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_enforce_links_password', 'no');
+		$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
+		$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
+		$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
 	}
 
 	/**
