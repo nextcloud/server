@@ -32,15 +32,15 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 			if ($row['value'] === ''){
 				$answeredValue = (string)$capabilitiesXML->$row['capability']->$row['feature'];
 				PHPUnit_Framework_Assert::assertEquals(
-					$answeredValue, 
-					$row['value_or_subfeature'], 
+					$row['value_or_subfeature']==="EMPTY" ? '' : $row['value_or_subfeature'],
+					$answeredValue,
 					"Failed field " . $row['capability'] . " " . $row['feature']
 				);
 			} else{
 				$answeredValue = (string)$capabilitiesXML->$row['capability']->$row['feature']->$row['value_or_subfeature'];
 				PHPUnit_Framework_Assert::assertEquals(
-					$answeredValue, 
-					$row['value']==="EMPTY" ? '' : $row['value'], 
+					$row['value']==="EMPTY" ? '' : $row['value'],
+					$answeredValue,
 					"Failed field: " . $row['capability'] . " " . $row['feature'] . " " . $row['value_or_subfeature']
 				);
 			}
@@ -51,14 +51,24 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 	 * @BeforeScenario
 	 */
 	public function prepareParameters(){
+		$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
 		$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
+		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
+		$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
 	}
 
 	/**
 	 * @AfterScenario
 	 */
 	public function undoChangingParameters(){
+		$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
 		$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
+		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
+		$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
 	}
 
 	/**
