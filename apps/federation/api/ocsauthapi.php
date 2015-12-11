@@ -139,7 +139,7 @@ class OCSAuthAPI {
 
 	protected function isValidToken($url, $token) {
 		$storedToken = $this->dbHandler->getToken($url);
-		return StringUtils::equals($storedToken, $token);
+		return hash_equals($storedToken, $token);
 	}
 
 }

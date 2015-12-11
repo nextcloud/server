@@ -227,7 +227,7 @@ class Log implements ILogger {
 					$request = \OC::$server->getRequest();
 
 					// if token is found in the request change set the log condition to satisfied
-					if($request && StringUtils::equals($request->getParam('log_secret'), $logCondition['shared_secret'])) {
+					if($request && hash_equals($logCondition['shared_secret'], $request->getParam('log_secret'))) {
 						$this->logConditionSatisfied = true;
 					}
 				}
