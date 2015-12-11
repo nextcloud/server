@@ -27,25 +27,15 @@ use Sabre\DAV\Exception;
 use OCP\Security\ISecureRandom;
 
 /**
- * Class SecureRandom provides a layer around RandomLib to generate
- * secure random strings. For PHP 7 the native CSPRNG is used.
+ * Class SecureRandom provides a wrapper around the random_int function to generate
+ * secure random strings. For PHP 7 the native CSPRNG is used, older versions do
+ * use a fallback.
  *
  * Usage:
- * \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(10);
- *
+ * \OC::$server->getSecureRandom()->generate(10);
  * @package OC\Security
  */
 class SecureRandom implements ISecureRandom {
-
-	/** @var \RandomLib\Factory */
-	var $factory;
-	/** @var \RandomLib\Generator */
-	var $generator;
-
-	function __construct() {
-		$this->factory = new RandomLib\Factory;
-	}
-
 	/**
 	 * Convenience method to get a low strength random number generator.
 	 *
@@ -53,10 +43,10 @@ class SecureRandom implements ISecureRandom {
 	 * in a non-cryptographical setting. They are not strong enough to be
 	 * used as keys or salts. They are however useful for one-time use tokens.
 	 *
+	 * @deprecated 9.0.0 Use \OC\Security\SecureRandom::generate directly or random_bytes() / random_int()
 	 * @return $this
 	 */
 	public function getLowStrengthGenerator() {
-		$this->generator = $this->factory->getLowStrengthGenerator();
 		return $this;
 	}
 
@@ -67,10 +57,10 @@ class SecureRandom implements ISecureRandom {
 	 * They are strong enough to be used as keys and salts. However, they do
 	 * take some time and resources to generate, so they should not be over-used
 	 *
+	 * @deprecated 9.0.0 Use \OC\Security\SecureRandom::generate directly or random_bytes() / random_int()
 	 * @return $this
 	 */
 	public function getMediumStrengthGenerator() {
-		$this->generator = $this->factory->getMediumStrengthGenerator();
 		return $this;
 	}
 
@@ -80,26 +70,17 @@ class SecureRandom implements ISecureRandom {
 	 * @param string $characters An optional list of characters to use if no character list is
 	 * 							specified all valid base64 characters are used.
 	 * @return string
-	 * @throws \Exception If the generator is not initialized.
 	 */
 	public function generate($length,
 							 $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/') {
-		if(is_null($this->generator)) {
-			throw new \Exception('Generator is not initialized.');
+		$maxCharIndex = strlen($characters) - 1;
+		$randomString = '';
+
+		while($length > 0) {
+			$randomNumber = random_int(0, $maxCharIndex);
+			$randomString .= $characters[$randomNumber];
+			$length--;
 		}
-
-		if(function_exists('random_int')) {
-			$maxCharIndex = strlen($characters) - 1;
-			$randomString = '';
-
-			while($length > 0) {
-				$randomNumber = random_int(0, $maxCharIndex);
-				$randomString .= $characters[$randomNumber];
-				$length--;
-			}
-			return $randomString;
-		}
-
-		return $this->generator->generateString($length, $characters);
+		return $randomString;
 	}
 }

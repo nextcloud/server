@@ -57,11 +57,10 @@ class SecureRandomTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Generator is not initialized
+	 * @dataProvider stringGenerationProvider
 	 */
-	function testUninitializedGenerate() {
-		$this->rng->generate(30);
+	function testUninitializedGenerate($length, $expectedLength) {
+		$this->assertEquals($expectedLength, strlen($this->rng->generate($length)));
 	}
 
 	/**

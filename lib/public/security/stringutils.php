@@ -39,8 +39,9 @@ class StringUtils {
 	 * @param string $input The input to compare against
 	 * @return bool True if the two strings are equal, otherwise false.
 	 * @since 8.0.0
+	 * @deprecated 9.0.0 Use hash_equals
 	 */
 	public static function equals($expected, $input) {
-		return \OC\Security\StringUtils::equals($expected, $input);
+		return hash_equals($expected, $input);
 	}
 }

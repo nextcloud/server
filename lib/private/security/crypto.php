@@ -123,7 +123,7 @@ class Crypto implements ICrypto {
 
 		$this->cipher->setIV($iv);
 
-		if(!\OCP\Security\StringUtils::equals($this->calculateHMAC($parts[0].$parts[1], $password), $hmac)) {
+		if(!hash_equals($this->calculateHMAC($parts[0].$parts[1], $password), $hmac)) {
 			throw new \Exception('HMAC does not match.');
 		}
 
