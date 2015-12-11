@@ -215,8 +215,3 @@ Feature: capabilities
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
-		
-
-			
-
-

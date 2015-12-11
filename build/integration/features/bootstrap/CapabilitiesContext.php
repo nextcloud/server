@@ -2,6 +2,10 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use GuzzleHttp\Client;
+use GuzzleHttp\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
@@ -18,7 +22,12 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 	 * @Given /^parameter "([^"]*)" of app "([^"]*)" is set to "([^"]*)"$/
 	 */
 	public function serverParameterIsSetTo($parameter, $app, $value){
+		$user = $this->currentUser;
+		$this->currentUser = 'admin';
+
 		$this->modifyServerConfig($app, $parameter, $value);
+
+		$this->currentUser = $user;
 	}
 
 	/**
@@ -46,8 +55,20 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 
 	/**
 	 * @BeforeScenario
+	 *
+	 * Enable the testing app before the first scenario of the feature and
+	 * reset the configs before each scenario
+	 * @param BeforeScenarioScope $event
 	 */
-	public function prepareParameters(){
+	public function prepareParameters(BeforeScenarioScope $event){
+		$user = $this->currentUser;
+		$this->currentUser = 'admin';
+
+		$scenarios = $event->getFeature()->getScenarios();
+		if ($event->getScenario() === reset($scenarios)) {
+			$this->setStatusTestingApp(true);
+		}
+
 		$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
 		$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
 		$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
@@ -58,22 +79,36 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
 		$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
 		$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
+
+		$this->currentUser = $user;
 	}
 
 	/**
 	 * @AfterScenario
+	 *
+	 * Reset the values after the last scenario of the feature and disable the testing app
+	 * @param AfterScenarioScope $event
 	 */
-	public function undoChangingParameters(){
-		$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
-		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-		$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_enforce_links_password', 'no');
-		$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
-		$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
-		$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
+	public function undoChangingParameters(AfterScenarioScope $event) {
+		$scenarios = $event->getFeature()->getScenarios();
+		if ($event->getScenario() === end($scenarios)) {
+			$user = $this->currentUser;
+			$this->currentUser = 'admin';
+
+			$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
+			$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
+			$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
+			$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
+			$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
+			$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
+			$this->modifyServerConfig('core', 'shareapi_enforce_links_password', 'no');
+			$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
+			$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
+			$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
+
+			$this->setStatusTestingApp(false);
+			$this->currentUser = $user;
+		}
 	}
 
 	/**
@@ -82,20 +117,10 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 	 * @param string $value
 	 */
 	protected function modifyServerConfig($app, $parameter, $value) {
-		$user = $this->currentUser;
-
-		$this->currentUser = 'admin';
-
-		$this->setStatusTestingApp(true);
-
 		$body = new \Behat\Gherkin\Node\TableNode([['value', $value]]);
 		$this->sendingToWith('post', "/apps/testing/api/v1/app/{$app}/{$parameter}", $body);
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
-
-		$this->setStatusTestingApp(false);
-
-		$this->currentUser = $user;
 	}
 
 	protected function setStatusTestingApp($enabled) {
