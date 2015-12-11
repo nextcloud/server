@@ -98,7 +98,7 @@ function updateAvatar (hidedefault) {
 		$('#header .avatardiv').addClass('avatardiv-shown');
 	}
 	$displaydiv.css({'background-color': ''});
-	$displaydiv.avatar(OC.currentUser, 128, true);
+	$displaydiv.avatar(OC.currentUser, 145, true);
 
 	$('#removeavatar').show();
 }

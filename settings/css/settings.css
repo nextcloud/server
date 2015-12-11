@@ -25,6 +25,15 @@ input#openid, input#webdav { width:20em; }
 	width: 33px;
 	height: 33px;
 }
+.jcrop-holder {
+	z-index: 500;
+}
+#avatar #cropper {
+	float: left;
+	background-color: #fff;
+	z-index: 500;
+	position: relative;
+}
 
 #displaynameform,
 #lostpassword,
@@ -39,6 +48,10 @@ input#openid, input#webdav { width:20em; }
 #passwordform {
 	margin-bottom: 0;
 	padding-bottom: 0;
+}
+#groups {
+	overflow-wrap: break-word;
+	max-width: 75%;
 }
 
 #sslCertificate tr.expired {
@@ -61,6 +74,10 @@ input#identity {
 #displayName,
 #email {
 	width: 17em;
+}
+
+#showWizard {
+	display: inline-block;
 }
 
 .msg.success {

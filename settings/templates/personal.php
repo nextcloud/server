@@ -55,7 +55,7 @@
 
 	<div id="cropper" class="hidden">
 		<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
-		<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile image')); ?></div>
+		<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
 	</div>
 </form>
 <?php endif; ?>
@@ -210,7 +210,6 @@ if($_['passwordChangeSupported']) {
 	<?php endif; ?>
 
 	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
-	<br>
 	<a class="button" href="#" id="showWizard"><?php p($l->t('Show First Run Wizard again'));?></a>
 	<?php }?>
 </div>
