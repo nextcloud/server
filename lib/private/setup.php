@@ -369,11 +369,9 @@ class Setup {
 			// out that this is indeed an ownCloud data directory
 			file_put_contents($config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data').'/.ocdata', '');
 
-			// Update htaccess files for apache hosts
-			if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
-				self::updateHtaccess();
-				self::protectDataDirectory();
-			}
+			// Update .htaccess files
+			Setup::updateHtaccess();
+			Setup::protectDataDirectory();
 
 			//try to write logtimezone
 			if (date_default_timezone_get()) {
@@ -395,32 +393,17 @@ class Setup {
 	}
 
 	/**
-	 * Checks if the .htaccess contains the current version parameter
-	 *
-	 * @return bool
-	 */
-	private function isCurrentHtaccess() {
-		$version = \OC_Util::getVersion();
-		unset($version[3]);
-
-		return !strpos(
-			file_get_contents($this->pathToHtaccess()),
-			'Version: '.implode('.', $version)
-		) === false;
-	}
-
-	/**
 	 * Append the correct ErrorDocument path for Apache hosts
-	 *
-	 * @throws \OC\HintException If .htaccess does not include the current version
 	 */
 	public static function updateHtaccess() {
+		// From CLI we don't know the defined web root. Thus we can't write any
+		// directives into the .htaccess file.
+		if(\OC::$CLI) {
+			return;
+		}
 		$setupHelper = new \OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(),
 			\OC::$server->getL10N('lib'), new \OC_Defaults(), \OC::$server->getLogger(),
 			\OC::$server->getSecureRandom());
-		if(!$setupHelper->isCurrentHtaccess()) {
-			throw new \OC\HintException('.htaccess file has the wrong version. Please upload the correct version. Maybe you forgot to replace it after updating?');
-		}
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = '';
