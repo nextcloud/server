@@ -34,7 +34,7 @@ from within your ownCloud installation folder
 
 ```
 If you have access to your command line run e.g.:
-sudo -u www-data php occ config:list system --public
+sudo -u www-data php occ config:list system
 from within your ownCloud installation folder
 
 or 
