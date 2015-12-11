@@ -698,6 +698,8 @@ $(document).ready(function () {
 								}
 							}
 						);
+						var displayName = $input.val();
+						$tr.data('displayname', displayName);
 						$input.blur();
 					} else {
 						$input.blur();
@@ -705,8 +707,7 @@ $(document).ready(function () {
 				}
 			})
 			.blur(function () {
-				var displayName = $input.val();
-				$tr.data('displayname', displayName);
+				var displayName = $tr.data('displayname');
 				$input.replaceWith('<span>' + escapeHTML(displayName) + '</span>');
 				$td.find('img').show();
 			});
@@ -725,6 +726,7 @@ $(document).ready(function () {
 			.keypress(function (event) {
 				if (event.keyCode === 13) {
 					if ($(this).val().length > 0) {
+						$tr.data('mailAddress', $input.val());
 						$input.blur();
 						$.ajax({
 							type: 'PUT',
@@ -744,7 +746,7 @@ $(document).ready(function () {
 				}
 			})
 			.blur(function () {
-				var mailAddress = $input.val();
+				var mailAddress = $tr.data('mailAddress');
 				var $span = $('<span>').text(mailAddress);
 				$tr.data('mailAddress', mailAddress);
 				$input.replaceWith($span);
