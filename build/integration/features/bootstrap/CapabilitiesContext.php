@@ -53,6 +53,19 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		}
 	}
 
+	protected function resetAppConfigs() {
+		$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
+		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
+		$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
+		$this->modifyServerConfig('core', 'shareapi_enforce_links_password', 'no');
+		$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
+		$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
+		$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
+	}
+
 	/**
 	 * @BeforeScenario
 	 *
@@ -69,16 +82,7 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 			$this->setStatusTestingApp(true);
 		}
 
-		$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
-		$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-		$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
-		$this->modifyServerConfig('core', 'shareapi_enforce_links_password', 'no');
-		$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
-		$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
-		$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
+		$this->resetAppConfigs();
 
 		$this->currentUser = $user;
 	}
@@ -95,16 +99,7 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 			$user = $this->currentUser;
 			$this->currentUser = 'admin';
 
-			$this->modifyServerConfig('core', 'shareapi_enabled', 'yes');
-			$this->modifyServerConfig('core', 'shareapi_allow_links', 'yes');
-			$this->modifyServerConfig('core', 'shareapi_allow_public_upload', 'yes');
-			$this->modifyServerConfig('core', 'shareapi_allow_resharing', 'yes');
-			$this->modifyServerConfig('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-			$this->modifyServerConfig('files_sharing', 'incoming_server2server_share_enabled', 'yes');
-			$this->modifyServerConfig('core', 'shareapi_enforce_links_password', 'no');
-			$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
-			$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
-			$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
+			$this->resetAppConfigs();
 
 			$this->setStatusTestingApp(false);
 			$this->currentUser = $user;
