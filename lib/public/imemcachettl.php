@@ -24,7 +24,7 @@ namespace OCP;
 /**
  * Interface for memcache backends that support setting ttl after the value is set
  *
- * @since 9.0.0
+ * @since 8.2.2
  */
 interface IMemcacheTTL extends IMemcache {
 	/**
@@ -32,7 +32,7 @@ interface IMemcacheTTL extends IMemcache {
 	 *
 	 * @param string $key
 	 * @param int $ttl time to live in seconds
-	 * @since 9.0.0
+	 * @since 8.2.2
 	 */
 	public function setTTL($key, $ttl);
 }
