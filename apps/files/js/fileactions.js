@@ -617,7 +617,16 @@
 
 			this.registerAction({
 				name: 'Delete',
-				displayName: t('files', 'Delete'),
+				displayName: function(context) {
+					var mountType = context.$file.attr('data-mounttype');
+					var deleteTitle = t('files', 'Delete');
+					if (mountType === 'external-root') {
+						deleteTitle = t('files', 'Disconnect storage');
+					} else if (mountType === 'shared-root') {
+						deleteTitle = t('files', 'Unshare');
+					}
+					return deleteTitle;
+				},
 				mime: 'all',
 				order: 1000,
 				// permission is READ because we show a hint instead if there is no permission
@@ -668,8 +677,9 @@
 	 * @typedef {Object} OCA.Files.FileAction
 	 *
 	 * @property {String} name identifier of the action
-	 * @property {String} displayName display name of the action, defaults
-	 * to the name given in name property
+	 * @property {(String|OCA.Files.FileActions~displayNameFunction)} displayName
+	 * display name string for the action, or function that returns the display name.
+	 * Defaults to the name given in name property
 	 * @property {String} mime mime type
 	 * @property {int} permissions permissions
 	 * @property {(Function|String)} icon icon path to the icon or function
@@ -700,6 +710,16 @@
 	 * @param {boolean} isDefault true if the action is the default one,
 	 * false otherwise
 	 * @return {Object} jQuery link object
+	 */
+
+	/**
+	 * Display name function for actions.
+	 * The function returns the display name of the action using
+	 * the given context information..
+	 *
+	 * @callback OCA.Files.FileActions~displayNameFunction
+	 * @param {OCA.Files.FileActionContext} context action context
+	 * @return {String} display name
 	 */
 
 	/**
