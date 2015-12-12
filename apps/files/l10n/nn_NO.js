@@ -28,6 +28,7 @@ OC.L10N.register(
     "Download" : "Last ned",
     "Rename" : "Endra namn",
     "Delete" : "Slett",
+    "Unshare" : "Udel",
     "Details" : "Detaljar",
     "Pending" : "Under vegs",
     "Name" : "Namn",

@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Descarcă",
     "Rename" : "Redenumește",
     "Delete" : "Șterge",
+    "Disconnect storage" : "Deconectează stocarea",
+    "Unshare" : "Nu mai partaja",
     "Details" : "Detalii",
     "Select" : "Alege",
     "Pending" : "În așteptare",

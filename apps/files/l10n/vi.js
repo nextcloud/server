@@ -30,6 +30,7 @@ OC.L10N.register(
     "Download" : "Tải về",
     "Rename" : "Sửa tên",
     "Delete" : "Xóa",
+    "Unshare" : "Bỏ chia sẻ",
     "Details" : "Chi tiết",
     "Select" : "Chọn",
     "Pending" : "Đang chờ",

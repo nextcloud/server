@@ -28,6 +28,7 @@ OC.L10N.register(
     "Download" : "Descargar",
     "Rename" : "Renombrar",
     "Delete" : "Eliminar",
+    "Unshare" : "Dejar de compartir",
     "Details" : "Detalles",
     "Pending" : "Pendiente",
     "Name" : "Nombre",

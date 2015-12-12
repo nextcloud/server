@@ -28,6 +28,7 @@ OC.L10N.register(
     "Download" : "Elŝuti",
     "Rename" : "Alinomigi",
     "Delete" : "Forigi",
+    "Unshare" : "Malkunhavigi",
     "Details" : "Detaloj",
     "Select" : "Elekti",
     "Pending" : "Traktotaj",

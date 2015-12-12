@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Ladda ner",
     "Rename" : "Byt namn",
     "Delete" : "Radera",
+    "Disconnect storage" : "Koppla bort lagring",
+    "Unshare" : "Sluta dela",
     "Details" : "Detaljer",
     "Select" : "Välj",
     "Pending" : "Väntar",

@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Download",
     "Rename" : "Rename",
     "Delete" : "Delete",
+    "Disconnect storage" : "Disconnect storage",
+    "Unshare" : "Unshare",
     "Details" : "Details",
     "Select" : "Select",
     "Pending" : "Pending",

@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Shkarkoje",
     "Rename" : "Riemërtojeni",
     "Delete" : "Fshije",
+    "Disconnect storage" : "Shkëput hapësirën e memorizimit",
+    "Unshare" : "Hiqe ndarjen",
     "Details" : "Hollësi",
     "Select" : "Përzgjidhe",
     "Pending" : "Në pritje",

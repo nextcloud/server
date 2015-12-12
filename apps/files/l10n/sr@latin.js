@@ -33,6 +33,8 @@ OC.L10N.register(
     "Download" : "Preuzmi",
     "Rename" : "Preimenuj",
     "Delete" : "Obriši",
+    "Disconnect storage" : "Isključi skladište",
+    "Unshare" : "Ne deli",
     "Details" : "Detaljnije",
     "Select" : "Izaberi",
     "Pending" : "Na čekanju",

@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Lae alla",
     "Rename" : "Nimeta ümber",
     "Delete" : "Kustuta",
+    "Disconnect storage" : "Ühenda andmehoidla lahti.",
+    "Unshare" : "Lõpeta jagamine",
     "Details" : "Üksikasjad",
     "Select" : "Vali",
     "Pending" : "Ootel",
