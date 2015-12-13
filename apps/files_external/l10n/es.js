@@ -36,6 +36,7 @@ OC.L10N.register(
     "(group)" : "(grupo)",
     "Admin defined" : "Admin definido",
     "Saved" : "Guardado",
+    "There was an error with message: " : "Hubo un error con el mensaje:",
     "Access key" : "Clave de acceso",
     "Secret key" : "Clave secreta",
     "None" : "Ninguno",

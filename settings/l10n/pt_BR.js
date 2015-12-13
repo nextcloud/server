@@ -191,6 +191,7 @@ OC.L10N.register(
     "More" : "Mais",
     "Less" : "Menos",
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "O arquivo de log é maior que 100 MB. Baixar esse arquivo requer algum tempo!",
+    "What to log" : "O que colocar no log",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "SQLite é usada como base de dados. Para instalações maiores recomendamos mudar para um backend de banco de dados diferente.",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Especialmente quando se utiliza o cliente de desktop para sincronização de arquivos o uso de SQLite é desencorajado.",
     "To migrate to another database use the command line tool: 'occ db:convert-type', or see the <a target=\"_blank\" href=\"%s\">documentation ↗</a>." : "Para migrar para outro banco de dados usar a ferramenta de linha de comando: 'db occ: converter-type', verifique a <a target=\"_blank\" href=\"%s\">documentação ↗</a>.",
