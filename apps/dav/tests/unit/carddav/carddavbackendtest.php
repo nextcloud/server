@@ -393,12 +393,13 @@ class CardDavBackendTest extends TestCase {
 	 * @param string $pattern
 	 * @param array $expected
 	 */
-	public function testSearch($pattern, $expected) {
+	public function testSearch($pattern, $properties, $expected) {
 		/** @var VCard $vCards */
 		$vCards = [];
 		$vCards[0] = new VCard();
 		$vCards[0]->add(new Text($vCards[0], 'UID', 'uid'));
 		$vCards[0]->add(new Text($vCards[0], 'FN', 'John Doe'));
+		$vCards[0]->add(new Text($vCards[0], 'CLOUD', 'john@owncloud.org'));
 		$vCards[1] = new VCard();
 		$vCards[1]->add(new Text($vCards[1], 'UID', 'uid'));
 		$vCards[1]->add(new Text($vCards[1], 'FN', 'John M. Doe'));
@@ -433,6 +434,17 @@ class CardDavBackendTest extends TestCase {
 			);
 		$query->execute();
 		$query->insert($this->dbCardsPropertiesTable)
+				->values(
+						[
+								'addressbookid' => $query->createNamedParameter(0),
+								'cardid' => $query->createNamedParameter($vCardIds[0]),
+								'name' => $query->createNamedParameter('CLOUD'),
+								'value' => $query->createNamedParameter('John@owncloud.org'),
+								'preferred' => $query->createNamedParameter(0)
+						]
+				);
+		$query->execute();
+		$query->insert($this->dbCardsPropertiesTable)
 			->values(
 				[
 					'addressbookid' => $query->createNamedParameter(0),
@@ -444,7 +456,7 @@ class CardDavBackendTest extends TestCase {
 			);
 		$query->execute();
 
-		$result = $this->backend->search(0, $pattern, ['FN']);
+		$result = $this->backend->search(0, $pattern, $properties);
 
 		// check result
 		$this->assertSame(count($expected), count($result));
@@ -463,9 +475,11 @@ class CardDavBackendTest extends TestCase {
 
 	public function dataTestSearch() {
 		return [
-				['John', ['John Doe', 'John M. Doe']],
-				['M. Doe', ['John M. Doe']],
-				['Do', ['John Doe', 'John M. Doe']]
+				['John', ['FN'], ['John Doe', 'John M. Doe']],
+				['M. Doe', ['FN'], ['John M. Doe']],
+				['Do', ['FN'], ['John Doe', 'John M. Doe']],
+				// check if duplicates are handled correctly
+				['John', ['FN', 'CLOUD'], ['John Doe', 'John M. Doe']],
 		];
 	}
 

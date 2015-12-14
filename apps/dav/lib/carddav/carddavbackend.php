@@ -689,20 +689,24 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	public function search($addressBookId, $pattern, $searchProperties) {
 		$query = $this->db->getQueryBuilder();
-		$query->select('carddata')
-				->from($this->dbCardsTable, 'c')
-				->leftJoin('c', $this->dbCardsPropertiesTable, 'cp', $query->expr()->eq('cp.cardid', 'c.id'));
+		$query2 = $this->db->getQueryBuilder();
+		$query2->selectDistinct('cp.cardid')->from($this->dbCardsPropertiesTable, 'cp');
 		foreach ($searchProperties as $property) {
-			$query->orWhere(
-					$query->expr()->andX(
-							$query->expr()->eq('cp.name', $query->createNamedParameter($property)),
-							$query->expr()->like('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%'))
-					)
+			$query2->orWhere(
+				$query2->expr()->andX(
+					$query2->expr()->eq('cp.name', $query->createNamedParameter($property)),
+					$query2->expr()->like('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%'))
+				)
 			);
 		}
-		$query->andWhere($query->expr()->eq('cp.addressbookid', $query->createNamedParameter($addressBookId)));
-		$result =  $query->execute();
+		$query2->andWhere($query2->expr()->eq('cp.addressbookid', $query->createNamedParameter($addressBookId)));
+
+		$query->select('c.carddata')->from($this->dbCardsTable, 'c')
+			->where($query->expr()->in('c.id', $query->createFunction($query2->getSQL())));
+
+		$result = $query->execute();
 		$cards = $result->fetchAll();
+
 		$result->closeCursor();
 
 		return array_map(function($array) {return $this->readBlob($array['carddata']);}, $cards);
