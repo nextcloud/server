@@ -29,6 +29,7 @@ use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
 
 class CardDavBackend implements BackendInterface, SyncSupport {
@@ -431,7 +432,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query = $this->db->getQueryBuilder();
 		$query->insert('cards')
 			->values([
-				'carddata' => $query->createNamedParameter($cardData),
+				'carddata' => $query->createNamedParameter($cardData, \PDO::PARAM_LOB),
 				'uri' => $query->createNamedParameter($cardUri),
 				'lastmodified' => $query->createNamedParameter(time()),
 				'addressbookid' => $query->createNamedParameter($addressBookId),
@@ -688,7 +689,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	public function search($addressBookId, $pattern, $searchProperties) {
 		$query = $this->db->getQueryBuilder();
-		$query->selectDistinct('carddata', 'c')
+		$query->selectDistinct(['carddata', 'c'])
 				->from($this->dbCardsTable, 'c')
 				->leftJoin('c', $this->dbCardsPropertiesTable, 'cp', $query->expr()->eq('cp.cardid', 'c.id'));
 		foreach ($searchProperties as $property) {

@@ -20,6 +20,7 @@
  */
 namespace OCA\DAV\Tests\Unit\CardDAV;
 
+use InvalidArgumentException;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
@@ -126,6 +127,7 @@ class CardDavBackendTest extends TestCase {
 
 	public function testCardOperations() {
 
+		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
 		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
 				->setConstructorArgs([$this->db, $this->principal, $this->logger])
 				->setMethods(['updateProperties', 'purgeProperties'])->getMock();
@@ -392,6 +394,7 @@ class CardDavBackendTest extends TestCase {
 	 * @param array $expected
 	 */
 	public function testSearch($pattern, $expected) {
+		/** @var VCard $vCards */
 		$vCards = [];
 		$vCards[0] = new VCard();
 		$vCards[0]->add(new Text($vCards[0], 'UID', 'uid'));
@@ -407,9 +410,9 @@ class CardDavBackendTest extends TestCase {
 					->values(
 							[
 									'addressbookid' => $query->createNamedParameter(0),
-									'carddata' => $query->createNamedParameter($vCards[$i]->serialize()),
+									'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), \PDO::PARAM_LOB),
 									'uri' => $query->createNamedParameter('uri' . $i),
-									'lastmodified' => $query->createNamedParameter(5489543),
+									'lastmodified' => $query->createNamedParameter(time()),
 									'etag' => $query->createNamedParameter('etag' . $i),
 									'size' => $query->createNamedParameter(120),
 							]
