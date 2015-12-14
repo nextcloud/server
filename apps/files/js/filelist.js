@@ -990,13 +990,16 @@
 			}
 
 			if (fileData.mountType) {
-				// FIXME: HACK: detect shared-root
-				if (fileData.mountType === 'shared' && this.dirInfo.mountType !== 'shared') {
-					// if parent folder isn't share, assume the displayed folder is a share root
-					fileData.mountType = 'shared-root';
-				} else if (fileData.mountType === 'external' && this.dirInfo.mountType !== 'external') {
-					// if parent folder isn't external, assume the displayed folder is the external storage root
-					fileData.mountType = 'external-root';
+				// dirInfo (parent) only exist for the "real" file list
+				if (this.dirInfo.id) {
+					// FIXME: HACK: detect shared-root
+					if (fileData.mountType === 'shared' && this.dirInfo.mountType !== 'shared' && this.dirInfo.mountType !== 'shared-root') {
+						// if parent folder isn't share, assume the displayed folder is a share root
+						fileData.mountType = 'shared-root';
+					} else if (fileData.mountType === 'external' && this.dirInfo.mountType !== 'external' && this.dirInfo.mountType !== 'external-root') {
+						// if parent folder isn't external, assume the displayed folder is the external storage root
+						fileData.mountType = 'external-root';
+					}
 				}
 				tr.attr('data-mounttype', fileData.mountType);
 			}

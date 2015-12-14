@@ -2534,4 +2534,34 @@ describe('OCA.Files.FileList tests', function() {
 			expect(newFileMenuStub.notCalled).toEqual(true);
 		});
 	});
+	describe('mount type detection', function() {
+		function testMountType(dirInfoId, dirInfoMountType, inputMountType, expectedMountType) {
+			var $tr;
+			fileList.dirInfo.id = dirInfoId;
+			fileList.dirInfo.mountType = dirInfoMountType;
+			$tr = fileList.add({
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				name: 'test dir',
+				mountType: inputMountType
+			});
+
+			expect($tr.attr('data-mounttype')).toEqual(expectedMountType);
+		}
+
+		it('leaves mount type as is if no parent exists', function() {
+			testMountType(null, null, 'external', 'external');
+			testMountType(null, null, 'shared', 'shared');
+		});
+		it('detects share root if parent exists', function() {
+			testMountType(123, null, 'shared', 'shared-root');
+			testMountType(123, 'shared', 'shared', 'shared');
+			testMountType(123, 'shared-root', 'shared', 'shared');
+		});
+		it('detects external storage root if parent exists', function() {
+			testMountType(123, null, 'external', 'external-root');
+			testMountType(123, 'external', 'external', 'external');
+			testMountType(123, 'external-root', 'external', 'external');
+		});
+	});
 });
