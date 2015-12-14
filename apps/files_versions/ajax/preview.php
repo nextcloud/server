@@ -47,14 +47,18 @@ if($maxX === 0 || $maxY === 0) {
 
 try {
 	list($user, $file) = \OCA\Files_Versions\Storage::getUidAndFilename($file);
-	$preview = new \OC\Preview($user, 'files_versions', $file.'.v'.$version);
-	$mimetype = \OC_Helper::getFileNameMimeType($file);
-	$preview->setMimetype($mimetype);
-	$preview->setMaxX($maxX);
-	$preview->setMaxY($maxY);
-	$preview->setScalingUp($scalingUp);
+	if (is_null($file)) {
+		\OC_Response::setStatus(404);
+	} else {
+		$preview = new \OC\Preview($user, 'files_versions', $file . '.v' . $version);
+		$mimetype = \OC_Helper::getFileNameMimeType($file);
+		$preview->setMimetype($mimetype);
+		$preview->setMaxX($maxX);
+		$preview->setMaxY($maxY);
+		$preview->setScalingUp($scalingUp);
 
-	$preview->showPreview();
+		$preview->showPreview();
+	}
 } catch (\OCP\Files\NotFoundException $e) {
 	\OC_Response::setStatus(404);
 	\OCP\Util::writeLog('core', $e->getmessage(), \OCP\Util::DEBUG);
