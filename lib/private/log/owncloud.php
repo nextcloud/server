@@ -101,6 +101,9 @@ class OC_Log_Owncloud {
 			// Fall back to error_log
 			error_log($entry);
 		}
+		if (php_sapi_name() === 'cli-server') {
+			error_log($message, 4);
+		}
 	}
 
 	/**
