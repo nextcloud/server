@@ -40,6 +40,7 @@ if (OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled() === false) {
 $token = $_POST['token'];
 $remote = $_POST['remote'];
 $owner = $_POST['owner'];
+$ownerDisplayName = $_POST['ownerDisplayName'];
 $name = $_POST['name'];
 $password = $_POST['password'];
 
@@ -76,7 +77,7 @@ if (substr($remote, 0, 5) === 'https') {
 	}
 }
 
-$mount = $externalManager->addShare($remote, $token, $password, $name, $owner, true);
+$mount = $externalManager->addShare($remote, $token, $password, $name, $ownerDisplayName, true);
 
 /**
  * @var \OCA\Files_Sharing\External\Storage $storage
