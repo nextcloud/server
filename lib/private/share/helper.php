@@ -21,6 +21,8 @@
 
 namespace OC\Share;
 
+use OC\HintException;
+
 class Helper extends \OC\Share\Constants {
 
 	/**
@@ -273,5 +275,77 @@ class Helper extends \OC\Share\Constants {
 		}
 
 		return false;
+	}
+
+	/**
+	 * split user and remote from federated cloud id
+	 *
+	 * @param string $id
+	 * @return array
+	 * @throws HintException
+	 */
+	public static function splitUserRemote($id) {
+		if (strpos($id, '@') === false) {
+			$l = \OC::$server->getL10N('core');
+			$hint = $l->t('Invalid Federated Cloud ID');
+			throw new HintException('Invalid Federated Cloud ID', $hint);
+		}
+
+		// Find the first character that is not allowed in user names
+		$id = str_replace('\\', '/', $id);
+		$posSlash = strpos($id, '/');
+		$posColon = strpos($id, ':');
+
+		if ($posSlash === false && $posColon === false) {
+			$invalidPos = strlen($id);
+		} else if ($posSlash === false) {
+			$invalidPos = $posColon;
+		} else if ($posColon === false) {
+			$invalidPos = $posSlash;
+		} else {
+			$invalidPos = min($posSlash, $posColon);
+		}
+
+		// Find the last @ before $invalidPos
+		$pos = $lastAtPos = 0;
+		while ($lastAtPos !== false && $lastAtPos <= $invalidPos) {
+			$pos = $lastAtPos;
+			$lastAtPos = strpos($id, '@', $pos + 1);
+		}
+
+		if ($pos !== false) {
+			$user = substr($id, 0, $pos);
+			$remote = substr($id, $pos + 1);
+			$remote = self::fixRemoteURL($remote);
+			if (!empty($user) && !empty($remote)) {
+				return array($user, $remote);
+			}
+		}
+
+		$l = \OC::$server->getL10N('core');
+		$hint = $l->t('Invalid Federated Cloud ID');
+		throw new HintException('Invalid Fededrated Cloud ID', $hint);
+	}
+
+	/**
+	 * Strips away a potential file names and trailing slashes:
+	 * - http://localhost
+	 * - http://localhost/
+	 * - http://localhost/index.php
+	 * - http://localhost/index.php/s/{shareToken}
+	 *
+	 * all return: http://localhost
+	 *
+	 * @param string $remote
+	 * @return string
+	 */
+	protected static function fixRemoteURL($remote) {
+		$remote = str_replace('\\', '/', $remote);
+		if ($fileNamePosition = strpos($remote, '/index.php')) {
+			$remote = substr($remote, 0, $fileNamePosition);
+		}
+		$remote = rtrim($remote, '/');
+
+		return $remote;
 	}
 }
