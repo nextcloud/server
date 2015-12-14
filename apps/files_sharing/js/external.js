@@ -85,6 +85,10 @@
 			console.log('going to parse the hash');
 			var params = OC.Util.History.parseUrlQuery();
 			console.log('parsed the hash, here it is: ', params);
+			console.log('params.remote', params.remote);
+			console.log('params.token', params.token);
+			console.log('params.owner', params.owner);
+			console.log('params.name', params.name);
 			//manually add server-to-server share
 			if (params.remote && params.token && params.owner && params.name) {
 
