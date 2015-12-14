@@ -82,7 +82,9 @@
 		processIncomingShareFromUrl: function() {
 			console.log('processIncomingShareFromUrl');
 			var fileList = this.filesApp.fileList;
+			console.log('going to parse the hash');
 			var params = OC.Util.History.parseUrlQuery();
+			console.log('parsed the hash, here it is: ', params);
 			//manually add server-to-server share
 			if (params.remote && params.token && params.owner && params.name) {
 
