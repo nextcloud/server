@@ -303,10 +303,6 @@
 							}
 							break;
 						case 'W':
-							if (isFile) {
-								// also add create permissions
-								data.permissions |= OC.PERMISSION_CREATE;
-							}
 							data.permissions |= OC.PERMISSION_UPDATE;
 							break;
 						case 'D':
