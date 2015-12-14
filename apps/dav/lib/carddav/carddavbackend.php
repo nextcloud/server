@@ -800,8 +800,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $element
 	 */
 	private function unshare($addressBookUri, $element) {
-		$user = $element['href'];
-		$parts = explode(':', $user, 2);
+		$parts = explode(':', $element, 2);
 		if ($parts[0] !== 'principal') {
 			return;
 		}
