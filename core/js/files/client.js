@@ -35,27 +35,25 @@
 		if (options.useHTTPS) {
 			url = 'https://';
 		}
-		var credentials = '';
-		if (options.userName) {
-			credentials += encodeURIComponent(options.userName);
-		}
-		if (options.password) {
-			credentials += ':' + encodeURIComponent(options.password);
-		}
-		if (credentials.length > 0) {
-			url += credentials + '@';
-		}
 
 		url += options.host + this._root;
 		this._defaultHeaders = options.defaultHeaders || {'X-Requested-With': 'XMLHttpRequest'};
 		this._baseUrl = url;
-		this._client = new dav.Client({
+
+		var clientOptions = {
 			baseUrl: this._baseUrl,
 			xmlNamespaces: {
 				'DAV:': 'd',
 				'http://owncloud.org/ns': 'oc'
 			}
-		});
+		};
+		if (options.userName) {
+			clientOptions.userName = options.userName;
+		}
+		if (options.password) {
+			clientOptions.password = options.password;
+		}
+		this._client = new dav.Client(clientOptions);
 		this._client.xhrProvider = _.bind(this._xhrProvider, this);
 	};
 
