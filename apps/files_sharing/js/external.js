@@ -18,7 +18,7 @@
 	 * @param {bool} passwordProtected true if the share is password protected
 	 */
 	OCA.Sharing.showAddExternalDialog = function (share, passwordProtected, callback) {
-			console.error('showAddExternalDialog', share, passwordProtected);
+			console.log('showAddExternalDialog', share, passwordProtected);
 		var remote = share.remote;
 		var owner = share.owner;
 		var name = share.name;
@@ -80,12 +80,14 @@
 		 * through the URL
 		 */
 		processIncomingShareFromUrl: function() {
+			console.log('processIncomingShareFromUrl');
 			var fileList = this.filesApp.fileList;
 			var params = OC.Util.History.parseUrlQuery();
 			//manually add server-to-server share
 			if (params.remote && params.token && params.owner && params.name) {
 
 				var callbackAddShare = function(result, share) {
+					console.log('callbackAddShare', result, share);
 					var password = share.password || '';
 					if (result) {
 						//$.post(OC.generateUrl('/apps/files_sharing/api/externalShares'), {id: share.id});
@@ -105,8 +107,11 @@
 				};
 
 				// clear hash, it is unlikely that it contain any extra parameters
+				console.log('before hash');
 				location.hash = '';
+				console.log('after hash');
 				params.passwordProtected = parseInt(params.protected, 10) === 1;
+				console.log('calling showAddExternalDialog hash');
 				OCA.Sharing.showAddExternalDialog(
 					params,
 					params.passwordProtected,
@@ -121,16 +126,16 @@
 		processSharesToConfirm: function() {
 			var fileList = this.filesApp.fileList;
 			// check for new server-to-server shares which need to be approved
-			console.error('BEFORE AJAX');
+			console.log('BEFORE AJAX');
 			$.get(OC.generateUrl('/apps/files_sharing/api/externalShares'),
 			{},
 			function(shares, statusText, xhr) {
-			console.error('AFTER AJAX, got shares ', shares);
-			console.error('status: ' + xhr.status);
-			console.error('response text: ' + xhr.responseText);
+			console.log('AFTER AJAX, got shares ', shares);
+			console.log('status: ' + xhr.status);
+			console.log('response text: ' + xhr.responseText);
 				var index;
 				for (index = 0; index < shares.length; ++index) {
-					console.error('share: ' + index);
+					console.log('share: ' + index);
 					OCA.Sharing.showAddExternalDialog(
 							shares[index],
 							false,
