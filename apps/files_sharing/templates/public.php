@@ -72,7 +72,7 @@ $thumbSize = 1024;
 				if ($_['server2serversharing']) {
 					?>
 					<span id="save" data-protected="<?php p($_['protected']) ?>"
-						  data-owner="<?php p($_['displayName']) ?>" data-name="<?php p($_['filename']) ?>">
+						  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
 					<button id="save-button"><?php p($l->t('Add to your ownCloud')) ?></button>
 					<form class="save-form hidden" action="#">
 						<input type="text" id="remote_address" placeholder="example.com/owncloud"/>
