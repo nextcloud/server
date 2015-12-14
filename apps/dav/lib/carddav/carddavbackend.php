@@ -689,7 +689,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	public function search($addressBookId, $pattern, $searchProperties) {
 		$query = $this->db->getQueryBuilder();
-		$query->selectDistinct(['carddata', 'c'])
+		$query->select('carddata')
 				->from($this->dbCardsTable, 'c')
 				->leftJoin('c', $this->dbCardsPropertiesTable, 'cp', $query->expr()->eq('cp.cardid', 'c.id'));
 		foreach ($searchProperties as $property) {
