@@ -42,6 +42,8 @@
 namespace OCA\Files_Versions;
 
 use OC\Files\Filesystem;
+use OC\Search\Provider\File;
+use OCA\Activity\Extension\Files;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
 use OCP\Lock\ILockingProvider;
@@ -135,7 +137,12 @@ class Storage {
 			// to get the right target
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			if ($ext === 'part') {
-				$filename = substr($filename, 0, strlen($filename)-5);
+				$filename = substr($filename, 0, strlen($filename) - 5);
+			}
+
+			// we only handle existing files
+			if (! Filesystem::file_exists($filename) || Filesystem::is_dir($filename)) {
+				return false;
 			}
 
 			list($uid, $filename) = self::getUidAndFilename($filename);
@@ -143,15 +150,8 @@ class Storage {
 			$files_view = new \OC\Files\View('/'.$uid .'/files');
 			$users_view = new \OC\Files\View('/'.$uid);
 
-			// check if filename is a directory
-			if($files_view->is_dir($filename)) {
-				return false;
-			}
-
-			// we should have a source file to work with, and the file shouldn't
-			// be empty
-			$fileExists = $files_view->file_exists($filename);
-			if (!($fileExists && $files_view->filesize($filename) > 0)) {
+			// no use making versions for empty files
+			if ($files_view->filesize($filename) === 0) {
 				return false;
 			}
 
@@ -638,6 +638,11 @@ class Storage {
 		$expiration = self::getExpiration();
 		
 		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' && $expiration->isEnabled()) {
+
+			if (!Filesystem::file_exists($filename)) {
+				return false;
+			}
+
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			if (empty($filename)) {
 				// file maybe renamed or deleted
