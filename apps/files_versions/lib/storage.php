@@ -42,12 +42,9 @@
 namespace OCA\Files_Versions;
 
 use OC\Files\Filesystem;
-use OC\Search\Provider\File;
-use OCA\Activity\Extension\Files;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
 use OCP\Lock\ILockingProvider;
-use OCP\Files\NotFoundException;
 
 class Storage {
 
