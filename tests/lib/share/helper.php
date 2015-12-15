@@ -19,6 +19,10 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * @group DB
+ * Class Test_Share_Helper
+ */
 class Test_Share_Helper extends \Test\TestCase {
 
 	public function expireDateProvider() {
@@ -99,5 +103,110 @@ class Test_Share_Helper extends \Test\TestCase {
 	 */
 	public function testFixRemoteURLInShareWith($remote, $expected) {
 		$this->assertSame($expected, \OC\Share\Helper::fixRemoteURLInShareWith($remote));
+	}
+
+	/**
+	 * @dataProvider dataTestCompareServerAddresses
+	 *
+	 * @param string $server1
+	 * @param string $server2
+	 * @param bool $expected
+	 */
+	public function testIsSameUserOnSameServer($user1, $server1, $user2, $server2, $expected) {
+		$this->assertSame($expected,
+			\OC\Share\Helper::isSameUserOnSameServer($user1, $server1, $user2, $server2)
+		);
+	}
+
+	public function dataTestCompareServerAddresses() {
+		return [
+			['user1', 'http://server1', 'user1', 'http://server1', true],
+			['user1', 'https://server1', 'user1', 'http://server1', true],
+			['user1', 'http://serVer1', 'user1', 'http://server1', true],
+			['user1', 'http://server1/',  'user1', 'http://server1', true],
+			['user1', 'server1', 'user1', 'http://server1', true],
+			['user1', 'http://server1', 'user1', 'http://server2', false],
+			['user1', 'https://server1', 'user1', 'http://server2', false],
+			['user1', 'http://serVer1', 'user1', 'http://serer2', false],
+			['user1', 'http://server1/', 'user1', 'http://server2', false],
+			['user1', 'server1', 'user1', 'http://server2', false],
+			['user1', 'http://server1', 'user2', 'http://server1', false],
+			['user1', 'https://server1', 'user2', 'http://server1', false],
+			['user1', 'http://serVer1', 'user2', 'http://server1', false],
+			['user1', 'http://server1/',  'user2', 'http://server1', false],
+			['user1', 'server1', 'user2', 'http://server1', false],
+		];
+	}
+
+	public function dataTestSplitUserRemote() {
+		$userPrefix = ['user@name', 'username'];
+		$protocols = ['', 'http://', 'https://'];
+		$remotes = [
+				'localhost',
+				'local.host',
+				'dev.local.host',
+				'dev.local.host/path',
+				'dev.local.host/at@inpath',
+				'127.0.0.1',
+				'::1',
+				'::192.0.2.128',
+				'::192.0.2.128/at@inpath',
+		];
+
+		$testCases = [];
+		foreach ($userPrefix as $user) {
+			foreach ($remotes as $remote) {
+				foreach ($protocols as $protocol) {
+					$baseUrl = $user . '@' . $protocol . $remote;
+
+					$testCases[] = [$baseUrl, $user, $protocol . $remote];
+					$testCases[] = [$baseUrl . '/', $user, $protocol . $remote];
+					$testCases[] = [$baseUrl . '/index.php', $user, $protocol . $remote];
+					$testCases[] = [$baseUrl . '/index.php/s/token', $user, $protocol . $remote];
+				}
+			}
+		}
+		return $testCases;
+	}
+
+	/**
+	 * @dataProvider dataTestSplitUserRemote
+	 *
+	 * @param string $remote
+	 * @param string $expectedUser
+	 * @param string $expectedUrl
+	 */
+	public function testSplitUserRemote($remote, $expectedUser, $expectedUrl) {
+		list($remoteUser, $remoteUrl) = \OC\Share\Helper::splitUserRemote($remote);
+		$this->assertSame($expectedUser, $remoteUser);
+		$this->assertSame($expectedUrl, $remoteUrl);
+	}
+
+	public function dataTestSplitUserRemoteError() {
+		return array(
+			// Invalid path
+			array('user@'),
+
+			// Invalid user
+			array('@server'),
+			array('us/er@server'),
+			array('us:er@server'),
+
+			// Invalid splitting
+			array('user'),
+			array(''),
+			array('us/erserver'),
+			array('us:erserver'),
+		);
+	}
+
+	/**
+	 * @dataProvider dataTestSplitUserRemoteError
+	 *
+	 * @param string $id
+	 * @expectedException \OC\HintException
+	 */
+	public function testSplitUserRemoteError($id) {
+		\OC\Share\Helper::splitUserRemote($id);
 	}
 }

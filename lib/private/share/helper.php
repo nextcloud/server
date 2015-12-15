@@ -21,6 +21,8 @@
 
 namespace OC\Share;
 
+use OC\HintException;
+
 class Helper extends \OC\Share\Constants {
 
 	/**
@@ -250,5 +252,100 @@ class Helper extends \OC\Share\Constants {
 		}
 
 		return rtrim($shareWith, '/');
+	}
+
+	/**
+	 * check if two federated cloud IDs refer to the same user
+	 *
+	 * @param string $user1
+	 * @param string $server1
+	 * @param string $user2
+	 * @param string $server2
+	 * @return bool true if both users and servers are the same
+	 */
+	public static function isSameUserOnSameServer($user1, $server1, $user2, $server2) {
+		$normalizedServer1 = strtolower(\OC\Share\Share::removeProtocolFromUrl($server1));
+		$normalizedServer2 = strtolower(\OC\Share\Share::removeProtocolFromUrl($server2));
+
+		if (
+				rtrim($normalizedServer1, '/') === rtrim($normalizedServer2, '/') &&
+				strtolower($user1) === strtolower($user2)
+		){
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * split user and remote from federated cloud id
+	 *
+	 * @param string $id
+	 * @return array
+	 * @throws HintException
+	 */
+	public static function splitUserRemote($id) {
+		if (strpos($id, '@') === false) {
+			$l = \OC::$server->getL10N('core');
+			$hint = $l->t('Invalid Federated Cloud ID');
+			throw new HintException('Invalid Federated Cloud ID', $hint);
+		}
+
+		// Find the first character that is not allowed in user names
+		$id = str_replace('\\', '/', $id);
+		$posSlash = strpos($id, '/');
+		$posColon = strpos($id, ':');
+
+		if ($posSlash === false && $posColon === false) {
+			$invalidPos = strlen($id);
+		} else if ($posSlash === false) {
+			$invalidPos = $posColon;
+		} else if ($posColon === false) {
+			$invalidPos = $posSlash;
+		} else {
+			$invalidPos = min($posSlash, $posColon);
+		}
+
+		// Find the last @ before $invalidPos
+		$pos = $lastAtPos = 0;
+		while ($lastAtPos !== false && $lastAtPos <= $invalidPos) {
+			$pos = $lastAtPos;
+			$lastAtPos = strpos($id, '@', $pos + 1);
+		}
+
+		if ($pos !== false) {
+			$user = substr($id, 0, $pos);
+			$remote = substr($id, $pos + 1);
+			$remote = self::fixRemoteURL($remote);
+			if (!empty($user) && !empty($remote)) {
+				return array($user, $remote);
+			}
+		}
+
+		$l = \OC::$server->getL10N('core');
+		$hint = $l->t('Invalid Federated Cloud ID');
+		throw new HintException('Invalid Fededrated Cloud ID', $hint);
+	}
+
+	/**
+	 * Strips away a potential file names and trailing slashes:
+	 * - http://localhost
+	 * - http://localhost/
+	 * - http://localhost/index.php
+	 * - http://localhost/index.php/s/{shareToken}
+	 *
+	 * all return: http://localhost
+	 *
+	 * @param string $remote
+	 * @return string
+	 */
+	protected static function fixRemoteURL($remote) {
+		$remote = str_replace('\\', '/', $remote);
+		if ($fileNamePosition = strpos($remote, '/index.php')) {
+			$remote = substr($remote, 0, $fileNamePosition);
+		}
+		$remote = rtrim($remote, '/');
+
+		return $remote;
 	}
 }
