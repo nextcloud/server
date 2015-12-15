@@ -166,6 +166,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$response = $this->shareController->showShare($this->token);
 		$sharedTmplParams = array(
 			'displayName' => $this->user,
+			'owner' => $this->user,
 			'filename' => 'file1.txt',
 			'directory_path' => '/file1.txt',
 			'mimetype' => 'text/plain',
