@@ -90,7 +90,13 @@ trait Provisioning {
 		} elseif ($this->currentServer === 'REMOTE') {
 			$this->createdRemoteUsers[$user] = $user;
 		}
-		
+
+		//Quick hack to login once with the current user
+		$options2 = [
+			'auth' => [$user, '123456'],
+		];
+		$url = $fullUrl.'/'.$user;
+		$client->send($client->createRequest('GET', $url, $options2));
 	}
 
 	public function createUser($user) {
