@@ -104,8 +104,8 @@ class UserStoragesService extends StoragesService {
 	 * @return StorageConfig storage config, with added id
 	 */
 	public function addStorage(StorageConfig $newStorage) {
+		$newStorage->setApplicableUsers([$this->getUser()->getUID()]);
 		$config = parent::addStorage($newStorage);
-		$this->dbConfig->addApplicable($config->getId(), DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
 		return $config;
 	}
 
