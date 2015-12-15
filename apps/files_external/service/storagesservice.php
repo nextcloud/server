@@ -392,6 +392,14 @@ abstract class StoragesService {
 			$this->dbConfig->setOption($id, $key, $value);
 		}
 
+		if ($updatedStorage->getMountPoint() !== $oldStorage->getMountPoint()) {
+			$this->dbConfig->setMountPoint($id, $updatedStorage->getMountPoint());
+		}
+
+		if ($updatedStorage->getAuthMechanism()->getIdentifier() !== $oldStorage->getAuthMechanism()->getIdentifier()) {
+			$this->dbConfig->setAuthBackend($id, $updatedStorage->getAuthMechanism()->getIdentifier());
+		}
+
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);
 
 		return $this->getStorage($id);
