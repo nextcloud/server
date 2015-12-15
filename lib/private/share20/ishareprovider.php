@@ -81,11 +81,10 @@ interface IShareProvider {
 	/**
 	 * Get shares for a given path
 	 *
-	 * @param \OCP\IUser $user
 	 * @param \OCP\Files\Node $path
 	 * @return IShare[]
 	 */
-	public function getSharesByPath(\OCP\IUser $user, \OCP\Files\Node $path);
+	public function getSharesByPath(\OCP\Files\Node $path);
 
 	/**
 	 * Get shared with the given user
