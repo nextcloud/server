@@ -19,7 +19,7 @@
 	 */
 	OCA.Sharing.showAddExternalDialog = function (share, passwordProtected, callback) {
 		var remote = share.remote;
-		var owner = share.owner;
+		var owner = share.ownerDisplayName || share.owner;
 		var name = share.name;
 		var remoteClean = (remote.substr(0, 8) === 'https://') ? remote.substr(8) : remote.substr(7);
 
@@ -92,6 +92,7 @@
 							remote: share.remote,
 							token: share.token,
 							owner: share.owner,
+							ownerDisplayName: share.ownerDisplayName || share.owner,
 							name: share.name,
 							password: password}, function(result) {
 							if (result.status === 'error') {

@@ -40,6 +40,7 @@ if (OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled() === false) {
 $token = $_POST['token'];
 $remote = $_POST['remote'];
 $owner = $_POST['owner'];
+$ownerDisplayName = $_POST['ownerDisplayName'];
 $name = $_POST['name'];
 $password = $_POST['password'];
 
@@ -48,6 +49,14 @@ if(!\OCP\Util::isValidFileName($name)) {
 	\OCP\JSON::error(array('data' => array('message' => $l->t('The mountpoint name contains invalid characters.'))));
 	exit();
 }
+
+$currentUser = \OC::$server->getUserSession()->getUser()->getUID();
+$currentServer = \OC::$server->getURLGenerator()->getAbsoluteURL('/');
+if (\OC\Share\Helper::isSameUserOnSameServer($owner, $remote, $currentUser, $currentServer )) {
+	\OCP\JSON::error(array('data' => array('message' => $l->t('Not allowed to create a federated share with the same user server'))));
+	exit();
+}
+
 
 $externalManager = new \OCA\Files_Sharing\External\Manager(
 		\OC::$server->getDatabaseConnection(),
@@ -68,7 +77,7 @@ if (substr($remote, 0, 5) === 'https') {
 	}
 }
 
-$mount = $externalManager->addShare($remote, $token, $password, $name, $owner, true);
+$mount = $externalManager->addShare($remote, $token, $password, $name, $ownerDisplayName, true);
 
 /**
  * @var \OCA\Files_Sharing\External\Storage $storage
