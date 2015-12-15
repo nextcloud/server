@@ -45,6 +45,9 @@
 				if (fileData.type === 'file') {
 					// files can't be shared with delete permissions
 					sharePermissions = sharePermissions & ~OC.PERMISSION_DELETE;
+
+					// create permissions don't mean anything for files
+					sharePermissions = sharePermissions & ~OC.PERMISSION_CREATE;
 				}
 				tr.attr('data-share-permissions', sharePermissions);
 				if (fileData.shareOwner) {
