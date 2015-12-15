@@ -231,23 +231,20 @@ Feature: sharing
     And User "user2" should be included in the response
     And User "user3" should not be included in the response
 
-# Skip this test for now. Since the new shares do not create reshares
-# TODO enable when getshares is updated
-#
-#  Scenario: getting all shares of a file with reshares
-#    Given user "user0" exists
-#    And user "user1" exists
-#    And user "user2" exists
-#    And user "user3" exists
-#    And file "textfile0.txt" of user "user0" is shared with user "user1"
-#    And file "textfile0.txt" of user "user1" is shared with user "user2"
-#    And As an "user0"
-#    When sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=textfile0.txt"
-#    Then the OCS status code should be "100"
-#    And the HTTP status code should be "200"
-#    And User "user1" should be included in the response
-#    And User "user2" should be included in the response
-#    And User "user3" should not be included in the response
+  Scenario: getting all shares of a file with reshares
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile0 (2).txt" of user "user1" is shared with user "user2"
+    And As an "user0"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=textfile0.txt"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And User "user1" should be included in the response
+    And User "user2" should be included in the response
+    And User "user3" should not be included in the response
 
   Scenario: getting share info of a share
     Given user "user0" exists
