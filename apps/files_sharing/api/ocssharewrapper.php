@@ -29,13 +29,17 @@ class OCSShareWrapper {
 		return new Share20OCS(
 			new \OC\Share20\Manager(
 				\OC::$server->getLogger(),
-				\OC::$server->getAppConfig(),
+				\OC::$server->getConfig(),
 				new \OC\Share20\DefaultShareProvider(
 					\OC::$server->getDatabaseConnection(),
 					\OC::$server->getUserManager(),
 					\OC::$server->getGroupManager(),
 					\OC::$server->getRootFolder()
-				)
+				),
+				\OC::$server->getSecureRandom(),
+				\OC::$server->getHasher(),
+				\OC::$server->getMountManager(),
+				\OC::$server->getGroupManager()
 			),
 			\OC::$server->getGroupManager(),
 			\OC::$server->getUserManager(),
@@ -49,8 +53,8 @@ class OCSShareWrapper {
 		return \OCA\Files_Sharing\API\Local::getAllShares($params);
 	}
 
-	public function createShare($params) {
-		return \OCA\Files_Sharing\API\Local::createShare($params);
+	public function createShare() {
+		return $this->getShare20OCS()->createShare();
 	}
 
 	public function getShare($params) {
