@@ -30,6 +30,7 @@ use \OCA\user_ldap\lib\ILDAPWrapper;
 class Test_User_Ldap_Direct extends \Test\TestCase {
 	protected $backend;
 	protected $access;
+	protected $configMock;
 
 	protected function setUp() {
 		parent::setUp();
@@ -62,9 +63,12 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->configMock = $this->getMock('\OCP\IConfig');
+
 		$um = $this->getMockBuilder('\OCA\user_ldap\lib\user\Manager')
 			->setMethods(['getDeletedUser'])
 			->setConstructorArgs([
+				$this->configMock,
 				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
 				$this->getMock('\OCA\user_ldap\lib\LogWrapper'),
 				$this->getMock('\OCP\IAvatarManager'),
