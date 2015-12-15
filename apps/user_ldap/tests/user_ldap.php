@@ -30,6 +30,7 @@ use \OCA\user_ldap\lib\ILDAPWrapper;
 class Test_User_Ldap_Direct extends \Test\TestCase {
 	protected $backend;
 	protected $access;
+	protected $configMock;
 
 	protected function setUp() {
 		parent::setUp();
@@ -57,14 +58,28 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 									$conMethods,
 									array($lw, null, null));
 
-		$um = new \OCA\user_ldap\lib\user\Manager(
-				$this->getMock('\OCP\IConfig'),
+
+		$offlineUser = $this->getMockBuilder('\OCA\user_ldap\lib\user\OfflineUser')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->configMock = $this->getMock('\OCP\IConfig');
+
+		$um = $this->getMockBuilder('\OCA\user_ldap\lib\user\Manager')
+			->setMethods(['getDeletedUser'])
+			->setConstructorArgs([
+				$this->configMock,
 				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
 				$this->getMock('\OCA\user_ldap\lib\LogWrapper'),
 				$this->getMock('\OCP\IAvatarManager'),
 				$this->getMock('\OCP\Image'),
 				$this->getMock('\OCP\IDBConnection')
-			);
+			  ])
+			->getMock();
+
+		$um->expects($this->any())
+			->method('getDeletedUser')
+			->will($this->returnValue($offlineUser));
 
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 								 $accMethods,
@@ -643,6 +658,44 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
+	/**
+	 * @expectedException \OC\User\NoUserException
+	 */
+	public function testGetHomeDeletedUser() {
+		$access = $this->getAccessMock();
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
+		$this->prepareMockForUserExists($access);
+
+		$access->connection->expects($this->any())
+				->method('__get')
+				->will($this->returnCallback(function($name) {
+					if($name === 'homeFolderNamingRule') {
+						return 'attr:testAttribute';
+					}
+					return null;
+				}));
+
+		$access->expects($this->any())
+				->method('readAttribute')
+				->will($this->returnValue([]));
+
+		$userMapper = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
+				->disableOriginalConstructor()
+				->getMock();
+
+		$access->expects($this->any())
+				->method('getUserMapper')
+				->will($this->returnValue($userMapper));
+
+		$this->configMock->expects($this->any())
+			->method('getUserValue')
+			->will($this->returnValue(true));
+
+		//no path at all – triggers OC default behaviour
+		$result = $backend->getHome('newyorker');
+		$this->assertFalse($result);
+	}
+
 	private function prepareAccessForGetDisplayName(&$access) {
 		$access->connection->expects($this->any())
 			   ->method('__get')
@@ -668,6 +721,14 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 							return false;
 				   }
 			   }));
+
+		$userMapper = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$access->expects($this->any())
+			->method('getUserMapper')
+			->will($this->returnValue($userMapper));
 	}
 
 	public function testGetDisplayName() {
