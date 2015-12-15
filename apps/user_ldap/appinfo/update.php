@@ -23,7 +23,12 @@
 
 $installedVersion = \OC::$server->getConfig()->getAppValue('user_ldap', 'installed_version');
 
-if (version_compare($installedVersion, '0.6.1', '<')) {
+
+if (
+	version_compare($installedVersion, '0.5.2', '<') || // stable8
+	(version_compare($installedVersion, '0.5.99', '>') && version_compare($installedVersion, '0.6.1.1', '<')) || // stable8.1
+	(version_compare($installedVersion, '0.6.99', '>') && version_compare($installedVersion, '0.7.1', '<')) // stable8.2
+) {
 	\OC::$server->getConfig()->setAppValue('user_ldap', 'enforce_home_folder_naming_rule', false);
 }
 
