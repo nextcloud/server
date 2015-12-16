@@ -136,7 +136,13 @@ class OC_TemplateLayout extends OC_Template {
 			$this->assign('user_uid', OC_User::getUser());
 			$this->assign('appsmanagement_active', $appsMgmtActive);
 			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true));
-			$this->assign('userAvatarSet', \OC_Helper::userAvatarSet(OC_User::getUser()));
+
+			if (OC_User::getUser() === false) {
+				$this->assign('userAvatarSet', false);
+			} else {
+				$this->assign('userAvatarSet', \OC::$server->getAvatarManager()->getAvatar(OC_User::getUser())->exists());
+			}
+
 		} else if ($renderAs == 'error') {
 			parent::__construct('core', 'layout.guest', '', false);
 			$this->assign('bodyid', 'body-login');
