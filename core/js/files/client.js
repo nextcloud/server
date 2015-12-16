@@ -253,7 +253,7 @@
 				id: props['{' + Client.NS_OWNCLOUD + '}fileid'],
 				path: OC.dirname(path) || '/',
 				name: OC.basename(path),
-				mtime: new Date(props['{' + Client.NS_DAV + '}getlastmodified'])
+				mtime: (new Date(props['{' + Client.NS_DAV + '}getlastmodified'])).getTime()
 			};
 
 			var etagProp = props['{' + Client.NS_DAV + '}getetag'];
