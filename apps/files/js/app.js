@@ -93,6 +93,7 @@
 						direction: $('#defaultFileSortingDirection').val()
 					},
 					config: this._filesConfig,
+					enableUpload: true
 				}
 			);
 			this.files.initialize();

@@ -226,17 +226,6 @@
 			// TODO: move file list related code (upload) to OCA.Files.FileList
 			$('#file_action_panel').attr('activeAction', false);
 
-			// Triggers invisible file input
-			$('#upload a').on('click', function() {
-				$(this).parent().children('#file_upload_start').trigger('click');
-				return false;
-			});
-
-			// Trigger cancelling of file upload
-			$('#uploadprogresswrapper .stop').on('click', function() {
-				OC.Upload.cancelUploads();
-			});
-
 			// drag&drop support using jquery.fileupload
 			// TODO use OC.dialogs
 			$(document).bind('drop dragover', function (e) {
