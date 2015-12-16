@@ -107,6 +107,7 @@ class ServerFactory {
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
+		$server->addPlugin(new \OCA\DAV\Connector\Sabre\IframeTransportPlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ListenerPlugin($this->dispatcher));
 		// Finder on OS X requires Class 2 WebDAV support (locking), since we do

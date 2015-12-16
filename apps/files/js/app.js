@@ -72,7 +72,8 @@
 					fileActions: fileActions,
 					allowLegacyActions: true,
 					scrollTo: urlParams.scrollto,
-					filesClient: OC.Files.getClient()
+					filesClient: OC.Files.getClient(),
+					enableUpload: true
 				}
 			);
 			this.files.initialize();
