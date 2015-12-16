@@ -24,6 +24,8 @@
  */
 
 namespace OCP;
+use OCP\Files\File;
+use OCP\Files\NotFoundException;
 
 /**
  * This class provides avatar functionality
@@ -64,4 +66,13 @@ interface IAvatar {
 	 * @since 6.0.0
 	 */
 	public function remove();
+
+	/**
+	 * Get the file of the avatar
+	 * @param int $size
+	 * @return File
+	 * @throws NotFoundException
+	 * @since 9.0.0
+	 */
+	public function getFile($size);
 }
