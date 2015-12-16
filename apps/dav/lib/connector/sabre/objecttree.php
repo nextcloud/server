@@ -190,7 +190,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		$targetNodeExists = $this->nodeExists($destinationPath);
 		$sourceNode = $this->getNodeForPath($sourcePath);
 		if ($sourceNode instanceof \Sabre\DAV\ICollection && $targetNodeExists) {
-			throw new \Sabre\DAV\Exception\Forbidden('Could not copy directory ' . $sourceNode . ', target exists');
+			throw new \Sabre\DAV\Exception\Forbidden('Could not copy directory ' . $sourceNode->getName() . ', target exists');
 		}
 		list($sourceDir,) = \Sabre\HTTP\URLUtil::splitPath($sourcePath);
 		list($destinationDir,) = \Sabre\HTTP\URLUtil::splitPath($destinationPath);

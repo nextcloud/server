@@ -294,4 +294,45 @@ class ObjectTree extends \Test\TestCase {
 
 		$this->assertInstanceOf('\Sabre\DAV\INode', $tree->getNodeForPath($path));
 	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 * @expectedExceptionMessage Could not copy directory nameOfSourceNode, target exists
+	 */
+	public function testFailingMove() {
+		$source = 'a/b';
+		$destination = 'b/b';
+		$updatables = array('a' => true, 'a/b' => true, 'b' => true, 'b/b' => false);
+		$deletables = array('a/b' => true);
+
+		$view = new TestDoubleFileView($updatables, $deletables);
+
+		$info = new FileInfo('', null, null, array(), null);
+
+		$rootDir = new \OCA\DAV\Connector\Sabre\Directory($view, $info);
+		$objectTree = $this->getMock('\OCA\DAV\Connector\Sabre\ObjectTree',
+			array('nodeExists', 'getNodeForPath'),
+			array($rootDir, $view));
+
+		$sourceNode = $this->getMockBuilder('\Sabre\DAV\ICollection')
+			->disableOriginalConstructor()
+			->getMock();
+		$sourceNode->expects($this->once())
+			->method('getName')
+			->will($this->returnValue('nameOfSourceNode'));
+
+		$objectTree->expects($this->once())
+			->method('nodeExists')
+			->with($this->identicalTo($destination))
+			->will($this->returnValue(true));
+		$objectTree->expects($this->once())
+			->method('getNodeForPath')
+			->with($this->identicalTo($source))
+			->will($this->returnValue($sourceNode));
+
+		/** @var $objectTree \OCA\DAV\Connector\Sabre\ObjectTree */
+		$mountManager = \OC\Files\Filesystem::getMountManager();
+		$objectTree->init($rootDir, $view, $mountManager);
+		$objectTree->move($source, $destination);
+	}
 }
