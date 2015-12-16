@@ -781,7 +781,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 
 		// remove the share if it already exists
-		$this->unshare($addressBookUri, $element);
+		$this->unshare($addressBookUri, $element['href']);
 
 		$query = $this->db->getQueryBuilder();
 		$query->insert('dav_shares')
