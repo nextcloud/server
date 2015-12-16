@@ -26,8 +26,10 @@ use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http;
 use OCP\Files\Folder;
 use OCP\Files\File;
+use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IAvatar;
+use Punic\Exception;
 use Test\Traits\UserTrait;
 
 /**
@@ -56,6 +58,8 @@ class AvatarControllerTest extends \Test\TestCase {
 	private $avatarMock;
 	/** @var IUser */
 	private $userMock;
+	/** @var File */
+	private $avatarFile;
 	
 	protected function setUp() {
 		parent::setUp();
@@ -88,6 +92,10 @@ class AvatarControllerTest extends \Test\TestCase {
 			->willReturnMap([['userId', $this->userMock]]);
 		$this->container['UserSession']->method('getUser')->willReturn($this->userMock);
 
+		$this->avatarFile = $this->getMock('OCP\Files\File');
+		$this->avatarFile->method('getContnet')->willReturn('image data');
+		$this->avatarFile->method('getMimeType')->willReturn('image type');
+		$this->avatarFile->method('getEtag')->willReturn('my etag');
 	}
 
 	public function tearDown() {
@@ -100,6 +108,7 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testGetAvatarNoAvatar() {
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarMock->method('getFile')->will($this->throwException(new NotFoundException()));
 		$response = $this->avatarController->getAvatar('userId', 32);
 
 		//Comment out until JS is fixed
@@ -112,12 +121,8 @@ class AvatarControllerTest extends \Test\TestCase {
 	 * Fetch the user's avatar
 	 */
 	public function testGetAvatar() {
-		$image = $this->getMock('OCP\IImage');
-		$image->method('data')->willReturn('image data');
-		$image->method('mimeType')->willReturn('image type');
-
-		$this->avatarMock->method('get')->willReturn($image);
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->avatarMock->method('getFile')->willReturn($this->avatarFile);
+		$this->container['AvatarManager']->method('getAvatar')->with('userId')->willReturn($this->avatarMock);
 
 		$response = $this->avatarController->getAvatar('userId', 32);
 
@@ -125,17 +130,19 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->assertArrayHasKey('Content-Type', $response->getHeaders());
 		$this->assertEquals('image type', $response->getHeaders()['Content-Type']);
 
-		$this->assertEquals(crc32('image data'), $response->getEtag());
+		$this->assertEquals('my etag', $response->getEtag());
 	}
 
 	/**
 	 * Fetch the avatar of a non-existing user
 	 */
 	public function testGetAvatarNoUser() {
-		$this->avatarMock->method('get')->willReturn(null);
-		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
+		$this->container['AvatarManager']
+			->method('getAvatar')
+			->with('userDoesNotExist')
+			->will($this->throwException(new \Exception('user does not exist')));
 
-		$response = $this->avatarController->getAvatar('userDoesnotexist', 32);
+		$response = $this->avatarController->getAvatar('userDoesNotExist', 32);
 
 		//Comment out until JS is fixed
 		//$this->assertEquals(Http::STATUS_NOT_FOUND, $response->getStatus());
@@ -148,8 +155,9 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testGetAvatarSize() {
 		$this->avatarMock->expects($this->once())
-						 ->method('get')
-						 ->with($this->equalTo(32));
+			->method('getFile')
+			->with($this->equalTo(32))
+			->willReturn($this->avatarFile);
 
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 
@@ -161,8 +169,9 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testGetAvatarSizeMin() {
 		$this->avatarMock->expects($this->once())
-						 ->method('get')
-						 ->with($this->equalTo(64));
+			->method('getFile')
+			->with($this->equalTo(64))
+			->willReturn($this->avatarFile);
 
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 
@@ -174,8 +183,9 @@ class AvatarControllerTest extends \Test\TestCase {
 	 */
 	public function testGetAvatarSizeMax() {
 		$this->avatarMock->expects($this->once())
-						 ->method('get')
-						 ->with($this->equalTo(2048));
+			->method('getFile')
+			->with($this->equalTo(2048))
+			->willReturn($this->avatarFile);
 
 		$this->container['AvatarManager']->method('getAvatar')->willReturn($this->avatarMock);
 
