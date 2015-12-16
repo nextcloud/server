@@ -51,7 +51,6 @@ class SyncServiceTest extends TestCase {
 
 	public function testSyncWithDeletedElement() {
 		$backend = $this->getBackendMock(0, 0, 1);
-//		$backend->method('getCard')->willReturn(true);
 
 		$ss = $this->getSyncServiceMock($backend, ['0' => [404 => '']]);
 		$return = $ss->syncRemoteAddressBook('', 'system', '1234567890', null, '1', 'principals/system/system', []);

@@ -141,15 +141,15 @@ class SyncService {
 	}
 
 	/**
-	 * @param string|null $synToken
+	 * @param string|null $syncToken
 	 * @return string
 	 */
-	private function buildSyncCollectionRequestBody($synToken) {
+	private function buildSyncCollectionRequestBody($syncToken) {
 
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$dom->formatOutput = true;
 		$root = $dom->createElementNS('DAV:', 'd:sync-collection');
-		$sync = $dom->createElement('d:sync-token', $synToken);
+		$sync = $dom->createElement('d:sync-token', $syncToken);
 		$prop = $dom->createElement('d:prop');
 		$cont = $dom->createElement('d:getcontenttype');
 		$etag = $dom->createElement('d:getetag');

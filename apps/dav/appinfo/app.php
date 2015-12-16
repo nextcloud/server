@@ -24,12 +24,17 @@ use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Connector\Sabre\Principal;
 
 \OC::$server->registerService('CardDAVSyncService', function() {
+
+	$config = \OC::$server->getConfig();
+	$userManager = \OC::$server->getUserManager();
+	$dbConnection = \OC::$server->getDatabaseConnection();
+
 	$principalBackend = new Principal(
-		$this->config,
-		$this->userManager
+		$config,
+		$userManager
 	);
 
-	$backend = new CardDavBackend($this->dbConnection, $principalBackend);
+	$backend = new CardDavBackend($dbConnection, $principalBackend);
 
 	return new SyncService($backend);
 });
