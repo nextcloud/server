@@ -119,7 +119,6 @@ class OC_Template extends \OC\Template\Base {
 
 			// avatars
 			if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {
-				\OC_Util::addScript('avatar', null, true);
 				\OC_Util::addScript('jquery.avatar', null, true);
 				\OC_Util::addScript('placeholder', null, true);
 			}
