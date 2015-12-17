@@ -799,22 +799,6 @@ $CONFIG = array(
 'ldapUserCleanupInterval' => 51,
 
 /**
- * Enforce the existence of the home folder naming rule for all users
- *
- * Following scenario:
- *  * a home folder naming rule is set in LDAP advanced settings
- *  * a user doesn't have the home folder naming rule attribute set
- *
- * If this is set to **true** (default) it will NOT fallback to the core's
- * default naming rule of using the internal user ID as home folder name.
- *
- * If this is set to **false** it will fallback for the users without the
- * attribute set to naming the home folder like the internal user ID.
- *
- */
-'enforce_home_folder_naming_rule' => true,
-
-/**
  * Comments
  *
  * Global settings for the Comments infrastructure
