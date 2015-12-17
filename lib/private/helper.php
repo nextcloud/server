@@ -349,14 +349,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * @return \OC\Files\Type\Detection
-	 * @deprecated 8.2.0 use \OC::$server->getMimeTypeDetector()
-	 */
-	static public function getMimetypeDetector() {
-		return \OC::$server->getMimeTypeDetector();
-	}
-
-	/**
 	 * @return \OC\Files\Type\TemplateManager
 	 */
 	static public function getFileTemplateManager() {

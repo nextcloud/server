@@ -83,15 +83,6 @@ class Test_Helper extends \Test\TestCase {
 		$this->assertEquals($result, $expected);
 	}
 
-	function testGetFileNameMimeType() {
-		$this->assertEquals('text/plain', OC_Helper::getFileNameMimeType('foo.txt'));
-		$this->assertEquals('image/png', OC_Helper::getFileNameMimeType('foo.png'));
-		$this->assertEquals('image/png', OC_Helper::getFileNameMimeType('foo.bar.png'));
-		$this->assertEquals('application/octet-stream', OC_Helper::getFileNameMimeType('.png'));
-		$this->assertEquals('application/octet-stream', OC_Helper::getFileNameMimeType('foo'));
-		$this->assertEquals('application/octet-stream', OC_Helper::getFileNameMimeType(''));
-	}
-
 	function testGetStringMimeType() {
 		if (\OC_Util::runningOnWindows()) {
 			$this->markTestSkipped('[Windows] Strings have mimetype application/octet-stream on Windows');

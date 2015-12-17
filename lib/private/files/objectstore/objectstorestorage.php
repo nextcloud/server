@@ -329,7 +329,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			$stat['mtime'] = $mtime;
 			$this->getCache()->update($stat['fileid'], $stat);
 		} else {
-			$mimeType = \OC_Helper::getFileNameMimeType($path);
+			$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
 			// create new file
 			$stat = array(
 				'etag' => $this->getETag($path),

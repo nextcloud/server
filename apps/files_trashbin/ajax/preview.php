@@ -62,7 +62,7 @@ try{
 				$fileName = substr($fileName, 0, $i);
 			}
 		}
-		$mimetype = \OC_Helper::getFileNameMimeType($fileName);
+		$mimetype = \OC::$server->getMimeTypeDetector()->detectPath($fileName);
 	}
 	$preview->setMimetype($mimetype);
 	$preview->setMaxX($maxX);
