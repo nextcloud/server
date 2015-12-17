@@ -89,7 +89,8 @@ describe('OCA.Sharing.PublicApp tests', function() {
 		it('Uses public webdav endpoint', function() {
 			expect(fakeServer.requests.length).toEqual(1);
 			expect(fakeServer.requests[0].method).toEqual('PROPFIND');
-			expect(fakeServer.requests[0].url).toEqual('https://sh4tok@example.com/owncloud/public.php/webdav/subdir');
+			expect(fakeServer.requests[0].url).toEqual('https://example.com/owncloud/public.php/webdav/subdir');
+			expect(fakeServer.requests[0].requestHeaders.Authorization).toEqual('Basic c2g0dG9rOm51bGw=');
 		});
 
 		describe('Download Url', function() {
