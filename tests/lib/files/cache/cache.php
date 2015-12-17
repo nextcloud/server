@@ -373,7 +373,8 @@ class Cache extends \Test\TestCase {
 		$tagManager->delete('tag2');
 
 		$this->logout();
-		\OC_User::deleteUser($userId);
+		$user = \OC::$server->getUserManager()->get($userId);
+		if ($user !== null) { $user->delete(); }
 	}
 
 	function testMove() {

@@ -39,7 +39,8 @@ class CertificateManagerTest extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
-		\OC_User::deleteUser($this->username);
+		$user = \OC::$server->getUserManager()->get($this->username);
+		if ($user !== null) { $user->delete(); }
 		parent::tearDown();
 	}
 

@@ -82,7 +82,8 @@ class TagServiceTest extends \Test\TestCase {
 
 	protected function tearDown() {
 		\OC_User::setUserId('');
-		\OC_User::deleteUser($this->user);
+		$user = \OC::$server->getUserManager()->get($this->user);
+		if ($user !== null) { $user->delete(); }
 	}
 
 	public function testUpdateFileTags() {

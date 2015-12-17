@@ -75,7 +75,8 @@ class Storage extends \Test\TestCase {
 	protected function tearDown() {
 		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 		$this->logout();
-		\OC_User::deleteUser($this->user);
+		$user = \OC::$server->getUserManager()->get($this->user);
+		if ($user !== null) { $user->delete(); }
 		\OC_Hook::clear();
 		parent::tearDown();
 	}

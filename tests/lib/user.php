@@ -51,15 +51,5 @@ class User extends TestCase {
 		$uid = \OC_User::checkPassword('foo', 'bar');
 		$this->assertEquals($uid, 'foo');
 	}
-	
-	public function testDeleteUser() {
-		$fail = \OC_User::deleteUser('victim');
-		$this->assertFalse($fail);
-		
-		$success = \OC::$server->getUserManager()->createUser('victim', 'password');
-		
-		$success = \OC_User::deleteUser('victim');
-		$this->assertTrue($success);
-	}
 
 }

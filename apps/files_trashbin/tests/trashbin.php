@@ -88,7 +88,8 @@ class Test_Trashbin extends \Test\TestCase {
 
 	public static function tearDownAfterClass() {
 		// cleanup test user
-		\OC_User::deleteUser(self::TEST_TRASHBIN_USER1);
+		$user = \OC::$server->getUserManager()->get(self::TEST_TRASHBIN_USER1);
+		if ($user !== null) { $user->delete(); }
 
 		\OC::$server->getConfig()->setSystemValue('trashbin_retention_obligation', self::$rememberRetentionObligation);
 

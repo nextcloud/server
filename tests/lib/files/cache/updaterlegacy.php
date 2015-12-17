@@ -72,7 +72,10 @@ class UpdaterLegacy extends \Test\TestCase {
 		if ($this->cache) {
 			$this->cache->clear();
 		}
-		$result = \OC_User::deleteUser(self::$user);
+
+		$result = false;
+		$user = \OC::$server->getUserManager()->get(self::$user);
+		if ($user !== null) { $result = $user->delete(); }
 		$this->assertTrue($result);
 
 		$this->logout();

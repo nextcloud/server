@@ -117,9 +117,12 @@ abstract class TestCase extends \Test\TestCase {
 
 	public static function tearDownAfterClass() {
 		// cleanup users
-		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER1);
-		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER2);
-		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER3);
+		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER2);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3);
+		if ($user !== null) { $user->delete(); }
 
 		// delete group
 		\OC_Group::deleteGroup(self::TEST_FILES_SHARING_API_GROUP1);

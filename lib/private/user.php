@@ -153,24 +153,6 @@ class OC_User {
 	}
 
 	/**
-	 * delete a user
-	 *
-	 * @param string $uid The username of the user to delete
-	 * @return bool
-	 *
-	 * Deletes a user
-	 * @deprecated Use \OC::$server->getUserManager()->get() and then run delete() on the return
-	 */
-	public static function deleteUser($uid) {
-		$user = \OC::$server->getUserManager()->get($uid);
-		if ($user) {
-			return $user->delete();
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * Try to login a user
 	 *
 	 * @param string $loginname The login name of the user to log in

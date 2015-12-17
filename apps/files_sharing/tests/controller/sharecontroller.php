@@ -98,7 +98,8 @@ class ShareControllerTest extends \Test\TestCase {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		Filesystem::tearDown();
-		\OC_User::deleteUser($this->user);
+		$user = \OC::$server->getUserManager()->get($this->user);
+		if ($user !== null) { $user->delete(); }
 		\OC_User::setIncognitoMode(false);
 
 		\OC::$server->getSession()->set('public_link_authenticated', '');
