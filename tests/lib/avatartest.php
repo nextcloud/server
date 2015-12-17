@@ -60,12 +60,25 @@ class AvatarTest extends \Test\TestCase {
 
 		$file = $this->getMock('\OCP\Files\File');
 		$file->method('getContent')->willReturn($expected->data());
-		$this->folder->method('get')->with('avatar.png')->willReturn($file);
+
+		$this->folder->method('get')
+			->will($this->returnCallback(
+				function($path) use ($file) {
+					if ($path === 'avatar.png') {
+						return $file;
+					} else {
+						throw new \OCP\Files\NotFoundException;
+					}
+				}
+			));
 
 		$newFile = $this->getMock('\OCP\Files\File');
 		$newFile->expects($this->once())
 			->method('putContent')
 			->with($expected2->data());
+		$newFile->expects($this->once())
+			->method('getContent')
+			->willReturn($expected2->data());
 		$this->folder->expects($this->once())
 			->method('newFile')
 			->with('avatar.32.png')

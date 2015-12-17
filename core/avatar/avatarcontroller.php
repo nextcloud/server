@@ -30,6 +30,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 use OCP\ILogger;
 use OCP\IL10N;
@@ -112,20 +113,23 @@ class AvatarController extends Controller {
 			$size = 64;
 		}
 
-		$avatar = $this->avatarManager->getAvatar($userId);
-		$image = $avatar->get($size);
-
-		if ($image instanceof \OCP\IImage) {
-			$resp = new DataDisplayResponse($image->data(),
+		try {
+			$avatar = $this->avatarManager->getAvatar($userId)->getFile($size);
+			$resp = new DataDisplayResponse($avatar->getContent(),
 				Http::STATUS_OK,
-				['Content-Type' => $image->mimeType()]);
-			$resp->setETag(crc32($image->data()));
-		} else {
+				['Content-Type' => $avatar->getMimeType()]);
+			$resp->setETag($avatar->getEtag());
+		} catch (NotFoundException $e) {
 			$user = $this->userManager->get($userId);
-			$userName = $user ? $user->getDisplayName() : '';
 			$resp = new DataResponse([
 				'data' => [
-					'displayname' => $userName,
+					'displayname' => $user->getDisplayName(),
+				],
+			]);
+		} catch (\Exception $e) {
+			$resp = new DataResponse([
+				'data' => [
+					'displayname' => '',
 				],
 			]);
 		}

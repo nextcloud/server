@@ -31,6 +31,7 @@ namespace OC;
 
 use OCP\Files\Folder;
 use OCP\Files\File;
+use OCP\Files\NotFoundException;
 use OCP\IL10N;
 use OC_Image;
 
@@ -62,28 +63,14 @@ class Avatar implements \OCP\IAvatar {
 	 * @return boolean|\OCP\IImage containing the avatar or false if there's no image
 	*/
 	public function get ($size = 64) {
-		if ($this->folder->nodeExists('avatar.jpg')) {
-			$ext = 'jpg';
-		} elseif ($this->folder->nodeExists('avatar.png')) {
-			$ext = 'png';
-		} else {
+		try {
+			$file = $this->getFile($size);
+		} catch (NotFoundException $e) {
 			return false;
 		}
 
 		$avatar = new OC_Image();
-		if ($this->folder->nodeExists('avatar.' . $size . '.' . $ext)) {
-			/** @var File $node */
-			$node = $this->folder->get('avatar.' . $size . '.' . $ext);
-			$avatar->loadFromData($node->getContent());
-		} else {
-			/** @var File $node */
-			$node = $this->folder->get('avatar.' . $ext);
-			$avatar->loadFromData($node->getContent());
-			if ($size > 0) {
-				$avatar->resize($size);
-			}
-			$this->folder->newFile('avatar.' . $size . '.' . $ext)->putContent($avatar->data());
-		}
+		$avatar->loadFromData($file->getContent());
 		return $avatar;
 	}
 
@@ -143,5 +130,51 @@ class Avatar implements \OCP\IAvatar {
 		try {
 			$this->folder->get('avatar.png')->delete();
 		} catch (\OCP\Files\NotFoundException $e) {}
+	}
+
+	/**
+	 * Get the File of an avatar of size $size.
+	 *
+	 * @param int $size
+	 * @return File
+	 * @throws NotFoundException
+	 */
+	public function getFile($size) {
+		$ext = $this->getExtention();
+
+		$path = 'avatar.' . $size . '.' . $ext;
+
+		try {
+			$file = $this->folder->get($path);
+		} catch (NotFoundException $e) {
+			if ($size <= 0) {
+				throw new NotFoundException;
+			}
+
+			$avatar = new OC_Image();
+			/** @var File $file */
+			$file = $this->folder->get('avatar.' . $ext);
+			$avatar->loadFromData($file->getContent());
+			$avatar->resize($size);
+			$file = $this->folder->newFile($path);
+			$file->putContent($avatar->data());
+		}
+
+		return $file;
+	}
+
+	/**
+	 * Get the extention of the avatar. If there is no avatar throw Exception
+	 *
+	 * @return string
+	 * @throws NotFoundException
+	 */
+	private function getExtention() {
+		if ($this->folder->nodeExists('avatar.jpg')) {
+			return 'jpg';
+		} elseif ($this->folder->nodeExists('avatar.png')) {
+			return 'png';
+		}
+		throw new NotFoundException;
 	}
 }
