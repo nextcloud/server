@@ -92,6 +92,12 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			throw $hookExceptions[0];
 		}
 
+		// fail hard if xml errors have not been cleaned up
+		$errors = libxml_get_errors();
+		libxml_clear_errors();
+		$this->assertEquals([], $errors);
+
+		// tearDown the traits
 		$traits = $this->getTestTraits();
 		foreach ($traits as $trait) {
 			$methodName = 'tearDown' . basename(str_replace('\\', '/', $trait));
