@@ -85,6 +85,7 @@
     "Sharing %s failed, because %s is not a member of the group %s" : "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s ei ole ryhmän %s jäsen",
     "You need to provide a password to create a public link, only protected links are allowed" : "Anna salasana luodaksesi julkisen linkin. Vain suojatut linkit ovat sallittuja",
     "Sharing %s failed, because sharing with links is not allowed" : "Kohteen %s jakaminen epäonnistui, koska jakaminen linkkejä käyttäen ei ole sallittu",
+    "Not allowed to create a federated share with the same user" : "Saman käyttäjän kanssa ei ole sallittua luoda federoitua jakoa",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Kohteen %s jakaminen epäonnistui, kohdetta %s ei löytynyt. Kenties palvelin ei ole juuri nyt tavoitettavissa.",
     "Setting permissions for %s failed, because the item was not found" : "Kohteen %s oikeuksien asettaminen epäonnistui, koska kohdetta ei löytynyt",
     "Cannot set expiration date. Expiration date is in the past" : "Vanhentumispäivää ei voi asettaa. Vanhentumispäivä on jo mennyt",

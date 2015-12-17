@@ -79,7 +79,7 @@
     "An error occurred while trying to update the tags" : "Ocorreu um erro enquanto tentava atualizar as etiquetas",
     "A new file or folder has been <strong>created</strong>" : "Um novo arquivo ou pasta foi <strong>criado</strong>",
     "A file or folder has been <strong>changed</strong>" : "Um arquivo ou pasta foi <strong>modificado</strong>",
-    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limite de notificações sobre a criação e alterações em seus <strong>arquivos favoritos</strong> <em>(Stream apenas)</em>",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Limite de notificações sobre a criação e alterações em seus <strong>arquivos favoritos</strong> <em>(apenas Stream)</em>",
     "A file or folder has been <strong>deleted</strong>" : "Um arquivo ou pasta foi <strong>excluído</strong>",
     "A file or folder has been <strong>restored</strong>" : "Um arquivo ou pasta foi <strong>restautado</strong>",
     "You created %1$s" : "Você criou %1$s",
@@ -114,7 +114,7 @@
     "Files are being scanned, please wait." : "Arquivos sendo escaneados, por favor aguarde.",
     "Currently scanning" : "Atualmente escaneando",
     "No favorites" : "Sem favoritos",
-    "Files and folders you mark as favorite will show up here" : "Arquivos e pastas que você marcou como favorito são mostrados aqui",
+    "Files and folders you mark as favorite will show up here" : "Arquivos e pastas que você marcou como favoritos são mostrados aqui",
     "Text file" : "Arquivo texto",
     "New text file.txt" : "Novo texto file.txt"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
