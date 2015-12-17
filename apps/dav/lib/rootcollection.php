@@ -41,11 +41,11 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getSystemTagObjectMapper()
 		);
 
-		$usersCardDavBackend = new CardDavBackend($db, $principalBackend);
+		$usersCardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getLogger());
 		$usersAddressBookRoot = new AddressBookRoot($principalBackend, $usersCardDavBackend, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
 
-		$systemCardDavBackend = new CardDavBackend($db, $principalBackend);
+		$systemCardDavBackend = new CardDavBackend($db, $principalBackend, \OC::$server->getLogger());
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 
