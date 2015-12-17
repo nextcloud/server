@@ -405,6 +405,11 @@ $(document).ready(function () {
 	if ($('#sslCertificate > tbody > tr').length === 0) {
 		$('#sslCertificate').hide();
 	}
+
+	// Load the big avatar
+	if (oc_config.enable_avatars) {
+		$('#avatar .avatardiv').avatar(OC.currentUser, 128);
+	}
 });
 
 if (!OC.Encryption) {
