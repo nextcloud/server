@@ -12,8 +12,9 @@ namespace Test\App;
 use OC;
 use OC\App\Platform;
 use OCP\IL10N;
+use Test\TestCase;
 
-class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
+class DependencyAnalyzer extends TestCase {
 
 	/** @var Platform */
 	private $platformMock;

@@ -11,8 +11,9 @@ namespace Test\App;
 
 use OC\Group\Group;
 use OC\User\User;
+use Test\TestCase;
 
-class Manager extends \PHPUnit_Framework_TestCase {
+class Manager extends TestCase {
 	/**
 	 * @return \OCP\IAppConfig | \PHPUnit_Framework_MockObject_MockObject
 	 */
