@@ -78,7 +78,7 @@ class ShareControllerTest extends \Test\TestCase {
 		// Create a dummy user
 		$this->user = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(12, ISecureRandom::CHAR_LOWER);
 
-		\OC_User::createUser($this->user, $this->user);
+		\OC::$server->getUserManager()->createUser($this->user, $this->user);
 		\OC_Util::tearDownFS();
 		$this->loginAsUser($this->user);
 

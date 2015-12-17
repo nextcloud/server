@@ -325,7 +325,7 @@ class Filesystem extends \Test\TestCase {
 	public function testHomeMount() {
 		$userId = $this->getUniqueID('user_');
 
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 
 		\OC\Files\Filesystem::initMountPoints($userId);
 
@@ -360,7 +360,7 @@ class Filesystem extends \Test\TestCase {
 		// this will trigger the insert
 		$cache = $localStorage->getCache();
 
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
 
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
@@ -388,7 +388,7 @@ class Filesystem extends \Test\TestCase {
 		// no cache path configured
 		$config->setSystemValue('cache_path', '');
 
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
 
 		$this->assertEquals(
@@ -416,7 +416,7 @@ class Filesystem extends \Test\TestCase {
 		$cachePath = \OC_Helper::tmpFolder() . '/extcache';
 		$config->setSystemValue('cache_path', $cachePath);
 
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
 
 		$this->assertEquals(

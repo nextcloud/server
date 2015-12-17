@@ -32,7 +32,7 @@ class HomeStorageQuota extends \Test\TestCase {
 	 */
 	function testHomeStorageWrapperWithoutQuota() {
 		$user1 = $this->getUniqueID();
-		\OC_User::createUser($user1, 'test');
+		\OC::$server->getUserManager()->createUser($user1, 'test');
 		\OC::$server->getConfig()->setUserValue($user1, 'files', 'quota', 'none');
 		\OC_User::setUserId($user1);
 
@@ -54,7 +54,7 @@ class HomeStorageQuota extends \Test\TestCase {
 	 */
 	function testHomeStorageWrapperWithQuota() {
 		$user1 = $this->getUniqueID();
-		\OC_User::createUser($user1, 'test');
+		\OC::$server->getUserManager()->createUser($user1, 'test');
 		\OC::$server->getConfig()->setUserValue($user1, 'files', 'quota', '1024');
 		\OC_User::setUserId($user1);
 

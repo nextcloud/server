@@ -317,7 +317,7 @@ class Cache extends \Test\TestCase {
 
 	function testSearchByTag() {
 		$userId = $this->getUniqueId('user');
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 		$this->loginAsUser($userId);
 		$user = new \OC\User\User($userId, null);
 

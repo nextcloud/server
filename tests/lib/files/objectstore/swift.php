@@ -52,7 +52,7 @@ class Swift extends \Test\Files\Storage\Storage {
 		$users = array('test');
 		foreach($users as $userName) {
 			\OC_User::deleteUser($userName);
-			\OC_User::createUser($userName, $userName);
+			\OC::$server->getUserManager()->createUser($userName, $userName);
 		}
 
 		// main test user

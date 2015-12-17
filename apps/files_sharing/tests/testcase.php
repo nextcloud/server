@@ -149,7 +149,7 @@ abstract class TestCase extends \Test\TestCase {
 		}
 
 		if ($create) {
-			\OC_User::createUser($user, $password);
+			\OC::$server->getUserManager()->createUser($user, $password);
 			\OC_Group::createGroup('group');
 			\OC_Group::addToGroup($user, 'group');
 		}

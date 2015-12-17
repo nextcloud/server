@@ -636,7 +636,7 @@ class Test_Trashbin extends \Test\TestCase {
 	public static function loginHelper($user, $create = false) {
 		if ($create) {
 			try {
-				\OC_User::createUser($user, $user);
+				\OC::$server->getUserManager()->createUser($user, $user);
 			} catch(\Exception $e) { // catch username is already being used from previous aborted runs
 
 			}

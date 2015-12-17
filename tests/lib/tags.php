@@ -44,7 +44,7 @@ class Test_Tags extends \Test\TestCase {
 		OC_User::clearBackends();
 		OC_User::useBackend('dummy');
 		$userId = $this->getUniqueID('user_');
-		OC_User::createUser($userId, 'pass');
+		\OC::$server->getUserManager()->createUser($userId, 'pass');
 		OC_User::setUserId($userId);
 		$this->user = new OC\User\User($userId, null);
 		$this->userSession = $this->getMock('\OCP\IUserSession');
@@ -290,7 +290,7 @@ class Test_Tags extends \Test\TestCase {
 		$tagger->tagAs(1, $testTag);
 
 		$otherUserId = $this->getUniqueID('user2_');
-		OC_User::createUser($otherUserId, 'pass');
+		\OC::$server->getUserManager()->createUser($otherUserId, 'pass');
 		OC_User::setUserId($otherUserId);
 		$otherUserSession = $this->getMock('\OCP\IUserSession');
 		$otherUserSession

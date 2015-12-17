@@ -24,7 +24,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->username = $this->getUniqueID('', 20);
-		OC_User::createUser($this->username, $this->getUniqueID('', 20));
+		\OC::$server->getUserManager()->createUser($this->username, $this->getUniqueID('', 20));
 
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');

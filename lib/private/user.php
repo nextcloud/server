@@ -191,24 +191,6 @@ class OC_User {
 	}
 
 	/**
-	 * Create a new user
-	 *
-	 * @param string $uid The username of the user to create
-	 * @param string $password The password of the new user
-	 * @throws Exception
-	 * @return bool true/false
-	 *
-	 * Creates a new user. Basic checking of username is done in OC_User
-	 * itself, not in its subclasses.
-	 *
-	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
-	 * @deprecated Use \OC::$server->getUserManager()->createUser($uid, $password)
-	 */
-	public static function createUser($uid, $password) {
-		return \OC::$server->getUserManager()->createUser($uid, $password);
-	}
-
-	/**
 	 * delete a user
 	 *
 	 * @param string $uid The username of the user to delete

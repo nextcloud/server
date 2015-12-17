@@ -23,7 +23,7 @@ class Test_Helper_Storage extends \Test\TestCase {
 		parent::setUp();
 
 		$this->user = $this->getUniqueID('user_');
-		\OC_User::createUser($this->user, $this->user);
+		\OC::$server->getUserManager()->createUser($this->user, $this->user);
 
 		$this->storage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::tearDown();

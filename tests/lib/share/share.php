@@ -54,13 +54,13 @@ class Test_Share extends \Test\TestCase {
 		$this->user5 = $this->getUniqueID('user5_');
 		$this->user6 = $this->getUniqueID('user6_');
 		$this->groupAndUser = $this->getUniqueID('groupAndUser_');
-		OC_User::createUser($this->user1, 'pass');
-		OC_User::createUser($this->user2, 'pass');
-		OC_User::createUser($this->user3, 'pass');
-		OC_User::createUser($this->user4, 'pass');
-		OC_User::createUser($this->user5, 'pass');
-		OC_User::createUser($this->user6, 'pass'); // no group
-		OC_User::createUser($this->groupAndUser, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user1, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user2, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user3, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user4, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user5, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user6, 'pass'); // no group
+		\OC::$server->getUserManager()->createUser($this->groupAndUser, 'pass');
 		OC_User::setUserId($this->user1);
 		OC_Group::clearBackends();
 		OC_Group::useBackend(new OC_Group_Dummy);

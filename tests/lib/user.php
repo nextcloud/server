@@ -56,25 +56,10 @@ class User extends TestCase {
 		$fail = \OC_User::deleteUser('victim');
 		$this->assertFalse($fail);
 		
-		$success = \OC_User::createUser('victim', 'password');
+		$success = \OC::$server->getUserManager()->createUser('victim', 'password');
 		
 		$success = \OC_User::deleteUser('victim');
 		$this->assertTrue($success);
-	}
-	
-	public function testCreateUser(){
-		$this->backend->expects($this->any())
-			->method('implementsActions')
-			->will($this->returnCallback(function ($actions) {
-				if ($actions === \OC_USER_BACKEND_CREATE_USER) {
-					return true;
-				} else {
-					return false;
-				}
-			}));
-			
-		$user = \OC_User::createUser('newuser', 'newpassword');
-		$this->assertEquals('newuser', $user->getUid());
 	}
 
 }

@@ -43,9 +43,9 @@ class MigrationTest extends \Test\TestCase {
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		\OC_User::createUser(self::TEST_ENCRYPTION_MIGRATION_USER1, 'foo');
-		\OC_User::createUser(self::TEST_ENCRYPTION_MIGRATION_USER2, 'foo');
-		\OC_User::createUser(self::TEST_ENCRYPTION_MIGRATION_USER3, 'foo');
+		\OC::$server->getUserManager()->createUser(self::TEST_ENCRYPTION_MIGRATION_USER1, 'foo');
+		\OC::$server->getUserManager()->createUser(self::TEST_ENCRYPTION_MIGRATION_USER2, 'foo');
+		\OC::$server->getUserManager()->createUser(self::TEST_ENCRYPTION_MIGRATION_USER3, 'foo');
 	}
 
 	public static function tearDownAfterClass() {
