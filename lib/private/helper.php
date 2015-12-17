@@ -67,21 +67,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * Creates an url
-	 * @param string $app app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
-	 * @return string the url
-	 * @deprecated Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
-	 *
-	 * Returns a url to the given app and file.
-	 */
-	public static function linkTo( $app, $file, $args = array() ) {
-		return OC::$server->getURLGenerator()->linkTo($app, $file, $args);
-	}
-
-	/**
 	 * Creates an absolute url
 	 * @param string $app app
 	 * @param string $file file

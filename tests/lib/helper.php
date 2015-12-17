@@ -296,52 +296,6 @@ class Test_Helper extends \Test\TestCase {
 
 	/**
 	 * @small
-	 * test linkTo URL construction
-	 * @dataProvider provideDocRootAppUrlParts
-	 */
-	public function testLinkToDocRoot($app, $file, $args, $expectedResult) {
-		\OC::$WEBROOT = '';
-		$result = \OC_Helper::linkTo($app, $file, $args);
-
-		$this->assertEquals($expectedResult, $result);
-	}
-
-	/**
-	 * @small
-	 * test linkTo URL construction in sub directory
-	 * @dataProvider provideSubDirAppUrlParts
-	 */
-	public function testLinkToSubDir($app, $file, $args, $expectedResult) {
-		\OC::$WEBROOT = '/owncloud';
-		$result = \OC_Helper::linkTo($app, $file, $args);
-
-		$this->assertEquals($expectedResult, $result);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function provideDocRootAppUrlParts() {
-		return array(
-			array('files', 'ajax/list.php', array(), '/index.php/apps/files/ajax/list.php'),
-			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
-			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/index.php?trut=trat&dut=dat'),
-		);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function provideSubDirAppUrlParts() {
-		return array(
-			array('files', 'ajax/list.php', array(), '/owncloud/index.php/apps/files/ajax/list.php'),
-			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
-			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), '/owncloud/index.php?trut=trat&dut=dat'),
-		);
-	}
-
-	/**
-	 * @small
 	 * test linkToAbsolute URL construction
 	 * @dataProvider provideDocRootAppAbsoluteUrlParts
 	 */
