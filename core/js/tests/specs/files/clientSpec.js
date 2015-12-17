@@ -252,7 +252,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.name).toEqual('One.txt');
 				expect(info.permissions).toEqual(31);
 				expect(info.size).toEqual(250);
-				expect(info.mtime.getTime()).toEqual(1436535485000);
+				expect(info.mtime).toEqual(1436535485000);
 				expect(info.mimetype).toEqual('text/plain');
 				expect(info.etag).toEqual('559fcabd79a38');
 
@@ -264,7 +264,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.name).toEqual('sub');
 				expect(info.permissions).toEqual(31);
 				expect(info.size).toEqual(100);
-				expect(info.mtime.getTime()).toEqual(1436536800000);
+				expect(info.mtime).toEqual(1436536800000);
 				expect(info.mimetype).toEqual('httpd/unix-directory');
 				expect(info.etag).toEqual('66cfcabd79abb');
 			});
@@ -295,7 +295,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.name).toEqual('文件夹');
 				expect(info.permissions).toEqual(31);
 				expect(info.size).toEqual(120);
-				expect(info.mtime.getTime()).toEqual(1436522405000);
+				expect(info.mtime).toEqual(1436522405000);
 				expect(info.mimetype).toEqual('httpd/unix-directory');
 				expect(info.etag).toEqual('56cfcabd79abb');
 
@@ -376,7 +376,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.name).toEqual('文件夹');
 				expect(info.permissions).toEqual(31);
 				expect(info.size).toEqual(120);
-				expect(info.mtime.getTime()).toEqual(1436522405000);
+				expect(info.mtime).toEqual(1436522405000);
 				expect(info.mimetype).toEqual('httpd/unix-directory');
 				expect(info.etag).toEqual('56cfcabd79abb');
 			});
@@ -425,7 +425,7 @@ describe('OC.Files.Client tests', function() {
 				expect(info.name).toEqual('in root');
 				expect(info.permissions).toEqual(31);
 				expect(info.size).toEqual(120);
-				expect(info.mtime.getTime()).toEqual(1436522405000);
+				expect(info.mtime).toEqual(1436522405000);
 				expect(info.mimetype).toEqual('httpd/unix-directory');
 				expect(info.etag).toEqual('56cfcabd79abb');
 			});
