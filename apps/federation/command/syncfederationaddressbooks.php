@@ -59,7 +59,7 @@ class SyncFederationAddressBooks extends Command {
 			if (is_null($sharedSecret)) {
 				continue;
 			}
-			$targetBookId = md5($url);
+			$targetBookId = sha1($url);
 			$targetPrincipal = "principals/system/system";
 			$targetBookProperties = [
 					'{DAV:}displayname' => $url
