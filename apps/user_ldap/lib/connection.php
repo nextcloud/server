@@ -85,11 +85,12 @@ class Connection extends LDAPUtility {
 		if($memcache->isAvailable()) {
 			$this->cache = $memcache->create();
 		}
-		$this->hasPagedResultSupport =
-			$this->ldap->hasPagedResultSupport();
 		$helper = new Helper();
 		$this->doNotValidate = !in_array($this->configPrefix,
 			$helper->getServerConfigurationPrefixes());
+		$this->hasPagedResultSupport =
+			intval($this->configuration->ldapPagingSize) !== 0
+			|| $this->ldap->hasPagedResultSupport();
 	}
 
 	public function __destruct() {
