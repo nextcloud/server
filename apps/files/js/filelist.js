@@ -2072,7 +2072,7 @@
 		 */
 		showFileBusyState: function(files, state) {
 			var self = this;
-			if (!_.isArray(files)) {
+			if (!_.isArray(files) && !files.is) {
 				files = [files];
 			}
 
@@ -2080,10 +2080,13 @@
 				state = true;
 			}
 
-			_.each(files, function($tr) {
+			_.each(files, function(fileName) {
 				// jquery element already ?
-				if (!$tr.is) {
-					$tr = self.findFileEl($tr);
+				var $tr;
+				if (_.isString(fileName)) {
+					$tr = self.findFileEl(fileName);
+				} else {
+					$tr = $(fileName);
 				}
 
 				var $thumbEl = $tr.find('.thumbnail');
@@ -2468,6 +2471,7 @@
 				}
 			});
 			fileUploadStart.on('fileuploadadd', function(e, data) {
+				console.log('XXXXXXX');
 				OC.Upload.log('filelist handle fileuploadadd', e, data);
 
 				//finish delete if we are uploading a deleted file
@@ -2487,8 +2491,7 @@
 
 					var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 					if (currentUploads === 1) {
-						var img = OC.imagePath('core', 'loading.gif');
-						data.context.find('.thumbnail').css('background-image', 'url(' + img + ')');
+						self.showFileBusyState(uploadText.closest('tr'), true);
 						uploadText.text(translatedText);
 						uploadText.show();
 					} else {
@@ -2526,8 +2529,7 @@
 						uploadText.attr('currentUploads', currentUploads);
 						var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 						if (currentUploads === 0) {
-							var img = OC.imagePath('core', 'filetypes/folder');
-							data.context.find('.thumbnail').css('background-image', 'url(' + img + ')');
+							self.showFileBusyState(uploadText.closest('tr'), false);
 							uploadText.text(translatedText);
 							uploadText.hide();
 						} else {
@@ -2604,18 +2606,15 @@
 					}
 				}
 			});
-			fileUploadStart.on('fileuploadstop', function(e, data) {
-				OC.Upload.log('filelist handle fileuploadstop', e, data);
+			fileUploadStart.on('fileuploadstop', function() {
+				OC.Upload.log('filelist handle fileuploadstop');
 
-				//if user pressed cancel hide upload chrome
-				if (data.errorThrown === 'abort') {
-					//cleanup uploading to a dir
-					var uploadText = $('tr .uploadtext');
-					var img = OC.imagePath('core', 'filetypes/folder');
-					uploadText.parents('td.filename').find('.thumbnail').css('background-image', 'url(' + img + ')');
-					uploadText.fadeOut();
-					uploadText.attr('currentUploads', 0);
-				}
+				//cleanup uploading to a dir
+				var uploadText = self.$fileList.find('tr .uploadtext');
+				self.showFileBusyState(uploadText.closest('tr'), false);
+				uploadText.fadeOut();
+				uploadText.attr('currentUploads', 0);
+
 				self.updateStorageStatistics();
 			});
 			fileUploadStart.on('fileuploadfail', function(e, data) {
@@ -2624,9 +2623,8 @@
 				//if user pressed cancel hide upload chrome
 				if (data.errorThrown === 'abort') {
 					//cleanup uploading to a dir
-					var uploadText = $('tr .uploadtext');
-					var img = OC.imagePath('core', 'filetypes/folder');
-					uploadText.parents('td.filename').find('.thumbnail').css('background-image', 'url(' + img + ')');
+					var uploadText = self.$fileList.find('tr .uploadtext');
+					self.showFileBusyState(uploadText.closest('tr'), false);
 					uploadText.fadeOut();
 					uploadText.attr('currentUploads', 0);
 				}
