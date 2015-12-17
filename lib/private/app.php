@@ -380,7 +380,7 @@ class OC_App {
 				array(
 					"id" => "help",
 					"order" => 1000,
-					"href" => OC_Helper::linkToRoute("settings_help"),
+					"href" => \OC::$server->getURLGenerator()->linkToRoute('settings_help'),
 					"name" => $l->t("Help"),
 					"icon" => OC_Helper::imagePath("settings", "help.svg")
 				)
@@ -393,7 +393,7 @@ class OC_App {
 			$settings[] = array(
 				"id" => "personal",
 				"order" => 1,
-				"href" => OC_Helper::linkToRoute("settings_personal"),
+				"href" => \OC::$server->getURLGenerator()->linkToRoute('settings_personal'),
 				"name" => $l->t("Personal"),
 				"icon" => OC_Helper::imagePath("settings", "personal.svg")
 			);
@@ -409,7 +409,7 @@ class OC_App {
 				$settings[] = array(
 					"id" => "core_users",
 					"order" => 2,
-					"href" => OC_Helper::linkToRoute("settings_users"),
+					"href" => \OC::$server->getURLGenerator()->linkToRoute('settings_users'),
 					"name" => $l->t("Users"),
 					"icon" => OC_Helper::imagePath("settings", "users.svg")
 				);
@@ -421,7 +421,7 @@ class OC_App {
 				$settings[] = array(
 					"id" => "admin",
 					"order" => 1000,
-					"href" => OC_Helper::linkToRoute("settings_admin"),
+					"href" => \OC::$server->getURLGenerator()->linkToRoute('settings_admin'),
 					"name" => $l->t("Admin"),
 					"icon" => OC_Helper::imagePath("settings", "admin.svg")
 				);

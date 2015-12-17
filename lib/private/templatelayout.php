@@ -165,14 +165,14 @@ class OC_TemplateLayout extends OC_Template {
 
 		$useAssetPipeline = self::isAssetPipelineEnabled();
 		if ($useAssetPipeline) {
-			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config', array('v' => self::$versionHash)));
+			$this->append( 'jsfiles', \OC::$server->getURLGenerator()->linkToRoute('js_config', ['v' => self::$versionHash]));
 			$this->generateAssets();
 		} else {
 			// Add the js files
 			$jsFiles = self::findJavascriptFiles(OC_Util::$scripts);
 			$this->assign('jsfiles', array());
 			if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
-				$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config', array('v' => self::$versionHash)));
+				$this->append( 'jsfiles', \OC::$server->getURLGenerator()->linkToRoute('js_config', ['v' => self::$versionHash]));
 			}
 			foreach($jsFiles as $info) {
 				$web = $info[1];
