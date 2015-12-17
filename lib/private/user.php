@@ -76,44 +76,6 @@ class OC_User {
 	private static $incognitoMode = false;
 
 	/**
-	 * registers backend
-	 *
-	 * @param string $backend name of the backend
-	 * @deprecated Add classes by calling OC_User::useBackend() with a class instance instead
-	 * @return bool
-	 *
-	 * Makes a list of backends that can be used by other modules
-	 */
-	public static function registerBackend($backend) {
-		self::$_backends[] = $backend;
-		return true;
-	}
-
-	/**
-	 * gets available backends
-	 *
-	 * @deprecated
-	 * @return array an array of backends
-	 *
-	 * Returns the names of all backends.
-	 */
-	public static function getBackends() {
-		return self::$_backends;
-	}
-
-	/**
-	 * gets used backends
-	 *
-	 * @deprecated
-	 * @return array an array of backends
-	 *
-	 * Returns the names of all used backends.
-	 */
-	public static function getUsedBackends() {
-		return array_keys(self::$_usedBackends);
-	}
-
-	/**
 	 * Adds the backend to the list of used backends
 	 *
 	 * @param string|OC_User_Interface $backend default: database The backend to use for user management
