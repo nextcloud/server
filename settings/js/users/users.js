@@ -68,7 +68,7 @@ var UserList = {
 			if (user.isAvatarAvailable === true) {
 				$('div.avatardiv', $tr).avatar(user.name, 32, undefined, undefined, undefined, user.displayname);
 			} else {
-				$('div.avatardiv', $tr).imageplaceholder(user.displayname);
+				$('div.avatardiv', $tr).imageplaceholder(user.displayname, undefined, 32);
 			}
 		}
 
