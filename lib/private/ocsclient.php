@@ -97,6 +97,7 @@ class OCSClient {
 		libxml_disable_entity_loader($loadEntities);
 
 		if($data === false) {
+			libxml_clear_errors();
 			$this->logger->error(
 				sprintf('Could not get %s, content was no valid XML', $action),
 				[
