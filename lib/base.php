@@ -875,7 +875,7 @@ class OC {
 
 		// Handle redirect URL for logged in users
 		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
-			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			$location = \OC::$server->getURLGenerator()->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com

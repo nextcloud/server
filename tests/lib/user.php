@@ -26,7 +26,7 @@ class User extends TestCase {
 		parent::setUp();
 
 		$this->backend = $this->getMock('\Test\Util\User\Dummy');
-		$manager = \OC_User::getManager();
+		$manager = \OC::$server->getUserManager();
 		$manager->registerBackend($this->backend);
 	}
 	
