@@ -16,22 +16,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncFederationAddressBooks extends Command {
 
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
+	/** @var DbHandler */
+	protected $dbHandler;
 
 	/** @var SyncService */
 	private $syncService;
 
 	/**
 	 * @param IUserManager $userManager
-	 * @param IDBConnection $dbConnection
+	 * @param IDBConnection $dbHandler
 	 * @param IConfig $config
 	 */
-	function __construct(IDBConnection $dbConnection) {
+	function __construct(DbHandler $dbHandler) {
 		parent::__construct();
 
 		$this->syncService = \OC::$server->query('CardDAVSyncService');
-		$this->dbConnection = $dbConnection;
+		$this->dbHandler = $dbHandler;
 	}
 
 	protected function configure() {
@@ -48,8 +48,7 @@ class SyncFederationAddressBooks extends Command {
 
 		$progress = new ProgressBar($output);
 		$progress->start();
-		$db = new DbHandler($this->dbConnection, null);
-		$trustedServers = $db->getAllServer();
+		$trustedServers = $this->dbHandler->getAllServer();
 		foreach ($trustedServers as $trustedServer) {
 			$progress->advance();
 			$url = $trustedServer['url'];
@@ -66,7 +65,7 @@ class SyncFederationAddressBooks extends Command {
 			];
 			$newToken = $this->syncService->syncRemoteAddressBook($url, 'system', $sharedSecret, $syncToken, $targetPrincipal, $targetBookId, $targetBookProperties);
 			if ($newToken !== $syncToken) {
-				$db->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
+				$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
 			}
 		}
 		$progress->finish();
