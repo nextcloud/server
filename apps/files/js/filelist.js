@@ -1068,7 +1068,7 @@
 				nameSpan.tooltip({placement: 'right'});
 			}
 			// dirs can show the number of uploaded files
-			if (mime !== 'httpd/unix-directory') {
+			if (mime === 'httpd/unix-directory') {
 				linkElem.append($('<span></span>').attr({
 					'class': 'uploadtext',
 					'currentUploads': 0
