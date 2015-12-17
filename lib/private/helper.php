@@ -67,21 +67,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * Creates an url
-	 * @param string $app app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
-	 * @return string the url
-	 * @deprecated Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
-	 *
-	 * Returns a url to the given app and file.
-	 */
-	public static function linkTo( $app, $file, $args = array() ) {
-		return OC::$server->getURLGenerator()->linkTo($app, $file, $args);
-	}
-
-	/**
 	 * Creates an absolute url
 	 * @param string $app app
 	 * @param string $file file
@@ -93,7 +78,7 @@ class OC_Helper {
 	 */
 	public static function linkToAbsolute($app, $file, $args = array()) {
 		return OC::$server->getURLGenerator()->getAbsoluteURL(
-			self::linkTo($app, $file, $args)
+			OC::$server->getURLGenerator()->linkTo($app, $file, $args)
 		);
 	}
 
@@ -117,7 +102,7 @@ class OC_Helper {
 	 * Returns a url to the given service.
 	 */
 	public static function linkToRemoteBase($service) {
-		return self::linkTo('', 'remote.php') . '/' . $service;
+		return OC::$server->getURLGenerator()->linkTo('', 'remote.php') . '/' . $service;
 	}
 
 	/**
@@ -147,7 +132,7 @@ class OC_Helper {
 		if ($service === 'files') {
 			$url = OC::$server->getURLGenerator()->getAbsoluteURL('/s');
 		} else {
-			$url = OC::$server->getURLGenerator()->getAbsoluteURL(self::linkTo('', 'public.php').'?service='.$service);
+			$url = OC::$server->getURLGenerator()->getAbsoluteURL(OC::$server->getURLGenerator()->linkTo('', 'public.php').'?service='.$service);
 		}
 		return $url . (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
 	}

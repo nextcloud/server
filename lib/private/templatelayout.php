@@ -281,8 +281,8 @@ class OC_TemplateLayout extends OC_Template {
 			$writer->writeAsset($cssCollection);
 		}
 
-		$this->append('jsfiles', OC_Helper::linkTo('assets', "$jsHash.js"));
-		$this->append('cssfiles', OC_Helper::linkTo('assets', "$cssHash.css"));
+		$this->append('jsfiles', \OC::$server->getURLGenerator()->linkTo('assets', "$jsHash.js"));
+		$this->append('cssfiles', \OC::$server->getURLGenerator()->linkTo('assets', "$cssHash.css"));
 	}
 
 	/**

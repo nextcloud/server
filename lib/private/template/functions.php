@@ -146,7 +146,7 @@ function component($app, $file) {
  * For further information have a look at OC_Helper::linkTo
  */
 function link_to( $app, $file, $args = array() ) {
-	return OC_Helper::linkTo( $app, $file, $args );
+	return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
 }
 
 /**
