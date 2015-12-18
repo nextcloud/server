@@ -1250,7 +1250,7 @@ class OC_Util {
 		fclose($fp);
 
 		// accessing the file via http
-		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT . '/data' . $fileName);
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
 		try {
 			$content = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {

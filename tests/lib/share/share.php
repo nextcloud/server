@@ -54,13 +54,13 @@ class Test_Share extends \Test\TestCase {
 		$this->user5 = $this->getUniqueID('user5_');
 		$this->user6 = $this->getUniqueID('user6_');
 		$this->groupAndUser = $this->getUniqueID('groupAndUser_');
-		OC_User::createUser($this->user1, 'pass');
-		OC_User::createUser($this->user2, 'pass');
-		OC_User::createUser($this->user3, 'pass');
-		OC_User::createUser($this->user4, 'pass');
-		OC_User::createUser($this->user5, 'pass');
-		OC_User::createUser($this->user6, 'pass'); // no group
-		OC_User::createUser($this->groupAndUser, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user1, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user2, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user3, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user4, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user5, 'pass');
+		\OC::$server->getUserManager()->createUser($this->user6, 'pass'); // no group
+		\OC::$server->getUserManager()->createUser($this->groupAndUser, 'pass');
 		OC_User::setUserId($this->user1);
 		OC_Group::clearBackends();
 		OC_Group::useBackend(new OC_Group_Dummy);
@@ -94,13 +94,20 @@ class Test_Share extends \Test\TestCase {
 		$query->execute(array('test'));
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', $this->resharing);
 
-		OC_User::deleteUser($this->user1);
-		OC_User::deleteUser($this->user2);
-		OC_User::deleteUser($this->user3);
-		OC_User::deleteUser($this->user4);
-		OC_User::deleteUser($this->user5);
-		OC_User::deleteUser($this->user6);
-		OC_User::deleteUser($this->groupAndUser);
+		$user = \OC::$server->getUserManager()->get($this->user1);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get($this->user2);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get($this->user3);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get($this->user4);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get($this->user5);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get($this->user6);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get($this->groupAndUser);
+		if ($user !== null) { $user->delete(); }
 
 		OC_Group::deleteGroup($this->group1);
 		OC_Group::deleteGroup($this->group2);
@@ -375,7 +382,8 @@ class Test_Share extends \Test\TestCase {
 
 		// Remove user
 		OC_User::setUserId($this->user1);
-		OC_User::deleteUser($this->user1);
+		$user = \OC::$server->getUserManager()->get($this->user1);
+		if ($user !== null) { $user->delete(); }
 		OC_User::setUserId($this->user2);
 		$this->assertEquals(array('test1.txt'), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
 	}
