@@ -470,18 +470,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * create a temporary folder with an unique filename
-	 *
-	 * @return string
-	 * @deprecated Use the TempManager instead
-	 *
-	 * temporary files are automatically cleaned up after the script is finished
-	 */
-	public static function tmpFolder() {
-		return \OC::$server->getTempManager()->getTemporaryFolder();
-	}
-
-	/**
 	 * Adds a suffix to the name in case the file exists
 	 *
 	 * @param string $path

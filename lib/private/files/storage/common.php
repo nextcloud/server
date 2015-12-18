@@ -248,7 +248,7 @@ abstract class Common implements Storage {
 	}
 
 	public function getLocalFolder($path) {
-		$baseDir = \OC_Helper::tmpFolder();
+		$baseDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->addLocalFolder($path, $baseDir);
 		return $baseDir;
 	}

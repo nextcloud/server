@@ -38,7 +38,7 @@ class Local extends Storage {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tmpDir = \OC_Helper::tmpFolder();
+		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->instance = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
 	}
 

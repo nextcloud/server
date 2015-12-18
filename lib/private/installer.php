@@ -284,7 +284,7 @@ class OC_Installer{
 		}
 
 		//extract the archive in a temporary folder
-		$extractDir=OC_Helper::tmpFolder();
+		$extractDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		OC_Helper::rmdirr($extractDir);
 		mkdir($extractDir);
 		if($archive=OC_Archive::open($path)) {

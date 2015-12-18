@@ -757,7 +757,7 @@ class View extends \Test\TestCase {
 		 * 228 is the max path length in windows
 		 */
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
-		$tmpdirLength = strlen(\OC_Helper::tmpFolder());
+		$tmpdirLength = strlen(\OC::$server->getTempManager()->getTemporaryFolder());
 		if (\OC_Util::runningOnWindows()) {
 			$this->markTestSkipped('[Windows] ');
 			$depth = ((260 - $tmpdirLength) / 57);
