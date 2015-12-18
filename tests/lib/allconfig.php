@@ -28,7 +28,9 @@ class TestAllConfig extends \Test\TestCase {
 			$connection = $this->connection;
 		}
 		if($systemConfig === null) {
-			$systemConfig = $this->getMock('\OC\SystemConfig');
+			$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
+				->disableOriginalConstructor()
+				->getMock();
 		}
 		return new \OC\AllConfig($systemConfig, $connection);
 	}
@@ -89,7 +91,9 @@ class TestAllConfig extends \Test\TestCase {
 
 	public function testSetUserValueWithPreCondition() {
 		// mock the check for the database to run the correct SQL statements for each database type
-		$systemConfig = $this->getMock('\OC\SystemConfig');
+		$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
+			->disableOriginalConstructor()
+			->getMock();
 		$systemConfig->expects($this->once())
 			->method('getValue')
 			->with($this->equalTo('dbtype'),
@@ -133,7 +137,9 @@ class TestAllConfig extends \Test\TestCase {
 	 */
 	public function testSetUserValueWithPreConditionFailure() {
 		// mock the check for the database to run the correct SQL statements for each database type
-		$systemConfig = $this->getMock('\OC\SystemConfig');
+		$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
+			->disableOriginalConstructor()
+			->getMock();
 		$systemConfig->expects($this->once())
 			->method('getValue')
 			->with($this->equalTo('dbtype'),
@@ -394,7 +400,9 @@ class TestAllConfig extends \Test\TestCase {
 
 	public function testGetUsersForUserValue() {
 		// mock the check for the database to run the correct SQL statements for each database type
-		$systemConfig = $this->getMock('\OC\SystemConfig');
+		$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
+			->disableOriginalConstructor()
+			->getMock();
 		$systemConfig->expects($this->once())
 			->method('getValue')
 			->with($this->equalTo('dbtype'),

@@ -84,8 +84,9 @@ class Server extends SimpleContainer implements IServerContainer {
 
 	/**
 	 * @param string $webRoot
+	 * @param \OC\Config $config
 	 */
-	public function __construct($webRoot) {
+	public function __construct($webRoot, \OC\Config $config) {
 		parent::__construct();
 		$this->webRoot = $webRoot;
 
@@ -238,8 +239,8 @@ class Server extends SimpleContainer implements IServerContainer {
 				$c->getSystemConfig()
 			);
 		});
-		$this->registerService('SystemConfig', function ($c) {
-			return new \OC\SystemConfig();
+		$this->registerService('SystemConfig', function ($c) use ($config) {
+			return new \OC\SystemConfig($config);
 		});
 		$this->registerService('AppConfig', function ($c) {
 			return new \OC\AppConfig(\OC_DB::getConnection());
