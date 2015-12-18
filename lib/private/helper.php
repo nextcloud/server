@@ -347,17 +347,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * get the mimetype form a data string
-	 *
-	 * @param string $data
-	 * @return string
-	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->detectString($data)
-	 */
-	static function getStringMimeType($data) {
-		return \OC::$server->getMimeTypeDetector()->detectString($data);
-	}
-
-	/**
 	 * detect if a given program is found in the search PATH
 	 *
 	 * @param string $name

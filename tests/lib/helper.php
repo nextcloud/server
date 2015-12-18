@@ -71,16 +71,6 @@ class Test_Helper extends \Test\TestCase {
 		];
 	}
 
-	function testGetStringMimeType() {
-		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('[Windows] Strings have mimetype application/octet-stream on Windows');
-		}
-
-		$result = OC_Helper::getStringMimeType("/data/data.tar.gz");
-		$expected = 'text/plain; charset=us-ascii';
-		$this->assertEquals($result, $expected);
-	}
-
 	function testIsSubDirectory() {
 		$result = OC_Helper::isSubDirectory("./data/", "/anotherDirectory/");
 		$this->assertFalse($result);
