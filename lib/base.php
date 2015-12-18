@@ -377,7 +377,7 @@ class OC {
 
 		// check whether this is a core update or apps update
 		$installedVersion = $systemConfig->getValue('version', '0.0.0');
-		$currentVersion = implode('.', OC_Util::getVersion());
+		$currentVersion = implode('.', \OCP\Util::getVersion());
 
 		$appManager = \OC::$server->getAppManager();
 
@@ -392,7 +392,7 @@ class OC {
 		}
 
 		// get third party apps
-		$ocVersion = OC_Util::getVersion();
+		$ocVersion = \OCP\Util::getVersion();
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
 		$tmpl->assign('incompatibleAppsList', $appManager->getIncompatibleApps($ocVersion));
 		$tmpl->assign('productName', 'ownCloud'); // for now

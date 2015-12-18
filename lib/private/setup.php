@@ -322,7 +322,7 @@ class Setup {
 			'datadirectory'		=> $dataDir,
 			'overwrite.cli.url'	=> $request->getServerProtocol() . '://' . $request->getInsecureServerHost() . \OC::$WEBROOT,
 			'dbtype'			=> $dbType,
-			'version'			=> implode('.', \OC_Util::getVersion()),
+			'version'			=> implode('.', \OCP\Util::getVersion()),
 		]);
 
 		try {

@@ -36,7 +36,7 @@ try {
 	$values=array(
 		'installed'=>$installed,
 		'maintenance' => $maintenance,
-		'version'=>implode('.', OC_Util::getVersion()),
+		'version'=>implode('.', \OCP\Util::getVersion()),
 		'versionstring'=>OC_Util::getVersionString(),
 		'edition'=>OC_Util::getEditionString());
 	if (OC::$CLI) {

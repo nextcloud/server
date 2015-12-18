@@ -26,7 +26,7 @@ class OC_OCS_Cloud {
 
 	public static function getCapabilities() {
 		$result = array();
-		list($major, $minor, $micro) = OC_Util::getVersion();
+		list($major, $minor, $micro) = \OCP\Util::getVersion();
 		$result['version'] = array(
 			'major' => $major,
 			'minor' => $minor,
