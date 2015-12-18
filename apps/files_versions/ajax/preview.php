@@ -48,7 +48,7 @@ if($maxX === 0 || $maxY === 0) {
 try {
 	list($user, $file) = \OCA\Files_Versions\Storage::getUidAndFilename($file);
 	$preview = new \OC\Preview($user, 'files_versions', $file.'.v'.$version);
-	$mimetype = \OC_Helper::getFileNameMimeType($file);
+	$mimetype = \OC::$server->getMimeTypeDetector()->detectPath($file);
 	$preview->setMimetype($mimetype);
 	$preview->setMaxX($maxX);
 	$preview->setMaxY($maxY);

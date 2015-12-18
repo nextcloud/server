@@ -87,7 +87,7 @@ class Helper
 					$i = array(
 						'name' => $id,
 						'mtime' => $timestamp,
-						'mimetype' => $view->is_dir($dir . '/' . $entryName) ? 'httpd/unix-directory' : \OC_Helper::getFileNameMimeType($id),
+						'mimetype' => $view->is_dir($dir . '/' . $entryName) ? 'httpd/unix-directory' : \OC::$server->getMimeTypeDetector()->detectPath($id),
 						'type' => $view->is_dir($dir . '/' . $entryName) ? 'dir' : 'file',
 						'directory' => ($dir === '/') ? '' : $dir,
 						'size' => $size,
