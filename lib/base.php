@@ -1060,7 +1060,7 @@ class OC {
 			return false;
 		}
 
-		if(!OC_Util::isCallRegistered()) {
+		if(!(\OC::$server->getRequest()->passesCSRFCheck())) {
 			return false;
 		}
 		OC_App::loadApps();

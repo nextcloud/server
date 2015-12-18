@@ -494,7 +494,9 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function callCheck() {
-		\OC_Util::callCheck();
+		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
+			exit();
+		}
 	}
 
 	/**
