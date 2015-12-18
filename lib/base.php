@@ -113,6 +113,11 @@ class OC {
 	public static $server = null;
 
 	/**
+	 * @var \OC\Config
+	 */
+	public static $config = null;
+
+	/**
 	 * @throws \RuntimeException when the 3rdparty directory is missing or
 	 * the app path list is empty or contains an invalid path
 	 */
@@ -124,7 +129,7 @@ class OC {
 		} else {
 			self::$configDir = OC::$SERVERROOT . '/config/';
 		}
-		OC_Config::$object = new \OC\Config(self::$configDir);
+		self::$config = new \OC\Config(self::$configDir);
 
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
 		/**
@@ -152,7 +157,7 @@ class OC {
 
 
 		if (OC::$CLI) {
-			OC::$WEBROOT = OC_Config::getValue('overwritewebroot', '');
+			OC::$WEBROOT = \OC::$config->getValue('overwritewebroot', '');
 		} else {
 			if (substr($scriptName, 0 - strlen(OC::$SUBURI)) === OC::$SUBURI) {
 				OC::$WEBROOT = substr($scriptName, 0, 0 - strlen(OC::$SUBURI));
@@ -165,7 +170,7 @@ class OC {
 				// This most likely means that we are calling from CLI.
 				// However some cron jobs still need to generate
 				// a web URL, so we use overwritewebroot as a fallback.
-				OC::$WEBROOT = OC_Config::getValue('overwritewebroot', '');
+				OC::$WEBROOT = \OC::$config->getValue('overwritewebroot', '');
 			}
 
 			// Resolve /owncloud to /owncloud/ to ensure to always have a trailing
@@ -178,8 +183,8 @@ class OC {
 		}
 
 		// search the 3rdparty folder
-		OC::$THIRDPARTYROOT = OC_Config::getValue('3rdpartyroot', null);
-		OC::$THIRDPARTYWEBROOT = OC_Config::getValue('3rdpartyurl', null);
+		OC::$THIRDPARTYROOT = \OC::$config->getValue('3rdpartyroot', null);
+		OC::$THIRDPARTYWEBROOT = \OC::$config->getValue('3rdpartyurl', null);
 
 		if (empty(OC::$THIRDPARTYROOT) && empty(OC::$THIRDPARTYWEBROOT)) {
 			if (file_exists(OC::$SERVERROOT . '/3rdparty')) {
@@ -197,7 +202,7 @@ class OC {
 		}
 
 		// search the apps folder
-		$config_paths = OC_Config::getValue('apps_paths', array());
+		$config_paths = \OC::$config->getValue('apps_paths', array());
 		if (!empty($config_paths)) {
 			foreach ($config_paths as $paths) {
 				if (isset($paths['url']) && isset($paths['path'])) {

@@ -746,7 +746,7 @@ class OC_Helper {
 	 */
 	public static function getStorageInfo($path, $rootInfo = null) {
 		// return storage info without adding mount points
-		$includeExtStorage = \OC_Config::getValue('quota_include_external_storage', false);
+		$includeExtStorage = \OC::$config->getValue('quota_include_external_storage', false);
 
 		if (!$rootInfo) {
 			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, false);
