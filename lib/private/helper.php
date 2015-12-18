@@ -457,19 +457,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * create a temporary file with an unique filename
-	 *
-	 * @param string $postfix
-	 * @return string
-	 * @deprecated Use the TempManager instead
-	 *
-	 * temporary files are automatically cleaned up after the script is finished
-	 */
-	public static function tmpFile($postfix = '') {
-		return \OC::$server->getTempManager()->getTemporaryFile($postfix);
-	}
-
-	/**
 	 * Adds a suffix to the name in case the file exists
 	 *
 	 * @param string $path

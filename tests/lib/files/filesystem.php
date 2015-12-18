@@ -302,7 +302,7 @@ class Filesystem extends \Test\TestCase {
 		\OC\Files\Filesystem::mkdir('/bar');
 //		\OC\Files\Filesystem::file_put_contents('/bar//foo', 'foo');
 
-		$tmpFile = \OC_Helper::tmpFile();
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 		file_put_contents($tmpFile, 'foo');
 		$fh = fopen($tmpFile, 'r');
 //		\OC\Files\Filesystem::file_put_contents('/bar//foo', $fh);

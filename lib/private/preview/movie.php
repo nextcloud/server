@@ -46,7 +46,7 @@ class Movie extends Provider {
 		if ($useFileDirectly) {
 			$absPath = $fileview->getLocalFile($path);
 		} else {
-			$absPath = \OC_Helper::tmpFile();
+			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 			$handle = $fileview->fopen($path, 'rb');
 
@@ -79,7 +79,7 @@ class Movie extends Provider {
 	 * @return bool|\OCP\IImage
 	 */
 	private function generateThumbNail($maxX, $maxY, $absPath, $second) {
-		$tmpPath = \OC_Helper::tmpFile();
+		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 		if (self::$avconvBinary) {
 			$cmd = self::$avconvBinary . ' -an -y -ss ' . escapeshellarg($second) .
