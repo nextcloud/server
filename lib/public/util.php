@@ -302,7 +302,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function linkToRoute( $route, $parameters = array() ) {
-		return \OC_Helper::linkToRoute($route, $parameters);
+		return \OC::$server->getURLGenerator()->linkToRoute($route, $parameters);
 	}
 
 	/**

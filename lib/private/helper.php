@@ -54,19 +54,6 @@ class OC_Helper {
 	private static $templateManager;
 
 	/**
-	 * Creates an url using a defined route
-	 * @param string $route
-	 * @param array $parameters with param=>value, will be appended to the returned url
-	 * @return string the url
-	 * @deprecated Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
-	 *
-	 * Returns a url to the given app and file.
-	 */
-	public static function linkToRoute($route, $parameters = array()) {
-		return OC::$server->getURLGenerator()->linkToRoute($route, $parameters);
-	}
-
-	/**
 	 * Creates an absolute url
 	 * @param string $app app
 	 * @param string $file file
@@ -170,11 +157,11 @@ class OC_Helper {
 	 * Returns the path to the preview of the file.
 	 */
 	public static function previewIcon($path) {
-		return self::linkToRoute( 'core_ajax_preview', array('x' => 32, 'y' => 32, 'file' => $path ));
+		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_preview', ['x' => 32, 'y' => 32, 'file' => $path]);
 	}
 
 	public static function publicPreviewIcon( $path, $token ) {
-		return self::linkToRoute( 'core_ajax_public_preview', array('x' => 32, 'y' => 32, 'file' => $path, 't' => $token));
+		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_public_preview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
 	}
 
 	/**

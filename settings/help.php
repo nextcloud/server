@@ -43,8 +43,8 @@ if(isset($_GET['mode']) and $_GET['mode'] === 'admin') {
 	$style2='';
 }
 
-$url1=OC_Helper::linkToRoute( "settings_help" ).'?mode=user';
-$url2=OC_Helper::linkToRoute( "settings_help" ).'?mode=admin';
+$url1=\OC::$server->getURLGenerator()->linkToRoute('settings_help').'?mode=user';
+$url2=\OC::$server->getURLGenerator()->linkToRoute('settings_help').'?mode=admin';
 
 $tmpl = new OC_Template( "settings", "help", "user" );
 $tmpl->assign( "admin", OC_User::isAdminUser(OC_User::getUser()));
