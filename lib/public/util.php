@@ -282,7 +282,11 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function linkToRemote( $service ) {
-		return(\OC_Helper::linkToRemote( $service ));
+		$urlGenerator = \OC::$server->getURLGenerator();
+		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
+		return $urlGenerator->getAbsoluteURL(
+			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')
+		);
 	}
 
 	/**

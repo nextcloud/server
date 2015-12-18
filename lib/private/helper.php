@@ -54,32 +54,6 @@ class OC_Helper {
 	private static $templateManager;
 
 	/**
-	 * Creates an url for remote use
-	 * @param string $service id
-	 * @return string the url
-	 *
-	 * Returns a url to the given service.
-	 */
-	public static function linkToRemoteBase($service) {
-		return OC::$server->getURLGenerator()->linkTo('', 'remote.php') . '/' . $service;
-	}
-
-	/**
-	 * Creates an absolute url for remote use
-	 * @param string $service id
-	 * @param bool $add_slash
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given service.
-	 */
-	public static function linkToRemote($service, $add_slash = true) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL(
-			self::linkToRemoteBase($service)
-				. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '')
-		);
-	}
-
-	/**
 	 * Creates an absolute url for public use
 	 * @param string $service id
 	 * @param bool $add_slash

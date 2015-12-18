@@ -245,38 +245,6 @@ class Test_Helper extends \Test\TestCase {
 
 	/**
 	 * @small
-	 * test linkToRemoteBase URL construction
-	 */
-	public function testLinkToRemoteBase() {
-		\OC::$WEBROOT = '';
-		$result = \OC_Helper::linkToRemoteBase('webdav');
-		$this->assertEquals('/remote.php/webdav', $result);
-
-		\OC::$WEBROOT = '/owncloud';
-		$result = \OC_Helper::linkToRemoteBase('webdav');
-		$this->assertEquals('/owncloud/remote.php/webdav', $result);
-	}
-
-	/**
-	 * @small
-	 * test linkToRemote URL construction
-	 */
-	public function testLinkToRemote() {
-		\OC::$WEBROOT = '';
-		$result = \OC_Helper::linkToRemote('webdav');
-		$this->assertEquals('http://localhost/remote.php/webdav/', $result);
-		$result = \OC_Helper::linkToRemote('webdav', false);
-		$this->assertEquals('http://localhost/remote.php/webdav', $result);
-
-		\OC::$WEBROOT = '/owncloud';
-		$result = \OC_Helper::linkToRemote('webdav');
-		$this->assertEquals('http://localhost/owncloud/remote.php/webdav/', $result);
-		$result = \OC_Helper::linkToRemote('webdav', false);
-		$this->assertEquals('http://localhost/owncloud/remote.php/webdav', $result);
-	}
-
-	/**
-	 * @small
 	 * test linkToPublic URL construction
 	 */
 	public function testLinkToPublic() {
