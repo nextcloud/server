@@ -36,10 +36,27 @@ interface IJob {
 	 *
 	 * @param \OCP\BackgroundJob\IJobList $jobList The job list that manages the state of this job
 	 * @param ILogger $logger
-	 * @return void
 	 * @since 7.0.0
 	 */
 	public function execute($jobList, ILogger $logger = null);
+
+	/**
+	 * @param int $id
+	 * @since 7.0.0
+	 */
+	public function setId($id);
+
+	/**
+	 * @param int $lastRun
+	 * @since 7.0.0
+	 */
+	public function setLastRun($lastRun);
+
+	/**
+	 * @param mixed $argument
+	 * @since 7.0.0
+	 */
+	public function setArgument($argument);
 
 	/**
 	 * Get the id of the background job
