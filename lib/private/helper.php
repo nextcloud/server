@@ -165,16 +165,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * shows whether the user has an avatar
-	 * @param string $user username
-	 * @return bool avatar set or not
-	 * @deprecated 9.0.0 Use \OC::$server->getAvatarManager()->getAvatar($user)->exists();
-	**/
-	public static function userAvatarSet($user) {
-		return \OC::$server->getAvatarManager()->getAvatar($user)->exists();
-	}
-
-	/**
 	 * Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size
