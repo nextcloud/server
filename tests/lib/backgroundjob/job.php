@@ -23,10 +23,17 @@ class Job extends \Test\TestCase {
 		});
 		$jobList->add($job);
 
+		$logger = $this->getMockBuilder('OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
+		$logger->expects($this->once())
+			->method('error')
+			->with('Error while running background job: ');
+
 		$this->assertCount(1, $jobList->getAll());
-		$job->execute($jobList);
+		$job->execute($jobList, $logger);
 		$this->assertTrue($this->run);
-		$this->assertCount(0, $jobList->getAll());
+		$this->assertCount(1, $jobList->getAll());
 	}
 
 	public function markRun() {
