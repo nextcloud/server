@@ -965,20 +965,6 @@ class OC_Util {
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
-
-	/**
-	 * Check if the app is enabled, redirects to home if not
-	 *
-	 * @param string $app
-	 * @return void
-	 */
-	public static function checkAppEnabled($app) {
-		if (!OC_App::isEnabled($app)) {
-			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
-			exit();
-		}
-	}
-
 	/**
 	 * Check if the user is logged in, redirects to home if not. With
 	 * redirect URL parameter to the request URI.
