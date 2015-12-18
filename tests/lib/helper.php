@@ -245,48 +245,6 @@ class Test_Helper extends \Test\TestCase {
 
 	/**
 	 * @small
-	 * test absolute URL construction
-	 * @dataProvider provideDocRootURLs
-	 */
-	function testMakeAbsoluteURLDocRoot($url, $expectedResult) {
-		\OC::$WEBROOT = '';
-		$result = \OC_Helper::makeURLAbsolute($url);
-
-		$this->assertEquals($expectedResult, $result);
-	}
-
-	/**
-	 * @small
-	 * test absolute URL construction
-	 * @dataProvider provideSubDirURLs
-	 */
-	function testMakeAbsoluteURLSubDir($url, $expectedResult) {
-		\OC::$WEBROOT = '/owncloud';
-		$result = \OC_Helper::makeURLAbsolute($url);
-
-		$this->assertEquals($expectedResult, $result);
-	}
-
-	public function provideDocRootURLs() {
-		return array(
-			array('index.php', 'http://localhost/index.php'),
-			array('/index.php', 'http://localhost/index.php'),
-			array('/apps/index.php', 'http://localhost/apps/index.php'),
-			array('apps/index.php', 'http://localhost/apps/index.php'),
-		);
-	}
-
-	public function provideSubDirURLs() {
-		return array(
-			array('index.php', 'http://localhost/owncloud/index.php'),
-			array('/index.php', 'http://localhost/owncloud/index.php'),
-			array('/apps/index.php', 'http://localhost/owncloud/apps/index.php'),
-			array('apps/index.php', 'http://localhost/owncloud/apps/index.php'),
-		);
-	}
-
-	/**
-	 * @small
 	 * test linkToAbsolute URL construction
 	 * @dataProvider provideDocRootAppAbsoluteUrlParts
 	 */

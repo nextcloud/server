@@ -70,18 +70,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * Makes an $url absolute
-	 * @param string $url the url
-	 * @return string the absolute url
-	 * @deprecated Use \OC::$server->getURLGenerator()->getAbsoluteURL($url)
-	 *
-	 * Returns a absolute url to the given app and file.
-	 */
-	public static function makeURLAbsolute($url) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL($url);
-	}
-
-	/**
 	 * Creates an url for remote use
 	 * @param string $service id
 	 * @return string the url
