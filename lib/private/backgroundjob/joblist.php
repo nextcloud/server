@@ -24,134 +24,179 @@
 
 namespace OC\BackgroundJob;
 
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\AutoloadNotAllowedException;
 
 class JobList implements IJobList {
-	/**
-	 * @var \OCP\IDBConnection
-	 */
-	private $conn;
+	/** @var \OCP\IDBConnection */
+	protected $connection;
 
 	/**
 	 * @var \OCP\IConfig $config
 	 */
-	private $config;
+	protected $config;
 
 	/**
-	 * @param \OCP\IDBConnection $conn
+	 * @param \OCP\IDBConnection $connection
 	 * @param \OCP\IConfig $config
 	 */
-	public function __construct($conn, $config) {
-		$this->conn = $conn;
+	public function __construct($connection, $config) {
+		$this->connection = $connection;
 		$this->config = $config;
 	}
 
 	/**
-	 * @param Job|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 */
 	public function add($job, $argument = null) {
 		if (!$this->has($job, $argument)) {
-			if ($job instanceof Job) {
+			if ($job instanceof IJob) {
 				$class = get_class($job);
 			} else {
 				$class = $job;
 			}
+
 			$argument = json_encode($argument);
 			if (strlen($argument) > 4000) {
 				throw new \InvalidArgumentException('Background job arguments can\'t exceed 4000 characters (json encoded)');
 			}
-			$query = $this->conn->prepare('INSERT INTO `*PREFIX*jobs`(`class`, `argument`, `last_run`) VALUES(?, ?, 0)');
-			$query->execute(array($class, $argument));
+
+			$query = $this->connection->getQueryBuilder();
+			$query->insert('jobs')
+				->values([
+					'class' => $query->createNamedParameter($class),
+					'argument' => $query->createNamedParameter($argument),
+					'last_run' => $query->createNamedParameter(0, \PDO::PARAM_INT),
+				]);
+			$query->execute();
 		}
 	}
 
 	/**
-	 * @param Job|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null) {
-		if ($job instanceof Job) {
+		if ($job instanceof IJob) {
 			$class = get_class($job);
 		} else {
 			$class = $job;
 		}
+
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('jobs')
+			->where($query->expr()->eq('class', $query->createNamedParameter($class)));
 		if (!is_null($argument)) {
 			$argument = json_encode($argument);
-			$query = $this->conn->prepare('DELETE FROM `*PREFIX*jobs` WHERE `class` = ? AND `argument` = ?');
-			$query->execute(array($class, $argument));
-		} else {
-			$query = $this->conn->prepare('DELETE FROM `*PREFIX*jobs` WHERE `class` = ?');
-			$query->execute(array($class));
+			$query->andWhere($query->expr()->eq('argument', $query->createNamedParameter($argument)));
 		}
+		$query->execute();
 	}
 
+	/**
+	 * @param int $id
+	 */
 	protected function removeById($id) {
-		$query = $this->conn->prepare('DELETE FROM `*PREFIX*jobs` WHERE `id` = ?');
-		$query->execute([$id]);
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('jobs')
+			->where($query->expr()->eq('id', $query->createNamedParameter($id, \PDO::PARAM_INT)));
+		$query->execute();
 	}
 
 	/**
 	 * check if a job is in the list
 	 *
-	 * @param Job|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 * @return bool
 	 */
 	public function has($job, $argument) {
-		if ($job instanceof Job) {
+		if ($job instanceof IJob) {
 			$class = get_class($job);
 		} else {
 			$class = $job;
 		}
 		$argument = json_encode($argument);
-		$query = $this->conn->prepare('SELECT `id` FROM `*PREFIX*jobs` WHERE `class` = ? AND `argument` = ?');
-		$query->execute(array($class, $argument));
-		return (bool)$query->fetch();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('id')
+			->from('jobs')
+			->where($query->expr()->eq('class', $query->createNamedParameter($class)))
+			->andWhere($query->expr()->eq('argument', $query->createNamedParameter($argument)))
+			->setMaxResults(1);
+
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		return (bool) $row;
 	}
 
 	/**
 	 * get all jobs in the list
 	 *
-	 * @return Job[]
+	 * @return IJob[]
 	 */
 	public function getAll() {
-		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs`');
-		$query->execute();
-		$jobs = array();
-		while ($row = $query->fetch()) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('jobs');
+		$result = $query->execute();
+
+		$jobs = [];
+		while ($row = $result->fetch()) {
 			$job = $this->buildJob($row);
 			if ($job) {
 				$jobs[] = $job;
 			}
 		}
+		$result->closeCursor();
+
 		return $jobs;
 	}
 
 	/**
 	 * get the next job in the list
 	 *
-	 * @return Job
+	 * @return IJob|null
 	 */
 	public function getNext() {
 		$lastId = $this->getLastJob();
-		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` > ? ORDER BY `id` ASC', 1);
-		$query->execute(array($lastId));
-		if ($row = $query->fetch()) {
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('jobs')
+			->where($query->expr()->gt('id', $query->createNamedParameter($lastId, \PDO::PARAM_INT)))
+			->orderBy('id', 'ASC')
+			->setMaxResults(1);
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		if ($row) {
 			$jobId = $row['id'];
 			$job = $this->buildJob($row);
 		} else {
 			//begin at the start of the queue
-			$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` ORDER BY `id` ASC', 1);
-			$query->execute();
-			if ($row = $query->fetch()) {
+			$query = $this->connection->getQueryBuilder();
+			$query->select('*')
+				->from('jobs')
+				->orderBy('id', 'ASC')
+				->setMaxResults(1);
+			$result = $query->execute();
+			$row = $result->fetch();
+			$result->closeCursor();
+
+			if ($row) {
 				$jobId = $row['id'];
 				$job = $this->buildJob($row);
 			} else {
 				return null; //empty job list
 			}
 		}
+
 		if (is_null($job)) {
 			$this->removeById($jobId);
 			return $this->getNext();
@@ -162,12 +207,18 @@ class JobList implements IJobList {
 
 	/**
 	 * @param int $id
-	 * @return Job|null
+	 * @return IJob|null
 	 */
 	public function getById($id) {
-		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` = ?');
-		$query->execute(array($id));
-		if ($row = $query->fetch()) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from('jobs')
+			->where($query->expr()->eq('id', $query->createNamedParameter($id, \PDO::PARAM_INT)));
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		if ($row) {
 			return $this->buildJob($row);
 		} else {
 			return null;
@@ -178,7 +229,7 @@ class JobList implements IJobList {
 	 * get the job object from a row in the db
 	 *
 	 * @param array $row
-	 * @return Job
+	 * @return IJob|null
 	 */
 	private function buildJob($row) {
 		$class = $row['class'];
@@ -204,7 +255,7 @@ class JobList implements IJobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param Job $job
+	 * @param IJob $job
 	 */
 	public function setLastJob($job) {
 		$this->config->setAppValue('backgroundjob', 'lastjob', $job->getId());
@@ -213,19 +264,22 @@ class JobList implements IJobList {
 	/**
 	 * get the id of the last ran job
 	 *
-	 * @return string
+	 * @return int
 	 */
 	public function getLastJob() {
-		return $this->config->getAppValue('backgroundjob', 'lastjob', 0);
+		return (int) $this->config->getAppValue('backgroundjob', 'lastjob', 0);
 	}
 
 	/**
 	 * set the lastRun of $job to now
 	 *
-	 * @param Job $job
+	 * @param IJob $job
 	 */
 	public function setLastRun($job) {
-		$query = $this->conn->prepare('UPDATE `*PREFIX*jobs` SET `last_run` = ? WHERE `id` = ?');
-		$query->execute(array(time(), $job->getId()));
+		$query = $this->connection->getQueryBuilder();
+		$query->update('jobs')
+			->set('last_run', $query->createNamedParameter(time(), \PDO::PARAM_INT))
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), \PDO::PARAM_INT)));
+		$query->execute();
 	}
 }

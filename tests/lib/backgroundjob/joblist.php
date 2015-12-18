@@ -15,26 +15,21 @@ use Test\TestCase;
  * Class JobList
  *
  * @group DB
- *
  * @package Test\BackgroundJob
  */
 class JobList extends TestCase {
-	/**
-	 * @var \OC\BackgroundJob\JobList
-	 */
+	/** @var \OC\BackgroundJob\JobList */
 	protected $instance;
 
-	/**
-	 * @var \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject $config
-	 */
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$conn = \OC::$server->getDatabaseConnection();
+		$connection = \OC::$server->getDatabaseConnection();
 		$this->config = $this->getMock('\OCP\IConfig');
-		$this->instance = new \OC\BackgroundJob\JobList($conn, $this->config);
+		$this->instance = new \OC\BackgroundJob\JobList($connection, $this->config);
 	}
 
 	protected function getAllSorted() {
