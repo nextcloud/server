@@ -138,18 +138,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * get path to icon of file type
-	 * @param string $mimetype mimetype
-	 * @return string the url
-	 *
-	 * Returns the path to the image of this file type.
-	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype)
-	 */
-	public static function mimetypeIcon($mimetype) {
-		return \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype);
-	}
-
-	/**
 	 * get path to preview of file
 	 * @param string $path path
 	 * @return string the url
@@ -333,17 +321,6 @@ class OC_Helper {
 			self::$templateManager = new \OC\Files\Type\TemplateManager();
 		}
 		return self::$templateManager;
-	}
-
-	/**
-	 * Try to guess the mimetype based on filename
-	 *
-	 * @param string $path
-	 * @return string
-	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->detectPath($path)
-	 */
-	static public function getFileNameMimeType($path) {
-		return \OC::$server->getMimeTypeDetector()->detectPath($path);
 	}
 
 	/**

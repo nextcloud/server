@@ -1168,7 +1168,7 @@ class Preview {
 	 */
 	private function getMimeIcon() {
 		$image = new \OC_Image();
-		$mimeIconWebPath = \OC_Helper::mimetypeIcon($this->mimeType);
+		$mimeIconWebPath = \OC::$server->getMimeTypeDetector()->mimeTypeIcon($this->mimeType);
 		if (empty(\OC::$WEBROOT)) {
 			$mimeIconServerPath = \OC::$SERVERROOT . $mimeIconWebPath;
 		} else {
