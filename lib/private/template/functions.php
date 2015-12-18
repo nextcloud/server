@@ -173,11 +173,9 @@ function image_path( $app, $image ) {
  * make OC_Helper::mimetypeIcon available as a simple function
  * @param string $mimetype mimetype
  * @return string link to the image
- *
- * For further information have a look at OC_Helper::mimetypeIcon
  */
 function mimetype_icon( $mimetype ) {
-	return OC_Helper::mimetypeIcon( $mimetype );
+	return \OC::$server->getMimeTypeDetector()->mimeTypeIcon( $mimetype );
 }
 
 /**
