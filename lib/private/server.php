@@ -78,7 +78,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *
  * TODO: hookup all manager classes
  */
-class Server extends SimpleContainer implements IServerContainer {
+class Server extends ServerContainer implements IServerContainer {
 	/** @var string */
 	private $webRoot;
 
