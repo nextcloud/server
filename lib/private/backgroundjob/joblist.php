@@ -24,6 +24,7 @@
 
 namespace OC\BackgroundJob;
 
+use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\AutoloadNotAllowedException;
 
@@ -46,12 +47,12 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * @param Job|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 */
 	public function add($job, $argument = null) {
 		if (!$this->has($job, $argument)) {
-			if ($job instanceof Job) {
+			if ($job instanceof IJob) {
 				$class = get_class($job);
 			} else {
 				$class = $job;
@@ -74,11 +75,11 @@ class JobList implements IJobList {
 	}
 
 	/**
-	 * @param Job|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 */
 	public function remove($job, $argument = null) {
-		if ($job instanceof Job) {
+		if ($job instanceof IJob) {
 			$class = get_class($job);
 		} else {
 			$class = $job;
@@ -107,12 +108,12 @@ class JobList implements IJobList {
 	/**
 	 * check if a job is in the list
 	 *
-	 * @param Job|string $job
+	 * @param IJob|string $job
 	 * @param mixed $argument
 	 * @return bool
 	 */
 	public function has($job, $argument) {
-		if ($job instanceof Job) {
+		if ($job instanceof IJob) {
 			$class = get_class($job);
 		} else {
 			$class = $job;
@@ -136,7 +137,7 @@ class JobList implements IJobList {
 	/**
 	 * get all jobs in the list
 	 *
-	 * @return Job[]
+	 * @return IJob[]
 	 */
 	public function getAll() {
 		$query = $this->connection->getQueryBuilder();
@@ -159,7 +160,7 @@ class JobList implements IJobList {
 	/**
 	 * get the next job in the list
 	 *
-	 * @return Job
+	 * @return IJob|null
 	 */
 	public function getNext() {
 		$lastId = $this->getLastJob();
@@ -206,7 +207,7 @@ class JobList implements IJobList {
 
 	/**
 	 * @param int $id
-	 * @return Job|null
+	 * @return IJob|null
 	 */
 	public function getById($id) {
 		$query = $this->connection->getQueryBuilder();
@@ -228,7 +229,7 @@ class JobList implements IJobList {
 	 * get the job object from a row in the db
 	 *
 	 * @param array $row
-	 * @return Job
+	 * @return IJob|null
 	 */
 	private function buildJob($row) {
 		$class = $row['class'];
@@ -254,7 +255,7 @@ class JobList implements IJobList {
 	/**
 	 * set the job that was last ran
 	 *
-	 * @param Job $job
+	 * @param IJob $job
 	 */
 	public function setLastJob($job) {
 		$this->config->setAppValue('backgroundjob', 'lastjob', $job->getId());
@@ -263,16 +264,16 @@ class JobList implements IJobList {
 	/**
 	 * get the id of the last ran job
 	 *
-	 * @return string
+	 * @return int
 	 */
 	public function getLastJob() {
-		return $this->config->getAppValue('backgroundjob', 'lastjob', 0);
+		return (int) $this->config->getAppValue('backgroundjob', 'lastjob', 0);
 	}
 
 	/**
 	 * set the lastRun of $job to now
 	 *
-	 * @param Job $job
+	 * @param IJob $job
 	 */
 	public function setLastRun($job) {
 		$query = $this->connection->getQueryBuilder();
