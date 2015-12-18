@@ -403,7 +403,7 @@ class Test_Helper extends \Test\TestCase {
 	 * Tests recursive folder deletion with rmdirr()
 	 */
 	public function testRecursiveFolderDeletion() {
-		$baseDir = \OC_Helper::tmpFolder() . '/';
+		$baseDir = \OC::$server->getTempManager()->getTemporaryFolder() . '/';
 		mkdir($baseDir . 'a/b/c/d/e', 0777, true);
 		mkdir($baseDir . 'a/b/c1/d/e', 0777, true);
 		mkdir($baseDir . 'a/b/c2/d/e', 0777, true);

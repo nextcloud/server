@@ -86,7 +86,7 @@ class OC_Archive_TAR extends OC_Archive {
 	 * @return bool
 	 */
 	function addFolder($path) {
-		$tmpBase = OC_Helper::tmpFolder();
+		$tmpBase = \OC::$server->getTempManager()->getTemporaryFolder();
 		if (substr($path, -1, 1) != '/') {
 			$path .= '/';
 		}

@@ -165,16 +165,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * shows whether the user has an avatar
-	 * @param string $user username
-	 * @return bool avatar set or not
-	 * @deprecated 9.0.0 Use \OC::$server->getAvatarManager()->getAvatar($user)->exists();
-	**/
-	public static function userAvatarSet($user) {
-		return \OC::$server->getAvatarManager()->getAvatar($user)->exists();
-	}
-
-	/**
 	 * Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size
@@ -454,31 +444,6 @@ class OC_Helper {
 			}
 		}
 		return array($count, $result);
-	}
-
-	/**
-	 * create a temporary file with an unique filename
-	 *
-	 * @param string $postfix
-	 * @return string
-	 * @deprecated Use the TempManager instead
-	 *
-	 * temporary files are automatically cleaned up after the script is finished
-	 */
-	public static function tmpFile($postfix = '') {
-		return \OC::$server->getTempManager()->getTemporaryFile($postfix);
-	}
-
-	/**
-	 * create a temporary folder with an unique filename
-	 *
-	 * @return string
-	 * @deprecated Use the TempManager instead
-	 *
-	 * temporary files are automatically cleaned up after the script is finished
-	 */
-	public static function tmpFolder() {
-		return \OC::$server->getTempManager()->getTemporaryFolder();
 	}
 
 	/**

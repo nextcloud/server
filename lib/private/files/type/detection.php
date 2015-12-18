@@ -238,7 +238,7 @@ class Detection implements IMimeTypeDetector {
 			$finfo = finfo_open(FILEINFO_MIME);
 			return finfo_buffer($finfo, $data);
 		} else {
-			$tmpFile = \OC_Helper::tmpFile();
+			$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 			$fh = fopen($tmpFile, 'wb');
 			fwrite($fh, $data, 8024);
 			fclose($fh);

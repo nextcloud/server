@@ -37,7 +37,7 @@ class Test_Util_CheckServer extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->datadir = \OC_Helper::tmpFolder();
+		$this->datadir = \OC::$server->getTempManager()->getTemporaryFolder();
 
 		file_put_contents($this->datadir . '/.ocdata', '');
 		\OC::$server->getSession()->set('checkServer_succeeded', false);

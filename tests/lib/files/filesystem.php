@@ -72,7 +72,7 @@ class Filesystem extends \Test\TestCase {
 	 * @return array
 	 */
 	private function getStorageData() {
-		$dir = \OC_Helper::tmpFolder();
+		$dir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tmpDirs[] = $dir;
 		return array('datadir' => $dir);
 	}
@@ -302,7 +302,7 @@ class Filesystem extends \Test\TestCase {
 		\OC\Files\Filesystem::mkdir('/bar');
 //		\OC\Files\Filesystem::file_put_contents('/bar//foo', 'foo');
 
-		$tmpFile = \OC_Helper::tmpFile();
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 		file_put_contents($tmpFile, 'foo');
 		$fh = fopen($tmpFile, 'r');
 //		\OC\Files\Filesystem::file_put_contents('/bar//foo', $fh);
@@ -416,7 +416,7 @@ class Filesystem extends \Test\TestCase {
 		$config = \OC::$server->getConfig();
 		$oldCachePath = $config->getSystemValue('cache_path', '');
 		// set cache path to temp dir
-		$cachePath = \OC_Helper::tmpFolder() . '/extcache';
+		$cachePath = \OC::$server->getTempManager()->getTemporaryFolder() . '/extcache';
 		$config->setSystemValue('cache_path', $cachePath);
 
 		\OC::$server->getUserManager()->createUser($userId, $userId);

@@ -32,7 +32,7 @@ class Test_Installer extends \Test\TestCase {
 		$pathOfTestApp .= '/../data/';
 		$pathOfTestApp .= 'testapp.zip';
 
-		$tmp = OC_Helper::tmpFile('.zip');
+		$tmp = \OC::$server->getTempManager()->getTemporaryFile('.zip');
 		OC_Helper::copyr($pathOfTestApp, $tmp);
 
 		$data = array(
@@ -51,7 +51,7 @@ class Test_Installer extends \Test\TestCase {
 		$pathOfOldTestApp .= '/../data/';
 		$pathOfOldTestApp .= 'testapp.zip';
 
-		$oldTmp = OC_Helper::tmpFile('.zip');
+		$oldTmp = \OC::$server->getTempManager()->getTemporaryFile('.zip');
 		OC_Helper::copyr($pathOfOldTestApp, $oldTmp);
 
 		$oldData = array(
@@ -63,7 +63,7 @@ class Test_Installer extends \Test\TestCase {
 		$pathOfNewTestApp .= '/../data/';
 		$pathOfNewTestApp .= 'testapp2.zip';
 
-		$newTmp = OC_Helper::tmpFile('.zip');
+		$newTmp = \OC::$server->getTempManager()->getTemporaryFile('.zip');
 		OC_Helper::copyr($pathOfNewTestApp, $newTmp);
 
 		$newData = array(
