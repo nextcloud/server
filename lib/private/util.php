@@ -974,7 +974,7 @@ class OC_Util {
 	 */
 	public static function checkAppEnabled($app) {
 		if (!OC_App::isEnabled($app)) {
-			header('Location: ' . OC_Helper::linkToAbsolute('', 'index.php'));
+			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
 	}
@@ -988,7 +988,7 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if (!OC_User::isLoggedIn()) {
-			header('Location: ' . OC_Helper::linkToAbsolute('', 'index.php',
+			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php',
 					[
 						'redirect_url' => \OC::$server->getRequest()->getRequestUri()
 					]
@@ -1006,7 +1006,7 @@ class OC_Util {
 	public static function checkAdminUser() {
 		OC_Util::checkLoggedIn();
 		if (!OC_User::isAdminUser(OC_User::getUser())) {
-			header('Location: ' . OC_Helper::linkToAbsolute('', 'index.php'));
+			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
 	}
@@ -1046,7 +1046,7 @@ class OC_Util {
 		}
 
 		if (!$isSubAdmin) {
-			header('Location: ' . OC_Helper::linkToAbsolute('', 'index.php'));
+			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
 		return true;

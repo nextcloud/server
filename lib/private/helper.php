@@ -54,60 +54,6 @@ class OC_Helper {
 	private static $templateManager;
 
 	/**
-	 * Creates an absolute url
-	 * @param string $app app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given app and file.
-	 */
-	public static function linkToAbsolute($app, $file, $args = array()) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL(
-			OC::$server->getURLGenerator()->linkTo($app, $file, $args)
-		);
-	}
-
-	/**
-	 * Makes an $url absolute
-	 * @param string $url the url
-	 * @return string the absolute url
-	 * @deprecated Use \OC::$server->getURLGenerator()->getAbsoluteURL($url)
-	 *
-	 * Returns a absolute url to the given app and file.
-	 */
-	public static function makeURLAbsolute($url) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL($url);
-	}
-
-	/**
-	 * Creates an url for remote use
-	 * @param string $service id
-	 * @return string the url
-	 *
-	 * Returns a url to the given service.
-	 */
-	public static function linkToRemoteBase($service) {
-		return OC::$server->getURLGenerator()->linkTo('', 'remote.php') . '/' . $service;
-	}
-
-	/**
-	 * Creates an absolute url for remote use
-	 * @param string $service id
-	 * @param bool $add_slash
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given service.
-	 */
-	public static function linkToRemote($service, $add_slash = true) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL(
-			self::linkToRemoteBase($service)
-				. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '')
-		);
-	}
-
-	/**
 	 * Creates an absolute url for public use
 	 * @param string $service id
 	 * @param bool $add_slash
