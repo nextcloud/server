@@ -52,7 +52,7 @@ class Platform {
 	 * @return string
 	 */
 	public function getOcVersion() {
-		$v = OC_Util::getVersion();
+		$v = \OCP\Util::getVersion();
 		return join('.', $v);
 	}
 

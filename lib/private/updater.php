@@ -155,7 +155,7 @@ class Updater extends BasicEmitter {
 			$this->config->setAppValue('core', 'installedat', microtime(true));
 		}
 
-		$version = \OC_Util::getVersion();
+		$version = \OCP\Util::getVersion();
 		$version['installed'] = $this->config->getAppValue('core', 'installedat');
 		$version['updated'] = $this->config->getAppValue('core', 'lastupdatedat');
 		$version['updatechannel'] = \OC_Util::getChannel();
@@ -208,7 +208,7 @@ class Updater extends BasicEmitter {
 		}
 
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
-		$currentVersion = implode('.', \OC_Util::getVersion());
+		$currentVersion = implode('.', \OCP\Util::getVersion());
 		$this->log->debug('starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, array('app' => 'core'));
 
 		$success = true;
@@ -353,7 +353,7 @@ class Updater extends BasicEmitter {
 			}
 
 			// only set the final version if everything went well
-			$this->config->setSystemValue('version', implode('.', \OC_Util::getVersion()));
+			$this->config->setSystemValue('version', implode('.', \OCP\Util::getVersion()));
 		}
 	}
 
@@ -472,7 +472,7 @@ class Updater extends BasicEmitter {
 	private function checkAppsRequirements() {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
-		$version = OC_Util::getVersion();
+		$version = \OCP\Util::getVersion();
 		$disabledApps = [];
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
@@ -509,7 +509,7 @@ class Updater extends BasicEmitter {
 	 */
 	private function isCodeUpgrade() {
 		$installedVersion = $this->config->getSystemValue('version', '0.0.0');
-		$currentVersion = implode('.', OC_Util::getVersion());
+		$currentVersion = implode('.', \OCP\Util::getVersion());
 		if (version_compare($currentVersion, $installedVersion, '>')) {
 			return true;
 		}

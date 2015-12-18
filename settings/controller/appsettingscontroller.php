@@ -159,7 +159,7 @@ class AppSettingsController extends Controller {
 
 		if($this->ocsClient->isAppStoreEnabled()) {
 			// apps from external repo via OCS
-			$ocs = $this->ocsClient->getCategories(\OC_Util::getVersion());
+			$ocs = $this->ocsClient->getCategories(\OCP\Util::getVersion());
 			if ($ocs) {
 				foreach($ocs as $k => $v) {
 					$name = str_replace('ownCloud ', '', $v);
@@ -205,9 +205,10 @@ class AppSettingsController extends Controller {
 						}
 						return ($a < $b) ? -1 : 1;
 					});
+					$version = \OCP\Util::getVersion();
 					foreach($apps as $key => $app) {
 						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
-							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], \OC_Util::getVersion());
+							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], $version);
 
 							if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
 								$apps[$key]['level'] = $remoteAppEntry['level'];
@@ -221,9 +222,10 @@ class AppSettingsController extends Controller {
 					$apps = array_filter($apps, function ($app) {
 						return !$app['active'];
 					});
+					$version = \OCP\Util::getVersion();
 					foreach($apps as $key => $app) {
 						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
-							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], \OC_Util::getVersion());
+							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], $version);
 
 							if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
 								$apps[$key]['level'] = $remoteAppEntry['level'];

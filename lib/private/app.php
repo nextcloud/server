@@ -318,8 +318,8 @@ class OC_App {
 			\OC::$server->getConfig(),
 			\OC::$server->getLogger()
 		);
-		$appData = $ocsClient->getApplication($app, \OC_Util::getVersion());
-		$download= $ocsClient->getApplicationDownload($app, \OC_Util::getVersion());
+		$appData = $ocsClient->getApplication($app, \OCP\Util::getVersion());
+		$download= $ocsClient->getApplicationDownload($app, \OCP\Util::getVersion());
 		if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 			// Replace spaces in download link without encoding entire URL
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
@@ -880,7 +880,7 @@ class OC_App {
 
 
 		if (is_null($category)) {
-			$categoryNames = $ocsClient->getCategories(\OC_Util::getVersion());
+			$categoryNames = $ocsClient->getCategories(\OCP\Util::getVersion());
 			if (is_array($categoryNames)) {
 				// Check that categories of apps were retrieved correctly
 				if (!$categories = array_keys($categoryNames)) {
@@ -892,7 +892,7 @@ class OC_App {
 		}
 
 		$page = 0;
-		$remoteApps = $ocsClient->getApplications($categories, $page, $filter, \OC_Util::getVersion());
+		$remoteApps = $ocsClient->getApplications($categories, $page, $filter, \OCP\Util::getVersion());
 		$apps = [];
 		$i = 0;
 		$l = \OC::$server->getL10N('core');
@@ -1050,7 +1050,7 @@ class OC_App {
 			$config,
 			\OC::$server->getLogger()
 		);
-		$appData = $ocsClient->getApplication($app, \OC_Util::getVersion());
+		$appData = $ocsClient->getApplication($app, \OCP\Util::getVersion());
 
 		// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
 		if (!is_numeric($app)) {
@@ -1080,7 +1080,7 @@ class OC_App {
 		if ($app !== false) {
 			// check if the app is compatible with this version of ownCloud
 			$info = self::getAppInfo($app);
-			$version = OC_Util::getVersion();
+			$version = \OCP\Util::getVersion();
 			if (!self::isAppCompatible($version, $info)) {
 				throw new \Exception(
 					$l->t('App "%s" cannot be installed because it is not compatible with this version of ownCloud.',

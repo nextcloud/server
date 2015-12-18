@@ -159,7 +159,7 @@ class OC_TemplateLayout extends OC_Template {
 
 		if(empty(self::$versionHash)) {
 			$v = OC_App::getAppVersions();
-			$v['core'] = implode('.', \OC_Util::getVersion());
+			$v['core'] = implode('.', \OCP\Util::getVersion());
 			self::$versionHash = md5(implode(',', $v));
 		}
 
