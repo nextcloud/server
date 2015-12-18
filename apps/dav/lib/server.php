@@ -2,12 +2,12 @@
 
 namespace OCA\DAV;
 
+use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Files\CustomPropertiesBackend;
 use OCP\IRequest;
 use Sabre\DAV\Auth\Plugin;
-use Sabre\HTTP\Util;
 
 class Server {
 
@@ -19,6 +19,7 @@ class Server {
 		$this->baseUri = $baseUri;
 		$logger = \OC::$server->getLogger();
 		$dispatcher = \OC::$server->getEventDispatcher();
+		$mailer = \OC::$server->getMailer();
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server($root);
@@ -49,9 +50,8 @@ class Server {
 		// calendar plugins
 		$this->server->addPlugin(new \Sabre\CalDAV\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
-		$senderEmail = \OCP\Util::getDefaultEmailAddress('no-reply');
 		$this->server->addPlugin(new \Sabre\CalDAV\Schedule\Plugin());
-		$this->server->addPlugin(new \Sabre\CalDAV\Schedule\IMipPlugin($senderEmail));
+		$this->server->addPlugin(new IMipPlugin($mailer, $logger));
 		$this->server->addPlugin(new \Sabre\CalDAV\SharingPlugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
