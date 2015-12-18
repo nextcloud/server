@@ -54,22 +54,6 @@ class OC_Helper {
 	private static $templateManager;
 
 	/**
-	 * Creates an absolute url
-	 * @param string $app app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given app and file.
-	 */
-	public static function linkToAbsolute($app, $file, $args = array()) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL(
-			OC::$server->getURLGenerator()->linkTo($app, $file, $args)
-		);
-	}
-
-	/**
 	 * Creates an url for remote use
 	 * @param string $service id
 	 * @return string the url

@@ -245,52 +245,6 @@ class Test_Helper extends \Test\TestCase {
 
 	/**
 	 * @small
-	 * test linkToAbsolute URL construction
-	 * @dataProvider provideDocRootAppAbsoluteUrlParts
-	 */
-	public function testLinkToAbsoluteDocRoot($app, $file, $args, $expectedResult) {
-		\OC::$WEBROOT = '';
-		$result = \OC_Helper::linkToAbsolute($app, $file, $args);
-
-		$this->assertEquals($expectedResult, $result);
-	}
-
-	/**
-	 * @small
-	 * test linkToAbsolute URL construction in sub directory
-	 * @dataProvider provideSubDirAppAbsoluteUrlParts
-	 */
-	public function testLinkToAbsoluteSubDir($app, $file, $args, $expectedResult) {
-		\OC::$WEBROOT = '/owncloud';
-		$result = \OC_Helper::linkToAbsolute($app, $file, $args);
-
-		$this->assertEquals($expectedResult, $result);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function provideDocRootAppAbsoluteUrlParts() {
-		return array(
-			array('files', 'ajax/list.php', array(), 'http://localhost/index.php/apps/files/ajax/list.php'),
-			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
-			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/index.php?trut=trat&dut=dat'),
-		);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function provideSubDirAppAbsoluteUrlParts() {
-		return array(
-			array('files', 'ajax/list.php', array(), 'http://localhost/owncloud/index.php/apps/files/ajax/list.php'),
-			array('files', 'ajax/list.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/owncloud/index.php/apps/files/ajax/list.php?trut=trat&dut=dat'),
-			array('', 'index.php', array('trut' => 'trat', 'dut' => 'dat'), 'http://localhost/owncloud/index.php?trut=trat&dut=dat'),
-		);
-	}
-
-	/**
-	 * @small
 	 * test linkToRemoteBase URL construction
 	 */
 	public function testLinkToRemoteBase() {

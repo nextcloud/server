@@ -269,7 +269,10 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkToAbsolute( $app, $file, $args = array() ) {
-		return(\OC_Helper::linkToAbsolute( $app, $file, $args ));
+		$urlGenerator = \OC::$server->getURLGenerator();
+		return $urlGenerator->getAbsoluteURL(
+			$urlGenerator->linkTo($app, $file, $args)
+		);
 	}
 
 	/**
