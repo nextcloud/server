@@ -54,7 +54,6 @@ abstract class Job implements IJob {
 			if ($logger) {
 				$logger->error('Error while running background job: ' . $e->getMessage());
 			}
-			$jobList->remove($this, $this->argument);
 		}
 	}
 
