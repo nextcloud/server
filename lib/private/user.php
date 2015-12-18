@@ -130,7 +130,7 @@ class OC_User {
 	 */
 	public static function setupBackends() {
 		OC_App::loadApps(array('prelogin'));
-		$backends = \OC::$config->getValue('user_backends', array());
+		$backends = \OC::$server->getSystemConfig()->getValue('user_backends', array());
 		foreach ($backends as $i => $config) {
 			$class = $config['class'];
 			$arguments = $config['arguments'];
@@ -498,7 +498,7 @@ class OC_User {
 		if ($user) {
 			return $user->getHome();
 		} else {
-			return \OC::$config->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid;
+			return \OC::$server->getSystemConfig()->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 	}
 

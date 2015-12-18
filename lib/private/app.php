@@ -96,7 +96,7 @@ class OC_App {
 	 * if $types is set, only apps of those types will be loaded
 	 */
 	public static function loadApps($types = null) {
-		if (\OC::$config->getValue('maintenance', false)) {
+		if (\OC::$server->getSystemConfig()->getValue('maintenance', false)) {
 			return false;
 		}
 		// Load the enabled apps here
@@ -239,7 +239,7 @@ class OC_App {
 	 * @return string[]
 	 */
 	public static function getEnabledApps($forceRefresh = false, $all = false) {
-		if (!\OC::$config->getValue('installed', false)) {
+		if (!\OC::$server->getSystemConfig()->getValue('installed', false)) {
 			return array();
 		}
 		// in incognito mode or when logged out, $user will be false,
@@ -374,7 +374,7 @@ class OC_App {
 		$settings = array();
 		// by default, settings only contain the help menu
 		if (OC_Util::getEditionString() === '' &&
-			\OC::$config->getValue('knowledgebaseenabled', true) == true
+			\OC::$server->getSystemConfig()->getValue('knowledgebaseenabled', true) == true
 		) {
 			$settings = array(
 				array(
@@ -455,7 +455,7 @@ class OC_App {
 	 * @return string|false
 	 */
 	public static function getInstallPath() {
-		if (\OC::$config->getValue('appstoreenabled', true) == false) {
+		if (\OC::$server->getSystemConfig()->getValue('appstoreenabled', true) == false) {
 			return false;
 		}
 
