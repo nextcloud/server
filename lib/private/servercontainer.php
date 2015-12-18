@@ -62,4 +62,28 @@ class ServerContainer extends SimpleContainer {
 
 		return new DIContainer($appName);
 	}
+
+	/**
+	 * @param string $name name of the service to query for
+	 * @return mixed registered service for the given $name
+	 * @throws QueryException if the query could not be resolved
+	 */
+	public function query($name) {
+		$name = $this->sanitizeName($name);
+
+		// In case the service starts with OCA\ we try to find the service in
+		// the apps container first.
+		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
+			$segments = explode('\\', $name);
+			$appContainer = $this->getAppContainer(strtolower($segments[0]));
+			try {
+				return $appContainer->query($name);
+			} catch (QueryException $e) {
+				// Didn't find the service in the respective app container,
+				// ignore it and fall back to the core container.
+			}
+		}
+
+		return parent::query($name);
+	}
 }
