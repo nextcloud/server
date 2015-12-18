@@ -10,8 +10,9 @@
 namespace Test\App;
 
 use OC;
+use Test\TestCase;
 
-class InfoParser extends \PHPUnit_Framework_TestCase {
+class InfoParser extends TestCase {
 
 	/**
 	 * @var \OC\App\InfoParser
