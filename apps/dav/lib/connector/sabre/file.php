@@ -329,7 +329,7 @@ class File extends Node implements IFile {
 		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND') {
 			return $mimeType;
 		}
-		return \OC_Helper::getSecureMimeType($mimeType);
+		return \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType);
 	}
 
 	/**

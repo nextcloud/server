@@ -71,18 +71,6 @@ class Test_Helper extends \Test\TestCase {
 		];
 	}
 
-	function testGetSecureMimeType() {
-		$dir=OC::$SERVERROOT.'/tests/data';
-
-		$result = OC_Helper::getSecureMimeType('image/svg+xml');
-		$expected = 'text/plain';
-		$this->assertEquals($result, $expected);
-
-		$result = OC_Helper::getSecureMimeType('image/png');
-		$expected = 'image/png';
-		$this->assertEquals($result, $expected);
-	}
-
 	function testGetStringMimeType() {
 		if (\OC_Util::runningOnWindows()) {
 			$this->markTestSkipped('[Windows] Strings have mimetype application/octet-stream on Windows');
