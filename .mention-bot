@@ -7,5 +7,5 @@
       "files": ["apps/dav/**"] 
     }
   ],
-  "userBlacklist": ["owncloud-bot"] 
+  "userBlacklist": ["owncloud-bot", "scrutinizer-auto-fixer"] 
 }
