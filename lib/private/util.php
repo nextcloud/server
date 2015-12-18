@@ -72,7 +72,7 @@ class OC_Util {
 
 	private static function initLocalStorageRootFS() {
 		// mount local file backend as root
-		$configDataDirectory = OC_Config::getValue("datadirectory", OC::$SERVERROOT . "/data");
+		$configDataDirectory = \OC::$server->getSystemConfig()->getValue("datadirectory", OC::$SERVERROOT . "/data");
 		//first set up the local "root" storage
 		\OC\Files\Filesystem::initMountManager();
 		if (!self::$rootMounted) {
@@ -184,7 +184,7 @@ class OC_Util {
 		OC_Hook::emit('OC_Filesystem', 'preSetup', array('user' => $user));
 
 		//check if we are using an object storage
-		$objectStore = OC_Config::getValue('objectstore');
+		$objectStore = \OC::$server->getSystemConfig()->getValue('objectstore', null);
 		if (isset($objectStore)) {
 			self::initObjectStoreRootFS($objectStore);
 		} else {
@@ -848,7 +848,7 @@ class OC_Util {
 	public static function checkDatabaseVersion() {
 		$l = \OC::$server->getL10N('lib');
 		$errors = array();
-		$dbType = \OC_Config::getValue('dbtype', 'sqlite');
+		$dbType = \OC::$server->getSystemConfig()->getValue('dbtype', 'sqlite');
 		if ($dbType === 'pgsql') {
 			// check PostgreSQL version
 			try {
@@ -1108,11 +1108,11 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getInstanceId() {
-		$id = OC_Config::getValue('instanceid', null);
+		$id = \OC::$server->getSystemConfig()->getValue('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
 			$id = 'oc' . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
-			OC_Config::$object->setValue('instanceid', $id);
+			\OC::$server->getSystemConfig()->setValue('instanceid', $id);
 		}
 		return $id;
 	}
@@ -1364,7 +1364,7 @@ class OC_Util {
 	 * @return string the theme
 	 */
 	public static function getTheme() {
-		$theme = OC_Config::getValue("theme", '');
+		$theme = \OC::$server->getSystemConfig()->getValue("theme", '');
 
 		if ($theme === '') {
 			if (is_dir(OC::$SERVERROOT . '/themes/default')) {

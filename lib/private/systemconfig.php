@@ -44,12 +44,19 @@ class SystemConfig {
 		'objectstore' => ['arguments' => ['password' => true]],
 	];
 
+	/** @var Config */
+	private $config;
+
+	public function __construct(Config $config) {
+		$this->config = $config;
+	}
+
 	/**
 	 * Lists all available config keys
 	 * @return array an array of key names
 	 */
 	public function getKeys() {
-		return \OC_Config::getKeys();
+		return $this->config->getKeys();
 	}
 
 	/**
@@ -59,7 +66,7 @@ class SystemConfig {
 	 * @param mixed $value the value that should be stored
 	 */
 	public function setValue($key, $value) {
-		\OC_Config::setValue($key, $value);
+		$this->config->setValue($key, $value);
 	}
 
 	/**
@@ -69,7 +76,7 @@ class SystemConfig {
 	 *                       If value is null, the config key will be deleted
 	 */
 	public function setValues(array $configs) {
-		\OC_Config::setValues($configs);
+		$this->config->setValues($configs);
 	}
 
 	/**
@@ -80,7 +87,7 @@ class SystemConfig {
 	 * @return mixed the value or $default
 	 */
 	public function getValue($key, $default = '') {
-		return \OC_Config::getValue($key, $default);
+		return $this->config->getValue($key, $default);
 	}
 
 	/**
@@ -106,7 +113,7 @@ class SystemConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 */
 	public function deleteValue($key) {
-		\OC_Config::deleteKey($key);
+		$this->config->deleteKey($key);
 	}
 
 	/**

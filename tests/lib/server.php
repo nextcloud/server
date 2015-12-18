@@ -38,7 +38,8 @@ class Server extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->server = new \OC\Server('');
+		$config = new \OC\Config(\OC::$configDir);
+		$this->server = new \OC\Server('', $config);
 	}
 
 	public function dataTestQuery() {
