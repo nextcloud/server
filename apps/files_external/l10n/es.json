@@ -1,6 +1,6 @@
 { "translations": {
-    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Fallo al acceder a los tokens solicitados. Verfique que su clave de app y la clave secreta son correctas.",
-    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Fallo al acceder a los tokens solicitados. Verfique que su clave de app y la clave secreta son correctas.",
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Falló al acceder a los tokens solicitados. Verifique que su clave de app y la clave secreta sean correctas.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Falló al acceder a los tokens solicitados. Verifique que su clave de app y la clave secreta sean correctas.",
     "Please provide a valid app key and secret." : "Por favor facilite una clave de app y una clave secreta válidas.",
     "Step 1 failed. Exception: %s" : "El paso 1 falló. Excepción: %s",
     "Step 2 failed. Exception: %s" : "El paso 2 falló. Excepción: %s",
@@ -99,6 +99,7 @@
     "Add storage" : "Añadir almacenamiento",
     "Advanced settings" : "Configuración avanzada",
     "Delete" : "Eliminar",
+    "Allow users to mount external storage" : "Permitir a los usuarios montar un almacenamiento externo",
     "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
