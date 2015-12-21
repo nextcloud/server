@@ -63,9 +63,13 @@ class SyncFederationAddressBooks extends Command {
 			$targetBookProperties = [
 					'{DAV:}displayname' => $url
 			];
-			$newToken = $this->syncService->syncRemoteAddressBook($url, 'system', $sharedSecret, $syncToken, $targetPrincipal, $targetBookId, $targetBookProperties);
-			if ($newToken !== $syncToken) {
-				$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
+			try {
+				$newToken = $this->syncService->syncRemoteAddressBook($url, 'system', $sharedSecret, $syncToken, $targetPrincipal, $targetBookId, $targetBookProperties);
+				if ($newToken !== $syncToken) {
+					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
+				}
+			} catch (\Exception $ex) {
+				$output->writeln("Error while syncing $url : " . $ex->getMessage());
 			}
 		}
 		$progress->finish();

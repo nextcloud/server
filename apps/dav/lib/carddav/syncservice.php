@@ -24,6 +24,7 @@ namespace OCA\DAV\CardDAV;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
+use Sabre\HTTP\ClientException;
 
 class SyncService {
 
@@ -111,10 +112,6 @@ class SyncService {
 		$response = $client->request('REPORT', $addressBookUrl, $body, [
 			'Content-Type' => 'application/xml'
 		]);
-
-//		if ((int)$response->getStatus() >= 400) {
-//			throw new Exception('HTTP error: ' . $response->getStatus());
-//		}
 
 		$result = $this->parseMultiStatus($response['body']);
 
