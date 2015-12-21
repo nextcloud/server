@@ -263,7 +263,7 @@ class CardDavBackendTest extends TestCase {
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
 		$this->assertEquals(1, count($books));
 
-		$this->backend->updateShares('Example', [], [['href' => 'principal:principals/best-friend']]);
+		$this->backend->updateShares('Example', [], ['principal:principals/best-friend']);
 
 		$shares = $this->backend->getShares('Example');
 		$this->assertEquals(0, count($shares));
