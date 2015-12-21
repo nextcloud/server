@@ -25,12 +25,14 @@ before_install:
 
 install:
   - sh -c "if [ '$TEST_DAV' = '1' ]; then bash tests/travis/install.sh $DB; fi"
+  - sh -c "if [ '$TEST_DAV' = '1' ]; then bash apps/dav/tests/travis/$TC/install.sh; fi"
+
 
 script:
   - sh -c "if [ '$TEST_DAV' != '1' ]; then echo \"Not testing DAV\"; fi"
   - sh -c "if [ '$TEST_DAV' = '1' ]; then echo \"Testing DAV\"; fi"
 
-  - sh -c "if [ '$TEST_DAV' = '1' ]; then bash apps/dav/tests/travis/$TC.sh; fi"
+  - sh -c "if [ '$TEST_DAV' = '1' ]; then bash apps/dav/tests/travis/$TC/script.sh; fi"
 
 matrix:
   include:
