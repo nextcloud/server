@@ -91,7 +91,7 @@ class GetSharedSecret extends QueuedJob{
 			$this->trustedServers = new TrustedServers(
 					$this->dbHandler,
 					\OC::$server->getHTTPClientService(),
-					\OC::$server->getLogger(),
+					$this->logger,
 					$this->jobList,
 					\OC::$server->getSecureRandom(),
 					\OC::$server->getConfig()
@@ -148,6 +148,7 @@ class GetSharedSecret extends QueuedJob{
 
 		} catch (ClientException $e) {
 			$status = $e->getCode();
+			$this->logger->logException($e);
 		}
 
 		// if we received a unexpected response we try again later

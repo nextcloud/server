@@ -108,7 +108,8 @@ class Application extends \OCP\AppFramework\App {
 			$server->getSecureRandom(),
 			$server->getJobList(),
 			$container->query('TrustedServers'),
-			$container->query('DbHandler')
+			$container->query('DbHandler'),
+			$server->getLogger()
 
 		);
 

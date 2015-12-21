@@ -60,6 +60,9 @@ class RequestSharedSecret extends QueuedJob {
 
 	private $endPoint = '/ocs/v2.php/apps/federation/api/v1/request-shared-secret?format=json';
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * RequestSharedSecret constructor.
 	 *
@@ -80,13 +83,14 @@ class RequestSharedSecret extends QueuedJob {
 		$this->jobList = $jobList ? $jobList : \OC::$server->getJobList();
 		$this->urlGenerator = $urlGenerator ? $urlGenerator : \OC::$server->getURLGenerator();
 		$this->dbHandler = $dbHandler ? $dbHandler : new DbHandler(\OC::$server->getDatabaseConnection(), \OC::$server->getL10N('federation'));
+		$this->logger = \OC::$server->getLogger();
 		if ($trustedServers) {
 			$this->trustedServers = $trustedServers;
 		} else {
 			$this->trustedServers = new TrustedServers(
 				$this->dbHandler,
 				\OC::$server->getHTTPClientService(),
-				\OC::$server->getLogger(),
+				$this->logger,
 				$this->jobList,
 				\OC::$server->getSecureRandom(),
 				\OC::$server->getConfig()
@@ -142,6 +146,7 @@ class RequestSharedSecret extends QueuedJob {
 
 		} catch (ClientException $e) {
 			$status = $e->getCode();
+			$this->logger->logException($e);
 		}
 
 		// if we received a unexpected response we try again later
