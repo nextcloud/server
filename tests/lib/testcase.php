@@ -33,7 +33,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	private $commandBus;
 
 	/** @var IDBConnection */
-	static private $realDatabase;
+	static protected $realDatabase = null;
+	static private $wasDatabaseAllowed = false;
 
 	protected function getTestTraits() {
 		$traits = [];
@@ -52,7 +53,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
 		// detect database access
+		self::$wasDatabaseAllowed = true;
 		if (!$this->IsDatabaseAccessAllowed()) {
+			self::$wasDatabaseAllowed = false;
 			if (is_null(self::$realDatabase)) {
 				self::$realDatabase = \OC::$server->getDatabaseConnection();
 			}
@@ -155,8 +158,15 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	public static function tearDownAfterClass() {
+		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
+			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
+			// so we need the database again
+			\OC::$server->registerService('DatabaseConnection', function () {
+				return self::$realDatabase;
+			});
+		}
 		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
-		if (\OC::$server->getDatabaseConnection()) {
+		if (self::$wasDatabaseAllowed && \OC::$server->getDatabaseConnection()) {
 			$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
 			self::tearDownAfterClassCleanShares($queryBuilder);
