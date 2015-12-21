@@ -188,6 +188,71 @@ describe('Core base tests', function() {
 			expect(OC.joinPaths('/', '//', '/')).toEqual('/');
 		});
 	});
+	describe('isSamePath', function() {
+		it('recognizes empty paths are equal', function() {
+			expect(OC.isSamePath('', '')).toEqual(true);
+			expect(OC.isSamePath('/', '')).toEqual(true);
+			expect(OC.isSamePath('//', '')).toEqual(true);
+			expect(OC.isSamePath('/', '/')).toEqual(true);
+			expect(OC.isSamePath('/', '//')).toEqual(true);
+		});
+		it('recognizes path with single sections as equal regardless of extra slashes', function() {
+			expect(OC.isSamePath('abc', 'abc')).toEqual(true);
+			expect(OC.isSamePath('/abc', 'abc')).toEqual(true);
+			expect(OC.isSamePath('//abc', 'abc')).toEqual(true);
+			expect(OC.isSamePath('abc', '/abc')).toEqual(true);
+			expect(OC.isSamePath('abc/', 'abc')).toEqual(true);
+			expect(OC.isSamePath('abc/', 'abc/')).toEqual(true);
+			expect(OC.isSamePath('/abc/', 'abc/')).toEqual(true);
+			expect(OC.isSamePath('/abc/', '/abc/')).toEqual(true);
+			expect(OC.isSamePath('//abc/', '/abc/')).toEqual(true);
+			expect(OC.isSamePath('//abc//', '/abc/')).toEqual(true);
+
+			expect(OC.isSamePath('abc', 'def')).toEqual(false);
+			expect(OC.isSamePath('/abc', 'def')).toEqual(false);
+			expect(OC.isSamePath('//abc', 'def')).toEqual(false);
+			expect(OC.isSamePath('abc', '/def')).toEqual(false);
+			expect(OC.isSamePath('abc/', 'def')).toEqual(false);
+			expect(OC.isSamePath('abc/', 'def/')).toEqual(false);
+			expect(OC.isSamePath('/abc/', 'def/')).toEqual(false);
+			expect(OC.isSamePath('/abc/', '/def/')).toEqual(false);
+			expect(OC.isSamePath('//abc/', '/def/')).toEqual(false);
+			expect(OC.isSamePath('//abc//', '/def/')).toEqual(false);
+		});
+		it('recognizes path with multiple sections as equal regardless of extra slashes', function() {
+			expect(OC.isSamePath('abc/def', 'abc/def')).toEqual(true);
+			expect(OC.isSamePath('/abc/def', 'abc/def')).toEqual(true);
+			expect(OC.isSamePath('abc/def', '/abc/def')).toEqual(true);
+			expect(OC.isSamePath('abc/def/', '/abc/def/')).toEqual(true);
+			expect(OC.isSamePath('/abc/def/', '/abc/def/')).toEqual(true);
+			expect(OC.isSamePath('/abc/def/', 'abc/def/')).toEqual(true);
+			expect(OC.isSamePath('//abc/def/', 'abc/def/')).toEqual(true);
+			expect(OC.isSamePath('//abc/def//', 'abc/def/')).toEqual(true);
+
+			expect(OC.isSamePath('abc/def', 'abc/ghi')).toEqual(false);
+			expect(OC.isSamePath('/abc/def', 'abc/ghi')).toEqual(false);
+			expect(OC.isSamePath('abc/def', '/abc/ghi')).toEqual(false);
+			expect(OC.isSamePath('abc/def/', '/abc/ghi/')).toEqual(false);
+			expect(OC.isSamePath('/abc/def/', '/abc/ghi/')).toEqual(false);
+			expect(OC.isSamePath('/abc/def/', 'abc/ghi/')).toEqual(false);
+			expect(OC.isSamePath('//abc/def/', 'abc/ghi/')).toEqual(false);
+			expect(OC.isSamePath('//abc/def//', 'abc/ghi/')).toEqual(false);
+		});
+		it('recognizes path entries with dot', function() {
+			expect(OC.isSamePath('.', '')).toEqual(true);
+			expect(OC.isSamePath('.', '.')).toEqual(true);
+			expect(OC.isSamePath('.', '/')).toEqual(true);
+			expect(OC.isSamePath('/.', '/')).toEqual(true);
+			expect(OC.isSamePath('/./', '/')).toEqual(true);
+			expect(OC.isSamePath('/./', '/.')).toEqual(true);
+			expect(OC.isSamePath('/./', '/./')).toEqual(true);
+			expect(OC.isSamePath('/./', '/./')).toEqual(true);
+
+			expect(OC.isSamePath('a/./b', 'a/b')).toEqual(true);
+			expect(OC.isSamePath('a/b/.', 'a/b')).toEqual(true);
+			expect(OC.isSamePath('./a/b', 'a/b')).toEqual(true);
+		});
+	});
 	describe('filePath', function() {
 		beforeEach(function() {
 			OC.webroot = 'http://localhost';
