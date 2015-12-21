@@ -25,6 +25,9 @@ use Sabre\DAV\Auth\Backend\AbstractBasic;
 
 class FedAuth extends AbstractBasic {
 
+	/** @var DbHandler */
+	private $db;
+
 	/**
 	 * FedAuth constructor.
 	 *
