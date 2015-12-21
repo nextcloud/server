@@ -39,6 +39,7 @@ OC.L10N.register(
     "Empty response from the server" : "サーバーから空の応答がありました",
     "Couldn't access. Please logout and login to activate this mount point" : "アクセス出来ませんでした｡このマウントポイントを有効にするには一度ログアウトしてからログインしてください。",
     "There was an error with message: " : "メッセージ付きのエラーが発生しました：",
+    "External mount error" : "外部マウントエラー",
     "goto-external-storage" : "外部ストレージに行く",
     "Access key" : "アクセスキー",
     "Secret key" : "シークレットキー",
