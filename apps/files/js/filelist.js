@@ -1383,7 +1383,7 @@
 		 * Returns list of webdav properties to request
 		 */
 		_getWebdavProperties: function() {
-			return this.filesClient.getPropfindProperties();
+			return [].concat(this.filesClient.getPropfindProperties());
 		},
 
 		/**
