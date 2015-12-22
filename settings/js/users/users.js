@@ -659,7 +659,7 @@ $(document).ready(function () {
 							{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 							function (result) {
 								if (result.status != 'success') {
-									OC.Notification.show(t('admin', result.data.message));
+									OC.Notification.showTemporary(t('admin', result.data.message));
 								}
 							}
 						);
