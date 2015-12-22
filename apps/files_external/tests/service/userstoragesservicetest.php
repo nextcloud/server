@@ -122,8 +122,8 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 		$newStorage = $this->service->updateStorage($newStorage);
 
 		$this->assertEquals('anotherPassword', $newStorage->getBackendOptions()['password']);
+		$this->assertEquals([$this->userId], $newStorage->getApplicableUsers());
 		// these attributes are unused for user storages
-		$this->assertEmpty($newStorage->getApplicableUsers());
 		$this->assertEmpty($newStorage->getApplicableGroups());
 		$this->assertEquals(0, $newStorage->getStatus());
 
