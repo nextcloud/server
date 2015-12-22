@@ -28,6 +28,7 @@ use OCA\Federation\API\OCSAuthAPI;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
@@ -49,6 +50,9 @@ class OCSAuthAPITest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject | DbHandler */
 	private $dbHandler;
 
+	/** @var \PHPUnit_Framework_MockObject_MockObject | ILogger */
+	private $logger;
+
 	/** @var  OCSAuthApi */
 	private $ocsAuthApi;
 
@@ -63,13 +67,16 @@ class OCSAuthAPITest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->jobList = $this->getMockBuilder('OC\BackgroundJob\JobList')
 			->disableOriginalConstructor()->getMock();
+		$this->logger = $this->getMockBuilder('OCP\ILogger')
+			->disableOriginalConstructor()->getMock();
 
 		$this->ocsAuthApi = new OCSAuthAPI(
 			$this->request,
 			$this->secureRandom,
 			$this->jobList,
 			$this->trustedServers,
-			$this->dbHandler
+			$this->dbHandler,
+			$this->logger
 		);
 
 	}
@@ -136,7 +143,8 @@ class OCSAuthAPITest extends TestCase {
 					$this->secureRandom,
 					$this->jobList,
 					$this->trustedServers,
-					$this->dbHandler
+					$this->dbHandler,
+					$this->logger
 				]
 			)->setMethods(['isValidToken'])->getMock();
 
