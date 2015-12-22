@@ -73,7 +73,7 @@ class OC_Log_Owncloud {
 		} catch (Exception $e) {
 			$timezone = new DateTimeZone('UTC');
 		}
-		$time = DateTime::createFromFormat("U.u", microtime(true), $timezone);
+		$time = DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""), $timezone);
 		if ($time === false) {
 			$time = new DateTime(null, $timezone);
 		}
