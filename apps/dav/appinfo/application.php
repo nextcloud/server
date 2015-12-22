@@ -24,9 +24,11 @@ use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\SyncJob;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
+use OCA\Dav\Migration\MigrateAddressbooks;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\IManager;
+use OCP\IUser;
 
 class Application extends App {
 
@@ -73,6 +75,14 @@ class Application extends App {
 			return new \OCA\DAV\CardDAV\CardDavBackend($db, $principal, $logger);
 		});
 
+		$container->registerService('MigrateAddressbooks', function($c) {
+			/** @var IAppContainer $c */
+			$db = $c->getServer()->getDatabaseConnection();
+			return new MigrateAddressbooks(
+				$db,
+				$c->query('CardDavBackend')
+			);
+		});
 	}
 
 	/**
@@ -98,6 +108,22 @@ class Application extends App {
 	public function setupCron() {
 		$jl = $this->getContainer()->getServer()->getJobList();
 		$jl->add(new SyncJob());
+	}
+
+	public function migrateAddressbooks() {
+
+		try {
+			$migration = $this->getContainer()->query('MigrateAddressbooks');
+			$migration->setup();
+			$userManager = $this->getContainer()->getServer()->getUserManager();
+
+			$userManager->callForAllUsers(function($user) use($migration) {
+				/** @var IUser $user */
+				$migration->migrateForUser($user->getUID());
+			});
+		} catch (\Exception $ex) {
+			$this->getContainer()->getServer()->getLogger()->logException($ex);
+		}
 	}
 
 }

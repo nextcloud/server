@@ -22,6 +22,7 @@
 use OCA\Dav\AppInfo\Application;
 use OCA\DAV\Command\CreateAddressBook;
 use OCA\DAV\Command\CreateCalendar;
+use OCA\Dav\Command\MigrateAddressbooks;
 use OCA\DAV\Command\SyncSystemAddressBook;
 
 $config = \OC::$server->getConfig();
@@ -37,3 +38,10 @@ $app = new Application();
 $application->add(new CreateAddressBook($userManager, $groupManager, $dbConnection, $logger));
 $application->add(new CreateCalendar($userManager, $dbConnection));
 $application->add(new SyncSystemAddressBook($app->getSyncService()));
+
+// the occ tool is *for now* only available in debug mode for developers to test
+if ($config->getSystemValue('debug', false)){
+	$app = new \OCA\Dav\AppInfo\Application();
+	$migration = $app->getContainer()->query('MigrateAddressbooks');
+	$application->add(new MigrateAddressbooks($userManager, $migration));
+}
