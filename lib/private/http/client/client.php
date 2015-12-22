@@ -58,12 +58,11 @@ class Client implements IClient {
 	 * Sets the default options to the client
 	 */
 	private function setDefaultOptions() {
-		// Either use default bundle or the user bundle if nothing is specified
-		if($this->certificateManager->listCertificates() !== []) {
-			$dataDir = $this->config->getSystemValue('datadirectory');
-			$this->client->setDefaultOption('verify', $dataDir.'/'.$this->certificateManager->getCertificateBundle());
+		// Either use user bundle or the system bundle if nothing is specified
+		if ($this->certificateManager->listCertificates() !== []) {
+			$this->client->setDefaultOption('verify', $this->certificateManager->getAbsoluteBundlePath());
 		} else {
-			$this->client->setDefaultOption('verify', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+			$this->client->setDefaultOption('verify', $this->certificateManager->getAbsoluteBundlePath(null));
 		}
 
 		$this->client->setDefaultOption('headers/User-Agent', 'ownCloud Server Crawler');

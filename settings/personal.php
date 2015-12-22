@@ -43,6 +43,7 @@ $urlGenerator = \OC::$server->getURLGenerator();
 
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
+OC_Util::addScript('settings', 'certificates');
 OC_Util::addStyle( 'settings', 'settings' );
 \OC_Util::addVendorScript('strengthify/jquery.strengthify');
 \OC_Util::addVendorStyle('strengthify/strengthify');
@@ -168,6 +169,17 @@ $formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync client
 
 $forms=OC_App::getForms('personal');
 
+
+// add bottom hardcoded forms from the template
+if ($enableCertImport) {
+	$certificatesTemplate = new OC_Template('settings', 'certificates');
+	$certificatesTemplate->assign('type', 'personal');
+	$certificatesTemplate->assign('uploadRoute', 'settings.Certificate.addPersonalRootCertificate');
+	$certificatesTemplate->assign('certs', $certificateManager->listCertificates());
+	$certificatesTemplate->assign('urlGenerator', $urlGenerator);
+	$forms[] = $certificatesTemplate->fetchPage();
+}
+
 $formsMap = array_map(function($form){
 	if (preg_match('%(<h2(?P<class>[^>]*)>.*?</h2>)%i', $form, $regs)) {
 		$sectionName = str_replace('<h2'.$regs['class'].'>', '', $regs[0]);
@@ -187,13 +199,6 @@ $formsMap = array_map(function($form){
 }, $forms);
 
 $formsAndMore = array_merge($formsAndMore, $formsMap);
-
-// add bottom hardcoded forms from the template
-if($enableCertImport) {
-	$formsAndMore[]= array( 'anchor' => 'ssl-root-certificates', 'section-name' => $l->t('SSL root certificates') );
-}
-
-
 
 $tmpl->assign('forms', $formsAndMore);
 $tmpl->printPage();
