@@ -29,6 +29,7 @@ namespace OCP\Route;
  *
  * @package OCP\Route
  * @since 7.0.0
+ * @deprecated 9.0.0
  */
 interface IRouter {
 
@@ -44,6 +45,7 @@ interface IRouter {
 	/**
 	 * @return string
 	 * @since 7.0.0
+	 * @deprecated 9.0.0
 	 */
 	public function getCacheKey();
 
