@@ -303,8 +303,8 @@ class ObjectTree extends \Test\TestCase {
 
 		$info = new FileInfo('', null, null, array(), null);
 
-		$rootDir = new \OCA\DAV\Connector\Sabre\Directory($view, $info);
-		$objectTree = $this->getMock('\OCA\DAV\Connector\Sabre\ObjectTree',
+		$rootDir = new Directory($view, $info);
+		$objectTree = $this->getMock('\OC\Connector\Sabre\ObjectTree',
 			array('nodeExists', 'getNodeForPath'),
 			array($rootDir, $view));
 
@@ -324,7 +324,7 @@ class ObjectTree extends \Test\TestCase {
 			->with($this->identicalTo($source))
 			->will($this->returnValue($sourceNode));
 
-		/** @var $objectTree \OCA\DAV\Connector\Sabre\ObjectTree */
+		/** @var $objectTree \OC\Connector\Sabre\ObjectTree */
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$objectTree->init($rootDir, $view, $mountManager);
 		$objectTree->move($source, $destination);
