@@ -149,6 +149,15 @@
 						}
 
 						// Filter out the owner of the share
+						if (view.model.hasReshare()) {
+							usersLength = users.length;
+							for (i = 0 ; i < usersLength; i++) {
+								if (users[i].value.shareWith === view.model.getReshareOwner()) {
+									users.splice(i, 1);
+									break;
+								}
+							}
+						}
 
 						var shares = view.model.get('shares');
 						var sharesLength = shares.length;
