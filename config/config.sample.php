@@ -1063,9 +1063,6 @@ $CONFIG = array(
  *
  * 1 -> Check each file or folder at most once per request, recommended for
  * general use if outside changes might happen.
- *
- * 2 -> Check every time the filesystem is used, causes a performance hit when
- * using external storages, not recommended for regular use.
  */
 'filesystem_check_changes' => 0,
 
