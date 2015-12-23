@@ -381,7 +381,7 @@ class GroupsTest extends \Test\TestCase {
 
 		$this->groupManager
 			->method('groupExists')
-			->with('NewGroup')
+			->with('Iñtërnâtiônàlizætiøn')
 			->willReturn(false);
 
 		$this->groupManager
