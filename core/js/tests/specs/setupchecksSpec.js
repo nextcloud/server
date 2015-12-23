@@ -88,7 +88,7 @@ describe('OC.SetupChecks tests', function() {
 						msg: 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.',
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					}, {
-						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
+						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -125,7 +125,7 @@ describe('OC.SetupChecks tests', function() {
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					},
 					{
-						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
+						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -187,7 +187,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a href="https://docs.owncloud.org/myDocs.html">documentation</a>.',
+					msg: '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target="_blank" href="https://docs.owncloud.org/myDocs.html">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -216,7 +216,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a href="https://code.google.com/p/memcached/wiki/PHPClientComparison">memcached wiki about both modules</a>.',
+					msg: 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a target="_blank" href="https://code.google.com/p/memcached/wiki/PHPClientComparison">memcached wiki about both modules</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -245,7 +245,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a href="https://docs.owncloud.org/foo/bar.html">documentation</a>.',
+					msg: 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target="_blank" href="https://docs.owncloud.org/foo/bar.html">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -295,7 +295,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your PHP version (5.4.0) is no longer <a href="https://secure.php.net/supported-versions.php">supported by PHP</a>. We encourage you to upgrade your PHP version to take advantage of performance and security updates provided by PHP.',
+					msg: 'Your PHP version (5.4.0) is no longer <a target="_blank" href="https://secure.php.net/supported-versions.php">supported by PHP</a>. We encourage you to upgrade your PHP version to take advantage of performance and security updates provided by PHP.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
