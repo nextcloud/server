@@ -129,7 +129,7 @@
 					$loading.addClass('hidden');
 					$loading.removeClass('inlineblock');
 					if (result.ocs.meta.statuscode == 100) {
-						var users   = [].concat(result.ocs.data.exact.users).concat(result.ocs.data.users);
+						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
 						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
 						var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes);
 
@@ -195,8 +195,12 @@
 
 						var suggestions = users.concat(groups).concat(remotes);
 
-						$('.shareWithField').autocomplete("option", "autoFocus", true);
-						response(suggestions);
+						if (suggestions.length > 0) {
+							$('.shareWithField').autocomplete("option", "autoFocus", true);
+							response(suggestions);
+						} else {
+							response();
+						}
 					} else {
 						response();
 					}

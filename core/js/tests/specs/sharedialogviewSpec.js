@@ -724,15 +724,30 @@ describe('OC.Share.ShareDialogView', function() {
 			var response = sinon.stub();
 			dialog.autocompleteHandler({term: 'bob'}, response);
 			var jsonData = JSON.stringify({
-				"data": [{"label": "bob", "value": {"shareType": 0, "shareWith": "test"}}],
-				"status": "success"
+				'ocs' : {
+					'meta' : {
+						'status' : 'success',
+						'statuscode' : 100,
+						'message' : null
+					},
+					'data' : {
+						'exact' : {
+							'users'  : [],
+							'groups' : [],
+							'remotes': []
+						},
+						'users'  : [{'label': 'bob', 'value': {'shareType': 0, 'shareWith': 'test'}}],
+						'groups' : [],
+						'remotes': []
+					}
+				}
 			});
 			fakeServer.requests[0].respond(
 					200,
 					{'Content-Type': 'application/json'},
 					jsonData
 			);
-			expect(response.calledWithExactly(JSON.parse(jsonData).data)).toEqual(true);
+			expect(response.calledWithExactly(JSON.parse(jsonData).ocs.data.users)).toEqual(true);
 			expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
 		});
 
@@ -740,7 +755,14 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.render();
 			var response = sinon.stub();
 			dialog.autocompleteHandler({term: 'bob'}, response);
-			var jsonData = JSON.stringify({"status": "failure"});
+			var jsonData = JSON.stringify({
+				'ocs' : {
+					'meta' : {
+						'status': 'failure',
+						'statuscode': 400
+					}
+				}
+			});
 			fakeServer.requests[0].respond(
 					200,
 					{'Content-Type': 'application/json'},
