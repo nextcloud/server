@@ -114,7 +114,7 @@ class ConfigAdapter implements IMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
-		$this->migrator->migrateUser();
+		$this->migrator->migrateUser($user);
 
 		$mounts = [];
 

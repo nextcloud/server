@@ -32,6 +32,7 @@ use OCA\Files_external\Service\UserStoragesService;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\IUserSession;
 
 /**
@@ -47,11 +48,6 @@ class StorageMigrator {
 	 * @var DBConfigService
 	 */
 	private $dbConfig;
-
-	/**
-	 * @var IUserSession
-	 */
-	private $userSession;
 
 	/**
 	 * @var IConfig
@@ -73,7 +69,6 @@ class StorageMigrator {
 	 *
 	 * @param BackendService $backendService
 	 * @param DBConfigService $dbConfig
-	 * @param IUserSession $userSession
 	 * @param IConfig $config
 	 * @param IDBConnection $connection
 	 * @param ILogger $logger
@@ -81,14 +76,12 @@ class StorageMigrator {
 	public function __construct(
 		BackendService $backendService,
 		DBConfigService $dbConfig,
-		IUserSession $userSession,
 		IConfig $config,
 		IDBConnection $connection,
 		ILogger $logger
 	) {
 		$this->backendService = $backendService;
 		$this->dbConfig = $dbConfig;
-		$this->userSession = $userSession;
 		$this->config = $config;
 		$this->connection = $connection;
 		$this->logger = $logger;
@@ -121,14 +114,18 @@ class StorageMigrator {
 
 	/**
 	 * Migrate personal storages configured by the current user
+	 *
+	 * @param IUser $user
 	 */
-	public function migrateUser() {
-		$userId = $this->userSession->getUser()->getUID();
+	public function migrateUser(IUser $user) {
+		$dummySession = new DummyUserSession();
+		$dummySession->setUser($user);
+		$userId = $user->getUID();
 		$userVersion = $this->config->getUserValue($userId, 'files_external', 'config_version', '0.0.0');
 		if (version_compare($userVersion, '0.5.0', '<')) {
 			$this->config->setUserValue($userId, 'files_external', 'config_version', '0.5.0');
-			$legacyService = new UserLegacyStoragesService($this->backendService, $this->userSession);
-			$storageService = new UserStoragesService($this->backendService, $this->dbConfig, $this->userSession);
+			$legacyService = new UserLegacyStoragesService($this->backendService, $dummySession);
+			$storageService = new UserStoragesService($this->backendService, $this->dbConfig, $dummySession);
 
 			$this->migrate($legacyService, $storageService);
 		}
