@@ -55,10 +55,10 @@ class Controller {
 		\OC_JSON::callCheck();
 		\OC_JSON::checkLoggedIn();
 
+		$l = new \OC_L10n('settings');
 		if (isset($_POST['username'])) {
 			$username = $_POST['username'];
 		} else {
-			$l = new \OC_L10n('settings');
 			\OC_JSON::error(array('data' => array('message' => $l->t('No user supplied')) ));
 			exit();
 		}
@@ -71,7 +71,6 @@ class Controller {
 		} elseif (\OC_SubAdmin::isUserAccessible(\OC_User::getUser(), $username)) {
 			$userstatus = 'subadmin';
 		} else {
-			$l = new \OC_L10n('settings');
 			\OC_JSON::error(array('data' => array('message' => $l->t('Authentication error')) ));
 			exit();
 		}
@@ -115,7 +114,6 @@ class Controller {
 				$validRecoveryPassword = $keyManager->checkRecoveryPassword($recoveryPassword);
 				$recoveryEnabledForUser = $recovery->isRecoveryEnabledForUser($username);
 			}
-			$l = new \OC_L10n('settings');
 
 			if ($recoveryEnabledForUser && $recoveryPassword === '') {
 				\OC_JSON::error(array('data' => array(
