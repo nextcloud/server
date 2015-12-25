@@ -17,6 +17,7 @@ OC.L10N.register(
     "Unsatisfied backend parameters" : "Ελλιπείς παράμετροι συστήματος",
     "Unsatisfied authentication mechanism parameters" : "Ελλιπείς παράμετροι μηχανισμού πιστοποίησης",
     "Insufficient data: %s" : "Μη επαρκή δεδομένα: %s",
+    "%s" : "%s",
     "Personal" : "Προσωπικά",
     "System" : "Σύστημα",
     "Grant access" : "Παροχή πρόσβασης",
