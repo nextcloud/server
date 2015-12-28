@@ -2402,6 +2402,21 @@ describe('OCA.Files.FileList tests', function() {
 				expect(ev.result).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/a/b');
 			});
+			it('renders upload indicator element for folders only', function() {
+				fileList.add({
+					name: 'afolder',
+					type: 'dir',
+					mime: 'httpd/unix-directory'
+				});
+				fileList.add({
+					name: 'afile.txt',
+					type: 'file',
+					mime: 'text/plain'
+				});
+
+				expect(fileList.findFileEl('afolder').find('.uploadtext').length).toEqual(1);
+				expect(fileList.findFileEl('afile.txt').find('.uploadtext').length).toEqual(0);
+			});
 		});
 	});
 	describe('Handling errors', function () {
