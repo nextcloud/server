@@ -1127,7 +1127,6 @@ class OC_Util {
 	 * Creates a 'request token' (random) and stores it inside the session.
 	 * Ever subsequent (ajax) request must use such a valid token to succeed,
 	 * otherwise the request will be denied as a protection against CSRF.
-	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
 		// Use existing token if function has already been called
@@ -1152,27 +1151,6 @@ class OC_Util {
 		self::$obfuscatedToken =  base64_encode($requestToken ^ $sharedSecret) .':'.$sharedSecret;
 
 		return self::$obfuscatedToken;
-	}
-
-	/**
-	 * Check an ajax get/post call if the request token is valid.
-	 *
-	 * @return boolean False if request token is not set or is invalid.
-	 * @see OC_Util::callRegister()
-	 */
-	public static function isCallRegistered() {
-		return \OC::$server->getRequest()->passesCSRFCheck();
-	}
-
-	/**
-	 * Check an ajax get/post call if the request token is valid. Exit if not.
-	 *
-	 * @return void
-	 */
-	public static function callCheck() {
-		if (!OC_Util::isCallRegistered()) {
-			exit();
-		}
 	}
 
 	/**
