@@ -40,6 +40,11 @@
     "Unable to determine date" : "Kuupäeva tuvastamine ei õnnestunud",
     "This operation is forbidden" : "See toiming on keelatud",
     "This directory is unavailable, please check the logs or contact the administrator" : "See kaust pole saadaval. Palun kontrolli logifaile või võta ühendust administraatoriga",
+    "Could not move \"{file}\"" : "\"{file}\" liigutamine ebaõnnestus",
+    "{newName} already exists" : "{newName} on juba olemas",
+    "Could not rename \"{fileName}\"" : "\"{fileName}\" ümbernimetamine ebaõnnestus",
+    "Could not create file \"{file}\"" : "Faili \"{file}\" loomine ebaõnnestus",
+    "Error deleting file \"{fileName}\"." : "Tõrge faili \"{fileName}\" kustutamisel.",
     "No entries in this folder match '{filter}'" : "Ükski sissekanne ei kattu filtriga '{filter}'",
     "Name" : "Nimi",
     "Size" : "Suurus",
@@ -62,6 +67,7 @@
     "Favorite" : "Lemmik",
     "Folder" : "Kaust",
     "New folder" : "Uus kaust",
+    "{newname} already exists" : "{newname} on juba olemas",
     "Upload" : "Lae üles",
     "An error occurred while trying to update the tags" : "Siltide uuendamisel tekkis tõrge",
     "A new file or folder has been <strong>created</strong>" : "Uus fail või kataloog on <strong>loodud</strong>",
@@ -96,6 +102,7 @@
     "Currently scanning" : "Praegu skännimisel",
     "No favorites" : "Lemmikuid pole",
     "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks",
-    "Text file" : "Tekstifail"
+    "Text file" : "Tekstifail",
+    "New text file.txt" : "Uus tekstifail.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
