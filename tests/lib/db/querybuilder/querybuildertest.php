@@ -1124,11 +1124,12 @@ class QueryBuilderTest extends \Test\TestCase {
 			$this->assertTrue(true);
 		}
 
-		$qB->insert('appconfig')
+		$qB->insert('properties')
 			->values([
-				'appid' => $qB->expr()->literal('testFirstResult'),
-				'configkey' => $qB->expr()->literal('testing' . 50),
-				'configvalue' => $qB->expr()->literal(100 - 50),
+				'userid' => $qB->expr()->literal('testFirstResult'),
+				'propertypath' => $qB->expr()->literal('testing'),
+				'propertyname' => $qB->expr()->literal('testing'),
+				'propertyvalue' => $qB->expr()->literal('testing'),
 			])
 			->execute();
 
@@ -1136,7 +1137,18 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->assertNotNull($actual);
 		$this->assertInternalType('int', $actual);
-		$this->assertEquals($this->connection->lastInsertId('*PREFIX*appconfig'), $actual);
+		$this->assertEquals($this->connection->lastInsertId('*PREFIX*properties'), $actual);
+
+		$qB->delete('properties')
+			->where($qB->expr()->eq('userid', $qB->expr()->literal('testFirstResult')))
+			->execute();
+
+		try {
+			$qB->getLastInsertId();
+			$this->fail('getLastInsertId() should throw an exception, when being called after delete()');
+		} catch (\BadMethodCallException $e) {
+			$this->assertTrue(true);
+		}
 	}
 
 	public function dataGetTableName() {

@@ -181,6 +181,7 @@ class ShareController extends Controller {
 
 		$shareTmpl = [];
 		$shareTmpl['displayName'] = User::getDisplayName($shareOwner);
+		$shareTmpl['owner'] = $shareOwner;
 		$shareTmpl['filename'] = $file;
 		$shareTmpl['directory_path'] = $linkItem['file_target'];
 		$shareTmpl['mimetype'] = Filesystem::getMimeType($originalSharePath);

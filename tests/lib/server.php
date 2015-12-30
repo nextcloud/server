@@ -38,7 +38,8 @@ class Server extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->server = new \OC\Server('');
+		$config = new \OC\Config(\OC::$configDir);
+		$this->server = new \OC\Server('', $config);
 	}
 
 	public function dataTestQuery() {
@@ -61,6 +62,7 @@ class Server extends \Test\TestCase {
 			['CapabilitiesManager', '\OC\CapabilitiesManager'],
 			['ContactsManager', '\OC\ContactsManager'],
 			['ContactsManager', '\OCP\Contacts\IManager'],
+			['CommentsManager', '\OCP\Comments\ICommentsManager'],
 			['Crypto', '\OC\Security\Crypto'],
 			['Crypto', '\OCP\Security\ICrypto'],
 			['CryptoWrapper', '\OC\Session\CryptoWrapper'],
@@ -172,5 +174,17 @@ class Server extends \Test\TestCase {
 	public function testCreateEventSource() {
 		$this->assertInstanceOf('\OC_EventSource', $this->server->createEventSource(), 'service returned by "createEventSource" did not return the right class');
 		$this->assertInstanceOf('\OCP\IEventSource', $this->server->createEventSource(), 'service returned by "createEventSource" did not return the right class');
+	}
+
+	public function testOverwriteDefaultCommentsManager() {
+		$config = $this->server->getConfig();
+		$defaultManagerFactory = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
+
+		$config->setSystemValue('comments.managerFactory', '\Test\Comments\FakeFactory');
+
+		$manager = $this->server->getCommentsManager();
+		$this->assertInstanceOf('\OCP\Comments\ICommentsManager', $manager);
+
+		$config->setSystemValue('comments.managerFactory', $defaultManagerFactory);
 	}
 }

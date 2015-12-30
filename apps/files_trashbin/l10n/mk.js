@@ -9,6 +9,7 @@ OC.L10N.register(
     "Delete permanently" : "Трајно избришани",
     "Error" : "Грешка",
     "restored" : "повратени",
+    "No entries found in this folder" : "Нема ништо во оваа папка",
     "Name" : "Име",
     "Deleted" : "Избришан"
 },

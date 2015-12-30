@@ -9,11 +9,24 @@ use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\DAV\XMLUtil;
+use Sabre\DAVACL\IACL;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
 class Plugin extends ServerPlugin {
 
+	/** @var Auth */
+	private $auth;
+
+	/** @var IRequest */
+	private $request;
+
+	/**
+	 * Plugin constructor.
+	 *
+	 * @param Auth $authBackEnd
+	 * @param IRequest $request
+	 */
 	public function __construct(Auth $authBackEnd, IRequest $request) {
 		$this->auth = $authBackEnd;
 		$this->request = $request;
@@ -68,6 +81,7 @@ class Plugin extends ServerPlugin {
 	function initialize(Server $server) {
 		$this->server = $server;
 		$server->resourceTypeMapping['OCA\\DAV\CardDAV\\ISharedAddressbook'] = '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}shared';
+		$this->server->xml->elementMap['{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}share'] = 'OCA\\DAV\\CardDAV\\Sharing\\Xml\\ShareRequest';
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
 	}
@@ -109,9 +123,7 @@ class Plugin extends ServerPlugin {
 		// re-populated the request body with the existing data.
 		$request->setBody($requestBody);
 
-		$dom = XMLUtil::loadDOMDocument($requestBody);
-
-		$documentType = XMLUtil::toClarkNotation($dom->firstChild);
+		$message = $this->server->xml->parse($requestBody, $request->getUrl(), $documentType);
 
 		switch ($documentType) {
 
@@ -124,19 +136,18 @@ class Plugin extends ServerPlugin {
 					return;
 				}
 
-				$this->server->transactionType = 'post-calendar-share';
+				$this->server->transactionType = 'post-oc-addressbook-share';
 
 				// Getting ACL info
 				$acl = $this->server->getPlugin('acl');
 
 				// If there's no ACL support, we allow everything
 				if ($acl) {
+					/** @var \Sabre\DAVACL\Plugin $acl */
 					$acl->checkPrivileges($path, '{DAV:}write');
 				}
 
-				$mutations = $this->parseShareRequest($dom);
-
-				$node->updateShares($mutations[0], $mutations[1]);
+				$node->updateShares($message->set, $message->remove);
 
 				$response->setStatus(200);
 				// Adding this because sending a response body may cause issues,
@@ -146,59 +157,6 @@ class Plugin extends ServerPlugin {
 				// Breaking the event chain
 				return false;
 		}
-	}
-
-	/**
-	 * Parses the 'share' POST request.
-	 *
-	 * This method returns an array, containing two arrays.
-	 * The first array is a list of new sharees. Every element is a struct
-	 * containing a:
-	 *   * href element. (usually a mailto: address)
-	 *   * commonName element (often a first and lastname, but can also be
-	 *     false)
-	 *   * readOnly (true or false)
-	 *   * summary (A description of the share, can also be false)
-	 *
-	 * The second array is a list of sharees that are to be removed. This is
-	 * just a simple array with 'hrefs'.
-	 *
-	 * @param \DOMDocument $dom
-	 * @return array
-	 */
-	function parseShareRequest(\DOMDocument $dom) {
-
-		$xpath = new \DOMXPath($dom);
-		$xpath->registerNamespace('cs', \Sabre\CardDAV\Plugin::NS_CARDDAV);
-		$xpath->registerNamespace('d', 'urn:DAV');
-
-		$set = [];
-		$elems = $xpath->query('cs:set');
-
-		for ($i = 0; $i < $elems->length; $i++) {
-
-			$xset = $elems->item($i);
-			$set[] = [
-				'href' => $xpath->evaluate('string(d:href)', $xset),
-				'commonName' => $xpath->evaluate('string(cs:common-name)', $xset),
-				'summary' => $xpath->evaluate('string(cs:summary)', $xset),
-				'readOnly' => $xpath->evaluate('boolean(cs:read)', $xset) !== false
-			];
-
-		}
-
-		$remove = [];
-		$elems = $xpath->query('cs:remove');
-
-		for ($i = 0; $i < $elems->length; $i++) {
-
-			$xremove = $elems->item($i);
-			$remove[] = $xpath->evaluate('string(d:href)', $xremove);
-
-		}
-
-		return [$set, $remove];
-
 	}
 
 	private function protectAgainstCSRF() {

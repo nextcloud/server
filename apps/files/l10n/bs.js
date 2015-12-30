@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Preuzmi",
     "Rename" : "Preimenuj",
     "Delete" : "Izbriši",
+    "Disconnect storage" : "Diskonektuj pohranu",
+    "Unshare" : "Prestani  dijeliti",
     "Select" : "Izaberi",
     "Pending" : "Na čekanju",
     "Unable to determine date" : "Nemoguće odrediti datum",

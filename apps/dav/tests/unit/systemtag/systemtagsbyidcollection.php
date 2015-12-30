@@ -11,7 +11,6 @@ namespace OCA\DAV\Tests\Unit\SystemTag;
 
 use OC\SystemTag\SystemTag;
 use OCP\SystemTag\TagNotFoundException;
-use OCP\SystemTag\TagAlreadyExistsException;
 
 class SystemTagsByIdCollection extends \Test\TestCase {
 

@@ -34,6 +34,7 @@
 namespace OC\Files\Storage;
 
 use Exception;
+use GuzzleHttp\Exception\RequestException;
 use OC\Files\Filesystem;
 use OC\Files\Stream\Close;
 use Icewind\Streams\IteratorDirectory;
@@ -339,15 +340,20 @@ class DAV extends Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				if (!$this->file_exists($path)) {
-					return false;
+				try {
+					$response = $this->httpClientService
+							->newClient()
+							->get($this->createBaseUri() . $this->encodePath($path), [
+									'auth' => [$this->user, $this->password],
+									'stream' => true
+							]);
+				} catch (RequestException $e) {
+					if ($e->getResponse()->getStatusCode() === 404) {
+						return false;
+					} else {
+						throw $e;
+					}
 				}
-				$response = $this->httpClientService
-					->newClient()
-					->get($this->createBaseUri() . $this->encodePath($path), [
-						'auth' => [$this->user, $this->password],
-						'stream' => true
-					]);
 
 				if ($response->getStatusCode() !== Http::STATUS_OK) {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {

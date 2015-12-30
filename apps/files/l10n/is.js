@@ -17,6 +17,7 @@ OC.L10N.register(
     "Download" : "Niðurhal",
     "Rename" : "Endurskýra",
     "Delete" : "Eyða",
+    "Unshare" : "Hætta deilingu",
     "Select" : "Velja",
     "Pending" : "Bíður",
     "Name" : "Nafn",

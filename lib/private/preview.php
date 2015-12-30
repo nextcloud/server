@@ -1168,7 +1168,7 @@ class Preview {
 	 */
 	private function getMimeIcon() {
 		$image = new \OC_Image();
-		$mimeIconWebPath = \OC_Helper::mimetypeIcon($this->mimeType);
+		$mimeIconWebPath = \OC::$server->getMimeTypeDetector()->mimeTypeIcon($this->mimeType);
 		if (empty(\OC::$WEBROOT)) {
 			$mimeIconServerPath = \OC::$SERVERROOT . $mimeIconWebPath;
 		} else {
@@ -1250,7 +1250,7 @@ class Preview {
 	 * @param array $args
 	 * @param string $prefix
 	 */
-	public static function prepare_delete($args, $prefix = '') {
+	public static function prepare_delete(array $args, $prefix = '') {
 		$path = $args['path'];
 		if (substr($path, 0, 1) === '/') {
 			$path = substr($path, 1);
@@ -1259,7 +1259,11 @@ class Preview {
 		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/' . $prefix);
 
 		$absPath = Files\Filesystem::normalizePath($view->getAbsolutePath($path));
-		self::addPathToDeleteFileMapper($absPath, $view->getFileInfo($path));
+		$fileInfo = $view->getFileInfo($path);
+		if($fileInfo === false) {
+			return;
+		}
+		self::addPathToDeleteFileMapper($absPath, $fileInfo);
 		if ($view->is_dir($path)) {
 			$children = self::getAllChildren($view, $path);
 			self::$deleteChildrenMapper[$absPath] = $children;

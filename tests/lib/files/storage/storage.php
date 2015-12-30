@@ -598,4 +598,17 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->mkdir('source');
 		$this->assertTrue($this->instance->isSharable('source'));
 	}
+
+	public function testStatAfterWrite() {
+		$this->instance->file_put_contents('foo.txt', 'bar');
+		$stat = $this->instance->stat('foo.txt');
+		$this->assertEquals(3, $stat['size']);
+
+		$fh = $this->instance->fopen('foo.txt', 'w');
+		fwrite($fh, 'qwerty');
+		fclose($fh);
+
+		$stat = $this->instance->stat('foo.txt');
+		$this->assertEquals(6, $stat['size']);
+	}
 }

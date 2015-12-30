@@ -20,7 +20,6 @@
  */
 
 use OC\Share\MailNotifications;
-use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUser;
 use OCP\Mail\IMailer;
@@ -234,6 +233,9 @@ class MailNotificationsTest extends \Test\TestCase {
 
 	}
 
+	/**
+	 * @param string $subject
+	 */
 	protected function setupMailerMock($subject, $to, $exceptionOnSend = true) {
 		$message = $this->getMockBuilder('\OC\Mail\Message')
 				->disableOriginalConstructor()->getMock();

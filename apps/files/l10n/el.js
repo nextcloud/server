@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Λήψη",
     "Rename" : "Μετονομασία",
     "Delete" : "Διαγραφή",
+    "Disconnect storage" : "Αποσυνδεδεμένος αποθηκευτικός χώρος",
+    "Unshare" : "Διακοπή διαμοιρασμού",
     "Details" : "Λεπτομέρειες",
     "Select" : "Επιλογή",
     "Pending" : "Εκκρεμεί",

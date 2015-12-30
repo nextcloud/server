@@ -119,7 +119,6 @@ class OC_Template extends \OC\Template\Base {
 
 			// avatars
 			if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {
-				\OC_Util::addScript('avatar', null, true);
 				\OC_Util::addScript('jquery.avatar', null, true);
 				\OC_Util::addScript('placeholder', null, true);
 			}
@@ -162,6 +161,8 @@ class OC_Template extends \OC\Template\Base {
 			}
 
 			if (\OC::$server->getRequest()->isUserAgent([\OC\AppFramework\Http\Request::USER_AGENT_IE])) {
+				// polyfill for btoa/atob for IE friends
+				OC_Util::addVendorScript('base64/base64');
 				// shim for the davclient.js library
 				\OCP\Util::addScript('files/iedavclient');
 			}

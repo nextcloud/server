@@ -145,6 +145,8 @@
     "Data directory (%s) is invalid" : "ไดเรกทอรีข้อมูล (%s) ไม่ถูกต้อง",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "กรุณาตรวจสอบว่าไดเรกทอรีข้อมูลมีแฟ้ม \".ocdata\" อยู่ในราก",
     "Could not obtain lock type %d on \"%s\"." : "ไม่สามารถรับล็อคชนิด %d บน \"%s\"",
+    "Storage unauthorized. %s" : "การจัดเก็บข้อมูลไม่ได้รับอนุญาต %s",
+    "Storage incomplete configuration. %s" : "การตั้งค่าการจัดเก็บข้อมูลไม่สำเร็จ %s",
     "Storage not available" : "ไม่สามารถใช้พื้นที่จัดเก็บข้อมูลได้"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

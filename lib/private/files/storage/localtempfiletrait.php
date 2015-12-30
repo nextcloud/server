@@ -70,7 +70,7 @@ trait LocalTempFileTrait {
 		} else {
 			$extension = '';
 		}
-		$tmpFile = \OC_Helper::tmpFile($extension);
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($extension);
 		$target = fopen($tmpFile, 'w');
 		\OC_Helper::streamCopy($source, $target);
 		fclose($target);

@@ -73,7 +73,7 @@ class OC_Log_Owncloud {
 		} catch (Exception $e) {
 			$timezone = new DateTimeZone('UTC');
 		}
-		$time = DateTime::createFromFormat("U.u", microtime(true), $timezone);
+		$time = DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""), $timezone);
 		if ($time === false) {
 			$time = new DateTime(null, $timezone);
 		}
@@ -100,6 +100,9 @@ class OC_Log_Owncloud {
 		} else {
 			// Fall back to error_log
 			error_log($entry);
+		}
+		if (php_sapi_name() === 'cli-server') {
+			error_log($message, 4);
 		}
 	}
 

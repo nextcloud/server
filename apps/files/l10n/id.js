@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Unduh",
     "Rename" : "Ubah nama",
     "Delete" : "Hapus",
+    "Disconnect storage" : "Memutuskan penyimpaan",
+    "Unshare" : "Batalkan berbagi",
     "Details" : "Rincian",
     "Select" : "Pilih",
     "Pending" : "Tertunda",

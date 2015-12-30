@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Downloaden",
     "Rename" : "Naam wijzigen",
     "Delete" : "Verwijderen",
+    "Disconnect storage" : "Verbinding met opslag verbreken",
+    "Unshare" : "Stop met delen",
     "Details" : "Details",
     "Select" : "Selecteer",
     "Pending" : "In behandeling",

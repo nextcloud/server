@@ -8,7 +8,7 @@
  */
 class Test_Util extends \Test\TestCase {
 	public function testGetVersion() {
-		$version = \OC_Util::getVersion();
+		$version = \OCP\Util::getVersion();
 		$this->assertTrue(is_array($version));
 		foreach ($version as $num) {
 			$this->assertTrue(is_int($num));

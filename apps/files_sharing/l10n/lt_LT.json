@@ -1,6 +1,7 @@
 { "translations": {
     "Server to server sharing is not enabled on this server" : "Serveris - serveris dalinimasis neįjungtas šiame serveryje",
     "The mountpoint name contains invalid characters." : "Prijungimo taškas su neleistinais simboliais.",
+    "Not allowed to create a federated share with the same user server" : "Neleidžiama dalintis tarp serverių, nes vartotojas tame pačiame serveryje.",
     "Invalid or untrusted SSL certificate" : "Netinkamas arba nepatikimas SSL sertifikatas",
     "Could not authenticate to remote share, password might be wrong" : "Nepavyko identifikuotis serveryje, gal netinkamas slaptažodis",
     "Storage not valid" : "Talpykla negalioja",

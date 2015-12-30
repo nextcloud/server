@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Завантажити",
     "Rename" : "Перейменувати",
     "Delete" : "Видалити",
+    "Disconnect storage" : "Від’єднати сховище",
+    "Unshare" : "Закрити спільний доступ",
     "Details" : "Деталі",
     "Select" : "Оберіть",
     "Pending" : "Очікування",

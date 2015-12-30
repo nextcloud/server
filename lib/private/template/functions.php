@@ -146,7 +146,7 @@ function component($app, $file) {
  * For further information have a look at OC_Helper::linkTo
  */
 function link_to( $app, $file, $args = array() ) {
-	return OC_Helper::linkTo( $app, $file, $args );
+	return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
 }
 
 /**
@@ -173,11 +173,9 @@ function image_path( $app, $image ) {
  * make OC_Helper::mimetypeIcon available as a simple function
  * @param string $mimetype mimetype
  * @return string link to the image
- *
- * For further information have a look at OC_Helper::mimetypeIcon
  */
 function mimetype_icon( $mimetype ) {
-	return OC_Helper::mimetypeIcon( $mimetype );
+	return \OC::$server->getMimeTypeDetector()->mimeTypeIcon( $mimetype );
 }
 
 /**

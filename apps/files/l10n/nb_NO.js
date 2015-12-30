@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Last ned",
     "Rename" : "Gi nytt navn",
     "Delete" : "Slett",
+    "Disconnect storage" : "Koble fra lagring",
+    "Unshare" : "Avslutt deling",
     "Details" : "Detaljer",
     "Select" : "Velg",
     "Pending" : "Ventende",

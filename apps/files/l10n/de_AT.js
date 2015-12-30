@@ -5,6 +5,7 @@ OC.L10N.register(
     "Files" : "Dateien",
     "Download" : "Herunterladen",
     "Delete" : "Löschen",
+    "Unshare" : "Teilung zurücknehmen",
     "Details" : "Details",
     "New folder" : "Neuer Ordner",
     "Upload" : "Hochladen",

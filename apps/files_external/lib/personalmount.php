@@ -35,12 +35,12 @@ class PersonalMount extends MountPoint implements MoveableMount {
 	protected $storagesService;
 
 	/** @var int */
-	protected $storageId;
+	protected $numericStorageId;
 
 	/**
 	 * @param UserStoragesService $storagesService
 	 * @param int $storageId
-	 * @param string|\OC\Files\Storage\Storage $storage
+	 * @param \OCP\Files\Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional) configuration for the storage backend
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
@@ -57,7 +57,7 @@ class PersonalMount extends MountPoint implements MoveableMount {
 	) {
 		parent::__construct($storage, $mountpoint, $arguments, $loader, $mountOptions);
 		$this->storagesService = $storagesService;
-		$this->storageId = $storageId;
+		$this->numericStorageId = $storageId;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class PersonalMount extends MountPoint implements MoveableMount {
 	 * @return bool
 	 */
 	public function moveMount($target) {
-		$storage = $this->storagesService->getStorage($this->storageId);
+		$storage = $this->storagesService->getStorage($this->numericStorageId);
 		// remove "/$user/files" prefix
 		$targetParts = explode('/', trim($target, '/'), 3);
 		$storage->setMountPoint($targetParts[2]);
@@ -82,7 +82,7 @@ class PersonalMount extends MountPoint implements MoveableMount {
 	 * @return bool
 	 */
 	public function removeMount() {
-		$this->storagesService->removeStorage($this->storageId);
+		$this->storagesService->removeStorage($this->numericStorageId);
 		return true;
 	}
 }

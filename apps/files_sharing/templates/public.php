@@ -41,7 +41,7 @@ $thumbSize = 1024;
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <input type="hidden" name="previewSupported" value="<?php p($_['previewSupported'] ? 'true' : 'false'); ?>" id="previewSupported">
-<input type="hidden" name="mimetypeIcon" value="<?php p(OC_Helper::mimetypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
+<input type="hidden" name="mimetypeIcon" value="<?php p(\OC::$server->getMimeTypeDetector()->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
 <input type="hidden" name="filesize" value="<?php p($_['nonHumanFileSize']); ?>" id="filesize">
 <input type="hidden" name="maxSizeAnimateGif" value="<?php p($_['maxSizeAnimateGif']); ?>" id="maxSizeAnimateGif">
 
@@ -72,7 +72,7 @@ $thumbSize = 1024;
 				if ($_['server2serversharing']) {
 					?>
 					<span id="save" data-protected="<?php p($_['protected']) ?>"
-						  data-owner="<?php p($_['displayName']) ?>" data-name="<?php p($_['filename']) ?>">
+						  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
 					<button id="save-button"><?php p($l->t('Add to your ownCloud')) ?></button>
 					<form class="save-form hidden" action="#">
 						<input type="text" id="remote_address" placeholder="example.com/owncloud"/>

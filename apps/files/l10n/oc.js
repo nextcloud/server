@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Telecargar",
     "Rename" : "Renomenar",
     "Delete" : "Suprimir",
+    "Disconnect storage" : "Desconnectar aqueste supòrt d'emmagazinatge",
+    "Unshare" : "Partejar pas",
     "Details" : "Detalhs",
     "Select" : "Seleccionar",
     "Pending" : "En espèra",

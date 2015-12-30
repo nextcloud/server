@@ -27,10 +27,14 @@ https://doc.owncloud.org/server/9.0/developer_manual/app/index.html
 ## Contribution Guidelines
 https://owncloud.org/contribute/
 
+## Support
+Learn about the diffrent ways you can get support for ownCloud: https://owncloud.org/support/
+
 ## Get in touch
 * :clipboard: [Forum](https://forum.owncloud.org)
 * :envelope: [Mailing list](https://mailman.owncloud.org/mailman/listinfo)
-* :busts_in_silhouette: [IRC channel](https://webchat.freenode.net/?channels=owncloud)
+* :hash: [IRC channel](https://webchat.freenode.net/?channels=owncloud)
+* :busts_in_silhouette: [Facebook] (https://facebook.com/ownclouders)
 * :hatching_chick: [Twitter](https://twitter.com/ownClouders)
 
 ## Important notice on translations

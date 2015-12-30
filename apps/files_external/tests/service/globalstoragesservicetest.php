@@ -23,7 +23,6 @@ namespace OCA\Files_external\Tests\Service;
 
 use \OC\Files\Filesystem;
 
-use OCA\Files_External\Service\DBConfigService;
 use \OCA\Files_external\Service\GlobalStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;

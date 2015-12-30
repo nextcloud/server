@@ -67,6 +67,7 @@ describe('OCA.Sharing external tests', function() {
 				remote: 'http://example.com/owncloud',
 				token: 'abcdefg',
 				owner: 'theowner',
+				ownerDisplayName: 'The Generous Owner',
 				name: 'the share name'
 			};
 		});
@@ -88,6 +89,7 @@ describe('OCA.Sharing external tests', function() {
 				remote: 'http://example.com/owncloud',
 				token: 'abcdefg',
 				owner: 'theowner',
+				ownerDisplayName: 'The Generous Owner',
 				name: 'the share name',
 				password: ''
 			});
@@ -104,6 +106,7 @@ describe('OCA.Sharing external tests', function() {
 				remote: 'http://example.com/owncloud',
 				token: 'abcdefg',
 				owner: 'theowner',
+				ownerDisplayName: 'The Generous Owner',
 				name: 'the share name',
 				password: 'thepassword'
 			});
@@ -148,6 +151,7 @@ describe('OCA.Sharing external tests', function() {
 				remote: 'http://example.com/owncloud',
 				token: 'abcdefg',
 				owner: 'theowner',
+				ownerDisplayName: 'The Generous Owner',
 				name: 'the share name'
 			};
 		});

@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Server to server sharing is not enabled on this server" : "このサーバーでは、サーバー間の共有が有効ではありません",
     "The mountpoint name contains invalid characters." : "マウントポイント名 に不正な文字列が含まれています。",
+    "Not allowed to create a federated share with the same user server" : "同じユーザーのサーバーでフェデレーション共有を作成することは出来ません",
     "Invalid or untrusted SSL certificate" : "無効または信頼できないSSL証明書",
     "Could not authenticate to remote share, password might be wrong" : "リモート共有が認証できませんでした，パスワードが間違っているかもしれません",
     "Storage not valid" : "ストレージが無効です",

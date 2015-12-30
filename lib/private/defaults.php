@@ -49,7 +49,7 @@ class OC_Defaults {
 
 	function __construct() {
 		$this->l = \OC::$server->getL10N('lib');
-		$version = OC_Util::getVersion();
+		$version = \OCP\Util::getVersion();
 
 		$this->defaultEntity = 'ownCloud'; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = 'ownCloud'; /* short name, used when referring to the software */

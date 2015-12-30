@@ -799,20 +799,17 @@ $CONFIG = array(
 'ldapUserCleanupInterval' => 51,
 
 /**
- * Enforce the existence of the home folder naming rule for all users
+ * Comments
  *
- * Following scenario:
- *  * a home folder naming rule is set in LDAP advanced settings
- *  * a user doesn't have the home folder naming rule attribute set
- *
- * If this is set to **true** (default) it will NOT fallback to the core's
- * default naming rule of using the internal user ID as home folder name.
- *
- * If this is set to **false** it will fallback for the users without the
- * attribute set to naming the home folder like the internal user ID.
- *
+ * Global settings for the Comments infrastructure
  */
-'enforce_home_folder_naming_rule' => true,
+
+/**
+ * Replaces the default Comments Manager Factory. This can be utilized if an
+ * own or 3rdParty CommentsManager should be used that – for instance – uses the
+ * filesystem instead of the database to keep the comments.
+ */
+'comments.managerFactory' => '\OC\Comments\ManagerFactory',
 
 /**
  * Maintenance

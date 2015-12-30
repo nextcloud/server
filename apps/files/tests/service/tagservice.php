@@ -54,7 +54,7 @@ class TagServiceTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->user = $this->getUniqueId('user');
-		\OC_User::createUser($this->user, 'test');
+		\OC::$server->getUserManager()->createUser($this->user, 'test');
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
 		/**
@@ -82,7 +82,8 @@ class TagServiceTest extends \Test\TestCase {
 
 	protected function tearDown() {
 		\OC_User::setUserId('');
-		\OC_User::deleteUser($this->user);
+		$user = \OC::$server->getUserManager()->get($this->user);
+		if ($user !== null) { $user->delete(); }
 	}
 
 	public function testUpdateFileTags() {

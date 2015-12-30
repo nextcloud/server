@@ -33,6 +33,7 @@ use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
+use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Files\Filesystem;
 
@@ -189,7 +190,10 @@ class SMB extends Common {
 					return $this->share->read($fullPath);
 				case 'w':
 				case 'wb':
-					return $this->share->write($fullPath);
+					$source = $this->share->write($fullPath);
+					return CallBackWrapper::wrap($source, null, null, function () use ($fullPath) {
+						unset($this->statCache[$fullPath]);
+					});
 				case 'a':
 				case 'ab':
 				case 'r+':
@@ -219,7 +223,8 @@ class SMB extends Common {
 					}
 					$source = fopen($tmpFile, $mode);
 					$share = $this->share;
-					return CallBackWrapper::wrap($source, null, null, function () use ($tmpFile, $fullPath, $share) {
+					return CallbackWrapper::wrap($source, null, null, function () use ($tmpFile, $fullPath, $share) {
+						unset($this->statCache[$fullPath]);
 						$share->put($tmpFile, $fullPath);
 						unlink($tmpFile);
 					});

@@ -54,88 +54,6 @@ class OC_Helper {
 	private static $templateManager;
 
 	/**
-	 * Creates an url using a defined route
-	 * @param string $route
-	 * @param array $parameters with param=>value, will be appended to the returned url
-	 * @return string the url
-	 * @deprecated Use \OC::$server->getURLGenerator()->linkToRoute($route, $parameters)
-	 *
-	 * Returns a url to the given app and file.
-	 */
-	public static function linkToRoute($route, $parameters = array()) {
-		return OC::$server->getURLGenerator()->linkToRoute($route, $parameters);
-	}
-
-	/**
-	 * Creates an url
-	 * @param string $app app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
-	 * @return string the url
-	 * @deprecated Use \OC::$server->getURLGenerator()->linkTo($app, $file, $args)
-	 *
-	 * Returns a url to the given app and file.
-	 */
-	public static function linkTo( $app, $file, $args = array() ) {
-		return OC::$server->getURLGenerator()->linkTo($app, $file, $args);
-	}
-
-	/**
-	 * Creates an absolute url
-	 * @param string $app app
-	 * @param string $file file
-	 * @param array $args array with param=>value, will be appended to the returned url
-	 *    The value of $args will be urlencoded
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given app and file.
-	 */
-	public static function linkToAbsolute($app, $file, $args = array()) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL(
-			self::linkTo($app, $file, $args)
-		);
-	}
-
-	/**
-	 * Makes an $url absolute
-	 * @param string $url the url
-	 * @return string the absolute url
-	 * @deprecated Use \OC::$server->getURLGenerator()->getAbsoluteURL($url)
-	 *
-	 * Returns a absolute url to the given app and file.
-	 */
-	public static function makeURLAbsolute($url) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL($url);
-	}
-
-	/**
-	 * Creates an url for remote use
-	 * @param string $service id
-	 * @return string the url
-	 *
-	 * Returns a url to the given service.
-	 */
-	public static function linkToRemoteBase($service) {
-		return self::linkTo('', 'remote.php') . '/' . $service;
-	}
-
-	/**
-	 * Creates an absolute url for remote use
-	 * @param string $service id
-	 * @param bool $add_slash
-	 * @return string the url
-	 *
-	 * Returns a absolute url to the given service.
-	 */
-	public static function linkToRemote($service, $add_slash = true) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL(
-			self::linkToRemoteBase($service)
-				. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '')
-		);
-	}
-
-	/**
 	 * Creates an absolute url for public use
 	 * @param string $service id
 	 * @param bool $add_slash
@@ -147,7 +65,7 @@ class OC_Helper {
 		if ($service === 'files') {
 			$url = OC::$server->getURLGenerator()->getAbsoluteURL('/s');
 		} else {
-			$url = OC::$server->getURLGenerator()->getAbsoluteURL(self::linkTo('', 'public.php').'?service='.$service);
+			$url = OC::$server->getURLGenerator()->getAbsoluteURL(OC::$server->getURLGenerator()->linkTo('', 'public.php').'?service='.$service);
 		}
 		return $url . (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
 	}
@@ -166,18 +84,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * get path to icon of file type
-	 * @param string $mimetype mimetype
-	 * @return string the url
-	 *
-	 * Returns the path to the image of this file type.
-	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype)
-	 */
-	public static function mimetypeIcon($mimetype) {
-		return \OC::$server->getMimeTypeDetector()->mimeTypeIcon($mimetype);
-	}
-
-	/**
 	 * get path to preview of file
 	 * @param string $path path
 	 * @return string the url
@@ -185,21 +91,11 @@ class OC_Helper {
 	 * Returns the path to the preview of the file.
 	 */
 	public static function previewIcon($path) {
-		return self::linkToRoute( 'core_ajax_preview', array('x' => 32, 'y' => 32, 'file' => $path ));
+		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_preview', ['x' => 32, 'y' => 32, 'file' => $path]);
 	}
 
 	public static function publicPreviewIcon( $path, $token ) {
-		return self::linkToRoute( 'core_ajax_public_preview', array('x' => 32, 'y' => 32, 'file' => $path, 't' => $token));
-	}
-
-	/**
-	 * shows whether the user has an avatar
-	 * @param string $user username
-	 * @return bool avatar set or not
-	 * @deprecated 9.0.0 Use \OC::$server->getAvatarManager()->getAvatar($user)->exists();
-	**/
-	public static function userAvatarSet($user) {
-		return \OC::$server->getAvatarManager()->getAvatar($user)->exists();
+		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_public_preview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
 	}
 
 	/**
@@ -364,14 +260,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * @return \OC\Files\Type\Detection
-	 * @deprecated 8.2.0 use \OC::$server->getMimeTypeDetector()
-	 */
-	static public function getMimetypeDetector() {
-		return \OC::$server->getMimeTypeDetector();
-	}
-
-	/**
 	 * @return \OC\Files\Type\TemplateManager
 	 */
 	static public function getFileTemplateManager() {
@@ -379,39 +267,6 @@ class OC_Helper {
 			self::$templateManager = new \OC\Files\Type\TemplateManager();
 		}
 		return self::$templateManager;
-	}
-
-	/**
-	 * Try to guess the mimetype based on filename
-	 *
-	 * @param string $path
-	 * @return string
-	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->detectPath($path)
-	 */
-	static public function getFileNameMimeType($path) {
-		return \OC::$server->getMimeTypeDetector()->detectPath($path);
-	}
-
-	/**
-	 * Get a secure mimetype that won't expose potential XSS.
-	 *
-	 * @param string $mimeType
-	 * @return string
-	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType)
-	 */
-	static function getSecureMimeType($mimeType) {
-		return \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType);
-	}
-
-	/**
-	 * get the mimetype form a data string
-	 *
-	 * @param string $data
-	 * @return string
-	 * @deprecated 8.2.0 Use \OC::$server->getMimeTypeDetector()->detectString($data)
-	 */
-	static function getStringMimeType($data) {
-		return \OC::$server->getMimeTypeDetector()->detectString($data);
 	}
 
 	/**
@@ -490,31 +345,6 @@ class OC_Helper {
 			}
 		}
 		return array($count, $result);
-	}
-
-	/**
-	 * create a temporary file with an unique filename
-	 *
-	 * @param string $postfix
-	 * @return string
-	 * @deprecated Use the TempManager instead
-	 *
-	 * temporary files are automatically cleaned up after the script is finished
-	 */
-	public static function tmpFile($postfix = '') {
-		return \OC::$server->getTempManager()->getTemporaryFile($postfix);
-	}
-
-	/**
-	 * create a temporary folder with an unique filename
-	 *
-	 * @return string
-	 * @deprecated Use the TempManager instead
-	 *
-	 * temporary files are automatically cleaned up after the script is finished
-	 */
-	public static function tmpFolder() {
-		return \OC::$server->getTempManager()->getTemporaryFolder();
 	}
 
 	/**
@@ -782,7 +612,7 @@ class OC_Helper {
 	 */
 	public static function getStorageInfo($path, $rootInfo = null) {
 		// return storage info without adding mount points
-		$includeExtStorage = \OC_Config::getValue('quota_include_external_storage', false);
+		$includeExtStorage = \OC::$server->getSystemConfig()->getValue('quota_include_external_storage', false);
 
 		if (!$rootInfo) {
 			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, false);

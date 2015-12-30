@@ -60,16 +60,18 @@ class ControllerMethodReflector implements IControllerMethodReflector{
 
 		// extract type parameter information
 		preg_match_all('/@param\h+(?P<type>\w+)\h+\$(?P<var>\w+)/', $docs, $matches);
-		// this is just a fix for PHP 5.3 (array_combine raises warning if called with
-		// two empty arrays
-		if($matches['var'] === array() && $matches['type'] === array()) {
-			$this->types = array();
-		} else {
-			$this->types = array_combine($matches['var'], $matches['type']);
-		}
+		$this->types = array_combine($matches['var'], $matches['type']);
 
-		// get method parameters
 		foreach ($reflection->getParameters() as $param) {
+			// extract type information from PHP 7 scalar types and prefer them
+			// over phpdoc annotations
+			if (method_exists($param, 'getType')) {
+				$type = $param->getType();
+				if ($type !== null) {
+					$this->types[$param->getName()] = (string) $type;
+				}
+			}
+
 			if($param->isOptional()) {
 				$default = $param->getDefaultValue();
 			} else {
@@ -82,9 +84,9 @@ class ControllerMethodReflector implements IControllerMethodReflector{
 
 	/**
 	 * Inspects the PHPDoc parameters for types
-	 * @param string $parameter the parameter whose type comments should be 
+	 * @param string $parameter the parameter whose type comments should be
 	 * parsed
-	 * @return string|null type in the type parameters (@param int $something) 
+	 * @return string|null type in the type parameters (@param int $something)
 	 * would return int or null if not existing
 	 */
 	public function getType($parameter) {

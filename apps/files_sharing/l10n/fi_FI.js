@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Server to server sharing is not enabled on this server" : "Palvelimelta-palvelimelle-jakaminen ei ole käytössä tällä palvelimella",
     "The mountpoint name contains invalid characters." : "Liitospisteen nimi sisältää virheellisiä merkkejä.",
+    "Not allowed to create a federated share with the same user server" : "Saman käyttäjäpalvelimen kanssa ei ole sallittua luoda federoitua jakoa",
     "Invalid or untrusted SSL certificate" : "Virheellinen tai ei-luotettu SSL-varmenne",
     "Could not authenticate to remote share, password might be wrong" : "Tunnistautuminen etäjakoa kohtaan epäonnistui. Salasana saattaa olla väärä",
     "Storage not valid" : "Tallennustila ei ole kelvollinen",

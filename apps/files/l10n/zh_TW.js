@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "下載",
     "Rename" : "重新命名",
     "Delete" : "刪除",
+    "Disconnect storage" : "斷開儲存空間連接",
+    "Unshare" : "取消分享",
     "Details" : "詳細資料",
     "Select" : "選擇",
     "Pending" : "等候中",

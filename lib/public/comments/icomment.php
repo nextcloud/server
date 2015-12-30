@@ -5,7 +5,7 @@ namespace OCP\Comments;
 /**
  * Interface IComment
  *
- * This class represents a comment and offers methods for modification.
+ * This class represents a comment
  *
  * @package OCP\Comments
  * @since 9.0.0
@@ -49,12 +49,29 @@ interface IComment {
 
 	/**
 	 * sets the parent ID and returns itself
-	 *
 	 * @param string $parentId
 	 * @return IComment
 	 * @since 9.0.0
 	 */
 	public function setParentId($parentId);
+
+	/**
+	 * returns the topmost parent ID of the comment
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getTopmostParentId();
+
+
+	/**
+	 * sets the topmost parent ID and returns itself
+	 *
+	 * @param string $id
+	 * @return IComment
+	 * @since 9.0.0
+	 */
+	public function setTopmostParentId($id);
 
 	/**
 	 * returns the number of children

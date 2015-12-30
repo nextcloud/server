@@ -46,14 +46,25 @@ class SystemTagsByIdCollection implements ICollection {
 		$this->tagManager = $tagManager;
 	}
 
+	/**
+	 * @param string $name
+	 * @param resource|string $data Initial payload
+	 * @throws Forbidden
+	 */
 	function createFile($name, $data = null) {
 		throw new Forbidden('Cannot create tags by id');
 	}
 
+	/**
+	 * @param string $name
+	 */
 	function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
 	}
 
+	/**
+	 * @param string $name
+	 */
 	function getChild($name) {
 		try {
 			$tags = $this->tagManager->getTagsByIds([$name]);
@@ -72,6 +83,9 @@ class SystemTagsByIdCollection implements ICollection {
 		}, $tags);
 	}
 
+	/**
+	 * @param string $name
+	 */
 	function childExists($name) {
 		try {
 			$this->tagManager->getTagsByIds([$name]);

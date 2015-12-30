@@ -6,6 +6,7 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\ILogger;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,15 +24,25 @@ class CreateAddressBook extends Command {
 	/** @var IConfig */
 	private $config;
 
+	/** @var ILogger  */
+	private $logger;
+
 	/**
 	 * @param IUserManager $userManager
 	 * @param IDBConnection $dbConnection
+	 * @param IConfig $config
+	 * @param ILogger $logger
 	 */
-	function __construct(IUserManager $userManager, IDBConnection $dbConnection, IConfig $config) {
+	function __construct(IUserManager $userManager,
+						 IDBConnection $dbConnection,
+						 IConfig $config,
+						 ILogger $logger
+	) {
 		parent::__construct();
 		$this->userManager = $userManager;
 		$this->dbConnection = $dbConnection;
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 	protected function configure() {

@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Deskargatu",
     "Rename" : "Berrizendatu",
     "Delete" : "Ezabatu",
+    "Disconnect storage" : "Deskonektatu biltegia",
+    "Unshare" : "Ez elkarbanatu",
     "Details" : "Xehetasunak",
     "Select" : "hautatu",
     "Pending" : "Zain",

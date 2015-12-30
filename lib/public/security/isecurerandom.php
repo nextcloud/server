@@ -23,12 +23,12 @@
 namespace OCP\Security;
 
 /**
- * Class SecureRandom provides a layer around RandomLib to generate
- * secure random strings. For PHP 7 the native CSPRNG is used.
+ * Class SecureRandom provides a wrapper around the random_int function to generate
+ * secure random strings. For PHP 7 the native CSPRNG is used, older versions do
+ * use a fallback.
  *
  * Usage:
- * $rng = new \OC\Security\SecureRandom();
- * $randomString = $rng->getMediumStrengthGenerator()->generateString(30);
+ * \OC::$server->getSecureRandom()->generate(10);
  *
  * @package OCP\Security
  * @since 8.0.0
@@ -52,6 +52,7 @@ interface ISecureRandom {
 	 *
 	 * @return $this
 	 * @since 8.0.0
+	 * @deprecated 9.0.0 Use \OC\Security\SecureRandom::generate directly or random_bytes() / random_int()
 	 */
 	public function getLowStrengthGenerator();
 
@@ -64,6 +65,7 @@ interface ISecureRandom {
 	 *
 	 * @return $this
 	 * @since 8.0.0
+	 * @deprecated 9.0.0 Use \OC\Security\SecureRandom::generate directly or random_bytes() / random_int()
 	 */
 	public function getMediumStrengthGenerator();
 
@@ -73,7 +75,6 @@ interface ISecureRandom {
 	 * @param string $characters An optional list of characters to use if no character list is
 	 * 							specified all valid base64 characters are used.
 	 * @return string
-	 * @throws \Exception If the generator is not initialized.
 	 * @since 8.0.0
 	 */
 	public function generate($length,

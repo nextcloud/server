@@ -8,8 +8,9 @@ $config = \OC::$server->getConfig();
 $dbConnection = \OC::$server->getDatabaseConnection();
 $userManager = OC::$server->getUserManager();
 $config = \OC::$server->getConfig();
+$logger = \OC::$server->getLogger();
 
 /** @var Symfony\Component\Console\Application $application */
-$application->add(new CreateAddressBook($userManager, $dbConnection, $config));
+$application->add(new CreateAddressBook($userManager, $dbConnection, $config, $logger));
 $application->add(new CreateCalendar($userManager, $dbConnection));
 $application->add(new SyncSystemAddressBook($userManager, $dbConnection, $config));

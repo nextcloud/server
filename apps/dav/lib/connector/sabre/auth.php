@@ -160,7 +160,7 @@ class Auth extends AbstractBasic {
 			return [true, $this->principalPrefix . $user];
 		}
 
-		if (!$this->userSession->isLoggedIn() && $request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
+		if (!$this->userSession->isLoggedIn() && in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With')))) {
 			// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
 			$response->addHeader('WWW-Authenticate','DummyBasic realm="' . $this->realm . '"');
 			$response->setStatus(401);

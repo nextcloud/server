@@ -141,10 +141,6 @@ abstract class Common implements Storage {
 	}
 
 	public function isSharable($path) {
-		if (\OCP\Util::isSharingDisabledForUser()) {
-			return false;
-		}
-
 		return $this->isReadable($path);
 	}
 
@@ -229,7 +225,7 @@ abstract class Common implements Storage {
 		if ($this->is_dir($path)) {
 			return 'httpd/unix-directory';
 		} elseif ($this->file_exists($path)) {
-			return \OC_Helper::getFileNameMimeType($path);
+			return \OC::$server->getMimeTypeDetector()->detectPath($path);
 		} else {
 			return false;
 		}
@@ -252,7 +248,7 @@ abstract class Common implements Storage {
 	}
 
 	public function getLocalFolder($path) {
-		$baseDir = \OC_Helper::tmpFolder();
+		$baseDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->addLocalFolder($path, $baseDir);
 		return $baseDir;
 	}

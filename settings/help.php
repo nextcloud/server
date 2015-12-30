@@ -34,17 +34,17 @@ OC_Util::addStyle( "settings", "settings" );
 
 
 if(isset($_GET['mode']) and $_GET['mode'] === 'admin') {
-	$url=OC_Helper::linkToAbsolute( 'core', 'doc/admin/index.html' );
+	$url=\OCP\Util::linkToAbsolute( 'core', 'doc/admin/index.html' );
 	$style1='';
 	$style2=' active';
 }else{
-	$url=OC_Helper::linkToAbsolute( 'core', 'doc/user/index.html' );
+	$url=\OCP\Util::linkToAbsolute( 'core', 'doc/user/index.html' );
 	$style1=' active';
 	$style2='';
 }
 
-$url1=OC_Helper::linkToRoute( "settings_help" ).'?mode=user';
-$url2=OC_Helper::linkToRoute( "settings_help" ).'?mode=admin';
+$url1=\OC::$server->getURLGenerator()->linkToRoute('settings_help').'?mode=user';
+$url2=\OC::$server->getURLGenerator()->linkToRoute('settings_help').'?mode=admin';
 
 $tmpl = new OC_Template( "settings", "help", "user" );
 $tmpl->assign( "admin", OC_User::isAdminUser(OC_User::getUser()));

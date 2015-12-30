@@ -20,7 +20,7 @@
 */
 
 describe('OCA.Files.FileActionsMenu tests', function() {
-	var fileList, fileActions, menu, actionStub, $tr;
+	var fileList, fileActions, menu, actionStub, menuContext, $tr;
 
 	beforeEach(function() {
 		// init horrible parameters
@@ -80,7 +80,7 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 		};
 		$tr = fileList.add(fileData);
 
-		var menuContext = {
+		menuContext = {
 			$file: $tr,
 			fileList: fileList,
 			fileActions: fileActions,
@@ -188,6 +188,22 @@ describe('OCA.Files.FileActionsMenu tests', function() {
 			var wactionIndex = menu.$el.find('a[data-action=Waction]').closest('li').index();
 			var yactionIndex = menu.$el.find('a[data-action=Yaction]').closest('li').index();
 			expect(wactionIndex).toBeLessThan(yactionIndex);
+		});
+		it('calls displayName function', function() {
+			var displayNameStub = sinon.stub().returns('Test');
+
+			fileActions.registerAction({
+				name: 'Something',
+				displayName: displayNameStub,
+				mime: 'text/plain',
+				permissions: OC.PERMISSION_ALL
+			});
+
+			menu.render();
+
+			expect(displayNameStub.calledOnce).toEqual(true);
+			expect(displayNameStub.calledWith(menuContext)).toEqual(true);
+			expect(menu.$el.find('a[data-action=Something]').text()).toEqual('Test');
 		});
 	});
 

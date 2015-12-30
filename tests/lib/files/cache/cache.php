@@ -317,7 +317,7 @@ class Cache extends \Test\TestCase {
 
 	function testSearchByTag() {
 		$userId = $this->getUniqueId('user');
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 		$this->loginAsUser($userId);
 		$user = new \OC\User\User($userId, null);
 
@@ -373,7 +373,8 @@ class Cache extends \Test\TestCase {
 		$tagManager->delete('tag2');
 
 		$this->logout();
-		\OC_User::deleteUser($userId);
+		$user = \OC::$server->getUserManager()->get($userId);
+		if ($user !== null) { $user->delete(); }
 	}
 
 	function testMove() {

@@ -712,7 +712,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			$tr = fileList.$el.find('tr:first');
 
 			expect(parseInt($tr.attr('data-share-permissions'), 10))
-				.toEqual(OC.PERMISSION_ALL - OC.PERMISSION_SHARE - OC.PERMISSION_DELETE);
+				.toEqual(OC.PERMISSION_ALL - OC.PERMISSION_SHARE - OC.PERMISSION_DELETE - OC.PERMISSION_CREATE);
 		});
 	});
 });

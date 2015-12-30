@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Prejmi",
     "Rename" : "Preimenuj",
     "Delete" : "Izbriši",
+    "Disconnect storage" : "Odklopi shrambo",
+    "Unshare" : "Prekini souporabo",
     "Details" : "Podrobnosti",
     "Select" : "Izberi",
     "Pending" : "V čakanju ...",

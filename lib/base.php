@@ -113,6 +113,11 @@ class OC {
 	public static $server = null;
 
 	/**
+	 * @var \OC\Config
+	 */
+	private static $config = null;
+
+	/**
 	 * @throws \RuntimeException when the 3rdparty directory is missing or
 	 * the app path list is empty or contains an invalid path
 	 */
@@ -124,7 +129,7 @@ class OC {
 		} else {
 			self::$configDir = OC::$SERVERROOT . '/config/';
 		}
-		OC_Config::$object = new \OC\Config(self::$configDir);
+		self::$config = new \OC\Config(self::$configDir);
 
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
 		/**
@@ -137,7 +142,7 @@ class OC {
 				'SCRIPT_FILENAME' => $_SERVER['SCRIPT_FILENAME'],
 			],
 		];
-		$fakeRequest = new \OC\AppFramework\Http\Request($params, null, new \OC\AllConfig(new \OC\SystemConfig()));
+		$fakeRequest = new \OC\AppFramework\Http\Request($params, null, new \OC\AllConfig(new \OC\SystemConfig(self::$config)));
 		$scriptName = $fakeRequest->getScriptName();
 		if (substr($scriptName, -1) == '/') {
 			$scriptName .= 'index.php';
@@ -152,7 +157,7 @@ class OC {
 
 
 		if (OC::$CLI) {
-			OC::$WEBROOT = OC_Config::getValue('overwritewebroot', '');
+			OC::$WEBROOT = self::$config->getValue('overwritewebroot', '');
 		} else {
 			if (substr($scriptName, 0 - strlen(OC::$SUBURI)) === OC::$SUBURI) {
 				OC::$WEBROOT = substr($scriptName, 0, 0 - strlen(OC::$SUBURI));
@@ -165,7 +170,7 @@ class OC {
 				// This most likely means that we are calling from CLI.
 				// However some cron jobs still need to generate
 				// a web URL, so we use overwritewebroot as a fallback.
-				OC::$WEBROOT = OC_Config::getValue('overwritewebroot', '');
+				OC::$WEBROOT = self::$config->getValue('overwritewebroot', '');
 			}
 
 			// Resolve /owncloud to /owncloud/ to ensure to always have a trailing
@@ -178,8 +183,8 @@ class OC {
 		}
 
 		// search the 3rdparty folder
-		OC::$THIRDPARTYROOT = OC_Config::getValue('3rdpartyroot', null);
-		OC::$THIRDPARTYWEBROOT = OC_Config::getValue('3rdpartyurl', null);
+		OC::$THIRDPARTYROOT = self::$config->getValue('3rdpartyroot', null);
+		OC::$THIRDPARTYWEBROOT = self::$config->getValue('3rdpartyurl', null);
 
 		if (empty(OC::$THIRDPARTYROOT) && empty(OC::$THIRDPARTYWEBROOT)) {
 			if (file_exists(OC::$SERVERROOT . '/3rdparty')) {
@@ -197,7 +202,7 @@ class OC {
 		}
 
 		// search the apps folder
-		$config_paths = OC_Config::getValue('apps_paths', array());
+		$config_paths = self::$config->getValue('apps_paths', array());
 		if (!empty($config_paths)) {
 			foreach ($config_paths as $paths) {
 				if (isset($paths['url']) && isset($paths['path'])) {
@@ -372,7 +377,7 @@ class OC {
 
 		// check whether this is a core update or apps update
 		$installedVersion = $systemConfig->getValue('version', '0.0.0');
-		$currentVersion = implode('.', OC_Util::getVersion());
+		$currentVersion = implode('.', \OCP\Util::getVersion());
 
 		$appManager = \OC::$server->getAppManager();
 
@@ -387,7 +392,7 @@ class OC {
 		}
 
 		// get third party apps
-		$ocVersion = OC_Util::getVersion();
+		$ocVersion = \OCP\Util::getVersion();
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
 		$tmpl->assign('incompatibleAppsList', $appManager->getIncompatibleApps($ocVersion));
 		$tmpl->assign('productName', 'ownCloud'); // for now
@@ -517,7 +522,7 @@ class OC {
 		}
 
 		// setup the basic server
-		self::$server = new \OC\Server(\OC::$WEBROOT);
+		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);
 		\OC::$server->getEventLogger()->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
 		\OC::$server->getEventLogger()->start('boot', 'Initialize');
 
@@ -875,7 +880,7 @@ class OC {
 
 		// Handle redirect URL for logged in users
 		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
-			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			$location = \OC::$server->getURLGenerator()->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
@@ -1055,7 +1060,7 @@ class OC {
 			return false;
 		}
 
-		if(!OC_Util::isCallRegistered()) {
+		if(!(\OC::$server->getRequest()->passesCSRFCheck())) {
 			return false;
 		}
 		OC_App::loadApps();

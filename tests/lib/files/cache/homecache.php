@@ -69,7 +69,7 @@ class HomeCache extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->user = new DummyUser('foo', \OC_Helper::tmpFolder());
+		$this->user = new DummyUser('foo', \OC::$server->getTempManager()->getTemporaryFolder());
 		$this->storage = new \OC\Files\Storage\Home(array('user' => $this->user));
 		$this->cache = $this->storage->getCache();
 	}

@@ -68,7 +68,12 @@ class Install extends Command {
 		$errors = $sysInfo['errors'];
 		if (count($errors) > 0) {
 			$this->printErrors($output, $errors);
-			return 1;
+
+			// ignore the OS X setup warning
+			if(count($errors) !== 1 ||
+				(string)($errors[0]['error']) !== 'Mac OS X is not supported and ownCloud will not work properly on this platform. Use it at your own risk! ') {
+				return 1;
+			}
 		}
 
 		// validate user input

@@ -399,7 +399,6 @@ class Availability extends Wrapper {
 
 	/** {@inheritdoc} */
 	public function getOwner($path) {
-		$this->checkAvailability();
 		try {
 			return parent::getOwner($path);
 		} catch (\OCP\Files\StorageNotAvailableException $e) {

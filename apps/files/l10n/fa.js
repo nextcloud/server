@@ -34,6 +34,7 @@ OC.L10N.register(
     "Download" : "دانلود",
     "Rename" : "تغییرنام",
     "Delete" : "حذف",
+    "Unshare" : "لغو اشتراک",
     "Details" : "جزئیات",
     "Select" : "انتخاب",
     "Pending" : "در انتظار",

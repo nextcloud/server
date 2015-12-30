@@ -192,7 +192,6 @@
     "iOS app" : "Program za iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Če bi radi podprli projekt\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">pristopite razvoju</a>\n\t\tali\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">razširite glas</a>!",
     "Show First Run Wizard again" : "Zaženi čarovnika prvega zagona",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Uporabljenega je <strong>%s</strong> od razpoložljivih <strong>%s</strong> prostora.",
     "Password" : "Geslo",
     "Unable to change your password" : "Gesla ni mogoče spremeniti.",
     "Current password" : "Trenutno geslo",

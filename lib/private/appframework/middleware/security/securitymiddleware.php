@@ -27,7 +27,6 @@
 
 namespace OC\AppFramework\Middleware\Security;
 
-use OC\AppFramework\Http;
 use OC\Appframework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\Appframework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;

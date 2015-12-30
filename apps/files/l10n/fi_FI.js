@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Lataa",
     "Rename" : "Nimeä uudelleen",
     "Delete" : "Poista",
+    "Disconnect storage" : "Katkaise yhteys tallennustilaan",
+    "Unshare" : "Peru jakaminen",
     "Details" : "Tiedot",
     "Select" : "Valitse",
     "Pending" : "Odottaa",

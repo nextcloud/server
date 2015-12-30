@@ -232,8 +232,8 @@ class OC_Installer{
 			\OC::$server->getConfig(),
 			\OC::$server->getLogger()
 		);
-		$appData = $ocsClient->getApplication($ocsId, \OC_Util::getVersion());
-		$download = $ocsClient->getApplicationDownload($ocsId, \OC_Util::getVersion());
+		$appData = $ocsClient->getApplication($ocsId, \OCP\Util::getVersion());
+		$download = $ocsClient->getApplicationDownload($ocsId, \OCP\Util::getVersion());
 
 		if (isset($download['downloadlink']) && trim($download['downloadlink']) !== '') {
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
@@ -264,7 +264,7 @@ class OC_Installer{
 		//download the file if necessary
 		if($data['source']=='http') {
 			$pathInfo = pathinfo($data['href']);
-			$path=OC_Helper::tmpFile('.' . $pathInfo['extension']);
+			$path = \OC::$server->getTempManager()->getTemporaryFile('.' . $pathInfo['extension']);
 			if(!isset($data['href'])) {
 				throw new \Exception($l->t("No href specified when installing app from http"));
 			}
@@ -284,7 +284,7 @@ class OC_Installer{
 		}
 
 		//extract the archive in a temporary folder
-		$extractDir=OC_Helper::tmpFolder();
+		$extractDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		OC_Helper::rmdirr($extractDir);
 		mkdir($extractDir);
 		if($archive=OC_Archive::open($path)) {
@@ -342,7 +342,7 @@ class OC_Installer{
 		}
 
 		// check if the app is compatible with this version of ownCloud
-		if(!OC_App::isAppCompatible(OC_Util::getVersion(), $info)) {
+		if(!OC_App::isAppCompatible(\OCP\Util::getVersion(), $info)) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because it is not compatible with this version of ownCloud"));
 		}
@@ -400,7 +400,7 @@ class OC_Installer{
 				\OC::$server->getConfig(),
 				\OC::$server->getLogger()
 			);
-			$ocsdata = $ocsClient->getApplication($ocsid, \OC_Util::getVersion());
+			$ocsdata = $ocsClient->getApplication($ocsid, \OCP\Util::getVersion());
 			$ocsversion= (string) $ocsdata['version'];
 			$currentversion=OC_App::getAppVersion($app);
 			if (version_compare($ocsversion, $currentversion, '>')) {

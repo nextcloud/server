@@ -130,17 +130,4 @@ class Test_OC_Setup extends \Test\TestCase {
 			->will($this->returnValue('NotAnArray'));
 		$this->setupClass->getSupportedDatabases();
 	}
-
-	/**
-	 * This is actual more an integration test whether the version parameter in the .htaccess
-	 * was updated as well when the version has been incremented.
-	 * If it hasn't this test will fail.
-	 */
-	public function testHtaccessIsCurrent() {
-		$result = self::invokePrivate(
-			$this->setupClass,
-			'isCurrentHtaccess'
-		);
-		$this->assertTrue($result);
-	}
 }

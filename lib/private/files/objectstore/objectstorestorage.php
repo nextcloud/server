@@ -274,7 +274,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = \OC_Helper::tmpFile($ext);
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
@@ -329,7 +329,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			$stat['mtime'] = $mtime;
 			$this->getCache()->update($stat['fileid'], $stat);
 		} else {
-			$mimeType = \OC_Helper::getFileNameMimeType($path);
+			$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
 			// create new file
 			$stat = array(
 				'etag' => $this->getETag($path),

@@ -76,7 +76,7 @@ class OC_EventSource implements \OCP\IEventSource {
 		} else {
 			header("Content-Type: text/event-stream");
 		}
-		if (!OC_Util::isCallRegistered()) {
+		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
 			$this->send('error', 'Possible CSRF attack. Connection will be closed.');
 			$this->close();
 			exit();

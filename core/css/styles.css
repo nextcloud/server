@@ -254,6 +254,10 @@ body {
 	width: 22em;
 	margin: 0 auto;
 	padding-top: 20px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 #body-login p.info a {
 	font-weight: 600;
@@ -291,6 +295,10 @@ body {
 #body-login form fieldset {
 	margin-bottom: 20px;
 	text-align: left;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 #body-login form #sqliteInformation {
 	margin-top: -20px;
@@ -348,6 +356,10 @@ body {
 .groupmiddle,
 .groupbottom {
 	position: relative;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 #body-login .grouptop input,
 .grouptop input {
@@ -385,6 +397,10 @@ label.infield {
 	padding: 14px;
 	padding-left: 28px;
 	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 html.ie8 #body-login form input[type="checkbox"]+label {
 	margin-left: -28px;

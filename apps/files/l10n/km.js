@@ -10,6 +10,7 @@ OC.L10N.register(
     "Download" : "ទាញយក",
     "Rename" : "ប្ដូរ​ឈ្មោះ",
     "Delete" : "លុប",
+    "Unshare" : "លែង​ចែក​រំលែក",
     "Details" : "ព័ត៌មាន​លម្អិត",
     "Pending" : "កំពុង​រង់ចាំ",
     "Name" : "ឈ្មោះ",

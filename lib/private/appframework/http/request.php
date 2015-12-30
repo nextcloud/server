@@ -447,7 +447,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$deobfuscatedToken = base64_decode($obfuscatedToken) ^ $secret;
 
 		// Check if the token is valid
-		if(\OCP\Security\StringUtils::equals($deobfuscatedToken, $this->items['requesttoken'])) {
+		if(hash_equals($deobfuscatedToken, $this->items['requesttoken'])) {
 			return true;
 		} else {
 			return false;

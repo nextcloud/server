@@ -269,7 +269,10 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkToAbsolute( $app, $file, $args = array() ) {
-		return(\OC_Helper::linkToAbsolute( $app, $file, $args ));
+		$urlGenerator = \OC::$server->getURLGenerator();
+		return $urlGenerator->getAbsoluteURL(
+			$urlGenerator->linkTo($app, $file, $args)
+		);
 	}
 
 	/**
@@ -279,7 +282,11 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function linkToRemote( $service ) {
-		return(\OC_Helper::linkToRemote( $service ));
+		$urlGenerator = \OC::$server->getURLGenerator();
+		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
+		return $urlGenerator->getAbsoluteURL(
+			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')
+		);
 	}
 
 	/**
@@ -302,7 +309,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function linkToRoute( $route, $parameters = array() ) {
-		return \OC_Helper::linkToRoute($route, $parameters);
+		return \OC::$server->getURLGenerator()->linkToRoute($route, $parameters);
 	}
 
 	/**
@@ -316,7 +323,7 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkTo( $app, $file, $args = array() ) {
-		return(\OC_Helper::linkTo( $app, $file, $args ));
+		return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
 	}
 
 	/**
@@ -487,7 +494,9 @@ class Util {
 	 * @since 4.5.0
 	 */
 	public static function callCheck() {
-		\OC_Util::callCheck();
+		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
+			exit();
+		}
 	}
 
 	/**

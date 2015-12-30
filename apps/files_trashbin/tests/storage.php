@@ -75,7 +75,8 @@ class Storage extends \Test\TestCase {
 	protected function tearDown() {
 		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 		$this->logout();
-		\OC_User::deleteUser($this->user);
+		$user = \OC::$server->getUserManager()->get($this->user);
+		if ($user !== null) { $user->delete(); }
 		\OC_Hook::clear();
 		parent::tearDown();
 	}
@@ -530,5 +531,18 @@ class Storage extends \Test\TestCase {
 			['/schiesbn/', '/test.txt', true, false],
 			['/schiesbn/', '/test.txt', false, false],
 		];
+	}
+
+	/**
+	 * Test that deleting a file doesn't error when nobody is logged in
+	 */
+	public function testSingleStorageDeleteFileLoggedOut() {
+		$this->logout();
+
+		if (!$this->userView->file_exists('test.txt')) {
+			$this->markTestSkipped('Skipping since the current home storage backend requires the user to logged in');
+		} else {
+			$this->userView->unlink('test.txt');
+		}
 	}
 }

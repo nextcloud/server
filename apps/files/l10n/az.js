@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Yüklə",
     "Rename" : "Adı dəyiş",
     "Delete" : "Sil",
+    "Disconnect storage" : "Daşıyıcını ayır",
+    "Unshare" : "Paylaşımı durdur",
     "Details" : "Detallar",
     "Select" : "Seç",
     "Pending" : "Gözləmə",

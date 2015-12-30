@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Server to server sharing is not enabled on this server" : "เซิร์ฟเวอร์ไปยังแชร์เซิร์ฟเวอร์ไม่ได้เปิดใช้งานบนเซิร์ฟเวอร์นี้",
     "The mountpoint name contains invalid characters." : "ชื่อจุดเชื่อมต่อมีตัวอักษรที่ไม่ถูกต้อง",
+    "Not allowed to create a federated share with the same user server" : "ไม่อนุญาตให้สร้างแชร์ในเครือกับเซิร์ฟเวอร์ที่มีผู้ใช้เดียวกัน",
     "Invalid or untrusted SSL certificate" : "ใบรับรอง SSL ไม่ถูกต้องหรือไม่น่าเชื่อถือ",
     "Could not authenticate to remote share, password might be wrong" : "ไม่สามารถรับรองความถูกต้องจากการแชร์ระยะไกลรหัสผ่านอาจจะผิด",
     "Storage not valid" : "การจัดเก็บข้อมูลไม่ถูกต้อง",

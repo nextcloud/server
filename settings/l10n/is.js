@@ -2,9 +2,9 @@ OC.L10N.register(
     "settings",
     {
     "External Storage" : "Ytri gagnageymsla",
-    "Authentication error" : "Villa við auðkenningu",
     "Language changed" : "Tungumáli breytt",
     "Invalid request" : "Ógild fyrirspurn",
+    "Authentication error" : "Villa við auðkenningu",
     "Admins can't remove themself from the admin group" : "Stjórnendur geta ekki fjarlægt sjálfa sig úr stjórnendahóp",
     "Unable to add user to group %s" : "Ekki tókst að bæta notenda við hópinn %s",
     "Unable to remove user from group %s" : "Ekki tókst að fjarlægja notanda úr hópnum %s",
@@ -37,7 +37,6 @@ OC.L10N.register(
     "by" : "af",
     "Cheers!" : "Skál!",
     "Forum" : "Vefspjall",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Þú hefur notað <strong>%s</strong> af tiltæku <strong>%s</strong>",
     "Password" : "Lykilorð",
     "Unable to change your password" : "Ekki tókst að breyta lykilorðinu þínu",
     "Current password" : "Núverandi lykilorð",

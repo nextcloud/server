@@ -26,6 +26,7 @@ OC.L10N.register(
     "Download" : "ডাউনলোড",
     "Rename" : "পূনঃনামকরণ",
     "Delete" : "মুছে",
+    "Unshare" : "ভাগাভাগি বাতিল ",
     "Details" : "বিস্তারিত",
     "Pending" : "মুলতুবি",
     "Name" : "রাম",

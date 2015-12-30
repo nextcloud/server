@@ -912,7 +912,7 @@ class View {
 			$source = $this->fopen($path, 'r');
 			if ($source) {
 				$extension = pathinfo($path, PATHINFO_EXTENSION);
-				$tmpFile = \OC_Helper::tmpFile($extension);
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($extension);
 				file_put_contents($tmpFile, $source);
 				return $tmpFile;
 			} else {
@@ -1253,7 +1253,7 @@ class View {
 	 * @param boolean|string $includeMountPoints true to add mountpoint sizes,
 	 * 'ext' to add only ext storage mount point sizes. Defaults to true.
 	 * defaults to true
-	 * @return \OC\Files\FileInfo|bool False if file does not exist
+	 * @return \OC\Files\FileInfo|false False if file does not exist
 	 */
 	public function getFileInfo($path, $includeMountPoints = true) {
 		$this->assertPathLength($path);

@@ -25,7 +25,7 @@ echo "Fetch recent ${docker_image} docker image"
 docker pull ${docker_image}
 
 # retrieve current folder to place the config in the parent folder
-thisFolder=`echo $0 | replace "env/start-swift-ceph.sh" ""`
+thisFolder=`echo $0 | sed 's#env/start-swift-ceph\.sh##'`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."
@@ -38,6 +38,7 @@ pass=testing
 tenant=testenant
 region=testregion
 service=testceph
+endpointFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 container=`docker run -d \
     -e KEYSTONE_PUBLIC_PORT=${port} \
@@ -46,7 +47,10 @@ container=`docker run -d \
     -e KEYSTONE_ADMIN_TENANT=${tenant} \
     -e KEYSTONE_ENDPOINT_REGION=${region} \
     -e KEYSTONE_SERVICE=${service} \
-    ${docker_image}`
+    -e OSD_SIZE=300 \
+    -v ${endpointFolder}/entrypoint.sh:/entrypoint.sh \
+    --privileged \
+    --entrypoint /entrypoint.sh ${docker_image}`
 
 host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
@@ -57,8 +61,9 @@ echo "${docker_image} container: $container"
 echo $container >> $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 
 echo -n "Waiting for ceph initialization"
-if ! "$thisFolder"/env/wait-for-connection ${host} 80 60; then
-    echo "[ERROR] Waited 60 seconds, no response" >&2
+if ! "$thisFolder"/env/wait-for-connection ${host} 80 600; then
+    echo "[ERROR] Waited 600 seconds, no response" >&2
+    docker logs $container
     exit 1
 fi
 sleep 1

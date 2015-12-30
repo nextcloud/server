@@ -84,9 +84,15 @@ abstract class TestCase extends \Test\TestCase {
 		$groupBackend = new \OC_Group_Dummy();
 		$groupBackend->createGroup(self::TEST_FILES_SHARING_API_GROUP1);
 		$groupBackend->createGroup('group');
+		$groupBackend->createGroup('group1');
+		$groupBackend->createGroup('group2');
+		$groupBackend->createGroup('group3');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER1, 'group');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group1');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group2');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER4, 'group3');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
 		\OC_Group::useBackend($groupBackend);
 
@@ -111,9 +117,12 @@ abstract class TestCase extends \Test\TestCase {
 
 	public static function tearDownAfterClass() {
 		// cleanup users
-		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER1);
-		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER2);
-		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER3);
+		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER2);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3);
+		if ($user !== null) { $user->delete(); }
 
 		// delete group
 		\OC_Group::deleteGroup(self::TEST_FILES_SHARING_API_GROUP1);
@@ -143,7 +152,7 @@ abstract class TestCase extends \Test\TestCase {
 		}
 
 		if ($create) {
-			\OC_User::createUser($user, $password);
+			\OC::$server->getUserManager()->createUser($user, $password);
 			\OC_Group::createGroup('group');
 			\OC_Group::addToGroup($user, 'group');
 		}

@@ -72,7 +72,7 @@ class OC_Util {
 
 	private static function initLocalStorageRootFS() {
 		// mount local file backend as root
-		$configDataDirectory = OC_Config::getValue("datadirectory", OC::$SERVERROOT . "/data");
+		$configDataDirectory = \OC::$server->getSystemConfig()->getValue("datadirectory", OC::$SERVERROOT . "/data");
 		//first set up the local "root" storage
 		\OC\Files\Filesystem::initMountManager();
 		if (!self::$rootMounted) {
@@ -184,7 +184,7 @@ class OC_Util {
 		OC_Hook::emit('OC_Filesystem', 'preSetup', array('user' => $user));
 
 		//check if we are using an object storage
-		$objectStore = OC_Config::getValue('objectstore');
+		$objectStore = \OC::$server->getSystemConfig()->getValue('objectstore', null);
 		if (isset($objectStore)) {
 			self::initObjectStoreRootFS($objectStore);
 		} else {
@@ -642,13 +642,15 @@ class OC_Util {
 		}
 
 		// Check if config folder is writable.
-		if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
-			$errors[] = array(
-				'error' => $l->t('Cannot write into "config" directory'),
-				'hint' => $l->t('This can usually be fixed by '
-					. '%sgiving the webserver write access to the config directory%s.',
-					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
-			);
+		if(!OC_Helper::isReadOnlyConfigEnabled()) {
+			if (!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
+				$errors[] = array(
+					'error' => $l->t('Cannot write into "config" directory'),
+					'hint' => $l->t('This can usually be fixed by '
+						. '%sgiving the webserver write access to the config directory%s.',
+						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
+				);
+			}
 		}
 
 		// Check if there is a writable install folder.
@@ -846,7 +848,7 @@ class OC_Util {
 	public static function checkDatabaseVersion() {
 		$l = \OC::$server->getL10N('lib');
 		$errors = array();
-		$dbType = \OC_Config::getValue('dbtype', 'sqlite');
+		$dbType = \OC::$server->getSystemConfig()->getValue('dbtype', 'sqlite');
 		if ($dbType === 'pgsql') {
 			// check PostgreSQL version
 			try {
@@ -949,9 +951,11 @@ class OC_Util {
 
 		$parameters['canResetPassword'] = true;
 		if (!\OC::$server->getSystemConfig()->getValue('lost_password_link')) {
-			$user = \OC::$server->getUserManager()->get($_REQUEST['user']);
-			if ($user instanceof IUser) {
-				$parameters['canResetPassword'] = $user->canChangePassword();
+			if (isset($_REQUEST['user'])) {
+				$user = \OC::$server->getUserManager()->get($_REQUEST['user']);
+				if ($user instanceof IUser) {
+					$parameters['canResetPassword'] = $user->canChangePassword();
+				}
 			}
 		}
 
@@ -970,7 +974,7 @@ class OC_Util {
 	 */
 	public static function checkAppEnabled($app) {
 		if (!OC_App::isEnabled($app)) {
-			header('Location: ' . OC_Helper::linkToAbsolute('', 'index.php'));
+			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
 	}
@@ -984,7 +988,7 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if (!OC_User::isLoggedIn()) {
-			header('Location: ' . OC_Helper::linkToAbsolute('', 'index.php',
+			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php',
 					[
 						'redirect_url' => \OC::$server->getRequest()->getRequestUri()
 					]
@@ -1002,7 +1006,7 @@ class OC_Util {
 	public static function checkAdminUser() {
 		OC_Util::checkLoggedIn();
 		if (!OC_User::isAdminUser(OC_User::getUser())) {
-			header('Location: ' . OC_Helper::linkToAbsolute('', 'index.php'));
+			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
 	}
@@ -1042,7 +1046,7 @@ class OC_Util {
 		}
 
 		if (!$isSubAdmin) {
-			header('Location: ' . OC_Helper::linkToAbsolute('', 'index.php'));
+			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php'));
 			exit();
 		}
 		return true;
@@ -1104,11 +1108,11 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getInstanceId() {
-		$id = OC_Config::getValue('instanceid', null);
+		$id = \OC::$server->getSystemConfig()->getValue('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
 			$id = 'oc' . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
-			OC_Config::$object->setValue('instanceid', $id);
+			\OC::$server->getSystemConfig()->setValue('instanceid', $id);
 		}
 		return $id;
 	}
@@ -1123,7 +1127,6 @@ class OC_Util {
 	 * Creates a 'request token' (random) and stores it inside the session.
 	 * Ever subsequent (ajax) request must use such a valid token to succeed,
 	 * otherwise the request will be denied as a protection against CSRF.
-	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
 		// Use existing token if function has already been called
@@ -1148,27 +1151,6 @@ class OC_Util {
 		self::$obfuscatedToken =  base64_encode($requestToken ^ $sharedSecret) .':'.$sharedSecret;
 
 		return self::$obfuscatedToken;
-	}
-
-	/**
-	 * Check an ajax get/post call if the request token is valid.
-	 *
-	 * @return boolean False if request token is not set or is invalid.
-	 * @see OC_Util::callRegister()
-	 */
-	public static function isCallRegistered() {
-		return \OC::$server->getRequest()->passesCSRFCheck();
-	}
-
-	/**
-	 * Check an ajax get/post call if the request token is valid. Exit if not.
-	 *
-	 * @return void
-	 */
-	public static function callCheck() {
-		if (!OC_Util::isCallRegistered()) {
-			exit();
-		}
 	}
 
 	/**
@@ -1246,7 +1228,7 @@ class OC_Util {
 		fclose($fp);
 
 		// accessing the file via http
-		$url = OC_Helper::makeURLAbsolute(OC::$WEBROOT . '/data' . $fileName);
+		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);
 		try {
 			$content = \OC::$server->getHTTPClientService()->newClient()->get($url)->getBody();
 		} catch (\Exception $e) {
@@ -1360,7 +1342,7 @@ class OC_Util {
 	 * @return string the theme
 	 */
 	public static function getTheme() {
-		$theme = OC_Config::getValue("theme", '');
+		$theme = \OC::$server->getSystemConfig()->getValue("theme", '');
 
 		if ($theme === '') {
 			if (is_dir(OC::$SERVERROOT . '/themes/default')) {
@@ -1505,7 +1487,7 @@ class OC_Util {
 	public static function needUpgrade(\OCP\IConfig $config) {
 		if ($config->getSystemValue('installed', false)) {
 			$installedVersion = $config->getSystemValue('version', '0.0.0');
-			$currentVersion = implode('.', OC_Util::getVersion());
+			$currentVersion = implode('.', \OCP\Util::getVersion());
 			$versionDiff = version_compare($currentVersion, $installedVersion);
 			if ($versionDiff > 0) {
 				return true;
