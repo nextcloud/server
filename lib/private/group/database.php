@@ -53,6 +53,27 @@ class OC_Group_Database extends OC_Group_Backend {
 	/** @var string[] */
 	private $groupCache = [];
 
+	/** @var \OCP\IDBConnection */
+	private $dbConn;
+
+	/**
+	 * OC_Group_Database constructor.
+	 *
+	 * @param \OCP\IDBConnection|null $dbConn
+	 */
+	public function __construct(\OCP\IDBConnection $dbConn = null) {
+		$this->dbConn = $dbConn;
+	}
+
+	/**
+	 * FIXME: This function should not be required!
+	 */
+	private function fixDI() {
+		if ($this->dbConn === null) {
+			$this->dbConn = \OC::$server->getDatabaseConnection();
+		}
+	}
+
 	/**
 	 * Try to create a new group
 	 * @param string $gid The name of the group to create
@@ -62,15 +83,20 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * be returned.
 	 */
 	public function createGroup( $gid ) {
+		$this->fixDI();
+
 		// Check cache first
 		if (isset($this->groupCache[$gid])) {
 			return false;
 		} else {
 			// Check for existence in DB
-			$stmt = OC_DB::prepare( "SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` = ?" );
-			$result = $stmt->execute( [$gid] );
+			$qb = $this->dbConn->getQueryBuilder();
+			$result = $qb->select('gid')
+				->from('groups')
+				->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+				->execute();
 
-			if( $result->fetchRow() ) {
+			if( $result->fetch() ) {
 				// Can not add an existing group
 
 				// Add to cache
@@ -81,8 +107,10 @@ class OC_Group_Database extends OC_Group_Backend {
 		}
 
 		// Add group and exit
-		$stmt = OC_DB::prepare( "INSERT INTO `*PREFIX*groups` ( `gid` ) VALUES( ? )" );
-		$result = $stmt->execute( [$gid] );
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->insert('groups')
+			->setValue('gid', $qb->createNamedParameter($gid))
+			->execute();
 
 		if (!$result) {
 			return false;
@@ -102,17 +130,25 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Deletes a group and removes it from the group_user-table
 	 */
 	public function deleteGroup( $gid ) {
+		$this->fixDI();
+
 		// Delete the group
-		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*groups` WHERE `gid` = ?" );
-		$stmt->execute( array( $gid ));
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('groups')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
 
 		// Delete the group-user relation
-		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `gid` = ?" );
-		$stmt->execute( array( $gid ));
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_user')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
 
 		// Delete the group-groupadmin relation
-		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*group_admin` WHERE `gid` = ?" );
-		$stmt->execute( array( $gid ));
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_admin')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
 
 		// Delete from cache
 		unset($this->groupCache[$gid]);
@@ -129,11 +165,17 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup( $uid, $gid ) {
-		// check
-		$stmt = OC_DB::prepare( "SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` = ?" );
-		$result = $stmt->execute( array( $gid, $uid ));
+		$this->fixDI();
 
-		return $result->fetchRow() ? true : false;
+		// check
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->select('uid')
+			->from('group_user')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->execute();
+
+		return $result->fetch() ? true : false;
 	}
 
 	/**
@@ -145,10 +187,15 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Adds a user to a group.
 	 */
 	public function addToGroup( $uid, $gid ) {
+		$this->fixDI();
+
 		// No duplicate entries!
 		if( !$this->inGroup( $uid, $gid )) {
-			$stmt = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
-			$stmt->execute( array( $uid, $gid ));
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->insert('group_user')
+				->setValue('uid', $qb->createNamedParameter($uid))
+				->setValue('gid', $qb->createNamedParameter($gid))
+				->execute();
 			return true;
 		}else{
 			return false;
@@ -164,8 +211,13 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * removes the user from a group.
 	 */
 	public function removeFromGroup( $uid, $gid ) {
-		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `uid` = ? AND `gid` = ?" );
-		$stmt->execute( array( $uid, $gid ));
+		$this->fixDI();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_user')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
 
 		return true;
 	}
@@ -179,12 +231,17 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups( $uid ) {
+		$this->fixDI();
+
 		// No magic!
-		$stmt = OC_DB::prepare( "SELECT `gid` FROM `*PREFIX*group_user` WHERE `uid` = ?" );
-		$result = $stmt->execute( array( $uid ));
+		$qb = $this->dbConn->getQueryBuilder();
+		$result = $qb->select('gid')
+			->from('group_user')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->execute();
 
 		$groups = [];
-		while( $row = $result->fetchRow()) {
+		while( $row = $result->fetch()) {
 			$groups[] = $row["gid"];
 			$this->groupCache[$row['gid']] = $row['gid'];
 		}
@@ -224,13 +281,21 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @return bool
 	 */
 	public function groupExists($gid) {
+		$this->fixDI();
+
 		// Check cache first
 		if (isset($this->groupCache[$gid])) {
 			return true;
 		}
 
-		$query = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` = ?');
-		$result = $query->execute(array($gid))->fetchOne();
+		$qb = $this->dbConn->getQueryBuilder();
+		$cursor = $qb->select('gid')
+			->from('groups')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
+		$result = $cursor->fetch();
+		$cursor->closeCursor();
+
 		if ($result !== false) {
 			return true;
 		}
