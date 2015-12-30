@@ -86,6 +86,8 @@ class View {
 
 	private $updaterEnabled = true;
 
+	private $userManager;
+
 	/**
 	 * @param string $root
 	 * @throws \Exception If $root contains an invalid path
@@ -101,6 +103,7 @@ class View {
 		$this->fakeRoot = $root;
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
+		$this->userManager = \OC::$server->getUserManager();
 	}
 
 	public function getAbsolutePath($path = '/') {
@@ -1196,7 +1199,7 @@ class View {
 	 * @return \OC\User\User
 	 */
 	private function getUserObjectForOwner($ownerId) {
-		$owner = \OC::$server->getUserManager()->get($ownerId);
+		$owner = $this->userManager->get($ownerId);
 		if ($owner instanceof IUser) {
 			return $owner;
 		} else {
