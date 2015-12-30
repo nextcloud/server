@@ -297,6 +297,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		$cursor->closeCursor();
 
 		if ($result !== false) {
+			$this->groupCache[$gid] = $gid;
 			return true;
 		}
 		return false;
