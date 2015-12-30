@@ -94,6 +94,10 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		return $path;
 	}
 
+	public function cacheNode(Node $node) {
+		$this->cache[trim($node->getPath(), '/')] = $node;
+	}
+
 	/**
 	 * Returns the INode object for the requested path
 	 *
@@ -108,16 +112,17 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		}
 
 		$path = trim($path, '/');
+
+		if (isset($this->cache[$path])) {
+			return $this->cache[$path];
+		}
+
 		if ($path) {
 			try {
 				$this->fileView->verifyPath($path, basename($path));
 			} catch (\OCP\Files\InvalidPathException $ex) {
 				throw new InvalidPath($ex->getMessage());
 			}
-		}
-
-		if (isset($this->cache[$path])) {
-			return $this->cache[$path];
 		}
 
 		// Is it the root node?
@@ -162,7 +167,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		}
 
 		if ($info->getType() === 'dir') {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info);
+			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this);
 		} else {
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
 		}
