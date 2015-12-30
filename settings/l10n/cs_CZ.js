@@ -230,7 +230,6 @@ OC.L10N.register(
     "iOS app" : "iOS aplikace",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Chcete-li podpořit tento projekt\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">přidejte se k jeho vývoji</a>\n\t\tnebo\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">šiřte osvětu</a>!",
     "Show First Run Wizard again" : "Znovu zobrazit průvodce prvním spuštěním",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Používáte <strong>%s</strong> z <strong>%s</strong> dostupných",
     "Password" : "Heslo",
     "Unable to change your password" : "Změna vašeho hesla se nezdařila",
     "Current password" : "Současné heslo",

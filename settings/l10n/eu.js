@@ -153,7 +153,6 @@ OC.L10N.register(
     "Android app" : "Android aplikazioa",
     "iOS app" : "iOS aplikazioa",
     "Show First Run Wizard again" : "Erakutsi berriz Lehenengo Aldiko Morroia",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Dagoeneko <strong>%s</strong> erabili duzu eskuragarri duzun <strong>%s</strong>etatik",
     "Password" : "Pasahitza",
     "Unable to change your password" : "Ezin izan da zure pasahitza aldatu",
     "Current password" : "Uneko pasahitza",

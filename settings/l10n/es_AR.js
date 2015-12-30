@@ -98,7 +98,6 @@ OC.L10N.register(
     "Android app" : "App para Android",
     "iOS app" : "App para iOS",
     "Show First Run Wizard again" : "Mostrar de nuevo el asistente de primera ejecución",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Usás <strong>%s</strong>  de los <strong>%s</strong> disponibles",
     "Password" : "Contraseña",
     "Unable to change your password" : "No fue posible cambiar tu contraseña",
     "Current password" : "Contraseña actual",

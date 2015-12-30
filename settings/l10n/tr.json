@@ -228,7 +228,6 @@
     "iOS app" : "iOS uygulaması",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Projeyi desteklemek istiyorsanız\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">geliştirilmesine katılın</a>\n\t\tveya\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">duyurun</a>!",
     "Show First Run Wizard again" : "İlk Çalıştırma Sihirbazı'nı yeniden göster",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Kullandığınız: <strong>%s</strong>. Kullanılabilir alan: <strong>%s</strong>",
     "Password" : "Parola",
     "Unable to change your password" : "Parolanız değiştirilemiyor",
     "Current password" : "Mevcut parola",

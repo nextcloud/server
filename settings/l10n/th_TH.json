@@ -228,7 +228,6 @@
     "iOS app" : "แอพฯ IOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "หากคุณต้องการที่จะสนับสนุนโครงการ <a href=\"https://owncloud.org/contribute\" target=\"_blank\" rel=\"noreferrer\">เข้าร่วมการพัฒนา</a> หรือ <a href=\"https://owncloud.org/promote\" target=\"_blank\" rel=\"noreferrer\">กระจายข่าวสาร</a>!\n\t\t",
     "Show First Run Wizard again" : "แสดงหน้าจอวิซาร์ดนำทางครั้งแรกอีกครั้ง",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "คุณได้ใช้งานไปแล้ว <strong>%s</strong> จากจำนวนที่สามารถใช้ได้ <strong>%s</strong>",
     "Password" : "รหัสผ่าน",
     "Unable to change your password" : "ไม่สามารถเปลี่ยนรหัสผ่านของคุณได้",
     "Current password" : "รหัสผ่านปัจจุบัน",

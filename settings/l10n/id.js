@@ -229,7 +229,6 @@ OC.L10N.register(
     "iOS app" : "Aplikasi iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Jika Anda ingin mendukung proyek ini\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">bergabunglah dalam pengembangan</a>\n\t\tatau\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">promosikan</a>!",
     "Show First Run Wizard again" : "Tampilkan Penuntun Konfigurasi Awal",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Anda telah menggunakan <strong>%s</strong> dari total <strong>%s</strong>",
     "Password" : "Sandi",
     "Unable to change your password" : "Gagal mengubah sandi Anda",
     "Current password" : "Sandi saat ini",

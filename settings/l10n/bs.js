@@ -145,7 +145,6 @@ OC.L10N.register(
     "Android app" : "Android aplikacija",
     "iOS app" : "iOS aplikacija",
     "Show First Run Wizard again" : "Opet pokažite First Run Wizard",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Iskoristili ste <strong>%s</strong> od raspoloživog <strong>%s</strong>",
     "Password" : "Lozinka",
     "Unable to change your password" : "Vašu lozinku nije moguće promijeniti",
     "Current password" : "Trenutna lozinka",

@@ -226,7 +226,6 @@ OC.L10N.register(
     "iOS app" : "La aplicación de iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Si quiere colaborar con el proyecto\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">participe en el desarrollo</a>\n\t\to\n\t\t¡<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">difúndalo</a>!",
     "Show First Run Wizard again" : "Mostrar nuevamente el Asistente de ejecución inicial",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Ha usado <strong>%s</strong> de los <strong>%s</strong> disponibles",
     "Password" : "Contraseña",
     "Unable to change your password" : "No se ha podido cambiar su contraseña",
     "Current password" : "Contraseña actual",

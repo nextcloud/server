@@ -70,7 +70,6 @@ OC.L10N.register(
     "Forum" : "Foro",
     "Get the apps to sync your files" : "Obtener las aplicaciones para sincronizar sus archivos",
     "Show First Run Wizard again" : "Mostrar nuevamente el Asistente de ejecución inicial",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Ha usado <strong>%s</strong> de los <strong>%s</strong> disponibles",
     "Password" : "Contraseña",
     "Unable to change your password" : "No se ha podido cambiar su contraseña",
     "Current password" : "Contraseña actual",

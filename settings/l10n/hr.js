@@ -122,7 +122,6 @@ OC.L10N.register(
     "Forum" : "Forum",
     "Get the apps to sync your files" : "Koristite aplikacije za sinkronizaciju svojih datoteka",
     "Show First Run Wizard again" : "Opet pokažite First Run Wizard",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Iskoristili ste <strong>%s</strong> od raspoloživog <strong>%s</strong>",
     "Password" : "Lozinka",
     "Unable to change your password" : "Vašu lozinku nije moguće promijeniti",
     "Current password" : "Trenutna lozinka",

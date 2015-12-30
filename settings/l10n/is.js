@@ -37,7 +37,6 @@ OC.L10N.register(
     "by" : "af",
     "Cheers!" : "Skál!",
     "Forum" : "Vefspjall",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Þú hefur notað <strong>%s</strong> af tiltæku <strong>%s</strong>",
     "Password" : "Lykilorð",
     "Unable to change your password" : "Ekki tókst að breyta lykilorðinu þínu",
     "Current password" : "Núverandi lykilorð",

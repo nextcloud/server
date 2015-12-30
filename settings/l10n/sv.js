@@ -151,7 +151,6 @@ OC.L10N.register(
     "Android app" : "Android-app",
     "iOS app" : "iOS-app",
     "Show First Run Wizard again" : "Visa Första uppstarts-guiden igen",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Du har använt <strong>%s</strong> av tillgängliga <strong>%s</strong>",
     "Password" : "Lösenord",
     "Unable to change your password" : "Kunde inte ändra ditt lösenord",
     "Current password" : "Nuvarande lösenord",

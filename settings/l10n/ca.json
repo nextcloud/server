@@ -197,7 +197,6 @@
     "iOS app" : "aplicació para iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Si vol recolzar el projecte\n⇥⇥<a href=\"https://owncloud.org/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\"> unir-se al desenvolupament</a>\n⇥⇥o\n⇥⇥<a href=\"https://owncloud.org/promote\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\"> difondre'l !</a>!",
     "Show First Run Wizard again" : "Torna a mostrar l'assistent de primera execució",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Heu utilitzat <strong>%s</strong> d'un total disponible de <strong>%s</strong>",
     "Password" : "Contrasenya",
     "Unable to change your password" : "No s'ha pogut canviar la contrasenya",
     "Current password" : "Contrasenya actual",

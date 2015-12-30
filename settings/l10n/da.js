@@ -222,7 +222,6 @@ OC.L10N.register(
     "iOS app" : "iOS-app",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Hvis du vil støtte projektet, så\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">deltag i udviklingen</a>\n\t\teller\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spred budskabet</a>!",
     "Show First Run Wizard again" : "Vis guiden for første kørsel igen.",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Du har brugt <strong>%s</strong> af den tilgængelige <strong>%s</strong>",
     "Password" : "Kodeord",
     "Unable to change your password" : "Ude af stand til at ændre dit kodeord",
     "Current password" : "Nuværende adgangskode",

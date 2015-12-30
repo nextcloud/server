@@ -128,7 +128,6 @@ OC.L10N.register(
     "Android app" : "Android lietotne",
     "iOS app" : "iOS lietotne",
     "Show First Run Wizard again" : "Vēlreiz rādīt pirmās palaišanas vedni",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Jūs lietojat <strong>%s</strong> no pieejamajiem <strong>%s</strong>",
     "Password" : "Parole",
     "Unable to change your password" : "Nevar nomainīt jūsu paroli",
     "Current password" : "Pašreizējā parole",

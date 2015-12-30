@@ -171,7 +171,6 @@
     "iOS app" : "iOS приложение",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ако искаш да помогнеш на проекта:\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\"  rel=\"noreferrer\">присъедини се и пиши код</a>\n\t\tили\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">разпространи мълвата</a>!",
     "Show First Run Wizard again" : "Покажи Настройките за Първоначално Зареждане отново",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Използвал си <strong>%s</strong> от наличните <strong>%s</strong>.",
     "Password" : "Парола",
     "Unable to change your password" : "Неуспешна промяна на паролата.",
     "Current password" : "Текуща парола",

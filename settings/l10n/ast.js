@@ -127,7 +127,6 @@ OC.L10N.register(
     "Android app" : "Aplicación d'Android",
     "iOS app" : "Aplicación d'iOS",
     "Show First Run Wizard again" : "Amosar nuevamente l'Encontu d'execución inicial",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Usasti <strong>%s</strong> de los <strong>%s</strong> disponibles",
     "Password" : "Contraseña",
     "Unable to change your password" : "Nun pudo camudase la contraseña",
     "Current password" : "Contraseña actual",

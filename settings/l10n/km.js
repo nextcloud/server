@@ -63,7 +63,6 @@ OC.L10N.register(
     "Forum" : "វេទិកាពិភាក្សា",
     "Get the apps to sync your files" : "ដាក់​អោយកម្មវិធីផ្សេងៗ ​ធ្វើសមកាលកម្ម​ឯកសារ​អ្នក",
     "Show First Run Wizard again" : "បង្ហាញ First Run Wizard ម្តង​ទៀត",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "អ្នក​បាន​ប្រើ <strong>%s</strong> ក្នុង​ចំណោម​ចំនួន​មាន <strong>%s</strong>",
     "Password" : "ពាក្យសម្ងាត់",
     "Unable to change your password" : "មិន​អាច​ប្ដូរ​ពាក្យ​សម្ងាត់​របស់​អ្នក​បាន​ទេ",
     "Current password" : "ពាក្យសម្ងាត់​បច្ចុប្បន្ន",

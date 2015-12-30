@@ -212,7 +212,6 @@ OC.L10N.register(
     "iOS app" : "IOS applikáció",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ha segíteni szeretnéd a projektet\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">csatlakozz a fejlesztéshez</a>\n\t\tvagy\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">hirdesd az igét</a>!",
     "Show First Run Wizard again" : "Nézzük meg újra az első bejelentkezéskori segítséget!",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Az Ön tárterület-felhasználása jelenleg: <strong>%s</strong>. Maximálisan ennyi áll rendelkezésére: <strong>%s</strong>",
     "Password" : "Jelszó",
     "Unable to change your password" : "A jelszó nem változtatható meg",
     "Current password" : "A jelenlegi jelszó",

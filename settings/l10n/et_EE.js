@@ -185,7 +185,6 @@ OC.L10N.register(
     "Android app" : "Androidi rakendus",
     "iOS app" : "iOS-i rakendus",
     "Show First Run Wizard again" : "Näita veelkord Esmase Käivituse Juhendajat",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Kasutad <strong>%s</strong> saadavalolevast <strong>%s</strong>",
     "Password" : "Parool",
     "Unable to change your password" : "Sa ei saa oma parooli muuta",
     "Current password" : "Praegune parool",

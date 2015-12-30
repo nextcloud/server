@@ -173,7 +173,6 @@ OC.L10N.register(
     "iOS app" : "iOS proqramı",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Əgər siz proektə dəstək vermək istəyirsinizsə\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">Təkmilləşdirməyə üzv</a>\n\t\tyada\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">söz yaymaq</a>!",
     "Show First Run Wizard again" : "İlk işəsalma sehirbazını yenidən göstər",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Siz istifadə etdiniz <strong>%s</strong> mövcud olan <strong>%s</strong>",
     "Password" : "Şifrə",
     "Unable to change your password" : "Sizin şifrəni dəyişmək mümkün olmadı",
     "Current password" : "Hazırkı şifrə",

@@ -227,7 +227,6 @@
     "iOS app" : "Aplikacion për iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Nëse doni ta përkrahni projektin\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">merrni pjesë te zhvillimi i tij</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">përhapni fjalën për të</a>!",
     "Show First Run Wizard again" : "Shfaqe sërish Ndihmësin e Herës së Parë",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Keni përdorur <strong>%s</strong> nga <strong>%s</strong> tuajat",
     "Password" : "Fjalëkalim",
     "Unable to change your password" : "S’arrin të ndryshojë fjalëkalimin tuaj",
     "Current password" : "Fjalëkalimi i tanishëm",

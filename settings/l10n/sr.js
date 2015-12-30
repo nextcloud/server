@@ -213,7 +213,6 @@ OC.L10N.register(
     "iOS app" : "иОС апликација",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ако желите да подржите пројект\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">придружите се развоју</a>\n\t\tили\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">разгласите свима</a>!",
     "Show First Run Wizard again" : "Поново прикажи чаробњака за прво покретање",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Искористили сте <strong>%s</strong> од дозвољених <strong>%s</strong>",
     "Password" : "Лозинка",
     "Unable to change your password" : "Не могу да изменим вашу лозинку",
     "Current password" : "Тренутна лозинка",

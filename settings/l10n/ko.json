@@ -227,7 +227,6 @@
     "iOS app" : "iOS 앱",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "프로젝트를 지원하려면\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">개발에 참여하거나</a>\n\t\t\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">널리 알려 주십시오</a>!",
     "Show First Run Wizard again" : "첫 실행 마법사 다시 보이기",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "현재 공간 중 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중입니다",
     "Password" : "암호",
     "Unable to change your password" : "암호를 변경할 수 없음",
     "Current password" : "현재 암호",

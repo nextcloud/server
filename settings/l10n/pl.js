@@ -162,7 +162,6 @@ OC.L10N.register(
     "Android app" : "Aplikacja Android",
     "iOS app" : "Aplikacja iOS",
     "Show First Run Wizard again" : "Uruchom ponownie kreatora pierwszego uruchomienia",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Wykorzystujesz <strong>%s</strong> z dostępnych <strong>%s</strong>",
     "Password" : "Hasło",
     "Unable to change your password" : "Nie można zmienić hasła",
     "Current password" : "Bieżące hasło",

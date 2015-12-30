@@ -229,7 +229,6 @@ OC.L10N.register(
     "iOS app" : "Εφαρμογή iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Εάν θέλετε να υποστηρίξετε το έργο\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">συμμετέχετε στην ανάπτυξη</a>\n\t\tή\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">διαδόστε το μήνυμα</a>!",
     "Show First Run Wizard again" : "Προβολή Οδηγού Πρώτης Εκτέλεσης ξανά",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Χρησιμοποιήσατε <strong>%s</strong> από τα <strong>%s</strong> διαθέσιμα",
     "Password" : "Συνθηματικό",
     "Unable to change your password" : "Δεν ήταν δυνατή η αλλαγή του κωδικού πρόσβασης",
     "Current password" : "Τρέχων συνθηματικό",

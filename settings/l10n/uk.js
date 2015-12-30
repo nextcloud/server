@@ -210,7 +210,6 @@ OC.L10N.register(
     "iOS app" : "iOS додаток",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Якщо Ви хочете підтримати проект\n⇥⇥ <a href=\"https://owncloud.org/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\"> спільна розробка </a> \n⇥⇥або\n⇥ ⇥ <a href=\"https://owncloud.org/promote\"\n ⇥⇥⇥target=\"_blank\" rel=\"noreferrer\"> повідомити у світі </a> !",
     "Show First Run Wizard again" : "Показувати Майстер Налаштувань знову",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Ви використали <strong>%s</strong> із доступних <strong>%s</strong>",
     "Password" : "Пароль",
     "Unable to change your password" : "Не вдалося змінити Ваш пароль",
     "Current password" : "Поточний пароль",

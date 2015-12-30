@@ -91,7 +91,6 @@ OC.L10N.register(
     "Desktop client" : "Client Desktop",
     "Android app" : "Aplicatie Android",
     "iOS app" : "Aplicație iOS",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Ați utilizat <strong>%s</strong> din <strong>%s</strong> disponibile",
     "Password" : "Parolă",
     "Unable to change your password" : "Imposibil de-ați schimbat parola",
     "Current password" : "Parola curentă",

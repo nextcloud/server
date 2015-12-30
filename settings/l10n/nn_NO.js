@@ -54,7 +54,6 @@ OC.L10N.register(
     "Forum" : "Forum",
     "Get the apps to sync your files" : "Få app-ar som kan synkronisera filene dine",
     "Show First Run Wizard again" : "Vis Oppstartvegvisaren igjen",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Du har brukt <strong>%s</strong> av dine tilgjengelege <strong>%s</strong>",
     "Password" : "Passord",
     "Unable to change your password" : "Klarte ikkje endra passordet",
     "Current password" : "Passord",

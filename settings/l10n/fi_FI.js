@@ -221,7 +221,6 @@ OC.L10N.register(
     "iOS app" : "iOS-sovellus",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Jos haluat tukea projektia, \n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">auta sovelluskehityksessä</a>\n\t\ttai\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">levitä sanaa</a>!",
     "Show First Run Wizard again" : "Näytä ensimmäisen käyttökerran avustaja uudelleen",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>",
     "Password" : "Salasana",
     "Unable to change your password" : "Salasanaasi ei voitu vaihtaa",
     "Current password" : "Nykyinen salasana",

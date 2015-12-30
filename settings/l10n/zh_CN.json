@@ -223,7 +223,6 @@
     "iOS app" : "iOS 应用",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "想支持ownCloud项目？请\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">参加开发</a>\n\t\t或者\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">帮助推广</a>吧！",
     "Show First Run Wizard again" : "再次显示首次运行向导",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "你已使用 <strong>%s</strong>，有效空间 <strong>%s</strong>",
     "Password" : "密码",
     "Unable to change your password" : "无法修改密码",
     "Current password" : "当前密码",

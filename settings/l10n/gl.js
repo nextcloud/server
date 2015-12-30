@@ -216,7 +216,6 @@ OC.L10N.register(
     "iOS app" : "Aplicación iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Se quere axudar ao proxecto\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">únase ao desenvolvemento</a>\n\t\tou\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">espalle a nova</a>!",
     "Show First Run Wizard again" : "Amosar o axudante da primeira execución outra vez",
-    "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Ten en uso <strong>%s</strong> do total dispoñíbel de <strong>%s</strong>",
     "Password" : "Contrasinal",
     "Unable to change your password" : "Non é posíbel cambiar o seu contrasinal",
     "Current password" : "Contrasinal actual",
