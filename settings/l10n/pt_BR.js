@@ -230,6 +230,7 @@ OC.L10N.register(
     "iOS app" : "App iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Se você quiser suportar o projeto, \n⇥⇥<a href=\"https://owncloud.org/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">ajude com o desenvolvimento</a>\n⇥⇥ou\n⇥⇥<a href=\"https://owncloud.org/promote\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\">ajude a divulgá-lo</a>!",
     "Show First Run Wizard again" : "Mostrar Assistente de Primeira Execução novamente",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Você está usando  <strong>%s</strong> de <strong>%s</strong>",
     "Password" : "Senha",
     "Unable to change your password" : "Não é possivel alterar a sua senha",
     "Current password" : "Senha atual",

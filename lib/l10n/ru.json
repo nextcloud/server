@@ -94,6 +94,7 @@
     "Sharing %s failed, because %s is not a member of the group %s" : "Не удалось поделиться %s, пользователь %s не является членом группы %s",
     "You need to provide a password to create a public link, only protected links are allowed" : "Вам нужно задать пароль для создания публичной ссылки. Разрешены только защищённые ссылки",
     "Sharing %s failed, because sharing with links is not allowed" : "Не удалось поделиться %s, открытие доступа по ссылке запрещено",
+    "Not allowed to create a federated share with the same user" : "Не допускается создание федеративного общего ресурса с тем-же пользователем",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Не удалось поделиться %s, не удалось найти %s, возможно, сервер не доступен.",
     "Share type %s is not valid for %s" : "Тип общего доступа %s недопустим для %s",
     "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" : "Не удалось настроить права доступа для %s, указанные права доступа превышают предоставленные для %s",
@@ -145,6 +146,10 @@
     "Data directory (%s) is invalid" : "Каталог данных (%s) не верен",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Убедитесь, что файл \".ocdata\" присутствует в корне каталога данных.",
     "Could not obtain lock type %d on \"%s\"." : "Не удалось получить блокировку типа %d для \"%s\"",
-    "Storage not available" : "Хранилище недоступно"
+    "Storage unauthorized. %s" : "Хранилище неавторизовано. %s",
+    "Storage incomplete configuration. %s" : "Неполная конфигурация хранилища.  %s",
+    "Storage connection error. %s" : "Ошибка подключения к хранилищу. %s",
+    "Storage not available" : "Хранилище недоступно",
+    "Storage connection timeout. %s" : "Истекло время ожидания подключения к хранилищу. %s"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

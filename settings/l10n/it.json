@@ -228,6 +228,7 @@
     "iOS app" : "Applicazione iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Se vuoi supportare il progetto\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">diventa uno sviluppatore</a>\n\t\to\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">diffondi il verbo</a>!",
     "Show First Run Wizard again" : "Mostra nuovamente la procedura di primo avvio",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "Stai utilizzando <strong>%s</strong> di <strong>%s</strong>",
     "Password" : "Password",
     "Unable to change your password" : "Modifica password non riuscita",
     "Current password" : "Password attuale",

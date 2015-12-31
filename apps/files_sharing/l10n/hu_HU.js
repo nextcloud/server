@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Server to server sharing is not enabled on this server" : "A kiszolgálók közötti megosztás nincs engedélyezve ezen a kiszolgálón",
     "The mountpoint name contains invalid characters." : "A csatlakozási pont neve érvénytelen karaktereket tartalmaz ",
+    "Not allowed to create a federated share with the same user server" : "Nem lehet létrehozni egy egyesített megosztást azonos felhasználóval és szerverrel",
     "Invalid or untrusted SSL certificate" : "Érvénytelen vagy nem megbízható az SSL tanúsítvány",
     "Could not authenticate to remote share, password might be wrong" : "Nem sikerült az azonosítás a távoli megosztáshoz. Lehet, hogy rossz a jelszó.",
     "Storage not valid" : "Tároló nem érvényes",

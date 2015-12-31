@@ -24,6 +24,7 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Не возможно обнаружить Base DN, пожалуйста задайте в ручную.",
     "{nthServer}. Server" : "Сервер {nthServer}.",
     "No object found in the given Base DN. Please revise." : "Не найдено объектов в Base DN. Пожалуйста перепроверьте.",
+    "More than 1,000 directory entries available." : "В каталоге доступно более 1,000 записей.",
     " entries available within the provided Base DN" : "элементы доступные в Базе",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Произошла ошибка. Пожалуйста проверьте базу поиска DN, а также настройки подключения и учетные данные.",
     "Do you really want to delete the current Server Configuration?" : "Вы действительно хотите удалить существующую конфигурацию сервера?",
