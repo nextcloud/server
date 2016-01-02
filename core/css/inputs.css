@@ -54,7 +54,8 @@ input[type="number"],
 input[type="email"],
 input[type="url"],
 input[type="time"] {
-	-webkit-appearance:textfield; -moz-appearance:textfield;
+	-webkit-appearance:textfield;
+	-moz-appearance:textfield;
 	box-sizing:content-box;
 }
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,

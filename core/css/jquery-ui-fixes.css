@@ -9,7 +9,7 @@
 }
 .ui-widget-content {
 	border: 1px solid #dddddd;
-	background: #eeeeee url(images/ui-bg_highlight-soft_100_eeeeee_1x100.png) 50% top repeat-x;
+	background: #eeeeee url('images/ui-bg_highlight-soft_100_eeeeee_1x100.png') 50% top repeat-x;
 	color: #333333;
 }
 .ui-widget-content a {
@@ -17,7 +17,7 @@
 }
 .ui-widget-header {
 	border: 1px solid #1d2d44;
-	background: #1d2d44 url(images/ui-bg_flat_35_1d2d44_40x100.png) 50% 50% repeat-x;
+	background: #1d2d44 url('images/ui-bg_flat_35_1d2d44_40x100.png') 50% 50% repeat-x;
 	color: #ffffff;
 }
 .ui-widget-header a {
@@ -30,7 +30,7 @@
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
 	border: 1px solid #ddd;
-	background: #f8f8f8 url(images/ui-bg_glass_100_f8f8f8_1x400.png) 50% 50% repeat-x;
+	background: #f8f8f8 url('images/ui-bg_glass_100_f8f8f8_1x400.png') 50% 50% repeat-x;
 	font-weight: bold;
 	color: #555;
 }
@@ -46,7 +46,7 @@
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
 	border: 1px solid #ddd;
-	background: #ffffff url(images/ui-bg_flat_100_ffffff_40x100.png) 50% 50% repeat-x;
+	background: #ffffff url('images/ui-bg_flat_100_ffffff_40x100.png') 50% 50% repeat-x;
 	font-weight: bold;
 	color: #333;
 }
@@ -60,7 +60,7 @@
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
 	border: 1px solid #1d2d44;
-	background: #f8f8f8 url(images/ui-bg_glass_100_f8f8f8_1x400.png) 50% 50% repeat-x;
+	background: #f8f8f8 url('images/ui-bg_glass_100_f8f8f8_1x400.png') 50% 50% repeat-x;
 	font-weight: bold;
 	color: #1d2d44;
 }
@@ -76,7 +76,7 @@
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
 	border: 1px solid #ddd;
-	background: #f8f8f8 url(images/ui-bg_highlight-hard_100_f8f8f8_1x100.png) 50% top repeat-x;
+	background: #f8f8f8 url('images/ui-bg_highlight-hard_100_f8f8f8_1x100.png') 50% top repeat-x;
 	color: #555;
 }
 .ui-state-highlight a,
@@ -88,7 +88,7 @@
 .ui-widget-content .ui-state-error,
 .ui-widget-header .ui-state-error {
 	border: 1px solid #cd0a0a;
-	background: #b81900 url(images/ui-bg_diagonals-thick_18_b81900_40x40.png) 50% 50% repeat;
+	background: #b81900 url('images/ui-bg_diagonals-thick_18_b81900_40x40.png') 50% 50% repeat;
 	color: #ffffff;
 }
 .ui-state-error a,
@@ -105,34 +105,34 @@
 /* Icons
 ----------------------------------*/
 .ui-state-default .ui-icon {
-	background-image: url(images/ui-icons_1d2d44_256x240.png);
+	background-image: url('images/ui-icons_1d2d44_256x240.png');
 }
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {
-	background-image: url(images/ui-icons_1d2d44_256x240.png);
+	background-image: url('images/ui-icons_1d2d44_256x240.png');
 }
 .ui-state-active .ui-icon {
-	background-image: url(images/ui-icons_1d2d44_256x240.png);
+	background-image: url('images/ui-icons_1d2d44_256x240.png');
 }
 .ui-state-highlight .ui-icon {
-	background-image: url(images/ui-icons_ffffff_256x240.png);
+	background-image: url('images/ui-icons_ffffff_256x240.png');
 }
 .ui-state-error .ui-icon,
 .ui-state-error-text .ui-icon {
-	background-image: url(images/ui-icons_ffd27a_256x240.png);
+	background-image: url('images/ui-icons_ffd27a_256x240.png');
 }
 
 /* Misc visuals
 ----------------------------------*/
 /* Overlays */
 .ui-widget-overlay {
-	background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat;
+	background: #666666 url('images/ui-bg_diagonals-thick_20_666666_40x40.png') 50% 50% repeat;
 	opacity: .5;
 }
 .ui-widget-shadow {
 	margin: -5px 0 0 -5px;
 	padding: 5px;
-	background: #000000 url(images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x;
+	background: #000000 url('images/ui-bg_flat_10_000000_40x100.png') 50% 50% repeat-x;
 	opacity: .2;
 	border-radius: 5px;
 }
