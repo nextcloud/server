@@ -230,6 +230,7 @@ OC.L10N.register(
     "iOS app" : "iOSアプリ",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "プロジェクトをサポートしていただける場合は、\n<a href=\"https://owncloud.org/contribute\"\ntarget=\"_blank\">開発に参加する</a>か、\n<a href=\"https://owncloud.org/promote\"\ntarget=\"_blank\">プロジェクトを広く伝えてください</a>！",
     "Show First Run Wizard again" : "初回ウィザードを再表示する",
+    "You are using <strong>%s</strong> of <strong>%s</strong>" : "<strong>%s</strong> / <strong>%s</strong> が現在使用中です",
     "Password" : "パスワード",
     "Unable to change your password" : "パスワードを変更することができません",
     "Current password" : "現在のパスワード",
