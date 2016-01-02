@@ -111,4 +111,11 @@ interface IAppManager {
 	 * @since 9.0.0
 	 */
 	public function getAlwaysEnabledApps();
+
+	/**
+	 * @param string $appId
+	 * @return IAppInfo
+	 * @since 9.0.0
+	 */
+	public function getAppInfo($appId);
 }

@@ -22,6 +22,7 @@
 namespace OC\App\CodeChecker;
 
 use OC\App\InfoParser;
+use OC\App\Locator;
 use OC\Hooks\BasicEmitter;
 
 class InfoChecker extends BasicEmitter {
@@ -59,8 +60,12 @@ class InfoChecker extends BasicEmitter {
 		'standalone',
 	];
 
-	public function __construct(InfoParser $infoParser) {
+	/** @var Locator  */
+	private $appLocator;
+
+	public function __construct(InfoParser $infoParser, Locator $appLocator) {
 		$this->infoParser = $infoParser;
+		$this->appLocator = $appLocator;
 	}
 
 	/**
@@ -68,7 +73,7 @@ class InfoChecker extends BasicEmitter {
 	 * @return array
 	 */
 	public function analyse($appId) {
-		$appPath = \OC_App::getAppPath($appId);
+		$appPath = $this->appLocator->getAppPath($appId);
 		if ($appPath === false) {
 			throw new \RuntimeException("No app with given id <$appId> known.");
 		}

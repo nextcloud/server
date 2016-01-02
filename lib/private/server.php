@@ -38,6 +38,7 @@
 namespace OC;
 
 use bantu\IniGetWrapper\IniGetWrapper;
+use OC\App\Locator;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -382,12 +383,18 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
+		$this->registerService('AppLocator', function () {
+			return new Locator(\OC::$APPSROOTS);
+		});
 		$this->registerService('AppManager', function(Server $c) {
+			$parser = new \OC\App\InfoParser($c->getHTTPHelper(), $c->getURLGenerator());
 			return new \OC\App\AppManager(
 				$c->getUserSession(),
 				$c->getAppConfig(),
 				$c->getGroupManager(),
-				$c->getMemCacheFactory()
+				$c->getMemCacheFactory(),
+				$parser,
+				$c->getAppLocator()
 			);
 		});
 		$this->registerService('DateTimeZone', function(Server $c) {
@@ -992,6 +999,15 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getAppManager() {
 		return $this->query('AppManager');
+	}
+
+	/**
+	 * Get the app locator
+	 *
+	 * @return \OC\App\Locator
+	 */
+	public function getAppLocator() {
+		return $this->query('AppLocator');
 	}
 
 	/**

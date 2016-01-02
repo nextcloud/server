@@ -117,7 +117,7 @@ class CheckCode extends Command {
 		$errors = $codeChecker->analyse($appId);
 
 		if(!$input->getOption('skip-validate-info')) {
-			$infoChecker = new InfoChecker($this->infoParser);
+			$infoChecker = new InfoChecker($this->infoParser, \OC::$server->getAppLocator());
 
 			$infoChecker->listen('InfoChecker', 'mandatoryFieldMissing', function($key) use ($output) {
 				$output->writeln("<error>Mandatory field missing: $key</error>");

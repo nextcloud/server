@@ -55,20 +55,35 @@ class AppManager implements IAppManager {
 	/** @var string[] */
 	private $alwaysEnabled;
 
+	/** @var InfoParser */
+	private $infoParser;
+
+	/** @var AppInfo[] */
+	private $appInfoCache = [];
+
+	/** @var Locator */
+	private $locator;
+
 	/**
 	 * @param \OCP\IUserSession $userSession
 	 * @param \OCP\IAppConfig $appConfig
 	 * @param \OCP\IGroupManager $groupManager
 	 * @param \OCP\ICacheFactory $memCacheFactory
+	 * @param \OC\App\InfoParser $infoParser
+	 * @param Locator $locator
 	 */
 	public function __construct(IUserSession $userSession,
 								IAppConfig $appConfig,
 								IGroupManager $groupManager,
-								ICacheFactory $memCacheFactory) {
+								ICacheFactory $memCacheFactory,
+								InfoParser $infoParser,
+								Locator $locator) {
 		$this->userSession = $userSession;
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
 		$this->memCacheFactory = $memCacheFactory;
+		$this->infoParser = $infoParser;
+		$this->locator = $locator;
 	}
 
 	/**
@@ -79,7 +94,7 @@ class AppManager implements IAppManager {
 			$values = $this->appConfig->getValues(false, 'enabled');
 
 			$alwaysEnabledApps = $this->getAlwaysEnabledApps();
-			foreach($alwaysEnabledApps as $appId) {
+			foreach ($alwaysEnabledApps as $appId) {
 				$values[$appId] = 'yes';
 			}
 
@@ -230,7 +245,7 @@ class AppManager implements IAppManager {
 	 * Returns a list of apps that need upgrade
 	 *
 	 * @param array $version ownCloud version as array of version components
-	 * @return array list of app info from apps that need an upgrade
+	 * @return AppInfo[] list of app info from apps that need an upgrade
 	 *
 	 * @internal
 	 */
@@ -241,9 +256,8 @@ class AppManager implements IAppManager {
 			$appInfo = $this->getAppInfo($appId);
 			$appDbVersion = $this->appConfig->getValue($appId, 'installed_version');
 			if ($appDbVersion
-				&& isset($appInfo['version'])
-				&& version_compare($appInfo['version'], $appDbVersion, '>')
-				&& \OC_App::isAppCompatible($ocVersion, $appInfo)
+				&& version_compare($appInfo->getVersion(), $appDbVersion, '>')
+				&& \OC_App::isAppCompatible($ocVersion, $appInfo->toArray())
 			) {
 				$appsToUpgrade[] = $appInfo;
 			}
@@ -260,17 +274,16 @@ class AppManager implements IAppManager {
 	 *
 	 * @param string $appId app id
 	 *
-	 * @return array app iinfo
-	 *
-	 * @internal
+	 * @return AppInfo
 	 */
 	public function getAppInfo($appId) {
-		$appInfo = \OC_App::getAppInfo($appId);
-		if (!isset($appInfo['version'])) {
-			// read version from separate file
-			$appInfo['version'] = \OC_App::getAppVersion($appId);
+		if (!isset($this->appInfoCache[$appId])) {
+			$appPath = $this->locator->getAppPath($appId);
+			$infoPath = $appPath . '/appinfo/info.xml';
+			$versionPath = $appPath . '/appinfo/version';
+			$this->appInfoCache[$appId] = new AppInfo($appId, $infoPath, $this->infoParser, $versionPath);
 		}
-		return $appInfo;
+		return $this->appInfoCache[$appId];
 	}
 
 	/**
@@ -278,7 +291,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @param array $version ownCloud version as array of version components
 	 *
-	 * @return array list of app info from incompatible apps
+	 * @return AppInfo[] list of app info from incompatible apps
 	 *
 	 * @internal
 	 */
@@ -287,7 +300,7 @@ class AppManager implements IAppManager {
 		$incompatibleApps = array();
 		foreach ($apps as $appId) {
 			$info = $this->getAppInfo($appId);
-			if (!\OC_App::isAppCompatible($version, $info)) {
+			if (!\OC_App::isAppCompatible($version, $info->toArray())) {
 				$incompatibleApps[] = $info;
 			}
 		}

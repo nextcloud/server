@@ -379,6 +379,7 @@ class OC {
 		$installedVersion = $systemConfig->getValue('version', '0.0.0');
 		$currentVersion = implode('.', \OCP\Util::getVersion());
 
+		/** @var \OC\App\AppManager $appManager */
 		$appManager = \OC::$server->getAppManager();
 
 		$tmpl = new OC_Template('', 'update.admin', 'guest');
@@ -393,8 +394,11 @@ class OC {
 
 		// get third party apps
 		$ocVersion = \OCP\Util::getVersion();
-		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
-		$tmpl->assign('incompatibleAppsList', $appManager->getIncompatibleApps($ocVersion));
+		$appInfoToArray = function(\OC\App\AppInfo $info) {
+			return $info->toArray();
+		};
+		$tmpl->assign('appsToUpgrade', array_map($appInfoToArray, $appManager->getAppsNeedingUpgrade($ocVersion)));
+		$tmpl->assign('incompatibleAppsList', array_map($appInfoToArray, $appManager->getIncompatibleApps($ocVersion)));
 		$tmpl->assign('productName', 'ownCloud'); // for now
 		$tmpl->assign('oldTheme', $oldTheme);
 		$tmpl->printPage();

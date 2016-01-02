@@ -57,7 +57,6 @@ class OC_App {
 	static private $appVersion = [];
 	static private $adminForms = array();
 	static private $personalForms = array();
-	static private $appInfo = array();
 	static private $appTypes = array();
 	static private $loadedApps = array();
 	static private $altLogin = array();
@@ -103,9 +102,9 @@ class OC_App {
 		$apps = self::getEnabledApps();
 
 		// Add each apps' folder as allowed class path
-		foreach($apps as $app) {
+		foreach ($apps as $app) {
 			$path = self::getAppPath($app);
-			if($path !== false) {
+			if ($path !== false) {
 				\OC::$loader->addValidRoot($path);
 			}
 		}
@@ -319,8 +318,8 @@ class OC_App {
 			\OC::$server->getLogger()
 		);
 		$appData = $ocsClient->getApplication($app, \OCP\Util::getVersion());
-		$download= $ocsClient->getApplicationDownload($app, \OCP\Util::getVersion());
-		if(isset($download['downloadlink']) and $download['downloadlink']!='') {
+		$download = $ocsClient->getApplicationDownload($app, \OCP\Util::getVersion());
+		if (isset($download['downloadlink']) and $download['downloadlink'] != '') {
 			// Replace spaces in download link without encoding entire URL
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
 			$info = array('source' => 'http', 'href' => $download['downloadlink'], 'appdata' => $appData);
@@ -349,7 +348,7 @@ class OC_App {
 	 */
 	public static function disable($app) {
 		// Convert OCS ID to regular application identifier
-		if(self::getInternalAppIdByOcs($app) !== false) {
+		if (self::getInternalAppIdByOcs($app) !== false) {
 			$app = self::getInternalAppIdByOcs($app);
 		}
 
@@ -401,7 +400,7 @@ class OC_App {
 			//SubAdmins are also allowed to access user management
 			$userObject = \OC::$server->getUserSession()->getUser();
 			$isSubAdmin = false;
-			if($userObject !== null) {
+			if ($userObject !== null) {
 				$isSubAdmin = \OC::$server->getGroupManager()->getSubAdmin()->isSubAdmin($userObject);
 			}
 			if ($isSubAdmin) {
@@ -477,44 +476,8 @@ class OC_App {
 	 * @return false|string
 	 */
 	protected static function findAppInDirectories($appId) {
-		$sanitizedAppId = self::cleanAppId($appId);
-		if($sanitizedAppId !== $appId) {
-			return false;
-		}
-		static $app_dir = array();
-
-		if (isset($app_dir[$appId])) {
-			return $app_dir[$appId];
-		}
-
-		$possibleApps = array();
-		foreach (OC::$APPSROOTS as $dir) {
-			if (file_exists($dir['path'] . '/' . $appId)) {
-				$possibleApps[] = $dir;
-			}
-		}
-
-		if (empty($possibleApps)) {
-			return false;
-		} elseif (count($possibleApps) === 1) {
-			$dir = array_shift($possibleApps);
-			$app_dir[$appId] = $dir;
-			return $dir;
-		} else {
-			$versionToLoad = array();
-			foreach ($possibleApps as $possibleApp) {
-				$version = self::getAppVersionByPath($possibleApp['path']);
-				if (empty($versionToLoad) || version_compare($version, $versionToLoad['version'], '>')) {
-					$versionToLoad = array(
-						'dir' => $possibleApp,
-						'version' => $version,
-					);
-				}
-			}
-			$app_dir[$appId] = $versionToLoad['dir'];
-			return $versionToLoad['dir'];
-			//TODO - write test
-		}
+		$locator = \OC::$server->getAppLocator();
+		return $locator->getDirectoryForApp($appId);
 	}
 
 	/**
@@ -525,14 +488,8 @@ class OC_App {
 	 * @return string|false
 	 */
 	public static function getAppPath($appId) {
-		if ($appId === null || trim($appId) === '') {
-			return false;
-		}
-
-		if (($dir = self::findAppInDirectories($appId)) != false) {
-			return $dir['path'] . '/' . $appId;
-		}
-		return false;
+		$locator = \OC::$server->getAppLocator();
+		return $locator->getAppPath($appId);
 	}
 
 
@@ -569,8 +526,9 @@ class OC_App {
 	 */
 	public static function getAppVersion($appId) {
 		if (!isset(self::$appVersion[$appId])) {
-			$file = self::getAppPath($appId);
-			self::$appVersion[$appId] = ($file !== false) ? self::getAppVersionByPath($file) : '0';
+			$appManager = \OC::$server->getAppManager();
+			$info = $appManager->getAppInfo($appId);
+			self::$appVersion[$appId] = $info->getVersion();
 		}
 		return self::$appVersion[$appId];
 	}
@@ -605,28 +563,14 @@ class OC_App {
 		if ($path) {
 			$file = $appId;
 		} else {
-			if (isset(self::$appInfo[$appId])) {
-				return self::$appInfo[$appId];
-			}
-			$file = self::getAppPath($appId) . '/appinfo/info.xml';
+			$manager = \OC::$server->getAppManager();
+			$info = $manager->getAppInfo($appId);
+			return $info->toArray();
 		}
 
 		$parser = new \OC\App\InfoParser(\OC::$server->getHTTPHelper(), \OC::$server->getURLGenerator());
-		$data = $parser->parse($file);
-
-		if (is_array($data)) {
-			$data = OC_App::parseAppInfo($data);
-		}
-		if(isset($data['ocsid'])) {
-			$storedId = \OC::$server->getConfig()->getAppValue($appId, 'ocsid');
-			if($storedId !== '' && $storedId !== $data['ocsid']) {
-				$data['ocsid'] = $storedId;
-			}
-		}
-
-		self::$appInfo[$appId] = $data;
-
-		return $data;
+		$appInfo = new \OC\App\AppInfo('', $file, $parser);
+		return $appInfo->toArray();
 	}
 
 	/**
@@ -702,6 +646,7 @@ class OC_App {
 
 	/**
 	 * register a personal form to be shown
+	 *
 	 * @param string $app
 	 * @param string $page
 	 */
@@ -849,13 +794,14 @@ class OC_App {
 
 	/**
 	 * Returns the internal app ID or false
+	 *
 	 * @param string $ocsID
 	 * @return string|false
 	 */
 	protected static function getInternalAppIdByOcs($ocsID) {
-		if(is_numeric($ocsID)) {
+		if (is_numeric($ocsID)) {
 			$idArray = \OC::$server->getAppConfig()->getValues(false, 'ocsid');
-			if(array_search($ocsID, $idArray)) {
+			if (array_search($ocsID, $idArray)) {
 				return array_search($ocsID, $idArray);
 			}
 		}
@@ -864,6 +810,7 @@ class OC_App {
 
 	/**
 	 * Get a list of all apps on the appstore
+	 *
 	 * @param string $filter
 	 * @param string $category
 	 * @return array|bool  multi-dimensional array of apps.
@@ -915,7 +862,6 @@ class OC_App {
 
 			$i++;
 		}
-
 
 
 		if (empty($apps)) {
@@ -1065,8 +1011,8 @@ class OC_App {
 			// case and use the local already installed one.
 			// FIXME: This is a horrible hack. I feel sad. The god of code cleanness may forgive me.
 			$internalAppId = self::getInternalAppIdByOcs($app);
-			if($internalAppId !== false) {
-				if($appData && version_compare(\OC_App::getAppVersion($internalAppId), $appData['version'], '<')) {
+			if ($internalAppId !== false) {
+				if ($appData && version_compare(\OC_App::getAppVersion($internalAppId), $appData['version'], '<')) {
 					$app = self::downloadApp($app);
 				} else {
 					self::enable($internalAppId);
@@ -1134,7 +1080,7 @@ class OC_App {
 		$appData = self::getAppInfo($appId);
 		if (array_key_exists('ocsid', $appData)) {
 			\OC::$server->getConfig()->setAppValue($appId, 'ocsid', $appData['ocsid']);
-		} elseif(\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
+		} elseif (\OC::$server->getConfig()->getAppValue($appId, 'ocsid', null) !== null) {
 			\OC::$server->getConfig()->deleteAppValue($appId, 'ocsid');
 		}
 		foreach ($appData['remote'] as $name => $path) {

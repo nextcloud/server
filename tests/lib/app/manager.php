@@ -9,6 +9,7 @@
 
 namespace Test\App;
 
+use OC\App\AppInfo;
 use OC\Group\Group;
 use OC\User\User;
 use Test\TestCase;
@@ -70,8 +71,14 @@ class Manager extends TestCase {
 	/** @var \OCP\ICacheFactory */
 	protected $cacheFactory;
 
-	/** @var \OCP\App\IAppManager */
+	/** @var \OC\App\AppManager */
 	protected $manager;
+
+	/** @var \OC\App\InfoParser */
+	protected $parser;
+
+	/** @var \OC\App\Locator */
+	protected $locator;
 
 	protected function setUp() {
 		parent::setUp();
@@ -85,7 +92,13 @@ class Manager extends TestCase {
 			->method('create')
 			->with('settings')
 			->willReturn($this->cache);
-		$this->manager = new \OC\App\AppManager($this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory);
+		$this->parser = $this->getMockBuilder('\OC\App\InfoParser')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->locator = $this->getMockBuilder('\OC\App\Locator')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->manager = new \OC\App\AppManager($this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->parser, $this->locator);
 	}
 
 	protected function expectClearCache() {
@@ -208,11 +221,11 @@ class Manager extends TestCase {
 
 	public function testGetAppsNeedingUpgrade() {
 		$this->manager = $this->getMockBuilder('\OC\App\AppManager')
-			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory])
+			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->parser, $this->locator])
 			->setMethods(['getAppInfo'])
 			->getMock();
 
-		$appInfos = [
+		$appInfosData = [
 			'dav' => ['id' => 'dav'],
 			'files' => ['id' => 'files'],
 			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '9.0.0'],
@@ -222,13 +235,18 @@ class Manager extends TestCase {
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 		];
 
+		$appInfos = array_map(function ($appId) use ($appInfosData) {
+			return new AppInfo($appId, null, $this->parser, null, $appInfosData[$appId]);
+		}, array_keys($appInfosData));
+		$appInfos = array_combine(array_keys($appInfosData), $appInfos);
+
 		$this->manager->expects($this->any())
 			->method('getAppInfo')
 			->will($this->returnCallback(
-				function($appId) use ($appInfos) {
+				function ($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
-		));
+			));
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test1', 'installed_version', '1.0.0');
@@ -242,17 +260,17 @@ class Manager extends TestCase {
 		$apps = $this->manager->getAppsNeedingUpgrade('8.2.0');
 
 		$this->assertCount(2, $apps);
-		$this->assertEquals('test1', $apps[0]['id']);
-		$this->assertEquals('test4', $apps[1]['id']);
+		$this->assertEquals('test1', $apps[0]->getAppId());
+		$this->assertEquals('test4', $apps[1]->getAppId());
 	}
 
 	public function testGetIncompatibleApps() {
 		$this->manager = $this->getMockBuilder('\OC\App\AppManager')
-			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory])
+			->setConstructorArgs([$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory, $this->parser, $this->locator])
 			->setMethods(['getAppInfo'])
 			->getMock();
 
-		$appInfos = [
+		$appInfosData = [
 			'dav' => ['id' => 'dav'],
 			'files' => ['id' => 'files'],
 			'test1' => ['id' => 'test1', 'version' => '1.0.1', 'requiremax' => '8.0.0'],
@@ -261,13 +279,18 @@ class Manager extends TestCase {
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
 		];
 
+		$appInfos = array_map(function($appId) use ($appInfosData) {
+			return new AppInfo($appId, null, $this->parser, null, $appInfosData[$appId]);
+		}, array_keys($appInfosData));
+		$appInfos = array_combine(array_keys($appInfosData), $appInfos);
+
 		$this->manager->expects($this->any())
 			->method('getAppInfo')
 			->will($this->returnCallback(
-				function($appId) use ($appInfos) {
+				function ($appId) use ($appInfos) {
 					return $appInfos[$appId];
 				}
-		));
+			));
 
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'yes');
@@ -276,7 +299,7 @@ class Manager extends TestCase {
 		$apps = $this->manager->getIncompatibleApps('8.2.0');
 
 		$this->assertCount(2, $apps);
-		$this->assertEquals('test1', $apps[0]['id']);
-		$this->assertEquals('test3', $apps[1]['id']);
+		$this->assertEquals('test1', $apps[0]->getAppId());
+		$this->assertEquals('test3', $apps[1]->getAppId());
 	}
 }

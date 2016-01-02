@@ -22,30 +22,23 @@
 namespace OC\App\CodeChecker;
 
 use OC\App\InfoParser;
+use OC\App\Locator;
 use Test\TestCase;
 
 class InfoCheckerTest extends TestCase {
 	/** @var  InfoChecker */
 	protected $infoChecker;
 
-	public static function setUpBeforeClass() {
-		\OC::$APPSROOTS[] = [
-			'path' => \OC::$SERVERROOT . '/tests/apps',
-			'url' => '/apps-test',
-			'writable' => false,
-		];
-	}
-
-	public static function tearDownAfterClass() {
-		// remove last element
-		array_pop(\OC::$APPSROOTS);
-	}
-
 	protected function setUp() {
 		parent::setUp();
 		$infoParser = new InfoParser(\OC::$server->getHTTPHelper(), \OC::$server->getURLGenerator());
 
-		$this->infoChecker = new InfoChecker($infoParser);
+		$appLocator = new Locator([[
+			'path' => \OC::$SERVERROOT . '/tests/apps',
+			'url' => '/apps-test',
+			'writable' => false,
+		]]);
+		$this->infoChecker = new InfoChecker($infoParser, $appLocator);
 	}
 
 	public function appInfoData() {
