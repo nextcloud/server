@@ -1022,21 +1022,12 @@ class OC_App {
 	 */
 	public static function getAppVersions() {
 		static $versions;
-		if (isset($versions)) { // simple cache, needs to be fixed
-			return $versions; // when function is used besides in checkUpgrade
+
+		if(!$versions) {
+			$appConfig = \OC::$server->getAppConfig();
+			$versions = $appConfig->getValues(false, 'installed_version');
 		}
-		$versions = array();
-		try {
-			$query = OC_DB::prepare('SELECT `appid`, `configvalue` FROM `*PREFIX*appconfig`'
-				. ' WHERE `configkey` = \'installed_version\'');
-			$result = $query->execute();
-			while ($row = $result->fetchRow()) {
-				$versions[$row['appid']] = $row['configvalue'];
-			}
-			return $versions;
-		} catch (\Exception $e) {
-			return array();
-		}
+		return $versions;
 	}
 
 
