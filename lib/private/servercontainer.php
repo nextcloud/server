@@ -75,7 +75,7 @@ class ServerContainer extends SimpleContainer {
 		// the apps container first.
 		if (strpos($name, 'OCA\\') === 0 && substr_count($name, '\\') >= 2) {
 			$segments = explode('\\', $name);
-			$appContainer = $this->getAppContainer(strtolower($segments[0]));
+			$appContainer = $this->getAppContainer(strtolower($segments[1]));
 			try {
 				return $appContainer->query($name);
 			} catch (QueryException $e) {
