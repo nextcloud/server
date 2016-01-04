@@ -328,7 +328,11 @@ class Router implements IRouter {
 	public function generate($name, $parameters = array(), $absolute = false) {
 		$this->loadRoutes();
 		try {
-			return $this->getGenerator()->generate($name, $parameters, $absolute);
+			$referenceType = UrlGenerator::ABSOLUTE_URL;
+			if ($absolute === false) {
+				$referenceType = UrlGenerator::ABSOLUTE_PATH;
+			}
+			return $this->getGenerator()->generate($name, $parameters, $referenceType);
 		} catch (RouteNotFoundException $e) {
 			$this->logger->logException($e);
 			return '';
