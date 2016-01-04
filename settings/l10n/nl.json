@@ -250,7 +250,7 @@
     "Issued By" : "Uitgegeven door",
     "Valid until %s" : "Geldig tot %s",
     "Import root certificate" : "Importeren root certificaat",
-    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Ontwikkeld door de {communityopen}ownCloud gemeenschaplinkclose}, de {githubopen}source code{linkclose} is gelicenseerd onder de {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
+    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Ontwikkeld door de {communityopen}ownCloud gemeenschap{linkclose}, de {githubopen}source code{linkclose} is gelicenseerd onder de {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
     "Show storage location" : "Toon opslaglocatie",
     "Show last log in" : "Toon laatste inlog",
     "Show user backend" : "Toon backend gebruiker",
