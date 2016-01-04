@@ -73,12 +73,13 @@ class Swift implements IObjectStore {
 
 		// the OpenCloud client library will default to 'cloudFiles' if $serviceName is null
 		$serviceName = null;
-		if ($this->params['serviceName']) {
+		if (isset($this->params['serviceName'])) {
 			$serviceName = $this->params['serviceName'];
 		}
 
+		// the OpenCloud client library will default to 'publicURL' if $urlType is null
 		$urlType = null;
-		if ($this->params['urlType']) {
+		if (isset($this->params['urlType'])) {
 			$urlType = $this->params['urlType'];
 		}
 		$this->objectStoreService = $this->client->objectStoreService($serviceName, $this->params['region'], $urlType);
