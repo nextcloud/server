@@ -210,25 +210,6 @@ interface ICache {
 	public function searchByTag($tag, $userId);
 
 	/**
-	 * Re-calculate the folder size and the size of all parent folders
-	 *
-	 * @param string|boolean $path
-	 * @param array $data (optional) meta data of the folder
-	 * @since 9.0.0
-	 */
-	public function correctFolderSize($path, $data = null);
-
-	/**
-	 * calculate the size of a folder and set it in the cache
-	 *
-	 * @param string $path
-	 * @param array $entry (optional) meta data of the folder
-	 * @return int
-	 * @since 9.0.0
-	 */
-	public function calculateFolderSize($path, $entry = null);
-
-	/**
 	 * get all file ids on the files on the storage
 	 *
 	 * @return int[]
