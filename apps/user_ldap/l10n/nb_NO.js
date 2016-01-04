@@ -24,6 +24,7 @@ OC.L10N.register(
     "Could not detect Base DN, please enter it manually." : "Klarte ikke å påvise basis-DN. Det må skrives inn manuelt.",
     "{nthServer}. Server" : "{nthServer}. server",
     "No object found in the given Base DN. Please revise." : "Intet objekt funnet i angitt basis-DN. Revider oppsettet.",
+    "More than 1,000 directory entries available." : "Mer enn 1.000 katalogoppføringer tilgjengelig.",
     " entries available within the provided Base DN" : "oppføringer tilgjengelig innenfor angitt basis-DN",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Det oppstod en feil. Sjekk basis-DN, tilkoblingsoppsett og påloggingsdetaljer.",
     "Do you really want to delete the current Server Configuration?" : "Er du sikker på at du vil slette aktiv tjener-konfigurasjon?",

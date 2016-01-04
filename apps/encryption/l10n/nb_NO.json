@@ -30,6 +30,8 @@
     "The share will expire on %s." : "Delingen vil opphøre %s.",
     "Cheers!" : "Ha det!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"ownCloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hei,<br><br>Administratoren har aktivert serverkryptering. Filene dine er blitt kryptert med passordet <strong>%s</strong>.<br><br>Vennligst logg inn på web-grensesnittet, gå til seksjonen \"ownCloud grunnleggende krypteringsmodul\" i dine personlige innstillinger og oppdater krypteringspassordet ditt ved å legge inn dette passordet i feltet \"gammelt påloggingspassord\" sammen med ditt nåværende påloggingspassord.<br><br>",
+    "Encrypt the home storage" : "Krypter hjemmelageret",
+    "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Aktivering av dette valget krypterer alle filer som er lagret på hovedlageret. Ellers vil kun filer på eksterne lagre bli kryptert.",
     "Enable recovery key" : "Aktiver gjenopprettingsnøkkel",
     "Disable recovery key" : "Deaktiver gjenopprettingsnøkkel",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Gjenopprettingsnøkkelen er en ekstra krypteringsnøkkel som brukes til å kryptere filer. Den tillater gjenoppretting av en brukers filer i tilfelle brukeren glemmer passordet sitt.",
