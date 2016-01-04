@@ -288,6 +288,10 @@ class Crypt {
 	}
 
 	/**
+	 * Note: This is _NOT_ a padding used for encryption purposes. It is solely
+	 * used to achieve the PHP stream size. It has _NOTHING_ to do with the
+	 * encrypted content and is not used in any crypto primitive.
+	 *
 	 * @param string $data
 	 * @return string
 	 */
