@@ -199,10 +199,10 @@ class Upgrade extends Command {
 				$output->writeln("<error>$message</error>");
 			});
 			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use($output) {
-				$output->writeln("<info>Set log level to debug - current level: '$logLevelName'</info>");
+				$output->writeln("<info>Set log level to debug</info>");
 			});
 			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($output) {
-				$output->writeln("<info>Reset log level to '$logLevelName'</info>");
+				$output->writeln("<info>Reset log level</info>");
 			});
 
 			if(OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
