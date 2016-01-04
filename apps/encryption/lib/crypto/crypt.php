@@ -156,7 +156,7 @@ class Crypt {
 	 * @param string $plainContent
 	 * @param string $passPhrase
 	 * @return false|string
-	 * @throws GenericEncryptionException
+	 * @throws EncryptionFailedException
 	 */
 	public function symmetricEncryptFileContent($plainContent, $passPhrase) {
 
@@ -512,22 +512,7 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function generateIv() {
-		$random = openssl_random_pseudo_bytes(12, $strong);
-		if ($random) {
-			if (!$strong) {
-				// If OpenSSL indicates randomness is insecure log error
-				$this->logger->error('Encryption Library: Insecure symmetric key was generated using openssl_random_psudo_bytes()',
-					['app' => 'encryption']);
-			}
-
-			/*
-			 * We encode the iv purely for string manipulation
-			 * purposes -it gets decoded before use
-			 */
-			return base64_encode($random);
-		}
-		// If we ever get here we've failed anyway no need for an else
-		throw new GenericEncryptionException('Generating IV Failed');
+		return random_bytes(16);
 	}
 
 	/**
