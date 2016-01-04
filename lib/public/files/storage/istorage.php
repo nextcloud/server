@@ -40,7 +40,6 @@ use OCP\Files\Cache\IScanner;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Cache\IWatcher;
 use OCP\Files\InvalidPathException;
-use OCP\Lock\ILockingProvider;
 
 /**
  * Provide a common interface to all different storage options
@@ -424,32 +423,6 @@ interface IStorage {
 	 * @since 9.0.0
 	 */
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath);
-
-	/**
-	 * @param string $path The path of the file to acquire the lock for
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 * @since 9.0.0
-	 */
-	public function acquireLock($path, $type, ILockingProvider $provider);
-
-	/**
-	 * @param string $path The path of the file to acquire the lock for
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @since 9.0.0
-	 */
-	public function releaseLock($path, $type, ILockingProvider $provider);
-
-	/**
-	 * @param string $path The path of the file to change the lock for
-	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
-	 * @param \OCP\Lock\ILockingProvider $provider
-	 * @throws \OCP\Lock\LockedException
-	 * @since 9.0.0
-	 */
-	public function changeLock($path, $type, ILockingProvider $provider);
 
 	/**
 	 * Test a storage for availability
