@@ -38,6 +38,7 @@ use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
 use OCP\Config;
 use OCP\Files\Cache\IScanner;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -132,7 +133,9 @@ class Scanner extends BasicEmitter implements IScanner {
 			and !Filesystem::isFileBlacklisted($file)
 		) {
 			if ($lock) {
-				$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				}
 			}
 			$this->emit('\OC\Files\Cache\Scanner', 'scanFile', array($file, $this->storageId));
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
@@ -192,7 +195,9 @@ class Scanner extends BasicEmitter implements IScanner {
 				$this->removeFromCache($file);
 			}
 			if ($lock) {
-				$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				}
 			}
 			return $data;
 		}
@@ -259,7 +264,9 @@ class Scanner extends BasicEmitter implements IScanner {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		if ($lock) {
-			$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			}
 		}
 		$data = $this->scanFile($path, $reuse, -1, null, $lock);
 		if ($data and $data['mimetype'] === 'httpd/unix-directory') {
@@ -267,7 +274,9 @@ class Scanner extends BasicEmitter implements IScanner {
 			$data['size'] = $size;
 		}
 		if ($lock) {
-			$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			}
 		}
 		return $data;
 	}
