@@ -12,6 +12,10 @@ namespace Test\User;
 use OC\Session\Memory;
 use OC\User\User;
 
+/**
+ * @group DB
+ * @package Test\User
+ */
 class Session extends \Test\TestCase {
 	public function testGetUser() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
