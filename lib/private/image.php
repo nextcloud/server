@@ -39,17 +39,19 @@
  * Class for basic image manipulation
  */
 class OC_Image implements \OCP\IImage {
+	/** @var false|resource */
 	protected $resource = false; // tmp resource.
+	/** @var int */
 	protected $imageType = IMAGETYPE_PNG; // Default to png if file type isn't evident.
-	protected $mimeType = "image/png"; // Default to png
+	/** @var string */
+	protected $mimeType = 'image/png'; // Default to png
+	/** @var int */
 	protected $bitDepth = 24;
+	/** @var null|string */
 	protected $filePath = null;
-
+	/** @var finfo */
 	private $fileInfo;
-
-	/**
-	 * @var \OCP\ILogger
-	 */
+	/** @var \OCP\ILogger */
 	private $logger;
 
 	/**
