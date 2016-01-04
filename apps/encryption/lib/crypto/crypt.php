@@ -36,9 +36,21 @@ use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUserSession;
 
+/**
+ * Class Crypt provides the encryption implementation of the default ownCloud
+ * encryption module. As default AES-256-CTR is used, it does however offer support
+ * for the following modes:
+ *
+ * - AES-256-CTR
+ * - AES-128-CTR
+ * - AES-256-CFB
+ * - AES-128-CFB
+ *
+ * @package OCA\Encryption\Crypto
+ */
 class Crypt {
 
-	const DEFAULT_CIPHER = 'AES-256-CFB';
+	const DEFAULT_CIPHER = 'AES-256-CTR';
 	// default cipher from old ownCloud versions
 	const LEGACY_CIPHER = 'AES-128-CFB';
 
@@ -48,23 +60,21 @@ class Crypt {
 
 	const HEADER_START = 'HBEGIN';
 	const HEADER_END = 'HEND';
-	/**
-	 * @var ILogger
-	 */
+	/** @var ILogger */
 	private $logger;
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $user;
-	/**
-	 * @var IConfig
-	 */
+	/** @var IConfig */
 	private $config;
-
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $supportedKeyFormats;
+	/** @var array */
+	private $supportedCiphersAndKeySize = [
+		'AES-256-CTR' => 32,
+		'AES-128-CTR' => 16,
+		'AES-256-CFB' => 32,
+		'AES-128-CFB' => 16,
+	];
 
 	/**
 	 * @param ILogger $logger
@@ -225,8 +235,13 @@ class Crypt {
 	 */
 	public function getCipher() {
 		$cipher = $this->config->getSystemValue('cipher', self::DEFAULT_CIPHER);
-		if ($cipher !== 'AES-256-CFB' && $cipher !== 'AES-128-CFB') {
-			$this->logger->warning('Wrong cipher defined in config.php only AES-128-CFB and AES-256-CFB are supported. Fall back' . self::DEFAULT_CIPHER,
+		if (!isset($this->supportedCiphersAndKeySize[$cipher])) {
+			$this->logger->warning(
+					sprintf(
+							'Unsupported cipher (%s) defined in config.php supported. Falling back to %s',
+							$cipher,
+							self::DEFAULT_CIPHER
+					),
 				['app' => 'encryption']);
 			$cipher = self::DEFAULT_CIPHER;
 		}
@@ -237,19 +252,20 @@ class Crypt {
 	/**
 	 * get key size depending on the cipher
 	 *
-	 * @param string $cipher supported ('AES-256-CFB' and 'AES-128-CFB')
+	 * @param string $cipher
 	 * @return int
 	 * @throws \InvalidArgumentException
 	 */
 	protected function getKeySize($cipher) {
-		if ($cipher === 'AES-256-CFB') {
-			return 32;
-		} else if ($cipher === 'AES-128-CFB') {
-			return 16;
+		if(isset($this->supportedCiphersAndKeySize[$cipher])) {
+			return $this->supportedCiphersAndKeySize[$cipher];
 		}
 
 		throw new \InvalidArgumentException(
-			'Wrong cipher defined only AES-128-CFB and AES-256-CFB are supported.'
+			sprintf(
+					'Unsupported cipher (%s) defined.',
+					$cipher
+			)
 		);
 	}
 

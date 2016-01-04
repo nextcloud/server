@@ -105,7 +105,7 @@ class cryptTest extends TestCase {
 
 		$this->config->expects($this->once())
 			->method('getSystemValue')
-			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CFB'))
+			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
 			->willReturn('AES-128-CFB');
 
 		if ($keyFormat) {
@@ -126,6 +126,9 @@ class cryptTest extends TestCase {
 		$this->crypt->generateHeader('unknown');
 	}
 
+	/**
+	 * @return array
+	 */
 	public function dataTestGenerateHeader() {
 		return [
 			[null, 'HBEGIN:cipher:AES-128-CFB:keyFormat:hash:HEND'],
@@ -134,16 +137,28 @@ class cryptTest extends TestCase {
 		];
 	}
 
+	public function testGetCipherWithInvalidCipher() {
+		$this->config->expects($this->once())
+				->method('getSystemValue')
+				->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
+				->willReturn('Not-Existing-Cipher');
+		$this->logger
+			->expects($this->once())
+			->method('warning')
+			->with('Unsupported cipher (Not-Existing-Cipher) defined in config.php supported. Falling back to AES-256-CTR');
+
+		$this->assertSame('AES-256-CTR',  $this->crypt->getCipher());
+	}
+
 	/**
 	 * @dataProvider dataProviderGetCipher
 	 * @param string $configValue
 	 * @param string $expected
 	 */
 	public function testGetCipher($configValue, $expected) {
-
 		$this->config->expects($this->once())
 			->method('getSystemValue')
-			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CFB'))
+			->with($this->equalTo('cipher'), $this->equalTo('AES-256-CTR'))
 			->willReturn($configValue);
 
 		$this->assertSame($expected,
@@ -161,7 +176,10 @@ class cryptTest extends TestCase {
 		return array(
 			array('AES-128-CFB', 'AES-128-CFB'),
 			array('AES-256-CFB', 'AES-256-CFB'),
-			array('unknown', 'AES-256-CFB')
+			array('AES-128-CTR', 'AES-128-CTR'),
+			array('AES-256-CTR', 'AES-256-CTR'),
+
+			array('unknown', 'AES-256-CTR')
 		);
 	}
 
@@ -303,10 +321,15 @@ class cryptTest extends TestCase {
 		$this->invokePrivate($this->crypt, 'getKeySize', ['foo']);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function dataTestGetKeySize() {
 		return [
 			['AES-256-CFB', 32],
 			['AES-128-CFB', 16],
+			['AES-256-CTR', 32],
+			['AES-128-CTR', 16],
 		];
 	}
 
@@ -351,6 +374,9 @@ class cryptTest extends TestCase {
 		$this->assertSame($expected, $result);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function dataTestDecryptPrivateKey() {
 		return [
 			[['cipher' => 'AES-128-CFB', 'keyFormat' => 'password'], 'HBEGIN:HENDprivateKey', 'AES-128-CFB', true, 'key'],
