@@ -81,6 +81,13 @@ class Memory extends Session {
 	}
 
 	/**
+	 * Stub since the session ID does not need to get regenerated for the cache
+	 *
+	 * @param bool $deleteOldSession
+	 */
+	public function regenerateId($deleteOldSession = true) {}
+
+	/**
 	 * Helper function for PHPUnit execution - don't use in non-test code
 	 */
 	public function reopen() {

@@ -162,7 +162,6 @@ class OC_User {
 	 * Log in a user and regenerate a new session - if the password is ok
 	 */
 	public static function login($loginname, $password) {
-		session_regenerate_id(true);
 		$result = self::getUserSession()->login($loginname, $password);
 		if ($result) {
 			//we need to pass the user name, which may differ from login name

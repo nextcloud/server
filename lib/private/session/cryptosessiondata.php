@@ -132,6 +132,16 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	}
 
 	/**
+	 * Wrapper around session_regenerate_id
+	 *
+	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
+	 * @return void
+	 */
+	public function regenerateId($deleteOldSession = true) {
+		$this->session->regenerateId($deleteOldSession);
+	}
+
+	/**
 	 * Close the session and release the lock, also writes all changed data in batch
 	 */
 	public function close() {
