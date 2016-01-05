@@ -405,7 +405,7 @@ $CONFIG = array(
  *     delete all files in the trash bin that are older than D days   
  *     automatically, delete other files anytime if space needed
  * * ``D1, D2``    
- *     keep files and folders the in trash bin for at least D1 days and 
+ *     keep files and folders in the trash bin for at least D1 days and 
  *     delete when exceeds D2 days
  * * ``disabled``  
  *     trash bin auto clean disabled, files and folders will be kept forever
