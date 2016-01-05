@@ -231,4 +231,22 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 		// action
 		$file->delete();
 	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\ServiceUnavailable
+	 */
+	public function testGetFopenFails() {
+		$view = $this->getMock('\OC\Files\View', ['fopen'], array());
+		$view->expects($this->atLeastOnce())
+			->method('fopen')
+			->will($this->returnValue(false));
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions' => \OCP\Constants::PERMISSION_ALL
+		), null);
+
+		$file = new \OC_Connector_Sabre_File($view, $info);
+
+		$file->get();
+	}
 }

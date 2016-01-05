@@ -174,13 +174,16 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 	 * @return string|resource
 	 */
 	public function get() {
-
 		//throw exception if encryption is disabled but files are still encrypted
 		if (\OC_Util::encryptedFiles()) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable("Encryption is disabled");
 		} else {
 			try {
-				return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+				$res = $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+				if ($res === false) {
+					throw new \Sabre\DAV\Exception\ServiceUnavailable("Could not open file");
+				}
+				return $res;
 			} catch (\OCA\Files_Encryption\Exception\EncryptionException $e) {
 				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
