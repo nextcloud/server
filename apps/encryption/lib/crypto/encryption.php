@@ -192,10 +192,10 @@ class Encryption implements IEncryptionModule {
 			}
 		}
 
-		if (isset($header['cipher'])) {
-			$this->cipher = $header['cipher'];
-		} elseif ($this->isWriteOperation) {
+		if ($this->isWriteOperation) {
 			$this->cipher = $this->crypt->getCipher();
+		} elseif (isset($header['cipher'])) {
+			$this->cipher = $header['cipher'];
 		} else {
 			// if we read a file without a header we fall-back to the legacy cipher
 			// which was used in <=oC6
