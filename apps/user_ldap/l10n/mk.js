@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Select groups" : "Одбери групи",
     "Confirm Deletion" : "Потврдете го бришењето",
     "Users" : "Корисници",
     "Groups" : "Групи",

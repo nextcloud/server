@@ -11,8 +11,6 @@
     "Updated \"%s\" to %s" : "Atnaujinta \"%s\" į %s",
     "Repair warning: " : "Taisymo perspėjimas:",
     "Repair error: " : "Taisymo klaida:",
-    "Set log level to debug - current level: \"%s\"" : "Nustatykite žurnalų lygį į derinimas - dabar \"%s\"",
-    "Reset log level to  \"%s\"" : "Atkurkite žurnalų lygį į \"%s\"",
     "Following apps have been disabled: %s" : "Išjungti įskiepiai: %s",
     "Already up to date" : "Jau naujausia",
     "File is too big" : "Per didelis failas",

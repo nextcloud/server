@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Datoteka \"%s\" je posodobljena na %s",
     "Repair warning: " : "Opozorilo popravila:",
     "Repair error: " : "Napaka popravila:",
-    "Set log level to debug - current level: \"%s\"" : "Stopnja dnevnika nastavljena na razhroščevanje - trenutna stopnja: \"%s\"",
-    "Reset log level to  \"%s\"" : "Stopnja dnevnika ponastavljena na \"%s\"",
     "%s (3rdparty)" : "%s (zunanje)",
     "%s (incompatible)" : "%s (neskladno)",
     "Following apps have been disabled: %s" : "Sledeče aplikacije so blie izključene: %s",

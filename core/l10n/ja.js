@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "\"%s\" を %s にアップデートしました。",
     "Repair warning: " : "修復警告:",
     "Repair error: " : "修復エラー:",
-    "Set log level to debug - current level: \"%s\"" : "ログレベルをデバッグにセットします - 現在のレベル: \"%s\"",
-    "Reset log level to  \"%s\"" : "ログレベルを \"%s\" にリセットします。",
     "Starting code integrity check" : "コード整合性の確認を開始",
     "Finished code integrity check" : "コード整合性の確認が終了",
     "%s (3rdparty)" : "%s (サードパーティー)",

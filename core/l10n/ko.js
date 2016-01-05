@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "\"%s\"을(를) %s(으)로 업데이트함",
     "Repair warning: " : "수리 경고:",
     "Repair error: " : "수리 오류:",
-    "Set log level to debug - current level: \"%s\"" : "로그 단계를 디버그로 설정함 - 현재 단계: \"%s\"",
-    "Reset log level to  \"%s\"" : "로그 단계를 \"%s\"(으)로 초기화",
     "%s (3rdparty)" : "%s(제 3사)",
     "%s (incompatible)" : "%s(호환 불가)",
     "Following apps have been disabled: %s" : "다음 앱이 비활성화되었습니다: %s",

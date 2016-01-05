@@ -14,8 +14,6 @@
     "Updated \"%s\" to %s" : "Aggiornato \"%s\" a %s",
     "Repair warning: " : "Avviso di riparazione",
     "Repair error: " : "Errore di riparazione:",
-    "Set log level to debug - current level: \"%s\"" : "Imposta il livello del log a debug - livello attuale: \"%s\"",
-    "Reset log level to  \"%s\"" : "Ripristina il livello del log a \"%s\"",
     "Starting code integrity check" : "Avvio del controllo di integrità del codice",
     "Finished code integrity check" : "Controllo di integrità del codice terminato",
     "%s (3rdparty)" : "%s (Terze parti)",

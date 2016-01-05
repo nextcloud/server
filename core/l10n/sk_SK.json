@@ -14,8 +14,6 @@
     "Updated \"%s\" to %s" : "Aktualizované \"%s\" na %s",
     "Repair warning: " : "Oznámenie opravy:",
     "Repair error: " : "Chyba opravy:",
-    "Set log level to debug - current level: \"%s\"" : "Nastaviť úroveň záznamu na debug - aktuálna úroveň: \"%s\"",
-    "Reset log level to  \"%s\"" : "Vrátiť úroveň záznamu na „%s“",
     "%s (3rdparty)" : "%s (od tretej strany)",
     "%s (incompatible)" : "%s (nekompatibilná)",
     "Following apps have been disabled: %s" : "Nasledovné aplikácie boli zakázané: %s",

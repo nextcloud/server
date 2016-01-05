@@ -14,8 +14,6 @@
     "Updated \"%s\" to %s" : "更新 \"%s\" 为 %s",
     "Repair warning: " : "修复警告：",
     "Repair error: " : "修复错误：",
-    "Set log level to debug - current level: \"%s\"" : "设置日志级别为 调试 - 目前级别：%s",
-    "Reset log level to  \"%s\"" : "重设日志级别为 \"%s\"",
     "%s (3rdparty)" : "%s (第三方)",
     "%s (incompatible)" : "%s (不兼容)",
     "Following apps have been disabled: %s" : "下列应用已经被禁用：%s",

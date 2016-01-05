@@ -8,8 +8,10 @@ OC.L10N.register(
     "Delete" : "Избриши",
     "Delete permanently" : "Трајно избришани",
     "Error" : "Грешка",
+    "This operation is forbidden" : "Операцијата не е дозволена",
     "restored" : "повратени",
     "No entries found in this folder" : "Нема ништо во оваа папка",
+    "Select all" : "Избери се",
     "Name" : "Име",
     "Deleted" : "Избришан"
 },

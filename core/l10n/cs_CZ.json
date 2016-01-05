@@ -14,8 +14,6 @@
     "Updated \"%s\" to %s" : "Aktualizováno z \"%s\" na %s",
     "Repair warning: " : "Upozornění opravy:",
     "Repair error: " : "Chyba opravy:",
-    "Set log level to debug - current level: \"%s\"" : "Nastavit úroveň logování na debug - aktuální úroveň: \"%s\"",
-    "Reset log level to  \"%s\"" : "Vrátit úroveň logování na \"%s\"",
     "Starting code integrity check" : "Spouští se kontrola integrity kódu",
     "Finished code integrity check" : "Kontrola integrity kódu dokončena",
     "%s (3rdparty)" : "%s (3. strana)",

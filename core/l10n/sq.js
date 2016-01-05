@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "U përditësua \"%s\" në %s",
     "Repair warning: " : "Sinjalizim ndreqjeje: ",
     "Repair error: " : "Gabim ndreqjeje: ",
-    "Set log level to debug - current level: \"%s\"" : "Caktoni debug si nivel regjistri - niveli i tanishëm: \"%s\"",
-    "Reset log level to  \"%s\"" : "Riktheni nivel regjistri në  \"%s\"",
     "Starting code integrity check" : "Po fillohet kontroll integriteti për kodin",
     "Finished code integrity check" : "Përfundoi kontrolli i integritetit për kodin",
     "%s (3rdparty)" : "%s (prej palësh të treta)",

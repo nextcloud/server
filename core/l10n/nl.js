@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Bijgewerkt \"%s\" naar %s",
     "Repair warning: " : "Reparatiewaarschuwing:",
     "Repair error: " : "Reparatiefout:",
-    "Set log level to debug - current level: \"%s\"" : "Instellen logniveau op debug - huidige niveau: \"%s\"",
-    "Reset log level to  \"%s\"" : "Terugzetten logniveau op \"#%s\"",
     "Starting code integrity check" : "Starten code betrouwbaarheidscontrole",
     "Finished code integrity check" : "Gereed met code betrouwbaarheidscontrole",
     "%s (3rdparty)" : "%s (3rdparty)",

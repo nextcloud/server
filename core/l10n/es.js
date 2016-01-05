@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Se ha actualizado \"%s\" a %s",
     "Repair warning: " : "Advertencia de reparación:",
     "Repair error: " : "Error que reparar:",
-    "Set log level to debug - current level: \"%s\"" : "Establecer nivel de registro para depurar - nivel actual: \"%s\"",
-    "Reset log level to  \"%s\"" : "Restablecer nivel de registro a \"%s\"",
     "Starting code integrity check" : "Comenzando comprobación de integridad de código",
     "Finished code integrity check" : "Terminando comprobación de integridad de código",
     "%s (3rdparty)" : "%s (tercer parte)",

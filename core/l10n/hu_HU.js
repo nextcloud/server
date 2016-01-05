@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Frissítettük  \"%s\"-t erre: %s",
     "Repair warning: " : "Javítás figyelmeztetés:",
     "Repair error: " : "Javítás hiba:",
-    "Set log level to debug - current level: \"%s\"" : "Hibakeresési naplózási szint beállítása - jelenlegi szint: \"%s\"",
-    "Reset log level to  \"%s\"" : "Naplózási szint visszaállítása \"%s\"-re",
     "%s (3rdparty)" : "%s (harmadik fél által)",
     "%s (incompatible)" : "%s (nem kompatibilis)",
     "Following apps have been disabled: %s" : "A következő applikációk lettek tiltva: %s",

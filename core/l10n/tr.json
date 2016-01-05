@@ -14,8 +14,6 @@
     "Updated \"%s\" to %s" : "\"%s\", %s sürümüne güncellendi",
     "Repair warning: " : "Onarım uyarısı:",
     "Repair error: " : "Onarım hatası:",
-    "Set log level to debug - current level: \"%s\"" : "Günlük seviyesini hata ayıklamaya ayarla - geçerli seviye: \"%s\"",
-    "Reset log level to  \"%s\"" : "Günlük seviyesini \"%s\" olarak sıfırla",
     "%s (3rdparty)" : "%s (3.parti)",
     "%s (incompatible)" : "%s (uyumsuz)",
     "Following apps have been disabled: %s" : "Aşağıdaki uygulamalar devre dışı bırakıldı: %s",

@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "已更新 %s 到 %s",
     "Repair warning: " : "修復警告：",
     "Repair error: " : "修復錯誤",
-    "Set log level to debug - current level: \"%s\"" : "設定除錯記錄層級 - 目前層級: \"%s\"",
-    "Reset log level to  \"%s\"" : "重設記錄層級為 \"%s\"",
     "%s (3rdparty)" : "%s (第3方)",
     "%s (incompatible)" : "%s (不相容的)",
     "Following apps have been disabled: %s" : "以下應用程式已經被停用：%s",

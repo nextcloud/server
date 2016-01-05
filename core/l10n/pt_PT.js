@@ -13,7 +13,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Atualizado \"%s\" para %s",
     "Repair warning: " : "Aviso de reparação:",
     "Repair error: " : "Corrija o erro:",
-    "Reset log level to  \"%s\"" : "Reiniciar o nível de registo para \"%s\"",
     "%s (3rdparty)" : "%s (terceiros)",
     "%s (incompatible)" : "%s (incompatível)",
     "Following apps have been disabled: %s" : "As seguintes apps foram desativadas: %s",

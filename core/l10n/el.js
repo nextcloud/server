@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Αναβαθμίστηκε \"%s\" σε %s",
     "Repair warning: " : "Προειδοποίηση διόρθωσης:",
     "Repair error: " : "Σφάλμα διόρθωσης:",
-    "Set log level to debug - current level: \"%s\"" : "Καθορισμός του επιπέδου καταγραφής σε αποσφαλμάτωση - τρέχον επίπεδο: \"%s\"",
-    "Reset log level to  \"%s\"" : "Επαναφορά επιπέδου καταγραφής σε \"%s\"",
     "%s (3rdparty)" : "%s (3ου μέρους)",
     "%s (incompatible)" : "%s (ασύμβατη)",
     "Following apps have been disabled: %s" : "Οι ακόλουθες εφαρμογές έχουν απενεργοποιηθεί: %s",

@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Oppdaterte \"%s\" til %s",
     "Repair warning: " : "Advarsel fra reparering: ",
     "Repair error: " : "Feil ved reparering: ",
-    "Set log level to debug - current level: \"%s\"" : "Sett loggnivå til feilsøking - nåværende nivå: \"%s\"",
-    "Reset log level to  \"%s\"" : "Tilbakestilt logg-nivå til \"%s\"",
     "Starting code integrity check" : "Starter sjekk av kode-integritet",
     "Finished code integrity check" : "Ferdig med sjekk av kode-integritet",
     "%s (3rdparty)" : "%s (3dje-part)",

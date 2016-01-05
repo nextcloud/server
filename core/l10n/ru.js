@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Обновлено \"%s\" до %s",
     "Repair warning: " : "Предупреждение восстановления:",
     "Repair error: " : "Ошибка восстановления:",
-    "Set log level to debug - current level: \"%s\"" : "Установить отладочное журналирование - текущий уровень: \"%s\"",
-    "Reset log level to  \"%s\"" : "Сбросить уровень журналирования в \"%s\"",
     "%s (3rdparty)" : "%s (3rdparty)",
     "%s (incompatible)" : "%s (несовместим)",
     "Following apps have been disabled: %s" : "Были отключены следующие приложения: %s",

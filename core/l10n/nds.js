@@ -12,8 +12,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "\"%s\" auf %s aktualisiert",
     "Repair warning: " : "Reparaturwarnung",
     "Repair error: " : "Reparaturfehler",
-    "Set log level to debug - current level: \"%s\"" : "Protokollierungsstufe auf Debug gesetzt - Aktuelle Stufe: \"%s\"",
-    "Reset log level to  \"%s\"" : "Protokollierungsstufe auf \"%s\" zurückgesetzt",
     "Following apps have been disabled: %s" : "Folgende Apps wurden deaktiviert: %s",
     "Already up to date" : "Bereits aktuell",
     "File is too big" : "Datei ist zu groß",

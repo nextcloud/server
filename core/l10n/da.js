@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Opdaterede \"%s\" til %s",
     "Repair warning: " : "Reparationsadvarsel:",
     "Repair error: " : "Reparationsfejl:",
-    "Set log level to debug - current level: \"%s\"" : "Sæt log niveau til fejlfinding - nuværende niveau: \"%s\"",
-    "Reset log level to  \"%s\"" : "Nulstil log niveau til \"%s\"",
     "%s (3rdparty)" : "%s (3rdparty)",
     "%s (incompatible)" : "%s (inkombatible)",
     "Following apps have been disabled: %s" : "Følgende apps er blevet deaktiveret: %s",

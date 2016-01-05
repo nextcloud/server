@@ -16,8 +16,6 @@ OC.L10N.register(
     "Updated \"%s\" to %s" : "Mesa a jorn de « %s » cap a %s",
     "Repair warning: " : "Avertiment de reparacion :",
     "Repair error: " : "Error de reparacion :",
-    "Set log level to debug - current level: \"%s\"" : "Reglatge del nivèl de log de \"desbug\" - nivèl actual : \"%s\"",
-    "Reset log level to  \"%s\"" : "Reglatge del nivèl de log de \"desbug\" - nivèl actual : \"%s\"",
     "%s (3rdparty)" : "%s (origina tèrça)",
     "%s (incompatible)" : "%s (incompatible)",
     "Following apps have been disabled: %s" : "Las aplicacions seguentas son estadas desactivadas : %s",
