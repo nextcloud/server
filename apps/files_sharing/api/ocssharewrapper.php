@@ -39,7 +39,8 @@ class OCSShareWrapper {
 				\OC::$server->getSecureRandom(),
 				\OC::$server->getHasher(),
 				\OC::$server->getMountManager(),
-				\OC::$server->getGroupManager()
+				\OC::$server->getGroupManager(),
+				\OC::$server->getL10N('core')
 			),
 			\OC::$server->getGroupManager(),
 			\OC::$server->getUserManager(),

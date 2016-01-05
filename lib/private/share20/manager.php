@@ -22,11 +22,15 @@ namespace OC\Share20;
 
 
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
 use OCP\Security\IHasher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IGroupManager;
+use OCP\Files\File;
+use OCP\Files\Folder;
+use OCP\IUser;
 
 use OC\Share20\Exception\ShareNotFound;
 
@@ -35,9 +39,7 @@ use OC\Share20\Exception\ShareNotFound;
  */
 class Manager {
 
-	/**
-	 * @var IShareProvider[]
-	 */
+	/** @var IShareProvider[] */
 	private $defaultProvider;
 
 	/** @var ILogger */
@@ -58,6 +60,9 @@ class Manager {
 	/** @var IGroupManager */
 	private $groupManager;
 
+	/** @var IL10N */
+	private $l;
+
 	/**
 	 * Manager constructor.
 	 *
@@ -68,6 +73,7 @@ class Manager {
 	 * @param IHasher $hasher
 	 * @param IMountManager $mountManager
 	 * @param IGroupManager $groupManager
+	 * @param IL10N $l
 	 */
 	public function __construct(
 			ILogger $logger,
@@ -76,7 +82,8 @@ class Manager {
 			ISecureRandom $secureRandom,
 			IHasher $hasher,
 			IMountManager $mountManager,
-			IGroupManager $groupManager
+			IGroupManager $groupManager,
+			IL10N $l
 	) {
 		$this->logger = $logger;
 		$this->config = $config;
@@ -84,6 +91,7 @@ class Manager {
 		$this->hasher = $hasher;
 		$this->mountManager = $mountManager;
 		$this->groupManager = $groupManager;
+		$this->l = $l;
 
 		// TEMP SOLUTION JUST TO GET STARTED
 		$this->defaultProvider = $defaultProvider;
@@ -191,6 +199,7 @@ class Manager {
 	 *
 	 * @param \DateTime $expireDate The current expiration date (can be null)
 	 * @return \DateTime|null The expiration date or null if $expireDate was null and it is not required
+	 * @throws \OC\HintException
 	 */
 	protected function validateExpiredate($expireDate) {
 
@@ -201,7 +210,8 @@ class Manager {
 			$date = new \DateTime();
 			$date->setTime(0, 0, 0);
 			if ($date >= $expireDate) {
-				throw new \InvalidArgumentException('Expiration date is in the past');
+				$message = $this->l->t('Expiration date is in the past');
+				throw new \OC\HintException($message, $message, 404);
 			}
 		}
 
@@ -215,7 +225,8 @@ class Manager {
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
 			if ($date < $expireDate) {
-				throw new \InvalidArgumentException('Cannot set expiration date more than ' . $this->shareApiLinkDefaultExpireDays() . ' in the future');
+				$message = $this->l->t('Cannot set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
+				throw new \OC\HintException($message, $message, 404);
 			}
 
 			return $expireDate;
@@ -390,7 +401,7 @@ class Manager {
 			 * For now ignore a set token.
 			 */
 			$share->setToken(
-				$this->secureRandom->getMediumStrengthGenerator()->generate(
+				$this->secureRandom->generate(
 					\OC\Share\Constants::TOKEN_LENGTH,
 					\OCP\Security\ISecureRandom::CHAR_LOWER.
 					\OCP\Security\ISecureRandom::CHAR_UPPER.

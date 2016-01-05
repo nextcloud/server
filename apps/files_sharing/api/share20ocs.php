@@ -268,9 +268,9 @@ class Share20OCS {
 				}
 
 				$share->setPermissions(
-						\OCP\Constants::PERMISSION_READ |
-						\OCP\Constants::PERMISSION_CREATE |
-						\OCP\Constants::PERMISSION_UPDATE
+					\OCP\Constants::PERMISSION_READ |
+					\OCP\Constants::PERMISSION_CREATE |
+					\OCP\Constants::PERMISSION_UPDATE
 				);
 			} else {
 				$share->setPermissions(\OCP\Constants::PERMISSION_READ);
@@ -303,7 +303,10 @@ class Share20OCS {
 
 		try {
 			$share = $this->shareManager->createShare($share);
-		} catch (\Exception $e) {
+		} catch (\OC\HintException $e) {
+			$code = $e->getCode() === 0 ? 403 : $e->getCode();
+			return new \OC_OCS_Result(null, $code, $e->getHint());
+		}catch (\Exception $e) {
 			return new \OC_OCS_Result(null, 403, $e->getMessage());
 		}
 

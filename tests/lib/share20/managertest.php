@@ -23,6 +23,7 @@ namespace Test\Share20;
 use OC\Share20\Manager;
 use OC\Share20\Exception;
 
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IConfig;
 use OC\Share20\IShareProvider;
@@ -63,6 +64,9 @@ class ManagerTest extends \Test\TestCase {
 	/** @var  IGroupManager */
 	protected $groupManager;
 
+	/** @var IL10N */
+	protected $l;
+
 	public function setUp() {
 		
 		$this->logger = $this->getMock('\OCP\ILogger');
@@ -73,6 +77,12 @@ class ManagerTest extends \Test\TestCase {
 		$this->mountManager = $this->getMock('\OCP\Files\Mount\IMountManager');
 		$this->groupManager = $this->getMock('\OCP\IGroupManager');
 
+		$this->l = $this->getMock('\OCP\IL10N');
+		$this->l->method('t')
+			->will($this->returnCallback(function($text, $parameters = []) {
+ 				return vsprintf($text, $parameters);
+ 			}));
+
 		$this->manager = new Manager(
 			$this->logger,
 			$this->config,
@@ -80,7 +90,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->secureRandom,
 			$this->hasher,
 			$this->mountManager,
-			$this->groupManager
+			$this->groupManager,
+			$this->l
 		);
 	}
 
@@ -126,7 +137,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->l
 			])
 			->setMethods(['getShareById', 'deleteChildren'])
 			->getMock();
@@ -216,7 +228,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->l,
 			])
 			->setMethods(['getShareById'])
 			->getMock();
@@ -360,7 +373,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->l,
 			])
 			->setMethods(['deleteShare'])
 			->getMock();
@@ -569,7 +583,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException InvalidArgumentException
+	 * @expectedException \OC\HintException
 	 * @expectedExceptionMessage Expiration date is in the past
 	 */
 	public function testValidateExpiredateInPast() {
@@ -594,10 +608,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->invokePrivate($this->manager, 'validateExpiredate', [null]);
 	}
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 * @expectedExceptionMessage Cannot set expiration date more than 3 in the future
-	 */
 	public function testValidateExpiredateEnforceToFarIntoFuture() {
 		// Expire date in the past
 		$future = new \DateTime();
@@ -609,7 +619,13 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 			]));
 
-		$this->invokePrivate($this->manager, 'validateExpiredate', [$future]);
+		try {
+			$this->invokePrivate($this->manager, 'validateExpiredate', [$future]);
+		} catch (\OC\HintException $e) {
+			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getMessage());
+			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getHint());
+			$this->assertEquals(404, $e->getCode());
+		}
 	}
 
 	public function testValidateExpiredateEnforceValid() {
@@ -1139,7 +1155,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->l,
 			])
 			->setMethods(['isSharingDisabledForUser'])
 			->getMock();
@@ -1167,7 +1184,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->l,
 			])
 			->setMethods(['canShare'])
 			->getMock();
@@ -1186,7 +1204,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->l,
 			])
 			->setMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks'])
 			->getMock();
@@ -1247,7 +1266,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->l,
 			])
 			->setMethods(['canShare', 'generalCreateChecks', 'groupCreateChecks', 'pathCreateChecks'])
 			->getMock();
@@ -1308,7 +1328,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->l,
 			])
 			->setMethods([
 				'canShare',
@@ -1448,7 +1469,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->secureRandom,
 				$this->hasher,
 				$this->mountManager,
-				$this->groupManager
+				$this->groupManager,
+				$this->l,
 			])
 			->setMethods([
 				'canShare',
