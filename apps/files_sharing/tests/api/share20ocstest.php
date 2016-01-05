@@ -172,8 +172,18 @@ class Share20OCSTest extends \Test\TestCase {
 		$group = $this->getMock('OCP\IGroup');
 		$group->method('getGID')->willReturn('groupId');
 
-		$storage = $this->getMock('OCP\Files\Storage');
+		$cache = $this->getMockBuilder('OC\Files\Cache\Cache')
+			->disableOriginalConstructor()
+			->getMock();
+		$cache->method('getNumericStorageId')->willReturn(101);
+
+		$storage = $this->getMockBuilder('OC\Files\Storage\Storage')
+			->disableOriginalConstructor()
+			->getMock();
 		$storage->method('getId')->willReturn('STORAGE');
+		$storage->method('getCache')->willReturn($cache);
+
+
 
 		$parentFolder = $this->getMock('OCP\Files\Folder');
 		$parentFolder->method('getId')->willReturn(3);
@@ -224,7 +234,7 @@ class Share20OCSTest extends \Test\TestCase {
 			'parent' => 6,
 			'storage_id' => 'STORAGE',
 			'path' => 'file',
-			'storage' => null, // HACK around static function
+			'storage' => 101,
 			'mail_send' => 0,
 		];
 		$data[] = [$share, $expected];
@@ -263,7 +273,7 @@ class Share20OCSTest extends \Test\TestCase {
 			'parent' => 6,
 			'storage_id' => 'STORAGE',
 			'path' => 'folder',
-			'storage' => null, // HACK around static function
+			'storage' => 101,
 			'mail_send' => 0,
 		];
 		$data[] = [$share, $expected];
@@ -305,7 +315,7 @@ class Share20OCSTest extends \Test\TestCase {
 			'parent' => 6,
 			'storage_id' => 'STORAGE',
 			'path' => 'folder',
-			'storage' => null, // HACK around static function
+			'storage' => 101,
 			'mail_send' => 0,
 			'url' => 'url',
 		];

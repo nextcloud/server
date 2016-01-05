@@ -97,7 +97,7 @@ class Share20OCS {
 			$result['item_type'] = 'file';
 		}
 		$result['storage_id'] = $path->getStorage()->getId();
-		$result['storage'] = \OC\Files\Cache\Storage::getNumericStorageId($path->getStorage()->getId());
+		$result['storage'] = $path->getStorage()->getCache()->getNumericStorageId();
 		$result['item_source'] = $path->getId();
 		$result['file_source'] = $path->getId();
 		$result['file_parent'] = $path->getParent()->getId();
