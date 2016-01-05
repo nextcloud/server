@@ -304,7 +304,7 @@ class Share20OCS {
 		try {
 			$share = $this->shareManager->createShare($share);
 		} catch (\Exception $e) {
-			return new \OC_OCS_Result(null, 404, $e->getMessage());
+			return new \OC_OCS_Result(null, 403, $e->getMessage());
 		}
 
 		$share = $this->formatShare($share);
