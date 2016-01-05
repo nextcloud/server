@@ -21,7 +21,7 @@ $listener = new ScanListener($eventSource);
 foreach ($users as $user) {
 	$eventSource->send('user', $user);
 	$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection());
-	$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', array($listener, 'folder'));
+	$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', array($listener, 'file'));
 	if ($force) {
 		$scanner->scan($dir);
 	} else {
