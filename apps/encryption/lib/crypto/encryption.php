@@ -94,6 +94,9 @@ class Encryption implements IEncryptionModule {
 	/** @var DecryptAll  */
 	private $decryptAll;
 
+	/** @var int unencrypted block size */
+	private $unencryptedBlockSize = 6072;
+
 	/**
 	 *
 	 * @param Crypt $crypt
@@ -253,7 +256,7 @@ class Encryption implements IEncryptionModule {
 	public function encrypt($data) {
 
 		// If extra data is left over from the last round, make sure it
-		// is integrated into the next 6126 / 8192 block
+		// is integrated into the next block
 		if ($this->writeCache) {
 
 			// Concat writeCache to start of $data
@@ -275,7 +278,7 @@ class Encryption implements IEncryptionModule {
 
 			// If data remaining to be written is less than the
 			// size of 1 6126 byte block
-			if ($remainingLength < 6126) {
+			if ($remainingLength < $this->unencryptedBlockSize) {
 
 				// Set writeCache to contents of $data
 				// The writeCache will be carried over to the
@@ -293,14 +296,14 @@ class Encryption implements IEncryptionModule {
 			} else {
 
 				// Read the chunk from the start of $data
-				$chunk = substr($data, 0, 6126);
+				$chunk = substr($data, 0, $this->unencryptedBlockSize);
 
 				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
 				// var, for handling on the next round
-				$data = substr($data, 6126);
+				$data = substr($data, $this->unencryptedBlockSize);
 
 			}
 
@@ -410,7 +413,7 @@ class Encryption implements IEncryptionModule {
 	 * @return integer
 	 */
 	public function getUnencryptedBlockSize() {
-		return 6126;
+		return $this->unencryptedBlockSize;
 	}
 
 	/**

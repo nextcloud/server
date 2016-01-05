@@ -29,10 +29,12 @@ namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
+use OC\HintException;
 use OCA\Encryption\Exceptions\MultiKeyDecryptException;
 use OCA\Encryption\Exceptions\MultiKeyEncryptException;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUserSession;
 
@@ -60,14 +62,22 @@ class Crypt {
 
 	const HEADER_START = 'HBEGIN';
 	const HEADER_END = 'HEND';
+
 	/** @var ILogger */
 	private $logger;
+
 	/** @var string */
 	private $user;
+
 	/** @var IConfig */
 	private $config;
+
 	/** @var array */
 	private $supportedKeyFormats;
+
+	/** @var IL10N */
+	private $l;
+
 	/** @var array */
 	private $supportedCiphersAndKeySize = [
 		'AES-256-CTR' => 32,
@@ -80,11 +90,13 @@ class Crypt {
 	 * @param ILogger $logger
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
+	 * @param IL10N $l
 	 */
-	public function __construct(ILogger $logger, IUserSession $userSession, IConfig $config) {
+	public function __construct(ILogger $logger, IUserSession $userSession, IConfig $config, IL10N $l) {
 		$this->logger = $logger;
 		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : '"no user given"';
 		$this->config = $config;
+		$this->l = $l;
 		$this->supportedKeyFormats = ['hash', 'password'];
 	}
 
@@ -172,8 +184,12 @@ class Crypt {
 			$iv,
 			$passPhrase,
 			$this->getCipher());
+
+		$sig = $this->createSignature($encryptedContent, $passPhrase);
+
 		// combine content to encrypt the IV identifier and actual IV
 		$catFile = $this->concatIV($encryptedContent, $iv);
+		$catFile = $this->concatSig($catFile, $sig);
 		$padded = $this->addPadding($catFile);
 
 		return $padded;
@@ -288,6 +304,15 @@ class Crypt {
 	}
 
 	/**
+	 * @param string $encryptedContent
+	 * @param string $signature
+	 * @return string
+	 */
+	private function concatSig($encryptedContent, $signature) {
+		return $encryptedContent . '00sig00' . $signature;
+	}
+
+	/**
 	 * Note: This is _NOT_ a padding used for encryption purposes. It is solely
 	 * used to achieve the PHP stream size. It has _NOTHING_ to do with the
 	 * encrypted content and is not used in any crypto primitive.
@@ -296,7 +321,7 @@ class Crypt {
 	 * @return string
 	 */
 	private function addPadding($data) {
-		return $data . 'xx';
+		return $data . 'xxx';
 	}
 
 	/**
@@ -414,10 +439,12 @@ class Crypt {
 	 * @throws DecryptionFailedException
 	 */
 	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER) {
-		// Remove Padding
-		$noPadding = $this->removePadding($keyFileContents);
 
-		$catFile = $this->splitIv($noPadding);
+		$catFile = $this->splitMetaData($keyFileContents, $cipher);
+
+		if ($catFile['signature']) {
+			$this->checkSignature($catFile['encrypted'], $passPhrase, $catFile['signature']);
+		}
 
 		return $this->decrypt($catFile['encrypted'],
 			$catFile['iv'],
@@ -426,40 +453,100 @@ class Crypt {
 	}
 
 	/**
+	 * check for valid signature
+	 *
+	 * @param string $data
+	 * @param string $passPhrase
+	 * @param string $expectedSignature
+	 * @throws HintException
+	 */
+	private function checkSignature($data, $passPhrase, $expectedSignature) {
+		$signature = $this->createSignature($data, $passPhrase);
+		if (hash_equals($expectedSignature, $signature)) {
+			throw new HintException('Bad Signature', $this->l->t('Bad Signature'));
+		}
+	}
+
+	/**
+	 * create signature
+	 *
+	 * @param string $data
+	 * @param string $passPhrase
+	 * @return string
+	 */
+	private function createSignature($data, $passPhrase) {
+		$signature = hash_hmac('sha256', $data, $passPhrase);
+		return $signature;
+	}
+
+
+	/**
 	 * remove padding
 	 *
-	 * @param $padded
+	 * @param string $padded
+	 * @param bool $hasSignature did the block contain a signature, in this case we use a different padding
 	 * @return string|false
 	 */
-	private function removePadding($padded) {
-		if (substr($padded, -2) === 'xx') {
+	private function removePadding($padded, $hasSignature = false) {
+		if ($hasSignature === false && substr($padded, -2) === 'xx') {
 			return substr($padded, 0, -2);
+		} elseif ($hasSignature === true && substr($padded, -3) === 'xxx') {
+			return substr($padded, 0, -3);
 		}
 		return false;
 	}
 
 	/**
-	 * split iv from encrypted content
+	 * split meta data from encrypted file
+	 * Note: for now, we assume that the meta data always start with the iv
+	 *       followed by the signature, if available
 	 *
-	 * @param string|false $catFile
-	 * @return string
+	 * @param string $catFile
+	 * @param string $cipher
+	 * @return array
 	 */
-	private function splitIv($catFile) {
-		// Fetch encryption metadata from end of file
-		$meta = substr($catFile, -22);
-
-		// Fetch IV from end of file
-		$iv = substr($meta, -16);
-
-		// Remove IV and IV Identifier text to expose encrypted content
-
-		$encrypted = substr($catFile, 0, -22);
+	private function splitMetaData($catFile, $cipher) {
+		if ($this->hasSignature($catFile, $cipher)) {
+			$catFile = $this->removePadding($catFile, true);
+			$meta = substr($catFile, -93);
+			$iv = substr($meta, strlen('00iv00'), 16);
+			$sig = substr($meta, 22 + strlen('00sig00'));
+			$encrypted = substr($catFile, 0, -93);
+		} else {
+			$catFile = $this->removePadding($catFile);
+			$meta = substr($catFile, -22);
+			$iv = substr($meta, -16);
+			$sig = false;
+			$encrypted = substr($catFile, 0, -93);
+		}
 
 		return [
 			'encrypted' => $encrypted,
-			'iv' => $iv
+			'iv' => $iv,
+			'signature' => $sig
 		];
 	}
+
+	/**
+	 * check if encrypted block is signed
+	 *
+	 * @param string $catFile
+	 * @param string $cipher
+	 * @return bool
+	 * @throws HintException
+	 */
+	private function hasSignature($catFile, $cipher) {
+		$meta = substr($catFile, 93);
+		$signaturePosition = strpos($meta, '00sig00');
+
+		// enforce signature for the new 'CTR' ciphers
+		if ($signaturePosition === false && strpos(strtolower($cipher), 'ctr') !== false) {
+			throw new HintException('Missing Signature', $this->l->t('Missing Signature'));
+		}
+
+		return ($signaturePosition !== false);
+	}
+
 
 	/**
 	 * @param string $encryptedContent

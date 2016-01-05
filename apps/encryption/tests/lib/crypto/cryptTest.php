@@ -39,6 +39,10 @@ class cryptTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
+
+	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	private $l;
+
 	/** @var  Crypt */
 	private $crypt;
 
@@ -57,8 +61,9 @@ class cryptTest extends TestCase {
 		$this->config = $this->getMockBuilder('OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->l = $this->getMock('OCP\IL10N');
 
-		$this->crypt = new Crypt($this->logger, $this->userSession, $this->config);
+		$this->crypt = new Crypt($this->logger, $this->userSession, $this->config, $this->l);
 	}
 
 	/**
