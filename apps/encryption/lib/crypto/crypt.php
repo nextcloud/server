@@ -614,14 +614,7 @@ class Crypt {
 	 * @throws \Exception
 	 */
 	public function generateFileKey() {
-		// Generate key
-		$key = base64_encode(openssl_random_pseudo_bytes(32, $strong));
-		if (!$key || !$strong) {
-				// If OpenSSL indicates randomness is insecure, log error
-				throw new \Exception('Encryption library, Insecure symmetric key was generated using openssl_random_pseudo_bytes()');
-		}
-
-		return $key;
+		return base64_encode(random_bytes(32));
 	}
 
 	/**
