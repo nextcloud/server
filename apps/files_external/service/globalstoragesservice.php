@@ -157,4 +157,8 @@ class GlobalStoragesService extends StoragesService {
 	public function getVisibilityType() {
 		return BackendService::VISIBILITY_ADMIN;
 	}
+
+	protected function isApplicable(StorageConfig $config) {
+		return true;
+	}
 }

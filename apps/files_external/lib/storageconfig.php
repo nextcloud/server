@@ -29,6 +29,8 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
  * External storage configuration
  */
 class StorageConfig implements \JsonSerializable {
+	const MOUNT_TYPE_ADMIN = 1;
+	const MOUNT_TYPE_PERSONAl = 2;
 
 	/**
 	 * Storage config id
@@ -106,6 +108,13 @@ class StorageConfig implements \JsonSerializable {
 	 * @var array
 	 */
 	private $mountOptions = [];
+
+	/**
+	 * Whether it's a personal or admin mount
+	 *
+	 * @var int
+	 */
+	private $type;
 
 	/**
 	 * Creates a storage config
@@ -347,6 +356,20 @@ class StorageConfig implements \JsonSerializable {
 	public function setStatus($status, $message = null) {
 		$this->status = $status;
 		$this->statusMessage = $message;
+	}
+
+	/**
+	 * @return int self::MOUNT_TYPE_ADMIN or self::MOUNT_TYPE_PERSONAl
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @param int $type self::MOUNT_TYPE_ADMIN or self::MOUNT_TYPE_PERSONAl
+	 */
+	public function setType($type) {
+		$this->type = $type;
 	}
 
 	/**

@@ -23,6 +23,8 @@ namespace OCA\Files_external\Tests\Service;
 
 use \OC\Files\Filesystem;
 
+use OCA\Files_external\Service\GlobalStoragesService;
+use OCA\Files_external\Service\StoragesService;
 use \OCA\Files_external\Service\UserStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
@@ -38,8 +40,15 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 
 	private $userId;
 
+	/**
+	 * @var StoragesService
+	 */
+	protected $globalStoragesService;
+
 	public function setUp() {
 		parent::setUp();
+
+		$this->globalStoragesService = new GlobalStoragesService($this->backendService, $this->dbConfig);
 
 		$this->userId = $this->getUniqueID('user_');
 		$this->createUser($this->userId, $this->userId);
@@ -173,5 +182,26 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 			\OC_Mount_Config::MOUNT_TYPE_USER,
 			$this->userId
 		);
+	}
+
+	/**
+	 * @expectedException \OCA\Files_external\NotFoundException
+	 */
+	public function testGetAdminStorage() {
+		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
+		$authMechanism = $this->backendService->getAuthMechanism('identifier:\Auth\Mechanism');
+
+		$storage = new StorageConfig();
+		$storage->setMountPoint('mountpoint');
+		$storage->setBackend($backend);
+		$storage->setAuthMechanism($authMechanism);
+		$storage->setBackendOptions(['password' => 'testPassword']);
+		$storage->setApplicableUsers([$this->userId]);
+
+		$newStorage = $this->globalStoragesService->addStorage($storage);
+
+		$this->assertInstanceOf('\OCA\Files_external\Lib\StorageConfig', $this->globalStoragesService->getStorage($newStorage->getId()));
+
+		$this->service->getStorage($newStorage->getId());
 	}
 }

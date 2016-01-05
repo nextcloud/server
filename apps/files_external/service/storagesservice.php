@@ -23,12 +23,9 @@
 
 namespace OCA\Files_external\Service;
 
-use \OCP\IUserSession;
 use \OC\Files\Filesystem;
-
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_external\NotFoundException;
-use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCP\Files\StorageNotAvailableException;
@@ -85,6 +82,7 @@ abstract class StoragesService {
 				array_values($applicableGroups),
 				$mount['priority']
 			);
+			$config->setType($mount['type']);
 			$config->setId((int)$mount['mount_id']);
 			return $config;
 		} catch (\UnexpectedValueException $e) {
@@ -132,8 +130,21 @@ abstract class StoragesService {
 			throw new NotFoundException('Storage with id "' . $id . '" not found');
 		}
 
-		return $this->getStorageConfigFromDBMount($mount);
+		$config = $this->getStorageConfigFromDBMount($mount);
+		if ($this->isApplicable($config)) {
+			return $config;
+		} else {
+			throw new NotFoundException('Storage with id "' . $id . '" not found');
+		}
 	}
+
+	/**
+	 * Check whether this storage service should provide access to a storage
+	 *
+	 * @param StorageConfig $config
+	 * @return bool
+	 */
+	abstract protected function isApplicable(StorageConfig $config);
 
 	/**
 	 * Gets all storages, valid or not

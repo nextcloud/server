@@ -152,4 +152,22 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		return 0;
 	}
 
+	protected function isApplicable(StorageConfig $config) {
+		$applicableUsers = $config->getApplicableUsers();
+		$applicableGroups = $config->getApplicableGroups();
+
+		if (count($applicableUsers) === 0 && count($applicableGroups) === 0) {
+			return true;
+		}
+		if (in_array($this->getUser()->getUID(), $applicableUsers, true)) {
+			return true;
+		}
+		$groupIds = $this->groupManager->getUserGroupIds($this->getUser());
+		foreach ($groupIds as $groupId) {
+			if (in_array($groupId, $applicableGroups, true)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
