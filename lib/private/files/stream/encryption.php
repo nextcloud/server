@@ -72,6 +72,9 @@ class Encryption extends Wrapper {
 	/** @var string */
 	protected $fullPath;
 
+	/** @var  bool */
+	protected $signed;
+
 	/**
 	 * header data returned by the encryption module, will be written to the file
 	 * in case of a write operation

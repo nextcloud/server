@@ -204,17 +204,61 @@ class cryptTest extends TestCase {
 	}
 
 	/**
-	 * test splitIV()
+	 * @dataProvider dataTestSplitMetaData
 	 */
-	public function testSplitIV() {
-		$data = 'encryptedContent00iv001234567890123456';
-		$result = self::invokePrivate($this->crypt, 'splitIV', array($data));
+	public function testSplitMetaData($data, $expected) {
+		$result = self::invokePrivate($this->crypt, 'splitMetaData', array($data, 'AES-256-CFB'));
 		$this->assertTrue(is_array($result));
-		$this->assertSame(2, count($result));
+		$this->assertSame(3, count($result));
 		$this->assertArrayHasKey('encrypted', $result);
 		$this->assertArrayHasKey('iv', $result);
-		$this->assertSame('encryptedContent', $result['encrypted']);
-		$this->assertSame('1234567890123456', $result['iv']);
+		$this->assertArrayHasKey('signature', $result);
+		$this->assertSame($expected['encrypted'], $result['encrypted']);
+		$this->assertSame($expected['iv'], $result['iv']);
+		$this->assertSame($expected['signature'], $result['signature']);
+	}
+
+	public function dataTestSplitMetaData() {
+		return [
+			['encryptedContent00iv001234567890123456xx',
+				['encrypted' => 'encryptedContent', 'iv' => '1234567890123456', 'signature' => false]],
+			['encryptedContent00iv00123456789012345600sig00e1992521e437f6915f9173b190a512cfc38a00ac24502db44e0ba10c2bb0cc86xxx',
+				['encrypted' => 'encryptedContent', 'iv' => '1234567890123456', 'signature' => 'e1992521e437f6915f9173b190a512cfc38a00ac24502db44e0ba10c2bb0cc86']],
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestHasSignature
+	 */
+	public function testHasSignature($data, $expected) {
+		$this->assertSame($expected,
+			$this->invokePrivate($this->crypt, 'hasSignature', array($data, 'AES-256-CFB'))
+		);
+	}
+
+	public function dataTestHasSignature() {
+		return [
+			['encryptedContent00iv001234567890123456xx', false],
+			['encryptedContent00iv00123456789012345600sig00e1992521e437f6915f9173b190a512cfc38a00ac24502db44e0ba10c2bb0cc86xxx', true]
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestHasSignatureFail
+	 * @expectedException \OC\HintException
+	 */
+	public function testHasSignatureFail($cipher) {
+		$data = 'encryptedContent00iv001234567890123456xx';
+		$this->invokePrivate($this->crypt, 'hasSignature', array($data, $cipher));
+	}
+
+	public function dataTestHasSignatureFail() {
+		return [
+			['AES-256-CTR'],
+			['aes-256-ctr'],
+			['AES-128-CTR'],
+			['ctr-256-ctr']
+		];
 	}
 
 	/**
@@ -222,7 +266,7 @@ class cryptTest extends TestCase {
 	 */
 	public function testAddPadding() {
 		$result = self::invokePrivate($this->crypt, 'addPadding', array('data'));
-		$this->assertSame('dataxx', $result);
+		$this->assertSame('dataxxx', $result);
 	}
 
 	/**
@@ -348,7 +392,8 @@ class cryptTest extends TestCase {
 				[
 					$this->logger,
 					$this->userSession,
-					$this->config
+					$this->config,
+					$this->l
 				]
 			)
 			->setMethods(

@@ -229,7 +229,7 @@ class EncryptionTest extends TestCase {
 
 	public function dataTestBegin() {
 		return array(
-			array('w', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'myCipher'),
+			array('w', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'defaultCipher'),
 			array('r', ['cipher' => 'myCipher'], 'legacyCipher', 'defaultCipher', 'fileKey', 'myCipher'),
 			array('w', [], 'legacyCipher', 'defaultCipher', '', 'defaultCipher'),
 			array('r', [], 'legacyCipher', 'defaultCipher', 'file_key', 'legacyCipher'),
