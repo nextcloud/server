@@ -21,6 +21,7 @@
 
 namespace OCA\Files_External\Controller;
 
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use \OCP\AppFramework\Http\DataResponse;
@@ -30,11 +31,17 @@ use \OCA\Files_external\Service\UserGlobalStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_External\Lib\Backend\Backend;
+use OCP\IUserSession;
 
 /**
  * User global storages controller
  */
 class UserGlobalStoragesController extends StoragesController {
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+
 	/**
 	 * Creates a new user global storages controller.
 	 *
@@ -42,12 +49,14 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param UserGlobalStoragesService $userGlobalStoragesService storage service
+	 * @param IUserSession $userSession
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
 		IL10N $l10n,
-		UserGlobalStoragesService $userGlobalStoragesService
+		UserGlobalStoragesService $userGlobalStoragesService,
+		IUserSession $userSession
 	) {
 		parent::__construct(
 			$AppName,
@@ -55,6 +64,7 @@ class UserGlobalStoragesController extends StoragesController {
 			$l10n,
 			$userGlobalStoragesService
 		);
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -78,12 +88,22 @@ class UserGlobalStoragesController extends StoragesController {
 		);
 	}
 
+	protected function manipulateStorageConfig(StorageConfig $storage) {
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+		$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		$backend->manipulateStorageConfig($storage, $this->userSession->getUser());
+	}
+
 	/**
 	 * Get an external storage entry.
 	 *
 	 * @param int $id storage id
 	 * @return DataResponse
 	 *
+	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 */
 	public function show($id) {

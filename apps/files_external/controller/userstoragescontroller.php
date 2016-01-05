@@ -23,6 +23,7 @@
 namespace OCA\Files_External\Controller;
 
 
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCP\IConfig;
 use \OCP\IUserSession;
 use \OCP\IRequest;
@@ -41,6 +42,11 @@ use \OCA\Files_External\Lib\Backend\Backend;
  */
 class UserStoragesController extends StoragesController {
 	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+
+	/**
 	 * Creates a new user storages controller.
 	 *
 	 * @param string $AppName application name
@@ -52,7 +58,8 @@ class UserStoragesController extends StoragesController {
 		$AppName,
 		IRequest $request,
 		IL10N $l10n,
-		UserStoragesService $userStoragesService
+		UserStoragesService $userStoragesService,
+		IUserSession $userSession
 	) {
 		parent::__construct(
 			$AppName,
@@ -60,6 +67,16 @@ class UserStoragesController extends StoragesController {
 			$l10n,
 			$userStoragesService
 		);
+		$this->userSession = $userSession;
+	}
+
+	protected function manipulateStorageConfig(StorageConfig $storage) {
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+		$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		$backend->manipulateStorageConfig($storage, $this->userSession->getUser());
 	}
 
 	/**
