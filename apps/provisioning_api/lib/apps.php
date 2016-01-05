@@ -25,19 +25,23 @@
 
 namespace OCA\Provisioning_API;
 
+use OC\OCSClient;
 use \OC_OCS_Result;
 use \OC_App;
 
 class Apps {
-
 	/** @var \OCP\App\IAppManager */
 	private $appManager;
+	/** @var OCSClient */
+	private $ocsClient;
 
 	/**
 	 * @param \OCP\App\IAppManager $appManager
 	 */
-	public function __construct(\OCP\App\IAppManager $appManager) {
+	public function __construct(\OCP\App\IAppManager $appManager,
+								OCSClient $ocsClient) {
 		$this->appManager = $appManager;
+		$this->ocsClient = $ocsClient;
 	}
 
 	/**
@@ -45,7 +49,7 @@ class Apps {
 	 * @return OC_OCS_Result
 	 */
 	public function getApps($parameters) {
-		$apps = OC_App::listAllApps();
+		$apps = OC_App::listAllApps(false, true, $this->ocsClient);
 		$list = [];
 		foreach($apps as $app) {
 			$list[] = $app['id'];

@@ -218,7 +218,7 @@ class AppSettingsController extends Controller {
 					break;
 				// not-installed apps
 				case 1:
-					$apps = \OC_App::listAllApps(true, $includeUpdateInfo);
+					$apps = \OC_App::listAllApps(true, $includeUpdateInfo, $this->ocsClient);
 					$apps = array_filter($apps, function ($app) {
 						return !$app['active'];
 					});
@@ -244,7 +244,7 @@ class AppSettingsController extends Controller {
 				default:
 					$filter = $this->config->getSystemValue('appstore.experimental.enabled', false) ? 'all' : 'approved';
 
-					$apps = \OC_App::getAppstoreApps($filter, $category);
+					$apps = \OC_App::getAppstoreApps($filter, $category, $this->ocsClient);
 					if (!$apps) {
 						$apps = array();
 					} else {
@@ -310,7 +310,7 @@ class AppSettingsController extends Controller {
 	 * @return array
 	 */
 	private function getInstalledApps($includeUpdateInfo = true) {
-		$apps = \OC_App::listAllApps(true, $includeUpdateInfo);
+		$apps = \OC_App::listAllApps(true, $includeUpdateInfo, $this->ocsClient);
 		$apps = array_filter($apps, function ($app) {
 			return $app['active'];
 		});
