@@ -83,6 +83,9 @@
 }
 
 #app-sidebar .file-details {
+	color: #999;
+}
+#app-sidebar .file-details img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	opacity: .5;
 }
