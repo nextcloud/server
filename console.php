@@ -60,6 +60,7 @@ try {
 			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
 			echo "Current user: " . $user['name'] . PHP_EOL;
 			echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
+			echo "Try adding 'sudo -u " . $configUser['name'] . " ' to the beginning of the command (without the single quotes)" . PHP_EOL;  
 			exit(0);
 		}
 	}
