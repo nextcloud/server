@@ -91,12 +91,15 @@ class OC_Group_Database extends OC_Group_Backend {
 		} else {
 			// Check for existence in DB
 			$qb = $this->dbConn->getQueryBuilder();
-			$result = $qb->select('gid')
+			$cursor = $qb->select('gid')
 				->from('groups')
 				->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
 				->execute();
 
-			if( $result->fetch() ) {
+			$result = $cursor->fetch();
+			$cursor->closeCursor();
+
+			if($result) {
 				// Can not add an existing group
 
 				// Add to cache
@@ -169,13 +172,16 @@ class OC_Group_Database extends OC_Group_Backend {
 
 		// check
 		$qb = $this->dbConn->getQueryBuilder();
-		$result = $qb->select('uid')
+		$cursor = $qb->select('uid')
 			->from('group_user')
 			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
 			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->execute();
 
-		return $result->fetch() ? true : false;
+		$result = $cursor->fetch();
+		$cursor->closeCursor();
+
+		return $result ? true : false;
 	}
 
 	/**
@@ -235,16 +241,17 @@ class OC_Group_Database extends OC_Group_Backend {
 
 		// No magic!
 		$qb = $this->dbConn->getQueryBuilder();
-		$result = $qb->select('gid')
+		$cursor = $qb->select('gid')
 			->from('group_user')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
 			->execute();
 
 		$groups = [];
-		while( $row = $result->fetch()) {
+		while( $row = $cursor->fetch()) {
 			$groups[] = $row["gid"];
 			$this->groupCache[$row['gid']] = $row['gid'];
 		}
+		$cursor->closeCursor();
 
 		return $groups;
 	}
