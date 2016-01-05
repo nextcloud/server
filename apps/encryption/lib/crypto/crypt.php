@@ -536,7 +536,7 @@ class Crypt {
 	 * @throws HintException
 	 */
 	private function hasSignature($catFile, $cipher) {
-		$meta = substr($catFile, 93);
+		$meta = substr($catFile, -93);
 		$signaturePosition = strpos($meta, '00sig00');
 
 		// enforce signature for the new 'CTR' ciphers
