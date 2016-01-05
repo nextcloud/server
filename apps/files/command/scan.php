@@ -95,11 +95,11 @@ class Scan extends Command {
 		# printout and count
 		if ($verbose) {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
-				$output->writeln("Scanning file   <info>$path</info>");
+				$output->writeln("\tFile   <info>$path</info>");
 				$this->filesCounter += 1;
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
-				$output->writeln("Scanning folder <info>$path</info>");
+				$output->writeln("\tFolder <info>$path</info>");
 				$this->foldersCounter += 1;
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
@@ -136,11 +136,6 @@ class Scan extends Command {
 			$users = $input->getArgument('user_id');
 		}
 
-		if (count($users) === 0) {
-			$output->writeln("<error>Please specify the user id to scan, \"--all\" to scan for all users or \"--path=...\"</error>");
-			return;
-		}
-
 		# no messaging level option means: no full printout but statistics
 		# $quiet   means no print at all
 		# $verbose means full printout including statistics
@@ -158,18 +153,34 @@ class Scan extends Command {
 			$verbose = false;
 		}
 
+		# check quantity of users to be process and show it on the command line
+		$users_total = count($users);
+		if ($users_total === 0) {
+			$output->writeln("<error>Please specify the user id to scan, \"--all\" to scan for all users or \"--path=...\"</error>");
+			return;
+		} else {
+			if ($users_total > 1) {
+				$output->writeln("\nScanning files for $users_total users");
+			}
+		}
+
 		$this->initTools();
 
+		$user_count = 0;
 		foreach ($users as $user) {
 			if (is_object($user)) {
 				$user = $user->getUID();
 			}
 			$path = $inputPath ? $inputPath : '/' . $user;
+			$user_count += 1;
 			if ($this->userManager->userExists($user)) {
+				# add an extra line when verbose is set to optical seperate users
+				if ($verbose) {$output->writeln(""); }
+				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
 				# full: printout data if $verbose was set
 				$this->scanFiles($user, $path, $verbose, $output);
 			} else {
-				$output->writeln("<error>Unknown user $user</error>");
+				$output->writeln("<error>Unknown user $user_count $user</error>");
 			}
 		}
 
@@ -299,7 +310,8 @@ class Scan extends Command {
 	 */
 	protected function formatExecTime() {
 		list($secs, $tens) = explode('.', sprintf("%.1f", ($this->execTime)));
-		$niceDate = date('H:i:s', $secs) . '.' . $tens;
+		# add the following to $niceDate if you want to have microsecons added:   . '.' . $tens;
+		$niceDate = date('H:i:s', $secs);
 
 		return $niceDate;
 	}
