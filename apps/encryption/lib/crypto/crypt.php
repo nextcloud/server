@@ -462,7 +462,7 @@ class Crypt {
 	 */
 	private function checkSignature($data, $passPhrase, $expectedSignature) {
 		$signature = $this->createSignature($data, $passPhrase);
-		if (hash_equals($expectedSignature, $signature)) {
+		if (!hash_equals($expectedSignature, $signature)) {
 			throw new HintException('Bad Signature', $this->l->t('Bad Signature'));
 		}
 	}
@@ -517,7 +517,7 @@ class Crypt {
 			$meta = substr($catFile, -22);
 			$iv = substr($meta, -16);
 			$sig = false;
-			$encrypted = substr($catFile, 0, -93);
+			$encrypted = substr($catFile, 0, -22);
 		}
 
 		return [

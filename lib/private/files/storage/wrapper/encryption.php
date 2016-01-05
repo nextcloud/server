@@ -343,6 +343,7 @@ class Encryption extends Wrapper {
 		$shouldEncrypt = false;
 		$encryptionModule = null;
 		$header = $this->getHeader($path);
+		$signed = (isset($header['signed']) && $header['signed'] === 'true') ? true : false;
 		$fullPath = $this->getFullPath($path);
 		$encryptionModuleId = $this->util->getEncryptionModuleId($header);
 
@@ -377,7 +378,7 @@ class Encryption extends Wrapper {
 					|| $mode === 'wb'
 					|| $mode === 'wb+'
 				) {
-					// don't overwrite encrypted files if encyption is not enabled
+					// don't overwrite encrypted files if encryption is not enabled
 					if ($targetIsEncrypted && $encryptionEnabled === false) {
 						throw new GenericEncryptionException('Tried to access encrypted file but encryption is not enabled');
 					}
@@ -385,6 +386,7 @@ class Encryption extends Wrapper {
 						// if $encryptionModuleId is empty, the default module will be used
 						$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 						$shouldEncrypt = $encryptionModule->shouldEncrypt($fullPath);
+						$signed = true;
 					}
 				} else {
 					$info = $this->getCache()->get($path);
@@ -422,7 +424,7 @@ class Encryption extends Wrapper {
 				}
 				$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
 					$this->uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
-					$size, $unencryptedSize, $headerSize);
+					$size, $unencryptedSize, $headerSize, $signed);
 				return $handle;
 			}
 

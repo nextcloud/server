@@ -94,8 +94,12 @@ class Encryption implements IEncryptionModule {
 	/** @var DecryptAll  */
 	private $decryptAll;
 
+	/** @var int unencrypted block size if block contains signature */
+	private $unencryptedBlockSizeSigned = 6072;
+
 	/** @var int unencrypted block size */
-	private $unencryptedBlockSize = 6072;
+	private $unencryptedBlockSize = 6126;
+
 
 	/**
 	 *
@@ -198,7 +202,7 @@ class Encryption implements IEncryptionModule {
 			$this->cipher = $this->crypt->getLegacyCipher();
 		}
 
-		return array('cipher' => $this->cipher);
+		return array('cipher' => $this->cipher, 'signed' => 'true');
 	}
 
 	/**
@@ -278,7 +282,7 @@ class Encryption implements IEncryptionModule {
 
 			// If data remaining to be written is less than the
 			// size of 1 6126 byte block
-			if ($remainingLength < $this->unencryptedBlockSize) {
+			if ($remainingLength < $this->unencryptedBlockSizeSigned) {
 
 				// Set writeCache to contents of $data
 				// The writeCache will be carried over to the
@@ -296,14 +300,14 @@ class Encryption implements IEncryptionModule {
 			} else {
 
 				// Read the chunk from the start of $data
-				$chunk = substr($data, 0, $this->unencryptedBlockSize);
+				$chunk = substr($data, 0, $this->unencryptedBlockSizeSigned);
 
 				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
 				// var, for handling on the next round
-				$data = substr($data, $this->unencryptedBlockSize);
+				$data = substr($data, $this->unencryptedBlockSizeSigned);
 
 			}
 
@@ -410,10 +414,15 @@ class Encryption implements IEncryptionModule {
 	 * get size of the unencrypted payload per block.
 	 * ownCloud read/write files with a block size of 8192 byte
 	 *
-	 * @return integer
+	 * @param bool $signed
+	 * @return int
 	 */
-	public function getUnencryptedBlockSize() {
-		return $this->unencryptedBlockSize;
+	public function getUnencryptedBlockSize($signed = false) {
+		if ($signed === false) {
+			return $this->unencryptedBlockSize;
+		}
+
+		return $this->unencryptedBlockSizeSigned;
 	}
 
 	/**
