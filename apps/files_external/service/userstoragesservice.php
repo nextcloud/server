@@ -110,6 +110,19 @@ class UserStoragesService extends StoragesService {
 	}
 
 	/**
+	 * Update storage to the configuration
+	 *
+	 * @param StorageConfig $updatedStorage storage attributes
+	 *
+	 * @return StorageConfig storage config
+	 * @throws NotFoundException if the given storage does not exist in the config
+	 */
+	public function updateStorage(StorageConfig $updatedStorage) {
+		$updatedStorage->setApplicableUsers([$this->getUser()->getUID()]);
+		return parent::updateStorage($updatedStorage);
+	}
+
+	/**
 	 * Get the visibility type for this controller, used in validation
 	 *
 	 * @return string BackendService::VISIBILITY_* constants
