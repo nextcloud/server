@@ -442,7 +442,7 @@ class OC {
 		if (!$session->exists('SID_CREATED')) {
 			$session->set('SID_CREATED', time());
 		} else if (time() - $session->get('SID_CREATED') > $sessionLifeTime / 2) {
-			session_regenerate_id(true);
+			$session->regenerateId();
 			$session->set('SID_CREATED', time());
 		}
 

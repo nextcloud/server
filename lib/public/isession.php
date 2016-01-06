@@ -86,4 +86,12 @@ interface ISession {
 	 */
 	public function close();
 
+	/**
+	 * Wrapper around session_regenerate_id
+	 *
+	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
+	 * @return void
+	 * @since 9.0.0
+	 */
+	public function regenerateId($deleteOldSession = true);
 }

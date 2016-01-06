@@ -213,6 +213,7 @@ class Session implements IUserSession, Emitter {
 	 * @throws LoginException
 	 */
 	public function login($uid, $password) {
+		$this->session->regenerateId();
 		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 		$user = $this->manager->checkPassword($uid, $password);
 		if ($user !== false) {
@@ -243,6 +244,7 @@ class Session implements IUserSession, Emitter {
 	 * @return bool
 	 */
 	public function loginWithCookie($uid, $currentToken) {
+		$this->session->regenerateId();
 		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
