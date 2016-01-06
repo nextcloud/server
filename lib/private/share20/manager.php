@@ -33,6 +33,7 @@ use OCP\Files\Folder;
 use OCP\IUser;
 
 use OC\Share20\Exception\ShareNotFound;
+use OC\HintException;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -175,7 +176,8 @@ class Manager {
 
 		// Check if we actually have share permissions
 		if (!$share->getPath()->isShareable()) {
-			throw new \InvalidArgumentException('Path is not shareable');
+			$message_t = $this->l->t('You are not allowed to share %s', [$share->getPath()->getPath()]);
+			throw new HintException($message_t, $message_t, 404);
 		}
 
 		// Permissions should be set
@@ -185,7 +187,8 @@ class Manager {
 
 		// Check that we do not share with more permissions than we have
 		if ($share->getPermissions() & ~$share->getPath()->getPermissions()) {
-			throw new \InvalidArgumentException('Cannot increase permissions');
+			$message_t = $this->l->t('Cannot increase permissions of %s', [$share->getPath()->getPath()]);
+			throw new HintException($message_t, $message_t, 404);
 		}
 
 		// Check that read permissions are always set

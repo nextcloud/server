@@ -530,22 +530,24 @@ class ManagerTest extends \Test\TestCase {
 
 		$nonShareAble = $this->getMock('\OCP\Files\Folder');
 		$nonShareAble->method('isShareable')->willReturn(false);
+		$nonShareAble->method('getPath')->willReturn('path');
 
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $nonShareAble, $user2, $user, $user, 31, null, null), 'Path is not shareable', true];
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $nonShareAble, $group, $user, $user, 31, null, null), 'Path is not shareable', true];
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $nonShareAble, null, $user, $user, 31, null, null), 'Path is not shareable', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $nonShareAble, $user2, $user, $user, 31, null, null), 'You are not allowed to share path', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $nonShareAble, $group, $user, $user, 31, null, null), 'You are not allowed to share path', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $nonShareAble, null, $user, $user, 31, null, null), 'You are not allowed to share path', true];
 
 		$limitedPermssions = $this->getMock('\OCP\Files\File');
 		$limitedPermssions->method('isShareable')->willReturn(true);
 		$limitedPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
+		$limitedPermssions->method('getPath')->willReturn('path');
 
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user, $user, null, null, null), 'A share requires permissions', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group, $user, $user, null, null, null), 'A share requires permissions', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $limitedPermssions, null, $user, $user, null, null, null), 'A share requires permissions', true];
 
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user, $user, 31, null, null), 'Cannot increase permissions', true];
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group, $user, $user, 17, null, null), 'Cannot increase permissions', true];
-		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $limitedPermssions, null, $user, $user, 3, null, null), 'Cannot increase permissions', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user, $user, 31, null, null), 'Cannot increase permissions of path', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group, $user, $user, 17, null, null), 'Cannot increase permissions of path', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $limitedPermssions, null, $user, $user, 3, null, null), 'Cannot increase permissions of path', true];
 
 		$allPermssions = $this->getMock('\OCP\Files\Folder');
 		$allPermssions->method('isShareable')->willReturn(true);
@@ -574,6 +576,9 @@ class ManagerTest extends \Test\TestCase {
 		try {
 			$this->invokePrivate($this->manager, 'generalCreateChecks', [$share]);
 			$thrown = false;
+		} catch (\OC\HintException $e) {
+			$this->assertEquals($exceptionMessage, $e->getHint());
+			$thrown = true;
 		} catch(\InvalidArgumentException $e) {
 			$this->assertEquals($exceptionMessage, $e->getMessage());
 			$thrown = true;
