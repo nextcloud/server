@@ -98,7 +98,7 @@ function updateAvatar (hidedefault) {
 		$('#header .avatardiv').addClass('avatardiv-shown');
 	}
 	$displaydiv.css({'background-color': ''});
-	$displaydiv.avatar(OC.currentUser, 128, true);
+	$displaydiv.avatar(OC.currentUser, 145, true);
 
 	$('#removeavatar').show();
 }
@@ -408,7 +408,7 @@ $(document).ready(function () {
 
 	// Load the big avatar
 	if (oc_config.enable_avatars) {
-		$('#avatar .avatardiv').avatar(OC.currentUser, 128);
+		$('#avatar .avatardiv').avatar(OC.currentUser, 145);
 	}
 });
 

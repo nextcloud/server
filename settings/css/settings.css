@@ -6,6 +6,54 @@ select#languageinput, select#timezone { width:15em; }
 input#openid, input#webdav { width:20em; }
 
 /* PERSONAL */
+
+#avatar {
+	display: inline-block;
+	float: left;
+	width: 160px;
+	padding-right: 0;
+}
+#avatar .avatardiv {
+	margin-bottom: 10px;
+}
+#avatar .warning {
+	width: 350px;
+}
+#uploadavatarbutton,
+#selectavatar,
+#removeavatar {
+	width: 33px;
+	height: 33px;
+}
+.jcrop-holder {
+	z-index: 500;
+}
+#avatar #cropper {
+	float: left;
+	background-color: #fff;
+	z-index: 500;
+	position: relative;
+}
+
+#displaynameform,
+#lostpassword,
+#groups {
+	display: inline-block;
+	margin-bottom: 0;
+	padding-bottom: 0;
+	padding-right: 0;
+	min-width: 60%;
+}
+#avatar,
+#passwordform {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+#groups {
+	overflow-wrap: break-word;
+	max-width: 75%;
+}
+
 #sslCertificate tr.expired {
 	background-color: rgba(255, 0, 0, 0.5);
 }
@@ -13,22 +61,6 @@ input#openid, input#webdav { width:20em; }
 	padding: 5px;
 }
 
-/* Sync clients */
-.clientsbox {
-	padding-top: 30px;
-	margin-top: -30px;
-}
-.clientsbox h2 {
-	font-weight: 300;
-	font-size: 20px;
-	margin: 35px 0 10px;
-}
-.clientsbox .center {
-	margin-top: 10px;
-}
-.clientsbox a {
-	font-weight: 600;
-}
 
 #displaynameerror {
 	display: none;
@@ -44,8 +76,8 @@ input#identity {
 	width: 17em;
 }
 
-#avatar .warning {
-	width: 350px;
+#showWizard {
+	display: inline-block;
 }
 
 .msg.success {
