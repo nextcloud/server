@@ -1342,11 +1342,12 @@ class View {
 			$folderId = $data['fileid'];
 			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 
+			$sharingDisabled = \OCP\Util::isSharingDisabledForUser();
 			/**
 			 * @var \OC\Files\FileInfo[] $files
 			 */
-			$files = array_map(function (array $content) use ($path, $storage, $mount) {
-				if (\OCP\Util::isSharingDisabledForUser()) {
+			$files = array_map(function (array $content) use ($path, $storage, $mount, $sharingDisabled) {
+				if ($sharingDisabled) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
 				$owner = $this->getUserObjectForOwner($storage->getOwner($content['path']));
