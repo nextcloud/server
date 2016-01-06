@@ -5,6 +5,7 @@ OC.L10N.register(
     "External Storage" : "אחסון חיצוני",
     "Cron" : "Cron",
     "Log" : "יומן",
+    "Updates" : "עדכונים",
     "Language changed" : "שפה השתנתה",
     "Invalid request" : "בקשה לא חוקית",
     "Authentication error" : "שגיאת הזדהות",

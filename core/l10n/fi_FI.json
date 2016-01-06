@@ -14,6 +14,8 @@
     "Updated \"%s\" to %s" : "Päivitetty \"%s\" versioon %s",
     "Repair warning: " : "Korjausvaroitus:",
     "Repair error: " : "Korjausvirhe:",
+    "Set log level to debug" : "Aseta lokitustasoksi vianetsintä",
+    "Reset log level" : "Nollaa lokitustaso",
     "Starting code integrity check" : "Aloitetaan koodin eheystarkistus",
     "Finished code integrity check" : "Koodin eheystarkistus suoritettu",
     "%s (3rdparty)" : "%s (kolmannen osapuolen)",
