@@ -254,13 +254,13 @@ describe('OCA.External.Settings tests', function() {
 				// defaults to true
 				var $field = $td.find('.dropdown [name=previews]');
 				expect($field.prop('checked')).toEqual(true);
-				$td.find('.dropdown [name=filesystem_check_changes]').val(2);
+				$td.find('.dropdown [name=filesystem_check_changes]').val(0);
 				$('body').mouseup();
 
 				expect(JSON.parse($tr.find('input.mountOptions').val())).toEqual({
 					encrypt: true,
 					previews: true,
-					filesystem_check_changes: 2
+					filesystem_check_changes: 0
 				});
 			});
 		});
