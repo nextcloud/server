@@ -117,22 +117,95 @@
 			var $loading = this.$el.find('.shareWithLoading');
 			$loading.removeClass('hidden');
 			$loading.addClass('inlineblock');
-			$.get(OC.filePath('core', 'ajax', 'share.php'), {
-				fetch: 'getShareWith',
-				search: search.term.trim(),
-				limit: 200,
-				itemShares: OC.Share.itemShares,
-				itemType: view.model.get('itemType')
-			}, function (result) {
-				$loading.addClass('hidden');
-				$loading.removeClass('inlineblock');
-				if (result.status == 'success' && result.data.length > 0) {
-					$('.shareWithField').autocomplete("option", "autoFocus", true);
-					response(result.data);
-				} else {
-					response();
+			$.get(
+				OC.linkToOCS('apps/files_sharing/api/v1') + 'sharees',
+				{
+					format: 'json',
+					search: search.term.trim(),
+					perPage: 200,
+					itemType: view.model.get('itemType')
+				},
+				function (result) {
+					$loading.addClass('hidden');
+					$loading.removeClass('inlineblock');
+					if (result.ocs.meta.statuscode == 100) {
+						var users   = result.ocs.data.exact.users.concat(result.ocs.data.users);
+						var groups  = result.ocs.data.exact.groups.concat(result.ocs.data.groups);
+						var remotes = result.ocs.data.exact.remotes.concat(result.ocs.data.remotes);
+
+						var usersLength;
+						var groupsLength;
+						var remotesLength;
+
+						var i, j;
+
+						//Filter out the current user
+						usersLength = users.length;
+						for (i = 0 ; i < usersLength; i++) {
+							if (users[i].value.shareWith === OC.currentUser) {
+								users.splice(i, 1);
+								break;
+							}
+						}
+
+						// Filter out the owner of the share
+						if (view.model.hasReshare()) {
+							usersLength = users.length;
+							for (i = 0 ; i < usersLength; i++) {
+								if (users[i].value.shareWith === view.model.getReshareOwner()) {
+									users.splice(i, 1);
+									break;
+								}
+							}
+						}
+
+						var shares = view.model.get('shares');
+						var sharesLength = shares.length;
+
+						// Now filter out all sharees that are already shared with
+						for (i = 0; i < sharesLength; i++) {
+							var share = shares[i];
+
+							if (share.share_type === OC.Share.SHARE_TYPE_USER) {
+								usersLength = users.length;
+								for (j = 0; j < usersLength; j++) {
+									if (users[j].value.shareWith === share.share_with) {
+										users.splice(j, 1);
+										break;
+									}
+								}
+							} else if (share.share_type === OC.Share.SHARE_TYPE_GROUP) {
+								groupsLength = groups.length;
+								for (j = 0; j < groupsLength; j++) {
+									if (groups[j].value.shareWith === share.share_with) {
+										groups.splice(j, 1);
+										break;
+									}
+								}
+							} else if (share.share_type === OC.Share.SHARE_TYPE_REMOTE) {
+								remotesLength = remotes.length;
+								for (j = 0; j < remotesLength; j++) {
+									if (remotes[j].value.shareWith === share.share_with) {
+										remotes.splice(j, 1);
+										break;
+									}
+								}
+							}
+						}
+
+						var suggestions = users.concat(groups).concat(remotes);
+
+						if (suggestions.length > 0) {
+							$('.shareWithField').autocomplete("option", "autoFocus", true);
+							response(suggestions);
+						} else {
+							response();
+						}
+					} else {
+						response();
+					}
 				}
-			}).fail(function () {
+			).fail(function() {
 				$loading.addClass('hidden');
 				$loading.removeClass('inlineblock');
 				OC.Notification.show(t('core', 'An error occured. Please try again'));

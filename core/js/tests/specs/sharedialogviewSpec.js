@@ -702,6 +702,7 @@ describe('OC.Share.ShareDialogView', function() {
 			});
 		});
 	});
+
 	describe('remote sharing', function() {
 		it('shows remote share info when allowed', function() {
 			configModel.set({
@@ -724,23 +725,336 @@ describe('OC.Share.ShareDialogView', function() {
 			var response = sinon.stub();
 			dialog.autocompleteHandler({term: 'bob'}, response);
 			var jsonData = JSON.stringify({
-				"data": [{"label": "bob", "value": {"shareType": 0, "shareWith": "test"}}],
-				"status": "success"
+				'ocs' : {
+					'meta' : {
+						'status' : 'success',
+						'statuscode' : 100,
+						'message' : null
+					},
+					'data' : {
+						'exact' : {
+							'users'  : [],
+							'groups' : [],
+							'remotes': []
+						},
+						'users'  : [{'label': 'bob', 'value': {'shareType': 0, 'shareWith': 'test'}}],
+						'groups' : [],
+						'remotes': []
+					}
+				}
 			});
 			fakeServer.requests[0].respond(
 					200,
 					{'Content-Type': 'application/json'},
 					jsonData
 			);
-			expect(response.calledWithExactly(JSON.parse(jsonData).data)).toEqual(true);
+			expect(response.calledWithExactly(JSON.parse(jsonData).ocs.data.users)).toEqual(true);
 			expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+		});
+
+		describe('filter out', function() {
+			it('the current user', function () {
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'bob'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [],
+								'remotes': []
+							},
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': 0,
+										'shareWith': OC.currentUser
+									}
+								},
+								{
+									'label': 'bobby',
+									'value': {
+										'shareType': 0,
+										'shareWith': 'imbob'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': []
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'bobby',
+					'value': {'shareType': 0, 'shareWith': 'imbob'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			it('the share owner', function () {
+				shareModel.set({
+					reshare: {
+						uid_owner: 'user1'
+					},
+					shares: [],
+					permissions: OC.PERMISSION_READ
+				});
+
+				dialog.render();
+				var response = sinon.stub();
+				dialog.autocompleteHandler({term: 'bob'}, response);
+				var jsonData = JSON.stringify({
+					'ocs': {
+						'meta': {
+							'status': 'success',
+							'statuscode': 100,
+							'message': null
+						},
+						'data': {
+							'exact': {
+								'users': [],
+								'groups': [],
+								'remotes': []
+							},
+							'users': [
+								{
+									'label': 'bob',
+									'value': {
+										'shareType': 0,
+										'shareWith': 'user1'
+									}
+								},
+								{
+									'label': 'bobby',
+									'value': {
+										'shareType': 0,
+										'shareWith': 'imbob'
+									}
+								}
+							],
+							'groups': [],
+							'remotes': []
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{'Content-Type': 'application/json'},
+					jsonData
+				);
+				expect(response.calledWithExactly([{
+					'label': 'bobby',
+					'value': {'shareType': 0, 'shareWith': 'imbob'}
+				}])).toEqual(true);
+				expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+			});
+
+			describe('already shared with', function () {
+				beforeEach(function() {
+					shareModel.set({
+						reshare: {},
+						shares: [{
+							id: 100,
+							item_source: 123,
+							permissions: 31,
+							share_type: OC.Share.SHARE_TYPE_USER,
+							share_with: 'user1',
+							share_with_displayname: 'User One'
+						},{
+							id: 101,
+							item_source: 123,
+							permissions: 31,
+							share_type: OC.Share.SHARE_TYPE_GROUP,
+							share_with: 'group',
+							share_with_displayname: 'group'
+						},{
+							id: 102,
+							item_source: 123,
+							permissions: 31,
+							share_type: OC.Share.SHARE_TYPE_REMOTE,
+							share_with: 'foo@bar.com/baz',
+							share_with_displayname: 'foo@bar.com/baz'
+
+						}]
+					});
+				});
+
+				it('users', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'bob'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [],
+									'remotes': []
+								},
+								'users': [
+									{
+										'label': 'bob',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_USER,
+											'shareWith': 'user1'
+										}
+									},
+									{
+										'label': 'bobby',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_USER,
+											'shareWith': 'imbob'
+										}
+									}
+								],
+								'groups': [],
+								'remotes': []
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'bobby',
+						'value': {'shareType': OC.Share.SHARE_TYPE_USER, 'shareWith': 'imbob'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+
+				it('groups', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'group'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [],
+									'remotes': []
+								},
+								'users': [],
+								'groups': [
+									{
+										'label': 'group',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_GROUP,
+											'shareWith': 'group'
+										}
+									},
+									{
+										'label': 'group2',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_GROUP,
+											'shareWith': 'group2'
+										}
+									}
+								],
+								'remotes': []
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'group2',
+						'value': {'shareType': OC.Share.SHARE_TYPE_GROUP, 'shareWith': 'group2'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+
+				it('remotes', function () {
+					dialog.render();
+					var response = sinon.stub();
+					dialog.autocompleteHandler({term: 'bob'}, response);
+					var jsonData = JSON.stringify({
+						'ocs': {
+							'meta': {
+								'status': 'success',
+								'statuscode': 100,
+								'message': null
+							},
+							'data': {
+								'exact': {
+									'users': [],
+									'groups': [],
+									'remotes': []
+								},
+								'users': [],
+								'groups': [],
+								'remotes': [
+									{
+										'label': 'foo@bar.com/baz',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_REMOTE,
+											'shareWith': 'foo@bar.com/baz'
+										}
+									},
+									{
+										'label': 'foo2@bar.com/baz',
+										'value': {
+											'shareType': OC.Share.SHARE_TYPE_REMOTE,
+											'shareWith': 'foo2@bar.com/baz'
+										}
+									}
+								]
+							}
+						}
+					});
+					fakeServer.requests[0].respond(
+						200,
+						{'Content-Type': 'application/json'},
+						jsonData
+					);
+					expect(response.calledWithExactly([{
+						'label': 'foo2@bar.com/baz',
+						'value': {'shareType': OC.Share.SHARE_TYPE_REMOTE, 'shareWith': 'foo2@bar.com/baz'}
+					}])).toEqual(true);
+					expect(autocompleteStub.calledWith("option", "autoFocus", true)).toEqual(true);
+				});
+			});
 		});
 
 		it('gracefully handles successful ajax call with failure content', function () {
 			dialog.render();
 			var response = sinon.stub();
 			dialog.autocompleteHandler({term: 'bob'}, response);
-			var jsonData = JSON.stringify({"status": "failure"});
+			var jsonData = JSON.stringify({
+				'ocs' : {
+					'meta' : {
+						'status': 'failure',
+						'statuscode': 400
+					}
+				}
+			});
 			fakeServer.requests[0].respond(
 					200,
 					{'Content-Type': 'application/json'},
