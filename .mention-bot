@@ -3,13 +3,21 @@
   "numFilesToCheck": 5,
   "alwaysNotifyForPaths": [
     {
-      "name": "DeepDiver1975", 
-      "files": ["apps/dav/**"] 
+      "name": "DeepDiver1975",
+      "files": [
+        "apps/dav/**"
+      ]
     },
     {
       "name": "Xenopathic",
-      "files": ["apps/files_external/**"]
+      "files": [
+        "apps/files_external/**"
+      ]
     }
   ],
-  "userBlacklist": ["owncloud-bot", "scrutinizer-auto-fixer"] 
+  "userBlacklist": [
+    "owncloud-bot",
+    "scrutinizer-auto-fixer",
+    "th3fallen"
+  ]
 }
