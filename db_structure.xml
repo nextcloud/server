@@ -684,7 +684,8 @@
 			</field>
 
 			<!-- Foreign Key users::uid -->
-            <!-- This is the initiator of the share -->
+            <!-- This is the owner of the share
+                 which does not have to be the initiator of the share -->
 			<field>
 				<name>uid_owner</name>
 				<type>text</type>
@@ -694,17 +695,16 @@
 			</field>
 
 			<!-- Foreign Key users::uid -->
-            <!-- This is the owner of the file, this can be
-                 different from the initiator of the share.
-                 The naming is subobtimal but prevents huge
-                 migration steps -->
+            <!-- This is the initiator of the share -->
 			<field>
-				<name>uid_fileowner</name>
+				<name>uid_initiator</name>
 				<type>text</type>
 				<default></default>
 				<notnull>false</notnull>
 				<length>64</length>
 			</field>
+
+
 
 			<!-- Foreign Key share::id or NULL -->
 			<field>

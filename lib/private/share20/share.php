@@ -163,7 +163,7 @@ class Share implements IShare {
 	 * @param \DateTime $expireDate
 	 * @return Share The modified object
 	 */
-	public function setExpirationDate(\DateTime $expireDate) {
+	public function setExpirationDate($expireDate) {
 		//TODO checks
 
 		$this->expireDate = $expireDate;
