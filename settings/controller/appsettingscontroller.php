@@ -296,6 +296,9 @@ class AppSettingsController extends Controller {
 			$app['canInstall'] = empty($missing);
 			$app['missingDependencies'] = $missing;
 
+			$app['missingMinOwnCloudVersion'] = !isset($app['dependencies']['owncloud']['@attributes']['min-version']);
+			$app['missingMaxOwnCloudVersion'] = !isset($app['dependencies']['owncloud']['@attributes']['max-version']);
+
 			return $app;
 		}, $apps);
 

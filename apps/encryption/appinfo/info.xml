@@ -14,7 +14,6 @@
 	<name>Default encryption module</name>
 	<license>AGPL</license>
 	<author>Bjoern Schiessle, Clark Tomlinson</author>
-	<shipped>true</shipped>
 	<documentation>
 		<user>user-encryption</user>
 		<admin>admin-encryption</admin>
@@ -26,7 +25,7 @@
 	</types>
 	<dependencies>
 		<lib>openssl</lib>
-		<owncloud min-version="9.0" />
+		<owncloud min-version="9.0" max-version="9.0" />
 	</dependencies>
 
 </info>
