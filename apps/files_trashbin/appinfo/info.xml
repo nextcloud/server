@@ -16,7 +16,7 @@ To prevent a user from running out of disk space, the ownCloud Deleted files app
 		<filesystem/>
 	</types>
 	<dependencies>
-		<owncloud min-version="9.0" />
+		<owncloud min-version="9.0" max-version="9.0" />
 	</dependencies>
 	<documentation>
 		<user>user-trashbin</user>

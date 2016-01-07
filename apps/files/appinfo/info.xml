@@ -13,7 +13,7 @@
 		<filesystem/>
 	</types>
 	<dependencies>
-		<owncloud min-version="9.0" />
+		<owncloud min-version="9.0" max-version="9.0" />
 	</dependencies>
 	<documentation>
 		<user>user-files</user>

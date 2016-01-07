@@ -26,7 +26,7 @@
 	</types>
 	<dependencies>
 		<lib>openssl</lib>
-		<owncloud min-version="9.0" />
+		<owncloud min-version="9.0" max-version="9.0" />
 	</dependencies>
 
 </info>
