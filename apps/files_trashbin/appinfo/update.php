@@ -25,12 +25,6 @@
 $config = \OC::$server->getConfig();
 $installedVersion = $config->getAppValue('files_trashbin', 'installed_version');
 
-if (version_compare($installedVersion, '0.6', '<')) {
-	//size of the trash bin could be incorrect, remove it for all users to
-	//enforce a recalculation during next usage.
-	\OC_DB::dropTable('files_trashsize');
-}
-
 if (version_compare($installedVersion, '0.6.4', '<')) {
 	$isExpirationEnabled = $config->getSystemValue('trashbin_auto_expire', true);
 	$oldObligation = $config->getSystemValue('trashbin_retention_obligation', null);

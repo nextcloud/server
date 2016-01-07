@@ -24,7 +24,7 @@ class MDB2SchemaManager extends \Test\TestCase {
 		// do not drop the table for Oracle as it will create a bogus transaction
 		// that will break the following test suites requiring transactions
 		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') !== 'oci') {
-			\OC_DB::dropTable('table');
+			\OC::$server->getDatabaseConnection()->dropTable('table');
 		}
 
 		parent::tearDown();

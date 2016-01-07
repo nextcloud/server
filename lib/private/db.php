@@ -254,15 +254,6 @@ class OC_DB {
 	}
 
 	/**
-	 * drop a table - the database prefix will be prepended
-	 * @param string $tableName the table to drop
-	 */
-	public static function dropTable($tableName) {
-		$connection = \OC::$server->getDatabaseConnection();
-		$connection->dropTable($tableName);
-	}
-
-	/**
 	 * remove all tables defined in a database structure xml file
 	 * @param string $file the xml file describing the tables
 	 */
