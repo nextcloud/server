@@ -1483,6 +1483,7 @@ class OC_Util {
 	 *
 	 * @param \OCP\IConfig $config
 	 * @return bool whether the core or any app needs an upgrade
+	 * @throws \OC\HintException When the upgrade from the given version is not allowed
 	 */
 	public static function needUpgrade(\OCP\IConfig $config) {
 		if ($config->getSystemValue('installed', false)) {
@@ -1491,6 +1492,19 @@ class OC_Util {
 			$versionDiff = version_compare($currentVersion, $installedVersion);
 			if ($versionDiff > 0) {
 				return true;
+			} else if ($config->getSystemValue('debug', false) && $versionDiff < 0) {
+				// downgrade with debug
+				$installedMajor = explode('.', $installedVersion);
+				$installedMajor = $installedMajor[0] . '.' . $installedMajor[1];
+				$currentMajor = explode('.', $currentVersion);
+				$currentMajor = $currentMajor[0] . '.' . $currentMajor[1];
+				if ($installedMajor === $currentMajor) {
+					// Same major, allow downgrade for developers
+					return true;
+				} else {
+					// downgrade attempt, throw exception
+					throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
+				}
 			} else if ($versionDiff < 0) {
 				// downgrade attempt, throw exception
 				throw new \OC\HintException('Downgrading is not supported and is likely to cause unpredictable issues (from ' . $installedVersion . ' to ' . $currentVersion . ')');
