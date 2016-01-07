@@ -17,7 +17,7 @@
     <IfModule mod_version.c>
         <IfVersion >= 2.4.7>
             # Add CSP header if not set, used for static resources
-            Header setifempty Content-Security-Policy "default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'"
+            Header always setifempty Content-Security-Policy "default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'"
         </IfVersion>
     </IfModule>
   </IfModule>
