@@ -302,7 +302,9 @@ class SMB extends Common {
 	 * check if smbclient is installed
 	 */
 	public static function checkDependencies() {
-		$smbClientExists = (bool)\OC_Helper::findBinaryPath('smbclient');
-		return $smbClientExists ? true : array('smbclient');
+		return (
+			(bool)\OC_Helper::findBinaryPath('smbclient')
+			|| Server::NativeAvailable()
+		) ? true : ['smbclient'];
 	}
 }
