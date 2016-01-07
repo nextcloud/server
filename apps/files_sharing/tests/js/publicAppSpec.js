@@ -102,12 +102,12 @@ describe('OCA.Sharing.PublicApp tests', function() {
 
 			it('returns correct download URL for single files', function() {
 				expect(fileList.getDownloadUrl('some file.txt'))
-					.toEqual('/owncloud/public.php/webdav/subdir/some file.txt');
+					.toEqual('https://sh4tok@example.com:9876/owncloud/public.php/webdav/subdir/some file.txt');
 				expect(fileList.getDownloadUrl('some file.txt', '/another path/abc'))
-					.toEqual('/owncloud/public.php/webdav/another path/abc/some file.txt');
+					.toEqual('https://sh4tok@example.com:9876/owncloud/public.php/webdav/another path/abc/some file.txt');
 				fileList.changeDirectory('/');
 				expect(fileList.getDownloadUrl('some file.txt'))
-					.toEqual('/owncloud/public.php/webdav/some file.txt');
+					.toEqual('https://sh4tok@example.com:9876/owncloud/public.php/webdav/some file.txt');
 			});
 			it('returns correct download URL for multiple files', function() {
 				expect(fileList.getDownloadUrl(['a b c.txt', 'd e f.txt']))

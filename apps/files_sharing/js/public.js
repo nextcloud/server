@@ -155,7 +155,11 @@ OCA.Sharing.PublicApp = {
 			this.fileList.getDownloadUrl = function (filename, dir, isDir) {
 				var path = dir || this.getCurrentDirectory();
 				if (filename && !_.isArray(filename) && !isDir) {
-					return OC.getRootPath() + '/public.php/webdav' + OC.joinPaths(path, filename);
+					var portPart = '';
+					if (OC.getPort()) {
+						portPart = ':' + OC.getPort();
+					}
+					return OC.getProtocol() + '://' + token + '@' + OC.getHost() + portPart + OC.getRootPath() + '/public.php/webdav' + OC.joinPaths(path, filename);
 				}
 				if (_.isArray(filename)) {
 					filename = JSON.stringify(filename);
