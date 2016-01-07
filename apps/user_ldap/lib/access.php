@@ -166,20 +166,80 @@ class Access extends LDAPUtility implements user\IUserTools {
 		// 0 won't result in replies, small numbers may leave out groups
 		// (cf. #12306), 500 is default for paging and should work everywhere.
 		$maxResults = $pagingSize > 20 ? $pagingSize : 500;
-		$this->initPagedSearch($filter, array($dn), array($attr), $maxResults, 0);
+		$attr = mb_strtolower($attr, 'UTF-8');
+		// the actual read attribute later may contain parameters on a ranged
+		// request, e.g. member;range=99-199. Depends on server reply.
+		$attrToRead = $attr;
+
+		$values = [];
+		$isRangeRequest = false;
+		do {
+			$result = $this->executeRead($cr, $dn, $attrToRead, $filter, $maxResults);
+			if(is_bool($result)) {
+				// when an exists request was run and it was successful, an empty
+				// array must be returned
+				return $result ? [] : false;
+			}
+
+			if (!$isRangeRequest) {
+				$values = $this->extractAttributeValuesFromResult($result, $attr);
+				if (!empty($values)) {
+					return $values;
+				}
+			}
+
+			$isRangeRequest = false;
+			$result = $this->extractRangeData($result, $attr);
+			if (!empty($result)) {
+				$normalizedResult = $this->extractAttributeValuesFromResult(
+					[ $attr => $result['values'] ],
+					$attr
+				);
+				$values = array_merge($values, $normalizedResult);
+
+				if($result['rangeHigh'] === '*') {
+					// when server replies with * as high range value, there are
+					// no more results left
+					return $values;
+				} else {
+					$low  = $result['rangeHigh'] + 1;
+					$attrToRead = $result['attributeName'] . ';range=' . $low . '-*';
+					$isRangeRequest = true;
+				}
+			}
+		} while($isRangeRequest);
+
+		\OCP\Util::writeLog('user_ldap', 'Requested attribute '.$attr.' not found for '.$dn, \OCP\Util::DEBUG);
+		return false;
+	}
+
+	/**
+	 * Runs an read operation against LDAP
+	 *
+	 * @param resource $cr the LDAP connection
+	 * @param string $dn
+	 * @param string $attribute
+	 * @param string $filter
+	 * @param int $maxResults
+	 * @return array|bool false if there was any error, true if an exists check
+	 *                    was performed and the requested DN found, array with the
+	 *                    returned data on a successful usual operation
+	 */
+	public function executeRead($cr, $dn, $attribute, $filter, $maxResults) {
+		$this->initPagedSearch($filter, array($dn), array($attribute), $maxResults, 0);
 		$dn = $this->DNasBaseParameter($dn);
-		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
+		$rr = @$this->ldap->read($cr, $dn, $filter, array($attribute));
 		if(!$this->ldap->isResource($rr)) {
-			if(!empty($attr)) {
+			if(!empty($attribute)) {
 				//do not throw this message on userExists check, irritates
 				\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
 			}
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
-		if (empty($attr) && ($filter === 'objectclass=*' || $this->ldap->countEntries($cr, $rr) === 1)) {
+		if (empty($attribute) && ($filter === 'objectclass=*' || $this->ldap->countEntries($cr, $rr) === 1)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
-			return array();
+			return true;
 		}
 		$er = $this->ldap->firstEntry($cr, $rr);
 		if(!$this->ldap->isResource($er)) {
@@ -188,24 +248,63 @@ class Access extends LDAPUtility implements user\IUserTools {
 		}
 		//LDAP attributes are not case sensitive
 		$result = \OCP\Util::mb_array_change_key_case(
-				$this->ldap->getAttributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
-		$attr = mb_strtolower($attr, 'UTF-8');
+			$this->ldap->getAttributes($cr, $er), MB_CASE_LOWER, 'UTF-8');
 
-		if(isset($result[$attr]) && $result[$attr]['count'] > 0) {
-			$values = array();
-			for($i=0;$i<$result[$attr]['count'];$i++) {
-				if($this->resemblesDN($attr)) {
-					$values[] = $this->sanitizeDN($result[$attr][$i]);
-				} elseif(strtolower($attr) === 'objectguid' || strtolower($attr) === 'guid') {
-					$values[] = $this->convertObjectGUID2Str($result[$attr][$i]);
+		return $result;
+	}
+
+	/**
+	 * Normalizes a result grom getAttributes(), i.e. handles DNs and binary
+	 * data if present.
+	 *
+	 * @param array $result from ILDAPWrapper::getAttributes()
+	 * @param string $attribute the attribute name that was read
+	 * @return string[]
+	 */
+	public function extractAttributeValuesFromResult($result, $attribute) {
+		$values = [];
+		if(isset($result[$attribute]) && $result[$attribute]['count'] > 0) {
+			for($i=0;$i<$result[$attribute]['count'];$i++) {
+				if($this->resemblesDN($attribute)) {
+					$values[] = $this->sanitizeDN($result[$attribute][$i]);
+				} elseif(strtolower($attribute) === 'objectguid' || strtolower($attribute) === 'guid') {
+					$values[] = $this->convertObjectGUID2Str($result[$attribute][$i]);
 				} else {
-					$values[] = $result[$attr][$i];
+					$values[] = $result[$attribute][$i];
 				}
 			}
-			return $values;
 		}
-		\OCP\Util::writeLog('user_ldap', 'Requested attribute '.$attr.' not found for '.$dn, \OCP\Util::DEBUG);
-		return false;
+		return $values;
+	}
+
+	/**
+	 * Attempts to find ranged data in a getAttribute results and extracts the
+	 * returned values as well as information on the range and full attribute
+	 * name for further processing.
+	 *
+	 * @param array $result from ILDAPWrapper::getAttributes()
+	 * @param string $attribute the attribute name that was read. Without ";range=…"
+	 * @return array If a range was detected with keys 'values', 'attributeName',
+	 *               'attributeFull' and 'rangeHigh', otherwise empty.
+	 */
+	public function extractRangeData($result, $attribute) {
+		$keys = array_keys($result);
+		foreach($keys as $key) {
+			if($key !== $attribute && strpos($key, $attribute) === 0) {
+				$queryData = explode(';', $key);
+				if(strpos($queryData[1], 'range=') === 0) {
+					$high = substr($queryData[1], 1 + strpos($queryData[1], '-'));
+					$data = [
+						'values' => $result[$key],
+						'attributeName' => $queryData[0],
+						'attributeFull' => $key,
+						'rangeHigh' => $high,
+					];
+					return $data;
+				}
+			}
+		}
+		return [];
 	}
 
 	/**
