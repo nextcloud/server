@@ -491,7 +491,7 @@ class Share extends Constants {
 	public static function getShareByToken($token, $checkPasswordProtection = true) {
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `token` = ?', 1);
 		$result = $query->execute(array($token));
-		if (\OC_DB::isError($result)) {
+		if ($result === false) {
 			\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage() . ', token=' . $token, \OCP\Util::ERROR);
 		}
 		$row = $result->fetchRow();
@@ -1722,7 +1722,7 @@ class Share extends Constants {
 		$root = strlen($root);
 		$query = \OC_DB::prepare('SELECT '.$select.' FROM `*PREFIX*share` '.$where, $queryLimit);
 		$result = $query->execute($queryArgs);
-		if (\OC_DB::isError($result)) {
+		if ($result === false) {
 			\OCP\Util::writeLog('OCP\Share',
 				\OC_DB::getErrorMessage() . ', select=' . $select . ' where=',
 				\OCP\Util::ERROR);
@@ -1786,7 +1786,7 @@ class Share extends Constants {
 				if (isset($row['parent'])) {
 					$query = \OC_DB::prepare('SELECT `file_target` FROM `*PREFIX*share` WHERE `id` = ?');
 					$parentResult = $query->execute(array($row['parent']));
-					if (\OC_DB::isError($result)) {
+					if ($result === false) {
 						\OCP\Util::writeLog('OCP\Share', 'Can\'t select parent: ' .
 							\OC_DB::getErrorMessage() . ', select=' . $select . ' where=' . $where,
 							\OCP\Util::ERROR);

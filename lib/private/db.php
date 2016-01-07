@@ -263,15 +263,6 @@ class OC_DB {
 	}
 
 	/**
-	 * check if a result is an error, works with Doctrine
-	 * @param mixed $result
-	 * @return bool
-	 */
-	public static function isError($result) {
-		//Doctrine returns false on error (and throws an exception)
-		return $result === false;
-	}
-	/**
 	 * check if a result is an error and throws an exception, works with \Doctrine\DBAL\DBALException
 	 * @param mixed $result
 	 * @param string $message
@@ -279,20 +270,16 @@ class OC_DB {
 	 * @throws \OC\DatabaseException
 	 */
 	public static function raiseExceptionOnError($result, $message = null) {
-		if(self::isError($result)) {
+		if($result === false) {
 			if ($message === null) {
 				$message = self::getErrorMessage();
 			} else {
 				$message .= ', Root cause:' . self::getErrorMessage();
 			}
-			throw new \OC\DatabaseException($message, self::getErrorCode());
+			throw new \OC\DatabaseException($message, \OC::$server->getDatabaseConnection()->errorCode());
 		}
 	}
 
-	public static function getErrorCode() {
-		$connection = \OC::$server->getDatabaseConnection();
-		return $connection->errorCode();
-	}
 	/**
 	 * returns the error code and message as a string for logging
 	 * works with DoctrineException
