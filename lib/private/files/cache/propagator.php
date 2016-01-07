@@ -43,9 +43,10 @@ class Propagator implements IPropagator {
 	/**
 	 * @param string $internalPath
 	 * @param int $time
-	 * @return array[] all propagated cache entries
+	 * @param int $sizeDifference number of bytes the file has grown
+	 * @return array[] all propagated entries
 	 */
-	public function propagateChange($internalPath, $time) {
+	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
 		$cache = $this->storage->getCache($internalPath);
 
 		$parentId = $cache->getParentId($internalPath);
@@ -58,7 +59,12 @@ class Propagator implements IPropagator {
 			}
 			$mtime = max($time, $entry['mtime']);
 
-			$cache->update($parentId, ['mtime' => $mtime, 'etag' => $this->storage->getETag($entry['path'])]);
+			if ($entry['size'] === -1) {
+				$newSize = -1;
+			} else {
+				$newSize = $entry['size'] + $sizeDifference;
+			}
+			$cache->update($parentId, ['mtime' => $mtime, 'etag' => $this->storage->getETag($entry['path']), 'size' => $newSize]);
 
 			$parentId = $entry['parent'];
 		}
