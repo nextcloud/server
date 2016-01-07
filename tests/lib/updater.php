@@ -27,7 +27,7 @@ use OCP\ILogger;
 use OC\IntegrityCheck\Checker;
 
 class UpdaterTest extends \Test\TestCase {
-	/** @var IConfig */
+	/** @var IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 	/** @var HTTPHelper */
 	private $httpHelper;
@@ -136,7 +136,31 @@ class UpdaterTest extends \Test\TestCase {
 			['9.0.0.0', '8.0.0.0', '7.0', false],
 			['9.1.0.0', '8.0.0.0', '7.0', false],
 			['8.2.0.0', '8.1.0.0', '8.0', false],
+
+			// With debug enabled
+			['8.0.0.0', '8.2.0.0', '8.1', false, true],
+			['8.1.0.0', '8.2.0.0', '8.1', true, true],
+			['8.2.0.1', '8.2.0.1', '8.1', true, true],
+			['8.3.0.0', '8.2.0.0', '8.1', true, true],
 		];
+	}
+
+	/**
+	 * @dataProvider versionCompatibilityTestData
+	 *
+	 * @param string $oldVersion
+	 * @param string $newVersion
+	 * @param string $allowedVersion
+	 * @param bool $result
+	 * @param bool $debug
+	 */
+	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersion, $result, $debug = false) {
+		$this->config->expects($this->any())
+			->method('getSystemValue')
+			->with('debug', false)
+			->willReturn($debug);
+
+		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersion));
 	}
 
 	public function testSetSimulateStepEnabled() {
@@ -158,18 +182,6 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertSame(true, $this->invokePrivate($this->updater, 'skip3rdPartyAppsDisable'));
 		$this->updater->setSkip3rdPartyAppsDisable(false);
 		$this->assertSame(false, $this->invokePrivate($this->updater, 'skip3rdPartyAppsDisable'));
-	}
-
-	/**
-	 * @dataProvider versionCompatibilityTestData
-	 *
-	 * @param string $oldVersion
-	 * @param string $newVersion
-	 * @param string $allowedVersion
-	 * @param bool $result
-	 */
-	public function testIsUpgradePossible($oldVersion, $newVersion, $allowedVersion, $result) {
-		$this->assertSame($result, $this->updater->isUpgradePossible($oldVersion, $newVersion, $allowedVersion));
 	}
 
 	public function testCheckInCache() {

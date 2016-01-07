@@ -256,7 +256,7 @@ class Updater extends BasicEmitter {
 	 */
 	public function isUpgradePossible($oldVersion, $newVersion, $allowedPreviousVersion) {
 		return (version_compare($allowedPreviousVersion, $oldVersion, '<=')
-			&& version_compare($oldVersion, $newVersion, '<='));
+			&& (version_compare($oldVersion, $newVersion, '<=') || $this->config->getSystemValue('debug', false)));
 	}
 
 	/**
