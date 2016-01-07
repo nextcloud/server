@@ -9,7 +9,6 @@
 	</description>
 	<licence>AGPL</licence>
 	<author>Robin Appelman, Michael Gapczynski, Vincent Petry</author>
-	<shipped>true</shipped>
 	<documentation>
 		<admin>admin-external-storage</admin>
 	</documentation>

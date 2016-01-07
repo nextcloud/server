@@ -13,7 +13,6 @@
 	</description>
 	<licence>AGPL</licence>
 	<author>Tom Needham</author>
-	<shipped>true</shipped>
 	<default_enable/>
 	<documentation>
 		<admin>admin-provisioning-api</admin>

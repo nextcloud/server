@@ -9,7 +9,6 @@ Turning the feature off removes shared files and folders on the server for all s
 	</description>
 	<licence>AGPL</licence>
 	<author>Michael Gapczynski, Bjoern Schiessle</author>
-	<shipped>true</shipped>
 	<default_enable/>
 	<version>0.8.1</version>
 	<types>

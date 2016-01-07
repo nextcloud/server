@@ -5,7 +5,6 @@
 	<description>File Management</description>
 	<licence>AGPL</licence>
 	<author>Robin Appelman, Vincent Petry</author>
-	<shipped>true</shipped>
 	<standalone/>
 	<default_enable/>
 	<version>1.4.1</version>

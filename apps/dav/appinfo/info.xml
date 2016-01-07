@@ -6,7 +6,6 @@
 	<licence>AGPL</licence>
 	<author>owncloud.org</author>
 	<version>0.1.3</version>
-	<shipped>true</shipped>
 	<standalone/>
 	<default_enable/>
 	<types>
