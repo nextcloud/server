@@ -40,7 +40,7 @@ class Connection extends \Test\TestCase {
 	protected static function dropTestTable()
 	{
 		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') !== 'oci') {
-			\OC_DB::dropTable('table');
+			\OC::$server->getDatabaseConnection()->dropTable('table');
 		}
 	}
 

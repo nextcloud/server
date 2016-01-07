@@ -136,10 +136,11 @@ class Repair extends BasicEmitter {
 	 * @return array of RepairStep instances
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
+		$connection = \OC::$server->getDatabaseConnection();
 		$steps = [
 			new InnoDB(),
-			new Collation(\OC::$server->getConfig(), \OC_DB::getConnection()),
-			new SqliteAutoincrement(\OC_DB::getConnection()),
+			new Collation(\OC::$server->getConfig(), $connection),
+			new SqliteAutoincrement($connection),
 			new SearchLuceneTables(),
 		];
 

@@ -99,7 +99,7 @@ class RepairLegacyStorages extends TestCase {
 		$numRows = $this->connection->executeUpdate($sql, array($storageId));
 		$this->assertEquals(1, $numRows);
 
-		return \OC_DB::insertid('*PREFIX*storages');
+		return \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*storages');
 	}
 
 	/**

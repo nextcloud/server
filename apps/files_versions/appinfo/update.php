@@ -20,11 +20,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-$installedVersion=OCP\Config::getAppValue('files_versions', 'installed_version');
-// move versions to new directory
-if (version_compare($installedVersion, '1.0.4', '<')) {
-	\OC_DB::dropTable("files_versions");
-}
 
 // Cron job for deleting expired trash items
 \OC::$server->getJobList()->add('OCA\Files_Versions\BackgroundJob\ExpireVersions');

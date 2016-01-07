@@ -111,11 +111,11 @@ class Test_DB extends \Test\TestCase {
 	public function testLastInsertId() {
 		$query = OC_DB::prepare('INSERT INTO `*PREFIX*'.$this->table2.'` (`fullname`,`uri`) VALUES (?,?)');
 		$result1 = OC_DB::executeAudited($query, array('insertid 1','uri_1'));
-		$id1 = OC_DB::insertid('*PREFIX*'.$this->table2);
+		$id1 = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*'.$this->table2);
 		
 		// we don't know the id we should expect, so insert another row
 		$result2 = OC_DB::executeAudited($query, array('insertid 2','uri_2'));
-		$id2 = OC_DB::insertid('*PREFIX*'.$this->table2);
+		$id2 = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*'.$this->table2);
 		// now we can check if the two ids are in correct order
 		$this->assertGreaterThan($id1, $id2);
 	}

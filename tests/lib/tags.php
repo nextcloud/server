@@ -60,7 +60,7 @@ class Test_Tags extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
-		$conn = \OC_DB::getConnection();
+		$conn = \OC::$server->getDatabaseConnection();
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory_to_object`');
 		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory`');
 
@@ -199,7 +199,7 @@ class Test_Tags extends \Test\TestCase {
 		$tagId = $tagData[0]['id'];
 		$tagType = $tagData[0]['type'];
 
-		$conn = \OC_DB::getConnection();
+		$conn = \OC::$server->getDatabaseConnection();
 		$statement = $conn->prepare(
 				'INSERT INTO `*PREFIX*vcategory_to_object` ' .
 				'(`objid`, `categoryid`, `type`) VALUES ' .

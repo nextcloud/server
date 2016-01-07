@@ -215,7 +215,7 @@ class Tags implements \OCP\ITags {
 		$entries = array();
 
 		try {
-			$conn = \OC_DB::getConnection();
+			$conn = \OC::$server->getDatabaseConnection();
 			$chunks = array_chunk($objIds, 900, false);
 			foreach ($chunks as $chunk) {
 				$result = $conn->executeQuery(

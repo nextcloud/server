@@ -210,7 +210,7 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 			$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
 			$result = $query->execute(array($uid));
 
-			if (OC_DB::isError($result)) {
+			if ($result === false) {
 				\OCP\Util::writeLog('core', OC_DB::getErrorMessage(), \OCP\Util::ERROR);
 				return false;
 			}
@@ -287,7 +287,7 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 	public function countUsers() {
 		$query = OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
 		$result = $query->execute();
-		if (OC_DB::isError($result)) {
+		if ($result === false) {
 			\OCP\Util::writeLog('core', OC_DB::getErrorMessage(), \OCP\Util::ERROR);
 			return false;
 		}
