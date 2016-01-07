@@ -422,6 +422,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			return app.name.toLowerCase().indexOf(query) !== -1;
 		});
 
+		// App ID
+		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+			return app.id.toLowerCase().indexOf(query) !== -1;
+		}));
+
 		// App Description
 		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
 			return app.description.toLowerCase().indexOf(query) !== -1;
