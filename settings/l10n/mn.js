@@ -13,8 +13,8 @@ OC.L10N.register(
     "Your full name has been changed." : "Таны бүтэн нэр солигдлоо.",
     "Unable to change full name" : "Бүтэн нэр солих боломжгүй байна",
     "All" : "Бүгд",
-    "Password" : "Нууц үг",
     "Email" : "И-мэйл",
+    "Password" : "Нууц үг",
     "Username" : "Хэрэглэгчийн нэр"
 },
 "nplurals=2; plural=(n != 1);");

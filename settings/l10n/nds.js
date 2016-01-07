@@ -12,8 +12,8 @@ OC.L10N.register(
     "None" : "Keine(r)",
     "Enable encryption" : "Verschlüsselung aktivieren",
     "Port" : "Port",
-    "Password" : "Passwort",
     "Cancel" : "Abbrechen",
+    "Password" : "Passwort",
     "Username" : "Benutzername"
 },
 "nplurals=2; plural=(n != 1);");

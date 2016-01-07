@@ -10,10 +10,10 @@
     "Login" : "Mewngofnodi",
     "Encryption" : "Amgryptiad",
     "by" : "gan",
+    "Cancel" : "Diddymu",
+    "Email" : "E-bost",
     "Password" : "Cyfrinair",
     "New password" : "Cyfrinair newydd",
-    "Email" : "E-bost",
-    "Cancel" : "Diddymu",
     "Username" : "Enw defnyddiwr",
     "Other" : "Arall"
 },"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"

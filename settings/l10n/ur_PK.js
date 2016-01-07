@@ -12,9 +12,9 @@ OC.L10N.register(
     "More" : "مزید",
     "Less" : "کم",
     "Cheers!" : "واہ!",
+    "Cancel" : "منسوخ کریں",
     "Password" : "پاسورڈ",
     "New password" : "نیا پاسورڈ",
-    "Cancel" : "منسوخ کریں",
     "Username" : "یوزر نیم",
     "Other" : "دیگر"
 },

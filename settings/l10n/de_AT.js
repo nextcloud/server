@@ -8,10 +8,10 @@ OC.L10N.register(
     "Server address" : "Adresse des Servers",
     "Port" : "Port",
     "by" : "von",
+    "Cancel" : "Abbrechen",
+    "Email" : "E-Mail",
     "Password" : "Passwort",
     "Change password" : "Passwort ändern",
-    "Email" : "E-Mail",
-    "Cancel" : "Abbrechen",
     "Username" : "Benutzername",
     "Other" : "Anderes"
 },

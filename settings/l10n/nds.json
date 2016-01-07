@@ -10,8 +10,8 @@
     "None" : "Keine(r)",
     "Enable encryption" : "Verschlüsselung aktivieren",
     "Port" : "Port",
-    "Password" : "Passwort",
     "Cancel" : "Abbrechen",
+    "Password" : "Passwort",
     "Username" : "Benutzername"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

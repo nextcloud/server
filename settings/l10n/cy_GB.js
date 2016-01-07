@@ -12,10 +12,10 @@ OC.L10N.register(
     "Login" : "Mewngofnodi",
     "Encryption" : "Amgryptiad",
     "by" : "gan",
+    "Cancel" : "Diddymu",
+    "Email" : "E-bost",
     "Password" : "Cyfrinair",
     "New password" : "Cyfrinair newydd",
-    "Email" : "E-bost",
-    "Cancel" : "Diddymu",
     "Username" : "Enw defnyddiwr",
     "Other" : "Arall"
 },

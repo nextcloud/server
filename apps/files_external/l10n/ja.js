@@ -43,6 +43,7 @@ OC.L10N.register(
     "There was an error with message: " : "メッセージ付きのエラーが発生しました：",
     "External mount error" : "外部マウントエラー",
     "goto-external-storage" : "外部ストレージに行く",
+    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Windows ネットワークドライブのマウントポイントリストを取得出来ませんでした:サーバーから空の応答がありました",
     "Access key" : "アクセスキー",
     "Secret key" : "シークレットキー",
     "Builtin" : "ビルトイン",
