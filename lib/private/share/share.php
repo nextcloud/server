@@ -2191,7 +2191,7 @@ class Share extends Constants {
 		if ($isGroupShare) {
 			$id = self::insertShare($queriesToExecute['groupShare']);
 			// Save this id, any extra rows for this group share will need to reference it
-			$parent = \OC_DB::insertid('*PREFIX*share');
+			$parent = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share');
 			unset($queriesToExecute['groupShare']);
 		}
 

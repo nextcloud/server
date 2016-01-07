@@ -61,7 +61,7 @@ class Storage {
 			$connection = \OC_DB::getConnection();
 			$available = $isAvailable ? 1 : 0;
 			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = \OC_DB::insertid('*PREFIX*storages');
+				$this->numericId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*storages');
 			} else {
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = $row['numeric_id'];

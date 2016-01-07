@@ -158,21 +158,6 @@ class OC_DB {
 	}
 
 	/**
-	 * gets last value of autoincrement
-	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
-	 * @return string id
-	 * @throws \OC\DatabaseException
-	 *
-	 * \Doctrine\DBAL\Connection lastInsertId
-	 *
-	 * Call this method right after the insert command or other functions may
-	 * cause trouble!
-	 */
-	public static function insertid($table=null) {
-		return \OC::$server->getDatabaseConnection()->lastInsertId($table);
-	}
-
-	/**
 	 * saves database schema to xml file
 	 * @param string $file name of file
 	 * @param int $mode
