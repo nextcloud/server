@@ -147,6 +147,10 @@ class AppManager implements IAppManager {
 		} elseif (is_null($user)) {
 			return false;
 		} else {
+			if(empty($enabled)){
+				return false;
+			}
+
 			$groupIds = json_decode($enabled);
 
 			if (!is_array($groupIds)) {
