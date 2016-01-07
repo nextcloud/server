@@ -250,6 +250,10 @@ var UserList = {
 		}
 	},
 	doSort: function() {
+		// some browsers like Chrome lose the scrolling information
+		// when messing with the list elements
+		var lastScrollTop = this.scrollArea.scrollTop();
+		var lastScrollLeft = this.scrollArea.scrollLeft();
 		var rows = $userListBody.find('tr').get();
 
 		rows.sort(function(a, b) {
@@ -275,6 +279,8 @@ var UserList = {
 		if(items.length > 0) {
 			$userListBody.append(items);
 		}
+		this.scrollArea.scrollTop(lastScrollTop);
+		this.scrollArea.scrollLeft(lastScrollLeft);
 	},
 	checkUsersToLoad: function() {
 		//30 shall be loaded initially, from then on always 10 upon scrolling
@@ -610,10 +616,11 @@ $(document).ready(function () {
 	// Implements User Search
 	filter = new UserManagementFilter($('#usersearchform input'), UserList, GroupList);
 
+	UserList.scrollArea = $('#app-content');
+
 	UserList.doSort();
 	UserList.availableGroups = $userList.data('groups');
 
-	UserList.scrollArea = $('#app-content');
 	UserList.scrollArea.scroll(function(e) {UserList._onScroll(e);});
 
 	$userList.after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
