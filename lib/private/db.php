@@ -173,27 +173,6 @@ class OC_DB {
 	}
 
 	/**
-	 * Start a transaction
-	 */
-	public static function beginTransaction() {
-		return \OC::$server->getDatabaseConnection()->beginTransaction();
-	}
-
-	/**
-	 * Commit the database changes done during a transaction that is in progress
-	 */
-	public static function commit() {
-		return \OC::$server->getDatabaseConnection()->commit();
-	}
-
-	/**
-	 * Rollback the database changes done during a transaction that is in progress
-	 */
-	public static function rollback() {
-		return \OC::$server->getDatabaseConnection()->rollback();
-	}
-
-	/**
 	 * saves database schema to xml file
 	 * @param string $file name of file
 	 * @param int $mode

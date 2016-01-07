@@ -336,7 +336,7 @@ class Scanner extends BasicEmitter {
 		$newChildren = $this->getNewChildren($path);
 
 		if ($this->useTransactions) {
-			\OC_DB::beginTransaction();
+			\OC::$server->getDatabaseConnection()->beginTransaction();
 		}
 		$exceptionOccurred = false;
 		foreach ($newChildren as $file) {
@@ -361,7 +361,7 @@ class Scanner extends BasicEmitter {
 				$exceptionOccurred = true;
 			} catch (\OCP\Lock\LockedException $e) {
 				if ($this->useTransactions) {
-					\OC_DB::rollback();
+					\OC::$server->getDatabaseConnection()->rollback();
 				}
 				throw $e;
 			}
@@ -372,7 +372,7 @@ class Scanner extends BasicEmitter {
 			$this->removeFromCache($child);
 		}
 		if ($this->useTransactions) {
-			\OC_DB::commit();
+			\OC::$server->getDatabaseConnection()->commit();
 		}
 		if ($exceptionOccurred) {
 			// It might happen that the parallel scan process has already
