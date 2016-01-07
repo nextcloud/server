@@ -90,7 +90,7 @@ class AutoLoader extends TestCase {
 
 	public function testLoadCoreNamespaceRepair() {
 		$this->assertEquals([
-			\OC::$SERVERROOT . '/lib/repair/foo/bar.php', 
+			\OC::$SERVERROOT . '/lib/private/repair/foo/bar.php',
 		], $this->loader->findClass('OC\Repair\Foo\Bar'));
 	}
 }

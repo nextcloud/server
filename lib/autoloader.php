@@ -112,9 +112,6 @@ class Autoloader {
 					$paths[] = \OC::$SERVERROOT . '/core/' . strtolower(str_replace('\\', '/', $split[2])) . '.php';
 				} else if ($split[1] === 'settings') {
 					$paths[] = \OC::$SERVERROOT . '/settings/' . strtolower(str_replace('\\', '/', $split[2])) . '.php';
-				} else if ($split[1] === 'repair') {
-					$paths[] = \OC::$SERVERROOT . '/lib/repair/' . strtolower(str_replace('\\', '/', $split[2])) . '.php';
-
 				} else {
 					$paths[] = \OC::$SERVERROOT . '/lib/private/' . $split[1] . '/' . strtolower(str_replace('\\', '/', $split[2])) . '.php';
 				}
