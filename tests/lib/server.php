@@ -94,6 +94,8 @@ class Server extends \Test\TestCase {
 			['HttpClientService', '\OCP\Http\Client\IClientService'],
 
 			['IniWrapper', '\bantu\IniGetWrapper\IniGetWrapper'],
+			['MimeTypeDetector', '\OCP\Files\IMimeTypeDetector'],
+			['MimeTypeDetector', '\OC\Files\Type\Detection'],
 
 			['JobList', '\OC\BackgroundJob\JobList'],
 			['JobList', '\OCP\BackgroundJob\IJobList'],

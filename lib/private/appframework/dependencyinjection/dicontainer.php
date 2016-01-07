@@ -165,6 +165,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerAlias('OCP\\AppFramework\\Utility\\IControllerMethodReflector', 'OC\AppFramework\Utility\ControllerMethodReflector');
 		$this->registerAlias('ControllerMethodReflector', 'OCP\\AppFramework\\Utility\\IControllerMethodReflector');
 
+		$this->registerService('OCP\\Files\\IMimeTypeDetector', function($c) {
+			return $this->getServer()->getMimeTypeDetector();
+		});
+
 		$this->registerService('OCP\\INavigationManager', function($c) {
 			return $this->getServer()->getNavigationManager();
 		});
