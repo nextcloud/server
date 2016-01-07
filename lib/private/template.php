@@ -222,7 +222,7 @@ class OC_Template extends \OC\Template\Base {
 		$data = parent::fetchPage();
 
 		if( $this->renderAs ) {
-			$page = new OC_TemplateLayout($this->renderAs, $this->app);
+			$page = new \OC\TemplateLayout($this->renderAs, $this->app);
 
 			// Add custom headers
 			$headers = '';

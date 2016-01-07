@@ -32,6 +32,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+namespace OC;
+
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\AssetWriter;
@@ -41,14 +43,7 @@ use Assetic\Filter\CssRewriteFilter;
 use Assetic\Filter\JSqueezeFilter;
 use Assetic\Filter\SeparatorFilter;
 
-/**
- * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
- */
-
-class OC_TemplateLayout extends OC_Template {
+class TemplateLayout extends \OC_Template {
 
 	private static $versionHash = '';
 
@@ -69,7 +64,7 @@ class OC_TemplateLayout extends OC_Template {
 		// Decide which page we show
 		if($renderAs == 'user') {
 			parent::__construct( 'core', 'layout.user' );
-			if(in_array(OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
+			if(in_array(\OC_App::getCurrentApp(), ['settings','admin', 'help']) !== false) {
 				$this->assign('bodyid', 'body-settings');
 			}else{
 				$this->assign('bodyid', 'body-user');
@@ -77,7 +72,7 @@ class OC_TemplateLayout extends OC_Template {
 
 			// Update notification
 			if($this->config->getSystemValue('updatechecker', true) === true &&
-				OC_User::isAdminUser(OC_User::getUser())) {
+				\OC_User::isAdminUser(\OC_User::getUser())) {
 				$updater = new \OC\Updater(
 						\OC::$server->getHTTPHelper(),
 						\OC::$server->getConfig(),
@@ -109,9 +104,9 @@ class OC_TemplateLayout extends OC_Template {
 			// Add navigation entry
 			$this->assign( 'application', '');
 			$this->assign( 'appid', $appId );
-			$navigation = OC_App::getNavigation();
+			$navigation = \OC_App::getNavigation();
 			$this->assign( 'navigation', $navigation);
-			$settingsNavigation = OC_App::getSettingsNavigation();
+			$settingsNavigation = \OC_App::getSettingsNavigation();
 			$this->assign( 'settingsnavigation', $settingsNavigation);
 			foreach($navigation as $entry) {
 				if ($entry['active']) {
@@ -126,21 +121,21 @@ class OC_TemplateLayout extends OC_Template {
 					break;
 				}
 			}
-			$userDisplayName = OC_User::getDisplayName();
+			$userDisplayName = \OC_User::getDisplayName();
 			$appsMgmtActive = strpos(\OC::$server->getRequest()->getRequestUri(), \OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')) === 0;
 			if ($appsMgmtActive) {
 				$l = \OC::$server->getL10N('lib');
 				$this->assign('application', $l->t('Apps'));
 			}
 			$this->assign('user_displayname', $userDisplayName);
-			$this->assign('user_uid', OC_User::getUser());
+			$this->assign('user_uid', \OC_User::getUser());
 			$this->assign('appsmanagement_active', $appsMgmtActive);
 			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true));
 
-			if (OC_User::getUser() === false) {
+			if (\OC_User::getUser() === false) {
 				$this->assign('userAvatarSet', false);
 			} else {
-				$this->assign('userAvatarSet', \OC::$server->getAvatarManager()->getAvatar(OC_User::getUser())->exists());
+				$this->assign('userAvatarSet', \OC::$server->getAvatarManager()->getAvatar(\OC_User::getUser())->exists());
 			}
 
 		} else if ($renderAs == 'error') {
@@ -154,11 +149,11 @@ class OC_TemplateLayout extends OC_Template {
 
 		}
 		// Send the language to our layouts
-		$this->assign('language', OC_L10N::findLanguage());
+		$this->assign('language', \OC_L10N::findLanguage());
 
 
 		if(empty(self::$versionHash)) {
-			$v = OC_App::getAppVersions();
+			$v = \OC_App::getAppVersions();
 			$v['core'] = implode('.', \OCP\Util::getVersion());
 			self::$versionHash = md5(implode(',', $v));
 		}
@@ -169,7 +164,7 @@ class OC_TemplateLayout extends OC_Template {
 			$this->generateAssets();
 		} else {
 			// Add the js files
-			$jsFiles = self::findJavascriptFiles(OC_Util::$scripts);
+			$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
 			$this->assign('jsfiles', array());
 			if ($this->config->getSystemValue('installed', false) && $renderAs != 'error') {
 				$this->append( 'jsfiles', \OC::$server->getURLGenerator()->linkToRoute('js_config', ['v' => self::$versionHash]));
@@ -181,7 +176,7 @@ class OC_TemplateLayout extends OC_Template {
 			}
 
 			// Add the css files
-			$cssFiles = self::findStylesheetFiles(OC_Util::$styles);
+			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 			$this->assign('cssfiles', array());
 			foreach($cssFiles as $info) {
 				$web = $info[1];
@@ -198,13 +193,13 @@ class OC_TemplateLayout extends OC_Template {
 	 */
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file
-		$theme = OC_Util::getTheme();
+		$theme = \OC_Util::getTheme();
 
 		$locator = new \OC\Template\CSSResourceLocator(
-			OC::$server->getLogger(),
+			\OC::$server->getLogger(),
 			$theme,
-			array( OC::$SERVERROOT => OC::$WEBROOT ),
-			array( OC::$THIRDPARTYROOT => OC::$THIRDPARTYWEBROOT ));
+			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
+			array( \OC::$THIRDPARTYROOT => \OC::$THIRDPARTYWEBROOT ));
 		$locator->find($styles);
 		return $locator->getResources();
 	}
@@ -215,20 +210,20 @@ class OC_TemplateLayout extends OC_Template {
 	 */
 	static public function findJavascriptFiles($scripts) {
 		// Read the selected theme from the config file
-		$theme = OC_Util::getTheme();
+		$theme = \OC_Util::getTheme();
 
 		$locator = new \OC\Template\JSResourceLocator(
-			OC::$server->getLogger(),
+			\OC::$server->getLogger(),
 			$theme,
-			array( OC::$SERVERROOT => OC::$WEBROOT ),
-			array( OC::$THIRDPARTYROOT => OC::$THIRDPARTYWEBROOT ));
+			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
+			array( \OC::$THIRDPARTYROOT => \OC::$THIRDPARTYWEBROOT ));
 		$locator->find($scripts);
 		return $locator->getResources();
 	}
 
 	public function generateAssets() {
 		$assetDir = \OC::$server->getConfig()->getSystemValue('assetdirectory', \OC::$SERVERROOT);
-		$jsFiles = self::findJavascriptFiles(OC_Util::$scripts);
+		$jsFiles = self::findJavascriptFiles(\OC_Util::$scripts);
 		$jsHash = self::hashFileNames($jsFiles);
 
 		if (!file_exists("$assetDir/assets/$jsHash.js")) {
@@ -253,7 +248,7 @@ class OC_TemplateLayout extends OC_Template {
 			$writer->writeAsset($jsCollection);
 		}
 
-		$cssFiles = self::findStylesheetFiles(OC_Util::$styles);
+		$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 		$cssHash = self::hashFileNames($cssFiles);
 
 		if (!file_exists("$assetDir/assets/$cssHash.css")) {
@@ -289,7 +284,7 @@ class OC_TemplateLayout extends OC_Template {
 	 * Converts the absolute file path to a relative path from \OC::$SERVERROOT
 	 * @param string $filePath Absolute path
 	 * @return string Relative path
-	 * @throws Exception If $filePath is not under \OC::$SERVERROOT
+	 * @throws \Exception If $filePath is not under \OC::$SERVERROOT
 	 */
 	public static function convertToRelativePath($filePath) {
 		$relativePath = explode(\OC::$SERVERROOT, $filePath);
