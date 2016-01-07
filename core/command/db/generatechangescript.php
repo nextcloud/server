@@ -45,7 +45,7 @@ class GenerateChangeScript extends Command {
 
 		$file = $input->getArgument('schema-xml');
 
-		$schemaManager = new \OC\DB\MDB2SchemaManager(\OC_DB::getConnection());
+		$schemaManager = new \OC\DB\MDB2SchemaManager(\OC::$server->getDatabaseConnection());
 
 		try {
 			$result = $schemaManager->updateDbFromStructure($file, true);

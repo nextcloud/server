@@ -436,7 +436,7 @@ class Share extends Constants {
 
 				// TODO: inject connection, hopefully one day in the future when this
 				// class isn't static anymore...
-				$conn = \OC_DB::getConnection();
+				$conn = \OC::$server->getDatabaseConnection();
 				$result = $conn->executeQuery(
 					'SELECT ' . $select . ' FROM `*PREFIX*share` ' . $where,
 					$arguments,

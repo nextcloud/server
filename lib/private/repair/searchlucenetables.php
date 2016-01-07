@@ -52,10 +52,10 @@ class SearchLuceneTables extends BasicEmitter implements \OC\RepairStep {
 	 * search_lucene will then reindex the fileids without a status when the next indexing job is executed
 	 */
 	public function run() {
-		if (\OC_DB::tableExists('lucene_status')) {
+		$connection = \OC::$server->getDatabaseConnection();
+		if ($connection->tableExists('lucene_status')) {
 			$this->emit('\OC\Repair', 'info', array('removing duplicate entries from lucene_status'));
 
-			$connection = \OC_DB::getConnection();
 			$query = $connection->prepare('
 				DELETE FROM `*PREFIX*lucene_status`
 				WHERE `fileid` IN (

@@ -36,13 +36,6 @@
 class OC_DB {
 
 	/**
-	 * @return \OCP\IDBConnection
-	 */
-	static public function getConnection() {
-		return \OC::$server->getDatabaseConnection();
-	}
-
-	/**
 	 * get MDB2 schema manager
 	 *
 	 * @return \OC\DB\MDB2SchemaManager

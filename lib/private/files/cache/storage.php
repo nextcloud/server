@@ -58,10 +58,10 @@ class Storage {
 		if ($row = self::getStorageById($this->storageId)) {
 			$this->numericId = $row['numeric_id'];
 		} else {
-			$connection = \OC_DB::getConnection();
+			$connection = \OC::$server->getDatabaseConnection();
 			$available = $isAvailable ? 1 : 0;
 			if ($connection->insertIfNotExist('*PREFIX*storages', ['id' => $this->storageId, 'available' => $available])) {
-				$this->numericId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*storages');
+				$this->numericId = $connection->lastInsertId('*PREFIX*storages');
 			} else {
 				if ($row = self::getStorageById($this->storageId)) {
 					$this->numericId = $row['numeric_id'];

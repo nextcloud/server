@@ -38,7 +38,7 @@ class RepairSqliteAutoincrement extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->connection = \OC_DB::getConnection();
+		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->config = \OC::$server->getConfig();
 		if (!$this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
 			$this->markTestSkipped("Test only relevant on Sqlite");

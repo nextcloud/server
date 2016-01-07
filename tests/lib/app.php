@@ -461,7 +461,7 @@ class Test_App extends \Test\TestCase {
 		$appConfig = $this->getMock(
 			'\OC\AppConfig',
 			array('getValues'),
-			array(\OC_DB::getConnection()),
+			array(\OC::$server->getDatabaseConnection()),
 			'',
 			false
 		);
@@ -488,8 +488,8 @@ class Test_App extends \Test\TestCase {
 	 * Restore the original app config service.
 	 */
 	private function restoreAppConfig() {
-		\OC::$server->registerService('AppConfig', function ($c) {
-			return new \OC\AppConfig(\OC_DB::getConnection());
+		\OC::$server->registerService('AppConfig', function (\OC\Server $c) {
+			return new \OC\AppConfig($c->getDatabaseConnection());
 		});
 		\OC::$server->registerService('AppManager', function (\OC\Server $c) {
 			return new \OC\App\AppManager($c->getUserSession(), $c->getAppConfig(), $c->getGroupManager(), $c->getMemCacheFactory());

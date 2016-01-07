@@ -37,7 +37,7 @@ class InnoDB extends BasicEmitter implements \OC\RepairStep {
 	 * Fix mime types
 	 */
 	public function run() {
-		$connection = \OC_DB::getConnection();
+		$connection = \OC::$server->getDatabaseConnection();
 		if (!$connection->getDatabasePlatform() instanceof MySqlPlatform) {
 			$this->emit('\OC\Repair', 'info', array('Not a mysql database -> nothing to do'));
 			return;

@@ -32,7 +32,7 @@ class MDB2SchemaManager extends \Test\TestCase {
 
 	public function testAutoIncrement() {
 
-		$connection = \OC_DB::getConnection();
+		$connection = \OC::$server->getDatabaseConnection();
 		if ($connection->getDatabasePlatform() instanceof OraclePlatform) {
 			$this->markTestSkipped('Adding auto increment columns in Oracle is not supported.');
 		}

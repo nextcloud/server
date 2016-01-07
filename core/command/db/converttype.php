@@ -166,7 +166,7 @@ class ConvertType extends Command {
 		$this->validateInput($input, $output);
 		$this->readPassword($input, $output);
 
-		$fromDB = \OC_DB::getConnection();
+		$fromDB = \OC::$server->getDatabaseConnection();
 		$toDB = $this->getToDBConnection($input, $output);
 
 		if ($input->getOption('clear-schema')) {
