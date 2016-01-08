@@ -958,6 +958,8 @@ $CONFIG = array(
 		// dev-/trystack uses swift by default, the lib defaults to 'cloudFiles'
 		// if omitted
 		'serviceName' => 'swift',
+		// The Interface / url Type, optional
+		'urlType' => 'internal'
 	),
 ),
 
