@@ -6,6 +6,7 @@ OC.L10N.register(
     "Turned on maintenance mode" : "Ativado o modo de manutenção",
     "Turned off maintenance mode" : "Desativado o modo de manutenção",
     "Maintenance mode is kept active" : "O modo de manutenção é mantido ativo",
+    "Updating database schema" : "A actualizar o esquema da base de dados",
     "Updated database" : "Base de dados atualizada",
     "Checked database schema update" : "Atualização do esquema da base de dados verificada.",
     "Checking updates of apps" : "A procurar por atualizações das apps",

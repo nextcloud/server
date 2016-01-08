@@ -30,7 +30,6 @@ OC.L10N.register(
     "Check for changes" : "Değişiklikleri denetle",
     "Never" : "Daha yeni",
     "Once every direct access" : "Her doğrudan erişimde bir kez",
-    "Every time the filesystem is used" : "Dosya sistemi her kullanıldığında",
     "All users. Type to select user or group." : "Tüm kullanıcılar. Kullanıcı veya grup seçmek için yazın.",
     "(group)" : "(grup)",
     "Saved" : "Kaydedildi",

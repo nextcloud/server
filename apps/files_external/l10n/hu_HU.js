@@ -14,7 +14,6 @@ OC.L10N.register(
     "Check for changes" : "Változások keresése",
     "Never" : "Soha",
     "Once every direct access" : "Minden közvetlen elérésnél",
-    "Every time the filesystem is used" : "Mindig, amikor a fájlrendszer használatban van",
     "All users. Type to select user or group." : "Összes felhasználó. Írj be egy felhasználót vagy csoportot.",
     "(group)" : "(csoport)",
     "Admin defined" : "Adminisztrátor definiálva",

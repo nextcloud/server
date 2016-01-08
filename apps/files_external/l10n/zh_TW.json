@@ -27,7 +27,6 @@
     "Enable previews" : "啟動預覽",
     "Check for changes" : "檢查變動",
     "Never" : "絕不",
-    "Every time the filesystem is used" : "每當檔案系統使用時",
     "All users. Type to select user or group." : "所有人都可以使用，或者選擇特定使用者、群組",
     "(group)" : "(群組)",
     "Saved" : "已儲存",

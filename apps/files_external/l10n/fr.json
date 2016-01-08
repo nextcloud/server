@@ -29,7 +29,6 @@
     "Check for changes" : "Rechercher les modifications",
     "Never" : "Jamais",
     "Once every direct access" : "Une fois à chaque accès direct",
-    "Every time the filesystem is used" : "Chaque fois que le système de fichiers est utilisé",
     "All users. Type to select user or group." : "Tous les utilisateurs. Cliquez ici pour restreindre.",
     "(group)" : "(groupe)",
     "Admin defined" : "Défini par l'administrateur",

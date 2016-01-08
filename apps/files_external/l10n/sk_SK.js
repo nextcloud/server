@@ -29,7 +29,6 @@ OC.L10N.register(
     "Check for changes" : "Zisťovať zmeny",
     "Never" : "Nikdy",
     "Once every direct access" : "S každým priamym prístupom",
-    "Every time the filesystem is used" : "Vždy keď je použitý súborový systém",
     "All users. Type to select user or group." : "Všetci používatelia. Začnite písať pre výber používateľa alebo skupinu.",
     "(group)" : "(skupina)",
     "Saved" : "Uložené",

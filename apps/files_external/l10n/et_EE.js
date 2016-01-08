@@ -22,7 +22,6 @@ OC.L10N.register(
     "Check for changes" : "Otsi uuendusi",
     "Never" : "Mitte kunagi",
     "Once every direct access" : "Kord iga otsese pöördumise korral",
-    "Every time the filesystem is used" : "Iga kord, kui failisüsteemi kasutatakse",
     "All users. Type to select user or group." : "Kõik kasutajad. Kirjuta, et valida kasutaja või grupp.",
     "(group)" : "(grupp)",
     "Admin defined" : "Admini poolt määratud",

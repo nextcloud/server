@@ -31,7 +31,6 @@ OC.L10N.register(
     "Check for changes" : "Έλεγχος για αλλαγές",
     "Never" : "Ποτέ",
     "Once every direct access" : "Σε κάθε απευθείας πρόσβαση",
-    "Every time the filesystem is used" : "Κάθε φορά που χρησιμοποιείται το σύστημα αρχείων",
     "All users. Type to select user or group." : "Όλοι οι χρήστες. Πληκτρολογήστε για να επιλέξετε χρήστη ή ομάδα.",
     "(group)" : "(ομάδα)",
     "Saved" : "Αποθηκεύτηκαν",

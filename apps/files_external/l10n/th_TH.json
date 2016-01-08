@@ -29,7 +29,6 @@
     "Check for changes" : "ตรวจสอบการเปลี่ยนแปลง",
     "Never" : "ไม่เคย",
     "Once every direct access" : "เมื่อทุกคนเข้าถึงโดยตรง",
-    "Every time the filesystem is used" : "ทุกครั้งที่แฟ้มระบบถูกใช้งาน",
     "All users. Type to select user or group." : "ผู้ใช้ทุกคน พิมพ์เพื่อเลือกผู้ใช้หรือกลุ่ม",
     "(group)" : "(กลุ่ม)",
     "Admin defined" : "ถูกกำหนดโดยผู้ดูแลระบบ",

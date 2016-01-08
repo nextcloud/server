@@ -16,7 +16,6 @@
     "Check for changes" : "Sprawdź zmiany",
     "Never" : "Nigdy",
     "Once every direct access" : "Jeden raz przy każdym dostępie",
-    "Every time the filesystem is used" : "Każdorazowo, kiedy system plików jest w użyciu",
     "All users. Type to select user or group." : "Wszyscy użytkownicy. Zacznij pisać, aby wybrać użytkownika lub grupę.",
     "(group)" : "(grupa)",
     "Saved" : "Zapisano",

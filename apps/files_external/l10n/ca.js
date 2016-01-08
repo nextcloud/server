@@ -18,7 +18,6 @@ OC.L10N.register(
     "Check for changes" : "Comproveu si hi ha canvis",
     "Never" : "Mai",
     "Once every direct access" : "Un cop cada accés directe",
-    "Every time the filesystem is used" : "Cada vegada que s'utilitza el sistema d'arxius",
     "All users. Type to select user or group." : "Tots els usuaris. Escriu per seleccionar un usuari o grup.",
     "(group)" : "(grup)",
     "Saved" : "Desat",

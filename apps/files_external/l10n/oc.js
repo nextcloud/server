@@ -30,7 +30,6 @@ OC.L10N.register(
     "Check for changes" : "Recercar las modificacions",
     "Never" : "Pas jamai",
     "Once every direct access" : "Un còp a cada accès dirècte",
-    "Every time the filesystem is used" : "A cada còp que lo sistèma de fichièrs es utilizat",
     "All users. Type to select user or group." : "Totes los utilizaires. Clicatz aicí per restrénher.",
     "(group)" : "(grop)",
     "Saved" : "Enregistrat",

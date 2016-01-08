@@ -18,7 +18,6 @@ OC.L10N.register(
     "Check for changes" : "Провери измене",
     "Never" : "никад",
     "Once every direct access" : "једном при сваком директном приступу",
-    "Every time the filesystem is used" : "сваки пут кад се фајл-систем користи",
     "All users. Type to select user or group." : "Сви корисници. Куцајте за избор корисника или групе.",
     "(group)" : "(група)",
     "Saved" : "Сачувано",

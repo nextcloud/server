@@ -31,7 +31,6 @@ OC.L10N.register(
     "Check for changes" : "Comprobar si hay cambios",
     "Never" : "Nunca",
     "Once every direct access" : "Una vez cada acceso directo",
-    "Every time the filesystem is used" : "Cada vez que filesystem es utilizado",
     "All users. Type to select user or group." : "Todos los usuarios. Teclee para seleccionar un usuario o grupo.",
     "(group)" : "(grupo)",
     "Admin defined" : "Admin definido",

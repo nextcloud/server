@@ -16,7 +16,6 @@
     "Check for changes" : "Preveri za spremembe",
     "Never" : "Nikoli",
     "Once every direct access" : "Enkrat ob neposrednem dostopu",
-    "Every time the filesystem is used" : "Kadarkoli je datotečni sistem v uporabi",
     "All users. Type to select user or group." : "Vsi uporabniki. Skupino ali uporabnika je mogoče tudi izbrati.",
     "(group)" : "(skupina)",
     "Saved" : "Shranjeno",

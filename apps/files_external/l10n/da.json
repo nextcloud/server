@@ -27,7 +27,6 @@
     "Check for changes" : "Tjek for ændringer",
     "Never" : "Aldrig",
     "Once every direct access" : "Kun ved hver direkte tilgang",
-    "Every time the filesystem is used" : "Hver gang filsystemet benyttes",
     "All users. Type to select user or group." : "Alle brugere. Indtast for at vælge bruger eller gruppe.",
     "(group)" : "(gruppe)",
     "Saved" : "Gemt",

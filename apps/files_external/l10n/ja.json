@@ -29,7 +29,6 @@
     "Check for changes" : "変更点を確認",
     "Never" : "更新無",
     "Once every direct access" : "直指定時のみ",
-    "Every time the filesystem is used" : "ファイルシステム利用時には毎回",
     "All users. Type to select user or group." : "すべてのユーザー。ユーザー、グループを追加",
     "(group)" : "(グループ)",
     "Admin defined" : "管理者設定済",

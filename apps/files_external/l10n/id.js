@@ -29,7 +29,6 @@ OC.L10N.register(
     "Check for changes" : "Periksa perubahan",
     "Never" : "Jangan pernah",
     "Once every direct access" : "Setiap kali akses langsung",
-    "Every time the filesystem is used" : "Setiap kali sistem berkas digunakan",
     "All users. Type to select user or group." : "Semua pengguna. Ketik untuk memilih pengguna atau grup.",
     "(group)" : "(grup)",
     "Saved" : "Disimpan",

@@ -31,7 +31,6 @@ OC.L10N.register(
     "Check for changes" : "Kontrollo për ndryshime",
     "Never" : "Kurrë",
     "Once every direct access" : "Çdo herë pas hyrjesh të drejtpërdrejta",
-    "Every time the filesystem is used" : "Sa herë që përdoret sistemi i kartelave",
     "All users. Type to select user or group." : "Krejt përdoruesit. Shtypni që të përzgjidhet përdorues ose grup.",
     "(group)" : "(grup)",
     "Admin defined" : "Përcaktuar nga përgjegjësi",

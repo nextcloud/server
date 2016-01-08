@@ -31,7 +31,6 @@ OC.L10N.register(
     "Check for changes" : "Controleren op wijzigingen",
     "Never" : "Nooit",
     "Once every direct access" : "Een keer bij elke directe toegang",
-    "Every time the filesystem is used" : "Elke keer bij gebruik bestandssysteem",
     "All users. Type to select user or group." : "Alle gebruikers. Tikken om een gebruiker of groep te selecteren.",
     "(group)" : "(groep)",
     "Admin defined" : "Beheerder gedefinieerd",

@@ -31,7 +31,6 @@ OC.L10N.register(
     "Check for changes" : "Se etter endringer",
     "Never" : "Aldri",
     "Once every direct access" : "En gang pr. direkte aksess",
-    "Every time the filesystem is used" : "Hver gang filsystemet brukes",
     "All users. Type to select user or group." : "Alle brukere. Tast for å velge bruker eller gruppe.",
     "(group)" : "(gruppe)",
     "Admin defined" : "Admin-definert",

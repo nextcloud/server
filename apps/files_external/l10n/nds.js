@@ -29,7 +29,6 @@ OC.L10N.register(
     "Check for changes" : "Auf Änderungen prüfen",
     "Never" : "Nie",
     "Once every direct access" : "Einmal bei jedem direkten Zugriff",
-    "Every time the filesystem is used" : "Bei jeder Verwendung des Dateisystems",
     "All users. Type to select user or group." : "Alle Benutzer. Tippe, um eine Benutzergruppe auszuwählen.",
     "(group)" : "(Gruppe)",
     "Saved" : "Gespeichert",

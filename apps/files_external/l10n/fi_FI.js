@@ -20,7 +20,6 @@ OC.L10N.register(
     "Check for changes" : "Tarkista muutokset",
     "Never" : "Ei koskaan",
     "Once every direct access" : "Kerran aina suoran käytön yhteydessä",
-    "Every time the filesystem is used" : "Aina kun tiedostojärjestelmää käytetään",
     "All users. Type to select user or group." : "Kaikki käyttäjät. Kirjoita valitaksesi käyttäjän tai ryhmän.",
     "(group)" : "(ryhmä)",
     "Admin defined" : "Ylläpitäjän määrittämä",
