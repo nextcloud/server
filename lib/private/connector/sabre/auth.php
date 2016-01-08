@@ -142,7 +142,10 @@ class Auth extends AbstractBasic {
 	 */
 	private function auth(\Sabre\DAV\Server $server, $realm) {
 		if (\OC_User::handleApacheAuth() ||
-			(\OC_User::isLoggedIn() && is_null(\OC::$server->getSession()->get(self::DAV_AUTHENTICATED)))
+			//Fix for broken webdav clients
+			(\OC_User::isLoggedIn() && is_null(\OC::$server->getSession()->get(self::DAV_AUTHENTICATED))) ||
+			//Well behaved clients that only send the cookie are allowed
+			(\OC_User::isLoggedIn() && \OC::$server->getSession()->get(self::DAV_AUTHENTICATED) === \OC_User::getUser())
 		) {
 			$user = \OC_User::getUser();
 			\OC_Util::setupFS($user);
