@@ -33,6 +33,7 @@ namespace OC\Route;
 use OCP\ILogger;
 use OCP\Route\IRouter;
 use OCP\AppFramework\App;
+use OCP\Util;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\Generator\UrlGenerator;
@@ -41,49 +42,26 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Router implements IRouter {
-	/**
-	 * @var \Symfony\Component\Routing\RouteCollection[]
-	 */
-	protected $collections = array();
-
-	/**
-	 * @var \Symfony\Component\Routing\RouteCollection
-	 */
+	/** @var RouteCollection[] */
+	protected $collections = [];
+	/** @var null|RouteCollection */
 	protected $collection = null;
-
-	/**
-	 * @var string
-	 */
+	/** @var null|string */
 	protected $collectionName = null;
-
-	/**
-	 * @var \Symfony\Component\Routing\RouteCollection
-	 */
+	/** @var null|RouteCollection */
 	protected $root = null;
-
-	/**
-	 * @var \Symfony\Component\Routing\Generator\UrlGenerator
-	 */
+	/** @var null|UrlGenerator */
 	protected $generator = null;
-
-	/**
-	 * @var string[]
-	 */
+	/** @var string[] */
 	protected $routingFiles;
-
-	/**
-	 * @var string
-	 */
-	protected $cacheKey;
-
+	/** @var bool */
 	protected $loaded = false;
-
-	protected $loadedApps = array();
-
-	/**
-	 * @var ILogger
-	 */
+	/** @var array */
+	protected $loadedApps = [];
+	/** @var ILogger */
 	protected $logger;
+	/** @var RequestContext */
+	protected $context;
 
 	/**
 	 * @param ILogger $logger
@@ -114,7 +92,7 @@ class Router implements IRouter {
 	 */
 	public function getRoutingFiles() {
 		if (!isset($this->routingFiles)) {
-			$this->routingFiles = array();
+			$this->routingFiles = [];
 			foreach (\OC_APP::getEnabledApps() as $app) {
 				$file = \OC_App::getAppPath($app) . '/appinfo/routes.php';
 				if (file_exists($file)) {
@@ -126,23 +104,9 @@ class Router implements IRouter {
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getCacheKey() {
-		if (!isset($this->cacheKey)) {
-			$files = $this->getRoutingFiles();
-			$files[] = 'settings/routes.php';
-			$files[] = 'core/routes.php';
-			$files[] = 'ocs/routes.php';
-			$this->cacheKey = \OC\Cache::generateCacheKeyFromFiles($files);
-		}
-		return $this->cacheKey;
-	}
-
-	/**
-	 * loads the api routes
+	 * Loads the routes
 	 *
-	 * @return void
+	 * @param null|string $app
 	 */
 	public function loadRoutes($app = null) {
 		$requestedApp = $app;
@@ -157,10 +121,10 @@ class Router implements IRouter {
 				return;
 			}
 			$file = \OC_App::getAppPath($app) . '/appinfo/routes.php';
-			if (file_exists($file)) {
-				$routingFiles = array($app => $file);
+			if ($file !== false && file_exists($file)) {
+				$routingFiles = [$app => $file];
 			} else {
-				$routingFiles = array();
+				$routingFiles = [];
 			}
 		}
 		\OC::$server->getEventLogger()->start('loadroutes' . $requestedApp, 'Loading Routes');
@@ -183,17 +147,25 @@ class Router implements IRouter {
 		if (!isset($this->loadedApps['core'])) {
 			$this->loadedApps['core'] = true;
 			$this->useCollection('root');
-			require_once 'settings/routes.php';
-			require_once 'core/routes.php';
+			require_once __DIR__ . '/../../../settings/routes.php';
+			require_once __DIR__ . '/../../../core/routes.php';
 		}
 		if ($this->loaded) {
 			// include ocs routes, must be loaded last for /ocs prefix
-			require_once 'ocs/routes.php';
+			require_once __DIR__ . '/../../../ocs/routes.php';
 			$collection = $this->getCollection('ocs');
 			$collection->addPrefix('/ocs');
 			$this->root->addCollection($collection);
 		}
 		\OC::$server->getEventLogger()->end('loadroutes' . $requestedApp);
+	}
+
+	/**
+	 * @return string
+	 * @deprecated
+	 */
+	public function getCacheKey() {
+		return '';
 	}
 
 	/**
@@ -237,7 +209,10 @@ class Router implements IRouter {
 	 * @param array $requirements An array of requirements for parameters (regexes)
 	 * @return \OC\Route\Route
 	 */
-	public function create($name, $pattern, array $defaults = array(), array $requirements = array()) {
+	public function create($name,
+						   $pattern,
+						   array $defaults = [],
+						   array $requirements = []) {
 		$route = new Route($pattern, $defaults, $requirements);
 		$this->collection->add($name, $route);
 		return $route;
@@ -260,7 +235,7 @@ class Router implements IRouter {
 			$this->loadRoutes($app);
 		} else if (substr($url, 0, 6) === '/core/' or substr($url, 0, 10) === '/settings/') {
 			\OC::$REQUESTEDAPP = $url;
-			if (!\OC::$server->getConfig()->getSystemValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
+			if (!\OC::$server->getConfig()->getSystemValue('maintenance', false) && !Util::needUpgrade()) {
 				\OC_App::loadApps();
 			}
 			$this->loadRoutes('core');
@@ -325,7 +300,9 @@ class Router implements IRouter {
 	 * @param bool $absolute
 	 * @return string
 	 */
-	public function generate($name, $parameters = array(), $absolute = false) {
+	public function generate($name,
+							 $parameters = [],
+							 $absolute = false) {
 		$this->loadRoutes();
 		try {
 			$referenceType = UrlGenerator::ABSOLUTE_URL;
@@ -376,6 +353,4 @@ class Router implements IRouter {
 			$application->registerRoutes($this, $routes);
 		}
 	}
-
-
 }
