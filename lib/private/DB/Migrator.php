@@ -28,6 +28,7 @@
 namespace OC\DB;
 
 use \Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use \Doctrine\DBAL\Schema\Index;
 use \Doctrine\DBAL\Schema\Table;
 use \Doctrine\DBAL\Schema\Schema;
@@ -180,7 +181,11 @@ class Migrator {
 		$indexes = $table->getIndexes();
 		$newIndexes = array();
 		foreach ($indexes as $index) {
-			$newIndexes[] = new Index($index->getName(), $index->getColumns(), $index->isUnique(), $index->isPrimary());
+			$indexName = $index->getName();
+			if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform && strpos($indexName, $table->getName()) === 0) {
+				$indexName = $newName . substr($indexName, strlen($table->getName()));
+			}
+			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary());
 		}
 
 		// foreign keys are not supported so we just set it to an empty array
