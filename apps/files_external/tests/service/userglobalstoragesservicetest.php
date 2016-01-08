@@ -21,6 +21,7 @@
  */
 namespace OCA\Files_External\Tests\Service;
 
+use OCA\Files_external\NotFoundException;
 use OCA\Files_external\Service\StoragesService;
 use \OCA\Files_External\Service\UserGlobalStoragesService;
 use \OCP\IGroupManager;
@@ -140,6 +141,13 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 			$this->assertEquals('/mountpoint', $retrievedStorage->getMountPoint());
 		} else {
 			$this->assertEquals(0, count($storages));
+
+			try {
+				$this->service->getStorage($newStorage->getId());
+				$this->fail('Failed asserting that storage can\'t be accessed by id');
+			} catch (NotFoundException $e) {
+
+			}
 		}
 
 	}

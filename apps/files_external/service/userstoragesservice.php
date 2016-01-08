@@ -130,4 +130,8 @@ class UserStoragesService extends StoragesService {
 	public function getVisibilityType() {
 		return BackendService::VISIBILITY_PERSONAL;
 	}
+
+	protected function isApplicable(StorageConfig $config) {
+		return ($config->getApplicableUsers() === [$this->getUser()->getUID()]) && $config->getType() === StorageConfig::MOUNT_TYPE_PERSONAl;
+	}
 }
