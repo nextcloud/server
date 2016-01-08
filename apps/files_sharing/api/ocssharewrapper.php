@@ -26,22 +26,34 @@ class OCSShareWrapper {
 	 * @return Share20OCS
 	 */
 	private function getShare20OCS() {
-		return new Share20OCS(
-			new \OC\Share20\Manager(
-				\OC::$server->getLogger(),
-				\OC::$server->getConfig(),
-				new \OC\Share20\DefaultShareProvider(
+		$manager =new \OC\Share20\Manager(
+			\OC::$server->getLogger(),
+			\OC::$server->getConfig(),
+			\OC::$server->getSecureRandom(),
+			\OC::$server->getHasher(),
+			\OC::$server->getMountManager(),
+			\OC::$server->getGroupManager(),
+			\OC::$server->getL10N('core')
+		);
+
+		$manager->registerProvider('ocdefault',
+			[
+				\OCP\Share::SHARE_TYPE_USER,
+				\OCP\SHARE::SHARE_TYPE_GROUP,
+				\OCP\SHARE::SHARE_TYPE_LINK
+			],
+			function() {
+				return new \OC\Share20\DefaultShareProvider(
 					\OC::$server->getDatabaseConnection(),
 					\OC::$server->getUserManager(),
 					\OC::$server->getGroupManager(),
 					\OC::$server->getRootFolder()
-				),
-				\OC::$server->getSecureRandom(),
-				\OC::$server->getHasher(),
-				\OC::$server->getMountManager(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getL10N('core')
-			),
+				);
+			}
+			);
+
+		return new Share20OCS(
+			$manager,
 			\OC::$server->getGroupManager(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getRequest(),
