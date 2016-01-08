@@ -24,7 +24,12 @@
  *
  */
 
-class OC_DB_MDB2SchemaWriter {
+namespace OC\DB;
+
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
+
+class MDB2SchemaWriter {
 
 	/**
 	 * @param string $file
@@ -34,7 +39,7 @@ class OC_DB_MDB2SchemaWriter {
 	static public function saveSchemaToFile($file, \OC\DB\Connection $conn) {
 		$config = \OC::$server->getConfig();
 
-		$xml = new SimpleXMLElement('<database/>');
+		$xml = new \SimpleXMLElement('<database/>');
 		$xml->addChild('name', $config->getSystemValue('dbname', 'owncloud'));
 		$xml->addChild('create', 'true');
 		$xml->addChild('overwrite', 'false');
@@ -56,7 +61,8 @@ class OC_DB_MDB2SchemaWriter {
 	}
 
 	/**
-	 * @param SimpleXMLElement $xml
+	 * @param \Doctrine\DBAL\Schema\Table $table
+	 * @param \SimpleXMLElement $xml
 	 */
 	private static function saveTable($table, $xml) {
 		$xml->addChild('name', $table->getName());
@@ -81,7 +87,8 @@ class OC_DB_MDB2SchemaWriter {
 	}
 
 	/**
-	 * @param SimpleXMLElement $xml
+	 * @param Column $column
+	 * @param \SimpleXMLElement $xml
 	 */
 	private static function saveColumn($column, $xml) {
 		$xml->addChild('name', $column->getName());
@@ -147,7 +154,8 @@ class OC_DB_MDB2SchemaWriter {
 	}
 
 	/**
-	 * @param SimpleXMLElement $xml
+	 * @param Index $index
+	 * @param \SimpleXMLElement $xml
 	 */
 	private static function saveIndex($index, $xml) {
 		$xml->addChild('name', $index->getName());

@@ -55,7 +55,7 @@ class MDB2SchemaManager {
 	 * TODO: write more documentation
 	 */
 	public function getDbStructure($file) {
-		return \OC_DB_MDB2SchemaWriter::saveSchemaToFile($file, $this->conn);
+		return \OC\DB\MDB2SchemaWriter::saveSchemaToFile($file, $this->conn);
 	}
 
 	/**
