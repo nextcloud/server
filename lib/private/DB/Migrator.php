@@ -261,7 +261,11 @@ class Migrator {
 		$quotedSource = $this->connection->quoteIdentifier($sourceName);
 		$quotedTarget = $this->connection->quoteIdentifier($targetName);
 
-		$this->connection->exec('CREATE TABLE ' . $quotedTarget . ' (LIKE ' . $quotedSource . ')');
+		if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+			$this->connection->exec('CREATE TABLE ' . $quotedTarget . ' (LIKE ' . $quotedSource . ' INCLUDING DEFAULTS INCLUDING CONSTRAINTS INCLUDING INDEXES)');
+		} else {
+			$this->connection->exec('CREATE TABLE ' . $quotedTarget . ' (LIKE ' . $quotedSource . ')');
+		}
 		$this->connection->exec('INSERT INTO ' . $quotedTarget . ' SELECT * FROM ' . $quotedSource);
 	}
 
