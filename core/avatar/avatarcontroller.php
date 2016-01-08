@@ -160,6 +160,9 @@ class AvatarController extends Controller {
 		if (isset($path)) {
 			$path = stripslashes($path);
 			$node = $this->userFolder->get($path);
+			if (!($node instanceof \OCP\Files\File)) {
+				return new DataResponse(['data' => ['message' => $this->l->t('Please select a file.')]], Http::STATUS_OK, $headers);
+			}
 			if ($node->getSize() > 20*1024*1024) {
 				return new DataResponse(
 					['data' => ['message' => $this->l->t('File is too big')]],

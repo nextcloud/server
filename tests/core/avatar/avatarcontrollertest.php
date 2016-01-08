@@ -324,6 +324,23 @@ class AvatarControllerTest extends \Test\TestCase {
 	}
 
 	/**
+	 * Test posting avatar from existing folder
+	 */
+	public function testPostAvatarFromNoFile() {
+		$file = $this->getMock('OCP\Files\Node');
+		$this->container['UserFolder']
+			->method('get')
+			->with('folder')
+			->willReturn($file);
+
+		//Create request return
+		$response = $this->avatarController->postAvatar('folder');
+
+		//On correct upload always respond with the notsquare message
+		$this->assertEquals(['data' => ['message' => 'Please select a file.']], $response->getData());
+	}
+
+	/**
 	 * Test what happens if the upload of the avatar fails
 	 */
 	public function testPostAvatarException() {
