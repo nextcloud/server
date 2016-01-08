@@ -13,13 +13,6 @@
     Header set X-Robots-Tag "none"
     Header set X-Frame-Options "SAMEORIGIN"
     SetEnv modHeadersAvailable true
-
-    <IfModule mod_version.c>
-        <IfVersion >= 2.4.7>
-            # Add CSP header if not set, used for static resources
-            Header always setifempty Content-Security-Policy "default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'"
-        </IfVersion>
-    </IfModule>
   </IfModule>
 
   # Add cache control for CSS and JS files
