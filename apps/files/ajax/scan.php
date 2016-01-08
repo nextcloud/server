@@ -50,10 +50,14 @@ foreach ($users as $user) {
 	$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function () use ($listener) {
 		$listener->file();
 	});
-	if ($force) {
-		$scanner->scan($dir);
-	} else {
-		$scanner->backgroundScan($dir);
+	try {
+		if ($force) {
+			$scanner->scan($dir);
+		} else {
+			$scanner->backgroundScan($dir);
+		}
+	} catch (\Exception $e) {
+		$eventSource->send('error', get_class($e) . ': ' . $e->getMessage());
 	}
 }
 
