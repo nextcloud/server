@@ -214,6 +214,34 @@ class DBConfigService {
 
 	/**
 	 * @param int $mountId
+	 * @param string $newMountPoint
+	 */
+	public function setMountPoint($mountId, $newMountPoint) {
+		$builder = $this->connection->getQueryBuilder();
+
+		$query = $builder->update('external_mounts')
+			->set('mount_point', $builder->createNamedParameter($newMountPoint))
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)));
+
+		$query->execute();
+	}
+
+	/**
+	 * @param int $mountId
+	 * @param string $newAuthBackend
+	 */
+	public function setAuthBackend($mountId, $newAuthBackend) {
+		$builder = $this->connection->getQueryBuilder();
+
+		$query = $builder->update('external_mounts')
+			->set('auth_backend', $builder->createNamedParameter($newAuthBackend))
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)));
+
+		$query->execute();
+	}
+
+	/**
+	 * @param int $mountId
 	 * @param string $key
 	 * @param string $value
 	 */

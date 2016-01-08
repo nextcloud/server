@@ -104,9 +104,22 @@ class UserStoragesService extends StoragesService {
 	 * @return StorageConfig storage config, with added id
 	 */
 	public function addStorage(StorageConfig $newStorage) {
+		$newStorage->setApplicableUsers([$this->getUser()->getUID()]);
 		$config = parent::addStorage($newStorage);
-		$this->dbConfig->addApplicable($config->getId(), DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
 		return $config;
+	}
+
+	/**
+	 * Update storage to the configuration
+	 *
+	 * @param StorageConfig $updatedStorage storage attributes
+	 *
+	 * @return StorageConfig storage config
+	 * @throws NotFoundException if the given storage does not exist in the config
+	 */
+	public function updateStorage(StorageConfig $updatedStorage) {
+		$updatedStorage->setApplicableUsers([$this->getUser()->getUID()]);
+		return parent::updateStorage($updatedStorage);
 	}
 
 	/**
