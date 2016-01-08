@@ -17,7 +17,7 @@ input#openid, input#webdav { width:20em; }
 	margin-bottom: 10px;
 }
 #avatar .warning {
-	width: 350px;
+	width: 100%;
 }
 #uploadavatarbutton,
 #selectavatar,
