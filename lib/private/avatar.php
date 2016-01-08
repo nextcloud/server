@@ -124,12 +124,14 @@ class Avatar implements \OCP\IAvatar {
 	 * @return void
 	*/
 	public function remove () {
-		try {
-			$this->folder->get('avatar.jpg')->delete();
-		} catch (\OCP\Files\NotFoundException $e) {}
-		try {
-			$this->folder->get('avatar.png')->delete();
-		} catch (\OCP\Files\NotFoundException $e) {}
+		$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
+		$avatars = $this->folder->search('avatar');
+
+		foreach ($avatars as $avatar) {
+			if (preg_match($regex, $avatar->getName())) {
+				$avatar->delete();
+			}
+		}
 	}
 
 	/**
