@@ -136,9 +136,9 @@ class App {
 	 * @param string $app
 	 * @return void
 	 * @since 4.0.0
+	 * @deprecated 9.0.0 ownCloud core will handle disabled apps and redirects to valid URLs
 	*/
 	public static function checkAppEnabled( $app ) {
-		\OC_Util::checkAppEnabled( $app );
 	}
 
 	/**
