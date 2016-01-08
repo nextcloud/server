@@ -68,10 +68,6 @@ class Recovery {
 	 * @var IFile
 	 */
 	private $file;
-	/**
-	 * @var string
-	 */
-	private $recoveryKeyId;
 
 	/**
 	 * @param IUserSession $user
@@ -102,7 +98,6 @@ class Recovery {
 	}
 
 	/**
-	 * @param $recoveryKeyId
 	 * @param string $password
 	 * @return bool
 	 */
@@ -112,6 +107,9 @@ class Recovery {
 
 		if (!$keyManager->recoveryKeyExists()) {
 			$keyPair = $this->crypt->createKeyPair();
+			if(!is_array($keyPair)) {
+				return false;
+			}
 
 			$this->keyManager->setRecoveryKey($password, $keyPair);
 		}
@@ -134,6 +132,9 @@ class Recovery {
 	public function changeRecoveryKeyPassword($newPassword, $oldPassword) {
 		$recoveryKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
 		$decryptedRecoveryKey = $this->crypt->decryptPrivateKey($recoveryKey, $oldPassword);
+		if($decryptedRecoveryKey === false) {
+			return false;
+		}
 		$encryptedRecoveryKey = $this->crypt->encryptPrivateKey($decryptedRecoveryKey, $newPassword);
 		$header = $this->crypt->generateHeader();
 		if ($encryptedRecoveryKey) {
@@ -264,8 +265,9 @@ class Recovery {
 		$encryptedKey = $this->keyManager->getSystemPrivateKey($this->keyManager->getRecoveryKeyId());
 
 		$privateKey = $this->crypt->decryptPrivateKey($encryptedKey, $recoveryPassword);
-
-		$this->recoverAllFiles('/' . $user . '/files/', $privateKey, $user);
+		if($privateKey !== false) {
+			$this->recoverAllFiles('/' . $user . '/files/', $privateKey, $user);
+		}
 	}
 
 	/**
