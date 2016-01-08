@@ -506,9 +506,10 @@ class OC_Installer{
 							if(!OC_Installer::isInstalled($filename)) {
 								$info=OC_App::getAppInfo($filename);
 								$enabled = isset($info['default_enable']);
-								if( $enabled ) {
+								if (($enabled || in_array($filename, \OC::$server->getAppManager()->getAlwaysEnabledApps()))
+									  && \OC::$server->getConfig()->getAppValue($filename, 'enabled') !== 'no') {
 									OC_Installer::installShippedApp($filename);
-									\OC::$server->getAppConfig()->setValue($filename, 'enabled', 'yes');
+									\OC::$server->getConfig()->setAppValue($filename, 'enabled', 'yes');
 								}
 							}
 						}
