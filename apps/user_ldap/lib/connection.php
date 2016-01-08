@@ -570,14 +570,11 @@ class Connection extends LDAPUtility {
 	 * @param string $host
 	 * @param string $port
 	 * @return false|void
+	 * @throws \OC\ServerNotAvailableException
 	 */
 	private function doConnect($host, $port) {
 		if(empty($host)) {
 			return false;
-		}
-		if(strpos($host, '://') !== false) {
-			//ldap_connect ignores port parameter when URLs are passed
-			$host .= ':' . $port;
 		}
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
 		if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
@@ -586,6 +583,8 @@ class Connection extends LDAPUtility {
 					$this->ldap->startTls($this->ldapConnectionRes);
 				}
 			}
+		} else {
+			throw new \OC\ServerNotAvailableException('Could not set required LDAP Protocol version.');
 		}
 	}
 
