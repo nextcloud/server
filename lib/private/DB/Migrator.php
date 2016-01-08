@@ -215,12 +215,14 @@ class Migrator {
 		// Set the autoincrement for integer columns of the primary key
 		// This is required, because we manually set the primary key for
 		// autoincrement columns in \OC\DB\OCSqlitePlatform()
-		foreach ($targetSchema->getTables() as $table) {
-			if ($table->hasPrimaryKey()) {
-				foreach ($table->getPrimaryKeyColumns() as $column) {
-					$column = $table->getColumn($column);
-					if ($column->getType() instanceof \Doctrine\DBAL\Types\IntegerType) {
-						$column->setAutoincrement(true);
+		if ($this->connection->getDatabasePlatform() instanceof \OC\DB\OCSqlitePlatform) {
+			foreach ($targetSchema->getTables() as $table) {
+				if ($table->hasPrimaryKey()) {
+					foreach ($table->getPrimaryKeyColumns() as $column) {
+						$column = $table->getColumn($column);
+						if ($column->getType() instanceof \Doctrine\DBAL\Types\IntegerType) {
+							$column->setAutoincrement(true);
+						}
 					}
 				}
 			}
