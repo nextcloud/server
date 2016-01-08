@@ -1193,7 +1193,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$searchWords = explode(' ', trim($search));
 		$wordFilters = array();
 		foreach($searchWords as $word) {
-			$word .= '*';
+			$word = $this->prepareSearchTerm($word);
 			//every word needs to appear at least once
 			$wordMatchOneAttrFilters = array();
 			foreach($searchAttributes as $attr) {
@@ -1226,7 +1226,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 				);
 			}
 		}
-		$search = empty($search) ? '*' : $search.'*';
+
+		$search = $this->prepareSearchTerm($search);
 		if(!is_array($searchAttributes) || count($searchAttributes) === 0) {
 			if(empty($fallbackAttribute)) {
 				return '';
@@ -1241,6 +1242,22 @@ class Access extends LDAPUtility implements user\IUserTools {
 			return '('.$filter[0].')';
 		}
 		return $this->combineFilterWithOr($filter);
+	}
+
+	/**
+	 * returns the search term depending on whether we are allowed
+	 * list users found by ldap with the current input appended by
+	 * a *
+	 * @return string
+	 */
+	private function prepareSearchTerm($term) {
+		$config = \OC::$server->getConfig();
+
+		$allowEnum = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');
+
+		$result = empty($term) ? '*' :
+			$allowEnum !== 'no' ? $term . '*' : $term;
+		return $result;
 	}
 
 	/**
