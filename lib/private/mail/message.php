@@ -238,4 +238,14 @@ class Message {
 	public function getSwiftMessage() {
 		return $this->swiftMessage;
 	}
+
+	/**
+	 * @param string $body
+	 * @param string $contentType
+	 * @return $this
+	 */
+	public function setBody($body, $contentType) {
+		$this->swiftMessage->setBody($body, $contentType);
+		return $this;
+	}
 }
