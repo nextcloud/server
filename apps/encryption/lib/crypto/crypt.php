@@ -475,6 +475,7 @@ class Crypt {
 	 * @return string
 	 */
 	private function createSignature($data, $passPhrase) {
+		$passPhrase = hash('sha512', $passPhrase . 'a', true);
 		$signature = hash_hmac('sha256', $data, $passPhrase);
 		return $signature;
 	}
@@ -607,14 +608,14 @@ class Crypt {
 	}
 
 	/**
-	 * Generate a cryptographically secure pseudo-random base64 encoded 256-bit
-	 * ASCII key, used as file key
+	 * Generate a cryptographically secure pseudo-random 256-bit ASCII key, used
+	 * as file key
 	 *
 	 * @return string
 	 * @throws \Exception
 	 */
 	public function generateFileKey() {
-		return base64_encode(random_bytes(32));
+		return random_bytes(32);
 	}
 
 	/**
