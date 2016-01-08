@@ -48,6 +48,8 @@ use OCP\IUserSession;
  * - AES-256-CFB
  * - AES-128-CFB
  *
+ * For integrity protection Encrypt-Then-MAC using HMAC-SHA256 is used.
+ *
  * @package OCA\Encryption\Crypto
  */
 class Crypt {
