@@ -77,7 +77,7 @@ OCA.External.StatusManager = {
 		} else {
 			defObj = $.ajax({
 				type : 'GET',
-				url: OC.webroot + '/index.php/apps/files_external/' + ((mountData.type === 'personal') ? 'userstorages' : 'globalstorages') + '/' + mountData.id,
+				url: OC.webroot + '/index.php/apps/files_external/' + ((mountData.type === 'personal') ? 'userstorages' : 'userglobalstorages') + '/' + mountData.id,
 				success : function(response) {
 					if (response && response.status === 0) {
 						self.mountStatus[mountData.mount_point] = response;
