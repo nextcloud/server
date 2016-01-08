@@ -60,6 +60,33 @@ describe('OC.SetupChecks tests', function() {
 		});
 	});
 
+	describe('checkWellKnownUrl', function() {
+		it('should fail with another response status code than 207', function(done) {
+			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', 'http://example.org/PLACEHOLDER');
+
+			suite.server.requests[0].respond(200);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([{
+					msg: 'Your web server is not set up properly to resolve "/.well-known/caldav/". Further information can be found in our <a target="_blank" href="http://example.org/admin-setup-well-known-URL">documentation</a>.',
+					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+				}]);
+				done();
+			});
+		});
+
+		it('should return no error with a response status code of 207', function(done) {
+			var async = OC.SetupChecks.checkWebDAV('/.well-known/caldav/', 'http://example.org/PLACEHOLDER');
+
+			suite.server.requests[0].respond(207);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+	});
+
 	describe('checkSetup', function() {
 		it('should return an error if server has no internet connection', function(done) {
 			var async = OC.SetupChecks.checkSetup();

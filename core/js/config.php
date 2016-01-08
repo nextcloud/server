@@ -166,6 +166,7 @@ $array = array(
 			'baseUrl' => $defaults->getBaseUrl(),
 			'syncClientUrl' => $defaults->getSyncClientUrl(),
 			'docBaseUrl' => $defaults->getDocBaseUrl(),
+			'docPlaceholderUrl' => $defaults->buildDocLinkToKey('PLACEHOLDER'),
 			'slogan' => $defaults->getSlogan(),
 			'logoClaim' => $defaults->getLogoClaim(),
 			'shortFooter' => $defaults->getShortFooter(),
