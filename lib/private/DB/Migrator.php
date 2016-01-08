@@ -263,6 +263,36 @@ class Migrator {
 
 		if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
 			$this->connection->exec('CREATE TABLE ' . $quotedTarget . ' (LIKE ' . $quotedSource . ' INCLUDING DEFAULTS INCLUDING CONSTRAINTS INCLUDING INDEXES)');
+
+			// On copy the indexes are prepended a `_idx` suffix, this looks like a change,
+			// so we need to revert it here.
+			$result = $this->connection->executeQuery("SELECT ic.relname as index_name
+					FROM pg_class bc, pg_class ic, pg_index i
+					WHERE (bc.oid = i.indrelid)
+						AND (ic.oid = i.indexrelid)
+						AND (bc.relname = '" . $sourceName . "')
+						AND (i.indisprimary != 't')");
+			$originalIndexes = [];
+			while ($row = $result->fetch()) {
+				$originalIndexes[substr($row['index_name'], strlen($sourceName))] = true;
+			}
+			$result->closeCursor();
+
+			$result = $this->connection->executeQuery("SELECT ic.oid as index_id, ic.relname as index_name
+					FROM pg_class bc, pg_class ic, pg_index i
+					WHERE (bc.oid = i.indrelid)
+						AND (ic.oid = i.indexrelid)
+						AND (bc.relname = '" . $targetName . "')
+						AND (ic.relname LIKE '%_idx')
+						AND (i.indisprimary != 't')");
+			while ($row = $result->fetch()) {
+				$indexName = substr($row['index_name'], strlen($targetName));
+				if (!isset($originalIndexes[$indexName]) && isset($originalIndexes[substr($indexName, 0, -4)])) {
+					// index does not exist, but without trailing `_idx` it does, so the copy table messed up
+					$this->connection->exec('ALTER INDEX ' . $row['index_name'] . ' RENAME TO ' . substr($row['index_name'], 0, -4));
+				}
+			}
+			$result->closeCursor();
 		} else {
 			$this->connection->exec('CREATE TABLE ' . $quotedTarget . ' (LIKE ' . $quotedSource . ')');
 		}
