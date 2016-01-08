@@ -131,7 +131,7 @@ class Groups{
 		// Validate name
 		$groupId = $this->request->getParam('groupid', '');
 		if(empty($groupId)){
-			\OCP\Util::writeLog('provisioning_api', 'Attempt made to create group using invalid characters.', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('provisioning_api', 'Group name not supplied', \OCP\Util::ERROR);
 			return new OC_OCS_Result(null, 101, 'Invalid group name');
 		}
 		// Check if it exists
