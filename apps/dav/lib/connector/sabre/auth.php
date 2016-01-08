@@ -151,7 +151,10 @@ class Auth extends AbstractBasic {
 	 */
 	private function auth(RequestInterface $request, ResponseInterface $response) {
 		if (\OC_User::handleApacheAuth() ||
-			($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED)))
+			//Fix for broken webdav clients
+			($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED))) ||
+			//Well behaved clients that only send the cookie are allowed
+			($this->userSession->isLoggedIn() && $this->session->get(self::DAV_AUTHENTICATED) === $this->userSession->getUser()->getUID() && $request->getHeader('Authorization') === null)
 		) {
 			$user = $this->userSession->getUser()->getUID();
 			\OC_Util::setupFS($user);
