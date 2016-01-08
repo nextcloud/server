@@ -65,11 +65,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 */
 	function getPrincipalByPath($path) {
 
-		$elements = explode('/', $path);
-		if ($elements[0] !== 'principals') {
-			return null;
-		}
-		if ($elements[1] === 'system') {
+		if ($path === 'principals/system/system') {
 			$principal = [
 				'uri' => 'principals/system/system',
 				'{DAV:}displayname' => 'system',

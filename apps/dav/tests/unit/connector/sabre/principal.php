@@ -17,18 +17,14 @@ use OCP\IConfig;
 class Principal extends \Test\TestCase {
 	/** @var IUserManager */
 	private $userManager;
-	/** @var IConfig */
-	private $config;
 	/** @var \OCA\DAV\Connector\Sabre\Principal */
 	private $connector;
 
 	public function setUp() {
 		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
 			->disableOriginalConstructor()->getMock();
-		$this->config = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()->getMock();
 
-		$this->connector = new \OCA\DAV\Connector\Sabre\Principal($this->config, $this->userManager);
+		$this->connector = new \OCA\DAV\Connector\Sabre\Principal($this->userManager);
 		parent::setUp();
 	}
 
