@@ -172,8 +172,8 @@ $(document).ready(function(){
 		OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav/', oc_defaults.docPlaceholderUrl),
 		OC.SetupChecks.checkSetup(),
 		OC.SetupChecks.checkGeneric()
-	).then(function(check1, check2, check3) {
-		var messages = [].concat(check1, check2, check3);
+	).then(function(check1, check2, check3, check4, check5) {
+		var messages = [].concat(check1, check2, check3, check4, check5);
 		var $el = $('#postsetupchecks');
 		$el.find('.loading').addClass('hidden');
 
