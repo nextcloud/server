@@ -553,7 +553,7 @@ class Server extends ServerContainer implements IServerContainer {
 						? $_SERVER['REQUEST_METHOD']
 						: null,
 				],
-				new SecureRandom(),
+				$c->getSecureRandom(),
 				$c->getConfig()
 			);
 
