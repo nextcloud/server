@@ -201,6 +201,8 @@
     "Admin documentation" : "Ylläpitäjän ohjeistus",
     "Show description …" : "Näytä kuvaus…",
     "Hide description …" : "Piilota kuvaus…",
+    "This app has no minimum ownCloud version assigned. This will be an error in ownCloud 11 and later." : "Tälle sovellukselle ei ole määritelty ownCloudin vähimmäisversiota. Tämä johtaa virheeseen ownCloud 11:stä alkaen.",
+    "This app has no maximum ownCloud version assigned. This will be an error in ownCloud 11 and later." : "Tälle sovellukselle ei ole määritelty ownCloudin enimmäisversiota. Tämä johtaa virheeseen ownCloud 11:stä alkaen.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Tätä sovellusta ei voi asentaa, koska seuraavat riippuvuudet eivät täyty:",
     "Enable only for specific groups" : "Salli vain tietyille ryhmille",
     "Uninstall App" : "Poista sovelluksen asennus",

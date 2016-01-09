@@ -34,7 +34,7 @@
     "Admin defined" : "Definito dall'amministratore",
     "Saved" : "Salvato",
     "Empty response from the server" : "Risposta vuota dal server",
-    "Couldn't access. Please logout and login to activate this mount point" : "Impossibile accedere. Termina la sessione e accedi nuovamente per attivare questo punto di mount",
+    "Couldn't access. Please logout and login to activate this mount point" : "Impossibile accedere. Chiudi la sessione e accedi nuovamente per attivare questo punto di mount",
     "Couldn't get the information from the ownCloud server: {code} {type}" : "Impossibile ottenere le informazioni dal server ownCloud: {code} {type}",
     "Couldn't get the list of external mount points: {type}" : "Impossibile ottenere l'elenco dei punti di mount esterni: {type}",
     "There was an error with message: " : "Si è verificato un errore con il messaggio:",

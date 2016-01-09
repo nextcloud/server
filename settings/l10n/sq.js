@@ -212,6 +212,8 @@ OC.L10N.register(
     "Admin documentation" : "Dokumentim për përgjegjësit",
     "Show description …" : "Shfaq përshkrim …",
     "Hide description …" : "Fshihe përshkrimin …",
+    "This app has no minimum ownCloud version assigned. This will be an error in ownCloud 11 and later." : "Ky aplikacion nuk ka të përcaktuar version minimum për ownCloud-in. Kjo do të përbëjë një gabim për ownCloud 11 dhe të mëvonshëm.",
+    "This app has no maximum ownCloud version assigned. This will be an error in ownCloud 11 and later." : "Ky aplikacion nuk ka të përcaktuar version maksimum për ownCloud-in. Kjo do të përbëjë një gabim për ownCloud 11 dhe të mëvonshëm.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Ky aplikacion s’mund të instalohet, ngaqë për të nuk plotësohen varësitë vijuese:",
     "Enable only for specific groups" : "Aktivizoje vetëm për grupe të veçantë",
     "Uninstall App" : "Çinstaloje Aplikacionin",

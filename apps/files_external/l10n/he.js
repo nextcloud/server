@@ -4,6 +4,7 @@ OC.L10N.register(
     "Personal" : "אישי",
     "Grant access" : "הענקת גישה",
     "Access granted" : "הוענקה גישה",
+    "Enable encryption" : "אפשר הצפנה",
     "Saved" : "נשמר",
     "None" : "כלום",
     "Username" : "שם משתמש",

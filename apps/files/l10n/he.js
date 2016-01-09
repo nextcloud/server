@@ -69,6 +69,7 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
     "Files are being scanned, please wait." : "הקבצים נסרקים, נא להמתין.",
     "No favorites" : "אין מועדפים",
-    "Text file" : "קובץ טקסט"
+    "Text file" : "קובץ טקסט",
+    "New text file.txt" : "קובץ טקסט חדש.txt"
 },
 "nplurals=2; plural=(n != 1);");

@@ -13,6 +13,8 @@ OC.L10N.register(
     "Password" : "סיסמא",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",
     "Name" : "שם",
-    "Download" : "הורדה"
+    "Download" : "הורדה",
+    "Federated Cloud Sharing" : "ענן שיתוף מאוגד",
+    "Open documentation" : "תיעוד פתוח"
 },
 "nplurals=2; plural=(n != 1);");
