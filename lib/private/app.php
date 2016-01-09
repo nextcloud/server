@@ -312,14 +312,14 @@ class OC_App {
 	 * @param string $app
 	 * @return int
 	 */
-	public static function downloadApp($app) {
+	private static function downloadApp($app) {
 		$ocsClient = new OCSClient(
 			\OC::$server->getHTTPClientService(),
 			\OC::$server->getConfig(),
 			\OC::$server->getLogger()
 		);
 		$appData = $ocsClient->getApplication($app, \OCP\Util::getVersion());
-		$download= $ocsClient->getApplicationDownload($app, \OCP\Util::getVersion());
+		$download = $ocsClient->getApplicationDownload($app, \OCP\Util::getVersion());
 		if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 			// Replace spaces in download link without encoding entire URL
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
@@ -855,7 +855,7 @@ class OC_App {
 	 * @param string $ocsID
 	 * @return string|false
 	 */
-	protected static function getInternalAppIdByOcs($ocsID) {
+	public static function getInternalAppIdByOcs($ocsID) {
 		if(is_numeric($ocsID)) {
 			$idArray = \OC::$server->getAppConfig()->getValues(false, 'ocsid');
 			if(array_search($ocsID, $idArray)) {
@@ -1036,7 +1036,7 @@ class OC_App {
 
 
 	/**
-	 * @param mixed $app
+	 * @param string $app
 	 * @return bool
 	 * @throws Exception if app is not compatible with this version of ownCloud
 	 * @throws Exception if no app-name was specified

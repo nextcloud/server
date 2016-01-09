@@ -320,6 +320,14 @@ class Checker {
 		$this->cache->set(self::CACHE_KEY, json_encode($resultArray));
 	}
 
+	/**
+	 *
+	 * Clean previous results for a proper rescanning. Otherwise
+	 */
+	private function cleanResults() {
+		$this->config->deleteAppValue('core', self::CACHE_KEY);
+		$this->cache->remove(self::CACHE_KEY);
+	}
 
 	/**
 	 * Verify the signature of $appId. Returns an array with the following content:
@@ -350,11 +358,14 @@ class Checker {
 	 * Array may be empty in case no problems have been found.
 	 *
 	 * @param string $appId
+	 * @param string $path Optional path. If none is given it will be guessed.
 	 * @return array
 	 */
-	public function verifyAppSignature($appId) {
+	public function verifyAppSignature($appId, $path = '') {
 		try {
-			$path = $this->appLocator->getAppPath($appId);
+			if($path === '') {
+				$path = $this->appLocator->getAppPath($appId);
+			}
 			$result = $this->verify(
 					$path . '/appinfo/signature.json',
 					$path,
@@ -428,6 +439,7 @@ class Checker {
 	 * and store the results.
 	 */
 	public function runInstanceVerification() {
+		$this->cleanResults();
 		$this->verifyCoreSignature();
 		$appIds = $this->appLocator->getAllApps();
 		foreach($appIds as $appId) {

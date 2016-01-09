@@ -284,7 +284,7 @@ class OCSClient {
 		}
 
 		$app = [];
-		$app['id'] = (int)$tmp->id;
+		$app['id'] = (int)$id;
 		$app['name'] = (string)$tmp->name;
 		$app['version'] = (string)$tmp->version;
 		$app['type'] = (string)$tmp->typeid;
