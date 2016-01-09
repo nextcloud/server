@@ -812,6 +812,22 @@ describe('OCA.Files.FileList tests', function() {
 				.toEqual(OC.imagePath('core', 'filetypes/text.svg'));
 		});
 	});
+	describe('Update file', function() {
+		it('does not change summary', function() {
+			var $summary = $('#filestable .summary');
+			var fileData = new FileInfo({
+				type: 'file',
+				name: 'test file',
+			});
+			var $tr = fileList.add(fileData);
+
+			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+
+			var model = fileList.getModelForFile('test file');
+			model.set({size: '100'});
+			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+		});
+	})
 	describe('List rendering', function() {
 		it('renders a list of files using add()', function() {
 			expect(fileList.files.length).toEqual(0);
