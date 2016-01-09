@@ -450,11 +450,8 @@ class OC {
 		if ($session->exists('LAST_ACTIVITY') && (time() - $session->get('LAST_ACTIVITY') > $sessionLifeTime)) {
 			if (isset($_COOKIE[session_name()])) {
 				setcookie(session_name(), null, -1, self::$WEBROOT ? : '/');
-				unset($_COOKIE[session_name()]);
 			}
-			session_unset();
-			session_destroy();
-			session_start();
+			$session->clear();
 		}
 
 		$session->set('LAST_ACTIVITY', time());
