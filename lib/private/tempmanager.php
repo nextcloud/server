@@ -255,7 +255,7 @@ class TempManager implements ITempManager {
 			if (is_writeable($directory)) {
 				return true;
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 		}
 		$this->log->warning('Temporary directory {dir} is not present or writable',
 			['dir' => $directory]
