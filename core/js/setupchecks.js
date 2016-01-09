@@ -47,6 +47,35 @@
 		},
 
 		/**
+		 * Check whether the .well-known URLs works.
+		 *
+		 * @param url the URL to test
+		 * @param placeholderUrl the placeholder URL - can be found at oc_defaults.docPlaceholderUrl
+		 * @return $.Deferred object resolved with an array of error messages
+		 */
+		checkWellKnownUrl: function(url, placeholderUrl) {
+			var deferred = $.Deferred();
+			var afterCall = function(xhr) {
+				var messages = [];
+				if (xhr.status !== 207) {
+					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
+					messages.push({
+						msg: t('core', 'Your web server is not set up properly to resolve "{url}". Further information can be found in our <a target="_blank" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
+						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+					});
+				}
+				deferred.resolve(messages);
+			};
+
+			$.ajax({
+				type: 'PROPFIND',
+				url: url,
+				complete: afterCall
+			});
+			return deferred.promise();
+		},
+
+		/**
 		 * Runs setup checks on the server side
 		 *
 		 * @return $.Deferred object resolved with an array of error messages
