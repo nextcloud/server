@@ -271,8 +271,9 @@
 			}
 
 
-			$('#webdavurl').on('click', function () {
-				$('#webdavurl').select();
+			$('#webdavurl').on('click touchstart', function () {
+				this.focus();
+				this.setSelectionRange(0, this.value.length);
 			});
 
 			$('#upload').tooltip({placement:'right'});
