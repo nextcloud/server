@@ -1,0 +1,8 @@
+{
+    "config" : {
+        "vendor-dir": "lib/composer"
+    },
+    "autoload" : {
+        "psr-4": {"OC\\": "lib/private"}
+    }
+}
