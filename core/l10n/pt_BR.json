@@ -22,6 +22,7 @@
     "%s (incompatible)" : "%s (incompatível)",
     "Following apps have been disabled: %s" : "Os seguintes aplicativos foram desabilitados: %s",
     "Already up to date" : "Já está atualizado",
+    "Please select a file." : "Por favor selecione um arquivo.",
     "File is too big" : "O arquivo é muito grande",
     "Invalid file provided" : "Arquivo fornecido inválido",
     "No image or file provided" : "Nenhuma imagem ou arquivo fornecido",

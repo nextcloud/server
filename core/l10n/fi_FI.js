@@ -24,6 +24,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (ei yhteensopiva)",
     "Following apps have been disabled: %s" : "Seuraavat sovellukset on poistettu käytöstä: %s",
     "Already up to date" : "Kaikki on jo ajan tasalla",
+    "Please select a file." : "Valitse tiedosto.",
     "File is too big" : "Tiedosto on liian suuri",
     "Invalid file provided" : "Määritetty virheellinen tiedosto",
     "No image or file provided" : "Kuvaa tai tiedostoa ei määritelty",

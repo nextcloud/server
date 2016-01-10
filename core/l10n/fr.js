@@ -24,6 +24,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (non compatible)",
     "Following apps have been disabled: %s" : "Les applications suivantes ont été désactivées : %s",
     "Already up to date" : "Déjà à jour",
+    "Please select a file." : "Veuillez sélectionner un fichier.",
     "File is too big" : "Fichier trop volumineux",
     "Invalid file provided" : "Fichier non valide",
     "No image or file provided" : "Aucun fichier fourni",

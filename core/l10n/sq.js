@@ -24,6 +24,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (e papërputhshme)",
     "Following apps have been disabled: %s" : "Janë çaktivizuar aplikacionet vijuese : %s",
     "Already up to date" : "Tashmë e përditësuar",
+    "Please select a file." : "Ju lutemi, përzgjidhni një kartelë.",
     "File is too big" : "Kartela është shumë e madhe",
     "Invalid file provided" : "U dha kartelë e pavlefshme",
     "No image or file provided" : "S’u dha figurë apo kartelë",
