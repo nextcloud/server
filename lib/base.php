@@ -488,8 +488,10 @@ class OC {
 			OC::$SERVERROOT . '/settings',
 			OC::$SERVERROOT . '/ocs',
 			OC::$SERVERROOT . '/ocs-provider',
-			OC::$SERVERROOT . '/tests',
 		]);
+		if (defined('PHPUNIT_RUN')) {
+			self::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
+		}
 		spl_autoload_register(array(self::$loader, 'load'));
 		$loaderEnd = microtime(true);
 
