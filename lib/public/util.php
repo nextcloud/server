@@ -637,7 +637,7 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function generateRandomBytes($length = 30) {
-		return \OC_Util::generateRandomBytes($length);
+		return \OC::$server->getSecureRandom()->generate($length, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 	}
 
 	/**
