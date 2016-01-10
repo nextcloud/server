@@ -642,7 +642,13 @@
 			};
 
 			OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, true);
-			OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir, true), disableLoadingState);
+			if(this.getSelectedFiles().length > 1) {
+				OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir, true), disableLoadingState);
+			}
+			else {
+				first = this.getSelectedFiles()[0];
+				OCA.Files.Files.handleDownload(this.getDownloadUrl(first.name, dir, true), disableLoadingState);
+			}
 			return false;
 		},
 
