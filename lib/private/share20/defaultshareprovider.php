@@ -36,6 +36,9 @@ use OCP\Files\Node;
  */
 class DefaultShareProvider implements IShareProvider {
 
+	// Special share type for user modified group shares
+	const SHARE_TYPE_USERGROUP = 2;
+
 	/** @var IDBConnection */
 	private $dbConn;
 
@@ -186,6 +189,17 @@ class DefaultShareProvider implements IShareProvider {
 		$qb->select('*')
 			->from('share')
 			->where($qb->expr()->eq('parent', $qb->createNamedParameter($parent->getId())))
+			->andWhere(
+				$qb->expr()->in(
+					'share_type',
+					[
+						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+						$qb->expr()->literal(self::SHARE_TYPE_USERGROUP),
+					]
+				)
+			)
 			->orderBy('id');
 
 		$cursor = $qb->execute();
@@ -242,7 +256,18 @@ class DefaultShareProvider implements IShareProvider {
 
 		$qb->select('*')
 			->from('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
+			->andWhere(
+				$qb->expr()->in(
+					'share_type',
+					[
+						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+						$qb->expr()->literal(self::SHARE_TYPE_USERGROUP),
+					]
+				)
+			);
 		
 		$cursor = $qb->execute();
 		$data = $cursor->fetch();
