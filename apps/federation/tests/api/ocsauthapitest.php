@@ -155,8 +155,6 @@ class OCSAuthAPITest extends TestCase {
 			->method('isValidToken')->with($url, $token)->willReturn($isValidToken);
 
 		if($expected === Http::STATUS_OK) {
-			$this->secureRandom->expects($this->once())->method('getMediumStrengthGenerator')
-				->willReturn($this->secureRandom);
 			$this->secureRandom->expects($this->once())->method('generate')->with(32)
 				->willReturn('secret');
 			$this->trustedServers->expects($this->once())

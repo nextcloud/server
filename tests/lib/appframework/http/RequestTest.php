@@ -352,17 +352,10 @@ class RequestTest extends \Test\TestCase {
 	}
 
 	public function testGetIdWithoutModUnique() {
-		$lowRandomSource = $this->getMockBuilder('\OCP\Security\ISecureRandom')
-			->disableOriginalConstructor()->getMock();
-		$lowRandomSource->expects($this->once())
+		$this->secureRandom->expects($this->once())
 			->method('generate')
 			->with('20')
 			->will($this->returnValue('GeneratedByOwnCloudItself'));
-
-		$this->secureRandom
-			->expects($this->once())
-			->method('getLowStrengthGenerator')
-			->will($this->returnValue($lowRandomSource));
 
 		$request = new Request(
 			[],

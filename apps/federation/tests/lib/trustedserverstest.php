@@ -113,8 +113,6 @@ class TrustedServersTest extends TestCase {
 			->willReturn($success);
 
 		if ($success) {
-			$this->secureRandom->expects($this->once())->method('getMediumStrengthGenerator')
-				->willReturn($this->secureRandom);
 			$this->secureRandom->expects($this->once())->method('generate')
 				->willReturn('token');
 			$this->dbHandler->expects($this->once())->method('addToken')->with('https://url', 'token');

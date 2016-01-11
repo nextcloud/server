@@ -167,7 +167,6 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testEmailSuccessful() {
-		$randomToken = $this->secureRandom;
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
@@ -187,10 +186,6 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->expects($this->once())
 			->method('getTime')
 			->will($this->returnValue(12348));
-		$this->secureRandom
-			->expects($this->once())
-			->method('getMediumStrengthGenerator')
-			->will($this->returnValue($randomToken));
 		$this->config
 			->expects($this->once())
 			->method('setUserValue')
@@ -233,7 +228,6 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testEmailCantSendException() {
-		$randomToken = $this->secureRandom;
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
@@ -249,10 +243,6 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 				->method('get')
 				->with('ExistingUser')
 				->willReturn($this->existingUser);
-		$this->secureRandom
-			->expects($this->once())
-			->method('getMediumStrengthGenerator')
-			->will($this->returnValue($randomToken));
 		$this->config
 			->expects($this->once())
 			->method('setUserValue')
