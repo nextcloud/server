@@ -699,4 +699,11 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	public function setAvailability($available) {
 		// shares do not participate in availability logic
 	}
+
+	public function isLocal() {
+		$this->init();
+		$ownerPath = $this->ownerView->getPath($this->share['item_source']);
+		list($targetStorage) = $this->ownerView->resolvePath($ownerPath);
+		return $targetStorage->isLocal();
+	}
 }
