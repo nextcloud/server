@@ -176,7 +176,7 @@ $formsMap = array_map(function($form){
 		$anchor = str_replace(' ', '-', $anchor);
 
 		return array(
-			'anchor' => 'goto-' . $anchor,
+			'anchor' => $anchor,
 			'section-name' => $sectionName,
 			'form' => $form
 		);
