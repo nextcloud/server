@@ -185,8 +185,7 @@ class DefaultShareProvider implements IShareProvider {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
 			->from('share')
-			->where($qb->expr()->eq('parent', $qb->createParameter('parent')))
-			->setParameter(':parent', $parent->getId())
+			->where($qb->expr()->eq('parent', $qb->createNamedParameter($parent->getId())))
 			->orderBy('id');
 
 		$cursor = $qb->execute();
@@ -210,8 +209,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('share')
-			->where($qb->expr()->eq('id', $qb->createParameter('id')))
-			->setParameter(':id', $share->getId());
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())));
 	
 		try {
 			$qb->execute();
@@ -244,8 +242,7 @@ class DefaultShareProvider implements IShareProvider {
 
 		$qb->select('*')
 			->from('share')
-			->where($qb->expr()->eq('id', $qb->createParameter('id')))
-			->setParameter(':id', $id);
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 		
 		$cursor = $qb->execute();
 		$data = $cursor->fetch();
