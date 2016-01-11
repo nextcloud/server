@@ -25,6 +25,7 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IConfig;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
@@ -40,11 +41,11 @@ class CreateAddressBook extends Command {
 	/** @var \OCP\IDBConnection */
 	protected $dbConnection;
 
-	/** @var IConfig */
-	private $config;
-
 	/** @var ILogger  */
 	private $logger;
+
+	/** @var IGroupManager $groupManager */
+	private $groupManager;
 
 	/**
 	 * @param IUserManager $userManager
@@ -53,14 +54,14 @@ class CreateAddressBook extends Command {
 	 * @param ILogger $logger
 	 */
 	function __construct(IUserManager $userManager,
+						 IGroupManager $groupManager,
 						 IDBConnection $dbConnection,
-						 IConfig $config,
 						 ILogger $logger
 	) {
 		parent::__construct();
 		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 		$this->dbConnection = $dbConnection;
-		$this->config = $config;
 		$this->logger = $logger;
 	}
 
@@ -82,7 +83,8 @@ class CreateAddressBook extends Command {
 			throw new \InvalidArgumentException("User <$user> in unknown.");
 		}
 		$principalBackend = new Principal(
-				$this->userManager
+				$this->userManager,
+				$this->groupManager
 		);
 
 		$name = $input->getArgument('name');

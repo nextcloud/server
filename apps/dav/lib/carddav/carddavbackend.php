@@ -105,17 +105,20 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result->closeCursor();
 
 		// query for shared calendars
+		$principals = $this->principalBackend->getGroupMembership($principalUri);
+		$principals[]= $principalUri;
+
 		$query = $this->db->getQueryBuilder();
 		$query2 = $this->db->getQueryBuilder();
 		$query2->select(['resourceid'])
 			->from('dav_shares')
-			->where($query2->expr()->eq('principaluri', $query2->createParameter('principaluri')))
+			->where($query2->expr()->in('principaluri', $query2->createParameter('principaluri')))
 			->andWhere($query2->expr()->eq('type', $query2->createParameter('type')));
 		$result = $query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
 			->from('addressbooks')
 			->where($query->expr()->in('id', $query->createFunction($query2->getSQL())))
 			->setParameter('type', 'addressbook')
-			->setParameter('principaluri', $principalUri)
+			->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
 			->execute();
 
 		while($row = $result->fetch()) {

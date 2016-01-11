@@ -29,9 +29,10 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCP\IGroup;
+use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IConfig;
 use Sabre\DAV\Exception;
 use \Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
@@ -42,11 +43,15 @@ class Principal implements BackendInterface {
 	/** @var IUserManager */
 	private $userManager;
 
+	/** @var IGroupManager */
+	private $groupManager;
+
 	/**
 	 * @param IUserManager $userManager
 	 */
-	public function __construct(IUserManager $userManager) {
+	public function __construct(IUserManager $userManager, IGroupManager $groupManager) {
 		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -127,24 +132,24 @@ class Principal implements BackendInterface {
 	public function getGroupMembership($principal) {
 		list($prefix, $name) = URLUtil::splitPath($principal);
 
-		$group_membership = array();
 		if ($prefix === 'principals/users') {
 			$principal = $this->getPrincipalByPath($principal);
 			if (!$principal) {
 				throw new Exception('Principal not found');
 			}
 
-			// TODO: for now the user principal has only its own groups
-			return array(
-				'principals/users/'.$name.'/calendar-proxy-read',
-				'principals/users/'.$name.'/calendar-proxy-write',
-				// The addressbook groups are not supported in Sabre,
-				// see http://groups.google.com/group/sabredav-discuss/browse_thread/thread/ef2fa9759d55f8c#msg_5720afc11602e753
-				//'principals/'.$name.'/addressbook-proxy-read',
-				//'principals/'.$name.'/addressbook-proxy-write',
-			);
+			$user = $this->userManager->get($name);
+			$groups = $this->groupManager->getUserGroups($user);
+			$groups = array_map(function($group) {
+				/** @var IGroup $group */
+				return 'principals/groups/' . $group->getGID();
+			}, $groups);
+
+			$groups[]= 'principals/users/'.$name.'/calendar-proxy-read';
+			$groups[]= 'principals/users/'.$name.'/calendar-proxy-write';
+			return $groups;
 		}
-		return $group_membership;
+		return [];
 	}
 
 	/**

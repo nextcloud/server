@@ -23,21 +23,27 @@
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
+use OCP\IGroupManager;
 use \Sabre\DAV\PropPatch;
 use OCP\IUserManager;
-use OCP\IConfig;
 
 class Principal extends \Test\TestCase {
 	/** @var IUserManager */
 	private $userManager;
 	/** @var \OCA\DAV\Connector\Sabre\Principal */
 	private $connector;
+	/** @var IGroupManager */
+	private $groupManager;
 
 	public function setUp() {
 		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
 			->disableOriginalConstructor()->getMock();
+		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')
+			->disableOriginalConstructor()->getMock();
 
-		$this->connector = new \OCA\DAV\Connector\Sabre\Principal($this->userManager);
+		$this->connector = new \OCA\DAV\Connector\Sabre\Principal(
+			$this->userManager,
+			$this->groupManager);
 		parent::setUp();
 	}
 
