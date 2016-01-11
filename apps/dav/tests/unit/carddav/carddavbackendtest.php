@@ -23,6 +23,7 @@
 namespace OCA\DAV\Tests\Unit\CardDAV;
 
 use InvalidArgumentException;
+use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
@@ -247,23 +248,24 @@ class CardDavBackendTest extends TestCase {
 		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
 
-		$this->backend->updateShares('Example', [['href' => 'principal:principals/best-friend']], []);
+		$exampleBook = new AddressBook($this->backend, $books[0]);
+		$this->backend->updateShares($exampleBook, [['href' => 'principal:principals/best-friend']], []);
 
-		$shares = $this->backend->getShares('Example');
+		$shares = $this->backend->getShares($exampleBook->getBookId());
 		$this->assertEquals(1, count($shares));
 
 		// adding the same sharee again has no effect
-		$this->backend->updateShares('Example', [['href' => 'principal:principals/best-friend']], []);
+		$this->backend->updateShares($exampleBook, [['href' => 'principal:principals/best-friend']], []);
 
-		$shares = $this->backend->getShares('Example');
+		$shares = $this->backend->getShares($exampleBook->getBookId());
 		$this->assertEquals(1, count($shares));
 
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
 		$this->assertEquals(1, count($books));
 
-		$this->backend->updateShares('Example', [], ['principal:principals/best-friend']);
+		$this->backend->updateShares($exampleBook, [], ['principal:principals/best-friend']);
 
-		$shares = $this->backend->getShares('Example');
+		$shares = $this->backend->getShares($exampleBook->getBookId());
 		$this->assertEquals(0, count($shares));
 
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
