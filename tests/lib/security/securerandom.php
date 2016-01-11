@@ -42,7 +42,7 @@ class SecureRandomTest extends \Test\TestCase {
 	 * @dataProvider stringGenerationProvider
 	 */
 	function testGetLowStrengthGeneratorLength($length, $expectedLength) {
-		$generator = $this->rng->getLowStrengthGenerator();
+		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
 	}
