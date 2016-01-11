@@ -912,6 +912,11 @@ class OC_App {
 				$apps[$i]['internalclass'] = 'recommendedapp';
 			}
 
+			// Apps from the appstore are always assumed to be compatible with the
+			// the current release as the initial filtering is done on the appstore
+			$apps[$i]['dependencies']['owncloud']['@attributes']['min-version'] = implode('.', \OCP\Util::getVersion());
+			$apps[$i]['dependencies']['owncloud']['@attributes']['max-version'] = implode('.', \OCP\Util::getVersion());
+
 			$i++;
 		}
 
