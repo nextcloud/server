@@ -1201,6 +1201,10 @@ class OC_Util {
 		// creating a test file
 		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
 
+		if (file_exists($testFile)) {// already running this test, possible recursive call
+			return false;
+		}
+
 		$fp = @fopen($testFile, 'w');
 		if (!$fp) {
 			throw new OC\HintException('Can\'t create test file to check for working .htaccess file.',
