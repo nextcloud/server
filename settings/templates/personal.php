@@ -4,8 +4,8 @@
  * See the COPYING-README file.
  */
 
-/** @var $_ array */
-/** @var $_['urlGenerator'] */
+/** @var $_ mixed[]|\OCP\IURLGenerator[] */
+/** @var \OC_Defaults $theme */
 ?>
 
 <div id="app-navigation">
@@ -22,8 +22,6 @@
 
 <div id="app-content">
 
-
-
 <div id="quota" class="section">
 	<div style="width:<?php p($_['usage_relative']);?>%"
 		<?php if($_['usage_relative'] > 80): ?> class="quota-warning" <?php endif; ?>>
@@ -33,8 +31,6 @@
 		</p>
 	</div>
 </div>
-
-
 
 <?php if ($_['enableAvatars']): ?>
 <form id="avatar" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
@@ -60,8 +56,6 @@
 </form>
 <?php endif; ?>
 
-
-
 <?php
 if($_['displayNameChangeSupported']) {
 ?>
@@ -85,8 +79,6 @@ if($_['displayNameChangeSupported']) {
 <?php
 }
 ?>
-
-
 
 <?php
 if($_['passwordChangeSupported']) {
@@ -112,8 +104,6 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
-
-
 <div id="groups" class="section">
 	<h2><?php p($l->t('Groups')); ?></h2>
 	<p><?php p($l->t('You are member of the following groups:')); ?></p>
@@ -121,8 +111,6 @@ if($_['passwordChangeSupported']) {
 	<?php p(implode(', ', $_['groups'])); ?>
 	</p>
 </div>
-
-
 
 <?php
 if($_['passwordChangeSupported']) {
@@ -151,8 +139,6 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
-
-
 <form class="section">
 	<h2>
 		<label for="languageinput"><?php p($l->t('Language'));?></label>
@@ -180,8 +166,6 @@ if($_['passwordChangeSupported']) {
 	</a>
 	<?php endif; ?>
 </form>
-
-
 
 <div id="clientsbox" class="section clientsbox">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
@@ -214,8 +198,6 @@ if($_['passwordChangeSupported']) {
 	<?php }?>
 </div>
 
-
-
 <?php foreach($_['forms'] as $form) {
 	if (isset($form['form'])) {?>
 	<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
@@ -227,10 +209,12 @@ if($_['passwordChangeSupported']) {
 	<h2><?php p($l->t('SSL root certificates')); ?></h2>
 	<table id="sslCertificate" class="grid">
 		<thead>
+			<tr>
 			<th><?php p($l->t('Common Name')); ?></th>
 			<th><?php p($l->t('Valid until')); ?></th>
 			<th><?php p($l->t('Issued By')); ?></th>
-			<th/>
+			<th></th>
+			</tr>
 		</thead>
 		<tbody>
 			<?php foreach ($_['certs'] as $rootCert): /**@var \OCP\ICertificate $rootCert*/ ?>
@@ -267,7 +251,5 @@ if($_['passwordChangeSupported']) {
 	<p><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></p>
 	<p><?php include('settings.development.notice.php'); ?></p>
 </div>
-
-
 
 </div>
