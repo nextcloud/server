@@ -562,11 +562,11 @@ if ($_['cronErrors']) {
 
 <div class="section">
 	<h2><?php p($l->t('Version'));?></h2>
-	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getHumanVersion()) ?>
-	<?php include('settings.development.notice.php'); ?>
+	<p><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></p>
+	<p><?php include('settings.development.notice.php'); ?></p>
 </div>
 
-<div class="section credits-footer">
-	<p><?php print_unescaped($theme->getShortFooter()); ?></p>
-</div>
+
+
+
 </div>
