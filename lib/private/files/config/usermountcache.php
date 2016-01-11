@@ -96,6 +96,14 @@ class UserMountCache implements IUserMountCache {
 		/** @var ICachedMountInfo[] $removedMounts */
 		$removedMounts = array_udiff($cachedMounts, $newMounts, $mountDiff);
 
+		$changedMounts = array_uintersect($newMounts, $cachedMounts, function (ICachedMountInfo $mount1, ICachedMountInfo $mount2) {
+			// filter mounts with the same root id and different mountpoints
+			if ($mount1->getRootId() !== $mount2->getRootId()) {
+				return -1;
+			}
+			return ($mount1->getMountPoint() !== $mount2->getMountPoint()) ? 0 : 1;
+		});
+
 		foreach ($addedMounts as $mount) {
 			$this->addToCache($mount);
 			$this->mountsForUsers[$user->getUID()][] = $mount;
@@ -104,6 +112,9 @@ class UserMountCache implements IUserMountCache {
 			$this->removeFromCache($mount);
 			$index = array_search($mount, $this->mountsForUsers[$user->getUID()]);
 			unset($this->mountsForUsers[$user->getUID()][$index]);
+		}
+		foreach ($changedMounts as $mount) {
+			$this->setMountPoint($mount);
 		}
 	}
 
@@ -132,6 +143,17 @@ class UserMountCache implements IUserMountCache {
 			$this->logger->error('Duplicate entry while inserting mount');
 			$this->logger->logException($e);
 		}
+	}
+
+	private function setMountPoint(ICachedMountInfo $mount) {
+		$builder = $this->connection->getQueryBuilder();
+
+		$query = $builder->update('mounts')
+			->set('mount_point', $builder->createNamedParameter($mount->getMountPoint()))
+			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
+			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), \PDO::PARAM_INT)));
+
+		$query->execute();
 	}
 
 	private function removeFromCache(ICachedMountInfo $mount) {
@@ -205,7 +227,7 @@ class UserMountCache implements IUserMountCache {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->delete('mounts')
-				->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())));
+			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())));
 		$query->execute();
 	}
 }
