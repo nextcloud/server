@@ -70,6 +70,16 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 		And group "new-group" exists
 
+	Scenario: Create a group with special characters
+		Given As an "admin"
+		And group "España" does not exist
+		When sending "POST" to "/cloud/groups" with
+			| groupid | España |
+			| password | 123456 |
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And group "España" exists
+
 	Scenario: adding user to a group without sending the group
 		Given As an "admin"
 		And user "brand-new-user" exists
@@ -134,6 +144,7 @@ Feature: provisioning
 		And group "admin" exists
 		When sending "GET" to "/cloud/groups"
 		Then groups returned are
+			| España |
 			| admin |
 			| new-group |
 
