@@ -975,6 +975,22 @@ $CONFIG = array(
 	),
 ),
 
+
+/**
+ * Sharing
+ *
+ * Global settings for Sharing
+ */
+
+/**
+ * Replaces the default Share Provider Factory. This can be utilized if
+ * own or 3rdParty Share Providers be used that – for instance – uses the
+ * filesystem instead of the database to keep the share information.
+ */
+'sharing.managerFactory' => '\OC\Share20\ProviderFactory',
+
+
+
 /**
  * All other config options
  */

@@ -27,6 +27,13 @@ use OCP\IUser;
 interface IShareProvider {
 
 	/**
+	 * Return the share types this provider handles
+	 *
+	 * @return int[]
+	 */
+	public function shareTypes();
+
+	/**
 	 * Share a path
 	 * 
 	 * @param IShare $share

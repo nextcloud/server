@@ -41,7 +41,10 @@ use OC\HintException;
  */
 class Manager {
 
-	/** @var array */
+	/** @var IProviderFactory */
+	private $factory;
+
+	/** @var IShareProvider[] */
 	private $providers;
 
 	/** @var array */
@@ -78,6 +81,7 @@ class Manager {
 	 * @param IMountManager $mountManager
 	 * @param IGroupManager $groupManager
 	 * @param IL10N $l
+	 * @param IProviderFactory $factory
 	 */
 	public function __construct(
 			ILogger $logger,
@@ -86,7 +90,8 @@ class Manager {
 			IHasher $hasher,
 			IMountManager $mountManager,
 			IGroupManager $groupManager,
-			IL10N $l
+			IL10N $l,
+			IProviderFactory $factory
 	) {
 		$this->providers = [];
 		$this->type2provider = [];
@@ -98,57 +103,49 @@ class Manager {
 		$this->mountManager = $mountManager;
 		$this->groupManager = $groupManager;
 		$this->l = $l;
+		$this->factory = $factory;
 	}
 
 	/**
-	 * Register a share provider
-	 *
-	 * @param string $id The id of the share provider
-	 * @param int[] $shareTypes Array containing the share types this provider handles
-	 * @param callable $callback Callback that must return an IShareProvider instance
+	 * @param IShareProvider[] $providers
 	 * @throws ProviderException
 	 */
-	public function registerProvider($id, $shareTypes, callable $callback) {
-		// Providers must have an unique id
-		if (isset($this->providers[$id])) {
-			throw new ProviderException('A share provider with the id \''. $id . '\' is already registered');
-		}
+	private function addProviders(array $providers) {
+		foreach ($providers as $provider) {
+			$name = get_class($provider);
 
-		if ($shareTypes === []) {
-			throw new ProviderException('shareTypes can\'t be an empty array');
-		}
-
-		foreach($shareTypes as $shareType) {
-			// We only have 1 provder per share type
-			if (isset($this->type2provider[$shareType])) {
-				throw new ProviderException('The share provider ' . $this->type2provider[$shareType] . ' is already registered for share type ' . $shareType);
+			if (!($provider instanceof IShareProvider)) {
+				throw new ProviderException($name . ' is not an instance of IShareProvider');
 			}
 
-			/*
-			 * We only allow providers that provider
-			 * user- / group- / link- / federated-shares
-			 */
-			if ($shareType !== \OCP\Share::SHARE_TYPE_USER &&
-				$shareType !== \OCP\Share::SHARE_TYPE_GROUP &&
-				$shareType !== \OCP\Share::SHARE_TYPE_LINK &&
-				$shareType !== \OCP\Share::SHARE_TYPE_REMOTE) {
-				throw new ProviderException('Cannot register provider for share type ' . $shareType);
-				//Throw exception
+			if (isset($this->providers[$name])) {
+				throw new ProviderException($name . ' is already registered');
+			}
+
+			$this->providers[$name] = $provider;
+			$types = $provider->shareTypes();
+
+			if ($types === []) {
+				throw new ProviderException('Provider ' . $name . ' must supply share types it can handle');
+			}
+
+			foreach ($types as $type) {
+				if (isset($this->type2provider[$type])) {
+					throw new ProviderException($name . ' tried to register for share type ' . $type . ' but this type is already handled by ' . $this->type2provider[$type]);
+				}
+
+				$this->type2provider[$type] = $name;
 			}
 		}
+	}
 
-		// Add the provider
-		$this->providers[$id] = [
-			'id' => $id,
-			'callback' => $callback,
-			'provider' => null,
-			'shareTypes' => $shareTypes,
-		];
-
-		// Update the type mapping
-		foreach ($shareTypes as $shareType) {
-			$this->type2provider[$shareType] = $id;
+	private function runFactory() {
+		if (!empty($this->providers)) {
+			return;
 		}
+
+		$this->addProviders($this->factory->getProviders());
+		$this->factoryDone = true;
 	}
 
 	/**
@@ -157,23 +154,13 @@ class Manager {
 	 * @throws ProviderException
 	 */
 	private function getProvider($id) {
+		$this->runFactory();
+
 		if (!isset($this->providers[$id])) {
 			throw new ProviderException('No provider with id ' . $id . ' found');
 		}
 
-		if ($this->providers[$id]['provider'] === null) {
-			// First time using this provider
-			$provider = call_user_func($this->providers[$id]['callback']);
-
-			// Make sure a proper provider is returned
-			if (!($provider instanceof IShareProvider)) {
-				throw new ProviderException('Callback does not return an IShareProvider instance for provider with id ' . $id);
-			}
-
-			$this->providers[$id]['provider'] = $provider;
-		}
-
-		return $this->providers[$id]['provider'];
+		return $this->providers[$id];
 	}
 
 	/**
@@ -182,11 +169,22 @@ class Manager {
 	 * @throws ProviderException
 	 */
 	private function getProviderForType($shareType) {
+		$this->runFactory();
+
 		if (!isset($this->type2provider[$shareType])) {
 			throw new ProviderException('No share provider registered for share type ' . $shareType);
 		}
 
 		return $this->getProvider($this->type2provider[$shareType]);
+	}
+
+	/**
+	 * @return IShareProvider[]
+	 */
+	private function getProviders() {
+		$this->runFactory();
+
+		return $this->providers;
 	}
 
 	/**
@@ -587,10 +585,9 @@ class Manager {
 	protected function deleteChildren(IShare $share) {
 		$deletedShares = [];
 
-		$providerIds = array_keys($this->providers);
+		$providers = $this->getProviders();
 
-		foreach($providerIds as $providerId) {
-			$provider = $this->getProvider($providerId);
+		foreach($providers as $provider) {
 			foreach ($provider->getChildren($share) as $child) {
 				$deletedChildren = $this->deleteChildren($child);
 				$deletedShares = array_merge($deletedShares, $deletedChildren);
@@ -691,12 +688,10 @@ class Manager {
 
 		//FIXME ids need to become proper providerid:shareid eventually
 
-		$providerIds = array_keys($this->providers);
+		$providers = $this->getProviders();
 
 		$share = null;
-		foreach ($providerIds as $providerId) {
-			$provider = $this->getProvider($providerId);
-
+		foreach ($providers as $provider) {
 			try {
 				$share = $provider->getShareById($id);
 				$found = true;

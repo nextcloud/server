@@ -63,6 +63,19 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
+	 * Return the share types this provider handles
+	 *
+	 * @return int[]
+	 */
+	public function shareTypes() {
+		return [
+			\OCP\Share::SHARE_TYPE_USER,
+			\OCP\Share::SHARE_TYPE_GROUP,
+			\OCP\Share::SHARE_TYPE_LINK,
+		];
+	}
+
+	/**
 	 * Share a path
 	 *
 	 * @param IShare $share
