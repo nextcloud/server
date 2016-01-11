@@ -1758,7 +1758,9 @@
 		updateRow: function($tr, fileInfo, options) {
 			this.files.splice($tr.index(), 1);
 			$tr.remove();
-			$tr = this.add(fileInfo, _.extend({updateSummary: false, silent: true}, options));
+			options = _.extend({silent: true}, options);
+			options = _.extend(options, {updateSummary: false});
+			$tr = this.add(fileInfo, options);
 			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this, $files: $tr}));
 			return $tr;
 		},
