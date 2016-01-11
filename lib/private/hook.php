@@ -56,7 +56,7 @@ class OC_Hook{
 			self::$registered[$signalClass][$signalName] = array();
 		}
 
-		// dont connect hooks twice
+		// don't connect hooks twice
 		foreach (self::$registered[$signalClass][$signalName] as $hook) {
 			if ($hook['class'] === $slotClass and $hook['name'] === $slotName) {
 				return false;
@@ -79,8 +79,8 @@ class OC_Hook{
 	 * @param string $signalName name of signal
 	 * @param mixed $params default: array() array with additional data
 	 * @return bool true if slots exists or false if not
-	 * @throws \OC\ServerNotAvailableException
-	 * Emits a signal. To get data from the slot use references!
+	 * @throws \OC\HintException
+	 * @throws \OC\ServerNotAvailableException Emits a signal. To get data from the slot use references!
 	 *
 	 * TODO: write example
 	 */
@@ -104,41 +104,30 @@ class OC_Hook{
 				call_user_func( array( $i["class"], $i["name"] ), $params );
 			} catch (Exception $e){
 				self::$thrownExceptions[] = $e;
-				$class = $i["class"];
-				if (is_object($i["class"])) {
-					$class = get_class($i["class"]);
-				}
-				$message = $e->getMessage();
-				if (empty($message)) {
-					$message = get_class($e);
-				}
+				\OC::$server->getLogger()->logException($e);
 				if($e instanceof \OC\HintException) {
 					throw $e;
 				}
-				\OCP\Util::writeLog('hook',
-					'error while running hook (' . $class . '::' . $i["name"] . '): ' . $message,
-					\OCP\Util::ERROR);
 				if($e instanceof \OC\ServerNotAvailableException) {
 					throw $e;
 				}
 			}
 		}
 
-		// return true
 		return true;
 	}
 
 	/**
 	 * clear hooks
-	 * @param string $signalclass
-	 * @param string $signalname
+	 * @param string $signalClass
+	 * @param string $signalName
 	 */
-	static public function clear($signalclass='', $signalname='') {
-		if($signalclass) {
-			if($signalname) {
-				self::$registered[$signalclass][$signalname]=array();
+	static public function clear($signalClass='', $signalName='') {
+		if ($signalClass) {
+			if ($signalName) {
+				self::$registered[$signalClass][$signalName]=array();
 			}else{
-				self::$registered[$signalclass]=array();
+				self::$registered[$signalClass]=array();
 			}
 		}else{
 			self::$registered=array();
