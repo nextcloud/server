@@ -77,17 +77,6 @@ class OC_L10N implements \OCP\IL10N {
 	private $pluralFormFunction = null;
 
 	/**
-	 * get an L10N instance
-	 * @param string $app
-	 * @param string|null $lang
-	 * @return \OCP\IL10N
-	 * @deprecated Use \OC::$server->getL10NFactory()->get() instead
-	 */
-	public static function get($app, $lang=null) {
-		return \OC::$server->getL10NFactory()->get($app, $lang);
-	}
-
-	/**
 	 * The constructor
 	 * @param string $app app requesting l10n
 	 * @param string $lang default: null Language
