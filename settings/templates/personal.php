@@ -264,12 +264,8 @@ if($_['passwordChangeSupported']) {
 
 <div class="section">
 	<h2><?php p($l->t('Version'));?></h2>
-	<strong><?php p($theme->getTitle()); ?></strong> <?php p(OC_Util::getHumanVersion()) ?><br />
-	<?php include('settings.development.notice.php'); ?>
-</div>
-
-<div class="section credits-footer">
-	<p><?php print_unescaped($theme->getShortFooter()); ?></p>
+	<p><a href="<?php print_unescaped($theme->getBaseUrl()); ?>" target="_blank"><?php p($theme->getTitle()); ?></a> <?php p(OC_Util::getHumanVersion()) ?></p>
+	<p><?php include('settings.development.notice.php'); ?></p>
 </div>
 
 
