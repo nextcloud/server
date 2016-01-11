@@ -24,8 +24,7 @@ $cm->register(function() use ($cm) {
 	$db = \OC::$server->getDatabaseConnection();
 	$userId = \OC::$server->getUserSession()->getUser()->getUID();
 	$principal = new \OCA\DAV\Connector\Sabre\Principal(
-			\OC::$server->getConfig(),
-			\OC::$server->getUserManager()
+		\OC::$server->getUserManager()
 	);
 	$cardDav = new \OCA\DAV\CardDAV\CardDavBackend($db, $principal, \OC::$server->getLogger());
 	$addressBooks = $cardDav->getAddressBooksForUser("principals/$userId");
