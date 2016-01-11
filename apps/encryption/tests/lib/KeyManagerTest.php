@@ -342,25 +342,77 @@ class KeyManagerTest extends TestCase {
 		$this->assertTrue($this->instance->getEncryptedFileKey('/'));
 	}
 
-	public function testGetFileKey() {
-		$this->keyStorageMock->expects($this->exactly(4))
+	/**
+	 * @dataProvider dataTestGetFileKey
+	 *
+	 * @param $uid
+	 * @param $isMasterKeyEnabled
+	 * @param $privateKey
+	 * @param $expected
+	 */
+	public function testGetFileKey($uid, $isMasterKeyEnabled, $privateKey, $expected) {
+
+		$path = '/foo.txt';
+
+		if ($isMasterKeyEnabled) {
+			$expectedUid = 'masterKeyId';
+		} else {
+			$expectedUid = $uid;
+		}
+
+		$this->invokePrivate($this->instance, 'masterKeyId', ['masterKeyId']);
+
+		$this->keyStorageMock->expects($this->at(0))
 			->method('getFileKey')
+			->with($path, 'fileKey', 'OC_DEFAULT_MODULE')
 			->willReturn(true);
 
-		$this->keyStorageMock->expects($this->once())
-			->method('getSystemUserKey')
+		$this->keyStorageMock->expects($this->at(1))
+			->method('getFileKey')
+			->with($path, $expectedUid . '.shareKey', 'OC_DEFAULT_MODULE')
 			->willReturn(true);
 
-		$this->cryptMock->expects($this->once())
-			->method('decryptPrivateKey')
-			->willReturn(true);
+		if (is_null($uid)) {
+			$this->keyStorageMock->expects($this->once())
+				->method('getSystemUserKey')
+				->willReturn(true);
+			$this->cryptMock->expects($this->once())
+				->method('decryptPrivateKey')
+				->willReturn($privateKey);
+		} else {
+			$this->keyStorageMock->expects($this->never())
+				->method('getSystemUserKey');
+			$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
+				->willReturn($isMasterKeyEnabled);
+			$this->sessionMock->expects($this->once())->method('getPrivateKey')->willReturn($privateKey);
+		}
 
-		$this->cryptMock->expects($this->once())
-			->method('multiKeyDecrypt')
-			->willReturn(true);
+		if($privateKey) {
+			$this->cryptMock->expects($this->once())
+				->method('multiKeyDecrypt')
+				->willReturn(true);
+		} else {
+			$this->cryptMock->expects($this->never())
+				->method('multiKeyDecrypt');
+		}
 
-		$this->assertTrue($this->instance->getFileKey('/', null));
-		$this->assertEmpty($this->instance->getFileKey('/', $this->userId));
+		$this->assertSame($expected,
+			$this->instance->getFileKey($path, $uid)
+		);
+
+	}
+
+	public function dataTestGetFileKey() {
+		return [
+			['user1', false, 'privateKey', true],
+			['user1', false, false, ''],
+			['user1', true, 'privateKey', true],
+			['user1', true, false, ''],
+			['', false, 'privateKey', true],
+			['', false, false, ''],
+			['', true, 'privateKey', true],
+			['', true, false, '']
+		];
 	}
 
 	public function testDeletePrivateKey() {
