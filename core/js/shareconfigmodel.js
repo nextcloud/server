@@ -52,6 +52,13 @@
 		/**
 		 * @returns {boolean}
 		 */
+		isMailNotificationEnabled: function() {
+			return $('input:hidden[name=mailNotificationEnabled]').val() === 'yes';
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
 		isShareWithLinkAllowed: function() {
 			return $('#allowShareWithLink').val() === 'yes';
 		},
