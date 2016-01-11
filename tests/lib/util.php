@@ -138,11 +138,6 @@ class Test_Util extends \Test\TestCase {
 		$this->assertEquals($expected, \OC_Util::fileInfoLoaded());
 	}
 
-	function testGenerateRandomBytes() {
-		$result = strlen(OC_Util::generateRandomBytes(59));
-		$this->assertEquals(59, $result);
-	}
-
 	function testGetDefaultEmailAddress() {
 		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
 		$this->assertEquals('no-reply@localhost', $email);

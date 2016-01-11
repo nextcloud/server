@@ -1278,18 +1278,6 @@ class OC_Util {
 		}
 	}
 
-
-	/**
-	 * Generates a cryptographic secure pseudo-random string
-	 *
-	 * @param int $length of the random string
-	 * @return string
-	 * @deprecated Use \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length); instead
-	 */
-	public static function generateRandomBytes($length = 30) {
-		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
-	}
-
 	/**
 	 * Checks whether the server is running on Windows
 	 *
