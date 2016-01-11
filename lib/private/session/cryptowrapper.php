@@ -74,7 +74,7 @@ class CryptoWrapper {
 		if (!is_null($request->getCookie(self::COOKIE_NAME))) {
 			$this->passphrase = $request->getCookie(self::COOKIE_NAME);
 		} else {
-			$this->passphrase = $this->random->getMediumStrengthGenerator()->generate(128);
+			$this->passphrase = $this->random->generate(128);
 			$secureCookie = $request->getServerProtocol() === 'https';
 			// FIXME: Required for CI
 			if (!defined('PHPUNIT_RUN')) {

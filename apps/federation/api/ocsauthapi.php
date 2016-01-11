@@ -139,7 +139,7 @@ class OCSAuthAPI {
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
-		$sharedSecret = $this->secureRandom->getMediumStrengthGenerator()->generate(32);
+		$sharedSecret = $this->secureRandom->generate(32);
 
 		$this->trustedServers->addSharedSecret($url, $sharedSecret);
 		// reset token after the exchange of the shared secret was successful

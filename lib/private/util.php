@@ -1125,7 +1125,7 @@ class OC_Util {
 		// Check if a token exists
 		if (!\OC::$server->getSession()->exists('requesttoken')) {
 			// No valid token found, generate a new one.
-			$requestToken = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($tokenLength);
+			$requestToken = \OC::$server->getSecureRandom()->generate($tokenLength);
 			\OC::$server->getSession()->set('requesttoken', $requestToken);
 		} else {
 			// Valid token already exists, send it
@@ -1133,7 +1133,7 @@ class OC_Util {
 		}
 
 		// XOR the token to mitigate breach-like attacks
-		$sharedSecret = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($tokenLength);
+		$sharedSecret = \OC::$server->getSecureRandom()->generate($tokenLength);
 		self::$obfuscatedToken =  base64_encode($requestToken ^ $sharedSecret) .':'.$sharedSecret;
 
 		return self::$obfuscatedToken;

@@ -75,7 +75,7 @@ class MDB2SchemaManager {
 	 * @return \OC\DB\Migrator
 	 */
 	public function getMigrator() {
-		$random = \OC::$server->getSecureRandom()->getMediumStrengthGenerator();
+		$random = \OC::$server->getSecureRandom();
 		$platform = $this->conn->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
 		if ($platform instanceof SqlitePlatform) {
