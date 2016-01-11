@@ -268,6 +268,14 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 		And group "new-group" does not exist
 
+	Scenario: Delete a group with special characters
+	    Given As an "admin"
+		And group "España" exists
+		When sending "DELETE" to "/cloud/groups/España"
+		Then the OCS status code should be "100"
+		And the HTTP status code should be "200"
+		And group "España" does not exist
+
 	Scenario: get enabled apps
 		Given As an "admin"
 		When sending "GET" to "/cloud/apps?filter=enabled"
