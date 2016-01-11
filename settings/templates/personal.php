@@ -4,8 +4,8 @@
  * See the COPYING-README file.
  */
 
-/** @var $_ array */
-/** @var $_['urlGenerator'] */
+/** @var $_ mixed[]|\OCP\IURLGenerator[] */
+/** @var \OC_Defaults $theme */
 ?>
 
 <div id="app-navigation">
