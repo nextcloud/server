@@ -5,12 +5,8 @@ namespace OCA\Federation\Command;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
-use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -23,9 +19,7 @@ class SyncFederationAddressBooks extends Command {
 	private $syncService;
 
 	/**
-	 * @param IUserManager $userManager
-	 * @param IDBConnection $dbHandler
-	 * @param IConfig $config
+	 * @param DbHandler $dbHandler
 	 */
 	function __construct(DbHandler $dbHandler) {
 		parent::__construct();
