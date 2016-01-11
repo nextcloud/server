@@ -15,6 +15,7 @@ OC.L10N.register(
     "Not permitted to use authentication mechanism \"%s\"" : "Não é permitido utilizar o mecanismo de autenticação \"%s\"",
     "Unsatisfied authentication mechanism parameters" : "Parâmetros do mecanismo de autenticação inválidos",
     "Insufficient data: %s" : "Dados insuficientes: %s",
+    "%s" : "%s",
     "Personal" : "Pessoal",
     "System" : "Sistema",
     "Grant access" : "Conceder acesso",

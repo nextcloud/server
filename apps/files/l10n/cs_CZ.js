@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Stáhnout",
     "Rename" : "Přejmenovat",
     "Delete" : "Smazat",
+    "Disconnect storage" : "Odpojit úložiště",
+    "Unshare" : "Zrušit sdílení",
     "Details" : "Podrobnosti",
     "Select" : "Vybrat",
     "Pending" : "Nevyřízené",

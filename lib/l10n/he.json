@@ -11,6 +11,7 @@
     "last year" : "שנה שעברה",
     "seconds ago" : "שניות",
     "web services under your control" : "שירותי רשת תחת השליטה שלך",
+    "File name contains at least one invalid character" : "שם קובץ כולל לפחות תו אחד לא חוקי",
     "Application is not enabled" : "יישומים אינם מופעלים",
     "Authentication error" : "שגיאת הזדהות",
     "Token expired. Please reload page." : "פג תוקף. נא לטעון שוב את הדף.",
@@ -18,6 +19,7 @@
     "Could not find category \"%s\"" : "לא ניתן למצוא את הקטגוריה „%s“",
     "Apps" : "יישומים",
     "A valid username must be provided" : "יש לספק שם משתמש תקני",
-    "A valid password must be provided" : "יש לספק ססמה תקנית"
+    "A valid password must be provided" : "יש לספק ססמה תקנית",
+    "Storage not available" : "אחסון לא זמין"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
