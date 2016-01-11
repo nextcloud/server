@@ -284,9 +284,9 @@ class Comment implements IComment {
 	}
 
 	/**
-	 * returns the timestamp of the most recent child
+	 * returns the DateTime of the most recent child, if set, otherwise null
 	 *
-	 * @return int
+	 * @return \DateTime|null
 	 * @since 9.0.0
 	 */
 	public function getLatestChildDateTime() {
