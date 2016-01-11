@@ -99,14 +99,14 @@ class SyncService {
 	 */
 	protected function requestSyncReport($url, $userName, $sharedSecret, $syncToken) {
 		$settings = [
-			'baseUri' => $url,
+			'baseUri' => $url . '/',
 			'userName' => $userName,
 			'password' => $sharedSecret,
 		];
 		$client = new Client($settings);
 		$client->setThrowExceptions(true);
 
-		$addressBookUrl = "/remote.php/dav/addressbooks/system/system/system";
+		$addressBookUrl = "remote.php/dav/addressbooks/system/system/system";
 		$body = $this->buildSyncCollectionRequestBody($syncToken);
 
 		$response = $client->request('REPORT', $addressBookUrl, $body, [
