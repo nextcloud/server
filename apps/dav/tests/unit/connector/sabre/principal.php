@@ -26,13 +26,14 @@ namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 use OCP\IGroupManager;
 use \Sabre\DAV\PropPatch;
 use OCP\IUserManager;
+use Test\TestCase;
 
-class Principal extends \Test\TestCase {
-	/** @var IUserManager */
+class Principal extends TestCase {
+	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 	/** @var \OCA\DAV\Connector\Sabre\Principal */
 	private $connector;
-	/** @var IGroupManager */
+	/** @var IGroupManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $groupManager;
 
 	public function setUp() {
@@ -201,15 +202,14 @@ class Principal extends \Test\TestCase {
 	public function testGetGroupMembership() {
 		$fooUser = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
-		$fooUser
-			->expects($this->exactly(1))
-			->method('getUID')
-			->will($this->returnValue('foo'));
 		$this->userManager
 			->expects($this->once())
 			->method('get')
 			->with('foo')
-			->will($this->returnValue($fooUser));
+			->willReturn($fooUser);
+		$this->groupManager
+			->method('getUserGroups')
+			->willReturn([]);
 
 		$expectedResponse = [
 			'principals/users/foo/calendar-proxy-read',

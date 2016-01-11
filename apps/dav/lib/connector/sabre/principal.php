@@ -133,12 +133,11 @@ class Principal implements BackendInterface {
 		list($prefix, $name) = URLUtil::splitPath($principal);
 
 		if ($prefix === 'principals/users') {
-			$principal = $this->getPrincipalByPath($principal);
-			if (!$principal) {
+			$user = $this->userManager->get($name);
+			if (!$user) {
 				throw new Exception('Principal not found');
 			}
 
-			$user = $this->userManager->get($name);
 			$groups = $this->groupManager->getUserGroups($user);
 			$groups = array_map(function($group) {
 				/** @var IGroup $group */
@@ -212,4 +211,5 @@ class Principal implements BackendInterface {
 		}
 		return $principal;
 	}
+
 }
