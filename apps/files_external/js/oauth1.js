@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	OCA.External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme) {
+	OCA.External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme, onCompletion) {
 		if (authMechanism === 'oauth1::oauth1') {
 			var config = $tr.find('.configuration');
 			config.append($(document.createElement('input'))
@@ -10,39 +10,41 @@ $(document).ready(function() {
 				.attr('name', 'oauth1_grant')
 			);
 
-			var configured = $tr.find('[data-parameter="configured"]');
-			if ($(configured).val() == 'true') {
-				$tr.find('.configuration input').attr('disabled', 'disabled');
-				$tr.find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
-			} else {
-				var app_key = $tr.find('.configuration [data-parameter="app_key"]').val();
-				var app_secret = $tr.find('.configuration [data-parameter="app_secret"]').val();
-				if (app_key != '' && app_secret != '') {
-					var pos = window.location.search.indexOf('oauth_token') + 12;
-					var token = $tr.find('.configuration [data-parameter="token"]');
-					if (pos != -1 && window.location.search.substr(pos, $(token).val().length) == $(token).val()) {
-						var token_secret = $tr.find('.configuration [data-parameter="token_secret"]');
-						var statusSpan = $tr.find('.status span');
-						statusSpan.removeClass();
-						statusSpan.addClass('waiting');
-						$.post(OC.filePath('files_external', 'ajax', 'oauth1.php'), { step: 2, app_key: app_key, app_secret: app_secret, request_token: $(token).val(), request_token_secret: $(token_secret).val() }, function(result) {
-							if (result && result.status == 'success') {
-								$(token).val(result.access_token);
-								$(token_secret).val(result.access_token_secret);
-								$(configured).val('true');
-								OCA.External.Settings.mountConfig.saveStorageConfig($tr, function(status) {
-									if (status) {
-										$tr.find('.configuration input').attr('disabled', 'disabled');
-										$tr.find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
-									}
-								});
-							} else {
-								OC.dialogs.alert(result.data.message, t('files_external', 'Error configuring OAuth1'));
-							}
-						});
+			onCompletion.then(function() {
+				var configured = $tr.find('[data-parameter="configured"]');
+				if ($(configured).val() == 'true') {
+					$tr.find('.configuration input').attr('disabled', 'disabled');
+					$tr.find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
+				} else {
+					var app_key = $tr.find('.configuration [data-parameter="app_key"]').val();
+					var app_secret = $tr.find('.configuration [data-parameter="app_secret"]').val();
+					if (app_key != '' && app_secret != '') {
+						var pos = window.location.search.indexOf('oauth_token') + 12;
+						var token = $tr.find('.configuration [data-parameter="token"]');
+						if (pos != -1 && window.location.search.substr(pos, $(token).val().length) == $(token).val()) {
+							var token_secret = $tr.find('.configuration [data-parameter="token_secret"]');
+							var statusSpan = $tr.find('.status span');
+							statusSpan.removeClass();
+							statusSpan.addClass('waiting');
+							$.post(OC.filePath('files_external', 'ajax', 'oauth1.php'), { step: 2, app_key: app_key, app_secret: app_secret, request_token: $(token).val(), request_token_secret: $(token_secret).val() }, function(result) {
+								if (result && result.status == 'success') {
+									$(token).val(result.access_token);
+									$(token_secret).val(result.access_token_secret);
+									$(configured).val('true');
+									OCA.External.Settings.mountConfig.saveStorageConfig($tr, function(status) {
+										if (status) {
+											$tr.find('.configuration input').attr('disabled', 'disabled');
+											$tr.find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
+										}
+									});
+								} else {
+									OC.dialogs.alert(result.data.message, t('files_external', 'Error configuring OAuth1'));
+								}
+							});
+						}
 					}
 				}
-			}
+			});
 		}
 	});
 
