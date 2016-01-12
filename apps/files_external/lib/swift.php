@@ -323,7 +323,8 @@ class Swift extends \OC\Files\Storage\Common {
 					$streamInterface->rewind();
 					$stream = $streamInterface->getStream();
 					stream_context_set_option($stream, 'swift','content', $streamInterface);
-					if(is_resource($stream)) {
+					if(!strrpos($streamInterface
+						->getMetaData('wrapper_data')[0], '404 Not Found')) {
 						return $stream;
 					}
 					return false;
