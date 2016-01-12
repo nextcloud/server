@@ -69,7 +69,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
 					msg: 'Your web server is not set up properly to resolve "/.well-known/caldav/". Further information can be found in our <a target="_blank" href="http://example.org/admin-setup-well-known-URL">documentation</a>.',
-					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
 			});
