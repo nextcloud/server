@@ -51,10 +51,16 @@
 		 *
 		 * @param url the URL to test
 		 * @param placeholderUrl the placeholder URL - can be found at oc_defaults.docPlaceholderUrl
+		 * @param {boolean} runCheck if this is set to false the check is skipped and no error is returned
 		 * @return $.Deferred object resolved with an array of error messages
 		 */
-		checkWellKnownUrl: function(url, placeholderUrl) {
+		checkWellKnownUrl: function(url, placeholderUrl, runCheck) {
 			var deferred = $.Deferred();
+
+			if(runCheck === false) {
+				deferred.resolve([]);
+				return deferred.promise();
+			}
 			var afterCall = function(xhr) {
 				var messages = [];
 				if (xhr.status !== 207) {

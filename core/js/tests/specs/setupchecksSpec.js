@@ -62,7 +62,7 @@ describe('OC.SetupChecks tests', function() {
 
 	describe('checkWellKnownUrl', function() {
 		it('should fail with another response status code than 207', function(done) {
-			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', 'http://example.org/PLACEHOLDER');
+			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', 'http://example.org/PLACEHOLDER', true);
 
 			suite.server.requests[0].respond(200);
 
@@ -76,9 +76,18 @@ describe('OC.SetupChecks tests', function() {
 		});
 
 		it('should return no error with a response status code of 207', function(done) {
-			var async = OC.SetupChecks.checkWebDAV('/.well-known/caldav/', 'http://example.org/PLACEHOLDER');
+			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', 'http://example.org/PLACEHOLDER', true);
 
 			suite.server.requests[0].respond(207);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+
+		it('should return no error when no check should be run', function(done) {
+			var async = OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', 'http://example.org/PLACEHOLDER', false);
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([]);
