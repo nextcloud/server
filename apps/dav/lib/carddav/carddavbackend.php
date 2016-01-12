@@ -785,7 +785,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		// remove the share if it already exists
 		$this->unshare($addressBookUri, $element['href']);
-		$access = $element['readOnly'] ? self::ACCESS_READ : self::ACCESS_READ_WRITE;
+		$access = self::ACCESS_READ;
+		if (isset($element['readOnly'])) {
+			$access = $element['readOnly'] ? self::ACCESS_READ : self::ACCESS_READ_WRITE;
+		}
 
 		$newUri = sha1($addressBookUri . $addressBook['principaluri']);
 		$query = $this->db->getQueryBuilder();
@@ -794,7 +797,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'principaluri' => $query->createNamedParameter($parts[1]),
 				'uri' => $query->createNamedParameter($newUri),
 				'type' => $query->createNamedParameter('addressbook'),
-				'access' => $query->createNamedParameter(0),
+				'access' => $query->createNamedParameter($access),
 				'resourceid' => $query->createNamedParameter($addressBook['id'])
 			]);
 		$query->execute();
