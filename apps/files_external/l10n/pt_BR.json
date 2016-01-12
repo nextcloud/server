@@ -39,7 +39,6 @@
     "Couldn't get the list of external mount points: {type}" : "Não foi possível obter a lista de pontos de montagem externos: {type}",
     "There was an error with message: " : "Houve um erro com a mensagem:",
     "External mount error" : "Erro de montagem externa",
-    "goto-external-storage" : "ir-montagem-externa",
     "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Não foi possível obter a lista unidades de pontos de montagem da rede do Windows: resposta vazia a partir do servidor",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Alguns dos pontos de montagem externos configurados não estão conectados. Por favor clique na linha vermelha(s) para mais informações",
     "Access key" : "Chave da acesso",

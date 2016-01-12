@@ -41,7 +41,6 @@ OC.L10N.register(
     "Couldn't get the list of external mount points: {type}" : "Не удалось получить список внешних точек монтирования: {type}",
     "There was an error with message: " : "Обнаружена ошибка в сообщении:",
     "External mount error" : "Ошибка внешнего монтажа",
-    "goto-external-storage" : "goto-external-storage",
     "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Не удалось получить список окон сетевого диска точки монтирования: пустой ответ от сервера",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Некоторые из настроенных внешних точек монтирования не подключены. Для получения дополнительной информации, пожалуйста нажмите на красную строку (ы)",
     "Access key" : "Ключ доступа",

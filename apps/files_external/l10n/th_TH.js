@@ -41,7 +41,6 @@ OC.L10N.register(
     "Couldn't get the list of external mount points: {type}" : "ไม่สามารถรับรายชื่อของจุดเชื่อมต่อภายนอก: {type}",
     "There was an error with message: " : "มีข้อความแสดงข้อผิดพลาด",
     "External mount error" : "การติดจากตั้งภายนอกเกิดข้อผิดพลาด",
-    "goto-external-storage" : "ไปยังพื้นที่จัดเก็บข้อมูลภายนอก",
     "Access key" : "คีย์การเข้าถึง",
     "Secret key" : "คีย์ลับ",
     "Builtin" : "ในตัว",

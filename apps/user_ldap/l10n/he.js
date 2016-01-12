@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Select groups" : "בחירת קבוצות",
     "Do you really want to delete the current Server Configuration?" : "האם אכן למחוק את הגדרות השרת הנוכחיות?",
     "Confirm Deletion" : "אישור המחיקה",
     "Server" : "שרת",
