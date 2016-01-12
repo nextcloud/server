@@ -61,7 +61,7 @@
 					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
 					messages.push({
 						msg: t('core', 'Your web server is not set up properly to resolve "{url}". Further information can be found in our <a target="_blank" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
-						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					});
 				}
 				deferred.resolve(messages);
