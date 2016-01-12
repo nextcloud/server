@@ -75,6 +75,7 @@ $template->assign('showLog', $showLog);
 $template->assign('readOnlyConfigEnabled', OC_Helper::isReadOnlyConfigEnabled());
 $template->assign('isLocaleWorking', OC_Util::isSetLocaleWorking());
 $template->assign('isAnnotationsWorking', OC_Util::isAnnotationsWorking());
+$template->assign('checkForWorkingWellKnownSetup', $config->getSystemValue('check_for_working_wellknown_setup', true));
 $template->assign('has_fileinfo', OC_Util::fileInfoLoaded());
 $template->assign('backgroundjobs_mode', $appConfig->getValue('core', 'backgroundjobs_mode', 'ajax'));
 $template->assign('cron_log', $config->getSystemValue('cron_log', true));

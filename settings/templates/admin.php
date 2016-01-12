@@ -177,7 +177,7 @@ if ($_['cronErrors']) {
 ?>
 </ul>
 
-<div id="postsetupchecks">
+<div id="postsetupchecks" data-check-wellknown="<?php if($_['checkForWorkingWellKnownSetup']) { p('true'); } else { p('false'); } ?>">
 	<div class="loading"></div>
 	<ul class="errors hidden"></ul>
 	<ul class="warnings hidden"></ul>
