@@ -1,0 +1,11 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Thompson;Default;;;
+FN:Default Thompson
+EMAIL;type=INTERNET;type=WORK;type=pref:lthompson@example.com
+TEL;type=WORK;type=pref:1-555-555-5555
+TEL;type=CELL:1-555-555-5555
+item1.ADR;type=WORK;type=pref:;;2 Lag;Elk Forest;California;99999;USA
+item1.X-ABADR:us
+UID:ED7A5AEC-AB19-4CE0-AD6A-2923A3E5C4E1:ABPerson
+END:VCARD

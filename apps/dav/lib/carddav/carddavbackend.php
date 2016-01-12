@@ -53,6 +53,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
 			'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD');
 
+	const ACCESS_OWNER = 1;
+	const ACCESS_READ_WRITE = 2;
+	const ACCESS_READ = 3;
+
 	/**
 	 * CardDavBackend constructor.
 	 *
@@ -109,14 +113,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$principals[]= $principalUri;
 
 		$query = $this->db->getQueryBuilder();
-		$query2 = $this->db->getQueryBuilder();
-		$query2->select(['resourceid'])
-			->from('dav_shares')
-			->where($query2->expr()->in('principaluri', $query2->createParameter('principaluri')))
-			->andWhere($query2->expr()->eq('type', $query2->createParameter('type')));
-		$result = $query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
-			->from('addressbooks')
-			->where($query->expr()->in('id', $query->createFunction($query2->getSQL())))
+		$result = $query->select(['a.id', 'a.uri', 'a.displayname', 'a.principaluri', 'a.description', 'a.synctoken', 's.uri', 's.access'])
+			->from('dav_shares', 's')
+			->join('s', 'addressbooks', 'a', 's.resourceid = a.id')
+			->where($query->expr()->in('s.principaluri', $query->createParameter('principaluri')))
+			->andWhere($query->expr()->eq('s.type', $query->createParameter('type')))
 			->setParameter('type', 'addressbook')
 			->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
 			->execute();
@@ -125,11 +126,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$addressBooks[] = [
 				'id'  => $row['id'],
 				'uri' => $row['uri'],
-				'principaluri' => $row['principaluri'],
+				'principaluri' => $principalUri,
 				'{DAV:}displayname' => $row['displayname'],
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
 				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+				'{' . \OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
+				'{' . \OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => $row['access'] === self::ACCESS_READ,
 			];
 		}
 		$result->closeCursor();
@@ -782,12 +785,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		// remove the share if it already exists
 		$this->unshare($addressBookUri, $element['href']);
+		$access = $element['readOnly'] ? self::ACCESS_READ : self::ACCESS_READ_WRITE;
 
+		$newUri = sha1($addressBookUri . $addressBook['principaluri']);
 		$query = $this->db->getQueryBuilder();
 		$query->insert('dav_shares')
 			->values([
 				'principaluri' => $query->createNamedParameter($parts[1]),
-				'uri' => $query->createNamedParameter($addressBookUri),
+				'uri' => $query->createNamedParameter($newUri),
 				'type' => $query->createNamedParameter('addressbook'),
 				'access' => $query->createNamedParameter(0),
 				'resourceid' => $query->createNamedParameter($addressBook['id'])
@@ -835,11 +840,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *
 	 * @return array
 	 */
-	public function getShares($addressBookUri) {
+	public function getShares($addressBookId) {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['principaluri', 'access'])
 			->from('dav_shares')
-			->where($query->expr()->eq('uri', $query->createNamedParameter($addressBookUri)))
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter('addressbook')))
 			->execute();
 
@@ -850,7 +855,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'href' => "principal:${p['uri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
-				'readOnly' => ($row['access'] === 1)
+				'readOnly' => ($row['access'] === self::ACCESS_READ),
+				'{'.\OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD.'}principal' => $p['uri']
 			];
 		}
 
@@ -944,5 +950,30 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 
 		return (int)$cardIds['id'];
+	}
+
+	/**
+	 * @param $addressBookId
+	 * @param $acl
+	 * @return array
+	 */
+	public function applyShareAcl($addressBookId, $acl) {
+
+		$shares = $this->getShares($addressBookId);
+		foreach ($shares as $share) {
+			$acl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => $share['{' . \OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
+				'protected' => true,
+			];
+			if (!$share['readOnly']) {
+				$acl[] = [
+					'privilege' => '{DAV:}write',
+					'principal' => $share['{' . \OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
+					'protected' => true,
+				];
+			}
+		}
+		return $acl;
 	}
 }

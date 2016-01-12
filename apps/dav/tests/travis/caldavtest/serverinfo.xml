@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="no"?>
 
 <!DOCTYPE serverinfo SYSTEM
-		"/home/deepdiver/Development/ownCloud/master/apps/dav/tests/travis/caldavtest/config/serverinfo.dtd">
+		"/home/deepdiver/Development/ownCloud/master/apps/dav/tests/travis/caldavtest/serverinfo.dtd">
 
 <!--
  Copyright (c) 2006-2015 Apple Inc. All rights reserved.
