@@ -353,7 +353,7 @@ class Sharees {
 		$this->limit = (int) $perPage;
 		$this->offset = $perPage * ($page - 1);
 
-		return $this->searchSharees(strtolower($search), $itemType, $shareTypes, $page, $perPage);
+		return $this->searchSharees($search, $itemType, $shareTypes, $page, $perPage);
 	}
 
 	/**
