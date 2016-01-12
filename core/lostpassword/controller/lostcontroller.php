@@ -227,7 +227,7 @@ class LostController extends Controller {
 			);
 		}
 
-		$token = $this->secureRandom->getMediumStrengthGenerator()->generate(21,
+		$token = $this->secureRandom->generate(21,
 			ISecureRandom::CHAR_DIGITS.
 			ISecureRandom::CHAR_LOWER.
 			ISecureRandom::CHAR_UPPER);

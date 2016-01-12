@@ -1097,7 +1097,7 @@ class OC_Util {
 		$id = \OC::$server->getSystemConfig()->getValue('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
-			$id = 'oc' . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
+			$id = 'oc' . \OC::$server->getSecureRandom()->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 			\OC::$server->getSystemConfig()->setValue('instanceid', $id);
 		}
 		return $id;
@@ -1125,7 +1125,7 @@ class OC_Util {
 		// Check if a token exists
 		if (!\OC::$server->getSession()->exists('requesttoken')) {
 			// No valid token found, generate a new one.
-			$requestToken = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($tokenLength);
+			$requestToken = \OC::$server->getSecureRandom()->generate($tokenLength);
 			\OC::$server->getSession()->set('requesttoken', $requestToken);
 		} else {
 			// Valid token already exists, send it
@@ -1133,7 +1133,7 @@ class OC_Util {
 		}
 
 		// XOR the token to mitigate breach-like attacks
-		$sharedSecret = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($tokenLength);
+		$sharedSecret = \OC::$server->getSecureRandom()->generate($tokenLength);
 		self::$obfuscatedToken =  base64_encode($requestToken ^ $sharedSecret) .':'.$sharedSecret;
 
 		return self::$obfuscatedToken;

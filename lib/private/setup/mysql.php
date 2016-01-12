@@ -143,7 +143,7 @@ class MySQL extends AbstractDatabase {
 							$this->dbUser = $adminUser;
 
 							//create a random password so we don't need to store the admin password in the config file
-							$this->dbPassword =  $this->random->getMediumStrengthGenerator()->generate(30);
+							$this->dbPassword =  $this->random->generate(30);
 
 							$this->createDBUser($connection);
 

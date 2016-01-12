@@ -310,9 +310,9 @@ class Setup {
 		}
 
 		//generate a random salt that is used to salt the local user passwords
-		$salt = $this->random->getLowStrengthGenerator()->generate(30);
+		$salt = $this->random->generate(30);
 		// generate a secret
-		$secret = $this->random->getMediumStrengthGenerator()->generate(48);
+		$secret = $this->random->generate(48);
 
 		//write the config file
 		$this->config->setSystemValues([

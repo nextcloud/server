@@ -465,7 +465,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		}
 
 		if(empty($this->requestId)) {
-			$this->requestId = $this->secureRandom->getLowStrengthGenerator()->generate(20);
+			$this->requestId = $this->secureRandom->generate(20);
 		}
 
 		return $this->requestId;

@@ -344,7 +344,7 @@ class EncryptAll {
 	 * @return string password
 	 */
 	protected function generateOneTimePassword($uid) {
-		$password = $this->secureRandom->getMediumStrengthGenerator()->generate(8);
+		$password = $this->secureRandom->generate(8);
 		$this->userPasswords[$uid] = $password;
 		return $password;
 	}
