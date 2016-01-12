@@ -158,12 +158,14 @@ $template->assign('OutdatedCacheWarning', $outdatedCaches);
 // add hardcoded forms from the template
 $forms = OC_App::getForms('admin');
 
-$certificatesTemplate = new OC_Template('settings', 'certificates');
-$certificatesTemplate->assign('type', 'admin');
-$certificatesTemplate->assign('uploadRoute', 'settings.Certificate.addSystemRootCertificate');
-$certificatesTemplate->assign('certs', $certificateManager->listCertificates());
-$certificatesTemplate->assign('urlGenerator', $urlGenerator);
-$forms[] = $certificatesTemplate->fetchPage();
+if ($config->getSystemValue('enable_certificate_management', false)) {
+	$certificatesTemplate = new OC_Template('settings', 'certificates');
+	$certificatesTemplate->assign('type', 'admin');
+	$certificatesTemplate->assign('uploadRoute', 'settings.Certificate.addSystemRootCertificate');
+	$certificatesTemplate->assign('certs', $certificateManager->listCertificates());
+	$certificatesTemplate->assign('urlGenerator', $urlGenerator);
+	$forms[] = $certificatesTemplate->fetchPage();
+}
 
 $formsAndMore = array();
 if ($request->getServerProtocol()  !== 'https' || !OC_Util::isAnnotationsWorking() ||
