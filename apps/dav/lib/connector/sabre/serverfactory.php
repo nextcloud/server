@@ -32,8 +32,6 @@ use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\BackendInterface;
-use Sabre\DAV\Locks\Plugin;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ServerFactory {
 	/** @var IConfig */
@@ -48,8 +46,6 @@ class ServerFactory {
 	private $mountManager;
 	/** @var ITagManager */
 	private $tagManager;
-	/** @var EventDispatcherInterface */
-	private $dispatcher;
 	/** @var IRequest */
 	private $request;
 
@@ -60,7 +56,6 @@ class ServerFactory {
 	 * @param IUserSession $userSession
 	 * @param IMountManager $mountManager
 	 * @param ITagManager $tagManager
-	 * @param EventDispatcherInterface $dispatcher
 	 * @param IRequest $request
 	 */
 	public function __construct(
@@ -70,7 +65,6 @@ class ServerFactory {
 		IUserSession $userSession,
 		IMountManager $mountManager,
 		ITagManager $tagManager,
-		EventDispatcherInterface $dispatcher,
 		IRequest $request
 	) {
 		$this->config = $config;
@@ -79,7 +73,6 @@ class ServerFactory {
 		$this->userSession = $userSession;
 		$this->mountManager = $mountManager;
 		$this->tagManager = $tagManager;
-		$this->dispatcher = $dispatcher;
 		$this->request = $request;
 	}
 
@@ -110,7 +103,6 @@ class ServerFactory {
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
-		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ListenerPlugin($this->dispatcher));
 		// Finder on OS X requires Class 2 WebDAV support (locking), since we do
 		// not provide locking we emulate it using a fake locking plugin.
 		if($this->request->isUserAgent(['/WebDAVFS/'])) {
