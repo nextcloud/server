@@ -1043,6 +1043,10 @@ class ShareesTest extends TestCase {
 			[[], 'no', 'yes',  true, '', null, $allTypes, 1, 200, false, true],
 			[[], 'no', 'no', true, '', null, $allTypes, 1, 200, false, false],
 
+			// Test keep case for search
+			[[
+				'search' => 'foo@example.com/ownCloud',
+			], '', 'yes', true, 'foo@example.com/ownCloud', null, $allTypes, 1, 200, false, true],
 		];
 	}
 
