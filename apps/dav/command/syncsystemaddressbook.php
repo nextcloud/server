@@ -57,7 +57,6 @@ class SyncSystemAddressBook extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$principalBackend = new Principal(
-				$this->config,
 				$this->userManager
 		);
 

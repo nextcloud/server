@@ -63,7 +63,6 @@ class CreateAddressBook extends Command {
 			throw new \InvalidArgumentException("User <$user> in unknown.");
 		}
 		$principalBackend = new Principal(
-				$this->config,
 				$this->userManager
 		);
 
