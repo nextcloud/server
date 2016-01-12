@@ -186,8 +186,10 @@ if (isset($argv[1])) {
 	$licenses->exec($argv[1]);
 } else {
 	$licenses->exec([
-		'../apps/files',
+		'../apps/dav',
 		'../apps/encryption',
+		'../apps/federation',
+		'../apps/files',
 		'../apps/files_external',
 		'../apps/files_sharing',
 		'../apps/files_trashbin',
