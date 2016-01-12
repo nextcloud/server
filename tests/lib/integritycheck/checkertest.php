@@ -120,6 +120,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithoutSignatureData() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$expected = [
 			'EXCEPTION' => [
 					'class' => 'OC\IntegrityCheck\Exceptions\InvalidSignatureException',
@@ -130,6 +140,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithValidSignatureData() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->appLocator
 				->expects($this->once())
 				->method('getAppPath')
@@ -162,6 +182,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithTamperedSignatureData() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->appLocator
 				->expects($this->once())
 				->method('getAppPath')
@@ -200,6 +230,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithTamperedFiles() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->appLocator
 				->expects($this->once())
 				->method('getAppPath')
@@ -254,6 +294,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppWithDifferentScope() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->appLocator
 				->expects($this->once())
 				->method('getAppPath')
@@ -290,6 +340,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppWithDifferentScopeAndAlwaysTrustedCore() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->appLocator
 				->expects($this->once())
 				->method('getAppPath')
@@ -350,6 +410,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithoutSignatureData() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$expected = [
 			'EXCEPTION' => [
 				'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
@@ -360,6 +430,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithValidSignatureData() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->environmentHelper
 				->expects($this->any())
 				->method('getServerRoot')
@@ -392,6 +472,16 @@ class CheckerTest extends TestCase {
 
 	public function testVerifyCoreSignatureWithValidSignatureDataAndNotAlphabeticOrder() {
 		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
+		$this->environmentHelper
 				->expects($this->any())
 				->method('getServerRoot')
 				->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/app/'));
@@ -422,6 +512,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithTamperedSignatureData() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->environmentHelper
 				->expects($this->any())
 				->method('getServerRoot')
@@ -459,6 +559,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreSignatureWithTamperedFiles() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->environmentHelper
 				->expects($this->any())
 				->method('getServerRoot')
@@ -512,6 +622,16 @@ class CheckerTest extends TestCase {
 
 	public function testVerifyCoreWithInvalidCertificate() {
 		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
+		$this->environmentHelper
 				->expects($this->any())
 				->method('getServerRoot')
 				->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/app/'));
@@ -548,6 +668,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyCoreWithDifferentScope() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->environmentHelper
 				->expects($this->any())
 				->method('getServerRoot')
@@ -668,4 +798,66 @@ class CheckerTest extends TestCase {
 		$this->checker->runInstanceVerification();
 	}
 
+	public function testVerifyAppSignatureWithoutSignatureDataAndCodeCheckerDisabled() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(true));
+
+		$expected = [];
+		$this->assertSame($expected, $this->checker->verifyAppSignature('SomeApp'));
+	}
+
+	/**
+	 * @return array
+	 */
+	public function channelDataProvider() {
+		return [
+			['stable', true],
+			['git', false],
+		];
+	}
+
+	/**
+	 * @param string $channel
+	 * @param bool $isCodeSigningEnforced
+	 * @dataProvider channelDataProvider
+	 */
+	public function testIsCodeCheckEnforced($channel, $isCodeSigningEnforced) {
+		$this->environmentHelper
+			->expects($this->once())
+			->method('getChannel')
+			->will($this->returnValue($channel));
+		$this->config
+			->expects($this->any())
+			->method('getSystemValue')
+			->with('integrity.check.disabled', false)
+			->will($this->returnValue(false));
+
+		$this->assertSame($isCodeSigningEnforced, $this->checker->isCodeCheckEnforced());
+	}
+
+	/**
+	 * @param string $channel
+	 * @dataProvider channelDataProvider
+	 */
+	public function testIsCodeCheckEnforcedWithDisabledConfigSwitch($channel) {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue($channel));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(true));
+
+		$result = $this->invokePrivate($this->checker, 'isCodeCheckEnforced');
+		$this->assertSame(false, $result);
+	}
 }
