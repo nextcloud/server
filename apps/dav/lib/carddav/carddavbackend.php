@@ -115,7 +115,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['a.id', 'a.uri', 'a.displayname', 'a.principaluri', 'a.description', 'a.synctoken', 's.uri', 's.access'])
 			->from('dav_shares', 's')
-			->join('s', 'addressbooks', 'a', 's.resourceid = a.id')
+			->join('s', 'addressbooks', 'a', $query->expr()->eq('s.resourceid', 'a.id'))
 			->where($query->expr()->in('s.principaluri', $query->createParameter('principaluri')))
 			->andWhere($query->expr()->eq('s.type', $query->createParameter('type')))
 			->setParameter('type', 'addressbook')
