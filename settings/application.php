@@ -107,6 +107,7 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('CertificateManager'),
+				$c->query('SystemCertificateManager'),
 				$c->query('L10N'),
 				$c->query('IAppManager')
 			);
@@ -242,6 +243,9 @@ class Application extends App {
 		});
 		$container->registerService('CertificateManager', function(IContainer $c){
 			return $c->query('ServerContainer')->getCertificateManager();
+		});
+		$container->registerService('SystemCertificateManager', function (IContainer $c) {
+			return $c->query('ServerContainer')->getCertificateManager(null);
 		});
 		$container->registerService('Checker', function(IContainer $c) {
 			/** @var Server $server */

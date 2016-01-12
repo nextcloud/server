@@ -38,6 +38,10 @@ OC_Util::checkAdminUser();
 $template = new OC_Template('settings', 'admin', 'user');
 $l = \OC::$server->getL10N('settings');
 
+OC_Util::addScript('settings', 'certificates');
+OC_Util::addScript('files', 'jquery.iframe-transport');
+OC_Util::addScript('files', 'jquery.fileupload');
+
 $showLog = (\OC::$server->getConfig()->getSystemValue('log_type', 'owncloud') === 'owncloud');
 $numEntriesToLoad = 3;
 $entries = OC_Log_Owncloud::getEntries($numEntriesToLoad + 1);
@@ -52,6 +56,8 @@ if($doesLogFileExist) {
 $config = \OC::$server->getConfig();
 $appConfig = \OC::$server->getAppConfig();
 $request = \OC::$server->getRequest();
+$certificateManager = \OC::$server->getCertificateManager(null);
+$urlGenerator = \OC::$server->getURLGenerator();
 
 // Should we display sendmail as an option?
 $template->assign('sendmail_is_available', (bool) \OC_Helper::findBinaryPath('sendmail'));
@@ -152,6 +158,16 @@ $template->assign('OutdatedCacheWarning', $outdatedCaches);
 
 // add hardcoded forms from the template
 $forms = OC_App::getForms('admin');
+
+if ($config->getSystemValue('enable_certificate_management', false)) {
+	$certificatesTemplate = new OC_Template('settings', 'certificates');
+	$certificatesTemplate->assign('type', 'admin');
+	$certificatesTemplate->assign('uploadRoute', 'settings.Certificate.addSystemRootCertificate');
+	$certificatesTemplate->assign('certs', $certificateManager->listCertificates());
+	$certificatesTemplate->assign('urlGenerator', $urlGenerator);
+	$forms[] = $certificatesTemplate->fetchPage();
+}
+
 $formsAndMore = array();
 if ($request->getServerProtocol()  !== 'https' || !OC_Util::isAnnotationsWorking() ||
 	$suggestedOverwriteCliUrl || !OC_Util::isSetLocaleWorking()  ||

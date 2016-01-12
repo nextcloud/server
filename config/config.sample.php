@@ -854,6 +854,11 @@ $CONFIG = array(
 ),
 
 /**
+ * Allow the configuration of system wide trusted certificates
+ */
+'enable_certificate_management' => false,
+
+/**
  * Memory caching backend configuration
  *
  * Available cache backends:

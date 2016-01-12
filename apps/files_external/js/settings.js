@@ -1210,13 +1210,6 @@ $(document).ready(function() {
 	});
 	mountConfigListView.loadStorages();
 
-	$('#sslCertificate').on('click', 'td.remove>img', function() {
-		var $tr = $(this).closest('tr');
-		$.post(OC.filePath('files_external', 'ajax', 'removeRootCertificate.php'), {cert: $tr.attr('id')});
-		$tr.remove();
-		return true;
-	});
-
 	// TODO: move this into its own View class
 	var $allowUserMounting = $('#allowUserMounting');
 	$allowUserMounting.bind('change', function() {
