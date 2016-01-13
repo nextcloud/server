@@ -102,6 +102,16 @@ class ListCommand extends Base {
 		/** @var  $mounts StorageConfig[] */
 		$mounts = $storageService->getAllStorages();
 
+		$this->listMounts($userId, $mounts, $input, $output);
+	}
+
+	/**
+	 * @param $userId $userId
+	 * @param StorageConfig[] $mounts
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 */
+	public function listMounts($userId, array $mounts, InputInterface $input, OutputInterface $output){
 		if (count($mounts) === 0) {
 			if ($userId) {
 				$output->writeln("<info>No mounts configured by $userId</info>");
