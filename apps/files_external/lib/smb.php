@@ -35,6 +35,7 @@ use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
+use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 
 class SMB extends Common {
@@ -49,9 +50,14 @@ class SMB extends Common {
 	protected $share;
 
 	/**
+	 * @var string
+	 */
+	protected $root;
+
+	/**
 	 * @var \Icewind\SMB\FileInfo[]
 	 */
-	protected $statCache = array();
+	protected $statCache;
 
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
@@ -72,6 +78,7 @@ class SMB extends Common {
 		} else {
 			throw new \Exception('Invalid configuration');
 		}
+		$this->statCache = new CappedMemoryCache();
 	}
 
 	/**
