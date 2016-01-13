@@ -62,7 +62,14 @@ class Client implements IClient {
 		if ($this->certificateManager->listCertificates() !== []) {
 			$this->client->setDefaultOption('verify', $this->certificateManager->getAbsoluteBundlePath());
 		} else {
-			$this->client->setDefaultOption('verify', $this->certificateManager->getAbsoluteBundlePath(null));
+			// If the instance is not yet setup we need to use the static path as
+			// $this->certificateManager->getAbsoluteBundlePath() tries to instantiiate
+			// a view
+			if($this->config->getSystemValue('installed', false)) {
+				$this->client->setDefaultOption('verify', $this->certificateManager->getAbsoluteBundlePath(null));
+			} else {
+				$this->client->setDefaultOption('verify', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+			}
 		}
 
 		$this->client->setDefaultOption('headers/User-Agent', 'ownCloud Server Crawler');
