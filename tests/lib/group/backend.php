@@ -1,24 +1,28 @@
 <?php
 /**
-* ownCloud
-*
-* @author Robin Appelman
-* @copyright 2012 Robin Appelman icewind@owncloud.com
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*
-*/
+ * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Felix Moeller <mail@felixmoeller.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ *
+ * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ */
 
 /**
  * Class Test_Group_Backend
@@ -34,10 +38,11 @@ abstract class Test_Group_Backend extends \Test\TestCase {
 	/**
 	 * get a new unique group name
 	 * test cases can override this in order to clean up created groups
+	 *
 	 * @return string
 	 */
 	public function getGroupName($name = null) {
-		if(is_null($name)) {
+		if (is_null($name)) {
 			return $this->getUniqueID('test_');
 		} else {
 			return $name;
@@ -47,6 +52,7 @@ abstract class Test_Group_Backend extends \Test\TestCase {
 	/**
 	 * get a new unique user name
 	 * test cases can override this in order to clean up created user
+	 *
 	 * @return string
 	 */
 	public function getUserName() {
@@ -55,36 +61,36 @@ abstract class Test_Group_Backend extends \Test\TestCase {
 
 	public function testAddRemove() {
 		//get the number of groups we start with, in case there are exising groups
-		$startCount=count($this->backend->getGroups());
+		$startCount = count($this->backend->getGroups());
 
-		$name1=$this->getGroupName();
-		$name2=$this->getGroupName();
+		$name1 = $this->getGroupName();
+		$name2 = $this->getGroupName();
 		$this->backend->createGroup($name1);
-		$count=count($this->backend->getGroups())-$startCount;
+		$count = count($this->backend->getGroups()) - $startCount;
 		$this->assertEquals(1, $count);
-		$this->assertTrue((array_search($name1, $this->backend->getGroups())!==false));
-		$this->assertFalse((array_search($name2, $this->backend->getGroups())!==false));
+		$this->assertTrue((array_search($name1, $this->backend->getGroups()) !== false));
+		$this->assertFalse((array_search($name2, $this->backend->getGroups()) !== false));
 		$this->backend->createGroup($name2);
-		$count=count($this->backend->getGroups())-$startCount;
+		$count = count($this->backend->getGroups()) - $startCount;
 		$this->assertEquals(2, $count);
-		$this->assertTrue((array_search($name1, $this->backend->getGroups())!==false));
-		$this->assertTrue((array_search($name2, $this->backend->getGroups())!==false));
+		$this->assertTrue((array_search($name1, $this->backend->getGroups()) !== false));
+		$this->assertTrue((array_search($name2, $this->backend->getGroups()) !== false));
 
 		$this->backend->deleteGroup($name2);
-		$count=count($this->backend->getGroups())-$startCount;
+		$count = count($this->backend->getGroups()) - $startCount;
 		$this->assertEquals(1, $count);
-		$this->assertTrue((array_search($name1, $this->backend->getGroups())!==false));
-		$this->assertFalse((array_search($name2, $this->backend->getGroups())!==false));
+		$this->assertTrue((array_search($name1, $this->backend->getGroups()) !== false));
+		$this->assertFalse((array_search($name2, $this->backend->getGroups()) !== false));
 	}
 
 	public function testUser() {
-		$group1=$this->getGroupName();
-		$group2=$this->getGroupName();
+		$group1 = $this->getGroupName();
+		$group2 = $this->getGroupName();
 		$this->backend->createGroup($group1);
 		$this->backend->createGroup($group2);
 
-		$user1=$this->getUserName();
-		$user2=$this->getUserName();
+		$user1 = $this->getUserName();
+		$user2 = $this->getUserName();
 
 		$this->assertFalse($this->backend->inGroup($user1, $group1));
 		$this->assertFalse($this->backend->inGroup($user2, $group1));
@@ -142,5 +148,12 @@ abstract class Test_Group_Backend extends \Test\TestCase {
 
 		$result = $this->backend->countUsersInGroup($group, 'bar');
 		$this->assertSame(2, $result);
+	}
+
+	public function testAddDouble() {
+		$group = $this->getGroupName();
+
+		$this->backend->createGroup($group);
+		$this->backend->createGroup($group);
 	}
 }
