@@ -589,6 +589,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->create($share);
 
 		$this->assertNotNull($share2->getId());
+		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
 		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $share2->getShareType());
 		$this->assertSame($sharedWith, $share2->getSharedWith());
 		$this->assertSame($sharedBy, $share2->getSharedBy());
@@ -651,6 +652,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->create($share);
 
 		$this->assertNotNull($share2->getId());
+		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
 		$this->assertSame(\OCP\Share::SHARE_TYPE_GROUP, $share2->getShareType());
 		$this->assertSame($sharedWith, $share2->getSharedWith());
 		$this->assertSame($sharedBy, $share2->getSharedBy());
@@ -710,6 +712,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share2 = $this->provider->create($share);
 
 		$this->assertNotNull($share2->getId());
+		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
 		$this->assertSame(\OCP\Share::SHARE_TYPE_LINK, $share2->getShareType());
 		$this->assertSame($sharedBy, $share2->getSharedBy());
 		$this->assertSame($shareOwner, $share2->getShareOwner());

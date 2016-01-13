@@ -29,6 +29,11 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\Files\Node;
 
+/**
+ * Class DefaultShareProvider
+ *
+ * @package OC\Share20
+ */
 class DefaultShareProvider implements IShareProvider {
 
 	/** @var IDBConnection */
@@ -73,6 +78,15 @@ class DefaultShareProvider implements IShareProvider {
 			\OCP\Share::SHARE_TYPE_GROUP,
 			\OCP\Share::SHARE_TYPE_LINK,
 		];
+	}
+
+	/**
+	 * Return the identifier of this provider.
+	 *
+	 * @return string Containing only [a-zA-Z0-9]
+	 */
+	public function identifier() {
+		return 'ocinternal';
 	}
 
 	/**
@@ -354,6 +368,8 @@ class DefaultShareProvider implements IShareProvider {
 			$expiration = \DateTime::createFromFormat('Y-m-d H:i:s', $data['expiration']);
 			$share->setExpirationDate($expiration);
 		}
+
+		$share->setProviderId($this->identifier());
 
 		return $share;
 	}

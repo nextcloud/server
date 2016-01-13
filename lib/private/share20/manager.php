@@ -21,10 +21,12 @@
 namespace OC\Share20;
 
 
+use OC\Share20\Exception\BackendError;
 use OC\Share20\Exception\ProviderException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\Preview\IProvider;
 use OCP\Security\ISecureRandom;
 use OCP\Security\IHasher;
 use OCP\Files\Mount\IMountManager;
@@ -112,40 +114,45 @@ class Manager {
 	 */
 	private function addProviders(array $providers) {
 		foreach ($providers as $provider) {
-			$name = get_class($provider);
+			$id = $provider->identifier();
+			$class = get_class($provider);
 
 			if (!($provider instanceof IShareProvider)) {
-				throw new ProviderException($name . ' is not an instance of IShareProvider');
+				throw new ProviderException($class . ' is not an instance of IShareProvider');
 			}
 
-			if (isset($this->providers[$name])) {
-				throw new ProviderException($name . ' is already registered');
+			if (isset($this->providers[$id])) {
+				throw new ProviderException($id . ' is already registered');
 			}
 
-			$this->providers[$name] = $provider;
+			$this->providers[$id] = $provider;
 			$types = $provider->shareTypes();
 
 			if ($types === []) {
-				throw new ProviderException('Provider ' . $name . ' must supply share types it can handle');
+				throw new ProviderException('Provider ' . $id . ' must supply share types it can handle');
 			}
 
 			foreach ($types as $type) {
 				if (isset($this->type2provider[$type])) {
-					throw new ProviderException($name . ' tried to register for share type ' . $type . ' but this type is already handled by ' . $this->type2provider[$type]);
+					throw new ProviderException($id . ' tried to register for share type ' . $type . ' but this type is already handled by ' . $this->type2provider[$type]);
 				}
 
-				$this->type2provider[$type] = $name;
+				$this->type2provider[$type] = $id;
 			}
 		}
 	}
 
+	/**
+	 * Run the factory if this is not done yet
+	 *
+	 * @throws ProviderException
+	 */
 	private function runFactory() {
 		if (!empty($this->providers)) {
 			return;
 		}
 
 		$this->addProviders($this->factory->getProviders());
-		$this->factoryDone = true;
 	}
 
 	/**
@@ -185,6 +192,16 @@ class Manager {
 		$this->runFactory();
 
 		return $this->providers;
+	}
+
+	/**
+	 * Convert from a full share id to a tuple (providerId, shareId)
+	 *
+	 * @param string $id
+	 * @return string[]
+	 */
+	private function splitFullId($id) {
+		return explode(':', $id, 2);
 	}
 
 	/**
@@ -334,7 +351,6 @@ class Manager {
 
 		return $expireDate;
 	}
-
 
 	/**
 	 * Check for pre share requirements for user shares
@@ -549,6 +565,7 @@ class Manager {
 
 		$provider = $this->getProviderForType($share->getShareType());
 		$share = $provider->create($share);
+		$share->setProviderId($provider->identifier());
 
 		// Post share hook
 		$postHookData = [
@@ -585,16 +602,14 @@ class Manager {
 	protected function deleteChildren(IShare $share) {
 		$deletedShares = [];
 
-		$providers = $this->getProviders();
+		$provider = $this->getProviderForType($share->getShareType());
 
-		foreach($providers as $provider) {
-			foreach ($provider->getChildren($share) as $child) {
-				$deletedChildren = $this->deleteChildren($child);
-				$deletedShares = array_merge($deletedShares, $deletedChildren);
+		foreach ($provider->getChildren($share) as $child) {
+			$deletedChildren = $this->deleteChildren($child);
+			$deletedShares = array_merge($deletedShares, $deletedChildren);
 
-				$provider->delete($child);
-				$deletedShares[] = $child;
-			}
+			$provider->delete($child);
+			$deletedShares[] = $child;
 		}
 
 		return $deletedShares;
@@ -605,11 +620,12 @@ class Manager {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OC\Share20\Exception\BackendError
+	 * @throws BackendError
+	 * @throws ShareNotFound
 	 */
 	public function deleteShare(IShare $share) {
 		// Just to make sure we have all the info
-		$share = $this->getShareById($share->getId());
+		$share = $this->getShareById($share->getFullId());
 
 		$formatHookParams = function(IShare $share) {
 			// Prepare hook
@@ -686,24 +702,11 @@ class Manager {
 			throw new ShareNotFound();
 		}
 
-		//FIXME ids need to become proper providerid:shareid eventually
+		list($providerId, $id) = $this->splitFullId($id);
+		$provider = $this->getProvider($providerId);
 
-		$providers = $this->getProviders();
-
-		$share = null;
-		foreach ($providers as $provider) {
-			try {
-				$share = $provider->getShareById($id);
-				$found = true;
-				break;
-			} catch (ShareNotFound $e) {
-				// Ignore
-			}
-		}
-
-		if ($share === null) {
-			throw new ShareNotFound();
-		}
+		$share = $provider->getShareById($id);
+		$share->setProviderId($provider->identifier());
 
 		return $share;
 	}

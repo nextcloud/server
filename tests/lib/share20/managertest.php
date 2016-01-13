@@ -109,6 +109,7 @@ class ManagerTest extends \Test\TestCase {
 				\OCP\Share::SHARE_TYPE_GROUP,
 				\OCP\Share::SHARE_TYPE_LINK,
 			]);
+		$this->defaultProvider->method('identifier')->willReturn('default');
 	}
 
 	/**
@@ -155,6 +156,7 @@ class ManagerTest extends \Test\TestCase {
 		$provider = $provider->getMock();
 
 		$provider->method('shareTypes')->willReturn($shareTypes);
+		$provider->method('identifier')->willReturn(get_class($provider));
 
 		return $provider;
 	}
@@ -169,7 +171,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$share
 			->expects($this->once())
-			->method('getId')
+			->method('getFullId')
 			->with()
 			->willReturn(null);
 
@@ -204,7 +206,7 @@ class ManagerTest extends \Test\TestCase {
 			\OCP\Share::SHARE_TYPE_GROUP,
 			\OCP\Share::SHARE_TYPE_LINK,
 			\OCP\Share::SHARE_TYPE_REMOTE,
-		]);
+		], 'prov');
 		$this->factoryProviders([$provider]);
 
 		$sharedBy = $this->getMock('\OCP\IUser');
@@ -215,13 +217,14 @@ class ManagerTest extends \Test\TestCase {
 
 		$share = $this->getMock('\OC\Share20\IShare');
 		$share->method('getId')->willReturn(42);
+		$share->method('getFullId')->willReturn('prov:42');
 		$share->method('getShareType')->willReturn($shareType);
 		$share->method('getSharedWith')->willReturn($sharedWith);
 		$share->method('getSharedBy')->willReturn($sharedBy);
 		$share->method('getPath')->willReturn($path);
 		$share->method('getTarget')->willReturn('myTarget');
 
-		$manager->expects($this->once())->method('getShareById')->with(42)->willReturn($share);
+		$manager->expects($this->once())->method('getShareById')->with('prov:42')->willReturn($share);
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
 
 		$provider
@@ -288,7 +291,11 @@ class ManagerTest extends \Test\TestCase {
 			->setMethods(['getShareById'])
 			->getMock();
 
-		$provider = $this->createShareProvider([\OCP\Share::SHARE_TYPE_USER]);
+		$provider = $this->createShareProvider([
+			\OCP\Share::SHARE_TYPE_USER,
+			\OCP\Share::SHARE_TYPE_GROUP,
+			\OCP\Share::SHARE_TYPE_LINK,
+		], 'prov');
 		$this->factoryProviders([$provider]);
 
 		$sharedBy1 = $this->getMock('\OCP\IUser');
@@ -308,6 +315,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$share1 = $this->getMock('\OC\Share20\IShare');
 		$share1->method('getId')->willReturn(42);
+		$share1->method('getFullId')->willReturn('prov:42');
 		$share1->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 		$share1->method('getSharedWith')->willReturn($sharedWith1);
 		$share1->method('getSharedBy')->willReturn($sharedBy1);
@@ -316,6 +324,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$share2 = $this->getMock('\OC\Share20\IShare');
 		$share2->method('getId')->willReturn(43);
+		$share2->method('getFullId')->willReturn('prov:43');
 		$share2->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
 		$share2->method('getSharedWith')->willReturn($sharedWith2);
 		$share2->method('getSharedBy')->willReturn($sharedBy2);
@@ -325,13 +334,14 @@ class ManagerTest extends \Test\TestCase {
 
 		$share3 = $this->getMock('\OC\Share20\IShare');
 		$share3->method('getId')->willReturn(44);
+		$share3->method('getFullId')->willReturn('prov:44');
 		$share3->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
 		$share3->method('getSharedBy')->willReturn($sharedBy3);
 		$share3->method('getPath')->willReturn($path);
 		$share3->method('getTarget')->willReturn('myTarget3');
 		$share3->method('getParent')->willReturn(43);
 
-		$manager->expects($this->once())->method('getShareById')->with(42)->willReturn($share1);
+		$manager->expects($this->once())->method('getShareById')->with('prov:42')->willReturn($share1);
 
 		$provider
 			->method('getChildren')
@@ -408,7 +418,6 @@ class ManagerTest extends \Test\TestCase {
 			],
 		];
 
-
 		$hookListner
 			->expects($this->exactly(1))
 			->method('pre')
@@ -430,10 +439,14 @@ class ManagerTest extends \Test\TestCase {
 		$this->factoryProviders([$provider]);
 
 		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 
 		$child1 = $this->getMock('\OC\Share20\IShare');
+		$child1->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 		$child2 = $this->getMock('\OC\Share20\IShare');
+		$child2->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 		$child3 = $this->getMock('\OC\Share20\IShare');
+		$child3->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 
 		$shares = [
 			$child1,
@@ -471,7 +484,7 @@ class ManagerTest extends \Test\TestCase {
 			->with(42)
 			->willReturn($share);
 
-		$this->assertEquals($share, $this->manager->getShareById(42));
+		$this->assertEquals($share, $this->manager->getShareById('default:42'));
 	}
 
 	/**

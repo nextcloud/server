@@ -142,10 +142,20 @@ class Share20OCS {
 	 * @return \OC_OCS_Result
 	 */
 	public function getShare($id) {
+		// Try both our default, and our federated provider..
+		$share = null;
+
+		// First check if it is an internal share.
 		try {
-			$share = $this->shareManager->getShareById($id);
+			$share = $this->shareManager->getShareById('ocinternal:'.$id);
 		} catch (\OC\Share20\Exception\ShareNotFound $e) {
-			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+			// Ignore for now
+			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+		}
+
+		if ($share === null) {
+			//For now federated shares are handled by the old endpoint.
+			return \OCA\Files_Sharing\API\Local::getShare(['id' => $id]);
 		}
 
 		if ($this->canAccessShare($share)) {
@@ -163,18 +173,19 @@ class Share20OCS {
 	 * @return \OC_OCS_Result
 	 */
 	public function deleteShare($id) {
+		// Try both our default and our federated provider
+		$share = null;
+
 		try {
-			$share = $this->shareManager->getShareById($id);
+			$share = $this->shareManager->getShareById('ocinternal:' . $id);
 		} catch (\OC\Share20\Exception\ShareNotFound $e) {
-			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+			//Ignore for now
+			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
 
-		/*
-		 * FIXME
-		 * User the old code path for remote shares until we have our remoteshareprovider
-		 */
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
-			\OCA\Files_Sharing\API\Local::deleteShare(['id' => $id]);
+		// Could not find the share as internal share... maybe it is a federated share
+		if ($share === null) {
+			return \OCA\Files_Sharing\API\Local::deleteShare(['id' => $id]);
 		}
 
 		if (!$this->canAccessShare($share)) {

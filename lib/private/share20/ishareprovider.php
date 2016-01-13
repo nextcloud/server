@@ -34,6 +34,13 @@ interface IShareProvider {
 	public function shareTypes();
 
 	/**
+	 * Return the identifier of this provider.
+	 *
+	 * @return string Containing only [a-zA-Z0-9]
+	 */
+	public function identifier();
+
+	/**
 	 * Share a path
 	 * 
 	 * @param IShare $share

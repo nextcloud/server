@@ -36,10 +36,33 @@ interface IShare {
 	public function getId();
 
 	/**
+	 * Set the id of the share
+	 *
+	 * @param string $id
+	 * @return IShare The modified share object
+	 */
+	public function setId($id);
+
+	/**
+	 * Get the full share id
+	 *
+	 * @return string
+	 */
+	public function getFullId();
+
+	/**
+	 * Set the provider id
+	 *
+	 * @param string $id
+	 * @return IShare The modified share object
+	 */
+	public function setProviderId($id);
+
+	/**
 	 * Set the path of this share
 	 *
 	 * @param Node $path
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setPath(Node $path);
 
@@ -54,7 +77,7 @@ interface IShare {
 	 * Set the shareType
 	 *
 	 * @param int $shareType
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setShareType($shareType);
 
@@ -69,7 +92,7 @@ interface IShare {
 	 * Set the receiver of this share
 	 *
 	 * @param IUser|IGroup|string
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setSharedWith($sharedWith);
 
@@ -84,7 +107,7 @@ interface IShare {
 	 * Set the permissions
 	 *
 	 * @param int $permissions
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setPermissions($permissions);
 
@@ -99,7 +122,7 @@ interface IShare {
 	 * Set the expiration date
 	 *
 	 * @param \DateTime $expireDate
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setExpirationDate($expireDate);
 
@@ -114,7 +137,7 @@ interface IShare {
 	 * Set the sharer of the path
 	 *
 	 * @param IUser|string $sharedBy
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setSharedBy($sharedBy);
 
@@ -130,7 +153,7 @@ interface IShare {
 	 *
 	 * @param IUser|string
 	 *
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setShareOwner($shareOwner);
 
@@ -146,7 +169,7 @@ interface IShare {
 	 *
 	 * @param string $password
 	 *
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setPassword($password);
 
@@ -161,7 +184,7 @@ interface IShare {
 	 * Set the token
 	 *
 	 * @param string $token
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setToken($token);
 
@@ -183,7 +206,7 @@ interface IShare {
 	 * Set the target of this share
 	 *
 	 * @param string $target
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setTarget($target);
 
