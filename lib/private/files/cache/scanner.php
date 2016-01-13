@@ -133,16 +133,25 @@ class Scanner extends BasicEmitter {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function scanFile($file, $reuseExisting = 0, $parentId = -1, $cacheData = null, $lock = true) {
-		if (!self::isPartialFile($file)
-			and !Filesystem::isFileBlacklisted($file)
-		) {
+
+		// only proceed if $file is not a partial file nor a blacklisted file
+		if (!self::isPartialFile($file) and !Filesystem::isFileBlacklisted($file)) {
+
+			//acquire a lock
 			if ($lock) {
 				$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
-			$this->emit('\OC\Files\Cache\Scanner', 'scanFile', array($file, $this->storageId));
-			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
+
 			$data = $this->getData($file);
+
 			if ($data) {
+
+				// pre-emit only if it was a file. By that we avoid counting/treating folders as files
+				if ($data['mimetype'] !== 'httpd/unix-directory') {
+					$this->emit('\OC\Files\Cache\Scanner', 'scanFile', array($file, $this->storageId));
+					\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
+				}
+
 				$parent = dirname($file);
 				if ($parent === '.' or $parent === '/') {
 					$parent = '';
@@ -190,16 +199,25 @@ class Scanner extends BasicEmitter {
 				if (!empty($newData)) {
 					$data['fileid'] = $this->addToCache($file, $newData, $fileId);
 				}
-				$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
-				\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', array('path' => $file, 'storage' => $this->storageId));
+
+				// post-emit only if it was a file. By that we avoid counting/treating folders as files
+				if ($data['mimetype'] !== 'httpd/unix-directory') {
+					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
+					\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', array('path' => $file, 'storage' => $this->storageId));
+				}
+
 			} else {
 				$this->removeFromCache($file);
 			}
+
+			//release the acquired lock
 			if ($lock) {
 				$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
+
 			return $data;
 		}
+
 		return null;
 	}
 
