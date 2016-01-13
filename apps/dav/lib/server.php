@@ -41,6 +41,7 @@ class Server {
 		$this->baseUri = $baseUri;
 		$logger = \OC::$server->getLogger();
 		$mailer = \OC::$server->getMailer();
+		$dispatcher = \OC::$server->getEventDispatcher();
 
 		$root = new RootCollection();
 		$this->server = new \OCA\DAV\Connector\Sabre\Server($root);
