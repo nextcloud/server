@@ -3,6 +3,7 @@
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Brice Maron <brice@bmaron.net>
+ * @author Christian Weiske <cweiske@cweiske.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Frank Karlitschek <frank@owncloud.org>
@@ -15,13 +16,12 @@
  * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author root <root@oc.(none)>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

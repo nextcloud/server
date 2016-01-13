@@ -2,12 +2,12 @@
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Guillaume AMAT <guillaume.amat@informatique-libre.com>
  * @author Hasso Tepper <hasso@zone.ee>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
- * @author Matthias Rieber <matthias@zu-con.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Robin Appelman <icewind@owncloud.com>
@@ -15,7 +15,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

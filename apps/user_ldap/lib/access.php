@@ -11,12 +11,15 @@
  * @author Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Lyonel Vincent <lyonel@ezix.org>
+ * @author Mario Kolling <mario.kolling@serpro.gov.br>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Nicolas Grekas <nicolas.grekas@gmail.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Ralph Krimmel <rkrimme1@gwdg.de>
+ * @author Renaud Fortier <Renaud.Fortier@fsaa.ulaval.ca>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

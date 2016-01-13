@@ -8,12 +8,12 @@
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Michael Kuhn <suraia@ikkoku.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

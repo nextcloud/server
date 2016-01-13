@@ -2,8 +2,9 @@
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author scolebrook <scolebrook@mac.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

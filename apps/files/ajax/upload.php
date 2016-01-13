@@ -3,6 +3,7 @@
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Florian Pritz <bluewind@xinu.at>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Individual IT Services <info@individual-it.net>
@@ -16,7 +17,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

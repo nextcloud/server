@@ -3,26 +3,24 @@
  * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bartek Przybylski <bart.p.pl@gmail.com>
+ * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
- * @author Dominik Schmidt <dev@dominik-schmidt.de>
  * @author Florian Preinstorfer <nblock@archlinux.us>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author shkdee <louis.traynard@m4x.org>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
