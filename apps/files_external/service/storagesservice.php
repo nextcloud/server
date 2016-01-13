@@ -372,8 +372,8 @@ abstract class StoragesService {
 
 		$oldUserCount = count($oldStorage->getApplicableUsers());
 		$oldGroupCount = count($oldStorage->getApplicableGroups());
-		$newUserCount = count($oldStorage->getApplicableUsers());
-		$newGroupCount = count($oldStorage->getApplicableGroups());
+		$newUserCount = count($updatedStorage->getApplicableUsers());
+		$newGroupCount = count($updatedStorage->getApplicableGroups());
 		$wasGlobal = ($oldUserCount + $oldGroupCount) === 0;
 		$isGlobal = ($newUserCount + $newGroupCount) === 0;
 
