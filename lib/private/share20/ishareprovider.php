@@ -27,13 +27,6 @@ use OCP\IUser;
 interface IShareProvider {
 
 	/**
-	 * Return the share types this provider handles
-	 *
-	 * @return int[]
-	 */
-	public function shareTypes();
-
-	/**
 	 * Return the identifier of this provider.
 	 *
 	 * @return string Containing only [a-zA-Z0-9]

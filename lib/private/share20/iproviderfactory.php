@@ -20,6 +20,8 @@
  */
 namespace OC\Share20;
 
+use OC\Share20\Exception\ProviderException;
+
 /**
  * Interface IProviderFactory
  *
@@ -29,10 +31,16 @@ namespace OC\Share20;
 interface IProviderFactory {
 
 	/**
-	 * Creates and returns the shareProviders
-	 *
-	 * @return IShareProvider[]
-	 * @since 9.0.0
+	 * @param string $id
+	 * @return IShareProvider
+	 * @throws ProviderException
 	 */
-	public function getProviders();
+	public function getProvider($id);
+
+	/**
+	 * @param int $shareType
+	 * @return IShareProvider
+	 * @throws ProviderException
+	 */
+	public function getProviderForType($shareType);
 }

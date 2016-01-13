@@ -26,7 +26,6 @@ use OC\Share20\Exception\ProviderException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
-use OCP\Preview\IProvider;
 use OCP\Security\ISecureRandom;
 use OCP\Security\IHasher;
 use OCP\Files\Mount\IMountManager;
@@ -45,9 +44,6 @@ class Manager {
 
 	/** @var IProviderFactory */
 	private $factory;
-
-	/** @var IShareProvider[] */
-	private $providers;
 
 	/** @var array */
 	private $type2provider;
@@ -106,92 +102,6 @@ class Manager {
 		$this->groupManager = $groupManager;
 		$this->l = $l;
 		$this->factory = $factory;
-	}
-
-	/**
-	 * @param IShareProvider[] $providers
-	 * @throws ProviderException
-	 */
-	private function addProviders(array $providers) {
-		foreach ($providers as $provider) {
-			$id = $provider->identifier();
-			$class = get_class($provider);
-
-			if (!($provider instanceof IShareProvider)) {
-				throw new ProviderException($class . ' is not an instance of IShareProvider');
-			}
-
-			if (isset($this->providers[$id])) {
-				throw new ProviderException($id . ' is already registered');
-			}
-
-			$this->providers[$id] = $provider;
-			$types = $provider->shareTypes();
-
-			if ($types === []) {
-				throw new ProviderException('Provider ' . $id . ' must supply share types it can handle');
-			}
-
-			foreach ($types as $type) {
-				if (isset($this->type2provider[$type])) {
-					throw new ProviderException($id . ' tried to register for share type ' . $type . ' but this type is already handled by ' . $this->type2provider[$type]);
-				}
-
-				$this->type2provider[$type] = $id;
-			}
-		}
-	}
-
-	/**
-	 * Run the factory if this is not done yet
-	 *
-	 * @throws ProviderException
-	 */
-	private function runFactory() {
-		if (!empty($this->providers)) {
-			return;
-		}
-
-		$this->addProviders($this->factory->getProviders());
-	}
-
-	/**
-	 * @param string $id
-	 * @return IShareProvider
-	 * @throws ProviderException
-	 */
-	private function getProvider($id) {
-		$this->runFactory();
-
-		if (!isset($this->providers[$id])) {
-			throw new ProviderException('No provider with id ' . $id . ' found');
-		}
-
-		return $this->providers[$id];
-	}
-
-	/**
-	 * @param int $shareType
-	 * @return IShareProvider
-	 * @throws ProviderException
-	 */
-	private function getProviderForType($shareType) {
-		$this->runFactory();
-
-		if (!isset($this->type2provider[$shareType])) {
-			throw new ProviderException('No share provider registered for share type ' . $shareType);
-		}
-
-		return $this->getProvider($this->type2provider[$shareType]);
-	}
-
-	/**
-	 * @return IShareProvider[]
-	 */
-	private function getProviders() {
-		$this->runFactory();
-
-		return $this->providers;
 	}
 
 	/**
@@ -376,7 +286,7 @@ class Manager {
 		 *
 		 * Also this is not what we want in the future.. then we want to squash identical shares.
 		 */
-		$provider = $this->getProviderForType(\OCP\Share::SHARE_TYPE_USER);
+		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_USER);
 		$existingShares = $provider->getSharesByPath($share->getPath());
 		foreach($existingShares as $existingShare) {
 			// Identical share already existst
@@ -412,7 +322,7 @@ class Manager {
 		 *
 		 * Also this is not what we want in the future.. then we want to squash identical shares.
 		 */
-		$provider = $this->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
+		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
 		$existingShares = $provider->getSharesByPath($share->getPath());
 		foreach($existingShares as $existingShare) {
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
@@ -563,7 +473,7 @@ class Manager {
 			throw new \Exception($error);
 		}
 
-		$provider = $this->getProviderForType($share->getShareType());
+		$provider = $this->factory->getProviderForType($share->getShareType());
 		$share = $provider->create($share);
 		$share->setProviderId($provider->identifier());
 
@@ -602,7 +512,7 @@ class Manager {
 	protected function deleteChildren(IShare $share) {
 		$deletedShares = [];
 
-		$provider = $this->getProviderForType($share->getShareType());
+		$provider = $this->factory->getProviderForType($share->getShareType());
 
 		foreach ($provider->getChildren($share) as $child) {
 			$deletedChildren = $this->deleteChildren($child);
@@ -662,7 +572,7 @@ class Manager {
 		$deletedShares = $this->deleteChildren($share);
 
 		// Do the actual delete
-		$provider = $this->getProviderForType($share->getShareType());
+		$provider = $this->factory->getProviderForType($share->getShareType());
 		$provider->delete($share);
 
 		// All the deleted shares caused by this delete
@@ -703,7 +613,7 @@ class Manager {
 		}
 
 		list($providerId, $id) = $this->splitFullId($id);
-		$provider = $this->getProvider($providerId);
+		$provider = $this->factory->getProvider($providerId);
 
 		$share = $provider->getShareById($id);
 		$share->setProviderId($provider->identifier());
