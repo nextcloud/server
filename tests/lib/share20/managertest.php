@@ -1364,6 +1364,8 @@ class ManagerTest extends \Test\TestCase {
 		$share->expects($this->once())
 			->method('setTarget')
 			->with('/target');
+		$share->method('getTarget')
+			->willReturn('/target');
 		$share->expects($this->once())
 			->method('setExpirationDate')
 			->with($date);
@@ -1388,6 +1390,8 @@ class ManagerTest extends \Test\TestCase {
 			'token' => 'token',
 			'run' => true,
 			'error' => '',
+			'itemTarget' => '/target',
+			'shareWith' => null,
 		];
 
 		$hookListnerExpectsPost = [
@@ -1400,6 +1404,9 @@ class ManagerTest extends \Test\TestCase {
 			'expiration' => $date,
 			'token' => 'token',
 			'id' => 42,
+			'itemTarget' => '/target',
+			'fileTarget' => '/target',
+			'shareWith' => null,
 		];
 
 		$share->method('getId')->willReturn(42);
