@@ -389,7 +389,14 @@ describe('OC.SetupChecks tests', function() {
 				}, {
 					msg: 'The "X-Frame-Options" HTTP header is not configured to equal to "SAMEORIGIN". This is a potential security or privacy risk and we recommend adjusting this setting.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				}]);
+				}, {
+					msg: 'The "X-Download-Options" HTTP header is not configured to equal to "noopen". This is a potential security or privacy risk and we recommend adjusting this setting.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				}, {
+					msg: 'The "X-Permitted-Cross-Domain-Policies" HTTP header is not configured to equal to "none". This is a potential security or privacy risk and we recommend adjusting this setting.',
+					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
+				},
+				]);
 				done();
 			});
 		});
@@ -403,7 +410,9 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'Strict-Transport-Security': 'max-age=15768000;preload'
+					'Strict-Transport-Security': 'max-age=15768000;preload',
+					'X-Download-Options': 'noopen',
+					'X-Permitted-Cross-Domain-Policies': 'none',
 				}
 			);
 
@@ -430,7 +439,9 @@ describe('OC.SetupChecks tests', function() {
 					'X-Content-Type-Options': 'nosniff',
 					'X-Robots-Tag': 'none',
 					'X-Frame-Options': 'SAMEORIGIN',
-					'Strict-Transport-Security': 'max-age=15768000'
+					'Strict-Transport-Security': 'max-age=15768000',
+					'X-Download-Options': 'noopen',
+					'X-Permitted-Cross-Domain-Policies': 'none',
 				}
 			);
 
@@ -450,7 +461,9 @@ describe('OC.SetupChecks tests', function() {
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
-				'X-Frame-Options': 'SAMEORIGIN'
+				'X-Frame-Options': 'SAMEORIGIN',
+				'X-Download-Options': 'noopen',
+				'X-Permitted-Cross-Domain-Policies': 'none',
 			}
 		);
 
@@ -494,7 +507,9 @@ describe('OC.SetupChecks tests', function() {
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
-				'X-Frame-Options': 'SAMEORIGIN'
+				'X-Frame-Options': 'SAMEORIGIN',
+				'X-Download-Options': 'noopen',
+				'X-Permitted-Cross-Domain-Policies': 'none',
 			}
 		);
 
@@ -517,7 +532,9 @@ describe('OC.SetupChecks tests', function() {
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
-				'X-Frame-Options': 'SAMEORIGIN'
+				'X-Frame-Options': 'SAMEORIGIN',
+				'X-Download-Options': 'noopen',
+				'X-Permitted-Cross-Domain-Policies': 'none',
 			}
 		);
 
@@ -540,7 +557,9 @@ describe('OC.SetupChecks tests', function() {
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
-				'X-Frame-Options': 'SAMEORIGIN'
+				'X-Frame-Options': 'SAMEORIGIN',
+				'X-Download-Options': 'noopen',
+				'X-Permitted-Cross-Domain-Policies': 'none',
 			}
 		);
 
@@ -562,7 +581,9 @@ describe('OC.SetupChecks tests', function() {
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
-			'X-Frame-Options': 'SAMEORIGIN'
+			'X-Frame-Options': 'SAMEORIGIN',
+			'X-Download-Options': 'noopen',
+			'X-Permitted-Cross-Domain-Policies': 'none',
 		});
 
 		async.done(function( data, s, x ){
@@ -580,7 +601,9 @@ describe('OC.SetupChecks tests', function() {
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
-			'X-Frame-Options': 'SAMEORIGIN'
+			'X-Frame-Options': 'SAMEORIGIN',
+			'X-Download-Options': 'noopen',
+			'X-Permitted-Cross-Domain-Policies': 'none',
 		});
 
 		async.done(function( data, s, x ){
@@ -598,7 +621,9 @@ describe('OC.SetupChecks tests', function() {
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
-			'X-Frame-Options': 'SAMEORIGIN'
+			'X-Frame-Options': 'SAMEORIGIN',
+			'X-Download-Options': 'noopen',
+			'X-Permitted-Cross-Domain-Policies': 'none',
 		});
 
 		async.done(function( data, s, x ){
@@ -616,7 +641,9 @@ describe('OC.SetupChecks tests', function() {
 			'X-XSS-Protection': '1; mode=block',
 			'X-Content-Type-Options': 'nosniff',
 			'X-Robots-Tag': 'none',
-			'X-Frame-Options': 'SAMEORIGIN'
+			'X-Frame-Options': 'SAMEORIGIN',
+			'X-Download-Options': 'noopen',
+			'X-Permitted-Cross-Domain-Policies': 'none',
 		});
 
 		async.done(function( data, s, x ){
