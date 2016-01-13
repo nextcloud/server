@@ -18,22 +18,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+namespace OCA\Federation\DAV;
 
-use OCA\DAV\CardDAV\CardDavBackend;
-use OCA\DAV\CardDAV\SyncService;
+use OCA\Federation\DbHandler;
+use Sabre\DAV\Auth\Backend\AbstractBasic;
 
-\OC::$server->registerService('CardDAVSyncService', function() {
+class FedAuth extends AbstractBasic {
 
-	$app = new \OCA\Dav\AppInfo\Application();
-	/** @var CardDavBackend */
-	$backend = $app->getContainer()->query('CardDavBackend');
+	/** @var DbHandler */
+	private $db;
 
-	return new SyncService($backend);
-});
+	/**
+	 * FedAuth constructor.
+	 *
+	 * @param DbHandler $db
+	 */
+	public function __construct(DbHandler $db) {
+		$this->db = $db;
+		$this->principalPrefix = 'principals/system/';
+	}
 
-$cm = \OC::$server->getContactsManager();
-$cm->register(function() use ($cm) {
-	$userId = \OC::$server->getUserSession()->getUser()->getUID();
-	$app = new \OCA\Dav\AppInfo\Application();
-	$app->setupContactsProvider($cm, $userId);
-});
+	/**
+	 * Validates a username and password
+	 *
+	 * This method should return true or false depending on if login
+	 * succeeded.
+	 *
+	 * @param string $username
+	 * @param string $password
+	 * @return bool
+	 */
+	protected function validateUserPass($username, $password) {
+		return $this->db->auth($username, $password);
+	}
+}

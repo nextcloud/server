@@ -37,9 +37,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/** @var Principal */
 	private $principalBackend;
 
-	/** @var ILogger */
-	private $logger;
-
 	/** @var string */
 	private $dbCardsTable = 'cards';
 
@@ -59,12 +56,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
-	 * @param ILogger $logger
 	 */
-	public function __construct(IDBConnection $db, Principal $principalBackend, ILogger $logger) {
+	public function __construct(IDBConnection $db, Principal $principalBackend) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
-		$this->logger = $logger;
 	}
 
 	/**

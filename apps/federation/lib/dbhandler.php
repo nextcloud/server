@@ -111,7 +111,7 @@ class DbHandler {
 	 */
 	public function getAllServer() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['url', 'id', 'status'])->from($this->dbTable);
+		$query->select(['url', 'id', 'status', 'shared_secret', 'sync_token'])->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		return $result;
 	}
@@ -206,15 +206,17 @@ class DbHandler {
 	 *
 	 * @param string $url
 	 * @param int $status
+	 * @param string|null $token
 	 */
-	public function setServerStatus($url, $status) {
+	public function setServerStatus($url, $status, $token = null) {
 		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
 		$query->update($this->dbTable)
-				->set('status', $query->createParameter('status'))
-				->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
-				->setParameter('url_hash', $hash)
-				->setParameter('status', $status);
+				->set('status', $query->createNamedParameter($status))
+				->where($query->expr()->eq('url_hash', $query->createNamedParameter($hash)));
+		if (!is_null($token)) {
+			$query->set('sync_token', $query->createNamedParameter($token));
+		}
 		$query->execute();
 	}
 
@@ -265,6 +267,23 @@ class DbHandler {
 		$normalized = trim($normalized, '/');
 
 		return $normalized;
+	}
+
+	/**
+	 * @param $username
+	 * @param $password
+	 * @return bool
+	 */
+	public function auth($username, $password) {
+		if ($username !== 'system') {
+			return false;
+		}
+		$query = $this->connection->getQueryBuilder();
+		$query->select('url')->from($this->dbTable)
+				->where($query->expr()->eq('shared_secret', $query->createNamedParameter($password)));
+
+		$result = $query->execute()->fetch();
+		return !empty($result);
 	}
 
 }

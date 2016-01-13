@@ -26,6 +26,7 @@ namespace OCA\Federation\Tests\lib;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use Test\TestCase;
 
 /**
@@ -36,7 +37,7 @@ class DbHandlerTest extends TestCase {
 	/** @var  DbHandler */
 	private $dbHandler;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
 	private $il10n;
 
 	/** @var  IDBConnection */
@@ -209,6 +210,11 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame(TrustedServers::STATUS_OK,
 			$this->dbHandler->getServerStatus('https://server1')
 		);
+
+		// test sync token
+		$this->dbHandler->setServerStatus('http://server1', TrustedServers::STATUS_OK, 'token1234567890');
+		$servers = $this->dbHandler->getAllServer();
+		$this->assertSame('token1234567890', $servers[0]['sync_token']);
 	}
 
 	/**
@@ -256,4 +262,22 @@ class DbHandlerTest extends TestCase {
 		];
 	}
 
+	/**
+	 * @dataProvider providesAuth
+	 */
+	public function testAuth($expectedResult, $user, $password) {
+		if ($expectedResult) {
+			$this->dbHandler->addServer('url1');
+			$this->dbHandler->addSharedSecret('url1', $password);
+		}
+		$result = $this->dbHandler->auth($user, $password);
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	public function providesAuth() {
+		return [
+			[false, 'foo', ''],
+			[true, 'system', '123456789'],
+		];
+	}
 }
