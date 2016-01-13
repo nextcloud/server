@@ -382,11 +382,12 @@ body {
 .groupbottom input {
 	margin-top: 0;
 	border-top: 0;
-}
-#body-login .groupbottom #password {
 	border-top-right-radius: 0;
 	border-top-left-radius: 0;
 	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
+}
+#body-login .groupbottom input[type=submit] {
+	box-shadow: none !important;
 }
 
 /* keep the labels for screen readers but hide them since we use placeholders */
