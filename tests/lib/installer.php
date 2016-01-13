@@ -38,6 +38,10 @@ class Test_Installer extends \Test\TestCase {
 		$data = array(
 			'path' => $tmp,
 			'source' => 'path',
+			'appdata' => [
+				'id' => 'Bar',
+				'level' => 100,
+			]
 		);
 
 		OC_Installer::installApp($data);
@@ -57,6 +61,10 @@ class Test_Installer extends \Test\TestCase {
 		$oldData = array(
 			'path' => $oldTmp,
 			'source' => 'path',
+			'appdata' => [
+				'id' => 'Bar',
+				'level' => 100,
+			]
 		);
 
 		$pathOfNewTestApp  = __DIR__;
@@ -69,6 +77,10 @@ class Test_Installer extends \Test\TestCase {
 		$newData = array(
 			'path' => $newTmp,
 			'source' => 'path',
+			'appdata' => [
+				'id' => 'Bar',
+				'level' => 100,
+			]
 		);
 
 		OC_Installer::installApp($oldData);

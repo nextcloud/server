@@ -82,9 +82,10 @@ class OC_Installer{
 		$l = \OC::$server->getL10N('lib');
 
 		list($extractDir, $path) = self::downloadApp($data);
-		$info = self::checkAppsIntegrity($data, $extractDir, $path);
 
-		$basedir=OC_App::getInstallPath().'/'.$info['id'];
+		$info = self::checkAppsIntegrity($data, $extractDir, $path);
+		$appId = OC_App::cleanAppId($info['id']);
+		$basedir = OC_App::getInstallPath().'/'.$appId;
 		//check if the destination directory already exists
 		if(is_dir($basedir)) {
 			OC_Helper::rmdirr($extractDir);
@@ -163,6 +164,8 @@ class OC_Installer{
 	 * @brief Update an application
 	 * @param array $info
 	 * @param bool $isShipped
+	 * @throws Exception
+	 * @return bool
 	 *
 	 * This function could work like described below, but currently it disables and then
 	 * enables the app again. This does result in an updated app.
@@ -191,7 +194,7 @@ class OC_Installer{
 	 * upgrade.php can determine the current installed version of the app using
 	 * "\OC::$server->getAppConfig()->getValue($appid, 'installed_version')"
 	 */
-	public static function updateApp( $info=array(), $isShipped=false) {
+	public static function updateApp($info=array(), $isShipped=false) {
 		list($extractDir, $path) = self::downloadApp($info);
 		$info = self::checkAppsIntegrity($info, $extractDir, $path, $isShipped);
 
@@ -307,11 +310,12 @@ class OC_Installer{
 	 * check an app's integrity
 	 * @param array $data
 	 * @param string $extractDir
+	 * @param string $path
 	 * @param bool $isShipped
 	 * @return array
 	 * @throws \Exception
 	 */
-	public static function checkAppsIntegrity($data, $extractDir, $path, $isShipped=false) {
+	public static function checkAppsIntegrity($data, $extractDir, $path, $isShipped = false) {
 		$l = \OC::$server->getL10N('lib');
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')) {
@@ -329,12 +333,41 @@ class OC_Installer{
 		}
 		if(!is_file($extractDir.'/appinfo/info.xml')) {
 			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http') {
+			if($data['source'] === 'http') {
 				unlink($path);
 			}
 			throw new \Exception($l->t("App does not provide an info.xml file"));
 		}
-		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml', true);
+
+		$info = OC_App::getAppInfo($extractDir.'/appinfo/info.xml', true);
+
+		// We can't trust the parsed info.xml file as it may have been tampered
+		// with by an attacker and thus we need to use the local data to check
+		// whether the application needs to be signed.
+		$appId = OC_App::cleanAppId($data['appdata']['id']);
+		$appBelongingToId = OC_App::getInternalAppIdByOcs($appId);
+		if(is_string($appBelongingToId)) {
+			$previouslySigned = \OC::$server->getConfig()->getAppValue($appBelongingToId, 'signed', 'false');
+		} else {
+			$appBelongingToId = $info['id'];
+			$previouslySigned = 'false';
+		}
+		if($data['appdata']['level'] === OC_App::officialApp || $previouslySigned === 'true') {
+			\OC::$server->getConfig()->setAppValue($appBelongingToId, 'signed', 'true');
+			$integrityResult = \OC::$server->getIntegrityCodeChecker()->verifyAppSignature(
+					$appBelongingToId,
+					$extractDir
+			);
+			if($integrityResult !== []) {
+				$e = new \Exception(
+						$l->t(
+								'Signature could not get checked. Please contact the app developer and check your admin screen.'
+						)
+				);
+				throw $e;
+			}
+		}
+
 		// check the code for not allowed calls
 		if(!$isShipped && !OC_Installer::checkCode($extractDir)) {
 			OC_Helper::rmdirr($extractDir);
