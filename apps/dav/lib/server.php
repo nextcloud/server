@@ -40,7 +40,6 @@ class Server {
 		$this->request = $request;
 		$this->baseUri = $baseUri;
 		$logger = \OC::$server->getLogger();
-		$dispatcher = \OC::$server->getEventDispatcher();
 		$mailer = \OC::$server->getMailer();
 
 		$root = new RootCollection();
@@ -67,7 +66,6 @@ class Server {
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $logger));
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
-		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\ListenerPlugin($dispatcher));
 		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 
 		// acl
