@@ -26,7 +26,6 @@ namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
@@ -69,7 +68,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
-	 * Returns the list of addressbooks for a specific user.
+	 * Returns the list of address books for a specific user.
 	 *
 	 * Every addressbook should have the following properties:
 	 *   id - an arbitrary unique id
@@ -821,7 +820,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 
 		$newUri = sha1($addressBook->getName() . $addressBook->getOwner());
-//		$newUri = $addressBook->getName() . '-' . $addressBook->getOwner();
 		$query = $this->db->getQueryBuilder();
 		$query->insert('dav_shares')
 			->values([
@@ -982,6 +980,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
+	 * For shared address books the sharee is set in the ACL of the address book
 	 * @param $addressBookId
 	 * @param $acl
 	 * @return array

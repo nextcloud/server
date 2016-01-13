@@ -90,13 +90,13 @@ class SyncService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function ensureSystemAddressBookExists($principal, $id, $properties) {
-		$book = $this->backend->getAddressBooksByUri($id);
+		$book = $this->backend->getAddressBooksByUri($principal, $id);
 		if (!is_null($book)) {
 			return $book;
 		}
 		$this->backend->createAddressBook($principal, $id, $properties);
 
-		return $this->backend->getAddressBooksByUri($id);
+		return $this->backend->getAddressBooksByUri($principal, $id);
 	}
 
 	/**
