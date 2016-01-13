@@ -67,4 +67,23 @@ interface IUserMountCache {
 	 * @since 9.0.0
 	 */
 	public function removeUserMounts(IUser $user);
+
+	/**
+	 * Remove all mounts for a user and storage
+	 *
+	 * @param $storageId
+	 * @param string $userId
+	 * @return mixed
+	 * @since 9.0.0
+	 */
+	public function removeUserStorageMount($storageId, $userId);
+
+	/**
+	 * Remove all cached mounts for a storage
+	 *
+	 * @param $storageId
+	 * @return mixed
+	 * @since 9.0.0
+	 */
+	public function remoteStorageMounts($storageId);
 }

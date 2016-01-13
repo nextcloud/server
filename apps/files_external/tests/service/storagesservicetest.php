@@ -76,6 +76,11 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	 */
 	protected static $hookCalls;
 
+	/**
+	 * @var \PHPUnit_Framework_MockObject_MockObject|\OCP\Files\Config\IUserMountCache
+	 */
+	protected $mountCache;
+
 	public function setUp() {
 		parent::setUp();
 		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection());
@@ -86,6 +91,8 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 			\OC::$SERVERROOT . '/data/'
 		);
 		\OC_Mount_Config::$skipTest = true;
+
+		$this->mountCache = $this->getMock('OCP\Files\Config\IUserMountCache');
 
 		// prepare BackendService mock
 		$this->backendService =

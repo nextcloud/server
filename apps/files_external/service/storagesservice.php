@@ -31,6 +31,7 @@ use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCP\Files\Config\IUserMountCache;
 use \OCP\Files\StorageNotAvailableException;
 
 /**
@@ -47,12 +48,19 @@ abstract class StoragesService {
 	protected $dbConfig;
 
 	/**
+	 * @var IUserMountCache
+	 */
+	protected $userMountCache;
+
+	/**
 	 * @param BackendService $backendService
 	 * @param DBConfigService $dbConfigService
+	 * @param IUserMountCache $userMountCache
 	 */
-	public function __construct(BackendService $backendService, DBConfigService $dbConfigService) {
+	public function __construct(BackendService $backendService, DBConfigService $dbConfigService, IUserMountCache $userMountCache) {
 		$this->backendService = $backendService;
 		$this->dbConfig = $dbConfigService;
+		$this->userMountCache = $userMountCache;
 	}
 
 	protected function readDBConfig() {
@@ -416,6 +424,15 @@ abstract class StoragesService {
 
 		$this->triggerChangeHooks($oldStorage, $updatedStorage);
 
+		if (($wasGlobal && !$isGlobal) || count($removedGroups) > 0) { // to expensive to properly handle these on the fly
+			$this->userMountCache->remoteStorageMounts($this->getStorageId($updatedStorage));
+		} else {
+			$storageId = $this->getStorageId($updatedStorage);
+			foreach ($removedUsers as $userId) {
+				$this->userMountCache->removeUserStorageMount($storageId, $userId);
+			}
+		}
+
 		return $this->getStorage($id);
 	}
 
@@ -480,4 +497,25 @@ abstract class StoragesService {
 		return $storageImpl->getId();
 	}
 
+	/**
+	 * Construct the storage implementation
+	 *
+	 * @param StorageConfig $storageConfig
+	 * @return int
+	 */
+	private function getStorageId(StorageConfig $storageConfig) {
+		try {
+			$class = $storageConfig->getBackend()->getStorageClass();
+			/** @var \OC\Files\Storage\Storage $storage */
+			$storage = new $class($storageConfig->getBackendOptions());
+
+			// auth mechanism should fire first
+			$storage = $storageConfig->getBackend()->wrapStorage($storage);
+			$storage = $storageConfig->getAuthMechanism()->wrapStorage($storage);
+
+			return $storage->getStorageCache()->getNumericId();
+		} catch (\Exception $e) {
+			return -1;
+		}
+	}
 }

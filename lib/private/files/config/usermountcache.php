@@ -230,4 +230,21 @@ class UserMountCache implements IUserMountCache {
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($user->getUID())));
 		$query->execute();
 	}
+
+	public function removeUserStorageMount($storageId, $userId) {
+		$builder = $this->connection->getQueryBuilder();
+
+		$query = $builder->delete('mounts')
+			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($userId)))
+			->andWhere($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, \PDO::PARAM_INT)));
+		$query->execute();
+	}
+
+	public function remoteStorageMounts($storageId) {
+		$builder = $this->connection->getQueryBuilder();
+
+		$query = $builder->delete('mounts')
+			->where($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, \PDO::PARAM_INT)));
+		$query->execute();
+	}
 }
