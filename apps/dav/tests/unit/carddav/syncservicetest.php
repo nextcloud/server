@@ -57,6 +57,17 @@ class SyncServiceTest extends TestCase {
 		$this->assertEquals('sync-token-1', $return);
 	}
 
+	public function testEnsureSystemAddressBookExists() {
+		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
+		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDAVBackend')->disableOriginalConstructor()->getMock();
+		$backend->expects($this->exactly(1))->method('createAddressBook');
+		$backend->expects($this->at(0))->method('getAddressBooksByUri')->willReturn(null);
+		$backend->expects($this->at(1))->method('getAddressBooksByUri')->willReturn([]);
+
+		$ss = new SyncService($backend);
+		$book = $ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
+	}
+
 	/**
 	 * @param int $createCount
 	 * @param int $updateCount
