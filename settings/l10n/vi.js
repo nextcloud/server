@@ -31,7 +31,6 @@ OC.L10N.register(
     "undo" : "lùi lại",
     "never" : "không thay đổi",
     "__language_name__" : "__Ngôn ngữ___",
-    "SSL root certificates" : "Chứng chỉ SSL root",
     "None" : "Không gì cả",
     "Login" : "Đăng nhập",
     "Allow apps to use the Share API" : "Cho phép các ứng dụng sử dụng chia sẻ API",

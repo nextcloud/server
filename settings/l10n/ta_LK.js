@@ -16,7 +16,6 @@ OC.L10N.register(
     "undo" : "முன் செயல் நீக்கம் ",
     "never" : "ஒருபோதும்",
     "__language_name__" : "_மொழி_பெயர்_",
-    "SSL root certificates" : "SSL வேர் சான்றிதழ்கள்",
     "None" : "ஒன்றுமில்லை",
     "Login" : "புகுபதிகை",
     "Encryption" : "மறைக்குறியீடு",

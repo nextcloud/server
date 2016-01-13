@@ -17,7 +17,6 @@ OC.L10N.register(
     "Groups" : "කණ්ඩායම්",
     "undo" : "නිෂ්ප්‍රභ කරන්න",
     "never" : "කවදාවත්",
-    "SSL root certificates" : "SSL මූල සහතිකයන්",
     "None" : "කිසිවක් නැත",
     "Login" : "ප්‍රවිශ්ටය",
     "Allow resharing" : "යළි යළිත් හුවමාරුවට අවසර දෙමි",

@@ -20,6 +20,7 @@
     "Apps" : "יישומים",
     "A valid username must be provided" : "יש לספק שם משתמש תקני",
     "A valid password must be provided" : "יש לספק ססמה תקנית",
+    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "זה ככל הנראה נגרם על ידי מאיץ/מטמון כמו Zend OPcache או eAccelerator.",
     "Storage not available" : "אחסון לא זמין"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

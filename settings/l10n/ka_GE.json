@@ -28,7 +28,6 @@
     "Error creating user" : "შეცდომა მომხმარებლის შექმნისას",
     "A valid password must be provided" : "უნდა მიუთითოთ არსებული პაროლი",
     "__language_name__" : "__language_name__",
-    "SSL root certificates" : "SSL root სერთიფიკატები",
     "None" : "არა",
     "Login" : "ლოგინი",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები mime-type–ს აღმოჩენისას.",

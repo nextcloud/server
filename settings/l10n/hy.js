@@ -2,10 +2,10 @@ OC.L10N.register(
     "settings",
     {
     "Language changed" : "Լեզուն փոխվեց",
+    "Delete" : "Ջնջել",
     "Very weak password" : "Շատ թույլ գաղտնաբառ",
     "Weak password" : "Թույլ գաղտնաբառ",
     "Good password" : "Լավ գաղտնաբառ",
-    "Delete" : "Ջնջել",
     "Groups" : "Խմբեր",
     "never" : "երբեք",
     "add group" : "խումբ ավելացնել",

@@ -72,7 +72,7 @@
     "Favorite" : "Favorito",
     "Folder" : "Carpeta",
     "New folder" : "Nueva carpeta",
-    "{newname} already exists" : "{new_name} ya existe",
+    "{newname} already exists" : "{newname} ya existe",
     "Upload" : "Subir",
     "An error occurred while trying to update the tags" : "Se produjo un error al tratar de actualizar las etiquetas",
     "A new file or folder has been <strong>created</strong>" : "Se ha <strong>creado</strong> un nuevo archivo o carpeta",

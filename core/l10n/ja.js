@@ -24,6 +24,7 @@ OC.L10N.register(
     "%s (incompatible)" : "%s (非互換)",
     "Following apps have been disabled: %s" : "以下のアプリが無効にされています: %s",
     "Already up to date" : "すべて更新済",
+    "Please select a file." : "ファイルを選択してください。",
     "File is too big" : "ファイルが大きすぎます",
     "Invalid file provided" : "無効なファイルが提供されました",
     "No image or file provided" : "画像もしくはファイルが提供されていません",
