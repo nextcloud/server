@@ -47,7 +47,7 @@ class SystemTagPlugin extends \Test\TestCase {
 	private $tagManager;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\TagsPlugin
+	 * @var \OCA\DAV\SystemTag\SystemTagPlugin
 	 */
 	private $plugin;
 
