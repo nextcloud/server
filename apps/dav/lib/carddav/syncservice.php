@@ -124,7 +124,7 @@ class SyncService {
 	 * @param string $resourcePath
 	 * @return array
 	 */
-	private function download($url, $sharedSecret, $resourcePath) {
+	protected function download($url, $sharedSecret, $resourcePath) {
 		$settings = [
 			'baseUri' => $url,
 			'userName' => 'system',
