@@ -27,21 +27,7 @@ class OCSShareWrapper {
 	 */
 	private function getShare20OCS() {
 		return new Share20OCS(
-			new \OC\Share20\Manager(
-				\OC::$server->getLogger(),
-				\OC::$server->getConfig(),
-				new \OC\Share20\DefaultShareProvider(
-					\OC::$server->getDatabaseConnection(),
-					\OC::$server->getUserManager(),
-					\OC::$server->getGroupManager(),
-					\OC::$server->getRootFolder()
-				),
-				\OC::$server->getSecureRandom(),
-				\OC::$server->getHasher(),
-				\OC::$server->getMountManager(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getL10N('core')
-			),
+			\OC::$server->getShareManager(),
 			\OC::$server->getGroupManager(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getRequest(),

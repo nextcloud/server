@@ -28,6 +28,8 @@ class Share implements IShare {
 
 	/** @var string */
 	private $id;
+	/** @var string */
+	private $providerId;
 	/** @var Node */
 	private $path;
 	/** @var int */
@@ -59,7 +61,7 @@ class Share implements IShare {
 	 * Set the id of the share
 	 *
 	 * @param string $id
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setId($id) {
 		$this->id = $id;
@@ -76,10 +78,25 @@ class Share implements IShare {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function getFullId() {
+		return $this->providerId . ':' . $this->id;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setProviderId($id) {
+		$this->providerId = $id;
+		return $this;
+	}
+
+	/**
 	 * Set the path of this share
 	 *
 	 * @param Node $path
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setPath(Node $path) {
 		$this->path = $path;
@@ -99,7 +116,7 @@ class Share implements IShare {
 	 * Set the shareType
 	 *
 	 * @param int $shareType
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setShareType($shareType) {
 		$this->shareType = $shareType;
@@ -119,7 +136,7 @@ class Share implements IShare {
 	 * Set the receiver of this share
 	 *
 	 * @param IUser|IGroup|string
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setSharedWith($sharedWith) {
 		$this->sharedWith = $sharedWith;
@@ -139,7 +156,7 @@ class Share implements IShare {
 	 * Set the permissions
 	 *
 	 * @param int $permissions
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setPermissions($permissions) {
 		//TODO checkes
@@ -161,7 +178,7 @@ class Share implements IShare {
 	 * Set the expiration date
 	 *
 	 * @param \DateTime $expireDate
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setExpirationDate($expireDate) {
 		//TODO checks
@@ -183,7 +200,7 @@ class Share implements IShare {
 	 * Set the sharer of the path
 	 *
 	 * @param IUser|string $sharedBy
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setSharedBy($sharedBy) {
 		//TODO checks
@@ -207,7 +224,7 @@ class Share implements IShare {
 	 *
 	 * @param IUser|string
 	 *
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setShareOwner($shareOwner) {
 		//TODO checks
@@ -231,7 +248,7 @@ class Share implements IShare {
 	 *
 	 * @param string $password
 	 *
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setPassword($password) {
 		//TODO verify
@@ -253,7 +270,7 @@ class Share implements IShare {
 	 * Set the token
 	 *
 	 * @param string $token
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setToken($token) {
 		$this->token = $token;
@@ -273,7 +290,7 @@ class Share implements IShare {
 	 * Set the parent id of this share
 	 *
 	 * @param int $parent
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setParent($parent) {
 		$this->parent = $parent;
@@ -293,7 +310,7 @@ class Share implements IShare {
 	 * Set the target of this share
 	 *
 	 * @param string $target
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setTarget($target) {
 		$this->target = $target;
@@ -313,7 +330,7 @@ class Share implements IShare {
 	 * Set the time this share was created
 	 *
 	 * @param int $shareTime
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setShareTime($shareTime) {
 		$this->shareTime = $shareTime;
@@ -333,7 +350,7 @@ class Share implements IShare {
 	 * Set mailSend
 	 *
 	 * @param bool $mailSend
-	 * @return Share The modified object
+	 * @return IShare The modified object
 	 */
 	public function setMailSend($mailSend) {
 		$this->mailSend = $mailSend;

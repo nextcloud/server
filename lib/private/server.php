@@ -564,6 +564,25 @@ class Server extends ServerContainer implements IServerContainer {
 				$request
 			);
 		});
+		$this->registerService('ShareManager', function(Server $c) {
+			$config = $c->getConfig();
+			$factoryClass = $config->getSystemValue('sharing.managerFactory', '\OC\Share20\ProviderFactory');
+			/** @var \OC\Share20\IProviderFactory $factory */
+			$factory = new $factoryClass();
+
+			$manager = new \OC\Share20\Manager(
+				$c->getLogger(),
+				$c->getConfig(),
+				$c->getSecureRandom(),
+				$c->getHasher(),
+				$c->getMountManager(),
+				$c->getGroupManager(),
+				$c->getL10N('core'),
+				$factory
+			);
+
+			return $manager;
+		});
 	}
 
 	/**
@@ -1181,5 +1200,12 @@ class Server extends ServerContainer implements IServerContainer {
 	public function getUserStoragesService() {
 		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\UserStoragesService');
 	}
-	
+
+
+	/**
+	 * @return \OC\Share20\Manager
+	 */
+	public function getShareManager() {
+		return $this->query('ShareManager');
+	}
 }

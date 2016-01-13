@@ -21,6 +21,8 @@
 namespace OC\Share20;
 
 
+use OC\Share20\Exception\BackendError;
+use OC\Share20\Exception\ProviderException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -40,8 +42,11 @@ use OC\HintException;
  */
 class Manager {
 
-	/** @var IShareProvider[] */
-	private $defaultProvider;
+	/** @var IProviderFactory */
+	private $factory;
+
+	/** @var array */
+	private $type2provider;
 
 	/** @var ILogger */
 	private $logger;
@@ -69,23 +74,26 @@ class Manager {
 	 *
 	 * @param ILogger $logger
 	 * @param IConfig $config
-	 * @param IShareProvider $defaultProvider
 	 * @param ISecureRandom $secureRandom
 	 * @param IHasher $hasher
 	 * @param IMountManager $mountManager
 	 * @param IGroupManager $groupManager
 	 * @param IL10N $l
+	 * @param IProviderFactory $factory
 	 */
 	public function __construct(
 			ILogger $logger,
 			IConfig $config,
-			IShareProvider $defaultProvider,
 			ISecureRandom $secureRandom,
 			IHasher $hasher,
 			IMountManager $mountManager,
 			IGroupManager $groupManager,
-			IL10N $l
+			IL10N $l,
+			IProviderFactory $factory
 	) {
+		$this->providers = [];
+		$this->type2provider = [];
+
 		$this->logger = $logger;
 		$this->config = $config;
 		$this->secureRandom = $secureRandom;
@@ -93,9 +101,17 @@ class Manager {
 		$this->mountManager = $mountManager;
 		$this->groupManager = $groupManager;
 		$this->l = $l;
+		$this->factory = $factory;
+	}
 
-		// TEMP SOLUTION JUST TO GET STARTED
-		$this->defaultProvider = $defaultProvider;
+	/**
+	 * Convert from a full share id to a tuple (providerId, shareId)
+	 *
+	 * @param string $id
+	 * @return string[]
+	 */
+	private function splitFullId($id) {
+		return explode(':', $id, 2);
 	}
 
 	/**
@@ -246,9 +262,8 @@ class Manager {
 		return $expireDate;
 	}
 
-
 	/**
-	 * Check for pre share requirements for use shares
+	 * Check for pre share requirements for user shares
 	 *
 	 * @param IShare $share
 	 * @throws \Exception
@@ -271,7 +286,8 @@ class Manager {
 		 *
 		 * Also this is not what we want in the future.. then we want to squash identical shares.
 		 */
-		$existingShares = $this->defaultProvider->getSharesByPath($share->getPath());
+		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_USER);
+		$existingShares = $provider->getSharesByPath($share->getPath());
 		foreach($existingShares as $existingShare) {
 			// Identical share already existst
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
@@ -306,7 +322,8 @@ class Manager {
 		 *
 		 * Also this is not what we want in the future.. then we want to squash identical shares.
 		 */
-		$existingShares = $this->defaultProvider->getSharesByPath($share->getPath());
+		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
+		$existingShares = $provider->getSharesByPath($share->getPath());
 		foreach($existingShares as $existingShare) {
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
 				throw new \Exception('Path already shared with this group');
@@ -456,7 +473,9 @@ class Manager {
 			throw new \Exception($error);
 		}
 
-		$share = $this->defaultProvider->create($share);
+		$provider = $this->factory->getProviderForType($share->getShareType());
+		$share = $provider->create($share);
+		$share->setProviderId($provider->identifier());
 
 		// Post share hook
 		$postHookData = [
@@ -492,11 +511,14 @@ class Manager {
 	 */
 	protected function deleteChildren(IShare $share) {
 		$deletedShares = [];
-		foreach($this->defaultProvider->getChildren($share) as $child) {
+
+		$provider = $this->factory->getProviderForType($share->getShareType());
+
+		foreach ($provider->getChildren($share) as $child) {
 			$deletedChildren = $this->deleteChildren($child);
 			$deletedShares = array_merge($deletedShares, $deletedChildren);
 
-			$this->defaultProvider->delete($child);
+			$provider->delete($child);
 			$deletedShares[] = $child;
 		}
 
@@ -508,11 +530,12 @@ class Manager {
 	 *
 	 * @param IShare $share
 	 * @throws ShareNotFound
-	 * @throws \OC\Share20\Exception\BackendError
+	 * @throws BackendError
+	 * @throws ShareNotFound
 	 */
 	public function deleteShare(IShare $share) {
 		// Just to make sure we have all the info
-		$share = $this->getShareById($share->getId());
+		$share = $this->getShareById($share->getFullId());
 
 		$formatHookParams = function(IShare $share) {
 			// Prepare hook
@@ -549,7 +572,8 @@ class Manager {
 		$deletedShares = $this->deleteChildren($share);
 
 		// Do the actual delete
-		$this->defaultProvider->delete($share);
+		$provider = $this->factory->getProviderForType($share->getShareType());
+		$provider->delete($share);
 
 		// All the deleted shares caused by this delete
 		$deletedShares[] = $share;
@@ -588,7 +612,11 @@ class Manager {
 			throw new ShareNotFound();
 		}
 
-		$share = $this->defaultProvider->getShareById($id);
+		list($providerId, $id) = $this->splitFullId($id);
+		$provider = $this->factory->getProvider($providerId);
+
+		$share = $provider->getShareById($id);
+		$share->setProviderId($provider->identifier());
 
 		return $share;
 	}
