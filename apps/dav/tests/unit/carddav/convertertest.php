@@ -42,10 +42,10 @@ class ConverterTests extends  TestCase {
 
 	public function providesNewUsers() {
 		return [
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nEMAIL;TYPE=OTHER:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nCLOUD:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nEMAIL;TYPE=OTHER:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:Dr. Foo Bar\r\nN:Bar;Dr.;Foo;;\r\nCLOUD:foo@bar.net\r\nPHOTO;ENCODING=b;TYPE=JPEG:MTIzNDU2Nzg5\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
 		];
 	}
 
@@ -89,9 +89,9 @@ class ConverterTests extends  TestCase {
 
 	public function providesUsersForUpdateOfRemovedElement() {
 		return [
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
-				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", "foo@bar.net"],
+				["BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nUID:12345\r\nFN:12345\r\nN:12345;;;;\r\nEND:VCARD\r\n", "Dr. Foo Bar", null, "foo@bar.net"],
 		];
 	}
 
