@@ -63,6 +63,17 @@ class UserStoragesController extends StoragesController {
 	}
 
 	/**
+	 * Get all storage entries
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return DataResponse
+	 */
+	public function index() {
+		return parent::index();
+	}
+
+	/**
 	 * Return storage
 	 *
 	 * @NoAdminRequired
