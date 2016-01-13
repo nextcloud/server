@@ -82,6 +82,34 @@ class Checker {
 	}
 
 	/**
+	 * Whether code signing is enforced or not.
+	 *
+	 * @return bool
+	 */
+	public function isCodeCheckEnforced() {
+		// FIXME: Once the signing server is instructed to sign daily, beta and
+		// RCs as well these need to be included also.
+		$signedChannels = [
+			'stable',
+		];
+		if(!in_array($this->environmentHelper->getChannel(), $signedChannels, true)) {
+			return false;
+		}
+
+		/**
+		 * This config option is undocumented and supposed to be so, it's only
+		 * applicable for very specific scenarios and we should not advertise it
+		 * too prominent. So please do not add it to config.sample.php.
+		 */
+		$isIntegrityCheckDisabled = $this->config->getSystemValue('integrity.check.disabled', false);
+		if($isIntegrityCheckDisabled === true) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Enumerates all files belonging to the folder. Sensible defaults are excluded.
 	 *
 	 * @param string $folderToIterate
@@ -209,6 +237,10 @@ class Checker {
 	 * @throws \Exception
 	 */
 	private function verify($signaturePath, $basePath, $certificateCN) {
+		if(!$this->isCodeCheckEnforced()) {
+			return [];
+		}
+
 		$signatureData = json_decode($this->fileAccessHelper->file_get_contents($signaturePath), true);
 		if(!is_array($signatureData)) {
 			throw new InvalidSignatureException('Signature data not found.');

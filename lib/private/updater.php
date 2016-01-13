@@ -345,8 +345,8 @@ class Updater extends BasicEmitter {
 			//Invalidate update feed
 			$this->config->setAppValue('core', 'lastupdatedat', 0);
 
-			// Check for code integrity on the stable channel
-			if(\OC_Util::getChannel() === 'stable') {
+			// Check for code integrity if not disabled
+			if(\OC::$server->getIntegrityCodeChecker()->isCodeCheckEnforced()) {
 				$this->emit('\OC\Updater', 'startCheckCodeIntegrity');
 				$this->checker->runInstanceVerification();
 				$this->emit('\OC\Updater', 'finishedCheckCodeIntegrity');

@@ -36,4 +36,13 @@ class EnvironmentHelper {
 	public function getServerRoot() {
 		return \OC::$SERVERROOT;
 	}
+
+	/**
+	 * Provides \OC_Util::getChannel()
+	 *
+	 * @return string
+	 */
+	public function getChannel() {
+		return \OC_Util::getChannel();
+	}
 }
