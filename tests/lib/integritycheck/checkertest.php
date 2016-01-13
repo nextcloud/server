@@ -295,6 +295,16 @@ class CheckerTest extends TestCase {
 	}
 
 	public function testVerifyAppSignatureWithTamperedFilesAndAlternatePath() {
+		$this->environmentHelper
+				->expects($this->once())
+				->method('getChannel')
+				->will($this->returnValue('stable'));
+		$this->config
+				->expects($this->any())
+				->method('getSystemValue')
+				->with('integrity.check.disabled', false)
+				->will($this->returnValue(false));
+
 		$this->appLocator
 				->expects($this->never())
 				->method('getAppPath')
