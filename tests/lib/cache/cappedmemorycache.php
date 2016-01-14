@@ -64,4 +64,16 @@ class CappedMemoryCache extends \Test_Cache {
 		$this->assertFalse($this->instance->hasKey('2_value1'));
 		$this->assertFalse($this->instance->hasKey('3_value1'));
 	}
+
+	function testIndirectSet() {
+		$this->instance->set('array', []);
+
+		$this->instance['array'][] = 'foo';
+
+		$this->assertEquals(['foo'], $this->instance->get('array'));
+
+		$this->instance['array']['bar'] = 'qwerty';
+
+		$this->assertEquals(['foo', 'bar' => 'qwerty'], $this->instance->get('array'));
+	}
 }
