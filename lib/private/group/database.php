@@ -86,8 +86,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		$this->fixDI();
 
 		// Add group
-		$qb = $this->dbConn->getQueryBuilder();
-		$result = $qb->insertIfNotExists('groups', [
+		$result = $this->dbConn->insertIfNotExist('*PREFIX*groups', [
 			'gid' => $gid,
 		]);
 
