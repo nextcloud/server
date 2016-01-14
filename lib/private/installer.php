@@ -38,6 +38,9 @@
  *
  */
 
+use OC\App\CodeChecker\CodeChecker;
+use OC\App\CodeChecker\EmptyCheck;
+use OC\App\CodeChecker\PrivateCheck;
 use OC\OCSClient;
 
 /**
@@ -605,7 +608,7 @@ class OC_Installer{
 			return true;
 		}
 
-		$codeChecker = new \OC\App\CodeChecker();
+		$codeChecker = new CodeChecker(new PrivateCheck(new EmptyCheck()));
 		$errors = $codeChecker->analyseFolder($folder);
 
 		return empty($errors);
