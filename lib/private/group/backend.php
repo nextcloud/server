@@ -53,7 +53,7 @@ define('OC_GROUP_BACKEND_COUNT_USERS',       0x00100000);
 /**
  * Abstract base class for user management
  */
-abstract class OC_Group_Backend implements OC_Group_Interface {
+abstract class OC_Group_Backend implements \OCP\GroupInterface {
 	/**
 	 * error code for functions not provided by the group backend
 	 */

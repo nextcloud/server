@@ -35,6 +35,7 @@ use OCP\IImage;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IConfig;
+use OCP\UserInterface;
 
 class User implements IUser {
 	/** @var string $uid */
@@ -43,7 +44,7 @@ class User implements IUser {
 	/** @var string $displayName */
 	private $displayName;
 
-	/** @var \OC_User_Interface $backend */
+	/** @var UserInterface $backend */
 	private $backend;
 
 	/** @var bool $enabled */
@@ -69,7 +70,7 @@ class User implements IUser {
 
 	/**
 	 * @param string $uid
-	 * @param \OC_User_Interface $backend
+	 * @param UserInterface $backend
 	 * @param \OC\Hooks\Emitter $emitter
 	 * @param IConfig|null $config
 	 * @param IURLGenerator $urlGenerator

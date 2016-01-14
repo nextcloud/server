@@ -63,7 +63,7 @@ define('OC_USER_BACKEND_COUNT_USERS',       1 << 28);
  * Abstract base class for user management. Provides methods for querying backend
  * capabilities.
  */
-abstract class OC_User_Backend implements OC_User_Interface {
+abstract class OC_User_Backend implements \OCP\UserInterface {
 	/**
 	 * error code for functions not provided by the user backend
 	 */

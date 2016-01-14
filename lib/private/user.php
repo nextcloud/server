@@ -76,13 +76,13 @@ class OC_User {
 	/**
 	 * Adds the backend to the list of used backends
 	 *
-	 * @param string|OC_User_Interface $backend default: database The backend to use for user management
+	 * @param string|\OCP\UserInterface $backend default: database The backend to use for user management
 	 * @return bool
 	 *
 	 * Set the User Authentication Module
 	 */
 	public static function useBackend($backend = 'database') {
-		if ($backend instanceof OC_User_Interface) {
+		if ($backend instanceof \OCP\UserInterface) {
 			self::$_usedBackends[get_class($backend)] = $backend;
 			\OC::$server->getUserManager()->registerBackend($backend);
 		} else {
