@@ -18,8 +18,9 @@ class Job extends \Test\TestCase {
 
 	public function testRemoveAfterException() {
 		$jobList = new DummyJobList();
-		$job = new TestJob($this, function () {
-			throw new \Exception();
+		$e = new \Exception();
+		$job = new TestJob($this, function () use ($e) {
+			throw $e;
 		});
 		$jobList->add($job);
 
@@ -28,7 +29,10 @@ class Job extends \Test\TestCase {
 			->getMock();
 		$logger->expects($this->once())
 			->method('error')
-			->with('Error while running background job (class: Test\BackgroundJob\TestJob, arguments: ): ');
+			->with('Error while running background job (class: Test\BackgroundJob\TestJob, arguments: )');
+		$logger->expects($this->once())
+			->method('logException')
+			->with($e);
 
 		$this->assertCount(1, $jobList->getAll());
 		$job->execute($jobList, $logger);
