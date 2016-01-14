@@ -13,6 +13,12 @@ use OC\Group\Group;
 use OC\User\User;
 use Test\TestCase;
 
+/**
+ * Class Manager
+ *
+ * @package Test\App
+ * @group DB
+ */
 class Manager extends TestCase {
 	/**
 	 * @return \OCP\IAppConfig | \PHPUnit_Framework_MockObject_MockObject
@@ -114,6 +120,93 @@ class Manager extends TestCase {
 		$this->expectClearCache();
 		$this->manager->enableAppForGroups('test', $groups);
 		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
+	}
+
+	public function dataEnableAppForGroupsAllowedTypes() {
+		return [
+			[[]],
+			[[
+				'types' => [],
+			]],
+			[[
+				'types' => ['nickvergessen'],
+			]],
+		];
+	}
+
+	/**
+	 * @dataProvider dataEnableAppForGroupsAllowedTypes
+	 *
+	 * @param array $appInfo
+	 */
+	public function testEnableAppForGroupsAllowedTypes(array $appInfo) {
+		$groups = array(
+			new Group('group1', array(), null),
+			new Group('group2', array(), null)
+		);
+		$this->expectClearCache();
+
+		/** @var \OC\App\AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
+		$manager = $this->getMockBuilder('OC\App\AppManager')
+			->setConstructorArgs([
+				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory
+			])
+			->setMethods([
+				'getAppInfo'
+			])
+			->getMock();
+
+		$manager->expects($this->once())
+			->method('getAppInfo')
+			->with('test')
+			->willReturn($appInfo);
+
+		$manager->enableAppForGroups('test', $groups);
+		$this->assertEquals('["group1","group2"]', $this->appConfig->getValue('test', 'enabled', 'no'));
+	}
+
+	public function dataEnableAppForGroupsForbiddenTypes() {
+		return [
+			['filesystem'],
+			['prelogin'],
+			['authentication'],
+			['logging'],
+			['prevent_group_restriction'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataEnableAppForGroupsForbiddenTypes
+	 *
+	 * @param string $type
+	 *
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage test can't be enabled for groups.
+	 */
+	public function testEnableAppForGroupsForbiddenTypes($type) {
+		$groups = array(
+			new Group('group1', array(), null),
+			new Group('group2', array(), null)
+		);
+
+		/** @var \OC\App\AppManager|\PHPUnit_Framework_MockObject_MockObject $manager */
+		$manager = $this->getMockBuilder('OC\App\AppManager')
+			->setConstructorArgs([
+				$this->userSession, $this->appConfig, $this->groupManager, $this->cacheFactory
+			])
+			->setMethods([
+				'getAppInfo'
+			])
+			->getMock();
+
+		$manager->expects($this->once())
+			->method('getAppInfo')
+			->with('test')
+			->willReturn([
+				'types' => [$type],
+			]);
+
+		$manager->enableAppForGroups('test', $groups);
 	}
 
 	public function testIsInstalledEnabled() {

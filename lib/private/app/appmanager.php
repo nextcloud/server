@@ -35,6 +35,18 @@ use OCP\IUserSession;
 
 class AppManager implements IAppManager {
 
+	/**
+	 * Apps with these types can not be enabled for certain groups only
+	 * @var string[]
+	 */
+	protected $protectedAppTypes = [
+		'filesystem',
+		'prelogin',
+		'authentication',
+		'logging',
+		'prevent_group_restriction',
+	];
+
 	/** @var \OCP\IUserSession */
 	private $userSession;
 
@@ -197,8 +209,17 @@ class AppManager implements IAppManager {
 	 *
 	 * @param string $appId
 	 * @param \OCP\IGroup[] $groups
+	 * @throws \Exception if app can't be enabled for groups
 	 */
 	public function enableAppForGroups($appId, $groups) {
+		$info = $this->getAppInfo($appId);
+		if (!empty($info['types'])) {
+			$protectedTypes = array_intersect($this->protectedAppTypes, $info['types']);
+			if (!empty($protectedTypes)) {
+				throw new \Exception("$appId can't be enabled for groups.");
+			}
+		}
+
 		$groupIds = array_map(function ($group) {
 			/** @var \OCP\IGroup $group */
 			return $group->getGID();
