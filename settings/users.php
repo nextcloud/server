@@ -103,6 +103,8 @@ $defaultQuota=$config->getAppValue('files', 'default_quota', 'none');
 $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false
 	&& array_search($defaultQuota, array('none', 'default'))===false;
 
+\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
+
 $tmpl = new OC_Template("settings", "users/main", "user");
 $tmpl->assign('groups', $groups);
 $tmpl->assign('sortGroups', $sortGroupsBy);
