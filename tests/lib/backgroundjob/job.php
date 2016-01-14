@@ -28,7 +28,7 @@ class Job extends \Test\TestCase {
 			->getMock();
 		$logger->expects($this->once())
 			->method('error')
-			->with('Error while running background job: ');
+			->with('Error while running background job (class: Test\BackgroundJob\TestJob, arguments: ): ');
 
 		$this->assertCount(1, $jobList->getAll());
 		$job->execute($jobList, $logger);
