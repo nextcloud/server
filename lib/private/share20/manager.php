@@ -665,13 +665,47 @@ class Manager {
 	 * Get the share by token possible with password
 	 *
 	 * @param string $token
-	 * @param string $password
-	 *
 	 * @return Share
 	 *
 	 * @throws ShareNotFound
 	 */
-	public function getShareByToken($token, $password=null) {
+	public function getShareByToken($token) {
+		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
+
+		$share = $provider->getShareByToken($token);
+
+		//TODO check if share expired
+
+		return $share;
+	}
+
+	/**
+	 * Verify the password of a public share
+	 *
+	 * @param IShare $share
+	 * @param string $password
+	 * @return bool
+	 */
+	public function checkPassword(IShare $share, $password) {
+		if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK) {
+			//TODO maybe exception?
+			return false;
+		}
+
+		if ($password === null || $share->getPassword() === null) {
+			return false;
+		}
+
+		$newHash = '';
+		if (!$this->hasher->verify($password, $share->getPassword(), $newHash)) {
+			return false;
+		}
+
+		if (!empty($newHash)) {
+			//TODO update hash!
+		}
+
+		return true;
 	}
 
 	/**

@@ -284,7 +284,11 @@ class DefaultShareProvider implements IShareProvider {
 			throw new ShareNotFound();
 		}
 
-		$share = $this->createShare($data);
+		try {
+			$share = $this->createShare($data);
+		} catch (InvalidShare $e) {
+			throw new ShareNotFound();
+		}
 
 		return $share;
 	}
@@ -328,13 +332,34 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Get a share by token and if present verify the password
+	 * Get a share by token
 	 *
 	 * @param string $token
-	 * @param string $password
-	 * @param Share
+	 * @return IShare
+	 * @throws ShareNotFound
 	 */
-	public function getShareByToken($token, $password = null) {
+	public function getShareByToken($token) {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$cursor = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_LINK)))
+			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
+			->execute();
+
+		$data = $cursor->fetch();
+
+		if ($data === false) {
+			throw new ShareNotFound();
+		}
+
+		try {
+			$share = $this->createShare($data);
+		} catch (InvalidShare $e) {
+			throw new ShareNotFound();
+		}
+
+		return $share;
 	}
 	
 	/**
