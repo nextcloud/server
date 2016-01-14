@@ -85,44 +85,15 @@ class OC_Group_Database extends OC_Group_Backend {
 	public function createGroup( $gid ) {
 		$this->fixDI();
 
-		// Check cache first
-		if (isset($this->groupCache[$gid])) {
-			return false;
-		} else {
-			// Check for existence in DB
-			$qb = $this->dbConn->getQueryBuilder();
-			$cursor = $qb->select('gid')
-				->from('groups')
-				->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
-				->execute();
-
-			$result = $cursor->fetch();
-			$cursor->closeCursor();
-
-			if($result) {
-				// Can not add an existing group
-
-				// Add to cache
-				$this->groupCache[$gid] = $gid;
-
-				return false;
-			}
-		}
-
-		// Add group and exit
-		$qb = $this->dbConn->getQueryBuilder();
-		$result = $qb->insert('groups')
-			->setValue('gid', $qb->createNamedParameter($gid))
-			->execute();
-
-		if (!$result) {
-			return false;
-		}
+		// Add group
+		$result = $this->dbConn->insertIfNotExist('*PREFIX*groups', [
+			'gid' => $gid,
+		]);
 
 		// Add to cache
 		$this->groupCache[$gid] = $gid;
 
-		return true;
+		return $result === 1;
 	}
 
 	/**
