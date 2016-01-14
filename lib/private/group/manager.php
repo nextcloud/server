@@ -33,6 +33,7 @@
 namespace OC\Group;
 
 use OC\Hooks\PublicEmitter;
+use OCP\GroupInterface;
 use OCP\IGroupManager;
 
 /**
@@ -52,7 +53,7 @@ use OCP\IGroupManager;
  */
 class Manager extends PublicEmitter implements IGroupManager {
 	/**
-	 * @var \OC_Group_Backend[]|\OC_Group_Database[] $backends
+	 * @var GroupInterface[] $backends
 	 */
 	private $backends = array();
 
@@ -121,7 +122,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
-	 * @param \OC_Group_Backend $backend
+	 * @param \OCP\GroupInterface $backend
 	 */
 	public function addBackend($backend) {
 		$this->backends[] = $backend;

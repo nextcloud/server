@@ -53,7 +53,7 @@ define('OC_GROUP_BACKEND_COUNT_USERS',       0x00100000);
 /**
  * Abstract base class for user management
  */
-abstract class OC_Group_Backend implements OC_Group_Interface {
+abstract class OC_Group_Backend implements \OCP\GroupInterface {
 	/**
 	 * error code for functions not provided by the group backend
 	 */
@@ -82,7 +82,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	* @return int bitwise-or'ed actions
 	*
 	* Returns the supported actions as int to be
-	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	* compared with \OC_Group_Backend::CREATE_GROUP etc.
 	*/
 	public function getSupportedActions() {
 		$actions = 0;
@@ -101,7 +101,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	* @return bool
 	*
 	* Returns the supported actions as int to be
-	* compared with OC_GROUP_BACKEND_CREATE_GROUP etc.
+	* compared with \OC_Group_Backend::CREATE_GROUP etc.
 	*/
 	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);
