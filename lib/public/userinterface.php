@@ -32,7 +32,7 @@
 namespace OCP;
 
 /**
- * Interface UserInterface
+ * TODO actually this is a IUserBackend
  *
  * @package OCP
  * @since 4.5.0

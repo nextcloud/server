@@ -32,7 +32,7 @@
 namespace OCP;
 
 /**
- * Interface GroupInterface
+ * TODO actually this is a IGroupBackend
  *
  * @package OCP
  * @since 4.5.0
