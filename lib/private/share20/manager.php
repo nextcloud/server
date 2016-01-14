@@ -452,6 +452,16 @@ class Manager {
 		$target = \OC\Files\Filesystem::normalizePath($target);
 		$share->setTarget($target);
 
+		//Get sharewith for hooks
+		$sharedWith = null;
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+			$sharedWith = $share->getSharedWith()->getUID();
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$sharedWith = $share->getSharedWith()->getGID();
+		} else {
+			$sharedWith = $share->getSharedWith();
+		}
+
 		// Pre share hook
 		$run = true;
 		$error = '';
@@ -464,8 +474,10 @@ class Manager {
 			'fileSource' => $share->getPath()->getId(),
 			'expiration' => $share->getExpirationDate(),
 			'token' => $share->getToken(),
+			'itemTarget' => $share->getTarget(),
+			'shareWith' => $sharedWith,
 			'run' => &$run,
-			'error' => &$error
+			'error' => &$error,
 		];
 		\OC_Hook::emit('OCP\Share', 'pre_shared', $preHookData);
 
@@ -488,7 +500,11 @@ class Manager {
 			'expiration' => $share->getExpirationDate(),
 			'token' => $share->getToken(),
 			'id' => $share->getId(),
+			'shareWith' => $sharedWith,
+			'itemTarget' => $share->getTarget(),
+			'fileTarget' => $share->getTarget(),
 		];
+
 		\OC_Hook::emit('OCP\Share', 'post_shared', $postHookData);
 
 		return $share;
