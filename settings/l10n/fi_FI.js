@@ -208,6 +208,7 @@ OC.L10N.register(
     "Enable only for specific groups" : "Salli vain tietyille ryhmille",
     "Uninstall App" : "Poista sovelluksen asennus",
     "Enable experimental apps" : "Käytä kokeiluasteella olevia sovelluksia",
+    "SSL Root Certificates" : "SSL-juurivarmenteet",
     "Common Name" : "Yleinen nimi",
     "Valid until" : "Kelvollinen",
     "Issued By" : " Myöntänyt",

@@ -215,6 +215,7 @@
     "Enable only for specific groups" : "Povolit pouze pro vybrané skupiny",
     "Uninstall App" : "Odinstalovat aplikaci",
     "Enable experimental apps" : "Povolit experimentální aplikace",
+    "SSL Root Certificates" : "Kořenové certifikáty SSL",
     "Common Name" : "Common Name",
     "Valid until" : "Platný do",
     "Issued By" : "Vydal",

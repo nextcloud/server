@@ -11,6 +11,7 @@ OC.L10N.register(
     "Saved" : "Vistað",
     "Email sent" : "Tölvupóstur sendur",
     "Email saved" : "Netfang vistað",
+    "All" : "Allt",
     "Please wait...." : "Andartak....",
     "Disable" : "Gera óvirkt",
     "Enable" : "Virkja",

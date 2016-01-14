@@ -2,7 +2,12 @@ OC.L10N.register(
     "files_sharing",
     {
     "Server to server sharing is not enabled on this server" : "שיתוף שרת לשרת לא מופעל בשרת זה",
+    "The mountpoint name contains invalid characters." : "שם ה- mountpoint מכיל תווים לא חוקיים.",
+    "Not allowed to create a federated share with the same user server" : "יצירת שיתוף מאוגד עם אותו שרת משתמש אסורה",
+    "Invalid or untrusted SSL certificate" : "תעודת SSL לא חוקית או לא בטוחה",
+    "Could not authenticate to remote share, password might be wrong" : "לא ניתן לאמת שיתוף חיצוני, ייתכן שהסיסמא שגוייה",
     "Storage not valid" : "אחסון לא חוקי",
+    "Couldn't add remote share" : "לא ניתן להוסיף שיתוף חיצוני",
     "Shared with you" : "שיתף/שיתפה אתך",
     "Shared with others" : "משותף עם אחרים",
     "Shared by link" : "משותף עם קישור",
@@ -51,6 +56,8 @@ OC.L10N.register(
     "You received %2$s as a remote share from %1$s" : "קבלת %2$s כשיתוף חיצוני מאת %1$s",
     "Accept" : "אישור",
     "Decline" : "סירוב",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "שיתוף איתי באמצעות מספר זהות שרת ה- #ownCloud המאוגד שלי, ניתן לראות %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "שיתוף איתי באמצעות מספר זהות שרת ה- #ownCloud המאוגד שלי",
     "This share is password-protected" : "שיתוף זה מוגן סיסמא",
     "The password is wrong. Try again." : "הסיסמא שגויה. יש לנסות שנית.",
     "Password" : "סיסמא",
@@ -70,6 +77,12 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "ענן שיתוף מאוגד",
     "Open documentation" : "תיעוד פתוח",
     "Allow users on this server to send shares to other servers" : "מאפשר למשתמשים בשרת זה לשלוח שיתופים לשרתים אחרים",
-    "Allow users on this server to receive shares from other servers" : "מאפשר למשתמשים בשרת זה לקבל שיתופים משרתים אחרים"
+    "Allow users on this server to receive shares from other servers" : "מאפשר למשתמשים בשרת זה לקבל שיתופים משרתים אחרים",
+    "Federated Cloud" : "ענן מאוגד",
+    "Your Federated Cloud ID:" : "מספר זיהוי הענן המאוגד שלך:",
+    "Share it:" : "שיתוף שלו:",
+    "Add to your website" : "הוספה לאתר האינטרנט שלך",
+    "Share with me via ownCloud" : "שיתוף איתי באמצעות ownCloud",
+    "HTML Code:" : "קוד HTML:"
 },
 "nplurals=2; plural=(n != 1);");

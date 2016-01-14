@@ -217,6 +217,7 @@ OC.L10N.register(
     "Enable only for specific groups" : "Ativar apenas para grupos específicos",
     "Uninstall App" : "Desinstalar Aplicativo",
     "Enable experimental apps" : "Habilitar aplicativos experimentais",
+    "SSL Root Certificates" : "Certificados Raiz SSL",
     "Common Name" : "Nome",
     "Valid until" : "Válido até",
     "Issued By" : "Emitido Por",

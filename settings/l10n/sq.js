@@ -217,6 +217,7 @@ OC.L10N.register(
     "Enable only for specific groups" : "Aktivizoje vetëm për grupe të veçantë",
     "Uninstall App" : "Çinstaloje Aplikacionin",
     "Enable experimental apps" : "Aktivizo aplikacione eksperimentale",
+    "SSL Root Certificates" : "Dëshmi SSL Rrënjë",
     "Common Name" : "Emër i Rëndomtë",
     "Valid until" : "E vlefshme deri më",
     "Issued By" : "Lëshuar Nga",
