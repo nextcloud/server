@@ -128,8 +128,8 @@ class OC_Installer{
 		}
 
 		//run appinfo/install.php
-		if((!isset($data['noinstall']) or $data['noinstall']==false) and file_exists($basedir.'/appinfo/install.php')) {
-			include $basedir.'/appinfo/install.php';
+		if((!isset($data['noinstall']) or $data['noinstall']==false)) {
+			self::includeAppScript($basedir . '/appinfo/install.php');
 		}
 
 		//set the installed version
@@ -560,15 +560,16 @@ class OC_Installer{
 	 */
 	public static function installShippedApp($app) {
 		//install the database
-		if(is_file(OC_App::getAppPath($app)."/appinfo/database.xml")) {
-			OC_DB::createDbFromStructure(OC_App::getAppPath($app)."/appinfo/database.xml");
+		$appPath = OC_App::getAppPath($app);
+		if(is_file("$appPath/appinfo/database.xml")) {
+			OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
 		}
 
 		//run appinfo/install.php
-		if(is_file(OC_App::getAppPath($app)."/appinfo/install.php")) {
-			include OC_App::getAppPath($app)."/appinfo/install.php";
-		}
-		$info=OC_App::getAppInfo($app);
+		\OC::$loader->addValidRoot($appPath);
+		self::includeAppScript("$appPath/appinfo/install.php");
+
+		$info = OC_App::getAppInfo($app);
 		if (is_null($info)) {
 			return false;
 		}
@@ -608,5 +609,14 @@ class OC_Installer{
 		$errors = $codeChecker->analyseFolder($folder);
 
 		return empty($errors);
+	}
+
+	/**
+	 * @param $basedir
+	 */
+	private static function includeAppScript($script) {
+		if ( file_exists($script) ){
+			include $script;
+		}
 	}
 }
