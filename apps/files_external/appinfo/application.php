@@ -46,6 +46,19 @@ class Application extends App {
 	}
 
 	/**
+	 * Register settings templates
+	 */
+	public function registerSettings() {
+		$container = $this->getContainer();
+		$backendService = $container->query('OCA\\Files_External\\Service\\BackendService');
+
+		\OCP\App::registerAdmin('files_external', 'settings');
+		if ($backendService->isUserMountingAllowed()) {
+			\OCP\App::registerPersonal('files_external', 'personal');
+		}
+	}
+
+	/**
 	 * Load storage backends provided by this app
 	 */
 	protected function loadBackends() {
