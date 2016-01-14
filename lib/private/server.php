@@ -1152,7 +1152,7 @@ class Server extends ServerContainer implements IServerContainer {
 	/**
 	 * Get the Notification Manager
 	 *
-	 * @return \OC\Notification\IManager
+	 * @return \OCP\Notification\IManager
 	 * @since 8.2.0
 	 */
 	public function getNotificationManager() {
