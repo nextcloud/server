@@ -375,9 +375,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->method('where')
 			->will($this->returnSelf());
 		$qb->expects($this->once())
-			->method('setParameter')
-			->will($this->returnSelf());
-		$qb->expects($this->once())
 			->method('execute')
 			->will($this->throwException(new \Exception));
 
