@@ -6,6 +6,10 @@
  * See the COPYING-README file.
  */
 
+/**
+ * Class Test_L10n
+ * @group DB
+ */
 class Test_L10n extends \Test\TestCase {
 
 	public function testGermanPluralTranslations() {

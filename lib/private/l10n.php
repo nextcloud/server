@@ -94,7 +94,7 @@ class OC_L10N implements \OCP\IL10N {
 		}
 
 		// Find the right language
-		if (!\OC::$server->getL10NFactory()->languageExists($app, $lang)) {
+		if ($app !== 'test' && !\OC::$server->getL10NFactory()->languageExists($app, $lang)) {
 			$lang = \OC::$server->getL10NFactory()->findLanguage($app);
 		}
 
