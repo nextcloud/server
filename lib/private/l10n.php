@@ -37,6 +37,7 @@
 
 /**
  * This class is for i18n and l10n
+ * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->get() instead
  */
 class OC_L10N implements \OCP\IL10N {
 	/**

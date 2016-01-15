@@ -87,7 +87,10 @@ class Factory implements IFactory {
 		}
 
 		if (!isset($this->instances[$key][$app])) {
-			$this->instances[$key][$app] = new \OC_L10N($app, $lang);
+			$this->instances[$key][$app] = new L10N(
+				$this, $app, $lang,
+				$this->getL10nFilesForApp($app, $lang)
+			);
 		}
 
 		return $this->instances[$key][$app];
