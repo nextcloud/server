@@ -23,6 +23,7 @@ namespace Test\Command\Integrity;
 use OC\Core\Command\Integrity\SignApp;
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
+use OCP\IURLGenerator;
 use Test\TestCase;
 
 class SignAppTest extends TestCase {
@@ -32,6 +33,8 @@ class SignAppTest extends TestCase {
 	private $signApp;
 	/** @var FileAccessHelper */
 	private $fileAccessHelper;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	public function setUp() {
 		parent::setUp();
@@ -39,20 +42,23 @@ class SignAppTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->fileAccessHelper = $this->getMockBuilder('\OC\IntegrityCheck\Helpers\FileAccessHelper')
 			->disableOriginalConstructor()->getMock();
+		$this->urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
+				->disableOriginalConstructor()->getMock();
 		$this->signApp = new SignApp(
 			$this->checker,
-			$this->fileAccessHelper
+			$this->fileAccessHelper,
+			$this->urlGenerator
 		);
 	}
 
-	public function testExecuteWithMissingAppId() {
+	public function testExecuteWithMissingPath() {
 		$inputInterface = $this->getMock('\Symfony\Component\Console\Input\InputInterface');
 		$outputInterface = $this->getMock('\Symfony\Component\Console\Output\OutputInterface');
 
 		$inputInterface
 			->expects($this->at(0))
 			->method('getOption')
-			->with('appId')
+			->with('path')
 			->will($this->returnValue(null));
 		$inputInterface
 			->expects($this->at(1))
@@ -68,7 +74,7 @@ class SignAppTest extends TestCase {
 		$outputInterface
 			->expects($this->at(0))
 			->method('writeln')
-			->with('--appId, --privateKey and --certificate are required.');
+			->with('This command requires the --path, --privateKey and --certificate.');
 
 		$this->invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]);
 	}
@@ -80,7 +86,7 @@ class SignAppTest extends TestCase {
 		$inputInterface
 			->expects($this->at(0))
 			->method('getOption')
-			->with('appId')
+			->with('path')
 			->will($this->returnValue('AppId'));
 		$inputInterface
 			->expects($this->at(1))
@@ -94,9 +100,9 @@ class SignAppTest extends TestCase {
 			->will($this->returnValue('Certificate'));
 
 		$outputInterface
-			->expects($this->at(0))
-			->method('writeln')
-			->with('--appId, --privateKey and --certificate are required.');
+				->expects($this->at(0))
+				->method('writeln')
+				->with('This command requires the --path, --privateKey and --certificate.');
 
 		$this->invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]);
 	}
@@ -108,7 +114,7 @@ class SignAppTest extends TestCase {
 		$inputInterface
 			->expects($this->at(0))
 			->method('getOption')
-			->with('appId')
+			->with('path')
 			->will($this->returnValue('AppId'));
 		$inputInterface
 			->expects($this->at(1))
@@ -124,7 +130,7 @@ class SignAppTest extends TestCase {
 		$outputInterface
 			->expects($this->at(0))
 			->method('writeln')
-			->with('--appId, --privateKey and --certificate are required.');
+			->with('This command requires the --path, --privateKey and --certificate.');
 
 		$this->invokePrivate($this->signApp, 'execute', [$inputInterface, $outputInterface]);
 	}
@@ -136,7 +142,7 @@ class SignAppTest extends TestCase {
 		$inputInterface
 			->expects($this->at(0))
 			->method('getOption')
-			->with('appId')
+			->with('path')
 			->will($this->returnValue('AppId'));
 		$inputInterface
 			->expects($this->at(1))
@@ -170,7 +176,7 @@ class SignAppTest extends TestCase {
 		$inputInterface
 			->expects($this->at(0))
 			->method('getOption')
-			->with('appId')
+			->with('path')
 			->will($this->returnValue('AppId'));
 		$inputInterface
 			->expects($this->at(1))
@@ -209,7 +215,7 @@ class SignAppTest extends TestCase {
 		$inputInterface
 			->expects($this->at(0))
 			->method('getOption')
-			->with('appId')
+			->with('path')
 			->will($this->returnValue('AppId'));
 		$inputInterface
 			->expects($this->at(1))

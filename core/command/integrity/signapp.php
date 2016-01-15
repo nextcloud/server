@@ -23,6 +23,7 @@ namespace OC\Core\Command\Integrity;
 
 use OC\IntegrityCheck\Checker;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
+use OCP\IURLGenerator;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 use Symfony\Component\Console\Command\Command;
@@ -40,23 +41,28 @@ class SignApp extends Command {
 	private $checker;
 	/** @var FileAccessHelper */
 	private $fileAccessHelper;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * @param Checker $checker
 	 * @param FileAccessHelper $fileAccessHelper
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(Checker $checker,
-								FileAccessHelper $fileAccessHelper) {
+								FileAccessHelper $fileAccessHelper,
+								IURLGenerator $urlGenerator) {
 		parent::__construct(null);
 		$this->checker = $checker;
 		$this->fileAccessHelper = $fileAccessHelper;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	protected function configure() {
 		$this
 			->setName('integrity:sign-app')
-			->setDescription('Sign app using a private key.')
-			->addOption('appId', null, InputOption::VALUE_REQUIRED, 'Application to sign')
+			->setDescription('Signs an app using a private key.')
+			->addOption('path', null, InputOption::VALUE_REQUIRED, 'Application to sign')
 			->addOption('privateKey', null, InputOption::VALUE_REQUIRED, 'Path to private key to use for signing')
 			->addOption('certificate', null, InputOption::VALUE_REQUIRED, 'Path to certificate to use for signing');
 	}
@@ -65,11 +71,14 @@ class SignApp extends Command {
 	 * {@inheritdoc }
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$appId = $input->getOption('appId');
+		$path = $input->getOption('path');
 		$privateKeyPath = $input->getOption('privateKey');
 		$keyBundlePath = $input->getOption('certificate');
-		if(is_null($appId) || is_null($privateKeyPath) || is_null($keyBundlePath)) {
-			$output->writeln('--appId, --privateKey and --certificate are required.');
+		if(is_null($path) || is_null($privateKeyPath) || is_null($keyBundlePath)) {
+			$documentationUrl = $this->urlGenerator->linkToDocs('developer-code-integrity');
+			$output->writeln('This command requires the --path, --privateKey and --certificate.');
+			$output->writeln('Example: ./occ integrity:sign-app --path="/Users/lukasreschke/Programming/myapp/" --privateKey="/Users/lukasreschke/private/myapp.key" --certificate="/Users/lukasreschke/public/mycert.crt"');
+			$output->writeln('For more information please consult the documentation: '. $documentationUrl);
 			return null;
 		}
 
@@ -91,8 +100,8 @@ class SignApp extends Command {
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$x509->setPrivateKey($rsa);
-		$this->checker->writeAppSignature($appId, $x509, $rsa);
+		$this->checker->writeAppSignature($path, $x509, $rsa);
 
-		$output->writeln('Successfully signed "'.$appId.'"');
+		$output->writeln('Successfully signed "'.$path.'"');
 	}
 }

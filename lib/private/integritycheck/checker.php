@@ -114,6 +114,7 @@ class Checker {
 	 *
 	 * @param string $folderToIterate
 	 * @return \RecursiveIteratorIterator
+	 * @throws \Exception
 	 */
 	private function getFolderIterator($folderToIterate) {
 		$dirItr = new \RecursiveDirectoryIterator(
@@ -189,17 +190,19 @@ class Checker {
 	}
 
 	/**
-	 * Write the signature of the specified app
+	 * Write the signature of the app in the specified folder
 	 *
-	 * @param string $appId
+	 * @param string $path
 	 * @param X509 $certificate
 	 * @param RSA $privateKey
 	 * @throws \Exception
 	 */
-	public function writeAppSignature($appId,
+	public function writeAppSignature($path,
 									  X509 $certificate,
 									  RSA $privateKey) {
-		$path = $this->appLocator->getAppPath($appId);
+		if(!is_dir($path)) {
+			throw new \Exception('Directory does not exist.');
+		}
 		$iterator = $this->getFolderIterator($path);
 		$hashes = $this->generateHashes($iterator, $path);
 		$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
