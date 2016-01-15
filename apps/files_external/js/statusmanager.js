@@ -449,7 +449,7 @@ OCA.External.StatusManager.Utils = {
 		}
 
 		switch (backend) {
-			case 'smb':
+			case 'wnd':
 				icon = OC.imagePath('windows_network_drive', 'folder-windows');
 				break;
 			case 'sharepoint':
