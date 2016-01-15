@@ -27,6 +27,7 @@
 namespace OCA\Files_Trashbin;
 
 use OC\Files\FileInfo;
+use OCP\Constants;
 
 class Helper
 {
@@ -91,6 +92,8 @@ class Helper
 						'type' => $view->is_dir($dir . '/' . $entryName) ? 'dir' : 'file',
 						'directory' => ($dir === '/') ? '' : $dir,
 						'size' => $size,
+						'etag' => '',
+						'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE
 					);
 					if ($originalPath) {
 						$i['extraData'] = $originalPath.'/'.$id;
