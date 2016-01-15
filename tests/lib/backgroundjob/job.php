@@ -28,9 +28,6 @@ class Job extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$logger->expects($this->once())
-			->method('error')
-			->with('Error while running background job (class: Test\BackgroundJob\TestJob, arguments: )');
-		$logger->expects($this->once())
 			->method('logException')
 			->with($e);
 
