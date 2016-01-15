@@ -6,15 +6,21 @@
  * See the COPYING-README file.
  */
 
+namespace Test\L10N;
+
+
+use OC_L10N;
+use DateTime;
+
 /**
  * Class Test_L10n
  * @group DB
  */
-class Test_L10n extends \Test\TestCase {
+class L10nLegacyTest extends \Test\TestCase {
 
 	public function testGermanPluralTranslations() {
 		$l = new OC_L10N('test');
-		$transFile = OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
 
 		$l->load($transFile);
 		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
@@ -23,7 +29,7 @@ class Test_L10n extends \Test\TestCase {
 
 	public function testRussianPluralTranslations() {
 		$l = new OC_L10N('test');
-		$transFile = OC::$SERVERROOT.'/tests/data/l10n/ru.json';
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
 
 		$l->load($transFile);
 		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
@@ -48,7 +54,7 @@ class Test_L10n extends \Test\TestCase {
 
 	public function testCzechPluralTranslations() {
 		$l = new OC_L10N('test');
-		$transFile = OC::$SERVERROOT.'/tests/data/l10n/cs.json';
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/cs.json';
 
 		$l->load($transFile);
 		$this->assertEquals('1 okno', (string)$l->n('%n window', '%n windows', 1));
@@ -121,7 +127,7 @@ class Test_L10n extends \Test\TestCase {
 	 * @dataProvider findLanguageData
 	 */
 	public function testFindLanguage($default, $preference, $expected) {
-		OC_User::setUserId(null);
+		\OC_User::setUserId(null);
 
 		$config = \OC::$server->getConfig();
 		if (is_null($default)) {
