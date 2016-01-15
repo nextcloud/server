@@ -63,7 +63,11 @@ class Trashbin {
 	 * @param array $params
 	 */
 	public static function ensureFileScannedHook($params) {
-		self::getUidAndFilename($params['path']);
+		try {
+			self::getUidAndFilename($params['path']);
+		} catch (NotFoundException $e) {
+			// nothing to scan for non existing files
+		}
 	}
 
 	/**
@@ -72,18 +76,7 @@ class Trashbin {
 	 * @throws \OC\User\NoUserException
 	 */
 	public static function getUidAndFilename($filename) {
-		$uid = \OC\Files\Filesystem::getOwner($filename);
-		\OC\Files\Filesystem::initMountPoints($uid);
-		if ($uid != \OCP\User::getUser()) {
-			$info = \OC\Files\Filesystem::getFileInfo($filename);
-			$ownerView = new \OC\Files\View('/' . $uid . '/files');
-			try {
-				$filename = $ownerView->getPath($info['fileid']);
-			} catch (NotFoundException $e) {
-				$filename = null;
-			}
-		}
-		return [$uid, $filename];
+		return Filesystem::getView()->getUidAndFilename($filename);
 	}
 
 	/**

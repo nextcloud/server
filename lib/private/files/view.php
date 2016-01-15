@@ -1573,10 +1573,15 @@ class View {
 	 * Get the owner for a file or folder
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return string the user id of the owner
+	 * @throws NotFoundException
 	 */
 	public function getOwner($path) {
-		return $this->basicOperation('getOwner', $path);
+		$info = $this->getFileInfo($path);
+		if (!$info) {
+			throw new NotFoundException($path . ' not found while trying to get owner');
+		}
+		return $info->getOwner()->getUID();
 	}
 
 	/**
@@ -2020,5 +2025,29 @@ class View {
 			return $parts[2];
 		}
 		return '';
+	}
+
+	/**
+	 * @param string $filename
+	 * @return array
+	 * @throws \OC\User\NoUserException
+	 * @throws NotFoundException
+	 */
+	public function getUidAndFilename($filename) {
+		$info = $this->getFileInfo($filename);
+		if (!$info instanceof \OCP\Files\FileInfo) {
+			throw new NotFoundException($this->getAbsolutePath($filename) . ' not found');
+		}
+		$uid = $info->getOwner()->getUID();
+		if ($uid != \OCP\User::getUser()) {
+			Filesystem::initMountPoints($uid);
+			$ownerView = new View('/' . $uid . '/files');
+			try {
+				$filename = $ownerView->getPath($info['fileid']);
+			} catch (NotFoundException $e) {
+				throw new NotFoundException('File with id ' . $info['fileid'] . ' not found for user ' . $uid);
+			}
+		}
+		return [$uid, $filename];
 	}
 }
