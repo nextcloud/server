@@ -26,7 +26,7 @@ $thumbSize = 1024;
 ?>
 
 <?php if ($_['previewSupported']): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
-	<link rel="image_src" href="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => $thumbSize, 'y' => $thumbSize, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" />
+	<link rel="image_src" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute( 'core_ajax_public_preview', array('x' => $thumbSize, 'y' => $thumbSize, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" />
 <?php endif; ?>
 
 <div id="notification-container">

@@ -53,7 +53,10 @@ class Application extends App {
 				$c->query('URLGenerator'),
 				$c->query('UserManager'),
 				$server->getLogger(),
-				$server->getActivityManager()
+				$server->getActivityManager(),
+				$server->getShareManager(),
+				$server->getSession(),
+				$server->getPreviewManager()
 			);
 		});
 		$container->registerService('ExternalSharesController', function (SimpleContainer $c) {

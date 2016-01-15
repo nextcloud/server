@@ -45,10 +45,10 @@ use OC\URLGenerator;
 use OC\AppConfig;
 use OCP\ILogger;
 use OCA\Files_Sharing\Helper;
-use OCP\User;
 use OCP\Util;
 use OCA\Files_Sharing\Activity;
 use \OCP\Files\NotFoundException;
+use \OC\Share20\IShare;
 
 /**
  * Class ShareController
@@ -71,6 +71,12 @@ class ShareController extends Controller {
 	protected $logger;
 	/** @var OCP\Activity\IManager */
 	protected $activityManager;
+	/** @var OC\Share20\Manager */
+	protected $shareManager;
+	/** @var \OCP\ISession */
+	protected $session;
+	/** @var \OCP\IPreview */
+	protected $previewManager;
 
 	/**
 	 * @param string $appName
@@ -82,6 +88,9 @@ class ShareController extends Controller {
 	 * @param OCP\IUserManager $userManager
 	 * @param ILogger $logger
 	 * @param OCP\Activity\IManager $activityManager
+	 * @param \OC\Share20\Manager $shareManager
+	 * @param \OCP\ISession $session
+	 * @param \OCP\IPreview $previewManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -91,7 +100,10 @@ class ShareController extends Controller {
 								URLGenerator $urlGenerator,
 								OCP\IUserManager $userManager,
 								ILogger $logger,
-								OCP\Activity\IManager $activityManager) {
+								OCP\Activity\IManager $activityManager,
+								\OC\Share20\Manager $shareManager,
+								\OCP\ISession $session,
+								\OCP\IPreview $previewManager) {
 		parent::__construct($appName, $request);
 
 		$this->userSession = $userSession;
@@ -101,6 +113,9 @@ class ShareController extends Controller {
 		$this->userManager = $userManager;
 		$this->logger = $logger;
 		$this->activityManager = $activityManager;
+		$this->shareManager = $shareManager;
+		$this->session = $session;
+		$this->previewManager = $previewManager;
 	}
 
 	/**
@@ -111,9 +126,9 @@ class ShareController extends Controller {
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	public function showAuthenticate($token) {
-		$linkItem = Share::getShareByToken($token, false);
+		$share = $this->shareManager->getShareByToken($token);
 
-		if(Helper::authenticate($linkItem)) {
+		if($this->linkShareAuth($share)) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
 		}
 
@@ -130,18 +145,49 @@ class ShareController extends Controller {
 	 * @return RedirectResponse|TemplateResponse
 	 */
 	public function authenticate($token, $password = '') {
-		$linkItem = Share::getShareByToken($token, false);
-		if($linkItem === false) {
+
+		// Check whether share exists
+		try {
+			$share = $this->shareManager->getShareByToken($token);
+		} catch (\OC\Share20\Exception\ShareNotFound $e) {
 			return new NotFoundResponse();
 		}
 
-		$authenticate = Helper::authenticate($linkItem, $password);
+		$authenticate = $this->linkShareAuth($share, $password);
 
 		if($authenticate === true) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $token)));
 		}
 
 		return new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
+	}
+
+	/**
+	 * Authenticate a link item with the given password.
+	 * Or use the session if no password is provided.
+	 *
+	 * This is a modified version of Helper::authenticate
+	 * TODO: Try to merge back eventually with Helper::authenticate
+	 *
+	 * @param IShare $share
+	 * @param string|null $password
+	 * @return bool
+	 */
+	private function linkShareAuth(IShare $share, $password = null) {
+		if ($password !== null) {
+			if ($this->shareManager->checkPassword($share, $password)) {
+				$this->session->set('public_link_authenticated', (string)$share->getId());
+			} else {
+				return false;
+			}
+		} else {
+			// not authenticated ?
+			if ( ! $this->session->exists('public_link_authenticated')
+				|| $this->session->get('public_link_authenticated') !== (string)$share->getId()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -157,54 +203,59 @@ class ShareController extends Controller {
 		\OC_User::setIncognitoMode(true);
 
 		// Check whether share exists
-		$linkItem = Share::getShareByToken($token, false);
-		if($linkItem === false) {
+		try {
+			$share = $this->shareManager->getShareByToken($token);
+		} catch (\OC\Share20\Exception\ShareNotFound $e) {
 			return new NotFoundResponse();
 		}
 
-		$shareOwner = $linkItem['uid_owner'];
-		$originalSharePath = $this->getPath($token);
-
 		// Share is password protected - check whether the user is permitted to access the share
-		if (isset($linkItem['share_with']) && !Helper::authenticate($linkItem)) {
+		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
 				array('token' => $token)));
 		}
 
-		if (Filesystem::isReadable($originalSharePath . $path)) {
-			$getPath = Filesystem::normalizePath($path);
-			$originalSharePath .= $path;
-		} else {
+		// We can't get the path of a file share
+		if ($share->getPath() instanceof \OCP\Files\File && $path !== '') {
 			throw new NotFoundException();
 		}
 
-		$file = basename($originalSharePath);
+		$rootFolder = null;
+		if ($share->getPath() instanceof \OCP\Files\Folder) {
+			/** @var \OCP\Files\Folder $rootFolder */
+			$rootFolder = $share->getPath();
+
+			try {
+				$path = $rootFolder->get($path);
+			} catch (\OCP\Files\NotFoundException $e) {
+				throw new NotFoundException();
+			}
+		}
 
 		$shareTmpl = [];
-		$shareTmpl['displayName'] = User::getDisplayName($shareOwner);
-		$shareTmpl['owner'] = $shareOwner;
-		$shareTmpl['filename'] = $file;
-		$shareTmpl['directory_path'] = $linkItem['file_target'];
-		$shareTmpl['mimetype'] = Filesystem::getMimeType($originalSharePath);
-		$shareTmpl['previewSupported'] = \OC::$server->getPreviewManager()->isMimeSupported($shareTmpl['mimetype']);
-		$shareTmpl['dirToken'] = $linkItem['token'];
+		$shareTmpl['displayName'] = $share->getShareOwner()->getDisplayName();
+		$shareTmpl['owner'] = $share->getShareOwner()->getUID();
+		$shareTmpl['filename'] = $share->getPath()->getName();
+		$shareTmpl['directory_path'] = $share->getTarget();
+		$shareTmpl['mimetype'] = $share->getPath()->getMimetype();
+		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($share->getPath()->getMimetype());
+		$shareTmpl['dirToken'] = $token;
 		$shareTmpl['sharingToken'] = $token;
 		$shareTmpl['server2serversharing'] = Helper::isOutgoingServer2serverShareEnabled();
-		$shareTmpl['protected'] = isset($linkItem['share_with']) ? 'true' : 'false';
+		$shareTmpl['protected'] = $share->getPassword() !== null ? 'true' : 'false';
 		$shareTmpl['dir'] = '';
-		$nonHumanFileSize = \OC\Files\Filesystem::filesize($originalSharePath);
-		$shareTmpl['nonHumanFileSize'] = $nonHumanFileSize;
-		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($nonHumanFileSize);
+		$shareTmpl['nonHumanFileSize'] = $share->getPath()->getSize();
+		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($share->getPath()->getSize());
 
 		// Show file list
-		if (Filesystem::is_dir($originalSharePath)) {
-			$shareTmpl['dir'] = $getPath;
-			$maxUploadFilesize = Util::maxUploadFilesize($originalSharePath);
-			$freeSpace = Util::freeSpace($originalSharePath);
+		if ($share->getPath() instanceof \OCP\Files\Folder) {
+			$shareTmpl['dir'] = $rootFolder->getRelativePath($path->getPath());
+			$maxUploadFilesize = Util::maxUploadFilesize($share->getPath()->getPath());
+			$freeSpace = Util::freeSpace($share->getPath()->getPath());
 			$uploadLimit = Util::uploadLimit();
 			$folder = new Template('files', 'list', '');
-			$folder->assign('dir', $getPath);
-			$folder->assign('dirToken', $linkItem['token']);
+			$folder->assign('dir', $rootFolder->getRelativePath($path->getPath()));
+			$folder->assign('dirToken', $token);
 			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
 			$folder->assign('isPublic', true);
 			$folder->assign('publicUploadEnabled', 'no');
