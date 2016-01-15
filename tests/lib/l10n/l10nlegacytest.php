@@ -123,49 +123,6 @@ class L10nLegacyTest extends \Test\TestCase {
 		$this->assertSame($expected, $l->l('firstday', 'firstday'));
 	}
 
-	/**
-	 * @dataProvider findLanguageData
-	 */
-	public function testFindLanguage($default, $preference, $expected) {
-		\OC_User::setUserId(null);
-
-		$config = \OC::$server->getConfig();
-		if (is_null($default)) {
-			$config->deleteSystemValue('default_language');
-		} else {
-			$config->setSystemValue('default_language', $default);
-		}
-		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $preference;
-
-		$reflection = new \ReflectionClass('OC_L10N');
-		$prop = $reflection->getProperty('language');
-		$prop->setAccessible(1);
-		$prop->setValue('');
-		$prop->setAccessible(0);
-
-		$this->assertSame($expected, OC_L10N::findLanguage());
-	}
-
-	public function findLanguageData() {
-		return array(
-			// Exact match
-			array(null, 'de-DE,en;q=0.5', 'de_DE'),
-			array(null, 'de-DE,en-US;q=0.8,en;q=0.6', 'de_DE'),
-
-			// Best match
-			array(null, 'de-US,en;q=0.5', 'de'),
-			array(null, 'de-US,en-US;q=0.8,en;q=0.6', 'de'),
-
-			// The default_language config setting overrides browser preferences.
-			array('es_AR', 'de-DE,en;q=0.5', 'es_AR'),
-			array('es_AR', 'de-DE,en-US;q=0.8,en;q=0.6', 'es_AR'),
-
-			// Worst case default to english
-			array(null, '', 'en'),
-			array(null, null, 'en'),
-		);
-	}
-
 	public function testFactoryGetLanguageCode() {
 		$factory = new \OC\L10N\Factory($this->getMock('OCP\IConfig'), $this->getMock('OCP\IRequest'));
 		$l = $factory->get('lib', 'de');
