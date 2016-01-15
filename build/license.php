@@ -118,6 +118,9 @@ With help from many libraries and frameworks including:
 		echo "License updated: $path" . PHP_EOL;
 	}
 
+	/**
+	 * @param string $source
+	 */
 	private function isMITLicensed($source) {
 		$lines = explode(PHP_EOL, $source);
 		while(!empty($lines)) {
@@ -131,6 +134,9 @@ With help from many libraries and frameworks including:
 		return false;
 	}
 
+	/**
+	 * @param string $source
+	 */
 	private function eatOldLicense($source) {
 		$lines = explode(PHP_EOL, $source);
 		while(!empty($lines)) {

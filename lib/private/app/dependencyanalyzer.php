@@ -73,7 +73,7 @@ class DependencyAnalyzer {
 	 * 5.2.6.5 and 5.1 will be turned into 5.2 and 5.1
 	 * @param string $first
 	 * @param string $second
-	 * @return array first element is the first version, second element is the
+	 * @return string[] first element is the first version, second element is the
 	 * second version
 	 */
 	private function normalizeVersions($first, $second) {

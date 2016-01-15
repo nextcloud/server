@@ -206,6 +206,9 @@ class PlatformRepository {
 		throw new \UnexpectedValueException('Invalid version string "' . $version . '"' . $extraMessage);
 	}
 
+	/**
+	 * @param string $stability
+	 */
 	private function expandStability($stability) {
 		$stability = strtolower($stability);
 		switch ($stability) {

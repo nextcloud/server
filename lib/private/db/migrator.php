@@ -52,7 +52,7 @@ class Migrator {
 	protected $config;
 
 	/**
-	 * @param \Doctrine\DBAL\Connection $connection
+	 * @param Connection $connection
 	 * @param ISecureRandom $random
 	 * @param IConfig $config
 	 */
