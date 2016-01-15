@@ -17,10 +17,9 @@
 	<documentation>
 		<admin>admin-provisioning-api</admin>
 	</documentation>
-	<version>0.4.0</version>
+	<version>0.4.1</version>
 	<types>
-		<!-- this is used to disable the feature of enabling an app for specific groups only because this would break this app -->
-		<filesystem/>
+		<prevent_group_restriction/>
 	</types>
 	<dependencies>
 		<owncloud min-version="9.0" max-version="9.0" />
