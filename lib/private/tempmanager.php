@@ -225,11 +225,6 @@ class TempManager implements ITempManager {
 		if ($temp = getenv('TMPDIR')) {
 			$directories[] = $temp;
 		}
-		$temp = tempnam(__FILE__, '');
-		if (file_exists($temp)) {
-			unlink($temp);
-			$directories[] = dirname($temp);
-		}
 		if ($temp = sys_get_temp_dir()) {
 			$directories[] = $temp;
 		}
@@ -238,6 +233,12 @@ class TempManager implements ITempManager {
 			if ($this->checkTemporaryDirectory($dir)) {
 				return $dir;
 			}
+		}
+
+		$temp = tempnam(dirname(__FILE__), '');
+		if (file_exists($temp)) {
+			unlink($temp);
+			return dirname($temp);
 		}
 		throw new \UnexpectedValueException('Unable to detect system temporary directory');
 	}
