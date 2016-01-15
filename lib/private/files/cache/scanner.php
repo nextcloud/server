@@ -37,6 +37,8 @@ namespace OC\Files\Cache;
 use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
 use OCP\Config;
+use OCP\Files\Cache\IScanner;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -50,7 +52,7 @@ use OCP\Lock\ILockingProvider;
  *
  * @package OC\Files\Cache
  */
-class Scanner extends BasicEmitter {
+class Scanner extends BasicEmitter implements IScanner {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -81,12 +83,6 @@ class Scanner extends BasicEmitter {
 	 */
 	protected $lockingProvider;
 
-	const SCAN_RECURSIVE = true;
-	const SCAN_SHALLOW = false;
-
-	const REUSE_ETAG = 1;
-	const REUSE_SIZE = 2;
-
 	public function __construct(\OC\Files\Storage\Storage $storage) {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
@@ -112,7 +108,7 @@ class Scanner extends BasicEmitter {
 	 * @param string $path
 	 * @return array an array of metadata of the file
 	 */
-	public function getData($path) {
+	protected function getData($path) {
 		$data = $this->storage->getMetaData($path);
 		if (is_null($data)) {
 			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
@@ -137,7 +133,9 @@ class Scanner extends BasicEmitter {
 			and !Filesystem::isFileBlacklisted($file)
 		) {
 			if ($lock) {
-				$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					$this->storage->acquireLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				}
 			}
 			$this->emit('\OC\Files\Cache\Scanner', 'scanFile', array($file, $this->storageId));
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
@@ -160,6 +158,7 @@ class Scanner extends BasicEmitter {
 					$data['parent'] = $parentId;
 				}
 				if (is_null($cacheData)) {
+					/** @var CacheEntry $cacheData */
 					$cacheData = $this->cache->get($file);
 				}
 				if ($cacheData and $reuseExisting and isset($cacheData['fileid'])) {
@@ -182,7 +181,7 @@ class Scanner extends BasicEmitter {
 						}
 					}
 					// Only update metadata that has changed
-					$newData = array_diff_assoc($data, $cacheData);
+					$newData = array_diff_assoc($data, $cacheData->getData());
 				} else {
 					$newData = $data;
 					$fileId = -1;
@@ -196,7 +195,9 @@ class Scanner extends BasicEmitter {
 				$this->removeFromCache($file);
 			}
 			if ($lock) {
-				$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					$this->storage->releaseLock($file, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				}
 			}
 			return $data;
 		}
@@ -263,7 +264,9 @@ class Scanner extends BasicEmitter {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		if ($lock) {
-			$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			}
 		}
 		$data = $this->scanFile($path, $reuse, -1, null, $lock);
 		if ($data and $data['mimetype'] === 'httpd/unix-directory') {
@@ -271,7 +274,9 @@ class Scanner extends BasicEmitter {
 			$data['size'] = $size;
 		}
 		if ($lock) {
-			$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+			}
 		}
 		return $data;
 	}

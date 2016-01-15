@@ -25,6 +25,8 @@
 
 namespace OC\Files\Storage\Wrapper;
 
+use OCP\Files\Cache\ICacheEntry;
+
 class Quota extends Wrapper {
 
 	/**
@@ -64,7 +66,7 @@ class Quota extends Wrapper {
 			$cache = $storage->getCache();
 		}
 		$data = $cache->get($path);
-		if (is_array($data) and isset($data['size'])) {
+		if ($data instanceof ICacheEntry and isset($data['size'])) {
 			return $data['size'];
 		} else {
 			return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;

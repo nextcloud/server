@@ -24,6 +24,7 @@
  */
 
 namespace OC\Files\Cache;
+use OCP\Files\Cache\ICacheEntry;
 
 /**
  * check the storage backends for updates and change the cache accordingly
@@ -38,7 +39,7 @@ class Shared_Watcher extends Watcher {
 	 * Update the cache for changes to $path
 	 *
 	 * @param string $path
-	 * @param array $cachedData
+	 * @param ICacheEntry $cachedData
 	 */
 	public function update($path, $cachedData) {
 		parent::update($path, $cachedData);

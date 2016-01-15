@@ -29,6 +29,7 @@
 
 namespace OC\Files;
 
+use OCP\Files\Cache\ICacheEntry;
 use OCP\IUser;
 
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
@@ -71,7 +72,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @param string|boolean $path
 	 * @param Storage\Storage $storage
 	 * @param string $internalPath
-	 * @param array $data
+	 * @param array|ICacheEntry $data
 	 * @param \OCP\Files\Mount\IMountPoint $mount
 	 * @param \OCP\IUser|null $owner
 	 */

@@ -26,9 +26,10 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OCP\Files\InvalidPathException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\Lock\ILockingProvider;
 
-class Wrapper implements \OC\Files\Storage\Storage {
+class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -583,7 +584,9 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
-		$this->storage->acquireLock($path, $type, $provider);
+		if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			$this->storage->acquireLock($path, $type, $provider);
+		}
 	}
 
 	/**
@@ -592,7 +595,9 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
-		$this->storage->releaseLock($path, $type, $provider);
+		if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			$this->storage->releaseLock($path, $type, $provider);
+		}
 	}
 
 	/**
@@ -601,6 +606,8 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
-		$this->storage->changeLock($path, $type, $provider);
+		if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			$this->storage->changeLock($path, $type, $provider);
+		}
 	}
 }

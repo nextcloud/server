@@ -21,10 +21,12 @@
 
 namespace OC\Files\Cache;
 
+use OCP\Files\Cache\IPropagator;
+
 /**
  * Propagate etags and mtimes within the storage
  */
-class Propagator {
+class Propagator implements IPropagator {
 	/**
 	 * @var \OC\Files\Storage\Storage
 	 */
@@ -41,7 +43,7 @@ class Propagator {
 	/**
 	 * @param string $internalPath
 	 * @param int $time
-	 * @return array[] all propagated entries
+	 * @return array[] all propagated cache entries
 	 */
 	public function propagateChange($internalPath, $time) {
 		$cache = $this->storage->getCache($internalPath);

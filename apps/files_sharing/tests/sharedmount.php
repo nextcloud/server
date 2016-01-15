@@ -48,8 +48,10 @@ class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
 	}
 
 	protected function tearDown() {
-		$this->view->unlink($this->folder);
-		$this->view->unlink($this->filename);
+		if ($this->view) {
+			$this->view->unlink($this->folder);
+			$this->view->unlink($this->filename);
+		}
 
 		parent::tearDown();
 	}

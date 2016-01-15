@@ -26,6 +26,8 @@
 
 namespace OC\Files\Cache;
 
+use OCP\Files\Cache\ICacheEntry;
+
 class HomeCache extends Cache {
 	/**
 	 * get the size of a folder and set it in the cache
@@ -67,7 +69,7 @@ class HomeCache extends Cache {
 
 	/**
 	 * @param string $path
-	 * @return array
+	 * @return ICacheEntry
 	 */
 	public function get($path) {
 		$data = parent::get($path);

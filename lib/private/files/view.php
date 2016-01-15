@@ -43,15 +43,16 @@
 namespace OC\Files;
 
 use Icewind\Streams\CallbackWrapper;
-use OC\Files\Cache\Updater;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\Storage\Storage;
 use OC\User\User;
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
 use OCP\Lock\LockedException;
@@ -1274,7 +1275,7 @@ class View {
 		if ($storage) {
 			$data = $this->getCacheEntry($storage, $internalPath, $relativePath);
 
-			if (!is_array($data)) {
+			if (!$data instanceof ICacheEntry) {
 				return false;
 			}
 
@@ -1334,7 +1335,7 @@ class View {
 
 			$data = $this->getCacheEntry($storage, $internalPath, $directory);
 
-			if (!is_array($data) || !isset($data['fileid'])) {
+			if (!$data instanceof ICacheEntry || !isset($data['fileid'])) {
 				return [];
 			}
 
@@ -1345,7 +1346,7 @@ class View {
 			/**
 			 * @var \OC\Files\FileInfo[] $files
 			 */
-			$files = array_map(function (array $content) use ($path, $storage, $mount, $sharingDisabled) {
+			$files = array_map(function (ICacheEntry $content) use ($path, $storage, $mount, $sharingDisabled) {
 				if ($sharingDisabled) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
@@ -1834,11 +1835,14 @@ class View {
 		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		if ($mount) {
 			try {
-				$mount->getStorage()->acquireLock(
-					$mount->getInternalPath($absolutePath),
-					$type,
-					$this->lockingProvider
-				);
+				$storage = $mount->getStorage();
+				if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					$storage->acquireLock(
+						$mount->getInternalPath($absolutePath),
+						$type,
+						$this->lockingProvider
+					);
+				}
 			} catch (\OCP\Lock\LockedException $e) {
 				// rethrow with the a human-readable path
 				throw new \OCP\Lock\LockedException(
@@ -1872,11 +1876,14 @@ class View {
 		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		if ($mount) {
 			try {
-				$mount->getStorage()->changeLock(
-					$mount->getInternalPath($absolutePath),
-					$type,
-					$this->lockingProvider
-				);
+				$storage = $mount->getStorage();
+				if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+					$storage->changeLock(
+						$mount->getInternalPath($absolutePath),
+						$type,
+						$this->lockingProvider
+					);
+				}
 			} catch (\OCP\Lock\LockedException $e) {
 				// rethrow with the a human-readable path
 				throw new \OCP\Lock\LockedException(
@@ -1907,11 +1914,14 @@ class View {
 
 		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		if ($mount) {
-			$mount->getStorage()->releaseLock(
-				$mount->getInternalPath($absolutePath),
-				$type,
-				$this->lockingProvider
-			);
+			$storage = $mount->getStorage();
+			if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				$storage->releaseLock(
+					$mount->getInternalPath($absolutePath),
+					$type,
+					$this->lockingProvider
+				);
+			}
 		}
 
 		return true;

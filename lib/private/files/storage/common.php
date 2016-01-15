@@ -46,6 +46,7 @@ use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -59,7 +60,7 @@ use OCP\Lock\ILockingProvider;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-abstract class Common implements Storage {
+abstract class Common implements Storage, ILockingStorage {
 
 	use LocalTempFileTrait;
 
