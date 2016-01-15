@@ -54,6 +54,7 @@
     "Archives of type %s are not supported" : "Nuk mbulohen arkivat e llojit %s",
     "Failed to open archive when installing app" : "Dështoi në hapje arkivi teksa instalohej aplikacioni",
     "App does not provide an info.xml file" : "Aplikacioni s’ofron kartele të vlefshme .xml",
+    "Signature could not get checked. Please contact the app developer and check your admin screen." : "Nënshkrimi s’u kontrollua dot. Ju lutemi, lidhuni me zhvilluesin e aplikacionit dhe kontrolloni te skena juaj e përgjegjësit.",
     "App can't be installed because of not allowed code in the App" : "Aplikacioni s’mund të instalohet, për shkak kodi të palejuar te Aplikacioni",
     "App can't be installed because it is not compatible with this version of ownCloud" : "Aplikacioni s’mund të instalohet, ngaqë s’është i përputhshëm me këtë version të ownCloud-it",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "Aplikacioni s’mund të instalohet, ngaqë përmban etiketën <shipped>true</shipped> e cila nuk lejohet për aplikacione që s’janë hedhur në qarkullim",

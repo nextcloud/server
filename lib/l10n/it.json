@@ -54,6 +54,7 @@
     "Archives of type %s are not supported" : "Gli archivi di tipo %s non sono supportati",
     "Failed to open archive when installing app" : "Apertura archivio non riuscita durante l'installazione dell'applicazione",
     "App does not provide an info.xml file" : "L'applicazione non fornisce un file info.xml",
+    "Signature could not get checked. Please contact the app developer and check your admin screen." : "La firma non può essere verificata. Contatta lo sviluppatore dell'applicazione e controlla la schermata di amministrazione.",
     "App can't be installed because of not allowed code in the App" : "L'applicazione non può essere installata a causa di codice non consentito al suo interno",
     "App can't be installed because it is not compatible with this version of ownCloud" : "L'applicazione non può essere installata poiché non è compatibile con questa versione di ownCloud",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "L'applicazione non può essere installata poiché contiene il tag <shipped>true<shipped> che è consentito per le applicazioni native",

@@ -54,6 +54,7 @@
     "Archives of type %s are not supported" : "Los ficheros de tipo %s no son soportados",
     "Failed to open archive when installing app" : "Falló la apertura ded fichero mientras se instalaba la aplicación",
     "App does not provide an info.xml file" : "La aplicación no suministra un fichero info.xml",
+    "Signature could not get checked. Please contact the app developer and check your admin screen." : "La firma no pudo ser evaluada. Por favor, contacte con el desarrollador de la aplicación y compruebe su pantalla de administración.",
     "App can't be installed because of not allowed code in the App" : "La aplicación no puede ser instalada por tener código no autorizado en la aplicación",
     "App can't be installed because it is not compatible with this version of ownCloud" : "La aplicación no se puede instalar porque no es compatible con esta versión de ownCloud",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "La aplicación no se puede instalar porque contiene la etiqueta\n<shipped>\ntrue\n</shipped>\nque no está permitida para aplicaciones no distribuidas",
@@ -94,6 +95,7 @@
     "Sharing %s failed, because %s is not a member of the group %s" : "Se falló al compartir %s, ya que %s no es miembro del grupo %s",
     "You need to provide a password to create a public link, only protected links are allowed" : "Es necesario definir una contraseña para crear un enlace publico. Solo los enlaces protegidos están permitidos",
     "Sharing %s failed, because sharing with links is not allowed" : "Se falló al compartir %s, ya que no está permitida la compartición con enlaces",
+    "Not allowed to create a federated share with the same user" : "No se permite crear un recurso compartido federado con el mismo usuario",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Se falló al compartir %s. No se pudo hallar %s, quizás haya un problema de conexión con el servidor.",
     "Share type %s is not valid for %s" : "Compartir tipo %s no es válido para %s",
     "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" : "La configuración de permisos para %s ha fallado, ya que los permisos superan los permisos dados a %s",
@@ -109,6 +111,9 @@
     "Sharing %s failed, because resharing is not allowed" : "Se ha fallado al compartir %s, ya que volver a compartir no está permitido",
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "Se ha fallado al compartir %s porque el motor compartido para %s podría no encontrar su origen",
     "Sharing %s failed, because the file could not be found in the file cache" : "Se ha fallado al compartir %s, ya que el archivo no pudo ser encontrado en el cache de archivo",
+    "Cannot increase permissions of %s" : "No se pueden incrementar los permisos de %s",
+    "Expiration date is in the past" : "Ha pasado la fecha de caducidad",
+    "Cannot set expiration date more than %s days in the future" : "No se puede fijar la fecha de caducidad más de %s días en el futuro.",
     "Could not find category \"%s\"" : "No puede encontrar la categoría \"%s\"",
     "Apps" : "Aplicaciones",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Solo los siguientes caracteres están permitidos en un nombre de usuario: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
@@ -147,6 +152,8 @@
     "Could not obtain lock type %d on \"%s\"." : "No se pudo realizar el bloqueo %d en \"%s\".",
     "Storage unauthorized. %s" : "Almacenamiento no autorizado. %s",
     "Storage incomplete configuration. %s" : "Configuración de almacenamiento incompleta. %s",
-    "Storage not available" : "Almacenamiento no disponible"
+    "Storage connection error. %s" : "Error de conexión de almacenamiento. %s",
+    "Storage not available" : "Almacenamiento no disponible",
+    "Storage connection timeout. %s" : "Tiempo de conexión de almacenamiento agotado. %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
