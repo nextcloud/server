@@ -176,7 +176,7 @@ class Factory implements IFactory {
 		}
 
 		$languages = $this->findAvailableLanguages($app);
-		return array_search($lang, $languages);
+		return array_search($lang, $languages) !== false;
 	}
 
 	/**
@@ -238,7 +238,7 @@ class Factory implements IFactory {
 		$i18nDir = $this->findL10nDir($app);
 		$transFile = strip_tags($i18nDir) . strip_tags($lang) . '.json';
 
-		if((\OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/core/l10n/')
+		if ((\OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/core/l10n/')
 				|| \OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/lib/l10n/')
 				|| \OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/settings/l10n/')
 				|| \OC_Helper::isSubDirectory($transFile, \OC_App::getAppPath($app) . '/l10n/')
@@ -267,15 +267,15 @@ class Factory implements IFactory {
 	 * @return string directory
 	 */
 	protected function findL10nDir($app = null) {
-		if ($app) {
-			// Check if the app is in the app folder
-			if (\OC_App::getAppPath($app) && file_exists(\OC_App::getAppPath($app) . '/l10n/')) {
-				return \OC_App::getAppPath($app) . '/l10n/';
-			} else {
+		if (in_array($app, ['core', 'lib', 'settings'])) {
+			if (file_exists(\OC::$SERVERROOT . '/' . $app . '/l10n/')) {
 				return \OC::$SERVERROOT . '/' . $app . '/l10n/';
 			}
+		} else if ($app && \OC_App::getAppPath($app) !== false) {
+			// Check if the app is in the app folder
+			return \OC_App::getAppPath($app) . '/l10n/';
 		}
-		return \OC::$SERVERROOT.'/core/l10n/';
+		return \OC::$SERVERROOT . '/core/l10n/';
 	}
 
 
