@@ -52,6 +52,7 @@ use OCP\Util;
 use OCA\Files_Sharing\Activity;
 use \OCP\Files\NotFoundException;
 use \OC\Share20\IShare;
+use OCP\Files\IRootFolder;
 
 /**
  * Class ShareController
@@ -76,6 +77,8 @@ class ShareController extends Controller {
 	protected $session;
 	/** @var IPreview */
 	protected $previewManager;
+	/** @var IRootFolder */
+	protected $rootFolder;
 
 	/**
 	 * @param string $appName
@@ -98,7 +101,8 @@ class ShareController extends Controller {
 								\OCP\Activity\IManager $activityManager,
 								\OC\Share20\Manager $shareManager,
 								ISession $session,
-								IPreview $previewManager) {
+								IPreview $previewManager,
+								IRootFolder $rootFolder) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
@@ -109,6 +113,7 @@ class ShareController extends Controller {
 		$this->shareManager = $shareManager;
 		$this->session = $session;
 		$this->previewManager = $previewManager;
+		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -286,14 +291,12 @@ class ShareController extends Controller {
 	public function downloadShare($token, $files = null, $path = '', $downloadStartSecret = '') {
 		\OC_User::setIncognitoMode(true);
 
-		$linkItem = OCP\Share::getShareByToken($token, false);
+		$share = $this->shareManager->getShareByToken($token);
 
 		// Share is password protected - check whether the user is permitted to access the share
-		if (isset($linkItem['share_with'])) {
-			if(!Helper::authenticate($linkItem)) {
-				return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-					array('token' => $token)));
-			}
+		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
+				['token' => $token]));
 		}
 
 		$files_list = null;
@@ -301,40 +304,73 @@ class ShareController extends Controller {
 			$files_list = json_decode($files);
 			// in case we get only a single file
 			if ($files_list === null) {
-				$files_list = array($files);
+				$files_list = [$files];
 			}
 		}
 
-		$originalSharePath = self::getPath($token);
+		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner()->getUID());
+		$originalSharePath = $userFolder->getRelativePath($share->getPath()->getPath());
 
-		// Create the activities
-		if (isset($originalSharePath) && Filesystem::isReadable($originalSharePath . $path)) {
-			$originalSharePath = Filesystem::normalizePath($originalSharePath . $path);
-			$isDir = \OC\Files\Filesystem::is_dir($originalSharePath);
+		// Single file share
+		if ($share->getPath() instanceof \OCP\Files\File) {
+			$this->activityManager->publishActivity(
+				'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$originalSharePath], '', [],
+				$originalSharePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
+			);
+		}
+		// Directory share
+		else {
+			/** @var \OCP\Files\Folder $node */
+			$node = $share->getPath();
 
-			$activities = [];
-			if (!$isDir) {
-				// Single file public share
-				$activities[$originalSharePath] = Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+			// Try to get the path
+			if ($path !== '') {
+				try {
+					$node = $node->get($path);
+				} catch (NotFoundException $e) {
+					return new NotFoundResponse();
+				}
+			}
+
+			$originalSharePath = $userFolder->getRelativePath($node->getPath());
+
+			if ($node instanceof \OCP\Files\File) {
+				// Single file download
+				$this->activityManager->publishActivity(
+					'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$originalSharePath], '', [],
+					$originalSharePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
+				);
 			} else if (!empty($files_list)) {
-				// Only some files are downloaded
+				/** @var \OCP\Files\Folder $node */
+
+				// Subset of files is downloaded
 				foreach ($files_list as $file) {
-					$filePath = Filesystem::normalizePath($originalSharePath . '/' . $file);
-					$isDir = \OC\Files\Filesystem::is_dir($filePath);
-					$activities[$filePath] = ($isDir) ? Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED : Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+					$subNode = $node->get($file);
+					$nodePath = $userFolder->getRelativePath($node->getPath());
+					if ($subNode instanceof \OCP\Files\File) {
+						$this->activityManager->publishActivity(
+							'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$nodePath], '', [],
+							$nodePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
+						);
+					} else {
+						$this->activityManager->publishActivity(
+							'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED, [$nodePath], '', [],
+							$nodePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
+						);
+					}
 				}
 			} else {
 				// The folder is downloaded
-				$activities[$originalSharePath] = Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED;
-			}
-
-			foreach ($activities as $filePath => $subject) {
 				$this->activityManager->publishActivity(
-					'files_sharing', $subject, array($filePath), '', array(),
-					$filePath, '', $linkItem['uid_owner'], Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
+					'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED, [$originalSharePath], '', [],
+					$originalSharePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
 				);
 			}
 		}
+
+		/* FIXME: We should do this all nicely in OCP */
+		OC_Util::tearDownFS();
+		OC_Util::setupFS($share->getShareOwner()->getUID());
 
 		/**
 		 * this sets a cookie to be able to recognize the start of the download
@@ -361,31 +397,5 @@ class ShareController extends Controller {
 			OC_Files::get(dirname($originalSharePath), basename($originalSharePath), $_SERVER['REQUEST_METHOD'] == 'HEAD');
 			exit();
 		}
-	}
-
-	/**
-	 * @param string $token
-	 * @return string Resolved file path of the token
-	 * @throws NotFoundException In case share could not get properly resolved
-	 */
-	private function getPath($token) {
-		$linkItem = Share::getShareByToken($token, false);
-		if (is_array($linkItem) && isset($linkItem['uid_owner'])) {
-			// seems to be a valid share
-			$rootLinkItem = Share::resolveReShare($linkItem);
-			if (isset($rootLinkItem['uid_owner'])) {
-				if(!$this->userManager->userExists($rootLinkItem['uid_owner'])) {
-					throw new NotFoundException('Owner of the share does not exist anymore');
-				}
-				OC_Util::tearDownFS();
-				OC_Util::setupFS($rootLinkItem['uid_owner']);
-				$path = Filesystem::getPath($linkItem['file_source']);
-				if(Filesystem::isReadable($path)) {
-					return $path;
-				}
-			}
-		}
-
-		throw new NotFoundException('No file found belonging to file.');
 	}
 }

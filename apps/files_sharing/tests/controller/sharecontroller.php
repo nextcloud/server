@@ -317,27 +317,20 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testDownloadShare() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getPassword')->willReturn('password');
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('validtoken')
+			->willReturn($share);
+
 		// Test with a password protected share and no authentication
-		$response = $this->shareController->downloadShare($this->token);
+		$response = $this->shareController->downloadShare('validtoken');
 		$expectedResponse = new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-			array('token' => $this->token)));
+			['token' => 'validtoken']));
 		$this->assertEquals($expectedResponse, $response);
-	}
-
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
-	public function testDownloadShareWithDeletedFile() {
-		$this->container['UserManager']->expects($this->once())
-			->method('userExists')
-			->with($this->user)
-			->will($this->returnValue(true));
-
-		$view = new View('/'. $this->user . '/files');
-		$view->unlink('file1.txt');
-		$linkItem = Share::getShareByToken($this->token, false);
-		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
-		$this->shareController->downloadShare($this->token);
 	}
 
 }

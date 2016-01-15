@@ -54,7 +54,8 @@ class Application extends App {
 				$server->getActivityManager(),
 				$c->query('ShareManager'),
 				$c->query('Session'),
-				$server->getPreviewManager()
+				$server->getPreviewManager(),
+				$c->query('RootFolder')
 			);
 		});
 		$container->registerService('ExternalSharesController', function (SimpleContainer $c) {
@@ -69,6 +70,9 @@ class Application extends App {
 		/**
 		 * Core class wrappers
 		 */
+		$container->registerService('RootFolder', function(SimpleContainer $c) use ($server) {
+			return $server->getRootFolder();
+		});
 		$container->registerService('Session', function(SimpleContainer $c) use ($server) {
 			return $server->getSession();
 		});
