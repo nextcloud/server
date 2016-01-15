@@ -285,6 +285,8 @@ class Log implements ILogger {
 			'Line' => $exception->getLine(),
 		);
 		$exception['Trace'] = preg_replace('!(login|checkPassword)\(.*\)!', '$1(*** username and password replaced ***)', $exception['Trace']);
-		$this->error('Exception: ' . json_encode($exception), $context);
+		$msg = isset($context['message']) ? $context['message'] : 'Exception';
+		$msg .= ': ' . json_encode($exception);
+		$this->error($msg, $context);
 	}
 }
