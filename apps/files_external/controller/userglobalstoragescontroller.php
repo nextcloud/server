@@ -103,7 +103,6 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @param int $id storage id
 	 * @return DataResponse
 	 *
-	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 */
 	public function show($id) {

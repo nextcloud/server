@@ -53,6 +53,7 @@ class UserStoragesController extends StoragesController {
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param UserStoragesService $userStoragesService storage service
+	 * @param IUserSession $userSession
 	 */
 	public function __construct(
 		$AppName,

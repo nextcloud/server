@@ -105,7 +105,8 @@ class Connection extends \Test\TestCase {
 		$this->connection->setValues('table', [
 			'integerfield' => 1
 		], [
-			'textfield' => 'foo'
+			'textfield' => 'foo',
+			'clobfield' => 'not_null'
 		]);
 
 		$this->assertEquals('foo', $this->getTextValueByIntergerField(1));
@@ -118,7 +119,8 @@ class Connection extends \Test\TestCase {
 		$this->connection->setValues('table', [
 			'integerfield' => 1
 		], [
-			'textfield' => 'foo'
+			'textfield' => 'foo',
+			'clobfield' => 'not_null'
 		]);
 
 		$this->connection->setValues('table', [
@@ -138,7 +140,8 @@ class Connection extends \Test\TestCase {
 			'integerfield' => 1
 		], [
 			'textfield' => 'foo',
-			'booleanfield' => true
+			'booleanfield' => true,
+			'clobfield' => 'not_null'
 		]);
 
 		$this->connection->setValues('table', [
@@ -163,7 +166,8 @@ class Connection extends \Test\TestCase {
 			'integerfield' => 1
 		], [
 			'textfield' => 'foo',
-			'booleanfield' => true
+			'booleanfield' => true,
+			'clobfield' => 'not_null'
 		]);
 
 		$this->connection->setValues('table', [

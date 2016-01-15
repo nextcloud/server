@@ -43,6 +43,18 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->manager = new CredentialsManager($this->crypto, $this->dbConnection);
 	}
 
+	private function getQeuryResult($row) {
+		$result = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$result->expects($this->any())
+			->method('fetch')
+			->will($this->returnValue($row));
+
+		return $result;
+	}
+
 	public function testStore() {
 		$userId = 'abc';
 		$identifier = 'foo';
@@ -78,7 +90,7 @@ class CredentialsManagerTest extends \Test\TestCase {
 			->getMock();
 		$qb->expects($this->once())
 			->method('execute')
-			->willReturn(['credentials' => 'baz']);
+			->willReturn($this->getQeuryResult(['credentials' => 'baz']));
 
 		$this->dbConnection->expects($this->once())
 			->method('getQueryBuilder')
