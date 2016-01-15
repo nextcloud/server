@@ -82,9 +82,21 @@ class OC_L10N implements \OCP\IL10N {
 	 *
 	 * If language is not set, the constructor tries to find the right
 	 * language.
+	 * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->get() instead
 	 */
 	public function __construct($app, $lang = null) {
+		$app = \OC_App::cleanAppId($app);
 		$this->app = $app;
+
+		if ($lang !== null) {
+			$lang = str_replace(array('\0', '/', '\\', '..'), '', $lang);
+		}
+
+		// Find the right language
+		if (!\OC::$server->getL10NFactory()->languageExists($app, $lang)) {
+			$lang = \OC::$server->getL10NFactory()->findLanguage($app);
+		}
+
 		$this->lang = $lang;
 	}
 
@@ -119,13 +131,9 @@ class OC_L10N implements \OCP\IL10N {
 		if ($this->app === true) {
 			return;
 		}
-		$app = OC_App::cleanAppId($this->app);
-		$lang = str_replace(array('\0', '/', '\\', '..'), '', $this->lang);
+		$app = $this->app;
+		$lang = $this->lang;
 		$this->app = true;
-		// Find the right language
-		if(is_null($lang) || $lang == '') {
-			$lang = self::findLanguage($app);
-		}
 
 		// Use cache if possible
 		if(array_key_exists($app.'::'.$lang, self::$cache)) {
@@ -323,12 +331,8 @@ class OC_L10N implements \OCP\IL10N {
 			$value->setTimestamp($data);
 		}
 
-		// Use the language of the instance, before falling back to the current user's language
-		$locale = $this->lang;
-		if ($locale === null) {
-			$locale = self::findLanguage();
-		}
-		$locale = $this->transformToCLDRLocale($locale);
+		// Use the language of the instance
+		$locale = $this->transformToCLDRLocale($this->getLanguageCode());
 
 		$options = array_merge(array('width' => 'long'), $options);
 		$width = $options['width'];
@@ -350,7 +354,7 @@ class OC_L10N implements \OCP\IL10N {
 	 * @return string language
 	 */
 	public function getLanguageCode() {
-		return $this->lang ? $this->lang : self::findLanguage();
+		return $this->lang;
 	}
 
 	/**

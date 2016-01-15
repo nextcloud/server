@@ -71,9 +71,14 @@ class Factory implements IFactory {
 	 * @return \OCP\IL10N
 	 */
 	public function get($app, $lang = null) {
+		$app = \OC_App::cleanAppId($app);
+		if ($lang !== null) {
+			$lang = str_replace(array('\0', '/', '\\', '..'), '', (string) $lang);
+		}
 		$key = $lang;
-		if ($key === null) {
+		if ($key === null || !$this->languageExists($app, $lang)) {
 			$key = 'null';
+			$lang = $this->findLanguage($app);
 		}
 
 		if (!isset($this->instances[$key][$app])) {
