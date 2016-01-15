@@ -47,15 +47,13 @@ class Application extends App {
 			return new ShareController(
 				$c->query('AppName'),
 				$c->query('Request'),
-				$c->query('UserSession'),
-				$server->getAppConfig(),
 				$server->getConfig(),
 				$c->query('URLGenerator'),
 				$c->query('UserManager'),
 				$server->getLogger(),
 				$server->getActivityManager(),
-				$server->getShareManager(),
-				$server->getSession(),
+				$c->query('ShareManager'),
+				$c->query('Session'),
 				$server->getPreviewManager()
 			);
 		});
@@ -71,6 +69,12 @@ class Application extends App {
 		/**
 		 * Core class wrappers
 		 */
+		$container->registerService('Session', function(SimpleContainer $c) use ($server) {
+			return $server->getSession();
+		});
+		$container->registerService('ShareManager', function(SimpleContainer $c) use ($server) {
+			return $server->getShareManager();
+		});
 		$container->registerService('UserSession', function (SimpleContainer $c) use ($server) {
 			return $server->getUserSession();
 		});

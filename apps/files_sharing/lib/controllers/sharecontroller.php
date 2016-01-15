@@ -41,9 +41,12 @@ use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OC\URLGenerator;
-use OC\AppConfig;
+use OCP\IURLGenerator;
+use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IUserManager;
+use OCP\ISession;
+use OCP\IPreview;
 use OCA\Files_Sharing\Helper;
 use OCP\Util;
 use OCA\Files_Sharing\Activity;
@@ -57,57 +60,47 @@ use \OC\Share20\IShare;
  */
 class ShareController extends Controller {
 
-	/** @var \OC\User\Session */
-	protected $userSession;
-	/** @var \OC\AppConfig */
-	protected $appConfig;
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	protected $config;
-	/** @var \OC\URLGenerator */
+	/** @var IURLGenerator */
 	protected $urlGenerator;
-	/** @var \OC\User\Manager */
+	/** @var IUserManager */
 	protected $userManager;
-	/** @var \OCP\ILogger */
+	/** @var ILogger */
 	protected $logger;
 	/** @var OCP\Activity\IManager */
 	protected $activityManager;
 	/** @var OC\Share20\Manager */
 	protected $shareManager;
-	/** @var \OCP\ISession */
+	/** @var ISession */
 	protected $session;
-	/** @var \OCP\IPreview */
+	/** @var IPreview */
 	protected $previewManager;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
-	 * @param OC\User\Session $userSession
-	 * @param AppConfig $appConfig
-	 * @param OCP\IConfig $config
-	 * @param URLGenerator $urlGenerator
-	 * @param OCP\IUserManager $userManager
+	 * @param IConfig $config
+	 * @param IURLGenerator $urlGenerator
+	 * @param IUserManager $userManager
 	 * @param ILogger $logger
 	 * @param OCP\Activity\IManager $activityManager
 	 * @param \OC\Share20\Manager $shareManager
-	 * @param \OCP\ISession $session
-	 * @param \OCP\IPreview $previewManager
+	 * @param ISession $session
+	 * @param IPreview $previewManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
-								OC\User\Session $userSession,
-								AppConfig $appConfig,
-								OCP\IConfig $config,
-								URLGenerator $urlGenerator,
-								OCP\IUserManager $userManager,
+								IConfig $config,
+								IURLGenerator $urlGenerator,
+								IUserManager $userManager,
 								ILogger $logger,
-								OCP\Activity\IManager $activityManager,
+								\OCP\Activity\IManager $activityManager,
 								\OC\Share20\Manager $shareManager,
-								\OCP\ISession $session,
-								\OCP\IPreview $previewManager) {
+								ISession $session,
+								IPreview $previewManager) {
 		parent::__construct($appName, $request);
 
-		$this->userSession = $userSession;
-		$this->appConfig = $appConfig;
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
