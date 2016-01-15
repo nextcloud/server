@@ -22,6 +22,14 @@ Tell us what happens instead
 
 **Updated from an older ownCloud or fresh install:**
 
+**Signing status (ownCloud 9.0 and above):**
+
+```
+Login as admin user into your ownCloud and access 
+http://example.com/index.php/settings/integrity/failed 
+paste the results here.
+```
+
 **List of activated apps:**
 
 ```
