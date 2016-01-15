@@ -53,7 +53,7 @@ interface IGroupManager {
 	public function isBackendUsed($backendClass);
 
 	/**
-	 * @param \OCP\UserInterface $backend
+	 * @param \OCP\GroupInterface $backend
 	 * @since 8.0.0
 	 */
 	public function addBackend($backend);
