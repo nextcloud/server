@@ -130,8 +130,16 @@ class File extends Node implements IFile {
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new Exception('Could not write file contents');
 			}
-			list($count,) = \OC_Helper::streamCopy($data, $target);
+			list($count, $result) = \OC_Helper::streamCopy($data, $target);
 			fclose($target);
+
+			if($result === false) {
+				$expected = -1;
+				if (isset($_SERVER['CONTENT_LENGTH'])) {
+					$expected = $_SERVER['CONTENT_LENGTH'];
+				}
+				throw new Exception('Error while copying file to target location (copied bytes: ' . $count . ', expected filesize: '. $expected .' )');
+			}
 
 			// if content length is sent by client:
 			// double check if the file was fully received
