@@ -48,6 +48,11 @@ class Factory implements IFactory {
 	 */
 	protected $availableLanguages = [];
 
+	/**
+	 * @var array Structure: string => callable
+	 */
+	protected $pluralFunctions = [];
+
 	/** @var IConfig */
 	protected $config;
 
@@ -216,20 +221,121 @@ class Factory implements IFactory {
 	}
 
 	/**
+	 * Get a list of language files that should be loaded
+	 *
+	 * @param string $app
+	 * @param string $lang
+	 * @return string[]
+	 */
+	// FIXME This method is only public, until OC_L10N does not need it anymore,
+	// FIXME This is also the reason, why it is not in the public interface
+	public function getL10nFilesForApp($app, $lang) {
+		$languageFiles = [];
+
+		$i18nDir = $this->findL10nDir($app);
+		$transFile = strip_tags($i18nDir) . strip_tags($lang) . '.json';
+
+		if((\OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/core/l10n/')
+				|| \OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/lib/l10n/')
+				|| \OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/settings/l10n/')
+				|| \OC_Helper::isSubDirectory($transFile, \OC_App::getAppPath($app) . '/l10n/')
+			)
+			&& file_exists($transFile)) {
+			// load the translations file
+			$languageFiles[] = $transFile;
+
+			// merge with translations from theme
+			$theme = $this->config->getSystemValue('theme');
+			if (!empty($theme)) {
+				$transFile = \OC::$SERVERROOT . '/themes/' . $theme . substr($transFile, strlen(\OC::$SERVERROOT));
+				if (file_exists($transFile)) {
+					$languageFiles[] = $transFile;
+				}
+			}
+		}
+
+		return $languageFiles;
+	}
+
+	/**
 	 * find the l10n directory
 	 *
 	 * @param string $app App id or empty string for core
 	 * @return string directory
 	 */
-	protected function findL10nDir($app = '') {
-		if ($app !== '') {
+	protected function findL10nDir($app = null) {
+		if ($app) {
 			// Check if the app is in the app folder
-			if (file_exists(\OC_App::getAppPath($app) . '/l10n/')) {
+			if (\OC_App::getAppPath($app) && file_exists(\OC_App::getAppPath($app) . '/l10n/')) {
 				return \OC_App::getAppPath($app) . '/l10n/';
 			} else {
 				return \OC::$SERVERROOT . '/' . $app . '/l10n/';
 			}
 		}
 		return \OC::$SERVERROOT.'/core/l10n/';
+	}
+
+
+	/**
+	 * Creates a function from the plural string
+	 *
+	 * Parts of the code is copied from Habari:
+	 * https://github.com/habari/system/blob/master/classes/locale.php
+	 * @param string $string
+	 * @return string
+	 */
+	public function createPluralFunction($string) {
+		if (isset($this->pluralFunctions[$string])) {
+			return $this->pluralFunctions[$string];
+		}
+
+		if (preg_match( '/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
+			// sanitize
+			$nplurals = preg_replace( '/[^0-9]/', '', $matches[1] );
+			$plural = preg_replace( '#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2] );
+
+			$body = str_replace(
+				array( 'plural', 'n', '$n$plurals', ),
+				array( '$plural', '$n', '$nplurals', ),
+				'nplurals='. $nplurals . '; plural=' . $plural
+			);
+
+			// add parents
+			// important since PHP's ternary evaluates from left to right
+			$body .= ';';
+			$res = '';
+			$p = 0;
+			for($i = 0; $i < strlen($body); $i++) {
+				$ch = $body[$i];
+				switch ( $ch ) {
+					case '?':
+						$res .= ' ? (';
+						$p++;
+						break;
+					case ':':
+						$res .= ') : (';
+						break;
+					case ';':
+						$res .= str_repeat( ')', $p ) . ';';
+						$p = 0;
+						break;
+					default:
+						$res .= $ch;
+				}
+			}
+
+			$body = $res . 'return ($plural>=$nplurals?$nplurals-1:$plural);';
+			$function = create_function('$n', $body);
+			$this->pluralFunctions[$string] = $function;
+			return $function;
+		} else {
+			// default: one plural form for all cases but n==1 (english)
+			$function = create_function(
+				'$n',
+				'$nplurals=2;$plural=($n==1?0:1);return ($plural>=$nplurals?$nplurals-1:$plural);'
+			);
+			$this->pluralFunctions[$string] = $function;
+			return $function;
+		}
 	}
 }

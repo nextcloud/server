@@ -102,10 +102,9 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @param $transFile
-	 * @param bool $mergeTranslations
 	 * @return bool
 	 */
-	public function load($transFile, $mergeTranslations = false) {
+	public function load($transFile) {
 		$this->app = true;
 
 		$json = json_decode(file_get_contents($transFile), true);
@@ -118,11 +117,7 @@ class OC_L10N implements \OCP\IL10N {
 		$this->pluralFormString = $json['pluralForm'];
 		$translations = $json['translations'];
 
-		if ($mergeTranslations) {
-			$this->translations = array_merge($this->translations, $translations);
-		} else {
-			$this->translations = $translations;
-		}
+		$this->translations = array_merge($this->translations, $translations);
 
 		return true;
 	}
@@ -135,93 +130,13 @@ class OC_L10N implements \OCP\IL10N {
 		$lang = $this->lang;
 		$this->app = true;
 
-		// Use cache if possible
-		if(array_key_exists($app.'::'.$lang, self::$cache)) {
-			$this->translations = self::$cache[$app.'::'.$lang]['t'];
-		} else{
-			$i18nDir = $this->findI18nDir($app);
-			$transFile = strip_tags($i18nDir).strip_tags($lang).'.json';
-			// Texts are in $i18ndir
-			// (Just no need to define date/time format etc. twice)
-			if((OC_Helper::isSubDirectory($transFile, OC::$SERVERROOT.'/core/l10n/')
-				|| OC_Helper::isSubDirectory($transFile, OC::$SERVERROOT.'/lib/l10n/')
-				|| OC_Helper::isSubDirectory($transFile, OC::$SERVERROOT.'/settings')
-				|| OC_Helper::isSubDirectory($transFile, OC_App::getAppPath($app).'/l10n/')
-				)
-				&& file_exists($transFile)) {
-				// load the translations file
-				if($this->load($transFile)) {
-					//merge with translations from theme
-					$theme = \OC::$server->getConfig()->getSystemValue('theme');
-					if (!empty($theme)) {
-						$transFile = OC::$SERVERROOT.'/themes/'.$theme.substr($transFile, strlen(OC::$SERVERROOT));
-						if (file_exists($transFile)) {
-							$this->load($transFile, true);
-						}
-					}
-				}
-			}
+		/** @var \OC\L10N\Factory $factory */
+		$factory = \OC::$server->getL10NFactory();
+		$languageFiles = $factory->getL10nFilesForApp($app, $lang);
 
-			self::$cache[$app.'::'.$lang]['t'] = $this->translations;
-		}
-	}
-
-	/**
-	 * Creates a function that The constructor
-	 *
-	 * If language is not set, the constructor tries to find the right
-	 * language.
-	 *
-	 * Parts of the code is copied from Habari:
-	 * https://github.com/habari/system/blob/master/classes/locale.php
-	 * @param string $string
-	 * @return string
-	 */
-	protected function createPluralFormFunction($string){
-		if(preg_match( '/^\s*nplurals\s*=\s*(\d+)\s*;\s*plural=(.*)$/u', $string, $matches)) {
-			// sanitize
-			$nplurals = preg_replace( '/[^0-9]/', '', $matches[1] );
-			$plural = preg_replace( '#[^n0-9:\(\)\?\|\&=!<>+*/\%-]#', '', $matches[2] );
-
-			$body = str_replace(
-				array( 'plural', 'n', '$n$plurals', ),
-				array( '$plural', '$n', '$nplurals', ),
-				'nplurals='. $nplurals . '; plural=' . $plural
-			);
-
-			// add parents
-			// important since PHP's ternary evaluates from left to right
-			$body .= ';';
-			$res = '';
-			$p = 0;
-			for($i = 0; $i < strlen($body); $i++) {
-				$ch = $body[$i];
-				switch ( $ch ) {
-				case '?':
-					$res .= ' ? (';
-					$p++;
-					break;
-				case ':':
-					$res .= ') : (';
-					break;
-				case ';':
-					$res .= str_repeat( ')', $p ) . ';';
-					$p = 0;
-					break;
-				default:
-					$res .= $ch;
-				}
-			}
-
-			$body = $res . 'return ($plural>=$nplurals?$nplurals-1:$plural);';
-			return create_function('$n', $body);
-		}
-		else {
-			// default: one plural form for all cases but n==1 (english)
-			return create_function(
-				'$n',
-				'$nplurals=2;$plural=($n==1?0:1);return ($plural>=$nplurals?$nplurals-1:$plural);'
-			);
+		$this->translations = [];
+		foreach ($languageFiles as $languageFile) {
+			$this->load($languageFile);
 		}
 	}
 
@@ -286,8 +201,8 @@ class OC_L10N implements \OCP\IL10N {
 	 */
 	public function getPluralFormFunction() {
 		$this->init();
-		if(is_null($this->pluralFormFunction)) {
-			$this->pluralFormFunction = $this->createPluralFormFunction($this->pluralFormString);
+		if (is_null($this->pluralFormFunction)) {
+			$this->pluralFormFunction = \OC::$server->getL10NFactory()->createPluralFunction($this->pluralFormString);
 		}
 		return $this->pluralFormFunction;
 	}
