@@ -242,6 +242,16 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 		return $this->adapter->insertIfNotExist($table, $input, $compare);
 	}
 
+	private function getType($value) {
+		if (is_bool($value)) {
+			return \PDO::PARAM_BOOL;
+		} else if (is_int($value)) {
+			return \PDO::PARAM_INT;
+		} else {
+			return \PDO::PARAM_STR;
+		}
+	}
+
 	/**
 	 * Insert or update a row value
 	 *
@@ -259,7 +269,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			$insertQb->insert($table)
 				->values(
 					array_map(function($value) use ($insertQb) {
-						return $insertQb->createNamedParameter($value);
+						return $insertQb->createNamedParameter($value, $this->getType($value));
 					}, array_merge($keys, $values))
 				);
 			return $insertQb->execute();
@@ -268,13 +278,13 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			$updateQb = $this->getQueryBuilder();
 			$updateQb->update($table);
 			foreach ($values as $name => $value) {
-				$updateQb->set($name, $updateQb->createNamedParameter($value));
+				$updateQb->set($name, $updateQb->createNamedParameter($value), $this->getType($value));
 			}
 			$where = $updateQb->expr()->andx();
 			$whereValues = array_merge($keys, $updatePreconditionValues);
 			foreach ($whereValues as $name => $value) {
 				$where->add($updateQb->expr()->eq(
-					$name, $updateQb->createNamedParameter($value)
+					$name, $updateQb->createNamedParameter($value, $this->getType($value))
 				));
 			}
 			$updateQb->where($where);
