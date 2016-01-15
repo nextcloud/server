@@ -37,6 +37,9 @@ class Factory implements IFactory {
 	 */
 	protected $instances = [];
 
+	/**
+	 * @var array Structure: App => string[]
+	 */
 	protected $availableLanguages = [];
 
 	/**
@@ -91,6 +94,20 @@ class Factory implements IFactory {
 
 		$this->availableLanguages[$key] = $available;
 		return $available;
+	}
+
+	/**
+	 * @param string|null $app App id or null for core
+	 * @param string $lang
+	 * @return bool
+	 */
+	public function languageExists($app, $lang) {
+		if ($lang === 'en') {//english is always available
+			return true;
+		}
+
+		$languages = $this->findAvailableLanguages($app);
+		return array_search($lang, $languages);
 	}
 
 	/**

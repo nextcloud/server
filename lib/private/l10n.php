@@ -462,16 +462,10 @@ class OC_L10N implements \OCP\IL10N {
 	 * @param string $app
 	 * @param string $lang
 	 * @return bool
+	 * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->languageExists() instead
 	 */
 	public static function languageExists($app, $lang) {
-		if ($lang === 'en') {//english is always available
-			return true;
-		}
-		$dir = self::findI18nDir($app);
-		if(is_dir($dir)) {
-			return file_exists($dir.'/'.$lang.'.json');
-		}
-		return false;
+		return \OC::$server->getL10NFactory()->languageExists($app, $lang);
 	}
 
 	/**

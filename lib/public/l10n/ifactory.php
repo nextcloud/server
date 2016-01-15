@@ -42,4 +42,12 @@ interface IFactory {
 	 * @since 9.0.0
 	 */
 	public function findAvailableLanguages($app = null);
+
+	/**
+	 * @param string|null $app App id or null for core
+	 * @param string $lang
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function languageExists($app, $lang);
 }
