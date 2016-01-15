@@ -33,8 +33,11 @@ use OCP\L10N\IFactory;
 class Factory implements IFactory {
 	/**
 	 * cached instances
+	 * @var array Structure: Lang => App => \OCP\IL10N
 	 */
-	protected $instances = array();
+	protected $instances = [];
+
+	protected $availableLanguages = [];
 
 	/**
 	 * Get a language instance
@@ -56,4 +59,55 @@ class Factory implements IFactory {
 		return $this->instances[$key][$app];
 	}
 
+	/**
+	 * Find all available languages for an app
+	 *
+	 * @param string|null $app App id or null for core
+	 * @return array an array of available languages
+	 */
+	public function findAvailableLanguages($app = null) {
+		$key = $app;
+		if ($key === null) {
+			$key = 'null';
+		}
+
+		// also works with null as key
+		if (!empty($this->availableLanguages[$key])) {
+			return $this->availableLanguages[$key];
+		}
+
+		$available = ['en']; //english is always available
+		$dir = $this->findL10nDir($app);
+		if (is_dir($dir)) {
+			$files = scandir($dir);
+			if ($files !== false) {
+				foreach ($files as $file) {
+					if (substr($file, -5) === '.json' && substr($file, 0, 4) !== 'l10n') {
+						$available[] = substr($file, 0, -5);
+					}
+				}
+			}
+		}
+
+		$this->availableLanguages[$key] = $available;
+		return $available;
+	}
+
+	/**
+	 * find the l10n directory
+	 *
+	 * @param string $app App id or empty string for core
+	 * @return string directory
+	 */
+	protected function findL10nDir($app = '') {
+		if ($app !== '') {
+			// Check if the app is in the app folder
+			if (file_exists(\OC_App::getAppPath($app) . '/l10n/')) {
+				return \OC_App::getAppPath($app) . '/l10n/';
+			} else {
+				return \OC::$SERVERROOT . '/' . $app . '/l10n/';
+			}
+		}
+		return \OC::$SERVERROOT.'/core/l10n/';
+	}
 }

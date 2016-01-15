@@ -452,26 +452,10 @@ class OC_L10N implements \OCP\IL10N {
 	 * find all available languages for an app
 	 * @param string $app App that needs to be translated
 	 * @return array an array of available languages
+	 * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->findAvailableLanguages() instead
 	 */
 	public static function findAvailableLanguages($app=null) {
-		// also works with null as key
-		if(isset(self::$availableLanguages[$app]) && !empty(self::$availableLanguages[$app])) {
-			return self::$availableLanguages[$app];
-		}
-		$available=array('en');//english is always available
-		$dir = self::findI18nDir($app);
-		if(is_dir($dir)) {
-			$files=scandir($dir);
-			foreach($files as $file) {
-				if(substr($file, -5, 5) === '.json' && substr($file, 0, 4) !== 'l10n') {
-					$i = substr($file, 0, -5);
-					$available[] = $i;
-				}
-			}
-		}
-
-		self::$availableLanguages[$app] = $available;
-		return $available;
+		return \OC::$server->getL10NFactory()->findAvailableLanguages($app);
 	}
 
 	/**

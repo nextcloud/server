@@ -33,4 +33,13 @@ interface IFactory {
 	 * @since 8.2.0
 	 */
 	public function get($app, $lang = null);
+
+	/**
+	 * Find all available languages for an app
+	 *
+	 * @param string|null $app App id or null for core
+	 * @return string[] an array of available languages
+	 * @since 9.0.0
+	 */
+	public function findAvailableLanguages($app = null);
 }
