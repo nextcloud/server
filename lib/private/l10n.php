@@ -226,6 +226,8 @@ class OC_L10N implements \OCP\IL10N {
 	 *  - time
 	 *    - Creates a time
 	 *    - params: timestamp (int/string)
+	 *  - firstday: Returns the first day of the week (0 sunday - 6 saturday)
+	 *  - jsdate: Returns the short JS date format
 	 */
 	public function l($type, $data, $options = array()) {
 		if ($type === 'firstday') {
@@ -273,44 +275,28 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * find the l10n directory
-	 * @param string $app App that needs to be translated
-	 * @return string directory
-	 */
-	protected function findI18nDir($app) {
-		// find the i18n dir
-		$i18nDir = OC::$SERVERROOT.'/core/l10n/';
-		if($app != '') {
-			// Check if the app is in the app folder
-			if(file_exists(OC_App::getAppPath($app).'/l10n/')) {
-				$i18nDir = OC_App::getAppPath($app).'/l10n/';
-			}
-			else{
-				$i18nDir = OC::$SERVERROOT.'/'.$app.'/l10n/';
-			}
-		}
-		return $i18nDir;
-	}
-
-	/**
 	 * @return string
 	 * @throws \Punic\Exception\ValueNotInList
+	 * @deprecated 9.0.0 Use $this->l('jsdate', null) instead
 	 */
 	public function getDateFormat() {
-		$locale = $this->getLanguageCode();
-		$locale = $this->transformToCLDRLocale($locale);
+		$locale = $this->transformToCLDRLocale($this->getLanguageCode());
 		return Punic\Calendar::getDateFormat('short', $locale);
 	}
 
 	/**
 	 * @return int
+	 * @deprecated 9.0.0 Use $this->l('firstday', null) instead
 	 */
 	public function getFirstWeekDay() {
-		$locale = $this->getLanguageCode();
-		$locale = $this->transformToCLDRLocale($locale);
+		$locale = $this->transformToCLDRLocale($this->getLanguageCode());
 		return Punic\Calendar::getFirstWeekday($locale);
 	}
 
+	/**
+	 * @param string $locale
+	 * @return string
+	 */
 	private function transformToCLDRLocale($locale) {
 		if ($locale === 'sr@latin') {
 			return 'sr_latn';
