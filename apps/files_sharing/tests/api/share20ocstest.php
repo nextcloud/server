@@ -171,6 +171,10 @@ class Share20OCSTest extends \Test\TestCase {
 	public function dataGetShare() {
 		$data = [];
 
+		$initiator = $this->getMock('OCP\IUser');
+		$initiator->method('getUID')->willReturn('initiatorId');
+		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
+
 		$owner = $this->getMock('OCP\IUser');
 		$owner->method('getUID')->willReturn('ownerId');
 		$owner->method('getDisplayName')->willReturn('ownerDisplay');
@@ -193,8 +197,6 @@ class Share20OCSTest extends \Test\TestCase {
 		$storage->method('getId')->willReturn('STORAGE');
 		$storage->method('getCache')->willReturn($cache);
 
-
-
 		$parentFolder = $this->getMock('OCP\Files\Folder');
 		$parentFolder->method('getId')->willReturn(3);
 
@@ -215,7 +217,7 @@ class Share20OCSTest extends \Test\TestCase {
 			100,
 			\OCP\Share::SHARE_TYPE_USER,
 			$user,
-			$owner,
+			$initiator,
 			$owner,
 			$file,
 			4,
@@ -230,8 +232,8 @@ class Share20OCSTest extends \Test\TestCase {
 			'share_type' => \OCP\Share::SHARE_TYPE_USER,
 			'share_with' => 'userId',
 			'share_with_displayname' => 'userDisplay',
-			'uid_owner' => 'ownerId',
-			'displayname_owner' => 'ownerDisplay',
+			'uid_owner' => 'initiatorId',
+			'displayname_owner' => 'initiatorDisplay',
 			'item_type' => 'file',
 			'item_source' => 1,
 			'file_source' => 1,
@@ -246,6 +248,8 @@ class Share20OCSTest extends \Test\TestCase {
 			'path' => 'file',
 			'storage' => 101,
 			'mail_send' => 0,
+			'uid_file_owner' => 'ownerId',
+			'displayname_file_owner' => 'ownerDisplay'
 		];
 		$data[] = [$share, $expected];
 
@@ -254,7 +258,7 @@ class Share20OCSTest extends \Test\TestCase {
 			101,
 			\OCP\Share::SHARE_TYPE_GROUP,
 			$group,
-			$owner,
+			$initiator,
 			$owner,
 			$folder,
 			4,
@@ -269,8 +273,8 @@ class Share20OCSTest extends \Test\TestCase {
 			'share_type' => \OCP\Share::SHARE_TYPE_GROUP,
 			'share_with' => 'groupId',
 			'share_with_displayname' => 'groupId',
-			'uid_owner' => 'ownerId',
-			'displayname_owner' => 'ownerDisplay',
+			'uid_owner' => 'initiatorId',
+			'displayname_owner' => 'initiatorDisplay',
 			'item_type' => 'folder',
 			'item_source' => 2,
 			'file_source' => 2,
@@ -285,6 +289,8 @@ class Share20OCSTest extends \Test\TestCase {
 			'path' => 'folder',
 			'storage' => 101,
 			'mail_send' => 0,
+			'uid_file_owner' => 'ownerId',
+			'displayname_file_owner' => 'ownerDisplay'
 		];
 		$data[] = [$share, $expected];
 
@@ -294,7 +300,7 @@ class Share20OCSTest extends \Test\TestCase {
 			101,
 			\OCP\Share::SHARE_TYPE_LINK,
 			null,
-			$owner,
+			$initiator,
 			$owner,
 			$folder,
 			4,
@@ -311,8 +317,8 @@ class Share20OCSTest extends \Test\TestCase {
 			'share_type' => \OCP\Share::SHARE_TYPE_LINK,
 			'share_with' => 'password',
 			'share_with_displayname' => 'password',
-			'uid_owner' => 'ownerId',
-			'displayname_owner' => 'ownerDisplay',
+			'uid_owner' => 'initiatorId',
+			'displayname_owner' => 'initiatorDisplay',
 			'item_type' => 'folder',
 			'item_source' => 2,
 			'file_source' => 2,
@@ -328,6 +334,8 @@ class Share20OCSTest extends \Test\TestCase {
 			'storage' => 101,
 			'mail_send' => 0,
 			'url' => 'url',
+			'uid_file_owner' => 'ownerId',
+			'displayname_file_owner' => 'ownerDisplay'
 		];
 		$data[] = [$share, $expected];
 
