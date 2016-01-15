@@ -125,6 +125,14 @@ interface ILogger {
 
 	/**
 	 * Logs an exception very detailed
+	 * An additional message can we written to the log by adding it to the
+	 * context.
+	 *
+	 * <code>
+	 * $logger->logException($ex, [
+	 *     'message' => 'Exception during cron job execution'
+	 * ]);
+	 * </code>
 	 *
 	 * @param \Exception $exception
 	 * @param array $context
