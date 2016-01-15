@@ -45,12 +45,9 @@ require_once __DIR__ . '/../3rdparty/autoload.php';
 \OC_Mount_Config::$app = new \OCA\Files_external\Appinfo\Application();
 $appContainer = \OC_Mount_Config::$app->getContainer();
 
-$l = \OC::$server->getL10N('files_external');
+\OC_Mount_Config::$app->registerSettings();
 
-OCP\App::registerAdmin('files_external', 'settings');
-if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == 'yes') {
-	OCP\App::registerPersonal('files_external', 'personal');
-}
+$l = \OC::$server->getL10N('files_external');
 
 \OCA\Files\App::getNavigationManager()->add([
 	"id" => 'extstoragemounts',
