@@ -124,6 +124,18 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertEquals([], $mount['applicable']);
 	}
 
+	public function testRemoveApplicableGlobal() {
+		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
+		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		$this->dbConfig->removeApplicable($id, DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		$this->dbConfig->addApplicable($id, DBConfigService::APPLICABLE_TYPE_USER, 'test');
+
+		$mount = $this->dbConfig->getMountById($id);
+		$this->assertEquals([
+			['type' => DBConfigService::APPLICABLE_TYPE_USER, 'value' => 'test', 'mount_id' => $id]
+		], $mount['applicable']);
+	}
+
 	public function testSetConfig() {
 		$id = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
 		$this->dbConfig->setConfig($id, 'foo', 'bar');
