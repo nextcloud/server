@@ -2305,7 +2305,6 @@
 		 */
 		updateSelectionSummary: function() {
 			var summary = this._selectionSummary.summary;
-			var canDelete;
 			var selection;
 
 			if (summary.totalFiles === 0 && summary.totalDirs === 0) {
@@ -2316,7 +2315,6 @@
 				this.$el.find('.selectedActions').addClass('hidden');
 			}
 			else {
-				canDelete = (this.getDirectoryPermissions() & OC.PERMISSION_DELETE) && this.isSelectedDeletable();
 				this.$el.find('.selectedActions').removeClass('hidden');
 				this.$el.find('#headerSize a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
 
@@ -2338,7 +2336,7 @@
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
-				this.$el.find('.delete-selected').toggleClass('hidden', !canDelete);
+				this.$el.find('.delete-selected').toggleClass('hidden', !this.isSelectedDeletable());
 			}
 		},
 
