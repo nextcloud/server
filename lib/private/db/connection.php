@@ -263,7 +263,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 					}, array_merge($keys, $values))
 				);
 			return $insertQb->execute();
-		} catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e) {
+		} catch (\Doctrine\DBAL\Exception\ConstraintViolationException $e) {
 			// value already exists, try update
 			$updateQb = $this->getQueryBuilder();
 			$updateQb->update($table);
