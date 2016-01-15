@@ -157,7 +157,7 @@ class Test_L10n extends \Test\TestCase {
 	}
 
 	public function testFactoryGetLanguageCode() {
-		$factory = new \OC\L10N\Factory();
+		$factory = new \OC\L10N\Factory($this->getMock('OCP\IConfig'), $this->getMock('OCP\IRequest'));
 		$l = $factory->get('lib', 'de');
 		$this->assertEquals('de', $l->getLanguageCode());
 	}

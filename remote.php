@@ -109,7 +109,7 @@ try {
 	}
 
 	// force language as given in the http request
-	\OC_L10N::setLanguageFromRequest();
+	\OC::$server->getL10NFactory()->setLanguageFromRequest();
 
 	$file=ltrim($file, '/');
 

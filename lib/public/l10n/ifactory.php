@@ -35,6 +35,15 @@ interface IFactory {
 	public function get($app, $lang = null);
 
 	/**
+	 * Find the best language
+	 *
+	 * @param string|null $app App id or null for core
+	 * @return string language If nothing works it returns 'en'
+	 * @since 9.0.0
+	 */
+	public function findLanguage($app = null);
+
+	/**
 	 * Find all available languages for an app
 	 *
 	 * @param string|null $app App id or null for core
@@ -50,4 +59,11 @@ interface IFactory {
 	 * @since 9.0.0
 	 */
 	public function languageExists($app, $lang);
+
+	/**
+	 * @param string|null $app App id or null for core
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function setLanguageFromRequest($app = null);
 }

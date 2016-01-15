@@ -25,12 +25,18 @@
 
 namespace OC\L10N;
 
+use OCP\IConfig;
+use OCP\IRequest;
 use OCP\L10N\IFactory;
 
 /**
  * A factory that generates language instances
  */
 class Factory implements IFactory {
+
+	/** @var string */
+	protected $requestLanguage = '';
+
 	/**
 	 * cached instances
 	 * @var array Structure: Lang => App => \OCP\IL10N
@@ -41,6 +47,21 @@ class Factory implements IFactory {
 	 * @var array Structure: App => string[]
 	 */
 	protected $availableLanguages = [];
+
+	/** @var IConfig */
+	protected $config;
+
+	/** @var IRequest */
+	protected $request;
+
+	/**
+	 * @param IConfig $config
+	 * @param IRequest $request
+	 */
+	public function __construct(IConfig $config, IRequest $request) {
+		$this->config = $config;
+		$this->request = $request;
+	}
 
 	/**
 	 * Get a language instance
@@ -60,6 +81,41 @@ class Factory implements IFactory {
 		}
 
 		return $this->instances[$key][$app];
+	}
+
+	/**
+	 * Find the best language
+	 *
+	 * @param string|null $app App id or null for core
+	 * @return string language If nothing works it returns 'en'
+	 */
+	public function findLanguage($app = null) {
+		if ($this->requestLanguage !== '' && $this->languageExists($app, $this->requestLanguage)) {
+			return $this->requestLanguage;
+		}
+
+		$userId = \OC_User::getUser(); // FIXME not available in non-static?
+
+		if ($userId && $this->config->getUserValue($userId, 'core', 'lang')) {
+			$lang = $this->config->getUserValue($userId, 'core', 'lang');
+			$this->requestLanguage = $lang;
+			if ($this->languageExists($app, $lang)) {
+				return $lang;
+			}
+		}
+
+		$defaultLanguage = $this->config->getSystemValue('default_language', false);
+
+		if ($defaultLanguage !== false) {
+			return $defaultLanguage;
+		}
+
+		$lang = $this->setLanguageFromRequest($app);
+		if ($userId && $app === null && !$this->config->getUserValue($userId, 'core', 'lang')) {
+			$this->config->setUserValue($userId, 'core', 'lang', $lang);
+		}
+
+		return $lang;
 	}
 
 	/**
@@ -108,6 +164,50 @@ class Factory implements IFactory {
 
 		$languages = $this->findAvailableLanguages($app);
 		return array_search($lang, $languages);
+	}
+
+	/**
+	 * @param string|null $app App id or null for core
+	 * @return string
+	 */
+	public function setLanguageFromRequest($app = null) {
+		$header = $this->request->getHeader('ACCEPT_LANGUAGE');
+		if ($header) {
+			$available = $this->findAvailableLanguages($app);
+
+			// E.g. make sure that 'de' is before 'de_DE'.
+			sort($available);
+
+			$preferences = preg_split('/,\s*/', strtolower($header));
+			foreach ($preferences as $preference) {
+				list($preferred_language) = explode(';', $preference);
+				$preferred_language = str_replace('-', '_', $preferred_language);
+
+				foreach ($available as $available_language) {
+					if ($preferred_language === strtolower($available_language)) {
+						if ($app === null && !$this->requestLanguage) {
+							$this->requestLanguage = $available_language;
+						}
+						return $available_language;
+					}
+				}
+
+				// Fallback from de_De to de
+				foreach ($available as $available_language) {
+					if (substr($preferred_language, 0, 2) === $available_language) {
+						if ($app === null && !$this->requestLanguage) {
+							$this->requestLanguage = $available_language;
+						}
+						return $available_language;
+					}
+				}
+			}
+		}
+
+		if (!$this->requestLanguage) {
+			$this->requestLanguage = 'en';
+		}
+		return 'en'; // Last try: English
 	}
 
 	/**

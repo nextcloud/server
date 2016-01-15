@@ -89,44 +89,6 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @return string
-	 */
-	public static function setLanguageFromRequest() {
-		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			$available = self::findAvailableLanguages();
-
-			// E.g. make sure that 'de' is before 'de_DE'.
-			sort($available);
-
-			$preferences = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
-			foreach ($preferences as $preference) {
-				list($preferred_language) = explode(';', $preference);
-				$preferred_language = str_replace('-', '_', $preferred_language);
-				foreach ($available as $available_language) {
-					if ($preferred_language === strtolower($available_language)) {
-						if (!self::$language) {
-							self::$language = $available_language;
-						}
-						return $available_language;
-					}
-				}
-				foreach ($available as $available_language) {
-					if (substr($preferred_language, 0, 2) === $available_language) {
-						if (!self::$language) {
-							self::$language = $available_language;
-						}
-						return $available_language;
-					}
-				}
-			}
-		}
-
-		self::$language = 'en';
-		// Last try: English
-		return 'en';
-	}
-
-	/**
 	 * @param $transFile
 	 * @param bool $mergeTranslations
 	 * @return bool
@@ -169,7 +131,7 @@ class OC_L10N implements \OCP\IL10N {
 		if(array_key_exists($app.'::'.$lang, self::$cache)) {
 			$this->translations = self::$cache[$app.'::'.$lang]['t'];
 		} else{
-			$i18nDir = self::findI18nDir($app);
+			$i18nDir = $this->findI18nDir($app);
 			$transFile = strip_tags($i18nDir).strip_tags($lang).'.json';
 			// Texts are in $i18ndir
 			// (Just no need to define date/time format etc. twice)
@@ -392,48 +354,11 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * find the best language
-	 * @param string $app
-	 * @return string language
-	 *
-	 * If nothing works it returns 'en'
-	 */
-	public static function findLanguage($app = null) {
-		if (self::$language != '' && self::languageExists($app, self::$language)) {
-			return self::$language;
-		}
-
-		$config = \OC::$server->getConfig();
-		$userId = \OC_User::getUser();
-
-		if($userId && $config->getUserValue($userId, 'core', 'lang')) {
-			$lang = $config->getUserValue($userId, 'core', 'lang');
-			self::$language = $lang;
-			if(self::languageExists($app, $lang)) {
-				return $lang;
-			}
-		}
-
-		$default_language = $config->getSystemValue('default_language', false);
-
-		if($default_language !== false) {
-			return $default_language;
-		}
-
-		$lang = self::setLanguageFromRequest();
-		if($userId && !$config->getUserValue($userId, 'core', 'lang')) {
-			$config->setUserValue($userId, 'core', 'lang', $lang);
-		}
-
-		return $lang;
-	}
-
-	/**
 	 * find the l10n directory
 	 * @param string $app App that needs to be translated
 	 * @return string directory
 	 */
-	protected static function findI18nDir($app) {
+	protected function findI18nDir($app) {
 		// find the i18n dir
 		$i18nDir = OC::$SERVERROOT.'/core/l10n/';
 		if($app != '') {
@@ -446,26 +371,6 @@ class OC_L10N implements \OCP\IL10N {
 			}
 		}
 		return $i18nDir;
-	}
-
-	/**
-	 * find all available languages for an app
-	 * @param string $app App that needs to be translated
-	 * @return array an array of available languages
-	 * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->findAvailableLanguages() instead
-	 */
-	public static function findAvailableLanguages($app=null) {
-		return \OC::$server->getL10NFactory()->findAvailableLanguages($app);
-	}
-
-	/**
-	 * @param string $app
-	 * @param string $lang
-	 * @return bool
-	 * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->languageExists() instead
-	 */
-	public static function languageExists($app, $lang) {
-		return \OC::$server->getL10NFactory()->languageExists($app, $lang);
 	}
 
 	/**
@@ -493,5 +398,45 @@ class OC_L10N implements \OCP\IL10N {
 		}
 
 		return $locale;
+	}
+
+	/**
+	 * find the best language
+	 * @param string $app
+	 * @return string language
+	 *
+	 * If nothing works it returns 'en'
+	 * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->findLanguage() instead
+	 */
+	public static function findLanguage($app = null) {
+		return \OC::$server->getL10NFactory()->findLanguage($app);
+	}
+
+	/**
+	 * @return string
+	 * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->setLanguageFromRequest() instead
+	 */
+	public static function setLanguageFromRequest() {
+		return \OC::$server->getL10NFactory()->setLanguageFromRequest();
+	}
+
+	/**
+	 * find all available languages for an app
+	 * @param string $app App that needs to be translated
+	 * @return array an array of available languages
+	 * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->findAvailableLanguages() instead
+	 */
+	public static function findAvailableLanguages($app=null) {
+		return \OC::$server->getL10NFactory()->findAvailableLanguages($app);
+	}
+
+	/**
+	 * @param string $app
+	 * @param string $lang
+	 * @return bool
+	 * @deprecated 9.0.0 Use \OC::$server->getL10NFactory()->languageExists() instead
+	 */
+	public static function languageExists($app, $lang) {
+		return \OC::$server->getL10NFactory()->languageExists($app, $lang);
 	}
 }
