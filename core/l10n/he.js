@@ -153,6 +153,7 @@ OC.L10N.register(
     "Database name" : "שם מסד הנתונים",
     "Database tablespace" : "מרחב הכתובות של מסד הנתונים",
     "Database host" : "שרת בסיס נתונים",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "במיוחד כאשר משתמשים במחשב שולחני לסנכרון קבצים השימוש ב SQLite אינו מומלץ.",
     "Finish setup" : "סיום התקנה",
     "Need help?" : "עזרה נזקקת?",
     "Log out" : "התנתקות",
