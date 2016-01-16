@@ -7,6 +7,8 @@
  * See the COPYING-README file.
  *
  */
+
+/* global Backbone */
 if(!_.isUndefined(Backbone)) {
 	OC.Backbone = Backbone.noConflict();
 }

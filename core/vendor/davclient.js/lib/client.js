@@ -1,5 +1,19 @@
 if (typeof dav == 'undefined') { dav = {}; };
 
+dav._XML_CHAR_MAP = {
+	'<': '&lt;',
+	'>': '&gt;',
+	'&': '&amp;',
+	'"': '&quot;',
+	"'": '&apos;'
+};
+
+dav._escapeXml = function(s) {
+	return s.replace(/[<>&"']/g, function (ch) {
+		return dav._XML_CHAR_MAP[ch];
+	});
+};
+
 dav.Client = function(options) {
     var i;
     for(i in options) {
@@ -80,6 +94,57 @@ dav.Client.prototype = {
                     };
                 }
 
+            }.bind(this)
+        );
+
+    },
+
+    /**
+     * Generates a propPatch request.
+     *
+     * @param {string} url Url to do the proppatch request on
+     * @param {Array} properties List of properties to store.
+     * @return {Promise}
+     */
+    propPatch : function(url, properties, headers) {
+        headers = headers || {};
+
+        headers['Content-Type'] = 'application/xml; charset=utf-8';
+
+        var body =
+            '<?xml version="1.0"?>\n' +
+            '<d:propertyupdate ';
+        var namespace;
+        for (namespace in this.xmlNamespaces) {
+            body += ' xmlns:' + this.xmlNamespaces[namespace] + '="' + namespace + '"';
+        }
+        body += '>\n' +
+            '  <d:set>\n' +
+            '   <d:prop>\n';
+
+        for(var ii in properties) {
+
+            var property = this.parseClarkNotation(ii);
+            var propName;
+            var propValue = properties[ii];
+            if (this.xmlNamespaces[property.namespace]) {
+                propName = this.xmlNamespaces[property.namespace] + ':' + property.name;
+            } else {
+                propName = 'x:' + property.name + ' xmlns:x="' + property.namespace + '"';
+            }
+            body += '      <' + propName + '>' + dav._escapeXml(propValue) + '</' + propName + '>\n';
+        }
+        body+='    </d:prop>\n';
+        body+='  </d:set>\n';
+        body+='</d:propertyupdate>';
+
+        return this.request('PROPPATCH', url, headers, body).then(
+            function(result) {
+                return {
+                    status: result.status,
+                    body: result.body,
+                    xhr: result.xhr
+                };
             }.bind(this)
         );
 
