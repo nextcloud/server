@@ -347,6 +347,27 @@ class RepairMimeTypes extends \Test\TestCase {
 	}
 
 	/**
+	 * Test renaming the richdocuments additional office mime types
+	 */
+	public function testRenameRichDocumentsMimeTypes() {
+		$currentMimeTypes = [
+			['test.lwp', 'application/octet-stream'],
+			['test.one', 'application/octet-stream'],
+			['test.vsd', 'application/octet-stream'],
+			['test.wpd', 'application/octet-stream'],
+		];
+
+		$fixedMimeTypes = [
+			['test.lwp', 'application/vnd.lotus-wordpro'],
+			['test.one', 'application/msonenote'],
+			['test.vsd', 'application/vnd.visio'],
+			['test.wpd', 'application/vnd.wordperfect'],
+		];
+
+		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
+	}
+
+	/**
 	 * Test renaming and splitting old office mime types when
 	 * new ones already exist
 	 */
@@ -468,6 +489,10 @@ class RepairMimeTypes extends \Test\TestCase {
 			['test.hpp', 'text/x-h'],
 			['test.rss', 'application/rss+xml'],
 			['test.rtf', 'text/rtf'],
+			['test.lwp', 'application/vnd.lotus-wordpro'],
+			['test.one', 'application/msonenote'],
+			['test.vsd', 'application/vnd.visio'],
+			['test.wpd', 'application/vnd.wordperfect'],
 		];
 
 		$fixedMimeTypes = [
@@ -512,6 +537,10 @@ class RepairMimeTypes extends \Test\TestCase {
 			['test.hpp', 'text/x-h'],
 			['test.rss', 'application/rss+xml'],
 			['test.rtf', 'text/rtf'],
+			['test.lwp', 'application/vnd.lotus-wordpro'],
+			['test.one', 'application/msonenote'],
+			['test.vsd', 'application/vnd.visio'],
+			['test.wpd', 'application/vnd.wordperfect'],
 		];
 
 		$this->renameMimeTypes($currentMimeTypes, $fixedMimeTypes);
