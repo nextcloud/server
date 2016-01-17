@@ -213,6 +213,7 @@
     "Enable only for specific groups" : "特定のグループのみ有効に",
     "Uninstall App" : "アプリをアンインストール",
     "Enable experimental apps" : "実験的なアプリを有効にする",
+    "SSL Root Certificates" : "SSLルート証明書",
     "Common Name" : "コモンネーム",
     "Valid until" : "有効期限",
     "Issued By" : "発行元",

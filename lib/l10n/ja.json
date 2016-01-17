@@ -54,6 +54,7 @@
     "Archives of type %s are not supported" : "\"%s\"タイプのアーカイブ形式は未サポート",
     "Failed to open archive when installing app" : "アプリをインストール中にアーカイブファイルを開けませんでした。",
     "App does not provide an info.xml file" : "アプリにinfo.xmlファイルが入っていません",
+    "Signature could not get checked. Please contact the app developer and check your admin screen." : "署名が確認できませんでした｡このアプリの開発者へ連絡し、管理画面を確認してください。",
     "App can't be installed because of not allowed code in the App" : "アプリで許可されないコードが入っているのが原因でアプリがインストールできません",
     "App can't be installed because it is not compatible with this version of ownCloud" : "アプリは、このバージョンのownCloudと互換性がないためインストールできません。",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "非shippedアプリには許可されない<shipped>true</shipped>タグが含まれているためにアプリをインストールできません。",

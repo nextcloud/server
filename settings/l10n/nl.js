@@ -217,6 +217,7 @@ OC.L10N.register(
     "Enable only for specific groups" : "Alleen voor bepaalde groepen activeren",
     "Uninstall App" : "De-installeren app",
     "Enable experimental apps" : "Inschakelen experimentele apps",
+    "SSL Root Certificates" : "SSL Root Certificaten",
     "Common Name" : "Common Name",
     "Valid until" : "Geldig tot",
     "Issued By" : "Uitgegeven door",
