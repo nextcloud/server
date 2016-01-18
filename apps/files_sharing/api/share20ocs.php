@@ -87,6 +87,8 @@ class Share20OCS {
 			'parent' => $share->getParent(),
 			'expiration' => null,
 			'token' => null,
+			'uid_file_owner' => $share->getShareOwner()->getUID(),
+			'displayname_file_owner' => $share->getShareOwner()->getDisplayName(),
 		];
 
 		$path = $share->getPath();
