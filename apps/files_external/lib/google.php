@@ -426,13 +426,23 @@ class Google extends \OC\Files\Storage\Common {
 					}
 					if (isset($downloadUrl)) {
 						$request = new \Google_Http_Request($downloadUrl, 'GET', null, null);
-						$httpRequest = $this->client->getAuth()->authenticatedRequest($request);
-						if ($httpRequest->getResponseHttpCode() == 200) {
-							$tmpFile = \OCP\Files::tmpFile($ext);
-							$data = $httpRequest->getResponseBody();
-							file_put_contents($tmpFile, $data);
-							return fopen($tmpFile, $mode);
+						$httpRequest = $this->client->getAuth()->sign($request);
+						// the library's service doesn't support streaming, so we use Guzzle instead
+						$client = \OC::$server->getHTTPClientService()->newClient();
+						try {
+							$response = $client->get($downloadUrl, [
+								'headers' => $httpRequest->getRequestHeaders(),
+								'stream' => true
+							]);
+						} catch (RequestException $e) {
+							if ($e->getResponse()->getStatusCode() === 404) {
+								return false;
+							} else {
+								throw $e;
+							}
 						}
+
+						return $response->getBody();
 					}
 				}
 				return false;
