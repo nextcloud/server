@@ -54,6 +54,10 @@ class HookManager {
 			'post_deleteUser',
 			$this,
 			'postDeleteUser');
+		Util::connectHook('OC_User',
+			'changeUser',
+			$this,
+			'changeUser');
 	}
 
 	public function postCreateUser($params) {
@@ -64,6 +68,7 @@ class HookManager {
 	public function preDeleteUser($params) {
 		$this->usersToDelete[$params['uid']] = $this->userManager->get($params['uid']);
 	}
+
 	public function postDeleteUser($params) {
 		$uid = $params['uid'];
 		if (isset($this->usersToDelete[$uid])){
@@ -71,4 +76,8 @@ class HookManager {
 		}
 	}
 
+	public function changeUser($params) {
+		$user = $params['user'];
+		$this->syncService->updateUser($user);
+	}
 }
