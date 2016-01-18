@@ -294,8 +294,14 @@ class DBConfigService {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_applicable')
 			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)))
-			->andWhere($builder->expr()->eq('type', $builder->createNamedParameter($type, \PDO::PARAM_INT)))
-			->andWhere($builder->expr()->eq('value', $builder->createNamedParameter($value, \PDO::PARAM_STR)));
+			->andWhere($builder->expr()->eq('type', $builder->createNamedParameter($type, \PDO::PARAM_INT)));
+
+		if (is_null($value)) {
+			$query = $query->andWhere($builder->expr()->isNull('value'));
+		} else {
+			$query = $query->andWhere($builder->expr()->eq('value', $builder->createNamedParameter($value, \PDO::PARAM_STR)));
+		}
+
 		$query->execute();
 	}
 
