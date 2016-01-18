@@ -20,6 +20,8 @@
  */
 namespace OCA\DAV\CardDAV;
 
+use OCP\IUser;
+use OCP\IUserManager;
 use Test\TestCase;
 
 class SyncServiceTest extends TestCase {
@@ -57,6 +59,49 @@ class SyncServiceTest extends TestCase {
 		$this->assertEquals('sync-token-1', $return);
 	}
 
+	public function testEnsureSystemAddressBookExists() {
+		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
+		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDAVBackend')->disableOriginalConstructor()->getMock();
+		$backend->expects($this->exactly(1))->method('createAddressBook');
+		$backend->expects($this->at(0))->method('getAddressBooksByUri')->willReturn(null);
+		$backend->expects($this->at(1))->method('getAddressBooksByUri')->willReturn([]);
+
+		/** @var IUserManager $userManager */
+		$userManager = $this->getMockBuilder('OCP\IUserManager')->disableOriginalConstructor()->getMock();
+		$ss = new SyncService($backend, $userManager);
+		$book = $ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
+	}
+
+	public function testUpdateAndDeleteUser() {
+		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
+		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDAVBackend')->disableOriginalConstructor()->getMock();
+
+		$backend->expects($this->once())->method('createCard');
+		$backend->expects($this->once())->method('updateCard');
+		$backend->expects($this->once())->method('deleteCard');
+
+		$backend->method('getCard')->willReturnOnConsecutiveCalls(false, [
+			'carddata' => "BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 3.4.8//EN\r\nUID:test-user\r\nFN:test-user\r\nN:test-user;;;;\r\nEND:VCARD\r\n\r\n"
+		]);
+
+		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $userManager */
+		$userManager = $this->getMockBuilder('OCP\IUserManager')->disableOriginalConstructor()->getMock();
+
+		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMockBuilder('OCP\IUser')->disableOriginalConstructor()->getMock();
+		$user->method('getBackendClassName')->willReturn('unittest');
+		$user->method('getUID')->willReturn('test-user');
+
+		$ss = new SyncService($backend, $userManager);
+		$ss->updateUser($user);
+
+		$user->method('getDisplayName')->willReturn('A test user for unit testing');
+
+		$ss->updateUser($user);
+
+		$ss->deleteUser($user);
+	}
+
 	/**
 	 * @param int $createCount
 	 * @param int $updateCount
@@ -77,8 +122,9 @@ class SyncServiceTest extends TestCase {
 	 * @return SyncService|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function getSyncServiceMock($backend, $response) {
+		$userManager = $this->getMockBuilder('OCP\IUserManager')->disableOriginalConstructor()->getMock();
 		/** @var SyncService | \PHPUnit_Framework_MockObject_MockObject $ss */
-		$ss = $this->getMock('OCA\DAV\CardDAV\SyncService', ['ensureSystemAddressBookExists', 'requestSyncReport', 'download'], [$backend]);
+		$ss = $this->getMock('OCA\DAV\CardDAV\SyncService', ['ensureSystemAddressBookExists', 'requestSyncReport', 'download'], [$backend, $userManager]);
 		$ss->method('requestSyncReport')->withAnyParameters()->willReturn(['response' => $response, 'token' => 'sync-token-1']);
 		$ss->method('ensureSystemAddressBookExists')->willReturn(['id' => 1]);
 		$ss->method('download')->willReturn([

@@ -22,18 +22,16 @@
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 
-\OC::$server->registerService('CardDAVSyncService', function() {
+$app = new \OCA\Dav\AppInfo\Application();
+$app->registerHooks();
 
-	$app = new \OCA\Dav\AppInfo\Application();
-	/** @var CardDavBackend */
-	$backend = $app->getContainer()->query('CardDavBackend');
+\OC::$server->registerService('CardDAVSyncService', function() use ($app) {
 
-	return new SyncService($backend);
+	return $app->getSyncService();
 });
 
 $cm = \OC::$server->getContactsManager();
-$cm->register(function() use ($cm) {
+$cm->register(function() use ($cm, $app) {
 	$userId = \OC::$server->getUserSession()->getUser()->getUID();
-	$app = new \OCA\Dav\AppInfo\Application();
 	$app->setupContactsProvider($cm, $userId);
 });

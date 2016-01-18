@@ -22,6 +22,7 @@ namespace OCA\DAV\Command;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\Converter;
+use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -39,28 +40,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncSystemAddressBook extends Command {
 
-	/** @var IUserManager */
-	protected $userManager;
-
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
-
-	/** @var IConfig */
-	protected $config;
-
-	/** @var CardDavBackend */
-	private $backend;
+	/** @var SyncService */
+	private $syncService;
 
 	/**
 	 * @param IUserManager $userManager
-	 * @param IDBConnection $dbConnection
-	 * @param IConfig $config
+	 * @param SyncService $syncService
 	 */
-	function __construct(IUserManager $userManager, IDBConnection $dbConnection, IConfig $config) {
+	function __construct(SyncService $syncService) {
 		parent::__construct();
-		$this->userManager = $userManager;
-		$this->dbConnection = $dbConnection;
-		$this->config = $config;
+		$this->syncService = $syncService;
 	}
 
 	protected function configure() {
@@ -74,63 +63,15 @@ class SyncSystemAddressBook extends Command {
 	 * @param OutputInterface $output
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$principalBackend = new Principal(
-				$this->userManager
-		);
-
-		$this->backend = new CardDavBackend($this->dbConnection, $principalBackend);
-
-		// ensure system addressbook exists
-		$systemAddressBook = $this->ensureSystemAddressBookExists();
-		$converter = new Converter();
 
 		$output->writeln('Syncing users ...');
 		$progress = new ProgressBar($output);
 		$progress->start();
-		$this->userManager->callForAllUsers(function($user) use ($systemAddressBook, $converter, $progress) {
-			/** @var IUser $user */
-			$name = $user->getBackendClassName();
-			$userId = $user->getUID();
-
-			$cardId = "$name:$userId.vcf";
-			$card = $this->backend->getCard($systemAddressBook['id'], $cardId);
-			if ($card === false) {
-				$vCard = $converter->createCardFromUser($user);
-				$this->backend->createCard($systemAddressBook['id'], $cardId, $vCard->serialize());
-			} else {
-				$vCard = Reader::read($card['carddata']);
-				if ($converter->updateCard($vCard, $user)) {
-					$this->backend->updateCard($systemAddressBook['id'], $cardId, $vCard->serialize());
-				}
-			}
+		$this->syncService->syncInstance(function() use ($progress) {
 			$progress->advance();
 		});
 
-		// remove no longer existing
-		$allCards = $this->backend->getCards($systemAddressBook['id']);
-		foreach($allCards as $card) {
-			$vCard = Reader::read($card['carddata']);
-			$uid = $vCard->UID->getValue();
-			// load backend and see if user exists
-			if (!$this->userManager->userExists($uid)) {
-				$this->backend->deleteCard($systemAddressBook['id'], $card['uri']);
-			}
-		}
-
 		$progress->finish();
 		$output->writeln('');
-	}
-
-	protected function ensureSystemAddressBookExists() {
-		$book = $this->backend->getAddressBooksByUri('system');
-		if (!is_null($book)) {
-			return $book;
-		}
-		$systemPrincipal = "principals/system/system";
-		$this->backend->createAddressBook($systemPrincipal, 'system', [
-			'{' . Plugin::NS_CARDDAV . '}addressbook-description' => 'System addressbook which holds all users of this instance'
-		]);
-
-		return $this->backend->getAddressBooksByUri('system');
 	}
 }

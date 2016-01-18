@@ -21,18 +21,27 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OCP\IUser;
+use OCP\IUserManager;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
-use Sabre\HTTP\ClientException;
+use Sabre\VObject\Reader;
 
 class SyncService {
 
 	/** @var CardDavBackend */
 	private $backend;
 
-	public function __construct(CardDavBackend $backend) {
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var array */
+	private $localSystemAddressBook;
+
+	public function __construct(CardDavBackend $backend, IUserManager $userManager) {
 		$this->backend = $backend;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -80,7 +89,7 @@ class SyncService {
 	 * @return array|null
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	protected function ensureSystemAddressBookExists($principal, $id, $properties) {
+	public function ensureSystemAddressBookExists($principal, $id, $properties) {
 		$book = $this->backend->getAddressBooksByUri($id);
 		if (!is_null($book)) {
 			return $book;
@@ -178,6 +187,76 @@ class SyncService {
 		}
 
 		return ['response' => $result, 'token' => $multiStatus->getSyncToken()];
+	}
+
+	/**
+	 * @param IUser $user
+	 */
+	public function updateUser($user) {
+		$systemAddressBook = $this->getLocalSystemAddressBook();
+		$addressBookId = $systemAddressBook['id'];
+		$converter = new Converter();
+		$name = $user->getBackendClassName();
+		$userId = $user->getUID();
+
+		$cardId = "$name:$userId.vcf";
+		$card = $this->backend->getCard($addressBookId, $cardId);
+		if ($card === false) {
+			$vCard = $converter->createCardFromUser($user);
+			$this->backend->createCard($addressBookId, $cardId, $vCard->serialize());
+		} else {
+			$vCard = Reader::read($card['carddata']);
+			if ($converter->updateCard($vCard, $user)) {
+				$this->backend->updateCard($addressBookId, $cardId, $vCard->serialize());
+			}
+		}
+	}
+
+	/**
+	 * @param IUser|string $userOrCardId
+	 */
+	public function deleteUser($userOrCardId) {
+		$systemAddressBook = $this->getLocalSystemAddressBook();
+		if ($userOrCardId instanceof IUser){
+			$name = $userOrCardId->getBackendClassName();
+			$userId = $userOrCardId->getUID();
+
+			$userOrCardId = "$name:$userId.vcf";
+		}
+		$this->backend->deleteCard($systemAddressBook['id'], $userOrCardId);
+	}
+
+	/**
+	 * @return array|null
+	 */
+	public function getLocalSystemAddressBook() {
+		if (is_null($this->localSystemAddressBook)) {
+			$systemPrincipal = "principals/system/system";
+			$this->localSystemAddressBook = $this->ensureSystemAddressBookExists($systemPrincipal, 'system', [
+				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => 'System addressbook which holds all users of this instance'
+			]);
+		}
+
+		return $this->localSystemAddressBook;
+	}
+
+	public function syncInstance(\Closure $progressCallback) {
+		$systemAddressBook = $this->getLocalSystemAddressBook();
+		$this->userManager->callForAllUsers(function($user) use ($systemAddressBook, $progressCallback) {
+			$this->updateUser($user);
+			$progressCallback();
+		});
+
+		// remove no longer existing
+		$allCards = $this->backend->getCards($systemAddressBook['id']);
+		foreach($allCards as $card) {
+			$vCard = Reader::read($card['carddata']);
+			$uid = $vCard->UID->getValue();
+			// load backend and see if user exists
+			if (!$this->userManager->userExists($uid)) {
+				$this->deleteUser($card['uri']);
+			}
+		}
 	}
 
 
