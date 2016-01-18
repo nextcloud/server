@@ -64,7 +64,7 @@
 		<feature>resource-id</feature>					<!-- WebDAV BIND DAV:resource-id property -->
 		<feature>sync-report</feature>					<!-- WebDAV collection sync REPORT -->
 		<!-- <feature>sync-report-limit</feature> -->	<!-- WebDAV collection sync REPORT DAV:limit support -->
-		<feature>sync-report-home</feature>				<!-- WebDAV collection sync REPORT on Homes -->
+		<!--<feature>sync-report-home</feature>				&lt;!&ndash; WebDAV collection sync REPORT on Homes &ndash;&gt;-->
 		<feature>sync-report-config-token</feature>		<!-- Sync REPORT token includes configuration component -->
 		<feature>well-known</feature>					<!-- well-known feature -->
 
@@ -180,7 +180,7 @@
 		<!-- relative path to main principal collection-->
 		<substitution>
 			<key>$principalcollection:</key>
-			<value>$root:principals/users/</value>
+			<value>$root:principals/</value>
 		</substitution>
 
 		<!-- the core recored type collections-->
@@ -482,7 +482,7 @@
 			</substitution>
 			<substitution>
 				<key>$principaluri%d:</key>
-				<value>$principalcollection:$userid%d:/</value>
+				<value>$principals_users:$userid%d:/</value>
 			</substitution>
 			<substitution>
 				<key>$principal%dnoslash:</key>
@@ -492,7 +492,7 @@
 			<!-- relative path to user calendar home-->
 			<substitution>
 				<key>$calendarhome%d:</key>
-				<value>$calendars_uids:$userguid%d:</value>
+				<value>$calendars:$userid%d:</value>
 			</substitution>
 			<!-- relative path to user alternate calendar home-->
 			<substitution>

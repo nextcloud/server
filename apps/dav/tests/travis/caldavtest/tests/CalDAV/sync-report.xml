@@ -26,8 +26,12 @@
 
 	<start>
 		<request end-delete="yes">
-			<method>MKCALENDAR</method>
+			<method>MKCOL</method>
 			<ruri>$calendarhome1:/synccalendar1/</ruri>
+			<data>
+				<content-type>application/xml; charset="utf-8"</content-type>
+				<filepath>Resource/CalDAV/reports/put/1.xml</filepath>
+			</data>
 		</request>
 		<request>
 			<method>PUT</method>
@@ -46,8 +50,12 @@
 			</data>
 		</request>
 		<request end-delete="yes">
-			<method>MKCALENDAR</method>
+			<method>MKCOL</method>
 			<ruri>$calendarhome1:/synccalendar2/</ruri>
+			<data>
+				<content-type>application/xml; charset="utf-8"</content-type>
+				<filepath>Resource/CalDAV/reports/put/1.xml</filepath>
+			</data>
 		</request>
 		<request>
 			<method>PUT</method>
@@ -101,67 +109,6 @@
 				</verify>
 			</request>
 		</test>
-		<test name='2'>
-			<description>On calendar-home</description>
-			<request>
-				<method>PROPFIND</method>
-				<ruri>$calendarhome1:/</ruri>
-				<header>
-					<name>Depth</name>
-					<value>0</value>
-				</header>
-				<data>
-					<content-type>text/xml; charset=utf-8</content-type>
-					<filepath>Resource/CalDAV/reports/sync/1.xml</filepath>
-				</data>
-				<verify>
-					<require-feature>
-						<feature>sync-report-home</feature>
-					</require-feature>
-					<callback>xmlElementMatch</callback>
-					<arg>
-						<name>exists</name>
-						<value>$verify-property-prefix:/{DAV:}supported-report-set/{DAV:}supported-report/{DAV:}report/{DAV:}sync-collection</value>
-						<value>$verify-property-prefix:/{DAV:}sync-token[+data:,]</value>
-					</arg>
-				</verify>
-				<verify>
-					<require-feature>
-						<feature>sync-report-home</feature>
-					</require-feature>
-					<callback>propfindItems</callback>
-					<arg>
-						<name>okprops</name>
-						<value>{DAV:}supported-report-set</value>
-						<value>{DAV:}sync-token</value>
-					</arg>
-				</verify>
-				<verify>
-					<exclude-feature>
-						<feature>sync-report-home</feature>
-					</exclude-feature>
-					<callback>xmlElementMatch</callback>
-					<arg>
-						<name>notexists</name>
-						<value>$verify-property-prefix:/{DAV:}supported-report-set/{DAV:}supported-report/{DAV:}report/{DAV:}sync-collection</value>
-					</arg>
-				</verify>
-				<verify>
-					<exclude-feature>
-						<feature>sync-report-home</feature>
-					</exclude-feature>
-					<callback>propfindItems</callback>
-					<arg>
-						<name>okprops</name>
-						<value>{DAV:}supported-report-set</value>
-					</arg>
-					<arg>
-						<name>badprops</name>
-						<value>{DAV:}sync-token</value>
-					</arg>
-				</verify>
-			</request>
-		</test>
 		<test name='3'>
 			<description>On calendar</description>
 			<request>
@@ -180,7 +127,7 @@
 					<arg>
 						<name>exists</name>
 						<value>$verify-property-prefix:/{DAV:}supported-report-set/{DAV:}supported-report/{DAV:}report/{DAV:}sync-collection</value>
-						<value>$verify-property-prefix:/{DAV:}sync-token[+data:,]</value>
+						<!--<value>$verify-property-prefix:/{DAV:}sync-token[+data:,]</value>-->
 					</arg>
 				</verify>
 				<verify>
@@ -189,53 +136,6 @@
 						<name>okprops</name>
 						<value>{DAV:}supported-report-set</value>
 						<value>{DAV:}sync-token</value>
-					</arg>
-				</verify>
-			</request>
-		</test>
-		<test name='4'>
-			<description>On inbox</description>
-			<request>
-				<method>PROPFIND</method>
-				<ruri>$inboxpath1:/</ruri>
-				<header>
-					<name>Depth</name>
-					<value>0</value>
-				</header>
-				<data>
-					<content-type>text/xml; charset=utf-8</content-type>
-					<filepath>Resource/CalDAV/reports/sync/1.xml</filepath>
-				</data>
-				<verify>
-					<callback>xmlElementMatch</callback>
-					<arg>
-						<name>exists</name>
-						<value>$verify-property-prefix:/{DAV:}supported-report-set/{DAV:}supported-report/{DAV:}report/{DAV:}sync-collection</value>
-					</arg>
-				</verify>
-				<verify>
-					<callback>propfindItems</callback>
-					<arg>
-						<name>okprops</name>
-						<value>{DAV:}supported-report-set</value>
-						<value>{DAV:}sync-token</value>
-					</arg>
-				</verify>
-			</request>
-		</test>
-		<test name='5'>
-			<require-feature>
-				<feature>sync-report-home</feature>
-			</require-feature>
-			<description>Look for options header tag on principal</description>
-			<request>
-				<method>OPTIONS</method>
-				<ruri>$principal1:</ruri>
-				<verify>
-					<callback>header</callback>
-					<arg>
-						<name>header</name>
-						<value>*DAV$.*calendarserver-home-sync[^-]*</value>
 					</arg>
 				</verify>
 			</request>
@@ -458,7 +358,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 					</arg>
@@ -600,28 +499,6 @@
 				</verify>
 			</request>
 		</test>
-		<test name='13'>
-			<description>Bad sync-level</description>
-			<request>
-				<method>REPORT</method>
-				<ruri>$calendarhome1:/synccalendar1/</ruri>
-				<header>
-					<name>Depth</name>
-					<value>0</value>
-				</header>
-				<data>
-					<content-type>text/xml; charset=utf-8</content-type>
-					<filepath>Resource/CalDAV/reports/sync/10.xml</filepath>
-				</data>
-				<verify>
-					<callback>statusCode</callback>
-					<arg>
-						<name>status</name>
-						<value>400</value>
-					</arg>
-				</verify>
-			</request>
-		</test>
 	</test-suite>
 
 	<test-suite name='simple reports - empty token - no props'>
@@ -642,7 +519,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 					</arg>
@@ -746,7 +622,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 						<value>3.ics</value>
@@ -848,7 +723,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 					</arg>
@@ -952,7 +826,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 					</arg>
@@ -1045,7 +918,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 					</arg>
@@ -1227,7 +1099,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 					</arg>
@@ -1270,7 +1141,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 						<value>3.ics</value>
@@ -1310,7 +1180,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 					</arg>
@@ -1353,7 +1222,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 					</arg>
@@ -1388,7 +1256,6 @@
 					<callback>multistatusItems</callback>
 					<arg>
 						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
 						<value>1.ics</value>
 						<value>2.ics</value>
 					</arg>
@@ -2827,31 +2694,6 @@
 		</test>
 	</test-suite>
 
-	<test-suite name='simple reports - empty inbox'>
-		<test name='1'>
-			<description>initial query</description>
-			<request>
-				<method>REPORT</method>
-				<ruri>$inboxpath1:/</ruri>
-				<header>
-					<name>Depth</name>
-					<value>1</value>
-				</header>
-				<data>
-					<content-type>text/xml; charset=utf-8</content-type>
-					<filepath>Resource/CalDAV/reports/sync/2.xml</filepath>
-				</data>
-				<verify>
-					<callback>multistatusItems</callback>
-					<arg>
-						<name>okhrefs</name>
-						<value>$calendar_sync_extra_items:</value>
-					</arg>
-				</verify>
-			</request>
-		</test>
-	</test-suite>
-
 	<test-suite name='simple reports - valid token'>
 		<test name='1'>
 			<description>initial query</description>
@@ -2871,6 +2713,10 @@
 					<arg>
 						<name>error</name>
 						<value>{DAV:}valid-sync-token</value>
+					</arg>
+					<arg>
+						<name>ignoreextras</name>
+						<value>{http://sabredav.org/ns}message</value>
 					</arg>
 				</verify>
 			</request>
@@ -3472,35 +3318,6 @@
 					<arg>
 						<name>notcontains</name>
 						<value>foobar</value>
-					</arg>
-				</verify>
-			</request>
-		</test>
-	</test-suite>
-
-
-	<test-suite name='limited reports'>
-		<test name='1'>
-			<exclude-feature>
-				<feature>sync-report-limit</feature>
-			</exclude-feature>
-			<description>Limit not allowed</description>
-			<request>
-				<method>REPORT</method>
-				<ruri>$calendarhome1:/</ruri>
-				<header>
-					<name>Depth</name>
-					<value>0</value>
-				</header>
-				<data>
-					<content-type>text/xml; charset=utf-8</content-type>
-					<filepath>Resource/CalDAV/reports/sync/21.xml</filepath>
-				</data>
-				<verify>
-					<callback>prepostcondition</callback>
-					<arg>
-						<name>error</name>
-						<value>{DAV:}number-of-matches-within-limits</value>
 					</arg>
 				</verify>
 			</request>
