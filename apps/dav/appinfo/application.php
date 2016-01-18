@@ -22,6 +22,7 @@ namespace OCA\Dav\AppInfo;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
+use OCA\DAV\CardDAV\SyncJob;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
 use \OCP\AppFramework\App;
@@ -92,6 +93,11 @@ class Application extends App {
 
 	public function getSyncService() {
 		return $this->getContainer()->query('SyncService');
+	}
+
+	public function setupCron() {
+		$jl = $this->getContainer()->getServer()->getJobList();
+		$jl->add(new SyncJob());
 	}
 
 }

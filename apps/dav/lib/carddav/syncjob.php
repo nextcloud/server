@@ -19,20 +19,22 @@
  *
  */
 
-use OCA\DAV\CardDAV\CardDavBackend;
-use OCA\DAV\CardDAV\SyncService;
+namespace OCA\DAV\CardDAV;
 
-$app = new \OCA\Dav\AppInfo\Application();
-$app->registerHooks();
-$app->setupCron();
+use OC\BackgroundJob\TimedJob;
+use OCA\Dav\AppInfo\Application;
 
-\OC::$server->registerService('CardDAVSyncService', function() use ($app) {
+class SyncJob extends TimedJob {
 
-	return $app->getSyncService();
-});
+	public function __construct() {
+		// Run once a day
+		$this->setInterval(24 * 60 * 60);
+	}
 
-$cm = \OC::$server->getContactsManager();
-$cm->register(function() use ($cm, $app) {
-	$userId = \OC::$server->getUserSession()->getUser()->getUID();
-	$app->setupContactsProvider($cm, $userId);
-});
+	protected function run($argument) {
+		$app = new Application();
+		/** @var SyncService $ss */
+		$ss = $app->getSyncService();
+		$ss->syncInstance();
+	}
+}
