@@ -137,6 +137,28 @@ class FactoryTest extends TestCase {
 		$this->restoreService('UserSession');
 	}
 
+	public function dataFindAvailableLanguages() {
+		return [
+			[null],
+			['files'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataFindAvailableLanguages
+	 *
+	 * @param string|null $app
+	 */
+	public function testFindAvailableLanguages($app) {
+		$factory = $this->getFactory(['findL10nDir']);
+		$factory->expects($this->once())
+			->method('findL10nDir')
+			->with($app)
+			->willReturn(\OC::$SERVERROOT . '/tests/data/l10n/');
+
+		$this->assertEquals(['cs', 'de', 'en', 'ru'], $factory->findAvailableLanguages($app), '', 0.0, 10, true);
+	}
+
 	public function dataLanguageExists() {
 		return [
 			[null, 'en', [], true],
