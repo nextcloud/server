@@ -284,7 +284,9 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			$whereValues = array_merge($keys, $updatePreconditionValues);
 			foreach ($whereValues as $name => $value) {
 				$where->add($updateQb->expr()->eq(
-					$name, $updateQb->createNamedParameter($value, $this->getType($value))
+					$name,
+					$updateQb->createNamedParameter($value, $this->getType($value)),
+					$this->getType($value)
 				));
 			}
 			$updateQb->where($where);

@@ -84,11 +84,13 @@ interface IExpressionBuilder {
 	 *
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
+	 * @param int|null $type @since 9.0.0 one of the \PDO::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility.
 	 *
 	 * @return string
 	 * @since 8.2.0
 	 */
-	public function eq($x, $y);
+	public function eq($x, $y, $type = null);
 
 	/**
 	 * Creates a non equality comparison expression with the given arguments.
