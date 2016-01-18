@@ -13,15 +13,26 @@ use OC\L10N\Factory;
 use Test\TestCase;
 
 /**
- * Class Test_L10n
+ * Class FactoryTest
+ *
+ * @package Test\L10N
  * @group DB
  */
 class FactoryTest extends TestCase {
+
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
+	protected $config;
+
 	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 
 	public function setUp() {
 		parent::setUp();
+
+		/** @var \OCP\IConfig $request */
+		$this->config = $this->getMockBuilder('OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
 
 		/** @var \OCP\IRequest $request */
 		$this->request = $this->getMockBuilder('OCP\IRequest')
@@ -34,20 +45,96 @@ class FactoryTest extends TestCase {
 	 * @return Factory|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getFactory(array $methods = []) {
-		/** @var \OCP\IConfig $config */
-		$config = $this->getMock('OCP\IConfig');
-
 		if (!empty($methods)) {
 			return $this->getMockBuilder('OC\L10N\Factory')
 				->setConstructorArgs([
-					$config,
+					$this->config,
 					$this->request,
 				])
 				->setMethods($methods)
 				->getMock();
 		} else {
-			return new Factory($config, $this->request);
+			return new Factory($this->config, $this->request);
 		}
+	}
+
+	public function dataFindLanguage() {
+		return [
+			[null, false, 1, 'de', true, null, null, null, null, null, 'de'],
+			[null, 'test', 2, 'de', false, 'ru', true, null, null, null, 'ru'],
+			[null, 'test', 1, '', null, 'ru', true, null, null, null, 'ru'],
+			[null, 'test', 3, 'de', false, 'ru', false, 'cz', true, null, 'cz'],
+			[null, 'test', 2, '', null, 'ru', false, 'cz', true, null, 'cz'],
+			[null, 'test', 1, '', null, '', null, 'cz', true, null, 'cz'],
+			[null, 'test', 3, 'de', false, 'ru', false, 'cz', false, 'ar', 'ar'],
+			[null, 'test', 2, '', null, 'ru', false, 'cz', false, 'ar', 'ar'],
+			[null, 'test', 1, '', null, '', null, 'cz', false, 'ar', 'ar'],
+			[null, 'test', 0, '', null, '', null, false, null, 'ar', 'ar'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataFindLanguage
+	 *
+	 * @param string|null $app
+	 * @param string|null $user
+	 * @param int $existsCalls
+	 * @param string $storedRequestLang
+	 * @param bool $srlExists
+	 * @param string|null $userLang
+	 * @param bool $ulExists
+	 * @param string|false $defaultLang
+	 * @param bool $dlExists
+	 * @param string|null $requestLang
+	 * @param string $expected
+	 */
+	public function testFindLanguage($app, $user, $existsCalls, $storedRequestLang, $srlExists, $userLang, $ulExists, $defaultLang, $dlExists, $requestLang, $expected) {
+		$factory = $this->getFactory([
+			'languageExists',
+			'setLanguageFromRequest',
+		]);
+
+		$session = $this->getMockBuilder('OCP\ISession')
+			->disableOriginalConstructor()
+			->getMock();
+		$session->expects($this->any())
+			->method('get')
+			->with('user_id')
+			->willReturn($user);
+		$userSession = $this->getMockBuilder('OC\User\Session')
+			->disableOriginalConstructor()
+			->getMock();
+		$userSession->expects($this->any())
+			->method('getSession')
+			->willReturn($session);
+
+		$this->invokePrivate($factory, 'requestLanguage', [$storedRequestLang]);
+
+		$factory->expects($this->exactly($existsCalls))
+			->method('languageExists')
+			->willReturnMap([
+				[$app, $storedRequestLang, $srlExists],
+				[$app, $userLang, $ulExists],
+				[$app, $defaultLang, $dlExists],
+			]);
+
+		$factory->expects($requestLang !== null ? $this->once() : $this->never())
+			->method('setLanguageFromRequest')
+			->willReturn($requestLang);
+
+		$this->config->expects($userLang !== null ? $this->any() : $this->never())
+			->method('getUserValue')
+			->with($this->anything(), 'core', 'lang')
+			->willReturn($userLang);
+
+		$this->config->expects($defaultLang !== null ? $this->once() : $this->never())
+			->method('getSystemValue')
+			->with('default_language', false)
+			->willReturn($defaultLang);
+
+		$this->overwriteService('UserSession', $userSession);
+		$this->assertSame($expected, $factory->findLanguage($app));
+		$this->restoreService('UserSession');
 	}
 
 	public function dataLanguageExists() {

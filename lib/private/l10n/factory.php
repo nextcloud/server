@@ -109,22 +109,22 @@ class Factory implements IFactory {
 
 		$userId = \OC_User::getUser(); // FIXME not available in non-static?
 
-		if ($userId && $this->config->getUserValue($userId, 'core', 'lang')) {
-			$lang = $this->config->getUserValue($userId, 'core', 'lang');
-			$this->requestLanguage = $lang;
-			if ($this->languageExists($app, $lang)) {
-				return $lang;
+		$userLang = $userId !== false ? $this->config->getUserValue($userId, 'core', 'lang') : null;
+		if ($userLang) {
+			$this->requestLanguage = $userLang;
+			if ($this->languageExists($app, $userLang)) {
+				return $userLang;
 			}
 		}
 
 		$defaultLanguage = $this->config->getSystemValue('default_language', false);
 
-		if ($defaultLanguage !== false) {
+		if ($defaultLanguage !== false && $this->languageExists($app, $defaultLanguage)) {
 			return $defaultLanguage;
 		}
 
 		$lang = $this->setLanguageFromRequest($app);
-		if ($userId && $app === null && !$this->config->getUserValue($userId, 'core', 'lang')) {
+		if ($userId !== false && $app === null && !$userLang) {
 			$this->config->setUserValue($userId, 'core', 'lang', $lang);
 		}
 
