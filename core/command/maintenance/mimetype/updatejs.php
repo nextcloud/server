@@ -71,6 +71,7 @@ class UpdateJS extends Command {
 
 		//Remove duplicates
 		$files = array_values(array_unique($files));
+		sort($files);
 
 		// Fetch all themes!
 		$themes = [];
@@ -100,6 +101,7 @@ class UpdateJS extends Command {
 
 			//Remove Duplicates
 			$themes[$theme] = array_values(array_unique($themes[$theme]));
+			sort($themes[$theme]);
 		}
 
 		//Generate the JS
