@@ -23,7 +23,8 @@
 use OCA\Files_External\Command\ListCommand;
 use OCA\Files_External\Command\Config;
 use OCA\Files_External\Command\Option;
-use \OCA\Files_External\Command\Import;
+use OCA\Files_External\Command\Import;
+use OCA\Files_External\Command\Export;
 
 $userManager = OC::$server->getUserManager();
 $userSession = OC::$server->getUserSession();
@@ -40,3 +41,4 @@ $application->add(new ListCommand($globalStorageService, $userStorageService, $u
 $application->add(new Config($globalStorageService));
 $application->add(new Option($globalStorageService));
 $application->add(new Import($globalStorageService, $userStorageService, $userSession, $userManager, $importLegacyStorageService, $backendService));
+$application->add(new Export($globalStorageService, $userStorageService, $userSession, $userManager));

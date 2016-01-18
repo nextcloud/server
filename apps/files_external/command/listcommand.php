@@ -22,6 +22,7 @@
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
+use OC\User\NoUserException;
 use OCA\Files_external\Lib\StorageConfig;
 use OCA\Files_external\Service\GlobalStoragesService;
 use OCA\Files_external\Service\UserStoragesService;
@@ -38,22 +39,22 @@ class ListCommand extends Base {
 	/**
 	 * @var GlobalStoragesService
 	 */
-	private $globalService;
+	protected $globalService;
 
 	/**
 	 * @var UserStoragesService
 	 */
-	private $userService;
+	protected $userService;
 
 	/**
 	 * @var IUserSession
 	 */
-	private $userSession;
+	protected $userSession;
 
 	/**
 	 * @var IUserManager
 	 */
-	private $userManager;
+	protected $userManager;
 
 	function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
 		parent::__construct();
@@ -87,17 +88,7 @@ class ListCommand extends Base {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$userId = $input->getArgument('user_id');
-		if (!empty($userId)) {
-			$user = $this->userManager->get($userId);
-			if (is_null($user)) {
-				$output->writeln("<error>user $userId not found</error>");
-				return;
-			}
-			$this->userSession->setUser($user);
-			$storageService = $this->userService;
-		} else {
-			$storageService = $this->globalService;
-		}
+		$storageService = $this->getStorageService($userId);
 
 		/** @var  $mounts StorageConfig[] */
 		$mounts = $storageService->getAllStorages();
@@ -112,11 +103,16 @@ class ListCommand extends Base {
 	 * @param OutputInterface $output
 	 */
 	public function listMounts($userId, array $mounts, InputInterface $input, OutputInterface $output){
+		$outputType = $input->getOption('output');
 		if (count($mounts) === 0) {
-			if ($userId) {
-				$output->writeln("<info>No mounts configured by $userId</info>");
+			if ($outputType === self::OUTPUT_FORMAT_JSON || $outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {
+				$output->writeln('[]');
 			} else {
-				$output->writeln("<info>No admin mounts configured</info>");
+				if ($userId) {
+					$output->writeln("<info>No mounts configured by $userId</info>");
+				} else {
+					$output->writeln("<info>No admin mounts configured</info>");
+				}
 			}
 			return;
 		}
@@ -140,7 +136,6 @@ class ListCommand extends Base {
 			}
 		}
 
-		$outputType = $input->getOption('output');
 		if ($outputType === self::OUTPUT_FORMAT_JSON || $outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {
 			$keys = array_map(function ($header) {
 				return strtolower(str_replace(' ', '_', $header));
@@ -235,6 +230,19 @@ class ListCommand extends Base {
 			$table->setHeaders($headers);
 			$table->setRows($rows);
 			$table->render();
+		}
+	}
+
+	protected function getStorageService($userId) {
+		if (!empty($userId)) {
+			$user = $this->userManager->get($userId);
+			if (is_null($user)) {
+				throw new NoUserException("user $userId not found");
+			}
+			$this->userSession->setUser($user);
+			return $this->userService;
+		} else {
+			return $this->globalService;
 		}
 	}
 }
