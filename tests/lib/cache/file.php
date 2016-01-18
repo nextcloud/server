@@ -87,7 +87,9 @@ class FileCache extends \Test_Cache {
 	}
 
 	protected function tearDown() {
-		$this->instance->remove('hack', 'hack');
+		if ($this->instance) {
+			$this->instance->remove('hack', 'hack');
+		}
 
 		\OC_User::setUserId($this->user);
 		\OC::$server->getConfig()->setSystemValue('cachedirectory', $this->datadir);
