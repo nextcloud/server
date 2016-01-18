@@ -20,8 +20,11 @@
  */
 namespace OC\Share20;
 
+use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ShareNotFound;
 use OC\Share20\Exception\BackendError;
+use OCP\Files\NotFoundException;
+use OCP\IGroup;
 use OCP\IUser;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -95,10 +98,14 @@ class DefaultShareProvider implements IShareProvider {
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			//Set the UID of the user we share with
-			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()->getUID()));
+			/** @var IUser $sharedWith */
+			$sharedWith = $share->getSharedWith();
+			$qb->setValue('share_with', $qb->createNamedParameter($sharedWith->getUID()));
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			//Set the GID of the group we share with
-			$qb->setValue('share_with', $qb->createNamedParameter($share->getSharedWith()->getGID()));
+			/** @var IGroup $sharedWith */
+			$sharedWith = $share->getSharedWith();
+			$qb->setValue('share_with', $qb->createNamedParameter($sharedWith->getGID()));
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			//Set the token of the share
 			$qb->setValue('token', $qb->createNamedParameter($share->getToken()));
@@ -152,7 +159,7 @@ class DefaultShareProvider implements IShareProvider {
 		// Now fetch the inserted share and create a complete share object
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
-			->from('*PREFIX*share')
+			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
 
 		$cursor = $qb->execute();
@@ -335,6 +342,7 @@ class DefaultShareProvider implements IShareProvider {
 	 *
 	 * @param mixed[] $data
 	 * @return Share
+	 * @throws InvalidShare
 	 */
 	private function createShare($data) {
 		$share = new Share();
@@ -346,31 +354,45 @@ class DefaultShareProvider implements IShareProvider {
 			->setMailSend((bool)$data['mail_send']);
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
-			$share->setSharedWith($this->userManager->get($data['share_with']));
+			$sharedWith = $this->userManager->get($data['share_with']);
+			if ($sharedWith === null) {
+				throw new InvalidShare();
+			}
+			$share->setSharedWith($sharedWith);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
-			$share->setSharedWith($this->groupManager->get($data['share_with']));
+			$sharedWith = $this->groupManager->get($data['share_with']);
+			if ($sharedWith === null) {
+				throw new InvalidShare();
+			}
+			$share->setSharedWith($sharedWith);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$share->setPassword($data['share_with']);
 			$share->setToken($data['token']);
-		} else {
-			$share->setSharedWith($data['share_with']);
 		}
 
 		if ($data['uid_initiator'] === null) {
 			//OLD SHARE
-			$share->setSharedBy($this->userManager->get($data['uid_owner']));
-			$folder = $this->rootFolder->getUserFolder($share->getSharedBy()->getUID());
-			$path = $folder->getById((int)$data['file_source'])[0];
+			$sharedBy = $this->userManager->get($data['uid_owner']);
+			if ($sharedBy === null) {
+				throw new InvalidShare();
+			}
+			$share->setSharedBy($sharedBy);
+			$path = $this->getNode($share->getSharedBy(), (int)$data['file_source']);
 
 			$owner = $path->getOwner();
 			$share->setShareOwner($owner);
 		} else {
 			//New share!
-			$share->setSharedBy($this->userManager->get($data['uid_initiator']));
-			$share->setShareOwner($this->userManager->get($data['uid_owner']));
+			$sharedBy = $this->userManager->get($data['uid_initiator']);
+			$shareOwner = $this->userManager->get($data['uid_owner']);
+			if ($sharedBy === null || $shareOwner === null) {
+				throw new InvalidShare();
+			}
+			$share->setSharedBy($sharedBy);
+			$share->setShareOwner($shareOwner);
 		}
 
-		$path = $this->rootFolder->getUserFolder($share->getShareOwner()->getUID())->getById((int)$data['file_source'])[0];
+		$path = $this->getNode($share->getShareOwner(), (int)$data['file_source']);
 		$share->setPath($path);
 
 		if ($data['expiration'] !== null) {
@@ -381,6 +403,30 @@ class DefaultShareProvider implements IShareProvider {
 		$share->setProviderId($this->identifier());
 
 		return $share;
+	}
+
+	/**
+	 * Get the node with file $id for $user
+	 *
+	 * @param IUser $user
+	 * @param int $id
+	 * @return \OCP\Files\File|\OCP\Files\Folder
+	 * @throws InvalidShare
+	 */
+	private function getNode(IUser $user, $id) {
+		try {
+			$userFolder = $this->rootFolder->getUserFolder($user->getUID());
+		} catch (NotFoundException $e) {
+			throw new InvalidShare();
+		}
+
+		$nodes = $userFolder->getById($id);
+
+		if (empty($nodes)) {
+			throw new InvalidShare();
+		}
+
+		return $nodes[0];
 	}
 
 }
