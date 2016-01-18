@@ -342,7 +342,8 @@ class User extends \Test\TestCase {
 
 		$backend->expects($this->once())
 			->method('setDisplayName')
-			->with('foo','Foo');
+			->with('foo','Foo')
+			->willReturn(true);
 
 		$user = new \OC\User\User('foo', $backend);
 		$this->assertTrue($user->setDisplayName('Foo'));

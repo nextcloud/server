@@ -44,6 +44,7 @@ use OCP\IConfig;
  * - postDelete(\OC\User\User $user)
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user, string $password)
+ * - change(\OC\User\User $user)
  *
  * @package OC\User
  */

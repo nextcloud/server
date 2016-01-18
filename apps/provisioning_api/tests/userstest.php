@@ -932,10 +932,10 @@ class UsersTest extends OriginalTest {
 			->method('get')
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
-		$this->config
+		$targetUser
 			->expects($this->once())
-			->method('setUserValue')
-			->with('UserToEdit', 'settings', 'email', 'demo@owncloud.org');
+			->method('setEMailAddress')
+			->with('demo@owncloud.org');
 
 		$expected = new \OC_OCS_Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'email', 'value' => 'demo@owncloud.org']]));

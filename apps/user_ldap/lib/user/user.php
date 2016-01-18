@@ -400,6 +400,9 @@ class User {
 			}
 		}
 		if(!is_null($email)) {
+			//
+			// TODO: user IUser::setEMailAddress()
+			//
 			$this->config->setUserValue(
 				$this->uid, 'settings', 'email', $email);
 		}
