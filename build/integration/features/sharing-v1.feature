@@ -313,6 +313,19 @@ Feature: sharing
     And the HTTP status code should be "200"
     And last share_id is included in the answer
 
+  Scenario: Sharee can see the group share
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group0" exists
+    And user "user1" belongs to group "group0"
+    And file "textfile0.txt" of user "user0" is shared with group "group0"
+    And As an "user1"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is included in the answer
+
   Scenario: User is not allowed to reshare file
     As an "admin"
     Given user "user0" exists
