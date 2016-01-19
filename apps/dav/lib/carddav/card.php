@@ -33,7 +33,13 @@ class Card extends \Sabre\CardDAV\Card {
 			];
 		}
 
-		return $acl;
+		/** @var CardDavBackend $carddavBackend */
+		$carddavBackend = $this->carddavBackend;
+		return $carddavBackend->applyShareAcl($this->getBookId(), $acl);
+	}
+
+	private function getBookId() {
+		return $this->addressBookInfo['id'];
 	}
 
 }

@@ -9,7 +9,7 @@ sleep 30
 
 # run the tests
 cd "$SCRIPTPATH/CalDAVTester"
-PYTHONPATH="$SCRIPTPATH/pycalendar/src" python testcaldav.py --print-details-onfail -s "$SCRIPTPATH/../caldavtest/config/serverinfo.xml" -o cdt.txt \
+PYTHONPATH="$SCRIPTPATH/pycalendar/src" python testcaldav.py --print-details-onfail -s "$SCRIPTPATH/../caldavtest/serverinfo.xml" -o cdt.txt \
 	"$SCRIPTPATH/../caldavtest/tests/CalDAV/current-user-principal.xml"
 RESULT=$?
 

@@ -74,7 +74,7 @@ class PluginTest extends TestCase {
 		$request = new Request();
 		$request->addHeader('Content-Type', 'application/xml');
 		$request->setUrl('addressbook1.vcf');
-		$request->setBody('<?xml version="1.0" encoding="utf-8" ?><CS:share xmlns:D="DAV:" xmlns:CS="urn:ietf:params:xml:ns:carddav"><CS:set><D:href>principal:principals/admin</D:href><CS:read-write/></CS:set> <CS:remove><D:href>mailto:wilfredo@example.com</D:href></CS:remove></CS:share>');
+		$request->setBody('<?xml version="1.0" encoding="utf-8" ?><CS:share xmlns:D="DAV:" xmlns:CS="http://owncloud.org/ns"><CS:set><D:href>principal:principals/admin</D:href><CS:read-write/></CS:set> <CS:remove><D:href>mailto:wilfredo@example.com</D:href></CS:remove></CS:share>');
 		$response = new Response();
 		$this->plugin->httpPost($request, $response);
 	}

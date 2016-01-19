@@ -20,18 +20,8 @@
  */
 namespace OCA\DAV\Command;
 
-use OCA\DAV\CardDAV\CardDavBackend;
-use OCA\DAV\CardDAV\Converter;
 use OCA\DAV\CardDAV\SyncService;
-use OCA\DAV\Connector\Sabre\Principal;
-use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\IUser;
 use OCP\IUserManager;
-use Sabre\CardDAV\Plugin;
-use Sabre\VObject\Component\VCard;
-use Sabre\VObject\Property\Text;
-use Sabre\VObject\Reader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;

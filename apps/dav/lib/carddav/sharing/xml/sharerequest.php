@@ -20,6 +20,7 @@
  */
 namespace OCA\DAV\CardDAV\Sharing\Xml;
 
+use OCA\DAV\CardDAV\Sharing\Plugin;
 use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 
@@ -44,32 +45,32 @@ class ShareRequest implements XmlDeserializable {
 
     static function xmlDeserialize(Reader $reader) {
 
-        $elems = $reader->parseInnerTree([
-            '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV. '}set'    => 'Sabre\\Xml\\Element\\KeyValue',
-            '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}remove' => 'Sabre\\Xml\\Element\\KeyValue',
+        $elements = $reader->parseInnerTree([
+            '{' . Plugin::NS_OWNCLOUD. '}set'    => 'Sabre\\Xml\\Element\\KeyValue',
+            '{' . Plugin::NS_OWNCLOUD . '}remove' => 'Sabre\\Xml\\Element\\KeyValue',
         ]);
 
         $set = [];
         $remove = [];
 
-        foreach ($elems as $elem) {
+        foreach ($elements as $elem) {
             switch ($elem['name']) {
 
-                case '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}set' :
+                case '{' . Plugin::NS_OWNCLOUD . '}set' :
                     $sharee = $elem['value'];
 
-                    $sumElem = '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}summary';
-                    $commonName = '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}common-name';
+                    $sumElem = '{' . Plugin::NS_OWNCLOUD . '}summary';
+                    $commonName = '{' . Plugin::NS_OWNCLOUD . '}common-name';
 
                     $set[] = [
                         'href'       => $sharee['{DAV:}href'],
                         'commonName' => isset($sharee[$commonName]) ? $sharee[$commonName] : null,
                         'summary'    => isset($sharee[$sumElem]) ? $sharee[$sumElem] : null,
-                        'readOnly'   => !array_key_exists('{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}read-write', $sharee),
+                        'readOnly'   => !array_key_exists('{' . Plugin::NS_OWNCLOUD . '}read-write', $sharee),
                     ];
                     break;
 
-                case '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}remove' :
+                case '{' . Plugin::NS_OWNCLOUD . '}remove' :
                     $remove[] = $elem['value']['{DAV:}href'];
                     break;
 

@@ -37,7 +37,8 @@ class RootCollection extends SimpleCollection {
 		$config = \OC::$server->getConfig();
 		$db = \OC::$server->getDatabaseConnection();
 		$userPrincipalBackend = new Principal(
-			\OC::$server->getUserManager()
+			\OC::$server->getUserManager(),
+			\OC::$server->getGroupManager()
 		);
 		$groupPrincipalBackend = new GroupPrincipalBackend(
 			\OC::$server->getGroupManager()

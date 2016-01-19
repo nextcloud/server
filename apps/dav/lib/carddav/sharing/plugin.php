@@ -34,6 +34,8 @@ use Sabre\HTTP\ResponseInterface;
 
 class Plugin extends ServerPlugin {
 
+	const NS_OWNCLOUD = 'http://owncloud.org/ns';
+
 	/** @var Auth */
 	private $auth;
 
@@ -100,7 +102,7 @@ class Plugin extends ServerPlugin {
 	function initialize(Server $server) {
 		$this->server = $server;
 		$server->resourceTypeMapping['OCA\\DAV\CardDAV\\ISharedAddressbook'] = '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}shared';
-		$this->server->xml->elementMap['{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}share'] = 'OCA\\DAV\\CardDAV\\Sharing\\Xml\\ShareRequest';
+		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}share'] = 'OCA\\DAV\\CardDAV\\Sharing\\Xml\\ShareRequest';
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
 	}
@@ -148,7 +150,7 @@ class Plugin extends ServerPlugin {
 
 			// Dealing with the 'share' document, which modified invitees on a
 			// calendar.
-			case '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}share' :
+			case '{' . self::NS_OWNCLOUD . '}share' :
 
 				// We can only deal with IShareableCalendar objects
 				if (!$node instanceof IShareableAddressBook) {
