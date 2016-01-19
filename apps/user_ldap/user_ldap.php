@@ -152,8 +152,8 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * Get a list of all users
 	 *
 	 * @param string $search
-	 * @param null|int $limit
-	 * @param null|int $offset
+	 * @param integer $limit
+	 * @param integer $offset
 	 * @return string[] an array of all uids
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {

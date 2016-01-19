@@ -281,7 +281,6 @@ class Configuration {
 	 * 
 	 * @param string $varName name of config-key
 	 * @param array|string $value to set
-	 * @param boolean $trim Trim value? (default: false)
 	 */
 	protected function setMultiLine($varName, $value) {
 		if(empty($value)) {

@@ -261,6 +261,9 @@ class OC_Defaults {
 		return $footer;
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function buildDocLinkToKey($key) {
 		if ($this->themeExist('buildDocLinkToKey')) {
 			return $this->theme->buildDocLinkToKey($key);
