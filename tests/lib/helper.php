@@ -21,7 +21,7 @@ class Test_Helper extends \Test\TestCase {
 	{
 		return array(
 			array('0 B', 0),
-			array('1 kB', 1024),
+			array('1 KB', 1024),
 			array('9.5 MB', 10000000),
 			array('1.3 GB', 1395864371),
 			array('465.7 GB', 500000000000),
@@ -63,7 +63,7 @@ class Test_Helper extends \Test\TestCase {
 	function providesComputerFileSize(){
 		return [
 			[0.0, "0 B"],
-			[1024.0, "1 kB"],
+			[1024.0, "1 KB"],
 			[1395864371.0, '1.3 GB'],
 			[9961472.0, "9.5 MB"],
 			[500041567437.0, "465.7 GB"],

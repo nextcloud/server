@@ -213,7 +213,7 @@ describe('OCA.Files.FileList tests', function() {
 				.toEqual(OC.webroot + '/remote.php/webdav/subdir/testName.txt');
 			expect($tr.find('.nametext').text().trim()).toEqual('testName.txt');
 
-			expect($tr.find('.filesize').text()).toEqual('1 kB');
+			expect($tr.find('.filesize').text()).toEqual('1 KB');
 			expect($tr.find('.date').text()).not.toEqual('?');
 			expect(fileList.findFileEl('testName.txt')[0]).toEqual($tr[0]);
 		});
@@ -239,7 +239,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('123456');
 
-			expect($tr.find('.filesize').text()).toEqual('1 kB');
+			expect($tr.find('.filesize').text()).toEqual('1 KB');
 			expect($tr.find('.date').text()).not.toEqual('?');
 
 			expect(fileList.findFileEl('testFolder')[0]).toEqual($tr[0]);
@@ -296,7 +296,7 @@ describe('OCA.Files.FileList tests', function() {
 				size: '0'
 			};
 			var $tr = fileList.add(fileData);
-			expect($tr.find('.filesize').text()).toEqual('0 kB');
+			expect($tr.find('.filesize').text()).toEqual('0 KB');
 		});
 		it('generates file element with unknown date when mtime invalid', function() {
 			var fileData = {
@@ -424,7 +424,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.find('.info').text()).toEqual('1 folder and 2 files');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
-			expect($summary.find('.filesize').text()).toEqual('69 kB');
+			expect($summary.find('.filesize').text()).toEqual('69 KB');
 			expect(fileList.isEmpty).toEqual(false);
 		});
 		it('Shows empty content when removing last file', function() {
@@ -479,7 +479,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.find('.info').text()).toEqual('1 folder and 1 file');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
-			expect($summary.find('.filesize').text()).toEqual('57 kB');
+			expect($summary.find('.filesize').text()).toEqual('57 KB');
 			expect(fileList.isEmpty).toEqual(false);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(false);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(true);
@@ -777,7 +777,7 @@ describe('OCA.Files.FileList tests', function() {
 
 			// folder size has increased
 			expect(fileList.findFileEl('somedir').data('size')).toEqual(12311);
-			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('12 kB');
+			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('12 KB');
 
 			expect(notificationStub.notCalled).toEqual(true);
 		});
@@ -843,7 +843,7 @@ describe('OCA.Files.FileList tests', function() {
 			$summary = $('#filestable .summary');
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
-			expect($summary.find('.filesize').text()).toEqual('69 kB');
+			expect($summary.find('.filesize').text()).toEqual('69 KB');
 		});
 		it('shows headers, summary and hide empty content message after setting files', function(){
 			fileList.setFiles(testFiles);
