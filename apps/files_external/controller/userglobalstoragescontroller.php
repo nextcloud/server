@@ -22,6 +22,8 @@
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\Password\UserProvided;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use \OCP\AppFramework\Http\DataResponse;
@@ -135,6 +137,14 @@ class UserGlobalStoragesController extends StoragesController {
 	protected function sanitizeStorage(StorageConfig $storage) {
 		$storage->setBackendOptions([]);
 		$storage->setMountOptions([]);
+
+		if ($storage->getAuthMechanism() instanceof UserProvided) {
+			try {
+				$storage->getAuthMechanism()->manipulateStorageConfig($storage, $this->userSession->getUser());
+			} catch (InsufficientDataForMeaningfulAnswerException $e) {
+
+			}
+		}
 	}
 
 }

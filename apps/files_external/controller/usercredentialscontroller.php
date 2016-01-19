@@ -49,7 +49,6 @@ class UserCredentialsController extends Controller {
 	 * @param string $password
 	 *
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
 	 */
 	public function store($storageId, $username, $password) {
 		$this->authMechanism->saveCredentials($this->userSession->getUser(), $storageId, $username, $password);
