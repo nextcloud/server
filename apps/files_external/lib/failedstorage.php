@@ -174,7 +174,7 @@ class FailedStorage extends Common {
 	}
 
 	public function verifyPath($path, $fileName) {
-		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
+		return true;
 	}
 
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
@@ -205,4 +205,7 @@ class FailedStorage extends Common {
 		throw new StorageNotAvailableException($this->e->getMessage(), $this->e->getCode(), $this->e);
 	}
 
+	public function getCache($path = '', $storage = null) {
+		return new FailedCache();
+	}
 }
