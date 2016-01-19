@@ -90,6 +90,9 @@ class EncryptionControllerTest extends TestCase {
 	}
 
 	public function testStartMigrationSuccessful() {
+		// we need to be able to autoload the class we're mocking
+		\OC::$loader->addValidRoot(\OC_App::getAppPath('encryption'));
+
 		$migration = $this->getMockBuilder('\\OCA\\Encryption\\Migration')
 			->disableOriginalConstructor()->getMock();
 		$this->encryptionController
