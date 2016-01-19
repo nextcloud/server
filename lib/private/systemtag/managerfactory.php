@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -18,13 +18,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\Comments;
+namespace OC\SystemTag;
 
-use OCP\Comments\ICommentsManager;
-use OCP\Comments\ICommentsManagerFactory;
+use OCP\SystemTag\ISystemTagManagerFactory;
+use OCP\SystemTag\ISystemTagManager;
+use OC\SystemTag\SystemTagManager;
+use OC\SystemTag\SystemTagObjectMapper;
 use OCP\IServerContainer;
 
-class ManagerFactory implements ICommentsManagerFactory {
+/**
+ * Default factory class for system tag managers
+ *
+ * @package OCP\SystemTag
+ * @since 9.0.0
+ */
+class ManagerFactory implements ISystemTagManagerFactory {
 
 	/**
 	 * Server container
@@ -34,7 +42,7 @@ class ManagerFactory implements ICommentsManagerFactory {
 	private $serverContainer;
 
 	/**
-	 * Constructor for the comments manager factory
+	 * Constructor for the system tag manager factory
 	 *
 	 * @param IServerContainer $serverContainer server container
 	 */
@@ -43,15 +51,28 @@ class ManagerFactory implements ICommentsManagerFactory {
 	}
 
 	/**
-	 * creates and returns an instance of the ICommentsManager
+	 * Creates and returns an instance of the system tag manager
 	 *
-	 * @return ICommentsManager
+	 * @return ISystemTagManager
 	 * @since 9.0.0
 	 */
 	public function getManager() {
-		return new Manager(
+		return new SystemTagManager(
+			$this->serverContainer->getDatabaseConnection()
+		);
+	}
+
+	/**
+	 * Creates and returns an instance of the system tag object
+	 * mapper
+	 *
+	 * @return ISystemTagObjectMapper
+	 * @since 9.0.0
+	 */
+	public function getObjectMapper() {
+		return new SystemTagObjectMapper(
 			$this->serverContainer->getDatabaseConnection(),
-			$this->serverContainer->getLogger()
+			$this->getManager()
 		);
 	}
 }

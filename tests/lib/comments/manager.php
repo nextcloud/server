@@ -50,7 +50,7 @@ class Test_Comments_Manager extends TestCase
 	}
 
 	protected function getManager() {
-		$factory = new \OC\Comments\ManagerFactory();
+		$factory = new \OC\Comments\ManagerFactory(\OC::$server);
 		return $factory->getManager();
 	}
 

@@ -143,11 +143,18 @@ class Server extends ServerContainer implements IServerContainer {
 			$tagMapper = $c->query('TagMapper');
 			return new TagManager($tagMapper, $c->getUserSession());
 		});
+		$this->registerService('SystemTagManagerFactory', function (Server $c) {
+			$config = $c->getConfig();
+			$factoryClass = $config->getSystemValue('systemtags.managerFactory', '\OC\SystemTag\ManagerFactory');
+			/** @var \OC\SystemTag\ManagerFactory $factory */
+			$factory = new $factoryClass($this);
+			return $factory;
+		});
 		$this->registerService('SystemTagManager', function (Server $c) {
-			return new SystemTag\SystemTagManager($c->getDatabaseConnection());
+			return $c->query('SystemTagManagerFactory')->getManager();
 		});
 		$this->registerService('SystemTagObjectMapper', function (Server $c) {
-			return new SystemTag\SystemTagObjectMapper($c->getDatabaseConnection(), $c->getSystemTagManager());
+			return $c->query('SystemTagManagerFactory')->getObjectMapper();
 		});
 		$this->registerService('RootFolder', function (Server $c) {
 			// TODO: get user and user manager from container as well
@@ -533,7 +540,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('comments.managerFactory', '\OC\Comments\ManagerFactory');
 			/** @var \OCP\Comments\ICommentsManagerFactory $factory */
-			$factory = new $factoryClass();
+			$factory = new $factoryClass($this);
 			return $factory->getManager();
 		});
 		$this->registerService('EventDispatcher', function() {
