@@ -836,8 +836,9 @@ MountConfigListView.prototype = _.extend({
 		$tr.find('.backend').data('identifier', backend.identifier);
 
 		var selectAuthMechanism = $('<select class="selectAuthMechanism"></select>');
+		var neededVisibility = (this._isPersonal) ? 1 : 2;
 		$.each(this._allAuthMechanisms, function(authIdentifier, authMechanism) {
-			if (backend.authSchemes[authMechanism.scheme]) {
+			if (backend.authSchemes[authMechanism.scheme] && (authMechanism.visibility & neededVisibility)) {
 				selectAuthMechanism.append(
 					$('<option value="'+authMechanism.identifier+'" data-scheme="'+authMechanism.scheme+'">'+authMechanism.name+'</option>')
 				);
@@ -1136,9 +1137,7 @@ MountConfigListView.prototype = _.extend({
 	saveStorageConfig:function($tr, callback, concurrentTimer) {
 		var self = this;
 		var storage = this.getStorageConfig($tr);
-		console.log(storage);
 		if (!storage || !storage.validate()) {
-			console.log('invalid');
 			return false;
 		}
 

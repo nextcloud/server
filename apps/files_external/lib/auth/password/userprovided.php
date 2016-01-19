@@ -22,6 +22,7 @@
 namespace OCA\Files_External\Lib\Auth\Password;
 
 use OCA\Files_External\Lib\DefinitionParameter;
+use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
 use OCP\IUser;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -45,6 +46,7 @@ class UserProvided extends AuthMechanism {
 
 		$this
 			->setIdentifier('password::userprovided')
+			->setVisibility(BackendService::VISIBILITY_ADMIN)
 			->setScheme(self::SCHEME_PASSWORD)
 			->setText($l->t('User provided'))
 			->addParameters([
