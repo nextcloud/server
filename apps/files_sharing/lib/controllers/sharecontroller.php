@@ -248,9 +248,20 @@ class ShareController extends Controller {
 		// Show file list
 		if ($share->getPath() instanceof \OCP\Files\Folder) {
 			$shareTmpl['dir'] = $rootFolder->getRelativePath($path->getPath());
-			$maxUploadFilesize = Util::maxUploadFilesize($share->getPath()->getPath());
-			$freeSpace = Util::freeSpace($share->getPath()->getPath());
+
+			/*
+			 * The OC_Util methods require a view. This just uses the node API
+			 */
+			$freeSpace = $share->getPath()->getStorage()->free_space($share->getPath()->getInternalPath());
+			if ($freeSpace !== \OCP\Files\FileInfo::SPACE_UNKNOWN) {
+				$freeSpace = max($freeSpace, 0);
+			} else {
+				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
+			}
+
 			$uploadLimit = Util::uploadLimit();
+			$maxUploadFilesize = min($freeSpace, $uploadLimit);
+
 			$folder = new Template('files', 'list', '');
 			$folder->assign('dir', $rootFolder->getRelativePath($path->getPath()));
 			$folder->assign('dirToken', $token);
