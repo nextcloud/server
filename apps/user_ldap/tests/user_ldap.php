@@ -84,7 +84,8 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 				$this->getMock('\OCA\user_ldap\lib\LogWrapper'),
 				$this->getMock('\OCP\IAvatarManager'),
 				$this->getMock('\OCP\Image'),
-				$this->getMock('\OCP\IDBConnection')
+				$this->getMock('\OCP\IDBConnection'),
+				$this->getMock('\OCP\IUserManager')
 			  ])
 			->getMock();
 

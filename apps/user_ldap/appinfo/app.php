@@ -37,7 +37,8 @@ if(count($configPrefixes) === 1) {
 		new OCA\user_ldap\lib\LogWrapper(),
 		\OC::$server->getAvatarManager(),
 		new \OCP\Image(),
-		$dbc
+		$dbc,
+		\OC::$server->getUserManager()
 	);
 	$connector = new OCA\user_ldap\lib\Connection($ldapWrapper, $configPrefixes[0]);
 	$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper, $userManager);

@@ -29,6 +29,11 @@ use OCA\user_ldap\lib\user\User;
 use OCA\user_ldap\lib\LogWrapper;
 use OCA\user_ldap\lib\FilesystemHelper;
 use OCA\user_ldap\lib\user\OfflineUser;
+use OCP\IAvatarManager;
+use OCP\IConfig;
+use OCP\IDBConnection;
+use OCP\Image;
+use OCP\IUserManager;
 
 /**
  * Manager
@@ -40,10 +45,10 @@ class Manager {
 	/** @var IUserTools */
 	protected $access;
 
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	protected $ocConfig;
 
-	/** @var \OCP\IDBConnection */
+	/** @var IDBConnection */
 	protected $db;
 
 	/** @var FilesystemHelper */
@@ -52,7 +57,7 @@ class Manager {
 	/** @var LogWrapper */
 	protected $ocLog;
 
-	/** @var \OCP\Image */
+	/** @var Image */
 	protected $image;
 
 	/** @param \OCP\IAvatarManager */
@@ -69,18 +74,19 @@ class Manager {
 	);
 
 	/**
-	 * @param \OCP\IConfig $ocConfig
+	 * @param IConfig $ocConfig
 	 * @param \OCA\user_ldap\lib\FilesystemHelper $ocFilesystem object that
 	 * gives access to necessary functions from the OC filesystem
 	 * @param  \OCA\user_ldap\lib\LogWrapper $ocLog
-	 * @param \OCP\IAvatarManager $avatarManager
-	 * @param \OCP\Image $image an empty image instance
-	 * @param \OCP\IDBConnection $db
+	 * @param IAvatarManager $avatarManager
+	 * @param Image $image an empty image instance
+	 * @param IDBConnection $db
 	 * @throws \Exception when the methods mentioned above do not exist
 	 */
-	public function __construct(\OCP\IConfig $ocConfig,
-		FilesystemHelper $ocFilesystem, LogWrapper $ocLog,
-		\OCP\IAvatarManager $avatarManager, \OCP\Image $image, \OCP\IDBConnection $db) {
+	public function __construct(IConfig $ocConfig,
+								FilesystemHelper $ocFilesystem, LogWrapper $ocLog,
+								IAvatarManager $avatarManager, Image $image,
+								IDBConnection $db, IUserManager $userManager) {
 
 		$this->ocConfig      = $ocConfig;
 		$this->ocFilesystem  = $ocFilesystem;
@@ -88,6 +94,7 @@ class Manager {
 		$this->avatarManager = $avatarManager;
 		$this->image         = $image;
 		$this->db            = $db;
+		$this->userManager   = $userManager;
 	}
 
 	/**
@@ -110,7 +117,7 @@ class Manager {
 		$this->checkAccess();
 		$user = new User($uid, $dn, $this->access, $this->ocConfig,
 			$this->ocFilesystem, clone $this->image, $this->ocLog,
-			$this->avatarManager);
+			$this->avatarManager, $this->userManager);
 		$this->users['byDN'][$dn]   = $user;
 		$this->users['byUid'][$uid] = $user;
 		return $user;

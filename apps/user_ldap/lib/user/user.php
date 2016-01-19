@@ -27,6 +27,9 @@ use OCA\user_ldap\lib\user\IUserTools;
 use OCA\user_ldap\lib\Connection;
 use OCA\user_ldap\lib\FilesystemHelper;
 use OCA\user_ldap\lib\LogWrapper;
+use OCP\IAvatarManager;
+use OCP\IConfig;
+use OCP\IUserManager;
 
 /**
  * User
@@ -43,7 +46,7 @@ class User {
 	 */
 	protected $connection;
 	/**
-	 * @var \OCP\IConfig
+	 * @var IConfig
 	 */
 	protected $config;
 	/**
@@ -59,10 +62,13 @@ class User {
 	 */
 	protected $log;
 	/**
-	 * @var \OCP\IAvatarManager
+	 * @var IAvatarManager
 	 */
 	protected $avatarManager;
-
+	/**
+	 * @var IUserManager
+	 */
+	protected $userManager;
 	/**
 	 * @var string
 	 */
@@ -92,15 +98,16 @@ class User {
 	 * @param string $dn the LDAP DN
 	 * @param IUserTools $access an instance that implements IUserTools for
 	 * LDAP interaction
-	 * @param \OCP\IConfig $config
+	 * @param IConfig $config
 	 * @param FilesystemHelper $fs
 	 * @param \OCP\Image $image any empty instance
 	 * @param LogWrapper $log
-	 * @param \OCP\IAvatarManager $avatarManager
+	 * @param IAvatarManager $avatarManager
+	 * @param IUserManager $userManager
 	 */
 	public function __construct($username, $dn, IUserTools $access,
-		\OCP\IConfig $config, FilesystemHelper $fs, \OCP\Image $image,
-		LogWrapper $log, \OCP\IAvatarManager $avatarManager) {
+		IConfig $config, FilesystemHelper $fs, \OCP\Image $image,
+		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager) {
 
 		$this->access        = $access;
 		$this->connection    = $access->getConnection();
@@ -111,6 +118,7 @@ class User {
 		$this->image         = $image;
 		$this->log           = $log;
 		$this->avatarManager = $avatarManager;
+		$this->userManager   = $userManager;
 	}
 
 	/**
@@ -400,11 +408,8 @@ class User {
 			}
 		}
 		if(!is_null($email)) {
-			//
-			// TODO: user IUser::setEMailAddress()
-			//
-			$this->config->setUserValue(
-				$this->uid, 'settings', 'email', $email);
+			$user = $this->userManager->get($this->uid);
+			$user->setEMailAddress($email);
 		}
 	}
 
