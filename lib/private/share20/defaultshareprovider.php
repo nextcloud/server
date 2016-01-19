@@ -32,6 +32,8 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\Files\Node;
 
+use Doctrine\DBAL\Connection;
+
 /**
  * Class DefaultShareProvider
  *
@@ -373,10 +375,11 @@ class DefaultShareProvider implements IShareProvider {
 	 * @throws BackendError
 	 */
 	public function getSharedWith(IUser $user, $shareType, $limit, $offset) {
+		/** @var Share[] $shares */
 		$shares = [];
 
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
-			//Get shares directly w ith me
+			//Get shares directly with this user
 			$qb = $this->dbConn->getQueryBuilder();
 			$qb->select('*')
 				->from('share');
@@ -401,10 +404,47 @@ class DefaultShareProvider implements IShareProvider {
 			$cursor->closeCursor();
 
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
-			//TODO This can certianly be optimized at some point. But for now keep it simple and working
+			$allGroups = $this->groupManager->getUserGroups($user);
 
-			//TODO Get group shares for group of $user
-			//TODO Filter out user modified group shares and replace but keep original share stuff
+			$start = 0;
+			while(true) {
+				$groups = array_slice($allGroups, $start, 100);
+				$start += 100;
+
+				if ($groups === []) {
+					break;
+				}
+
+				$qb = $this->dbConn->getQueryBuilder();
+				$qb->select('*')
+					->from('share')
+					->orderBy('id')
+					->setFirstResult(0);
+
+				if ($limit !== -1) {
+					$qb->setMaxResults($limit);
+				}
+
+				$groups = array_map(function(IGroup $group) { return $group->getGID(); }, $groups);
+
+				$qb->where('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP));
+				$qb->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
+					$groups,
+					Connection::PARAM_STR_ARRAY
+				)));
+
+				$cursor = $qb->execute();
+				while($data = $cursor->fetch()) {
+					$shares[] = $this->createShare($data);
+				}
+				$cursor->closeCursor();
+
+				/*
+				 * Resolve all group shares to user specific shares
+				 * TODO: Optmize this!
+				 */
+				$shares = array_map([$this, 'resolveGroupShare'], $shares);
+			}
 		} else {
 			throw new BackendError();
 		}
@@ -534,6 +574,33 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		return $nodes[0];
+	}
+
+	/**
+	 * Resolve a group share to a user specific share
+	 * Thus if the user moved their group share make sure this is properly reflected here.
+	 *
+	 * @param Share $share
+	 * @return Share
+	 */
+	private function resolveGroupShare(Share $share) {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$stmt = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
+			->execute();
+
+		$data = $stmt->fetch();
+		$stmt->closeCursor();
+
+		if ($data !== false) {
+			$share->setPermissions($data['permissions']);
+			$share->setTarget($data['file_target']);
+		}
+
+		return $share;
 	}
 
 }
