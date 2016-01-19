@@ -679,18 +679,6 @@ class Manager {
 	}
 
 	/**
-	 * Get all shares that are shared with the current user
-	 *
-	 * @param int $shareType
-	 * @param int $page
-	 * @param int $perPage
-	 *
-	 * @return Share[]
-	 */
-	public function getSharedWithMe($shareType = null, $page=0, $perPage=50) {
-	}
-
-	/**
 	 * Get the share by token possible with password
 	 *
 	 * @param string $token

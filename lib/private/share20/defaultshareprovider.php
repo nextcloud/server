@@ -279,9 +279,9 @@ class DefaultShareProvider implements IShareProvider {
 
 		if ($limit !== -1) {
 			$qb->setMaxResults($limit);
-			$qb->setFirstResult($offset);
 		}
 
+		$qb->setFirstResult($offset);
 		$qb->orderBy('id');
 
 		$cursor = $qb->execute();
