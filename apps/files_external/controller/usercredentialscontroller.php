@@ -21,12 +21,19 @@
 
 namespace OCA\Files_External\Controller;
 
+use OCA\Calendar\Sabre\Backend;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\Password\UserProvided;
+use OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IUserSession;
 
-class UserCredentialsController extends Controller {
+class UserCredentialsController extends StoragesController {
 	/**
 	 * @var UserProvided
 	 */
@@ -37,10 +44,22 @@ class UserCredentialsController extends Controller {
 	 */
 	private $userSession;
 
-	public function __construct($appName, IRequest $request, UserProvided $authMechanism, IUserSession $userSession) {
-		parent::__construct($appName, $request);
+	/**
+	 * @var UserGlobalStoragesService
+	 */
+	private $globalStoragesService;
+
+	public function __construct(
+		$appName, IRequest $request,
+		UserProvided $authMechanism,
+		IUserSession $userSession,
+		IL10N $l10n,
+		UserGlobalStoragesService $globalStoragesService
+	) {
+		parent::__construct($appName, $request, $l10n, $globalStoragesService);
 		$this->authMechanism = $authMechanism;
 		$this->userSession = $userSession;
+		$this->globalStoragesService = $globalStoragesService;
 	}
 
 	/**
@@ -49,8 +68,32 @@ class UserCredentialsController extends Controller {
 	 * @param string $password
 	 *
 	 * @NoAdminRequired
+	 * @return DataResponse
 	 */
 	public function store($storageId, $username, $password) {
 		$this->authMechanism->saveCredentials($this->userSession->getUser(), $storageId, $username, $password);
+
+		$storage = $this->globalStoragesService->getStorage($storageId);
+
+		$this->updateStorageStatus($storage);
+
+		$storage->setBackendOptions([]);
+		$storage->setMountOptions([]);
+		$this->manipulateStorageConfig($storage);
+
+
+		return new DataResponse(
+			$storage,
+			Http::STATUS_OK
+		);
+	}
+
+	protected function manipulateStorageConfig(StorageConfig $storage) {
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+		$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		$backend->manipulateStorageConfig($storage, $this->userSession->getUser());
 	}
 }

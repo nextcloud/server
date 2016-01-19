@@ -25,6 +25,7 @@ namespace OCA\Files_External\Controller;
 
 
 use \OCP\IConfig;
+use OCP\IUser;
 use \OCP\IUserSession;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -114,6 +115,7 @@ abstract class StoragesController extends Controller {
 				$priority
 			);
 		} catch (\InvalidArgumentException $e) {
+			\OC::$server->getLogger()->logException($e);
 			return new DataResponse(
 				[
 					'message' => (string)$this->l10n->t('Invalid backend or authentication mechanism class')

@@ -35,6 +35,7 @@ class DefinitionParameter implements \JsonSerializable {
 	/** Flag constants */
 	const FLAG_NONE = 0;
 	const FLAG_OPTIONAL = 1;
+	const FLAG_USER_PROVIDED = 2;
 
 	/** @var string name of parameter */
 	private $name;
@@ -121,7 +122,7 @@ class DefinitionParameter implements \JsonSerializable {
 	 * @return bool
 	 */
 	public function isFlagSet($flag) {
-		return (bool) $this->flags & $flag;
+		return (bool)($this->flags & $flag);
 	}
 
 	/**
@@ -143,10 +144,11 @@ class DefinitionParameter implements \JsonSerializable {
 				break;
 		}
 
-		switch ($this->getFlags()) {
-			case self::FLAG_OPTIONAL:
-				$prefix = '&' . $prefix;
-				break;
+		if ($this->isFlagSet(self::FLAG_OPTIONAL)) {
+			$prefix = '&' . $prefix;
+		}
+		if ($this->isFlagSet(self::FLAG_USER_PROVIDED)) {
+			$prefix = '@' . $prefix;
 		}
 
 		return $prefix . $this->getText();
@@ -160,28 +162,28 @@ class DefinitionParameter implements \JsonSerializable {
 	 * @return bool success
 	 */
 	public function validateValue(&$value) {
-		$optional = $this->getFlags() & self::FLAG_OPTIONAL;
+		$optional = $this->isFlagSet(self::FLAG_OPTIONAL) || $this->isFlagSet(self::FLAG_USER_PROVIDED);
 
 		switch ($this->getType()) {
-		case self::VALUE_BOOLEAN:
-			if (!is_bool($value)) {
-				switch ($value) {
-				case 'true':
-					$value = true;
-					break;
-				case 'false':
-					$value = false;
-					break;
-				default:
+			case self::VALUE_BOOLEAN:
+				if (!is_bool($value)) {
+					switch ($value) {
+						case 'true':
+							$value = true;
+							break;
+						case 'false':
+							$value = false;
+							break;
+						default:
+							return false;
+					}
+				}
+				break;
+			default:
+				if (!$value && !$optional) {
 					return false;
 				}
-			}
-			break;
-		default:
-			if (!$value && !$optional) {
-				return false;
-			}
-			break;
+				break;
 		}
 		return true;
 	}

@@ -21,6 +21,7 @@
 
 namespace OCA\Files_External\Lib\Auth\Password;
 
+use OCA\Files_External\Lib\DefinitionParameter;
 use OCP\IL10N;
 use OCP\IUser;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -46,7 +47,13 @@ class UserProvided extends AuthMechanism {
 			->setIdentifier('password::userprovided')
 			->setScheme(self::SCHEME_PASSWORD)
 			->setText($l->t('User provided'))
-			->addParameters([]);
+			->addParameters([
+				(new DefinitionParameter('user', $l->t('Username')))
+					->setFlag(DefinitionParameter::FLAG_USER_PROVIDED),
+				(new DefinitionParameter('password', $l->t('Password')))
+					->setType(DefinitionParameter::VALUE_PASSWORD)
+					->setFlag(DefinitionParameter::FLAG_USER_PROVIDED),
+			]);
 	}
 
 	private function getCredentialsIdentifier($storageId) {

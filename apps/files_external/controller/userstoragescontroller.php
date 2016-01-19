@@ -25,6 +25,7 @@ namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCP\IConfig;
+use OCP\IUser;
 use \OCP\IUserSession;
 use \OCP\IRequest;
 use \OCP\IL10N;
