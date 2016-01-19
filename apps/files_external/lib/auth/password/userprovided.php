@@ -21,6 +21,7 @@
 
 namespace OCA\Files_External\Lib\Auth\Password;
 
+use OCA\Files_External\Lib\Auth\IUserProvided;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
@@ -34,7 +35,7 @@ use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 /**
  * User provided Username and Password
  */
-class UserProvided extends AuthMechanism {
+class UserProvided extends AuthMechanism implements IUserProvided {
 
 	const CREDENTIALS_IDENTIFIER_PREFIX = 'password::userprovided/';
 
@@ -62,10 +63,10 @@ class UserProvided extends AuthMechanism {
 		return self::CREDENTIALS_IDENTIFIER_PREFIX . $storageId;
 	}
 
-	public function saveCredentials(IUser $user, $id, $username, $password) {
+	public function saveBackendOptions(IUser $user, $id, array $options) {
 		$this->credentialsManager->store($user->getUID(), $this->getCredentialsIdentifier($id), [
-			'user' => $username,
-			'password' => $password
+			'user' => $options['user'], // explicitly copy the fields we want instead of just passing the entire $options array
+			'password' => $options['password'] // this way we prevent users from being able to modify any other field
 		]);
 	}
 

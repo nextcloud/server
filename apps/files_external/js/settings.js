@@ -447,34 +447,7 @@ var UserGlobalStorageConfig = function (id) {
 UserGlobalStorageConfig.prototype = _.extend({}, StorageConfig.prototype,
 	/** @lends OCA.External.Settings.UserStorageConfig.prototype */ {
 
-	_url: 'apps/files_external/userglobalstorages',
-
-	/**
-	 * Creates or saves the storage.
-	 *
-	 * @param {Function} [options.success] success callback, receives result as argument
-	 * @param {Function} [options.error] error callback
-	 */
-	save: function (options) {
-		var self = this;
-		var url = OC.generateUrl('apps/files_external/usercredentials/{id}', {id: this.id});
-
-		$.ajax({
-			type: 'PUT',
-			url: url,
-			contentType: 'application/json',
-			data: JSON.stringify({
-				username: this.backendOptions.user,
-				password: this.backendOptions.password
-			}),
-			success: function (result) {
-				if (_.isFunction(options.success)) {
-					options.success(result);
-				}
-			},
-			error: options.error
-		});
-	}
+	_url: 'apps/files_external/userglobalstorages'
 });
 
 /**
@@ -914,9 +887,10 @@ MountConfigListView.prototype = _.extend({
 					var onCompletion = jQuery.Deferred();
 					$.each(result, function(i, storageParams) {
 						var storageConfig;
-						var isUserProvidedAuth = storageParams.authMechanism === 'password::userprovided';
+						console.log(storageParams);
+						var isUserGlobal = storageParams.type === 'system' && self._isPersonal;
 						storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
-						if (isUserProvidedAuth) {
+						if (isUserGlobal) {
 							storageConfig = new UserGlobalStorageConfig();
 						} else {
 							storageConfig = new self._storageConfigClass();
@@ -935,7 +909,7 @@ MountConfigListView.prototype = _.extend({
 						$tr.find('.mountOptionsToggle, .remove').empty();
 						$tr.find('input:not(.user_provided), select:not(.user_provided)').attr('disabled', 'disabled');
 
-						if (isUserProvidedAuth) {
+						if (isUserGlobal) {
 							$tr.find('.configuration').find(':not(.user_provided)').remove();
 						} else {
 							// userglobal storages do not expose configuration data

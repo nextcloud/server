@@ -22,12 +22,12 @@
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\IUserProvided;
 use OCA\Files_External\Lib\Auth\Password\UserProvided;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use \OCP\AppFramework\Http\DataResponse;
-use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http;
 use \OCA\Files_external\Service\UserGlobalStoragesService;
 use \OCA\Files_external\NotFoundException;
@@ -127,6 +127,54 @@ class UserGlobalStoragesController extends StoragesController {
 			$storage,
 			Http::STATUS_OK
 		);
+	}
+
+	/**
+	 * Update an external storage entry.
+	 * Only allows setting user provided backend fields
+	 *
+	 * @param int $id storage id
+	 * @param array $backendOptions backend-specific options
+	 *
+	 * @return DataResponse
+	 *
+	 * @NoAdminRequired
+	 */
+	public function update(
+		$id,
+		$backendOptions
+	) {
+		try {
+			$storage = $this->service->getStorage($id);
+			$authMechanism = $storage->getAuthMechanism();
+			if ($authMechanism instanceof IUserProvided) {
+				$authMechanism->saveBackendOptions($this->userSession->getUser(), $id, $backendOptions);
+				$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
+			} else {
+				return new DataResponse(
+					[
+						'message' => (string)$this->l10n->t('Storage with id "%i" is not user editable', array($id))
+					],
+					Http::STATUS_FORBIDDEN
+				);
+			}
+		} catch (NotFoundException $e) {
+			return new DataResponse(
+				[
+					'message' => (string)$this->l10n->t('Storage with id "%i" not found', array($id))
+				],
+				Http::STATUS_NOT_FOUND
+			);
+		}
+
+		$this->updateStorageStatus($storage);
+		$this->sanitizeStorage($storage);
+
+		return new DataResponse(
+			$storage,
+			Http::STATUS_OK
+		);
+
 	}
 
 	/**
