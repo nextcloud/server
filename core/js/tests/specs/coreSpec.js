@@ -524,7 +524,7 @@ describe('Core base tests', function() {
 					["0", '0 B'],
 					["A", 'NaN B'],
 					[125, '125 B'],
-					[128000, '125 kB'],
+					[128000, '125 KB'],
 					[128000000, '122.1 MB'],
 					[128000000000, '119.2 GB'],
 					[128000000000000, '116.4 TB']
@@ -535,9 +535,9 @@ describe('Core base tests', function() {
 			});
 			it('renders file sizes with the correct unit for small sizes', function() {
 				var data = [
-					[0, '0 kB'],
-					[125, '< 1 kB'],
-					[128000, '125 kB'],
+					[0, '0 KB'],
+					[125, '< 1 KB'],
+					[128000, '125 KB'],
 					[128000000, '122.1 MB'],
 					[128000000000, '119.2 GB'],
 					[128000000000000, '116.4 TB']
