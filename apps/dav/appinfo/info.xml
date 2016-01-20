@@ -14,7 +14,9 @@
 		<files>appinfo/v1/webdav.php</files>
 		<webdav>appinfo/v1/webdav.php</webdav>
 		<dav>appinfo/v2/remote.php</dav>
-	</remote>
+		<!-- carddav endpoints as used before ownCloud 9.0-->
+		<contacts>appinfo/v1/carddav.php</contacts>
+		<carddav>appinfo/v1/carddav.php</carddav>	</remote>
 	<public>
 		<webdav>appinfo/v1/publicwebdav.php</webdav>
 	</public>
