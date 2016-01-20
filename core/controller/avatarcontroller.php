@@ -24,7 +24,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\Core\Avatar;
+namespace OC\Core\Controller;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -42,7 +42,7 @@ use OCP\Files\Folder;
 /**
  * Class AvatarController
  *
- * @package OC\Core\Avatar
+ * @package OC\Core\Controller
  */
 class AvatarController extends Controller {
 
