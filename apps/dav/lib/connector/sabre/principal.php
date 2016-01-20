@@ -147,8 +147,6 @@ class Principal implements BackendInterface {
 				return $this->principalPrefix . '/' . $group->getGID();
 			}, $groups);
 
-//			$groups[]= $this->principalPrefix . '/' . $name . '/calendar-proxy-read';
-//			$groups[]= $this->principalPrefix . '/' . $name . '/calendar-proxy-write';
 			return $groups;
 		}
 		return [];
