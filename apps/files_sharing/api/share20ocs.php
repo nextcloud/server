@@ -330,7 +330,6 @@ class Share20OCS {
 	private function getSharedWithMe() {
 		$userShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_USER, -1, 0);
 		$groupShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, -1, 0);
-		//TODO add federated provider
 
 		$shares = array_merge($userShares, $groupShares);
 
@@ -355,12 +354,11 @@ class Share20OCS {
 		/** @var IShare[] $shares */
 		$shares = [];
 		foreach ($nodes as $node) {
-			$userShares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
-			$groupShares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
-			$linkShares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
+			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
+			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
 			//TODO: Add federated shares
 
-			$shares = array_merge($shares, $userShares, $groupShares, $linkShares);
 		}
 
 		$formatted = [];

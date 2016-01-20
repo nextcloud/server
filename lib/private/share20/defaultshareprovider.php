@@ -367,8 +367,8 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Get shared with the given user
 	 *
-	 * @param IUser $user
-	 * @param int $shareType
+	 * @param IUser $user get shares where this user is the recipient
+	 * @param int $shareType \OCP\Share::SHARE_TYPE_USER or \OCP\Share::SHARE_TYPE_GROUP are supported
 	 * @param int $limit The maximum number of shares, -1 for all
 	 * @param int $offset
 	 * @return IShare[]
@@ -450,7 +450,7 @@ class DefaultShareProvider implements IShareProvider {
  			 */
 			$shares = array_map([$this, 'resolveGroupShare'], $shares);
 		} else {
-			throw new BackendError();
+			throw new BackendError('Invalid backend');
 		}
 
 
@@ -585,7 +585,7 @@ class DefaultShareProvider implements IShareProvider {
 	 * Thus if the user moved their group share make sure this is properly reflected here.
 	 *
 	 * @param Share $share
-	 * @return Share
+	 * @return Share Returns the updated share if one was found else return the original share.
 	 */
 	private function resolveGroupShare(Share $share) {
 		$qb = $this->dbConn->getQueryBuilder();
