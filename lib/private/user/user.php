@@ -137,11 +137,34 @@ class User implements IUser {
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
 		if ($this->backend->implementsActions(\OC_User_Backend::SET_DISPLAYNAME) && !empty($displayName)) {
-			$this->displayName = $displayName;
 			$result = $this->backend->setDisplayName($this->uid, $displayName);
+			if ($result) {
+				$this->displayName = $displayName;
+				if ($this->emitter) {
+					$this->emitter->emit('\OC\User', 'changeUser', array($this));
+				}
+			}
 			return $result !== false;
 		} else {
 			return false;
+		}
+	}
+
+	/**
+	 * set the email address of the user
+	 *
+	 * @param string|null $mailAddress
+	 * @return void
+	 * @since 9.0.0
+	 */
+	public function setEMailAddress($mailAddress) {
+		if($mailAddress === '') {
+			$this->config->deleteUserValue($this->uid, 'settings', 'email');
+		} else {
+			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
+		}
+		if ($this->emitter) {
+			$this->emitter->emit('\OC\User', 'changeUser', array($this));
 		}
 	}
 
@@ -365,4 +388,5 @@ class User implements IUser {
 
 		return $url;
 	}
+
 }

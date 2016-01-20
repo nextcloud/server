@@ -229,6 +229,10 @@ class Server extends ServerContainer implements IServerContainer {
 			$userSession->listen('\OC\User', 'logout', function () {
 				\OC_Hook::emit('OC_User', 'logout', array());
 			});
+			$userSession->listen('\OC\User', 'changeUser', function ($user) {
+				/** @var $user \OC\User\User */
+				\OC_Hook::emit('OC_User', 'changeUser', array('run' => true, 'user' => $user));
+			});
 			return $userSession;
 		});
 		$this->registerService('NavigationManager', function ($c) {

@@ -373,7 +373,7 @@ class UsersController extends Controller {
 			 * Send new user mail only if a mail is set
 			 */
 			if($email !== '') {
-				$this->config->setUserValue($username, 'settings', 'email', $email);
+				$user->setEMailAddress($email);
 
 				// data for the mail template
 				$mailData = array(
@@ -545,11 +545,7 @@ class UsersController extends Controller {
 		}
 
 		// delete user value if email address is empty
-		if($mailAddress === '') {
-			$this->config->deleteUserValue($id, 'settings', 'email');
-		} else {
-			$this->config->setUserValue($id, 'settings', 'email', $mailAddress);
-		}
+		$user->setEMailAddress($mailAddress);
 
 		return new DataResponse(
 			array(

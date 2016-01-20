@@ -47,6 +47,9 @@ class Test_LocalAddressBook extends \Test\TestCase
 
 class SimpleUserForTesting implements IUser {
 
+	private $uid;
+	private $displayName;
+
 	public function __construct($uid, $displayName) {
 
 		$this->uid = $uid;
@@ -104,5 +107,8 @@ class SimpleUserForTesting implements IUser {
 	}
 
 	public function getCloudId() {
+	}
+
+	public function setEMailAddress($mailAddress) {
 	}
 }

@@ -1679,11 +1679,11 @@ class UsersControllerTest extends \Test\TestCase {
 	 */
 	public function setEmailAddressData() {
 		return [
-			/* mailAddress,    isValid, expectsUpdate, expectsDelete, canChangeDisplayName, responseCode */
-			[ '',              true,    false,         true,          true,                 Http::STATUS_OK ],
-			[ 'foo@local',     true,    true,          false,         true,                 Http::STATUS_OK],
-			[ 'foo@bar@local', false,   false,         false,         true,                 Http::STATUS_UNPROCESSABLE_ENTITY],
-			[ 'foo@local',     true,    false,         false,         false,                Http::STATUS_FORBIDDEN],
+			/* mailAddress,    isValid, expectsUpdate, canChangeDisplayName, responseCode */
+			[ '',              true,    true,          true,                 Http::STATUS_OK ],
+			[ 'foo@local',     true,    true,          true,                 Http::STATUS_OK],
+			[ 'foo@bar@local', false,   false,         true,                 Http::STATUS_UNPROCESSABLE_ENTITY],
+			[ 'foo@local',     true,    false,         false,                Http::STATUS_FORBIDDEN],
 		];
 	}
 
@@ -1695,7 +1695,7 @@ class UsersControllerTest extends \Test\TestCase {
 	 * @param bool $expectsUpdate
 	 * @param bool $expectsDelete
 	 */
-	public function testSetEmailAddress($mailAddress, $isValid, $expectsUpdate, $expectsDelete, $canChangeDisplayName, $responseCode) {
+	public function testSetEmailAddress($mailAddress, $isValid, $expectsUpdate, $canChangeDisplayName, $responseCode) {
 		$this->container['IsAdmin'] = true;
 
 		$user = $this->getMockBuilder('\OC\User\User')
@@ -1708,6 +1708,13 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->any())
 			->method('canChangeDisplayName')
 			->will($this->returnValue($canChangeDisplayName));
+		$user
+			->expects($expectsUpdate ? $this->once() : $this->never())
+			->method('setEMailAddress')
+			->with(
+				$this->equalTo($mailAddress)
+			);
+
 		$this->container['UserSession']
 			->expects($this->atLeastOnce())
 			->method('getUser')
@@ -1729,26 +1736,6 @@ class UsersControllerTest extends \Test\TestCase {
 				->with('foo')
 				->will($this->returnValue($user));
 		}
-
-		$this->container['Config']
-			->expects(($expectsUpdate) ? $this->once() : $this->never())
-			->method('setUserValue')
-			->with(
-				$this->equalTo($user->getUID()),
-				$this->equalTo('settings'),
-				$this->equalTo('email'),
-				$this->equalTo($mailAddress)
-
-			);
-		$this->container['Config']
-			->expects(($expectsDelete) ? $this->once() : $this->never())
-			->method('deleteUserValue')
-			->with(
-				$this->equalTo($user->getUID()),
-				$this->equalTo('settings'),
-				$this->equalTo('email')
-
-			);
 
 		$response = $this->container['UsersController']->setMailAddress($user->getUID(), $mailAddress);
 

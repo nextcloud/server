@@ -175,7 +175,8 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 				new LogWrapper(),
 				\OC::$server->getAvatarManager(),
 				new \OCP\Image(),
-				$dbc);
+				$dbc,
+				\OC::$server->getUserManager());
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
 			$ldapAccess = new Access($connector, $ldapWrapper, $userManager);
 			$groupMapper = new GroupMapping($dbc);

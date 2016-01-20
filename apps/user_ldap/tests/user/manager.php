@@ -44,6 +44,7 @@ class Test_User_Manager extends \Test\TestCase {
 		$avaMgr = $this->getMock('\OCP\IAvatarManager');
 		$image = $this->getMock('\OCP\Image');
 		$dbc = $this->getMock('\OCP\IDBConnection');
+		$userMgr = $this->getMock('\OCP\IUserManager');
 
 		$connection = new \OCA\user_ldap\lib\Connection(
 			$lw  = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper'),
@@ -55,11 +56,11 @@ class Test_User_Manager extends \Test\TestCase {
 			->method('getConnection')
 			->will($this->returnValue($connection));
 
-		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc);
+		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr);
 	}
 
 	public function testGetByDNExisting() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		$inputDN = 'cn=foo,dc=foobar,dc=bar';
@@ -78,7 +79,7 @@ class Test_User_Manager extends \Test\TestCase {
 		$access->expects($this->never())
 			->method('username2dn');
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
 		$manager->setLdapAccess($access);
 		$user = $manager->get($inputDN);
 
@@ -90,7 +91,7 @@ class Test_User_Manager extends \Test\TestCase {
 	}
 
 	public function testGetByEDirectoryDN() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		$inputDN = 'uid=foo,o=foobar,c=bar';
@@ -109,7 +110,7 @@ class Test_User_Manager extends \Test\TestCase {
 		$access->expects($this->never())
 			->method('username2dn');
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
 		$manager->setLdapAccess($access);
 		$user = $manager->get($inputDN);
 
@@ -117,7 +118,7 @@ class Test_User_Manager extends \Test\TestCase {
 	}
 
 	public function testGetByExoticDN() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		$inputDN = 'ab=cde,f=ghei,mno=pq';
@@ -136,7 +137,7 @@ class Test_User_Manager extends \Test\TestCase {
 		$access->expects($this->never())
 			->method('username2dn');
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
 		$manager->setLdapAccess($access);
 		$user = $manager->get($inputDN);
 
@@ -144,7 +145,7 @@ class Test_User_Manager extends \Test\TestCase {
 	}
 
 	public function testGetByDNNotExisting() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		$inputDN = 'cn=gone,dc=foobar,dc=bar';
@@ -164,7 +165,7 @@ class Test_User_Manager extends \Test\TestCase {
 			->with($this->equalTo($inputDN))
 			->will($this->returnValue(false));
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
 		$manager->setLdapAccess($access);
 		$user = $manager->get($inputDN);
 
@@ -172,7 +173,7 @@ class Test_User_Manager extends \Test\TestCase {
 	}
 
 	public function testGetByUidExisting() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		$dn = 'cn=foo,dc=foobar,dc=bar';
@@ -191,7 +192,7 @@ class Test_User_Manager extends \Test\TestCase {
 			->with($this->equalTo($uid))
 			->will($this->returnValue(false));
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
 		$manager->setLdapAccess($access);
 		$user = $manager->get($uid);
 
@@ -203,7 +204,7 @@ class Test_User_Manager extends \Test\TestCase {
 	}
 
 	public function testGetByUidNotExisting() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		$dn = 'cn=foo,dc=foobar,dc=bar';
@@ -217,7 +218,7 @@ class Test_User_Manager extends \Test\TestCase {
 			->with($this->equalTo($uid))
 			->will($this->returnValue(false));
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
 		$manager->setLdapAccess($access);
 		$user = $manager->get($uid);
 
@@ -225,10 +226,10 @@ class Test_User_Manager extends \Test\TestCase {
 	}
 
 	public function testGetAttributesAll() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
 		$manager->setLdapAccess($access);
 
 		$connection = $access->getConnection();
@@ -243,10 +244,10 @@ class Test_User_Manager extends \Test\TestCase {
 	}
 
 	public function testGetAttributesMinimal() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
-		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc);
+		$manager = new Manager($config, $filesys, $log, $avaMgr, $image, $dbc, $userMgr);
 		$manager->setLdapAccess($access);
 
 		$attributes = $manager->getAttributes(true);

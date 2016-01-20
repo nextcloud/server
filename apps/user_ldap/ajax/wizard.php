@@ -54,7 +54,8 @@ $userManager = new \OCA\user_ldap\lib\user\Manager(
 	new \OCA\user_ldap\lib\LogWrapper(),
 	\OC::$server->getAvatarManager(),
 	new \OCP\Image(),
-	\OC::$server->getDatabaseConnection());
+	\OC::$server->getDatabaseConnection(),
+	\OC::$server->getUserManager());
 
 $access = new \OCA\user_ldap\lib\Access($con, $ldapWrapper, $userManager);
 

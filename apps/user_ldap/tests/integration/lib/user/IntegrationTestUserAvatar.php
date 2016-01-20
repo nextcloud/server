@@ -123,7 +123,8 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 			new \OCA\user_ldap\lib\LogWrapper(),
 			\OC::$server->getAvatarManager(),
 			new \OCP\Image(),
-			\OC::$server->getDatabaseConnection()
+			\OC::$server->getDatabaseConnection(),
+			\OC::$server->getUserManager()
 		);
 	}
 

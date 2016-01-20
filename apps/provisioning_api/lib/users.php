@@ -285,7 +285,7 @@ class Users {
 				break;
 			case 'email':
 				if(filter_var($parameters['_put']['value'], FILTER_VALIDATE_EMAIL)) {
-					$this->config->setUserValue($targetUserId, 'settings', 'email', $parameters['_put']['value']);
+					$targetUser->setEMailAddress($parameters['_put']['value']);
 				} else {
 					return new OC_OCS_Result(null, 102);
 				}
