@@ -240,11 +240,13 @@ class SyncService {
 		return $this->localSystemAddressBook;
 	}
 
-	public function syncInstance(\Closure $progressCallback) {
+	public function syncInstance(\Closure $progressCallback = null) {
 		$systemAddressBook = $this->getLocalSystemAddressBook();
 		$this->userManager->callForAllUsers(function($user) use ($systemAddressBook, $progressCallback) {
 			$this->updateUser($user);
-			$progressCallback();
+			if (!is_null($progressCallback)) {
+				$progressCallback();
+			}
 		});
 
 		// remove no longer existing

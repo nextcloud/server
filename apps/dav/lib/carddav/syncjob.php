@@ -19,18 +19,22 @@
  *
  */
 
+namespace OCA\DAV\CardDAV;
+
+use OC\BackgroundJob\TimedJob;
 use OCA\Dav\AppInfo\Application;
 
-$app = new Application();
-$app->registerHooks();
+class SyncJob extends TimedJob {
 
-\OC::$server->registerService('CardDAVSyncService', function() use ($app) {
+	public function __construct() {
+		// Run once a day
+		$this->setInterval(24 * 60 * 60);
+	}
 
-	return $app->getSyncService();
-});
-
-$cm = \OC::$server->getContactsManager();
-$cm->register(function() use ($cm, $app) {
-	$userId = \OC::$server->getUserSession()->getUser()->getUID();
-	$app->setupContactsProvider($cm, $userId);
-});
+	protected function run($argument) {
+		$app = new Application();
+		/** @var SyncService $ss */
+		$ss = $app->getSyncService();
+		$ss->syncInstance();
+	}
+}
