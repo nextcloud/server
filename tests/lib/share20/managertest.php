@@ -86,7 +86,7 @@ class ManagerTest extends \Test\TestCase {
  				return vsprintf($text, $parameters);
  			}));
 
-		$this->factory = new DummyFactory();
+		$this->factory = new DummyFactory(\OC::$server);
 
 		$this->manager = new Manager(
 			$this->logger,
@@ -1498,6 +1498,10 @@ class DummyFactory implements IProviderFactory {
 
 	/** @var IShareProvider */
 	private $provider;
+
+	public function __construct(\OCP\IServerContainer $serverContainer) {
+
+	}
 
 	/**
 	 * @param IShareProvider $provider
