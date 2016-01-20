@@ -88,11 +88,3 @@
 	<?php p($l->t('The files you are trying to upload exceed the maximum size for file uploads on this server.'));?>
 	</p>
 </div>
-<div id="scanning-message">
-	<h3>
-		<?php p($l->t('Files are being scanned, please wait.'));?> <span id='scan-count'></span>
-	</h3>
-	<p>
-		<?php p($l->t('Currently scanning'));?> <span id='scan-current'></span>
-	</p>
-</div>

@@ -682,8 +682,6 @@ table tr.summary td {
 	margin-left: 90px;
 }
 
-#scanning-message{ top:40%; left:40%; position:absolute; display:none; }
-
 table.dragshadow {
 	width:auto;
 }
