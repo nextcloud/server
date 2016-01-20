@@ -246,13 +246,13 @@ class DefaultShareProvider implements IShareProvider {
 	 *
 	 * @param IUser $user
 	 * @param int $shareType
-	 * @param \OCP\Files\File|\OCP\Files\Folder $path
-	 * @param bool $reshares
+	 * @param \OCP\Files\File|\OCP\Files\Folder $node
+	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
 	 * @param int $limit The maximum number of shares to be returned, -1 for all shares
 	 * @param int $offset
 	 * @return Share[]
 	 */
-	public function getSharesBy(IUser $user, $shareType, $path, $reshares, $limit, $offset) {
+	public function getSharesBy(IUser $user, $shareType, $node, $reshares, $limit, $offset) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
 			->from('share');
@@ -273,8 +273,8 @@ class DefaultShareProvider implements IShareProvider {
 			);
 		}
 
-		if ($path !== null) {
-			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($path->getId())));
+		if ($node !== null) {
+			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
 		}
 
 		if ($limit !== -1) {
@@ -422,12 +422,12 @@ class DefaultShareProvider implements IShareProvider {
 					->setFirstResult(0);
 
 				if ($limit !== -1) {
-					$qb->setMaxResults($limit);
+					$qb->setMaxResults($limit - count($shares));
 				}
 
 				$groups = array_map(function(IGroup $group) { return $group->getGID(); }, $groups);
 
-				$qb->where('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP));
+				$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)));
 				$qb->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
 					$groups,
 					Connection::PARAM_STR_ARRAY
@@ -435,16 +435,20 @@ class DefaultShareProvider implements IShareProvider {
 
 				$cursor = $qb->execute();
 				while($data = $cursor->fetch()) {
+					if ($offset > 0) {
+						$offset--;
+						continue;
+					}
 					$shares[] = $this->createShare($data);
 				}
 				$cursor->closeCursor();
-
-				/*
-				 * Resolve all group shares to user specific shares
-				 * TODO: Optmize this!
-				 */
-				$shares = array_map([$this, 'resolveGroupShare'], $shares);
 			}
+
+			/*
+ 			 * Resolve all group shares to user specific shares
+ 			 * TODO: Optmize this!
+ 			 */
+			$shares = array_map([$this, 'resolveGroupShare'], $shares);
 		} else {
 			throw new BackendError();
 		}
