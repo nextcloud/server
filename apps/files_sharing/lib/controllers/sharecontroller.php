@@ -324,10 +324,14 @@ class ShareController extends Controller {
 
 		// Single file share
 		if ($share->getPath() instanceof \OCP\Files\File) {
-			$this->activityManager->publishActivity(
-				'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$originalSharePath], '', [],
-				$originalSharePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
-			);
+			// Single file download
+			$event = $this->activityManager->generateEvent();
+			$event->setApp('files_sharing')
+				->setType(Activity::TYPE_PUBLIC_LINKS)
+				->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($share->getPath()->getPath())])
+				->setAffectedUser($share->getShareOwner()->getUID())
+				->setObject('files', $share->getPath()->getId(), $userFolder->getRelativePath($share->getPath()->getPath()));
+			$this->activityManager->publish($event);
 		}
 		// Directory share
 		else {
@@ -347,35 +351,43 @@ class ShareController extends Controller {
 
 			if ($node instanceof \OCP\Files\File) {
 				// Single file download
-				$this->activityManager->publishActivity(
-					'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$originalSharePath], '', [],
-					$originalSharePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
-				);
+				$event = $this->activityManager->generateEvent();
+				$event->setApp('files_sharing')
+					->setType(Activity::TYPE_PUBLIC_LINKS)
+					->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($node->getPath())])
+					->setAffectedUser($share->getShareOwner()->getUID())
+					->setObject('files', $node->getId(), $userFolder->getRelativePath($node->getPath()));
+				$this->activityManager->publish($event);
 			} else if (!empty($files_list)) {
 				/** @var \OCP\Files\Folder $node */
 
 				// Subset of files is downloaded
 				foreach ($files_list as $file) {
 					$subNode = $node->get($file);
-					$nodePath = $userFolder->getRelativePath($subNode->getPath());
+
+					$event = $this->activityManager->generateEvent();
+					$event->setApp('files_sharing')
+						->setType(Activity::TYPE_PUBLIC_LINKS)
+						->setAffectedUser($share->getShareOwner()->getUID())
+						->setObject('files', $subNode->getId(), $userFolder->getRelativePath($subNode->getPath()));
+
 					if ($subNode instanceof \OCP\Files\File) {
-						$this->activityManager->publishActivity(
-							'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$nodePath], '', [],
-							$nodePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
-						);
+						$event->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($subNode->getPath())]);
 					} else {
-						$this->activityManager->publishActivity(
-							'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED, [$nodePath], '', [],
-							$nodePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
-						);
+						$event->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED, [$userFolder->getRelativePath($subNode->getPath())]);
 					}
+
+					$this->activityManager->publish($event);
 				}
 			} else {
 				// The folder is downloaded
-				$this->activityManager->publishActivity(
-					'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED, [$originalSharePath], '', [],
-					$originalSharePath, '', $share->getShareOwner()->getUID(), Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM
-				);
+				$event = $this->activityManager->generateEvent();
+				$event->setApp('files_sharing')
+					->setType(Activity::TYPE_PUBLIC_LINKS)
+					->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED, [$userFolder->getRelativePath($node->getPath())])
+					->setAffectedUser($share->getShareOwner()->getUID())
+					->setObject('files', $node->getId(), $userFolder->getRelativePath($node->getPath()));
+				$this->activityManager->publish($event);
 			}
 		}
 
