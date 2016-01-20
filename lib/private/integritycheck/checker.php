@@ -149,14 +149,31 @@ class Checker {
 			}
 
 			$relativeFileName = substr($filename, $baseDirectoryLength);
+			$relativeFileName = ltrim($relativeFileName, '/');
 
 			// Exclude signature.json files in the appinfo and root folder
-			if($relativeFileName === '/appinfo/signature.json') {
+			if($relativeFileName === 'appinfo/signature.json') {
 				continue;
 			}
 			// Exclude signature.json files in the appinfo and core folder
-			if($relativeFileName === '/core/signature.json') {
+			if($relativeFileName === 'core/signature.json') {
 				continue;
+			}
+
+			// The .htaccess file in the root folder of ownCloud can contain
+			// custom content after the installation due to the fact that dynamic
+			// content is written into it at installation time as well. This
+			// includes for example the 404 and 403 instructions.
+			// Thus we ignore everything below the first occurrence of
+			// "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####" and have the
+			// hash generated based on this.
+			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess') {
+				$fileContent = file_get_contents($filename);
+				$explodedArray = explode('#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####', $fileContent);
+				if(count($explodedArray) === 2) {
+					$hashes[$relativeFileName] = hash('sha512', $explodedArray[0]);
+					continue;
+				}
 			}
 
 			$hashes[$relativeFileName] = hash_file('sha512', $filename);
