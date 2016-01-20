@@ -1,7 +1,7 @@
 <?xml version="1.0"?> 
 <info>
 	<id>testing</id>
-	<name>QA Testing</name>
+	<name>QA testing</name>
 	<description>This app is only for testing! It is dangerous to have it enabled in a live instance</description>
 	<licence>AGPL</licence>
 	<author>Joas Schilling</author>
