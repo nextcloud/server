@@ -48,14 +48,14 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$server->getConfig(),
-				$c->query('URLGenerator'),
-				$c->query('UserManager'),
+				$server->getURLGenerator(),
+				$server->getUserManager(),
 				$server->getLogger(),
 				$server->getActivityManager(),
-				$c->query('ShareManager'),
-				$c->query('Session'),
+				$server->getShareManager(),
+				$server->getSession(),
 				$server->getPreviewManager(),
-				$c->query('RootFolder')
+				$server->getRootFolder()
 			);
 		});
 		$container->registerService('ExternalSharesController', function (SimpleContainer $c) {
@@ -70,24 +70,6 @@ class Application extends App {
 		/**
 		 * Core class wrappers
 		 */
-		$container->registerService('RootFolder', function(SimpleContainer $c) use ($server) {
-			return $server->getRootFolder();
-		});
-		$container->registerService('Session', function(SimpleContainer $c) use ($server) {
-			return $server->getSession();
-		});
-		$container->registerService('ShareManager', function(SimpleContainer $c) use ($server) {
-			return $server->getShareManager();
-		});
-		$container->registerService('UserSession', function (SimpleContainer $c) use ($server) {
-			return $server->getUserSession();
-		});
-		$container->registerService('URLGenerator', function (SimpleContainer $c) use ($server) {
-			return $server->getUrlGenerator();
-		});
-		$container->registerService('UserManager', function (SimpleContainer $c) use ($server) {
-			return $server->getUserManager();
-		});
 		$container->registerService('HttpClientService', function (SimpleContainer $c) use ($server) {
 			return $server->getHTTPClientService();
 		});

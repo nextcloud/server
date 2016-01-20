@@ -91,6 +91,7 @@ class ShareController extends Controller {
 	 * @param \OC\Share20\Manager $shareManager
 	 * @param ISession $session
 	 * @param IPreview $previewManager
+	 * @param IRootFolder $rootFolder
 	 */
 	public function __construct($appName,
 								IRequest $request,
