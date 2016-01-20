@@ -1,6 +1,7 @@
 { "translations": {
     "Server to server sharing is not enabled on this server" : "A partilha entre servidores não se encontra disponível neste servidor",
     "The mountpoint name contains invalid characters." : "O nome do ponto de montagem contém carateres inválidos.",
+    "Not allowed to create a federated share with the same user server" : "Não é possível criar uma partilha federada com o mesmo servidor de utilizador",
     "Invalid or untrusted SSL certificate" : "Certificado SSL inválido ou não confiável",
     "Could not authenticate to remote share, password might be wrong" : "Não foi possível autenticar para a partilha remota, a palavra-passe poderá estar errada",
     "Storage not valid" : "Armazenamento inválido",
