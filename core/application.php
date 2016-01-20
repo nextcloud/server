@@ -30,7 +30,7 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use \OCP\AppFramework\App;
 use OC\Core\LostPassword\Controller\LostController;
-use OC\Core\User\UserController;
+use OC\Core\Controller\UserController;
 use OC\Core\Controller\AvatarController;
 use \OCP\Util;
 
