@@ -357,7 +357,7 @@ class ShareController extends Controller {
 				// Subset of files is downloaded
 				foreach ($files_list as $file) {
 					$subNode = $node->get($file);
-					$nodePath = $userFolder->getRelativePath($node->getPath());
+					$nodePath = $userFolder->getRelativePath($subNode->getPath());
 					if ($subNode instanceof \OCP\Files\File) {
 						$this->activityManager->publishActivity(
 							'files_sharing', Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$nodePath], '', [],
