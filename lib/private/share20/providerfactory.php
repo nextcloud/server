@@ -21,6 +21,7 @@
 namespace OC\Share20;
 
 use OC\Share20\Exception\ProviderException;
+use OCP\IServerContainer;
 
 /**
  * Class ProviderFactory
@@ -29,8 +30,18 @@ use OC\Share20\Exception\ProviderException;
  */
 class ProviderFactory implements IProviderFactory {
 
+	/** @var IServerContainer */
+	private $serverContainer;
 	/** @var DefaultShareProvider */
 	private $defaultProvider = null;
+
+	/**
+	 * IProviderFactory constructor.
+	 * @param IServerContainer $serverContainer
+	 */
+	public function __construct(IServerContainer $serverContainer) {
+		$this->serverContainer = $serverContainer;
+	}
 
 	/**
 	 * Create the default share provider.
@@ -40,10 +51,10 @@ class ProviderFactory implements IProviderFactory {
 	protected function defaultShareProvider() {
 		if ($this->defaultProvider === null) {
 			$this->defaultProvider = new DefaultShareProvider(
-				\OC::$server->getDatabaseConnection(),
-				\OC::$server->getUserManager(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getRootFolder()
+				$this->serverContainer->getDatabaseConnection(),
+				$this->serverContainer->getUserManager(),
+				$this->serverContainer->getGroupManager(),
+				$this->serverContainer->getRootFolder()
 			);
 		}
 
