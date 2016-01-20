@@ -5,12 +5,11 @@
 	<description>System-wide tags user interface</description>
 	<licence>AGPL</licence>
 	<author>Vincent Petry</author>
-	<shipped>true</shipped>
-	<standalone/>
 	<default_enable/>
 	<version>0.1</version>
 	<dependencies>
 		<owncloud min-version="9.0" />
+		<owncloud max-version="9.0" />
 	</dependencies>
 	<documentation>
 		<user>user-systemtags</user>

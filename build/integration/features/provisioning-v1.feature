@@ -288,6 +288,7 @@ Feature: provisioning
 			| files_trashbin |
 			| files_versions |
 			| provisioning_api |
+			| systemtags |
 
 	Scenario: get app info
 		Given As an "admin"
