@@ -19,7 +19,7 @@
  *
  */
 
-namespace OC\Core\LostPassword\Controller;
+namespace OC\Core\Controller;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -36,7 +36,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 /**
  * Class LostControllerTest
  *
- * @package OC\Core\LostPassword\Controller
+ * @package OC\Core\Controller
  */
 class LostControllerTest extends \PHPUnit_Framework_TestCase {
 
@@ -124,8 +124,8 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->will($this->returnValue('https://ownCloud.com/index.php/lostpassword/'));
 
 		$response = $this->lostController->resetform($token, $userId);
-		$expectedResponse = new TemplateResponse('core/lostpassword',
-			'resetpassword',
+		$expectedResponse = new TemplateResponse('core',
+			'lostpassword/resetpassword',
 			array(
 				'link' => 'https://ownCloud.com/index.php/lostpassword/',
 			),

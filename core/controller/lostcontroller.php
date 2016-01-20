@@ -25,7 +25,7 @@
  *
  */
 
-namespace OC\Core\LostPassword\Controller;
+namespace OC\Core\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\TemplateResponse;
@@ -45,7 +45,7 @@ use OCP\Security\StringUtils;
  *
  * Successfully changing a password will emit the post_passwordReset hook.
  *
- * @package OC\Core\LostPassword\Controller
+ * @package OC\Core\Controller
  */
 class LostController extends Controller {
 
@@ -122,8 +122,8 @@ class LostController extends Controller {
 	 */
 	public function resetform($token, $userId) {
 		return new TemplateResponse(
-			'core/lostpassword',
-			'resetpassword',
+			'core',
+			'lostpassword/resetpassword',
 			array(
 				'link' => $this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', array('userId' => $userId, 'token' => $token)),
 			),
@@ -236,7 +236,7 @@ class LostController extends Controller {
 
 		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user, 'token' => $token));
 
-		$tmpl = new \OC_Template('core/lostpassword', 'email');
+		$tmpl = new \OC_Template('core', 'lostpassword/email');
 		$tmpl->assign('link', $link);
 		$msg = $tmpl->fetchPage();
 
