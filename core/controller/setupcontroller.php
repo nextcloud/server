@@ -25,11 +25,11 @@
  *
  */
 
-namespace OC\Core\Setup;
+namespace OC\Core\Controller;
 
 use OC\Setup;
 
-class Controller {
+class SetupController {
 	/** @var Setup */
 	protected $setupHelper;
 	/** @var string */
