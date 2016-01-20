@@ -721,4 +721,54 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame('token', $share2->getToken());
 		$this->assertEquals($expireDate, $share2->getExpirationDate());
 	}
+
+	public function testGetShareByToken() {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$qb->insert('share')
+			->values([
+				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'share_with'    => $qb->expr()->literal('password'),
+				'uid_owner'     => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
+				'item_type'     => $qb->expr()->literal('file'),
+				'file_source'   => $qb->expr()->literal(42),
+				'file_target'   => $qb->expr()->literal('myTarget'),
+				'permissions'   => $qb->expr()->literal(13),
+				'token'         => $qb->expr()->literal('secrettoken'),
+			]);
+		$qb->execute();
+		$id = $qb->getLastInsertId();
+
+		$owner = $this->getMock('\OCP\IUser');
+		$owner->method('getUID')->willReturn('shareOwner');
+		$initiator = $this->getMock('\OCP\IUser');
+		$initiator->method('getUID')->willReturn('sharedBy');
+
+		$this->userManager->method('get')
+			->will($this->returnValueMap([
+				['sharedBy', $initiator],
+				['shareOwner', $owner],
+			]));
+
+		$file = $this->getMock('\OCP\Files\File');
+
+		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
+
+		$share = $this->provider->getShareByToken('secrettoken');
+		$this->assertEquals($id, $share->getId());
+		$this->assertSame($owner, $share->getShareOwner());
+		$this->assertSame($initiator, $share->getSharedBy());
+		$this->assertSame('secrettoken', $share->getToken());
+		$this->assertSame('password', $share->getPassword());
+		$this->assertSame(null, $share->getSharedWith());
+	}
+
+	/**
+	 * @expectedException \OC\Share20\Exception\ShareNotFound
+	 */
+	public function testGetShareByTokenNotFound() {
+		$this->provider->getShareByToken('invalidtoken');
+	}
 }

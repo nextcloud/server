@@ -1478,6 +1478,71 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->createShare($share);
 	}
+
+	public function testGetShareByToken() {
+		$factory = $this->getMock('\OC\Share20\IProviderFactory');
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$factory
+		);
+
+		$share = $this->getMock('\OC\Share20\IShare');
+
+		$factory->expects($this->once())
+			->method('getProviderForType')
+			->with(\OCP\Share::SHARE_TYPE_LINK)
+			->willReturn($this->defaultProvider);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$ret = $manager->getShareByToken('token');
+		$this->assertSame($share, $ret);
+	}
+
+	public function testCheckPasswordNoLinkShare() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
+		$this->assertFalse($this->manager->checkPassword($share, 'password'));
+	}
+
+	public function testCheckPasswordNoPassword() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
+		$this->assertFalse($this->manager->checkPassword($share, 'password'));
+
+		$share->method('getPassword')->willReturn('password');
+		$this->assertFalse($this->manager->checkPassword($share, null));
+	}
+
+	public function testCheckPasswordInvalidPassword() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
+		$share->method('getPassword')->willReturn('password');
+
+		$this->hasher->method('verify')->with('invalidpassword', 'password', '')->willReturn(false);
+
+		$this->assertFalse($this->manager->checkPassword($share, 'invalidpassword'));
+	}
+
+	public function testCheckPasswordValidPassword() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
+		$share->method('getPassword')->willReturn('passwordHash');
+
+		$this->hasher->method('verify')->with('password', 'passwordHash', '')->willReturn(true);
+
+		$this->assertTrue($this->manager->checkPassword($share, 'password'));
+	}
 }
 
 class DummyPassword {
