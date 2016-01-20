@@ -40,11 +40,20 @@ class SystemTagsByIdCollection implements ICollection {
 	private $tagManager;
 
 	/**
+	 * Whether the include tags visible to the admin
+	 *
+	 * @var bool
+	 */
+	private $isAdmin;
+
+	/**
 	 * SystemTagsByIdCollection constructor.
 	 *
 	 * @param ISystemTagManager $tagManager
+	 * @param bool $isAdmin whether to include tags visible to the admin
 	 */
-	public function __construct($tagManager) {
+	public function __construct($isAdmin, $tagManager) {
+		$this->isAdmin = $isAdmin;
 		$this->tagManager = $tagManager;
 	}
 
@@ -69,8 +78,12 @@ class SystemTagsByIdCollection implements ICollection {
 	 */
 	function getChild($name) {
 		try {
-			$tags = $this->tagManager->getTagsByIds([$name]);
-			return $this->makeNode(current($tags));
+			$tag = $this->tagManager->getTagsByIds([$name]);
+			$tag = current($tag);
+			if (!$this->isAdmin && !$tag->isUserVisible()) {
+				throw new NotFound('Tag with id ' . $name . ' not found');
+			}
+			return $this->makeNode($tag);
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
 		} catch (TagNotFoundException $e) {
@@ -79,7 +92,12 @@ class SystemTagsByIdCollection implements ICollection {
 	}
 
 	function getChildren() {
-		$tags = $this->tagManager->getAllTags(true);
+		$visibilityFilter = true;
+		if ($this->isAdmin) {
+			$visibilityFilter = null;
+		}
+
+		$tags = $this->tagManager->getAllTags($visibilityFilter);
 		return array_map(function($tag) {
 			return $this->makeNode($tag);
 		}, $tags);
@@ -90,7 +108,11 @@ class SystemTagsByIdCollection implements ICollection {
 	 */
 	function childExists($name) {
 		try {
-			$this->tagManager->getTagsByIds([$name]);
+			$tag = $this->tagManager->getTagsByIds([$name]);
+			$tag = current($tag);
+			if (!$this->isAdmin && !$tag->isUserVisible()) {
+				return false;
+			}
 			return true;
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
@@ -128,6 +150,6 @@ class SystemTagsByIdCollection implements ICollection {
 	 * @return SystemTagNode
 	 */
 	private function makeNode(ISystemTag $tag) {
-		return new SystemTagNode($tag, $this->tagManager);
+		return new SystemTagNode($tag, $this->isAdmin, $this->tagManager);
 	}
 }

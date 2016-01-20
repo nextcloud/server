@@ -46,6 +46,7 @@ class SystemTagsObjectTypeCollection extends \Test\TestCase {
 
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
 			'files',
+			true,
 			$this->tagManager,
 			$this->tagMapper
 		);

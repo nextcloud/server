@@ -51,16 +51,25 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	private $tagMapper;
 
 	/**
+	 * Whether to return results only visible for admins
+	 *
+	 * @var bool
+	 */
+	private $isAdmin;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $objectType object type
+	 * @param bool $isAdmin whether to return results visible only for admins
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
 	 */
-	public function __construct($objectType, $tagManager, $tagMapper) {
+	public function __construct($objectType, $isAdmin, $tagManager, $tagMapper) {
 		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
 		$this->objectType = $objectType;
+		$this->isAdmin = $isAdmin;
 	}
 
 	/**
@@ -86,6 +95,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		return new SystemTagsObjectMappingCollection(
 			$objectId,
 			$this->objectType,
+			$this->isAdmin,
 			$this->tagManager,
 			$this->tagMapper
 		);

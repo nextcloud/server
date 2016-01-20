@@ -32,12 +32,13 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 	/**
 	 * SystemTagsRelationsCollection constructor.
 	 *
+	 * @param bool $isAdmin whether to return results visible only for admins
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
 	 */
-	public function __construct($tagManager, $tagMapper) {
+	public function __construct($isAdmin, $tagManager, $tagMapper) {
 		$children = [
-			new SystemTagsObjectTypeCollection('files', $tagManager, $tagMapper),
+			new SystemTagsObjectTypeCollection('files', $isAdmin, $tagManager, $tagMapper),
 		];
 
 		parent::__construct('root', $children);
