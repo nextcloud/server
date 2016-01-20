@@ -173,6 +173,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		}
 		$filter = $this->access->combineFilterWithAnd(array(
 			$this->access->connection->ldapUserFilter,
+			$this->access->connection->ldapUserDisplayName . '=*',
 			$this->access->getFilterPartForUserSearch($search)
 		));
 
