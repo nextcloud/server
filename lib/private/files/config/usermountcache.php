@@ -119,30 +119,12 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	private function addToCache(ICachedMountInfo $mount) {
-		$builder = $this->connection->getQueryBuilder();
-
-		$query = $builder->insert('mounts')
-			->values([
-				'storage_id' => ':storage',
-				'root_id' => ':root',
-				'user_id' => ':user',
-				'mount_point' => ':mount'
-			]);
-		$query->setParameters([
-			':storage' => $mount->getStorageId(),
-			':root' => $mount->getRootId(),
-			':user' => $mount->getUser()->getUID(),
-			':mount' => $mount->getMountPoint()
+		$this->connection->insertIfNotExist('*PREFIX*mounts', [
+			'storage_id' => $mount->getStorageId(),
+			'root_id' => $mount->getRootId(),
+			'user_id' => $mount->getUser()->getUID(),
+			'mount_point' => $mount->getMountPoint()
 		]);
-		try {
-			$query->execute();
-		} catch (UniqueConstraintViolationException $e) {
-			// seems to mainly happen in tests
-			// can also happen during concurrent access but we can safely ignore it
-			// since inserting the same data twice will still result in the correct data being inserted
-			$this->logger->error('Duplicate entry while inserting mount');
-			$this->logger->logException($e);
-		}
 	}
 
 	private function setMountPoint(ICachedMountInfo $mount) {
