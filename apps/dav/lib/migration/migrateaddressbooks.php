@@ -4,9 +4,6 @@ namespace OCA\Dav\Migration;
 
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
-use OCP\IConfig;
-use OCP\IDBConnection;
-use OCP\ILogger;
 use Sabre\CardDAV\Plugin;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,47 +12,33 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateAddressbooks {
 
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
+	/** @var AddressBookAdapter */
+	protected $adapter;
 
 	/** @var CardDavBackend */
 	private $backend;
 
 	/**
-	 * @param IDBConnection $dbConnection
-	 * @param IConfig $config
-	 * @param ILogger $logger
+	 * @param AddressBookAdapter $adapter
+	 * @param CardDavBackend $backend
 	 */
-	function __construct(IDBConnection $dbConnection,
+	function __construct(AddressBookAdapter $adapter,
 						 CardDavBackend $backend
 	) {
-		$this->dbConnection = $dbConnection;
+		$this->adapter = $adapter;
 		$this->backend = $backend;
-	}
-
-	private function verifyPreconditions() {
-		if (!$this->dbConnection->tableExists('contacts_addressbooks')) {
-			throw new \DomainException('Contacts tables are missing. Nothing to do.');
-		}
 	}
 
 	/**
 	 * @param string $user
 	 */
 	public function migrateForUser($user) {
-		// get all addressbooks of that user
-		$query = $this->dbConnection->getQueryBuilder();
-		$books = $query->select()->from('contacts_addressbooks')
-			->where($query->expr()->eq('user', $query->createNamedParameter($user)))
-			->execute()
-			->fetchAll();
 
-		$principal = "principals/users/$user";
-		foreach($books as $book) {
-
+		$this->adapter->foreachBook($user, function($book) use ($user) {
+			$principal = "principals/users/$user";
 			$knownBooks = $this->backend->getAddressBooksByUri($principal, $book['uri']);
 			if (!is_null($knownBooks)) {
-				continue;
+				return;
 			}
 
 			$newId = $this->backend->createAddressBook($principal, $book['uri'], [
@@ -65,11 +48,11 @@ class MigrateAddressbooks {
 
 			$this->migrateBook($book['id'], $newId);
 			$this->migrateShares($book['id'], $newId);
-		}
+		});
 	}
 
 	public function setup() {
-		$this->verifyPreconditions();
+		$this->adapter->setup();
 	}
 
 	/**
@@ -77,15 +60,9 @@ class MigrateAddressbooks {
 	 * @param int $newAddressBookId
 	 */
 	private function migrateBook($addressBookId, $newAddressBookId) {
-		$query = $this->dbConnection->getQueryBuilder();
-		$cards = $query->select()->from('contacts_cards')
-			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
-			->execute()
-			->fetchAll();
-
-		foreach ($cards as $card) {
+		$this->adapter->foreachCard($addressBookId, function($card) use ($newAddressBookId) {
 			$this->backend->createCard($newAddressBookId, $card['uri'], $card['carddata']);
-		}
+		});
 	}
 
 	/**
@@ -93,13 +70,10 @@ class MigrateAddressbooks {
 	 * @param int $newAddressBookId
 	 */
 	private function migrateShares($addressBookId, $newAddressBookId) {
-		$query = $this->dbConnection->getQueryBuilder();
-		$shares = $query->select()->from('share')
-			->where($query->expr()->eq('item_source', $query->createNamedParameter($addressBookId)))
-			->andWhere($query->expr()->eq('item_type', $query->expr()->literal('addressbook')))
-			->andWhere($query->expr()->in('share_type', [ $query->expr()->literal(0), $query->expr()->literal(1)]))
-			->execute()
-			->fetchAll();
+		$shares =$this->adapter->getShares($addressBookId);
+		if (empty($shares)) {
+			return;
+		}
 
 		$add = array_map(function($s) {
 			$prefix = 'principal:principals/users/';

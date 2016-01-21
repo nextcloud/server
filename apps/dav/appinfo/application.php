@@ -24,6 +24,7 @@ use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\SyncJob;
 use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\HookManager;
+use OCA\Dav\Migration\AddressBookAdapter;
 use OCA\Dav\Migration\MigrateAddressbooks;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
@@ -79,7 +80,7 @@ class Application extends App {
 			/** @var IAppContainer $c */
 			$db = $c->getServer()->getDatabaseConnection();
 			return new MigrateAddressbooks(
-				$db,
+				new AddressBookAdapter($db),
 				$c->query('CardDavBackend')
 			);
 		});
