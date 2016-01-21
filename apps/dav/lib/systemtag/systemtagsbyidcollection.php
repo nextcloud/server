@@ -31,6 +31,8 @@ use Sabre\DAV\ICollection;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\IGroupManager;
+use OCP\IUserSession;
 
 class SystemTagsByIdCollection implements ICollection {
 
@@ -40,21 +42,41 @@ class SystemTagsByIdCollection implements ICollection {
 	private $tagManager;
 
 	/**
-	 * Whether the include tags visible to the admin
-	 *
-	 * @var bool
+	 * @var IGroupManager
 	 */
-	private $isAdmin;
+	private $groupManager;
+
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
 
 	/**
 	 * SystemTagsByIdCollection constructor.
 	 *
 	 * @param ISystemTagManager $tagManager
-	 * @param bool $isAdmin whether to include tags visible to the admin
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct($isAdmin, $tagManager) {
-		$this->isAdmin = $isAdmin;
+	public function __construct(
+		ISystemTagManager $tagManager,
+		IUserSession $userSession,
+		IGroupManager $groupManager
+	) {
 		$this->tagManager = $tagManager;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
+	}
+
+	/**
+	 * Returns whether the currently logged in user is an administrator
+	 */
+	private function isAdmin() {
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
+			return $this->groupManager->isAdmin($user->getUID());
+		}
+		return false;
 	}
 
 	/**
@@ -80,7 +102,7 @@ class SystemTagsByIdCollection implements ICollection {
 		try {
 			$tag = $this->tagManager->getTagsByIds([$name]);
 			$tag = current($tag);
-			if (!$this->isAdmin && !$tag->isUserVisible()) {
+			if (!$this->isAdmin() && !$tag->isUserVisible()) {
 				throw new NotFound('Tag with id ' . $name . ' not found');
 			}
 			return $this->makeNode($tag);
@@ -93,7 +115,7 @@ class SystemTagsByIdCollection implements ICollection {
 
 	function getChildren() {
 		$visibilityFilter = true;
-		if ($this->isAdmin) {
+		if ($this->isAdmin()) {
 			$visibilityFilter = null;
 		}
 
@@ -110,7 +132,7 @@ class SystemTagsByIdCollection implements ICollection {
 		try {
 			$tag = $this->tagManager->getTagsByIds([$name]);
 			$tag = current($tag);
-			if (!$this->isAdmin && !$tag->isUserVisible()) {
+			if (!$this->isAdmin() && !$tag->isUserVisible()) {
 				return false;
 			}
 			return true;
@@ -150,6 +172,6 @@ class SystemTagsByIdCollection implements ICollection {
 	 * @return SystemTagNode
 	 */
 	private function makeNode(ISystemTag $tag) {
-		return new SystemTagNode($tag, $this->isAdmin, $this->tagManager);
+		return new SystemTagNode($tag, $this->isAdmin(), $this->tagManager);
 	}
 }

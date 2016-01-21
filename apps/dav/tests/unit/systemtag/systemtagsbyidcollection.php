@@ -39,7 +39,24 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	}
 
 	public function getNode($isAdmin = true) {
-		return new \OCA\DAV\SystemTag\SystemTagsByIdCollection($isAdmin, $this->tagManager);
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('testuser'));
+		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$groupManager = $this->getMock('\OCP\IGroupManager');
+		$groupManager->expects($this->any())
+			->method('isAdmin')
+			->with('testuser')
+			->will($this->returnValue($isAdmin));
+		return new \OCA\DAV\SystemTag\SystemTagsByIdCollection(
+			$this->tagManager,
+			$userSession,
+			$groupManager
+		);
 	}
 
 	public function adminFlagProvider() {

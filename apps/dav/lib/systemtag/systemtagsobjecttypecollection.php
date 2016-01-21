@@ -29,6 +29,8 @@ use Sabre\DAV\ICollection;
 
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\IUserSession;
+use OCP\IGroupManager;
 
 /**
  * Collection containing object ids by object type
@@ -51,25 +53,47 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	private $tagMapper;
 
 	/**
-	 * Whether to return results only visible for admins
-	 *
-	 * @var bool
+	 * @var IGroupManager
 	 */
-	private $isAdmin;
+	private $groupManager;
+
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
 
 	/**
 	 * Constructor
 	 *
 	 * @param string $objectType object type
-	 * @param bool $isAdmin whether to return results visible only for admins
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct($objectType, $isAdmin, $tagManager, $tagMapper) {
+	public function __construct(
+		$objectType, 
+		ISystemTagManager $tagManager,
+		ISystemTagObjectMapper $tagMapper,
+		IUserSession $userSession,
+		IGroupManager $groupManager
+	) {
 		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
 		$this->objectType = $objectType;
-		$this->isAdmin = $isAdmin;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
+	}
+
+	/**
+	 * Returns whether the currently logged in user is an administrator
+	 */
+	private function isAdmin() {
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
+			return $this->groupManager->isAdmin($user->getUID());
+		}
+		return false;
 	}
 
 	/**
@@ -95,7 +119,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		return new SystemTagsObjectMappingCollection(
 			$objectId,
 			$this->objectType,
-			$this->isAdmin,
+			$this->isAdmin(),
 			$this->tagManager,
 			$this->tagMapper
 		);
