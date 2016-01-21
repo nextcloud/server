@@ -22,7 +22,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-style('lostpassword', 'resetpassword');
+style('core', 'lostpassword/resetpassword');
 script('core', 'lostpassword');
 ?>
 

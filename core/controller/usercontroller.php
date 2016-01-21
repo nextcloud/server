@@ -20,7 +20,7 @@
  *
  */
 
-namespace OC\Core\User;
+namespace OC\Core\Controller;
 
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;

@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\Core\Avatar;
+namespace OC\Core\Controller;
 
 use OC;
 use OC\Core\Application;
@@ -45,7 +45,7 @@ function is_uploaded_file($filename) {
  *
  * @group DB
  *
- * @package OC\Core\Avatar
+ * @package OC\Core\Controller
  */
 class AvatarControllerTest extends \Test\TestCase {
 	use UserTrait;
