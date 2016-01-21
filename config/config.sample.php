@@ -819,6 +819,13 @@ $CONFIG = array(
 'comments.managerFactory' => '\OC\Comments\ManagerFactory',
 
 /**
+ * Replaces the default System Tags Manager Factory. This can be utilized if an
+ * own or 3rdParty SystemTagsManager should be used that – for instance – uses the
+ * filesystem instead of the database to keep the comments.
+ */
+'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
+
+/**
  * Maintenance
  *
  * These options are for halting user activity when you are performing server

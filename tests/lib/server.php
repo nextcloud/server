@@ -155,6 +155,9 @@ class Server extends \Test\TestCase {
 			['TempManager', '\OC\TempManager'],
 			['TempManager', '\OCP\ITempManager'],
 			['TrustedDomainHelper', '\OC\Security\TrustedDomainHelper'],
+
+			['SystemTagManager', '\OCP\SystemTag\ISystemTagManager'],
+			['SystemTagObjectMapper', '\OCP\SystemTag\ISystemTagObjectMapper'],
 		];
 	}
 
