@@ -21,6 +21,7 @@
 namespace OC\Share20;
 
 use OC\Share20\Exception\InvalidShare;
+use OC\Share20\Exception\ProviderException;
 use OC\Share20\Exception\ShareNotFound;
 use OC\Share20\Exception\BackendError;
 use OCP\Files\NotFoundException;
@@ -238,6 +239,84 @@ class DefaultShareProvider implements IShareProvider {
 			$qb->execute();
 		} catch (\Exception $e) {
 			throw new BackendError();
+		}
+	}
+
+	/**
+	 * Unshare a share from the recipient. If this is a group share
+	 * this means we need a special entry in the share db.
+	 *
+	 * @param IShare $share
+	 * @param IUser $recipient
+	 * @throws BackendError
+	 * @throws ProviderException
+	 */
+	public function deleteFromSelf(IShare $share, IUser $recipient) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+
+			/** @var IGroup $group */
+			$group = $share->getSharedWith();
+
+			if (!$group->inGroup($recipient)) {
+				throw new ProviderException('Recipient not in receiving group');
+			}
+
+			// Try to fetch user specific share
+			$qb = $this->dbConn->getQueryBuilder();
+			$stmt = $qb->select('*')
+				->from('share')
+				->where($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
+				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($recipient->getUID())))
+				->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+				->execute();
+
+			$data = $stmt->fetch();
+
+			/*
+			 * Check if there already is a user specific group share.
+			 * If there is update it (if required).
+			 */
+			if ($data === false) {
+				$qb = $this->dbConn->getQueryBuilder();
+
+				$type = $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder';
+
+				//Insert new share
+				$qb->insert('share')
+					->values([
+						'share_type' => $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP),
+						'share_with' => $qb->createNamedParameter($recipient->getUID()),
+						'uid_owner' => $qb->createNamedParameter($share->getShareOwner()->getUID()),
+						'uid_initiator' => $qb->createNamedParameter($share->getSharedBy()->getUID()),
+						'parent' => $qb->createNamedParameter($share->getId()),
+						'item_type' => $qb->createNamedParameter($type),
+						'item_source' => $qb->createNamedParameter($share->getPath()->getId()),
+						'file_source' => $qb->createNamedParameter($share->getPath()->getId()),
+						'file_target' => $qb->createNamedParameter($share->getTarget()),
+						'permissions' => $qb->createNamedParameter(0),
+						'stime' => $qb->createNamedParameter($share->getSharetime()),
+					])->execute();
+
+			} else if ($data['permissions'] !== 0) {
+
+				// Update existing usergroup share
+				$qb = $this->dbConn->getQueryBuilder();
+				$qb->update('share')
+					->set('permissions', $qb->createNamedParameter(0))
+					->where($qb->expr()->eq('id', $qb->createNamedParameter($data['id'])))
+					->execute();
+			}
+
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+
+			if ($share->getSharedWith() !== $recipient) {
+				throw new ProviderException('Recipient does not match');
+			}
+
+			// We can just delete user and link shares
+			$this->delete($share);
+		} else {
+			throw new ProviderException('Invalid shareType');
 		}
 	}
 

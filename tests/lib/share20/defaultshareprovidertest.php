@@ -20,6 +20,7 @@
  */
 namespace Test\Share20;
 
+use OC\Share20\Exception\ProviderException;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\IGroupManager;
@@ -1061,7 +1062,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('shareOwner'),
-				'item_type'   => $qb->expr()->literal('file'),
+				'item_type' => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(42),
 				'file_target' => $qb->expr()->literal('myTarget'),
 				'permissions' => $qb->expr()->literal(13),
@@ -1076,7 +1077,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'share_with' => $qb->expr()->literal('sharedWith'),
 				'uid_owner' => $qb->expr()->literal('shareOwner'),
 				'uid_initiator' => $qb->expr()->literal('sharedBy'),
-				'item_type'   => $qb->expr()->literal('file'),
+				'item_type' => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(42),
 				'file_target' => $qb->expr()->literal('userTarget'),
 				'permissions' => $qb->expr()->literal(0),
@@ -1122,5 +1123,302 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
 		$this->assertEquals(0, $share->getPermissions());
 		$this->assertEquals('userTarget', $share->getTarget());
+	}
+
+	public function testDeleteFromSelfGroupNoCustomShare() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->insert('share')
+			->values([
+				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_with'    => $qb->expr()->literal('group'),
+				'uid_owner'     => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'item_type'     => $qb->expr()->literal('file'),
+				'file_source'   => $qb->expr()->literal(1),
+				'file_target'   => $qb->expr()->literal('myTarget1'),
+				'permissions'   => $qb->expr()->literal(2)
+			])->execute();
+		$this->assertEquals(1, $stmt);
+		$id = $qb->getLastInsertId();
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('user2');
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user1', $user1],
+			['user2', $user2],
+		]));
+
+		$group = $this->getMock('\OCP\IGroup');
+		$group->method('getGID')->willReturn('group');
+		$group->method('inGroup')->with($user2)->willReturn(true);
+		$this->groupManager->method('get')->with('group')->willReturn($group);
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getId')->willReturn(1);
+
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(1)->willReturn([$file]);
+
+		$share = $this->provider->getShareById($id);
+
+		$this->provider->deleteFromSelf($share, $user2);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(2)))
+			->execute();
+
+		$shares = $stmt->fetchAll();
+		$stmt->closeCursor();
+
+		$this->assertCount(1, $shares);
+		$share2 = $shares[0];
+		$this->assertEquals($id, $share2['parent']);
+		$this->assertEquals(0, $share2['permissions']);
+		$this->assertEquals('user2', $share2['share_with']);
+	}
+
+	public function testDeleteFromSelfGroupAlreadyCustomShare() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->insert('share')
+			->values([
+				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_with'    => $qb->expr()->literal('group'),
+				'uid_owner'     => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'item_type'     => $qb->expr()->literal('file'),
+				'file_source'   => $qb->expr()->literal(1),
+				'file_target'   => $qb->expr()->literal('myTarget1'),
+				'permissions'   => $qb->expr()->literal(2)
+			])->execute();
+		$this->assertEquals(1, $stmt);
+		$id = $qb->getLastInsertId();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->insert('share')
+			->values([
+				'share_type'    => $qb->expr()->literal(2),
+				'share_with'    => $qb->expr()->literal('user2'),
+				'uid_owner'     => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'item_type'     => $qb->expr()->literal('file'),
+				'file_source'   => $qb->expr()->literal(1),
+				'file_target'   => $qb->expr()->literal('myTarget1'),
+				'permissions'   => $qb->expr()->literal(2),
+				'parent'        => $qb->expr()->literal($id),
+			])->execute();
+		$this->assertEquals(1, $stmt);
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('user2');
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user1', $user1],
+			['user2', $user2],
+		]));
+
+		$group = $this->getMock('\OCP\IGroup');
+		$group->method('getGID')->willReturn('group');
+		$group->method('inGroup')->with($user2)->willReturn(true);
+		$this->groupManager->method('get')->with('group')->willReturn($group);
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getId')->willReturn(1);
+
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(1)->willReturn([$file]);
+
+		$share = $this->provider->getShareById($id);
+
+		$this->provider->deleteFromSelf($share, $user2);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(2)))
+			->execute();
+
+		$shares = $stmt->fetchAll();
+		$stmt->closeCursor();
+
+		$this->assertCount(1, $shares);
+		$share2 = $shares[0];
+		$this->assertEquals($id, $share2['parent']);
+		$this->assertEquals(0, $share2['permissions']);
+		$this->assertEquals('user2', $share2['share_with']);
+	}
+
+	/**
+	 * @expectedException \OC\Share20\Exception\ProviderException
+	 * @expectedExceptionMessage  Recipient not in receiving group
+	 */
+	public function testDeleteFromSelfGroupUserNotInGroup() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->insert('share')
+			->values([
+				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_with'    => $qb->expr()->literal('group'),
+				'uid_owner'     => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'item_type'     => $qb->expr()->literal('file'),
+				'file_source'   => $qb->expr()->literal(1),
+				'file_target'   => $qb->expr()->literal('myTarget1'),
+				'permissions'   => $qb->expr()->literal(2)
+			])->execute();
+		$this->assertEquals(1, $stmt);
+		$id = $qb->getLastInsertId();
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('user2');
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user1', $user1],
+			['user2', $user2],
+		]));
+
+		$group = $this->getMock('\OCP\IGroup');
+		$group->method('getGID')->willReturn('group');
+		$group->method('inGroup')->with($user2)->willReturn(false);
+		$this->groupManager->method('get')->with('group')->willReturn($group);
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getId')->willReturn(1);
+
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(1)->willReturn([$file]);
+
+		$share = $this->provider->getShareById($id);
+
+		$this->provider->deleteFromSelf($share, $user2);
+	}
+
+	public function testDeleteFromSelfUser() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->insert('share')
+			->values([
+				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_with'    => $qb->expr()->literal('user2'),
+				'uid_owner'     => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'item_type'     => $qb->expr()->literal('file'),
+				'file_source'   => $qb->expr()->literal(1),
+				'file_target'   => $qb->expr()->literal('myTarget1'),
+				'permissions'   => $qb->expr()->literal(2)
+			])->execute();
+		$this->assertEquals(1, $stmt);
+		$id = $qb->getLastInsertId();
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('user2');
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user1', $user1],
+			['user2', $user2],
+		]));
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getId')->willReturn(1);
+
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(1)->willReturn([$file]);
+
+		$share = $this->provider->getShareById($id);
+
+		$this->provider->deleteFromSelf($share, $user2);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
+			->execute();
+
+		$shares = $stmt->fetchAll();
+		$stmt->closeCursor();
+
+		$this->assertCount(0, $shares);
+	}
+
+	/**
+	 * @expectedException \OC\Share20\Exception\ProviderException
+	 * @expectedExceptionMessage Recipient does not match
+	 */
+	public function testDeleteFromSelfUserNotRecipient() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->insert('share')
+			->values([
+				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_with'    => $qb->expr()->literal('user2'),
+				'uid_owner'     => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'item_type'     => $qb->expr()->literal('file'),
+				'file_source'   => $qb->expr()->literal(1),
+				'file_target'   => $qb->expr()->literal('myTarget1'),
+				'permissions'   => $qb->expr()->literal(2)
+			])->execute();
+		$this->assertEquals(1, $stmt);
+		$id = $qb->getLastInsertId();
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('user2');
+		$user3 = $this->getMock('\OCP\IUser');
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user1', $user1],
+			['user2', $user2],
+		]));
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getId')->willReturn(1);
+
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(1)->willReturn([$file]);
+
+		$share = $this->provider->getShareById($id);
+
+		$this->provider->deleteFromSelf($share, $user3);
+	}
+
+	/**
+	 * @expectedException \OC\Share20\Exception\ProviderException
+	 * @expectedExceptionMessage Invalid shareType
+	 */
+	public function testDeleteFromSelfLink() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->insert('share')
+			->values([
+				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'uid_owner'     => $qb->expr()->literal('user1'),
+				'uid_initiator' => $qb->expr()->literal('user1'),
+				'item_type'     => $qb->expr()->literal('file'),
+				'file_source'   => $qb->expr()->literal(1),
+				'file_target'   => $qb->expr()->literal('myTarget1'),
+				'permissions'   => $qb->expr()->literal(2),
+				'token'         => $qb->expr()->literal('token'),
+			])->execute();
+		$this->assertEquals(1, $stmt);
+		$id = $qb->getLastInsertId();
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user1', $user1],
+		]));
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getId')->willReturn(1);
+
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(1)->willReturn([$file]);
+
+		$share = $this->provider->getShareById($id);
+
+		$this->provider->deleteFromSelf($share, $user1);
 	}
 }

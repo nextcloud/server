@@ -58,6 +58,15 @@ interface IShareProvider {
 	public function delete(IShare $share);
 
 	/**
+	 * Unshare a file from self as recipient.
+	 * This may require special handling.
+	 *
+	 * @param IShare $share
+	 * @param IUser $recipient
+	 */
+	public function deleteFromSelf(IShare $share, IUser $recipient);
+
+	/**
 	 * Get all shares by the given user
 	 *
 	 * @param IUser $user
