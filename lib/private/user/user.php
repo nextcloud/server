@@ -80,16 +80,14 @@ class User implements IUser {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
+		if(is_null($config)) {
+			$config = \OC::$server->getConfig();
+		}
 		$this->config = $config;
 		$this->urlGenerator = $urlGenerator;
-		if ($this->config) {
-			$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
-			$this->enabled = ($enabled === 'true');
-			$this->lastLogin = $this->config->getUserValue($uid, 'login', 'lastLogin', 0);
-		} else {
-			$this->enabled = true;
-			$this->lastLogin = \OC::$server->getConfig()->getUserValue($uid, 'login', 'lastLogin', 0);
-		}
+		$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
+		$this->enabled = ($enabled === 'true');
+		$this->lastLogin = $this->config->getUserValue($uid, 'login', 'lastLogin', 0);
 		if (is_null($this->urlGenerator)) {
 			$this->urlGenerator = \OC::$server->getURLGenerator();
 		}
@@ -300,11 +298,10 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function canChangeDisplayName() {
-		if ($this->config and $this->config->getSystemValue('allow_user_to_change_display_name') === false) {
+		if ($this->config->getSystemValue('allow_user_to_change_display_name') === false) {
 			return false;
-		} else {
-			return $this->backend->implementsActions(\OC_User_Backend::SET_DISPLAYNAME);
 		}
+		return $this->backend->implementsActions(\OC_User_Backend::SET_DISPLAYNAME);
 	}
 
 	/**
@@ -323,10 +320,8 @@ class User implements IUser {
 	 */
 	public function setEnabled($enabled) {
 		$this->enabled = $enabled;
-		if ($this->config) {
-			$enabled = ($enabled) ? 'true' : 'false';
-			$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled);
-		}
+		$enabled = ($enabled) ? 'true' : 'false';
+		$this->config->setUserValue($this->uid, 'core', 'enabled', $enabled);
 	}
 
 	/**
