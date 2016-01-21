@@ -127,7 +127,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$url .= '/';
 			}
 
-			$response->setHeader('Location', $url . $tag->getId());
+			$response->setHeader('Content-Location', $url . $tag->getId());
 
 			// created
 			$response->setStatus(201);
@@ -147,7 +147,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	 * @throws UnsupportedMediaType if the content type is not supported
 	 */
 	private function createTag($data, $contentType = 'application/json') {
-		if ($contentType === 'application/json') {
+		if (explode(';', $contentType)[0] === 'application/json') {
 			$data = json_decode($data, true);
 		} else {
 			throw new UnsupportedMediaType();

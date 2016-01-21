@@ -28,6 +28,7 @@
     "password_policy",
     "provisioning_api",
     "sharepoint",
+    "systemtags",
     "templateeditor",
     "updater",
     "user_external",

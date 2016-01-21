@@ -83,6 +83,16 @@ module.exports = function(config) {
 				testFiles: ['apps/files_versions/tests/js/**/*.js']
 			},
 			{
+				name: 'systemtags',
+				srcFiles: [
+					// need to enforce loading order...
+					'apps/systemtags/js/app.js',
+					'apps/systemtags/js/systemtagsinfoview.js',
+					'apps/systemtags/js/filesplugin.js'
+				],
+				testFiles: ['apps/systemtags/tests/js/**/*.js']
+			},
+			{
 				name: 'settings',
 				srcFiles: [
 					'settings/js/apps.js',

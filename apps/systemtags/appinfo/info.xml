@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<info>
+	<id>systemtags</id>
+	<name>System tags</name>
+	<description>System-wide tags user interface</description>
+	<licence>AGPL</licence>
+	<author>Vincent Petry</author>
+	<default_enable/>
+	<version>0.1</version>
+	<dependencies>
+		<owncloud min-version="9.0" />
+		<owncloud max-version="9.1" />
+	</dependencies>
+	<documentation>
+		<user>user-systemtags</user>
+	</documentation>
+</info>

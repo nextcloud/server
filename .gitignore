@@ -21,7 +21,8 @@
 !/apps/files_versions
 !/apps/user_ldap
 !/apps/user_webdavauth
-!apps/provisioning_api
+!/apps/provisioning_api
+!/apps/systemtags
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
 /apps/files_external/3rdparty/irodsphp/prods/test
