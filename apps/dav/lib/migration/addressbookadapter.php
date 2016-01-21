@@ -39,8 +39,8 @@ class AddressBookAdapter {
 	public function foreachBook($user, \Closure $callBack) {
 		// get all addressbooks of that user
 		$query = $this->dbConnection->getQueryBuilder();
-		$stmt = $query->select()->from($this->sourceBookTable)
-			->where($query->expr()->eq('user', $query->createNamedParameter($user)))
+		$stmt = $query->select('*')->from($this->sourceBookTable)
+			->where($query->expr()->eq('userid', $query->createNamedParameter($user)))
 			->execute();
 
 		while($row = $stmt->fetch()) {
@@ -60,7 +60,7 @@ class AddressBookAdapter {
 	 */
 	public function foreachCard($addressBookId, \Closure $callBack) {
 		$query = $this->dbConnection->getQueryBuilder();
-		$stmt = $query->select()->from($this->sourceCardsTable)
+		$stmt = $query->select('*')->from($this->sourceCardsTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->execute();
 
