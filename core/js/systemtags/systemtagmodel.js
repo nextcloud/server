@@ -43,9 +43,6 @@
 		}
 	});
 
-	/**
-	 * @namespace
-	 */
 	OC.SystemTags = OC.SystemTags || {};
 	OC.SystemTags.SystemTagModel = SystemTagModel;
 })(OC);
