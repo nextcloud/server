@@ -218,6 +218,47 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals(0, count($cards));
 	}
 
+	public function testDeleteWithoutCard() {
+
+		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
+			->setConstructorArgs([$this->db, $this->principal])
+			->setMethods([
+				'getCardId',
+				'addChange',
+				'purgeProperties',
+				'updateProperties',
+			])
+			->getMock();
+
+		// create a new address book
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(1, count($books));
+
+		$bookId = $books[0]['id'];
+		$uri = $this->getUniqueID('card');
+
+		// create a new address book
+		$this->backend->expects($this->once())
+			->method('getCardId')
+			->with($uri)
+			->willThrowException(new \InvalidArgumentException());
+		$this->backend->expects($this->exactly(2))
+			->method('addChange')
+			->withConsecutive(
+				[$bookId, $uri, 1],
+				[$bookId, $uri, 3]
+			);
+		$this->backend->expects($this->never())
+			->method('purgeProperties');
+
+		// create a card
+		$this->backend->createCard($bookId, $uri, '');
+
+		// delete the card
+		$this->assertTrue($this->backend->deleteCard($bookId, $uri));
+	}
+
 	public function testSyncSupport() {
 
 		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')

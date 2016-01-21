@@ -536,7 +536,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return bool
 	 */
 	function deleteCard($addressBookId, $cardUri) {
-		$cardId = $this->getCardId($cardUri);
+		try {
+			$cardId = $this->getCardId($cardUri);
+		} catch (\InvalidArgumentException $e) {
+			$cardId = null;
+		}
 		$query = $this->db->getQueryBuilder();
 		$ret = $query->delete('cards')
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
@@ -546,7 +550,9 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$this->addChange($addressBookId, $cardUri, 3);
 
 		if ($ret === 1) {
-			$this->purgeProperties($addressBookId, $cardId);
+			if ($cardId !== null) {
+				$this->purgeProperties($addressBookId, $cardId);
+			}
 			return true;
 		}
 
