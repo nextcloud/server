@@ -30,15 +30,13 @@
 namespace OCA\Files_Sharing\Controllers;
 
 use OC\Files\Filesystem;
-use OCA\Files_Sharing\AppInfo\Application;
+use OC\Share20\Exception\ShareNotFound;
 use OCP\AppFramework\Http\NotFoundResponse;
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\ISession;
 use OCP\Security\ISecureRandom;
-use OC\Files\View;
-use OCP\Share;
-use OC\URLGenerator;
+use OCP\IURLGenerator;
 
 /**
  * @group DB
@@ -47,33 +45,49 @@ use OC\URLGenerator;
  */
 class ShareControllerTest extends \Test\TestCase {
 
-	/** @var IAppContainer */
-	private $container;
 	/** @var string */
 	private $user;
 	/** @var string */
-	private $token;
-	/** @var string */
 	private $oldUser;
+
+	/** @var string */
+	private $appName = 'files_sharing';
 	/** @var ShareController */
 	private $shareController;
-	/** @var URLGenerator */
+	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
+	/** @var ISession | \PHPUnit_Framework_MockObject_MockObject */
+	private $session;
+	/** @var \OCP\IPreview | \PHPUnit_Framework_MockObject_MockObject */
+	private $previewManager;
+	/** @var \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+	/** @var  \OC\Share20\Manager | \PHPUnit_Framework_MockObject_MockObject */
+	private $shareManager;
 
 	protected function setUp() {
-		$app = new Application();
-		$this->container = $app->getContainer();
-		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
-			->disableOriginalConstructor()->getMock();
-		$this->container['AppName'] = 'files_sharing';
-		$this->container['UserSession'] = $this->getMockBuilder('\OC\User\Session')
-			->disableOriginalConstructor()->getMock();
-		$this->container['URLGenerator'] = $this->getMockBuilder('\OC\URLGenerator')
-			->disableOriginalConstructor()->getMock();
-		$this->container['UserManager'] = $this->getMockBuilder('\OCP\IUserManager')
-			->disableOriginalConstructor()->getMock();
-		$this->urlGenerator = $this->container['URLGenerator'];
-		$this->shareController = $this->container['ShareController'];
+		$this->appName = 'files_sharing';
+
+		$this->shareManager = $this->getMockBuilder('\OC\Share20\Manager')->disableOriginalConstructor()->getMock();
+		$this->urlGenerator = $this->getMock('\OCP\IURLGenerator');
+		$this->session = $this->getMock('\OCP\ISession');
+		$this->previewManager = $this->getMock('\OCP\IPreview');
+		$this->config = $this->getMock('\OCP\IConfig');
+
+		$this->shareController = new \OCA\Files_Sharing\Controllers\ShareController(
+			$this->appName,
+			$this->getMock('\OCP\IRequest'),
+			$this->config,
+			$this->urlGenerator,
+			$this->getMock('\OCP\IUserManager'),
+			$this->getMock('\OCP\ILogger'),
+			$this->getMock('\OCP\Activity\IManager'),
+			$this->shareManager,
+			$this->session,
+			$this->previewManager,
+			$this->getMock('\OCP\Files\IRootFolder')
+		);
+
 
 		// Store current user
 		$this->oldUser = \OC_User::getUser();
@@ -84,17 +98,6 @@ class ShareControllerTest extends \Test\TestCase {
 		\OC::$server->getUserManager()->createUser($this->user, $this->user);
 		\OC_Util::tearDownFS();
 		$this->loginAsUser($this->user);
-
-		// Create a dummy shared file
-		$view = new View('/'. $this->user . '/files');
-		$view->file_put_contents('file1.txt', 'I am such an awesome shared file!');
-		$this->token = \OCP\Share::shareItem(
-			Filesystem::getFileInfo('file1.txt')->getType(),
-			Filesystem::getFileInfo('file1.txt')->getId(),
-			\OCP\Share::SHARE_TYPE_LINK,
-			'IAmPasswordProtected!',
-			1
-		);
 	}
 
 	protected function tearDown() {
@@ -112,72 +115,211 @@ class ShareControllerTest extends \Test\TestCase {
 		\OC_Util::setupFS($this->oldUser);
 	}
 
-	public function testShowAuthenticate() {
-		$linkItem = \OCP\Share::getShareByToken($this->token, false);
+	public function testShowAuthenticateNotAuthenticated() {
+		$share = $this->getMock('\OC\Share20\IShare');
 
-		// Test without being authenticated
-		$response = $this->shareController->showAuthenticate($this->token);
-		$expectedResponse =  new TemplateResponse($this->container['AppName'], 'authenticate', array(), 'guest');
-		$this->assertEquals($expectedResponse, $response);
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
 
-		// Test with being authenticated for another file
-		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']-1);
-		$response = $this->shareController->showAuthenticate($this->token);
-		$expectedResponse =  new TemplateResponse($this->container['AppName'], 'authenticate', array(), 'guest');
-		$this->assertEquals($expectedResponse, $response);
-
-		// Test with being authenticated for the correct file
-		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
-		$response = $this->shareController->showAuthenticate($this->token);
-		$expectedResponse =  new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $this->token)));
+		$response = $this->shareController->showAuthenticate('token');
+		$expectedResponse =  new TemplateResponse($this->appName, 'authenticate', [], 'guest');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testAuthenticate() {
-		// Test without a not existing token
-		$response = $this->shareController->authenticate('ThisTokenShouldHopefullyNeverExistSoThatTheUnitTestWillAlwaysPass :)');
+	public function testShowAuthenticateAuthenticatedForDifferentShare() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getId')->willReturn(1);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
+		$this->session->method('get')->with('public_link_authenticated')->willReturn('2');
+
+		$response = $this->shareController->showAuthenticate('token');
+		$expectedResponse =  new TemplateResponse($this->appName, 'authenticate', [], 'guest');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testShowAuthenticateCorrectShare() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getId')->willReturn(1);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
+		$this->session->method('get')->with('public_link_authenticated')->willReturn('1');
+
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'token'])
+			->willReturn('redirect');
+
+		$response = $this->shareController->showAuthenticate('token');
+		$expectedResponse =  new RedirectResponse('redirect');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testAutehnticateInvalidToken() {
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->will($this->throwException(new \OC\Share20\Exception\ShareNotFound()));
+
+		$response = $this->shareController->authenticate('token');
 		$expectedResponse =  new NotFoundResponse();
 		$this->assertEquals($expectedResponse, $response);
+	}
 
-		// Test with a valid password
-		$response = $this->shareController->authenticate($this->token, 'IAmPasswordProtected!');
-		$expectedResponse =  new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.showShare', array('token' => $this->token)));
-		$this->assertEquals($expectedResponse, $response);
+	public function testAuthenticateValidPassword() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getId')->willReturn(42);
 
-		// Test with a invalid password
-		$response = $this->shareController->authenticate($this->token, 'WrongPw!');
-		$expectedResponse =  new TemplateResponse($this->container['AppName'], 'authenticate', array('wrongpw' => true), 'guest');
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('checkPassword')
+			->with($share, 'validpassword')
+			->willReturn(true);
+
+		$this->session
+			->expects($this->once())
+			->method('set')
+			->with('public_link_authenticated', '42');
+
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('files_sharing.sharecontroller.showShare', ['token'=>'token'])
+			->willReturn('redirect');
+
+		$response = $this->shareController->authenticate('token', 'validpassword');
+		$expectedResponse =  new RedirectResponse('redirect');
 		$this->assertEquals($expectedResponse, $response);
 	}
+
+	public function testAuthenticateInvalidPassword() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getId')->willReturn(42);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('checkPassword')
+			->with($share, 'invalidpassword')
+			->willReturn(false);
+
+		$this->session
+			->expects($this->never())
+			->method('set');
+
+		$response = $this->shareController->authenticate('token', 'invalidpassword');
+		$expectedResponse =  new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testShowShareInvalidToken() {
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('invalidtoken')
+			->will($this->throwException(new ShareNotFound()));
+
+		// Test without a not existing token
+		$response = $this->shareController->showShare('invalidtoken');
+		$expectedResponse =  new NotFoundResponse();
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testShowShareNotAuthenticated() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getPassword')->willReturn('password');
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('validtoken')
+			->willReturn($share);
+
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken'])
+			->willReturn('redirect');
+
+		// Test without a not existing token
+		$response = $this->shareController->showShare('validtoken');
+		$expectedResponse = new RedirectResponse('redirect');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 
 	public function testShowShare() {
-		$this->container['UserManager']->expects($this->exactly(2))
-			->method('userExists')
-			->with($this->user)
-			->will($this->returnValue(true));
+		$owner = $this->getMock('OCP\IUser');
+		$owner->method('getDisplayName')->willReturn('ownerDisplay');
+		$owner->method('getUID')->willReturn('ownerUID');
 
-		// Test without a not existing token
-		$response = $this->shareController->showShare('ThisTokenShouldHopefullyNeverExistSoThatTheUnitTestWillAlwaysPass :)');
-		$expectedResponse =  new NotFoundResponse();
-		$this->assertEquals($expectedResponse, $response);
+		$file = $this->getMock('OCP\Files\File');
+		$file->method('getName')->willReturn('file1.txt');
+		$file->method('getMimetype')->willReturn('text/plain');
+		$file->method('getSize')->willReturn(33);
 
-		// Test with a password protected share and no authentication
-		$response = $this->shareController->showShare($this->token);
-		$expectedResponse = new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate', array('token' => $this->token)));
-		$this->assertEquals($expectedResponse, $response);
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getId')->willReturn('42');
+		$share->method('getPassword')->willReturn('password');
+		$share->method('getShareOwner')->willReturn($owner);
+		$share->method('getPath')->willReturn($file);
+		$share->method('getTarget')->willReturn('/file1.txt');
 
-		// Test with password protected share and authentication
-		$linkItem = Share::getShareByToken($this->token, false);
-		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
-		$response = $this->shareController->showShare($this->token);
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
+		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+
+		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
+
+		$this->config->method('getSystemValue')
+			->willReturnMap(
+				[
+					['max_filesize_animated_gifs_public_sharing', 10, 10],
+					['enable_previews', true, true],
+				]
+			);
+		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
+		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$response = $this->shareController->showShare('token');
 		$sharedTmplParams = array(
-			'displayName' => $this->user,
-			'owner' => $this->user,
+			'displayName' => 'ownerDisplay',
+			'owner' => 'ownerUID',
 			'filename' => 'file1.txt',
 			'directory_path' => '/file1.txt',
 			'mimetype' => 'text/plain',
-			'dirToken' => $this->token,
-			'sharingToken' => $this->token,
+			'dirToken' => 'token',
+			'sharingToken' => 'token',
 			'server2serversharing' => true,
 			'protected' => 'true',
 			'dir' => '',
@@ -191,65 +333,31 @@ class ShareControllerTest extends \Test\TestCase {
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
-		$expectedResponse = new TemplateResponse($this->container['AppName'], 'public', $sharedTmplParams, 'base');
+		$expectedResponse = new TemplateResponse($this->appName, 'public', $sharedTmplParams, 'base');
 		$expectedResponse->setContentSecurityPolicy($csp);
 
 		$this->assertEquals($expectedResponse, $response);
 	}
 
 	public function testDownloadShare() {
+		$share = $this->getMock('\OC\Share20\IShare');
+		$share->method('getPassword')->willReturn('password');
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('validtoken')
+			->willReturn($share);
+
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('files_sharing.sharecontroller.authenticate', ['token' => 'validtoken'])
+			->willReturn('redirect');
+
 		// Test with a password protected share and no authentication
-		$response = $this->shareController->downloadShare($this->token);
-		$expectedResponse = new RedirectResponse($this->urlGenerator->linkToRoute('files_sharing.sharecontroller.authenticate',
-			array('token' => $this->token)));
+		$response = $this->shareController->downloadShare('validtoken');
+		$expectedResponse = new RedirectResponse('redirect');
 		$this->assertEquals($expectedResponse, $response);
-	}
-
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
-	public function testShowShareWithDeletedFile() {
-		$this->container['UserManager']->expects($this->once())
-			->method('userExists')
-			->with($this->user)
-			->will($this->returnValue(true));
-
-		$view = new View('/'. $this->user . '/files');
-		$view->unlink('file1.txt');
-		$linkItem = Share::getShareByToken($this->token, false);
-		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
-		$this->shareController->showShare($this->token);
-	}
-
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
-	public function testDownloadShareWithDeletedFile() {
-		$this->container['UserManager']->expects($this->once())
-			->method('userExists')
-			->with($this->user)
-			->will($this->returnValue(true));
-
-		$view = new View('/'. $this->user . '/files');
-		$view->unlink('file1.txt');
-		$linkItem = Share::getShareByToken($this->token, false);
-		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
-		$this->shareController->downloadShare($this->token);
-	}
-
-	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Owner of the share does not exist anymore
-	 */
-	public function testShowShareWithNotExistingUser() {
-		$this->container['UserManager']->expects($this->once())
-			->method('userExists')
-			->with($this->user)
-			->will($this->returnValue(false));
-
-		$linkItem = Share::getShareByToken($this->token, false);
-		\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
-		$this->shareController->showShare($this->token);
 	}
 
 }

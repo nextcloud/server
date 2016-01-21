@@ -103,11 +103,11 @@ interface IShareProvider {
 	public function getSharedWithMe(IUser $user, $shareType = null);
 
 	/**
-	 * Get a share by token and if present verify the password
+	 * Get a share by token
 	 *
 	 * @param string $token
-	 * @param string $password
-	 * @param Share
+	 * @return IShare
+	 * @throws ShareNotFound
 	 */
-	public function getShareByToken($token, $password = null);
+	public function getShareByToken($token);
 }
