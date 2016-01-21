@@ -69,6 +69,11 @@
 	margin: 0;
 	line-height: 20px;
 }
+
+.systemtags-select2-container .select2-choices .select2-search-choice.select2-locked .label {
+	font-style: italic;
+}
+
 .systemtags-select2-container .select2-choices .select2-search-choice-close {
 	display: none;
 }

@@ -20,13 +20,16 @@
 */
 
 describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
+	var isAdminStub;
 	var view;
 
 	beforeEach(function() {
 		view = new OCA.SystemTags.SystemTagsInfoView();
 		$('#testArea').append(view.$el);
+		isAdminStub = sinon.stub(OC, 'isUserAdmin').returns(true);
 	});
 	afterEach(function() {
+		isAdminStub.restore();
 		view.remove();
 		view = undefined;
 	});
@@ -73,7 +76,7 @@ describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 			view = new OCA.SystemTags.SystemTagsInfoView();
 			view.selectedTagsCollection.add([
 				{id: '1', name: 'test1'},
-				{id: '3', name: 'test3'}
+				{id: '3', name: 'test3', userVisible: false, userAssignable: false}
 			]);
 
 			var callback = sinon.stub();
@@ -83,7 +86,31 @@ describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 			expect(callback.getCall(0).args[0]).toEqual([{
 				id: '1', name: 'test1', userVisible: true, userAssignable: true
 			}, {
-				id: '3', name: 'test3', userVisible: true, userAssignable: true
+				id: '3', name: 'test3', userVisible: false, userAssignable: false
+			}]);
+
+			inputViewSpy.restore();
+		});
+		it('sets locked flag on non-assignable tags when user is not an admin', function() {
+			isAdminStub.returns(false);
+
+			var inputViewSpy = sinon.spy(OC.SystemTags, 'SystemTagsInputField');
+			var element = $('<input type="hidden" val="1,3"/>');
+			view.remove();
+			view = new OCA.SystemTags.SystemTagsInfoView();
+			view.selectedTagsCollection.add([
+				{id: '1', name: 'test1'},
+				{id: '3', name: 'test3', userAssignable: false}
+			]);
+
+			var callback = sinon.stub();
+			inputViewSpy.getCall(0).args[0].initSelection(element, callback);
+
+			expect(callback.calledOnce).toEqual(true);
+			expect(callback.getCall(0).args[0]).toEqual([{
+				id: '1', name: 'test1', userVisible: true, userAssignable: true
+			}, {
+				id: '3', name: 'test3', userVisible: true, userAssignable: false, locked: true
 			}]);
 
 			inputViewSpy.restore();
