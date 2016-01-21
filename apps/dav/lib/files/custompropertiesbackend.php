@@ -41,7 +41,6 @@ class CustomPropertiesBackend implements BackendInterface {
 		'{DAV:}getetag',
 		'{DAV:}quota-used-bytes',
 		'{DAV:}quota-available-bytes',
-		'{DAV:}quota-available-bytes',
 		'{http://owncloud.org/ns}permissions',
 		'{http://owncloud.org/ns}downloadURL',
 		'{http://owncloud.org/ns}dDC',
