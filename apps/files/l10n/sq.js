@@ -113,8 +113,6 @@ OC.L10N.register(
     "Select all" : "Përzgjidhe krejt",
     "Upload too large" : "Ngarkim shumë i madh",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Kartelat që po rrekeni të ngarkoni e tejkalojnë madhësinë maksimale për ngarkime kartelash në këtë shërbyes.",
-    "Files are being scanned, please wait." : "Kartelat po kontrollohen, ju lutemi, pritni.",
-    "Currently scanning" : "Po kontrollohet",
     "No favorites" : "Pa të parapëlqyera",
     "Files and folders you mark as favorite will show up here" : "Këtu do të duken kartelat dhe dosjet që i shënoni si të parapëlqyera",
     "Text file" : "Kartelë tekst",

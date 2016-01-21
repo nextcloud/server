@@ -61,7 +61,6 @@ OC.L10N.register(
     "Select all" : "Chọn tất cả",
     "Upload too large" : "Tập tin tải lên quá lớn",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
-    "Files are being scanned, please wait." : "Tập tin đang được quét ,vui lòng chờ.",
     "Text file" : "Tập tin văn bản"
 },
 "nplurals=1; plural=0;");

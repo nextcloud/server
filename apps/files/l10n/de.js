@@ -111,8 +111,6 @@ OC.L10N.register(
     "Select all" : "Alle auswählen",
     "Upload too large" : "Der Upload ist zu groß",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
-    "Files are being scanned, please wait." : "Dateien werden gescannt, bitte warten.",
-    "Currently scanning" : "Durchsuchen läuft",
     "No favorites" : "Keine Favoriten",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Du als Favoriten markierst, werden hier erscheinen",
     "Text file" : "Textdatei",

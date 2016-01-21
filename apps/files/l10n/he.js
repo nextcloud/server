@@ -112,8 +112,6 @@ OC.L10N.register(
     "Select all" : "לבחור הכול",
     "Upload too large" : "העלאה גדולה מידי",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
-    "Files are being scanned, please wait." : "הקבצים נסרקים, נא להמתין.",
-    "Currently scanning" : "בסריקה כרגע",
     "No favorites" : "אין מועדפים",
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
     "Text file" : "קובץ טקסט",

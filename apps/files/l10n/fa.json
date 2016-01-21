@@ -96,8 +96,6 @@
     "Select all" : "انتخاب همه",
     "Upload too large" : "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",
-    "Files are being scanned, please wait." : "پرونده ها در حال بازرسی هستند لطفا صبر کنید",
-    "Currently scanning" : "در حال اسکن",
     "No favorites" : "هیچ برگزیده",
     "Files and folders you mark as favorite will show up here" : "فایل‌ها و پوشه‌های انتخاب شده به عنوان برگزیده توسط شما، در اینجا نمایش داده می‌شود",
     "Text file" : "فایل متنی"

@@ -97,8 +97,6 @@ OC.L10N.register(
     "Select all" : "Välj allt",
     "Upload too large" : "För stor uppladdning",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
-    "Files are being scanned, please wait." : "Filer skannas, var god vänta",
-    "Currently scanning" : "sökning pågår",
     "No favorites" : "Inga favoriter",
     "Files and folders you mark as favorite will show up here" : "Filer och mappar du markerat som favoriter kommer visas här",
     "Text file" : "Textfil",

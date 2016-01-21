@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Preuzimanje",
     "Rename" : "Preimenujte",
     "Delete" : "Izbrišite",
+    "Disconnect storage" : "Isključite pohranu",
+    "Unshare" : "Prestanite dijeliti",
     "Details" : "Detalji",
     "Select" : "Selektiraj",
     "Pending" : "Na čekanju",
@@ -84,8 +86,6 @@ OC.L10N.register(
     "Select all" : "Selektiraj sve",
     "Upload too large" : "Unos je prevelik",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke koje pokušavate učitati premašuju maksimalnu veličinu za unos datoteka na ovom poslužitelju.",
-    "Files are being scanned, please wait." : "Datoteke se provjeravaju, molimo pričekajte.",
-    "Currently scanning" : "Provjera u tijeku",
     "No favorites" : "Nema favorita",
     "Files and folders you mark as favorite will show up here" : "Fajlovi i folderi koje oznacite kao favorite ce se prikazati ovdje",
     "Text file" : "Tekstualna datoteka"

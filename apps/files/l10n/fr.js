@@ -113,8 +113,6 @@ OC.L10N.register(
     "Select all" : "Tout sélectionner",
     "Upload too large" : "Téléversement trop volumineux",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Les fichiers que vous essayez d'envoyer dépassent la taille maximale d'envoi permise par ce serveur.",
-    "Files are being scanned, please wait." : "Les fichiers sont en cours d'analyse, veuillez patienter.",
-    "Currently scanning" : "Analyse en cours",
     "No favorites" : "Aucun favori",
     "Files and folders you mark as favorite will show up here" : "Les fichiers et dossiers ajoutés à vos favoris apparaîtront ici",
     "Text file" : "Fichier texte",

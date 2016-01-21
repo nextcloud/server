@@ -34,6 +34,7 @@ OC.L10N.register(
     "Download" : "Descargar",
     "Rename" : "Cambiar nombre",
     "Delete" : "Borrar",
+    "Unshare" : "Dejar de compartir",
     "Details" : "Detalles",
     "Select" : "Seleccionar",
     "Pending" : "Pendientes",
@@ -73,7 +74,6 @@ OC.L10N.register(
     "Cancel upload" : "Cancelar subida",
     "Upload too large" : "El tamaño del archivo que querés subir es demasiado grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que intentás subir sobrepasan el tamaño máximo ",
-    "Files are being scanned, please wait." : "Se están escaneando los archivos, por favor esperá.",
     "Text file" : "Archivo de texto"
 },
 "nplurals=2; plural=(n != 1);");

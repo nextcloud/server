@@ -98,8 +98,6 @@
     "Select all" : "모두 선택",
     "Upload too large" : "업로드한 파일이 너무 큼",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",
-    "Files are being scanned, please wait." : "파일을 검색하고 있습니다. 기다려 주십시오.",
-    "Currently scanning" : "현재 검사 중",
     "No favorites" : "책갈피 없음",
     "Files and folders you mark as favorite will show up here" : "책갈피에 추가한 파일과 폴더가 여기에 나타납니다",
     "Text file" : "텍스트 파일",

@@ -112,8 +112,6 @@ OC.L10N.register(
     "Select all" : "Alles selecteren",
     "Upload too large" : "Upload is te groot",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
-    "Files are being scanned, please wait." : "Bestanden worden gescand, even wachten.",
-    "Currently scanning" : "Nu aan het scannen",
     "No favorites" : "Geen favorieten",
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die u favoriet vindt worden hier getoont",
     "Text file" : "Tekstbestand",

@@ -86,8 +86,6 @@ OC.L10N.register(
     "Select all" : "Hautatu dena",
     "Upload too large" : "Igoera handiegia da",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
-    "Files are being scanned, please wait." : "Fitxategiak eskaneatzen ari da, itxoin mezedez.",
-    "Currently scanning" : "Eskaneatzen une honetan",
     "No favorites" : "Gogokorik ez",
     "Files and folders you mark as favorite will show up here" : "Gogokotzat markatutako fitxategi eta karpeta hemen agertuko dira",
     "Text file" : "Testu fitxategia"

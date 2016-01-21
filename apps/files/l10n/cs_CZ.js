@@ -113,8 +113,6 @@ OC.L10N.register(
     "Select all" : "Vybrat vše",
     "Upload too large" : "Odesílaný soubor je příliš velký",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
-    "Files are being scanned, please wait." : "Soubory se prohledávají, prosím čekejte.",
-    "Currently scanning" : "Prohledává se",
     "No favorites" : "Žádné oblíbené",
     "Files and folders you mark as favorite will show up here" : "Soubory a adresáře označené jako oblíbené budou zobrazeny zde",
     "Text file" : "Textový soubor",

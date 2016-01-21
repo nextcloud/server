@@ -88,8 +88,6 @@
     "Select all" : "تحديد الكل ",
     "Upload too large" : "حجم الترفيع أعلى من المسموح",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم.",
-    "Files are being scanned, please wait." : "يرجى الانتظار , جاري فحص الملفات .",
-    "Currently scanning" : "حالياً يقوم بالفحص",
     "No favorites" : "لا يوجد مفضلات ",
     "Files and folders you mark as favorite will show up here" : "الملفات والمجلدات التي حددتها كامفضلة سوف تظهر هنا ",
     "Text file" : "ملف نصي",

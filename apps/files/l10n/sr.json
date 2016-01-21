@@ -98,8 +98,6 @@
     "Select all" : "Означи све",
     "Upload too large" : "Отпремање је превелико",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Фајлови које желите да отпремите превазилазе ограничење отпремања на овом серверу.",
-    "Files are being scanned, please wait." : "Скенирам фајлове, сачекајте.",
-    "Currently scanning" : "Тренутно скенирам",
     "No favorites" : "Нема омиљених",
     "Files and folders you mark as favorite will show up here" : "Фајлови и фасцикле које обележите као омиљене појавиће се овде",
     "Text file" : "текстуални фајл",

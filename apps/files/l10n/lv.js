@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Lejupielādēt",
     "Rename" : "Pārsaukt",
     "Delete" : "Dzēst",
+    "Disconnect storage" : "Atvienot krātuvi",
+    "Unshare" : "Pārtraukt dalīšanos",
     "Details" : "Detaļas",
     "Select" : "Norādīt",
     "Pending" : "Gaida savu kārtu",
@@ -86,8 +88,6 @@ OC.L10N.register(
     "Select all" : "Atzīmēt visu",
     "Upload too large" : "Datne ir par lielu, lai to augšupielādētu",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
-    "Files are being scanned, please wait." : "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet.",
-    "Currently scanning" : "Pašlaik skenē",
     "No favorites" : "Nav favorītu",
     "Files and folders you mark as favorite will show up here" : "Faili un mapes, ko atzīmēsit kā favorītus, tiks rādīti šeit",
     "Text file" : "Teksta datne"

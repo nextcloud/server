@@ -55,8 +55,6 @@ OC.L10N.register(
     "Select all" : "﻿ಎಲ್ಲಾ ಆಯ್ಕೆ ಮಾಡಿ",
     "Upload too large" : "ದೊಡ್ಡ ಪ್ರಮಾಣದ ಪ್ರತಿಗಳನ್ನು ವರ್ಗಾವಣೆ ಮಾಡಲು ಸಾದ್ಯವಿಲ್ಲ",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ನೀವು ವರ್ಗಾಯಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವ ಕಡತಗಳ ಗಾತ್ರ, ಈ ಗಣಕ ಕೋಶದ ಗರಿಷ್ಠ ಕಡತ ಮೀತಿಯಾನ್ನು ಮೀರುವಂತಿಲ್ಲ.",
-    "Files are being scanned, please wait." : "﻿ಕಡತಗಳನ್ನು ಪರೀಕ್ಷಿಸಲಾಗುತ್ತಿದೆ, ದಯವಿಟ್ಟು ನಿರೀಕ್ಷಿಸಿ.",
-    "Currently scanning" : "﻿ಪ್ರಸ್ತುತ ಪರೀಕ್ಷೆ",
     "No favorites" : "ಯಾವ ಅಚ್ಚುಮೆಚ್ಚಿನವುಗಳು ಇಲ್ಲ",
     "Files and folders you mark as favorite will show up here" : "ನೀವು ಗುರುತು ಮಾಡಿರುವ ನೆಚ್ಚಿನ ಕಡತ ಮತ್ತು ಕಡತಕೋಶಗಳನ್ನು ಇಲ್ಲಿ ತೋರಿಸಲಾಗುತ್ತಿದೆ",
     "Text file" : "ಸರಳಾಕ್ಷರದ ಕಡತ"

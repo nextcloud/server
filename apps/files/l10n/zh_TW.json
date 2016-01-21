@@ -111,8 +111,6 @@
     "Select all" : "全選",
     "Upload too large" : "上傳過大",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "您試圖上傳的檔案大小超過伺服器的限制",
-    "Files are being scanned, please wait." : "正在掃描檔案，請稍等",
-    "Currently scanning" : "正在掃描",
     "No favorites" : "沒有最愛",
     "Files and folders you mark as favorite will show up here" : "您標記為最愛的檔案與資料夾將會顯示在這裡",
     "Text file" : "文字檔",

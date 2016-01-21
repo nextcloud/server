@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Descargar",
     "Rename" : "Renomear",
     "Delete" : "Eliminar",
+    "Disconnect storage" : "Desconectar o almacenamento",
+    "Unshare" : "Deixar de compartir",
     "Details" : "Detalles",
     "Select" : "Seleccionar",
     "Pending" : "Pendentes",
@@ -94,8 +96,6 @@ OC.L10N.register(
     "Select all" : "Seleccionar todo",
     "Upload too large" : "Envío grande de máis",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",
-    "Files are being scanned, please wait." : "Estanse analizando os ficheiros. Agarde.",
-    "Currently scanning" : "Análise actual",
     "No favorites" : "Non hai favoritos",
     "Files and folders you mark as favorite will show up here" : "Os ficheiros e cartafoles que marque como favoritos amosaranse aquí",
     "Text file" : "Ficheiro de texto"

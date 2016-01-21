@@ -91,8 +91,6 @@ OC.L10N.register(
     "Select all" : "Вибрати всі",
     "Upload too large" : "Файл занадто великий",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файли,що ви намагаєтесь вивантажити перевищують максимальний дозволений розмір файлів на цьому сервері.",
-    "Files are being scanned, please wait." : "Файли перевіряються, зачекайте, будь-ласка.",
-    "Currently scanning" : "Триває перевірка",
     "No favorites" : "Немає улюблених",
     "Files and folders you mark as favorite will show up here" : "Файли і теки, які ви позначили як улюблені, з’являться тут",
     "Text file" : "Текстовий файл"

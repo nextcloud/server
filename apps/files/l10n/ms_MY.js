@@ -33,7 +33,6 @@ OC.L10N.register(
     "Cancel upload" : "Batal muat naik",
     "Upload too large" : "Muatnaik terlalu besar",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fail yang cuba dimuat naik melebihi saiz maksimum fail upload server",
-    "Files are being scanned, please wait." : "Fail sedang diimbas, harap bersabar.",
     "Text file" : "Fail teks"
 },
 "nplurals=1; plural=0;");

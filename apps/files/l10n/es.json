@@ -111,8 +111,6 @@
     "Select all" : "Seleccionar todo",
     "Upload too large" : "Subida demasido grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que está intentando subir sobrepasan el tamaño máximo permitido en este servidor.",
-    "Files are being scanned, please wait." : "Los archivos se están escaneando, por favor espere.",
-    "Currently scanning" : "Escaneando en este momento",
     "No favorites" : "No hay favoritos",
     "Files and folders you mark as favorite will show up here" : "Aquí aparecerán los archivos y carpetas que usted marque como favoritos",
     "Text file" : "Archivo de texto",

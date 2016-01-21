@@ -34,6 +34,8 @@ OC.L10N.register(
     "Download" : "Изтегли",
     "Rename" : "Преименуване",
     "Delete" : "Изтрий",
+    "Disconnect storage" : "Извади дисковото устройство.",
+    "Unshare" : "Премахване на споделяне",
     "Details" : "Подробности",
     "Select" : "Избери",
     "Pending" : "Чакащо",
@@ -87,8 +89,6 @@ OC.L10N.register(
     "Select all" : "Избери всички",
     "Upload too large" : "Прекалено голям файл за качване.",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитваш да качиш са по-големи от позволеното на този сървър.",
-    "Files are being scanned, please wait." : "Файловете се сканирват, изчакайте.",
-    "Currently scanning" : "В момента се търси",
     "No favorites" : "Няма любими",
     "Files and folders you mark as favorite will show up here" : "Файловете и папките които отбелязваш като любими ще се показват тук",
     "Text file" : "Текстов файл"

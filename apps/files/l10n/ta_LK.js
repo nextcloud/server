@@ -18,6 +18,7 @@ OC.L10N.register(
     "Download" : "பதிவிறக்குக",
     "Rename" : "பெயர்மாற்றம்",
     "Delete" : "நீக்குக",
+    "Unshare" : "பகிரப்படாதது",
     "Details" : "விவரங்கள்",
     "Select" : "தெரிக",
     "Pending" : "நிலுவையிலுள்ள",
@@ -36,7 +37,6 @@ OC.L10N.register(
     "Cancel upload" : "பதிவேற்றலை இரத்து செய்க",
     "Upload too large" : "பதிவேற்றல் மிகப்பெரியது",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "நீங்கள் பதிவேற்ற முயற்சிக்கும் கோப்புகளானது இந்த சேவையகத்தில் கோப்பு பதிவேற்றக்கூடிய ஆகக்கூடிய அளவிலும் கூடியது.",
-    "Files are being scanned, please wait." : "கோப்புகள் வருடப்படுகின்றன, தயவுசெய்து காத்திருங்கள்.",
     "Text file" : "கோப்பு உரை"
 },
 "nplurals=2; plural=(n != 1);");

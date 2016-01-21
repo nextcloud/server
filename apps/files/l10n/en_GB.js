@@ -90,8 +90,6 @@ OC.L10N.register(
     "Select all" : "Select all",
     "Upload too large" : "Upload too large",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server.",
-    "Files are being scanned, please wait." : "Files are being scanned, please wait.",
-    "Currently scanning" : "Currently scanning",
     "No favorites" : "No favourites",
     "Files and folders you mark as favorite will show up here" : "Files and folders you mark as favourite will show up here",
     "Text file" : "Text file"

@@ -32,6 +32,8 @@
     "Download" : "Baixa",
     "Rename" : "Reanomena",
     "Delete" : "Esborra",
+    "Disconnect storage" : "Desonnecta l'emmagatzematge",
+    "Unshare" : "Deixa de compartir",
     "Details" : "Detalls",
     "Select" : "Selecciona",
     "Pending" : "Pendent",
@@ -88,8 +90,6 @@
     "Select all" : "Seleccionar tot",
     "Upload too large" : "La pujada és massa gran",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
-    "Files are being scanned, please wait." : "S'estan escanejant els fitxers, espereu",
-    "Currently scanning" : "Actualment escanejant",
     "No favorites" : "No hi ha favorits",
     "Files and folders you mark as favorite will show up here" : "Aquí apareixeran els arxius i carpetes que vostè marqui com favorits",
     "Text file" : "Fitxer de text"

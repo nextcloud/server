@@ -113,8 +113,6 @@ OC.L10N.register(
     "Select all" : "Seleccionar tot",
     "Upload too large" : "Mandadís tròp voluminós",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los fichièrs qu'ensajatz de mandar depassan la talha maximala de mandadís permesa per aqueste servidor.",
-    "Files are being scanned, please wait." : "Los fichièrs son en cors d'analisi, pacientatz.",
-    "Currently scanning" : "Analisi en cors",
     "No favorites" : "Pas cap de favorit",
     "Files and folders you mark as favorite will show up here" : "Los fichièrs e dorsièrs aponduts a vòstres favorits apareisseràn aicí",
     "Text file" : "Fichièr tèxte",

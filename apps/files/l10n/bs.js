@@ -70,8 +70,6 @@ OC.L10N.register(
     "Select all" : "Označi sve",
     "Upload too large" : "Učitavanje je preveliko",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke koje pokušavate učitati prelaze maksimalnu veličinu za učitavanje datoteka na ovom serveru.",
-    "Files are being scanned, please wait." : "Datoteke se provjeravaju, molim pričekajte.",
-    "Currently scanning" : "Provjera u toku",
     "No favorites" : "Nema favorita",
     "Files and folders you mark as favorite will show up here" : "Datoteke i direktorij koje ste označili kao favorite će biti prikazane ovdje",
     "Text file" : "Tekstualna datoteka"

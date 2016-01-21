@@ -98,8 +98,6 @@
     "Select all" : "Vali kõik",
     "Upload too large" : "Üleslaadimine on liiga suur",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Failid, mida sa proovid üles laadida, ületab serveri poolt üleslaetavatele failidele määratud maksimaalse suuruse.",
-    "Files are being scanned, please wait." : "Faile skannitakse, palun oota.",
-    "Currently scanning" : "Praegu skännimisel",
     "No favorites" : "Lemmikuid pole",
     "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks",
     "Text file" : "Tekstifail",

@@ -109,8 +109,6 @@ OC.L10N.register(
     "Select all" : "Επιλογή όλων",
     "Upload too large" : "Πολύ μεγάλο αρχείο προς αποστολή",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή.",
-    "Files are being scanned, please wait." : "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε.",
-    "Currently scanning" : "Σάρωση σε εξέλιξη",
     "No favorites" : "Δεν υπάρχουν αγαπημένα",
     "Files and folders you mark as favorite will show up here" : "Τα αρχεία και οι φάκελοι που σημειώνονται ως αγαπημένα  θα εμφανιστούν εδώ ",
     "Text file" : "Αρχείο κειμένου",

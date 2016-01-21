@@ -111,8 +111,6 @@
     "Select all" : "Выбрать все",
     "Upload too large" : "Файл слишком велик",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь загрузить, превышают лимит максимального размера на этом сервере.",
-    "Files are being scanned, please wait." : "Идет сканирование файлов. Пожалуйста подождите.",
-    "Currently scanning" : "В настоящее время сканируется",
     "No favorites" : "Нет избранного",
     "Files and folders you mark as favorite will show up here" : "Здесь появятся файлы и каталоги, отмеченные как избранные",
     "Text file" : "Текстовый файл",
