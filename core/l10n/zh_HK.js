@@ -51,10 +51,6 @@ OC.L10N.register(
     "Delete" : "刪除",
     "Add" : "加入",
     "The update was successful. Redirecting you to ownCloud now." : "更新成功, 正",
-    "Use the following link to reset your password: {link}" : "請用以下連結重設你的密碼: {link}",
-    "New password" : "新密碼",
-    "New Password" : "新密碼",
-    "Reset password" : "重設密碼",
     "Personal" : "個人",
     "Users" : "用戶",
     "Apps" : "軟件",
@@ -68,6 +64,10 @@ OC.L10N.register(
     "Database name" : "資料庫名稱",
     "Log out" : "登出",
     "Search" : "尋找",
-    "Log in" : "登入"
+    "Log in" : "登入",
+    "Use the following link to reset your password: {link}" : "請用以下連結重設你的密碼: {link}",
+    "New password" : "新密碼",
+    "New Password" : "新密碼",
+    "Reset password" : "重設密碼"
 },
 "nplurals=1; plural=0;");

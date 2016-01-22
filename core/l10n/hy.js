@@ -57,8 +57,8 @@ OC.L10N.register(
     "Warning" : "Զգուշացում",
     "Delete" : "Ջնջել",
     "Add" : "Ավելացնել",
-    "New password" : "Նոր գաղտնաբառ",
     "Personal" : "Անձնական",
-    "Username" : "Օգտանուն"
+    "Username" : "Օգտանուն",
+    "New password" : "Նոր գաղտնաբառ"
 },
 "nplurals=2; plural=(n != 1);");

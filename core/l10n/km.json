@@ -82,12 +82,10 @@
     "access control" : "សិទ្ធិ​បញ្ជា",
     "Share" : "ចែក​រំលែក",
     "Warning" : "បម្រាម",
-    "The object type is not specified." : "មិន​បាន​កំណត់​ប្រភេទ​វត្ថុ។",
     "Delete" : "លុប",
+    "The object type is not specified." : "មិន​បាន​កំណត់​ប្រភេទ​វត្ថុ។",
     "Add" : "បញ្ចូល",
     "Please reload the page." : "សូម​ផ្ទុក​ទំព័រ​នេះ​ឡើង​វិញ។",
-    "New password" : "ពាក្យ​សម្ងាត់​ថ្មី",
-    "Reset password" : "កំណត់​ពាក្យ​សម្ងាត់​ម្ដង​ទៀត",
     "Personal" : "ផ្ទាល់​ខ្លួន",
     "Users" : "អ្នកប្រើ",
     "Apps" : "កម្មវិធី",
@@ -108,6 +106,8 @@
     "Log out" : "ចាក​ចេញ",
     "Search" : "ស្វែង​រក",
     "Log in" : "ចូល",
-    "Alternative Logins" : "ការ​ចូល​ជំនួស"
+    "Alternative Logins" : "ការ​ចូល​ជំនួស",
+    "New password" : "ពាក្យ​សម្ងាត់​ថ្មី",
+    "Reset password" : "កំណត់​ពាក្យ​សម្ងាត់​ម្ដង​ទៀត"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

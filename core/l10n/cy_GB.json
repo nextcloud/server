@@ -71,13 +71,10 @@
     "access control" : "rheolaeth mynediad",
     "Share" : "Rhannu",
     "Warning" : "Rhybudd",
-    "The object type is not specified." : "Nid yw'r math o wrthrych wedi cael ei nodi.",
     "Delete" : "Dileu",
+    "The object type is not specified." : "Nid yw'r math o wrthrych wedi cael ei nodi.",
     "Add" : "Ychwanegu",
     "The update was successful. Redirecting you to ownCloud now." : "Roedd y diweddariad yn llwyddiannus. Cewch eich ailgyfeirio i ownCloud nawr.",
-    "Use the following link to reset your password: {link}" : "Defnyddiwch y ddolen hon i ailosod eich cyfrinair: {link}",
-    "New password" : "Cyfrinair newydd",
-    "Reset password" : "Ailosod cyfrinair",
     "Personal" : "Personol",
     "Users" : "Defnyddwyr",
     "Apps" : "Pecynnau",
@@ -98,6 +95,9 @@
     "Log out" : "Allgofnodi",
     "Search" : "Chwilio",
     "Log in" : "Mewngofnodi",
-    "Alternative Logins" : "Mewngofnodiadau Amgen"
+    "Alternative Logins" : "Mewngofnodiadau Amgen",
+    "Use the following link to reset your password: {link}" : "Defnyddiwch y ddolen hon i ailosod eich cyfrinair: {link}",
+    "New password" : "Cyfrinair newydd",
+    "Reset password" : "Ailosod cyfrinair"
 },"pluralForm" :"nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;"
 }

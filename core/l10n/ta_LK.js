@@ -68,12 +68,9 @@ OC.L10N.register(
     "access control" : "கட்டுப்பாடான அணுகல்",
     "Share" : "பகிர்வு",
     "Warning" : "எச்சரிக்கை",
-    "The object type is not specified." : "பொருள் வகை குறிப்பிடப்படவில்லை.",
     "Delete" : "நீக்குக",
+    "The object type is not specified." : "பொருள் வகை குறிப்பிடப்படவில்லை.",
     "Add" : "சேர்க்க",
-    "Use the following link to reset your password: {link}" : "உங்கள் கடவுச்சொல்லை மீளமைக்க பின்வரும் இணைப்பை பயன்படுத்தவும் : {இணைப்பு}",
-    "New password" : "புதிய கடவுச்சொல்",
-    "Reset password" : "மீளமைத்த கடவுச்சொல்",
     "Personal" : "தனிப்பட்ட",
     "Users" : "பயனாளர்",
     "Apps" : "செயலிகள்",
@@ -92,6 +89,9 @@ OC.L10N.register(
     "Finish setup" : "அமைப்பை முடிக்க",
     "Log out" : "விடுபதிகை செய்க",
     "Search" : "தேடுதல்",
-    "Log in" : "புகுபதிகை"
+    "Log in" : "புகுபதிகை",
+    "Use the following link to reset your password: {link}" : "உங்கள் கடவுச்சொல்லை மீளமைக்க பின்வரும் இணைப்பை பயன்படுத்தவும் : {இணைப்பு}",
+    "New password" : "புதிய கடவுச்சொல்",
+    "Reset password" : "மீளமைத்த கடவுச்சொல்"
 },
 "nplurals=2; plural=(n != 1);");

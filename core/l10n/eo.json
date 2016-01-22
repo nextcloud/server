@@ -90,17 +90,14 @@
     "access control" : "alirkontrolo",
     "Share" : "Kunhavigi",
     "Warning" : "Averto",
+    "Delete" : "Forigi",
     "The object type is not specified." : "Ne indikiĝis tipo de la objekto.",
     "Enter new" : "Enigu novan",
-    "Delete" : "Forigi",
     "Add" : "Aldoni",
     "Edit tags" : "Redakti etikedojn",
     "No tags selected for deletion." : "Neniu etikedo elektitas por forigo.",
     "Please reload the page." : "Bonvolu reŝargi la paĝon.",
     "The update was successful. Redirecting you to ownCloud now." : "La ĝisdatigo estis sukcesa. Alidirektante nun al ownCloud.",
-    "Use the following link to reset your password: {link}" : "Uzu la jenan ligilon por restarigi vian pasvorton: {link}",
-    "New password" : "Nova pasvorto",
-    "Reset password" : "Rekomenci la pasvorton",
     "Personal" : "Persona",
     "Users" : "Uzantoj",
     "Apps" : "Aplikaĵoj",
@@ -128,6 +125,9 @@
     "Please contact your administrator." : "Bonvolu kontakti vian administranton.",
     "Log in" : "Ensaluti",
     "Alternative Logins" : "Alternativaj ensalutoj",
+    "Use the following link to reset your password: {link}" : "Uzu la jenan ligilon por restarigi vian pasvorton: {link}",
+    "New password" : "Nova pasvorto",
+    "Reset password" : "Rekomenci la pasvorton",
     "Thank you for your patience." : "Dankon pro via pacienco."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

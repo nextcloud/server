@@ -53,7 +53,6 @@
     "Warning" : "ئاگاھلاندۇرۇش",
     "Delete" : "ئۆچۈر",
     "Add" : "قوش",
-    "New password" : "يېڭى ئىم",
     "Personal" : "شەخسىي",
     "Users" : "ئىشلەتكۈچىلەر",
     "Apps" : "ئەپلەر",
@@ -61,6 +60,7 @@
     "Username" : "ئىشلەتكۈچى ئاتى",
     "Finish setup" : "تەڭشەك تامام",
     "Log out" : "تىزىمدىن چىق",
-    "Search" : "ئىزدە"
+    "Search" : "ئىزدە",
+    "New password" : "يېڭى ئىم"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

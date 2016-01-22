@@ -75,13 +75,10 @@ OC.L10N.register(
     "access control" : "დაშვების კონტროლი",
     "Share" : "გაზიარება",
     "Warning" : "გაფრთხილება",
-    "The object type is not specified." : "ობიექტის ტიპი არ არის მითითებული.",
     "Delete" : "წაშლა",
+    "The object type is not specified." : "ობიექტის ტიპი არ არის მითითებული.",
     "Add" : "დამატება",
     "The update was successful. Redirecting you to ownCloud now." : "განახლება ვერ განხორციელდა. გადამისამართება თქვენს ownCloud–ზე.",
-    "Use the following link to reset your password: {link}" : "გამოიყენე შემდეგი ლინკი პაროლის შესაცვლელად: {link}",
-    "New password" : "ახალი პაროლი",
-    "Reset password" : "პაროლის შეცვლა",
     "Personal" : "პირადი",
     "Users" : "მომხმარებელი",
     "Apps" : "აპლიკაციები",
@@ -102,6 +99,9 @@ OC.L10N.register(
     "Log out" : "გამოსვლა",
     "Search" : "ძებნა",
     "Log in" : "შესვლა",
-    "Alternative Logins" : "ალტერნატიული Login–ი"
+    "Alternative Logins" : "ალტერნატიული Login–ი",
+    "Use the following link to reset your password: {link}" : "გამოიყენე შემდეგი ლინკი პაროლის შესაცვლელად: {link}",
+    "New password" : "ახალი პაროლი",
+    "Reset password" : "პაროლის შეცვლა"
 },
 "nplurals=1; plural=0;");

@@ -15,6 +15,8 @@ OC.L10N.register(
     "Invalid image" : "Ongeldige prent",
     "No temporary profile picture available, try again" : "Geen tydelike profiel foto beskikbaar nie, probeer weer",
     "No crop data provided" : "Geen \"crop\" data verskaf",
+    "%s password reset" : "%s wagwoord herstel",
+    "Couldn't send reset email. Please contact your administrator." : "Die herstel epos kon nie gestuur word nie. Kontak asseblief die stelsel administrateur.",
     "Sunday" : "Sondag",
     "Monday" : "Maandag",
     "Tuesday" : "Dinsdag",
@@ -37,7 +39,6 @@ OC.L10N.register(
     "Settings" : "Instellings",
     "Saving..." : "Stoor...",
     "seconds ago" : "sekondes gelede",
-    "Couldn't send reset email. Please contact your administrator." : "Die herstel epos kon nie gestuur word nie. Kontak asseblief die stelsel administrateur.",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Die \"link\" vir die herstel van jou wagwoord is na jou epos gestuur. As jy dit nie binne 'n redelike tyd ontvang nie, soek deur jou \"spam/junk\" omslagte.<br>As dit nie daar is nie vra jou administrateur vir hulp.",
     "I know what I'm doing" : "Ek weet wat ek doen",
     "Password can not be changed. Please contact your administrator." : "Wagwoord kan nie verander word nie. Kontak asseblief jou stelsel administrateur.",
@@ -85,10 +86,6 @@ OC.L10N.register(
     "The object type is not specified." : "Hierdie objek tipe is nie gespesifiseer nie.",
     "Add" : "Voeg by",
     "The update was successful. Redirecting you to ownCloud now." : "Die opdatering was suksesvol. Jy word nou aan ownCloud terug gelei.",
-    "%s password reset" : "%s wagwoord herstel",
-    "Use the following link to reset your password: {link}" : "Gebruik die volgende skakel om jou wagwoord te herstel: {link}",
-    "New password" : "Nuwe wagwoord",
-    "Reset password" : "Herstel wagwoord",
     "Personal" : "Persoonlik",
     "Users" : "Gebruikers",
     "Apps" : "Toepassings",
@@ -110,6 +107,9 @@ OC.L10N.register(
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Halo daar,<br><br>wou jou net laat weet dat %s <strong>%s</strong> met jou gedeel het.<br><a href=\"%s\">Sien alles!</a><br><br>",
     "Log out" : "Teken uit",
     "Log in" : "Teken aan",
-    "Alternative Logins" : "Alternatiewe aantekeninge"
+    "Alternative Logins" : "Alternatiewe aantekeninge",
+    "Use the following link to reset your password: {link}" : "Gebruik die volgende skakel om jou wagwoord te herstel: {link}",
+    "New password" : "Nuwe wagwoord",
+    "Reset password" : "Herstel wagwoord"
 },
 "nplurals=2; plural=(n != 1);");

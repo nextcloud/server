@@ -31,8 +31,6 @@ OC.L10N.register(
     "Share" : "साझा करें",
     "Warning" : "चेतावनी ",
     "Add" : "डाले",
-    "Use the following link to reset your password: {link}" : "आगे दिये गये लिंक का उपयोग पासवर्ड बदलने के लिये किजीये: {link}",
-    "New password" : "नया पासवर्ड",
     "Personal" : "यक्तिगत",
     "Users" : "उपयोगकर्ता",
     "Apps" : "Apps",
@@ -45,6 +43,8 @@ OC.L10N.register(
     "Database password" : "डेटाबेस पासवर्ड",
     "Database name" : "डेटाबेस का नाम",
     "Finish setup" : "सेटअप समाप्त करे",
-    "Log out" : "लोग  आउट"
+    "Log out" : "लोग  आउट",
+    "Use the following link to reset your password: {link}" : "आगे दिये गये लिंक का उपयोग पासवर्ड बदलने के लिये किजीये: {link}",
+    "New password" : "नया पासवर्ड"
 },
 "nplurals=2; plural=(n != 1);");

@@ -55,8 +55,8 @@
     "Warning" : "Զգուշացում",
     "Delete" : "Ջնջել",
     "Add" : "Ավելացնել",
-    "New password" : "Նոր գաղտնաբառ",
     "Personal" : "Անձնական",
-    "Username" : "Օգտանուն"
+    "Username" : "Օգտանուն",
+    "New password" : "Նոր գաղտնաբառ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
