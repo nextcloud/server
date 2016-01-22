@@ -59,8 +59,10 @@
 namespace OC\Files;
 
 use OC\Files\Config\MountProviderCollection;
+use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 
@@ -412,7 +414,8 @@ class Filesystem {
 			$homeStorage['arguments']['legacy'] = true;
 		}
 
-		self::mount($homeStorage['class'], $homeStorage['arguments'], $user);
+		$mount = new MountPoint($homeStorage['class'], '/' . $user, $homeStorage['arguments'], self::getLoader());
+		self::getMountManager()->addMount($mount);
 
 		$home = \OC\Files\Filesystem::getStorage($user);
 
@@ -424,6 +427,8 @@ class Filesystem {
 		if ($userObject) {
 			$mounts = $mountConfigManager->getMountsForUser($userObject);
 			array_walk($mounts, array(self::$mounts, 'addMount'));
+			$mounts[] = $mount;
+			$mountConfigManager->registerMounts($userObject, $mounts);
 		}
 
 		self::listenForNewMountProviders($mountConfigManager, $userManager);

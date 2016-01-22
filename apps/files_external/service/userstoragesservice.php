@@ -23,6 +23,7 @@
 
 namespace OCA\Files_external\Service;
 
+use OCP\Files\Config\IUserMountCache;
 use \OCP\IUserSession;
 use \OC\Files\Filesystem;
 
@@ -44,14 +45,16 @@ class UserStoragesService extends StoragesService {
 	 * @param BackendService $backendService
 	 * @param DBConfigService $dbConfig
 	 * @param IUserSession $userSession user session
+	 * @param IUserMountCache $userMountCache
 	 */
 	public function __construct(
 		BackendService $backendService,
 		DBConfigService $dbConfig,
-		IUserSession $userSession
+		IUserSession $userSession,
+		IUserMountCache $userMountCache
 	) {
 		$this->userSession = $userSession;
-		parent::__construct($backendService, $dbConfig);
+		parent::__construct($backendService, $dbConfig, $userMountCache);
 	}
 
 	protected function readDBConfig() {

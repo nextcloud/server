@@ -47,6 +47,8 @@ use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Files\Config\UserMountCache;
+use OC\Files\Config\UserMountCacheListener;
 use OC\Files\Node\HookConnector;
 use OC\Files\Node\Root;
 use OC\Files\View;
@@ -136,7 +138,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 			return new Encryption\Keys\Storage($view, $util);
 		});
-		$this->registerService('TagMapper', function(Server $c) {
+		$this->registerService('TagMapper', function (Server $c) {
 			return new TagMapper($c->getDatabaseConnection());
 		});
 		$this->registerService('TagManager', function (Server $c) {
@@ -276,13 +278,13 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('MemCacheFactory', function (Server $c) {
 			$config = $c->getConfig();
 
-			if($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+			if ($config->getSystemValue('installed', false) && !(defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				$v = \OC_App::getAppVersions();
 				$v['core'] = md5(file_get_contents(\OC::$SERVERROOT . '/version.php'));
 				$version = implode(',', $v);
 				$instanceId = \OC_Util::getInstanceId();
 				$path = \OC::$SERVERROOT;
-				$prefix = md5($instanceId.'-'.$version.'-'.$path);
+				$prefix = md5($instanceId . '-' . $version . '-' . $path);
 				return new \OC\Memcache\Factory($prefix, $c->getLogger(),
 					$config->getSystemValue('memcache.local', null),
 					$config->getSystemValue('memcache.distributed', null),
@@ -393,7 +395,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getConfig()
 			);
 		});
-		$this->registerService('AppManager', function(Server $c) {
+		$this->registerService('AppManager', function (Server $c) {
 			return new \OC\App\AppManager(
 				$c->getUserSession(),
 				$c->getAppConfig(),
@@ -401,13 +403,13 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getMemCacheFactory()
 			);
 		});
-		$this->registerService('DateTimeZone', function(Server $c) {
+		$this->registerService('DateTimeZone', function (Server $c) {
 			return new DateTimeZone(
 				$c->getConfig(),
 				$c->getSession()
 			);
 		});
-		$this->registerService('DateTimeFormatter', function(Server $c) {
+		$this->registerService('DateTimeFormatter', function (Server $c) {
 			$language = $c->getConfig()->getUserValue($c->getSession()->get('user_id'), 'core', 'lang', null);
 
 			return new DateTimeFormatter(
@@ -415,9 +417,16 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getL10N('lib', $language)
 			);
 		});
-		$this->registerService('MountConfigManager', function () {
+		$this->registerService('UserMountCache', function (Server $c) {
+			$mountCache = new UserMountCache($c->getDatabaseConnection(), $c->getUserManager(), $c->getLogger());
+			$listener = new UserMountCacheListener($mountCache);
+			$listener->listen($c->getUserManager());
+			return $mountCache;
+		});
+		$this->registerService('MountConfigManager', function (Server $c) {
 			$loader = \OC\Files\Filesystem::getLoader();
-			return new \OC\Files\Config\MountProviderCollection($loader);
+			$mountCache = $c->query('UserMountCache');
+			return new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
 		});
 		$this->registerService('IniWrapper', function ($c) {
 			return new IniGetWrapper();
@@ -489,14 +498,14 @@ class Server extends ServerContainer implements IServerContainer {
 				$stream
 			);
 		});
-		$this->registerService('Mailer', function(Server $c) {
+		$this->registerService('Mailer', function (Server $c) {
 			return new Mailer(
 				$c->getConfig(),
 				$c->getLogger(),
 				new \OC_Defaults()
 			);
 		});
-		$this->registerService('OcsClient', function(Server $c) {
+		$this->registerService('OcsClient', function (Server $c) {
 			return new OCSClient(
 				$this->getHTTPClientService(),
 				$this->getConfig(),
@@ -518,24 +527,24 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('MountManager', function () {
 			return new \OC\Files\Mount\Manager();
 		});
-		$this->registerService('MimeTypeDetector', function(Server $c) {
+		$this->registerService('MimeTypeDetector', function (Server $c) {
 			return new \OC\Files\Type\Detection(
 				$c->getURLGenerator(),
 				\OC::$SERVERROOT . '/config/',
 				\OC::$SERVERROOT . '/resources/config/'
-				);
+			);
 		});
-		$this->registerService('MimeTypeLoader', function(Server $c) {
+		$this->registerService('MimeTypeLoader', function (Server $c) {
 			return new \OC\Files\Type\Loader(
 				$c->getDatabaseConnection()
 			);
 		});
-		$this->registerService('NotificationManager', function() {
+		$this->registerService('NotificationManager', function () {
 			return new Manager();
 		});
 		$this->registerService('CapabilitiesManager', function (Server $c) {
 			$manager = new \OC\CapabilitiesManager();
-			$manager->registerCapability(function() use ($c) {
+			$manager->registerCapability(function () use ($c) {
 				return new \OC\OCS\CoreCapabilities($c->getConfig());
 			});
 			return $manager;
@@ -547,7 +556,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$factory = new $factoryClass($this);
 			return $factory->getManager();
 		});
-		$this->registerService('EventDispatcher', function() {
+		$this->registerService('EventDispatcher', function () {
 			return new EventDispatcher();
 		});
 		$this->registerService('CryptoWrapper', function (Server $c) {
@@ -932,6 +941,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * Returns an instance of the db facade
+	 *
 	 * @deprecated use getDatabaseConnection, will be removed in ownCloud 10
 	 * @return \OCP\IDb
 	 */
@@ -941,6 +951,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * Returns an instance of the HTTP helper class
+	 *
 	 * @deprecated Use getHTTPClientService()
 	 * @return \OC\HTTPHelper
 	 */
@@ -1066,7 +1077,7 @@ class Server extends ServerContainer implements IServerContainer {
 	/**
 	 * @return \OCP\Files\Config\IMountProviderCollection
 	 */
-	public function getMountProviderCollection(){
+	public function getMountProviderCollection() {
 		return $this->query('MountConfigManager');
 	}
 
@@ -1082,7 +1093,7 @@ class Server extends ServerContainer implements IServerContainer {
 	/**
 	 * @return \OCP\Command\IBus
 	 */
-	public function getCommandBus(){
+	public function getCommandBus() {
 		return $this->query('AsyncCommandBus');
 	}
 
@@ -1182,6 +1193,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * Not a public API as of 8.2, wait for 9.0
+	 *
 	 * @return \OCA\Files_External\Service\BackendService
 	 */
 	public function getStoragesBackendService() {
@@ -1190,6 +1202,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * Not a public API as of 8.2, wait for 9.0
+	 *
 	 * @return \OCA\Files_External\Service\GlobalStoragesService
 	 */
 	public function getGlobalStoragesService() {
@@ -1198,6 +1211,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * Not a public API as of 8.2, wait for 9.0
+	 *
 	 * @return \OCA\Files_External\Service\UserGlobalStoragesService
 	 */
 	public function getUserGlobalStoragesService() {
@@ -1206,6 +1220,7 @@ class Server extends ServerContainer implements IServerContainer {
 
 	/**
 	 * Not a public API as of 8.2, wait for 9.0
+	 *
 	 * @return \OCA\Files_External\Service\UserStoragesService
 	 */
 	public function getUserStoragesService() {
@@ -1219,4 +1234,5 @@ class Server extends ServerContainer implements IServerContainer {
 	public function getShareManager() {
 		return $this->query('ShareManager');
 	}
+
 }

@@ -29,6 +29,7 @@ use OCA\Files_external\Service\LegacyStoragesService;
 use OCA\Files_external\Service\StoragesService;
 use OCA\Files_external\Service\UserLegacyStoragesService;
 use OCA\Files_external\Service\UserStoragesService;
+use OCP\Files\Config\IUserMountCache;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -64,6 +65,9 @@ class StorageMigrator {
 	 */
 	private $logger;
 
+	/** @var IUserMountCache  */
+	private $userMountCache;
+
 	/**
 	 * StorageMigrator constructor.
 	 *
@@ -72,19 +76,22 @@ class StorageMigrator {
 	 * @param IConfig $config
 	 * @param IDBConnection $connection
 	 * @param ILogger $logger
+	 * @param IUserMountCache $userMountCache
 	 */
 	public function __construct(
 		BackendService $backendService,
 		DBConfigService $dbConfig,
 		IConfig $config,
 		IDBConnection $connection,
-		ILogger $logger
+		ILogger $logger,
+		IUserMountCache $userMountCache
 	) {
 		$this->backendService = $backendService;
 		$this->dbConfig = $dbConfig;
 		$this->config = $config;
 		$this->connection = $connection;
 		$this->logger = $logger;
+		$this->userMountCache = $userMountCache;
 	}
 
 	private function migrate(LegacyStoragesService $legacyService, StoragesService $storageService) {
@@ -107,7 +114,7 @@ class StorageMigrator {
 	 */
 	public function migrateGlobal() {
 		$legacyService = new GlobalLegacyStoragesService($this->backendService);
-		$storageService = new GlobalStoragesService($this->backendService, $this->dbConfig);
+		$storageService = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->userMountCache);
 
 		$this->migrate($legacyService, $storageService);
 	}
@@ -125,7 +132,7 @@ class StorageMigrator {
 		if (version_compare($userVersion, '0.5.0', '<')) {
 			$this->config->setUserValue($userId, 'files_external', 'config_version', '0.5.0');
 			$legacyService = new UserLegacyStoragesService($this->backendService, $dummySession);
-			$storageService = new UserStoragesService($this->backendService, $this->dbConfig, $dummySession);
+			$storageService = new UserStoragesService($this->backendService, $this->dbConfig, $dummySession, $this->userMountCache);
 
 			$this->migrate($legacyService, $storageService);
 		}

@@ -26,6 +26,7 @@
 namespace OCA\Files_External\AppInfo;
 
 use \OCP\AppFramework\App;
+use OCP\AppFramework\IAppContainer;
 use \OCP\IContainer;
 use \OCA\Files_External\Service\BackendService;
 
@@ -33,8 +34,12 @@ use \OCA\Files_External\Service\BackendService;
  * @package OCA\Files_External\Appinfo
  */
 class Application extends App {
-	public function __construct(array $urlParams=array()) {
+	public function __construct(array $urlParams = array()) {
 		parent::__construct('files_external', $urlParams);
+
+		$this->getContainer()->registerService('OCP\Files\Config\IUserMountCache', function (IAppContainer $c) {
+			return $c->getServer()->query('UserMountCache');
+		});
 
 		$this->loadBackends();
 		$this->loadAuthMechanisms();

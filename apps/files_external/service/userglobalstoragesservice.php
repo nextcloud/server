@@ -25,6 +25,7 @@ namespace OCA\Files_External\Service;
 
 use \OCA\Files_external\Service\GlobalStoragesService;
 use \OCA\Files_External\Service\BackendService;
+use OCP\Files\Config\IUserMountCache;
 use \OCP\IUserSession;
 use \OCP\IGroupManager;
 use \OCA\Files_External\Service\UserTrait;
@@ -46,14 +47,16 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 	 * @param DBConfigService $dbConfig
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
+	 * @param IUserMountCache $userMountCache
 	 */
 	public function __construct(
 		BackendService $backendService,
 		DBConfigService $dbConfig,
 		IUserSession $userSession,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
+		IUserMountCache $userMountCache
 	) {
-		parent::__construct($backendService, $dbConfig);
+		parent::__construct($backendService, $dbConfig, $userMountCache);
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 	}

@@ -34,7 +34,7 @@ use \OCA\Files_external\Lib\StorageConfig;
 class GlobalStoragesServiceTest extends StoragesServiceTest {
 	public function setUp() {
 		parent::setUp();
-		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig);
+		$this->service = new GlobalStoragesService($this->backendService, $this->dbConfig, $this->mountCache);
 	}
 
 	public function tearDown() {
