@@ -55,7 +55,7 @@ class AvatarManagerTest extends \Test\TestCase {
 
 	public function testGetAvatarValidUser() {
 		$this->userManager->expects($this->once())
-			->method('userExists')
+			->method('get')
 			->with('validUser')
 			->willReturn(true);
 

@@ -20,9 +20,12 @@ class AvatarTest extends \Test\TestCase {
 		parent::setUp();
 
 		$this->folder = $this->getMock('\OCP\Files\Folder');
+		/** @var \OCP\IL10N | PHPUnit_Framework_MockObject_MockObject $l */
 		$l = $this->getMock('\OCP\IL10N');
 		$l->method('t')->will($this->returnArgument(0));
-		$this->avatar = new \OC\Avatar($this->folder, $l);
+		/** @var \OC\User\User | PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMockBuilder('\OC\User\User')->disableOriginalConstructor()->getMock();
+		$this->avatar = new \OC\Avatar($this->folder, $l, $user);
 	}
 
 	public function testGetNoAvatar() {

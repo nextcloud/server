@@ -140,9 +140,7 @@ class User implements IUser {
 			$result = $this->backend->setDisplayName($this->uid, $displayName);
 			if ($result) {
 				$this->displayName = $displayName;
-				if ($this->emitter) {
-					$this->emitter->emit('\OC\User', 'changeUser', array($this));
-				}
+				$this->triggerChange();
 			}
 			return $result !== false;
 		} else {
@@ -163,9 +161,7 @@ class User implements IUser {
 		} else {
 			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
 		}
-		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', array($this));
-		}
+		$this->triggerChange();
 	}
 
 	/**
@@ -387,6 +383,12 @@ class User implements IUser {
 		}
 
 		return $url;
+	}
+
+	public function triggerChange() {
+		if ($this->emitter) {
+			$this->emitter->emit('\OC\User', 'changeUser', array($this));
+		}
 	}
 
 }
