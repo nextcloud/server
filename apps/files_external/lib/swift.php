@@ -323,27 +323,24 @@ class Swift extends \OC\Files\Storage\Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$tmpFile = \OCP\Files::tmpFile();
-				self::$tmpFiles[$tmpFile] = $path;
 				try {
-					$object = $this->getContainer()->getObject($path);
-				} catch (ClientErrorResponseException $e) {
-					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+					$c = $this->getContainer();
+					$streamFactory = new \Guzzle\Stream\PhpStreamRequestFactory();
+					$streamInterface = $streamFactory->fromRequest(
+						$c->getClient()
+							->get($c->getUrl($path)));
+					$streamInterface->rewind();
+					$stream = $streamInterface->getStream();
+					stream_context_set_option($stream, 'swift','content', $streamInterface);
+					if(!strrpos($streamInterface
+						->getMetaData('wrapper_data')[0], '404 Not Found')) {
+						return $stream;
+					}
 					return false;
-				} catch (Exception\ObjectNotFoundException $e) {
+				} catch (\Guzzle\Http\Exception\BadResponseException $e) {
 					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 					return false;
 				}
-				try {
-					$objectContent = $object->getContent();
-					$objectContent->rewind();
-					$stream = $objectContent->getStream();
-					file_put_contents($tmpFile, $stream);
-				} catch (Exceptions\IOError $e) {
-					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-					return false;
-				}
-				return fopen($tmpFile, 'r');
 			case 'w':
 			case 'wb':
 			case 'a':
