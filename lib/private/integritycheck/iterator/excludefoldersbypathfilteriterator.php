@@ -35,6 +35,7 @@ class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 		$this->excludedFolders = array_merge([
 			rtrim(\OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data'), '/'),
 			rtrim(\OC::$SERVERROOT.'/themes', '/'),
+			rtrim(\OC::$SERVERROOT.'/config', '/'),
 		], $appFolders);
 	}
 

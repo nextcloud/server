@@ -408,7 +408,7 @@ class Setup {
 			\OC::$server->getSecureRandom());
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
-		$content = '';
+		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
 		if (strpos($htaccessContent, 'ErrorDocument 403') === false) {
 			//custom 403 error page
 			$content.= "\nErrorDocument 403 ".\OC::$WEBROOT."/core/templates/403.php";
