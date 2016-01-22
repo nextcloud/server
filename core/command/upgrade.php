@@ -206,6 +206,12 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($output) {
 				$output->writeln("<info>Reset log level</info>");
 			});
+			$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use($output) {
+				$output->writeln("<info>Starting code integrity check...</info>");
+			});
+			$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use($output) {
+				$output->writeln("<info>Finished code integrity check</info>");
+			});
 
 			if(OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
 				$updater->listen('\OC\Updater', 'repairInfo', function ($message) use($output) {
