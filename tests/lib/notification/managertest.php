@@ -82,15 +82,23 @@ class ManagerTest extends TestCase {
 		};
 
 		$this->assertEquals([], $this->invokePrivate($this->manager, 'getNotifiers'));
+		$this->assertEquals([], $this->invokePrivate($this->manager, 'listNotifiers'));
 
-		$this->manager->registerNotifier($closure);
+		$this->manager->registerNotifier($closure, function() {
+			return ['id' => 'test1', 'name' => 'Test One'];
+		});
 
 		$this->assertEquals([$notifier], $this->invokePrivate($this->manager, 'getNotifiers'));
+		$this->assertEquals(['test1' => 'Test One'], $this->invokePrivate($this->manager, 'listNotifiers'));
 		$this->assertEquals([$notifier], $this->invokePrivate($this->manager, 'getNotifiers'));
+		$this->assertEquals(['test1' => 'Test One'], $this->invokePrivate($this->manager, 'listNotifiers'));
 
-		$this->manager->registerNotifier($closure);
+		$this->manager->registerNotifier($closure, function() {
+			return ['id' => 'test2', 'name' => 'Test Two'];
+		});
 
 		$this->assertEquals([$notifier, $notifier], $this->invokePrivate($this->manager, 'getNotifiers'));
+		$this->assertEquals(['test1' => 'Test One', 'test2' => 'Test Two'], $this->invokePrivate($this->manager, 'listNotifiers'));
 	}
 
 	/**
@@ -105,9 +113,66 @@ class ManagerTest extends TestCase {
 			return $app;
 		};
 
-		$this->manager->registerNotifier($closure);
+		$this->manager->registerNotifier($closure, function() {
+			return ['id' => 'test1', 'name' => 'Test One'];
+		});
 
 		$this->invokePrivate($this->manager, 'getNotifiers');
+	}
+
+	public function dataRegisterNotifierInfoInvalid() {
+		return [
+			[null],
+			['No array'],
+			[['id' => 'test1', 'name' => 'Test One', 'size' => 'Invalid']],
+			[['no-id' => 'test1', 'name' => 'Test One']],
+			[['id' => 'test1', 'no-name' => 'Test One']],
+		];
+	}
+
+	/**
+	 * @dataProvider dataRegisterNotifierInfoInvalid
+	 * @expectedException \InvalidArgumentException
+	 * @param mixed $data
+	 */
+	public function testRegisterNotifierInfoInvalid($data) {
+		$app = $this->getMockBuilder('OC\Notification\IApp')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$closure = function() use ($app) {
+			return $app;
+		};
+
+		$this->manager->registerNotifier($closure, function() use ($data) {
+			return $data;
+		});
+
+		$this->manager->listNotifiers();
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage The given notifier ID test1 is already in use
+	 */
+	public function testRegisterNotifierInfoDuplicate() {
+		$app = $this->getMockBuilder('OC\Notification\IApp')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$closure = function() use ($app) {
+			return $app;
+		};
+
+		$this->manager->registerNotifier($closure, function() {
+			return ['id' => 'test1', 'name' => 'Test One'];
+		});
+
+		$this->manager->registerNotifier($closure, function() {
+			return ['id' => 'test1', 'name' => 'Test One'];
+		});
+
+		$this->manager->listNotifiers();
 	}
 
 	public function testCreateNotification() {
@@ -201,9 +266,13 @@ class ManagerTest extends TestCase {
 
 		$this->manager->registerNotifier(function() use ($notifier) {
 			return $notifier;
+		}, function() {
+			return ['id' => 'test1', 'name' => 'Test One'];
 		});
 		$this->manager->registerNotifier(function() use ($notifier2) {
 			return $notifier2;
+		}, function() {
+			return ['id' => 'test2', 'name' => 'Test Two'];
 		});
 
 		$this->assertEquals($notification2, $this->manager->prepare($notification, 'en'));
@@ -232,6 +301,8 @@ class ManagerTest extends TestCase {
 
 		$this->manager->registerNotifier(function() use ($notifier) {
 			return $notifier;
+		}, function() {
+			return ['id' => 'test1', 'name' => 'Test One'];
 		});
 
 		$this->manager->prepare($notification, 'de');
@@ -257,6 +328,8 @@ class ManagerTest extends TestCase {
 
 		$this->manager->registerNotifier(function() use ($notifier) {
 			return $notifier;
+		}, function() {
+			return ['id' => 'test1', 'name' => 'Test One'];
 		});
 
 		$this->assertEquals($notification, $this->manager->prepare($notification, 'de'));

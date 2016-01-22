@@ -29,17 +29,25 @@ class Manager implements IManager {
 	/** @var INotifier */
 	protected $notifiers;
 
-	/** @var \Closure */
+	/** @var array[] */
+	protected $notifiersInfo;
+
+	/** @var \Closure[] */
 	protected $appsClosures;
 
-	/** @var \Closure */
+	/** @var \Closure[] */
 	protected $notifiersClosures;
+
+	/** @var \Closure[] */
+	protected $notifiersInfoClosures;
 
 	public function __construct() {
 		$this->apps = [];
 		$this->notifiers = [];
+		$this->notifiersInfo = [];
 		$this->appsClosures = [];
 		$this->notifiersClosures = [];
+		$this->notifiersInfoClosures = [];
 	}
 
 	/**
@@ -56,12 +64,16 @@ class Manager implements IManager {
 	/**
 	 * @param \Closure $service The service must implement INotifier, otherwise a
 	 *                          \InvalidArgumentException is thrown later
+	 * @param \Closure $info    An array with the keys 'id' and 'name' containing
+	 *                          the app id and the app name
 	 * @return null
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $info was added in 9.0.0
 	 */
-	public function registerNotifier(\Closure $service) {
+	public function registerNotifier(\Closure $service, \Closure $info) {
 		$this->notifiersClosures[] = $service;
+		$this->notifiersInfoClosures[] = $info;
 		$this->notifiers = [];
+		$this->notifiersInfo = [];
 	}
 
 	/**
@@ -96,12 +108,35 @@ class Manager implements IManager {
 		foreach ($this->notifiersClosures as $closure) {
 			$notifier = $closure();
 			if (!($notifier instanceof INotifier)) {
-				throw new \InvalidArgumentException('The given notification app does not implement the INotifier interface');
+				throw new \InvalidArgumentException('The given notifier does not implement the INotifier interface');
 			}
 			$this->notifiers[] = $notifier;
 		}
 
 		return $this->notifiers;
+	}
+
+	/**
+	 * @return array[]
+	 */
+	public function listNotifiers() {
+		if (!empty($this->notifiersInfo)) {
+			return $this->notifiersInfo;
+		}
+
+		$this->notifiersInfo = [];
+		foreach ($this->notifiersInfoClosures as $closure) {
+			$notifier = $closure();
+			if (!is_array($notifier) || sizeof($notifier) !== 2 || !isset($notifier['id']) || !isset($notifier['name'])) {
+				throw new \InvalidArgumentException('The given notifier information is invalid');
+			}
+			if (isset($this->notifiersInfo[$notifier['id']])) {
+				throw new \InvalidArgumentException('The given notifier ID ' . $notifier['id'] . ' is already in use');
+			}
+			$this->notifiersInfo[$notifier['id']] = $notifier['name'];
+		}
+
+		return $this->notifiersInfo;
 	}
 
 	/**

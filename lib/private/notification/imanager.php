@@ -43,10 +43,18 @@ interface IManager extends IApp, INotifier {
 	/**
 	 * @param \Closure $service The service must implement INotifier, otherwise a
 	 *                          \InvalidArgumentException is thrown later
+	 * @param \Closure $info    An array with the keys 'id' and 'name' containing
+	 *                          the app id and the app name
 	 * @return null
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $info was added in 9.0.0
 	 */
-	public function registerNotifier(\Closure $service);
+	public function registerNotifier(\Closure $service, \Closure $info);
+
+	/**
+	 * @return array App ID => App Name
+	 * @since 9.0.0
+	 */
+	public function listNotifiers();
 
 	/**
 	 * @return INotification
