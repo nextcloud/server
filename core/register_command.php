@@ -36,7 +36,8 @@ $application->add(new OC\Core\Command\App\CheckCode($infoParser));
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(
 		\OC::$server->getIntegrityCodeChecker(),
-		new \OC\IntegrityCheck\Helpers\FileAccessHelper()
+		new \OC\IntegrityCheck\Helpers\FileAccessHelper(),
+		\OC::$server->getURLGenerator()
 ));
 $application->add(new \OC\Core\Command\Integrity\SignCore(
 		\OC::$server->getIntegrityCodeChecker(),
