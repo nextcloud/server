@@ -99,6 +99,7 @@ class SetupController {
 		if( file_exists( $this->autoConfigFile )) {
 			unlink($this->autoConfigFile);
 		}
+		\OC::$server->getIntegrityCodeChecker()->runInstanceVerification();
 		\OC_Util::redirectToDefaultPage();
 	}
 
