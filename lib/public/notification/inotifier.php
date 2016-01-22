@@ -19,38 +19,21 @@
  *
  */
 
-namespace OC\Notification;
+namespace OCP\Notification;
 
 /**
- * Interface IApp
+ * Interface INotifier
  *
- * @package OC\Notification
- * @since 8.2.0
- *
- * DEVELOPER NOTE:
- * The notification api is experimental only in 8.2.0! Do not start using it,
- * if you can not prepare an update for the next version afterwards.
+ * @package OCP\Notification
+ * @since 9.0.0
  */
-interface IApp {
+interface INotifier {
 	/**
 	 * @param INotification $notification
-	 * @return null
-	 * @throws \InvalidArgumentException When the notification is not valid
-	 * @since 8.2.0
+	 * @param string $languageCode The code of the language that should be used to prepare the notification
+	 * @return INotification
+	 * @throws \InvalidArgumentException When the notification was not prepared by a notifier
+	 * @since 9.0.0
 	 */
-	public function notify(INotification $notification);
-
-	/**
-	 * @param INotification $notification
-	 * @return null
-	 * @since 8.2.0
-	 */
-	public function markProcessed(INotification $notification);
-
-	/**
-	 * @param INotification $notification
-	 * @return int
-	 * @since 8.2.0
-	 */
-	public function getCount(INotification $notification);
+	public function prepare(INotification $notification, $languageCode);
 }

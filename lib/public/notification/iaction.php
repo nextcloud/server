@@ -19,30 +19,26 @@
  *
  */
 
-namespace OC\Notification;
+namespace OCP\Notification;
 
 /**
  * Interface IAction
  *
- * @package OC\Notification
- * @since 8.2.0
- *
- * DEVELOPER NOTE:
- * The notification api is experimental only in 8.2.0! Do not start using it,
- * if you can not prepare an update for the next version afterwards.
+ * @package OCP\Notification
+ * @since 9.0.0
  */
 interface IAction {
 	/**
 	 * @param string $label
 	 * @return $this
 	 * @throws \InvalidArgumentException if the label is invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setLabel($label);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getLabel();
 
@@ -50,13 +46,13 @@ interface IAction {
 	 * @param string $label
 	 * @return $this
 	 * @throws \InvalidArgumentException if the label is invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setParsedLabel($label);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getParsedLabel();
 
@@ -79,31 +75,31 @@ interface IAction {
 	 * @param string $requestType
 	 * @return $this
 	 * @throws \InvalidArgumentException if the link is invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setLink($link, $requestType);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getLink();
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getRequestType();
 
 	/**
 	 * @return bool
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function isValid();
 
 	/**
 	 * @return bool
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function isValidParsed();
 }

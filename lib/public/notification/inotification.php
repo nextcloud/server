@@ -19,30 +19,26 @@
  *
  */
 
-namespace OC\Notification;
+namespace OCP\Notification;
 
 /**
  * Interface INotification
  *
- * @package OC\Notification
- * @since 8.2.0
- *
- * DEVELOPER NOTE:
- * The notification api is experimental only in 8.2.0! Do not start using it,
- * if you can not prepare an update for the next version afterwards.
+ * @package OCP\Notification
+ * @since 9.0.0
  */
 interface INotification {
 	/**
 	 * @param string $app
 	 * @return $this
 	 * @throws \InvalidArgumentException if the app id are invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setApp($app);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getApp();
 
@@ -50,13 +46,13 @@ interface INotification {
 	 * @param string $user
 	 * @return $this
 	 * @throws \InvalidArgumentException if the user id are invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setUser($user);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getUser();
 
@@ -79,19 +75,19 @@ interface INotification {
 	 * @param string $id
 	 * @return $this
 	 * @throws \InvalidArgumentException if the object type or id is invalid
-	 * @since 8.2.0 - 9.0.0: Type of $id changed to string
+	 * @since 9.0.0
 	 */
 	public function setObject($type, $id);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getObjectType();
 
 	/**
 	 * @return string
-	 * @since 8.2.0 - 9.0.0: Return type changed to string
+	 * @since 9.0.0
 	 */
 	public function getObjectId();
 
@@ -100,19 +96,19 @@ interface INotification {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject or parameters are invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setSubject($subject, array $parameters = []);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getSubject();
 
 	/**
 	 * @return string[]
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getSubjectParameters();
 
@@ -120,13 +116,13 @@ interface INotification {
 	 * @param string $subject
 	 * @return $this
 	 * @throws \InvalidArgumentException if the subject are invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setParsedSubject($subject);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getParsedSubject();
 
@@ -135,19 +131,19 @@ interface INotification {
 	 * @param array $parameters
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message or parameters are invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setMessage($message, array $parameters = []);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getMessage();
 
 	/**
 	 * @return string[]
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getMessageParameters();
 
@@ -155,13 +151,13 @@ interface INotification {
 	 * @param string $message
 	 * @return $this
 	 * @throws \InvalidArgumentException if the message are invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setParsedMessage($message);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getParsedMessage();
 
@@ -169,19 +165,19 @@ interface INotification {
 	 * @param string $link
 	 * @return $this
 	 * @throws \InvalidArgumentException if the link are invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function setLink($link);
 
 	/**
 	 * @return string
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getLink();
 
 	/**
 	 * @return IAction
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function createAction();
 
@@ -189,13 +185,13 @@ interface INotification {
 	 * @param IAction $action
 	 * @return $this
 	 * @throws \InvalidArgumentException if the action are invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function addAction(IAction $action);
 
 	/**
 	 * @return IAction[]
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getActions();
 
@@ -203,25 +199,25 @@ interface INotification {
 	 * @param IAction $action
 	 * @return $this
 	 * @throws \InvalidArgumentException if the action are invalid
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function addParsedAction(IAction $action);
 
 	/**
 	 * @return IAction[]
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function getParsedActions();
 
 	/**
 	 * @return bool
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function isValid();
 
 	/**
 	 * @return bool
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function isValidParsed();
 }

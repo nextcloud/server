@@ -476,8 +476,8 @@ interface IServerContainer {
 	/**
 	 * Get the Notification Manager
 	 *
-	 * @return \OC\Notification\IManager
-	 * @since 8.2.0
+	 * @return \OCP\Notification\IManager
+	 * @since 9.0.0
 	 */
 	public function getNotificationManager();
 
