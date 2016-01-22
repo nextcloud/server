@@ -44,10 +44,26 @@ class SystemTagsObjectTypeCollection extends \Test\TestCase {
 		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
 		$this->tagMapper = $this->getMock('\OCP\SystemTag\ISystemTagObjectMapper');
 
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('testuser'));
+		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$groupManager = $this->getMock('\OCP\IGroupManager');
+		$groupManager->expects($this->any())
+			->method('isAdmin')
+			->with('testuser')
+			->will($this->returnValue(true));
+
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
 			'files',
 			$this->tagManager,
-			$this->tagMapper
+			$this->tagMapper,
+			$userSession,
+			$groupManager
 		);
 	}
 

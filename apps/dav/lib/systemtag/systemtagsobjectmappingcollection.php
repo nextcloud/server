@@ -58,22 +58,42 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	private $tagMapper;
 
 	/**
+	 * Whether to return results only visible for admins
+	 *
+	 * @var bool
+	 */
+	private $isAdmin;
+
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $objectId object id
 	 * @param string $objectType object type
+	 * @param bool $isAdmin whether to return results visible only for admins
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
 	 */
-	public function __construct($objectId, $objectType, $tagManager, $tagMapper) {
+	public function __construct($objectId, $objectType, $isAdmin, $tagManager, $tagMapper) {
 		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
 		$this->objectId = $objectId;
 		$this->objectType = $objectType;
+		$this->isAdmin = $isAdmin;
 	}
 
 	function createFile($tagId, $data = null) {
 		try {
+			if (!$this->isAdmin) {
+				$tag = $this->tagManager->getTagsByIds($tagId);
+				$tag = current($tag);
+				if (!$tag->isUserVisible()) {
+					throw new PreconditionFailed('Tag with id ' . $tagId . ' does not exist, cannot assign');
+				}
+				if (!$tag->isUserAssignable()) {
+					throw new Forbidden('No permission to assign tag ' . $tag->getId());
+				}
+			}
 			$this->tagMapper->assignTags($this->objectId, $this->objectType, $tagId);
 		} catch (TagNotFoundException $e) {
 			throw new PreconditionFailed('Tag with id ' . $tagId . ' does not exist, cannot assign');
@@ -88,7 +108,10 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		try {
 			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true)) {
 				$tag = $this->tagManager->getTagsByIds([$tagId]);
-				return $this->makeNode(current($tag));
+				$tag = current($tag);
+				if ($this->isAdmin || $tag->isUserVisible()) {
+					return $this->makeNode($tag);
+				}
 			}
 			throw new NotFound('Tag with id ' . $tagId . ' not present for object ' . $this->objectId);
 		} catch (\InvalidArgumentException $e) {
@@ -104,6 +127,12 @@ class SystemTagsObjectMappingCollection implements ICollection {
 			return [];
 		}
 		$tags = $this->tagManager->getTagsByIds($tagIds);
+		if (!$this->isAdmin) {
+			// filter out non-visible tags
+			$tags = array_filter($tags, function($tag) {
+				return $tag->isUserVisible();
+			});
+		}
 		return array_values(array_map(function($tag) {
 			return $this->makeNode($tag);
 		}, $tags));
@@ -111,7 +140,18 @@ class SystemTagsObjectMappingCollection implements ICollection {
 
 	function childExists($tagId) {
 		try {
-			return ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true));
+			$result = ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true));
+			if ($this->isAdmin || !$result) {
+				return $result;
+			}
+
+			// verify if user is allowed to see this tag
+			$tag = $this->tagManager->getTagsByIds($tagId);
+			$tag = current($tag);
+			if (!$tag->isUserVisible()) {
+				return false;
+			}
+			return true;
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
 		} catch (TagNotFoundException $e) {
@@ -153,6 +193,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 			$tag,
 			$this->objectId,
 			$this->objectType,
+			$this->isAdmin,
 			$this->tagManager,
 			$this->tagMapper
 		);

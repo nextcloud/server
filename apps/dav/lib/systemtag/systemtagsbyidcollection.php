@@ -31,6 +31,8 @@ use Sabre\DAV\ICollection;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\IGroupManager;
+use OCP\IUserSession;
 
 class SystemTagsByIdCollection implements ICollection {
 
@@ -40,12 +42,41 @@ class SystemTagsByIdCollection implements ICollection {
 	private $tagManager;
 
 	/**
+	 * @var IGroupManager
+	 */
+	private $groupManager;
+
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+
+	/**
 	 * SystemTagsByIdCollection constructor.
 	 *
 	 * @param ISystemTagManager $tagManager
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct($tagManager) {
+	public function __construct(
+		ISystemTagManager $tagManager,
+		IUserSession $userSession,
+		IGroupManager $groupManager
+	) {
 		$this->tagManager = $tagManager;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
+	}
+
+	/**
+	 * Returns whether the currently logged in user is an administrator
+	 */
+	private function isAdmin() {
+		$user = $this->userSession->getUser();
+		if ($user !== null) {
+			return $this->groupManager->isAdmin($user->getUID());
+		}
+		return false;
 	}
 
 	/**
@@ -69,8 +100,12 @@ class SystemTagsByIdCollection implements ICollection {
 	 */
 	function getChild($name) {
 		try {
-			$tags = $this->tagManager->getTagsByIds([$name]);
-			return $this->makeNode(current($tags));
+			$tag = $this->tagManager->getTagsByIds([$name]);
+			$tag = current($tag);
+			if (!$this->isAdmin() && !$tag->isUserVisible()) {
+				throw new NotFound('Tag with id ' . $name . ' not found');
+			}
+			return $this->makeNode($tag);
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
 		} catch (TagNotFoundException $e) {
@@ -79,7 +114,12 @@ class SystemTagsByIdCollection implements ICollection {
 	}
 
 	function getChildren() {
-		$tags = $this->tagManager->getAllTags(true);
+		$visibilityFilter = true;
+		if ($this->isAdmin()) {
+			$visibilityFilter = null;
+		}
+
+		$tags = $this->tagManager->getAllTags($visibilityFilter);
 		return array_map(function($tag) {
 			return $this->makeNode($tag);
 		}, $tags);
@@ -90,7 +130,11 @@ class SystemTagsByIdCollection implements ICollection {
 	 */
 	function childExists($name) {
 		try {
-			$this->tagManager->getTagsByIds([$name]);
+			$tag = $this->tagManager->getTagsByIds([$name]);
+			$tag = current($tag);
+			if (!$this->isAdmin() && !$tag->isUserVisible()) {
+				return false;
+			}
 			return true;
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid tag id', 0, $e);
@@ -128,6 +172,6 @@ class SystemTagsByIdCollection implements ICollection {
 	 * @return SystemTagNode
 	 */
 	private function makeNode(ISystemTag $tag) {
-		return new SystemTagNode($tag, $this->tagManager);
+		return new SystemTagNode($tag, $this->isAdmin(), $this->tagManager);
 	}
 }

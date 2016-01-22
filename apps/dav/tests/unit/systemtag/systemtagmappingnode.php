@@ -25,12 +25,7 @@ use Sabre\DAV\Exception\NotFound;
 use OC\SystemTag\SystemTag;
 use OCP\SystemTag\TagNotFoundException;
 
-class SystemTagMappingNode extends SystemTagNode {
-
-	/**
-	 * @var \OCA\DAV\SystemTag\SystemTagMappingNode
-	 */
-	private $node;
+class SystemTagMappingNode extends \Test\TestCase {
 
 	/**
 	 * @var \OCP\SystemTag\ISystemTagManager
@@ -42,41 +37,85 @@ class SystemTagMappingNode extends SystemTagNode {
 	 */
 	private $tagMapper;
 
-	/**
-	 * @var \OCP\SystemTag\ISystemTag
-	 */
-	private $tag;
-
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tag = new SystemTag(1, 'Test', true, false);
 		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
 		$this->tagMapper = $this->getMock('\OCP\SystemTag\ISystemTagObjectMapper');
+	}
 
-		$this->node = new \OCA\DAV\SystemTag\SystemTagMappingNode(
-			$this->tag,
+	public function getMappingNode($isAdmin = true, $tag = null) {
+		if ($tag === null) {
+			$tag = new SystemTag(1, 'Test', true, true);
+		}
+		return new \OCA\DAV\SystemTag\SystemTagMappingNode(
+			$tag,
 			123,
 			'files',
+			$isAdmin,
 			$this->tagManager,
 			$this->tagMapper
 		);
 	}
 
 	public function testGetters() {
-		parent::testGetters();
-		$this->assertEquals(123, $this->node->getObjectId());
-		$this->assertEquals('files', $this->node->getObjectType());
+		$tag = new SystemTag(1, 'Test', true, false);
+		$node = $this->getMappingNode(true, $tag);
+		$this->assertEquals('1', $node->getName());
+		$this->assertEquals($tag, $node->getSystemTag());
+		$this->assertEquals(123, $node->getObjectId());
+		$this->assertEquals('files', $node->getObjectType());
 	}
 
-	public function testDeleteTag() {
+	public function adminFlagProvider() {
+		return [[true], [false]];
+	}
+
+	/**
+	 * @dataProvider adminFlagProvider
+	 */
+	public function testDeleteTag($isAdmin) {
 		$this->tagManager->expects($this->never())
 			->method('deleteTags');
 		$this->tagMapper->expects($this->once())
 			->method('unassignTags')
 			->with(123, 'files', 1);
 
-		$this->node->delete();
+		$this->getMappingNode($isAdmin)->delete();
+	}
+
+	public function tagNodeDeleteProviderPermissionException() {
+		return [
+			[
+				// cannot unassign invisible tag
+				new SystemTag(1, 'Original', false, true),
+				'Sabre\DAV\Exception\NotFound',
+			],
+			[
+				// cannot unassign non-assignable tag
+				new SystemTag(1, 'Original', true, false),
+				'Sabre\DAV\Exception\Forbidden',
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider tagNodeDeleteProviderPermissionException
+	 */
+	public function testDeleteTagExpectedException($tag, $expectedException) {
+		$this->tagManager->expects($this->never())
+			->method('deleteTags');
+		$this->tagMapper->expects($this->never())
+			->method('unassignTags');
+
+		$thrown = null;
+		try {
+			$this->getMappingNode(false, $tag)->delete();
+		} catch (\Exception $e) {
+			$thrown = $e;
+		}
+
+		$this->assertInstanceOf($expectedException, $thrown);
 	}
 
 	/**
@@ -88,6 +127,6 @@ class SystemTagMappingNode extends SystemTagNode {
 			->with(123, 'files', 1)
 			->will($this->throwException(new TagNotFoundException()));
 
-		$this->node->delete();
+		$this->getMappingNode()->delete();
 	}
 }

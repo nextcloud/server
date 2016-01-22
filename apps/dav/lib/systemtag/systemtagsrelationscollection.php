@@ -34,10 +34,23 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 	 *
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
 	 */
-	public function __construct($tagManager, $tagMapper) {
+	public function __construct(
+		ISystemTagManager $tagManager,
+		ISystemTagObjectMapper $tagMapper,
+		IUserSession $userSession,
+		IGroupManager $groupManager
+	) {
 		$children = [
-			new SystemTagsObjectTypeCollection('files', $tagManager, $tagMapper),
+			new SystemTagsObjectTypeCollection(
+				'files',
+				$tagManager,
+				$tagMapper,
+				$userSession,
+				$groupManager
+			),
 		];
 
 		parent::__construct('root', $children);

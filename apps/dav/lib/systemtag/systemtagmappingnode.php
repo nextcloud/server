@@ -23,6 +23,7 @@
 namespace OCA\DAV\SystemTag;
 
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\Forbidden;
 
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -55,6 +56,7 @@ class SystemTagMappingNode extends SystemTagNode {
 	 * @param ISystemTag $tag system tag
 	 * @param string $objectId
 	 * @param string $objectType
+	 * @param bool $isAdmin whether to allow permissions for admin
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
 	 */
@@ -62,13 +64,14 @@ class SystemTagMappingNode extends SystemTagNode {
 		ISystemTag $tag,
 		$objectId,
 		$objectType,
+		$isAdmin,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper
 	) {
 		$this->objectId = $objectId;
 		$this->objectType = $objectType;
 		$this->tagMapper = $tagMapper;
-		parent::__construct($tag, $tagManager);
+		parent::__construct($tag, $isAdmin, $tagManager);
 	}
 
 	/**
@@ -94,6 +97,14 @@ class SystemTagMappingNode extends SystemTagNode {
 	 */
 	public function delete() {
 		try {
+			if (!$this->isAdmin) {
+				if (!$this->tag->isUserVisible()) {
+					throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found');
+				}
+				if (!$this->tag->isUserAssignable()) {
+					throw new Forbidden('No permission to unassign tag ' . $this->tag->getId());
+				}
+			}
 			$this->tagMapper->unassignTags($this->objectId, $this->objectType, $this->tag->getId());
 		} catch (TagNotFoundException $e) {
 			// can happen if concurrent deletion occurred

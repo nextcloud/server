@@ -58,12 +58,17 @@ class RootCollection extends SimpleCollection {
 		$caldavBackend = new CalDavBackend($db);
 		$calendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
 		$calendarRoot->disableListing = $disableListing;
+
 		$systemTagCollection = new SystemTag\SystemTagsByIdCollection(
-			\OC::$server->getSystemTagManager()
+			\OC::$server->getSystemTagManager(),
+			\OC::$server->getUserSession(),
+			\OC::$server->getGroupManager()
 		);
 		$systemTagRelationsCollection = new SystemTag\SystemTagsRelationsCollection(
 			\OC::$server->getSystemTagManager(),
-			\OC::$server->getSystemTagObjectMapper()
+			\OC::$server->getSystemTagObjectMapper(),
+			\OC::$server->getUserSession(),
+			\OC::$server->getGroupManager()
 		);
 
 		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend);

@@ -22,6 +22,7 @@
 
 namespace OCA\DAV\SystemTag;
 
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\Conflict;
@@ -47,13 +48,22 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	protected $tagManager;
 
 	/**
+	 * Whether to allow permissions for admins
+	 *
+	 * @var bool
+	 */
+	protected $isAdmin;
+
+	/**
 	 * Sets up the node, expects a full path name
 	 *
 	 * @param ISystemTag $tag system tag
+	 * @param bool $isAdmin whether to allow operations for admins
 	 * @param ISystemTagManager $tagManager
 	 */
-	public function __construct(ISystemTag $tag, ISystemTagManager $tagManager) {
+	public function __construct(ISystemTag $tag, $isAdmin, ISystemTagManager $tagManager) {
 		$this->tag = $tag;
+		$this->isAdmin = $isAdmin;
 		$this->tagManager = $tagManager;
 	}
 
@@ -97,6 +107,21 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 */
 	public function update($name, $userVisible, $userAssignable) {
 		try {
+			if (!$this->isAdmin) {
+				if (!$this->tag->isUserVisible()) {
+					throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
+				}
+				if (!$this->tag->isUserAssignable()) {
+					throw new Forbidden('No permission to update tag ' . $this->tag->getId());
+				}
+
+				// only renaming is allowed for regular users
+				if ($userVisible !== $this->tag->isUserVisible()
+					|| $userAssignable !== $this->tag->isUserAssignable()
+				) {
+					throw new Forbidden('No permission to update permissions for tag ' . $this->tag->getId());
+				}
+			}
 			$this->tagManager->updateTag($this->tag->getId(), $name, $userVisible, $userAssignable);
 		} catch (TagNotFoundException $e) {
 			throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
@@ -118,6 +143,14 @@ class SystemTagNode implements \Sabre\DAV\INode {
 
 	public function delete() {
 		try {
+			if (!$this->isAdmin) {
+				if (!$this->tag->isUserVisible()) {
+					throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found');
+				}
+				if (!$this->tag->isUserAssignable()) {
+					throw new Forbidden('No permission to delete tag ' . $this->tag->getId());
+				}
+			}
 			$this->tagManager->deleteTags($this->tag->getId());
 		} catch (TagNotFoundException $e) {
 			// can happen if concurrent deletion occurred
