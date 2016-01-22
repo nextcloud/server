@@ -22,9 +22,11 @@
 namespace OC\Files\Config;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\Files\Filesystem;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\ICache;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -52,6 +54,8 @@ class UserMountCache implements IUserMountCache {
 	 * @var ILogger
 	 */
 	private $logger;
+
+	private $cacheInfoCache = [];
 
 	/**
 	 * UserMountCache constructor.
@@ -198,6 +202,60 @@ class UserMountCache implements IUserMountCache {
 		$rows = $query->execute()->fetchAll();
 
 		return array_map([$this, 'dbRowToMountInfo'], $rows);
+	}
+
+	/**
+	 * @param $fileId
+	 * @return array
+	 * @throws \OCP\Files\NotFoundException
+	 */
+	private function getCacheInfoFromFileId($fileId) {
+		if (!isset($this->cacheInfoCache[$fileId])) {
+			$builder = $this->connection->getQueryBuilder();
+			$query = $builder->select('storage', 'path')
+				->from('filecache')
+				->where($builder->expr()->eq('fileid', $builder->createNamedParameter($fileId, \PDO::PARAM_INT)));
+
+			$row = $query->execute()->fetch();
+			if (is_array($row)) {
+				$this->cacheInfoCache[$fileId] = [
+					(int)$row['storage'],
+					$row['path']
+				];
+			} else {
+				throw new NotFoundException('File with id "' . $fileId . '" not found');
+			}
+		}
+		return $this->cacheInfoCache[$fileId];
+	}
+
+	/**
+	 * @param int $fileId
+	 * @return ICachedMountInfo[]
+	 * @since 9.0.0
+	 */
+	public function getMountsForFileId($fileId) {
+		try {
+			list($storageId, $internalPath) = $this->getCacheInfoFromFileId($fileId);
+		} catch (NotFoundException $e) {
+			return [];
+		}
+		$mountsForStorage = $this->getMountsForStorageId($storageId);
+
+		// filter mounts that are from the same storage but a different directory
+		return array_filter($mountsForStorage, function (ICachedMountInfo $mount) use ($internalPath, $fileId) {
+			if ($fileId === $mount->getRootId()) {
+				return true;
+			}
+			try {
+				list(, $internalMountPath) = $this->getCacheInfoFromFileId($mount->getRootId());
+			} catch (NotFoundException $e) {
+				return false;
+			}
+
+			return $internalMountPath === '' || substr($internalPath, 0, strlen($internalMountPath) + 1) === $internalMountPath . '/';
+		});
+
 	}
 
 	/**

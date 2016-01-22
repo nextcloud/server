@@ -40,6 +40,8 @@ interface IUserMountCache {
 	public function registerMounts(IUser $user, array $mounts);
 
 	/**
+	 * Get all cached mounts for a user
+	 *
 	 * @param IUser $user
 	 * @return ICachedMountInfo[]
 	 * @since 9.0.0
@@ -47,6 +49,8 @@ interface IUserMountCache {
 	public function getMountsForUser(IUser $user);
 
 	/**
+	 * Get all cached mounts by storage
+	 *
 	 * @param int $numericStorageId
 	 * @return ICachedMountInfo[]
 	 * @since 9.0.0
@@ -54,11 +58,22 @@ interface IUserMountCache {
 	public function getMountsForStorageId($numericStorageId);
 
 	/**
+	 * Get all cached mounts by root
+	 *
 	 * @param int $rootFileId
 	 * @return ICachedMountInfo[]
 	 * @since 9.0.0
 	 */
 	public function getMountsForRootId($rootFileId);
+
+	/**
+	 * Get all cached mounts that contain a file
+	 *
+	 * @param int $fileId
+	 * @return ICachedMountInfo[]
+	 * @since 9.0.0
+	 */
+	public function getMountsForFileId($fileId);
 
 	/**
 	 * Remove all cached mounts for a user
