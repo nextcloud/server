@@ -69,19 +69,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * Creates path to an image
-	 * @param string $app app
-	 * @param string $image image name
-	 * @return string the url
-	 * @deprecated Use \OC::$server->getURLGenerator()->imagePath($app, $image)
-	 *
-	 * Returns the path to the image.
-	 */
-	public static function imagePath($app, $image) {
-		return OC::$server->getURLGenerator()->imagePath($app, $image);
-	}
-
-	/**
 	 * get path to preview of file
 	 * @param string $path path
 	 * @return string the url
