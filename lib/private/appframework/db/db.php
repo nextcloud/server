@@ -147,6 +147,21 @@ class Db implements IDb {
 	}
 
 	/**
+	 * Insert or update a row value
+	 *
+	 * @param string $table
+	 * @param array $keys (column name => value)
+	 * @param array $values (column name => value)
+	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
+	 * @return int number of new rows
+	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws PreconditionNotMetException
+	 */
+	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
+		return $this->connection->setValues($table, $keys, $values, $updatePreconditionValues);
+	}
+
+	/**
 	 * Start a transaction
 	 */
 	public function beginTransaction() {

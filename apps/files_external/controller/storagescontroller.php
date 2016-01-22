@@ -212,6 +212,15 @@ abstract class StoragesController extends Controller {
 		return null;
 	}
 
+	protected function manipulateStorageConfig(StorageConfig $storage) {
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+		$authMechanism->manipulateStorageConfig($storage);
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		$backend->manipulateStorageConfig($storage);
+	}
+
 	/**
 	 * Check whether the given storage is available / valid.
 	 *
@@ -222,13 +231,10 @@ abstract class StoragesController extends Controller {
 	 */
 	protected function updateStorageStatus(StorageConfig &$storage) {
 		try {
-			/** @var AuthMechanism */
-			$authMechanism = $storage->getAuthMechanism();
-			$authMechanism->manipulateStorageConfig($storage);
+			$this->manipulateStorageConfig($storage);
+
 			/** @var Backend */
 			$backend = $storage->getBackend();
-			$backend->manipulateStorageConfig($storage);
-
 			// update status (can be time-consuming)
 			$storage->setStatus(
 				\OC_Mount_Config::getBackendStatus(

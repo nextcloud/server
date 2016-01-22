@@ -27,10 +27,10 @@ use OCP\IDBConnection;
 
 class ExpressionBuilder implements IExpressionBuilder {
 	/** @var \Doctrine\DBAL\Query\Expression\ExpressionBuilder */
-	private $expressionBuilder;
+	protected $expressionBuilder;
 
 	/** @var QuoteHelper */
-	private $helper;
+	protected $helper;
 
 	/**
 	 * Initializes a new <tt>ExpressionBuilder</tt>.
@@ -109,10 +109,12 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 *
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
+	 * @param int|null $type one of the \PDO::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
 	 */
-	public function eq($x, $y) {
+	public function eq($x, $y, $type = null) {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
 		return $this->expressionBuilder->eq($x, $y);

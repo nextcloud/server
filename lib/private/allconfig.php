@@ -205,56 +205,27 @@ class AllConfig implements \OCP\IConfig {
 		// TODO - FIXME
 		$this->fixDIInit();
 
-		// Check if the key does exist
-		$sql  = 'SELECT `configvalue` FROM `*PREFIX*preferences` '.
-				'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
-		$result = $this->connection->executeQuery($sql, array($userId, $appName, $key));
-		$oldValue = $result->fetchColumn();
-		$result->closeCursor();
-		$exists = $oldValue !== false;
-
-		if($oldValue === strval($value)) {
-			// no changes
-			return;
+		$preconditionArray = [];
+		if (isset($preCondition)) {
+			$preconditionArray = [
+				'configvalue' => $preCondition,
+			];
 		}
 
-		$affectedRows = 0;
-		if (!$exists && $preCondition === null) {
-			$this->connection->insertIfNotExist('*PREFIX*preferences', [
-				'configvalue'	=> $value,
-				'userid'		=> $userId,
-				'appid'			=> $appName,
-				'configkey'		=> $key,
-			], ['configkey', 'userid', 'appid']);
-			$affectedRows = 1;
-		} elseif ($exists) {
-			$data = array($value, $userId, $appName, $key);
-
-			$sql  = 'UPDATE `*PREFIX*preferences` SET `configvalue` = ? '.
-					'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? ';
-
-			if($preCondition !== null) {
-				if($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
-					//oracle hack: need to explicitly cast CLOB to CHAR for comparison
-					$sql .= 'AND to_char(`configvalue`) = ?';
-				} else {
-					$sql .= 'AND `configvalue` = ?';
-				}
-				$data[] = $preCondition;
-			}
-			$affectedRows = $this->connection->executeUpdate($sql, $data);
-		}
+		$this->connection->setValues('preferences', [
+			'userid' => $userId,
+			'appid' => $appName,
+			'configkey' => $key,
+		], [
+			'configvalue' => $value,
+		], $preconditionArray);
 
 		// only add to the cache if we already loaded data for the user
-		if ($affectedRows > 0 && isset($this->userCache[$userId])) {
+		if (isset($this->userCache[$userId])) {
 			if (!isset($this->userCache[$userId][$appName])) {
 				$this->userCache[$userId][$appName] = array();
 			}
 			$this->userCache[$userId][$appName][$key] = $value;
-		}
-
-		if ($preCondition !== null && $affectedRows === 0) {
-			throw new PreConditionNotMetException;
 		}
 	}
 

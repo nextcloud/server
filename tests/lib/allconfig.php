@@ -90,16 +90,7 @@ class TestAllConfig extends \Test\TestCase {
 	}
 
 	public function testSetUserValueWithPreCondition() {
-		// mock the check for the database to run the correct SQL statements for each database type
-		$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
-			->disableOriginalConstructor()
-			->getMock();
-		$systemConfig->expects($this->once())
-			->method('getValue')
-			->with($this->equalTo('dbtype'),
-				$this->equalTo('sqlite'))
-			->will($this->returnValue(\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite')));
-		$config = $this->getConfig($systemConfig);
+		$config = $this->getConfig();
 
 		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
 
@@ -136,16 +127,7 @@ class TestAllConfig extends \Test\TestCase {
 	 * @expectedException \OCP\PreConditionNotMetException
 	 */
 	public function testSetUserValueWithPreConditionFailure() {
-		// mock the check for the database to run the correct SQL statements for each database type
-		$systemConfig = $this->getMockBuilder('\OC\SystemConfig')
-			->disableOriginalConstructor()
-			->getMock();
-		$systemConfig->expects($this->once())
-			->method('getValue')
-			->with($this->equalTo('dbtype'),
-				$this->equalTo('sqlite'))
-			->will($this->returnValue(\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite')));
-		$config = $this->getConfig($systemConfig);
+		$config = $this->getConfig();
 
 		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
 

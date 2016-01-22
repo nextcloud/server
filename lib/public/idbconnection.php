@@ -109,6 +109,20 @@ interface IDBConnection {
 	public function insertIfNotExist($table, $input, array $compare = null);
 
 	/**
+	 * Insert or update a row value
+	 *
+	 * @param string $table
+	 * @param array $keys (column name => value)
+	 * @param array $values (column name => value)
+	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
+	 * @return int number of new rows
+	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws PreconditionNotMetException
+	 * @since 9.0.0
+	 */
+	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []);
+
+	/**
 	 * Start a transaction
 	 * @since 6.0.0
 	 */

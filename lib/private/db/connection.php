@@ -32,6 +32,7 @@ use Doctrine\Common\EventManager;
 use OC\DB\QueryBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\IDBConnection;
+use OCP\PreconditionNotMetException;
 
 class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	/**
@@ -239,6 +240,64 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 */
 	public function insertIfNotExist($table, $input, array $compare = null) {
 		return $this->adapter->insertIfNotExist($table, $input, $compare);
+	}
+
+	private function getType($value) {
+		if (is_bool($value)) {
+			return \PDO::PARAM_BOOL;
+		} else if (is_int($value)) {
+			return \PDO::PARAM_INT;
+		} else {
+			return \PDO::PARAM_STR;
+		}
+	}
+
+	/**
+	 * Insert or update a row value
+	 *
+	 * @param string $table
+	 * @param array $keys (column name => value)
+	 * @param array $values (column name => value)
+	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
+	 * @return int number of new rows
+	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws PreconditionNotMetException
+	 */
+	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
+		try {
+			$insertQb = $this->getQueryBuilder();
+			$insertQb->insert($table)
+				->values(
+					array_map(function($value) use ($insertQb) {
+						return $insertQb->createNamedParameter($value, $this->getType($value));
+					}, array_merge($keys, $values))
+				);
+			return $insertQb->execute();
+		} catch (\Doctrine\DBAL\Exception\ConstraintViolationException $e) {
+			// value already exists, try update
+			$updateQb = $this->getQueryBuilder();
+			$updateQb->update($table);
+			foreach ($values as $name => $value) {
+				$updateQb->set($name, $updateQb->createNamedParameter($value), $this->getType($value));
+			}
+			$where = $updateQb->expr()->andx();
+			$whereValues = array_merge($keys, $updatePreconditionValues);
+			foreach ($whereValues as $name => $value) {
+				$where->add($updateQb->expr()->eq(
+					$name,
+					$updateQb->createNamedParameter($value, $this->getType($value)),
+					$this->getType($value)
+				));
+			}
+			$updateQb->where($where);
+			$affected = $updateQb->execute();
+
+			if ($affected === 0) {
+				throw new PreconditionNotMetException();
+			}
+
+			return 0;
+		}
 	}
 
 	/**

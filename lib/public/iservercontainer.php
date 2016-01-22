@@ -181,6 +181,14 @@ interface IServerContainer {
 	public function getSecureRandom();
 
 	/**
+	 * Returns a CredentialsManager instance
+	 *
+	 * @return \OCP\Security\ICredentialsManager
+	 * @since 9.0.0
+	 */
+	public function getCredentialsManager();
+
+	/**
 	 * Returns an instance of the db facade
 	 * @deprecated 8.1.0 use getDatabaseConnection, will be removed in ownCloud 10
 	 * @return \OCP\IDb

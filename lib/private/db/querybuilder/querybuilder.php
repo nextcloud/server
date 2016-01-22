@@ -21,6 +21,7 @@
 
 namespace OC\DB\QueryBuilder;
 
+use OC\DB\OracleConnection;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\DB\QueryBuilder\IParameter;
@@ -82,7 +83,11 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function expr() {
-		return new ExpressionBuilder($this->connection);
+		if ($this->connection instanceof OracleConnection) {
+			return new OCIExpressionBuilder($this->connection);
+		} else {
+			return new ExpressionBuilder($this->connection);
+		}
 	}
 
 	/**
