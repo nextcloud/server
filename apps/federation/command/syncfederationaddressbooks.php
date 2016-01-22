@@ -2,9 +2,7 @@
 
 namespace OCA\Federation\Command;
 
-use OCA\DAV\CardDAV\SyncService;
 use OCA\Federation\DbHandler;
-use OCA\Federation\TrustedServers;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,20 +10,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SyncFederationAddressBooks extends Command {
 
-	/** @var DbHandler */
-	protected $dbHandler;
-
-	/** @var SyncService */
+	/** @var \OCA\Federation\SyncFederationAddressBooks */
 	private $syncService;
 
 	/**
 	 * @param DbHandler $dbHandler
 	 */
-	function __construct(DbHandler $dbHandler) {
+	function __construct(\OCA\Federation\SyncFederationAddressBooks $syncService) {
 		parent::__construct();
 
-		$this->syncService = \OC::$server->query('CardDAVSyncService');
-		$this->dbHandler = $dbHandler;
+		$this->syncService = $syncService;
 	}
 
 	protected function configure() {
@@ -42,30 +36,14 @@ class SyncFederationAddressBooks extends Command {
 
 		$progress = new ProgressBar($output);
 		$progress->start();
-		$trustedServers = $this->dbHandler->getAllServer();
-		foreach ($trustedServers as $trustedServer) {
-			$progress->advance();
-			$url = $trustedServer['url'];
-			$sharedSecret = $trustedServer['shared_secret'];
-			$syncToken = $trustedServer['sync_token'];
-
-			if (is_null($sharedSecret)) {
-				continue;
-			}
-			$targetBookId = sha1($url);
-			$targetPrincipal = "principals/system/system";
-			$targetBookProperties = [
-					'{DAV:}displayname' => $url
-			];
-			try {
-				$newToken = $this->syncService->syncRemoteAddressBook($url, 'system', $sharedSecret, $syncToken, $targetPrincipal, $targetBookId, $targetBookProperties);
-				if ($newToken !== $syncToken) {
-					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
-				}
-			} catch (\Exception $ex) {
+		$this->syncService->syncThemAll(function($url, $ex) use ($progress, $output) {
+			if ($ex instanceof \Exception) {
 				$output->writeln("Error while syncing $url : " . $ex->getMessage());
+			} else {
+				$progress->advance();
 			}
-		}
+		});
+
 		$progress->finish();
 		$output->writeln('');
 	}
