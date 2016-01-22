@@ -174,6 +174,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getNavigationManager();
 		});
 
+		$this->registerService('OCP\\Notification\IManager', function($c) {
+			return $this->getServer()->getNotificationManager();
+		});
+
 		$this->registerService('OCP\\IPreview', function($c) {
 			return $this->getServer()->getPreviewManager();
 		});
