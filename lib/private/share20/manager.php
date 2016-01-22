@@ -170,7 +170,7 @@ class Manager {
 			throw new \InvalidArgumentException('unkown share type');
 		}
 
-		// Verify the initiator of the share is et
+		// Verify the initiator of the share is set
 		if ($share->getSharedBy() === null) {
 			throw new \InvalidArgumentException('SharedBy should be set');
 		}
@@ -184,6 +184,7 @@ class Manager {
 		if ($share->getPath() === null) {
 			throw new \InvalidArgumentException('Path should be set');
 		}
+
 		// And it should be a file or a folder
 		if (!($share->getPath() instanceof \OCP\Files\File) &&
 				!($share->getPath() instanceof \OCP\Files\Folder)) {
@@ -289,6 +290,11 @@ class Manager {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_USER);
 		$existingShares = $provider->getSharesByPath($share->getPath());
 		foreach($existingShares as $existingShare) {
+			// Ignore if it is the same share
+			if ($existingShare->getFullId() === $share->getFullId()) {
+				continue;
+			}
+
 			// Identical share already existst
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
 				throw new \Exception('Path already shared with this user');
@@ -325,6 +331,10 @@ class Manager {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
 		$existingShares = $provider->getSharesByPath($share->getPath());
 		foreach($existingShares as $existingShare) {
+			if ($existingShare->getFullId() === $share->getFullId()) {
+				continue;
+			}
+
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
 				throw new \Exception('Path already shared with this group');
 			}
@@ -447,6 +457,11 @@ class Manager {
 		// On creation of a share the owner is always the owner of the path
 		$share->setShareOwner($share->getPath()->getOwner());
 
+		// Cannot share with the owner
+		if ($share->getSharedWith() === $share->getShareOwner()) {
+			throw new \InvalidArgumentException('Can\'t share with the share owner');
+		}
+
 		// Generate the target
 		$target = $this->config->getSystemValue('share_folder', '/') .'/'. $share->getPath()->getName();
 		$target = \OC\Files\Filesystem::normalizePath($target);
@@ -513,10 +528,61 @@ class Manager {
 	/**
 	 * Update a share
 	 *
-	 * @param Share $share
-	 * @return Share The share object
+	 * @param IShare $share
+	 * @return IShare The share object
 	 */
-	public function updateShare(Share $share) {
+	public function updateShare(IShare $share) {
+		if (!$this->canShare($share)) {
+			throw new \Exception('The Share API is disabled');
+		}
+
+		$originalShare = $this->getShareById($share->getFullId());
+
+		// We can't change the share type!
+		if ($share->getShareType() !== $originalShare->getShareType()) {
+			//Throw exception
+		}
+
+		// We can only change the recipient on user shares
+		if ($share->getSharedWith() !== $originalShare->getSharedWith() &&
+		    $share->getShareType() !== \OCP\Share::SHARE_TYPE_USER) {
+			// Throw exception
+		}
+
+		// Cannot share with the owner
+		if ($share->getSharedWith() === $share->getShareOwner()) {
+			throw new \InvalidArgumentException('Can\'t share with the share owner');
+		}
+
+		$this->generalCreateChecks($share);
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+			$this->userCreateChecks($share);
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$this->groupCreateChecks($share);
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+			$this->linkCreateChecks($share);
+
+			// Password updated.
+			if ($share->getPassword() !== $originalShare->getPassword()) {
+				//Verify the password
+				$this->verifyPassword($share->getPassword());
+
+				// If a password is set. Hash it!
+				if ($share->getPassword() !== null) {
+					$share->setPassword($this->hasher->hash($share->getPassword()));
+				}
+			}
+
+			//Verify the expiration date
+			$share->setExpirationDate($this->validateExpiredate($share->getExpirationDate()));
+		}
+
+		$this->pathCreateChecks($share->getPath());
+
+		// Now update the share!
+		$provider = $this->factory->getProviderForType($share->getShareType());
+		return $provider->update($share);
 	}
 
 	/**
