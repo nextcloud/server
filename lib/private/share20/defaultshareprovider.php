@@ -32,6 +32,8 @@ use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\Files\Node;
 
+use Doctrine\DBAL\Connection;
+
 /**
  * Class DefaultShareProvider
  *
@@ -240,15 +242,67 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Get all shares by the given user
+	 * Get all shares by the given user. Sharetype and path can be used to filter.
 	 *
 	 * @param IUser $user
 	 * @param int $shareType
+	 * @param \OCP\Files\File|\OCP\Files\Folder $node
+	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
+	 * @param int $limit The maximum number of shares to be returned, -1 for all shares
 	 * @param int $offset
-	 * @param int $limit
 	 * @return Share[]
 	 */
-	public function getShares(IUser $user, $shareType, $offset, $limit) {
+	public function getSharesBy(IUser $user, $shareType, $node, $reshares, $limit, $offset) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('*')
+			->from('share');
+
+		$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter($shareType)));
+
+		/**
+		 * Reshares for this user are shares where they are the owner.
+		 */
+		if ($reshares === false) {
+			//Special case for old shares created via the web UI
+			$or1 = $qb->expr()->andX(
+				$qb->expr()->eq('uid_owner', $qb->createNamedParameter($user->getUID())),
+				$qb->expr()->isNull('uid_initiator')
+			);
+
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($user->getUID())),
+					$or1
+				)
+			);
+		} else {
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($user->getUID())),
+					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($user->getUID()))
+				)
+			);
+		}
+
+		if ($node !== null) {
+			$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+		}
+
+		if ($limit !== -1) {
+			$qb->setMaxResults($limit);
+		}
+
+		$qb->setFirstResult($offset);
+		$qb->orderBy('id');
+
+		$cursor = $qb->execute();
+		$shares = [];
+		while($data = $cursor->fetch()) {
+			$shares[] = $this->createShare($data);
+		}
+		$cursor->closeCursor();
+
+		return $shares;
 	}
 
 	/**
@@ -324,11 +378,94 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Get shared with the given user
 	 *
-	 * @param IUser $user
-	 * @param int $shareType
-	 * @param Share
+	 * @param IUser $user get shares where this user is the recipient
+	 * @param int $shareType \OCP\Share::SHARE_TYPE_USER or \OCP\Share::SHARE_TYPE_GROUP are supported
+	 * @param int $limit The maximum number of shares, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 * @throws BackendError
 	 */
-	public function getSharedWithMe(IUser $user, $shareType = null) {
+	public function getSharedWith(IUser $user, $shareType, $limit, $offset) {
+		/** @var Share[] $shares */
+		$shares = [];
+
+		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
+			//Get shares directly with this user
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->select('*')
+				->from('share');
+
+			// Order by id
+			$qb->orderBy('id');
+
+			// Set limit and offset
+			if ($limit !== -1) {
+				$qb->setMaxResults($limit);
+			}
+			$qb->setFirstResult($offset);
+
+			$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_USER)));
+			$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($user->getUID())));
+
+			$cursor = $qb->execute();
+
+			while($data = $cursor->fetch()) {
+				$shares[] = $this->createShare($data);
+			}
+			$cursor->closeCursor();
+
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+			$allGroups = $this->groupManager->getUserGroups($user);
+
+			$start = 0;
+			while(true) {
+				$groups = array_slice($allGroups, $start, 100);
+				$start += 100;
+
+				if ($groups === []) {
+					break;
+				}
+
+				$qb = $this->dbConn->getQueryBuilder();
+				$qb->select('*')
+					->from('share')
+					->orderBy('id')
+					->setFirstResult(0);
+
+				if ($limit !== -1) {
+					$qb->setMaxResults($limit - count($shares));
+				}
+
+				$groups = array_map(function(IGroup $group) { return $group->getGID(); }, $groups);
+
+				$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)));
+				$qb->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
+					$groups,
+					Connection::PARAM_STR_ARRAY
+				)));
+
+				$cursor = $qb->execute();
+				while($data = $cursor->fetch()) {
+					if ($offset > 0) {
+						$offset--;
+						continue;
+					}
+					$shares[] = $this->createShare($data);
+				}
+				$cursor->closeCursor();
+			}
+
+			/*
+ 			 * Resolve all group shares to user specific shares
+ 			 * TODO: Optmize this!
+ 			 */
+			$shares = array_map([$this, 'resolveGroupShare'], $shares);
+		} else {
+			throw new BackendError('Invalid backend');
+		}
+
+
+		return $shares;
 	}
 
 	/**
@@ -452,6 +589,33 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		return $nodes[0];
+	}
+
+	/**
+	 * Resolve a group share to a user specific share
+	 * Thus if the user moved their group share make sure this is properly reflected here.
+	 *
+	 * @param Share $share
+	 * @return Share Returns the updated share if one was found else return the original share.
+	 */
+	private function resolveGroupShare(Share $share) {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$stmt = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
+			->execute();
+
+		$data = $stmt->fetch();
+		$stmt->closeCursor();
+
+		if ($data !== false) {
+			$share->setPermissions($data['permissions']);
+			$share->setTarget($data['file_target']);
+		}
+
+		return $share;
 	}
 
 }

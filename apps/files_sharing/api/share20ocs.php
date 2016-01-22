@@ -327,6 +327,104 @@ class Share20OCS {
 		return new \OC_OCS_Result($share);
 	}
 
+	private function getSharedWithMe() {
+		$userShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_USER, -1, 0);
+		$groupShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, -1, 0);
+
+		$shares = array_merge($userShares, $groupShares);
+
+		$formatted = [];
+		foreach ($shares as $share) {
+			$formatted[] = $this->formatShare($share);
+		}
+
+		return new \OC_OCS_Result($formatted);
+	}
+
+	/**
+	 * @param \OCP\Files\Folder $folder
+	 * @return \OC_OCS_Result
+	 */
+	private function getSharesInDir($folder) {
+		if (!($folder instanceof \OCP\Files\Folder)) {
+			return new \OC_OCS_Result(null, 400, "not a directory");
+		}
+
+		$nodes = $folder->getDirectoryListing();
+		/** @var IShare[] $shares */
+		$shares = [];
+		foreach ($nodes as $node) {
+			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
+			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
+			//TODO: Add federated shares
+
+		}
+
+		$formatted = [];
+		foreach ($shares as $share) {
+			$formatted[] = $this->formatShare($share);
+		}
+
+		return new \OC_OCS_Result($formatted);
+	}
+
+	/**
+	 * The getShares function.
+	 *
+	 * - Get shares by the current user
+	 * - Get shares by the current user and reshares (?reshares=true)
+	 * - Get shares with the current user (?shared_with_me=true)
+	 * - Get shares for a specific path (?path=...)
+	 * - Get all shares in a folder (?subfiles=true&path=..)
+	 *
+	 * @return \OC_OCS_Result
+	 */
+	public function getShares() {
+		$sharedWithMe = $this->request->getParam('shared_with_me', null);
+		$reshares = $this->request->getParam('reshares', null);
+		$subfiles = $this->request->getParam('subfiles');
+		$path = $this->request->getParam('path', null);
+
+		if ($sharedWithMe === 'true') {
+			return $this->getSharedWithMe();
+		}
+
+		if ($path !== null) {
+			$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
+			try {
+				$path = $userFolder->get($path);
+			} catch (\OCP\Files\NotFoundException $e) {
+				return new \OC_OCS_Result(null, 404, 'wrong path, file/folder doesn\'t exist');
+			}
+		}
+
+		if ($subfiles === 'true') {
+			return $this->getSharesInDir($path);
+		}
+
+		if ($reshares === 'true') {
+			$reshares = true;
+		} else {
+			$reshares = false;
+		}
+
+		// Get all shares
+		$userShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
+		$groupShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
+		$linkShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
+		//TODO: Add federated shares
+
+		$shares = array_merge($userShares, $groupShares, $linkShares);
+
+		$formatted = [];
+		foreach ($shares as $share) {
+			$formatted[] = $this->formatShare($share);
+		}
+
+		return new \OC_OCS_Result($formatted);
+	}
+
 	/**
 	 * @param IShare $share
 	 * @return bool

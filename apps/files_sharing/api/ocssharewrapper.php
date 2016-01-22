@@ -37,7 +37,7 @@ class OCSShareWrapper {
 	}
 
 	public function getAllShares($params) {
-		return \OCA\Files_Sharing\API\Local::getAllShares($params);
+		return $this->getShare20OCS()->getShares();
 	}
 
 	public function createShare() {

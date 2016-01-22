@@ -605,14 +605,43 @@ class Manager {
 		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
 	}
 
+
 	/**
-	 * Retrieve all shares by the current user
+	 * Get shares shared by (initiated) by the provided user.
 	 *
-	 * @param int $page
-	 * @param int $perPage
-	 * @return Share[]
+	 * @param IUser $user
+	 * @param int $shareType
+	 * @param \OCP\Files\File|\OCP\Files\Folder $path
+	 * @param bool $reshares
+	 * @param int $limit The maximum number of returned results, -1 for all results
+	 * @param int $offset
+	 * @return IShare[]
 	 */
-	public function getShares($page=0, $perPage=50) {
+	public function getSharesBy(IUser $user, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0) {
+		if ($path !== null &&
+				!($path instanceof \OCP\Files\File) &&
+				!($path instanceof \OCP\Files\Folder)) {
+			throw new \InvalidArgumentException('invalid path');
+		}
+
+		$provider = $this->factory->getProviderForType($shareType);
+
+		return $provider->getSharesBy($user, $shareType, $path, $reshares, $limit, $offset);
+	}
+
+	/**
+	 * Get shares shared with $user.
+	 *
+	 * @param IUser $user
+	 * @param int $shareType
+	 * @param int $limit The maximum number of shares returned, -1 for all
+	 * @param int $offset
+	 * @return IShare[]
+	 */
+	public function getSharedWith(IUser $user, $shareType, $limit = 50, $offset = 0) {
+		$provider = $this->factory->getProviderForType($shareType);
+
+		return $provider->getSharedWith($user, $shareType, $limit, $offset);
 	}
 
 	/**
@@ -647,18 +676,6 @@ class Manager {
 	 * @return Share[]
 	 */
 	public function getSharesByPath(\OCP\Files\Node $path, $page=0, $perPage=50) {
-	}
-
-	/**
-	 * Get all shares that are shared with the current user
-	 *
-	 * @param int $shareType
-	 * @param int $page
-	 * @param int $perPage
-	 *
-	 * @return Share[]
-	 */
-	public function getSharedWithMe($shareType = null, $page=0, $perPage=50) {
 	}
 
 	/**
