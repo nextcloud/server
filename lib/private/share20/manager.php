@@ -607,6 +607,22 @@ class Manager {
 
 
 	/**
+	 * Unshare a file as the recipient.
+	 * This can be different from a regular delete for example when one of
+	 * the users in a groups deletes that share. But the provider should
+	 * handle this.
+	 *
+	 * @param IShare $share
+	 * @param IUser $recipient
+	 */
+	public function deleteFromSelf(IShare $share, IUser $recipient) {
+		list($providerId, $id) = $this->splitFullId($share->getId());
+		$provider = $this->factory->getProvider($providerId);
+
+		$provider->deleteFromSelf($share, $recipient);
+	}
+
+	/**
 	 * Get shares shared by (initiated) by the provided user.
 	 *
 	 * @param IUser $user
