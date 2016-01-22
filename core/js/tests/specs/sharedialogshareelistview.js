@@ -27,7 +27,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 	var configModel;
 	var shareModel;
 	var listView;
-	var setPermissionsStub;
+	var updateShareStub;
 
 	beforeEach(function () {
 		/* jshint camelcase:false */
@@ -81,7 +81,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 
 		oldCurrentUser = OC.currentUser;
 		OC.currentUser = 'user0';
-		setPermissionsStub = sinon.stub(listView.model, 'setPermissions');
+		updateShareStub = sinon.stub(OC.Share.ShareItemModel.prototype, 'updateShare');
 	});
 
 	afterEach(function () {
@@ -89,7 +89,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 		/* jshint camelcase:false */
 		oc_appconfig.core = oldAppConfig;
 		listView.remove();
-		setPermissionsStub.restore();
+		updateShareStub.restore();
 	});
 
 	describe('Manages checkbox events correctly', function () {
@@ -105,7 +105,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 			listView.render();
 			listView.$el.find("input[name='edit']").click();
 			expect(listView.$el.find("input[name='update']").is(':checked')).toEqual(true);
-			expect(setPermissionsStub.called).toEqual(true);
+			expect(updateShareStub.calledOnce).toEqual(true);
 		});
 
 		it('Checks edit box when create/update/delete are checked', function () {
@@ -120,7 +120,7 @@ describe('OC.Share.ShareDialogShareeListView', function () {
 			listView.render();
 			listView.$el.find("input[name='update']").click();
 			expect(listView.$el.find("input[name='edit']").is(':checked')).toEqual(true);
-			expect(setPermissionsStub.called).toEqual(true);
+			expect(updateShareStub.calledOnce).toEqual(true);
 		});
 
 		it('shows cruds checkboxes when toggled', function () {

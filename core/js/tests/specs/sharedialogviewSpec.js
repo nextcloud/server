@@ -28,8 +28,10 @@ describe('OC.Share.ShareDialogView', function() {
 	var avatarStub;
 	var placeholderStub;
 	var oldCurrentUser;
+	var saveLinkShareStub;
 
 	var fetchStub;
+	var notificationStub;
 
 	var configModel;
 	var shareModel;
@@ -46,6 +48,7 @@ describe('OC.Share.ShareDialogView', function() {
 		oc_appconfig.core.enforcePasswordForPublicLink = false;
 
 		fetchStub = sinon.stub(OC.Share.ShareItemModel.prototype, 'fetch');
+		saveLinkShareStub = sinon.stub(OC.Share.ShareItemModel.prototype, 'saveLinkShare');
 
 		fileInfoModel = new OCA.Files.FileInfoModel({
 			id: 123,
@@ -116,6 +119,7 @@ describe('OC.Share.ShareDialogView', function() {
 
 		dialog.remove();
 		fetchStub.restore();
+		saveLinkShareStub.restore();
 
 		autocompleteStub.restore();
 		avatarStub.restore();
@@ -128,15 +132,10 @@ describe('OC.Share.ShareDialogView', function() {
 		it('update password on focus out', function() {
 			$('#allowShareWithLink').val('yes');
 
+			dialog.model.set('linkShare', {
+				isLinkShare: true
+			});
 			dialog.render();
-
-			// Toggle linkshare
-			dialog.$el.find('.linkCheckbox').click();
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-			);
 
 			// Enable password, enter password and focusout
 			dialog.$el.find('[name=showPassword]').click();
@@ -144,39 +143,21 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.$el.find('.linkPassText').val('foo');
 			dialog.$el.find('.linkPassText').focusout();
 
-			expect(fakeServer.requests[1].method).toEqual('POST');
-			var body = OC.parseQueryString(fakeServer.requests[1].requestBody);
-			expect(body['shareWith[password]']).toEqual('foo');
-			expect(body['shareWith[passwordChanged]']).toEqual('true');
-
-			fetchStub.reset();
-
-			// Set password response
-			fakeServer.requests[1].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-			);
-
-			expect(fetchStub.calledOnce).toEqual(true);
-			// fetching the model will rerender the view
-			dialog.render();
-
-			expect(dialog.$el.find('.linkPassText').val()).toEqual('');
-			expect(dialog.$el.find('.linkPassText').attr('placeholder')).toEqual('**********');
+			expect(saveLinkShareStub.calledOnce).toEqual(true);
+			expect(saveLinkShareStub.firstCall.args[0]).toEqual({
+				password: 'foo'
+			});
 		});
 		it('update password on enter', function() {
 			$('#allowShareWithLink').val('yes');
 
+			dialog.model.set('linkShare', {
+				isLinkShare: true
+			});
 			dialog.render();
 
 			// Toggle linkshare
 			dialog.$el.find('.linkCheckbox').click();
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-			);
 
 			// Enable password and enter password
 			dialog.$el.find('[name=showPassword]').click();
@@ -184,26 +165,10 @@ describe('OC.Share.ShareDialogView', function() {
 			dialog.$el.find('.linkPassText').val('foo');
 			dialog.$el.find('.linkPassText').trigger(new $.Event('keyup', {keyCode: 13}));
 
-			expect(fakeServer.requests[1].method).toEqual('POST');
-			var body = OC.parseQueryString(fakeServer.requests[1].requestBody);
-			expect(body['shareWith[password]']).toEqual('foo');
-			expect(body['shareWith[passwordChanged]']).toEqual('true');
-
-			fetchStub.reset();
-
-			// Set password response
-			fakeServer.requests[1].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-			);
-
-			expect(fetchStub.calledOnce).toEqual(true);
-			// fetching the model will rerender the view
-			dialog.render();
-
-			expect(dialog.$el.find('.linkPassText').val()).toEqual('');
-			expect(dialog.$el.find('.linkPassText').attr('placeholder')).toEqual('**********');
+			expect(saveLinkShareStub.calledOnce).toEqual(true);
+			expect(saveLinkShareStub.firstCall.args[0]).toEqual({
+				password: 'foo'
+			});
 		});
 		it('shows share with link checkbox when allowed', function() {
 			$('#allowShareWithLink').val('yes');
@@ -241,15 +206,10 @@ describe('OC.Share.ShareDialogView', function() {
 		it('autofocus link text when clicked', function() {
 			$('#allowShareWithLink').val('yes');
 
+			dialog.model.set('linkShare', {
+				isLinkShare: true
+			});
 			dialog.render();
-
-			// Toggle linkshare
-			dialog.$el.find('.linkCheckbox').click();
-			fakeServer.requests[0].respond(
-				200,
-				{ 'Content-Type': 'application/json' },
-				JSON.stringify({data: {token: 'xyz'}, status: 'success'})
-			);
 
 			var focusStub = sinon.stub($.fn, 'focus');
 			var selectStub = sinon.stub($.fn, 'select');
@@ -603,106 +563,6 @@ describe('OC.Share.ShareDialogView', function() {
 			});
 		});
 	});
-	describe('share permissions', function() {
-		beforeEach(function() {
-			oc_appconfig.core.resharingAllowed = true;
-		});
-
-		/**
-		 * Tests sharing with the given possible permissions
-		 *
-		 * @param {int} possiblePermissions
-		 * @return {int} permissions sent to the server
-		 */
-		function testWithPermissions(possiblePermissions) {
-			shareModel.set({
-				permissions: possiblePermissions,
-				possiblePermissions: possiblePermissions
-			});
-			dialog.render();
-			var autocompleteOptions = autocompleteStub.getCall(0).args[0];
-			// simulate autocomplete selection
-			autocompleteOptions.select(new $.Event('select'), {
-				item: {
-					label: 'User Two',
-					value: {
-						shareType: OC.Share.SHARE_TYPE_USER,
-						shareWith: 'user2'
-					}
-				}
-			});
-			autocompleteStub.reset();
-			var requestBody = OC.parseQueryString(_.last(fakeServer.requests).requestBody);
-			return parseInt(requestBody.permissions, 10);
-		}
-
-		describe('regular sharing', function() {
-			it('shares with given permissions with default config', function() {
-				shareModel.set({
-					reshare: {},
-					shares: []
-				});
-				expect(
-					testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
-				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE);
-				expect(
-					testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_SHARE)
-				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_SHARE);
-			});
-			it('removes share permission when not allowed', function() {
-				configModel.set('isResharingAllowed', false);
-				shareModel.set({
-					reshare: {},
-					shares: []
-				});
-				expect(
-					testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
-				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
-			});
-			it('automatically adds READ permission even when not specified', function() {
-				configModel.set('isResharingAllowed', false);
-				shareModel.set({
-					reshare: {},
-					shares: []
-				});
-				expect(
-					testWithPermissions(OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
-				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_UPDATE);
-			});
-			it('does not show sharing options when sharing not allowed', function() {
-				shareModel.set({
-					reshare: {},
-					shares: [],
-					permissions: OC.PERMISSION_READ
-				});
-				dialog.render();
-				expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(true);
-			});
-			it('shows reshare owner', function() {
-				shareModel.set({
-					reshare: {
-						uid_owner: 'user1'
-					},
-					shares: [],
-					permissions: OC.PERMISSION_READ
-				});
-				dialog.render();
-				expect(dialog.$el.find('.resharerInfoView .reshare').length).toEqual(1);
-			});
-			it('does not show reshare owner if owner is current user', function() {
-				shareModel.set({
-					reshare: {
-						uid_owner: OC.currentUser
-					},
-					shares: [],
-					permissions: OC.PERMISSION_READ
-				});
-				dialog.render();
-				expect(dialog.$el.find('.resharerInfoView .reshare').length).toEqual(0);
-			});
-		});
-	});
-
 	describe('remote sharing', function() {
 		it('shows remote share info when allowed', function() {
 			configModel.set({
@@ -1092,6 +952,62 @@ describe('OC.Share.ShareDialogView', function() {
 				expect(el.is('li')).toEqual(true);
 				expect(el.hasClass('user')).toEqual(true);
 			});
+		});
+
+		it('calls addShare after selection', function() {
+			dialog.render();
+			var addShareStub = sinon.stub(shareModel, 'addShare');
+			var autocompleteOptions = autocompleteStub.getCall(0).args[0];
+			autocompleteOptions.select(new $.Event('select'), {
+				item: {
+					label: 'User Two',
+					value: {
+						shareType: OC.Share.SHARE_TYPE_USER,
+						shareWith: 'user2'
+					}
+				}
+			});
+
+			expect(addShareStub.calledOnce).toEqual(true);
+			expect(addShareStub.firstCall.args[0]).toEqual({
+				shareType: OC.Share.SHARE_TYPE_USER,
+				shareWith: 'user2'
+			});
+
+			addShareStub.restore();
+		});
+	});
+	describe('reshare permissions', function() {
+		it('does not show sharing options when sharing not allowed', function() {
+			shareModel.set({
+				reshare: {},
+				shares: [],
+				permissions: OC.PERMISSION_READ
+			});
+			dialog.render();
+			expect(dialog.$el.find('.shareWithField').prop('disabled')).toEqual(true);
+		});
+		it('shows reshare owner', function() {
+			shareModel.set({
+				reshare: {
+					uid_owner: 'user1'
+				},
+				shares: [],
+				permissions: OC.PERMISSION_READ
+			});
+			dialog.render();
+			expect(dialog.$el.find('.resharerInfoView .reshare').length).toEqual(1);
+		});
+		it('does not show reshare owner if owner is current user', function() {
+			shareModel.set({
+				reshare: {
+					uid_owner: OC.currentUser
+				},
+				shares: [],
+				permissions: OC.PERMISSION_READ
+			});
+			dialog.render();
+			expect(dialog.$el.find('.resharerInfoView .reshare').length).toEqual(0);
 		});
 	});
 });
