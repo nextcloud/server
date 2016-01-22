@@ -25,14 +25,14 @@ namespace OCP\Notification;
  * Interface IManager
  *
  * @package OCP\Notification
- * @since 8.2.0
+ * @since 9.0.0
  */
 interface IManager extends IApp, INotifier {
 	/**
 	 * @param \Closure $service The service must implement IApp, otherwise a
 	 *                          \InvalidArgumentException is thrown later
 	 * @return null
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function registerApp(\Closure $service);
 
@@ -42,7 +42,7 @@ interface IManager extends IApp, INotifier {
 	 * @param \Closure $info    An array with the keys 'id' and 'name' containing
 	 *                          the app id and the app name
 	 * @return null
-	 * @since 8.2.0 - Parameter $info was added in 9.0.0
+	 * @since 9.0.0
 	 */
 	public function registerNotifier(\Closure $service, \Closure $info);
 
@@ -54,13 +54,13 @@ interface IManager extends IApp, INotifier {
 
 	/**
 	 * @return INotification
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function createNotification();
 
 	/**
 	 * @return bool
-	 * @since 8.2.0
+	 * @since 9.0.0
 	 */
 	public function hasNotifiers();
 }
