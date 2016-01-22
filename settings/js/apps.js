@@ -153,6 +153,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		}
 		app.firstExperimental = firstExperimental;
 
+		if (!app.preview) {
+			app.preview = OC.imagePath('core', 'default-app-icon');
+			app.previewAsIcon = true;
+		}
+
 		var html = template(app);
 		if (selector) {
 			selector.html(html);
