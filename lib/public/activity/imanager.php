@@ -118,8 +118,7 @@ interface IManager {
 	 * 					'desc' => "translated string description for the setting"
 	 * 					'methods' => [\OCP\Activity\IExtension::METHOD_*],
 	 * 				]
-	 * @since 8.0.0
-	 * @changed 8.2.0 - Added support to allow limiting notifications to certain methods
+	 * @since 8.0.0 - 8.2.0: Added support to allow limiting notifications to certain methods
 	 */
 	public function getNotificationTypes($languageCode);
 
