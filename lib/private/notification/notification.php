@@ -167,8 +167,7 @@ class Notification implements INotification {
 	 * @param string $id
 	 * @return $this
 	 * @throws \InvalidArgumentException if the object type or id is invalid
-	 * @since 8.2.0
-	 * @changed 9.0.0 Type of $id changed to string
+	 * @since 8.2.0 - 9.0.0: Type of $id changed to string
 	 */
 	public function setObject($type, $id) {
 		if (!is_string($type) || $type === '' || isset($type[64])) {
@@ -193,8 +192,7 @@ class Notification implements INotification {
 
 	/**
 	 * @return string
-	 * @since 8.2.0
-	 * @changed 9.0.0 Return type changed to string
+	 * @since 8.2.0 - 9.0.0: Return type changed to string
 	 */
 	public function getObjectId() {
 		return $this->objectId;

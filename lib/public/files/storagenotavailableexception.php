@@ -34,8 +34,7 @@ use OC\HintException;
 
 /**
  * Storage is temporarily not available
- * @since 6.0.0
- * @changed 8.2.1 based on HintException
+ * @since 6.0.0 - since 8.2.1 based on HintException
  */
 class StorageNotAvailableException extends HintException {
 
