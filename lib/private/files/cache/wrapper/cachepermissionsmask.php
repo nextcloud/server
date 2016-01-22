@@ -29,7 +29,7 @@ class CachePermissionsMask extends CacheWrapper {
 	protected $mask;
 
 	/**
-	 * @param \OC\Files\Cache\Cache $cache
+	 * @param \OCP\Files\Cache\ICache $cache
 	 * @param int $mask
 	 */
 	public function __construct($cache, $mask) {
