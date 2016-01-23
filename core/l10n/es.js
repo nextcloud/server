@@ -175,6 +175,7 @@ OC.L10N.register(
     "Warning" : "Precaución",
     "Error while sending notification" : "Error mientras se enviaba la notificación",
     "Delete" : "Eliminar",
+    "Rename" : "Renombrar",
     "The object type is not specified." : "El tipo de objeto no está especificado.",
     "Enter new" : "Ingresar nueva",
     "Add" : "Agregar",

@@ -128,6 +128,7 @@ OC.L10N.register(
     "Share with users or groups …" : "Współdziel z użytkownikami lub grupami",
     "Warning" : "Ostrzeżenie",
     "Delete" : "Usuń",
+    "Rename" : "Zmień nazwę",
     "The object type is not specified." : "Nie określono typu obiektu.",
     "Enter new" : "Wpisz nowy",
     "Add" : "Dodaj",

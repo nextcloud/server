@@ -161,6 +161,7 @@ OC.L10N.register(
     "Warning" : "Atencion",
     "Error while sending notification" : "Error al moment del mandadís de la notificacion",
     "Delete" : "Suprimir",
+    "Rename" : "Renomenar",
     "The object type is not specified." : "Lo tipe d'objècte es pas especificat.",
     "Enter new" : "Picar un novèl",
     "Add" : "Apondre",

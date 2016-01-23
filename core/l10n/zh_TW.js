@@ -175,6 +175,7 @@ OC.L10N.register(
     "Warning" : "警告",
     "Error while sending notification" : "發送通知錯誤",
     "Delete" : "刪除",
+    "Rename" : "重新命名",
     "The object type is not specified." : "未指定物件類型",
     "Enter new" : "輸入新的",
     "Add" : "增加",

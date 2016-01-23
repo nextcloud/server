@@ -85,6 +85,7 @@ OC.L10N.register(
     "Share" : "ចែក​រំលែក",
     "Warning" : "បម្រាម",
     "Delete" : "លុប",
+    "Rename" : "ប្ដូរ​ឈ្មោះ",
     "The object type is not specified." : "មិន​បាន​កំណត់​ប្រភេទ​វត្ថុ។",
     "Add" : "បញ្ចូល",
     "Please reload the page." : "សូម​ផ្ទុក​ទំព័រ​នេះ​ឡើង​វិញ។",

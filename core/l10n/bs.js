@@ -121,6 +121,7 @@ OC.L10N.register(
     "Share" : "Podijeli",
     "Warning" : "Upozorenje",
     "Delete" : "Izbriši",
+    "Rename" : "Preimenuj",
     "The object type is not specified." : "Vrsta objekta nije određena.",
     "Enter new" : "Unesi novi",
     "Add" : "Dodaj",

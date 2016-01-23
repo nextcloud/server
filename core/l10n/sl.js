@@ -156,6 +156,7 @@ OC.L10N.register(
     "Warning" : "Opozorilo",
     "Error while sending notification" : "Napaka med pošiljanjem obvestila",
     "Delete" : "Izbriši",
+    "Rename" : "Preimenuj",
     "The object type is not specified." : "Vrsta predmeta ni podana.",
     "Enter new" : "Vnesite novo",
     "Add" : "Dodaj",

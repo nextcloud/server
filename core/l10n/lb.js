@@ -88,6 +88,7 @@ OC.L10N.register(
     "Share" : "Deelen",
     "Warning" : "Warnung",
     "Delete" : "Läschen",
+    "Rename" : "Ëmbenennen",
     "The object type is not specified." : "Den Typ vum Object ass net uginn.",
     "Enter new" : "Gëff nei an",
     "Add" : "Dobäisetzen",

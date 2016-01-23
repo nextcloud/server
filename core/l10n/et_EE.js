@@ -147,6 +147,7 @@ OC.L10N.register(
     "Warning" : "Hoiatus",
     "Error while sending notification" : "Tõrge teavituse saatmisel",
     "Delete" : "Kustuta",
+    "Rename" : "Nimeta ümber",
     "The object type is not specified." : "Objekti tüüp pole määratletud.",
     "Enter new" : "Sisesta uus",
     "Add" : "Lisa",

@@ -161,6 +161,7 @@ OC.L10N.register(
     "Warning" : "Προειδοποίηση",
     "Error while sending notification" : "Σφάλμα κατά την αποστολή ειδοποίησης",
     "Delete" : "Διαγραφή",
+    "Rename" : "Μετονομασία",
     "The object type is not specified." : "Δεν καθορίστηκε ο τύπος του αντικειμένου.",
     "Enter new" : "Εισαγωγή νέου",
     "Add" : "Προσθήκη",

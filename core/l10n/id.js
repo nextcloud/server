@@ -161,6 +161,7 @@ OC.L10N.register(
     "Warning" : "Peringatan",
     "Error while sending notification" : "Kesalahan ketika mengirim notifikasi",
     "Delete" : "Hapus",
+    "Rename" : "Ubah nama",
     "The object type is not specified." : "Tipe objek tidak ditentukan.",
     "Enter new" : "Masukkan baru",
     "Add" : "Tambah",

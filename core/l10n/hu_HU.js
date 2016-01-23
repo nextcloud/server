@@ -164,6 +164,7 @@ OC.L10N.register(
     "Warning" : "Figyelmeztetés",
     "Error while sending notification" : "Hiba történt az értesítő küldése közben",
     "Delete" : "Törlés",
+    "Rename" : "Átnevezés",
     "The object type is not specified." : "Az objektum típusa nincs megadva.",
     "Enter new" : "Új beírása",
     "Add" : "Hozzáadás",

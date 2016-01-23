@@ -161,6 +161,7 @@ OC.L10N.register(
     "Warning" : "Advarsel",
     "Error while sending notification" : "Fejl ved afsendelse af notifikation",
     "Delete" : "Slet",
+    "Rename" : "Omdøb",
     "The object type is not specified." : "Objekttypen er ikke angivet.",
     "Enter new" : "Indtast nyt",
     "Add" : "Tilføj",

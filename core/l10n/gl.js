@@ -149,6 +149,7 @@ OC.L10N.register(
     "Share with users, groups or remote users …" : "Compartir con usuarios, grupos ou usuarios remotos ...",
     "Warning" : "Aviso",
     "Delete" : "Eliminar",
+    "Rename" : "Renomear",
     "The object type is not specified." : "Non se especificou o tipo de obxecto.",
     "Enter new" : "Introduza o novo",
     "Add" : "Engadir",

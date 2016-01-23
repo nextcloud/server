@@ -174,6 +174,7 @@ OC.L10N.register(
     "Warning" : "警告",
     "Error while sending notification" : "通知送信中にエラーが発生",
     "Delete" : "削除",
+    "Rename" : "名前の変更",
     "The object type is not specified." : "オブジェクトタイプが指定されていません。",
     "Enter new" : "新規に入力",
     "Add" : "追加",

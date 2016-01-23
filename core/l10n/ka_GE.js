@@ -76,6 +76,7 @@ OC.L10N.register(
     "Share" : "გაზიარება",
     "Warning" : "გაფრთხილება",
     "Delete" : "წაშლა",
+    "Rename" : "გადარქმევა",
     "The object type is not specified." : "ობიექტის ტიპი არ არის მითითებული.",
     "Add" : "დამატება",
     "The update was successful. Redirecting you to ownCloud now." : "განახლება ვერ განხორციელდა. გადამისამართება თქვენს ownCloud–ზე.",

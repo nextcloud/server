@@ -54,6 +54,7 @@ OC.L10N.register(
     "Share" : "Kongsi",
     "Warning" : "Amaran",
     "Delete" : "Padam",
+    "Rename" : "Namakan",
     "Add" : "Tambah",
     "Personal" : "Peribadi",
     "Users" : "Pengguna",

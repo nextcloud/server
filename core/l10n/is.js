@@ -154,6 +154,7 @@ OC.L10N.register(
     "Warning" : "Aðvörun",
     "Error while sending notification" : "Villa við að senda tilkynningu",
     "Delete" : "Eyða",
+    "Rename" : "Endurnefna",
     "The object type is not specified." : "Tegund ekki tilgreind",
     "Enter new" : "Sláðu inn nýtt",
     "Add" : "Bæta við",

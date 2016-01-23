@@ -175,6 +175,7 @@ OC.L10N.register(
     "Warning" : "คำเตือน",
     "Error while sending notification" : "เกิดข้อผิดพลาดขณะกำลังส่งการแจ้งเตือน",
     "Delete" : "ลบ",
+    "Rename" : "เปลี่ยนชื่อ",
     "The object type is not specified." : "ชนิดของวัตถุยังไม่ได้รับการระบุ",
     "Enter new" : "ใส่ข้อมูลใหม่",
     "Add" : "เพิ่ม",

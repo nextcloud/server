@@ -160,6 +160,7 @@ OC.L10N.register(
     "Warning" : "אזהרה",
     "Error while sending notification" : "שגיאה בזמן שליחת הודעה",
     "Delete" : "מחיקה",
+    "Rename" : "שינוי שם",
     "The object type is not specified." : "סוג הפריט לא צוין.",
     "Enter new" : "הכנסת חדש",
     "Add" : "הוספה",

@@ -104,6 +104,7 @@ OC.L10N.register(
     "Share" : "Compartir",
     "Warning" : "Atención",
     "Delete" : "Borrar",
+    "Rename" : "Cambiar nombre",
     "The object type is not specified." : "El tipo de objeto no está especificado. ",
     "Enter new" : "Entrar nuevo",
     "Add" : "Agregar",

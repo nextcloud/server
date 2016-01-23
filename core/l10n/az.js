@@ -74,6 +74,7 @@ OC.L10N.register(
     "Share" : "Yayımla",
     "Warning" : "Xəbərdarlıq",
     "Delete" : "Sil",
+    "Rename" : "Adı dəyiş",
     "Add" : "Əlavə etmək",
     "Personal" : "Şəxsi",
     "Users" : "İstifadəçilər",

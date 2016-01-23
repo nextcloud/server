@@ -161,6 +161,7 @@ OC.L10N.register(
     "Warning" : "警告",
     "Error while sending notification" : "发送通知时出现错误",
     "Delete" : "删除",
+    "Rename" : "重命名",
     "The object type is not specified." : "未指定对象类型。",
     "Enter new" : "输入新...",
     "Add" : "增加",

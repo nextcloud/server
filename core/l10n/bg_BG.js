@@ -130,6 +130,7 @@ OC.L10N.register(
     "Share" : "Споделяне",
     "Warning" : "Предупреждение",
     "Delete" : "Изтриване",
+    "Rename" : "Преименуване",
     "The object type is not specified." : "Видът на обекта не е избран.",
     "Enter new" : "Въвеждане на нов",
     "Add" : "Добавяне",

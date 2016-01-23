@@ -61,6 +61,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n קובץ","%n קבצים"],
     "{dirs} and {files}" : "{dirs} וכן {files}",
     "You don’t have permission to upload or create files here" : "אין לך הרשאות להעלות או ליצור קבצים כאן",
+    "_Uploading %n file_::_Uploading %n files_" : ["מעלה %n קובץ","מעלה %n קבצים"],
     "New" : "חדש",
     "\"{name}\" is an invalid file name." : "\"{name}\" הנו שם קובץ לא חוקי.",
     "File name cannot be empty." : "שם קובץ אינו יכול להיות ריק",

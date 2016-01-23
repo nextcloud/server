@@ -146,6 +146,7 @@ OC.L10N.register(
     "Share with users, groups or remote users …" : "Споделено со корисници, групи или оддалечени корисници ...",
     "Warning" : "Предупредување",
     "Delete" : "Избриши",
+    "Rename" : "Преименувај",
     "The object type is not specified." : "Не е специфициран типот на објект.",
     "Enter new" : "Внеси нов",
     "Add" : "Додади",

@@ -151,6 +151,7 @@ OC.L10N.register(
     "Warning" : "Попередження",
     "Error while sending notification" : "Помилка при надсиланні повідомлення",
     "Delete" : "Видалити",
+    "Rename" : "Перейменувати",
     "The object type is not specified." : "Не визначено тип об'єкту.",
     "Enter new" : "Введіть новий",
     "Add" : "Додати",

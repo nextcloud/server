@@ -69,6 +69,7 @@ OC.L10N.register(
     "Share" : "பகிர்வு",
     "Warning" : "எச்சரிக்கை",
     "Delete" : "நீக்குக",
+    "Rename" : "பெயர்மாற்றம்",
     "The object type is not specified." : "பொருள் வகை குறிப்பிடப்படவில்லை.",
     "Add" : "சேர்க்க",
     "Personal" : "தனிப்பட்ட",

@@ -161,6 +161,7 @@ OC.L10N.register(
     "Warning" : "경고",
     "Error while sending notification" : "알림을 보내는 중 오류 발생",
     "Delete" : "삭제",
+    "Rename" : "이름 바꾸기",
     "The object type is not specified." : "객체 유형이 지정되지 않았습니다.",
     "Enter new" : "새로운 값 입력",
     "Add" : "추가",

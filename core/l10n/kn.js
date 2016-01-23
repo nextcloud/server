@@ -100,6 +100,7 @@ OC.L10N.register(
     "Share" : "﻿ಹಂಚಿಕೊಳ್ಳಿ",
     "Warning" : "﻿ಎಚ್ಚರಿಕೆ",
     "Delete" : "﻿ಅಳಿಸಿ",
+    "Rename" : "﻿ಮರುಹೆಸರಿಸು",
     "The object type is not specified." : "﻿ವಸ್ತು ಮಾದರಿ ನಿರ್ದಿಷ್ಟಪಡಿಸಲಾಗಿಲ್ಲ.",
     "Enter new" : "﻿ಹೊಸ ನಮೂದನೆ",
     "Add" : "﻿ಸೇರಿಸಿ",

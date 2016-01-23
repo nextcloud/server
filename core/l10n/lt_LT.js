@@ -138,6 +138,7 @@ OC.L10N.register(
     "Share with users, groups or remote users …" : "Dalintis su vartotoju, grupe, ar nutolusiu vartotoju...",
     "Warning" : "Įspėjimas",
     "Delete" : "Ištrinti",
+    "Rename" : "Pervadinti",
     "The object type is not specified." : "Objekto tipas nenurodytas.",
     "Enter new" : "Įveskite naują",
     "Add" : "Pridėti",

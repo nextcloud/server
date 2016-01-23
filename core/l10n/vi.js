@@ -98,6 +98,7 @@ OC.L10N.register(
     "Share" : "Chia sẻ",
     "Warning" : "Cảnh báo",
     "Delete" : "Xóa",
+    "Rename" : "Sửa tên",
     "The object type is not specified." : "Loại đối tượng không được chỉ định.",
     "Enter new" : "Nhập mới",
     "Add" : "Thêm",

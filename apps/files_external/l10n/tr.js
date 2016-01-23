@@ -101,7 +101,7 @@ OC.L10N.register(
     "Add storage" : "Depo ekle",
     "Advanced settings" : "Gelişmiş ayarlar",
     "Delete" : "Sil",
-    "Allow users to mount external storage" : "Kullanıcılara harici depolama bağlama izin ver",
+    "Allow users to mount external storage" : "Kullanıcılara harici depolama bağlamalarına izin ver",
     "Allow users to mount the following external storage" : "Kullanıcıların aşağıdaki harici depolamayı bağlamalarına izin ver"
 },
 "nplurals=2; plural=(n > 1);");

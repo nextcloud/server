@@ -128,6 +128,7 @@ OC.L10N.register(
     "Share with users, groups or remote users …" : "Dela med användare, grupper eller fjärranvändare ...",
     "Warning" : "Varning",
     "Delete" : "Radera",
+    "Rename" : "Byt namn",
     "The object type is not specified." : "Objekttypen är inte specificerad.",
     "Enter new" : "Skriv nytt",
     "Add" : "Lägg till",

@@ -138,6 +138,7 @@ OC.L10N.register(
     "Warning" : "اخطار",
     "Error while sending notification" : "خطا در حین ارسال نوتیفیکیشن",
     "Delete" : "حذف",
+    "Rename" : "تغییرنام",
     "The object type is not specified." : "نوع شی تعیین نشده است.",
     "Enter new" : "مورد جدید را وارد کنید",
     "Add" : "افزودن",

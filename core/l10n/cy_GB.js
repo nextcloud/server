@@ -74,6 +74,7 @@ OC.L10N.register(
     "Share" : "Rhannu",
     "Warning" : "Rhybudd",
     "Delete" : "Dileu",
+    "Rename" : "Ailenwi",
     "The object type is not specified." : "Nid yw'r math o wrthrych wedi cael ei nodi.",
     "Add" : "Ychwanegu",
     "The update was successful. Redirecting you to ownCloud now." : "Roedd y diweddariad yn llwyddiannus. Cewch eich ailgyfeirio i ownCloud nawr.",

@@ -126,6 +126,7 @@ OC.L10N.register(
     "Share with users, groups or remote users …" : "Compartir con usuarios, grupos o usuarios remotos",
     "Warning" : "Avisu",
     "Delete" : "Desaniciar",
+    "Rename" : "Renomar",
     "The object type is not specified." : "El tipu d'oxetu nun ta especificáu.",
     "Enter new" : "Introducir nueva",
     "Add" : "Amestar",

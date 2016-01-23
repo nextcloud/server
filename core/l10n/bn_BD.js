@@ -90,6 +90,7 @@ OC.L10N.register(
     "Share" : "ভাগাভাগি কর",
     "Warning" : "সতর্কবাণী",
     "Delete" : "মুছে",
+    "Rename" : "পূনঃনামকরণ",
     "The object type is not specified." : "অবজেক্টের ধরণটি সুনির্দিষ্ট নয়।",
     "Enter new" : "নতুন লিখুন",
     "Add" : "যোগ কর",

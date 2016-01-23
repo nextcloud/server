@@ -93,6 +93,7 @@ OC.L10N.register(
     "Share" : "Kunhavigi",
     "Warning" : "Averto",
     "Delete" : "Forigi",
+    "Rename" : "Alinomigi",
     "The object type is not specified." : "Ne indikiĝis tipo de la objekto.",
     "Enter new" : "Enigu novan",
     "Add" : "Aldoni",

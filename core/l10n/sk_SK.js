@@ -158,6 +158,7 @@ OC.L10N.register(
     "Warning" : "Varovanie",
     "Error while sending notification" : "Chyba pri posielaní oznámenia",
     "Delete" : "Zmazať",
+    "Rename" : "Premenovať",
     "The object type is not specified." : "Nešpecifikovaný typ objektu.",
     "Enter new" : "Zadať nový",
     "Add" : "Pridať",

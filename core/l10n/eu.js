@@ -126,6 +126,7 @@ OC.L10N.register(
     "Share" : "Elkarbanatu",
     "Warning" : "Abisua",
     "Delete" : "Ezabatu",
+    "Rename" : "Berrizendatu",
     "The object type is not specified." : "Objetu mota ez dago zehaztuta.",
     "Enter new" : "Sartu berria",
     "Add" : "Gehitu",

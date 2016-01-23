@@ -175,6 +175,7 @@ OC.L10N.register(
     "Warning" : "Advarsel",
     "Error while sending notification" : "Feil ved sending av varsling",
     "Delete" : "Slett",
+    "Rename" : "Gi nytt navn",
     "The object type is not specified." : "Objekttypen er ikke spesifisert.",
     "Enter new" : "Oppgi ny",
     "Add" : "Legg til",

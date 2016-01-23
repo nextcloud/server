@@ -101,6 +101,7 @@ OC.L10N.register(
     "Share" : "شارك",
     "Warning" : "تحذير",
     "Delete" : "إلغاء",
+    "Rename" : "إعادة التسمية",
     "The object type is not specified." : "نوع العنصر غير محدد.",
     "Enter new" : "إدخال جديد",
     "Add" : "اضف",

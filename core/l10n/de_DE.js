@@ -163,6 +163,7 @@ OC.L10N.register(
     "Warning" : "Warnung",
     "Error while sending notification" : "Fehler beim Senden der Benachrichtigung",
     "Delete" : "Löschen",
+    "Rename" : "Umbenennen",
     "The object type is not specified." : "Der Objekttyp ist nicht angegeben.",
     "Enter new" : "Neuen eingeben",
     "Add" : "Hinzufügen",

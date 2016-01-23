@@ -93,6 +93,7 @@ OC.L10N.register(
     "Share" : "Dalīties",
     "Warning" : "Brīdinājums",
     "Delete" : "Dzēst",
+    "Rename" : "Pārsaukt",
     "The object type is not specified." : "Nav norādīts objekta tips.",
     "Add" : "Pievienot",
     "The update was successful. Redirecting you to ownCloud now." : "Atjaunināšana beidzās sekmīgi. Tagad pārsūta jūs uz ownCloud.",

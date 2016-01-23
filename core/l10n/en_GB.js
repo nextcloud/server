@@ -137,6 +137,7 @@ OC.L10N.register(
     "Share with users, groups or remote users …" : "Share with users, groups or remote users …",
     "Warning" : "Warning",
     "Delete" : "Delete",
+    "Rename" : "Rename",
     "The object type is not specified." : "The object type is not specified.",
     "Enter new" : "Enter new",
     "Add" : "Add",

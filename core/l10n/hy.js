@@ -56,6 +56,7 @@ OC.L10N.register(
     "Share" : "Կիսվել",
     "Warning" : "Զգուշացում",
     "Delete" : "Ջնջել",
+    "Rename" : "Վերանվանել",
     "Add" : "Ավելացնել",
     "Personal" : "Անձնական",
     "Username" : "Օգտանուն",
