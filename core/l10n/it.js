@@ -179,6 +179,7 @@ OC.L10N.register(
     "invisible" : "invisibile",
     "assignable" : "assegnabile",
     "not assignable" : "non assegnabile",
+    "({uservisible}, {userassignable})" : "({uservisible}, {userassignable})",
     "Delete" : "Elimina",
     "Rename" : "Rinomina",
     "Global tags" : "Tag globali",

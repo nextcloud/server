@@ -60,6 +60,7 @@ OC.L10N.register(
     "Identity endpoint URL" : "Identifikační koncový bod URL",
     "Rackspace" : "Rackspace",
     "API key" : "Klíč API",
+    "Login credentials" : "Přihlašovací údaje",
     "Username and password" : "Uživatelské jméno a heslo",
     "Session credentials" : "Přihlašovací údaje sezení",
     "RSA public key" : "RSA veřejný klíč",

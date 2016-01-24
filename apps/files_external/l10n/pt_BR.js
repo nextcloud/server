@@ -60,6 +60,7 @@ OC.L10N.register(
     "Identity endpoint URL" : "Identidade pontofinal URL",
     "Rackspace" : "Espaço em rack",
     "API key" : "Chave API",
+    "Login credentials" : "Credenciais de login",
     "Username and password" : "Nome de Usuário e senha",
     "Session credentials" : "Credenciais de Sessão",
     "RSA public key" : "Chave pública RSA",

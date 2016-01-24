@@ -59,6 +59,7 @@ OC.L10N.register(
     "Tenant name" : "Emër qiraxhiu",
     "Rackspace" : "Rackspace",
     "API key" : "Kyç API",
+    "Login credentials" : "Kredenciale hyrjesh",
     "Username and password" : "Emër përdoruesi dhe fjalëkalim",
     "Session credentials" : "Kredenciale sesioni",
     "RSA public key" : "Kyç publik RSA ",
