@@ -113,7 +113,7 @@ class CacheJail extends CacheWrapper {
 	 * @param array $data
 	 */
 	public function update($id, array $data) {
-		$this->cache->update($this->getSourcePath($id), $data);
+		$this->cache->update($id, $data);
 	}
 
 	/**
