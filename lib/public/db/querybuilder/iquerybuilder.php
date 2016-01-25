@@ -21,11 +21,50 @@
 
 namespace OCP\DB\QueryBuilder;
 
+
+use Doctrine\DBAL\Connection;
+
 /**
  * This class provides a wrapper around Doctrine's QueryBuilder
  * @since 8.2.0
  */
 interface IQueryBuilder {
+
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_NULL = \PDO::PARAM_NULL;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_BOOL = \PDO::PARAM_BOOL;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_INT = \PDO::PARAM_INT;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_STR = \PDO::PARAM_STR;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_LOB = \PDO::PARAM_LOB;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_DATE = 'datetime';
+
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_INT_ARRAY = Connection::PARAM_INT_ARRAY;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_STR_ARRAY = Connection::PARAM_STR_ARRAY;
+
+
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
 	 *

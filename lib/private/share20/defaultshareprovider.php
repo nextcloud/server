@@ -24,6 +24,7 @@ use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
 use OC\Share20\Exception\ShareNotFound;
 use OC\Share20\Exception\BackendError;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\NotFoundException;
 use OCP\IGroup;
 use OCP\IUser;
@@ -32,8 +33,6 @@ use OCP\IUserManager;
 use OCP\Files\IRootFolder;
 use OCP\IDBConnection;
 use OCP\Files\Node;
-
-use Doctrine\DBAL\Connection;
 
 /**
  * Class DefaultShareProvider
@@ -520,7 +519,7 @@ class DefaultShareProvider implements IShareProvider {
 				$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)));
 				$qb->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
 					$groups,
-					Connection::PARAM_STR_ARRAY
+					IQueryBuilder::PARAM_STR_ARRAY
 				)));
 
 				$cursor = $qb->execute();

@@ -25,6 +25,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
@@ -118,7 +119,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->where($query->expr()->in('s.principaluri', $query->createParameter('principaluri')))
 			->andWhere($query->expr()->eq('s.type', $query->createParameter('type')))
 			->setParameter('type', 'addressbook')
-			->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
+			->setParameter('principaluri', $principals, IQueryBuilder::PARAM_STR_ARRAY)
 			->execute();
 
 		while($row = $result->fetch()) {
@@ -423,7 +424,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->from('cards')
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->in('uri', $query->createParameter('uri')))
-			->setParameter('uri', $uris, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+			->setParameter('uri', $uris, IQueryBuilder::PARAM_STR_ARRAY);
 
 		$cards = [];
 
