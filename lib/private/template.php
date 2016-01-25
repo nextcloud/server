@@ -76,7 +76,7 @@ class OC_Template extends \OC\Template\Base {
 		
 		$theme = OC_Util::getTheme();
 
-		$requesttoken = (OC::$server->getSession() and $registerCall) ? OC_Util::callRegister() : '';
+		$requestToken = (OC::$server->getSession() && $registerCall) ? \OCP\Util::callRegister() : '';
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$l10n = \OC::$server->getL10N($parts[0]);
@@ -89,7 +89,7 @@ class OC_Template extends \OC\Template\Base {
 		$this->path = $path;
 		$this->app = $app;
 
-		parent::__construct($template, $requesttoken, $l10n, $themeDefaults);
+		parent::__construct($template, $requestToken, $l10n, $themeDefaults);
 	}
 
 	public static function initTemplateEngine($renderAs) {

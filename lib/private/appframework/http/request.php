@@ -33,6 +33,8 @@
 
 namespace OC\AppFramework\Http;
 
+use OC\Security\CSRF\CsrfToken;
+use OC\Security\CSRF\CsrfTokenManager;
 use OC\Security\TrustedDomainHelper;
 use OCP\IConfig;
 use OCP\IRequest;
@@ -75,6 +77,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	protected $requestId = '';
 	/** @var ICrypto */
 	protected $crypto;
+	/** @var CsrfTokenManager|null */
+	protected $csrfTokenManager;
 
 	/** @var bool */
 	protected $contentDecoded = false;
@@ -92,17 +96,20 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 *        - string|false 'requesttoken' the requesttoken or false when not available
 	 * @param ISecureRandom $secureRandom
 	 * @param IConfig $config
+	 * @param CsrfTokenManager|null $csrfTokenManager
 	 * @param string $stream
 	 * @see http://www.php.net/manual/en/reserved.variables.php
 	 */
 	public function __construct(array $vars=array(),
 								ISecureRandom $secureRandom = null,
 								IConfig $config,
-								$stream='php://input') {
+								CsrfTokenManager $csrfTokenManager = null,
+								$stream = 'php://input') {
 		$this->inputStream = $stream;
 		$this->items['params'] = array();
 		$this->secureRandom = $secureRandom;
 		$this->config = $config;
+		$this->csrfTokenManager = $csrfTokenManager;
 
 		if(!array_key_exists('method', $vars)) {
 			$vars['method'] = 'GET';
@@ -421,10 +428,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Checks if the CSRF check was correct
 	 * @return bool true if CSRF check passed
-	 * @see OC_Util::callRegister()
 	 */
 	public function passesCSRFCheck() {
-		if($this->items['requesttoken'] === false) {
+		if($this->csrfTokenManager === null) {
 			return false;
 		}
 
@@ -438,23 +444,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			//no token found.
 			return false;
 		}
+		$token = new CsrfToken($token);
 
-		// Deobfuscate token to prevent BREACH like attacks
-		$token = explode(':', $token);
-		if (count($token) !== 2) {
-			return false;
-		}
-
-		$obfuscatedToken = $token[0];
-		$secret = $token[1];
-		$deobfuscatedToken = base64_decode($obfuscatedToken) ^ $secret;
-
-		// Check if the token is valid
-		if(hash_equals($deobfuscatedToken, $this->items['requesttoken'])) {
-			return true;
-		} else {
-			return false;
-		}
+		return $this->csrfTokenManager->isTokenValid($token);
 	}
 
 	/**
