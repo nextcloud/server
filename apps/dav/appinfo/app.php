@@ -25,7 +25,6 @@ $app = new Application();
 $app->registerHooks();
 
 \OC::$server->registerService('CardDAVSyncService', function() use ($app) {
-
 	return $app->getSyncService();
 });
 

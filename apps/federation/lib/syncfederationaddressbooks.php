@@ -19,9 +19,8 @@ class SyncFederationAddressBooks {
 	/**
 	 * @param DbHandler $dbHandler
 	 */
-	function __construct(DbHandler $dbHandler) {
-
-		$this->syncService = \OC::$server->query('CardDAVSyncService');
+	function __construct(DbHandler $dbHandler, $syncService) {
+		$this->syncService = $syncService;
 		$this->dbHandler = $dbHandler;
 	}
 
@@ -30,7 +29,7 @@ class SyncFederationAddressBooks {
 		$trustedServers = $this->dbHandler->getAllServer();
 		foreach ($trustedServers as $trustedServer) {
 			$url = $trustedServer['url'];
-			$callback($url);
+			$callback($url, null);
 			$sharedSecret = $trustedServer['shared_secret'];
 			$syncToken = $trustedServer['sync_token'];
 
