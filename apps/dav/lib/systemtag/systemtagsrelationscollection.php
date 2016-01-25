@@ -26,6 +26,8 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\SimpleCollection;
+use OCP\IUserSession;
+use OCP\IGroupManager;
 
 class SystemTagsRelationsCollection extends SimpleCollection {
 
