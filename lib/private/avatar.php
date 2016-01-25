@@ -58,10 +58,8 @@ class Avatar implements \OCP\IAvatar {
 	}
 
 	/**
-	 * get the users avatar
-	 * @param int $size size in px of the avatar, avatars are square, defaults to 64
-	 * @return boolean|\OCP\IImage containing the avatar or false if there's no image
-	*/
+	 * @inheritdoc
+	 */
 	public function get ($size = 64) {
 		try {
 			$file = $this->getFile($size);
@@ -135,16 +133,16 @@ class Avatar implements \OCP\IAvatar {
 	}
 
 	/**
-	 * Get the File of an avatar of size $size.
-	 *
-	 * @param int $size
-	 * @return File
-	 * @throws NotFoundException
+	 * @inheritdoc
 	 */
 	public function getFile($size) {
 		$ext = $this->getExtention();
 
-		$path = 'avatar.' . $size . '.' . $ext;
+		if ($size === -1) {
+			$path = 'avatar.' . $ext;
+		} else {
+			$path = 'avatar.' . $size . '.' . $ext;
+		}
 
 		try {
 			$file = $this->folder->get($path);
@@ -157,7 +155,9 @@ class Avatar implements \OCP\IAvatar {
 			/** @var File $file */
 			$file = $this->folder->get('avatar.' . $ext);
 			$avatar->loadFromData($file->getContent());
-			$avatar->resize($size);
+			if ($size !== -1) {
+				$avatar->resize($size);
+			}
 			$file = $this->folder->newFile($path);
 			$file->putContent($avatar->data());
 		}

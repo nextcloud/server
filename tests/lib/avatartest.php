@@ -7,14 +7,13 @@
  * See the COPYING-README file.
  */
 
-use OC\Avatar;
 use OCP\Files\Folder;
 
 class AvatarTest extends \Test\TestCase {
-	/** @var  Folder */
+	/** @var Folder | PHPUnit_Framework_MockObject_MockObject */
 	private $folder;
 
-	/** @var  \OC\Avatar */
+	/** @var \OC\Avatar */
 	private $avatar;
 
 	public function setUp() {
@@ -24,7 +23,6 @@ class AvatarTest extends \Test\TestCase {
 		$l = $this->getMock('\OCP\IL10N');
 		$l->method('t')->will($this->returnArgument(0));
 		$this->avatar = new \OC\Avatar($this->folder, $l);
-
 	}
 
 	public function testGetNoAvatar() {
@@ -45,6 +43,21 @@ class AvatarTest extends \Test\TestCase {
 		$this->folder->method('get')->with('avatar.128.jpg')->willReturn($file);
 
 		$this->assertEquals($expected->data(), $this->avatar->get(128)->data());
+	}
+
+	public function testGetAvatarSizeMinusOne() {
+		$this->folder->method('nodeExists')
+			->will($this->returnValueMap([
+				['avatar.jpg', true],
+			]));
+
+		$expected = new OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getContent')->willReturn($expected->data());
+		$this->folder->method('get')->with('avatar.jpg')->willReturn($file);
+
+		$this->assertEquals($expected->data(), $this->avatar->get(-1)->data());
 	}
 
 	public function testGetAvatarNoSizeMatch() {
