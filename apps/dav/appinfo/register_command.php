@@ -23,6 +23,7 @@ use OCA\Dav\AppInfo\Application;
 use OCA\DAV\Command\CreateAddressBook;
 use OCA\DAV\Command\CreateCalendar;
 use OCA\Dav\Command\MigrateAddressbooks;
+use OCA\Dav\Command\MigrateCalendars;
 use OCA\DAV\Command\SyncSystemAddressBook;
 
 $config = \OC::$server->getConfig();
@@ -44,4 +45,6 @@ if ($config->getSystemValue('debug', false)){
 	$app = new \OCA\Dav\AppInfo\Application();
 	$migration = $app->getContainer()->query('MigrateAddressbooks');
 	$application->add(new MigrateAddressbooks($userManager, $migration));
+	$migration = $app->getContainer()->query('MigrateCalendars');
+	$application->add(new MigrateCalendars($userManager, $migration));
 }
