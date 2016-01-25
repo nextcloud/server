@@ -532,6 +532,8 @@ class Manager {
 	 * @return IShare The share object
 	 */
 	public function updateShare(IShare $share) {
+		$expirationDateUpdated = false;
+
 		if (!$this->canShare($share)) {
 			throw new \Exception('The Share API is disabled');
 		}
@@ -540,13 +542,13 @@ class Manager {
 
 		// We can't change the share type!
 		if ($share->getShareType() !== $originalShare->getShareType()) {
-			//Throw exception
+			throw new \Exception('Can\'t change share type');
 		}
 
 		// We can only change the recipient on user shares
 		if ($share->getSharedWith() !== $originalShare->getSharedWith() &&
 		    $share->getShareType() !== \OCP\Share::SHARE_TYPE_USER) {
-			// Throw exception
+			throw new \Exception('Can only update recipient on user shares');
 		}
 
 		// Cannot share with the owner
@@ -574,15 +576,29 @@ class Manager {
 				}
 			}
 
-			//Verify the expiration date
-			$share->setExpirationDate($this->validateExpiredate($share->getExpirationDate()));
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
+				//Verify the expiration date
+				$share->setExpirationDate($this->validateExpiredate($share->getExpirationDate()));
+				$expirationDateUpdated = true;
+			}
 		}
 
 		$this->pathCreateChecks($share->getPath());
 
 		// Now update the share!
 		$provider = $this->factory->getProviderForType($share->getShareType());
-		return $provider->update($share);
+		$share = $provider->update($share);
+
+		if ($expirationDateUpdated === true) {
+			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', [
+				'itemType' => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemSource' => $share->getPath()->getId(),
+				'date' => $share->getExpirationDate(),
+				'uidOwner' => $share->getSharedBy()->getUID(),
+			]);
+		}
+
+		return $share;
 	}
 
 	/**
