@@ -151,7 +151,7 @@ class Plugin extends ServerPlugin {
 					return;
 				}
 
-				$this->server->transactionType = 'post-oc-addressbook-share';
+				$this->server->transactionType = 'post-oc-resource-share';
 
 				// Getting ACL info
 				$acl = $this->server->getPlugin('acl');

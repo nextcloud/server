@@ -292,13 +292,13 @@ class CardDavBackendTest extends TestCase {
 		$exampleBook = new AddressBook($this->backend, $books[0]);
 		$this->backend->updateShares($exampleBook, [['href' => 'principal:principals/best-friend']], []);
 
-		$shares = $this->backend->getShares($exampleBook->getBookId());
+		$shares = $this->backend->getShares($exampleBook->getResourceId());
 		$this->assertEquals(1, count($shares));
 
 		// adding the same sharee again has no effect
 		$this->backend->updateShares($exampleBook, [['href' => 'principal:principals/best-friend']], []);
 
-		$shares = $this->backend->getShares($exampleBook->getBookId());
+		$shares = $this->backend->getShares($exampleBook->getResourceId());
 		$this->assertEquals(1, count($shares));
 
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
@@ -306,7 +306,7 @@ class CardDavBackendTest extends TestCase {
 
 		$this->backend->updateShares($exampleBook, [], ['principal:principals/best-friend']);
 
-		$shares = $this->backend->getShares($exampleBook->getBookId());
+		$shares = $this->backend->getShares($exampleBook->getResourceId());
 		$this->assertEquals(0, count($shares));
 
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
@@ -432,6 +432,7 @@ class CardDavBackendTest extends TestCase {
 	 * @dataProvider dataTestSearch
 	 *
 	 * @param string $pattern
+	 * @param array $properties
 	 * @param array $expected
 	 */
 	public function testSearch($pattern, $properties, $expected) {

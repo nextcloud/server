@@ -61,4 +61,14 @@ interface IShareable extends INode {
 	 */
 	function getShares();
 
+	/**
+	 * @return int
+	 */
+	public function getResourceId();
+
+	/**
+	 * @return string
+	 */
+	public function getOwner();
+
 }
