@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete" : "Izbriši",
     "Delete permanently" : "Izbriši dokončno",
     "Error" : "Napaka",
+    "This operation is forbidden" : "To dejanje ni dovoljeno!",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Mapa ni na voljo. Preverite dnevnik in stopite v stik s skrbnikom sistema.",
     "restored" : "obnovljeno",
     "No deleted files" : "Ni izbrisanih datotek",
     "You will be able to recover deleted files from here" : "Izbrisane datoteke je mogoče povrniti na tem mestu",
