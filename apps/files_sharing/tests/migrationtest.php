@@ -246,4 +246,63 @@ class MigrationTest extends TestCase {
 		}
 	}
 
+	public function test100kDeepReshares() {
+		$parent = null;
+		for ($i = 0; $i < 10; $i++) {
+			$query = $this->connection->getQueryBuilder();
+			$query->insert($this->table)
+				->values(
+					[
+						'share_type' => $query->createParameter('share_type'),
+						'share_with' => $query->createParameter('share_with'),
+						'uid_owner' => $query->createParameter('uid_owner'),
+						'uid_initiator' => $query->createParameter('uid_initiator'),
+						'parent' => $query->createParameter('parent'),
+						'item_type' => $query->createParameter('item_type'),
+						'item_source' => $query->createParameter('item_source'),
+						'item_target' => $query->createParameter('item_target'),
+						'file_source' => $query->createParameter('file_source'),
+						'file_target' => $query->createParameter('file_target'),
+						'permissions' => $query->createParameter('permissions'),
+						'stime' => $query->createParameter('stime'),
+					]
+				)
+				->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+				->setParameter('share_with', 'user'.($i+1))
+				->setParameter('uid_owner', 'user'.($i))
+				->setParameter('uid_initiator', '')
+				->setParameter('parent', $parent)
+				->setParameter('item_type', 'file')
+				->setParameter('item_source', '2')
+				->setParameter('item_target', '/2')
+				->setParameter('file_source', 2)
+				->setParameter('file_target', '/foobar')
+				->setParameter('permissions', 31)
+				->setParameter('stime', time());
+
+			$this->assertSame(1, $query->execute());
+			$parent = $query->getLastInsertId();
+		}
+
+		$this->migration->removeReShares();
+
+		$qb = $this->connection->getQueryBuilder();
+
+		$stmt = $qb->select('id', 'share_with', 'uid_owner', 'uid_initiator', 'parent')
+			->from('share')
+			->orderBy('id', 'asc')
+			->execute();
+
+		$i = 0;
+		while($share = $stmt->fetch()) {
+			$this->assertEquals('user'.($i+1), $share['share_with']);
+			if ($i !== 0) {
+				$this->assertEquals('user' . ($i), $share['uid_initiator']);
+				$this->assertEquals('user0', $share['uid_owner']);
+			}
+			$this->assertEquals(null, $share['parent']);
+			$i++;
+		}
+		$stmt->closeCursor();
+	}
 }

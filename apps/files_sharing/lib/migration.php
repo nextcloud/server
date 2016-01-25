@@ -23,6 +23,7 @@ namespace OCA\Files_Sharing;
 
 use Doctrine\DBAL\Connection;
 use OCP\IDBConnection;
+use OC\Cache\CappedMemoryCache;
 
 /**
  * Class Migration
@@ -43,6 +44,9 @@ class Migration {
 
 	public function __construct(IDBConnection $connection) {
 		$this->connection = $connection;
+
+		// We cache up to 10k share items (~20MB)
+		$this->shareCache = new CappedMemoryCache(10000);
 	}
 
 	/**
@@ -50,17 +54,33 @@ class Migration {
 	 * upgrade from oC 8.2 to 9.0 with the new sharing
 	 */
 	public function removeReShares() {
-		$reShares = $this->getAllReShares();
-		$this->shareCache = $reShares;
-		$owners = [];
-		foreach ($reShares as $share) {
-			$owners[$share['id']] = [
-				'owner' => $this->findOwner($share),
-				'initiator' => $share['uid_owner']
-			];
-		}
 
-		$this->updateOwners($owners);
+		while(true) {
+			$reShares = $this->getReShares(1000);
+
+			if (empty($reShares)) {
+				break;
+			}
+
+			// Update the cache
+			foreach($reShares as $reShare) {
+				$this->shareCache[$reShare['id']] = $reShare;
+			}
+
+			$owners = [];
+			foreach ($reShares as $share) {
+				$owners[$share['id']] = [
+					'owner' => $this->findOwner($share),
+					'initiator' => $share['uid_owner']
+				];
+			}
+			$this->updateOwners($owners);
+
+			//Clear the cache of the shares we just updated so we have more room
+			foreach($owners as $id => $owner) {
+				unset($this->shareCache[$id]);
+			}
+		}
 	}
 
 	/**
@@ -84,11 +104,12 @@ class Migration {
 	}
 
 	/**
-	 * get all re-shares from the database
+	 * Get $n re-shares from the database
 	 *
+	 * @param int $n The max number of shares to fetch
 	 * @return array
 	 */
-	private function getAllReShares() {
+	private function getReShares($n = 1000) {
 		$query = $this->connection->getQueryBuilder();
 		$query->select(['id', 'parent', 'uid_owner'])
 			->from($this->table)
@@ -110,7 +131,9 @@ class Migration {
 					Connection::PARAM_STR_ARRAY
 				)
 			))
-			->andWhere($query->expr()->isNotNull('parent'));
+			->andWhere($query->expr()->isNotNull('parent'))
+			->orderBy('id', 'asc')
+			->setMaxResults($n);
 		$result = $query->execute();
 		$shares = $result->fetchAll();
 		$result->closeCursor();
@@ -159,7 +182,8 @@ class Migration {
 					->set('parent', $query->createNamedParameter(null))
 					->set('uid_owner', $query->createNamedParameter($owner['owner']))
 					->set('uid_initiator', $query->createNamedParameter($owner['initiator']))
-					->where($query->expr()->eq('id', $query->createNamedParameter($id)))->execute();
+					->where($query->expr()->eq('id', $query->createNamedParameter($id)))
+					->execute();
 			}
 
 			$this->connection->commit();
