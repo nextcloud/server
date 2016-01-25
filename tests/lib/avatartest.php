@@ -163,7 +163,8 @@ class AvatarTest extends \Test\TestCase {
 			->method('putContent')
 			->with($image->data());
 
-		$this->user->expects($this->once())->method('triggerChange');
+		// One on remove and once on setting the new avatar
+		$this->user->expects($this->exactly(2))->method('triggerChange');
 
 		$this->avatar->set($image->data());
 	}

@@ -137,6 +137,7 @@ class Avatar implements IAvatar {
 				$avatar->delete();
 			}
 		}
+		$this->user->triggerChange();
 	}
 
 	/**
