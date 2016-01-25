@@ -17,13 +17,25 @@
 	var RESULT_TEMPLATE =
 		'<span class="systemtags-item{{#if isNew}} new-item{{/if}}" data-id="{{id}}">' +
 		'    <span class="checkmark icon icon-checkmark"></span>' +
+		'{{#if isAdmin}}' +
+		'    <span class="label">{{{tagMarkup}}}</span>' +
+		'{{else}}' +
 		'    <span class="label">{{name}}</span>' +
+		'{{/if}}' +
 		'{{#allowActions}}' +
 		'    <span class="systemtags-actions">' +
 		'        <a href="#" class="rename icon icon-rename" title="{{renameTooltip}}"></a>' +
 		'    </span>' +
 		'{{/allowActions}}' +
 		'</span>';
+
+	var SELECTION_TEMPLATE =
+		'{{#if isAdmin}}' +
+		'    <span class="label">{{{tagMarkup}}}</span>' +
+		'{{else}}' +
+		'    <span class="label">{{name}}</span>' +
+		'{{/if}}' +
+		'<span class="comma">,&nbsp;</span>';
 
 	var RENAME_FORM_TEMPLATE =
 		'<form class="systemtags-rename-form">' +
@@ -63,6 +75,7 @@
 		 * @param {bool} [options.multiple=false] whether to allow selecting multiple tags
 		 * @param {bool} [options.allowActions=true] whether tags can be renamed/delete within the dropdown
 		 * @param {bool} [options.allowCreate=true] whether new tags can be created
+		 * @param {bool} [options.isAdmin=true] whether the user is an administrator
 		 * @param {Function} options.initSelection function to convert selection to data
 		 */
 		initialize: function(options) {
@@ -71,6 +84,7 @@
 			this._multiple = !!options.multiple;
 			this._allowActions = _.isUndefined(options.allowActions) || !!options.allowActions;
 			this._allowCreate = _.isUndefined(options.allowCreate) || !!options.allowCreate;
+			this._isAdmin = !!options.isAdmin;
 
 			if (_.isFunction(options.initSelection)) {
 				this._initSelection = options.initSelection;
@@ -223,9 +237,15 @@
 		_queryTagsAutocomplete: function(query) {
 			var self = this;
 			this.collection.fetch({
-				success: function() {
+				success: function(collection) {
+					var tagModels = collection.filterByName(query.term);
+					if (!self._isAdmin) {
+						tagModels = _.filter(tagModels, function(tagModel) {
+							return tagModel.get('userAssignable');
+						});
+					}
 					query.callback({
-						results: _.invoke(self.collection.filterByName(query.term), 'toJSON')
+						results: _.invoke(tagModels, 'toJSON')
 					});
 				}
 			});
@@ -247,7 +267,25 @@
 			}
 			return this._resultTemplate(_.extend({
 				renameTooltip: t('core', 'Rename'),
-				allowActions: this._allowActions
+				allowActions: this._allowActions,
+				tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
+				isAdmin: this._isAdmin
+			}, data));
+		},
+
+		/**
+		 * Formats a single selection item
+		 *
+		 * @param {Object} data data to format
+		 * @return {string} HTML markup
+		 */
+		_formatSelection: function(data) {
+			if (!this._selectionTemplate) {
+				this._selectionTemplate = Handlebars.compile(SELECTION_TEMPLATE);
+			}
+			return this._selectionTemplate(_.extend({
+				tagMarkup: this._isAdmin ? OC.SystemTags.getDescriptiveTag(data)[0].innerHTML : null,
+				isAdmin: this._isAdmin
 			}, data));
 		},
 
@@ -266,6 +304,8 @@
 				this._newTag = {
 					id: -1,
 					name: term,
+					userAssignable: true,
+					userVisible: true,
 					isNew: true
 				};
 			} else {
@@ -279,11 +319,20 @@
 			var self = this;
 			var ids = $(element).val().split(',');
 
+			function modelToSelection(model) {
+				var data = model.toJSON();
+				if (!self._isAdmin && !data.userAssignable) {
+					// lock static tags for non-admins
+					data.locked = true;
+				}
+				return data;
+			}
+
 			function findSelectedObjects(ids) {
 				var selectedModels = self.collection.filter(function(model) {
-					return ids.indexOf(model.id) >= 0;
+					return ids.indexOf(model.id) >= 0 && (self._isAdmin || model.get('userVisible'));
 				});
-				return _.invoke(selectedModels, 'toJSON');
+				return _.map(selectedModels, modelToSelection);
 			}
 
 			this.collection.fetch({
@@ -316,10 +365,7 @@
 				},
 				initSelection: _.bind(this._initSelection, this),
 				formatResult: _.bind(this._formatDropDownResult, this),
-				formatSelection: function(tag) {
-					return '<span class="label">' + escapeHTML(tag.name) + '</span>' +
-						'<span class="comma">,&nbsp;</span>';
-				},
+				formatSelection: _.bind(this._formatSelection, this),
 				createSearchChoice: this._allowCreate ? _.bind(this._createSearchChoice, this) : undefined,
 				sortResults: function(results) {
 					var selectedItems = _.pluck(self.$tagsField.select2('data'), 'id');

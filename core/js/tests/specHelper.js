@@ -86,6 +86,7 @@ window.firstDay = 0;
 // setup dummy webroots
 /* jshint camelcase: false */
 window.oc_debug = true;
+window.oc_isadmin = false;
 // FIXME: oc_webroot is supposed to be only the path!!!
 window.oc_webroot = location.href + '/';
 window.oc_appswebroots = {

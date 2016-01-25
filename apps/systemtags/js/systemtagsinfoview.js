@@ -9,6 +9,15 @@
  */
 
 (function(OCA) {
+
+	function modelToSelection(model) {
+		var data = model.toJSON();
+		if (!OC.isUserAdmin() && !data.userAssignable) {
+			data.locked = true;
+		}
+		return data;
+	}
+
 	/**
 	 * @class OCA.SystemTags.SystemTagsInfoView
 	 * @classdesc
@@ -36,8 +45,9 @@
 				multiple: true,
 				allowActions: true,
 				allowCreate: true,
+				isAdmin: OC.isUserAdmin(),
 				initSelection: function(element, callback) {
-					callback(self.selectedTagsCollection.toJSON());
+					callback(self.selectedTagsCollection.map(modelToSelection));
 				}
 			});
 
@@ -108,7 +118,7 @@
 				this.selectedTagsCollection.fetch({
 					success: function(collection) {
 						collection.fetched = true;
-						self._inputView.setData(collection.toJSON());
+						self._inputView.setData(collection.map(modelToSelection));
 						self.$el.removeClass('hidden');
 					}
 				});

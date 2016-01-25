@@ -37,8 +37,8 @@
 			return {
 				id: data.id,
 				name: data.name,
-				userVisible: data.userVisible === '1',
-				userAssignable: data.userAssignable === '1'
+				userVisible: data.userVisible === true || data.userVisible === '1',
+				userAssignable: data.userAssignable === true || data.userAssignable === '1'
 			};
 		}
 	});

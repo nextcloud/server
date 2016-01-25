@@ -6,6 +6,8 @@
  * The undefined checks fix the broken ie8 console
  */
 
+/* global oc_isadmin */
+
 var oc_debug;
 var oc_webroot;
 
@@ -674,7 +676,17 @@ var OC={
 	 */
 	getLocale: function() {
 		return $('html').prop('lang');
-	}
+	},
+
+	/**
+	 * Returns whether the current user is an administrator
+	 *
+	 * @return {bool} true if the user is an admin, false otherwise
+	 * @since 9.0.0
+	 */
+	isUserAdmin: function() {
+		return oc_isadmin;
+	},
 };
 
 /**
