@@ -41,8 +41,9 @@
 
 namespace OC;
 
-use \OC\Tagging\Tag;
-use \OC\Tagging\TagMapper;
+use OC\Tagging\Tag;
+use OC\Tagging\TagMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class Tags implements \OCP\ITags {
 
@@ -223,7 +224,7 @@ class Tags implements \OCP\ITags {
 					'FROM `' . self::RELATION_TABLE . '` r, `' . self::TAG_TABLE . '` ' .
 					'WHERE `categoryid` = `id` AND `uid` = ? AND r.`type` = ? AND `objid` IN (?)',
 					array($this->user, $this->type, $chunk),
-					array(null, null, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+					array(null, null, IQueryBuilder::PARAM_INT_ARRAY)
 				);
 				while ($row = $result->fetch()) {
 					$objId = (int)$row['objid'];

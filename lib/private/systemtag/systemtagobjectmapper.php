@@ -22,8 +22,8 @@
 
 namespace OC\SystemTag;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -68,7 +68,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->from(self::RELATION_TABLE)
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
-			->setParameter('objectids', $objIds, Connection::PARAM_INT_ARRAY)
+			->setParameter('objectids', $objIds, IQueryBuilder::PARAM_INT_ARRAY)
 			->setParameter('objecttype', $objectType)
 			->addOrderBy('objectid', 'ASC')
 			->addOrderBy('systemtagid', 'ASC');
@@ -104,7 +104,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->from(self::RELATION_TABLE)
 			->where($query->expr()->in('systemtagid', $query->createParameter('tagids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
-			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY)
+			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
 			->setParameter('objecttype', $objectType);
 
 		$objectIds = [];
@@ -162,7 +162,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->andWhere($query->expr()->in('systemtagid', $query->createParameter('tagids')))
 			->setParameter('objectid', $objId)
 			->setParameter('objecttype', $objectType)
-			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY)
+			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
 			->execute();
 	}
 
@@ -191,7 +191,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
 			->andWhere($query->expr()->eq('systemtagid', $query->createParameter('tagid')))
-			->setParameter('objectids', $objIds, Connection::PARAM_INT_ARRAY)
+			->setParameter('objectids', $objIds, IQueryBuilder::PARAM_INT_ARRAY)
 			->setParameter('tagid', $tagId)
 			->setParameter('objecttype', $objectType);
 

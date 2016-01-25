@@ -22,6 +22,7 @@
 
 namespace OCA\DAV\CalDAV;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use Sabre\CalDAV\Backend\AbstractBackend;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
@@ -384,7 +385,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->from('calendarobjects')
 				->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 				->andWhere($query->expr()->in('uri', $query->createParameter('uri')))
-				->setParameter('uri', $uris, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+				->setParameter('uri', $uris, IQueryBuilder::PARAM_STR_ARRAY);
 
 		$stmt = $query->execute();
 

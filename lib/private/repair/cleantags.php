@@ -24,6 +24,7 @@ namespace OC\Repair;
 
 use OC\Hooks\BasicEmitter;
 use OC\RepairStep;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 /**
@@ -134,7 +135,7 @@ class CleanTags extends BasicEmitter implements RepairStep {
 						$qb->expr()->eq('type', $qb->expr()->literal('files'))
 					)
 					->andWhere($qb->expr()->in($deleteId, $qb->createParameter('ids')));
-				$qb->setParameter('ids', $items, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
+				$qb->setParameter('ids', $items, IQueryBuilder::PARAM_INT_ARRAY);
 				$qb->execute();
 			}
 		}

@@ -38,6 +38,7 @@
 namespace OC\Share;
 
 use OC\Files\Filesystem;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IUserSession;
 use OCP\IDBConnection;
 use OCP\IConfig;
@@ -426,7 +427,7 @@ class Share extends Constants {
 			if (!empty($groups)) {
 				$where = $fileDependentWhere . ' WHERE `' . $column . '` = ? AND `item_type` = ? AND `share_with` in (?)';
 				$arguments = array($itemSource, $itemType, $groups);
-				$types = array(null, null, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+				$types = array(null, null, IQueryBuilder::PARAM_STR_ARRAY);
 
 				if ($owner !== null) {
 					$where .= ' AND `uid_owner` = ?';
