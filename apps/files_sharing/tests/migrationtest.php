@@ -246,9 +246,9 @@ class MigrationTest extends TestCase {
 		}
 	}
 
-	public function test100kDeepReshares() {
+	public function test1001DeepReshares() {
 		$parent = null;
-		for ($i = 0; $i < 10; $i++) {
+		for ($i = 0; $i < 1001; $i++) {
 			$query = $this->connection->getQueryBuilder();
 			$query->insert($this->table)
 				->values(
@@ -270,7 +270,7 @@ class MigrationTest extends TestCase {
 				->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
 				->setParameter('share_with', 'user'.($i+1))
 				->setParameter('uid_owner', 'user'.($i))
-				->setParameter('uid_initiator', '')
+				->setParameter('uid_initiator', null)
 				->setParameter('parent', $parent)
 				->setParameter('item_type', 'file')
 				->setParameter('item_source', '2')
@@ -285,6 +285,7 @@ class MigrationTest extends TestCase {
 		}
 
 		$this->migration->removeReShares();
+		$this->migration->updateInitiatorInfo();
 
 		$qb = $this->connection->getQueryBuilder();
 
@@ -296,13 +297,12 @@ class MigrationTest extends TestCase {
 		$i = 0;
 		while($share = $stmt->fetch()) {
 			$this->assertEquals('user'.($i+1), $share['share_with']);
-			if ($i !== 0) {
-				$this->assertEquals('user' . ($i), $share['uid_initiator']);
-				$this->assertEquals('user0', $share['uid_owner']);
-			}
+			$this->assertEquals('user' . ($i), $share['uid_initiator']);
+			$this->assertEquals('user0', $share['uid_owner']);
 			$this->assertEquals(null, $share['parent']);
 			$i++;
 		}
 		$stmt->closeCursor();
+		$this->assertEquals(1001, $i);
 	}
 }

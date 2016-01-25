@@ -28,6 +28,7 @@ $installedVersion = \OC::$server->getConfig()->getAppValue('files_sharing', 'ins
 if (version_compare($installedVersion, '0.9.0', '<')) {
 	$m = new Migration(\OC::$server->getDatabaseConnection());
 	$m->removeReShares();
+	$m->updateInitiatorInfo();
 }
 
 \OC::$server->getJobList()->add('OCA\Files_sharing\Lib\DeleteOrphanedSharesJob');

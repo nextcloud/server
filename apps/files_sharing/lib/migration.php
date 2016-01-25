@@ -84,6 +84,29 @@ class Migration {
 	}
 
 	/**
+	 * update all owner information so that all shares have an owner
+	 * and an initiator for the upgrade from oC 8.2 to 9.0 with the new sharing
+	 */
+	public function updateInitiatorInfo() {
+		while (true) {
+			$shares = $this->getMissingInitiator(1000);
+
+			if (empty($shares)) {
+				break;
+			}
+
+			$owners = [];
+			foreach ($shares as $share) {
+				$owners[$share['id']] = [
+					'owner' => $share['uid_owner'],
+					'initiator' => $share['uid_owner']
+				];
+			}
+			$this->updateOwners($owners);
+		}
+	}
+
+	/**
 	 * find the owner of a re-shared file/folder
 	 *
 	 * @param array $share
@@ -132,6 +155,49 @@ class Migration {
 				)
 			))
 			->andWhere($query->expr()->isNotNull('parent'))
+			->orderBy('id', 'asc')
+			->setMaxResults($n);
+		$result = $query->execute();
+		$shares = $result->fetchAll();
+		$result->closeCursor();
+
+		$ordered = [];
+		foreach ($shares as $share) {
+			$ordered[(int)$share['id']] = $share;
+		}
+
+		return $ordered;
+	}
+
+	/**
+	 * Get $n re-shares from the database
+	 *
+	 * @param int $n The max number of shares to fetch
+	 * @return array
+	 */
+	private function getMissingInitiator($n = 1000) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select(['id', 'uid_owner'])
+			->from($this->table)
+			->where($query->expr()->in(
+				'share_type',
+				$query->createNamedParameter(
+					[
+						\OCP\Share::SHARE_TYPE_USER,
+						\OCP\Share::SHARE_TYPE_GROUP,
+						\OCP\Share::SHARE_TYPE_LINK
+					],
+					Connection::PARAM_INT_ARRAY
+				)
+			))
+			->andWhere($query->expr()->in(
+				'item_type',
+				$query->createNamedParameter(
+					['file', 'folder'],
+					Connection::PARAM_STR_ARRAY
+				)
+			))
+			->andWhere($query->expr()->isNull('uid_initiator'))
 			->orderBy('id', 'asc')
 			->setMaxResults($n);
 		$result = $query->execute();
