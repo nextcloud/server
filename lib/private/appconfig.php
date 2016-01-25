@@ -251,14 +251,13 @@ class AppConfig implements IAppConfig {
 		if ($key === false) {
 			return $this->getAppValues($app);
 		} else {
-			$configs = [];
-			foreach ($this->getApps() as $appId) {
-				if ($this->hasKey($appId, $key)) {
-					$configs[$appId] = $this->getValue($appId, $key);
-				}
-			}
+			$appIds = $this->getApps();
+			$values = array_map(function($appId) use ($key) {
+				return isset($this->cache[$appId][$key]) ? $this->cache[$appId][$key] : null;
+			}, $appIds);
+			$result = array_combine($appIds, $values);
 
-			return $configs;
+			return array_filter($result);
 		}
 	}
 
