@@ -136,8 +136,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
 				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
-				'{' . \OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
-				'{' . \OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => $row['access'] === self::ACCESS_READ,
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => $row['access'] === self::ACCESS_READ,
 			];
 		}
 		$result->closeCursor();
@@ -893,7 +893,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
 				'readOnly' => ($row['access'] === self::ACCESS_READ),
-				'{'.\OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD.'}principal' => $p['uri']
+				'{'.\OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD.'}principal' => $p['uri']
 			];
 		}
 
@@ -1001,13 +1001,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		foreach ($shares as $share) {
 			$acl[] = [
 				'privilege' => '{DAV:}read',
-				'principal' => $share['{' . \OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
+				'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
 				'protected' => true,
 			];
 			if (!$share['readOnly']) {
 				$acl[] = [
 					'privilege' => '{DAV:}write',
-					'principal' => $share['{' . \OCA\DAV\CardDAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
+					'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
 					'protected' => true,
 				];
 			}

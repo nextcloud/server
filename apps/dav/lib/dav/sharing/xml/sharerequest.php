@@ -18,9 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\DAV\CardDAV\Sharing\Xml;
+namespace OCA\DAV\DAV\Sharing\Xml;
 
-use OCA\DAV\CardDAV\Sharing\Plugin;
+use OCA\DAV\DAV\Sharing\Plugin;
 use Sabre\Xml\Reader;
 use Sabre\Xml\XmlDeserializable;
 

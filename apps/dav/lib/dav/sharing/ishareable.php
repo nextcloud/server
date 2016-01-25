@@ -18,20 +18,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\DAV\CardDAV\Sharing;
-use Sabre\CardDAV\IAddressBook;
+namespace OCA\DAV\DAV\Sharing;
+use Sabre\DAV\INode;
 
 /**
- * This interface represents a Calendar that can be shared with other users.
+ * This interface represents a dav resource that can be shared with other users.
  *
  */
-interface IShareableAddressBook extends IAddressBook {
+interface IShareable extends INode {
 
 	/**
 	 * Updates the list of shares.
 	 *
 	 * The first array is a list of people that are to be added to the
-	 * addressbook.
+	 * resource.
 	 *
 	 * Every element in the add array has the following properties:
 	 *   * href - A url. Usually a mailto: address
@@ -48,7 +48,7 @@ interface IShareableAddressBook extends IAddressBook {
 	function updateShares(array $add, array $remove);
 
 	/**
-	 * Returns the list of people whom this addressbook is shared with.
+	 * Returns the list of people whom this resource is shared with.
 	 *
 	 * Every element in this array should have the following properties:
 	 *   * href - Often a mailto: address
