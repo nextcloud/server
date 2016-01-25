@@ -54,6 +54,23 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 	private $quotaInfo;
 
 	/**
+	 * @var ObjectTree|null
+	 */
+	private $tree;
+
+	/**
+	 * Sets up the node, expects a full path name
+	 *
+	 * @param \OC\Files\View $view
+	 * @param \OCP\Files\FileInfo $info
+	 * @param ObjectTree|null $tree
+	 */
+	public function __construct($view, $info, $tree = null) {
+		parent::__construct($view, $info);
+		$this->tree = $tree;
+	}
+
+	/**
 	 * Creates a new file in the directory
 	 *
 	 * Data will either be supplied as a stream resource, or in certain cases
@@ -185,9 +202,12 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 		}
 
 		if ($info['mimetype'] == 'httpd/unix-directory') {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info);
+			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree);
 		} else {
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
+		}
+		if ($this->tree) {
+			$this->tree->cacheNode($node);
 		}
 		return $node;
 	}
