@@ -371,6 +371,7 @@ class OC_App {
 	 */
 	public static function getSettingsNavigation() {
 		$l = \OC::$server->getL10N('lib');
+		$urlGenerator = \OC::$server->getURLGenerator();
 
 		$settings = array();
 		// by default, settings only contain the help menu
@@ -381,9 +382,9 @@ class OC_App {
 				array(
 					"id" => "help",
 					"order" => 1000,
-					"href" => \OC::$server->getURLGenerator()->linkToRoute('settings_help'),
+					"href" => $urlGenerator->linkToRoute('settings_help'),
 					"name" => $l->t("Help"),
-					"icon" => OC_Helper::imagePath("settings", "help.svg")
+					"icon" => $urlGenerator->imagePath("settings", "help.svg")
 				)
 			);
 		}
@@ -394,9 +395,9 @@ class OC_App {
 			$settings[] = array(
 				"id" => "personal",
 				"order" => 1,
-				"href" => \OC::$server->getURLGenerator()->linkToRoute('settings_personal'),
+				"href" => $urlGenerator->linkToRoute('settings_personal'),
 				"name" => $l->t("Personal"),
-				"icon" => OC_Helper::imagePath("settings", "personal.svg")
+				"icon" => $urlGenerator->imagePath("settings", "personal.svg")
 			);
 
 			//SubAdmins are also allowed to access user management
@@ -410,9 +411,9 @@ class OC_App {
 				$settings[] = array(
 					"id" => "core_users",
 					"order" => 2,
-					"href" => \OC::$server->getURLGenerator()->linkToRoute('settings_users'),
+					"href" => $urlGenerator->linkToRoute('settings_users'),
 					"name" => $l->t("Users"),
-					"icon" => OC_Helper::imagePath("settings", "users.svg")
+					"icon" => $urlGenerator->imagePath("settings", "users.svg")
 				);
 			}
 
@@ -422,9 +423,9 @@ class OC_App {
 				$settings[] = array(
 					"id" => "admin",
 					"order" => 1000,
-					"href" => \OC::$server->getURLGenerator()->linkToRoute('settings_admin'),
+					"href" => $urlGenerator->linkToRoute('settings_admin'),
 					"name" => $l->t("Admin"),
-					"icon" => OC_Helper::imagePath("settings", "admin.svg")
+					"icon" => $urlGenerator->imagePath("settings", "admin.svg")
 				);
 			}
 		}
@@ -813,12 +814,12 @@ class OC_App {
 
 				$appIcon = self::getAppPath($app) . '/img/' . $app . '.svg';
 				if (file_exists($appIcon)) {
-					$info['preview'] = OC_Helper::imagePath($app, $app . '.svg');
+					$info['preview'] = \OC::$server->getURLGenerator()->imagePath($app, $app . '.svg');
 					$info['previewAsIcon'] = true;
 				} else {
 					$appIcon = self::getAppPath($app) . '/img/app.svg';
 					if (file_exists($appIcon)) {
-						$info['preview'] = OC_Helper::imagePath($app, 'app.svg');
+						$info['preview'] = \OC::$server->getURLGenerator()->imagePath($app, 'app.svg');
 						$info['previewAsIcon'] = true;
 					}
 				}

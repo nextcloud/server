@@ -138,13 +138,13 @@ function component($app, $file) {
 }
 
 /**
- * make OC_Helper::linkTo available as a simple function
+ * make \OCP\IURLGenerator::linkTo available as a simple function
  * @param string $app app
  * @param string $file file
  * @param array $args array with param=>value, will be appended to the returned url
  * @return string link to the file
  *
- * For further information have a look at OC_Helper::linkTo
+ * For further information have a look at \OCP\IURLGenerator::linkTo
  */
 function link_to( $app, $file, $args = array() ) {
 	return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
@@ -159,15 +159,15 @@ function link_to_docs($key) {
 }
 
 /**
- * make OC_Helper::imagePath available as a simple function
+ * make \OCP\IURLGenerator::imagePath available as a simple function
  * @param string $app app
  * @param string $image image
  * @return string link to the image
  *
- * For further information have a look at OC_Helper::imagePath
+ * For further information have a look at \OCP\IURLGenerator::imagePath
  */
 function image_path( $app, $image ) {
-	return OC_Helper::imagePath( $app, $image );
+	return \OC::$server->getURLGenerator()->imagePath( $app, $image );
 }
 
 /**

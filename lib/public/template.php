@@ -45,7 +45,7 @@ namespace OCP;
  * @param string $image
  * @return string to the image
  *
- * @see OC_Helper::imagePath
+ * @see \OCP\IURLGenerator::imagePath
  * @deprecated 8.0.0 Use \OCP\Template::image_path() instead
  */
 function image_path( $app, $image ) {
@@ -144,7 +144,7 @@ class Template extends \OC_Template {
 	/**
 	 * Make OC_Helper::imagePath available as a simple function
 	 *
-	 * @see OC_Helper::imagePath
+	 * @see \OCP\IURLGenerator::imagePath
 	 *
 	 * @param string $app
 	 * @param string $image
