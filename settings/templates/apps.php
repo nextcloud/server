@@ -60,9 +60,9 @@ script(
 	</h2>
 	<div class="app-version"> {{version}}</div>
 	{{#if profilepage}}<a href="{{profilepage}}" target="_blank" rel="noreferrer">{{/if}}
-	<div class="app-author"><?php p($l->t('by')); ?> {{author}}
+	<div class="app-author"><?php p($l->t('by %s', ['{{author}}']));?>
 		{{#if licence}}
-		({{licence}}-<?php p($l->t('licensed')); ?>)
+		(<?php p($l->t('%s-licensed', ['{{licence}}'])); ?>)
 		{{/if}}
 	</div>
 	{{#if profilepage}}</a>{{/if}}
