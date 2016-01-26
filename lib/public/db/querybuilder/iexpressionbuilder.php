@@ -84,7 +84,7 @@ interface IExpressionBuilder {
 	 *
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
-	 * @param int|null $type @since 9.0.0 one of the \PDO::PARAM_* constants
+	 * @param int|null $type @since 9.0.0 one of the IQueryBuilder::PARAM_* constants
 	 *                  required when comparing text fields for oci compatibility.
 	 *
 	 * @return string

@@ -21,11 +21,13 @@
 
 namespace OC\DB\QueryBuilder;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
+
 class OCIExpressionBuilder extends ExpressionBuilder {
 	public function eq($x, $y, $type = null) {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
-		if ($type === \PDO::PARAM_STR) {
+		if ($type === IQueryBuilder::PARAM_STR) {
 			$x = new QueryFunction('to_char(' . $x . ')');
 		}
 		return $this->expressionBuilder->eq($x, $y);
