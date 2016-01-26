@@ -112,7 +112,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @return bool
 	 */
 	function childExists($name) {
-		$nodes = $this->fileRoot->getById($name);
+		$nodes = $this->fileRoot->getById(intval($name));
 		return !empty($nodes);
 	}
 
