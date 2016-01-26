@@ -96,9 +96,12 @@ class Server {
 			\OC::$server->getUserSession()
 		));
 
-		// Finder on OS X requires Class 2 WebDAV support (locking), since we do
-		// not provide locking we emulate it using a fake locking plugin.
-		if($request->isUserAgent(['/WebDAVFS/'])) {
+		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
+		// we do not provide locking we emulate it using a fake locking plugin.
+		if($request->isUserAgent([
+			'/WebDAVFS/',
+			'/Microsoft Office OneNote 2013/',
+		])) {
 			$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
 		}
 
