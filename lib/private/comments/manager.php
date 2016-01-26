@@ -58,7 +58,9 @@ class Manager implements ICommentsManager {
 		$data['parent_id'] = strval($data['parent_id']);
 		$data['topmost_parent_id'] = strval($data['topmost_parent_id']);
 		$data['creation_timestamp'] = new \DateTime($data['creation_timestamp']);
-		$data['latest_child_timestamp'] = new \DateTime($data['latest_child_timestamp']);
+		if (!is_null($data['latest_child_timestamp'])) {
+			$data['latest_child_timestamp'] = new \DateTime($data['latest_child_timestamp']);
+		}
 		$data['children_count'] = intval($data['children_count']);
 		return $data;
 	}
