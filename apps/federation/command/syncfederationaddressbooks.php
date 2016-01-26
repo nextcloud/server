@@ -14,7 +14,7 @@ class SyncFederationAddressBooks extends Command {
 	private $syncService;
 
 	/**
-	 * @param DbHandler $dbHandler
+	 * @param \OCA\Federation\SyncFederationAddressBooks $syncService
 	 */
 	function __construct(\OCA\Federation\SyncFederationAddressBooks $syncService) {
 		parent::__construct();
@@ -31,6 +31,7 @@ class SyncFederationAddressBooks extends Command {
 	/**
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
+	 * @return int
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
@@ -46,5 +47,7 @@ class SyncFederationAddressBooks extends Command {
 
 		$progress->finish();
 		$output->writeln('');
+
+		return 0;
 	}
 }

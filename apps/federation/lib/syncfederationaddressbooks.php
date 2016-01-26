@@ -18,12 +18,16 @@ class SyncFederationAddressBooks {
 
 	/**
 	 * @param DbHandler $dbHandler
+	 * @param SyncService $syncService
 	 */
-	function __construct(DbHandler $dbHandler, $syncService) {
+	function __construct(DbHandler $dbHandler, SyncService $syncService) {
 		$this->syncService = $syncService;
 		$this->dbHandler = $dbHandler;
 	}
 
+	/**
+	 * @param \Closure $callback
+	 */
 	public function syncThemAll(\Closure $callback) {
 
 		$trustedServers = $this->dbHandler->getAllServer();
