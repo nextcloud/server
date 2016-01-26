@@ -34,7 +34,6 @@ use Sabre\DAV\Xml\Element\Response;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
-use Sabre\Xml\Reader;
 use Sabre\Xml\Writer;
 
 /**
@@ -46,7 +45,7 @@ class CommentsPlugin extends ServerPlugin {
 
 	const REPORT_PARAM_LIMIT     = '{http://owncloud.org/ns}limit';
 	const REPORT_PARAM_OFFSET    = '{http://owncloud.org/ns}offset';
-	const REPORT_PARAM_DATETIME  = '{http://owncloud.org/ns}datetime';
+	const REPORT_PARAM_TIMESTAMP = '{http://owncloud.org/ns}datetime';
 
 	/** @var ICommentsManager  */
 	protected $commentsManager;
@@ -89,11 +88,6 @@ class CommentsPlugin extends ServerPlugin {
 
 		$this->server->xml->classMap['DateTime'] = function(Writer $writer, \DateTime $value) {
 			$writer->write($value->format('Y-m-d H:m:i'));
-		};
-
-		$this->server->xml->elementMap[self::REPORT_PARAM_DATETIME]  = function(Reader $reader) {
-			$element = $reader->parseInnerTree();
-			return empty($element) ? null : new \DateTime($element);
 		};
 
 		$this->server->on('report', [$this, 'onReport']);
@@ -149,7 +143,7 @@ class CommentsPlugin extends ServerPlugin {
 		$acceptableParameters = [
 			$this::REPORT_PARAM_LIMIT,
 			$this::REPORT_PARAM_OFFSET,
-			$this::REPORT_PARAM_DATETIME
+			$this::REPORT_PARAM_TIMESTAMP
 		];
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
 		foreach($report as $parameter) {
@@ -157,6 +151,10 @@ class CommentsPlugin extends ServerPlugin {
 				continue;
 			}
 			$args[str_replace($ns, '', $parameter['name'])] = $parameter['value'];
+		}
+
+		if(!is_null($args['datetime'])) {
+			$args['datetime'] = new \DateTime($args['datetime']);
 		}
 
 		$results = $node->findChildren($args['limit'], $args['offset'], $args['datetime']);
