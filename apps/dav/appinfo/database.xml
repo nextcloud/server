@@ -656,10 +656,6 @@ CREATE TABLE calendarobjects (
 				<length>11</length>
 			</field>
 			<field>
-				<name>uri</name>
-				<type>text</type>
-			</field>
-			<field>
 				<name>principaluri</name>
 				<type>text</type>
 			</field>
@@ -685,7 +681,7 @@ CREATE TABLE calendarobjects (
 					<name>principaluri</name>
 				</field>
 				<field>
-					<name>uri</name>
+					<name>resourceid</name>
 				</field>
 				<field>
 					<name>type</name>

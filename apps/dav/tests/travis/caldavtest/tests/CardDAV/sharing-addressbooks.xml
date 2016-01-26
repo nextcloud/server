@@ -78,7 +78,7 @@
 					<callback>xmlElementMatch</callback>
 					<arg>
 						<name>parent</name>
-						<value>$multistatus-response-prefix:[^{DAV:}href=$addressbookhome2:/ade1a55d408167e8ff77611c0eebe8f80579b549/]</value>
+						<value>$multistatus-response-prefix:[^{DAV:}href=$addressbookhome2:/addressbook_shared_by_user01/]</value>
 					</arg>
 					<arg>
 						<name>exists</name>
