@@ -920,22 +920,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array
 	 */
 	public function applyShareAcl($addressBookId, $acl) {
-
-		$shares = $this->getShares($addressBookId);
-		foreach ($shares as $share) {
-			$acl[] = [
-				'privilege' => '{DAV:}read',
-				'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
-				'protected' => true,
-			];
-			if (!$share['readOnly']) {
-				$acl[] = [
-					'privilege' => '{DAV:}write',
-					'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
-					'protected' => true,
-				];
-			}
-		}
-		return $acl;
+		return $this->sharingBackend->applyShareAcl($addressBookId, $acl);
 	}
 }

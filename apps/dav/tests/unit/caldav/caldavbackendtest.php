@@ -23,6 +23,7 @@ namespace Tests\Connector\Sabre;
 use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\Connector\Sabre\Principal;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
@@ -40,14 +41,25 @@ class CalDavBackendTest extends TestCase {
 	/** @var CalDavBackend */
 	private $backend;
 
-	const UNIT_TEST_USER = 'caldav-unit-test';
+	/** @var Principal | \PHPUnit_Framework_MockObject_MockObject */
+	private $principal;
 
+	const UNIT_TEST_USER = 'caldav-unit-test';
 
 	public function setUp() {
 		parent::setUp();
 
+		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
+			->disableOriginalConstructor()
+			->setMethods(['getPrincipalByPath'])
+			->getMock();
+		$this->principal->method('getPrincipalByPath')
+			->willReturn([
+				'uri' => 'principals/best-friend'
+			]);
+
 		$db = \OC::$server->getDatabaseConnection();
-		$this->backend = new CalDavBackend($db);
+		$this->backend = new CalDavBackend($db, $this->principal);
 
 		$this->tearDown();
 	}

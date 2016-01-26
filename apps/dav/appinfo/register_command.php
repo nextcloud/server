@@ -36,7 +36,7 @@ $app = new Application();
 
 /** @var Symfony\Component\Console\Application $application */
 $application->add(new CreateAddressBook($userManager, $groupManager, $dbConnection, $logger));
-$application->add(new CreateCalendar($userManager, $dbConnection));
+$application->add(new CreateCalendar($userManager, $groupManager, $dbConnection));
 $application->add(new SyncSystemAddressBook($app->getSyncService()));
 
 // the occ tool is *for now* only available in debug mode for developers to test

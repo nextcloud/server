@@ -23,6 +23,8 @@
 namespace OCA\DAV\CalDAV;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\Sharing\Backend;
 use Sabre\CalDAV\Backend\AbstractBackend;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
@@ -32,6 +34,7 @@ use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\HTTP\URLUtil;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Reader;
 use Sabre\VObject\RecurrenceIterator;
@@ -86,8 +89,24 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		'{http://calendarserver.org/ns/}subscribed-strip-attachments' => 'stripattachments',
 	];
 
-	public function __construct(\OCP\IDBConnection $db) {
+	/** @var \OCP\IDBConnection */
+	private $db;
+
+	/** @var Backend */
+	private $sharingBackend;
+
+	/** @var Principal */
+	private $principalBackend;
+
+	/**
+	 * CalDavBackend constructor.
+	 *
+	 * @param \OCP\IDBConnection $db
+	 */
+	public function __construct(\OCP\IDBConnection $db, Principal $principalBackend) {
 		$this->db = $db;
+		$this->principalBackend = $principalBackend;
+		$this->sharingBackend = new Backend($this->db, 'calendar');
 	}
 
 	/**
@@ -155,6 +174,59 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 			$calendars[] = $calendar;
 		}
+
+		$stmt->closeCursor();
+
+		// query for shared calendars
+		$principals = $this->principalBackend->getGroupMembership($principalUri);
+		$principals[]= $principalUri;
+
+		$fields = array_values($this->propertyMap);
+		$fields[] = 'a.id';
+		$fields[] = 'a.uri';
+		$fields[] = 'a.synctoken';
+		$fields[] = 'a.components';
+		$fields[] = 'a.principaluri';
+		$fields[] = 'a.transparent';
+		$fields[] = 's.access';
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select($fields)
+			->from('dav_shares', 's')
+			->join('s', 'calendars', 'a', $query->expr()->eq('s.resourceid', 'a.id'))
+			->where($query->expr()->in('s.principaluri', $query->createParameter('principaluri')))
+			->andWhere($query->expr()->eq('s.type', $query->createParameter('type')))
+			->setParameter('type', 'calendar')
+			->setParameter('principaluri', $principals, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
+			->execute();
+
+		while($row = $result->fetch()) {
+			list(, $name) = URLUtil::splitPath($row['principaluri']);
+			$uri = $row['uri'] . '_shared_by_' . $name;
+			$row['displayname'] = $row['displayname'] . "($name)";
+			$components = [];
+			if ($row['components']) {
+				$components = explode(',',$row['components']);
+			}
+			$calendar = [
+				'id' => $row['id'],
+				'uri' => $uri,
+				'principaluri' => $principalUri,
+				'{' . Plugin::NS_CALENDARSERVER . '}getctag' => 'http://sabre.io/ns/sync/' . ($row['synctoken']?$row['synctoken']:'0'),
+				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+				'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet($components),
+				'{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' => new ScheduleCalendarTransp($row['transparent']?'transparent':'opaque'),
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => $row['access'] === Backend::ACCESS_READ,
+			];
+
+			foreach($this->propertyMap as $xmlName=>$dbName) {
+				$calendar[$xmlName] = $row[$dbName];
+			}
+
+			$calendars[]= $calendar;
+		}
+		$result->closeCursor();
+
 
 		return $calendars;
 	}
@@ -1173,4 +1245,17 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		return $cardData;
 	}
+
+	public function updateShares($shareable, $add, $remove) {
+		$this->sharingBackend->updateShares($shareable, $add, $remove);
+	}
+
+	public function getShares($resourceId) {
+		return $this->sharingBackend->getShares($resourceId);
+	}
+
+	public function applyShareAcl($addressBookId, $acl) {
+		return $this->sharingBackend->applyShareAcl($addressBookId, $acl);
+	}
+
 }
