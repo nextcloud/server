@@ -100,7 +100,7 @@ function updateAvatar (hidedefault) {
 	$displaydiv.css({'background-color': ''});
 	$displaydiv.avatar(OC.currentUser, 145, true);
 
-	$('#removeavatar').show();
+	$('#removeavatar').removeClass('hidden').addClass('inlineblock');
 }
 
 function showAvatarCropper () {
@@ -303,7 +303,7 @@ $(document).ready(function () {
 			url: OC.generateUrl('/avatar/'),
 			success: function () {
 				updateAvatar(true);
-				$('#removeavatar').hide();
+				$('#removeavatar').addClass('hidden').removeClass('inlineblock');
 			}
 		});
 	});
@@ -327,15 +327,14 @@ $(document).ready(function () {
 		]
 	});
 
-	// does the user have a custom avatar? if he does hide #removeavatar
-	// needs to be this complicated because we can't check yet if an avatar has been loaded, because it's async
-	var url = OC.generateUrl(
+	// does the user have a custom avatar? if he does show #removeavatar
+	$.get(OC.generateUrl(
 		'/avatar/{user}/{size}',
 		{user: OC.currentUser, size: 1}
-	);
-	$.get(url, function (result) {
-		if (typeof(result) === 'object') {
-			$('#removeavatar').hide();
+	), function (result) {
+		if (typeof(result) === 'string') {
+			// Show the delete button when the avatar is custom
+			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
 		}
 	});
 
