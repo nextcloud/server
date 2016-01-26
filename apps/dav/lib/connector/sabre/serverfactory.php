@@ -103,9 +103,12 @@ class ServerFactory {
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
-		// Finder on OS X requires Class 2 WebDAV support (locking), since we do
-		// not provide locking we emulate it using a fake locking plugin.
-		if($this->request->isUserAgent(['/WebDAVFS/'])) {
+		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
+		// we do not provide locking we emulate it using a fake locking plugin.
+		if($this->request->isUserAgent([
+				'/WebDAVFS/',
+				'/Microsoft Office OneNote 2013/',
+		])) {
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
 		}
 
