@@ -23,6 +23,8 @@ namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use Test\TestCase;
 
 /**
  * Class ExpressionBuilderTest
@@ -31,21 +33,24 @@ use OC\DB\QueryBuilder\ExpressionBuilder;
  *
  * @package Test\DB\QueryBuilder
  */
-class ExpressionBuilderTest extends \Test\TestCase {
+class ExpressionBuilderTest extends TestCase {
 	/** @var ExpressionBuilder */
 	protected $expressionBuilder;
 
 	/** @var DoctrineExpressionBuilder */
 	protected $doctrineExpressionBuilder;
 
+	/** @var \Doctrine\DBAL\Connection|\OCP\IDBConnection */
+	protected $connection;
+
 	protected function setUp() {
 		parent::setUp();
 
-		$connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->getDatabaseConnection();
 
-		$this->expressionBuilder = new ExpressionBuilder($connection);
+		$this->expressionBuilder = new ExpressionBuilder($this->connection);
 
-		$this->doctrineExpressionBuilder = new DoctrineExpressionBuilder($connection);
+		$this->doctrineExpressionBuilder = new DoctrineExpressionBuilder($this->connection);
 	}
 
 	public function dataComparison() {
@@ -341,5 +346,60 @@ class ExpressionBuilderTest extends \Test\TestCase {
 			$this->doctrineExpressionBuilder->literal($input, $type),
 			$actual->__toString()
 		);
+	}
+
+	public function dataClobComparisons() {
+		return [
+			['eq', '1', IQueryBuilder::PARAM_STR, 1],
+			['neq', '1', IQueryBuilder::PARAM_STR, 2],
+			['lt', '2', IQueryBuilder::PARAM_STR, 1],
+			['lte', '2', IQueryBuilder::PARAM_STR, 2],
+			['gt', '2', IQueryBuilder::PARAM_STR, 1],
+			['gte', '2', IQueryBuilder::PARAM_STR, 2],
+			['like', '%2%', IQueryBuilder::PARAM_STR, 1],
+			['notLike', '%2%', IQueryBuilder::PARAM_STR, 2],
+			['in', ['2'], IQueryBuilder::PARAM_STR_ARRAY, 1],
+			['notIn', ['2'], IQueryBuilder::PARAM_STR_ARRAY, 2],
+		];
+	}
+
+	/**
+	 * @dataProvider dataClobComparisons
+	 * @param string $function
+	 * @param mixed $value
+	 * @param mixed $type
+	 * @param int $expected
+	 */
+	public function testClobComparisons($function, $value, $type, $expected) {
+		$appId = $this->getUniqueID('testing');
+		$this->createConfig($appId, 1);
+		$this->createConfig($appId, 2);
+		$this->createConfig($appId, 3);
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select($query->createFunction('COUNT(*) AS `count`'))
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
+			->andWhere(call_user_func([$query->expr(), $function], 'configvalue', $query->createNamedParameter($value, $type)));
+		$result = $query->execute();
+
+		$this->assertEquals(['count' => $expected], $result->fetch());
+		$result->closeCursor();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
+			->execute();
+	}
+
+	protected function createConfig($appId, $value) {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('appconfig')
+			->values([
+				'appid' => $query->createNamedParameter($appId),
+				'configkey' => $query->createNamedParameter((string) $value),
+				'configvalue' => $query->createNamedParameter((string) $value),
+			])
+			->execute();
 	}
 }
