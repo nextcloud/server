@@ -41,7 +41,7 @@
 		<?php if ($_['avatarChangeSupported']): ?>
 		<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>"></label>
 		<div class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></div>
-		<div class="inlineblock button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></div>
+		<div class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></div>
 		<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield">
 		<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
 		<?php else: ?>
