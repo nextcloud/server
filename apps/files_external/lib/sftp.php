@@ -85,6 +85,9 @@ class SFTP extends \OC\Files\Storage\Common {
 		$this->host = $parsedHost[0];
 		$this->port = $parsedHost[1];
 
+		if (!isset($params['user'])) {
+			throw new \UnexpectedValueException('no authentication parameters specified');
+		}
 		$this->user = $params['user'];
 
 		if (isset($params['public_key_auth'])) {
