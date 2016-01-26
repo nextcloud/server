@@ -135,8 +135,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 * @return int
 	 */
 	function getLastModified() {
-		// we do not have a separate "mDateTime" field for updates currently.
-		return $this->comment->getCreationDateTime()->getTimestamp();
+		return null;
 	}
 
 	/**

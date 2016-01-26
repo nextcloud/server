@@ -103,31 +103,25 @@ class CommentsPlugin extends ServerPlugin {
 	 */
 	public function httpPost(RequestInterface $request, ResponseInterface $response) {
 		$path = $request->getPath();
-
-		// Making sure the node exists
-		try {
-			$node = $this->server->tree->getNodeForPath($path);
-		} catch (NotFound $e) {
+		$node = $this->server->tree->getNodeForPath($path);
+		if (!$node instanceof EntityCollection) {
 			return null;
 		}
 
-		if ($node instanceof EntityCollection) {
-			$data = $request->getBodyAsString();
+		$data = $request->getBodyAsString();
+		$comment = $this->createComment(
+			$node->getName(),
+			$node->getId(),
+			$data,
+			$request->getHeader('Content-Type')
+		);
+		$url = $request->getUrl() . '/' . urlencode($comment->getId());
 
-			$comment = $this->createComment(
-				$node->getName(),
-				$node->getId(),
-				$data,
-				$request->getHeader('Content-Type')
-			);
-			$url = $request->getUrl() . '/' . urlencode($comment->getId());
+		$response->setHeader('Content-Location', $url);
 
-			$response->setHeader('Content-Location', $url);
-
-			// created
-			$response->setStatus(201);
-			return false;
-		}
+		// created
+		$response->setStatus(201);
+		return false;
 	}
 
 	/**
@@ -224,13 +218,8 @@ class CommentsPlugin extends ServerPlugin {
 
 		try {
 			$comment = $this->commentsManager->create($actorType, $actorId, $objectType, $objectId);
-			$properties = [
-				'message' => 'setMessage',
-				'verb' => 'setVerb',
-			];
-			foreach($properties as $property => $setter) {
-				$comment->$setter($data[$property]);
-			}
+			$comment->setMessage($data['message']);
+			$comment->setVerb($data['verb']);
 			$this->commentsManager->save($comment);
 			return $comment;
 		} catch (\InvalidArgumentException $e) {
