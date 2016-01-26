@@ -881,6 +881,27 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(1, $qb->execute());
 		$id = $qb->getLastInsertId();
 
+		/*
+		 * Wrong share. Should not be taken by code.
+		 */
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(2),
+				'share_with' => $qb->expr()->literal('user2'),
+				'uid_owner' => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('wrongTarget'),
+				'permissions' => $qb->expr()->literal(31),
+				'parent' => $qb->expr()->literal($id),
+			]);
+		$this->assertEquals(1, $qb->execute());
+
+		/*
+		 * Correct share. should be taken by code path.
+		 */
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
