@@ -162,6 +162,8 @@ class OC_User {
 	public static function login($loginname, $password) {
 		$result = self::getUserSession()->login($loginname, $password);
 		if ($result) {
+			// Refresh the token
+			\OC::$server->getCsrfTokenManager()->refreshToken();
 			//we need to pass the user name, which may differ from login name
 			$user = self::getUserSession()->getUser()->getUID();
 			OC_Util::setupFS($user);
@@ -328,7 +330,7 @@ class OC_User {
 			return $backend->getLogoutAttribute();
 		}
 
-		return 'href="' . link_to('', 'index.php') . '?logout=true&amp;requesttoken=' . urlencode(OC_Util::callRegister()) . '"';
+		return 'href="' . link_to('', 'index.php') . '?logout=true&amp;requesttoken=' . urlencode(\OCP\Util::callRegister()) . '"';
 	}
 
 	/**

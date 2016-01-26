@@ -34,12 +34,13 @@ class Base {
 
 	/**
 	 * @param string $template
+	 * @param string $requestToken
 	 * @param \OC_L10N $l10n
 	 * @param \OC_Defaults $theme
 	 */
-	public function __construct( $template, $requesttoken, $l10n, $theme ) {
+	public function __construct($template, $requestToken, $l10n, $theme ) {
 		$this->vars = array();
-		$this->vars['requesttoken'] = $requesttoken;
+		$this->vars['requesttoken'] = $requestToken;
 		$this->l10n = $l10n;
 		$this->template = $template;
 		$this->theme = $theme;

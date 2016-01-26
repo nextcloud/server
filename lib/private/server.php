@@ -64,6 +64,9 @@ use OC\Mail\Mailer;
 use OC\Notification\Manager;
 use OC\Security\CertificateManager;
 use OC\Security\Crypto;
+use OC\Security\CSRF\CsrfTokenGenerator;
+use OC\Security\CSRF\CsrfTokenManager;
+use OC\Security\CSRF\TokenStorage\SessionStorage;
 use OC\Security\Hasher;
 use OC\Security\CredentialsManager;
 use OC\Security\SecureRandom;
@@ -469,12 +472,6 @@ class Server extends ServerContainer implements IServerContainer {
 				$urlParams = [];
 			}
 
-			if ($this->getSession()->exists('requesttoken')) {
-				$requestToken = $this->getSession()->get('requesttoken');
-			} else {
-				$requestToken = false;
-			}
-
 			if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
 				&& in_array('fakeinput', stream_get_wrappers())
 			) {
@@ -495,10 +492,10 @@ class Server extends ServerContainer implements IServerContainer {
 						? $_SERVER['REQUEST_METHOD']
 						: null,
 					'urlParams' => $urlParams,
-					'requesttoken' => $requestToken,
 				],
 				$this->getSecureRandom(),
 				$this->getConfig(),
+				$this->getCsrfTokenManager(),
 				$stream
 			);
 		});
@@ -586,6 +583,15 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getCrypto(),
 				$c->getSecureRandom(),
 				$request
+			);
+		});
+		$this->registerService('CsrfTokenManager', function (Server $c) {
+			$tokenGenerator = new CsrfTokenGenerator($c->getSecureRandom());
+			$sessionStorage = new SessionStorage($c->getSession());
+
+			return new CsrfTokenManager(
+				$tokenGenerator,
+				$sessionStorage
 			);
 		});
 		$this->registerService('ShareManager', function(Server $c) {
@@ -1201,6 +1207,13 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getSessionCryptoWrapper() {
 		return $this->query('CryptoWrapper');
+	}
+
+	/**
+	 * @return CsrfTokenManager
+	 */
+	public function getCsrfTokenManager() {
+		return $this->query('CsrfTokenManager');
 	}
 
 	/**

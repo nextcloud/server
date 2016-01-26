@@ -1105,42 +1105,6 @@ class OC_Util {
 		return $id;
 	}
 
-	protected static $obfuscatedToken;
-	/**
-	 * Register an get/post call. Important to prevent CSRF attacks.
-	 *
-	 * @return string The encrypted CSRF token, the shared secret is appended after the `:`.
-	 *
-	 * @description
-	 * Creates a 'request token' (random) and stores it inside the session.
-	 * Ever subsequent (ajax) request must use such a valid token to succeed,
-	 * otherwise the request will be denied as a protection against CSRF.
-	 */
-	public static function callRegister() {
-		// Use existing token if function has already been called
-		if(isset(self::$obfuscatedToken)) {
-			return self::$obfuscatedToken;
-		}
-
-		$tokenLength = 30;
-
-		// Check if a token exists
-		if (!\OC::$server->getSession()->exists('requesttoken')) {
-			// No valid token found, generate a new one.
-			$requestToken = \OC::$server->getSecureRandom()->generate($tokenLength);
-			\OC::$server->getSession()->set('requesttoken', $requestToken);
-		} else {
-			// Valid token already exists, send it
-			$requestToken = \OC::$server->getSession()->get('requesttoken');
-		}
-
-		// XOR the token to mitigate breach-like attacks
-		$sharedSecret = \OC::$server->getSecureRandom()->generate($tokenLength);
-		self::$obfuscatedToken =  base64_encode($requestToken ^ $sharedSecret) .':'.$sharedSecret;
-
-		return self::$obfuscatedToken;
-	}
-
 	/**
 	 * Public function to sanitize HTML
 	 *

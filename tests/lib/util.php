@@ -89,11 +89,6 @@ class Test_Util extends \Test\TestCase {
 		});
 	}
 
-	function testCallRegister() {
-		$result = strlen(OC_Util::callRegister());
-		$this->assertEquals(71, $result);
-	}
-
 	function testSanitizeHTML() {
 		$badArray = [
 			'While it is unusual to pass an array',
