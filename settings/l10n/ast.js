@@ -115,7 +115,6 @@ OC.L10N.register(
     "More" : "Más",
     "Less" : "Menos",
     "Version" : "Versión",
-    "by" : "por",
     "Documentation:" : "Documentación:",
     "Enable only for specific groups" : "Habilitar namái pa grupos específicos",
     "Uninstall App" : "Desinstalar aplicación",

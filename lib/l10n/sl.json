@@ -38,6 +38,7 @@
     "File name is a reserved word" : "Ime datoteke je zadržana beseda",
     "File name contains at least one invalid character" : "Ime datoteke vsebuje vsaj en neveljaven znak.",
     "File name is too long" : "Ime datoteke je predolgo",
+    "File is currently busy, please try again later" : "Datoteka je trenutno v uporabi. Poskusite znova kasneje.",
     "Can't read file" : "Datoteke ni mogoče prebrati.",
     "App directory already exists" : "Programska mapa že obstaja",
     "Can't create app folder. Please fix permissions. %s" : "Programske mape ni mogoče ustvariti. Ni ustreznih dovoljenj. %s",
@@ -97,7 +98,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Nastavljanje souporabe %s je spodletelo, ker v predpomnilniku zahtevana datoteka ne obstaja.",
     "Could not find category \"%s\"" : "Kategorije \"%s\" ni mogoče najti.",
     "Apps" : "Programi",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "V uporabniškem imenu je dovoljeno uporabiti le znake: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
     "A valid username must be provided" : "Navedeno mora biti veljavno uporabniško ime",
     "A valid password must be provided" : "Navedeno mora biti veljavno geslo",
     "The username is already being used" : "Vpisano uporabniško ime je že v uporabi",
@@ -123,6 +123,6 @@
     "Data directory (%s) is invalid" : "Podatkovna mapa (%s) ni veljavna.",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Preverite, ali je v korenu podatkovne mape datoteka \".ocdata\".",
     "Could not obtain lock type %d on \"%s\"." : "Ni mogoče pridobiti zaklepa %d na \"%s\".",
-    "Storage not available" : "Na voljo ni dovolj prostora"
+    "Storage not available" : "Shramba ni na voljo"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

@@ -111,7 +111,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Deling af %s mislykkedes, fordi filen ikke kunne findes i fil-cachen",
     "Could not find category \"%s\"" : "Kunne ikke finde kategorien \"%s\"",
     "Apps" : "Apps",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Det er kun tilladt at benytte følgene karakterer i et brugernavn \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
     "A valid username must be provided" : "Et gyldigt brugernavn skal angives",
     "A valid password must be provided" : "En gyldig adgangskode skal angives",
     "The username is already being used" : "Brugernavnet er allerede i brug",

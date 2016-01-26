@@ -130,8 +130,6 @@ OC.L10N.register(
     "More" : "Više",
     "Less" : "Manje",
     "Version" : "Verzija",
-    "by" : "od strane",
-    "licensed" : "licenciran",
     "Documentation:" : "Dokumentacija:",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Ova aplikacija se ne može instalirati zbog slijedećih neispunjenih ovisnosti:",
     "Enable only for specific groups" : "Omogućite samo za specifične grupe",

@@ -84,7 +84,6 @@ OC.L10N.register(
     "More" : "Mai mult",
     "Less" : "Mai puțin",
     "Version" : "Versiunea",
-    "by" : "după",
     "Forum" : "Forum",
     "Profile picture" : "Imagine de profil",
     "Upload new" : "Încarcă una nouă",

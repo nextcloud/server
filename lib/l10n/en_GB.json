@@ -103,7 +103,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Sharing %s failed, because the file could not be found in the file cache",
     "Could not find category \"%s\"" : "Could not find category \"%s\"",
     "Apps" : "Apps",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
     "A valid username must be provided" : "A valid username must be provided",
     "A valid password must be provided" : "A valid password must be provided",
     "The username is already being used" : "The username is already being used",

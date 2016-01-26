@@ -59,7 +59,6 @@ OC.L10N.register(
     "More" : "ច្រើន​ទៀត",
     "Less" : "តិច",
     "Version" : "កំណែ",
-    "by" : "ដោយ",
     "Forum" : "វេទិកាពិភាក្សា",
     "Profile picture" : "រូបភាព​ប្រវត្តិរូប",
     "Upload new" : "ផ្ទុកឡើង​ថ្មី",

@@ -34,7 +34,6 @@ OC.L10N.register(
     "Less" : "Minna",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Sérstaklega þegar tölvu forrit er notað til samræmingar þá er ekki mælt með notkunn SQLite.",
     "Version" : "Útgáfa",
-    "by" : "af",
     "Cheers!" : "Skál!",
     "Forum" : "Vefspjall",
     "Cancel" : "Hætta við",

@@ -25,7 +25,6 @@ OC.L10N.register(
     "Port" : "තොට",
     "More" : "වැඩි",
     "Less" : "අඩු",
-    "by" : "විසින්",
     "Cancel" : "එපා",
     "Email" : "විද්‍යුත් තැපෑල",
     "Your email address" : "ඔබගේ විද්‍යුත් තැපෑල",

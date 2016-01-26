@@ -11,7 +11,6 @@ OC.L10N.register(
     "None" : "Dim",
     "Login" : "Mewngofnodi",
     "Encryption" : "Amgryptiad",
-    "by" : "gan",
     "Cancel" : "Diddymu",
     "Email" : "E-bost",
     "Password" : "Cyfrinair",

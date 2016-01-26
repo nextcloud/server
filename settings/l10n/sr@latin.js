@@ -17,7 +17,6 @@ OC.L10N.register(
     "Groups" : "Grupe",
     "never" : "nikad",
     "Port" : "Port",
-    "by" : "od",
     "Cheers!" : "U zdravlje!",
     "Cancel" : "Otkaži",
     "Email" : "E-mail",

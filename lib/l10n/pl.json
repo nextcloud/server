@@ -88,7 +88,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Współdzielenie %s nie powiodło się, ponieważ plik nie może zostać odnaleziony w buforze plików",
     "Could not find category \"%s\"" : "Nie można odnaleźć kategorii \"%s\"",
     "Apps" : "Aplikacje",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "W nazwach użytkowników dozwolone są wyłącznie następujące znaki: \"a-z\", \"A-Z\", \"0-9\", oraz \"_.@-\"",
     "A valid username must be provided" : "Należy podać prawidłową nazwę użytkownika",
     "A valid password must be provided" : "Należy podać prawidłowe hasło",
     "The username is already being used" : "Ta nazwa użytkownika jest już używana",

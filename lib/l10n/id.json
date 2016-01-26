@@ -111,7 +111,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Gagal berbagi %s, karena berkas tidak ditemukan di berkas cache",
     "Could not find category \"%s\"" : "Tidak menemukan kategori \"%s\"",
     "Apps" : "Aplikasi",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Hanya karakter berikut yang diizinkan dalam nama pengguna: \"a-z\", \"A-Z\", \"0-9\", dan \"_.@-\"",
     "A valid username must be provided" : "Tuliskan nama pengguna yang valid",
     "A valid password must be provided" : "Tuliskan sandi yang valid",
     "The username is already being used" : "Nama pengguna ini telah digunakan",

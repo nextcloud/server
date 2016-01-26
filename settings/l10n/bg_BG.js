@@ -154,8 +154,6 @@ OC.L10N.register(
     "Theming" : "Промяна на облика",
     "Version" : "Версия",
     "Developer documentation" : "Документация за разработчици",
-    "by" : "от",
-    "licensed" : "лицензирано",
     "Documentation:" : "Документация:",
     "Show description …" : "Покажи описание ...",
     "Hide description …" : "Скрии описание ...",

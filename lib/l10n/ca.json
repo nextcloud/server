@@ -77,7 +77,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Ha fallat en compartir %s, perquè el fitxer no s'ha trobat en el fitxer cau",
     "Could not find category \"%s\"" : "No s'ha trobat la categoria \"%s\"",
     "Apps" : "Aplicacions",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Només els caràcters següents estan permesos en el nom d'usuari: \"a-z\", \"A-Z\", \"0-9\" i \"_.@-\"",
     "A valid username must be provided" : "Heu de facilitar un nom d'usuari vàlid",
     "A valid password must be provided" : "Heu de facilitar una contrasenya vàlida",
     "The username is already being used" : "El nom d'usuari ja està en ús",

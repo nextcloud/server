@@ -112,7 +112,6 @@
     "Cannot set expiration date more than %s days in the future" : "無法設定到期日超過未來%s天",
     "Could not find category \"%s\"" : "找不到分類：\"%s\"",
     "Apps" : "應用程式",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "使用者名稱當中只能包含下列字元：\"a-z\", \"A-Z\", \"0-9\", 和 \"_.@-\"",
     "A valid username must be provided" : "必須提供一個有效的用戶名",
     "A valid password must be provided" : "一定要提供一個有效的密碼",
     "The username is already being used" : "這個使用者名稱已經有人使用了",

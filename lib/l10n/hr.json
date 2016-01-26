@@ -84,7 +84,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Dijeljenje %s nije uspjelo jer u predmemoriji datoteke datoteka nije nađena.",
     "Could not find category \"%s\"" : "Kategorija \"%s\" nije nađena",
     "Apps" : "Aplikacije",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Samo su sljedeći znakovi dopušteni u korisničkom imenu: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
     "A valid username must be provided" : "Nužno je navesti ispravno korisničko ime",
     "A valid password must be provided" : "Nužno je navesti ispravnu lozinku",
     "The username is already being used" : "Korisničko ime se već koristi",

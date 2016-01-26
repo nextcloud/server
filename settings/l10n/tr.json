@@ -202,8 +202,6 @@
     "Developer documentation" : "Geliştirici belgelendirmesi",
     "Experimental applications ahead" : "İlerideki deneysel uygulamalar",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Deneysel uygulamalar güvenlik açısından denetlenmemiş, yeni veya kararsız olmaya açık ya da geliştirilme aşamasında olan uygulamalardır. Yüklemek veri kaybı veya güvenlik açıklarına sebep olabilir.",
-    "by" : "Yazan:",
-    "licensed" : "lisanslı",
     "Documentation:" : "Belgelendirme:",
     "User documentation" : "Kullanıcı belgelendirmesi",
     "Admin documentation" : "Yönetici belgelendirmesi",

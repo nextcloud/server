@@ -135,8 +135,6 @@ OC.L10N.register(
     "More" : "Mer",
     "Less" : "Mindre",
     "Version" : "Version",
-    "by" : "av",
-    "licensed" : "licensierad",
     "Documentation:" : "Dokumentation:",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Denna applikation kan inte installeras då följande beroenden inte är uppfyllda: %s",
     "Enable only for specific groups" : "Aktivera endast för specifika grupper",

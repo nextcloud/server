@@ -131,7 +131,6 @@ OC.L10N.register(
     "More" : "Повеќе",
     "Less" : "Помалку",
     "Version" : "Верзија",
-    "by" : "од",
     "Documentation:" : "Документација:",
     "Enable only for specific groups" : "Овозможи само на специфицирани групи",
     "Cheers!" : "Поздрав!",

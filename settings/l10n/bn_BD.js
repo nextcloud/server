@@ -49,7 +49,6 @@ OC.L10N.register(
     "More" : "বেশী",
     "Less" : "কম",
     "Version" : "ভার্সন",
-    "by" : "কর্তৃক",
     "Cheers!" : "শুভেচ্ছা!",
     "Forum" : "ফোরাম",
     "Cancel" : "বাতির",

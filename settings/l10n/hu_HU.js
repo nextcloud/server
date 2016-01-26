@@ -193,8 +193,6 @@ OC.L10N.register(
     "Developer documentation" : "Fejlesztői dokumentáció",
     "Experimental applications ahead" : "Kísérleti alkalmazások előre",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "A kísérleti applikációk nincsenek biztonsági ellenőrizve, ismert vagy ismeretlen hibák lehetnek bennük és aktív fejlesztés alatt állnak. A telepítésük adatvesztéshez vezethet, vagy biztonsági kockázata lehet.",
-    "by" : "közreadta:",
-    "licensed" : "licencelt",
     "Documentation:" : "Dokumentációk:",
     "User documentation" : "Felhasználói dokumentáció",
     "Admin documentation" : "Adminisztrátori dokumentáció",

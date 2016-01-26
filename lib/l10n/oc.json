@@ -110,7 +110,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Lo partiment de %s a fracassat perque lo fichièr es pas estat trobat dins los fichièrs meses en escondedor.",
     "Could not find category \"%s\"" : "Impossible de trobar la categoria \"%s\"",
     "Apps" : "Aplicacions",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Sols los caractèrs seguents son autorizats dins un nom d'utilizaire : \"a-z\", \"A-Z\", \"0-9\", e \"_.@-\"",
     "A valid username must be provided" : "Un nom d'utilizaire valid deu èsser sasit",
     "A valid password must be provided" : "Un senhal valid deu èsser sasit",
     "The username is already being used" : "Aqueste nom d'utilizaire es ja utilizat",

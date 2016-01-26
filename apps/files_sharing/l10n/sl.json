@@ -19,6 +19,7 @@
     "Remote share password" : "Geslo za mesto za oddaljeno souporabo",
     "Cancel" : "Prekliči",
     "Add remote share" : "Dodaj oddaljeno mesto za souporabo",
+    "You can upload into this folder" : "V to mapo je dovoljeno poslati datoteke",
     "No ownCloud installation (7 or higher) found at {remote}" : "Na mestu {remote} ni nameščenega okolja ownCloud (različice 7 ali višje)",
     "Invalid ownCloud url" : "Naveden je neveljaven naslov URL strežnika ownCloud",
     "Shared by" : "V souporabi z",
@@ -38,6 +39,7 @@
     "You shared %1$s via link" : "Omogočili ste souporabo %1$s preko povezave",
     "Shares" : "Souporaba",
     "Accept" : "Sprejmi",
+    "Decline" : "Zavrni",
     "This share is password-protected" : "To mesto je zaščiteno z geslom.",
     "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
     "Password" : "Geslo",
@@ -58,6 +60,7 @@
     "Open documentation" : "Odpri dokumentacijo",
     "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike.",
     "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map za souporabo z drugih strežnikov.",
+    "Add to your website" : "Dodaj na spletišče",
     "HTML Code:" : "Koda HTML:"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

@@ -81,7 +81,6 @@ OC.L10N.register(
     "More" : "Pli",
     "Less" : "Malpli",
     "Version" : "Eldono",
-    "by" : "de",
     "Documentation:" : "Dokumentaro:",
     "Enable only for specific groups" : "Kapabligi nur por specifajn grupojn",
     "Uninstall App" : "Malinstali aplikaĵon",

@@ -169,8 +169,6 @@ OC.L10N.register(
     "Version" : "Različica",
     "Developer documentation" : "Razvojniška dokumentacija",
     "Experimental applications ahead" : "Testne aplikacija",
-    "by" : "od",
-    "licensed" : "licencirano",
     "Documentation:" : "Dokumentacija:",
     "User documentation" : "Uporabniška dokumentacija",
     "Admin documentation" : "Skrbniška dokumentacija",

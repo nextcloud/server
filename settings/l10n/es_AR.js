@@ -88,7 +88,6 @@ OC.L10N.register(
     "More" : "Más",
     "Less" : "Menos",
     "Version" : "Versión",
-    "by" : "por",
     "Documentation:" : "Documentación:",
     "Cheers!" : "¡Saludos!",
     "Forum" : "Foro",

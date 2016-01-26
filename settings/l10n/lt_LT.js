@@ -79,7 +79,6 @@ OC.L10N.register(
     "More" : "Daugiau",
     "Less" : "Mažiau",
     "Version" : "Versija",
-    "by" : " ",
     "Cheers!" : "Sveikinimai!",
     "Forum" : "Forumas",
     "Profile picture" : "Profilio paveikslėlis",

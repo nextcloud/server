@@ -8,7 +8,6 @@ OC.L10N.register(
     "Login" : "چوونەژوورەوە",
     "Encryption" : "نهێنیکردن",
     "Server address" : "ناونیشانی ڕاژه",
-    "by" : "له‌لایه‌ن",
     "Cancel" : "لابردن",
     "Email" : "ئیمه‌یل",
     "Password" : "وشەی تێپەربو",

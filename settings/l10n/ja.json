@@ -202,8 +202,6 @@
     "Developer documentation" : "開発者ドキュメント",
     "Experimental applications ahead" : "実験的なアプリケーションを試す",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "実験的なアプリは、脆弱性についてチェックされていませんし、不安定であったり、激しく開発中です。それらをインストールすると、データの損失やセキュリティ侵害を引き起こす可能性があります。",
-    "by" : "by",
-    "licensed" : "ライセンス",
     "Documentation:" : "ドキュメント:",
     "User documentation" : "ユーザードキュメント",
     "Admin documentation" : "管理者ドキュメント",

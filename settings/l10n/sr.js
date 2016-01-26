@@ -187,8 +187,6 @@ OC.L10N.register(
     "Developer documentation" : "Програмерска документација",
     "Experimental applications ahead" : "Експериментална апликација",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Експерименталне апликације се непроверене што се тиче безбедности и могу бити нестабилне и недовршене. Инсталирање може довести до губитка података или нарушавања безбедности.",
-    "by" : "од",
-    "licensed" : "лиценцирано",
     "Documentation:" : "Документација:",
     "User documentation" : "Корисничка документација",
     "Admin documentation" : "Администраторска документација",

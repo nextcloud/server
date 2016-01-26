@@ -202,8 +202,6 @@
     "Developer documentation" : "เอกสารสำหรับนักพัฒนา",
     "Experimental applications ahead" : "การใช้งานก่อนการทดลอง",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "การทดลองแอพพลิเคชันไม่ได้ถูกตรวจสอบปัญหาด้านความปลอดภัย การติดตั้งพวกเขาสามารถก่อให้เกิดการสูญเสียข้อมูลหรือการละเมิดความปลอดภัย",
-    "by" : "โดย",
-    "licensed" : "ได้รับใบอนุญาต",
     "Documentation:" : "เอกสาร:",
     "User documentation" : "เอกสารสำหรับผู้ใช้",
     "Admin documentation" : "เอกสารผู้ดูแลระบบ",

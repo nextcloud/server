@@ -153,8 +153,6 @@ OC.L10N.register(
     "Hardening and security guidance" : "راهنمای امن‌سازی",
     "Version" : "نسخه",
     "Developer documentation" : "مستندات توسعه‌دهندگان",
-    "by" : "با",
-    "licensed" : "مجوزنامه",
     "Documentation:" : "مستند سازی:",
     "User documentation" : "مستندات کاربر",
     "Admin documentation" : "مستندات مدیر",

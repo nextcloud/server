@@ -64,7 +64,6 @@ OC.L10N.register(
     "More" : "Más",
     "Less" : "Menos",
     "Version" : "Versión",
-    "by" : "por",
     "Cheers!" : "¡Saludos!",
     "Forum" : "Foro",
     "Profile picture" : "Foto de perfil",

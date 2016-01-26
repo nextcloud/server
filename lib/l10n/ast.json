@@ -88,7 +88,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Compartir %s falló, yá que'l ficheru nun pudo atopase na caché de ficheru",
     "Could not find category \"%s\"" : "Nun pudo alcontrase la estaya \"%s.\"",
     "Apps" : "Aplicaciones",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Namái tan permitíos los siguientes caráuteres nun nome d'usuariu: \"a-z\", \"A-Z\", \"0-9\", y \"_.@-\"",
     "A valid username must be provided" : "Tien d'apurrise un nome d'usuariu válidu",
     "A valid password must be provided" : "Tien d'apurrise una contraseña válida",
     "The username is already being used" : "El nome d'usuariu yá ta usándose",

@@ -15,7 +15,6 @@ OC.L10N.register(
     "Login" : "Log masuk",
     "Server address" : "Alamat pelayan",
     "More" : "Lanjutan",
-    "by" : "oleh",
     "Profile picture" : "Gambar profil",
     "Cancel" : "Batal",
     "Email" : "Email",

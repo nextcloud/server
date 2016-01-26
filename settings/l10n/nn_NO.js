@@ -50,7 +50,6 @@ OC.L10N.register(
     "More" : "Meir",
     "Less" : "Mindre",
     "Version" : "Utgåve",
-    "by" : "av",
     "Forum" : "Forum",
     "Profile picture" : "Profilbilete",
     "Upload new" : "Last opp ny",

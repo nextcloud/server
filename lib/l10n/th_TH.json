@@ -116,7 +116,6 @@
     "Cannot set expiration date more than %s days in the future" : "ไม่สามารถกำหนดวันหมดอายุให้มากกว่า %s วันในอนาคต",
     "Could not find category \"%s\"" : "ไม่พบหมวดหมู่ \"%s\"",
     "Apps" : "แอปฯ",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "ตัวอักษรที่อนุญาตให้ใช้ในชื่อผู้ใช้: \"a-z\", \"A-Z\", \"0-9\"  และ \"_.@-\"",
     "A valid username must be provided" : "จะต้องระบุชื่อผู้ใช้ที่ถูกต้อง",
     "A valid password must be provided" : "รหัสผ่านที่ถูกต้องจะต้องให้",
     "The username is already being used" : "มีคนใช้ชื่อผู้ใช้นี้ไปแล้ว",

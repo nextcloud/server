@@ -204,8 +204,6 @@ OC.L10N.register(
     "Developer documentation" : "개발자 문서",
     "Experimental applications ahead" : "실험적인 앱 사용 예정",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "실험적인 앱은 보안 문제 검사를 통과하지 않았으며, 아직 새롭거나, 불안정하거나, 개발 중일 수도 있습니다. 이러한 앱을 설치하면 데이터 손실 및 보안 문제가 발생할 수도 있습니다.",
-    "by" : "작성:",
-    "licensed" : "라이선스:",
     "Documentation:" : "문서:",
     "User documentation" : "사용자 문서",
     "Admin documentation" : "관리 문서",

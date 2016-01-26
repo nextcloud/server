@@ -202,8 +202,6 @@
     "Developer documentation" : "Dokumentim për zhvillues",
     "Experimental applications ahead" : "Keni përpara aplikacione eksperimentale",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Aplikacionet eksperimentale nuk kontrollohen për probleme sigurie, mund të jenë të rinj ose të njohur si të paqëndrueshëm, dhe nën zhvillim intensiv. Instalimi i tyre mund të shkaktojë humbje të dhënash ose cenim të sigurisë.",
-    "by" : "nga",
-    "licensed" : "licencuar sipas",
     "Documentation:" : "Dokumentim:",
     "User documentation" : "Dokumentim për përdoruesit",
     "Admin documentation" : "Dokumentim për përgjegjësit",

@@ -176,8 +176,6 @@ OC.L10N.register(
     "Version" : "Versió",
     "Developer documentation" : "Documentació para desenvolupadors",
     "Experimental applications ahead" : "A partir d'aquest punt hi ha aplicacions experimentals",
-    "by" : "per",
-    "licensed" : "llicenciat/da",
     "Documentation:" : "Documentació:",
     "User documentation" : "Documentació d'usuari",
     "Show description …" : "Mostrar descripció...",

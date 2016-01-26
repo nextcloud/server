@@ -111,7 +111,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "%s paylaşımı, dosyanın dosya önbelleğinde bulunamamasınndan dolayı başarısız oldu",
     "Could not find category \"%s\"" : "\"%s\" kategorisi bulunamadı",
     "Apps" : "Uygulamalar",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Kullanıcı adında sadece bu karakterlere izin verilmektedir: \"a-z\", \"A-Z\", \"0-9\", ve \"_.@-\"",
     "A valid username must be provided" : "Geçerli bir kullanıcı adı mutlaka sağlanmalı",
     "A valid password must be provided" : "Geçerli bir parola mutlaka sağlanmalı",
     "The username is already being used" : "Bu kullanıcı adı zaten kullanımda",

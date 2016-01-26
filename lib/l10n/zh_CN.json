@@ -70,7 +70,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "共享 %s 失败，因为未在文件缓存中找到文件。",
     "Could not find category \"%s\"" : "无法找到分类 \"%s\"",
     "Apps" : "应用",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "用户名只允许使用以下字符：“a-z”，“A-Z”，“0-9”，和“_.@-”",
     "A valid username must be provided" : "必须提供合法的用户名",
     "A valid password must be provided" : "必须提供合法的密码",
     "The username is already being used" : "用户名已被使用",

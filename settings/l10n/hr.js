@@ -113,7 +113,6 @@ OC.L10N.register(
     "More" : "Više",
     "Less" : "Manje",
     "Version" : "Verzija",
-    "by" : "od strane",
     "Documentation:" : "Dokumentacija:",
     "Enable only for specific groups" : "Omogućite samo za specifične grupe",
     "Uninstall App" : "Deinstalirajte app",

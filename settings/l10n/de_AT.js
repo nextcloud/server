@@ -7,7 +7,6 @@ OC.L10N.register(
     "__language_name__" : "Deutsch (Österreich)",
     "Server address" : "Adresse des Servers",
     "Port" : "Port",
-    "by" : "von",
     "Cancel" : "Abbrechen",
     "Email" : "E-Mail",
     "Password" : "Passwort",

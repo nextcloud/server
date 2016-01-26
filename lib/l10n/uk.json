@@ -100,7 +100,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Не вдалося поділитися %s, елемент не знайдено у файловому кеші.",
     "Could not find category \"%s\"" : "Не вдалося знайти категорію \"%s\"",
     "Apps" : "Додатки",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Тільки такі символи допускаються в імені користувача: \"az\", \"AZ\", \"0-9\", і \"_.@ -\"",
     "A valid username must be provided" : "Потрібно задати вірне ім'я користувача",
     "A valid password must be provided" : "Потрібно задати вірний пароль",
     "The username is already being used" : "Ім'я користувача вже використовується",

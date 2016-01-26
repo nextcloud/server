@@ -137,8 +137,6 @@ OC.L10N.register(
     "More" : "Gehiago",
     "Less" : "Gutxiago",
     "Version" : "Bertsioa",
-    "by" : " Egilea:",
-    "licensed" : "lizentziatua",
     "Documentation:" : "Dokumentazioa:",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Aplikazioa ezin da instalatu hurrengo menpekotasunak betetzen ez direlako:",
     "Enable only for specific groups" : "Baimendu bakarri talde espezifikoetarako",

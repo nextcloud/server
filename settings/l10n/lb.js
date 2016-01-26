@@ -32,7 +32,6 @@ OC.L10N.register(
     "Port" : "Port",
     "More" : "Méi",
     "Less" : "Manner",
-    "by" : "vun",
     "Cheers!" : "Prost!",
     "Cancel" : "Ofbriechen",
     "Email" : "Email",

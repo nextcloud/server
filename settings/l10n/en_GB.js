@@ -183,8 +183,6 @@ OC.L10N.register(
     "Developer documentation" : "Developer documentation",
     "Experimental applications ahead" : "Experimental applications ahead",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches.",
-    "by" : "by",
-    "licensed" : "licensed",
     "Documentation:" : "Documentation:",
     "User documentation" : "User documentation",
     "Show description …" : "Show description …",

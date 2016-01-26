@@ -14,6 +14,7 @@
     "Could not change the password. Maybe the old password was not correct." : "Gesla ni mogoče spremeniti. Morda vnos starega gesla ni pravilen.",
     "Recovery Key disabled" : "Ključ za obnovitev gesla je onemogočen.",
     "Recovery Key enabled" : "Ključ za obnovitev gesla je omogočen.",
+    "Could not enable the recovery key, please try again or contact your administrator" : "Ni mogoče omogočiti obnovitvenega ključa. Poskusite znova ali pa stopite v stik s skrbnikom sistema.",
     "Could not update the private key password." : "Ni mogoče posodobiti gesla zasebnega ključa.",
     "The old password was not correct, please try again." : "Staro geslo ni vpisano pravilno. Poskusite znova.",
     "The current log-in password was not correct, please try again." : "Trenutno geslo za prijavo ni vpisano pravilno. Poskusite znova.",

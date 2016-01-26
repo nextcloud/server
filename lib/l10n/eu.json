@@ -91,7 +91,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "%s elkarbanatzeak huts egin du, fitxategia katxean aurkitu ez delako",
     "Could not find category \"%s\"" : "Ezin da \"%s\" kategoria aurkitu",
     "Apps" : "Aplikazioak",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "Bakarrik hurrengo karaketerak onartzen dira erabiltzaile izenean: \"a-z\", \"A-Z\", \"0-9\", eta \"_.@-\"",
     "A valid username must be provided" : "Baliozko erabiltzaile izena eman behar da",
     "A valid password must be provided" : "Baliozko pasahitza eman behar da",
     "The username is already being used" : "Erabiltzaile izena dagoeneko erabiltzen ari da",

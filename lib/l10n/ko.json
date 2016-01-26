@@ -111,7 +111,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "%s을(를) 공유할 수 없습니다. 파일 캐시에서 찾을 수 없습니다",
     "Could not find category \"%s\"" : "분류 \"%s\"을(를) 찾을 수 없습니다.",
     "Apps" : "앱",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "사용자 이름에는 다음과 같은 문자만 사용할 수 있습니다: \"a-z\", \"A-Z\", \"0-9\", \"_.@-\"",
     "A valid username must be provided" : "올바른 사용자 이름을 입력해야 합니다",
     "A valid password must be provided" : "올바른 암호를 입력해야 합니다",
     "The username is already being used" : "사용자 이름이 이미 존재합니다",

@@ -19,7 +19,6 @@ OC.L10N.register(
     "never" : "nunquam",
     "__language_name__" : "Interlingua",
     "More" : "Plus",
-    "by" : "per",
     "Cheers!" : "Acclamationes!",
     "Profile picture" : "Imagine de profilo",
     "Cancel" : "Cancellar",

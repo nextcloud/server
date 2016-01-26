@@ -197,8 +197,6 @@
     "Developer documentation" : "开发者文档",
     "Experimental applications ahead" : "未来的实验应用",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "实验应用程序没有在安全性的问题上作过多检查，新的或已知的不稳定 BUG 都在开发中。安装它们可能会导致数据丢失或安全漏洞。",
-    "by" : "被",
-    "licensed" : "许可",
     "Documentation:" : "文档：",
     "User documentation" : "用户文档",
     "Admin documentation" : "管理员文档",

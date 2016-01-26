@@ -194,8 +194,6 @@
     "Developer documentation" : "Dokumentation for udviklere",
     "Experimental applications ahead" : "Kommende eksperimentale programmer",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Eksperimentale programmer er ikke undersøgt for sikkerheds problemer. Kendt for at være ustabil og stadig under intensiv udvikling. Installering af disse programmer kan medføre datatab og/eller udgøre en sikkerhedsrisiko.",
-    "by" : "af",
-    "licensed" : "licenseret",
     "Documentation:" : "Dokumentation:",
     "User documentation" : "Brugerdokumentation",
     "Admin documentation" : "Admin-dokumentation",

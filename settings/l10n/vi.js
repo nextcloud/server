@@ -43,7 +43,6 @@ OC.L10N.register(
     "More" : "hơn",
     "Less" : "ít",
     "Version" : "Phiên bản",
-    "by" : "bởi",
     "Cheers!" : "Chúc mừng!",
     "Forum" : "Diễn đàn",
     "Upload new" : "Tải lên",

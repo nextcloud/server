@@ -109,7 +109,6 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Zdieľanie %s zlyhalo, pretože súbor sa nenašiel vo vyrovnávacej pamäti súborov",
     "Could not find category \"%s\"" : "Nemožno nájsť danú kategóriu \"%s\"",
     "Apps" : "Aplikácie",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" : "V mene používateľa sú povolené len nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
     "A valid username must be provided" : "Musíte zadať platné používateľské meno",
     "A valid password must be provided" : "Musíte zadať platné heslo",
     "The username is already being used" : "Meno používateľa je už použité",

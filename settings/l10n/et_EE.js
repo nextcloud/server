@@ -163,8 +163,6 @@ OC.L10N.register(
     "Version" : "Versioon",
     "Developer documentation" : "Arendaja dokumentatsioon",
     "Experimental applications ahead" : "Ees on katsetusjärgus rakendused",
-    "by" : "lisas",
-    "licensed" : "litsenseeritud",
     "Documentation:" : "Dokumentatsioon:",
     "User documentation" : "Kasutaja dokumentatsioon",
     "Admin documentation" : "Administraatori dokumentatsioon",

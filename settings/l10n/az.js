@@ -154,8 +154,6 @@ OC.L10N.register(
     "Advanced monitoring" : "İrəliləmiş monitoring",
     "Version" : "Versiya",
     "Developer documentation" : "Yaradıcı sənədləşməsi",
-    "by" : "onunla",
-    "licensed" : "Lisenziyalaşdırılıb",
     "Documentation:" : "Sənədləşmə:",
     "Show description …" : "Açıqlanmanı göstər ...",
     "Hide description …" : "Açıqlamanı gizlət ...",

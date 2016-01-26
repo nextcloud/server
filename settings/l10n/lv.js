@@ -114,7 +114,6 @@ OC.L10N.register(
     "More" : "Vairāk",
     "Less" : "Mazāk",
     "Version" : "Versija",
-    "by" : "līdz",
     "Documentation:" : "Dokumentācija:",
     "User documentation" : "Lietotāja dokumentācija",
     "Admin documentation" : "Administratora dokumentācija",

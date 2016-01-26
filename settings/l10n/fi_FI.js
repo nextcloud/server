@@ -195,8 +195,6 @@ OC.L10N.register(
     "Developer documentation" : "Kehittäjädokumentaatio",
     "Experimental applications ahead" : "Kokeellisia sovelluksia edessä",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Kokeellisia sovelluksia ei ole tarkistettu tietoturvauhkien varalta. Sovellukset ovat uusia, ne saattavat olla epävakaita ja ovat nopean kehityksen alaisia. Kokeellisten sovellusten asentaminen saattaa aiheuttaa tietojen katoamista tai tietoturvauhkia.",
-    "by" : " Kirjoittaja:",
-    "licensed" : "lisensoitu",
     "Documentation:" : "Ohjeistus:",
     "User documentation" : "Käyttäjädokumentaatio",
     "Admin documentation" : "Ylläpitäjän ohjeistus",

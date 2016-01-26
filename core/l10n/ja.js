@@ -173,6 +173,7 @@ OC.L10N.register(
     "Share with users, groups or remote users …" : "ユーザー、グループもしくはリモートユーザーと共有 ...",
     "Warning" : "警告",
     "Error while sending notification" : "通知送信中にエラーが発生",
+    "Non-existing tag #{tag}" : "存在しないタグ#{tag}",
     "Delete" : "削除",
     "Rename" : "名前の変更",
     "The object type is not specified." : "オブジェクトタイプが指定されていません。",

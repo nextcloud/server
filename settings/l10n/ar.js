@@ -76,7 +76,6 @@ OC.L10N.register(
     "More" : "المزيد",
     "Less" : "أقل",
     "Version" : "إصدار",
-    "by" : "من قبل",
     "Documentation:" : "التوثيق",
     "Uninstall App" : "أزالة تطبيق",
     "Valid until" : "صالح حتى",
