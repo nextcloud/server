@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0

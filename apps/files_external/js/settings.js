@@ -206,6 +206,12 @@ StorageConfig.Status = {
 	ERROR: 1,
 	INDETERMINATE: 2
 };
+StorageConfig.Visibility = {
+	NONE: 0,
+	PERSONAL: 1,
+	ADMIN: 2,
+	DEFAULT: 3
+};
 /**
  * @memberof OCA.External.Settings
  */
@@ -809,7 +815,7 @@ MountConfigListView.prototype = _.extend({
 		$tr.find('.backend').data('identifier', backend.identifier);
 
 		var selectAuthMechanism = $('<select class="selectAuthMechanism"></select>');
-		var neededVisibility = (this._isPersonal) ? 1 : 2;
+		var neededVisibility = (this._isPersonal) ? StorageConfig.Visibility.PERSONAL : StorageConfig.Visibility.ADMIN;
 		$.each(this._allAuthMechanisms, function(authIdentifier, authMechanism) {
 			if (backend.authSchemes[authMechanism.scheme] && (authMechanism.visibility & neededVisibility)) {
 				selectAuthMechanism.append(
@@ -887,7 +893,6 @@ MountConfigListView.prototype = _.extend({
 					var onCompletion = jQuery.Deferred();
 					$.each(result, function(i, storageParams) {
 						var storageConfig;
-						console.log(storageParams);
 						var isUserGlobal = storageParams.type === 'system' && self._isPersonal;
 						storageParams.mountPoint = storageParams.mountPoint.substr(1); // trim leading slash
 						if (isUserGlobal) {
@@ -970,7 +975,7 @@ MountConfigListView.prototype = _.extend({
 		var newElement;
 
 		var trimmedPlaceholder = placeholder;
-		var flags = ['@', '*', '!', '#', '&'];
+		var flags = ['@', '*', '!', '#', '&']; // used to determine what kind of parameter
 		while(flags.indexOf(trimmedPlaceholder[0]) !== -1) {
 			trimmedPlaceholder = trimmedPlaceholder.substr(1);
 		}
