@@ -217,19 +217,19 @@ class Manager {
 	/**
 	 * Validate if the expiration date fits the system settings
 	 *
-	 * @param \DateTime $expireDate The current expiration date (can be null)
+	 * @param \DateTime $expirationDate The current expiration date (can be null)
 	 * @return \DateTime|null The expiration date or null if $expireDate was null and it is not required
 	 * @throws \OC\HintException
 	 */
-	protected function validateExpiredate($expireDate) {
+	protected function validateExpirationDate($expirationDate) {
 
-		if ($expireDate !== null) {
+		if ($expirationDate !== null) {
 			//Make sure the expiration date is a date
-			$expireDate->setTime(0, 0, 0);
+			$expirationDate->setTime(0, 0, 0);
 
 			$date = new \DateTime();
 			$date->setTime(0, 0, 0);
-			if ($date >= $expireDate) {
+			if ($date >= $expirationDate) {
 				$message = $this->l->t('Expiration date is in the past');
 				throw new \OC\HintException($message, $message, 404);
 			}
@@ -237,30 +237,30 @@ class Manager {
 
 		// If we enforce the expiration date check that is does not exceed
 		if ($this->shareApiLinkDefaultExpireDateEnforced()) {
-			if ($expireDate === null) {
+			if ($expirationDate === null) {
 				throw new \InvalidArgumentException('Expiration date is enforced');
 			}
 
 			$date = new \DateTime();
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
-			if ($date < $expireDate) {
+			if ($date < $expirationDate) {
 				$message = $this->l->t('Cannot set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
 				throw new \OC\HintException($message, $message, 404);
 			}
 
-			return $expireDate;
+			return $expirationDate;
 		}
 
 		// If expiredate is empty set a default one if there is a default
-		if ($expireDate === null && $this->shareApiLinkDefaultExpireDate()) {
+		if ($expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 			$date = new \DateTime();
 			$date->setTime(0,0,0);
 			$date->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));
 			return $date;
 		}
 
-		return $expireDate;
+		return $expirationDate;
 	}
 
 	/**
@@ -440,7 +440,7 @@ class Manager {
 			);
 
 			//Verify the expiration date
-			$share->setExpirationDate($this->validateExpiredate($share->getExpirationDate()));
+			$share->setExpirationDate($this->validateExpirationDate($share->getExpirationDate()));
 
 			//Verify the password
 			$this->verifyPassword($share->getPassword());
@@ -542,13 +542,13 @@ class Manager {
 
 		// We can't change the share type!
 		if ($share->getShareType() !== $originalShare->getShareType()) {
-			throw new \Exception('Can\'t change share type');
+			throw new \InvalidArgumentException('Can\'t change share type');
 		}
 
 		// We can only change the recipient on user shares
 		if ($share->getSharedWith() !== $originalShare->getSharedWith() &&
 		    $share->getShareType() !== \OCP\Share::SHARE_TYPE_USER) {
-			throw new \Exception('Can only update recipient on user shares');
+			throw new \InvalidArgumentException('Can only update recipient on user shares');
 		}
 
 		// Cannot share with the owner
@@ -578,7 +578,7 @@ class Manager {
 
 			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
 				//Verify the expiration date
-				$share->setExpirationDate($this->validateExpiredate($share->getExpirationDate()));
+				$share->setExpirationDate($this->validateExpirationDate($share->getExpirationDate()));
 				$expirationDateUpdated = true;
 			}
 		}

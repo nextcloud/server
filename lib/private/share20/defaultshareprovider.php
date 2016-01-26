@@ -241,11 +241,11 @@ class DefaultShareProvider implements IShareProvider {
 				->set('item_source', $qb->createNamedParameter($share->getPath()->getId()))
 				->set('file_source', $qb->createNamedParameter($share->getPath()->getId()))
 				->set('token', $qb->createNamedParameter($share->getToken()))
-				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), 'datetime'))
+				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->execute();
 		}
 
-		return $this->getShareById($share->getId());
+		return $share;
 	}
 
 	/**

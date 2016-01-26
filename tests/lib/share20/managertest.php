@@ -599,29 +599,29 @@ class ManagerTest extends \Test\TestCase {
 	 * @expectedException \OC\HintException
 	 * @expectedExceptionMessage Expiration date is in the past
 	 */
-	public function testValidateExpiredateInPast() {
+	public function testvalidateExpirationDateInPast() {
 
 		// Expire date in the past
 		$past = new \DateTime();
 		$past->sub(new \DateInterval('P1D'));
 
-		$this->invokePrivate($this->manager, 'validateExpiredate', [$past]);
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$past]);
 	}
 
 	/**
 	 * @expectedException InvalidArgumentException
 	 * @expectedExceptionMessage Expiration date is enforced
 	 */
-	public function testValidateExpiredateEnforceButNotSet() {
+	public function testvalidateExpirationDateEnforceButNotSet() {
 		$this->config->method('getAppValue')
 			->will($this->returnValueMap([
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'validateExpiredate', [null]);
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [null]);
 	}
 
-	public function testValidateExpiredateEnforceToFarIntoFuture() {
+	public function testvalidateExpirationDateEnforceToFarIntoFuture() {
 		// Expire date in the past
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P7D'));
@@ -633,7 +633,7 @@ class ManagerTest extends \Test\TestCase {
 			]));
 
 		try {
-			$this->invokePrivate($this->manager, 'validateExpiredate', [$future]);
+			$this->invokePrivate($this->manager, 'validateExpirationDate', [$future]);
 		} catch (\OC\HintException $e) {
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getMessage());
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getHint());
@@ -641,7 +641,7 @@ class ManagerTest extends \Test\TestCase {
 		}
 	}
 
-	public function testValidateExpiredateEnforceValid() {
+	public function testvalidateExpirationDateEnforceValid() {
 		// Expire date in the past
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P2D'));
@@ -655,27 +655,27 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 			]));
 
-		$future = $this->invokePrivate($this->manager, 'validateExpiredate', [$future]);
+		$future = $this->invokePrivate($this->manager, 'validateExpirationDate', [$future]);
 
 		$this->assertEquals($expected, $future->format(\DateTime::ISO8601));
 	}
 
-	public function testValidateExpiredateNoDateNoDefaultNull() {
+	public function testvalidateExpirationDateNoDateNoDefaultNull() {
 		$date = new \DateTime();
 		$date->add(new \DateInterval('P5D'));
 
-		$res = $this->invokePrivate($this->manager, 'validateExpiredate', [$date]);
+		$res = $this->invokePrivate($this->manager, 'validateExpirationDate', [$date]);
 
 		$this->assertEquals($date, $res);
 	}
 
-	public function testValidateExpiredateNoDateNoDefault() {
-		$date = $this->invokePrivate($this->manager, 'validateExpiredate', [null]);
+	public function testvalidateExpirationDateNoDateNoDefault() {
+		$date = $this->invokePrivate($this->manager, 'validateExpirationDate', [null]);
 
 		$this->assertNull($date);
 	}
 
-	public function testValidateExpiredateNoDateDefault() {
+	public function testvalidateExpirationDateNoDateDefault() {
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P3D'));
 		$future->setTime(0,0,0);
@@ -686,7 +686,7 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 			]));
 
-		$date = $this->invokePrivate($this->manager, 'validateExpiredate', [null]);
+		$date = $this->invokePrivate($this->manager, 'validateExpirationDate', [null]);
 
 		$this->assertEquals($future->format(\DateTime::ISO8601), $date->format(\DateTime::ISO8601));
 	}
@@ -1314,7 +1314,7 @@ class ManagerTest extends \Test\TestCase {
 				'generalCreateChecks',
 				'linkCreateChecks',
 				'pathCreateChecks',
-				'validateExpiredate',
+				'validateExpirationDate',
 				'verifyPassword',
 			])
 			->getMock();
@@ -1352,7 +1352,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('pathCreateChecks')
 			->with($path);
 		$manager->expects($this->once())
-			->method('validateExpiredate')
+			->method('validateExpirationDate')
 			->with($date)
 			->will($this->returnArgument(0));
 		$manager->expects($this->once())
@@ -1745,7 +1745,7 @@ class ManagerTest extends \Test\TestCase {
 				'linkCreateChecks',
 				'pathCreateChecks',
 				'verifyPassword',
-				'validateExpiredate',
+				'validateExpirationDate',
 			])
 			->getMock();
 
@@ -1761,7 +1761,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('validateExpireDate')->with($tomorrow)->willReturn($tomorrow);
+		$manager->expects($this->once())->method('validateExpirationDate')->with($tomorrow)->willReturn($tomorrow);
 
 		$file = $this->getMock('OCP\Files\File', [], [], 'File');
 		$file->method('getId')->willReturn(100);

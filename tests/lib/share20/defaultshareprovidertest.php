@@ -21,6 +21,7 @@
 namespace Test\Share20;
 
 use OC\Share20\Exception\ProviderException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\IGroupManager;
@@ -99,7 +100,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		if ($fileTarget) $qb->setValue('file_target', $qb->expr()->literal($fileTarget));
 		if ($permissions) $qb->setValue('permissions', $qb->expr()->literal($permissions));
 		if ($token) $qb->setValue('token', $qb->expr()->literal($token));
-		if ($expiration) $qb->setValue('expiration', $qb->createNamedParameter($expiration, 'datetime'));
+		if ($expiration) $qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATE));
 		if ($parent) $qb->setValue('parent', $qb->expr()->literal($parent));
 
 		$this->assertEquals(1, $qb->execute());
@@ -1653,7 +1654,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$share->setSharedWith($groups['group1']);
+		$share->setSharedWith($groups['group0']);
 		$share->setSharedBy($users['user4']);
 		$share->setShareOwner($users['user5']);
 		$share->setPath($file2);
@@ -1722,7 +1723,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$share->setSharedWith($groups['group1']);
+		$share->setSharedWith($groups['group0']);
 		$share->setSharedBy($users['user4']);
 		$share->setShareOwner($users['user5']);
 		$share->setPath($file2);
