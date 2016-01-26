@@ -71,12 +71,7 @@ class CommentsNode extends \Test\TestCase {
 	}
 
 	public function testGetLastModified() {
-		$dateTime = new \DateTime('2016-01-10 18:48:00');
-		$this->comment->expects($this->once())
-			->method('getCreationDateTime')
-			->will($this->returnValue($dateTime));
-
-		$this->assertSame($this->node->getLastModified(), $dateTime->getTimestamp());
+		$this->assertSame($this->node->getLastModified(), null);
 	}
 
 	public function testUpdateComment() {

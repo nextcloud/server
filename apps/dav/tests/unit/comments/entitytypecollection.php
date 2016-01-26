@@ -74,7 +74,7 @@ class EntityTypeCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildException() {
 		$this->folder->expects($this->once())

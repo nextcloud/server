@@ -23,6 +23,7 @@ namespace OCA\DAV\Tests\Unit\Comments;
 
 use OC\Comments\Comment;
 use OCA\DAV\Comments\CommentsPlugin as CommentsPluginImplementation;
+use Sabre\DAV\Exception\NotFound;
 
 class CommentsPlugin extends \Test\TestCase {
 	/** @var \Sabre\DAV\Server */
@@ -146,6 +147,9 @@ class CommentsPlugin extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
+	/**
+	 * @expectedException \Sabre\DAV\Exception\NotFound
+	 */
 	public function testCreateCommentInvalidObject() {
 		$commentData = [
 			'actorType' => 'users',
