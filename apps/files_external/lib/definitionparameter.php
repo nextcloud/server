@@ -154,6 +154,10 @@ class DefinitionParameter implements \JsonSerializable {
 		return $prefix . $this->getText();
 	}
 
+	public function isOptional() {
+		return $this->isFlagSet(self::FLAG_OPTIONAL) || $this->isFlagSet(self::FLAG_USER_PROVIDED);
+	}
+
 	/**
 	 * Validate a parameter value against this
 	 * Convert type as necessary
@@ -162,8 +166,6 @@ class DefinitionParameter implements \JsonSerializable {
 	 * @return bool success
 	 */
 	public function validateValue(&$value) {
-		$optional = $this->isFlagSet(self::FLAG_OPTIONAL) || $this->isFlagSet(self::FLAG_USER_PROVIDED);
-
 		switch ($this->getType()) {
 			case self::VALUE_BOOLEAN:
 				if (!is_bool($value)) {
@@ -180,7 +182,7 @@ class DefinitionParameter implements \JsonSerializable {
 				}
 				break;
 			default:
-				if (!$value && !$optional) {
+				if (!$value && !$this->isOptional()) {
 					return false;
 				}
 				break;
