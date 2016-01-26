@@ -350,16 +350,26 @@ class ExpressionBuilderTest extends TestCase {
 
 	public function dataClobComparisons() {
 		return [
-			['eq', '1', IQueryBuilder::PARAM_STR, 1],
-			['neq', '1', IQueryBuilder::PARAM_STR, 2],
-			['lt', '2', IQueryBuilder::PARAM_STR, 1],
-			['lte', '2', IQueryBuilder::PARAM_STR, 2],
-			['gt', '2', IQueryBuilder::PARAM_STR, 1],
-			['gte', '2', IQueryBuilder::PARAM_STR, 2],
-			['like', '%2%', IQueryBuilder::PARAM_STR, 1],
-			['notLike', '%2%', IQueryBuilder::PARAM_STR, 2],
-			['in', ['2'], IQueryBuilder::PARAM_STR_ARRAY, 1],
-			['notIn', ['2'], IQueryBuilder::PARAM_STR_ARRAY, 2],
+			['eq', '5', IQueryBuilder::PARAM_STR, false, 3],
+			['eq', '5', IQueryBuilder::PARAM_STR, true, 1],
+			['neq', '5', IQueryBuilder::PARAM_STR, false, 6],
+			['neq', '5', IQueryBuilder::PARAM_STR, true, 4],
+			['lt', '5', IQueryBuilder::PARAM_STR, false, 3],
+			['lt', '5', IQueryBuilder::PARAM_STR, true, 1],
+			['lte', '5', IQueryBuilder::PARAM_STR, false, 6],
+			['lte', '5', IQueryBuilder::PARAM_STR, true, 4],
+			['gt', '5', IQueryBuilder::PARAM_STR, false, 3],
+			['gt', '5', IQueryBuilder::PARAM_STR, true, 1],
+			['gte', '5', IQueryBuilder::PARAM_STR, false, 6],
+			['gte', '5', IQueryBuilder::PARAM_STR, true, 4],
+			['like', '%5%', IQueryBuilder::PARAM_STR, false, 3],
+			['like', '%5%', IQueryBuilder::PARAM_STR, true, 1],
+			['notLike', '%5%', IQueryBuilder::PARAM_STR, false, 6],
+			['notLike', '%5%', IQueryBuilder::PARAM_STR, true, 4],
+			['in', ['5'], IQueryBuilder::PARAM_STR_ARRAY, false, 3],
+			['in', ['5'], IQueryBuilder::PARAM_STR_ARRAY, true, 1],
+			['notIn', ['5'], IQueryBuilder::PARAM_STR_ARRAY, false, 6],
+			['notIn', ['5'], IQueryBuilder::PARAM_STR_ARRAY, true, 4],
 		];
 	}
 
@@ -368,19 +378,31 @@ class ExpressionBuilderTest extends TestCase {
 	 * @param string $function
 	 * @param mixed $value
 	 * @param mixed $type
+	 * @param bool $compareKeyToValue
 	 * @param int $expected
 	 */
-	public function testClobComparisons($function, $value, $type, $expected) {
+	public function testClobComparisons($function, $value, $type, $compareKeyToValue, $expected) {
 		$appId = $this->getUniqueID('testing');
-		$this->createConfig($appId, 1);
-		$this->createConfig($appId, 2);
-		$this->createConfig($appId, 3);
+		$this->createConfig($appId, 1, 4);
+		$this->createConfig($appId, 2, 5);
+		$this->createConfig($appId, 3, 6);
+		$this->createConfig($appId, 4, 4);
+		$this->createConfig($appId, 5, 5);
+		$this->createConfig($appId, 6, 6);
+		$this->createConfig($appId, 7, 4);
+		$this->createConfig($appId, 8, 5);
+		$this->createConfig($appId, 9, 6);
 
 		$query = $this->connection->getQueryBuilder();
 		$query->select($query->createFunction('COUNT(*) AS `count`'))
 			->from('appconfig')
 			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
-			->andWhere(call_user_func([$query->expr(), $function], 'configvalue', $query->createNamedParameter($value, $type)));
+			->andWhere(call_user_func([$query->expr(), $function], 'configvalue', $query->createNamedParameter($value, $type), IQueryBuilder::PARAM_STR));
+
+		if ($compareKeyToValue) {
+			$query->andWhere(call_user_func([$query->expr(), $function], 'configkey', 'configvalue', IQueryBuilder::PARAM_STR));
+		}
+
 		$result = $query->execute();
 
 		$this->assertEquals(['count' => $expected], $result->fetch());
@@ -392,12 +414,12 @@ class ExpressionBuilderTest extends TestCase {
 			->execute();
 	}
 
-	protected function createConfig($appId, $value) {
+	protected function createConfig($appId, $key, $value) {
 		$query = $this->connection->getQueryBuilder();
 		$query->insert('appconfig')
 			->values([
 				'appid' => $query->createNamedParameter($appId),
-				'configkey' => $query->createNamedParameter((string) $value),
+				'configkey' => $query->createNamedParameter((string) $key),
 				'configvalue' => $query->createNamedParameter((string) $value),
 			])
 			->execute();
