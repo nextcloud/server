@@ -114,9 +114,6 @@ class CommentsNode extends \Test\TestCase {
 			->method('handle')
 			->with('{http://owncloud.org/ns}message');
 
-		$propPatch->expects($this->once())
-			->method('commit');
-
 		$this->node->propPatch($propPatch);
 	}
 

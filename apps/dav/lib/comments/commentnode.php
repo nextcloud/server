@@ -170,7 +170,6 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	function propPatch(PropPatch $propPatch) {
 		// other properties than 'message' are read only
 		$propPatch->handle('{'.self::NS_OWNCLOUD.'}message', [$this, 'updateComment']);
-		$propPatch->commit();
 	}
 
 	/**

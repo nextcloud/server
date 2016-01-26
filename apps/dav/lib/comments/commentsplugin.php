@@ -43,6 +43,7 @@ class CommentsPlugin extends ServerPlugin {
 	// namespace
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
+	const REPORT_NAME            = '{http://owncloud.org/ns}filter-comments';
 	const REPORT_PARAM_LIMIT     = '{http://owncloud.org/ns}limit';
 	const REPORT_PARAM_OFFSET    = '{http://owncloud.org/ns}offset';
 	const REPORT_PARAM_TIMESTAMP = '{http://owncloud.org/ns}datetime';
@@ -125,6 +126,18 @@ class CommentsPlugin extends ServerPlugin {
 	}
 
 	/**
+	 * Returns a list of reports this plugin supports.
+	 *
+	 * This will be used in the {DAV:}supported-report-set property.
+	 *
+	 * @param string $uri
+	 * @return array
+	 */
+	public function getSupportedReportSet($uri) {
+		return [self::REPORT_NAME];
+	}
+
+	/**
 	 * REPORT operations to look for comments
 	 *
 	 * @param string $reportName
@@ -136,7 +149,7 @@ class CommentsPlugin extends ServerPlugin {
 	 */
 	public function onReport($reportName, $report, $uri) {
 		$node = $this->server->tree->getNodeForPath($uri);
-		if(!$node instanceof EntityCollection) {
+		if(!$node instanceof EntityCollection || $reportName !== self::REPORT_NAME) {
 			throw new ReportNotSupported();
 		}
 		$args = ['limit' => 0, 'offset' => 0, 'datetime' => null];

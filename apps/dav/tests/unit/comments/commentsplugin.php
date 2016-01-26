@@ -517,7 +517,26 @@ class CommentsPlugin extends \Test\TestCase {
 			->will($this->returnValue($path));
 		$this->plugin->initialize($this->server);
 
-		$this->plugin->onReport('', [], '/' . $path);
+		$this->plugin->onReport(CommentsPluginImplementation::REPORT_NAME, [], '/' . $path);
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\ReportNotSupported
+	 */
+	public function testOnReportInvalidReportName() {
+		$path = 'comments/files/42';
+
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->with('/' . $path)
+			->will($this->returnValue($this->getMock('\Sabre\DAV\INode')));
+
+		$this->server->expects($this->any())
+			->method('getRequestUri')
+			->will($this->returnValue($path));
+		$this->plugin->initialize($this->server);
+
+		$this->plugin->onReport('{whoever}whatever', [], '/' . $path);
 	}
 
 	public function testOnReportDateTimeEmpty() {
@@ -572,7 +591,7 @@ class CommentsPlugin extends \Test\TestCase {
 		$this->server->httpResponse = $response;
 		$this->plugin->initialize($this->server);
 
-		$this->plugin->onReport('', $parameters, '/' . $path);
+		$this->plugin->onReport(CommentsPluginImplementation::REPORT_NAME, $parameters, '/' . $path);
 	}
 
 	public function testOnReport() {
@@ -627,7 +646,7 @@ class CommentsPlugin extends \Test\TestCase {
 		$this->server->httpResponse = $response;
 		$this->plugin->initialize($this->server);
 
-		$this->plugin->onReport('', $parameters, '/' . $path);
+		$this->plugin->onReport(CommentsPluginImplementation::REPORT_NAME, $parameters, '/' . $path);
 	}
 
 
