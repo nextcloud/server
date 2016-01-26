@@ -1705,16 +1705,6 @@ describe('OCA.Files.FileList tests', function() {
 			});
 		});
 		describe('Selection overlay', function() {
-			it('show delete action according to directory permissions', function() {
-				fileList.setFiles(testFiles);
-				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
-				$('.select-all').click();
-				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(false);
-				$('.select-all').click();
-				$('#permissions').val(OC.PERMISSION_READ);
-				$('.select-all').click();
-				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(true);
-			});
 			it('show doesnt show the delete action if one or more files are not deletable', function () {
 				fileList.setFiles(testFiles);
 				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
