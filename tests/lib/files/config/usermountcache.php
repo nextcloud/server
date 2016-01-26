@@ -279,11 +279,11 @@ class UserMountCache extends TestCase {
 			'mimepart' => 0,
 			'size' => 0,
 			'storage_mtime' => 0,
-			'encrypted' => false,
+			'encrypted' => 0,
 			'unencrypted_size' => 0,
 			'etag' => '',
 			'permissions' => 31
-		]);
+		], ['storage', 'path_hash']);
 		$id = (int)$this->connection->lastInsertId('*PREFIX*filecache');
 		$this->fileIds[] = $id;
 		return $id;
