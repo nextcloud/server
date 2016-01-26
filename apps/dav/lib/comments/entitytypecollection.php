@@ -25,8 +25,8 @@ use OCP\Comments\ICommentsManager;
 use OCP\Files\Folder;
 use OCP\ILogger;
 use OCP\IUserManager;
-use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\Exception\NotFound;
 
 /**
  * Class EntityTypeCollection
@@ -79,11 +79,11 @@ class EntityTypeCollection extends RootCollection {
 	 *
 	 * @param string $name
 	 * @return \Sabre\DAV\INode
-	 * @throws Forbidden
+	 * @throws NotFound
 	 */
 	function getChild($name) {
 		if(!$this->childExists($name)) {
-			throw new Forbidden('Entity does not exist or is not available');
+			throw new NotFound('Entity does not exist or is not available');
 		}
 		return new EntityCollection(
 			$name,
