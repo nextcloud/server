@@ -114,9 +114,7 @@ class TagList implements Element {
 	function xmlSerialize(Writer $writer) {
 
 		foreach ($this->tags as $tag) {
-			$writer->startElement(self::NS_OWNCLOUD . ':tag');
-			$writer->writeElement($tag);
-			$writer->endElement();
+			$writer->writeElement('{' . self::NS_OWNCLOUD . '}tag', $tag);
 		}
 	}
 }
