@@ -91,6 +91,17 @@ class AddressbookAdapterTest extends TestCase {
 				'lastmodified' => $builder->createNamedParameter('112233'),
 			])
 			->execute();
+		$builder = $this->db->getQueryBuilder();
+		$builder->insert('share')
+			->values([
+				'share_type' => $builder->createNamedParameter(1),
+				'share_with' => $builder->createNamedParameter('user01'),
+				'uid_owner' => $builder->createNamedParameter('user02'),
+				'item_type' => $builder->createNamedParameter('addressbook'),
+				'item_source' => $builder->createNamedParameter(6666),
+				'item_target' => $builder->createNamedParameter('Contacts (user02)'),
+			])
+			->execute();
 
 		// test the adapter
 		$this->adapter->foreachBook('test-user-666', function($row) {
@@ -108,6 +119,11 @@ class AddressbookAdapterTest extends TestCase {
 		});
 		$this->assertArrayHasKey('id', $this->cards[0]);
 		$this->assertEquals(6666, $this->cards[0]['addressbookid']);
+
+		// test getShares
+		$shares = $this->adapter->getShares(6666);
+		$this->assertEquals(1, count($shares));
+
 	}
 
 }

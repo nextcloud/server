@@ -75,7 +75,7 @@ class AddressBookAdapter {
 	 */
 	public function getShares($addressBookId) {
 		$query = $this->dbConnection->getQueryBuilder();
-		$shares = $query->select()->from('share')
+		$shares = $query->select('*')->from('share')
 			->where($query->expr()->eq('item_source', $query->createNamedParameter($addressBookId)))
 			->andWhere($query->expr()->eq('item_type', $query->expr()->literal('addressbook')))
 			->andWhere($query->expr()->in('share_type', [ $query->expr()->literal(0), $query->expr()->literal(1)]))
