@@ -151,11 +151,14 @@ class TemplateLayout extends \OC_Template {
 		// Send the language to our layouts
 		$this->assign('language', \OC_L10N::findLanguage());
 
-
-		if(empty(self::$versionHash)) {
-			$v = \OC_App::getAppVersions();
-			$v['core'] = implode('.', \OCP\Util::getVersion());
-			self::$versionHash = md5(implode(',', $v));
+		if(\OC::$server->getSystemConfig()->getValue('installed', false)) {
+			if (empty(self::$versionHash)) {
+				$v = \OC_App::getAppVersions();
+				$v['core'] = implode('.', \OCP\Util::getVersion());
+				self::$versionHash = md5(implode(',', $v));
+			}
+		} else {
+			self::$versionHash = md5('not installed');
 		}
 
 		$useAssetPipeline = self::isAssetPipelineEnabled();
