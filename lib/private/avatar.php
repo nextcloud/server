@@ -29,9 +29,12 @@
 
 namespace OC;
 
+use OC\User\User;
 use OCP\Files\Folder;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
+use OCP\IAvatar;
+use OCP\IImage;
 use OCP\IL10N;
 use OC_Image;
 
@@ -39,22 +42,25 @@ use OC_Image;
  * This class gets and sets users avatars.
  */
 
-class Avatar implements \OCP\IAvatar {
+class Avatar implements IAvatar {
 	/** @var Folder */
 	private $folder;
-
 	/** @var IL10N */
 	private $l;
+	/** @var User */
+	private $user;
 
 	/**
 	 * constructor
 	 *
 	 * @param Folder $folder The folder where the avatars are
 	 * @param IL10N $l
+	 * @param User $user
 	 */
-	public function __construct (Folder $folder, IL10N $l) {
+	public function __construct (Folder $folder, IL10N $l, $user) {
 		$this->folder = $folder;
 		$this->l = $l;
+		$this->user = $user;
 	}
 
 	/**
@@ -83,15 +89,15 @@ class Avatar implements \OCP\IAvatar {
 
 	/**
 	 * sets the users avatar
-	 * @param \OCP\IImage|resource|string $data An image object, imagedata or path to set a new avatar
+	 * @param IImage|resource|string $data An image object, imagedata or path to set a new avatar
 	 * @throws \Exception if the provided file is not a jpg or png image
 	 * @throws \Exception if the provided image is not valid
-	 * @throws \OC\NotSquareException if the image is not square
+	 * @throws NotSquareException if the image is not square
 	 * @return void
 	*/
 	public function set ($data) {
 
-		if($data instanceOf \OCP\IImage) {
+		if($data instanceOf IImage) {
 			$img = $data;
 			$data = $img->data();
 		} else {
@@ -110,11 +116,12 @@ class Avatar implements \OCP\IAvatar {
 		}
 
 		if (!($img->height() === $img->width())) {
-			throw new \OC\NotSquareException();
+			throw new NotSquareException();
 		}
 
 		$this->remove();
 		$this->folder->newFile('avatar.'.$type)->putContent($data);
+		$this->user->triggerChange();
 	}
 
 	/**
@@ -130,13 +137,14 @@ class Avatar implements \OCP\IAvatar {
 				$avatar->delete();
 			}
 		}
+		$this->user->triggerChange();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function getFile($size) {
-		$ext = $this->getExtention();
+		$ext = $this->getExtension();
 
 		if ($size === -1) {
 			$path = 'avatar.' . $ext;
@@ -166,12 +174,12 @@ class Avatar implements \OCP\IAvatar {
 	}
 
 	/**
-	 * Get the extention of the avatar. If there is no avatar throw Exception
+	 * Get the extension of the avatar. If there is no avatar throw Exception
 	 *
 	 * @return string
 	 * @throws NotFoundException
 	 */
-	private function getExtention() {
+	private function getExtension() {
 		if ($this->folder->nodeExists('avatar.jpg')) {
 			return 'jpg';
 		} elseif ($this->folder->nodeExists('avatar.png')) {

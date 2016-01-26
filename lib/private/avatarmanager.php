@@ -61,10 +61,11 @@ class AvatarManager implements IAvatarManager {
 	 * @return \OCP\IAvatar
 	 * @throws \Exception In case the username is potentially dangerous
 	 */
-	public function getAvatar($user) {
-		if (!$this->userManager->userExists($user)) {
+	public function getAvatar($userId) {
+		$user = $this->userManager->get($userId);
+		if (is_null($user)) {
 			throw new \Exception('user does not exist');
 		}
-		return new Avatar($this->rootFolder->getUserFolder($user)->getParent(), $this->l);
+		return new Avatar($this->rootFolder->getUserFolder($userId)->getParent(), $this->l, $user);
 	}
 }

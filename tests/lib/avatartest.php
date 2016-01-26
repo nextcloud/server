@@ -16,13 +16,18 @@ class AvatarTest extends \Test\TestCase {
 	/** @var \OC\Avatar */
 	private $avatar;
 
+	/** @var \OC\User\User | PHPUnit_Framework_MockObject_MockObject $user */
+	private $user;
+
 	public function setUp() {
 		parent::setUp();
 
 		$this->folder = $this->getMock('\OCP\Files\Folder');
+		/** @var \OCP\IL10N | PHPUnit_Framework_MockObject_MockObject $l */
 		$l = $this->getMock('\OCP\IL10N');
 		$l->method('t')->will($this->returnArgument(0));
-		$this->avatar = new \OC\Avatar($this->folder, $l);
+		$this->user = $this->getMockBuilder('\OC\User\User')->disableOriginalConstructor()->getMock();
+		$this->avatar = new \OC\Avatar($this->folder, $l, $this->user);
 	}
 
 	public function testGetNoAvatar() {
@@ -157,6 +162,9 @@ class AvatarTest extends \Test\TestCase {
 		$newFile->expects($this->once())
 			->method('putContent')
 			->with($image->data());
+
+		// One on remove and once on setting the new avatar
+		$this->user->expects($this->exactly(2))->method('triggerChange');
 
 		$this->avatar->set($image->data());
 	}
