@@ -23,6 +23,8 @@ namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
 use OC\DB\QueryBuilder\ExpressionBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use Test\TestCase;
 
 /**
  * Class ExpressionBuilderTest
@@ -31,21 +33,24 @@ use OC\DB\QueryBuilder\ExpressionBuilder;
  *
  * @package Test\DB\QueryBuilder
  */
-class ExpressionBuilderTest extends \Test\TestCase {
+class ExpressionBuilderTest extends TestCase {
 	/** @var ExpressionBuilder */
 	protected $expressionBuilder;
 
 	/** @var DoctrineExpressionBuilder */
 	protected $doctrineExpressionBuilder;
 
+	/** @var \Doctrine\DBAL\Connection|\OCP\IDBConnection */
+	protected $connection;
+
 	protected function setUp() {
 		parent::setUp();
 
-		$connection = \OC::$server->getDatabaseConnection();
+		$this->connection = \OC::$server->getDatabaseConnection();
 
-		$this->expressionBuilder = new ExpressionBuilder($connection);
+		$this->expressionBuilder = new ExpressionBuilder($this->connection);
 
-		$this->doctrineExpressionBuilder = new DoctrineExpressionBuilder($connection);
+		$this->doctrineExpressionBuilder = new DoctrineExpressionBuilder($this->connection);
 	}
 
 	public function dataComparison() {
@@ -341,5 +346,82 @@ class ExpressionBuilderTest extends \Test\TestCase {
 			$this->doctrineExpressionBuilder->literal($input, $type),
 			$actual->__toString()
 		);
+	}
+
+	public function dataClobComparisons() {
+		return [
+			['eq', '5', IQueryBuilder::PARAM_STR, false, 3],
+			['eq', '5', IQueryBuilder::PARAM_STR, true, 1],
+			['neq', '5', IQueryBuilder::PARAM_STR, false, 6],
+			['neq', '5', IQueryBuilder::PARAM_STR, true, 4],
+			['lt', '5', IQueryBuilder::PARAM_STR, false, 3],
+			['lt', '5', IQueryBuilder::PARAM_STR, true, 1],
+			['lte', '5', IQueryBuilder::PARAM_STR, false, 6],
+			['lte', '5', IQueryBuilder::PARAM_STR, true, 4],
+			['gt', '5', IQueryBuilder::PARAM_STR, false, 3],
+			['gt', '5', IQueryBuilder::PARAM_STR, true, 1],
+			['gte', '5', IQueryBuilder::PARAM_STR, false, 6],
+			['gte', '5', IQueryBuilder::PARAM_STR, true, 4],
+			['like', '%5%', IQueryBuilder::PARAM_STR, false, 3],
+			['like', '%5%', IQueryBuilder::PARAM_STR, true, 1],
+			['notLike', '%5%', IQueryBuilder::PARAM_STR, false, 6],
+			['notLike', '%5%', IQueryBuilder::PARAM_STR, true, 4],
+			['in', ['5'], IQueryBuilder::PARAM_STR_ARRAY, false, 3],
+			['in', ['5'], IQueryBuilder::PARAM_STR_ARRAY, true, 1],
+			['notIn', ['5'], IQueryBuilder::PARAM_STR_ARRAY, false, 6],
+			['notIn', ['5'], IQueryBuilder::PARAM_STR_ARRAY, true, 4],
+		];
+	}
+
+	/**
+	 * @dataProvider dataClobComparisons
+	 * @param string $function
+	 * @param mixed $value
+	 * @param mixed $type
+	 * @param bool $compareKeyToValue
+	 * @param int $expected
+	 */
+	public function testClobComparisons($function, $value, $type, $compareKeyToValue, $expected) {
+		$appId = $this->getUniqueID('testing');
+		$this->createConfig($appId, 1, 4);
+		$this->createConfig($appId, 2, 5);
+		$this->createConfig($appId, 3, 6);
+		$this->createConfig($appId, 4, 4);
+		$this->createConfig($appId, 5, 5);
+		$this->createConfig($appId, 6, 6);
+		$this->createConfig($appId, 7, 4);
+		$this->createConfig($appId, 8, 5);
+		$this->createConfig($appId, 9, 6);
+
+		$query = $this->connection->getQueryBuilder();
+		$query->select($query->createFunction('COUNT(*) AS `count`'))
+			->from('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
+			->andWhere(call_user_func([$query->expr(), $function], 'configvalue', $query->createNamedParameter($value, $type), IQueryBuilder::PARAM_STR));
+
+		if ($compareKeyToValue) {
+			$query->andWhere(call_user_func([$query->expr(), $function], 'configkey', 'configvalue', IQueryBuilder::PARAM_STR));
+		}
+
+		$result = $query->execute();
+
+		$this->assertEquals(['count' => $expected], $result->fetch());
+		$result->closeCursor();
+
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('appconfig')
+			->where($query->expr()->eq('appid', $query->createNamedParameter($appId)))
+			->execute();
+	}
+
+	protected function createConfig($appId, $key, $value) {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('appconfig')
+			->values([
+				'appid' => $query->createNamedParameter($appId),
+				'configkey' => $query->createNamedParameter((string) $key),
+				'configvalue' => $query->createNamedParameter((string) $value),
+			])
+			->execute();
 	}
 }

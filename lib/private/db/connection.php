@@ -29,8 +29,8 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\Common\EventManager;
-use OC\DB\QueryBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\QueryBuilder;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\PreconditionNotMetException;
 
@@ -244,11 +244,11 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 
 	private function getType($value) {
 		if (is_bool($value)) {
-			return \PDO::PARAM_BOOL;
+			return IQueryBuilder::PARAM_BOOL;
 		} else if (is_int($value)) {
-			return \PDO::PARAM_INT;
+			return IQueryBuilder::PARAM_INT;
 		} else {
-			return \PDO::PARAM_STR;
+			return IQueryBuilder::PARAM_STR;
 		}
 	}
 
@@ -278,7 +278,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			$updateQb = $this->getQueryBuilder();
 			$updateQb->update($table);
 			foreach ($values as $name => $value) {
-				$updateQb->set($name, $updateQb->createNamedParameter($value), $this->getType($value));
+				$updateQb->set($name, $updateQb->createNamedParameter($value, $this->getType($value)));
 			}
 			$where = $updateQb->expr()->andx();
 			$whereValues = array_merge($keys, $updatePreconditionValues);

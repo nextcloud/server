@@ -21,11 +21,39 @@
 
 namespace OCP\DB\QueryBuilder;
 
+
+use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
+
 /**
  * This class provides a wrapper around Doctrine's ExpressionBuilder
  * @since 8.2.0
  */
 interface IExpressionBuilder {
+	/**
+	 * @since 9.0.0
+	 */
+	const EQ  = ExpressionBuilder::EQ;
+	/**
+	 * @since 9.0.0
+	 */
+	const NEQ = ExpressionBuilder::NEQ;
+	/**
+	 * @since 9.0.0
+	 */
+	const LT  = ExpressionBuilder::LT;
+	/**
+	 * @since 9.0.0
+	 */
+	const LTE = ExpressionBuilder::LTE;
+	/**
+	 * @since 9.0.0
+	 */
+	const GT  = ExpressionBuilder::GT;
+	/**
+	 * @since 9.0.0
+	 */
+	const GTE = ExpressionBuilder::GTE;
+
 	/**
 	 * Creates a conjunction of the given boolean expressions.
 	 *
@@ -64,13 +92,15 @@ interface IExpressionBuilder {
 	 * Creates a comparison expression.
 	 *
 	 * @param mixed $x The left expression.
-	 * @param string $operator One of the ExpressionBuilder::* constants.
+	 * @param string $operator One of the IExpressionBuilder::* constants.
 	 * @param mixed $y The right expression.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function comparison($x, $operator, $y);
+	public function comparison($x, $operator, $y, $type = null);
 
 	/**
 	 * Creates an equality comparison expression with the given arguments.
@@ -84,11 +114,11 @@ interface IExpressionBuilder {
 	 *
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
-	 * @param int|null $type @since 9.0.0 one of the \PDO::PARAM_* constants
-	 *                  required when comparing text fields for oci compatibility.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
 	public function eq($x, $y, $type = null);
 
@@ -103,11 +133,13 @@ interface IExpressionBuilder {
 	 *
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function neq($x, $y);
+	public function neq($x, $y, $type = null);
 
 	/**
 	 * Creates a lower-than comparison expression with the given arguments.
@@ -120,11 +152,13 @@ interface IExpressionBuilder {
 	 *
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function lt($x, $y);
+	public function lt($x, $y, $type = null);
 
 	/**
 	 * Creates a lower-than-equal comparison expression with the given arguments.
@@ -137,11 +171,13 @@ interface IExpressionBuilder {
 	 *
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function lte($x, $y);
+	public function lte($x, $y, $type = null);
 
 	/**
 	 * Creates a greater-than comparison expression with the given arguments.
@@ -154,11 +190,13 @@ interface IExpressionBuilder {
 	 *
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function gt($x, $y);
+	public function gt($x, $y, $type = null);
 
 	/**
 	 * Creates a greater-than-equal comparison expression with the given arguments.
@@ -171,11 +209,13 @@ interface IExpressionBuilder {
 	 *
 	 * @param mixed $x The left expression.
 	 * @param mixed $y The right expression.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function gte($x, $y);
+	public function gte($x, $y, $type = null);
 
 	/**
 	 * Creates an IS NULL expression with the given arguments.
@@ -202,50 +242,58 @@ interface IExpressionBuilder {
 	 *
 	 * @param string $x Field in string format to be inspected by LIKE() comparison.
 	 * @param mixed $y Argument to be used in LIKE() comparison.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function like($x, $y);
+	public function like($x, $y, $type = null);
 
 	/**
 	 * Creates a NOT LIKE() comparison expression with the given arguments.
 	 *
 	 * @param string $x Field in string format to be inspected by NOT LIKE() comparison.
 	 * @param mixed $y Argument to be used in NOT LIKE() comparison.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function notLike($x, $y);
+	public function notLike($x, $y, $type = null);
 
 	/**
 	 * Creates a IN () comparison expression with the given arguments.
 	 *
 	 * @param string $x The field in string format to be inspected by IN() comparison.
 	 * @param string|array $y The placeholder or the array of values to be used by IN() comparison.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function in($x, $y);
+	public function in($x, $y, $type = null);
 
 	/**
 	 * Creates a NOT IN () comparison expression with the given arguments.
 	 *
 	 * @param string $x The field in string format to be inspected by NOT IN() comparison.
 	 * @param string|array $y The placeholder or the array of values to be used by NOT IN() comparison.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
 	 *
 	 * @return string
-	 * @since 8.2.0
+	 * @since 8.2.0 - Parameter $type was added in 9.0.0
 	 */
-	public function notIn($x, $y);
+	public function notIn($x, $y, $type = null);
 
 	/**
 	 * Quotes a given input parameter.
 	 *
 	 * @param mixed $input The parameter to be quoted.
-	 * @param string|null $type The type of the parameter.
+	 * @param mixed|null $type One of the IQueryBuilder::PARAM_* constants
 	 *
 	 * @return string
 	 * @since 8.2.0
