@@ -452,41 +452,62 @@ class Share20OCS {
 		}
 
 		if (!$this->canAccessShare($share)) {
-			return new \OC_OCS_Result(null, 404, "wrong share Id, share doesn't exist.");
+			return new \OC_OCS_Result(null, 404, 'wrong share Id, share doesn\'t exist.');
 		}
 
 		$permissions = $this->request->getParam('permissions', null);
-		$password = $this->request->getParam('password', null);
+		$password = $this->request->getParam('password', '');
 		$publicUpload = $this->request->getParam('publicUpload', null);
-		$expireDate = $this->request->getParam('expireDate', null);
+		$expireDate = $this->request->getParam('expireDate', '');
 
-		if ($permissions === null && $password === null && $publicUpload === null && $expireDate === null) {
-			return new \OC_OCS_Result(null, 400, 'Wrong or no update parameter given');
-		}
-
-		if ($expireDate !== null) {
-			try {
-				$expireDate = $this->parseDate($expireDate);
-			} catch (\Exception $e) {
-				return new \OC_OCS_Result(null, 400, $e->getMessage());
+		/*
+		 * expirationdate, password and publicUpload only make sense for link shares
+		 */
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+			if ($password === null && $publicUpload === null && $expireDate === null) {
+				return new \OC_OCS_Result(null, 400, 'Wrong or no update parameter given');
 			}
-			$share->setExpirationDate($expireDate);
+
+			if ($expireDate === '') {
+				$share->setExpirationDate(null);
+			} else {
+				try {
+					$expireDate = $this->parseDate($expireDate);
+				} catch (\Exception $e) {
+					return new \OC_OCS_Result(null, 400, $e->getMessage());
+				}
+				$share->setExpirationDate($expireDate);
+			}
+
+			if ($password === '') {
+				$share->setPassword(null);
+			} else {
+				$share->setPassword($password);
+			}
+
+			if ($publicUpload === 'true') {
+				if(!$this->shareManager->shareApiLinkAllowPublicUpload()) {
+					return new \OC_OCS_Result(null, 403, "public upload disabled by the administrator");
+				}
+
+				if (!($share->getPath() instanceof \OCP\Files\Folder)) {
+					return new \OC_OCS_Result(null, 400, "public upload is only possible for public shared folders");
+				}
+
+				$share->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+			} else if ($publicUpload === 'false') {
+				$share->setPermissions(\OCP\Constants::PERMISSION_READ);
+			}
+		} else {
+			if ($permissions === null) {
+				return new \OC_OCS_Result(null, 400, 'Wrong or no update parameter given');
+			} else {
+				$permissions = (int)$permissions;
+				$share->setPermissions($permissions);
+			}
 		}
 
-		if ($permissions !== null) {
-			$permissions = (int)$permissions;
-			$share->setPermissions($permissions);
-		}
 
-		if ($password !== null) {
-			$share->setPassword($password);
-		}
-
-		if ($publicUpload === 'true') {
-			$share->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
-		} else if ($publicUpload === 'false') {
-			$share->setPermissions(\OCP\Constants::PERMISSION_READ);
-		}
 
 		try {
 			$share = $this->shareManager->updateShare($share);

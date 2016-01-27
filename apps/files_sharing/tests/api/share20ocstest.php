@@ -932,4 +932,242 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->assertEquals($expected->getMeta(), $result->getMeta());
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
+
+	public function testUpdateShareCantAccess() {
+		$share = \OC::$server->getShareManager()->newShare();
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$expected = new \OC_OCS_Result(null, 404, 'wrong share Id, share doesn\'t exist.');
+		$result = $this->ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateNoParametersLink() {
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK);
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$expected = new \OC_OCS_Result(null, 400, 'Wrong or no update parameter given');
+		$result = $this->ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateNoParametersOther() {
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_GROUP);
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$expected = new \OC_OCS_Result(null, 400, 'Wrong or no update parameter given');
+		$result = $this->ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateLinkShareClear() {
+		$ocs = $this->mockFormatShare();
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPassword('password')
+			->setExpirationDate(new \DateTime())
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['publicUpload', null, 'false'],
+				['expireDate', '', ''],
+				['password', '', ''],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+
+		$this->shareManager->expects($this->once())->method('updateShare')->with(
+			$this->callback(function (IShare $share) {
+				return $share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
+				$share->getPassword() === null &&
+				$share->getExpirationDate() === null;
+			})
+		);
+
+		$expected = new \OC_OCS_Result(null);
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateLinkShareSet() {
+		$ocs = $this->mockFormatShare();
+
+		$folder = $this->getMock('\OCP\Files\Folder');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPath($folder);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['publicUpload', null, 'true'],
+				['expireDate', '', '2000-01-01'],
+				['password', '', 'password'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		$this->shareManager->expects($this->once())->method('updateShare')->with(
+			$this->callback(function (IShare $share) {
+				$date = new \DateTime('2000-01-01');
+				$date->setTime(0,0,0);
+
+				return $share->getPermissions() === \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE && \OCP\Constants::PERMISSION_DELETE &&
+				$share->getPassword() === 'password' &&
+				$share->getExpirationDate() == $date;
+			})
+		);
+
+		$expected = new \OC_OCS_Result(null);
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateLinkShareInvalidDate() {
+		$ocs = $this->mockFormatShare();
+
+		$folder = $this->getMock('\OCP\Files\Folder');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPath($folder);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['publicUpload', null, 'true'],
+				['expireDate', '', '2000-01-a'],
+				['password', '', 'password'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		$expected = new \OC_OCS_Result(null, 400, 'Invalid date. Format must be YYYY-MM-DD');
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateLinkSharePublicUploadNotAllowed() {
+		$ocs = $this->mockFormatShare();
+
+		$folder = $this->getMock('\OCP\Files\Folder');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPath($folder);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['publicUpload', null, 'true'],
+				['expireDate', '', ''],
+				['password', '', 'password'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(false);
+
+		$expected = new \OC_OCS_Result(null, 403, 'public upload disabled by the administrator');
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateLinkSharePublicUploadOnFile() {
+		$ocs = $this->mockFormatShare();
+
+		$file = $this->getMock('\OCP\Files\File');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPath($file);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['publicUpload', null, 'true'],
+				['expireDate', '', ''],
+				['password', '', 'password'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		$expected = new \OC_OCS_Result(null, 400, 'public upload is only possible for public shared folders');
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateOtherPermissions() {
+		$ocs = $this->mockFormatShare();
+
+		$file = $this->getMock('\OCP\Files\File');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPath($file);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['permissions', null, '31'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		$this->shareManager->expects($this->once())->method('updateShare')->with(
+			$this->callback(function (IShare $share) {
+				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL;
+			})
+		);
+
+		$expected = new \OC_OCS_Result(null);
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
 }
