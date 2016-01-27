@@ -473,6 +473,7 @@ class OC {
 	 */
 	public static function setRequiredIniValues() {
 		@ini_set('default_charset', 'UTF-8');
+		@ini_set('gd.jpeg_ignore_warning', 1);
 	}
 
 	public static function init() {
