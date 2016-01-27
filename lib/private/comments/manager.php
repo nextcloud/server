@@ -25,7 +25,9 @@ use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\IDBConnection;
+use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IUser;
 
 class Manager implements ICommentsManager {
 
@@ -38,12 +40,17 @@ class Manager implements ICommentsManager {
 	/** @var IComment[]  */
 	protected $commentsCache = [];
 
+	/** @var IConfig */
+	protected $config;
+
 	public function __construct(
 		IDBConnection $dbConn,
-		ILogger $logger
+		ILogger $logger,
+		IConfig $config
 	) {
 		$this->dbConn = $dbConn;
 		$this->logger = $logger;
+		$this->config = $config;
 	}
 
 	/**
@@ -346,10 +353,12 @@ class Manager implements ICommentsManager {
 	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
+	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
+	 * that may be returned
 	 * @return Int
 	 * @since 9.0.0
 	 */
-	public function getNumberOfCommentsForObject($objectType, $objectId) {
+	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select($qb->createFunction('COUNT(`id`)'))
 				->from('comments')
@@ -357,6 +366,12 @@ class Manager implements ICommentsManager {
 				->andWhere($qb->expr()->eq('object_id', $qb->createParameter('id')))
 				->setParameter('type', $objectType)
 				->setParameter('id', $objectId);
+
+		if(!is_null($notOlderThan)) {
+			$query
+				->andWhere($qb->expr()->gt('creation_timestamp', $qb->createParameter('notOlderThan')))
+				->setParameter('notOlderThan', $notOlderThan, 'datetime');
+		}
 
 		$resultStatement = $query->execute();
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
@@ -565,5 +580,46 @@ class Manager implements ICommentsManager {
 		$this->commentsCache = [];
 
 		return is_int($affectedRows);
+	}
+
+	/**
+	 * sets the read marker for a given file to the specified date for the
+	 * provided user
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param \DateTime $dateTime
+	 * @param IUser $user
+	 * @since 9.0.0
+	 */
+	public function setReadMark($objectType, $objectId, \DateTime $dateTime, IUser $user) {
+		$this->checkRoleParameters('Object', $objectType, $objectId);
+		$dateTime = $dateTime->format('Y-m-d H:i:s');
+		$this->config->setUserValue($user->getUID(), 'comments', 'marker.' . $objectType .'.'. $objectId, $dateTime);
+	}
+
+	/**
+	 * returns the read marker for a given file to the specified date for the
+	 * provided user. It returns null, when the marker is not present, i.e.
+	 * no comments were marked as read.
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param IUser $user
+	 * @return \DateTime|null
+	 * @since 9.0.0
+	 */
+	public function getReadMark($objectType, $objectId, IUser $user) {
+		$this->checkRoleParameters('Object', $objectType, $objectId);
+		$dateTime = $this->config->getUserValue(
+			$user->getUID(),
+			'comments',
+			'marker.' . $objectType .'.'. $objectId,
+			null
+		);
+		if(!is_null($dateTime)) {
+			$dateTime = new \DateTime($dateTime);
+		}
+		return $dateTime;
 	}
 }

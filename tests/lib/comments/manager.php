@@ -561,4 +561,20 @@ class Test_Comments_Manager extends TestCase
 		$this->assertTrue($wasSuccessful);
 	}
 
+	public function testSetMarkRead() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$dateTimeSet = new \DateTime();
+
+		$manager = $this->getManager();
+		$manager->setReadMark('files', '36', $dateTimeSet, $user);
+
+		$dateTimeGet = $manager->getReadMark('files', '36',  $user);
+
+		$this->assertEquals($dateTimeGet, $dateTimeSet);
+	}
+
 }
