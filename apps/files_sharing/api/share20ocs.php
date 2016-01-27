@@ -456,9 +456,9 @@ class Share20OCS {
 		}
 
 		$permissions = $this->request->getParam('permissions', null);
-		$password = $this->request->getParam('password', '');
+		$password = $this->request->getParam('password', null);
 		$publicUpload = $this->request->getParam('publicUpload', null);
-		$expireDate = $this->request->getParam('expireDate', '');
+		$expireDate = $this->request->getParam('expireDate', null);
 
 		/*
 		 * expirationdate, password and publicUpload only make sense for link shares
@@ -470,7 +470,7 @@ class Share20OCS {
 
 			if ($expireDate === '') {
 				$share->setExpirationDate(null);
-			} else {
+			} else if ($expireDate !== null) {
 				try {
 					$expireDate = $this->parseDate($expireDate);
 				} catch (\Exception $e) {
@@ -481,7 +481,7 @@ class Share20OCS {
 
 			if ($password === '') {
 				$share->setPassword(null);
-			} else {
+			} else if ($password !== null) {
 				$share->setPassword($password);
 			}
 
