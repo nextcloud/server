@@ -18,7 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\Share20;
+
+namespace OCP\Share;
 
 use OCP\Files\File;
 use OCP\Files\Folder;
@@ -26,12 +27,19 @@ use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IGroup;
 
+/**
+ * Interface IShare
+ *
+ * @package OCP\Share
+ * @since 9.0.0
+ */
 interface IShare {
 
 	/**
 	 * Get the id of the share
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getId();
 
@@ -39,7 +47,8 @@ interface IShare {
 	 * Set the id of the share
 	 *
 	 * @param string $id
-	 * @return IShare The modified share object
+	 * @return \OCP\Share\IShare The modified share object
+	 * @since 9.0.0
 	 */
 	public function setId($id);
 
@@ -47,6 +56,7 @@ interface IShare {
 	 * Get the full share id
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getFullId();
 
@@ -54,7 +64,8 @@ interface IShare {
 	 * Set the provider id
 	 *
 	 * @param string $id
-	 * @return IShare The modified share object
+	 * @return \OCP\Share\IShare The modified share object\
+	 * @since 9.0.0
 	 */
 	public function setProviderId($id);
 
@@ -62,14 +73,16 @@ interface IShare {
 	 * Set the path of this share
 	 *
 	 * @param Node $path
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setPath(Node $path);
 
 	/**
 	 * Get the path of this share for the current user
-	 * 
+	 *
 	 * @return File|Folder
+	 * @since 9.0.0
 	 */
 	public function getPath();
 
@@ -77,14 +90,16 @@ interface IShare {
 	 * Set the shareType
 	 *
 	 * @param int $shareType
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setShareType($shareType);
 
 	/**
-	 * Get the shareType 
+	 * Get the shareType
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getShareType();
 
@@ -92,7 +107,8 @@ interface IShare {
 	 * Set the receiver of this share
 	 *
 	 * @param IUser|IGroup|string
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setSharedWith($sharedWith);
 
@@ -100,6 +116,7 @@ interface IShare {
 	 * Get the receiver of this share
 	 *
 	 * @return IUser|IGroup|string
+	 * @since 9.0.0
 	 */
 	public function getSharedWith();
 
@@ -107,7 +124,8 @@ interface IShare {
 	 * Set the permissions
 	 *
 	 * @param int $permissions
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setPermissions($permissions);
 
@@ -115,6 +133,7 @@ interface IShare {
 	 * Get the share permissions
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getPermissions();
 
@@ -122,7 +141,8 @@ interface IShare {
 	 * Set the expiration date
 	 *
 	 * @param \DateTime $expireDate
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setExpirationDate($expireDate);
 
@@ -130,6 +150,7 @@ interface IShare {
 	 * Get the share expiration date
 	 *
 	 * @return \DateTime
+	 * @since 9.0.0
 	 */
 	public function getExpirationDate();
 
@@ -137,7 +158,8 @@ interface IShare {
 	 * Set the sharer of the path
 	 *
 	 * @param IUser|string $sharedBy
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setSharedBy($sharedBy);
 
@@ -145,6 +167,7 @@ interface IShare {
 	 * Get share sharer
 	 *
 	 * @return IUser|string
+	 * @since 9.0.0
 	 */
 	public function getSharedBy();
 
@@ -152,15 +175,16 @@ interface IShare {
 	 * Set the original share owner (who owns the path)
 	 *
 	 * @param IUser|string
-	 *
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setShareOwner($shareOwner);
 
 	/**
 	 * Get the original share owner (who owns the path)
-	 * 
+	 *
 	 * @return IUser|string
+	 * @since 9.0.0
 	 */
 	public function getShareOwner();
 
@@ -168,8 +192,8 @@ interface IShare {
 	 * Set the password
 	 *
 	 * @param string $password
-	 *
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setPassword($password);
 
@@ -177,6 +201,7 @@ interface IShare {
 	 * Is a password set for this share
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getPassword();
 
@@ -184,7 +209,8 @@ interface IShare {
 	 * Set the token
 	 *
 	 * @param string $token
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setToken($token);
 
@@ -192,6 +218,7 @@ interface IShare {
 	 * Get the token
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getToken();
 
@@ -199,6 +226,7 @@ interface IShare {
 	 * Get the parent it
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getParent();
 
@@ -206,7 +234,8 @@ interface IShare {
 	 * Set the target of this share
 	 *
 	 * @param string $target
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setTarget($target);
 
@@ -214,6 +243,7 @@ interface IShare {
 	 * Get the target of this share
 	 *
 	 * @return string
+	 * @since 9.0.0
 	 */
 	public function getTarget();
 
@@ -221,7 +251,8 @@ interface IShare {
 	 * Set the time this share was created
 	 *
 	 * @param int $shareTime
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setShareTime($shareTime);
 
@@ -229,6 +260,7 @@ interface IShare {
 	 * Get the timestamp this share was created
 	 *
 	 * @return int
+	 * @since 9.0.0
 	 */
 	public function getShareTime();
 
@@ -236,7 +268,8 @@ interface IShare {
 	 * Set mailSend
 	 *
 	 * @param bool $mailSend
-	 * @return IShare The modified object
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
 	 */
 	public function setMailSend($mailSend);
 
@@ -244,6 +277,7 @@ interface IShare {
 	 * Get mailSend
 	 *
 	 * @return bool
+	 * @since 9.0.0
 	 */
 	public function getMailSend();
 }

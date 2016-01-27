@@ -20,6 +20,7 @@
  */
 namespace OC\Share20;
 
+use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
 use OC\Share20\Exception\ShareNotFound;
@@ -87,12 +88,12 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Share a path
 	 *
-	 * @param IShare $share
-	 * @return IShare The share object
+	 * @param \OCP\Share\IShare $share
+	 * @return \OCP\Share\IShare The share object
 	 * @throws ShareNotFound
 	 * @throws \Exception
 	 */
-	public function create(IShare $share) {
+	public function create(\OCP\Share\IShare $share) {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share');
@@ -179,10 +180,10 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Update a share
 	 *
-	 * @param IShare $share
-	 * @return IShare The share object
+	 * @param \OCP\Share\IShare $share
+	 * @return \OCP\Share\IShare The share object
 	 */
-	public function update(IShare $share) {
+	public function update(\OCP\Share\IShare $share) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			/*
 			 * We allow updating the recipient on user shares.
@@ -251,10 +252,10 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Get all children of this share
 	 *
-	 * @param IShare $parent
+	 * @param \OCP\Share\IShare $parent
 	 * @return IShare[]
 	 */
-	public function getChildren(IShare $parent) {
+	public function getChildren(\OCP\Share\IShare $parent) {
 		$children = [];
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -286,10 +287,10 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Delete a share
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @throws BackendError
 	 */
-	public function delete(IShare $share) {
+	public function delete(\OCP\Share\IShare $share) {
 		// Fetch share to make sure it exists
 		$share = $this->getShareById($share->getId());
 
@@ -308,12 +309,12 @@ class DefaultShareProvider implements IShareProvider {
 	 * Unshare a share from the recipient. If this is a group share
 	 * this means we need a special entry in the share db.
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @param IUser $recipient
 	 * @throws BackendError
 	 * @throws ProviderException
 	 */
-	public function deleteFromSelf(IShare $share, IUser $recipient) {
+	public function deleteFromSelf(\OCP\Share\IShare $share, IUser $recipient) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 
 			/** @var IGroup $group */

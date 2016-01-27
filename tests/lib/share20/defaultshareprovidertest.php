@@ -326,7 +326,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$id = $qb->getLastInsertId();
 
-		$share = $this->getMock('OC\Share20\IShare');
+		$share = $this->getMock('OCP\Share\IShare');
 		$share->method('getId')->willReturn($id);
 
 		$provider = $this->getMockBuilder('OC\Share20\DefaultShareProvider')
@@ -361,7 +361,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	 * @expectedException \OC\Share20\Exception\BackendError
 	 */
 	public function testDeleteFails() {
-		$share = $this->getMock('OC\Share20\IShare');
+		$share = $this->getMock('OCP\Share\IShare');
 		$share
 			->method('getId')
 			->willReturn(42);
@@ -510,7 +510,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				['group1', $group1]
 			]));
 
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getId')->willReturn($id);
 
 		$children = $this->provider->getChildren($share);

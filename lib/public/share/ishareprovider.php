@@ -18,53 +18,64 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\Share20;
+
+namespace OCP\Share;
 
 use OC\Share20\Exception\ShareNotFound;
 use OC\Share20\Exception\BackendError;
 use OCP\IUser;
 
+/**
+ * Interface IShareProvider
+ *
+ * @package OCP\Share
+ * @since 9.0.0
+ */
 interface IShareProvider {
 
 	/**
 	 * Return the identifier of this provider.
 	 *
 	 * @return string Containing only [a-zA-Z0-9]
+	 * @since 9.0.0
 	 */
 	public function identifier();
 
 	/**
 	 * Share a path
 	 * 
-	 * @param IShare $share
-	 * @return IShare The share object
+	 * @param \OCP\Share\IShare $share
+	 * @return \OCP\Share\IShare The share object
+	 * @since 9.0.0
 	 */
-	public function create(IShare $share);
+	public function create(\OCP\Share\IShare $share);
 
 	/**
 	 * Update a share
 	 *
-	 * @param IShare $share
-	 * @return IShare The share object
+	 * @param \OCP\Share\IShare $share
+	 * @return \OCP\Share\IShare The share object
+	 * @since 9.0.0
 	 */
-	public function update(IShare $share);
+	public function update(\OCP\Share\IShare $share);
 
 	/**
 	 * Delete a share
 	 *
-	 * @param IShare $share
-	 * @throws BackendError
+	 * @param \OCP\Share\IShare $share
+	 * @since 9.0.0
 	 */
-	public function delete(IShare $share);
+	public function delete(\OCP\Share\IShare $share);
 
 	/**
 	 * Unshare a file from self as recipient.
 	 * This may require special handling.
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @param IUser $recipient
+	 * @since 9.0.0
 	 */
-	public function deleteFromSelf(IShare $share, IUser $recipient);
+	public function deleteFromSelf(\OCP\Share\IShare $share, IUser $recipient);
 
 	/**
 	 * Get all shares by the given user
@@ -76,6 +87,7 @@ interface IShareProvider {
 	 * @param int $limit The maximum number of shares to be returned, -1 for all shares
 	 * @param int $offset
 	 * @return Share[]
+	 * @since 9.0.0
 	 */
 	public function getSharesBy(IUser $user, $shareType, $node, $reshares, $limit, $offset);
 
@@ -85,22 +97,16 @@ interface IShareProvider {
 	 * @param int $id
 	 * @return IShare
 	 * @throws ShareNotFound
+	 * @since 9.0.0
 	 */
 	public function getShareById($id);
-
-	/**
-	 * Get children
-	 *
-	 * @param IShare $parent
-	 * @return IShare[]
-	 */
-	public function getChildren(IShare $parent);
 
 	/**
 	 * Get shares for a given path
 	 *
 	 * @param \OCP\Files\Node $path
 	 * @return IShare[]
+	 * @since 9.0.0
 	 */
 	public function getSharesByPath(\OCP\Files\Node $path);
 
@@ -112,6 +118,7 @@ interface IShareProvider {
 	 * @param int $limit The max number of entries returned, -1 for all
 	 * @param int $offset
 	 * @param Share
+	 * @since 9.0.0
 	 */
 	public function getSharedWith(IUser $user, $shareType, $limit, $offset);
 
@@ -121,6 +128,7 @@ interface IShareProvider {
 	 * @param string $token
 	 * @return IShare
 	 * @throws ShareNotFound
+	 * @since 9.0.0
 	 */
 	public function getShareByToken($token);
 }

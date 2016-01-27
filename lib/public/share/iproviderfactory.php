@@ -18,7 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\Share20;
+
+namespace OCP\Share;
 
 use OC\Share20\Exception\ProviderException;
 use OCP\IServerContainer;
@@ -34,6 +35,7 @@ interface IProviderFactory {
 	/**
 	 * IProviderFactory constructor.
 	 * @param IServerContainer $serverContainer
+	 * @since 9.0.0
 	 */
 	public function __construct(IServerContainer $serverContainer);
 
@@ -41,6 +43,7 @@ interface IProviderFactory {
 	 * @param string $id
 	 * @return IShareProvider
 	 * @throws ProviderException
+	 * @since 9.0.0
 	 */
 	public function getProvider($id);
 
@@ -48,6 +51,7 @@ interface IProviderFactory {
 	 * @param int $shareType
 	 * @return IShareProvider
 	 * @throws ProviderException
+	 * @since 9.0.0
 	 */
 	public function getProviderForType($shareType);
 }

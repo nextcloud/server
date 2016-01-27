@@ -116,7 +116,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowAuthenticateNotAuthenticated() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 
 		$this->shareManager
 			->expects($this->once())
@@ -130,7 +130,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowAuthenticateAuthenticatedForDifferentShare() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getId')->willReturn(1);
 
 		$this->shareManager
@@ -148,7 +148,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowAuthenticateCorrectShare() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getId')->willReturn(1);
 
 		$this->shareManager
@@ -183,7 +183,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testAuthenticateValidPassword() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getId')->willReturn(42);
 
 		$this->shareManager
@@ -214,7 +214,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testAuthenticateInvalidPassword() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getId')->willReturn(42);
 
 		$this->shareManager
@@ -252,7 +252,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowShareNotAuthenticated() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getPassword')->willReturn('password');
 
 		$this->shareManager
@@ -283,7 +283,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('getMimetype')->willReturn('text/plain');
 		$file->method('getSize')->willReturn(33);
 
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getId')->willReturn('42');
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareOwner')->willReturn($owner);
@@ -340,7 +340,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testDownloadShare() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getPassword')->willReturn('password');
 
 		$this->shareManager

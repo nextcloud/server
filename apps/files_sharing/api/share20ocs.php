@@ -20,8 +20,6 @@
  */
 namespace OCA\Files_Sharing\API;
 
-use OC\Share20\IShare;
-
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IRequest;
@@ -73,10 +71,10 @@ class Share20OCS {
 	/**
 	 * Convert an IShare to an array for OCS output
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @return array
 	 */
-	protected function formatShare($share) {
+	protected function formatShare(\OCP\Share\IShare $share) {
 		$result = [
 			'id' => $share->getId(),
 			'share_type' => $share->getShareType(),
@@ -353,7 +351,7 @@ class Share20OCS {
 		}
 
 		$nodes = $folder->getDirectoryListing();
-		/** @var IShare[] $shares */
+		/** @var \OCP\Share\IShare[] $shares */
 		$shares = [];
 		foreach ($nodes as $node) {
 			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
@@ -494,10 +492,10 @@ class Share20OCS {
 	}
 
 	/**
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @return bool
 	 */
-	protected function canAccessShare(IShare $share) {
+	protected function canAccessShare(\OCP\Share\IShare $share) {
 		// A file with permissions 0 can't be accessed by us. So Don't show it
 		if ($share->getPermissions() === 0) {
 			return false;

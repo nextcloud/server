@@ -51,7 +51,6 @@ use OCA\Files_Sharing\Helper;
 use OCP\Util;
 use OCA\Files_Sharing\Activity;
 use \OCP\Files\NotFoundException;
-use \OC\Share20\IShare;
 use OCP\Files\IRootFolder;
 
 /**
@@ -168,11 +167,11 @@ class ShareController extends Controller {
 	 * This is a modified version of Helper::authenticate
 	 * TODO: Try to merge back eventually with Helper::authenticate
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @param string|null $password
 	 * @return bool
 	 */
-	private function linkShareAuth(IShare $share, $password = null) {
+	private function linkShareAuth(\OCP\Share\IShare $share, $password = null) {
 		if ($password !== null) {
 			if ($this->shareManager->checkPassword($share, $password)) {
 				$this->session->set('public_link_authenticated', (string)$share->getId());

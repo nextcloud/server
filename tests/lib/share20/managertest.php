@@ -20,8 +20,8 @@
  */
 namespace Test\Share20;
 
-use OC\Share20\IProviderFactory;
-use OC\Share20\IShare;
+use OCP\Share\IProviderFactory;
+use OCP\Share\IShare;
 use OC\Share20\Manager;
 use OC\Share20\Exception;
 
@@ -29,7 +29,7 @@ use OC\Share20\Share;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IConfig;
-use OC\Share20\IShareProvider;
+use OCP\Share\IShareProvider;
 use OCP\Security\ISecureRandom;
 use OCP\Security\IHasher;
 use OCP\Files\Mount\IMountManager;
@@ -102,7 +102,9 @@ class ManagerTest extends \Test\TestCase {
 			$this->factory
 		);
 
-		$this->defaultProvider = $this->getMock('\OC\Share20\IShareProvider');
+		$this->defaultProvider = $this->getMockBuilder('\OC\Share20\DefaultShareProvider')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->defaultProvider->method('identifier')->willReturn('default');
 		$this->factory->setProvider($this->defaultProvider);
 
@@ -130,7 +132,7 @@ class ManagerTest extends \Test\TestCase {
 	 * @expectedException \OC\Share20\Exception\ShareNotFound
 	 */
 	public function testDeleteNoShareId() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 
 		$share
 			->expects($this->once())
@@ -170,7 +172,7 @@ class ManagerTest extends \Test\TestCase {
 		$path = $this->getMock('\OCP\Files\File');
 		$path->method('getId')->willReturn(1);
 
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getId')->willReturn(42);
 		$share->method('getFullId')->willReturn('prov:42');
 		$share->method('getShareType')->willReturn($shareType);
@@ -261,7 +263,7 @@ class ManagerTest extends \Test\TestCase {
 		$path = $this->getMock('\OCP\Files\File');
 		$path->method('getId')->willReturn(1);
 
-		$share1 = $this->getMock('\OC\Share20\IShare');
+		$share1 = $this->getMock('\OCP\Share\IShare');
 		$share1->method('getId')->willReturn(42);
 		$share1->method('getFullId')->willReturn('prov:42');
 		$share1->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
@@ -270,7 +272,7 @@ class ManagerTest extends \Test\TestCase {
 		$share1->method('getPath')->willReturn($path);
 		$share1->method('getTarget')->willReturn('myTarget1');
 
-		$share2 = $this->getMock('\OC\Share20\IShare');
+		$share2 = $this->getMock('\OCP\Share\IShare');
 		$share2->method('getId')->willReturn(43);
 		$share2->method('getFullId')->willReturn('prov:43');
 		$share2->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
@@ -280,7 +282,7 @@ class ManagerTest extends \Test\TestCase {
 		$share2->method('getTarget')->willReturn('myTarget2');
 		$share2->method('getParent')->willReturn(42);
 
-		$share3 = $this->getMock('\OC\Share20\IShare');
+		$share3 = $this->getMock('\OCP\Share\IShare');
 		$share3->method('getId')->willReturn(44);
 		$share3->method('getFullId')->willReturn('prov:44');
 		$share3->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
@@ -383,14 +385,14 @@ class ManagerTest extends \Test\TestCase {
 			->setMethods(['deleteShare'])
 			->getMock();
 
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 
-		$child1 = $this->getMock('\OC\Share20\IShare');
+		$child1 = $this->getMock('\OCP\Share\IShare');
 		$child1->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
-		$child2 = $this->getMock('\OC\Share20\IShare');
+		$child2 = $this->getMock('\OCP\Share\IShare');
 		$child2->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
-		$child3 = $this->getMock('\OC\Share20\IShare');
+		$child3 = $this->getMock('\OCP\Share\IShare');
 		$child3->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 
 		$shares = [
@@ -419,7 +421,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetShareById() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 
 		$this->defaultProvider
 			->expects($this->once())
@@ -487,7 +489,7 @@ class ManagerTest extends \Test\TestCase {
 
 	public function createShare($id, $type, $path, $sharedWith, $sharedBy, $shareOwner,
 		$permissions, $expireDate = null, $password = null) {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 
 		$share->method('getShareType')->willReturn($type);
 		$share->method('getSharedWith')->willReturn($sharedWith);
@@ -1487,7 +1489,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetShareByToken() {
-		$factory = $this->getMock('\OC\Share20\IProviderFactory');
+		$factory = $this->getMock('\OCP\Share\IProviderFactory');
 
 		$manager = new Manager(
 			$this->logger,
@@ -1500,7 +1502,7 @@ class ManagerTest extends \Test\TestCase {
 			$factory
 		);
 
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 
 		$factory->expects($this->once())
 			->method('getProviderForType')
@@ -1517,13 +1519,13 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testCheckPasswordNoLinkShare() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
 		$this->assertFalse($this->manager->checkPassword($share, 'password'));
 	}
 
 	public function testCheckPasswordNoPassword() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
 		$this->assertFalse($this->manager->checkPassword($share, 'password'));
 
@@ -1532,7 +1534,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testCheckPasswordInvalidPassword() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
 		$share->method('getPassword')->willReturn('password');
 
@@ -1542,7 +1544,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testCheckPasswordValidPassword() {
-		$share = $this->getMock('\OC\Share20\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_LINK);
 		$share->method('getPassword')->willReturn('passwordHash');
 

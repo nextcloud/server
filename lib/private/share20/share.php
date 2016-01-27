@@ -24,7 +24,7 @@ use OCP\Files\Node;
 use OCP\IUser;
 use OCP\IGroup;
 
-class Share implements IShare {
+class Share implements \OCP\Share\IShare {
 
 	/** @var string */
 	private $id;
