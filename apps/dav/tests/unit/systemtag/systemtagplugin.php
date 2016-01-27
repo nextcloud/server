@@ -77,8 +77,8 @@ class SystemTagPlugin extends \Test\TestCase {
 			200 => [
 				self::ID_PROPERTYNAME => '1',
 				self::DISPLAYNAME_PROPERTYNAME => 'Test',
-				self::USERVISIBLE_PROPERTYNAME => 1,
-				self::USERASSIGNABLE_PROPERTYNAME => 1,
+				self::USERVISIBLE_PROPERTYNAME => 'true',
+				self::USERASSIGNABLE_PROPERTYNAME => 'true',
 			]
 		];
 
@@ -133,8 +133,8 @@ class SystemTagPlugin extends \Test\TestCase {
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch(array(
 			self::DISPLAYNAME_PROPERTYNAME => 'Test changed',
-			self::USERVISIBLE_PROPERTYNAME => 0,
-			self::USERASSIGNABLE_PROPERTYNAME => 1,
+			self::USERVISIBLE_PROPERTYNAME => 'false',
+			self::USERASSIGNABLE_PROPERTYNAME => 'true',
 		));
 
 		$this->plugin->handleUpdateProperties(

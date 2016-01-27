@@ -127,11 +127,16 @@
 		var key;
 		for (key in attrs) {
 			var changedProp = davProperties[key];
+			var value = attrs[key];
 			if (!changedProp) {
 				console.warn('No matching DAV property for property "' + key);
-				continue;
+				changedProp = key;
 			}
-			props[changedProp] = attrs[key];
+			if (_.isBoolean(value) || _.isNumber(value)) {
+				// convert to string
+				value = '' + value;
+			}
+			props[changedProp] = value;
 		}
 		return props;
 	}

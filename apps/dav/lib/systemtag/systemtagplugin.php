@@ -199,11 +199,11 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		});
 
 		$propFind->handle(self::USERVISIBLE_PROPERTYNAME, function() use ($node) {
-			return (int)$node->getSystemTag()->isUserVisible();
+			return $node->getSystemTag()->isUserVisible() ? 'true' : 'false';
 		});
 
 		$propFind->handle(self::USERASSIGNABLE_PROPERTYNAME, function() use ($node) {
-			return (int)$node->getSystemTag()->isUserAssignable();
+			return $node->getSystemTag()->isUserAssignable() ? 'true' : 'false';
 		});
 	}
 
@@ -236,11 +236,13 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 
 			if (isset($props[self::USERVISIBLE_PROPERTYNAME])) {
-				$userVisible = (bool)$props[self::USERVISIBLE_PROPERTYNAME];
+				$propValue = $props[self::USERVISIBLE_PROPERTYNAME];
+				$userVisible = ($propValue !== 'false' && $propValue !== '0');
 			}
 
 			if (isset($props[self::USERASSIGNABLE_PROPERTYNAME])) {
-				$userAssignable = (bool)$props[self::USERASSIGNABLE_PROPERTYNAME];
+				$propValue = $props[self::USERASSIGNABLE_PROPERTYNAME];
+				$userAssignable = ($propValue !== 'false' && $propValue !== '0');
 			}
 
 			$node->update($name, $userVisible, $userAssignable);
