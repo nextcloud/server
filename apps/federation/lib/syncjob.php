@@ -19,17 +19,25 @@
  *
  */
 
-use OCA\Dav\AppInfo\Application;
+namespace OCA\Federation;
 
-$app = new Application();
-$app->registerHooks();
+use OC\BackgroundJob\TimedJob;
+use OCA\Federation\AppInfo\Application;
 
-\OC::$server->registerService('CardDAVSyncService', function() use ($app) {
-	return $app->getSyncService();
-});
+class SyncJob extends TimedJob {
 
-$cm = \OC::$server->getContactsManager();
-$cm->register(function() use ($cm, $app) {
-	$userId = \OC::$server->getUserSession()->getUser()->getUID();
-	$app->setupContactsProvider($cm, $userId);
-});
+	public function __construct() {
+		// Run once a day
+		$this->setInterval(24 * 60 * 60);
+	}
+
+	protected function run($argument) {
+		$app = new Application();
+		$ss = $app->getSyncService();
+		$ss->syncThemAll(function($url, $ex) {
+			if ($ex instanceof \Exception) {
+				\OC::$server->getLogger()->error("Error while syncing $url : " . $ex->getMessage(), ['app' => 'fed-sync']);
+			}
+		});
+	}
+}

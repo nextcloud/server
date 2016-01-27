@@ -20,7 +20,6 @@
  */
 namespace OCA\Dav\AppInfo;
 
-use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\SyncJob;
 use OCA\DAV\CardDAV\SyncService;

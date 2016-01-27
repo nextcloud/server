@@ -19,17 +19,5 @@
  *
  */
 
-use OCA\Dav\AppInfo\Application;
-
-$app = new Application();
-$app->registerHooks();
-
-\OC::$server->registerService('CardDAVSyncService', function() use ($app) {
-	return $app->getSyncService();
-});
-
-$cm = \OC::$server->getContactsManager();
-$cm->register(function() use ($cm, $app) {
-	$userId = \OC::$server->getUserSession()->getUser()->getUID();
-	$app->setupContactsProvider($cm, $userId);
-});
+$app = new \OCA\Federation\AppInfo\Application();
+$app->setupCron();

@@ -28,6 +28,8 @@ use OCA\Federation\DAV\FedAuth;
 use OCA\Federation\DbHandler;
 use OCA\Federation\Hooks;
 use OCA\Federation\Middleware\AddServerMiddleware;
+use OCA\Federation\SyncFederationAddressBooks;
+use OCA\Federation\SyncJob;
 use OCA\Federation\TrustedServers;
 use OCP\API;
 use OCP\App;
@@ -161,6 +163,20 @@ class Application extends \OCP\AppFramework\App {
 				}
 			}
 		});
+	}
+
+	public function setupCron() {
+		$jl = $this->getContainer()->getServer()->getJobList();
+		$jl->add(new SyncJob());
+	}
+
+	/**
+	 * @return SyncFederationAddressBooks
+	 */
+	public function getSyncService() {
+		$syncService = \OC::$server->query('CardDAVSyncService');
+		$dbHandler = $this->getContainer()->query('DbHandler');
+		return new SyncFederationAddressBooks($dbHandler, $syncService);
 	}
 
 }
