@@ -697,7 +697,7 @@ class DefaultShareProvider implements IShareProvider {
 		$stmt->closeCursor();
 
 		if ($data !== false) {
-			$share->setPermissions($data['permissions']);
+			$share->setPermissions((int)$data['permissions']);
 			$share->setTarget($data['file_target']);
 		}
 
