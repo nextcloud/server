@@ -44,15 +44,6 @@ interface IShare {
 	public function getId();
 
 	/**
-	 * Set the internal id of the share.
-	 *
-	 * @param string $id
-	 * @return \OCP\Share\IShare The modified share object
-	 * @since 9.0.0
-	 */
-	public function setId($id);
-
-	/**
 	 * Get the full share id. This is the <providerid>:<internalid>.
 	 * The full id is unique in the system.
 	 *
@@ -60,15 +51,6 @@ interface IShare {
 	 * @since 9.0.0
 	 */
 	public function getFullId();
-
-	/**
-	 * Set the provider id
-	 *
-	 * @param string $id
-	 * @return \OCP\Share\IShare The modified share object\
-	 * @since 9.0.0
-	 */
-	public function setProviderId($id);
 
 	/**
 	 * Set the node of the file/folder that is shared

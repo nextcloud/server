@@ -497,7 +497,6 @@ class Manager implements IManager {
 
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$share = $provider->create($share);
-		$share->setProviderId($provider->identifier());
 
 		// Post share hook
 		$postHookData = [
@@ -754,7 +753,6 @@ class Manager implements IManager {
 		$provider = $this->factory->getProvider($providerId);
 
 		$share = $provider->getShareById($id);
-		$share->setProviderId($provider->identifier());
 
 		return $share;
 	}
