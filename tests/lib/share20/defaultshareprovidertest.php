@@ -596,7 +596,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame($shareOwner, $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 		$this->assertSame('/target', $share2->getTarget());
-		$this->assertLessThanOrEqual(time(), $share2->getSharetime());
+		$this->assertLessThanOrEqual(time(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getPath());
 	}
 
@@ -659,7 +659,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame($shareOwner, $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 		$this->assertSame('/target', $share2->getTarget());
-		$this->assertLessThanOrEqual(time(), $share2->getSharetime());
+		$this->assertLessThanOrEqual(time(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getPath());
 	}
 
@@ -718,7 +718,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame($shareOwner, $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 		$this->assertSame('/target', $share2->getTarget());
-		$this->assertLessThanOrEqual(time(), $share2->getSharetime());
+		$this->assertLessThanOrEqual(time(), $share2->getShareTime());
 		$this->assertSame($path, $share2->getPath());
 		$this->assertSame('password', $share2->getPassword());
 		$this->assertSame('token', $share2->getToken());

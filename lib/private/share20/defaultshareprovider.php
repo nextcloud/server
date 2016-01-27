@@ -356,7 +356,7 @@ class DefaultShareProvider implements IShareProvider {
 						'file_source' => $qb->createNamedParameter($share->getPath()->getId()),
 						'file_target' => $qb->createNamedParameter($share->getTarget()),
 						'permissions' => $qb->createNamedParameter(0),
-						'stime' => $qb->createNamedParameter($share->getSharetime()),
+						'stime' => $qb->createNamedParameter($share->getShareTime()),
 					])->execute();
 
 			} else if ($data['permissions'] !== 0) {

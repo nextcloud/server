@@ -58,10 +58,7 @@ class Share implements IShare {
 	private $mailSend;
 
 	/**
-	 * Set the id of the share
-	 *
-	 * @param string $id
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setId($id) {
 		$this->id = $id;
@@ -69,9 +66,7 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the id of the share
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getId() {
 		return $this->id;
@@ -93,10 +88,7 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Set the path of this share
-	 *
-	 * @param Node $path
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setPath(Node $path) {
 		$this->path = $path;
@@ -104,19 +96,14 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the path of this share for the current user
-	 * 
-	 * @return Node
+	 * @inheritdoc
 	 */
 	public function getPath() {
 		return $this->path;
 	}
 
 	/**
-	 * Set the shareType
-	 *
-	 * @param int $shareType
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setShareType($shareType) {
 		$this->shareType = $shareType;
@@ -124,19 +111,14 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the shareType 
-	 *
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getShareType() {
 		return $this->shareType;
 	}
 
 	/**
-	 * Set the receiver of this share
-	 *
-	 * @param IUser|IGroup|string
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setSharedWith($sharedWith) {
 		$this->sharedWith = $sharedWith;
@@ -144,19 +126,14 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the receiver of this share
-	 *
-	 * @return IUser|IGroup|string
+	 * @inheritdoc
 	 */
 	public function getSharedWith() {
 		return $this->sharedWith;
 	}
 
 	/**
-	 * Set the permissions
-	 *
-	 * @param int $permissions
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setPermissions($permissions) {
 		//TODO checkes
@@ -166,19 +143,14 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the share permissions
-	 *
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getPermissions() {
 		return $this->permissions;
 	}
 
 	/**
-	 * Set the expiration date
-	 *
-	 * @param \DateTime $expireDate
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setExpirationDate($expireDate) {
 		//TODO checks
@@ -188,19 +160,14 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the share expiration date
-	 *
-	 * @return \DateTime
+	 * @inheritdoc
 	 */
 	public function getExpirationDate() {
 		return $this->expireDate;
 	}
 
 	/**
-	 * Set the sharer of the path
-	 *
-	 * @param IUser|string $sharedBy
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setSharedBy($sharedBy) {
 		//TODO checks
@@ -210,9 +177,7 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get share sharer
-	 *
-	 * @return IUser|string
+	 * @inheritdoc
 	 */
 	public function getSharedBy() {
 		//TODO check if set
@@ -220,11 +185,7 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Set the original share owner (who owns the path)
-	 *
-	 * @param IUser|string
-	 *
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setShareOwner($shareOwner) {
 		//TODO checks
@@ -234,9 +195,7 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the original share owner (who owns the path)
-	 * 
-	 * @return IUser|string
+	 * @inheritdoc
 	 */
 	public function getShareOwner() {
 		//TODO check if set
@@ -244,33 +203,22 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Set the password
-	 *
-	 * @param string $password
-	 *
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setPassword($password) {
-		//TODO verify
-
 		$this->password = $password;
 		return $this;
 	}
 
 	/**
-	 * Get the password
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getPassword() {
 		return $this->password;
 	}
 
 	/**
-	 * Set the token
-	 *
-	 * @param string $token
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setToken($token) {
 		$this->token = $token;
@@ -278,19 +226,14 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the token
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getToken() {
 		return $this->token;
 	}
 
 	/**
-	 * Set the parent id of this share
-	 *
-	 * @param int $parent
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setParent($parent) {
 		$this->parent = $parent;
@@ -298,19 +241,14 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the parent id of this share
-	 *
-	 * @return int
+	 * @inheritdoc
 	 */
 	public function getParent() {
 		return $this->parent;
 	}
 
 	/**
-	 * Set the target of this share
-	 *
-	 * @param string $target
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setTarget($target) {
 		$this->target = $target;
@@ -318,19 +256,14 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the target of this share
-	 *
-	 * @return string
+	 * @inheritdoc
 	 */
 	public function getTarget() {
 		return $this->target;
 	}
 
 	/**
-	 * Set the time this share was created
-	 *
-	 * @param int $shareTime
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setShareTime($shareTime) {
 		$this->shareTime = $shareTime;
@@ -338,19 +271,14 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get the timestamp this share was created
-	 *
-	 * @return int
+	 * @inheritdoc
 	 */
-	public function getSharetime() {
+	public function getShareTime() {
 		return $this->shareTime;
 	}
 
 	/**
-	 * Set mailSend
-	 *
-	 * @param bool $mailSend
-	 * @return IShare The modified object
+	 * @inheritdoc
 	 */
 	public function setMailSend($mailSend) {
 		$this->mailSend = $mailSend;
@@ -358,9 +286,7 @@ class Share implements IShare {
 	}
 
 	/**
-	 * Get mailSend
-	 *
-	 * @return bool
+	 * @inheritdoc
 	 */
 	public function getMailSend() {
 		return $this->mailSend;

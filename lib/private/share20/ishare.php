@@ -218,11 +218,27 @@ interface IShare {
 	public function getTarget();
 
 	/**
+	 * Set the time this share was created
+	 *
+	 * @param int $shareTime
+	 * @return IShare The modified object
+	 */
+	public function setShareTime($shareTime);
+
+	/**
 	 * Get the timestamp this share was created
 	 *
 	 * @return int
 	 */
-	public function getSharetime();
+	public function getShareTime();
+
+	/**
+	 * Set mailSend
+	 *
+	 * @param bool $mailSend
+	 * @return IShare The modified object
+	 */
+	public function setMailSend($mailSend);
 
 	/**
 	 * Get mailSend
