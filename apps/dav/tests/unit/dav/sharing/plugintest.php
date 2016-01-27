@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\DAV\Tests\Unit\CardDAV;
+namespace OCA\DAV\Tests\Unit\DAV;
 
 
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -55,7 +55,9 @@ class PluginTest extends TestCase {
 		$root = new SimpleCollection('root');
 		$this->server = new \Sabre\DAV\Server($root);
 		/** @var SimpleCollection $node */
-		$this->book = $this->getMockBuilder('OCA\DAV\DAV\Sharing\IShareable')->disableOriginalConstructor()->getMock();
+		$this->book = $this->getMockBuilder('OCA\DAV\DAV\Sharing\IShareable')->
+			disableOriginalConstructor()->
+			getMock();
 		$this->book->method('getName')->willReturn('addressbook1.vcf');
 		$root->addChild($this->book);
 		$this->plugin->initialize($this->server);

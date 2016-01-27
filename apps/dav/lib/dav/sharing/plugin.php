@@ -19,7 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\DAV\CardDAV\Sharing;
+
+namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\IRequest;
@@ -27,8 +28,6 @@ use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
-use Sabre\DAV\XMLUtil;
-use Sabre\DAVACL\IACL;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 
@@ -69,9 +68,7 @@ class Plugin extends ServerPlugin {
 	 * @return string[]
 	 */
 	function getFeatures() {
-
-		return ['oc-addressbook-sharing'];
-
+		return ['oc-resource-sharing'];
 	}
 
 	/**
@@ -83,9 +80,7 @@ class Plugin extends ServerPlugin {
 	 * @return string
 	 */
 	function getPluginName() {
-
-		return 'carddav-sharing';
-
+		return 'oc-resource-sharing';
 	}
 
 	/**
@@ -101,14 +96,13 @@ class Plugin extends ServerPlugin {
 	 */
 	function initialize(Server $server) {
 		$this->server = $server;
-		$server->resourceTypeMapping['OCA\\DAV\CardDAV\\ISharedAddressbook'] = '{' . \Sabre\CardDAV\Plugin::NS_CARDDAV . '}shared';
-		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}share'] = 'OCA\\DAV\\CardDAV\\Sharing\\Xml\\ShareRequest';
+		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}share'] = 'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequest';
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
 	}
 
 	/**
-	 * We intercept this to handle POST requests on calendars.
+	 * We intercept this to handle POST requests on a dav resource.
 	 *
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
@@ -153,11 +147,11 @@ class Plugin extends ServerPlugin {
 			case '{' . self::NS_OWNCLOUD . '}share' :
 
 				// We can only deal with IShareableCalendar objects
-				if (!$node instanceof IShareableAddressBook) {
+				if (!$node instanceof IShareable) {
 					return;
 				}
 
-				$this->server->transactionType = 'post-oc-addressbook-share';
+				$this->server->transactionType = 'post-oc-resource-share';
 
 				// Getting ACL info
 				$acl = $this->server->getPlugin('acl');
