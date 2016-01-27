@@ -124,7 +124,7 @@ class OC_TemplateLayout extends OC_Template {
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', OC_User::getUser());
 			$this->assign('appsmanagement_active', $appsMgmtActive);
-			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true));
+			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true) === true);
 			$this->assign('userAvatarSet', \OC_Helper::userAvatarSet(OC_User::getUser()));
 		} else if ($renderAs == 'error') {
 			parent::__construct('core', 'layout.guest', '', false);
