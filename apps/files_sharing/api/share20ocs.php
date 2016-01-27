@@ -272,12 +272,12 @@ class Share20OCS {
 			if ($publicUpload === 'true') {
 				// Check if public upload is allowed
 				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
-					return new \OC_OCS_Result(null, 403, '"public upload disabled by the administrator');
+					return new \OC_OCS_Result(null, 403, 'public upload disabled by the administrator');
 				}
 
 				// Public upload can only be set for folders
 				if ($path instanceof \OCP\Files\File) {
-					return new \OC_OCS_Result(null, 404, '"public upload is only possible for public shared folders');
+					return new \OC_OCS_Result(null, 404, 'public upload is only possible for public shared folders');
 				}
 
 				$share->setPermissions(
@@ -290,12 +290,16 @@ class Share20OCS {
 			}
 
 			// Set password
-			$share->setPassword($this->request->getParam('password', null));
+			$password = $this->request->getParam('password', '');
+
+			if ($password !== '') {
+				$share->setPassword($password);
+			}
 
 			//Expire date
-			$expireDate = $this->request->getParam('expireDate', null);
+			$expireDate = $this->request->getParam('expireDate', '');
 
-			if ($expireDate !== null) {
+			if ($expireDate !== '') {
 				try {
 					$expireDate = $this->parseDate($expireDate);
 					$share->setExpirationDate($expireDate);
