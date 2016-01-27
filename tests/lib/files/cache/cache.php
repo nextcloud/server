@@ -641,8 +641,8 @@ class Cache extends \Test\TestCase {
 		$this->cache->put($name, $folderData);
 		$this->cache->put('other', $folderData);
 		$childs = ['asd', 'bar', 'foo', 'sub/folder'];
-		$this->cache->put($name . '/sub/folder', $folderData);
-		$this->cache->put('other/sub/folder', $folderData);
+		$this->cache->put($name . '/sub', $folderData);
+		$this->cache->put('other/sub', $folderData);
 		foreach ($childs as $child) {
 			$this->cache->put($name . '/' . $child, $data);
 			$this->cache->put('other/' . $child, $data);
