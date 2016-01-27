@@ -51,6 +51,17 @@ describe('Backbone Webdav extension', function() {
 				davProperties: {
 					'firstName': '{http://owncloud.org/ns}first-name',
 					'lastName': '{http://owncloud.org/ns}last-name',
+					'age': '{http://owncloud.org/ns}age',
+					'married': '{http://owncloud.org/ns}married'
+				},
+				parse: function(data) {
+					return {
+						id: data.id,
+						firstName: data.firstName,
+						lastName: data.lastName,
+						age: parseInt(data.age, 10),
+						married: data.married === 'true' || data.married === true
+					};
 				}
 			});
 			TestCollection = OC.Backbone.Collection.extend({
@@ -111,7 +122,9 @@ describe('Backbone Webdav extension', function() {
 			expect(davClientPropFindStub.getCall(0).args[1])
 				.toEqual([
 					'{http://owncloud.org/ns}first-name',
-					'{http://owncloud.org/ns}last-name'
+					'{http://owncloud.org/ns}last-name',
+					'{http://owncloud.org/ns}age',
+					'{http://owncloud.org/ns}married'
 				]);
 			expect(davClientPropFindStub.getCall(0).args[2])
 				.toEqual(1);
@@ -212,9 +225,20 @@ describe('Backbone Webdav extension', function() {
 				davProperties: {
 					'firstName': '{http://owncloud.org/ns}first-name',
 					'lastName': '{http://owncloud.org/ns}last-name',
+					'age': '{http://owncloud.org/ns}age', // int
+					'married': '{http://owncloud.org/ns}married', // bool
 				},
 				url: function() {
 					return 'http://example.com/owncloud/remote.php/test/' + this.id;
+				},
+				parse: function(data) {
+					return {
+						id: data.id,
+						firstName: data.firstName,
+						lastName: data.lastName,
+						age: parseInt(data.age, 10),
+						married: data.married === 'true' || data.married === true
+					};
 				}
 			});
 		});
@@ -223,11 +247,15 @@ describe('Backbone Webdav extension', function() {
 			var model = new TestModel({
 				id: '123',
 				firstName: 'Hello',
-				lastName: 'World'
+				lastName: 'World',
+				age: 32,
+				married: false
 			});
 
 			model.save({
-				firstName: 'Hey'
+				firstName: 'Hey',
+				age: 33,
+				married: true
 			});
 
 			expect(davClientPropPatchStub.calledOnce).toEqual(true);
@@ -235,7 +263,9 @@ describe('Backbone Webdav extension', function() {
 				.toEqual('http://example.com/owncloud/remote.php/test/123');
 			expect(davClientPropPatchStub.getCall(0).args[1])
 				.toEqual({
-					'{http://owncloud.org/ns}first-name': 'Hey'
+					'{http://owncloud.org/ns}first-name': 'Hey',
+					'{http://owncloud.org/ns}age': '33',
+					'{http://owncloud.org/ns}married': 'true'
 				});
 			expect(davClientPropPatchStub.getCall(0).args[2]['X-Requested-With'])
 				.toEqual('XMLHttpRequest');
@@ -247,6 +277,8 @@ describe('Backbone Webdav extension', function() {
 
 			expect(model.id).toEqual('123');
 			expect(model.get('firstName')).toEqual('Hey');
+			expect(model.get('age')).toEqual(33);
+			expect(model.get('married')).toEqual(true);
 		});
 
 		it('uses PROPFIND to fetch single model', function() {
@@ -262,7 +294,9 @@ describe('Backbone Webdav extension', function() {
 			expect(davClientPropFindStub.getCall(0).args[1])
 				.toEqual([
 					'{http://owncloud.org/ns}first-name',
-					'{http://owncloud.org/ns}last-name'
+					'{http://owncloud.org/ns}last-name',
+					'{http://owncloud.org/ns}age',
+					'{http://owncloud.org/ns}married'
 				]);
 			expect(davClientPropFindStub.getCall(0).args[2])
 				.toEqual(0);
@@ -277,7 +311,9 @@ describe('Backbone Webdav extension', function() {
 						status: 'HTTP/1.1 200 OK',
 						properties: {
 							'{http://owncloud.org/ns}first-name': 'Hello',
-							'{http://owncloud.org/ns}last-name': 'World'
+							'{http://owncloud.org/ns}last-name': 'World',
+							'{http://owncloud.org/ns}age': '35',
+							'{http://owncloud.org/ns}married': 'true'
 						}
 					}]
 				}
@@ -286,6 +322,8 @@ describe('Backbone Webdav extension', function() {
 			expect(model.id).toEqual('123');
 			expect(model.get('firstName')).toEqual('Hello');
 			expect(model.get('lastName')).toEqual('World');
+			expect(model.get('age')).toEqual(35);
+			expect(model.get('married')).toEqual(true);
 		});
 		it('makes a DELETE request to destroy model', function() {
 			var model = new TestModel({
