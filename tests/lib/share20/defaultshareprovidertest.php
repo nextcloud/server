@@ -981,13 +981,13 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
-		$this->assertEquals($id, $share->getId());
-		$this->assertEquals($group, $share->getSharedWith());
-		$this->assertEquals($owner, $share->getShareOwner());
-		$this->assertEquals($initiator, $share->getSharedBy());
-		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
-		$this->assertEquals(0, $share->getPermissions());
-		$this->assertEquals('userTarget', $share->getTarget());
+		$this->assertSame($id, $share->getId());
+		$this->assertSame($group, $share->getSharedWith());
+		$this->assertSame($owner, $share->getShareOwner());
+		$this->assertSame($initiator, $share->getSharedBy());
+		$this->assertSame(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
+		$this->assertSame(0, $share->getPermissions());
+		$this->assertSame('userTarget', $share->getTarget());
 	}
 
 	public function testGetSharesBy() {

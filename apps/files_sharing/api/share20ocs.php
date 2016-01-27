@@ -335,7 +335,9 @@ class Share20OCS {
 
 		$formatted = [];
 		foreach ($shares as $share) {
-			$formatted[] = $this->formatShare($share);
+			if ($this->canAccessShare($share)) {
+				$formatted[] = $this->formatShare($share);
+			}
 		}
 
 		return new \OC_OCS_Result($formatted);
@@ -496,6 +498,11 @@ class Share20OCS {
 	 * @return bool
 	 */
 	protected function canAccessShare(IShare $share) {
+		// A file with permissions 0 can't be accessed by us. So Don't show it
+		if ($share->getPermissions() === 0) {
+			return false;
+		}
+
 		// Owner of the file and the sharer of the file can always get share
 		if ($share->getShareOwner() === $this->currentUser ||
 			$share->getSharedBy() === $this->currentUser
