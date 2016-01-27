@@ -38,6 +38,9 @@ class HintException extends \Exception {
 	}
 
 	public function getHint() {
+		if (empty($this->hint)) {
+			return $this->message;
+		}
 		return $this->hint;
 	}
 }
