@@ -18,8 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Share20;
 
+use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OC\Share20\Exception\BackendError;
 use OCP\IConfig;
@@ -39,7 +41,7 @@ use OC\HintException;
 /**
  * This class is the communication hub for all sharing related operations.
  */
-class Manager {
+class Manager implements IManager {
 
 	/** @var IProviderFactory */
 	private $factory;
@@ -931,7 +933,7 @@ class Manager {
 	 * @param IUser $user
 	 * @return bool
 	 */
-	public function isSharingDisabledForUser($user) {
+	public function isSharingDisabledForUser(IUser $user) {
 		if ($this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
 			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$excludedGroups = json_decode($groupsList);
