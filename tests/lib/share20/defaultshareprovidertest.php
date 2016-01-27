@@ -21,6 +21,7 @@
 namespace Test\Share20;
 
 use OC\Share20\Exception\ProviderException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IUserManager;
 use OCP\IGroupManager;
@@ -70,6 +71,43 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	public function tearDown() {
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
 	}
+
+	/**
+	 * @param int $shareType
+	 * @param string $sharedWith
+	 * @param string $sharedBy
+	 * @param string $shareOwner
+	 * @param string $itemType
+	 * @param int $fileSource
+	 * @param string $fileTarget
+	 * @param int $permissions
+	 * @param $token
+	 * @param $expiration
+	 * @return int
+	 */
+	private function addShareToDB($shareType, $sharedWith, $sharedBy, $shareOwner,
+			$itemType, $fileSource, $fileTarget, $permissions, $token, $expiration,
+			$parent = null) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share');
+
+		if ($shareType) $qb->setValue('share_type', $qb->expr()->literal($shareType));
+		if ($sharedWith) $qb->setValue('share_with', $qb->expr()->literal($sharedWith));
+		if ($sharedBy) $qb->setValue('uid_initiator', $qb->expr()->literal($sharedBy));
+		if ($shareOwner) $qb->setValue('uid_owner', $qb->expr()->literal($shareOwner));
+		if ($itemType) $qb->setValue('item_type', $qb->expr()->literal($itemType));
+		if ($fileSource) $qb->setValue('file_source', $qb->expr()->literal($fileSource));
+		if ($fileTarget) $qb->setValue('file_target', $qb->expr()->literal($fileTarget));
+		if ($permissions) $qb->setValue('permissions', $qb->expr()->literal($permissions));
+		if ($token) $qb->setValue('token', $qb->expr()->literal($token));
+		if ($expiration) $qb->setValue('expiration', $qb->createNamedParameter($expiration, IQueryBuilder::PARAM_DATE));
+		if ($parent) $qb->setValue('parent', $qb->expr()->literal($parent));
+
+		$this->assertEquals(1, $qb->execute());
+		return$qb->getLastInsertId();
+	}
+
+
 
 	/**
 	 * @expectedException \OC\Share20\Exception\ShareNotFound
@@ -1414,14 +1452,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->insert('share')
 			->values([
-				'share_type'    => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
-				'uid_owner'     => $qb->expr()->literal('user1'),
+				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
+				'uid_owner' => $qb->expr()->literal('user1'),
 				'uid_initiator' => $qb->expr()->literal('user1'),
-				'item_type'     => $qb->expr()->literal('file'),
-				'file_source'   => $qb->expr()->literal(1),
-				'file_target'   => $qb->expr()->literal('myTarget1'),
-				'permissions'   => $qb->expr()->literal(2),
-				'token'         => $qb->expr()->literal('token'),
+				'item_type' => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(1),
+				'file_target' => $qb->expr()->literal('myTarget1'),
+				'permissions' => $qb->expr()->literal(2),
+				'token' => $qb->expr()->literal('token'),
 			])->execute();
 		$this->assertEquals(1, $stmt);
 		$id = $qb->getLastInsertId();
@@ -1441,5 +1479,307 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->getShareById($id);
 
 		$this->provider->deleteFromSelf($share, $user1);
+	}
+
+	public function testUpdateUser() {
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_USER, 'user0', 'user1', 'user2',
+			'file', 42, 'target', 31, null, null);
+
+		$users = [];
+		for($i = 0; $i < 6; $i++) {
+			$user = $this->getMock('\OCP\IUser');
+			$user->method('getUID')->willReturn('user'.$i);
+			$users['user'.$i] = $user;
+		}
+
+		$this->userManager->method('get')->will(
+			$this->returnCallback(function($userId) use ($users) {
+				return $users[$userId];
+			})
+		);
+
+		$file1 = $this->getMock('\OCP\Files\File');
+		$file1->method('getId')->willReturn(42);
+		$file2 = $this->getMock('\OCP\Files\File');
+		$file2->method('getId')->willReturn(43);
+
+		$folder1 = $this->getMock('\OCP\Files\Folder');
+		$folder1->method('getById')->with(42)->willReturn([$file1]);
+		$folder2 = $this->getMock('\OCP\Files\Folder');
+		$folder2->method('getById')->with(43)->willReturn([$file2]);
+
+		$this->rootFolder->method('getUserFolder')->will($this->returnValueMap([
+			['user2', $folder1],
+			['user5', $folder2],
+		]));
+
+		$share = $this->provider->getShareById($id);
+
+		$share->setSharedWith($users['user3']);
+		$share->setSharedBy($users['user4']);
+		$share->setShareOwner($users['user5']);
+		$share->setPath($file2);
+		$share->setPermissions(1);
+
+		$share2 = $this->provider->update($share);
+
+		$this->assertEquals($id, $share2->getId());
+		$this->assertSame($users['user3'], $share2->getSharedWith());
+		$this->assertSame($users['user4'], $share2->getSharedBy());
+		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame(1, $share2->getPermissions());
+	}
+
+	public function testUpdateLink() {
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_LINK, null, 'user1', 'user2',
+			'file', 42, 'target', 31, null, null);
+
+		$users = [];
+		for($i = 0; $i < 6; $i++) {
+			$user = $this->getMock('\OCP\IUser');
+			$user->method('getUID')->willReturn('user'.$i);
+			$users['user'.$i] = $user;
+		}
+
+		$this->userManager->method('get')->will(
+			$this->returnCallback(function($userId) use ($users) {
+				return $users[$userId];
+			})
+		);
+
+		$file1 = $this->getMock('\OCP\Files\File');
+		$file1->method('getId')->willReturn(42);
+		$file2 = $this->getMock('\OCP\Files\File');
+		$file2->method('getId')->willReturn(43);
+
+		$folder1 = $this->getMock('\OCP\Files\Folder');
+		$folder1->method('getById')->with(42)->willReturn([$file1]);
+		$folder2 = $this->getMock('\OCP\Files\Folder');
+		$folder2->method('getById')->with(43)->willReturn([$file2]);
+
+		$this->rootFolder->method('getUserFolder')->will($this->returnValueMap([
+			['user2', $folder1],
+			['user5', $folder2],
+		]));
+
+		$share = $this->provider->getShareById($id);
+
+		$share->setPassword('password');
+		$share->setSharedBy($users['user4']);
+		$share->setShareOwner($users['user5']);
+		$share->setPath($file2);
+		$share->setPermissions(1);
+
+		$share2 = $this->provider->update($share);
+
+		$this->assertEquals($id, $share2->getId());
+		$this->assertEquals('password', $share->getPassword());
+		$this->assertSame($users['user4'], $share2->getSharedBy());
+		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame(1, $share2->getPermissions());
+	}
+
+	public function testUpdateLinkRemovePassword() {
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_LINK, 'foo', 'user1', 'user2',
+			'file', 42, 'target', 31, null, null);
+
+		$users = [];
+		for($i = 0; $i < 6; $i++) {
+			$user = $this->getMock('\OCP\IUser');
+			$user->method('getUID')->willReturn('user'.$i);
+			$users['user'.$i] = $user;
+		}
+
+		$this->userManager->method('get')->will(
+			$this->returnCallback(function($userId) use ($users) {
+				return $users[$userId];
+			})
+		);
+
+		$file1 = $this->getMock('\OCP\Files\File');
+		$file1->method('getId')->willReturn(42);
+		$file2 = $this->getMock('\OCP\Files\File');
+		$file2->method('getId')->willReturn(43);
+
+		$folder1 = $this->getMock('\OCP\Files\Folder');
+		$folder1->method('getById')->with(42)->willReturn([$file1]);
+		$folder2 = $this->getMock('\OCP\Files\Folder');
+		$folder2->method('getById')->with(43)->willReturn([$file2]);
+
+		$this->rootFolder->method('getUserFolder')->will($this->returnValueMap([
+			['user2', $folder1],
+			['user5', $folder2],
+		]));
+
+		$share = $this->provider->getShareById($id);
+
+		$share->setPassword(null);
+		$share->setSharedBy($users['user4']);
+		$share->setShareOwner($users['user5']);
+		$share->setPath($file2);
+		$share->setPermissions(1);
+
+		$share2 = $this->provider->update($share);
+
+		$this->assertEquals($id, $share2->getId());
+		$this->assertEquals(null, $share->getPassword());
+		$this->assertSame($users['user4'], $share2->getSharedBy());
+		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame(1, $share2->getPermissions());
+	}
+
+	public function testUpdateGroupNoSub() {
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user2',
+			'file', 42, 'target', 31, null, null);
+
+		$users = [];
+		for($i = 0; $i < 6; $i++) {
+			$user = $this->getMock('\OCP\IUser');
+			$user->method('getUID')->willReturn('user'.$i);
+			$users['user'.$i] = $user;
+		}
+
+		$this->userManager->method('get')->will(
+			$this->returnCallback(function($userId) use ($users) {
+				return $users[$userId];
+			})
+		);
+
+		$groups = [];
+		for($i = 0; $i < 2; $i++) {
+			$group = $this->getMock('\OCP\IGroup');
+			$group->method('getGID')->willReturn('group'.$i);
+			$groups['group'.$i] = $group;
+		}
+
+		$this->groupManager->method('get')->will(
+			$this->returnCallback(function($groupId) use ($groups) {
+				return $groups[$groupId];
+			})
+		);
+
+		$file1 = $this->getMock('\OCP\Files\File');
+		$file1->method('getId')->willReturn(42);
+		$file2 = $this->getMock('\OCP\Files\File');
+		$file2->method('getId')->willReturn(43);
+
+		$folder1 = $this->getMock('\OCP\Files\Folder');
+		$folder1->method('getById')->with(42)->willReturn([$file1]);
+		$folder2 = $this->getMock('\OCP\Files\Folder');
+		$folder2->method('getById')->with(43)->willReturn([$file2]);
+
+		$this->rootFolder->method('getUserFolder')->will($this->returnValueMap([
+			['user2', $folder1],
+			['user5', $folder2],
+		]));
+
+		$share = $this->provider->getShareById($id);
+
+		$share->setSharedWith($groups['group0']);
+		$share->setSharedBy($users['user4']);
+		$share->setShareOwner($users['user5']);
+		$share->setPath($file2);
+		$share->setPermissions(1);
+
+		$share2 = $this->provider->update($share);
+
+		$this->assertEquals($id, $share2->getId());
+		// Group shares do not allow updating the recipient
+		$this->assertSame($groups['group0'], $share2->getSharedWith());
+		$this->assertSame($users['user4'], $share2->getSharedBy());
+		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame(1, $share2->getPermissions());
+	}
+
+	public function testUpdateGroupSubShares() {
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user2',
+			'file', 42, 'target', 31, null, null);
+
+		$id2 = $this->addShareToDB(2, 'user0', 'user1', 'user2',
+			'file', 42, 'mytarget', 31, null, null, $id);
+
+		$id3 = $this->addShareToDB(2, 'user3', 'user1', 'user2',
+			'file', 42, 'mytarget2', 0, null, null, $id);
+
+		$users = [];
+		for($i = 0; $i < 6; $i++) {
+			$user = $this->getMock('\OCP\IUser');
+			$user->method('getUID')->willReturn('user'.$i);
+			$users['user'.$i] = $user;
+		}
+
+		$this->userManager->method('get')->will(
+			$this->returnCallback(function($userId) use ($users) {
+				return $users[$userId];
+			})
+		);
+
+		$groups = [];
+		for($i = 0; $i < 2; $i++) {
+			$group = $this->getMock('\OCP\IGroup');
+			$group->method('getGID')->willReturn('group'.$i);
+			$groups['group'.$i] = $group;
+		}
+
+		$this->groupManager->method('get')->will(
+			$this->returnCallback(function($groupId) use ($groups) {
+				return $groups[$groupId];
+			})
+		);
+
+		$file1 = $this->getMock('\OCP\Files\File');
+		$file1->method('getId')->willReturn(42);
+		$file2 = $this->getMock('\OCP\Files\File');
+		$file2->method('getId')->willReturn(43);
+
+		$folder1 = $this->getMock('\OCP\Files\Folder');
+		$folder1->method('getById')->with(42)->willReturn([$file1]);
+		$folder2 = $this->getMock('\OCP\Files\Folder');
+		$folder2->method('getById')->with(43)->willReturn([$file2]);
+
+		$this->rootFolder->method('getUserFolder')->will($this->returnValueMap([
+			['user2', $folder1],
+			['user5', $folder2],
+		]));
+
+		$share = $this->provider->getShareById($id);
+
+		$share->setSharedWith($groups['group0']);
+		$share->setSharedBy($users['user4']);
+		$share->setShareOwner($users['user5']);
+		$share->setPath($file2);
+		$share->setPermissions(1);
+
+		$share2 = $this->provider->update($share);
+
+		$this->assertEquals($id, $share2->getId());
+		// Group shares do not allow updating the recipient
+		$this->assertSame($groups['group0'], $share2->getSharedWith());
+		$this->assertSame($users['user4'], $share2->getSharedBy());
+		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame(1, $share2->getPermissions());
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('parent', $qb->createNamedParameter($id)))
+			->orderBy('id')
+			->execute();
+
+		$shares = $stmt->fetchAll();
+
+		$this->assertSame('user0', $shares[0]['share_with']);
+		$this->assertSame('user4', $shares[0]['uid_initiator']);
+		$this->assertSame('user5', $shares[0]['uid_owner']);
+		$this->assertSame(1, (int)$shares[0]['permissions']);
+
+		$this->assertSame('user3', $shares[1]['share_with']);
+		$this->assertSame('user4', $shares[1]['uid_initiator']);
+		$this->assertSame('user5', $shares[1]['uid_owner']);
+		$this->assertSame(0, (int)$shares[1]['permissions']);
+
+
+		$stmt->closeCursor();
+
 	}
 }

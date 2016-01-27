@@ -183,6 +183,69 @@ class DefaultShareProvider implements IShareProvider {
 	 * @return IShare The share object
 	 */
 	public function update(IShare $share) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+			/*
+			 * We allow updating the recipient on user shares.
+			 */
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->update('share')
+				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
+				->set('share_with', $qb->createNamedParameter($share->getSharedWith()->getUID()))
+				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()->getUID()))
+				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()->getUID()))
+				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
+				->set('item_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->set('file_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->execute();
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->update('share')
+				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
+				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()->getUID()))
+				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()->getUID()))
+				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
+				->set('item_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->set('file_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->execute();
+
+			/*
+			 * Update all user defined group shares
+			 */
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->update('share')
+				->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()->getUID()))
+				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()->getUID()))
+				->set('item_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->set('file_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->execute();
+
+			/*
+			 * Now update the permissions for all children that have not set it to 0
+			 */
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->update('share')
+				->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+				->andWhere($qb->expr()->neq('permissions', $qb->createNamedParameter(0)))
+				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
+				->execute();
+
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->update('share')
+				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
+				->set('share_with', $qb->createNamedParameter($share->getPassword()))
+				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()->getUID()))
+				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()->getUID()))
+				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
+				->set('item_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->set('file_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->set('token', $qb->createNamedParameter($share->getToken()))
+				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
+				->execute();
+		}
+
+		return $share;
 	}
 
 	/**

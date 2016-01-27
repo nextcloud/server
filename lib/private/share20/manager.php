@@ -170,7 +170,7 @@ class Manager {
 			throw new \InvalidArgumentException('unkown share type');
 		}
 
-		// Verify the initiator of the share is et
+		// Verify the initiator of the share is set
 		if ($share->getSharedBy() === null) {
 			throw new \InvalidArgumentException('SharedBy should be set');
 		}
@@ -184,6 +184,7 @@ class Manager {
 		if ($share->getPath() === null) {
 			throw new \InvalidArgumentException('Path should be set');
 		}
+
 		// And it should be a file or a folder
 		if (!($share->getPath() instanceof \OCP\Files\File) &&
 				!($share->getPath() instanceof \OCP\Files\Folder)) {
@@ -216,19 +217,19 @@ class Manager {
 	/**
 	 * Validate if the expiration date fits the system settings
 	 *
-	 * @param \DateTime $expireDate The current expiration date (can be null)
+	 * @param \DateTime $expirationDate The current expiration date (can be null)
 	 * @return \DateTime|null The expiration date or null if $expireDate was null and it is not required
 	 * @throws \OC\HintException
 	 */
-	protected function validateExpiredate($expireDate) {
+	protected function validateExpirationDate($expirationDate) {
 
-		if ($expireDate !== null) {
+		if ($expirationDate !== null) {
 			//Make sure the expiration date is a date
-			$expireDate->setTime(0, 0, 0);
+			$expirationDate->setTime(0, 0, 0);
 
 			$date = new \DateTime();
 			$date->setTime(0, 0, 0);
-			if ($date >= $expireDate) {
+			if ($date >= $expirationDate) {
 				$message = $this->l->t('Expiration date is in the past');
 				throw new \OC\HintException($message, $message, 404);
 			}
@@ -236,30 +237,30 @@ class Manager {
 
 		// If we enforce the expiration date check that is does not exceed
 		if ($this->shareApiLinkDefaultExpireDateEnforced()) {
-			if ($expireDate === null) {
+			if ($expirationDate === null) {
 				throw new \InvalidArgumentException('Expiration date is enforced');
 			}
 
 			$date = new \DateTime();
 			$date->setTime(0, 0, 0);
 			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
-			if ($date < $expireDate) {
+			if ($date < $expirationDate) {
 				$message = $this->l->t('Cannot set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
 				throw new \OC\HintException($message, $message, 404);
 			}
 
-			return $expireDate;
+			return $expirationDate;
 		}
 
 		// If expiredate is empty set a default one if there is a default
-		if ($expireDate === null && $this->shareApiLinkDefaultExpireDate()) {
+		if ($expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 			$date = new \DateTime();
 			$date->setTime(0,0,0);
 			$date->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));
 			return $date;
 		}
 
-		return $expireDate;
+		return $expirationDate;
 	}
 
 	/**
@@ -289,6 +290,11 @@ class Manager {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_USER);
 		$existingShares = $provider->getSharesByPath($share->getPath());
 		foreach($existingShares as $existingShare) {
+			// Ignore if it is the same share
+			if ($existingShare->getFullId() === $share->getFullId()) {
+				continue;
+			}
+
 			// Identical share already existst
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
 				throw new \Exception('Path already shared with this user');
@@ -325,6 +331,10 @@ class Manager {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
 		$existingShares = $provider->getSharesByPath($share->getPath());
 		foreach($existingShares as $existingShare) {
+			if ($existingShare->getFullId() === $share->getFullId()) {
+				continue;
+			}
+
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
 				throw new \Exception('Path already shared with this group');
 			}
@@ -430,7 +440,7 @@ class Manager {
 			);
 
 			//Verify the expiration date
-			$share->setExpirationDate($this->validateExpiredate($share->getExpirationDate()));
+			$share->setExpirationDate($this->validateExpirationDate($share->getExpirationDate()));
 
 			//Verify the password
 			$this->verifyPassword($share->getPassword());
@@ -446,6 +456,11 @@ class Manager {
 
 		// On creation of a share the owner is always the owner of the path
 		$share->setShareOwner($share->getPath()->getOwner());
+
+		// Cannot share with the owner
+		if ($share->getSharedWith() === $share->getShareOwner()) {
+			throw new \InvalidArgumentException('Can\'t share with the share owner');
+		}
 
 		// Generate the target
 		$target = $this->config->getSystemValue('share_folder', '/') .'/'. $share->getPath()->getName();
@@ -513,10 +528,77 @@ class Manager {
 	/**
 	 * Update a share
 	 *
-	 * @param Share $share
-	 * @return Share The share object
+	 * @param IShare $share
+	 * @return IShare The share object
 	 */
-	public function updateShare(Share $share) {
+	public function updateShare(IShare $share) {
+		$expirationDateUpdated = false;
+
+		if (!$this->canShare($share)) {
+			throw new \Exception('The Share API is disabled');
+		}
+
+		$originalShare = $this->getShareById($share->getFullId());
+
+		// We can't change the share type!
+		if ($share->getShareType() !== $originalShare->getShareType()) {
+			throw new \InvalidArgumentException('Can\'t change share type');
+		}
+
+		// We can only change the recipient on user shares
+		if ($share->getSharedWith() !== $originalShare->getSharedWith() &&
+		    $share->getShareType() !== \OCP\Share::SHARE_TYPE_USER) {
+			throw new \InvalidArgumentException('Can only update recipient on user shares');
+		}
+
+		// Cannot share with the owner
+		if ($share->getSharedWith() === $share->getShareOwner()) {
+			throw new \InvalidArgumentException('Can\'t share with the share owner');
+		}
+
+		$this->generalCreateChecks($share);
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+			$this->userCreateChecks($share);
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$this->groupCreateChecks($share);
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+			$this->linkCreateChecks($share);
+
+			// Password updated.
+			if ($share->getPassword() !== $originalShare->getPassword()) {
+				//Verify the password
+				$this->verifyPassword($share->getPassword());
+
+				// If a password is set. Hash it!
+				if ($share->getPassword() !== null) {
+					$share->setPassword($this->hasher->hash($share->getPassword()));
+				}
+			}
+
+			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
+				//Verify the expiration date
+				$share->setExpirationDate($this->validateExpirationDate($share->getExpirationDate()));
+				$expirationDateUpdated = true;
+			}
+		}
+
+		$this->pathCreateChecks($share->getPath());
+
+		// Now update the share!
+		$provider = $this->factory->getProviderForType($share->getShareType());
+		$share = $provider->update($share);
+
+		if ($expirationDateUpdated === true) {
+			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', [
+				'itemType' => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemSource' => $share->getPath()->getId(),
+				'date' => $share->getExpirationDate(),
+				'uidOwner' => $share->getSharedBy()->getUID(),
+			]);
+		}
+
+		return $share;
 	}
 
 	/**

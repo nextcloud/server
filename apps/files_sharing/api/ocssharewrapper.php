@@ -50,7 +50,8 @@ class OCSShareWrapper {
 	}
 
 	public function updateShare($params) {
-		return \OCA\Files_Sharing\API\Local::updateShare($params);
+		$id = $params['id'];
+		return $this->getShare20OCS()->updateShare($id);
 	}
 
 	public function deleteShare($params) {

@@ -426,6 +426,72 @@ class Share20OCS {
 	}
 
 	/**
+	 * @param int $id
+	 * @return \OC_OCS_Result
+	 */
+	public function updateShare($id) {
+		// Try both our default and our federated provider
+		$share = null;
+
+		try {
+			$share = $this->shareManager->getShareById('ocinternal:' . $id);
+		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+			//Ignore for now
+			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+		}
+
+		// Could not find the share as internal share... maybe it is a federated share
+		if ($share === null) {
+			return \OCA\Files_Sharing\API\Local::updateShare(['id' => $id]);
+		}
+
+		if (!$this->canAccessShare($share)) {
+			return new \OC_OCS_Result(null, 404, "wrong share Id, share doesn't exist.");
+		}
+
+		$permissions = $this->request->getParam('permissions', null);
+		$password = $this->request->getParam('password', null);
+		$publicUpload = $this->request->getParam('publicUpload', null);
+		$expireDate = $this->request->getParam('expireDate', null);
+
+		if ($permissions === null && $password === null && $publicUpload === null && $expireDate === null) {
+			return new \OC_OCS_Result(null, 400, 'Wrong or no update parameter given');
+		}
+
+		if ($expireDate !== null) {
+			try {
+				$expireDate = $this->parseDate($expireDate);
+			} catch (\Exception $e) {
+				return new \OC_OCS_Result(null, 400, $e->getMessage());
+			}
+			$share->setExpirationDate($expireDate);
+		}
+
+		if ($permissions !== null) {
+			$permissions = (int)$permissions;
+			$share->setPermissions($permissions);
+		}
+
+		if ($password !== null) {
+			$share->setPassword($password);
+		}
+
+		if ($publicUpload === 'true') {
+			$share->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		} else if ($publicUpload === 'false') {
+			$share->setPermissions(\OCP\Constants::PERMISSION_READ);
+		}
+
+		try {
+			$share = $this->shareManager->updateShare($share);
+		} catch (\Exception $e) {
+			return new \OC_OCS_Result(null, 400, $e->getMessage());
+		}
+
+		return new \OC_OCS_Result($this->formatShare($share));
+	}
+
+	/**
 	 * @param IShare $share
 	 * @return bool
 	 */
