@@ -34,11 +34,11 @@ class Share implements \OCP\Share\IShare {
 	private $path;
 	/** @var int */
 	private $shareType;
-	/** @var IUser|IGroup|string */
+	/** @var IUser|IGroup */
 	private $sharedWith;
-	/** @var IUser|string */
+	/** @var IUser */
 	private $sharedBy;
-	/** @var IUser|string */
+	/** @var IUser */
 	private $shareOwner;
 	/** @var int */
 	private $permissions;
@@ -52,7 +52,7 @@ class Share implements \OCP\Share\IShare {
 	private $parent;
 	/** @var string */
 	private $target;
-	/** @var int */
+	/** @var \DateTime */
 	private $shareTime;
 	/** @var bool */
 	private $mailSend;
@@ -90,7 +90,7 @@ class Share implements \OCP\Share\IShare {
 	/**
 	 * @inheritdoc
 	 */
-	public function setPath(Node $path) {
+	public function setNode(Node $path) {
 		$this->path = $path;
 		return $this;
 	}
@@ -98,7 +98,7 @@ class Share implements \OCP\Share\IShare {
 	/**
 	 * @inheritdoc
 	 */
-	public function getPath() {
+	public function getNode() {
 		return $this->path;
 	}
 
@@ -265,7 +265,7 @@ class Share implements \OCP\Share\IShare {
 	/**
 	 * @inheritdoc
 	 */
-	public function setShareTime($shareTime) {
+	public function setShareTime(\DateTime $shareTime) {
 		$this->shareTime = $shareTime;
 		return $this;
 	}

@@ -129,7 +129,9 @@ interface IManager {
 	public function checkPassword(IShare $share, $password);
 
 	/**
-	 * Create a new share
+	 * Instantiates a new share object. This is to be passed to
+	 * createShare.
+	 *
 	 * @return IShare
 	 * @since 9.0.0
 	 */
@@ -205,6 +207,6 @@ interface IManager {
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function isSharingDisabledForUser(IUser $user);
+	public function sharingDisabledForUser(IUser $user);
 
 }

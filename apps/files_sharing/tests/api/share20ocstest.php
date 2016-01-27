@@ -148,11 +148,12 @@ class Share20OCSTest extends \Test\TestCase {
 		$share->method('getSharedWith')->willReturn($sharedWith);
 		$share->method('getSharedBy')->willReturn($sharedBy);
 		$share->method('getShareOwner')->willReturn($shareOwner);
-		$share->method('getPath')->willReturn($path);
+		$share->method('getNode')->willReturn($path);
 		$share->method('getPermissions')->willReturn($permissions);
-		$share->method('getShareTime')->willReturn($shareTime);
+		$time = new \DateTime();
+		$time->setTimestamp($shareTime);
+		$share->method('getShareTime')->willReturn($time);
 		$share->method('getExpirationDate')->willReturn($expiration);
-		$share->method('getParent')->willReturn($parent);
 		$share->method('getTarget')->willReturn($target);
 		$share->method('getMailSend')->willReturn($mail_send);
 		$share->method('getToken')->willReturn($token);
@@ -242,7 +243,7 @@ class Share20OCSTest extends \Test\TestCase {
 			'expiration' => null,
 			'permissions' => 4,
 			'stime' => 5,
-			'parent' => 6,
+			'parent' => null,
 			'storage_id' => 'STORAGE',
 			'path' => 'file',
 			'storage' => 101,
@@ -283,7 +284,7 @@ class Share20OCSTest extends \Test\TestCase {
 			'expiration' => null,
 			'permissions' => 4,
 			'stime' => 5,
-			'parent' => 6,
+			'parent' => null,
 			'storage_id' => 'STORAGE',
 			'path' => 'folder',
 			'storage' => 101,
@@ -327,7 +328,7 @@ class Share20OCSTest extends \Test\TestCase {
 			'expiration' => '2000-01-02 00:00:00',
 			'permissions' => 4,
 			'stime' => 5,
-			'parent' => 6,
+			'parent' => null,
 			'storage_id' => 'STORAGE',
 			'path' => 'folder',
 			'storage' => 101,

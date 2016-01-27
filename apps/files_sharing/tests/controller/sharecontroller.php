@@ -287,7 +287,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$share->method('getId')->willReturn('42');
 		$share->method('getPassword')->willReturn('password');
 		$share->method('getShareOwner')->willReturn($owner);
-		$share->method('getPath')->willReturn($file);
+		$share->method('getNode')->willReturn($file);
 		$share->method('getTarget')->willReturn('/file1.txt');
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);

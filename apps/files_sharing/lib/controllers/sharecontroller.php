@@ -214,14 +214,14 @@ class ShareController extends Controller {
 		}
 
 		// We can't get the path of a file share
-		if ($share->getPath() instanceof \OCP\Files\File && $path !== '') {
+		if ($share->getNode() instanceof \OCP\Files\File && $path !== '') {
 			throw new NotFoundException();
 		}
 
 		$rootFolder = null;
-		if ($share->getPath() instanceof \OCP\Files\Folder) {
+		if ($share->getNode() instanceof \OCP\Files\Folder) {
 			/** @var \OCP\Files\Folder $rootFolder */
-			$rootFolder = $share->getPath();
+			$rootFolder = $share->getNode();
 
 			try {
 				$path = $rootFolder->get($path);
@@ -233,26 +233,26 @@ class ShareController extends Controller {
 		$shareTmpl = [];
 		$shareTmpl['displayName'] = $share->getShareOwner()->getDisplayName();
 		$shareTmpl['owner'] = $share->getShareOwner()->getUID();
-		$shareTmpl['filename'] = $share->getPath()->getName();
+		$shareTmpl['filename'] = $share->getNode()->getName();
 		$shareTmpl['directory_path'] = $share->getTarget();
-		$shareTmpl['mimetype'] = $share->getPath()->getMimetype();
-		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($share->getPath()->getMimetype());
+		$shareTmpl['mimetype'] = $share->getNode()->getMimetype();
+		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($share->getNode()->getMimetype());
 		$shareTmpl['dirToken'] = $token;
 		$shareTmpl['sharingToken'] = $token;
 		$shareTmpl['server2serversharing'] = Helper::isOutgoingServer2serverShareEnabled();
 		$shareTmpl['protected'] = $share->getPassword() !== null ? 'true' : 'false';
 		$shareTmpl['dir'] = '';
-		$shareTmpl['nonHumanFileSize'] = $share->getPath()->getSize();
-		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($share->getPath()->getSize());
+		$shareTmpl['nonHumanFileSize'] = $share->getNode()->getSize();
+		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($share->getNode()->getSize());
 
 		// Show file list
-		if ($share->getPath() instanceof \OCP\Files\Folder) {
+		if ($share->getNode() instanceof \OCP\Files\Folder) {
 			$shareTmpl['dir'] = $rootFolder->getRelativePath($path->getPath());
 
 			/*
 			 * The OC_Util methods require a view. This just uses the node API
 			 */
-			$freeSpace = $share->getPath()->getStorage()->free_space($share->getPath()->getInternalPath());
+			$freeSpace = $share->getNode()->getStorage()->free_space($share->getNode()->getInternalPath());
 			if ($freeSpace !== \OCP\Files\FileInfo::SPACE_UNKNOWN) {
 				$freeSpace = max($freeSpace, 0);
 			} else {
@@ -320,23 +320,23 @@ class ShareController extends Controller {
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner()->getUID());
-		$originalSharePath = $userFolder->getRelativePath($share->getPath()->getPath());
+		$originalSharePath = $userFolder->getRelativePath($share->getNode()->getPath());
 
 		// Single file share
-		if ($share->getPath() instanceof \OCP\Files\File) {
+		if ($share->getNode() instanceof \OCP\Files\File) {
 			// Single file download
 			$event = $this->activityManager->generateEvent();
 			$event->setApp('files_sharing')
 				->setType(Activity::TYPE_PUBLIC_LINKS)
-				->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($share->getPath()->getPath())])
+				->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($share->getNode()->getPath())])
 				->setAffectedUser($share->getShareOwner()->getUID())
-				->setObject('files', $share->getPath()->getId(), $userFolder->getRelativePath($share->getPath()->getPath()));
+				->setObject('files', $share->getNode()->getId(), $userFolder->getRelativePath($share->getNode()->getPath()));
 			$this->activityManager->publish($event);
 		}
 		// Directory share
 		else {
 			/** @var \OCP\Files\Folder $node */
-			$node = $share->getPath();
+			$node = $share->getNode();
 
 			// Try to get the path
 			if ($path !== '') {

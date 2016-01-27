@@ -36,7 +36,7 @@ use OCP\IGroup;
 interface IShare {
 
 	/**
-	 * Get the id of the share
+	 * Get the internal id of the share.
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -44,7 +44,7 @@ interface IShare {
 	public function getId();
 
 	/**
-	 * Set the id of the share
+	 * Set the internal id of the share.
 	 *
 	 * @param string $id
 	 * @return \OCP\Share\IShare The modified share object
@@ -53,7 +53,8 @@ interface IShare {
 	public function setId($id);
 
 	/**
-	 * Get the full share id
+	 * Get the full share id. This is the <providerid>:<internalid>.
+	 * The full id is unique in the system.
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -70,21 +71,21 @@ interface IShare {
 	public function setProviderId($id);
 
 	/**
-	 * Set the path of this share
+	 * Set the node of the file/folder that is shared
 	 *
-	 * @param Node $path
+	 * @param File|Folder $path
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setPath(Node $path);
+	public function setNode(Node $path);
 
 	/**
-	 * Get the path of this share for the current user
+	 * Get the node of the file/folder that is shared
 	 *
 	 * @return File|Folder
 	 * @since 9.0.0
 	 */
-	public function getPath();
+	public function getNode();
 
 	/**
 	 * Set the shareType
@@ -104,24 +105,25 @@ interface IShare {
 	public function getShareType();
 
 	/**
-	 * Set the receiver of this share
+	 * Set the receiver of this share.
 	 *
-	 * @param IUser|IGroup|string
+	 * @param IUser|IGroup
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
 	public function setSharedWith($sharedWith);
 
 	/**
-	 * Get the receiver of this share
+	 * Get the receiver of this share.
 	 *
-	 * @return IUser|IGroup|string
+	 * @return IUser|IGroup
 	 * @since 9.0.0
 	 */
 	public function getSharedWith();
 
 	/**
-	 * Set the permissions
+	 * Set the permissions.
+	 * See \OCP\Constants::PERMISSION_*
 	 *
 	 * @param int $permissions
 	 * @return \OCP\Share\IShare The modified object
@@ -131,6 +133,7 @@ interface IShare {
 
 	/**
 	 * Get the share permissions
+	 * See \OCP\Constants::PERMISSION_*
 	 *
 	 * @return int
 	 * @since 9.0.0
@@ -147,7 +150,7 @@ interface IShare {
 	public function setExpirationDate($expireDate);
 
 	/**
-	 * Get the share expiration date
+	 * Get the expiration date
 	 *
 	 * @return \DateTime
 	 * @since 9.0.0
@@ -155,9 +158,9 @@ interface IShare {
 	public function getExpirationDate();
 
 	/**
-	 * Set the sharer of the path
+	 * Set the sharer of the path.
 	 *
-	 * @param IUser|string $sharedBy
+	 * @param IUser $sharedBy
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -166,30 +169,32 @@ interface IShare {
 	/**
 	 * Get share sharer
 	 *
-	 * @return IUser|string
+	 * @return IUser
 	 * @since 9.0.0
 	 */
 	public function getSharedBy();
 
 	/**
-	 * Set the original share owner (who owns the path)
+	 * Set the original share owner (who owns the path that is shared)
 	 *
-	 * @param IUser|string
+	 * @param IUser
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
 	public function setShareOwner($shareOwner);
 
 	/**
-	 * Get the original share owner (who owns the path)
+	 * Get the original share owner (who owns the path that is shared)
 	 *
-	 * @return IUser|string
+	 * @return IUser
 	 * @since 9.0.0
 	 */
 	public function getShareOwner();
 
 	/**
-	 * Set the password
+	 * Set the password for this share.
+	 * When the share is passed to the share manager to be created
+	 * or updated the password will be hashed.
 	 *
 	 * @param string $password
 	 * @return \OCP\Share\IShare The modified object
@@ -198,7 +203,9 @@ interface IShare {
 	public function setPassword($password);
 
 	/**
-	 * Is a password set for this share
+	 * Get the password of this share.
+	 * If this share is obtained via a shareprovider the password is
+	 * hashed.
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -206,7 +213,7 @@ interface IShare {
 	public function getPassword();
 
 	/**
-	 * Set the token
+	 * Set the public link token.
 	 *
 	 * @param string $token
 	 * @return \OCP\Share\IShare The modified object
@@ -215,7 +222,7 @@ interface IShare {
 	public function setToken($token);
 
 	/**
-	 * Get the token
+	 * Get the public link token.
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -223,15 +230,7 @@ interface IShare {
 	public function getToken();
 
 	/**
-	 * Get the parent it
-	 *
-	 * @return int
-	 * @since 9.0.0
-	 */
-	public function getParent();
-
-	/**
-	 * Set the target of this share
+	 * Set the target path of this share relative to the recipients user folder.
 	 *
 	 * @param string $target
 	 * @return \OCP\Share\IShare The modified object
@@ -240,7 +239,7 @@ interface IShare {
 	public function setTarget($target);
 
 	/**
-	 * Get the target of this share
+	 * Get the target path of this share relative to the recipients user folder.
 	 *
 	 * @return string
 	 * @since 9.0.0
@@ -250,22 +249,22 @@ interface IShare {
 	/**
 	 * Set the time this share was created
 	 *
-	 * @param int $shareTime
+	 * @param \DateTime $shareTime
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setShareTime($shareTime);
+	public function setShareTime(\DateTime $shareTime);
 
 	/**
 	 * Get the timestamp this share was created
 	 *
-	 * @return int
+	 * @return \DateTime
 	 * @since 9.0.0
 	 */
 	public function getShareTime();
 
 	/**
-	 * Set mailSend
+	 * Set if the recipient is informed by mail about the share.
 	 *
 	 * @param bool $mailSend
 	 * @return \OCP\Share\IShare The modified object
@@ -274,7 +273,7 @@ interface IShare {
 	public function setMailSend($mailSend);
 
 	/**
-	 * Get mailSend
+	 * Get if the recipient informed by mail about the share.
 	 *
 	 * @return bool
 	 * @since 9.0.0

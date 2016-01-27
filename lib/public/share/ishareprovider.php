@@ -42,7 +42,7 @@ interface IShareProvider {
 	public function identifier();
 
 	/**
-	 * Share a path
+	 * Create a share
 	 * 
 	 * @param \OCP\Share\IShare $share
 	 * @return \OCP\Share\IShare The share object
@@ -69,7 +69,8 @@ interface IShareProvider {
 
 	/**
 	 * Unshare a file from self as recipient.
-	 * This may require special handling.
+	 * This may require special handling. If a user unshares a group
+	 * share from their self then the original group share should still exist.
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @param IUser $recipient
@@ -86,7 +87,7 @@ interface IShareProvider {
 	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
 	 * @param int $limit The maximum number of shares to be returned, -1 for all shares
 	 * @param int $offset
-	 * @return Share[]
+	 * @return \OCP\Share\I Share[]
 	 * @since 9.0.0
 	 */
 	public function getSharesBy(IUser $user, $shareType, $node, $reshares, $limit, $offset);
@@ -95,7 +96,7 @@ interface IShareProvider {
 	 * Get share by id
 	 *
 	 * @param int $id
-	 * @return IShare
+	 * @return \OCP\Share\IShare
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */
@@ -105,7 +106,7 @@ interface IShareProvider {
 	 * Get shares for a given path
 	 *
 	 * @param \OCP\Files\Node $path
-	 * @return IShare[]
+	 * @return \OCP\Share\IShare[]
 	 * @since 9.0.0
 	 */
 	public function getSharesByPath(\OCP\Files\Node $path);
@@ -117,7 +118,7 @@ interface IShareProvider {
 	 * @param int $shareType
 	 * @param int $limit The max number of entries returned, -1 for all
 	 * @param int $offset
-	 * @param Share
+	 * @return \OCP\Share\IShare[]
 	 * @since 9.0.0
 	 */
 	public function getSharedWith(IUser $user, $shareType, $limit, $offset);
@@ -126,7 +127,7 @@ interface IShareProvider {
 	 * Get a share by token
 	 *
 	 * @param string $token
-	 * @return IShare
+	 * @return \OCP\Share\IShare
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */

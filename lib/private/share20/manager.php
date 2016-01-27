@@ -176,19 +176,19 @@ class Manager implements IManager {
 		}
 
 		// The path should be set
-		if ($share->getPath() === null) {
+		if ($share->getNode() === null) {
 			throw new \InvalidArgumentException('Path should be set');
 		}
 
 		// And it should be a file or a folder
-		if (!($share->getPath() instanceof \OCP\Files\File) &&
-				!($share->getPath() instanceof \OCP\Files\Folder)) {
+		if (!($share->getNode() instanceof \OCP\Files\File) &&
+				!($share->getNode() instanceof \OCP\Files\Folder)) {
 			throw new \InvalidArgumentException('Path should be either a file or a folder');
 		}
 
 		// Check if we actually have share permissions
-		if (!$share->getPath()->isShareable()) {
-			$message_t = $this->l->t('You are not allowed to share %s', [$share->getPath()->getPath()]);
+		if (!$share->getNode()->isShareable()) {
+			$message_t = $this->l->t('You are not allowed to share %s', [$share->getNode()->getPath()]);
 			throw new HintException($message_t, $message_t, 404);
 		}
 
@@ -198,8 +198,8 @@ class Manager implements IManager {
 		}
 
 		// Check that we do not share with more permissions than we have
-		if ($share->getPermissions() & ~$share->getPath()->getPermissions()) {
-			$message_t = $this->l->t('Cannot increase permissions of %s', [$share->getPath()->getPath()]);
+		if ($share->getPermissions() & ~$share->getNode()->getPermissions()) {
+			$message_t = $this->l->t('Cannot increase permissions of %s', [$share->getNode()->getPath()]);
 			throw new HintException($message_t, $message_t, 404);
 		}
 
@@ -283,7 +283,7 @@ class Manager implements IManager {
 		 * Also this is not what we want in the future.. then we want to squash identical shares.
 		 */
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_USER);
-		$existingShares = $provider->getSharesByPath($share->getPath());
+		$existingShares = $provider->getSharesByPath($share->getNode());
 		foreach($existingShares as $existingShare) {
 			// Ignore if it is the same share
 			if ($existingShare->getFullId() === $share->getFullId()) {
@@ -324,7 +324,7 @@ class Manager implements IManager {
 		 * Also this is not what we want in the future.. then we want to squash identical shares.
 		 */
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
-		$existingShares = $provider->getSharesByPath($share->getPath());
+		$existingShares = $provider->getSharesByPath($share->getNode());
 		foreach($existingShares as $existingShare) {
 			if ($existingShare->getFullId() === $share->getFullId()) {
 				continue;
@@ -391,7 +391,7 @@ class Manager implements IManager {
 			return false;
 		}
 
-		if ($this->isSharingDisabledForUser($share->getSharedBy())) {
+		if ($this->sharingDisabledForUser($share->getSharedBy())) {
 			return false;
 		}
 
@@ -447,10 +447,10 @@ class Manager implements IManager {
 		}
 
 		// Verify if there are any issues with the path
-		$this->pathCreateChecks($share->getPath());
+		$this->pathCreateChecks($share->getNode());
 
 		// On creation of a share the owner is always the owner of the path
-		$share->setShareOwner($share->getPath()->getOwner());
+		$share->setShareOwner($share->getNode()->getOwner());
 
 		// Cannot share with the owner
 		if ($share->getSharedWith() === $share->getShareOwner()) {
@@ -458,7 +458,7 @@ class Manager implements IManager {
 		}
 
 		// Generate the target
-		$target = $this->config->getSystemValue('share_folder', '/') .'/'. $share->getPath()->getName();
+		$target = $this->config->getSystemValue('share_folder', '/') .'/'. $share->getNode()->getName();
 		$target = \OC\Files\Filesystem::normalizePath($target);
 		$share->setTarget($target);
 
@@ -476,12 +476,12 @@ class Manager implements IManager {
 		$run = true;
 		$error = '';
 		$preHookData = [
-			'itemType' => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
-			'itemSource' => $share->getPath()->getId(),
+			'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+			'itemSource' => $share->getNode()->getId(),
 			'shareType' => $share->getShareType(),
 			'uidOwner' => $share->getSharedBy()->getUID(),
 			'permissions' => $share->getPermissions(),
-			'fileSource' => $share->getPath()->getId(),
+			'fileSource' => $share->getNode()->getId(),
 			'expiration' => $share->getExpirationDate(),
 			'token' => $share->getToken(),
 			'itemTarget' => $share->getTarget(),
@@ -501,12 +501,12 @@ class Manager implements IManager {
 
 		// Post share hook
 		$postHookData = [
-			'itemType' => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
-			'itemSource' => $share->getPath()->getId(),
+			'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+			'itemSource' => $share->getNode()->getId(),
 			'shareType' => $share->getShareType(),
 			'uidOwner' => $share->getSharedBy()->getUID(),
 			'permissions' => $share->getPermissions(),
-			'fileSource' => $share->getPath()->getId(),
+			'fileSource' => $share->getNode()->getId(),
 			'expiration' => $share->getExpirationDate(),
 			'token' => $share->getToken(),
 			'id' => $share->getId(),
@@ -578,7 +578,7 @@ class Manager implements IManager {
 			}
 		}
 
-		$this->pathCreateChecks($share->getPath());
+		$this->pathCreateChecks($share->getNode());
 
 		// Now update the share!
 		$provider = $this->factory->getProviderForType($share->getShareType());
@@ -586,8 +586,8 @@ class Manager implements IManager {
 
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', [
-				'itemType' => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
-				'itemSource' => $share->getPath()->getId(),
+				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemSource' => $share->getNode()->getId(),
 				'date' => $share->getExpirationDate(),
 				'uidOwner' => $share->getSharedBy()->getUID(),
 			]);
@@ -644,13 +644,13 @@ class Manager implements IManager {
 
 			$hookParams = [
 				'id'         => $share->getId(),
-				'itemType'   => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
-				'itemSource' => $share->getPath()->getId(),
+				'itemType'   => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemSource' => $share->getNode()->getId(),
 				'shareType'  => $shareType,
 				'shareWith'  => $sharedWith,
 				'itemparent' => $share->getParent(),
 				'uidOwner'   => $share->getSharedBy()->getUID(),
-				'fileSource' => $share->getPath()->getId(),
+				'fileSource' => $share->getNode()->getId(),
 				'fileTarget' => $share->getTarget()
 			];
 			return $hookParams;
@@ -933,7 +933,7 @@ class Manager implements IManager {
 	 * @param IUser $user
 	 * @return bool
 	 */
-	public function isSharingDisabledForUser(IUser $user) {
+	public function sharingDisabledForUser(IUser $user) {
 		if ($this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
 			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$excludedGroups = json_decode($groupsList);
