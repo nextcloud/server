@@ -194,7 +194,9 @@ class Setup {
 		// Create data directory to test whether the .htaccess works
 		// Notice that this is not necessarily the same data directory as the one
 		// that will effectively be used.
-		@mkdir($dataDir);
+		if(!file_exists($dataDir)) {
+			@mkdir($dataDir);
+		}
 		$htAccessWorking = true;
 		if (is_dir($dataDir) && is_writable($dataDir)) {
 			// Protect data directory here, so we can test if the protection is working
