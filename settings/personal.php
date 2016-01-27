@@ -63,7 +63,7 @@ $user = OC::$server->getUserManager()->get(OC_User::getUser());
 $email = $user->getEMailAddress();
 
 $userLang=$config->getUserValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
-$languageCodes=OC_L10N::findAvailableLanguages();
+$languageCodes = \OC::$server->getL10NFactory()->findAvailableLanguages();
 
 // array of common languages
 $commonLangCodes = array(

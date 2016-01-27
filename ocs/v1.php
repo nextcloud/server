@@ -46,7 +46,7 @@ try {
 	OC_App::loadApps();
 
 	// force language as given in the http request
-	\OC_L10N::setLanguageFromRequest();
+	\OC::$server->getL10NFactory()->setLanguageFromRequest();
 
 	OC::$server->getRouter()->match('/ocs'.\OC::$server->getRequest()->getRawPathInfo());
 } catch (ResourceNotFoundException $e) {

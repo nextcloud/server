@@ -1,27 +1,48 @@
 <?php
 /**
- * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
+ * Copyright (c) 2016 Joas Schilling <nickvergessen@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
 
-class Test_L10n extends \Test\TestCase {
+namespace Test\L10N;
+
+
+use DateTime;
+use OC\L10N\Factory;
+use OC\L10N\L10N;
+use Test\TestCase;
+
+/**
+ * Class L10nTest
+ *
+ * @package Test\L10N
+ */
+class L10nTest extends TestCase {
+	/**
+	 * @return Factory
+	 */
+	protected function getFactory() {
+		/** @var \OCP\IConfig $config */
+		$config = $this->getMock('OCP\IConfig');
+		/** @var \OCP\IRequest $request */
+		$request = $this->getMock('OCP\IRequest');
+		return new Factory($config, $request);
+	}
 
 	public function testGermanPluralTranslations() {
-		$l = new OC_L10N('test');
-		$transFile = OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/de.json';
+		$l = new L10N($this->getFactory(), 'test', 'de', [$transFile]);
 
-		$l->load($transFile);
-		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
-		$this->assertEquals('2 Dateien', (string)$l->n('%n file', '%n files', 2));
+		$this->assertEquals('1 Datei', (string) $l->n('%n file', '%n files', 1));
+		$this->assertEquals('2 Dateien', (string) $l->n('%n file', '%n files', 2));
 	}
 
 	public function testRussianPluralTranslations() {
-		$l = new OC_L10N('test');
-		$transFile = OC::$SERVERROOT.'/tests/data/l10n/ru.json';
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/ru.json';
+		$l = new L10N($this->getFactory(), 'test', 'ru', [$transFile]);
 
-		$l->load($transFile);
 		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
 		$this->assertEquals('2 файла', (string)$l->n('%n file', '%n files', 2));
 		$this->assertEquals('6 файлов', (string)$l->n('%n file', '%n files', 6));
@@ -43,16 +64,15 @@ class Test_L10n extends \Test\TestCase {
 	}
 
 	public function testCzechPluralTranslations() {
-		$l = new OC_L10N('test');
-		$transFile = OC::$SERVERROOT.'/tests/data/l10n/cs.json';
+		$transFile = \OC::$SERVERROOT.'/tests/data/l10n/cs.json';
+		$l = new L10N($this->getFactory(), 'test', 'cs', [$transFile]);
 
-		$l->load($transFile);
 		$this->assertEquals('1 okno', (string)$l->n('%n window', '%n windows', 1));
 		$this->assertEquals('2 okna', (string)$l->n('%n window', '%n windows', 2));
 		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
 	}
 
-	public function localizationDataProvider() {
+	public function localizationData() {
 		return array(
 			// timestamp as string
 			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'datetime', '1234567890'),
@@ -89,14 +109,14 @@ class Test_L10n extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider localizationDataProvider
+	 * @dataProvider localizationData
 	 */
 	public function testNumericStringLocalization($expectedDate, $lang, $type, $value) {
-		$l = new OC_L10N('test', $lang);
+		$l = new L10N($this->getFactory(), 'test', $lang, []);
 		$this->assertSame($expectedDate, $l->l($type, $value));
 	}
 
-	public function firstDayDataProvider() {
+	public function firstDayData() {
 		return array(
 			array(1, 'de'),
 			array(0, 'en'),
@@ -104,61 +124,34 @@ class Test_L10n extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider firstDayDataProvider
+	 * @dataProvider firstDayData
 	 * @param $expected
 	 * @param $lang
 	 */
 	public function testFirstWeekDay($expected, $lang) {
-		$l = new OC_L10N('test', $lang);
+		$l = new L10N($this->getFactory(), 'test', $lang, []);
 		$this->assertSame($expected, $l->l('firstday', 'firstday'));
 	}
 
-	/**
-	 * @dataProvider findLanguageData
-	 */
-	public function testFindLanguage($default, $preference, $expected) {
-		OC_User::setUserId(null);
-
-		$config = \OC::$server->getConfig();
-		if (is_null($default)) {
-			$config->deleteSystemValue('default_language');
-		} else {
-			$config->setSystemValue('default_language', $default);
-		}
-		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = $preference;
-
-		$reflection = new \ReflectionClass('OC_L10N');
-		$prop = $reflection->getProperty('language');
-		$prop->setAccessible(1);
-		$prop->setValue('');
-		$prop->setAccessible(0);
-
-		$this->assertSame($expected, OC_L10N::findLanguage());
-	}
-
-	public function findLanguageData() {
+	public function jsDateData() {
 		return array(
-			// Exact match
-			array(null, 'de-DE,en;q=0.5', 'de_DE'),
-			array(null, 'de-DE,en-US;q=0.8,en;q=0.6', 'de_DE'),
-
-			// Best match
-			array(null, 'de-US,en;q=0.5', 'de'),
-			array(null, 'de-US,en-US;q=0.8,en;q=0.6', 'de'),
-
-			// The default_language config setting overrides browser preferences.
-			array('es_AR', 'de-DE,en;q=0.5', 'es_AR'),
-			array('es_AR', 'de-DE,en-US;q=0.8,en;q=0.6', 'es_AR'),
-
-			// Worst case default to english
-			array(null, '', 'en'),
-			array(null, null, 'en'),
+			array('dd.MM.yy', 'de'),
+			array('M/d/yy', 'en'),
 		);
 	}
 
+	/**
+	 * @dataProvider jsDateData
+	 * @param $expected
+	 * @param $lang
+	 */
+	public function testJSDate($expected, $lang) {
+		$l = new L10N($this->getFactory(), 'test', $lang, []);
+		$this->assertSame($expected, $l->l('jsdate', 'jsdate'));
+	}
+
 	public function testFactoryGetLanguageCode() {
-		$factory = new \OC\L10N\Factory();
-		$l = $factory->get('lib', 'de');
+		$l = $this->getFactory()->get('lib', 'de');
 		$this->assertEquals('de', $l->getLanguageCode());
 	}
 

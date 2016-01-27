@@ -31,7 +31,7 @@ OCP\JSON::callCheck();
 
 // Get data
 if( isset( $_POST['lang'] ) ) {
-	$languageCodes=OC_L10N::findAvailableLanguages();
+	$languageCodes = \OC::$server->getL10NFactory()->findAvailableLanguages();
 	$lang = (string)$_POST['lang'];
 	if(array_search($lang, $languageCodes) or $lang === 'en') {
 		\OC::$server->getConfig()->setUserValue( OC_User::getUser(), 'core', 'lang', $lang );

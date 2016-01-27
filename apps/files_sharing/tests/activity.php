@@ -41,11 +41,13 @@ class Activity extends \OCA\Files_Sharing\Tests\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->activity = new \OCA\Files_Sharing\Activity(
-			$this->getMock('\OC\L10N\Factory'),
-			$this->getMockBuilder('\OCP\IURLGenerator')
+			$this->getMockBuilder('OCP\L10N\IFactory')
 				->disableOriginalConstructor()
 				->getMock(),
-			$this->getMockBuilder('\OCP\Activity\IManager')
+			$this->getMockBuilder('OCP\IURLGenerator')
+				->disableOriginalConstructor()
+				->getMock(),
+			$this->getMockBuilder('OCP\Activity\IManager')
 				->disableOriginalConstructor()
 				->getMock()
 		);
