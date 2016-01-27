@@ -139,6 +139,8 @@ class Server extends \Test\TestCase {
 			['Search', '\OCP\ISearch'],
 			['SecureRandom', '\OC\Security\SecureRandom'],
 			['SecureRandom', '\OCP\Security\ISecureRandom'],
+			['ShareManager', '\OC\Share20\Manager'],
+			['ShareManager', '\OCP\Share\IManager'],
 			['SystemConfig', '\OC\SystemConfig'],
 
 			['URLGenerator', '\OC\URLGenerator'],
