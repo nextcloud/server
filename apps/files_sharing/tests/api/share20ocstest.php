@@ -1252,6 +1252,78 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->assertEquals($expected->getData(), $result->getData());
 	}
 
+	public function testUpdateLinkSharePermissions() {
+		$ocs = $this->mockFormatShare();
+
+		$date = new \DateTime('2000-01-01');
+
+		$folder = $this->getMock('\OCP\Files\Folder');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPassword('password')
+			->setExpirationDate($date)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setPath($folder);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['permissions', null, '7'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		$this->shareManager->expects($this->once())->method('updateShare')->with(
+			$this->callback(function (IShare $share) use ($date) {
+				return $share->getPermissions() === \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE &&
+				$share->getPassword() === 'password' &&
+				$share->getExpirationDate() === $date;
+			})
+		);
+
+		$expected = new \OC_OCS_Result(null);
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testUpdateLinkShareInvalidPermissions() {
+		$ocs = $this->mockFormatShare();
+
+		$date = new \DateTime('2000-01-01');
+
+		$folder = $this->getMock('\OCP\Files\Folder');
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setSharedBy($this->currentUser)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPassword('password')
+			->setExpirationDate($date)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL)
+			->setPath($folder);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['permissions', null, '31'],
+			]));
+
+		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
+		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
+
+		$expected = new \OC_OCS_Result(null, 400, 'can\'t change permission for public link share');
+		$result = $ocs->updateShare(42);
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
 	public function testUpdateOtherPermissions() {
 		$ocs = $this->mockFormatShare();
 

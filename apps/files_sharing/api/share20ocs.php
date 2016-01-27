@@ -464,8 +464,39 @@ class Share20OCS {
 		 * expirationdate, password and publicUpload only make sense for link shares
 		 */
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
-			if ($password === null && $publicUpload === null && $expireDate === null) {
+			if ($permissions === null && $password === null && $publicUpload === null && $expireDate === null) {
 				return new \OC_OCS_Result(null, 400, 'Wrong or no update parameter given');
+			}
+
+			$newPermissions = null;
+			if ($publicUpload === 'true') {
+				$newPermissions = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE;
+			} else if ($publicUpload === 'false') {
+				$newPermissions = \OCP\Constants::PERMISSION_READ;
+			}
+
+			if ($permissions !== null) {
+				$newPermissions = (int)$permissions;
+			}
+
+			if ($newPermissions !== null &&
+				$newPermissions !== \OCP\Constants::PERMISSION_READ &&
+				$newPermissions !== (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE)) {
+				return new \OC_OCS_Result(null, 400, 'can\'t change permission for public link share');
+			}
+
+			if ($newPermissions === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE)) {
+				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
+					return new \OC_OCS_Result(null, 403, 'public upload disabled by the administrator');
+				}
+
+				if (!($share->getPath() instanceof \OCP\Files\Folder)) {
+					return new \OC_OCS_Result(null, 400, "public upload is only possible for public shared folders");
+				}
+			}
+
+			if ($newPermissions !== null) {
+				$share->setPermissions($newPermissions);
 			}
 
 			if ($expireDate === '') {
@@ -485,20 +516,8 @@ class Share20OCS {
 				$share->setPassword($password);
 			}
 
-			if ($publicUpload === 'true') {
-				if(!$this->shareManager->shareApiLinkAllowPublicUpload()) {
-					return new \OC_OCS_Result(null, 403, "public upload disabled by the administrator");
-				}
-
-				if (!($share->getPath() instanceof \OCP\Files\Folder)) {
-					return new \OC_OCS_Result(null, 400, "public upload is only possible for public shared folders");
-				}
-
-				$share->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
-			} else if ($publicUpload === 'false') {
-				$share->setPermissions(\OCP\Constants::PERMISSION_READ);
-			}
 		} else {
+			// For other shares only permissions is valid.
 			if ($permissions === null) {
 				return new \OC_OCS_Result(null, 400, 'Wrong or no update parameter given');
 			} else {
@@ -516,6 +535,14 @@ class Share20OCS {
 		}
 
 		return new \OC_OCS_Result($this->formatShare($share));
+	}
+
+	public function validatePermissions($permissions) {
+		if ($permissions < 0 || $permissions > \OCP\Constants::PERMISSION_ALL) {
+			return false;
+		}
+
+
 	}
 
 	/**
