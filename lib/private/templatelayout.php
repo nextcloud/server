@@ -130,7 +130,7 @@ class TemplateLayout extends \OC_Template {
 			$this->assign('user_displayname', $userDisplayName);
 			$this->assign('user_uid', \OC_User::getUser());
 			$this->assign('appsmanagement_active', $appsMgmtActive);
-			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true));
+			$this->assign('enableAvatars', $this->config->getSystemValue('enable_avatars', true) === true);
 
 			if (\OC_User::getUser() === false) {
 				$this->assign('userAvatarSet', false);
