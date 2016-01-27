@@ -27,6 +27,7 @@ namespace OC\L10N;
 
 use OCP\IConfig;
 use OCP\IRequest;
+use OCP\IUserSession;
 use OCP\L10N\IFactory;
 
 /**
@@ -59,13 +60,20 @@ class Factory implements IFactory {
 	/** @var IRequest */
 	protected $request;
 
+	/** @var IUserSession */
+	protected $userSession;
+
 	/**
 	 * @param IConfig $config
 	 * @param IRequest $request
+	 * @param IUserSession $userSession
 	 */
-	public function __construct(IConfig $config, IRequest $request) {
+	public function __construct(IConfig $config,
+								IRequest $request,
+								IUserSession $userSession) {
 		$this->config = $config;
 		$this->request = $request;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -107,9 +115,25 @@ class Factory implements IFactory {
 			return $this->requestLanguage;
 		}
 
-		$userId = \OC_User::getUser(); // FIXME not available in non-static?
+		/**
+		 * At this point ownCloud might not yet be installed and thus the lookup
+		 * in the preferences table might fail. For this reason we need to check
+		 * whether the instance has already been installed
+		 *
+		 * @link https://github.com/owncloud/core/issues/21955
+		 */
+		if($this->config->getSystemValue('installed', false)) {
+			$userId = !is_null($this->userSession->getUser()) ? $this->userSession->getUser()->getUID() :  null;
+			if(!is_null($userId)) {
+				$userLang = $this->config->getUserValue($userId, 'core', 'lang', null);
+			} else {
+				$userLang = null;
+			}
+		} else {
+			$userId = null;
+			$userLang = null;
+		}
 
-		$userLang = $userId !== false ? $this->config->getUserValue($userId, 'core', 'lang') : null;
 		if ($userLang) {
 			$this->requestLanguage = $userLang;
 			if ($this->languageExists($app, $userLang)) {
@@ -124,7 +148,7 @@ class Factory implements IFactory {
 		}
 
 		$lang = $this->setLanguageFromRequest($app);
-		if ($userId !== false && $app === null && !$userLang) {
+		if ($userId !== null && $app === null && !$userLang) {
 			$this->config->setUserValue($userId, 'core', 'lang', $lang);
 		}
 

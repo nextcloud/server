@@ -8,7 +8,6 @@
 
 namespace Test\L10N;
 
-
 use OC\L10N\Factory;
 use Test\TestCase;
 
@@ -26,6 +25,9 @@ class FactoryTest extends TestCase {
 	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 
+	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userSession;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -38,6 +40,8 @@ class FactoryTest extends TestCase {
 		$this->request = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
+
+		$this->userSession = $this->getMock('\OCP\IUserSession');
 	}
 
 	/**
@@ -50,91 +54,13 @@ class FactoryTest extends TestCase {
 				->setConstructorArgs([
 					$this->config,
 					$this->request,
+					$this->userSession
 				])
 				->setMethods($methods)
 				->getMock();
 		} else {
-			return new Factory($this->config, $this->request);
+			return new Factory($this->config, $this->request, $this->userSession);
 		}
-	}
-
-	public function dataFindLanguage() {
-		return [
-			[null, false, 1, 'de', true, null, null, null, null, null, 'de'],
-			[null, 'test', 2, 'de', false, 'ru', true, null, null, null, 'ru'],
-			[null, 'test', 1, '', null, 'ru', true, null, null, null, 'ru'],
-			[null, 'test', 3, 'de', false, 'ru', false, 'cz', true, null, 'cz'],
-			[null, 'test', 2, '', null, 'ru', false, 'cz', true, null, 'cz'],
-			[null, 'test', 1, '', null, '', null, 'cz', true, null, 'cz'],
-			[null, 'test', 3, 'de', false, 'ru', false, 'cz', false, 'ar', 'ar'],
-			[null, 'test', 2, '', null, 'ru', false, 'cz', false, 'ar', 'ar'],
-			[null, 'test', 1, '', null, '', null, 'cz', false, 'ar', 'ar'],
-			[null, 'test', 0, '', null, '', null, false, null, 'ar', 'ar'],
-		];
-	}
-
-	/**
-	 * @dataProvider dataFindLanguage
-	 *
-	 * @param string|null $app
-	 * @param string|null $user
-	 * @param int $existsCalls
-	 * @param string $storedRequestLang
-	 * @param bool $srlExists
-	 * @param string|null $userLang
-	 * @param bool $ulExists
-	 * @param string|false $defaultLang
-	 * @param bool $dlExists
-	 * @param string|null $requestLang
-	 * @param string $expected
-	 */
-	public function testFindLanguage($app, $user, $existsCalls, $storedRequestLang, $srlExists, $userLang, $ulExists, $defaultLang, $dlExists, $requestLang, $expected) {
-		$factory = $this->getFactory([
-			'languageExists',
-			'setLanguageFromRequest',
-		]);
-
-		$session = $this->getMockBuilder('OCP\ISession')
-			->disableOriginalConstructor()
-			->getMock();
-		$session->expects($this->any())
-			->method('get')
-			->with('user_id')
-			->willReturn($user);
-		$userSession = $this->getMockBuilder('OC\User\Session')
-			->disableOriginalConstructor()
-			->getMock();
-		$userSession->expects($this->any())
-			->method('getSession')
-			->willReturn($session);
-
-		$this->invokePrivate($factory, 'requestLanguage', [$storedRequestLang]);
-
-		$factory->expects($this->exactly($existsCalls))
-			->method('languageExists')
-			->willReturnMap([
-				[$app, $storedRequestLang, $srlExists],
-				[$app, $userLang, $ulExists],
-				[$app, $defaultLang, $dlExists],
-			]);
-
-		$factory->expects($requestLang !== null ? $this->once() : $this->never())
-			->method('setLanguageFromRequest')
-			->willReturn($requestLang);
-
-		$this->config->expects($userLang !== null ? $this->any() : $this->never())
-			->method('getUserValue')
-			->with($this->anything(), 'core', 'lang')
-			->willReturn($userLang);
-
-		$this->config->expects($defaultLang !== null ? $this->once() : $this->never())
-			->method('getSystemValue')
-			->with('default_language', false)
-			->willReturn($defaultLang);
-
-		$this->overwriteService('UserSession', $userSession);
-		$this->assertSame($expected, $factory->findLanguage($app));
-		$this->restoreService('UserSession');
 	}
 
 	public function dataFindAvailableLanguages() {
@@ -142,6 +68,195 @@ class FactoryTest extends TestCase {
 			[null],
 			['files'],
 		];
+	}
+
+	public function testFindLanguageWithExistingRequestLanguageAndNoApp() {
+		$factory = $this->getFactory(['languageExists']);
+		$this->invokePrivate($factory, 'requestLanguage', ['de']);
+		$factory->expects($this->once())
+			->method('languageExists')
+			->with(null, 'de')
+			->willReturn(true);
+
+		$this->assertSame('de', $factory->findLanguage());
+	}
+
+	public function testFindLanguageWithExistingRequestLanguageAndApp() {
+		$factory = $this->getFactory(['languageExists']);
+		$this->invokePrivate($factory, 'requestLanguage', ['de']);
+		$factory->expects($this->once())
+				->method('languageExists')
+				->with('MyApp', 'de')
+				->willReturn(true);
+
+		$this->assertSame('de', $factory->findLanguage('MyApp'));
+	}
+
+	public function testFindLanguageWithNotExistingRequestLanguageAndExistingStoredUserLanguage() {
+		$factory = $this->getFactory(['languageExists']);
+		$this->invokePrivate($factory, 'requestLanguage', ['de']);
+		$factory->expects($this->at(0))
+				->method('languageExists')
+				->with('MyApp', 'de')
+				->willReturn(false);
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('installed', false)
+			->willReturn(true);
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('getUID')
+			->willReturn('MyUserUid');
+		$this->userSession
+			->expects($this->exactly(2))
+			->method('getUser')
+			->willReturn($user);
+		$this->config
+				->expects($this->once())
+				->method('getUserValue')
+				->with('MyUserUid', 'core', 'lang', null)
+				->willReturn('jp');
+		$factory->expects($this->at(1))
+				->method('languageExists')
+				->with('MyApp', 'jp')
+				->willReturn(true);
+
+		$this->assertSame('jp', $factory->findLanguage('MyApp'));
+	}
+
+	public function testFindLanguageWithNotExistingRequestLanguageAndNotExistingStoredUserLanguage() {
+		$factory = $this->getFactory(['languageExists']);
+		$this->invokePrivate($factory, 'requestLanguage', ['de']);
+		$factory->expects($this->at(0))
+				->method('languageExists')
+				->with('MyApp', 'de')
+				->willReturn(false);
+		$this->config
+				->expects($this->at(0))
+				->method('getSystemValue')
+				->with('installed', false)
+				->willReturn(true);
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+				->method('getUID')
+				->willReturn('MyUserUid');
+		$this->userSession
+				->expects($this->exactly(2))
+				->method('getUser')
+				->willReturn($user);
+		$this->config
+				->expects($this->once())
+				->method('getUserValue')
+				->with('MyUserUid', 'core', 'lang', null)
+				->willReturn('jp');
+		$factory->expects($this->at(1))
+				->method('languageExists')
+				->with('MyApp', 'jp')
+				->willReturn(false);
+		$this->config
+				->expects($this->at(2))
+				->method('getSystemValue')
+				->with('default_language', false)
+				->willReturn('es');
+		$factory->expects($this->at(2))
+				->method('languageExists')
+				->with('MyApp', 'es')
+				->willReturn(true);
+
+		$this->assertSame('es', $factory->findLanguage('MyApp'));
+	}
+
+	public function testFindLanguageWithNotExistingRequestLanguageAndNotExistingStoredUserLanguageAndNotExistingDefault() {
+		$factory = $this->getFactory(['languageExists']);
+		$this->invokePrivate($factory, 'requestLanguage', ['de']);
+		$factory->expects($this->at(0))
+				->method('languageExists')
+				->with('MyApp', 'de')
+				->willReturn(false);
+		$this->config
+				->expects($this->at(0))
+				->method('getSystemValue')
+				->with('installed', false)
+				->willReturn(true);
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+				->method('getUID')
+				->willReturn('MyUserUid');
+		$this->userSession
+				->expects($this->exactly(2))
+				->method('getUser')
+				->willReturn($user);
+		$this->config
+				->expects($this->once())
+				->method('getUserValue')
+				->with('MyUserUid', 'core', 'lang', null)
+				->willReturn('jp');
+		$factory->expects($this->at(1))
+				->method('languageExists')
+				->with('MyApp', 'jp')
+				->willReturn(false);
+		$this->config
+				->expects($this->at(2))
+				->method('getSystemValue')
+				->with('default_language', false)
+				->willReturn('es');
+		$factory->expects($this->at(2))
+				->method('languageExists')
+				->with('MyApp', 'es')
+				->willReturn(false);
+		$this->config
+			->expects($this->never())
+			->method('setUserValue');
+
+		$this->assertSame('en', $factory->findLanguage('MyApp'));
+	}
+
+	public function testFindLanguageWithNotExistingRequestLanguageAndNotExistingStoredUserLanguageAndNotExistingDefaultAndNoAppInScope() {
+		$factory = $this->getFactory(['languageExists']);
+		$this->invokePrivate($factory, 'requestLanguage', ['de']);
+		$factory->expects($this->at(0))
+				->method('languageExists')
+				->with('MyApp', 'de')
+				->willReturn(false);
+		$this->config
+				->expects($this->at(0))
+				->method('getSystemValue')
+				->with('installed', false)
+				->willReturn(true);
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+				->method('getUID')
+				->willReturn('MyUserUid');
+		$this->userSession
+				->expects($this->exactly(2))
+				->method('getUser')
+				->willReturn($user);
+		$this->config
+				->expects($this->once())
+				->method('getUserValue')
+				->with('MyUserUid', 'core', 'lang', null)
+				->willReturn('jp');
+		$factory->expects($this->at(1))
+				->method('languageExists')
+				->with('MyApp', 'jp')
+				->willReturn(false);
+		$this->config
+				->expects($this->at(2))
+				->method('getSystemValue')
+				->with('default_language', false)
+				->willReturn('es');
+		$factory->expects($this->at(2))
+				->method('languageExists')
+				->with('MyApp', 'es')
+				->willReturn(false);
+		$this->config
+				->expects($this->never())
+				->method('setUserValue')
+				->with('MyUserUid', 'core', 'lang', 'en');
+
+
+		$this->assertSame('en', $factory->findLanguage('MyApp'));
 	}
 
 	/**
