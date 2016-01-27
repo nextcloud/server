@@ -204,6 +204,8 @@ OC.L10N.register(
     "Developer documentation" : "Vývojářská dokumentace",
     "Experimental applications ahead" : "Experimentální aplikace v pořadí",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Experimentální aplikace nejsou prověřovány na bezpečnostní chyby, mohou být nestabilní a velmi se měnit. Jejich instalací můžete způsobit ztrátu dat nebo bezpečnostní problémy.",
+    "by %s" : "%s",
+    "%s-licensed" : "%s-licencováno",
     "Documentation:" : "Dokumentace:",
     "User documentation" : "Dokumentace uživatele",
     "Admin documentation" : "Dokumentace pro administrátory",
