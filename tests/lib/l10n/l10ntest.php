@@ -12,6 +12,7 @@ namespace Test\L10N;
 use DateTime;
 use OC\L10N\Factory;
 use OC\L10N\L10N;
+use OCP\IUserSession;
 use Test\TestCase;
 
 /**
@@ -28,7 +29,9 @@ class L10nTest extends TestCase {
 		$config = $this->getMock('OCP\IConfig');
 		/** @var \OCP\IRequest $request */
 		$request = $this->getMock('OCP\IRequest');
-		return new Factory($config, $request);
+		/** @var IUserSession $userSession */
+		$userSession = $this->getMock('OCP\IUserSession');
+		return new Factory($config, $request, $userSession);
 	}
 
 	public function testGermanPluralTranslations() {
