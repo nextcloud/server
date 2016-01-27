@@ -184,7 +184,7 @@ class Config {
 
 		// Include file and merge config
 		foreach ($configFiles as $file) {
-			$filePointer = @fopen($file, 'r');
+			$filePointer = file_exists($file) ? fopen($file, 'r') : false;
 			if($file === $this->configFilePath &&
 				$filePointer === false &&
 				@!file_exists($this->configFilePath)) {
