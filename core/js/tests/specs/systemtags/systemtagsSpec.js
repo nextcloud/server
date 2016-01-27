@@ -34,7 +34,7 @@ describe('OC.SystemTags tests', function() {
 			userVisible: true
 		});
 		var $return = OC.SystemTags.getDescriptiveTag(tag);
-		expect($return.text()).toEqual('Twenty Three (visible, assignable)');
+		expect($return.text()).toEqual('Twenty Three');
 		expect($return.hasClass('non-existing-tag')).toEqual(false);
 	});
 
@@ -42,10 +42,28 @@ describe('OC.SystemTags tests', function() {
 		var $return = OC.SystemTags.getDescriptiveTag({
 			id: 42,
 			name: 'Fourty Two',
-			userAssignable: false,
-			userVisible: false
+			userAssignable: true,
+			userVisible: true
 		});
-		expect($return.text()).toEqual('Fourty Two (invisible, not assignable)');
+		expect($return.text()).toEqual('Fourty Two');
 		expect($return.hasClass('non-existing-tag')).toEqual(false);
+	});
+
+	it('scope', function() {
+		function testScope(userVisible, userAssignable, expectedText) {
+			var $return = OC.SystemTags.getDescriptiveTag({
+				id: 42,
+				name: 'Fourty Two',
+				userAssignable: userAssignable,
+				userVisible: userVisible
+			});
+			expect($return.text()).toEqual(expectedText);
+			expect($return.hasClass('non-existing-tag')).toEqual(false);
+		}
+
+		testScope(true, true, 'Fourty Two');
+		testScope(false, true, 'Fourty Two (invisible)');
+		testScope(false, false, 'Fourty Two (invisible)');
+		testScope(true, false, 'Fourty Two (not assignable)');
 	});
 });

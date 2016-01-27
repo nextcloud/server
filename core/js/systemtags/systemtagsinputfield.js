@@ -34,8 +34,7 @@
 		'    <span class="label">{{{tagMarkup}}}</span>' +
 		'{{else}}' +
 		'    <span class="label">{{name}}</span>' +
-		'{{/if}}' +
-		'<span class="comma">,&nbsp;</span>';
+		'{{/if}}';
 
 	var RENAME_FORM_TEMPLATE =
 		'<form class="systemtags-rename-form">' +
