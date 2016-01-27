@@ -157,13 +157,6 @@ interface ICache {
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath);
 
 	/**
-	 * remove all entries for files that are stored on the storage from the cache
-	 *
-	 * @since 9.0.0
-	 */
-	public function clear();
-
-	/**
 	 * Get the scan status of a file
 	 *
 	 * - ICache::NOT_FOUND: File is not in the cache
@@ -208,14 +201,6 @@ interface ICache {
 	 * @since 9.0.0
 	 */
 	public function searchByTag($tag, $userId);
-
-	/**
-	 * get all file ids on the files on the storage
-	 *
-	 * @return int[]
-	 * @since 9.0.0
-	 */
-	public function getAll();
 
 	/**
 	 * find a folder in the cache which has not been fully scanned
