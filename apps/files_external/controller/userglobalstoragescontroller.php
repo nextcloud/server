@@ -24,6 +24,7 @@ namespace OCA\Files_External\Controller;
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Auth\IUserProvided;
 use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
+use OCP\ILogger;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use \OCP\AppFramework\Http\DataResponse;
@@ -57,13 +58,15 @@ class UserGlobalStoragesController extends StoragesController {
 		IRequest $request,
 		IL10N $l10n,
 		UserGlobalStoragesService $userGlobalStoragesService,
-		IUserSession $userSession
+		IUserSession $userSession,
+		ILogger $logger
 	) {
 		parent::__construct(
 			$AppName,
 			$request,
 			$l10n,
-			$userGlobalStoragesService
+			$userGlobalStoragesService,
+			$logger
 		);
 		$this->userSession = $userSession;
 	}

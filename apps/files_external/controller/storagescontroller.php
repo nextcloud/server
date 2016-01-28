@@ -25,6 +25,7 @@ namespace OCA\Files_External\Controller;
 
 
 use \OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUser;
 use \OCP\IUserSession;
 use \OCP\IRequest;
@@ -61,22 +62,30 @@ abstract class StoragesController extends Controller {
 	protected $service;
 
 	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+
+	/**
 	 * Creates a new storages controller.
 	 *
 	 * @param string $AppName application name
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param StoragesService $storagesService storage service
+	 * @param ILogger $logger
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
 		IL10N $l10n,
-		StoragesService $storagesService
+		StoragesService $storagesService,
+		ILogger $logger
 	) {
 		parent::__construct($AppName, $request);
 		$this->l10n = $l10n;
 		$this->service = $storagesService;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -115,7 +124,7 @@ abstract class StoragesController extends Controller {
 				$priority
 			);
 		} catch (\InvalidArgumentException $e) {
-			\OC::$server->getLogger()->logException($e);
+			$this->logger->logException($e);
 			return new DataResponse(
 				[
 					'message' => (string)$this->l10n->t('Invalid backend or authentication mechanism class')
@@ -129,7 +138,7 @@ abstract class StoragesController extends Controller {
 	 * Validate storage config
 	 *
 	 * @param StorageConfig $storage storage config
-	 *
+	 *1
 	 * @return DataResponse|null returns response in case of validation error
 	 */
 	protected function validate(StorageConfig $storage) {

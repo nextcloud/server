@@ -41,7 +41,8 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 			'files_external',
 			$this->getMock('\OCP\IRequest'),
 			$this->getMock('\OCP\IL10N'),
-			$this->service
+			$this->service,
+			$this->getMock('\OCP\ILogger')
 		);
 	}
 }

@@ -25,6 +25,7 @@ namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUser;
 use \OCP\IUserSession;
 use \OCP\IRequest;
@@ -55,19 +56,22 @@ class UserStoragesController extends StoragesController {
 	 * @param IL10N $l10n l10n service
 	 * @param UserStoragesService $userStoragesService storage service
 	 * @param IUserSession $userSession
+	 * @param ILogger $logger
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
 		IL10N $l10n,
 		UserStoragesService $userStoragesService,
-		IUserSession $userSession
+		IUserSession $userSession,
+		ILogger $logger
 	) {
 		parent::__construct(
 			$AppName,
 			$request,
 			$l10n,
-			$userStoragesService
+			$userStoragesService,
+			$logger
 		);
 		$this->userSession = $userSession;
 	}

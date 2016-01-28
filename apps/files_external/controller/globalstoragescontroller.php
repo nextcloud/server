@@ -24,6 +24,7 @@ namespace OCA\Files_External\Controller;
 
 
 use \OCP\IConfig;
+use OCP\ILogger;
 use \OCP\IUserSession;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -46,18 +47,21 @@ class GlobalStoragesController extends StoragesController {
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param GlobalStoragesService $globalStoragesService storage service
+	 * @param ILogger $logger
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
 		IL10N $l10n,
-		GlobalStoragesService $globalStoragesService
+		GlobalStoragesService $globalStoragesService,
+		ILogger $logger
 	) {
 		parent::__construct(
 			$AppName,
 			$request,
 			$l10n,
-			$globalStoragesService
+			$globalStoragesService,
+			$logger
 		);
 	}
 
