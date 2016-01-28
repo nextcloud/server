@@ -158,6 +158,65 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				expect(selectHandler.calledOnce).toEqual(true);
 				expect(selectHandler.getCall(0).args[0]).toEqual('2');
 			});
+			it('triggers select event and still adds to list even in case of conflict', function() {
+				var selectHandler = sinon.stub();
+				view.on('select', selectHandler);
+				var fetchStub = sinon.stub(OC.SystemTags.SystemTagsCollection.prototype, 'fetch');
+				var createStub = sinon.stub(OC.SystemTags.SystemTagsCollection.prototype, 'create');
+				view.$el.find('input').trigger(new $.Event('select2-selecting', {
+					object: {
+						id: -1,
+						name: 'newname',
+						isNew: true
+					}
+				}));
+
+				expect(createStub.calledOnce).toEqual(true);
+				expect(createStub.getCall(0).args[0]).toEqual({
+					name: 'newname',
+					userVisible: true,
+					userAssignable: true
+				});
+
+				var newModel = new OC.SystemTags.SystemTagModel({
+					id: '123',
+					name: 'newname',
+					userVisible: true,
+					userAssignable: true
+				});
+
+				// not called yet
+				expect(selectHandler.notCalled).toEqual(true);
+
+				select2Stub.withArgs('data').returns([{
+					id: '1',
+					name: 'abc'
+				}]);
+
+				// simulate conflict response for tag creation
+				createStub.yieldTo('error', view.collection, {status: 409});
+
+				// at this point it fetches from the server
+				expect(fetchStub.calledOnce).toEqual(true);
+				// simulate fetch result by adding model to the collection
+				view.collection.add(newModel);
+				fetchStub.yieldTo('success', view.collection);
+
+				expect(select2Stub.lastCall.args[0]).toEqual('data');
+				expect(select2Stub.lastCall.args[1]).toEqual([{
+						id: '1',
+						name: 'abc'
+					},
+					newModel.toJSON()
+				]);
+
+				// select event still called
+				expect(selectHandler.calledOnce).toEqual(true);
+				expect(selectHandler.getCall(0).args[0]).toEqual(newModel);
+
+				createStub.restore();
+				fetchStub.restore();
+			});
 		});
 		describe('tag actions', function() {
 			var opts;

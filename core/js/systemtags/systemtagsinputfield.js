@@ -186,6 +186,12 @@
 			return false;
 		},
 
+		_addToSelect2Selection: function(selection) {
+			var data = this.$tagsField.select2('data');
+			data.push(selection);
+			this.$tagsField.select2('data', data);
+		},
+
 		/**
 		 * Event handler whenever a tag is selected.
 		 * Also called whenever tag creation is requested through the dummy tag object.
@@ -204,10 +210,27 @@
 					userAssignable: true
 				}, {
 					success: function(model) {
-						var data = self.$tagsField.select2('data');
-						data.push(model.toJSON());
-						self.$tagsField.select2('data', data);
+						self._addToSelect2Selection(model.toJSON());
 						self.trigger('select', model);
+					},
+					error: function(model, xhr) {
+						if (xhr.status === 409) {
+							// re-fetch collection to get the missing tag
+							self.collection.reset();
+							self.collection.fetch({
+								success: function(collection) {
+									// find the tag in the collection
+									var model = collection.where({name: e.object.name, userVisible: true, userAssignable: true});
+									if (model.length) {
+										model = model[0];
+										// the tag already exists or was already assigned,
+										// add it to the list anyway
+										self._addToSelect2Selection(model.toJSON());
+										self.trigger('select', model);
+									}
+								}
+							});
+						}
 					}
 				});
 				this.$tagsField.select2('close');
