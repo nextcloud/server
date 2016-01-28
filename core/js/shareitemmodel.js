@@ -123,7 +123,7 @@
 				shareId = this.get('linkShare').id;
 
 				// note: update can only update a single value at a time
-				call = this.updateShare(shareId, attributes);
+				call = this.updateShare(shareId, attributes, options);
 			} else {
 				attributes = _.defaults(attributes, {
 					password: '',
@@ -133,7 +133,7 @@
 					shareType: OC.Share.SHARE_TYPE_LINK
 				});
 
-				call = this.addShare(attributes);
+				call = this.addShare(attributes, options);
 			}
 
 			return call;
@@ -189,8 +189,9 @@
 						}
 					}
 				});
-			}).fail(function(result) {
+			}).fail(function(xhr) {
 				var msg = t('core', 'Error');
+				var result = xhr.responseJSON;
 				if (result.ocs && result.ocs.meta) {
 					msg = result.ocs.meta.message;
 				}
@@ -203,15 +204,34 @@
 			});
 		},
 
-		updateShare: function(shareId, attrs) {
+		updateShare: function(shareId, attrs, options) {
 			var self = this;
+			options = options || {};
 			return $.ajax({
 				type: 'PUT',
 				url: this._getUrl('shares/' + encodeURIComponent(shareId)),
 				data: attrs,
 				dataType: 'json'
 			}).done(function() {
-				self.fetch();
+				self.fetch({
+					success: function() {
+						if (_.isFunction(options.success)) {
+							options.success(self);
+						}
+					}
+				});
+			}).fail(function(xhr) {
+				var msg = t('core', 'Error');
+				var result = xhr.responseJSON;
+				if (result.ocs && result.ocs.meta) {
+					msg = result.ocs.meta.message;
+				}
+
+				if (_.isFunction(options.error)) {
+					options.error(self, msg);
+				} else {
+					OC.dialogs.alert(msg, t('core', 'Error while sharing'));
+				}
 			});
 		},
 
@@ -221,13 +241,32 @@
 		 * @param {int} shareId share id
 		 * @return {jQuery}
 		 */
-		removeShare: function(shareId) {
+		removeShare: function(shareId, options) {
 			var self = this;
+			options = options || {};
 			return $.ajax({
 				type: 'DELETE',
 				url: this._getUrl('shares/' + encodeURIComponent(shareId)),
 			}).done(function() {
-				self.fetch();
+				self.fetch({
+					success: function() {
+						if (_.isFunction(options.success)) {
+							options.success(self);
+						}
+					}
+				});
+			}).fail(function(xhr) {
+				var msg = t('core', 'Error');
+				var result = xhr.responseJSON;
+				if (result.ocs && result.ocs.meta) {
+					msg = result.ocs.meta.message;
+				}
+
+				if (_.isFunction(options.error)) {
+					options.error(self, msg);
+				} else {
+					OC.dialogs.alert(msg, t('core', 'Error removing share'));
+				}
 			});
 		},
 

@@ -659,6 +659,47 @@ describe('OC.Share.ShareItemModel', function() {
 				password: 'test'
 			});
 		});
+		it('forwards error message on add', function() {
+			var errorStub = sinon.stub();
+			model.set({
+				linkShare: {
+					isLinkShare: false
+				}
+			}, {
+			});
+
+			model.saveLinkShare({
+				password: 'test'
+			}, {
+				error: errorStub
+			});
+
+			addShareStub.yieldTo('error', 'Some error message');
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[0]).toEqual('Some error message');
+		});
+		it('forwards error message on update', function() {
+			var errorStub = sinon.stub();
+			model.set({
+				linkShare: {
+					isLinkShare: true,
+					id: '123'
+				}
+			}, {
+			});
+
+			model.saveLinkShare({
+				password: 'test'
+			}, {
+				error: errorStub
+			});
+
+			updateShareStub.yieldTo('error', 'Some error message');
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[0]).toEqual('Some error message');
+		});
 	});
 	describe('creating shares', function() {
 		it('sends POST method to endpoint with passed values', function() {
@@ -680,6 +721,31 @@ describe('OC.Share.ShareItemModel', function() {
 				shareWith: 'group1'
 			});
 		});
+		it('calls error handler with error message', function() {
+			var errorStub = sinon.stub();
+			model.addShare({
+				shareType: OC.Share.SHARE_TYPE_GROUP,
+				shareWith: 'group1'
+			}, {
+				error: errorStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				400,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					ocs: {
+						meta: {
+							message: 'Some error message'
+						}
+					}
+				})
+			);
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
+		});
 	});
 	describe('updating shares', function() {
 		it('sends PUT method to endpoint with passed values', function() {
@@ -697,6 +763,30 @@ describe('OC.Share.ShareItemModel', function() {
 				permissions: '' + (OC.PERMISSION_READ | OC.PERMISSION_SHARE)
 			});
 		});
+		it('calls error handler with error message', function() {
+			var errorStub = sinon.stub();
+			model.updateShare(123, {
+				permissions: OC.PERMISSION_READ | OC.PERMISSION_SHARE
+			}, {
+				error: errorStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				400,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					ocs: {
+						meta: {
+							message: 'Some error message'
+						}
+					}
+				})
+			);
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
+		});
 	});
 	describe('removing shares', function() {
 		it('sends DELETE method to endpoint with share id', function() {
@@ -708,6 +798,28 @@ describe('OC.Share.ShareItemModel', function() {
 				OC.linkToOCS('apps/files_sharing/api/v1', 2) +
 				'shares/123?format=json'
 			);
+		});
+		it('calls error handler with error message', function() {
+			var errorStub = sinon.stub();
+			model.removeShare(123, {
+				error: errorStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				400,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					ocs: {
+						meta: {
+							message: 'Some error message'
+						}
+					}
+				})
+			);
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
 		});
 	});
 });
