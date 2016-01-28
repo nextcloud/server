@@ -178,7 +178,8 @@ class AddressBookImpl implements IAddressBook {
 	protected function createUid() {
 		do {
 			$uid = $this->getUid();
-		} while (!empty($this->backend->getContact($uid . '.vcf')));
+			$contact = $this->backend->getContact($uid . '.vcf');
+		} while (!empty($contact));
 
 		return $uid;
 	}
