@@ -802,9 +802,9 @@ class Test_Files_Versioning extends \Test\TestCase {
 		}
 
 		$storage = new \ReflectionClass('\OC\Files\Storage\Shared');
-		$isInitialized = $storage->getProperty('isInitialized');
+		$isInitialized = $storage->getProperty('initialized');
 		$isInitialized->setAccessible(true);
-		$isInitialized->setValue(array());
+		$isInitialized->setValue($storage, false);
 		$isInitialized->setAccessible(false);
 
 		\OC_Util::tearDownFS();

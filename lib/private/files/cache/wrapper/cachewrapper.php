@@ -26,15 +26,16 @@ namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
 use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Cache\ICache;
 
 class CacheWrapper extends Cache {
 	/**
-	 * @var \OC\Files\Cache\Cache
+	 * @var \OCP\Files\Cache\ICache
 	 */
 	protected $cache;
 
 	/**
-	 * @param \OC\Files\Cache\Cache $cache
+	 * @param \OCP\Files\Cache\ICache $cache
 	 */
 	public function __construct($cache) {
 		$this->cache = $cache;
@@ -157,6 +158,10 @@ class CacheWrapper extends Cache {
 	 */
 	public function move($source, $target) {
 		$this->cache->move($source, $target);
+	}
+
+	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
+		$this->cache->moveFromCache($sourceCache, $sourcePath, $targetPath);
 	}
 
 	/**

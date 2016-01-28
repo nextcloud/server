@@ -32,6 +32,8 @@ namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\ISharedStorage;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -41,7 +43,6 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 
 	private $share;   // the shared resource
 	private $files = array();
-	private static $isInitialized = array();
 
 	/**
 	 * @var \OC\Files\View
@@ -55,6 +56,16 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 
 	private $initialized = false;
 
+	/**
+	 * @var ICacheEntry
+	 */
+	private $sourceRootInfo;
+
+	/**
+	 * @var IStorage
+	 */
+	private $sourceStorage;
+
 	public function __construct($arguments) {
 		$this->share = $arguments['share'];
 		$this->ownerView = $arguments['ownerView'];
@@ -67,6 +78,9 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		}
 		$this->initialized = true;
 		Filesystem::initMountPoints($this->share['uid_owner']);
+		$sourcePath = $this->ownerView->getPath($this->share['file_source']);
+		list($this->sourceStorage, $sourceInternalPath) = $this->ownerView->resolvePath($sourcePath);
+		$this->sourceRootInfo = $this->sourceStorage->getCache()->get($sourceInternalPath);
 	}
 
 	/**
@@ -543,7 +557,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return new \OC\Files\Cache\Shared_Cache($storage);
+		return new \OC\Files\Cache\Shared_Cache($storage, $this->sourceStorage, $this->sourceRootInfo);
 	}
 
 	public function getScanner($path = '', $storage = null) {
@@ -551,13 +565,6 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 			$storage = $this;
 		}
 		return new \OC\Files\Cache\SharedScanner($storage);
-	}
-
-	public function getWatcher($path = '', $storage = null) {
-		if (!$storage) {
-			$storage = $this;
-		}
-		return new \OC\Files\Cache\Shared_Watcher($storage);
 	}
 
 	public function getPropagator($storage = null) {
