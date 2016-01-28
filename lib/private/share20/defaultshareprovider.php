@@ -20,6 +20,7 @@
  */
 namespace OC\Share20;
 
+use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
 use OC\Share20\Exception\ShareNotFound;
@@ -87,12 +88,12 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Share a path
 	 *
-	 * @param IShare $share
-	 * @return IShare The share object
+	 * @param \OCP\Share\IShare $share
+	 * @return \OCP\Share\IShare The share object
 	 * @throws ShareNotFound
 	 * @throws \Exception
 	 */
-	public function create(IShare $share) {
+	public function create(\OCP\Share\IShare $share) {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->insert('share');
@@ -127,15 +128,15 @@ class DefaultShareProvider implements IShareProvider {
 
 		// Set what is shares
 		$qb->setValue('item_type', $qb->createParameter('itemType'));
-		if ($share->getPath() instanceof \OCP\Files\File) {
+		if ($share->getNode() instanceof \OCP\Files\File) {
 			$qb->setParameter('itemType', 'file');
 		} else {
 			$qb->setParameter('itemType', 'folder');
 		}
 
 		// Set the file id
-		$qb->setValue('item_source', $qb->createNamedParameter($share->getPath()->getId()));
-		$qb->setValue('file_source', $qb->createNamedParameter($share->getPath()->getId()));
+		$qb->setValue('item_source', $qb->createNamedParameter($share->getNode()->getId()));
+		$qb->setValue('file_source', $qb->createNamedParameter($share->getNode()->getId()));
 
 		// set the permissions
 		$qb->setValue('permissions', $qb->createNamedParameter($share->getPermissions()));
@@ -179,10 +180,10 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Update a share
 	 *
-	 * @param IShare $share
-	 * @return IShare The share object
+	 * @param \OCP\Share\IShare $share
+	 * @return \OCP\Share\IShare The share object
 	 */
-	public function update(IShare $share) {
+	public function update(\OCP\Share\IShare $share) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			/*
 			 * We allow updating the recipient on user shares.
@@ -194,8 +195,8 @@ class DefaultShareProvider implements IShareProvider {
 				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()->getUID()))
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()->getUID()))
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
-				->set('item_source', $qb->createNamedParameter($share->getPath()->getId()))
-				->set('file_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->execute();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$qb = $this->dbConn->getQueryBuilder();
@@ -204,8 +205,8 @@ class DefaultShareProvider implements IShareProvider {
 				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()->getUID()))
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()->getUID()))
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
-				->set('item_source', $qb->createNamedParameter($share->getPath()->getId()))
-				->set('file_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->execute();
 
 			/*
@@ -216,8 +217,8 @@ class DefaultShareProvider implements IShareProvider {
 				->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
 				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()->getUID()))
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()->getUID()))
-				->set('item_source', $qb->createNamedParameter($share->getPath()->getId()))
-				->set('file_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->execute();
 
 			/*
@@ -238,8 +239,8 @@ class DefaultShareProvider implements IShareProvider {
 				->set('uid_owner', $qb->createNamedParameter($share->getShareOwner()->getUID()))
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()->getUID()))
 				->set('permissions', $qb->createNamedParameter($share->getPermissions()))
-				->set('item_source', $qb->createNamedParameter($share->getPath()->getId()))
-				->set('file_source', $qb->createNamedParameter($share->getPath()->getId()))
+				->set('item_source', $qb->createNamedParameter($share->getNode()->getId()))
+				->set('file_source', $qb->createNamedParameter($share->getNode()->getId()))
 				->set('token', $qb->createNamedParameter($share->getToken()))
 				->set('expiration', $qb->createNamedParameter($share->getExpirationDate(), IQueryBuilder::PARAM_DATE))
 				->execute();
@@ -251,10 +252,10 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Get all children of this share
 	 *
-	 * @param IShare $parent
+	 * @param \OCP\Share\IShare $parent
 	 * @return IShare[]
 	 */
-	public function getChildren(IShare $parent) {
+	public function getChildren(\OCP\Share\IShare $parent) {
 		$children = [];
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -286,10 +287,10 @@ class DefaultShareProvider implements IShareProvider {
 	/**
 	 * Delete a share
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @throws BackendError
 	 */
-	public function delete(IShare $share) {
+	public function delete(\OCP\Share\IShare $share) {
 		// Fetch share to make sure it exists
 		$share = $this->getShareById($share->getId());
 
@@ -308,12 +309,12 @@ class DefaultShareProvider implements IShareProvider {
 	 * Unshare a share from the recipient. If this is a group share
 	 * this means we need a special entry in the share db.
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @param IUser $recipient
 	 * @throws BackendError
 	 * @throws ProviderException
 	 */
-	public function deleteFromSelf(IShare $share, IUser $recipient) {
+	public function deleteFromSelf(\OCP\Share\IShare $share, IUser $recipient) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 
 			/** @var IGroup $group */
@@ -341,7 +342,7 @@ class DefaultShareProvider implements IShareProvider {
 			if ($data === false) {
 				$qb = $this->dbConn->getQueryBuilder();
 
-				$type = $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder';
+				$type = $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder';
 
 				//Insert new share
 				$qb->insert('share')
@@ -352,11 +353,11 @@ class DefaultShareProvider implements IShareProvider {
 						'uid_initiator' => $qb->createNamedParameter($share->getSharedBy()->getUID()),
 						'parent' => $qb->createNamedParameter($share->getId()),
 						'item_type' => $qb->createNamedParameter($type),
-						'item_source' => $qb->createNamedParameter($share->getPath()->getId()),
-						'file_source' => $qb->createNamedParameter($share->getPath()->getId()),
+						'item_source' => $qb->createNamedParameter($share->getNode()->getId()),
+						'file_source' => $qb->createNamedParameter($share->getNode()->getId()),
 						'file_target' => $qb->createNamedParameter($share->getTarget()),
 						'permissions' => $qb->createNamedParameter(0),
-						'stime' => $qb->createNamedParameter($share->getSharetime()),
+						'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
 					])->execute();
 
 			} else if ($data['permissions'] !== 0) {
@@ -450,7 +451,7 @@ class DefaultShareProvider implements IShareProvider {
 	 * Get share by id
 	 *
 	 * @param int $id
-	 * @return IShare
+	 * @return \OCP\Share\IShare
 	 * @throws ShareNotFound
 	 */
 	public function getShareById($id) {
@@ -649,7 +650,7 @@ class DefaultShareProvider implements IShareProvider {
 	 * Create a share object from an database row
 	 *
 	 * @param mixed[] $data
-	 * @return Share
+	 * @return \OCP\Share\IShare
 	 * @throws InvalidShare
 	 */
 	private function createShare($data) {
@@ -658,8 +659,11 @@ class DefaultShareProvider implements IShareProvider {
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
 			->setTarget($data['file_target'])
-			->setShareTime((int)$data['stime'])
 			->setMailSend((bool)$data['mail_send']);
+
+		$shareTime = new \DateTime();
+		$shareTime->setTimestamp((int)$data['stime']);
+		$share->setShareTime($shareTime);
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$sharedWith = $this->userManager->get($data['share_with']);
@@ -701,7 +705,7 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		$path = $this->getNode($share->getShareOwner(), (int)$data['file_source']);
-		$share->setPath($path);
+		$share->setNode($path);
 
 		if ($data['expiration'] !== null) {
 			$expiration = \DateTime::createFromFormat('Y-m-d H:i:s', $data['expiration']);

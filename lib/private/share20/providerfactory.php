@@ -20,6 +20,7 @@
  */
 namespace OC\Share20;
 
+use OCP\Share\IProviderFactory;
 use OC\Share20\Exception\ProviderException;
 use OCP\IServerContainer;
 

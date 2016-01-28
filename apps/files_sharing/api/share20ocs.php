@@ -20,8 +20,6 @@
  */
 namespace OCA\Files_Sharing\API;
 
-use OC\Share20\IShare;
-
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IRequest;
@@ -73,36 +71,36 @@ class Share20OCS {
 	/**
 	 * Convert an IShare to an array for OCS output
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @return array
 	 */
-	protected function formatShare($share) {
+	protected function formatShare(\OCP\Share\IShare $share) {
 		$result = [
 			'id' => $share->getId(),
 			'share_type' => $share->getShareType(),
 			'uid_owner' => $share->getSharedBy()->getUID(),
 			'displayname_owner' => $share->getSharedBy()->getDisplayName(),
 			'permissions' => $share->getPermissions(),
-			'stime' => $share->getShareTime(),
-			'parent' => $share->getParent(),
+			'stime' => $share->getShareTime()->getTimestamp(),
+			'parent' => null,
 			'expiration' => null,
 			'token' => null,
 			'uid_file_owner' => $share->getShareOwner()->getUID(),
 			'displayname_file_owner' => $share->getShareOwner()->getDisplayName(),
 		];
 
-		$path = $share->getPath();
-		$result['path'] = $this->rootFolder->getUserFolder($share->getShareOwner()->getUID())->getRelativePath($path->getPath());
-		if ($path instanceOf \OCP\Files\Folder) {
+		$node = $share->getNode();
+		$result['path'] = $this->rootFolder->getUserFolder($share->getShareOwner()->getUID())->getRelativePath($node->getPath());
+		if ($node instanceOf \OCP\Files\Folder) {
 			$result['item_type'] = 'folder';
 		} else {
 			$result['item_type'] = 'file';
 		}
-		$result['storage_id'] = $path->getStorage()->getId();
-		$result['storage'] = $path->getStorage()->getCache()->getNumericStorageId();
-		$result['item_source'] = $path->getId();
-		$result['file_source'] = $path->getId();
-		$result['file_parent'] = $path->getParent()->getId();
+		$result['storage_id'] = $node->getStorage()->getId();
+		$result['storage'] = $node->getStorage()->getCache()->getNumericStorageId();
+		$result['item_source'] = $node->getId();
+		$result['file_source'] = $node->getId();
+		$result['file_parent'] = $node->getParent()->getId();
 		$result['file_target'] = $share->getTarget();
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
@@ -222,7 +220,7 @@ class Share20OCS {
 			return new \OC_OCS_Result(null, 404, 'wrong path, file/folder doesn\'t exist');
 		}
 
-		$share->setPath($path);
+		$share->setNode($path);
 
 		// Parse permissions (if available)
 		$permissions = $this->request->getParam('permissions', null);
@@ -353,7 +351,7 @@ class Share20OCS {
 		}
 
 		$nodes = $folder->getDirectoryListing();
-		/** @var IShare[] $shares */
+		/** @var \OCP\Share\IShare[] $shares */
 		$shares = [];
 		foreach ($nodes as $node) {
 			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
@@ -494,10 +492,10 @@ class Share20OCS {
 	}
 
 	/**
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @return bool
 	 */
-	protected function canAccessShare(IShare $share) {
+	protected function canAccessShare(\OCP\Share\IShare $share) {
 		// A file with permissions 0 can't be accessed by us. So Don't show it
 		if ($share->getPermissions() === 0) {
 			return false;

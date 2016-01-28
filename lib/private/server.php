@@ -1256,9 +1256,8 @@ class Server extends ServerContainer implements IServerContainer {
 		return \OC_Mount_Config::$app->getContainer()->query('OCA\\Files_External\\Service\\UserStoragesService');
 	}
 
-
 	/**
-	 * @return \OC\Share20\Manager
+	 * @return \OCP\Share\IManager
 	 */
 	public function getShareManager() {
 		return $this->query('ShareManager');

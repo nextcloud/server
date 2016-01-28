@@ -18,11 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
 namespace OC\Share20;
 
-
+use OCP\Share\IManager;
+use OCP\Share\IProviderFactory;
 use OC\Share20\Exception\BackendError;
-use OC\Share20\Exception\ProviderException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -40,13 +41,10 @@ use OC\HintException;
 /**
  * This class is the communication hub for all sharing related operations.
  */
-class Manager {
+class Manager implements IManager {
 
 	/** @var IProviderFactory */
 	private $factory;
-
-	/** @var array */
-	private $type2provider;
 
 	/** @var ILogger */
 	private $logger;
@@ -91,9 +89,6 @@ class Manager {
 			IL10N $l,
 			IProviderFactory $factory
 	) {
-		$this->providers = [];
-		$this->type2provider = [];
-
 		$this->logger = $logger;
 		$this->config = $config;
 		$this->secureRandom = $secureRandom;
@@ -147,10 +142,10 @@ class Manager {
 	/**
 	 * Check for generic requirements before creating a share
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @throws \Exception
 	 */
-	protected function generalCreateChecks(IShare $share) {
+	protected function generalCreateChecks(\OCP\Share\IShare $share) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			// We expect a valid user as sharedWith for user shares
 			if (!($share->getSharedWith() instanceof \OCP\IUser)) {
@@ -181,19 +176,19 @@ class Manager {
 		}
 
 		// The path should be set
-		if ($share->getPath() === null) {
+		if ($share->getNode() === null) {
 			throw new \InvalidArgumentException('Path should be set');
 		}
 
 		// And it should be a file or a folder
-		if (!($share->getPath() instanceof \OCP\Files\File) &&
-				!($share->getPath() instanceof \OCP\Files\Folder)) {
+		if (!($share->getNode() instanceof \OCP\Files\File) &&
+				!($share->getNode() instanceof \OCP\Files\Folder)) {
 			throw new \InvalidArgumentException('Path should be either a file or a folder');
 		}
 
 		// Check if we actually have share permissions
-		if (!$share->getPath()->isShareable()) {
-			$message_t = $this->l->t('You are not allowed to share %s', [$share->getPath()->getPath()]);
+		if (!$share->getNode()->isShareable()) {
+			$message_t = $this->l->t('You are not allowed to share %s', [$share->getNode()->getPath()]);
 			throw new HintException($message_t, $message_t, 404);
 		}
 
@@ -203,8 +198,8 @@ class Manager {
 		}
 
 		// Check that we do not share with more permissions than we have
-		if ($share->getPermissions() & ~$share->getPath()->getPermissions()) {
-			$message_t = $this->l->t('Cannot increase permissions of %s', [$share->getPath()->getPath()]);
+		if ($share->getPermissions() & ~$share->getNode()->getPermissions()) {
+			$message_t = $this->l->t('Cannot increase permissions of %s', [$share->getNode()->getPath()]);
 			throw new HintException($message_t, $message_t, 404);
 		}
 
@@ -266,10 +261,10 @@ class Manager {
 	/**
 	 * Check for pre share requirements for user shares
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @throws \Exception
 	 */
-	protected function userCreateChecks(IShare $share) {
+	protected function userCreateChecks(\OCP\Share\IShare $share) {
 		// Check if we can share with group members only
 		if ($this->shareWithGroupMembersOnly()) {
 			// Verify we can share with this user
@@ -288,7 +283,7 @@ class Manager {
 		 * Also this is not what we want in the future.. then we want to squash identical shares.
 		 */
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_USER);
-		$existingShares = $provider->getSharesByPath($share->getPath());
+		$existingShares = $provider->getSharesByPath($share->getNode());
 		foreach($existingShares as $existingShare) {
 			// Ignore if it is the same share
 			if ($existingShare->getFullId() === $share->getFullId()) {
@@ -312,10 +307,10 @@ class Manager {
 	/**
 	 * Check for pre share requirements for group shares
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @throws \Exception
 	 */
-	protected function groupCreateChecks(IShare $share) {
+	protected function groupCreateChecks(\OCP\Share\IShare $share) {
 		// Verify if the user can share with this group
 		if ($this->shareWithGroupMembersOnly()) {
 			if (!$share->getSharedWith()->inGroup($share->getSharedBy())) {
@@ -329,7 +324,7 @@ class Manager {
 		 * Also this is not what we want in the future.. then we want to squash identical shares.
 		 */
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
-		$existingShares = $provider->getSharesByPath($share->getPath());
+		$existingShares = $provider->getSharesByPath($share->getNode());
 		foreach($existingShares as $existingShare) {
 			if ($existingShare->getFullId() === $share->getFullId()) {
 				continue;
@@ -344,10 +339,10 @@ class Manager {
 	/**
 	 * Check for pre share requirements for link shares
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @throws \Exception
 	 */
-	protected function linkCreateChecks(IShare $share) {
+	protected function linkCreateChecks(\OCP\Share\IShare $share) {
 		// Are link shares allowed?
 		if (!$this->shareApiAllowLinks()) {
 			throw new \Exception('Link sharing not allowed');
@@ -388,15 +383,15 @@ class Manager {
 	/**
 	 * Check if the user that is sharing can actually share
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @return bool
 	 */
-	protected function canShare(IShare $share) {
+	protected function canShare(\OCP\Share\IShare $share) {
 		if (!$this->shareApiEnabled()) {
 			return false;
 		}
 
-		if ($this->isSharingDisabledForUser($share->getSharedBy())) {
+		if ($this->sharingDisabledForUser($share->getSharedBy())) {
 			return false;
 		}
 
@@ -406,13 +401,13 @@ class Manager {
 	/**
 	 * Share a path
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @return Share The share object
 	 * @throws \Exception
 	 *
 	 * TODO: handle link share permissions or check them
 	 */
-	public function createShare(IShare $share) {
+	public function createShare(\OCP\Share\IShare $share) {
 		if (!$this->canShare($share)) {
 			throw new \Exception('The Share API is disabled');
 		}
@@ -452,10 +447,10 @@ class Manager {
 		}
 
 		// Verify if there are any issues with the path
-		$this->pathCreateChecks($share->getPath());
+		$this->pathCreateChecks($share->getNode());
 
 		// On creation of a share the owner is always the owner of the path
-		$share->setShareOwner($share->getPath()->getOwner());
+		$share->setShareOwner($share->getNode()->getOwner());
 
 		// Cannot share with the owner
 		if ($share->getSharedWith() === $share->getShareOwner()) {
@@ -463,7 +458,7 @@ class Manager {
 		}
 
 		// Generate the target
-		$target = $this->config->getSystemValue('share_folder', '/') .'/'. $share->getPath()->getName();
+		$target = $this->config->getSystemValue('share_folder', '/') .'/'. $share->getNode()->getName();
 		$target = \OC\Files\Filesystem::normalizePath($target);
 		$share->setTarget($target);
 
@@ -481,12 +476,12 @@ class Manager {
 		$run = true;
 		$error = '';
 		$preHookData = [
-			'itemType' => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
-			'itemSource' => $share->getPath()->getId(),
+			'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+			'itemSource' => $share->getNode()->getId(),
 			'shareType' => $share->getShareType(),
 			'uidOwner' => $share->getSharedBy()->getUID(),
 			'permissions' => $share->getPermissions(),
-			'fileSource' => $share->getPath()->getId(),
+			'fileSource' => $share->getNode()->getId(),
 			'expiration' => $share->getExpirationDate(),
 			'token' => $share->getToken(),
 			'itemTarget' => $share->getTarget(),
@@ -502,16 +497,15 @@ class Manager {
 
 		$provider = $this->factory->getProviderForType($share->getShareType());
 		$share = $provider->create($share);
-		$share->setProviderId($provider->identifier());
 
 		// Post share hook
 		$postHookData = [
-			'itemType' => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
-			'itemSource' => $share->getPath()->getId(),
+			'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+			'itemSource' => $share->getNode()->getId(),
 			'shareType' => $share->getShareType(),
 			'uidOwner' => $share->getSharedBy()->getUID(),
 			'permissions' => $share->getPermissions(),
-			'fileSource' => $share->getPath()->getId(),
+			'fileSource' => $share->getNode()->getId(),
 			'expiration' => $share->getExpirationDate(),
 			'token' => $share->getToken(),
 			'id' => $share->getId(),
@@ -528,10 +522,10 @@ class Manager {
 	/**
 	 * Update a share
 	 *
-	 * @param IShare $share
-	 * @return IShare The share object
+	 * @param \OCP\Share\IShare $share
+	 * @return \OCP\Share\IShare The share object
 	 */
-	public function updateShare(IShare $share) {
+	public function updateShare(\OCP\Share\IShare $share) {
 		$expirationDateUpdated = false;
 
 		if (!$this->canShare($share)) {
@@ -583,7 +577,7 @@ class Manager {
 			}
 		}
 
-		$this->pathCreateChecks($share->getPath());
+		$this->pathCreateChecks($share->getNode());
 
 		// Now update the share!
 		$provider = $this->factory->getProviderForType($share->getShareType());
@@ -591,8 +585,8 @@ class Manager {
 
 		if ($expirationDateUpdated === true) {
 			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', [
-				'itemType' => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
-				'itemSource' => $share->getPath()->getId(),
+				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemSource' => $share->getNode()->getId(),
 				'date' => $share->getExpirationDate(),
 				'uidOwner' => $share->getSharedBy()->getUID(),
 			]);
@@ -604,10 +598,10 @@ class Manager {
 	/**
 	 * Delete all the children of this share
 	 *
-	 * @param IShare $share
-	 * @return IShare[] List of deleted shares
+	 * @param \OCP\Share\IShare $share
+	 * @return \OCP\Share\IShare[] List of deleted shares
 	 */
-	protected function deleteChildren(IShare $share) {
+	protected function deleteChildren(\OCP\Share\IShare $share) {
 		$deletedShares = [];
 
 		$provider = $this->factory->getProviderForType($share->getShareType());
@@ -626,16 +620,16 @@ class Manager {
 	/**
 	 * Delete a share
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @throws ShareNotFound
 	 * @throws BackendError
 	 * @throws ShareNotFound
 	 */
-	public function deleteShare(IShare $share) {
+	public function deleteShare(\OCP\Share\IShare $share) {
 		// Just to make sure we have all the info
 		$share = $this->getShareById($share->getFullId());
 
-		$formatHookParams = function(IShare $share) {
+		$formatHookParams = function(\OCP\Share\IShare $share) {
 			// Prepare hook
 			$shareType = $share->getShareType();
 			$sharedWith = '';
@@ -649,13 +643,13 @@ class Manager {
 
 			$hookParams = [
 				'id'         => $share->getId(),
-				'itemType'   => $share->getPath() instanceof \OCP\Files\File ? 'file' : 'folder',
-				'itemSource' => $share->getPath()->getId(),
+				'itemType'   => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemSource' => $share->getNode()->getId(),
 				'shareType'  => $shareType,
 				'shareWith'  => $sharedWith,
 				'itemparent' => $share->getParent(),
 				'uidOwner'   => $share->getSharedBy()->getUID(),
-				'fileSource' => $share->getPath()->getId(),
+				'fileSource' => $share->getNode()->getId(),
 				'fileTarget' => $share->getTarget()
 			];
 			return $hookParams;
@@ -694,10 +688,10 @@ class Manager {
 	 * the users in a groups deletes that share. But the provider should
 	 * handle this.
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @param IUser $recipient
 	 */
-	public function deleteFromSelf(IShare $share, IUser $recipient) {
+	public function deleteFromSelf(\OCP\Share\IShare $share, IUser $recipient) {
 		list($providerId, $id) = $this->splitFullId($share->getId());
 		$provider = $this->factory->getProvider($providerId);
 
@@ -713,7 +707,7 @@ class Manager {
 	 * @param bool $reshares
 	 * @param int $limit The maximum number of returned results, -1 for all results
 	 * @param int $offset
-	 * @return IShare[]
+	 * @return \OCP\Share\IShare[]
 	 */
 	public function getSharesBy(IUser $user, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0) {
 		if ($path !== null &&
@@ -734,7 +728,7 @@ class Manager {
 	 * @param int $shareType
 	 * @param int $limit The maximum number of shares returned, -1 for all
 	 * @param int $offset
-	 * @return IShare[]
+	 * @return \OCP\Share\IShare[]
 	 */
 	public function getSharedWith(IUser $user, $shareType, $limit = 50, $offset = 0) {
 		$provider = $this->factory->getProviderForType($shareType);
@@ -759,7 +753,6 @@ class Manager {
 		$provider = $this->factory->getProvider($providerId);
 
 		$share = $provider->getShareById($id);
-		$share->setProviderId($provider->identifier());
 
 		return $share;
 	}
@@ -797,11 +790,11 @@ class Manager {
 	/**
 	 * Verify the password of a public share
 	 *
-	 * @param IShare $share
+	 * @param \OCP\Share\IShare $share
 	 * @param string $password
 	 * @return bool
 	 */
-	public function checkPassword(IShare $share, $password) {
+	public function checkPassword(\OCP\Share\IShare $share, $password) {
 		if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK) {
 			//TODO maybe exception?
 			return false;
@@ -852,7 +845,7 @@ class Manager {
 
 	/**
 	 * Create a new share
-	 * @return IShare;
+	 * @return \OCP\Share\IShare;
 	 */
 	public function newShare() {
 		return new \OC\Share20\Share();
@@ -938,7 +931,7 @@ class Manager {
 	 * @param IUser $user
 	 * @return bool
 	 */
-	public function isSharingDisabledForUser($user) {
+	public function sharingDisabledForUser(IUser $user) {
 		if ($this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
 			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$excludedGroups = json_decode($groupsList);

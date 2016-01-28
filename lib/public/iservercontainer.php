@@ -504,4 +504,12 @@ interface IServerContainer {
 	 * @since 9.0.0
 	 */
 	public function getSystemTagObjectMapper();
+
+	/**
+	 * Returns the share manager
+	 *
+	 * @return \OCP\Share\IManager
+	 * @since 9.0.0
+	 */
+	public function getShareManager();
 }
