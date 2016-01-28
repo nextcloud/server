@@ -19,10 +19,8 @@
 		'   </ul>' +
 		'</div>' +
 		'<div class="empty hidden">{{emptyResultLabel}}</div>' +
-		/*
 		'<input type="button" class="showMore hidden" value="{{moreLabel}}"' +
 		' name="show-more" id="show-more" />' +
-		*/
 		'<div class="loading hidden" style="height: 50px"></div>';
 
 	var COMMENT_TEMPLATE =
@@ -44,7 +42,8 @@
 		className: 'tab commentsTabView',
 
 		events: {
-			'submit .newCommentForm': '_onSubmitComment'
+			'submit .newCommentForm': '_onSubmitComment',
+			'click .showMore': '_onClickShowMore'
 		},
 
 		initialize: function() {
@@ -144,7 +143,7 @@
 			this.collection.fetchNext();
 		},
 
-		_onClickShowMoreVersions: function(ev) {
+		_onClickShowMore: function(ev) {
 			ev.preventDefault();
 			this.nextPage();
 		},

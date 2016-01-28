@@ -10,9 +10,7 @@
 
 (function(OC, OCA) {
 
-	function filterFunction(model, term) {
-		return model.get('name').substr(0, term.length) === term;
-	}
+	var NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
 	 * @class OCA.Comments.CommentsCollection
@@ -32,7 +30,7 @@
 		_objectId: null,
 
 		_endReached: false,
-		_currentIndex: 0,
+		_limit : 5,
 
 		initialize: function(models, options) {
 			options = options || {};
@@ -58,22 +56,54 @@
 			return !this._endReached;
 		},
 
+		reset: function() {
+			this._endReached = false;
+			return OC.Backbone.Collection.prototype.reset.apply(this, arguments);
+		},
+
 		/**
 		 * Fetch the next set of results
 		 */
-		fetchNext: function() {
+		fetchNext: function(options) {
+			var self = this;
 			if (!this.hasMoreResults()) {
 				return null;
 			}
-			if (this._currentIndex === 0) {
-				return this.fetch();
-			}
-			return this.fetch({remove: false});
-		},
 
-		reset: function() {
-			this._currentIndex = 0;
-			OC.Backbone.Collection.prototype.reset.apply(this, arguments);
+			var body = '<?xml version="1.0" encoding="utf-8" ?>\n' +
+				'<D:report xmlns:D="DAV:" xmlns:oc="http://owncloud.org/ns">\n' +
+				'   <oc:limit>' + this._limit + '</oc:limit>\n';
+
+			if (this.length > 0) {
+				body += '   <oc:datetime>' + this.first().get('creationDateTime') + '</oc:datetime>\n';
+			}
+
+			body += '</D:report>\n';
+
+			var oldLength = this.length;
+
+			options = options || {};
+			var success = options.success;
+			options = _.extend({
+				remove: false,
+				data: body,
+				davProperties: CommentsCollection.prototype.model.prototype.davProperties,
+				success: function(resp) {
+					if (resp.length === oldLength) {
+						// no new entries, end reached
+						self._endReached = true;
+					}
+					if (!self.set(resp, options)) {
+						return false;
+					}
+					if (success) {
+						success.apply(null, arguments);
+					}
+					self.trigger('sync', 'REPORT', self, options);
+				}
+			}, options);
+
+			return this.sync('REPORT', this, options);
 		}
 	});
 
