@@ -133,7 +133,7 @@
 				cid: this.cid,
 				name: oldName,
 				deleteTooltip: t('core', 'Delete'),
-				renameLabel: t('core', 'Rename'),
+				renameLabel: t('core', 'Rename')
 			}));
 			$item.find('.label').after($renameForm);
 			$item.find('.label, .systemtags-actions').addClass('hidden');
@@ -160,7 +160,7 @@
 			var $item = $form.closest('.systemtags-item');
 			var tagId = $item.attr('data-id');
 			var tagModel = this.collection.get(tagId);
-			var newName = $(ev.target).find('input').val();
+			var newName = $(ev.target).find('input').val().trim();
 			if (newName && newName !== tagModel.get('name')) {
 				tagModel.save({'name': newName});
 				// TODO: spinner, and only change text after finished saving
@@ -204,7 +204,7 @@
 				// newly created tag, check if existing
 				// create a new tag
 				tag = this.collection.create({
-					name: e.object.name,
+					name: e.object.name.trim(),
 					userVisible: true,
 					userAssignable: true
 				}, {
@@ -219,7 +219,7 @@
 							self.collection.fetch({
 								success: function(collection) {
 									// find the tag in the collection
-									var model = collection.where({name: e.object.name, userVisible: true, userAssignable: true});
+									var model = collection.where({name: e.object.name.trim(), userVisible: true, userAssignable: true});
 									if (model.length) {
 										model = model[0];
 										// the tag already exists or was already assigned,
@@ -260,7 +260,7 @@
 			var self = this;
 			this.collection.fetch({
 				success: function(collection) {
-					var tagModels = collection.filterByName(query.term);
+					var tagModels = collection.filterByName(query.term.trim());
 					if (!self._isAdmin) {
 						tagModels = _.filter(tagModels, function(tagModel) {
 							return tagModel.get('userAssignable');
@@ -319,6 +319,7 @@
 		 * @return {Object} dummy tag
 		 */
 		_createSearchChoice: function(term) {
+			term = term.trim();
 			if (this.collection.filterByName(term).length) {
 				return;
 			}
