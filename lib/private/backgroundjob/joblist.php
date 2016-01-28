@@ -115,6 +115,8 @@ class JobList implements IJobList {
 	 * get all jobs in the list
 	 *
 	 * @return Job[]
+	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
+	 * memory problems when creating too many instances.
 	 */
 	public function getAll() {
 		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs`');
