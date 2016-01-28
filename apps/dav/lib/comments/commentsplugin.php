@@ -88,7 +88,7 @@ class CommentsPlugin extends ServerPlugin {
 		$this->server->xml->namespaceMap[self::NS_OWNCLOUD] = 'oc';
 
 		$this->server->xml->classMap['DateTime'] = function(Writer $writer, \DateTime $value) {
-			$writer->write($value->format('Y-m-d H:i:s'));
+			$writer->write(\Sabre\HTTP\toDate($value));
 		};
 
 		$this->server->on('report', [$this, 'onReport']);
