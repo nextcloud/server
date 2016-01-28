@@ -18,6 +18,7 @@
   "userBlacklist": [
     "owncloud-bot",
     "scrutinizer-auto-fixer",
-    "th3fallen"
+    "th3fallen",
+    "zander"
   ]
 }
