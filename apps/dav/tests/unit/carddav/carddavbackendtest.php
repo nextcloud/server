@@ -27,7 +27,6 @@ use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
-use OCP\ILogger;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Property\Text;
@@ -57,19 +56,24 @@ class CardDavBackendTest extends TestCase {
 	/** @var string */
 	private $dbCardsPropertiesTable = 'cards_properties';
 
-	const UNIT_TEST_USER = 'carddav-unit-test';
+	const UNIT_TEST_USER = 'principals/users/carddav-unit-test';
+	const UNIT_TEST_USER1 = 'principals/users/carddav-unit-test1';
+	const UNIT_TEST_GROUP = 'principals/groups/carddav-unit-test-group';
 
 	public function setUp() {
 		parent::setUp();
 
 		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
 			->disableOriginalConstructor()
-			->setMethods(['getPrincipalByPath'])
+			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
 		$this->principal->method('getPrincipalByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend'
 			]);
+		$this->principal->method('getGroupMembership')
+			->withAnyParameters()
+			->willReturn([self::UNIT_TEST_GROUP]);
 
 		$this->db = \OC::$server->getDatabaseConnection();
 
@@ -117,6 +121,29 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEquals(1, count($books));
 		$this->assertEquals('Unit test', $books[0]['{DAV:}displayname']);
 		$this->assertEquals('Addressbook used for unit testing', $books[0]['{urn:ietf:params:xml:ns:carddav}addressbook-description']);
+
+		// delete the address book
+		$this->backend->deleteAddressBook($books[0]['id']);
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(0, count($books));
+	}
+
+	public function testAddressBookSharing() {
+
+		$this->backend->createAddressBook(self::UNIT_TEST_USER, 'Example', []);
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(1, count($books));
+		$addressBook = new AddressBook($this->backend, $books[0]);
+		$this->backend->updateShares($addressBook, [
+			[
+				'href' => 'principal:' . self::UNIT_TEST_USER1,
+			],
+			[
+				'href' => 'principal:' . self::UNIT_TEST_GROUP,
+			]
+		], []);
+		$books = $this->backend->getAddressBooksForUser(self::UNIT_TEST_USER1);
+		$this->assertEquals(1, count($books));
 
 		// delete the address book
 		$this->backend->deleteAddressBook($books[0]['id']);

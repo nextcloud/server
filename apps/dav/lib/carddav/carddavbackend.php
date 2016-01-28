@@ -103,7 +103,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$result = $query->execute();
 		while($row = $result->fetch()) {
-			$addressBooks[] = [
+			$addressBooks[$row['id']] = [
 				'id'  => $row['id'],
 				'uri' => $row['uri'],
 				'principaluri' => $row['principaluri'],
@@ -133,7 +133,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			list(, $name) = URLUtil::splitPath($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$displayName = $row['displayname'] . "($name)";
-			$addressBooks[] = [
+			$addressBooks[$row['id']] = [
 				'id'  => $row['id'],
 				'uri' => $uri,
 				'principaluri' => $principalUri,
@@ -147,7 +147,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 		$result->closeCursor();
 
-		return $addressBooks;
+		return array_values($addressBooks);
 	}
 
 	/**
