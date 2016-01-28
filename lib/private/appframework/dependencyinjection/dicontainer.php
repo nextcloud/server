@@ -32,7 +32,6 @@ namespace OC\AppFramework\DependencyInjection;
 
 use OC;
 use OC\AppFramework\Http;
-use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
 use OC\AppFramework\Core\API;
@@ -43,8 +42,6 @@ use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\Middleware;
-use OCP\IServerContainer;
 
 
 class DIContainer extends SimpleContainer implements IAppContainer {
@@ -255,6 +252,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getSession();
 		});
 
+		$this->registerService('OCP\\Security\\IContentSecurityPolicyManager', function($c) {
+			return $this->getServer()->getContentSecurityPolicyManager();
+		});
+
 		$this->registerService('ServerContainer', function ($c) {
 			return $this->getServer();
 		});
@@ -319,7 +320,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$app->getServer()->getLogger(),
 				$c['AppName'],
 				$app->isLoggedIn(),
-				$app->isAdminUser()
+				$app->isAdminUser(),
+				$app->getServer()->getContentSecurityPolicyManager()
 			);
 		});
 

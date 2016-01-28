@@ -32,6 +32,8 @@ use OC\Appframework\Middleware\Security\Exceptions\CrossSiteRequestForgeryExcept
 use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
 use OC\Appframework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Security\CSP\ContentSecurityPolicyManager;
+use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
@@ -52,15 +54,24 @@ use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
  * check fails
  */
 class SecurityMiddleware extends Middleware {
-
+	/** @var INavigationManager */
 	private $navigationManager;
+	/** @var IRequest */
 	private $request;
+	/** @var ControllerMethodReflector */
 	private $reflector;
+	/** @var string */
 	private $appName;
+	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var ILogger */
 	private $logger;
+	/** @var bool */
 	private $isLoggedIn;
+	/** @var bool */
 	private $isAdminUser;
+	/** @var ContentSecurityPolicyManager */
+	private $contentSecurityPolicyManager;
 
 	/**
 	 * @param IRequest $request
@@ -71,6 +82,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param string $appName
 	 * @param bool $isLoggedIn
 	 * @param bool $isAdminUser
+	 * @param ContentSecurityPolicyManager $contentSecurityPolicyManager
 	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
@@ -79,7 +91,8 @@ class SecurityMiddleware extends Middleware {
 								ILogger $logger,
 								$appName,
 								$isLoggedIn,
-								$isAdminUser) {
+								$isAdminUser,
+								ContentSecurityPolicyManager $contentSecurityPolicyManager) {
 		$this->navigationManager = $navigationManager;
 		$this->request = $request;
 		$this->reflector = $reflector;
@@ -88,6 +101,7 @@ class SecurityMiddleware extends Middleware {
 		$this->logger = $logger;
 		$this->isLoggedIn = $isLoggedIn;
 		$this->isAdminUser = $isAdminUser;
+		$this->contentSecurityPolicyManager = $contentSecurityPolicyManager;
 	}
 
 
@@ -139,6 +153,25 @@ class SecurityMiddleware extends Middleware {
 
 	}
 
+	/**
+	 * Performs the default CSP modifications that may be injected by other
+	 * applications
+	 *
+	 * @param Controller $controller
+	 * @param string $methodName
+	 * @param Response $response
+	 * @return Response
+	 */
+	public function afterController($controller, $methodName, Response $response) {
+		$policy = !is_null($response->getContentSecurityPolicy()) ? $response->getContentSecurityPolicy() : new ContentSecurityPolicy();
+
+		$defaultPolicy = $this->contentSecurityPolicyManager->getDefaultPolicy();
+		$defaultPolicy = $this->contentSecurityPolicyManager->mergePolicies($defaultPolicy, $policy);
+
+		$response->setContentSecurityPolicy($defaultPolicy);
+
+		return $response;
+	}
 
 	/**
 	 * If an SecurityException is being caught, ajax requests return a JSON error

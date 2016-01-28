@@ -63,6 +63,7 @@ use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Notification\Manager;
 use OC\Security\CertificateManager;
+use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\Crypto;
 use OC\Security\CSRF\CsrfTokenGenerator;
 use OC\Security\CSRF\CsrfTokenManager;
@@ -74,6 +75,7 @@ use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
 use OCP\IServerContainer;
+use OCP\Security\IContentSecurityPolicyManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -597,6 +599,9 @@ class Server extends ServerContainer implements IServerContainer {
 				$tokenGenerator,
 				$sessionStorage
 			);
+		});
+		$this->registerService('ContentSecurityPolicyManager', function (Server $c) {
+			return new ContentSecurityPolicyManager();
 		});
 		$this->registerService('ShareManager', function(Server $c) {
 			$config = $c->getConfig();
@@ -1218,6 +1223,13 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCsrfTokenManager() {
 		return $this->query('CsrfTokenManager');
+	}
+
+	/**
+	 * @return IContentSecurityPolicyManager
+	 */
+	public function getContentSecurityPolicyManager() {
+		return $this->query('ContentSecurityPolicyManager');
 	}
 
 	/**

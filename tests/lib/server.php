@@ -62,10 +62,12 @@ class Server extends \Test\TestCase {
 			['CapabilitiesManager', '\OC\CapabilitiesManager'],
 			['ContactsManager', '\OC\ContactsManager'],
 			['ContactsManager', '\OCP\Contacts\IManager'],
+			['ContentSecurityPolicyManager', '\OC\Security\CSP\ContentSecurityPolicyManager'],
 			['CommentsManager', '\OCP\Comments\ICommentsManager'],
 			['Crypto', '\OC\Security\Crypto'],
 			['Crypto', '\OCP\Security\ICrypto'],
 			['CryptoWrapper', '\OC\Session\CryptoWrapper'],
+			['CsrfTokenManager', '\OC\Security\CSRF\CsrfTokenManager'],
 
 			['DatabaseConnection', '\OC\DB\Connection'],
 			['DatabaseConnection', '\OCP\IDBConnection'],
