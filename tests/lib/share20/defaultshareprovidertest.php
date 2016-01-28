@@ -330,19 +330,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share->method('getId')->willReturn($id);
 
 		$provider = $this->getMockBuilder('OC\Share20\DefaultShareProvider')
-            ->setConstructorArgs([  
-                    $this->dbConn,
-                    $this->userManager,
-                    $this->groupManager,
-                    $this->rootFolder,
-                ]        
-            )            
-            ->setMethods(['getShareById'])
-            ->getMock();
-		$provider
-			->expects($this->once())
-			->method('getShareById')
-			->willReturn($share);
+			->setConstructorArgs([
+				$this->dbConn,
+				$this->userManager,
+				$this->groupManager,
+				$this->rootFolder,
+			])
+			->setMethods(['getShareById'])
+			->getMock();
 
 		$provider->delete($share);
 
@@ -357,53 +352,60 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEmpty($result);
 	}
 
-	/**
-	 * @expectedException \OC\Share20\Exception\BackendError
-	 */
-	public function testDeleteFails() {
+	public function testDeleteGroupShareWithUserGroupShares() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
+				'share_with' => $qb->expr()->literal('sharedWith'),
+				'uid_owner' => $qb->expr()->literal('sharedBy'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('myTarget'),
+				'permissions' => $qb->expr()->literal(13),
+			]);
+		$this->assertEquals(1, $qb->execute());
+		$id = $qb->getLastInsertId();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(2),
+				'share_with' => $qb->expr()->literal('sharedWithUser'),
+				'uid_owner' => $qb->expr()->literal('sharedBy'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('myTarget'),
+				'permissions' => $qb->expr()->literal(13),
+				'parent'      => $qb->expr()->literal($id),
+			]);
+		$this->assertEquals(1, $qb->execute());
+
 		$share = $this->getMock('OCP\Share\IShare');
-		$share
-			->method('getId')
-			->willReturn(42);
-
-		$expr = $this->getMock('OCP\DB\QueryBuilder\IExpressionBuilder');
-		$qb = $this->getMock('OCP\DB\QueryBuilder\IQueryBuilder');
-		$qb->expects($this->once())
-			->method('delete')
-			->will($this->returnSelf());
-		$qb->expects($this->once())
-			->method('expr')
-			->willReturn($expr);
-		$qb->expects($this->once())
-			->method('where')
-			->will($this->returnSelf());
-		$qb->expects($this->once())
-			->method('execute')
-			->will($this->throwException(new \Exception));
-
-		$db = $this->getMock('OCP\IDBConnection');
-		$db->expects($this->once())
-			->method('getQueryBuilder')
-			->with()
-			->willReturn($qb);
+		$share->method('getId')->willReturn($id);
+		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
 
 		$provider = $this->getMockBuilder('OC\Share20\DefaultShareProvider')
-            ->setConstructorArgs([  
-                    $db,
-                    $this->userManager,
-                    $this->groupManager,
-                    $this->rootFolder,
-                ]        
-            )            
-            ->setMethods(['getShareById'])
-            ->getMock();
-		$provider
-			->expects($this->once())
-			->method('getShareById')
-			->with(42)
-			->willReturn($share);
-		
+			->setConstructorArgs([
+				$this->dbConn,
+				$this->userManager,
+				$this->groupManager,
+				$this->rootFolder,
+			])
+			->setMethods(['getShareById'])
+			->getMock();
+
 		$provider->delete($share);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('*')
+			->from('share');
+
+		$cursor = $qb->execute();
+		$result = $cursor->fetchAll();
+		$cursor->closeCursor();
+
+		$this->assertEmpty($result);
 	}
 
 	public function testGetChildren() {
