@@ -75,7 +75,7 @@
 				'   <oc:limit>' + this._limit + '</oc:limit>\n';
 
 			if (this.length > 0) {
-				body += '   <oc:datetime>' + this.first().get('creationDateTime') + '</oc:datetime>\n';
+				body += '   <oc:datetime>' + this.last().get('creationDateTime') + '</oc:datetime>\n';
 			}
 
 			body += '</D:report>\n';
