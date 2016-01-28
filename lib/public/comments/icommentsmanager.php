@@ -215,4 +215,23 @@ interface ICommentsManager {
 	 */
 	public function getReadMark($objectType, $objectId, \OCP\IUser $user);
 
+	/**
+	 * deletes the read markers for the specified user
+	 *
+	 * @param \OCP\IUser $user
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function deleteReadMarksFromUser(\OCP\IUser $user);
+
+	/**
+	 * deletes the read markers on the specified object
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function deleteReadMarksOnObject($objectType, $objectId);
+
 }

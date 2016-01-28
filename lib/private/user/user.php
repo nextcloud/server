@@ -211,6 +211,7 @@ class User implements IUser {
 			\OC\Files\Cache\Storage::remove('home::' . $this->uid);
 
 			\OC::$server->getCommentsManager()->deleteReferencesOfActor('user', $this->uid);
+			\OC::$server->getCommentsManager()->deleteReadMarksFromUser($this);
 		}
 
 		if ($this->emitter) {

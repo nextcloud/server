@@ -34,4 +34,8 @@ class FakeManager implements \OCP\Comments\ICommentsManager {
 	public function setReadMark($objectType, $objectId, \DateTime $dateTime, \OCP\IUser $user) {}
 
 	public function getReadMark($objectType, $objectId, \OCP\IUser $user) {}
+
+	public function deleteReadMarksFromUser(\OCP\IUser $user) {}
+
+	public function deleteReadMarksOnObject($objectType, $objectId) {}
 }

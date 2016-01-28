@@ -583,6 +583,28 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
+	 * deletes the read markers for the specified user
+	 *
+	 * @param \OCP\IUser $user
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function deleteReadMarksFromUser(IUser $user) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$query = $qb->delete('comments_read_markers')
+			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')))
+			->setParameter('user_id', $user->getUID());
+
+		try {
+			$affectedRows = $query->execute();
+		} catch (DriverException $e) {
+			$this->logger->logException($e, ['app' => 'core_comments']);
+			return false;
+		}
+		return ($affectedRows > 0);
+	}
+
+	/**
 	 * sets the read marker for a given file to the specified date for the
 	 * provided user
 	 *
@@ -594,8 +616,31 @@ class Manager implements ICommentsManager {
 	 */
 	public function setReadMark($objectType, $objectId, \DateTime $dateTime, IUser $user) {
 		$this->checkRoleParameters('Object', $objectType, $objectId);
-		$dateTime = $dateTime->format('Y-m-d H:i:s');
-		$this->config->setUserValue($user->getUID(), 'comments', 'marker.' . $objectType .'.'. $objectId, $dateTime);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$values = [
+			'user_id'         => $qb->createNamedParameter($user->getUID()),
+			'marker_datetime' => $qb->createNamedParameter($dateTime, 'datetime'),
+			'object_type'     => $qb->createNamedParameter($objectType),
+			'object_id'       => $qb->createNamedParameter($objectId),
+		];
+
+		// Strategy: try to update, if this does not return affected rows, do an insert.
+		$affectedRows = $qb
+			->update('comments_read_markers')
+			->set('user_id',         $values['user_id'])
+			->set('marker_datetime', $values['marker_datetime'], 'datetime')
+			->set('object_type',     $values['object_type'])
+			->set('object_id',       $values['object_id'])
+			->execute();
+
+		if ($affectedRows > 0) {
+			return;
+		}
+
+		$qb->insert('comments_read_markers')
+			->values($values)
+			->execute();
 	}
 
 	/**
@@ -610,16 +655,50 @@ class Manager implements ICommentsManager {
 	 * @since 9.0.0
 	 */
 	public function getReadMark($objectType, $objectId, IUser $user) {
-		$this->checkRoleParameters('Object', $objectType, $objectId);
-		$dateTime = $this->config->getUserValue(
-			$user->getUID(),
-			'comments',
-			'marker.' . $objectType .'.'. $objectId,
-			null
-		);
-		if(!is_null($dateTime)) {
-			$dateTime = new \DateTime($dateTime);
+		$qb = $this->dbConn->getQueryBuilder();
+		$resultStatement = $qb->select('marker_datetime')
+			->from('comments_read_markers')
+			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')))
+			->andWhere($qb->expr()->eq('object_type', $qb->createParameter('object_type')))
+			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('object_id')))
+			->setParameter('user_id', $user->getUID(), \PDO::PARAM_STR)
+			->setParameter('object_type', $objectType, \PDO::PARAM_STR)
+			->setParameter('object_id', $objectId, \PDO::PARAM_STR)
+			->execute();
+
+		$data = $resultStatement->fetch();
+		$resultStatement->closeCursor();
+		if(!$data || is_null($data['marker_datetime'])) {
+			return null;
 		}
-		return $dateTime;
+
+		return new \DateTime($data['marker_datetime']);
+	}
+
+	/**
+	 * deletes the read markers on the specified object
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function deleteReadMarksOnObject($objectType, $objectId) {
+		$this->checkRoleParameters('Object', $objectType, $objectId);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$query = $qb->delete('comments_read_markers')
+			->where($qb->expr()->eq('object_type', $qb->createParameter('object_type')))
+			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('object_id')))
+			->setParameter('object_type', $objectType)
+			->setParameter('object_id', $objectId);
+
+		try {
+			$affectedRows = $query->execute();
+		} catch (DriverException $e) {
+			$this->logger->logException($e, ['app' => 'core_comments']);
+			return false;
+		}
+		return ($affectedRows > 0);
 	}
 }

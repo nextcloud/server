@@ -570,11 +570,64 @@ class Test_Comments_Manager extends TestCase
 		$dateTimeSet = new \DateTime();
 
 		$manager = $this->getManager();
-		$manager->setReadMark('files', '36', $dateTimeSet, $user);
+		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
 
-		$dateTimeGet = $manager->getReadMark('files', '36',  $user);
+		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
 
 		$this->assertEquals($dateTimeGet, $dateTimeSet);
+	}
+
+	public function testSetMarkReadUpdate() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$dateTimeSet = new \DateTime('yesterday');
+
+		$manager = $this->getManager();
+		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
+
+		$dateTimeSet = new \DateTime('today');
+		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
+
+		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
+
+		$this->assertEquals($dateTimeGet, $dateTimeSet);
+	}
+
+	public function testReadMarkDeleteUser() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$dateTimeSet = new \DateTime();
+
+		$manager = $this->getManager();
+		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
+
+		$manager->deleteReadMarksFromUser($user);
+		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
+
+		$this->assertNull($dateTimeGet);
+	}
+
+	public function testReadMarkDeleteObject() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$dateTimeSet = new \DateTime();
+
+		$manager = $this->getManager();
+		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
+
+		$manager->deleteReadMarksOnObject('robot', '36');
+		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
+
+		$this->assertNull($dateTimeGet);
 	}
 
 }
