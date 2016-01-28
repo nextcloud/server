@@ -9,6 +9,15 @@
       ]
     },
     {
+      "name": "nickvergessen",
+      "files": [
+        "lib/private/activity/**",
+        "lib/private/notification/**",
+        "lib/public/activity/**",
+        "lib/public/notification/**"
+      ]
+    },
+    {
       "name": "Xenopathic",
       "files": [
         "apps/files_external/**"
