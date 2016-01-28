@@ -172,7 +172,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendar[$xmlName] = $row[$dbName];
 			}
 
-			$calendars[] = $calendar;
+			$calendars[$calendar['id']] = $calendar;
 		}
 
 		$stmt->closeCursor();
@@ -223,12 +223,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendar[$xmlName] = $row[$dbName];
 			}
 
-			$calendars[]= $calendar;
+			$calendars[$calendar['id']] = $calendar;
 		}
 		$result->closeCursor();
 
-
-		return $calendars;
+		return array_values($calendars);
 	}
 
 	/**

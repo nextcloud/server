@@ -23,6 +23,7 @@ namespace Tests\Connector\Sabre;
 use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\Connector\Sabre\Principal;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\PropPatch;
@@ -44,19 +45,24 @@ class CalDavBackendTest extends TestCase {
 	/** @var Principal | \PHPUnit_Framework_MockObject_MockObject */
 	private $principal;
 
-	const UNIT_TEST_USER = 'caldav-unit-test';
+	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
+	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
+	const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
 
 	public function setUp() {
 		parent::setUp();
 
 		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
 			->disableOriginalConstructor()
-			->setMethods(['getPrincipalByPath'])
+			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
 		$this->principal->method('getPrincipalByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend'
 			]);
+		$this->principal->method('getGroupMembership')
+			->withAnyParameters()
+			->willReturn([self::UNIT_TEST_GROUP]);
 
 		$db = \OC::$server->getDatabaseConnection();
 		$this->backend = new CalDavBackend($db, $this->principal);
@@ -95,6 +101,29 @@ class CalDavBackendTest extends TestCase {
 		$this->assertEquals(1, count($books));
 		$this->assertEquals('Unit test', $books[0]['{DAV:}displayname']);
 		$this->assertEquals('Calendar used for unit testing', $books[0]['{urn:ietf:params:xml:ns:caldav}calendar-description']);
+
+		// delete the address book
+		$this->backend->deleteCalendar($books[0]['id']);
+		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(0, count($books));
+	}
+
+	public function testCalendarSharing() {
+
+		$this->createTestCalendar();
+		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(1, count($books));
+		$calendar = new Calendar($this->backend, $books[0]);
+		$this->backend->updateShares($calendar, [
+			[
+				'href' => 'principal:' . self::UNIT_TEST_USER1,
+			],
+			[
+				'href' => 'principal:' . self::UNIT_TEST_GROUP,
+			]
+		], []);
+		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
+		$this->assertEquals(1, count($books));
 
 		// delete the address book
 		$this->backend->deleteCalendar($books[0]['id']);
