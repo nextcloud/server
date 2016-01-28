@@ -387,13 +387,6 @@ OC.Share = _.extend(OC.Share || {}, {
 			}
 		});
 	},
-	setPermissions:function(itemType, itemSource, shareType, shareWith, permissions) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setPermissions', itemType: itemType, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
-			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error while changing permissions'), t('core', 'Error'));
-			}
-		});
-	},
 	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions, filename) {
 		var configModel = new OC.Share.ShareConfigModel();
 		var attributes = {itemType: itemType, itemSource: itemSource, possiblePermissions: possiblePermissions};

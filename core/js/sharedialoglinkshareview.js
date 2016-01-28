@@ -157,8 +157,9 @@
 		onShowPasswordClick: function() {
 			this.$el.find('.linkPass').slideToggle(OC.menuSpeed);
 			if(!this.$el.find('.showPasswordCheckbox').is(':checked')) {
-				this.model.setPassword('');
-				this.model.saveLinkShare();
+				this.model.saveLinkShare({
+					password: ''
+				});
 			} else {
 				this.$el.find('.linkPassText').focus();
 			}
@@ -171,7 +172,6 @@
 		},
 
 		onPasswordEntered: function() {
-			var self = this;
 			var $loading = this.$el.find('.linkPass .icon-loading-small');
 			if (!$loading.hasClass('hidden')) {
 				// still in process
@@ -189,8 +189,9 @@
 				.removeClass('hidden')
 				.addClass('inlineblock');
 
-			this.model.setPassword(password);
-			this.model.saveLinkShare({}, {
+			this.model.saveLinkShare({
+				password: password
+			}, {
 				error: function(model, msg) {
 					$loading.removeClass('inlineblock').addClass('hidden');
 					$input.addClass('error');
@@ -204,8 +205,15 @@
 		onAllowPublicUploadChange: function() {
 			var $checkbox = this.$('.publicUploadCheckbox');
 			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
-			this.model.setPublicUpload($checkbox.is(':checked'));
-			this.model.saveLinkShare();
+
+			var permissions = OC.PERMISSION_READ;
+			if($checkbox.is(':checked')) {
+				permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ;
+			}
+
+			this.model.saveLinkShare({
+				permissions: permissions
+			});
 		},
 
 		_onEmailPrivateLink: function(event) {
