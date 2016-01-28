@@ -453,6 +453,39 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		$dynamicGroupMemberURL = strtolower($this->access->connection->ldapDynamicGroupMemberURL);
 
+		if (!empty($dynamicGroupMemberURL)) {
+			// look through dynamic groups to add them to the result array if needed
+			$groupsToMatch = $this->access->fetchListOfGroups(
+				$this->access->connection->ldapGroupFilter,array('dn',$dynamicGroupMemberURL));
+			foreach($groupsToMatch as $memberUrl) {
+				if (!array_key_exists($dynamicGroupMemberURL, $memberUrl)) {
+					continue;
+				}
+				$pos = strpos($memberUrl[$dynamicGroupMemberURL][0], '(');
+				if ($pos !== false) {
+					$memberUrlFilter = substr($memberUrl[$dynamicGroupMemberURL][0],$pos);
+					// apply filter via ldap search to see if this user is in this
+					// dynamic group
+					$userMatch = $this->access->readAttribute(
+						$uid,
+						$this->access->connection->ldapUserDisplayName,
+						$memberUrlFilter
+					);
+					if ($userMatch !== false) {
+						// match found so this user is in this group
+						$pos = strpos($memberUrl['dn'][0], ',');
+						if ($pos !== false) {
+							$membershipGroup = substr($memberUrl['dn'][0],3,$pos-3);
+							$groups[] = $membershipGroup;
+						}
+					}
+				} else {
+					\OCP\Util::writeLog('user_ldap', 'No search filter found on member url '.
+						'of group ' . $dnGroup, \OCP\Util::DEBUG);
+				}
+			}
+		}
+
 		// if possible, read out membership via memberOf. It's far faster than
 		// performing a search, which still is a fallback later.
 		if(intval($this->access->connection->hasMemberOfFilterSupport) === 1
@@ -470,15 +503,11 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				}
 			}
 			
-			if (empty($dynamicGroupMemberURL)) {
-				// if dynamic group membership is not enabled then we can return
-				// straight away
-				if($primaryGroup !== false) {
-					$groups[] = $primaryGroup;
-				}
-				$this->access->connection->writeToCache($cacheKey, $groups);
-				return $groups;
+			if($primaryGroup !== false) {
+				$groups[] = $primaryGroup;
 			}
+			$this->access->connection->writeToCache($cacheKey, $groups);
+			return $groups;
 		}
 
 		//uniqueMember takes DN, memberuid the uid, so we need to distinguish
@@ -508,39 +537,6 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		if($primaryGroup !== false) {
 			$groups[] = $primaryGroup;
-		}
-
-		if (!empty($dynamicGroupMemberURL)) {
-			// look through dynamic groups to add them to the result array if needed
-			$groupsToMatch = $this->access->fetchListOfGroups(
-				$this->access->connection->ldapGroupFilter,array('dn',$dynamicGroupMemberURL));
-			foreach($groupsToMatch as $value) {
-				if (!array_key_exists($dynamicGroupMemberURL, $value)) {
-					continue;
-				}
-				$pos = strpos($value[$dynamicGroupMemberURL][0], '(');
-				if ($pos !== false) {
-					$memberUrlFilter = substr($value[$dynamicGroupMemberURL][0],$pos);
-					// apply filter via ldap search to see if this user is in this
-					// dynamic group
-					$userMatch = $this->access->readAttribute(
-						$uid,
-						$this->access->connection->ldapUserDisplayName,
-						$memberUrlFilter
-					);
-					if ($userMatch !== false) {
-						// match found so this user is in this group
-						$pos = strpos($value['dn'][0], ',');
-						if ($pos !== false) {
-							$membershipGroup = substr($value['dn'][0],3,$pos-3);
-							$groups[] = $membershipGroup;
-						}
-					}
-				} else {
-					\OCP\Util::writeLog('user_ldap', 'No search filter found on member url '.
-						'of group ' . $dnGroup, \OCP\Util::DEBUG);
-				}
-			}
 		}
 
 		$groups = array_unique($groups, SORT_LOCALE_STRING);
