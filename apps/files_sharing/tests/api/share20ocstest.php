@@ -806,15 +806,15 @@ class Share20OCSTest extends \Test\TestCase {
 		$currentUser = $this->currentUser;
 
 		$this->shareManager->expects($this->once())->method('createShare')->with(
-			$this->callback(function (IShare $share) use ($path, $currentUser) {
-				return $share->getPath() === $path &&
+			$this->callback(function (\OCP\Share\IShare $share) use ($path, $currentUser) {
+				return $share->getNode() === $path &&
 					$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
 					$share->getPermissions() === \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE &&
 					$share->getSharedBy() === $currentUser &&
 					$share->getPassword() === null &&
 					$share->getExpirationDate() === null;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->createShare();
@@ -847,15 +847,15 @@ class Share20OCSTest extends \Test\TestCase {
 		$currentUser = $this->currentUser;
 
 		$this->shareManager->expects($this->once())->method('createShare')->with(
-			$this->callback(function (IShare $share) use ($path, $currentUser) {
-				return $share->getPath() === $path &&
+			$this->callback(function (\OCP\Share\IShare $share) use ($path, $currentUser) {
+				return $share->getNode() === $path &&
 				$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
 				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
 				$share->getSharedBy() === $currentUser &&
 				$share->getPassword() === 'password' &&
 				$share->getExpirationDate() === null;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->createShare();
@@ -888,18 +888,18 @@ class Share20OCSTest extends \Test\TestCase {
 		$currentUser = $this->currentUser;
 
 		$this->shareManager->expects($this->once())->method('createShare')->with(
-			$this->callback(function (IShare $share) use ($path, $currentUser) {
+			$this->callback(function (\OCP\Share\IShare $share) use ($path, $currentUser) {
 				$date = new \DateTime('2000-01-01');
 				$date->setTime(0,0,0);
 
-				return $share->getPath() === $path &&
+				return $share->getNode() === $path &&
 				$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
 				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
 				$share->getSharedBy() === $currentUser &&
 				$share->getPassword() === null &&
 				$share->getExpirationDate() == $date;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->createShare();
@@ -1000,12 +1000,12 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
-			$this->callback(function (IShare $share) {
+			$this->callback(function (\OCP\Share\IShare $share) {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
 				$share->getPassword() === null &&
 				$share->getExpirationDate() === null;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->updateShare(42);
@@ -1023,7 +1023,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
-			->setPath($folder);
+			->setNode($folder);
 
 		$this->request
 			->method('getParam')
@@ -1037,7 +1037,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
-			$this->callback(function (IShare $share) {
+			$this->callback(function (\OCP\Share\IShare $share) {
 				$date = new \DateTime('2000-01-01');
 				$date->setTime(0,0,0);
 
@@ -1045,7 +1045,7 @@ class Share20OCSTest extends \Test\TestCase {
 				$share->getPassword() === 'password' &&
 				$share->getExpirationDate() == $date;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->updateShare(42);
@@ -1063,7 +1063,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
-			->setPath($folder);
+			->setNode($folder);
 
 		$this->request
 			->method('getParam')
@@ -1092,7 +1092,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
-			->setPath($folder);
+			->setNode($folder);
 
 		$this->request
 			->method('getParam')
@@ -1121,7 +1121,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
-			->setPath($file);
+			->setNode($file);
 
 		$this->request
 			->method('getParam')
@@ -1164,12 +1164,12 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
-			$this->callback(function (IShare $share) use ($date) {
+			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL &&
 				$share->getPassword() === 'newpassword' &&
 				$share->getExpirationDate() === $date;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->updateShare(42);
@@ -1198,7 +1198,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
-			$this->callback(function (IShare $share) {
+			$this->callback(function (\OCP\Share\IShare $share) {
 				$date = new \DateTime('2010-12-23');
 				$date->setTime(0,0,0);
 
@@ -1206,7 +1206,7 @@ class Share20OCSTest extends \Test\TestCase {
 				$share->getPassword() === 'password' &&
 				$share->getExpirationDate() == $date;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->updateShare(42);
@@ -1229,7 +1229,7 @@ class Share20OCSTest extends \Test\TestCase {
 			->setPassword('password')
 			->setExpirationDate($date)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setPath($folder);
+			->setNode($folder);
 
 		$this->request
 			->method('getParam')
@@ -1241,12 +1241,12 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
-			$this->callback(function (IShare $share) use ($date) {
+			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE &&
 				$share->getPassword() === 'password' &&
 				$share->getExpirationDate() === $date;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->updateShare(42);
@@ -1269,7 +1269,7 @@ class Share20OCSTest extends \Test\TestCase {
 			->setPassword('password')
 			->setExpirationDate($date)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setPath($folder);
+			->setNode($folder);
 
 		$this->request
 			->method('getParam')
@@ -1281,12 +1281,12 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
-			$this->callback(function (IShare $share) use ($date) {
+			$this->callback(function (\OCP\Share\IShare $share) use ($date) {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE &&
 				$share->getPassword() === 'password' &&
 				$share->getExpirationDate() === $date;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->updateShare(42);
@@ -1309,7 +1309,7 @@ class Share20OCSTest extends \Test\TestCase {
 			->setPassword('password')
 			->setExpirationDate($date)
 			->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setPath($folder);
+			->setNode($folder);
 
 		$this->request
 			->method('getParam')
@@ -1336,7 +1336,7 @@ class Share20OCSTest extends \Test\TestCase {
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
 			->setSharedBy($this->currentUser)
 			->setShareType(\OCP\Share::SHARE_TYPE_USER)
-			->setPath($file);
+			->setNode($file);
 
 		$this->request
 			->method('getParam')
@@ -1348,10 +1348,10 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
 		$this->shareManager->expects($this->once())->method('updateShare')->with(
-			$this->callback(function (IShare $share) {
+			$this->callback(function (\OCP\Share\IShare $share) {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL;
 			})
-		);
+		)->will($this->returnArgument(0));
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->updateShare(42);

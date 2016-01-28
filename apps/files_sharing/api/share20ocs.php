@@ -488,7 +488,7 @@ class Share20OCS {
 					return new \OC_OCS_Result(null, 403, 'public upload disabled by the administrator');
 				}
 
-				if (!($share->getPath() instanceof \OCP\Files\Folder)) {
+				if (!($share->getNode() instanceof \OCP\Files\Folder)) {
 					return new \OC_OCS_Result(null, 400, "public upload is only possible for public shared folders");
 				}
 			}
