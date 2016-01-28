@@ -18,9 +18,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\DAV\Command;
 
-use OCA\DAV\CardDAV\SyncService;
+namespace OCA\Dav\Command;
+
+use OCP\IUser;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -28,39 +29,56 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SyncSystemAddressBook extends Command {
+class MigrateAddressbooks extends Command {
 
-	/** @var SyncService */
-	private $syncService;
+	/** @var IUserManager */
+	protected $userManager;
+
+	/** @var \OCA\Dav\Migration\MigrateAddressbooks  */
+	private $service;
 
 	/**
 	 * @param IUserManager $userManager
-	 * @param SyncService $syncService
+	 * @param \OCA\Dav\Migration\MigrateAddressbooks $service
 	 */
-	function __construct(SyncService $syncService) {
+	function __construct(IUserManager $userManager,
+						 \OCA\Dav\Migration\MigrateAddressbooks $service
+	) {
 		parent::__construct();
-		$this->syncService = $syncService;
+		$this->userManager = $userManager;
+		$this->service = $service;
 	}
 
 	protected function configure() {
 		$this
-			->setName('dav:sync-system-addressbook')
-			->setDescription('Synchronizes users to the system addressbook');
+			->setName('dav:migrate-addressbooks')
+			->setDescription('Migrate addressbooks from the contacts app to core')
+			->addArgument('user',
+				InputArgument::OPTIONAL,
+				'User for whom all addressbooks will be migrated');
 	}
 
-	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
-	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$output->writeln('Syncing users ...');
-		$progress = new ProgressBar($output);
-		$progress->start();
-		$this->syncService->syncInstance(function() use ($progress) {
-			$progress->advance();
+		$this->service->setup();
+
+		$user = $input->getArgument('user');
+		if (!is_null($user)) {
+			if (!$this->userManager->userExists($user)) {
+				throw new \InvalidArgumentException("User <$user> in unknown.");
+			}
+			$output->writeln("Start migration for $user");
+			$this->service->migrateForUser($user);
+		}
+		$output->writeln("Start migration of all known users ...");
+		$p = new ProgressBar($output);
+		$p->start();
+		$this->userManager->callForAllUsers(function($user) use ($p) {
+			$p->advance();
+			/** @var IUser $user */
+			$this->service->migrateForUser($user->getUID());
 		});
 
-		$progress->finish();
+		$p->finish();
 		$output->writeln('');
 	}
 }

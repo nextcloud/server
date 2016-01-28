@@ -11,16 +11,13 @@
 /apps*/*
 !/apps/dav
 !/apps/files
-!/apps/files_encryption
 !/apps/federation
 !/apps/encryption
-!/apps/encryption_dummy
 !/apps/files_external
 !/apps/files_sharing
 !/apps/files_trashbin
 !/apps/files_versions
 !/apps/user_ldap
-!/apps/user_webdavauth
 !/apps/provisioning_api
 !/apps/systemtags
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
