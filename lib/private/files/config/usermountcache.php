@@ -22,9 +22,12 @@
 namespace OC\Files\Config;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OC\Files\Filesystem;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
 use OCP\Files\Mount\IMountPoint;
+use OCP\Files\NotFoundException;
 use OCP\ICache;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -52,6 +55,8 @@ class UserMountCache implements IUserMountCache {
 	 * @var ILogger
 	 */
 	private $logger;
+
+	private $cacheInfoCache = [];
 
 	/**
 	 * UserMountCache constructor.
@@ -133,7 +138,7 @@ class UserMountCache implements IUserMountCache {
 		$query = $builder->update('mounts')
 			->set('mount_point', $builder->createNamedParameter($mount->getMountPoint()))
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
-			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), \PDO::PARAM_INT)));
+			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)));
 
 		$query->execute();
 	}
@@ -143,7 +148,7 @@ class UserMountCache implements IUserMountCache {
 
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($mount->getUser()->getUID())))
-			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), \PDO::PARAM_INT)));
+			->andWhere($builder->expr()->eq('root_id', $builder->createNamedParameter($mount->getRootId(), IQueryBuilder::PARAM_INT)));
 		$query->execute();
 	}
 
@@ -178,7 +183,7 @@ class UserMountCache implements IUserMountCache {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point')
 			->from('mounts')
-			->where($builder->expr()->eq('storage_id', $builder->createPositionalParameter($numericStorageId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('storage_id', $builder->createPositionalParameter($numericStorageId, IQueryBuilder::PARAM_INT)));
 
 		$rows = $query->execute()->fetchAll();
 
@@ -193,11 +198,65 @@ class UserMountCache implements IUserMountCache {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('storage_id', 'root_id', 'user_id', 'mount_point')
 			->from('mounts')
-			->where($builder->expr()->eq('root_id', $builder->createPositionalParameter($rootFileId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('root_id', $builder->createPositionalParameter($rootFileId, IQueryBuilder::PARAM_INT)));
 
 		$rows = $query->execute()->fetchAll();
 
 		return array_map([$this, 'dbRowToMountInfo'], $rows);
+	}
+
+	/**
+	 * @param $fileId
+	 * @return array
+	 * @throws \OCP\Files\NotFoundException
+	 */
+	private function getCacheInfoFromFileId($fileId) {
+		if (!isset($this->cacheInfoCache[$fileId])) {
+			$builder = $this->connection->getQueryBuilder();
+			$query = $builder->select('storage', 'path')
+				->from('filecache')
+				->where($builder->expr()->eq('fileid', $builder->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)));
+
+			$row = $query->execute()->fetch();
+			if (is_array($row)) {
+				$this->cacheInfoCache[$fileId] = [
+					(int)$row['storage'],
+					$row['path']
+				];
+			} else {
+				throw new NotFoundException('File with id "' . $fileId . '" not found');
+			}
+		}
+		return $this->cacheInfoCache[$fileId];
+	}
+
+	/**
+	 * @param int $fileId
+	 * @return ICachedMountInfo[]
+	 * @since 9.0.0
+	 */
+	public function getMountsForFileId($fileId) {
+		try {
+			list($storageId, $internalPath) = $this->getCacheInfoFromFileId($fileId);
+		} catch (NotFoundException $e) {
+			return [];
+		}
+		$mountsForStorage = $this->getMountsForStorageId($storageId);
+
+		// filter mounts that are from the same storage but a different directory
+		return array_filter($mountsForStorage, function (ICachedMountInfo $mount) use ($internalPath, $fileId) {
+			if ($fileId === $mount->getRootId()) {
+				return true;
+			}
+			try {
+				list(, $internalMountPath) = $this->getCacheInfoFromFileId($mount->getRootId());
+			} catch (NotFoundException $e) {
+				return false;
+			}
+
+			return $internalMountPath === '' || substr($internalPath, 0, strlen($internalMountPath) + 1) === $internalMountPath . '/';
+		});
+
 	}
 
 	/**
@@ -218,7 +277,7 @@ class UserMountCache implements IUserMountCache {
 
 		$query = $builder->delete('mounts')
 			->where($builder->expr()->eq('user_id', $builder->createNamedParameter($userId)))
-			->andWhere($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, \PDO::PARAM_INT)));
+			->andWhere($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 	}
 
@@ -226,7 +285,7 @@ class UserMountCache implements IUserMountCache {
 		$builder = $this->connection->getQueryBuilder();
 
 		$query = $builder->delete('mounts')
-			->where($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('storage_id', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 	}
 }
