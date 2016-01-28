@@ -30,7 +30,7 @@
 		'   <hr />' +
 		'   <div class="authorRow">' +
 		'      <span class="author"><em>{{actorDisplayName}}</em></span>' +
-		'      <span class="date">{{creationDateTime}}</span>' +
+		'      <span class="date has-tooltip" title="{{altDate}}">{{date}}</span>' +
 		'   </div>' +
 		'   <div class="message">{{message}}</div>' +
 		'</li>';
@@ -101,8 +101,13 @@
 		},
 
 		_formatItem: function(commentModel) {
+			var timestamp = new Date(commentModel.get('creationDateTime')).getTime();
+			var data = _.extend({
+				date: OC.Util.relativeModifiedDate(timestamp),
+				altDate: OC.Util.formatDate(timestamp)
+			}, commentModel.attributes);
 			// TODO: format
-			return commentModel.attributes;
+			return data;
 		},
 
 		_toggleLoading: function(state) {
@@ -128,6 +133,7 @@
 			} else {
 				this.$container.append($el);
 			}
+			$el.find('.has-tooltip').tooltip();
 		},
 
 		nextPage: function() {
@@ -152,7 +158,8 @@
 				actorDisplayName: OC.currentUser,
 				actorType: 'users',
 				verb: 'comment',
-				message: $textArea.val()
+				message: $textArea.val(),
+				creationDateTime: (new Date()).getTime()
 			}, {at: 0});
 
 			// TODO: spinner/disable field?
