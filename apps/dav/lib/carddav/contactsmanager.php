@@ -39,8 +39,18 @@ class ContactsManager {
 	 * @param string $userId
 	 */
 	public function setupContactsProvider(IManager $cm, $userId) {
-		$addressBooks = $this->backend->getAddressBooksForUser("principals/$userId");
-		foreach ($addressBooks as $addressBookInfo)  {
+		$addressBooks = $this->backend->getAddressBooksForUser("principals/users/$userId");
+		$this->register($cm, $addressBooks);
+		$addressBooks = $this->backend->getAddressBooksForUser("principals/system/system");
+		$this->register($cm, $addressBooks);
+	}
+
+	/**
+	 * @param IManager $cm
+	 * @param $addressBooks
+	 */
+	private function register(IManager $cm, $addressBooks) {
+		foreach ($addressBooks as $addressBookInfo) {
 			$addressBook = new \OCA\DAV\CardDAV\AddressBook($this->backend, $addressBookInfo);
 			$cm->registerAddressBook(
 				new AddressBookImpl(

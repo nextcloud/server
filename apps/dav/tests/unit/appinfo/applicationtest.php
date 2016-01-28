@@ -35,17 +35,28 @@ use Test\TestCase;
 class ApplicationTest extends TestCase {
 	public function test() {
 		$app = new Application();
+		$c = $app->getContainer();
 
 		// assert service instances in the container are properly setup
-		$s = $app->getContainer()->query('ContactsManager');
+		$s = $c->query('ContactsManager');
 		$this->assertInstanceOf('OCA\DAV\CardDAV\ContactsManager', $s);
-		$s = $app->getContainer()->query('CardDavBackend');
+		$s = $c->query('CardDavBackend');
 		$this->assertInstanceOf('OCA\DAV\CardDAV\CardDavBackend', $s);
+	}
+
+	public function testContactsManagerSetup() {
+		$app = new Application();
+		$c = $app->getContainer();
+		$c->registerService('CardDavBackend', function($c) {
+			$service = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
+			$service->method('getAddressBooksForUser')->willReturn([]);
+			return $service;
+		});
 
 		// assert setupContactsProvider() is proper
 		/** @var IManager | \PHPUnit_Framework_MockObject_MockObject $cm */
 		$cm = $this->getMockBuilder('OCP\Contacts\IManager')->disableOriginalConstructor()->getMock();
-		$app->setupContactsProvider($cm, 'user01');
+		$app->setupContactsProvider($cm, 'xxx');
 		$this->assertTrue(true);
 	}
 }
