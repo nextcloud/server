@@ -634,8 +634,8 @@ describe('OC.Share.ShareItemModel', function() {
 				password: '',
 				passwordChanged: false,
 				permissions: OC.PERMISSION_READ,
-				expireDate: '2015-7-24 00:00:00',
-				shareType: OC.Share.SHARE_TYPE_LINK
+			expireDate: '2015-07-24 00:00:00',
+			shareType: OC.Share.SHARE_TYPE_LINK
 			});
 			expect(updateShareStub.notCalled).toEqual(true);
 			clock.restore();
