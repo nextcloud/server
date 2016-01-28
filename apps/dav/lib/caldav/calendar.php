@@ -58,23 +58,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	function getACL() {
 		$acl = parent::getACL();
 
-		// add the current user
-		if (isset($this->calendarInfo['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal'])) {
-			$owner = $this->calendarInfo['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal'];
-			$acl[] = [
-				'privilege' => '{DAV:}read',
-				'principal' => $owner,
-				'protected' => true,
-			];
-			if ($this->calendarInfo['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only']) {
-				$acl[] = [
-					'privilege' => '{DAV:}write',
-					'principal' => $owner,
-					'protected' => true,
-				];
-			}
-		}
-
 		/** @var CalDavBackend $caldavBackend */
 		$caldavBackend = $this->caldavBackend;
 		return $caldavBackend->applyShareAcl($this->getResourceId(), $acl);

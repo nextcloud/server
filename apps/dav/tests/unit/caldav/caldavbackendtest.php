@@ -28,6 +28,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
+use Sabre\DAVACL\IACL;
 use Test\TestCase;
 
 /**
@@ -108,22 +109,80 @@ class CalDavBackendTest extends TestCase {
 		$this->assertEquals(0, count($books));
 	}
 
-	public function testCalendarSharing() {
+	public function providesSharingData() {
+		return [
+			[true, true, true, false, [
+				[
+					'href' => 'principal:' . self::UNIT_TEST_USER1,
+					'readOnly' => false
+				],
+				[
+					'href' => 'principal:' . self::UNIT_TEST_GROUP,
+					'readOnly' => true
+				]
+			]],
+			[true, false, false, false, [
+				[
+					'href' => 'principal:' . self::UNIT_TEST_USER1,
+					'readOnly' => true
+				],
+			]],
 
-		$this->createTestCalendar();
+		];
+	}
+
+	/**
+	 * @dataProvider providesSharingData
+	 */
+	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add) {
+
+		$calendarId = $this->createTestCalendar();
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
 		$calendar = new Calendar($this->backend, $books[0]);
-		$this->backend->updateShares($calendar, [
-			[
-				'href' => 'principal:' . self::UNIT_TEST_USER1,
-			],
-			[
-				'href' => 'principal:' . self::UNIT_TEST_GROUP,
-			]
-		], []);
+		$this->backend->updateShares($calendar, $add, []);
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
 		$this->assertEquals(1, count($books));
+		$calendar = new Calendar($this->backend, $books[0]);
+		$acl = $calendar->getACL();
+		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
+		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
+		$this->assertAccess($userCanRead, self::UNIT_TEST_USER1, '{DAV:}read', $acl);
+		$this->assertAccess($userCanWrite, self::UNIT_TEST_USER1, '{DAV:}write', $acl);
+		$this->assertAccess($groupCanRead, self::UNIT_TEST_GROUP, '{DAV:}read', $acl);
+		$this->assertAccess($groupCanWrite, self::UNIT_TEST_GROUP, '{DAV:}write', $acl);
+		$this->assertEquals(self::UNIT_TEST_USER, $calendar->getOwner());
+
+		// test acls on the child
+		$uri = $this->getUniqueID('calobj');
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+
+		/** @var IACL $child */
+		$child = $calendar->getChild($uri);
+		$acl = $child->getACL();
+		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
+		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
+		$this->assertAccess($userCanRead, self::UNIT_TEST_USER1, '{DAV:}read', $acl);
+		$this->assertAccess($userCanWrite, self::UNIT_TEST_USER1, '{DAV:}write', $acl);
+		$this->assertAccess($groupCanRead, self::UNIT_TEST_GROUP, '{DAV:}read', $acl);
+		$this->assertAccess($groupCanWrite, self::UNIT_TEST_GROUP, '{DAV:}write', $acl);
 
 		// delete the address book
 		$this->backend->deleteCalendar($books[0]['id']);
@@ -385,5 +444,33 @@ EOD;
 
 		$sos = $this->backend->getSchedulingObjects(self::UNIT_TEST_USER);
 		$this->assertEquals(0, count($sos));
+	}
+
+	private function assertAcl($principal, $privilege, $acl) {
+		foreach($acl as $a) {
+			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
+				$this->assertTrue(true);
+				return;
+			}
+		}
+		$this->fail("ACL does not contain $principal / $privilege");
+	}
+
+	private function assertNotAcl($principal, $privilege, $acl) {
+		foreach($acl as $a) {
+			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
+				$this->fail("ACL contains $principal / $privilege");
+				return;
+			}
+		}
+		$this->assertTrue(true);
+	}
+
+	private function assertAccess($shouldHaveAcl, $principal, $privilege, $acl) {
+		if ($shouldHaveAcl) {
+			$this->assertAcl($principal, $privilege, $acl);
+		} else {
+			$this->assertNotAcl($principal, $privilege, $acl);
+		}
 	}
 }
