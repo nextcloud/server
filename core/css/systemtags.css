@@ -45,7 +45,7 @@
 }
 
 .systemtags-select2-container { 
-	width: 80%;
+	width: 100%;
 }
 
 .systemtags-select2-container .select2-choices {
@@ -62,24 +62,18 @@
 }
 
 .systemtags-select2-container .select2-choices .select2-search-choice {
-	border: 0;
-	box-shadow: none;
-	background: none;
-	padding: 0;
-	margin: 0;
 	line-height: 20px;
+	padding-left: 5px;
 }
 
 .systemtags-select2-container .select2-choices .select2-search-choice.select2-locked .label {
-	font-style: italic;
+	opacity: 0.5;
 }
 
 .systemtags-select2-container .select2-choices .select2-search-choice-close {
 	display: none;
 }
 .systemtags-select2-container .select2-choices .select2-search-field input {
-	margin: 0;
-	padding: 0;
 	line-height: 20px;
 }
 

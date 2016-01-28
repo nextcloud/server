@@ -293,12 +293,12 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 		it('formatResult renders tag name with visibility', function() {
 			var opts = select2Stub.getCall(0).args[0];
 			var $el = $(opts.formatResult({id: '1', name: 'test', userVisible: false, userAssignable: false}));
-			expect($el.find('.label').text()).toEqual('test (invisible, not assignable)');
+			expect($el.find('.label').text()).toEqual('test (invisible)');
 		});
 		it('formatSelection renders tag name with visibility', function() {
 			var opts = select2Stub.getCall(0).args[0];
 			var $el = $(opts.formatSelection({id: '1', name: 'test', userVisible: false, userAssignable: false}));
-			expect($el.text().trim()).toEqual('test (invisible, not assignable),');
+			expect($el.text().trim()).toEqual('test (invisible)');
 		});
 		describe('initSelection', function() {
 			var fetchStub;
@@ -396,7 +396,7 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 		it('formatSelection renders tag name only', function() {
 			var opts = select2Stub.getCall(0).args[0];
 			var $el = $(opts.formatSelection({id: '1', name: 'test'}));
-			expect($el.text().trim()).toEqual('test,');
+			expect($el.text().trim()).toEqual('test');
 		});
 		describe('initSelection', function() {
 			var fetchStub;

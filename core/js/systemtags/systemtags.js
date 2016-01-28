@@ -31,15 +31,25 @@
 				);
 			}
 
-			var $span = $('<span>'),
-				$tag = $('<em>').text(
-					t('core', '({uservisible}, {userassignable})', {
-						uservisible: tag.userVisible ? t('core', 'visible') : t('core', 'invisible'),
-						userassignable: tag.userAssignable ? t('core', 'assignable') : t('core', 'not assignable')
+			var $span = $('<span>');
+			$span.append(escapeHTML(tag.name));
+
+			var scope;
+			if (!tag.userAssignable) {
+				scope = t('core', 'not assignable');
+			}
+			if (!tag.userVisible) {
+				// invisible also implicitly means not assignable
+				scope = t('core', 'invisible');
+			}
+			if (scope) {
+				var $tag = $('<em>').text(' ' +
+					t('core', '({scope})', {
+						scope: scope
 					})
 				);
-			$span.append(escapeHTML(tag.name) + ' ');
-			$span.append($tag);
+				$span.append($tag);
+			}
 			return $span;
 		}
 	};
