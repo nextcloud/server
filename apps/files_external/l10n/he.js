@@ -60,6 +60,7 @@ OC.L10N.register(
     "Identity endpoint URL" : "זהות נתיב נקודת קצה",
     "Rackspace" : "חץ אחורה",
     "API key" : "מפתח API",
+    "Login credentials" : "פרטי הכניסה",
     "Username and password" : "שם משתמש וסיסמא",
     "Session credentials" : "אישורי סשן",
     "RSA public key" : "מפתח ציבורי RSA",

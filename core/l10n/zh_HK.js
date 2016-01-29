@@ -32,7 +32,6 @@ OC.L10N.register(
     "Error" : "錯誤",
     "Error while sharing" : "分享時發生錯誤",
     "Error while unsharing" : "取消分享時發生錯誤",
-    "Error while changing permissions" : "更改權限時發生錯誤",
     "Set expiration date" : "設定分享期限",
     "Expiration date" : "分享期限",
     "Sending ..." : "發送中...",

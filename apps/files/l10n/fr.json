@@ -50,7 +50,7 @@
     "Could not create file \"{file}\" because it already exists" : "Impossible de créer le fichier \"{file}\" car il existe déjà",
     "Could not create folder \"{dir}\"" : "Impossible de créer le dossier \"{dir}\"",
     "Could not create folder \"{dir}\" because it already exists" : "Impossible de créer le dossier \"{dir}\" car il existe déjà",
-    "Error deleting file \"{fileName}\"." : "Erreur pendant la suppression du fichier \"{fileName}\".",
+    "Error deleting file \"{fileName}\"." : "Erreur à la suppression du fichier \"{fileName}\".",
     "No entries in this folder match '{filter}'" : "Aucune entrée de ce dossier ne correspond à '{filter}'",
     "Name" : "Nom",
     "Size" : "Taille",
