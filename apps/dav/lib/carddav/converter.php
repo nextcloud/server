@@ -39,7 +39,7 @@ class Converter {
 		$displayName = empty($displayName ) ? $uid : $displayName;
 		$emailAddress = $user->getEMailAddress();
 		$cloudId = $user->getCloudId();
-		$image = $user->getAvatarImage(-1);
+		$image = $this->getAvatarImage($user);
 
 		$vCard = new VCard();
 		$vCard->add(new Text($vCard, 'UID', $uid));
@@ -72,7 +72,7 @@ class Converter {
 		$displayName = empty($displayName ) ? $uid : $displayName;
 		$emailAddress = $user->getEMailAddress();
 		$cloudId = $user->getCloudId();
-		$image = $user->getAvatarImage(-1);
+		$image = $this->getAvatarImage($user);
 
 		$updated = false;
 		if($this->propertyNeedsUpdate($vCard, 'FN', $displayName)) {
@@ -153,6 +153,19 @@ class Converter {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return null|IImage
+	 */
+	private function getAvatarImage(IUser $user) {
+		try {
+			$image = $user->getAvatarImage(-1);
+			return $image;
+		} catch (\Exception $ex) {
+			return null;
+		}
 	}
 
 }
