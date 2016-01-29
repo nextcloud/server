@@ -34,7 +34,6 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
-use \OC\BackgroundJob\JobList;
 
 /**
  * This class provides functions to register backgroundjobs in ownCloud
@@ -115,16 +114,7 @@ class BackgroundJob {
 	 * @since 4.5.0
 	 */
 	static public function allRegularTasks() {
-		$jobList = \OC::$server->getJobList();
-		$allJobs = $jobList->getAll();
-		$regularJobs = array();
-		foreach ($allJobs as $job) {
-			if ($job instanceof RegularLegacyJob) {
-				$key = implode('-', $job->getArgument());
-				$regularJobs[$key] = $job->getArgument();
-			}
-		}
-		return $regularJobs;
+		return [];
 	}
 
 	/**
@@ -146,17 +136,7 @@ class BackgroundJob {
 	 * @since 4.5.0
 	 */
 	public static function allQueuedTasks() {
-		$jobList = \OC::$server->getJobList();
-		$allJobs = $jobList->getAll();
-		$queuedJobs = array();
-		foreach ($allJobs as $job) {
-			if ($job instanceof QueuedLegacyJob) {
-				$queuedJob = $job->getArgument();
-				$queuedJob['id'] = $job->getId();
-				$queuedJobs[] = $queuedJob;
-			}
-		}
-		return $queuedJobs;
+		return [];
 	}
 
 	/**
@@ -167,19 +147,7 @@ class BackgroundJob {
 	 * @since 4.5.0
 	 */
 	public static function queuedTaskWhereAppIs($app) {
-		$jobList = \OC::$server->getJobList();
-		$allJobs = $jobList->getAll();
-		$queuedJobs = array();
-		foreach ($allJobs as $job) {
-			if ($job instanceof QueuedLegacyJob) {
-				$queuedJob = $job->getArgument();
-				$queuedJob['id'] = $job->getId();
-				if ($queuedJob['app'] === $app) {
-					$queuedJobs[] = $queuedJob;
-				}
-			}
-		}
-		return $queuedJobs;
+		return [];
 	}
 
 	/**
