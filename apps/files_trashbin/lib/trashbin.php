@@ -56,7 +56,7 @@ class Trashbin {
 	private static $scannedVersions = false;
 
 	/**
-	 * Ensure we dont need to scan the file during the move to trash
+	 * Ensure we don't need to scan the file during the move to trash
 	 * by triggering the scan in the pre-hook
 	 *
 	 * @param array $params
