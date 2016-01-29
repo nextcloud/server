@@ -457,13 +457,13 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			// look through dynamic groups to add them to the result array if needed
 			$groupsToMatch = $this->access->fetchListOfGroups(
 				$this->access->connection->ldapGroupFilter,array('dn',$dynamicGroupMemberURL));
-			foreach($groupsToMatch as $memberUrl) {
-				if (!array_key_exists($dynamicGroupMemberURL, $memberUrl)) {
+			foreach($groupsToMatch as $dynamicGroup) {
+				if (!array_key_exists($dynamicGroupMemberURL, $dynamicGroup)) {
 					continue;
 				}
-				$pos = strpos($memberUrl[$dynamicGroupMemberURL][0], '(');
+				$pos = strpos($dynamicGroup[$dynamicGroupMemberURL][0], '(');
 				if ($pos !== false) {
-					$memberUrlFilter = substr($memberUrl[$dynamicGroupMemberURL][0],$pos);
+					$memberUrlFilter = substr($dynamicGroup[$dynamicGroupMemberURL][0],$pos);
 					// apply filter via ldap search to see if this user is in this
 					// dynamic group
 					$userMatch = $this->access->readAttribute(
@@ -473,15 +473,15 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 					);
 					if ($userMatch !== false) {
 						// match found so this user is in this group
-						$pos = strpos($memberUrl['dn'][0], ',');
+						$pos = strpos($dynamicGroup['dn'][0], ',');
 						if ($pos !== false) {
-							$membershipGroup = substr($memberUrl['dn'][0],3,$pos-3);
+							$membershipGroup = substr($dynamicGroup['dn'][0],3,$pos-3);
 							$groups[] = $membershipGroup;
 						}
 					}
 				} else {
 					\OCP\Util::writeLog('user_ldap', 'No search filter found on member url '.
-						'of group ' . $dnGroup, \OCP\Util::DEBUG);
+						'of group ' . $dynamicGroup, \OCP\Util::DEBUG);
 				}
 			}
 		}
