@@ -313,6 +313,28 @@ Feature: sharing
     And the HTTP status code should be "200"
     And last share_id is included in the answer
 
+  Scenario: Sharee can see the filtered share
+    Given user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile1.txt" of user "user0" is shared with user "user1"
+    And As an "user1"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true&path=textfile1 (2).txt"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is included in the answer
+
+  Scenario: Sharee can't see the share that is filtered out
+    Given user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile1.txt" of user "user0" is shared with user "user1"
+    And As an "user1"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true&path=textfile0 (2).txt"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is not included in the answer
+
   Scenario: Sharee can see the group share
     Given As an "admin"
     And user "user0" exists
