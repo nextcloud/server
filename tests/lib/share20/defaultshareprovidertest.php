@@ -824,7 +824,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith($user, \OCP\Share::SHARE_TYPE_USER, 1 , 0);
+		$share = $this->provider->getSharedWith($user, \OCP\Share::SHARE_TYPE_USER, null, 1 , 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
@@ -894,7 +894,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith($user, \OCP\Share::SHARE_TYPE_GROUP, 20 , 1);
+		$share = $this->provider->getSharedWith($user, \OCP\Share::SHARE_TYPE_GROUP, null, 20 , 1);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
@@ -979,7 +979,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith($user, \OCP\Share::SHARE_TYPE_GROUP, -1, 0);
+		$share = $this->provider->getSharedWith($user, \OCP\Share::SHARE_TYPE_GROUP, null, -1, 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
@@ -990,6 +990,78 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertSame(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
 		$this->assertSame(0, $share->getPermissions());
 		$this->assertSame('userTarget', $share->getTarget());
+	}
+
+	public function testGetSharedWithUserWithNode() {
+		$this->addShareToDB(\OCP\Share::SHARE_TYPE_USER, 'user0', 'user1', 'user1',
+			'file', 42, 'myTarget', 31, null, null, null);
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_USER, 'user0', 'user1', 'user1',
+			'file', 43, 'myTarget', 31, null, null, null);
+
+		$user0 = $this->getMock('\OCP\IUser');
+		$user0->method('getUID')->willReturn('user0');
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+
+		$this->userManager->method('get')->willReturnMap([
+			['user0', $user0],
+			['user1', $user1],
+		]);
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getId')->willReturn(43);
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(43)->willReturn([$file]);
+
+		$share = $this->provider->getSharedWith($user0, \OCP\Share::SHARE_TYPE_USER, $file, -1, 0);
+		$this->assertCount(1, $share);
+
+		$share = $share[0];
+		$this->assertEquals($id, $share->getId());
+		$this->assertSame($user0, $share->getSharedWith());
+		$this->assertSame($user1, $share->getShareOwner());
+		$this->assertSame($user1, $share->getSharedBy());
+		$this->assertSame($file, $share->getNode());
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+	}
+
+	public function testGetSharedWithGroupWithNode() {
+		$this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user1',
+			'file', 42, 'myTarget', 31, null, null, null);
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user1',
+			'file', 43, 'myTarget', 31, null, null, null);
+
+		$user0 = $this->getMock('\OCP\IUser');
+		$user0->method('getUID')->willReturn('user0');
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+
+		$this->userManager->method('get')->willReturnMap([
+			['user0', $user0],
+			['user1', $user1],
+		]);
+
+		$group0 = $this->getMock('\OCP\IGroup');
+		$group0->method('getGID')->willReturn('group0');
+
+		$this->groupManager->method('get')->with('group0')->willReturn($group0);
+		$this->groupManager->method('getUserGroups')->with($user0)->willReturn([$group0]);
+
+		$node = $this->getMock('\OCP\Files\Folder');
+		$node->method('getId')->willReturn(43);
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->with(43)->willReturn([$node]);
+
+		$share = $this->provider->getSharedWith($user0, \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
+		$this->assertCount(1, $share);
+
+		$share = $share[0];
+		$this->assertEquals($id, $share->getId());
+		$this->assertSame($group0, $share->getSharedWith());
+		$this->assertSame($user1, $share->getShareOwner());
+		$this->assertSame($user1, $share->getSharedBy());
+		$this->assertSame($node, $share->getNode());
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
 	}
 
 	public function testGetSharesBy() {

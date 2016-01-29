@@ -329,9 +329,13 @@ class Share20OCS {
 		return new \OC_OCS_Result($share);
 	}
 
-	private function getSharedWithMe() {
-		$userShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_USER, -1, 0);
-		$groupShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, -1, 0);
+	/**
+	 * @param \OCP\Files\File|\OCP\Files\Folder $node
+	 * @return \OC_OCS_Result
+	 */
+	private function getSharedWithMe($node = null) {
+		$userShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, -1, 0);
+		$groupShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
 
 		$shares = array_merge($userShares, $groupShares);
 
@@ -390,10 +394,6 @@ class Share20OCS {
 		$subfiles = $this->request->getParam('subfiles');
 		$path = $this->request->getParam('path', null);
 
-		if ($sharedWithMe === 'true') {
-			return $this->getSharedWithMe();
-		}
-
 		if ($path !== null) {
 			$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
 			try {
@@ -401,6 +401,10 @@ class Share20OCS {
 			} catch (\OCP\Files\NotFoundException $e) {
 				return new \OC_OCS_Result(null, 404, 'wrong path, file/folder doesn\'t exist');
 			}
+		}
+
+		if ($sharedWithMe === 'true') {
+			return $this->getSharedWithMe($path);
 		}
 
 		if ($subfiles === 'true') {

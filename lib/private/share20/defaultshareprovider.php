@@ -518,16 +518,9 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Get shared with the given user
-	 *
-	 * @param IUser $user get shares where this user is the recipient
-	 * @param int $shareType \OCP\Share::SHARE_TYPE_USER or \OCP\Share::SHARE_TYPE_GROUP are supported
-	 * @param int $limit The maximum number of shares, -1 for all
-	 * @param int $offset
-	 * @return IShare[]
-	 * @throws BackendError
+	 * @inheritdoc
 	 */
-	public function getSharedWith(IUser $user, $shareType, $limit, $offset) {
+	public function getSharedWith(IUser $user, $shareType, $node, $limit, $offset) {
 		/** @var Share[] $shares */
 		$shares = [];
 
@@ -548,6 +541,11 @@ class DefaultShareProvider implements IShareProvider {
 
 			$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_USER)));
 			$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($user->getUID())));
+
+			// Filter by node if provided
+			if ($node !== null) {
+				$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+			}
 
 			$cursor = $qb->execute();
 
@@ -581,9 +579,14 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->setMaxResults($limit - count($shares));
 				}
 
+				// Filter by node if provided
+				if ($node !== null) {
+					$qb->andWhere($qb->expr()->eq('file_source', $qb->createNamedParameter($node->getId())));
+				}
+
 				$groups = array_map(function(IGroup $group) { return $group->getGID(); }, $groups);
 
-				$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)));
+				$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)));
 				$qb->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
 					$groups,
 					IQueryBuilder::PARAM_STR_ARRAY
