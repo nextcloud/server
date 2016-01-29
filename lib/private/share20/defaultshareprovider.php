@@ -448,13 +448,9 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Get share by id
-	 *
-	 * @param int $id
-	 * @return \OCP\Share\IShare
-	 * @throws ShareNotFound
+	 * @inheritdoc
 	 */
-	public function getShareById($id) {
+	public function getShareById($id, $recipient = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 
 		$qb->select('*')
@@ -463,12 +459,11 @@ class DefaultShareProvider implements IShareProvider {
 			->andWhere(
 				$qb->expr()->in(
 					'share_type',
-					[
-						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
-						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
-						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
-						$qb->expr()->literal(self::SHARE_TYPE_USERGROUP),
-					]
+					$qb->createNamedParameter([
+						\OCP\Share::SHARE_TYPE_USER,
+						\OCP\Share::SHARE_TYPE_GROUP,
+						\OCP\Share::SHARE_TYPE_LINK,
+					], IQueryBuilder::PARAM_INT_ARRAY)
 				)
 			);
 		
@@ -484,6 +479,11 @@ class DefaultShareProvider implements IShareProvider {
 			$share = $this->createShare($data);
 		} catch (InvalidShare $e) {
 			throw new ShareNotFound();
+		}
+
+		// If the recipient is set for a group share resolve to that user
+		if ($recipient !== null && $share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$share = $this->resolveGroupShare($share, $recipient);
 		}
 
 		return $share;
