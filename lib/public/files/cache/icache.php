@@ -51,7 +51,7 @@ interface ICache {
 	 * get the stored metadata of a file or folder
 	 *
 	 * @param string | int $file either the path of a file or folder or the file id for a file or folder
-	 * @return ICacheEntry[]|false the cache entry or false if the file is not found in the cache
+	 * @return ICacheEntry|false the cache entry or false if the file is not found in the cache
 	 * @since 9.0.0
 	 */
 	public function get($file);
@@ -147,6 +147,8 @@ interface ICache {
 
 	/**
 	 * Move a file or folder in the cache
+	 *
+	 * Note that this should make sure the entries are removed from the source cache
 	 *
 	 * @param \OCP\Files\Cache\ICache $sourceCache
 	 * @param string $sourcePath

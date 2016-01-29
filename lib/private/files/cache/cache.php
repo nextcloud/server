@@ -49,6 +49,10 @@ use OCP\IDBConnection;
  * - ChangePropagator: updates the mtime and etags of parent folders whenever a change to the cache is made to the cache by the updater
  */
 class Cache implements ICache {
+	use MoveFromCacheTrait {
+		MoveFromCacheTrait::moveFromCache as moveFromCacheFallback;
+	}
+
 	/**
 	 * @var array partial data for the cache
 	 */
@@ -466,39 +470,42 @@ class Cache implements ICache {
 	 * @throws \OC\DatabaseException
 	 */
 	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
-		// normalize source and target
-		$sourcePath = $this->normalize($sourcePath);
-		$targetPath = $this->normalize($targetPath);
+		if ($sourceCache instanceof Cache) {
+			// normalize source and target
+			$sourcePath = $this->normalize($sourcePath);
+			$targetPath = $this->normalize($targetPath);
 
-		$sourceData = $sourceCache->get($sourcePath);
-		$sourceId = $sourceData['fileid'];
-		$newParentId = $this->getParentId($targetPath);
+			$sourceData = $sourceCache->get($sourcePath);
+			$sourceId = $sourceData['fileid'];
+			$newParentId = $this->getParentId($targetPath);
 
-		list($sourceStorageId, $sourcePath) = $sourceCache->getMoveInfo($sourcePath);
-		list($targetStorageId, $targetPath) = $this->getMoveInfo($targetPath);
+			list($sourceStorageId, $sourcePath) = $sourceCache->getMoveInfo($sourcePath);
+			list($targetStorageId, $targetPath) = $this->getMoveInfo($targetPath);
 
-		// sql for final update
-		$moveSql = 'UPDATE `*PREFIX*filecache` SET `storage` =  ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
+			// sql for final update
+			$moveSql = 'UPDATE `*PREFIX*filecache` SET `storage` =  ?, `path` = ?, `path_hash` = ?, `name` = ?, `parent` =? WHERE `fileid` = ?';
 
-		if ($sourceData['mimetype'] === 'httpd/unix-directory') {
-			//find all child entries
-			$sql = 'SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path` LIKE ?';
-			$result = $this->connection->executeQuery($sql, [$sourceStorageId, $this->connection->escapeLikeParameter($sourcePath) . '/%']);
-			$childEntries = $result->fetchAll();
-			$sourceLength = strlen($sourcePath);
-			$this->connection->beginTransaction();
-			$query = $this->connection->prepare('UPDATE `*PREFIX*filecache` SET `storage` = ?, `path` = ?, `path_hash` = ? WHERE `fileid` = ?');
+			if ($sourceData['mimetype'] === 'httpd/unix-directory') {
+				//find all child entries
+				$sql = 'SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path` LIKE ?';
+				$result = $this->connection->executeQuery($sql, [$sourceStorageId, $this->connection->escapeLikeParameter($sourcePath) . '/%']);
+				$childEntries = $result->fetchAll();
+				$sourceLength = strlen($sourcePath);
+				$this->connection->beginTransaction();
+				$query = $this->connection->prepare('UPDATE `*PREFIX*filecache` SET `storage` = ?, `path` = ?, `path_hash` = ? WHERE `fileid` = ?');
 
-			foreach ($childEntries as $child) {
-				$newTargetPath = $targetPath . substr($child['path'], $sourceLength);
-				$query->execute([$targetStorageId, $newTargetPath, md5($newTargetPath), $child['fileid']]);
+				foreach ($childEntries as $child) {
+					$newTargetPath = $targetPath . substr($child['path'], $sourceLength);
+					$query->execute([$targetStorageId, $newTargetPath, md5($newTargetPath), $child['fileid']]);
+				}
+				$this->connection->executeQuery($moveSql, [$targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
+				$this->connection->commit();
+			} else {
+				$this->connection->executeQuery($moveSql, [$targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
 			}
-			$this->connection->executeQuery($moveSql, [$targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
-			$this->connection->commit();
 		} else {
-			$this->connection->executeQuery($moveSql, [$targetStorageId, $targetPath, md5($targetPath), basename($targetPath), $newParentId, $sourceId]);
+			$this->moveFromCacheFallback($sourceCache, $sourcePath, $targetPath);
 		}
-
 	}
 
 	/**
