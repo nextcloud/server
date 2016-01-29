@@ -327,4 +327,11 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 			$this->childEtags[] = $relativeEntryPath . '/' . $data['etag'] . $permissions;
 		}
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getChecksum() {
+		return $this->data['checksum'];
+	}
 }

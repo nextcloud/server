@@ -397,6 +397,14 @@
                 <length>4</length>
             </field>
 
+			<field>
+				<name>checksum</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
+
 
             <index>
 				<name>fs_storage_path_hash</name>

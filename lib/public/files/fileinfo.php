@@ -237,4 +237,12 @@ interface FileInfo {
 	 * @since 9.0.0
 	 */
 	public function getOwner();
+
+	/**
+	 * Get the stored checksum for this file
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getChecksum();
 }

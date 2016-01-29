@@ -121,7 +121,7 @@ class Cache implements ICache {
 			$params = array($file);
 		}
 		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-					   `storage_mtime`, `encrypted`, `etag`, `permissions`
+					   `storage_mtime`, `encrypted`, `etag`, `permissions`, `checksum`
 				FROM `*PREFIX*filecache` ' . $where;
 		$result = $this->connection->executeQuery($sql, $params);
 		$data = $result->fetch();
@@ -177,7 +177,7 @@ class Cache implements ICache {
 	public function getFolderContentsById($fileId) {
 		if ($fileId > -1) {
 			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-						   `storage_mtime`, `encrypted`, `etag`, `permissions`
+						   `storage_mtime`, `encrypted`, `etag`, `permissions`, `checksum`
 					FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC';
 			$result = $this->connection->executeQuery($sql, [$fileId]);
 			$files = $result->fetchAll();
@@ -287,7 +287,10 @@ class Cache implements ICache {
 		// don't update if the data we try to set is the same as the one in the record
 		// some databases (Postgres) don't like superfluous updates
 		$sql = 'UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=? ' .
-			'WHERE (' . implode(' <> ? OR ', $queryParts) . ' <> ? ) AND `fileid` = ? ';
+			'WHERE (' .
+			implode(' <> ? OR ', $queryParts) . ' <> ? OR ' .
+			implode(' IS NULL OR ', $queryParts) . ' IS NULL' .
+			') AND `fileid` = ? ';
 		$this->connection->executeQuery($sql, $params);
 
 	}
@@ -303,7 +306,7 @@ class Cache implements ICache {
 	protected function buildParts(array $data) {
 		$fields = array(
 			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted',
-			'etag', 'permissions');
+			'etag', 'permissions', 'checksum');
 
 		$doNotCopyStorageMTime = false;
 		if (array_key_exists('mtime', $data) && $data['mtime'] === null) {
@@ -567,7 +570,7 @@ class Cache implements ICache {
 		$sql = '
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`,
 				`mimetype`, `mimepart`, `size`, `mtime`, `encrypted`,
-				`etag`, `permissions`
+				`etag`, `permissions`, `checksum`
 			FROM `*PREFIX*filecache`
 			WHERE `storage` = ? AND `name` ILIKE ?';
 		$result = $this->connection->executeQuery($sql,
@@ -598,7 +601,7 @@ class Cache implements ICache {
 		} else {
 			$where = '`mimepart` = ?';
 		}
-		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `etag`, `permissions`
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `etag`, `permissions`, `checksum`
 				FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?';
 		$mimetype = $this->mimetypeLoader->getId($mimetype);
 		$result = $this->connection->executeQuery($sql, array($mimetype, $this->getNumericStorageId()));
@@ -625,7 +628,7 @@ class Cache implements ICache {
 	public function searchByTag($tag, $userId) {
 		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, ' .
 			'`mimetype`, `mimepart`, `size`, `mtime`, ' .
-			'`encrypted`, `etag`, `permissions` ' .
+			'`encrypted`, `etag`, `permissions`, `checksum` ' .
 			'FROM `*PREFIX*filecache` `file`, ' .
 			'`*PREFIX*vcategory_to_object` `tagmap`, ' .
 			'`*PREFIX*vcategory` `tag` ' .
