@@ -251,6 +251,7 @@ class DefaultShareProvider implements IShareProvider {
 
 	/**
 	 * Get all children of this share
+	 * FIXME: remove once https://github.com/owncloud/core/pull/21660 is in
 	 *
 	 * @param \OCP\Share\IShare $parent
 	 * @return IShare[]
@@ -265,12 +266,11 @@ class DefaultShareProvider implements IShareProvider {
 			->andWhere(
 				$qb->expr()->in(
 					'share_type',
-					[
-						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
-						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
-						$qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
-						$qb->expr()->literal(self::SHARE_TYPE_USERGROUP),
-					]
+					$qb->createNamedParameter([
+						\OCP\Share::SHARE_TYPE_USER,
+						\OCP\Share::SHARE_TYPE_GROUP,
+						\OCP\Share::SHARE_TYPE_LINK,
+					], IQueryBuilder::PARAM_INT_ARRAY)
 				)
 			)
 			->orderBy('id');

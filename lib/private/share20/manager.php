@@ -612,6 +612,7 @@ class Manager implements IManager {
 
 	/**
 	 * Delete all the children of this share
+	 * FIXME: remove once https://github.com/owncloud/core/pull/21660 is in
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @return \OCP\Share\IShare[] List of deleted shares
