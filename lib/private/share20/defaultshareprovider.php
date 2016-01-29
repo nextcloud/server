@@ -288,21 +288,21 @@ class DefaultShareProvider implements IShareProvider {
 	 * Delete a share
 	 *
 	 * @param \OCP\Share\IShare $share
-	 * @throws BackendError
 	 */
 	public function delete(\OCP\Share\IShare $share) {
-		// Fetch share to make sure it exists
-		$share = $this->getShareById($share->getId());
-
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->delete('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())));
-	
-		try {
-			$qb->execute();
-		} catch (\Exception $e) {
-			throw new BackendError();
+
+		/*
+		 * If the share is a group share delete all possible
+		 * user defined groups shares.
+		 */
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$qb->orWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())));
 		}
+
+		$qb->execute();
 	}
 
 	/**
