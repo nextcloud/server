@@ -51,6 +51,7 @@ class EntityCollection extends RootCollection {
 	 * @param ICommentsManager $commentsManager
 	 * @param Folder $fileRoot
 	 * @param IUserManager $userManager
+	 * @param IUserSession $userSession
 	 * @param ILogger $logger
 	 */
 	public function __construct(
@@ -59,6 +60,7 @@ class EntityCollection extends RootCollection {
 		ICommentsManager $commentsManager,
 		Folder $fileRoot,
 		IUserManager $userManager,
+		IUserSession $userSession,
 		ILogger $logger
 	) {
 		foreach(['id', 'name'] as $property) {
@@ -73,6 +75,7 @@ class EntityCollection extends RootCollection {
 		$this->fileRoot = $fileRoot;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -97,7 +100,13 @@ class EntityCollection extends RootCollection {
 	function getChild($name) {
 		try {
 			$comment = $this->commentsManager->get($name);
-			return new CommentNode($this->commentsManager, $comment, $this->userManager, $this->logger);
+			return new CommentNode(
+				$this->commentsManager,
+				$comment,
+				$this->userManager,
+				$this->userSession,
+				$this->logger
+			);
 		} catch (\OCP\Comments\NotFoundException $e) {
 			throw new NotFound();
 		}
@@ -125,7 +134,13 @@ class EntityCollection extends RootCollection {
 		$comments = $this->commentsManager->getForObject($this->name, $this->id, $limit, $offset, $datetime);
 		$result = [];
 		foreach($comments as $comment) {
-			$result[] = new CommentNode($this->commentsManager, $comment, $this->userManager, $this->logger);
+			$result[] = new CommentNode(
+				$this->commentsManager,
+				$comment,
+				$this->userManager,
+				$this->userSession,
+				$this->logger
+			);
 		}
 		return $result;
 	}

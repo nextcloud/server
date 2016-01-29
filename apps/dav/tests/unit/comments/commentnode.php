@@ -30,6 +30,7 @@ class CommentsNode extends \Test\TestCase {
 	protected $node;
 	protected $userManager;
 	protected $logger;
+	protected $userSession;
 
 	public function setUp() {
 		parent::setUp();
@@ -37,9 +38,16 @@ class CommentsNode extends \Test\TestCase {
 		$this->commentsManager = $this->getMock('\OCP\Comments\ICommentsManager');
 		$this->comment = $this->getMock('\OCP\Comments\IComment');
 		$this->userManager = $this->getMock('\OCP\IUserManager');
+		$this->userSession = $this->getMock('\OCP\IUserSession');
 		$this->logger = $this->getMock('\OCP\ILogger');
 
-		$this->node = new CommentNode($this->commentsManager, $this->comment, $this->userManager, $this->logger);
+		$this->node = new CommentNode(
+			$this->commentsManager,
+			$this->comment,
+			$this->userManager,
+			$this->userSession,
+			$this->logger
+		);
 	}
 
 	public function testDelete() {
@@ -133,6 +141,7 @@ class CommentsNode extends \Test\TestCase {
 			$ns . 'latestChildDateTime' => new \DateTime('2016-01-12 18:48:00'),
 			$ns . 'objectType' => 'files',
 			$ns . 'objectId' => '1848',
+			$ns . 'isUnread' => null,
 		];
 
 		$this->comment->expects($this->once())
@@ -198,10 +207,45 @@ class CommentsNode extends \Test\TestCase {
 		$properties = $this->node->getProperties(null);
 
 		foreach($properties as $name => $value) {
-			$this->assertTrue(isset($expected[$name]));
+			$this->assertTrue(array_key_exists($name, $expected));
 			$this->assertSame($expected[$name], $value);
 			unset($expected[$name]);
 		}
 		$this->assertTrue(empty($expected));
+	}
+
+	public function readCommentProvider() {
+		$creationDT = new \DateTime('2016-01-19 18:48:00');
+		$diff = new \DateInterval('PT2H');
+		$readDT1 = clone $creationDT; $readDT1->sub($diff);
+		$readDT2 = clone $creationDT; $readDT2->add($diff);
+		return [
+			[$creationDT, $readDT1, 'true'],
+			[$creationDT, $readDT2, 'false'],
+			[$creationDT, null, 'true'],
+		];
+	}
+
+	/**
+	 * @dataProvider readCommentProvider
+	 * @param $expected
+	 */
+	public function testGetPropertiesUnreadProperty($creationDT, $readDT, $expected) {
+		$this->comment->expects($this->any())
+			->method('getCreationDateTime')
+			->will($this->returnValue($creationDT));
+
+		$this->commentsManager->expects($this->once())
+			->method('getReadMark')
+			->will($this->returnValue($readDT));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($this->getMock('\OCP\IUser')));
+
+		$properties = $this->node->getProperties(null);
+
+		$this->assertTrue(array_key_exists(CommentNode::PROPERTY_NAME_UNREAD, $properties));
+		$this->assertSame($properties[CommentNode::PROPERTY_NAME_UNREAD], $expected);
 	}
 }
