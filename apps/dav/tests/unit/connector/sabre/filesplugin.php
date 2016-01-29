@@ -366,7 +366,7 @@ class FilesPlugin extends \Test\TestCase {
 	 *  |-text.txt
 	 * |-test.txt
 	 *
-	 * FolderA is an incomming shared folder and there are no delete permissions.
+	 * FolderA is an incoming shared folder and there are no delete permissions.
 	 * Thus moving /FolderA/test.txt to /test.txt should fail already on that check
 	 *
 	 * @expectedException \Sabre\DAV\Exception\Forbidden
