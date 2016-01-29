@@ -26,20 +26,19 @@
 
 namespace OCA\Files\Command;
 
+use OC\Core\Command\Base;
 use OC\ForbiddenException;
 use OCP\Files\StorageNotAvailableException;
-use Symfony\Component\Console\Command\Command;
+use OCP\IUserManager;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 
-class Scan extends Command {
+class Scan extends Base {
 
-	/**
-	 * @var \OC\User\Manager $userManager
-	 */
+	/** @var IUserManager $userManager */
 	private $userManager;
 	/** @var float */
 	protected $execTime = 0;
@@ -47,19 +46,15 @@ class Scan extends Command {
 	protected $foldersCounter = 0;
 	/** @var int */
 	protected $filesCounter = 0;
-	/** @var bool */
-	protected $interrupted = false;
-	/** @var bool */
-	protected $php_pcntl_signal = true;
 
-
-
-	public function __construct(\OC\User\Manager $userManager) {
+	public function __construct(IUserManager $userManager) {
 		$this->userManager = $userManager;
 		parent::__construct();
 	}
 
 	protected function configure() {
+		parent::configure();
+
 		$this
 			->setName('files:scan')
 			->setDescription('rescan filesystem')
@@ -96,7 +91,7 @@ class Scan extends Command {
 
 	protected function scanFiles($user, $path, $verbose, OutputInterface $output) {
 		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
-		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exeption
+		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 		# printout and count
 		if ($verbose) {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
@@ -118,13 +113,13 @@ class Scan extends Command {
 			});
 		# count only
 		} else {
-			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
+			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function () use ($output) {
 				$this->filesCounter += 1;
 				if ($this->hasBeenInterrupted()) {
 					throw new \Exception('ctrl-c');
 				}
 			});
-			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
+			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function () use ($output) {
 				$this->foldersCounter += 1;
 				if ($this->hasBeenInterrupted()) {
 					throw new \Exception('ctrl-c');
@@ -194,7 +189,7 @@ class Scan extends Command {
 			$path = $inputPath ? $inputPath : '/' . $user;
 			$user_count += 1;
 			if ($this->userManager->userExists($user)) {
-				# add an extra line when verbose is set to optical seperate users
+				# add an extra line when verbose is set to optical separate users
 				if ($verbose) {$output->writeln(""); }
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
 				# full: printout data if $verbose was set
@@ -212,9 +207,7 @@ class Scan extends Command {
 		if (!$quiet) {
 			$this->presentStats($output);
 		}
-
 	}
-
 
 	/**
 	 * Initialises some useful tools for the Command
@@ -224,45 +217,7 @@ class Scan extends Command {
 		$this->execTime = -microtime(true);
 		// Convert PHP errors to exceptions
 		set_error_handler([$this, 'exceptionErrorHandler'], E_ALL);
-
-		// check if the php pcntl_signal functions are accessible
-		if (function_exists('pcntl_signal')) {
-			// Collect interrupts and notify the running command
-			pcntl_signal(SIGTERM, [$this, 'cancelOperation']);
-			pcntl_signal(SIGINT, [$this, 'cancelOperation']);
-		} else {
-			$this->php_pcntl_signal = false;
-		}
 	}
-
-
-	/**
-	 * Changes the status of the command to "interrupted" if ctrl-c has been pressed
-	 *
-	 * Gives a chance to the command to properly terminate what it's doing
-	 */
-	private function cancelOperation() {
-		$this->interrupted = true;
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	protected function hasBeenInterrupted() {
-		// return always false if pcntl_signal functions are not accessible
-		if ($this->php_pcntl_signal) {
-			pcntl_signal_dispatch();
-			if ($this->interrupted) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return false;
-		}
-	}
-
 
 	/**
 	 * Processes PHP errors as exceptions in order to be able to keep track of problems
@@ -284,7 +239,6 @@ class Scan extends Command {
 		throw new \ErrorException($message, 0, $severity, $file, $line);
 	}
 
-
 	/**
 	 * @param OutputInterface $output
 	 */
@@ -299,7 +253,6 @@ class Scan extends Command {
 
 		$this->showSummary($headers, null, $output);
 	}
-
 
 	/**
 	 * Shows a summary of operations
@@ -332,10 +285,9 @@ class Scan extends Command {
 	 */
 	protected function formatExecTime() {
 		list($secs, $tens) = explode('.', sprintf("%.1f", ($this->execTime)));
-		# add the following to $niceDate if you want to have microsecons added:   . '.' . $tens;
-		$niceDate = date('H:i:s', $secs);
 
-		return $niceDate;
+		# if you want to have microseconds add this:   . '.' . $tens;
+		return date('H:i:s', $secs);
 	}
 
 }
