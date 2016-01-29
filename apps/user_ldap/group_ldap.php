@@ -481,7 +481,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 					}
 				} else {
 					\OCP\Util::writeLog('user_ldap', 'No search filter found on member url '.
-						'of group ' . $dynamicGroup, \OCP\Util::DEBUG);
+						'of group ' . print_r($dynamicGroup, true), \OCP\Util::DEBUG);
 				}
 			}
 		}
