@@ -49,6 +49,9 @@ class Scan extends Command {
 	protected $filesCounter = 0;
 	/** @var bool */
 	protected $interrupted = false;
+	/** @var bool */
+	protected $php_pcntl_signal = true;
+
 
 
 	public function __construct(\OC\User\Manager $userManager) {
@@ -93,15 +96,22 @@ class Scan extends Command {
 
 	protected function scanFiles($user, $path, $verbose, OutputInterface $output) {
 		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
+		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exeption
 		# printout and count
 		if ($verbose) {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
-				$output->writeln("Scanning file   <info>$path</info>");
+				$output->writeln("\tFile   <info>$path</info>");
 				$this->filesCounter += 1;
+				if ($this->hasBeenInterrupted()) {
+					throw new \Exception('ctrl-c');
+				}
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
-				$output->writeln("Scanning folder <info>$path</info>");
+				$output->writeln("\tFolder <info>$path</info>");
 				$this->foldersCounter += 1;
+				if ($this->hasBeenInterrupted()) {
+					throw new \Exception('ctrl-c');
+				}
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'StorageNotAvailable', function (StorageNotAvailableException $e) use ($output) {
 				$output->writeln("Error while scanning, storage not available (" . $e->getMessage() . ")");
@@ -110,9 +120,15 @@ class Scan extends Command {
 		} else {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 				$this->filesCounter += 1;
+				if ($this->hasBeenInterrupted()) {
+					throw new \Exception('ctrl-c');
+				}
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 				$this->foldersCounter += 1;
+				if ($this->hasBeenInterrupted()) {
+					throw new \Exception('ctrl-c');
+				}
 			});
 		}
 
@@ -121,6 +137,9 @@ class Scan extends Command {
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Home storage for user $user not writable</error>");
 			$output->writeln("Make sure you're running the scan command only as the user the web server runs as");
+		} catch (\Exception $e) {
+			# exit the function if ctrl-c has been pressed 
+			return;
 		}
 	}
 
@@ -135,11 +154,6 @@ class Scan extends Command {
 			$users = $this->userManager->search('');
 		} else {
 			$users = $input->getArgument('user_id');
-		}
-
-		if (count($users) === 0) {
-			$output->writeln("<error>Please specify the user id to scan, \"--all\" to scan for all users or \"--path=...\"</error>");
-			return;
 		}
 
 		# no messaging level option means: no full printout but statistics
@@ -159,18 +173,38 @@ class Scan extends Command {
 			$verbose = false;
 		}
 
+		# check quantity of users to be process and show it on the command line
+		$users_total = count($users);
+		if ($users_total === 0) {
+			$output->writeln("<error>Please specify the user id to scan, \"--all\" to scan for all users or \"--path=...\"</error>");
+			return;
+		} else {
+			if ($users_total > 1) {
+				$output->writeln("\nScanning files for $users_total users");
+			}
+		}
+
 		$this->initTools();
 
+		$user_count = 0;
 		foreach ($users as $user) {
 			if (is_object($user)) {
 				$user = $user->getUID();
 			}
 			$path = $inputPath ? $inputPath : '/' . $user;
+			$user_count += 1;
 			if ($this->userManager->userExists($user)) {
+				# add an extra line when verbose is set to optical seperate users
+				if ($verbose) {$output->writeln(""); }
+				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
 				# full: printout data if $verbose was set
 				$this->scanFiles($user, $path, $verbose, $output);
 			} else {
-				$output->writeln("<error>Unknown user $user</error>");
+				$output->writeln("<error>Unknown user $user_count $user</error>");
+			}
+			# check on each user if there was a user interrupt (ctrl-c) and exit foreach
+			if ($this->hasBeenInterrupted()) {
+				break;
 			}
 		}
 
@@ -183,17 +217,6 @@ class Scan extends Command {
 
 
 	/**
-	 * Checks if the command was interrupted by ctrl-c
-	 */
-	protected function checkForInterruption($output) {
-		if ($this->hasBeenInterrupted()) {
-			$this->presentResults($output);
-			exit;
-		}
-	}
-
-
-	/**
 	 * Initialises some useful tools for the Command
 	 */
 	protected function initTools() {
@@ -202,19 +225,42 @@ class Scan extends Command {
 		// Convert PHP errors to exceptions
 		set_error_handler([$this, 'exceptionErrorHandler'], E_ALL);
 
-		// Collect interrupts and notify the running command
-		pcntl_signal(SIGTERM, [$this, 'cancelOperation']);
-		pcntl_signal(SIGINT, [$this, 'cancelOperation']);
+		// check if the php pcntl_signal functions are accessible
+		if (function_exists('pcntl_signal')) {
+			// Collect interrupts and notify the running command
+			pcntl_signal(SIGTERM, [$this, 'cancelOperation']);
+			pcntl_signal(SIGINT, [$this, 'cancelOperation']);
+		} else {
+			$this->php_pcntl_signal = false;
+		}
 	}
 
 
 	/**
-	 * Changes the status of the command to "interrupted"
+	 * Changes the status of the command to "interrupted" if ctrl-c has been pressed
 	 *
 	 * Gives a chance to the command to properly terminate what it's doing
 	 */
 	private function cancelOperation() {
 		$this->interrupted = true;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function hasBeenInterrupted() {
+		// return always false if pcntl_signal functions are not accessible
+		if ($this->php_pcntl_signal) {
+			pcntl_signal_dispatch();
+			if ($this->interrupted) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 
@@ -236,20 +282,6 @@ class Scan extends Command {
 			return;
 		}
 		throw new \ErrorException($message, 0, $severity, $file, $line);
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	protected function hasBeenInterrupted() {
-		$cancelled = false;
-		pcntl_signal_dispatch();
-		if ($this->interrupted) {
-			$cancelled = true;
-		}
-
-		return $cancelled;
 	}
 
 
@@ -300,7 +332,8 @@ class Scan extends Command {
 	 */
 	protected function formatExecTime() {
 		list($secs, $tens) = explode('.', sprintf("%.1f", ($this->execTime)));
-		$niceDate = date('H:i:s', $secs) . '.' . $tens;
+		# add the following to $niceDate if you want to have microsecons added:   . '.' . $tens;
+		$niceDate = date('H:i:s', $secs);
 
 		return $niceDate;
 	}
