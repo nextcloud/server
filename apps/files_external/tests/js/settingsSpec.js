@@ -37,6 +37,7 @@ describe('OCA.External.Settings tests', function() {
 			'<option disable selected>Add storage</option>' +
 			'<option value="\\OC\\TestBackend">Test Backend</option>' +
 			'<option value="\\OC\\AnotherTestBackend">Another Test Backend</option>' +
+			'<option value="\\OC\\InputsTestBackend">Inputs test backend</option>' +
 			'</select>' +
 			'</td>' +
 			'<td class="authentication"></td>' +
@@ -76,6 +77,22 @@ describe('OCA.External.Settings tests', function() {
 						'builtin': true,
 					},
 					'priority': 12
+				},
+				'\\OC\\InputsTestBackend': {
+					'identifier': '\\OC\\InputsTestBackend',
+					'name': 'Inputs test backend',
+					'configuration': {
+						'field_text': 'Text field',
+						'field_password': '*Password field',
+						'field_bool': '!Boolean field',
+						'field_hidden': '#Hidden field',
+						'field_text_optional': '&Text field optional',
+						'field_password_optional': '&*Password field optional'
+					},
+					'authSchemes': {
+						'builtin': true,
+					},
+					'priority': 13
 				}
 			}
 		);
@@ -190,12 +207,69 @@ describe('OCA.External.Settings tests', function() {
 				expect(fakeServer.requests.length).toEqual(1);
 			});
 			// TODO: tests with "applicableUsers" and "applicableGroups"
-			// TODO: test with non-optional config parameters
 			// TODO: test with missing mount point value
 			// TODO: test with personal mounts (no applicable fields)
 			// TODO: test save triggers: paste, keyup, checkbox
 			// TODO: test "custom" field with addScript
 			// TODO: status indicator
+		});
+		describe('validate storage configuration', function() {
+			var $tr;
+
+			beforeEach(function() {
+				$tr = view.$el.find('tr:first');
+				selectBackend('\\OC\\InputsTestBackend');
+			});
+
+			it('lists missing fields in storage errors', function() {
+				var storage = view.getStorageConfig($tr);
+
+				expect(storage.errors).toEqual({
+					backendOptions: ['field_text', 'field_password']
+				});
+			});
+
+			it('highlights missing non-optional fields', function() {
+				_.each([
+					'field_text',
+					'field_password'
+				], function(param) {
+					expect($tr.find('input[data-parameter='+param+']').hasClass('warning-input')).toBe(true);
+				});
+				_.each([
+					'field_bool',
+					'field_hidden',
+					'field_text_optional',
+					'field_password_optional'
+				], function(param) {
+					expect($tr.find('input[data-parameter='+param+']').hasClass('warning-input')).toBe(false);
+				});
+			});
+
+			it('validates correct storage', function() {
+				$tr.find('[name=mountPoint]').val('mountpoint');
+
+				$tr.find('input[data-parameter=field_text]').val('foo');
+				$tr.find('input[data-parameter=field_password]').val('bar');
+				$tr.find('input[data-parameter=field_text_optional]').val('foobar');
+				// don't set field_password_optional
+				$tr.find('input[data-parameter=field_hidden]').val('baz');
+
+				var storage = view.getStorageConfig($tr);
+
+				expect(storage.validate()).toBe(true);
+			});
+
+			it('checks missing mount point', function() {
+				$tr.find('[name=mountPoint]').val('');
+
+				$tr.find('input[data-parameter=field_text]').val('foo');
+				$tr.find('input[data-parameter=field_password]').val('bar');
+
+				var storage = view.getStorageConfig($tr);
+
+				expect(storage.validate()).toBe(false);
+			});
 		});
 		describe('update storage', function() {
 			// TODO

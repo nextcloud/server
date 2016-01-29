@@ -59,10 +59,24 @@ function highlightBorder($element, highlight) {
 	return highlight;
 }
 
+function isInputValid($input) {
+	var optional = $input.hasClass('optional');
+	switch ($input.attr('type')) {
+		case 'text':
+		case 'password':
+			if ($input.val() === '' && !optional) {
+				return false;
+			}
+			break;
+	}
+	return true;
+}
+
 function highlightInput($input) {
-	if ($input.attr('type') === 'text' || $input.attr('type') === 'password') {
-		return highlightBorder($input,
-			($input.val() === '' && !$input.hasClass('optional')));
+	switch ($input.attr('type')) {
+		case 'text':
+		case 'password':
+			return highlightBorder($input, !isInputValid($input));
 	}
 }
 
@@ -952,7 +966,7 @@ MountConfigListView.prototype = _.extend({
 			if ($input.attr('type') === 'button') {
 				return;
 			}
-			if ($input.val() === '' && !$input.hasClass('optional')) {
+			if (!isInputValid($input)) {
 				missingOptions.push(parameter);
 				return;
 			}
