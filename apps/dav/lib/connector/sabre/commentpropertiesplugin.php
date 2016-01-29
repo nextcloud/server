@@ -105,7 +105,7 @@ class CommentPropertiesPlugin extends ServerPlugin {
 			return null;
 		}
 		$href = substr_replace($href, '/dav/', $entryPoint);
-		$href .= 'comments/files/' . $node->getId();
+		$href .= 'comments/files/' . rawurldecode($node->getId());
 		return $href;
 	}
 
