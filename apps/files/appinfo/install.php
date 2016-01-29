@@ -20,7 +20,5 @@
  */
 
 // Cron job for scanning user storages
-$jobList = \OC::$server->getJobList();
-$job = 'OCA\Files\BackgroundJob\ScanFiles';
-\OC::$server->getJobList()->add($job);
-
+\OC::$server->getJobList()->add('OCA\Files\BackgroundJob\ScanFiles');
+\OC::$server->getJobList()->add('OCA\Files\BackgroundJob\DeleteOrphanedTagsJob');

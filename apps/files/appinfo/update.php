@@ -98,15 +98,5 @@ if ($installedVersion === '1.1.9' && (
 }
 
 // Add cron job for scanning user storages
-$jobList = \OC::$server->getJobList();
-$job = 'OCA\Files\BackgroundJob\ScanFiles';
-\OC::$server->getJobList()->add($job);
-
-/**
- * migrate old constant DEBUG to new config value 'debug'
- *
- * TODO: remove this in ownCloud 8.3
- */
-if(defined('DEBUG') && DEBUG === true) {
-	\OC::$server->getConfig()->setSystemValue('debug', true);
-}
+\OC::$server->getJobList()->add('OCA\Files\BackgroundJob\ScanFiles');
+\OC::$server->getJobList()->add('OCA\Files\BackgroundJob\DeleteOrphanedTagsJob');
