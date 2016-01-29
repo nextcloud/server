@@ -32,6 +32,7 @@ namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;
 use OCA\Files_Sharing\ISharedStorage;
+use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
 use OCP\Lock\ILockingProvider;
@@ -81,6 +82,10 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		$sourcePath = $this->ownerView->getPath($this->share['file_source']);
 		list($this->sourceStorage, $sourceInternalPath) = $this->ownerView->resolvePath($sourcePath);
 		$this->sourceRootInfo = $this->sourceStorage->getCache()->get($sourceInternalPath);
+	}
+
+	private function isValid() {
+		return ($this->sourceRootInfo->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
 	}
 
 	/**
@@ -133,6 +138,9 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	 * @return string|false source file path or false if not found
 	 */
 	public function getSourcePath($target) {
+		if (!$this->isValid()){
+			return false;
+		}
 		$source = $this->getFile($target);
 		if ($source) {
 			if (!isset($source['fullPath'])) {
@@ -157,6 +165,9 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	 * @return int CRUDS permissions granted
 	 */
 	public function getPermissions($target = '') {
+		if (!$this->isValid()) {
+			return 0;
+		}
 		$permissions = $this->share['permissions'];
 		// part files and the mount point always have delete permissions
 		if ($target === '' || pathinfo($target, PATHINFO_EXTENSION) === 'part') {
@@ -253,13 +264,14 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public function isReadable($path) {
-		$isReadable = false;
-		if ($source = $this->getSourcePath($path)) {
-			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
-			$isReadable = $storage->isReadable($internalPath);
+		if (!$this->isValid()) {
+			return false;
 		}
-
-		return $isReadable && $this->file_exists($path);
+		if (!$this->file_exists($path)) {
+			return false;
+		}
+		list($storage, $internalPath) = $this->resolvePath($path);
+		return $storage->isReadable($internalPath);
 	}
 
 	public function isUpdatable($path) {
