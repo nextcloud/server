@@ -80,6 +80,19 @@ interface IShareProvider {
 	public function deleteFromSelf(\OCP\Share\IShare $share, IUser $recipient);
 
 	/**
+	 * Move a share as a recipient.
+	 * This is updating the share target. Thus the mount point of the recipient.
+	 * This may require special handling. If a user moves a group share
+	 * the target should only be changed for them.
+	 *
+	 * @param \OCP\Share\IShare $share
+	 * @param IUser $recipient
+	 * @return \OCP\Share\IShare
+	 * @since 9.0.0
+	 */
+	public function move(\OCP\Share\IShare $share, IUser $recipient);
+
+	/**
 	 * Get all shares by the given user
 	 *
 	 * @param IUser $user

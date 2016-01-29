@@ -1887,6 +1887,79 @@ class ManagerTest extends \Test\TestCase {
 
 		$manager->updateShare($share);
 	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Can't change target of link share
+	 */
+	public function testMoveShareLink() {
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK);
+
+		$recipient = $this->getMock('\OCP\IUser');
+
+		$this->manager->moveShare($share, $recipient);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Invalid recipient
+	 */
+	public function testMoveShareUserNotRecipient() {
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_USER);
+
+		$sharedWith = $this->getMock('\OCP\IUser');
+		$share->setSharedWith($sharedWith);
+
+		$recipient = $this->getMock('\OCP\IUser');
+
+		$this->manager->moveShare($share, $recipient);
+	}
+
+	public function testMoveShareUser() {
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_USER);
+
+		$recipient = $this->getMock('\OCP\IUser');
+		$share->setSharedWith($recipient);
+
+		$this->defaultProvider->method('move')->with($share, $recipient)->will($this->returnArgument(0));
+
+		$this->manager->moveShare($share, $recipient);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage Invalid recipient
+	 */
+	public function testMoveShareGroupNotRecipient() {
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP);
+
+		$sharedWith = $this->getMock('\OCP\IGroup');
+		$share->setSharedWith($sharedWith);
+
+		$recipient = $this->getMock('\OCP\IUser');
+		$sharedWith->method('inGroup')->with($recipient)->willReturn(false);
+
+		$this->manager->moveShare($share, $recipient);
+	}
+
+	public function testMoveShareGroup() {
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP);
+
+		$sharedWith = $this->getMock('\OCP\IGroup');
+		$share->setSharedWith($sharedWith);
+
+		$recipient = $this->getMock('\OCP\IUser');
+		$sharedWith->method('inGroup')->with($recipient)->willReturn(true);
+
+		$this->defaultProvider->method('move')->with($share, $recipient)->will($this->returnArgument(0));
+
+		$this->manager->moveShare($share, $recipient);
+	}
 }
 
 class DummyPassword {

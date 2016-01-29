@@ -715,6 +715,25 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function moveShare(\OCP\Share\IShare $share, IUser $recipient) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+			throw new \InvalidArgumentException('Can\'t change target of link share');
+		}
+
+		if (($share->getShareType() === \OCP\Share::SHARE_TYPE_USER && $share->getSharedWith() !== $recipient) ||
+			($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP && !$share->getSharedWith()->inGroup($recipient))) {
+			throw new \InvalidArgumentException('Invalid recipient');
+		}
+
+		list($providerId, ) = $this->splitFullId($share->getId());
+		$provider = $this->factory->getProvider($providerId);
+
+		$provider->move($share, $recipient);
+	}
+
+	/**
 	 * Get shares shared by (initiated) by the provided user.
 	 *
 	 * @param IUser $user
