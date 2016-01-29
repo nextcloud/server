@@ -32,51 +32,277 @@ use OCA\Files_Sharing\Migration;
  */
 class MigrationTest extends TestCase {
 
-	/**
-	 * @var \OCP\IDBConnection
-	 */
+	/** @var \OCP\IDBConnection */
 	private $connection;
 
-	function __construct() {
-		parent::__construct();
+	/** @var Migration */
+	private $migration;
+
+	private $table = 'share';
+
+	public function setUp() {
+		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->migration = new Migration($this->connection);
+
+		$this->cleanDB();
 	}
 
-	function testAddAccept() {
-
-		$query = $this->connection->prepare('
-			INSERT INTO `*PREFIX*share_external`
-			(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `remote_id`, `accepted`)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-		');
-
-		for ($i = 0; $i < 10; $i++) {
-			$query->execute(array('remote', 'token', 'password', 'name', 'owner', 'user', 'mount point', $i, $i, 0));
-		}
-
-		$query = $this->connection->prepare('SELECT `id` FROM `*PREFIX*share_external`');
-		$query->execute();
-		$dummyEntries = $query->fetchAll();
-
-		$this->assertSame(10, count($dummyEntries));
-
-		$m = new Migration();
-		$m->addAcceptRow();
-
-		// verify result
-		$query = $this->connection->prepare('SELECT `accepted` FROM `*PREFIX*share_external`');
-		$query->execute();
-		$results = $query->fetchAll();
-		$this->assertSame(10, count($results));
-
-		foreach ($results as $r) {
-			$this->assertSame(1, (int) $r['accepted']);
-		}
-
-		// cleanup
-		$cleanup = $this->connection->prepare('DELETE FROM `*PREFIX*share_external`');
-		$cleanup->execute();
+	public function tearDown() {
+		parent::tearDown();
+		$this->cleanDB();
 	}
 
+	private function cleanDB() {
+		$query = $this->connection->getQueryBuilder();
+		$query->delete($this->table)->execute();
+	}
+
+	public function addDummyValues() {
+		$query = $this->connection->getQueryBuilder();
+		$query->insert($this->table)
+			->values(
+				array(
+					'share_type' => $query->createParameter('share_type'),
+					'share_with' => $query->createParameter('share_with'),
+					'uid_owner' => $query->createParameter('uid_owner'),
+					'uid_initiator' => $query->createParameter('uid_initiator'),
+					'parent' => $query->createParameter('parent'),
+					'item_type' => $query->createParameter('item_type'),
+					'item_source' => $query->createParameter('item_source'),
+					'item_target' => $query->createParameter('item_target'),
+					'file_source' => $query->createParameter('file_source'),
+					'file_target' => $query->createParameter('file_target'),
+					'permissions' => $query->createParameter('permissions'),
+					'stime' => $query->createParameter('stime'),
+				)
+			);
+		// shared contact, shouldn't be modified
+		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_CONTACT)
+			->setParameter('share_with', 'user1')
+			->setParameter('uid_owner', 'owner1')
+			->setParameter('uid_initiator', '')
+			->setParameter('parent', null)
+			->setParameter('item_type', 'contact')
+			->setParameter('item_source', '2')
+			->setParameter('item_target', '/2')
+			->setParameter('file_source', null)
+			->setParameter('file_target', null)
+			->setParameter('permissions', 31)
+			->setParameter('stime', time());
+		$this->assertSame(1,
+			$query->execute()
+		);
+		// shared calendar, shouldn't be modified
+		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+			->setParameter('share_with', 'user1')
+			->setParameter('uid_owner', 'owner1')
+			->setParameter('uid_initiator', '')
+			->setParameter('parent', null)
+			->setParameter('item_type', 'calendar')
+			->setParameter('item_source', '2')
+			->setParameter('item_target', '/2')
+			->setParameter('file_source', null)
+			->setParameter('file_target', null)
+			->setParameter('permissions', 31)
+			->setParameter('stime', time());
+		$this->assertSame(1,
+			$query->execute()
+		);
+		// single user share, shouldn't be modified
+		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+			->setParameter('share_with', 'user1')
+			->setParameter('uid_owner', 'owner1')
+			->setParameter('uid_initiator', '')
+			->setParameter('parent', null)
+			->setParameter('item_type', 'file')
+			->setParameter('item_source', '2')
+			->setParameter('item_target', '/2')
+			->setParameter('file_source', 2)
+			->setParameter('file_target', '/foo')
+			->setParameter('permissions', 31)
+			->setParameter('stime', time());
+		$this->assertSame(1,
+			$query->execute()
+		);
+		// single group share, shouldn't be modified
+		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_GROUP)
+			->setParameter('share_with', 'group1')
+			->setParameter('uid_owner', 'owner1')
+			->setParameter('uid_initiator', '')
+			->setParameter('parent', null)
+			->setParameter('item_type', 'file')
+			->setParameter('item_source', '2')
+			->setParameter('item_target', '/2')
+			->setParameter('file_source', 2)
+			->setParameter('file_target', '/foo')
+			->setParameter('permissions', 31)
+			->setParameter('stime', time());
+		$this->assertSame(1,
+			$query->execute()
+		);
+		$parent = $query->getLastInsertId();
+		// unique target for group share, shouldn't be modified
+		$query->setParameter('share_type', 2)
+			->setParameter('share_with', 'group1')
+			->setParameter('uid_owner', 'owner1')
+			->setParameter('uid_initiator', '')
+			->setParameter('parent', $parent)
+			->setParameter('item_type', 'file')
+			->setParameter('item_source', '2')
+			->setParameter('item_target', '/2')
+			->setParameter('file_source', 2)
+			->setParameter('file_target', '/foo renamed')
+			->setParameter('permissions', 31)
+			->setParameter('stime', time());
+		$this->assertSame(1,
+			$query->execute()
+		);
+		// first user share, shouldn't be modified
+		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+			->setParameter('share_with', 'user1')
+			->setParameter('uid_owner', 'owner2')
+			->setParameter('uid_initiator', '')
+			->setParameter('parent', null)
+			->setParameter('item_type', 'file')
+			->setParameter('item_source', '2')
+			->setParameter('item_target', '/2')
+			->setParameter('file_source', 2)
+			->setParameter('file_target', '/foobar')
+			->setParameter('permissions', 31)
+			->setParameter('stime', time());
+		$this->assertSame(1,
+			$query->execute()
+		);
+		$parent = $query->getLastInsertId();
+		// first re-share, should be attached to the first user share after migration
+		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+			->setParameter('share_with', 'user2')
+			->setParameter('uid_owner', 'user1')
+			->setParameter('uid_initiator', '')
+			->setParameter('parent', $parent)
+			->setParameter('item_type', 'file')
+			->setParameter('item_source', '2')
+			->setParameter('item_target', '/2')
+			->setParameter('file_source', 2)
+			->setParameter('file_target', '/foobar')
+			->setParameter('permissions', 31)
+			->setParameter('stime', time());
+		$this->assertSame(1,
+			$query->execute()
+		);
+		$parent = $query->getLastInsertId();
+		// second re-share, should be attached to the first user share after migration
+		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+			->setParameter('share_with', 'user3')
+			->setParameter('uid_owner', 'user2')
+			->setParameter('uid_initiator', '')
+			->setParameter('parent', $parent)
+			->setParameter('item_type', 'file')
+			->setParameter('item_source', '2')
+			->setParameter('item_target', '/2')
+			->setParameter('file_source', 2)
+			->setParameter('file_target', '/foobar')
+			->setParameter('permissions', 31)
+			->setParameter('stime', time());
+		$this->assertSame(1,
+			$query->execute()
+		);
+	}
+
+	public function testRemoveReShares() {
+		$this->addDummyValues();
+		$this->migration->removeReShares();
+		$this->verifyResult();
+	}
+
+	public function verifyResult() {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')->from($this->table)->orderBy('id');
+		$result = $query->execute()->fetchAll();
+		$this->assertSame(8, count($result));
+
+		// shares which shouldn't be modified
+		for ($i = 0; $i < 4; $i++) {
+			$this->assertSame('owner1', $result[$i]['uid_owner']);
+			$this->assertEmpty($result[$i]['uid_initiator']);
+			$this->assertNull($result[$i]['parent']);
+		}
+		// group share with unique target
+		$this->assertSame('owner1', $result[4]['uid_owner']);
+		$this->assertEmpty($result[4]['uid_initiator']);
+		$this->assertNotEmpty($result[4]['parent']);
+		// initial user share which was re-shared
+		$this->assertSame('owner2', $result[5]['uid_owner']);
+		$this->assertEmpty($result[5]['uid_initiator']);
+		$this->assertNull($result[5]['parent']);
+		// flatted re-shares
+		for($i = 6; $i < 8; $i++) {
+			$this->assertSame('owner2', $result[$i]['uid_owner']);
+			$user = 'user' . ($i - 5);
+			$this->assertSame($user, $result[$i]['uid_initiator']);
+			$this->assertNull($result[$i]['parent']);
+		}
+	}
+
+	public function test1001DeepReshares() {
+		$parent = null;
+		for ($i = 0; $i < 1001; $i++) {
+			$query = $this->connection->getQueryBuilder();
+			$query->insert($this->table)
+				->values(
+					[
+						'share_type' => $query->createParameter('share_type'),
+						'share_with' => $query->createParameter('share_with'),
+						'uid_owner' => $query->createParameter('uid_owner'),
+						'uid_initiator' => $query->createParameter('uid_initiator'),
+						'parent' => $query->createParameter('parent'),
+						'item_type' => $query->createParameter('item_type'),
+						'item_source' => $query->createParameter('item_source'),
+						'item_target' => $query->createParameter('item_target'),
+						'file_source' => $query->createParameter('file_source'),
+						'file_target' => $query->createParameter('file_target'),
+						'permissions' => $query->createParameter('permissions'),
+						'stime' => $query->createParameter('stime'),
+					]
+				)
+				->setParameter('share_type', \OCP\Share::SHARE_TYPE_USER)
+				->setParameter('share_with', 'user'.($i+1))
+				->setParameter('uid_owner', 'user'.($i))
+				->setParameter('uid_initiator', null)
+				->setParameter('parent', $parent)
+				->setParameter('item_type', 'file')
+				->setParameter('item_source', '2')
+				->setParameter('item_target', '/2')
+				->setParameter('file_source', 2)
+				->setParameter('file_target', '/foobar')
+				->setParameter('permissions', 31)
+				->setParameter('stime', time());
+
+			$this->assertSame(1, $query->execute());
+			$parent = $query->getLastInsertId();
+		}
+
+		$this->migration->removeReShares();
+		$this->migration->updateInitiatorInfo();
+
+		$qb = $this->connection->getQueryBuilder();
+
+		$stmt = $qb->select('id', 'share_with', 'uid_owner', 'uid_initiator', 'parent')
+			->from('share')
+			->orderBy('id', 'asc')
+			->execute();
+
+		$i = 0;
+		while($share = $stmt->fetch()) {
+			$this->assertEquals('user'.($i+1), $share['share_with']);
+			$this->assertEquals('user' . ($i), $share['uid_initiator']);
+			$this->assertEquals('user0', $share['uid_owner']);
+			$this->assertEquals(null, $share['parent']);
+			$i++;
+		}
+		$stmt->closeCursor();
+		$this->assertEquals(1001, $i);
+	}
 }
