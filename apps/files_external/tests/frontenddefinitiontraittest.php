@@ -61,6 +61,8 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 				->getMock();
 			$param->method('getName')
 				->willReturn($name);
+			$param->method('isOptional')
+				->willReturn(false);
 			$param->expects($this->once())
 				->method('validateValue')
 				->willReturn($valid);

@@ -22,10 +22,12 @@
 namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\IUserProvided;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
+use OCP\ILogger;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use \OCP\AppFramework\Http\DataResponse;
-use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http;
 use \OCA\Files_external\Service\UserGlobalStoragesService;
 use \OCA\Files_external\NotFoundException;
@@ -56,13 +58,15 @@ class UserGlobalStoragesController extends StoragesController {
 		IRequest $request,
 		IL10N $l10n,
 		UserGlobalStoragesService $userGlobalStoragesService,
-		IUserSession $userSession
+		IUserSession $userSession,
+		ILogger $logger
 	) {
 		parent::__construct(
 			$AppName,
 			$request,
 			$l10n,
-			$userGlobalStoragesService
+			$userGlobalStoragesService,
+			$logger
 		);
 		$this->userSession = $userSession;
 	}
@@ -128,6 +132,54 @@ class UserGlobalStoragesController extends StoragesController {
 	}
 
 	/**
+	 * Update an external storage entry.
+	 * Only allows setting user provided backend fields
+	 *
+	 * @param int $id storage id
+	 * @param array $backendOptions backend-specific options
+	 *
+	 * @return DataResponse
+	 *
+	 * @NoAdminRequired
+	 */
+	public function update(
+		$id,
+		$backendOptions
+	) {
+		try {
+			$storage = $this->service->getStorage($id);
+			$authMechanism = $storage->getAuthMechanism();
+			if ($authMechanism instanceof IUserProvided) {
+				$authMechanism->saveBackendOptions($this->userSession->getUser(), $id, $backendOptions);
+				$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
+			} else {
+				return new DataResponse(
+					[
+						'message' => (string)$this->l10n->t('Storage with id "%i" is not user editable', array($id))
+					],
+					Http::STATUS_FORBIDDEN
+				);
+			}
+		} catch (NotFoundException $e) {
+			return new DataResponse(
+				[
+					'message' => (string)$this->l10n->t('Storage with id "%i" not found', array($id))
+				],
+				Http::STATUS_NOT_FOUND
+			);
+		}
+
+		$this->updateStorageStatus($storage);
+		$this->sanitizeStorage($storage);
+
+		return new DataResponse(
+			$storage,
+			Http::STATUS_OK
+		);
+
+	}
+
+	/**
 	 * Remove sensitive data from a StorageConfig before returning it to the user
 	 *
 	 * @param StorageConfig $storage
@@ -135,6 +187,14 @@ class UserGlobalStoragesController extends StoragesController {
 	protected function sanitizeStorage(StorageConfig $storage) {
 		$storage->setBackendOptions([]);
 		$storage->setMountOptions([]);
+
+		if ($storage->getAuthMechanism() instanceof IUserProvided) {
+			try {
+				$storage->getAuthMechanism()->manipulateStorageConfig($storage, $this->userSession->getUser());
+			} catch (InsufficientDataForMeaningfulAnswerException $e) {
+				// not configured yet
+			}
+		}
 	}
 
 }

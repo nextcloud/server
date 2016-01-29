@@ -406,6 +406,7 @@ class StorageConfig implements \JsonSerializable {
 		if (!is_null($this->statusMessage)) {
 			$result['statusMessage'] = $this->statusMessage;
 		}
+		$result['type'] = ($this->getType() === self::MOUNT_TYPE_PERSONAl) ? 'personal': 'system';
 		return $result;
 	}
 }

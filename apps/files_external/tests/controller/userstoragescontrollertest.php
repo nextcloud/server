@@ -49,7 +49,8 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 			$this->getMock('\OCP\IRequest'),
 			$this->getMock('\OCP\IL10N'),
 			$this->service,
-			$this->getMock('\OCP\IUserSession')
+			$this->getMock('\OCP\IUserSession'),
+			$this->getMock('\OCP\ILogger')
 		);
 	}
 
