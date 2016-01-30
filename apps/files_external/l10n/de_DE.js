@@ -73,6 +73,7 @@ OC.L10N.register(
     "Scope" : "Anwendungsbereich",
     "External Storage" : "Externer Speicher",
     "Folder name" : "Ordnername",
+    "Authentication" : "Authentifizierung",
     "Configuration" : "Konfiguration",
     "Available for" : "Verfügbar für",
     "Add storage" : "Speicher hinzufügen",
