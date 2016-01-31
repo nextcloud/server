@@ -171,6 +171,7 @@ OC.L10N.register(
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Jaa toisia ownCloud-järjestelmiä käyttävien kesken käyttäen syntaksia käyttäjätunnus@esimerkki.fi/owncloud",
     "Share with users or groups …" : "Jaa käyttäjien tai ryhmien kanssa…",
     "Share with users, groups or remote users …" : "Jaa käyttäjien, ryhmien tai etäkäyttäjien kanssa…",
+    "Error removing share" : "Virhe jakoa poistaessa",
     "Warning" : "Varoitus",
     "Error while sending notification" : "Virhe ilmoitusta lähettäessä",
     "Non-existing tag #{tag}" : "Ei olemassa oleva tunniste #{tag}",

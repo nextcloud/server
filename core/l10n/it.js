@@ -171,6 +171,7 @@ OC.L10N.register(
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Condividi con persone su altri ownCloud utilizzando la sintassi nomeutente@esempio.com/owncloud",
     "Share with users or groups …" : "Condividi con utenti o gruppi...",
     "Share with users, groups or remote users …" : "Condividi con utenti, gruppi o utenti remoti...",
+    "Error removing share" : "Errore durante la rimozione della condivisione",
     "Warning" : "Avviso",
     "Error while sending notification" : "Errore durante l'invio della notifica",
     "Non-existing tag #{tag}" : "Tag #{tag} inesistente",

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Unsatisfied authentication mechanism parameters" : "Parâmetros de mecanismos de autenticação não satisfeitos",
     "Insufficient data: %s" : "Dados insuficientes: %s",
     "%s" : "%s",
+    "Storage with id \"%i\" is not user editable" : "Armazenamento com ID \"%i\" não é editável pelo usuário",
     "Personal" : "Pessoal",
     "System" : "Sistema",
     "Grant access" : "Permitir acesso",

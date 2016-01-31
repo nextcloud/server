@@ -277,7 +277,7 @@ OC.L10N.register(
     "Unlimited" : "無限制",
     "Other" : "其他",
     "Full Name" : "全名",
-    "Group Admin for" : "是以下群組的管理員",
+    "Group Admin for" : "指定群組管理者",
     "Quota" : "容量限制",
     "Storage Location" : "儲存位置",
     "User Backend" : "用戶後端",

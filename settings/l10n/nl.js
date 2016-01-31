@@ -204,6 +204,8 @@ OC.L10N.register(
     "Developer documentation" : "Ontwikkelaarsdocumentatie",
     "Experimental applications ahead" : "Experimentele applicaties vooraan",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Experimentele apps zijn niet gecontroleerd op beveiligingsproblemen, zijn nieuw of staan bekend als instabiel en worden volop ontwikkeld. Installatie kan leiden tot gegevensverlies of beveiligingsincidenten.",
+    "by %s" : "op %s",
+    "%s-licensed" : "%s-licensed",
     "Documentation:" : "Documentatie:",
     "User documentation" : "Gebruikersdocumentatie",
     "Admin documentation" : "Beheerdocumentatie",

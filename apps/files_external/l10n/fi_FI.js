@@ -45,6 +45,7 @@ OC.L10N.register(
     "Password" : "Salasana",
     "Rackspace" : "Rackspace",
     "API key" : "API-avain",
+    "Login credentials" : "Kirjautumistiedot",
     "Username and password" : "Käyttäjätunnus ja salasana",
     "Session credentials" : "Istunnon tunnistetiedot",
     "RSA public key" : "Julkinen RSA-avain",
