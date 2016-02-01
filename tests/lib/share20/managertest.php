@@ -607,7 +607,10 @@ class ManagerTest extends \Test\TestCase {
 		$past = new \DateTime();
 		$past->sub(new \DateInterval('P1D'));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [$past]);
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($past);
+
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	/**
@@ -615,18 +618,23 @@ class ManagerTest extends \Test\TestCase {
 	 * @expectedExceptionMessage Expiration date is enforced
 	 */
 	public function testvalidateExpirationDateEnforceButNotSet() {
+		$share = $this->manager->newShare();
+
 		$this->config->method('getAppValue')
 			->will($this->returnValueMap([
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 			]));
 
-		$this->invokePrivate($this->manager, 'validateExpirationDate', [null]);
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	public function testvalidateExpirationDateEnforceToFarIntoFuture() {
 		// Expire date in the past
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P7D'));
+
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($future);
 
 		$this->config->method('getAppValue')
 			->will($this->returnValueMap([
@@ -635,7 +643,7 @@ class ManagerTest extends \Test\TestCase {
 			]));
 
 		try {
-			$this->invokePrivate($this->manager, 'validateExpirationDate', [$future]);
+			$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 		} catch (\OC\HintException $e) {
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getMessage());
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getHint());
@@ -648,8 +656,12 @@ class ManagerTest extends \Test\TestCase {
 		$future = new \DateTime();
 		$future->add(new \DateInterval('P2D'));
 		$future->setTime(0,0,0);
-		$expected = $future->format(\DateTime::ISO8601);
+
+		$expected = clone $future;
 		$future->setTime(1,2,3);
+
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($future);
 
 		$this->config->method('getAppValue')
 			->will($this->returnValueMap([
@@ -657,22 +669,48 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 			]));
 
-		$future = $this->invokePrivate($this->manager, 'validateExpirationDate', [$future]);
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
+		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($future) {
+			return $data['expirationDate'] == $future;
+		}));
 
-		$this->assertEquals($expected, $future->format(\DateTime::ISO8601));
+		$future = $this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+
+		$this->assertEquals($expected, $future);
 	}
 
 	public function testvalidateExpirationDateNoDateNoDefaultNull() {
 		$date = new \DateTime();
 		$date->add(new \DateInterval('P5D'));
 
-		$res = $this->invokePrivate($this->manager, 'validateExpirationDate', [$date]);
+		$expected = clone $date;
+		$expected->setTime(0,0,0);
 
-		$this->assertEquals($date, $res);
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($date);
+
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
+		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
+			return $data['expirationDate'] == $expected;
+		}));
+
+		$res = $this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+
+		$this->assertEquals($expected, $res);
 	}
 
 	public function testvalidateExpirationDateNoDateNoDefault() {
-		$date = $this->invokePrivate($this->manager, 'validateExpirationDate', [null]);
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
+		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) {
+			return $data['expirationDate'] === null;
+		}));
+
+		$share = $this->manager->newShare();
+
+		$date = $this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
 		$this->assertNull($date);
 	}
@@ -682,15 +720,70 @@ class ManagerTest extends \Test\TestCase {
 		$future->add(new \DateInterval('P3D'));
 		$future->setTime(0,0,0);
 
+		$expected = clone $future;
+
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($future);
+
 		$this->config->method('getAppValue')
 			->will($this->returnValueMap([
 				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 				['core', 'shareapi_expire_after_n_days', '7', '3'],
 			]));
 
-		$date = $this->invokePrivate($this->manager, 'validateExpirationDate', [null]);
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
+		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
+			return $data['expirationDate'] == $expected;
+		}));
 
-		$this->assertEquals($future->format(\DateTime::ISO8601), $date->format(\DateTime::ISO8601));
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+
+		$this->assertEquals($expected, $share->getExpirationDate());
+	}
+
+	public function testValidateExpirationDateHookModification() {
+		$nextWeek = new \DateTime();
+		$nextWeek->add(new \DateInterval('P7D'));
+		$nextWeek->setTime(0,0,0);
+
+		$save = clone $nextWeek;
+
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
+		$hookListner->expects($this->once())->method('listener')->will($this->returnCallback(function ($data) {
+			$data['expirationDate']->sub(new \DateInterval('P2D'));
+		}));
+
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($nextWeek);
+
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+
+		$save->sub(new \DateInterval('P2D'));
+		$this->assertEquals($save, $share->getExpirationDate());
+	}
+
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Invalid date!
+	 */
+	public function testValidateExpirationDateHookException() {
+		$nextWeek = new \DateTime();
+		$nextWeek->add(new \DateInterval('P7D'));
+		$nextWeek->setTime(0,0,0);
+
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($nextWeek);
+
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
+		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
+		$hookListner->expects($this->once())->method('listener')->will($this->returnCallback(function ($data) {
+			$data['accepted'] = false;
+			$data['message'] = 'Invalid date!';
+		}));
+
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
 	/**
@@ -1332,7 +1425,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$date = new \DateTime();
 
-		$share = new \OC\Share20\Share();
+		$share = $this->manager->newShare();
 		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setNode($path)
 			->setSharedBy($sharedBy)
@@ -1355,8 +1448,7 @@ class ManagerTest extends \Test\TestCase {
 			->with($path);
 		$manager->expects($this->once())
 			->method('validateExpirationDate')
-			->with($date)
-			->will($this->returnArgument(0));
+			->with($share);
 		$manager->expects($this->once())
 			->method('verifyPassword')
 			->with('password');
@@ -1761,14 +1853,10 @@ class ManagerTest extends \Test\TestCase {
 		$tomorrow->setTime(0,0,0);
 		$tomorrow->add(new \DateInterval('P1D'));
 
-		$manager->expects($this->once())->method('canShare')->willReturn(true);
-		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-		$manager->expects($this->once())->method('validateExpirationDate')->with($tomorrow)->willReturn($tomorrow);
-
 		$file = $this->getMock('OCP\Files\File', [], [], 'File');
 		$file->method('getId')->willReturn(100);
 
-		$share = new \OC\Share20\Share();
+		$share = $this->manager->newShare();
 		$share->setProviderId('foo')
 			->setId('42')
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
@@ -1777,6 +1865,10 @@ class ManagerTest extends \Test\TestCase {
 			->setPassword('password')
 			->setExpirationDate($tomorrow)
 			->setNode($file);
+
+		$manager->expects($this->once())->method('canShare')->willReturn(true);
+		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
+		$manager->expects($this->once())->method('validateExpirationDate')->with($share);
 
 		$this->defaultProvider->expects($this->once())
 			->method('update')
