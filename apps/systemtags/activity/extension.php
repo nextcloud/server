@@ -38,6 +38,9 @@ class Extension implements IExtension {
 	const UPDATE_TAG = 'update_tag';
 	const DELETE_TAG = 'delete_tag';
 
+	const ASSIGN_TAG = 'assign_tag';
+	const UNASSIGN_TAG = 'unassign_tag';
+
 	/** @var IFactory */
 	protected $languageFactory;
 
@@ -118,16 +121,34 @@ class Extension implements IExtension {
 
 		$l = $this->getL10N($languageCode);
 
-		/*
 		if ($this->activityManager->isFormattingFilteredObject()) {
 			$translation = $this->translateShort($text, $l, $params);
 			if ($translation !== false) {
 				return $translation;
 			}
 		}
-		*/
 
 		return $this->translateLong($text, $l, $params);
+	}
+
+	/**
+	 * @param string $text
+	 * @param IL10N $l
+	 * @param array $params
+	 * @return bool|string
+	 */
+	protected function translateShort($text, IL10N $l, array $params) {
+
+		switch ($text) {
+			case self::ASSIGN_TAG:
+				$params[2] = $this->convertParameterToTag($params[2], $l);
+				return (string) $l->t('%1$s assigned system tag %3$s', $params);
+			case self::UNASSIGN_TAG:
+				$params[2] = $this->convertParameterToTag($params[2], $l);
+				return (string) $l->t('%1$s unassigned system tag %3$s', $params);
+		}
+
+		return false;
 	}
 
 	/**
@@ -149,6 +170,12 @@ class Extension implements IExtension {
 				$params[1] = $this->convertParameterToTag($params[1], $l);
 				$params[2] = $this->convertParameterToTag($params[2], $l);
 				return (string) $l->t('%1$s updated system tag %3$s to %2$s', $params);
+			case self::ASSIGN_TAG:
+				$params[2] = $this->convertParameterToTag($params[2], $l);
+				return (string) $l->t('%1$s assigned system tag %3$s to %2$s', $params);
+			case self::UNASSIGN_TAG:
+				$params[2] = $this->convertParameterToTag($params[2], $l);
+				return (string) $l->t('%1$s unassigned system tag %3$s from %2$s', $params);
 		}
 
 		return false;
@@ -180,6 +207,14 @@ class Extension implements IExtension {
 						//1 => 'systemtag description',
 						//2 => 'systemtag description',
 					);
+
+				case self::ASSIGN_TAG:
+				case self::UNASSIGN_TAG:
+					return array(
+						0 => 'username',
+						1 => 'file',
+						//2 => 'systemtag description',
+					);
 			}
 		}
 
@@ -194,14 +229,6 @@ class Extension implements IExtension {
 	 * @return integer|false
 	 */
 	public function getGroupParameter($activity) {
-		if ($activity['app'] === self::APP_NAME) {
-			switch ($activity['subject']) {
-				case self::CREATE_TAG:
-					// Group by system tag
-					// return 1;
-			}
-		}
-
 		return false;
 	}
 

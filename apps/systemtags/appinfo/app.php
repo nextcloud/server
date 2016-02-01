@@ -22,6 +22,7 @@
 use OCA\SystemTags\Activity\Extension;
 use OCA\SystemTags\Activity\Listener;
 use OCP\SystemTag\ManagerEvent;
+use OCP\SystemTag\MapperEvent;
 
 $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
@@ -46,21 +47,25 @@ $eventDispatcher->addListener(
 
 $activityManager = \OC::$server->getActivityManager();
 $activityManager->registerExtension(function() {
-	return new Extension(
-		\OC::$server->getL10NFactory(),
-		\OC::$server->getActivityManager()
-	);
+	$application = new \OCP\AppFramework\App('systemtags');
+	return $application->getContainer()->query('OCA\SystemTags\Activity\Extension');
 });
 
 $managerListener = function(ManagerEvent $event) use ($activityManager) {
-	$listener = new Listener(
-		\OC::$server->getGroupManager(),
-		$activityManager,
-		\OC::$server->getUserSession()
-	);
+	$application = new \OCP\AppFramework\App('systemtags');
+	$listener = $application->getContainer()->query('OCA\SystemTags\Activity\Listener');
 	$listener->event($event);
 };
 
 $eventDispatcher->addListener(ManagerEvent::EVENT_CREATE, $managerListener);
 $eventDispatcher->addListener(ManagerEvent::EVENT_DELETE, $managerListener);
 $eventDispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
+
+$mapperListener = function(MapperEvent $event) use ($activityManager) {
+	$application = new \OCP\AppFramework\App('systemtags');
+	$listener = $application->getContainer()->query('OCA\SystemTags\Activity\Listener');
+	$listener->mapperEvent($event);
+};
+
+$eventDispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);
+$eventDispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);

@@ -152,6 +152,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getL10N($c->query('AppName'));
 		});
 
+		$this->registerService('OCP\\L10N\\IFactory', function($c) {
+			return $this->getServer()->getL10NFactory();
+		});
+
 		$this->registerService('OCP\\ILogger', function($c) {
 			return $this->getServer()->getLogger();
 		});
