@@ -1645,6 +1645,27 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertTrue($this->manager->checkPassword($share, 'password'));
 	}
 
+	public function testCheckPasswordUpdateShare() {
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPassword('passwordHash');
+
+		$this->hasher->method('verify')->with('password', 'passwordHash', '')
+			->will($this->returnCallback(function($pass, $hash, &$newHash) {
+				$newHash = 'newHash';
+
+				return true;
+			}));
+
+		$this->defaultProvider->expects($this->once())
+			->method('update')
+			->with($this->callback(function (\OCP\Share\IShare $share) {
+				return $share->getPassword() === 'newHash';
+			}));
+
+		$this->assertTrue($this->manager->checkPassword($share, 'password'));
+	}
+
 	/**
 	 * @expectedException Exception
 	 * @expectedExceptionMessage The Share API is disabled
