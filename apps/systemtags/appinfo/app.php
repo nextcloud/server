@@ -19,6 +19,10 @@
  *
  */
 
+use OCA\SystemTags\Activity\Extension;
+use OCA\SystemTags\Activity\Listener;
+use OCP\SystemTag\ManagerEvent;
+
 $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
 	'OCA\Files::loadAdditionalScripts',
@@ -39,3 +43,24 @@ $eventDispatcher->addListener(
 		\OCP\Util::addStyle('systemtags');
 	}
 );
+
+$activityManager = \OC::$server->getActivityManager();
+$activityManager->registerExtension(function() {
+	return new Extension(
+		\OC::$server->getL10NFactory(),
+		\OC::$server->getActivityManager()
+	);
+});
+
+$managerListener = function(ManagerEvent $event) use ($activityManager) {
+	$listener = new Listener(
+		\OC::$server->getGroupManager(),
+		$activityManager,
+		\OC::$server->getUserSession()
+	);
+	$listener->event($event);
+};
+
+$eventDispatcher->addListener(ManagerEvent::EVENT_CREATE, $managerListener);
+$eventDispatcher->addListener(ManagerEvent::EVENT_DELETE, $managerListener);
+$eventDispatcher->addListener(ManagerEvent::EVENT_UPDATE, $managerListener);
