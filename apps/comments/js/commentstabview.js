@@ -8,15 +8,21 @@
  *
  */
 
-(function() {
+(function(OC, OCA) {
 	var TEMPLATE =
-		'<div>' +
-		'   <form class="newCommentForm">' +
-		'      <textarea></textarea>' +
-		'      <input type="submit" value="{{submitText}}" />' +
-		'   </form>' +
-		'   <ul class="comments">' +
-		'   </ul>' +
+		'<div class="newCommentRow comment">' +
+		'    <div class="authorRow">' +
+		'        {{#if avatarEnabled}}' +
+		'        <div class="avatar" data-username="{{userId}}"></div>' +
+		'        {{/if}}' +
+		'        <div class="author">{{userDisplayName}}</div>' +
+		'    </div>' +
+		'    <form class="newCommentForm">' +
+		'        <textarea class="message" placeholder="{{newMessagePlaceholder}}"></textarea>' +
+		'        <input class="submit" type="submit" value="{{submitText}}" />' +
+		'    </form>' +
+		'    <ul class="comments">' +
+		'    </ul>' +
 		'</div>' +
 		'<div class="empty hidden">{{emptyResultLabel}}</div>' +
 		'<input type="button" class="showMore hidden" value="{{moreLabel}}"' +
@@ -24,13 +30,15 @@
 		'<div class="loading hidden" style="height: 50px"></div>';
 
 	var COMMENT_TEMPLATE =
-		'<li>' +
-		'   <hr />' +
-		'   <div class="authorRow">' +
-		'      <span class="author"><em>{{actorDisplayName}}</em></span>' +
-		'      <span class="date has-tooltip" title="{{altDate}}">{{date}}</span>' +
-		'   </div>' +
-		'   <div class="message">{{message}}</div>' +
+		'<li class="comment">' +
+		'    <div class="authorRow">' +
+		'        {{#if avatarEnabled}}' +
+		'        <div class="avatar" data-username="{{actorId}}"> </div>' +
+		'        {{/if}}' +
+		'        <div class="author">{{actorDisplayName}}</div>' +
+		'        <div class="date has-tooltip" title="{{altDate}}">{{date}}</div>' +
+		'    </div>' +
+		'    <div class="message">{{message}}</div>' +
 		'</li>';
 
 	/**
@@ -52,6 +60,9 @@
 			this.collection.on('request', this._onRequest, this);
 			this.collection.on('sync', this._onEndRequest, this);
 			this.collection.on('add', this._onAddModel, this);
+
+			this._avatarsEnabled = !!OC.config.enable_avatars;
+
 			// TODO: error handling
 			_.bindAll(this, '_onSubmitComment');
 		},
@@ -60,8 +71,13 @@
 			if (!this._template) {
 				this._template = Handlebars.compile(TEMPLATE);
 			}
+			var currentUser = OC.getCurrentUser();
 			return this._template(_.extend({
-				submitText: t('comments', 'Submit comment')
+				avatarEnabled: this._avatarsEnabled,
+				userId: currentUser.uid,
+				userDisplayName: currentUser.displayName,
+				newMessagePlaceholder: t('comments', 'Type in a new comment...'),
+				submitText: t('comments', 'Post')
 			}, params));
 		},
 
@@ -69,7 +85,9 @@
 			if (!this._commentTemplate) {
 				this._commentTemplate = Handlebars.compile(COMMENT_TEMPLATE);
 			}
-			return this._commentTemplate(params);
+			return this._commentTemplate(_.extend({
+				avatarEnabled: this._avatarsEnabled
+			}, params));
 		},
 
 		getLabel: function() {
@@ -96,6 +114,7 @@
 			}));
 			this.$el.find('.has-tooltip').tooltip();
 			this.$container = this.$el.find('ul.comments');
+			this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 28);
 			this.delegateEvents();
 		},
 
@@ -132,7 +151,18 @@
 			} else {
 				this.$container.append($el);
 			}
+
+			this._postRenderItem($el);
+		},
+
+		_postRenderItem: function($el) {
 			$el.find('.has-tooltip').tooltip();
+			if(this._avatarsEnabled) {
+				$el.find('.avatar').each(function() {
+					var $this = $(this);
+					$this.avatar($this.attr('data-username'), 28);
+				});
+			}
 		},
 
 		nextPage: function() {
@@ -149,12 +179,12 @@
 		},
 
 		_onSubmitComment: function(e) {
+			var currentUser = OC.getCurrentUser();
 			var $textArea = $(e.target).find('textarea');
 			e.preventDefault();
 			this.collection.create({
-				actorId: OC.currentUser,
-				// FIXME: how to get current user's display name ?
-				actorDisplayName: OC.currentUser,
+				actorId: currentUser.uid,
+				actorDisplayName: currentUser.displayName,
 				actorType: 'users',
 				verb: 'comment',
 				message: $textArea.val(),
@@ -168,5 +198,5 @@
 	});
 
 	OCA.Comments.CommentsTabView = CommentsTabView;
-})();
+})(OC, OCA);
 

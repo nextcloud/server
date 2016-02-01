@@ -22,7 +22,8 @@
 		sync: OC.Backbone.davSync,
 
 		defaults: {
-			// TODO
+			actorType: 'users',
+			objectType: 'files'
 		},
 
 		davProperties: {
