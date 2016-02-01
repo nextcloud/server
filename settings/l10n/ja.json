@@ -207,6 +207,8 @@
     "Admin documentation" : "管理者ドキュメント",
     "Show description …" : "説明を表示 ...",
     "Hide description …" : "説明を隠す ...",
+    "This app has no minimum ownCloud version assigned. This will be an error in ownCloud 11 and later." : "このアプリはownCloudの最小バージョンが指定されていません．ownCloud 11 以降でエラーが発生する可能性があります.",
+    "This app has no maximum ownCloud version assigned. This will be an error in ownCloud 11 and later." : "このアプリはownCloudの最大バージョンが指定されていません．ownCloud 11 以降でエラーが発生する可能性があります.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "次の依存関係が満たされないためこのアプリをインストールできません:",
     "Enable only for specific groups" : "特定のグループのみ有効に",
     "Uninstall App" : "アプリをアンインストール",
