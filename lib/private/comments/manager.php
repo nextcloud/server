@@ -629,9 +629,15 @@ class Manager implements ICommentsManager {
 		$affectedRows = $qb
 			->update('comments_read_markers')
 			->set('user_id',         $values['user_id'])
-			->set('marker_datetime', $values['marker_datetime'], 'datetime')
+			->set('marker_datetime', $values['marker_datetime'])
 			->set('object_type',     $values['object_type'])
 			->set('object_id',       $values['object_id'])
+			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')))
+			->andWhere($qb->expr()->eq('object_type', $qb->createParameter('object_type')))
+			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('object_id')))
+			->setParameter('user_id', $user->getUID(), \PDO::PARAM_STR)
+			->setParameter('object_type', $objectType, \PDO::PARAM_STR)
+			->setParameter('object_id', $objectId, \PDO::PARAM_STR)
 			->execute();
 
 		if ($affectedRows > 0) {
