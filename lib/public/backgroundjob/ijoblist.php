@@ -67,6 +67,8 @@ interface IJobList {
 	 *
 	 * @return \OCP\BackgroundJob\IJob[]
 	 * @since 7.0.0
+	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
+	 * memory problems when creating too many instances.
 	 */
 	public function getAll();
 
