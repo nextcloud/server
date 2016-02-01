@@ -20,11 +20,10 @@
  */
 namespace OC\SystemTag;
 
-use OCP\SystemTag\ISystemTagManagerFactory;
-use OCP\SystemTag\ISystemTagManager;
-use OC\SystemTag\SystemTagManager;
-use OC\SystemTag\SystemTagObjectMapper;
 use OCP\IServerContainer;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagManagerFactory;
+use OCP\SystemTag\ISystemTagObjectMapper;
 
 /**
  * Default factory class for system tag managers
@@ -72,7 +71,8 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	public function getObjectMapper() {
 		return new SystemTagObjectMapper(
 			$this->serverContainer->getDatabaseConnection(),
-			$this->getManager()
+			$this->getManager(),
+			$this->serverContainer->getEventDispatcher()
 		);
 	}
 }

@@ -378,7 +378,7 @@ class SystemTagManagerTest extends TestCase {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$tag2 = $this->tagManager->createTag('two', true, true);
 
-		$tagMapper = new SystemTagObjectMapper($this->connection, $this->tagManager);
+		$tagMapper = new SystemTagObjectMapper($this->connection, $this->tagManager, $this->dispatcher);
 
 		$tagMapper->assignTags(1, 'testtype', $tag1->getId());
 		$tagMapper->assignTags(1, 'testtype', $tag2->getId());

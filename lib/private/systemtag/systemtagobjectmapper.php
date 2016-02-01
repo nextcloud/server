@@ -28,31 +28,34 @@ use OCP\IDBConnection;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\SystemTag\MapperEvent;
 use OCP\SystemTag\TagNotFoundException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagObjectMapper implements ISystemTagObjectMapper {
 
 	const RELATION_TABLE = 'systemtag_object_mapping';
 
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
+	/** @var ISystemTagManager */
+	protected $tagManager;
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
+	/** @var IDBConnection */
+	protected $connection;
+
+	/** @var EventDispatcherInterface */
+	protected $dispatcher;
 
 	/**
 	* Constructor.
 	*
 	* @param IDBConnection $connection database connection
 	* @param ISystemTagManager $tagManager system tag manager
+	* @param EventDispatcherInterface $dispatcher
 	*/
-	public function __construct(IDBConnection $connection, ISystemTagManager $tagManager) {
+	public function __construct(IDBConnection $connection, ISystemTagManager $tagManager, EventDispatcherInterface $dispatcher) {
 		$this->connection = $connection;
 		$this->tagManager = $tagManager;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -143,6 +146,13 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				// ignore existing relations
 			}
 		}
+
+		$this->dispatcher->dispatch(MapperEvent::EVENT_ASSIGN, new MapperEvent(
+			MapperEvent::EVENT_ASSIGN,
+			$objectType,
+			$objId,
+			$tagIds
+		));
 	}
 
 	/**
@@ -164,6 +174,13 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->setParameter('objecttype', $objectType)
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
 			->execute();
+
+		$this->dispatcher->dispatch(MapperEvent::EVENT_UNASSIGN, new MapperEvent(
+			MapperEvent::EVENT_UNASSIGN,
+			$objectType,
+			$objId,
+			$tagIds
+		));
 	}
 
 	/**
