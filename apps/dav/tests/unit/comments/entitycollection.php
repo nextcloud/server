@@ -28,6 +28,7 @@ class EntityCollection extends \Test\TestCase {
 	protected $userManager;
 	protected $logger;
 	protected $collection;
+	protected $userSession;
 
 	public function setUp() {
 		parent::setUp();
@@ -35,6 +36,7 @@ class EntityCollection extends \Test\TestCase {
 		$this->commentsManager = $this->getMock('\OCP\Comments\ICommentsManager');
 		$this->folder = $this->getMock('\OCP\Files\Folder');
 		$this->userManager = $this->getMock('\OCP\IUserManager');
+		$this->userSession = $this->getMock('\OCP\IUserSession');
 		$this->logger = $this->getMock('\OCP\ILogger');
 
 		$this->collection = new \OCA\DAV\Comments\EntityCollection(
@@ -43,6 +45,7 @@ class EntityCollection extends \Test\TestCase {
 			$this->commentsManager,
 			$this->folder,
 			$this->userManager,
+			$this->userSession,
 			$this->logger
 		);
 	}
