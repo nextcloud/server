@@ -25,7 +25,9 @@ use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\IDBConnection;
+use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IUser;
 
 class Manager implements ICommentsManager {
 
@@ -38,12 +40,17 @@ class Manager implements ICommentsManager {
 	/** @var IComment[]  */
 	protected $commentsCache = [];
 
+	/** @var IConfig */
+	protected $config;
+
 	public function __construct(
 		IDBConnection $dbConn,
-		ILogger $logger
+		ILogger $logger,
+		IConfig $config
 	) {
 		$this->dbConn = $dbConn;
 		$this->logger = $logger;
+		$this->config = $config;
 	}
 
 	/**
@@ -346,10 +353,12 @@ class Manager implements ICommentsManager {
 	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
+	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
+	 * that may be returned
 	 * @return Int
 	 * @since 9.0.0
 	 */
-	public function getNumberOfCommentsForObject($objectType, $objectId) {
+	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->select($qb->createFunction('COUNT(`id`)'))
 				->from('comments')
@@ -357,6 +366,12 @@ class Manager implements ICommentsManager {
 				->andWhere($qb->expr()->eq('object_id', $qb->createParameter('id')))
 				->setParameter('type', $objectType)
 				->setParameter('id', $objectId);
+
+		if(!is_null($notOlderThan)) {
+			$query
+				->andWhere($qb->expr()->gt('creation_timestamp', $qb->createParameter('notOlderThan')))
+				->setParameter('notOlderThan', $notOlderThan, 'datetime');
+		}
 
 		$resultStatement = $query->execute();
 		$data = $resultStatement->fetch(\PDO::FETCH_NUM);
@@ -565,5 +580,125 @@ class Manager implements ICommentsManager {
 		$this->commentsCache = [];
 
 		return is_int($affectedRows);
+	}
+
+	/**
+	 * deletes the read markers for the specified user
+	 *
+	 * @param \OCP\IUser $user
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function deleteReadMarksFromUser(IUser $user) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$query = $qb->delete('comments_read_markers')
+			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')))
+			->setParameter('user_id', $user->getUID());
+
+		try {
+			$affectedRows = $query->execute();
+		} catch (DriverException $e) {
+			$this->logger->logException($e, ['app' => 'core_comments']);
+			return false;
+		}
+		return ($affectedRows > 0);
+	}
+
+	/**
+	 * sets the read marker for a given file to the specified date for the
+	 * provided user
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param \DateTime $dateTime
+	 * @param IUser $user
+	 * @since 9.0.0
+	 */
+	public function setReadMark($objectType, $objectId, \DateTime $dateTime, IUser $user) {
+		$this->checkRoleParameters('Object', $objectType, $objectId);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$values = [
+			'user_id'         => $qb->createNamedParameter($user->getUID()),
+			'marker_datetime' => $qb->createNamedParameter($dateTime, 'datetime'),
+			'object_type'     => $qb->createNamedParameter($objectType),
+			'object_id'       => $qb->createNamedParameter($objectId),
+		];
+
+		// Strategy: try to update, if this does not return affected rows, do an insert.
+		$affectedRows = $qb
+			->update('comments_read_markers')
+			->set('user_id',         $values['user_id'])
+			->set('marker_datetime', $values['marker_datetime'], 'datetime')
+			->set('object_type',     $values['object_type'])
+			->set('object_id',       $values['object_id'])
+			->execute();
+
+		if ($affectedRows > 0) {
+			return;
+		}
+
+		$qb->insert('comments_read_markers')
+			->values($values)
+			->execute();
+	}
+
+	/**
+	 * returns the read marker for a given file to the specified date for the
+	 * provided user. It returns null, when the marker is not present, i.e.
+	 * no comments were marked as read.
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param IUser $user
+	 * @return \DateTime|null
+	 * @since 9.0.0
+	 */
+	public function getReadMark($objectType, $objectId, IUser $user) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$resultStatement = $qb->select('marker_datetime')
+			->from('comments_read_markers')
+			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')))
+			->andWhere($qb->expr()->eq('object_type', $qb->createParameter('object_type')))
+			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('object_id')))
+			->setParameter('user_id', $user->getUID(), \PDO::PARAM_STR)
+			->setParameter('object_type', $objectType, \PDO::PARAM_STR)
+			->setParameter('object_id', $objectId, \PDO::PARAM_STR)
+			->execute();
+
+		$data = $resultStatement->fetch();
+		$resultStatement->closeCursor();
+		if(!$data || is_null($data['marker_datetime'])) {
+			return null;
+		}
+
+		return new \DateTime($data['marker_datetime']);
+	}
+
+	/**
+	 * deletes the read markers on the specified object
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function deleteReadMarksOnObject($objectType, $objectId) {
+		$this->checkRoleParameters('Object', $objectType, $objectId);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$query = $qb->delete('comments_read_markers')
+			->where($qb->expr()->eq('object_type', $qb->createParameter('object_type')))
+			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('object_id')))
+			->setParameter('object_type', $objectType)
+			->setParameter('object_id', $objectId);
+
+		try {
+			$affectedRows = $query->execute();
+		} catch (DriverException $e) {
+			$this->logger->logException($e, ['app' => 'core_comments']);
+			return false;
+		}
+		return ($affectedRows > 0);
 	}
 }

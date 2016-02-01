@@ -19,7 +19,7 @@ class FakeManager implements \OCP\Comments\ICommentsManager {
 		\DateTime $notOlderThan = null
 	) {}
 
-	public function getNumberOfCommentsForObject($objectType, $objectId) {}
+	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null) {}
 
 	public function create($actorType, $actorId, $objectType, $objectId) {}
 
@@ -30,4 +30,12 @@ class FakeManager implements \OCP\Comments\ICommentsManager {
 	public function deleteReferencesOfActor($actorType, $actorId) {}
 
 	public function deleteCommentsAtObject($objectType, $objectId) {}
+
+	public function setReadMark($objectType, $objectId, \DateTime $dateTime, \OCP\IUser $user) {}
+
+	public function getReadMark($objectType, $objectId, \OCP\IUser $user) {}
+
+	public function deleteReadMarksFromUser(\OCP\IUser $user) {}
+
+	public function deleteReadMarksOnObject($objectType, $objectId) {}
 }
