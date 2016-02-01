@@ -82,6 +82,12 @@ var OC={
 	webroot:oc_webroot,
 
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
+	/**
+	 * Currently logged in user or null if none
+	 *
+	 * @type String
+	 * @deprecated use {@link OC.getCurrentUser} instead
+	 */
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	config: window.oc_config,
 	appConfig: window.oc_appconfig || {},
@@ -269,6 +275,23 @@ var OC={
 	 */
 	getRootPath: function() {
 		return OC.webroot;
+	},
+
+	/**
+	 * Returns the currently logged in user or null if there is no logged in
+	 * user (public page mode)
+	 *
+	 * @return {OC.CurrentUser} user spec
+	 * @since 9.0.0
+	 */
+	getCurrentUser: function() {
+		if (_.isUndefined(this._currentUserDisplayName)) {
+			this._currentUserDisplayName = document.getElementsByTagName('head')[0].getAttribute('data-user-displayname');
+		}
+		return {
+			uid: this.currentUser,
+			displayName: this._currentUserDisplayName
+		};
 	},
 
 	/**
@@ -688,6 +711,15 @@ var OC={
 		return oc_isadmin;
 	},
 };
+
+/**
+ * Current user attributes
+ *
+ * @typedef {Object} OC.CurrentUser
+ *
+ * @property {String} uid user id
+ * @property {String} displayName display name
+ */
 
 /**
  * @namespace OC.Plugins
