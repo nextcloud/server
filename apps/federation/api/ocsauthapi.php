@@ -99,7 +99,7 @@ class OCSAuthAPI {
 		$token = $this->request->getParam('token');
 
 		if ($this->trustedServers->isTrustedServer($url) === false) {
-			$this->logger->log(\OCP\Util::ERROR, 'remote server not trusted (' . $url . ') while requesting shared secret');
+			$this->logger->log(\OCP\Util::ERROR, 'remote server not trusted (' . $url . ') while requesting shared secret', ['app' => 'federation']);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
@@ -107,7 +107,7 @@ class OCSAuthAPI {
 		// token wins
 		$localToken = $this->dbHandler->getToken($url);
 		if (strcmp($localToken, $token) > 0) {
-			$this->logger->log(\OCP\Util::ERROR, 'remote server (' . $url . ') presented lower token');
+			$this->logger->log(\OCP\Util::ERROR, 'remote server (' . $url . ') presented lower token', ['app' => 'federation']);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
@@ -134,12 +134,12 @@ class OCSAuthAPI {
 		$token = $this->request->getParam('token');
 
 		if ($this->trustedServers->isTrustedServer($url) === false) {
-			$this->logger->log(\OCP\Util::ERROR, 'remote server not trusted (' . $url . ') while getting shared secret');
+			$this->logger->log(\OCP\Util::ERROR, 'remote server not trusted (' . $url . ') while getting shared secret', ['app' => 'federation']);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
 		if ($this->isValidToken($url, $token) === false) {
-			$this->logger->log(\OCP\Util::ERROR, 'remote server (' . $url . ') didn\'t send a valid token (got ' . $token . ') while getting shared secret');
+			$this->logger->log(\OCP\Util::ERROR, 'remote server (' . $url . ') didn\'t send a valid token (got ' . $token . ') while getting shared secret', ['app' => 'federation']);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 

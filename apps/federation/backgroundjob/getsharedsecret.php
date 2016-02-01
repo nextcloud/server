@@ -151,6 +151,9 @@ class GetSharedSecret extends QueuedJob{
 		} catch (ClientException $e) {
 			$status = $e->getCode();
 			$this->logger->logException($e);
+		} catch (\Exception $e) {
+			$status = HTTP::STATUS_INTERNAL_SERVER_ERROR;
+			$this->logger->logException($e);
 		}
 
 		// if we received a unexpected response we try again later
