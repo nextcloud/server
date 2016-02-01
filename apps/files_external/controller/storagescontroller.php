@@ -279,7 +279,7 @@ abstract class StoragesController extends Controller {
 	 * @return DataResponse
 	 */
 	public function index() {
-		$storages = $this->service->getAllStorages();
+		$storages = $this->service->getStorages();
 
 		return new DataResponse(
 			$storages,
