@@ -175,18 +175,18 @@ OCA.External.StatusManager = {
 				if (mountData.type === "system") {
 					if (mountData.userProvided) {
 						// personal mount whit credentials problems
-						this.showCredentialsDialog(name, mountData, 'fakesavecredentials.php');
+						this.showCredentialsDialog(name, mountData);
 					} else {
 						OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in admin settings page?', t('files_external', 'External mount error'), function (e) {
 							if (e === true) {
-								window.location.href = OC.generateUrl('/settings/admin#files_external');
+								OC.redirect(OC.generateUrl('/settings/admin#files_external'));
 							}
 						});
 					}
 				} else {
 					OC.dialogs.confirm(t('files_external', 'There was an error with message: ') + mountData.error + '. Do you want to review mount point config in personal settings page?', t('files_external', 'External mount error'), function (e) {
 						if (e === true) {
-							window.location.href = OC.generateUrl('/settings/personal#' + t('files_external', 'goto-external-storage'));
+							OC.redirect(OC.generateUrl('/settings/personal#' + t('files_external', 'external-storage')));
 						}
 					});
 				}
@@ -408,7 +408,6 @@ OCA.External.StatusManager = {
 					}
 				},
 				success: function (data) {
-					console.log(data);
 					OC.Notification.showTemporary(t('files_external', 'Credentials saved'));
 					$popup.ocdialog('close');
 					/* Trigger status check again */
@@ -419,7 +418,6 @@ OCA.External.StatusManager = {
 					OC.Notification.showTemporary(t('files_external', 'Credentials saving failed'));
 				}
 			});
-			console.log('apply', username, password, endpoint);
 		};
 
 		var ocdialogParams = {
