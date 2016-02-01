@@ -52,7 +52,7 @@ class LoginCredentials extends AuthMechanism {
 		$this
 			->setIdentifier('password::logincredentials')
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('Login credentials'))
+			->setText($l->t('Log-in credentials, save in database'))
 			->addParameters([
 			])
 		;
