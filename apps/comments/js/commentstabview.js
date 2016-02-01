@@ -38,7 +38,7 @@
 		'        <div class="author">{{actorDisplayName}}</div>' +
 		'        <div class="date has-tooltip" title="{{altDate}}">{{date}}</div>' +
 		'    </div>' +
-		'    <div class="message">{{message}}</div>' +
+		'    <div class="message">{{{formattedMessage}}}</div>' +
 		'</li>';
 
 	/**
@@ -122,7 +122,8 @@
 			var timestamp = new Date(commentModel.get('creationDateTime')).getTime();
 			var data = _.extend({
 				date: OC.Util.relativeModifiedDate(timestamp),
-				altDate: OC.Util.formatDate(timestamp)
+				altDate: OC.Util.formatDate(timestamp),
+				formattedMessage: this._formatMessage(commentModel.get('message'))
 			}, commentModel.attributes);
 			// TODO: format
 			return data;
@@ -163,6 +164,14 @@
 					$this.avatar($this.attr('data-username'), 28);
 				});
 			}
+		},
+
+		/**
+		 * Convert a message to be displayed in HTML,
+		 * converts newlines to <br> tags.
+		 */
+		_formatMessage: function(message) {
+			return escapeHTML(message).replace(/\n/g, '<br/>');
 		},
 
 		nextPage: function() {
