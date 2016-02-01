@@ -104,12 +104,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		$path = $request->getPath();
 
 		// Making sure the node exists
-		try {
-			$node = $this->server->tree->getNodeForPath($path);
-		} catch (NotFound $e) {
-			return null;
-		}
-
+		$node = $this->server->tree->getNodeForPath($path);
 		if ($node instanceof SystemTagsByIdCollection || $node instanceof SystemTagsObjectMappingCollection) {
 			$data = $request->getBodyAsString();
 

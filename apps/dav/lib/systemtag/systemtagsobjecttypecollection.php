@@ -25,12 +25,14 @@ namespace OCA\DAV\SystemTag;
 
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
 
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\IUserSession;
 use OCP\IGroupManager;
+use OCP\Files\IRootFolder;
 
 /**
  * Collection containing object ids by object type
@@ -63,6 +65,11 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	private $userSession;
 
 	/**
+	 * @var IRootFolder
+	 **/
+	protected $fileRoot;
+
+	/**
 	 * Constructor
 	 *
 	 * @param string $objectType object type
@@ -70,19 +77,22 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param ISystemTagObjectMapper $tagMapper
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
+	 * @param IRootFolder $fileRoot
 	 */
 	public function __construct(
 		$objectType, 
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper,
 		IUserSession $userSession,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
+		IRootFolder $fileRoot
 	) {
 		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
 		$this->objectType = $objectType;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
+		$this->fileRoot = $fileRoot;
 	}
 
 	/**
@@ -116,6 +126,10 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param string $objectId
 	 */
 	function getChild($objectId) {
+		// make sure the object exists and is reachable
+		if(!$this->childExists($objectId)) {
+			throw new NotFound('Entity does not exist or is not available');
+		}
 		return new SystemTagsObjectMappingCollection(
 			$objectId,
 			$this->objectType,
@@ -134,6 +148,13 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param string $name
 	 */
 	function childExists($name) {
+		// TODO: make this more abstract
+		if ($this->objectType === 'files') {
+			// make sure the object is reachable for the current user
+			$userId = $this->userSession->getUser()->getUID();
+			$nodes = $this->fileRoot->getUserFolder($userId)->getById(intval($name));
+			return !empty($nodes);
+		}
 		return true;
 	}
 

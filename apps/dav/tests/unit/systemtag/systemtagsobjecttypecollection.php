@@ -38,6 +38,11 @@ class SystemTagsObjectTypeCollection extends \Test\TestCase {
 	 */
 	private $tagMapper;
 
+	/**
+	 * @var \OCP\Files\Folder
+	 */
+	private $userFolder;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -58,12 +63,21 @@ class SystemTagsObjectTypeCollection extends \Test\TestCase {
 			->with('testuser')
 			->will($this->returnValue(true));
 
+		$this->userFolder = $this->getMock('\OCP\Files\Folder');
+
+		$fileRoot = $this->getMock('\OCP\Files\IRootFolder');
+		$fileRoot->expects($this->any())
+			->method('getUserfolder')
+			->with('testuser')
+			->will($this->returnValue($this->userFolder));
+
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
 			'files',
 			$this->tagManager,
 			$this->tagMapper,
 			$userSession,
-			$groupManager
+			$groupManager,
+			$fileRoot
 		);
 	}
 
@@ -82,10 +96,25 @@ class SystemTagsObjectTypeCollection extends \Test\TestCase {
 	}
 
 	public function testGetChild() {
-		$childNode = $this->node->getChild('files');
+		$this->userFolder->expects($this->once())
+			->method('getById')
+			->with('555')
+			->will($this->returnValue([true]));
+		$childNode = $this->node->getChild('555');
 
 		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection', $childNode);
-		$this->assertEquals('files', $childNode->getName());
+		$this->assertEquals('555', $childNode->getName());
+	}
+
+	/**
+	 * @expectedException Sabre\DAV\Exception\NotFound
+	 */
+	public function testGetChildWithoutAccess() {
+		$this->userFolder->expects($this->once())
+			->method('getById')
+			->with('555')
+			->will($this->returnValue([]));
+		$this->node->getChild('555');
 	}
 
 	/**
@@ -96,7 +125,19 @@ class SystemTagsObjectTypeCollection extends \Test\TestCase {
 	}
 
 	public function testChildExists() {
+		$this->userFolder->expects($this->once())
+			->method('getById')
+			->with('123')
+			->will($this->returnValue([true]));
 		$this->assertTrue($this->node->childExists('123'));
+	}
+
+	public function testChildExistsWithoutAccess() {
+		$this->userFolder->expects($this->once())
+			->method('getById')
+			->with('555')
+			->will($this->returnValue([]));
+		$this->assertFalse($this->node->childExists('555'));
 	}
 
 	/**
