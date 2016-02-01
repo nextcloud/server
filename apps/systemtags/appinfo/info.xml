@@ -6,11 +6,14 @@
 	<licence>AGPL</licence>
 	<author>Vincent Petry</author>
 	<default_enable/>
-	<version>0.1</version>
+	<version>0.2</version>
 	<dependencies>
 		<owncloud min-version="9.0" max-version="9.0" />
 	</dependencies>
 	<documentation>
 		<user>user-systemtags</user>
 	</documentation>
+	<types>
+		<logging/>
+	</types>
 </info>
