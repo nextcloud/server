@@ -23,6 +23,7 @@ namespace OCP\Share;
 
 use OC\Share20\Exception\ShareNotFound;
 use OC\Share20\Exception\BackendError;
+use OCP\Files\Node;
 use OCP\IUser;
 
 /**
@@ -116,12 +117,13 @@ interface IShareProvider {
 	 *
 	 * @param IUser $user get shares where this user is the recipient
 	 * @param int $shareType
+	 * @param Node|null $node
 	 * @param int $limit The max number of entries returned, -1 for all
 	 * @param int $offset
 	 * @return \OCP\Share\IShare[]
 	 * @since 9.0.0
 	 */
-	public function getSharedWith(IUser $user, $shareType, $limit, $offset);
+	public function getSharedWith(IUser $user, $shareType, $node, $limit, $offset);
 
 	/**
 	 * Get a share by token

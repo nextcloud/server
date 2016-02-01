@@ -88,15 +88,17 @@ interface IManager {
 
 	/**
 	 * Get shares shared with $user.
+	 * Filter by $node if provided
 	 *
 	 * @param IUser $user
 	 * @param int $shareType
+	 * @param File|Folder|null $node
 	 * @param int $limit The maximum number of shares returned, -1 for all
 	 * @param int $offset
 	 * @return IShare[]
 	 * @since 9.0.0
 	 */
-	public function getSharedWith(IUser $user, $shareType, $limit = 50, $offset = 0);
+	public function getSharedWith(IUser $user, $shareType, $node = null, $limit = 50, $offset = 0);
 
 	/**
 	 * Retrieve a share by the share id

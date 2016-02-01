@@ -21,6 +21,7 @@
 
 namespace OC\Share20;
 
+use OCP\Files\Node;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use OC\Share20\Exception\BackendError;
@@ -722,18 +723,12 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Get shares shared with $user.
-	 *
-	 * @param IUser $user
-	 * @param int $shareType
-	 * @param int $limit The maximum number of shares returned, -1 for all
-	 * @param int $offset
-	 * @return \OCP\Share\IShare[]
+	 * @inheritdoc
 	 */
-	public function getSharedWith(IUser $user, $shareType, $limit = 50, $offset = 0) {
+	public function getSharedWith(IUser $user, $shareType, $node = null, $limit = 50, $offset = 0) {
 		$provider = $this->factory->getProviderForType($shareType);
 
-		return $provider->getSharedWith($user, $shareType, $limit, $offset);
+		return $provider->getSharedWith($user, $shareType, $node, $limit, $offset);
 	}
 
 	/**
