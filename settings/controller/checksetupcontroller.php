@@ -329,7 +329,6 @@ Raw output
 		return new DataResponse(
 			[
 				'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
-				'dataDirectoryProtected' => $this->util->isHtaccessWorking($this->config),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
 				'isUrandomAvailable' => $this->isUrandomAvailable(),

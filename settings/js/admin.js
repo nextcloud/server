@@ -171,9 +171,10 @@ $(document).ready(function(){
 		OC.SetupChecks.checkWellKnownUrl('/.well-known/caldav/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === 'true'),
 		OC.SetupChecks.checkWellKnownUrl('/.well-known/carddav/', oc_defaults.docPlaceholderUrl, $('#postsetupchecks').data('check-wellknown') === 'true'),
 		OC.SetupChecks.checkSetup(),
-		OC.SetupChecks.checkGeneric()
-	).then(function(check1, check2, check3, check4, check5) {
-		var messages = [].concat(check1, check2, check3, check4, check5);
+		OC.SetupChecks.checkGeneric(),
+		OC.SetupChecks.checkDataProtected()
+	).then(function(check1, check2, check3, check4, check5, check6) {
+		var messages = [].concat(check1, check2, check3, check4, check5, check6);
 		var $el = $('#postsetupchecks');
 		$el.find('.loading').addClass('hidden');
 

@@ -15,7 +15,6 @@
 		MESSAGE_TYPE_INFO:0,
 		MESSAGE_TYPE_WARNING:1,
 		MESSAGE_TYPE_ERROR:2,
-
 		/**
 		 * Check whether the WebDAV connection works.
 		 *
@@ -95,12 +94,6 @@
 						messages.push({
 							msg: t('core', 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-						});
-					}
-					if(!data.dataDirectoryProtected) {
-						messages.push({
-							msg: t('core', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.'),
-							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
 					if(!data.isMemcacheConfigured) {
@@ -191,6 +184,30 @@
 				url: OC.generateUrl('heartbeat')
 			}).then(afterCall, afterCall);
 
+			return deferred.promise();
+		},
+
+		checkDataProtected: function() {
+			var deferred = $.Deferred();
+			if(oc_dataURL === false){
+				return deferred.resolve([]);
+			}
+			var afterCall = function(xhr) {
+				var messages = [];
+				if (xhr.status !== 403 && xhr.status !== 307 && xhr.status !== 301) {
+					messages.push({
+						msg: t('core', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.'),
+						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+					});
+				}
+				deferred.resolve(messages);
+			};
+
+			$.ajax({
+				type: 'GET',
+				url: OC.linkTo('', oc_dataURL+'/.ocdata'),
+				complete: afterCall
+			});
 			return deferred.promise();
 		},
 

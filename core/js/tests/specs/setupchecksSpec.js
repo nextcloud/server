@@ -96,6 +96,49 @@ describe('OC.SetupChecks tests', function() {
 		});
 	});
 
+	describe('checkDataProtected', function() {
+
+		oc_dataURL = "data";
+
+		it('should return an error if data directory is not protected', function(done) {
+			var async = OC.SetupChecks.checkDataProtected();
+
+			suite.server.requests[0].respond(200);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([
+					{
+						msg: 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.',
+						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+					}]);
+				done();
+			});
+		});
+		
+		it('should not return an error if data directory is protected', function(done) {
+			var async = OC.SetupChecks.checkDataProtected();
+
+			suite.server.requests[0].respond(403);
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+
+		it('should return an error if data directory is a boolean', function(done) {
+
+			oc_dataURL = false;
+
+			var async = OC.SetupChecks.checkDataProtected();
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+	});
+
 	describe('checkSetup', function() {
 		it('should return an error if server has no internet connection', function(done) {
 			var async = OC.SetupChecks.checkSetup();
@@ -121,9 +164,6 @@ describe('OC.SetupChecks tests', function() {
 						msg: 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					}, {
-						msg: 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.',
-						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-					}, {
 						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
@@ -142,7 +182,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isUrandomAvailable: true,
 					serverHasInternetConnection: false,
-					dataDirectoryProtected: false,
 					memcacheDocs: 'https://doc.owncloud.org/server/go.php?to=admin-performance',
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -155,10 +194,6 @@ describe('OC.SetupChecks tests', function() {
 					{
 						msg: 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-					},
-					{
-						msg: 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.',
-						type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 					},
 					{
 						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
@@ -179,7 +214,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isUrandomAvailable: true,
 					serverHasInternetConnection: false,
-					dataDirectoryProtected: false,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -192,11 +226,8 @@ describe('OC.SetupChecks tests', function() {
 				{
 					msg: 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
-				},
-				{
-					msg: 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.',
-					type: OC.SetupChecks.MESSAGE_TYPE_ERROR
-				}]);
+				}
+				]);
 				done();
 			});
 		});
@@ -213,7 +244,6 @@ describe('OC.SetupChecks tests', function() {
 					isUrandomAvailable: false,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
 					serverHasInternetConnection: true,
-					dataDirectoryProtected: true,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: true,
@@ -242,7 +272,6 @@ describe('OC.SetupChecks tests', function() {
 					isUrandomAvailable: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
 					serverHasInternetConnection: true,
-					dataDirectoryProtected: true,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					isCorrectMemcachedPHPModuleInstalled: false,
@@ -270,7 +299,6 @@ describe('OC.SetupChecks tests', function() {
 				JSON.stringify({
 					isUrandomAvailable: true,
 					serverHasInternetConnection: true,
-					dataDirectoryProtected: true,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: false,
 					reverseProxyDocs: 'https://docs.owncloud.org/foo/bar.html',
@@ -296,7 +324,7 @@ describe('OC.SetupChecks tests', function() {
 				{
 					'Content-Type': 'application/json'
 				},
-				JSON.stringify({data: {serverHasInternetConnection: false, dataDirectoryProtected: false}})
+				JSON.stringify({data: {serverHasInternetConnection: false}})
 			);
 
 			async.done(function( data, s, x ){
@@ -320,7 +348,6 @@ describe('OC.SetupChecks tests', function() {
 					isUrandomAvailable: true,
 					securityDocs: 'https://docs.owncloud.org/myDocs.html',
 					serverHasInternetConnection: true,
-					dataDirectoryProtected: true,
 					isMemcacheConfigured: true,
 					forwardedForHeadersWorking: true,
 					phpSupported: {eol: true, version: '5.4.0'},
@@ -484,7 +511,7 @@ describe('OC.SetupChecks tests', function() {
 			{
 				'Content-Type': 'application/json'
 			},
-			JSON.stringify({data: {serverHasInternetConnection: false, dataDirectoryProtected: false}})
+			JSON.stringify({data: {serverHasInternetConnection: false}})
 		);
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{

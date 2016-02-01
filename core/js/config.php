@@ -62,9 +62,17 @@ if ($defaultExpireDateEnabled) {
 }
 $outgoingServer2serverShareEnabled = $config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
 
+$CountOfDataLocation = 0;
+
+$DataLocation = str_replace(OC::$SERVERROOT .'/', '', $config->getSystemValue('datadirectory', ''), $CountOfDataLocation);
+if($CountOfDataLocation !== 1 || !OC_User::isAdminUser(OC_User::getUser())){
+	$DataLocation = false;
+}
+
 $array = array(
 	"oc_debug" => $config->getSystemValue('debug', false) ? 'true' : 'false',
 	"oc_isadmin" => OC_User::isAdminUser(OC_User::getUser()) ? 'true' : 'false',
+	"oc_dataURL" => is_string($DataLocation) ? "\"".$DataLocation."\"" : 'false',
 	"oc_webroot" => "\"".OC::$WEBROOT."\"",
 	"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
 	"datepickerFormatDate" => json_encode($l->l('jsdate', null)),
