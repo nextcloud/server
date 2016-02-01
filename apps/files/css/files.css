@@ -59,7 +59,7 @@
 
 /* fit app list view heights */
 .app-files #app-content>.viewcontainer {
-	min-height: 100%;
+	min-height: 0%;
 }
 
 .app-files #app-content {
