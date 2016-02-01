@@ -46,7 +46,7 @@ class SyncFederationAddressBooks {
 					'{DAV:}displayname' => $url
 			];
 			try {
-				$newToken = $this->syncService->syncRemoteAddressBook($url, 'system', $sharedSecret, $syncToken, $targetPrincipal, $targetBookId, $targetBookProperties);
+				$newToken = $this->syncService->syncRemoteAddressBook($url, 'system', $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetBookProperties);
 				if ($newToken !== $syncToken) {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
 				}
