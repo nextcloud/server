@@ -30,7 +30,7 @@
 		_objectId: null,
 
 		_endReached: false,
-		_limit : 5,
+		_limit : 20,
 
 		initialize: function(models, options) {
 			options = options || {};
@@ -72,15 +72,10 @@
 
 			var body = '<?xml version="1.0" encoding="utf-8" ?>\n' +
 				'<D:report xmlns:D="DAV:" xmlns:oc="http://owncloud.org/ns">\n' +
-				'   <oc:limit>' + this._limit + '</oc:limit>\n';
-
-			if (this.length > 0) {
-				body += '   <oc:datetime>' + this.last().get('creationDateTime') + '</oc:datetime>\n';
-			}
-
-			body += '</D:report>\n';
-
-			var oldLength = this.length;
+				// load one more so we know there is more
+				'    <oc:limit>' + (this._limit + 1) + '</oc:limit>\n' +
+				'    <oc:offset>' + this.length + '</oc:offset>\n' +
+				'</D:report>\n';
 
 			options = options || {};
 			var success = options.success;
@@ -89,9 +84,12 @@
 				data: body,
 				davProperties: CommentsCollection.prototype.model.prototype.davProperties,
 				success: function(resp) {
-					if (resp.length === oldLength) {
+					if (resp.length <= self._limit) {
 						// no new entries, end reached
 						self._endReached = true;
+					} else {
+						// remove last entry, for next page load
+						resp = _.initial(resp);
 					}
 					if (!self.set(resp, options)) {
 						return false;
