@@ -50,7 +50,7 @@ class SessionCredentials extends AuthMechanism {
 		$this
 			->setIdentifier('password::sessioncredentials')
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('Session credentials'))
+			->setText($l->t('Log-in credentials, save in session'))
 			->addParameters([
 			])
 		;
