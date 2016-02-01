@@ -368,32 +368,35 @@ OCA.External.StatusManager = {
 		self.launchPartialConnectivityCheck(mountListData, recheck);
 	},
 
+	credentialsDialogTemplate:
+		'<div id="files_external_div_form"><div>' +
+		'<div>{{credentials_text}}</div>' +
+		'<form>' +
+		'<input type="text" name="username" placeholder="{{placeholder_username}}"/>' +
+		'<input type="text" name="password" placeholder="{{placeholder_password}}"/>' +
+		'</form>' +
+		'</div></div>',
+
 	/**
 	 * Function to display custom dialog to enter credentials
 	 * @param mountPoint
 	 * @param mountData
 	 */
 	showCredentialsDialog: function (mountPoint, mountData) {
-		var $popup = $('<div id="files_external_div_form"/>').attr('title', t('files_external', 'Mount Credentials'));
+		var template = Handlebars.compile(OCA.External.StatusManager.credentialsDialogTemplate);
+		var dialog = $(template({
+			credentials_text: t('files_external', 'Please enter the credentials for the {mount} mount', {
+				'mount': mountPoint
+			}),
+			placeholder_username: t('files_external', 'Username'),
+			placeholder_password: t('files_external', 'Password')
+		}));
 
-		var $inner = $('<div/>');
-		$popup.append($inner);
-
-		$inner.append($('<div/>').text(t('files_external', 'Please enter the credentials for the {mount} mount', {
-			'mount': mountPoint
-		})));
-
-		var $form = $('<form/>');
-		$inner.append($form);
-		var $username = $('<input type="text" name="username"/>').attr('placeholder', t('files_external', 'Username'));
-		var $password = $('<input type="password" name="password"/>').attr('placeholder', t('files_external', 'Password'));
-		$form.append($username);
-		$form.append($password);
-		$form.on('submit', apply);
+		$('body').append(dialog);
 
 		var apply = function () {
-			var username = $username.val();
-			var password = $password.val();
+			var username = dialog.find('[name=username]').val();
+			var password = dialog.find('[name=password]').val();
 			var endpoint = OC.generateUrl('apps/files_external/userglobalstorages/{id}', {
 				id: mountData.id
 			});
@@ -409,7 +412,7 @@ OCA.External.StatusManager = {
 				},
 				success: function (data) {
 					OC.Notification.showTemporary(t('files_external', 'Credentials saved'));
-					$popup.ocdialog('close');
+					dialog.ocdialog('close');
 					/* Trigger status check again */
 					OCA.External.StatusManager.recheckConnectivityForMount([OC.basename(data.mountPoint)], true);
 				},
@@ -419,6 +422,8 @@ OCA.External.StatusManager = {
 				}
 			});
 		};
+
+		dialog.find('form').on('submit', apply);
 
 		var ocdialogParams = {
 			modal: true,
@@ -430,11 +435,9 @@ OCA.External.StatusManager = {
 			closeOnExcape: true
 		};
 
-		$('body').append($popup);
-
-		$popup.ocdialog(ocdialogParams)
+		dialog.ocdialog(ocdialogParams)
 			.bind('ocdialogclose', function () {
-				$popup.ocdialog('destroy').remove();
+				dialog.ocdialog('destroy').remove();
 			});
 	}
 };
