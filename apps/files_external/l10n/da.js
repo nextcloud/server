@@ -50,7 +50,6 @@ OC.L10N.register(
     "Rackspace" : "Hyldeplads",
     "API key" : "API nøgle",
     "Username and password" : "Brugernavn og kodeord",
-    "Session credentials" : "Brugeroplysninger for session",
     "RSA public key" : "RSA offentlig nøgle",
     "Public key" : "Offentlig nøgle",
     "Amazon S3" : "Amazon S3",

@@ -61,7 +61,6 @@ OC.L10N.register(
     "Rackspace" : "Rackspace",
     "API key" : "API-nøkkel",
     "Username and password" : "Brukernavn og passord",
-    "Session credentials" : "Påloggingsdetaljer for økt",
     "RSA public key" : "RSA offentlig nøkkel",
     "Public key" : "Offentlig nøkkel",
     "Amazon S3" : "Amazon S3",

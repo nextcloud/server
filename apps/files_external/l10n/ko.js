@@ -51,7 +51,6 @@ OC.L10N.register(
     "Rackspace" : "Rackspace",
     "API key" : "API 키",
     "Username and password" : "사용자 이름과 암호",
-    "Session credentials" : "세션 접근 정보",
     "RSA public key" : "RSA 공개 키",
     "Public key" : "공개 키",
     "Amazon S3" : "Amazon S3",

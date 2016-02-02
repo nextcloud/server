@@ -47,7 +47,6 @@ OC.L10N.register(
     "Password" : "Passwort",
     "API key" : "API Schlüssel",
     "Username and password" : "Benutzername und Passwort",
-    "Session credentials" : "Anmeldedaten der Sitzung",
     "RSA public key" : "Öffentlicher RSA Schlüssel",
     "Public key" : "Öffentlicher Schlüssel",
     "Amazon S3" : "Amazon S3",

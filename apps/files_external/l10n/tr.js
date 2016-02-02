@@ -51,7 +51,6 @@ OC.L10N.register(
     "Rackspace" : "Rackspace",
     "API key" : "API anahtarı",
     "Username and password" : "Kullanıcı adı ve parola",
-    "Session credentials" : "Oturum bilgileri",
     "RSA public key" : "RSA ortak anahtarı",
     "Public key" : "Ortak anahtar",
     "Amazon S3" : "Amazon S3",

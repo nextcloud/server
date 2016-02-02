@@ -50,7 +50,6 @@ OC.L10N.register(
     "Rackspace" : "Rackspace",
     "API key" : "Kunci API",
     "Username and password" : "Nama pengguna dan sandi",
-    "Session credentials" : "Kredensial sesi",
     "RSA public key" : "Kunci publik RSA",
     "Public key" : "Kunci Public",
     "Amazon S3" : "Amazon S3",

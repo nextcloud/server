@@ -52,7 +52,6 @@ OC.L10N.register(
     "Rackspace" : "Rackspace",
     "API key" : "Κλειδί Google API",
     "Username and password" : "Όνομα χρήστη και κωδικός πρόσβασης",
-    "Session credentials" : "Διαπιστευτήρια συνεδρίας",
     "RSA public key" : "Δημόσιο κλειδί RSA",
     "Public key" : "Δημόσιο κλειδί",
     "Amazon S3" : "Amazon S3",

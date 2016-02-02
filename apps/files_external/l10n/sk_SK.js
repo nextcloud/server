@@ -50,7 +50,6 @@ OC.L10N.register(
     "Rackspace" : "Rackspace",
     "API key" : "API kľúč",
     "Username and password" : "Meno a heslo",
-    "Session credentials" : "Pihlasovacie údaje sezóny",
     "RSA public key" : "RSA verejný kľúč",
     "Public key" : "Verejný kľúč",
     "Amazon S3" : "Amazon S3",

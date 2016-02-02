@@ -51,7 +51,6 @@ OC.L10N.register(
     "Rackspace" : "Rackspace",
     "API key" : "Clau API",
     "Username and password" : "Nom d'utilizaire e senhal",
-    "Session credentials" : "Informacions d'identificacion de session",
     "RSA public key" : "Clau publica RSA",
     "Public key" : "Clau publica",
     "Amazon S3" : "Amazon S3",
