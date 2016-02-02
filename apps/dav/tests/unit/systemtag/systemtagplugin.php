@@ -272,6 +272,40 @@ class SystemTagPlugin extends \Test\TestCase {
 	}
 
 	/**
+	 * @expectedException \Sabre\DAV\Exception\NotFound
+	 */
+	public function testCreateTagToUnknownNode() {
+		$systemTag = new SystemTag(1, 'Test', true, false);
+
+		$node = $this->getMockBuilder('\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->will($this->throwException(new \Sabre\DAV\Exception\NotFound()));
+
+		$this->tagManager->expects($this->never())
+			->method('createTag');
+
+		$node->expects($this->never())
+			->method('createFile');
+
+		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+				->disableOriginalConstructor()
+				->getMock();
+		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+				->disableOriginalConstructor()
+				->getMock();
+
+		$request->expects($this->once())
+			->method('getPath')
+			->will($this->returnValue('/systemtags-relations/files/12'));
+
+		$this->plugin->httpPost($request, $response);
+	}
+
+	/**
 	 * @dataProvider nodeClassProvider
 	 * @expectedException Sabre\DAV\Exception\Conflict
 	 */
