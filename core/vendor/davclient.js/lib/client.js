@@ -243,7 +243,7 @@ dav.Client.prototype = {
             }
         }
 
-        return content || propNode.textContent || propNode.text;
+        return content || propNode.textContent || propNode.text || '';
     },
 
     /**

@@ -92,7 +92,7 @@
 
 			for (var key in propStat.properties) {
 				var propKey = key;
-				if (davProperties[key]) {
+				if (key in davProperties) {
 					propKey = davProperties[key];
 				}
 				props[propKey] = propStat.properties[key];
