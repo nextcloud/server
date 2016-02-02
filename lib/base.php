@@ -645,7 +645,6 @@ class OC {
 		}
 		self::registerShareHooks();
 		self::registerLogRotate();
-		self::registerLocalAddressBook();
 		self::registerEncryptionWrapper();
 		self::registerEncryptionHooks();
 
@@ -699,14 +698,6 @@ class OC {
 			exit();
 		}
 		\OC::$server->getEventLogger()->end('boot');
-	}
-
-	private static function registerLocalAddressBook() {
-		self::$server->getContactsManager()->register(function() {
-			$userManager = \OC::$server->getUserManager();
-			\OC::$server->getContactsManager()->registerAddressBook(
-				new \OC\Contacts\LocalAddressBook($userManager));
-		});
 	}
 
 	/**

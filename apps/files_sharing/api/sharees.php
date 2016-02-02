@@ -270,8 +270,15 @@ class Sharees {
 		$addressBookContacts = $this->contactsManager->search($search, ['CLOUD', 'FN']);
 		$foundRemoteById = false;
 		foreach ($addressBookContacts as $contact) {
+			if (isset($contact['isLocalSystemBook'])) {
+				continue;
+			}
 			if (isset($contact['CLOUD'])) {
-				foreach ($contact['CLOUD'] as $cloudId) {
+				$cloudIds = $contact['CLOUD'];
+				if (!is_array($cloudIds)) {
+					$cloudIds = [$cloudIds];
+				}
+				foreach ($cloudIds as $cloudId) {
 					if (strtolower($contact['FN']) === $search || strtolower($cloudId) === $search) {
 						if (strtolower($cloudId) === $search) {
 							$foundRemoteById = true;
