@@ -69,27 +69,27 @@ interface IManager {
 	 * handle this.
 	 *
 	 * @param IShare $share
-	 * @param IUser $recipient
+	 * @param string $recipientId
 	 * @since 9.0.0
 	 */
-	public function deleteFromSelf(IShare $share, IUser $recipient);
+	public function deleteFromSelf(IShare $share, $recipientId);
 
 	/**
 	 * Move the share as a recipient of the share.
 	 * This is updating the share target. So where the recipient has the share mounted.
 	 *
 	 * @param IShare $share
-	 * @param IUser $recipient
+	 * @param string $recipientId
 	 * @return IShare
 	 * @throws \InvalidArgumentException If $share is a link share or the $recipient does not match
 	 * @since 9.0.0
 	 */
-	public function moveShare(IShare $share, IUser $recipient);
+	public function moveShare(IShare $share, $recipientId);
 
 	/**
 	 * Get shares shared by (initiated) by the provided user.
 	 *
-	 * @param IUser $user
+	 * @param string $userId
 	 * @param int $shareType
 	 * @param \OCP\Files\File|\OCP\Files\Folder $path
 	 * @param bool $reshares
@@ -98,13 +98,13 @@ interface IManager {
 	 * @return IShare[]
 	 * @since 9.0.0
 	 */
-	public function getSharesBy(IUser $user, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0);
+	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0);
 
 	/**
 	 * Get shares shared with $user.
 	 * Filter by $node if provided
 	 *
-	 * @param IUser $user
+	 * @param string $userId
 	 * @param int $shareType
 	 * @param File|Folder|null $node
 	 * @param int $limit The maximum number of shares returned, -1 for all
@@ -112,7 +112,7 @@ interface IManager {
 	 * @return IShare[]
 	 * @since 9.0.0
 	 */
-	public function getSharedWith(IUser $user, $shareType, $node = null, $limit = 50, $offset = 0);
+	public function getSharedWith($userId, $shareType, $node = null, $limit = 50, $offset = 0);
 
 	/**
 	 * Retrieve a share by the share id.
@@ -223,10 +223,10 @@ interface IManager {
 	/**
 	 * Check if sharing is disabled for the given user
 	 *
-	 * @param IUser $user
+	 * @param string $userId
 	 * @return bool
 	 * @since 9.0.0
 	 */
-	public function sharingDisabledForUser(IUser $user);
+	public function sharingDisabledForUser($userId);
 
 }
