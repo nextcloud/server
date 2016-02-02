@@ -163,7 +163,7 @@ class Listener {
 				/** @var Node $node */
 				$node = array_shift($nodes);
 				$path = $node->getPath();
-				if (strpos($path, '/' . $owner . '/files') === 0) {
+				if (strpos($path, '/' . $owner . '/files/') === 0) {
 					$path = substr($path, strlen('/' . $owner . '/files'));
 				}
 				// Get all users that have access to the mount point
