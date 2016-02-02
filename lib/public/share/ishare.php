@@ -89,7 +89,7 @@ interface IShare {
 	/**
 	 * Set the receiver of this share.
 	 *
-	 * @param IUser|IGroup
+	 * @param string $sharedWith
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -98,7 +98,7 @@ interface IShare {
 	/**
 	 * Get the receiver of this share.
 	 *
-	 * @return IUser|IGroup
+	 * @return string
 	 * @since 9.0.0
 	 */
 	public function getSharedWith();
@@ -142,7 +142,7 @@ interface IShare {
 	/**
 	 * Set the sharer of the path.
 	 *
-	 * @param IUser $sharedBy
+	 * @param string $sharedBy
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -151,7 +151,7 @@ interface IShare {
 	/**
 	 * Get share sharer
 	 *
-	 * @return IUser
+	 * @return string
 	 * @since 9.0.0
 	 */
 	public function getSharedBy();
@@ -159,7 +159,7 @@ interface IShare {
 	/**
 	 * Set the original share owner (who owns the path that is shared)
 	 *
-	 * @param IUser
+	 * @param string $shareOwner
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
@@ -168,7 +168,7 @@ interface IShare {
 	/**
 	 * Get the original share owner (who owns the path that is shared)
 	 *
-	 * @return IUser
+	 * @return string
 	 * @since 9.0.0
 	 */
 	public function getShareOwner();

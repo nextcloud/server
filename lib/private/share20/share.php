@@ -121,6 +121,9 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function setSharedWith($sharedWith) {
+		if (!is_string($sharedWith)) {
+			throw new \InvalidArgumentException();
+		}
 		$this->sharedWith = $sharedWith;
 		return $this;
 	}
@@ -170,6 +173,9 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function setSharedBy($sharedBy) {
+		if (!is_string($sharedBy)) {
+			throw new \InvalidArgumentException();
+		}
 		//TODO checks
 		$this->sharedBy = $sharedBy;
 
@@ -188,6 +194,9 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function setShareOwner($shareOwner) {
+		if (!is_string($shareOwner)) {
+			throw new \InvalidArgumentException();
+		}
 		//TODO checks
 
 		$this->shareOwner = $shareOwner;
