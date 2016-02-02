@@ -26,6 +26,7 @@ use OCP\Files\Folder;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 
@@ -169,10 +170,15 @@ class EntityCollection extends RootCollection implements \Sabre\DAV\IProperties 
 	 *
 	 * @param \DateTime $value
 	 * @return bool
+	 * @throws BadRequest
 	 */
-	public function setReadMarker($value) {
-		$dateTime = new \DateTime($value);
-		$user = $this->userSession->getUser();
+	public function setReadMark($value) {
+		try {
+			$dateTime = new \DateTime($value);
+			$user = $this->userSession->getUser();
+		} catch(\Exception $e) {
+			throw new BadRequest($e->getMessage(), 0, $e);
+		}
 		$this->commentsManager->setReadMark($this->name, $this->id, $dateTime, $user);
 		return true;
 	}
@@ -181,7 +187,7 @@ class EntityCollection extends RootCollection implements \Sabre\DAV\IProperties 
 	 * @inheritdoc
 	 */
 	function propPatch(PropPatch $propPatch) {
-		$propPatch->handle(self::PROPERTY_NAME_READ_MARKER, [$this, 'setReadMarker']);
+		$propPatch->handle(self::PROPERTY_NAME_READ_MARKER, [$this, 'setReadMark']);
 	}
 
 	/**

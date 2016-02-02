@@ -21,6 +21,8 @@
 
 namespace OCA\DAV\Tests\Unit\Comments;
 
+use Sabre\DAV\Exception\BadRequest;
+
 class EntityCollection extends \Test\TestCase {
 
 	protected $commentsManager;
@@ -112,5 +114,27 @@ class EntityCollection extends \Test\TestCase {
 			->will($this->throwException(new \OCP\Comments\NotFoundException()));
 
 		$this->assertFalse($this->collection->childExists('44'));
+	}
+
+	public function testSetReadMark() {
+		$this->commentsManager->expects($this->once())
+			->method('setReadMark');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($this->getMock('\OCP\IUser')));
+
+		$dateTime = new \DateTime();
+		$this->collection->setReadMark($dateTime->format('r'));
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 */
+	public function testSetReadMarkInvalidInput() {
+		$this->commentsManager->expects($this->never())
+			->method('setReadMark');
+
+		$this->collection->setReadMark('foobar');
 	}
 }

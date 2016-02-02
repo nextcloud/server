@@ -94,4 +94,26 @@ class EntityTypeCollection extends \Test\TestCase {
 	public function testGetChildren() {
 		$this->collection->getChildren();
 	}
+
+	public function testSetReadMark() {
+		$this->commentsManager->expects($this->once())
+			->method('setReadMark');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($this->getMock('\OCP\IUser')));
+
+		$dateTime = new \DateTime();
+		$this->collection->setReadMarks($dateTime->format('r'));
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 */
+	public function testSetReadMarkInvalidInput() {
+		$this->commentsManager->expects($this->never())
+			->method('setReadMark');
+
+		$this->collection->setReadMarks('foobar');
+	}
 }

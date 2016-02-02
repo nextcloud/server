@@ -194,8 +194,11 @@ interface ICommentsManager {
 	 * sets the read marker for a given file to the specified date for the
 	 * provided user
 	 *
+	 * If $objectId is null, all marks within the given object type must be
+	 * set to the provided datetime.
+	 *
 	 * @param string $objectType
-	 * @param string $objectId
+	 * @param string|null $objectId
 	 * @param \DateTime $dateTime
 	 * @param \OCP\IUser $user
 	 * @since 9.0.0

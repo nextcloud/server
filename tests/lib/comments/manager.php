@@ -16,8 +16,10 @@ class Test_Comments_Manager extends TestCase
 	public function setUp() {
 		parent::setUp();
 
-		$sql = \OC::$server->getDatabaseConnection()->getDatabasePlatform()->getTruncateTableSQL('`*PREFIX*comments`');
-		\OC::$server->getDatabaseConnection()->prepare($sql)->execute();
+		foreach(['`*PREFIX*comments`', '`*PREFIX*comments_read_markers`'] as $table) {
+			$sql = \OC::$server->getDatabaseConnection()->getDatabasePlatform()->getTruncateTableSQL($table);
+			\OC::$server->getDatabaseConnection()->prepare($sql)->execute();
+		}
 	}
 
 	protected function addDatabaseEntry($parentId, $topmostParentId, $creationDT = null, $latestChildDT = null) {
@@ -628,6 +630,59 @@ class Test_Comments_Manager extends TestCase
 		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
 
 		$this->assertNull($dateTimeGet);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testSetMarkReadInvalidId() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$dateTimeSet = new \DateTime();
+
+		$manager = $this->getManager();
+		$manager->setReadMark('robot', 36, $dateTimeSet, $user);
+	}
+
+	public function testSetMarkReadAll() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$manager = $this->getManager();
+
+		$dateTimeSet = new \DateTime('yesterday');
+		$manager->setReadMark('robot', '36', $dateTimeSet, $user);
+
+		$dateTimeSet = new \DateTime();
+		$manager->setReadMark('robot', null, $dateTimeSet, $user);
+
+		// a previously set date should be up to date
+		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
+		$this->assertEquals($dateTimeGet, $dateTimeSet);
+
+		// the fallback should be set as well
+		$dateTimeGet = $manager->getReadMark('robot', '66',  $user);
+		$this->assertEquals($dateTimeGet, $dateTimeSet);
+	}
+
+	public function testSetMarkReadAll2() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$manager = $this->getManager();
+
+		$dateTimeSet = new \DateTime();
+		$manager->setReadMark('robot', null, $dateTimeSet, $user);
+
+		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
+		$this->assertEquals($dateTimeGet, $dateTimeSet);
 	}
 
 }
