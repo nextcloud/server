@@ -37,13 +37,15 @@ interface IManager {
 	 * Create a Share
 	 *
 	 * @param IShare $share
-	 * @return Share The share object
+	 * @return IShare The share object
 	 * @since 9.0.0
 	 */
 	public function createShare(IShare $share);
 
 	/**
-	 * Update a share
+	 * Update a share.
+	 * The target of the share can't be changed this way: use moveShare
+	 * The share can't be removed this way (permission 0): use deleteShare
 	 *
 	 * @param IShare $share
 	 * @return IShare The share object
@@ -71,6 +73,18 @@ interface IManager {
 	 * @since 9.0.0
 	 */
 	public function deleteFromSelf(IShare $share, IUser $recipient);
+
+	/**
+	 * Move the share as a recipient of the share.
+	 * This is updating the share target. So where the recipient has the share mounted.
+	 *
+	 * @param IShare $share
+	 * @param IUser $recipient
+	 * @return IShare
+	 * @throws \InvalidArgumentException If $share is a link share or the $recipient does not match
+	 * @since 9.0.0
+	 */
+	public function moveShare(IShare $share, IUser $recipient);
 
 	/**
 	 * Get shares shared by (initiated) by the provided user.
@@ -118,7 +132,7 @@ interface IManager {
 	 * Get the share by token possible with password
 	 *
 	 * @param string $token
-	 * @return Share
+	 * @return IShare
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */

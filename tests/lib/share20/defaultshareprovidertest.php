@@ -1892,6 +1892,75 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 
 		$stmt->closeCursor();
+	}
 
+	public function testMoveUserShare() {
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_USER, 'user0', 'user1', 'user1', 'file',
+			42, 'mytaret', 31, null, null);
+
+		$user0 = $this->getMock('\OCP\IUser');
+		$user0->method('getUID')->willReturn('user0');
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user0', $user0],
+			['user1', $user1],
+		]));
+
+		$file = $this->getMock('\OCP\Files\File');
+		$file->method('getId')->willReturn(42);
+
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->willReturn([$file]);
+
+		$share = $this->provider->getShareById($id, null);
+
+		$share->setTarget('/newTarget');
+		$this->provider->move($share, $user0);
+
+		$share = $this->provider->getShareById($id, null);
+		$this->assertSame('/newTarget', $share->getTarget());
+	}
+
+	public function testMoveGroupShare() {
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user1', 'user1', 'file',
+			42, 'mytaret', 31, null, null);
+
+		$user0 = $this->getMock('\OCP\IUser');
+		$user0->method('getUID')->willReturn('user0');
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+
+		$group0 = $this->getMock('\OCP\IGroup');
+		$group0->method('getGID')->willReturn('group0');
+		$group0->method('inGroup')->with($user0)->willReturn(true);
+
+		$this->groupManager->method('get')->with('group0')->willReturn($group0);
+
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user0', $user0],
+			['user1', $user1],
+		]));
+
+		$folder = $this->getMock('\OCP\Files\Folder');
+		$folder->method('getId')->willReturn(42);
+
+		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->willReturn([$folder]);
+
+		$share = $this->provider->getShareById($id, $user0);
+
+		$share->setTarget('/newTarget');
+		$this->provider->move($share, $user0);
+
+		$share = $this->provider->getShareById($id, $user0);
+		$this->assertSame('/newTarget', $share->getTarget());
+
+		$share->setTarget('/ultraNewTarget');
+		$this->provider->move($share, $user0);
+
+		$share = $this->provider->getShareById($id, $user0);
+		$this->assertSame('/ultraNewTarget', $share->getTarget());
 	}
 }

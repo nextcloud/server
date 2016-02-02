@@ -20,6 +20,7 @@
  */
 namespace OC\Share20;
 
+use OCP\Files\File;
 use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
@@ -381,6 +382,63 @@ class DefaultShareProvider implements IShareProvider {
 		} else {
 			throw new ProviderException('Invalid shareType');
 		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function move(\OCP\Share\IShare $share, IUser $recipient) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
+			// Just update the target
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->update('share')
+				->set('file_target', $qb->createNamedParameter($share->getTarget()))
+				->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
+				->execute();
+
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+
+			// Check if there is a usergroup share
+			$qb = $this->dbConn->getQueryBuilder();
+			$stmt = $qb->select('id')
+				->from('share')
+				->where($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
+				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($recipient->getUID())))
+				->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+				->setMaxResults(1)
+				->execute();
+
+			$data = $stmt->fetch();
+			$stmt->closeCursor();
+
+			if ($data === false) {
+				// No usergroup share yet. Create one.
+				$qb = $this->dbConn->getQueryBuilder();
+				$qb->insert('share')
+					->values([
+						'share_type' => $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP),
+						'share_with' => $qb->createNamedParameter($recipient->getUID()),
+						'uid_owner' => $qb->createNamedParameter($share->getShareOwner()->getUID()),
+						'uid_initiator' => $qb->createNamedParameter($share->getSharedBy()->getUID()),
+						'parent' => $qb->createNamedParameter($share->getId()),
+						'item_type' => $qb->createNamedParameter($share->getNode() instanceof File ? 'file' : 'folder'),
+						'item_source' => $qb->createNamedParameter($share->getNode()->getId()),
+						'file_source' => $qb->createNamedParameter($share->getNode()->getId()),
+						'file_target' => $qb->createNamedParameter($share->getTarget()),
+						'permissions' => $qb->createNamedParameter($share->getPermissions()),
+						'stime' => $qb->createNamedParameter($share->getShareTime()->getTimestamp()),
+					])->execute();
+			} else {
+				// Already a usergroup share. Update it.
+				$qb = $this->dbConn->getQueryBuilder();
+				$qb->update('share')
+					->set('file_target', $qb->createNamedParameter($share->getTarget()))
+					->where($qb->expr()->eq('id', $qb->createNamedParameter($data['id'])))
+					->execute();
+			}
+		}
+
+		return $share;
 	}
 
 	/**
