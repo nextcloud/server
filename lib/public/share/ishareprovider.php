@@ -97,11 +97,12 @@ interface IShareProvider {
 	 * Get share by id
 	 *
 	 * @param int $id
+	 * @param IUser|null $recipient
 	 * @return \OCP\Share\IShare
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */
-	public function getShareById($id);
+	public function getShareById($id, $recipient = null);
 
 	/**
 	 * Get shares for a given path

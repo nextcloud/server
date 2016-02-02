@@ -612,6 +612,7 @@ class Manager implements IManager {
 
 	/**
 	 * Delete all the children of this share
+	 * FIXME: remove once https://github.com/owncloud/core/pull/21660 is in
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @return \OCP\Share\IShare[] List of deleted shares
@@ -746,14 +747,9 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Retrieve a share by the share id
-	 *
-	 * @param string $id
-	 * @return Share
-	 *
-	 * @throws ShareNotFound
+	 * @inheritdoc
 	 */
-	public function getShareById($id) {
+	public function getShareById($id, $recipient = null) {
 		if ($id === null) {
 			throw new ShareNotFound();
 		}
@@ -761,7 +757,7 @@ class Manager implements IManager {
 		list($providerId, $id) = $this->splitFullId($id);
 		$provider = $this->factory->getProvider($providerId);
 
-		$share = $provider->getShareById($id);
+		$share = $provider->getShareById($id, $recipient);
 
 		return $share;
 	}

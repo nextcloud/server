@@ -247,6 +247,44 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('myTarget', $share->getTarget());
 	}
 
+	public function testGetShareByIdUserGroupShare() {
+		$id = $this->addShareToDB(\OCP\Share::SHARE_TYPE_GROUP, 'group0', 'user0', 'user0', 'file', 42, 'myTarget', 31, null, null);
+		$this->addShareToDB(2, 'user1', 'user0', 'user0', 'file', 42, 'userTarget', 0, null, null, $id);
+
+		$user0 = $this->getMock('OCP\IUser');
+		$user0->method('getUID')->willReturn('user0');
+		$user1 = $this->getMock('OCP\IUser');
+		$user1->method('getUID')->willReturn('user1');
+
+		$group0 = $this->getMock('OCP\IGroup');
+		$group0->method('inGroup')->with($user1)->willReturn(true);
+
+		$node = $this->getMock('\OCP\Files\Folder');
+		$node->method('getId')->willReturn(42);
+
+		$this->rootFolder->method('getUserFolder')->with('user0')->will($this->returnSelf());
+		$this->rootFolder->method('getById')->willReturn([$node]);
+
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['user0', $user0],
+			['user1', $user1],
+		]));
+		$this->groupManager->method('get')->with('group0')->willReturn($group0);
+
+		$share = $this->provider->getShareById($id, $user1);
+
+		$this->assertEquals($id, $share->getId());
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
+		$this->assertSame($group0, $share->getSharedWith());
+		$this->assertSame($user0, $share->getSharedBy());
+		$this->assertSame($user0, $share->getShareOwner());
+		$this->assertSame($node, $share->getNode());
+		$this->assertEquals(0, $share->getPermissions());
+		$this->assertEquals(null, $share->getToken());
+		$this->assertEquals(null, $share->getExpirationDate());
+		$this->assertEquals('userTarget', $share->getTarget());
+	}
+
 	public function testGetShareByIdLinkShare() {
 		$qb = $this->dbConn->getQueryBuilder();
 

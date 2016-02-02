@@ -101,14 +101,18 @@ interface IManager {
 	public function getSharedWith(IUser $user, $shareType, $node = null, $limit = 50, $offset = 0);
 
 	/**
-	 * Retrieve a share by the share id
+	 * Retrieve a share by the share id.
+	 * If the recipient is set make sure to retrieve the file for that user.
+	 * This makes sure that if a user has moved/deleted a group share this
+	 * is reflected.
 	 *
 	 * @param string $id
-	 * @return Share
+	 * @param IUser|null $recipient
+	 * @return IShare
 	 * @throws ShareNotFound
 	 * @since 9.0.0
 	 */
-	public function getShareById($id);
+	public function getShareById($id, $recipient = null);
 
 	/**
 	 * Get the share by token possible with password
