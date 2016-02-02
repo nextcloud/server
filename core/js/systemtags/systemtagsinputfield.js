@@ -320,7 +320,9 @@
 		 */
 		_createSearchChoice: function(term) {
 			term = term.trim();
-			if (this.collection.filterByName(term).length) {
+			if (this.collection.filter(function(entry) {
+					return entry.get('name') === term;
+				}).length) {
 				return;
 			}
 			if (!this._newTag) {
