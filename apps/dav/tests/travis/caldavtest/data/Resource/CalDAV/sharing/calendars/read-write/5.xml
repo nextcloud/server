@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<D:propfind xmlns:D="DAV:" xmlns:CS="http://calendarserver.org/ns/">
+<D:propfind xmlns:D="DAV:" xmlns:CS="http://owncloud.org/ns">
 <D:prop>
 <CS:invite/>
 </D:prop>

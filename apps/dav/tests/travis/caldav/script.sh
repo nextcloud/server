@@ -10,8 +10,6 @@ sleep 30
 # run the tests
 cd "$SCRIPTPATH/CalDAVTester"
 PYTHONPATH="$SCRIPTPATH/pycalendar/src" python testcaldav.py --print-details-onfail --basedir "$SCRIPTPATH/../caldavtest/" -o cdt.txt \
-	"CalDAV/current-user-principal.xml" \
-	"CalDAV/sync-report.xml" \
 	"CalDAV/sharing-calendars.xml"
 
 RESULT=$?

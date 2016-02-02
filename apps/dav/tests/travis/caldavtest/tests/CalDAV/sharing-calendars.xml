@@ -161,7 +161,30 @@
 					<arg>
 						<name>exists</name>
 						<value>$verify-property-prefix:/{DAV:}owner/{DAV:}href[=$principaluri1:]</value>
-						<!-- value>$verify-property-prefix:/{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp/{urn:ietf:params:xml:ns:caldav}opaque</value -->
+						<!--<value>$verify-property-prefix:/{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp/{urn:ietf:params:xml:ns:caldav}opaque</value>-->
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='5a'>
+			<description>Invite propfind returns sharees</description>
+			<request>
+				<method>PROPFIND</method>
+				<ruri>$calendarhome1:/shared/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/sharing/calendars/read-write/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>$verify-property-prefix:/{http://owncloud.org/ns}invite/{http://owncloud.org/ns}user/{DAV:}href</value>
+						<value>$verify-property-prefix:/{http://owncloud.org/ns}invite/{http://owncloud.org/ns}user/{http://owncloud.org/ns}invite-accepted</value>
 					</arg>
 				</verify>
 			</request>

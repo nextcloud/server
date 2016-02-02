@@ -23,9 +23,12 @@
 namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\Connector\Sabre\Auth;
+use OCA\DAV\DAV\Sharing\Xml\Invite;
 use OCP\IRequest;
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
@@ -97,8 +100,10 @@ class Plugin extends ServerPlugin {
 	function initialize(Server $server) {
 		$this->server = $server;
 		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}share'] = 'OCA\\DAV\\DAV\\Sharing\\Xml\\ShareRequest';
+		$this->server->xml->elementMap['{' . Plugin::NS_OWNCLOUD . '}invite'] = 'OCA\\DAV\\DAV\\Sharing\\Xml\\Invite';
 
 		$this->server->on('method:POST', [$this, 'httpPost']);
+		$this->server->on('propFind',    [$this, 'propFind']);
 	}
 
 	/**
@@ -171,6 +176,28 @@ class Plugin extends ServerPlugin {
 
 				// Breaking the event chain
 				return false;
+		}
+	}
+
+	/**
+	 * This event is triggered when properties are requested for a certain
+	 * node.
+	 *
+	 * This allows us to inject any properties early.
+	 *
+	 * @param PropFind $propFind
+	 * @param INode $node
+	 * @return void
+	 */
+	function propFind(PropFind $propFind, INode $node) {
+		if ($node instanceof IShareable) {
+
+			$propFind->handle('{' . Plugin::NS_OWNCLOUD . '}invite', function() use ($node) {
+				return new Invite(
+					$node->getShares()
+				);
+			});
+
 		}
 	}
 
