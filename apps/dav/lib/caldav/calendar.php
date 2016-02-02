@@ -3,6 +3,7 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use Sabre\DAV\Exception\Forbidden;
 
 class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
@@ -43,9 +44,9 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	 * @return array
 	 */
 	function getShares() {
-		/** @var CalDavBackend $caldavBackend */
-		$caldavBackend = $this->caldavBackend;
-		return $caldavBackend->getShares($this->getResourceId());
+		/** @var CalDavBackend $calDavBackend */
+		$calDavBackend = $this->caldavBackend;
+		return $calDavBackend->getShares($this->getResourceId());
 	}
 
 	/**
@@ -58,17 +59,17 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	function getACL() {
 		$acl = parent::getACL();
 
-		/** @var CalDavBackend $caldavBackend */
-		$caldavBackend = $this->caldavBackend;
-		return $caldavBackend->applyShareAcl($this->getResourceId(), $acl);
+		/** @var CalDavBackend $calDavBackend */
+		$calDavBackend = $this->caldavBackend;
+		return $calDavBackend->applyShareAcl($this->getResourceId(), $acl);
 	}
 
 	function getChildACL() {
 		$acl = parent::getChildACL();
 
-		/** @var CalDavBackend $caldavBackend */
-		$caldavBackend = $this->caldavBackend;
-		return $caldavBackend->applyShareAcl($this->getResourceId(), $acl);
+		/** @var CalDavBackend $calDavBackend */
+		$calDavBackend = $this->caldavBackend;
+		return $calDavBackend->applyShareAcl($this->getResourceId(), $acl);
 	}
 
 	function getOwner() {
@@ -80,10 +81,19 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
 	function delete() {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
+			$principal = 'principal:' . parent::getOwner();
+			$shares = $this->getShares();
+			$shares = array_filter($shares, function($share) use ($principal){
+				return $share['href'] === $principal;
+			});
+			if (empty($shares)) {
+				throw new Forbidden();
+			}
+
 			/** @var CalDavBackend $calDavBackend */
 			$calDavBackend = $this->caldavBackend;
 			$calDavBackend->updateShares($this, [], [
-				'href' => "principal:" . parent::getOwner()
+				'href' => $principal
 			]);
 			return;
 		}

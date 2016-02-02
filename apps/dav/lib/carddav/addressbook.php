@@ -21,6 +21,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
@@ -131,5 +132,33 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 	 */
 	public function getResourceId() {
 		return $this->addressBookInfo['id'];
+	}
+
+	function getOwner() {
+		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
+			return $this->addressBookInfo['{http://owncloud.org/ns}owner-principal'];
+		}
+		return parent::getOwner();
+	}
+
+	function delete() {
+		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
+			$principal = 'principal:' . parent::getOwner();
+			$shares = $this->getShares();
+			$shares = array_filter($shares, function($share) use ($principal){
+				return $share['href'] === $principal;
+			});
+			if (empty($shares)) {
+				throw new Forbidden();
+			}
+
+			/** @var CardDavBackend $cardDavBackend */
+			$cardDavBackend = $this->carddavBackend;
+			$cardDavBackend->updateShares($this, [], [
+				'href' => $principal
+			]);
+			return;
+		}
+		parent::delete();
 	}
 }

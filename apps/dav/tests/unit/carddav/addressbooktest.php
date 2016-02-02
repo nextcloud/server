@@ -19,17 +19,17 @@
  *
  */
 
-namespace OCA\DAV\Tests\Unit\CalDAV;
+namespace OCA\DAV\Tests\Unit\CardDAV;
 
-use OCA\DAV\CalDAV\CalDavBackend;
-use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\CardDAV\AddressBook;
+use OCA\DAV\CardDAV\CardDavBackend;
 use Test\TestCase;
 
-class CalendarTest extends TestCase {
+class AddressBookTest extends TestCase {
 
 	public function testDelete() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
+		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('updateShares');
 		$backend->method('getShares')->willReturn([
 			['href' => 'principal:user2']
@@ -39,7 +39,7 @@ class CalendarTest extends TestCase {
 			'principaluri' => 'user2',
 			'id' => 666
 		];
-		$c = new Calendar($backend, $calendarInfo);
+		$c = new AddressBook($backend, $calendarInfo);
 		$c->delete();
 	}
 
@@ -47,8 +47,8 @@ class CalendarTest extends TestCase {
 	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testDeleteFromGroup() {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
-		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
+		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
 		$backend->expects($this->never())->method('updateShares');
 		$backend->method('getShares')->willReturn([
 			['href' => 'principal:group2']
@@ -58,7 +58,7 @@ class CalendarTest extends TestCase {
 			'principaluri' => 'user2',
 			'id' => 666
 		];
-		$c = new Calendar($backend, $calendarInfo);
+		$c = new AddressBook($backend, $calendarInfo);
 		$c->delete();
 	}
 }
