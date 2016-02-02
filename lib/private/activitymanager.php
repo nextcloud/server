@@ -310,20 +310,19 @@ class ActivityManager implements IManager {
 
 	/**
 	 * @param string $type
-	 * @param int $id
+	 * @param string $id
 	 */
 	public function setFormattingObject($type, $id) {
 		$this->formattingObjectType = $type;
-		$this->formattingObjectId = $id;
+		$this->formattingObjectId = (string) $id;
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isFormattingFilteredObject() {
-		return 'filter' === $this->request->getParam('filter')
-			&& $this->formattingObjectType === $this->request->getParam('objecttype')
-			&& $this->formattingObjectId === $this->request->getParam('objectid');
+		return $this->formattingObjectType === $this->request->getParam('object_type')
+			&& $this->formattingObjectId === $this->request->getParam('object_id');
 	}
 
 	/**

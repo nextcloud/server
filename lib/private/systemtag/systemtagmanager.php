@@ -26,17 +26,20 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagManager implements ISystemTagManager {
 
 	const TAG_TABLE = 'systemtag';
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
+	/** @var IDBConnection */
+	protected $connection;
+
+	/** @var EventDispatcherInterface */
+	protected $dispatcher;
 
 	/**
 	 * Prepared query for selecting tags directly
@@ -46,12 +49,14 @@ class SystemTagManager implements ISystemTagManager {
 	private $selectTagQuery;
 
 	/**
-	* Constructor.
-	*
-	* @param IDBConnection $connection database connection
-	*/
-	public function __construct(IDBConnection $connection) {
+	 * Constructor.
+	 *
+	 * @param IDBConnection $connection database connection
+	 * @param EventDispatcherInterface $dispatcher
+	 */
+	public function __construct(IDBConnection $connection, EventDispatcherInterface $dispatcher) {
 		$this->connection = $connection;
+		$this->dispatcher = $dispatcher;
 
 		$query = $this->connection->getQueryBuilder();
 		$this->selectTagQuery = $query->select('*')
@@ -190,14 +195,20 @@ class SystemTagManager implements ISystemTagManager {
 			);
 		}
 
-		$tagId = $this->connection->lastInsertId('*PREFIX*' . self::TAG_TABLE);
+		$tagId = $query->getLastInsertId();
 
-		return new SystemTag(
+		$tag = new SystemTag(
 			(int)$tagId,
 			$tagName,
 			(bool)$userVisible,
 			(bool)$userAssignable
 		);
+
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_CREATE, new ManagerEvent(
+			ManagerEvent::EVENT_CREATE, $tag
+		));
+
+		return $tag;
 	}
 
 	/**
@@ -206,6 +217,22 @@ class SystemTagManager implements ISystemTagManager {
 	public function updateTag($tagId, $tagName, $userVisible, $userAssignable) {
 		$userVisible = (int)$userVisible;
 		$userAssignable = (int)$userAssignable;
+
+		try {
+			$tags = $this->getTagsByIds($tagId);
+		} catch (TagNotFoundException $e) {
+			throw new TagNotFoundException(
+				'Tag does not exist', 0, null, [$tagId]
+			);
+		}
+
+		$beforeUpdate = array_shift($tags);
+		$afterUpdate = new SystemTag(
+			(int) $tagId,
+			$tagName,
+			(bool) $userVisible,
+			(bool) $userAssignable
+		);
 
 		$query = $this->connection->getQueryBuilder();
 		$query->update(self::TAG_TABLE)
@@ -231,6 +258,10 @@ class SystemTagManager implements ISystemTagManager {
 				$e
 			);
 		}
+
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_UPDATE, new ManagerEvent(
+			ManagerEvent::EVENT_UPDATE, $afterUpdate, $beforeUpdate
+		));
 	}
 
 	/**
@@ -242,10 +273,21 @@ class SystemTagManager implements ISystemTagManager {
 		}
 
 		$tagNotFoundException = null;
+		$tags = [];
 		try {
-			$this->getTagsByIds($tagIds);
+			$tags = $this->getTagsByIds($tagIds);
 		} catch (TagNotFoundException $e) {
 			$tagNotFoundException = $e;
+
+			// Get existing tag objects for the hooks later
+			$existingTags = array_diff($tagIds, $tagNotFoundException->getMissingTags());
+			if (!empty($existingTags)) {
+				try {
+					$tags = $this->getTagsByIds($existingTags);
+				} catch (TagNotFoundException $e) {
+					// Ignore further errors...
+				}
+			}
 		}
 
 		// delete relationships first
@@ -260,6 +302,12 @@ class SystemTagManager implements ISystemTagManager {
 			->where($query->expr()->in('id', $query->createParameter('tagids')))
 			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
 			->execute();
+
+		foreach ($tags as $tag) {
+			$this->dispatcher->dispatch(ManagerEvent::EVENT_DELETE, new ManagerEvent(
+				ManagerEvent::EVENT_DELETE, $tag
+			));
+		}
 
 		if ($tagNotFoundException !== null) {
 			throw new TagNotFoundException(
