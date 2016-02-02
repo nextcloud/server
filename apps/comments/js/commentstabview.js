@@ -20,6 +20,7 @@
 		'    <form class="newCommentForm">' +
 		'        <textarea class="message" placeholder="{{newMessagePlaceholder}}"></textarea>' +
 		'        <input class="submit" type="submit" value="{{submitText}}" />' +
+		'        <div class="submitLoading icon-loading-small hidden"></div>'+
 		'    </form>' +
 		'    <ul class="comments">' +
 		'    </ul>' +
@@ -125,7 +126,6 @@
 				altDate: OC.Util.formatDate(timestamp),
 				formattedMessage: this._formatMessage(commentModel.get('message'))
 			}, commentModel.attributes);
-			// TODO: format
 			return data;
 		},
 
@@ -188,9 +188,22 @@
 		},
 
 		_onSubmitComment: function(e) {
+			var $form = $(e.target);
 			var currentUser = OC.getCurrentUser();
-			var $textArea = $(e.target).find('textarea');
+			var $submit = $form.find('.submit');
+			var $loading = $form.find('.submitLoading');
+			var $textArea = $form.find('textarea');
+			var message = $textArea.val().trim();
 			e.preventDefault();
+
+			if (!message.length) {
+				return;
+			}
+
+			$textArea.prop('disabled', true);
+			$submit.addClass('hidden');
+			$loading.removeClass('hidden');
+
 			this.collection.create({
 				actorId: currentUser.uid,
 				actorDisplayName: currentUser.displayName,
@@ -198,10 +211,22 @@
 				verb: 'comment',
 				message: $textArea.val(),
 				creationDateTime: (new Date()).getTime()
-			}, {at: 0});
+			}, {
+				at: 0,
+				success: function() {
+					$submit.removeClass('hidden');
+					$loading.addClass('hidden');
+					$textArea.val('').prop('disabled', false);
+				},
+				error: function(msg) {
+					$submit.removeClass('hidden');
+					$loading.addClass('hidden');
+					$textArea.prop('disabled', false);
 
-			// TODO: spinner/disable field?
-			$textArea.val('');
+					OC.Notification.showTemporary(msg);
+				}
+			});
+
 			return false;
 		}
 	});

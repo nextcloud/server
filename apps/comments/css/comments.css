@@ -17,8 +17,8 @@
 	resize: none;
 }
 
-#commentsTabView .newCommentForm .submit {
-	display: block;
+#commentsTabView .newCommentForm .submitLoading {
+	background-position: left;
 }
 
 #commentsTabView .comment {
