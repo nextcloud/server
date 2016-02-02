@@ -815,7 +815,9 @@ class Manager implements IManager {
 		}
 
 		if (!empty($newHash)) {
-			//TODO update hash!
+			$share->setPassword($newHash);
+			$provider = $this->factory->getProviderForType($share->getShareType());
+			$provider->update($share);
 		}
 
 		return true;
