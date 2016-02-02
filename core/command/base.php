@@ -33,6 +33,12 @@ class Base extends Command {
 
 	protected $defaultOutputFormat = self::OUTPUT_FORMAT_PLAIN;
 
+	/** @var boolean */
+	private $php_pcntl_signal = false;
+
+	/** @var boolean */
+	private $interrupted = false;
+
 	protected function configure() {
 		$this
 			->addOption(
@@ -43,6 +49,15 @@ class Base extends Command {
 				$this->defaultOutputFormat
 			)
 		;
+
+		// check if the php pcntl_signal functions are accessible
+		$this->php_pcntl_signal = function_exists('pcntl_signal');
+		if ($this->php_pcntl_signal) {
+			// Collect interrupts and notify the running command
+			pcntl_signal(SIGTERM, [$this, 'cancelOperation']);
+			pcntl_signal(SIGINT, [$this, 'cancelOperation']);
+		}
+
 	}
 
 	/**
@@ -116,4 +131,27 @@ class Base extends Command {
 			return $value;
 		}
 	}
+
+	/**
+	 * @return bool
+	 */
+	protected function hasBeenInterrupted() {
+		// return always false if pcntl_signal functions are not accessible
+		if ($this->php_pcntl_signal) {
+			pcntl_signal_dispatch();
+			return $this->interrupted;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Changes the status of the command to "interrupted" if ctrl-c has been pressed
+	 *
+	 * Gives a chance to the command to properly terminate what it's doing
+	 */
+	private function cancelOperation() {
+		$this->interrupted = true;
+	}
+
 }
