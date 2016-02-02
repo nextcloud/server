@@ -83,7 +83,7 @@ class Extension implements IExtension {
 	 * @return array|false
 	 */
 	public function getDefaultTypes($method) {
-		return [self::APP_NAME];
+		return $method === self::METHOD_STREAM ? [self::APP_NAME] : false;
 	}
 
 	/**
