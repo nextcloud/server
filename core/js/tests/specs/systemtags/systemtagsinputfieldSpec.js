@@ -85,6 +85,15 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				expect(result.userVisible).toEqual(true);
 				expect(result.userAssignable).toEqual(true);
 			});
+			it('creates dummy tag when user types non-matching name even with prefix of existing tag', function() {
+				var opts = select2Stub.getCall(0).args[0];
+				var result = opts.createSearchChoice('ab');
+				expect(result.id).toEqual(-1);
+				expect(result.name).toEqual('ab');
+				expect(result.isNew).toEqual(true);
+				expect(result.userVisible).toEqual(true);
+				expect(result.userAssignable).toEqual(true);
+			});
 			it('creates the real tag and fires select event after user selects the dummy tag', function() {
 				var selectHandler = sinon.stub();
 				view.on('select', selectHandler);
