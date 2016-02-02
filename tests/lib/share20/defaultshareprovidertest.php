@@ -157,21 +157,13 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				['shareOwner', $shareOwnerFolder],
 			]));
 
-		$this->userManager
-			->method('get')
-			->will($this->returnValueMap([
-				['sharedWith', $sharedWith],
-				['sharedBy', $sharedBy],
-				['shareOwner', $shareOwner],
-			]));
-
 		$share = $this->provider->getShareById($id);
 
 		$this->assertEquals($id, $share->getId());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
-		$this->assertEquals($sharedWith, $share->getSharedWith());
-		$this->assertEquals($sharedBy, $share->getSharedBy());
-		$this->assertEquals($shareOwner, $share->getShareOwner());
+		$this->assertEquals('sharedWith', $share->getSharedWith());
+		$this->assertEquals('sharedBy', $share->getSharedBy());
+		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals($ownerPath, $share->getNode());
 		$this->assertEquals(13, $share->getPermissions());
 		$this->assertEquals(null, $share->getToken());
@@ -221,25 +213,13 @@ class DefaultShareProviderTest extends \Test\TestCase {
 						['shareOwner', $shareOwnerFolder],
 				]));
 
-		$this->userManager
-			->method('get')
-			->will($this->returnValueMap([
-				['sharedBy', $sharedBy],
-				['shareOwner', $shareOwner],
-			]));
-		$this->groupManager
-			->expects($this->once())
-			->method('get')
-			->with('sharedWith')
-			->willReturn($sharedWith);
-
 		$share = $this->provider->getShareById($id);
 
 		$this->assertEquals($id, $share->getId());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
-		$this->assertEquals($sharedWith, $share->getSharedWith());
-		$this->assertEquals($sharedBy, $share->getSharedBy());
-		$this->assertEquals($shareOwner, $share->getShareOwner());
+		$this->assertEquals('sharedWith', $share->getSharedWith());
+		$this->assertEquals('sharedBy', $share->getSharedBy());
+		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals($ownerPath, $share->getNode());
 		$this->assertEquals(13, $share->getPermissions());
 		$this->assertEquals(null, $share->getToken());
@@ -271,13 +251,13 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		]));
 		$this->groupManager->method('get')->with('group0')->willReturn($group0);
 
-		$share = $this->provider->getShareById($id, $user1);
+		$share = $this->provider->getShareById($id, 'user1');
 
 		$this->assertEquals($id, $share->getId());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
-		$this->assertSame($group0, $share->getSharedWith());
-		$this->assertSame($user0, $share->getSharedBy());
-		$this->assertSame($user0, $share->getShareOwner());
+		$this->assertSame('group0', $share->getSharedWith());
+		$this->assertSame('user0', $share->getSharedBy());
+		$this->assertSame('user0', $share->getShareOwner());
 		$this->assertSame($node, $share->getNode());
 		$this->assertEquals(0, $share->getPermissions());
 		$this->assertEquals(null, $share->getToken());
@@ -339,8 +319,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals($id, $share->getId());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_LINK, $share->getShareType());
 		$this->assertEquals('sharedWith', $share->getPassword());
-		$this->assertEquals($sharedBy, $share->getSharedBy());
-		$this->assertEquals($shareOwner, $share->getShareOwner());
+		$this->assertEquals('sharedBy', $share->getSharedBy());
+		$this->assertEquals('shareOwner', $share->getShareOwner());
 		$this->assertEquals($ownerPath, $share->getNode());
 		$this->assertEquals(13, $share->getPermissions());
 		$this->assertEquals('token', $share->getToken());
@@ -559,9 +539,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		//Child1
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $children[0]->getShareType());
-		$this->assertEquals($user1, $children[0]->getSharedWith());
-		$this->assertEquals($user2, $children[0]->getSharedBy());
-		$this->assertEquals($shareOwner, $children[0]->getShareOwner());
+		$this->assertEquals('user1', $children[0]->getSharedWith());
+		$this->assertEquals('user2', $children[0]->getSharedBy());
+		$this->assertEquals('shareOwner', $children[0]->getShareOwner());
 		$this->assertEquals($ownerPath, $children[0]->getNode());
 		$this->assertEquals(2, $children[0]->getPermissions());
 		$this->assertEquals(null, $children[0]->getToken());
@@ -570,9 +550,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		//Child2
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $children[1]->getShareType());
-		$this->assertEquals($group1, $children[1]->getSharedWith());
-		$this->assertEquals($user3, $children[1]->getSharedBy());
-		$this->assertEquals($shareOwner, $children[1]->getShareOwner());
+		$this->assertEquals('group1', $children[1]->getSharedWith());
+		$this->assertEquals('user3', $children[1]->getSharedBy());
+		$this->assertEquals('shareOwner', $children[1]->getShareOwner());
 		$this->assertEquals($ownerPath, $children[1]->getNode());
 		$this->assertEquals(4, $children[1]->getPermissions());
 		$this->assertEquals(null, $children[1]->getToken());
@@ -583,20 +563,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	public function testCreateUserShare() {
 		$share = new \OC\Share20\Share();
 
-		$sharedWith = $this->getMock('OCP\IUser');
-		$sharedWith->method('getUID')->willReturn('sharedWith');
-		$sharedBy = $this->getMock('OCP\IUser');
-		$sharedBy->method('getUID')->willReturn('sharedBy');
 		$shareOwner = $this->getMock('OCP\IUser');
 		$shareOwner->method('getUID')->WillReturn('shareOwner');
-
-		$this->userManager
-			->method('get')
-			->will($this->returnValueMap([
-				['sharedWith', $sharedWith],
-				['sharedBy', $sharedBy],
-				['shareOwner', $shareOwner],
-			]));
 
 		$path = $this->getMock('\OCP\Files\File');
 		$path->method('getId')->willReturn(100);
@@ -619,9 +587,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->willReturn([$path]);
 
 		$share->setShareType(\OCP\Share::SHARE_TYPE_USER);
-		$share->setSharedWith($sharedWith);
-		$share->setSharedBy($sharedBy);
-		$share->setShareOwner($shareOwner);
+		$share->setSharedWith('sharedWith');
+		$share->setSharedBy('sharedBy');
+		$share->setShareOwner('shareOwner');
 		$share->setNode($path);
 		$share->setPermissions(1);
 		$share->setTarget('/target');
@@ -631,9 +599,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertNotNull($share2->getId());
 		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
 		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $share2->getShareType());
-		$this->assertSame($sharedWith, $share2->getSharedWith());
-		$this->assertSame($sharedBy, $share2->getSharedBy());
-		$this->assertSame($shareOwner, $share2->getShareOwner());
+		$this->assertSame('sharedWith', $share2->getSharedWith());
+		$this->assertSame('sharedBy', $share2->getSharedBy());
+		$this->assertSame('shareOwner', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 		$this->assertSame('/target', $share2->getTarget());
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
@@ -643,23 +611,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	public function testCreateGroupShare() {
 		$share = new \OC\Share20\Share();
 
-		$sharedWith = $this->getMock('OCP\IGroup');
-		$sharedWith->method('getGID')->willReturn('sharedWith');
-		$sharedBy = $this->getMock('OCP\IUser');
-		$sharedBy->method('getUID')->willReturn('sharedBy');
-		$shareOwner = $this->getMock('OCP\IUser');
-		$shareOwner->method('getUID')->WillReturn('shareOwner');
-
-		$this->userManager
-			->method('get')
-			->will($this->returnValueMap([
-				['sharedBy', $sharedBy],
-				['shareOwner', $shareOwner],
-			]));
-		$this->groupManager
-			->method('get')
-			->with('sharedWith')
-			->willReturn($sharedWith);
+		$shareOwner = $this->getMock('\OCP\IUser');
+		$shareOwner->method('getUID')->willReturn('shareOwner');
 
 		$path = $this->getMock('\OCP\Files\Folder');
 		$path->method('getId')->willReturn(100);
@@ -682,9 +635,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->willReturn([$path]);
 
 		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP);
-		$share->setSharedWith($sharedWith);
-		$share->setSharedBy($sharedBy);
-		$share->setShareOwner($shareOwner);
+		$share->setSharedWith('sharedWith');
+		$share->setSharedBy('sharedBy');
+		$share->setShareOwner('shareOwner');
 		$share->setNode($path);
 		$share->setPermissions(1);
 		$share->setTarget('/target');
@@ -694,9 +647,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertNotNull($share2->getId());
 		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
 		$this->assertSame(\OCP\Share::SHARE_TYPE_GROUP, $share2->getShareType());
-		$this->assertSame($sharedWith, $share2->getSharedWith());
-		$this->assertSame($sharedBy, $share2->getSharedBy());
-		$this->assertSame($shareOwner, $share2->getShareOwner());
+		$this->assertSame('sharedWith', $share2->getSharedWith());
+		$this->assertSame('sharedBy', $share2->getSharedBy());
+		$this->assertSame('shareOwner', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 		$this->assertSame('/target', $share2->getTarget());
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
@@ -706,17 +659,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	public function testCreateLinkShare() {
 		$share = new \OC\Share20\Share();
 
-		$sharedBy = $this->getMock('OCP\IUser');
-		$sharedBy->method('getUID')->willReturn('sharedBy');
-		$shareOwner = $this->getMock('OCP\IUser');
-		$shareOwner->method('getUID')->WillReturn('shareOwner');
-
-		$this->userManager
-				->method('get')
-				->will($this->returnValueMap([
-						['sharedBy', $sharedBy],
-						['shareOwner', $shareOwner],
-				]));
+		$shareOwner = $this->getMock('\OCP\IUser');
+		$shareOwner->method('getUID')->willReturn('shareOwner');
 
 		$path = $this->getMock('\OCP\Files\Folder');
 		$path->method('getId')->willReturn(100);
@@ -739,8 +683,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				->willReturn([$path]);
 
 		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK);
-		$share->setSharedBy($sharedBy);
-		$share->setShareOwner($shareOwner);
+		$share->setSharedBy('sharedBy');
+		$share->setShareOwner('shareOwner');
 		$share->setNode($path);
 		$share->setPermissions(1);
 		$share->setPassword('password');
@@ -754,8 +698,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertNotNull($share2->getId());
 		$this->assertSame('ocinternal:'.$share2->getId(), $share2->getFullId());
 		$this->assertSame(\OCP\Share::SHARE_TYPE_LINK, $share2->getShareType());
-		$this->assertSame($sharedBy, $share2->getSharedBy());
-		$this->assertSame($shareOwner, $share2->getShareOwner());
+		$this->assertSame('sharedBy', $share2->getSharedBy());
+		$this->assertSame('shareOwner', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 		$this->assertSame('/target', $share2->getTarget());
 		$this->assertLessThanOrEqual(new \DateTime(), $share2->getShareTime());
@@ -783,17 +727,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->execute();
 		$id = $qb->getLastInsertId();
 
-		$owner = $this->getMock('\OCP\IUser');
-		$owner->method('getUID')->willReturn('shareOwner');
-		$initiator = $this->getMock('\OCP\IUser');
-		$initiator->method('getUID')->willReturn('sharedBy');
-
-		$this->userManager->method('get')
-			->will($this->returnValueMap([
-				['sharedBy', $initiator],
-				['shareOwner', $owner],
-			]));
-
 		$file = $this->getMock('\OCP\Files\File');
 
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
@@ -801,8 +734,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareByToken('secrettoken');
 		$this->assertEquals($id, $share->getId());
-		$this->assertSame($owner, $share->getShareOwner());
-		$this->assertSame($initiator, $share->getSharedBy());
+		$this->assertSame('shareOwner', $share->getShareOwner());
+		$this->assertSame('sharedBy', $share->getSharedBy());
 		$this->assertSame('secrettoken', $share->getToken());
 		$this->assertSame('password', $share->getPassword());
 		$this->assertSame(null, $share->getSharedWith());
@@ -845,31 +778,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			]);
 		$this->assertEquals(1, $qb->execute());
 
-		$user = $this->getMock('\OCP\IUser');
-		$user->method('getUID')->willReturn('sharedWith');
-		$owner = $this->getMock('\OCP\IUser');
-		$owner->method('getUID')->willReturn('shareOwner');
-		$initiator = $this->getMock('\OCP\IUser');
-		$initiator->method('getUID')->willReturn('sharedBy');
-
-		$this->userManager->method('get')->willReturnMap([
-			['sharedWith', $user],
-			['shareOwner', $owner],
-			['sharedBy', $initiator],
-		]);
-
 		$file = $this->getMock('\OCP\Files\File');
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith($user, \OCP\Share::SHARE_TYPE_USER, null, 1 , 0);
+		$share = $this->provider->getSharedWith('sharedWith', \OCP\Share::SHARE_TYPE_USER, null, 1 , 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals($user, $share->getSharedWith());
-		$this->assertEquals($owner, $share->getShareOwner());
-		$this->assertEquals($initiator, $share->getSharedBy());
+		$this->assertEquals('sharedWith', $share->getSharedWith());
+		$this->assertEquals('shareOwner', $share->getShareOwner());
+		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
 	}
 
@@ -922,6 +842,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$initiator->method('getUID')->willReturn('sharedBy');
 
 		$this->userManager->method('get')->willReturnMap([
+			['sharedWith', $user],
 			['shareOwner', $owner],
 			['sharedBy', $initiator],
 		]);
@@ -932,14 +853,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith($user, \OCP\Share::SHARE_TYPE_GROUP, null, 20 , 1);
+		$share = $this->provider->getSharedWith('sharedWith', \OCP\Share::SHARE_TYPE_GROUP, null, 20 , 1);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals($group, $share->getSharedWith());
-		$this->assertEquals($owner, $share->getShareOwner());
-		$this->assertEquals($initiator, $share->getSharedBy());
+		$this->assertEquals('sharedWith', $share->getSharedWith());
+		$this->assertEquals('shareOwner', $share->getShareOwner());
+		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
 	}
 
@@ -1007,6 +928,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$initiator->method('getUID')->willReturn('sharedBy');
 
 		$this->userManager->method('get')->willReturnMap([
+			['user', $user],
 			['shareOwner', $owner],
 			['sharedBy', $initiator],
 		]);
@@ -1017,14 +939,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith($user, \OCP\Share::SHARE_TYPE_GROUP, null, -1, 0);
+		$share = $this->provider->getSharedWith('user', \OCP\Share::SHARE_TYPE_GROUP, null, -1, 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
 		$this->assertSame($id, $share->getId());
-		$this->assertSame($group, $share->getSharedWith());
-		$this->assertSame($owner, $share->getShareOwner());
-		$this->assertSame($initiator, $share->getSharedBy());
+		$this->assertSame('sharedWith', $share->getSharedWith());
+		$this->assertSame('shareOwner', $share->getShareOwner());
+		$this->assertSame('sharedBy', $share->getSharedBy());
 		$this->assertSame(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
 		$this->assertSame(0, $share->getPermissions());
 		$this->assertSame('userTarget', $share->getTarget());
@@ -1051,14 +973,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(43)->willReturn([$file]);
 
-		$share = $this->provider->getSharedWith($user0, \OCP\Share::SHARE_TYPE_USER, $file, -1, 0);
+		$share = $this->provider->getSharedWith('user0', \OCP\Share::SHARE_TYPE_USER, $file, -1, 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
 		$this->assertEquals($id, $share->getId());
-		$this->assertSame($user0, $share->getSharedWith());
-		$this->assertSame($user1, $share->getShareOwner());
-		$this->assertSame($user1, $share->getSharedBy());
+		$this->assertSame('user0', $share->getSharedWith());
+		$this->assertSame('user1', $share->getShareOwner());
+		$this->assertSame('user1', $share->getSharedBy());
 		$this->assertSame($file, $share->getNode());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
 	}
@@ -1090,14 +1012,14 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(43)->willReturn([$node]);
 
-		$share = $this->provider->getSharedWith($user0, \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
+		$share = $this->provider->getSharedWith('user0', \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
 		$this->assertEquals($id, $share->getId());
-		$this->assertSame($group0, $share->getSharedWith());
-		$this->assertSame($user1, $share->getShareOwner());
-		$this->assertSame($user1, $share->getSharedBy());
+		$this->assertSame('group0', $share->getSharedWith());
+		$this->assertSame('user1', $share->getShareOwner());
+		$this->assertSame('user1', $share->getSharedBy());
 		$this->assertSame($node, $share->getNode());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_GROUP, $share->getShareType());
 	}
@@ -1133,31 +1055,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			]);
 		$this->assertEquals(1, $qb->execute());
 
-		$user = $this->getMock('\OCP\IUser');
-		$user->method('getUID')->willReturn('sharedWith');
-		$owner = $this->getMock('\OCP\IUser');
-		$owner->method('getUID')->willReturn('shareOwner');
-		$initiator = $this->getMock('\OCP\IUser');
-		$initiator->method('getUID')->willReturn('sharedBy');
-
-		$this->userManager->method('get')->willReturnMap([
-			['sharedWith', $user],
-			['shareOwner', $owner],
-			['sharedBy', $initiator],
-		]);
-
 		$file = $this->getMock('\OCP\Files\File');
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharesBy($initiator, \OCP\Share::SHARE_TYPE_USER, null, false, 1, 0);
+		$share = $this->provider->getSharesBy('sharedBy', \OCP\Share::SHARE_TYPE_USER, null, false, 1, 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals($user, $share->getSharedWith());
-		$this->assertEquals($owner, $share->getShareOwner());
-		$this->assertEquals($initiator, $share->getSharedBy());
+		$this->assertEquals('sharedWith', $share->getSharedWith());
+		$this->assertEquals('shareOwner', $share->getShareOwner());
+		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
 		$this->assertEquals(13, $share->getPermissions());
 		$this->assertEquals('myTarget', $share->getTarget());
@@ -1194,32 +1103,19 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			]);
 		$this->assertEquals(1, $qb->execute());
 
-		$user = $this->getMock('\OCP\IUser');
-		$user->method('getUID')->willReturn('sharedWith');
-		$owner = $this->getMock('\OCP\IUser');
-		$owner->method('getUID')->willReturn('shareOwner');
-		$initiator = $this->getMock('\OCP\IUser');
-		$initiator->method('getUID')->willReturn('sharedBy');
-
-		$this->userManager->method('get')->willReturnMap([
-			['sharedWith', $user],
-			['shareOwner', $owner],
-			['sharedBy', $initiator],
-		]);
-
 		$file = $this->getMock('\OCP\Files\File');
 		$file->method('getId')->willReturn(42);
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$share = $this->provider->getSharesBy($initiator, \OCP\Share::SHARE_TYPE_USER, $file, false, 1, 0);
+		$share = $this->provider->getSharesBy('sharedBy', \OCP\Share::SHARE_TYPE_USER, $file, false, 1, 0);
 		$this->assertCount(1, $share);
 
 		$share = $share[0];
 		$this->assertEquals($id, $share->getId());
-		$this->assertEquals($user, $share->getSharedWith());
-		$this->assertEquals($owner, $share->getShareOwner());
-		$this->assertEquals($initiator, $share->getSharedBy());
+		$this->assertEquals('sharedWith', $share->getSharedWith());
+		$this->assertEquals('shareOwner', $share->getShareOwner());
+		$this->assertEquals('sharedBy', $share->getSharedBy());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
 		$this->assertEquals(13, $share->getPermissions());
 		$this->assertEquals('myTarget', $share->getTarget());
@@ -1256,41 +1152,28 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals(1, $qb->execute());
 		$id2 = $qb->getLastInsertId();
 
-		$user = $this->getMock('\OCP\IUser');
-		$user->method('getUID')->willReturn('sharedWith');
-		$owner = $this->getMock('\OCP\IUser');
-		$owner->method('getUID')->willReturn('shareOwner');
-		$initiator = $this->getMock('\OCP\IUser');
-		$initiator->method('getUID')->willReturn('sharedBy');
-
-		$this->userManager->method('get')->willReturnMap([
-			['sharedWith', $user],
-			['shareOwner', $owner],
-			['sharedBy', $initiator],
-		]);
-
 		$file = $this->getMock('\OCP\Files\File');
 		$file->method('getId')->willReturn(42);
 		$this->rootFolder->method('getUserFolder')->with('shareOwner')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->with(42)->willReturn([$file]);
 
-		$shares = $this->provider->getSharesBy($owner, \OCP\Share::SHARE_TYPE_USER, null, true, -1, 0);
+		$shares = $this->provider->getSharesBy('shareOwner', \OCP\Share::SHARE_TYPE_USER, null, true, -1, 0);
 		$this->assertCount(2, $shares);
 
 		$share = $shares[0];
 		$this->assertEquals($id1, $share->getId());
-		$this->assertSame($user, $share->getSharedWith());
-		$this->assertSame($owner, $share->getShareOwner());
-		$this->assertSame($owner, $share->getSharedBy());
+		$this->assertSame('sharedWith', $share->getSharedWith());
+		$this->assertSame('shareOwner', $share->getShareOwner());
+		$this->assertSame('shareOwner', $share->getSharedBy());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
 		$this->assertEquals(13, $share->getPermissions());
 		$this->assertEquals('myTarget', $share->getTarget());
 
 		$share = $shares[1];
 		$this->assertEquals($id2, $share->getId());
-		$this->assertSame($user, $share->getSharedWith());
-		$this->assertSame($owner, $share->getShareOwner());
-		$this->assertSame($initiator, $share->getSharedBy());
+		$this->assertSame('sharedWith', $share->getSharedWith());
+		$this->assertSame('shareOwner', $share->getShareOwner());
+		$this->assertSame('sharedBy', $share->getSharedBy());
 		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
 		$this->assertEquals(0, $share->getPermissions());
 		$this->assertEquals('userTarget', $share->getTarget());
@@ -1334,7 +1217,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$this->provider->deleteFromSelf($share, $user2);
+		$this->provider->deleteFromSelf($share, 'user2');
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->select('*')
@@ -1405,7 +1288,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$this->provider->deleteFromSelf($share, $user2);
+		$this->provider->deleteFromSelf($share, 'user2');
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->select('*')
@@ -1465,7 +1348,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$this->provider->deleteFromSelf($share, $user2);
+		$this->provider->deleteFromSelf($share, 'user2');
 	}
 
 	public function testDeleteFromSelfUser() {
@@ -1501,7 +1384,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$this->provider->deleteFromSelf($share, $user2);
+		$this->provider->deleteFromSelf($share, 'user2');
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$stmt = $qb->select('*')
@@ -1627,18 +1510,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$share->setSharedWith($users['user3']);
-		$share->setSharedBy($users['user4']);
-		$share->setShareOwner($users['user5']);
+		$share->setSharedWith('user3');
+		$share->setSharedBy('user4');
+		$share->setShareOwner('user5');
 		$share->setNode($file2);
 		$share->setPermissions(1);
 
 		$share2 = $this->provider->update($share);
 
 		$this->assertEquals($id, $share2->getId());
-		$this->assertSame($users['user3'], $share2->getSharedWith());
-		$this->assertSame($users['user4'], $share2->getSharedBy());
-		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame('user3', $share2->getSharedWith());
+		$this->assertSame('user4', $share2->getSharedBy());
+		$this->assertSame('user5', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 	}
 
@@ -1677,8 +1560,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->getShareById($id);
 
 		$share->setPassword('password');
-		$share->setSharedBy($users['user4']);
-		$share->setShareOwner($users['user5']);
+		$share->setSharedBy('user4');
+		$share->setShareOwner('user5');
 		$share->setNode($file2);
 		$share->setPermissions(1);
 
@@ -1686,8 +1569,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id, $share2->getId());
 		$this->assertEquals('password', $share->getPassword());
-		$this->assertSame($users['user4'], $share2->getSharedBy());
-		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame('user4', $share2->getSharedBy());
+		$this->assertSame('user5', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 	}
 
@@ -1726,8 +1609,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$share = $this->provider->getShareById($id);
 
 		$share->setPassword(null);
-		$share->setSharedBy($users['user4']);
-		$share->setShareOwner($users['user5']);
+		$share->setSharedBy('user4');
+		$share->setShareOwner('user5');
 		$share->setNode($file2);
 		$share->setPermissions(1);
 
@@ -1735,8 +1618,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id, $share2->getId());
 		$this->assertEquals(null, $share->getPassword());
-		$this->assertSame($users['user4'], $share2->getSharedBy());
-		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame('user4', $share2->getSharedBy());
+		$this->assertSame('user5', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 	}
 
@@ -1787,9 +1670,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$share->setSharedWith($groups['group0']);
-		$share->setSharedBy($users['user4']);
-		$share->setShareOwner($users['user5']);
+		$share->setSharedWith('group0');
+		$share->setSharedBy('user4');
+		$share->setShareOwner('user5');
 		$share->setNode($file2);
 		$share->setPermissions(1);
 
@@ -1797,9 +1680,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id, $share2->getId());
 		// Group shares do not allow updating the recipient
-		$this->assertSame($groups['group0'], $share2->getSharedWith());
-		$this->assertSame($users['user4'], $share2->getSharedBy());
-		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame('group0', $share2->getSharedWith());
+		$this->assertSame('user4', $share2->getSharedBy());
+		$this->assertSame('user5', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 	}
 
@@ -1856,9 +1739,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$share = $this->provider->getShareById($id);
 
-		$share->setSharedWith($groups['group0']);
-		$share->setSharedBy($users['user4']);
-		$share->setShareOwner($users['user5']);
+		$share->setSharedWith('group0');
+		$share->setSharedBy('user4');
+		$share->setShareOwner('user5');
 		$share->setNode($file2);
 		$share->setPermissions(1);
 
@@ -1866,9 +1749,9 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertEquals($id, $share2->getId());
 		// Group shares do not allow updating the recipient
-		$this->assertSame($groups['group0'], $share2->getSharedWith());
-		$this->assertSame($users['user4'], $share2->getSharedBy());
-		$this->assertSame($users['user5'], $share2->getShareOwner());
+		$this->assertSame('group0', $share2->getSharedWith());
+		$this->assertSame('user4', $share2->getSharedBy());
+		$this->assertSame('user5', $share2->getShareOwner());
 		$this->assertSame(1, $share2->getPermissions());
 
 		$qb = $this->dbConn->getQueryBuilder();
@@ -1949,18 +1832,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->rootFolder->method('getUserFolder')->with('user1')->will($this->returnSelf());
 		$this->rootFolder->method('getById')->willReturn([$folder]);
 
-		$share = $this->provider->getShareById($id, $user0);
+		$share = $this->provider->getShareById($id, 'user0');
 
 		$share->setTarget('/newTarget');
-		$this->provider->move($share, $user0);
+		$this->provider->move($share, 'user0');
 
-		$share = $this->provider->getShareById($id, $user0);
+		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/newTarget', $share->getTarget());
 
 		$share->setTarget('/ultraNewTarget');
-		$this->provider->move($share, $user0);
+		$this->provider->move($share, 'user0');
 
-		$share = $this->provider->getShareById($id, $user0);
+		$share = $this->provider->getShareById($id, 'user0');
 		$this->assertSame('/ultraNewTarget', $share->getTarget());
 	}
 }

@@ -129,7 +129,7 @@ interface IShareProvider {
 	/**
 	 * Get shared with the given user
 	 *
-	 * @param stromg $userId get shares where this user is the recipient
+	 * @param string $userId get shares where this user is the recipient
 	 * @param int $shareType
 	 * @param Node|null $node
 	 * @param int $limit The max number of entries returned, -1 for all
