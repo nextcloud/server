@@ -95,15 +95,16 @@ class CacheJail extends CacheWrapper {
 	}
 
 	/**
-	 * store meta data for a file or folder
+	 * insert meta data for a new file or folder
 	 *
 	 * @param string $file
 	 * @param array $data
 	 *
 	 * @return int file id
+	 * @throws \RuntimeException
 	 */
-	public function put($file, array $data) {
-		return $this->cache->put($this->getSourcePath($file), $data);
+	public function insert($file, array $data) {
+		return $this->cache->insert($this->getSourcePath($file), $data);
 	}
 
 	/**

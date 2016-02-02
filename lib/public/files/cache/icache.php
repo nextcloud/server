@@ -76,6 +76,7 @@ interface ICache {
 
 	/**
 	 * store meta data for a file or folder
+	 * This will automatically call either insert or update depending on if the file exists
 	 *
 	 * @param string $file
 	 * @param array $data
@@ -85,6 +86,18 @@ interface ICache {
 	 * @since 9.0.0
 	 */
 	public function put($file, array $data);
+
+	/**
+	 * insert meta data for a new file or folder
+	 *
+	 * @param string $file
+	 * @param array $data
+	 *
+	 * @return int file id
+	 * @throws \RuntimeException
+	 * @since 9.0.0
+	 */
+	public function insert($file, array $data);
 
 	/**
 	 * update the metadata of an existing file or folder in the cache
