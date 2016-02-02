@@ -72,9 +72,21 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	function getOwner() {
-		if (isset($this->calendarInfo['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal'])) {
-			return $this->calendarInfo['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal'];
+		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
+			return $this->calendarInfo['{http://owncloud.org/ns}owner-principal'];
 		}
 		return parent::getOwner();
+	}
+
+	function delete() {
+		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
+			/** @var CalDavBackend $calDavBackend */
+			$calDavBackend = $this->caldavBackend;
+			$calDavBackend->updateShares($this, [], [
+				'href' => "principal:" . parent::getOwner()
+			]);
+			return;
+		}
+		parent::delete();
 	}
 }
