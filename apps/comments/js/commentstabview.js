@@ -57,7 +57,7 @@
 
 		initialize: function() {
 			OCA.Files.DetailTabView.prototype.initialize.apply(this, arguments);
-			this.collection = new OCA.Comments.CommentsCollection();
+			this.collection = new OCA.Comments.CommentCollection();
 			this.collection.on('request', this._onRequest, this);
 			this.collection.on('sync', this._onEndRequest, this);
 			this.collection.on('add', this._onAddModel, this);

@@ -13,14 +13,14 @@
 	var NS_OWNCLOUD = 'http://owncloud.org/ns';
 
 	/**
-	 * @class OCA.Comments.CommentsCollection
+	 * @class OCA.Comments.CommentCollection
 	 * @classdesc
 	 *
 	 * Collection of comments assigned to a file
 	 *
 	 */
-	var CommentsCollection = OC.Backbone.Collection.extend(
-		/** @lends OCA.Comments.CommentsCollection.prototype */ {
+	var CommentCollection = OC.Backbone.Collection.extend(
+		/** @lends OCA.Comments.CommentCollection.prototype */ {
 
 		sync: OC.Backbone.davSync,
 
@@ -82,7 +82,7 @@
 			options = _.extend({
 				remove: false,
 				data: body,
-				davProperties: CommentsCollection.prototype.model.prototype.davProperties,
+				davProperties: CommentCollection.prototype.model.prototype.davProperties,
 				success: function(resp) {
 					if (resp.length <= self._limit) {
 						// no new entries, end reached
@@ -105,6 +105,6 @@
 		}
 	});
 
-	OCA.Comments.CommentsCollection = CommentsCollection;
+	OCA.Comments.CommentCollection = CommentCollection;
 })(OC, OCA);
 
