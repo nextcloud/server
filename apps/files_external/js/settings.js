@@ -23,6 +23,10 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'		<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>' +
 	'	</div>' +
 	'	<div class="optionRow">' +
+	'		<input id="mountOptionsSharing" name="enable_sharing" type="checkbox" value="true" checked="checked"/>' +
+	'		<label for="mountOptionsSharing">{{t "files_external" "Enable sharing"}}</label>' +
+	'	</div>' +
+	'	<div class="optionRow">' +
 	'		<label for="mountOptionsFilesystemCheck">{{t "files_external" "Check for changes"}}</label>' +
 	'		<select id="mountOptionsFilesystemCheck" name="filesystem_check_changes" data-type="int">' +
 	'			<option value="0">{{t "files_external" "Never"}}</option>' +
@@ -35,6 +39,7 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	   templates therefore they are duplicated here
 	t("files_external", "Enable encryption")
 	t("files_external", "Enable previews")
+	t("files_external", "Enable sharing")
 	t("files_external", "Check for changes")
 	t("files_external", "Never")
 	t("files_external", "Once every direct access")
@@ -870,6 +875,7 @@ MountConfigListView.prototype = _.extend({
 			$tr.find('input.mountOptions').val(JSON.stringify({
 				'encrypt': true,
 				'previews': true,
+				'enable_sharing': true,
 				'filesystem_check_changes': 1
 			}));
 		}
@@ -1245,7 +1251,7 @@ MountConfigListView.prototype = _.extend({
 		var storage = this.getStorageConfig($tr);
 		var $toggle = $tr.find('.mountOptionsToggle');
 		var dropDown = new MountOptionsDropdown();
-		var enabledOptions = ['previews', 'filesystem_check_changes'];
+		var enabledOptions = ['previews', 'filesystem_check_changes', 'enable_sharing'];
 		if (this._encryptionEnabled) {
 			enabledOptions.push('encrypt');
 		}
