@@ -413,6 +413,24 @@ class KeyManager {
 	}
 
 	/**
+	 * Get the current version of a file
+	 *
+	 * @param string $path
+	 * @return mixed
+	 */
+	public function getVersion($path) {
+		return $this->keyStorage->getFileKey($path, 'version', Encryption::ID);
+	}
+
+	/**
+	 * @param string $path
+	 * @param string $version
+	 */
+	public function setVersion($path, $version) {
+		$this->keyStorage->setFileKey($path, 'version', $version, Encryption::ID);
+	}
+
+	/**
 	 * get the encrypted file key
 	 *
 	 * @param string $path
@@ -546,6 +564,7 @@ class KeyManager {
 
 	/**
 	 * @param string $path
+	 * @return bool
 	 */
 	public function deleteAllFileKeys($path) {
 		return $this->keyStorage->deleteAllFileKeys($path);

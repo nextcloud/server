@@ -169,10 +169,11 @@ class Crypt {
 	/**
 	 * @param string $plainContent
 	 * @param string $passPhrase
+	 * @param int $version
 	 * @return false|string
 	 * @throws EncryptionFailedException
 	 */
-	public function symmetricEncryptFileContent($plainContent, $passPhrase) {
+	public function symmetricEncryptFileContent($plainContent, $passPhrase, $version) {
 
 		if (!$plainContent) {
 			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
@@ -187,7 +188,8 @@ class Crypt {
 			$passPhrase,
 			$this->getCipher());
 
-		$sig = $this->createSignature($encryptedContent, $passPhrase);
+		// Create a signature based on the key as well as the current version
+		$sig = $this->createSignature($encryptedContent, $passPhrase.$version);
 
 		// combine content to encrypt the IV identifier and actual IV
 		$catFile = $this->concatIV($encryptedContent, $iv);
@@ -365,7 +367,8 @@ class Crypt {
 		$hash = $this->generatePasswordHash($password, $cipher, $uid);
 		$encryptedKey = $this->symmetricEncryptFileContent(
 			$privateKey,
-			$hash
+			$hash,
+			0
 		);
 
 		return $encryptedKey;
@@ -404,9 +407,12 @@ class Crypt {
 					self::HEADER_END) + strlen(self::HEADER_END));
 		}
 
-		$plainKey = $this->symmetricDecryptFileContent($privateKey,
+		$plainKey = $this->symmetricDecryptFileContent(
+			$privateKey,
 			$password,
-			$cipher);
+			$cipher,
+			0
+		);
 
 		if ($this->isValidPrivateKey($plainKey) === false) {
 			return false;
@@ -437,15 +443,15 @@ class Crypt {
 	 * @param string $keyFileContents
 	 * @param string $passPhrase
 	 * @param string $cipher
+	 * @param int $version
 	 * @return string
 	 * @throws DecryptionFailedException
 	 */
-	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER) {
-
+	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER, $version = 0) {
 		$catFile = $this->splitMetaData($keyFileContents, $cipher);
 
 		if ($catFile['signature'] !== false) {
-			$this->checkSignature($catFile['encrypted'], $passPhrase, $catFile['signature']);
+			$this->checkSignature($catFile['encrypted'], $passPhrase.$version, $catFile['signature']);
 		}
 
 		return $this->decrypt($catFile['encrypted'],

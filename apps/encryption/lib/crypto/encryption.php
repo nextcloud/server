@@ -100,6 +100,9 @@ class Encryption implements IEncryptionModule {
 	/** @var int unencrypted block size */
 	private $unencryptedBlockSize = 6126;
 
+	/** @var int Current version of the file */
+	private $version = 0;
+
 
 	/**
 	 *
@@ -163,7 +166,6 @@ class Encryption implements IEncryptionModule {
 	 *                       or if no additional data is needed return a empty array
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
-
 		$this->path = $this->getPathToRealFile($path);
 		$this->accessList = $accessList;
 		$this->user = $user;
@@ -179,6 +181,8 @@ class Encryption implements IEncryptionModule {
 		} else {
 			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
 		}
+
+		$this->version = (int)$this->keyManager->getVersion($this->path);
 
 		if (
 			$mode === 'w'
@@ -220,8 +224,13 @@ class Encryption implements IEncryptionModule {
 	public function end($path) {
 		$result = '';
 		if ($this->isWriteOperation) {
+			// Partial files do not increase the version
+			if(\OC\Files\Cache\Scanner::isPartialFile($path)) {
+				$this->version = $this->version-1;
+			}
+			$this->keyManager->setVersion($this->path, $this->version+1);
 			if (!empty($this->writeCache)) {
-				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey);
+				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $this->version+1);
 				$this->writeCache = '';
 			}
 			$publicKeys = array();
@@ -258,7 +267,6 @@ class Encryption implements IEncryptionModule {
 	 * @return string encrypted data
 	 */
 	public function encrypt($data) {
-
 		// If extra data is left over from the last round, make sure it
 		// is integrated into the next block
 		if ($this->writeCache) {
@@ -302,7 +310,11 @@ class Encryption implements IEncryptionModule {
 				// Read the chunk from the start of $data
 				$chunk = substr($data, 0, $this->unencryptedBlockSizeSigned);
 
-				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey);
+				// Partial files do not increase the version
+				if(\OC\Files\Cache\Scanner::isPartialFile($this->path)) {
+					$this->version = $this->version - 1;
+				}
+				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version+1);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
@@ -334,7 +346,7 @@ class Encryption implements IEncryptionModule {
 
 		$result = '';
 		if (!empty($data)) {
-			$result = $this->crypt->symmetricDecryptFileContent($data, $this->fileKey, $this->cipher);
+			$result = $this->crypt->symmetricDecryptFileContent($data, $this->fileKey, $this->cipher, $this->version);
 		}
 		return $result;
 	}
@@ -349,6 +361,7 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function update($path, $uid, array $accessList) {
 		$fileKey = $this->keyManager->getFileKey($path, $uid);
+		$version = $this->keyManager->getVersion($path);
 
 		if (!empty($fileKey)) {
 
@@ -368,6 +381,8 @@ class Encryption implements IEncryptionModule {
 			$this->keyManager->deleteAllFileKeys($path);
 
 			$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
+
+			$this->keyManager->setVersion($path, $version);
 
 		} else {
 			$this->logger->debug('no file key found, we assume that the file "{file}" is not encrypted',
