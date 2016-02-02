@@ -129,7 +129,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Share20\Exception\ShareNotFound
+	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
 	 */
 	public function testDeleteNoShareId() {
 		$share = $this->getMock('\OCP\Share\IShare');

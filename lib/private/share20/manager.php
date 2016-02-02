@@ -36,7 +36,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\IUser;
 
-use OC\Share20\Exception\ShareNotFound;
+use OCP\Share\Exceptions\ShareNotFound;
 use OC\HintException;
 
 /**

@@ -52,6 +52,7 @@ use OCP\Util;
 use OCA\Files_Sharing\Activity;
 use \OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
+use OCP\Share\Exceptions\ShareNotFound;
 
 /**
  * Class ShareController
@@ -147,7 +148,7 @@ class ShareController extends Controller {
 		// Check whether share exists
 		try {
 			$share = $this->shareManager->getShareByToken($token);
-		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+		} catch (ShareNotFound $e) {
 			return new NotFoundResponse();
 		}
 
@@ -203,7 +204,7 @@ class ShareController extends Controller {
 		// Check whether share exists
 		try {
 			$share = $this->shareManager->getShareByToken($token);
-		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+		} catch (ShareNotFound $e) {
 			return new NotFoundResponse();
 		}
 

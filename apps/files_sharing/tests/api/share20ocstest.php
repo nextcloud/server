@@ -96,7 +96,7 @@ class Share20OCSTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getShareById')
 			->with('ocinternal:42')
-			->will($this->throwException(new \OC\Share20\Exception\ShareNotFound()));
+			->will($this->throwException(new \OCP\Share\Exceptions\ShareNotFound()));
 
 		$expected = new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		$this->assertEquals($expected, $this->ocs->deleteShare(42));

@@ -148,7 +148,7 @@ class Share20OCS {
 		// First check if it is an internal share.
 		try {
 			$share = $this->shareManager->getShareById('ocinternal:'.$id);
-		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+		} catch (\OCP\Share\Exceptions\ShareNotFound $e) {
 			// Ignore for now
 			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
@@ -178,7 +178,7 @@ class Share20OCS {
 
 		try {
 			$share = $this->shareManager->getShareById('ocinternal:' . $id);
-		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+		} catch (\OCP\Share\Exceptions\ShareNotFound $e) {
 			//Ignore for now
 			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
@@ -443,7 +443,7 @@ class Share20OCS {
 
 		try {
 			$share = $this->shareManager->getShareById('ocinternal:' . $id);
-		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+		} catch (\OCP\Share\Exceptions\ShareNotFound $e) {
 			//Ignore for now
 			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
