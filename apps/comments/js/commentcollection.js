@@ -71,11 +71,11 @@
 			}
 
 			var body = '<?xml version="1.0" encoding="utf-8" ?>\n' +
-				'<D:report xmlns:D="DAV:" xmlns:oc="http://owncloud.org/ns">\n' +
+				'<oc:filter-comments xmlns:D="DAV:" xmlns:oc="http://owncloud.org/ns">\n' +
 				// load one more so we know there is more
 				'    <oc:limit>' + (this._limit + 1) + '</oc:limit>\n' +
 				'    <oc:offset>' + this.length + '</oc:offset>\n' +
-				'</D:report>\n';
+				'</oc:filter-comments>\n';
 
 			options = options || {};
 			var success = options.success;
