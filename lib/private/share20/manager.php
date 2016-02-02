@@ -37,7 +37,7 @@ use OCP\Files\Folder;
 use OCP\IUser;
 
 use OCP\Share\Exceptions\ShareNotFound;
-use OC\HintException;
+use OCP\Share\Exceptions\GenericShareException;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -144,7 +144,8 @@ class Manager implements IManager {
 	 * Check for generic requirements before creating a share
 	 *
 	 * @param \OCP\Share\IShare $share
-	 * @throws \Exception
+	 * @throws \InvalidArgumentException
+	 * @throws GenericShareException
 	 */
 	protected function generalCreateChecks(\OCP\Share\IShare $share) {
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
@@ -190,7 +191,7 @@ class Manager implements IManager {
 		// Check if we actually have share permissions
 		if (!$share->getNode()->isShareable()) {
 			$message_t = $this->l->t('You are not allowed to share %s', [$share->getNode()->getPath()]);
-			throw new HintException($message_t, $message_t, 404);
+			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
 		// Permissions should be set
@@ -201,7 +202,7 @@ class Manager implements IManager {
 		// Check that we do not share with more permissions than we have
 		if ($share->getPermissions() & ~$share->getNode()->getPermissions()) {
 			$message_t = $this->l->t('Cannot increase permissions of %s', [$share->getNode()->getPath()]);
-			throw new HintException($message_t, $message_t, 404);
+			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
 		// Check that read permissions are always set
@@ -213,9 +214,11 @@ class Manager implements IManager {
 	/**
 	 * Validate if the expiration date fits the system settings
 	 *
-	 * @param \DateTime $expirationDate The current expiration date (can be null)
+	 * @param \OCP\Share\IShare $share The share to validate the expiration date of
 	 * @return \DateTime|null The expiration date or null if $expireDate was null and it is not required
-	 * @throws \OC\HintException
+	 * @throws GenericShareException
+	 * @throws \InvalidArgumentException
+	 * @throws \Exception
 	 */
 	protected function validateExpirationDate(\OCP\Share\IShare $share) {
 
@@ -229,7 +232,7 @@ class Manager implements IManager {
 			$date->setTime(0, 0, 0);
 			if ($date >= $expirationDate) {
 				$message = $this->l->t('Expiration date is in the past');
-				throw new \OC\HintException($message, $message, 404);
+				throw new GenericShareException($message, $message, 404);
 			}
 		}
 
@@ -244,7 +247,7 @@ class Manager implements IManager {
 			$date->add(new \DateInterval('P' . $this->shareApiLinkDefaultExpireDays() . 'D'));
 			if ($date < $expirationDate) {
 				$message = $this->l->t('Cannot set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
-				throw new \OC\HintException($message, $message, 404);
+				throw new GenericShareException($message, $message, 404);
 			}
 		}
 
@@ -637,8 +640,6 @@ class Manager implements IManager {
 	 * Delete a share
 	 *
 	 * @param \OCP\Share\IShare $share
-	 * @throws ShareNotFound
-	 * @throws BackendError
 	 * @throws ShareNotFound
 	 */
 	public function deleteShare(\OCP\Share\IShare $share) {

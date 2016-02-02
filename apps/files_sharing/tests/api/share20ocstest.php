@@ -102,25 +102,6 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->assertEquals($expected, $this->ocs->deleteShare(42));
 	}
 
-	public function testDeleteShareCouldNotDelete() {
-		$share = $this->getMock('OCP\Share\IShare');
-		$share->method('getShareOwner')->willReturn($this->currentUser);
-		$this->shareManager
-			->expects($this->once())
-			->method('getShareById')
-			->with('ocinternal:42')
-			->willReturn($share);
-		$this->shareManager
-			->expects($this->once())
-			->method('deleteShare')
-			->with($share)
-			->will($this->throwException(new \OC\Share20\Exception\BackendError()));
-
-
-		$expected = new \OC_OCS_Result(null, 404, 'could not delete share');
-		$this->assertEquals($expected, $this->ocs->deleteShare(42));
-	}
-
 	public function testDeleteShare() {
 		$share = $this->getMock('OCP\Share\IShare');
 		$share->method('getSharedBy')->willReturn($this->currentUser);

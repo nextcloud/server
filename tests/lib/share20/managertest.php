@@ -586,7 +586,7 @@ class ManagerTest extends \Test\TestCase {
 		try {
 			$this->invokePrivate($this->manager, 'generalCreateChecks', [$share]);
 			$thrown = false;
-		} catch (\OC\HintException $e) {
+		} catch (\OCP\Share\Exceptions\GenericShareException $e) {
 			$this->assertEquals($exceptionMessage, $e->getHint());
 			$thrown = true;
 		} catch(\InvalidArgumentException $e) {
@@ -598,7 +598,7 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\HintException
+	 * @expectedException \OCP\Share\Exceptions\GenericShareException
 	 * @expectedExceptionMessage Expiration date is in the past
 	 */
 	public function testvalidateExpirationDateInPast() {
@@ -644,7 +644,7 @@ class ManagerTest extends \Test\TestCase {
 
 		try {
 			$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
-		} catch (\OC\HintException $e) {
+		} catch (\OCP\Share\Exceptions\GenericShareException $e) {
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getMessage());
 			$this->assertEquals('Cannot set expiration date more than 3 days in the future', $e->getHint());
 			$this->assertEquals(404, $e->getCode());
