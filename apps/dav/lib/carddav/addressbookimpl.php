@@ -214,6 +214,10 @@ class AddressBookImpl implements IAddressBook {
 		foreach ($vCard->children as $property) {
 			$result[$property->name] = $property->getValue();
 		}
+		if ($this->addressBookInfo['principaluri'] === 'principals/system/system' &&
+			$this->addressBookInfo['uri'] === 'system') {
+			$result['isLocalSystemBook'] = true;
+		}
 		return $result;
 	}
 }
