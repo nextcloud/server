@@ -36,33 +36,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 class CreateAddressBook extends Command {
 
 	/** @var IUserManager */
-	protected $userManager;
+	private $userManager;
 
-	/** @var \OCP\IDBConnection */
-	protected $dbConnection;
-
-	/** @var ILogger  */
-	private $logger;
-
-	/** @var IGroupManager $groupManager */
-	private $groupManager;
+	/** @var CardDavBackend */
+	private $cardDavBackend;
 
 	/**
 	 * @param IUserManager $userManager
-	 * @param IDBConnection $dbConnection
-	 * @param IConfig $config
-	 * @param ILogger $logger
+	 * @param CardDavBackend $cardDavBackend
 	 */
 	function __construct(IUserManager $userManager,
-						 IGroupManager $groupManager,
-						 IDBConnection $dbConnection,
-						 ILogger $logger
+						 CardDavBackend $cardDavBackend
 	) {
 		parent::__construct();
 		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->dbConnection = $dbConnection;
-		$this->logger = $logger;
+		$this->cardDavBackend = $cardDavBackend;
 	}
 
 	protected function configure() {
@@ -82,13 +70,8 @@ class CreateAddressBook extends Command {
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> in unknown.");
 		}
-		$principalBackend = new Principal(
-				$this->userManager,
-				$this->groupManager
-		);
 
 		$name = $input->getArgument('name');
-		$carddav = new CardDavBackend($this->dbConnection, $principalBackend, $this->logger);
-		$carddav->createAddressBook("principals/users/$user", $name, []);
+		$this->cardDavBackend->createAddressBook("principals/users/$user", $name, []);
 	}
 }

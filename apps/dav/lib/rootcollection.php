@@ -36,6 +36,7 @@ class RootCollection extends SimpleCollection {
 	public function __construct() {
 		$config = \OC::$server->getConfig();
 		$db = \OC::$server->getDatabaseConnection();
+		$dispatcher = \OC::$server->getEventDispatcher();
 		$userPrincipalBackend = new Principal(
 			\OC::$server->getUserManager(),
 			\OC::$server->getGroupManager()
@@ -79,11 +80,11 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getLogger()
 		);
 
-		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend);
+		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $dispatcher);
 		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
 
-		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend);
+		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $dispatcher);
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 

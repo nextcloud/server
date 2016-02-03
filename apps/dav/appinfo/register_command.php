@@ -26,18 +26,16 @@ use OCA\Dav\Command\MigrateAddressbooks;
 use OCA\Dav\Command\MigrateCalendars;
 use OCA\DAV\Command\SyncSystemAddressBook;
 
-$config = \OC::$server->getConfig();
 $dbConnection = \OC::$server->getDatabaseConnection();
 $userManager = OC::$server->getUserManager();
 $groupManager = OC::$server->getGroupManager();
 $config = \OC::$server->getConfig();
-$logger = \OC::$server->getLogger();
 
 $app = new Application();
 
 /** @var Symfony\Component\Console\Application $application */
-$application->add(new CreateAddressBook($userManager, $groupManager, $dbConnection, $logger));
 $application->add(new CreateCalendar($userManager, $groupManager, $dbConnection));
+$application->add(new CreateAddressBook($userManager, $app->getContainer()->query('CardDavBackend')));
 $application->add(new SyncSystemAddressBook($app->getSyncService()));
 
 // the occ tool is *for now* only available in debug mode for developers to test

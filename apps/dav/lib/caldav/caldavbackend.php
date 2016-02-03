@@ -235,6 +235,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		return array_values($calendars);
 	}
 
+	/**
+	 * @param string $principal
+	 * @param string $uri
+	 * @return array|null
+	 */
 	public function getCalendarByUri($principal, $uri) {
 		$fields = array_values($this->propertyMap);
 		$fields[] = 'id';
@@ -1367,4 +1372,5 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function applyShareAcl($resourceId, $acl) {
 		return $this->sharingBackend->applyShareAcl($resourceId, $acl);
 	}
+
 }
