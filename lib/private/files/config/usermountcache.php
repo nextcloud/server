@@ -74,7 +74,7 @@ class UserMountCache implements IUserMountCache {
 	public function registerMounts(IUser $user, array $mounts) {
 		// filter out non-proper storages coming from unit tests
 		$mounts = array_filter($mounts, function (IMountPoint $mount) {
-			return $mount->getStorage()->getCache();
+			return $mount->getStorage() && $mount->getStorage()->getCache();
 		});
 		/** @var ICachedMountInfo[] $newMounts */
 		$newMounts = array_map(function (IMountPoint $mount) use ($user) {
