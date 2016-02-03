@@ -10,8 +10,6 @@
 
 (function(OC, OCA) {
 
-	var NS_OWNCLOUD = 'http://owncloud.org/ns';
-
 	/**
 	 * @class OCA.Comments.CommentCollection
 	 * @classdesc
@@ -26,12 +24,40 @@
 
 		model: OCA.Comments.CommentModel,
 
+		/**
+		 * Object type
+		 *
+		 * @type string
+		 */
 		_objectType: 'files',
+
+		/**
+		 * Object id
+		 *
+		 * @type string
+		 */
 		_objectId: null,
 
+		/**
+		 * True if there are no more page results left to fetch
+		 *
+		 * @type bool
+		 */
 		_endReached: false,
+
+		/**
+		 * Number of comments to fetch per page
+		 *
+		 * @type int
+		 */
 		_limit : 20,
 
+		/**
+		 * Initializes the collection
+		 *
+		 * @param {string} [options.objectType] object type
+		 * @param {string} [options.objectId] object id
+		 */
 		initialize: function(models, options) {
 			options = options || {};
 			if (options.objectType) {
@@ -58,6 +84,7 @@
 
 		reset: function() {
 			this._endReached = false;
+			this._summaryModel = null;
 			return OC.Backbone.Collection.prototype.reset.apply(this, arguments);
 		},
 
@@ -81,6 +108,7 @@
 			var success = options.success;
 			options = _.extend({
 				remove: false,
+				parse: true,
 				data: body,
 				davProperties: CommentCollection.prototype.model.prototype.davProperties,
 				success: function(resp) {
@@ -102,6 +130,35 @@
 			}, options);
 
 			return this.sync('REPORT', this, options);
+		},
+
+		/**
+		 * Returns the matching summary model
+		 *
+		 * @return {OCA.Comments.CommentSummaryModel} summary model
+		 */
+		getSummaryModel: function() {
+			if (!this._summaryModel) {
+				this._summaryModel = new OCA.Comments.CommentSummaryModel({
+					id: this._objectId,
+					objectType: this._objectType
+				});
+			}
+			return this._summaryModel;
+		},
+
+		/**
+		 * Updates the read marker for this comment thread
+		 *
+		 * @param {Date} [date] optional date, defaults to now
+		 * @param {Object} [options] backbone options
+		 */
+		updateReadMarker: function(date, options) {
+			options = options || {};
+
+			return this.getSummaryModel().save({
+				readMarker: (date || new Date()).toUTCString()
+			}, options);
 		}
 	});
 

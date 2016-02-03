@@ -89,8 +89,9 @@ module.exports = function(config) {
 					'apps/comments/js/app.js',
 					'apps/comments/js/commentmodel.js',
 					'apps/comments/js/commentcollection.js',
+					'apps/comments/js/commentsummarymodel.js',
 					'apps/comments/js/commentstabview.js',
-					'apps/comments/js/filesplugin'
+					'apps/comments/js/filesplugin.js'
 				],
 				testFiles: ['apps/comments/tests/js/**/*.js']
 			},

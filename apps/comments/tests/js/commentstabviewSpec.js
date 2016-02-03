@@ -48,7 +48,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			objectType: 'files',
 			objectId: 5,
 			message: 'First',
-			creationDateTime: Date.UTC(2016, 1, 3, 10, 5, 0)
+			creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 0)).toUTCString()
 		});
 		var comment2 = new OCA.Comments.CommentModel({
 			id: 2,
@@ -58,7 +58,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			objectType: 'files',
 			objectId: 5,
 			message: 'Second\nNewline',
-			creationDateTime: Date.UTC(2016, 1, 3, 10, 0, 0)
+			creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 0, 0)).toUTCString()
 		});
 
 		testComments = [comment1, comment2];
@@ -142,7 +142,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				objectType: 'files',
 				objectId: 5,
 				message: 'Third',
-				creationDateTime: Date.UTC(2016, 1, 3, 5, 0, 0)
+				creationDateTime: new Date(Date.UTC(2016, 1, 3, 5, 0, 0)).toUTCString()
 			});
 
 			view.collection.add(comment3);
@@ -184,7 +184,7 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 				actorType: 'users',
 				verb: 'comment',
 				message: 'New message',
-				creationDateTime: Date.UTC(2016, 1, 3, 10, 5, 9)
+				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
 			});
 		});
 		it('does not create a comment if the field is empty', function() {
@@ -194,5 +194,39 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect(createStub.notCalled).toEqual(true);
 		});
 
+	});
+	describe('read marker', function() {
+		var updateMarkerStub;
+
+		beforeEach(function() {
+			updateMarkerStub = sinon.stub(OCA.Comments.CommentCollection.prototype, 'updateReadMarker');
+		});
+		afterEach(function() { 
+			updateMarkerStub.restore();
+		});
+
+		it('resets the read marker after REPORT', function() {
+			testComments[0].set('isUnread', true, {silent: true});
+			testComments[1].set('isUnread', true, {silent: true});
+			view.collection.set(testComments);
+			view.collection.trigger('sync', 'REPORT');
+
+			expect(updateMarkerStub.calledOnce).toEqual(true);
+			expect(updateMarkerStub.lastCall.args[0]).toBeFalsy();
+		});
+		it('does not reset the read marker if there was no unread comments', function() {
+			view.collection.set(testComments);
+			view.collection.trigger('sync', 'REPORT');
+
+			expect(updateMarkerStub.notCalled).toEqual(true);
+		});
+		it('does not reset the read marker when posting comments', function() {
+			testComments[0].set('isUnread', true, {silent: true});
+			testComments[1].set('isUnread', true, {silent: true});
+			view.collection.set(testComments);
+			view.collection.trigger('sync', 'POST');
+
+			expect(updateMarkerStub.notCalled).toEqual(true);
+		});
 	});
 });

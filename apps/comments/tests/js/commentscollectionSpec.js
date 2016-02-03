@@ -100,5 +100,49 @@ describe('OCA.Comments.CommentCollection', function() {
 
 		expect(collection.hasMoreResults()).toEqual(true);
 	});
+	describe('resetting read marker', function() {
+		var updateStub;
+		var clock;
+
+		beforeEach(function() {
+			updateStub = sinon.stub(OCA.Comments.CommentSummaryModel.prototype, 'save');
+			clock = sinon.useFakeTimers(Date.UTC(2016, 1, 3, 10, 5, 9));
+		});
+		afterEach(function() { 
+			updateStub.restore();
+			clock.restore();
+		});
+		
+		it('resets read marker to the default date', function() {
+			var successStub = sinon.stub();
+			collection.updateReadMarker(null, {
+				success: successStub
+			});
+
+			expect(updateStub.calledOnce).toEqual(true);
+			expect(updateStub.lastCall.args[0]).toEqual({
+				readMarker: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
+			});
+
+			updateStub.yieldTo('success');
+
+			expect(successStub.calledOnce).toEqual(true);
+		});
+		it('resets read marker to the given date', function() {
+			var successStub = sinon.stub();
+			collection.updateReadMarker(new Date(Date.UTC(2016, 1, 2, 3, 4, 5)), {
+				success: successStub
+			});
+
+			expect(updateStub.calledOnce).toEqual(true);
+			expect(updateStub.lastCall.args[0]).toEqual({
+				readMarker: new Date(Date.UTC(2016, 1, 2, 3, 4, 5)).toUTCString()
+			});
+
+			updateStub.yieldTo('success');
+
+			expect(successStub.calledOnce).toEqual(true);
+		});
+	});
 });
 
