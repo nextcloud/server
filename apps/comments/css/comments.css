@@ -49,3 +49,7 @@
 	position: absolute;
 	right: 0;
 }
+
+.app-files .action-comment>img {
+	margin-right: 5px;
+}
