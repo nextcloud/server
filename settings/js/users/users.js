@@ -776,12 +776,6 @@ $(document).ready(function () {
 				t('settings', 'Error creating user'));
 			return false;
 		}
-		if ($.trim(username).length !== username.length) {
-			OC.dialogs.alert(
-				t('settings', 'Username contains whitespace at the beginning or at the end'),
-				t('settings', 'Error creating user'));
-			return false;
-		}
 		if ($.trim(password) === '') {
 			OC.dialogs.alert(
 				t('settings', 'A valid password must be provided'),

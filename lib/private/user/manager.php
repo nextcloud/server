@@ -265,6 +265,10 @@ class Manager extends PublicEmitter implements IUserManager {
 		if (trim($uid) == '') {
 			throw new \Exception($l->t('A valid username must be provided'));
 		}
+		// No whitespace at the beginning or at the end
+		if (strlen(trim($uid, "\t\n\r\0\x0B\xe2\x80\x8b")) !== strlen(trim($uid))) {
+			throw new \Exception($l->t('Username contains whitespace at the beginning or at the end'));
+		}
 		// No empty password
 		if (trim($password) == '') {
 			throw new \Exception($l->t('A valid password must be provided'));
