@@ -27,18 +27,34 @@ class DefinitionParameterTest extends \Test\TestCase {
 
 	public function testJsonSerialization() {
 		$param = new Param('foo', 'bar');
-		$this->assertEquals('bar', $param->jsonSerialize());
+		$this->assertEquals([
+			'value' => 'bar',
+			'flags' => 0,
+			'type' => 0
+		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_BOOLEAN);
-		$this->assertEquals('!bar', $param->jsonSerialize());
+		$this->assertEquals([
+			'value' => 'bar',
+			'flags' => 0,
+			'type' => Param::VALUE_BOOLEAN
+		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_PASSWORD);
 		$param->setFlag(Param::FLAG_OPTIONAL);
-		$this->assertEquals('&*bar', $param->jsonSerialize());
+		$this->assertEquals([
+			'value' => 'bar',
+			'flags' => Param::FLAG_OPTIONAL,
+			'type' => Param::VALUE_PASSWORD
+		], $param->jsonSerialize());
 
 		$param->setType(Param::VALUE_HIDDEN);
 		$param->setFlags(Param::FLAG_NONE);
-		$this->assertEquals('#bar', $param->jsonSerialize());
+		$this->assertEquals([
+			'value' => 'bar',
+			'flags' => Param::FLAG_NONE,
+			'type' => Param::VALUE_HIDDEN
+		], $param->jsonSerialize());
 	}
 
 	public function validateValueProvider() {
