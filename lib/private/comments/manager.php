@@ -384,7 +384,7 @@ class Manager implements ICommentsManager {
 	 * saved in the used data storage. Use save() after setting other fields
 	 * of the comment (e.g. message or verb).
 	 *
-	 * @param string $actorType the actor type (e.g. 'user')
+	 * @param string $actorType the actor type (e.g. 'users')
 	 * @param string $actorId a user id
 	 * @param string $objectType the object type the comment is attached to
 	 * @param string $objectId the object id the comment is attached to
@@ -533,7 +533,7 @@ class Manager implements ICommentsManager {
 	 * removes references to specific actor (e.g. on user delete) of a comment.
 	 * The comment itself must not get lost/deleted.
 	 *
-	 * @param string $actorType the actor type (e.g. 'user')
+	 * @param string $actorType the actor type (e.g. 'users')
 	 * @param string $actorId a user id
 	 * @return boolean
 	 * @since 9.0.0
@@ -560,7 +560,7 @@ class Manager implements ICommentsManager {
 	/**
 	 * deletes all comments made of a specific object (e.g. on file delete)
 	 *
-	 * @param string $objectType the object type (e.g. 'file')
+	 * @param string $objectType the object type (e.g. 'files')
 	 * @param string $objectId e.g. the file id
 	 * @return boolean
 	 * @since 9.0.0
