@@ -23,12 +23,14 @@
 use OCA\Files_External\Command\ListCommand;
 use OCA\Files_External\Command\Config;
 use OCA\Files_External\Command\Option;
+use OCA\Files_External\Command\Applicable;
 use OCA\Files_External\Command\Import;
 use OCA\Files_External\Command\Export;
 use OCA\Files_External\Command\Delete;
 
 $userManager = OC::$server->getUserManager();
 $userSession = OC::$server->getUserSession();
+$groupManager = OC::$server->getGroupManager();
 
 $app = \OC_Mount_Config::$app;
 
@@ -41,6 +43,7 @@ $backendService = $app->getContainer()->query('OCA\Files_External\Service\Backen
 $application->add(new ListCommand($globalStorageService, $userStorageService, $userSession, $userManager));
 $application->add(new Config($globalStorageService));
 $application->add(new Option($globalStorageService));
+$application->add(new Applicable($globalStorageService, $userManager, $groupManager));
 $application->add(new Import($globalStorageService, $userStorageService, $userSession, $userManager, $importLegacyStorageService, $backendService));
 $application->add(new Export($globalStorageService, $userStorageService, $userSession, $userManager));
 $application->add(new Delete($globalStorageService, $userStorageService, $userSession, $userManager));
