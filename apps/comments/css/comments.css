@@ -47,7 +47,7 @@
 
 #commentsTabView .comment .date {
 	position: absolute;
-	right: 20px;
+	right: 0;
 }
 
 #commentsTabView .comment .action {

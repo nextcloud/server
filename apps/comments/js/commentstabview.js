@@ -27,12 +27,15 @@
 		'        {{/if}}' +
 		'        <div class="author">{{actorDisplayName}}</div>' +
 		'{{#if isEditMode}}' +
-		'        <a href="#" class="action close icon icon-close has-tooltip" title="{{closeTooltip}}"></a>' +
+		'        <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
 		'{{/if}}' +
 		'    </div>' +
 		'    <form class="newCommentForm">' +
 		'        <textarea class="message" placeholder="{{newMessagePlaceholder}}">{{{message}}}</textarea>' +
 		'        <input class="submit" type="submit" value="{{submitText}}" />' +
+		'{{#if isEditMode}}' +
+		'        <input class="cancel" type="button" value="{{cancelText}}" />' +
+		'{{/if}}' +
 		'        <div class="submitLoading icon-loading-small hidden"></div>'+
 		'    </form>' +
 		'</div>';
@@ -48,9 +51,6 @@
 		'        <a href="#" class="action edit icon icon-rename has-tooltip" title="{{editTooltip}}"></a>' +
 		'{{/if}}' +
 		'        <div class="date has-tooltip" title="{{altDate}}">{{date}}</div>' +
-		'{{#if isUserAuthor}}' +
-		'        <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
-		'{{/if}}' +
 		'    </div>' +
 		'    <div class="message">{{{formattedMessage}}}</div>' +
 		'</li>';
@@ -68,7 +68,7 @@
 			'click .showMore': '_onClickShowMore',
 			'click .action.edit': '_onClickEditComment',
 			'click .action.delete': '_onClickDeleteComment',
-			'click .action.close': '_onClickCloseComment'
+			'click .cancel': '_onClickCloseComment'
 		},
 
 		initialize: function() {
@@ -102,10 +102,12 @@
 			var currentUser = OC.getCurrentUser();
 			return this._editCommentTemplate(_.extend({
 				avatarEnabled: this._avatarsEnabled,
-				userId: currentUser.uid,
-				userDisplayName: currentUser.displayName,
+				actorId: currentUser.uid,
+				actorDisplayName: currentUser.displayName,
 				newMessagePlaceholder: t('comments', 'Type in a new comment...'),
-				submitText: t('comments', 'Post')
+				deleteTooltip: t('comments', 'Delete comment'),
+				submitText: t('comments', 'Post'),
+				cancelText: t('comments', 'Cancel')
 			}, params));
 		},
 
@@ -115,7 +117,6 @@
 			}
 			return this._commentTemplate(_.extend({
 				avatarEnabled: this._avatarsEnabled,
-				deleteTooltip: t('comments', 'Delete comment'),
 				editTooltip: t('comments', 'Edit comment'),
 				isUserAuthor: OC.getCurrentUser().uid === params.actorId
 			}, params));
@@ -167,9 +168,11 @@
 			this.$el.find('.loading').toggleClass('hidden', !state);
 		},
 
-		_onRequest: function() {
-			this._toggleLoading(true);
-			this.$el.find('.showMore').addClass('hidden');
+		_onRequest: function(type) {
+			if (type === 'REPORT') {
+				this._toggleLoading(true);
+				this.$el.find('.showMore').addClass('hidden');
+			}
 		},
 
 		_onEndRequest: function(type) {
@@ -251,6 +254,7 @@
 
 			// copy avatar element from original to avoid flickering
 			$formRow.find('.avatar').replaceWith($comment.find('.avatar').clone());
+			$formRow.find('.has-tooltip').tooltip();
 
 			return false;
 		},
@@ -267,14 +271,17 @@
 			ev.preventDefault();
 			var $comment = $(ev.target).closest('.comment');
 			var commentId = $comment.data('id');
-			// TODO: undo logic
+			var $loading = $comment.find('.submitLoading');
 
 			$comment.addClass('disabled');
+			$loading.removeClass('hidden');
 			this.collection.get(commentId).destroy({
 				success: function() {
+					$comment.data('commentEl').remove();
 					$comment.remove();
 				},
 				error: function(msg) {
+					$loading.addClass('hidden');
 					$comment.removeClass('disabled');
 					OC.Notification.showTemporary(msg);
 				}
