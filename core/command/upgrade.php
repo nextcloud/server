@@ -99,6 +99,12 @@ class Upgrade extends Command {
 		$updateStepEnabled = true;
 		$skip3rdPartyAppsDisable = false;
 
+		if ($this->config->getSystemValue('update.skip-migration-test', false)) {
+			$output->writeln(
+				'<info>"skip-migration-test" is activated via config.php</info>'
+			);
+			$simulateStepEnabled = false;
+		}
 		if ($input->getOption('skip-migration-test')) {
 			$simulateStepEnabled = false;
 		}
