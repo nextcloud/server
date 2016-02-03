@@ -243,14 +243,31 @@ var OC={
 	},
 
 	/**
-	 * Returns the host name used to access this ownCloud instance
+	 * Returns the host used to access this ownCloud instance
+	 * Host is sometimes the same as the hostname but now always.
 	 *
-	 * @return {string} host name
+	 * Examples:
+	 * http://example.com => example.com
+	 * https://example.com => exmaple.com
+	 * http://example.com:8080 => example.com:8080
+	 *
+	 * @return {string} host
 	 *
 	 * @since 8.2
 	 */
 	getHost: function() {
 		return window.location.host;
+	},
+
+	/**
+	 * Returns the hostname used to access this ownCloud instance
+	 * The hostname is always stripped of the port
+	 *
+	 * @return {string} hostname
+	 * @since 9.0
+	 */
+	getHostName: function() {
+		return window.location.hostname;
 	},
 
 	/**
