@@ -76,4 +76,10 @@
 .systemtags-select2-container .select2-choices .select2-search-field input {
 	line-height: 20px;
 }
-
+.systemtags-select2-dropdown  .label {
+	width:85%;
+	display:-moz-inline-box;
+	display:inline-block;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
