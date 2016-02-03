@@ -90,6 +90,8 @@ class Checker {
 		// FIXME: Once the signing server is instructed to sign daily, beta and
 		// RCs as well these need to be included also.
 		$signedChannels = [
+			'daily',
+			'testing',
 			'stable',
 		];
 		if(!in_array($this->environmentHelper->getChannel(), $signedChannels, true)) {
