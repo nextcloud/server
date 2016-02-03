@@ -76,6 +76,11 @@
 	 * @param {Object} davProperties properties mapping
 	 */
 	function parsePropFindResult(result, davProperties) {
+		if (_.isArray(result)) {
+			return _.map(result, function(subResult) {
+				return parsePropFindResult(subResult, davProperties);
+			});
+		}
 		var props = {
 			href: result.href
 		};
@@ -87,7 +92,7 @@
 
 			for (var key in propStat.properties) {
 				var propKey = key;
-				if (davProperties[key]) {
+				if (key in davProperties) {
 					propKey = davProperties[key];
 				}
 				props[propKey] = propStat.properties[key];
@@ -151,15 +156,10 @@
 			if (isSuccessStatus(response.status)) {
 				if (_.isFunction(options.success)) {
 					var propsMapping = _.invert(options.davProperties);
-					var results;
+					var results = parsePropFindResult(response.body, propsMapping);
 					if (options.depth > 0) {
-						results = _.map(response.body, function(data) {
-							return parsePropFindResult(data, propsMapping);
-						});
 						// discard root entry
 						results.shift();
-					} else {
-						results = parsePropFindResult(response.body, propsMapping);
 					}
 
 					options.success(results);
@@ -217,7 +217,13 @@
 					options.success(responseJson);
 					return;
 				}
-				options.success(result.body);
+				// if multi-status, parse
+				if (result.status === 207) {
+					var propsMapping = _.invert(options.davProperties);
+					options.success(parsePropFindResult(result.body, propsMapping));
+				} else {
+					options.success(result.body);
+				}
 			}
 		});
 	}
@@ -249,7 +255,7 @@
 	 * DAV transport
 	 */
 	function davSync(method, model, options) {
-		var params = {type: methodMap[method]};
+		var params = {type: methodMap[method] || method};
 		var isCollection = (model instanceof Backbone.Collection);
 
 		if (method === 'update' && (model.usePUT || (model.collection && model.collection.usePUT))) {

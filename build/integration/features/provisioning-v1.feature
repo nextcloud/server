@@ -282,8 +282,9 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And apps returned are
-			| files |
+			| comments |
 			| dav |
+			| files |
 			| files_sharing |
 			| files_trashbin |
 			| files_versions |

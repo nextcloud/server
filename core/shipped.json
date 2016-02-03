@@ -3,6 +3,7 @@
     "activity",
     "admin_audit",
     "encryption",
+	"comments",
     "dav",
     "enterprise_key",
     "external",

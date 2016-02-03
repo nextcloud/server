@@ -9,6 +9,7 @@
 
 # ignore all apps except core ones
 /apps*/*
+!/apps/comments
 !/apps/dav
 !/apps/files
 !/apps/federation

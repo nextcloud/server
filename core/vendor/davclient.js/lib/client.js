@@ -1,17 +1,17 @@
 if (typeof dav == 'undefined') { dav = {}; };
 
 dav._XML_CHAR_MAP = {
-	'<': '&lt;',
-	'>': '&gt;',
-	'&': '&amp;',
-	'"': '&quot;',
-	"'": '&apos;'
+    '<': '&lt;',
+    '>': '&gt;',
+    '&': '&amp;',
+    '"': '&quot;',
+    "'": '&apos;'
 };
 
 dav._escapeXml = function(s) {
-	return s.replace(/[<>&"']/g, function (ch) {
-		return dav._XML_CHAR_MAP[ch];
-	});
+    return s.replace(/[<>&"']/g, function (ch) {
+        return dav._XML_CHAR_MAP[ch];
+    });
 };
 
 dav.Client = function(options) {
@@ -79,17 +79,16 @@ dav.Client.prototype = {
         return this.request('PROPFIND', url, headers, body).then(
             function(result) {
 
-                var resultBody = this.parseMultiStatus(result.body);
                 if (depth===0) {
                     return {
                         status: result.status,
-                        body: resultBody[0],
+                        body: result.body[0],
                         xhr: result.xhr
                     };
                 } else {
                     return {
                         status: result.status,
-                        body: resultBody,
+                        body: result.body,
                         xhr: result.xhr
                     };
                 }
@@ -161,6 +160,7 @@ dav.Client.prototype = {
      */
     request : function(method, url, headers, body) {
 
+        var self = this;
         var xhr = this.xhrProvider();
 
         if (this.userName) {
@@ -182,8 +182,13 @@ dav.Client.prototype = {
                     return;
                 }
 
+                var resultBody = xhr.response;
+                if (xhr.status === 207) {
+                    resultBody = self.parseMultiStatus(xhr.response);
+                }
+
                 fulfill({
-                    body: xhr.response,
+                    body: resultBody,
                     status: xhr.status,
                     xhr: xhr
                 });
@@ -238,7 +243,7 @@ dav.Client.prototype = {
             }
         }
 
-        return content || propNode.textContent || propNode.text;
+        return content || propNode.textContent || propNode.text || '';
     },
 
     /**

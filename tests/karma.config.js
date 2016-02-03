@@ -83,6 +83,18 @@ module.exports = function(config) {
 				testFiles: ['apps/files_versions/tests/js/**/*.js']
 			},
 			{
+				name: 'comments',
+				srcFiles: [
+					// need to enforce loading order...
+					'apps/comments/js/app.js',
+					'apps/comments/js/commentmodel.js',
+					'apps/comments/js/commentcollection.js',
+					'apps/comments/js/commentstabview.js',
+					'apps/comments/js/filesplugin'
+				],
+				testFiles: ['apps/comments/tests/js/**/*.js']
+			},
+			{
 				name: 'systemtags',
 				srcFiles: [
 					// need to enforce loading order...

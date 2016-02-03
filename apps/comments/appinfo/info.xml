@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<info>
+	<id>comments</id>
+	<name>Comments</name>
+	<description>Files app plugin to add comments to files</description>
+	<licence>AGPL</licence>
+	<author>Arthur Shiwon, Vincent Petry</author>
+	<default_enable/>
+	<version>0.1</version>
+	<dependencies>
+		<owncloud min-version="9.0" max-version="9.0" />
+	</dependencies>
+	<documentation>
+		<user>user-comments</user>
+	</documentation>
+</info>

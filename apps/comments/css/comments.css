@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+#commentsTabView .newCommentForm {
+	margin-bottom: 20px;
+}
+
+#commentsTabView .newCommentForm .message {
+	width: 90%;
+	resize: none;
+}
+
+#commentsTabView .newCommentForm .submitLoading {
+	background-position: left;
+}
+
+#commentsTabView .comment {
+	margin-bottom: 30px;
+}
+
+#commentsTabView .comment .avatar {
+	width: 28px;
+	height: 28px;
+	line-height: 28px;
+}
+
+#commentsTabView .authorRow>div {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#commentsTabView .comment .authorRow {
+	margin-bottom: 5px;
+	position: relative;
+}
+
+#commentsTabView .comment .author {
+	font-weight: bold;
+}
+
+#commentsTabView .comment .date {
+	position: absolute;
+	right: 0;
+}
