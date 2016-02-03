@@ -232,8 +232,8 @@ class ShareController extends Controller {
 		}
 
 		$shareTmpl = [];
-		$shareTmpl['displayName'] = $share->getShareOwner()->getDisplayName();
-		$shareTmpl['owner'] = $share->getShareOwner()->getUID();
+		$shareTmpl['displayName'] = $this->userManager->get($share->getShareOwner())->getDisplayName();
+		$shareTmpl['owner'] = $share->getShareOwner();
 		$shareTmpl['filename'] = $share->getNode()->getName();
 		$shareTmpl['directory_path'] = $share->getTarget();
 		$shareTmpl['mimetype'] = $share->getNode()->getMimetype();
@@ -320,7 +320,7 @@ class ShareController extends Controller {
 			}
 		}
 
-		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner()->getUID());
+		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$originalSharePath = $userFolder->getRelativePath($share->getNode()->getPath());
 
 		// Single file share
@@ -330,7 +330,7 @@ class ShareController extends Controller {
 			$event->setApp('files_sharing')
 				->setType(Activity::TYPE_PUBLIC_LINKS)
 				->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($share->getNode()->getPath())])
-				->setAffectedUser($share->getShareOwner()->getUID())
+				->setAffectedUser($share->getShareOwner())
 				->setObject('files', $share->getNode()->getId(), $userFolder->getRelativePath($share->getNode()->getPath()));
 			$this->activityManager->publish($event);
 		}
@@ -356,7 +356,7 @@ class ShareController extends Controller {
 				$event->setApp('files_sharing')
 					->setType(Activity::TYPE_PUBLIC_LINKS)
 					->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED, [$userFolder->getRelativePath($node->getPath())])
-					->setAffectedUser($share->getShareOwner()->getUID())
+					->setAffectedUser($share->getShareOwner())
 					->setObject('files', $node->getId(), $userFolder->getRelativePath($node->getPath()));
 				$this->activityManager->publish($event);
 			} else if (!empty($files_list)) {
@@ -369,7 +369,7 @@ class ShareController extends Controller {
 					$event = $this->activityManager->generateEvent();
 					$event->setApp('files_sharing')
 						->setType(Activity::TYPE_PUBLIC_LINKS)
-						->setAffectedUser($share->getShareOwner()->getUID())
+						->setAffectedUser($share->getShareOwner())
 						->setObject('files', $subNode->getId(), $userFolder->getRelativePath($subNode->getPath()));
 
 					if ($subNode instanceof \OCP\Files\File) {
@@ -386,7 +386,7 @@ class ShareController extends Controller {
 				$event->setApp('files_sharing')
 					->setType(Activity::TYPE_PUBLIC_LINKS)
 					->setSubject(Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED, [$userFolder->getRelativePath($node->getPath())])
-					->setAffectedUser($share->getShareOwner()->getUID())
+					->setAffectedUser($share->getShareOwner())
 					->setObject('files', $node->getId(), $userFolder->getRelativePath($node->getPath()));
 				$this->activityManager->publish($event);
 			}
@@ -394,7 +394,7 @@ class ShareController extends Controller {
 
 		/* FIXME: We should do this all nicely in OCP */
 		OC_Util::tearDownFS();
-		OC_Util::setupFS($share->getShareOwner()->getUID());
+		OC_Util::setupFS($share->getShareOwner());
 
 		/**
 		 * this sets a cookie to be able to recognize the start of the download

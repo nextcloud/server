@@ -35,6 +35,7 @@ use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\ISession;
+use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\IURLGenerator;
 
@@ -64,6 +65,8 @@ class ShareControllerTest extends \Test\TestCase {
 	private $config;
 	/** @var  \OC\Share20\Manager | \PHPUnit_Framework_MockObject_MockObject */
 	private $shareManager;
+	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
 
 	protected function setUp() {
 		$this->appName = 'files_sharing';
@@ -73,13 +76,14 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->session = $this->getMock('\OCP\ISession');
 		$this->previewManager = $this->getMock('\OCP\IPreview');
 		$this->config = $this->getMock('\OCP\IConfig');
+		$this->userManager = $this->getMock('\OCP\IUserManager');
 
 		$this->shareController = new \OCA\Files_Sharing\Controllers\ShareController(
 			$this->appName,
 			$this->getMock('\OCP\IRequest'),
 			$this->config,
 			$this->urlGenerator,
-			$this->getMock('\OCP\IUserManager'),
+			$this->userManager,
 			$this->getMock('\OCP\ILogger'),
 			$this->getMock('\OCP\Activity\IManager'),
 			$this->shareManager,
@@ -116,7 +120,7 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowAuthenticateNotAuthenticated() {
-		$share = $this->getMock('\OCP\Share\IShare');
+		$share = \OC::$server->getShareManager()->newShare();
 
 		$this->shareManager
 			->expects($this->once())
@@ -130,8 +134,8 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowAuthenticateAuthenticatedForDifferentShare() {
-		$share = $this->getMock('\OCP\Share\IShare');
-		$share->method('getId')->willReturn(1);
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(1);
 
 		$this->shareManager
 			->expects($this->once())
@@ -148,8 +152,8 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowAuthenticateCorrectShare() {
-		$share = $this->getMock('\OCP\Share\IShare');
-		$share->method('getId')->willReturn(1);
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(1);
 
 		$this->shareManager
 			->expects($this->once())
@@ -183,8 +187,8 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testAuthenticateValidPassword() {
-		$share = $this->getMock('\OCP\Share\IShare');
-		$share->method('getId')->willReturn(42);
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(42);
 
 		$this->shareManager
 			->expects($this->once())
@@ -214,8 +218,8 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testAuthenticateInvalidPassword() {
-		$share = $this->getMock('\OCP\Share\IShare');
-		$share->method('getId')->willReturn(42);
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(42);
 
 		$this->shareManager
 			->expects($this->once())
@@ -252,8 +256,8 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testShowShareNotAuthenticated() {
-		$share = $this->getMock('\OCP\Share\IShare');
-		$share->method('getPassword')->willReturn('password');
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setPassword('password');
 
 		$this->shareManager
 			->expects($this->once())
@@ -283,12 +287,12 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('getMimetype')->willReturn('text/plain');
 		$file->method('getSize')->willReturn(33);
 
-		$share = $this->getMock('\OCP\Share\IShare');
-		$share->method('getId')->willReturn('42');
-		$share->method('getPassword')->willReturn('password');
-		$share->method('getShareOwner')->willReturn($owner);
-		$share->method('getNode')->willReturn($file);
-		$share->method('getTarget')->willReturn('/file1.txt');
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(42);
+		$share->setPassword('password')
+			->setShareOwner('ownerUID')
+			->setNode($file)
+			->setTarget('/file1.txt');
 
 		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
 		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
@@ -310,6 +314,8 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('getShareByToken')
 			->with('token')
 			->willReturn($share);
+
+		$this->userManager->method('get')->with('ownerUID')->willReturn($owner);
 
 		$response = $this->shareController->showShare('token');
 		$sharedTmplParams = array(

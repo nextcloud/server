@@ -26,35 +26,41 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Files\IRootFolder;
+use OCP\Share\IManager;
 
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\GenericShareException;
 
 class Share20OCS {
 
-	/** @var \OC\Share20\Manager */
+	/** @var IManager */
 	private $shareManager;
-
 	/** @var IGroupManager */
 	private $groupManager;
-
 	/** @var IUserManager */
 	private $userManager;
-
 	/** @var IRequest */
 	private $request;
-
 	/** @var IRootFolder */
 	private $rootFolder;
-
 	/** @var IUrlGenerator */
 	private $urlGenerator;
-
 	/** @var IUser */
 	private $currentUser;
 
+	/**
+	 * Share20OCS constructor.
+	 *
+	 * @param IManager $shareManager
+	 * @param IGroupManager $groupManager
+	 * @param IUserManager $userManager
+	 * @param IRequest $request
+	 * @param IRootFolder $rootFolder
+	 * @param IURLGenerator $urlGenerator
+	 * @param IUser $currentUser
+	 */
 	public function __construct(
-			\OC\Share20\Manager $shareManager,
+			IManager $shareManager,
 			IGroupManager $groupManager,
 			IUserManager $userManager,
 			IRequest $request,
@@ -78,22 +84,24 @@ class Share20OCS {
 	 * @return array
 	 */
 	protected function formatShare(\OCP\Share\IShare $share) {
+		$sharedBy = $this->userManager->get($share->getSharedBy());
+		$shareOwner = $this->userManager->get($share->getShareOwner());
 		$result = [
 			'id' => $share->getId(),
 			'share_type' => $share->getShareType(),
-			'uid_owner' => $share->getSharedBy()->getUID(),
-			'displayname_owner' => $share->getSharedBy()->getDisplayName(),
+			'uid_owner' => $share->getSharedBy(),
+			'displayname_owner' => $sharedBy->getDisplayName(),
 			'permissions' => $share->getPermissions(),
 			'stime' => $share->getShareTime()->getTimestamp(),
 			'parent' => null,
 			'expiration' => null,
 			'token' => null,
-			'uid_file_owner' => $share->getShareOwner()->getUID(),
-			'displayname_file_owner' => $share->getShareOwner()->getDisplayName(),
+			'uid_file_owner' => $share->getShareOwner(),
+			'displayname_file_owner' => $shareOwner->getDisplayName(),
 		];
 
 		$node = $share->getNode();
-		$result['path'] = $this->rootFolder->getUserFolder($share->getShareOwner()->getUID())->getRelativePath($node->getPath());
+		$result['path'] = $this->rootFolder->getUserFolder($share->getShareOwner())->getRelativePath($node->getPath());
 		if ($node instanceOf \OCP\Files\Folder) {
 			$result['item_type'] = 'folder';
 		} else {
@@ -107,13 +115,12 @@ class Share20OCS {
 		$result['file_target'] = $share->getTarget();
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
-			$sharedWith = $share->getSharedWith();
+			$sharedWith = $this->userManager->get($share->getSharedWith());
 			$result['share_with'] = $sharedWith->getUID();
 			$result['share_with_displayname'] = $sharedWith->getDisplayName();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
-			$sharedWith = $share->getSharedWith();
-			$result['share_with'] = $sharedWith->getGID();
-			$result['share_with_displayname'] = $sharedWith->getGID();
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $share->getSharedWith();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 
 			$result['share_with'] = $share->getPassword();
@@ -250,14 +257,14 @@ class Share20OCS {
 			if ($shareWith === null || !$this->userManager->userExists($shareWith)) {
 				return new \OC_OCS_Result(null, 404, 'please specify a valid user');
 			}
-			$share->setSharedWith($this->userManager->get($shareWith));
+			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
 			// Valid group is required to share
 			if ($shareWith === null || !$this->groupManager->groupExists($shareWith)) {
 				return new \OC_OCS_Result(null, 404, 'please specify a valid group');
 			}
-			$share->setSharedWith($this->groupManager->get($shareWith));
+			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
 			//Can we even share links?
@@ -313,7 +320,7 @@ class Share20OCS {
 		}
 
 		$share->setShareType($shareType);
-		$share->setSharedBy($this->currentUser);
+		$share->setSharedBy($this->currentUser->getUID());
 
 		try {
 			$share = $this->shareManager->createShare($share);
@@ -333,8 +340,8 @@ class Share20OCS {
 	 * @return \OC_OCS_Result
 	 */
 	private function getSharedWithMe($node = null) {
-		$userShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, -1, 0);
-		$groupShares = $this->shareManager->getSharedWith($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
+		$userShares = $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $node, -1, 0);
+		$groupShares = $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $node, -1, 0);
 
 		$shares = array_merge($userShares, $groupShares);
 
@@ -361,9 +368,9 @@ class Share20OCS {
 		/** @var \OCP\Share\IShare[] $shares */
 		$shares = [];
 		foreach ($nodes as $node) {
-			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
-			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
-			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
+			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
+			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
 			//TODO: Add federated shares
 
 		}
@@ -417,9 +424,9 @@ class Share20OCS {
 		}
 
 		// Get all shares
-		$userShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
-		$groupShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
-		$linkShares = $this->shareManager->getSharesBy($this->currentUser, \OCP\Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
+		$userShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
+		$groupShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
+		$linkShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
 		//TODO: Add federated shares
 
 		$shares = array_merge($userShares, $groupShares, $linkShares);
@@ -538,14 +545,6 @@ class Share20OCS {
 		return new \OC_OCS_Result($this->formatShare($share));
 	}
 
-	public function validatePermissions($permissions) {
-		if ($permissions < 0 || $permissions > \OCP\Constants::PERMISSION_ALL) {
-			return false;
-		}
-
-
-	}
-
 	/**
 	 * @param \OCP\Share\IShare $share
 	 * @return bool
@@ -557,21 +556,23 @@ class Share20OCS {
 		}
 
 		// Owner of the file and the sharer of the file can always get share
-		if ($share->getShareOwner() === $this->currentUser ||
-			$share->getSharedBy() === $this->currentUser
+		if ($share->getShareOwner() === $this->currentUser->getUID() ||
+			$share->getSharedBy() === $this->currentUser->getUID()
 		) {
 			return true;
 		}
 
 		// If the share is shared with you (or a group you are a member of)
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
-			$share->getSharedWith() === $this->currentUser) {
+			$share->getSharedWith() === $this->currentUser->getUID()) {
 			return true;
 		}
 
-		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP &&
-			$share->getSharedWith()->inGroup($this->currentUser)) {
-			return true;
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$sharedWith = $this->groupManager->get($share->getSharedWith());
+			if ($sharedWith->inGroup($this->currentUser)) {
+				return true;
+			}
 		}
 
 		return false;

@@ -55,7 +55,7 @@ class Share20OCSTest extends \Test\TestCase {
 	private $ocs;
 
 	protected function setUp() {
-		$this->shareManager = $this->getMockBuilder('OC\Share20\Manager')
+		$this->shareManager = $this->getMockBuilder('OCP\Share\IManager')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->groupManager = $this->getMock('OCP\IGroupManager');
@@ -91,6 +91,10 @@ class Share20OCSTest extends \Test\TestCase {
 			->getMock();
 	}
 
+	private function newShare() {
+		return \OC::$server->getShareManager()->newShare();
+	}
+
 	public function testDeleteShareShareNotFound() {
 		$this->shareManager
 			->expects($this->once())
@@ -103,8 +107,8 @@ class Share20OCSTest extends \Test\TestCase {
 	}
 
 	public function testDeleteShare() {
-		$share = $this->getMock('OCP\Share\IShare');
-		$share->method('getSharedBy')->willReturn($this->currentUser);
+		$share = $this->newShare();
+		$share->setSharedBy($this->currentUser->getUID());
 		$this->shareManager
 			->expects($this->once())
 			->method('getShareById')
@@ -137,7 +141,7 @@ class Share20OCSTest extends \Test\TestCase {
 	public function createShare($id, $shareType, $sharedWith, $sharedBy, $shareOwner, $path, $permissions,
 								$shareTime, $expiration, $parent, $target, $mail_send, $token=null,
 								$password=null) {
-		$share = $this->getMock('OCP\Share\IShare');
+		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getId')->willReturn($id);
 		$share->method('getShareType')->willReturn($shareType);
 		$share->method('getSharedWith')->willReturn($sharedWith);
@@ -165,21 +169,6 @@ class Share20OCSTest extends \Test\TestCase {
 
 	public function dataGetShare() {
 		$data = [];
-
-		$initiator = $this->getMock('OCP\IUser');
-		$initiator->method('getUID')->willReturn('initiatorId');
-		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
-
-		$owner = $this->getMock('OCP\IUser');
-		$owner->method('getUID')->willReturn('ownerId');
-		$owner->method('getDisplayName')->willReturn('ownerDisplay');
-
-		$user = $this->getMock('OCP\IUser');
-		$user->method('getUID')->willReturn('userId');
-		$user->method('getDisplayName')->willReturn('userDisplay');
-
-		$group = $this->getMock('OCP\IGroup');
-		$group->method('getGID')->willReturn('groupId');
 
 		$cache = $this->getMockBuilder('OC\Files\Cache\Cache')
 			->disableOriginalConstructor()
@@ -211,9 +200,9 @@ class Share20OCSTest extends \Test\TestCase {
 		$share = $this->createShare(
 			100,
 			\OCP\Share::SHARE_TYPE_USER,
-			$user,
-			$initiator,
-			$owner,
+			'userId',
+			'initiatorId',
+			'ownerId',
 			$file,
 			4,
 			5,
@@ -252,9 +241,9 @@ class Share20OCSTest extends \Test\TestCase {
 		$share = $this->createShare(
 			101,
 			\OCP\Share::SHARE_TYPE_GROUP,
-			$group,
-			$initiator,
-			$owner,
+			'groupId',
+			'initiatorId',
+			'ownerId',
 			$folder,
 			4,
 			5,
@@ -295,8 +284,8 @@ class Share20OCSTest extends \Test\TestCase {
 			101,
 			\OCP\Share::SHARE_TYPE_LINK,
 			null,
-			$initiator,
-			$owner,
+			'initiatorId',
+			'ownerId',
 			$folder,
 			4,
 			5,
@@ -367,12 +356,36 @@ class Share20OCSTest extends \Test\TestCase {
 			->will($this->returnArgument(0));
 
 		$this->rootFolder->method('getUserFolder')
-			->with($share->getShareOwner()->getUID())
+			->with($share->getShareOwner())
 			->willReturn($userFolder);
 
 		$this->urlGenerator
 			->method('linkToRouteAbsolute')
 			->willReturn('url');
+
+		$initiator = $this->getMock('OCP\IUser');
+		$initiator->method('getUID')->willReturn('initiatorId');
+		$initiator->method('getDisplayName')->willReturn('initiatorDisplay');
+
+		$owner = $this->getMock('OCP\IUser');
+		$owner->method('getUID')->willReturn('ownerId');
+		$owner->method('getDisplayName')->willReturn('ownerDisplay');
+
+		$user = $this->getMock('OCP\IUser');
+		$user->method('getUID')->willReturn('userId');
+		$user->method('getDisplayName')->willReturn('userDisplay');
+
+		$group = $this->getMock('OCP\IGroup');
+		$group->method('getGID')->willReturn('groupId');
+
+		$this->userManager->method('get')->will($this->returnValueMap([
+			['userId', $user],
+			['initiatorId', $initiator],
+			['ownerId', $owner],
+		]));
+		$this->groupManager->method('get')->will($this->returnValueMap([
+			['group', $group],
+		]));
 
 		$expected = new \OC_OCS_Result($result);
 		$this->assertEquals($expected->getData(), $ocs->getShare($share->getId())->getData());
@@ -380,16 +393,16 @@ class Share20OCSTest extends \Test\TestCase {
 
 	public function testCanAccessShare() {
 		$share = $this->getMock('OCP\Share\IShare');
-		$share->method('getShareOwner')->willReturn($this->currentUser);
+		$share->method('getShareOwner')->willReturn($this->currentUser->getUID());
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->getMock('OCP\Share\IShare');
-		$share->method('getSharedBy')->willReturn($this->currentUser);
+		$share->method('getSharedBy')->willReturn($this->currentUser->getUID());
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->getMock('OCP\Share\IShare');
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
-		$share->method('getSharedWith')->willReturn($this->currentUser);
+		$share->method('getSharedWith')->willReturn($this->currentUser->getUID());
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->getMock('OCP\Share\IShare');
@@ -399,16 +412,25 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = $this->getMock('OCP\Share\IShare');
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
+		$share->method('getSharedWith')->willReturn('group');
+
 		$group = $this->getMock('OCP\IGroup');
 		$group->method('inGroup')->with($this->currentUser)->willReturn(true);
-		$share->method('getSharedWith')->willReturn($group);
+		$group2 = $this->getMock('OCP\IGroup');
+		$group2->method('inGroup')->with($this->currentUser)->willReturn(false);
+
+
+		$this->groupManager->method('get')->will($this->returnValueMap([
+			['group', $group],
+			['group2', $group2],
+		]));
 		$this->assertTrue($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->getMock('OCP\Share\IShare');
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_GROUP);
-		$group = $this->getMock('OCP\IGroup');
-		$group->method('inGroup')->with($this->currentUser)->willReturn(false);
-		$share->method('getSharedWith')->willReturn($group);
+		$share->method('getSharedWith')->willReturn('group2');
+
+		$this->groupManager->method('get')->with('group2')->willReturn($group);
 		$this->assertFalse($this->invokePrivate($this->ocs, 'canAccessShare', [$share]));
 
 		$share = $this->getMock('OCP\Share\IShare');
@@ -587,7 +609,6 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$user = $this->getMock('\OCP\IUser');
 		$this->userManager->method('userExists')->with('validUser')->willReturn(true);
-		$this->userManager->method('get')->with('validUser')->willReturn($user);
 
 		$share->method('setPath')->with($path);
 		$share->method('setPermissions')
@@ -596,8 +617,8 @@ class Share20OCSTest extends \Test\TestCase {
 				~\OCP\Constants::PERMISSION_DELETE &
 				~\OCP\Constants::PERMISSION_CREATE);
 		$share->method('setShareType')->with(\OCP\Share::SHARE_TYPE_USER);
-		$share->method('setSharedWith')->with($user);
-		$share->method('setSharedBy')->with($this->currentUser);
+		$share->method('setSharedWith')->with('validUser');
+		$share->method('setSharedBy')->with('currentUser');
 
 		$expected = new \OC_OCS_Result();
 		$result = $ocs->createShare();
@@ -680,13 +701,12 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$group = $this->getMock('\OCP\IGroup');
 		$this->groupManager->method('groupExists')->with('validGroup')->willReturn(true);
-		$this->groupManager->method('get')->with('validGroup')->willReturn($group);
 
 		$share->method('setPath')->with($path);
 		$share->method('setPermissions')->with(\OCP\Constants::PERMISSION_ALL);
 		$share->method('setShareType')->with(\OCP\Share::SHARE_TYPE_GROUP);
-		$share->method('setSharedWith')->with($group);
-		$share->method('setSharedBy')->with($this->currentUser);
+		$share->method('setSharedWith')->with('validGroup');
+		$share->method('setSharedBy')->with('currentUser');
 
 		$expected = new \OC_OCS_Result();
 		$result = $ocs->createShare();
@@ -784,14 +804,12 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
-		$currentUser = $this->currentUser;
-
 		$this->shareManager->expects($this->once())->method('createShare')->with(
-			$this->callback(function (\OCP\Share\IShare $share) use ($path, $currentUser) {
+			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				return $share->getNode() === $path &&
 					$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
 					$share->getPermissions() === \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE &&
-					$share->getSharedBy() === $currentUser &&
+					$share->getSharedBy() === 'currentUser' &&
 					$share->getPassword() === null &&
 					$share->getExpirationDate() === null;
 			})
@@ -825,14 +843,12 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
-		$currentUser = $this->currentUser;
-
 		$this->shareManager->expects($this->once())->method('createShare')->with(
-			$this->callback(function (\OCP\Share\IShare $share) use ($path, $currentUser) {
+			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				return $share->getNode() === $path &&
 				$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
 				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
-				$share->getSharedBy() === $currentUser &&
+				$share->getSharedBy() === 'currentUser' &&
 				$share->getPassword() === 'password' &&
 				$share->getExpirationDate() === null;
 			})
@@ -866,17 +882,15 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager->method('shareApiAllowLinks')->willReturn(true);
 		$this->shareManager->method('shareApiLinkAllowPublicUpload')->willReturn(true);
 
-		$currentUser = $this->currentUser;
-
 		$this->shareManager->expects($this->once())->method('createShare')->with(
-			$this->callback(function (\OCP\Share\IShare $share) use ($path, $currentUser) {
+			$this->callback(function (\OCP\Share\IShare $share) use ($path) {
 				$date = new \DateTime('2000-01-01');
 				$date->setTime(0,0,0);
 
 				return $share->getNode() === $path &&
 				$share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
 				$share->getPermissions() === \OCP\Constants::PERMISSION_READ &&
-				$share->getSharedBy() === $currentUser &&
+				$share->getSharedBy() === 'currentUser' &&
 				$share->getPassword() === null &&
 				$share->getExpirationDate() == $date;
 			})
@@ -932,7 +946,7 @@ class Share20OCSTest extends \Test\TestCase {
 	public function testUpdateNoParametersLink() {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
@@ -947,7 +961,7 @@ class Share20OCSTest extends \Test\TestCase {
 	public function testUpdateNoParametersOther() {
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_GROUP);
 
 		$this->shareManager->method('getShareById')->with('ocinternal:42')->willReturn($share);
@@ -964,7 +978,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate(new \DateTime())
@@ -1002,7 +1016,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setNode($folder);
 
@@ -1042,7 +1056,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setNode($folder);
 
@@ -1071,7 +1085,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setNode($folder);
 
@@ -1100,7 +1114,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setNode($file);
 
@@ -1130,7 +1144,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate($date)
@@ -1164,7 +1178,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate(new \DateTime())
@@ -1205,7 +1219,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate($date)
@@ -1245,7 +1259,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate($date)
@@ -1285,7 +1299,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
 			->setPassword('password')
 			->setExpirationDate($date)
@@ -1315,7 +1329,7 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setPermissions(\OCP\Constants::PERMISSION_ALL)
-			->setSharedBy($this->currentUser)
+			->setSharedBy($this->currentUser->getUID())
 			->setShareType(\OCP\Share::SHARE_TYPE_USER)
 			->setNode($file);
 

@@ -617,7 +617,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getMountManager(),
 				$c->getGroupManager(),
 				$c->getL10N('core'),
-				$factory
+				$factory,
+				$c->getUserManager()
 			);
 
 			return $manager;
