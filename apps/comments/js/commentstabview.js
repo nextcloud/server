@@ -8,27 +8,34 @@
  *
  */
 
+/* global Handlebars */
+
 (function(OC, OCA) {
 	var TEMPLATE =
-		'<div class="newCommentRow comment">' +
-		'    <div class="authorRow">' +
-		'        {{#if avatarEnabled}}' +
-		'        <div class="avatar" data-username="{{userId}}"></div>' +
-		'        {{/if}}' +
-		'        <div class="author">{{userDisplayName}}</div>' +
-		'    </div>' +
-		'    <form class="newCommentForm">' +
-		'        <textarea class="message" placeholder="{{newMessagePlaceholder}}"></textarea>' +
-		'        <input class="submit" type="submit" value="{{submitText}}" />' +
-		'        <div class="submitLoading icon-loading-small hidden"></div>'+
-		'    </form>' +
-		'    <ul class="comments">' +
-		'    </ul>' +
-		'</div>' +
+		'<ul class="comments">' +
+		'</ul>' +
 		'<div class="empty hidden">{{emptyResultLabel}}</div>' +
 		'<input type="button" class="showMore hidden" value="{{moreLabel}}"' +
 		' name="show-more" id="show-more" />' +
 		'<div class="loading hidden" style="height: 50px"></div>';
+
+	var EDIT_COMMENT_TEMPLATE =
+		'<div class="newCommentRow comment" data-id="{{id}}">' +
+		'    <div class="authorRow">' +
+		'        {{#if avatarEnabled}}' +
+		'        <div class="avatar" data-username="{{actorId}}"></div>' +
+		'        {{/if}}' +
+		'        <div class="author">{{actorDisplayName}}</div>' +
+		'{{#if isEditMode}}' +
+		'        <a href="#" class="action close icon icon-close has-tooltip" title="{{closeTooltip}}"></a>' +
+		'{{/if}}' +
+		'    </div>' +
+		'    <form class="newCommentForm">' +
+		'        <textarea class="message" placeholder="{{newMessagePlaceholder}}">{{{message}}}</textarea>' +
+		'        <input class="submit" type="submit" value="{{submitText}}" />' +
+		'        <div class="submitLoading icon-loading-small hidden"></div>'+
+		'    </form>' +
+		'</div>';
 
 	var COMMENT_TEMPLATE =
 		'<li class="comment{{#if isUnread}} unread{{/if}}" data-id="{{id}}">' +
@@ -37,7 +44,13 @@
 		'        <div class="avatar" data-username="{{actorId}}"> </div>' +
 		'        {{/if}}' +
 		'        <div class="author">{{actorDisplayName}}</div>' +
+		'{{#if isUserAuthor}}' +
+		'        <a href="#" class="action edit icon icon-rename has-tooltip" title="{{editTooltip}}"></a>' +
+		'{{/if}}' +
 		'        <div class="date has-tooltip" title="{{altDate}}">{{date}}</div>' +
+		'{{#if isUserAuthor}}' +
+		'        <a href="#" class="action delete icon icon-delete has-tooltip" title="{{deleteTooltip}}"></a>' +
+		'{{/if}}' +
 		'    </div>' +
 		'    <div class="message">{{{formattedMessage}}}</div>' +
 		'</li>';
@@ -52,7 +65,10 @@
 
 		events: {
 			'submit .newCommentForm': '_onSubmitComment',
-			'click .showMore': '_onClickShowMore'
+			'click .showMore': '_onClickShowMore',
+			'click .action.edit': '_onClickEditComment',
+			'click .action.delete': '_onClickDeleteComment',
+			'click .action.close': '_onClickCloseComment'
 		},
 
 		initialize: function() {
@@ -65,7 +81,6 @@
 			this._avatarsEnabled = !!OC.config.enable_avatars;
 
 			// TODO: error handling
-			_.bindAll(this, '_onSubmitComment');
 		},
 
 		template: function(params) {
@@ -74,6 +89,18 @@
 			}
 			var currentUser = OC.getCurrentUser();
 			return this._template(_.extend({
+				avatarEnabled: this._avatarsEnabled,
+				actorId: currentUser.uid,
+				actorDisplayName: currentUser.displayName
+			}, params));
+		},
+
+		editCommentTemplate: function(params) {
+			if (!this._editCommentTemplate) {
+				this._editCommentTemplate = Handlebars.compile(EDIT_COMMENT_TEMPLATE);
+			}
+			var currentUser = OC.getCurrentUser();
+			return this._editCommentTemplate(_.extend({
 				avatarEnabled: this._avatarsEnabled,
 				userId: currentUser.uid,
 				userDisplayName: currentUser.displayName,
@@ -87,7 +114,10 @@
 				this._commentTemplate = Handlebars.compile(COMMENT_TEMPLATE);
 			}
 			return this._commentTemplate(_.extend({
-				avatarEnabled: this._avatarsEnabled
+				avatarEnabled: this._avatarsEnabled,
+				deleteTooltip: t('comments', 'Delete comment'),
+				editTooltip: t('comments', 'Edit comment'),
+				isUserAuthor: OC.getCurrentUser().uid === params.actorId
 			}, params));
 		},
 
@@ -115,6 +145,7 @@
 				emptyResultLabel: t('comments', 'No other comments available'),
 				moreLabel: t('comments', 'More comments...')
 			}));
+			this.$el.find('.comments').before(this.editCommentTemplate({}));
 			this.$el.find('.has-tooltip').tooltip();
 			this.$container = this.$el.find('ul.comments');
 			this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 28);
@@ -203,13 +234,65 @@
 			this.collection.fetchNext();
 		},
 
+		_onClickEditComment: function(ev) {
+			ev.preventDefault();
+			var $comment = $(ev.target).closest('.comment');
+			var commentId = $comment.data('id');
+			var commentToEdit = this.collection.get(commentId);
+			var $formRow = $(this.editCommentTemplate(_.extend({
+				isEditMode: true,
+				submitText: t('comments', 'Save')
+			}, commentToEdit.attributes)));
+
+			$comment.addClass('hidden');
+			// spawn form
+			$comment.after($formRow);
+			$formRow.data('commentEl', $comment);
+
+			// copy avatar element from original to avoid flickering
+			$formRow.find('.avatar').replaceWith($comment.find('.avatar').clone());
+
+			return false;
+		},
+
+		_onClickCloseComment: function(ev) {
+			ev.preventDefault();
+			var $row = $(ev.target).closest('.comment');
+			$row.data('commentEl').removeClass('hidden');
+			$row.remove();
+			return false;
+		},
+
+		_onClickDeleteComment: function(ev) {
+			ev.preventDefault();
+			var $comment = $(ev.target).closest('.comment');
+			var commentId = $comment.data('id');
+			// TODO: undo logic
+
+			$comment.addClass('disabled');
+			this.collection.get(commentId).destroy({
+				success: function() {
+					$comment.remove();
+				},
+				error: function(msg) {
+					$comment.removeClass('disabled');
+					OC.Notification.showTemporary(msg);
+				}
+			});
+
+
+			return false;
+		},
+
 		_onClickShowMore: function(ev) {
 			ev.preventDefault();
 			this.nextPage();
 		},
 
 		_onSubmitComment: function(e) {
+			var self = this;
 			var $form = $(e.target);
+			var commentId = $form.closest('.comment').data('id');
 			var currentUser = OC.getCurrentUser();
 			var $submit = $form.find('.submit');
 			var $loading = $form.find('.submitLoading');
@@ -225,28 +308,56 @@
 			$submit.addClass('hidden');
 			$loading.removeClass('hidden');
 
-			this.collection.create({
-				actorId: currentUser.uid,
-				actorDisplayName: currentUser.displayName,
-				actorType: 'users',
-				verb: 'comment',
-				message: $textArea.val(),
-				creationDateTime: (new Date()).toUTCString()
-			}, {
-				at: 0,
-				success: function() {
-					$submit.removeClass('hidden');
-					$loading.addClass('hidden');
-					$textArea.val('').prop('disabled', false);
-				},
-				error: function(msg) {
-					$submit.removeClass('hidden');
-					$loading.addClass('hidden');
-					$textArea.prop('disabled', false);
+			if (commentId) {
+				// edit mode
+				var comment = this.collection.get(commentId);
+				comment.save({
+					message: $textArea.val()
+				}, {
+					success: function(model) {
+						var $row = $form.closest('.comment');
+						$submit.removeClass('hidden');
+						$loading.addClass('hidden');
+						$row.data('commentEl')
+							.removeClass('hidden')
+							.find('.message')
+							.html(self._formatMessage(model.get('message')));
+						$row.remove();
+					},
+					error: function(msg) {
+						$submit.removeClass('hidden');
+						$loading.addClass('hidden');
+						$textArea.prop('disabled', false);
 
-					OC.Notification.showTemporary(msg);
-				}
-			});
+						OC.Notification.showTemporary(msg);
+					}
+				});
+			} else {
+				this.collection.create({
+					actorId: currentUser.uid,
+					actorDisplayName: currentUser.displayName,
+					actorType: 'users',
+					verb: 'comment',
+					message: $textArea.val(),
+					creationDateTime: (new Date()).toUTCString()
+				}, {
+					at: 0,
+					// wait for real creation before adding
+					wait: true,
+					success: function() {
+						$submit.removeClass('hidden');
+						$loading.addClass('hidden');
+						$textArea.val('').prop('disabled', false);
+					},
+					error: function(msg) {
+						$submit.removeClass('hidden');
+						$loading.addClass('hidden');
+						$textArea.prop('disabled', false);
+
+						OC.Notification.showTemporary(msg);
+					}
+				});
+			}
 
 			return false;
 		}

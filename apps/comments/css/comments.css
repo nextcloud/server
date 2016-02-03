@@ -47,7 +47,34 @@
 
 #commentsTabView .comment .date {
 	position: absolute;
+	right: 20px;
+}
+
+#commentsTabView .comment .action {
+	opacity: 0;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+#commentsTabView .comment:hover .action {
+	opacity: 0.3;
+}
+
+#commentsTabView .comment .action:hover {
+	opacity: 1;
+}
+
+#commentsTabView .comment .action.delete {
+	position: absolute;
 	right: 0;
+}
+
+#commentsTabView .comment.disabled {
+	opacity: 0.3;
+}
+
+#commentsTabView .comment.disabled .action {
+	visibility: hidden;
 }
 
 .app-files .action-comment>img {

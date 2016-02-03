@@ -39,8 +39,17 @@
 		},
 
 		parse: function(data) {
-			data.isUnread = (data.isUnread === 'true');
-			return data;
+			return {
+				id: data.id,
+				message: data.message,
+				actorType: data.actorType,
+				actorId: data.actorId,
+				actorDisplayName: data.actorDisplayName,
+				creationDateTime: data.creationDateTime,
+				objectType: data.objectType,
+				objectId: data.objectId,
+				isUnread: (data.isUnread === 'true')
+			};
 		}
 	});
 
