@@ -9,8 +9,8 @@
  * consider important for your instance to your working ``config.php``, and
  * apply configuration options that are pertinent for your instance.
  *
- * This file is used to generate the config documentation. Please consider
- * following requirements of the current parser:
+ * This file is used to generate the configuration documentation. 
+ * Please consider following requirements of the current parser:
  *  * all comments need to start with `/**` and end with ` *\/` - each on their
  *    own line
  *  * add a `@see CONFIG_INDEX` to copy a previously described config option
@@ -488,16 +488,16 @@ $CONFIG = array(
  * to ``true``. This verifies that the ``.htaccess`` file is writable and works.
  * If it is not, then any options controlled by ``.htaccess``, such as large
  * file uploads, will not work. It also runs checks on the ``data/`` directory,
- * which verifies that it can't be accessed directly through the web server.
+ * which verifies that it can't be accessed directly through the Web server.
  */
 'check_for_working_htaccess' => true,
 
 /**
- * In certain environments it is desired to have a read-only config file.
+ * In certain environments it is desired to have a read-only configuration file.
  * When this switch is set to ``true`` ownCloud will not verify whether the
  * configuration is writable. However, it will not be possible to configure
- * all options via the web-interface. Furthermore, when updating ownCloud
- * it is required to make the config file writable again for the update
+ * all options via the Web interface. Furthermore, when updating ownCloud
+ * it is required to make the configuration file writable again for the update
  * process.
  */
 'config_is_read_only' => false,
@@ -660,9 +660,9 @@ $CONFIG = array(
  * Use the ``apps_paths`` parameter to set the location of the Apps directory,
  * which should be scanned for available apps, and where user-specific apps
  * should be installed from the Apps store. The ``path`` defines the absolute
- * file system path to the app folder. The key ``url`` defines the HTTP web path
- * to that folder, starting from the ownCloud web root. The key ``writable``
- * indicates if a web server can write files to that folder.
+ * file system path to the app folder. The key ``url`` defines the HTTP Web path
+ * to that folder, starting from the ownCloud webroot. The key ``writable``
+ * indicates if a Web server can write files to that folder.
  */
 'apps_paths' => array(
 	array(
@@ -999,7 +999,7 @@ $CONFIG = array(
 
 
 /**
- * All other config options
+ * All other configuration options
  */
 
 /**
@@ -1011,8 +1011,8 @@ $CONFIG = array(
 ),
 
 /**
- * sqlite3 journal mode can be specified using this config parameter - can be
- * 'WAL' or 'DELETE' see for more details https://www.sqlite.org/wal.html
+ * sqlite3 journal mode can be specified using this configuration parameter -
+ * can be 'WAL' or 'DELETE' see for more details https://www.sqlite.org/wal.html
  */
 'sqlite.journal_mode' => 'DELETE',
 
@@ -1038,7 +1038,7 @@ $CONFIG = array(
  * restricted, or if external storages which do not support streaming are in
  * use.
  *
- * The web server user must have write access to this directory.
+ * The Web server user must have write access to this directory.
  */
 'tempdirectory' => '/tmp/owncloudtemp',
 
@@ -1104,7 +1104,7 @@ $CONFIG = array(
 'filesystem_check_changes' => 0,
 
 /**
- * All css and js files will be served by the web server statically in one js
+ * All css and js files will be served by the Web server statically in one js
  * file and one css file if this is set to ``true``. This improves performance.
  */
 'asset-pipeline.enabled' => false,
@@ -1115,7 +1115,7 @@ $CONFIG = array(
  * will be stored in a subdirectory of this directory named 'assets'. The
  * server *must* be configured to serve that directory as $WEBROOT/assets.
  * You will only likely need to change this if the main ownCloud directory
- * is not writeable by the web server in your configuration.
+ * is not writeable by the Web server in your configuration.
  */
 'assetdirectory' => '/var/www/owncloud',
 
