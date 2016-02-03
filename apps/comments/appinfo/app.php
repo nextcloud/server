@@ -27,6 +27,7 @@ $eventDispatcher->addListener(
 		\OCP\Util::addScript('comments', 'app');
 		\OCP\Util::addScript('comments', 'commentmodel');
 		\OCP\Util::addScript('comments', 'commentcollection');
+		\OCP\Util::addScript('comments', 'commentsummarymodel');
 		\OCP\Util::addScript('comments', 'commentstabview');
 		\OCP\Util::addScript('comments', 'filesplugin');
 		\OCP\Util::addStyle('comments', 'comments');

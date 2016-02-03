@@ -34,11 +34,12 @@
 			'actorDisplayName': '{' + NS_OWNCLOUD + '}actorDisplayName',
 			'creationDateTime': '{' + NS_OWNCLOUD + '}creationDateTime',
 			'objectType': '{' + NS_OWNCLOUD + '}objectType',
-			'objectId': '{' + NS_OWNCLOUD + '}objectId'
+			'objectId': '{' + NS_OWNCLOUD + '}objectId',
+			'isUnread': '{' + NS_OWNCLOUD + '}isUnread'
 		},
 
 		parse: function(data) {
-			// TODO: parse non-string values
+			data.isUnread = (data.isUnread === 'true');
 			return data;
 		}
 	});

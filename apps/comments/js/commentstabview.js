@@ -31,7 +31,7 @@
 		'<div class="loading hidden" style="height: 50px"></div>';
 
 	var COMMENT_TEMPLATE =
-		'<li class="comment">' +
+		'<li class="comment{{#if isUnread}} unread{{/if}}" data-id="{{id}}">' +
 		'    <div class="authorRow">' +
 		'        {{#if avatarEnabled}}' +
 		'        <div class="avatar" data-username="{{actorId}}"> </div>' +
@@ -97,12 +97,14 @@
 
 		setFileInfo: function(fileInfo) {
 			if (fileInfo) {
+				this.model = fileInfo;
 				this.render();
 				this.collection.setObjectId(fileInfo.id);
 				// reset to first page
 				this.collection.reset([], {silent: true});
 				this.nextPage();
 			} else {
+				this.model = null;
 				this.render();
 				this.collection.reset();
 			}
@@ -139,10 +141,29 @@
 			this.$el.find('.showMore').addClass('hidden');
 		},
 
-		_onEndRequest: function() {
+		_onEndRequest: function(type) {
+			var fileInfoModel = this.model;
 			this._toggleLoading(false);
 			this.$el.find('.empty').toggleClass('hidden', !!this.collection.length);
 			this.$el.find('.showMore').toggleClass('hidden', !this.collection.hasMoreResults());
+
+			if (type !== 'REPORT') {
+				return;
+			}
+
+			// find first unread comment
+			var firstUnreadComment = this.collection.findWhere({isUnread: true});
+			if (firstUnreadComment) {
+				// update read marker
+				this.collection.updateReadMarker(
+					null,
+					{
+						success: function() {
+							fileInfoModel.set('commentsUnread', 0);
+						}
+					}
+				);
+			}
 		},
 
 		_onAddModel: function(model, collection, options) {
@@ -210,7 +231,7 @@
 				actorType: 'users',
 				verb: 'comment',
 				message: $textArea.val(),
-				creationDateTime: (new Date()).getTime()
+				creationDateTime: (new Date()).toUTCString()
 			}, {
 				at: 0,
 				success: function() {
