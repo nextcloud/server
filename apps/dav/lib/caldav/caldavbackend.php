@@ -340,6 +340,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$stmt = $this->db->prepare('DELETE FROM `*PREFIX*calendarchanges` WHERE `calendarid` = ?');
 		$stmt->execute([$calendarId]);
+
+		$this->sharingBackend->deleteAllShares($calendarId);
 	}
 
 	/**

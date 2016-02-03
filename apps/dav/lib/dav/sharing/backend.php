@@ -97,6 +97,17 @@ class Backend {
 	}
 
 	/**
+	 * @param $resourceId
+	 */
+	public function deleteAllShares($resourceId) {
+		$query = $this->db->getQueryBuilder();
+		$query->delete('dav_shares')
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($resourceId)))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter($this->resourceType)))
+			->execute();
+	}
+
+	/**
 	 * @param IShareable $shareable
 	 * @param string $element
 	 */

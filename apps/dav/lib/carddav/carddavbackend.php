@@ -336,10 +336,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->setParameter('id', $addressBookId)
 			->execute();
 
-		$query->delete('dav_shares')
-			->where($query->expr()->eq('resourceid', $query->createNamedParameter($addressBookId)))
-			->andWhere($query->expr()->eq('type', $query->createNamedParameter('addressbook')))
-			->execute();
+		$this->sharingBackend->deleteAllShares($addressBookId);
 
 		$query->delete($this->dbCardsPropertiesTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
