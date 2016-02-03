@@ -214,7 +214,13 @@ class File extends Node implements IFile {
 					header('X-OC-MTime: accepted');
 				}
 			}
+
+			if (isset($request->server['HTTP_OC_CHECKSUM'])) {
+				$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
+				$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
+			}
 			$this->refreshInfo();
+
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
 		}
@@ -527,5 +533,14 @@ class File extends Node implements IFile {
 		}
 
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);
+	}
+
+	/**
+	 * Get the checksum for this file
+	 *
+	 * @return string
+	 */
+	public function getChecksum() {
+		return $this->info->getChecksum();
 	}
 }
