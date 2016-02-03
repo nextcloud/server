@@ -594,7 +594,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	public function getRequestUri() {
 		$uri = isset($this->server['REQUEST_URI']) ? $this->server['REQUEST_URI'] : '';
 		if($this->config->getSystemValue('overwritewebroot') !== '' && $this->isOverwriteCondition()) {
-			$uri = $this->getScriptName() . substr($uri, strlen($this->server['SCRIPT_NAME']));
+			$uri = $this->getScriptName() . substr($uri, strlen($this->server['SCRIPT_NAME']) + strpos($uri , $this->server['SCRIPT_NAME']));
 		}
 		return $uri;
 	}
