@@ -55,6 +55,10 @@ OCA = OCA || {};
 					$element: $('#ldap_display_name'),
 					setMethod: 'setUserDisplayName'
 				},
+				ldap_user_display_name_2: {
+					$element: $('#ldap_user_display_name_2'),
+					setMethod: 'setUserDisplayName2'
+				},
 				ldap_base_users: {
 					$element: $('#ldap_base_users'),
 					setMethod: 'setBaseDNUsers'
@@ -188,6 +192,15 @@ OCA = OCA || {};
 		 */
 		setUserDisplayName: function(attribute) {
 			this.setElementValue(this.managedItems.ldap_display_name.$element, attribute);
+		},
+
+		/**
+		 * sets the additional user display name attribute
+		 *
+		 * @param {string} attribute
+		 */
+		setUserDisplayName2: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_user_display_name_2.$element, attribute);
 		},
 
 		/**

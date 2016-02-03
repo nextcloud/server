@@ -47,6 +47,7 @@ class Configuration {
 		'turnOffCertCheck' => null,
 		'ldapIgnoreNamingRules' => null,
 		'ldapUserDisplayName' => null,
+		'ldapUserDisplayName2' => null,
 		'ldapUserFilterObjectclass' => null,
 		'ldapUserFilterGroups' => null,
 		'ldapUserFilter' => null,
@@ -206,6 +207,7 @@ class Configuration {
 					case 'ldapAgentPassword':
 						$readMethod = 'getPwd';
 						break;
+					case 'ldapUserDisplayName2':
 					case 'ldapGroupDisplayName':
 						$readMethod = 'getLcValue';
 						break;
@@ -416,6 +418,7 @@ class Configuration {
 			'ldap_groupfilter_objectclass'      => '',
 			'ldap_groupfilter_groups'           => '',
 			'ldap_display_name'                 => 'displayName',
+			'ldap_user_display_name_2'			=> '',
 			'ldap_group_display_name'           => 'cn',
 			'ldap_tls'                          => 0,
 			'ldap_quota_def'                    => '',
@@ -472,6 +475,7 @@ class Configuration {
 			'ldap_groupfilter_objectclass'      => 'ldapGroupFilterObjectclass',
 			'ldap_groupfilter_groups'           => 'ldapGroupFilterGroups',
 			'ldap_display_name'                 => 'ldapUserDisplayName',
+			'ldap_user_display_name_2'			=> 'ldapUserDisplayName2',
 			'ldap_group_display_name'           => 'ldapGroupDisplayName',
 			'ldap_tls'                          => 'ldapTLS',
 			'ldap_quota_def'                    => 'ldapQuotaDefault',
