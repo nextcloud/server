@@ -50,12 +50,6 @@ if (OC::checkUpgrade(false)) {
 			\OC::$server->getIntegrityCodeChecker(),
 			$logger
 	);
-
-	if ($config->getSystemValue('update.skip-migration-test', false)) {
-		$eventSource->send('success', (string)$l->t('Migration tests are skipped - "update.skip-migration-test" is activated in config.php'));
-		$updater->setSimulateStepEnabled(false);
-	}
-
 	$incompatibleApps = [];
 	$disabledThirdPartyApps = [];
 

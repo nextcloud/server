@@ -1196,15 +1196,6 @@ $CONFIG = array(
 'debug' => false,
 
 /**
- * Skips the migration test during upgrades
- *
- * If this is set to true the migration test are deactivated during upgrade.
- * This is only recommended in installations where upgrade tests are run in
- * advance with the same data on a test system.
- */
-'update.skip-migration-test' => false,
-
-/**
  * This entry is just here to show a warning in case somebody copied the sample
  * configuration. DO NOT ADD THIS SWITCH TO YOUR CONFIGURATION!
  *
