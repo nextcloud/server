@@ -205,6 +205,7 @@ OC.L10N.register(
     "Experimental applications ahead" : "Attention! Applications expérimentales",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Les applications expérimentales n'ont pas fait l'objet de tests de sécurité, sont encore en développement et peuvent être instables. Les installer peut causer des pertes de données ou des failles de sécurité. ",
     "by %s" : "par %s",
+    "%s-licensed" : "Sous licence %s",
     "Documentation:" : "Documentation :",
     "User documentation" : "Documentation utilisateur",
     "Admin documentation" : "Documentation administrateur",

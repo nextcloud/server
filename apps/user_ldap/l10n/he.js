@@ -106,9 +106,14 @@ OC.L10N.register(
     "Connection Settings" : "הגדרות התחברות",
     "Configuration Active" : "תצורה פעילה",
     "When unchecked, this configuration will be skipped." : "כאשר לא מסומן, נדלג על תצורה זו.",
+    "Backup (Replica) Host" : "גיבוי (העתק) שרת",
+    "Backup (Replica) Port" : "גיבוי (העתק) שער - פורט",
     "Disable Main Server" : "ניטרול שרת עיקרי",
+    "Only connect to the replica server." : "חיבור רק להעתק שרת.",
+    "Turn off SSL certificate validation." : "כיבוי אימות אישורי אבטחה SSL.",
     "in seconds. A change empties the cache." : "בשניות. שינוי מרוקן את המטמון.",
     "Directory Settings" : "הגדרות תיקייה",
+    "Base User Tree" : "עץ משתמש בסיסי",
     "in bytes" : "בבתים"
 },
 "nplurals=2; plural=(n != 1);");
