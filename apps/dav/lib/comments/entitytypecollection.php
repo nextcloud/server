@@ -25,6 +25,7 @@ use OCP\Comments\ICommentsManager;
 use OCP\Files\Folder;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\Exception\NotFound;
 
@@ -51,6 +52,7 @@ class EntityTypeCollection extends RootCollection {
 	 * @param ICommentsManager $commentsManager
 	 * @param Folder $fileRoot
 	 * @param IUserManager $userManager
+	 * @param IUserSession $userSession
 	 * @param ILogger $logger
 	 */
 	public function __construct(
@@ -58,6 +60,7 @@ class EntityTypeCollection extends RootCollection {
 		ICommentsManager $commentsManager,
 		Folder $fileRoot,
 		IUserManager $userManager,
+		IUserSession $userSession,
 		ILogger $logger
 	) {
 		$name = trim($name);
@@ -69,6 +72,7 @@ class EntityTypeCollection extends RootCollection {
 		$this->fileRoot = $fileRoot;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -91,6 +95,7 @@ class EntityTypeCollection extends RootCollection {
 			$this->commentsManager,
 			$this->fileRoot,
 			$this->userManager,
+			$this->userSession,
 			$this->logger
 		);
 	}

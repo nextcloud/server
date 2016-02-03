@@ -25,7 +25,9 @@ use OCP\Comments\ICommentsManager;
 use OCP\Files\Folder;
 use OCP\ILogger;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\PropPatch;
 
 /**
  * Class EntityCollection
@@ -35,7 +37,9 @@ use Sabre\DAV\Exception\NotFound;
  *
  * @package OCA\DAV\Comments
  */
-class EntityCollection extends RootCollection {
+class EntityCollection extends RootCollection implements \Sabre\DAV\IProperties {
+	const PROPERTY_NAME_READ_MARKER  = '{http://owncloud.org/ns}readMarker';
+
 	/** @var  Folder */
 	protected $fileRoot;
 
@@ -51,6 +55,7 @@ class EntityCollection extends RootCollection {
 	 * @param ICommentsManager $commentsManager
 	 * @param Folder $fileRoot
 	 * @param IUserManager $userManager
+	 * @param IUserSession $userSession
 	 * @param ILogger $logger
 	 */
 	public function __construct(
@@ -59,6 +64,7 @@ class EntityCollection extends RootCollection {
 		ICommentsManager $commentsManager,
 		Folder $fileRoot,
 		IUserManager $userManager,
+		IUserSession $userSession,
 		ILogger $logger
 	) {
 		foreach(['id', 'name'] as $property) {
@@ -73,6 +79,7 @@ class EntityCollection extends RootCollection {
 		$this->fileRoot = $fileRoot;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -97,7 +104,13 @@ class EntityCollection extends RootCollection {
 	function getChild($name) {
 		try {
 			$comment = $this->commentsManager->get($name);
-			return new CommentNode($this->commentsManager, $comment, $this->userManager, $this->logger);
+			return new CommentNode(
+				$this->commentsManager,
+				$comment,
+				$this->userManager,
+				$this->userSession,
+				$this->logger
+			);
 		} catch (\OCP\Comments\NotFoundException $e) {
 			throw new NotFound();
 		}
@@ -125,7 +138,13 @@ class EntityCollection extends RootCollection {
 		$comments = $this->commentsManager->getForObject($this->name, $this->id, $limit, $offset, $datetime);
 		$result = [];
 		foreach($comments as $comment) {
-			$result[] = new CommentNode($this->commentsManager, $comment, $this->userManager, $this->logger);
+			$result[] = new CommentNode(
+				$this->commentsManager,
+				$comment,
+				$this->userManager,
+				$this->userSession,
+				$this->logger
+			);
 		}
 		return $result;
 	}
@@ -143,6 +162,38 @@ class EntityCollection extends RootCollection {
 		} catch (\OCP\Comments\NotFoundException $e) {
 			return false;
 		}
+	}
+
+	/**
+	 * Sets the read marker to the specified date for the logged in user
+	 *
+	 * @param \DateTime $value
+	 * @return bool
+	 */
+	public function setReadMarker($value) {
+		$dateTime = new \DateTime($value);
+		$user = $this->userSession->getUser();
+		$this->commentsManager->setReadMark($this->name, $this->id, $dateTime, $user);
+		return true;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function propPatch(PropPatch $propPatch) {
+		$propPatch->handle(self::PROPERTY_NAME_READ_MARKER, [$this, 'setReadMarker']);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	function getProperties($properties) {
+		$marker = null;
+		$user = $this->userSession->getUser();
+		if(!is_null($user)) {
+			$marker = $this->commentsManager->getReadMark($this->name, $this->id, $user);
+		}
+		return [self::PROPERTY_NAME_READ_MARKER => $marker];
 	}
 }
 

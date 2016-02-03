@@ -98,6 +98,7 @@ class RootCollection implements ICollection {
 			$this->commentsManager,
 			$userFolder,
 			$this->userManager,
+			$this->userSession,
 			$this->logger
 		);
 	}
