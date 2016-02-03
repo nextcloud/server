@@ -24,7 +24,7 @@ namespace OC\IntegrityCheck\Iterator;
 class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 	private $excludedFolders = [];
 
-	public function __construct(\RecursiveIterator $iterator) {
+	public function __construct(\RecursiveIterator $iterator, $root = '') {
 		parent::__construct($iterator);
 
 		$appFolders = \OC::$APPSROOTS;
@@ -33,9 +33,10 @@ class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 		}
 
 		$this->excludedFolders = array_merge([
-			rtrim(\OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data'), '/'),
-			rtrim(\OC::$SERVERROOT.'/themes', '/'),
-			rtrim(\OC::$SERVERROOT.'/config', '/'),
+			rtrim($root . '/data', '/'),
+			rtrim($root .'/themes', '/'),
+			rtrim($root.'/config', '/'),
+			rtrim($root.'/apps', '/'),
 		], $appFolders);
 	}
 

@@ -59,7 +59,8 @@ class SignCore extends Command {
 			->setName('integrity:sign-core')
 			->setDescription('Sign core using a private key.')
 			->addOption('privateKey', null, InputOption::VALUE_REQUIRED, 'Path to private key to use for signing')
-			->addOption('certificate', null, InputOption::VALUE_REQUIRED, 'Path to certificate to use for signing');
+			->addOption('certificate', null, InputOption::VALUE_REQUIRED, 'Path to certificate to use for signing')
+			->addOption('path', null, InputOption::VALUE_REQUIRED, 'Path of core to sign');
 	}
 
 	/**
@@ -68,8 +69,9 @@ class SignCore extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$privateKeyPath = $input->getOption('privateKey');
 		$keyBundlePath = $input->getOption('certificate');
-		if(is_null($privateKeyPath) || is_null($keyBundlePath)) {
-			$output->writeln('--privateKey and --certificate are required.');
+		$path = $input->getOption('path');
+		if(is_null($privateKeyPath) || is_null($keyBundlePath) || is_null($path)) {
+			$output->writeln('--privateKey, --certificate and --path are required.');
 			return null;
 		}
 
@@ -91,7 +93,7 @@ class SignCore extends Command {
 		$x509 = new X509();
 		$x509->loadX509($keyBundle);
 		$x509->setPrivateKey($rsa);
-		$this->checker->writeCoreSignature($x509, $rsa);
+		$this->checker->writeCoreSignature($x509, $rsa, $path);
 
 		$output->writeln('Successfully signed "core"');
 	}

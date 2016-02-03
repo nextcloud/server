@@ -63,7 +63,7 @@ class SignCoreTest extends TestCase {
 		$outputInterface
 			->expects($this->at(0))
 			->method('writeln')
-			->with('--privateKey and --certificate are required.');
+			->with('--privateKey, --certificate and --path are required.');
 
 		$this->invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]);
 	}
@@ -86,7 +86,7 @@ class SignCoreTest extends TestCase {
 		$outputInterface
 			->expects($this->at(0))
 			->method('writeln')
-			->with('--privateKey and --certificate are required.');
+			->with('--privateKey, --certificate and --path are required.');
 
 		$this->invokePrivate($this->signCore, 'execute', [$inputInterface, $outputInterface]);
 	}
@@ -105,6 +105,11 @@ class SignCoreTest extends TestCase {
 			->method('getOption')
 			->with('certificate')
 			->will($this->returnValue('certificate'));
+		$inputInterface
+				->expects($this->at(2))
+				->method('getOption')
+				->with('path')
+				->will($this->returnValue('certificate'));
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
@@ -134,6 +139,11 @@ class SignCoreTest extends TestCase {
 			->method('getOption')
 			->with('certificate')
 			->will($this->returnValue('certificate'));
+		$inputInterface
+				->expects($this->at(2))
+				->method('getOption')
+				->with('path')
+				->will($this->returnValue('certificate'));
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
@@ -168,6 +178,11 @@ class SignCoreTest extends TestCase {
 			->method('getOption')
 			->with('certificate')
 			->will($this->returnValue('certificate'));
+		$inputInterface
+				->expects($this->at(2))
+				->method('getOption')
+				->with('path')
+				->will($this->returnValue('certificate'));
 
 		$this->fileAccessHelper
 			->expects($this->at(0))
