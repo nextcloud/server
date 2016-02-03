@@ -24,7 +24,7 @@ use OCP\Files\File;
 use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
 use OC\Share20\Exception\ProviderException;
-use OC\Share20\Exception\ShareNotFound;
+use OCP\Share\Exceptions\ShareNotFound;
 use OC\Share20\Exception\BackendError;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\NotFoundException;

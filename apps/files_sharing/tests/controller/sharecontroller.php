@@ -30,7 +30,7 @@
 namespace OCA\Files_Sharing\Controllers;
 
 use OC\Files\Filesystem;
-use OC\Share20\Exception\ShareNotFound;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -175,7 +175,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getShareByToken')
 			->with('token')
-			->will($this->throwException(new \OC\Share20\Exception\ShareNotFound()));
+			->will($this->throwException(new \OCP\Share\Exceptions\ShareNotFound()));
 
 		$response = $this->shareController->authenticate('token');
 		$expectedResponse =  new NotFoundResponse();

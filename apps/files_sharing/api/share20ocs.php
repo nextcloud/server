@@ -27,6 +27,9 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Files\IRootFolder;
 
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\Exceptions\GenericShareException;
+
 class Share20OCS {
 
 	/** @var \OC\Share20\Manager */
@@ -148,7 +151,7 @@ class Share20OCS {
 		// First check if it is an internal share.
 		try {
 			$share = $this->shareManager->getShareById('ocinternal:'.$id);
-		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+		} catch (ShareNotFound $e) {
 			// Ignore for now
 			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
@@ -178,7 +181,7 @@ class Share20OCS {
 
 		try {
 			$share = $this->shareManager->getShareById('ocinternal:' . $id);
-		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+		} catch (ShareNotFound $e) {
 			//Ignore for now
 			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
@@ -192,11 +195,7 @@ class Share20OCS {
 			return new \OC_OCS_Result(null, 404, 'could not delete share');
 		}
 
-		try {
-			$this->shareManager->deleteShare($share);
-		} catch (\OC\Share20\Exception\BackendError $e) {
-			return new \OC_OCS_Result(null, 404, 'could not delete share');
-		}
+		$this->shareManager->deleteShare($share);
 
 		return new \OC_OCS_Result();
 	}
@@ -318,7 +317,7 @@ class Share20OCS {
 
 		try {
 			$share = $this->shareManager->createShare($share);
-		} catch (\OC\HintException $e) {
+		} catch (GenericShareException $e) {
 			$code = $e->getCode() === 0 ? 403 : $e->getCode();
 			return new \OC_OCS_Result(null, $code, $e->getHint());
 		}catch (\Exception $e) {
@@ -443,7 +442,7 @@ class Share20OCS {
 
 		try {
 			$share = $this->shareManager->getShareById('ocinternal:' . $id);
-		} catch (\OC\Share20\Exception\ShareNotFound $e) {
+		} catch (ShareNotFound $e) {
 			//Ignore for now
 			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}

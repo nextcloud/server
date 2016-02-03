@@ -18,8 +18,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\Share20\Exception;
 
-class ShareNotFound extends \Exception {
+namespace OCP\Share\Exceptions;
+
+/**
+ * Class ShareNotFound
+ *
+ * @package OCP\Share\Exceptions
+ * @since 9.0.0
+ */
+class ShareNotFound extends GenericShareException {
 
 }
