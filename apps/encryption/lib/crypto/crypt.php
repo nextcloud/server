@@ -170,10 +170,11 @@ class Crypt {
 	 * @param string $plainContent
 	 * @param string $passPhrase
 	 * @param int $version
+	 * @param int $position
 	 * @return false|string
 	 * @throws EncryptionFailedException
 	 */
-	public function symmetricEncryptFileContent($plainContent, $passPhrase, $version) {
+	public function symmetricEncryptFileContent($plainContent, $passPhrase, $version, $position) {
 
 		if (!$plainContent) {
 			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
@@ -189,7 +190,7 @@ class Crypt {
 			$this->getCipher());
 
 		// Create a signature based on the key as well as the current version
-		$sig = $this->createSignature($encryptedContent, $passPhrase.$version);
+		$sig = $this->createSignature($encryptedContent, $passPhrase.$version.$position);
 
 		// combine content to encrypt the IV identifier and actual IV
 		$catFile = $this->concatIV($encryptedContent, $iv);
@@ -368,6 +369,7 @@ class Crypt {
 		$encryptedKey = $this->symmetricEncryptFileContent(
 			$privateKey,
 			$hash,
+			0,
 			0
 		);
 
@@ -444,14 +446,15 @@ class Crypt {
 	 * @param string $passPhrase
 	 * @param string $cipher
 	 * @param int $version
+	 * @param int $position
 	 * @return string
 	 * @throws DecryptionFailedException
 	 */
-	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER, $version = 0) {
+	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER, $version = 0, $position = 0) {
 		$catFile = $this->splitMetaData($keyFileContents, $cipher);
 
 		if ($catFile['signature'] !== false) {
-			$this->checkSignature($catFile['encrypted'], $passPhrase.$version, $catFile['signature']);
+			$this->checkSignature($catFile['encrypted'], $passPhrase.$version.$position, $catFile['signature']);
 		}
 
 		return $this->decrypt($catFile['encrypted'],
