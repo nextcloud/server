@@ -12,7 +12,7 @@
 		to enable server-side encryption.
 	</description>
 	<name>Default encryption module</name>
-	<license>AGPL</license>
+	<licence>AGPL</licence>
 	<author>Bjoern Schiessle, Clark Tomlinson</author>
 	<documentation>
 		<user>user-encryption</user>
