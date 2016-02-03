@@ -79,9 +79,9 @@ class AppTest extends \Test\TestCase {
 		$this->container['OCP\\AppFramework\\Http\\IOutput'] = $this->io;
 		$this->container['urlParams'] = array();
 
-		$this->appPath = __DIR__ . '/../../../apps/namespacetestapp/appinfo';
-		$infoXmlPath = $this->appPath . '/info.xml';
-		mkdir($this->appPath, 0777, true);
+		$this->appPath = __DIR__ . '/../../../apps/namespacetestapp';
+		$infoXmlPath = $this->appPath . '/appinfo/info.xml';
+		mkdir($this->appPath . '/appinfo', 0777, true);
 
 		$xml = '<?xml version="1.0" encoding="UTF-8"?>' .
 		'<info>' .

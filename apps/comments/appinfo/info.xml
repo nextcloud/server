@@ -10,7 +10,4 @@
 	<dependencies>
 		<owncloud min-version="9.0" max-version="9.0" />
 	</dependencies>
-	<documentation>
-		<user>user-comments</user>
-	</documentation>
 </info>
