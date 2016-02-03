@@ -201,7 +201,7 @@ class Cache implements ICache {
 	}
 
 	/**
-	 * store meta data for a file or folder
+	 * insert or update meta data for a file or folder
 	 *
 	 * @param string $file
 	 * @param array $data
@@ -214,49 +214,62 @@ class Cache implements ICache {
 			$this->update($id, $data);
 			return $id;
 		} else {
-			// normalize file
-			$file = $this->normalize($file);
+			return $this->insert($file, $data);
+		}
+	}
 
-			if (isset($this->partial[$file])) { //add any saved partial data
-				$data = array_merge($this->partial[$file], $data);
-				unset($this->partial[$file]);
+	/**
+	 * insert meta data for a new file or folder
+	 *
+	 * @param string $file
+	 * @param array $data
+	 *
+	 * @return int file id
+	 * @throws \RuntimeException
+	 */
+	public function insert($file, array $data) {
+		// normalize file
+		$file = $this->normalize($file);
+
+		if (isset($this->partial[$file])) { //add any saved partial data
+			$data = array_merge($this->partial[$file], $data);
+			unset($this->partial[$file]);
+		}
+
+		$requiredFields = array('size', 'mtime', 'mimetype');
+		foreach ($requiredFields as $field) {
+			if (!isset($data[$field])) { //data not complete save as partial and return
+				$this->partial[$file] = $data;
+				return -1;
 			}
+		}
 
-			$requiredFields = array('size', 'mtime', 'mimetype');
-			foreach ($requiredFields as $field) {
-				if (!isset($data[$field])) { //data not complete save as partial and return
-					$this->partial[$file] = $data;
-					return -1;
-				}
-			}
+		$data['path'] = $file;
+		$data['parent'] = $this->getParentId($file);
+		$data['name'] = \OC_Util::basename($file);
 
-			$data['path'] = $file;
-			$data['parent'] = $this->getParentId($file);
-			$data['name'] = \OC_Util::basename($file);
+		list($queryParts, $params) = $this->buildParts($data);
+		$queryParts[] = '`storage`';
+		$params[] = $this->getNumericStorageId();
 
-			list($queryParts, $params) = $this->buildParts($data);
-			$queryParts[] = '`storage`';
-			$params[] = $this->getNumericStorageId();
+		$queryParts = array_map(function ($item) {
+			return trim($item, "`");
+		}, $queryParts);
+		$values = array_combine($queryParts, $params);
+		if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $values, [
+			'storage',
+			'path_hash',
+		])
+		) {
+			return (int)$this->connection->lastInsertId('*PREFIX*filecache');
+		}
 
-			$queryParts = array_map(function ($item) {
-				return trim($item, "`");
-			}, $queryParts);
-			$values = array_combine($queryParts, $params);
-			if (\OC::$server->getDatabaseConnection()->insertIfNotExist('*PREFIX*filecache', $values, [
-				'storage',
-				'path_hash',
-			])
-			) {
-				return (int)$this->connection->lastInsertId('*PREFIX*filecache');
-			}
-
-			// The file was created in the mean time
-			if (($id = $this->getId($file)) > -1) {
-				$this->update($id, $data);
-				return $id;
-			} else {
-				throw new \RuntimeException('File entry could not be inserted with insertIfNotExist() but could also not be selected with getId() in order to perform an update. Please try again.');
-			}
+		// The file was created in the mean time
+		if (($id = $this->getId($file)) > -1) {
+			$this->update($id, $data);
+			return $id;
+		} else {
+			throw new \RuntimeException('File entry could not be inserted with insertIfNotExist() but could also not be selected with getId() in order to perform an update. Please try again.');
 		}
 	}
 

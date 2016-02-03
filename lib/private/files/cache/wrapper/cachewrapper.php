@@ -90,15 +90,34 @@ class CacheWrapper extends Cache {
 	}
 
 	/**
-	 * store meta data for a file or folder
+	 * insert or update meta data for a file or folder
 	 *
 	 * @param string $file
 	 * @param array $data
 	 *
 	 * @return int file id
+	 * @throws \RuntimeException
 	 */
 	public function put($file, array $data) {
-		return $this->cache->put($file, $data);
+		if (($id = $this->getId($file)) > -1) {
+			$this->update($id, $data);
+			return $id;
+		} else {
+			return $this->insert($file, $data);
+		}
+	}
+
+	/**
+	 * insert meta data for a new file or folder
+	 *
+	 * @param string $file
+	 * @param array $data
+	 *
+	 * @return int file id
+	 * @throws \RuntimeException
+	 */
+	public function insert($file, array $data) {
+		return $this->cache->insert($file, $data);
 	}
 
 	/**
