@@ -110,7 +110,8 @@ class DeleteOrphanedItems extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanComments() {
-		$deletedEntries = $this->cleanUp('comments', 'object_id', 'object_type');
+		$qb = $this->connection->getQueryBuilder();
+		$deletedEntries = $this->cleanUp('comments', $qb->createFunction('CAST(`object_id` as INT)'), 'object_type');
 		$this->logger->debug("$deletedEntries orphaned comments deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
@@ -121,7 +122,8 @@ class DeleteOrphanedItems extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanCommentMarkers() {
-		$deletedEntries = $this->cleanUp('comments_read_markers', 'object_id', 'object_type');
+		$qb = $this->connection->getQueryBuilder();
+		$deletedEntries = $this->cleanUp('comments_read_markers', $qb->createFunction('CAST(`object_id` as INT)'), 'object_type');
 		$this->logger->debug("$deletedEntries orphaned comment read marks deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
