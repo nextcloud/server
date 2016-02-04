@@ -67,10 +67,13 @@ class Test_Group_Ldap extends \Test\TestCase {
 
 	private function enableGroups($access) {
 		$access->connection->expects($this->any())
-			   ->method('__get')
-			   ->will($this->returnCallback(function() {
-					return 1;
-			   }));
+			->method('__get')
+			->will($this->returnCallback(function($name) {
+				if($name === 'ldapDynamicGroupMemberURL') {
+					return '';
+				}
+				return 1;
+			}));
 	}
 
 	public function testCountEmptySearchString() {
@@ -430,6 +433,8 @@ class Test_Group_Ldap extends \Test\TestCase {
 			->will($this->returnCallback(function($name) {
 				if($name === 'useMemberOfToDetectMembership') {
 					return 0;
+				} else if($name === 'ldapDynamicGroupMemberURL') {
+					return '';
 				}
 				return 1;
 			}));
