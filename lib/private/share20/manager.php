@@ -1072,4 +1072,11 @@ class Manager implements IManager {
 		return false;
 	}
 
+	/**
+	 * @inheritdoc
+	 */
+	public function outgoingServer2ServerSharesAllowed() {
+		return $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes') === 'yes';
+	}
+
 }

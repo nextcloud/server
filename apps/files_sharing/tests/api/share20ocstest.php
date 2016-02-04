@@ -107,6 +107,8 @@ class Share20OCSTest extends \Test\TestCase {
 				}
 			}));
 
+		$this->shareManager->method('outgoingServer2ServerSharesAllowed')->willReturn(true);
+
 		$expected = new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		$this->assertEquals($expected, $this->ocs->deleteShare(42));
 	}

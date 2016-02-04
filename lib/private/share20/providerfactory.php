@@ -76,6 +76,14 @@ class ProviderFactory implements IProviderFactory {
 	protected function federatedShareProvider() {
 		if ($this->federatedProvider === null) {
 			/*
+			 * Check if the app is enabled
+			 */
+			$appManager = $this->serverContainer->getAppManager();
+			if (!$appManager->isEnabledForUser('federatedfilesharing')) {
+				return null;
+			}
+
+			/*
 			 * TODO: add factory to federated sharing app
 			 */
 			$l = $this->serverContainer->getL10N('federatedfilessharing');
@@ -109,31 +117,40 @@ class ProviderFactory implements IProviderFactory {
 	 * @inheritdoc
 	 */
 	public function getProvider($id) {
+		$provider = null;
 		if ($id === 'ocinternal') {
-			return $this->defaultShareProvider();
+			$provider = $this->defaultShareProvider();
+		} else if ($id === 'ocFederatedSharing') {
+			$provider = $this->federatedShareProvider();
 		}
 
-		if ($id === 'ocFederatedSharing') {
-			return $this->federatedShareProvider();
+		if ($provider === null) {
+			throw new ProviderException('No provider with id .' . $id . ' found.');
 		}
 
-		throw new ProviderException('No provider with id .' . $id . ' found.');
+		return $provider;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function getProviderForType($shareType) {
+		$provider = null;
+
 		//FIXME we should not report type 2
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER  ||
 			$shareType === 2 ||
 			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
 			$shareType === \OCP\Share::SHARE_TYPE_LINK) {
-			return $this->defaultShareProvider();
+			$provider = $this->defaultShareProvider();
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
-			return $this->federatedShareProvider();
+			$provider = $this->federatedShareProvider();
 		}
 
-		throw new ProviderException('No share provider for share type ' . $shareType);
+		if ($provider === null) {
+			throw new ProviderException('No share provider for share type ' . $shareType);
+		}
+
+		return $provider;
 	}
 }
