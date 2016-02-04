@@ -103,7 +103,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		$result = $query->execute();
 		while($row = $result->fetch()) {
-			$addressBooks[] = [
+			$addressBooks[$row['id']] = [
 				'id'  => $row['id'],
 				'uri' => $row['uri'],
 				'principaluri' => $row['principaluri'],
@@ -133,7 +133,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			list(, $name) = URLUtil::splitPath($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$displayName = $row['displayname'] . "($name)";
-			$addressBooks[] = [
+			$addressBooks[$row['id']] = [
 				'id'  => $row['id'],
 				'uri' => $uri,
 				'principaluri' => $principalUri,
@@ -147,7 +147,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		}
 		$result->closeCursor();
 
-		return $addressBooks;
+		return array_values($addressBooks);
 	}
 
 	/**
@@ -336,10 +336,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->setParameter('id', $addressBookId)
 			->execute();
 
-		$query->delete('dav_shares')
-			->where($query->expr()->eq('resourceid', $query->createNamedParameter($addressBookId)))
-			->andWhere($query->expr()->eq('type', $query->createNamedParameter('addressbook')))
-			->execute();
+		$this->sharingBackend->deleteAllShares($addressBookId);
 
 		$query->delete($this->dbCardsPropertiesTable)
 			->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)))
@@ -920,22 +917,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array
 	 */
 	public function applyShareAcl($addressBookId, $acl) {
-
-		$shares = $this->getShares($addressBookId);
-		foreach ($shares as $share) {
-			$acl[] = [
-				'privilege' => '{DAV:}read',
-				'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
-				'protected' => true,
-			];
-			if (!$share['readOnly']) {
-				$acl[] = [
-					'privilege' => '{DAV:}write',
-					'principal' => $share['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}principal'],
-					'protected' => true,
-				];
-			}
-		}
-		return $acl;
+		return $this->sharingBackend->applyShareAcl($addressBookId, $acl);
 	}
 }

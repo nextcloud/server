@@ -58,7 +58,7 @@ class Backend {
 			$this->shareWith($shareable, $element);
 		}
 		foreach($remove as $element) {
-			$this->unshare($shareable->getResourceId(), $element);
+			$this->unshare($shareable, $element);
 		}
 	}
 
@@ -73,8 +73,13 @@ class Backend {
 			return;
 		}
 
+		// don't share with owner
+		if ($shareable->getOwner() === $parts[1]) {
+			return;
+		}
+
 		// remove the share if it already exists
-		$this->unshare($shareable->getResourceId(), $element['href']);
+		$this->unshare($shareable, $element['href']);
 		$access = self::ACCESS_READ;
 		if (isset($element['readOnly'])) {
 			$access = $element['readOnly'] ? self::ACCESS_READ : self::ACCESS_READ_WRITE;
@@ -92,18 +97,34 @@ class Backend {
 	}
 
 	/**
-	 * @param int $resourceId
+	 * @param $resourceId
+	 */
+	public function deleteAllShares($resourceId) {
+		$query = $this->db->getQueryBuilder();
+		$query->delete('dav_shares')
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($resourceId)))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter($this->resourceType)))
+			->execute();
+	}
+
+	/**
+	 * @param IShareable $shareable
 	 * @param string $element
 	 */
-	private function unshare($resourceId, $element) {
+	private function unshare($shareable, $element) {
 		$parts = explode(':', $element, 2);
 		if ($parts[0] !== 'principal') {
 			return;
 		}
 
+		// don't share with owner
+		if ($shareable->getOwner() === $parts[1]) {
+			return;
+		}
+
 		$query = $this->db->getQueryBuilder();
 		$query->delete('dav_shares')
-			->where($query->expr()->eq('resourceid', $query->createNamedParameter($resourceId)))
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($shareable->getResourceId())))
 			->andWhere($query->expr()->eq('type', $query->createNamedParameter($this->resourceType)))
 			->andWhere($query->expr()->eq('principaluri', $query->createNamedParameter($parts[1])))
 		;
@@ -136,7 +157,7 @@ class Backend {
 				'href' => "principal:${row['principaluri']}",
 //				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
-				'readOnly' => ($row['access'] === self::ACCESS_READ),
+				'readOnly' => ($row['access'] == self::ACCESS_READ),
 				'{'.\OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD.'}principal' => $row['principaluri']
 			];
 		}

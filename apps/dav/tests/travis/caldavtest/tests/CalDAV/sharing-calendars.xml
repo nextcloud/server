@@ -27,6 +27,7 @@
 	</require-feature>
 
 	<start>
+		<!--
 		<request user="$userid1:" pswd="$pswd1:">
 			<method>DELETEALL</method>
 			<ruri>$notificationpath1:/</ruri>
@@ -50,6 +51,7 @@
 				<filepath>Resource/Common/PROPPATCH/calendar-transp-opaque.xml</filepath>
 			</data>
 		</request>
+		-->
 	</start>
 	
 	<test-suite name='Read-write calendar'>
@@ -67,56 +69,11 @@
 				</verify>
 			</request>
 		</test>
-		<test name='2'>
-			<description>Check Sharee notification collection</description>
-			<request user="$userid2:" pswd="$pswd2:">
-				<method>WAITCOUNT 1</method>
-				<ruri>$notificationpath2:/</ruri>
-			</request>
-			<request user="$userid2:" pswd="$pswd2:">
-				<method>GETNEW</method>
-				<ruri>$notificationpath2:/</ruri>
-				<verify>
-					<callback>xmlDataMatch</callback>
-					<arg>
-						<name>filepath</name>
-						<value>Resource/CalDAV/sharing/calendars/read-write/2.xml</value>
-					</arg>
-					<arg>
-						<name>filter</name>
-						<value>{http://calendarserver.org/ns/}dtstamp</value>
-						<value>{http://calendarserver.org/ns/}uid</value>
-					</arg>
-				</verify>
-				<grabelement>
-					<name>{http://calendarserver.org/ns/}invite-notification/{http://calendarserver.org/ns/}uid</name>
-					<variable>$inviteuid:</variable>
-				</grabelement>
-			</request>
-		</test>
-		<test name='3'>
-			<description>Sharee replies ACCEPTED</description>
-			<request user="$userid2:" pswd="$pswd2:">
-				<method>POST</method>
-				<ruri>$calendarhome2:/</ruri>
-				<data>
-					<content-type>application/xml; charset=utf-8</content-type>
-					<filepath>Resource/CalDAV/sharing/calendars/read-write/3.xml</filepath>
-				</data>
-				<verify>
-					<callback>statusCode</callback>
-				</verify>
-				<grabelement>
-					<name>{DAV:}href</name>
-					<variable>$sharedcalendar:</variable>
-				</grabelement>
-			</request>
-		</test>
 		<test name='4'>
 			<description>Shared calendar exists</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PROPFIND</method>
-				<ruri>$sharedcalendar:/</ruri>
+				<ruri>$calendarhome1:/shared/</ruri>
 				<header>
 					<name>Depth</name>
 					<value>0</value>
@@ -132,12 +89,12 @@
 						<value>$verify-property-prefix:/{DAV:}owner/{DAV:}href[=$principaluri1:]</value>
 						<value>$verify-property-prefix:/{DAV:}resourcetype/{DAV:}collection</value>
 						<value>$verify-property-prefix:/{DAV:}resourcetype/{urn:ietf:params:xml:ns:caldav}calendar</value>
-						<value>$verify-property-prefix:/{DAV:}resourcetype/{http://calendarserver.org/ns/}shared</value>
+						<!-- value>$verify-property-prefix:/{DAV:}resourcetype/{http://calendarserver.org/ns/}shared</value -->
 						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}read</value>
 						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}write</value>
 						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}bind</value>
 						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}unbind</value>
-						<value>$verify-property-prefix:/{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp/{urn:ietf:params:xml:ns:caldav}transparent</value>
+						<!-- value>$verify-property-prefix:/{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp/{urn:ietf:params:xml:ns:caldav}transparent</value -->
 					</arg>
 					<arg>
 						<name>notexists</name>
@@ -151,7 +108,7 @@
 			<description>Shared calendar exists Depth:1</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PROPFIND</method>
-				<ruri>$calendarhome2:/</ruri>
+				<ruri>$calendarhome2:</ruri>
 				<header>
 					<name>Depth</name>
 					<value>1</value>
@@ -164,60 +121,24 @@
 					<callback>xmlElementMatch</callback>
 					<arg>
 						<name>parent</name>
-						<value>$multistatus-response-prefix:[^{DAV:}href=$sharedcalendar:/]</value>
+						<value>$multistatus-response-prefix:[^{DAV:}href=$calendarhome2:/shared_shared_by_user01/]</value>
 					</arg>
 					<arg>
 						<name>exists</name>
 						<value>$verify-response-prefix:/{DAV:}owner/{DAV:}href[=$principaluri1:]</value>
 						<value>$verify-response-prefix:/{DAV:}resourcetype/{DAV:}collection</value>
 						<value>$verify-response-prefix:/{DAV:}resourcetype/{urn:ietf:params:xml:ns:caldav}calendar</value>
-						<value>$verify-response-prefix:/{DAV:}resourcetype/{http://calendarserver.org/ns/}shared</value>
+						<!-- value>$verify-response-prefix:/{DAV:}resourcetype/{http://calendarserver.org/ns/}shared</value -->
 						<value>$verify-response-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}read</value>
 						<value>$verify-response-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}write</value>
 						<value>$verify-response-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}bind</value>
 						<value>$verify-response-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}unbind</value>
-						<value>$verify-response-prefix:/{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp/{urn:ietf:params:xml:ns:caldav}transparent</value>
+						<!-- value>$verify-response-prefix:/{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp/{urn:ietf:params:xml:ns:caldav}transparent</value -->
 					</arg>
 					<arg>
 						<name>notexists</name>
 						<value>$verify-response-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}admin</value>
 						<value>$verify-response-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}all</value>
-					</arg>
-				</verify>
-			</request>
-		</test>
-		<test name='4b'>
-			<description>Shared calendar has invite property</description>
-			<request user="$userid2:" pswd="$pswd2:">
-				<method>PROPFIND</method>
-				<ruri>$sharedcalendar:/</ruri>
-				<header>
-					<name>Depth</name>
-					<value>0</value>
-				</header>
-				<data>
-					<content-type>text/xml; charset=utf-8</content-type>
-					<filepath>Resource/CalDAV/sharing/calendars/read-write/5.xml</filepath>
-				</data>
-				<verify>
-					<callback>propfindItems</callback>
-					<arg>
-						<name>okprops</name>
-						<value>{http://calendarserver.org/ns/}invite</value>
-					</arg>
-				</verify>
-				<verify>
-					<callback>xmlElementMatch</callback>
-					<arg>
-						<name>exists</name>
-						<value>$verify-property-prefix:/{http://calendarserver.org/ns/}invite</value>
-						<value>$verify-property-prefix:/{http://calendarserver.org/ns/}invite/{http://calendarserver.org/ns/}organizer</value>
-						<value>$verify-property-prefix:/{http://calendarserver.org/ns/}invite/{http://calendarserver.org/ns/}organizer/{DAV:}href[=$principaluri1:]</value>
-						<value>$verify-property-prefix:/{http://calendarserver.org/ns/}invite/{http://calendarserver.org/ns/}organizer/{http://calendarserver.org/ns/}common-name[=$username1:]</value>
-						<value>$verify-property-prefix:/{http://calendarserver.org/ns/}invite/{http://calendarserver.org/ns/}user</value>
-						<value>$verify-property-prefix:/{http://calendarserver.org/ns/}invite/{http://calendarserver.org/ns/}user/{DAV:}href[=$cuaddrurn2:]</value>
-						<value>$verify-property-prefix:/{http://calendarserver.org/ns/}invite/{http://calendarserver.org/ns/}user/{http://calendarserver.org/ns/}access/{http://calendarserver.org/ns/}read-write</value>
-						<value>$verify-property-prefix:/{http://calendarserver.org/ns/}invite/{http://calendarserver.org/ns/}user/{http://calendarserver.org/ns/}invite-accepted</value>
 					</arg>
 				</verify>
 			</request>
@@ -240,7 +161,30 @@
 					<arg>
 						<name>exists</name>
 						<value>$verify-property-prefix:/{DAV:}owner/{DAV:}href[=$principaluri1:]</value>
-						<value>$verify-property-prefix:/{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp/{urn:ietf:params:xml:ns:caldav}opaque</value>
+						<!--<value>$verify-property-prefix:/{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp/{urn:ietf:params:xml:ns:caldav}opaque</value>-->
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='5a'>
+			<description>Invite propfind returns sharees</description>
+			<request>
+				<method>PROPFIND</method>
+				<ruri>$calendarhome1:/shared/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/sharing/calendars/read-write/5.xml</filepath>
+				</data>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>$verify-property-prefix:/{http://owncloud.org/ns}invite/{http://owncloud.org/ns}user/{DAV:}href</value>
+						<value>$verify-property-prefix:/{http://owncloud.org/ns}invite/{http://owncloud.org/ns}user/{http://owncloud.org/ns}invite-accepted</value>
 					</arg>
 				</verify>
 			</request>
@@ -249,7 +193,7 @@
 			<description>Sharee creates event</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PUT</method>
-				<ruri>$sharedcalendar:/1.ics</ruri>
+				<ruri>$calendarhome1:/shared/1.ics</ruri>
 				<data>
 					<content-type>text/calendar; charset=utf-8</content-type>
 					<filepath>Resource/CalDAV/sharing/calendars/read-write/5.ics</filepath>
@@ -291,7 +235,7 @@
 			<description>Sharee sees changed event</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>GET</method>
-				<ruri>$sharedcalendar:/1.ics</ruri>
+				<ruri>$calendarhome1:/shared/1.ics</ruri>
 				<verify>
 					<callback>calendarDataMatch</callback>
 					<arg>
@@ -319,7 +263,7 @@
 			<description>Sharee sees new event</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>GET</method>
-				<ruri>$sharedcalendar:/2.ics</ruri>
+				<ruri>$calendarhome1:/shared/2.ics</ruri>
 				<verify>
 					<callback>calendarDataMatch</callback>
 					<arg>
@@ -333,7 +277,7 @@
 			<description>Sharee changes event</description>
 			<request user="$userid2:" pswd="$pswd2:">
 				<method>PUT</method>
-				<ruri>$sharedcalendar:/2.ics</ruri>
+				<ruri>$calendarhome1:/shared/2.ics</ruri>
 				<data>
 					<content-type>text/calendar; charset=utf-8</content-type>
 					<filepath>Resource/CalDAV/sharing/calendars/read-write/8.ics</filepath>
@@ -357,8 +301,76 @@
 				</verify>
 			</request>
 		</test>
+		<test name='14'>
+			<description>Un-share by delete</description>
+			<request user="$userid2:" pswd="$pswd2:">
+				<method>DELETE</method>
+				<ruri>$calendarhome2:/shared_shared_by_user01/</ruri>
+				<verify>
+					<callback>statusCode</callback>
+				</verify>
+			</request>
+		</test>
+		<test name='15'>
+			<description>Original calendar still exists</description>
+			<request>
+				<method>PROPFIND</method>
+				<ruri>$calendarhome1:/shared/</ruri>
+				<header>
+					<name>Depth</name>
+					<value>0</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/sharing/calendars/read-write/4.xml</filepath>
+				</data>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>exists</name>
+						<value>$verify-property-prefix:/{DAV:}owner/{DAV:}href[=$principaluri1:]</value>
+						<value>$verify-property-prefix:/{DAV:}resourcetype/{DAV:}collection</value>
+						<value>$verify-property-prefix:/{DAV:}resourcetype/{urn:ietf:params:xml:ns:caldav}calendar</value>
+						<!-- value>$verify-property-prefix:/{DAV:}resourcetype/{http://calendarserver.org/ns/}shared</value -->
+						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}read</value>
+						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}write</value>
+						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}bind</value>
+						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}unbind</value>
+						<!-- value>$verify-property-prefix:/{urn:ietf:params:xml:ns:caldav}schedule-calendar-transp/{urn:ietf:params:xml:ns:caldav}transparent</value -->
+					</arg>
+					<arg>
+						<name>notexists</name>
+						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}admin</value>
+						<value>$verify-property-prefix:/{DAV:}current-user-privilege-set/{DAV:}privilege/{DAV:}all</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
+		<test name='16'>
+			<description>Shared calendar no longer exists Depth:1</description>
+			<request user="$userid2:" pswd="$pswd2:">
+				<method>PROPFIND</method>
+				<ruri>$calendarhome2:</ruri>
+				<header>
+					<name>Depth</name>
+					<value>1</value>
+				</header>
+				<data>
+					<content-type>text/xml; charset=utf-8</content-type>
+					<filepath>Resource/CalDAV/sharing/calendars/read-write/4.xml</filepath>
+				</data>
+				<verify>
+					<callback>xmlElementMatch</callback>
+					<arg>
+						<name>notexists</name>
+						<value>$multistatus-response-prefix:[^{DAV:}href=$calendarhome2:/shared_shared_by_user01/]</value>
+					</arg>
+				</verify>
+			</request>
+		</test>
 	</test-suite>
-	
+
+	<!--
 	<test-suite name='Default calendar cannot be shared calendar'>
 		<test name='1'>
 			<description>Set property on Inbox</description>
@@ -560,7 +572,10 @@
 		</test>
 	</test-suite>
 
+-->
+
 	<end>
+		<!--
 		<request user="$useradmin:" pswd="$pswdadmin:">
 			<method>DELETEALL</method>
 			<ruri>$notificationpath1:/</ruri>
@@ -568,6 +583,7 @@
 			<ruri>$notificationpath3:/</ruri>
 			<ruri>$notificationpath4:/</ruri>
 		</request>
+		-->
 	</end>
 	
 </caldavtest>
