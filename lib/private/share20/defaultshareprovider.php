@@ -711,7 +711,7 @@ class DefaultShareProvider implements IShareProvider {
 	 * @throws InvalidShare
 	 */
 	private function createShare($data) {
-		$share = new Share();
+		$share = new Share($this->rootFolder);
 		$share->setId((int)$data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
@@ -744,8 +744,7 @@ class DefaultShareProvider implements IShareProvider {
 			$share->setShareOwner($data['uid_owner']);
 		}
 
-		$path = $this->getNode($share->getShareOwner(), (int)$data['file_source']);
-		$share->setNode($path);
+		$share->setNodeId((int)$data['file_source']);
 
 		if ($data['expiration'] !== null) {
 			$expiration = \DateTime::createFromFormat('Y-m-d H:i:s', $data['expiration']);
