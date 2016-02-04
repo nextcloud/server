@@ -13,6 +13,7 @@
 !/apps/dav
 !/apps/files
 !/apps/federation
+!/apps/federatedfilesharing
 !/apps/encryption
 !/apps/files_external
 !/apps/files_sharing
