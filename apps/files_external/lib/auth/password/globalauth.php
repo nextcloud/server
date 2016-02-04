@@ -55,7 +55,10 @@ class GlobalAuth extends AuthMechanism {
 	public function getAuth($uid) {
 		$auth = $this->credentialsManager->retrieve($uid, self::CREDENTIALS_IDENTIFIER);
 		if (!is_array($auth)) {
-			return [];
+			return [
+				'user' => '',
+				'password' => ''
+			];
 		} else {
 			return $auth;
 		}
