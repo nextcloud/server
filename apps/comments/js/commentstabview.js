@@ -44,7 +44,7 @@
 		'<li class="comment{{#if isUnread}} unread{{/if}}" data-id="{{id}}">' +
 		'    <div class="authorRow">' +
 		'        {{#if avatarEnabled}}' +
-		'        <div class="avatar" data-username="{{actorId}}"> </div>' +
+		'        <div class="avatar" {{#if actorId}}data-username="{{actorId}}"{{/if}}> </div>' +
 		'        {{/if}}' +
 		'        <div class="author">{{actorDisplayName}}</div>' +
 		'{{#if isUserAuthor}}' +
@@ -115,11 +115,20 @@
 			if (!this._commentTemplate) {
 				this._commentTemplate = Handlebars.compile(COMMENT_TEMPLATE);
 			}
-			return this._commentTemplate(_.extend({
+
+			params = _.extend({
 				avatarEnabled: this._avatarsEnabled,
 				editTooltip: t('comments', 'Edit comment'),
 				isUserAuthor: OC.getCurrentUser().uid === params.actorId
-			}, params));
+			}, params);
+
+			if (params.actorType === 'deleted_users') {
+				// makes the avatar a X
+				params.actorId = null;
+				params.actorDisplayName = t('comments', '[Deleted user]');
+			}
+
+			return this._commentTemplate(params);
 		},
 
 		getLabel: function() {
@@ -149,7 +158,9 @@
 			this.$el.find('.comments').before(this.editCommentTemplate({}));
 			this.$el.find('.has-tooltip').tooltip();
 			this.$container = this.$el.find('ul.comments');
-			this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 28);
+			if (this._avatarsEnabled) {
+				this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 28);
+			}
 			this.delegateEvents();
 		},
 

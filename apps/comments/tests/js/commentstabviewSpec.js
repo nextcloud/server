@@ -84,7 +84,6 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		});
 
 		it('renders comments', function() {
-
 			view.setFileInfo(fileInfoModel);
 			view.collection.set(testComments);
 
@@ -99,6 +98,15 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($item.find('.author').text()).toEqual('User Two');
 			expect($item.find('.date').text()).toEqual('5 minutes ago');
 			expect($item.find('.message').html()).toEqual('Second<br>Newline');
+		});
+
+		it('renders comments from deleted user differently', function() {
+			testComments[0].set('actorType', 'deleted_users', {silent: true});
+			view.collection.set(testComments);
+
+			var $item = view.$el.find('.comment[data-id=1]');
+			expect($item.find('.author').text()).toEqual('[Deleted user]');
+			expect($item.find('.avatar').attr('data-username')).not.toBeDefined();
 		});
 	});
 	describe('more comments', function() {
