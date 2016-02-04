@@ -35,13 +35,13 @@ class Test_Comments_Manager extends TestCase
 					'parent_id'					=> $qb->createNamedParameter($parentId),
 					'topmost_parent_id' 		=> $qb->createNamedParameter($topmostParentId),
 					'children_count' 			=> $qb->createNamedParameter(2),
-					'actor_type' 				=> $qb->createNamedParameter('user'),
+					'actor_type' 				=> $qb->createNamedParameter('users'),
 					'actor_id' 					=> $qb->createNamedParameter('alice'),
 					'message' 					=> $qb->createNamedParameter('nice one'),
 					'verb' 						=> $qb->createNamedParameter('comment'),
 					'creation_timestamp' 		=> $qb->createNamedParameter($creationDT, 'datetime'),
 					'latest_child_timestamp'	=> $qb->createNamedParameter($latestChildDT, 'datetime'),
-					'object_type' 				=> $qb->createNamedParameter('file'),
+					'object_type' 				=> $qb->createNamedParameter('files'),
 					'object_id' 				=> $qb->createNamedParameter('file64'),
 			])
 			->execute();
@@ -83,13 +83,13 @@ class Test_Comments_Manager extends TestCase
 					'parent_id'					=> $qb->createNamedParameter('2'),
 					'topmost_parent_id' 		=> $qb->createNamedParameter('1'),
 					'children_count' 			=> $qb->createNamedParameter(2),
-					'actor_type' 				=> $qb->createNamedParameter('user'),
+					'actor_type' 				=> $qb->createNamedParameter('users'),
 					'actor_id' 					=> $qb->createNamedParameter('alice'),
 					'message' 					=> $qb->createNamedParameter('nice one'),
 					'verb' 						=> $qb->createNamedParameter('comment'),
 					'creation_timestamp' 		=> $qb->createNamedParameter($creationDT, 'datetime'),
 					'latest_child_timestamp'	=> $qb->createNamedParameter($latestChildDT, 'datetime'),
-					'object_type' 				=> $qb->createNamedParameter('file'),
+					'object_type' 				=> $qb->createNamedParameter('files'),
 					'object_id' 				=> $qb->createNamedParameter('file64'),
 			])
 			->execute();
@@ -102,11 +102,11 @@ class Test_Comments_Manager extends TestCase
 		$this->assertSame($comment->getParentId(), '2');
 		$this->assertSame($comment->getTopmostParentId(), '1');
 		$this->assertSame($comment->getChildrenCount(), 2);
-		$this->assertSame($comment->getActorType(), 'user');
+		$this->assertSame($comment->getActorType(), 'users');
 		$this->assertSame($comment->getActorId(), 'alice');
 		$this->assertSame($comment->getMessage(), 'nice one');
 		$this->assertSame($comment->getVerb(), 'comment');
-		$this->assertSame($comment->getObjectType(), 'file');
+		$this->assertSame($comment->getObjectType(), 'files');
 		$this->assertSame($comment->getObjectId(), 'file64');
 		$this->assertEquals($comment->getCreationDateTime(), $creationDT);
 		$this->assertEquals($comment->getLatestChildDateTime(), $latestChildDT);
@@ -207,7 +207,7 @@ class Test_Comments_Manager extends TestCase
 		$this->addDatabaseEntry(0, 0);
 
 		$manager = $this->getManager();
-		$comments = $manager->getForObject('file', 'file64');
+		$comments = $manager->getForObject('files', 'file64');
 
 		$this->assertTrue(is_array($comments));
 		$this->assertSame(count($comments), 1);
@@ -227,7 +227,7 @@ class Test_Comments_Manager extends TestCase
 		$manager = $this->getManager();
 		$offset = 0;
 		do {
-			$comments = $manager->getForObject('file', 'file64', 3, $offset);
+			$comments = $manager->getForObject('files', 'file64', 3, $offset);
 
 			$this->assertTrue(is_array($comments));
 			foreach($comments as $comment) {
@@ -247,7 +247,7 @@ class Test_Comments_Manager extends TestCase
 		$id2 = $this->addDatabaseEntry(2, 2, new \DateTime('-2 hours'));
 
 		$manager = $this->getManager();
-		$comments = $manager->getForObject('file', 'file64', 0, 0, new \DateTime('-4 hours'));
+		$comments = $manager->getForObject('files', 'file64', 0, 0, new \DateTime('-4 hours'));
 
 		$this->assertSame(count($comments), 2);
 		$this->assertSame($comments[0]->getId(), strval($id2));
@@ -266,7 +266,7 @@ class Test_Comments_Manager extends TestCase
 		$manager = $this->getManager();
 		$offset = 0;
 		do {
-			$comments = $manager->getForObject('file', 'file64', 3, $offset, new \DateTime('-4 hours'));
+			$comments = $manager->getForObject('files', 'file64', 3, $offset, new \DateTime('-4 hours'));
 
 			$this->assertTrue(is_array($comments));
 			foreach($comments as $comment) {
@@ -290,7 +290,7 @@ class Test_Comments_Manager extends TestCase
 		$amount = $manager->getNumberOfCommentsForObject('untype', '00');
 		$this->assertSame($amount, 0);
 
-		$amount = $manager->getNumberOfCommentsForObject('file', 'file64');
+		$amount = $manager->getNumberOfCommentsForObject('files', 'file64');
 		$this->assertSame($amount, 4);
 	}
 
@@ -357,8 +357,8 @@ class Test_Comments_Manager extends TestCase
 		$manager = $this->getManager();
 		$comment = new \OC\Comments\Comment();
 		$comment
-			->setActor('user', 'alice')
-			->setObject('file', 'file64')
+			->setActor('users', 'alice')
+			->setObject('files', 'file64')
 			->setMessage('very beautiful, I am impressed!')
 			->setVerb('comment');
 
@@ -377,8 +377,8 @@ class Test_Comments_Manager extends TestCase
 		$manager = $this->getManager();
 		$comment = new \OC\Comments\Comment();
 		$comment
-				->setActor('user', 'alice')
-				->setObject('file', 'file64')
+				->setActor('users', 'alice')
+				->setObject('files', 'file64')
 				->setMessage('very beautiful, I am impressed!')
 				->setVerb('comment');
 
@@ -398,8 +398,8 @@ class Test_Comments_Manager extends TestCase
 		$manager = $this->getManager();
 		$comment = new \OC\Comments\Comment();
 		$comment
-				->setActor('user', 'alice')
-				->setObject('file', 'file64')
+				->setActor('users', 'alice')
+				->setObject('files', 'file64')
 				->setMessage('very beautiful, I am impressed!')
 				->setVerb('comment');
 
@@ -428,8 +428,8 @@ class Test_Comments_Manager extends TestCase
 		for($i = 0; $i < 3; $i++) {
 			$comment = new \OC\Comments\Comment();
 			$comment
-					->setActor('user', 'alice')
-					->setObject('file', 'file64')
+					->setActor('users', 'alice')
+					->setObject('files', 'file64')
 					->setParentId(strval($id))
 					->setMessage('full ack')
 					->setVerb('comment')
@@ -450,7 +450,7 @@ class Test_Comments_Manager extends TestCase
 		[
 			['', ''],
 			[1, 'alice'],
-			['user', 1],
+			['users', 1],
 		];
 	}
 
@@ -473,10 +473,10 @@ class Test_Comments_Manager extends TestCase
 
 		// just to make sure they are really set, with correct actor data
 		$comment = $manager->get(strval($ids[1]));
-		$this->assertSame($comment->getActorType(), 'user');
+		$this->assertSame($comment->getActorType(), 'users');
 		$this->assertSame($comment->getActorId(), 'alice');
 
-		$wasSuccessful = $manager->deleteReferencesOfActor('user', 'alice');
+		$wasSuccessful = $manager->deleteReferencesOfActor('users', 'alice');
 		$this->assertTrue($wasSuccessful);
 
 		foreach($ids as $id) {
@@ -487,7 +487,7 @@ class Test_Comments_Manager extends TestCase
 
 		// actor info is gone from DB, but when database interaction is alright,
 		// we still expect to get true back
-		$wasSuccessful = $manager->deleteReferencesOfActor('user', 'alice');
+		$wasSuccessful = $manager->deleteReferencesOfActor('users', 'alice');
 		$this->assertTrue($wasSuccessful);
 	}
 
@@ -496,7 +496,7 @@ class Test_Comments_Manager extends TestCase
 		$this->assertTrue($user instanceof \OCP\IUser);
 
 		$manager = \OC::$server->getCommentsManager();
-		$comment = $manager->create('user', $user->getUID(), 'file', 'file64');
+		$comment = $manager->create('users', $user->getUID(), 'files', 'file64');
 		$comment
 			->setMessage('Most important comment I ever left on the Internet.')
 			->setVerb('comment');
@@ -516,7 +516,7 @@ class Test_Comments_Manager extends TestCase
 				[
 						['', ''],
 						[1, 'file64'],
-						['file', 1],
+						['files', 1],
 				];
 	}
 
@@ -539,10 +539,10 @@ class Test_Comments_Manager extends TestCase
 
 		// just to make sure they are really set, with correct actor data
 		$comment = $manager->get(strval($ids[1]));
-		$this->assertSame($comment->getObjectType(), 'file');
+		$this->assertSame($comment->getObjectType(), 'files');
 		$this->assertSame($comment->getObjectId(), 'file64');
 
-		$wasSuccessful = $manager->deleteCommentsAtObject('file', 'file64');
+		$wasSuccessful = $manager->deleteCommentsAtObject('files', 'file64');
 		$this->assertTrue($wasSuccessful);
 
 		$verified = 0;
@@ -557,7 +557,7 @@ class Test_Comments_Manager extends TestCase
 
 		// actor info is gone from DB, but when database interaction is alright,
 		// we still expect to get true back
-		$wasSuccessful = $manager->deleteCommentsAtObject('file', 'file64');
+		$wasSuccessful = $manager->deleteCommentsAtObject('files', 'file64');
 		$this->assertTrue($wasSuccessful);
 	}
 

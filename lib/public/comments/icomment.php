@@ -161,7 +161,7 @@ interface IComment {
 	/**
 	 * sets (overwrites) the actor type and id
 	 *
-	 * @param string $actorType e.g. 'user'
+	 * @param string $actorType e.g. 'users'
 	 * @param string $actorId e.g. 'zombie234'
 	 * @return IComment
 	 * @since 9.0.0
@@ -223,7 +223,7 @@ interface IComment {
 	/**
 	 * sets (overwrites) the object of the comment
 	 *
-	 * @param string $objectType e.g. 'file'
+	 * @param string $objectType e.g. 'files'
 	 * @param string $objectId e.g. '16435'
 	 * @return IComment
 	 * @since 9.0.0
