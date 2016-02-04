@@ -90,6 +90,8 @@ class Checker {
 		// FIXME: Once the signing server is instructed to sign daily, beta and
 		// RCs as well these need to be included also.
 		$signedChannels = [
+			'daily',
+			'testing',
 			'stable',
 		];
 		if(!in_array($this->environmentHelper->getChannel(), $signedChannels, true)) {
@@ -113,16 +115,22 @@ class Checker {
 	 * Enumerates all files belonging to the folder. Sensible defaults are excluded.
 	 *
 	 * @param string $folderToIterate
+	 * @param string $root
 	 * @return \RecursiveIteratorIterator
 	 * @throws \Exception
 	 */
-	private function getFolderIterator($folderToIterate) {
+	private function getFolderIterator($folderToIterate, $root = '') {
 		$dirItr = new \RecursiveDirectoryIterator(
 			$folderToIterate,
 			\RecursiveDirectoryIterator::SKIP_DOTS
 		);
+		if($root === '') {
+			$root = \OC::$SERVERROOT;
+		}
+		$root = rtrim($root, '/');
+
 		$excludeGenericFilesIterator = new ExcludeFileByNameFilterIterator($dirItr);
-		$excludeFoldersIterator = new ExcludeFoldersByPathFilterIterator($excludeGenericFilesIterator);
+		$excludeFoldersIterator = new ExcludeFoldersByPathFilterIterator($excludeGenericFilesIterator, $root);
 
 		return new \RecursiveIteratorIterator(
 			$excludeFoldersIterator,
@@ -234,14 +242,16 @@ class Checker {
 	 *
 	 * @param X509 $certificate
 	 * @param RSA $rsa
+	 * @param string $path
 	 */
 	public function writeCoreSignature(X509 $certificate,
-									   RSA $rsa) {
-		$iterator = $this->getFolderIterator($this->environmentHelper->getServerRoot());
-		$hashes = $this->generateHashes($iterator, $this->environmentHelper->getServerRoot());
+									   RSA $rsa,
+									   $path) {
+		$iterator = $this->getFolderIterator($path, $path);
+		$hashes = $this->generateHashes($iterator, $path);
 		$signatureData = $this->createSignatureData($hashes, $certificate, $rsa);
 		$this->fileAccessHelper->file_put_contents(
-				$this->environmentHelper->getServerRoot() . '/core/signature.json',
+				$path . '/core/signature.json',
 				json_encode($signatureData, JSON_PRETTY_PRINT)
 		);
 	}
