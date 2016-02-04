@@ -27,6 +27,7 @@ use OCP\Comments\ICommentsManager;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\PropPatch;
 
@@ -112,12 +113,23 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 		];
 	}
 
+	protected function checkWriteAccessOnComment() {
+		$user = $this->userSession->getUser();
+		if(    $this->comment->getActorType() !== 'users'
+			|| is_null($user)
+			|| $this->comment->getActorId() !== $user->getUID()
+		) {
+			throw new Forbidden('Only authors are allowed to edit their comment.');
+		}
+	}
+
 	/**
 	 * Deleted the current node
 	 *
 	 * @return void
 	 */
 	function delete() {
+		$this->checkWriteAccessOnComment();
 		$this->commentsManager->delete($this->comment->getId());
 	}
 
@@ -156,8 +168,10 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @param $propertyValue
 	 * @return bool
+	 * @throws Forbidden
 	 */
 	public function updateComment($propertyValue) {
+		$this->checkWriteAccessOnComment();
 		try {
 			$this->comment->setMessage($propertyValue);
 			$this->commentsManager->save($this->comment);

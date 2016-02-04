@@ -51,13 +51,62 @@ class CommentsNode extends \Test\TestCase {
 	}
 
 	public function testDelete() {
+		$user = $this->getMock('\OCP\IUser');
+
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
 		$this->comment->expects($this->once())
 			->method('getId')
 			->will($this->returnValue('19'));
 
+		$this->comment->expects($this->any())
+			->method('getActorType')
+			->will($this->returnValue('users'));
+
+		$this->comment->expects($this->any())
+			->method('getActorId')
+			->will($this->returnValue('alice'));
+
 		$this->commentsManager->expects($this->once())
 			->method('delete')
 			->with('19');
+
+		$this->node->delete();
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testDeleteForbidden() {
+		$user = $this->getMock('\OCP\IUser');
+
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('mallory'));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$this->comment->expects($this->never())
+			->method('getId');
+
+		$this->comment->expects($this->any())
+			->method('getActorType')
+			->will($this->returnValue('users'));
+
+		$this->comment->expects($this->any())
+			->method('getActorId')
+			->will($this->returnValue('alice'));
+
+		$this->commentsManager->expects($this->never())
+			->method('delete');
 
 		$this->node->delete();
 	}
@@ -85,9 +134,27 @@ class CommentsNode extends \Test\TestCase {
 	public function testUpdateComment() {
 		$msg = 'Hello Earth';
 
+		$user = $this->getMock('\OCP\IUser');
+
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
 		$this->comment->expects($this->once())
 			->method('setMessage')
 			->with($msg);
+
+		$this->comment->expects($this->any())
+			->method('getActorType')
+			->will($this->returnValue('users'));
+
+		$this->comment->expects($this->any())
+			->method('getActorId')
+			->will($this->returnValue('alice'));
 
 		$this->commentsManager->expects($this->once())
 			->method('save')
@@ -96,13 +163,31 @@ class CommentsNode extends \Test\TestCase {
 		$this->assertTrue($this->node->updateComment($msg));
 	}
 
-	public function testUpdateCommentException() {
+	public function testUpdateCommentLogException() {
 		$msg = null;
+
+		$user = $this->getMock('\OCP\IUser');
+
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
 
 		$this->comment->expects($this->once())
 			->method('setMessage')
 			->with($msg)
 			->will($this->throwException(new \Exception('buh!')));
+
+		$this->comment->expects($this->any())
+			->method('getActorType')
+			->will($this->returnValue('users'));
+
+		$this->comment->expects($this->any())
+			->method('getActorId')
+			->will($this->returnValue('alice'));
 
 		$this->commentsManager->expects($this->never())
 			->method('save');
@@ -111,6 +196,90 @@ class CommentsNode extends \Test\TestCase {
 			->method('logException');
 
 		$this->assertFalse($this->node->updateComment($msg));
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testUpdateForbiddenByUser() {
+		$msg = 'HaXX0r';
+
+		$user = $this->getMock('\OCP\IUser');
+
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('mallory'));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$this->comment->expects($this->never())
+			->method('setMessage');
+
+		$this->comment->expects($this->any())
+			->method('getActorType')
+			->will($this->returnValue('users'));
+
+		$this->comment->expects($this->any())
+			->method('getActorId')
+			->will($this->returnValue('alice'));
+
+		$this->commentsManager->expects($this->never())
+			->method('save');
+
+		$this->node->updateComment($msg);
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testUpdateForbiddenByType() {
+		$msg = 'HaXX0r';
+
+		$user = $this->getMock('\OCP\IUser');
+
+		$user->expects($this->never())
+			->method('getUID');
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$this->comment->expects($this->never())
+			->method('setMessage');
+
+		$this->comment->expects($this->any())
+			->method('getActorType')
+			->will($this->returnValue('bots'));
+
+		$this->commentsManager->expects($this->never())
+			->method('save');
+
+		$this->node->updateComment($msg);
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testUpdateForbiddenByNotLoggedIn() {
+		$msg = 'HaXX0r';
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue(null));
+
+		$this->comment->expects($this->never())
+			->method('setMessage');
+
+		$this->comment->expects($this->any())
+			->method('getActorType')
+			->will($this->returnValue('users'));
+
+		$this->commentsManager->expects($this->never())
+			->method('save');
+
+		$this->node->updateComment($msg);
 	}
 
 	public function testPropPatch() {
