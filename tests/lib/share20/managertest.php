@@ -1870,12 +1870,15 @@ class ManagerTest extends \Test\TestCase {
 
 		$originalShare = $this->manager->newShare();
 		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_USER)
-			->setSharedWith('origUser');
+			->setSharedWith('origUser')
+			->setPermissions(1);
+
+		$node = $this->getMock('\OCP\Files\File');
+		$node->method('getId')->willReturn(100);
+		$node->method('getPath')->willReturn('myPath');
 
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
-
-		$node = $this->getMock('\OCP\Files\File');
 
 		$share = $this->manager->newShare();
 		$share->setProviderId('foo')
@@ -1883,6 +1886,8 @@ class ManagerTest extends \Test\TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_USER)
 			->setSharedWith('origUser')
 			->setShareOwner('newUser')
+			->setSharedBy('sharer')
+			->setPermissions(31)
 			->setNode($node);
 
 		$this->defaultProvider->expects($this->once())
@@ -1894,6 +1899,17 @@ class ManagerTest extends \Test\TestCase {
 		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
 		$hookListner->expects($this->never())->method('post');
 
+		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner2, 'post');
+		$hookListner2->expects($this->once())->method('post')->with([
+			'itemType' => 'file',
+			'itemSource' => 100,
+			'shareType' => \OCP\Share::SHARE_TYPE_USER,
+			'shareWith' => 'origUser',
+			'uidOwner' => 'sharer',
+			'permissions' => 31,
+			'path' => 'myPath',
+		]);
 
 		$manager->updateShare($share);
 	}
@@ -1911,7 +1927,8 @@ class ManagerTest extends \Test\TestCase {
 
 		$originalShare = $this->manager->newShare();
 		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
-			->setSharedWith('origUser');
+			->setSharedWith('origUser')
+			->setPermissions(31);
 
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
@@ -1924,7 +1941,8 @@ class ManagerTest extends \Test\TestCase {
 			->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
 			->setSharedWith('origUser')
 			->setShareOwner('owner')
-			->setNode($node);
+			->setNode($node)
+			->setPermissions(31);
 
 		$this->defaultProvider->expects($this->once())
 			->method('update')
@@ -1935,6 +1953,9 @@ class ManagerTest extends \Test\TestCase {
 		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
 		$hookListner->expects($this->never())->method('post');
 
+		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner2, 'post');
+		$hookListner2->expects($this->never())->method('post');
 
 		$manager->updateShare($share);
 	}
@@ -1953,7 +1974,8 @@ class ManagerTest extends \Test\TestCase {
 			->getMock();
 
 		$originalShare = $this->manager->newShare();
-		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_LINK);
+		$originalShare->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(15);
 
 		$tomorrow = new \DateTime();
 		$tomorrow->setTime(0,0,0);
@@ -1970,7 +1992,8 @@ class ManagerTest extends \Test\TestCase {
 			->setShareOwner('owner')
 			->setPassword('password')
 			->setExpirationDate($tomorrow)
-			->setNode($file);
+			->setNode($file)
+			->setPermissions(15);
 
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
@@ -1989,6 +2012,10 @@ class ManagerTest extends \Test\TestCase {
 			'date' => $tomorrow,
 			'uidOwner' => 'owner',
 		]);
+
+		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner2, 'post');
+		$hookListner2->expects($this->never())->method('post');
 
 
 		$manager->updateShare($share);

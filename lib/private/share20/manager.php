@@ -613,6 +613,18 @@ class Manager implements IManager {
 			]);
 		}
 
+		if ($share->getPermissions() !== $originalShare->getPermissions()) {
+			\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
+				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemSource' => $share->getNode()->getId(),
+				'shareType' => $share->getShareType(),
+				'shareWith' => $share->getSharedWith(),
+				'uidOwner' => $share->getSharedBy(),
+				'permissions' => $share->getPermissions(),
+				'path' => $share->getNode()->getPath(),
+			));
+		}
+
 		return $share;
 	}
 
