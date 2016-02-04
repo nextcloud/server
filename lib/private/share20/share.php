@@ -20,7 +20,10 @@
  */
 namespace OC\Share20;
 
+use OCP\Files\File;
+use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IGroup;
 
@@ -31,14 +34,18 @@ class Share implements \OCP\Share\IShare {
 	/** @var string */
 	private $providerId;
 	/** @var Node */
-	private $path;
+	private $node;
+	/** @var int */
+	private $fileId;
+	/** @var string */
+	private $nodeType;
 	/** @var int */
 	private $shareType;
-	/** @var IUser|IGroup */
+	/** @var string */
 	private $sharedWith;
-	/** @var IUser */
+	/** @var string */
 	private $sharedBy;
-	/** @var IUser */
+	/** @var string */
 	private $shareOwner;
 	/** @var int */
 	private $permissions;
@@ -56,6 +63,13 @@ class Share implements \OCP\Share\IShare {
 	private $shareTime;
 	/** @var bool */
 	private $mailSend;
+
+	/** @var IRootFolder */
+	private $rootFolder;
+
+	public function __construct(IRootFolder $rootFolder) {
+		$this->rootFolder = $rootFolder;
+	}
 
 	/**
 	 * @inheritdoc
@@ -90,8 +104,8 @@ class Share implements \OCP\Share\IShare {
 	/**
 	 * @inheritdoc
 	 */
-	public function setNode(Node $path) {
-		$this->path = $path;
+	public function setNode(Node $node) {
+		$this->node = $node;
 		return $this;
 	}
 
@@ -99,7 +113,66 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function getNode() {
-		return $this->path;
+		if ($this->node === null) {
+
+			if ($this->shareOwner === null || $this->fileId === null) {
+				throw new NotFoundException();
+			}
+
+			$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
+
+			$nodes = $userFolder->getById($this->fileId);
+			if (empty($nodes)) {
+				throw new NotFoundException();
+			}
+
+			$this->node = $nodes[0];
+		}
+
+		return $this->node;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setNodeId($fileId) {
+		$this->node = null;
+		$this->fileId = $fileId;
+		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNodeId() {
+		if ($this->fileId === null) {
+			$this->fileId = $this->getNode()->getId();
+		}
+
+		return $this->fileId;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setNodeType($type) {
+		if ($type !== 'file' && $type !== 'folder') {
+			throw new \InvalidArgumentException();
+		}
+
+		$this->nodeType = $type;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNodeType() {
+		if ($this->nodeType === null) {
+			$node = $this->getNode();
+			$this->nodeType = $node instanceof File ? 'file' : 'folder';
+		}
+
+		return $this->nodeType;
 	}
 
 	/**

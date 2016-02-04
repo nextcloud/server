@@ -21,6 +21,7 @@
 
 namespace OC\Share20;
 
+use OCP\Files\IRootFolder;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -45,30 +46,24 @@ class Manager implements IManager {
 
 	/** @var IProviderFactory */
 	private $factory;
-
 	/** @var ILogger */
 	private $logger;
-
 	/** @var IConfig */
 	private $config;
-
 	/** @var ISecureRandom */
 	private $secureRandom;
-
 	/** @var IHasher */
 	private $hasher;
-
 	/** @var IMountManager */
 	private $mountManager;
-
 	/** @var IGroupManager */
 	private $groupManager;
-
 	/** @var IL10N */
 	private $l;
-
 	/** @var IUserManager */
 	private $userManager;
+	/** @var IRootFolder */
+	private $rootFolder;
 
 	/**
 	 * Manager constructor.
@@ -92,7 +87,8 @@ class Manager implements IManager {
 			IGroupManager $groupManager,
 			IL10N $l,
 			IProviderFactory $factory,
-			IUserManager $userManager
+			IUserManager $userManager,
+			IRootFolder $rootFolder
 	) {
 		$this->logger = $logger;
 		$this->config = $config;
@@ -103,6 +99,7 @@ class Manager implements IManager {
 		$this->l = $l;
 		$this->factory = $factory;
 		$this->userManager = $userManager;
+		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -666,13 +663,13 @@ class Manager implements IManager {
 
 			$hookParams = [
 				'id'         => $share->getId(),
-				'itemType'   => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
-				'itemSource' => $share->getNode()->getId(),
+				'itemType'   => $share->getNodeType(),
+				'itemSource' => $share->getNodeId(),
 				'shareType'  => $shareType,
 				'shareWith'  => $sharedWith,
 				'itemparent' => $share->getParent(),
 				'uidOwner'   => $share->getSharedBy(),
-				'fileSource' => $share->getNode()->getId(),
+				'fileSource' => $share->getNodeId(),
 				'fileTarget' => $share->getTarget()
 			];
 			return $hookParams;
@@ -888,7 +885,7 @@ class Manager implements IManager {
 	 * @return \OCP\Share\IShare;
 	 */
 	public function newShare() {
-		return new \OC\Share20\Share();
+		return new \OC\Share20\Share($this->rootFolder);
 	}
 
 	/**

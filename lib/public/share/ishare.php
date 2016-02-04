@@ -24,8 +24,7 @@ namespace OCP\Share;
 use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
-use OCP\IUser;
-use OCP\IGroup;
+use OCP\Files\NotFoundException;
 
 /**
  * Interface IShare
@@ -55,19 +54,54 @@ interface IShare {
 	/**
 	 * Set the node of the file/folder that is shared
 	 *
-	 * @param File|Folder $path
+	 * @param Node $node
 	 * @return \OCP\Share\IShare The modified object
 	 * @since 9.0.0
 	 */
-	public function setNode(Node $path);
+	public function setNode(Node $node);
 
 	/**
 	 * Get the node of the file/folder that is shared
 	 *
 	 * @return File|Folder
 	 * @since 9.0.0
+	 * @throws NotFoundException
 	 */
 	public function getNode();
+
+	/**
+	 * Set file id for lazy evaluation of the node
+	 * @param int $fileId
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
+	 */
+	public function setNodeId($fileId);
+
+	/**
+	 * Get the fileid of the node of this share
+	 * @return int
+	 * @since 9.0.0
+	 * @throws NotFoundException
+	 */
+	public function getNodeId();
+
+	/**
+	 * Set the type of node (file/folder)
+	 *
+	 * @param string $type
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
+	 */
+	public function setNodeType($type);
+
+	/**
+	 * Get the type of node (file/folder)
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 * @throws NotFoundException
+	 */
+	public function getNodeType();
 
 	/**
 	 * Set the shareType

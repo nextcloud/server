@@ -171,6 +171,85 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEquals('myTarget', $share->getTarget());
 	}
 
+	public function testGetShareByIdLazy() {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_with'  => $qb->expr()->literal('sharedWith'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('myTarget'),
+				'permissions' => $qb->expr()->literal(13),
+			]);
+		$qb->execute();
+
+		$id = $qb->getLastInsertId();
+
+		$this->rootFolder->expects($this->never())->method('getUserFolder');
+
+		$share = $this->provider->getShareById($id);
+
+		// We do not fetch the node so the rootfolder is never called.
+
+		$this->assertEquals($id, $share->getId());
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals('sharedWith', $share->getSharedWith());
+		$this->assertEquals('sharedBy', $share->getSharedBy());
+		$this->assertEquals('shareOwner', $share->getShareOwner());
+		$this->assertEquals(13, $share->getPermissions());
+		$this->assertEquals(null, $share->getToken());
+		$this->assertEquals(null, $share->getExpirationDate());
+		$this->assertEquals('myTarget', $share->getTarget());
+	}
+
+	public function testGetShareByIdLazy2() {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$qb->insert('share')
+			->values([
+				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_with'  => $qb->expr()->literal('sharedWith'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('myTarget'),
+				'permissions' => $qb->expr()->literal(13),
+			]);
+		$qb->execute();
+
+		$id = $qb->getLastInsertId();
+
+		$ownerPath = $this->getMock('\OCP\Files\File');
+
+		$shareOwnerFolder = $this->getMock('\OCP\Files\Folder');
+		$shareOwnerFolder->method('getById')->with(42)->willReturn([$ownerPath]);
+
+		$this->rootFolder
+			->method('getUserFolder')
+			->with('shareOwner')
+			->willReturn($shareOwnerFolder);
+
+		$share = $this->provider->getShareById($id);
+
+		// We fetch the node so the root folder is eventually called
+
+		$this->assertEquals($id, $share->getId());
+		$this->assertEquals(\OCP\Share::SHARE_TYPE_USER, $share->getShareType());
+		$this->assertEquals('sharedWith', $share->getSharedWith());
+		$this->assertEquals('sharedBy', $share->getSharedBy());
+		$this->assertEquals('shareOwner', $share->getShareOwner());
+		$this->assertEquals($ownerPath, $share->getNode());
+		$this->assertEquals(13, $share->getPermissions());
+		$this->assertEquals(null, $share->getToken());
+		$this->assertEquals(null, $share->getExpirationDate());
+		$this->assertEquals('myTarget', $share->getTarget());
+	}
+
 	public function testGetShareByIdGroupShare() {
 		$qb = $this->dbConn->getQueryBuilder();
 
@@ -358,6 +437,39 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->getMock();
 
 		$provider->delete($share);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('*')
+			->from('share');
+
+		$cursor = $qb->execute();
+		$result = $cursor->fetchAll();
+		$cursor->closeCursor();
+
+		$this->assertEmpty($result);
+	}
+
+	public function testDeleteSingleShareLazy() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_with' => $qb->expr()->literal('sharedWith'),
+				'uid_owner' => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('myTarget'),
+				'permissions' => $qb->expr()->literal(13),
+			]);
+		$this->assertEquals(1, $qb->execute());
+
+		$id = $qb->getLastInsertId();
+
+		$this->rootFolder->expects($this->never())->method($this->anything());
+
+		$share = $this->provider->getShareById($id);
+		$this->provider->delete($share);
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
@@ -561,7 +673,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testCreateUserShare() {
-		$share = new \OC\Share20\Share();
+		$share = new \OC\Share20\Share($this->rootFolder);
 
 		$shareOwner = $this->getMock('OCP\IUser');
 		$shareOwner->method('getUID')->WillReturn('shareOwner');
@@ -609,7 +721,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testCreateGroupShare() {
-		$share = new \OC\Share20\Share();
+		$share = new \OC\Share20\Share($this->rootFolder);
 
 		$shareOwner = $this->getMock('\OCP\IUser');
 		$shareOwner->method('getUID')->willReturn('shareOwner');
@@ -657,7 +769,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testCreateLinkShare() {
-		$share = new \OC\Share20\Share();
+		$share = new \OC\Share20\Share($this->rootFolder);
 
 		$shareOwner = $this->getMock('\OCP\IUser');
 		$shareOwner->method('getUID')->willReturn('shareOwner');
