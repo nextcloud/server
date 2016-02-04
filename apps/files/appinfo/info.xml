@@ -6,7 +6,7 @@
 	<licence>AGPL</licence>
 	<author>Robin Appelman, Vincent Petry</author>
 	<default_enable/>
-	<version>1.4.2</version>
+	<version>1.4.3</version>
 	<types>
 		<filesystem/>
 	</types>

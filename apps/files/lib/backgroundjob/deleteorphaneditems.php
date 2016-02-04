@@ -26,7 +26,7 @@ use OC\BackgroundJob\TimedJob;
 /**
  * Delete all share entries that have no matching entries in the file cache table.
  */
-class DeleteOrphanedTagsJob extends TimedJob {
+class DeleteOrphanedItems extends TimedJob {
 
 	/** @var \OCP\IDBConnection */
 	protected $connection;
@@ -58,6 +58,28 @@ class DeleteOrphanedTagsJob extends TimedJob {
 	public function run($argument) {
 		$this->cleanSystemTags();
 		$this->cleanUserTags();
+		$this->cleanComments();
+		$this->cleanCommentMarkers();
+	}
+
+	/**
+	 * Deleting orphaned system tag mappings
+	 *
+	 * @return int Number of deleted entries
+	 */
+	protected function cleanUp($table, $idCol, $typeCol) {
+		$subQuery = $this->connection->getQueryBuilder();
+		$subQuery->select($subQuery->expr()->literal('1'))
+			->from('filecache', 'f')
+			->where($subQuery->expr()->eq($idCol, 'f.fileid'));
+
+		$query = $this->connection->getQueryBuilder();
+		$deletedEntries = $query->delete($table)
+			->where($query->expr()->eq($typeCol, $query->expr()->literal('files')))
+			->andWhere($query->expr()->isNull($query->createFunction('(' . $subQuery->getSql() . ')')))
+			->execute();
+
+		return $deletedEntries;
 	}
 
 	/**
@@ -66,18 +88,8 @@ class DeleteOrphanedTagsJob extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanSystemTags() {
-		$subQuery = $this->connection->getQueryBuilder();
-		$subQuery->select($subQuery->expr()->literal('1'))
-			->from('filecache', 'f')
-			->where($subQuery->expr()->eq('objectid', 'f.fileid'));
-
-		$query = $this->connection->getQueryBuilder();
-		$deletedEntries = $query->delete('systemtag_object_mapping')
-			->where($query->expr()->eq('objecttype', $query->expr()->literal('files')))
-			->andWhere($query->expr()->isNull($query->createFunction('(' . $subQuery->getSql() . ')')))
-			->execute();
-
-		$this->logger->debug("$deletedEntries orphaned system tag relations deleted", ['app' => 'DeleteOrphanedTagsJob']);
+		$deletedEntries = $this->cleanUp('systemtag_object_mapping', 'objectid', 'objecttype');
+		$this->logger->debug("$deletedEntries orphaned system tag relations deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
 
@@ -87,18 +99,30 @@ class DeleteOrphanedTagsJob extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanUserTags() {
-		$subQuery = $this->connection->getQueryBuilder();
-		$subQuery->select($subQuery->expr()->literal('1'))
-			->from('filecache', 'f')
-			->where($subQuery->expr()->eq('objid', 'f.fileid'));
+		$deletedEntries = $this->cleanUp('vcategory_to_object', 'objid', 'type');
+		$this->logger->debug("$deletedEntries orphaned user tag relations deleted", ['app' => 'DeleteOrphanedItems']);
+		return $deletedEntries;
+	}
 
-		$query = $this->connection->getQueryBuilder();
-		$deletedEntries = $query->delete('vcategory_to_object')
-			->where($query->expr()->eq('type', $query->expr()->literal('files')))
-			->andWhere($query->expr()->isNull($query->createFunction('(' . $subQuery->getSql() . ')')))
-			->execute();
+	/**
+	 * Deleting orphaned comments
+	 *
+	 * @return int Number of deleted entries
+	 */
+	protected function cleanComments() {
+		$deletedEntries = $this->cleanUp('comments', 'object_id', 'object_type');
+		$this->logger->debug("$deletedEntries orphaned comments deleted", ['app' => 'DeleteOrphanedItems']);
+		return $deletedEntries;
+	}
 
-		$this->logger->debug("$deletedEntries orphaned user tag relations deleted", ['app' => 'DeleteOrphanedTagsJob']);
+	/**
+	 * Deleting orphaned comment read markers
+	 *
+	 * @return int Number of deleted entries
+	 */
+	protected function cleanCommentMarkers() {
+		$deletedEntries = $this->cleanUp('comments_read_markers', 'object_id', 'object_type');
+		$this->logger->debug("$deletedEntries orphaned comment read marks deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
 
