@@ -32,6 +32,7 @@ use \OCA\Files_External\Service\BackendService;
 $appContainer = \OC_Mount_Config::$app->getContainer();
 $backendService = $appContainer->query('OCA\Files_External\Service\BackendService');
 $globalStoragesService = $appContainer->query('OCA\Files_external\Service\GlobalStoragesService');
+$globalAuth = $appContainer->query('OCA\Files_External\Lib\Auth\Password\GlobalAuth');
 
 \OC_Util::addVendorScript('select2/select2');
 \OC_Util::addVendorStyle('select2/select2');
@@ -44,4 +45,7 @@ $tmpl->assign('backends', $backendService->getAvailableBackends());
 $tmpl->assign('authMechanisms', $backendService->getAuthMechanisms());
 $tmpl->assign('dependencies', OC_Mount_Config::dependencyMessage($backendService->getBackends()));
 $tmpl->assign('allowUserMounting', $backendService->isUserMountingAllowed());
+$tmpl->assign('allowUserMounting', $backendService->isUserMountingAllowed());
+$tmpl->assign('globalCredentials', $globalAuth->getAuth(''));
+$tmpl->assign('globalCredentialsUid', '');
 return $tmpl->fetchPage();

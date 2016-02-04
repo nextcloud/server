@@ -60,6 +60,10 @@ class FailedCache implements ICache {
 		return;
 	}
 
+	public function insert($file, array $data) {
+		return;
+	}
+
 	public function update($id, array $data) {
 		return;
 	}
