@@ -77,6 +77,7 @@ class Manager implements IManager {
 	 * @param IL10N $l
 	 * @param IProviderFactory $factory
 	 * @param IUserManager $userManager
+	 * @param IRootFolder $rootFolder
 	 */
 	public function __construct(
 			ILogger $logger,
@@ -614,6 +615,7 @@ class Manager implements IManager {
 		}
 
 		if ($share->getPermissions() !== $originalShare->getPermissions()) {
+			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 			\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
@@ -621,7 +623,7 @@ class Manager implements IManager {
 				'shareWith' => $share->getSharedWith(),
 				'uidOwner' => $share->getSharedBy(),
 				'permissions' => $share->getPermissions(),
-				'path' => $share->getNode()->getPath(),
+				'path' => $userFolder->getRelativePath($share->getNode()->getPath()),
 			));
 		}
 

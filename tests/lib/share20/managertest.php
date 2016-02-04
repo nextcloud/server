@@ -1875,7 +1875,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$node = $this->getMock('\OCP\Files\File');
 		$node->method('getId')->willReturn(100);
-		$node->method('getPath')->willReturn('myPath');
+		$node->method('getPath')->willReturn('/newUser/files/myPath');
 
 		$manager->expects($this->once())->method('canShare')->willReturn(true);
 		$manager->expects($this->once())->method('getShareById')->with('foo:42')->willReturn($originalShare);
@@ -1899,6 +1899,9 @@ class ManagerTest extends \Test\TestCase {
 		\OCP\Util::connectHook('OCP\Share', 'post_set_expiration_date', $hookListner, 'post');
 		$hookListner->expects($this->never())->method('post');
 
+		$this->rootFolder->method('getUserFolder')->with('newUser')->will($this->returnSelf());
+		$this->rootFolder->method('getRelativePath')->with('/newUser/files/myPath')->willReturn('/myPath');
+
 		$hookListner2 = $this->getMockBuilder('Dummy')->setMethods(['post'])->getMock();
 		\OCP\Util::connectHook('OCP\Share', 'post_update_permissions', $hookListner2, 'post');
 		$hookListner2->expects($this->once())->method('post')->with([
@@ -1908,7 +1911,7 @@ class ManagerTest extends \Test\TestCase {
 			'shareWith' => 'origUser',
 			'uidOwner' => 'sharer',
 			'permissions' => 31,
-			'path' => 'myPath',
+			'path' => '/myPath',
 		]);
 
 		$manager->updateShare($share);
