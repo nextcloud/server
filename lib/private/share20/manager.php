@@ -166,6 +166,10 @@ class Manager implements IManager {
 			if ($share->getSharedWith() !== null) {
 				throw new \InvalidArgumentException('SharedWith should be empty');
 			}
+		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
+			if ($share->getSharedWith() === null) {
+				throw new \InvalidArgumentException('SharedWith should not be empty');
+			}
 		} else {
 			// We can't handle other types yet
 			throw new \InvalidArgumentException('unkown share type');
