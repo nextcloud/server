@@ -41,7 +41,7 @@
 		'</div>';
 
 	var COMMENT_TEMPLATE =
-		'<li class="comment{{#if isUnread}} unread{{/if}}" data-id="{{id}}">' +
+		'<li class="comment{{#if isUnread}} unread{{/if}}{{#if isLong}} collapsed{{/if}}" data-id="{{id}}">' +
 		'    <div class="authorRow">' +
 		'        {{#if avatarEnabled}}' +
 		'        <div class="avatar" {{#if actorId}}data-username="{{actorId}}"{{/if}}> </div>' +
@@ -53,6 +53,9 @@
 		'        <div class="date has-tooltip" title="{{altDate}}">{{date}}</div>' +
 		'    </div>' +
 		'    <div class="message">{{{formattedMessage}}}</div>' +
+		'{{#if isLong}}' +
+		'    <div class="message-overlay"></div>' +
+		'{{/if}}' +
 		'</li>';
 
 	/**
@@ -68,7 +71,8 @@
 			'click .showMore': '_onClickShowMore',
 			'click .action.edit': '_onClickEditComment',
 			'click .action.delete': '_onClickDeleteComment',
-			'click .cancel': '_onClickCloseComment'
+			'click .cancel': '_onClickCloseComment',
+			'click .comment': '_onClickComment'
 		},
 
 		_commentMaxLength: 1000,
@@ -124,7 +128,8 @@
 			params = _.extend({
 				avatarEnabled: this._avatarsEnabled,
 				editTooltip: t('comments', 'Edit comment'),
-				isUserAuthor: OC.getCurrentUser().uid === params.actorId
+				isUserAuthor: OC.getCurrentUser().uid === params.actorId,
+				isLong: this._isLong(params.message)
 			}, params);
 
 			if (params.actorType === 'deleted_users') {
@@ -264,7 +269,7 @@
 				submitText: t('comments', 'Save')
 			}, commentToEdit.attributes)));
 
-			$comment.addClass('hidden');
+			$comment.addClass('hidden').removeClass('collapsed');
 			// spawn form
 			$comment.after($formRow);
 			$formRow.data('commentEl', $comment);
@@ -296,6 +301,14 @@
 			var limitExceeded = (len > this._commentMaxLength);
 			$field.toggleClass('error', limitExceeded);
 			$submitButton.prop('disabled', limitExceeded);
+		},
+
+		_onClickComment: function(ev) {
+			var $row = $(ev.target);
+			if (!$row.is('.comment')) {
+				$row = $row.closest('.comment');
+			}
+			$row.removeClass('collapsed');
 		},
 
 		_onClickCloseComment: function(ev) {
@@ -406,6 +419,14 @@
 			}
 
 			return false;
+		},
+
+		/**
+		 * Returns whether the given message is long and needs
+		 * collapsing
+		 */
+		_isLong: function(message) {
+			return message.length > 250 || (message.match(/\n/g) || []).length > 1;
 		}
 	});
 
