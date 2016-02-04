@@ -239,7 +239,7 @@
 				path = path.substr(0, path.length - 1);
 			}
 
-			path = '/' + decodeURIComponent(path);
+			path = decodeURIComponent(path);
 
 			if (response.propStat.length === 1 && response.propStat[0].status !== 200) {
 				return null;
@@ -505,7 +505,7 @@
 			var promise = deferred.promise();
 			options = options || {};
 			var headers = _.extend({}, this._defaultHeaders);
-			var contentType = 'text/plain';
+			var contentType = 'text/plain;charset=utf-8';
 			if (options.contentType) {
 				contentType = options.contentType;
 			}
