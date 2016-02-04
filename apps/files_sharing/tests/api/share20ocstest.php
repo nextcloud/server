@@ -97,10 +97,15 @@ class Share20OCSTest extends \Test\TestCase {
 
 	public function testDeleteShareShareNotFound() {
 		$this->shareManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getShareById')
-			->with('ocinternal:42')
-			->will($this->throwException(new \OCP\Share\Exceptions\ShareNotFound()));
+			->will($this->returnCallback(function($id) {
+				if ($id === 'ocinternal:42' || $id === 'ocFederatedSharing:42') {
+					throw new \OCP\Share\Exceptions\ShareNotFound();
+				} else {
+					throw new \Exception();
+				}
+			}));
 
 		$expected = new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		$this->assertEquals($expected, $this->ocs->deleteShare(42));

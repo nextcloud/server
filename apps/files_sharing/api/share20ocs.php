@@ -26,6 +26,7 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Files\IRootFolder;
+use OCP\Share;
 use OCP\Share\IManager;
 
 use OCP\Share\Exceptions\ShareNotFound;
@@ -164,8 +165,11 @@ class Share20OCS {
 		}
 
 		if ($share === null) {
-			//For now federated shares are handled by the old endpoint.
-			return \OCA\Files_Sharing\API\Local::getShare(['id' => $id]);
+			try {
+				$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
+			} catch (ShareNotFound $e) {
+				return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+			}
 		}
 
 		if ($this->canAccessShare($share)) {
@@ -195,7 +199,11 @@ class Share20OCS {
 
 		// Could not find the share as internal share... maybe it is a federated share
 		if ($share === null) {
-			return \OCA\Files_Sharing\API\Local::deleteShare(['id' => $id]);
+			try {
+				$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
+			} catch (ShareNotFound $e) {
+				return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+			}
 		}
 
 		if (!$this->canAccessShare($share)) {
@@ -313,8 +321,8 @@ class Share20OCS {
 			}
 
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
-			//fixme Remote shares are handled by old code path for now
-			return \OCA\Files_Sharing\API\Local::createShare([]);
+			$share->setSharedWith($shareWith);
+			$share->setPermissions($permissions);
 		} else {
 			return new \OC_OCS_Result(null, 400, "unknown share type");
 		}
@@ -368,11 +376,10 @@ class Share20OCS {
 		/** @var \OCP\Share\IShare[] $shares */
 		$shares = [];
 		foreach ($nodes as $node) {
-			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $node, false, -1, 0));
 			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $node, false, -1, 0));
-			$shares  = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
-			//TODO: Add federated shares
-
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_LINK, $node, false, -1, 0));
+			$shares = array_merge($shares, $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_REMOTE, $node, false, -1, 0));
 		}
 
 		$formatted = [];
@@ -427,9 +434,9 @@ class Share20OCS {
 		$userShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $path, $reshares, -1, 0);
 		$groupShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $path, $reshares, -1, 0);
 		$linkShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_LINK, $path, $reshares, -1, 0);
-		//TODO: Add federated shares
+		$federatedShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_REMOTE, $path, $reshares, -1, 0);
 
-		$shares = array_merge($userShares, $groupShares, $linkShares);
+		$shares = array_merge($userShares, $groupShares, $linkShares, $federatedShares);
 
 		$formatted = [];
 		foreach ($shares as $share) {
@@ -456,7 +463,11 @@ class Share20OCS {
 
 		// Could not find the share as internal share... maybe it is a federated share
 		if ($share === null) {
-			return \OCA\Files_Sharing\API\Local::updateShare(['id' => $id]);
+			try {
+				$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
+			} catch (ShareNotFound $e) {
+				return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+			}
 		}
 
 		if (!$this->canAccessShare($share)) {
