@@ -195,6 +195,140 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 		});
 
 	});
+	describe('editing comments', function() {
+		var saveStub;
+		var currentUserStub;
+
+		beforeEach(function() {
+			saveStub = sinon.stub(OCA.Comments.CommentModel.prototype, 'save');
+			currentUserStub = sinon.stub(OC, 'getCurrentUser');
+			currentUserStub.returns({
+				uid: 'testuser',
+				displayName: 'Test User'
+			});
+			view.collection.add({
+				id: 1,
+				actorId: 'testuser',
+				actorDisplayName: 'Test User',
+				actorType: 'users',
+				verb: 'comment',
+				message: 'New message',
+				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
+			});
+			view.collection.add({
+				id: 2,
+				actorId: 'anotheruser',
+				actorDisplayName: 'Another User',
+				actorType: 'users',
+				verb: 'comment',
+				message: 'New message from another user',
+				creationDateTime: new Date(Date.UTC(2016, 1, 3, 10, 5, 9)).toUTCString()
+			});
+		});
+		afterEach(function() {
+			saveStub.restore();
+			currentUserStub.restore();
+		});
+
+		it('shows edit link for owner comments', function() {
+			var $comment = view.$el.find('.comment[data-id=1]');
+			expect($comment.length).toEqual(1);
+			expect($comment.find('.action.edit').length).toEqual(1);
+		});
+
+		it('does not show edit link for other user\'s comments', function() {
+			var $comment = view.$el.find('.comment[data-id=2]');
+			expect($comment.length).toEqual(1);
+			expect($comment.find('.action.edit').length).toEqual(0);
+		});
+
+		it('shows edit form when clicking edit', function() {
+			var $comment = view.$el.find('.comment[data-id=1]');
+			$comment.find('.action.edit').click();
+
+			expect($comment.hasClass('hidden')).toEqual(true);
+			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
+			expect($formRow.length).toEqual(1);
+		});
+
+		it('saves message and updates comment item when clicking save', function() {
+			var $comment = view.$el.find('.comment[data-id=1]');
+			$comment.find('.action.edit').click();
+
+			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
+			expect($formRow.length).toEqual(1);
+
+			$formRow.find('textarea').val('modified\nmessage');
+			$formRow.find('form').submit();
+
+			expect(saveStub.calledOnce).toEqual(true);
+			expect(saveStub.lastCall.args[0]).toEqual({
+				message: 'modified\nmessage'
+			});
+
+			var model = view.collection.get(1);
+			// simulate the fact that save sets the attribute
+			model.set('message', 'modified\nmessage');
+			saveStub.yieldTo('success', model);
+
+			// original comment element is visible again
+			expect($comment.hasClass('hidden')).toEqual(false);
+			// and its message was updated
+			expect($comment.find('.message').html()).toEqual('modified<br>message');
+
+			// form row is gone
+			$formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
+			expect($formRow.length).toEqual(0);
+		});
+
+		it('restores original comment when cancelling', function() {
+			var $comment = view.$el.find('.comment[data-id=1]');
+			$comment.find('.action.edit').click();
+
+			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
+			expect($formRow.length).toEqual(1);
+
+			$formRow.find('textarea').val('modified\nmessage');
+			$formRow.find('.cancel').click();
+
+			expect(saveStub.notCalled).toEqual(true);
+
+			// original comment element is visible again
+			expect($comment.hasClass('hidden')).toEqual(false);
+			// and its message was not updated
+			expect($comment.find('.message').html()).toEqual('New message');
+
+			// form row is gone
+			$formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
+			expect($formRow.length).toEqual(0);
+		});
+
+		it('destroys model when clicking delete', function() {
+			var destroyStub = sinon.stub(OCA.Comments.CommentModel.prototype, 'destroy');
+			var $comment = view.$el.find('.comment[data-id=1]');
+			$comment.find('.action.edit').click();
+
+			var $formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
+			expect($formRow.length).toEqual(1);
+
+			$formRow.find('.delete').click();
+
+			expect(destroyStub.calledOnce).toEqual(true);
+			expect(destroyStub.thisValues[0].id).toEqual(1);
+
+			destroyStub.yieldTo('success');
+
+			// original comment element is gone
+			$comment = view.$el.find('.comment[data-id=1]');
+			expect($comment.length).toEqual(0);
+
+			// form row is gone
+			$formRow = view.$el.find('.newCommentRow.comment[data-id=1]');
+			expect($formRow.length).toEqual(0);
+
+			destroyStub.restore();
+		});
+	});
 	describe('read marker', function() {
 		var updateMarkerStub;
 
