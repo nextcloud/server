@@ -8,6 +8,7 @@
     "enterprise_key",
     "external",
     "federation",
+    "federatedfilesharing",
     "files",
     "files_antivirus",
     "files_drop",
@@ -35,11 +36,11 @@
     "user_ldap",
     "user_shibboleth",
     "windows_network_drive",
-    "workflow",
-    "federatedfilesharing"
+    "workflow"
   ],
   "alwaysEnabled": [
     "files",
-    "dav"
+    "dav",
+    "federatedfilesharing"
   ]
 }
