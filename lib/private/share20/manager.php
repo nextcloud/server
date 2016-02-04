@@ -663,13 +663,13 @@ class Manager implements IManager {
 
 			$hookParams = [
 				'id'         => $share->getId(),
-				'itemType'   => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
-				'itemSource' => $share->getNode()->getId(),
+				'itemType'   => $share->getNodeType(),
+				'itemSource' => $share->getNodeId(),
 				'shareType'  => $shareType,
 				'shareWith'  => $sharedWith,
 				'itemparent' => $share->getParent(),
 				'uidOwner'   => $share->getSharedBy(),
-				'fileSource' => $share->getNode()->getId(),
+				'fileSource' => $share->getNodeId(),
 				'fileTarget' => $share->getTarget()
 			];
 			return $hookParams;

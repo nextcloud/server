@@ -78,6 +78,32 @@ interface IShare {
 	public function setNodeId($fileId);
 
 	/**
+	 * Get the fileid of the node of this share
+	 * @return int
+	 * @since 9.0.0
+	 * @throws NotFoundException
+	 */
+	public function getNodeId();
+
+	/**
+	 * Set the type of node (file/folder)
+	 *
+	 * @param string $type
+	 * @return \OCP\Share\IShare The modified object
+	 * @since 9.0.0
+	 */
+	public function setNodeType($type);
+
+	/**
+	 * Get the type of node (file/folder)
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 * @throws NotFoundException
+	 */
+	public function getNodeType();
+
+	/**
 	 * Set the shareType
 	 *
 	 * @param int $shareType

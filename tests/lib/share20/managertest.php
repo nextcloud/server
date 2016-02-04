@@ -242,6 +242,86 @@ class ManagerTest extends \Test\TestCase {
 		$manager->deleteShare($share);
 	}
 
+	public function testDeleteLazyShare() {
+		$manager = $this->createManagerMock()
+			->setMethods(['getShareById', 'deleteChildren'])
+			->getMock();
+
+		$share = $this->manager->newShare();
+		$share->setId(42)
+			->setProviderId('prov')
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith('sharedWith')
+			->setSharedBy('sharedBy')
+			->setShareOwner('shareOwner')
+			->setTarget('myTarget')
+			->setNodeId(1)
+			->setNodeType('file');
+
+		$this->rootFolder->expects($this->never())->method($this->anything());
+
+		$manager->expects($this->once())->method('getShareById')->with('prov:42')->willReturn($share);
+		$manager->expects($this->once())->method('deleteChildren')->with($share);
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('delete')
+			->with($share);
+
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre', 'post'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'pre_unshare', $hookListner, 'pre');
+		\OCP\Util::connectHook('OCP\Share', 'post_unshare', $hookListner, 'post');
+
+		$hookListnerExpectsPre = [
+			'id' => 42,
+			'itemType' => 'file',
+			'itemSource' => 1,
+			'shareType' => \OCP\Share::SHARE_TYPE_USER,
+			'shareWith' => 'sharedWith',
+			'itemparent' => null,
+			'uidOwner' => 'sharedBy',
+			'fileSource' => 1,
+			'fileTarget' => 'myTarget',
+		];
+
+		$hookListnerExpectsPost = [
+			'id' => 42,
+			'itemType' => 'file',
+			'itemSource' => 1,
+			'shareType' => \OCP\Share::SHARE_TYPE_USER,
+			'shareWith' => 'sharedWith',
+			'itemparent' => null,
+			'uidOwner' => 'sharedBy',
+			'fileSource' => 1,
+			'fileTarget' => 'myTarget',
+			'deletedShares' => [
+				[
+					'id' => 42,
+					'itemType' => 'file',
+					'itemSource' => 1,
+					'shareType' => \OCP\Share::SHARE_TYPE_USER,
+					'shareWith' => 'sharedWith',
+					'itemparent' => null,
+					'uidOwner' => 'sharedBy',
+					'fileSource' => 1,
+					'fileTarget' => 'myTarget',
+				],
+			],
+		];
+
+
+		$hookListner
+			->expects($this->exactly(1))
+			->method('pre')
+			->with($hookListnerExpectsPre);
+		$hookListner
+			->expects($this->exactly(1))
+			->method('post')
+			->with($hookListnerExpectsPost);
+
+		$manager->deleteShare($share);
+	}
+
 	public function testDeleteNested() {
 		$manager = $this->createManagerMock()
 			->setMethods(['getShareById'])

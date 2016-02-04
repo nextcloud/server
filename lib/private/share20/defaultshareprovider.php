@@ -745,6 +745,7 @@ class DefaultShareProvider implements IShareProvider {
 		}
 
 		$share->setNodeId((int)$data['file_source']);
+		$share->setNodeType($data['item_type']);
 
 		if ($data['expiration'] !== null) {
 			$expiration = \DateTime::createFromFormat('Y-m-d H:i:s', $data['expiration']);

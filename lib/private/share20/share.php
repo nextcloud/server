@@ -20,6 +20,7 @@
  */
 namespace OC\Share20;
 
+use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
@@ -36,6 +37,8 @@ class Share implements \OCP\Share\IShare {
 	private $node;
 	/** @var int */
 	private $fileId;
+	/** @var string */
+	private $nodeType;
 	/** @var int */
 	private $shareType;
 	/** @var string */
@@ -136,6 +139,40 @@ class Share implements \OCP\Share\IShare {
 		$this->node = null;
 		$this->fileId = $fileId;
 		return $this;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNodeId() {
+		if ($this->fileId === null) {
+			$this->fileId = $this->getNode()->getId();
+		}
+
+		return $this->fileId;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function setNodeType($type) {
+		if ($type !== 'file' && $type !== 'folder') {
+			throw new \InvalidArgumentException();
+		}
+
+		$this->nodeType = $type;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getNodeType() {
+		if ($this->nodeType === null) {
+			$node = $this->getNode();
+			$this->nodeType = $node instanceof File ? 'file' : 'folder';
+		}
+
+		return $this->nodeType;
 	}
 
 	/**
