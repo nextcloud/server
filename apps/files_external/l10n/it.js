@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error generating key pair" : "Errore durante la generazione della coppia di chiavi",
     "Enable encryption" : "Abilita cifratura",
     "Enable previews" : "Abilita le anteprime",
+    "Enable sharing" : "Abilita condivisione",
     "Check for changes" : "Controlla le modifiche",
     "Never" : "Mai",
     "Once every direct access" : "Una volta per ogni accesso diretto",

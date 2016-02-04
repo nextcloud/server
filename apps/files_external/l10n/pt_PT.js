@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error generating key pair" : "Erro ao gerar chave par",
     "Enable encryption" : "Ative a encriptação",
     "Enable previews" : "Ative as pré-visualizações",
+    "Enable sharing" : "Ativar partilha",
     "Check for changes" : "Verifique as suas alterações",
     "Never" : "Nunca",
     "Once every direct access" : "Uma vez em cada acesso direto",
