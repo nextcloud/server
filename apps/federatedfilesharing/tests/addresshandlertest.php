@@ -20,7 +20,7 @@
  */
 
 
-namespace OCA\FederatedFileSharing\Tests\lib;
+namespace OCA\FederatedFileSharing\Tests;
 
 
 use OCA\FederatedFileSharing\AddressHandler;

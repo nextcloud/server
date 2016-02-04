@@ -17,7 +17,7 @@
 	<filter>
 		<!-- whitelist processUncoveredFilesFromWhitelist="true" -->
 		<whitelist>
-			<directory suffix=".php">..</directory>
+			<directory suffix=".php">../apps/federatedfilesharing/</directory>
 			<exclude>
 				<directory suffix=".php">../3rdparty</directory>
 				<directory suffix=".php">../apps/files/l10n</directory>
