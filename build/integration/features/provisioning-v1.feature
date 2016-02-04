@@ -284,6 +284,7 @@ Feature: provisioning
 		And apps returned are
 			| comments |
 			| dav |
+			| federatedfilesharing |
 			| files |
 			| files_sharing |
 			| files_trashbin |
