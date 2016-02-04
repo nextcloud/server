@@ -449,6 +449,39 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->assertEmpty($result);
 	}
 
+	public function testDeleteSingleShareLazy() {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
+				'share_with' => $qb->expr()->literal('sharedWith'),
+				'uid_owner' => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
+				'item_type'   => $qb->expr()->literal('file'),
+				'file_source' => $qb->expr()->literal(42),
+				'file_target' => $qb->expr()->literal('myTarget'),
+				'permissions' => $qb->expr()->literal(13),
+			]);
+		$this->assertEquals(1, $qb->execute());
+
+		$id = $qb->getLastInsertId();
+
+		$this->rootFolder->expects($this->never())->method($this->anything());
+
+		$share = $this->provider->getShareById($id);
+		$this->provider->delete($share);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('*')
+			->from('share');
+
+		$cursor = $qb->execute();
+		$result = $cursor->fetchAll();
+		$cursor->closeCursor();
+
+		$this->assertEmpty($result);
+	}
+
 	public function testDeleteGroupShareWithUserGroupShares() {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
