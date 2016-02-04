@@ -421,12 +421,12 @@ OCA.External.StatusManager = {
 					OC.Notification.showTemporary(t('files_external', 'Credentials saving failed'));
 				}
 			});
+			return false;
 		};
-
-		dialog.find('form').on('submit', apply);
 
 		var ocdialogParams = {
 			modal: true,
+			title: t('files_external', 'Credentials required'),
 			buttons: [{
 				text: t('files_external', 'Save'),
 				click: apply,
@@ -439,6 +439,17 @@ OCA.External.StatusManager = {
 			.bind('ocdialogclose', function () {
 				dialog.ocdialog('destroy').remove();
 			});
+
+		dialog.find('form').on('submit', apply);
+		dialog.find('form input:first').focus();
+		dialog.find('form input').keyup(function (e) {
+			if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
+				$(e.target).closest('form').submit();
+				return false;
+			} else {
+				return true;
+			}
+		});
 	}
 };
 
