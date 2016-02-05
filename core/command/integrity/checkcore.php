@@ -36,7 +36,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class SignApp
+ * Class CheckCore
  *
  * @package OC\Core\Command\Integrity
  */

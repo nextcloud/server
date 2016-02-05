@@ -33,10 +33,11 @@ use OC\IntegrityCheck\Checker;
 use OC\Core\Command\Base;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class SignApp
+ * Class CheckApp
  *
  * @package OC\Core\Command\Integrity
  */
@@ -54,7 +55,8 @@ class CheckApp extends Base {
 		$this
 			->setName('integrity:check-app')
 			->setDescription('Check an app integrity using a signature.')
-			->addArgument('appid', null, InputArgument::REQUIRED, 'Application to check');
+			->addArgument('appid', null, InputArgument::REQUIRED, 'Application to check')
+			->addOption('path', null, InputOption::VALUE_OPTIONAL, 'Path to application. If none is given it will be guessed.');
 	}
 
 	/**
@@ -62,7 +64,8 @@ class CheckApp extends Base {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$appid = $input->getArgument('appid');
-		$result = $this->checker->verifyAppSignature($appid);
+		$path = strval($input->getOption('path'));
+		$result = $this->checker->verifyAppSignature($appid, $path);
 		$this->writeArrayInOutputFormat($input, $output, $result);
 	}
 
