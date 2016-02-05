@@ -436,12 +436,6 @@ class Manager implements ICommentsManager {
 			// Ignore exceptions, we just don't fire a hook then
 			$comment = null;
 		}
-		if ($comment instanceof IComment) {
-			$this->dispatcher->dispatch(CommentsEvent::EVENT_DELETE, new CommentsEvent(
-				CommentsEvent::EVENT_DELETE,
-				$comment
-			));
-		}
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->delete('comments')
@@ -455,6 +449,14 @@ class Manager implements ICommentsManager {
 			$this->logger->logException($e, ['app' => 'core_comments']);
 			return false;
 		}
+
+		if ($affectedRows > 0 && $comment instanceof IComment) {
+			$this->dispatcher->dispatch(CommentsEvent::EVENT_DELETE, new CommentsEvent(
+				CommentsEvent::EVENT_DELETE,
+				$comment
+			));
+		}
+
 		return ($affectedRows > 0);
 	}
 
