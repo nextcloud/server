@@ -27,6 +27,8 @@ use OCA\Files_External\Command\Applicable;
 use OCA\Files_External\Command\Import;
 use OCA\Files_External\Command\Export;
 use OCA\Files_External\Command\Delete;
+use OCA\Files_External\Command\Create;
+use OCA\Files_External\Command\Backends;
 
 $userManager = OC::$server->getUserManager();
 $userSession = OC::$server->getUserSession();
@@ -47,3 +49,5 @@ $application->add(new Applicable($globalStorageService, $userManager, $groupMana
 $application->add(new Import($globalStorageService, $userStorageService, $userSession, $userManager, $importLegacyStorageService, $backendService));
 $application->add(new Export($globalStorageService, $userStorageService, $userSession, $userManager));
 $application->add(new Delete($globalStorageService, $userStorageService, $userSession, $userManager));
+$application->add(new Create($globalStorageService, $userStorageService, $userManager, $userSession, $backendService));
+$application->add(new Backends($backendService));
