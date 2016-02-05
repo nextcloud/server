@@ -142,6 +142,11 @@ class Create extends Base {
 			$output->writeln('<error>Authentication backend with identifier "' . $authIdentifier . '" not found (see `occ files_external:backends` for possible values)</error>');
 			return 404;
 		}
+		$supportedSchemes = array_keys($storageBackend->getAuthSchemes());
+		if (!in_array($authBackend->getScheme(), $supportedSchemes)) {
+			$output->writeln('<error>Authentication backend "' . $authIdentifier . '" not valid for storage backend "' . $storageIdentifier . '" (see `occ files_external:backends storage ' . $storageIdentifier . '` for possible values)</error>');
+			return 1;
+		}
 
 		$config = [];
 		foreach ($configInput as $configOption) {
