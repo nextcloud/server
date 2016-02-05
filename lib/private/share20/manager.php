@@ -831,7 +831,11 @@ class Manager implements IManager {
 
 		$share = $provider->getShareByToken($token);
 
-		//TODO check if share expired
+		if ($share->getExpirationDate() !== null &&
+			$share->getExpirationDate() <= new \DateTime()) {
+			$this->deleteShare($share);
+			throw new ShareNotFound();
+		}
 
 		return $share;
 	}

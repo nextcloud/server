@@ -22,6 +22,7 @@ namespace Test\Share20;
 
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OC\Share20\Manager;
@@ -1702,6 +1703,48 @@ class ManagerTest extends \Test\TestCase {
 
 		$ret = $manager->getShareByToken('token');
 		$this->assertSame($share, $ret);
+	}
+
+	/**
+	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
+	 */
+	public function testGetShareByTokenExpired() {
+		$manager = $this->createManagerMock()
+			->setMethods(['deleteShare'])
+			->getMock();
+
+		$date = new \DateTime();
+		$date->setTime(0,0,0);
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($date);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareByToken')
+			->with('expiredToken')
+			->willReturn($share);
+
+		$manager->expects($this->once())
+			->method('deleteShare')
+			->with($this->equalTo($share));
+
+		$manager->getShareByToken('expiredToken');
+	}
+
+	public function testGetShareByTokenNotExpired() {
+		$date = new \DateTime();
+		$date->setTime(0,0,0);
+		$date->add(new \DateInterval('P2D'));
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($date);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareByToken')
+			->with('expiredToken')
+			->willReturn($share);
+
+		$res = $this->manager->getShareByToken('expiredToken');
+
+		$this->assertSame($share, $res);
 	}
 
 	public function testCheckPasswordNoLinkShare() {
