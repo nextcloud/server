@@ -178,7 +178,7 @@ if($_['passwordChangeSupported']) {
 			alt="<?php p($l->t('Android app'));?>" />
 	</a>
 	<a href="<?php p($_['clients']['ios']); ?>" target="_blank">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'appstore.png')); ?>"
+		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'appstore.svg')); ?>"
 			alt="<?php p($l->t('iOS app'));?>" />
 	</a>
 
