@@ -106,7 +106,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function __construct(\OCP\IDBConnection $db, Principal $principalBackend) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
-		$this->sharingBackend = new Backend($this->db, 'calendar');
+		$this->sharingBackend = new Backend($this->db, $principalBackend, 'calendar');
 	}
 
 	/**

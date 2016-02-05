@@ -72,7 +72,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	public function __construct(IDBConnection $db, Principal $principalBackend) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
-		$this->sharingBackend = new Backend($this->db, 'addressbook');
+		$this->sharingBackend = new Backend($this->db, $principalBackend, 'addressbook');
 	}
 
 	/**

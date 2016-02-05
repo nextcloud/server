@@ -24,6 +24,7 @@
 
 namespace OCA\DAV\DAV\Sharing;
 
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
 
 class Backend {
@@ -43,8 +44,9 @@ class Backend {
 	 *
 	 * @param IDBConnection $db
 	 */
-	public function __construct(IDBConnection $db, $resourceType) {
+	public function __construct(IDBConnection $db, Principal $principalBackend, $resourceType) {
 		$this->db = $db;
+		$this->principalBackend = $principalBackend;
 		$this->resourceType = $resourceType;
 	}
 
@@ -153,9 +155,10 @@ class Backend {
 
 		$shares = [];
 		while($row = $result->fetch()) {
+			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$shares[]= [
 				'href' => "principal:${row['principaluri']}",
-//				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
+				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
 				'readOnly' => ($row['access'] == self::ACCESS_READ),
 				'{'.\OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD.'}principal' => $row['principaluri']
