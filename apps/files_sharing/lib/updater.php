@@ -73,6 +73,12 @@ class Shared_Updater {
 	 */
 	static private function moveShareToShare($path) {
 		$userFolder = \OC::$server->getUserFolder();
+
+		// If the user folder can't be constructed (e.g. link share) just return.
+		if ($userFolder === null) {
+			return;
+		}
+
 		$src = $userFolder->get($path);
 
 		$type = $src instanceof \OCP\Files\File ? 'file' : 'folder';
