@@ -18,8 +18,8 @@
 		<contacts>appinfo/v1/carddav.php</contacts>
 		<carddav>appinfo/v1/carddav.php</carddav>
 		<!-- caldav endpoints as used before ownCloud 9.0 -->
-		<calendar>appinfo/caldav.php</calendar>
-		<caldav>appinfo/caldav.php</caldav>
+		<calendar>appinfo/v1/caldav.php</calendar>
+		<caldav>appinfo/v1/caldav.php</caldav>
 	</remote>
 	<public>
 		<webdav>appinfo/v1/publicwebdav.php</webdav>
