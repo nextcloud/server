@@ -396,7 +396,7 @@ abstract class Common implements Storage, ILockingStorage {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|false
+	 * @return string
 	 */
 	public function getETag($path) {
 		return uniqid();

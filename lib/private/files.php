@@ -160,6 +160,8 @@ class OC_Files {
 	/**
 	 * @param View $view
 	 * @param string $name
+	 * @param string $dir
+	 * @param boolean $onlyHeader
 	 */
 	private static function getSingleFile($view, $dir, $name, $onlyHeader) {
 		$filename = $dir . '/' . $name;
@@ -185,7 +187,7 @@ class OC_Files {
 
 	/**
 	 * @param View $view
-	 * @param $dir
+	 * @param string $dir
 	 * @param string[]|string $files
 	 */
 	public static function lockFiles($view, $dir, $files) {
@@ -290,11 +292,11 @@ class OC_Files {
 	}
 
 	/**
-	 * @param $dir
+	 * @param string $dir
 	 * @param $files
-	 * @param $getType
+	 * @param integer $getType
 	 * @param View $view
-	 * @param $filename
+	 * @param string $filename
 	 */
 	private static function unlockAllTheFiles($dir, $files, $getType, $view, $filename) {
 		if ($getType === self::FILE) {
