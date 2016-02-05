@@ -104,6 +104,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getCapabilitiesManager();
 		});
 
+		$this->registerService('OCP\Comments\ICommentsManager', function($c) {
+			return $this->getServer()->getCommentsManager();
+		});
+
 		$this->registerService('OCP\\IConfig', function($c) {
 			return $this->getServer()->getConfig();
 		});
