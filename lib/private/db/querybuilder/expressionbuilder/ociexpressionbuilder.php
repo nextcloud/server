@@ -19,24 +19,25 @@
  *
  */
 
-namespace OC\DB\QueryBuilder;
+namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 
+use OC\DB\QueryBuilder\QueryFunction;
 use OCP\DB\QueryBuilder\ILiteral;
 use OCP\DB\QueryBuilder\IParameter;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\DB\QueryBuilder\IQueryFunction;
 
 class OCIExpressionBuilder extends ExpressionBuilder {
 
 	/**
 	 * @param mixed $column
 	 * @param mixed|null $type
-	 * @return array|QueryFunction|string
+	 * @return array|IQueryFunction|string
 	 */
 	protected function prepareColumn($column, $type) {
 		if ($type === IQueryBuilder::PARAM_STR && !is_array($column) && !($column instanceof IParameter) && !($column instanceof ILiteral)) {
-			$column = $this->helper->quoteColumnName($column);
-			$column = new QueryFunction('to_char(' . $column . ')');
+			$column = $this->castColumn($column, $type);
 		} else {
 			$column = $this->helper->quoteColumnNames($column);
 		}
@@ -131,5 +132,21 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 		$y = $this->prepareColumn($y, $type);
 
 		return $this->expressionBuilder->notIn($x, $y);
+	}
+
+	/**
+	 * Returns a IQueryFunction that casts the column to the given type
+	 *
+	 * @param string $column
+	 * @param mixed $type One of IQueryBuilder::PARAM_*
+	 * @return IQueryFunction
+	 */
+	public function castColumn($column, $type) {
+		if ($type === IQueryBuilder::PARAM_STR) {
+			$column = $this->helper->quoteColumnName($column);
+			return new QueryFunction('to_char(' . $column . ')');
+		}
+
+		return parent::castColumn($column, $type);
 	}
 }

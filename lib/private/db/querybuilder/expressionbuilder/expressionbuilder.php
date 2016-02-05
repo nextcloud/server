@@ -19,9 +19,13 @@
  *
  */
 
-namespace OC\DB\QueryBuilder;
+namespace OC\DB\QueryBuilder\ExpressionBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
+use OC\DB\QueryBuilder\CompositeExpression;
+use OC\DB\QueryBuilder\Literal;
+use OC\DB\QueryBuilder\QueryFunction;
+use OC\DB\QueryBuilder\QuoteHelper;
 use OCP\DB\QueryBuilder\IExpressionBuilder;
 use OCP\IDBConnection;
 
@@ -330,5 +334,18 @@ class ExpressionBuilder implements IExpressionBuilder {
 	 */
 	public function literal($input, $type = null) {
 		return new Literal($this->expressionBuilder->literal($input, $type));
+	}
+
+	/**
+	 * Returns a IQueryFunction that casts the column to the given type
+	 *
+	 * @param string $column
+	 * @param mixed $type One of IQueryBuilder::PARAM_*
+	 * @return string
+	 */
+	public function castColumn($column, $type) {
+		return new QueryFunction(
+			$this->helper->quoteColumnName($column)
+		);
 	}
 }

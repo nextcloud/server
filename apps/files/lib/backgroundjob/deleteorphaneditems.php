@@ -22,6 +22,7 @@
 namespace OCA\Files\BackgroundJob;
 
 use OC\BackgroundJob\TimedJob;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
  * Delete all share entries that have no matching entries in the file cache table.
@@ -111,7 +112,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 */
 	protected function cleanComments() {
 		$qb = $this->connection->getQueryBuilder();
-		$deletedEntries = $this->cleanUp('comments', $qb->createFunction('CAST(`object_id` as INT)'), 'object_type');
+		$deletedEntries = $this->cleanUp('comments', $qb->expr()->castColumn('object_id', IQueryBuilder::PARAM_INT), 'object_type');
 		$this->logger->debug("$deletedEntries orphaned comments deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
@@ -123,7 +124,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 */
 	protected function cleanCommentMarkers() {
 		$qb = $this->connection->getQueryBuilder();
-		$deletedEntries = $this->cleanUp('comments_read_markers', $qb->createFunction('CAST(`object_id` as INT)'), 'object_type');
+		$deletedEntries = $this->cleanUp('comments_read_markers', $qb->expr()->castColumn('object_id', IQueryBuilder::PARAM_INT), 'object_type');
 		$this->logger->debug("$deletedEntries orphaned comment read marks deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}

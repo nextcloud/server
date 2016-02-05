@@ -299,4 +299,14 @@ interface IExpressionBuilder {
 	 * @since 8.2.0
 	 */
 	public function literal($input, $type = null);
+
+	/**
+	 * Returns a IQueryFunction that casts the column to the given type
+	 *
+	 * @param string $column
+	 * @param mixed $type One of IQueryBuilder::PARAM_*
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function castColumn($column, $type);
 }
