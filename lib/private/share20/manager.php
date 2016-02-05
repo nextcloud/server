@@ -803,6 +803,14 @@ class Manager implements IManager {
 
 		$share = $provider->getShareById($id, $recipient);
 
+		// Validate link shares expiration date
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+			$share->getExpirationDate() !== null &&
+			$share->getExpirationDate() <= new \DateTime()) {
+			$this->deleteShare($share);
+			throw new ShareNotFound();
+		}
+
 		return $share;
 	}
 

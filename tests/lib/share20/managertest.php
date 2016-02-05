@@ -501,6 +501,33 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
+	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
+	 */
+	public function testGetExpiredShareById() {
+		$manager = $this->createManagerMock()
+			->setMethods(['deleteShare'])
+			->getMock();
+
+		$date = new \DateTime();
+		$date->setTime(0,0,0);
+
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($date)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareById')
+			->with('42')
+			->willReturn($share);
+
+		$manager->expects($this->once())
+			->method('deleteShare')
+			->with($share);
+
+		$manager->getShareById('default:42');
+	}
+
+	/**
 	 * @expectedException        InvalidArgumentException
 	 * @expectedExceptionMessage Passwords are enforced for link shares
 	 */
