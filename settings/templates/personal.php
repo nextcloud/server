@@ -170,7 +170,7 @@ if($_['passwordChangeSupported']) {
 <div id="clientsbox" class="section clientsbox">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" target="_blank">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'desktopapp.png')); ?>"
+		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'desktopapp.svg')); ?>"
 			alt="<?php p($l->t('Desktop client'));?>" />
 	</a>
 	<a href="<?php p($_['clients']['android']); ?>" target="_blank">
@@ -178,7 +178,7 @@ if($_['passwordChangeSupported']) {
 			alt="<?php p($l->t('Android app'));?>" />
 	</a>
 	<a href="<?php p($_['clients']['ios']); ?>" target="_blank">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'appstore.png')); ?>"
+		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'appstore.svg')); ?>"
 			alt="<?php p($l->t('iOS app'));?>" />
 	</a>
 

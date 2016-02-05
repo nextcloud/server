@@ -54,6 +54,10 @@ input#openid, input#webdav { width:20em; }
 	max-width: 75%;
 }
 
+.clientsbox img {
+	height: 60px;
+}
+
 #sslCertificate tr.expired {
 	background-color: rgba(255, 0, 0, 0.5);
 }
