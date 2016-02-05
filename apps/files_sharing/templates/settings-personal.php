@@ -31,7 +31,7 @@ if ($_['showShareIT']) {
 			</button>
 			</div>
 			<button class="social-diaspora pop-up"
-				data-url='http://sharetodiaspora.github.io/?title=<?php p($_['message_without_URL']); ?>&url=<?php p(urlencode($_['reference'])); ?>'>
+				data-url='https://sharetodiaspora.github.io/?title=<?php p($_['message_without_URL']); ?>&url=<?php p(urlencode($_['reference'])); ?>'>
 				Diaspora
 			</button>
 			<button class="social-twitter pop-up"
