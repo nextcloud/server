@@ -116,6 +116,11 @@ class CommentsPlugin extends ServerPlugin {
 			$data,
 			$request->getHeader('Content-Type')
 		);
+
+		// update read marker for the current user/poster to avoid
+		// having their own comments marked as unread
+		$node->setReadMarker(null);
+
 		$url = $request->getUrl() . '/' . urlencode($comment->getId());
 
 		$response->setHeader('Content-Location', $url);
