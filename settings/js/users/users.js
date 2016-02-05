@@ -732,24 +732,20 @@ $(document).ready(function () {
 			.focus()
 			.keypress(function (event) {
 				if (event.keyCode === 13) {
-					if ($(this).val().length > 0) {
-						$tr.data('mailAddress', $input.val());
-						$input.blur();
-						$.ajax({
-							type: 'PUT',
-							url: OC.generateUrl('/settings/users/{id}/mailAddress', {id: uid}),
-							data: {
-								mailAddress: $(this).val()
-							}
-						}).fail(function (result) {
-							OC.Notification.show(result.responseJSON.data.message);
-							// reset the values
-							$tr.data('mailAddress', mailAddress);
-							$tr.children('.mailAddress').children('span').text(mailAddress);
-						});
-					} else {
-						$input.blur();
-					}
+					$tr.data('mailAddress', $input.val());
+					$input.blur();
+					$.ajax({
+						type: 'PUT',
+						url: OC.generateUrl('/settings/users/{id}/mailAddress', {id: uid}),
+						data: {
+							mailAddress: $(this).val()
+						}
+					}).fail(function (result) {
+						OC.Notification.show(result.responseJSON.data.message);
+						// reset the values
+						$tr.data('mailAddress', mailAddress);
+						$tr.children('.mailAddress').children('span').text(mailAddress);
+					});
 				}
 			})
 			.blur(function () {
