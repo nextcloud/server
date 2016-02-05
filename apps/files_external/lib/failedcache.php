@@ -22,6 +22,7 @@
 namespace OCA\Files_External\Lib;
 
 use OC\Files\Cache\CacheEntry;
+use OCP\Constants;
 use OCP\Files\Cache\ICache;
 
 /**
@@ -40,7 +41,7 @@ class FailedCache implements ICache {
 				'size' => 0,
 				'mimetype' => 'httpd/unix-directory',
 				'mimepart' => 'httpd',
-				'permissions' => 0,
+				'permissions' => Constants::PERMISSION_READ,
 				'mtime' => time()
 			]);
 		} else {
