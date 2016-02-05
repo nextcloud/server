@@ -26,6 +26,7 @@ use OCP\Activity\IManager;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\L10N\IFactory;
 
 /**
@@ -48,15 +49,20 @@ class Extension implements IExtension {
 	/** @var ICommentsManager */
 	protected $commentsManager;
 
+	/** @var IURLGenerator */
+	protected $URLGenerator;
+
 	/**
 	 * @param IFactory $languageFactory
 	 * @param IManager $activityManager
 	 * @param ICommentsManager $commentsManager
+	 * @param IURLGenerator $URLGenerator
 	 */
-	public function __construct(IFactory $languageFactory, IManager $activityManager, ICommentsManager $commentsManager) {
+	public function __construct(IFactory $languageFactory, IManager $activityManager, ICommentsManager $commentsManager, IURLGenerator $URLGenerator) {
 		$this->languageFactory = $languageFactory;
 		$this->activityManager = $activityManager;
 		$this->commentsManager = $commentsManager;
+		$this->URLGenerator = $URLGenerator;
 	}
 
 	protected function getL10N($languageCode = null) {
@@ -214,7 +220,17 @@ class Extension implements IExtension {
 	 * @return array|false
 	 */
 	public function getNavigation() {
-		return false;
+		$l = $this->getL10N();
+		return [
+			'apps' => [],
+			'top' => [
+				self::APP_NAME => [
+					'id' => self::APP_NAME,
+					'name' => (string) $l->t('Comments'),
+					'url' => $this->URLGenerator->linkToRoute('activity.Activities.showList', ['filter' => self::APP_NAME]),
+				],
+			],
+		];
 	}
 
 	/**
@@ -224,7 +240,7 @@ class Extension implements IExtension {
 	 * @return boolean
 	 */
 	public function isFilterValid($filterValue) {
-		return false;
+		return $filterValue === self::APP_NAME;
 	}
 
 	/**
@@ -236,6 +252,9 @@ class Extension implements IExtension {
 	 * @return array|false
 	 */
 	public function filterNotificationTypes($types, $filter) {
+		if ($filter === self::APP_NAME) {
+			return array_intersect($types, [self::APP_NAME]);
+		}
 		return false;
 	}
 
