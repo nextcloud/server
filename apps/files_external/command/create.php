@@ -180,6 +180,11 @@ class Create extends Base {
 			$this->showMount($user, $mount, $input, $output);
 		} else {
 			$this->getStorageService($user)->addStorage($mount);
+			if ($input->getOption('output') === self::OUTPUT_FORMAT_PLAIN) {
+				$output->writeln('<info>Storage created with id ' . $mount->getId() . '</info>');
+			} else {
+				$output->writeln($mount->getId());
+			}
 		}
 		return 0;
 	}
