@@ -22,6 +22,7 @@
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
+use OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCA\Files_External\Lib\Backend\Backend;
 use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Service\BackendService;
@@ -103,6 +104,8 @@ class Backends extends Base {
 		];
 		if ($backend instanceof Backend) {
 			$result['storage_class'] = $backend->getStorageClass();
+			$authBackends = $this->backendService->getAuthMechanismsByScheme(array_keys($backend->getAuthSchemes()));
+			$result['supported_authentication_backends'] = array_keys($authBackends);
 		}
 		return $result;
 	}
