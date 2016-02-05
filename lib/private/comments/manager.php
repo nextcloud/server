@@ -21,6 +21,7 @@
 namespace OC\Comments;
 
 use Doctrine\DBAL\Exception\DriverException;
+use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
@@ -28,6 +29,7 @@ use OCP\IDBConnection;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\IUser;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Manager implements ICommentsManager {
 
@@ -37,20 +39,33 @@ class Manager implements ICommentsManager {
 	/** @var  ILogger */
 	protected $logger;
 
-	/** @var IComment[]  */
-	protected $commentsCache = [];
-
 	/** @var IConfig */
 	protected $config;
 
+	/** @var EventDispatcherInterface */
+	protected $dispatcher;
+
+	/** @var IComment[]  */
+	protected $commentsCache = [];
+
+	/**
+	 * Manager constructor.
+	 *
+	 * @param IDBConnection $dbConn
+	 * @param ILogger $logger
+	 * @param IConfig $config
+	 * @param EventDispatcherInterface $dispatcher
+	 */
 	public function __construct(
 		IDBConnection $dbConn,
 		ILogger $logger,
-		IConfig $config
+		IConfig $config,
+		EventDispatcherInterface $dispatcher
 	) {
 		$this->dbConn = $dbConn;
 		$this->logger = $logger;
 		$this->config = $config;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -415,6 +430,19 @@ class Manager implements ICommentsManager {
 			throw new \InvalidArgumentException('Parameter must be string');
 		}
 
+		try {
+			$comment = $this->get($id);
+		} catch (\Exception $e) {
+			// Ignore exceptions, we just don't fire a hook then
+			$comment = null;
+		}
+		if ($comment instanceof IComment) {
+			$this->dispatcher->dispatch(CommentsEvent::EVENT_DELETE, new CommentsEvent(
+				CommentsEvent::EVENT_DELETE,
+				$comment
+			));
+		}
+
 		$qb = $this->dbConn->getQueryBuilder();
 		$query = $qb->delete('comments')
 			->where($qb->expr()->eq('id', $qb->createParameter('id')))
@@ -431,7 +459,7 @@ class Manager implements ICommentsManager {
 	}
 
 	/**
-	 * saves the comment permanently and returns it
+	 * saves the comment permanently
 	 *
 	 * if the supplied comment has an empty ID, a new entry comment will be
 	 * saved and the instance updated with the new ID.
@@ -493,6 +521,11 @@ class Manager implements ICommentsManager {
 			$comment->setId(strval($qb->getLastInsertId()));
 		}
 
+		$this->dispatcher->dispatch(CommentsEvent::EVENT_ADD, new CommentsEvent(
+			CommentsEvent::EVENT_ADD,
+			$comment
+		));
+
 		return $affectedRows > 0;
 	}
 
@@ -525,6 +558,11 @@ class Manager implements ICommentsManager {
 		if($affectedRows === 0) {
 			throw new NotFoundException('Comment to update does ceased to exist');
 		}
+
+		$this->dispatcher->dispatch(CommentsEvent::EVENT_UPDATE, new CommentsEvent(
+			CommentsEvent::EVENT_UPDATE,
+			$comment
+		));
 
 		return $affectedRows > 0;
 	}

@@ -149,7 +149,7 @@ interface ICommentsManager {
 	public function delete($id);
 
 	/**
-	 * saves the comment permanently and returns it
+	 * saves the comment permanently
 	 *
 	 * if the supplied comment has an empty ID, a new entry comment will be
 	 * saved and the instance updated with the new ID.
