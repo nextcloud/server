@@ -58,6 +58,7 @@ class Dir {
 
 	/**
 	 * @param string $path
+	 * @param string[] $content
 	 */
 	public static function register($path, $content) {
 		self::$dirs[$path] = $content;

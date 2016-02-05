@@ -121,7 +121,7 @@ class Detection implements IMimeTypeDetector {
 	}
 
 	/**
-	 * @return array
+	 * @return string[]
 	 */
 	public function getAllAliases() {
 		$this->loadAliases();
@@ -264,7 +264,7 @@ class Detection implements IMimeTypeDetector {
 
 	/**
 	 * Get path to the icon of a file type
-	 * @param string $mimeType the MIME type
+	 * @param string $mimetype the MIME type
 	 * @return string the url
 	 */
 	public function mimeTypeIcon($mimetype) {

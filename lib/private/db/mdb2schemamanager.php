@@ -49,7 +49,6 @@ class MDB2SchemaManager {
 	/**
 	 * saves database scheme to xml file
 	 * @param string $file name of file
-	 * @param int|string $mode
 	 * @return bool
 	 *
 	 * TODO: write more documentation
@@ -123,7 +122,7 @@ class MDB2SchemaManager {
 	/**
 	 * update the database scheme
 	 * @param string $file file to read structure from
-	 * @return string|boolean
+	 * @return boolean
 	 */
 	public function simulateUpdateDbFromStructure($file) {
 		$toSchema = $this->readSchemaFromFile($file);

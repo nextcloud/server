@@ -53,7 +53,7 @@ class QueryLogger implements IQueryLogger {
 	}
 
 	/**
-	 * @return \OCP\Diagnostics\IQuery[]
+	 * @return Query[]
 	 */
 	public function getQueries() {
 		return $this->queries;
