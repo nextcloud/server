@@ -480,13 +480,18 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
-
-
-
-
-
-
-
-
-
-
+  Scenario: Keep usergroup shares (#22143)
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And group "group" exists
+    And user "user1" belongs to group "group"
+    And user "user2" belongs to group "group"
+    And user "user0" created a folder "/TMP"
+    And file "TMP" of user "user0" is shared with group "group"
+    And user "user1" created a folder "/myFOLDER"
+    And User "user1" moves file "/TMP" to "/myFOLDER/myTMP"
+    And user "user2" does not exist
+    And user "user1" should see following elements
+      | /myFOLDER/myTMP/ |
