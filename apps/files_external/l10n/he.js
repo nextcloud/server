@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error generating key pair" : "שגיאה ביצירת זוג מפתחות",
     "Enable encryption" : "אפשר הצפנה",
     "Enable previews" : "מאפשר תצוגות מקדימות",
+    "Enable sharing" : "הפעלת שיתוף",
     "Check for changes" : "בדיקה אחר שינויים",
     "Never" : "לעולם לא",
     "Once every direct access" : "פעם אחת כל כניסה ישירה",

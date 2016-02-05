@@ -29,6 +29,7 @@ OC.L10N.register(
     "Error generating key pair" : "Ошибка создания ключевой пары",
     "Enable encryption" : "Включить шифрование",
     "Enable previews" : "Включить предпросмотр",
+    "Enable sharing" : "Включить общий доступ",
     "Check for changes" : "Проверять изменения",
     "Never" : "Никогда",
     "Once every direct access" : "Один раз при прямом доступе",
