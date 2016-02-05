@@ -105,6 +105,8 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function setNode(Node $node) {
+		$this->fileId = null;
+		$this->nodeType = null;
 		$this->node = $node;
 		return $this;
 	}
