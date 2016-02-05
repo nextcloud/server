@@ -262,9 +262,6 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->file_put_contents('/folder/bar.txt', 'asd');
 		$this->instance->mkdir('/folder/recursive');
 		$this->instance->file_put_contents('/folder/recursive/file.txt', 'foo');
-		$localFolder = $this->instance->getLocalFolder('/folder');
-
-		$this->assertTrue(is_dir($localFolder));
 
 		// test below require to use instance->getLocalFile because the physical storage might be different
 		$localFile = $this->instance->getLocalFile('/folder/lorem.txt');

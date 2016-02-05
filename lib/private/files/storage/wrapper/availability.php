@@ -377,17 +377,6 @@ class Availability extends Wrapper {
 	}
 
 	/** {@inheritdoc} */
-	public function getLocalFolder($path) {
-		$this->checkAvailability();
-		try {
-			return parent::getLocalFolder($path);
-		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			$this->setAvailability(false);
-			throw $e;
-		}
-	}
-
-	/** {@inheritdoc} */
 	public function hasUpdated($path, $time) {
 		$this->checkAvailability();
 		try {
