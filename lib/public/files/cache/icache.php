@@ -191,7 +191,7 @@ interface ICache {
 	public function getStatus($file);
 
 	/**
-	 * search for files matching $pattern
+	 * search for files matching $pattern, files are matched if their filename matches the search pattern
 	 *
 	 * @param string $pattern the search pattern using SQL search syntax (e.g. '%searchstring%')
 	 * @return ICacheEntry[] an array of cache entries where the name matches the search pattern
