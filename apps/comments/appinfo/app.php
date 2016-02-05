@@ -33,3 +33,20 @@ $eventDispatcher->addListener(
 		\OCP\Util::addStyle('comments', 'comments');
 	}
 );
+
+$activityManager = \OC::$server->getActivityManager();
+$activityManager->registerExtension(function() {
+	$application = new \OCP\AppFramework\App('comments');
+	/** @var \OCA\Comments\Activity\Extension $extension */
+	$extension = $application->getContainer()->query('OCA\Comments\Activity\Extension');
+	return $extension;
+});
+
+$managerListener = function(\OCP\Comments\CommentsEvent $event) use ($activityManager) {
+	$application = new \OCP\AppFramework\App('comments');
+	/** @var \OCA\Comments\Activity\Listener $listener */
+	$listener = $application->getContainer()->query('OCA\Comments\Activity\Listener');
+	$listener->commentEvent($event);
+};
+
+$eventDispatcher->addListener(\OCP\Comments\CommentsEvent::EVENT_ADD, $managerListener);
