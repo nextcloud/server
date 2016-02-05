@@ -59,6 +59,8 @@ interface ICache {
 	/**
 	 * get the metadata of all files stored in $folder
 	 *
+	 * Only returns files one level deep, no recursion
+	 *
 	 * @param string $folder
 	 * @return ICacheEntry[]
 	 * @since 9.0.0
@@ -67,6 +69,8 @@ interface ICache {
 
 	/**
 	 * get the metadata of all files stored in $folder
+	 *
+	 * Only returns files one level deep, no recursion
 	 *
 	 * @param int $fileId the file id of the folder
 	 * @return ICacheEntry[]
@@ -192,6 +196,7 @@ interface ICache {
 	 * @param string $pattern the search pattern using SQL search syntax (e.g. '%searchstring%')
 	 * @return ICacheEntry[] an array of cache entries where the name matches the search pattern
 	 * @since 9.0.0
+	 * @deprecated 9.0.0 due to lack of pagination, not all backends might implement this
 	 */
 	public function search($pattern);
 
@@ -202,6 +207,7 @@ interface ICache {
 	 *        where it will search for all mimetypes in the group ('image/*')
 	 * @return ICacheEntry[] an array of cache entries where the mimetype matches the search
 	 * @since 9.0.0
+	 * @deprecated 9.0.0 due to lack of pagination, not all backends might implement this
 	 */
 	public function searchByMime($mimetype);
 
@@ -214,6 +220,7 @@ interface ICache {
 	 * @param string $userId owner of the tags
 	 * @return ICacheEntry[] file data
 	 * @since 9.0.0
+	 * @deprecated 9.0.0 due to lack of pagination, not all backends might implement this
 	 */
 	public function searchByTag($tag, $userId);
 
