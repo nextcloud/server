@@ -25,25 +25,34 @@ namespace OC\Console;
 
 use OC_App;
 use OC_Defaults;
+use OCP\Console\ConsoleEvent;
 use OCP\IConfig;
+use OCP\IRequest;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application {
-	/**
-	 * @var IConfig
-	 */
+	/** @var IConfig */
 	private $config;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+	/** @var IRequest */
+	private $request;
 
 	/**
 	 * @param IConfig $config
+	 * @param EventDispatcherInterface $dispatcher
+	 * @param IRequest $request
 	 */
-	public function __construct(IConfig $config) {
+	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher, IRequest $request) {
 		$defaults = new OC_Defaults;
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
+		$this->dispatcher = $dispatcher;
+		$this->request = $request;
 	}
 
 	/**
@@ -107,6 +116,10 @@ class Application {
 	 * @throws \Exception
 	 */
 	public function run(InputInterface $input = null, OutputInterface $output = null) {
+		$this->dispatcher->dispatch(ConsoleEvent::EVENT_RUN, new ConsoleEvent(
+			ConsoleEvent::EVENT_RUN,
+			$this->request->server['argv']
+		));
 		return $this->application->run($input, $output);
 	}
 }
