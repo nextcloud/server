@@ -71,6 +71,8 @@
 			'click .cancel': '_onClickCloseComment'
 		},
 
+		_commentMaxLength: 1000,
+
 		initialize: function() {
 			OCA.Files.DetailTabView.prototype.initialize.apply(this, arguments);
 			this.collection = new OCA.Comments.CommentCollection();
@@ -80,7 +82,10 @@
 
 			this._avatarsEnabled = !!OC.config.enable_avatars;
 
+			this._commentMaxThreshold = this._commentMaxLength * 0.9;
+
 			// TODO: error handling
+			_.bindAll(this, '_onTypeComment');
 		},
 
 		template: function(params) {
@@ -162,6 +167,7 @@
 				this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 28);
 			}
 			this.delegateEvents();
+			this.$el.find('textarea').on('keyup input change', this._onTypeComment);
 		},
 
 		_formatItem: function(commentModel) {
@@ -262,12 +268,34 @@
 			// spawn form
 			$comment.after($formRow);
 			$formRow.data('commentEl', $comment);
+			$formRow.find('textarea').on('keyup input change', this._onTypeComment);
 
 			// copy avatar element from original to avoid flickering
 			$formRow.find('.avatar').replaceWith($comment.find('.avatar').clone());
 			$formRow.find('.has-tooltip').tooltip();
 
 			return false;
+		},
+
+		_onTypeComment: function(ev) {
+			var $field = $(ev.target);
+			var len = $field.val().length;
+			var $submitButton = $field.data('submitButtonEl');
+			if (!$submitButton) {
+				$submitButton = $field.closest('form').find('.submit');
+				$field.data('submitButtonEl', $submitButton);
+			}
+			$field.tooltip('hide');
+			if (len > this._commentMaxThreshold) {
+				$field.attr('data-original-title', t('comments', 'Allowed characters {count} of {max}', {count: len, max: this._commentMaxLength}));
+				$field.tooltip({trigger: 'manual'});
+				$field.tooltip('show');
+				$field.addClass('error');
+			}
+		   
+			var limitExceeded = (len > this._commentMaxLength);
+			$field.toggleClass('error', limitExceeded);
+			$submitButton.prop('disabled', limitExceeded);
 		},
 
 		_onClickCloseComment: function(ev) {
@@ -318,7 +346,7 @@
 			var message = $textArea.val().trim();
 			e.preventDefault();
 
-			if (!message.length) {
+			if (!message.length || message.length > this._commentMaxLength) {
 				return;
 			}
 
