@@ -778,7 +778,53 @@ class Manager implements IManager {
 
 		$provider = $this->factory->getProviderForType($shareType);
 
-		return $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+		$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+
+		/*
+		 * Work around so we don't return expired shares but still follow
+		 * proper pagination.
+		 */
+		if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
+			$shares2 = [];
+			$today = new \DateTime();
+
+			while(true) {
+				$added = 0;
+				foreach ($shares as $share) {
+					// Check if the share is expired and if so delete it
+					if ($share->getExpirationDate() !== null &&
+						$share->getExpirationDate() <= $today
+					) {
+						$this->deleteShare($share);
+						continue;
+					}
+					$added++;
+					$shares2[] = $share;
+
+					if (count($shares2) === $limit) {
+						break;
+					}
+				}
+
+				if (count($shares2) === $limit) {
+					break;
+				}
+
+				$offset += $added;
+
+				// Fetch again $limit shares
+				$shares = $provider->getSharesBy($userId, $shareType, $path, $reshares, $limit, $offset);
+
+				// No more shares means we are done
+				if (empty($shares)) {
+					break;
+				}
+			}
+
+			$shares = $shares2;
+		}
+
+		return $shares;
 	}
 
 	/**
