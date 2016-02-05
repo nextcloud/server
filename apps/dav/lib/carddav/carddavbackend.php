@@ -133,17 +133,19 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			list(, $name) = URLUtil::splitPath($row['principaluri']);
 			$uri = $row['uri'] . '_shared_by_' . $name;
 			$displayName = $row['displayname'] . "($name)";
-			$addressBooks[$row['id']] = [
-				'id'  => $row['id'],
-				'uri' => $uri,
-				'principaluri' => $principalUri,
-				'{DAV:}displayname' => $displayName,
-				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
-				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
-				'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
-				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
-				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => $row['access'] === self::ACCESS_READ,
-			];
+			if (!isset($addressBooks[$row['id']])) {
+				$addressBooks[$row['id']] = [
+					'id'  => $row['id'],
+					'uri' => $uri,
+					'principaluri' => $principalUri,
+					'{DAV:}displayname' => $displayName,
+					'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
+					'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
+					'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
+					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
+					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => $row['access'] === self::ACCESS_READ,
+				];
+			}
 		}
 		$result->closeCursor();
 
