@@ -147,6 +147,7 @@ class Manager {
 			$this->access->getConnection()->ldapQuotaAttribute,
 			$this->access->getConnection()->ldapEmailAttribute,
 			$this->access->getConnection()->ldapUserDisplayName,
+			$this->access->getConnection()->ldapUserDisplayName2,
 		);
 		foreach($possible as $attr) {
 			if(!is_null($attr)) {

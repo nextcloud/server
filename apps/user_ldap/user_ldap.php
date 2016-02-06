@@ -176,6 +176,11 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			$this->access->connection->ldapUserDisplayName . '=*',
 			$this->access->getFilterPartForUserSearch($search)
 		));
+		$attrs = array($this->access->connection->ldapUserDisplayName, 'dn');
+		$additionalAttribute = $this->access->connection->ldapUserDisplayName2;
+		if(!empty($additionalAttribute)) {
+			$attrs[] = $additionalAttribute;
+		}
 
 		\OCP\Util::writeLog('user_ldap',
 			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
@@ -350,13 +355,30 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			return $displayName;
 		}
 
+		//Check whether the display name is configured to have a 2nd feature
+		$additionalAttribute = $this->access->connection->ldapUserDisplayName2;
+		$displayName2 = '';
+		if(!empty($additionalAttribute)) {
+			$displayName2 = $this->access->readAttribute(
+				$this->access->username2dn($uid),
+				$additionalAttribute);
+		}
+
 		$displayName = $this->access->readAttribute(
 			$this->access->username2dn($uid),
 			$this->access->connection->ldapUserDisplayName);
 
 		if($displayName && (count($displayName) > 0)) {
-			$this->access->connection->writeToCache($cacheKey, $displayName[0]);
-			return $displayName[0];
+			$displayName = $displayName[0];
+
+			if(is_array($displayName2) && (count($displayName2) > 0)) {
+				$displayName2 = $displayName2[0];
+			}
+
+			$user = $this->access->userManager->get($uid);
+			$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+			$this->access->connection->writeToCache($cacheKey, $displayName);
+			return $displayName;
 		}
 
 		return null;

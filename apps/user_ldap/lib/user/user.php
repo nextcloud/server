@@ -168,13 +168,22 @@ class User {
 		unset($attr);
 
 		//displayName
+		$displayName = $displayName2 = '';
 		$attr = strtolower($this->connection->ldapUserDisplayName);
 		if(isset($ldapEntry[$attr])) {
 			$displayName = $ldapEntry[$attr][0];
-			if(!empty($displayName)) {
-				$this->storeDisplayName($displayName);
-				$this->access->cacheUserDisplayName($this->getUsername(), $displayName);
-			}
+		}
+		$attr = strtolower($this->connection->ldapUserDisplayName2);
+		if(isset($ldapEntry[$attr])) {
+			$displayName2 = $ldapEntry[$attr][0];
+		}
+		if(!empty($displayName)) {
+			$this->composeAndStoreDisplayName($displayName);
+			$this->access->cacheUserDisplayName(
+				$this->getUsername(),
+				$displayName,
+				$displayName2
+			);
 		}
 		unset($attr);
 
@@ -350,6 +359,7 @@ class User {
 
 	/**
 	 * Stores a key-value pair in relation to this user
+	 *
 	 * @param string $key
 	 * @param string $value
 	 */
@@ -358,11 +368,19 @@ class User {
 	}
 
 	/**
-	 * Stores the display name in the databae
+	 * Composes the display name and stores it in the database. The final
+	 * display name is returned.
+	 *
 	 * @param string $displayName
+	 * @param string $displayName2
+	 * @returns string the effective display name
 	 */
-	public function storeDisplayName($displayName) {
+	public function composeAndStoreDisplayName($displayName, $displayName2 = '') {
+		if(!empty($displayName2)) {
+			$displayName .= ' (' . $displayName2 . ')';
+		}
 		$this->store('displayName', $displayName);
+		return $displayName;
 	}
 
 	/**

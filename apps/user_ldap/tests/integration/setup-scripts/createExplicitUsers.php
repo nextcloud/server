@@ -63,6 +63,7 @@ foreach ($users as $uid) {
 	$entry['sn'] = $sn;
 	$entry['userPassword'] = $uid;
 	$entry['displayName'] = $sn . ', ' . $fn;
+	$entry['mail'] = $fn . '@example.com';
 
 	$ok = ldap_add($cr, $newDN, $entry);
 	if ($ok) {
