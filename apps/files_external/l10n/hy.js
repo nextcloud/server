@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Personal" : "Անձնական",
     "Never" : "Երբեք",
+    "Save" : "Պահպանել",
     "Username" : "Օգտանուն",
     "Password" : "Գաղտնաբառ",
     "URL" : "URL",

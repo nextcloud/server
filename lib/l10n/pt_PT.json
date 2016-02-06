@@ -115,6 +115,7 @@
     "Apps" : "Apps",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Apenas os seguintes caracteres são permitidos num nome de utilizador: \"a-z\", \"A-Z\", \"0-9\", e \"_.@-'\"",
     "A valid username must be provided" : "Um nome de utilizador válido deve ser fornecido",
+    "Username contains whitespace at the beginning or at the end" : "Nome de utilizador contém espaço em branco no início ou no fim",
     "A valid password must be provided" : "Uma password válida deve ser fornecida",
     "The username is already being used" : "O nome de utilizador já está a ser usado",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Nenhuma base de dados de drivers (sqlite, mysql, or postgresql) instaladas.",

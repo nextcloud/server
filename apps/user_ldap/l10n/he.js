@@ -113,7 +113,16 @@ OC.L10N.register(
     "Turn off SSL certificate validation." : "כיבוי אימות אישורי אבטחה SSL.",
     "in seconds. A change empties the cache." : "בשניות. שינוי מרוקן את המטמון.",
     "Directory Settings" : "הגדרות תיקייה",
+    "User Display Name Field" : "שדה שם תצוגה למשתמש",
     "Base User Tree" : "עץ משתמש בסיסי",
-    "in bytes" : "בבתים"
+    "Base Group Tree" : "עץ קבוצה בסיסי",
+    "Group Search Attributes" : "מאפייני חיפוש קבוצה",
+    "Special Attributes" : "מאפיינים מיוחדים",
+    "Quota Field" : "שדה מכסה",
+    "Quota Default" : "ברירת מחדל מכסה",
+    "in bytes" : "בבתים",
+    "Email Field" : "שדה דואר אלקטרוני",
+    "Internal Username" : "שם משתמש פנימי",
+    "Internal Username Attribute:" : "מאפיין שם משתמש פנימי:"
 },
 "nplurals=2; plural=(n != 1);");

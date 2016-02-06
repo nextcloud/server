@@ -3,9 +3,11 @@ OC.L10N.register(
     {
     "Personal" : "個人",
     "Saved" : "已儲存",
-    "None" : "空",
+    "Saving..." : "儲存中...",
+    "Save" : "儲存",
     "Username" : "用戶名稱",
     "Password" : "密碼",
+    "None" : "空",
     "Port" : "連接埠",
     "WebDAV" : "WebDAV",
     "URL" : "網址",

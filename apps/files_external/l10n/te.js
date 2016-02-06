@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_external",
     {
     "Personal" : "వ్యక్తిగతం",
+    "Save" : "భద్రపరచు",
     "Username" : "వాడుకరి పేరు",
     "Password" : "సంకేతపదం",
     "Name" : "పేరు",

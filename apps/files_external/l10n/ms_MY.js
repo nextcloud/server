@@ -2,6 +2,8 @@ OC.L10N.register(
     "files_external",
     {
     "Personal" : "Peribadi",
+    "Saving..." : "Sedang menyimpan...",
+    "Save" : "Simpan",
     "Username" : "Nama pengguna",
     "Password" : "Kata laluan",
     "Region" : "Wilayah",

@@ -130,6 +130,8 @@
     "One Group Base DN per line" : "Uma base de grupo DN por linha",
     "Group Search Attributes" : "Atributos de pesquisa de grupo",
     "Group-Member association" : "Associar utilizador ao grupo.",
+    "Dynamic Group Member URL" : "URL Dinâmica de Membro do Grupo",
+    "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "O atributo LDAP que em objetos de grupo contém um URL de pesquisa LDAP que determina que objetos pertencem ao grupo. (Uma definição vazia desativa a funcionalidade de membros de grupo dinâmico.)",
     "Nested Groups" : "Grupos agrupados",
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Quando habilitado os grupos, os grupos são suportados. (Só funciona se o atributo de membro de grupo contém DNs.)",
     "Paging chunksize" : "Bloco de paginação",

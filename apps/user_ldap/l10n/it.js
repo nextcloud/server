@@ -132,6 +132,8 @@ OC.L10N.register(
     "One Group Base DN per line" : "Un DN base gruppo per riga",
     "Group Search Attributes" : "Attributi di ricerca gruppo",
     "Group-Member association" : "Associazione gruppo-utente ",
+    "Dynamic Group Member URL" : "URL membro di gruppo dinamico",
+    "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "L'attributo LDAP che sugli oggetti di gruppo contiene un URL di ricerca LDAP che determina quali oggetti appartengono al gruppo. (Un valore vuoto disabilità la funzionalità di appartenenza ai gruppi dinamica)",
     "Nested Groups" : "Gruppi nidificati",
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Quando è attivato, i gruppi che contengono altri gruppi sono supportati. (Funziona solo se l'attributo del gruppo membro contiene DN.)",
     "Paging chunksize" : "Dimensione del blocco di paginazione",
