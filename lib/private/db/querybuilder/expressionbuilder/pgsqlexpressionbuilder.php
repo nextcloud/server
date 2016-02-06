@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -19,6 +19,27 @@
  *
  */
 
-// Cron job for scanning user storages
-\OC::$server->getJobList()->add('OCA\Files\BackgroundJob\ScanFiles');
-\OC::$server->getJobList()->add('OCA\Files\BackgroundJob\DeleteOrphanedItems');
+namespace OC\DB\QueryBuilder\ExpressionBuilder;
+
+
+use OC\DB\QueryBuilder\QueryFunction;
+use OCP\DB\QueryBuilder\IQueryBuilder;
+
+class PgSqlExpressionBuilder extends ExpressionBuilder {
+
+	/**
+	 * Returns a IQueryFunction that casts the column to the given type
+	 *
+	 * @param string $column
+	 * @param mixed $type One of IQueryBuilder::PARAM_*
+	 * @return string
+	 */
+	public function castColumn($column, $type) {
+		if ($type === IQueryBuilder::PARAM_INT) {
+			$column = $this->helper->quoteColumnName($column);
+			return new QueryFunction('CAST(' . $column . ' AS INT)');
+		}
+
+		return parent::castColumn($column, $type);
+	}
+}

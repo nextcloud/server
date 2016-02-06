@@ -21,17 +21,17 @@
 
 namespace OCA\Files\Tests\BackgroundJob;
 
-use OCA\Files\BackgroundJob\DeleteOrphanedTagsJob;
+use OCA\Files\BackgroundJob\DeleteOrphanedItems;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
- * Class DeleteOrphanedTagsJobTest
+ * Class DeleteOrphanedItemsJobTest
  *
  * @group DB
  *
  * @package Test\BackgroundJob
  */
-class DeleteOrphanedTagsJobTest extends \Test\TestCase {
+class DeleteOrphanedItemsJobTest extends \Test\TestCase {
 
 	/** @var \OCP\IDBConnection */
 	protected $connection;
@@ -93,7 +93,7 @@ class DeleteOrphanedTagsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('systemtag_object_mapping');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedTagsJob();
+		$job = new DeleteOrphanedItems();
 		$this->invokePrivate($job, 'cleanSystemTags');
 
 		$mapping = $this->getMappings('systemtag_object_mapping');
@@ -142,7 +142,7 @@ class DeleteOrphanedTagsJobTest extends \Test\TestCase {
 		$mapping = $this->getMappings('vcategory_to_object');
 		$this->assertCount(2, $mapping);
 
-		$job = new DeleteOrphanedTagsJob();
+		$job = new DeleteOrphanedItems();
 		$this->invokePrivate($job, 'cleanUserTags');
 
 		$mapping = $this->getMappings('vcategory_to_object');
@@ -153,6 +153,106 @@ class DeleteOrphanedTagsJobTest extends \Test\TestCase {
 			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
 			->execute();
 		$this->cleanMapping('vcategory_to_object');
+	}
+
+	/**
+	 * Test clearing orphaned system tag mappings
+	 */
+	public function testClearComments() {
+		$this->cleanMapping('comments');
+
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('filecache')
+			->values([
+				'storage' => $query->createNamedParameter(1337, IQueryBuilder::PARAM_INT),
+				'path' => $query->createNamedParameter('apps/files/tests/deleteorphanedtagsjobtest.php'),
+				'path_hash' => $query->createNamedParameter(md5('apps/files/tests/deleteorphanedtagsjobtest.php')),
+			])->execute();
+		$fileId = $query->getLastInsertId();
+
+		// Existing file
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('comments')
+			->values([
+				'object_id' => $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT),
+				'object_type' => $query->createNamedParameter('files'),
+				'actor_id' => $query->createNamedParameter('Alice', IQueryBuilder::PARAM_INT),
+				'actor_type' => $query->createNamedParameter('users'),
+			])->execute();
+
+		// Non-existing file
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('comments')
+			->values([
+				'object_id' => $query->createNamedParameter($fileId + 1, IQueryBuilder::PARAM_INT),
+				'object_type' => $query->createNamedParameter('files'),
+				'actor_id' => $query->createNamedParameter('Alice', IQueryBuilder::PARAM_INT),
+				'actor_type' => $query->createNamedParameter('users'),
+			])->execute();
+
+		$mapping = $this->getMappings('comments');
+		$this->assertCount(2, $mapping);
+
+		$job = new DeleteOrphanedItems();
+		$this->invokePrivate($job, 'cleanComments');
+
+		$mapping = $this->getMappings('comments');
+		$this->assertCount(1, $mapping);
+
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('filecache')
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
+			->execute();
+		$this->cleanMapping('comments');
+	}
+
+	/**
+	 * Test clearing orphaned system tag mappings
+	 */
+	public function testClearCommentReadMarks() {
+		$this->cleanMapping('comments_read_markers');
+
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('filecache')
+			->values([
+				'storage' => $query->createNamedParameter(1337, IQueryBuilder::PARAM_INT),
+				'path' => $query->createNamedParameter('apps/files/tests/deleteorphanedtagsjobtest.php'),
+				'path_hash' => $query->createNamedParameter(md5('apps/files/tests/deleteorphanedtagsjobtest.php')),
+			])->execute();
+		$fileId = $query->getLastInsertId();
+
+		// Existing file
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('comments_read_markers')
+			->values([
+				'object_id' => $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT),
+				'object_type' => $query->createNamedParameter('files'),
+				'user_id' => $query->createNamedParameter('Alice', IQueryBuilder::PARAM_INT),
+			])->execute();
+
+		// Non-existing file
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('comments_read_markers')
+			->values([
+				'object_id' => $query->createNamedParameter($fileId + 1, IQueryBuilder::PARAM_INT),
+				'object_type' => $query->createNamedParameter('files'),
+				'user_id' => $query->createNamedParameter('Alice', IQueryBuilder::PARAM_INT),
+			])->execute();
+
+		$mapping = $this->getMappings('comments_read_markers');
+		$this->assertCount(2, $mapping);
+
+		$job = new DeleteOrphanedItems();
+		$this->invokePrivate($job, 'cleanCommentMarkers');
+
+		$mapping = $this->getMappings('comments_read_markers');
+		$this->assertCount(1, $mapping);
+
+		$query = $this->connection->getQueryBuilder();
+		$query->delete('filecache')
+			->where($query->expr()->eq('fileid', $query->createNamedParameter($fileId, IQueryBuilder::PARAM_INT)))
+			->execute();
+		$this->cleanMapping('comments_read_markers');
 	}
 
 }

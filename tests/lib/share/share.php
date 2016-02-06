@@ -1423,7 +1423,7 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
@@ -1478,7 +1478,7 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
@@ -1531,7 +1531,7 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
@@ -1584,7 +1584,7 @@ class Test_Share extends \Test\TestCase {
 		$userSession->method('getUser')->willReturn($user);
 
 
-		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder')
+		$ex = $this->getMockBuilder('\OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder')
 		           ->disableOriginalConstructor()
 		           ->getMock();
 		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')

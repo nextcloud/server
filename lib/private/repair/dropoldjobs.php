@@ -71,6 +71,7 @@ class DropOldJobs extends BasicEmitter implements RepairStep {
 		return [
 			['class' => 'OC_Cache_FileGlobalGC', 'arguments' => null],
 			['class' => 'OC\Cache\FileGlobalGC', 'arguments' => null],
+			['class' => 'OCA\Files\BackgroundJob\DeleteOrphanedTagsJob', 'arguments' => null],
 		];
 	}
 

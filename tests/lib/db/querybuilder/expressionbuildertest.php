@@ -22,7 +22,7 @@
 namespace Test\DB\QueryBuilder;
 
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder as DoctrineExpressionBuilder;
-use OC\DB\QueryBuilder\ExpressionBuilder;
+use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use Test\TestCase;
 
