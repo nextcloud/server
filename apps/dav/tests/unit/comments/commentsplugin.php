@@ -92,6 +92,10 @@ class CommentsPlugin extends \Test\TestCase {
 			->method('getId')
 			->will($this->returnValue('42'));
 
+		$node->expects($this->once())
+			->method('setReadMarker')
+			->with(null);
+
 		$this->commentsManager->expects($this->once())
 			->method('create')
 			->with('users', 'alice', 'files', '42')
