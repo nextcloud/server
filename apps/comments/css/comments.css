@@ -14,7 +14,7 @@
 
 #commentsTabView .newCommentForm .message {
 	width: 90%;
-	resize: none;
+	resize: vertical;
 }
 
 #commentsTabView .newCommentForm .submitLoading {
@@ -75,6 +75,14 @@
 
 #commentsTabView .comment.disabled .action {
 	visibility: hidden;
+}
+
+#commentsTabView .message.error {
+	color: #e9322d;
+	border-color: #e9322d;
+	-webkit-box-shadow: 0 0 6px #f8b9b7;
+	-moz-box-shadow: 0 0 6px #f8b9b7;
+	box-shadow: 0 0 6px #f8b9b7;
 }
 
 .app-files .action-comment>img {

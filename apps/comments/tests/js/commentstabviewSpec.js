@@ -25,6 +25,20 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 	var testComments;
 	var clock;
 
+	/**
+	 * Creates a dummy message with the given length
+	 *
+	 * @param {int} len length
+	 * @return {string} message
+	 */
+	function createMessageWithLength(len) {
+		var bigMessage = '';
+		for (var i = 0; i < len; i++) {
+			bigMessage += 'a';
+		}
+		return bigMessage;
+	}
+
 	beforeEach(function() {
 		clock = sinon.useFakeTimers(Date.UTC(2016, 1, 3, 10, 5, 9));
 		fetchStub = sinon.stub(OCA.Comments.CommentCollection.prototype, 'fetchNext');
@@ -201,7 +215,55 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 
 			expect(createStub.notCalled).toEqual(true);
 		});
+		it('does not create a comment if the field length is too large', function() {
+			var bigMessage = '';
+			for (var i = 0; i < view._commentMaxLength * 2; i++) {
+				bigMessage += 'a';
+			}
+			view.$el.find('.message').val(bigMessage);
+			view.$el.find('form').submit();
 
+			expect(createStub.notCalled).toEqual(true);
+		});
+		describe('limit indicator', function() {
+			var tooltipStub;
+			var $message;
+			var $submitButton;
+
+			beforeEach(function() {
+				tooltipStub = sinon.stub($.fn, 'tooltip');
+				$message = view.$el.find('.message');
+				$submitButton = view.$el.find('.submit');
+			});
+			afterEach(function() { 
+				tooltipStub.restore(); 
+			});
+			
+			it('does not displays tooltip when limit is far away', function() {
+				$message.val(createMessageWithLength(3));
+				$message.trigger('change');
+
+				expect(tooltipStub.calledWith('show')).toEqual(false);
+				expect($submitButton.prop('disabled')).toEqual(false);
+				expect($message.hasClass('error')).toEqual(false);
+			});
+			it('displays tooltip when limit is almost reached', function() {
+				$message.val(createMessageWithLength(view._commentMaxLength - 2));
+				$message.trigger('change');
+
+				expect(tooltipStub.calledWith('show')).toEqual(true);
+				expect($submitButton.prop('disabled')).toEqual(false);
+				expect($message.hasClass('error')).toEqual(false);
+			});
+			it('displays tooltip and disabled button when limit is exceeded', function() {
+				$message.val(createMessageWithLength(view._commentMaxLength + 2));
+				$message.trigger('change');
+
+				expect(tooltipStub.calledWith('show')).toEqual(true);
+				expect($submitButton.prop('disabled')).toEqual(true);
+				expect($message.hasClass('error')).toEqual(true);
+			});
+		});
 	});
 	describe('editing comments', function() {
 		var saveStub;
@@ -335,6 +397,22 @@ describe('OCA.Comments.CommentsTabView tests', function() {
 			expect($formRow.length).toEqual(0);
 
 			destroyStub.restore();
+		});
+		it('does not submit comment if the field is empty', function() {
+			var $comment = view.$el.find('.comment[data-id=1]');
+			$comment.find('.action.edit').click();
+			$comment.find('.message').val('   ');
+			$comment.find('form').submit();
+
+			expect(saveStub.notCalled).toEqual(true);
+		});
+		it('does not submit comment if the field length is too large', function() {
+			var $comment = view.$el.find('.comment[data-id=1]');
+			$comment.find('.action.edit').click();
+			$comment.find('.message').val(createMessageWithLength(view._commentMaxLength * 2));
+			$comment.find('form').submit();
+
+			expect(saveStub.notCalled).toEqual(true);
 		});
 	});
 	describe('read marker', function() {
