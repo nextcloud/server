@@ -22,6 +22,7 @@
 namespace OC\Share20;
 
 use OCP\Files\IRootFolder;
+use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
@@ -795,7 +796,11 @@ class Manager implements IManager {
 					if ($share->getExpirationDate() !== null &&
 						$share->getExpirationDate() <= $today
 					) {
-						$this->deleteShare($share);
+						try {
+							$this->deleteShare($share);
+						} catch (NotFoundException $e) {
+							//Ignore since this basically means the share is deleted
+						}
 						continue;
 					}
 					$added++;
