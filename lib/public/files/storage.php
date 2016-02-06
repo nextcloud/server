@@ -331,15 +331,6 @@ interface Storage extends IStorage {
 	public function getLocalFile($path);
 
 	/**
-	 * get the path to a local version of the folder.
-	 * The local version of the folder can be temporary and doesn't have to be persistent across requests
-	 *
-	 * @param string $path
-	 * @return string|false
-	 * @since 6.0.0
-	 */
-	public function getLocalFolder($path);
-	/**
 	 * check if a file or folder has been updated since $time
 	 *
 	 * @param string $path
