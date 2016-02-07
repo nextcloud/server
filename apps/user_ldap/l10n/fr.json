@@ -130,6 +130,8 @@
     "One Group Base DN per line" : "Un DN de base groupe par ligne",
     "Group Search Attributes" : "Attributs de recherche des groupes",
     "Group-Member association" : "Association groupe-membre",
+    "Dynamic Group Member URL" : "URL de Membre de Groupe Dynamique",
+    "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "L'attribut LDAP mis sur les objets de groupe contient une URL de recherche LDAP qui détermine quels objets appartiennent à ce groupe.  (Un attribut vide désactive la fonctionnalité de groupe dynamique)",
     "Nested Groups" : "Groupes imbriqués",
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Si activé, les groupes contenant d'autres groupes sont pris en charge (fonctionne uniquement si l'attribut membre du groupe contient des DNs).",
     "Paging chunksize" : "Paging chunksize",
