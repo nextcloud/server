@@ -24,9 +24,8 @@
 $dbConnection = \OC::$server->getDatabaseConnection();
 $userManager = OC::$server->getUserManager();
 $shareManager = \OC::$server->getShareManager();
-$rootFolder = \OC::$server->getRootFolder();
 
 /** @var Symfony\Component\Console\Application $application */
 $application->add(new OCA\Files\Command\Scan($userManager));
 $application->add(new OCA\Files\Command\DeleteOrphanedFiles($dbConnection));
-$application->add(new OCA\Files\Command\TransferOwnership($userManager, $shareManager, $rootFolder));
+$application->add(new OCA\Files\Command\TransferOwnership($userManager, $shareManager));

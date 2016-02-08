@@ -25,7 +25,6 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
-use OCP\Files\IRootFolder;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -61,13 +60,9 @@ class TransferOwnership extends Command {
 	/** @var string */
 	private $finalTarget;
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	public function __construct(IUserManager $userManager, IManager $shareManager, IRootFolder $rootFolder) {
+	public function __construct(IUserManager $userManager, IManager $shareManager) {
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
-		$this->rootFolder = $rootFolder;
 		parent::__construct();
 	}
 
@@ -208,7 +203,6 @@ class TransferOwnership extends Command {
 	private function restoreShares(OutputInterface $output) {
 		$output->writeln("Restoring shares ...");
 		$progress = new ProgressBar($output, count($this->shares));
-		/** @var Folder $sourceRoot */
 
 		foreach($this->shares as $share) {
 			if ($share->getSharedWith() === $this->destinationUser) {
