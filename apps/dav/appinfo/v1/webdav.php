@@ -40,7 +40,8 @@ $serverFactory = new \OCA\DAV\Connector\Sabre\ServerFactory(
 // Backends
 $authBackend = new \OCA\DAV\Connector\Sabre\Auth(
 	\OC::$server->getSession(),
-	\OC::$server->getUserSession()
+	\OC::$server->getUserSession(),
+	'principals/'
 );
 $requestUri = \OC::$server->getRequest()->getRequestUri();
 

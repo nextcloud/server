@@ -211,10 +211,7 @@ class Principal extends TestCase {
 			->method('getUserGroups')
 			->willReturn([]);
 
-		$expectedResponse = [
-			'principals/users/foo/calendar-proxy-read',
-			'principals/users/foo/calendar-proxy-write'
-		];
+		$expectedResponse = [];
 		$response = $this->connector->getGroupMembership('principals/users/foo');
 		$this->assertSame($expectedResponse, $response);
 	}

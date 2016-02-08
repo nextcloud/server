@@ -40,6 +40,9 @@ class AddressBookRoot extends \Sabre\CardDAV\AddressBookRoot {
 
 	function getName() {
 
+		if ($this->principalPrefix === 'principals') {
+			return parent::getName();
+		}
 		// Grabbing all the components of the principal path.
 		$parts = explode('/', $this->principalPrefix);
 

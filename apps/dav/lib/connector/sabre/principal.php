@@ -46,12 +46,20 @@ class Principal implements BackendInterface {
 	/** @var IGroupManager */
 	private $groupManager;
 
+	/** @var string */
+	private $principalPrefix;
+
 	/**
 	 * @param IUserManager $userManager
+	 * @param IGroupManager $groupManager
+	 * @param string $principalPrefix
 	 */
-	public function __construct(IUserManager $userManager, IGroupManager $groupManager) {
+	public function __construct(IUserManager $userManager,
+								IGroupManager $groupManager,
+								$principalPrefix = 'principals/users/') {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
+		$this->principalPrefix = trim($principalPrefix, '/');
 	}
 
 	/**
@@ -70,7 +78,7 @@ class Principal implements BackendInterface {
 	public function getPrincipalsByPrefix($prefixPath) {
 		$principals = [];
 
-		if ($prefixPath === 'principals/users') {
+		if ($prefixPath === $this->principalPrefix) {
 			foreach($this->userManager->search('') as $user) {
 				$principals[] = $this->userToPrincipal($user);
 			}
@@ -88,20 +96,15 @@ class Principal implements BackendInterface {
 	 * @return array
 	 */
 	public function getPrincipalByPath($path) {
-		$elements = explode('/', $path);
-		if ($elements[0] !== 'principals') {
-			return null;
-		}
-		if ($elements[1] !== 'users') {
-			return null;
-		}
-		$name = $elements[2];
-		$user = $this->userManager->get($name);
+		list($prefix, $name) = URLUtil::splitPath($path);
 
-		if (!is_null($user)) {
-			return $this->userToPrincipal($user);
-		}
+		if ($prefix === $this->principalPrefix) {
+			$user = $this->userManager->get($name);
 
+			if (!is_null($user)) {
+				return $this->userToPrincipal($user);
+			}
+		}
 		return null;
 	}
 
@@ -132,7 +135,7 @@ class Principal implements BackendInterface {
 	public function getGroupMembership($principal) {
 		list($prefix, $name) = URLUtil::splitPath($principal);
 
-		if ($prefix === 'principals/users') {
+		if ($prefix === $this->principalPrefix) {
 			$user = $this->userManager->get($name);
 			if (!$user) {
 				throw new Exception('Principal not found');
@@ -141,11 +144,9 @@ class Principal implements BackendInterface {
 			$groups = $this->groupManager->getUserGroups($user);
 			$groups = array_map(function($group) {
 				/** @var IGroup $group */
-				return 'principals/groups/' . $group->getGID();
+				return $this->principalPrefix . '/' . $group->getGID();
 			}, $groups);
 
-			$groups[]= 'principals/users/'.$name.'/calendar-proxy-read';
-			$groups[]= 'principals/users/'.$name.'/calendar-proxy-write';
 			return $groups;
 		}
 		return [];
@@ -200,7 +201,7 @@ class Principal implements BackendInterface {
 		$userId = $user->getUID();
 		$displayName = $user->getDisplayName();
 		$principal = [
-				'uri' => "principals/users/$userId",
+				'uri' => $this->principalPrefix . '/' . $userId,
 				'{DAV:}displayname' => is_null($displayName) ? $userId : $displayName,
 		];
 
@@ -210,6 +211,10 @@ class Principal implements BackendInterface {
 			return $principal;
 		}
 		return $principal;
+	}
+
+	public function getPrincipalPrefix() {
+		return $this->principalPrefix;
 	}
 
 }

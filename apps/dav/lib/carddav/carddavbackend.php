@@ -93,11 +93,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array
 	 */
 	function getAddressBooksForUser($principalUri) {
+		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
 			->from('addressbooks')
-			->where($query->expr()->eq('principaluri', $query->createParameter('principaluri')))
-			->setParameter('principaluri', $principalUri);
+			->where($query->expr()->eq('principaluri', $query->createNamedParameter($principalUri)));
 
 		$addressBooks = [];
 
@@ -106,7 +106,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$addressBooks[$row['id']] = [
 				'id'  => $row['id'],
 				'uri' => $row['uri'],
-				'principaluri' => $row['principaluri'],
+				'principaluri' => $this->convertPrincipal($row['principaluri'], false),
 				'{DAV:}displayname' => $row['displayname'],
 				'{' . Plugin::NS_CARDDAV . '}addressbook-description' => $row['description'],
 				'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
@@ -920,5 +920,16 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	public function applyShareAcl($addressBookId, $acl) {
 		return $this->sharingBackend->applyShareAcl($addressBookId, $acl);
+	}
+
+	private function convertPrincipal($principalUri, $toV2) {
+		if ($this->principalBackend->getPrincipalPrefix() === 'principals') {
+			list(, $name) = URLUtil::splitPath($principalUri);
+			if ($toV2 === true) {
+				return "principals/users/$name";
+			}
+			return "principals/$name";
+		}
+		return $principalUri;
 	}
 }
