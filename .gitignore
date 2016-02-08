@@ -80,6 +80,9 @@ nbproject
 
 # vim ex mode
 .vimrc
+
+# ack(-grep)
+.ackrc
 	
 # Mac OS
 .DS_Store
