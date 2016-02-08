@@ -129,7 +129,7 @@ class UserMountCache implements IUserMountCache {
 			'root_id' => $mount->getRootId(),
 			'user_id' => $mount->getUser()->getUID(),
 			'mount_point' => $mount->getMountPoint()
-		]);
+		], ['root_id', 'user_id']);
 	}
 
 	private function setMountPoint(ICachedMountInfo $mount) {
