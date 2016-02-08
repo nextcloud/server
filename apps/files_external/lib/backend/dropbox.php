@@ -44,6 +44,7 @@ class Dropbox extends Backend {
 				// all parameters handled in OAuth1 mechanism
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_OAUTH1)
+			->addCustomJs('dropbox')
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}

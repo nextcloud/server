@@ -13,7 +13,7 @@ $(document).ready(function() {
 			onCompletion.then(function() {
 				var configured = $tr.find('[data-parameter="configured"]');
 				if ($(configured).val() == 'true') {
-					$tr.find('.configuration input').attr('disabled', 'disabled');
+					$tr.find('.configuration input.auth-param').attr('disabled', 'disabled');
 					$tr.find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 				} else {
 					var app_key = $tr.find('.configuration [data-parameter="app_key"]').val();
@@ -33,7 +33,7 @@ $(document).ready(function() {
 									$(configured).val('true');
 									OCA.External.Settings.mountConfig.saveStorageConfig($tr, function(status) {
 										if (status) {
-											$tr.find('.configuration input').attr('disabled', 'disabled');
+											$tr.find('.configuration input.auth-param').attr('disabled', 'disabled');
 											$tr.find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 										}
 									});

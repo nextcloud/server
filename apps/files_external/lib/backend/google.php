@@ -44,6 +44,7 @@ class Google extends Backend {
 				// all parameters handled in OAuth2 mechanism
 			])
 			->addAuthScheme(AuthMechanism::SCHEME_OAUTH2)
+			->addCustomJs('gdrive')
 			->setLegacyAuthMechanism($legacyAuth)
 		;
 	}
