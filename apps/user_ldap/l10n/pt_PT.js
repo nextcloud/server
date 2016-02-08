@@ -122,6 +122,8 @@ OC.L10N.register(
     "Directory Settings" : "Definições de directorias",
     "User Display Name Field" : "Mostrador do nome de utilizador.",
     "The LDAP attribute to use to generate the user's display name." : "Atributo LDAP para gerar o nome de utilizador do ownCloud.",
+    "2nd User Display Name Field" : "2.º Mostrador do Nome de Utilizador.",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Opcional. Atributo LDAP a ser adicionado ao nome de utilizador entre parênteses. Resultados em e.g. »John Doe (john.doe@example.org)«.",
     "Base User Tree" : "Base da árvore de utilizadores.",
     "One User Base DN per line" : "Uma base de utilizador DN por linha",
     "User Search Attributes" : "Utilizar atributos de pesquisa",

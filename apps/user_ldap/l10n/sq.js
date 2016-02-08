@@ -122,6 +122,8 @@ OC.L10N.register(
     "Directory Settings" : "Rregullime Drejtorie",
     "User Display Name Field" : "Fushë Emri Përdoruesi Në Ekran",
     "The LDAP attribute to use to generate the user's display name." : "Atribut LDAP që përdoret për të prodhuar emër ekrani për përdoruesin.",
+    "2nd User Display Name Field" : "Fushë e 2-të Emri Përdoruesi Në Ekran",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Opsionale. Një atribut LDAP për t’u shtuar te emri në ekran, në kllapa. Përfundimi do t’i ngjante »John Doe (john.doe@example.org)«.",
     "Base User Tree" : "Strukturë Bazë Përdoruesi",
     "One User Base DN per line" : "Një DN Bazë Përdoruesi për rresht",
     "User Search Attributes" : "Atribute Kërkimesh Nga Përdoruesi",

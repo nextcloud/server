@@ -122,6 +122,7 @@ OC.L10N.register(
     "Directory Settings" : "Nastavení adresáře",
     "User Display Name Field" : "Pole zobrazovaného jména uživatele",
     "The LDAP attribute to use to generate the user's display name." : "LDAP atribut použitý k vytvoření zobrazovaného jména uživatele.",
+    "2nd User Display Name Field" : "Druhé pole zobrazovaného jména uživatele",
     "Base User Tree" : "Základní uživatelský strom",
     "One User Base DN per line" : "Jedna uživatelská základní DN na řádku",
     "User Search Attributes" : "Atributy vyhledávání uživatelů",

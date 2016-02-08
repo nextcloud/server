@@ -120,6 +120,8 @@
     "Directory Settings" : "Impostazioni delle cartelle",
     "User Display Name Field" : "Campo per la visualizzazione del nome utente",
     "The LDAP attribute to use to generate the user's display name." : "L'attributo LDAP da usare per generare il nome visualizzato dell'utente.",
+    "2nd User Display Name Field" : "Campo per il secondo nome visualizzato dell'utente",
+    "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Facoltativo. Un attributo LDAP da aggiungere al nome visualizzato tra parentesi. Ad es. »Mario Rossi (mario.rossi@esempio.org)«.",
     "Base User Tree" : "Struttura base dell'utente",
     "One User Base DN per line" : "Un DN base utente per riga",
     "User Search Attributes" : "Attributi di ricerca utente",
