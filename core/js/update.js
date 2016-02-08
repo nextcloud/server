@@ -63,7 +63,7 @@
 				var span = $('<span>')
 					.addClass('bold');
 				if(message === 'Exception: Updates between multiple major versions and downgrades are unsupported.') {
-					span.append(t('core', 'The update was unsuccessful.'));
+					span.append(t('core', 'The update was unsuccessful. For more information <a href="{url}">check our forum post</a> covering this issue.', {'url': 'https://forum.owncloud.org/viewtopic.php?f=17&t=32087'}));
 				} else {
 					span.append(t('core', 'The update was unsuccessful. ' +
 						'Please report this issue to the ' +
