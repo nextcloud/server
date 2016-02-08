@@ -58,4 +58,30 @@ class StorageNotAvailableException extends HintException {
 		$l = \OC::$server->getL10N('core');
 		parent::__construct($message, $l->t('Storage not available'), $code, $previous);
 	}
+
+	/**
+	 * Get the name for a status code
+	 *
+	 * @param int $code
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public static function getStateCodeName($code) {
+		switch ($code) {
+			case self::STATUS_SUCCESS:
+				return 'ok';
+			case self::STATUS_ERROR:
+				return 'error';
+			case self::STATUS_INDETERMINATE:
+				return 'indeterminate';
+			case self::STATUS_UNAUTHORIZED:
+				return 'unauthorized';
+			case self::STATUS_TIMEOUT:
+				return 'timeout';
+			case self::STATUS_NETWORK_ERROR:
+				return 'network error';
+			default:
+				return 'unknown';
+		}
+	}
 }
