@@ -46,7 +46,7 @@ class OAuth1 extends AuthMechanism {
 				(new DefinitionParameter('token_secret', 'token_secret'))
 					->setType(DefinitionParameter::VALUE_HIDDEN),
 			])
-			->setCustomJs('oauth1')
+			->addCustomJs('oauth1')
 		;
 	}
 

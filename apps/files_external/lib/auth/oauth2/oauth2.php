@@ -44,7 +44,7 @@ class OAuth2 extends AuthMechanism {
 				(new DefinitionParameter('token', 'token'))
 					->setType(DefinitionParameter::VALUE_HIDDEN),
 			])
-			->setCustomJs('oauth2')
+			->addCustomJs('oauth2')
 		;
 	}
 

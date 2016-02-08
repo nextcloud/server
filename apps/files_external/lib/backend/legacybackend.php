@@ -84,7 +84,7 @@ class LegacyBackend extends Backend {
 			$this->setPriority($definition['priority']);
 		}
 		if (isset($definition['custom'])) {
-			$this->setCustomJs($definition['custom']);
+			$this->addCustomJs($definition['custom']);
 		}
 		if (isset($definition['has_dependencies']) && $definition['has_dependencies']) {
 			$this->hasDependencies = true;

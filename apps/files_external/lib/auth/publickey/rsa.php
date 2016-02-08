@@ -52,7 +52,7 @@ class RSA extends AuthMechanism {
 				(new DefinitionParameter('private_key', 'private_key'))
 					->setType(DefinitionParameter::VALUE_HIDDEN),
 			])
-			->setCustomJs('public_key')
+			->addCustomJs('public_key')
 		;
 	}
 
