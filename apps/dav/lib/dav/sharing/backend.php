@@ -24,27 +24,30 @@
 
 namespace OCA\DAV\DAV\Sharing;
 
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
 
 class Backend {
 
 	/** @var IDBConnection */
 	private $db;
+	/** @var Principal */
+	private $principalBackend;
+	/** @var string */
+	private $resourceType;
 
 	const ACCESS_OWNER = 1;
 	const ACCESS_READ_WRITE = 2;
 	const ACCESS_READ = 3;
 
-	/** @var string */
-	private $resourceType;
-
 	/**
-	 * CardDavBackend constructor.
-	 *
 	 * @param IDBConnection $db
+	 * @param Principal $principalBackend
+	 * @param string $resourceType
 	 */
-	public function __construct(IDBConnection $db, $resourceType) {
+	public function __construct(IDBConnection $db, Principal $principalBackend, $resourceType) {
 		$this->db = $db;
+		$this->principalBackend = $principalBackend;
 		$this->resourceType = $resourceType;
 	}
 
@@ -141,6 +144,7 @@ class Backend {
 	 *   * readOnly - boolean
 	 *   * summary - Optional, a description for the share
 	 *
+	 * @param int $resourceId
 	 * @return array
 	 */
 	public function getShares($resourceId) {
@@ -153,9 +157,10 @@ class Backend {
 
 		$shares = [];
 		while($row = $result->fetch()) {
+			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
 			$shares[]= [
 				'href' => "principal:${row['principaluri']}",
-//				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
+				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
 				'readOnly' => ($row['access'] == self::ACCESS_READ),
 				'{'.\OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD.'}principal' => $row['principaluri']

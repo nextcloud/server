@@ -106,7 +106,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	public function __construct(\OCP\IDBConnection $db, Principal $principalBackend) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
-		$this->sharingBackend = new Backend($this->db, 'calendar');
+		$this->sharingBackend = new Backend($this->db, $principalBackend, 'calendar');
 	}
 
 	/**
@@ -172,7 +172,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendar[$xmlName] = $row[$dbName];
 			}
 
-			$calendars[$calendar['id']] = $calendar;
+			if (!isset($calendars[$calendar['id']])) {
+				$calendars[$calendar['id']] = $calendar;
+			}
 		}
 
 		$stmt->closeCursor();
@@ -221,7 +223,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				$calendar[$xmlName] = $row[$dbName];
 			}
 
-			$calendars[$calendar['id']] = $calendar;
+			if (!isset($calendars[$calendar['id']])) {
+				$calendars[$calendar['id']] = $calendar;
+			}
 		}
 		$result->closeCursor();
 
