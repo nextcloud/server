@@ -169,6 +169,6 @@ class File extends Node implements \OCP\Files\File {
 	 * @inheritdoc
 	 */
 	public function getChecksum() {
-		return $this->fileInfo->getChecksum();
+		return $this->getFileInfo()->getChecksum();
 	}
 }
