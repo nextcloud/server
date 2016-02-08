@@ -210,9 +210,9 @@ class Storage {
 			$versions = self::getVersions($uid, $filename);
 			if (!empty($versions)) {
 				foreach ($versions as $v) {
-					\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $path . $v['version']));
+					\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $path . $v['version'], 'trigger' => 'master file deleted'));
 					self::deleteVersion($view, $filename . '.v' . $v['version']);
-					\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $path . $v['version']));
+					\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $path . $v['version'], 'trigger' => 'master file deleted'));
 				}
 			}
 		}
@@ -309,6 +309,7 @@ class Storage {
 				Storage::scheduleExpire($uid, $file);
 				\OC_Hook::emit('\OCP\Versions', 'rollback', array(
 					'path' => $filename,
+					'revision' => $revision,
 				));
 				return true;
 			} else if ($versionCreated) {
@@ -444,9 +445,9 @@ class Storage {
 		$view = new \OC\Files\View('/' . $uid . '/files_versions');
 		if (!empty($toDelete)) {
 			foreach ($toDelete as $version) {
-				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $version['path'].'.v'.$version['version']));
+				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $version['path'].'.v'.$version['version'], 'trigger' => 'retention constraint'));
 				self::deleteVersion($view, $version['path'] . '.v' . $version['version']);
-				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'].'.v'.$version['version']));
+				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'].'.v'.$version['version'], 'trigger' => 'retention constraint'));
 			}
 		}
 	}
@@ -705,9 +706,9 @@ class Storage {
 			}
 
 			foreach($toDelete as $key => $path) {
-				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $path));
+				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $path, 'trigger' => 'versions quota exceeded'));
 				self::deleteVersion($versionsFileview, $path);
-				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $path));
+				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $path, 'trigger' => 'versions quota exceeded'));
 				unset($allVersions[$key]); // update array with the versions we keep
 				\OCP\Util::writeLog('files_versions', "Expire: " . $path, \OCP\Util::DEBUG);
 			}
@@ -722,9 +723,9 @@ class Storage {
 			reset($allVersions);
 			while ($availableSpace < 0 && $i < $numOfVersions) {
 				$version = current($allVersions);
-				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $version['path'].'.v'.$version['version']));
+				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $version['path'].'.v'.$version['version'], 'trigger' => 'versions quota exceeded'));
 				self::deleteVersion($versionsFileview, $version['path'] . '.v' . $version['version']);
-				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'].'.v'.$version['version']));
+				\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $version['path'].'.v'.$version['version'], 'trigger' => 'versions quota exceeded'));
 				\OCP\Util::writeLog('files_versions', 'running out of space! Delete oldest version: ' . $version['path'].'.v'.$version['version'] , \OCP\Util::DEBUG);
 				$versionsSize -= $version['size'];
 				$availableSpace += $version['size'];
