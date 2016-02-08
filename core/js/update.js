@@ -60,12 +60,16 @@
 			updateEventSource.listen('failure', function(message) {
 				$(window).off('beforeunload.inprogress');
 				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
-				$('<span>')
-				.addClass('bold')
-				.append(t('core', 'The update was unsuccessful. ' +
-					'Please report this issue to the ' +
-					'<a href="https://github.com/owncloud/core/issues" target="_blank">ownCloud community</a>.'))
-				.appendTo($el);
+				var span = $('<span>')
+					.addClass('bold');
+				if(message === 'Exception: Updates between multiple major versions and downgrades are unsupported.') {
+					span.append(t('core', 'The update was unsuccessful.'));
+				} else {
+					span.append(t('core', 'The update was unsuccessful. ' +
+						'Please report this issue to the ' +
+						'<a href="https://github.com/owncloud/core/issues" target="_blank">ownCloud community</a>.'));
+				}
+				span.appendTo($el);
 			});
 			updateEventSource.listen('done', function() {
 				$(window).off('beforeunload.inprogress');
