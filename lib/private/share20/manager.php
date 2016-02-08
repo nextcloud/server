@@ -322,8 +322,12 @@ class Manager implements IManager {
 		$existingShares = $provider->getSharesByPath($share->getNode());
 		foreach($existingShares as $existingShare) {
 			// Ignore if it is the same share
-			if ($existingShare->getFullId() === $share->getFullId()) {
-				continue;
+			try {
+				if ($existingShare->getFullId() === $share->getFullId()) {
+					continue;
+				}
+			} catch (\UnexpectedValueException $e) {
+				//Shares are not identical
 			}
 
 			// Identical share already existst
@@ -569,7 +573,11 @@ class Manager implements IManager {
 			throw new \Exception('The Share API is disabled');
 		}
 
-		$originalShare = $this->getShareById($share->getFullId());
+		try {
+			$originalShare = $this->getShareById($share->getFullId());
+		} catch (\UnexpectedValueException $e) {
+			throw new \InvalidArgumentException('Share does not have a full id');
+		}
 
 		// We can't change the share type!
 		if ($share->getShareType() !== $originalShare->getShareType()) {
@@ -674,10 +682,15 @@ class Manager implements IManager {
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @throws ShareNotFound
+	 * @throws \InvalidArgumentException
 	 */
 	public function deleteShare(\OCP\Share\IShare $share) {
 		// Just to make sure we have all the info
-		$share = $this->getShareById($share->getFullId());
+		try {
+			$share = $this->getShareById($share->getFullId());
+		} catch (\UnexpectedValueException $e) {
+			throw new \InvalidArgumentException('Share does not have a full id');
+		}
 
 		$formatHookParams = function(\OCP\Share\IShare $share) {
 			// Prepare hook
