@@ -21,8 +21,6 @@
 
 namespace OCA\Files_External\Lib\Auth\Password;
 
-use OCA\Files_External\Lib\Auth\IUserProvided;
-use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
 use OCP\IUser;
