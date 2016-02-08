@@ -131,11 +131,12 @@ class Encryption extends Wrapper {
 			// update file cache
 			if ($info) {
 				$info = $info->getData();
+				$info['encrypted'] = $info['encryptedVersion'];
 			} else {
 				$info = [];
+				$info['encrypted'] = true;
 			}
 
-			$info['encrypted'] = true;
 			$info['size'] = $size;
 			$this->getCache()->put($path, $info);
 

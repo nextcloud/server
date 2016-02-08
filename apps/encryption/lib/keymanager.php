@@ -25,12 +25,14 @@
 namespace OCA\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\View;
 use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IUserSession;
 
@@ -416,18 +418,35 @@ class KeyManager {
 	 * Get the current version of a file
 	 *
 	 * @param string $path
-	 * @return mixed
+	 * @return int
 	 */
 	public function getVersion($path) {
-		return $this->keyStorage->getFileKey($path, 'version', Encryption::ID);
+		$view = new \OC\Files\View();
+		$fileInfo = $view->getFileInfo($path);
+		if($fileInfo === false) {
+			return 0;
+		}
+		return $fileInfo->getEncryptedVersion();
 	}
 
 	/**
+	 * Set the current version of a file
+	 *
 	 * @param string $path
 	 * @param string $version
 	 */
 	public function setVersion($path, $version) {
-		$this->keyStorage->setFileKey($path, 'version', $version, Encryption::ID);
+		$view = new \OC\Files\View();
+		$fileInfo= $view->getFileInfo($path);
+
+		if($fileInfo !== false) {
+			$fileId = $fileInfo->getId();
+			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+			$qb->update('filecache')
+				->set('encrypted', $qb->createNamedParameter($version))
+				->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId)))
+				->execute();
+		}
 	}
 
 	/**

@@ -56,6 +56,9 @@ class Encryption implements IEncryptionModule {
 	private $path;
 
 	/** @var string */
+	private $realPath;
+
+	/** @var string */
 	private $user;
 
 	/** @var string */
@@ -167,6 +170,7 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
 		$this->path = $this->getPathToRealFile($path);
+		$this->realPath = $this->path;
 		$this->accessList = $accessList;
 		$this->user = $user;
 		$this->isWriteOperation = false;
@@ -182,7 +186,7 @@ class Encryption implements IEncryptionModule {
 			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
 		}
 
-		$this->version = (int)$this->keyManager->getVersion($this->path);
+		$this->version = (int)$this->keyManager->getVersion($this->realPath);
 
 		if (
 			$mode === 'w'
@@ -360,7 +364,10 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function update($path, $uid, array $accessList) {
 		$fileKey = $this->keyManager->getFileKey($path, $uid);
-		$version = $this->keyManager->getVersion($path);
+		if(empty($this->realPath)) {
+			$this->realPath = $path;
+		}
+		$version = $this->keyManager->getVersion($this->realPath);
 
 		if (!empty($fileKey)) {
 
