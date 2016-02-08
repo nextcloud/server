@@ -194,6 +194,12 @@ class FederatedShareProvider implements IShareProvider {
 			->setValue('token', $qb->createNamedParameter($token))
 			->setValue('stime', $qb->createNamedParameter(time()));
 
+		/*
+		 * Added to fix https://github.com/owncloud/core/issues/22215
+		 * Can be removed once we get rid of ajax/share.php
+		 */
+		$qb->setValue('file_target', $qb->createNamedParameter(''));
+
 		$qb->execute();
 		$id = $qb->getLastInsertId();
 
