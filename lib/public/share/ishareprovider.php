@@ -101,7 +101,7 @@ interface IShareProvider {
 	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
 	 * @param int $limit The maximum number of shares to be returned, -1 for all shares
 	 * @param int $offset
-	 * @return \OCP\Share\IShare Share[]
+	 * @return \OCP\Share\IShare[]
 	 * @since 9.0.0
 	 */
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset);

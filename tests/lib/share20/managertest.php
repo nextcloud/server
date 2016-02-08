@@ -22,6 +22,7 @@ namespace Test\Share20;
 
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IProviderFactory;
 use OCP\Share\IShare;
 use OC\Share20\Manager;
@@ -497,6 +498,33 @@ class ManagerTest extends \Test\TestCase {
 			->willReturn($share);
 
 		$this->assertEquals($share, $this->manager->getShareById('default:42'));
+	}
+
+	/**
+	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
+	 */
+	public function testGetExpiredShareById() {
+		$manager = $this->createManagerMock()
+			->setMethods(['deleteShare'])
+			->getMock();
+
+		$date = new \DateTime();
+		$date->setTime(0,0,0);
+
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($date)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareById')
+			->with('42')
+			->willReturn($share);
+
+		$manager->expects($this->once())
+			->method('deleteShare')
+			->with($share);
+
+		$manager->getShareById('default:42');
 	}
 
 	/**
@@ -1672,6 +1700,109 @@ class ManagerTest extends \Test\TestCase {
 		$manager->createShare($share);
 	}
 
+	public function testGetSharesBy() {
+		$share = $this->manager->newShare();
+
+		$node = $this->getMock('OCP\Files\Folder');
+
+		$this->defaultProvider->expects($this->once())
+			->method('getSharesBy')
+			->with(
+				$this->equalTo('user'),
+				$this->equalTo(\OCP\Share::SHARE_TYPE_USER),
+				$this->equalTo($node),
+				$this->equalTo(true),
+				$this->equalTo(1),
+				$this->equalTo(1)
+			)->willReturn([$share]);
+
+		$shares = $this->manager->getSharesBy('user', \OCP\Share::SHARE_TYPE_USER, $node, true, 1, 1);
+
+		$this->assertCount(1, $shares);
+		$this->assertSame($share, $shares[0]);
+	}
+
+	/**
+	 * Test to ensure we correctly remove expired link shares
+	 *
+	 * We have 8 Shares and we want the 3 first valid shares.
+	 * share 3-6 and 8 are expired. Thus at the end of this test we should
+	 * have received share 1,2 and 7. And from the manager. Share 3-6 should be
+	 * deleted (as they are evaluated). but share 8 should still be there.
+	 */
+	public function testGetSharesByExpiredLinkShares() {
+		$manager = $this->createManagerMock()
+			->setMethods(['deleteShare'])
+			->getMock();
+
+		/** @var \OCP\Share\IShare[] $shares */
+		$shares = [];
+
+		/*
+		 * This results in an array of 8 IShare elements
+		 */
+		for ($i = 0; $i < 8; $i++) {
+			$share = $this->manager->newShare();
+			$share->setId($i);
+			$shares[] = $share;
+		}
+
+		$today = new \DateTime();
+		$today->setTime(0,0,0);
+
+		/*
+		 * Set the expiration date to today for some shares
+		 */
+		$shares[2]->setExpirationDate($today);
+		$shares[3]->setExpirationDate($today);
+		$shares[4]->setExpirationDate($today);
+		$shares[5]->setExpirationDate($today);
+
+		/** @var \OCP\Share\IShare[] $i */
+		$shares2 = [];
+		for ($i = 0; $i < 8; $i++) {
+			$shares2[] = clone $shares[$i];
+		}
+
+		$node = $this->getMock('OCP\Files\File');
+
+		/*
+		 * Simulate the getSharesBy call.
+		 */
+		$this->defaultProvider
+			->method('getSharesBy')
+			->will($this->returnCallback(function($uid, $type, $node, $reshares, $limit, $offset) use (&$shares2) {
+				return array_slice($shares2, $offset, $limit);
+			}));
+
+		/*
+		 * Simulate the deleteShare call.
+		 */
+		$manager->method('deleteShare')
+			->will($this->returnCallback(function($share) use (&$shares2) {
+				for($i = 0; $i < count($shares2); $i++) {
+					if ($shares2[$i]->getId() === $share->getId()) {
+						array_splice($shares2, $i, 1);
+						break;
+					}
+				}
+			}));
+
+		$res = $manager->getSharesBy('user', \OCP\Share::SHARE_TYPE_LINK, $node, true, 3, 0);
+
+		$this->assertCount(3, $res);
+		$this->assertEquals($shares[0]->getId(), $res[0]->getId());
+		$this->assertEquals($shares[1]->getId(), $res[1]->getId());
+		$this->assertEquals($shares[6]->getId(), $res[2]->getId());
+
+		$this->assertCount(4, $shares2);
+		$this->assertEquals(0, $shares2[0]->getId());
+		$this->assertEquals(1, $shares2[1]->getId());
+		$this->assertEquals(6, $shares2[2]->getId());
+		$this->assertEquals(7, $shares2[3]->getId());
+		$this->assertSame($today, $shares[3]->getExpirationDate());
+	}
+
 	public function testGetShareByToken() {
 		$factory = $this->getMock('\OCP\Share\IProviderFactory');
 
@@ -1702,6 +1833,48 @@ class ManagerTest extends \Test\TestCase {
 
 		$ret = $manager->getShareByToken('token');
 		$this->assertSame($share, $ret);
+	}
+
+	/**
+	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
+	 */
+	public function testGetShareByTokenExpired() {
+		$manager = $this->createManagerMock()
+			->setMethods(['deleteShare'])
+			->getMock();
+
+		$date = new \DateTime();
+		$date->setTime(0,0,0);
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($date);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareByToken')
+			->with('expiredToken')
+			->willReturn($share);
+
+		$manager->expects($this->once())
+			->method('deleteShare')
+			->with($this->equalTo($share));
+
+		$manager->getShareByToken('expiredToken');
+	}
+
+	public function testGetShareByTokenNotExpired() {
+		$date = new \DateTime();
+		$date->setTime(0,0,0);
+		$date->add(new \DateInterval('P2D'));
+		$share = $this->manager->newShare();
+		$share->setExpirationDate($date);
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareByToken')
+			->with('expiredToken')
+			->willReturn($share);
+
+		$res = $this->manager->getShareByToken('expiredToken');
+
+		$this->assertSame($share, $res);
 	}
 
 	public function testCheckPasswordNoLinkShare() {
