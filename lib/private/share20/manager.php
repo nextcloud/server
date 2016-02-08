@@ -261,7 +261,7 @@ class Manager implements IManager {
 		}
 
 		// If expiredate is empty set a default one if there is a default
-		if ($expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
+		if ($share->getFullId() === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 			$expirationDate = new \DateTime();
 			$expirationDate->setTime(0,0,0);
 			$expirationDate->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));

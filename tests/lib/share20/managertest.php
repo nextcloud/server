@@ -890,6 +890,22 @@ class ManagerTest extends \Test\TestCase {
 		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 	}
 
+	public function testValidateExpirationDateExistingShareNoDefault() {
+		$share = $this->manager->newShare();
+
+		$share->setId('42')->setProviderId('foo');
+
+		$this->config->method('getAppValue')
+			->will($this->returnValueMap([
+				['core', 'shareapi_default_expire_date', 'no', 'yes'],
+				['core', 'shareapi_expire_after_n_days', '7', '6'],
+			]));
+
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+
+		$this->assertEquals(null, $share->getExpirationDate());
+	}
+
 	/**
 	 * @expectedException Exception
 	 * @expectedExceptionMessage Only sharing with group members is allowed

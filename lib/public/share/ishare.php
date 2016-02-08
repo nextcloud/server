@@ -46,7 +46,7 @@ interface IShare {
 	 * Get the full share id. This is the <providerid>:<internalid>.
 	 * The full id is unique in the system.
 	 *
-	 * @return string
+	 * @return string|null null is returned when the fullId can't be constructed
 	 * @since 9.0.0
 	 */
 	public function getFullId();
