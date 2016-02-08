@@ -84,4 +84,14 @@ interface File extends Node {
 	 * @since 6.0.0
 	 */
 	public function hash($type, $raw = false);
+
+	/**
+	 * Get the stored checksum for this file
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 */
+	public function getChecksum();
 }
