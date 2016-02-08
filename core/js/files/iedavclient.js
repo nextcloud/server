@@ -17,73 +17,60 @@
 	dav.Client.prototype = _.extend({}, dav.Client.prototype, {
 
 		/**
-		 * Generates a propFind request.
+		 * Performs a HTTP request, and returns a Promise
 		 *
-		 * @param {string} url Url to do the propfind request on
-		 * @param {Array} properties List of properties to retrieve.
+		 * @param {string} method HTTP method
+		 * @param {string} url Relative or absolute url
+		 * @param {Object} headers HTTP headers as an object.
+		 * @param {string} body HTTP request body.
 		 * @return {Promise}
 		 */
-		propFind : function(url, properties, depth) {
+		request : function(method, url, headers, body) {
 
-			if(typeof depth == "undefined") {
-				depth = 0;
+			var self = this;
+			var xhr = this.xhrProvider();
+
+			if (this.userName) {
+				headers['Authorization'] = 'Basic ' + btoa(this.userName + ':' + this.password);
+				// xhr.open(method, this.resolveUrl(url), true, this.userName, this.password);
 			}
-
-			var headers = {
-				Depth          : depth,
-				'Content-Type' : 'application/xml; charset=utf-8'
-			};
-
-			var body =
-				'<?xml version="1.0"?>\n' +
-				'<d:propfind ';
-
-			var namespace;
-			for (namespace in this.xmlNamespaces) {
-				body += ' xmlns:' + this.xmlNamespaces[namespace] + '="' + namespace + '"';
+			xhr.open(method, this.resolveUrl(url), true);
+			var ii;
+			for(ii in headers) {
+				xhr.setRequestHeader(ii, headers[ii]);
 			}
-			body += '>\n' +
-				'  <d:prop>\n';
+			xhr.send(body);
 
-			for(var ii in properties) {
-				var propText = properties[ii];
-				if (typeof propText !== 'string') {
-					// can happen on IE8
-					continue;
-				}
-				var property = this.parseClarkNotation(properties[ii]);
-				if (this.xmlNamespaces[property.namespace]) {
-					body+='    <' + this.xmlNamespaces[property.namespace] + ':' + property.name + ' />\n';
-				} else {
-					body+='    <x:' + property.name + ' xmlns:x="' + property.namespace + '" />\n';
-				}
+			return new Promise(function(fulfill, reject) {
 
-			}
-			body+='  </d:prop>\n';
-			body+='</d:propfind>';
+				xhr.onreadystatechange = function() {
 
-			return this.request('PROPFIND', url, headers, body).then(
-				function(result) {
-					var elements = this.parseMultiStatus(result.xhr.responseXML);
-					var response;
-					if (depth===0) {
-						response = {
-							status: result.status,
-							body: elements[0]
-						};
-					} else {
-						response = {
-							status: result.status,
-							body: elements
-						};
+					if (xhr.readyState !== 4) {
+						return;
 					}
-					return response;
 
-				}.bind(this)
-			);
+					var resultBody = xhr.response;
+					if (xhr.status === 207) {
+						resultBody = self.parseMultiStatus(xhr.responseXML);
+					}
+
+					fulfill({
+						body: resultBody,
+						status: xhr.status,
+						xhr: xhr
+					});
+
+				};
+
+				xhr.ontimeout = function() {
+
+					reject(new Error('Timeout exceeded'));
+
+				};
+
+			});
 
 		},
-
 
 		_getElementsByTagName: function(node, name, resolver) {
 			var parts = name.split(':');
@@ -102,7 +89,6 @@
 		 * @param {Array}
 		 */
 		parseMultiStatus : function(doc) {
-
 			var result = [];
 			var resolver = function(foo) {
 				var ii;
