@@ -37,7 +37,8 @@ class CalendarTest extends TestCase {
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
-			'id' => 666
+			'id' => 666,
+			'uri' => 'cal',
 		];
 		$c = new Calendar($backend, $calendarInfo);
 		$c->delete();
@@ -56,7 +57,8 @@ class CalendarTest extends TestCase {
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
-			'id' => 666
+			'id' => 666,
+			'uri' => 'cal',
 		];
 		$c = new Calendar($backend, $calendarInfo);
 		$c->delete();

@@ -80,6 +80,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	function delete() {
+		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
+			throw new Forbidden();
+		}
+
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			$principal = 'principal:' . parent::getOwner();
 			$shares = $this->getShares();
