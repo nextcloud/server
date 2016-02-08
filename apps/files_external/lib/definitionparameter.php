@@ -93,6 +93,22 @@ class DefinitionParameter implements \JsonSerializable {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getTypeName() {
+		switch ($this->type) {
+			case self::VALUE_BOOLEAN:
+				return 'boolean';
+			case self::VALUE_TEXT:
+				return 'text';
+			case self::VALUE_PASSWORD:
+				return 'password';
+			default:
+				return 'unknown';
+		}
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getFlags() {
