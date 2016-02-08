@@ -45,6 +45,10 @@ td.mountPoint, td.backend { width:160px; }
 	margin-right: 6px;
 }
 
+#externalStorage td.configuration input.disabled-success {
+	background-color: rgba(134, 255, 110, 0.9);
+}
+
 
 #externalStorage td.applicable div.chzn-container {
 	position: relative;
