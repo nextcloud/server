@@ -261,7 +261,14 @@ class Manager implements IManager {
 		}
 
 		// If expiredate is empty set a default one if there is a default
-		if ($share->getFullId() === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
+		$fullId = null;
+		try {
+			$fullId = $share->getFullId();
+		} catch (\UnexpectedValueException $e) {
+			// This is a new share
+		}
+
+		if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 			$expirationDate = new \DateTime();
 			$expirationDate->setTime(0,0,0);
 			$expirationDate->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));
@@ -360,8 +367,12 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
 		$existingShares = $provider->getSharesByPath($share->getNode());
 		foreach($existingShares as $existingShare) {
-			if ($existingShare->getFullId() === $share->getFullId()) {
-				continue;
+			try {
+				if ($existingShare->getFullId() === $share->getFullId()) {
+					continue;
+				}
+			} catch (\UnexpectedValueException $e) {
+				//It is a new share so just continue
 			}
 
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {

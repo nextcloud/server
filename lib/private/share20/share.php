@@ -91,7 +91,7 @@ class Share implements \OCP\Share\IShare {
 	 */
 	public function getFullId() {
 		if ($this->providerId === null || $this->id === null) {
-			return null;
+			throw new \UnexpectedValueException;
 		}
 		return $this->providerId . ':' . $this->id;
 	}
