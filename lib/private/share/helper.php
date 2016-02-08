@@ -227,7 +227,7 @@ class Helper extends \OC\Share\Constants {
 	 *
 	 * all return: http://localhost
 	 *
-	 * @param string $shareWith
+	 * @param string $remote
 	 * @return string
 	 */
 	protected static function fixRemoteURL($remote) {
@@ -244,7 +244,7 @@ class Helper extends \OC\Share\Constants {
 	 * split user and remote from federated cloud id
 	 *
 	 * @param string $id
-	 * @return array
+	 * @return string[]
 	 * @throws HintException
 	 */
 	public static function splitUserRemote($id) {

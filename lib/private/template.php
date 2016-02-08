@@ -70,6 +70,10 @@ class OC_Template extends \OC\Template\Base {
 	
 	protected static $initTemplateEngineFirstRun = true;
 	
+	/**
+	 * @param string $app
+	 * @param string $name
+	 */
 	public function __construct( $app, $name, $renderAs = "", $registerCall = true ) {
 		// Read the selected theme from the config file
 		self::initTemplateEngine($renderAs);
@@ -92,6 +96,9 @@ class OC_Template extends \OC\Template\Base {
 		parent::__construct($template, $requestToken, $l10n, $themeDefaults);
 	}
 
+	/**
+	 * @param string $renderAs
+	 */
 	public static function initTemplateEngine($renderAs) {
 		if (self::$initTemplateEngineFirstRun){
 			
@@ -182,7 +189,7 @@ class OC_Template extends \OC\Template\Base {
 	 * Checking all the possible locations.
 	 * @param string $theme
 	 * @param string $app
-	 * @return array
+	 * @return string[]
 	 */
 	protected function findTemplate($theme, $app, $name) {
 		// Check if it is a app template or not.

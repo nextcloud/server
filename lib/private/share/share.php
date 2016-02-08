@@ -2297,6 +2297,16 @@ class Share extends Constants {
 		return $id ? $id : false;
 	}
 
+	/**
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @param integer $shareType
+	 * @param string $shareWith
+	 * @param string $uidOwner
+	 * @param integer $permissions
+	 * @param string|null $itemSourceName
+	 * @param null|\DateTime $expirationDate
+	 */
 	private static function checkReshare($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, $itemSourceName, $expirationDate) {
 		$backend = self::getBackend($itemType);
 

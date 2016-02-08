@@ -71,7 +71,7 @@ class MySQL extends AbstractDatabase {
 	}
 
 	/**
-	 * @param IDbConnection $connection
+	 * @param IDBConnection $connection
 	 * @throws \OC\DatabaseSetupException
 	 */
 	private function createDBUser($connection) {
