@@ -387,7 +387,7 @@ class Share20OCSTest extends \Test\TestCase {
 			['group', $group],
 		]));
 
-		$expected = new \OC_OCS_Result($result);
+		$expected = new \OC_OCS_Result([$result]);
 		$this->assertEquals($expected->getData(), $ocs->getShare($share->getId())->getData());
 	}
 

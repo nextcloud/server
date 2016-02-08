@@ -170,7 +170,7 @@ class Share20OCS {
 
 		if ($this->canAccessShare($share)) {
 			$share = $this->formatShare($share);
-			return new \OC_OCS_Result($share);
+			return new \OC_OCS_Result([$share]);
 		} else {
 			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
