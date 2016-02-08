@@ -74,6 +74,8 @@ class GlobalAuth extends AuthMechanism {
 	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 		if ($storage->getType() === StorageConfig::MOUNT_TYPE_ADMIN) {
 			$uid = '';
+		} elseif (is_null($user)) {
+			throw new InsufficientDataForMeaningfulAnswerException('No credentials saved');
 		} else {
 			$uid = $user->getUID();
 		}
