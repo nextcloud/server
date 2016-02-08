@@ -142,7 +142,8 @@ class Migration {
 					[
 						\OCP\Share::SHARE_TYPE_USER,
 						\OCP\Share::SHARE_TYPE_GROUP,
-						\OCP\Share::SHARE_TYPE_LINK
+						\OCP\Share::SHARE_TYPE_LINK,
+						\OCP\Share::SHARE_TYPE_REMOTE,
 					],
 					Connection::PARAM_INT_ARRAY
 				)
@@ -185,7 +186,8 @@ class Migration {
 					[
 						\OCP\Share::SHARE_TYPE_USER,
 						\OCP\Share::SHARE_TYPE_GROUP,
-						\OCP\Share::SHARE_TYPE_LINK
+						\OCP\Share::SHARE_TYPE_LINK,
+						\OCP\Share::SHARE_TYPE_REMOTE,
 					],
 					Connection::PARAM_INT_ARRAY
 				)

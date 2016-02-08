@@ -25,7 +25,7 @@ use OCA\Files_Sharing\Migration;
 $installedVersion = \OC::$server->getConfig()->getAppValue('files_sharing', 'installed_version');
 
 // Migration OC8.2 -> OC9
-if (version_compare($installedVersion, '0.9.0', '<')) {
+if (version_compare($installedVersion, '0.9.1', '<')) {
 	$m = new Migration(\OC::$server->getDatabaseConnection());
 	$m->removeReShares();
 	$m->updateInitiatorInfo();
