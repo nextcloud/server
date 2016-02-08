@@ -23,7 +23,8 @@
 	OCA.SystemTags.FilesPlugin = {
 		allowedLists: [
 			'files',
-			'favorites'
+			'favorites',
+			'systemtagsfilter'
 		],
 
 		attach: function(fileList) {

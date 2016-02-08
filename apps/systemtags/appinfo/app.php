@@ -39,9 +39,11 @@ $eventDispatcher->addListener(
 		\OCP\Util::addScript('systemtags/systemtagscollection');
 		\OCP\Util::addScript('systemtags/systemtagsinputfield');
 		\OCP\Util::addScript('systemtags', 'app');
+		\OCP\Util::addScript('systemtags', 'systemtagsfilelist');
 		\OCP\Util::addScript('systemtags', 'filesplugin');
 		\OCP\Util::addScript('systemtags', 'systemtagsinfoview');
 		\OCP\Util::addStyle('systemtags');
+		\OCP\Util::addStyle('systemtags', 'systemtagsfilelist');
 	}
 );
 
@@ -73,3 +75,15 @@ $mapperListener = function(MapperEvent $event) use ($activityManager) {
 
 $eventDispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);
 $eventDispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
+
+$l = \OC::$server->getL10N('files_sharing');
+
+\OCA\Files\App::getNavigationManager()->add(
+	array(
+		'id' => 'systemtagsfilter',
+		'appname' => 'systemtags',
+		'script' => 'list.php',
+		'order' => 9,
+		'name' => $l->t('Tags')
+	)
+);
