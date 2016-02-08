@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+    <id>federatedfilesharing</id>
+    <name>Federated File Sharing</name>
+    <description>Provide federated file sharing across ownCloud servers</description>
+    <licence>AGPL</licence>
+    <author>Bjoern Schiessle, Roeland Jago Douma</author>
+    <version>0.1.0</version>
+    <namespace>FederatedFileSharing</namespace>
+    <category>other</category>
+    <dependencies>
+        <owncloud min-version="9.0" max-version="9.0" />
+    </dependencies>
+</info>

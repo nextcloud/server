@@ -229,4 +229,11 @@ interface IManager {
 	 */
 	public function sharingDisabledForUser($userId);
 
+	/**
+	 * Check if outgoing server2server shares are allowed
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function outgoingServer2ServerSharesAllowed();
+
 }

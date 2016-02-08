@@ -8,6 +8,7 @@
     "enterprise_key",
     "external",
     "federation",
+    "federatedfilesharing",
     "files",
     "files_antivirus",
     "files_drop",
@@ -39,6 +40,7 @@
   ],
   "alwaysEnabled": [
     "files",
-    "dav"
+    "dav",
+    "federatedfilesharing"
   ]
 }

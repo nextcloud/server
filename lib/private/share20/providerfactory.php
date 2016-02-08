@@ -20,6 +20,10 @@
  */
 namespace OC\Share20;
 
+use OCA\FederatedFileSharing\AddressHandler;
+use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\FederatedFileSharing\Notifications;
+use OCA\FederatedFileSharing\TokenHandler;
 use OCP\Share\IProviderFactory;
 use OC\Share20\Exception\ProviderException;
 use OCP\IServerContainer;
@@ -35,6 +39,8 @@ class ProviderFactory implements IProviderFactory {
 	private $serverContainer;
 	/** @var DefaultShareProvider */
 	private $defaultProvider = null;
+	/** @var FederatedShareProvider */
+	private $federatedProvider = null;
 
 	/**
 	 * IProviderFactory constructor.
@@ -63,28 +69,88 @@ class ProviderFactory implements IProviderFactory {
 	}
 
 	/**
+	 * Create the federated share provider
+	 *
+	 * @return FederatedShareProvider
+	 */
+	protected function federatedShareProvider() {
+		if ($this->federatedProvider === null) {
+			/*
+			 * Check if the app is enabled
+			 */
+			$appManager = $this->serverContainer->getAppManager();
+			if (!$appManager->isEnabledForUser('federatedfilesharing')) {
+				return null;
+			}
+
+			/*
+			 * TODO: add factory to federated sharing app
+			 */
+			$l = $this->serverContainer->getL10N('federatedfilessharing');
+			$addressHandler = new AddressHandler(
+				$this->serverContainer->getURLGenerator(),
+				$l
+			);
+			$notifications = new Notifications(
+				$addressHandler,
+				$this->serverContainer->getHTTPClientService()
+			);
+			$tokenHandler = new TokenHandler(
+				$this->serverContainer->getSecureRandom()
+			);
+
+			$this->federatedProvider = new FederatedShareProvider(
+				$this->serverContainer->getDatabaseConnection(),
+				$addressHandler,
+				$notifications,
+				$tokenHandler,
+				$l,
+				$this->serverContainer->getLogger(),
+				$this->serverContainer->getRootFolder()
+			);
+		}
+
+		return $this->federatedProvider;
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	public function getProvider($id) {
+		$provider = null;
 		if ($id === 'ocinternal') {
-			return $this->defaultShareProvider();
+			$provider = $this->defaultShareProvider();
+		} else if ($id === 'ocFederatedSharing') {
+			$provider = $this->federatedShareProvider();
 		}
 
-		throw new ProviderException('No provider with id .' . $id . ' found.');
+		if ($provider === null) {
+			throw new ProviderException('No provider with id .' . $id . ' found.');
+		}
+
+		return $provider;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function getProviderForType($shareType) {
+		$provider = null;
+
 		//FIXME we should not report type 2
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER  ||
 			$shareType === 2 ||
 			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
 			$shareType === \OCP\Share::SHARE_TYPE_LINK) {
-			return $this->defaultShareProvider();
+			$provider = $this->defaultShareProvider();
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
+			$provider = $this->federatedShareProvider();
 		}
 
-		throw new ProviderException('No share provider for share type ' . $shareType);
+		if ($provider === null) {
+			throw new ProviderException('No share provider for share type ' . $shareType);
+		}
+
+		return $provider;
 	}
 }

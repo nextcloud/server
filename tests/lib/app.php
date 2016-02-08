@@ -312,6 +312,7 @@ class Test_App extends \Test\TestCase {
 					'appforgroup1',
 					'appforgroup12',
 					'dav',
+					'federatedfilesharing',
 				),
 				false
 			),
@@ -325,6 +326,7 @@ class Test_App extends \Test\TestCase {
 					'appforgroup12',
 					'appforgroup2',
 					'dav',
+					'federatedfilesharing',
 				),
 				false
 			),
@@ -339,6 +341,7 @@ class Test_App extends \Test\TestCase {
 					'appforgroup12',
 					'appforgroup2',
 					'dav',
+					'federatedfilesharing',
 				),
 				false
 			),
@@ -353,6 +356,7 @@ class Test_App extends \Test\TestCase {
 					'appforgroup12',
 					'appforgroup2',
 					'dav',
+					'federatedfilesharing',
 				),
 				false,
 			),
@@ -367,6 +371,7 @@ class Test_App extends \Test\TestCase {
 					'appforgroup12',
 					'appforgroup2',
 					'dav',
+					'federatedfilesharing',
 				),
 				true,
 			),
@@ -444,11 +449,11 @@ class Test_App extends \Test\TestCase {
 			);
 
 		$apps = \OC_App::getEnabledApps(true);
-		$this->assertEquals(array('files', 'app3', 'dav'), $apps);
+		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing',), $apps);
 
 		// mock should not be called again here
 		$apps = \OC_App::getEnabledApps(false);
-		$this->assertEquals(array('files', 'app3', 'dav'), $apps);
+		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing',), $apps);
 
 		$this->restoreAppConfig();
 		\OC_User::setUserId(null);
