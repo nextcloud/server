@@ -31,18 +31,19 @@ class Backend {
 
 	/** @var IDBConnection */
 	private $db;
+	/** @var Principal */
+	private $principalBackend;
+	/** @var string */
+	private $resourceType;
 
 	const ACCESS_OWNER = 1;
 	const ACCESS_READ_WRITE = 2;
 	const ACCESS_READ = 3;
 
-	/** @var string */
-	private $resourceType;
-
 	/**
-	 * CardDavBackend constructor.
-	 *
 	 * @param IDBConnection $db
+	 * @param Principal $principalBackend
+	 * @param string $resourceType
 	 */
 	public function __construct(IDBConnection $db, Principal $principalBackend, $resourceType) {
 		$this->db = $db;
@@ -143,6 +144,7 @@ class Backend {
 	 *   * readOnly - boolean
 	 *   * summary - Optional, a description for the share
 	 *
+	 * @param int $resourceId
 	 * @return array
 	 */
 	public function getShares($resourceId) {
