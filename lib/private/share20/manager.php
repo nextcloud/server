@@ -595,9 +595,17 @@ class Manager implements IManager {
 				if ($share->getPassword() !== null) {
 					$share->setPassword($this->hasher->hash($share->getPassword()));
 				}
+
+				\OC_Hook::emit('OCP\Share', 'post_update_password', [
+					'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+					'itemSource' => $share->getNode()->getId(),
+					'uidOwner' => $share->getSharedBy(),
+					'token' => $share->getToken(),
+					'disabled' => is_null($share->getPassword()),
+				]);
 			}
 
-			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				//Verify the expiration date
 				$this->validateExpirationDate($share);
 				$expirationDateUpdated = true;
