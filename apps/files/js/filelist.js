@@ -815,6 +815,10 @@
 			if (mountType) {
 				data.mountType = mountType;
 			}
+			var path = $el.attr('data-path');
+			if (path) {
+				data.path = path;
+			}
 			return data;
 		},
 
