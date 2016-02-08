@@ -652,7 +652,9 @@ class Test_Files_Versioning extends \Test\TestCase {
 			'path' => '/sub/test.txt',
 		);
 
-		$this->assertEquals($expectedParams, $params);
+		$this->assertEquals($expectedParams['path'], $params['path']);
+		$this->assertTrue(array_key_exists('revision', $params));
+		$this->assertTrue($params['revision'] > 0);
 
 		$this->assertEquals('version2', $this->rootView->file_get_contents($filePath));
 		$info2 = $this->rootView->getFileInfo($filePath);
