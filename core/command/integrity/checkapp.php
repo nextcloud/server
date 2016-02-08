@@ -1,15 +1,6 @@
 <?php
 /**
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Christian Kampka <christian@kampka.net>
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -42,6 +33,12 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package OC\Core\Command\Integrity
  */
 class CheckApp extends Base {
+
+	/**
+	 * @var Checker
+	 */
+	private $checker;
+
 	public function __construct(Checker $checker) {
 		parent::__construct();
 		$this->checker = $checker;
