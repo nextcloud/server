@@ -90,6 +90,9 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function getFullId() {
+		if ($this->providerId === null || $this->id === null) {
+			throw new \UnexpectedValueException;
+		}
 		return $this->providerId . ':' . $this->id;
 	}
 

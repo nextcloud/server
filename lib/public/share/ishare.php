@@ -48,6 +48,7 @@ interface IShare {
 	 *
 	 * @return string
 	 * @since 9.0.0
+	 * @throws \UnexpectedValueException If the fullId could not be constructed
 	 */
 	public function getFullId();
 

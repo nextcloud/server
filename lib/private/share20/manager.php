@@ -261,7 +261,14 @@ class Manager implements IManager {
 		}
 
 		// If expiredate is empty set a default one if there is a default
-		if ($expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
+		$fullId = null;
+		try {
+			$fullId = $share->getFullId();
+		} catch (\UnexpectedValueException $e) {
+			// This is a new share
+		}
+
+		if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
 			$expirationDate = new \DateTime();
 			$expirationDate->setTime(0,0,0);
 			$expirationDate->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));
@@ -315,8 +322,12 @@ class Manager implements IManager {
 		$existingShares = $provider->getSharesByPath($share->getNode());
 		foreach($existingShares as $existingShare) {
 			// Ignore if it is the same share
-			if ($existingShare->getFullId() === $share->getFullId()) {
-				continue;
+			try {
+				if ($existingShare->getFullId() === $share->getFullId()) {
+					continue;
+				}
+			} catch (\UnexpectedValueException $e) {
+				//Shares are not identical
 			}
 
 			// Identical share already existst
@@ -360,8 +371,12 @@ class Manager implements IManager {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
 		$existingShares = $provider->getSharesByPath($share->getNode());
 		foreach($existingShares as $existingShare) {
-			if ($existingShare->getFullId() === $share->getFullId()) {
-				continue;
+			try {
+				if ($existingShare->getFullId() === $share->getFullId()) {
+					continue;
+				}
+			} catch (\UnexpectedValueException $e) {
+				//It is a new share so just continue
 			}
 
 			if ($existingShare->getSharedWith() === $share->getSharedWith()) {
@@ -558,7 +573,11 @@ class Manager implements IManager {
 			throw new \Exception('The Share API is disabled');
 		}
 
-		$originalShare = $this->getShareById($share->getFullId());
+		try {
+			$originalShare = $this->getShareById($share->getFullId());
+		} catch (\UnexpectedValueException $e) {
+			throw new \InvalidArgumentException('Share does not have a full id');
+		}
 
 		// We can't change the share type!
 		if ($share->getShareType() !== $originalShare->getShareType()) {
@@ -673,10 +692,15 @@ class Manager implements IManager {
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @throws ShareNotFound
+	 * @throws \InvalidArgumentException
 	 */
 	public function deleteShare(\OCP\Share\IShare $share) {
 		// Just to make sure we have all the info
-		$share = $this->getShareById($share->getFullId());
+		try {
+			$share = $this->getShareById($share->getFullId());
+		} catch (\UnexpectedValueException $e) {
+			throw new \InvalidArgumentException('Share does not have a full id');
+		}
 
 		$formatHookParams = function(\OCP\Share\IShare $share) {
 			// Prepare hook
