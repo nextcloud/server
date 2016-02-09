@@ -46,7 +46,9 @@ $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
 
 $requestUri = \OC::$server->getRequest()->getRequestUri();
 
-$server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, function () use ($authBackend) {
+$linkCheckPlugin = new \OCA\DAV\Files\Sharing\PublicLinkCheckPlugin();
+
+$server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin) {
 	$isAjax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest');
 	if (OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
 		// this is what is thrown when trying to access a non-existing share
@@ -68,9 +70,13 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, func
 	OC_Util::setupFS($owner);
 	$ownerView = \OC\Files\Filesystem::getView();
 	$path = $ownerView->getPath($fileId);
+	$fileInfo = $ownerView->getFileInfo($path);
+	$linkCheckPlugin->setFileInfo($fileInfo);
 
 	return new \OC\Files\View($ownerView->getAbsolutePath($path));
 });
+
+$server->addPlugin($linkCheckPlugin);
 
 // And off we go!
 $server->exec();
