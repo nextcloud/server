@@ -413,7 +413,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getUserSession(),
 				$c->getAppConfig(),
 				$c->getGroupManager(),
-				$c->getMemCacheFactory()
+				$c->getMemCacheFactory(),
+				$c->getEventDispatcher()
 			);
 		});
 		$this->registerService('DateTimeZone', function (Server $c) {
