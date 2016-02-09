@@ -49,15 +49,6 @@ class Base extends Command {
 				$this->defaultOutputFormat
 			)
 		;
-
-		// check if the php pcntl_signal functions are accessible
-		$this->php_pcntl_signal = function_exists('pcntl_signal');
-		if ($this->php_pcntl_signal) {
-			// Collect interrupts and notify the running command
-			pcntl_signal(SIGTERM, [$this, 'cancelOperation']);
-			pcntl_signal(SIGINT, [$this, 'cancelOperation']);
-		}
-
 	}
 
 	/**
@@ -150,8 +141,19 @@ class Base extends Command {
 	 *
 	 * Gives a chance to the command to properly terminate what it's doing
 	 */
-	private function cancelOperation() {
+	protected function cancelOperation() {
 		$this->interrupted = true;
 	}
 
+	public function run(InputInterface $input, OutputInterface $output) {
+		// check if the php pcntl_signal functions are accessible
+		$this->php_pcntl_signal = function_exists('pcntl_signal');
+		if ($this->php_pcntl_signal) {
+			// Collect interrupts and notify the running command
+			pcntl_signal(SIGTERM, [$this, 'cancelOperation']);
+			pcntl_signal(SIGINT, [$this, 'cancelOperation']);
+		}
+
+		return parent::run($input, $output);
+	}
 }
