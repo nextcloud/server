@@ -19,23 +19,28 @@
  *
  */
 
-if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
-	$updater = new \OC\Updater(
-		\OC::$server->getHTTPHelper(),
-		\OC::$server->getConfig(),
-		\OC::$server->getIntegrityCodeChecker()
-	);
-	$updateChecker = new \OCA\UpdateNotification\UpdateChecker(
-		$updater
-	);
+namespace OCA\UpdateNotification\AppInfo;
 
-	$userObject = \OC::$server->getUserSession()->getUser();
-	if($userObject !== null) {
-		if(\OC::$server->getGroupManager()->isAdmin($userObject->getUID()) && $updateChecker->getUpdateState() !== []) {
-			\OCP\Util::addScript('updatenotification', 'notification');
-			OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'getJavaScript');
-		}
+use OC\AppFramework\Utility\TimeFactory;
+use OCA\UpdateNotification\Controller\AdminController;
+use OCP\AppFramework\App;
+use OCP\AppFramework\IAppContainer;
+
+class Application extends App {
+	public function __construct (array $urlParams = array()) {
+		parent::__construct('updatenotification', $urlParams);
+		$container = $this->getContainer();
+
+		$container->registerService('AdminController', function(IAppContainer $c) {
+			return new AdminController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->getServer()->getJobList(),
+				$c->getServer()->getSecureRandom(),
+				$c->getServer()->getConfig(),
+				new TimeFactory()
+			);
+		});
 	}
 
-	\OC_App::registerAdmin('updatenotification', 'admin');
 }

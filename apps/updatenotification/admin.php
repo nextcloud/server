@@ -19,23 +19,7 @@
  *
  */
 
-if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
-	$updater = new \OC\Updater(
-		\OC::$server->getHTTPHelper(),
-		\OC::$server->getConfig(),
-		\OC::$server->getIntegrityCodeChecker()
-	);
-	$updateChecker = new \OCA\UpdateNotification\UpdateChecker(
-		$updater
-	);
-
-	$userObject = \OC::$server->getUserSession()->getUser();
-	if($userObject !== null) {
-		if(\OC::$server->getGroupManager()->isAdmin($userObject->getUID()) && $updateChecker->getUpdateState() !== []) {
-			\OCP\Util::addScript('updatenotification', 'notification');
-			OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'getJavaScript');
-		}
-	}
-
-	\OC_App::registerAdmin('updatenotification', 'admin');
-}
+$app = new \OCA\UpdateNotification\AppInfo\Application();
+/** @var OCA\UpdateNotification\Controller\AdminController $controller */
+$controller = $app->getContainer()->query('AdminController');
+return $controller->displayPanel()->render();
