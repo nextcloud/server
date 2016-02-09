@@ -365,6 +365,55 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	/**
+	 * @expectedException \OCP\Files\NotFoundException
+	 */
+	public function testShowShareInvalid() {
+		$owner = $this->getMock('OCP\IUser');
+		$owner->method('getDisplayName')->willReturn('ownerDisplay');
+		$owner->method('getUID')->willReturn('ownerUID');
+
+		$file = $this->getMock('OCP\Files\File');
+		$file->method('getName')->willReturn('file1.txt');
+		$file->method('getMimetype')->willReturn('text/plain');
+		$file->method('getSize')->willReturn(33);
+		$file->method('isShareable')->willReturn(false);
+		$file->method('isReadable')->willReturn(true);
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setId(42);
+		$share->setPassword('password')
+			->setShareOwner('ownerUID')
+			->setNode($file)
+			->setTarget('/file1.txt');
+
+		$this->session->method('exists')->with('public_link_authenticated')->willReturn(true);
+		$this->session->method('get')->with('public_link_authenticated')->willReturn('42');
+
+		$this->previewManager->method('isMimeSupported')->with('text/plain')->willReturn(true);
+
+		$this->config->method('getSystemValue')
+			->willReturnMap(
+				[
+					['max_filesize_animated_gifs_public_sharing', 10, 10],
+					['enable_previews', true, true],
+				]
+			);
+		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
+		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$this->userManager->method('get')->with('ownerUID')->willReturn($owner);
+
+		$this->shareController->showShare('token');
+	}
+
+
 	public function testDownloadShare() {
 		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getPassword')->willReturn('password');
