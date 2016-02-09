@@ -121,7 +121,7 @@ class Avatar implements IAvatar {
 
 		$this->remove();
 		$this->folder->newFile('avatar.'.$type)->putContent($data);
-		$this->user->triggerChange();
+		$this->user->triggerChange('avatar');
 	}
 
 	/**
@@ -137,7 +137,7 @@ class Avatar implements IAvatar {
 				$avatar->delete();
 			}
 		}
-		$this->user->triggerChange();
+		$this->user->triggerChange('avatar');
 	}
 
 	/**
