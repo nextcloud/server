@@ -291,6 +291,7 @@ Feature: provisioning
 			| files_versions |
 			| provisioning_api |
 			| systemtags |
+			| updatenotification |
 
 	Scenario: get app info
 		Given As an "admin"
