@@ -27,11 +27,13 @@
 namespace OC\App;
 
 use OCP\App\IAppManager;
+use OCP\App\ManagerEvent;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AppManager implements IAppManager {
 
@@ -68,6 +70,9 @@ class AppManager implements IAppManager {
 	/** @var string[] */
 	private $alwaysEnabled;
 
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+
 	/**
 	 * @param \OCP\IUserSession $userSession
 	 * @param \OCP\IAppConfig $appConfig
@@ -77,11 +82,13 @@ class AppManager implements IAppManager {
 	public function __construct(IUserSession $userSession,
 								IAppConfig $appConfig,
 								IGroupManager $groupManager,
-								ICacheFactory $memCacheFactory) {
+								ICacheFactory $memCacheFactory,
+								EventDispatcherInterface $dispatcher) {
 		$this->userSession = $userSession;
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
 		$this->memCacheFactory = $memCacheFactory;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -201,6 +208,9 @@ class AppManager implements IAppManager {
 	public function enableApp($appId) {
 		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
+			ManagerEvent::EVENT_APP_ENABLE, $appId
+		));
 		$this->clearAppsCache();
 	}
 
@@ -226,6 +236,9 @@ class AppManager implements IAppManager {
 		}, $groups);
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
+			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
+		));
 		$this->clearAppsCache();
 	}
 
@@ -241,6 +254,9 @@ class AppManager implements IAppManager {
 		}
 		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
+			ManagerEvent::EVENT_APP_DISABLE, $appId
+		));
 		$this->clearAppsCache();
 	}
 
