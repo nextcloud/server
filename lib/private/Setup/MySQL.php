@@ -113,7 +113,8 @@ class MySQL extends AbstractDatabase {
 			$connectionParams['host'] = $host;
 		}
 
-		$cf = new ConnectionFactory();
+		$systemConfig = \OC::$server->getSystemConfig();
+		$cf = new ConnectionFactory($systemConfig);
 		return $cf->getConnection('mysql', $connectionParams);
 	}
 
