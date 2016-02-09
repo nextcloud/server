@@ -76,7 +76,7 @@ $mapperListener = function(MapperEvent $event) use ($activityManager) {
 $eventDispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);
 $eventDispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
 
-$l = \OC::$server->getL10N('files_sharing');
+$l = \OC::$server->getL10N('systemtags');
 
 \OCA\Files\App::getNavigationManager()->add(
 	array(
