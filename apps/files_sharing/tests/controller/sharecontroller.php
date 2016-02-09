@@ -304,6 +304,8 @@ class ShareControllerTest extends \Test\TestCase {
 		$file->method('getName')->willReturn('file1.txt');
 		$file->method('getMimetype')->willReturn('text/plain');
 		$file->method('getSize')->willReturn(33);
+		$file->method('isReadable')->willReturn(true);
+		$file->method('isShareable')->willReturn(true);
 
 		$share = \OC::$server->getShareManager()->newShare();
 		$share->setId(42);
