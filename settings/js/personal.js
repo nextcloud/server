@@ -31,6 +31,14 @@ jQuery.fn.keyUpDelayedOrEnter = function (callback, allowEmptyValue) {
 			cb();
 		}
 	});
+
+	this.bind('paste', null, function (e) {
+		if(!e.keyCode){
+			if (allowEmptyValue || that.val() !== '') {
+				cb();
+			}
+		}
+	});
 };
 
 
