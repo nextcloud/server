@@ -242,6 +242,9 @@ class CommentsPlugin extends ServerPlugin {
 			return $comment;
 		} catch (\InvalidArgumentException $e) {
 			throw new BadRequest('Invalid input values', 0, $e);
+		} catch (\OCP\Comments\MessageTooLongException $e) {
+			$msg = 'Message exceeds allowed character limit of ';
+			throw new BadRequest($msg . \OCP\Comments\IComment::MAX_MESSAGE_LENGTH, 0,	$e);
 		}
 	}
 

@@ -21,7 +21,7 @@
 namespace OCP\Comments;
 
 /**
- * Exception for not found entity
+ * Exception thrown when a comment message exceeds the allowed character limit
  * @since 9.0.0
  */
-class MessageTooLongException extends \Exception {}
+class MessageTooLongException extends \OverflowException {}
