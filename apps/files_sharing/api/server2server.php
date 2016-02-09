@@ -94,7 +94,7 @@ class Server2Server {
 				$notification = $notificationManager->createNotification();
 				$notification->setApp('files_sharing')
 					->setUser($shareWith)
-					->setTimestamp(time())
+					->setDateTime(new \DateTime())
 					->setObject('remote_share', $remoteId)
 					->setSubject('remote_share', [$user, trim($name, '/')]);
 
