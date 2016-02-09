@@ -55,7 +55,7 @@ class Notifier implements INotifier {
 			case 'remote_share':
 				$params = $notification->getSubjectParameters();
 				$notification->setParsedSubject(
-					(string) $l->t('You received %2$s as a remote share from %1$s', $params)
+					(string) $l->t('You received "/%2$s" as a remote share from %1$s', $params)
 				);
 
 				// Deal with the actions for a known subject
