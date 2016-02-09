@@ -218,8 +218,12 @@ class ShareControllerTest extends \Test\TestCase {
 	}
 
 	public function testAuthenticateInvalidPassword() {
+		$node = $this->getMock('\OCP\Files\File');
+		$node->method('getId')->willReturn(100);
+
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setId(42);
+		$share->setId(42)
+			->setNode($node);
 
 		$this->shareManager
 			->expects($this->once())
