@@ -30,7 +30,6 @@
 namespace OCA\Files_Sharing\Controllers;
 
 use OC;
-use OC\Files\Filesystem;
 use OC_Files;
 use OC_Util;
 use OCP;
@@ -71,7 +70,7 @@ class ShareController extends Controller {
 	protected $logger;
 	/** @var OCP\Activity\IManager */
 	protected $activityManager;
-	/** @var OC\Share20\Manager */
+	/** @var OCP\Share\IManager */
 	protected $shareManager;
 	/** @var ISession */
 	protected $session;
@@ -88,7 +87,7 @@ class ShareController extends Controller {
 	 * @param IUserManager $userManager
 	 * @param ILogger $logger
 	 * @param OCP\Activity\IManager $activityManager
-	 * @param \OC\Share20\Manager $shareManager
+	 * @param \OCP\Share\IManager $shareManager
 	 * @param ISession $session
 	 * @param IPreview $previewManager
 	 * @param IRootFolder $rootFolder
@@ -100,7 +99,7 @@ class ShareController extends Controller {
 								IUserManager $userManager,
 								ILogger $logger,
 								\OCP\Activity\IManager $activityManager,
-								\OC\Share20\Manager $shareManager,
+								\OCP\Share\IManager $shareManager,
 								ISession $session,
 								IPreview $previewManager,
 								IRootFolder $rootFolder) {
@@ -193,11 +192,10 @@ class ShareController extends Controller {
 	/**
 	 * throws hooks when a share is attempted to be accessed
 	 *
-	 * @param \OC\Share20\Share|string $share the Share instance if available,
+	 * @param \OCP\Share\IShare|string $share the Share instance if available,
 	 * otherwise token
 	 * @param int $errorCode
 	 * @param string $errorMessage
-	 * @throws NotFoundException
 	 * @throws OC\HintException
 	 * @throws OC\ServerNotAvailableException
 	 */
@@ -205,12 +203,12 @@ class ShareController extends Controller {
 		$itemType = $itemSource = $uidOwner = '';
 		$token = $share;
 		$exception = null;
-		if($share instanceof \OC\Share20\Share) {
+		if($share instanceof \OCP\Share\IShare) {
 			try {
 				$token = $share->getToken();
 				$uidOwner = $share->getSharedBy();
-				$itemType = $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder';
-				$itemSource = $share->getNode()->getId();
+				$itemType = $share->getNodeType();
+				$itemSource = $share->getNodeId();
 			} catch (\Exception $e) {
 				// we log what we know and pass on the exception afterwards
 				$exception = $e;
