@@ -39,6 +39,7 @@ use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\ILogger;
+use OCP\Files\Cache\ICacheEntry;
 
 class Encryption extends Wrapper {
 
@@ -129,11 +130,13 @@ class Encryption extends Wrapper {
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
 			// update file cache
-			if ($info) {
+			if ($info instanceof ICacheEntry) {
 				$info = $info->getData();
 				$info['encrypted'] = $info['encryptedVersion'];
 			} else {
-				$info = [];
+				if (!is_array($info)) {
+					$info = [];
+				}
 				$info['encrypted'] = true;
 			}
 
