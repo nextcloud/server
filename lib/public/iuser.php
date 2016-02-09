@@ -178,4 +178,21 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function setEMailAddress($mailAddress);
+
+	/**
+	 * get the users' quota
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getQuota();
+
+	/**
+	 * set the users' quota
+	 *
+	 * @param string $quota
+	 * @return void
+	 * @since 9.0.0
+	 */
+	public function setQuota($quota);
 }

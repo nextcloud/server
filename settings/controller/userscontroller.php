@@ -184,7 +184,7 @@ class UsersController extends Controller {
 			'displayname' => $user->getDisplayName(),
 			'groups' => (empty($userGroups)) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
 			'subadmin' => $subAdminGroups,
-			'quota' => $this->config->getUserValue($user->getUID(), 'files', 'quota', 'default'),
+			'quota' => $user->getQuota(),
 			'storageLocation' => $user->getHome(),
 			'lastLogin' => $user->getLastLogin() * 1000,
 			'backend' => $user->getBackendClassName(),

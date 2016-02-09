@@ -278,7 +278,7 @@ class Users {
 						$quota = \OCP\Util::humanFileSize($quota);
 					}
 				}
-				$this->config->setUserValue($targetUserId, 'files', 'quota', $quota);
+				$targetUser->setQuota($quota);
 				break;
 			case 'password':
 				$targetUser->setPassword($parameters['_put']['value']);
