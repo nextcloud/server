@@ -23,6 +23,7 @@
 
 namespace OCA\Federation;
 
+use OC\HintException;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
@@ -202,34 +203,33 @@ class TrustedServers {
 	public function isOwnCloudServer($url) {
 		$isValidOwnCloud = false;
 		$client = $this->httpClientService->newClient();
-		try {
-			$result = $client->get(
-				$url . '/status.php',
-				[
-					'timeout' => 3,
-					'connect_timeout' => 3,
-				]
-			);
-			if ($result->getStatusCode() === Http::STATUS_OK) {
-				$isValidOwnCloud = $this->checkOwnCloudVersion($result->getBody());
-			}
-		} catch (\Exception $e) {
-			$this->logger->error($e->getMessage(), ['app' => 'federation']);
-			return false;
+		$result = $client->get(
+			$url . '/status.php',
+			[
+				'timeout' => 3,
+				'connect_timeout' => 3,
+			]
+		);
+		if ($result->getStatusCode() === Http::STATUS_OK) {
+			$isValidOwnCloud = $this->checkOwnCloudVersion($result->getBody());
 		}
+
 		return $isValidOwnCloud;
 	}
 
 	/**
 	 * check if ownCloud version is >= 9.0
 	 *
-	 * @param $statusphp
+	 * @param $status
 	 * @return bool
 	 */
-	protected function checkOwnCloudVersion($statusphp) {
-		$decoded = json_decode($statusphp, true);
+	protected function checkOwnCloudVersion($status) {
+		$decoded = json_decode($status, true);
 		if (!empty($decoded) && isset($decoded['version'])) {
-			return version_compare($decoded['version'], '9.0.0', '>=');
+			if (!version_compare($decoded['version'], '9.0.0', '>=')) {
+				throw new HintException('Remote server version is too low. ownCloud 9.0 is required.');
+			}
+			return true;
 		}
 		return false;
 	}
