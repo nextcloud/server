@@ -2,7 +2,7 @@
 <info>
 	<id>updatenotification</id>
 	<name>Update notification</name>
-	<description>Displays update notifications for ownCloud.</description>
+	<description>Displays update notifications for ownCloud and provides the SSO for the updater.</description>
 	<licence>AGPL</licence>
 	<author>Lukas Reschke</author>
 	<version>0.1.0</version>
