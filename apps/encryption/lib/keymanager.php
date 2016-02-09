@@ -418,10 +418,10 @@ class KeyManager {
 	 * Get the current version of a file
 	 *
 	 * @param string $path
+	 * @param View $view
 	 * @return int
 	 */
-	public function getVersion($path) {
-		$view = new \OC\Files\View();
+	public function getVersion($path, View $view) {
 		$fileInfo = $view->getFileInfo($path);
 		if($fileInfo === false) {
 			return 0;
@@ -433,19 +433,15 @@ class KeyManager {
 	 * Set the current version of a file
 	 *
 	 * @param string $path
-	 * @param string $version
+	 * @param int $version
+	 * @param View $view
 	 */
-	public function setVersion($path, $version) {
-		$view = new \OC\Files\View();
+	public function setVersion($path, $version, View $view) {
 		$fileInfo= $view->getFileInfo($path);
 
 		if($fileInfo !== false) {
-			$fileId = $fileInfo->getId();
-			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-			$qb->update('filecache')
-				->set('encrypted', $qb->createNamedParameter($version))
-				->where($qb->expr()->eq('fileid', $qb->createNamedParameter($fileId)))
-				->execute();
+			$cache = $fileInfo->getStorage()->getCache();
+			$cache->put($path, ['fileid' => $fileInfo->getId(), 'encrypted' => $version, 'encryptedVersion' => $version]);
 		}
 	}
 

@@ -579,4 +579,31 @@ class KeyManagerTest extends TestCase {
 		];
 	}
 
+	public function testGetVersionWithoutFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn(false);
+
+		$this->assertSame(0, $this->instance->getVersion('/admin/files/myfile.txt', $view));
+	}
+
+	public function testGetVersionWithFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$fileInfo = $this->getMockBuilder('\\OC\\Files\\FileInfo')
+			->disableOriginalConstructor()->getMock();
+		$fileInfo->expects($this->once())
+			->method('getEncryptedVersion')
+			->willReturn(1337);
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn($fileInfo);
+
+		$this->assertSame(1337, $this->instance->getVersion('/admin/files/myfile.txt', $view));
+	}
+
 }

@@ -29,6 +29,7 @@ namespace OCA\Encryption\Crypto;
 
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\View;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
@@ -186,7 +187,7 @@ class Encryption implements IEncryptionModule {
 			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
 		}
 
-		$this->version = (int)$this->keyManager->getVersion($this->realPath);
+		$this->version = (int)$this->keyManager->getVersion($this->realPath, new View());
 
 		if (
 			$mode === 'w'
@@ -235,7 +236,7 @@ class Encryption implements IEncryptionModule {
 			} else {
 				$version = $this->version + 1;
 			}
-			$this->keyManager->setVersion($this->path, $this->version+1);
+			$this->keyManager->setVersion($this->path, $this->version+1, new View());
 			if (!empty($this->writeCache)) {
 				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $version, $position);
 				$this->writeCache = '';
@@ -371,7 +372,7 @@ class Encryption implements IEncryptionModule {
 		if(empty($this->realPath)) {
 			$this->realPath = $path;
 		}
-		$version = $this->keyManager->getVersion($this->realPath);
+		$version = $this->keyManager->getVersion($this->realPath, new View());
 
 		if (!empty($fileKey)) {
 
@@ -392,7 +393,7 @@ class Encryption implements IEncryptionModule {
 
 			$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
 
-			$this->keyManager->setVersion($path, $version);
+			$this->keyManager->setVersion($path, $version, new View());
 
 		} else {
 			$this->logger->debug('no file key found, we assume that the file "{file}" is not encrypted',
