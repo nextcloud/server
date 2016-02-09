@@ -441,7 +441,7 @@ class KeyManager {
 
 		if($fileInfo !== false) {
 			$cache = $fileInfo->getStorage()->getCache();
-			$cache->put($path, ['fileid' => $fileInfo->getId(), 'encrypted' => $version, 'encryptedVersion' => $version]);
+			$cache->update($fileInfo->getId(), ['encrypted' => $version, 'encryptedVersion' => $version]);
 		}
 	}
 
