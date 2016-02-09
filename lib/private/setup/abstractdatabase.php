@@ -91,5 +91,8 @@ abstract class AbstractDatabase {
 		$this->tablePrefix = $dbTablePrefix;
 	}
 
+	/**
+	 * @param string $userName
+	 */
 	abstract public function setupDatabase($userName);
 }

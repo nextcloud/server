@@ -35,7 +35,6 @@ namespace OC;
 
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
-use OC\IntegrityCheck\Storage;
 use OC_App;
 use OC_Installer;
 use OC_Util;
@@ -287,7 +286,6 @@ class Updater extends BasicEmitter {
 	 * @param string $installedVersion previous version from which to upgrade from
 	 *
 	 * @throws \Exception
-	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	private function doUpgrade($currentVersion, $installedVersion) {
 		// Stop update if the update is over several major versions

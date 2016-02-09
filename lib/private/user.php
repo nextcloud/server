@@ -253,7 +253,7 @@ class OC_User {
 	 * Sets user display name for session
 	 *
 	 * @param string $uid
-	 * @param null $displayName
+	 * @param string $displayName
 	 * @return bool Whether the display name could get set
 	 */
 	public static function setDisplayName($uid, $displayName = null) {
