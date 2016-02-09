@@ -2,6 +2,7 @@
 
 namespace Test\Comments;
 
+use OCP\Comments\IComment;
 use Test\TestCase;
 
 class Test_Comments_Comment extends TestCase
@@ -105,6 +106,15 @@ class Test_Comments_Comment extends TestCase
 		$comment = new \OC\Comments\Comment();
 		$setter = 'set' . $role;
 		$comment->$setter($type, $id);
+	}
+
+	/**
+	 * @expectedException \OCP\Comments\MessageTooLongException
+	 */
+	public function testSetUberlongMessage() {
+		$comment = new \OC\Comments\Comment();
+		$msg = str_pad('', IComment::MAX_MESSAGE_LENGTH + 1, 'x');
+		$comment->setMessage($msg);
 	}
 
 

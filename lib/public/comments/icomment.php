@@ -29,6 +29,7 @@ namespace OCP\Comments;
  * @since 9.0.0
  */
 interface IComment {
+	const MAX_MESSAGE_LENGTH = 1000;
 
 	/**
 	 * returns the ID of the comment
@@ -119,8 +120,12 @@ interface IComment {
 	/**
 	 * sets the message of the comment and returns itself
 	 *
+	 * When the given message length exceeds MAX_MESSAGE_LENGTH an
+	 * MessageTooLongException shall be thrown.
+	 *
 	 * @param string $message
 	 * @return IComment
+	 * @throws MessageTooLongException
 	 * @since 9.0.0
 	 */
 	public function setMessage($message);
