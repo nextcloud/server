@@ -146,7 +146,7 @@ class ListCommand extends Base {
 					$config->getId(),
 					$config->getMountPoint(),
 					$config->getBackend()->getStorageClass(),
-					$config->getAuthMechanism()->getScheme(),
+					$config->getAuthMechanism()->getIdentifier(),
 					$config->getBackendOptions(),
 					$config->getMountOptions()
 				];
