@@ -231,11 +231,13 @@ class Encryption implements IEncryptionModule {
 		if ($this->isWriteOperation) {
 			// Partial files do not increase the version
 			if(\OC\Files\Cache\Scanner::isPartialFile($path)) {
-				$this->version = $this->version-1;
+				$version = $this->version;
+			} else {
+				$version = $this->version + 1;
 			}
 			$this->keyManager->setVersion($this->path, $this->version+1);
 			if (!empty($this->writeCache)) {
-				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $this->version+1, $position);
+				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $version, $position);
 				$this->writeCache = '';
 			}
 			$publicKeys = array();
@@ -318,9 +320,11 @@ class Encryption implements IEncryptionModule {
 
 				// Partial files do not increase the version
 				if(\OC\Files\Cache\Scanner::isPartialFile($this->path)) {
-					$this->version = $this->version - 1;
+					$version = $this->version;
+				} else {
+					$version = $this->version + 1;
 				}
-				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version+1, $position);
+				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $version, $position);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
