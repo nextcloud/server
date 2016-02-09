@@ -13,7 +13,8 @@
 		"icewind/streams": "0.2.*"
 	},
 	"require-dev": {
-		"satooshi/php-coveralls"  : "dev-master"
+		"satooshi/php-coveralls"  : "v1.0.0",
+		"phpunit/phpunit": "^4.8"
 	},
 	"autoload"         : {
 		"psr-4": {

@@ -7,6 +7,9 @@
 
 namespace Icewind\SMB;
 
+use Icewind\SMB\Exception\InvalidPathException;
+use Icewind\SMB\Exception\InvalidResourceException;
+
 class NativeShare extends AbstractShare {
 	/**
 	 * @var Server $server
@@ -193,11 +196,30 @@ class NativeShare extends AbstractShare {
 	 *
 	 * @throws \Icewind\SMB\Exception\NotFoundException
 	 * @throws \Icewind\SMB\Exception\InvalidTypeException
+	 * @throws \Icewind\SMB\Exception\InvalidPathException
+	 * @throws \Icewind\SMB\Exception\InvalidResourceException
 	 */
 	public function get($source, $target) {
+		if (!$target) {
+			throw new InvalidPathException('Invalid target path: Filename cannot be empty');
+		}
+		$targetHandle = @fopen($target, 'wb');
+		if (!$targetHandle) {
+			$error = error_get_last();
+			if (is_array($error)) {
+				$reason = $error['message'];
+			} else {
+				$reason = 'Unknown error';
+			}
+			throw new InvalidResourceException('Failed opening local file "' . $target . '" for writing: ' . $reason);
+		}
+
 		$this->connect();
 		$sourceHandle = $this->state->open($this->buildUrl($source), 'r');
-		$targetHandle = fopen($target, 'wb');
+		if (!$sourceHandle) {
+			fclose($targetHandle);
+			throw new InvalidResourceException('Failed opening remote file "' . $source . '" for reading');
+		}
 
 		while ($data = $this->state->read($sourceHandle, 4096)) {
 			fwrite($targetHandle, $data);

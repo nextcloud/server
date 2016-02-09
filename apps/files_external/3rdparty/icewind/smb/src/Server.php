@@ -11,7 +11,6 @@ use Icewind\SMB\Exception\AuthenticationException;
 use Icewind\SMB\Exception\InvalidHostException;
 
 class Server {
-	const CLIENT = 'smbclient';
 	const LOCALE = 'en_US.UTF-8';
 
 	/**
@@ -35,6 +34,16 @@ class Server {
 	protected $workgroup;
 
 	/**
+	 * @var \Icewind\SMB\System
+	 */
+	private $system;
+
+	/**
+	 * @var TimeZoneProvider
+	 */
+	private $timezoneProvider;
+
+	/**
 	 * Check if the smbclient php extension is available
 	 *
 	 * @return bool
@@ -54,6 +63,8 @@ class Server {
 		$this->user = $user;
 		$this->workgroup = $workgroup;
 		$this->password = $password;
+		$this->system = new System();
+		$this->timezoneProvider = new TimeZoneProvider($host, $this->system);
 	}
 
 	/**
@@ -115,8 +126,12 @@ class Server {
 	 */
 	public function listShares() {
 		$workgroupArgument = ($this->workgroup) ? ' -W ' . escapeshellarg($this->workgroup) : '';
-		$command = Server::CLIENT . $workgroupArgument . ' --authentication-file=/proc/self/fd/3' .
-			' -gL ' . escapeshellarg($this->getHost());
+		$command = sprintf('%s %s --authentication-file=%s -gL %s',
+			$this->system->getSmbclientPath(),
+			$workgroupArgument,
+			System::getFD(3),
+			escapeshellarg($this->getHost())
+		);
 		$connection = new RawConnection($command);
 		$connection->writeAuthentication($this->getUser(), $this->getPassword());
 		$output = $connection->readAll();
@@ -166,7 +181,6 @@ class Server {
 	 * @return string
 	 */
 	public function getTimeZone() {
-		$command = 'net time zone -S ' . escapeshellarg($this->getHost());
-		return exec($command);
+		return $this->timezoneProvider->get();
 	}
 }

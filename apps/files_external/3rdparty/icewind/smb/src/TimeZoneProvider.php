@@ -19,16 +19,31 @@ class TimeZoneProvider {
 	private $timeZone;
 
 	/**
-	 * @param string $host
+	 * @var System
 	 */
-	function __construct($host) {
+	private $system;
+
+	/**
+	 * @param string $host
+	 * @param System $system
+	 */
+	function __construct($host, System $system) {
 		$this->host = $host;
+		$this->system = $system;
 	}
 
 	public function get() {
 		if (!$this->timeZone) {
-			$command = 'net time zone -S ' . escapeshellarg($this->host);
-			$this->timeZone = exec($command);
+			$net = $this->system->getNetPath();
+			if ($net) {
+				$command = sprintf('%s time zone -S %s',
+					$net,
+					escapeshellarg($this->host)
+				);
+				$this->timeZone = exec($command);
+			} else { // fallback to server timezone
+				$this->timeZone = date_default_timezone_get();
+			}
 		}
 		return $this->timeZone;
 	}
