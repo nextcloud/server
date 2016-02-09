@@ -247,9 +247,6 @@ input.userFilter {width: 200px;}
 /* APPS */
 
 .appinfo { margin: 1em 40px; }
-#app-navigation {
-	padding-bottom: 0px;
-}
 #app-navigation .appwarning {
 	background: #fcc;
 }
