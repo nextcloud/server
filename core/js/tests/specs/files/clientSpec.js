@@ -318,6 +318,160 @@ describe('OC.Files.Client tests', function() {
 		});
 	});
 
+	describe('file filtering', function() {
+
+		// TODO: switch this to the already parsed structure
+		var folderContentsXml = dav.Client.prototype.parseMultiStatus(
+			'<?xml version="1.0" encoding="utf-8"?>' +
+			'<d:multistatus xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns" xmlns:oc="http://owncloud.org/ns">' +
+			makeResponseBlock(
+			'/owncloud/remote.php/webdav/path/to%20space/%E6%96%87%E4%BB%B6%E5%A4%B9/',
+			{
+				'd:getlastmodified': 'Fri, 10 Jul 2015 10:00:05 GMT',
+				'd:getetag': '"56cfcabd79abb"',
+				'd:resourcetype': '<d:collection/>',
+				'oc:id': '00000011oc2d13a6a068',
+				'oc:fileid': '11',
+				'oc:permissions': 'RDNVCK',
+				'oc:size': '120'
+			},
+			[
+				'd:getcontenttype',
+				'd:getcontentlength'
+			]
+			) +
+			makeResponseBlock(
+			'/owncloud/remote.php/webdav/path/to%20space/%E6%96%87%E4%BB%B6%E5%A4%B9/One.txt',
+			{
+				'd:getlastmodified': 'Fri, 10 Jul 2015 13:38:05 GMT',
+				'd:getetag': '"559fcabd79a38"',
+				'd:getcontenttype': 'text/plain',
+				'd:getcontentlength': 250,
+				'd:resourcetype': '',
+				'oc:id': '00000051oc2d13a6a068',
+				'oc:fileid': '51',
+				'oc:permissions': 'RDNVW'
+			},
+			[
+				'oc:size',
+			]
+			) +
+			makeResponseBlock(
+			'/owncloud/remote.php/webdav/path/to%20space/%E6%96%87%E4%BB%B6%E5%A4%B9/sub',
+			{
+				'd:getlastmodified': 'Fri, 10 Jul 2015 14:00:00 GMT',
+				'd:getetag': '"66cfcabd79abb"',
+				'd:resourcetype': '<d:collection/>',
+				'oc:id': '00000015oc2d13a6a068',
+				'oc:fileid': '15',
+				'oc:permissions': 'RDNVCK',
+				'oc:size': '100'
+			},
+			[
+				'd:getcontenttype',
+				'd:getcontentlength'
+			]
+			) +
+			'</d:multistatus>'
+		);
+
+		it('sends REPORT with filter information', function() {
+			client.getFilteredFiles({
+				systemTagIds: ['123', '456']
+			});
+
+			expect(requestStub.calledOnce).toEqual(true);
+			expect(requestStub.lastCall.args[0]).toEqual('REPORT');
+			expect(requestStub.lastCall.args[1]).toEqual(baseUrl);
+
+			var body = requestStub.lastCall.args[3];
+			var doc = (new window.DOMParser()).parseFromString(
+					body,
+					'application/xml'
+			);
+
+			var ns = 'http://owncloud.org/ns';
+			expect(doc.documentElement.localName).toEqual('filter-files');
+			expect(doc.documentElement.namespaceURI).toEqual(ns);
+
+			var filterRoots = doc.getElementsByTagNameNS(ns, 'filter-rules');
+			var rulesList = filterRoots[0] = doc.getElementsByTagNameNS(ns, 'systemtag');
+			expect(rulesList.length).toEqual(2);
+			expect(rulesList[0].localName).toEqual('systemtag');
+			expect(rulesList[0].namespaceURI).toEqual(ns);
+			expect(rulesList[0].textContent).toEqual('123');
+			expect(rulesList[1].localName).toEqual('systemtag');
+			expect(rulesList[1].namespaceURI).toEqual(ns);
+			expect(rulesList[1].textContent).toEqual('456');
+		});
+		it('sends REPORT with explicit properties to filter file list', function() {
+			client.getFilteredFiles({
+				systemTagIds: ['123', '456']
+			});
+
+			expect(requestStub.calledOnce).toEqual(true);
+			expect(requestStub.lastCall.args[0]).toEqual('REPORT');
+			expect(requestStub.lastCall.args[1]).toEqual(baseUrl);
+
+			var props = getRequestedProperties(requestStub.lastCall.args[3]);
+			expect(props).toContain('{DAV:}getlastmodified');
+			expect(props).toContain('{DAV:}getcontentlength');
+			expect(props).toContain('{DAV:}getcontenttype');
+			expect(props).toContain('{DAV:}getetag');
+			expect(props).toContain('{DAV:}resourcetype');
+			expect(props).toContain('{http://owncloud.org/ns}fileid');
+			expect(props).toContain('{http://owncloud.org/ns}size');
+			expect(props).toContain('{http://owncloud.org/ns}permissions');
+		});
+		it('parses the result list into a FileInfo array', function() {
+			var promise = client.getFilteredFiles({
+				systemTagIds: ['123', '456']
+			});
+
+			expect(requestStub.calledOnce).toEqual(true);
+
+			requestDeferred.resolve({
+				status: 207,
+				body: folderContentsXml
+			});
+
+			promise.then(function(status, response) {
+				expect(status).toEqual(207);
+				expect(_.isArray(response)).toEqual(true);
+
+				// returns all entries
+				expect(response.length).toEqual(3);
+
+				// file entry
+				var info = response[0];
+				expect(info instanceof OC.Files.FileInfo).toEqual(true);
+				expect(info.id).toEqual(11);
+
+				// file entry
+				var info = response[1];
+				expect(info instanceof OC.Files.FileInfo).toEqual(true);
+				expect(info.id).toEqual(51);
+
+				// sub entry
+				info = response[2];
+				expect(info instanceof OC.Files.FileInfo).toEqual(true);
+				expect(info.id).toEqual(15);
+			});
+		});
+		it('throws exception if arguments are missing', function() {
+			var thrown = null;
+			try {
+				client.getFilteredFiles({
+					systemTagIds: []
+				});
+			} catch (e) {
+				thrown = true;
+			}
+
+			expect(thrown).toEqual(true);
+		});
+	});
+
 	describe('file info', function() {
 		var responseXml = dav.Client.prototype.parseMultiStatus(
 			'<?xml version="1.0" encoding="utf-8"?>' +

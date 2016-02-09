@@ -425,6 +425,10 @@
 			}
 		},
 
+		getValues: function() {
+			this.$tagsField.select2('val');
+		},
+
 		setValues: function(values) {
 			this.$tagsField.select2('val', values);
 		},

@@ -2521,6 +2521,12 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileInfo.size).toEqual(12);
 			expect(fileInfo.mimetype).toEqual('text/plain');
 			expect(fileInfo.type).toEqual('file');
+			expect(fileInfo.path).not.toBeDefined();
+		});
+		it('adds path attribute if available', function() {
+			$tr.attr('data-path', '/subdir');
+			var fileInfo = fileList.elementToFile($tr);
+			expect(fileInfo.path).toEqual('/subdir');
 		});
 	});
 	describe('new file menu', function() {

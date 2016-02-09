@@ -168,6 +168,15 @@ class ViewControllerTest extends TestCase {
 				'icon' => '',
 			],
 			2 => [
+			'id' => 'systemtagsfilter',
+				'appname' => 'systemtags',
+				'script' => 'list.php',
+				'order' => 9,
+				'name' => new \OC_L10N_String(new \OC_L10N('systemtags'), 'Tags', []),
+				'active' => false,
+				'icon' => '',
+			],
+			3 => [
 			'id' => 'sharingin',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
@@ -176,7 +185,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			3 => [
+			4 => [
 			'id' => 'sharingout',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
@@ -185,7 +194,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			4 => [
+			5 => [
 				'id' => 'sharinglinks',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
@@ -194,7 +203,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			5 => [
+			6 => [
 				'id' => 'trashbin',
 				'appname' => 'files_trashbin',
 				'script' => 'list.php',
@@ -227,18 +236,22 @@ class ViewControllerTest extends TestCase {
 						'content' => null,
 					],
 					2 => [
-						'id' => 'sharingin',
+						'id' => 'systemtagsfilter',
 						'content' => null,
 					],
 					3 => [
-						'id' => 'sharingout',
+						'id' => 'sharingin',
 						'content' => null,
 					],
 					4 => [
-						'id' => 'sharinglinks',
+						'id' => 'sharingout',
 						'content' => null,
 					],
 					5 => [
+						'id' => 'sharinglinks',
+						'content' => null,
+					],
+					6 => [
 						'id' => 'trashbin',
 						'content' => null,
 					],

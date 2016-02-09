@@ -101,6 +101,7 @@ module.exports = function(config) {
 					// need to enforce loading order...
 					'apps/systemtags/js/app.js',
 					'apps/systemtags/js/systemtagsinfoview.js',
+					'apps/systemtags/js/systemtagsfilelist.js',
 					'apps/systemtags/js/filesplugin.js'
 				],
 				testFiles: ['apps/systemtags/tests/js/**/*.js']
