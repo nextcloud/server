@@ -86,7 +86,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$foo
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$foo
@@ -97,6 +97,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('foo@bar.com'));
+		$foo
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('1024'));
 		$foo
 			->method('getLastLogin')
 			->will($this->returnValue(500));
@@ -110,7 +114,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$admin
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$admin
@@ -121,6 +125,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('admin@bar.com'));
+		$admin
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('404'));
 		$admin
 			->expects($this->once())
 			->method('getLastLogin')
@@ -136,7 +144,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('bar'));
 		$bar
@@ -147,6 +155,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('bar@dummy.com'));
+		$bar
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('2323'));
 		$bar
 			->method('getLastLogin')
 			->will($this->returnValue(3999));
@@ -182,12 +194,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('get')
 			->with('bar')
 			->will($this->returnValue($bar));
-		$this->container['Config']
-			->expects($this->exactly(3))
-			->method('getUserValue')
-			->will($this->onConsecutiveCalls(1024,
-											404,
-											2323));
 
 		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
 			->disableOriginalConstructor()
@@ -272,7 +278,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$foo
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$foo
@@ -283,6 +289,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('foo@bar.com'));
+		$foo
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('1024'));
 		$foo
 			->method('getLastLogin')
 			->will($this->returnValue(500));
@@ -296,7 +306,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$admin
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$admin
@@ -307,6 +317,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('admin@bar.com'));
+		$admin
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('404'));
 		$admin
 			->expects($this->once())
 			->method('getLastLogin')
@@ -322,7 +336,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('bar'));
 		$bar
@@ -333,6 +347,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('bar@dummy.com'));
+		$bar
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('2323'));
 		$bar
 			->method('getLastLogin')
 			->will($this->returnValue(3999));
@@ -377,14 +395,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('get')
 			->with('admin')
 			->will($this->returnValue($admin));
-		$this->container['Config']
-			->expects($this->exactly(3))
-			->method('getUserValue')
-			->will($this->onConsecutiveCalls(
-				2323,
-				1024,
-				404
-			));
 
 		$subgroup1 = $this->getMockBuilder('\OCP\IGroup')
 			->disableOriginalConstructor()
@@ -472,7 +482,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$foo
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$foo
@@ -483,6 +493,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('foo@bar.com'));
+		$foo
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('1024'));
 		$foo
 			->method('getLastLogin')
 			->will($this->returnValue(500));
@@ -496,7 +510,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$admin
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$admin
@@ -507,6 +521,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('admin@bar.com'));
+		$admin
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('404'));
 		$admin
 			->expects($this->once())
 			->method('getLastLogin')
@@ -522,7 +540,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('bar'));
 		$bar
@@ -533,6 +551,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue('bar@dummy.com'));
+		$bar
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('2323'));
 		$bar
 			->method('getLastLogin')
 			->will($this->returnValue(3999));
@@ -553,10 +575,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->exactly(3))
 			->method('getUserGroupIds')
 			->will($this->onConsecutiveCalls(array('Users', 'Support'), array('admins', 'Support'), array('External Users')));
-		$this->container['Config']
-			->expects($this->exactly(3))
-			->method('getUserValue')
-			->will($this->onConsecutiveCalls(1024, 404, 2323));
 
 		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
 			->disableOriginalConstructor()
@@ -622,7 +640,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
-			->expects($this->exactly(3))
+			->expects($this->exactly(2))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$user
@@ -633,6 +651,10 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getEMailAddress')
 			->will($this->returnValue(null));
+		$user
+			->expects($this->once())
+			->method('getQuota')
+			->will($this->returnValue('none'));
 		$user
 			->method('getLastLogin')
 			->will($this->returnValue(500));
@@ -674,7 +696,7 @@ class UsersControllerTest extends \Test\TestCase {
 					'displayname' => 'M. Foo',
 					'groups' => null,
 					'subadmin' => array(),
-					'quota' => null,
+					'quota' => 'none',
 					'storageLocation' => '/home/foo',
 					'lastLogin' => 500000,
 					'backend' => 'OC_User_Database',
