@@ -733,7 +733,7 @@ class Test_User_User extends \Test\TestCase {
 			'markRefreshTime',
 			'updateQuota',
 			'updateEmail',
-			'storeDisplayName',
+			'composeAndStoreDisplayName',
 			'storeLDAPUserName',
 			'getHomePath',
 			'updateAvatar'
@@ -877,5 +877,30 @@ class Test_User_User extends \Test\TestCase {
 			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
 
 		$user->getHomePath();
+	}
+
+	public function displayNameProvider() {
+		return [
+			['Roland Deschain', '', 'Roland Deschain'],
+			['Roland Deschain', null, 'Roland Deschain'],
+			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)'],
+		];
+	}
+
+	/**
+	 * @dataProvider displayNameProvider
+	 */
+	public function testComposeAndStoreDisplayName($part1, $part2, $expected) {
+		list($access, $config, $filesys, $image, $log, $avaMgr) =
+			$this->getTestInstances();
+
+		$config->expects($this->once())
+			->method('setUserValue');
+
+		$user = new User(
+			'user', 'cn=user', $access, $config, $filesys, $image, $log, $avaMgr);
+
+		$displayName = $user->composeAndStoreDisplayName($part1, $part2);
+		$this->assertSame($expected, $displayName);
 	}
 }
