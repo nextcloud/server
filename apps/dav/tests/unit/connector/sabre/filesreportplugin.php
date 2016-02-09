@@ -395,6 +395,28 @@ class FilesReportPlugin extends \Test\TestCase {
 		$this->assertEquals(['222'], array_values($this->plugin->processFilterRules($rules)));
 	}
 
+	public function testProcessFilterRulesAndConditionWithOneEmptyResult() {
+		$this->groupManager->expects($this->any())
+			->method('isAdmin')
+			->will($this->returnValue(true));
+
+		$this->tagMapper->expects($this->at(0))
+			->method('getObjectIdsForTags')
+			->with('123')
+			->will($this->returnValue(['111', '222']));
+		$this->tagMapper->expects($this->at(1))
+			->method('getObjectIdsForTags')
+			->with('456')
+			->will($this->returnValue([]));
+
+		$rules = [
+			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
+			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
+		];
+
+		$this->assertEquals([], array_values($this->plugin->processFilterRules($rules)));
+	}
+
 	public function testProcessFilterRulesInvisibleTagAsAdmin() {
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')

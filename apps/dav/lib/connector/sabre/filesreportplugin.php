@@ -239,6 +239,11 @@ class FilesReportPlugin extends ServerPlugin {
 		foreach ($systemTagIds as $systemTagId) {
 			$fileIds = $this->tagMapper->getObjectIdsForTags($systemTagId, 'files');
 
+			if (empty($fileIds)) {
+				return [];
+			}
+
+			// first run ?
 			if (empty($resultFileIds)) {
 				$resultFileIds = $fileIds;
 			} else {
