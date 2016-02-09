@@ -100,12 +100,12 @@ class Server2Server {
 
 				$declineAction = $notification->createAction();
 				$declineAction->setLabel('decline')
-					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/' . $remoteId), 'DELETE');
+					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/pending/' . $remoteId), 'DELETE');
 				$notification->addAction($declineAction);
 
 				$acceptAction = $notification->createAction();
 				$acceptAction->setLabel('accept')
-					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/' . $remoteId), 'POST');
+					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/pending/' . $remoteId), 'POST');
 				$notification->addAction($acceptAction);
 
 				$notificationManager->notify($notification);
