@@ -228,6 +228,16 @@ class ShareController extends Controller {
 	}
 
 	/**
+	 * Validate the permissions of the share
+	 *
+	 * @param Share\IShare $share
+	 * @return bool
+	 */
+	private function validateShare(\OCP\Share\IShare $share) {
+		return $share->getNode()->isReadable() && $share->getNode()->isShareable();
+	}
+
+	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
@@ -253,6 +263,9 @@ class ShareController extends Controller {
 				array('token' => $token)));
 		}
 
+		if (!$this->validateShare($share)) {
+			throw new NotFoundException();
+		}
 		// We can't get the path of a file share
 		try {
 			if ($share->getNode() instanceof \OCP\Files\File && $path !== '') {
@@ -370,6 +383,10 @@ class ShareController extends Controller {
 
 		$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
 		$originalSharePath = $userFolder->getRelativePath($share->getNode()->getPath());
+
+		if (!$this->validateShare($share)) {
+			throw new NotFoundException();
+		}
 
 		// Single file share
 		if ($share->getNode() instanceof \OCP\Files\File) {
