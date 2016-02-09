@@ -23,6 +23,7 @@ namespace OCA\DAV\Tests\Unit\CardDAV;
 
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
+use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class AddressBookTest extends TestCase {
@@ -60,5 +61,20 @@ class AddressBookTest extends TestCase {
 		];
 		$c = new AddressBook($backend, $calendarInfo);
 		$c->delete();
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testPropPatch() {
+		/** @var \PHPUnit_Framework_MockObject_MockObject | CardDavBackend $backend */
+		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'principaluri' => 'user2',
+			'id' => 666
+		];
+		$c = new AddressBook($backend, $calendarInfo);
+		$c->propPatch(new PropPatch([]));
 	}
 }

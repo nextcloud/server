@@ -23,6 +23,7 @@ namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\PropPatch;
 
 class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
@@ -121,5 +122,12 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			return;
 		}
 		parent::delete();
+	}
+
+	function propPatch(PropPatch $propPatch) {
+		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
+			throw new Forbidden();
+		}
+		parent::propPatch($propPatch);
 	}
 }

@@ -23,6 +23,7 @@ namespace OCA\DAV\Tests\Unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class CalendarTest extends TestCase {
@@ -62,5 +63,20 @@ class CalendarTest extends TestCase {
 		];
 		$c = new Calendar($backend, $calendarInfo);
 		$c->delete();
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testPropPatch() {
+		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		$calendarInfo = [
+			'{http://owncloud.org/ns}owner-principal' => 'user1',
+			'principaluri' => 'user2',
+			'id' => 666
+		];
+		$c = new Calendar($backend, $calendarInfo);
+		$c->propPatch(new PropPatch([]));
 	}
 }
