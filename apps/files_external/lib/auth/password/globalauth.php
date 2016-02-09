@@ -21,8 +21,6 @@
 
 namespace OCA\Files_External\Lib\Auth\Password;
 
-use OCA\Files_External\Lib\Auth\IUserProvided;
-use OCA\Files_External\Lib\DefinitionParameter;
 use OCA\Files_External\Service\BackendService;
 use OCP\IL10N;
 use OCP\IUser;
@@ -74,6 +72,8 @@ class GlobalAuth extends AuthMechanism {
 	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 		if ($storage->getType() === StorageConfig::MOUNT_TYPE_ADMIN) {
 			$uid = '';
+		} elseif (is_null($user)) {
+			throw new InsufficientDataForMeaningfulAnswerException('No credentials saved');
 		} else {
 			$uid = $user->getUID();
 		}
