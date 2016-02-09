@@ -210,13 +210,15 @@ class Test_User_User extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(array('42 GB')));
 
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo('alice'),
-				$this->equalTo('files'),
-				$this->equalTo('quota'),
-				$this->equalTo('42 GB'))
-			->will($this->returnValue(true));
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('42 GB');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
@@ -253,13 +255,15 @@ class Test_User_User extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(false));
 
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo('alice'),
-				$this->equalTo('files'),
-				$this->equalTo('quota'),
-				$this->equalTo('25 GB'))
-			->will($this->returnValue(true));
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('25 GB');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
@@ -296,13 +300,15 @@ class Test_User_User extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(array('27 GB')));
 
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo('alice'),
-				$this->equalTo('files'),
-				$this->equalTo('quota'),
-				$this->equalTo('27 GB'))
-			->will($this->returnValue(true));
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('27 GB');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
@@ -408,13 +414,15 @@ class Test_User_User extends \Test\TestCase {
 		$access->expects($this->never())
 			->method('readAttribute');
 
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo('alice'),
-				$this->equalTo('files'),
-				$this->equalTo('quota'),
-				$this->equalTo($readQuota))
-			->will($this->returnValue(true));
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with($readQuota);
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
