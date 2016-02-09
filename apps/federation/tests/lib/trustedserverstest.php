@@ -23,6 +23,7 @@
 namespace OCA\Federation\Tests\lib;
 
 
+use OC\HintException;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\BackgroundJob\IJobList;
@@ -282,41 +283,50 @@ class TrustedServersTest extends TestCase {
 		];
 	}
 
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage simulated exception
+	 */
 	public function testIsOwnCloudServerFail() {
 		$server = 'server1';
 
 		$this->httpClientService->expects($this->once())->method('newClient')
 			->willReturn($this->httpClient);
 
-		$this->logger->expects($this->once())->method('error')
-			->with('simulated exception', ['app' => 'federation']);
-
 		$this->httpClient->expects($this->once())->method('get')->with($server . '/status.php')
 			->willReturnCallback(function () {
 				throw new \Exception('simulated exception');
 			});
 
-		$this->assertFalse($this->trustedServers->isOwnCloudServer($server));
-
+		$this->trustedServers->isOwnCloudServer($server);
 	}
 
 	/**
 	 * @dataProvider dataTestCheckOwnCloudVersion
-	 *
-	 * @param $statusphp
-	 * @param $expected
 	 */
-	public function testCheckOwnCloudVersion($statusphp, $expected) {
-		$this->assertSame($expected,
-			$this->invokePrivate($this->trustedServers, 'checkOwnCloudVersion', [$statusphp])
-		);
+	public function testCheckOwnCloudVersion($status) {
+		$this->assertTrue($this->invokePrivate($this->trustedServers, 'checkOwnCloudVersion', [$status]));
 	}
 
 	public function dataTestCheckOwnCloudVersion() {
 		return [
-			['{"version":"8.4.0"}', false],
-			['{"version":"9.0.0"}', true],
-			['{"version":"9.1.0"}', true]
+			['{"version":"9.0.0"}'],
+			['{"version":"9.1.0"}']
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestCheckOwnCloudVersionTooLow
+	 * @expectedException \OC\HintException
+	 * @expectedExceptionMessage Remote server version is too low. ownCloud 9.0 is required.
+	 */
+	public function testCheckOwnCloudVersionTooLow($status) {
+		$this->invokePrivate($this->trustedServers, 'checkOwnCloudVersion', [$status]);
+	}
+
+	public function dataTestCheckOwnCloudVersionTooLow() {
+		return [
+			['{"version":"8.2.3"}'],
 		];
 	}
 

@@ -27,6 +27,7 @@ use OC\HintException;
 use OCA\Federation\Middleware\AddServerMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\ILogger;
 use Test\TestCase;
 
 class AddServerMiddlewareTest extends TestCase {
@@ -93,7 +94,7 @@ class AddServerMiddlewareTest extends TestCase {
 	public function dataTestAfterException() {
 		return [
 			[new HintException('message', 'hint'), 'message', 'hint'],
-			[new \Exception('message'), 'message', 'Unknown error'],
+			[new \Exception('message'), 'message', 'message'],
 		];
 	}
 
