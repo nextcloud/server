@@ -69,9 +69,21 @@
 		filesApp: null,
 
 		attach: function(filesApp) {
+			var self = this;
 			this.filesApp = filesApp;
 			this.processIncomingShareFromUrl();
-			this.processSharesToConfirm();
+
+			if (!$('#header').find('div.notifications').length) {
+				// No notification app, display the modal
+				this.processSharesToConfirm();
+			}
+
+			$('body').on('OCA.Notification.Action', function(e) {
+				if (e.notification.app === 'files_sharing' && e.notification.object_type === 'remote_share' && e.action.type === 'POST') {
+					// User accepted a remote share reload
+					self.filesApp.fileList.reload();
+				}
+			});
 		},
 
 		/**
