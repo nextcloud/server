@@ -64,7 +64,8 @@ class Notifier implements INotifier {
 						case 'accept':
 							$action->setParsedLabel(
 								(string) $l->t('Accept')
-							);
+							)
+							->setPrimary(true);
 							break;
 
 						case 'decline':
