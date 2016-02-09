@@ -170,7 +170,7 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
 		$this->path = $this->getPathToRealFile($path);
-		$this->realPath = $this->path;
+		$this->realPath = $path;
 		$this->accessList = $accessList;
 		$this->user = $user;
 		$this->isWriteOperation = false;
