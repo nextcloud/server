@@ -286,7 +286,6 @@ class Updater extends BasicEmitter {
 	 * @param string $installedVersion previous version from which to upgrade from
 	 *
 	 * @throws \Exception
-	 * @return boolean|null true if the operation succeeded, false otherwise
 	 */
 	private function doUpgrade($currentVersion, $installedVersion) {
 		// Stop update if the update is over several major versions

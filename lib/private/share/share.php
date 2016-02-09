@@ -2300,10 +2300,10 @@ class Share extends Constants {
 	/**
 	 * @param string $itemType
 	 * @param string $itemSource
-	 * @param integer $shareType
+	 * @param int $shareType
 	 * @param string $shareWith
 	 * @param string $uidOwner
-	 * @param integer $permissions
+	 * @param int $permissions
 	 * @param string|null $itemSourceName
 	 * @param null|\DateTime $expirationDate
 	 */

@@ -53,26 +53,18 @@ class OC_Template extends \OC\Template\Base {
 	/** @var string */
 	protected $app; // app id
 
+	protected static $initTemplateEngineFirstRun = true;
+
 	/**
 	 * Constructor
+	 *
 	 * @param string $app app providing the template
 	 * @param string $name of the template file (without suffix)
-	 * @param string $renderAs = ""; produce a full page
+	 * @param string $renderAs If $renderAs is set, OC_Template will try to
+	 *                         produce a full page in the according layout. For
+	 *                         now, $renderAs can be set to "guest", "user" or
+	 *                         "admin".
 	 * @param bool $registerCall = true
-	 * @return OC_Template object
-	 *
-	 * This function creates an OC_Template object.
-	 *
-	 * If $renderAs is set, OC_Template will try to produce a full page in the
-	 * according layout. For now, $renderAs can be set to "guest", "user" or
-	 * "admin".
-	 */
-	
-	protected static $initTemplateEngineFirstRun = true;
-	
-	/**
-	 * @param string $app
-	 * @param string $name
 	 */
 	public function __construct( $app, $name, $renderAs = "", $registerCall = true ) {
 		// Read the selected theme from the config file
