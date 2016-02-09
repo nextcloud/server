@@ -28,7 +28,7 @@ namespace OC\DB;
 use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
 use Doctrine\DBAL\Event\Listeners\SQLSessionInit;
 use Doctrine\DBAL\Event\Listeners\MysqlSessionInit;
-use OC\SystemConfig;
+use OCP\IConfig;
 
 /**
 * Takes care of creating and configuring Doctrine connections.
@@ -65,8 +65,8 @@ class ConnectionFactory {
 		),
 	);
 
-	public function __construct(SystemConfig $systemConfig) {
-		if($systemConfig->getValue('mysql.utf8mb4', false)) {
+	public function __construct(IConfig $config) {
+		if($config->getSystemValue('mysql.utf8mb4', false)) {
 			$defaultConnectionParams['mysql']['charset'] = 'utf8mb4';
 		}
 	}
