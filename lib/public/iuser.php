@@ -180,7 +180,9 @@ interface IUser {
 	public function setEMailAddress($mailAddress);
 
 	/**
-	 * get the users' quota
+	 * get the users' quota in human readable form. If a specific quota is not
+	 * set for the user, the default value is returned. If a default setting
+	 * was not set otherwise, it is return as 'none', i.e. quota is not limited.
 	 *
 	 * @return string
 	 * @since 9.0.0

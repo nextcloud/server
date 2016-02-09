@@ -362,8 +362,8 @@ class User implements IUser {
 	 */
 	public function setQuota($quota) {
 		if($quota !== 'none' and $quota !== 'default') {
-			$quota= OC_Helper::computerFileSize($quota);
-			$quota=OC_Helper::humanFileSize($quota);
+			$quota = OC_Helper::computerFileSize($quota);
+			$quota = OC_Helper::humanFileSize($quota);
 		}
 		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
 		$this->triggerChange('quota');
