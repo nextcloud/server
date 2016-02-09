@@ -24,9 +24,11 @@ namespace OCA\DAV\Comments;
 
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
+use OCP\Comments\MessageTooLongException;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\MethodNotAllowed;
 use Sabre\DAV\PropPatch;
@@ -168,6 +170,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	 *
 	 * @param $propertyValue
 	 * @return bool
+	 * @throws BadRequest
 	 * @throws Forbidden
 	 */
 	public function updateComment($propertyValue) {
@@ -178,6 +181,10 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 			return true;
 		} catch (\Exception $e) {
 			$this->logger->logException($e, ['app' => 'dav/comments']);
+			if($e instanceof MessageTooLongException) {
+				$msg = 'Message exceeds allowed character limit of ';
+				throw new BadRequest($msg . IComment::MAX_MESSAGE_LENGTH, 0, $e);
+			}
 			return false;
 		}
 	}

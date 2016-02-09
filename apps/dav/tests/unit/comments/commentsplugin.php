@@ -23,6 +23,7 @@ namespace OCA\DAV\Tests\Unit\Comments;
 
 use OC\Comments\Comment;
 use OCA\DAV\Comments\CommentsPlugin as CommentsPluginImplementation;
+use OCP\Comments\IComment;
 use Sabre\DAV\Exception\NotFound;
 
 class CommentsPlugin extends \Test\TestCase {
@@ -493,6 +494,98 @@ class CommentsPlugin extends \Test\TestCase {
 
 		$request->expects($this->never())
 			->method('getUrl');
+
+		$response->expects($this->never())
+			->method('setHeader');
+
+		$this->server->expects($this->any())
+			->method('getRequestUri')
+			->will($this->returnValue($path));
+		$this->plugin->initialize($this->server);
+
+		$this->plugin->httpPost($request, $response);
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 * @expectedExceptionMessage Message exceeds allowed character limit of
+	 */
+	public function testCreateCommentMessageTooLong() {
+		$commentData = [
+			'actorType' => 'users',
+			'verb' => 'comment',
+			'message' => str_pad('', IComment::MAX_MESSAGE_LENGTH + 1, 'x'),
+		];
+
+		$comment = new Comment([
+				'objectType' => 'files',
+				'objectId' => '42',
+				'actorType' => 'users',
+				'actorId' => 'alice',
+				'verb' => 'comment',
+			]);
+		$comment->setId('23');
+
+		$path = 'comments/files/42';
+
+		$requestData = json_encode($commentData);
+
+		$user = $this->getMock('OCP\IUser');
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$node = $this->getMockBuilder('\OCA\DAV\Comments\EntityCollection')
+			->disableOriginalConstructor()
+			->getMock();
+		$node->expects($this->once())
+			->method('getName')
+			->will($this->returnValue('files'));
+		$node->expects($this->once())
+			->method('getId')
+			->will($this->returnValue('42'));
+
+		$node->expects($this->never())
+			->method('setReadMarker');
+
+		$this->commentsManager->expects($this->once())
+			->method('create')
+			->with('users', 'alice', 'files', '42')
+			->will($this->returnValue($comment));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		// technically, this is a shortcut. Inbetween EntityTypeCollection would
+		// be returned, but doing it exactly right would not be really
+		// unit-testing like, as it would require to haul in a lot of other
+		// things.
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->with('/' . $path)
+			->will($this->returnValue($node));
+
+		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$request->expects($this->once())
+			->method('getPath')
+			->will($this->returnValue('/' . $path));
+
+		$request->expects($this->once())
+			->method('getBodyAsString')
+			->will($this->returnValue($requestData));
+
+		$request->expects($this->once())
+			->method('getHeader')
+			->with('Content-Type')
+			->will($this->returnValue('application/json'));
 
 		$response->expects($this->never())
 			->method('setHeader');

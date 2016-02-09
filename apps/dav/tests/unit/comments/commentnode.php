@@ -22,6 +22,8 @@
 namespace OCA\DAV\Tests\Unit\Comments;
 
 use OCA\DAV\Comments\CommentNode;
+use OCP\Comments\IComment;
+use OCP\Comments\MessageTooLongException;
 
 class CommentsNode extends \Test\TestCase {
 
@@ -196,6 +198,43 @@ class CommentsNode extends \Test\TestCase {
 			->method('logException');
 
 		$this->assertFalse($this->node->updateComment($msg));
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 * @expectedExceptionMessage Message exceeds allowed character limit of
+	 */
+	public function testUpdateCommentMessageTooLongException() {
+		$user = $this->getMock('\OCP\IUser');
+
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('alice'));
+
+		$this->userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+
+		$this->comment->expects($this->once())
+			->method('setMessage')
+			->will($this->throwException(new MessageTooLongException()));
+
+		$this->comment->expects($this->any())
+			->method('getActorType')
+			->will($this->returnValue('users'));
+
+		$this->comment->expects($this->any())
+			->method('getActorId')
+			->will($this->returnValue('alice'));
+
+		$this->commentsManager->expects($this->never())
+			->method('save');
+
+		$this->logger->expects($this->once())
+			->method('logException');
+
+		// imagine 'foo' has >1k characters. comment is mocked anyway.
+		$this->node->updateComment('foo');
 	}
 
 	/**
