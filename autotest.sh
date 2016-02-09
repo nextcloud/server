@@ -21,7 +21,7 @@ ADMINLOGIN=admin$EXECUTOR_NUMBER
 BASEDIR=$PWD
 
 PRIMARY_STORAGE_CONFIGS="local swift"
-DBCONFIGS="sqlite mysql mariadb pgsql oci"
+DBCONFIGS="sqlite mysql mariadb pgsql oci mysqlmb4"
 
 # $PHP_EXE is run through 'which' and as such e.g. 'php' or 'hhvm' is usually
 # sufficient. Due to the behaviour of 'which', $PHP_EXE may also be a path
@@ -207,6 +207,31 @@ function execute_tests {
 			fi
 			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
 		fi
+	fi
+	if [ "$DB" == "mysqlmb4" ] ; then
+		echo "Fire up the mysql docker"
+		DOCKER_CONTAINER_ID=$(docker run \
+			-v tests/docker/mysqlmb4:/etc/mysql/conf.d \
+			-e MYSQL_ROOT_PASSWORD=owncloud \
+			-e MYSQL_USER="$DATABASEUSER" \
+			-e MYSQL_PASSWORD=owncloud \
+			-e MYSQL_DATABASE="$DATABASENAME" \
+			-d mysql:5.7)
+
+		DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+
+		echo "Waiting for MySQL(utf8mb4) initialisation ..."
+
+		if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 60; then
+			echo "[ERROR] Waited 60 seconds, no response" >&2
+			exit 1
+		fi
+		sleep 1
+
+		echo "MySQL(utf8mb4)  is up."
+		_DB="mysql"
+
+		cp tests/docker/mysqlmb4.config.php config
 	fi
 	if [ "$DB" == "mariadb" ] ; then
 		if [ ! -z "$USEDOCKER" ] ; then
