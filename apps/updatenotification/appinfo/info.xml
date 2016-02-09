@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<info>
+	<id>updatenotification</id>
+	<name>Update notification</name>
+	<description>Displays update notifications for ownCloud.</description>
+	<licence>AGPL</licence>
+	<author>Lukas Reschke</author>
+	<version>0.1.0</version>
+	<default_enable/>
+	<dependencies>
+		<owncloud min-version="9.0" max-version="9.0" />
+	</dependencies>
+</info>
