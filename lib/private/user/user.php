@@ -30,6 +30,7 @@
 namespace OC\User;
 
 use OC\Hooks\Emitter;
+use OC_Helper;
 use OCP\IAvatarManager;
 use OCP\IImage;
 use OCP\IURLGenerator;
@@ -140,7 +141,7 @@ class User implements IUser {
 			$result = $this->backend->setDisplayName($this->uid, $displayName);
 			if ($result) {
 				$this->displayName = $displayName;
-				$this->triggerChange();
+				$this->triggerChange('displayName', $displayName);
 			}
 			return $result !== false;
 		} else {
@@ -161,7 +162,7 @@ class User implements IUser {
 		} else {
 			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
 		}
-		$this->triggerChange();
+		$this->triggerChange('eMailAddress', $mailAddress);
 	}
 
 	/**
@@ -339,6 +340,36 @@ class User implements IUser {
 	}
 
 	/**
+	 * get the users' quota
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getQuota() {
+		$quota = $this->config->getUserValue($this->uid, 'files', 'quota', 'default');
+		if($quota === 'default') {
+			$quota = $this->config->getAppValue('files', 'default_quota', 'none');
+		}
+		return $quota;
+	}
+
+	/**
+	 * set the users' quota
+	 *
+	 * @param string $quota
+	 * @return void
+	 * @since 9.0.0
+	 */
+	public function setQuota($quota) {
+		if($quota !== 'none' and $quota !== 'default') {
+			$quota = OC_Helper::computerFileSize($quota);
+			$quota = OC_Helper::humanFileSize($quota);
+		}
+		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
+		$this->triggerChange('quota', $quota);
+	}
+
+	/**
 	 * get the avatar image if it exists
 	 *
 	 * @param int $size
@@ -386,9 +417,9 @@ class User implements IUser {
 		return $url;
 	}
 
-	public function triggerChange() {
+	public function triggerChange($feature, $value = null) {
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', array($this));
+			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value));
 		}
 	}
 

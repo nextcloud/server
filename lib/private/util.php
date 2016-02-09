@@ -285,11 +285,7 @@ class OC_Util {
 	 * @return int Quota bytes
 	 */
 	public static function getUserQuota($user) {
-		$config = \OC::$server->getConfig();
-		$userQuota = $config->getUserValue($user, 'files', 'quota', 'default');
-		if ($userQuota === 'default') {
-			$userQuota = $config->getAppValue('files', 'default_quota', 'none');
-		}
+		$userQuota = \OC::$server->getUserManager()->get($user)->getQuota();
 		if($userQuota === 'none') {
 			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}else{

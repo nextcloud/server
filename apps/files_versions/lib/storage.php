@@ -653,11 +653,9 @@ class Storage {
 			$versionsFileview = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// get available disk space for user
+			$user = \OC::$server->getUserManager()->get($uid);
 			$softQuota = true;
-			$quota = $config->getUserValue($uid, 'files', 'quota', null);
-			if ( $quota === null || $quota === 'default') {
-				$quota = $config->getAppValue('files', 'default_quota', null);
-			}
+			$quota = $user->getQuota();
 			if ( $quota === null || $quota === 'none' ) {
 				$quota = \OC\Files\Filesystem::free_space('/');
 				$softQuota = false;

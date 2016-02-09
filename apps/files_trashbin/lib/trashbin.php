@@ -564,11 +564,8 @@ class Trashbin {
 		$config = \OC::$server->getConfig();
 
 		$softQuota = true;
-		$quota = $config->getUserValue($user, 'files', 'quota', null);
+		$quota = \OC::$server->getUserManager()->get($user)->getQuota();
 		$view = new \OC\Files\View('/' . $user);
-		if ($quota === null || $quota === 'default') {
-			$quota = $config->getAppValue('files', 'default_quota', null);
-		}
 		if ($quota === null || $quota === 'none') {
 			$quota = \OC\Files\Filesystem::free_space('/');
 			$softQuota = false;

@@ -456,7 +456,7 @@ class User {
 			}
 		}
 		if(!is_null($quota)) {
-			$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
+			$user = $this->userManager->get($this->uid)->setQuota($quota);
 		}
 	}
 
