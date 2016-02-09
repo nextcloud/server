@@ -211,7 +211,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 */
 	public function processFilterRules($filterRules) {
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
-		$resultFileIds = [];
+		$resultFileIds = null;
 		$systemTagIds = [];
 		foreach ($filterRules as $filterRule) {
 			if ($filterRule['name'] === $ns . 'systemtag') {
@@ -239,10 +239,21 @@ class FilesReportPlugin extends ServerPlugin {
 		foreach ($systemTagIds as $systemTagId) {
 			$fileIds = $this->tagMapper->getObjectIdsForTags($systemTagId, 'files');
 
-			if (empty($resultFileIds)) {
+			if (empty($fileIds)) {
+				// This tag has no files, nothing can ever show up
+				return [];
+			}
+
+			// first run ?
+			if ($resultFileIds === null) {
 				$resultFileIds = $fileIds;
 			} else {
 				$resultFileIds = array_intersect($resultFileIds, $fileIds);
+			}
+
+			if (empty($resultFileIds)) {
+				// Empty intersection, nothing can show up anymore
+				return [];
 			}
 		}
 		return $resultFileIds;
