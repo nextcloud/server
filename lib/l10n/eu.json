@@ -33,6 +33,7 @@
     "_%n minute ago_::_%n minutes ago_" : ["orain dela minutu %n","orain dela %n minutu"],
     "seconds ago" : "segundu",
     "web services under your control" : "web zerbitzuak zure kontrolpean",
+    "File name contains at least one invalid character" : "Fitxategi izenak behintzat baliogabeko karaktere bat du",
     "App directory already exists" : "Aplikazioaren karpeta dagoeneko existitzen da",
     "Can't create app folder. Please fix permissions. %s" : "Ezin izan da aplikazioaren karpeta sortu. Mesdez konpondu baimenak. %s",
     "No source specified when installing app" : "Ez da jatorririk zehaztu aplikazioa instalatzerakoan",

@@ -116,7 +116,7 @@
     "Cannot set expiration date more than %s days in the future" : "Impossible de définir la date d'expiration à plus de %s jours dans le futur",
     "Could not find category \"%s\"" : "Impossible de trouver la catégorie \"%s\"",
     "Apps" : "Applications",
-    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Seuls les caractères suivants sont autorisés dans un nom d'utilisateur : \"a-z\", \"A-Z\", \"0-9\", et \"_.@-'\"",
+    "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "Seuls les caractères suivants sont autorisés dans un nom d'utilisateur : \"a-z\", \"A-Z\", \"0-9\", \"_@-\" et \".\" (le point)",
     "A valid username must be provided" : "Un nom d'utilisateur valide doit être saisi",
     "Username contains whitespace at the beginning or at the end" : "Le nom d'utilisateur contient des espaces au début ou à la fin",
     "A valid password must be provided" : "Un mot de passe valide doit être saisi",
