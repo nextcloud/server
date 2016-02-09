@@ -30,16 +30,16 @@ use OCP\IGroupManager;
 use OCP\SystemTag\ISystemTagManager;
 
 class FilesReportPlugin extends \Test\TestCase {
-	/** @var \Sabre\DAV\Server */
+	/** @var \Sabre\DAV\Server|\PHPUnit_Framework_MockObject_MockObject */
 	private $server;
 
-	/** @var \Sabre\DAV\Tree */
+	/** @var \Sabre\DAV\Tree|\PHPUnit_Framework_MockObject_MockObject */
 	private $tree;
 
-	/** @var ISystemTagObjectMapper */
+	/** @var ISystemTagObjectMapper|\PHPUnit_Framework_MockObject_MockObject */
 	private $tagMapper;
 
-	/** @var ISystemTagManager */
+	/** @var ISystemTagManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $tagManager;
 
 	/** @var  \OCP\IUserSession */
@@ -48,13 +48,13 @@ class FilesReportPlugin extends \Test\TestCase {
 	/** @var FilesReportPluginImplementation */
 	private $plugin;
 
-	/** @var View **/
+	/** @var View|\PHPUnit_Framework_MockObject_MockObject **/
 	private $view;
 
-	/** @var IGroupManager **/
+	/** @var IGroupManager|\PHPUnit_Framework_MockObject_MockObject **/
 	private $groupManager;
 
-	/** @var Folder **/
+	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject **/
 	private $userFolder;
 
 	public function setUp() {
@@ -254,6 +254,7 @@ class FilesReportPlugin extends \Test\TestCase {
 			->with('222')
 			->will($this->returnValue([$filesNode2]));
 
+		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit_Framework_MockObject_MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
@@ -304,6 +305,7 @@ class FilesReportPlugin extends \Test\TestCase {
 			->with('222')
 			->will($this->returnValue([$filesNode2]));
 
+		/** @var \OCA\DAV\Connector\Sabre\Directory|\PHPUnit_Framework_MockObject_MockObject $reportTargetNode */
 		$result = $this->plugin->findNodesByFileIds($reportTargetNode, ['111', '222']);
 
 		$this->assertCount(2, $result);
@@ -361,10 +363,14 @@ class FilesReportPlugin extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$this->tagMapper->expects($this->once())
+		$this->tagMapper->expects($this->exactly(1))
 			->method('getObjectIdsForTags')
-			->with('123')
-			->will($this->returnValue(['111', '222']));
+			->withConsecutive(
+				['123', 'files']
+			)
+			->willReturnMap([
+				['123', 'files', ['111', '222']],
+			]);
 
 		$rules = [
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
@@ -378,14 +384,16 @@ class FilesReportPlugin extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$this->tagMapper->expects($this->at(0))
+		$this->tagMapper->expects($this->exactly(2))
 			->method('getObjectIdsForTags')
-			->with('123')
-			->will($this->returnValue(['111', '222']));
-		$this->tagMapper->expects($this->at(1))
-			->method('getObjectIdsForTags')
-			->with('456')
-			->will($this->returnValue(['222', '333']));
+			->withConsecutive(
+				['123', 'files'],
+				['456', 'files']
+			)
+			->willReturnMap([
+				['123', 'files', ['111', '222']],
+				['456', 'files', ['222', '333']],
+			]);
 
 		$rules = [
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
@@ -400,18 +408,71 @@ class FilesReportPlugin extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$this->tagMapper->expects($this->at(0))
+		$this->tagMapper->expects($this->exactly(2))
 			->method('getObjectIdsForTags')
-			->with('123')
-			->will($this->returnValue(['111', '222']));
-		$this->tagMapper->expects($this->at(1))
-			->method('getObjectIdsForTags')
-			->with('456')
-			->will($this->returnValue([]));
+			->withConsecutive(
+				['123', 'files'],
+				['456', 'files']
+			)
+			->willReturnMap([
+				['123', 'files', ['111', '222']],
+				['456', 'files', []],
+			]);
 
 		$rules = [
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
+		];
+
+		$this->assertEquals([], array_values($this->plugin->processFilterRules($rules)));
+	}
+
+	public function testProcessFilterRulesAndConditionWithFirstEmptyResult() {
+		$this->groupManager->expects($this->any())
+			->method('isAdmin')
+			->will($this->returnValue(true));
+
+		$this->tagMapper->expects($this->exactly(1))
+			->method('getObjectIdsForTags')
+			->withConsecutive(
+				['123', 'files'],
+				['456', 'files']
+			)
+			->willReturnMap([
+				['123', 'files', []],
+				['456', 'files', ['111', '222']],
+			]);
+
+		$rules = [
+			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
+			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
+		];
+
+		$this->assertEquals([], array_values($this->plugin->processFilterRules($rules)));
+	}
+
+	public function testProcessFilterRulesAndConditionWithEmptyMidResult() {
+		$this->groupManager->expects($this->any())
+			->method('isAdmin')
+			->will($this->returnValue(true));
+
+		$this->tagMapper->expects($this->exactly(2))
+			->method('getObjectIdsForTags')
+			->withConsecutive(
+				['123', 'files'],
+				['456', 'files'],
+				['789', 'files']
+			)
+			->willReturnMap([
+				['123', 'files', ['111', '222']],
+				['456', 'files', ['333']],
+				['789', 'files', ['111', '222']],
+			]);
+
+		$rules = [
+			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
+			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
+			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '789'],
 		];
 
 		$this->assertEquals([], array_values($this->plugin->processFilterRules($rules)));
