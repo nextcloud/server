@@ -597,7 +597,7 @@ class Manager implements IManager {
 				}
 			}
 
-			if ($share->getExpirationDate() !== $originalShare->getExpirationDate()) {
+			if ($share->getExpirationDate() != $originalShare->getExpirationDate()) {
 				//Verify the expiration date
 				$this->validateExpirationDate($share);
 				$expirationDateUpdated = true;
@@ -616,6 +616,16 @@ class Manager implements IManager {
 				'itemSource' => $share->getNode()->getId(),
 				'date' => $share->getExpirationDate(),
 				'uidOwner' => $share->getSharedBy(),
+			]);
+		}
+
+		if ($share->getPassword() !== $originalShare->getPassword()) {
+			\OC_Hook::emit('OCP\Share', 'post_update_password', [
+				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
+				'itemSource' => $share->getNode()->getId(),
+				'uidOwner' => $share->getSharedBy(),
+				'token' => $share->getToken(),
+				'disabled' => is_null($share->getPassword()),
 			]);
 		}
 

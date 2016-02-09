@@ -219,7 +219,11 @@ class ShareControllerTest extends \Test\TestCase {
 
 	public function testAuthenticateInvalidPassword() {
 		$share = \OC::$server->getShareManager()->newShare();
-		$share->setId(42);
+		$share->setNodeId(100)
+			->setNodeType('file')
+			->setToken('token')
+			->setSharedBy('initiator')
+			->setId(42);
 
 		$this->shareManager
 			->expects($this->once())
@@ -236,6 +240,20 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->session
 			->expects($this->never())
 			->method('set');
+
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['access'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'share_link_access',  $hookListner, 'access');
+
+		$hookListner->expects($this->once())
+			->method('access')
+			->with($this->callback(function(array $data) {
+				return $data['itemType'] === 'file' &&
+					$data['itemSource'] === 100 &&
+					$data['uidOwner'] === 'initiator' &&
+					$data['token'] === 'token' &&
+					$data['errorCode'] === 403 &&
+					$data['errorMessage'] === 'Wrong password';
+			}));
 
 		$response = $this->shareController->authenticate('token', 'invalidpassword');
 		$expectedResponse =  new TemplateResponse($this->appName, 'authenticate', array('wrongpw' => true), 'guest');

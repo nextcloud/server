@@ -163,6 +163,7 @@ class Share implements \OCP\Share\IShare {
 		}
 
 		$this->nodeType = $type;
+		return $this;
 	}
 
 	/**
