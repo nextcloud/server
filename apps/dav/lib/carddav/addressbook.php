@@ -23,6 +23,7 @@ namespace OCA\DAV\CardDAV;
 use OCA\DAV\DAV\Sharing\IShareable;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\PropPatch;
 
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 
@@ -83,14 +84,14 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		}
 
 		// add the current user
-		if (isset($this->addressBookInfo['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal'])) {
-			$owner = $this->addressBookInfo['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal'];
+		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
+			$owner = $this->addressBookInfo['{http://owncloud.org/ns}owner-principal'];
 			$acl[] = [
 					'privilege' => '{DAV:}read',
 					'principal' => $owner,
 					'protected' => true,
 				];
-			if ($this->addressBookInfo['{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only']) {
+			if ($this->addressBookInfo['{http://owncloud.org/ns}read-only']) {
 				$acl[] = [
 					'privilege' => '{DAV:}write',
 					'principal' => $owner,
@@ -160,6 +161,13 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 			return;
 		}
 		parent::delete();
+	}
+
+	function propPatch(PropPatch $propPatch) {
+		if (isset($this->addressBookInfo['{http://owncloud.org/ns}owner-principal'])) {
+			throw new Forbidden();
+		}
+		parent::propPatch($propPatch);
 	}
 
 	public function getContactsGroups() {
