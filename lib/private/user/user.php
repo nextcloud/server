@@ -141,7 +141,7 @@ class User implements IUser {
 			$result = $this->backend->setDisplayName($this->uid, $displayName);
 			if ($result) {
 				$this->displayName = $displayName;
-				$this->triggerChange('displayName');
+				$this->triggerChange('displayName', $displayName);
 			}
 			return $result !== false;
 		} else {
@@ -162,7 +162,7 @@ class User implements IUser {
 		} else {
 			$this->config->setUserValue($this->uid, 'settings', 'email', $mailAddress);
 		}
-		$this->triggerChange('eMailAddress');
+		$this->triggerChange('eMailAddress', $mailAddress);
 	}
 
 	/**
@@ -366,7 +366,7 @@ class User implements IUser {
 			$quota = OC_Helper::humanFileSize($quota);
 		}
 		$this->config->setUserValue($this->uid, 'files', 'quota', $quota);
-		$this->triggerChange('quota');
+		$this->triggerChange('quota', $quota);
 	}
 
 	/**
@@ -417,9 +417,9 @@ class User implements IUser {
 		return $url;
 	}
 
-	public function triggerChange($feature) {
+	public function triggerChange($feature, $value = null) {
 		if ($this->emitter) {
-			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature));
+			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value));
 		}
 	}
 
