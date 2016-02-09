@@ -194,6 +194,15 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	/**
+	 * Return the currently version used for the HMAC in the encryption app
+	 *
+	 * @return int
+	 */
+	public function getEncryptedVersion() {
+		return isset($this->data['encryptedVersion']) ? (int) $this->data['encryptedVersion'] : 1;
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getPermissions() {

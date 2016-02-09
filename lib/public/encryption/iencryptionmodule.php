@@ -119,10 +119,11 @@ interface IEncryptionModule {
 	 * get size of the unencrypted payload per block.
 	 * ownCloud read/write files with a block size of 8192 byte
 	 *
-	 * @return integer
-	 * @since 8.1.0
+	 * @param bool $signed
+	 * @return int
+	 * @since 8.1.0 optional parameter $signed was added in 9.0.0
 	 */
-	public function getUnencryptedBlockSize();
+	public function getUnencryptedBlockSize($signed = false);
 
 	/**
 	 * check if the encryption module is able to read the file,

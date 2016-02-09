@@ -39,6 +39,7 @@ use OCP\Encryption\Keys\IStorage;
 use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage;
 use OCP\ILogger;
+use OCP\Files\Cache\ICacheEntry;
 
 class Encryption extends Wrapper {
 
@@ -129,13 +130,16 @@ class Encryption extends Wrapper {
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$size = $this->unencryptedSize[$fullPath];
 			// update file cache
-			if ($info) {
+			if ($info instanceof ICacheEntry) {
 				$info = $info->getData();
+				$info['encrypted'] = $info['encryptedVersion'];
 			} else {
-				$info = [];
+				if (!is_array($info)) {
+					$info = [];
+				}
+				$info['encrypted'] = true;
 			}
 
-			$info['encrypted'] = true;
 			$info['size'] = $size;
 			$this->getCache()->put($path, $info);
 
@@ -343,6 +347,7 @@ class Encryption extends Wrapper {
 		$shouldEncrypt = false;
 		$encryptionModule = null;
 		$header = $this->getHeader($path);
+		$signed = (isset($header['signed']) && $header['signed'] === 'true') ? true : false;
 		$fullPath = $this->getFullPath($path);
 		$encryptionModuleId = $this->util->getEncryptionModuleId($header);
 
@@ -377,7 +382,7 @@ class Encryption extends Wrapper {
 					|| $mode === 'wb'
 					|| $mode === 'wb+'
 				) {
-					// don't overwrite encrypted files if encyption is not enabled
+					// don't overwrite encrypted files if encryption is not enabled
 					if ($targetIsEncrypted && $encryptionEnabled === false) {
 						throw new GenericEncryptionException('Tried to access encrypted file but encryption is not enabled');
 					}
@@ -385,6 +390,7 @@ class Encryption extends Wrapper {
 						// if $encryptionModuleId is empty, the default module will be used
 						$encryptionModule = $this->encryptionManager->getEncryptionModule($encryptionModuleId);
 						$shouldEncrypt = $encryptionModule->shouldEncrypt($fullPath);
+						$signed = true;
 					}
 				} else {
 					$info = $this->getCache()->get($path);
@@ -422,7 +428,7 @@ class Encryption extends Wrapper {
 				}
 				$handle = \OC\Files\Stream\Encryption::wrap($source, $path, $fullPath, $header,
 					$this->uid, $encryptionModule, $this->storage, $this, $this->util, $this->fileHelper, $mode,
-					$size, $unencryptedSize, $headerSize);
+					$size, $unencryptedSize, $headerSize, $signed);
 				return $handle;
 			}
 

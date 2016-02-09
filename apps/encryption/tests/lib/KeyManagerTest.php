@@ -579,4 +579,71 @@ class KeyManagerTest extends TestCase {
 		];
 	}
 
+	public function testGetVersionWithoutFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn(false);
+
+		$this->assertSame(0, $this->instance->getVersion('/admin/files/myfile.txt', $view));
+	}
+
+	public function testGetVersionWithFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$fileInfo = $this->getMockBuilder('\\OC\\Files\\FileInfo')
+			->disableOriginalConstructor()->getMock();
+		$fileInfo->expects($this->once())
+			->method('getEncryptedVersion')
+			->willReturn(1337);
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn($fileInfo);
+
+		$this->assertSame(1337, $this->instance->getVersion('/admin/files/myfile.txt', $view));
+	}
+
+	public function testSetVersionWithFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$cache = $this->getMockBuilder('\\OCP\\Files\\Cache\\ICache')
+			->disableOriginalConstructor()->getMock();
+		$cache->expects($this->once())
+			->method('update')
+			->with(123, ['encrypted' => 5, 'encryptedVersion' => 5]);
+		$storage = $this->getMockBuilder('\\OCP\\Files\\Storage')
+			->disableOriginalConstructor()->getMock();
+		$storage->expects($this->once())
+			->method('getCache')
+			->willReturn($cache);
+		$fileInfo = $this->getMockBuilder('\\OC\\Files\\FileInfo')
+			->disableOriginalConstructor()->getMock();
+		$fileInfo->expects($this->once())
+			->method('getStorage')
+			->willReturn($storage);
+		$fileInfo->expects($this->once())
+			->method('getId')
+			->willReturn(123);
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn($fileInfo);
+
+		$this->instance->setVersion('/admin/files/myfile.txt', 5, $view);
+	}
+
+	public function testSetVersionWithoutFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn(false);
+
+		$this->instance->setVersion('/admin/files/myfile.txt', 5, $view);
+	}
+
 }

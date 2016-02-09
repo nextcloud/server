@@ -145,6 +145,7 @@ class Cache implements ICache {
 			$data['size'] = 0 + $data['size'];
 			$data['mtime'] = (int)$data['mtime'];
 			$data['storage_mtime'] = (int)$data['storage_mtime'];
+			$data['encryptedVersion'] = (int)$data['encrypted'];
 			$data['encrypted'] = (bool)$data['encrypted'];
 			$data['storage'] = $this->storageId;
 			$data['mimetype'] = $this->mimetypeLoader->getMimetypeById($data['mimetype']);
@@ -345,8 +346,12 @@ class Cache implements ICache {
 						$queryParts[] = '`mtime`';
 					}
 				} elseif ($name === 'encrypted') {
-					// Boolean to integer conversion
-					$value = $value ? 1 : 0;
+					if(isset($data['encryptedVersion'])) {
+						$value = $data['encryptedVersion'];
+					} else {
+						// Boolean to integer conversion
+						$value = $value ? 1 : 0;
+					}
 				}
 				$params[] = $value;
 				$queryParts[] = '`' . $name . '`';

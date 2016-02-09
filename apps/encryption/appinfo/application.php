@@ -131,7 +131,8 @@ class Application extends \OCP\AppFramework\App {
 				$server = $c->getServer();
 				return new Crypt($server->getLogger(),
 					$server->getUserSession(),
-					$server->getConfig());
+					$server->getConfig(),
+					$server->getL10N($c->getAppName()));
 			});
 
 		$container->registerService('Session',

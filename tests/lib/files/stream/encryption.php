@@ -117,6 +117,7 @@ class Encryption extends \Test\TestCase {
 		$header->setAccessible(true);
 		$header->setValue($streamWrapper, array());
 		$header->setAccessible(false);
+		$this->invokePrivate($streamWrapper, 'signed', [true]);
 
 		// call stream_open, that's the method we want to test
 		$dummyVar = 'foo';

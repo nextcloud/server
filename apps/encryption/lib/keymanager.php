@@ -25,12 +25,14 @@
 namespace OCA\Encryption;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\View;
 use OCA\Encryption\Crypto\Encryption;
 use OCA\Encryption\Exceptions\PrivateKeyMissingException;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Crypto\Crypt;
 use OCP\Encryption\Keys\IStorage;
 use OCP\IConfig;
+use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\IUserSession;
 
@@ -413,6 +415,37 @@ class KeyManager {
 	}
 
 	/**
+	 * Get the current version of a file
+	 *
+	 * @param string $path
+	 * @param View $view
+	 * @return int
+	 */
+	public function getVersion($path, View $view) {
+		$fileInfo = $view->getFileInfo($path);
+		if($fileInfo === false) {
+			return 0;
+		}
+		return $fileInfo->getEncryptedVersion();
+	}
+
+	/**
+	 * Set the current version of a file
+	 *
+	 * @param string $path
+	 * @param int $version
+	 * @param View $view
+	 */
+	public function setVersion($path, $version, View $view) {
+		$fileInfo= $view->getFileInfo($path);
+
+		if($fileInfo !== false) {
+			$cache = $fileInfo->getStorage()->getCache();
+			$cache->update($fileInfo->getId(), ['encrypted' => $version, 'encryptedVersion' => $version]);
+		}
+	}
+
+	/**
 	 * get the encrypted file key
 	 *
 	 * @param string $path
@@ -546,6 +579,7 @@ class KeyManager {
 
 	/**
 	 * @param string $path
+	 * @return bool
 	 */
 	public function deleteAllFileKeys($path) {
 		return $this->keyStorage->deleteAllFileKeys($path);

@@ -29,7 +29,8 @@ $tmpl = new OCP\Template('encryption', 'settings-admin');
 $crypt = new \OCA\Encryption\Crypto\Crypt(
 	\OC::$server->getLogger(),
 	\OC::$server->getUserSession(),
-	\OC::$server->getConfig());
+	\OC::$server->getConfig(),
+	\OC::$server->getL10N('encryption'));
 
 $util = new \OCA\Encryption\Util(
 	new \OC\Files\View(),

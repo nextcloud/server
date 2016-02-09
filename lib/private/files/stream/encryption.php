@@ -72,6 +72,9 @@ class Encryption extends Wrapper {
 	/** @var string */
 	protected $fullPath;
 
+	/** @var  bool */
+	protected $signed;
+
 	/**
 	 * header data returned by the encryption module, will be written to the file
 	 * in case of a write operation
@@ -110,7 +113,8 @@ class Encryption extends Wrapper {
 			'size',
 			'unencryptedSize',
 			'encryptionStorage',
-			'headerSize'
+			'headerSize',
+			'signed'
 		);
 	}
 
@@ -132,6 +136,7 @@ class Encryption extends Wrapper {
 	 * @param int $size
 	 * @param int $unencryptedSize
 	 * @param int $headerSize
+	 * @param bool $signed
 	 * @param string $wrapper stream wrapper class
 	 * @return resource
 	 *
@@ -148,6 +153,7 @@ class Encryption extends Wrapper {
 								$size,
 								$unencryptedSize,
 								$headerSize,
+								$signed,
 								$wrapper =  'OC\Files\Stream\Encryption') {
 
 		$context = stream_context_create(array(
@@ -164,7 +170,8 @@ class Encryption extends Wrapper {
 				'size' => $size,
 				'unencryptedSize' => $unencryptedSize,
 				'encryptionStorage' => $encStorage,
-				'headerSize' => $headerSize
+				'headerSize' => $headerSize,
+				'signed' => $signed
 			)
 		));
 
@@ -225,7 +232,7 @@ class Encryption extends Wrapper {
 		$this->position = 0;
 		$this->cache = '';
 		$this->writeFlag = false;
-		$this->unencryptedBlockSize = $this->encryptionModule->getUnencryptedBlockSize();
+		$this->unencryptedBlockSize = $this->encryptionModule->getUnencryptedBlockSize($this->signed);
 
 		if (
 			$mode === 'w'
@@ -392,8 +399,9 @@ class Encryption extends Wrapper {
 	}
 
 	public function stream_close() {
-		$this->flush();
-		$remainingData = $this->encryptionModule->end($this->fullPath);
+		$this->flush('end');
+		$position = (int)floor($this->position/$this->unencryptedBlockSize);
+		$remainingData = $this->encryptionModule->end($this->fullPath, $position . 'end');
 		if ($this->readOnly === false) {
 			if(!empty($remainingData)) {
 				parent::stream_write($remainingData);
@@ -405,15 +413,17 @@ class Encryption extends Wrapper {
 
 	/**
 	 * write block to file
+	 * @param string $positionPrefix
 	 */
-	protected function flush() {
+	protected function flush($positionPrefix = '') {
 		// write to disk only when writeFlag was set to 1
 		if ($this->writeFlag) {
 			// Disable the file proxies so that encryption is not
 			// automatically attempted when the file is written to disk -
 			// we are handling that separately here and we don't want to
 			// get into an infinite loop
-			$encrypted = $this->encryptionModule->encrypt($this->cache);
+			$position = (int)floor($this->position/$this->unencryptedBlockSize);
+			$encrypted = $this->encryptionModule->encrypt($this->cache, $position . $positionPrefix);
 			$bytesWritten = parent::stream_write($encrypted);
 			$this->writeFlag = false;
 			// Check whether the write concerns the last block
@@ -440,7 +450,12 @@ class Encryption extends Wrapper {
 		if ($this->cache === '' && !($this->position === $this->unencryptedSize && ($this->position % $this->unencryptedBlockSize) === 0)) {
 			// Get the data from the file handle
 			$data = parent::stream_read($this->util->getBlockSize());
-			$this->cache = $this->encryptionModule->decrypt($data);
+			$position = (int)floor($this->position/$this->unencryptedBlockSize);
+			$numberOfChunks = (int)($this->unencryptedSize / $this->unencryptedBlockSize);
+			if($numberOfChunks === $position) {
+				$position .= 'end';
+			}
+			$this->cache = $this->encryptionModule->decrypt($data, $position);
 		}
 	}
 

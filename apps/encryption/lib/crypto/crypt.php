@@ -29,16 +29,32 @@ namespace OCA\Encryption\Crypto;
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Exceptions\EncryptionFailedException;
+use OC\HintException;
 use OCA\Encryption\Exceptions\MultiKeyDecryptException;
 use OCA\Encryption\Exceptions\MultiKeyEncryptException;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\IConfig;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IUserSession;
 
+/**
+ * Class Crypt provides the encryption implementation of the default ownCloud
+ * encryption module. As default AES-256-CTR is used, it does however offer support
+ * for the following modes:
+ *
+ * - AES-256-CTR
+ * - AES-128-CTR
+ * - AES-256-CFB
+ * - AES-128-CFB
+ *
+ * For integrity protection Encrypt-Then-MAC using HMAC-SHA256 is used.
+ *
+ * @package OCA\Encryption\Crypto
+ */
 class Crypt {
 
-	const DEFAULT_CIPHER = 'AES-256-CFB';
+	const DEFAULT_CIPHER = 'AES-256-CTR';
 	// default cipher from old ownCloud versions
 	const LEGACY_CIPHER = 'AES-128-CFB';
 
@@ -48,33 +64,41 @@ class Crypt {
 
 	const HEADER_START = 'HBEGIN';
 	const HEADER_END = 'HEND';
-	/**
-	 * @var ILogger
-	 */
+
+	/** @var ILogger */
 	private $logger;
-	/**
-	 * @var string
-	 */
+
+	/** @var string */
 	private $user;
-	/**
-	 * @var IConfig
-	 */
+
+	/** @var IConfig */
 	private $config;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $supportedKeyFormats;
+
+	/** @var IL10N */
+	private $l;
+
+	/** @var array */
+	private $supportedCiphersAndKeySize = [
+		'AES-256-CTR' => 32,
+		'AES-128-CTR' => 16,
+		'AES-256-CFB' => 32,
+		'AES-128-CFB' => 16,
+	];
 
 	/**
 	 * @param ILogger $logger
 	 * @param IUserSession $userSession
 	 * @param IConfig $config
+	 * @param IL10N $l
 	 */
-	public function __construct(ILogger $logger, IUserSession $userSession, IConfig $config) {
+	public function __construct(ILogger $logger, IUserSession $userSession, IConfig $config, IL10N $l) {
 		$this->logger = $logger;
 		$this->user = $userSession && $userSession->isLoggedIn() ? $userSession->getUser()->getUID() : '"no user given"';
 		$this->config = $config;
+		$this->l = $l;
 		$this->supportedKeyFormats = ['hash', 'password'];
 	}
 
@@ -145,10 +169,12 @@ class Crypt {
 	/**
 	 * @param string $plainContent
 	 * @param string $passPhrase
+	 * @param int $version
+	 * @param int $position
 	 * @return false|string
-	 * @throws GenericEncryptionException
+	 * @throws EncryptionFailedException
 	 */
-	public function symmetricEncryptFileContent($plainContent, $passPhrase) {
+	public function symmetricEncryptFileContent($plainContent, $passPhrase, $version, $position) {
 
 		if (!$plainContent) {
 			$this->logger->error('Encryption Library, symmetrical encryption failed no content given',
@@ -162,8 +188,13 @@ class Crypt {
 			$iv,
 			$passPhrase,
 			$this->getCipher());
+
+		// Create a signature based on the key as well as the current version
+		$sig = $this->createSignature($encryptedContent, $passPhrase.$version.$position);
+
 		// combine content to encrypt the IV identifier and actual IV
 		$catFile = $this->concatIV($encryptedContent, $iv);
+		$catFile = $this->concatSig($catFile, $sig);
 		$padded = $this->addPadding($catFile);
 
 		return $padded;
@@ -225,8 +256,13 @@ class Crypt {
 	 */
 	public function getCipher() {
 		$cipher = $this->config->getSystemValue('cipher', self::DEFAULT_CIPHER);
-		if ($cipher !== 'AES-256-CFB' && $cipher !== 'AES-128-CFB') {
-			$this->logger->warning('Wrong cipher defined in config.php only AES-128-CFB and AES-256-CFB are supported. Fall back' . self::DEFAULT_CIPHER,
+		if (!isset($this->supportedCiphersAndKeySize[$cipher])) {
+			$this->logger->warning(
+					sprintf(
+							'Unsupported cipher (%s) defined in config.php supported. Falling back to %s',
+							$cipher,
+							self::DEFAULT_CIPHER
+					),
 				['app' => 'encryption']);
 			$cipher = self::DEFAULT_CIPHER;
 		}
@@ -237,19 +273,20 @@ class Crypt {
 	/**
 	 * get key size depending on the cipher
 	 *
-	 * @param string $cipher supported ('AES-256-CFB' and 'AES-128-CFB')
+	 * @param string $cipher
 	 * @return int
 	 * @throws \InvalidArgumentException
 	 */
 	protected function getKeySize($cipher) {
-		if ($cipher === 'AES-256-CFB') {
-			return 32;
-		} else if ($cipher === 'AES-128-CFB') {
-			return 16;
+		if(isset($this->supportedCiphersAndKeySize[$cipher])) {
+			return $this->supportedCiphersAndKeySize[$cipher];
 		}
 
 		throw new \InvalidArgumentException(
-			'Wrong cipher defined only AES-128-CFB and AES-256-CFB are supported.'
+			sprintf(
+					'Unsupported cipher (%s) defined.',
+					$cipher
+			)
 		);
 	}
 
@@ -272,11 +309,24 @@ class Crypt {
 	}
 
 	/**
+	 * @param string $encryptedContent
+	 * @param string $signature
+	 * @return string
+	 */
+	private function concatSig($encryptedContent, $signature) {
+		return $encryptedContent . '00sig00' . $signature;
+	}
+
+	/**
+	 * Note: This is _NOT_ a padding used for encryption purposes. It is solely
+	 * used to achieve the PHP stream size. It has _NOTHING_ to do with the
+	 * encrypted content and is not used in any crypto primitive.
+	 *
 	 * @param string $data
 	 * @return string
 	 */
 	private function addPadding($data) {
-		return $data . 'xx';
+		return $data . 'xxx';
 	}
 
 	/**
@@ -318,7 +368,9 @@ class Crypt {
 		$hash = $this->generatePasswordHash($password, $cipher, $uid);
 		$encryptedKey = $this->symmetricEncryptFileContent(
 			$privateKey,
-			$hash
+			$hash,
+			0,
+			0
 		);
 
 		return $encryptedKey;
@@ -357,9 +409,12 @@ class Crypt {
 					self::HEADER_END) + strlen(self::HEADER_END));
 		}
 
-		$plainKey = $this->symmetricDecryptFileContent($privateKey,
+		$plainKey = $this->symmetricDecryptFileContent(
+			$privateKey,
 			$password,
-			$cipher);
+			$cipher,
+			0
+		);
 
 		if ($this->isValidPrivateKey($plainKey) === false) {
 			return false;
@@ -390,14 +445,17 @@ class Crypt {
 	 * @param string $keyFileContents
 	 * @param string $passPhrase
 	 * @param string $cipher
+	 * @param int $version
+	 * @param int $position
 	 * @return string
 	 * @throws DecryptionFailedException
 	 */
-	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER) {
-		// Remove Padding
-		$noPadding = $this->removePadding($keyFileContents);
+	public function symmetricDecryptFileContent($keyFileContents, $passPhrase, $cipher = self::DEFAULT_CIPHER, $version = 0, $position = 0) {
+		$catFile = $this->splitMetaData($keyFileContents, $cipher);
 
-		$catFile = $this->splitIv($noPadding);
+		if ($catFile['signature'] !== false) {
+			$this->checkSignature($catFile['encrypted'], $passPhrase.$version.$position, $catFile['signature']);
+		}
 
 		return $this->decrypt($catFile['encrypted'],
 			$catFile['iv'],
@@ -406,40 +464,101 @@ class Crypt {
 	}
 
 	/**
+	 * check for valid signature
+	 *
+	 * @param string $data
+	 * @param string $passPhrase
+	 * @param string $expectedSignature
+	 * @throws HintException
+	 */
+	private function checkSignature($data, $passPhrase, $expectedSignature) {
+		$signature = $this->createSignature($data, $passPhrase);
+		if (!hash_equals($expectedSignature, $signature)) {
+			throw new HintException('Bad Signature', $this->l->t('Bad Signature'));
+		}
+	}
+
+	/**
+	 * create signature
+	 *
+	 * @param string $data
+	 * @param string $passPhrase
+	 * @return string
+	 */
+	private function createSignature($data, $passPhrase) {
+		$passPhrase = hash('sha512', $passPhrase . 'a', true);
+		$signature = hash_hmac('sha256', $data, $passPhrase);
+		return $signature;
+	}
+
+
+	/**
 	 * remove padding
 	 *
-	 * @param $padded
+	 * @param string $padded
+	 * @param bool $hasSignature did the block contain a signature, in this case we use a different padding
 	 * @return string|false
 	 */
-	private function removePadding($padded) {
-		if (substr($padded, -2) === 'xx') {
+	private function removePadding($padded, $hasSignature = false) {
+		if ($hasSignature === false && substr($padded, -2) === 'xx') {
 			return substr($padded, 0, -2);
+		} elseif ($hasSignature === true && substr($padded, -3) === 'xxx') {
+			return substr($padded, 0, -3);
 		}
 		return false;
 	}
 
 	/**
-	 * split iv from encrypted content
+	 * split meta data from encrypted file
+	 * Note: for now, we assume that the meta data always start with the iv
+	 *       followed by the signature, if available
 	 *
-	 * @param string|false $catFile
-	 * @return string
+	 * @param string $catFile
+	 * @param string $cipher
+	 * @return array
 	 */
-	private function splitIv($catFile) {
-		// Fetch encryption metadata from end of file
-		$meta = substr($catFile, -22);
-
-		// Fetch IV from end of file
-		$iv = substr($meta, -16);
-
-		// Remove IV and IV Identifier text to expose encrypted content
-
-		$encrypted = substr($catFile, 0, -22);
+	private function splitMetaData($catFile, $cipher) {
+		if ($this->hasSignature($catFile, $cipher)) {
+			$catFile = $this->removePadding($catFile, true);
+			$meta = substr($catFile, -93);
+			$iv = substr($meta, strlen('00iv00'), 16);
+			$sig = substr($meta, 22 + strlen('00sig00'));
+			$encrypted = substr($catFile, 0, -93);
+		} else {
+			$catFile = $this->removePadding($catFile);
+			$meta = substr($catFile, -22);
+			$iv = substr($meta, -16);
+			$sig = false;
+			$encrypted = substr($catFile, 0, -22);
+		}
 
 		return [
 			'encrypted' => $encrypted,
-			'iv' => $iv
+			'iv' => $iv,
+			'signature' => $sig
 		];
 	}
+
+	/**
+	 * check if encrypted block is signed
+	 *
+	 * @param string $catFile
+	 * @param string $cipher
+	 * @return bool
+	 * @throws HintException
+	 */
+	private function hasSignature($catFile, $cipher) {
+		$meta = substr($catFile, -93);
+		$signaturePosition = strpos($meta, '00sig00');
+
+		// enforce signature for the new 'CTR' ciphers
+		if ($signaturePosition === false && strpos(strtolower($cipher), 'ctr') !== false) {
+			throw new HintException('Missing Signature', $this->l->t('Missing Signature'));
+		}
+
+		return ($signaturePosition !== false);
+	}
+
 
 	/**
 	 * @param string $encryptedContent
@@ -496,40 +615,18 @@ class Crypt {
 	 * @throws GenericEncryptionException
 	 */
 	private function generateIv() {
-		$random = openssl_random_pseudo_bytes(12, $strong);
-		if ($random) {
-			if (!$strong) {
-				// If OpenSSL indicates randomness is insecure log error
-				$this->logger->error('Encryption Library: Insecure symmetric key was generated using openssl_random_psudo_bytes()',
-					['app' => 'encryption']);
-			}
-
-			/*
-			 * We encode the iv purely for string manipulation
-			 * purposes -it gets decoded before use
-			 */
-			return base64_encode($random);
-		}
-		// If we ever get here we've failed anyway no need for an else
-		throw new GenericEncryptionException('Generating IV Failed');
+		return random_bytes(16);
 	}
 
 	/**
-	 * Generate a cryptographically secure pseudo-random base64 encoded 256-bit
-	 * ASCII key, used as file key
+	 * Generate a cryptographically secure pseudo-random 256-bit ASCII key, used
+	 * as file key
 	 *
 	 * @return string
 	 * @throws \Exception
 	 */
 	public function generateFileKey() {
-		// Generate key
-		$key = base64_encode(openssl_random_pseudo_bytes(32, $strong));
-		if (!$key || !$strong) {
-				// If OpenSSL indicates randomness is insecure, log error
-				throw new \Exception('Encryption library, Insecure symmetric key was generated using openssl_random_pseudo_bytes()');
-		}
-
-		return $key;
+		return random_bytes(32);
 	}
 
 	/**
