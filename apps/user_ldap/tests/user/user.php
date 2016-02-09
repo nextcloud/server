@@ -891,14 +891,14 @@ class Test_User_User extends \Test\TestCase {
 	 * @dataProvider displayNameProvider
 	 */
 	public function testComposeAndStoreDisplayName($part1, $part2, $expected) {
-		list($access, $config, $filesys, $image, $log, $avaMgr, , $userMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr) =
 			$this->getTestInstances();
 
 		$config->expects($this->once())
 			->method('setUserValue');
 
 		$user = new User(
-			'user', 'cn=user', $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+			'user', 'cn=user', $access, $config, $filesys, $image, $log, $avaMgr);
 
 		$displayName = $user->composeAndStoreDisplayName($part1, $part2);
 		$this->assertSame($expected, $displayName);
