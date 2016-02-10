@@ -81,7 +81,7 @@ class Server2Server {
 
 			try {
 				$externalManager->addShare($remote, $token, '', $name, $owner, false, $shareWith, $remoteId);
-				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('`*PREFIX*share_external`');
+				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
 
 				$user = $owner . '@' . $this->cleanupRemote($remote);
 
