@@ -46,6 +46,7 @@
 	 * @property {string} mail_send
 	 * @property {Date} expiration optional?
 	 * @property {number} stime optional?
+	 * @property {string} uid_owner
 	 */
 
 	/**
@@ -725,6 +726,14 @@
 						|| share.item_source === this.get('itemSource'));
 
 					if (isShareLink) {
+						/*
+						 * Ignore reshared link shares for now
+						 * FIXME: Find a way to display properly
+						 */
+						if (share.uid_owner !== OC.currentUser) {
+							return share;
+						}
+
 						var link = window.location.protocol + '//' + window.location.host;
 						if (!share.token) {
 							// pre-token link

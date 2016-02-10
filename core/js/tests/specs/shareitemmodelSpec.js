@@ -164,6 +164,8 @@ describe('OC.Share.ShareItemModel', function() {
 				}
 			]));
 
+			OC.currentUser = 'root';
+
 			model.fetch();
 
 			var shares = model.get('shares');
@@ -253,7 +255,7 @@ describe('OC.Share.ShareItemModel', function() {
 					uid_owner: 'root'
 				}]
 			));
-
+			OC.currentUser = 'root';
 			model.fetch();
 
 			var shares = model.get('shares');
@@ -443,7 +445,7 @@ describe('OC.Share.ShareItemModel', function() {
 				token: 'tehtoken',
 				uid_owner: 'root'
 			}]));
-
+			OC.currentUser = 'root';
 			model.fetch();
 
 			var res = model.sendEmailPrivateLink('foo@bar.com');
@@ -493,7 +495,7 @@ describe('OC.Share.ShareItemModel', function() {
 				token: 'tehtoken',
 				uid_owner: 'root'
 			}]));
-
+			OC.currentUser = 'root';
 			model.fetch();
 
 			var res = model.sendEmailPrivateLink('foo@bar.com');
