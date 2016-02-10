@@ -30,6 +30,8 @@ use OC\Hooks\BasicEmitter;
  */
 class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
 
+	const CHUNK_SIZE = 200;
+
 	/**
 	 * @var \OCP\IConfig
 	 */
@@ -83,18 +85,24 @@ class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
 			->where($query->expr()->isNotNull('s1.parent'))
 				->andWhere($query->expr()->isNull('s2.id'))
 			->leftJoin('s1', 'share', 's2', $query->expr()->eq('s1.parent', 's2.id'))
-			->groupBy('s1.parent');
+			->groupBy('s1.parent')
+			->setMaxResults(self::CHUNK_SIZE);
 
 		$deleteQuery = $this->connection->getQueryBuilder();
 		$deleteQuery->delete('share')
-			->where($query->expr()->eq('parent', $deleteQuery->createParameter('parent')));
+			->where($deleteQuery->expr()->eq('parent', $deleteQuery->createParameter('parent')));
 
-		$result = $query->execute();
-		while ($row = $result->fetch()) {
-			$deletedEntries += $deleteQuery->setParameter('parent', (int) $row['parent'])
-				->execute();
+		$deletedInLastChunk = self::CHUNK_SIZE;
+		while ($deletedInLastChunk === self::CHUNK_SIZE) {
+			$deletedInLastChunk = 0;
+			$result = $query->execute();
+			while ($row = $result->fetch()) {
+				$deletedInLastChunk++;
+				$deletedEntries += $deleteQuery->setParameter('parent', (int) $row['parent'])
+					->execute();
+			}
+			$result->closeCursor();
 		}
-		$result->closeCursor();
 
 		if ($deletedEntries) {
 			$this->emit('\OC\Repair', 'info', array('Removed ' . $deletedEntries . ' shares where the parent did not exist'));
