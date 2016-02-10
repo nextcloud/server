@@ -41,6 +41,11 @@ if( $versions ) {
 
 	$versions = array_slice($versions, $start, $count);
 
+	// remove owner path from request to not disclose it to the recipient
+	foreach ($versions as $version) {
+		unset($version['path']);
+	}
+
 	\OCP\JSON::success(array('data' => array('versions' => $versions, 'endReached' => $endReached)));
 
 } else {
