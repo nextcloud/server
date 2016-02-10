@@ -29,6 +29,7 @@ namespace OCA\Encryption\Crypto;
 
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\Cache\Scanner;
 use OC\Files\View;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Session;
@@ -55,9 +56,6 @@ class Encryption implements IEncryptionModule {
 
 	/** @var string */
 	private $path;
-
-	/** @var string */
-	private $realPath;
 
 	/** @var string */
 	private $user;
@@ -106,6 +104,9 @@ class Encryption implements IEncryptionModule {
 
 	/** @var int Current version of the file */
 	private $version = 0;
+
+	/** @var array remember encryption signature version */
+	private static $rememberVersion = [];
 
 
 	/**
@@ -171,7 +172,6 @@ class Encryption implements IEncryptionModule {
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
 		$this->path = $this->getPathToRealFile($path);
-		$this->realPath = $path;
 		$this->accessList = $accessList;
 		$this->user = $user;
 		$this->isWriteOperation = false;
@@ -187,7 +187,10 @@ class Encryption implements IEncryptionModule {
 			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
 		}
 
-		$this->version = (int)$this->keyManager->getVersion($this->realPath, new View());
+		// always use the version from the original file, also part files
+		// need to have a correct version number if they get moved over to the
+		// final location
+		$this->version = (int)$this->keyManager->getVersion($this->stripPartFileExtension($path), new View());
 
 		if (
 			$mode === 'w'
@@ -198,6 +201,13 @@ class Encryption implements IEncryptionModule {
 			$this->isWriteOperation = true;
 			if (empty($this->fileKey)) {
 				$this->fileKey = $this->crypt->generateFileKey();
+			}
+		} else {
+			// if we read a part file we need to increase the version by 1
+			// because the version number was also increased by writing
+			// the part file
+			if(Scanner::isPartialFile($path)) {
+				$this->version = $this->version + 1;
 			}
 		}
 
@@ -230,15 +240,16 @@ class Encryption implements IEncryptionModule {
 	public function end($path, $position = 0) {
 		$result = '';
 		if ($this->isWriteOperation) {
-			// Partial files do not increase the version
-			if(\OC\Files\Cache\Scanner::isPartialFile($path)) {
-				$version = $this->version;
-			} else {
-				$version = $this->version + 1;
+			$this->keyManager->setVersion($path, $this->version + 1, new View());
+			// in case of a part file we remember the new signature versions
+			// the version will be set later on update.
+			// This way we make sure that other apps listening to the pre-hooks
+			// still get the old version which should be the correct value for them
+			if (Scanner::isPartialFile($path)) {
+				self::$rememberVersion[$this->stripPartFileExtension($path)] = $this->version + 1;
 			}
-			$this->keyManager->setVersion($this->path, $this->version+1, new View());
 			if (!empty($this->writeCache)) {
-				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $version, $position);
+				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $this->version + 1, $position);
 				$this->writeCache = '';
 			}
 			$publicKeys = array();
@@ -319,13 +330,7 @@ class Encryption implements IEncryptionModule {
 				// Read the chunk from the start of $data
 				$chunk = substr($data, 0, $this->unencryptedBlockSizeSigned);
 
-				// Partial files do not increase the version
-				if(\OC\Files\Cache\Scanner::isPartialFile($this->path)) {
-					$version = $this->version;
-				} else {
-					$version = $this->version + 1;
-				}
-				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $version, $position);
+				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, $position);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
@@ -368,11 +373,16 @@ class Encryption implements IEncryptionModule {
 	 * @return boolean
 	 */
 	public function update($path, $uid, array $accessList) {
-		$fileKey = $this->keyManager->getFileKey($path, $uid);
-		if(empty($this->realPath)) {
-			$this->realPath = $path;
+
+		if (empty($accessList)) {
+			if (isset(self::$rememberVersion[$path])) {
+				$this->keyManager->setVersion($path, self::$rememberVersion[$path], new View());
+				unset(self::$rememberVersion[$path]);
+			}
+			return;
 		}
-		$version = $this->keyManager->getVersion($this->realPath, new View());
+
+		$fileKey = $this->keyManager->getFileKey($path, $uid);
 
 		if (!empty($fileKey)) {
 
@@ -392,8 +402,6 @@ class Encryption implements IEncryptionModule {
 			$this->keyManager->deleteAllFileKeys($path);
 
 			$this->keyManager->setAllFileKeys($path, $encryptedFileKey);
-
-			$this->keyManager->setVersion($path, $version, new View());
 
 		} else {
 			$this->logger->debug('no file key found, we assume that the file "{file}" is not encrypted',
@@ -518,6 +526,22 @@ class Encryption implements IEncryptionModule {
 		}
 
 		return $realPath;
+	}
+
+	/**
+	 * remove .part file extension and the ocTransferId from the file to get the
+	 * original file name
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	protected function stripPartFileExtension($path) {
+		if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
+			$pos = strrpos($path, '.', -6);
+			$path = substr($path, 0, $pos);
+		}
+
+		return $path;
 	}
 
 }

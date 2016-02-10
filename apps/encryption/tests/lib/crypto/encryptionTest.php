@@ -298,6 +298,9 @@ class EncryptionTest extends TestCase {
 				return $publicKeys;
 			});
 
+		$this->keyManagerMock->expects($this->never())->method('getVersion');
+		$this->keyManagerMock->expects($this->never())->method('setVersion');
+
 		$this->assertSame($expected,
 			$this->instance->update('path', 'user1', ['users' => ['user1']])
 		);
@@ -309,6 +312,22 @@ class EncryptionTest extends TestCase {
 			array('', false),
 			array('fileKey', true)
 		);
+	}
+
+	public function testUpdateNoUsers() {
+
+		$this->invokePrivate($this->instance, 'rememberVersion', [['path' => 2]]);
+
+		$this->keyManagerMock->expects($this->never())->method('getFileKey');
+		$this->keyManagerMock->expects($this->never())->method('getPublicKey');
+		$this->keyManagerMock->expects($this->never())->method('addSystemKeys');
+		$this->keyManagerMock->expects($this->once())->method('setVersion')
+			->willReturnCallback(function($path, $version, $view) {
+				$this->assertSame('path', $path);
+				$this->assertSame(2, $version);
+				$this->assertTrue($view instanceof \OC\Files\View);
+			});
+		$this->instance->update('path', 'user1', []);
 	}
 
 	/**
