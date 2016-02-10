@@ -21,9 +21,4 @@ OC.Login = _.extend(OC.Login || {}, {
 });
 $(document).ready(function() {
 	$('form[name=login]').submit(OC.Login.onLogin);
-
-	//set previous state of remember login checkbox
-	if($('label[for="remember_login"]').attr('previously') === 'checked'){
-		$('#remember_login').prop('checked', true);
-	}
 });
