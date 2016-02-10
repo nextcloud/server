@@ -49,6 +49,9 @@ class Principal implements BackendInterface {
 	/** @var string */
 	private $principalPrefix;
 
+	/** @var bool */
+	private $hasGroups;
+
 	/**
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
@@ -60,6 +63,7 @@ class Principal implements BackendInterface {
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->principalPrefix = trim($principalPrefix, '/');
+		$this->hasGroups = ($principalPrefix === 'principals/users/');
 	}
 
 	/**
@@ -141,13 +145,15 @@ class Principal implements BackendInterface {
 				throw new Exception('Principal not found');
 			}
 
-			$groups = $this->groupManager->getUserGroups($user);
-			$groups = array_map(function($group) {
-				/** @var IGroup $group */
-				return $this->principalPrefix . '/' . $group->getGID();
-			}, $groups);
+			if ($this->hasGroups) {
+				$groups = $this->groupManager->getUserGroups($user);
+				$groups = array_map(function($group) {
+					/** @var IGroup $group */
+					return 'principals/groups/' . $group->getGID();
+				}, $groups);
 
-			return $groups;
+				return $groups;
+			}
 		}
 		return [];
 	}
