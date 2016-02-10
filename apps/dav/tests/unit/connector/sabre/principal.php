@@ -202,16 +202,26 @@ class Principal extends TestCase {
 	public function testGetGroupMembership() {
 		$fooUser = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
+		$group = $this->getMockBuilder('\OCP\IGroup')
+			->disableOriginalConstructor()->getMock();
+		$group->expects($this->once())
+			->method('getGID')
+			->willReturn('group1');
 		$this->userManager
 			->expects($this->once())
 			->method('get')
 			->with('foo')
 			->willReturn($fooUser);
 		$this->groupManager
+			->expects($this->once())
 			->method('getUserGroups')
-			->willReturn([]);
+			->willReturn([
+				$group
+			]);
 
-		$expectedResponse = [];
+		$expectedResponse = [
+			'principals/groups/group1'
+		];
 		$response = $this->connector->getGroupMembership('principals/users/foo');
 		$this->assertSame($expectedResponse, $response);
 	}
