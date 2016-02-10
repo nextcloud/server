@@ -169,11 +169,8 @@ class Storage {
 
 			// Keep the "encrypted" value of the original file
 			$oldVersion = $files_view->getFileInfo($filename)->getEncryptedVersion();
-			$qb = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-			$qb->update('filecache')
-				->set('encrypted', $qb->createNamedParameter($oldVersion))
-				->where($qb->expr()->eq('fileid', $qb->createNamedParameter($newFileInfo->getId())))
-				->execute();
+			$cache = $newFileInfo->getStorage()->getCache();
+			$cache->update($newFileInfo->getId(), ['encrypted' => $oldVersion, 'encryptedVersion' => $oldVersion]);
 		}
 	}
 
