@@ -41,6 +41,7 @@ class SystemConfig {
 		'mail_smtppassword' => true,
 		'passwordsalt' => true,
 		'secret' => true,
+		'updater.secret' => true,
 		'ldap_agent_password' => true,
 		'objectstore' => ['arguments' => ['password' => true]],
 	];
