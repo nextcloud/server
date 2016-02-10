@@ -67,7 +67,8 @@ class ResetTokenBackgroundJob extends TimedJob {
 	 * @param $argument
 	 */
 	protected function run($argument) {
-		if($this->timeFactory->getTime() - $this->config->getAppValue('core', 'updater.secret.created', $this->timeFactory->getTime()) >= 86400) {
+		// Delete old tokens after 2 days
+		if($this->timeFactory->getTime() - $this->config->getAppValue('core', 'updater.secret.created', $this->timeFactory->getTime()) >= 172800) {
 			$this->config->deleteSystemValue('updater.secret');
 		}
 	}
