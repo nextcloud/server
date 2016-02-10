@@ -77,8 +77,8 @@ class AdminController extends Controller {
 		$this->config->setAppValue('core', 'updater.secret.created', $this->timeFactory->getTime());
 
 		// Create a new token
-		$newToken = $this->secureRandom->generate(32);
-		$this->config->setSystemValue('updater.secret', $newToken);
+		$newToken = $this->secureRandom->generate(64);
+		$this->config->setSystemValue('updater.secret', password_hash($newToken, PASSWORD_DEFAULT));
 
 		return new DataResponse($newToken);
 	}

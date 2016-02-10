@@ -77,12 +77,12 @@ class AdminControllerTest extends TestCase {
 		$this->secureRandom
 			->expects($this->once())
 			->method('generate')
-			->with(32)
+			->with(64)
 			->willReturn('MyGeneratedToken');
 		$this->config
 			->expects($this->once())
 			->method('setSystemValue')
-			->with('updater.secret', 'MyGeneratedToken');
+			->with('updater.secret');
 		$this->timeFactory
 			->expects($this->once())
 			->method('getTime')
