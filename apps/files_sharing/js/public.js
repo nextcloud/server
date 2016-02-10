@@ -154,9 +154,6 @@ OCA.Sharing.PublicApp = {
 			// TODO: move this to a separate PublicFileList class that extends OCA.Files.FileList (+ unit tests)
 			this.fileList.getDownloadUrl = function (filename, dir, isDir) {
 				var path = dir || this.getCurrentDirectory();
-				if (filename && !_.isArray(filename) && !isDir) {
-					return OC.getProtocol() + '://' + token + '@' + OC.getHost() + OC.getRootPath() + '/public.php/webdav' + OC.joinPaths(path, filename);
-				}
 				if (_.isArray(filename)) {
 					filename = JSON.stringify(filename);
 				}
