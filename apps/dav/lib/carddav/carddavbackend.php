@@ -29,6 +29,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\IDBConnection;
+use PDO;
 use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
@@ -759,6 +760,25 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 		return array_map(function($array) {return $this->readBlob($array['carddata']);}, $cards);
 
+	}
+
+	/**
+	 * @param int $bookId
+	 * @param string $name
+	 * @return array
+	 */
+	public function collectCardProperties($bookId, $name) {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->selectDistinct('value')
+			->from($this->dbCardsPropertiesTable)
+			->where($query->expr()->eq('name', $query->createNamedParameter($name)))
+			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($bookId)))
+			->execute();
+
+		$all = $result->fetchAll(PDO::FETCH_COLUMN);
+		$result->closeCursor();
+
+		return $all;
 	}
 
 	/**

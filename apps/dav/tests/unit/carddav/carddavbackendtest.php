@@ -609,4 +609,21 @@ class CardDavBackendTest extends TestCase {
 		$this->assertEmpty($this->backend->getContact('uri'));
 	}
 
+	public function testCollectCardProperties() {
+		$query = $this->db->getQueryBuilder();
+		$query->insert($this->dbCardsPropertiesTable)
+			->values(
+				[
+					'addressbookid' => $query->createNamedParameter(666),
+					'cardid' => $query->createNamedParameter(777),
+					'name' => $query->createNamedParameter('FN'),
+					'value' => $query->createNamedParameter('John Doe'),
+					'preferred' => $query->createNamedParameter(0)
+				]
+			)
+		->execute();
+
+		$result = $this->backend->collectCardProperties(666, 'FN');
+		$this->assertEquals(['John Doe'], $result);
+	}
 }
