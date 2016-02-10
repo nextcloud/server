@@ -969,6 +969,7 @@ class OC_Util {
 
 		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		$parameters['rememberLoginAllowed'] = self::rememberLoginAllowed();
+		$parameters['rememberLoginState'] = isset($_POST['remember_login']) ? $_POST['remember_login'] : 0;
 		\OC_Hook::emit('OC_Util', 'pre_displayLoginPage', array('parameters' => $parameters));
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
