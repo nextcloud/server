@@ -73,12 +73,13 @@
 		},
 
 		parse: function(result) {
+			var fullPath = this._fileInfo.getFullPath();
 			var results = _.map(result.data.versions, function(version) {
 				var revision = parseInt(version.version, 10);
 				return {
 					id: revision,
 					name: version.name,
-					fullPath: version.path,
+					fullPath: fullPath,
 					timestamp: revision,
 					size: version.size
 				};
