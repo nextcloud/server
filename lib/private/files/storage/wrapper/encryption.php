@@ -260,6 +260,10 @@ class Encryption extends Wrapper {
 					$this->unencryptedSize[$target] = $this->unencryptedSize[$source];
 				}
 				$this->keyStorage->renameKeys($source, $target);
+				$module = $this->getEncryptionModule($path2);
+				if ($module) {
+					$module->update($target, $this->uid, []);
+				}
 			}
 		}
 
