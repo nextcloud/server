@@ -148,7 +148,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Hello {name}, the weather is {weather}",
     "Hello {name}" : "Hello {name}",
     "_download %n file_::_download %n files_" : ["download %n file","download %n files"],
-    "{version} is available. Get more information on how to update." : "{version} is available. Get more information on how to update.",
     "Updating {productName} to version {version}, this may take a while." : "Updating {productName} to version {version}, this may take a while.",
     "Please reload the page." : "Please reload the page.",
     "The update was unsuccessful. " : "The update was unsuccessful. ",

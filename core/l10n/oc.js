@@ -172,7 +172,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Bonjorn {name}, lo temps es {weather}",
     "Hello {name}" : "Adiu {name}",
     "_download %n file_::_download %n files_" : ["Telecargar %n fichièr","Telecargar %n fichièrs"],
-    "{version} is available. Get more information on how to update." : "La version {version} es disponibla. Obtenètz mai d'informacions a prepaus d'aquesta mesa a jorn.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "La mesa a jorn es en cors. Segon la configuracion, lo fach de quitar aquesta pagina pòt entraïnar l'interrupcion de la procedura.",
     "Updating {productName} to version {version}, this may take a while." : "La mesa a jorn de {productName} cap a la version {version} es en cors. Aquò pòt prene un certan temps.",
     "An error occurred." : "Una error s'es produsida.",

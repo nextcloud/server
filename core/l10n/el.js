@@ -172,7 +172,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Γειά σου {name}, ο καιρός είναι {weather}",
     "Hello {name}" : "Γεια σου {name}",
     "_download %n file_::_download %n files_" : ["λήψη %n αρχείου","λήψη %n αρχείων"],
-    "{version} is available. Get more information on how to update." : "Η έκδοση {version} είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες για το πως να κάνετε την ενημέρωση.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Η αναβάθμιση είναι σε εξέλιξη, αν φύγετε από αυτή τη σελίδα μπορεί να διακοπεί η διαδικασία σε ορισμένα περιβάλλοντα χρήσης.",
     "Updating {productName} to version {version}, this may take a while." : "Ενημέρωση του {productName} στην έκδοση {version}, αυτό μπορεί να διαρκέσει λίγη ώρα.",
     "An error occurred." : "Παρουσιάστηκε σφάλμα",

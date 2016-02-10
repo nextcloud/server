@@ -191,7 +191,6 @@
     "Hello {name}, the weather is {weather}" : "Здравствуйте {name}, погода {weather}",
     "Hello {name}" : "Здравствуйте {name}",
     "_download %n file_::_download %n files_" : ["скачать %n файл","скачать %n файла","скачать %n файлов","скачать %n файлов"],
-    "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о порядке обновления.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Идет обновление. Покидая эту страницу, вы можете прервать процесс обновления.",
     "Updating {productName} to version {version}, this may take a while." : "Идет обновление {productName} до версии {version}, это может занять некоторое время.",
     "An error occurred." : "Произошла ошибка.",

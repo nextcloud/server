@@ -186,7 +186,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "哈囉 {name}, 天氣是 {weather}",
     "Hello {name}" : "哈囉 {name}",
     "_download %n file_::_download %n files_" : ["下載 %n 個檔案"],
-    "{version} is available. Get more information on how to update." : "{version} 釋出了，可以更新",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "正在更新，在某些狀況下，離開本頁面可能會導致更新中斷",
     "Updating {productName} to version {version}, this may take a while." : "正在更新 {productName} 到版本 {version} ，請稍候",
     "An error occurred." : "發生錯誤",

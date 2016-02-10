@@ -172,7 +172,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "您好 {name}，今天天气是{weather}",
     "Hello {name}" : "你好 {name}",
     "_download %n file_::_download %n files_" : ["下载 %n 个文件"],
-    "{version} is available. Get more information on how to update." : "{version} 现在可用。获取更多升级相关信息。",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "升级正在进行，在某些环境中离开此网页可能中断该过程。",
     "Updating {productName} to version {version}, this may take a while." : "更新 {productName} 到版本 {version}，这可能需要一些时间。",
     "An error occurred." : "发生了一个错误",

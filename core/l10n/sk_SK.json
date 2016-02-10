@@ -167,7 +167,6 @@
     "Hello {name}, the weather is {weather}" : "Dobrý deň {name}, počasie je {weather}",
     "Hello {name}" : "Vitaj {name}",
     "_download %n file_::_download %n files_" : ["stiahnuť %n súbor","stiahnuť %n súbory","stiahnuť %n súborov"],
-    "{version} is available. Get more information on how to update." : "{version} je dostupná. Získajte viac informácií o postupe aktualizácie.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Aktualizácie prebieha. V niektorých prostrediach môže opustenie tejto stránky spôsobiť prerušenie aktualizácie.",
     "Updating {productName} to version {version}, this may take a while." : "Aktualizujem {productName} na verziu {version}, chvíľu to môže trvať.",
     "An error occurred." : "Vyskytla sa chyba.",

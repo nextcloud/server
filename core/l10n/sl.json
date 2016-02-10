@@ -167,7 +167,6 @@
     "Hello {name}, the weather is {weather}" : "Pozdravljeni, {name}, vreme je {weather}",
     "Hello {name}" : "Pozdravljeni, {name}",
     "_download %n file_::_download %n files_" : ["prejmi %n datoteko","prejmi %n datoteki","prejmi %n datoteke","prejmi %n datotek"],
-    "{version} is available. Get more information on how to update." : "Na voljo je verzija {version}. Pridobite informacije, kako nadgraditi.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Posodobitev sistema je v teku. Če zapustite stran, lahko v nekaterih okoljih prekine ta proces.",
     "Updating {productName} to version {version}, this may take a while." : "Poteka posodabljanje {productName} na različico {version}. Opravilo je lahko dolgotrajno.",
     "An error occurred." : "Prišlo je do napake.",

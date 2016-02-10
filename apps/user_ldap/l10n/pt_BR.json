@@ -120,7 +120,7 @@
     "Directory Settings" : "Configurações de Diretório",
     "User Display Name Field" : "Campo Nome de Exibição de Usuário",
     "The LDAP attribute to use to generate the user's display name." : "O atributo LDAP para usar para gerar o nome de exibição do usuário.",
-    "2nd User Display Name Field" : "2º Nome do Campo de Exibição do Usuário",
+    "2nd User Display Name Field" : "2º Campo Nome de Exibição de Usuário",
     "Optional. An LDAP attribute to be added to the display name in brackets. Results in e.g. »John Doe (john.doe@example.org)«." : "Opcional. Um atributo LDAP para ser adicionado ao nome de exibição entre colchetes. Exemplo de resultado »John Doe (john.doe@example.org)«.",
     "Base User Tree" : "Árvore de Usuário Base",
     "One User Base DN per line" : "Um usuário-base DN por linha",

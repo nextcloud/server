@@ -202,6 +202,8 @@
     "Developer documentation" : "Documentación de desarrollador",
     "Experimental applications ahead" : "Aplicaciones experimentales más adelante",
     "Experimental apps are not checked for security issues, new or known to be unstable and under heavy development. Installing them can cause data loss or security breaches." : "Las aplicaciones experimentales no están verificadas por problemas de seguridad, recientes o conocidas por ser inestables y/o bajo un fuerte desarrollo. Instalándolas pueden causar pérdida de datos o violación de seguridades.",
+    "by %s" : "por %s",
+    "%s-licensed" : "%s-licenciado",
     "Documentation:" : "Documentación:",
     "User documentation" : "Documentación de usuario",
     "Admin documentation" : "Documentación de administrador",

@@ -193,7 +193,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "สวัสดี {name} สภาพอากาศวันนี้มี {weather}",
     "Hello {name}" : "สวัสดี {name}",
     "_download %n file_::_download %n files_" : ["ดาวน์โหลด %n ไฟล์"],
-    "{version} is available. Get more information on how to update." : "{version} สามารถใช้ได้ รับข้อมูลเพิ่มเติมเกี่ยวกับวิธีการอัพเดท",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "กำลังดำเนินการอัพเกรด หากออกจากหน้านี้ ณ เวลานี้อาจเกิดปัญหาในภายหลัง",
     "Updating {productName} to version {version}, this may take a while." : "กำลังอัพเดท {productName} ไปยังรุ่น {version} อาจใช้เวลาสักครู่",
     "An error occurred." : "เกิดข้อผิดพลาด",

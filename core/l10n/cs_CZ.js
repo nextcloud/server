@@ -193,7 +193,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Ahoj {name}, je {weather}",
     "Hello {name}" : "Vítej, {name}",
     "_download %n file_::_download %n files_" : ["stáhnout %n soubor","stáhnout %n soubory","stáhnout %n souborů"],
-    "{version} is available. Get more information on how to update." : "Je dostupná {version}. Přečtěte si více informací jak aktualizovat.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Probíhá aktualizace, opuštění této stránky může v některých prostředích přerušit proces.",
     "Updating {productName} to version {version}, this may take a while." : "Aktualizuji {productName} na verzi {version}, může to chvíli trvat.",
     "An error occurred." : "Došlo k chybě.",

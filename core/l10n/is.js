@@ -165,7 +165,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Halló {name},veðrið er {weather}",
     "Hello {name}" : "Halló {name}",
     "_download %n file_::_download %n files_" : ["sækja %n skrá","sækja %n skrár"],
-    "{version} is available. Get more information on how to update." : "{version} er í boði. Fá frekari upplýsingar um hvernig á að uppfæra.",
     "Updating {productName} to version {version}, this may take a while." : "Uppfæri {productName} í útgáfu {version}, þetta getur tekið smá stund.",
     "Please reload the page." : "Vinsamlega endurhlaðið síðunni.",
     "The update was unsuccessful. " : "Uppfærslan tókst ekki.",

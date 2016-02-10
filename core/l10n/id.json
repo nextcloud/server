@@ -170,7 +170,6 @@
     "Hello {name}, the weather is {weather}" : "Helo {name}, jepang {weather}",
     "Hello {name}" : "Helo {name}",
     "_download %n file_::_download %n files_" : ["unduh %n berkas"],
-    "{version} is available. Get more information on how to update." : "{version} tersedia. Dapatkan informasi lebih lanjut cara memperbaruinya.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Pembaruan sedang dalam proses, meninggalkan halaman ini mungkin dapat mengganggu proses di beberapa lingkungan.",
     "Updating {productName} to version {version}, this may take a while." : "Memperbarui {productName} ke versi {version}, ini memerlukan waktu.",
     "An error occurred." : "Terjadi kesalahan.",

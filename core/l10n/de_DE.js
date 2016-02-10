@@ -175,7 +175,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Hallo {name}, das Wetter ist {weather}",
     "Hello {name}" : "Hallo {name}",
     "_download %n file_::_download %n files_" : ["Lade %n Datei herunter","Lade %n Dateien herunter"],
-    "{version} is available. Get more information on how to update." : "{version} ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Das Upgrade läuft noch , diese Seite zu verlassen könnte das Verfahren in einigen Umgebungen unterbrechen.",
     "Updating {productName} to version {version}, this may take a while." : "{productName} wird auf Version {version} aktualisiert. Das könnte eine Weile dauern.",
     "An error occurred." : "Ein Fehler ist aufgetreten.",

@@ -172,7 +172,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Merhaba {name}, hava durumu {weather}",
     "Hello {name}" : "Merhaba {name}",
     "_download %n file_::_download %n files_" : ["%n dosya indir","%n dosya indir"],
-    "{version} is available. Get more information on how to update." : "Sürüm {version} hazır. Nasıl güncelleyeceğinizle ilgili daha fazla bilgi alın.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Güncelleme yapılıyor, sayfadan ayrılmak bazı işlemleri kesebilir.",
     "Updating {productName} to version {version}, this may take a while." : "{productName}, {version} sürümüne güncelleniyor, bu biraz zaman alabilir.",
     "An error occurred." : "Bir hata oluştu",

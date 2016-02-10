@@ -157,7 +157,6 @@
     "Hello {name}, the weather is {weather}" : "Здраво {name}, време је {weather}",
     "Hello {name}" : "Здраво {name}",
     "_download %n file_::_download %n files_" : ["преузми %n фајл","преузми %n фајла","преузми %n фајлова"],
-    "{version} is available. Get more information on how to update." : "Верзија {version} је доступна. Сазнајте како да ажурирате.",
     "Updating {productName} to version {version}, this may take a while." : "Надограђујем {productName} на издање {version}. Ово би могло да потраје.",
     "Please reload the page." : "Поново учитајте страницу.",
     "The update was unsuccessful. " : "Ажурирање није успело.",

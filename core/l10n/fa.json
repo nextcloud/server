@@ -146,7 +146,6 @@
     "Hello {name}, the weather is {weather}" : "سلام {name}, هوا  {weather} است",
     "Hello {name}" : "سلام {name}",
     "_download %n file_::_download %n files_" : ["دانلود %n فایل"],
-    "{version} is available. Get more information on how to update." : "{version} آماده است. برای چگونگی بروزرسانی اطلاعات بیشتر را دریافت نمایید.",
     "Updating {productName} to version {version}, this may take a while." : "بروزرسانی {productName}  به نسخه‎ی  {version}، این عملیات ممکن است زمان‎بر باشد.",
     "An error occurred." : "یک خطا رخ‌داده است.",
     "The update was unsuccessful. " : "بروزرسانی ناموفق بود.",

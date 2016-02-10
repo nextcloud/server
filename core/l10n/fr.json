@@ -191,7 +191,6 @@
     "Hello {name}, the weather is {weather}" : "Bonjour {name}, le temps est {weather}",
     "Hello {name}" : "Hello {name}",
     "_download %n file_::_download %n files_" : ["Télécharger %n fichier","Télécharger %n fichiers"],
-    "{version} is available. Get more information on how to update." : "La version {version} est disponible. Cliquez ici pour plus d'informations à propos de cette mise à jour.",
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "La mise à jour est en cours. Selon la configuration, le fait de quitter cette page peut entraîner l'interruption de la procédure.",
     "Updating {productName} to version {version}, this may take a while." : "La mise à jour de {productName} vers la version {version} est en cours. Cela peut prendre un certain temps.",
     "An error occurred." : "Une erreur est survenue.",
