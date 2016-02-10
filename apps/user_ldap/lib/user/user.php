@@ -491,8 +491,8 @@ class User {
 			$this->fs->setup($this->uid);
 		}
 
-		$avatar = $this->avatarManager->getAvatar($this->uid);
 		try {
+			$avatar = $this->avatarManager->getAvatar($this->uid);
 			$avatar->set($this->image);
 		} catch (\Exception $e) {
 			\OC::$server->getLogger()->notice(
