@@ -63,7 +63,7 @@ class Remote {
 			\OC_User::getUser()
 		);
 
-		if ($externalManager->acceptShare($params['id'])) {
+		if ($externalManager->acceptShare((int) $params['id'])) {
 			return new \OC_OCS_Result();
 		}
 
@@ -86,7 +86,7 @@ class Remote {
 			\OC_User::getUser()
 		);
 
-		if ($externalManager->declineShare($params['id'])) {
+		if ($externalManager->declineShare((int) $params['id'])) {
 			return new \OC_OCS_Result();
 		}
 
