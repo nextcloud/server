@@ -30,6 +30,7 @@
 namespace OC\Files\Storage;
 
 use Icewind\SMB\Exception\Exception;
+use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
 use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
@@ -159,6 +160,8 @@ class SMB extends Common {
 			}
 		} catch (NotFoundException $e) {
 			return false;
+		} catch (ForbiddenException $e) {
+			return false;
 		}
 	}
 
@@ -235,6 +238,8 @@ class SMB extends Common {
 			return false;
 		} catch (NotFoundException $e) {
 			return false;
+		} catch (ForbiddenException $e) {
+			return false;
 		}
 	}
 
@@ -253,6 +258,8 @@ class SMB extends Common {
 			return true;
 		} catch (NotFoundException $e) {
 			return false;
+		} catch (ForbiddenException $e) {
+			return false;
 		}
 	}
 
@@ -266,7 +273,13 @@ class SMB extends Common {
 	}
 
 	public function opendir($path) {
-		$files = $this->getFolderContents($path);
+		try {
+			$files = $this->getFolderContents($path);
+		} catch (NotFoundException $e) {
+			return false;
+		} catch (ForbiddenException $e) {
+			return false;
+		}
 		$names = array_map(function ($info) {
 			/** @var \Icewind\SMB\IFileInfo $info */
 			return $info->getName();
@@ -278,6 +291,8 @@ class SMB extends Common {
 		try {
 			return $this->getFileInfo($path)->isDirectory() ? 'dir' : 'file';
 		} catch (NotFoundException $e) {
+			return false;
+		} catch (ForbiddenException $e) {
 			return false;
 		}
 	}
@@ -297,6 +312,8 @@ class SMB extends Common {
 			$this->getFileInfo($path);
 			return true;
 		} catch (NotFoundException $e) {
+			return false;
+		} catch (ForbiddenException $e) {
 			return false;
 		}
 	}
