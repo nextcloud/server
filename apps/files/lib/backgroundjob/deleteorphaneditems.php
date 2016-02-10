@@ -29,6 +29,8 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  */
 class DeleteOrphanedItems extends TimedJob {
 
+	const CHUNK_SIZE = 200;
+
 	/** @var \OCP\IDBConnection */
 	protected $connection;
 
@@ -66,19 +68,38 @@ class DeleteOrphanedItems extends TimedJob {
 	/**
 	 * Deleting orphaned system tag mappings
 	 *
+	 * @param string $table
+	 * @param string $idCol
+	 * @param string $typeCol
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanUp($table, $idCol, $typeCol) {
-		$subQuery = $this->connection->getQueryBuilder();
-		$subQuery->select($subQuery->expr()->literal('1'))
-			->from('filecache', 'f')
-			->where($subQuery->expr()->eq($idCol, 'f.fileid'));
+		$deletedEntries = 0;
 
 		$query = $this->connection->getQueryBuilder();
-		$deletedEntries = $query->delete($table)
+		$query->select('t1.' . $idCol)
+			->from($table, 't1')
 			->where($query->expr()->eq($typeCol, $query->expr()->literal('files')))
-			->andWhere($query->expr()->isNull($query->createFunction('(' . $subQuery->getSql() . ')')))
-			->execute();
+			->andWhere($query->expr()->isNull('t2.fileid'))
+			->leftJoin('t1', 'filecache', 't2', $query->expr()->eq($query->expr()->castColumn('t1.' . $idCol, IQueryBuilder::PARAM_INT), 't2.fileid'))
+			->groupBy('t1.' . $idCol)
+			->setMaxResults(self::CHUNK_SIZE);
+
+		$deleteQuery = $this->connection->getQueryBuilder();
+		$deleteQuery->delete($table)
+			->where($deleteQuery->expr()->eq($idCol, $deleteQuery->createParameter('objectid')));
+
+		$deletedInLastChunk = self::CHUNK_SIZE;
+		while ($deletedInLastChunk === self::CHUNK_SIZE) {
+			$result = $query->execute();
+			$deletedInLastChunk = 0;
+			while ($row = $result->fetch()) {
+				$deletedInLastChunk++;
+				$deletedEntries += $deleteQuery->setParameter('objectid', (int) $row[$idCol])
+					->execute();
+			}
+			$result->closeCursor();
+		}
 
 		return $deletedEntries;
 	}
@@ -111,8 +132,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanComments() {
-		$qb = $this->connection->getQueryBuilder();
-		$deletedEntries = $this->cleanUp('comments', $qb->expr()->castColumn('object_id', IQueryBuilder::PARAM_INT), 'object_type');
+		$deletedEntries = $this->cleanUp('comments', 'object_id', 'object_type');
 		$this->logger->debug("$deletedEntries orphaned comments deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
@@ -123,8 +143,7 @@ class DeleteOrphanedItems extends TimedJob {
 	 * @return int Number of deleted entries
 	 */
 	protected function cleanCommentMarkers() {
-		$qb = $this->connection->getQueryBuilder();
-		$deletedEntries = $this->cleanUp('comments_read_markers', $qb->expr()->castColumn('object_id', IQueryBuilder::PARAM_INT), 'object_type');
+		$deletedEntries = $this->cleanUp('comments_read_markers', 'object_id', 'object_type');
 		$this->logger->debug("$deletedEntries orphaned comment read marks deleted", ['app' => 'DeleteOrphanedItems']);
 		return $deletedEntries;
 	}
