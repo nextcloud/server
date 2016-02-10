@@ -142,7 +142,7 @@ class App {
 	}
 
 	/**
-	 * Get the last version of the app, either from appinfo/version or from appinfo/info.xml
+	 * Get the last version of the app from appinfo/info.xml
 	 * @param string $app
 	 * @return string
 	 * @since 4.0.0

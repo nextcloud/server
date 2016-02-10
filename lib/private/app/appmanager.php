@@ -297,9 +297,6 @@ class AppManager implements IAppManager {
 	/**
 	 * Returns the app information from "appinfo/info.xml".
 	 *
-	 * If no version was present in "appinfo/info.xml", reads it
-	 * from the external "appinfo/version" file instead.
-	 *
 	 * @param string $appId app id
 	 *
 	 * @return array app iinfo
