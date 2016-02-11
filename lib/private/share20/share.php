@@ -321,7 +321,11 @@ class Share implements \OCP\Share\IShare {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Set the parent of this share
+	 *
+	 * @param int parent
+	 * @return \OCP\Share\IShare
+	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
 	 */
 	public function setParent($parent) {
 		$this->parent = $parent;
@@ -329,7 +333,10 @@ class Share implements \OCP\Share\IShare {
 	}
 
 	/**
-	 * @inheritdoc
+	 * Get the parent of this share.
+	 *
+	 * @return int
+	 * @deprecated The new shares do not have parents. This is just here for legacy reasons.
 	 */
 	public function getParent() {
 		return $this->parent;
