@@ -193,9 +193,10 @@ function execute_tests {
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for MariaDB initialisation ..."
-
-			# grep exits on the first match and then the script continues
-			timeout 30 docker logs -f $DOCKER_CONTAINER_ID 2>&1 | grep -q "mysqld: ready for connections."
+			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 60; then
+				echo "[ERROR] Waited 60 seconds, no response" >&2
+				exit 1
+			fi
 
 			echo "MariaDB is up."
 
