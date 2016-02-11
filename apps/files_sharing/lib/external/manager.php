@@ -194,7 +194,7 @@ class Manager {
 
 			\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $share['remote']]);
 
-			$this->scrapNotification($id);
+			$this->processNotification($id);
 			return true;
 		}
 
@@ -217,7 +217,7 @@ class Manager {
 			$removeShare->execute(array($id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 
-			$this->scrapNotification($id);
+			$this->processNotification($id);
 			return true;
 		}
 
@@ -227,7 +227,7 @@ class Manager {
 	/**
 	 * @param int $remoteShare
 	 */
-	protected function scrapNotification($remoteShare) {
+	public function processNotification($remoteShare) {
 		$filter = $this->notificationManager->createNotification();
 		$filter->setApp('files_sharing')
 			->setUser($this->uid)
