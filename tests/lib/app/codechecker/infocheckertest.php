@@ -54,7 +54,7 @@ class InfoCheckerTest extends TestCase {
 			['testapp-version', []],
 			['testapp-infoxml-version', []],
 			['testapp-infoxml-version-different', [['type' => 'differentVersions', 'message' => 'appinfo/version: 1.2.4 - appinfo/info.xml: 1.2.3']]],
-			['testapp-version-missing', [['type' => 'mandatoryFieldMissing', 'field' => 'version']]],
+			['testapp-version-missing', []],
 			['testapp-name-missing', [['type' => 'mandatoryFieldMissing', 'field' => 'name']]],
 		];
 	}

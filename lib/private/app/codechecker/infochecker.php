@@ -41,21 +41,22 @@ class InfoChecker extends BasicEmitter {
 		'bugs',
 		'category',
 		'default_enable',
-		'dependencies',
+		'dependencies', // TODO: Mandatory as of ownCloud 11
 		'documentation',
 		'namespace',
 		'ocsid',
 		'public',
 		'remote',
 		'repository',
-		'require',
-		'requiremin',
 		'types',
 		'version',
 		'website',
 	];
 	private $deprecatedFields = [
 		'info',
+		'require',
+		'requiremax',
+		'requiremin',
 		'shipped',
 		'standalone',
 	];
@@ -137,7 +138,7 @@ class InfoChecker extends BasicEmitter {
 		$versionFile = $appPath . '/appinfo/version';
 		if (is_file($versionFile)) {
 			$version = trim(file_get_contents($versionFile));
-			if(isset($info['version'])) {
+			if (isset($info['version'])) {
 				if($info['version'] !== $version) {
 					$this->emit('InfoChecker', 'differentVersions',
 						[$version, $info['version']]);
@@ -151,14 +152,6 @@ class InfoChecker extends BasicEmitter {
 				}
 			} else {
 				$this->emit('InfoChecker', 'migrateVersion', [$version]);
-			}
-		} else {
-			if(!isset($info['version'])) {
-				$this->emit('InfoChecker', 'mandatoryFieldMissing', ['version']);
-				$errors[] = [
-					'type' => 'mandatoryFieldMissing',
-					'field' => 'version',
-				];
 			}
 		}
 
