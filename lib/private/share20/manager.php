@@ -415,6 +415,28 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * To make sure we don't get invisible link shares we set the parent
+	 * of a link if it is a reshare. This is a quick word around
+	 * until we can properly display multiple link shares in the UI
+	 *
+	 * See: https://github.com/owncloud/core/issues/22295
+	 *
+	 * FIXME: Remove once multiple link shares can be properly displayed
+	 *
+	 * @param \OCP\Share\IShare $share
+	 */
+	protected function setLinkParent(\OCP\Share\IShare $share) {
+
+		// No sense in checking if the method is not there.
+		if (method_exists($share, 'setParent')) {
+			$storage = $share->getNode()->getStorage();
+			if ($storage->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
+				$share->setParent($storage->getShareId());
+			}
+		};
+	}
+
+	/**
 	 * @param File|Folder $path
 	 */
 	protected function pathCreateChecks($path) {
@@ -470,6 +492,7 @@ class Manager implements IManager {
 			$this->groupCreateChecks($share);
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
 			$this->linkCreateChecks($share);
+			$this->setLinkParent($share);
 
 			/*
 			 * For now ignore a set token.
