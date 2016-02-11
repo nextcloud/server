@@ -720,7 +720,7 @@ class Manager implements IManager {
 				'itemSource' => $share->getNodeId(),
 				'shareType'  => $shareType,
 				'shareWith'  => $sharedWith,
-				'itemparent' => $share->getParent(),
+				'itemparent' => method_exists($share, 'getParent') ? $share->getParent() : '',
 				'uidOwner'   => $share->getSharedBy(),
 				'fileSource' => $share->getNodeId(),
 				'fileTarget' => $share->getTarget()
