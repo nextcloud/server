@@ -132,16 +132,10 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
+	 * @expectedException \InvalidArgumentException
 	 */
 	public function testDeleteNoShareId() {
-		$share = $this->getMock('\OCP\Share\IShare');
-
-		$share
-			->expects($this->once())
-			->method('getFullId')
-			->with()
-			->willReturn(null);
+		$share = $this->manager->newShare();
 
 		$this->manager->deleteShare($share);
 	}
@@ -181,7 +175,6 @@ class ManagerTest extends \Test\TestCase {
 			->setNode($path)
 			->setTarget('myTarget');
 
-		$manager->expects($this->once())->method('getShareById')->with('prov:42')->willReturn($share);
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
 
 		$this->defaultProvider
@@ -261,7 +254,6 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
-		$manager->expects($this->once())->method('getShareById')->with('prov:42')->willReturn($share);
 		$manager->expects($this->once())->method('deleteChildren')->with($share);
 
 		$this->defaultProvider
@@ -358,8 +350,6 @@ class ManagerTest extends \Test\TestCase {
 			->setNode($path)
 			->setTarget('myTarget3')
 			->setParent(43);
-
-		$manager->expects($this->once())->method('getShareById')->with('prov:42')->willReturn($share1);
 
 		$this->defaultProvider
 			->method('getChildren')
