@@ -52,15 +52,21 @@ OC.Share = _.extend(OC.Share || {}, {
 	loadIcons:function(itemType, fileList, callback) {
 		// Load all share icons
 		$.get(
-			OC.filePath('core', 'ajax', 'share.php'),
+			OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'shares',
 			{
-				fetch: 'getItemsSharedStatuses',
-				itemType: itemType
+				subfiles: 'true',
+				path: fileList.dirInfo.path,
+				format: 'json'
 			}, function(result) {
-				if (result && result.status === 'success') {
+				if (result && result.ocs.meta.statuscode === 200) {
 					OC.Share.statuses = {};
-					$.each(result.data, function(item, data) {
-						OC.Share.statuses[item] = data;
+					$.each(result.ocs.data, function(it, share) {
+						if (!(share.item_source in OC.Share.statuses)) {
+							OC.Share.statuses[share.item_source] = {link: false};
+						}
+						if (share.share_type === OC.Share.SHARE_TYPE_LINK) {
+							OC.Share.statuses[share.item_source] = {link: true};
+						}
 					});
 					if (_.isFunction(callback)) {
 						callback(OC.Share.statuses);
