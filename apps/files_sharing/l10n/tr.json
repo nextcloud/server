@@ -50,7 +50,6 @@
     "Shared by %2$s" : "%2$s tarafından paylaşıldı",
     "Shared via public link" : "Herkese açık bağlantı ile paylaşıldı",
     "Shares" : "Paylaşımlar",
-    "You received %2$s as a remote share from %1$s" : "%1$s kişisinden %2$s paylaşımını uzak paylaşım olarak aldınız",
     "Accept" : "Kabul et",
     "Decline" : "Reddet",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud Birleşik Bulut kimliğim ile paylaşıldı, bkz %s",

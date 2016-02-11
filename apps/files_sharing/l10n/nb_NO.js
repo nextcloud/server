@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "Delt av %2$s",
     "Shared via public link" : "Delt via offentlig lenke",
     "Shares" : "Delinger",
-    "You received %2$s as a remote share from %1$s" : "Du mottok %2$s som en ekstern deling fra %1$s",
     "Accept" : "Aksepter",
     "Decline" : "Avslå",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med meg gjennom min #ownCloud ID for sammenknyttet sky, se %s",

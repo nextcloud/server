@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "Gedeeld door %2$s",
     "Shared via public link" : "Gedeeld via een openbare link",
     "Shares" : "Gedeeld",
-    "You received %2$s as a remote share from %1$s" : "U ontving %2$s als een externe share van %1$s",
     "Accept" : "Accepteren",
     "Decline" : "Afwijzen",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Deel met mij via mijn #ownCloud federated Cloud ID, zie %s",

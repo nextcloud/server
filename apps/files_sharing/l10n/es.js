@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "Compartido por %2$s",
     "Shared via public link" : "Compartido vía enlace público",
     "Shares" : "Compartidos",
-    "You received %2$s as a remote share from %1$s" : "Ha recibido %2$s como un recurso compartido de %1$s",
     "Accept" : "Aceptar",
     "Decline" : "Denegar",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Compartirlo conmigo a través de mi ID Nube Federada #ownCloud, ver %s",

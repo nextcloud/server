@@ -197,6 +197,7 @@ OC.L10N.register(
     "Updating {productName} to version {version}, this may take a while." : "Идет обновление {productName} до версии {version}, это может занять некоторое время.",
     "An error occurred." : "Произошла ошибка.",
     "Please reload the page." : "Пожалуйста, обновите страницу.",
+    "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Обновление прошло не успешно. За дополнительной информацией по этой проблеме <a href=\"{url}\">обратитесь к нашему форуму</a>.",
     "The update was unsuccessful. " : "Обновление окончилось неудачей.",
     "The update was successful. There were warnings." : "Обновление прошло успешно. Были предупреждения.",
     "The update was successful. Redirecting you to ownCloud now." : "Обновление прошло успешно. Перенаправляем в ownCloud.",

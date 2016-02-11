@@ -52,7 +52,6 @@ OC.L10N.register(
     "Shared by %2$s" : "Zdieľané s %2$s",
     "Shared via public link" : "Zdieľané prostredníctvom verejného odkazu",
     "Shares" : "Zdieľanie",
-    "You received %2$s as a remote share from %1$s" : "Dostali ste %2$s, ako vzdialené zdieľanie od %1$s",
     "Accept" : "Schváliť",
     "Decline" : "Odmietnuť",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Zdieľajte so mnou pomocou môjho #ownCloud Federated Cloud ID, viac n %s",

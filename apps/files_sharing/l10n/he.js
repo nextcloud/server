@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "שיתף/שיתפה על ידי %2$s",
     "Shared via public link" : "משותף על בסיס קישור ציבורי",
     "Shares" : "שיתופים",
-    "You received %2$s as a remote share from %1$s" : "קבלת %2$s כשיתוף חיצוני מאת %1$s",
     "Accept" : "אישור",
     "Decline" : "סירוב",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "שיתוף איתי באמצעות מספר זהות שרת ה- #ownCloud המאוגד שלי, ניתן לראות %s",

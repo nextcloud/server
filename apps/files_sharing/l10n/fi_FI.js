@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "Jakanut %2$s",
     "Shared via public link" : "Jaettu julkisen linkin kautta",
     "Shares" : "Jaot",
-    "You received %2$s as a remote share from %1$s" : "Sait kohteen %2$s etäjakona käyttäjältä %1$s",
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #ownCloud ja federoitua pilvitunnistetta, katso %s",

@@ -52,7 +52,6 @@ OC.L10N.register(
     "Shared by %2$s" : "Partejat per %2$s",
     "Shared via public link" : "Partejat per ligam public",
     "Shares" : "Partiments",
-    "You received %2$s as a remote share from %1$s" : "Avètz recebut %2$s en tant que partiment distant per %1$s",
     "Accept" : "Acceptar",
     "Decline" : "Refusar",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Partejatz amb ieu gràcias a mon identificant Federated Cloud #owncloud %s",

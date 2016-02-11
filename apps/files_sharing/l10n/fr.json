@@ -51,7 +51,6 @@
     "Shared by %2$s" : "Partagé par %2$s",
     "Shared via public link" : "Partagé par lien public",
     "Shares" : "Partages",
-    "You received %2$s as a remote share from %1$s" : "Vous avez obtenu l'accès au partage distant %2$s de %1$s",
     "Accept" : "Accepter",
     "Decline" : "Refuser",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Partagez avec moi grâce à mon identifiant Federated Cloud #owncloud %s",

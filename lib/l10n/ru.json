@@ -118,6 +118,7 @@
     "Apps" : "Приложения",
     "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-'\"" : "В качестве имени пользователя допускаются следующие символы: \"a-z\", \"A-Z\", \"0-9\" и \"_.@-'\"",
     "A valid username must be provided" : "Укажите правильное имя пользователя",
+    "Username contains whitespace at the beginning or at the end" : "Имя пользователя содержит пробел в начале или в конце",
     "A valid password must be provided" : "Укажите правильный пароль",
     "The username is already being used" : "Имя пользователя уже используется",
     "No database drivers (sqlite, mysql, or postgresql) installed." : "Не установлены драйвера баз данных (sqlite, mysql или postgresql)",

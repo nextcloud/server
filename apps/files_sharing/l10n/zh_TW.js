@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "由 %2$s 分享",
     "Shared via public link" : "透過公用連結分享",
     "Shares" : "分享",
-    "You received %2$s as a remote share from %1$s" : "您收到了來自 %1$s 的一個遠端分享 %2$s ",
     "Accept" : "接受",
     "Decline" : "拒絕",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "可透過我的 #ownCloud 聯盟雲端 ID，與我分享，請看 %s",

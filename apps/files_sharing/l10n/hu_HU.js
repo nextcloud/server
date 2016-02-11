@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "Megosztó: %2$s",
     "Shared via public link" : "Megosztva publikus hivatkozással",
     "Shares" : "Megosztások",
-    "You received %2$s as a remote share from %1$s" : "Kaptál egy távoli megosztást: %2$s, innen: %1$s",
     "Accept" : "Elfogadás",
     "Decline" : "Elutasítás",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével, lásd %s",

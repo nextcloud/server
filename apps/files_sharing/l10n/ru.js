@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "Поделился %2$s",
     "Shared via public link" : "Поделился открытой ссылкой",
     "Shares" : "События обмена файлами",
-    "You received %2$s as a remote share from %1$s" : "Вы получили %2$s через удаленный общий ресурс %1$s",
     "Accept" : "Принять",
     "Decline" : "Отклонить",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Поделитесь со мной через мой #ownCloud ID в объединении облачных хранилищ, смотрите %s",

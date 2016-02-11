@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "แชร์โดย %2$s",
     "Shared via public link" : "แชร์ผ่านลิงค์สาธารณะ",
     "Shares" : "แชร์",
-    "You received %2$s as a remote share from %1$s" : "คุณได้รับรีโมทแชร์ %2$s จาก %1$s",
     "Accept" : "ยอมรับ",
     "Decline" : "ลดลง",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "แชร์ร่วมกับฉันผ่าน #ownCloud ด้วยไอดีคลาวด์ในเครือ สามารถดูได้ที่ %s",

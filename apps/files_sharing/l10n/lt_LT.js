@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "Pasidalino %2$s",
     "Shared via public link" : "Pasidalinta vieša nuoroda",
     "Shares" : "Dalijimaisi",
-    "You received %2$s as a remote share from %1$s" : "Gavai dalijimąsi %2$s nuo %1$s",
     "Accept" : "Priimti",
     "Decline" : "Atmesti",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Pasidalink su manimi per #ownCloud padebesius, plačiau %s",

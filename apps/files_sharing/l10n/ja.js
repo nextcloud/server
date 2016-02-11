@@ -53,7 +53,6 @@ OC.L10N.register(
     "Shared by %2$s" : "%2$s が共有",
     "Shared via public link" : "公開リンク経由で共有中",
     "Shares" : "共有",
-    "You received %2$s as a remote share from %1$s" : "%1$s からリモート共有として %2$s を受け取りました。",
     "Accept" : "承諾",
     "Decline" : "拒否《はてなキーワード》",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud の「クラウド連携ID」で私と共有できます。こちらを見てください。%s",

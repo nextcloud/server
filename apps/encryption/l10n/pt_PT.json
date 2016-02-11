@@ -23,6 +23,8 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chave privada inválida da Aplicação de Encriptação. Por favor atualize a sua senha de chave privada nas definições pessoais, para recuperar o acesso aos seus ficheiros encriptados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "A Aplicação de Encriptação está ativada, mas as suas chaves não inicializaram. Por favor termine e inicie a sessão novamente",
     "Encryption App is enabled and ready" : "A aplicação de encriptação está ativa e pronta",
+    "Bad Signature" : "Má Assinatura",
+    "Missing Signature" : "Assinatura em Falta",
     "one-time password for server-side-encryption" : "palavra-passe de uso único para encriptação do lado do servidor",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Não é possível desencriptar este ficheiro, provavelmente é um ficheiro partilhado. Por favor, peça ao proprietário do ficheiro para voltar a partilhar o ficheiro consigo.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Não é possível ler este ficheiro, provavelmente isto é um ficheiro compartilhado. Por favor, peça ao dono do ficheiro para voltar a partilhar o ficheiro consigo.",

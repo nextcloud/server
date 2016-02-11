@@ -25,6 +25,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Kyç privat i pavlefshëm për aplikacionin e fshehtëzimeve. Ju lutemi, përditësoni fjalëkalimin tuaj të kyçit privat te rregullimet tuaja personale që të rimerrni hyrje te kartelat tuaja të fshehtëzuara.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i fshehtëzimeve është i aktivizuar, por kyçet tuaj s’janë vënë në punë, ju lutemi, dilni dhe ribëni hyrjen",
     "Encryption App is enabled and ready" : "Aplikacioni i Fshehtëzimeve u aktivizua dhe është gati",
+    "Bad Signature" : "Nënshkrim i Keq",
+    "Missing Signature" : "Mungon Nënshkrimi",
     "one-time password for server-side-encryption" : "fjalëkalim vetëm për një herë, për fshehtëzim-më-anë-shërbyesi",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nuk shfshehtëzohet dot kjo kartelë, ndoshta është kartelë e ndarë me të tjerët. Ju lutemi, kërkojini të zotit të kartelës ta rindajë kartelën me ju.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "S’lexohet dot kjo kartelë, ndoshta është kartelë e ndarë me të tjerët. Ju lutemi, kërkojini të zotit të kartelës ta rindajë kartelën me ju.",
