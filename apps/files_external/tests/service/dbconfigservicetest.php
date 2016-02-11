@@ -45,7 +45,7 @@ class DBConfigServiceTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->dbConfig = new DBConfigService($this->connection);
+		$this->dbConfig = new DBConfigService($this->connection, \OC::$server->getCrypto());
 	}
 
 	public function tearDown() {

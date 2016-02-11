@@ -83,7 +83,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
-		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection());
+		$this->dbConfig = new CleaningDBConfig(\OC::$server->getDatabaseConnection(), \OC::$server->getCrypto());
 		self::$hookCalls = array();
 		$config = \OC::$server->getConfig();
 		$this->dataDir = $config->getSystemValue(

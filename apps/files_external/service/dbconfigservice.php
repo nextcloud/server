@@ -23,6 +23,7 @@ namespace OCA\Files_External\Service;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Security\ICrypto;
 
 /**
  * Stores the mount config in the database
@@ -41,12 +42,19 @@ class DBConfigService {
 	private $connection;
 
 	/**
+	 * @var ICrypto
+	 */
+	private $crypto;
+
+	/**
 	 * DBConfigService constructor.
 	 *
 	 * @param IDBConnection $connection
+	 * @param ICrypto $crypto
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, ICrypto $crypto) {
 		$this->connection = $connection;
+		$this->crypto = $crypto;
 	}
 
 	/**
@@ -246,6 +254,9 @@ class DBConfigService {
 	 * @param string $value
 	 */
 	public function setConfig($mountId, $key, $value) {
+		if ($key === 'password') {
+			$value = $this->encryptValue($value);
+		}
 		$count = $this->connection->insertIfNotExist('*PREFIX*external_config', [
 			'mount_id' => $mountId,
 			'key' => $key,
@@ -267,6 +278,7 @@ class DBConfigService {
 	 * @param string $value
 	 */
 	public function setOption($mountId, $key, $value) {
+
 		$count = $this->connection->insertIfNotExist('*PREFIX*external_options', [
 			'mount_id' => $mountId,
 			'key' => $key,
@@ -398,13 +410,31 @@ class DBConfigService {
 	 * @return array ['key1' => $value1, ...]
 	 */
 	private function createKeyValueMap(array $keyValuePairs) {
+		$decryptedPairts = array_map(function ($pair) {
+			if ($pair['key'] === 'password') {
+				$pair['value'] = $this->decryptValue($pair['value']);
+			}
+			return $pair;
+		}, $keyValuePairs);
 		$keys = array_map(function ($pair) {
 			return $pair['key'];
-		}, $keyValuePairs);
+		}, $decryptedPairts);
 		$values = array_map(function ($pair) {
 			return $pair['value'];
-		}, $keyValuePairs);
+		}, $decryptedPairts);
 
 		return array_combine($keys, $values);
+	}
+
+	private function encryptValue($value) {
+		return $this->crypto->encrypt($value);
+	}
+
+	private function decryptValue($value) {
+		try {
+			return $this->crypto->decrypt($value);
+		} catch (\Exception $e) {
+			return $value;
+		}
 	}
 }
