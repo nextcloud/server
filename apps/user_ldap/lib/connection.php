@@ -207,7 +207,7 @@ class Connection extends LDAPUtility {
 		}
 		$key = $this->getCacheKey($key);
 
-		return json_decode(base64_decode($this->cache->get($key)));
+		return json_decode(base64_decode($this->cache->get($key)), true);
 	}
 
 	/**
