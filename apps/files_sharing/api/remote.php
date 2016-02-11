@@ -67,6 +67,9 @@ class Remote {
 			return new \OC_OCS_Result();
 		}
 
+		// Make sure the user has no notification for something that does not exist anymore.
+		$externalManager->processNotification((int) $params['id']);
+
 		return new \OC_OCS_Result(null, 404, "wrong share ID, share doesn't exist.");
 	}
 
@@ -90,12 +93,15 @@ class Remote {
 			return new \OC_OCS_Result();
 		}
 
+		// Make sure the user has no notification for something that does not exist anymore.
+		$externalManager->processNotification((int) $params['id']);
+
 		return new \OC_OCS_Result(null, 404, "wrong share ID, share doesn't exist.");
 	}
 
 	/**
 	 * @param array $share Share with info from the share_external table
-	 * @return enriched share info with data from the filecache
+	 * @return array enriched share info with data from the filecache
 	 */
 	private static function extendShareInfo($share) {
 		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/files/');

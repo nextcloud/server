@@ -225,6 +225,13 @@ class Server2Server {
 				$path = trim($share['name'], '/');
 			}
 
+			$notificationManager = \OC::$server->getNotificationManager();
+			$notification = $notificationManager->createNotification();
+			$notification->setApp('files_sharing')
+				->setUser($share['user'])
+				->setObject('remote_share', (int) $share['id']);
+			$notificationManager->markProcessed($notification);
+
 			\OC::$server->getActivityManager()->publishActivity(
 				Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_UNSHARED, array($owner, $path), '', array(),
 				'', '', $user, Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_MEDIUM);
