@@ -583,7 +583,8 @@ class OC_Helper {
 				}
 			}
 		}
-		$memcache->set($program, $result, 3600);
+		// store the value for 5 minutes
+		$memcache->set($program, $result, 300);
 		return $result;
 	}
 
