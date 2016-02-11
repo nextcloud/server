@@ -185,11 +185,12 @@ function execute_tests {
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the mariadb docker"
 			DOCKER_CONTAINER_ID=$(docker run \
+				-v $BASEDIR/tests/docker/mariadb:/etc/mysql/conf.d \
 				-e MYSQL_ROOT_PASSWORD=owncloud \
 				-e MYSQL_USER="$DATABASEUSER" \
 				-e MYSQL_PASSWORD=owncloud \
 				-e MYSQL_DATABASE="$DATABASENAME" \
-				-d rullzer/mariadb-owncloud)
+				-d mariadb)
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for MariaDB initialisation ..."
