@@ -91,7 +91,7 @@ class Share20OCS {
 			'id' => $share->getId(),
 			'share_type' => $share->getShareType(),
 			'uid_owner' => $share->getSharedBy(),
-			'displayname_owner' => $sharedBy->getDisplayName(),
+			'displayname_owner' => $sharedBy !== null ? $sharedBy->getDisplayName() : $share->getSharedBy(),
 			'permissions' => $share->getPermissions(),
 			'stime' => $share->getShareTime()->getTimestamp(),
 			'parent' => null,
