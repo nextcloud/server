@@ -50,12 +50,18 @@ OC.Share = _.extend(OC.Share || {}, {
 	 * @param callback function to call after the shares were loaded
 	 */
 	loadIcons:function(itemType, fileList, callback) {
+		var path = fileList.dirInfo.path;
+		if (path === '/') {
+			path = '';
+		}
+		path += '/' + fileList.dirInfo.name;
+
 		// Load all share icons
 		$.get(
 			OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'shares',
 			{
 				subfiles: 'true',
-				path: fileList.dirInfo.path,
+				path: path,
 				format: 'json'
 			}, function(result) {
 				if (result && result.ocs.meta.statuscode === 200) {
