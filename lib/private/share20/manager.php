@@ -695,9 +695,9 @@ class Manager implements IManager {
 	 * @throws \InvalidArgumentException
 	 */
 	public function deleteShare(\OCP\Share\IShare $share) {
-		// Just to make sure we have all the info
+
 		try {
-			$share = $this->getShareById($share->getFullId());
+			$share->getFullId();
 		} catch (\UnexpectedValueException $e) {
 			throw new \InvalidArgumentException('Share does not have a full id');
 		}
