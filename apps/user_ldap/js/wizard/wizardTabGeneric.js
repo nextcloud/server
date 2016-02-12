@@ -22,6 +22,12 @@ OCA = OCA || {};
 		 */
 		multiSelectPluginClass: 'multiSelectPlugin',
 
+		/**
+		 * @property {bool} - indicates whether a filter mode toggle operation
+		 * is still in progress
+		 */
+		isToggling: false,
+
 		/** @inheritdoc */
 		init: function(tabIndex, tabID) {
 			this.tabIndex = tabIndex;
@@ -397,6 +403,20 @@ OCA = OCA || {};
 		},
 
 		/**
+		 * sets the filter mode initially and resets the "isToggling" marker.
+		 * This method is called after a save operation against the mode key.
+		 *
+		 * @param mode
+		 */
+		setFilterModeOnce: function(mode) {
+			this.isToggling = false;
+			if(!this.filterModeInitialized) {
+				this.filterModeInitialized = true;
+				this.setFilterMode(mode);
+			}
+		},
+
+		/**
 		 * sets the filter mode according to the provided configuration value
 		 *
 		 * @param {string} mode
@@ -557,8 +577,15 @@ OCA = OCA || {};
 			this.filterModeDisableableElements = filterModeDisableableElements;
 			this.filterModeStateElement = filterModeStateElement;
 			this.filterModeKey = filterModeKey;
-			$switcher.click(this._toggleRawFilterMode);
-		}
+			var view = this;
+			$switcher.click(function() {
+				if(view.isToggling) {
+					return;
+				}
+				view.isToggling = true;
+				view._toggleRawFilterMode();
+			});
+		},
 
 	});
 
