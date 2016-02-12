@@ -196,16 +196,20 @@
 						var suggestions = users.concat(groups).concat(remotes);
 
 						if (suggestions.length > 0) {
-							$('.shareWithField').removeClass('error');
-							$('.shareWithField').tooltip('hide')
-							$('.shareWithField').autocomplete("option", "autoFocus", true);
+							$('.shareWithField').removeClass('error')
+								.tooltip('hide')
+								.autocomplete("option", "autoFocus", true);
 							response(suggestions);
-							
 						} else {
-							$('.shareWithField').addClass('error');
-							$('.shareWithField').attr('title', t('core', 'No users or groups found for ' + $('.shareWithField').val()));
-							$('.shareWithField').tooltip({placement: 'bottom', trigger: 'manual'});
-							$('.shareWithField').tooltip('show');
+							$('.shareWithField').addClass('error')
+								.attr('data-original-title', t('core', 'No users or groups found for {search}', {search: $('.shareWithField').val()}))
+								.tooltip('hide')
+								.tooltip({
+									placement: 'bottom',
+									trigger: 'manual',
+								})
+								.tooltip('fixTitle')
+								.tooltip('show');
 							response();
 						}
 					} else {
