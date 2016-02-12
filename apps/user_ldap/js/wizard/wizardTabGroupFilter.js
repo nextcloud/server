@@ -26,7 +26,7 @@ OCA = OCA || {};
 					featureName: 'GroupObjectClasses'
 				},
 				ldap_group_filter_mode: {
-					setMethod: 'setFilterMode'
+					setMethod: 'setFilterModeOnce'
 				},
 				ldap_groupfilter_groups: {
 					$element: $('#ldap_groupfilter_groups'),
