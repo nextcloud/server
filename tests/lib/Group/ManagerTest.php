@@ -779,6 +779,82 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertTrue(isset($users['user33']));
 	}
 
+	public function testDisplayNamesInGroupsOneBackendNoSearchNoLimitNoOffset() {
+		$groupBackend = new \OC_Group_Dummy();
+
+		$userBackend = new \Test\Util\User\Dummy();
+
+		$userManager = new \OC\User\Manager();
+		$userManager->registerBackend($userBackend);
+
+		$groupManager = new \OC\Group\Manager($userManager);
+		$groupManager->addBackend($groupBackend);
+
+		$user1 = $userManager->createUser('user1', 'user');
+		$user2 = $userManager->createUser('user2', 'user');
+		$user3 = $userManager->createUser('user3', 'user');
+		$user4 = $userManager->createUser('user4', 'user');
+
+		$group1 = $groupManager->createGroup('group1');
+		$group2 = $groupManager->createGroup('group2');
+
+		$group1->addUser($user1);
+		$group1->addUser($user2);
+		$group2->addUser($user2);
+		$group2->addUser($user3);
+
+		$result = $groupManager->displayNamesInGroups(['group1', 'group2']);
+
+		$this->assertCount(3, $result);
+		$this->assertContains($user1, $result);
+		$this->assertContains($user2, $result);
+		$this->assertContains($user3, $result);
+		$this->assertNotContains($user4, $result);
+	}
+
+	public function testDisplayNamesInGroupsOneBackendSearchLimitOffset() {
+		$groupBackend = new \OC_Group_Dummy();
+
+		$userBackend = new \Test\Util\User\Dummy();
+
+		$userManager = new \OC\User\Manager();
+		$userManager->registerBackend($userBackend);
+
+		$groupManager = new \OC\Group\Manager($userManager);
+		$groupManager->addBackend($groupBackend);
+
+		$user1 = $userManager->createUser('u1', 'user');
+		$user2 = $userManager->createUser('user2', 'user');
+		$user3 = $userManager->createUser('u3', 'user');
+		$user4 = $userManager->createUser('user4', 'user');
+		$user5 = $userManager->createUser('u5', 'user');
+		$user6 = $userManager->createUser('user6', 'user');
+		$user7 = $userManager->createUser('user7', 'user');
+		$user8 = $userManager->createUser('user8', 'user');
+
+
+		$group1 = $groupManager->createGroup('group1');
+		$group2 = $groupManager->createGroup('group2');
+		$group3 = $groupManager->createGroup('group3');
+
+		$group1->addUser($user1);
+		$group1->addUser($user2);
+		$group1->addUser($user4);
+		$group2->addUser($user2);
+		$group2->addUser($user3);
+		$group2->addUser($user4);
+		$group2->addUser($user5);
+		$group2->addUser($user6);
+		$group3->addUser($user4);
+		$group3->addUser($user7);
+		$group3->addUser($user8);
+
+		$result = $groupManager->displayNamesInGroups(['group2', 'group1'], 'user', 2, 2);
+
+		$this->assertCount(1, $result);
+		$this->assertContains($user6, $result);
+	}
+
 	public function testGetUserGroupsWithAddUser() {
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Group\Backend $backend

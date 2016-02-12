@@ -118,14 +118,25 @@ class Dummy extends Backend implements \OCP\IUserBackend {
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		if (empty($search)) {
-			return array_keys($this->users);
-		}
-		$result = array();
-		foreach (array_keys($this->users) as $user) {
-			if (stripos($user, $search) !== false) {
-				$result[] = $user;
+			$result = array_keys($this->users);
+		} else {
+			$result = array();
+			foreach (array_keys($this->users) as $user) {
+				if (stripos($user, $search) !== false) {
+					$result[] = $user;
+				}
 			}
 		}
+
+		if ($offset === null) {
+			$offset = 0;
+		}
+		if ($limit === null) {
+			$result = array_splice($result, $offset);
+		} else {
+			$result = array_splice($result, $offset, $limit);
+		}
+
 		return $result;
 	}
 
