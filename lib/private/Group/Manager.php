@@ -335,6 +335,87 @@ class Manager extends PublicEmitter implements IGroupManager {
 	}
 
 	/**
+	 * Get a list of all display names in groups
+	 *
+	 * @param array $gids The group ids of the groups to search in
+	 * @param string $search Part of the displayname to search for
+	 * @param int $limit The max number of returned Users
+	 * @param int $offset Skip the first $offset results
+	 *
+	 * @return \OC\User\User[]
+	 */
+	public function displayNamesInGroups(array $gids, $search = '', $limit = -1, $offset = 0) {
+		// Sort the gids for deterministic results
+		ksort($gids, SORT_STRING);
+
+		/** @var Group[] $groups */
+		$groups = [];
+
+		// Get proper groups
+		foreach($gids as $gid) {
+			$group = $this->get($gid);
+			if ($group !== null) {
+				$groups[] = $group;
+			}
+		}
+
+		// Empty list of groups means empty result array
+		if (empty($groups)) {
+			return [];
+		}
+
+		$search = trim($search);
+
+		/** @var \OC\User\User[] $groupsUsers */
+		$groupsUsers = [];
+
+		// only user backends have the capability to do a complex search for users
+		$searchOffset = 0;
+		$searchLimit = $limit * 100;
+		if($limit === -1) {
+			$searchLimit = 500;
+		}
+
+		while (true) {
+			$filteredUsers = $this->userManager->searchDisplayName($search, $searchLimit, $searchOffset);
+
+			// No more users stop
+			if (empty($filteredUsers)) {
+				break;
+			}
+
+			foreach($filteredUsers as $filteredUser) {
+				foreach($groups as $group) {
+					if ($group->inGroup($filteredUser)) {
+						// Skip the first $offset users
+						if ($offset > 0) {
+							$offset--;
+							break;
+						}
+						$groupsUsers[] = $filteredUser;
+						$limit--;
+						break;
+					}
+				}
+
+				// We have the requested amount of users
+				if ($limit === 0) {
+					break;
+				}
+			}
+
+			// We have the requested amount of users
+			if ($limit === 0) {
+				break;
+			}
+
+			$searchOffset += $searchLimit;
+		}
+
+		return $groupsUsers;
+	}
+
+	/**
 	 * @return \OC\SubAdmin
 	 */
 	public function getSubAdmin() {

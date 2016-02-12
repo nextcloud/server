@@ -121,6 +121,19 @@ interface IGroupManager {
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0);
 
 	/**
+	 * Get a list of all display names in groups
+	 *
+	 * @param array $gids The group ids of the groups to search in
+	 * @param string $search Part of the displayname to search for
+	 * @param int $limit The max number of returned Users
+	 * @param int $offset Skip the first $offset results
+	 *
+	 * @return \OCP\IUser[]
+	 * @since 9.0.0
+	 */
+	public function displayNamesInGroups(array $gids, $search = '', $limit = -1, $offset = 0);
+
+	/**
 	 * Checks if a userId is in the admin group
 	 * @param string $userId
 	 * @return bool if admin
