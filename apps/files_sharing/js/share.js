@@ -122,6 +122,10 @@
 				}
 			});
 
+			fileList.$el.on('changeDirectory', function() {
+				OCA.Sharing.sharesLoaded = false;
+			});
+
 			fileActions.registerAction({
 				name: 'Share',
 				displayName: '',
