@@ -226,6 +226,23 @@ class MigrationTest extends TestCase {
 		$this->assertSame(1,
 			$query->execute()
 		);
+
+		// Link reshare should keep its parent
+		$query->setParameter('share_type', \OCP\Share::SHARE_TYPE_LINK)
+			->setParameter('share_with', null)
+			->setParameter('uid_owner', 'user3')
+			->setParameter('uid_initiator', '')
+			->setParameter('parent', $parent)
+			->setParameter('item_type', 'file')
+			->setParameter('item_source', '2')
+			->setParameter('item_target', '/2')
+			->setParameter('file_source', 2)
+			->setParameter('file_target', '/foobar')
+			->setParameter('permissions', 31)
+			->setParameter('stime', time());
+		$this->assertSame(1,
+			$query->execute()
+		);
 	}
 
 	public function testRemoveReShares() {
@@ -238,7 +255,7 @@ class MigrationTest extends TestCase {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')->from($this->table)->orderBy('id');
 		$result = $query->execute()->fetchAll();
-		$this->assertSame(9, count($result));
+		$this->assertSame(10, count($result));
 
 		// shares which shouldn't be modified
 		for ($i = 0; $i < 4; $i++) {
@@ -261,6 +278,14 @@ class MigrationTest extends TestCase {
 			$this->assertSame($user, $result[$i]['uid_initiator']);
 			$this->assertNull($result[$i]['parent']);
 		}
+
+		/*
+		 * The link share is flattend but has an owner to avoid invisible shares
+		 * see: https://github.com/owncloud/core/pull/22317
+		 */
+		$this->assertSame('owner2', $result[9]['uid_owner']);
+		$this->assertSame('user3', $result[9]['uid_initiator']);
+		$this->assertSame($result[7]['id'], $result[9]['parent']);
 	}
 
 	public function test1001DeepReshares() {

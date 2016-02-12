@@ -40,6 +40,9 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	private static $tempStorage;
 
+	/** @var \OCP\Share\IManager */
+	private $shareManager;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -59,6 +62,8 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
 		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
+
+		$this->shareManager = \OC::$server->getShareManager();
 	}
 
 	protected function tearDown() {
@@ -70,6 +75,40 @@ class Test_Files_Sharing_Api extends TestCase {
 		self::$tempStorage = null;
 
 		parent::tearDown();
+	}
+
+	/**
+	 * @param array $data
+	 * @return \OCP\IRequest
+	 */
+	private function createRequest(array $data) {
+		$request = $this->getMock('\OCP\IRequest');
+		$request->method('getParam')
+			->will($this->returnCallback(function($param, $default = null) use ($data) {
+				if (isset($data[$param])) {
+					return $data[$param];
+				}
+				return $default;
+			}));
+		return $request;
+	}
+
+	/**
+	 * @param \OCP\IRequest $request
+	 * @param string $userId The userId of the caller
+	 * @return \OCA\Files_Sharing\API\Share20OCS
+	 */
+	private function createOCS($request, $userId) {
+		$currentUser = \OC::$server->getUserManager()->get($userId);
+		return new \OCA\Files_Sharing\API\Share20OCS(
+			$this->shareManager,
+			\OC::$server->getGroupManager(),
+			\OC::$server->getUserManager(),
+			$request,
+			\OC::$server->getRootFolder(),
+			\OC::$server->getURLGenerator(),
+			$currentUser
+		);
 	}
 
 	/**
@@ -1725,4 +1764,85 @@ class Test_Files_Sharing_Api extends TestCase {
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
 	}
 
+	/**
+	 * test for no invisible shares
+	 * See: https://github.com/owncloud/core/issues/22295
+	 */
+	public function testInvisibleSharesUser() {
+		// simulate a post request
+		$request = $this->createRequest([
+			'path' => $this->folder,
+			'shareWith' => self::TEST_FILES_SHARING_API_USER2,
+			'shareType' => \OCP\Share::SHARE_TYPE_USER
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+
+		$topId = $data['id'];
+
+		$request = $this->createRequest([
+			'path' => $this->folder . $this->subfolder,
+			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
+		$result = $ocs->createShare();
+		$this->assertTrue($result->succeeded());
+
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($topId);
+		$this->assertTrue($result->succeeded());
+
+		$request = $this->createRequest([
+			'reshares' => 'true',
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
+		$this->assertTrue($result->succeeded());
+
+		$this->assertEmpty($result->getData());
+	}
+
+	/**
+	 * test for no invisible shares
+	 * See: https://github.com/owncloud/core/issues/22295
+	 */
+	public function testInvisibleSharesGroup() {
+		// simulate a post request
+		$request = $this->createRequest([
+			'path' => $this->folder,
+			'shareWith' => self::TEST_FILES_SHARING_API_GROUP1,
+			'shareType' => \OCP\Share::SHARE_TYPE_GROUP
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
+		$this->assertTrue($result->succeeded());
+		$data = $result->getData();
+
+		$topId = $data['id'];
+
+		$request = $this->createRequest([
+			'path' => $this->folder . $this->subfolder,
+			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
+		$result = $ocs->createShare();
+		$this->assertTrue($result->succeeded());
+
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($topId);
+		$this->assertTrue($result->succeeded());
+
+		$request = $this->createRequest([
+			'reshares' => 'true',
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
+		$this->assertTrue($result->succeeded());
+
+		$this->assertEmpty($result->getData());
+	}
 }

@@ -118,6 +118,10 @@ class DefaultShareProvider implements IShareProvider {
 			if ($share->getExpirationDate() !== null) {
 				$qb->setValue('expiration', $qb->createNamedParameter($share->getExpirationDate(), 'datetime'));
 			}
+
+			if (method_exists($share, 'getParent')) {
+				$qb->setValue('parent', $qb->createNamedParameter($share->getParent()));
+			}
 		} else {
 			throw new \Exception('invalid share type!');
 		}

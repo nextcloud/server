@@ -1549,6 +1549,7 @@ class ManagerTest extends \Test\TestCase {
 				'pathCreateChecks',
 				'validateExpirationDate',
 				'verifyPassword',
+				'setLinkParent',
 			])
 			->getMock();
 
@@ -1589,6 +1590,9 @@ class ManagerTest extends \Test\TestCase {
 		$manager->expects($this->once())
 			->method('verifyPassword')
 			->with('password');
+		$manager->expects($this->once())
+			->method('setLinkParent')
+			->with($share);
 
 		$this->hasher->expects($this->once())
 			->method('hash')

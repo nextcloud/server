@@ -55,31 +55,29 @@ class Migration {
 	 */
 	public function removeReShares() {
 
-		while(true) {
-			$reShares = $this->getReShares(1000);
+		$stmt = $this->getReShares();
 
-			if (empty($reShares)) {
-				break;
-			}
+		$owners = [];
+		while($share = $stmt->fetch()) {
 
-			// Update the cache
-			foreach($reShares as $reShare) {
-				$this->shareCache[$reShare['id']] = $reShare;
-			}
+			$this->shareCache[$share['id']] = $share;
 
-			$owners = [];
-			foreach ($reShares as $share) {
-				$owners[$share['id']] = [
+			$owners[$share['id']] = [
 					'owner' => $this->findOwner($share),
-					'initiator' => $share['uid_owner']
-				];
-			}
-			$this->updateOwners($owners);
+					'initiator' => $share['uid_owner'],
+					'type' => $share['share_type'],
+			];
 
-			//Clear the cache of the shares we just updated so we have more room
-			foreach($owners as $id => $owner) {
-				unset($this->shareCache[$id]);
+			if (count($owners) === 1000) {
+				$this->updateOwners($owners);
+				$owners = [];
 			}
+		}
+
+		$stmt->closeCursor();
+
+		if (count($owners)) {
+			$this->updateOwners($owners);
 		}
 	}
 
@@ -99,7 +97,8 @@ class Migration {
 			foreach ($shares as $share) {
 				$owners[$share['id']] = [
 					'owner' => $share['uid_owner'],
-					'initiator' => $share['uid_owner']
+					'initiator' => $share['uid_owner'],
+					'type' => $share['share_type'],
 				];
 			}
 			$this->updateOwners($owners);
@@ -130,11 +129,11 @@ class Migration {
 	 * Get $n re-shares from the database
 	 *
 	 * @param int $n The max number of shares to fetch
-	 * @return array
+	 * @return \Doctrine\DBAL\Driver\Statement
 	 */
-	private function getReShares($n = 1000) {
+	private function getReShares() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['id', 'parent', 'uid_owner'])
+		$query->select(['id', 'parent', 'uid_owner', 'share_type'])
 			->from($this->table)
 			->where($query->expr()->in(
 				'share_type',
@@ -156,9 +155,10 @@ class Migration {
 				)
 			))
 			->andWhere($query->expr()->isNotNull('parent'))
-			->orderBy('id', 'asc')
-			->setMaxResults($n);
-		$result = $query->execute();
+			->orderBy('id', 'asc');
+		return $query->execute();
+
+
 		$shares = $result->fetchAll();
 		$result->closeCursor();
 
@@ -178,7 +178,7 @@ class Migration {
 	 */
 	private function getMissingInitiator($n = 1000) {
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['id', 'uid_owner'])
+		$query->select(['id', 'uid_owner', 'share_type'])
 			->from($this->table)
 			->where($query->expr()->in(
 				'share_type',
@@ -247,11 +247,17 @@ class Migration {
 			foreach ($owners as $id => $owner) {
 				$query = $this->connection->getQueryBuilder();
 				$query->update($this->table)
-					->set('parent', $query->createNamedParameter(null))
 					->set('uid_owner', $query->createNamedParameter($owner['owner']))
-					->set('uid_initiator', $query->createNamedParameter($owner['initiator']))
-					->where($query->expr()->eq('id', $query->createNamedParameter($id)))
-					->execute();
+					->set('uid_initiator', $query->createNamedParameter($owner['initiator']));
+
+
+				if ((int)$owner['type'] !== \OCP\Share::SHARE_TYPE_LINK) {
+					$query->set('parent', $query->createNamedParameter(null));
+				}
+
+				$query->where($query->expr()->eq('id', $query->createNamedParameter($id)));
+
+				$query->execute();
 			}
 
 			$this->connection->commit();
