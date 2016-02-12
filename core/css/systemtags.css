@@ -83,3 +83,8 @@
 	overflow:hidden;
 	text-overflow:ellipsis;
 }
+
+.systemtags-select2-dropdown  .label.hidden {
+	display: none;
+}
+
