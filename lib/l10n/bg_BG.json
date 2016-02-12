@@ -42,7 +42,6 @@
     "App can't be installed because of not allowed code in the App" : "Приложението няма да бъде инсталирано, защото използва неразрешен код.",
     "App can't be installed because it is not compatible with this version of ownCloud" : "Приложението няма да бъде инсталирано, защото не е съвместимо с текущата версия на ownCloud.",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "Приложението няма да бъде инсталирано, защото съдържа <shipped>true</shipped>, който таг не е разрешен за не ship-нати приложения.",
-    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "Приложението няма да бъде инсталирано, защото версията в info.xml/version не съвпада с версията публикувана в магазина за приложения.",
     "Application is not enabled" : "Приложението не е включено",
     "Authentication error" : "Проблем с идентификацията",
     "Token expired. Please reload page." : "Изтекла сесия. Моля, презареди страницата.",

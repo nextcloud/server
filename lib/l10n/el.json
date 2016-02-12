@@ -54,7 +54,6 @@
     "App can't be installed because of not allowed code in the App" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί λόγω μη-επιτρεπόμενου κώδικα μέσα στην Εφαρμογή",
     "App can't be installed because it is not compatible with this version of ownCloud" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί επειδή δεν είναι συμβατή με αυτή την έκδοση ownCloud",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί επειδή περιέχει την ετικέτα <shipped>σωστή</shipped> που δεν επιτρέπεται για μη-ενσωματωμένες εφαρμογές",
-    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "Η εφαρμογή δεν μπορεί να εγκατασταθεί επειδή η έκδοση στο info.xml/version δεν είναι η ίδια με την έκδοση που αναφέρεται στο κατάστημα εφαρμογών",
     "Application is not enabled" : "Δεν ενεργοποιήθηκε η εφαρμογή",
     "Authentication error" : "Σφάλμα πιστοποίησης",
     "Token expired. Please reload page." : "Το αναγνωριστικό έληξε. Παρακαλώ φορτώστε ξανά την σελίδα.",

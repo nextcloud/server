@@ -57,7 +57,6 @@
     "App can't be installed because of not allowed code in the App" : "Appen kan ikke installeres, da den indeholder ikke-tilladt kode",
     "App can't be installed because it is not compatible with this version of ownCloud" : "Appen kan ikke installeres, da den ikke er kompatibel med denne version af ownCloud.",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "Appen kan ikke installeres, da den indeholder mærket <shipped>true</shipped>, hvilket ikke er tilladt for ikke-medfølgende apps",
-    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "App kan ikke installeres, da versionen i info.xml/version ikke er den samme som versionen rapporteret fra app-storen",
     "Application is not enabled" : "Programmet er ikke aktiveret",
     "Authentication error" : "Adgangsfejl",
     "Token expired. Please reload page." : "Adgang er udløbet. Genindlæs siden.",

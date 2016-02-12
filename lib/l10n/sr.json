@@ -57,7 +57,6 @@
     "App can't be installed because of not allowed code in the App" : "Апликације не може бити инсталирана због недозвољеног кода у апликацији",
     "App can't be installed because it is not compatible with this version of ownCloud" : "Апликације не може бити инсталирана јер није компатибилна са овом верзијом оунКлауда",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "Апликација се не може инсталирати јер садржи ознаку <shipped>тачно</shipped> која није дозвољена за неиспоручене апликације",
-    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "Апликација се не може инсталирати јер верзија у info.xml/version није иста као верзија коју пријављује  продавница апликација",
     "Application is not enabled" : "Апликација није укључена",
     "Authentication error" : "Грешка аутентификације",
     "Token expired. Please reload page." : "Жетон је истекао. Поново учитајте страницу.",

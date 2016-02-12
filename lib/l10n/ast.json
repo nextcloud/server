@@ -44,7 +44,6 @@
     "App can't be installed because of not allowed code in the App" : "Nun pue instalase l'aplicación por causa d'un códigu non permitíu na App",
     "App can't be installed because it is not compatible with this version of ownCloud" : "Nun pue instalase l'aplicación porque nun ye compatible con esta versión d'ownCloud.",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "L'aplicación nun pue instalase porque contién la etiqueta <shipped>true</shipped> que nun ta permitida p'aplicaciones non distribuyíes",
-    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "Nun pue instalase l'aplicación porque'l númberu de versión en info.xml/version nun ye'l mesmu que la versión qu'apaez na app store",
     "Application is not enabled" : "L'aplicación nun ta habilitada",
     "Authentication error" : "Fallu d'autenticación",
     "Token expired. Please reload page." : "Token caducáu. Recarga la páxina.",

@@ -34,7 +34,6 @@
     "App can't be installed because of not allowed code in the App" : "L'aplicació no es pot instal·lar perquè hi ha codi no autoritzat en l'aplicació",
     "App can't be installed because it is not compatible with this version of ownCloud" : "L'aplicació no es pot instal·lar perquè no és compatible amb aquesta versió d'ownCloud",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "L'aplicació no es pot instal·lar perquè conté l'etiqueta <shipped>vertader</shipped> que no es permet per aplicacions no enviades",
-    "App can't be installed because the version in info.xml/version is not the same as the version reported from the app store" : "L'aplicació no es pot instal·lar perquè la versió a info.xml/version no és la mateixa que la versió indicada des de la botiga d'aplicacions",
     "Application is not enabled" : "L'aplicació no està habilitada",
     "Authentication error" : "Error d'autenticació",
     "Token expired. Please reload page." : "El testimoni ha expirat. Torneu a carregar la pàgina.",

@@ -195,6 +195,7 @@
     "Updating {productName} to version {version}, this may take a while." : "La mise à jour de {productName} vers la version {version} est en cours. Cela peut prendre un certain temps.",
     "An error occurred." : "Une erreur est survenue.",
     "Please reload the page." : "Veuillez recharger la page.",
+    "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La mise à jour a échoué. Pour plus d'informations <a href=\"{url}\">consultez notre publication sur le forum</a> à propos de ce problème.",
     "The update was unsuccessful. " : "La mise à jour a échoué.",
     "The update was successful. There were warnings." : "La mise à jour a réussi, mais il y a eu des avertissements",
     "The update was successful. Redirecting you to ownCloud now." : "La mise à jour a réussi. Vous êtes maintenant redirigé vers ownCloud.",
