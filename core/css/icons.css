@@ -57,6 +57,10 @@
 	background-image: url('../img/actions/close.svg');
 }
 
+.icon-comment {
+	background-image: url('../img/actions/comment.svg');
+}
+
 .icon-confirm {
 	background-image: url('../img/actions/confirm.svg');
 }
