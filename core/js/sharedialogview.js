@@ -67,6 +67,10 @@
 		/** @type {object} **/
 		shareeListView: undefined,
 
+		events: {
+			'input .shareWithField': 'onShareWithFieldChanged'
+		},
+
 		initialize: function(options) {
 			var view = this;
 
@@ -109,7 +113,18 @@
 					: options[name];
 			}
 
-			_.bindAll(this, 'autocompleteHandler', '_onSelectRecipient');
+			_.bindAll(this,
+				'autocompleteHandler',
+				'_onSelectRecipient',
+				'onShareWithFieldChanged'
+			);
+		},
+
+		onShareWithFieldChanged: function() {
+			var $el = this.$el.find('.shareWithField');
+			if ($el.val().length < 2) {
+				$el.removeClass('error').tooltip('hide');
+			}
 		},
 
 		autocompleteHandler: function (search, response) {
@@ -196,9 +211,20 @@
 						var suggestions = users.concat(groups).concat(remotes);
 
 						if (suggestions.length > 0) {
-							$('.shareWithField').autocomplete("option", "autoFocus", true);
+							$('.shareWithField').removeClass('error')
+								.tooltip('hide')
+								.autocomplete("option", "autoFocus", true);
 							response(suggestions);
 						} else {
+							$('.shareWithField').addClass('error')
+								.attr('data-original-title', t('core', 'No users or groups found for {search}', {search: $('.shareWithField').val()}))
+								.tooltip('hide')
+								.tooltip({
+									placement: 'bottom',
+									trigger: 'manual',
+								})
+								.tooltip('fixTitle')
+								.tooltip('show');
 							response();
 						}
 					} else {
