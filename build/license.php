@@ -20,7 +20,8 @@
  */
 class Licenses
 {
-	protected $paths = array();
+	protected $paths = [];
+	protected $mailMap = [];
 	public $authors = [];
 
 	public function __construct() {
@@ -196,11 +197,37 @@ With help from many libraries and frameworks including:
 				'Not Committed Yet <not.committed.yet>',
 				'Jenkins for ownCloud <owncloud-bot@tmit.eu>']);
 		});
+
+		if ($gitRoot) {
+			$authors = array_map([$this, 'checkCoreMailMap'], $authors);
+			$authors = array_unique($authors);
+		}
+
 		$authors = array_map(function($author){
 			$this->authors[$author] = $author;
 			return " * @author $author";
 		}, $authors);
 		return implode(PHP_EOL, $authors);
+	}
+
+	private function checkCoreMailMap($author) {
+		if (empty($this->mailMap)) {
+			$content = file_get_contents(__DIR__ . '/../.mailmap');
+			$entries = explode("\n", $content);
+			foreach ($entries as $entry) {
+				if (strpos($entry, '> ') === false) {
+					$this->mailMap[$entry] = $entry;
+				} else {
+					list($use, $actual) = explode('> ', $entry);
+					$this->mailMap[$actual] = $use . '>';
+				}
+			}
+		}
+
+		if (isset($this->mailMap[$author])) {
+			return $this->mailMap[$author];
+		}
+		return $author;
 	}
 }
 
