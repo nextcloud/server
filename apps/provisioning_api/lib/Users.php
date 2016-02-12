@@ -92,20 +92,24 @@ class Users {
 			$users = $this->userManager->search($search, $limit, $offset);
 		} else if ($subAdminManager->isSubAdmin($user)) {
 			$subAdminOfGroups = $subAdminManager->getSubAdminsGroups($user);
-			foreach ($subAdminOfGroups as $key => $group) {
-				$subAdminOfGroups[$key] = $group->getGID();
-			}
+			$groups = array_map(function(\OCP\IGroup $group) {
+				return $group->getGID();
+			}, $subAdminOfGroups);
 
 			if($offset === null) {
 				$offset = 0; 
 			}
 
-			$users = [];
-			foreach ($subAdminOfGroups as $group) {
-				$users = array_merge($users, $this->groupManager->displayNamesInGroup($group, $search));
+			if ($limit === null) {
+				$limit = -1;
 			}
 
-			$users = array_slice($users, $offset, $limit);
+			$result = $this->groupManager->displayNamesInGroups($groups, $search, $limit, $offset);
+
+			$users = [];
+			foreach ($result as $user) {
+				$users[$user->getUID()] = $user->getDisplayName();
+			}
 		} else {
 			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}

@@ -164,10 +164,16 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
+
+		$user1 = $this->getMock('\OCP\IUser');
+		$user1->method('getUID')->willReturn('AnotherUserInTheFirstGroup');
+		$user2 = $this->getMock('\OCP\IUser');
+		$user2->method('getUID')->willReturn('UserInTheSecondGroup');
+
 		$this->groupManager
 			->expects($this->any())
-			->method('displayNamesInGroup')
-			->will($this->onConsecutiveCalls(['AnotherUserInTheFirstGroup' => []], ['UserInTheSecondGroup' => []]));
+			->method('displayNamesInGroups')
+			->willReturn([$user1, $user2]);
 
 		$expected = new \OC_OCS_Result([
 			'users' => [
