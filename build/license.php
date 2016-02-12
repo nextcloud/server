@@ -48,17 +48,25 @@ EOD;
 		$this->licenseText = str_replace('@YEAR@', date("Y"), $this->licenseText);
 	}
 
-	function exec($folder) {
+	/**
+	 * @param string|string[] $folder
+	 * @param string|bool $gitRoot
+	 */
+	function exec($folder, $gitRoot = false) {
 
 		if (is_array($folder)) {
 			foreach($folder as $f) {
-				$this->exec($f);
+				$this->exec($f, $gitRoot);
 			}
 			return;
 		}
 
+		if ($gitRoot !== false && substr($gitRoot, -1) !== '/') {
+			$gitRoot .= '/';
+		}
+
 		if (is_file($folder)) {
-			$this->handleFile($folder);
+			$this->handleFile($folder, $gitRoot);
 			return;
 		}
 
@@ -81,7 +89,7 @@ EOD;
 
 		foreach ($iterator as $file) {
 			/** @var SplFileInfo $file */
-			$this->handleFile($file);
+			$this->handleFile($file, $gitRoot);
 		}
 	}
 
@@ -103,14 +111,14 @@ With help from many libraries and frameworks including:
 		file_put_contents(__DIR__.'/../AUTHORS', $template);
 	}
 
-	function handleFile($path) {
+	function handleFile($path, $gitRoot) {
 		$source = file_get_contents($path);
 		if ($this->isMITLicensed($source)) {
 			echo "MIT licensed file: $path" . PHP_EOL;
 			return;
 		}
 		$source = $this->eatOldLicense($source);
-		$authors = $this->getAuthors($path);
+		$authors = $this->getAuthors($path, $gitRoot);
 		$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
 
 		$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
@@ -136,6 +144,7 @@ With help from many libraries and frameworks including:
 
 	/**
 	 * @param string $source
+	 * @return string
 	 */
 	private function eatOldLicense($source) {
 		$lines = explode(PHP_EOL, $source);
@@ -167,10 +176,18 @@ With help from many libraries and frameworks including:
 		return implode(PHP_EOL, $lines);
 	}
 
-	private function getAuthors($file) {
+	private function getAuthors($file, $gitRoot) {
 		// only add authors that changed code and not the license header
 		$licenseHeaderEndsAtLine = trim(shell_exec("grep -n '*/' $file | head -n 1 | cut -d ':' -f 1"));
+		$buildDir = getcwd();
+		if ($gitRoot) {
+			chdir($gitRoot);
+			$file = substr($file, strlen($gitRoot));
+		}
 		$out = shell_exec("git blame --line-porcelain -L $licenseHeaderEndsAtLine, $file | sed -n 's/^author //p;s/^author-mail //p' | sed 'N;s/\\n/ /' | sort -f | uniq");
+		if ($gitRoot) {
+			chdir($buildDir);
+		}
 		$authors = explode(PHP_EOL, $out);
 
 		$authors = array_filter($authors, function($author) {
@@ -189,7 +206,7 @@ With help from many libraries and frameworks including:
 
 $licenses = new Licenses;
 if (isset($argv[1])) {
-	$licenses->exec($argv[1]);
+	$licenses->exec($argv[1], isset($argv[2]) ? $argv[1] : false);
 } else {
 	$licenses->exec([
 		'../apps/dav',
