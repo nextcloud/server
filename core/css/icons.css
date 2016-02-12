@@ -70,6 +70,9 @@
 .icon-delete:focus {
 	background-image: url('../img/actions/delete-hover.svg');
 }
+.icon-delete-white {
+	background-image: url('../img/actions/delete-white.svg');
+}
 
 .icon-details {
 	background-image: url('../img/actions/details.svg');
