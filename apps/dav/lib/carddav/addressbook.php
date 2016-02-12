@@ -161,4 +161,11 @@ class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 		}
 		parent::delete();
 	}
+
+	public function getContactsGroups() {
+		/** @var CardDavBackend $cardDavBackend */
+		$cardDavBackend = $this->carddavBackend;
+
+		return $cardDavBackend->collectCardProperties($this->getResourceId(), 'CATEGORIES');
+	}
 }
