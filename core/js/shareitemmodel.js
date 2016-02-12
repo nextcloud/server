@@ -183,11 +183,9 @@
 				data: attributes,
 				dataType: 'json'
 			}).done(function() {
-				self.fetch({
-					success: function() {
-						if (_.isFunction(options.success)) {
-							options.success(self);
-						}
+				self.fetch().done(function() {
+					if (_.isFunction(options.success)) {
+						options.success(self);
 					}
 				});
 			}).fail(function(xhr) {

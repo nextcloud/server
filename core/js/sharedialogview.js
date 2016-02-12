@@ -233,8 +233,18 @@
 
 		_onSelectRecipient: function(e, s) {
 			e.preventDefault();
-			$(e.target).val('');
-			this.model.addShare(s.item.value);
+			$(e.target).attr('disabled', true)
+				.val(s.item.label);
+			var $loading = this.$el.find('.shareWithLoading');
+			$loading.removeClass('hidden')
+				.addClass('inlineblock');
+
+			this.model.addShare(s.item.value, {success: function() {
+				$(e.target).val('')
+					.attr('disabled', false);
+				$loading.addClass('hidden')
+					.removeClass('inlineblock');
+			}});
 		},
 
 		_toggleLoading: function(state) {
