@@ -67,6 +67,10 @@
 		/** @type {object} **/
 		shareeListView: undefined,
 
+		events: {
+			'input .shareWithField': 'onShareWithFieldChanged'
+		},
+
 		initialize: function(options) {
 			var view = this;
 
@@ -109,7 +113,18 @@
 					: options[name];
 			}
 
-			_.bindAll(this, 'autocompleteHandler', '_onSelectRecipient');
+			_.bindAll(this,
+				'autocompleteHandler',
+				'_onSelectRecipient',
+				'onShareWithFieldChanged'
+			);
+		},
+
+		onShareWithFieldChanged: function() {
+			var $el = this.$el.find('.shareWithField');
+			if ($el.val().length < 2) {
+				$el.removeClass('error').tooltip('hide');
+			}
 		},
 
 		autocompleteHandler: function (search, response) {
