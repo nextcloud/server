@@ -32,7 +32,7 @@ OCA = OCA || {};
 					setMethod: 'setLoginAttributeEmail'
 				},
 				ldap_login_filter_mode: {
-					setMethod: 'setFilterMode'
+					setMethod: 'setFilterModeOnce'
 				},
 				ldap_loginfilter_attributes: {
 					$element: $('#ldap_loginfilter_attributes'),
