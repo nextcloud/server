@@ -618,7 +618,22 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->checkSetupController->rescanFailedIntegrityCheck());
 	}
 
+	public function testGetFailedIntegrityCheckDisabled() {
+		$this->checker
+			->expects($this->once())
+			->method('isCodeCheckEnforced')
+			->willReturn(false);
+
+		$expected = new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
+		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
+	}
+
+
 	public function testGetFailedIntegrityCheckFilesWithNoErrorsFound() {
+		$this->checker
+			->expects($this->once())
+			->method('isCodeCheckEnforced')
+			->willReturn(true);
 		$this->checker
 			->expects($this->once())
 			->method('getResults')
@@ -635,6 +650,10 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testGetFailedIntegrityCheckFilesWithSomeErrorsFound() {
+		$this->checker
+			->expects($this->once())
+			->method('isCodeCheckEnforced')
+			->willReturn(true);
 		$this->checker
 				->expects($this->once())
 				->method('getResults')
