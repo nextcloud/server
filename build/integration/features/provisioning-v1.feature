@@ -170,6 +170,46 @@ Feature: provisioning
 		And the OCS status code should be "100"
 		And the HTTP status code should be "200"
 
+	Scenario: get users using a subadmin complex
+		Given As an "admin"
+		And user "brand-new-user" exists
+		And group "new-group" exists
+		And group "new-group2" exists
+		And group "new-group3" exists
+		And user "brand-new-user" belongs to group "new-group"
+		And sending "POST" to "/cloud/users/brand-new-user/subadmins" with
+			| groupid | new-group |
+		And user "brand-new-user" is subadmin of group "new-group"
+		And sending "POST" to "/cloud/users/brand-new-user/subadmins" with
+			| groupid | new-group2 |
+		And user "brand-new-user" is subadmin of group "new-group2"
+		And user "user1" exists
+		And user "user1" belongs to group "new-group"
+		And user "user1" belongs to group "new-group2"
+		And user "user1" belongs to group "new-group3"
+		And user "user2" exists
+		And user "user2" belongs to group "new-group"
+		And user "user2" belongs to group "new-group2"
+		And user "user3" exists
+		And user "user3" belongs to group "new-group2"
+		And user "user3" belongs to group "new-group3"
+		And user "user4" exists
+		And user "user4" belongs to group "new-group"
+		And user "user4" belongs to group "new-group3"
+		And user "user5" exists
+		And user "user5" belongs to group "new-group3"
+		And user "user6" exists
+		And As an "brand-new-user"
+		When sending "GET" to "/cloud/users"
+		Then users returned are
+			| brand-new-user |
+			| user1          |
+			| user2          |
+			| user3          |
+			| user4          |
+		And the OCS status code should be "100"
+		And the HTTP status code should be "200"
+
 	Scenario: removing a user from a group which doesn't exists
 		Given As an "admin"
 		And user "brand-new-user" exists
