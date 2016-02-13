@@ -245,7 +245,11 @@
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
 				text = text +  ' ('+t('core', 'group')+')';
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
-				text = text +  ' ('+t('core', 'remote')+')';
+				if (item.value.server) {
+					text = text + ' (' + t('core', 'at') + ' ' + item.value.server + ')';
+				} else {
+					text = text + ' (' + t('core', 'remote') + ')';
+				}
 			}
 			insert.text(text);
 			if(item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
