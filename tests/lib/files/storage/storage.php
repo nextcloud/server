@@ -608,4 +608,10 @@ abstract class Storage extends \Test\TestCase {
 		$stat = $this->instance->stat('foo.txt');
 		$this->assertEquals(6, $stat['size']);
 	}
+
+	public function testPartFile() {
+		$this->instance->file_put_contents('bar.txt.part', 'bar');
+		$this->instance->rename('bar.txt.part', 'bar.txt');
+		$this->assertEquals('bar', $this->instance->file_get_contents('bar.txt'));
+	}
 }

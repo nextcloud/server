@@ -136,7 +136,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			$mount = $this->fileView->getMount($path);
 			$storage = $mount->getStorage();
 			$internalPath = $mount->getInternalPath($absPath);
-			if ($storage) {
+			if ($storage && $storage->file_exists($internalPath)) {
 				/**
 				 * @var \OC\Files\Storage\Storage $storage
 				 */
