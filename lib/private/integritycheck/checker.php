@@ -87,8 +87,6 @@ class Checker {
 	 * @return bool
 	 */
 	public function isCodeCheckEnforced() {
-		// FIXME: Once the signing server is instructed to sign daily, beta and
-		// RCs as well these need to be included also.
 		$signedChannels = [
 			'daily',
 			'testing',
