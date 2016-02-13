@@ -125,6 +125,12 @@
     "in bytes" : "בבתים",
     "Email Field" : "שדה דואר אלקטרוני",
     "Internal Username" : "שם משתמש פנימי",
-    "Internal Username Attribute:" : "מאפיין שם משתמש פנימי:"
+    "Internal Username Attribute:" : "מאפיין שם משתמש פנימי:",
+    "Override UUID detection" : "דריסת זיהוי UUID",
+    "UUID Attribute for Users:" : "מאפייני UUID למשתמשים:",
+    "UUID Attribute for Groups:" : "מאפייני UUID לקבוצות:",
+    "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
+    "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
+    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

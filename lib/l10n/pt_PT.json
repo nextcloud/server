@@ -55,6 +55,7 @@
     "App can't be installed because of not allowed code in the App" : "A aplicação não pode ser instalado devido a código não permitido dentro da aplicação",
     "App can't be installed because it is not compatible with this version of ownCloud" : "A aplicação não pode ser instalada por não ser compatível com esta versão do ownCloud",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "Esta aplicação não pode ser instalada por que contém o tag <shipped>true</shipped> que só é permitido para aplicações nativas",
+    "App can't be installed because the version in info.xml is not the same as the version reported from the app store" : "Esta aplicação não pode ser instalada porque a versão no info.xml não coincide com a reportada na loja de aplicações",
     "Application is not enabled" : "A aplicação não está activada",
     "Authentication error" : "Erro na autenticação",
     "Token expired. Please reload page." : "O token expirou. Por favor recarregue a página.",
