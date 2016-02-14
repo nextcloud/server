@@ -292,11 +292,9 @@ class OC_API {
 			case API::GUEST_AUTH:
 				// Anyone can access
 				return true;
-				break;
 			case API::USER_AUTH:
 				// User required
 				return self::loginUser();
-				break;
 			case API::SUBADMIN_AUTH:
 				// Check for subadmin
 				$user = self::loginUser();
@@ -315,7 +313,6 @@ class OC_API {
 						return false;
 					}
 				}
-				break;
 			case API::ADMIN_AUTH:
 				// Check for admin
 				$user = self::loginUser();
@@ -324,11 +321,9 @@ class OC_API {
 				} else {
 					return OC_User::isAdminUser($user);
 				}
-				break;
 			default:
 				// oops looks like invalid level supplied
 				return false;
-				break;
 		}
 	}
 
