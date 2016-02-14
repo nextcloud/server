@@ -165,6 +165,7 @@
     "Could not unshare" : "Não foi possível descompartilhar",
     "Share details could not be loaded for this item." : "Detalhes de compartilhamento não puderam ser carregados para este item.",
     "An error occured. Please try again" : "Ocorreu um erro. Por favor tente novamente",
+    "at" : "em",
     "Share" : "Compartilhar",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Compartilhar com usuários em outros ownClouds usando a sintaxe username@example.com/owncloud",
     "Share with users or groups …" : "Compartilhar com usuários ou grupos ...",

@@ -140,6 +140,7 @@ OC.L10N.register(
     "delete" : "обриши",
     "access control" : "права приступа",
     "An error occured. Please try again" : "Дошло је до грешке. Покушајте поново",
+    "at" : "на",
     "Share" : "Дели",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поделите са људима у другим облацима користећи синтаксу корисничкоиме@сервер.com/owncloud",
     "Share with users or groups …" : "Дели са корисницима или групама...",

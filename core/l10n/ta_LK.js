@@ -64,6 +64,7 @@ OC.L10N.register(
     "create" : "உருவவாக்கல்",
     "delete" : "நீக்குக",
     "access control" : "கட்டுப்பாடான அணுகல்",
+    "at" : "இல்",
     "Share" : "பகிர்வு",
     "Warning" : "எச்சரிக்கை",
     "Delete" : "நீக்குக",

@@ -150,6 +150,7 @@
     "access control" : "접근 제어",
     "Share details could not be loaded for this item." : "이 항목의 공유 정보를 불러올 수 없습니다.",
     "An error occured. Please try again" : "오류가 발생했습니다. 다시 시도하십시오.",
+    "at" : "에서",
     "Share" : "공유",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "username@example.com/owncloud 형식으로 다른 ownCloud 사용자와 공유할 수 있습니다",
     "Share with users or groups …" : "사용자 및 그룹과 공유...",

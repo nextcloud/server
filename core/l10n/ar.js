@@ -96,6 +96,7 @@ OC.L10N.register(
     "change" : "تغيير",
     "delete" : "حذف",
     "access control" : "ضبط الوصول",
+    "at" : "في",
     "Share" : "شارك",
     "Warning" : "تحذير",
     "Delete" : "إلغاء",

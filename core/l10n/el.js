@@ -152,6 +152,7 @@ OC.L10N.register(
     "access control" : "έλεγχος πρόσβασης",
     "Share details could not be loaded for this item." : "Αδυναμία φόρτωσης λεπτομερειών διαμοιρασμού για αυτό το αντικείμενο.",
     "An error occured. Please try again" : "Ένα σφάλμα προέκυψε. Παρακαλώ προσπαθήστε ξανά",
+    "at" : "στο",
     "Share" : "Διαμοιρασμός",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Διαμοιρασμός με άτομα σε άλλα ownClouds χρησιμοποιώντας την σύνταξη username@example.com/owncloud",
     "Share with users or groups …" : "Διαμοιρασμός με χρήστες ή ομάδες ...",

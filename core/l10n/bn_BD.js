@@ -85,6 +85,7 @@ OC.L10N.register(
     "create" : "তৈরী করুন",
     "delete" : "মুছে ফেল",
     "access control" : "অধিগম্যতা নিয়ন্ত্রণ",
+    "at" : "প্রতি",
     "Share" : "ভাগাভাগি কর",
     "Warning" : "সতর্কবাণী",
     "Delete" : "মুছে",

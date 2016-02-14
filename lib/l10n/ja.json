@@ -58,6 +58,7 @@
     "App can't be installed because of not allowed code in the App" : "アプリで許可されないコードが入っているのが原因でアプリがインストールできません",
     "App can't be installed because it is not compatible with this version of ownCloud" : "アプリは、このバージョンのownCloudと互換性がないためインストールできません。",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "非shippedアプリには許可されない<shipped>true</shipped>タグが含まれているためにアプリをインストールできません。",
+    "App can't be installed because the version in info.xml is not the same as the version reported from the app store" : "info.xmlのバージョンがアプリストアのバージョンと合っていないため、アプリはインストールされません",
     "Application is not enabled" : "アプリケーションは無効です",
     "Authentication error" : "認証エラー",
     "Token expired. Please reload page." : "トークンが無効になりました。ページを再読込してください。",

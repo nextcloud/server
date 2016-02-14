@@ -150,6 +150,7 @@
     "access control" : "erişim kontrolü",
     "Share details could not be loaded for this item." : "Bu öge için paylaşma ayrıntıları yüklenemedi.",
     "An error occured. Please try again" : "Bir hata oluştu. Lütfen yeniden deneyin",
+    "at" : "saat",
     "Share" : "Paylaş",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "kullanıcı@example.com/owncloud şeklinde diğer ownCloud kullanan diğer kullanıcılarla paylaş",
     "Share with users or groups …" : "Kullanıcı ve gruplarla paylaş...",

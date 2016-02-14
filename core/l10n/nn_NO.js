@@ -95,6 +95,7 @@ OC.L10N.register(
     "create" : "lag",
     "delete" : "slett",
     "access control" : "tilgangskontroll",
+    "at" : "på",
     "Share" : "Del",
     "Warning" : "Åtvaring",
     "Delete" : "Slett",

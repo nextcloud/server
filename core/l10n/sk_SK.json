@@ -147,6 +147,7 @@
     "access control" : "prístupové práva",
     "Share details could not be loaded for this item." : "Nebolo možné načítať údaje o zdieľaní tejto položky.",
     "An error occured. Please try again" : "Nastala chyba. Skúste to znovu",
+    "at" : "v",
     "Share" : "Zdieľať",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Zdieľať s ľuďmi na iných serveroch ownClouds pomocou syntaxe používateľ@doména.com/owncloud",
     "Share with users or groups …" : "Zdieľať s používateľmi alebo skupinami ...",

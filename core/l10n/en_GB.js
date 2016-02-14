@@ -129,6 +129,7 @@ OC.L10N.register(
     "delete" : "delete",
     "access control" : "access control",
     "An error occured. Please try again" : "An error occured. Please try again",
+    "at" : "at",
     "Share" : "Share",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Share with people on other ownClouds using the syntax username@example.com/owncloud",
     "Share with users or groups …" : "Share with users or groups …",

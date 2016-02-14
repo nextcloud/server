@@ -53,6 +53,7 @@ OC.L10N.register(
     "Unshare" : "Teilung zurücknehmen",
     "can share" : "Kann teilen",
     "can edit" : "kann bearbeiten",
+    "at" : "um",
     "Share" : "Freigeben",
     "Delete" : "Löschen",
     "Add" : "Hinzufügen",

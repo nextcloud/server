@@ -167,6 +167,7 @@ OC.L10N.register(
     "Could not unshare" : "Impossible d'arrêter de partager",
     "Share details could not be loaded for this item." : "Les informations de partage n'ont pu être chargées pour cet élément.",
     "An error occured. Please try again" : "Une erreur est survenue. Merci de réessayer",
+    "at" : "à",
     "Share" : "Partager",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Partagez avec des personnes sur d'autres ownClouds en utilisant la syntaxe utilisateur@exemple.com/owncloud",
     "Share with users or groups …" : "Partager avec des utilisateurs ou groupes...",

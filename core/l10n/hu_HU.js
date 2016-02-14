@@ -162,6 +162,7 @@ OC.L10N.register(
     "Could not unshare" : "Nem sikerült visszavonni a megosztást",
     "Share details could not be loaded for this item." : "A megosztás részletei nem lehet betölteni ehhez az elemhez.",
     "An error occured. Please try again" : "Hiba történt. Kérjük, próbáld újra!",
+    "at" : ", ",
     "Share" : "Megosztás",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Megosztás más ownCloud szerverekkel, a következő formátum használatával felhasznalo@példa.com/owncloud",
     "Share with users or groups …" : "Megosztás felhasználókkal vagy csoportokkal ...",

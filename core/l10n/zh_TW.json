@@ -164,6 +164,7 @@
     "access control" : "存取控制",
     "Share details could not be loaded for this item." : "無法載入分享細節",
     "An error occured. Please try again" : "發生錯誤，請重試",
+    "at" : "於",
     "Share" : "分享",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "與其他在ownCloud上的人們分享，請使用此格式 username@example.com/owncloud",
     "Share with users or groups …" : "與用戶或群組分享 ...",

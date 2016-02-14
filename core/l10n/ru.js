@@ -167,6 +167,7 @@ OC.L10N.register(
     "Could not unshare" : "Не удается отменить доступ",
     "Share details could not be loaded for this item." : "Не удалось загрузить информацию об общем доступе для этого элемента.",
     "An error occured. Please try again" : "Произошла ошибка. Попробуйте ещё раз",
+    "at" : "в",
     "Share" : "Поделиться",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поделиться с людьми на других серверах ownCloud используя формат username@example.com/owncloud",
     "Share with users or groups …" : "Поделиться с пользователями или группами ...",

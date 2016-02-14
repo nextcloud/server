@@ -122,6 +122,7 @@ OC.L10N.register(
     "change" : "zmiany",
     "delete" : "usuń",
     "access control" : "kontrola dostępu",
+    "at" : "w",
     "Share" : "Udostępnij",
     "Share with users or groups …" : "Współdziel z użytkownikami lub grupami",
     "Warning" : "Ostrzeżenie",

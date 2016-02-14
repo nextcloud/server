@@ -140,6 +140,7 @@
     "delete" : "elimina",
     "access control" : "control d'accés",
     "An error occured. Please try again" : "Va ocórrer un error. Per favor, intenta-ho de nou",
+    "at" : "a",
     "Share" : "Comparteix",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Compartir amb la gent en altres ownClouds utilitzant la sintaxi username@example.com/owncloud",
     "Share with users or groups …" : "Comparteix amb usuaris o grups ...",

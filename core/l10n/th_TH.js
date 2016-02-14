@@ -167,6 +167,7 @@ OC.L10N.register(
     "Could not unshare" : "ไม่สามารถยกเลิกการแชร์ได้",
     "Share details could not be loaded for this item." : "รายละเอียดการแชร์ไม่สามารถโหลดสำหรับรายการนี้",
     "An error occured. Please try again" : "เกิดข้อผิดพลาด กรุณาลองอีกครั้ง",
+    "at" : "ที่",
     "Share" : "แชร์",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "แชร์กับคนใน ownClouds อื่นๆ ที่ใช้ไวยากรณ์ username@example.com/owncloud ",
     "Share with users or groups …" : "แชร์กับผู้ใช้หรือกลุ่ม ...",

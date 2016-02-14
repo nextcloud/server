@@ -125,6 +125,7 @@ OC.L10N.register(
     "change" : "промяна",
     "delete" : "изтриване",
     "access control" : "контрол на достъпа",
+    "at" : "в",
     "Share" : "Споделяне",
     "Warning" : "Предупреждение",
     "Delete" : "Изтриване",

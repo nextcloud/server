@@ -142,6 +142,7 @@ OC.L10N.register(
     "delete" : "видалити",
     "access control" : "контроль доступу",
     "An error occured. Please try again" : "Виникла помилка. Будь ласка, спробуйте ще раз",
+    "at" : "в",
     "Share" : "Поділитися",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поширити серед людей інших ownCloud'ів, використовуючи синтаксис ім'я_користувача@файли.укр/owncloud",
     "Share with users or groups …" : "Поширити серед користувачів або груп ...",

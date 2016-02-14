@@ -51,6 +51,7 @@ OC.L10N.register(
     "group" : "kumpulan",
     "can share" : "boleh berkongsi",
     "can edit" : "boleh mengubah",
+    "at" : "di",
     "Share" : "Kongsi",
     "Warning" : "Amaran",
     "Delete" : "Padam",

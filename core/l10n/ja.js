@@ -167,6 +167,7 @@ OC.L10N.register(
     "Could not unshare" : "共有の解除ができませんでした",
     "Share details could not be loaded for this item." : "共有の詳細はこのアイテムによりロードできませんでした。",
     "An error occured. Please try again" : "エラーが発生しました。もう一度トライしてください。",
+    "at" : "at",
     "Share" : "共有",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "次の形式で指定して他のownCloudのユーザーと、共有",
     "Share with users or groups …" : "ユーザーもしくはグループと共有 ...",
