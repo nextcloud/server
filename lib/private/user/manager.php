@@ -50,7 +50,7 @@ use OCP\IConfig;
  */
 class Manager extends PublicEmitter implements IUserManager {
 	/**
-	 * @var \OCP\UserInterface [] $backends
+	 * @var \OCP\UserInterface[] $backends
 	 */
 	private $backends = array();
 
