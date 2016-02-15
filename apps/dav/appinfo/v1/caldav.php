@@ -62,7 +62,10 @@ $server->setBaseUri($baseuri);
 $server->addPlugin(new MaintenancePlugin());
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
 $server->addPlugin(new \Sabre\CalDAV\Plugin());
-$server->addPlugin(new \Sabre\DAVACL\Plugin());
+
+$acl = new \OCA\DAV\Connector\LegacyDAVACL();
+$server->addPlugin($acl);
+
 $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());
 $server->addPlugin(new ExceptionLoggerPlugin('caldav', \OC::$server->getLogger()));
 
