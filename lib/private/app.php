@@ -771,7 +771,6 @@ class OC_App {
 		//we don't want to show configuration for these
 		$blacklist = \OC::$server->getAppManager()->getAlwaysEnabledApps();
 		$appList = array();
-		$l = \OC::$server->getL10N('core');
 
 		foreach ($installedApps as $app) {
 			if (array_search($app, $blacklist) === false) {
