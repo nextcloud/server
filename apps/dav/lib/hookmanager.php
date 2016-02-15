@@ -20,6 +20,8 @@
  */
 namespace OCA\DAV;
 
+use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\SyncService;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -36,9 +38,20 @@ class HookManager {
 	/** @var IUser[] */
 	private $usersToDelete;
 
-	public function __construct(IUserManager $userManager, SyncService $syncService) {
+	/** @var CalDavBackend */
+	private $calDav;
+
+	/** @var CardDavBackend */
+	private $cardDav;
+
+	public function __construct(IUserManager $userManager,
+								SyncService $syncService,
+								CalDavBackend $calDav,
+								CardDavBackend $cardDav) {
 		$this->userManager = $userManager;
 		$this->syncService = $syncService;
+		$this->calDav = $calDav;
+		$this->cardDav = $cardDav;
 	}
 
 	public function setup() {
@@ -58,6 +71,10 @@ class HookManager {
 			'changeUser',
 			$this,
 			'changeUser');
+		Util::connectHook('OC_User',
+			'post_login',
+			$this,
+			'postLogin');
 	}
 
 	public function postCreateUser($params) {
@@ -79,5 +96,28 @@ class HookManager {
 	public function changeUser($params) {
 		$user = $params['user'];
 		$this->syncService->updateUser($user);
+	}
+
+	public function postLogin($params) {
+		$user = $this->userManager->get($params['uid']);
+
+		$principal = 'principals/users/' . $user->getUID();
+		$calendars = $this->calDav->getCalendarsForUser($principal);
+		if (empty($calendars)) {
+			try {
+				$this->calDav->createCalendar($principal, 'default', []);
+			} catch (\Exception $ex) {
+				\OC::$server->getLogger()->logException($ex);
+			}
+		}
+		$books = $this->cardDav->getAddressBooksForUser($principal);
+		if (empty($books)) {
+			try {
+				$this->cardDav->createAddressBook($principal, 'default', []);
+			} catch (\Exception $ex) {
+				\OC::$server->getLogger()->logException($ex);
+			}
+		}
+
 	}
 }
