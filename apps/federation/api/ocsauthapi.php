@@ -33,7 +33,6 @@ use OCP\BackgroundJob\IJobList;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
-use OCP\Security\StringUtils;
 
 /**
  * Class OCSAuthAPI
@@ -99,7 +98,7 @@ class OCSAuthAPI {
 		$token = $this->request->getParam('token');
 
 		if ($this->trustedServers->isTrustedServer($url) === false) {
-			$this->logger->log(\OCP\Util::ERROR, 'remote server not trusted (' . $url . ') while requesting shared secret', ['app' => 'federation']);
+			$this->logger->error('remote server not trusted (' . $url . ') while requesting shared secret', ['app' => 'federation']);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
@@ -107,9 +106,21 @@ class OCSAuthAPI {
 		// token wins
 		$localToken = $this->dbHandler->getToken($url);
 		if (strcmp($localToken, $token) > 0) {
-			$this->logger->log(\OCP\Util::ERROR, 'remote server (' . $url . ') presented lower token', ['app' => 'federation']);
+			$this->logger->info(
+				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.',
+				['app' => 'federation']
+			);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
+
+		// we ask for the shared secret so we no longer have to ask the other server
+		// to request the shared secret
+		$this->jobList->remove('OCA\Federation\BackgroundJob\RequestSharedSecret',
+			[
+				'url' => $url,
+				'token' => $localToken
+			]
+		);
 
 		$this->jobList->add(
 			'OCA\Federation\BackgroundJob\GetSharedSecret',
@@ -134,12 +145,16 @@ class OCSAuthAPI {
 		$token = $this->request->getParam('token');
 
 		if ($this->trustedServers->isTrustedServer($url) === false) {
-			$this->logger->log(\OCP\Util::ERROR, 'remote server not trusted (' . $url . ') while getting shared secret', ['app' => 'federation']);
+			$this->logger->error('remote server not trusted (' . $url . ') while getting shared secret', ['app' => 'federation']);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
 		if ($this->isValidToken($url, $token) === false) {
-			$this->logger->log(\OCP\Util::ERROR, 'remote server (' . $url . ') didn\'t send a valid token (got ' . $token . ') while getting shared secret', ['app' => 'federation']);
+			$expectedToken = $this->dbHandler->getToken($url);
+			$this->logger->error(
+				'remote server (' . $url . ') didn\'t send a valid token (got "' . $token . '" but expected "'. $expectedToken . '") while getting shared secret',
+				['app' => 'federation']
+			);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
