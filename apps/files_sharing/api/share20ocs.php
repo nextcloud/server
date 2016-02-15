@@ -91,14 +91,14 @@ class Share20OCS {
 			'id' => $share->getId(),
 			'share_type' => $share->getShareType(),
 			'uid_owner' => $share->getSharedBy(),
-			'displayname_owner' => $sharedBy->getDisplayName(),
+			'displayname_owner' => $sharedBy !== null ? $sharedBy->getDisplayName() : $share->getSharedBy(),
 			'permissions' => $share->getPermissions(),
 			'stime' => $share->getShareTime()->getTimestamp(),
 			'parent' => null,
 			'expiration' => null,
 			'token' => null,
 			'uid_file_owner' => $share->getShareOwner(),
-			'displayname_file_owner' => $shareOwner->getDisplayName(),
+			'displayname_file_owner' => $shareOwner !== null ? $shareOwner->getDisplayName() : $share->getShareOwner(),
 		];
 
 		$node = $share->getNode();
@@ -117,8 +117,8 @@ class Share20OCS {
 
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$sharedWith = $this->userManager->get($share->getSharedWith());
-			$result['share_with'] = $sharedWith->getUID();
-			$result['share_with_displayname'] = $sharedWith->getDisplayName();
+			$result['share_with'] = $share->getSharedWith();
+			$result['share_with_displayname'] = $sharedWith !== null ? $sharedWith->getDisplayName() : $share->getSharedWith();
 		} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
 			$result['share_with'] = $share->getSharedWith();
 			$result['share_with_displayname'] = $share->getSharedWith();
