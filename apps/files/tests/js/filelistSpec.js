@@ -86,7 +86,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<table id="filestable">' +
 			'<thead><tr>' +
 			'<th id="headerName" class="hidden column-name">' +
-			'<input type="checkbox" id="select_all_files" class="select-all">' +
+			'<input type="checkbox" id="select_all_files" class="select-all checkbox">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'<span id="selectedActionsList" class="selectedActions hidden">' +
 			'<a href class="download"><img src="actions/download.svg">Download</a>' +
@@ -1969,14 +1969,35 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.hasClass('highlighted')).toEqual(true);
 			expect(fileList._detailsView.getFileInfo().id).toEqual(1);
 		});
-		it('keeps the last highlighted file when unselecting file using checkbox', function() {
+		it('removes last highlighted file when selecting via checkbox', function() {
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('input:checkbox').click();
-			expect($tr.hasClass('highlighted')).toEqual(true);
-			$tr.find('input:checkbox').click();
 
-			expect($tr.hasClass('highlighted')).toEqual(true);
-			expect(fileList._detailsView.getFileInfo().id).toEqual(1);
+			// select
+			$tr.find('td.filename>a.name').click();
+			$tr.find('input:checkbox').click();
+			expect($tr.hasClass('highlighted')).toEqual(false);
+
+			// deselect
+			$tr.find('td.filename>a.name').click();
+			$tr.find('input:checkbox').click();
+			expect($tr.hasClass('highlighted')).toEqual(false);
+
+			expect(fileList._detailsView.getFileInfo()).toEqual(null);
+		});
+		it('removes last highlighted file when selecting all files via checkbox', function() {
+			var $tr = fileList.findFileEl('One.txt');
+
+			// select
+			$tr.find('td.filename>a.name').click();
+			fileList.$el.find('.select-all.checkbox').click();
+			expect($tr.hasClass('highlighted')).toEqual(false);
+
+			// deselect
+			$tr.find('td.filename>a.name').click();
+			fileList.$el.find('.select-all.checkbox').click();
+			expect($tr.hasClass('highlighted')).toEqual(false);
+
+			expect(fileList._detailsView.getFileInfo()).toEqual(null);
 		});
 		it('closes sidebar whenever the currently highlighted file was removed from the list', function() {
 			var $tr = fileList.findFileEl('One.txt');
