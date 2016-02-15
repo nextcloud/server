@@ -243,12 +243,19 @@
 			var insert = $("<a>");
 			var text = item.label;
 			if (item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
-				text = text +  ' ('+t('core', 'group')+')';
+				text = t('core', '{sharee} (group)', {
+					sharee: text
+				});
 			} else if (item.value.shareType === OC.Share.SHARE_TYPE_REMOTE) {
 				if (item.value.server) {
-					text = text + ' (' + t('core', 'at') + ' ' + item.value.server + ')';
+					text = t('core', '{sharee} (at {server})', {
+						sharee: text,
+						server: item.value.server
+					});
 				} else {
-					text = text + ' (' + t('core', 'remote') + ')';
+					text = t('core', '{sharee} (remote)', {
+						sharee: text
+					});
 				}
 			}
 			insert.text(text);
