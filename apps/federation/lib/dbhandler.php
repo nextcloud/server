@@ -156,6 +156,7 @@ class DbHandler {
 	 *
 	 * @param string $url
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function getToken($url) {
 		$hash = $this->hash($url);
@@ -165,6 +166,11 @@ class DbHandler {
 			->setParameter('url_hash', $hash);
 
 		$result = $query->execute()->fetch();
+
+		if (!isset($result['token'])) {
+			throw new \Exception('No token found for: ' . $url);
+		}
+
 		return $result['token'];
 	}
 
