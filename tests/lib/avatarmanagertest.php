@@ -19,30 +19,32 @@
  *
  */
 use OC\AvatarManager;
-use OCP\Files\IRootFolder;
-use OCP\IUserManager;
+use Test\Traits\UserTrait;
+use Test\Traits\MountProviderTrait;
 
+/**
+ * Class AvatarManagerTest
+ * @group DB
+ */
 class AvatarManagerTest extends \Test\TestCase {
-	/** @var  IRootFolder */
-	private $rootFolder;
+	use UserTrait;
+	use MountProviderTrait;
 
-	/** @var  AvatarManager */
+	/** @var AvatarManager */
 	private $avatarManager;
 
-	/** @var  IUserManager */
-	private $userManager;
+	/** @var \OC\Files\Storage\Temporary */
+	private $storage;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->rootFolder = $this->getMock('\OCP\Files\IRootFolder');
-		$this->userManager = $this->getMock('\OCP\IUserManager');
-		$l = $this->getMock('\OCP\IL10N');
-		$l->method('t')->will($this->returnArgument(0));
-		$this->avatarManager = new \OC\AvatarManager(
-				$this->userManager,
-				$this->rootFolder,
-				$l);;
+		$this->createUser('valid-user', 'valid-user');
+
+		$this->storage = new \OC\Files\Storage\Temporary();
+		$this->registerMount('valid-user', $this->storage, '/valid-user/');
+
+		$this->avatarManager = \OC::$server->getAvatarManager();
 	}
 
 	/**
@@ -54,23 +56,10 @@ class AvatarManagerTest extends \Test\TestCase {
 	}
 
 	public function testGetAvatarValidUser() {
-		$this->userManager->expects($this->once())
-			->method('get')
-			->with('validUser')
-			->willReturn(true);
+		$avatar = $this->avatarManager->getAvatar('valid-user');
 
-		$folder = $this->getMock('\OCP\Files\Folder');
-		$this->rootFolder->expects($this->once())
-			->method('getUserFolder')
-			->with('validUser')
-			->willReturn($folder);
-
-		$folder->expects($this->once())
-			->method('getParent')
-			->will($this->returnSelf());
-
-		$this->avatarManager->getAvatar('validUser');
-
+		$this->assertInstanceOf('\OCP\IAvatar', $avatar);
+		$this->assertFalse($this->storage->file_exists('files'));
 	}
 
 }
