@@ -11,7 +11,7 @@
 (function(OC) {
 
 	function filterFunction(model, term) {
-		return model.get('name').substr(0, term.length) === term;
+		return model.get('name').substr(0, term.length).toLowerCase() === term.toLowerCase();
 	}
 
 	/**
