@@ -30,6 +30,7 @@
 namespace OC\DB;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\SchemaConfig;
 use OCP\IConfig;
 
 class MDB2SchemaReader {
@@ -48,6 +49,9 @@ class MDB2SchemaReader {
 	 */
 	protected $platform;
 
+	/** @var \Doctrine\DBAL\Schema\SchemaConfig $schemaConfig */
+	protected $schemaConfig;
+
 	/**
 	 * @param \OCP\IConfig $config
 	 * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
@@ -56,6 +60,12 @@ class MDB2SchemaReader {
 		$this->platform = $platform;
 		$this->DBNAME = $config->getSystemValue('dbname', 'owncloud');
 		$this->DBTABLEPREFIX = $config->getSystemValue('dbtableprefix', 'oc_');
+
+		// Oracle does not support longer index names then 30 characters.
+		// We use this limit for all DBs to make sure it does not cause a
+		// problem.
+		$this->schemaConfig = new SchemaConfig();
+		$this->schemaConfig->setMaxIdentifierLength(30);
 	}
 
 	/**
@@ -107,6 +117,7 @@ class MDB2SchemaReader {
 					$name = $this->platform->quoteIdentifier($name);
 					$table = $schema->createTable($name);
 					$table->addOption('collate', 'utf8_bin');
+					$table->setSchemaConfig($this->schemaConfig);
 					break;
 				case 'create':
 				case 'overwrite':
