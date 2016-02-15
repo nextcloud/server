@@ -121,7 +121,7 @@ class CommentsPlugin extends ServerPlugin {
 		// having their own comments marked as unread
 		$node->setReadMarker(null);
 
-		$url = $request->getUrl() . '/' . urlencode($comment->getId());
+		$url = rtrim($request->getUrl(), '/') . '/' . urlencode($comment->getId());
 
 		$response->setHeader('Content-Location', $url);
 
