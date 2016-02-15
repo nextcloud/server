@@ -108,6 +108,7 @@
     "Sharing %s failed, because resharing is not allowed" : "%s paylaşımı, tekrar paylaşımın izin verilmemesinden dolayı başarısız oldu",
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "%s paylaşımı, %s için arka ucun kaynağını bulamamasından dolayı başarısız oldu",
     "Sharing %s failed, because the file could not be found in the file cache" : "%s paylaşımı, dosyanın dosya önbelleğinde bulunamamasınndan dolayı başarısız oldu",
+    "Expiration date is in the past" : "Son kullanma tarihi geçmişte",
     "Could not find category \"%s\"" : "\"%s\" kategorisi bulunamadı",
     "Apps" : "Uygulamalar",
     "A valid username must be provided" : "Geçerli bir kullanıcı adı mutlaka sağlanmalı",

@@ -166,6 +166,7 @@ OC.L10N.register(
     "access control" : "Pääsyn hallinta",
     "Could not unshare" : "Jakamisen lopettaminen epäonnistui",
     "Share details could not be loaded for this item." : "Tämän kohteen jakamistietoja ei voitu ladata.",
+    "No users or groups found for {search}" : "Haulla {search} ei löytynyt käyttäjiä tai ryhmiä",
     "An error occured. Please try again" : "Tapahtui virhe. Yritä myöhemmin uudestaan",
     "at" : " ",
     "Share" : "Jaa",

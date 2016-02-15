@@ -166,6 +166,7 @@ OC.L10N.register(
     "access control" : "בקרת גישה",
     "Could not unshare" : "לא ניתן לבטל שיתוף",
     "Share details could not be loaded for this item." : "לא ניתן היה לטעון מידע שיתוף לפריט זה",
+    "No users or groups found for {search}" : "לא אותרו משתמשים או קבוצות עבור {search}",
     "An error occured. Please try again" : "אירעה שגיאה. יש לנסות בבקשה שוב",
     "at" : "בשנה",
     "Share" : "שתף",

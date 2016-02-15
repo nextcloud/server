@@ -43,6 +43,7 @@
     "Couldn't get the list of external mount points: {type}" : "Nelze obdržet seznam vzdálených přípojných bodů: {type}",
     "There was an error with message: " : "Došlo k chybě s tímto hlášením:",
     "External mount error" : "Chyba vzdáleného úložiště",
+    "external-storage" : "external-storage",
     "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Nelze obdržet seznam síťových úložišť systému Windows: prázdná odpověď serveru",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Některá z nastavených vzdálených úložišť nejsou připojena. Pro více informací prosím klikněte na červenou šipku(y)",
     "Please enter the credentials for the {mount} mount" : "Zadejte prosím přihlašovací údaje k přípojnému bodu {mount}",
