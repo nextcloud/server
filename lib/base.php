@@ -692,7 +692,7 @@ class OC {
 			);
 
 			$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
-			$tmpl->assign('domain', $request->server['SERVER_NAME']);
+			$tmpl->assign('domain', $host);
 			$tmpl->printPage();
 
 			exit();
