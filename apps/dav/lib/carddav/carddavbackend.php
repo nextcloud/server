@@ -548,7 +548,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	function deleteCard($addressBookId, $cardUri) {
 		try {
-			$cardId = $this->getCardId($cardUri);
+			$cardId = $this->getCardId($addressBookId, $cardUri);
 		} catch (\InvalidArgumentException $e) {
 			$cardId = null;
 		}
@@ -807,15 +807,16 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/**
 	 * return contact with the given URI
 	 *
+	 * @param int $addressBookId
 	 * @param string $uri
 	 * @returns array
 	 */
-	public function getContact($uri) {
+	public function getContact($addressBookId, $uri) {
 		$result = [];
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')->from($this->dbCardsTable)
-				->where($query->expr()->eq('uri', $query->createParameter('uri')))
-				->setParameter('uri', $uri);
+				->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
+				->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
 		$queryResult = $query->execute();
 		$contact = $queryResult->fetch();
 		$queryResult->closeCursor();
@@ -851,7 +852,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @param string $vCardSerialized
 	 */
 	protected function updateProperties($addressBookId, $cardUri, $vCardSerialized) {
-		$cardId = $this->getCardId($cardUri);
+		$cardId = $this->getCardId($addressBookId, $cardUri);
 		$vCard = $this->readCard($vCardSerialized);
 
 		$this->purgeProperties($addressBookId, $cardId);
@@ -913,13 +914,15 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	/**
 	 * get ID from a given contact
 	 *
+	 * @param int $addressBookId
 	 * @param string $uri
 	 * @return int
 	 */
-	protected function getCardId($uri) {
+	protected function getCardId($addressBookId, $uri) {
 		$query = $this->db->getQueryBuilder();
 		$query->select('id')->from($this->dbCardsTable)
-			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)));
+			->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
+			->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
 
 		$result = $query->execute();
 		$cardIds = $result->fetch();

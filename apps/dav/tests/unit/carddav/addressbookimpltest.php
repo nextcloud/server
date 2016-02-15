@@ -261,7 +261,7 @@ class AddressBookImplTest extends TestCase {
 		// simulate that 'uid0' already exists, so the second uid will be returned
 		$this->backend->expects($this->exactly(2))->method('getContact')
 			->willReturnCallback(
-				function($uid) {
+				function($id, $uid) {
 					return ($uid === 'uid0.vcf');
 				}
 			);
