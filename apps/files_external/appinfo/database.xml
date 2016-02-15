@@ -79,13 +79,16 @@
 				<type>text</type>
 				<length>64</length>
 			</field>
+
 			<index>
+				<name>applicable_mount</name>
 				<field>
 					<name>mount_id</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
 			<index>
+				<name>applicable_type_value</name>
 				<field>
 					<name>type</name>
 					<sorting>ascending</sorting>
@@ -96,6 +99,7 @@
 				</field>
 			</index>
 			<index>
+				<name>applicable_type_value_mount</name>
 				<unique>true</unique>
 				<field>
 					<name>type</name>
@@ -112,6 +116,7 @@
 			</index>
 		</declaration>
 	</table>
+
 	<table>
 		<name>*dbprefix*external_config</name>
 		<declaration>
@@ -144,12 +149,14 @@
 			</field>
 
 			<index>
+				<name>config_mount</name>
 				<field>
 					<name>mount_id</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
 			<index>
+				<name>config_mount_key</name>
 				<unique>true</unique>
 				<field>
 					<name>mount_id</name>
@@ -162,6 +169,7 @@
 			</index>
 		</declaration>
 	</table>
+
 	<table>
 		<name>*dbprefix*external_options</name>
 		<declaration>
@@ -194,6 +202,7 @@
 			</field>
 
 			<index>
+				<name>option_mount</name>
 				<field>
 					<name>mount_id</name>
 					<sorting>ascending</sorting>
