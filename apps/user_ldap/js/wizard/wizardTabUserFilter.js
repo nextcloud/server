@@ -26,7 +26,7 @@ OCA = OCA || {};
 					featureName: 'UserObjectClasses'
 				},
 				ldap_user_filter_mode: {
-					setMethod: 'setFilterMode'
+					setMethod: 'setFilterModeOnce'
 				},
 				ldap_userfilter_groups: {
 					$element: $('#ldap_userfilter_groups'),
