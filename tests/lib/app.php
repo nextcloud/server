@@ -287,7 +287,7 @@ class Test_App extends \Test\TestCase {
 	 * Tests that the app order is correct
 	 */
 	public function testGetEnabledAppsIsSorted() {
-		$apps = \OC_App::getEnabledApps(true);
+		$apps = \OC_App::getEnabledApps();
 		// copy array
 		$sortedApps = $apps;
 		sort($sortedApps);
@@ -413,7 +413,7 @@ class Test_App extends \Test\TestCase {
 			)
 			);
 
-		$apps = \OC_App::getEnabledApps(true, $forceAll);
+		$apps = \OC_App::getEnabledApps(false, $forceAll);
 
 		$this->restoreAppConfig();
 		\OC_User::setUserId(null);
@@ -448,11 +448,11 @@ class Test_App extends \Test\TestCase {
 			)
 			);
 
-		$apps = \OC_App::getEnabledApps(true);
+		$apps = \OC_App::getEnabledApps();
 		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing',), $apps);
 
 		// mock should not be called again here
-		$apps = \OC_App::getEnabledApps(false);
+		$apps = \OC_App::getEnabledApps();
 		$this->assertEquals(array('files', 'app3', 'dav', 'federatedfilesharing',), $apps);
 
 		$this->restoreAppConfig();
@@ -501,7 +501,7 @@ class Test_App extends \Test\TestCase {
 		});
 
 		// Remove the cache of the mocked apps list with a forceRefresh
-		\OC_App::getEnabledApps(true);
+		\OC_App::getEnabledApps();
 	}
 
 	/**
