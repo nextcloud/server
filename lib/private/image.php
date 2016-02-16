@@ -254,6 +254,7 @@ class OC_Image implements \OCP\IImage {
 					$imageType = IMAGETYPE_XBM;
 					break;
 				case 'image/bmp':
+				case 'image/x-ms-bmp':
 					$imageType = IMAGETYPE_BMP;
 					break;
 				default:
