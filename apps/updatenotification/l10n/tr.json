@@ -1,0 +1,5 @@
+{ "translations": {
+    "{version} is available. Get more information on how to update." : "Sürüm {version} hazır. Nasıl güncelleyeceğinizle ilgili daha fazla bilgi alın.",
+    "Updater" : "Güncelleyici"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}

@@ -1,0 +1,4 @@
+{ "translations": {
+    "Sharing %s failed, because this item is already shared with %s" : "%s jagamine ebaõnnestus, kuna see üksus on juba jagatud %s"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
