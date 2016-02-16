@@ -66,6 +66,7 @@ class OC_JSON{
 	public static function checkLoggedIn() {
 		if( !OC_User::isLoggedIn()) {
 			$l = \OC::$server->getL10N('lib');
+			http_response_code(\OCP\AppFramework\Http::STATUS_UNAUTHORIZED);
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' )));
 			exit();
 		}
