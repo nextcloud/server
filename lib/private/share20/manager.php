@@ -455,18 +455,16 @@ class Manager implements IManager {
 	 * Check if the user that is sharing can actually share
 	 *
 	 * @param \OCP\Share\IShare $share
-	 * @return bool
+	 * @throws \Exception
 	 */
 	protected function canShare(\OCP\Share\IShare $share) {
 		if (!$this->shareApiEnabled()) {
-			return false;
+			throw new \Exception('The share API is disabled');
 		}
 
 		if ($this->sharingDisabledForUser($share->getSharedBy())) {
-			return false;
+			throw new \Exception('You are not allowed to share');
 		}
-
-		return true;
 	}
 
 	/**
@@ -479,9 +477,7 @@ class Manager implements IManager {
 	 * TODO: handle link share permissions or check them
 	 */
 	public function createShare(\OCP\Share\IShare $share) {
-		if (!$this->canShare($share)) {
-			throw new \Exception('The Share API is disabled');
-		}
+		$this->canShare($share);
 
 		$this->generalCreateChecks($share);
 
@@ -592,9 +588,7 @@ class Manager implements IManager {
 	public function updateShare(\OCP\Share\IShare $share) {
 		$expirationDateUpdated = false;
 
-		if (!$this->canShare($share)) {
-			throw new \Exception('The Share API is disabled');
-		}
+		$this->canShare($share);
 
 		try {
 			$originalShare = $this->getShareById($share->getFullId());
