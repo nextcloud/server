@@ -20,6 +20,7 @@
  */
 namespace OCA\Files_Sharing\API;
 
+use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IRequest;
@@ -83,6 +84,7 @@ class Share20OCS {
 	 *
 	 * @param \OCP\Share\IShare $share
 	 * @return array
+	 * @throws NotFoundException In case the node can't be resolved.
 	 */
 	protected function formatShare(\OCP\Share\IShare $share) {
 		$sharedBy = $this->userManager->get($share->getSharedBy());
@@ -177,11 +179,15 @@ class Share20OCS {
 		}
 
 		if ($this->canAccessShare($share)) {
-			$share = $this->formatShare($share);
-			return new \OC_OCS_Result([$share]);
-		} else {
-			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+			try {
+				$share = $this->formatShare($share);
+				return new \OC_OCS_Result([$share]);
+			} catch (NotFoundException $e) {
+				//Fall trough
+			}
 		}
+
+		return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 	}
 
 	/**
@@ -368,7 +374,11 @@ class Share20OCS {
 		$formatted = [];
 		foreach ($shares as $share) {
 			if ($this->canAccessShare($share)) {
-				$formatted[] = $this->formatShare($share);
+				try {
+					$formatted[] = $this->formatShare($share);
+				} catch (NotFoundException $e) {
+					// Ignore this share
+				}
 			}
 		}
 
@@ -398,7 +408,11 @@ class Share20OCS {
 
 		$formatted = [];
 		foreach ($shares as $share) {
-			$formatted[] = $this->formatShare($share);
+			try {
+				$formatted[] = $this->formatShare($share);
+			} catch (NotFoundException $e) {
+				//Ignore this share
+			}
 		}
 
 		return new \OC_OCS_Result($formatted);
@@ -458,7 +472,11 @@ class Share20OCS {
 
 		$formatted = [];
 		foreach ($shares as $share) {
-			$formatted[] = $this->formatShare($share);
+			try {
+				$formatted[] = $this->formatShare($share);
+			} catch (NotFoundException $e) {
+				//Ignore share
+			}
 		}
 
 		return new \OC_OCS_Result($formatted);

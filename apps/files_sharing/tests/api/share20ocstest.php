@@ -28,6 +28,12 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Files\IRootFolder;
 
+/**
+ * Class Share20OCSTest
+ *
+ * @package OCA\Files_Sharing\Tests\API
+ * @group DB
+ */
 class Share20OCSTest extends \Test\TestCase {
 
 	/** @var \OC\Share20\Manager | \PHPUnit_Framework_MockObject_MockObject */
