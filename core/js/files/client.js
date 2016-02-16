@@ -37,7 +37,10 @@
 		}
 
 		url += options.host + this._root;
-		this._defaultHeaders = options.defaultHeaders || {'X-Requested-With': 'XMLHttpRequest'};
+		this._defaultHeaders = options.defaultHeaders || {
+				'X-Requested-With': 'XMLHttpRequest',
+				'requesttoken': OC.requestToken
+			};
 		this._baseUrl = url;
 
 		var clientOptions = {

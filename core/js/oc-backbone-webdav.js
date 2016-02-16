@@ -240,7 +240,8 @@
 			return options.url;
 		};
 		var headers = _.extend({
-			'X-Requested-With': 'XMLHttpRequest'
+			'X-Requested-With': 'XMLHttpRequest',
+			'requesttoken': OC.requestToken
 		}, options.headers);
 		if (options.type === 'PROPFIND') {
 			return callPropFind(client, options, model, headers);

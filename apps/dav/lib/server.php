@@ -53,7 +53,8 @@ class Server {
 		// Backends
 		$authBackend = new Auth(
 			\OC::$server->getSession(),
-			\OC::$server->getUserSession()
+			\OC::$server->getUserSession(),
+			\OC::$server->getRequest()
 		);
 
 		// Set URL explicitly due to reverse-proxy situations

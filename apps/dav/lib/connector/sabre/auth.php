@@ -30,6 +30,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
@@ -45,17 +46,22 @@ class Auth extends AbstractBasic {
 	private $session;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var IRequest */
+	private $request;
 
 	/**
 	 * @param ISession $session
 	 * @param IUserSession $userSession
+	 * @param IRequest $request
 	 * @param string $principalPrefix
 	 */
 	public function __construct(ISession $session,
 								IUserSession $userSession,
+								IRequest $request,
 								$principalPrefix = 'principals/users/') {
 		$this->session = $session;
 		$this->userSession = $userSession;
+		$this->request = $request;
 		$this->principalPrefix = $principalPrefix;
 	}
 
@@ -107,26 +113,6 @@ class Auth extends AbstractBasic {
 	}
 
 	/**
-	 * Returns information about the currently logged in username.
-	 *
-	 * If nobody is currently logged in, this method should return null.
-	 *
-	 * @return string|null
-	 */
-	public function getCurrentUser() {
-		$user = $this->userSession->getUser() ? $this->userSession->getUser()->getUID() : null;
-		if($user !== null && $this->isDavAuthenticated($user)) {
-			return $user;
-		}
-
-		if($user !== null && is_null($this->session->get(self::DAV_AUTHENTICATED))) {
-			return $user;
-		}
-
-		return null;
-	}
-
-	/**
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
 	 * @return array
@@ -150,8 +136,19 @@ class Auth extends AbstractBasic {
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
 	 * @return array
+	 * @throws NotAuthenticated
 	 */
 	private function auth(RequestInterface $request, ResponseInterface $response) {
+		// If request is not GET and not authenticated via WebDAV a requesttoken is required
+		if($this->userSession->isLoggedIn() &&
+			$this->request->getMethod() !== 'GET' &&
+			!$this->isDavAuthenticated($this->userSession->getUser()->getUID())) {
+			if(!$this->request->passesCSRFCheck()) {
+				$response->setStatus(401);
+				throw new \Sabre\DAV\Exception\NotAuthenticated('CSRF check not passed.');
+			}
+		}
+
 		if (\OC_User::handleApacheAuth() ||
 			//Fix for broken webdav clients
 			($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED))) ||
