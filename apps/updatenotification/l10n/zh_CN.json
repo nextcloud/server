@@ -1,0 +1,5 @@
+{ "translations": {
+    "{version} is available. Get more information on how to update." : "{version} 现在可用。获取更多升级相关信息。",
+    "Updater" : "更新管理器"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

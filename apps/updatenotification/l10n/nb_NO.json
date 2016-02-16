@@ -1,0 +1,5 @@
+{ "translations": {
+    "{version} is available. Get more information on how to update." : "{version} er tilgjengelig. Få mer informasjon om å oppdatere.",
+    "Updater" : "Oppdaterer"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

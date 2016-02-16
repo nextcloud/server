@@ -1,0 +1,5 @@
+{ "translations": {
+    "{version} is available. Get more information on how to update." : "Hi ha disponible la versió {version}. Obtingueu més informació sobre com actualitzar.",
+    "Updater" : "Actualitzador"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
