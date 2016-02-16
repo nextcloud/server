@@ -57,7 +57,9 @@ class Application extends App {
 			/** @var IAppContainer $c */
 			return new HookManager(
 				$c->getServer()->getUserManager(),
-				$c->query('SyncService')
+				$c->query('SyncService'),
+				$c->query('CalDavBackend'),
+				$c->query('CardDavBackend')
 			);
 		});
 
