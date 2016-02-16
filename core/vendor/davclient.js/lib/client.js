@@ -40,18 +40,19 @@ dav.Client.prototype = {
      *
      * @param {string} url Url to do the propfind request on
      * @param {Array} properties List of properties to retrieve.
+     * @param {Object} [headers] headers
      * @return {Promise}
      */
-    propFind : function(url, properties, depth) {
+    propFind : function(url, properties, depth, headers) {
 
         if(typeof depth == "undefined") {
             depth = 0;
         }
 
-        var headers = {
-            Depth          : depth,
-            'Content-Type' : 'application/xml; charset=utf-8'
-        };
+        headers = headers || {};
+
+        headers['Depth'] = depth;
+        headers['Content-Type'] = 'application/xml; charset=utf-8';
 
         var body =
             '<?xml version="1.0"?>\n' +
@@ -103,6 +104,7 @@ dav.Client.prototype = {
      *
      * @param {string} url Url to do the proppatch request on
      * @param {Array} properties List of properties to store.
+     * @param {Object} [headers] headers
      * @return {Promise}
      */
     propPatch : function(url, properties, headers) {
