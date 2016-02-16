@@ -105,8 +105,11 @@ class OCSAuthAPITest extends TestCase {
 		if ($expected === Http::STATUS_OK) {
 			$this->jobList->expects($this->once())->method('add')
 				->with('OCA\Federation\BackgroundJob\GetSharedSecret', ['url' => $url, 'token' => $token]);
+			$this->jobList->expects($this->once())->method('remove')
+				->with('OCA\Federation\BackgroundJob\RequestSharedSecret', ['url' => $url, 'token' => $localToken]);
 		} else {
 			$this->jobList->expects($this->never())->method('add');
+			$this->jobList->expects($this->never())->method('remove');
 		}
 
 		$result = $this->ocsAuthApi->requestSharedSecret();

@@ -150,10 +150,14 @@ class GetSharedSecret extends QueuedJob{
 
 		} catch (ClientException $e) {
 			$status = $e->getCode();
-			$this->logger->logException($e);
+			if ($status === Http::STATUS_FORBIDDEN) {
+				$this->logger->info($target . ' refused to exchange a shared secret with you.', ['app' => 'federation']);
+			} else {
+				$this->logger->logException($e, ['app' => 'federation']);
+			}
 		} catch (\Exception $e) {
 			$status = HTTP::STATUS_INTERNAL_SERVER_ERROR;
-			$this->logger->logException($e);
+			$this->logger->logException($e, ['app' => 'federation']);
 		}
 
 		// if we received a unexpected response we try again later
