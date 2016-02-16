@@ -323,7 +323,7 @@
 			var $shareField = this.$el.find('.shareWithField');
 			if ($shareField.length) {
 				$shareField.autocomplete({
-					minLength: 2,
+					minLength: 1,
 					delay: 750,
 					focus: function(event) {
 						event.preventDefault();
