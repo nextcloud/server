@@ -108,8 +108,6 @@ class Application extends App {
 			// AuthMechanism::SCHEME_PASSWORD mechanisms
 			$container->query('OCA\Files_External\Lib\Auth\Password\Password'),
 			$container->query('OCA\Files_External\Lib\Auth\Password\SessionCredentials'),
-			$container->query('OCA\Files_External\Lib\Auth\Password\LoginCredentials'),
-			$container->query('OCA\Files_External\Lib\Auth\Password\UserProvided'),
 			$container->query('OCA\Files_External\Lib\Auth\Password\GlobalAuth'),
 
 			// AuthMechanism::SCHEME_OAUTH1 mechanisms
