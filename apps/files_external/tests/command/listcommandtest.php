@@ -24,7 +24,7 @@ namespace OCA\Files_External\Tests\Command;
 use OCA\Files_External\Command\ListCommand;
 use OCA\Files_External\Lib\Auth\NullMechanism;
 use OCA\Files_External\Lib\Auth\Password\Password;
-use OCA\Files_External\Lib\Auth\Password\UserProvided;
+use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use OCA\Files_External\Lib\Backend\Local;
 use OCA\Files_external\Lib\StorageConfig;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -48,13 +48,14 @@ class ListCommandTest extends CommandTest {
 
 	public function testListAuthIdentifier() {
 		$l10n = $this->getMock('\OC_L10N', null, [], '', false);
-		$credentialsManager = $this->getMock('\OCP\Security\ICredentialsManager');
+		$session = $this->getMock('\OCP\ISession');
+		$crypto = $this->getMock('\OCP\Security\ICrypto');
 		$instance = $this->getInstance();
 		$mount1 = new StorageConfig();
 		$mount1->setAuthMechanism(new Password($l10n));
 		$mount1->setBackend(new Local($l10n, new NullMechanism($l10n)));
 		$mount2 = new StorageConfig();
-		$mount2->setAuthMechanism(new UserProvided($l10n, $credentialsManager));
+		$mount2->setAuthMechanism(new SessionCredentials($l10n, $session, $crypto));
 		$mount2->setBackend(new Local($l10n, new NullMechanism($l10n)));
 		$input = $this->getInput($instance, [], [
 			'output' => 'json'
