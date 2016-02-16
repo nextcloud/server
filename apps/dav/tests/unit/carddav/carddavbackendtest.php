@@ -44,7 +44,7 @@ class CardDavBackendTest extends TestCase {
 	/** @var CardDavBackend */
 	private $backend;
 
-	/** @var  Principal | \PHPUnit_Framework_MockObject_MockObject */
+	/** @var Principal | \PHPUnit_Framework_MockObject_MockObject */
 	private $principal;
 
 	/** @var  IDBConnection */
@@ -268,7 +268,7 @@ class CardDavBackendTest extends TestCase {
 		// create a new address book
 		$this->backend->expects($this->once())
 			->method('getCardId')
-			->with($uri)
+			->with($bookId, $uri)
 			->willThrowException(new \InvalidArgumentException());
 		$this->backend->expects($this->exactly(2))
 			->method('addChange')
@@ -445,14 +445,14 @@ class CardDavBackendTest extends TestCase {
 		$id = $query->getLastInsertId();
 
 		$this->assertSame($id,
-			$this->invokePrivate($this->backend, 'getCardId', ['uri']));
+			$this->invokePrivate($this->backend, 'getCardId', [1, 'uri']));
 	}
 
 	/**
 	 * @expectedException InvalidArgumentException
 	 */
 	public function testGetCardIdFailed() {
-		$this->invokePrivate($this->backend, 'getCardId', ['uri']);
+		$this->invokePrivate($this->backend, 'getCardId', [1, 'uri']);
 	}
 
 	/**
@@ -596,7 +596,7 @@ class CardDavBackendTest extends TestCase {
 			$query->execute();
 		}
 
-		$result = $this->backend->getContact('uri0');
+		$result = $this->backend->getContact(0, 'uri0');
 		$this->assertSame(7, count($result));
 		$this->assertSame(0, (int)$result['addressbookid']);
 		$this->assertSame('uri0', $result['uri']);
@@ -606,7 +606,7 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testGetContactFail() {
-		$this->assertEmpty($this->backend->getContact('uri'));
+		$this->assertEmpty($this->backend->getContact(0, 'uri'));
 	}
 
 	public function testCollectCardProperties() {
