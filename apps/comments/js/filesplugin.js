@@ -29,9 +29,9 @@
 	 * @namespace
 	 */
 	OCA.Comments.FilesPlugin = {
-		allowedLists: [
-			'files',
-			'favorites'
+		ignoreLists: [
+			'files_trashbin',
+			'files.public'
 		],
 
 		_formatCommentCount: function(count) {
@@ -47,7 +47,7 @@
 
 		attach: function(fileList) {
 			var self = this;
-			if (this.allowedLists.indexOf(fileList.id) < 0) {
+			if (this.ignoreLists.indexOf(fileList.id) >= 0) {
 				return;
 			}
 
