@@ -990,6 +990,43 @@ describe('OC.Share.ShareDialogView', function() {
 
 			addShareStub.restore();
 		});
+
+		it('calls addShare after selection and fail to share', function() {
+			dialog.render();
+
+			var shareWith = $('.shareWithField')[0];
+			var $shareWith = $(shareWith);
+			var addShareStub = sinon.stub(shareModel, 'addShare');
+			var autocompleteOptions = autocompleteStub.getCall(0).args[0];
+			autocompleteOptions.select(new $.Event('select', {target: shareWith}), {
+				item: {
+					label: 'User Two',
+					value: {
+						shareType: OC.Share.SHARE_TYPE_USER,
+						shareWith: 'user2'
+					}
+				}
+			});
+
+			expect(addShareStub.calledOnce).toEqual(true);
+			expect(addShareStub.firstCall.args[0]).toEqual({
+				shareType: OC.Share.SHARE_TYPE_USER,
+				shareWith: 'user2'
+			});
+
+			//Input is locked
+			expect($shareWith.val()).toEqual('User Two');
+			expect($shareWith.attr('disabled')).toEqual('disabled');
+
+			//Callback is called
+			addShareStub.firstCall.args[1].error();
+
+			//Input is unlocked
+			expect($shareWith.val()).toEqual('User Two');
+			expect($shareWith.attr('disabled')).toEqual(undefined);
+
+			addShareStub.restore();
+		});
 	});
 	describe('reshare permissions', function() {
 		it('does not show sharing options when sharing not allowed', function() {

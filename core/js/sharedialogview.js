@@ -281,6 +281,12 @@
 					.attr('disabled', false);
 				$loading.addClass('hidden')
 					.removeClass('inlineblock');
+			}, error: function(obj, msg) {
+				OC.Notification.showTemporary(msg);
+				$(e.target).val('')
+					.attr('disabled', false);
+				$loading.addClass('hidden')
+					.removeClass('inlineblock');
 			}});
 		},
 
