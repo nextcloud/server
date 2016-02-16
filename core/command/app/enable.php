@@ -70,10 +70,6 @@ class Enable extends Command {
 		}
 
 		$groups = $input->getOption('groups');
-		if ($this->manager->isInstalled($appId) && empty($groups)) {
-			$output->writeln($appId . ' is already enabled');
-		}
-
 		if (empty($groups)) {
 			\OC_App::enable($appId);
 			$output->writeln($appId . ' enabled');
