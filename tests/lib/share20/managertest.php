@@ -1404,28 +1404,21 @@ class ManagerTest extends \Test\TestCase {
 			->setMethods(['sharingDisabledForUser'])
 			->getMock();
 
-		$manager->method('sharingDisabledForUser')->willReturn($disabledForUser);
+		$manager->method('sharingDisabledForUser')
+			->with('user')
+			->willReturn($disabledForUser);
 
-		$user = $this->getMock('\OCP\IUser');
 		$share = $this->manager->newShare();
 		$share->setSharedBy('user');
 
-		$res = $this->invokePrivate($manager, 'canShare', [$share]);
-		$this->assertEquals($expected, $res);
-	}
+		$exception = false;
+		try {
+			$res = $this->invokePrivate($manager, 'canShare', [$share]);
+		} catch (\Exception $e) {
+			$exception = true;
+		}
 
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage The Share API is disabled
-	 */
-	public function testCreateShareCantShare() {
-		$manager = $this->createManagerMock()
-			->setMethods(['canShare'])
-			->getMock();
-
-		$manager->expects($this->once())->method('canShare')->willReturn(false);
-		$share = $this->manager->newShare();
-		$manager->createShare($share);
+		$this->assertEquals($expected, !$exception);
 	}
 
 	public function testCreateShareUser() {
@@ -1941,20 +1934,6 @@ class ManagerTest extends \Test\TestCase {
 			}));
 
 		$this->assertTrue($this->manager->checkPassword($share, 'password'));
-	}
-
-	/**
-	 * @expectedException Exception
-	 * @expectedExceptionMessage The Share API is disabled
-	 */
-	public function testUpdateShareCantShare() {
-		$manager = $this->createManagerMock()
-			->setMethods(['canShare'])
-			->getMock();
-
-		$manager->expects($this->once())->method('canShare')->willReturn(false);
-		$share = $this->manager->newShare();
-		$manager->updateShare($share);
 	}
 
 	/**
