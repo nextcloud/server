@@ -47,6 +47,8 @@ OC.L10N.register(
     "Shared with group %3$s by %2$s" : "Geteilt mit der Gruppe %3$s von %2$s",
     "Shared via link by %2$s" : "Geteilt durch einen Link von %2$s",
     "Shared via public link" : "Durch einen öffentlichen Link geteilt",
+    "Public link expired" : "öffentlicher Link ist abgelaufen",
+    "Public link of %2$s expired" : "öffentlicher Link von %2$s ist abgelaufen",
     "Shared by %2$s" : "Geteilt von %2$s",
     "Shares" : "Geteiltes",
     "Accept" : "Akzeptieren",

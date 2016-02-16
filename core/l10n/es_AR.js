@@ -99,7 +99,6 @@ OC.L10N.register(
     "create" : "crear",
     "delete" : "borrar",
     "access control" : "control de acceso",
-    "at" : "a las",
     "Share" : "Compartir",
     "Warning" : "Atención",
     "Delete" : "Borrar",

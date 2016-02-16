@@ -166,7 +166,6 @@
     "Share details could not be loaded for this item." : "Detaily sdílení pro tuto položku nelze načíst.",
     "No users or groups found for {search}" : "Nebyli nalezeni žádní členové ani skupiny pro {search}",
     "An error occured. Please try again" : "Nastala chyba. Prosím zkuste to znovu",
-    "at" : "v",
     "Share" : "Sdílet",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Sdílejte s lidmi na ownClouds použitím syntaxe username@example.com/owncloud",
     "Share with users or groups …" : "Sdílet s uživateli nebo skupinami",

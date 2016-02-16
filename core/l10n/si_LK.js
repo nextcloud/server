@@ -59,7 +59,6 @@ OC.L10N.register(
     "create" : "සදන්න",
     "delete" : "මකන්න",
     "access control" : "ප්‍රවේශ පාලනය",
-    "at" : "දි",
     "Share" : "බෙදා හදා ගන්න",
     "Warning" : "අවවාදය",
     "Delete" : "මකා දමන්න",

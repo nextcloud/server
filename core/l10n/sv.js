@@ -120,7 +120,6 @@ OC.L10N.register(
     "delete" : "radera",
     "access control" : "åtkomstkontroll",
     "An error occured. Please try again" : "Ett fel uppstod. Var god försök igen",
-    "at" : "på",
     "Share" : "Dela",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Dela med folk på andra ownClouds med följande syntax username@example.com/owncloud",
     "Share with users or groups …" : "Dela med användare eller grupper ...",

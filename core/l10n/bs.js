@@ -116,7 +116,6 @@ OC.L10N.register(
     "change" : "izmjeni",
     "delete" : "izbriši",
     "access control" : "Kontrola pristupa",
-    "at" : "na",
     "Share" : "Podijeli",
     "Warning" : "Upozorenje",
     "Delete" : "Izbriši",

@@ -71,7 +71,6 @@ OC.L10N.register(
     "create" : "შექმნა",
     "delete" : "წაშლა",
     "access control" : "დაშვების კონტროლი",
-    "at" : "at",
     "Share" : "გაზიარება",
     "Warning" : "გაფრთხილება",
     "Delete" : "წაშლა",

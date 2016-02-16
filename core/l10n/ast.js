@@ -118,7 +118,6 @@ OC.L10N.register(
     "delete" : "desaniciar",
     "access control" : "control d'accesu",
     "An error occured. Please try again" : "Hebo un fallu. Por favor, inténtalo dempués. ",
-    "at" : "a les",
     "Share" : "Compartir",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Compartir con xente d'otros ownClouds usando la sintaxis usuariu@exemplu.com/owncloud",
     "Share with users or groups …" : "Compartir con usuarios o grupos",

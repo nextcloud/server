@@ -168,7 +168,6 @@ OC.L10N.register(
     "Share details could not be loaded for this item." : "Klarte ikke å laste inn detaljer om deling for dette elementet.",
     "No users or groups found for {search}" : "Ingen brukere eller grupper funnet for {search}",
     "An error occured. Please try again" : "Det oppstod en feil. Prøv igjen",
-    "at" : "på",
     "Share" : "Del",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med personer på andre ownCloud-installasjoner med syntaksen brukernavn@example.com/owncloud",
     "Share with users or groups …" : "Del med brukere eller grupper ...",

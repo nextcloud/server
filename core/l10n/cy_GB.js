@@ -69,7 +69,6 @@ OC.L10N.register(
     "create" : "creu",
     "delete" : "dileu",
     "access control" : "rheolaeth mynediad",
-    "at" : "yn",
     "Share" : "Rhannu",
     "Warning" : "Rhybudd",
     "Delete" : "Dileu",

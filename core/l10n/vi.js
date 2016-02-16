@@ -93,7 +93,6 @@ OC.L10N.register(
     "create" : "tạo",
     "delete" : "xóa",
     "access control" : "quản lý truy cập",
-    "at" : "tại",
     "Share" : "Chia sẻ",
     "Warning" : "Cảnh báo",
     "Delete" : "Xóa",

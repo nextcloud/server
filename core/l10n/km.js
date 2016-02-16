@@ -80,7 +80,6 @@ OC.L10N.register(
     "create" : "បង្កើត",
     "delete" : "លុប",
     "access control" : "សិទ្ធិ​បញ្ជា",
-    "at" : "នៅ",
     "Share" : "ចែក​រំលែក",
     "Warning" : "បម្រាម",
     "Delete" : "លុប",

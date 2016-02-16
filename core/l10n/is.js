@@ -145,7 +145,6 @@ OC.L10N.register(
     "access control" : "aðgangsstýring",
     "Share details could not be loaded for this item." : "Ekki tókst að finna sameiginlegar upplýsingar.",
     "An error occured. Please try again" : "Villa kom upp. Vinsamlegast reyndu aftur",
-    "at" : "hjá",
     "Share" : "Deila",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Deila með fólk í öðrum ownClouds með skipuninni username@example.com/owncloud",
     "Share with users or groups …" : "Deila með notendum eða hópum ...",

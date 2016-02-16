@@ -167,7 +167,6 @@ OC.L10N.register(
     "Could not unshare" : "Kon delen niet ongedaan maken",
     "Share details could not be loaded for this item." : "Details van shares voor dit object konden niet worden geladen.",
     "An error occured. Please try again" : "Er trad een fout op. Probeer het opnieuw",
-    "at" : "op",
     "Share" : "Delen",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Delen met mensen op andere ownClouds via de syntax gebruikersnaam@voorbeeld.org/owncloud",
     "Share with users or groups …" : "Delen met gebruikers of groepen ...",

@@ -71,7 +71,6 @@ OC.L10N.register(
     "can share" : "yayımlaya bilərsiniz",
     "can edit" : "dəyişmək olar",
     "delete" : "sil",
-    "at" : "da",
     "Share" : "Yayımla",
     "Warning" : "Xəbərdarlıq",
     "Delete" : "Sil",

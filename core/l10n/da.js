@@ -152,7 +152,6 @@ OC.L10N.register(
     "access control" : "Adgangskontrol",
     "Share details could not be loaded for this item." : "Detaljer for deling kunne ikke indlæses for dette element.",
     "An error occured. Please try again" : "Der skete en fejl. Prøv venligst igen",
-    "at" : "kl.",
     "Share" : "Del",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud",
     "Share with users or groups …" : "Del med brugere eller grupper",

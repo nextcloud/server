@@ -121,7 +121,6 @@ OC.L10N.register(
     "change" : "aldatu",
     "delete" : "ezabatu",
     "access control" : "sarrera kontrola",
-    "at" : "ordua",
     "Share" : "Elkarbanatu",
     "Warning" : "Abisua",
     "Delete" : "Ezabatu",

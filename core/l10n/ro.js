@@ -107,7 +107,6 @@ OC.L10N.register(
     "change" : "modifică",
     "delete" : "ștergere",
     "access control" : "control acces",
-    "at" : "la",
     "Share" : "Partajează",
     "Warning" : "Atenție",
     "Delete" : "Șterge",

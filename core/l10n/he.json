@@ -166,7 +166,6 @@
     "Share details could not be loaded for this item." : "לא ניתן היה לטעון מידע שיתוף לפריט זה",
     "No users or groups found for {search}" : "לא אותרו משתמשים או קבוצות עבור {search}",
     "An error occured. Please try again" : "אירעה שגיאה. יש לנסות בבקשה שוב",
-    "at" : "בשנה",
     "Share" : "שתף",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "ניתן לשתף עם אנשים אחרים המשתמשים ב- ownClouds בעזרת הפורמט הבא username@example.com/owncloud",
     "Share with users or groups …" : "שיתוף עם משתמשים או קבוצות...",

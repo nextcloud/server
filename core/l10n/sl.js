@@ -149,7 +149,6 @@ OC.L10N.register(
     "access control" : "nadzor dostopa",
     "Share details could not be loaded for this item." : "Detajlov souporabe ne morem naložiti za ta element.",
     "An error occured. Please try again" : "Prišlo je do napake. Poskusite znova.",
-    "at" : "pri",
     "Share" : "Souporaba",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Soupraba z ljudmi v drugih ownCloud oblakih v formatu uporabnik@domena.si/owncloud",
     "Share with users or groups …" : "Souporaba z uporabniki ali skupinami ...",

@@ -120,7 +120,6 @@ OC.L10N.register(
     "delete" : "Izbrišite",
     "access control" : "Kontrola pristupa",
     "An error occured. Please try again" : "Dogodila se pogreška. Molimo Vas, pokušajte ponovno. ",
-    "at" : "Na?",
     "Share" : "Podijelite",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Podijelite sa korisnicima drugoga ownClouda koristeći format korisnickoime@primjer.com/owncloud",
     "Share with users or groups …" : "Podijeli sa korisnicima ili grupama ...",

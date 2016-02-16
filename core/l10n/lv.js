@@ -88,7 +88,6 @@ OC.L10N.register(
     "create" : "izveidot",
     "delete" : "dzēst",
     "access control" : "piekļuves vadība",
-    "at" : " plkst.",
     "Share" : "Dalīties",
     "Warning" : "Brīdinājums",
     "Delete" : "Dzēst",

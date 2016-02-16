@@ -51,7 +51,6 @@ OC.L10N.register(
     "group" : "گۇرۇپپا",
     "Unshare" : "ھەمبەھىرلىمە",
     "delete" : "ئۆچۈر",
-    "at" : "دا",
     "Share" : "ھەمبەھىر",
     "Warning" : "ئاگاھلاندۇرۇش",
     "Delete" : "ئۆچۈر",

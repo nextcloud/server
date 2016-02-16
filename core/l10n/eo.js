@@ -88,7 +88,6 @@ OC.L10N.register(
     "create" : "krei",
     "delete" : "forigi",
     "access control" : "alirkontrolo",
-    "at" : "ĉe",
     "Share" : "Kunhavigi",
     "Warning" : "Averto",
     "Delete" : "Forigi",

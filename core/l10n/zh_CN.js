@@ -152,7 +152,6 @@ OC.L10N.register(
     "access control" : "访问控制",
     "Share details could not be loaded for this item." : "无法加载这个项目的分享详情",
     "An error occured. Please try again" : "发生了一个错误请重新尝试",
-    "at" : "在",
     "Share" : "分享",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "使用语法 username@example.com/owncloud 分享给其他 ownCloud 上的用户",
     "Share with users or groups …" : "分享给其他用户或组 ...",

@@ -168,7 +168,6 @@ OC.L10N.register(
     "Share details could not be loaded for this item." : "I dettagli della condivisione non possono essere caricati per questo elemento.",
     "No users or groups found for {search}" : "Nessun utente o gruppo trovato per {search}",
     "An error occured. Please try again" : "Si è verificato un errore. Prova ancora",
-    "at" : "alle",
     "Share" : "Condividi",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Condividi con persone su altri ownCloud utilizzando la sintassi nomeutente@esempio.com/owncloud",
     "Share with users or groups …" : "Condividi con utenti o gruppi...",

@@ -83,7 +83,6 @@ OC.L10N.register(
     "create" : "erstellen",
     "delete" : "läschen",
     "access control" : "Zougrëffskontroll",
-    "at" : "bei",
     "Share" : "Deelen",
     "Warning" : "Warnung",
     "Delete" : "Läschen",

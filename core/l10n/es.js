@@ -167,7 +167,6 @@ OC.L10N.register(
     "Could not unshare" : "No se puede quitar el comparto",
     "Share details could not be loaded for this item." : "No se han podido cargar los detalles de compartición para este elemento.",
     "An error occured. Please try again" : "Un error ocurrió. Por favor reinténtelo nuevamente.",
-    "at" : "a las",
     "Share" : "Compartir",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Comparta con personas en otros ownClouds utilizando la sintáxis username@example.com/owncloud",
     "Share with users or groups …" : "Compartir con usuarios o grupos ...",

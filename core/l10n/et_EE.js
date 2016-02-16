@@ -139,7 +139,6 @@ OC.L10N.register(
     "delete" : "kustuta",
     "access control" : "ligipääsukontroll",
     "An error occured. Please try again" : "Tekkis tõrge. Palun proovi uuesti",
-    "at" : "kell",
     "Share" : "Jaga",
     "Share with users or groups …" : "Jaga kasutajate või gruppidega ...",
     "Share with users, groups or remote users …" : "Jaga kasutajate, gruppide või eemal olevate kasutajatega ...",

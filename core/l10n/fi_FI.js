@@ -168,7 +168,6 @@ OC.L10N.register(
     "Share details could not be loaded for this item." : "Tämän kohteen jakamistietoja ei voitu ladata.",
     "No users or groups found for {search}" : "Haulla {search} ei löytynyt käyttäjiä tai ryhmiä",
     "An error occured. Please try again" : "Tapahtui virhe. Yritä myöhemmin uudestaan",
-    "at" : " ",
     "Share" : "Jaa",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Jaa toisia ownCloud-järjestelmiä käyttävien kesken käyttäen syntaksia käyttäjätunnus@esimerkki.fi/owncloud",
     "Share with users or groups …" : "Jaa käyttäjien tai ryhmien kanssa…",
