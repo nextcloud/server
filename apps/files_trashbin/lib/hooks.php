@@ -40,10 +40,13 @@ class Hooks {
 		if( \OCP\App::isEnabled('files_trashbin') ) {
 			$uid = $params['uid'];
 			Trashbin::deleteUser($uid);
-			}
+		}
 	}
 
 	public static function post_write_hook($params) {
-		Trashbin::resizeTrash(\OCP\User::getUser());
+		$user = \OCP\User::getUser();
+		if (!empty($user)) {
+			Trashbin::resizeTrash($user);
+		}
 	}
 }
