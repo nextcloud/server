@@ -730,7 +730,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 * Returns a view to ownCloud's files folder
 	 *
 	 * @param string $userId user ID
-	 * @return \OCP\Files\Folder
+	 * @return \OCP\Files\Folder|null
 	 */
 	public function getUserFolder($userId = null) {
 		if ($userId === null) {
