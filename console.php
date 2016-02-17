@@ -27,6 +27,7 @@
  */
 
 use OC\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 define('OC_CONSOLE', 1);
@@ -81,7 +82,7 @@ try {
 	}
 
 	$application = new Application(\OC::$server->getConfig(), \OC::$server->getEventDispatcher(), \OC::$server->getRequest());
-	$application->loadCommands(new ConsoleOutput());
+	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
 	$application->run();
 } catch (Exception $ex) {
 	echo "An unhandled exception has been thrown:" . PHP_EOL;
