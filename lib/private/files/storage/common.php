@@ -383,7 +383,13 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @return string|false uid or false
 	 */
 	public function getOwner($path) {
-		return \OC_User::getUser();
+		static $owner;
+
+		if (!isset($owner)) {
+			$owner = \OC_User::getUser();;
+		}
+
+		return $owner;
 	}
 
 	/**
