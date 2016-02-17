@@ -302,6 +302,7 @@ describe('Core base tests', function() {
 			/* jshint camelcase: false */
 			window.oc_config = oldConfig;
 			routeStub.restore();
+			$(document).off('ajaxError');
 		});
 		it('sends heartbeat half the session lifetime when heartbeat enabled', function() {
 			/* jshint camelcase: false */
@@ -473,6 +474,7 @@ describe('Core base tests', function() {
 		});
 		afterEach(function() {
 			clock.restore();
+			$(document).off('ajaxError');
 		});
 		it('Sets up menu toggle', function() {
 			window.initCore();
@@ -841,5 +843,45 @@ describe('Core base tests', function() {
 			// verification is done in afterEach
 		});
 	});
+	describe('global ajax errors', function() {
+		var reloadStub, ajaxErrorStub;
+
+		beforeEach(function() {
+			reloadStub = sinon.stub(OC, 'reload');
+			// unstub the error processing method
+			ajaxErrorStub = OC._processAjaxError;
+			ajaxErrorStub.restore();
+			window.initCore();
+		});
+		afterEach(function() {
+			reloadStub.restore();
+			$(document).off('ajaxError');
+		});
+
+		it('reloads current page in case of auth error', function () {
+			var dataProvider = [
+				[200, false],
+				[400, false],
+				[401, true],
+				[302, true],
+				[307, true]
+			];
+
+			for (var i = 0; i < dataProvider.length; i++) {
+				var xhr = { status: dataProvider[i][0] };
+				var expectedCall = dataProvider[i][1];
+
+				reloadStub.reset();
+
+				$(document).trigger(new $.Event('ajaxError'), xhr);
+
+				if (expectedCall) {
+					expect(reloadStub.calledOnce).toEqual(true);
+				} else {
+					expect(reloadStub.notCalled).toEqual(true);
+				}
+			}
+		});
+	})
 });
 

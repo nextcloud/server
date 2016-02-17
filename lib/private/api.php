@@ -377,9 +377,16 @@ class OC_API {
 	 * @param string $format the format xml|json
 	 */
 	public static function respond($result, $format='xml') {
+		$request = \OC::$server->getRequest();
+
 		// Send 401 headers if unauthorised
 		if($result->getStatusCode() === API::RESPOND_UNAUTHORISED) {
-			header('WWW-Authenticate: Basic realm="Authorisation Required"');
+			// If request comes from JS return dummy auth request
+			if($request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
+				header('WWW-Authenticate: DummyBasic realm="Authorisation Required"');
+			} else {
+				header('WWW-Authenticate: Basic realm="Authorisation Required"');
+			}
 			header('HTTP/1.0 401 Unauthorized');
 		}
 
@@ -389,7 +396,7 @@ class OC_API {
 
 		$meta = $result->getMeta();
 		$data = $result->getData();
-		if (self::isV2(\OC::$server->getRequest())) {
+		if (self::isV2($request)) {
 			$statusCode = self::mapStatusCodes($result->getStatusCode());
 			if (!is_null($statusCode)) {
 				$meta['statuscode'] = $statusCode;

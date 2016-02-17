@@ -2462,13 +2462,6 @@ describe('OCA.Files.FileList tests', function() {
 			getFolderContentsStub.restore();
 			fileList = undefined;
 		});
-		it('redirects to files app in case of auth error', function () {
-			deferredList.reject(401, 'Authentication error');
-
-			expect(redirectStub.calledOnce).toEqual(true);
-			expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files');
-			expect(getFolderContentsStub.calledOnce).toEqual(true);
-		});
 		it('redirects to root folder in case of forbidden access', function () {
 			deferredList.reject(403);
 
