@@ -150,6 +150,9 @@ class Manager extends PublicEmitter implements IGroupManager {
 		return $this->getGroupObject($gid);
 	}
 
+	/**
+	 * @param string $gid
+	 */
 	protected function getGroupObject($gid) {
 		$backends = array();
 		foreach ($this->backends as $backend) {

@@ -188,7 +188,7 @@ class OC_API {
 	/**
 	 * merge the returned result objects into one response
 	 * @param array $responses
-	 * @return array|\OC_OCS_Result
+	 * @return OC_OCS_Result
 	 */
 	public static function mergeResponses($responses) {
 		// Sort into shipped and third-party
@@ -329,7 +329,7 @@ class OC_API {
 
 	/**
 	 * http basic auth
-	 * @return string|false (username, or false on failure)
+	 * @return string (username, or false on failure)
 	 */
 	private static function loginUser() {
 		if(self::$isLoggedIn === true) {
@@ -442,6 +442,7 @@ class OC_API {
 
 	/**
 	 * Based on the requested format the response content type is set
+	 * @param string $format
 	 */
 	public static function setContentType($format = null) {
 		$format = is_null($format) ? self::requestedFormat() : $format;

@@ -36,6 +36,7 @@ interface IControllerMethodReflector {
 	 * @param object $object an object or classname
 	 * @param string $method the method which we want to inspect
 	 * @since 8.0.0
+	 * @return void
 	 */
 	public function reflect($object, $method);
 
