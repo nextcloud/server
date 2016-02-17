@@ -1338,33 +1338,6 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#global_credentials').on('submit', function() {
-		var $form = $(this);
-		var uid = $form.find('[name=uid]').val();
-		var user = $form.find('[name=username]').val();
-		var password = $form.find('[name=password]').val();
-		var $submit = $form.find('[type=submit]');
-		$submit.val(t('files_external', 'Saving...'));
-		$.ajax({
-			type: 'POST',
-			contentType: 'application/json',
-			data: JSON.stringify({
-				uid: uid,
-				user: user,
-				password: password
-			}),
-			url: OC.generateUrl('apps/files_external/globalcredentials'),
-			dataType: 'json',
-			success: function() {
-				$submit.val(t('files_external', 'Saved'));
-				setTimeout(function(){
-					$submit.val(t('files_external', 'Save'));
-				}, 2500);
-			}
-		});
-		return false;
-	});
-
 	// global instance
 	OCA.External.Settings.mountConfig = mountConfigListView;
 

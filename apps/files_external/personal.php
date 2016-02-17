@@ -30,7 +30,6 @@ use \OCA\Files_External\Service\BackendService;
 $appContainer = \OC_Mount_Config::$app->getContainer();
 $backendService = $appContainer->query('OCA\Files_External\Service\BackendService');
 $userStoragesService = $appContainer->query('OCA\Files_external\Service\UserStoragesService');
-$globalAuth = $appContainer->query('OCA\Files_External\Lib\Auth\Password\GlobalAuth');
 
 $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabled());
@@ -39,7 +38,4 @@ $tmpl->assign('storages', $userStoragesService->getStorages());
 $tmpl->assign('dependencies', OC_Mount_Config::dependencyMessage($backendService->getBackends()));
 $tmpl->assign('backends', $backendService->getAvailableBackends());
 $tmpl->assign('authMechanisms', $backendService->getAuthMechanisms());
-$uid = \OC::$server->getUserSession()->getUser()->getUID();
-$tmpl->assign('globalCredentials', $globalAuth->getAuth($uid));
-$tmpl->assign('globalCredentialsUid', $uid);
 return $tmpl->fetchPage();
