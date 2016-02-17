@@ -394,7 +394,6 @@
 				properties = options.properties;
 			}
 
-			// TODO: headers
 			this._client.propFind(
 				this._buildUrl(path),
 				properties,
@@ -441,7 +440,6 @@
 				throw 'Missing filter argument';
 			}
 
-			var headers = _.extend({}, this._defaultHeaders);
 			// root element with namespaces
             var body = '<oc:filter-files ';
 			var namespace;
@@ -472,7 +470,7 @@
 			this._client.request(
 				'REPORT',
 				this._buildUrl(),
-				headers,
+				{},
 				body
 			).then(function(result) {
 				if (self._isSuccessStatus(result.status)) {
@@ -542,8 +540,7 @@
 
 			this._client.request(
 				'GET',
-				this._buildUrl(path),
-				this._defaultHeaders
+				this._buildUrl(path)
 			).then(
 				function(result) {
 					if (self._isSuccessStatus(result.status)) {
@@ -575,7 +572,7 @@
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
 			options = options || {};
-			var headers = _.extend({}, this._defaultHeaders);
+			var headers = {};
 			var contentType = 'text/plain;charset=utf-8';
 			if (options.contentType) {
 				contentType = options.contentType;
@@ -616,8 +613,7 @@
 
 			this._client.request(
 				method,
-				this._buildUrl(path),
-				this._defaultHeaders
+				this._buildUrl(path)
 			).then(
 				function(result) {
 					if (self._isSuccessStatus(result.status)) {
@@ -673,10 +669,9 @@
 			var self = this;
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
-			var headers =
-				_.extend({
-					'Destination' : this._buildUrl(destinationPath)
-				}, this._defaultHeaders);
+			var headers = {
+				'Destination' : this._buildUrl(destinationPath)
+			};
 
 			if (!allowOverwrite) {
 				headers['Overwrite'] = 'F';
