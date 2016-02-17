@@ -329,7 +329,7 @@ class OC_API {
 
 	/**
 	 * http basic auth
-	 * @return string (username, or false on failure)
+	 * @return string|false (username, or false on failure)
 	 */
 	private static function loginUser() {
 		if(self::$isLoggedIn === true) {
