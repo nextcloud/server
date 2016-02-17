@@ -1,0 +1,6 @@
+{ "translations": {
+    "Cancel" : "Отказ",
+    "Save" : "Запазване",
+    "Comment" : "Коментар"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

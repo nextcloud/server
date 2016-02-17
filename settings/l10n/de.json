@@ -157,6 +157,7 @@
     "Enable server-side encryption" : "Serverseitige Verschlüsselung aktivieren",
     "Please read carefully before activating server-side encryption: " : "Bitte sorgfältig lesen, bevor die serverseitige Verschlüsselung aktiviert wird:",
     "Be aware that encryption always increases the file size." : "Sei dir bewusst, dass die Verschlüsselung immer die Dateigröße erhöht.",
+    "It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data." : "Es ist immer gut, regelmäßig Sicherungskopien von deinen Daten zu machen. Falls du die Verschlüsselung nutzt, solltest du auch eine Sicherung der Verschlüsselungsschlüssel zusammen mit deinen Daten machen .",
     "This is the final warning: Do you really want to enable encryption?" : "Dies ist die letzte Warnung: Verschlüsselung wirklich aktivieren?",
     "Enable encryption" : "Verschlüsselung aktivieren",
     "No encryption module loaded, please enable an encryption module in the app menu." : "Kein Verschlüsselungs-Modul geladen, bitte aktiviere ein Verschlüsselungs-Modul im Anwendungs-Menü.",

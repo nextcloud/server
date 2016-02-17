@@ -1,0 +1,9 @@
+{ "translations": {
+    "Tags" : "タグ",
+    "No files in here" : "ファイルがありません",
+    "No entries found in this folder" : "このフォルダーにはエントリーがありません",
+    "Name" : "名前",
+    "Size" : "サイズ",
+    "Modified" : "更新日時"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

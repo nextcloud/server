@@ -1,0 +1,9 @@
+{ "translations": {
+    "Tags" : "Ετικέτες",
+    "No files in here" : "Δεν υπάρχουν αρχεία",
+    "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
+    "Name" : "Όνομα",
+    "Size" : "Μέγεθος",
+    "Modified" : "Τροποποιήθηκε"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

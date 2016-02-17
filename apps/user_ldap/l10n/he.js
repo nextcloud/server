@@ -114,6 +114,7 @@ OC.L10N.register(
     "in seconds. A change empties the cache." : "בשניות. שינוי מרוקן את המטמון.",
     "Directory Settings" : "הגדרות תיקייה",
     "User Display Name Field" : "שדה שם תצוגה למשתמש",
+    "2nd User Display Name Field" : "שדה שני לשם תצוגת משתמש",
     "Base User Tree" : "עץ משתמש בסיסי",
     "User Search Attributes" : "מאפייני חיפוש משתמש",
     "Optional; one attribute per line" : "אופציונאלי; מאפיין אחד בשורה",

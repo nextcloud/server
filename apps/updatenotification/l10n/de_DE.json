@@ -1,5 +1,6 @@
 { "translations": {
     "{version} is available. Get more information on how to update." : "{version} ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein.",
-    "Updater" : "Updater"
+    "Updater" : "Updater",
+    "Open updater" : "Updater öffnen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

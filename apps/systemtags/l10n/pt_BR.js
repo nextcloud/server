@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "systemtags",
+    {
+    "<strong>System tags</strong> for a file have been modified" : "<strong>As etiquetas do sistema</strong> para um arquivo foram modificadas",
+    "%1$s assigned system tag %3$s" : "%1$s etiqueta de sistema atribuída %3$s",
+    "%1$s unassigned system tag %3$s" : "%1$s etiqueta de sistema não atribuída %3$s",
+    "%1$s created system tag %2$s" : "%1$s etiqueta de sistema criada %2$s",
+    "%1$s deleted system tag %2$s" : "%1$s etiqueta de sistema excluída %2$s",
+    "%1$s updated system tag %3$s to %2$s" : "%1$s etiqueta de sistema atualizada %3$s para %2$s",
+    "%1$s assigned system tag %3$s to %2$s" : "%1$s etiqueta de sistema atribuída %3$s para %2$s",
+    "%1$s unassigned system tag %3$s from %2$s" : "%1$s etiqueta de sistema não atribuída %3$s de %2$s",
+    "%s (not-assignable)" : "%s (intransferível)",
+    "%s (invisible)" : "%s (invisivel)",
+    "Tags" : "Etiquetas",
+    "Tagged files" : "Arquivos etiquetados",
+    "Select tags to filter by" : "Selecionar etiquetas para filtrar por",
+    "Please select tags to filter by" : "Por favor selecione etiquetas para filtrar por",
+    "No files found for the selected tags" : "Não há arquivos encontrados para as etiquetas selecionadas",
+    "No files in here" : "Nenhum arquivo aqui",
+    "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
+    "Name" : "Nome",
+    "Size" : "Tamanho",
+    "Modified" : "Modificado"
+},
+"nplurals=2; plural=(n > 1);");

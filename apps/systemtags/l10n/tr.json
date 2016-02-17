@@ -1,0 +1,9 @@
+{ "translations": {
+    "Tags" : "Etiketler",
+    "No files in here" : "Burada hiç dosya yok",
+    "No entries found in this folder" : "Bu klasörde hiçbir girdi bulunamadı",
+    "Name" : "Ad",
+    "Size" : "Boyut",
+    "Modified" : "Değiştirilme"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}

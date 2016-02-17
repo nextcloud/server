@@ -1,0 +1,10 @@
+{ "translations": {
+    "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien",
+    "Comments" : "Kommentare",
+    "Delete comment" : "Kommentar löschen",
+    "Cancel" : "Abbrechen",
+    "[Deleted user]" : "[Gelöschter Benutzer]",
+    "Save" : "Speichern",
+    "Comment" : "Kommentar"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
