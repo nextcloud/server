@@ -283,8 +283,8 @@
 					.removeClass('inlineblock');
 			}, error: function(obj, msg) {
 				OC.Notification.showTemporary(msg);
-				$(e.target).val('')
-					.attr('disabled', false);
+				$(e.target).attr('disabled', false)
+					.autocomplete('search', $(e.target).val());
 				$loading.addClass('hidden')
 					.removeClass('inlineblock');
 			}});
