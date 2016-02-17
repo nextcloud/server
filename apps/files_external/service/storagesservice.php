@@ -104,6 +104,13 @@ abstract class StoragesService {
 				\OCP\Util::ERROR
 			);
 			return null;
+		} catch (\InvalidArgumentException $e) {
+			\OCP\Util::writeLog(
+				'files_external',
+				'Could not load storage: "' . $e->getMessage() . '"',
+				\OCP\Util::ERROR
+			);
+			return null;
 		}
 	}
 
