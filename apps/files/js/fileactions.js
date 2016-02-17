@@ -11,8 +11,13 @@
 (function() {
 
 	var TEMPLATE_FILE_ACTION_TRIGGER =
-		'<a class="action action-{{nameLowerCase}}" href="#" data-action="{{name}}">' +
-		'{{#if icon}}<img class="svg" alt="{{altText}}" src="{{icon}}" />{{/if}}' +
+		'<a class="action action-{{nameLowerCase}} href="#" data-action="{{name}}">' +
+		'{{#if icon}}' +
+			'<img class="svg" alt="{{altText}}" src="{{icon}}" />' +
+		'{{else}}' +
+			'{{#if iconClass}}<span class="icon {{iconClass}}" />{{/if}}' +
+			'{{#unless hasDisplayName}}<span class="hidden-visually">{{altText}}</span>{{/unless}}' +
+		'{{/if}}' +
 		'{{#if displayName}}<span> {{displayName}}</span>{{/if}}' +
 		'</a>';
 
@@ -143,6 +148,7 @@
 				mime: mime,
 				order: action.order || 0,
 				icon: action.icon,
+				iconClass: action.iconClass,
 				permissions: action.permissions,
 				type: action.type || FileActions.TYPE_DROPDOWN,
 				altText: action.altText || ''
@@ -299,10 +305,15 @@
 					nameLowerCase: actionSpec.name.toLowerCase(),
 					displayName: actionSpec.displayName,
 					icon: actionSpec.icon,
+					iconClass: actionSpec.iconClass,
 					altText: actionSpec.altText,
+					hasDisplayName: !!actionSpec.displayName
 				};
 				if (_.isFunction(actionSpec.icon)) {
-					params.icon = actionSpec.icon(context.$file.attr('data-file'));
+					params.icon = actionSpec.icon(context.$file.attr('data-file'), context);
+				}
+				if (_.isFunction(actionSpec.iconClass)) {
+					params.iconClass = actionSpec.iconClass(context.$file.attr('data-file'), context);
 				}
 
 				var $actionLink = this._makeActionLink(params, context);
@@ -363,7 +374,7 @@
 			var $el = this._renderInlineAction({
 				name: 'menu',
 				displayName: '',
-				icon: OC.imagePath('core', 'actions/more'),
+				iconClass: 'icon-more',
 				altText: t('files', 'Actions'),
 				action: this._showMenuClosure
 			}, false, context);
@@ -570,9 +581,7 @@
 				order: -20,
 				mime: 'all',
 				permissions: OC.PERMISSION_READ,
-				icon: function () {
-					return OC.imagePath('core', 'actions/download');
-				},
+				iconClass: 'icon-download',
 				actionHandler: function (filename, context) {
 					var dir = context.dir || context.fileList.getCurrentDirectory();
 					var isDir = context.$file.attr('data-type') === 'dir';
@@ -602,9 +611,7 @@
 				mime: 'all',
 				order: -30,
 				permissions: OC.PERMISSION_UPDATE,
-				icon: function() {
-					return OC.imagePath('core', 'actions/rename');
-				},
+				iconClass: 'icon-rename',
 				actionHandler: function (filename, context) {
 					context.fileList.rename(filename);
 				}
@@ -631,9 +638,7 @@
 				order: 1000,
 				// permission is READ because we show a hint instead if there is no permission
 				permissions: OC.PERMISSION_DELETE,
-				icon: function() {
-					return OC.imagePath('core', 'actions/delete');
-				},
+				iconClass: 'icon-delete',
 				actionHandler: function(fileName, context) {
 					// if there is no permission to delete do nothing
 					if((context.$file.data('permissions') & OC.PERMISSION_DELETE) === 0) {
@@ -682,8 +687,8 @@
 	 * Defaults to the name given in name property
 	 * @property {String} mime mime type
 	 * @property {int} permissions permissions
-	 * @property {(Function|String)} icon icon path to the icon or function
-	 * that returns it
+	 * @property {(Function|String)} icon icon path to the icon or function that returns it (deprecated, use iconClass instead)
+	 * @property {(Function|String)} iconClass class name of the icon (recommended for theming)
 	 * @property {OCA.Files.FileActions~renderActionFunction} [render] optional rendering function
 	 * @property {OCA.Files.FileActions~actionHandler} actionHandler action handler function
 	 */

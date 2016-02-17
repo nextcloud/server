@@ -153,7 +153,7 @@ describe('OCA.Files.FileActions tests', function() {
 			expect($tr.find('.action.action-match').length).toEqual(1);
 			expect($tr.find('.action.action-nomatch').length).toEqual(0);
 		});
-		it('display inline icon', function() {
+		it('display inline icon with image path', function() {
 			fileActions.registerAction({
 				name: 'Icon',
 				displayName: 'IconDisplay',
@@ -179,7 +179,7 @@ describe('OCA.Files.FileActions tests', function() {
 			expect($tr.find('.action.action-noicon').length).toEqual(1);
 			expect($tr.find('.action.action-noicon').find('img').length).toEqual(0);
 		});
-		it('display alt text on inline icon', function() {
+		it('display alt text on inline icon with image path', function() {
 			fileActions.registerAction({
 				name: 'IconAltText',
 				displayName: 'IconAltTextDisplay',
@@ -208,6 +208,63 @@ describe('OCA.Files.FileActions tests', function() {
 			expect($tr.find('.action.action-iconnoalttext').length).toEqual(1);
 			expect($tr.find('.action.action-iconnoalttext').find('img').length).toEqual(1);
 			expect($tr.find('.action.action-iconnoalttext').find('img').eq(0).attr('alt')).toEqual('');
+		});
+		it('display inline icon with iconClass', function() {
+			fileActions.registerAction({
+				name: 'Icon',
+				displayName: 'IconDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				iconClass: 'icon-test',
+				permissions: OC.PERMISSION_READ
+			});
+			fileActions.registerAction({
+				name: 'NoIcon',
+				displayName: 'NoIconDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action.action-icon').length).toEqual(1);
+			expect($tr.find('.action.action-icon').find('.icon').length).toEqual(1);
+			expect($tr.find('.action.action-icon').find('.icon').hasClass('icon-test')).toEqual(true);
+
+			expect($tr.find('.action.action-noicon').length).toEqual(1);
+			expect($tr.find('.action.action-noicon').find('.icon').length).toEqual(0);
+		});
+		it('display alt text on inline icon with iconClass when no display name exists', function() {
+			fileActions.registerAction({
+				name: 'IconAltText',
+				displayName: '',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				iconClass: 'icon-alttext',
+				altText: 'alt icon text',
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.registerAction({
+				name: 'IconNoAltText',
+				displayName: 'IconNoAltTextDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				altText: 'useless alt text',
+				iconClass: 'icon-noalttext',
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action.action-iconalttext').length).toEqual(1);
+			expect($tr.find('.action.action-iconalttext').find('.icon').length).toEqual(1);
+			expect($tr.find('.action.action-iconalttext').find('.hidden-visually').text()).toEqual('alt icon text');
+
+			expect($tr.find('.action.action-iconnoalttext').length).toEqual(1);
+			expect($tr.find('.action.action-iconnoalttext').find('.icon').length).toEqual(1);
+			expect($tr.find('.action.action-iconnoalttext').find('.hidden-visually').length).toEqual(0);
 		});
 	});
 	describe('action handler', function() {

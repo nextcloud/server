@@ -642,6 +642,7 @@ em {
 .popovermenu .menuitem,
 .popovermenu .menuitem>span {
 	cursor: pointer;
+	vertical-align: middle;
 }
 
 .popovermenu .menuitem {
@@ -694,6 +695,7 @@ em {
 	width: 16px;
 	height: 16px;
 	margin-right: 10px;
+	vertical-align: middle;
 }
 
 .popovermenu .menuitem {
