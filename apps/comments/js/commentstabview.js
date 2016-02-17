@@ -8,7 +8,7 @@
  *
  */
 
-/* global Handlebars */
+/* global Handlebars, escapeHTML */
 
 (function(OC, OCA) {
 	var TEMPLATE =
@@ -297,7 +297,7 @@
 				$field.tooltip('show');
 				$field.addClass('error');
 			}
-		   
+
 			var limitExceeded = (len > this._commentMaxLength);
 			$field.toggleClass('error', limitExceeded);
 			$submitButton.prop('disabled', limitExceeded);
