@@ -21,6 +21,7 @@
 namespace OCA\Files_Sharing\Tests\API;
 
 use OCA\Files_Sharing\API\Share20OCS;
+use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\IRequest;
@@ -28,6 +29,12 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Files\IRootFolder;
 
+/**
+ * Class Share20OCSTest
+ *
+ * @package OCA\Files_Sharing\Tests\API
+ * @group DB
+ */
 class Share20OCSTest extends \Test\TestCase {
 
 	/** @var \OC\Share20\Manager | \PHPUnit_Framework_MockObject_MockObject */
@@ -396,6 +403,22 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$expected = new \OC_OCS_Result([$result]);
 		$this->assertEquals($expected->getData(), $ocs->getShare($share->getId())->getData());
+	}
+
+	public function testGetShareInvalidNode() {
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setSharedBy('initiator')
+			->setSharedWith('recipient')
+			->setShareOwner('owner');
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareById')
+			->with('ocinternal:42')
+			->willReturn($share);
+
+		$expected = new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+		$this->assertEquals($expected->getMeta(), $this->ocs->getShare(42)->getMeta());
 	}
 
 	public function testCanAccessShare() {
@@ -1360,5 +1383,313 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$this->assertEquals($expected->getMeta(), $result->getMeta());
 		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function dataFormatShare() {
+		$file = $this->getMock('\OCP\Files\File');
+		$folder = $this->getMock('\OCP\Files\Folder');
+		$parent = $this->getMock('\OCP\Files\Folder');
+
+		$file->method('getPath')->willReturn('file');
+		$folder->method('getPath')->willReturn('folder');
+
+		$parent->method('getId')->willReturn(1);
+		$folder->method('getId')->willReturn(2);
+		$file->method('getId')->willReturn(3);
+
+		$file->method('getParent')->willReturn($parent);
+		$folder->method('getParent')->willReturn($parent);
+
+		$cache = $this->getMock('OCP\Files\Cache\ICache');
+		$cache->method('getNumericStorageId')->willReturn(100);
+		$storage = $this->getMock('\OCP\Files\Storage');
+		$storage->method('getId')->willReturn('storageId');
+		$storage->method('getCache')->willReturn($cache);
+
+		$file->method('getStorage')->willReturn($storage);
+		$folder->method('getStorage')->willReturn($storage);
+
+		$owner = $this->getMock('\OCP\IUser');
+		$owner->method('getDisplayName')->willReturn('ownerDN');
+		$initiator = $this->getMock('\OCP\IUser');
+		$initiator->method('getDisplayName')->willReturn('initiatorDN');
+		$recipient = $this->getMock('\OCP\IUser');
+		$recipient->method('getDisplayName')->willReturn('recipientDN');
+
+		$result = [];
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setId(42);
+
+		/* User backend down */
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_USER,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => null,
+				'token' => null,
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'path' => 'file',
+				'item_type' => 'file',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 3,
+				'file_source' => 3,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => 'recipient',
+				'share_with_displayname' => 'recipient',
+				'mail_send' => 0,
+			], $share, [], false
+		];
+
+		/* User backend up */
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_USER,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiatorDN',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => null,
+				'token' => null,
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'ownerDN',
+				'path' => 'file',
+				'item_type' => 'file',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 3,
+				'file_source' => 3,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => 'recipient',
+				'share_with_displayname' => 'recipientDN',
+				'mail_send' => 0,
+			], $share, [
+				['owner', $owner],
+				['initiator', $initiator],
+				['recipient', $recipient],
+			], false
+		];
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setId(42);
+
+		/* User backend down */
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_USER,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => null,
+				'token' => null,
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'path' => 'file',
+				'item_type' => 'file',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 3,
+				'file_source' => 3,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => 'recipient',
+				'share_with_displayname' => 'recipient',
+				'mail_send' => 0,
+			], $share, [], false
+		];
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setSharedWith('recipient')
+			->setSharedBy('initiator')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setId(42);
+
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_GROUP,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => null,
+				'token' => null,
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'path' => 'file',
+				'item_type' => 'file',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 3,
+				'file_source' => 3,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => 'recipient',
+				'share_with_displayname' => 'recipient',
+				'mail_send' => 0,
+			], $share, [], false
+		];
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setSharedBy('initiator')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($file)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setPassword('mypassword')
+			->setExpirationDate(new \DateTime('2001-01-02T00:00:00'))
+			->setToken('myToken')
+			->setId(42);
+
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_LINK,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => '2001-01-02 00:00:00',
+				'token' => 'myToken',
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'path' => 'file',
+				'item_type' => 'file',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 3,
+				'file_source' => 3,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => 'mypassword',
+				'share_with_displayname' => 'mypassword',
+				'mail_send' => 0,
+				'url' => 'myLink'
+			], $share, [], false
+		];
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_REMOTE)
+			->setSharedBy('initiator')
+			->setSharedWith('user@server.com')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setNode($folder)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setId(42);
+
+		$result[] = [
+			[
+				'id' => 42,
+				'share_type' => \OCP\Share::SHARE_TYPE_REMOTE,
+				'uid_owner' => 'initiator',
+				'displayname_owner' => 'initiator',
+				'permissions' => 1,
+				'stime' => 946684862,
+				'parent' => null,
+				'expiration' => null,
+				'token' => null,
+				'uid_file_owner' => 'owner',
+				'displayname_file_owner' => 'owner',
+				'path' => 'folder',
+				'item_type' => 'folder',
+				'storage_id' => 'storageId',
+				'storage' => 100,
+				'item_source' => 2,
+				'file_source' => 2,
+				'file_parent' => 1,
+				'file_target' => 'myTarget',
+				'share_with' => 'user@server.com',
+				'share_with_displayname' => 'user@server.com',
+				'mail_send' => 0,
+			], $share, [], false
+		];
+
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedBy('initiator')
+			->setSharedWith('recipient')
+			->setShareOwner('owner')
+			->setPermissions(\OCP\Constants::PERMISSION_READ)
+			->setShareTime(new \DateTime('2000-01-01T00:01:02'))
+			->setTarget('myTarget')
+			->setId(42);
+
+		$result[] = [
+			[], $share, [], true
+		];
+
+
+
+		return $result;
+	}
+
+	/**
+	 * @dataProvider dataFormatShare
+	 *
+	 * @param array $expects
+	 * @param \OCP\Share\IShare $share
+	 * @param array $users
+	 * @param $exception
+	 */
+	public function testFormatShare(array $expects, \OCP\Share\IShare $share, array $users, $exception) {
+		$this->userManager->method('get')->will($this->returnValueMap($users));
+		$this->urlGenerator->method('linkToRouteAbsolute')
+			->with('files_sharing.sharecontroller.showShare', ['token' => 'myToken'])
+			->willReturn('myLink');
+
+
+		$this->rootFolder->method('getUserFolder')->with($share->getShareOwner())->will($this->returnSelf());
+		$this->rootFolder->method('getRelativePath')->will($this->returnArgument(0));
+
+		try {
+			$result = $this->invokePrivate($this->ocs, 'formatShare', [$share]);
+			$this->assertFalse($exception);
+			$this->assertEquals($expects, $result);
+		} catch (NotFoundException $e) {
+			$this->assertTrue($exception);
+		}
+
+
 	}
 }
