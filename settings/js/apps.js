@@ -124,6 +124,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				$('.app-level .experimental').tipsy({fallback: t('settings', 'This app is not checked for security issues and is new or known to be unstable. Install at your own risk.')});
 			},
 			complete: function() {
+				var availableUpdates = 0;
 				$('#apps-list').removeClass('icon-loading');
 				$.ajax(OC.generateUrl('settings/apps/list?category={categoryId}&includeUpdateInfo=1', {
 					categoryId: categoryId
@@ -135,8 +136,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 								var $update = $('#app-' + app.id + ' .update');
 								$update.removeClass('hidden');
 								$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
+								availableUpdates++;
+								OC.Settings.Apps.State.apps[app.id].update = true;
 							}
-						})
+						});
+
+						if (availableUpdates > 0) {
+							OC.Notification.show(n('settings', 'You have %n app update pending', 'You have %n app updates pending', availableUpdates));
+						}
 					}
 				});
 			}

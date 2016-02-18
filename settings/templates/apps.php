@@ -97,6 +97,10 @@ script(
 	<div class="app-description-toggle-show"><?php p($l->t("Show description …"));?></div>
 	<div class="app-description-toggle-hide hidden"><?php p($l->t("Hide description …"));?></div>
 
+	<div class="app-dependencies update hidden">
+		<p><?php p($l->t('This app has an update available.')); ?></p>
+	</div>
+
 	{{#if missingMinOwnCloudVersion}}
 		<div class="app-dependencies">
 			<p><?php p($l->t('This app has no minimum ownCloud version assigned. This will be an error in ownCloud 11 and later.')); ?></p>
