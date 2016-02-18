@@ -9,8 +9,7 @@ use Sabre\DAV\Client as SClient;
 require __DIR__ . '/../../vendor/autoload.php';
 
 
-trait WebDav{
-
+trait WebDav {
 	/** @var string*/
 	private $davPath = "remote.php/webdav";
 
@@ -156,6 +155,18 @@ trait WebDav{
 		$file = \GuzzleHttp\Stream\Stream::factory(fopen($source, 'r'));
 		try {
 			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 4xx and 5xx responses cause an exception
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When User :user deletes file :file
+	 */
+	public function userDeletesFile($user, $file)  {
+		try {
+			$this->response = $this->makeDavRequest($user, 'DELETE', $file, []);
 		} catch (\GuzzleHttp\Exception\ServerException $e) {
 			// 4xx and 5xx responses cause an exception
 			$this->response = $e->getResponse();

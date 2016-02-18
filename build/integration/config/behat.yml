@@ -12,6 +12,8 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+        - CommentsContext:
+            baseUrl: http://localhost:8080
     federation:
       paths:
         - %paths.base%/../federation_features

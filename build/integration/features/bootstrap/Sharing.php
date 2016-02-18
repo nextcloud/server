@@ -370,5 +370,49 @@ trait Sharing{
 		}
 	}
 
+	/**
+	 * @Then As :user remove all shares from the file named :fileName
+	 */
+	public function asRemoveAllSharesFromTheFileNamed($user, $fileName) {
+		$url = $this->baseUrl.'v2.php/apps/files_sharing/api/v1/shares?format=json';
+		$client = new \GuzzleHttp\Client();
+		$res = $client->get(
+			$url,
+			[
+				'auth' => [
+					$user,
+					'123456',
+				],
+				'headers' => [
+					'Content-Type' => 'application/json',
+				],
+			]
+		);
+		$json = json_decode($res->getBody()->getContents(), true);
+		$deleted = false;
+		foreach($json['ocs']['data'] as $data) {
+			if (stripslashes($data['path']) === $fileName) {
+				$id = $data['id'];
+				$client->delete(
+					$this->baseUrl.'v2.php/apps/files_sharing/api/v1/shares/'.$id,
+					[
+						'auth' => [
+							$user,
+							'123456',
+						],
+						'headers' => [
+							'Content-Type' => 'application/json',
+						],
+					]
+				);
+				$deleted = true;
+			}
+		}
+
+		if($deleted === false) {
+			throw new \Exception("Could not delete file $fileName");
+		}
+	}
+
 }
 
