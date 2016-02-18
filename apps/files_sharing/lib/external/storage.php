@@ -252,6 +252,9 @@ class Storage extends DAV implements ISharedStorage {
 			if ($e->getCode() === 401 || $e->getCode() === 403) {
 					throw new ForbiddenException();
 			}
+			if ($e->getCode() === 404) {
+				throw new NotFoundException();
+			}
 			// throw this to be on the safe side: the share will still be visible
 			// in the UI in case the failure is intermittent, and the user will
 			// be able to decide whether to remove it if it's really gone
