@@ -95,12 +95,14 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			$req = $this->server->httpRequest;
 			if ($req->getHeader('OC-Chunked')) {
 				$info = \OC_FileChunking::decodeName($newName);
-				$chunkHandler = new \OC_FileChunking($info);
+				$chunkHandler = $this->getFileChunking($info);
 				// subtract the already uploaded size to see whether
 				// there is still enough space for the remaining chunks
 				$length -= $chunkHandler->getCurrentSize();
+				// use target file name for free space check in case of shared files
+				$uri = rtrim($parentUri, '/') . '/' . $info['name'];
 			}
-			$freeSpace = $this->getFreeSpace($parentUri);
+			$freeSpace = $this->getFreeSpace($uri);
 			if ($freeSpace !== \OCP\Files\FileInfo::SPACE_UNKNOWN && $length > $freeSpace) {
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
@@ -109,6 +111,11 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 		}
 		return true;
+	}
+
+	public function getFileChunking($info) {
+		// FIXME: need a factory for better mocking support
+		return new \OC_FileChunking($info);
 	}
 
 	public function getLength() {
@@ -127,12 +134,12 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * @param string $parentUri
+	 * @param string $uri
 	 * @return mixed
 	 */
-	public function getFreeSpace($parentUri) {
+	public function getFreeSpace($uri) {
 		try {
-			$freeSpace = $this->view->free_space($parentUri);
+			$freeSpace = $this->view->free_space(ltrim($uri, '/'));
 			return $freeSpace;
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());

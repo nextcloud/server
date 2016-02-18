@@ -136,8 +136,12 @@ $maxUploadFileSize = $storageStats['uploadMaxFilesize'];
 $maxHumanFileSize = OCP\Util::humanFileSize($maxUploadFileSize);
 
 $totalSize = 0;
-foreach ($files['size'] as $size) {
-	$totalSize += $size;
+$isReceivedShare = \OC::$server->getRequest()->getParam('isReceivedShare', false) === 'true';
+// defer quota check for received shares
+if (!$isReceivedShare) {
+	foreach ($files['size'] as $size) {
+		$totalSize += $size;
+	}
 }
 if ($maxUploadFileSize >= 0 and $totalSize > $maxUploadFileSize) {
 	OCP\JSON::error(array('data' => array('message' => $l->t('Not enough storage available'),
