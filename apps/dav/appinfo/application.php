@@ -111,6 +111,15 @@ class Application extends App {
 				$c->query('CalDavBackend')
 			);
 		});
+
+		$container->registerService('BirthdayService', function($c) {
+			/** @var IAppContainer $c */
+			return new BirthdayService(
+				$c->query('CalDavBackend'),
+				$c->query('CardDavBackend')
+			);
+
+		});
 	}
 
 	/**
@@ -130,10 +139,7 @@ class Application extends App {
 
 		$listener = function($event) {
 			if ($event instanceof GenericEvent) {
-				$b = new BirthdayService(
-					$this->getContainer()->query('CalDavBackend'),
-					$this->getContainer()->query('CardDavBackend')
-				);
+				$b = $this->getContainer()->query('BirthdayService');
 				$b->onCardChanged(
 					$event->getArgument('addressBookId'),
 					$event->getArgument('cardUri'),
@@ -147,10 +153,7 @@ class Application extends App {
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $listener);
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', function($event) {
 			if ($event instanceof GenericEvent) {
-				$b = new BirthdayService(
-					$this->getContainer()->query('CalDavBackend'),
-					$this->getContainer()->query('CardDavBackend')
-				);
+				$b = $this->getContainer()->query('BirthdayService');
 				$b->onCardDeleted(
 					$event->getArgument('addressBookId'),
 					$event->getArgument('cardUri')

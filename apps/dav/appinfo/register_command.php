@@ -24,6 +24,7 @@ use OCA\DAV\Command\CreateAddressBook;
 use OCA\DAV\Command\CreateCalendar;
 use OCA\Dav\Command\MigrateAddressbooks;
 use OCA\Dav\Command\MigrateCalendars;
+use OCA\DAV\Command\SyncBirthdayCalendar;
 use OCA\DAV\Command\SyncSystemAddressBook;
 
 $dbConnection = \OC::$server->getDatabaseConnection();
@@ -37,6 +38,7 @@ $app = new Application();
 $application->add(new CreateCalendar($userManager, $groupManager, $dbConnection));
 $application->add(new CreateAddressBook($userManager, $app->getContainer()->query('CardDavBackend')));
 $application->add(new SyncSystemAddressBook($app->getSyncService()));
+$application->add(new SyncBirthdayCalendar($userManager, $app->getContainer()->query('BirthdayService')));
 
 // the occ tool is *for now* only available in debug mode for developers to test
 if ($config->getSystemValue('debug', false)){

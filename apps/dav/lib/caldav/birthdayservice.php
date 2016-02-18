@@ -54,14 +54,18 @@ class BirthdayService {
 		$calendar = $this->ensureCalendarExists($principalUri, $calendarUri, []);
 		$objectUri = $book['uri'] . '-' . $cardUri. '.ics';
 		$calendarData = $this->buildBirthdayFromContact($cardData);
+		$existing = $this->calDavBackEnd->getCalendarObject($calendar['id'], $objectUri);
 		if (is_null($calendarData)) {
-			$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
+			if (!is_null($existing)) {
+				$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
+			}
 		} else {
-			$existing = $this->calDavBackEnd->getCalendarObject($calendar['id'], $objectUri);
 			if (is_null($existing)) {
 				$this->calDavBackEnd->createCalendarObject($calendar['id'], $objectUri, $calendarData->serialize());
 			} else {
-				$this->calDavBackEnd->updateCalendarObject($calendar['id'], $objectUri, $calendarData->serialize());
+				if ($this->birthdayEvenChanged($existing['calendardata'], $calendarData)) {
+					$this->calDavBackEnd->updateCalendarObject($calendar['id'], $objectUri, $calendarData->serialize());
+				}
 			}
 		}
 	}
@@ -146,6 +150,38 @@ class BirthdayService {
 		$vEvent->{'TRANSP'} = 'TRANSPARENT';
 		$vCal->add($vEvent);
 		return $vCal;
+	}
+
+	/**
+	 * @param string $user
+	 */
+	public function syncUser($user) {
+		$books = $this->cardDavBackEnd->getAddressBooksForUser('principals/users/'.$user);
+		foreach($books as $book) {
+			$cards = $this->cardDavBackEnd->getCards($book['id']);
+			foreach($cards as $card) {
+				$this->onCardChanged($book['id'], $card['uri'], $card['carddata']);
+			}
+		}
+	}
+
+	/**
+	 * @param string $existingCalendarData
+	 * @param VCalendar $newCalendarData
+	 * @return bool
+	 */
+	public function birthdayEvenChanged($existingCalendarData, $newCalendarData) {
+		try {
+			$existingBirthday = Reader::read($existingCalendarData);
+		} catch (Exception $ex) {
+			return true;
+		}
+		if ($newCalendarData->VEVENT->DTSTART->getValue() !== $existingBirthday->VEVENT->DTSTART->getValue() ||
+			$newCalendarData->VEVENT->SUMMARY->getValue() !== $existingBirthday->VEVENT->SUMMARY->getValue()
+		) {
+			return true;
+		}
+		return false;
 	}
 
 }
