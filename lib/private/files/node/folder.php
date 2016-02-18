@@ -100,9 +100,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 			$isDir = $info['mimetype'] === 'httpd/unix-directory';
 		}
 		if ($isDir) {
-			return new Folder($this->root, $this->view, $path);
+			return new Folder($this->root, $this->view, $path, $info);
 		} else {
-			return new File($this->root, $this->view, $path);
+			return new File($this->root, $this->view, $path, $info);
 		}
 	}
 

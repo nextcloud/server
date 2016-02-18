@@ -601,8 +601,8 @@ class Folder extends \Test\TestCase {
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 
 		$view->expects($this->once())
-			->method('file_exists')
-			->will($this->returnValue(true));
+			->method('getFileInfo')
+			->will($this->returnValue(new FileInfo('/bar/foo/qwerty', null, 'qwerty', [], null)));
 
 		$storage->expects($this->once())
 			->method('getCache')
@@ -683,8 +683,8 @@ class Folder extends \Test\TestCase {
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 
 		$view->expects($this->any())
-			->method('file_exists')
-			->will($this->returnValue(true));
+			->method('getFileInfo')
+			->will($this->returnValue(new FileInfo('/bar/foo/qwerty', null, 'qwerty', [], null)));
 
 		$storage->expects($this->any())
 			->method('getCache')

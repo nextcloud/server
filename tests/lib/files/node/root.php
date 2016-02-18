@@ -12,6 +12,9 @@ use OC\Files\FileInfo;
 use OCP\Files\NotPermittedException;
 use OC\Files\Mount\Manager;
 
+/**
+ * @group DB
+ */
 class Root extends \Test\TestCase {
 	private $user;
 
@@ -41,16 +44,6 @@ class Root extends \Test\TestCase {
 			->with('/bar/foo')
 			->will($this->returnValue($this->getFileInfo(array('fileid' => 10, 'path' => 'bar/foo', 'name', 'mimetype' => 'text/plain'))));
 
-		$view->expects($this->once())
-			->method('is_dir')
-			->with('/bar/foo')
-			->will($this->returnValue(false));
-
-		$view->expects($this->once())
-			->method('file_exists')
-			->with('/bar/foo')
-			->will($this->returnValue(true));
-
 		$root->mount($storage, '');
 		$node = $root->get('/bar/foo');
 		$this->assertEquals(10, $node->getId());
@@ -73,7 +66,7 @@ class Root extends \Test\TestCase {
 		$root = new \OC\Files\Node\Root($manager, $view, $this->user);
 
 		$view->expects($this->once())
-			->method('file_exists')
+			->method('getFileInfo')
 			->with('/bar/foo')
 			->will($this->returnValue(false));
 
