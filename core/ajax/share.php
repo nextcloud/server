@@ -254,7 +254,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 
 					if (isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]) &&
 					    is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])) {
-						$sharedGroups = isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]);
+						$sharedGroups = $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP];
 					}
 				}
 
