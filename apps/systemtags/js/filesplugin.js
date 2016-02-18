@@ -21,14 +21,13 @@
 	 * @namespace
 	 */
 	OCA.SystemTags.FilesPlugin = {
-		allowedLists: [
-			'files',
-			'favorites',
-			'systemtagsfilter'
+		ignoreLists: [
+			'files_trashbin',
+			'files.public'
 		],
 
 		attach: function(fileList) {
-			if (this.allowedLists.indexOf(fileList.id) < 0) {
+			if (this.ignoreLists.indexOf(fileList.id) >= 0) {
 				return;
 			}
 
