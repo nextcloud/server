@@ -237,9 +237,9 @@ class Filesystem {
 	 *
 	 * @return \OC\Files\Mount\Manager
 	 */
-	public static function getMountManager() {
+	public static function getMountManager($user = '') {
 		if (!self::$mounts) {
-			\OC_Util::setupFS();
+			\OC_Util::setupFS($user);
 		}
 		return self::$mounts;
 	}

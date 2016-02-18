@@ -128,7 +128,9 @@ class OC_Util {
 		\OC::$server->getEventLogger()->start('setup_fs', 'Setup filesystem');
 
 		// If we are not forced to load a specific user we load the one that is logged in
-		if ($user == "" && OC_User::isLoggedIn()) {
+		if ($user === null) {
+			$user = '';
+		} else if ($user == "" && OC_User::isLoggedIn()) {
 			$user = OC_User::getUser();
 		}
 

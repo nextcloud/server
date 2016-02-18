@@ -165,14 +165,9 @@ class Server extends ServerContainer implements IServerContainer {
 			return $c->query('SystemTagManagerFactory')->getObjectMapper();
 		});
 		$this->registerService('RootFolder', function (Server $c) {
-			// TODO: get user and user manager from container as well
-			$user = \OC_User::getUser();
-			/** @var $c SimpleContainer */
-			$userManager = $c->query('UserManager');
-			$user = $userManager->get($user);
-			$manager = \OC\Files\Filesystem::getMountManager();
+			$manager = \OC\Files\Filesystem::getMountManager(null);
 			$view = new View();
-			$root = new Root($manager, $view, $user);
+			$root = new Root($manager, $view, null);
 			$connector = new HookConnector($root, $view);
 			$connector->viewToNode();
 			return $root;
