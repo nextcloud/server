@@ -1429,9 +1429,11 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->getMock('\OCP\IUser');
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
+		$storage = $this->getMock('\OCP\Files\Storage');
 		$path = $this->getMock('\OCP\Files\File');
 		$path->method('getOwner')->willReturn($shareOwner);
 		$path->method('getName')->willReturn('target');
+		$path->method('getStorage')->willReturn($storage);
 
 		$share = $this->createShare(
 			null,
@@ -1480,9 +1482,11 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->getMock('\OCP\IUser');
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
+		$storage = $this->getMock('\OCP\Files\Storage');
 		$path = $this->getMock('\OCP\Files\File');
 		$path->method('getOwner')->willReturn($shareOwner);
 		$path->method('getName')->willReturn('target');
+		$path->method('getStorage')->willReturn($storage);
 
 		$share = $this->createShare(
 			null,
@@ -1539,10 +1543,12 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->getMock('\OCP\IUser');
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
+		$storage = $this->getMock('\OCP\Files\Storage');
 		$path = $this->getMock('\OCP\Files\File');
 		$path->method('getOwner')->willReturn($shareOwner);
 		$path->method('getName')->willReturn('target');
 		$path->method('getId')->willReturn(1);
+		$path->method('getStorage')->willReturn($storage);
 
 		$date = new \DateTime();
 
@@ -1663,9 +1669,11 @@ class ManagerTest extends \Test\TestCase {
 		$shareOwner = $this->getMock('\OCP\IUser');
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
+		$storage = $this->getMock('\OCP\Files\Storage');
 		$path = $this->getMock('\OCP\Files\File');
 		$path->method('getOwner')->willReturn($shareOwner);
 		$path->method('getName')->willReturn('target');
+		$path->method('getStorage')->willReturn($storage);
 
 		$share = $this->createShare(
 			null,
@@ -1697,8 +1705,86 @@ class ManagerTest extends \Test\TestCase {
 			->method('setTarget')
 			->with('/target');
 
-		$dummy = new DummyCreate();
-		\OCP\Util::connectHook('OCP\Share', 'pre_shared', $dummy, 'listner');
+		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['pre'])->getMock();
+		\OCP\Util::connectHook('OCP\Share', 'pre_shared', $hookListner, 'pre');
+		$hookListner->expects($this->once())
+			->method('pre')
+			->will($this->returnCallback(function (array $data) {
+				$data['run'] = false;
+				$data['error'] = 'I won\'t let you share!';
+			}));
+
+		$manager->createShare($share);
+	}
+
+	public function testCreateShareOfIncommingFederatedShare() {
+		$manager = $this->createManagerMock()
+			->setMethods(['canShare', 'generalCreateChecks', 'userCreateChecks', 'pathCreateChecks'])
+			->getMock();
+
+		$shareOwner = $this->getMock('\OCP\IUser');
+		$shareOwner->method('getUID')->willReturn('shareOwner');
+
+		$storage = $this->getMock('\OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(true);
+
+		$storage2 = $this->getMock('\OCP\Files\Storage');
+		$storage2->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+
+		$path = $this->getMock('\OCP\Files\File');
+		$path->expects($this->never())->method('getOwner');
+		$path->method('getName')->willReturn('target');
+		$path->method('getStorage')->willReturn($storage);
+
+		$parent = $this->getMock('\OCP\Files\Folder');
+		$parent->method('getStorage')->willReturn($storage);
+
+		$parentParent = $this->getMock('\OCP\Files\Folder');
+		$parentParent->method('getStorage')->willReturn($storage2);
+		$parentParent->method('getOwner')->willReturn($shareOwner);
+
+		$path->method('getParent')->willReturn($parent);
+		$parent->method('getParent')->willReturn($parentParent);
+
+		$share = $this->createShare(
+			null,
+			\OCP\Share::SHARE_TYPE_USER,
+			$path,
+			'sharedWith',
+			'sharedBy',
+			null,
+			\OCP\Constants::PERMISSION_ALL);
+
+		$manager->expects($this->once())
+			->method('canShare')
+			->with($share)
+			->willReturn(true);
+		$manager->expects($this->once())
+			->method('generalCreateChecks')
+			->with($share);;
+		$manager->expects($this->once())
+			->method('userCreateChecks')
+			->with($share);;
+		$manager->expects($this->once())
+			->method('pathCreateChecks')
+			->with($path);
+
+		$this->defaultProvider
+			->expects($this->once())
+			->method('create')
+			->with($share)
+			->will($this->returnArgument(0));
+
+		$share->expects($this->once())
+			->method('setShareOwner')
+			->with('shareOwner');
+		$share->expects($this->once())
+			->method('setTarget')
+			->with('/target');
 
 		$manager->createShare($share);
 	}
@@ -2266,13 +2352,6 @@ class DummyPassword {
 	public function listner($array) {
 		$array['accepted'] = false;
 		$array['message'] = 'password not accepted';
-	}
-}
-
-class DummyCreate {
-	public function listner($array) {
-		$array['run'] = false;
-		$array['error'] = 'I won\'t let you share!';
 	}
 }
 
