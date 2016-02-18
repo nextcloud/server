@@ -65,10 +65,26 @@ class CalendarTest extends TestCase {
 		$c->delete();
 	}
 
+	public function dataPropPatch() {
+		return [
+			[[], true],
+			[[
+				'{http://owncloud.org/ns}calendar-enabled' => true,
+			], false],
+			[[
+				'{DAV:}displayname' => true,
+			], true],
+			[[
+				'{DAV:}displayname' => true,
+				'{http://owncloud.org/ns}calendar-enabled' => true,
+			], true],
+		];
+	}
+
 	/**
-	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 * @dataProvider dataPropPatch
 	 */
-	public function testPropPatch() {
+	public function testPropPatch($mutations, $throws) {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
 		$calendarInfo = [
@@ -77,6 +93,13 @@ class CalendarTest extends TestCase {
 			'id' => 666
 		];
 		$c = new Calendar($backend, $calendarInfo);
-		$c->propPatch(new PropPatch([]));
+
+		if ($throws) {
+			$this->setExpectedException('\Sabre\DAV\Exception\Forbidden');
+		}
+		$c->propPatch(new PropPatch($mutations));
+		if (!$throws) {
+			$this->assertTrue(true);
+		}
 	}
 }
