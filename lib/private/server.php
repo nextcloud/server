@@ -40,7 +40,6 @@ namespace OC;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
-use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Command\AsyncBus;
 use OC\Diagnostics\EventLogger;
@@ -164,7 +163,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('SystemTagObjectMapper', function (Server $c) {
 			return $c->query('SystemTagManagerFactory')->getObjectMapper();
 		});
-		$this->registerService('RootFolder', function (Server $c) {
+		$this->registerService('RootFolder', function () {
 			$manager = \OC\Files\Filesystem::getMountManager(null);
 			$view = new View();
 			$root = new Root($manager, $view, null);
