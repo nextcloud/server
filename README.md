@@ -28,7 +28,7 @@ https://doc.owncloud.org/server/9.0/developer_manual/app/index.html
 https://owncloud.org/contribute/
 
 ## Support
-Learn about the diffrent ways you can get support for ownCloud: https://owncloud.org/support/
+Learn about the different ways you can get support for ownCloud: https://owncloud.org/support/
 
 ## Get in touch
 * :clipboard: [Forum](https://forum.owncloud.org)
