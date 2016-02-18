@@ -176,8 +176,9 @@ class Root extends Folder implements IRootFolder {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
 			$fullPath = $this->getFullPath($path);
-			if ($this->view->file_exists($fullPath)) {
-				return $this->createNode($fullPath);
+			$fileInfo = $this->view->getFileInfo($fullPath);
+			if ($fileInfo) {
+				return $this->createNode($fullPath, $fileInfo);
 			} else {
 				throw new NotFoundException($path);
 			}
