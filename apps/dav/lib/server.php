@@ -26,6 +26,7 @@ use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\Connector\FedAuth;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Files\CustomPropertiesBackend;
 use OCP\IRequest;
 use OCP\SabrePluginEvent;
@@ -127,6 +128,9 @@ class Server {
 			// custom properties plugin must be the last one
 			$user = \OC::$server->getUserSession()->getUser();
 			if (!is_null($user)) {
+				$view = \OC\Files\Filesystem::getView();
+				$this->server->addPlugin(new FilesPlugin($this->server->tree, $view));
+
 				$this->server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(
 						new CustomPropertiesBackend(
