@@ -43,7 +43,7 @@ class RedirectResponseTest extends \Test\TestCase {
 	public function testHeaders() {
 		$headers = $this->response->getHeaders();
 		$this->assertEquals('/url', $headers['Location']);
-		$this->assertEquals(Http::STATUS_TEMPORARY_REDIRECT, 
+		$this->assertEquals(Http::STATUS_SEE_OTHER, 
 			$this->response->getStatus());
 	}
 
