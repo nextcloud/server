@@ -520,7 +520,8 @@ class Google extends \OC\Files\Storage\Common {
 				// Download as .odp is not available
 				return 'application/pdf';
 			} else {
-				return $mimetype;
+				// use extension-based detection, could be an encrypted file
+				return parent::getMimeType($path);
 			}
 		} else {
 			return false;
