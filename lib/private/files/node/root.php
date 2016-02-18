@@ -71,7 +71,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @param \OC\Files\Mount\Manager $manager
 	 * @param \OC\Files\View $view
-	 * @param \OC\User\User $user
+	 * @param \OC\User\User|null $user
 	 */
 	public function __construct($manager, $view, $user) {
 		parent::__construct($this, $view, '');

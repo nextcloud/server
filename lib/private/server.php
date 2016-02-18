@@ -40,7 +40,6 @@ namespace OC;
 use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
-use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\Command\AsyncBus;
 use OC\Diagnostics\EventLogger;
@@ -164,15 +163,10 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('SystemTagObjectMapper', function (Server $c) {
 			return $c->query('SystemTagManagerFactory')->getObjectMapper();
 		});
-		$this->registerService('RootFolder', function (Server $c) {
-			// TODO: get user and user manager from container as well
-			$user = \OC_User::getUser();
-			/** @var $c SimpleContainer */
-			$userManager = $c->query('UserManager');
-			$user = $userManager->get($user);
-			$manager = \OC\Files\Filesystem::getMountManager();
+		$this->registerService('RootFolder', function () {
+			$manager = \OC\Files\Filesystem::getMountManager(null);
 			$view = new View();
-			$root = new Root($manager, $view, $user);
+			$root = new Root($manager, $view, null);
 			$connector = new HookConnector($root, $view);
 			$connector->viewToNode();
 			return $root;
