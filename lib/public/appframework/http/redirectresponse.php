@@ -44,7 +44,7 @@ class RedirectResponse extends Response {
 	 */
 	public function __construct($redirectURL) {
 		$this->redirectURL = $redirectURL;
-		$this->setStatus(Http::STATUS_TEMPORARY_REDIRECT);
+		$this->setStatus(Http::STATUS_SEE_OTHER);
 		$this->addHeader('Location', $redirectURL);
 	}
 
