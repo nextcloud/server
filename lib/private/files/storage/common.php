@@ -72,6 +72,7 @@ abstract class Common implements Storage, ILockingStorage {
 	protected $updater;
 
 	protected $mountOptions = [];
+	protected $owner = null;
 
 	public function __construct($parameters) {
 	}
@@ -383,13 +384,11 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @return string|false uid or false
 	 */
 	public function getOwner($path) {
-		static $owner;
-
-		if (!isset($owner)) {
-			$owner = \OC_User::getUser();;
+		if ($this->owner === null) {
+			$this->owner = \OC_User::getUser();
 		}
 
-		return $owner;
+		return $this->owner;
 	}
 
 	/**
