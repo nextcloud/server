@@ -58,8 +58,7 @@ abstract class PagedProvider extends Provider {
 	 * Search for $query
 	 * @param string $query
 	 * @param int $page pages start at page 1
-	 * @param int $size, 0 = SIZE_ALL
-	 * @param integer $size
+	 * @param int $size 0 = SIZE_ALL
 	 * @return array An array of OCP\Search\Result's
 	 * @since 8.0.0
 	 */

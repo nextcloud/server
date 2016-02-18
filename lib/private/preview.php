@@ -921,9 +921,9 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 * @param int $previewWidth
-	 * @param integer $previewHeight
+	 * @param int $previewHeight
 	 *
-	 * @return double[]
+	 * @return int[]
 	 */
 	private function scale($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight) {
 		$scalingUp = $this->getScalingUp();
@@ -971,7 +971,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 * @param int $previewWidth
-	 * @param double $previewHeight
+	 * @param int $previewHeight
 	 */
 	private function crop($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight = null) {
 		$cropX = floor(abs($askedWidth - $previewWidth) * 0.5);
@@ -990,7 +990,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 * @param int $previewWidth
-	 * @param double $previewHeight
+	 * @param int $previewHeight
 	 */
 	private function cropAndFill($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight) {
 		if ($previewWidth > $askedWidth) {

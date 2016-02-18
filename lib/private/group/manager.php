@@ -152,6 +152,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 
 	/**
 	 * @param string $gid
+	 * @return \OCP\IGroup
 	 */
 	protected function getGroupObject($gid) {
 		$backends = array();
