@@ -193,11 +193,13 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		// adds a 'Content-Disposition: attachment' header
 		$response->addHeader('Content-Disposition', 'attachment');
 
-		//Add OC-Checksum header
-		/** @var $node File */
-		$checksum = $node->getChecksum();
-		if ($checksum !== null) {
-			$response->addHeader('OC-Checksum', $checksum);
+		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
+			//Add OC-Checksum header
+			/** @var $node File */
+			$checksum = $node->getChecksum();
+			if ($checksum !== null) {
+				$response->addHeader('OC-Checksum', $checksum);
+			}
 		}
 	}
 
