@@ -106,7 +106,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 * Removes a user from a group
 	 * @param string $uid Name of the user to remove from group
 	 * @param string $gid Name of the group from which remove the user
-	 * @return null|false
+	 * @return bool
 	 *
 	 * removes the user from a group.
 	 */
@@ -114,6 +114,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 		if(isset($this->groups[$gid])) {
 			if(($index=array_search($uid, $this->groups[$gid]))!==false) {
 				unset($this->groups[$gid][$index]);
+				return true;
 			}else{
 				return false;
 			}
