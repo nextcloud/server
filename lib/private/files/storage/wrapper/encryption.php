@@ -459,6 +459,10 @@ class Encryption extends Wrapper {
 		// - copy the copyKeys() call from  $this->copyBetweenStorage to this method
 		// - remove $this->copyBetweenStorage
 
+		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+			return false;
+		}
+
 		$result = $this->copyBetweenStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime, true);
 		if ($result) {
 			if ($sourceStorage->is_dir($sourceInternalPath)) {
