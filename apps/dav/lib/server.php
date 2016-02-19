@@ -93,7 +93,11 @@ class Server {
 		$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
 
 		// system tags plugins
-		$this->server->addPlugin(new \OCA\DAV\SystemTag\SystemTagPlugin(\OC::$server->getSystemTagManager()));
+		$this->server->addPlugin(new \OCA\DAV\SystemTag\SystemTagPlugin(
+			\OC::$server->getSystemTagManager(),
+			\OC::$server->getGroupManager(),
+			\OC::$server->getUserSession()
+		));
 
 		// comments plugin
 		$this->server->addPlugin(new \OCA\DAV\Comments\CommentsPlugin(
