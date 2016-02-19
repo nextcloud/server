@@ -104,6 +104,9 @@ class Storage {
 			$ownerView = new View('/'.$uid.'/files');
 			try {
 				$filename = $ownerView->getPath($info['fileid']);
+				// make sure that the file name doesn't end with a trailing slash
+				// can for example happen single files shared across servers
+				$filename = rtrim($filename, '/');
 			} catch (NotFoundException $e) {
 				$filename = null;
 			}

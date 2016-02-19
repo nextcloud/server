@@ -517,8 +517,20 @@ class Manager implements IManager {
 		// Verify if there are any issues with the path
 		$this->pathCreateChecks($share->getNode());
 
-		// On creation of a share the owner is always the owner of the path
-		$share->setShareOwner($share->getNode()->getOwner()->getUID());
+		/*
+		 * On creation of a share the owner is always the owner of the path
+		 * Except for mounted federated shares.
+		 */
+		$storage = $share->getNode()->getStorage();
+		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+			$parent = $share->getNode()->getParent();
+			while($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+				$parent = $parent->getParent();
+			}
+			$share->setShareOwner($parent->getOwner()->getUID());
+		} else {
+			$share->setShareOwner($share->getNode()->getOwner()->getUID());
+		}
 
 		// Cannot share with the owner
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER &&
