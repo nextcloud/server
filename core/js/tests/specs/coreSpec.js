@@ -747,100 +747,181 @@ describe('Core base tests', function() {
 		});
 	});
 	describe('Notifications', function() {
-		beforeEach(function(){
-			notificationMock = sinon.mock(OC.Notification);
+		var showSpy;
+		var showHtmlSpy;
+		var hideSpy;
+		var clock;
+
+		beforeEach(function() {
+			clock = sinon.useFakeTimers();
+			showSpy = sinon.spy(OC.Notification, 'show');
+			showHtmlSpy = sinon.spy(OC.Notification, 'showHtml');
+			hideSpy = sinon.spy(OC.Notification, 'hide');
+
+			$('#testArea').append('<div id="notification"></div>');
 		});
-		afterEach(function(){
-			// verify that all expectations are met
-			notificationMock.verify();
-			// restore mocked methods
-			notificationMock.restore();
-			// clean up the global variable
-			delete notificationMock;
+		afterEach(function() {
+			showSpy.restore();
+			showHtmlSpy.restore();
+			hideSpy.restore();
+			// jump past animations
+			clock.tick(10000);
+			clock.restore();
 		});
-		it('Should show a plain text notification' , function() {
-			// one is shown ...
-			notificationMock.expects('show').once().withExactArgs('My notification test');
-			// ... but not the HTML one
-			notificationMock.expects('showHtml').never();
+		describe('showTemporary', function() {
+			it('shows a plain text notification with default timeout', function() {
+				var $row = OC.Notification.showTemporary('My notification test');
 
-			OC.Notification.showTemporary('My notification test');
+				expect(showSpy.calledOnce).toEqual(true);
+				expect(showSpy.firstCall.args[0]).toEqual('My notification test');
+				expect(showSpy.firstCall.args[1]).toEqual({isHTML: false, timeout: 7});
 
-			// verification is done in afterEach
+				expect($row).toBeDefined();
+				expect($row.text()).toEqual('My notification test');
+			});
+			it('shows a HTML notification with default timeout', function() {
+				var $row = OC.Notification.showTemporary('<a>My notification test</a>', { isHTML: true });
+
+				expect(showSpy.notCalled).toEqual(true);
+				expect(showHtmlSpy.calledOnce).toEqual(true);
+				expect(showHtmlSpy.firstCall.args[0]).toEqual('<a>My notification test</a>');
+				expect(showHtmlSpy.firstCall.args[1]).toEqual({isHTML: true, timeout: 7});
+
+				expect($row).toBeDefined();
+				expect($row.text()).toEqual('My notification test');
+			});
+			it('hides itself after 7 seconds', function() {
+				var $row = OC.Notification.showTemporary('');
+
+				// travel in time +7000 milliseconds
+				clock.tick(7000);
+
+				expect(hideSpy.calledOnce).toEqual(true);
+				expect(hideSpy.firstCall.args[0]).toEqual($row);
+			});
 		});
-		it('Should show a HTML notification' , function() {
-			// no plain is shown ...
-			notificationMock.expects('show').never();
-			// ... but one HTML notification
-			notificationMock.expects('showHtml').once().withExactArgs('<a>My notification test</a>');
+		describe('show', function() {
+			it('hides itself after a given time', function() {
+				OC.Notification.show('', { timeout: 10 });
 
-			OC.Notification.showTemporary('<a>My notification test</a>', { isHTML: true });
+				// travel in time +9 seconds
+				clock.tick(9000);
 
-			// verification is done in afterEach
+				expect(hideSpy.notCalled).toEqual(true);
+
+				// travel in time +1 seconds
+				clock.tick(1000);
+
+				expect(hideSpy.calledOnce).toEqual(true);
+			});
+			it('does not hide itself after a given time if a timeout of 0 is defined', function() {
+				OC.Notification.show('', { timeout: 0 });
+
+				// travel in time +1000 seconds
+				clock.tick(1000000);
+
+				expect(hideSpy.notCalled).toEqual(true);
+			});
+			it('does not hide itself if no timeout given to show', function() {
+				OC.Notification.show('');
+
+				// travel in time +1000 seconds
+				clock.tick(1000000);
+
+				expect(hideSpy.notCalled).toEqual(true);
+			});
 		});
-		it('Should hide previous notification and hide itself after 7 seconds' , function() {
-			var clock = sinon.useFakeTimers();
+		it('cumulates several notifications', function() {
+			var $row1 = OC.Notification.showTemporary('One');
+			var $row2 = OC.Notification.showTemporary('Two', {timeout: 2});
+			var $row3 = OC.Notification.showTemporary('Three');
 
-			// previous notifications get hidden
-			notificationMock.expects('hide').once();
+			var $el = $('#notification');
+			var $rows = $el.find('.row');
+			expect($rows.length).toEqual(3);
 
-			OC.Notification.showTemporary('');
+			expect($rows.eq(0).is($row1)).toEqual(true);
+			expect($rows.eq(1).is($row2)).toEqual(true);
+			expect($rows.eq(2).is($row3)).toEqual(true);
 
-			// verify the first call
-			notificationMock.verify();
+			clock.tick(3000);
 
-			// expect it a second time
-			notificationMock.expects('hide').once();
+			$rows = $el.find('.row');
+			expect($rows.length).toEqual(2);
 
-			// travel in time +7000 milliseconds
-			clock.tick(7000);
-
-			// verification is done in afterEach
+			expect($rows.eq(0).is($row1)).toEqual(true);
+			expect($rows.eq(1).is($row3)).toEqual(true);
 		});
-		it('Should hide itself after a given time' , function() {
-			var clock = sinon.useFakeTimers();
+		it('shows close button for error types', function() {
+			var $row = OC.Notification.showTemporary('One');
+			var $rowError = OC.Notification.showTemporary('Two', {type: 'error'});
+			expect($row.find('.close').length).toEqual(0);
+			expect($rowError.find('.close').length).toEqual(1);
 
-			// previous notifications get hidden
-			notificationMock.expects('hide').once();
+			// after clicking, row is gone
+			$rowError.find('.close').click();
 
-			OC.Notification.showTemporary('', { timeout: 10 });
+			var $rows = $('#notification').find('.row');
+			expect($rows.length).toEqual(1);
+			expect($rows.eq(0).is($row)).toEqual(true);
+		});
+		it('fades out the last notification but not the other ones', function() {
+			var fadeOutStub = sinon.stub($.fn, 'fadeOut');
+			var $row1 = OC.Notification.show('One', {type: 'error'});
+			var $row2 = OC.Notification.show('Two', {type: 'error'});
+			OC.Notification.showTemporary('Three', {timeout: 2});
 
-			// verify the first call
-			notificationMock.verify();
+			var $el = $('#notification');
+			var $rows = $el.find('.row');
+			expect($rows.length).toEqual(3);
 
-			// expect to not be called after 9 seconds
-			notificationMock.expects('hide').never();
+			clock.tick(3000);
 
-			// travel in time +9 seconds
-			clock.tick(9000);
-			// verify this
-			notificationMock.verify();
+			$rows = $el.find('.row');
+			expect($rows.length).toEqual(2);
 
-			// expect the second call one second later
-			notificationMock.expects('hide').once();
-			// travel in time +1 seconds
+			$row1.find('.close').click();
 			clock.tick(1000);
 
-			// verification is done in afterEach
+			expect(fadeOutStub.notCalled).toEqual(true);
+
+			$row2.find('.close').click();
+			clock.tick(1000);
+			expect(fadeOutStub.calledOnce).toEqual(true);
+
+			expect($el.is(':empty')).toEqual(false);
+			fadeOutStub.yield();
+			expect($el.is(':empty')).toEqual(true);
+
+			fadeOutStub.restore();
 		});
-		it('Should not hide itself after a given time if a timeout of 0 is defined' , function() {
-			var clock = sinon.useFakeTimers();
+		it('hides the first notification when calling hide without arguments', function() {
+			var $row1 = OC.Notification.show('One');
+			var $row2 = OC.Notification.show('Two');
 
-			// previous notifications get hidden
-			notificationMock.expects('hide').once();
+			var $el = $('#notification');
+			var $rows = $el.find('.row');
+			expect($rows.length).toEqual(2);
 
-			OC.Notification.showTemporary('', { timeout: 0 });
+			OC.Notification.hide();
 
-			// verify the first call
-			notificationMock.verify();
+			$rows = $el.find('.row');
+			expect($rows.length).toEqual(1);
+			expect($rows.eq(0).is($row2)).toEqual(true);
+		});
+		it('hides the given notification when calling hide with argument', function() {
+			var $row1 = OC.Notification.show('One');
+			var $row2 = OC.Notification.show('Two');
 
-			// expect to not be called after 1000 seconds
-			notificationMock.expects('hide').never();
+			var $el = $('#notification');
+			var $rows = $el.find('.row');
+			expect($rows.length).toEqual(2);
 
-			// travel in time +1000 seconds
-			clock.tick(1000000);
+			OC.Notification.hide($row2);
 
-			// verification is done in afterEach
+			$rows = $el.find('.row');
+			expect($rows.length).toEqual(1);
+			expect($rows.eq(0).is($row1)).toEqual(true);
 		});
 	});
 	describe('global ajax errors', function() {

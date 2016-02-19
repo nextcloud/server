@@ -988,7 +988,11 @@ OC.msg = {
 OC.Notification={
 	queuedNotifications: [],
 	getDefaultNotificationFunction: null,
-	notificationTimer: 0,
+
+	/**
+	 * @type Array.<int> array of notification timers
+	 */
+	notificationTimers: [],
 
 	/**
 	 * @param callback
@@ -999,25 +1003,64 @@ OC.Notification={
 	},
 
 	/**
-	 * Hides a notification
-	 * @param callback
-	 * @todo Write documentation
+	 * Hides a notification.
+	 *
+	 * If a row is given, only hide that one.
+	 * If no row is given, hide all notifications.
+	 *
+	 * @param {jQuery} [$row] notification row
+	 * @param {Function} [callback] callback
 	 */
-	hide: function(callback) {
-		$('#notification').fadeOut('400', function(){
-			if (OC.Notification.isHidden()) {
-				if (OC.Notification.getDefaultNotificationFunction) {
-					OC.Notification.getDefaultNotificationFunction.call();
-				}
-			}
+	hide: function($row, callback) {
+		var self = this;
+		var $notification = $('#notification');
+
+		if (_.isFunction($row)) {
+			// first arg is the callback
+			callback = $row;
+			$row = undefined;
+		}
+
+		if (!$row) {
+			console.warn('Missing argument $row in OC.Notification.hide() call, caller needs to be adjusted to only dismiss its own notification');
+			// assume that the row to be hidden is the first one
+			$row = $notification.find('.row:first');
+		}
+
+		if ($row && $notification.find('.row').length > 1) {
+			// remove the row directly
+			$row.remove();
 			if (callback) {
 				callback.call();
 			}
-			$('#notification').empty();
-			if(OC.Notification.queuedNotifications.length > 0){
-				OC.Notification.showHtml(OC.Notification.queuedNotifications[0]);
-				OC.Notification.queuedNotifications.shift();
+			return;
+		}
+
+		_.defer(function() {
+			// fade out is supposed to only fade when there is a single row
+			// however, some code might call hide() and show() directly after,
+			// which results in more than one element
+			// in this case, simply delete that one element that was supposed to
+			// fade out
+			//
+			// FIXME: remove once all callers are adjusted to only hide their own notifications
+			if ($notification.find('.row').length > 1) {
+				$row.remove();
+				return;
 			}
+
+			// else, fade out whatever was present
+			$notification.fadeOut('400', function(){
+				if (self.isHidden()) {
+					if (self.getDefaultNotificationFunction) {
+						self.getDefaultNotificationFunction.call();
+					}
+				}
+				if (callback) {
+					callback.call();
+				}
+				$notification.empty();
+			});
 		});
 	},
 
@@ -1025,66 +1068,93 @@ OC.Notification={
 	 * Shows a notification as HTML without being sanitized before.
 	 * If you pass unsanitized user input this may lead to a XSS vulnerability.
 	 * Consider using show() instead of showHTML()
+	 *
 	 * @param {string} html Message to display
+	 * @param {Object} [options] options
+	 * @param {string] [options.type] notification type
+	 * @param {int} [options.timeout=0] timeout value, defaults to 0 (permanent)
+	 * @return {jQuery} jQuery element for notification row
 	 */
-	showHtml: function(html) {
-		var notification = $('#notification');
-		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
-			notification.html(html);
-			notification.fadeIn().css('display','inline-block');
-		}else{
-			OC.Notification.queuedNotifications.push(html);
+	showHtml: function(html, options) {
+		options = options || {};
+		_.defaults(options, {
+			timeout: 0
+		});
+
+		var self = this;
+		var $notification = $('#notification');
+		if (this.isHidden()) {
+			$notification.fadeIn().css('display','inline-block');
 		}
+		var $row = $('<div class="row"></div>');
+		if (options.type) {
+			$row.addClass('type-' + options.type);
+		}
+		if (options.type === 'error') {
+			// add a close button
+			var $closeButton = $('<a class="action close icon-close" href="#"></a>');
+			$closeButton.attr('alt', t('core', 'Dismiss'));
+			$row.append($closeButton);
+			$closeButton.one('click', function() {
+				self.hide($row);
+				return false;
+			});
+			$row.addClass('closeable');
+		}
+
+		$row.prepend(html);
+		$notification.append($row);
+
+		if(options.timeout > 0) {
+			// register timeout to vanish notification
+			this.notificationTimers.push(setTimeout(function() {
+				self.hide($row);
+			}, (options.timeout * 1000)));
+		}
+
+		return $row;
 	},
 
 	/**
 	 * Shows a sanitized notification
+	 *
 	 * @param {string} text Message to display
+	 * @param {Object} [options] options
+	 * @param {string] [options.type] notification type
+	 * @param {int} [options.timeout=0] timeout value, defaults to 0 (permanent)
+	 * @return {jQuery} jQuery element for notification row
 	 */
-	show: function(text) {
-		var notification = $('#notification');
-		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
-			notification.text(text);
-			notification.fadeIn().css('display','inline-block');
-		}else{
-			OC.Notification.queuedNotifications.push($('<div/>').text(text).html());
-		}
+	show: function(text, options) {
+		return this.showHtml($('<div/>').text(text).html(), options);
 	},
-
 
 	/**
 	 * Shows a notification that disappears after x seconds, default is
 	 * 7 seconds
+	 *
 	 * @param {string} text Message to show
 	 * @param {array} [options] options array
 	 * @param {int} [options.timeout=7] timeout in seconds, if this is 0 it will show the message permanently
 	 * @param {boolean} [options.isHTML=false] an indicator for HTML notifications (true) or text (false)
+	 * @param {string] [options.type] notification type
 	 */
 	showTemporary: function(text, options) {
+		var self = this;
 		var defaults = {
-				isHTML: false,
-				timeout: 7
-			},
-			options = options || {};
+			isHTML: false,
+			timeout: 7
+		};
+		options = options || {};
 		// merge defaults with passed in options
 		_.defaults(options, defaults);
 
-		// clear previous notifications
-		OC.Notification.hide();
-		if(OC.Notification.notificationTimer) {
-			clearTimeout(OC.Notification.notificationTimer);
-		}
-
+		var $row;
 		if(options.isHTML) {
-			OC.Notification.showHtml(text);
+			$row = this.showHtml(text, options);
 		} else {
-			OC.Notification.show(text);
+			$row = this.show(text, options);
 		}
-
-		if(options.timeout > 0) {
-			// register timeout to vanish notification
-			OC.Notification.notificationTimer = setTimeout(OC.Notification.hide, (options.timeout * 1000));
-		}
+		return $row;
 	},
 
 	/**
@@ -1092,7 +1162,7 @@ OC.Notification={
 	 * @return {boolean}
 	 */
 	isHidden: function() {
-		return ($("#notification").text() === '');
+		return !$("#notification").find('.row').length;
 	}
 };
 

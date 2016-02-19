@@ -472,7 +472,11 @@ OC.Upload = {
 							OC.Upload.showUploadCancelMessage();
 						} else {
 							// HTTP connection problem
-							OC.Notification.showTemporary(data.errorThrown, {timeout: 10});
+							var message = t('files', 'Error uploading file "{fileName}": {message}', {
+								fileName: data.files[0].name,
+								message: data.errorThrown
+							});
+							OC.Notification.show(message, {timeout: 0, type: 'error'});
 							if (data.result) {
 								var result = JSON.parse(data.result);
 								if (result && result[0] && result[0].data && result[0].data.code === 'targetnotfound') {

@@ -669,6 +669,24 @@ td.avatar {
 	cursor: pointer;
 	margin-left: 1em;
 }
+#notification {
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: 100px;
+}
+#notification .row {
+	position: relative;
+}
+#notification .row .close {
+	display: inline-block;
+	vertical-align: middle;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+#notification .row.closeable {
+	padding-right: 20px;
+}
 
 tr .action:not(.permanent),
 .selectedActions a {
