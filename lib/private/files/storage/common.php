@@ -613,6 +613,10 @@ abstract class Common implements Storage, ILockingStorage {
 			return $this->rename($sourceInternalPath, $targetInternalPath);
 		}
 
+		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+			return false;
+		}
+
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);
 		if ($result) {
 			if ($sourceStorage->is_dir($sourceInternalPath)) {
