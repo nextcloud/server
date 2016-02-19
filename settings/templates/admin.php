@@ -110,7 +110,7 @@ if ($_['WindowsWarning']) {
 foreach ($_['OutdatedCacheWarning'] as $php_module => $data) {
 	?>
 	<li>
-		<?php p($l->t('%1$s below version %2$s is installed, for stability and performance reasons we recommend to update to a newer %1$s version.', $data)); ?>
+		<?php p($l->t('%1$s below version %2$s is installed, for stability and performance reasons we recommend updating to a newer %1$s version.', $data)); ?>
 	</li>
 <?php
 }

@@ -542,7 +542,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -567,7 +567,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -592,7 +592,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
