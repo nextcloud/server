@@ -20,6 +20,7 @@
  */
 namespace OCA\Dav\AppInfo;
 
+use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
@@ -34,6 +35,7 @@ use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\IManager;
 use OCP\IUser;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
 
@@ -74,12 +76,12 @@ class Application extends App {
 		$container->registerService('CardDavBackend', function($c) {
 			/** @var IAppContainer $c */
 			$db = $c->getServer()->getDatabaseConnection();
-			$logger = $c->getServer()->getLogger();
+			$dispatcher = $c->getServer()->getEventDispatcher();
 			$principal = new \OCA\DAV\Connector\Sabre\Principal(
 				$c->getServer()->getUserManager(),
 				$c->getServer()->getGroupManager()
 			);
-			return new CardDavBackend($db, $principal, $logger);
+			return new CardDavBackend($db, $principal, $dispatcher);
 		});
 
 		$container->registerService('CalDavBackend', function($c) {
@@ -109,6 +111,15 @@ class Application extends App {
 				$c->query('CalDavBackend')
 			);
 		});
+
+		$container->registerService('BirthdayService', function($c) {
+			/** @var IAppContainer $c */
+			return new BirthdayService(
+				$c->query('CalDavBackend'),
+				$c->query('CardDavBackend')
+			);
+
+		});
 	}
 
 	/**
@@ -125,6 +136,30 @@ class Application extends App {
 		/** @var HookManager $hm */
 		$hm = $this->getContainer()->query('HookManager');
 		$hm->setup();
+
+		$listener = function($event) {
+			if ($event instanceof GenericEvent) {
+				$b = $this->getContainer()->query('BirthdayService');
+				$b->onCardChanged(
+					$event->getArgument('addressBookId'),
+					$event->getArgument('cardUri'),
+					$event->getArgument('cardData')
+				);
+			}
+		};
+
+		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::createCard', $listener);
+		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $listener);
+		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', function($event) {
+			if ($event instanceof GenericEvent) {
+				$b = $this->getContainer()->query('BirthdayService');
+				$b->onCardDeleted(
+					$event->getArgument('addressBookId'),
+					$event->getArgument('cardUri')
+				);
+			}
+		});
 	}
 
 	public function getSyncService() {

@@ -37,6 +37,8 @@ use Sabre\DAV\Exception\BadRequest;
 use Sabre\HTTP\URLUtil;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class CardDavBackend implements BackendInterface, SyncSupport {
 
@@ -64,15 +66,22 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	const ACCESS_READ_WRITE = 2;
 	const ACCESS_READ = 3;
 
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+
 	/**
 	 * CardDavBackend constructor.
 	 *
 	 * @param IDBConnection $db
 	 * @param Principal $principalBackend
+	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct(IDBConnection $db, Principal $principalBackend) {
+	public function __construct(IDBConnection $db,
+								Principal $principalBackend,
+								$dispatcher ) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
+		$this->dispatcher = $dispatcher;
 		$this->sharingBackend = new Backend($this->db, $principalBackend, 'addressbook');
 	}
 
@@ -492,6 +501,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$this->addChange($addressBookId, $cardUri, 1);
 		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
+		if (!is_null($this->dispatcher)) {
+			$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::createCard',
+				new GenericEvent(null, [
+					'addressBookId' => $addressBookId,
+					'cardUri' => $cardUri,
+					'cardData' => $cardData]));
+		}
+
 		return '"' . $etag . '"';
 	}
 
@@ -536,6 +553,14 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$this->addChange($addressBookId, $cardUri, 2);
 		$this->updateProperties($addressBookId, $cardUri, $cardData);
 
+		if (!is_null($this->dispatcher)) {
+			$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::updateCard',
+				new GenericEvent(null, [
+					'addressBookId' => $addressBookId,
+					'cardUri' => $cardUri,
+					'cardData' => $cardData]));
+		}
+
 		return '"' . $etag . '"';
 	}
 
@@ -559,6 +584,13 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			->execute();
 
 		$this->addChange($addressBookId, $cardUri, 3);
+
+		if (!is_null($this->dispatcher)) {
+			$this->dispatcher->dispatch('\OCA\DAV\CardDAV\CardDavBackend::deleteCard',
+				new GenericEvent(null, [
+					'addressBookId' => $addressBookId,
+					'cardUri' => $cardUri]));
+		}
 
 		if ($ret === 1) {
 			if ($cardId !== null) {
