@@ -30,6 +30,7 @@ use Sabre\CalDAV\CalendarRoot;
 $authBackend = new Auth(
 	\OC::$server->getSession(),
 	\OC::$server->getUserSession(),
+	\OC::$server->getRequest(),
 	'principals/'
 );
 $principalBackend = new Principal(

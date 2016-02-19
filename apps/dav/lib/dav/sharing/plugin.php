@@ -129,9 +129,6 @@ class Plugin extends ServerPlugin {
 			return;
 		}
 
-		// CSRF protection
-		$this->protectAgainstCSRF();
-
 		$requestBody = $request->getBodyAsString();
 
 		// If this request handler could not deal with this POST request, it
@@ -200,19 +197,5 @@ class Plugin extends ServerPlugin {
 
 		}
 	}
-
-	private function protectAgainstCSRF() {
-		$user = $this->auth->getCurrentUser();
-		if ($this->auth->isDavAuthenticated($user)) {
-			return true;
-		}
-
-		if ($this->request->passesCSRFCheck()) {
-			return true;
-		}
-
-		throw new BadRequest();
-	}
-
 
 }
