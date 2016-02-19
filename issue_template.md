@@ -1,3 +1,10 @@
+<!--
+Thanks for reporting issues back to ownCloud! This is the issue tracker of ownCloud, if you have any support question please check out https://owncloud.org/support
+
+This is the bug tracker for the Server component. Find other components at https://github.com/owncloud/core/blob/master/CONTRIBUTING.md#guidelines
+
+To make it possible for us to help you please fill out below information carefully.
+--> 
 ### Steps to reproduce
 1.
 2.
