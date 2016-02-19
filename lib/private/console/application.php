@@ -31,6 +31,7 @@ use OCP\IRequest;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -56,12 +57,31 @@ class Application {
 	}
 
 	/**
+	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 * @throws \Exception
 	 */
-	public function loadCommands(OutputInterface $output) {
+	public function loadCommands(InputInterface $input, OutputInterface $output) {
 		// $application is required to be defined in the register_command scripts
 		$application = $this->application;
+		$inputDefinition = $application->getDefinition();
+		$inputDefinition->addOption(
+			new InputOption(
+				'no-warnings', 
+				null, 
+				InputOption::VALUE_NONE, 
+				'Skip global warnings, show command output only', 
+				null
+			)
+		);
+		try {
+			$input->bind($inputDefinition);
+		} catch (\RuntimeException $e) {
+			//expected if there are extra options
+		}
+		if ($input->getOption('no-warnings')) {
+			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+		}
 		require_once __DIR__ . '/../../../core/register_command.php';
 		if ($this->config->getSystemValue('installed', false)) {
 			if (\OCP\Util::needUpgrade()) {
