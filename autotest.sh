@@ -13,8 +13,6 @@
 # @copyright 2012-2015 Thomas Müller thomas.mueller@tmit.eu
 #
 
-set -e
-
 #$EXECUTOR_NUMBER is set by Jenkins and allows us to run autotest in parallel
 DATABASENAME=oc_autotest$EXECUTOR_NUMBER
 DATABASEUSER=oc_autotest$EXECUTOR_NUMBER
@@ -33,6 +31,8 @@ if [ -z "$PHP_EXE" ]; then
 fi
 PHP=$(which "$PHP_EXE")
 PHPUNIT=$(which phpunit)
+
+set -e
 
 _XDEBUG_CONFIG=$XDEBUG_CONFIG
 unset XDEBUG_CONFIG
