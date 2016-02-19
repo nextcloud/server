@@ -264,7 +264,7 @@ class Google extends \OC\Files\Storage\Common {
 				foreach ($children->getItems() as $child) {
 					$name = $child->getTitle();
 					// Check if this is a Google Doc i.e. no extension in name
-					if ($child->getFileExtension() === ''
+					if (empty($child->getFileExtension())
 						&& $child->getMimeType() !== self::FOLDER
 					) {
 						$name .= '.'.$this->getGoogleDocExtension($child->getMimeType());
@@ -368,8 +368,14 @@ class Google extends \OC\Files\Storage\Common {
 	public function rename($path1, $path2) {
 		$file = $this->getDriveFile($path1);
 		if ($file) {
+			$newFile = $this->getDriveFile($path2);
 			if (dirname($path1) === dirname($path2)) {
-				$file->setTitle(basename(($path2)));
+				if ($newFile) {
+					// rename to the name of the target file, could be an office file without extension
+					$file->setTitle($newFile->getTitle());
+				} else {
+					$file->setTitle(basename(($path2)));
+				}
 			} else {
 				// Change file parent
 				$parentFolder2 = $this->getDriveFile(dirname($path2));
@@ -394,8 +400,11 @@ class Google extends \OC\Files\Storage\Common {
 			if ($result) {
 				$this->setDriveFile($path1, false);
 				$this->setDriveFile($path2, $result);
-				if ($oldfile) {
-					$this->service->files->delete($oldfile->getId());
+				if ($oldfile && $newFile) {
+					// only delete if they have a different id (same id can happen for part files)
+					if ($newFile->getId() !== $oldfile->getId()) {
+						$this->service->files->delete($oldfile->getId());
+					}
 				}
 			}
 			return (bool)$result;
