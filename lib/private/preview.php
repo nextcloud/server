@@ -202,7 +202,7 @@ class Preview {
 	/**
 	 * returns the max width set in ownCloud's config
 	 *
-	 * @return string
+	 * @return integer
 	 */
 	public function getConfigMaxX() {
 		return $this->configMaxWidth;
@@ -211,7 +211,7 @@ class Preview {
 	/**
 	 * returns the max height set in ownCloud's config
 	 *
-	 * @return string
+	 * @return integer
 	 */
 	public function getConfigMaxY() {
 		return $this->configMaxHeight;
@@ -546,7 +546,7 @@ class Preview {
 	/**
 	 * Determines the size of the preview we should be looking for in the cache
 	 *
-	 * @return int[]
+	 * @return integer[]
 	 */
 	private function simulatePreviewDimensions() {
 		$askedWidth = $this->getMaxX();
@@ -570,7 +570,7 @@ class Preview {
 	 *
 	 * @param int $originalWidth
 	 * @param int $originalHeight
-	 * @return \int[]
+	 * @return integer[]
 	 */
 	private function applyAspectRatio($askedWidth, $askedHeight, $originalWidth = 0, $originalHeight = 0) {
 		if(!$originalWidth){
@@ -602,7 +602,7 @@ class Preview {
 	 * @param int $askedHeight
 	 * @param int $previewWidth
 	 * @param int $previewHeight
-	 * @return \int[]
+	 * @return integer[]
 	 */
 	private function applyCover($askedWidth, $askedHeight, $previewWidth, $previewHeight) {
 		$originalRatio = $previewWidth / $previewHeight;
@@ -628,7 +628,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 *
-	 * @return \int[]
+	 * @return integer[]
 	 */
 	private function fixSize($askedWidth, $askedHeight) {
 		if ($this->scalingUp) {
@@ -921,7 +921,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 * @param int $previewWidth
-	 * @param null $previewHeight
+	 * @param int $previewHeight
 	 *
 	 * @return int[]
 	 */
@@ -971,7 +971,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 * @param int $previewWidth
-	 * @param null $previewHeight
+	 * @param int $previewHeight
 	 */
 	private function crop($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight = null) {
 		$cropX = floor(abs($askedWidth - $previewWidth) * 0.5);
@@ -990,7 +990,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 * @param int $previewWidth
-	 * @param null $previewHeight
+	 * @param int $previewHeight
 	 */
 	private function cropAndFill($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight) {
 		if ($previewWidth > $askedWidth) {
@@ -1218,7 +1218,7 @@ class Preview {
 	 * @param int $maxDim
 	 * @param string $dimName
 	 *
-	 * @return mixed
+	 * @return integer
 	 */
 	private function limitMaxDim($dim, $maxDim, $dimName) {
 		if (!is_null($maxDim)) {

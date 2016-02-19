@@ -183,7 +183,7 @@ class Encryption extends Wrapper {
 	 *
 	 * @param resource $source
 	 * @param string $mode
-	 * @param array $context
+	 * @param resource $context
 	 * @param string $protocol
 	 * @param string $class
 	 * @return resource

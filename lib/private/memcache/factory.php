@@ -172,7 +172,7 @@ class Factory implements ICacheFactory {
 	/**
 	 * @see \OC\Memcache\Factory::createLocal()
 	 * @param string $prefix
-	 * @return \OC\Memcache\Cache|null
+	 * @return Cache
 	 */
 	public function createLowLatency($prefix = '') {
 		return $this->createLocal($prefix);
