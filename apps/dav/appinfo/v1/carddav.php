@@ -22,7 +22,6 @@
 // Backends
 use OCA\DAV\CardDAV\AddressBookRoot;
 use OCA\DAV\CardDAV\CardDavBackend;
-use OCA\DAV\Connector\Sabre\AppEnabledPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
@@ -63,7 +62,10 @@ $server->setBaseUri($baseuri);
 $server->addPlugin(new MaintenancePlugin());
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
 $server->addPlugin(new Plugin());
-$server->addPlugin(new \Sabre\DAVACL\Plugin());
+
+$acl = new \OCA\DAV\Connector\LegacyDAVACL();
+$server->addPlugin($acl);
+
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->getLogger()));
 
