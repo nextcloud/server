@@ -21,6 +21,8 @@
  */
 namespace OCA\DAV\SystemTag;
 
+use OCP\IGroupManager;
+use OCP\IUserSession;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -61,12 +63,26 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	protected $tagManager;
 
 	/**
-	 * System tags plugin
-	 *
-	 * @param ISystemTagManager $tagManager tag manager
+	 * @var IUserSession
 	 */
-	public function __construct(ISystemTagManager $tagManager) {
+	protected $userSession;
+
+	/**
+	 * @var IGroupManager
+	 */
+	protected $groupManager;
+
+	/**
+	 * @param ISystemTagManager $tagManager tag manager
+	 * @param IGroupManager $groupManager
+	 * @param IUserSession $userSession
+	 */
+	public function __construct(ISystemTagManager $tagManager,
+								IGroupManager $groupManager,
+								IUserSession $userSession) {
 		$this->tagManager = $tagManager;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
 	}
 
 	/**
@@ -163,6 +179,13 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		if (isset($data['userAssignable'])) {
 			$userAssignable = (bool)$data['userAssignable'];
 		}
+
+		if($userVisible === false || $userAssignable === false) {
+			if(!$this->userSession->isLoggedIn() || !$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
+				throw new BadRequest('Not sufficient permissions');
+			}
+		}
+
 		try {
 			return $this->tagManager->createTag($tagName, $userVisible, $userAssignable);
 		} catch (TagAlreadyExistsException $e) {

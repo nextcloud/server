@@ -103,6 +103,7 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 * @param bool $userVisible user visible
 	 * @param bool $userAssignable user assignable
 	 * @throws NotFound whenever the given tag id does not exist
+	 * @throws Forbidden whenever there is no permission to update said tag
 	 * @throws Conflict whenever a tag already exists with the given attributes
 	 */
 	public function update($name, $userVisible, $userAssignable) {
