@@ -20,9 +20,10 @@
 */
 
 describe('OC.SystemTags.SystemTagsInputField tests', function() {
-	var view, select2Stub;
+	var view, select2Stub, clock;
 
 	beforeEach(function() {
+		clock = sinon.useFakeTimers();
 		var $container = $('<div class="testInputContainer"></div>');
 		select2Stub = sinon.stub($.fn, 'select2');
 		select2Stub.returnsThis();
@@ -31,6 +32,7 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 	afterEach(function() {
 		select2Stub.restore();
 		OC.SystemTags.collection.reset();
+		clock.restore();
 		view.remove();
 		view = undefined;
 	});
