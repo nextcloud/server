@@ -209,7 +209,7 @@ class FilesReportPlugin extends ServerPlugin {
 	 *
 	 * @throws TagNotFoundException whenever a tag was not found
 	 */
-	public function processFilterRules($filterRules) {
+	protected function processFilterRules($filterRules) {
 		$ns = '{' . $this::NS_OWNCLOUD . '}';
 		$resultFileIds = null;
 		$systemTagIds = [];

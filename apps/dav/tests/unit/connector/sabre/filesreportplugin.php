@@ -376,7 +376,7 @@ class FilesReportPlugin extends \Test\TestCase {
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '123'],
 		];
 
-		$this->assertEquals(['111', '222'], $this->plugin->processFilterRules($rules));
+		$this->assertEquals(['111', '222'], $this->invokePrivate($this->plugin, 'processFilterRules', [$rules]));
 	}
 
 	public function testProcessFilterRulesAndCondition() {
@@ -400,7 +400,7 @@ class FilesReportPlugin extends \Test\TestCase {
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
 		];
 
-		$this->assertEquals(['222'], array_values($this->plugin->processFilterRules($rules)));
+		$this->assertEquals(['222'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
 	public function testProcessFilterRulesAndConditionWithOneEmptyResult() {
@@ -424,7 +424,7 @@ class FilesReportPlugin extends \Test\TestCase {
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
 		];
 
-		$this->assertEquals([], array_values($this->plugin->processFilterRules($rules)));
+		$this->assertEquals([], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
 	public function testProcessFilterRulesAndConditionWithFirstEmptyResult() {
@@ -448,7 +448,7 @@ class FilesReportPlugin extends \Test\TestCase {
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
 		];
 
-		$this->assertEquals([], array_values($this->plugin->processFilterRules($rules)));
+		$this->assertEquals([], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
 	public function testProcessFilterRulesAndConditionWithEmptyMidResult() {
@@ -475,7 +475,7 @@ class FilesReportPlugin extends \Test\TestCase {
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '789'],
 		];
 
-		$this->assertEquals([], array_values($this->plugin->processFilterRules($rules)));
+		$this->assertEquals([], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
 	public function testProcessFilterRulesInvisibleTagAsAdmin() {
@@ -517,7 +517,7 @@ class FilesReportPlugin extends \Test\TestCase {
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
 		];
 
-		$this->assertEquals(['222'], array_values($this->plugin->processFilterRules($rules)));
+		$this->assertEquals(['222'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 
 	/**
@@ -554,7 +554,7 @@ class FilesReportPlugin extends \Test\TestCase {
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
 		];
 
-		$this->plugin->processFilterRules($rules);
+		$this->invokePrivate($this->plugin, 'processFilterRules', [$rules]);
 	}
 
 	public function testProcessFilterRulesVisibleTagAsUser() {
@@ -597,6 +597,6 @@ class FilesReportPlugin extends \Test\TestCase {
 			['name' => '{http://owncloud.org/ns}systemtag', 'value' => '456'],
 		];
 
-		$this->assertEquals(['222'], array_values($this->plugin->processFilterRules($rules)));
+		$this->assertEquals(['222'], array_values($this->invokePrivate($this->plugin, 'processFilterRules', [$rules])));
 	}
 }
