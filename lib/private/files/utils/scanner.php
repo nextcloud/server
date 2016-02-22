@@ -119,6 +119,10 @@ class Scanner extends PublicEmitter {
 			if (is_null($mount->getStorage())) {
 				continue;
 			}
+			// don't scan the root storage
+			if ($mount->getStorage()->instanceOfStorage('\OC\Files\Storage\Local') && $mount->getMountPoint() === '/') {
+				continue;
+			}
 			$scanner = $mount->getStorage()->getScanner();
 			$this->attachListener($mount);
 			$scanner->backgroundScan();
