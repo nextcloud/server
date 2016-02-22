@@ -27,6 +27,7 @@
 namespace OC;
 
 use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
 use OCP\IUserManager;
 use OCP\Files\IRootFolder;
@@ -68,6 +69,7 @@ class AvatarManager implements IAvatarManager {
 	 * @param string $userId the ownCloud user id
 	 * @return \OCP\IAvatar
 	 * @throws \Exception In case the username is potentially dangerous
+	 * @throws NotFoundException In case there is no user folder yet
 	 */
 	public function getAvatar($userId) {
 		$user = $this->userManager->get($userId);

@@ -176,7 +176,11 @@ class UsersController extends Controller {
 
 		$avatarAvailable = false;
 		if ($this->config->getSystemValue('enable_avatars', true) === true) {
-			$avatarAvailable = $this->avatarManager->getAvatar($user->getUID())->exists();
+			try {
+				$avatarAvailable = $this->avatarManager->getAvatar($user->getUID())->exists();
+			} catch (\Exception $e) {
+				//No avatar yet
+			}
 		}
 
 		return [
