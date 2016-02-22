@@ -83,9 +83,9 @@ class Movie extends Provider {
 		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 		if (self::$avconvBinary) {
-			$cmd = self::$avconvBinary . ' -an -y -ss ' . escapeshellarg($second) .
+			$cmd = self::$avconvBinary . ' -y -ss ' . escapeshellarg($second) .
 				' -i ' . escapeshellarg($absPath) .
-				' -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
+				' -an -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
 				' > /dev/null 2>&1';
 		} else {
 			$cmd = self::$ffmpegBinary . ' -y -ss ' . escapeshellarg($second) .
