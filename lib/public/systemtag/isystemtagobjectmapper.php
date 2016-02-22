@@ -57,15 +57,19 @@ interface ISystemTagObjectMapper {
 	 *
 	 * @param string|array $tagIds Tag id or array of tag ids.
 	 * @param string $objectType object type
+	 * @param int $limit Count of object ids you want to get
+	 * @param string $offset The last object id you already received
 	 *
 	 * @return string[] array of object ids or empty array if none found
 	 *
 	 * @throws \OCP\SystemTag\TagNotFoundException if at least one of the
 	 * given tags does not exist
+	 * @throws \InvalidArgumentException When a limit is specified together with
+	 * multiple tag ids
 	 *
 	 * @since 9.0.0
 	 */
-	public function getObjectIdsForTags($tagIds, $objectType);
+	public function getObjectIdsForTags($tagIds, $objectType, $limit = 0, $offset = '');
 
 	/**
 	 * Assign the given tags to the given object.

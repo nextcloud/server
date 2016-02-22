@@ -145,6 +145,42 @@ class SystemTagObjectMapperTest extends TestCase {
 		], $objectIds);
 	}
 
+	public function testGetObjectsForTagsLimit() {
+		$objectIds = $this->tagMapper->getObjectIdsForTags(
+			[$this->tag1->getId()],
+			'testtype',
+			1
+		);
+
+		$this->assertEquals([
+			1,
+		], $objectIds);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testGetObjectsForTagsLimitWithMultipleTags() {
+		$this->tagMapper->getObjectIdsForTags(
+			[$this->tag1->getId(), $this->tag2->getId(), $this->tag3->getId()],
+			'testtype',
+			1
+		);
+	}
+
+	public function testGetObjectsForTagsLimitOffset() {
+		$objectIds = $this->tagMapper->getObjectIdsForTags(
+			[$this->tag1->getId()],
+			'testtype',
+			1,
+			'1'
+		);
+
+		$this->assertEquals([
+			2,
+		], $objectIds);
+	}
+
 	/**
 	 * @expectedException \OCP\SystemTag\TagNotFoundException
 	 */
