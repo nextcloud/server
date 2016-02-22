@@ -61,7 +61,7 @@ class Encryption extends Wrapper {
 	private $uid;
 
 	/** @var array */
-	private $unencryptedSize;
+	protected $unencryptedSize;
 
 	/** @var \OCP\Encryption\IFile */
 	private $fileHelper;
@@ -77,6 +77,9 @@ class Encryption extends Wrapper {
 
 	/** @var Manager */
 	private $mountManager;
+
+	/** @var array remember for which path we execute the repair step to avoid recursions */
+	private $fixUnencryptedSizeOf = array();
 
 	/**
 	 * @param array $parameters
@@ -147,8 +150,9 @@ class Encryption extends Wrapper {
 		}
 
 		if (isset($info['fileid']) && $info['encrypted']) {
-			return $info['size'];
+			return $this->verifyUnencryptedSize($path, $info['size']);
 		}
+
 		return $this->storage->filesize($path);
 	}
 
@@ -169,8 +173,8 @@ class Encryption extends Wrapper {
 		} else {
 			$info = $this->getCache()->get($path);
 			if (isset($info['fileid']) && $info['encrypted']) {
+				$data['size'] = $this->verifyUnencryptedSize($path, $info['size']);
 				$data['encrypted'] = true;
-				$data['size'] = $info['size'];
 			}
 		}
 
@@ -439,6 +443,128 @@ class Encryption extends Wrapper {
 		}
 
 		return $this->storage->fopen($path, $mode);
+	}
+
+
+	/**
+	 * perform some plausibility checks if the the unencrypted size is correct.
+	 * If not, we calculate the correct unencrypted size and return it
+	 *
+	 * @param string $path internal path relative to the storage root
+	 * @param int $unencryptedSize size of the unencrypted file
+	 *
+	 * @return int unencrypted size
+	 */
+	protected function verifyUnencryptedSize($path, $unencryptedSize) {
+
+		$size = $this->storage->filesize($path);
+		$result = $unencryptedSize;
+
+		if ($unencryptedSize < 0 ||
+			($size > 0 && $unencryptedSize === $size)
+		) {
+			// check if we already calculate the unencrypted size for the
+			// given path to avoid recursions
+			if (isset($this->fixUnencryptedSizeOf[$this->getFullPath($path)]) === false) {
+				$this->fixUnencryptedSizeOf[$this->getFullPath($path)] = true;
+				try {
+					$result = $this->fixUnencryptedSize($path, $size, $unencryptedSize);
+				} catch (\Exception $e) {
+					$this->logger->error('Couldn\'t re-calculate unencrypted size for '. $path);
+					$this->logger->logException($e);
+				}
+				unset($this->fixUnencryptedSizeOf[$this->getFullPath($path)]);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * calculate the unencrypted size
+	 *
+	 * @param string $path internal path relative to the storage root
+	 * @param int $size size of the physical file
+	 * @param int $unencryptedSize size of the unencrypted file
+	 *
+	 * @return int calculated unencrypted size
+	 */
+	protected function fixUnencryptedSize($path, $size, $unencryptedSize) {
+
+		$headerSize = $this->getHeaderSize($path);
+		$header = $this->getHeader($path);
+		$encryptionModule = $this->getEncryptionModule($path);
+
+		$stream = $this->storage->fopen($path, 'r');
+
+		// if we couldn't open the file we return the old unencrypted size
+		if (!is_resource($stream)) {
+			$this->logger->error('Could not open ' . $path . '. Recalculation of unencrypted size aborted.');
+			return $unencryptedSize;
+		}
+
+		$newUnencryptedSize = 0;
+		$size -= $headerSize;
+		$blockSize = $this->util->getBlockSize();
+
+		// if a header exists we skip it
+		if ($headerSize > 0) {
+			fread($stream, $headerSize);
+		}
+
+		// fast path, else the calculation for $lastChunkNr is bogus
+		if ($size === 0) {
+			return 0;
+		}
+
+		$signed = (isset($header['signed']) && $header['signed'] === 'true') ? true : false;
+		$unencryptedBlockSize = $encryptionModule->getUnencryptedBlockSize($signed);
+
+		// calculate last chunk nr
+		// next highest is end of chunks, one subtracted is last one
+		// we have to read the last chunk, we can't just calculate it (because of padding etc)
+
+		$lastChunkNr = ceil($size/ $blockSize)-1;
+		// calculate last chunk position
+		$lastChunkPos = ($lastChunkNr * $blockSize);
+		// try to fseek to the last chunk, if it fails we have to read the whole file
+		if (@fseek($stream, $lastChunkPos, SEEK_CUR) === 0) {
+			$newUnencryptedSize += $lastChunkNr * $unencryptedBlockSize;
+		}
+
+		$lastChunkContentEncrypted='';
+		$count = $blockSize;
+
+		while ($count > 0) {
+			$data=fread($stream, $blockSize);
+			$count=strlen($data);
+			$lastChunkContentEncrypted .= $data;
+			if(strlen($lastChunkContentEncrypted) > $blockSize) {
+				$newUnencryptedSize += $unencryptedBlockSize;
+				$lastChunkContentEncrypted=substr($lastChunkContentEncrypted, $blockSize);
+			}
+		}
+
+		fclose($stream);
+
+		// we have to decrypt the last chunk to get it actual size
+		$encryptionModule->begin($this->getFullPath($path), $this->uid, 'r', $header, []);
+		$decryptedLastChunk = $encryptionModule->decrypt($lastChunkContentEncrypted, $lastChunkNr . 'end');
+		$decryptedLastChunk .= $encryptionModule->end($this->getFullPath($path), $lastChunkNr . 'end');
+
+		// calc the real file size with the size of the last chunk
+		$newUnencryptedSize += strlen($decryptedLastChunk);
+
+		$this->updateUnencryptedSize($this->getFullPath($path), $newUnencryptedSize);
+
+		// write to cache if applicable
+		$cache = $this->storage->getCache();
+		if ($cache) {
+			$entry = $cache->get($path);
+			$cache->update($entry['fileid'], ['size' => $newUnencryptedSize]);
+		}
+
+		return $newUnencryptedSize;
 	}
 
 	/**
