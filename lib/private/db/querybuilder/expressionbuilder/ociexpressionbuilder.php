@@ -149,4 +149,13 @@ class OCIExpressionBuilder extends ExpressionBuilder {
 
 		return parent::castColumn($column, $type);
 	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function iLike($x, $y, $type = null) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return 'REGEXP_LIKE(`'.$x.'`, \'^\' || REPLACE('.$y.', \'%\', \'.*\') || \'$\', \'i\')';
+	}
 }

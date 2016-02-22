@@ -25,23 +25,7 @@ namespace OC\DB\QueryBuilder\ExpressionBuilder;
 use OC\DB\QueryBuilder\QueryFunction;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 
-class PgSqlExpressionBuilder extends ExpressionBuilder {
-
-	/**
-	 * Returns a IQueryFunction that casts the column to the given type
-	 *
-	 * @param string $column
-	 * @param mixed $type One of IQueryBuilder::PARAM_*
-	 * @return string
-	 */
-	public function castColumn($column, $type) {
-		if ($type === IQueryBuilder::PARAM_INT) {
-			$column = $this->helper->quoteColumnName($column);
-			return new QueryFunction('CAST(' . $column . ' AS INT)');
-		}
-
-		return parent::castColumn($column, $type);
-	}
+class MySqlExpressionBuilder extends ExpressionBuilder {
 
 	/**
 	 * @inheritdoc
@@ -49,7 +33,7 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	public function iLike($x, $y, $type = null) {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
-		return $this->comparison($x, 'ILIKE', $y);
+		return $this->comparison($x, ' COLLATE utf8_general_ci LIKE', $y);
 	}
 
 }
