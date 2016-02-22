@@ -1696,6 +1696,32 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
+	public function testNoAvatar() {
+		$this->container['IsAdmin'] = true;
+
+		list($user, $expectedResult) = $this->mockUser();
+
+		$subadmin = $this->getMockBuilder('\OC\SubAdmin')
+			->disableOriginalConstructor()
+			->getMock();
+		$subadmin->expects($this->once())
+			->method('getSubAdminsGroups')
+			->with($user)
+			->will($this->returnValue([]));
+		$this->container['GroupManager']
+			->expects($this->any())
+			->method('getSubAdmin')
+			->will($this->returnValue($subadmin));
+
+		$this->container['OCP\\IAvatarManager']
+			->method('getAvatar')
+			->will($this->throwException(new \OCP\Files\NotFoundException()));
+		$expectedResult['isAvatarAvailable'] = false;
+
+		$result = self::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
+		$this->assertEquals($expectedResult, $result);
+	}
+
 	/**
 	 * @return array
 	 */

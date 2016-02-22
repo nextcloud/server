@@ -36,6 +36,8 @@ interface IAvatarManager {
 	 * @see \OCP\IAvatar
 	 * @param string $user the ownCloud user id
 	 * @return \OCP\IAvatar
+	 * @throws \Exception In case the username is potentially dangerous
+	 * @throws \OCP\Files\NotFoundException In case there is no user folder yet
 	 * @since 6.0.0
 	 */
 	public function getAvatar($user);
