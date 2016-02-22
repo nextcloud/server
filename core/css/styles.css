@@ -650,7 +650,7 @@ td.avatar {
 	width: 100%;
 	text-align: center;
 }
-#notification, #update-notification {
+#notification {
 	margin: 0 auto;
 	max-width: 60%;
 	z-index: 8000;
@@ -665,7 +665,7 @@ td.avatar {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
 	opacity: .9;
 }
-#notification span, #update-notification span {
+#notification span {
 	cursor: pointer;
 	margin-left: 1em;
 }
