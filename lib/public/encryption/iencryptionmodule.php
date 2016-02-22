@@ -71,29 +71,41 @@ interface IEncryptionModule {
 	 * buffer.
 	 *
 	 * @param string $path to the file
+	 * @param string $position id of the last block (looks like "<Number>end")
+	 *
 	 * @return string remained data which should be written to the file in case
 	 *                of a write operation
+	 *
 	 * @since 8.1.0
+	 * @since 9.0.0 parameter $position added
 	 */
-	public function end($path);
+	public function end($path, $position);
 
 	/**
 	 * encrypt data
 	 *
 	 * @param string $data you want to encrypt
+	 * @param string $position position of the block we want to encrypt (starts with '0')
+	 *
 	 * @return mixed encrypted data
+	 *
 	 * @since 8.1.0
+	 * @since 9.0.0 parameter $position added
 	 */
-	public function encrypt($data);
+	public function encrypt($data, $position);
 
 	/**
 	 * decrypt data
 	 *
 	 * @param string $data you want to decrypt
+	 * @param string $position position of the block we want to decrypt
+	 *
 	 * @return mixed decrypted data
+	 *
 	 * @since 8.1.0
+	 * @since 9.0.0 parameter $position added
 	 */
-	public function decrypt($data);
+	public function decrypt($data, $position);
 
 	/**
 	 * update encrypted file, e.g. give additional users access to the file
