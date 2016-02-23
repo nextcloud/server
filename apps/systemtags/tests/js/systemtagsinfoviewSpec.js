@@ -22,14 +22,17 @@
 describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 	var isAdminStub;
 	var view;
+	var clock;
 
 	beforeEach(function() {
+		clock = sinon.useFakeTimers();
 		view = new OCA.SystemTags.SystemTagsInfoView();
 		$('#testArea').append(view.$el);
 		isAdminStub = sinon.stub(OC, 'isUserAdmin').returns(true);
 	});
 	afterEach(function() {
 		isAdminStub.restore();
+		clock.restore();
 		view.remove();
 		view = undefined;
 	});
