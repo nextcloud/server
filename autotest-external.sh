@@ -148,7 +148,7 @@ EOF
 
 	# trigger installation
 	echo "Installing ...."
-	./occ maintenance:install --database=$1 --database-name=$DATABASENAME --database-host=localhost --database-user=$DATABASEUSER --database-pass=owncloud --database-table-prefix=oc_ --admin-user=$ADMINLOGIN --admin-pass=admin --data-dir=$DATADIR
+	./occ maintenance:install -vvv --database=$1 --database-name=$DATABASENAME --database-host=localhost --database-user=$DATABASEUSER --database-pass=owncloud --database-table-prefix=oc_ --admin-user=$ADMINLOGIN --admin-pass=admin --data-dir=$DATADIR
 
 	#test execution
 	echo "Testing with $1 ..."
@@ -161,7 +161,7 @@ EOF
 	rm -rf "coverage-external-html-$1"
 	mkdir "coverage-external-html-$1"
 	# just enable files_external
-	php ../occ app:enable files_external
+	php ../occ app:enable -vvv files_external
 	if [[ "$_XDEBUG_CONFIG" ]]; then
 		export XDEBUG_CONFIG=$_XDEBUG_CONFIG
 	fi
