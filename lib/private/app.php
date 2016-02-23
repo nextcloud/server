@@ -87,7 +87,7 @@ class OC_App {
 	/**
 	 * loads all apps
 	 *
-	 * @param array $types
+	 * @param string[] | string | null $types
 	 * @return bool
 	 *
 	 * This function walks through the ownCloud directory and loads all apps
