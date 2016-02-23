@@ -49,7 +49,7 @@ class PgSqlExpressionBuilder extends ExpressionBuilder {
 	public function iLike($x, $y, $type = null) {
 		$x = $this->helper->quoteColumnName($x);
 		$y = $this->helper->quoteColumnName($y);
-		return $this->comparison($x, 'ILIKE', $y);
+		return $this->expressionBuilder->comparison($x, 'ILIKE', $y);
 	}
 
 }
