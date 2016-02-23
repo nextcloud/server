@@ -31,10 +31,6 @@ use OCA\DAV\Files\CustomPropertiesBackend;
 use OCP\IRequest;
 use OCP\SabrePluginEvent;
 use Sabre\DAV\Auth\Plugin;
-use Sabre\DAV\IFile;
-use Sabre\HTTP\RequestInterface;
-use Sabre\HTTP\ResponseInterface;
-use Sabre\HTTP\Util;
 
 class Server {
 
