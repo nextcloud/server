@@ -23,7 +23,7 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'		<label for="mountOptionsPreviews">{{t "files_external" "Enable previews"}}</label>' +
 	'	</div>' +
 	'	<div class="optionRow">' +
-	'		<input id="mountOptionsSharing" name="enable_sharing" type="checkbox" value="true" checked="checked"/>' +
+	'		<input id="mountOptionsSharing" name="enable_sharing" type="checkbox" value="true"/>' +
 	'		<label for="mountOptionsSharing">{{t "files_external" "Enable sharing"}}</label>' +
 	'	</div>' +
 	'	<div class="optionRow">' +
@@ -888,7 +888,7 @@ MountConfigListView.prototype = _.extend({
 			$tr.find('input.mountOptions').val(JSON.stringify({
 				'encrypt': true,
 				'previews': true,
-				'enable_sharing': true,
+				'enable_sharing': false,
 				'filesystem_check_changes': 1
 			}));
 		}
