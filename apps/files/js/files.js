@@ -408,13 +408,13 @@ var dragOptions={
 		var top = $(window).scrollTop() + scrollArea;
 		if (event.pageY < top){
 			
-			scrollTop: $("#app-content").scrollTop(currentScrollTop-=10);
+			$("#app-content").scrollTop(currentScrollTop-=10);
 			
 		}
 		if (event.pageY > bottom)
 		{
 		
-			scrollTop: $("#app-content").scrollTop(currentScrollTop+=10);
+			$("#app-content").scrollTop(currentScrollTop+=10);
 			
 		}
 
