@@ -38,7 +38,6 @@ pass=testing
 tenant=testenant
 region=testregion
 service=testceph
-endpointFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 container=`docker run -d \
     -e KEYSTONE_PUBLIC_PORT=${port} \
@@ -48,9 +47,8 @@ container=`docker run -d \
     -e KEYSTONE_ENDPOINT_REGION=${region} \
     -e KEYSTONE_SERVICE=${service} \
     -e OSD_SIZE=300 \
-    -v ${endpointFolder}/entrypoint.sh:/entrypoint.sh \
     --privileged \
-    --entrypoint /entrypoint.sh ${docker_image}`
+    ${docker_image}`
 
 host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
