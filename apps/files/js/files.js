@@ -402,20 +402,20 @@ var dragOptions={
 	},
 	drag: function(event, ui) {
 		var currentScrollTop = $("#app-content").scrollTop();
-		var scrollArea = Math.min(Math.floor($(window).innerHeight()/2), 300);
+		var scrollArea = Math.min(Math.floor($(window).innerHeight()/2), 100);
 
 		var bottom = $(window).innerHeight() - scrollArea;
 		var top = $(window).scrollTop() + scrollArea;
 		if (event.pageY < top){
-			$('html, body').animate({
-				scrollTop: $("#app-content").scrollTop(currentScrollTop-=10)
-			},800);
+			
+			scrollTop: $("#app-content").scrollTop(currentScrollTop-=10);
+			
 		}
 		if (event.pageY > bottom)
 		{
-			$('html, body').animate({
-				scrollTop: $("#app-content").scrollTop(currentScrollTop+=10)
-			},800);
+		
+			scrollTop: $("#app-content").scrollTop(currentScrollTop+=10);
+			
 		}
 
 	}
