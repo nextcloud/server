@@ -412,7 +412,7 @@ var dragOptions={
 			$(scrollingArea).scrollTop(currentScrollTop-=10);
 			
 		}
-		if (event.pageY > bottom)
+		else if (event.pageY > bottom)
 		{
 		
 			$(scrollingArea).scrollTop(currentScrollTop+=10);
