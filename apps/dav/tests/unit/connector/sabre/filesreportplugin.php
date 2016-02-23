@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\DAV\Tests\Unit\Sabre\Connector;
+namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
 use Sabre\DAV\Exception\NotFound;
@@ -369,7 +369,7 @@ class FilesReportPlugin extends \Test\TestCase {
 				['123', 'files']
 			)
 			->willReturnMap([
-				['123', 'files', ['111', '222']],
+				['123', 'files', 0, '', ['111', '222']],
 			]);
 
 		$rules = [
@@ -391,8 +391,8 @@ class FilesReportPlugin extends \Test\TestCase {
 				['456', 'files']
 			)
 			->willReturnMap([
-				['123', 'files', ['111', '222']],
-				['456', 'files', ['222', '333']],
+				['123', 'files', 0, '', ['111', '222']],
+				['456', 'files', 0, '', ['222', '333']],
 			]);
 
 		$rules = [
@@ -415,8 +415,8 @@ class FilesReportPlugin extends \Test\TestCase {
 				['456', 'files']
 			)
 			->willReturnMap([
-				['123', 'files', ['111', '222']],
-				['456', 'files', []],
+				['123', 'files', 0, '', ['111', '222']],
+				['456', 'files', 0, '', []],
 			]);
 
 		$rules = [
@@ -439,8 +439,8 @@ class FilesReportPlugin extends \Test\TestCase {
 				['456', 'files']
 			)
 			->willReturnMap([
-				['123', 'files', []],
-				['456', 'files', ['111', '222']],
+				['123', 'files', 0, '', []],
+				['456', 'files', 0, '', ['111', '222']],
 			]);
 
 		$rules = [
@@ -464,9 +464,9 @@ class FilesReportPlugin extends \Test\TestCase {
 				['789', 'files']
 			)
 			->willReturnMap([
-				['123', 'files', ['111', '222']],
-				['456', 'files', ['333']],
-				['789', 'files', ['111', '222']],
+				['123', 'files', 0, '', ['111', '222']],
+				['456', 'files', 0, '', ['333']],
+				['789', 'files', 0, '', ['111', '222']],
 			]);
 
 		$rules = [

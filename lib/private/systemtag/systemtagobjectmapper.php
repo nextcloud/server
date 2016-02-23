@@ -95,7 +95,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getObjectIdsForTags($tagIds, $objectType) {
+	public function getObjectIdsForTags($tagIds, $objectType, $limit = 0, $offset = '') {
 		if (!is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -105,10 +105,21 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$query = $this->connection->getQueryBuilder();
 		$query->select($query->createFunction('DISTINCT(`objectid`)'))
 			->from(self::RELATION_TABLE)
-			->where($query->expr()->in('systemtagid', $query->createParameter('tagids')))
-			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
-			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
-			->setParameter('objecttype', $objectType);
+			->where($query->expr()->in('systemtagid', $query->createNamedParameter($tagIds, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)));
+
+		if ($limit) {
+			if (sizeof($tagIds) !== 1) {
+				throw new \InvalidArgumentException('Limit is only allowed with a single tag');
+			}
+
+			$query->setMaxResults($limit)
+				->orderBy('objectid', 'ASC');
+
+			if ($offset !== '') {
+				$query->andWhere($query->expr()->gt('objectid', $query->createNamedParameter($offset)));
+			}
+		}
 
 		$objectIds = [];
 
