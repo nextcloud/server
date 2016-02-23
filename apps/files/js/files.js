@@ -401,20 +401,21 @@ var dragOptions={
 		$selectedFiles.closest('tr').fadeTo(250, 1).removeClass('dragging');
 	},
 	drag: function(event, ui) {
-		var currentScrollTop = $("#app-content").scrollTop();
+		var scrollingArea = FileList.$container;
+		var currentScrollTop = $(scrollingArea).scrollTop();
 		var scrollArea = Math.min(Math.floor($(window).innerHeight()/2), 100);
 
 		var bottom = $(window).innerHeight() - scrollArea;
 		var top = $(window).scrollTop() + scrollArea;
 		if (event.pageY < top){
 			
-			$("#app-content").scrollTop(currentScrollTop-=10);
+			$(scrollingArea).scrollTop(currentScrollTop-=10);
 			
 		}
 		if (event.pageY > bottom)
 		{
 		
-			$("#app-content").scrollTop(currentScrollTop+=10);
+			$(scrollingArea).scrollTop(currentScrollTop+=10);
 			
 		}
 
