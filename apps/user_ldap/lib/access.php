@@ -546,8 +546,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 					if(is_null($nameByLDAP)) {
 						continue;
 					}
-					$sndName = isset($ldapObject[$sndAttribute])
-						? $ldapObject[$sndAttribute] : '';
+					$sndName = isset($ldapObject[$sndAttribute][0])
+						? $ldapObject[$sndAttribute][0] : '';
 					$this->cacheUserDisplayName($ocName, $nameByLDAP, $sndName);
 				}
 			}
