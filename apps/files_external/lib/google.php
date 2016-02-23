@@ -33,6 +33,7 @@
 
 namespace OC\Files\Storage;
 
+use GuzzleHttp\Exception\RequestException;
 use Icewind\Streams\IteratorDirectory;
 
 set_include_path(get_include_path().PATH_SEPARATOR.
@@ -439,9 +440,10 @@ class Google extends \OC\Files\Storage\Common {
 						// the library's service doesn't support streaming, so we use Guzzle instead
 						$client = \OC::$server->getHTTPClientService()->newClient();
 						try {
-							$response = $client->get($downloadUrl, [
+							$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
+							$client->get($downloadUrl, [
 								'headers' => $httpRequest->getRequestHeaders(),
-								'stream' => true
+								'save_to' => $tmpFile,
 							]);
 						} catch (RequestException $e) {
 							if ($e->getResponse()->getStatusCode() === 404) {
@@ -451,7 +453,7 @@ class Google extends \OC\Files\Storage\Common {
 							}
 						}
 
-						return $response->getBody();
+						return fopen($tmpFile, 'r');
 					}
 				}
 				return false;
