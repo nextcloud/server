@@ -74,14 +74,16 @@ class OC_FileChunking {
 
 	public function isComplete() {
 		$prefix = $this->getPrefix();
-		$parts = 0;
 		$cache = $this->getCache();
-		for($i=0; $i < $this->info['chunkcount']; $i++) {
-			if ($cache->hasKey($prefix.$i)) {
-				$parts ++;
+		$chunkcount = (int)$this->info['chunkcount'];
+
+		for($i=($chunkcount-1); $i >= 0; $i--) {
+			if (!$cache->hasKey($prefix.$i)) {
+				return false;
 			}
 		}
-		return $parts == $this->info['chunkcount'];
+
+		return true;
 	}
 
 	/**
