@@ -409,13 +409,17 @@ var dragOptions={
 		var top = $(window).scrollTop() + scrollArea;
 		if (event.pageY < top){
 			
-			$(scrollingArea).scrollTop(currentScrollTop-=10);
+			$(scrollingArea).scrollTop(
+				currentScrollTop -= 10
+				);
 			
 		}
 		else if (event.pageY > bottom)
 		{
 		
-			$(scrollingArea).scrollTop(currentScrollTop+=10);
+			$(scrollingArea).scrollTop(
+				currentScrollTop += 10
+				);
 			
 		}
 
