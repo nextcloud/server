@@ -495,3 +495,14 @@ Feature: sharing
     And user "user2" does not exist
     And user "user1" should see following elements
       | /myFOLDER/myTMP/ |
+
+  Scenario: Check quota of owners parent directory of a shared file
+    Given using dav path "remote.php/webdav"
+    And As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user1" has a quota of "0"
+    And User "user0" moved file "/welcome.txt" to "/myfile.txt"
+    And file "myfile.txt" of user "user0" is shared with user "user1"
+    When User "user1" uploads file "data/textfile.txt" to "/myfile.txt"
+    Then the HTTP status code should be "204"
