@@ -277,6 +277,23 @@ class ExpressionBuilder implements IExpressionBuilder {
 	}
 
 	/**
+	 * Creates a ILIKE() comparison expression with the given arguments.
+	 *
+	 * @param string $x Field in string format to be inspected by ILIKE() comparison.
+	 * @param mixed $y Argument to be used in ILIKE() comparison.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function iLike($x, $y, $type = null) {
+		$x = $this->helper->quoteColumnName($x);
+		$y = $this->helper->quoteColumnName($y);
+		return $this->expressionBuilder->comparison("LOWER($x)", 'LIKE', "LOWER($y)");
+	}
+
+	/**
 	 * Creates a NOT LIKE() comparison expression with the given arguments.
 	 *
 	 * @param string $x Field in string format to be inspected by NOT LIKE() comparison.

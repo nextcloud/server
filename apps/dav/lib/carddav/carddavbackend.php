@@ -776,7 +776,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			$query2->orWhere(
 				$query2->expr()->andX(
 					$query2->expr()->eq('cp.name', $query->createNamedParameter($property)),
-					$query2->expr()->like('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%'))
+					$query2->expr()->ilike('cp.value', $query->createNamedParameter('%' . $this->db->escapeLikeParameter($pattern) . '%'))
 				)
 			);
 		}

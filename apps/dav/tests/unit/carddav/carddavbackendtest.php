@@ -547,8 +547,8 @@ class CardDavBackendTest extends TestCase {
 				['John', ['FN'], ['John Doe', 'John M. Doe']],
 				['M. Doe', ['FN'], ['John M. Doe']],
 				['Do', ['FN'], ['John Doe', 'John M. Doe']],
-				// check if duplicates are handled correctly
-				['John', ['FN', 'CLOUD'], ['John Doe', 'John M. Doe']],
+				'check if duplicates are handled correctly' => ['John', ['FN', 'CLOUD'], ['John Doe', 'John M. Doe']],
+				'case insensitive' => ['john', ['FN'], ['John Doe', 'John M. Doe']]
 		];
 	}
 

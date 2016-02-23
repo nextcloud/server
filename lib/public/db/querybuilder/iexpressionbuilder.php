@@ -264,6 +264,19 @@ interface IExpressionBuilder {
 	public function notLike($x, $y, $type = null);
 
 	/**
+	 * Creates a ILIKE() comparison expression with the given arguments.
+	 *
+	 * @param string $x Field in string format to be inspected by ILIKE() comparison.
+	 * @param mixed $y Argument to be used in ILIKE() comparison.
+	 * @param mixed|null $type one of the IQueryBuilder::PARAM_* constants
+	 *                  required when comparing text fields for oci compatibility
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function iLike($x, $y, $type = null);
+
+	/**
 	 * Creates a IN () comparison expression with the given arguments.
 	 *
 	 * @param string $x The field in string format to be inspected by IN() comparison.
