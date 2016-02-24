@@ -12,6 +12,8 @@ require __DIR__ . '/../../vendor/autoload.php';
 trait WebDav {
 	/** @var string*/
 	private $davPath = "remote.php/webdav";
+	/** @var ResponseInterface */
+	private $response;
 
 	/**
 	 * @Given /^using dav path "([^"]*)"$/
@@ -104,6 +106,48 @@ trait WebDav {
 		$this->downloadedContentShouldBe($content);
 	}
 
+	/**
+	 * @When Downloading file :fileName
+	 */
+	public function downloadingFile($fileName) {
+		$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
+	}
+
+	/**
+	 * @Then The following headers should be set
+	 */
+	public function theFollowingHeadersShouldBeSet(\Behat\Gherkin\Node\TableNode $table) {
+		foreach($table->getTable() as $header) {
+			$headerName = $header[0];
+			$expectedHeaderValue = $header[1];
+			$returnedHeader = $this->response->getHeader($headerName);
+			if($returnedHeader !== $expectedHeaderValue) {
+				throw new \Exception(
+					sprintf(
+						"Expected value '%s' for header '%s', got '%s'",
+						$expectedHeaderValue,
+						$headerName,
+						$returnedHeader
+					)
+				);
+			}
+		}
+	}
+
+	/**
+	 * @Then Downloaded content should start with :start
+	 */
+	public function downloadedContentShouldStartWith($start) {
+		if(strpos($this->response->getBody()->getContents(), $start) !== 0) {
+			throw new \Exception(
+				sprintf(
+					"Expected '%s', got '%s'",
+					$start,
+					$this->response->getBody()->getContents()
+				)
+			);
+		}
+	}
 
 	/*Returns the elements of a propfind, $folderDepth requires 1 to see elements without children*/
 	public function listFolder($user, $path, $folderDepth){

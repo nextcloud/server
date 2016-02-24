@@ -31,10 +31,6 @@ use OCA\DAV\Files\CustomPropertiesBackend;
 use OCP\IRequest;
 use OCP\SabrePluginEvent;
 use Sabre\DAV\Auth\Plugin;
-use Sabre\DAV\IFile;
-use Sabre\HTTP\RequestInterface;
-use Sabre\HTTP\ResponseInterface;
-use Sabre\HTTP\Util;
 
 class Server {
 
@@ -113,19 +109,6 @@ class Server {
 		])) {
 			$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
 		}
-
-		// Serve all files with an Content-Disposition of type "attachment"
-		$this->server->on('beforeMethod', function (RequestInterface $requestInterface, ResponseInterface $responseInterface) {
-			if ($requestInterface->getMethod() === 'GET') {
-				$path = $requestInterface->getPath();
-				if ($this->server->tree->nodeExists($path)) {
-					$node = $this->server->tree->getNodeForPath($path);
-					if (($node instanceof IFile)) {
-						$responseInterface->addHeader('Content-Disposition', 'attachment');
-					}
-				}
-			}
-		});
 
 		// wait with registering these until auth is handled and the filesystem is setup
 		$this->server->on('beforeMethod', function () {
