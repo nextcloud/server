@@ -1249,11 +1249,10 @@
 		<!-- object id (ex: file id for files)-->
 		<field>
 			<name>objectid</name>
-			<type>integer</type>
-			<default>0</default>
+			<type>text</type>
+			<default></default>
 			<notnull>true</notnull>
-			<unsigned>true</unsigned>
-			<length>4</length>
+			<length>64</length>
 		</field>
 
 		<!-- object type (ex: "files")-->

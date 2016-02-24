@@ -103,7 +103,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$this->assertTagsExist($tagIds);
 
 		$query = $this->connection->getQueryBuilder();
-		$query->select($query->createFunction('DISTINCT(`objectid`)'))
+		$query->selectDistinct('objectid')
 			->from(self::RELATION_TABLE)
 			->where($query->expr()->in('systemtagid', $query->createNamedParameter($tagIds, IQueryBuilder::PARAM_INT_ARRAY)))
 			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)));
@@ -219,7 +219,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
 			->andWhere($query->expr()->eq('systemtagid', $query->createParameter('tagid')))
-			->setParameter('objectids', $objIds, IQueryBuilder::PARAM_INT_ARRAY)
+			->setParameter('objectids', $objIds, IQueryBuilder::PARAM_STR_ARRAY)
 			->setParameter('tagid', $tagId)
 			->setParameter('objecttype', $objectType);
 
