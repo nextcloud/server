@@ -45,7 +45,7 @@ class CommentsEvent extends Event {
 	 *
 	 * @param string $event
 	 * @param IComment $comment
-	 * @since 9.0.IComment
+	 * @since 9.0.0
 	 */
 	public function __construct($event, IComment $comment) {
 		$this->event = $event;
