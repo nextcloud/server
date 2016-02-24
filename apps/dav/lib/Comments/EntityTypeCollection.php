@@ -22,7 +22,6 @@
 namespace OCA\DAV\Comments;
 
 use OCP\Comments\ICommentsManager;
-use OCP\Files\Folder;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -41,8 +40,6 @@ use Sabre\DAV\Exception\NotFound;
  * @package OCA\DAV\Comments
  */
 class EntityTypeCollection extends RootCollection {
-	/** @var  Folder */
-	protected $fileRoot;
 
 	/** @var ILogger */
 	protected $logger;
@@ -93,7 +90,6 @@ class EntityTypeCollection extends RootCollection {
 			$name,
 			$this->name,
 			$this->commentsManager,
-			$this->fileRoot,
 			$this->userManager,
 			$this->userSession,
 			$this->logger
@@ -120,6 +116,5 @@ class EntityTypeCollection extends RootCollection {
 		$nodes = $this->fileRoot->getById(intval($name));
 		return !empty($nodes);
 	}
-
 
 }
