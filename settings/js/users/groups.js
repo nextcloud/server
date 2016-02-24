@@ -142,8 +142,8 @@ GroupList = {
 							.text(result.groupname));
 				}
 				GroupList.toggleAddGroup();
-			}).fail(function(result, textStatus, errorThrown) {
-				OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating group'));
+			}).fail(function(result) {
+				OC.Notification.showTemporary(t('settings', 'Error creating group: {message}', {message: result.responseJSON.message}));
 			});
 	},
 
@@ -245,9 +245,9 @@ GroupList = {
 
 	isGroupNameValid: function (groupname) {
 		if ($.trim(groupname) === '') {
-			OC.dialogs.alert(
-				t('settings', 'A valid group name must be provided'),
-				t('settings', 'Error creating group'));
+			OC.Notification.showTemporary(t('settings', 'Error creating group: {message}', {
+				message: t('settings', 'A valid group name must be provided')
+			}));
 			return false;
 		}
 		return true;
