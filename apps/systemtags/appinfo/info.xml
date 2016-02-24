@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <info>
 	<id>systemtags</id>
-	<name>System tags</name>
-	<description>System-wide tags user interface</description>
+	<name>Collaborative tags</name>
+	<description>Collaborative tagging functionality which shares tags among users. Great for teams.
+	(If you are a provider with a multi-tenancy installation, it is advised to deactivate this app as tags are shared.)</description>
 	<licence>AGPL</licence>
 	<author>Vincent Petry</author>
 	<default_enable/>

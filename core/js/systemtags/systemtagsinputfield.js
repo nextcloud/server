@@ -375,7 +375,7 @@
 			this.$el.find('[title]').tooltip({placement: 'bottom'});
 			this.$tagsField = this.$el.find('[name=tags]');
 			this.$tagsField.select2({
-				placeholder: t('core', 'Global tags'),
+				placeholder: t('core', 'Collaborative tags'),
 				containerCssClass: 'systemtags-select2-container',
 				dropdownCssClass: 'systemtags-select2-dropdown',
 				closeOnSelect: false,
