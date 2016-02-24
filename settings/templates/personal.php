@@ -72,7 +72,7 @@ if($_['displayNameChangeSupported']) {
 <?php
 } else {
 ?>
-<div class="section">
+<div id="displaynameform" class="section">
 	<h2><?php echo $l->t('Full name');?></h2>
 	<span><?php if(isset($_['displayName'][0])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
 </div>
@@ -96,7 +96,7 @@ if($_['passwordChangeSupported']) {
 <?php
 } else {
 ?>
-<div class="section">
+<div id="lostpassword" class="section">
 	<h2><?php echo $l->t('Email'); ?></h2>
 	<span><?php if(isset($_['email'][0])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
 </div>
