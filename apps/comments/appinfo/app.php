@@ -51,3 +51,10 @@ $managerListener = function(\OCP\Comments\CommentsEvent $event) use ($activityMa
 };
 
 $eventDispatcher->addListener(\OCP\Comments\CommentsEvent::EVENT_ADD, $managerListener);
+
+$eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, function(\OCP\Comments\CommentsEntityEvent $event) {
+	$event->addEntityCollection('files', function($name) {
+		$nodes = \OC::$server->getUserFolder()->getById(intval($name));
+		return !empty($nodes);
+	});
+});

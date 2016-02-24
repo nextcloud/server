@@ -77,7 +77,7 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getCommentsManager(),
 			\OC::$server->getUserManager(),
 			\OC::$server->getUserSession(),
-			\OC::$server->getRootFolder(),
+			\OC::$server->getEventDispatcher(),
 			\OC::$server->getLogger()
 		);
 
