@@ -18,17 +18,17 @@ trait Sharing{
 	private $lastShareData = null;
 
 	/**
-	 * @When /^creating a share with$/
+	 * @Given /^as "([^"]*)" creating a share with$/
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
-	public function creatingShare($body) {
+	public function asCreatingAShareWith($user, $body) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v1/shares";
 		$client = new Client();
 		$options = [];
-		if ($this->currentUser === 'admin') {
+		if ($user === 'admin') {
 			$options['auth'] = $this->adminUser;
 		} else {
-			$options['auth'] = [$this->currentUser, $this->regularUser];
+			$options['auth'] = [$user, $this->regularUser];
 		}
 
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
@@ -47,6 +47,14 @@ trait Sharing{
 		}
 
 		$this->lastShareData = $this->response->xml();
+	}
+
+	/**
+	 * @When /^creating a share with$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 */
+	public function creatingShare($body) {
+		return $this->asCreatingAShareWith($this->currentUser, $body);
 	}
 
 	/**

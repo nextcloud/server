@@ -1,4 +1,4 @@
-Feature: sharing
+Feature: webdav-related
 	Background:
 		Given using api version "1"
 
@@ -22,6 +22,42 @@ Feature: sharing
 		And user "user0" has a quota of "0"
 		When User "user0" uploads file "data/textfile.txt" to "/asdf.txt"
 		Then the HTTP status code should be "507"
+
+	Scenario: Retrieving folder quota when no quota is set
+		Given using dav path "remote.php/webdav"
+		And As an "admin"
+		And user "user0" exists
+		When user "user0" has unlimited quota
+		Then as "user0" gets properties of folder "/" with
+		  |{DAV:}quota-available-bytes|
+		And the single response should contain a property "{DAV:}quota-available-bytes" with value "-3"
+
+	Scenario: Retrieving folder quota when quota is set
+		Given using dav path "remote.php/webdav"
+		And As an "admin"
+		And user "user0" exists
+		When user "user0" has a quota of "10 MB"
+		Then as "user0" gets properties of folder "/" with
+		  |{DAV:}quota-available-bytes|
+		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485429"
+
+	Scenario: Retrieving folder quota of shared folder with quota when no quota is set for recipient
+		Given using dav path "remote.php/webdav"
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And user "user0" has unlimited quota
+		And user "user1" has a quota of "10 MB"
+		And As an "user1"
+		And user "user1" created a folder "/testquota"
+		And as "user1" creating a share with
+		  | path | testquota |
+		  | shareType | 0 |
+		  | permissions | 31 |
+		  | shareWith | user0 |
+		Then as "user0" gets properties of folder "/testquota" with
+		  |{DAV:}quota-available-bytes|
+		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485429"
 
 	Scenario: download a public shared file with range
 		Given user "user0" exists

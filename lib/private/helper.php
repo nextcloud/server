@@ -610,10 +610,12 @@ class OC_Helper {
 		if ($used < 0) {
 			$used = 0;
 		}
-		$quota = 0;
+		$quota = \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		$storage = $rootInfo->getStorage();
-		if ($includeExtStorage && $storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
+		$sourceStorage = $storage;
+		if ($storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
 			$includeExtStorage = false;
+			$sourceStorage = $storage->getSourceStorage();
 		}
 		if ($includeExtStorage) {
 			$quota = OC_Util::getUserQuota(\OCP\User::getUser());
@@ -624,9 +626,9 @@ class OC_Helper {
 		}
 
 		// TODO: need a better way to get total space from storage
-		if ($storage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
+		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
 			/** @var \OC\Files\Storage\Wrapper\Quota $storage */
-			$quota = $storage->getQuota();
+			$quota = $sourceStorage->getQuota();
 		}
 		$free = $storage->free_space('');
 		if ($free >= 0) {
@@ -654,6 +656,7 @@ class OC_Helper {
 		return [
 			'free' => $free,
 			'used' => $used,
+			'quota' => $quota,
 			'total' => $total,
 			'relative' => $relative,
 			'owner' => $ownerId,

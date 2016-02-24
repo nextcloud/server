@@ -291,9 +291,14 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 		}
 		try {
 			$storageInfo = \OC_Helper::getStorageInfo($this->info->getPath(), $this->info);
+			if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+				$free = \OCP\Files\FileInfo::SPACE_UNLIMITED;
+			} else {
+				$free = $storageInfo['free'];
+			}
 			$this->quotaInfo = array(
 				$storageInfo['used'],
-				$storageInfo['free']
+				$free
 			);
 			return $this->quotaInfo;
 		} catch (\OCP\Files\StorageNotAvailableException $e) {

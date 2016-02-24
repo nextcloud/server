@@ -20,7 +20,7 @@ trait WebDav {
 	 */
 	public function usingDavPath($davPath) {
 		$this->davPath = $davPath;
-	}	
+	}
 
 	public function makeDavRequest($user, $method, $path, $headers, $body = null){
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath . "$path";
@@ -34,7 +34,7 @@ trait WebDav {
 		$request = $client->createRequest($method, $fullUrl, $options);
 		if (!is_null($headers)){
 			foreach ($headers as $key => $value) {
-				$request->addHeader($key, $value);	
+				$request->addHeader($key, $value);
 			}
 		}
 
@@ -84,7 +84,7 @@ trait WebDav {
 		$client = new GClient();
 		$options = [];
 		$options['auth'] = [$token, ""];
-		
+
 		$request = $client->createRequest("GET", $fullUrl, $options);
 		$request->addHeader('Range', $range);
 
@@ -149,8 +149,37 @@ trait WebDav {
 		}
 	}
 
+	/**
+	 * @Then /^as "([^"]*)" gets properties of folder "([^"]*)" with$/
+	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
+	 */
+	public function asGetsPropertiesOfFolderWith($user, $path, $propertiesTable) {
+		$properties = null;
+		if ($propertiesTable instanceof \Behat\Gherkin\Node\TableNode) {
+			foreach ($propertiesTable->getRows() as $row) {
+				$properties[] = $row[0];
+			}
+		}
+		$this->response = $this->listFolder($user, $path, 0, $properties);
+	}
+
+	/**
+	 * @Then the single response should contain a property :key with value :value
+	 */
+	public function theSingleResponseShouldContainAPropertyWithValue($key, $expectedValue) {
+		$keys = $this->response;
+		if (!isset($keys[$key])) {
+			throw new \Exception("Cannot find property \"$key\" with \"$expectedalue\"");
+		}
+
+		$value = $keys[$key];
+		if ($value !== $expectedValue) {
+			throw new \Exception("Property \"$key\" found with value \"$value\", expected \"$expectedValue\"");
+		}
+	}
+
 	/*Returns the elements of a propfind, $folderDepth requires 1 to see elements without children*/
-	public function listFolder($user, $path, $folderDepth){
+	public function listFolder($user, $path, $folderDepth, $properties = null){
 		$fullUrl = substr($this->baseUrl, 0, -4);
 
 		$settings = array(
@@ -166,9 +195,13 @@ trait WebDav {
 
 		$client = new SClient($settings);
 
-		$response = $client->propfind($this->davPath . "/", array(
-			'{DAV:}getetag'
-		), $folderDepth);
+		if (!$properties) {
+			$properties = [
+				'{DAV:}getetag'
+			];
+		}
+
+		$response = $client->propfind($this->davPath . '/' . ltrim($path, '/'), $properties, $folderDepth);
 
 		return $response;
 	}

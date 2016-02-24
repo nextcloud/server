@@ -531,6 +531,14 @@ trait Provisioning {
 	}
 
 	/**
+	 * @Given user :user has unlimited quota
+	 */
+	public function userHasUnlimitedQuota($user)
+	{
+		$this->userHasAQuotaOf($user, 'none');
+	}
+
+	/**
 	 * @BeforeScenario
 	 * @AfterScenario
 	 */
