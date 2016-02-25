@@ -30,7 +30,6 @@ interface IPropagator {
 	/**
 	 * @param string $internalPath
 	 * @param int $time
-	 * @return array[] all propagated cache entries
 	 * @since 9.0.0
 	 */
 	public function propagateChange($internalPath, $time);

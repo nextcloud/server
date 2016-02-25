@@ -88,7 +88,7 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 			$storage = $this;
 		}
 		if (!isset($this->propagator)) {
-			$this->propagator = new HomePropagator($storage);
+			$this->propagator = new HomePropagator($storage, \OC::$server->getDatabaseConnection());
 		}
 		return $this->propagator;
 	}

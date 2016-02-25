@@ -33,7 +33,6 @@ class SharedPropagator extends Propagator {
 	 * @param string $internalPath
 	 * @param int $time
 	 * @param int $sizeDifference
-	 * @return \array[] all propagated entries
 	 */
 	public function propagateChange($internalPath, $time, $sizeDifference = 0) {
 		/** @var \OC\Files\Storage\Storage $storage */
