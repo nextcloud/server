@@ -40,7 +40,6 @@ class Provider extends \OCP\AppFramework\Controller {
 	 */
 	public function buildProviderList() {
 		$services = [
-			'version' => 2,
 			'PRIVATE_DATA' => [
 				'version' => 1,
 				'endpoints' => [
@@ -87,6 +86,9 @@ class Provider extends \OCP\AppFramework\Controller {
 			];
 		}
 
-		return new \OCP\AppFramework\Http\JSONResponse($services);
+		return new \OCP\AppFramework\Http\JSONResponse([
+			'version' => 2,
+			'services' => $services,
+		]);
 	}
 }
