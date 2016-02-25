@@ -22,6 +22,8 @@ OC.L10N.register(
     "Private key password successfully updated." : "Privaatse võtme parool edukalt uuendatud.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Vigane Krüpteerimisrakendi privaatvõti . Palun uuenda oma privaatse võtme parool oma personaasete seadete all taastamaks ligipääsu oma krüpteeritud failidele.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Krüpteerimisrakend on lubatud, kuid võtmeid pole lähtestatud. Palun logi välja ning uuesti sisse.",
+    "Bad Signature" : "Vigane allkiri",
+    "Missing Signature" : "Allkiri puudub",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Sa ei saa seda faili dekrüpteerida, see on tõenäoliselt jagatud fail. Palun lase omanikul seda faili sinuga uuesti jagada.",
     "The share will expire on %s." : "Jagamine aegub %s.",
     "Cheers!" : "Terekest!",

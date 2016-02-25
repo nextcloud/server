@@ -3,10 +3,9 @@ OC.L10N.register(
     {
     "Personal" : "Osobno",
     "Saved" : "Spremljeno",
-    "Saving..." : "Spremanje...",
-    "Save" : "Spremi",
     "Username" : "Korisničko ime",
     "Password" : "Lozinka",
+    "Save" : "Spremi",
     "None" : "Ništa",
     "Port" : "Priključak",
     "WebDAV" : "WebDAV",

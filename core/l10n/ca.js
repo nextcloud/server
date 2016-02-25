@@ -138,7 +138,7 @@ OC.L10N.register(
     "can share" : "pot compartir",
     "can edit" : "pot editar",
     "create" : "crea",
-    "change" : "cambi",
+    "change" : "canvi",
     "delete" : "elimina",
     "access control" : "control d'accés",
     "An error occured. Please try again" : "Va ocórrer un error. Per favor, intenta-ho de nou",

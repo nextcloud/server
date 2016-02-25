@@ -36,7 +36,6 @@ OC.L10N.register(
     "never" : "aldri",
     "add group" : "legg til gruppe",
     "A valid username must be provided" : "Du må oppgje eit gyldig brukarnamn",
-    "Error creating user" : "Feil ved oppretting av brukar",
     "A valid password must be provided" : "Du må oppgje eit gyldig passord",
     "__language_name__" : "Nynorsk",
     "Login" : "Logg inn",

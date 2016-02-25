@@ -22,6 +22,7 @@ OC.L10N.register(
     "{nthServer}. Server" : "{nthServer}. Server",
     "Do you really want to delete the current Server Configuration?" : "Oled kindel, et tahad kustutada praegust serveri seadistust?",
     "Confirm Deletion" : "Kinnita kustutamine",
+    "Mappings cleared successfully!" : "Vastandused on eemaldatud!",
     "Error while clearing the mappings." : "Tõrgeseose eemaldamisel.",
     "Mode switch" : "Režiimi lüliti",
     "Select attributes" : "Vali atribuudid",

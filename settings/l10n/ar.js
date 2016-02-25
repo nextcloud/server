@@ -47,7 +47,6 @@ OC.L10N.register(
     "never" : "بتاتا",
     "add group" : "اضافة مجموعة",
     "A valid username must be provided" : "يجب ادخال اسم مستخدم صحيح",
-    "Error creating user" : "حصل خطأ اثناء انشاء مستخدم",
     "A valid password must be provided" : "يجب ادخال كلمة مرور صحيحة",
     "__language_name__" : "__language_name__",
     "Everything (fatal issues, errors, warnings, info, debug)" : "كل شيء (مشاكل فادحة, اخطاء , تحذيرات , معلومات , تصحيح الاخطاء)",

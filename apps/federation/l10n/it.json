@@ -3,6 +3,7 @@
     "Server is already in the list of trusted servers." : "Il server è già nell'elenco dei server affidabili.",
     "No ownCloud server found" : "Nessun server ownCloud trovato",
     "Could not add server" : "Impossibile aggiungere il server",
-    "Federation" : "Federazione"
+    "Federation" : "Federazione",
+    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federazione di ownCloud ti consente di collegarti con altri ownCloud di fiducia per scambiare la cartella degli utenti. Ad esempio, sarà utilizzata per il completamento automatico degli utenti esterni per la condivisione federata."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

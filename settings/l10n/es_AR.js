@@ -49,7 +49,6 @@ OC.L10N.register(
     "never" : "nunca",
     "add group" : "agregar grupo",
     "A valid username must be provided" : "Debe ingresar un nombre de usuario válido",
-    "Error creating user" : "Error creando usuario",
     "A valid password must be provided" : "Debe ingresar una contraseña válida",
     "__language_name__" : "Castellano (Argentina)",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Todo (notificaciones fatales, errores, advertencias, info, debug)",

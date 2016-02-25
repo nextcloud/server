@@ -6,6 +6,6 @@ OC.L10N.register(
     "Failed to revert {file} to revision {timestamp}." : "Mistókst að endurheimta {file} útgáfu {timestamp}.",
     "Restore" : "Endurheimta",
     "No other versions available" : "Engar aðrar útgáfur í boði",
-    "More versions..." : "Fleiri útgáfur ..."
+    "More versions..." : "Fleiri útgáfur..."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

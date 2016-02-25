@@ -75,6 +75,7 @@ OC.L10N.register(
     "Dec." : "Гру.",
     "Settings" : "Налаштування",
     "Saving..." : "Збереження...",
+    "Dismiss" : "Припинити",
     "seconds ago" : "секунди тому",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Посилання для скидання вашого паролю було надіслано на ваш email. Якщо ви не отримали його найближчим часом, перевірте теку зі спамом.<br>Якщо і там немає, спитайте вашого місцевого адміністратора.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Ваші файли зашифровані. Якщо ви не зробили ключ відновлення, після скидання паролю відновити ваші дані буде неможливо.<br /> Якщо ви не знаєте, що робити, будь ласка, зверніться до адміністратора перед продовженням.<br /> Ви дійсно хочете продовжити?",

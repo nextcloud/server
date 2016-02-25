@@ -129,7 +129,6 @@ OC.L10N.register(
     "Error occurred while checking server setup" : "檢查伺服器設定時發生錯誤",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "您的資料目錄和您的檔案可能從網路網路被存取，使.htaccess 檔案無法發揮效果，我們強烈建議您配置您的網頁伺服器讓資料目錄不再被訪問存取或者將您的資料目錄移出網頁伺服器根目錄。",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "\"{header}\" HTTP 標頭配置與 \"{expected}\"不一樣，這是一個潛在安全性或者隱私上的風險，因此我們建議您調整此設定",
-    "The \"Strict-Transport-Security\" HTTP header is not configured to least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\">security tips</a>." : "\"Strict-Transport-Security\" HTTP 標頭 (HSTS) 並非設定為至少 {seconds} 秒，如我們的<a href=\"{docUrl}\">安全性提示</a>所述，為了加強安全性，我們建議啟動 HSTS （HTTP 強制安全傳輸）",
     "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href=\"{docUrl}\">security tips</a>." : "您正在藉由 HTTP 訪問此網站，如我們的<a href=\"{docUrl}\">安全性提示</a>所述，我們強烈建議設定您的伺服器須要求使用 HTTPS",
     "Shared" : "已分享",
     "Shared with {recipients}" : "與 {recipients} 分享",

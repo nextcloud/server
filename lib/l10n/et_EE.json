@@ -89,6 +89,7 @@
     "Sharing %s failed, because resharing is not allowed" : "%s jagamine ebaõnnestus, kuna edasijagamine pole lubatud",
     "Sharing %s failed, because the sharing backend for %s could not find its source" : "%s jagamine ebaõnnestus, kuna jagamise tagarakend ei suutnud leida %s jaoks lähteallikat",
     "Sharing %s failed, because the file could not be found in the file cache" : "%s jagamine ebaõnnestus, kuna faili ei suudetud leida failide puhvrist",
+    "Expiration date is in the past" : "Aegumise kuupäev on minevikus",
     "Could not find category \"%s\"" : "Ei leia kategooriat \"%s\"",
     "Apps" : "Rakendused",
     "A valid username must be provided" : "Sisesta nõuetele vastav kasutajatunnus",

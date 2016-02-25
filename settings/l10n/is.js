@@ -48,6 +48,7 @@ OC.L10N.register(
     "Help translate" : "Hjálpa við þýðingu",
     "Username" : "Notendanafn",
     "Create" : "Búa til",
+    "Group" : "Hópur",
     "Unlimited" : "Ótakmarkað",
     "Other" : "Annað",
     "Default" : "Sjálfgefið"

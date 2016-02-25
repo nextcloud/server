@@ -3,10 +3,9 @@ OC.L10N.register(
     {
     "Personal" : "Perséinlech",
     "Saved" : "Gespäichert",
-    "Saving..." : "Speicheren...",
-    "Save" : "Späicheren",
     "Username" : "Benotzernumm",
     "Password" : "Passwuert",
+    "Save" : "Späicheren",
     "Port" : "Port",
     "Region" : "Regioun",
     "URL" : "URL",

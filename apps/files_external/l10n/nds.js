@@ -32,7 +32,6 @@ OC.L10N.register(
     "All users. Type to select user or group." : "Alle Benutzer. Tippe, um eine Benutzergruppe auszuwählen.",
     "(group)" : "(Gruppe)",
     "Saved" : "Gespeichert",
-    "Saving..." : "Speichern...",
     "Username" : "Benutzername",
     "Password" : "Passwort",
     "Access key" : "Schlüssel für Zugriff",

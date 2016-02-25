@@ -3,10 +3,9 @@ OC.L10N.register(
     {
     "Personal" : "Personal",
     "Saved" : "Salveguardate",
-    "Saving..." : "Salveguardante...",
-    "Save" : "Salveguardar",
     "Username" : "Nomine de usator",
     "Password" : "Contrasigno",
+    "Save" : "Salveguardar",
     "Region" : "Region",
     "URL" : "URL",
     "Location" : "Loco",

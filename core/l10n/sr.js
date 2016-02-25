@@ -73,6 +73,7 @@ OC.L10N.register(
     "Dec." : "дец",
     "Settings" : "Поставке",
     "Saving..." : "Уписујем...",
+    "Dismiss" : "Откажи",
     "seconds ago" : "пре пар секунди",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Веза за ресетовање лозинке је послата на вашу е-адресу. Ако је не примите ускоро, проверите фасцикле за нежељену пошту.<br>Ако није ни тамо, контактирајте вашег администратора.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Фајлови су вам шифровани. Ако нисте укључили кључ за опоравак, нећете моћи да повратите податке након ресетовања лозинке.<br />Ако нисте сигурни шта да радите, контактирајте администратора пре него што наставите.<br />Да ли желите да наставите?",

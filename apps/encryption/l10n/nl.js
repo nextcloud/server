@@ -25,6 +25,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ongeldige privésleutel voor crypto app. Werk het privésleutel wachtwoord bij in uw persoonlijke instellingen om opnieuw toegang te krijgen tot uw versleutelde bestanden.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is geactiveerd, maar uw sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Encryption App is enabled and ready" : "Encryptie app is geactiveerd en gereed",
+    "Bad Signature" : "Verkeerde signatuur",
+    "Missing Signature" : "Missende signatuur",
     "one-time password for server-side-encryption" : "eenmalig wachtwoord voor server-side versleuteling",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan dit bestand niet ontcijferen, waarschijnlijk is het een gedeeld bestand, Vraag de eigenaar om het bestand opnieuw met u te delen.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan dit bestand niet lezen, waarschijnlijk is het een gedeeld bestand. Vraag de eigenaar om het bestand opnieuw met u te delen.",

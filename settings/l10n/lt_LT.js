@@ -58,7 +58,6 @@ OC.L10N.register(
     "never" : "niekada",
     "add group" : "pridėti grupę",
     "A valid username must be provided" : "Vartotojo vardas turi būti tinkamas",
-    "Error creating user" : "Klaida kuriant vartotoją",
     "A valid password must be provided" : "Slaptažodis turi būti tinkamas",
     "__language_name__" : "Lietuvių",
     "Fatal issues only" : "Tik kritinės problemos",

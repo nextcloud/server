@@ -2,9 +2,9 @@ OC.L10N.register(
     "files_external",
     {
     "Personal" : "Persönlich",
-    "Save" : "Speichern",
     "Username" : "Benutzername",
     "Password" : "Passwort",
+    "Save" : "Speichern",
     "Port" : "Port",
     "Host" : "Host",
     "Location" : "Ort",

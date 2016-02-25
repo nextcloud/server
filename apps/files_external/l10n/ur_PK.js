@@ -2,10 +2,9 @@ OC.L10N.register(
     "files_external",
     {
     "Personal" : "شخصی",
-    "Saving..." : "محفوظ ھو رہا ہے ...",
-    "Save" : "حفظ",
     "Username" : "یوزر نیم",
     "Password" : "پاسورڈ",
+    "Save" : "حفظ",
     "URL" : "یو ار ایل",
     "Location" : "مقام",
     "Share" : "تقسیم",

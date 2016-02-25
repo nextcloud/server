@@ -58,6 +58,7 @@
     "Dec." : "Дек.",
     "Settings" : "Настройки",
     "Saving..." : "Запазване...",
+    "Dismiss" : "Затвори",
     "seconds ago" : "преди секунди",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Връзката за възстановяване на паролата беше изпратена до вашата електронна поща. Ако не я получите в разумен период от време, проверете папките си за спам и junk.<br>Ако не я откривате и там, се свържете с местния администратор.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Файловете Ви са криптирани. Ако не сте настроили ключ за възстановяване, няма да е възможно да се възстановят данните Ви след смяна на паролата.<br />Ако не сте сигурни какво да направите, моля, свържете се с Вашия администратор преди да продължите. <br/>Наистина ли искате да продължите?",

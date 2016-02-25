@@ -9,6 +9,7 @@ OC.L10N.register(
     "Delete permanently" : "Видалити назавжди",
     "Error" : "Помилка",
     "This operation is forbidden" : "Ця операція заборонена",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Директорія недоступна, будь ласка, перевірте файл журналу або зверніться до адміністратора  ",
     "restored" : "відновлено",
     "No deleted files" : "Немає видалених файлів",
     "You will be able to recover deleted files from here" : "Ви зможете відновлювати видалені файли звідси",

@@ -80,6 +80,7 @@
     "Dec." : "Dec.",
     "Settings" : "Nastavenia",
     "Saving..." : "Ukladám...",
+    "Dismiss" : "Odmietnuť",
     "seconds ago" : "pred sekundami",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Odkaz na obnovu hesla bol odoslaný na váš email. Pokiaľ ho neobdržíte v primeranom čase, skontrolujte spam / priečinok nevyžiadanej pošty. <br> Ak tam nie je, kontaktujte svojho administrátora.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Súbory sú zašifrované. Ak ste nepovolili kľúč pre obnovenie, neexistuje žiadny spôsob, ako obnoviť vaše dáta po obnovení vášho hesla. <br /> Ak si nie ste istí čo urobiť, prosím skôr než budete pokračovať, obráťte sa na administrátora. <br /> Naozaj chcete pokračovať?",

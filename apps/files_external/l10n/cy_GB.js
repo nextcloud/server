@@ -2,10 +2,9 @@ OC.L10N.register(
     "files_external",
     {
     "Personal" : "Personol",
-    "Saving..." : "Yn cadw...",
-    "Save" : "Cadw",
     "Username" : "Enw defnyddiwr",
     "Password" : "Cyfrinair",
+    "Save" : "Cadw",
     "None" : "Dim",
     "URL" : "URL",
     "Location" : "Lleoliad",

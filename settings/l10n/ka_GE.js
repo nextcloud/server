@@ -27,7 +27,6 @@ OC.L10N.register(
     "never" : "არასდროს",
     "add group" : "ჯგუფის დამატება",
     "A valid username must be provided" : "უნდა მიუთითოთ არსებული მომხმარებლის სახელი",
-    "Error creating user" : "შეცდომა მომხმარებლის შექმნისას",
     "A valid password must be provided" : "უნდა მიუთითოთ არსებული პაროლი",
     "__language_name__" : "__language_name__",
     "None" : "არა",

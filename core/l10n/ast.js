@@ -57,6 +57,7 @@ OC.L10N.register(
     "Dec." : "Avi.",
     "Settings" : "Axustes",
     "Saving..." : "Guardando...",
+    "Dismiss" : "Encaboxar",
     "seconds ago" : "hai segundos",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Unviósete al corréu l'enllaz pa reaniciar la to contraseña. Si nun lu recibes nuna cantidá razonable de tiempu, comprueba les tos carpetes de corréu puxarra. <br>Si nun ta ehí, entruga al to alministrador llocal",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Los tos ficheros tán crifraos. Si nun habilitesti la clave de recuperación, nun habrá forma de recuperar los tos datos dempués de que se reanicie la to contraseña.<br />Si nun tas seguru de qué facer, por favor contauta col to alministrador enantes que sigas. <br />¿De xuru quies siguir?",

@@ -57,6 +57,7 @@ OC.L10N.register(
     "Dec." : "pros.",
     "Settings" : "Postavke",
     "Saving..." : "Spremanje...",
+    "Dismiss" : "Odpusti",
     "seconds ago" : "prije par sekundi",
     "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." : "Veza za resetiranje vaše lozinke poslana je na vašu adresu e-pošte. Ako je ne primite unekom razumnom vremenskom roku, provjerite svoje spam/junk mape. <br> Ako nije tamo, kontaktirajtesvoga lokalnog administratora.",
     "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" : "Vaše datoteke su šifrirane. Ako niste aktivirali ključ oporavka,svoje podatke nećete moći dohvatitinakon što vaša lozinka bude resetirana.<br />Ako ne znate što učiniti, prije nego linastavite, molimo kontaktirajte svog administratora. <br />Želite li doista nastaviti?",

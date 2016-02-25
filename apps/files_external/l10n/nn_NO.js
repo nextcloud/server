@@ -2,10 +2,9 @@ OC.L10N.register(
     "files_external",
     {
     "Personal" : "Personleg",
-    "Saving..." : "Lagrar …",
-    "Save" : "Lagra",
     "Username" : "Brukarnamn",
     "Password" : "Passord",
+    "Save" : "Lagra",
     "Region" : "Region/fylke",
     "WebDAV" : "WebDAV",
     "URL" : "Nettstad",

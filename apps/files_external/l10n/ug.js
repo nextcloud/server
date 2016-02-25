@@ -3,10 +3,9 @@ OC.L10N.register(
     {
     "External storage" : "سىرتقى ساقلىغۇچ",
     "Personal" : "شەخسىي",
-    "Saving..." : "ساقلاۋاتىدۇ…",
-    "Save" : "ساقلا",
     "Username" : "ئىشلەتكۈچى ئاتى",
     "Password" : "ئىم",
+    "Save" : "ساقلا",
     "None" : "يوق",
     "Port" : "ئېغىز",
     "WebDAV" : "WebDAV",

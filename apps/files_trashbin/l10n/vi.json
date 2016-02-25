@@ -6,6 +6,8 @@
     "Delete" : "Xóa",
     "Delete permanently" : "Xóa vĩnh vễn",
     "Error" : "Lỗi",
+    "This operation is forbidden" : "Thao tác bị cấm",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Thư mục này không sẵn có, hãy kiểm tra log hoặc liên hệ người quản lý",
     "restored" : "khôi phục",
     "No deleted files" : "Không có tập tin bị xóa",
     "You will be able to recover deleted files from here" : "Bạn có thể phục hồi các file đã bị xóa từ đây",

@@ -3,10 +3,9 @@ OC.L10N.register(
     {
     "Personal" : "﻿ವೈಯಕ್ತಿಕ",
     "Saved" : "﻿ಉಳಿಸಿದ",
-    "Saving..." : "﻿ಉಳಿಸಲಾಗುತ್ತಿದೆ ...",
-    "Save" : "﻿ಉಳಿಸಿ",
     "Username" : "﻿ಬಳಕೆಯ ಹೆಸರು",
     "Password" : "ಗುಪ್ತ ಪದ",
+    "Save" : "﻿ಉಳಿಸಿ",
     "None" : "﻿ಯಾವುದೂ ಇಲ್ಲ",
     "Port" : "﻿ರೇವು",
     "WebDAV" : "﻿WebDAV",

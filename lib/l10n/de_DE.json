@@ -90,6 +90,7 @@
     "Sharing %s failed, because %s is not a member of the group %s" : "Freigabe von %s fehlgeschlagen, da %s kein Mitglied der Gruppe %s ist",
     "You need to provide a password to create a public link, only protected links are allowed" : "Es sind nur geschützte Links zulässig, daher müssen Sie ein Passwort angeben, um einen öffentlichen Link zu generieren",
     "Sharing %s failed, because sharing with links is not allowed" : "Freigabe von %s fehlgeschlagen, da das Teilen von Verknüpfungen nicht erlaubt ist",
+    "Not allowed to create a federated share with the same user" : "Das Erstellen einer föderierten Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",
     "Share type %s is not valid for %s" : "Freigabetyp %s ist nicht gültig für %s",
     "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" : "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da die Berechtigungen, die erteilten Berechtigungen %s überschreiten",

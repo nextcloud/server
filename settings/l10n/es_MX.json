@@ -37,7 +37,6 @@
     "never" : "nunca",
     "add group" : "añadir Grupo",
     "A valid username must be provided" : "Se debe proporcionar un nombre de usuario válido",
-    "Error creating user" : "Error al crear usuario",
     "A valid password must be provided" : "Se debe proporcionar una contraseña válida",
     "__language_name__" : "Español (México)",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Todo (Información, Avisos, Errores, debug y problemas fatales)",
