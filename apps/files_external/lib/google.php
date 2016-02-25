@@ -446,8 +446,12 @@ class Google extends \OC\Files\Storage\Common {
 								'save_to' => $tmpFile,
 							]);
 						} catch (RequestException $e) {
-							if ($e->getResponse()->getStatusCode() === 404) {
-								return false;
+							if(!is_null($e->getResponse())) {
+								if ($e->getResponse()->getStatusCode() === 404) {
+									return false;
+								} else {
+									throw $e;
+								}
 							} else {
 								throw $e;
 							}
