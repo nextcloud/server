@@ -63,6 +63,7 @@
   RewriteCond %{REQUEST_FILENAME} !/ocs/v1.php
   RewriteCond %{REQUEST_FILENAME} !/ocs/v2.php
   RewriteCond %{REQUEST_FILENAME} !/updater/
+  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/
   RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*
   RewriteRule .* index.php [PT,E=PATH_INFO:$1]
 </IfModule>
