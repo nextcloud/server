@@ -324,9 +324,6 @@ class Updater extends BasicEmitter {
 		if ($this->updateStepEnabled) {
 			$this->doCoreUpgrade();
 
-			// install new shipped apps on upgrade
-			OC_Installer::installShippedApps();
-
 			// update all shipped apps
 			$disabledApps = $this->checkAppsRequirements();
 			$this->doAppUpgrade();
@@ -334,6 +331,9 @@ class Updater extends BasicEmitter {
 			// upgrade appstore apps
 			$this->upgradeAppStoreApps($disabledApps);
 
+			// install new shipped apps on upgrade
+			OC_App::loadApps('authentication');
+			OC_Installer::installShippedApps();
 
 			// post-upgrade repairs
 			$repair = new Repair(Repair::getRepairSteps());
