@@ -49,12 +49,13 @@ class MountProvider implements IMountProvider {
 	}
 
 	public function getMount(IUser $user, $data, IStorageFactory $storageFactory) {
-		$data['manager'] = $this;
+		$managerProvider = $this->managerProvider;
+		$manager = $managerProvider();
+		$data['manager'] = $manager;
 		$mountPoint = '/' . $user->getUID() . '/files/' . ltrim($data['mountpoint'], '/');
 		$data['mountpoint'] = $mountPoint;
 		$data['certificateManager'] = \OC::$server->getCertificateManager($user->getUID());
-		$managerProvider = $this->managerProvider;
-		return new Mount(self::STORAGE, $mountPoint, $data, $managerProvider(), $storageFactory);
+		return new Mount(self::STORAGE, $mountPoint, $data, $manager, $storageFactory);
 	}
 
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
