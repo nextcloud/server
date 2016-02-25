@@ -153,14 +153,19 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 	function testDeleteUser($toDelete, $expected, $remainingUsers) {
 		$this->createDummyS2SShares();
 
+		$discoveryManager = new \OCA\FederatedFileSharing\DiscoveryManager(
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getHTTPClientService()
+		);
 		$manager = new OCA\Files_Sharing\External\Manager(
 			\OC::$server->getDatabaseConnection(),
 			\OC\Files\Filesystem::getMountManager(),
 			\OC\Files\Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getNotificationManager(),
+			$discoveryManager,
 			$toDelete
-			);
+		);
 
 		$manager->removeUserShares($toDelete);
 

@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -22,32 +23,31 @@
 
 namespace OCA\FederatedFileSharing;
 
-
 use OCP\Http\Client\IClientService;
 
 class Notifications {
-
-	const BASE_PATH_TO_SHARE_API = '/ocs/v1.php/cloud/shares';
 	const RESPONSE_FORMAT = 'json'; // default response format for ocs calls
 
 	/** @var AddressHandler */
 	private $addressHandler;
-
 	/** @var IClientService */
 	private $httpClientService;
+	/** @var DiscoveryManager */
+	private $discoveryManager;
 
 	/**
-	 * Notifications constructor.
-	 *
 	 * @param AddressHandler $addressHandler
 	 * @param IClientService $httpClientService
+	 * @param DiscoveryManager $discoveryManager
 	 */
 	public function __construct(
 		AddressHandler $addressHandler,
-		IClientService $httpClientService
+		IClientService $httpClientService,
+		DiscoveryManager $discoveryManager
 	) {
 		$this->addressHandler = $addressHandler;
 		$this->httpClientService = $httpClientService;
+		$this->discoveryManager = $discoveryManager;
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Notifications {
 		list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
 
 		if ($user && $remote) {
-			$url = $remote . self::BASE_PATH_TO_SHARE_API . '?format=' . self::RESPONSE_FORMAT;
+			$url = $remote;
 			$local = $this->addressHandler->generateRemoteURL();
 
 			$fields = array(
@@ -78,10 +78,10 @@ class Notifications {
 			);
 
 			$url = $this->addressHandler->removeProtocolFromUrl($url);
-			$result = $this->tryHttpPost($url, $fields);
+			$result = $this->tryHttpPostToShareEndpoint($url, '', $fields);
 			$status = json_decode($result['result'], true);
 
-			if ($result['success'] && $status['ocs']['meta']['statuscode'] === 100) {
+			if ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200)) {
 				\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $remote]);
 				return true;
 			}
@@ -100,23 +100,24 @@ class Notifications {
 	 * @return bool
 	 */
 	public function sendRemoteUnShare($remote, $id, $token) {
-		$url = rtrim($remote, '/') . self::BASE_PATH_TO_SHARE_API . '/' . $id . '/unshare?format=' . self::RESPONSE_FORMAT;
+		$url = rtrim($remote, '/');
 		$fields = array('token' => $token, 'format' => 'json');
 		$url = $this->addressHandler->removeProtocolFromUrl($url);
-		$result = $this->tryHttpPost($url, $fields);
+		$result = $this->tryHttpPostToShareEndpoint($url, '/'.$id.'/unshare', $fields);
 		$status = json_decode($result['result'], true);
 
-		return ($result['success'] && $status['ocs']['meta']['statuscode'] === 100);
+		return ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200));
 	}
 
 	/**
 	 * try http post first with https and then with http as a fallback
 	 *
-	 * @param string $url
+	 * @param string $remoteDomain
+	 * @param string $urlSuffix
 	 * @param array $fields post parameters
 	 * @return array
 	 */
-	private function tryHttpPost($url, array $fields) {
+	private function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields) {
 		$client = $this->httpClientService->newClient();
 		$protocol = 'https://';
 		$result = [
@@ -124,9 +125,11 @@ class Notifications {
 			'result' => '',
 		];
 		$try = 0;
+
 		while ($result['success'] === false && $try < 2) {
+			$endpoint = $this->discoveryManager->getShareEndpoint($protocol . $remoteDomain);
 			try {
-				$response = $client->post($protocol . $url, [
+				$response = $client->post($protocol . $remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT, [
 					'body' => $fields
 				]);
 				$result['result'] = $response->getBody();
@@ -140,5 +143,4 @@ class Notifications {
 
 		return $result;
 	}
-
 }

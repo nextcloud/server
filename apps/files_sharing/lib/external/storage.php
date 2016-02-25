@@ -27,6 +27,7 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageInvalidException;
@@ -66,6 +67,11 @@ class Storage extends DAV implements ISharedStorage {
 	private $manager;
 
 	public function __construct($options) {
+		$discoveryManager = new DiscoveryManager(
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getHTTPClientService()
+		);
+
 		$this->manager = $options['manager'];
 		$this->certificateManager = $options['certificateManager'];
 		$this->remote = $options['remote'];
@@ -78,7 +84,7 @@ class Storage extends DAV implements ISharedStorage {
 			$root = '';
 		}
 		$secure = $protocol === 'https';
-		$root = rtrim($root, '/') . '/public.php/webdav';
+		$root = rtrim($root, '/') . $discoveryManager->getWebDavEndpoint($this->remote);
 		$this->mountPoint = $options['mountpoint'];
 		$this->token = $options['token'];
 		parent::__construct(array(

@@ -25,6 +25,7 @@
 
 namespace OCA\Files_Sharing\API;
 
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\Activity;
 use OCP\Files\NotFoundException;
 
@@ -70,12 +71,17 @@ class Server2Server {
 
 			\OC_Util::setupFS($shareWith);
 
+			$discoveryManager = new DiscoveryManager(
+				\OC::$server->getMemCacheFactory(),
+				\OC::$server->getHTTPClientService()
+			);
 			$externalManager = new \OCA\Files_Sharing\External\Manager(
 					\OC::$server->getDatabaseConnection(),
 					\OC\Files\Filesystem::getMountManager(),
 					\OC\Files\Filesystem::getLoader(),
 					\OC::$server->getHTTPHelper(),
 					\OC::$server->getNotificationManager(),
+					$discoveryManager,
 					$shareWith
 				);
 
