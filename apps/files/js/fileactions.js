@@ -11,7 +11,7 @@
 (function() {
 
 	var TEMPLATE_FILE_ACTION_TRIGGER =
-		'<a class="action action-{{nameLowerCase}} href="#" data-action="{{name}}">' +
+		'<a class="action action-{{nameLowerCase}}" href="#" data-action="{{name}}">' +
 		'{{#if icon}}' +
 			'<img class="svg" alt="{{altText}}" src="{{icon}}" />' +
 		'{{else}}' +
