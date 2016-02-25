@@ -5,8 +5,9 @@ namespace Test\Files\Storage\Wrapper;
 use OC\Encryption\Util;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use Test\Files\Storage\Storage;
 
-class Encryption extends \Test\Files\Storage\Storage {
+class Encryption extends Storage {
 
 	/**
 	 * block size will always be 8192 for a PHP stream
@@ -208,6 +209,161 @@ class Encryption extends \Test\Files\Storage\Storage {
 		$this->encryptionModule->expects($this->any())->method('getUnencryptedBlockSize')->willReturn(8192);
 		$this->encryptionModule->expects($this->any())->method('isReadable')->willReturn(true);
 		return $this->encryptionModule;
+	}
+
+	/**
+	 * @dataProvider dataTestGetMetaData
+	 *
+	 * @param string $path
+	 * @param array $metaData
+	 * @param bool $encrypted
+	 * @param bool $unencryptedSizeSet
+	 * @param int $storedUnencryptedSize
+	 * @param array $expected
+	 */
+	public function testGetMetaData($path, $metaData, $encrypted, $unencryptedSizeSet, $storedUnencryptedSize, $expected) {
+
+		$sourceStorage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+			->disableOriginalConstructor()->getMock();
+
+		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
+			->disableOriginalConstructor()->getMock();
+		$cache->expects($this->any())
+			->method('get')
+			->willReturnCallback(
+				function($path) use ($encrypted) {
+					return ['encrypted' => $encrypted, 'path' => $path, 'size' => 0, 'fileid' => 1];
+				}
+			);
+
+		$this->instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
+			->setConstructorArgs(
+				[
+					[
+						'storage' => $sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/',
+						'mount' => $this->mount
+					],
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+				]
+			)
+			->setMethods(['getCache', 'verifyUnencryptedSize'])
+			->getMock();
+
+		if($unencryptedSizeSet) {
+			$this->invokePrivate($this->instance, 'unencryptedSize', [[$path => $storedUnencryptedSize]]);
+		}
+
+
+		$sourceStorage->expects($this->once())->method('getMetaData')->with($path)
+			->willReturn($metaData);
+
+		$this->instance->expects($this->any())->method('getCache')->willReturn($cache);
+		$this->instance->expects($this->any())->method('verifyUnencryptedSize')
+			->with($path, 0)->willReturn($expected['size']);
+
+		$result = $this->instance->getMetaData($path);
+		$this->assertSame($expected['encrypted'], $result['encrypted']);
+		$this->assertSame($expected['size'], $result['size']);
+	}
+
+	public function dataTestGetMetaData() {
+		return [
+			['/test.txt', ['size' => 42, 'encrypted' => false], true, true, 12, ['size' => 12, 'encrypted' => true]],
+			['/test.txt', null, true, true, 12, null],
+			['/test.txt', ['size' => 42, 'encrypted' => false], false, false, 12, ['size' => 42, 'encrypted' => false]],
+			['/test.txt', ['size' => 42, 'encrypted' => false], true, false, 12, ['size' => 12, 'encrypted' => true]]
+		];
+	}
+
+	public function testFilesize() {
+		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
+			->disableOriginalConstructor()->getMock();
+		$cache->expects($this->any())
+			->method('get')
+			->willReturn(['encrypted' => true, 'path' => '/test.txt', 'size' => 0, 'fileid' => 1]);
+
+		$this->instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
+			->setConstructorArgs(
+				[
+					[
+						'storage' => $this->sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/',
+						'mount' => $this->mount
+					],
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+				]
+			)
+			->setMethods(['getCache', 'verifyUnencryptedSize'])
+			->getMock();
+
+		$this->instance->expects($this->any())->method('getCache')->willReturn($cache);
+		$this->instance->expects($this->any())->method('verifyUnencryptedSize')
+			->willReturn(42);
+
+
+		$this->assertSame(42,
+			$this->instance->filesize('/test.txt')
+		);
+
+	}
+
+	/**
+	 * @dataProvider dataTestVerifyUnencryptedSize
+	 *
+	 * @param int $encryptedSize
+	 * @param int $unencryptedSize
+	 * @param bool $failure
+	 * @param int $expected
+	 */
+	public function testVerifyUnencryptedSize($encryptedSize, $unencryptedSize, $failure, $expected) {
+		$sourceStorage = $this->getMockBuilder('\OC\Files\Storage\Storage')
+			->disableOriginalConstructor()->getMock();
+
+		$this->instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
+			->setConstructorArgs(
+				[
+					[
+						'storage' => $sourceStorage,
+						'root' => 'foo',
+						'mountPoint' => '/',
+						'mount' => $this->mount
+					],
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+				]
+			)
+			->setMethods(['fixUnencryptedSize'])
+			->getMock();
+
+		$sourceStorage->expects($this->once())->method('filesize')->willReturn($encryptedSize);
+
+		$this->instance->expects($this->any())->method('fixUnencryptedSize')
+			->with('/test.txt', $encryptedSize, $unencryptedSize)
+			->willReturnCallback(
+				function() use ($failure, $expected) {
+					if ($failure) {
+						throw new \Exception();
+					} else {
+						return $expected;
+					}
+				}
+			);
+
+		$this->assertSame(
+			$expected,
+			$this->invokePrivate($this->instance, 'verifyUnencryptedSize', ['/test.txt', $unencryptedSize])
+		);
+	}
+
+	public function dataTestVerifyUnencryptedSize() {
+		return [
+			[120, 80, false, 80],
+			[120, 120, false, 80],
+			[120, -1, false, 80],
+			[120, -1, true, -1]
+		];
 	}
 
 	/**
