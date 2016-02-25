@@ -224,7 +224,7 @@ class Manager implements IManager {
 	 * Validate if the expiration date fits the system settings
 	 *
 	 * @param \OCP\Share\IShare $share The share to validate the expiration date of
-	 * @return \OCP\Share\IShare The expiration date or null if $expireDate was null and it is not required
+	 * @return \OCP\Share\IShare The modified share object
 	 * @throws GenericShareException
 	 * @throws \InvalidArgumentException
 	 * @throws \Exception
@@ -245,6 +245,20 @@ class Manager implements IManager {
 			}
 		}
 
+		// If expiredate is empty set a default one if there is a default
+		$fullId = null;
+		try {
+			$fullId = $share->getFullId();
+		} catch (\UnexpectedValueException $e) {
+			// This is a new share
+		}
+
+		if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
+			$expirationDate = new \DateTime();
+			$expirationDate->setTime(0,0,0);
+			$expirationDate->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));
+		}
+
 		// If we enforce the expiration date check that is does not exceed
 		if ($this->shareApiLinkDefaultExpireDateEnforced()) {
 			if ($expirationDate === null) {
@@ -258,20 +272,6 @@ class Manager implements IManager {
 				$message = $this->l->t('Cannot set expiration date more than %s days in the future', [$this->shareApiLinkDefaultExpireDays()]);
 				throw new GenericShareException($message, $message, 404);
 			}
-		}
-
-		// If expiredate is empty set a default one if there is a default
-		$fullId = null;
-		try {
-			$fullId = $share->getFullId();
-		} catch (\UnexpectedValueException $e) {
-			// This is a new share
-		}
-
-		if ($fullId === null && $expirationDate === null && $this->shareApiLinkDefaultExpireDate()) {
-			$expirationDate = new \DateTime();
-			$expirationDate->setTime(0,0,0);
-			$expirationDate->add(new \DateInterval('P'.$this->shareApiLinkDefaultExpireDays().'D'));
 		}
 
 		$accepted = true;
@@ -289,7 +289,7 @@ class Manager implements IManager {
 
 		$share->setExpirationDate($expirationDate);
 
-		return $expirationDate;
+		return $share;
 	}
 
 	/**
