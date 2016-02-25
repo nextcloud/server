@@ -77,7 +77,7 @@ try {
 		exit(1);
 	}
 
-	if (!function_exists('pcntl_signal')) {
+	if (!function_exists('pcntl_signal') && !in_array('--no-warnings', $argv)) {
 		echo "The process control (PCNTL) extensions are required in case you want to interrupt long running commands - see http://php.net/manual/en/book.pcntl.php" . PHP_EOL;
 	}
 
