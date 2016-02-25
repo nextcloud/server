@@ -7,7 +7,7 @@ use GuzzleHttp\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-trait BasicStructure{
+trait BasicStructure {
 	/** @var string */
 	private $currentUser = '';
 
@@ -20,6 +20,12 @@ trait BasicStructure{
 	/** @var ResponseInterface */
 	private $response = null;
 
+	/** @var \GuzzleHttp\Cookie\CookieJar */
+	private $cookieJar;
+
+	/** @var string */
+	private $requesttoken;
+
 	public function __construct($baseUrl, $admin, $regular_user_password) {
 
 		// Initialize your context here
@@ -29,6 +35,7 @@ trait BasicStructure{
 		$this->localBaseUrl = substr($this->baseUrl, 0, -4);
 		$this->remoteBaseUrl = substr($this->baseUrl, 0, -4);
 		$this->currentServer = 'LOCAL';
+		$this->cookieJar = new \GuzzleHttp\Cookie\CookieJar();
 
 		// in case of ci deployment we take the server url from the environment
 		$testServerUrl = getenv('TEST_SERVER_URL');
@@ -93,7 +100,6 @@ trait BasicStructure{
 
 	/**
 	 * @When /^sending "([^"]*)" to "([^"]*)" with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
 	 */
 	public function sendingToWith($verb, $url, $body) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
@@ -134,6 +140,88 @@ trait BasicStructure{
 	 */
 	public function theHTTPStatusCodeShouldBe($statusCode) {
 		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @param ResponseInterface $response
+	 */
+	private function extracRequestTokenFromResponse(ResponseInterface $response) {
+		$this->requesttoken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $response->getBody()->getContents()), 0, 89);
+	}
+
+	/**
+	 * @Given Logging in using web as :user
+	 */
+	public function loggingInUsingWebAs($user) {
+		$loginUrl = substr($this->baseUrl, 0, -5);
+		// Request a new session and extract CSRF token
+		$client = new Client();
+		$response = $client->get(
+			$loginUrl,
+			[
+				'cookies' => $this->cookieJar,
+			]
+		);
+		$this->extracRequestTokenFromResponse($response);
+
+		// Login and extract new token
+		$password = ($user === 'admin') ? 'admin' : '123456';
+		$client = new Client();
+		$response = $client->post(
+			$loginUrl,
+			[
+				'body' => [
+					'user' => $user,
+					'password' => $password,
+					'requesttoken' => $this->requesttoken,
+				],
+				'cookies' => $this->cookieJar,
+			]
+		);
+		$this->extracRequestTokenFromResponse($response);
+	}
+
+	/**
+	 * @When Sending a :method to :url with requesttoken
+	 */
+	public function sendingAToWithRequesttoken($method, $url) {
+		$baseUrl = substr($this->baseUrl, 0, -5);
+
+		$client = new Client();
+		$request = $client->createRequest(
+			$method,
+			$baseUrl . $url,
+			[
+				'cookies' => $this->cookieJar,
+			]
+		);
+		$request->addHeader('requesttoken', $this->requesttoken);
+		try {
+			$this->response = $client->send($request);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When Sending a :method to :url without requesttoken
+	 */
+	public function sendingAToWithoutRequesttoken($method, $url) {
+		$baseUrl = substr($this->baseUrl, 0, -5);
+
+		$client = new Client();
+		$request = $client->createRequest(
+			$method,
+			$baseUrl . $url,
+			[
+				'cookies' => $this->cookieJar,
+			]
+		);
+		try {
+			$this->response = $client->send($request);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
 	}
 
 	public static function removeFile($path, $filename){
