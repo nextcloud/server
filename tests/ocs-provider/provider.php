@@ -57,12 +57,14 @@ class OcsProviderTest extends \Test\TestCase {
 		$expected = new \OCP\AppFramework\Http\JSONResponse(
 			[
 				'version' => 2,
-				'PRIVATE_DATA' => [
-					'version' => 1,
-					'endpoints' => [
-						'store' => '/ocs/v2.php/privatedata/setattribute',
-						'read' => '/ocs/v2.php/privatedata/getattribute',
-						'delete' => '/ocs/v2.php/privatedata/deleteattribute',
+				'services' => [
+					'PRIVATE_DATA' => [
+						'version' => 1,
+						'endpoints' => [
+							'store' => '/ocs/v2.php/privatedata/setattribute',
+							'read' => '/ocs/v2.php/privatedata/getattribute',
+							'delete' => '/ocs/v2.php/privatedata/deleteattribute',
+						],
 					],
 				],
 			]
@@ -91,25 +93,27 @@ class OcsProviderTest extends \Test\TestCase {
 		$expected = new \OCP\AppFramework\Http\JSONResponse(
 			[
 				'version' => 2,
-				'PRIVATE_DATA' => [
-					'version' => 1,
-					'endpoints' => [
-						'store' => '/ocs/v2.php/privatedata/setattribute',
-						'read' => '/ocs/v2.php/privatedata/getattribute',
-						'delete' => '/ocs/v2.php/privatedata/deleteattribute',
+				'services' => [
+					'PRIVATE_DATA' => [
+						'version' => 1,
+						'endpoints' => [
+							'store' => '/ocs/v2.php/privatedata/setattribute',
+							'read' => '/ocs/v2.php/privatedata/getattribute',
+							'delete' => '/ocs/v2.php/privatedata/deleteattribute',
+						],
 					],
-				],
-				'FEDERATED_SHARING' => [
-					'version' => 1,
-					'endpoints' => [
-						'share' => '/ocs/v2.php/cloud/shares',
-						'webdav' => '/public.php/webdav/',
+					'FEDERATED_SHARING' => [
+						'version' => 1,
+						'endpoints' => [
+							'share' => '/ocs/v2.php/cloud/shares',
+							'webdav' => '/public.php/webdav/',
+						],
 					],
-				],
-				'SHARING' => [
-					'version' => 1,
-					'endpoints' => [
-						'share' => '/ocs/v2.php/apps/files_sharing/api/v1/shares',
+					'SHARING' => [
+						'version' => 1,
+						'endpoints' => [
+							'share' => '/ocs/v2.php/apps/files_sharing/api/v1/shares',
+						],
 					],
 				],
 			]
@@ -127,39 +131,41 @@ class OcsProviderTest extends \Test\TestCase {
 		$expected = new \OCP\AppFramework\Http\JSONResponse(
 			[
 				'version' => 2,
-				'PRIVATE_DATA' => [
-					'version' => 1,
-					'endpoints' => [
-						'store' => '/ocs/v2.php/privatedata/setattribute',
-						'read' => '/ocs/v2.php/privatedata/getattribute',
-						'delete' => '/ocs/v2.php/privatedata/deleteattribute',
+				'services' => [
+					'PRIVATE_DATA' => [
+						'version' => 1,
+						'endpoints' => [
+							'store' => '/ocs/v2.php/privatedata/setattribute',
+							'read' => '/ocs/v2.php/privatedata/getattribute',
+							'delete' => '/ocs/v2.php/privatedata/deleteattribute',
+						],
 					],
-				],
-				'FEDERATED_SHARING' => [
-					'version' => 1,
-					'endpoints' => [
-						'share' => '/ocs/v2.php/cloud/shares',
-						'webdav' => '/public.php/webdav/',
+					'FEDERATED_SHARING' => [
+						'version' => 1,
+						'endpoints' => [
+							'share' => '/ocs/v2.php/cloud/shares',
+							'webdav' => '/public.php/webdav/',
+						],
 					],
-				],
-				'SHARING' => [
-					'version' => 1,
-					'endpoints' => [
-						'share' => '/ocs/v2.php/apps/files_sharing/api/v1/shares',
+					'SHARING' => [
+						'version' => 1,
+						'endpoints' => [
+							'share' => '/ocs/v2.php/apps/files_sharing/api/v1/shares',
+						],
 					],
-				],
-				'ACTIVITY' => [
-					'version' => 1,
-					'endpoints' => [
-						'list' => '/ocs/v2.php/cloud/activity',
+					'ACTIVITY' => [
+						'version' => 1,
+						'endpoints' => [
+							'list' => '/ocs/v2.php/cloud/activity',
+						],
 					],
-				],
-				'PROVISIONING' => [
-					'version' => 1,
-					'endpoints' => [
-						'user' => '/ocs/v2.php/cloud/users',
-						'groups' => '/ocs/v2.php/cloud/groups',
-						'apps' => '/ocs/v2.php/cloud/apps',
+					'PROVISIONING' => [
+						'version' => 1,
+						'endpoints' => [
+							'user' => '/ocs/v2.php/cloud/users',
+							'groups' => '/ocs/v2.php/cloud/groups',
+							'apps' => '/ocs/v2.php/cloud/apps',
+						],
 					],
 				],
 			]
