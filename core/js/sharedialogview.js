@@ -221,7 +221,7 @@
 								.tooltip('hide')
 								.tooltip({
 									placement: 'bottom',
-									trigger: 'manual',
+									trigger: 'manual'
 								})
 								.tooltip('fixTitle')
 								.tooltip('show');
@@ -259,9 +259,14 @@
 				}
 			}
 			insert.text(text);
+			insert.attr('title', item.value.shareWith);
 			if(item.value.shareType === OC.Share.SHARE_TYPE_GROUP) {
 				insert = insert.wrapInner('<strong></strong>');
 			}
+			insert.tooltip({
+				placement: 'bottom',
+				container: 'body'
+			});
 			return $("<li>")
 				.addClass((item.value.shareType === OC.Share.SHARE_TYPE_GROUP) ? 'group' : 'user')
 				.append(insert)
