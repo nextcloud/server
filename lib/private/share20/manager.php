@@ -197,6 +197,11 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Path should be either a file or a folder');
 		}
 
+		// And you can't share your rootfolder
+		if ($this->rootFolder->getUserFolder($share->getSharedBy())->isSubNode($share->getNode()) === false) {
+			throw new \InvalidArgumentException('You can\'t share your root folder');
+		}
+
 		// Check if we actually have share permissions
 		if (!$share->getNode()->isShareable()) {
 			$message_t = $this->l->t('You are not allowed to share %s', [$share->getNode()->getPath()]);
