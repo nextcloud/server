@@ -859,6 +859,9 @@ MountConfigListView.prototype = _.extend({
 				var input = $(this);
 				var val = storageConfig.backendOptions[input.data('parameter')];
 				if (val !== undefined) {
+					if(input.is('input:checkbox')) {
+						input.prop('checked', val);
+					}
 					input.val(storageConfig.backendOptions[input.data('parameter')]);
 					highlightInput(input);
 				}
