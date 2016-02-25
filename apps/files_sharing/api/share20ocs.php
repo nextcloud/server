@@ -271,6 +271,15 @@ class Share20OCS {
 			$permissions &= ~\OCP\Constants::PERMISSION_CREATE;
 		}
 
+		/*
+		 * Hack for https://github.com/owncloud/core/issues/22587
+		 * We check the permissions via webdav. But the permissions of the mount point
+		 * do not equal the share permissions. Here we fix that for federated mounts.
+		 */
+		if ($path->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+			$permissions &= ~($permissions & ~$path->getPermissions());
+		}
+
 		$shareWith = $this->request->getParam('shareWith', null);
 		$shareType = (int)$this->request->getParam('shareType', '-1');
 
