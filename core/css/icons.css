@@ -231,6 +231,9 @@
 .icon-view-close {
 	background-image: url('../img/actions/view-close.svg');
 }
+.icon-view-download {
+	background-image: url('../img/actions/view-download.svg');
+}
 .icon-view-next {
 	background-image: url('../img/actions/view-next.svg');
 }
