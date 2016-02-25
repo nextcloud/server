@@ -25,52 +25,52 @@ use OCA\DAV\Comments\EntityCollection as EntityCollectionImplemantation;
 
 class EntityTypeCollection extends \Test\TestCase {
 
+	/** @var \OCP\Comments\ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $commentsManager;
-	protected $folder;
+	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
+	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
+	/** @var \OCA\DAV\Comments\EntityTypeCollection */
 	protected $collection;
+	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
+
+	protected $childMap = [];
 
 	public function setUp() {
 		parent::setUp();
 
 		$this->commentsManager = $this->getMock('\OCP\Comments\ICommentsManager');
-		$this->folder = $this->getMock('\OCP\Files\Folder');
 		$this->userManager = $this->getMock('\OCP\IUserManager');
 		$this->userSession = $this->getMock('\OCP\IUserSession');
 		$this->logger = $this->getMock('\OCP\ILogger');
 
+		$instance = $this;
+
 		$this->collection = new \OCA\DAV\Comments\EntityTypeCollection(
 			'files',
 			$this->commentsManager,
-			$this->folder,
 			$this->userManager,
 			$this->userSession,
-			$this->logger
+			$this->logger,
+			function ($child) use ($instance) {
+				return !empty($instance->childMap[$child]);
+			}
 		);
 	}
 
 	public function testChildExistsYes() {
-		$this->folder->expects($this->once())
-			->method('getById')
-			->with('17')
-			->will($this->returnValue([$this->getMock('\OCP\Files\Node')]));
+		$this->childMap[17] = true;
 		$this->assertTrue($this->collection->childExists('17'));
 	}
 
 	public function testChildExistsNo() {
-		$this->folder->expects($this->once())
-			->method('getById')
-			->will($this->returnValue([]));
 		$this->assertFalse($this->collection->childExists('17'));
 	}
 
 	public function testGetChild() {
-		$this->folder->expects($this->once())
-			->method('getById')
-			->with('17')
-			->will($this->returnValue([$this->getMock('\OCP\Files\Node')]));
+		$this->childMap[17] = true;
 
 		$ec = $this->collection->getChild('17');
 		$this->assertTrue($ec instanceof EntityCollectionImplemantation);
@@ -80,11 +80,6 @@ class EntityTypeCollection extends \Test\TestCase {
 	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildException() {
-		$this->folder->expects($this->once())
-			->method('getById')
-			->with('17')
-			->will($this->returnValue([]));
-
 		$this->collection->getChild('17');
 	}
 

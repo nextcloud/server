@@ -23,18 +23,21 @@ namespace OCA\DAV\Tests\Unit\Comments;
 
 class EntityCollection extends \Test\TestCase {
 
+	/** @var \OCP\Comments\ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $commentsManager;
-	protected $folder;
+	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
+	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
+	/** @var \OCA\DAV\Comments\EntityCollection */
 	protected $collection;
+	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
 
 	public function setUp() {
 		parent::setUp();
 
 		$this->commentsManager = $this->getMock('\OCP\Comments\ICommentsManager');
-		$this->folder = $this->getMock('\OCP\Files\Folder');
 		$this->userManager = $this->getMock('\OCP\IUserManager');
 		$this->userSession = $this->getMock('\OCP\IUserSession');
 		$this->logger = $this->getMock('\OCP\ILogger');
@@ -43,7 +46,6 @@ class EntityCollection extends \Test\TestCase {
 			'19',
 			'files',
 			$this->commentsManager,
-			$this->folder,
 			$this->userManager,
 			$this->userSession,
 			$this->logger

@@ -22,15 +22,24 @@
 namespace OCA\DAV\Tests\Unit\Comments;
 
 use OCA\DAV\Comments\EntityTypeCollection as EntityTypeCollectionImplementation;
+use OCP\Comments\CommentsEntityEvent;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class RootCollection extends \Test\TestCase {
 
+	/** @var \OCP\Comments\ICommentsManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $commentsManager;
+	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userManager;
+	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	protected $logger;
+	/** @var \OCA\DAV\Comments\RootCollection */
 	protected $collection;
+	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
-	protected $rootFolder;
+	/** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
+	protected $dispatcher;
+	/** @var \OCP\IUser|\PHPUnit_Framework_MockObject_MockObject */
 	protected $user;
 
 	public function setUp() {
@@ -41,14 +50,14 @@ class RootCollection extends \Test\TestCase {
 		$this->commentsManager = $this->getMock('\OCP\Comments\ICommentsManager');
 		$this->userManager = $this->getMock('\OCP\IUserManager');
 		$this->userSession = $this->getMock('\OCP\IUserSession');
-		$this->rootFolder = $this->getMock('\OCP\Files\IRootFolder');
+		$this->dispatcher = new EventDispatcher();
 		$this->logger = $this->getMock('\OCP\ILogger');
 
 		$this->collection = new \OCA\DAV\Comments\RootCollection(
 			$this->commentsManager,
 			$this->userManager,
 			$this->userSession,
-			$this->rootFolder,
+			$this->dispatcher,
 			$this->logger
 		);
 	}
@@ -62,10 +71,11 @@ class RootCollection extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 
-		$this->rootFolder->expects($this->once())
-			->method('getUserFolder')
-			->with('alice')
-			->will($this->returnValue($this->getMock('\OCP\Files\Folder')));
+		$this->dispatcher->addListener(CommentsEntityEvent::EVENT_ENTITY, function(CommentsEntityEvent $event) {
+			$event->addEntityCollection('files', function() {
+				return true;
+			});
+		});
 	}
 
 	/**
