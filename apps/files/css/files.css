@@ -785,10 +785,12 @@ html.ie8 #controls .button.new {
 	padding: 0;
 }
 
-.app-files .fileactions .action .icon,
-.app-files .actions .button .icon {
+#filestable .filename .action .icon,
+#filestable .selectedActions a .icon,
+#controls .actions .button .icon {
 	display: inline-block;
 	vertical-align: middle;
+	background-size: 16px 16px;
 }
 
 .app-files .actions .button.new .icon {
