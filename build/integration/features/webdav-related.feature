@@ -62,7 +62,7 @@ Feature: sharing
 			|X-XSS-Protection|1; mode=block|
 		And Downloaded content should start with "Welcome to your ownCloud account!"
 
-	Scenario: Doing a GET with a web login should work without CSRF token on the nwe backend
+	Scenario: Doing a GET with a web login should work without CSRF token on the new backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/dav/files/admin/welcome.txt" without requesttoken
 		Then Downloaded content should start with "Welcome to your ownCloud account!"
