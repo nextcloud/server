@@ -128,6 +128,6 @@
 	box-shadow: 0 0 6px #f8b9b7;
 }
 
-.app-files .action-comment>img {
-	margin-right: 5px;
+.app-files .action-comment {
+	padding: 16px 14px;
 }

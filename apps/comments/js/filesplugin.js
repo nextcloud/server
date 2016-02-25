@@ -14,9 +14,8 @@
 	var TEMPLATE_COMMENTS_UNREAD =
 		'<a class="action action-comment permanent" title="{{countMessage}}" href="#">' +
 		'<img class="svg" src="{{iconUrl}}"/>' +
-		'{{count}}' +
 		'</a>';
-	
+
 	OCA.Comments = _.extend({}, OCA.Comments);
 	if (!OCA.Comments) {
 		/**
@@ -122,4 +121,3 @@
 })();
 
 OC.Plugins.register('OCA.Files.FileList', OCA.Comments.FilesPlugin);
-
