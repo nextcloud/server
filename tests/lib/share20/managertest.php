@@ -677,6 +677,9 @@ class ManagerTest extends \Test\TestCase {
 			['group0', true],
 		]));
 
+		$userFolder = $this->getMock('\OCP\Files\Folder');
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
+
 		try {
 			$this->invokePrivate($this->manager, 'generalCreateChecks', [$share]);
 			$thrown = false;
@@ -689,6 +692,32 @@ class ManagerTest extends \Test\TestCase {
 		}
 
 		$this->assertSame($exception, $thrown);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage You can't share your root folder
+	 */
+	public function testGeneralCheckShareRoot() {
+		$thrown = null;
+
+		$this->userManager->method('userExists')->will($this->returnValueMap([
+			['user0', true],
+			['user1', true],
+		]));
+
+		$userFolder = $this->getMock('\OCP\Files\Folder');
+		$userFolder->method('isSubNode')->with($userFolder)->willReturn(false);
+		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
+
+		$share = $this->manager->newShare();
+
+		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith('user0')
+			->setSharedBy('user1')
+			->setNode($userFolder);
+
+		$this->invokePrivate($this->manager, 'generalCreateChecks', [$share]);
 	}
 
 	/**

@@ -506,3 +506,11 @@ Feature: sharing
     And file "myfile.txt" of user "user0" is shared with user "user1"
     When User "user1" uploads file "data/textfile.txt" to "/myfile.txt"
     Then the HTTP status code should be "204"
+
+  Scenario: Don't allow sharing of the root
+    Given user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | / |
+      | shareType | 3 |
+    Then the OCS status code should be "403"
