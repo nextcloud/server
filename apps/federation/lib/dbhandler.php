@@ -112,7 +112,7 @@ class DbHandler {
 	 */
 	public function getAllServer() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['url', 'id', 'status', 'shared_secret', 'sync_token'])->from($this->dbTable);
+		$query->select(['url', 'url_hash', 'id', 'status', 'shared_secret', 'sync_token'])->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		return $result;
 	}
@@ -252,11 +252,11 @@ class DbHandler {
 	 */
 	protected function hash($url) {
 		$normalized = $this->normalizeUrl($url);
-		return md5($normalized);
+		return sha1($normalized);
 	}
 
 	/**
-	 * normalize URL, used to create the md5 hash
+	 * normalize URL, used to create the sha1 hash
 	 *
 	 * @param string $url
 	 * @return string

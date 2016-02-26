@@ -89,9 +89,9 @@ class DbHandlerTest extends TestCase {
 
 	public function dataTestAddServer() {
 		return [
-				['http://owncloud.org', 'http://owncloud.org', md5('owncloud.org')],
-				['https://owncloud.org', 'https://owncloud.org', md5('owncloud.org')],
-				['http://owncloud.org/', 'http://owncloud.org', md5('owncloud.org')],
+				['http://owncloud.org', 'http://owncloud.org', sha1('owncloud.org')],
+				['https://owncloud.org', 'https://owncloud.org', sha1('owncloud.org')],
+				['http://owncloud.org/', 'http://owncloud.org', sha1('owncloud.org')],
 		];
 	}
 
@@ -233,10 +233,10 @@ class DbHandlerTest extends TestCase {
 
 	public function dataTestHash() {
 		return [
-			['server1', md5('server1')],
-			['http://server1', md5('server1')],
-			['https://server1', md5('server1')],
-			['http://server1/', md5('server1')],
+			['server1', sha1('server1')],
+			['http://server1', sha1('server1')],
+			['https://server1', sha1('server1')],
+			['http://server1/', sha1('server1')],
 		];
 	}
 

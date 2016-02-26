@@ -40,7 +40,7 @@ class SyncFederationAddressBooks {
 			if (is_null($sharedSecret)) {
 				continue;
 			}
-			$targetBookId = sha1($url);
+			$targetBookId = $trustedServer['url_hash'];
 			$targetPrincipal = "principals/system/system";
 			$targetBookProperties = [
 					'{DAV:}displayname' => $url

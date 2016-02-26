@@ -19,6 +19,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 			willReturn([
 			[
 				'url' => 'https://cloud.drop.box',
+				'url_hash' => 'sha1',
 				'shared_secret' => 'iloveowncloud',
 				'sync_token' => '0'
 			]
@@ -47,6 +48,7 @@ class SyncFederationAddressbooksTest extends \Test\TestCase {
 		willReturn([
 			[
 				'url' => 'https://cloud.drop.box',
+				'url_hash' => 'sha1',
 				'shared_secret' => 'iloveowncloud',
 				'sync_token' => '0'
 			]
