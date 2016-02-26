@@ -149,7 +149,7 @@ class ViewControllerTest extends TestCase {
 
 		$nav = new Template('files', 'appnavigation');
 		$nav->assign('navigationItems', [
-			0 => [
+			[
 				'id' => 'files',
 				'appname' => 'files',
 				'script' => 'list.php',
@@ -158,7 +158,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			1 => [
+			[
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
@@ -167,16 +167,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			2 => [
-			'id' => 'systemtagsfilter',
-				'appname' => 'systemtags',
-				'script' => 'list.php',
-				'order' => 9,
-				'name' => new \OC_L10N_String(new \OC_L10N('systemtags'), 'Tags', []),
-				'active' => false,
-				'icon' => '',
-			],
-			3 => [
+			[
 			'id' => 'sharingin',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
@@ -185,7 +176,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			4 => [
+			[
 			'id' => 'sharingout',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
@@ -194,7 +185,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			5 => [
+			[
 				'id' => 'sharinglinks',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
@@ -203,7 +194,16 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			6 => [
+			[
+				'id' => 'systemtagsfilter',
+				'appname' => 'systemtags',
+				'script' => 'list.php',
+				'order' => 25,
+				'name' => new \OC_L10N_String(new \OC_L10N('systemtags'), 'Tags', []),
+				'active' => false,
+				'icon' => '',
+			],
+			[
 				'id' => 'trashbin',
 				'appname' => 'files_trashbin',
 				'script' => 'list.php',
@@ -227,31 +227,31 @@ class ViewControllerTest extends TestCase {
 				'allowShareWithLink' => 'yes',
 				'appNavigation' => $nav,
 				'appContents' => [
-					0 => [
+					[
 						'id' => 'files',
 						'content' => null,
 					],
-					1 => [
+					[
 						'id' => 'favorites',
 						'content' => null,
 					],
-					2 => [
-						'id' => 'systemtagsfilter',
-						'content' => null,
-					],
-					3 => [
+					[
 						'id' => 'sharingin',
 						'content' => null,
 					],
-					4 => [
+					[
 						'id' => 'sharingout',
 						'content' => null,
 					],
-					5 => [
+					[
 						'id' => 'sharinglinks',
 						'content' => null,
 					],
-					6 => [
+					[
+						'id' => 'systemtagsfilter',
+						'content' => null,
+					],
+					[
 						'id' => 'trashbin',
 						'content' => null,
 					],

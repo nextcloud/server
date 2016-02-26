@@ -83,7 +83,7 @@ $l = \OC::$server->getL10N('systemtags');
 		'id' => 'systemtagsfilter',
 		'appname' => 'systemtags',
 		'script' => 'list.php',
-		'order' => 9,
+		'order' => 25,
 		'name' => $l->t('Tags')
 	)
 );
