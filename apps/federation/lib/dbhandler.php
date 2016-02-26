@@ -106,6 +106,28 @@ class DbHandler {
 	}
 
 	/**
+	 * get trusted server with given ID
+	 *
+	 * @param int $id
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function getServerById($id) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')->from($this->dbTable)
+			->where($query->expr()->eq('id', $query->createParameter('id')))
+			->setParameter('id', $id);
+		$query->execute();
+		$result = $query->execute()->fetchAll();
+
+		if (empty($result)) {
+			throw new \Exception('No Server found with ID: ' . $id);
+		}
+
+		return $result[0];
+	}
+
+	/**
 	 * get all trusted servers
 	 *
 	 * @return array

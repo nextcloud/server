@@ -30,6 +30,8 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class TrustedServers {
 
@@ -58,6 +60,9 @@ class TrustedServers {
 	/** @var IConfig */
 	private $config;
 
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+
 	/**
 	 * @param DbHandler $dbHandler
 	 * @param IClientService $httpClientService
@@ -65,6 +70,7 @@ class TrustedServers {
 	 * @param IJobList $jobList
 	 * @param ISecureRandom $secureRandom
 	 * @param IConfig $config
+	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(
 		DbHandler $dbHandler,
@@ -72,7 +78,8 @@ class TrustedServers {
 		ILogger $logger,
 		IJobList $jobList,
 		ISecureRandom $secureRandom,
-		IConfig $config
+		IConfig $config,
+		EventDispatcherInterface $dispatcher
 	) {
 		$this->dbHandler = $dbHandler;
 		$this->httpClientService = $httpClientService;
@@ -80,6 +87,7 @@ class TrustedServers {
 		$this->jobList = $jobList;
 		$this->secureRandom = $secureRandom;
 		$this->config = $config;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -154,7 +162,10 @@ class TrustedServers {
 	 * @param int $id
 	 */
 	public function removeServer($id) {
+		$server = $this->dbHandler->getServerById($id);
 		$this->dbHandler->removeServer($id);
+		$event = new GenericEvent($server['url_hash']);
+		$this->dispatcher->dispatch('OCP\Federation\TrustedServerEvent::remove', $event);
 	}
 
 	/**

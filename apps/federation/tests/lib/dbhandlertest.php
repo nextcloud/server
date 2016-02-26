@@ -115,6 +115,15 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame($id1, (int)$result[0]['id']);
 	}
 
+
+	public function testGetServerById() {
+		$this->dbHandler->addServer('server1');
+		$id = $this->dbHandler->addServer('server2');
+
+		$result = $this->dbHandler->getServerById($id);
+		$this->assertSame('server2', $result['url']);
+	}
+
 	public function testGetAll() {
 		$id1 = $this->dbHandler->addServer('server1');
 		$id2 = $this->dbHandler->addServer('server2');
