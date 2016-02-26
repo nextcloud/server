@@ -22,6 +22,7 @@
 
 namespace OC\Core\Command\User;
 
+use OC\Files\Filesystem;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserManager;
@@ -131,7 +132,15 @@ class Add extends Command {
 			$output->writeln('Display name set to "' . $user->getDisplayName() . '"');
 		}
 
-		foreach ($input->getOption('group') as $groupName) {
+		$groups = $input->getOption('group');
+
+		if (!empty($groups)) {
+			// Make sure we init the Filesystem for the user, in case we need to
+			// init some group shares.
+			Filesystem::init($user->getUID(), '');
+		}
+
+		foreach ($groups as $groupName) {
 			$group = $this->groupManager->get($groupName);
 			if (!$group) {
 				$this->groupManager->createGroup($groupName);
