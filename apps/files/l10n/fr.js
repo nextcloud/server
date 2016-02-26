@@ -28,6 +28,7 @@ OC.L10N.register(
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Impossible d'envoyer {filename} car il s'agit d'un répertoire ou d'un fichier de taille nulle",
     "Total file size {size1} exceeds upload limit {size2}" : "La taille totale du fichier {size1} excède la taille maximale d'envoi {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Espace libre insuffisant : vous tentez d'envoyer {size1} mais seulement {size2} sont disponibles",
+    "Error uploading file \"{fileName}\": {message}" : "Erreur lors de l'envoi du fichier \"{fileName}\" : {message}",
     "Could not get result from server." : "Ne peut recevoir les résultats du serveur.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier.",
     "Actions" : "Actions",

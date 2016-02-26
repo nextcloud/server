@@ -28,6 +28,7 @@ OC.L10N.register(
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "S’arrihet të ngarkohet {filename}, ngaqë është drejtori ose ka 0 bajte",
     "Total file size {size1} exceeds upload limit {size2}" : "Madhësia gjithsej e kartelës {size1} e tejkalon kufirin {size2} për ngarkimet",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nuk ka hapësirë të mjaftueshme, po ngarkoni {size1}, por ka vetëm {size2} të lira",
+    "Error uploading file \"{fileName}\": {message}" : "Gabim në ngarkimin e kartelës \"{fileName}\": {message}",
     "Could not get result from server." : "S’mori dot përfundime nga shërbyesi.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Ngarkimi i kartelës është në punë e sipër. Largimi nga faqja do të anulojë ngarkimin.",
     "Actions" : "Veprime",

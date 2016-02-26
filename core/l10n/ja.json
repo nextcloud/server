@@ -128,6 +128,7 @@
     "Error occurred while checking server setup" : "サーバー設定のチェック中にエラーが発生しました",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "データディレクトリとファイルがインターネットからアクセス可能になっている可能性があります。.htaccessファイルが機能していません。データディレクトリがアクセスされないようにWebサーバーを設定するか、Webサーバーのドキュメントルートからデータディレクトリを移動するように強くお勧めします。",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "\"{header}\" HTTP ヘッダは \"{expected}\" に設定されていません。これは潜在的なセキュリティリスクもしくはプライバシーリスクとなる可能性があるため、この設定を見直すことをおすすめします。",
+    "The \"Strict-Transport-Security\" HTTP header is not configured to at least \"{seconds}\" seconds. For enhanced security we recommend enabling HSTS as described in our <a href=\"{docUrl}\">security tips</a>." : "\"Strict-Transport-Security\" HTTP ヘッダが最小値の \"{seconds}\" 秒に設定されていません。 セキュリティを強化するため、<a href=\"{docUrl}\">セキュリティのコツ</a>を参照して、HSTS を有効にすることをおすすめします。",
     "You are accessing this site via HTTP. We strongly suggest you configure your server to require using HTTPS instead as described in our <a href=\"{docUrl}\">security tips</a>." : "HTTP経由でアクセスしています。<a href=\"{docUrl}\">security tips</a>を参照して、代わりにHTTPSを使用するようサーバーを設定することを強くおすすめします。 instead as described in our .",
     "Shared" : "共有中",
     "Shared with {recipients}" : "{recipients} と共有",
