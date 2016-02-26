@@ -31,8 +31,24 @@ class JSResourceLocator extends ResourceLocator {
 	public function doFind($script) {
 		$theme_dir = 'themes/'.$this->theme.'/';
 		if (strpos($script, '3rdparty') === 0
-			&& $this->appendIfExist($this->thirdpartyroot, $script.'.js')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
+			&& $this->appendIfExist($this->thirdpartyroot, $script.'.js')) {
+			return;
+		}
+
+		if (strpos($script, '/l10n/') !== false) {
+			// For language files we try to load them all, so themes can overwrite
+			// single l10n strings without having to translate all of them.
+			$found = 0;
+			$found += $this->appendIfExist($this->serverroot, 'core/'.$script.'.js');
+			$found += $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js');
+			$found += $this->appendIfExist($this->serverroot, $script.'.js');
+			$found += $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js');
+			$found += $this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js');
+
+			if ($found) {
+				return;
+			}
+		} else if ($this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js')
 			|| $this->appendIfExist($this->serverroot, $script.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js')
@@ -40,6 +56,7 @@ class JSResourceLocator extends ResourceLocator {
 		) {
 			return;
 		}
+
 		$app = substr($script, 0, strpos($script, '/'));
 		$script = substr($script, strpos($script, '/')+1);
 		$app_path = \OC_App::getAppPath($app);
