@@ -644,6 +644,15 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Cannot increase permissions of path', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $limitedPermssions, null, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
 
+		$rootFolder = $this->getMock('\OCP\Files\Folder');
+		$rootFolder->method('isShareable')->willReturn(true);
+		$rootFolder->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
+		$rootFolder->method('getPath')->willReturn('myrootfolder');
+
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $rootFolder, $user2, $user0, $user0, 30, null, null), 'You can\'t share your root folder', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $rootFolder, $group0, $user0, $user0, 2, null, null), 'You can\'t share your root folder', true];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $rootFolder, null, $user0, $user0, 16, null, null), 'You can\'t share your root folder', true];
+
 		$allPermssions = $this->getMock('\OCP\Files\Folder');
 		$allPermssions->method('isShareable')->willReturn(true);
 		$allPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_ALL);
@@ -678,7 +687,9 @@ class ManagerTest extends \Test\TestCase {
 		]));
 
 		$userFolder = $this->getMock('\OCP\Files\Folder');
+		$userFolder->method('getPath')->willReturn('myrootfolder');
 		$this->rootFolder->method('getUserFolder')->willReturn($userFolder);
+
 
 		try {
 			$this->invokePrivate($this->manager, 'generalCreateChecks', [$share]);
