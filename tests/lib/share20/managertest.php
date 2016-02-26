@@ -713,6 +713,7 @@ class ManagerTest extends \Test\TestCase {
 	 */
 	public function testvalidateExpirationDateEnforceButNotSet() {
 		$share = $this->manager->newShare();
+		$share->setProviderId('foo')->setId('bar');
 
 		$this->config->method('getAppValue')
 			->will($this->returnValueMap([
@@ -720,6 +721,26 @@ class ManagerTest extends \Test\TestCase {
 			]));
 
 		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+	}
+
+	public function testvalidateExpirationDateEnforceButNotSetNewShare() {
+		$share = $this->manager->newShare();
+
+		$this->config->method('getAppValue')
+			->will($this->returnValueMap([
+				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
+				['core', 'shareapi_expire_after_n_days', '7', '3'],
+				['core', 'shareapi_default_expire_date', 'no', 'yes'],
+			]));
+
+		$expected = new \DateTime();
+		$expected->setTime(0,0,0);
+		$expected->add(new \DateInterval('P3D'));
+
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+
+		$this->assertNotNull($share->getExpirationDate());
+		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
 	public function testvalidateExpirationDateEnforceToFarIntoFuture() {
@@ -769,9 +790,9 @@ class ManagerTest extends \Test\TestCase {
 			return $data['expirationDate'] == $future;
 		}));
 
-		$future = $this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
-		$this->assertEquals($expected, $future);
+		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
 	public function testvalidateExpirationDateNoDateNoDefaultNull() {
@@ -790,9 +811,9 @@ class ManagerTest extends \Test\TestCase {
 			return $data['expirationDate'] == $expected && $data['passwordSet'] === false;
 		}));
 
-		$res = $this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
-		$this->assertEquals($expected, $res);
+		$this->assertEquals($expected, $share->getExpirationDate());
 	}
 
 	public function testvalidateExpirationDateNoDateNoDefault() {
@@ -805,9 +826,9 @@ class ManagerTest extends \Test\TestCase {
 		$share = $this->manager->newShare();
 		$share->setPassword('password');
 
-		$date = $this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 
-		$this->assertNull($date);
+		$this->assertNull($share->getExpirationDate());
 	}
 
 	public function testvalidateExpirationDateNoDateDefault() {
