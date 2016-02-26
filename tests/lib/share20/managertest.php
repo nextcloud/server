@@ -787,7 +787,7 @@ class ManagerTest extends \Test\TestCase {
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
 		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) use ($expected) {
-			return $data['expirationDate'] == $expected;
+			return $data['expirationDate'] == $expected && $data['passwordSet'] === false;
 		}));
 
 		$res = $this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
@@ -799,10 +799,11 @@ class ManagerTest extends \Test\TestCase {
 		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listener'])->getMock();
 		\OCP\Util::connectHook('\OC\Share', 'verifyExpirationDate',  $hookListner, 'listener');
 		$hookListner->expects($this->once())->method('listener')->with($this->callback(function ($data) {
-			return $data['expirationDate'] === null;
+			return $data['expirationDate'] === null && $data['passwordSet'] === true;
 		}));
 
 		$share = $this->manager->newShare();
+		$share->setPassword('password');
 
 		$date = $this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
 

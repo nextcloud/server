@@ -280,7 +280,7 @@ class Manager implements IManager {
 			'expirationDate' => &$expirationDate,
 			'accepted' => &$accepted,
 			'message' => &$message,
-			'passwordSet' => $share->getPassword() === null,
+			'passwordSet' => $share->getPassword() !== null,
 		]);
 
 		if (!$accepted) {
