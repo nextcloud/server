@@ -81,7 +81,7 @@ if($_['displayNameChangeSupported']) {
 ?>
 
 <?php
-if($_['passwordChangeSupported']) {
+if($_['displayNameChangeSupported']) {
 ?>
 <form id="lostpassword" class="section">
 	<h2>
