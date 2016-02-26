@@ -95,7 +95,8 @@ class View {
 		}
 
 		$this->fakeRoot = $root;
-		$this->updater = new Updater($this);
+
+		$this->updater = new Updater($this, Filesystem::getView());
 		$this->lockingProvider = \OC::$server->getLockingProvider();
 		$this->lockingEnabled = !($this->lockingProvider instanceof \OC\Lock\NoopLockingProvider);
 	}
