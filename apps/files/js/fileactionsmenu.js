@@ -14,7 +14,16 @@
 		'<ul>' +
 		'{{#each items}}' +
 		'<li>' +
-		'<a href="#" class="menuitem action action-{{nameLowerCase}} permanent" data-action="{{name}}">{{#if icon}}<img class="icon" src="{{icon}}"/>{{else}}<span class="no-icon"></span>{{/if}}<span>{{displayName}}</span></a>' +
+		'<a href="#" class="menuitem action action-{{nameLowerCase}} permanent" data-action="{{name}}">' +
+			'{{#if icon}}<img class="icon" src="{{icon}}"/>' +
+			'{{else}}'+
+				'{{#if iconClass}}' +
+				'<span class="icon {{iconClass}}"></span>' +
+				'{{else}}' +
+				'<span class="no-icon"></span>' +
+				'{{/if}}' +
+			'{{/if}}' +
+			'<span>{{displayName}}</span></a>' +
 		'</li>' +
 		'{{/each}}' +
 		'</ul>';

@@ -52,9 +52,8 @@
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class="selectedActions">
 						<a href="" class="download">
-							<img class="svg" alt=""
-								 src="<?php print_unescaped(image_path("core", "actions/download.svg")); ?>" />
-							<?php p($l->t('Download'))?>
+							<span class="icon icon-download"></span>
+							<span><?php p($l->t('Download'))?></span>
 						</a>
 					</span>
 				</div>
@@ -65,9 +64,8 @@
 			<th id="headerDate" class="hidden column-mtime">
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
 					<span class="selectedActions"><a href="" class="delete-selected">
-						<?php p($l->t('Delete'))?>
-						<img class="svg" alt=""
-							 src="<?php print_unescaped(image_path("core", "actions/delete.svg")); ?>" />
+						<span><?php p($l->t('Delete'))?></span>
+						<span class="icon icon-delete"></span>
 					</a></span>
 			</th>
 		</tr>

@@ -97,9 +97,9 @@ describe('OCA.Sharing.Util tests', function() {
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect($action.find('.icon').hasClass('icon-share')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder.svg');
-			expect($action.find('img').length).toEqual(1);
 		});
 		it('shows simple share text with share icon', function() {
 			var $action, $tr;
@@ -116,9 +116,9 @@ describe('OCA.Sharing.Util tests', function() {
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
 			expect($action.find('>span').text().trim()).toEqual('Shared');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect($action.find('.icon').hasClass('icon-share')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
-			expect($action.find('img').length).toEqual(1);
 		});
 		it('shows simple share text with public icon when shared with link', function() {
 			var $action, $tr;
@@ -136,9 +136,9 @@ describe('OCA.Sharing.Util tests', function() {
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
 			expect($action.find('>span').text().trim()).toEqual('Shared');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('public.svg');
+			expect($action.find('.icon').hasClass('icon-share')).toEqual(false);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(true);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-public.svg');
-			expect($action.find('img').length).toEqual(1);
 		});
 		it('shows owner name when owner is available', function() {
 			var $action, $tr;
@@ -156,7 +156,8 @@ describe('OCA.Sharing.Util tests', function() {
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
 			expect($action.find('>span').text().trim()).toEqual('User One');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect($action.find('.icon').hasClass('icon-share')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
 		});
 		it('shows recipients when recipients are available', function() {
@@ -175,9 +176,9 @@ describe('OCA.Sharing.Util tests', function() {
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
 			expect($action.find('>span').text().trim()).toEqual('Shared with User One, User Two');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect($action.find('.icon').hasClass('icon-share')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 			expect(OC.basename(getImageUrl($tr.find('.filename .thumbnail')))).toEqual('folder-shared.svg');
-			expect($action.find('img').length).toEqual(1);
 		});
 		it('shows share action when shared with user who has no share permission', function() {
 			var $action, $tr;
@@ -282,7 +283,8 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($tr.attr('data-share-recipients')).toEqual('Group One, Group Two, User One, User Two');
 
 			expect($action.find('>span').text().trim()).toEqual('Shared with Group One, Group Two, User One, User Two');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect($action.find('.icon').hasClass('icon-share')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
 		it('updates share icon after updating shares of a file', function() {
 			var $action, $tr;
@@ -314,7 +316,8 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($tr.attr('data-share-recipients')).toEqual('User One, User Three, User Two');
 
 			expect($action.find('>span').text().trim()).toEqual('Shared with User One, User Three, User Two');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect($action.find('.icon').hasClass('icon-share')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
 		it('removes share icon after removing all shares from a file', function() {
 			var $action, $tr;
@@ -369,7 +372,8 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($tr.attr('data-share-recipients')).toEqual('User Two');
 
 			expect($action.find('>span').text().trim()).toEqual('User One');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect($action.find('.icon').hasClass('icon-share')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
 		it('keep share text after unsharing reshare', function() {
 			var $action, $tr;
@@ -399,7 +403,8 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($tr.attr('data-share-recipients')).not.toBeDefined();
 
 			expect($action.find('>span').text().trim()).toEqual('User One');
-			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect($action.find('.icon').hasClass('icon-share')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-public')).toEqual(false);
 		});
 	});
 	describe('formatRecipients', function() {

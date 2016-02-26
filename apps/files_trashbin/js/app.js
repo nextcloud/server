@@ -49,7 +49,7 @@ OCA.Trashbin.App = {
 			type: OCA.Files.FileActions.TYPE_INLINE,
 			mime: 'all',
 			permissions: OC.PERMISSION_READ,
-			icon: OC.imagePath('core', 'actions/history'),
+			iconClass: 'icon-history',
 			actionHandler: function(filename, context) {
 				var fileList = context.fileList;
 				var tr = fileList.findFileEl(filename);
@@ -70,9 +70,7 @@ OCA.Trashbin.App = {
 			displayName: t('files', 'Delete'),
 			mime: 'all',
 			permissions: OC.PERMISSION_READ,
-			icon: function() {
-				return OC.imagePath('core', 'actions/delete');
-			},
+			iconClass: 'icon-delete',
 			render: function(actionSpec, isDefault, context) {
 				var $actionLink = fileActions._makeActionLink(actionSpec, context);
 				$actionLink.attr('original-title', t('files_trashbin', 'Delete permanently'));

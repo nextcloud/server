@@ -131,7 +131,7 @@
 				displayName: '',
 				mime: 'all',
 				permissions: OC.PERMISSION_ALL,
-				icon: OC.imagePath('core', 'actions/share'),
+				iconClass: 'icon-share',
 				type: OCA.Files.FileActions.TYPE_INLINE,
 				actionHandler: function(fileName) {
 					fileList.showDetailsView(fileName, 'shareTabView');
