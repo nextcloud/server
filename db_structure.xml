@@ -1575,7 +1575,6 @@
 					<name>creation_timestamp</name>
 					<sorting>descending</sorting>
 				</field>
-				<!-- TODO: check whether this supports a query without creation timestamp -->
 			</index>
 
 			<index>
@@ -1635,15 +1634,6 @@
 			</field>
 
 			<index>
-				<name>comments_marker_user_id_index</name>
-				<unique>false</unique>
-				<field>
-					<name>user_id</name>
-					<sorting>descending</sorting>
-				</field>
-			</index>
-
-			<index>
 				<name>comments_marker_object_index</name>
 				<unique>false</unique>
 				<field>
@@ -1654,7 +1644,23 @@
 					<name>object_id</name>
 					<sorting>ascending</sorting>
 				</field>
-				<!-- TODO: check whether this supports a query with user_id -->
+			</index>
+
+			<index>
+				<name>comments_marker_index</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>descending</sorting>
+				</field>
+				<field>
+					<name>object_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>object_id</name>
+					<sorting>ascending</sorting>
+				</field>
 			</index>
 
 		</declaration>
