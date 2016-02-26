@@ -100,7 +100,7 @@
 		 * This will automatically adjust the tag mapping collection to
 		 * container the new name.
 		 *
-		 * @param {OC.Backbone.Model} changedTag tag model that has changed
+		 * @param {OC.Backbone.Model} tagId tag model that has changed
 		 */
 		_onTagDeletedGlobally: function(tagId) {
 			// also rename it in the selection, if applicable
