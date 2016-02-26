@@ -553,6 +553,11 @@ class Share20OCSTest extends \Test\TestCase {
 			->willReturn($userFolder);
 
 		$path = $this->getMock('\OCP\Files\File');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 			->method('get')
 			->with('valid-path')
@@ -586,6 +591,11 @@ class Share20OCSTest extends \Test\TestCase {
 			->willReturn($userFolder);
 
 		$path = $this->getMock('\OCP\Files\File');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 			->method('get')
 			->with('valid-path')
@@ -632,6 +642,11 @@ class Share20OCSTest extends \Test\TestCase {
 				->willReturn($userFolder);
 
 		$path = $this->getMock('\OCP\Files\File');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 				->method('get')
 				->with('valid-path')
@@ -678,6 +693,11 @@ class Share20OCSTest extends \Test\TestCase {
 				->willReturn($userFolder);
 
 		$path = $this->getMock('\OCP\Files\File');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 				->method('get')
 				->with('valid-path')
@@ -724,6 +744,11 @@ class Share20OCSTest extends \Test\TestCase {
 				->willReturn($userFolder);
 
 		$path = $this->getMock('\OCP\Files\Folder');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$userFolder->expects($this->once())
 				->method('get')
 				->with('valid-path')
@@ -754,6 +779,11 @@ class Share20OCSTest extends \Test\TestCase {
 			]));
 
 		$path = $this->getMock('\OCP\Files\Folder');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser->getUID())->will($this->returnSelf());
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
 
@@ -776,6 +806,11 @@ class Share20OCSTest extends \Test\TestCase {
 			]));
 
 		$path = $this->getMock('\OCP\Files\Folder');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser->getUID())->will($this->returnSelf());
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
 
@@ -799,6 +834,11 @@ class Share20OCSTest extends \Test\TestCase {
 			]));
 
 		$path = $this->getMock('\OCP\Files\File');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser->getUID())->will($this->returnSelf());
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
 
@@ -827,6 +867,11 @@ class Share20OCSTest extends \Test\TestCase {
 			]));
 
 		$path = $this->getMock('\OCP\Files\Folder');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser->getUID())->will($this->returnSelf());
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
 
@@ -866,6 +911,11 @@ class Share20OCSTest extends \Test\TestCase {
 			]));
 
 		$path = $this->getMock('\OCP\Files\Folder');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser->getUID())->will($this->returnSelf());
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
 
@@ -905,6 +955,11 @@ class Share20OCSTest extends \Test\TestCase {
 			]));
 
 		$path = $this->getMock('\OCP\Files\Folder');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser->getUID())->will($this->returnSelf());
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
 
@@ -947,6 +1002,11 @@ class Share20OCSTest extends \Test\TestCase {
 			]));
 
 		$path = $this->getMock('\OCP\Files\Folder');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
 		$this->rootFolder->method('getUserFolder')->with($this->currentUser->getUID())->will($this->returnSelf());
 		$this->rootFolder->method('get')->with('valid-path')->willReturn($path);
 
@@ -959,6 +1019,66 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$this->assertEquals($expected->getMeta(), $result->getMeta());
 		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	/**
+	 * Test for https://github.com/owncloud/core/issues/22587
+	 * TODO: Remove once proper solution is in place
+	 */
+	public function testCreateReshareOfFederatedMountNoDeletePermissions() {
+		$share = \OC::$server->getShareManager()->newShare();
+		$this->shareManager->method('newShare')->willReturn($share);
+
+		$ocs = $this->getMockBuilder('OCA\Files_Sharing\API\Share20OCS')
+			->setConstructorArgs([
+				$this->shareManager,
+				$this->groupManager,
+				$this->userManager,
+				$this->request,
+				$this->rootFolder,
+				$this->urlGenerator,
+				$this->currentUser
+			])->setMethods(['formatShare'])
+			->getMock();
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['path', null, 'valid-path'],
+				['permissions', null, \OCP\Constants::PERMISSION_ALL],
+				['shareType', $this->any(), \OCP\Share::SHARE_TYPE_USER],
+				['shareWith', null, 'validUser'],
+			]));
+
+		$userFolder = $this->getMock('\OCP\Files\Folder');
+		$this->rootFolder->expects($this->once())
+			->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
+
+		$path = $this->getMock('\OCP\Files\Folder');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(true);
+		$path->method('getStorage')->willReturn($storage);
+		$path->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
+		$userFolder->expects($this->once())
+			->method('get')
+			->with('valid-path')
+			->willReturn($path);
+
+		$this->userManager->method('userExists')->with('validUser')->willReturn(true);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('createShare')
+			->with($this->callback(function (\OCP\Share\IShare $share) {
+				return $share->getPermissions() === \OCP\Constants::PERMISSION_READ;
+			}))
+			->will($this->returnArgument(0));
+
+		$ocs->createShare();
 	}
 
 	public function testUpdateShareCantAccess() {
