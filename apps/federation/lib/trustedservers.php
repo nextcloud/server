@@ -41,6 +41,8 @@ class TrustedServers {
 	const STATUS_PENDING = 2;
 	/** something went wrong, misconfigured server, software bug,... user interaction needed */
 	const STATUS_FAILURE = 3;
+	/** remote server revoked access */
+	const STATUS_ACCESS_REVOKED = 4;
 
 	/** @var  dbHandler */
 	private $dbHandler;

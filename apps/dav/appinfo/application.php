@@ -69,7 +69,8 @@ class Application extends App {
 			/** @var IAppContainer $c */
 			return new SyncService(
 				$c->query('CardDavBackend'),
-				$c->getServer()->getUserManager()
+				$c->getServer()->getUserManager(),
+				$c->getServer()->getLogger()
 			);
 		});
 

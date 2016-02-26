@@ -40,6 +40,7 @@ class SyncFederationAddressBooks extends Command {
 		$this->syncService->syncThemAll(function($url, $ex) use ($progress, $output) {
 			if ($ex instanceof \Exception) {
 				$output->writeln("Error while syncing $url : " . $ex->getMessage());
+
 			} else {
 				$progress->advance();
 			}
