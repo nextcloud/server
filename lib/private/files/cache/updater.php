@@ -24,6 +24,7 @@
  */
 
 namespace OC\Files\Cache;
+use OC\Files\View;
 
 /**
  * Update the cache and propagate changes
@@ -48,11 +49,29 @@ class Updater {
 	protected $propagator;
 
 	/**
-	 * @param \OC\Files\View $view the view the updater works on, usually the view of the logged in user
+	 * @var null|View
 	 */
-	public function __construct($view) {
+	protected $propagatorView;
+
+	/**
+	 * @param \OC\Files\View $view the view the updater works on, usually the view of the logged in user
+	 * @param View | null $userView
+	 */
+	public function __construct(View $view, $userView = null) {
 		$this->view = $view;
-		$this->propagator = new ChangePropagator($view);
+
+		// use the userview if the view is a subfolder
+		if ($userView && $userView->getRelativePath($view->getRoot())) {
+			$this->propagatorView = $userView;
+			$this->propagator = new ChangePropagator($userView);
+		} else {
+			$this->propagatorView = $view;
+			$this->propagator = new ChangePropagator($view);
+		}
+	}
+
+	protected function getPropagatorPath($path) {
+		return $this->propagatorView->getRelativePath($this->view->getAbsolutePath($path));
 	}
 
 	/**
@@ -88,7 +107,7 @@ class Updater {
 		if (Scanner::isPartialFile($path)) {
 			return;
 		}
-		$this->propagator->addChange($path);
+		$this->propagator->addChange($this->getPropagatorPath($path));
 		$this->propagator->propagateChanges($time);
 	}
 
@@ -108,7 +127,7 @@ class Updater {
 		 */
 		list($storage, $internalPath) = $this->view->resolvePath($path);
 		if ($storage) {
-			$this->propagator->addChange($path);
+			$this->propagator->addChange($this->getPropagatorPath($path));
 			$cache = $storage->getCache($internalPath);
 			$scanner = $storage->getScanner($internalPath);
 			$data = $scanner->scan($internalPath, Scanner::SCAN_SHALLOW, -1, false);
@@ -137,7 +156,7 @@ class Updater {
 			if ($parent === '.') {
 				$parent = '';
 			}
-			$this->propagator->addChange($path);
+			$this->propagator->addChange($this->getPropagatorPath($path));
 			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
 			$cache->correctFolderSize($parent);
@@ -193,8 +212,8 @@ class Updater {
 			$targetCache->correctFolderSize($targetInternalPath);
 			$this->correctParentStorageMtime($sourceStorage, $sourceInternalPath);
 			$this->correctParentStorageMtime($targetStorage, $targetInternalPath);
-			$this->propagator->addChange($source);
-			$this->propagator->addChange($target);
+			$this->propagator->addChange($this->getPropagatorPath($source));
+			$this->propagator->addChange($this->getPropagatorPath($target));
 			$this->propagator->propagateChanges();
 		}
 	}
