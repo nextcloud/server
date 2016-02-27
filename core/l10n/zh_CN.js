@@ -170,7 +170,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "删除",
     "Rename" : "重命名",
-    "Global tags" : "全局标签",
     "The object type is not specified." : "未指定对象类型。",
     "Enter new" : "输入新...",
     "Add" : "增加",

@@ -181,7 +181,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Smazat",
     "Rename" : "Přejmenovat",
-    "Global tags" : "Globální tagy",
     "The object type is not specified." : "Není určen typ objektu.",
     "Enter new" : "Zadat nový",
     "Add" : "Přidat",

@@ -185,7 +185,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Verwijder",
     "Rename" : "Naam wijzigen",
-    "Global tags" : "Globale tags",
     "The object type is not specified." : "Het object type is niet gespecificeerd.",
     "Enter new" : "Opgeven nieuw",
     "Add" : "Toevoegen",

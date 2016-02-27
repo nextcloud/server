@@ -184,7 +184,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Удалить",
     "Rename" : "Переименовать",
-    "Global tags" : "Глобальные теги",
     "The object type is not specified." : "Тип объекта не указан",
     "Enter new" : "Ввести новое",
     "Add" : "Добавить",

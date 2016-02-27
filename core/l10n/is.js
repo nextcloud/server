@@ -182,7 +182,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Eyða",
     "Rename" : "Endurnefna",
-    "Global tags" : "Almenn merki",
     "The object type is not specified." : "Tegund hlutar ekki tilgreind",
     "Enter new" : "Sláðu inn nýtt",
     "Add" : "Bæta við",

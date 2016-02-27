@@ -135,7 +135,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Forigi",
     "Rename" : "Alinomigi",
-    "Global tags" : "Mallokaj etikedoj",
     "The object type is not specified." : "Ne indikiĝis tipo de la objekto.",
     "Enter new" : "Enigu novan",
     "Add" : "Aldoni",

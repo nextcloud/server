@@ -151,7 +151,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Kustuta",
     "Rename" : "Nimeta ümber",
-    "Global tags" : "Üldised sildid",
     "The object type is not specified." : "Objekti tüüp pole määratletud.",
     "Enter new" : "Sisesta uus",
     "Add" : "Lisa",

@@ -26,6 +26,7 @@
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kan ikke laste opp {filename} fordi det er en mappe eller har 0 bytes",
     "Total file size {size1} exceeds upload limit {size2}" : "Total filstørrelse {size1} overstiger grense for opplasting {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ikke nok ledig plass. Du laster opp size1} men bare {size2} er ledig",
+    "Error uploading file \"{fileName}\": {message}" : "Feil ved opplasting av fil \"{fileName}\": {message}",
     "Could not get result from server." : "Fikk ikke resultat fra serveren.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen.",
     "Actions" : "Handlinger",

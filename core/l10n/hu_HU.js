@@ -173,7 +173,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Törlés",
     "Rename" : "Átnevezés",
-    "Global tags" : "Globális címke",
     "The object type is not specified." : "Az objektum típusa nincs megadva.",
     "Enter new" : "Új beírása",
     "Add" : "Hozzáadás",

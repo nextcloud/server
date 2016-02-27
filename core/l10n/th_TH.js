@@ -180,7 +180,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "ลบ",
     "Rename" : "เปลี่ยนชื่อ",
-    "Global tags" : "แท็กทั่วไป",
     "The object type is not specified." : "ชนิดของวัตถุยังไม่ได้รับการระบุ",
     "Enter new" : "ใส่ข้อมูลใหม่",
     "Add" : "เพิ่ม",

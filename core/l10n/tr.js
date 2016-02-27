@@ -181,7 +181,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Sil",
     "Rename" : "Yeniden adlandır",
-    "Global tags" : "Genel etiketler",
     "The object type is not specified." : "Nesne türü belirtilmemiş.",
     "Enter new" : "Yeni girin",
     "Add" : "Ekle",

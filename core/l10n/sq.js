@@ -185,7 +185,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Fshije",
     "Rename" : "Riemërtoje",
-    "Global tags" : "Etiketa globale",
     "The object type is not specified." : "S’është specifikuar lloji i objektit.",
     "Enter new" : "Jep të ri",
     "Add" : "Shtoni",

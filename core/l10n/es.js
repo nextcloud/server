@@ -180,7 +180,6 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Eliminar",
     "Rename" : "Renombrar",
-    "Global tags" : "Categorías globales",
     "The object type is not specified." : "El tipo de objeto no está especificado.",
     "Enter new" : "Ingresar nueva",
     "Add" : "Agregar",

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "לא ניתן להעלות {filename} כיוון שמדובר בתיקייה או שגודלו 0 בייט",
     "Total file size {size1} exceeds upload limit {size2}" : "גודל הקובת {size1} עובר את מגבלת הגודל להעלאה {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "לא קיים מספיק מקום פנוי, הקובץ המיועד להעלאה {size1} אבל נשאר {size2} בלבד",
+    "Error uploading file \"{fileName}\": {message}" : "שגיאה בזמן העלאת קובץ \"{fileName}\": {message}",
     "Could not get result from server." : "לא ניתן לגשת לתוצאות מהשרת.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "מתבצעת כעת העלאת קבצים. עזיבה של העמוד תבטל את ההעלאה.",
     "Actions" : "פעולות",
