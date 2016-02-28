@@ -303,6 +303,15 @@ class Share20OCS {
 				return new \OC_OCS_Result(null, 404, 'public link sharing is disabled by the administrator');
 			}
 
+			/*
+			 * For now we only allow 1 link share.
+			 * Return the existing link share if this is a duplicate
+			 */
+			$existingShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_LINK, $path, false, 1, 0);
+			if (!empty($existingShares)) {
+				return new \OC_OCS_Result($this->formatShare($existingShares[0]));
+			}
+
 			$publicUpload = $this->request->getParam('publicUpload', null);
 			if ($publicUpload === 'true') {
 				// Check if public upload is allowed
