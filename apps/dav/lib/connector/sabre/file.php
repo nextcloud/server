@@ -218,6 +218,8 @@ class File extends Node implements IFile {
 			if (isset($request->server['HTTP_OC_CHECKSUM'])) {
 				$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
 				$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
+			} else if ($this->getChecksum() !== NULL && $this->getChecksum() !== '') {
+				$this->fileView->putFileInfo($this->path, ['checksum' => '']);
 			}
 			$this->refreshInfo();
 

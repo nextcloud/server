@@ -27,6 +27,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
 use \Sabre\DAV\PropFind;
 use \Sabre\DAV\PropPatch;
@@ -197,7 +198,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 			//Add OC-Checksum header
 			/** @var $node File */
 			$checksum = $node->getChecksum();
-			if ($checksum !== null) {
+			if ($checksum !== null && $checksum !== '') {
 				$response->addHeader('OC-Checksum', $checksum);
 			}
 		}
@@ -252,6 +253,10 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 
 			$propFind->handle(self::CHECKSUMS_PROPERTYNAME, function() use ($node) {
 				$checksum = $node->getChecksum();
+				if ($checksum === NULL || $checksum === '') {
+					return null;
+				}
+
 				return new ChecksumList($checksum);
 			});
 
