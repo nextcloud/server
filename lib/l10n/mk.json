@@ -1,4 +1,5 @@
 { "translations": {
+    "Cannot write into \"config\" directory!" : "Не можам да впишувам во \"config\" директориумот!",
     "Help" : "Помош",
     "Personal" : "Лично",
     "Users" : "Корисници",

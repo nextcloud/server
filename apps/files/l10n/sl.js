@@ -28,6 +28,7 @@ OC.L10N.register(
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Ni mogoče poslati datoteke {filename}, saj je to ali mapa ali pa je velikost datoteke 0 bajtov.",
     "Total file size {size1} exceeds upload limit {size2}" : "Skupna velikost {size1} presega omejitev velikosti {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Na voljo ni dovolj prostora. Velikost poslane datoteke je {size1}, na voljo pa je je {size2}.",
+    "Error uploading file \"{fileName}\": {message}" : "Napaka pošiljanja datoteke \"{fileName}\": {message}",
     "Could not get result from server." : "Ni mogoče pridobiti podatkov s strežnika.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "V teku je pošiljanje datoteke. Če zapustite to stran zdaj, bo pošiljanje preklicano.",
     "Actions" : "Dejanja",

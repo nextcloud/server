@@ -15,6 +15,8 @@
     "Authentication error" : "Villa við auðkenningu",
     "Token expired. Please reload page." : "Auðkenning útrunnin. Vinsamlegast skráðu þig aftur inn.",
     "Could not find category \"%s\"" : "Fann ekki flokkinn \"%s\"",
-    "Apps" : "Forrit"
+    "Apps" : "Forrit",
+    "A valid username must be provided" : "Skráðu inn gilt notandanafn",
+    "A valid password must be provided" : "Skráðu inn gilt lykilorð"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

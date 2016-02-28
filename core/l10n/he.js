@@ -185,6 +185,7 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "מחיקה",
     "Rename" : "שינוי שם",
+    "Collaborative tags" : "תגיות שיתופיות",
     "The object type is not specified." : "סוג הפריט לא צוין.",
     "Enter new" : "הכנסת חדש",
     "Add" : "הוספה",

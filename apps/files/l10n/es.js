@@ -28,6 +28,7 @@ OC.L10N.register(
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "No ha sido posible subir {filename} porque es un directorio o tiene 0 bytes",
     "Total file size {size1} exceeds upload limit {size2}" : "El tamaño total del archivo {size1} excede el límite {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "No hay suficiente espacio libre. Quiere subir {size1} pero solo quedan {size2}",
+    "Error uploading file \"{fileName}\": {message}" : "Error subiendo el archivo \"{fileName}\": {message}",
     "Could not get result from server." : "No se pudo obtener respuesta del servidor.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "La subida del archivo está en proceso. Si sale de la página ahora, la subida será cancelada.",
     "Actions" : "Acciones",

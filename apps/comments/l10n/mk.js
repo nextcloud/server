@@ -1,6 +1,7 @@
 OC.L10N.register(
     "comments",
     {
+    "%1$s commented" : "%1$s коментиран",
     "Cancel" : "Откажи",
     "Save" : "Сними",
     "Comment" : "Коментар"

@@ -185,6 +185,7 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "削除",
     "Rename" : "名前の変更",
+    "Collaborative tags" : "コラボタグ",
     "The object type is not specified." : "オブジェクトタイプが指定されていません。",
     "Enter new" : "新規に入力",
     "Add" : "追加",

@@ -6,6 +6,7 @@ OC.L10N.register(
     "Test Configuration" : "Prúfa uppsetningu",
     "Help" : "Hjálp",
     "Host" : "Netþjónn",
+    "Port" : "Gátt",
     "Password" : "Lykilorð",
     "Continue" : "Halda áfram",
     "Advanced" : "Ítarlegt"
