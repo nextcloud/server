@@ -1541,8 +1541,7 @@
 				<notnull>true</notnull>
 				<length>64</length>
 			</field>
-<!--
-			TODO: finalize indexes when all queries are done
+
 			<index>
 				<name>comments_parent_id_index</name>
 				<unique>false</unique>
@@ -1553,15 +1552,11 @@
 			</index>
 
 			<index>
-				<name>comments_actor_index</name>
+				<name>comments_topmost_parent_id_idx</name>
 				<unique>false</unique>
 				<field>
-					<name>actor_type</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>actor_id</name>
-					<sorting>ascending</sorting>
+					<name>topmost_parent_id</name>
+					<sorting>descending</sorting>
 				</field>
 			</index>
 
@@ -1581,7 +1576,19 @@
 					<sorting>descending</sorting>
 				</field>
 			</index>
--->
+
+			<index>
+				<name>comments_actor_index</name>
+				<unique>false</unique>
+				<field>
+					<name>actor_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>actor_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
@@ -1625,6 +1632,36 @@
 				<notnull>true</notnull>
 				<length>64</length>
 			</field>
+
+			<index>
+				<name>comments_marker_object_index</name>
+				<unique>false</unique>
+				<field>
+					<name>object_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>object_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>comments_marker_index</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>descending</sorting>
+				</field>
+				<field>
+					<name>object_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>object_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
