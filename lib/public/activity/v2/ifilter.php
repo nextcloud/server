@@ -40,6 +40,11 @@ interface IFilter {
 	public function getName();
 
 	/**
+	 * @return string Full image path to an icon
+	 */
+	public function getIcon();
+
+	/**
 	 * @return string[] Leave empty, when events from all apps should be returned
 	 */
 	public function filterApps();
