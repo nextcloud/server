@@ -16,6 +16,10 @@ default:
             baseUrl: http://localhost:8080
         - TagsContext:
             baseUrl: http://localhost:8080
+        - CardDavContext:
+            baseUrl: http://localhost:8080
+        - CalDavContext:
+            baseUrl: http://localhost:8080
     federation:
       paths:
         - %paths.base%/../federation_features
