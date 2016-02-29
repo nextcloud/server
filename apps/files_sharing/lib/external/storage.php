@@ -218,18 +218,24 @@ class Storage extends DAV implements ISharedStorage {
 	}
 
 	/**
-	 * check if the configured remote is a valid ownCloud instance
+	 * check if the configured remote is a valid federated share provider
 	 *
 	 * @return bool
 	 */
 	protected function testRemote() {
 		try {
-			$result = file_get_contents($this->remote . '/status.php');
-			$data = json_decode($result);
-			return is_object($data) and !empty($data->version);
+			return $this->testRemoteUrl($this->remote . '/ocs-provider/index.php')
+				|| $this->testRemoteUrl($this->remote . '/ocs-provider')
+				|| $this->testRemoteUrl($this->remote . '/status.php');
 		} catch (\Exception $e) {
 			return false;
 		}
+	}
+
+	private function testRemoteUrl($url) {
+		$result = file_get_contents($url);
+		$data = json_decode($result);
+		return (is_object($data) and !empty($data->version));
 	}
 
 	/**

@@ -96,9 +96,10 @@ class ExternalSharesController extends Controller {
 	 * Test whether the specified remote is accessible
 	 *
 	 * @param string $remote
+	 * @param bool $checkVersion
 	 * @return bool
 	 */
-	protected function testUrl($remote) {
+	protected function testUrl($remote, $checkVersion = false) {
 		try {
 			$client = $this->clientService->newClient();
 			$response = json_decode($client->get(
@@ -109,7 +110,11 @@ class ExternalSharesController extends Controller {
 				]
 			)->getBody());
 
-			return !empty($response->version) && version_compare($response->version, '7.0.0', '>=');
+			if ($checkVersion) {
+				return !empty($response->version) && version_compare($response->version, '7.0.0', '>=');
+			} else {
+				return is_object($response);
+			}
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -124,9 +129,17 @@ class ExternalSharesController extends Controller {
 	 * @return DataResponse
 	 */
 	public function testRemote($remote) {
-		if ($this->testUrl('https://' . $remote . '/status.php')) {
+		if (
+			$this->testUrl('https://' . $remote . '/ocs-provider') ||
+			$this->testUrl('https://' . $remote . '/ocs-provider/index.php') ||
+			$this->testUrl('https://' . $remote . '/status.php', true)
+		) {
 			return new DataResponse('https');
-		} elseif ($this->testUrl('http://' . $remote . '/status.php')) {
+		} elseif (
+			$this->testUrl('http://' . $remote . '/ocs-provider') ||
+			$this->testUrl('http://' . $remote . '/ocs-provider/index.php') ||
+			$this->testUrl('http://' . $remote . '/status.php', true)
+		) {
 			return new DataResponse('http');
 		} else {
 			return new DataResponse(false);
