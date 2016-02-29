@@ -746,10 +746,25 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->config->method('getAppValue')
 			->will($this->returnValueMap([
+				['core', 'shareapi_default_expire_date', 'no', 'yes'],
 				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
 			]));
 
 		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+	}
+
+	public function testvalidateExpirationDateEnforceButNotEnabledAndNotSet() {
+		$share = $this->manager->newShare();
+		$share->setProviderId('foo')->setId('bar');
+
+		$this->config->method('getAppValue')
+			->will($this->returnValueMap([
+				['core', 'shareapi_enforce_expire_date', 'no', 'yes'],
+			]));
+
+		$this->invokePrivate($this->manager, 'validateExpirationDate', [$share]);
+
+		$this->assertNull($share->getExpirationDate());
 	}
 
 	public function testvalidateExpirationDateEnforceButNotSetNewShare() {
