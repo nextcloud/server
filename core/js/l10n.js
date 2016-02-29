@@ -78,9 +78,7 @@ OC.L10N = {
 			}
 		} else {
 			// Theme overwriting the default language
-			_.each(bundle, function(translation, key) {
-				self._bundles[appName][key] = translation
-			});
+			_.extend(self._bundles[appName], bundle);
 		}
 	},
 

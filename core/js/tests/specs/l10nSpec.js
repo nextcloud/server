@@ -52,6 +52,14 @@ describe('OC.L10N tests', function() {
 				t(TEST_APP, 'Hello {name}', {name: '<strong>Steve</strong>'}, null, {escape: false})
 			).toEqual('Hello <strong>Steve</strong>');
 		});
+		it('keeps old texts when registering existing bundle', function() {
+			OC.L10N.register(TEST_APP, {
+				'sunny': 'sonnig',
+				'new': 'neu'
+			});
+			expect(t(TEST_APP, 'sunny')).toEqual('sonnig');
+			expect(t(TEST_APP, 'new')).toEqual('neu');
+		});
 	});
 	describe('plurals', function() {
 		function checkPlurals() {
