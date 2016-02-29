@@ -225,7 +225,7 @@ class Storage extends DAV implements ISharedStorage {
 	protected function testRemote() {
 		try {
 			return $this->testRemoteUrl($this->remote . '/ocs-provider/index.php')
-				|| $this->testRemoteUrl($this->remote . '/ocs-provider')
+				|| $this->testRemoteUrl($this->remote . '/ocs-provider/')
 				|| $this->testRemoteUrl($this->remote . '/status.php');
 		} catch (\Exception $e) {
 			return false;

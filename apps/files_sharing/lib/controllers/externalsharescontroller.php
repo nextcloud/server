@@ -130,13 +130,13 @@ class ExternalSharesController extends Controller {
 	 */
 	public function testRemote($remote) {
 		if (
-			$this->testUrl('https://' . $remote . '/ocs-provider') ||
+			$this->testUrl('https://' . $remote . '/ocs-provider/') ||
 			$this->testUrl('https://' . $remote . '/ocs-provider/index.php') ||
 			$this->testUrl('https://' . $remote . '/status.php', true)
 		) {
 			return new DataResponse('https');
 		} elseif (
-			$this->testUrl('http://' . $remote . '/ocs-provider') ||
+			$this->testUrl('http://' . $remote . '/ocs-provider/') ||
 			$this->testUrl('http://' . $remote . '/ocs-provider/index.php') ||
 			$this->testUrl('http://' . $remote . '/status.php', true)
 		) {
