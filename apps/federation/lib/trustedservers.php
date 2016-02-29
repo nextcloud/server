@@ -235,6 +235,7 @@ class TrustedServers {
 	 *
 	 * @param $status
 	 * @return bool
+	 * @throws HintException
 	 */
 	protected function checkOwnCloudVersion($status) {
 		$decoded = json_decode($status, true);
