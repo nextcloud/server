@@ -104,7 +104,9 @@ class DiscoveryManager {
 				}
 			}
 		} catch (ClientException $e) {
+			// Don't throw any exception since exceptions are handled before
 		} catch (ConnectException $e) {
+			// Don't throw any exception since exceptions are handled before
 		}
 
 		// Write into cache
