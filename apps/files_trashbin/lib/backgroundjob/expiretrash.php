@@ -120,6 +120,12 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 			return false;
 		}
 
+		//Check if this user has a trashbin directory
+		$view = new \OC\Files\View('/' . $user);
+		if (!$view->is_dir('/files_trashbin/files')){
+			return false;
+		}
+
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 
