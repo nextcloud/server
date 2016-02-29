@@ -25,6 +25,7 @@ use OCP\Comments\CommentsEvent;
 use OCP\Comments\IComment;
 use OCP\Comments\ICommentsManager;
 use OCP\Comments\NotFoundException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -233,7 +234,7 @@ class Manager implements ICommentsManager {
 		$resultStatement = $qb->select('*')
 			->from('comments')
 			->where($qb->expr()->eq('id', $qb->createParameter('id')))
-			->setParameter('id', $id, \PDO::PARAM_INT)
+			->setParameter('id', $id, IQueryBuilder::PARAM_INT)
 			->execute();
 
 		$data = $resultStatement->fetch();
@@ -675,9 +676,9 @@ class Manager implements ICommentsManager {
 			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')))
 			->andWhere($qb->expr()->eq('object_type', $qb->createParameter('object_type')))
 			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('object_id')))
-			->setParameter('user_id', $user->getUID(), \PDO::PARAM_STR)
-			->setParameter('object_type', $objectType, \PDO::PARAM_STR)
-			->setParameter('object_id', $objectId, \PDO::PARAM_STR)
+			->setParameter('user_id', $user->getUID(), IQueryBuilder::PARAM_STR)
+			->setParameter('object_type', $objectType, IQueryBuilder::PARAM_STR)
+			->setParameter('object_id', $objectId, IQueryBuilder::PARAM_STR)
 			->execute();
 
 		if ($affectedRows > 0) {
@@ -707,9 +708,9 @@ class Manager implements ICommentsManager {
 			->where($qb->expr()->eq('user_id', $qb->createParameter('user_id')))
 			->andWhere($qb->expr()->eq('object_type', $qb->createParameter('object_type')))
 			->andWhere($qb->expr()->eq('object_id', $qb->createParameter('object_id')))
-			->setParameter('user_id', $user->getUID(), \PDO::PARAM_STR)
-			->setParameter('object_type', $objectType, \PDO::PARAM_STR)
-			->setParameter('object_id', $objectId, \PDO::PARAM_STR)
+			->setParameter('user_id', $user->getUID(), IQueryBuilder::PARAM_STR)
+			->setParameter('object_type', $objectType, IQueryBuilder::PARAM_STR)
+			->setParameter('object_id', $objectId, IQueryBuilder::PARAM_STR)
 			->execute();
 
 		$data = $resultStatement->fetch();

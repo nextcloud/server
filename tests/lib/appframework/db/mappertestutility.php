@@ -68,7 +68,7 @@ abstract class MapperTestUtility extends \Test\TestCase {
 	/**
 	 * Returns the correct PDO constant based on the value type
 	 * @param $value
-	 * @return PDO constant
+	 * @return int PDO constant
 	 */
 	private function getPDOType($value) {
 		switch (gettype($value)) {

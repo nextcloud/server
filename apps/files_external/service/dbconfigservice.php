@@ -65,7 +65,7 @@ class DBConfigService {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'type'])
 			->from('external_mounts', 'm')
-			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$mounts = $this->getMountsFromQuery($query);
 		if (count($mounts) > 0) {
 			return $mounts[0];
@@ -83,7 +83,7 @@ class DBConfigService {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select(['mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'type'])
 			->from('external_mounts')
-			->where($builder->expr()->eq('type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, IQueryBuilder::PARAM_INT)));
 		return $this->getMountsFromQuery($query);
 	}
 
@@ -91,7 +91,7 @@ class DBConfigService {
 		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
 			->from('external_mounts', 'm')
 			->innerJoin('m', 'external_applicable', 'a', 'm.mount_id = a.mount_id')
-			->where($builder->expr()->eq('a.type', $builder->createNamedParameter($type, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('a.type', $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)));
 
 		if (is_null($value)) {
 			$query = $query->andWhere($builder->expr()->isNull('a.value'));
@@ -126,7 +126,7 @@ class DBConfigService {
 	public function getAdminMountsFor($type, $value) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $this->getForQuery($builder, $type, $value);
-		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, \PDO::PARAM_INT)));
+		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, IQueryBuilder::PARAM_INT)));
 
 		return $this->getMountsFromQuery($query);
 	}
@@ -141,15 +141,15 @@ class DBConfigService {
 	public function getAdminMountsForMultiple($type, array $values) {
 		$builder = $this->connection->getQueryBuilder();
 		$params = array_map(function ($value) use ($builder) {
-			return $builder->createNamedParameter($value, \PDO::PARAM_STR);
+			return $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR);
 		}, $values);
 
 		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
 			->from('external_mounts', 'm')
 			->innerJoin('m', 'external_applicable', 'a', 'm.mount_id = a.mount_id')
-			->where($builder->expr()->eq('a.type', $builder->createNamedParameter($type, \PDO::PARAM_INT)))
+			->where($builder->expr()->eq('a.type', $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('a.value', $params));
-		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, \PDO::PARAM_INT)));
+		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, IQueryBuilder::PARAM_INT)));
 
 		return $this->getMountsFromQuery($query);
 	}
@@ -164,7 +164,7 @@ class DBConfigService {
 	public function getUserMountsFor($type, $value) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $this->getForQuery($builder, $type, $value);
-		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_PERSONAl, \PDO::PARAM_INT)));
+		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_PERSONAl, IQueryBuilder::PARAM_INT)));
 
 		return $this->getMountsFromQuery($query);
 	}
@@ -186,11 +186,11 @@ class DBConfigService {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->insert('external_mounts')
 			->values([
-				'mount_point' => $builder->createNamedParameter($mountPoint, \PDO::PARAM_STR),
-				'storage_backend' => $builder->createNamedParameter($storageBackend, \PDO::PARAM_STR),
-				'auth_backend' => $builder->createNamedParameter($authBackend, \PDO::PARAM_STR),
-				'priority' => $builder->createNamedParameter($priority, \PDO::PARAM_INT),
-				'type' => $builder->createNamedParameter($type, \PDO::PARAM_INT)
+				'mount_point' => $builder->createNamedParameter($mountPoint, IQueryBuilder::PARAM_STR),
+				'storage_backend' => $builder->createNamedParameter($storageBackend, IQueryBuilder::PARAM_STR),
+				'auth_backend' => $builder->createNamedParameter($authBackend, IQueryBuilder::PARAM_STR),
+				'priority' => $builder->createNamedParameter($priority, IQueryBuilder::PARAM_INT),
+				'type' => $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)
 			]);
 		$query->execute();
 		return (int)$this->connection->lastInsertId('external_mounts');
@@ -204,19 +204,19 @@ class DBConfigService {
 	public function removeMount($mountId) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_mounts')
-			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
 		$query = $builder->delete('external_applicable')
-			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
 		$query = $builder->delete('external_config')
-			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 
 		$query = $builder->delete('external_options')
-			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 	}
 
@@ -229,7 +229,7 @@ class DBConfigService {
 
 		$query = $builder->update('external_mounts')
 			->set('mount_point', $builder->createNamedParameter($newMountPoint))
-			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 
 		$query->execute();
 	}
@@ -243,7 +243,7 @@ class DBConfigService {
 
 		$query = $builder->update('external_mounts')
 			->set('auth_backend', $builder->createNamedParameter($newAuthBackend))
-			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)));
 
 		$query->execute();
 	}
@@ -265,9 +265,9 @@ class DBConfigService {
 		if ($count === 0) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_config')
-				->set('value', $builder->createNamedParameter($value, \PDO::PARAM_STR))
-				->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)))
-				->andWhere($builder->expr()->eq('key', $builder->createNamedParameter($key, \PDO::PARAM_STR)));
+				->set('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR))
+				->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
+				->andWhere($builder->expr()->eq('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
 			$query->execute();
 		}
 	}
@@ -287,9 +287,9 @@ class DBConfigService {
 		if ($count === 0) {
 			$builder = $this->connection->getQueryBuilder();
 			$query = $builder->update('external_options')
-				->set('value', $builder->createNamedParameter(json_encode($value), \PDO::PARAM_STR))
-				->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)))
-				->andWhere($builder->expr()->eq('key', $builder->createNamedParameter($key, \PDO::PARAM_STR)));
+				->set('value', $builder->createNamedParameter(json_encode($value), IQueryBuilder::PARAM_STR))
+				->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
+				->andWhere($builder->expr()->eq('key', $builder->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
 			$query->execute();
 		}
 	}
@@ -305,13 +305,13 @@ class DBConfigService {
 	public function removeApplicable($mountId, $type, $value) {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->delete('external_applicable')
-			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, \PDO::PARAM_INT)))
-			->andWhere($builder->expr()->eq('type', $builder->createNamedParameter($type, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('mount_id', $builder->createNamedParameter($mountId, IQueryBuilder::PARAM_INT)))
+			->andWhere($builder->expr()->eq('type', $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)));
 
 		if (is_null($value)) {
 			$query = $query->andWhere($builder->expr()->isNull('value'));
 		} else {
-			$query = $query->andWhere($builder->expr()->eq('value', $builder->createNamedParameter($value, \PDO::PARAM_STR)));
+			$query = $query->andWhere($builder->expr()->eq('value', $builder->createNamedParameter($value, IQueryBuilder::PARAM_STR)));
 		}
 
 		$query->execute();
@@ -354,7 +354,7 @@ class DBConfigService {
 		$builder = $this->connection->getQueryBuilder();
 		$fields[] = 'mount_id';
 		$placeHolders = array_map(function ($id) use ($builder) {
-			return $builder->createPositionalParameter($id, \PDO::PARAM_INT);
+			return $builder->createPositionalParameter($id, IQueryBuilder::PARAM_INT);
 		}, $mountIds);
 		$query = $builder->select($fields)
 			->from($table)

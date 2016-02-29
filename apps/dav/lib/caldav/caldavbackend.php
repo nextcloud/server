@@ -607,7 +607,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			->values([
 				'calendarid' => $query->createNamedParameter($calendarId),
 				'uri' => $query->createNamedParameter($objectUri),
-				'calendardata' => $query->createNamedParameter($calendarData, \PDO::PARAM_LOB),
+				'calendardata' => $query->createNamedParameter($calendarData, IQueryBuilder::PARAM_LOB),
 				'lastmodified' => $query->createNamedParameter(time()),
 				'etag' => $query->createNamedParameter($extraData['etag']),
 				'size' => $query->createNamedParameter($extraData['size']),
@@ -646,7 +646,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendarobjects')
-				->set('calendardata', $query->createNamedParameter($calendarData, \PDO::PARAM_LOB))
+				->set('calendardata', $query->createNamedParameter($calendarData, IQueryBuilder::PARAM_LOB))
 				->set('lastmodified', $query->createNamedParameter(time()))
 				->set('etag', $query->createNamedParameter($extraData['etag']))
 				->set('size', $query->createNamedParameter($extraData['size']))
