@@ -215,6 +215,8 @@ class File extends Node implements IFile {
 				}
 			}
 
+			$this->refreshInfo();
+
 			if (isset($request->server['HTTP_OC_CHECKSUM'])) {
 				$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
 				$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
@@ -457,17 +459,17 @@ class File extends Node implements IFile {
 
 				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_SHARED);
 
-				if (isset($request->server['HTTP_OC_CHECKSUM'])) {
-					$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
-					$this->fileView->putFileInfo($targetPath, ['checksum' => $checksum]);
-				} else if ($this->getChecksum() !== NULL && $this->getChecksum() !== '') {
-					$this->fileView->putFileInfo($this->path, ['checksum' => '']);
-				}
-				$this->refreshInfo();
-
 				$this->emitPostHooks($exists, $targetPath);
 
 				$info = $this->fileView->getFileInfo($targetPath);
+
+				if (isset($request->server['HTTP_OC_CHECKSUM'])) {
+					$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
+					$this->fileView->putFileInfo($targetPath, ['checksum' => $checksum]);
+				} else if ($info->getChecksum() !== NULL && $info->getChecksum() !== '') {
+					$this->fileView->putFileInfo($this->path, ['checksum' => '']);
+				}
+
 
 				$this->fileView->unlockFile($targetPath, ILockingProvider::LOCK_SHARED);
 
