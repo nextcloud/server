@@ -526,3 +526,24 @@ Feature: sharing
     When Updating last share with
       | permissions | 1 |
     Then the OCS status code should be "100"
+
+  Scenario: Do not allow reshare to exceed permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user0" created a folder "/TMP"
+    And As an "user0"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 21 |
+    And As an "user1"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 21 |
+    When Updating last share with
+      | permissions | 31 |
+    Then the OCS status code should be "404"
