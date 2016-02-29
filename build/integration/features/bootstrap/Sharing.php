@@ -17,6 +17,9 @@ trait Sharing{
 	/** @var SimpleXMLElement */
 	private $lastShareData = null;
 
+	/** @var int */
+	private $savedShareId = null;
+
 	/**
 	 * @When /^creating a share with$/
 	 * @param \Behat\Gherkin\Node\TableNode|null $formData
@@ -414,5 +417,22 @@ trait Sharing{
 		}
 	}
 
+	/**
+	 * @When save last share id
+	 */
+	public function saveLastShareId()
+	{
+		$this->savedShareId = $this->lastShareData['data']['id'];
+	}
+
+	/**
+	 * @Then share ids should match
+	 */
+	public function shareIdsShouldMatch()
+	{
+		if ($this->savedShareId !== $this->lastShareData['data']['id']) {
+			throw new \Excetion('Expected the same link share to be returned');
+		}
+	}
 }
 

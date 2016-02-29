@@ -547,3 +547,15 @@ Feature: sharing
     When Updating last share with
       | permissions | 31 |
     Then the OCS status code should be "404"
+
+  Scenario: Only allow 1 link share per file/folder
+    Given user "user0" exists
+    And As an "user0"
+    And creating a share with
+      | path | welcome.txt |
+      | shareType | 3 |
+    When save last share id
+    And creating a share with
+      | path | welcome.txt |
+      | shareType | 3      |
+    Then share ids should match
