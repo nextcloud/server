@@ -167,6 +167,7 @@ OC.L10N.register(
     "Error while sending notification" : "Fehler beim Senden der Benachrichtigung",
     "not assignable" : "nicht zuweisbar",
     "invisible" : "unsichtbar",
+    "({scope})" : "({scope})",
     "Delete" : "Löschen",
     "Rename" : "Umbenennen",
     "Collaborative tags" : "Gemeinschaftliche Tags",

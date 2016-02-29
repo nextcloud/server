@@ -185,6 +185,7 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Poista",
     "Rename" : "Nimeä uudelleen",
+    "Collaborative tags" : "Yhteistyölliset tunnisteet",
     "The object type is not specified." : "The object type is not specified.",
     "Enter new" : "Kirjoita uusi",
     "Add" : "Lisää",

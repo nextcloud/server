@@ -10,6 +10,7 @@ OC.L10N.register(
     "Shared with you" : "Mit Ihnen geteilt",
     "Shared with others" : "Von Ihnen geteilt",
     "Shared by link" : "Geteilt über einen Link",
+    "Federated sharing" : "Federated-Sharing",
     "Nothing shared with you yet" : "Bis jetzt wurde nichts mit Ihnen geteilt",
     "Files and folders others share with you will show up here" : "Mit Ihnen geteilte Dateien und Ordner anderer werden hier erscheinen",
     "Nothing shared yet" : "Noch nichts geteilt",

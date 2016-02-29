@@ -199,6 +199,7 @@
     "Admin documentation" : "Dokumentation für Administratoren",
     "Show description …" : "Beschreibung anzeigen…",
     "Hide description …" : "Beschreibung ausblenden…",
+    "This app has an update available." : "Es ist eine Aktualisierung für diese Anwendung verfügbar.",
     "This app has no minimum ownCloud version assigned. This will be an error in ownCloud 11 and later." : "Dieser App ist keine minimum ownCloud Version zugewiesen. Dies wird ein Fehler in ownCloud 11 und später sein.",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "Diese App kann nicht installiert werden, weil die folgenden Abhängigkeiten nicht erfüllt sind:",
     "Enable only for specific groups" : "Nur für bestimmte Gruppen aktivieren",

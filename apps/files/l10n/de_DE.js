@@ -28,6 +28,7 @@ OC.L10N.register(
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Die Datei {filename} kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist",
     "Total file size {size1} exceeds upload limit {size2}" : "Die Gesamt-Größe {size1} überschreitet die Upload-Begrenzung {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nicht genügend freier Speicherplatz, Sie möchten {size1} hochladen, es sind jedoch nur noch {size2} verfügbar.",
+    "Error uploading file \"{fileName}\": {message}" : "Fehler beim Hochladen der Datei \"{fileName}\": {message}",
     "Could not get result from server." : "Ergebnis konnte nicht vom Server abgerufen werden.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen.",
     "Actions" : "Aktionen",

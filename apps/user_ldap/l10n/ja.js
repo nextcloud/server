@@ -135,6 +135,7 @@ OC.L10N.register(
     "Group Search Attributes" : "グループ検索属性",
     "Group-Member association" : "グループとメンバーの関連付け",
     "Dynamic Group Member URL" : "ダイナミックグループメンバーURL",
+    "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "グループオブジェクト上のLDAP属性はグループに属するオブジェクトを決定するLDAP検索URLを含みます｡(空の設定はダイナミックグループメンバーシップが機能的に無効になります｡)",
     "Nested Groups" : "ネストされたグループ",
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "オンにすると、グループを含むグループが有効になります。(グループメンバーの属性にDNが含まれる場合のみ利用できます。)",
     "Paging chunksize" : "ページ分割サイズ",
