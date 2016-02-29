@@ -198,7 +198,11 @@ class Scanner extends BasicEmitter implements IScanner {
 				if (!empty($newData)) {
 					$data['fileid'] = $this->addToCache($file, $newData, $fileId);
 				}
-				$data['oldSize'] = $cacheData['size'];
+				if (isset($cacheData['size'])) {
+					$data['oldSize'] = $cacheData['size'];
+				} else {
+					$data['oldSize'] = 0;
+				}
 
 				// post-emit only if it was a file. By that we avoid counting/treating folders as files
 				if ($data['mimetype'] !== 'httpd/unix-directory') {
