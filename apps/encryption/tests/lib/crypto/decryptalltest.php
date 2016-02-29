@@ -87,7 +87,7 @@ class DecryptAllTest extends TestCase {
 	 * @param string $user
 	 * @param string $recoveryKeyId
 	 */
-	public function testGetPrivateKey($user, $recoveryKeyId) {
+	public function testGetPrivateKey($user, $recoveryKeyId, $masterKeyId) {
 		$password = 'passwd';
 		$recoveryKey = 'recoveryKey';
 		$userKey = 'userKey';
@@ -102,6 +102,13 @@ class DecryptAllTest extends TestCase {
 			$this->keyManager->expects($this->never())->method('getPrivateKey');
 			$this->crypt->expects($this->once())->method('decryptPrivateKey')
 				->with($recoveryKey, $password)->willReturn($unencryptedKey);
+		} elseif ($user === $masterKeyId) {
+			$this->keyManager->expects($this->once())->method('getSystemPrivateKey')
+				->with($masterKeyId)->willReturn($masterKey);
+			$this->keyManager->expects($this->never())->method('getPrivateKey');
+			$this->crypt->expects($this->once())->method('decryptPrivateKey')
+				->with($masterKey, $password, $masterKeyId)->willReturn($unencryptedKey);
+
 		} else {
 			$this->keyManager->expects($this->never())->method('getSystemPrivateKey');
 			$this->keyManager->expects($this->once())->method('getPrivateKey')
@@ -117,8 +124,9 @@ class DecryptAllTest extends TestCase {
 
 	public function dataTestGetPrivateKey() {
 		return [
-			['user1', 'recoveryKey'],
-			['recoveryKeyId', 'recoveryKeyId']
+			['user1', 'recoveryKey', 'masterKeyId'],
+			['recoveryKeyId', 'recoveryKeyId', 'masterKeyId'],
+			['masterKeyId', 'masterKeyId', 'masterKeyId']
 		];
 	}
 
