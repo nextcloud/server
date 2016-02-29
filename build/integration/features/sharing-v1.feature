@@ -514,3 +514,15 @@ Feature: sharing
       | path | / |
       | shareType | 3 |
     Then the OCS status code should be "403"
+
+  Scenario: Allow modification of reshare
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user0" created a folder "/TMP"
+    And file "TMP" of user "user0" is shared with user "user1"
+    And file "TMP" of user "user1" is shared with user "user2"
+    And As an "user1"
+    When Updating last share with
+      | permissions | 1 |
+    Then the OCS status code should be "100"
