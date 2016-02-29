@@ -25,6 +25,8 @@ fi;
 
 # stopping and removing docker containers
 for container in `cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift`; do
+    docker logs $container
+
     echo "Stopping and removing docker container $container"
     # kills running container and removes it
     docker rm -f $container
