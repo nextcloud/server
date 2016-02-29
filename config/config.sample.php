@@ -1104,6 +1104,14 @@ $CONFIG = array(
 'filesystem_check_changes' => 0,
 
 /**
+ * On default ownCloud will store the part files created during upload in the
+ * same storage as the upload target. Setting this to false will store the part
+ * files in the root of the users folder which might be required to work with certain
+ * external storage setups that have limited rename capabilities.
+ */
+'part_file_in_storage' => true,
+
+/**
  * All css and js files will be served by the Web server statically in one js
  * file and one css file if this is set to ``true``. This improves performance.
  */
