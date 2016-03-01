@@ -594,6 +594,22 @@ class Share20OCS {
 			}
 		}
 
+		if ($permissions !== null) {
+			/* Check if this is an incomming share */
+			$incomingShares = $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_USER, $share->getNode(), -1, 0);
+			$incomingShares = array_merge($incomingShares, $this->shareManager->getSharedWith($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_GROUP, $share->getNode(), -1, 0));
+
+			if (!empty($incomingShares)) {
+				$maxPermissions = 0;
+				foreach ($incomingShares as $incomingShare) {
+					$maxPermissions |= $incomingShare->getPermissions();
+				}
+
+				if ($share->getPermissions() & ~$maxPermissions) {
+					return new \OC_OCS_Result(null, 404, 'Cannot increase permissions');
+				}
+			}
+		}
 
 
 		try {

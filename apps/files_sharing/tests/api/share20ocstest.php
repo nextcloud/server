@@ -1433,6 +1433,8 @@ class Share20OCSTest extends \Test\TestCase {
 			})
 		)->will($this->returnArgument(0));
 
+		$this->shareManager->method('getSharedWith')->willReturn([]);
+
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->updateShare(42);
 
@@ -1497,6 +1499,8 @@ class Share20OCSTest extends \Test\TestCase {
 				return $share->getPermissions() === \OCP\Constants::PERMISSION_ALL;
 			})
 		)->will($this->returnArgument(0));
+
+		$this->shareManager->method('getSharedWith')->willReturn([]);
 
 		$expected = new \OC_OCS_Result(null);
 		$result = $ocs->updateShare(42);
