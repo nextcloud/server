@@ -823,10 +823,26 @@ class OC {
 			exit();
 		}
 
-		$request = \OC::$server->getRequest()->getPathInfo();
-		if (substr($request, -3) !== '.js') { // we need these files during the upgrade
+		$request = \OC::$server->getRequest();
+		$requestPath = $request->getPathInfo();
+		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
 			self::checkMaintenanceMode();
 			self::checkUpgrade();
+		}
+
+		// emergency app disabling
+		if ($requestPath === '/disableapp'
+			&& $request->getMethod() === 'POST'
+			&& ((string)$request->getParam('appid')) !== ''
+		) {
+			\OCP\JSON::callCheck();
+			\OCP\JSON::checkAdminUser();
+			$appId = (string)$request->getParam('appid');
+			$appId = \OC_App::cleanAppId($appId);
+
+			\OC_App::disable($appId);
+			\OC_JSON::success();
+			exit();
 		}
 
 		// Always load authentication apps
