@@ -21,10 +21,10 @@
 
 namespace OCA\DAV\Connector;
 
-
+use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use Sabre\HTTP\URLUtil;
 
-class LegacyDAVACL extends \Sabre\DAVACL\Plugin {
+class LegacyDAVACL extends DavAclPlugin {
 
 	/**
 	 * Converts the v1 principal `principal/<username>` to the new v2

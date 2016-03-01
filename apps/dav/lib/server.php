@@ -26,6 +26,7 @@ use OCA\DAV\CalDAV\Schedule\IMipPlugin;
 use OCA\DAV\Connector\FedAuth;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
+use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Files\CustomPropertiesBackend;
 use OCP\IRequest;
@@ -72,7 +73,7 @@ class Server {
 		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
 
 		// acl
-		$acl = new \Sabre\DAVACL\Plugin();
+		$acl = new DavAclPlugin();
 		$acl->defaultUsernamePath = 'principals/users';
 		$this->server->addPlugin($acl);
 
