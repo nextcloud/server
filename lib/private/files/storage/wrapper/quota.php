@@ -139,14 +139,31 @@ class Quota extends Wrapper {
 	 */
 	public function fopen($path, $mode) {
 		$source = $this->storage->fopen($path, $mode);
-		$free = $this->free_space('');
-		if ($source && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
-			// only apply quota for files, not metadata, trash or others
-			if (strpos(ltrim($path, '/'), 'files/') === 0) {
-				return \OC\Files\Stream\Quota::wrap($source, $free);
+
+		// don't apply quota for part files
+		if (!$this->isPartFile($path)) {
+			$free = $this->free_space('');
+			if ($source && $free >= 0 && $mode !== 'r' && $mode !== 'rb') {
+				// only apply quota for files, not metadata, trash or others
+				if (strpos(ltrim($path, '/'), 'files/') === 0) {
+					return \OC\Files\Stream\Quota::wrap($source, $free);
+				}
 			}
 		}
 		return $source;
+	}
+
+	/**
+	 * Checks whether the given path is a part file
+	 *
+	 * @param string $path Path that may identify a .part file
+	 * @return string File path without .part extension
+	 * @note this is needed for reusing keys
+	 */
+	private function isPartFile($path) {
+		$extension = pathinfo($path, PATHINFO_EXTENSION);
+
+		return ($extension === 'part');
 	}
 
 	/**

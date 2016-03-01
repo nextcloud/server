@@ -406,7 +406,7 @@ $CONFIG = array(
  *     delete all files in the trash bin that are older than D days   
  *     automatically, delete other files anytime if space needed
  * * ``D1, D2``    
- *     keep files and folders the in trash bin for at least D1 days and 
+ *     keep files and folders the in trash bin for at least D1 days and
  *     delete when exceeds D2 days
  * * ``disabled``  
  *     trash bin auto clean disabled, files and folders will be kept forever
@@ -1058,6 +1058,14 @@ $CONFIG = array(
  * using external storages, not recommended for regular use.
  */
 'filesystem_check_changes' => 0,
+
+/**
+ * On default ownCloud will store the part files created during upload in the
+ * same storage as the upload target. Setting this to false will store the part
+ * files in the root of the users folder which might be required to work with certain
+ * external storage setups that have limited rename capabilities.
+ */
+'part_file_in_storage' => true,
 
 /**
  * All css and js files will be served by the web server statically in one js
