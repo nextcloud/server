@@ -73,13 +73,14 @@ body {
 
 /* SCROLLING */
 ::-webkit-scrollbar {
-	width: 8px;
+	width: 5px;
 }
 ::-webkit-scrollbar-track-piece {
 	background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
 	background: #ddd;
+	border-radius: 3px;
 }
 
 /* Searchbox */
