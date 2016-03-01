@@ -37,7 +37,9 @@ input#openid, input#webdav { width:20em; }
 
 #displaynameform,
 #lostpassword,
-#groups {
+#groups,
+#passwordform,
+#language {
 	display: inline-block;
 	margin-bottom: 0;
 	padding-bottom: 0;

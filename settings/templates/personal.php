@@ -139,7 +139,7 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
-<form class="section">
+<form id="language" class="section">
 	<h2>
 		<label for="languageinput"><?php p($l->t('Language'));?></label>
 	</h2>
