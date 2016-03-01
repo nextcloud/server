@@ -26,6 +26,7 @@ use InvalidArgumentException;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Component\VCard;
@@ -480,7 +481,7 @@ class CardDavBackendTest extends TestCase {
 					->values(
 							[
 									'addressbookid' => $query->createNamedParameter(0),
-									'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), \PDO::PARAM_LOB),
+									'carddata' => $query->createNamedParameter($vCards[$i]->serialize(), IQueryBuilder::PARAM_LOB),
 									'uri' => $query->createNamedParameter('uri' . $i),
 									'lastmodified' => $query->createNamedParameter(time()),
 									'etag' => $query->createNamedParameter('etag' . $i),
@@ -558,7 +559,7 @@ class CardDavBackendTest extends TestCase {
 				->values(
 						[
 								'addressbookid' => $query->createNamedParameter(1),
-								'carddata' => $query->createNamedParameter('carddata', \PDO::PARAM_LOB),
+								'carddata' => $query->createNamedParameter('carddata', IQueryBuilder::PARAM_LOB),
 								'uri' => $query->createNamedParameter('uri'),
 								'lastmodified' => $query->createNamedParameter(5489543),
 								'etag' => $query->createNamedParameter('etag'),
@@ -586,7 +587,7 @@ class CardDavBackendTest extends TestCase {
 					->values(
 							[
 									'addressbookid' => $query->createNamedParameter($i),
-									'carddata' => $query->createNamedParameter('carddata' . $i, \PDO::PARAM_LOB),
+									'carddata' => $query->createNamedParameter('carddata' . $i, IQueryBuilder::PARAM_LOB),
 									'uri' => $query->createNamedParameter('uri' . $i),
 									'lastmodified' => $query->createNamedParameter(5489543),
 									'etag' => $query->createNamedParameter('etag' . $i),

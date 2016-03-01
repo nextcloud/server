@@ -28,6 +28,7 @@ use OCP\AppFramework\QueryException;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\AutoloadNotAllowedException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class JobList implements IJobList {
 	/** @var \OCP\IDBConnection */
@@ -69,7 +70,7 @@ class JobList implements IJobList {
 				->values([
 					'class' => $query->createNamedParameter($class),
 					'argument' => $query->createNamedParameter($argument),
-					'last_run' => $query->createNamedParameter(0, \PDO::PARAM_INT),
+					'last_run' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
 				]);
 			$query->execute();
 		}
@@ -102,7 +103,7 @@ class JobList implements IJobList {
 	protected function removeById($id) {
 		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs')
-			->where($query->expr()->eq('id', $query->createNamedParameter($id, \PDO::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$query->execute();
 	}
 
@@ -171,7 +172,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->gt('id', $query->createNamedParameter($lastId, \PDO::PARAM_INT)))
+			->where($query->expr()->gt('id', $query->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)))
 			->orderBy('id', 'ASC')
 			->setMaxResults(1);
 		$result = $query->execute();
@@ -216,7 +217,7 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->eq('id', $query->createNamedParameter($id, \PDO::PARAM_INT)));
+			->where($query->expr()->eq('id', $query->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 		$result = $query->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
@@ -286,8 +287,8 @@ class JobList implements IJobList {
 	public function setLastRun($job) {
 		$query = $this->connection->getQueryBuilder();
 		$query->update('jobs')
-			->set('last_run', $query->createNamedParameter(time(), \PDO::PARAM_INT))
-			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), \PDO::PARAM_INT)));
+			->set('last_run', $query->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
 		$query->execute();
 	}
 }

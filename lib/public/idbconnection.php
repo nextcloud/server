@@ -32,6 +32,7 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
  * Interface IDBConnection
@@ -193,7 +194,7 @@ interface IDBConnection {
 	 * @return string The quoted parameter.
 	 * @since 8.0.0
 	 */
-	public function quote($input, $type = \PDO::PARAM_STR);
+	public function quote($input, $type = IQueryBuilder::PARAM_STR);
 
 	/**
 	 * Gets the DatabasePlatform instance that provides all the metadata about

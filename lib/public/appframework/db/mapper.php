@@ -202,7 +202,7 @@ abstract class Mapper {
 	/**
 	 * Returns the correct PDO constant based on the value type
 	 * @param $value
-	 * @return PDO constant
+	 * @return int PDO constant
 	 * @since 8.1.0
 	 */
 	private function getPDOType($value) {

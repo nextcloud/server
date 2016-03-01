@@ -489,7 +489,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query = $this->db->getQueryBuilder();
 		$query->insert('cards')
 			->values([
-				'carddata' => $query->createNamedParameter($cardData, \PDO::PARAM_LOB),
+				'carddata' => $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB),
 				'uri' => $query->createNamedParameter($cardUri),
 				'lastmodified' => $query->createNamedParameter(time()),
 				'addressbookid' => $query->createNamedParameter($addressBookId),
@@ -542,7 +542,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$etag = md5($cardData);
 		$query = $this->db->getQueryBuilder();
 		$query->update('cards')
-			->set('carddata', $query->createNamedParameter($cardData, \PDO::PARAM_LOB))
+			->set('carddata', $query->createNamedParameter($cardData, IQueryBuilder::PARAM_LOB))
 			->set('lastmodified', $query->createNamedParameter(time()))
 			->set('size', $query->createNamedParameter(strlen($cardData)))
 			->set('etag', $query->createNamedParameter($etag))

@@ -168,7 +168,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @param string|integer $key The parameter position or name.
 	 * @param mixed $value The parameter value.
-	 * @param string|null $type One of the PDO::PARAM_* constants.
+	 * @param string|null $type One of the IQueryBuilder::PARAM_* constants.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
@@ -988,7 +988,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return IParameter the placeholder name used.
 	 */
-	public function createNamedParameter($value, $type = \PDO::PARAM_STR, $placeHolder = null) {
+	public function createNamedParameter($value, $type = IQueryBuilder::PARAM_STR, $placeHolder = null) {
 		return new Parameter($this->queryBuilder->createNamedParameter($value, $type, $placeHolder));
 	}
 
@@ -1005,8 +1005,8 @@ class QueryBuilder implements IQueryBuilder {
 	 *  $qb = $conn->getQueryBuilder();
 	 *  $qb->select('u.*')
 	 *     ->from('users', 'u')
-	 *     ->where('u.username = ' . $qb->createPositionalParameter('Foo', PDO::PARAM_STR))
-	 *     ->orWhere('u.username = ' . $qb->createPositionalParameter('Bar', PDO::PARAM_STR))
+	 *     ->where('u.username = ' . $qb->createPositionalParameter('Foo', IQueryBuilder::PARAM_STR))
+	 *     ->orWhere('u.username = ' . $qb->createPositionalParameter('Bar', IQueryBuilder::PARAM_STR))
 	 * </code>
 	 *
 	 * @param mixed $value
@@ -1014,7 +1014,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return IParameter
 	 */
-	public function createPositionalParameter($value, $type = \PDO::PARAM_STR) {
+	public function createPositionalParameter($value, $type = IQueryBuilder::PARAM_STR) {
 		return new Parameter($this->queryBuilder->createPositionalParameter($value, $type));
 	}
 
@@ -1027,7 +1027,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *  $qb->select('u.*')
 	 *     ->from('users', 'u')
 	 *     ->where('u.username = ' . $qb->createParameter('name'))
-	 *     ->setParameter('name', 'Bar', PDO::PARAM_STR))
+	 *     ->setParameter('name', 'Bar', IQueryBuilder::PARAM_STR))
 	 * </code>
 	 *
 	 * @param string $name

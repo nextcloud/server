@@ -156,7 +156,7 @@ interface IQueryBuilder {
 	 *
 	 * @param string|integer $key The parameter position or name.
 	 * @param mixed $value The parameter value.
-	 * @param string|null $type One of the PDO::PARAM_* constants.
+	 * @param string|null $type One of the IQueryBuilder::PARAM_* constants.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
@@ -780,7 +780,7 @@ interface IQueryBuilder {
 	 * @return IParameter
 	 * @since 8.2.0
 	 */
-	public function createNamedParameter($value, $type = \PDO::PARAM_STR, $placeHolder = null);
+	public function createNamedParameter($value, $type = self::PARAM_STR, $placeHolder = null);
 
 	/**
 	 * Creates a new positional parameter and bind the given value to it.
@@ -795,8 +795,8 @@ interface IQueryBuilder {
 	 *  $qb = $conn->getQueryBuilder();
 	 *  $qb->select('u.*')
 	 *     ->from('users', 'u')
-	 *     ->where('u.username = ' . $qb->createPositionalParameter('Foo', PDO::PARAM_STR))
-	 *     ->orWhere('u.username = ' . $qb->createPositionalParameter('Bar', PDO::PARAM_STR))
+	 *     ->where('u.username = ' . $qb->createPositionalParameter('Foo', IQueryBuilder::PARAM_STR))
+	 *     ->orWhere('u.username = ' . $qb->createPositionalParameter('Bar', IQueryBuilder::PARAM_STR))
 	 * </code>
 	 *
 	 * @param mixed $value
@@ -805,7 +805,7 @@ interface IQueryBuilder {
 	 * @return IParameter
 	 * @since 8.2.0
 	 */
-	public function createPositionalParameter($value, $type = \PDO::PARAM_STR);
+	public function createPositionalParameter($value, $type = self::PARAM_STR);
 
 	/**
 	 * Creates a new parameter
@@ -816,7 +816,7 @@ interface IQueryBuilder {
 	 *  $qb->select('u.*')
 	 *     ->from('users', 'u')
 	 *     ->where('u.username = ' . $qb->createParameter('name'))
-	 *     ->setParameter('name', 'Bar', PDO::PARAM_STR))
+	 *     ->setParameter('name', 'Bar', IQueryBuilder::PARAM_STR))
 	 * </code>
 	 *
 	 * @param string $name

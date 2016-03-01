@@ -327,7 +327,7 @@ class ExpressionBuilderTest extends TestCase {
 			[1, null],
 			[1, 'string'],
 			[1, 'integer'],
-			[1, \PDO::PARAM_INT],
+			[1, IQueryBuilder::PARAM_INT],
 		];
 	}
 

@@ -7,6 +7,7 @@
  */
 
 namespace Test\Repair;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
  * Tests for the cleaning the tags tables
@@ -123,8 +124,8 @@ class CleanTags extends \Test\TestCase {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('vcategory_to_object')
 			->values([
-				'objid'			=> $qb->createNamedParameter($objectId, \PDO::PARAM_INT),
-				'categoryid'	=> $qb->createNamedParameter($category, \PDO::PARAM_INT),
+				'objid'			=> $qb->createNamedParameter($objectId, IQueryBuilder::PARAM_INT),
+				'categoryid'	=> $qb->createNamedParameter($category, IQueryBuilder::PARAM_INT),
 				'type'			=> $qb->createNamedParameter($type),
 			])
 			->execute();

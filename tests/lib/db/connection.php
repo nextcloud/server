@@ -11,6 +11,7 @@ namespace Test\DB;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC\DB\MDB2SchemaManager;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
  * Class Connection
@@ -94,7 +95,7 @@ class Connection extends \Test\TestCase {
 		$builder = $this->connection->getQueryBuilder();
 		$query = $builder->select('textfield')
 			->from('table')
-			->where($builder->expr()->eq('integerfield', $builder->createNamedParameter($integerField, \PDO::PARAM_INT)));
+			->where($builder->expr()->eq('integerfield', $builder->createNamedParameter($integerField, IQueryBuilder::PARAM_INT)));
 
 		$result = $query->execute();
 		return $result->fetchColumn();
