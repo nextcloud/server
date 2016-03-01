@@ -38,3 +38,4 @@ fi;
 # cleanup
 rm -rf $thisFolder/swift.config.php
 rm -rf $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
+rm -rf $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift.sock
