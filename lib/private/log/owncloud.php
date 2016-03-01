@@ -4,6 +4,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christian Schnidrig <christian.schnidrig@switch.ch>
  * @author Georg Ehrke <georg@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>

@@ -1,5 +1,7 @@
 <?php
 /**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

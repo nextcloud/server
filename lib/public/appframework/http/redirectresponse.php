@@ -4,6 +4,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author v1r0x <vinzenz.rosenkranz@gmail.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0

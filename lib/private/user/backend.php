@@ -1,7 +1,6 @@
 <?php
 /**
  * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
- * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Dominik Schmidt <dev@dominik-schmidt.de>

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Björn Schießle <schiessle@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

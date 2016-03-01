@@ -3,11 +3,13 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christian Kampka <christian@kampka.net>
  * @author Edward Crompton <edward.crompton@gmail.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jost Baron <Jost.Baron@gmx.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philippe Le Brouster <plb@nebkha.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0

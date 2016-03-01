@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Lars <winnetou+github@catolic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Faruk Uzun <farukuzun@collabora.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Normal Ra <normalraw@gmail.com>
