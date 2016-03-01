@@ -32,12 +32,18 @@ class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 			$appFolders[$key] = rtrim($appFolder['path'], '/');
 		}
 
-		$this->excludedFolders = array_merge([
+		$excludedFolders = [
 			rtrim($root . '/data', '/'),
 			rtrim($root .'/themes', '/'),
 			rtrim($root.'/config', '/'),
 			rtrim($root.'/apps', '/'),
-		], $appFolders);
+		];
+		$customDataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', '');
+		if($customDataDir !== '') {
+			$excludedFolders[] = rtrim($customDataDir, '/');
+		}
+
+		$this->excludedFolders = array_merge($excludedFolders, $appFolders);
 	}
 
 	/**
