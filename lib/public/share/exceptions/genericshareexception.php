@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
