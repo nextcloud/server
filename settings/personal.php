@@ -137,9 +137,15 @@ if ($externalStorageEnabled) {
 
 
 // Return template
+$l = \OC::$server->getL10N('settings');
 $tmpl = new OC_Template( 'settings', 'personal', 'user');
 $tmpl->assign('usage', OC_Helper::humanFileSize($storageInfo['used']));
-$tmpl->assign('total_space', OC_Helper::humanFileSize($storageInfo['total']));
+if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+	$totalSpace = $l->t('Unlimited');
+} else {
+	$totalSpace = OC_Helper::humanFileSize($storageInfo['total']);
+}
+$tmpl->assign('total_space', $totalSpace);
 $tmpl->assign('usage_relative', $storageInfo['relative']);
 $tmpl->assign('clients', $clients);
 $tmpl->assign('email', $email);
@@ -162,7 +168,6 @@ sort($groups2);
 $tmpl->assign('groups', $groups2);
 
 // add hardcoded forms from the template
-$l = \OC::$server->getL10N('settings');
 $formsAndMore = [];
 $formsAndMore[]= ['anchor' => 'avatar', 'section-name' => $l->t('Personal info')];
 $formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];

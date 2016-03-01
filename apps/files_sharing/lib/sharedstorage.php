@@ -725,4 +725,8 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		list($targetStorage) = $this->ownerView->resolvePath($ownerPath);
 		return $targetStorage->isLocal();
 	}
+
+	public function getSourceStorage() {
+		return $this->sourceStorage;
+	}
 }

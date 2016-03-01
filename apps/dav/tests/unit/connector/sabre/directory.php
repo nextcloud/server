@@ -199,15 +199,48 @@ class Directory extends \Test\TestCase {
 		$dir->getChild('.');
 	}
 
-	public function testGetQuotaInfo() {
+	public function testGetQuotaInfoUnlimited() {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Quota')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$storage->expects($this->once())
+		$storage->expects($this->any())
 			->method('instanceOfStorage')
-			->with('\OC\Files\Storage\Wrapper\Quota')
-			->will($this->returnValue(true));
+			->will($this->returnValueMap([
+				'\OC\Files\Storage\Shared' => false,
+				'\OC\Files\Storage\Wrapper\Quota' => false,
+			]));
+
+		$storage->expects($this->never())
+			->method('getQuota');
+
+		$storage->expects($this->once())
+			->method('free_space')
+			->will($this->returnValue(800));
+
+		$this->info->expects($this->once())
+			->method('getSize')
+			->will($this->returnValue(200));
+
+		$this->info->expects($this->once())
+			->method('getStorage')
+			->will($this->returnValue($storage));
+
+		$dir = new \OCA\DAV\Connector\Sabre\Directory($this->view, $this->info);
+		$this->assertEquals([200, -3], $dir->getQuotaInfo()); //200 used, unlimited
+	}
+
+	public function testGetQuotaInfoSpecific() {
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Quota')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$storage->expects($this->any())
+			->method('instanceOfStorage')
+			->will($this->returnValueMap([
+				['\OC\Files\Storage\Shared', false],
+				['\OC\Files\Storage\Wrapper\Quota', true],
+			]));
 
 		$storage->expects($this->once())
 			->method('getQuota')
