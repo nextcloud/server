@@ -27,6 +27,7 @@ namespace OCA\Files_Sharing\External;
 
 use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\Files\NotFoundException;
 use OCP\Files\StorageInvalidException;
@@ -248,6 +249,12 @@ class Storage extends DAV implements ISharedStorage {
 		$remote = $this->getRemote();
 		$token = $this->getToken();
 		$password = $this->getPassword();
+
+		// If remote is not an ownCloud do not try to get any share info
+		if(!$this->testRemoteUrl($remote . '/status.php')) {
+			return ['status' => 'unsupported'];
+		}
+
 		$url = rtrim($remote, '/') . '/index.php/apps/files_sharing/shareinfo?t=' . $token;
 
 		// TODO: DI
