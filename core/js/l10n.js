@@ -66,13 +66,19 @@ OC.L10N = {
 	 * @param {Function|String} [pluralForm] optional plural function or plural string
 	 */
 	register: function(appName, bundle, pluralForm) {
-		this._bundles[appName] = bundle || {};
+		var self = this;
+		if (_.isUndefined(this._bundles[appName])) {
+			this._bundles[appName] = bundle || {};
 
-		if (_.isFunction(pluralForm)) {
-			this._pluralFunctions[appName] = pluralForm;
+			if (_.isFunction(pluralForm)) {
+				this._pluralFunctions[appName] = pluralForm;
+			} else {
+				// generate plural function based on form
+				this._pluralFunctions[appName] = this._generatePluralFunction(pluralForm);
+			}
 		} else {
-			// generate plural function based on form
-			this._pluralFunctions[appName] = this._generatePluralFunction(pluralForm);
+			// Theme overwriting the default language
+			_.extend(self._bundles[appName], bundle);
 		}
 	},
 
