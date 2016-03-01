@@ -48,10 +48,9 @@ container=`docker run -d \
     -e KEYSTONE_ENDPOINT_REGION=${region} \
     -e KEYSTONE_SERVICE=${service} \
     -e OSD_SIZE=300 \
-    -v ${thisFolder}/entrypoint.sh:/entrypoint.sh \
     -v "$notify_sock":/run/notifyme.sock \
     --privileged \
-    --entrypoint /entrypoint.sh ${docker_image}`
+    ${docker_image}`
 
 host=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$container")
 
