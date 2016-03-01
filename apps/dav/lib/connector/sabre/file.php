@@ -220,10 +220,11 @@ class File extends Node implements IFile {
 			if (isset($request->server['HTTP_OC_CHECKSUM'])) {
 				$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
 				$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
-			} else if ($this->getChecksum() !== NULL && $this->getChecksum() !== '') {
+				$this->refreshInfo();
+			} else if ($this->getChecksum() !== null && $this->getChecksum() !== '') {
 				$this->fileView->putFileInfo($this->path, ['checksum' => '']);
+				$this->refreshInfo();
 			}
-			$this->refreshInfo();
 
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
@@ -461,15 +462,15 @@ class File extends Node implements IFile {
 
 				$this->emitPostHooks($exists, $targetPath);
 
+				// FIXME: should call refreshInfo but can't because $this->path is not the of the final file
 				$info = $this->fileView->getFileInfo($targetPath);
 
 				if (isset($request->server['HTTP_OC_CHECKSUM'])) {
 					$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
 					$this->fileView->putFileInfo($targetPath, ['checksum' => $checksum]);
-				} else if ($info->getChecksum() !== NULL && $info->getChecksum() !== '') {
+				} else if ($info->getChecksum() !== null && $info->getChecksum() !== '') {
 					$this->fileView->putFileInfo($this->path, ['checksum' => '']);
 				}
-
 
 				$this->fileView->unlockFile($targetPath, ILockingProvider::LOCK_SHARED);
 
