@@ -27,8 +27,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>32</length>
-				<comments>md5 hash of the url without the protocol</comments>
+				<comments>sha1 hash of the url without the protocol</comments>
 			</field>
 			<field>
 				<name>token</name>

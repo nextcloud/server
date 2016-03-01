@@ -68,13 +68,15 @@ class SyncServiceTest extends TestCase {
 
 		/** @var IUserManager $userManager */
 		$userManager = $this->getMockBuilder('OCP\IUserManager')->disableOriginalConstructor()->getMock();
-		$ss = new SyncService($backend, $userManager);
+		$logger = $this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock();
+		$ss = new SyncService($backend, $userManager, $logger);
 		$book = $ss->ensureSystemAddressBookExists('principals/users/adam', 'contacts', []);
 	}
 
 	public function testUpdateAndDeleteUser() {
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
 		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDAVBackend')->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock();
 
 		$backend->expects($this->once())->method('createCard');
 		$backend->expects($this->once())->method('updateCard');
@@ -92,7 +94,7 @@ class SyncServiceTest extends TestCase {
 		$user->method('getBackendClassName')->willReturn('unittest');
 		$user->method('getUID')->willReturn('test-user');
 
-		$ss = new SyncService($backend, $userManager);
+		$ss = new SyncService($backend, $userManager, $logger);
 		$ss->updateUser($user);
 
 		$user->method('getDisplayName')->willReturn('A test user for unit testing');
@@ -123,8 +125,9 @@ class SyncServiceTest extends TestCase {
 	 */
 	private function getSyncServiceMock($backend, $response) {
 		$userManager = $this->getMockBuilder('OCP\IUserManager')->disableOriginalConstructor()->getMock();
+		$logger = $this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock();
 		/** @var SyncService | \PHPUnit_Framework_MockObject_MockObject $ss */
-		$ss = $this->getMock('OCA\DAV\CardDAV\SyncService', ['ensureSystemAddressBookExists', 'requestSyncReport', 'download'], [$backend, $userManager]);
+		$ss = $this->getMock('OCA\DAV\CardDAV\SyncService', ['ensureSystemAddressBookExists', 'requestSyncReport', 'download'], [$backend, $userManager, $logger]);
 		$ss->method('requestSyncReport')->withAnyParameters()->willReturn(['response' => $response, 'token' => 'sync-token-1']);
 		$ss->method('ensureSystemAddressBookExists')->willReturn(['id' => 1]);
 		$ss->method('download')->willReturn([

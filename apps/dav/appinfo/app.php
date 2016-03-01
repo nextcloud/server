@@ -20,6 +20,7 @@
  */
 
 use OCA\Dav\AppInfo\Application;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 $app = new Application();
 $app->registerHooks();
@@ -27,6 +28,20 @@ $app->registerHooks();
 \OC::$server->registerService('CardDAVSyncService', function() use ($app) {
 	return $app->getSyncService();
 });
+
+$eventDispatcher = \OC::$server->getEventDispatcher();
+
+$eventDispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
+	function(GenericEvent $event) use ($app) {
+		/** @var \OCA\DAV\CardDAV\CardDavBackend $cardDavBackend */
+		$cardDavBackend = $app->getContainer()->query('CardDavBackend');
+		$addressBookUri = $event->getSubject();
+		$addressBook = $cardDavBackend->getAddressBooksByUri('principals/system/system', $addressBookUri);
+		if (!is_null($addressBook)) {
+			$cardDavBackend->deleteAddressBook($addressBook['id']);
+		}
+	}
+);
 
 $cm = \OC::$server->getContactsManager();
 $cm->register(function() use ($cm, $app) {

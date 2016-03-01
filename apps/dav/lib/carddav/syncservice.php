@@ -21,11 +21,14 @@
 
 namespace OCA\DAV\CardDAV;
 
+use OCP\AppFramework\Http;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\IUserManager;
 use Sabre\DAV\Client;
 use Sabre\DAV\Xml\Response\MultiStatus;
 use Sabre\DAV\Xml\Service;
+use Sabre\HTTP\ClientHttpException;
 use Sabre\VObject\Reader;
 
 class SyncService {
@@ -36,12 +39,16 @@ class SyncService {
 	/** @var IUserManager */
 	private $userManager;
 
+	/** @var ILogger */
+	private $logger;
+
 	/** @var array */
 	private $localSystemAddressBook;
 
-	public function __construct(CardDavBackend $backend, IUserManager $userManager) {
+	public function __construct(CardDavBackend $backend, IUserManager $userManager, ILogger $logger) {
 		$this->backend = $backend;
 		$this->userManager = $userManager;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -53,6 +60,7 @@ class SyncService {
 	 * @param string $targetPrincipal
 	 * @param array $targetProperties
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function syncRemoteAddressBook($url, $userName, $sharedSecret, $syncToken, $targetBookId, $targetPrincipal, $targetProperties) {
 		// 1. create addressbook
@@ -60,7 +68,16 @@ class SyncService {
 		$addressBookId = $book['id'];
 
 		// 2. query changes
-		$response = $this->requestSyncReport($url, $userName, $sharedSecret, $syncToken);
+		try {
+			$response = $this->requestSyncReport($url, $userName, $sharedSecret, $syncToken);
+		} catch (ClientHttpException $ex) {
+			if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
+				// remote server revoked access to the address book, remove it
+				$this->backend->deleteAddressBook($addressBookId);
+				$this->logger->info('Authorization failed, remove address book: ' . $url, ['app' => 'dav']);
+				throw $ex;
+			}
+		}
 
 		// 3. apply changes
 		// TODO: use multi-get for download

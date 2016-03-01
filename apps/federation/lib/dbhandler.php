@@ -106,13 +106,35 @@ class DbHandler {
 	}
 
 	/**
+	 * get trusted server with given ID
+	 *
+	 * @param int $id
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function getServerById($id) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')->from($this->dbTable)
+			->where($query->expr()->eq('id', $query->createParameter('id')))
+			->setParameter('id', $id);
+		$query->execute();
+		$result = $query->execute()->fetchAll();
+
+		if (empty($result)) {
+			throw new \Exception('No Server found with ID: ' . $id);
+		}
+
+		return $result[0];
+	}
+
+	/**
 	 * get all trusted servers
 	 *
 	 * @return array
 	 */
 	public function getAllServer() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['url', 'id', 'status', 'shared_secret', 'sync_token'])->from($this->dbTable);
+		$query->select(['url', 'url_hash', 'id', 'status', 'shared_secret', 'sync_token'])->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		return $result;
 	}
@@ -252,11 +274,11 @@ class DbHandler {
 	 */
 	protected function hash($url) {
 		$normalized = $this->normalizeUrl($url);
-		return md5($normalized);
+		return sha1($normalized);
 	}
 
 	/**
-	 * normalize URL, used to create the md5 hash
+	 * normalize URL, used to create the sha1 hash
 	 *
 	 * @param string $url
 	 * @return string
