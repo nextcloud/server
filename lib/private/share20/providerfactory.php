@@ -21,6 +21,7 @@
 namespace OC\Share20;
 
 use OCA\FederatedFileSharing\AddressHandler;
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\Notifications;
 use OCA\FederatedFileSharing\TokenHandler;
@@ -91,9 +92,14 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getURLGenerator(),
 				$l
 			);
+			$discoveryManager = new DiscoveryManager(
+				$this->serverContainer->getMemCacheFactory(),
+				$this->serverContainer->getHTTPClientService()
+			);
 			$notifications = new Notifications(
 				$addressHandler,
-				$this->serverContainer->getHTTPClientService()
+				$this->serverContainer->getHTTPClientService(),
+				$discoveryManager
 			);
 			$tokenHandler = new TokenHandler(
 				$this->serverContainer->getSecureRandom()

@@ -40,8 +40,6 @@ class Constants {
 
 	const TOKEN_LENGTH = 15; // old (oc7) length is 32, keep token length in db at least that for compatibility
 
-	const BASE_PATH_TO_SHARE_API = '/ocs/v1.php/cloud/shares';
-
 	protected static $shareTypeUserAndGroups = -1;
 	protected static $shareTypeGroupUserUnique = 2;
 	protected static $backends = array();

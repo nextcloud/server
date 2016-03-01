@@ -27,6 +27,7 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCP\Files;
 use OCP\Notification\IManager;
 
@@ -62,6 +63,8 @@ class Manager {
 	 * @var IManager
 	 */
 	private $notificationManager;
+	/** @var DiscoveryManager */
+	private $discoveryManager;
 
 	/**
 	 * @param \OCP\IDBConnection $connection
@@ -69,16 +72,23 @@ class Manager {
 	 * @param \OCP\Files\Storage\IStorageFactory $storageLoader
 	 * @param \OC\HTTPHelper $httpHelper
 	 * @param IManager $notificationManager
+	 * @param DiscoveryManager $discoveryManager
 	 * @param string $uid
 	 */
-	public function __construct(\OCP\IDBConnection $connection, \OC\Files\Mount\Manager $mountManager,
-								\OCP\Files\Storage\IStorageFactory $storageLoader, \OC\HTTPHelper $httpHelper, IManager $notificationManager, $uid) {
+	public function __construct(\OCP\IDBConnection $connection,
+								\OC\Files\Mount\Manager $mountManager,
+								\OCP\Files\Storage\IStorageFactory $storageLoader,
+								\OC\HTTPHelper $httpHelper,
+								IManager $notificationManager,
+								DiscoveryManager $discoveryManager,
+								$uid) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->storageLoader = $storageLoader;
 		$this->httpHelper = $httpHelper;
 		$this->uid = $uid;
 		$this->notificationManager = $notificationManager;
+		$this->discoveryManager = $discoveryManager;
 	}
 
 	/**
@@ -246,13 +256,13 @@ class Manager {
 	 */
 	private function sendFeedbackToRemote($remote, $token, $remoteId, $feedback) {
 
-		$url = rtrim($remote, '/') . \OCP\Share::BASE_PATH_TO_SHARE_API . '/' . $remoteId . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
+		$url = rtrim($remote, '/') . $this->discoveryManager->getShareEndpoint($remote) . '/' . $remoteId . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
 		$fields = array('token' => $token);
 
 		$result = $this->httpHelper->post($url, $fields);
 		$status = json_decode($result['result'], true);
 
-		return ($result['success'] && $status['ocs']['meta']['statuscode'] === 100);
+		return ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200));
 	}
 
 	/**

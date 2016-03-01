@@ -57,13 +57,17 @@ if (\OC\Share\Helper::isSameUserOnSameServer($owner, $remote, $currentUser, $cur
 	exit();
 }
 
-
+$discoveryManager = new \OCA\FederatedFileSharing\DiscoveryManager(
+	\OC::$server->getMemCacheFactory(),
+	\OC::$server->getHTTPClientService()
+);
 $externalManager = new \OCA\Files_Sharing\External\Manager(
 		\OC::$server->getDatabaseConnection(),
 		\OC\Files\Filesystem::getMountManager(),
 		\OC\Files\Filesystem::getLoader(),
 		\OC::$server->getHTTPHelper(),
 		\OC::$server->getNotificationManager(),
+		$discoveryManager,
 		\OC::$server->getUserSession()->getUser()->getUID()
 );
 

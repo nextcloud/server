@@ -24,6 +24,7 @@
 
 namespace OCA\Files_Sharing\AppInfo;
 
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\MountProvider;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -76,12 +77,17 @@ class Application extends App {
 		$container->registerService('ExternalManager', function (SimpleContainer $c) use ($server) {
 			$user = $server->getUserSession()->getUser();
 			$uid = $user ? $user->getUID() : null;
+			$discoveryManager = new DiscoveryManager(
+				\OC::$server->getMemCacheFactory(),
+				\OC::$server->getHTTPClientService()
+			);
 			return new \OCA\Files_Sharing\External\Manager(
 				$server->getDatabaseConnection(),
 				\OC\Files\Filesystem::getMountManager(),
 				\OC\Files\Filesystem::getLoader(),
 				$server->getHTTPHelper(),
 				$server->getNotificationManager(),
+				$discoveryManager,
 				$uid
 			);
 		});
