@@ -195,7 +195,9 @@ With help from many libraries and frameworks including:
 			return !in_array($author, [
 				'',
 				'Not Committed Yet <not.committed.yet>',
-				'Jenkins for ownCloud <owncloud-bot@tmit.eu>']);
+				'Jenkins for ownCloud <owncloud-bot@tmit.eu>',
+				'Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>',
+			]);
 		});
 
 		if ($gitRoot) {

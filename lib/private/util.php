@@ -30,7 +30,6 @@
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author Stefan Rado <owncloud@sradonia.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Schmidt <tschmidt@suse.de>
