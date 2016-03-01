@@ -291,6 +291,8 @@ class Google extends \OC\Files\Storage\Common {
 				}
 				$pageToken = $children->getNextPageToken();
 			}
+			// reindex values to compensate for removed duplicates
+			$files = array_values($files);
 			\OC\Files\Stream\Dir::register('google'.$path, $files);
 			return opendir('fakedir://google'.$path);
 		} else {
