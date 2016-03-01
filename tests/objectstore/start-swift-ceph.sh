@@ -28,6 +28,10 @@ docker pull ${docker_image}
 # retrieve current folder to place the config in the parent folder
 thisFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# create readiness notification socket
+notify_sock=$(readlink -f "$thisFolder"/dockerContainerCeph.$EXECUTOR_NUMBER.swift.sock)
+mkfifo "$notify_sock"
+
 port=5034
 
 user=test
@@ -45,6 +49,7 @@ container=`docker run -d \
     -e KEYSTONE_SERVICE=${service} \
     -e OSD_SIZE=300 \
     -v ${thisFolder}/entrypoint.sh:/entrypoint.sh \
+    -v "$notify_sock":/run/notifyme.sock \
     --privileged \
     --entrypoint /entrypoint.sh ${docker_image}`
 
@@ -57,20 +62,13 @@ echo "${docker_image} container: $container"
 echo $container >> $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 
 echo -n "Waiting for ceph initialization"
-starttime=$(date +%s)
-# support for GNU netcat and BSD netcat
-while ! (nc -c -w 1 ${host} 80 </dev/null >&/dev/null \
-    || nc -w 1 ${host} 80 </dev/null >&/dev/null); do
-    sleep 1
-    echo -n '.'
-    if (( $(date +%s) > starttime + 160 )); then
-	echo
-	echo "[ERROR] Waited 120 seconds, no response" >&2
-	exit 1
-    fi
-done
-echo
-sleep 20 # the keystone server also needs some time to fully initialize
+ready=$(timeout 600 cat "$notify_sock")
+if [[ $ready != 'READY=1' ]]; then
+    echo "[ERROR] Waited 600 seconds, no response" >&2
+    docker logs $container
+    exit 1
+fi
+sleep 1
 
 cat > $thisFolder/swift.config.php <<DELIM
 <?php
