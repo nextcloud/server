@@ -55,6 +55,15 @@ class Hooks extends \OC\Share\Constants {
 	 * @param array $arguments
 	 */
 	public static function pre_addToGroup($arguments) {
+		$currentUser = \OC::$server->getUserSession()->getUser();
+		$currentUserID = is_null($currentUser) ? '' : $currentUser->getUID();
+
+		// setup filesystem for added user if it isn't the current user
+		if($currentUserID !== $arguments['uid']) {
+			\OC_Util::tearDownFS();
+			\OC_Util::setupFS($arguments['uid']);
+		}
+
 		/** @var \OC\DB\Connection $db */
 		$db = \OC::$server->getDatabaseConnection();
 
@@ -118,6 +127,14 @@ class Hooks extends \OC\Share\Constants {
 					'`stime`' => $insert->expr()->literal($item['stime']),
 					'`file_source`' => $insert->expr()->literal($item['file_source']),
 				];
+			}
+		}
+
+		// re-setup old filesystem state
+		if($currentUserID !== $arguments['uid']) {
+			\OC_Util::tearDownFS();
+			if($currentUserID !== '') {
+				\OC_Util::setupFS($currentUserID);
 			}
 		}
 	}
