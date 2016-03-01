@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Alex Weirig <alex.weirig@technolink.lu>
  * @author Alexander Bergolth <leo@strike.wu.ac.at>
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -7,7 +8,6 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Richard Bentley <rbentley@e2advance.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0

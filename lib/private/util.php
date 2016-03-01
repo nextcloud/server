@@ -9,7 +9,6 @@
  * @author Birk Borkason <daniel.niccoli@gmail.com>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Brice Maron <brice@bmaron.net>
- * @author Christian Reiner <github@christian-reiner.info>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author cmeh <cmeh@users.noreply.github.com>
@@ -31,12 +30,12 @@
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author Stefan Rado <owncloud@sradonia.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Schmidt <tschmidt@suse.de>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
+ * @author Vincent Chan <plus.vincchan@gmail.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
  *

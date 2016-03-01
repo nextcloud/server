@@ -4,11 +4,13 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Michael U <mdusher@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author RealRancor <Fisch.666@gmx.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Chan <plus.vincchan@gmail.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Jesús Macias <jmacias@solidgear.es>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>

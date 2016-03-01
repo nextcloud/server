@@ -3,7 +3,6 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author tbelau666 <thomas.belau@gmx.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

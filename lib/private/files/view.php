@@ -5,7 +5,7 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author cmeh <cmeh@users.noreply.github.com>
  * @author Florin Peter <github@florin-peter.de>
- * @author Jesus Macias <jmacias@full-on-net.com>
+ * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>

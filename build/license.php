@@ -195,7 +195,9 @@ With help from many libraries and frameworks including:
 			return !in_array($author, [
 				'',
 				'Not Committed Yet <not.committed.yet>',
-				'Jenkins for ownCloud <owncloud-bot@tmit.eu>']);
+				'Jenkins for ownCloud <owncloud-bot@tmit.eu>',
+				'Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>',
+			]);
 		});
 
 		if ($gitRoot) {
@@ -236,8 +238,10 @@ if (isset($argv[1])) {
 	$licenses->exec($argv[1], isset($argv[2]) ? $argv[1] : false);
 } else {
 	$licenses->exec([
+		'../apps/comments',
 		'../apps/dav',
 		'../apps/encryption',
+		'../apps/federatedfilesharing',
 		'../apps/federation',
 		'../apps/files',
 		'../apps/files_external',
@@ -245,6 +249,9 @@ if (isset($argv[1])) {
 		'../apps/files_trashbin',
 		'../apps/files_versions',
 		'../apps/provisioning_api',
+		'../apps/systemtags',
+		'../apps/testing',
+		'../apps/updatenotification',
 		'../apps/user_ldap',
 		'../core',
 		'../lib',

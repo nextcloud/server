@@ -1,7 +1,6 @@
 <?php
 /**
  * @author Roeland Jago Douma <rullzer@owncloud.com>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

@@ -2,7 +2,7 @@
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Björn Schießle <schiessle@owncloud.com>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

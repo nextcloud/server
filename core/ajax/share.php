@@ -7,7 +7,7 @@
  * @author dampfklon <me@dampfklon.de>
  * @author Felix Böhm <felixboehm@gmx.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Leonardo Diez <leio10@users.noreply.github.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>

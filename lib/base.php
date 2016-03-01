@@ -15,6 +15,7 @@
  * @author Hugo Gonzalez Labrador <hglavra@gmail.com>
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Joachim Bauch <bauch@struktur.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>

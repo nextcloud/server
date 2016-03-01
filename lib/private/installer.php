@@ -5,7 +5,6 @@
  * @author Brice Maron <brice@bmaron.net>
  * @author Christian Weiske <cweiske@cweiske.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Felix Moeller <mail@felixmoeller.de>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>

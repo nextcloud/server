@@ -7,7 +7,6 @@
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Fabian Henze <flyser42@gmx.de>
  * @author Felix Moeller <mail@felixmoeller.de>
- * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
@@ -17,7 +16,6 @@
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
- * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Pellaeon Lin <nfsmwlin@gmail.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>

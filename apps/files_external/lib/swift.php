@@ -3,6 +3,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Benjamin Liles <benliles@arch.tamu.edu>
  * @author Christian Berendt <berendt@b1-systems.de>
+ * @author Daniel Tosello <tosello.daniel@gmail.com>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Martin Mattel <martin.mattel@diemattels.at>

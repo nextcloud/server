@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
