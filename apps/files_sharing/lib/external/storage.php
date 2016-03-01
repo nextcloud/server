@@ -137,6 +137,9 @@ class Storage extends DAV implements ISharedStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
+		if(!$this->remoteIsOwnCloud()) {
+			return parent::getScanner($path, $storage);
+		}
 		if (!isset($this->scanner)) {
 			$this->scanner = new Scanner($storage);
 		}
@@ -240,6 +243,19 @@ class Storage extends DAV implements ISharedStorage {
 	}
 
 	/**
+	 * Whether the remote is an ownCloud, used since some sharing features are not
+	 * standardized. Let's use this to detect whether to use it.
+	 *
+	 * @return bool
+	 */
+	private function remoteIsOwnCloud() {
+		if(defined('PHPUNIT_RUN') || !$this->testRemoteUrl($this->getRemote() . '/status.php')) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * @return mixed
 	 * @throws ForbiddenException
 	 * @throws NotFoundException
@@ -251,7 +267,7 @@ class Storage extends DAV implements ISharedStorage {
 		$password = $this->getPassword();
 
 		// If remote is not an ownCloud do not try to get any share info
-		if(!$this->testRemoteUrl($remote . '/status.php')) {
+		if(!$this->remoteIsOwnCloud()) {
 			return ['status' => 'unsupported'];
 		}
 
