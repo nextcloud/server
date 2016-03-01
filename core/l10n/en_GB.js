@@ -185,6 +185,7 @@ OC.L10N.register(
     "({scope})" : "({scope})",
     "Delete" : "Delete",
     "Rename" : "Rename",
+    "Collaborative tags" : "Collaborative tags",
     "The object type is not specified." : "The object type is not specified.",
     "Enter new" : "Enter new",
     "Add" : "Add",

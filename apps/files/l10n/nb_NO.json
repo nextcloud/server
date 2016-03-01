@@ -77,7 +77,7 @@
     "New folder" : "Ny mappe",
     "{newname} already exists" : "{newname} finnes allerede",
     "Upload" : "Last opp",
-    "An error occurred while trying to update the tags" : "En feil oppstod under oppdatering av taggene",
+    "An error occurred while trying to update the tags" : "En feil oppstod under oppdatering av merkelappene",
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mappe ble <strong>opprettet</strong>",
     "A file or folder has been <strong>changed</strong>" : "En fil eller mappe ble <strong>endret</strong>",
     "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begrens varsling om oppretting og endringer til <strong>favorittfilene</strong> dine <em>(Kun strøm)</em>",

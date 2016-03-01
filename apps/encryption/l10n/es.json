@@ -23,6 +23,8 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "La clave privada no es válida para la app de cifrado. Por favor, actualiza la contraseña de tu clave privada en tus ajustes personales para recuperar el acceso a tus archivos cifrados.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "La app de cifrado está habilitada pero sus claves no se han inicializado, por favor, cierre la sesión y vuelva a iniciarla de nuevo.",
     "Encryption App is enabled and ready" : "Cifrado App está habilitada y lista",
+    "Bad Signature" : "Firma errónea",
+    "Missing Signature" : "No se encuentra la firma",
     "one-time password for server-side-encryption" : "Contraseña de un solo uso para el cifrado en el lado servidor",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No fue posible descifrar este archivo, probablemente se trate de un archivo compartido. Solicite al propietario del mismo que vuelva a compartirlo con usted.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No se puede leer este archivo, probablemente sea un archivo compartido. Consulte con el propietario del mismo y que lo vuelva a compartir con usted.",
