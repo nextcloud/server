@@ -23,7 +23,6 @@
 namespace OCA\Federation\Tests\lib;
 
 
-use OC\HintException;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\BackgroundJob\IJobList;
@@ -33,6 +32,7 @@ use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class TrustedServersTest extends TestCase {
@@ -64,10 +64,15 @@ class TrustedServersTest extends TestCase {
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | IConfig */
 	private $config;
 
+	/** @var  \PHPUnit_Framework_MockObject_MockObject | EventDispatcherInterface */
+	private $dispatcher;
+
 	public function setUp() {
 		parent::setUp();
 
 		$this->dbHandler = $this->getMockBuilder('\OCA\Federation\DbHandler')
+			->disableOriginalConstructor()->getMock();
+		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
 			->disableOriginalConstructor()->getMock();
 		$this->httpClientService = $this->getMock('OCP\Http\Client\IClientService');
 		$this->httpClient = $this->getMock('OCP\Http\Client\IClient');
@@ -83,7 +88,8 @@ class TrustedServersTest extends TestCase {
 			$this->logger,
 			$this->jobList,
 			$this->secureRandom,
-			$this->config
+			$this->config,
+			$this->dispatcher
 		);
 
 	}
@@ -103,7 +109,8 @@ class TrustedServersTest extends TestCase {
 					$this->logger,
 					$this->jobList,
 					$this->secureRandom,
-					$this->config
+					$this->config,
+					$this->dispatcher
 				]
 			)
 			->setMethods(['normalizeUrl', 'updateProtocol'])
@@ -191,7 +198,18 @@ class TrustedServersTest extends TestCase {
 
 	public function testRemoveServer() {
 		$id = 42;
+		$server = ['url_hash' => 'url_hash'];
 		$this->dbHandler->expects($this->once())->method('removeServer')->with($id);
+		$this->dbHandler->expects($this->once())->method('getServerById')->with($id)
+			->willReturn($server);
+		$this->dispatcher->expects($this->once())->method('dispatch')
+			->willReturnCallback(
+				function($eventId, $event) {
+					$this->assertSame($eventId, 'OCP\Federation\TrustedServerEvent::remove');
+					$this->assertInstanceOf('Symfony\Component\EventDispatcher\GenericEvent', $event);
+					$this->assertSame('url_hash', $event->getSubject());
+				}
+			);
 		$this->trustedServers->removeServer($id);
 	}
 
@@ -247,7 +265,8 @@ class TrustedServersTest extends TestCase {
 					$this->logger,
 					$this->jobList,
 					$this->secureRandom,
-					$this->config
+					$this->config,
+					$this->dispatcher
 				]
 			)
 			->setMethods(['checkOwnCloudVersion'])

@@ -91,12 +91,13 @@ class GetSharedSecret extends QueuedJob{
 			$this->trustedServers = $trustedServers;
 		} else {
 			$this->trustedServers = new TrustedServers(
-					$this->dbHandler,
-					\OC::$server->getHTTPClientService(),
-					$this->logger,
-					$this->jobList,
-					\OC::$server->getSecureRandom(),
-					\OC::$server->getConfig()
+				$this->dbHandler,
+				\OC::$server->getHTTPClientService(),
+				$this->logger,
+				$this->jobList,
+				\OC::$server->getSecureRandom(),
+				\OC::$server->getConfig(),
+				\OC::$server->getEventDispatcher()
 			);
 		}
 	}

@@ -34,7 +34,8 @@ $trustedServers = new \OCA\Federation\TrustedServers(
 	\OC::$server->getLogger(),
 	\OC::$server->getJobList(),
 	\OC::$server->getSecureRandom(),
-	\OC::$server->getConfig()
+	\OC::$server->getConfig(),
+	\OC::$server->getEventDispatcher()
 );
 
 $template->assign('trustedServers', $trustedServers->getServers());

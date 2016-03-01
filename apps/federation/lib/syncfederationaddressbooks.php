@@ -3,6 +3,7 @@
 namespace OCA\Federation;
 
 use OCA\DAV\CardDAV\SyncService;
+use OCP\AppFramework\Http;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -40,7 +41,7 @@ class SyncFederationAddressBooks {
 			if (is_null($sharedSecret)) {
 				continue;
 			}
-			$targetBookId = sha1($url);
+			$targetBookId = $trustedServer['url_hash'];
 			$targetPrincipal = "principals/system/system";
 			$targetBookProperties = [
 					'{DAV:}displayname' => $url
@@ -51,6 +52,9 @@ class SyncFederationAddressBooks {
 					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_OK, $newToken);
 				}
 			} catch (\Exception $ex) {
+				if ($ex->getCode() === Http::STATUS_UNAUTHORIZED) {
+					$this->dbHandler->setServerStatus($url, TrustedServers::STATUS_ACCESS_REVOKED);
+				}
 				$callback($url, $ex);
 			}
 		}

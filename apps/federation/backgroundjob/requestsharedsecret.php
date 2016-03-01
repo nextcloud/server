@@ -95,7 +95,8 @@ class RequestSharedSecret extends QueuedJob {
 				$this->logger,
 				$this->jobList,
 				\OC::$server->getSecureRandom(),
-				\OC::$server->getConfig()
+				\OC::$server->getConfig(),
+				\OC::$server->getEventDispatcher()
 			);
 		}
 	}
