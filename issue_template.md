@@ -29,6 +29,8 @@ Tell us what happens instead
 
 **Updated from an older ownCloud or fresh install:**
 
+**Where did you install ownCloud from:**
+
 **Signing status (ownCloud 9.0 and above):**
 
 ```
