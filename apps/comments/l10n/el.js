@@ -6,6 +6,7 @@ OC.L10N.register(
     "Delete comment" : "Διαγραφή σχολίου",
     "Cancel" : "Άκυρο",
     "Edit comment" : "Επεξεργασία σχολίου",
+    "[Deleted user]" : "[Διαγραφή χρήστη]",
     "More comments..." : "Περισσότερα σχόλια...",
     "Save" : "Αποθήκευση",
     "Comment" : "Σχόλιο"

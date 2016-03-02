@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Server" : "Þjónn",
     "Users" : "Notendur",
     "Groups" : "Hópar",
     "Test Configuration" : "Prúfa uppsetningu",

@@ -26,6 +26,7 @@ OC.L10N.register(
     "A valid username must be provided" : "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك",
     "A valid password must be provided" : "چوقۇم ئىناۋەتلىك ئىم تەمىنلەش كېرەك",
     "__language_name__" : "ئۇيغۇرچە",
+    "Unlimited" : "چەكسىز",
     "None" : "يوق",
     "Login" : "تىزىمغا كىرىڭ",
     "Encryption" : "شىفىرلاش",
@@ -47,7 +48,6 @@ OC.L10N.register(
     "Help translate" : "تەرجىمىگە ياردەم",
     "Username" : "ئىشلەتكۈچى ئاتى",
     "Create" : "قۇر",
-    "Unlimited" : "چەكسىز",
     "Other" : "باشقا",
     "set new password" : "يېڭى ئىم تەڭشە",
     "Default" : "كۆڭۈلدىكى"

@@ -22,6 +22,7 @@ OC.L10N.register(
     "Delete" : "刪除",
     "Groups" : "群組",
     "undo" : "復原",
+    "Unlimited" : "無限",
     "None" : "空",
     "Login" : "登入",
     "SSL" : "SSL",
@@ -50,7 +51,6 @@ OC.L10N.register(
     "Create" : "新增",
     "Group" : "群組",
     "Everyone" : "所有人",
-    "Unlimited" : "無限",
     "Other" : "其他",
     "Last Login" : "最後登入",
     "Default" : "預設"
