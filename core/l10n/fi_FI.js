@@ -197,6 +197,7 @@ OC.L10N.register(
     "sunny" : "aurinkoinen",
     "Hello {name}, the weather is {weather}" : "Hei {name}, sää on {weather}",
     "Hello {name}" : "Hei {name}",
+    "new" : "uusi",
     "_download %n file_::_download %n files_" : ["lataa %n tiedosto","lataa %n tiedostoa"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Päivitys on meneillään. Poistuminen tältä sivulta saattaa keskeyttää toimenpiteen joissain käyttöympäristöissä.",
     "Updating {productName} to version {version}, this may take a while." : "Päivitetään {productName} versioon {version}, tämä saattaa kestää hetken.",

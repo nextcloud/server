@@ -195,6 +195,7 @@
     "sunny" : "ensolarado",
     "Hello {name}, the weather is {weather}" : "Olá {name}, o clima está {weather}",
     "Hello {name}" : "Olá {name}",
+    "new" : "novo",
     "_download %n file_::_download %n files_" : ["baixar %n arquivo","baixar %n arquivos"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "A atualização está em andamento, deixando esta página pode haver interrupção do processo em alguns ambientes.",
     "Updating {productName} to version {version}, this may take a while." : "Atualizando {productName} para a versão {version}, isso pode demorar um pouco.",
