@@ -394,17 +394,20 @@ class KeyManager {
 	public function getFileKey($path, $uid) {
 		$encryptedFileKey = $this->keyStorage->getFileKey($path, $this->fileKeyId, Encryption::ID);
 
+		if (empty($encryptedFileKey)) {
+			return '';
+		}
+
+		if ($this->util->isMasterKeyEnabled()) {
+			$uid = $this->getMasterKeyId();
+		}
+
 		if (is_null($uid)) {
 			$uid = $this->getPublicShareKeyId();
 			$shareKey = $this->getShareKey($path, $uid);
 			$privateKey = $this->keyStorage->getSystemUserKey($this->publicShareKeyId . '.privateKey', Encryption::ID);
 			$privateKey = $this->crypt->decryptPrivateKey($privateKey);
 		} else {
-
-			if ($this->util->isMasterKeyEnabled()) {
-				$uid = $this->getMasterKeyId();
-			}
-
 			$shareKey = $this->getShareKey($path, $uid);
 			$privateKey = $this->session->getPrivateKey();
 		}

@@ -153,6 +153,36 @@ class EncryptAllTest extends TestCase {
 
 	}
 
+	public function testEncryptAllWithMasterKey() {
+		/** @var EncryptAll  | \PHPUnit_Framework_MockObject_MockObject  $encryptAll */
+		$encryptAll = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
+			->setConstructorArgs(
+				[
+					$this->setupUser,
+					$this->userManager,
+					$this->view,
+					$this->keyManager,
+					$this->util,
+					$this->config,
+					$this->mailer,
+					$this->l,
+					$this->questionHelper,
+					$this->secureRandom
+				]
+			)
+			->setMethods(['createKeyPairs', 'encryptAllUsersFiles', 'outputPasswords'])
+			->getMock();
+
+		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(true);
+		$encryptAll->expects($this->never())->method('createKeyPairs');
+		$this->keyManager->expects($this->once())->method('validateMasterKey');
+		$encryptAll->expects($this->at(0))->method('encryptAllUsersFiles')->with();
+		$encryptAll->expects($this->never())->method('outputPasswords');
+
+		$encryptAll->encryptAll($this->inputInterface, $this->outputInterface);
+
+	}
+
 	public function testCreateKeyPairs() {
 		/** @var EncryptAll  | \PHPUnit_Framework_MockObject_MockObject  $encryptAll */
 		$encryptAll = $this->getMockBuilder('OCA\Encryption\Crypto\EncryptAll')
