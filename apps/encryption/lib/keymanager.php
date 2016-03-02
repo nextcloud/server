@@ -557,9 +557,11 @@ class KeyManager {
 	}
 
 	/**
+	 * creat a backup of the users private and public key and then  delete it
+	 *
 	 * @param string $uid
 	 */
-	public function replaceUserKeys($uid) {
+	public function deleteUserKeys($uid) {
 		$this->backupAllKeys('password_reset');
 		$this->deletePublicKey($uid);
 		$this->deletePrivateKey($uid);

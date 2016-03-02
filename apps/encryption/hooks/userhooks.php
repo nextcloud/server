@@ -296,7 +296,7 @@ class UserHooks implements IHook {
 	public function postPasswordReset($params) {
 		$password = $params['password'];
 
-		$this->keyManager->replaceUserKeys($params['uid']);
+		$this->keyManager->deleteUserKeys($params['uid']);
 		$this->userSetup->setupUser($params['uid'], $password);
 	}
 

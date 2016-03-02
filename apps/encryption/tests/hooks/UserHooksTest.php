@@ -251,7 +251,7 @@ class UserHooksTest extends TestCase {
 
 	public function testPostPasswordReset() {
 		$this->keyManagerMock->expects($this->once())
-			->method('replaceUserKeys')
+			->method('deleteUserKeys')
 			->with('testUser');
 
 		$this->userSetupMock->expects($this->once())
