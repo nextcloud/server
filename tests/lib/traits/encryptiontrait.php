@@ -63,7 +63,7 @@ trait EncryptionTrait {
 		$keyManager = $container->query('KeyManager');
 		/** @var Setup $userSetup */
 		$userSetup = $container->query('UserSetup');
-		$userSetup->setupServerSide($name, $password);
+		$userSetup->setupUser($name, $password);
 		$keyManager->init($name, $password);
 	}
 

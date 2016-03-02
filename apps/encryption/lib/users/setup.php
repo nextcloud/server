@@ -66,29 +66,23 @@ class Setup {
  	}
 
 	/**
-	 * @param string $uid userid
+	 * @param string $uid user id
 	 * @param string $password user password
 	 * @return bool
 	 */
 	public function setupUser($uid, $password) {
-		return $this->setupServerSide($uid, $password);
-	}
-
-	/**
-	 * check if user has a key pair, if not we create one
-	 *
-	 * @param string $uid userid
-	 * @param string $password user password
-	 * @return bool
-	 */
-	public function setupServerSide($uid, $password) {
-		$this->keyManager->validateShareKey();
-		$this->keyManager->validateMasterKey();
-		// Check if user already has keys
 		if (!$this->keyManager->userHasKeys($uid)) {
 			return $this->keyManager->storeKeyPair($uid, $password,
 				$this->crypt->createKeyPair());
 		}
 		return true;
+	}
+
+	/**
+	 * make sure that all system keys exists
+	 */
+	public function setupSystem() {
+		$this->keyManager->validateShareKey();
+		$this->keyManager->validateMasterKey();
 	}
 }

@@ -66,6 +66,11 @@ class Application extends \OCP\AppFramework\App {
 			$session = $this->getContainer()->query('Session');
 			$session->setStatus(Session::RUN_MIGRATION);
 		}
+		if ($this->encryptionManager->isEnabled() && $encryptionSystemReady) {
+			/** @var Setup $setup */
+			$setup = $this->getContainer()->query('UserSetup');
+			$setup->setupSystem();
+		}
 	}
 
 	/**

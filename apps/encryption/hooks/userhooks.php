@@ -117,22 +117,29 @@ class UserHooks implements IHook {
 	public function addHooks() {
 		OCUtil::connectHook('OC_User', 'post_login', $this, 'login');
 		OCUtil::connectHook('OC_User', 'logout', $this, 'logout');
-		OCUtil::connectHook('OC_User',
-			'post_setPassword',
-			$this,
-			'setPassphrase');
-		OCUtil::connectHook('OC_User',
-			'pre_setPassword',
-			$this,
-			'preSetPassphrase');
-		OCUtil::connectHook('OC_User',
-			'post_createUser',
-			$this,
-			'postCreateUser');
-		OCUtil::connectHook('OC_User',
-			'post_deleteUser',
-			$this,
-			'postDeleteUser');
+
+		// this hooks only make sense if no master key is used
+		if ($this->util->isMasterKeyEnabled() === false) {
+			OCUtil::connectHook('OC_User',
+				'post_setPassword',
+				$this,
+				'setPassphrase');
+
+			OCUtil::connectHook('OC_User',
+				'pre_setPassword',
+				$this,
+				'preSetPassphrase');
+
+			OCUtil::connectHook('OC_User',
+				'post_createUser',
+				$this,
+				'postCreateUser');
+
+			OCUtil::connectHook('OC_User',
+				'post_deleteUser',
+				$this,
+				'postDeleteUser');
+		}
 	}
 
 
@@ -151,12 +158,10 @@ class UserHooks implements IHook {
 
 		// ensure filesystem is loaded
 		if (!\OC\Files\Filesystem::$loaded) {
-			\OC_Util::setupFS($params['uid']);
+			$this->setupFS($params['uid']);
 		}
-
-		// setup user, if user not ready force relogin
-		if (!$this->userSetup->setupUser($params['uid'], $params['password'])) {
-			return false;
+		if ($this->util->isMasterKeyEnabled() === false) {
+			$this->userSetup->setupUser($params['uid'], $params['password']);
 		}
 
 		$this->keyManager->init($params['uid'], $params['password']);
@@ -292,6 +297,15 @@ class UserHooks implements IHook {
 		$password = $params['password'];
 
 		$this->keyManager->replaceUserKeys($params['uid']);
-		$this->userSetup->setupServerSide($params['uid'], $password);
+		$this->userSetup->setupUser($params['uid'], $password);
+	}
+
+	/**
+	 * setup file system for user
+	 *
+	 * @param string $uid user id
+	 */
+	protected function setupFS($uid) {
+		\OC_Util::setupFS($uid);
 	}
 }
