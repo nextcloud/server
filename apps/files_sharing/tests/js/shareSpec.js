@@ -53,35 +53,21 @@ describe('OCA.Sharing.Util tests', function() {
 			permissions: OC.PERMISSION_ALL,
 			etag: 'abc',
 			shareOwner: 'User One',
-			isShareMountPoint: false
+			isShareMountPoint: false,
+			shareTypes: [OC.Share.SHARE_TYPE_USER]
 		}];
-
-		OCA.Sharing.sharesLoaded = true;
-		OC.Share.statuses = {
-			1: {link: false, path: '/subdir'}
-		};
 	});
 	afterEach(function() {
 		delete OCA.Sharing.sharesLoaded;
 		delete OC.Share.droppedDown;
 		fileList.destroy();
 		fileList = null;
-		OC.Share.statuses = {};
-		OC.Share.currentShares = {};
 	});
 
 	describe('Sharing data in table row', function() {
 		// TODO: test data-permissions, data-share-owner, etc
 	});
 	describe('Share action icon', function() {
-		beforeEach(function() {
-			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
-			OCA.Sharing.sharesLoaded = true;
-		});
-		afterEach(function() {
-			OC.Share.statuses = {};
-			OCA.Sharing.sharesLoaded = false;
-		});
 		it('do not shows share text when not shared', function() {
 			var $action, $tr;
 			OC.Share.statuses = {};
@@ -93,7 +79,8 @@ describe('OCA.Sharing.Util tests', function() {
 				mimetype: 'httpd/unix-directory',
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
-				etag: 'abc'
+				etag: 'abc',
+				shareTypes: []
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
@@ -111,7 +98,8 @@ describe('OCA.Sharing.Util tests', function() {
 				mimetype: 'text/plain',
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
-				etag: 'abc'
+				etag: 'abc',
+				shareTypes: [OC.Share.SHARE_TYPE_USER]
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
@@ -131,7 +119,8 @@ describe('OCA.Sharing.Util tests', function() {
 				mimetype: 'text/plain',
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
-				etag: 'abc'
+				etag: 'abc',
+				shareTypes: [OC.Share.SHARE_TYPE_LINK]
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
@@ -151,7 +140,8 @@ describe('OCA.Sharing.Util tests', function() {
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
 				shareOwner: 'User One',
-				etag: 'abc'
+				etag: 'abc',
+				shareTypes: [OC.Share.SHARE_TYPE_USER]
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
@@ -171,7 +161,8 @@ describe('OCA.Sharing.Util tests', function() {
 				size: 12,
 				permissions: OC.PERMISSION_ALL,
 				recipientsDisplayName: 'User One, User Two',
-				etag: 'abc'
+				etag: 'abc',
+				shareTypes: [OC.Share.SHARE_TYPE_USER]
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
