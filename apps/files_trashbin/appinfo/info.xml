@@ -10,12 +10,12 @@ To prevent a user from running out of disk space, the ownCloud Deleted files app
 	<licence>AGPL</licence>
 	<author>Bjoern Schiessle</author>
 	<default_enable/>
-	<version>0.8.0</version>
+	<version>0.9.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
-		<owncloud min-version="9.0" max-version="9.0" />
+		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
 	<documentation>
 		<user>user-trashbin</user>

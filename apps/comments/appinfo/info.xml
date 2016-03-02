@@ -6,9 +6,9 @@
 	<licence>AGPL</licence>
 	<author>Arthur Shiwon, Vincent Petry</author>
 	<default_enable/>
-	<version>0.2</version>
+	<version>0.3.0</version>
 	<dependencies>
-		<owncloud min-version="9.0" max-version="9.0" />
+		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
 	<types>
 		<logging/>
