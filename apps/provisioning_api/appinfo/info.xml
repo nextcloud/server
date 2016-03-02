@@ -17,11 +17,11 @@
 	<documentation>
 		<admin>admin-provisioning-api</admin>
 	</documentation>
-	<version>0.4.1</version>
+	<version>0.5.0</version>
 	<types>
 		<prevent_group_restriction/>
 	</types>
 	<dependencies>
-		<owncloud min-version="9.0" max-version="9.0" />
+		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
 </info>
