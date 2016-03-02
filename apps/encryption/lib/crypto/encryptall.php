@@ -28,12 +28,12 @@ use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Files\View;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
+use OCA\Encryption\Util;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\Mail\IMailer;
 use OCP\Security\ISecureRandom;
-use OCP\Util;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\Table;
@@ -54,6 +54,9 @@ class EncryptAll {
 
 	/** @var KeyManager */
 	protected $keyManager;
+
+	/** @var Util */
+	protected $util;
 
 	/** @var array  */
 	protected $userPasswords;
@@ -84,6 +87,7 @@ class EncryptAll {
 	 * @param IUserManager $userManager
 	 * @param View $rootView
 	 * @param KeyManager $keyManager
+	 * @param Util $util
 	 * @param IConfig $config
 	 * @param IMailer $mailer
 	 * @param IL10N $l
@@ -95,6 +99,7 @@ class EncryptAll {
 		IUserManager $userManager,
 		View $rootView,
 		KeyManager $keyManager,
+		Util $util,
 		IConfig $config,
 		IMailer $mailer,
 		IL10N $l,
@@ -105,6 +110,7 @@ class EncryptAll {
 		$this->userManager = $userManager;
 		$this->rootView = $rootView;
 		$this->keyManager = $keyManager;
+		$this->util = $util;
 		$this->config = $config;
 		$this->mailer = $mailer;
 		$this->l = $l;
@@ -129,16 +135,21 @@ class EncryptAll {
 		$this->output->writeln("\n");
 		$this->output->writeln($headline);
 		$this->output->writeln(str_pad('', strlen($headline), '='));
-
-		//create private/public keys for each user and store the private key password
 		$this->output->writeln("\n");
-		$this->output->writeln('Create key-pair for every user');
-		$this->output->writeln('------------------------------');
-		$this->output->writeln('');
-		$this->output->writeln('This module will encrypt all files in the users files folder initially.');
-		$this->output->writeln('Already existing versions and files in the trash bin will not be encrypted.');
-		$this->output->writeln('');
-		$this->createKeyPairs();
+
+		if ($this->util->isMasterKeyEnabled()) {
+			$this->output->writeln('Use master key to encrypt all files.');
+			$this->keyManager->validateMasterKey();
+		} else {
+			//create private/public keys for each user and store the private key password
+			$this->output->writeln('Create key-pair for every user');
+			$this->output->writeln('------------------------------');
+			$this->output->writeln('');
+			$this->output->writeln('This module will encrypt all files in the users files folder initially.');
+			$this->output->writeln('Already existing versions and files in the trash bin will not be encrypted.');
+			$this->output->writeln('');
+			$this->createKeyPairs();
+		}
 
 		//setup users file system and encrypt all files one by one (take should encrypt setting of storage into account)
 		$this->output->writeln("\n");
@@ -146,12 +157,14 @@ class EncryptAll {
 		$this->output->writeln('----------------------------');
 		$this->output->writeln('');
 		$this->encryptAllUsersFiles();
-		//send-out or display password list and write it to a file
-		$this->output->writeln("\n");
-		$this->output->writeln('Generated encryption key passwords');
-		$this->output->writeln('----------------------------------');
-		$this->output->writeln('');
-		$this->outputPasswords();
+		if ($this->util->isMasterKeyEnabled() === false) {
+			//send-out or display password list and write it to a file
+			$this->output->writeln("\n");
+			$this->output->writeln('Generated encryption key passwords');
+			$this->output->writeln('----------------------------------');
+			$this->output->writeln('');
+			$this->outputPasswords();
+		}
 		$this->output->writeln("\n");
 	}
 
@@ -200,14 +213,40 @@ class EncryptAll {
 		$progress->start();
 		$numberOfUsers = count($this->userPasswords);
 		$userNo = 1;
-		foreach ($this->userPasswords as $uid => $password) {
-			$userCount = "$uid ($userNo of $numberOfUsers)";
-			$this->encryptUsersFiles($uid, $progress, $userCount);
-			$userNo++;
+		if ($this->util->isMasterKeyEnabled()) {
+			$this->encryptAllUserFilesWithMasterKey($progress);
+		} else {
+			foreach ($this->userPasswords as $uid => $password) {
+				$userCount = "$uid ($userNo of $numberOfUsers)";
+				$this->encryptUsersFiles($uid, $progress, $userCount);
+				$userNo++;
+			}
 		}
 		$progress->setMessage("all files encrypted");
 		$progress->finish();
 
+	}
+
+	/**
+	 * encrypt all user files with the master key
+	 *
+	 * @param ProgressBar $progress
+	 */
+	protected function encryptAllUserFilesWithMasterKey(ProgressBar $progress) {
+		$userNo = 1;
+		foreach($this->userManager->getBackends() as $backend) {
+			$limit = 500;
+			$offset = 0;
+			do {
+				$users = $backend->getUsers('', $limit, $offset);
+				foreach ($users as $user) {
+					$userCount = "$user ($userNo)";
+					$this->encryptUsersFiles($user, $progress, $userCount);
+					$userNo++;
+				}
+				$offset += $limit;
+			} while(count($users) >= $limit);
+		}
 	}
 
 	/**
@@ -384,7 +423,7 @@ class EncryptAll {
 					$message->setHtmlBody($htmlBody);
 					$message->setPlainBody($textBody);
 					$message->setFrom([
-						Util::getDefaultEmailAddress('admin-noreply')
+						\OCP\Util::getDefaultEmailAddress('admin-noreply')
 					]);
 
 					$this->mailer->send($message);

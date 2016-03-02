@@ -31,6 +31,9 @@ class EncryptAllTest extends TestCase {
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OCA\Encryption\KeyManager */
 	protected $keyManager;
 
+	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OCA\Encryption\Util */
+	protected $util;
+
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OCP\IUserManager */
 	protected $userManager;
 
@@ -73,6 +76,8 @@ class EncryptAllTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->keyManager = $this->getMockBuilder('OCA\Encryption\KeyManager')
 			->disableOriginalConstructor()->getMock();
+		$this->util = $this->getMockBuilder('OCA\Encryption\Util')
+			->disableOriginalConstructor()->getMock();
 		$this->userManager = $this->getMockBuilder('OCP\IUserManager')
 			->disableOriginalConstructor()->getMock();
 		$this->view = $this->getMockBuilder('OC\Files\View')
@@ -110,6 +115,7 @@ class EncryptAllTest extends TestCase {
 			$this->userManager,
 			$this->view,
 			$this->keyManager,
+			$this->util,
 			$this->config,
 			$this->mailer,
 			$this->l,
@@ -127,6 +133,7 @@ class EncryptAllTest extends TestCase {
 					$this->userManager,
 					$this->view,
 					$this->keyManager,
+					$this->util,
 					$this->config,
 					$this->mailer,
 					$this->l,
@@ -137,6 +144,7 @@ class EncryptAllTest extends TestCase {
 			->setMethods(['createKeyPairs', 'encryptAllUsersFiles', 'outputPasswords'])
 			->getMock();
 
+		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
 		$encryptAll->expects($this->at(0))->method('createKeyPairs')->with();
 		$encryptAll->expects($this->at(1))->method('encryptAllUsersFiles')->with();
 		$encryptAll->expects($this->at(2))->method('outputPasswords')->with();
@@ -154,6 +162,7 @@ class EncryptAllTest extends TestCase {
 					$this->userManager,
 					$this->view,
 					$this->keyManager,
+					$this->util,
 					$this->config,
 					$this->mailer,
 					$this->l,
@@ -202,6 +211,7 @@ class EncryptAllTest extends TestCase {
 					$this->userManager,
 					$this->view,
 					$this->keyManager,
+					$this->util,
 					$this->config,
 					$this->mailer,
 					$this->l,
@@ -211,6 +221,8 @@ class EncryptAllTest extends TestCase {
 			)
 			->setMethods(['encryptUsersFiles'])
 			->getMock();
+
+		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
 
 		// set protected property $output
 		$this->invokePrivate($encryptAll, 'output', [$this->outputInterface]);
@@ -232,6 +244,7 @@ class EncryptAllTest extends TestCase {
 					$this->userManager,
 					$this->view,
 					$this->keyManager,
+					$this->util,
 					$this->config,
 					$this->mailer,
 					$this->l,
@@ -239,9 +252,10 @@ class EncryptAllTest extends TestCase {
 					$this->secureRandom
 				]
 			)
-			->setMethods(['encryptFile'])
+			->setMethods(['encryptFile', 'setupUserFS'])
 			->getMock();
 
+		$this->util->expects($this->any())->method('isMasterKeyEnabled')->willReturn(false);
 
 		$this->view->expects($this->at(0))->method('getDirectoryContent')
 			->with('/user1/files')->willReturn(
@@ -268,8 +282,8 @@ class EncryptAllTest extends TestCase {
 				}
 			);
 
-		$encryptAll->expects($this->at(0))->method('encryptFile')->with('/user1/files/bar');
-		$encryptAll->expects($this->at(1))->method('encryptFile')->with('/user1/files/foo/subfile');
+		$encryptAll->expects($this->at(1))->method('encryptFile')->with('/user1/files/bar');
+		$encryptAll->expects($this->at(2))->method('encryptFile')->with('/user1/files/foo/subfile');
 
 		$progressBar = $this->getMockBuilder('Symfony\Component\Console\Helper\ProgressBar')
 			->disableOriginalConstructor()->getMock();
