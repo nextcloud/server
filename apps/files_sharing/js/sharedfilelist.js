@@ -286,6 +286,8 @@
 						// using a hash to make them unique,
 						// this is only a list to be displayed
 						data.recipients = {};
+						// share types
+						data.shareTypes = {};
 						// counter is cheaper than calling _.keys().length
 						data.recipientsCount = 0;
 						data.mtime = file.share.stime;
@@ -308,6 +310,8 @@
 						data.recipientsCount++;
 					}
 
+					data.shareTypes[file.share.type] = true;
+
 					delete file.share;
 					return memo;
 				}, {})
@@ -324,6 +328,12 @@
 						data.recipientsCount
 					);
 					delete data.recipientsCount;
+					if (self._sharedWithUser) {
+						// only for outgoing shres
+						delete data.shareTypes;
+					} else {
+						data.shareTypes = _.keys(data.shareTypes);
+					}
 				})
 				// Finish the chain by getting the result
 				.value();

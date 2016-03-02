@@ -137,6 +137,12 @@ class ServerFactory {
 
 			if($this->userSession->isLoggedIn()) {
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\TagsPlugin($objectTree, $this->tagManager));
+				$server->addPlugin(new \OCA\DAV\Connector\Sabre\SharesPlugin(
+					$objectTree,
+					$this->userSession,
+					$userFolder,
+					\OC::$server->getShareManager()
+				));
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\CommentPropertiesPlugin(\OC::$server->getCommentsManager(), $this->userSession));
 				$server->addPlugin(new \OCA\DAV\Connector\Sabre\FilesReportPlugin(
 					$objectTree,
