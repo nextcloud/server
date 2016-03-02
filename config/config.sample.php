@@ -414,6 +414,12 @@ $CONFIG = array(
 
 
 /**
+ * File versions
+ *
+ * These parameters control the Versions app.
+ */
+
+/**
  * If the versions app is enabled (default), this setting defines the policy
  * for when versions will be permanently deleted.
  * The app allows for two settings, a minimum time for version retention,
