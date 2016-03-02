@@ -325,6 +325,10 @@
 				return false;
 			}
 
+			if (result.status === 401) {
+				return false;
+			}
+
 			// Firewall Blocked request?
 			if (result.status === 403) {
 				// Go home
