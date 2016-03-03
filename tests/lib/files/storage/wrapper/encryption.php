@@ -693,11 +693,19 @@ class Encryption extends Storage {
 				$temp = \OC::$server->getTempManager();
 				return fopen($temp->getTemporaryFile(), $mode);
 			});
-
+		if($expectedEncrypted) {
+			$cache = $this->getMock('\OCP\Files\Cache\ICache');
+			$cache->expects($this->once())
+				->method('get')
+				->with($sourceInternalPath)
+				->willReturn(['encryptedVersion' => 12345]);
+			$storage2->expects($this->once())
+				->method('getCache')
+				->willReturn($cache);
+		}
 		$this->encryptionManager->expects($this->any())
 			->method('isEnabled')
 			->willReturn($encryptionEnabled);
-
 		// FIXME can not overwrite the return after definition
 //		$this->mount->expects($this->at(0))
 //			->method('getOption')
@@ -706,9 +714,16 @@ class Encryption extends Storage {
 		global $mockedMountPointEncryptionEnabled;
 		$mockedMountPointEncryptionEnabled = $mountPointEncryptionEnabled;
 
+		$expectedCachePut = [
+			'encrypted' => $expectedEncrypted,
+		];
+		if($expectedEncrypted === true) {
+			$expectedCachePut['encryptedVersion'] = 12345;
+		}
+
 		$this->cache->expects($this->once())
 			->method('put')
-			->with($sourceInternalPath, ['encrypted' => $expectedEncrypted]);
+			->with($sourceInternalPath, $expectedCachePut);
 
 		$this->invokePrivate($this->instance, 'copyBetweenStorage', [$storage2, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename]);
 
@@ -765,10 +780,10 @@ class Encryption extends Storage {
 			->with($sourceStorage, $sourceInternalPath, $targetInternalPath)
 			->willReturn($copyResult);
 
+		$instance->expects($this->any())->method('getCache')
+			->willReturn($cache);
+
 		if ($copyResult) {
-			$instance->expects($this->once())->method('getCache')
-				->with('', $sourceStorage)
-				->willReturn($cache);
 			$cache->expects($this->once())->method('get')
 				->with($sourceInternalPath)
 				->willReturn(['encrypted' => $encrypted, 'size' => 42]);
