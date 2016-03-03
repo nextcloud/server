@@ -17,8 +17,19 @@ OC.Login = _.extend(OC.Login || {}, {
 			.addClass('icon-loading-small')
 			.css('opacity', '1');
 		return true;
+	},
+
+	rememberLogin: function(){
+		if($(this).is(":checked")){
+	    	if($("#user").val() && $("#password").val()) {
+	     	 	$('#submit').trigger('click');
+	    	} 
+        }
 	}
 });
+
 $(document).ready(function() {
 	$('form[name=login]').submit(OC.Login.onLogin);
+
+	$('#remember_login').click(OC.Login.rememberLogin);
 });
