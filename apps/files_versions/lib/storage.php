@@ -191,12 +191,7 @@ class Storage {
 			$mtime = $users_view->filemtime('files/' . $filename);
 			$users_view->copy('files/' . $filename, 'files_versions/' . $filename . '.v' . $mtime);
 			// call getFileInfo to enforce a file cache entry for the new version
-			$newFileInfo = $users_view->getFileInfo('files_versions/' . $filename . '.v' . $mtime);
-
-			// Keep the "encrypted" value of the original file
-			$oldVersion = $files_view->getFileInfo($filename)->getEncryptedVersion();
-			$cache = $newFileInfo->getStorage()->getCache();
-			$cache->update($newFileInfo->getId(), ['encrypted' => $oldVersion, 'encryptedVersion' => $oldVersion]);
+			$users_view->getFileInfo('files_versions/' . $filename . '.v' . $mtime);
 		}
 	}
 
@@ -331,15 +326,22 @@ class Storage {
 
 			//first create a new version
 			$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
-			if ( !$users_view->file_exists($version)) {
-
+			if (!$users_view->file_exists($version)) {
 				$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
-
 				$versionCreated = true;
 			}
 
+			$fileToRestore =  'files_versions' . $filename . '.v' . $revision;
+
+			// Restore encrypted version of the old file for the newly restored file
+			// This has to happen manually here since the file is manually copied below
+			$oldVersion = $users_view->getFileInfo($fileToRestore)->getEncryptedVersion();
+			$newFileInfo = $files_view->getFileInfo($filename);
+			$cache = $newFileInfo->getStorage()->getCache();
+			$cache->update($newFileInfo->getId(), ['encrypted' => $oldVersion, 'encryptedVersion' => $oldVersion]);
+
 			// rollback
-			if (self::copyFileContents($users_view, 'files_versions' . $filename . '.v' . $revision, 'files' . $filename)) {
+			if (self::copyFileContents($users_view, $fileToRestore, 'files' . $filename)) {
 				$files_view->touch($file, $revision);
 				Storage::scheduleExpire($uid, $file);
 				\OC_Hook::emit('\OCP\Versions', 'rollback', array(
