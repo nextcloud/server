@@ -45,6 +45,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	const FILEID_PROPERTYNAME = '{http://owncloud.org/ns}id';
 	const INTERNAL_FILEID_PROPERTYNAME = '{http://owncloud.org/ns}fileid';
 	const PERMISSIONS_PROPERTYNAME = '{http://owncloud.org/ns}permissions';
+	const SHARE_PERMISSIONS_PROPERTYNAME = '{http://owncloud.org/ns}share-permissions';
 	const DOWNLOADURL_PROPERTYNAME = '{http://owncloud.org/ns}downloadURL';
 	const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
@@ -116,6 +117,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->protectedProperties[] = self::FILEID_PROPERTYNAME;
 		$server->protectedProperties[] = self::INTERNAL_FILEID_PROPERTYNAME;
 		$server->protectedProperties[] = self::PERMISSIONS_PROPERTYNAME;
+		$server->protectedProperties[] = self::SHARE_PERMISSIONS_PROPERTYNAME;
 		$server->protectedProperties[] = self::SIZE_PROPERTYNAME;
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_ID_PROPERTYNAME;
@@ -243,6 +245,10 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 					$perms = str_replace(['S', 'M'], '', $perms);
 				}
 				return $perms;
+			});
+
+			$propFind->handle(self::SHARE_PERMISSIONS_PROPERTYNAME, function() use ($node) {
+				return $node->getSharePermissions();
 			});
 
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function() use ($node) {

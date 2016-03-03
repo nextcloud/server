@@ -214,6 +214,39 @@ abstract class Node implements \Sabre\DAV\INode {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getSharePermissions() {
+		$storage = $this->info->getStorage();
+
+		$path = $this->info->getInternalPath();
+
+		if ($storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
+			/** @var \OC\Files\Storage\Shared $storage */
+			$permissions = (int)$storage->getShare()['permissions'];
+		} else {
+			$permissions = $storage->getPermissions($path);
+		}
+
+		/*
+		 * Without sharing permissions there are also no other permissions
+		 */
+		if (!($permissions & \OCP\Constants::PERMISSION_SHARE) ||
+			!($permissions & \OCP\Constants::PERMISSION_READ)) {
+			return 0;
+		}
+
+		/*
+		 * Files can't have create or delete permissions
+		 */
+		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+			$permissions &= ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE);
+		}
+
+		return $permissions;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getDavPermissions() {

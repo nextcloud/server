@@ -566,3 +566,107 @@ Feature: sharing
       | path | welcome.txt |
       | shareType | 3      |
     Then share ids should match
+
+  Scenario: Correct webdav share-permissions for owned file
+    Given user "user0" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    When as "user0" gets properties of folder "/tmp.txt" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "19"
+
+  Scenario: Correct webdav share-permissions for received file with edit and reshare permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    And file "tmp.txt" of user "user0" is shared with user "user1"
+    When as "user1" gets properties of folder "/tmp.txt" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "19"
+
+  Scenario: Correct webdav share-permissions for received file with edit permissions but no reshare permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    And file "tmp.txt" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 3 |
+    When as "user1" gets properties of folder "/tmp.txt" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "0"
+
+  Scenario: Correct webdav share-permissions for received file with reshare permissions but no edit permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    And file "tmp.txt" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 17 |
+    When as "user1" gets properties of folder "/tmp.txt" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "17"
+
+  Scenario: Correct webdav share-permissions for owned folder
+    Given user "user0" exists
+    And user "user0" created a folder "/tmp"
+    When as "user0" gets properties of folder "/" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "31"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "31"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions but edit
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 29 |
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "29"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions but create
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 27 |
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "27"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions but delete
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 23 |
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "23"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions but share
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 15 |
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://owncloud.org/ns}share-permissions|
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "0"
