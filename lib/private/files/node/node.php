@@ -356,4 +356,28 @@ class Node implements \OCP\Files\Node {
 	public function getChecksum() {
 		return;
 	}
+
+	/**
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function lock($type) {
+		$this->view->lockFile($this->path, $type);
+	}
+
+	/**
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function changeLock($type) {
+		$this->view->changeLock($this->path, $type);
+	}
+
+	/**
+	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
+	 * @throws \OCP\Lock\LockedException
+	 */
+	public function unlock($type) {
+		$this->view->unlockFile($this->path, $type);
+	}
 }
