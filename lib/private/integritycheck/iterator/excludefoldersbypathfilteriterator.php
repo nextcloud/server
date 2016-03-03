@@ -35,8 +35,9 @@ class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 		$excludedFolders = [
 			rtrim($root . '/data', '/'),
 			rtrim($root .'/themes', '/'),
-			rtrim($root.'/config', '/'),
-			rtrim($root.'/apps', '/'),
+			rtrim($root . '/config', '/'),
+			rtrim($root . '/apps', '/'),
+			rtrim($root . '/assets', '/'),
 		];
 		$customDataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', '');
 		if($customDataDir !== '') {
