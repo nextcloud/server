@@ -54,6 +54,7 @@
     "Your storage is full, files can not be updated or synced anymore!" : "مساحتك التخزينية ممتلئة, لا يمكن تحديث ملفاتك أو مزامنتها بعد الآن !",
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "المساحة التخزينية لـ {owner} ممتلئة تقريبا ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "مساحتك التخزينية امتلأت تقريبا ",
+    "Path" : "المسار",
     "Favorite" : "المفضلة",
     "Folder" : "مجلد",
     "New folder" : "مجلد جديد",

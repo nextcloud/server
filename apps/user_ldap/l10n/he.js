@@ -128,6 +128,7 @@ OC.L10N.register(
     "Base Group Tree" : "עץ קבוצה בסיסי",
     "Group Search Attributes" : "מאפייני חיפוש קבוצה",
     "Dynamic Group Member URL" : "נתיב חבר קבוצה דינמית",
+    "Nested Groups" : "קבוצות משנה",
     "Special Attributes" : "מאפיינים מיוחדים",
     "Quota Field" : "שדה מכסה",
     "Quota Default" : "ברירת מחדל מכסה",

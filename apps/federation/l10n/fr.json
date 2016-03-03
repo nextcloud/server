@@ -4,6 +4,6 @@
     "No ownCloud server found" : "Aucun serveur ownCloud trouvé",
     "Could not add server" : "Impossible d'ajouter le serveur",
     "Federation" : "Fédération",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La Fédération ownCloud vous permet de vous connecter avec d'autres ownCloud de confiance pour partager l'annuaire d'utilisateurs. Par exemple, cela peut être utilisé pour compléter automatiquement les noms des utilisateurs externes pour le partage fédéré."
+    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La Fédération ownCloud permet la connexion à d'autres instances ownCloud de confiance pour partager les annuaires d'utilisateurs. Cela peut par exemple être utilisé pour compléter automatiquement les noms des utilisateurs externes lors d'un partage vers une autre instance."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

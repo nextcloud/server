@@ -197,6 +197,7 @@ OC.L10N.register(
     "sunny" : "שמשי",
     "Hello {name}, the weather is {weather}" : "שלום {name}, מזג האוויר הנו {weather}",
     "Hello {name}" : "שלום {name}",
+    "new" : "חדש",
     "_download %n file_::_download %n files_" : ["הורד %n קובץ","הורדו %n קבצים"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "מתבצע עכשיו שדרוג, מעבר מדף זה עלול לפגוע בתהליך בסביבות הפעלה מסויימות.",
     "Updating {productName} to version {version}, this may take a while." : "מעדכן {productName} לגרסה {version}, זה יקח זמן מה.",
