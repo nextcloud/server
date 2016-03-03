@@ -23,6 +23,7 @@
 
 namespace OCA\Files_External\Config;
 
+use OC\Files\Storage\Wrapper\Availability;
 use OCA\Files_external\Migration\StorageMigrator;
 use OCP\Files\Storage;
 use OC\Files\Mount\MountPoint;
@@ -132,7 +133,7 @@ class ConfigAdapter implements IMountProvider {
 
 			try {
 				$availability = $impl->getAvailability();
-				if (!$availability['available']) {
+				if (!$availability['available'] && !Availability::shouldRecheck($availability)) {
 					$impl = new FailedStorage(['exception' => null]);
 				}
 			} catch (\Exception $e) {
