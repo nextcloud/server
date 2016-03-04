@@ -104,3 +104,5 @@ if ($installedVersion === '1.1.9' && (
 if(defined('DEBUG') && DEBUG === true) {
 	\OC::$server->getConfig()->setSystemValue('debug', true);
 }
+
+\OC::$server->getJobList()->add('OCA\Files\BackgroundJob\CleanupFileLocks');
