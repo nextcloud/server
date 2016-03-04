@@ -285,6 +285,7 @@ Feature: provisioning
 			| comments |
 			| dav |
 			| federatedfilesharing |
+			| federation |
 			| files |
 			| files_sharing |
 			| files_trashbin |
