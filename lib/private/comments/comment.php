@@ -362,7 +362,7 @@ class Comment implements IComment {
 	protected function fromArray($data) {
 		foreach(array_keys($data) as $key) {
 			// translate DB keys to internal setter names
-			$setter = 'set' . str_replace('_', '', ucwords($key,'_'));
+			$setter = 'set' . implode('', array_map('ucfirst', explode('_', $key)));
 			$setter = str_replace('Timestamp', 'DateTime', $setter);
 
 			if(method_exists($this, $setter)) {
