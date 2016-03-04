@@ -22,7 +22,9 @@
 namespace OCA\UpdateNotification\AppInfo;
 
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Updater;
 use OCA\UpdateNotification\Controller\AdminController;
+use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 
@@ -32,13 +34,21 @@ class Application extends App {
 		$container = $this->getContainer();
 
 		$container->registerService('AdminController', function(IAppContainer $c) {
+			$updater = new \OC\Updater(
+				\OC::$server->getHTTPHelper(),
+				\OC::$server->getConfig(),
+				\OC::$server->getIntegrityCodeChecker()
+			);
 			return new AdminController(
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->getServer()->getJobList(),
 				$c->getServer()->getSecureRandom(),
 				$c->getServer()->getConfig(),
-				new TimeFactory()
+				new TimeFactory(),
+				$c->getServer()->getL10N($c->query('AppName')),
+				new UpdateChecker($updater),
+				$c->getServer()->getDateTimeFormatter()
 			);
 		});
 	}
