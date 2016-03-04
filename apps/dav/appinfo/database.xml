@@ -283,7 +283,7 @@ CREATE TABLE calendarobjects (
 		description TEXT,
 		calendarorder INT(11) UNSIGNED NOT NULL DEFAULT '0',
 		calendarcolor VARBINARY(10),
-		timezone TEXT,
+		timezone CLOB,
 		components VARBINARY(20),
 		transparent TINYINT(1) NOT NULL DEFAULT '0',
 		UNIQUE(principaluri, uri)
@@ -337,7 +337,7 @@ CREATE TABLE calendarobjects (
 		</field>
 		<field>
 			<name>timezone</name>
-			<type>text</type>
+			<type>clob</type>
 		</field>
 		<field>
 			<name>components</name>
