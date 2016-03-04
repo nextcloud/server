@@ -656,4 +656,24 @@ describe('OCA.Files.FileActions tests', function() {
 			});
 		});
 	});
+	describe('download spinner', function() {
+		var FileActions = OCA.Files.FileActions;
+		var $el;
+
+		beforeEach(function() {
+			$el = $('<a href="#"><span class="icon icon-download"></span><span>Download</span></a>');
+		});
+
+		it('replaces download icon with spinner', function() {
+			FileActions.updateFileActionSpinner($el, true);
+			expect($el.find('.icon.loading').length).toEqual(1);
+			expect($el.find('.icon.icon-download').hasClass('hidden')).toEqual(true);
+		});
+		it('replaces spinner back with download icon with spinner', function() {
+			FileActions.updateFileActionSpinner($el, true);
+			FileActions.updateFileActionSpinner($el, false);
+			expect($el.find('.icon.loading').length).toEqual(0);
+			expect($el.find('.icon.icon-download').hasClass('hidden')).toEqual(false);
+		});
+	});
 });
