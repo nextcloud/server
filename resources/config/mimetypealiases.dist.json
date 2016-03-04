@@ -56,6 +56,7 @@
 	"application/vnd.visio": "x-office/document",
 	"application/vnd.wordperfect": "x-office/document",
 	"application/x-7z-compressed": "package/x-generic",
+	"application/x-bzip2": "package/x-generic",
 	"application/x-cbr": "text",
 	"application/x-compressed": "package/x-generic",
 	"application/x-dcraw": "image",
