@@ -659,19 +659,18 @@
 	 * Replaces the download icon with a loading spinner and vice versa
 	 * - also adds the class disabled to the passed in element
 	 *
-	 * @param downloadButtonElement download fileaction
+	 * @param {jQuery} $downloadButtonElement download fileaction
 	 * @param {boolean} showIt whether to show the spinner(true) or to hide it(false)
 	 */
-	OCA.Files.FileActions.updateFileActionSpinner = function(downloadButtonElement, showIt) {
-		var icon = downloadButtonElement.find('img'),
-			sourceImage = icon.attr('src');
-
-		if(showIt) {
-			downloadButtonElement.addClass('disabled');
-			icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
+	OCA.Files.FileActions.updateFileActionSpinner = function($downloadButtonElement, showIt) {
+		var $icon = $downloadButtonElement.find('.icon');
+		if (showIt) {
+			var $loadingIcon = $('<span class="icon loading"></span>');
+			$icon.after($loadingIcon);
+			$icon.addClass('hidden');
 		} else {
-			downloadButtonElement.removeClass('disabled');
-			icon.attr('src', sourceImage.replace('loading-small.gif', 'actions/download.svg'));
+			$downloadButtonElement.find('.loading').remove();
+			$downloadButtonElement.find('.icon').removeClass('hidden');
 		}
 	};
 
