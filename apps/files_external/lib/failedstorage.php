@@ -39,6 +39,9 @@ class FailedStorage extends Common {
 	 */
 	public function __construct($params) {
 		$this->e = $params['exception'];
+		if (!$this->e) {
+			throw new \InvalidArgumentException('Missing "exception" argument in FailedStorage constructor');
+		}
 	}
 
 	public function getId() {
