@@ -22,11 +22,14 @@
 namespace OCA\UpdateNotification\Tests\Controller;
 
 use OCA\UpdateNotification\Controller\AdminController;
+use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
+use OCP\IDateTimeFormatter;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 use Test\TestCase;
@@ -44,6 +47,12 @@ class AdminControllerTest extends TestCase {
 	private $adminController;
 	/** @var ITimeFactory */
 	private $timeFactory;
+	/** @var IL10N */
+	private $l10n;
+	/** @var UpdateChecker */
+	private $updateChecker;
+	/** @var IDateTimeFormatter */
+	private $dateTimeFormatter;
 
 	public function setUp() {
 		parent::setUp();
@@ -53,6 +62,10 @@ class AdminControllerTest extends TestCase {
 		$this->secureRandom = $this->getMock('\\OCP\\Security\\ISecureRandom');
 		$this->config = $this->getMock('\\OCP\\IConfig');
 		$this->timeFactory = $this->getMock('\\OCP\\AppFramework\\Utility\\ITimeFactory');
+		$this->l10n = $this->getMock('\\OCP\\IL10N');
+		$this->updateChecker = $this->getMockBuilder('\\OCA\\UpdateNotification\\UpdateChecker')
+			->disableOriginalConstructor()->getMock();
+		$this->dateTimeFormatter = $this->getMock('\\OCP\\IDateTimeFormatter');
 
 		$this->adminController = new AdminController(
 			'updatenotification',
@@ -60,14 +73,93 @@ class AdminControllerTest extends TestCase {
 			$this->jobList,
 			$this->secureRandom,
 			$this->config,
-			$this->timeFactory
+			$this->timeFactory,
+			$this->l10n,
+			$this->updateChecker,
+			$this->dateTimeFormatter
 		);
 	}
 
-	public function testDisplayPanel() {
-		$expected = new TemplateResponse('updatenotification', 'admin', [], '');
+	public function testDisplayPanelWithUpdate() {
+		$channels = [
+			'daily',
+			'beta',
+			'stable',
+			'production',
+		];
+		$currentChannel = \OCP\Util::getChannel();
+
+		// Remove the currently used channel from the channels list
+		if(($key = array_search($currentChannel, $channels)) !== false) {
+			unset($channels[$key]);
+		}
+
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'lastupdatedat')
+			->willReturn('12345');
+		$this->dateTimeFormatter
+			->expects($this->once())
+			->method('formatDateTime')
+			->with('12345')
+			->willReturn('LastCheckedReturnValue');
+		$this->updateChecker
+			->expects($this->once())
+			->method('getUpdateState')
+			->willReturn(['foo' => 'bar']);
+
+		$params = [
+			'isNewVersionAvailable' => true,
+			'lastChecked' => 'LastCheckedReturnValue',
+			'currentChannel' => \OCP\Util::getChannel(),
+			'channels' => $channels,
+		];
+
+		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
 		$this->assertEquals($expected, $this->adminController->displayPanel());
 	}
+
+	public function testDisplayPanelWithoutUpdate() {
+		$channels = [
+			'daily',
+			'beta',
+			'stable',
+			'production',
+		];
+		$currentChannel = \OCP\Util::getChannel();
+
+		// Remove the currently used channel from the channels list
+		if(($key = array_search($currentChannel, $channels)) !== false) {
+			unset($channels[$key]);
+		}
+
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('core', 'lastupdatedat')
+			->willReturn('12345');
+		$this->dateTimeFormatter
+			->expects($this->once())
+			->method('formatDateTime')
+			->with('12345')
+			->willReturn('LastCheckedReturnValue');
+		$this->updateChecker
+			->expects($this->once())
+			->method('getUpdateState')
+			->willReturn([]);
+
+		$params = [
+			'isNewVersionAvailable' => false,
+			'lastChecked' => 'LastCheckedReturnValue',
+			'currentChannel' => \OCP\Util::getChannel(),
+			'channels' => $channels,
+		];
+
+		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
+		$this->assertEquals($expected, $this->adminController->displayPanel());
+	}
+
 
 	public function testCreateCredentials() {
 		$this->jobList

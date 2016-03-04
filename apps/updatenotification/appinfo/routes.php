@@ -24,4 +24,5 @@ namespace OCA\UpdateNotification\AppInfo;
 $application = new Application();
 $application->registerRoutes($this, ['routes' => [
 	['name' => 'Admin#createCredentials', 'url' => '/credentials', 'verb' => 'GET'],
+	['name' => 'Admin#setChannel', 'url' => '/channel', 'verb' => 'POST'],
 ]]);
