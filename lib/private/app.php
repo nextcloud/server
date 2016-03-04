@@ -567,7 +567,7 @@ class OC_App {
 	}
 
 	/**
-	 * get the last version of the app from appinfo/info.xml
+	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
 	 *
 	 * @param string $appId
 	 * @return string
@@ -587,9 +587,14 @@ class OC_App {
 	 * @return string
 	 */
 	public static function getAppVersionByPath($path) {
+		$versionFile = $path . '/appinfo/version';
 		$infoFile = $path . '/appinfo/info.xml';
-		$appData = self::getAppInfo($infoFile, true);
-		return isset($appData['version']) ? $appData['version'] : '';
+		if (is_file($versionFile)) {
+			return trim(file_get_contents($versionFile));
+		} else {
+			$appData = self::getAppInfo($infoFile, true);
+			return isset($appData['version']) ? $appData['version'] : '';
+		}
 	}
 
 
