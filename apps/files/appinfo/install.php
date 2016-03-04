@@ -24,3 +24,4 @@
 // Cron job for scanning user storages
 \OC::$server->getJobList()->add('OCA\Files\BackgroundJob\ScanFiles');
 \OC::$server->getJobList()->add('OCA\Files\BackgroundJob\DeleteOrphanedItems');
+\OC::$server->getJobList()->add('OCA\Files\BackgroundJob\CleanupFileLocks');
