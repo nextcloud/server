@@ -13,7 +13,7 @@ OC.L10N.register(
     "[Deleted user]" : "[Verwijderde gebruiker]",
     "No other comments available" : "Geen andere reacties beschikbaar",
     "More comments..." : "Meer reacties...",
-    "Save" : "Bewaren",
+    "Save" : "Opslaan",
     "Allowed characters {count} of {max}" : "{count} van de {max} toegestane tekens",
     "{count} unread comments" : "{count} ongelezen reacties",
     "Comment" : "Reactie"

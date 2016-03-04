@@ -1,5 +1,5 @@
 OC.L10N.register(
-    "user_ldap",
+    "files_sharing",
     {
     "Password" : "Password"
 },

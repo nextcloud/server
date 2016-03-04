@@ -25,6 +25,7 @@
     "Encryption App is enabled and ready" : "Verschlüsselungs-App ist aktiviert und bereit",
     "Bad Signature" : "Falsche Signatur",
     "Missing Signature" : "Fehlende Signatur",
+    "one-time password for server-side-encryption" : "Einmalpasswort für Serverseitige Verschlüsselung",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Diese Datei kann nicht entschlüsselt werden, es handelt sich wahrscheinlich um eine geteilte Datei. Bitte kontaktieren Sie den Eigentümer der Datei und bitten Sie darum, die Datei noch einmal mit Ihnen zu teilen.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Diese Datei kann nicht gelesen werden, es handelt sich wahrscheinlich um eine geteilte Datei. Bitte kontaktieren Sie den Eigentümer der Datei und bitten Sie darum, die Datei noch einmal mit Ihnen zu teilen.",
     "The share will expire on %s." : "Die Freigabe wird am %s ablaufen.",

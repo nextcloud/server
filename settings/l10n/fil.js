@@ -1,7 +1,6 @@
 OC.L10N.register(
-    "core",
+    "settings",
     {
-    "Error" : "Error",
     "Password" : "Password",
     "Username" : "Username"
 },

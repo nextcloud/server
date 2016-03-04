@@ -1,6 +1,6 @@
 OC.L10N.register(
-    "user_ldap",
+    "files_trashbin",
     {
-    "Password" : "Password"
+    "Error" : "Error"
 },
 "nplurals=2; plural=(n > 1);");

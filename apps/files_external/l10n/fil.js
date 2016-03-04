@@ -1,6 +1,7 @@
 OC.L10N.register(
-    "user_ldap",
+    "files_external",
     {
+    "Username" : "Username",
     "Password" : "Password"
 },
 "nplurals=2; plural=(n > 1);");

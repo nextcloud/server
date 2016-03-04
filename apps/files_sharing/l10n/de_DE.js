@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Server to server sharing is not enabled on this server" : "Das Server-zu-Server-Teilen ist auf diesem Server nicht aktiviert",
     "The mountpoint name contains invalid characters." : "Der Name des Einhängepunktes enthält ungültige Zeichen.",
+    "Not allowed to create a federated share with the same user server" : "Das Erstellen einer föderierten Freigabe mit dem gleichen Benutzerserver ist nicht erlaubt",
     "Invalid or untrusted SSL certificate" : "Ungültiges oder nicht vertrauenswürdiges SSL-Zertifikat",
     "Could not authenticate to remote share, password might be wrong" : "Die Authentifizierung an der entfernten Freigabe konnte nicht erfolgen, das Passwort könnte falsch sein",
     "Storage not valid" : "Speicher ungültig",
@@ -38,6 +39,8 @@ OC.L10N.register(
     "Public shared folder %1$s was downloaded" : "Der öffentliche geteilte Ordner %1$s wurde heruntergeladen",
     "Public shared file %1$s was downloaded" : "Die öffentliche geteilte Datei %1$s wurde heruntergeladen",
     "You shared %1$s with %2$s" : "Sie haben %1$s mit %2$s geteilt",
+    "%2$s shared %1$s with %3$s" : "%2$s hat %1$s mit %3$s geteilt",
+    "You removed the share of %2$s for %1$s" : "Sie haben die Freigabe von %2$s für %1$s gelöscht",
     "You shared %1$s with group %2$s" : "Sie haben %1$s mit der Gruppe %2$s geteilt",
     "You shared %1$s via link" : "Sie haben %1$s über einen Link geteilt",
     "%2$s shared %1$s with you" : "%2$s hat %1$s mit Ihnen geteilt",
