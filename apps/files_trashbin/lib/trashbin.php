@@ -204,7 +204,7 @@ class Trashbin {
 
 		$ownerView = new View('/' . $owner);
 		// file has been deleted in between
-		if (!$ownerView->file_exists('/files/' . $ownerPath)) {
+		if (is_null($ownerPath) || $ownerPath === '' || !$ownerView->file_exists('/files/' . $ownerPath)) {
 			return true;
 		}
 
