@@ -179,7 +179,7 @@ class Trashbin {
 
 		$view = new \OC\Files\View('/' . $user);
 		// file has been deleted in between
-		if (!$view->file_exists('/files/' . $file_path)) {
+		if (is_null($ownerPath) || $ownerPath === '' || !$view->file_exists('/files/' . $file_path)) {
 			return true;
 		}
 
