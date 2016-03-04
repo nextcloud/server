@@ -31,9 +31,11 @@ if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
 
 	$userObject = \OC::$server->getUserSession()->getUser();
 	if($userObject !== null) {
-		if(\OC::$server->getGroupManager()->isAdmin($userObject->getUID()) && $updateChecker->getUpdateState() !== []) {
-			\OCP\Util::addScript('updatenotification', 'notification');
-			OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'getJavaScript');
+		if(\OC::$server->getGroupManager()->isAdmin($userObject->getUID())) {
+			if($updateChecker->getUpdateState() !== []) {
+				\OCP\Util::addScript('updatenotification', 'notification');
+				OC_Hook::connect('\OCP\Config', 'js', $updateChecker, 'getJavaScript');
+			}
 			\OC_App::registerAdmin('updatenotification', 'admin');
 		}
 	}
