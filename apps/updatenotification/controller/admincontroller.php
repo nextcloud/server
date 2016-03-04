@@ -21,12 +21,15 @@
 
 namespace OCA\UpdateNotification\Controller;
 
+use OCA\UpdateNotification\UpdateChecker;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJobList;
 use OCP\IConfig;
+use OCP\IDateTimeFormatter;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
 
@@ -39,6 +42,12 @@ class AdminController extends Controller {
 	private $config;
 	/** @var ITimeFactory */
 	private $timeFactory;
+	/** @var UpdateChecker */
+	private $updateChecker;
+	/** @var IL10N */
+	private $l10n;
+	/** @var IDateTimeFormatter */
+	private $dateTimeFormatter;
 
 	/**
 	 * @param string $appName
@@ -47,25 +56,70 @@ class AdminController extends Controller {
 	 * @param ISecureRandom $secureRandom
 	 * @param IConfig $config
 	 * @param ITimeFactory $timeFactory
+	 * @param IL10N $l10n
+	 * @param UpdateChecker $updateChecker
+	 * @param IDateTimeFormatter $dateTimeFormatter
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								IJobList $jobList,
 								ISecureRandom $secureRandom,
 								IConfig $config,
-								ITimeFactory $timeFactory) {
+								ITimeFactory $timeFactory,
+								IL10N $l10n,
+								UpdateChecker $updateChecker,
+								IDateTimeFormatter $dateTimeFormatter) {
 		parent::__construct($appName, $request);
 		$this->jobList = $jobList;
 		$this->secureRandom = $secureRandom;
 		$this->config = $config;
 		$this->timeFactory = $timeFactory;
+		$this->l10n = $l10n;
+		$this->updateChecker = $updateChecker;
+		$this->dateTimeFormatter = $dateTimeFormatter;
 	}
 
 	/**
 	 * @return TemplateResponse
 	 */
 	public function displayPanel() {
-		return new TemplateResponse($this->appName, 'admin', [], '');
+		$lastUpdateCheck = $this->dateTimeFormatter->formatDateTime(
+			$this->config->getAppValue('core', 'lastupdatedat')
+		);
+
+		$channels = [
+			'daily',
+			'beta',
+			'stable',
+			'production',
+		];
+		$currentChannel = \OCP\Util::getChannel();
+
+		// Remove the currently used channel from the channels list
+		if(($key = array_search($currentChannel, $channels)) !== false) {
+			unset($channels[$key]);
+		}
+
+		$params = [
+			'isNewVersionAvailable' => ($this->updateChecker->getUpdateState() === []) ? false : true,
+			'lastChecked' => $lastUpdateCheck,
+			'currentChannel' => $currentChannel,
+			'channels' => $channels,
+		];
+
+		return new TemplateResponse($this->appName, 'admin', $params, '');
+	}
+
+	/**
+	 * @UseSession
+	 *
+	 * @param string $channel
+	 * @return DataResponse
+	 */
+	public function setChannel($channel) {
+		\OCP\Util::setChannel($channel);
+		$this->config->setAppValue('core', 'lastupdatedat', 0);
+		return new DataResponse(['status' => 'success', 'data' => ['message' => $this->l10n->t('Updated channel')]]);
 	}
 
 	/**
