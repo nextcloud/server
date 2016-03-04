@@ -235,10 +235,17 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 */
 	public function cleanExpiredLocks() {
 		$expire = $this->timeFactory->getTime();
-		$this->connection->executeUpdate(
-			'DELETE FROM `*PREFIX*file_locks` WHERE `ttl` < ?',
-			[$expire]
-		);
+		try {
+			$this->connection->executeUpdate(
+				'DELETE FROM `*PREFIX*file_locks` WHERE `ttl` < ?',
+				[$expire]
+			);
+		} catch (\Exception $e) {
+			// If the table is missing, the clean up was successful
+			if ($this->connection->tableExists('file_locks')) {
+				throw $e;
+			}
+		}
 	}
 
 	/**
@@ -254,17 +261,6 @@ class DBLockingProvider extends AbstractLockingProvider {
 					'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` - 1 WHERE `key` = ? AND `lock` > 0',
 					[$path]
 				);
-			}
-		}
-	}
-
-	public function __destruct() {
-		try {
-			$this->cleanExpiredLocks();
-		} catch (\Exception $e) {
-			// If the table is missing, the clean up was successful
-			if ($this->connection->tableExists('file_locks')) {
-				throw $e;
 			}
 		}
 	}
