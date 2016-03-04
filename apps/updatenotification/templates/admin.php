@@ -1,8 +1,42 @@
-<?php script('updatenotification', 'admin') ?>
-<form id="oca_updatenotification" class="section">
+<?php
+	script('updatenotification', 'admin');
+
+	/** @var array $_ */
+	/** @var bool $isNewVersionAvailable */
+	$isNewVersionAvailable = $_['isNewVersionAvailable'];
+	/** @var string $newVersionString */
+	$newVersionString = $_['newVersionString'];
+	/** @var string $lastCheckedDate */
+	$lastCheckedDate = $_['lastChecked'];
+	/** @var array $channels */
+	$channels = $_['channels'];
+	/** @var string $currentChannel */
+	$currentChannel = $_['currentChannel'];
+?>
+<form id="oca_updatenotification_section" class="section">
 	<h2><?php p($l->t('Updater')); ?></h2>
+
+	<?php if($isNewVersionAvailable === true): ?>
+		<strong><?php p($l->t('A new version is available: %s', [$newVersionString])); ?></strong>
+		<input type="button" id="oca_updatenotification_button" value="<?php p($l->t('Open updater')) ?>">
+	<?php else: ?>
+		<strong><?php print_unescaped($l->t('Your version is up to date.')); ?></strong>
+		<span class="icon-info svg" title="<?php p($l->t('Checked on %s', [$lastCheckedDate])) ?>"></span>
+	<?php endif; ?>
+
 	<p>
-		<?php p($l->t('For security reasons the built-in ownCloud updater is using additional credentials. To visit the updater page please click the following button.')) ?>
+		<label for="release-channel"><?php p($l->t('Update channel:')) ?></label>
+		<select id="release-channel">
+			<option value="<?php p($currentChannel); ?>"><?php p($currentChannel); ?></option>
+			<?php foreach ($channels as $channel => $channelTitle){ ?>
+				<option value="<?php p($channelTitle) ?>">
+					<?php p($channelTitle) ?>
+				</option>
+			<?php } ?>
+		</select>
+		<span id="channel_save_msg"></span>
 	</p>
-	<input type="button" id="oca_updatenotification" value="<?php p($l->t('Open updater')) ?>">
+	<p>
+		<em><?php p($l->t('You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel.')); ?></em>
+	</p>
 </form>

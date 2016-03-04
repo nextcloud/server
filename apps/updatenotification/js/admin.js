@@ -15,7 +15,7 @@
  */
 var loginToken = '';
 $(document).ready(function(){
-	$('#oca_updatenotification').click(function() {
+	$('#oca_updatenotification_button').click(function() {
 		// Load the new token
 		$.ajax({
 			url: OC.generateUrl('/apps/updatenotification/credentials')
@@ -38,5 +38,17 @@ $(document).ready(function(){
 				}
 			});
 		});
+	});
+	$('#release-channel').change(function() {
+		var newChannel = $('#release-channel').find(":selected").val();
+		$.post(
+			OC.generateUrl('/apps/updatenotification/channel'),
+			{
+				'channel': newChannel
+			},
+			function(data){
+				OC.msg.finishedAction('#channel_save_msg', data);
+			}
+		);
 	});
 });
