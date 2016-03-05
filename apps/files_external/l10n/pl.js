@@ -30,6 +30,7 @@ OC.L10N.register(
     "Client ID" : "ID klienta",
     "Client secret" : "Hasło klienta",
     "API key" : "Klucz API",
+    "RSA public key" : "Klucz publiczny RSA",
     "Public key" : "Klucz publiczny",
     "Amazon S3" : "Amazon S3",
     "Bucket" : "Kosz",

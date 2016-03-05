@@ -3,7 +3,8 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "{version} זמינה. ניתן לקבל מידע נוסף על איך לעדכן.",
     "Updater" : "מעדכן",
-    "For security reasons the built-in ownCloud updater is using additional credentials. To visit the updater page please click the following button." : "מסיבות הבטחה מעדכן ה- ownCloud המובנה משתמש באימות נוסף. לביקור בעמוד העדכון יש ללחוץ על הכפתור הבא.",
-    "Open updater" : "פתיחת מעדכן"
+    "Open updater" : "פתיחת מעדכן",
+    "Update channel:" : "עדכון ערוץ:",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "תמיד ניתן לעדכן לגרסה חדשה / ערוץ ניסיון. אבל לא ניתן להוריד גרסה לערוץ יציב יותר."
 },
 "nplurals=2; plural=(n != 1);");

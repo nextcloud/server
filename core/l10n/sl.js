@@ -8,7 +8,7 @@ OC.L10N.register(
     "Maintenance mode is kept active" : "Vzdrževalni način je še vedno dejaven",
     "Updating database schema" : "Poteka posodabljanje sheme podatkovne zbirke",
     "Updated database" : "Posodobljena podatkovna zbirka",
-    "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Preverjam, ali lahko posodobim strukturo baze (lahko traja dlje zaradi velikosti baze)",
+    "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Preverjam, ali lahko posodobim strukturo baze (zaradi velikosti lahko traja dlje časa)",
     "Checked database schema update" : "Izbrana posodobitev sheme podatkovne zbirke",
     "Checking updates of apps" : "Poteka preverjanje za posodobitve programov",
     "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Preverjam, ali lahko posodobim strukturo baze za %s (lahko traja dlje zaradi velikosti baze)",

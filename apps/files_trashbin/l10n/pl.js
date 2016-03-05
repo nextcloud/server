@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete" : "Usuń",
     "Delete permanently" : "Trwale usuń",
     "Error" : "Błąd",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Ten folder jest niedostępny, proszę sprawdzić logi lub skontaktować się z administratorem.",
     "restored" : "przywrócony",
     "No deleted files" : "Brak skasowanych plików",
     "You will be able to recover deleted files from here" : "Możesz przywrócić skasowane pliki stąd",

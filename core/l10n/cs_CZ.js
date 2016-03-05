@@ -194,6 +194,7 @@ OC.L10N.register(
     "sunny" : "slunečno",
     "Hello {name}, the weather is {weather}" : "Ahoj {name}, je {weather}",
     "Hello {name}" : "Vítej, {name}",
+    "new" : "nový",
     "_download %n file_::_download %n files_" : ["stáhnout %n soubor","stáhnout %n soubory","stáhnout %n souborů"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Probíhá aktualizace, opuštění této stránky může v některých prostředích přerušit proces.",
     "Updating {productName} to version {version}, this may take a while." : "Aktualizuji {productName} na verzi {version}, může to chvíli trvat.",

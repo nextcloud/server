@@ -48,9 +48,9 @@
     "The name \"{targetName}\" is already used in the folder \"{dir}\". Please choose a different name." : "De naam \"{targetName}\" bestaat al in map \"{dir}\". Kies een andere naam.",
     "Could not rename \"{fileName}\"" : "Kon \"{fileName}\" niet hernoemen",
     "Could not create file \"{file}\"" : "Kon \"{file}\" niet aanmaken",
-    "Could not create file \"{file}\" because it already exists" : "Kon \"{file}\" niet aanmaken omdat het al bestaat",
+    "Could not create file \"{file}\" because it already exists" : "Kon \"{file}\" niet aanmaken, omdat het al bestaat",
     "Could not create folder \"{dir}\"" : "Kon map \"{dir}\" niet aanmaken",
-    "Could not create folder \"{dir}\" because it already exists" : "Kon map \"{dir}\" niet aanmaken omdat die al bestaat",
+    "Could not create folder \"{dir}\" because it already exists" : "Kon map \"{dir}\" niet aanmaken, omdat die al bestaat",
     "Error deleting file \"{fileName}\"." : "Fout bij verwijderen bestand \"{fileName}\".",
     "No entries in this folder match '{filter}'" : "Niets in deze map komt overeen met '{filter}'",
     "Name" : "Naam",
@@ -112,7 +112,7 @@
     "Upload too large" : "Upload is te groot",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
     "No favorites" : "Geen favorieten",
-    "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die u favoriet vindt worden hier getoont",
+    "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die u favoriet vindt, worden hier getoond",
     "Text file" : "Tekstbestand",
     "New text file.txt" : "Nieuw tekstbestand.txt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

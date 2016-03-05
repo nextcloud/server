@@ -43,7 +43,7 @@
     "External mount error" : "Extern koppelpunt fout",
     "external-storage" : "externe opslag",
     "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Kon geen overzicht met Windows netwerk koppelpunten krijgen: lege reactie van de server",
-    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Sommige van de geconfigureerde koppelpunten zijn niet verbonden. Klok op de rode rij(en) voor meer informatie",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Sommige van de geconfigureerde koppelpunten zijn niet verbonden. Klik op de rode rij(en) voor meer informatie",
     "Please enter the credentials for the {mount} mount" : "Geef de inloggegeven sop voor de {mount} mount",
     "Username" : "Gebruikersnaam",
     "Password" : "Wachtwoord",

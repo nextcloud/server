@@ -1,4 +1,5 @@
 { "translations": {
+    "Couldn't restore %s" : "Չկարողացա վերականգնել %s",
     "Deleted files" : "Ջնջված ֆայլեր",
     "Restore" : "Վերականգնել",
     "Delete" : "Ջնջել",

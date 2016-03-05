@@ -181,6 +181,7 @@ OC.L10N.register(
     "Show First Run Wizard again" : "Uruchom ponownie kreatora pierwszego uruchomienia",
     "Show storage location" : "Pokaż miejsce przechowywania",
     "Show last log in" : "Pokaż ostatni login",
+    "Show user backend" : "Pokaż moduł użytkownika",
     "Send email to new user" : "Wyślij email do nowego użytkownika",
     "Show email address" : "Pokaż adres email",
     "Username" : "Nazwa użytkownika",

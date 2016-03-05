@@ -3,7 +3,9 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
     "Updater" : "アップデート",
-    "For security reasons the built-in ownCloud updater is using additional credentials. To visit the updater page please click the following button." : "セキュリティ上の理由から、ownCloudに組み込まれているアップデーターは追加で認証情報を利用します。アップデーターページを開くには、以下のボタンをクリックしてください。",
-    "Open updater" : "アップデーターを開く"
+    "A new version is available: %s" : "新しいバージョンが利用可能: %s",
+    "Open updater" : "アップデーターを開く",
+    "Update channel:" : "アップデートチャンネル:",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "開発版の新しいバージョンにアップデートできます。ただし、アップデート後は安定版にダウングレードできません。"
 },
 "nplurals=1; plural=0;");

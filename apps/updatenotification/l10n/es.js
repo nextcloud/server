@@ -3,7 +3,9 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "{version} está disponible. Obtenga más información sobre cómo actualizar.",
     "Updater" : "Actualizador",
-    "For security reasons the built-in ownCloud updater is using additional credentials. To visit the updater page please click the following button." : "Por razones de seguridad el actualizador incluido en ownCloud está utilizando credenciales adicionales. Para visitar la pagina del actualizador, por favor presione el siguiente botón.",
-    "Open updater" : "Abrir el actualizador"
+    "A new version is available: %s" : "Hay una nueva versión disponible: %s",
+    "Open updater" : "Abrir el actualizador",
+    "Update channel:" : "Canal de actualización: ",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Siempre podrás actualizar a la versión más reciente o al canal experimental, pero nunca podrás regresar a un canal más estable."
 },
 "nplurals=2; plural=(n != 1);");

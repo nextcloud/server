@@ -3,7 +3,9 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
     "Updater" : "Päivitysohjelma",
-    "For security reasons the built-in ownCloud updater is using additional credentials. To visit the updater page please click the following button." : "Tietoturvasyistä ownCloudin sisäänrakennettu päivitysohjelma käyttää erillisiä tunnistamistietoja. Siirry päivitysohjelman sivulle napsauttamalla seuraavaa painiketta.",
-    "Open updater" : "Avaa päivitysohjelma"
+    "A new version is available: %s" : "Uusi versio on saatavilla: %s",
+    "Open updater" : "Avaa päivitysohjelma",
+    "Update channel:" : "Päivityskanava:",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Voit aina päivittää uudempaan versioon tai kokeellisen jakelukanavan versioon. Et voi kuitenkaan palata aiempaan, vakaan julkaisukanavan versioon."
 },
 "nplurals=2; plural=(n != 1);");

@@ -2,6 +2,7 @@ OC.L10N.register(
     "comments",
     {
     "Cancel" : "Anuluj",
+    "Edit comment" : "Edytuj komentarz",
     "Save" : "Zapisz",
     "Comment" : "Komentarz"
 },

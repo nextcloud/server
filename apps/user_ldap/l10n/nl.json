@@ -43,7 +43,7 @@
     "A connection error to LDAP / AD occurred, please check host, port and credentials." : "Er trad een verbindingsfout naar LDAP / AD op, verifieer servernaam, poort en inloggegevens.",
     "The %uid placeholder is missing. It will be replaced with the login name when querying LDAP / AD." : "De %uid opvultekst ontbreekt. Die wordt vervangen door de inlognaam bij het bevragen van LDAP / AD.",
     "Please provide a login name to test against" : "Geef een inlognaam op om opnieuw tegen te testen",
-    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "De groepsbox was uitgeschakeld omdat de LDAP / AD server het attribuut memberOf niet ondersteunt.",
+    "The group box was disabled, because the LDAP / AD server does not support memberOf." : "De groepsbox was uitgeschakeld, omdat de LDAP / AD server het attribuut memberOf niet ondersteunt.",
     "_%s group found_::_%s groups found_" : ["%s groep gevonden","%s groepen gevonden"],
     "_%s user found_::_%s users found_" : ["%s gebruiker gevonden","%s gebruikers gevonden"],
     "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Kon het weergavenaam attribuut van de gebruiker niet vinden. Geef het zelf op in de geavanceerde ldap instellingen.",

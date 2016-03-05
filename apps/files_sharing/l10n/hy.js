@@ -4,6 +4,7 @@ OC.L10N.register(
     "Cancel" : "Չեղարկել",
     "Password" : "Գաղտնաբառ",
     "Name" : "Անուն",
-    "Download" : "Բեռնել"
+    "Download" : "Ներբեռնել",
+    "Download %s" : "Ներբեռնել %s"
 },
 "nplurals=2; plural=(n != 1);");
