@@ -107,13 +107,14 @@ class AdminControllerTest extends TestCase {
 		$this->updateChecker
 			->expects($this->once())
 			->method('getUpdateState')
-			->willReturn(['foo' => 'bar']);
+			->willReturn(['updateVersion' => '8.1.2']);
 
 		$params = [
 			'isNewVersionAvailable' => true,
 			'lastChecked' => 'LastCheckedReturnValue',
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
+			'newVersionString' => '8.1.2',
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
@@ -154,6 +155,7 @@ class AdminControllerTest extends TestCase {
 			'lastChecked' => 'LastCheckedReturnValue',
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
+			'newVersionString' => '',
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
