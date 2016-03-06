@@ -55,6 +55,11 @@ class Storage extends DAV implements ISharedStorage {
 	private $token;
 
 	/**
+	 * @var \OCP\ICacheFactory
+	 */
+	private $memcacheFactory;
+
+	/**
 	 * @var \OCP\ICertificateManager
 	 */
 	private $certificateManager;
@@ -67,8 +72,9 @@ class Storage extends DAV implements ISharedStorage {
 	private $manager;
 
 	public function __construct($options) {
+		$this->memcacheFactory = \OC::$server->getMemCacheFactory();
 		$discoveryManager = new DiscoveryManager(
-			\OC::$server->getMemCacheFactory(),
+			$this->memcacheFactory,
 			\OC::$server->getHTTPClientService()
 		);
 
@@ -241,10 +247,21 @@ class Storage extends DAV implements ISharedStorage {
 		}
 	}
 
+	/**
+	 * @param string $url
+	 * @return bool
+	 */
 	private function testRemoteUrl($url) {
+		$cache = $this->memcacheFactory->create('files_sharing_remote_url');
+		if($result = $cache->get($url)) {
+			return (bool)$result;
+		}
+
 		$result = file_get_contents($url);
 		$data = json_decode($result);
-		return (is_object($data) and !empty($data->version));
+		$returnValue = (is_object($data) and !empty($data->version));
+		$cache->set($url, $returnValue);
+		return $returnValue;
 	}
 
 	/**
