@@ -2,6 +2,13 @@ OC.L10N.register(
     "systemtags",
     {
     "<strong>System tags</strong> for a file have been modified" : "<strong>Les étiquettes systèmes</strong> pour un fichier ont été modifiées",
+    "%1$s assigned system tag %3$s" : "%1$s a attribué l'étiquette système %3$s",
+    "%1$s unassigned system tag %3$s" : "%1$s a retiré l'étiquette système %3$s",
+    "%1$s created system tag %2$s" : "%1$s a créé l'étiquette système %2$s",
+    "%1$s deleted system tag %2$s" : "%1$s a supprimé l'étiquette système %2$s",
+    "%1$s updated system tag %3$s to %2$s" : "%1$s a renommé l'étiquette système %3$s en %2$s",
+    "%1$s assigned system tag %3$s to %2$s" : "%1$s a attribué l'étiquette système %3$s à %2$s",
+    "%1$s unassigned system tag %3$s from %2$s" : "%1$s a retiré l'étiquette système %3$s à %2$s",
     "%s (not-assignable)" : "%s (non assignable)",
     "%s (invisible)" : "%s (invisible)",
     "Tags" : "Étiquettes",

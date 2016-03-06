@@ -197,6 +197,7 @@ OC.L10N.register(
     "sunny" : "solfylt",
     "Hello {name}, the weather is {weather}" : "Hallo {name}, været er {weather}",
     "Hello {name}" : "Hallo {name}",
+    "new" : "ny",
     "_download %n file_::_download %n files_" : ["last ned %n fil","last ned %n filer"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "En oppdatering foregår, lukking av denne siden kan forstyrre prosessen for enkelte systemer.",
     "Updating {productName} to version {version}, this may take a while." : "Oppdaterer {productName} til versjon {version}. Dette kan ta litt tid.",
