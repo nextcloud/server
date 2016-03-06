@@ -24,7 +24,7 @@ $(document).ready(function(){
 			$.ajax({
 				url: OC.webroot+'/updater/',
 				headers: {
-					'Authorization': loginToken
+					'X-Updater-Auth': loginToken
 				},
 				method: 'POST',
 				success: function(data){
