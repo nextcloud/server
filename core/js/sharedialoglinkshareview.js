@@ -193,6 +193,8 @@
 				password: password
 			}, {
 				error: function(model, msg) {
+					// destroy old tooltips
+					$input.tooltip('destroy');
 					$loading.removeClass('inlineblock').addClass('hidden');
 					$input.addClass('error');
 					$input.attr('title', msg);
