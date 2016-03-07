@@ -142,9 +142,11 @@ OCA.Sharing.PublicApp = {
 				}
 				var path = dir || FileList.getCurrentDirectory();
 				var params = {
-					path: path,
-					files: filename
+					path: path
 				};
+				if (filename) {
+					params.files = filename;
+				}
 				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
 			};
 
