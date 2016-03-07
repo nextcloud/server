@@ -262,5 +262,16 @@ trait WebDav {
 		}
 	}
 
+	/**
+	 * @Given user :user uploads chunk file :num of :total with :data to :destination
+	 */
+	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination)
+	{
+		$num -= 1;
+		$data = \GuzzleHttp\Stream\Stream::factory($data);
+		$file = $destination . '-chunking-42-'.$total.'-'.$num;
+		$this->makeDavRequest($user, 'PUT', $file, ['OC-Chunked' => '1'], $data);
+	}
+
 }
 
