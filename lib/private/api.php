@@ -364,6 +364,18 @@ class OC_API {
 				\OC_Util::setUpFS(\OC_User::getUser());
 				self::$isLoggedIn = true;
 
+				/**
+				 * Add DAV authenticated. This should in an ideal world not be
+				 * necessary but the iOS App reads cookies from anywhere instead
+				 * only the DAV endpoint.
+				 * This makes sure that the cookies will be valid for the whole scope
+				 * @see https://github.com/owncloud/core/issues/22893
+				 */
+				\OC::$server->getSession()->set(
+					\OCA\DAV\Connector\Sabre\Auth::DAV_AUTHENTICATED,
+					\OC::$server->getUserSession()->getUser()->getUID()
+				);
+
 				return \OC_User::getUser();
 			}
 		}
