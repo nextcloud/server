@@ -138,7 +138,7 @@ $maxHumanFileSize = OCP\Util::humanFileSize($maxUploadFileSize);
 $totalSize = 0;
 $isReceivedShare = \OC::$server->getRequest()->getParam('isReceivedShare', false) === 'true';
 // defer quota check for received shares
-if (!$isReceivedShare) {
+if (!$isReceivedShare && $storageStats['freeSpace'] >= 0) {
 	foreach ($files['size'] as $size) {
 		$totalSize += $size;
 	}
