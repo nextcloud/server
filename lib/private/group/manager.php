@@ -227,7 +227,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	public function getUserGroups($user) {
 		if (is_null($user)) {
-			return false;
+			return [];
 		}
 		return $this->getUserIdGroups($user->getUID());
 	}
