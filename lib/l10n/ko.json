@@ -93,6 +93,7 @@
     "Sharing %s failed, because %s is not a member of the group %s" : "%s을(를) 공유할 수 없습니다. %s 님이 그룹 %s의 구성원이 아닙니다",
     "You need to provide a password to create a public link, only protected links are allowed" : "공개 링크를 만들려면 암호를 입력해야 합니다. 보호된 링크만 사용 가능합니다",
     "Sharing %s failed, because sharing with links is not allowed" : "%s을(를) 공유할 수 없습니다. 링크 공유가 허용되지 않았습니다",
+    "Not allowed to create a federated share with the same user" : "같은 사용자와 연합 공유를 만들 수 없음",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s을(를) 공유할 수 없습니다. %s을(를) 찾을 수 없습니다. 서버에 접근하지 못할 수도 있습니다.",
     "Share type %s is not valid for %s" : "공유 형식 %s을(를) %s에 대해서 사용할 수 없음",
     "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" : "%s의 권한을 설정할 수 없습니다. %s 님에게 허용된 것 이상의 권한을 필요로 합니다",
