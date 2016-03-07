@@ -771,30 +771,6 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Get the node with file $id for $user
-	 *
-	 * @param string $user The userId
-	 * @param int $id
-	 * @return \OCP\Files\File|\OCP\Files\Folder
-	 * @throws InvalidShare
-	 */
-	private function getNode($user, $id) {
-		try {
-			$userFolder = $this->rootFolder->getUserFolder($user);
-		} catch (NotFoundException $e) {
-			throw new InvalidShare();
-		}
-
-		$nodes = $userFolder->getById($id);
-
-		if (empty($nodes)) {
-			throw new InvalidShare();
-		}
-
-		return $nodes[0];
-	}
-
-	/**
 	 * Resolve a group share to a user specific share
 	 * Thus if the user moved their group share make sure this is properly reflected here.
 	 *
