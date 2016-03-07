@@ -1436,6 +1436,10 @@
 			delete this._reloadCall;
 			this.hideMask();
 
+			if (status === 401) {
+				return false;
+			}
+
 			// Firewall Blocked request?
 			if (status === 403) {
 				// Go home
