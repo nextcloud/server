@@ -33,6 +33,11 @@ use OCP\Share\IManager;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\GenericShareException;
 
+/**
+ * Class Share20OCS
+ *
+ * @package OCA\Files_Sharing\API
+ */
 class Share20OCS {
 
 	/** @var IManager */
@@ -321,7 +326,7 @@ class Share20OCS {
 
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
 			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				return new \OC_OCS_Result(null, 403, 'Sharing '.$path.' failed, because the backend does not allow shares from type '.$shareType);
+				return new \OC_OCS_Result(null, 403, 'Sharing '.$path->getPath().' failed, because the backend does not allow shares from type '.$shareType);
 			}
 
 			$share->setSharedWith($shareWith);
