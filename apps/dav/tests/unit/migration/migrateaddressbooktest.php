@@ -22,6 +22,7 @@ namespace OCA\DAV\Tests\Unit\Migration;
 
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\Dav\Migration\AddressBookAdapter;
+use OCP\ILogger;
 use Test\TestCase;
 
 class MigrateAddressbookTest extends TestCase {
@@ -35,8 +36,10 @@ class MigrateAddressbookTest extends TestCase {
 		$cardDav->method('createAddressBook')->willReturn(666);
 		$cardDav->expects($this->once())->method('createAddressBook')->with('principals/users/test01', 'test_contacts');
 		$cardDav->expects($this->once())->method('createCard')->with(666, '63f0dd6c-39d5-44be-9d34-34e7a7441fc2.vcf', 'BEGIN:VCARD');
+		/** @var ILogger $logger */
+		$logger = $this->getMockBuilder('\OCP\ILogger')->disableOriginalConstructor()->getMock();
 
-		$m = new \OCA\Dav\Migration\MigrateAddressbooks($adapter, $cardDav);
+		$m = new \OCA\Dav\Migration\MigrateAddressbooks($adapter, $cardDav, $logger, null);
 		$m->migrateForUser('test01');
 	}
 
