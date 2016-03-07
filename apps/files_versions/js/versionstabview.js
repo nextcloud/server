@@ -140,7 +140,9 @@
 		},
 
 		_onAddModel: function(model) {
-			this.$versionsContainer.append(this.itemTemplate(this._formatItem(model)));
+			var $el = $(this.itemTemplate(this._formatItem(model)));
+			this.$versionsContainer.append($el);
+			$el.find('.has-tooltip').tooltip();
 		},
 
 		template: function(data) {
