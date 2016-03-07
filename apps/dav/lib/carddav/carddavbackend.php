@@ -78,7 +78,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 */
 	public function __construct(IDBConnection $db,
 								Principal $principalBackend,
-								$dispatcher ) {
+								EventDispatcherInterface $dispatcher = null) {
 		$this->db = $db;
 		$this->principalBackend = $principalBackend;
 		$this->dispatcher = $dispatcher;
