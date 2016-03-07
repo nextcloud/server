@@ -155,27 +155,10 @@ class Share20OCS {
 	 * @return \OC_OCS_Result
 	 */
 	public function getShare($id) {
-		// Try both our default, and our federated provider..
-		$share = null;
-
-		// First check if it is an internal share.
 		try {
-			$share = $this->shareManager->getShareById('ocinternal:'.$id);
+			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			// Ignore for now
-			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-		}
-
-		if ($share === null) {
-			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-			}
-
-			try {
-				$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
-			} catch (ShareNotFound $e) {
-				return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-			}
+			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
 
 		if ($this->canAccessShare($share)) {
@@ -198,26 +181,10 @@ class Share20OCS {
 	 */
 	public function deleteShare($id) {
 		// Try both our default and our federated provider
-		$share = null;
-
 		try {
-			$share = $this->shareManager->getShareById('ocinternal:' . $id);
+			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			//Ignore for now
-			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-		}
-
-		// Could not find the share as internal share... maybe it is a federated share
-		if ($share === null) {
-			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-			}
-
-			try {
-				$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
-			} catch (ShareNotFound $e) {
-				return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-			}
+			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
 
 		if (!$this->canAccessShare($share)) {
@@ -505,27 +472,10 @@ class Share20OCS {
 	 * @return \OC_OCS_Result
 	 */
 	public function updateShare($id) {
-		// Try both our default and our federated provider
-		$share = null;
-
 		try {
-			$share = $this->shareManager->getShareById('ocinternal:' . $id);
+			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			//Ignore for now
-			//return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-		}
-
-		// Could not find the share as internal share... maybe it is a federated share
-		if ($share === null) {
-			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-			}
-
-			try {
-				$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
-			} catch (ShareNotFound $e) {
-				return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
-			}
+			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
 		}
 
 		if (!$this->canAccessShare($share)) {
@@ -687,5 +637,30 @@ class Share20OCS {
 		$date->setTime(0,0,0);
 
 		return $date;
+	}
+
+	/**
+	 * Since we have multiple providers but the OCS Share API v1 does
+	 * not support this we need to check all backends.
+	 *
+	 * @param string $id
+	 * @return \OCP\Share\IShare
+	 * @throws ShareNotFound
+	 */
+	private function getShareById($id) {
+		$share = null;
+
+		// First check if it is an internal share.
+		try {
+			$share = $this->shareManager->getShareById('ocinternal:'.$id);
+		} catch (ShareNotFound $e) {
+			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
+				throw new ShareNotFound();
+			}
+
+			$share = $this->shareManager->getShareById('ocFederatedSharing:' . $id);
+		}
+
+		return $share;
 	}
 }
