@@ -158,9 +158,11 @@ OCA.Sharing.PublicApp = {
 					filename = JSON.stringify(filename);
 				}
 				var params = {
-					path: path,
-					files: filename
+					path: path
 				};
+				if (filename) {
+					params.files = filename;
+				}
 				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
 			};
 
