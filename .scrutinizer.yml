@@ -1,3 +1,6 @@
+before_commands:
+  - 'git submodule update --init --recursive'
+
 filter:
     excluded_paths:
         - '3rdparty/*'
