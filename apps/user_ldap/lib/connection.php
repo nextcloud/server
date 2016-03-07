@@ -34,6 +34,8 @@ use OC\ServerNotAvailableException;
  * magic properties (incomplete)
  * responsible for LDAP connections in context with the provided configuration
  *
+ * @property string ldapHost
+ * @property string ldapPort holds the port number
  * @property string ldapUserFilter
  * @property string ldapUserDisplayName
  * @property string ldapUserDisplayName2
