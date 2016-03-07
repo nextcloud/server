@@ -23,9 +23,7 @@ namespace OCA\Dav\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
+use OCP\ILogger;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateCalendars {
@@ -36,15 +34,25 @@ class MigrateCalendars {
 	/** @var CalDavBackend */
 	private $backend;
 
+	/** @var ILogger */
+	private $logger;
+
+	/** @var OutputInterface */
+	private $consoleOutput;
+
 	/**
 	 * @param CalendarAdapter $adapter
 	 * @param CalDavBackend $backend
 	 */
 	function __construct(CalendarAdapter $adapter,
-						 CalDavBackend $backend
+						 CalDavBackend $backend,
+						 ILogger $logger,
+						 OutputInterface $consoleOutput = null
 	) {
 		$this->adapter = $adapter;
 		$this->backend = $backend;
+		$this->logger = $logger;
+		$this->consoleOutput = $consoleOutput;
 	}
 
 	/**
@@ -82,7 +90,17 @@ class MigrateCalendars {
 	 */
 	private function migrateCalendar($calendarId, $newCalendarId) {
 		$this->adapter->foreachCalendarObject($calendarId, function($calObject) use ($newCalendarId) {
-			$this->backend->createCalendarObject($newCalendarId, $calObject['uri'], $calObject['calendardata']);
+			try {
+				$this->backend->createCalendarObject($newCalendarId, $calObject['uri'], $calObject['calendardata']);
+			} catch (\Exception $ex) {
+				$eventId = $calObject['id'];
+				$calendarId = $calObject['calendarId'];
+				$msg = "One event could not be migrated. (id: $eventId, calendarid: $calendarId)";
+				$this->logger->logException($ex, ['app' => 'dav', 'message' => $msg]);
+				if (!is_null($this->consoleOutput)) {
+					$this->consoleOutput->writeln($msg);
+				}
+			}
 		});
 	}
 

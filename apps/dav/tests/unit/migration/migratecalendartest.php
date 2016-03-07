@@ -22,6 +22,7 @@ namespace OCA\DAV\Tests\Unit\Migration;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\Dav\Migration\CalendarAdapter;
+use OCP\ILogger;
 use Test\TestCase;
 
 class MigrateCalendarTest extends TestCase {
@@ -35,15 +36,17 @@ class MigrateCalendarTest extends TestCase {
 		$cardDav->method('createCalendar')->willReturn(666);
 		$cardDav->expects($this->once())->method('createCalendar')->with('principals/users/test01', 'test_contacts');
 		$cardDav->expects($this->once())->method('createCalendarObject')->with(666, '63f0dd6c-39d5-44be-9d34-34e7a7441fc2.ics', 'BEGIN:VCARD');
+		/** @var ILogger $logger */
+		$logger = $this->getMockBuilder('\OCP\ILogger')->disableOriginalConstructor()->getMock();
 
-		$m = new \OCA\Dav\Migration\MigrateCalendars($adapter, $cardDav);
+		$m = new \OCA\Dav\Migration\MigrateCalendars($adapter, $cardDav, $logger, null);
 		$m->migrateForUser('test01');
 	}
 
 	/**
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
-	private function mockAdapter($shares = []) {
+	private function mockAdapter($shares = [], $calData = 'BEGIN:VCARD') {
 		$adapter = $this->getMockBuilder('\OCA\Dav\Migration\CalendarAdapter')
 			->disableOriginalConstructor()
 			->getMock();
@@ -62,15 +65,14 @@ class MigrateCalendarTest extends TestCase {
 				'components' => 'VEVENT,VTODO,VJOURNAL'
 			]);
 		});
-		$adapter->method('foreachCalendarObject')->willReturnCallback(function ($addressBookId, \Closure $callBack) {
+		$adapter->method('foreachCalendarObject')->willReturnCallback(function ($addressBookId, \Closure $callBack) use ($calData) {
 			$callBack([
 				'userid' => $addressBookId,
 				'uri' => '63f0dd6c-39d5-44be-9d34-34e7a7441fc2.ics',
-				'calendardata' => 'BEGIN:VCARD'
+				'calendardata' => $calData
 			]);
 		});
 		$adapter->method('getShares')->willReturn($shares);
 		return $adapter;
 	}
-
 }

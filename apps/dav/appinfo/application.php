@@ -99,18 +99,24 @@ class Application extends App {
 		$container->registerService('MigrateAddressbooks', function($c) {
 			/** @var IAppContainer $c */
 			$db = $c->getServer()->getDatabaseConnection();
+			$logger = $c->getServer()->getLogger();
 			return new MigrateAddressbooks(
 				new AddressBookAdapter($db),
-				$c->query('CardDavBackend')
+				$c->query('CardDavBackend'),
+				$logger,
+				null
 			);
 		});
 
 		$container->registerService('MigrateCalendars', function($c) {
 			/** @var IAppContainer $c */
 			$db = $c->getServer()->getDatabaseConnection();
+			$logger = $c->getServer()->getLogger();
 			return new MigrateCalendars(
 				new CalendarAdapter($db),
-				$c->query('CalDavBackend')
+				$c->query('CalDavBackend'),
+				$logger,
+				null
 			);
 		});
 

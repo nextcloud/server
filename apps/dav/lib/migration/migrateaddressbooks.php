@@ -23,10 +23,8 @@ namespace OCA\Dav\Migration;
 
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCP\ILogger;
 use Sabre\CardDAV\Plugin;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MigrateAddressbooks {
@@ -37,15 +35,26 @@ class MigrateAddressbooks {
 	/** @var CardDavBackend */
 	private $backend;
 
+	/** @var ILogger */
+	private $logger;
+
+	/** @var OutputInterface */
+	private $consoleOutput;
+
+
 	/**
 	 * @param AddressBookAdapter $adapter
 	 * @param CardDavBackend $backend
 	 */
 	function __construct(AddressBookAdapter $adapter,
-						 CardDavBackend $backend
+						 CardDavBackend $backend,
+						 ILogger $logger,
+						 OutputInterface $consoleOutput = null
 	) {
 		$this->adapter = $adapter;
 		$this->backend = $backend;
+		$this->logger = $logger;
+		$this->consoleOutput = $consoleOutput;
 	}
 
 	/**
@@ -80,7 +89,17 @@ class MigrateAddressbooks {
 	 */
 	private function migrateBook($addressBookId, $newAddressBookId) {
 		$this->adapter->foreachCard($addressBookId, function($card) use ($newAddressBookId) {
-			$this->backend->createCard($newAddressBookId, $card['uri'], $card['carddata']);
+			try {
+				$this->backend->createCard($newAddressBookId, $card['uri'], $card['carddata']);
+			} catch (\Exception $ex) {
+				$eventId = $card['id'];
+				$addressBookId = $card['addressbookid'];
+				$msg = "One event could not be migrated. (id: $eventId, addressbookid: $addressBookId)";
+				$this->logger->logException($ex, ['app' => 'dav', 'message' => $msg]);
+				if (!is_null($this->consoleOutput)) {
+					$this->consoleOutput->writeln($msg);
+				}
+			}
 		});
 	}
 
