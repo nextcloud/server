@@ -24,6 +24,7 @@ namespace OC\Files\Config;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use OC\Files\Filesystem;
+use OCA\Files_Sharing\SharedMount;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Config\ICachedMountInfo;
 use OCP\Files\Config\IUserMountCache;
@@ -75,12 +76,16 @@ class UserMountCache implements IUserMountCache {
 	public function registerMounts(IUser $user, array $mounts) {
 		// filter out non-proper storages coming from unit tests
 		$mounts = array_filter($mounts, function (IMountPoint $mount) {
-			return $mount->getStorage() && $mount->getStorage()->getCache();
+			return $mount instanceof SharedMount || $mount->getStorage() && $mount->getStorage()->getCache();
 		});
 		/** @var ICachedMountInfo[] $newMounts */
 		$newMounts = array_map(function (IMountPoint $mount) use ($user) {
 			$storage = $mount->getStorage();
-			$rootId = (int)$storage->getCache()->getId('');
+			if ($storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
+				$rootId = (int)$storage->getShare()['file_source'];
+			} else {
+				$rootId = (int)$storage->getCache()->getId('');
+			}
 			$storageId = (int)$storage->getStorageCache()->getNumericId();
 			// filter out any storages which aren't scanned yet since we aren't interested in files from those storages (yet)
 			if ($rootId === -1) {
