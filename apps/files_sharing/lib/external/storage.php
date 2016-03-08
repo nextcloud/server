@@ -25,6 +25,8 @@
 
 namespace OCA\Files_Sharing\External;
 
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
 use OC\Files\Storage\DAV;
 use OC\ForbiddenException;
 use OCA\FederatedFileSharing\DiscoveryManager;
@@ -34,36 +36,21 @@ use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 
 class Storage extends DAV implements ISharedStorage {
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $remoteUser;
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $remote;
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $mountPoint;
-
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $token;
-
-	/**
-	 * @var \OCP\ICacheFactory
-	 */
+	/** @var \OCP\ICacheFactory */
 	private $memcacheFactory;
-
-	/**
-	 * @var \OCP\ICertificateManager
-	 */
+	/** @var \OCP\Http\Client\IClientService */
+	private $httpClient;
+	/** @var \OCP\ICertificateManager */
 	private $certificateManager;
-
+	/** @var bool */
 	private $updateChecked = false;
 
 	/**
@@ -73,6 +60,7 @@ class Storage extends DAV implements ISharedStorage {
 
 	public function __construct($options) {
 		$this->memcacheFactory = \OC::$server->getMemCacheFactory();
+		$this->httpClient = \OC::$server->getHTTPClientService();
 		$discoveryManager = new DiscoveryManager(
 			$this->memcacheFactory,
 			\OC::$server->getHTTPClientService()
@@ -257,9 +245,17 @@ class Storage extends DAV implements ISharedStorage {
 			return (bool)$result;
 		}
 
-		$result = file_get_contents($url);
-		$data = json_decode($result);
-		$returnValue = (is_object($data) and !empty($data->version));
+		$client = $this->httpClient->newClient();
+		try {
+			$result = $client->get($url)->getBody();
+			$data = json_decode($result);
+			$returnValue = (is_object($data) && !empty($data->version));
+		} catch (ConnectException $e) {
+			$returnValue = false;
+		} catch (ClientException $e) {
+			$returnValue = false;
+		}
+
 		$cache->set($url, $returnValue);
 		return $returnValue;
 	}
