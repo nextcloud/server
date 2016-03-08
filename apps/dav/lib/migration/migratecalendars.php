@@ -116,11 +116,12 @@ class MigrateCalendars {
 
 		$add = array_map(function($s) {
 			$prefix = 'principal:principals/users/';
-			if ($s['share_type'] === 1) {
+			if ((int)$s['share_type'] === 1) {
 				$prefix = 'principal:principals/groups/';
 			}
 			return [
-				'href' => $prefix . $s['share_with']
+				'href' => $prefix . $s['share_with'],
+				'readOnly' => !((int)$s['permissions'] === 31)
 			];
 		}, $shares);
 
