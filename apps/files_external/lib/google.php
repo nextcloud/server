@@ -265,7 +265,8 @@ class Google extends \OC\Files\Storage\Common {
 				foreach ($children->getItems() as $child) {
 					$name = $child->getTitle();
 					// Check if this is a Google Doc i.e. no extension in name
-					if (empty($child->getFileExtension())
+					$extension = $child->getFileExtension();
+					if (empty($extension)
 						&& $child->getMimeType() !== self::FOLDER
 					) {
 						$name .= '.'.$this->getGoogleDocExtension($child->getMimeType());
