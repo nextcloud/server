@@ -71,7 +71,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)" : "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%)",
     "Path" : "sökväg",
     "_%n byte_::_%n bytes_" : ["%n bytes","%n bytes"],
-    "Favorited" : "Favoritiserad",
+    "Favorited" : "Favoriserad",
     "Favorite" : "Favorit",
     "Folder" : "Mapp",
     "New folder" : "Ny mapp",

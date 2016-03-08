@@ -197,6 +197,7 @@ OC.L10N.register(
     "sunny" : "soleado",
     "Hello {name}, the weather is {weather}" : "Hola {name}, el día es {weather}",
     "Hello {name}" : "Hola {name}",
+    "new" : "Nuevo",
     "_download %n file_::_download %n files_" : ["descargar %n ficheros","descargar %n archivos"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "La actualización está en curso, salir de esta página podrían interrumpir el proceso en algunos entornos.",
     "Updating {productName} to version {version}, this may take a while." : "Actualizando {productName} a la versión {version}. Esto puede tardar un poco.",
