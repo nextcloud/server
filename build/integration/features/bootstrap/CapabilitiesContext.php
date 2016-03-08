@@ -39,9 +39,9 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 
 		foreach ($formData->getHash() as $row) {
 			$path_to_element = explode('@@@', $row['path_to_element']);
-			$answeredValue = $capabilitiesXML->$row['capability'];
+			$answeredValue = $capabilitiesXML->{$row['capability']};
 			for ($i = 0; $i < count($path_to_element); $i++){
-				$answeredValue = $answeredValue->$path_to_element[$i];
+				$answeredValue = $answeredValue->{$path_to_element[$i]};
 			}
 			$answeredValue = (string)$answeredValue;
 			PHPUnit_Framework_Assert::assertEquals(
