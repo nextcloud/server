@@ -68,6 +68,7 @@ class Manager implements IMountManager {
 	 * @return MountPoint
 	 */
 	public function find($path) {
+		\OC::$server->getLogger()->debug('Mount\Manager::find "' . $path . '"', array('app' => 'DEBUG'));
 		\OC_Util::setupFS();
 		$path = $this->formatPath($path);
 		if (isset($this->mounts[$path])) {
@@ -83,8 +84,10 @@ class Manager implements IMountManager {
 			}
 		}
 		if (isset($this->mounts[$foundMountPoint])) {
+			\OC::$server->getLogger()->debug('Mount\Manager::find result "' . json_encode($this->mounts[$foundMountPoint]) . '"', array('app' => 'DEBUG'));
 			return $this->mounts[$foundMountPoint];
 		} else {
+			\OC::$server->getLogger()->debug('Mount\Manager::find result null', array('app' => 'DEBUG'));
 			return null;
 		}
 	}
@@ -96,16 +99,19 @@ class Manager implements IMountManager {
 	 * @return MountPoint[]
 	 */
 	public function findIn($path) {
+		\OC::$server->getLogger()->debug('Mount\Manager::findIn "' . $path . '"', array('app' => 'DEBUG'));
 		\OC_Util::setupFS();
 		$path = $this->formatPath($path);
 		$result = array();
 		$pathLength = strlen($path);
 		$mountPoints = array_keys($this->mounts);
+		\OC::$server->getLogger()->debug('Mount\Manager::findIn mountPoints=' . json_encode($mountPoints), array('app' => 'DEBUG'));
 		foreach ($mountPoints as $mountPoint) {
 			if (substr($mountPoint, 0, $pathLength) === $path and strlen($mountPoint) > $pathLength) {
 				$result[] = $this->mounts[$mountPoint];
 			}
 		}
+		\OC::$server->getLogger()->debug('Mount\Manager::findIn result=' . json_encode($result), array('app' => 'DEBUG'));
 		return $result;
 	}
 
@@ -120,6 +126,7 @@ class Manager implements IMountManager {
 	 * @return MountPoint[]
 	 */
 	public function findByStorageId($id) {
+		\OC::$server->getLogger()->debug('Mount\Manager::findByStorageId "' . $id . '"', array('app' => 'DEBUG'));
 		\OC_Util::setupFS();
 		if (strlen($id) > 64) {
 			$id = md5($id);

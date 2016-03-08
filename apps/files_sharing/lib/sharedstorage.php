@@ -78,10 +78,12 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 			return;
 		}
 		$this->initialized = true;
+		\OC::$server->getLogger()->debug('Storage\Shared::init owner=' . $this->share['uid_owner'], array('app' => 'DEBUG'));
 		Filesystem::initMountPoints($this->share['uid_owner']);
 		$sourcePath = $this->ownerView->getPath($this->share['file_source']);
 		list($this->sourceStorage, $sourceInternalPath) = $this->ownerView->resolvePath($sourcePath);
 		$this->sourceRootInfo = $this->sourceStorage->getCache()->get($sourceInternalPath);
+		\OC::$server->getLogger()->debug('Storage\Shared::init end', array('app' => 'DEBUG'));
 	}
 
 	private function isValid() {
