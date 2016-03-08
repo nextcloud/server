@@ -99,12 +99,13 @@ class AdminController extends Controller {
 		if(($key = array_search($currentChannel, $channels)) !== false) {
 			unset($channels[$key]);
 		}
-
+		$updateState = $this->updateChecker->getUpdateState();
 		$params = [
-			'isNewVersionAvailable' => ($this->updateChecker->getUpdateState() === []) ? false : true,
+			'isNewVersionAvailable' => ($updateState === []) ? false : true,
 			'lastChecked' => $lastUpdateCheck,
 			'currentChannel' => $currentChannel,
 			'channels' => $channels,
+			'newVersionString' => ($updateState === []) ? '' : $updateState['updateVersion'],
 		];
 
 		return new TemplateResponse($this->appName, 'admin', $params, '');
