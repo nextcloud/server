@@ -27,10 +27,6 @@ use Sabre\DAV\PropPatch;
 
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 
-	public function __construct(CardDavBackend $carddavBackend, array $addressBookInfo) {
-		parent::__construct($carddavBackend, $addressBookInfo);
-	}
-
 	/**
 	 * Updates the list of shares.
 	 *
