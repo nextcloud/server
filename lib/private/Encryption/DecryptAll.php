@@ -133,6 +133,7 @@ class DecryptAll {
 
 	/**
 	 * iterate over all user and encrypt their files
+	 *
 	 * @param string $user which users files should be decrypted, default = all users
 	 */
 	protected function decryptAllUsersFiles($user = '') {
@@ -200,9 +201,9 @@ class DecryptAll {
 
 		$this->setupUserFS($uid);
 		$directories = array();
-		$directories[] =  '/' . $uid . '/files';
+		$directories[] = '/' . $uid . '/files';
 
-		while($root = array_pop($directories)) {
+		while ($root = array_pop($directories)) {
 			$content = $this->rootView->getDirectoryContent($root);
 			foreach ($content as $file) {
 				$path = $root . '/' . $file['name'];
@@ -213,9 +214,14 @@ class DecryptAll {
 					try {
 						$progress->setMessage("decrypt files for user $userCount: $path");
 						$progress->advance();
-						if ($this->decryptFile($path) === false) {
+						if ($file->getData()['encrypted'] == 0) {
 							$progress->setMessage("decrypt files for user $userCount: $path (already decrypted)");
 							$progress->advance();
+						} else {
+							if ($this->decryptFile($path) === false) {
+								$progress->setMessage("decrypt files for user $userCount: $path (already decrypted)");
+								$progress->advance();
+							}
 						}
 					} catch (\Exception $e) {
 						if (isset($this->failed[$uid])) {
