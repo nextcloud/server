@@ -26,10 +26,6 @@ use Sabre\DAV\Exception\NotFound;
 
 class AddressBook extends \Sabre\CardDAV\AddressBook implements IShareable {
 
-	public function __construct(CardDavBackend $carddavBackend, array $addressBookInfo) {
-		parent::__construct($carddavBackend, $addressBookInfo);
-	}
-
 	/**
 	 * Updates the list of shares.
 	 *

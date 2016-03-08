@@ -29,13 +29,21 @@ class MigrateAddressbookTest extends TestCase {
 
 	public function testMigration() {
 		/** @var AddressBookAdapter | \PHPUnit_Framework_MockObject_MockObject $adapter */
-		$adapter = $this->mockAdapter();
+		$adapter = $this->mockAdapter([
+			['share_type' => '1', 'share_with' => 'users', 'permissions' => '31'],
+			['share_type' => '2', 'share_with' => 'adam', 'permissions' => '1'],
+		]);
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $cardDav */
 		$cardDav = $this->getMockBuilder('\OCA\Dav\CardDAV\CardDAVBackend')->disableOriginalConstructor()->getMock();
-		$cardDav->method('createAddressBook')->willReturn(666);
+		$cardDav->expects($this->any())->method('createAddressBook')->willReturn(666);
+		$cardDav->expects($this->any())->method('getAddressBookById')->willReturn([]);
 		$cardDav->expects($this->once())->method('createAddressBook')->with('principals/users/test01', 'test_contacts');
 		$cardDav->expects($this->once())->method('createCard')->with(666, '63f0dd6c-39d5-44be-9d34-34e7a7441fc2.vcf', 'BEGIN:VCARD');
+		$cardDav->expects($this->once())->method('updateShares')->with($this->anything(), [
+			['href' => 'principal:principals/groups/users', 'readOnly' => false],
+			['href' => 'principal:principals/users/adam', 'readOnly' => true]
+		]);
 		/** @var ILogger $logger */
 		$logger = $this->getMockBuilder('\OCP\ILogger')->disableOriginalConstructor()->getMock();
 
@@ -48,7 +56,7 @@ class MigrateAddressbookTest extends TestCase {
 	 */
 	private function mockAdapter($shares = []) {
 		$adapter = $this->getMockBuilder('\OCA\Dav\Migration\AddressBookAdapter')->disableOriginalConstructor()->getMock();
-		$adapter->method('foreachBook')->willReturnCallback(function ($user, \Closure $callBack) {
+		$adapter->expects($this->any())->method('foreachBook')->willReturnCallback(function ($user, \Closure $callBack) {
 			$callBack([
 				'id' => 0,
 				'userid' => $user,
@@ -59,14 +67,14 @@ class MigrateAddressbookTest extends TestCase {
 				'active' => 1
 			]);
 		});
-		$adapter->method('foreachCard')->willReturnCallback(function ($addressBookId, \Closure $callBack) {
+		$adapter->expects($this->any())->method('foreachCard')->willReturnCallback(function ($addressBookId, \Closure $callBack) {
 			$callBack([
 				'userid' => $addressBookId,
 				'uri' => '63f0dd6c-39d5-44be-9d34-34e7a7441fc2.vcf',
 				'carddata' => 'BEGIN:VCARD'
 			]);
 		});
-		$adapter->method('getShares')->willReturn($shares);
+		$adapter->expects($this->any())->method('getShares')->willReturn($shares);
 		return $adapter;
 	}
 
