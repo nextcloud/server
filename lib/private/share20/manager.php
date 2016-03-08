@@ -881,6 +881,11 @@ class Manager implements IManager {
 					break;
 				}
 
+				// If there was no limit on the select we are done
+				if ($limit === -1) {
+					break;
+				}
+
 				$offset += $added;
 
 				// Fetch again $limit shares
