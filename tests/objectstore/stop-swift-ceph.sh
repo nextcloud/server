@@ -31,6 +31,7 @@ if [ -e $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift ]; then
         fi
         echo "Stopping and removing docker container $container"
         # kills running container and removes it
+        docker stop $container
         docker rm -f $container
     done;
 fi;
