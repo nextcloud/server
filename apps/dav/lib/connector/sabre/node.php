@@ -230,7 +230,7 @@ abstract class Node implements \Sabre\DAV\INode {
 		if ($this->info->isDeletable()) {
 			$p .= 'D';
 		}
-		if ($this->info->isDeletable()) {
+		if ($this->info->isUpdateable()) {
 			$p .= 'NV'; // Renameable, Moveable
 		}
 		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
