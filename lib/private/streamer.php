@@ -51,10 +51,6 @@ class Streamer {
 	public function sendHeaders($name){
 		$extension = $this->streamerInstance instanceof ZipStreamer ? '.zip' : '.tar';
 		$fullName = $name . $extension;
-		// ZipStreamer does not escape name in Content-Disposition atm
-		if ($this->streamerInstance instanceof ZipStreamer) {
-			$fullName = rawurlencode($fullName);
-		}
 		$this->streamerInstance->sendHeaders($fullName);
 	}
 	
