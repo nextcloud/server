@@ -304,7 +304,7 @@ class ShareController extends Controller {
 		}
 
 		// download selected files
-		if (!is_null($files)) {
+		if (!is_null($files) && $files !== '') {
 			// FIXME: The exit is required here because otherwise the AppFramework is trying to add headers as well
 			// after dispatching the request which results in a "Cannot modify header information" notice.
 			OC_Files::get($originalSharePath, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD');
