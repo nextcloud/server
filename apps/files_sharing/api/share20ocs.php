@@ -115,6 +115,7 @@ class Share20OCS {
 		} else {
 			$result['item_type'] = 'file';
 		}
+		$result['mimetype'] = $node->getMimeType();
 		$result['storage_id'] = $node->getStorage()->getId();
 		$result['storage'] = $node->getStorage()->getCache()->getNumericStorageId();
 		$result['item_source'] = $node->getId();

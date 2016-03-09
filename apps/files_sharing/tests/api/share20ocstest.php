@@ -203,12 +203,14 @@ class Share20OCSTest extends \Test\TestCase {
 		$file->method('getPath')->willReturn('file');
 		$file->method('getStorage')->willReturn($storage);
 		$file->method('getParent')->willReturn($parentFolder);
+		$file->method('getMimeType')->willReturn('myMimeType');
 
 		$folder = $this->getMock('OCP\Files\Folder');
 		$folder->method('getId')->willReturn(2);
 		$folder->method('getPath')->willReturn('folder');
 		$folder->method('getStorage')->willReturn($storage);
 		$folder->method('getParent')->willReturn($parentFolder);
+		$folder->method('getMimeType')->willReturn('myFolderMimeType');
 
 		// File shared with user
 		$share = $this->createShare(
@@ -247,7 +249,8 @@ class Share20OCSTest extends \Test\TestCase {
 			'storage' => 101,
 			'mail_send' => 0,
 			'uid_file_owner' => 'ownerId',
-			'displayname_file_owner' => 'ownerDisplay'
+			'displayname_file_owner' => 'ownerDisplay',
+			'mimetype' => 'myMimeType',
 		];
 		$data[] = [$share, $expected];
 
@@ -288,7 +291,8 @@ class Share20OCSTest extends \Test\TestCase {
 			'storage' => 101,
 			'mail_send' => 0,
 			'uid_file_owner' => 'ownerId',
-			'displayname_file_owner' => 'ownerDisplay'
+			'displayname_file_owner' => 'ownerDisplay',
+			'mimetype' => 'myFolderMimeType',
 		];
 		$data[] = [$share, $expected];
 
@@ -333,7 +337,8 @@ class Share20OCSTest extends \Test\TestCase {
 			'mail_send' => 0,
 			'url' => 'url',
 			'uid_file_owner' => 'ownerId',
-			'displayname_file_owner' => 'ownerDisplay'
+			'displayname_file_owner' => 'ownerDisplay',
+			'mimetype' => 'myFolderMimeType',
 		];
 		$data[] = [$share, $expected];
 
@@ -1514,6 +1519,9 @@ class Share20OCSTest extends \Test\TestCase {
 		$folder = $this->getMock('\OCP\Files\Folder');
 		$parent = $this->getMock('\OCP\Files\Folder');
 
+		$file->method('getMimeType')->willReturn('myMimeType');
+		$folder->method('getMimeType')->willReturn('myFolderMimeType');
+
 		$file->method('getPath')->willReturn('file');
 		$folder->method('getPath')->willReturn('folder');
 
@@ -1578,6 +1586,7 @@ class Share20OCSTest extends \Test\TestCase {
 				'share_with' => 'recipient',
 				'share_with_displayname' => 'recipient',
 				'mail_send' => 0,
+				'mimetype' => 'myMimeType',
 			], $share, [], false
 		];
 
@@ -1606,6 +1615,7 @@ class Share20OCSTest extends \Test\TestCase {
 				'share_with' => 'recipient',
 				'share_with_displayname' => 'recipientDN',
 				'mail_send' => 0,
+				'mimetype' => 'myMimeType',
 			], $share, [
 				['owner', $owner],
 				['initiator', $initiator],
@@ -1649,6 +1659,7 @@ class Share20OCSTest extends \Test\TestCase {
 				'share_with' => 'recipient',
 				'share_with_displayname' => 'recipient',
 				'mail_send' => 0,
+				'mimetype' => 'myMimeType',
 			], $share, [], false
 		];
 
@@ -1687,6 +1698,7 @@ class Share20OCSTest extends \Test\TestCase {
 				'share_with' => 'recipient',
 				'share_with_displayname' => 'recipient',
 				'mail_send' => 0,
+				'mimetype' => 'myMimeType',
 			], $share, [], false
 		];
 
@@ -1727,7 +1739,8 @@ class Share20OCSTest extends \Test\TestCase {
 				'share_with' => 'mypassword',
 				'share_with_displayname' => 'mypassword',
 				'mail_send' => 0,
-				'url' => 'myLink'
+				'url' => 'myLink',
+				'mimetype' => 'myMimeType',
 			], $share, [], false
 		];
 
@@ -1766,6 +1779,7 @@ class Share20OCSTest extends \Test\TestCase {
 				'share_with' => 'user@server.com',
 				'share_with_displayname' => 'user@server.com',
 				'mail_send' => 0,
+				'mimetype' => 'myFolderMimeType',
 			], $share, [], false
 		];
 
