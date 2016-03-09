@@ -214,7 +214,7 @@ class DecryptAll {
 					try {
 						$progress->setMessage("decrypt files for user $userCount: $path");
 						$progress->advance();
-						if ($file->getData()['encrypted'] == 0) {
+						if ((int)$file->getData()['encrypted'] === 0) {
 							$progress->setMessage("decrypt files for user $userCount: $path (already decrypted)");
 							$progress->advance();
 						} else {
