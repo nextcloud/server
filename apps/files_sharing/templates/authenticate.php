@@ -2,6 +2,7 @@
 	/** @var $_ array */
 	/** @var $l OC_L10N */
 	style('files_sharing', 'authenticate');
+	script('files_sharing', 'authenticate'); 
 ?>
 <form method="post">
 	<fieldset>
@@ -18,8 +19,8 @@
 				placeholder="<?php p($l->t('Password')); ?>" value=""
 				autocomplete="off" autocapitalize="off" autocorrect="off"
 				autofocus />
-			<input type="submit" value=""
-				class="svg icon-confirm input-button-inline" />
+			<input type="submit" id="password-submit" 
+				class="svg icon-confirm input-button-inline" value="" disabled="disabled" />
 		</p>
 	</fieldset>
 </form>
