@@ -8,7 +8,7 @@
 }
 
 #app-sidebar .mainFileInfoView {
-	margin-right: 20px; /* accomodate for close icon */
+	margin-right: 20px; /* accommodate for close icon */
 	float:left;
 	display:block;
 	width: 100%;
@@ -26,7 +26,7 @@
 }
 
 #app-sidebar .thumbnailContainer.image.portrait {
-	margin: 0; /* if we dont fit the image anyway we give it back the margin */
+	margin: 0; /* if we don't fit the image anyway we give it back the margin */
 }
 
 #app-sidebar .image .thumbnail {
