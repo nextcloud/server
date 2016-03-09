@@ -274,6 +274,10 @@ class DefaultShareProvider implements IShareProvider {
 					], IQueryBuilder::PARAM_INT_ARRAY)
 				)
 			)
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			))
 			->orderBy('id');
 
 		$cursor = $qb->execute();
@@ -332,6 +336,10 @@ class DefaultShareProvider implements IShareProvider {
 				->where($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
 				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($recipient)))
 				->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+				->andWhere($qb->expr()->orX(
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+				))
 				->execute();
 
 			$data = $stmt->fetch();
@@ -405,6 +413,10 @@ class DefaultShareProvider implements IShareProvider {
 				->where($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
 				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($recipient)))
 				->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+				->andWhere($qb->expr()->orX(
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+				))
 				->setMaxResults(1)
 				->execute();
 
@@ -455,7 +467,11 @@ class DefaultShareProvider implements IShareProvider {
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->select('*')
-			->from('share');
+			->from('share')
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			));
 
 		$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter($shareType)));
 
@@ -523,7 +539,11 @@ class DefaultShareProvider implements IShareProvider {
 						\OCP\Share::SHARE_TYPE_LINK,
 					], IQueryBuilder::PARAM_INT_ARRAY)
 				)
-			);
+			)
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			));
 		
 		$cursor = $qb->execute();
 		$data = $cursor->fetch();
@@ -564,7 +584,12 @@ class DefaultShareProvider implements IShareProvider {
 					$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_USER)),
 					$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP))
 				)
-			)->execute();
+			)
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			))
+			->execute();
 
 		$shares = [];
 		while($data = $cursor->fetch()) {
@@ -597,8 +622,12 @@ class DefaultShareProvider implements IShareProvider {
 			}
 			$qb->setFirstResult($offset);
 
-			$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_USER)));
-			$qb->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)));
+			$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_USER)))
+				->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
+				->andWhere($qb->expr()->orX(
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+					$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+				));
 
 			// Filter by node if provided
 			if ($node !== null) {
@@ -645,11 +674,15 @@ class DefaultShareProvider implements IShareProvider {
 
 				$groups = array_map(function(IGroup $group) { return $group->getGID(); }, $groups);
 
-				$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)));
-				$qb->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
-					$groups,
-					IQueryBuilder::PARAM_STR_ARRAY
-				)));
+				$qb->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)))
+					->andWhere($qb->expr()->in('share_with', $qb->createNamedParameter(
+						$groups,
+						IQueryBuilder::PARAM_STR_ARRAY
+					)))
+					->andWhere($qb->expr()->orX(
+						$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+						$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+					));
 
 				$cursor = $qb->execute();
 				while($data = $cursor->fetch()) {
@@ -691,6 +724,10 @@ class DefaultShareProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_LINK)))
 			->andWhere($qb->expr()->eq('token', $qb->createNamedParameter($token)))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			))
 			->execute();
 
 		$data = $cursor->fetch();
@@ -802,6 +839,10 @@ class DefaultShareProvider implements IShareProvider {
 			->where($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
 			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
 			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($userId)))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			))
 			->setMaxResults(1)
 			->execute();
 
