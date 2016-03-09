@@ -509,7 +509,9 @@ class OC {
 			require_once $vendorAutoLoad;
 
 		} catch (\RuntimeException $e) {
-			OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+			if (!self::$CLI) {
+				OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+			}
 			// we can't use the template error page here, because this needs the
 			// DI container which isn't available yet
 			print($e->getMessage());
