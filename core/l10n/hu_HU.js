@@ -184,6 +184,7 @@ OC.L10N.register(
     "sunny" : "napos",
     "Hello {name}, the weather is {weather}" : "Üdv, {name}, {weather} időnk van",
     "Hello {name}" : "Hello {name}",
+    "new" : "új",
     "_download %n file_::_download %n files_" : ["%n fájl letöltése","%n fájl letöltése"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "A frissítés folyamatban van, az oldal elhagyása néhány környezetben lehet, hogy megszakítja a folyamatot.",
     "Updating {productName} to version {version}, this may take a while." : " {productName} frissítése zajlik erre a verzióra: {version}. Ez eltarthat egy darabig.",

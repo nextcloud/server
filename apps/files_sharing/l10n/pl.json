@@ -27,6 +27,7 @@
     "You shared %1$s with group %2$s" : "Współdzielisz %1$s z grupą %2$s",
     "You shared %1$s via link" : "Udostępniasz %1$s przez link",
     "%2$s shared %1$s with you" : "%2$s współdzieli %1$s z Tobą",
+    "%2$s removed the share for %1$s" : "%2$s usunął udział dla %1$s",
     "Shares" : "Udziały",
     "Accept" : "Akceptuj",
     "This share is password-protected" : "Udział ten jest chroniony hasłem",

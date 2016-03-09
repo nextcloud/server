@@ -118,6 +118,7 @@
     "in seconds. A change empties the cache." : "בשניות. שינוי מרוקן את המטמון.",
     "Directory Settings" : "הגדרות תיקייה",
     "User Display Name Field" : "שדה שם תצוגה למשתמש",
+    "The LDAP attribute to use to generate the user's display name." : "תכונת LDAP לשימוש כדי להפיק את שם התצוגה של המשתמש.",
     "2nd User Display Name Field" : "שדה שני לשם תצוגת משתמש",
     "Base User Tree" : "עץ משתמש בסיסי",
     "User Search Attributes" : "מאפייני חיפוש משתמש",

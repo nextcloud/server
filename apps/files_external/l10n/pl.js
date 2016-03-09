@@ -24,6 +24,7 @@ OC.L10N.register(
     "Username" : "Nazwa użytkownika",
     "Password" : "Hasło",
     "Save" : "Zapisz",
+    "Access key" : "Klucz dostępu",
     "None" : "Nic",
     "App key" : "Klucz aplikacji",
     "App secret" : "Hasło aplikacji",
