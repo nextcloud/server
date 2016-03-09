@@ -61,7 +61,7 @@ class SyncBirthdayCalendar extends Command {
 	 * @param OutputInterface $output
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		if ($input->hasArgument('user')) {
+		if ($input->getArgument('user') !== null) {
 			$user = $input->getArgument('user');
 			if (!$this->userManager->userExists($user)) {
 				throw new \InvalidArgumentException("User <$user> in unknown.");
