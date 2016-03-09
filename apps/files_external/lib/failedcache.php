@@ -29,6 +29,17 @@ use OCP\Files\Cache\ICache;
  * Storage placeholder to represent a missing precondition, storage unavailable
  */
 class FailedCache implements ICache {
+	private $visible;
+
+	/**
+	 * FailedCache constructor.
+	 *
+	 * @param bool $visible
+	 */
+	public function __construct($visible = true) {
+		$this->visible = $visible;
+	}
+
 
 	public function getNumericStorageId() {
 		return -1;
@@ -41,7 +52,7 @@ class FailedCache implements ICache {
 				'size' => 0,
 				'mimetype' => 'httpd/unix-directory',
 				'mimepart' => 'httpd',
-				'permissions' => Constants::PERMISSION_READ,
+				'permissions' => $this->visible ? Constants::PERMISSION_READ : 0,
 				'mtime' => time()
 			]);
 		} else {
