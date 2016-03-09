@@ -196,7 +196,7 @@
 					}
 
 					// only set background when we have an actual preview
-					// when we dont have a preview we show the mime icon in the error handler
+					// when we don't have a preview we show the mime icon in the error handler
 					$iconDiv.css({
 						'background-image': 'url("' + previewUrl + '")',
 						height: (targetHeight > smallPreviewSize)? 'auto': targetHeight,

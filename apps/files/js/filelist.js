@@ -468,7 +468,7 @@
 				actionsWidth += $(action).outerWidth();
 			});
 
-			// substract app navigation toggle when visible
+			// subtract app navigation toggle when visible
 			containerWidth -= $('#app-navigation-toggle').width();
 
 			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
