@@ -73,7 +73,7 @@ class GroupPropagationManagerTest extends TestCase {
 		$userSession = $this->getMockBuilder('\OCP\IUserSession')
 		                    ->disableOriginalConstructor()
 		                    ->getMock();
-		$userSession->method('getUser')->willReturn(selF::TEST_FILES_SHARING_API_USER1);
+		$userSession->method('getUser')->willReturn(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->propagationManager = $this->getMockBuilder('OCA\Files_Sharing\Propagation\PropagationManager')
 			->disableOriginalConstructor()
