@@ -36,6 +36,10 @@ class Scanner extends \OC\Files\Cache\Scanner {
 
 	/** {@inheritDoc} */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
+		if(!$this->storage->remoteIsOwnCloud()) {
+			return parent::scan($path, $recursive, $recursive, $lock);
+		}
+
 		$this->scanAll();
 	}
 
@@ -90,7 +94,6 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		}
 		if ($data['status'] === 'success') {
 			$this->addResult($data['data'], '');
-		} elseif ($data['status'] === 'unsupported') {
 		} else {
 			throw new \Exception(
 				'Error while scanning remote share: "' .
