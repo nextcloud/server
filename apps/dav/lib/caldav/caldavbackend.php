@@ -1294,7 +1294,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		if (!$componentType) {
 			throw new \Sabre\DAV\Exception\BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
 		}
-		if ($componentType === 'VEVENT') {
+		if ($componentType === 'VEVENT' && $component->DTSTART) {
 			$firstOccurence = $component->DTSTART->getDateTime()->getTimeStamp();
 			// Finding the last occurence is a bit harder
 			if (!isset($component->RRULE)) {
