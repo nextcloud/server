@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<info>
+	<id>files_external_ftp</id>
+	<name>FTP storage support</name>
+	<description>FTP backend for files_external</description>
+	<licence>AGPL</licence>
+	<author>Robin Appelman</author>
+	<types>
+		<filesystem/>
+	</types>
+	<version>0.1.0</version>
+	<dependencies>
+		<owncloud min-version="9.1" max-version="9.1"/>
+	</dependencies>
+</info>

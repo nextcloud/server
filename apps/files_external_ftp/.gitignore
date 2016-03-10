@@ -1,0 +1,4 @@
+tests/config.json
+tests/clover.xml
+vendor
+composer.lock

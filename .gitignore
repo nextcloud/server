@@ -16,6 +16,7 @@
 !/apps/federatedfilesharing
 !/apps/encryption
 !/apps/files_external
+!/apps/files_external_ftp
 !/apps/files_sharing
 !/apps/files_trashbin
 !/apps/files_versions
