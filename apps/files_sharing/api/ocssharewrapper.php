@@ -36,7 +36,7 @@ class OCSShareWrapper {
 			\OC::$server->getUserSession()->getUser());
 	}
 
-	public function getAllShares($params) {
+	public function getAllShares() {
 		return $this->getShare20OCS()->getShares();
 	}
 
