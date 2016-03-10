@@ -110,6 +110,7 @@ class ServerFactory {
 		if($this->request->isUserAgent([
 				'/WebDAVFS/',
 				'/Microsoft Office OneNote 2013/',
+				'/Microsoft-WebDAV-MiniRedir/',
 		])) {
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
 		}
