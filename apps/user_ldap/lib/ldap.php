@@ -202,16 +202,6 @@ class LDAP implements ILDAPWrapper {
 
 	/**
 	 * @param LDAP $link
-	 * @param LDAP $result
-	 * @param string $sortFilter
-	 * @return mixed
-	 */
-	public function sort($link, $result, $sortFilter) {
-		return $this->invokeLDAPMethod('sort', $link, $result, $sortFilter);
-	}
-
-	/**
-	 * @param LDAP $link
 	 * @return mixed|true
 	 */
 	public function startTls($link) {
@@ -283,10 +273,7 @@ class LDAP implements ILDAPWrapper {
 			$errorCode = ldap_errno($this->curArgs[0]);
 			$errorMsg  = ldap_error($this->curArgs[0]);
 			if($errorCode !== 0) {
-				if($this->curFunc === 'ldap_sort' && $errorCode === -4) {
-					//You can safely ignore that decoding error.
-					//… says https://bugs.php.net/bug.php?id=18023
-				} else if($this->curFunc === 'ldap_get_entries'
+				if($this->curFunc === 'ldap_get_entries'
 						  && $errorCode === -4) {
 				} else if ($errorCode === 32) {
 					//for now
