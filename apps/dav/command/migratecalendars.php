@@ -61,8 +61,8 @@ class MigrateCalendars extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$this->service->setup();
 
-		if ($input->hasArgument('user')) {
-			$user = $input->getArgument('user');
+		$user = $input->getArgument('user');
+		if (!is_null($user)) {
 			if (!$this->userManager->userExists($user)) {
 				throw new \InvalidArgumentException("User <$user> in unknown.");
 			}
