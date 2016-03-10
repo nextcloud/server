@@ -22,10 +22,19 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
 
 class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
+
+	public function __construct(BackendInterface $caldavBackend, $calendarInfo) {
+		parent::__construct($caldavBackend, $calendarInfo);
+
+		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
+			$this->calendarInfo['{http://sabredav.org/ns}read-only'] = true;
+		}
+	}
 
 	/**
 	 * Updates the list of shares.
@@ -100,10 +109,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	function delete() {
-		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
-			throw new Forbidden();
-		}
-
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal'])) {
 			$principal = 'principal:' . parent::getOwner();
 			$shares = $this->getShares();
