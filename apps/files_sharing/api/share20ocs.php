@@ -50,7 +50,7 @@ class Share20OCS {
 	private $request;
 	/** @var IRootFolder */
 	private $rootFolder;
-	/** @var IUrlGenerator */
+	/** @var IURLGenerator */
 	private $urlGenerator;
 	/** @var IUser */
 	private $currentUser;
