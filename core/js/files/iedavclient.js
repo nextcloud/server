@@ -39,7 +39,12 @@
 			for(ii in headers) {
 				xhr.setRequestHeader(ii, headers[ii]);
 			}
-			xhr.send(body);
+
+			if (body === undefined) {
+				xhr.send();
+			} else {
+				xhr.send(body);
+			}
 
 			return new Promise(function(fulfill, reject) {
 
