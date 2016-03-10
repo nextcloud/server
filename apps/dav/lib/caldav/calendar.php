@@ -23,6 +23,7 @@ namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\PropPatch;
 
 class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
@@ -121,5 +122,14 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			return;
 		}
 		parent::delete();
+	}
+
+	function propPatch(PropPatch $propPatch) {
+		$mutations = $propPatch->getMutations();
+		// If this is a shared calendar, the user can only change the enabled property, to hide it.
+		if (isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal']) && (sizeof($mutations) !== 1 || !isset($mutations['{http://owncloud.org/ns}calendar-enabled']))) {
+			throw new Forbidden();
+		}
+		parent::propPatch($propPatch);
 	}
 }
