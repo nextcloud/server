@@ -78,6 +78,12 @@ class TrustedDomainHelper {
 		if (preg_match(Request::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
 		}
+
+		// Compare with port appended
+		if(in_array($domainWithPort, $trustedList, true)) {
+			return true;
+		}
+
 		return in_array($domain, $trustedList, true);
 	}
 
