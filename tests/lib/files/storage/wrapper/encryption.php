@@ -672,6 +672,48 @@ class Encryption extends Storage {
 		];
 	}
 
+	public function testCopyBetweenStorageMinimumEncryptedVersion() {
+		$storage2 = $this->getMockBuilder('OCP\Files\Storage')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$sourceInternalPath = $targetInternalPath = 'file.txt';
+		$preserveMtime = $isRename = false;
+
+		$storage2->expects($this->any())
+			->method('fopen')
+			->willReturnCallback(function($path, $mode) {
+				$temp = \OC::$server->getTempManager();
+				return fopen($temp->getTemporaryFile(), $mode);
+			});
+		$cache = $this->getMock('\OCP\Files\Cache\ICache');
+		$cache->expects($this->once())
+			->method('get')
+			->with($sourceInternalPath)
+			->willReturn(['encryptedVersion' => 0]);
+		$storage2->expects($this->once())
+			->method('getCache')
+			->willReturn($cache);
+		$this->encryptionManager->expects($this->any())
+			->method('isEnabled')
+			->willReturn(true);
+		global $mockedMountPointEncryptionEnabled;
+		$mockedMountPointEncryptionEnabled = true;
+
+		$expectedCachePut = [
+			'encrypted' => true,
+		];
+		$expectedCachePut['encryptedVersion'] = 1;
+
+		$this->cache->expects($this->once())
+			->method('put')
+			->with($sourceInternalPath, $expectedCachePut);
+
+		$this->invokePrivate($this->instance, 'copyBetweenStorage', [$storage2, $sourceInternalPath, $targetInternalPath, $preserveMtime, $isRename]);
+
+		$this->assertFalse(false);
+	}
+
 	/**
 	 * @dataProvider dataCopyBetweenStorage
 	 *
