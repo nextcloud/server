@@ -53,7 +53,7 @@
   Options -MultiViews
   RewriteRule ^core/js/oc.js$ index.php/core/js/oc.js [PT,E=PATH_INFO:$1]
   RewriteRule ^core/preview.png$ index.php/core/preview.png [PT,E=PATH_INFO:$1]
-  RewriteCond %{REQUEST_FILENAME} !\.(css|js|svg|gif|png|html|ttf|woff|ico)$
+  RewriteCond %{REQUEST_FILENAME} !\.(css|js|svg|gif|png|html|ttf|woff|ico|jpg|jpeg)$
   RewriteCond %{REQUEST_FILENAME} !core/img/favicon.ico$
   RewriteCond %{REQUEST_FILENAME} !/remote.php
   RewriteCond %{REQUEST_FILENAME} !/public.php
