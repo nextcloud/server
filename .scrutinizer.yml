@@ -20,7 +20,7 @@ filter:
         - 'settings/l10n/*'
         - 'tests/*'
         - 'build/*'
-
+        - 'lib/composer/*'
 
 imports:
     - javascript
