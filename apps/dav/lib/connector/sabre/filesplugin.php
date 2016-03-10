@@ -235,6 +235,16 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function() use ($node) {
 				return $node->getEtag();
 			});
+
+			$propFind->handle(self::OWNER_ID_PROPERTYNAME, function() use ($node) {
+				$owner = $node->getOwner();
+				return $owner->getUID();
+			});
+			$propFind->handle(self::OWNER_DISPLAY_NAME_PROPERTYNAME, function() use ($node) {
+				$owner = $node->getOwner();
+				$displayName = $owner->getDisplayName();
+				return $displayName;
+			});
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
@@ -267,16 +277,6 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 				return $node->getSize();
 			});
 		}
-
-		$propFind->handle(self::OWNER_ID_PROPERTYNAME, function() use ($node) {
-			$owner = $node->getOwner();
-			return $owner->getUID();
-		});
-		$propFind->handle(self::OWNER_DISPLAY_NAME_PROPERTYNAME, function() use ($node) {
-			$owner = $node->getOwner();
-			$displayName = $owner->getDisplayName();
-			return $displayName;
-		});
 	}
 
 	/**
