@@ -223,10 +223,10 @@ class Sharees {
 		foreach ($groups as $gid) {
 			if (strtolower($gid) === $search) {
 				$this->result['exact']['groups'][] = [
-					'label' => $search,
+					'label' => $gid,
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_GROUP,
-						'shareWith' => $search,
+						'shareWith' => $gid,
 					],
 				];
 			} else {
