@@ -31,7 +31,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;
-use OCA\Files_External\Lib\FailedCache;
+use OC\Files\Cache\FailedCache;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
