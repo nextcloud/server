@@ -815,9 +815,9 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	function getCalendarObjectByUID($principalUri, $uid) {
 
 		$query = $this->db->getQueryBuilder();
-		$query->select([$query->createFunction('c.`uri` AS `calendaruri`'), $query->createFunction('co.`uri` AS `objecturi`')])
+		$query->selectAlias('c.uri', 'calendaruri')->selectAlias('co.uri', 'objecturi')
 			->from('calendarobjects', 'co')
-			->leftJoin('co', 'calendars', 'c', 'co.`calendarid` = c.`id`')
+			->leftJoin('co', 'calendars', 'c', $query->expr()->eq('co.calendarid', 'c.id'))
 			->where($query->expr()->eq('c.principaluri', $query->createNamedParameter($principalUri)))
 			->andWhere($query->expr()->eq('co.uid', $query->createNamedParameter($uid)));
 
