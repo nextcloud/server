@@ -122,6 +122,7 @@ function cleanup_config {
 
 	if [ ! -z "$DOCKER_CONTAINER_ID" ]; then
 		echo "Kill the docker $DOCKER_CONTAINER_ID"
+		docker stop "$DOCKER_CONTAINER_ID"
 		docker rm -f "$DOCKER_CONTAINER_ID"
 	fi
 
@@ -288,6 +289,7 @@ function execute_tests {
 
 	if [ ! -z "$DOCKER_CONTAINER_ID" ] ; then
 		echo "Kill the docker $DOCKER_CONTAINER_ID"
+		docker stop $DOCKER_CONTAINER_ID
 		docker rm -f $DOCKER_CONTAINER_ID
 		unset DOCKER_CONTAINER_ID
 	fi
