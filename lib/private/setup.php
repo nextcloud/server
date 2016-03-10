@@ -422,8 +422,9 @@ class Setup {
 
 		// Add rewrite base
 		$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
-		$content.="\n<IfModule mod_rewrite.c>";
-		$content.="\n  RewriteBase ".$webRoot;
+		$content .= "\n<IfModule mod_rewrite.c>";
+		$content .= "\n  RewriteRule .* index.php [PT,E=PATH_INFO:$1]";
+		$content .= "\n  RewriteBase ".$webRoot;
 		$content .= "\n  <IfModule mod_env.c>";
 		$content .= "\n    SetEnv front_controller_active true";
 		$content .= "\n    <IfModule mod_dir.c>";
