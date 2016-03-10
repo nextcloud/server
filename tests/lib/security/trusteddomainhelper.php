@@ -42,7 +42,12 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 	 * @return array
 	 */
 	public function trustedDomainDataProvider() {
-		$trustedHostTestList = ['host.one.test', 'host.two.test', '[1fff:0:a88:85a3::ac1f]'];
+		$trustedHostTestList = [
+			'host.one.test',
+			'host.two.test',
+			'[1fff:0:a88:85a3::ac1f]',
+			'host.three.test:443',
+		];
 		return [
 			// empty defaults to false with 8.1
 			[null, 'host.one.test:8080', false],
@@ -56,6 +61,9 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 			[$trustedHostTestList, '[1fff:0:a88:85a3::ac1f]', true],
 			[$trustedHostTestList, '[1fff:0:a88:85a3::ac1f]:801', true],
 			[$trustedHostTestList, '[1fff:0:a88:85a3::ac1f]:801:34', false],
+			[$trustedHostTestList, 'host.three.test:443', true],
+			[$trustedHostTestList, 'host.three.test:80', false],
+			[$trustedHostTestList, 'host.three.test', false],
 			// trust localhost regardless of trust list
 			[$trustedHostTestList, 'localhost', true],
 			[$trustedHostTestList, 'localhost:8080', true],
