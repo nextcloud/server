@@ -59,7 +59,7 @@ class BirthdayServiceTest extends TestCase {
 			$this->assertInstanceOf('Sabre\VObject\Component\VCalendar', $cal);
 			$this->assertTrue(isset($cal->VEVENT));
 			$this->assertEquals('FREQ=YEARLY', $cal->VEVENT->RRULE->getValue());
-			$this->assertEquals('12345\'s Birthday (1900)', $cal->VEVENT->SUMMARY->getValue());
+			$this->assertEquals('12345 (*1900)', $cal->VEVENT->SUMMARY->getValue());
 			$this->assertEquals('TRANSPARENT', $cal->VEVENT->TRANSP->getValue());
 		}
 	}
