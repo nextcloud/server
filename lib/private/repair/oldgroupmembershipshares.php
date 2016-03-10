@@ -69,7 +69,7 @@ class OldGroupMembershipShares extends BasicEmitter implements RepairStep {
 		$deletedEntries = 0;
 
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['s1.id', $query->createFunction('s1.`share_with` AS `user`'), $query->createFunction('s2.`share_with` AS `group`')])
+		$query->select('s1.id')->selectAlias('s1.share_with', 'user')->selectAlias('s2.share_with', 'group')
 			->from('share', 's1')
 			->where($query->expr()->isNotNull('s1.parent'))
 				// \OC\Share\Constant::$shareTypeGroupUserUnique === 2
