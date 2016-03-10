@@ -65,6 +65,7 @@ Feature: sharing
       | expiration | +3 days |
       | url | AN_URL |
       | token | A_TOKEN |
+      | mimetype | httpd/unix-directory |
 
   Scenario: Creating a new public share with password and adding an expiration date
     Given user "user0" exists
@@ -108,6 +109,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
       | url | AN_URL |
+      | mimetype | httpd/unix-directory |
 
   Scenario: Creating a new public share, updating its password and getting its info
     Given user "user0" exists
@@ -137,6 +139,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
       | url | AN_URL |
+      | mimetype | httpd/unix-directory |
 
   Scenario: Creating a new public share, updating its permissions and getting its info
     Given user "user0" exists
@@ -166,6 +169,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
       | url | AN_URL |
+      | mimetype | httpd/unix-directory |
 
   Scenario: Creating a new public share, updating publicUpload option and getting its info
     Given user "user0" exists
@@ -195,6 +199,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
       | url | AN_URL |
+      | mimetype | httpd/unix-directory |
 
   Scenario: getting all shares of a user using that user
     Given user "user0" exists
@@ -272,6 +277,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | share_with_displayname | user1 |
       | displayname_owner | user0 |
+      | mimetype          | text/plain |
 
   Scenario: keep group permissions in sync
     Given As an "admin"
@@ -302,6 +308,7 @@ Feature: sharing
       | storage_id | home::user0 |
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
+      | mimetype          | text/plain |
 
   Scenario: Sharee can see the share
     Given user "user0" exists
