@@ -23,3 +23,4 @@ use OCA\Dav\AppInfo\Application;
 
 $app = new Application();
 $app->setupCron();
+$app->generateBirthdays();
