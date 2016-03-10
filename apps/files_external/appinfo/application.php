@@ -71,7 +71,6 @@ class Application extends App {
 
 		$service->registerBackends([
 			$container->query('OCA\Files_External\Lib\Backend\Local'),
-			$container->query('OCA\Files_External\Lib\Backend\FTP'),
 			$container->query('OCA\Files_External\Lib\Backend\DAV'),
 			$container->query('OCA\Files_External\Lib\Backend\OwnCloud'),
 			$container->query('OCA\Files_External\Lib\Backend\SFTP'),

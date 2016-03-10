@@ -33,13 +33,6 @@ if (file_exists($privateConfigFile)) {
 
 // this is now more a template now for your private configurations
 return array(
-	'ftp'=>array(
-		'run'=>false,
-		'host'=>'localhost',
-		'user'=>'test',
-		'password'=>'test',
-		'root'=>'/test',
-	),
 	'webdav'=>array(
 		'run'=>false,
 		'host'=>'localhost',
