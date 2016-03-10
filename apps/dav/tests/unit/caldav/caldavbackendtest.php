@@ -57,11 +57,11 @@ class CalDavBackendTest extends TestCase {
 			->disableOriginalConstructor()
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
-		$this->principal->method('getPrincipalByPath')
+		$this->principal->expects($this->any())->method('getPrincipalByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend'
 			]);
-		$this->principal->method('getGroupMembership')
+		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP]);
 
@@ -444,6 +444,21 @@ EOD;
 
 		$sos = $this->backend->getSchedulingObjects(self::UNIT_TEST_USER);
 		$this->assertEquals(0, count($sos));
+	}
+
+	/**
+	 * @dataProvider providesCalDataForGetDenormalizedData
+	 */
+	public function testGetDenormalizedData($expectedFirstOccurance, $calData) {
+		$actual = $this->invokePrivate($this->backend, 'getDenormalizedData', [$calData]);
+		$this->assertEquals($expectedFirstOccurance, $actual['firstOccurence']);
+	}
+
+	public function providesCalDataForGetDenormalizedData() {
+		return [
+			[0, "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nDTSTART;VALUE=DATE:16040222\r\nDTEND;VALUE=DATE:16040223\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			[null, "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"]
+		];
 	}
 
 	private function assertAcl($principal, $privilege, $acl) {
