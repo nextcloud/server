@@ -22,7 +22,8 @@ trait Sharing{
 
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function asCreatingAShareWith($user, $body) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v1/shares";
@@ -54,7 +55,7 @@ trait Sharing{
 
 	/**
 	 * @When /^creating a share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function creatingShare($body) {
 		return $this->asCreatingAShareWith($this->currentUser, $body);
@@ -247,6 +248,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^File "([^"]*)" should be included in the response$/
+	 *
+	 * @param string $filename
 	 */
 	public function checkSharedFileInResponse($filename){
 		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('file_target', "/$filename"));
@@ -254,6 +257,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^File "([^"]*)" should not be included in the response$/
+	 *
+	 * @param string $filename
 	 */
 	public function checkSharedFileNotInResponse($filename){
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
@@ -261,6 +266,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^User "([^"]*)" should be included in the response$/
+	 *
+	 * @param string $user
 	 */
 	public function checkSharedUserInResponse($user){
 		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('share_with', "$user"));
@@ -268,6 +275,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^User "([^"]*)" should not be included in the response$/
+	 *
+	 * @param string $user
 	 */
 	public function checkSharedUserNotInResponse($user){
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('share_with', "$user"));
@@ -285,6 +294,10 @@ trait Sharing{
 
 	/**
 	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"$/
+	 *
+	 * @param string $filepath
+	 * @param string $user1
+	 * @param string $user2
 	 */
 	public function assureFileIsShared($filepath, $user1, $user2){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
@@ -307,6 +320,10 @@ trait Sharing{
 
 	/**
 	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"$/
+	 *
+	 * @param string $filepath
+	 * @param string $user
+	 * @param string $group
 	 */
 	public function assureFileIsSharedWithGroup($filepath, $user, $group){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
@@ -367,7 +384,7 @@ trait Sharing{
 
 	/**
 	 * @Then /^Share fields of last share match with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function checkShareFields($body){
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
