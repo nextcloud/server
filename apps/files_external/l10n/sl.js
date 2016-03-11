@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
+    "Fetching request tokens failed. Verify that your app key and secret are correct." : "Pridobivanje žetonov zahteve je spodletelo. Preverite, ali sta ključ in skrivno geslo programa navedena pravilno.",
+    "Please provide a valid app key and secret." : "Vpisati je treba veljaven ključ programa in kodo.",
     "Step 1 failed. Exception: %s" : "1. korak je spodletel. Izjemna napaka: %s",
     "Step 2 failed. Exception: %s" : "2. korak je spodletel. Izjemna napaka: %s",
     "External storage" : "Zunanja shramba",
@@ -25,6 +27,7 @@ OC.L10N.register(
     "Once every direct access" : "Enkrat ob neposrednem dostopu",
     "All users. Type to select user or group." : "Vsi uporabniki. Skupino ali uporabnika je mogoče tudi izbrati.",
     "(group)" : "(skupina)",
+    "Admin defined" : "Skrbnik je določen",
     "Saved" : "Shranjeno",
     "There was an error with message: " : "Prišlo je do napake s sporočilom:",
     "External mount error" : "Notranja napaka priklopa",

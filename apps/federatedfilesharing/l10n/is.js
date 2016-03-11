@@ -1,0 +1,9 @@
+OC.L10N.register(
+    "federatedfilesharing",
+    {
+    "Invalid Federated Cloud ID" : "Ógilt skýjasambandsauðkenni (Federated Cloud ID)",
+    "Sharing %s failed, because this item is already shared with %s" : "Deiling %s mistókst, því þessu atriði er þegar deilt með %s",
+    "Not allowed to create a federated share with the same user" : "Ekki er heimilt að búa til skýjasambandssameign með sama notanda",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deiling %s mistókst, gat ekki fundið %s, hugsanlega er þjónninn ekki tiltækur í augnablikinu."
+},
+"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

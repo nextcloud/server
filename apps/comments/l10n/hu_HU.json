@@ -3,17 +3,17 @@
     "%1$s commented" : "%1$s hozzászólt",
     "%1$s commented on %2$s" : "%1$s hozzászólt ehhez: %2$s",
     "Comments" : "Hozzászólások",
-    "Type in a new comment..." : "Új hozzászólás beírása...",
+    "Type in a new comment..." : "Új hozzászólás írása...",
     "Delete comment" : "Hozzászólás törlése",
     "Post" : "Küldés",
     "Cancel" : "Mégsem",
     "Edit comment" : "Hozzászólás szerkesztése",
     "[Deleted user]" : "[Törölt felhasználó]",
-    "No other comments available" : "Nincs további hozzászólás.",
+    "No other comments available" : "Nincs több hozzászólás.",
     "More comments..." : "Több hozzászólás...",
     "Save" : "Mentés",
     "Allowed characters {count} of {max}" : "Engedélyezett karakterek: {count} / {max}",
     "{count} unread comments" : "{count} olvasatlan hozzászólás",
-    "Comment" : "Komment"
+    "Comment" : "Hozzászólás"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

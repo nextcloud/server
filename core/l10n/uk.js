@@ -175,6 +175,7 @@ OC.L10N.register(
     "sunny" : "сонячно",
     "Hello {name}, the weather is {weather}" : "Привіт {name}, погода {weather} ",
     "Hello {name}" : "Привіт {name}",
+    "new" : "новий",
     "_download %n file_::_download %n files_" : ["завантаження %n файлу","завантаження %n файлів","завантаження %n файлів"],
     "Updating {productName} to version {version}, this may take a while." : "Оновлення {productName} до версії {version}, це може займати деякий час.",
     "An error occurred." : "Виникла помилка.",
