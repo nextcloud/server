@@ -44,6 +44,13 @@ use OCP\Security\ISecureRandom;
 /**
  * Class for accessing variables in the request.
  * This class provides an immutable object with request variables.
+ *
+ * @property mixed[] cookies
+ * @property mixed[] env
+ * @property mixed[] files
+ * @property string method
+ * @property mixed[] parameters
+ * @property mixed[] server
  */
 class Request implements \ArrayAccess, \Countable, IRequest {
 
@@ -260,7 +267,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @param string $id
 	 */
 	public function __unset($id) {
-		throw new \RunTimeException('You cannot change the contents of the request object');
+		throw new \RuntimeException('You cannot change the contents of the request object');
 	}
 
 	/**
