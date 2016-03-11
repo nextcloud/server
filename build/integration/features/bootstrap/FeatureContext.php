@@ -10,6 +10,5 @@ require __DIR__ . '/../../vendor/autoload.php';
  * Features context.
  */
 class FeatureContext implements Context, SnippetAcceptingContext {
-	use Sharing;
 	use WebDav;
 }
