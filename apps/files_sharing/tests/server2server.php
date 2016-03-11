@@ -147,6 +147,38 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 		$this->assertEmpty($data);
 	}
 
+	function testDeclineShareMultiple() {
+		$dummy = \OCP\DB::prepare('
+			INSERT INTO `*PREFIX*share`
+			(`share_type`, `uid_owner`, `item_type`, `item_source`, `item_target`, `file_source`, `file_target`, `permissions`, `stime`, `token`, `share_with`)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			');
+		$dummy->execute(array(\OCP\Share::SHARE_TYPE_REMOTE, self::TEST_FILES_SHARING_API_USER1, 'test', '1', '/1', '1', '/test.txt', '1', time(), 'token1', 'foo@bar'));
+		$dummy->execute(array(\OCP\Share::SHARE_TYPE_REMOTE, self::TEST_FILES_SHARING_API_USER1, 'test', '1', '/1', '1', '/test.txt', '1', time(), 'token2', 'bar@bar'));
+
+		$verify = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share`');
+		$result = $verify->execute();
+		$data = $result->fetchAll();
+		$this->assertCount(2, $data);
+
+		$_POST['token'] = 'token1';
+		$this->s2s->declineShare(array('id' => $data[0]['id']));
+
+		$verify = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share`');
+		$result = $verify->execute();
+		$data = $result->fetchAll();
+		$this->assertCount(1, $data);
+		$this->assertEquals('bar@bar', $data[0]['share_with']);
+
+		$_POST['token'] = 'token2';
+		$this->s2s->declineShare(array('id' => $data[0]['id']));
+
+		$verify = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share`');
+		$result = $verify->execute();
+		$data = $result->fetchAll();
+		$this->assertEmpty($data);
+	}
+
 	/**
 	 * @dataProvider dataTestDeleteUser
 	 */

@@ -178,7 +178,7 @@ class Server2Server {
 
 		if ($share) {
 			// userId must be set to the user who unshares
-			\OCP\Share::unshare($share['item_type'], $share['item_source'], $share['share_type'], null, $share['uid_owner']);
+			\OCP\Share::unshare($share['item_type'], $share['item_source'], $share['share_type'], $share['share_with'], $share['uid_owner']);
 
 			list($file, $link) = $this->getFile($share['uid_owner'], $share['file_source']);
 
