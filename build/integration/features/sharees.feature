@@ -40,6 +40,60 @@ Feature: sharees
     And "exact remotes" sharees returned is empty
     And "remotes" sharees returned is empty
 
+# TODO need to move the appconfig setting from Capabilities to Basic/Provisioning
+#  Scenario: Search without exact match no iteration allowed
+#    Given user "test" exists
+#    And user "Sharee1" exists
+#    And group "ShareeGroup" exists
+#    And As an "test"
+#    When getting sharees for
+#      | search | Sharee |
+#      | itemType | file |
+#    Then the OCS status code should be "100"
+#    And the HTTP status code should be "200"
+#    And "exact users" sharees returned is empty
+#    And "users" sharees returned is empty
+#    And "exact groups" sharees returned is empty
+#    And "groups" sharees returned is empty
+#    And "exact remotes" sharees returned is empty
+#    And "remotes" sharees returned is empty
+#
+#  Scenario: Search with exact match no iteration allowed
+#    Given user "test" exists
+#    And user "Sharee1" exists
+#    And group "ShareeGroup" exists
+#    And As an "test"
+#    When getting sharees for
+#      | search | Sharee1 |
+#      | itemType | file |
+#    Then the OCS status code should be "100"
+#    And the HTTP status code should be "200"
+#    And "exact users" sharees returned are
+#      | Sharee1 | 0 | Sharee1 |
+#    And "users" sharees returned is empty
+#    And "exact groups" sharees returned is empty
+#    And "groups" sharees returned is empty
+#    And "exact remotes" sharees returned is empty
+#    And "remotes" sharees returned is empty
+#
+#  Scenario: Search with exact match group no iteration allowed
+#    Given user "test" exists
+#    And user "Sharee1" exists
+#    And group "ShareeGroup" exists
+#    And As an "test"
+#    When getting sharees for
+#      | search | ShareeGroup |
+#      | itemType | file |
+#    Then the OCS status code should be "100"
+#    And the HTTP status code should be "200"
+#    And "exact users" sharees returned is empty
+#    And "users" sharees returned is empty
+#    And "exact groups" sharees returned are
+#      | ShareeGroup | 1 | ShareeGroup |
+#    And "groups" sharees returned is empty
+#    And "exact remotes" sharees returned is empty
+#    And "remotes" sharees returned is empty
+
   Scenario: Search with exact match
     Given user "test" exists
     And user "Sharee1" exists
