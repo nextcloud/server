@@ -36,6 +36,7 @@ use OC\Repair\Collation;
 use OC\Repair\DropOldJobs;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
+use OC\Repair\SharePropagation;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
 use OC\Repair\FillETags;
@@ -114,6 +115,7 @@ class Repair extends BasicEmitter {
 			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			new SharePropagation(\OC::$server->getConfig()),
 		];
 	}
 
