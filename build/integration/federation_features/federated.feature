@@ -86,23 +86,28 @@ Feature: federated
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 
-	Scenario: Federate reshare a file
+	Scenario: Reshare a federated shared file
 		Given Using server "REMOTE"
 		And user "user1" exists
+		And user "user2" exists
 		And Using server "LOCAL"
 		And user "user0" exists
 		And User "user0" from server "LOCAL" shares "/textfile0.txt" with user "user1" from server "REMOTE"
 		And User "user1" from server "REMOTE" accepts last pending share
 		And Using server "REMOTE"
 		And As an "user1"
-		When User "user1" from server "REMOTE" shares "/textfile0 (2).txt" with user "user0" from server "LOCAL"
+		When creating a share with
+    		| path | /textfile0 (2).txt |
+    		| shareType | 0 |
+    		| shareWith | user2 |
+      		| permissions | 19 |
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And Share fields of last share match with
 			| id | A_NUMBER |
 			| item_type | file |
 			| item_source | A_NUMBER |
-			| share_type | 6 |
+			| share_type | 0 |
 			| file_source | A_NUMBER |
 			| path | /textfile0 (2).txt |
 			| permissions | 19 |
@@ -112,8 +117,8 @@ Feature: federated
 			| uid_owner | user1 |
 			| file_parent | A_NUMBER |
 			| displayname_owner | user1 |
-			| share_with | user0@LOCAL |
-			| share_with_displayname | user0@LOCAL |
+			| share_with | user2 |
+			| share_with_displayname | user2 |
 
 
 
