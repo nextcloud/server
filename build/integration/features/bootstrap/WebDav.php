@@ -1,7 +1,5 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client as GClient;
 use GuzzleHttp\Message\ResponseInterface;
 use Sabre\DAV\Client as SClient;
@@ -10,6 +8,8 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 
 trait WebDav {
+	use Sharing;
+
 	/** @var string*/
 	private $davPath = "remote.php/webdav";
 	/** @var ResponseInterface */
@@ -47,6 +47,9 @@ trait WebDav {
 
 	/**
 	 * @Given /^User "([^"]*)" moved file "([^"]*)" to "([^"]*)"$/
+	 * @param string $user
+	 * @param string $fileSource
+	 * @param string $fileDestination
 	 */
 	public function userMovedFile($user, $fileSource, $fileDestination){
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
@@ -57,6 +60,9 @@ trait WebDav {
 
 	/**
 	 * @When /^User "([^"]*)" moves file "([^"]*)" to "([^"]*)"$/
+	 * @param string $user
+	 * @param string $fileSource
+	 * @param string $fileDestination
 	 */
 	public function userMovesFile($user, $fileSource, $fileDestination){
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
@@ -66,15 +72,17 @@ trait WebDav {
 
 	/**
 	 * @When /^Downloading file "([^"]*)" with range "([^"]*)"$/
+	 * @param string $fileSource
+	 * @param string $range
 	 */
 	public function downloadFileWithRange($fileSource, $range){
-		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
 		$headers['Range'] = $range;
 		$this->response = $this->makeDavRequest($this->currentUser, "GET", $fileSource, $headers);
 	}
 
 	/**
 	 * @When /^Downloading last public shared file with range "([^"]*)"$/
+	 * @param string $range
 	 */
 	public function downloadPublicFileWithRange($range){
 		$token = $this->lastShareData->data->token;
@@ -93,6 +101,7 @@ trait WebDav {
 
 	/**
 	 * @Then /^Downloaded content should be "([^"]*)"$/
+	 * @param string $content
 	 */
 	public function downloadedContentShouldBe($content){
 		PHPUnit_Framework_Assert::assertEquals($content, (string)$this->response->getBody());
@@ -100,6 +109,9 @@ trait WebDav {
 
 	/**
 	 * @Then /^Downloaded content when downloading file "([^"]*)" with range "([^"]*)" should be "([^"]*)"$/
+	 * @param string $fileSource
+	 * @param string $range
+	 * @param string $content
 	 */
 	public function downloadedContentWhenDownloadindShouldBe($fileSource, $range, $content){
 		$this->downloadFileWithRange($fileSource, $range);
@@ -108,6 +120,7 @@ trait WebDav {
 
 	/**
 	 * @When Downloading file :fileName
+	 * @param string $fileName
 	 */
 	public function downloadingFile($fileName) {
 		$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
@@ -115,6 +128,8 @@ trait WebDav {
 
 	/**
 	 * @Then The following headers should be set
+	 * @param \Behat\Gherkin\Node\TableNode $table
+	 * @throws \Exception
 	 */
 	public function theFollowingHeadersShouldBeSet(\Behat\Gherkin\Node\TableNode $table) {
 		foreach($table->getTable() as $header) {
@@ -136,6 +151,8 @@ trait WebDav {
 
 	/**
 	 * @Then Downloaded content should start with :start
+	 * @param int $start
+	 * @throws \Exception
 	 */
 	public function downloadedContentShouldStartWith($start) {
 		if(strpos($this->response->getBody()->getContents(), $start) !== 0) {
@@ -151,6 +168,8 @@ trait WebDav {
 
 	/**
 	 * @Then /^as "([^"]*)" gets properties of folder "([^"]*)" with$/
+	 * @param string $user
+	 * @param string $path
 	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
 	 */
 	public function asGetsPropertiesOfFolderWith($user, $path, $propertiesTable) {
@@ -165,11 +184,14 @@ trait WebDav {
 
 	/**
 	 * @Then the single response should contain a property :key with value :value
+	 * @param string $key
+	 * @param string $expectedValue
+	 * @throws \Exception
 	 */
 	public function theSingleResponseShouldContainAPropertyWithValue($key, $expectedValue) {
 		$keys = $this->response;
 		if (!isset($keys[$key])) {
-			throw new \Exception("Cannot find property \"$key\" with \"$expectedalue\"");
+			throw new \Exception("Cannot find property \"$key\" with \"$expectedValue\"");
 		}
 
 		$value = $keys[$key];
@@ -208,6 +230,7 @@ trait WebDav {
 
 	/**
 	 * @Then /^user "([^"]*)" should see following elements$/
+	 * @param string $user
 	 * @param \Behat\Gherkin\Node\TableNode|null $expectedElements
 	 */
 	public function checkElementList($user, $expectedElements){
@@ -226,6 +249,9 @@ trait WebDav {
 
 	/**
 	 * @When User :user uploads file :source to :destination
+	 * @param string $user
+	 * @param string $source
+	 * @param string $destination
 	 */
 	public function userUploadsAFileTo($user, $source, $destination)
 	{
@@ -240,6 +266,8 @@ trait WebDav {
 
 	/**
 	 * @When User :user deletes file :file
+	 * @param string $user
+	 * @param string $file
 	 */
 	public function userDeletesFile($user, $file)  {
 		try {
@@ -252,6 +280,8 @@ trait WebDav {
 
 	/**
 	 * @Given User :user created a folder :destination
+	 * @param string $user
+	 * @param string $destination
 	 */
 	public function userCreatedAFolder($user, $destination){
 		try {
@@ -264,6 +294,11 @@ trait WebDav {
 
 	/**
 	 * @Given user :user uploads chunk file :num of :total with :data to :destination
+	 * @param string $user
+	 * @param int $num
+	 * @param int $total
+	 * @param string $data
+	 * @param string $destination
 	 */
 	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination)
 	{

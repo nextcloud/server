@@ -1,16 +1,12 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait Provisioning {
-
-	/** @var int */
-	private $apiVersion = 1;
+	use BasicStructure;
 
 	/** @var array */
 	private $createdUsers = [];
@@ -25,14 +21,8 @@ trait Provisioning {
 	private $createdGroups = [];
 
 	/**
-	 * @Given /^using api version "([^"]*)"$/
-	 */
-	public function usingApiVersion($version) {
-		$this->apiVersion = $version;
-	}
-
-	/**
 	 * @Given /^user "([^"]*)" exists$/
+	 * @param string $user
 	 */
 	public function assureUserExists($user) {
 		try {
@@ -50,6 +40,7 @@ trait Provisioning {
 
 	/**
 	 * @Given /^user "([^"]*)" does not exist$/
+	 * @param string $user
 	 */
 	public function userDoesNotExist($user) {
 		try {
@@ -142,6 +133,8 @@ trait Provisioning {
 
 	/**
 	 * @Then /^check that user "([^"]*)" belongs to group "([^"]*)"$/
+	 * @param string $user
+	 * @param string $group
 	 */
 	public function checkThatUserBelongsToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
@@ -167,7 +160,6 @@ trait Provisioning {
 		}
 
 		$this->response = $client->get($fullUrl, $options);
-		$groups = array($group);
 		$respondedArray = $this->getArrayOfGroupsResponded($this->response);
 
 		if (array_key_exists($group, $respondedArray)) {
@@ -179,6 +171,8 @@ trait Provisioning {
 
 	/**
 	 * @Given /^user "([^"]*)" belongs to group "([^"]*)"$/
+	 * @param string $user
+	 * @param string $group
 	 */
 	public function assureUserBelongsToGroup($user, $group){
 		if (!$this->userBelongsToGroup($user, $group)){
@@ -193,6 +187,8 @@ trait Provisioning {
 
 	/**
 	 * @Given /^user "([^"]*)" does not belong to group "([^"]*)"$/
+	 * @param string $user
+	 * @param string $group
 	 */
 	public function userDoesNotBelongToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/users/$user/groups";
@@ -209,8 +205,9 @@ trait Provisioning {
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
-		/**
+	/**
 	 * @When /^creating the group "([^"]*)"$/
+	 * @param string $group
 	 */
 	public function creatingTheGroup($group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups";
@@ -234,6 +231,7 @@ trait Provisioning {
 
 	/**
 	 * @When /^Deleting the user "([^"]*)"$/
+	 * @param string $user
 	 */
 	public function deletingTheUser($user) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
@@ -248,6 +246,7 @@ trait Provisioning {
 
 	/**
 	 * @When /^Deleting the group "([^"]*)"$/
+	 * @param string $group
 	 */
 	public function deletingTheGroup($group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/groups/$group";
@@ -262,6 +261,8 @@ trait Provisioning {
 
 	/**
 	 * @Given /^Add user "([^"]*)" to the group "([^"]*)"$/
+	 * @param string $user
+	 * @param string $group
 	 */
 	public function addUserToGroup($user, $group) {
 		$this->userExists($user);
@@ -272,6 +273,8 @@ trait Provisioning {
 
 	/**
 	 * @When /^User "([^"]*)" is added to the group "([^"]*)"$/
+	 * @param string $user
+	 * @param string $group
 	 */
 	public function addingUserToGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/groups";
@@ -300,6 +303,7 @@ trait Provisioning {
 
 	/**
 	 * @Given /^group "([^"]*)" exists$/
+	 * @param string $group
 	 */
 	public function assureGroupExists($group) {
 		try {
@@ -316,6 +320,7 @@ trait Provisioning {
 
 	/**
 	 * @Given /^group "([^"]*)" does not exist$/
+	 * @param string $group
 	 */
 	public function groupDoesNotExist($group) {
 		try {
@@ -339,6 +344,8 @@ trait Provisioning {
 
 	/**
 	 * @Given /^user "([^"]*)" is subadmin of group "([^"]*)"$/
+	 * @param string $user
+	 * @param string $group
 	 */
 	public function userIsSubadminOfGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group/subadmins";
@@ -357,6 +364,8 @@ trait Provisioning {
 
 	/**
 	 * @Given /^user "([^"]*)" is not a subadmin of group "([^"]*)"$/
+	 * @param string $user
+	 * @param string $group
 	 */
 	public function userIsNotSubadminOfGroup($user, $group) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/groups/$group/subadmins";
@@ -484,6 +493,7 @@ trait Provisioning {
 
 	/**
 	 * @Given /^app "([^"]*)" is disabled$/
+	 * @param string $app
 	 */
 	public function appIsDisabled($app) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=disabled";
@@ -501,6 +511,7 @@ trait Provisioning {
 
 	/**
 	 * @Given /^app "([^"]*)" is enabled$/
+	 * @param string $app
 	 */
 	public function appIsEnabled($app) {
 		$fullUrl = $this->baseUrl . "v2.php/cloud/apps?filter=enabled";
@@ -518,6 +529,8 @@ trait Provisioning {
 
 	/**
 	 * @Given user :user has a quota of :quota
+	 * @param string $user
+	 * @param string $quota
 	 */
 	public function userHasAQuotaOf($user, $quota)
 	{
@@ -532,6 +545,7 @@ trait Provisioning {
 
 	/**
 	 * @Given user :user has unlimited quota
+	 * @param string $user
 	 */
 	public function userHasUnlimitedQuota($user)
 	{

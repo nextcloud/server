@@ -98,6 +98,10 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :user creates a :type tag with name :name
+	 * @param string $user
+	 * @param string $type
+	 * @param string $name
+	 * @throws \Exception
 	 */
 	public function createsATagWithName($user, $type, $name) {
 		$userVisible = 'true';
@@ -136,6 +140,8 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then The response should have a status code :statusCode
+	 * @param int $statusCode
+	 * @throws \Exception
 	 */
 	public function theResponseShouldHaveAStatusCode($statusCode) {
 		if((int)$statusCode !== $this->response->getStatusCode()) {
@@ -199,6 +205,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then The following tags should exist for :user
+	 * @param string $user
+	 * @param TableNode $table
+	 * @throws \Exception
 	 */
 	public function theFollowingTagsShouldExistFor($user, TableNode $table) {
 		$tags = $this->requestTagsForUser($user);
@@ -231,6 +240,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then :count tags should exist for :user
+	 * @param int $count
+	 * @param string $user
+	 * @throws \Exception
 	 */
 	public function tagsShouldExistFor($count, $user)  {
 		if((int)$count !== count($this->requestTagsForUser($user))) {
@@ -256,6 +268,10 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :user edits the tag with name :oldNmae and sets its name to :newName
+	 * @param string $user
+	 * @param string $oldName
+	 * @param string $newName
+	 * @throws \Exception
 	 */
 	public function editsTheTagWithNameAndSetsItsNameTo($user, $oldName, $newName) {
 		$tagId = $this->findTagIdByName($oldName);
@@ -290,6 +306,8 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :user deletes the tag with name :name
+	 * @param string $user
+	 * @param string $name
 	 */
 	public function deletesTheTagWithName($user, $name)  {
 		$tagId = $this->findTagIdByName($name);
@@ -338,6 +356,10 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :taggingUser adds the tag :tagName to :fileName shared by :sharingUser
+	 * @param string $taggingUser
+	 * @param string $tagName
+	 * @param string $fileName
+	 * @param string $sharingUser
 	 */
 	public function addsTheTagToSharedBy($taggingUser, $tagName, $fileName, $sharingUser) {
 		$fileId = $this->getFileIdForPath($fileName, $sharingUser);
@@ -360,6 +382,10 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then :fileName shared by :sharingUser has the following tags
+	 * @param string $fileName
+	 * @param string $sharingUser
+	 * @param TableNode $table
+	 * @throws \Exception
 	 */
 	public function sharedByHasTheFollowingTags($fileName, $sharingUser, TableNode $table)  {
 		$loadedExpectedTags = $table->getTable();
@@ -406,6 +432,11 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then :fileName shared by :sharingUser has the following tags for :user
+	 * @param string $fileName
+	 * @param string $sharingUser
+	 * @param string $user
+	 * @param TableNode $table
+	 * @throws \Exception
 	 */
 	public function sharedByHasTheFollowingTagsFor($fileName, $sharingUser, $user, TableNode $table) {
 		$loadedExpectedTags = $table->getTable();
@@ -460,6 +491,10 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :user removes the tag :tagName from :fileName shared by :shareUser
+	 * @param string $user
+	 * @param string $tagName
+	 * @param string $fileName
+	 * @param string $shareUser
 	 */
 	public function removesTheTagFromSharedBy($user, $tagName, $fileName, $shareUser) {
 		$tagId = $this->findTagIdByName($tagName);

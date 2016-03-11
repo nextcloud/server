@@ -12,8 +12,6 @@ require __DIR__ . '/../../vendor/autoload.php';
  */
 class FederationContext implements Context, SnippetAcceptingContext {
 
-	use BasicStructure;
-	use Provisioning;
 	use Sharing;
 
 	/**

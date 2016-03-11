@@ -1,7 +1,5 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
@@ -10,6 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 
 trait Sharing{
+	use Provisioning;
 
 	/** @var int */
 	private $sharingApiVersion = 1;
@@ -22,10 +21,11 @@ trait Sharing{
 
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function asCreatingAShareWith($user, $body) {
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v1/shares";
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [];
 		if ($user === 'admin') {
@@ -54,10 +54,10 @@ trait Sharing{
 
 	/**
 	 * @When /^creating a share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function creatingShare($body) {
-		return $this->asCreatingAShareWith($this->currentUser, $body);
+		$this->asCreatingAShareWith($this->currentUser, $body);
 	}
 
 	/**
@@ -112,7 +112,7 @@ trait Sharing{
 	 * @When /^Adding expiration date to last share$/
 	 */
 	public function addingExpirationDate() {
-		$share_id = $this->lastShareData->data[0]->id;
+		$share_id = (string) $this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
 		$options = [];
@@ -132,7 +132,7 @@ trait Sharing{
 	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function updatingLastShare($body) {
-		$share_id = $this->lastShareData->data[0]->id;
+		$share_id = (string) $this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
 		$options = [];
@@ -250,6 +250,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^File "([^"]*)" should be included in the response$/
+	 *
+	 * @param string $filename
 	 */
 	public function checkSharedFileInResponse($filename){
 		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('file_target', "/$filename"));
@@ -257,6 +259,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^File "([^"]*)" should not be included in the response$/
+	 *
+	 * @param string $filename
 	 */
 	public function checkSharedFileNotInResponse($filename){
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
@@ -264,6 +268,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^User "([^"]*)" should be included in the response$/
+	 *
+	 * @param string $user
 	 */
 	public function checkSharedUserInResponse($user){
 		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('share_with', "$user"));
@@ -271,6 +277,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^User "([^"]*)" should not be included in the response$/
+	 *
+	 * @param string $user
 	 */
 	public function checkSharedUserNotInResponse($user){
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('share_with', "$user"));
@@ -288,6 +296,10 @@ trait Sharing{
 
 	/**
 	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"$/
+	 *
+	 * @param string $filepath
+	 * @param string $user1
+	 * @param string $user2
 	 */
 	public function assureFileIsShared($filepath, $user1, $user2){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
@@ -310,6 +322,10 @@ trait Sharing{
 
 	/**
 	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"$/
+	 *
+	 * @param string $filepath
+	 * @param string $user
+	 * @param string $group
 	 */
 	public function assureFileIsSharedWithGroup($filepath, $user, $group){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
@@ -370,7 +386,7 @@ trait Sharing{
 
 	/**
 	 * @Then /^Share fields of last share match with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function checkShareFields($body){
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
@@ -396,7 +412,7 @@ trait Sharing{
 	 * @Then As :user remove all shares from the file named :fileName
 	 */
 	public function asRemoveAllSharesFromTheFileNamed($user, $fileName) {
-		$url = $this->baseUrl.'v2.php/apps/files_sharing/api/v1/shares?format=json';
+		$url = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares?format=json";
 		$client = new \GuzzleHttp\Client();
 		$res = $client->get(
 			$url,
@@ -416,7 +432,7 @@ trait Sharing{
 			if (stripslashes($data['path']) === $fileName) {
 				$id = $data['id'];
 				$client->delete(
-					$this->baseUrl.'v2.php/apps/files_sharing/api/v1/shares/'.$id,
+					$this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/{$id}",
 					[
 						'auth' => [
 							$user,
@@ -450,7 +466,7 @@ trait Sharing{
 	public function shareIdsShouldMatch()
 	{
 		if ($this->savedShareId !== $this->lastShareData['data']['id']) {
-			throw new \Excetion('Expected the same link share to be returned');
+			throw new \Exception('Expected the same link share to be returned');
 		}
 	}
 }
