@@ -21,10 +21,8 @@
 
 namespace OCP\Share;
 
-use OC\Share20\Exception\ShareNotFound;
-use OC\Share20\Exception\BackendError;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Files\Node;
-use OCP\IUser;
 
 /**
  * Interface IShareProvider
@@ -97,7 +95,7 @@ interface IShareProvider {
 	 *
 	 * @param string $userId
 	 * @param int $shareType
-	 * @param \OCP\Files\File|\OCP\Files\Folder $node
+	 * @param Node|null $node
 	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
 	 * @param int $limit The maximum number of shares to be returned, -1 for all shares
 	 * @param int $offset
@@ -120,11 +118,11 @@ interface IShareProvider {
 	/**
 	 * Get shares for a given path
 	 *
-	 * @param \OCP\Files\Node $path
+	 * @param Node $path
 	 * @return \OCP\Share\IShare[]
 	 * @since 9.0.0
 	 */
-	public function getSharesByPath(\OCP\Files\Node $path);
+	public function getSharesByPath(Node $path);
 
 	/**
 	 * Get shared with the given user
