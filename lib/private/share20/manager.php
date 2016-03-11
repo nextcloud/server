@@ -834,15 +834,7 @@ class Manager implements IManager {
 	}
 
 	/**
-	 * Get shares shared by (initiated) by the provided user.
-	 *
-	 * @param string $userId
-	 * @param int $shareType
-	 * @param \OCP\Files\File|\OCP\Files\Folder $path
-	 * @param bool $reshares
-	 * @param int $limit The maximum number of returned results, -1 for all results
-	 * @param int $offset
-	 * @return \OCP\Share\IShare[]
+	 * @inheritdoc
 	 */
 	public function getSharesBy($userId, $shareType, $path = null, $reshares = false, $limit = 50, $offset = 0) {
 		if ($path !== null &&

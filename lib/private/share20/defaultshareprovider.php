@@ -454,15 +454,7 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * Get all shares by the given user. Sharetype and path can be used to filter.
-	 *
-	 * @param string $userId
-	 * @param int $shareType
-	 * @param \OCP\Files\File|\OCP\Files\Folder $node
-	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
-	 * @param int $limit The maximum number of shares to be returned, -1 for all shares
-	 * @param int $offset
-	 * @return Share[]
+	 * @inheritdoc
 	 */
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {
 		$qb = $this->dbConn->getQueryBuilder();

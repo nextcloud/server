@@ -21,6 +21,7 @@
 
 namespace OCP\Share;
 
+use OCP\Files\Node;
 use OCP\IUser;
 
 use OCP\Share\Exceptions\ShareNotFound;
@@ -91,7 +92,7 @@ interface IManager {
 	 *
 	 * @param string $userId
 	 * @param int $shareType
-	 * @param \OCP\Files\File|\OCP\Files\Folder $path
+	 * @param Node|null $path
 	 * @param bool $reshares
 	 * @param int $limit The maximum number of returned results, -1 for all results
 	 * @param int $offset
@@ -106,7 +107,7 @@ interface IManager {
 	 *
 	 * @param string $userId
 	 * @param int $shareType
-	 * @param \OCP\Files\File|\OCP\Files\Folder|null $node
+	 * @param Node|null $node
 	 * @param int $limit The maximum number of shares returned, -1 for all
 	 * @param int $offset
 	 * @return IShare[]
