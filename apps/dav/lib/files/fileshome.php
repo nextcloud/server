@@ -29,6 +29,11 @@ use Sabre\HTTP\URLUtil;
 class FilesHome implements ICollection {
 
 	/**
+	 * @var array
+	 */
+	private $principalInfo;
+
+	/**
 	 * FilesHome constructor.
 	 *
 	 * @param array $principalInfo
