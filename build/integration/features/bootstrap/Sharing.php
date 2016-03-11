@@ -58,7 +58,7 @@ trait Sharing{
 	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function creatingShare($body) {
-		return $this->asCreatingAShareWith($this->currentUser, $body);
+		$this->asCreatingAShareWith($this->currentUser, $body);
 	}
 
 	/**
