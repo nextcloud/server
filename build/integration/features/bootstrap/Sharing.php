@@ -456,7 +456,7 @@ trait Sharing{
 	public function shareIdsShouldMatch()
 	{
 		if ($this->savedShareId !== $this->lastShareData['data']['id']) {
-			throw new \Excetion('Expected the same link share to be returned');
+			throw new \Exception('Expected the same link share to be returned');
 		}
 	}
 }
