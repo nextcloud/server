@@ -1,7 +1,5 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
@@ -16,6 +14,9 @@ trait BasicStructure {
 
 	/** @var string */
 	private $baseUrl = '';
+
+	/** @var int */
+	private $apiVersion = 1;
 
 	/** @var ResponseInterface */
 	private $response = null;
@@ -49,6 +50,14 @@ trait BasicStructure {
 		if ($testRemoteServerUrl !== false) {
 			$this->remoteBaseUrl = $testRemoteServerUrl;
 		}
+	}
+
+	/**
+	 * @Given /^using api version "([^"]*)"$/
+	 * @param string $version
+	 */
+	public function usingApiVersion($version) {
+		$this->apiVersion = $version;
 	}
 
 	/**
@@ -248,7 +257,6 @@ trait BasicStructure {
 			mkdir("../../core/skeleton/PARENT/CHILD", 0777, true);
 		}
 		file_put_contents("../../core/skeleton/PARENT/CHILD/" . "child.txt", "ownCloud test text file\n");
-
 	}
 
 	/**
@@ -269,8 +277,6 @@ trait BasicStructure {
 		if (is_dir("../../core/skeleton/PARENT")) {
 			rmdir("../../core/skeleton/PARENT");
 		}
-
-
 	}
 }
 

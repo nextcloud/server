@@ -25,13 +25,6 @@ trait Provisioning {
 	private $createdGroups = [];
 
 	/**
-	 * @Given /^using api version "([^"]*)"$/
-	 */
-	public function usingApiVersion($version) {
-		$this->apiVersion = $version;
-	}
-
-	/**
 	 * @Given /^user "([^"]*)" exists$/
 	 */
 	public function assureUserExists($user) {
