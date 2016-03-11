@@ -241,3 +241,39 @@ Feature: webdav-related
 			| 0 |
 			| 1 |
 			| 3 |
+
+	Scenario: Upload chunked file asc with new chunking
+		Given using dav path "remote.php/dav"
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
+		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
+		When As an "user0"
+		And Downloading file "/files/user0/myChunkedFile.txt"
+		Then Downloaded content should be "AAAAABBBBBCCCCC"
+
+	Scenario: Upload chunked file desc with new chunking
+		Given using dav path "remote.php/dav"
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
+		When As an "user0"
+		And Downloading file "/files/user0/myChunkedFile.txt"
+		Then Downloaded content should be "AAAAABBBBBCCCCC"
+
+	Scenario: Upload chunked file random with new chunking
+		Given using dav path "remote.php/dav"
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
+		When As an "user0"
+		And Downloading file "/files/user0/myChunkedFile.txt"
+		Then Downloaded content should be "AAAAABBBBBCCCCC"

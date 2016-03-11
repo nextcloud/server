@@ -373,5 +373,37 @@ trait WebDav {
 		$this->makeDavRequest($user, 'PUT', $file, ['OC-Chunked' => '1'], $data);
 	}
 
+	/**
+	 * @Given user :user creates a new chunking upload with id :id
+	 */
+	public function userCreatesANewChunkingUploadWithId($user, $id)
+	{
+		$destination = '/uploads/'.$user.'/'.$id;
+		$this->makeDavRequest($user, 'MKCOL', $destination, []);
+	}
+
+	/**
+	 * @Given user :user uploads new chunk file :num with :data to id :id
+	 */
+	public function userUploadsNewChunkFileOfWithToId($user, $num, $data, $id)
+	{
+		$data = \GuzzleHttp\Stream\Stream::factory($data);
+		$destination = '/uploads/'.$user.'/'.$id.'/'.$num;
+		$this->makeDavRequest($user, 'PUT', $destination, [], $data);
+	}
+
+	/**
+	 * @Given user :user moves new chunk file with id :id to :dest
+	 */
+	public function userMovesNewChunkFileWithIdToMychunkedfile($user, $id, $dest)
+	{
+		$source = '/uploads/'.$user.'/'.$id.'/.file';
+		$destination = substr($this->baseUrl, 0, -4) . $this->davPath . '/files/'.$user.$dest;
+		$this->makeDavRequest($user, 'MOVE', $source, [
+			'Destination' => $destination
+		]);
+	}
+
+
 }
 
