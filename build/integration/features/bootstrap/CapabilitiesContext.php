@@ -15,8 +15,6 @@ require __DIR__ . '/../../vendor/autoload.php';
 class CapabilitiesContext implements Context, SnippetAcceptingContext {
 
 	use BasicStructure;
-	use Provisioning;
-	use Sharing;
 
 	/**
 	 * @Given /^parameter "([^"]*)" of app "([^"]*)" is set to "([^"]*)"$/

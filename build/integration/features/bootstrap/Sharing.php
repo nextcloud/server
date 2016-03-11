@@ -1,7 +1,5 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
@@ -10,6 +8,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 
 trait Sharing{
+	use Provisioning;
 
 	/** @var int */
 	private $sharingApiVersion = 1;
@@ -113,7 +112,7 @@ trait Sharing{
 	 * @When /^Adding expiration date to last share$/
 	 */
 	public function addingExpirationDate() {
-		$share_id = $this->lastShareData->data[0]->id;
+		$share_id = (string) $this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
 		$options = [];
@@ -133,7 +132,7 @@ trait Sharing{
 	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function updatingLastShare($body) {
-		$share_id = $this->lastShareData->data[0]->id;
+		$share_id = (string) $this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
 		$options = [];
