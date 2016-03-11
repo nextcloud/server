@@ -26,7 +26,7 @@ trait Sharing{
 	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function asCreatingAShareWith($user, $body) {
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v1/shares";
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [];
 		if ($user === 'admin') {
@@ -402,7 +402,7 @@ trait Sharing{
 	 * @Then As :user remove all shares from the file named :fileName
 	 */
 	public function asRemoveAllSharesFromTheFileNamed($user, $fileName) {
-		$url = $this->baseUrl.'v2.php/apps/files_sharing/api/v1/shares?format=json';
+		$url = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares?format=json";
 		$client = new \GuzzleHttp\Client();
 		$res = $client->get(
 			$url,
@@ -422,7 +422,7 @@ trait Sharing{
 			if (stripslashes($data['path']) === $fileName) {
 				$id = $data['id'];
 				$client->delete(
-					$this->baseUrl.'v2.php/apps/files_sharing/api/v1/shares/'.$id,
+					$this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/{$id}",
 					[
 						'auth' => [
 							$user,
