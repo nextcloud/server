@@ -123,7 +123,7 @@ class BirthdayService {
 		}
 		$title = str_replace('{name}',
 			strtr((string)$doc->FN, array('\,' => ',', '\;' => ';')),
-			'{name}\'s Birthday'
+			'{name}'
 		);
 		try {
 			$date = new \DateTime($birthday);
@@ -146,7 +146,7 @@ class BirthdayService {
 		$vEvent->DTEND['VALUE'] = 'DATE';
 		$vEvent->{'UID'} = $doc->UID;
 		$vEvent->{'RRULE'} = 'FREQ=YEARLY';
-		$vEvent->{'SUMMARY'} = $title . ' (' . $date->format('Y') . ')';
+		$vEvent->{'SUMMARY'} = $title . ' (*' . $date->format('Y') . ')';
 		$vEvent->{'TRANSP'} = 'TRANSPARENT';
 		$vCal->add($vEvent);
 		return $vCal;
