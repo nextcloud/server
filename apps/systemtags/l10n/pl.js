@@ -1,7 +1,10 @@
 OC.L10N.register(
     "systemtags",
     {
+    "%s (invisible)" : "%s (niewidoczny)",
     "Tags" : "Tagi",
+    "Tagged files" : "Otagowane pliki",
+    "No files in here" : "Brak plików",
     "No entries found in this folder" : "Brak wpisów w tym folderze",
     "Name" : "Nazwa",
     "Size" : "Rozmiar",
