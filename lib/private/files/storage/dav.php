@@ -34,6 +34,7 @@ namespace OC\Files\Storage;
 
 use Exception;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Message\ResponseInterface;
 use OC\Files\Filesystem;
 use OC\Files\Stream\Close;
 use Icewind\Streams\IteratorDirectory;
@@ -351,7 +352,8 @@ class DAV extends Common {
 									'stream' => true
 							]);
 				} catch (RequestException $e) {
-					if ($e->getResponse()->getStatusCode() === 404) {
+					if ($e->getResponse() instanceof ResponseInterface
+						&& $e->getResponse()->getStatusCode() === 404) {
 						return false;
 					} else {
 						throw $e;
