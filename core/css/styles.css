@@ -856,7 +856,9 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 div.crumb {
 	float: left;
 	display: block;
-	background-image: url('../img/breadcrumb.svg') no-repeat right center;
+	background-image: url('../img/breadcrumb.svg');
+	background-repeat: no-repeat;
+	background-position: right center;
 	height: 44px;
 	background-size: auto 24px;
 }
