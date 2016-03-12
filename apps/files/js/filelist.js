@@ -1322,7 +1322,7 @@
 			}
 			// allow dropping on folders
 			if (this._folderDropOptions && mime === 'httpd/unix-directory') {
-				filenameTd.droppable(this._folderDropOptions);
+				tr.droppable(this._folderDropOptions);
 			}
 
 			if (options.hidden) {
