@@ -358,7 +358,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your PHP version (5.4.0) is no longer <a target="_blank" href="https://secure.php.net/supported-versions.php">supported by PHP</a>. We encourage you to upgrade your PHP version to take advantage of performance and security updates provided by PHP.',
+					msg: 'You are currently running PHP 5.4.0. We encourage you to upgrade your PHP version to take advantage of <a target="_blank" href="https://secure.php.net/supported-versions.php">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
