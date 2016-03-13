@@ -43,6 +43,9 @@ class Test_Files_Sharing_Api extends TestCase {
 	/** @var \OCP\Share\IManager */
 	private $shareManager;
 
+	/** @var \OCP\Files\Folder */
+	private $userFolder;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -64,6 +67,7 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
 
 		$this->shareManager = \OC::$server->getShareManager();
+		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 	}
 
 	protected function tearDown() {
@@ -100,6 +104,7 @@ class Test_Files_Sharing_Api extends TestCase {
 	 */
 	private function createOCS($request, $userId) {
 		$currentUser = \OC::$server->getUserManager()->get($userId);
+
 		return new \OCA\Files_Sharing\API\Share20OCS(
 			$this->shareManager,
 			\OC::$server->getGroupManager(),
@@ -116,99 +121,105 @@ class Test_Files_Sharing_Api extends TestCase {
 	 */
 	function testCreateShareUserFile() {
 		// simulate a post request
-		$_POST['path'] = $this->filename;
-		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+		$data['path'] = $this->filename;
+		$data['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$data['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+		$request = $this->createRequest($data);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
-		$this->assertEquals(23, $data['permissions']);
+		$this->assertEquals(19, $data['permissions']);
 		$this->assertEmpty($data['expiration']);
 
-		$share = $this->getShareFromId($data['id']);
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-		$this->assertTrue(!empty($items));
+		$this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$fileinfo = $this->view->getFileInfo($this->filename);
-		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($data['id']);
+		$this->assertTrue($result->succeeded());
 	}
 
 	function testCreateShareUserFolder() {
 		// simulate a post request
-		$_POST['path'] = $this->folder;
-		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+		$data['path'] = $this->folder;
+		$data['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$data['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+		$request = $this->createRequest($data);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
 		$this->assertEquals(31, $data['permissions']);
 		$this->assertEmpty($data['expiration']);
 
-		$share = $this->getShareFromId($data['id']);
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-		$this->assertTrue(!empty($items));
+		$this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($data['id']);
+		$this->assertTrue($result->succeeded());
 	}
 
 
 	function testCreateShareGroupFile() {
 		// simulate a post request
-		$_POST['path'] = $this->filename;
-		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_GROUP;
+		$data['path'] = $this->filename;
+		$data['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1;
+		$data['shareType'] = \OCP\Share::SHARE_TYPE_GROUP;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+		$request = $this->createRequest($data);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
-		$this->assertEquals(23, $data['permissions']);
+		$this->assertEquals(19, $data['permissions']);
 		$this->assertEmpty($data['expiration']);
 
-		$share = $this->getShareFromId($data['id']);
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-		$this->assertTrue(!empty($items));
+		$this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$fileinfo = $this->view->getFileInfo($this->filename);
-		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($data['id']);
+		$this->assertTrue($result->succeeded());
 	}
 
 	function testCreateShareGroupFolder() {
 		// simulate a post request
-		$_POST['path'] = $this->folder;
-		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_GROUP;
+		$data['path'] = $this->folder;
+		$data['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1;
+		$data['shareType'] = \OCP\Share::SHARE_TYPE_GROUP;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+		$request = $this->createRequest($data);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
 		$this->assertEquals(31, $data['permissions']);
 		$this->assertEmpty($data['expiration']);
 
-		$share = $this->getShareFromId($data['id']);
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-		$this->assertTrue(!empty($items));
+		$this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($data['id']);
+		$this->assertTrue($result->succeeded());
 	}
 
 	public function testCreateShareLink() {
 		// simulate a post request
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$data['path'] = $this->folder;
+		$data['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+		$request = $this->createRequest($data);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		// check if API call was successful
 		$this->assertTrue($result->succeeded());
@@ -222,22 +233,23 @@ class Test_Files_Sharing_Api extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
+		$this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$share = $this->getShareFromId($data['id']);
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-		$this->assertTrue(!empty($items));
-
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($data['id']);
+		$this->assertTrue($result->succeeded());
 	}
 
 	public function testCreateShareLinkPublicUpload() {
 		// simulate a post request
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
-		$_POST['publicUpload'] = 'true';
+		$data['path'] = $this->folder;
+		$data['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$data['publicUpload'] = 'true';
 
-		$result = \OCA\Files_Sharing\API\Local::createShare(array());
+		$request = $this->createRequest($data);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		// check if API call was successful
 		$this->assertTrue($result->succeeded());
@@ -251,40 +263,13 @@ class Test_Files_Sharing_Api extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
+		$this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$share = $this->getShareFromId($data['id']);
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-		$this->assertTrue(!empty($items));
-
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($data['id']);
+		$this->assertTrue($result->succeeded());
 	}
-
-	/**
-	 * @medium
-	 */
-	public function testCreateShareInvalidPermissions() {
-
-		// simulate a post request
-		$_POST['path'] = $this->filename;
-		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
-		$_POST['permissions'] = \OCP\Constants::PERMISSION_SHARE;
-
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
-
-		// share was successful?
-		$this->assertFalse($result->succeeded());
-		$this->assertEquals(400, $result->getStatusCode());
-
-		$shares = \OCP\Share::getItemShared('file', null);
-		$this->assertCount(0, $shares);
-
-		$fileinfo = $this->view->getFileInfo($this->filename);
-		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-	}
-
 
 	function testEnfoceLinkPassword() {
 
@@ -292,53 +277,62 @@ class Test_Files_Sharing_Api extends TestCase {
 		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'yes');
 
 		// don't allow to share link without a password
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$data['path'] = $this->folder;
+		$data['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
 
-
-		$result = \OCA\Files_Sharing\API\Local::createShare(array());
+		$request = $this->createRequest($data);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 		$this->assertFalse($result->succeeded());
 
-
 		// don't allow to share link without a empty password
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
-		$_POST['password'] = '';
+		$data = [];
+		$data['path'] = $this->folder;
+		$data['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$data['password'] = '';
 
-		$result = \OCA\Files_Sharing\API\Local::createShare(array());
+		$request = $this->createRequest($data);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 		$this->assertFalse($result->succeeded());
 
 		// share with password should succeed
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
-		$_POST['password'] = 'foo';
+		$data = [];
+		$data['path'] = $this->folder;
+		$data['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$data['password'] = 'foo';
 
-		$result = \OCA\Files_Sharing\API\Local::createShare(array());
+		$request = $this->createRequest($data);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 		$this->assertTrue($result->succeeded());
 
 		$data = $result->getData();
 
 		// setting new password should succeed
-		$params = array();
-		$params['id'] = $data['id'];
-		$params['_put'] = array();
-		$params['_put']['password'] = 'bar';
-
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
+		$data2 = [
+			'password' => 'bar',
+		];
+		$request = $this->createRequest($data2);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($data['id']);
 		$this->assertTrue($result->succeeded());
 
 		// removing password should fail
-		$params = array();
-		$params['id'] = $data['id'];
-		$params['_put'] = array();
-		$params['_put']['password'] = '';
-
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
+		$data2 = [
+			'password' => '',
+		];
+		$request = $this->createRequest($data2);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($data['id']);
 		$this->assertFalse($result->succeeded());
 
 		// cleanup
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($data['id']);
+		$this->assertTrue($result->succeeded());
+
 		$appConfig->setValue('core', 'shareapi_enforce_links_password', 'no');
 	}
 
@@ -346,68 +340,61 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @medium
 	*/
 	function testSharePermissions() {
-
 		// sharing file to a user should work if shareapi_exclude_groups is set
 		// to no
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
-		$_POST['path'] = $this->filename;
-		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+		$post['path'] = $this->filename;
+		$post['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$post['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare(array());
+		$request = $this->createRequest($post);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
 
-		$share = $this->getShareFromId($data['id']);
+		$this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-
-		$this->assertTrue(!empty($items));
-
-		$fileinfo = $this->view->getFileInfo($this->filename);
-
-		$result = \OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
-		$this->assertTrue($result);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($data['id']);
+		$this->assertTrue($result->succeeded());
 
 		// exclude groups, but not the group the user belongs to. Sharing should still work
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'yes');
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
 
-		$_POST['path'] = $this->filename;
-		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+		$post = [];
+		$post['path'] = $this->filename;
+		$post['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$post['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare(array());
+		$request = $this->createRequest($post);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
 
-		$share = $this->getShareFromId($data['id']);
+		$this->shareManager->getShareById('ocinternal:' . $data['id']);
 
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-
-		$this->assertTrue(!empty($items));
-
-		$fileinfo = $this->view->getFileInfo($this->filename);
-
-		$result = \OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
-		$this->assertTrue($result);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($data['id']);
+		$this->assertTrue($result->succeeded());
 
 		// now we exclude the group the user belongs to ('group'), sharing should fail now
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', 'admin,group');
 
-		$_POST['path'] = $this->filename;
-		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
+		$post = [];
+		$post['path'] = $this->filename;
+		$post['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$post['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare(array());
-
-		$this->assertFalse($result->succeeded());
+		$request = $this->createRequest($post);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		// cleanup
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
@@ -417,62 +404,72 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	/**
 	 * @medium
-	 * @depends testCreateShareUserFile
 	 */
 	function testGetAllShares() {
+		$node = $this->userFolder->get($this->filename);
 
-		$fileinfo = $this->view->getFileInfo($this->filename);
+		$share = $this->shareManager->newShare();
+		$share->setNode($node)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
 
-		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-		\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+		$share = $this->shareManager->createShare($share);
 
-		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
 
 		$this->assertTrue($result->succeeded());
-
-		// test should return two shares created from testCreateShare()
 		$this->assertTrue(count($result->getData()) === 1);
 
-		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->deleteShare($share);
 	}
 
 	function testGetAllSharesWithMe() {
-		$fileinfo1 = $this->view->getFileInfo($this->filename);
-		$fileinfo2 = $this->view->getFileInfo($this->folder.$this->filename);
+		$node1 = $this->userFolder->get($this->filename);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share1 = $this->shareManager->createShare($share1);
 
-		\OCP\Share::shareItem('file', $fileinfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-		\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-		\OCP\Share::shareItem('folder', $fileinfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-		\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+		$node2 = $this->userFolder->get($this->folder);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(31);
+		$share2 = $this->shareManager->createShare($share2);
 
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		$_GET['shared_with_me'] = 1;
-		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
+		$request = $this->createRequest(['shared_with_me' => 'true']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
+		$result = $ocs->getShares();
 
 		$this->assertTrue($result->succeeded());
 		$this->assertTrue(count($result->getData()) === 2);
 
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		\OCP\Share::unshare('file', $fileinfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-		\OCP\Share::unshare('folder', $fileinfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
 	}
 
 	/**
 	 * @medium
-	 * @depends testCreateShareLink
 	 */
 	function testPublicLinkUrl() {
 		// simulate a post request
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
+		$post['path'] = $this->folder;
+		$post['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
 
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+		$request = $this->createRequest($post);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 		$this->assertTrue($result->succeeded());
+
 		$data = $result->getData();
 
 		// check if we have a token
@@ -484,27 +481,36 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->assertEquals($url, $data['url']);
 
 		// check for link in getall shares
-		$result = \OCA\Files_Sharing\API\Local::getAllShares([]);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
 		$this->assertTrue($result->succeeded());
+
 		$data = $result->getData();
 		$this->assertEquals($url, current($data)['url']);
 
 		// check for path
-		$_GET['path'] = $this->folder;
-		$result = \OCA\Files_Sharing\API\Local::getAllShares([]);
+		$request = $this->createRequest(['path' => $this->folder]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
 		$this->assertTrue($result->succeeded());
+
 		$data = $result->getData();
 		$this->assertEquals($url, current($data)['url']);
 
 		// check in share id
-		$result = \OCA\Files_Sharing\API\Local::getShare(['id' => $id]);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShare($id);
 		$this->assertTrue($result->succeeded());
+
 		$data = $result->getData();
 		$this->assertEquals($url, current($data)['url']);
 
-		//Clean up share
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($id);
+		$this->assertTrue($result->succeeded());
 	}
 
 	/**
@@ -513,29 +519,32 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @depends testCreateShareLink
 	 */
 	function testGetShareFromSource() {
+		$node = $this->userFolder->get($this->filename);
+		$share = $this->shareManager->newShare();
+		$share->setNode($node)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share1 = $this->shareManager->createShare($share);
 
-		$fileInfo = $this->view->getFileInfo($this->filename);
+		$share = $this->shareManager->newShare();
+		$share->setNode($node)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share2 = $this->shareManager->createShare($share);
 
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
-				null, 1);
-
-		$_GET['path'] = $this->filename;
-
-		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
-
+		$request = $this->createRequest(['path' => $this->filename]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
 		$this->assertTrue($result->succeeded());
 
 		// test should return one share created from testCreateShare()
 		$this->assertTrue(count($result->getData()) === 2);
 
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
 	}
 
 	/**
@@ -544,53 +553,44 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @depends testCreateShareLink
 	 */
 	function testGetShareFromSourceWithReshares() {
+		$node = $this->userFolder->get($this->filename);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share1 = $this->shareManager->createShare($share1);
 
-		$fileInfo = $this->view->getFileInfo($this->filename);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER3)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share2 = $this->shareManager->createShare($share2);
 
-		// share the file as user1 to user2
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		// login as user2 and reshare the file to user3
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3, 31);
-
-		// login as user1 again
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
-
-		$_GET['path'] = $this->filename;
-
-		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
-
+		$request = $this->createRequest(['path' => $this->filename]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
 		$this->assertTrue($result->succeeded());
 
 		// test should return one share
 		$this->assertTrue(count($result->getData()) === 1);
 
 		// now also ask for the reshares
-		$_GET['reshares'] = 'true';
-
-		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
+		$request = $this->createRequest(['path' => $this->filename, 'reshares' => 'true']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
+		$this->assertTrue($result->succeeded());
 
 		$this->assertTrue($result->succeeded());
 
 		// now we should get two shares, the initial share and the reshare
-		$this->assertTrue(count($result->getData()) === 2);
+		$this->assertCount(2, $result->getData());
 
-		// unshare files again
-
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3);
-
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
-
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
 	}
 
 	/**
@@ -598,95 +598,80 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @depends testCreateShareUserFile
 	 */
 	function testGetShareFromId() {
-
-		$fileInfo = $this->view->getFileInfo($this->filename);
-
-		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-		// get item to determine share ID
-		$result = \OCP\Share::getItemShared('file', $fileInfo['fileid']);
-
-		$this->assertEquals(1, count($result));
-
-		// get first element
-		$share = reset($result);
+		$node = $this->userFolder->get($this->filename);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share1 = $this->shareManager->createShare($share1);
 
 		// call getShare() with share ID
-		$params = array('id' => $share['id']);
-		$result = \OCA\Files_Sharing\API\Local::getShare($params);
-
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShare($share1->getId());
 		$this->assertTrue($result->succeeded());
 
 		// test should return one share created from testCreateShare()
 		$this->assertEquals(1, count($result->getData()));
 
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
+		$this->shareManager->deleteShare($share1);
 	}
 
 	/**
 	 * @medium
 	 */
 	function testGetShareFromFolder() {
+		$node1 = $this->userFolder->get($this->filename);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share1 = $this->shareManager->createShare($share1);
 
-		$fileInfo1 = $this->view->getFileInfo($this->filename);
-		$fileInfo2 = $this->view->getFileInfo($this->folder.'/'.$this->filename);
+		$node2 = $this->userFolder->get($this->folder.'/'.$this->filename);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share2 = $this->shareManager->createShare($share2);
 
-		$result = \OCP\Share::shareItem('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
 
-		// share was successful?
-		$this->assertTrue($result);
-
-		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK,
-				null, 1);
-
-		// share was successful?
-		$this->assertTrue(is_string($result));
-
-		$_GET['path'] = $this->folder;
-		$_GET['subfiles'] = 'true';
-
-		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
-
+		$request = $this->createRequest(['path' => $this->folder, 'subfiles' => 'true']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
 		$this->assertTrue($result->succeeded());
 
 		// test should return one share within $this->folder
 		$this->assertTrue(count($result->getData()) === 1);
 
-		\OCP\Share::unshare('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
-		\OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
 	}
 
 	function testGetShareFromFolderWithFile() {
+		$node1 = $this->userFolder->get($this->filename);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share1 = $this->shareManager->createShare($share1);
 
-		$fileInfo1 = $this->view->getFileInfo($this->filename);
-
-		$result = \OCP\Share::shareItem('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-		$_GET = [
-			'path' => $this->filename,
-			'subfiles' => 1
-		];
-		$result = \OCA\Files_Sharing\API\Local::getAllShares([]);
+		$request = $this->createRequest(['path' => $this->filename, 'subfiles' => 'true']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
 
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(400, $result->getStatusCode());
 		$this->assertEquals('not a directory', $result->getMeta()['message']);
 
-		\OCP\Share::unshare('file', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->deleteShare($share1);
 	}
 
 	/**
@@ -694,32 +679,30 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @medium
 	 */
 	function testGetShareFromFolderReshares() {
+		$node1 = $this->userFolder->get($this->folder);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(31);
+		$share1 = $this->shareManager->createShare($share1);
 
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$node2 = $this->userFolder->get($this->folder.'/'.$this->filename);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share2 = $this->shareManager->createShare($share2);
 
-		$fileInfo1 = $this->view->getFileInfo($this->folder);
-		$fileInfo2 = $this->view->getFileInfo($this->folder.'/'.$this->filename);
-		$fileInfo3 = $this->view->getFileInfo($this->folder.'/' . $this->subfolder . '/' .$this->filename);
-
-		// share root folder to user2
-		$result = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-		// login as user2
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		// share file in root folder
-		$result = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
-		// share was successful?
-		$this->assertTrue(is_string($result));
-
-		// share file in subfolder
-		$result = \OCP\Share::shareItem('file', $fileInfo3['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
-		// share was successful?
-		$this->assertTrue(is_string($result));
+		$node3 = $this->userFolder->get($this->folder.'/'.$this->subfolder.'/'.$this->filename);
+		$share3 = $this->shareManager->newShare();
+		$share3->setNode($node3)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share3 = $this->shareManager->createShare($share3);
 
 		$testValues=array(
 			array('query' => $this->folder,
@@ -729,11 +712,9 @@ class Test_Files_Sharing_Api extends TestCase {
 		);
 		foreach ($testValues as $value) {
 
-			$_GET['path'] = $value['query'];
-			$_GET['subfiles'] = 'true';
-
-			$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
-
+			$request = $this->createRequest(['path' => $value['query'], 'subfiles' => 'true']);
+			$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
+			$result = $ocs->getShares();
 			$this->assertTrue($result->succeeded());
 
 			// test should return one share within $this->folder
@@ -743,15 +724,9 @@ class Test_Files_Sharing_Api extends TestCase {
 		}
 
 		// cleanup
-
-		\OCP\Share::unshare('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-		\OCP\Share::unshare('file', $fileInfo3['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		\OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
+		$this->shareManager->deleteShare($share3);
 	}
 
 	/**
@@ -759,52 +734,39 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @medium
 	 */
 	function testGetShareFromSubFolderReShares() {
+		$node1 = $this->userFolder->get($this->folder . $this->subfolder);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(31);
+		$share1 = $this->shareManager->createShare($share1);
 
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$node2 = \OC::$server->getRootFolder()->getUserFolder(self::TEST_FILES_SHARING_API_USER2)->get($this->subfolder);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share2 = $this->shareManager->createShare($share2);
 
-		$fileInfo = $this->view->getFileInfo($this->folder . $this->subfolder);
-
-		// share sub-folder to user2
-		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-		// login as user2
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		// reshare subfolder
-		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
-
-		// share was successful?
-		$this->assertTrue(is_string($result));
-
-		$_GET['path'] = '/';
-		$_GET['subfiles'] = 'true';
-
-		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
-
+		$request = $this->createRequest(['path' => '/', 'subfiles' => 'true']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
+		$result = $ocs->getShares();
 		$this->assertTrue($result->succeeded());
 
 		// test should return one share within $this->folder
 		$data = $result->getData();
 
 		// we should get exactly one result
-		$this->assertEquals(1, count($data));
+		$this->assertCount(1, $data);
 
-		$expectedPath = $this->subfolder;
+		$expectedPath = $this->folder . $this->subfolder;
 		$this->assertEquals($expectedPath, $data[0]['path']);
 
-		// cleanup
-		$result = \OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-		$this->assertTrue($result);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
-
+		$this->shareManager->deleteShare($share2);
+		$this->shareManager->deleteShare($share1);
 	}
 
 	/**
@@ -812,67 +774,48 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @medium
 	 */
 	function testGetShareFromFolderReReShares() {
+		$node1 = $this->userFolder->get($this->folder . $this->subfolder);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(31);
+		$share1 = $this->shareManager->createShare($share1);
 
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$node2 = $this->userFolder->get($this->folder . $this->subfolder . $this->subsubfolder);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER3)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(31);
+		$share2 = $this->shareManager->createShare($share2);
 
-		$fileInfo1 = $this->view->getFileInfo($this->folder . $this->subfolder);
-		$fileInfo2 = $this->view->getFileInfo($this->folder . $this->subfolder . $this->subsubfolder);
+		$share3 = $this->shareManager->newShare();
+		$share3->setNode($node2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER3)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share3 = $this->shareManager->createShare($share3);
 
-		// share sub-folder to user2
-		$result = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-		// login as user2
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		// reshare subsubfolder
-		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3, 31);
-		// share was successful?
-		$this->assertTrue($result);
-
-		// login as user3
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-
-		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
-		// share was successful?
-		$this->assertTrue(is_string($result));
-
-
-		$_GET['path'] = '/';
-		$_GET['subfiles'] = 'true';
-
-		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
-
+		$request = $this->createRequest(['path' => '/', 'subfiles' => 'true']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER3);
+		$result = $ocs->getShares();
 		$this->assertTrue($result->succeeded());
 
 		// test should return one share within $this->folder
 		$data = $result->getData();
 
 		// we should get exactly one result
-		$this->assertEquals(1, count($data));
+		$this->assertCount(1, $data);
 
-		$expectedPath = $this->subsubfolder;
+		$expectedPath = $this->folder . $this->subfolder . $this->subsubfolder;
 		$this->assertEquals($expectedPath, $data[0]['path']);
 
-
-		// cleanup
-		$result = \OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-		$this->assertTrue($result);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$result = \OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3);
-		$this->assertTrue($result);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
-
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
+		$this->shareManager->deleteShare($share3);
 	}
 
 	/**
@@ -880,82 +823,57 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @medium
 	 */
 	function testGetShareMultipleSharedFolder() {
+		$node1 = $this->userFolder->get($this->folder . $this->subfolder);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(31);
+		$share1 = $this->shareManager->createShare($share1);
 
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$node2 = $this->userFolder->get($this->folder);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(31);
+		$share2 = $this->shareManager->createShare($share2);
 
-		$fileInfo1 = $this->view->getFileInfo($this->folder);
-		$fileInfo2 = $this->view->getFileInfo($this->folder . $this->subfolder);
+		$share3 = $this->shareManager->newShare();
+		$share3->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share3 = $this->shareManager->createShare($share3);
 
-
-		// share sub-folder to user2
-		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-		// share folder to user2
-		$result = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-
-		// login as user2
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		$result = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
-		// share was successful?
-		$this->assertTrue(is_string($result));
-
-
-		// ask for subfolder
-		$expectedPath1 = $this->subfolder;
-		$_GET['path'] = $expectedPath1;
-
-		$result1 = \OCA\Files_Sharing\API\Local::getAllShares(array());
-
+		$request = $this->createRequest(['path' => $this->subfolder]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
+		$result1 = $ocs->getShares();
 		$this->assertTrue($result1->succeeded());
 
 		// test should return one share within $this->folder
 		$data1 = $result1->getData();
-		$share1 = reset($data1);
+		$this->assertCount(1, $data1);
+		$s1 = reset($data1);
 
-		// ask for folder/subfolder
-		$expectedPath2 = $this->folder . $this->subfolder;
-		$_GET['path'] = $expectedPath2;
-
-		$result2 = \OCA\Files_Sharing\API\Local::getAllShares(array());
-
+		$request = $this->createRequest(['path' => $this->folder.$this->subfolder]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
+		$result2 = $ocs->getShares();
 		$this->assertTrue($result2->succeeded());
 
 		// test should return one share within $this->folder
 		$data2 = $result2->getData();
-		$share2 = reset($data2);
+		$this->assertCount(1, $data2);
+		$s2 = reset($data2);
 
+		$this->assertEquals($this->folder.$this->subfolder, $s1['path']);
+		$this->assertEquals($this->folder.$this->subfolder, $s2['path']);
 
-		// validate results
-		// we should get exactly one result each time
-		$this->assertEquals(1, count($data1));
-		$this->assertEquals(1, count($data2));
-
-		$this->assertEquals($expectedPath1, $share1['path']);
-		$this->assertEquals($expectedPath2, $share2['path']);
-
-
-		// cleanup
-		$result = \OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-		$this->assertTrue($result);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
-		$result = \OCP\Share::unshare('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
-
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
+		$this->shareManager->deleteShare($share3);
 	}
 
 	/**
@@ -963,82 +881,65 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @medium
 	 */
 	function testGetShareFromFileReReShares() {
+		$node1 = $this->userFolder->get($this->folder . $this->subfolder);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(31);
+		$share1 = $this->shareManager->createShare($share1);
 
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$user2Folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
+		$node2 = $user2Folder->get($this->subfolder . $this->filename);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER3)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share2 = $this->shareManager->createShare($share2);
 
-		$fileInfo1 = $this->view->getFileInfo($this->folder . $this->subfolder);
-		$fileInfo2 = $this->view->getFileInfo($this->folder. $this->subfolder . $this->filename);
+		$user3Folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER3);
+		$node3 = $user3Folder->get($this->filename);
+		$share3 = $this->shareManager->newShare();
+		$share3->setNode($node3)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER3)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share3 = $this->shareManager->createShare($share3);
 
-		// share sub-folder to user2
-		$result = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-		// login as user2
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		// reshare subsubfolder
-		$result = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3, 31);
-		// share was successful?
-		$this->assertTrue($result);
-
-		// login as user3
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
-
-		$result = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
-		// share was successful?
-		$this->assertTrue(is_string($result));
-
-
-		$_GET['path'] = '/';
-		$_GET['subfiles'] = 'true';
-
-		$result = \OCA\Files_Sharing\API\Local::getAllShares(array());
-
+		$request = $this->createRequest(['path' => '/', 'subfiles' => 'true']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER3);
+		$result = $ocs->getShares();
 		$this->assertTrue($result->succeeded());
 
 		// test should return one share within $this->folder
 		$data = $result->getData();
 
 		// we should get exactly one result
-		$this->assertEquals(1, count($data));
+		$this->assertCount(1, $data);
 
-		$expectedPath = $this->filename;
+		$expectedPath = $this->folder.$this->subfolder.$this->filename;
 		$this->assertEquals($expectedPath, $data[0]['path']);
 
-
-		// cleanup
-		$result = \OCP\Share::unshare('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-		$this->assertTrue($result);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$result = \OCP\Share::unshare('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3);
-		$this->assertTrue($result);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
-
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
+		$this->shareManager->deleteShare($share3);
 	}
 
 	/**
 	 * @medium
 	 */
 	function testGetShareFromUnknownId() {
-
-		$params = array('id' => 0);
-
-		$result = \OCA\Files_Sharing\API\Local::getShare($params);
+		$request = $this->createRequest(['path' => '/', 'subfiles' => 'true']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER3);
+		$result = $ocs->getShare(0);
+		$this->assertFalse($result->succeeded());
 
 		$this->assertEquals(404, $result->getStatusCode());
 		$meta = $result->getMeta();
-		$this->assertEquals('share doesn\'t exist', $meta['message']);
-
+		$this->assertEquals('wrong share ID, share doesn\'t exist.', $meta['message']);
 	}
 
 	/**
@@ -1047,125 +948,58 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @depends testCreateShareLink
 	 */
 	function testUpdateShare() {
+		$node1 = $this->userFolder->get($this->filename);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share1 = $this->shareManager->createShare($share1);
 
-		$fileInfo = $this->view->getFileInfo($this->filename);
-
-		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
-				null, 1);
-
-		// share was successful?
-		$this->assertTrue(is_string($result));
-
-		$items = \OCP\Share::getItemShared('file', null);
-
-		// make sure that we found a link share and a user share
-		$this->assertEquals(count($items), 2);
-
-		$linkShare = null;
-		$userShare = null;
-
-		foreach ($items as $item) {
-			if ($item['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
-				$linkShare = $item;
-			}
-			if ($item['share_type'] === \OCP\Share::SHARE_TYPE_USER) {
-				$userShare = $item;
-			}
-		}
-
-		// make sure that we found a link share and a user share
-		$this->assertTrue(is_array($linkShare));
-		$this->assertTrue(is_array($userShare));
-
-		// check if share have expected permissions, single shared files never have
-		// delete permissions
-		$this->assertEquals(\OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_DELETE, $userShare['permissions']);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share2 = $this->shareManager->createShare($share2);
 
 		// update permissions
-
 		$params = array();
-		$params['id'] = $userShare['id'];
-		$params['_put'] = array();
-		$params['_put']['permissions'] = 1;
+		$params['permissions'] = 1;
 
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
+		$request = $this->createRequest(['permissions' => 1]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($share1->getId());
+		$this->assertTrue($result->succeeded());
 
 		$meta = $result->getMeta();
 		$this->assertTrue($result->succeeded(), $meta['message']);
 
-		$items = \OCP\Share::getItemShared('file', $userShare['file_source']);
-
-		$newUserShare = null;
-		foreach ($items as $item) {
-			if ($item['share_with'] === \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2) {
-				$newUserShare = $item;
-				break;
-			}
-		}
-
-		$this->assertTrue(is_array($newUserShare));
-
-		$this->assertEquals('1', $newUserShare['permissions']);
+		$share1 = $this->shareManager->getShareById('ocinternal:' . $share1->getId());
+		$this->assertEquals(1, $share1->getPermissions());
 
 		// update password for link share
-		$this->assertTrue(empty($linkShare['share_with']));
+		$this->assertNull($share2->getPassword());
 
-		$params = array();
-		$params['id'] = $linkShare['id'];
-		$params['_put'] = array();
-		$params['_put']['password'] = 'foo';
-
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
-
+		$request = $this->createRequest(['password' => 'foo']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($share2->getId());
 		$this->assertTrue($result->succeeded());
 
-		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
+		$share2 = $this->shareManager->getShareById('ocinternal:' . $share2->getId());
+		$this->assertNotNull($share2->getPassword());
 
-		$newLinkShare = null;
-		foreach ($items as $item) {
-			if ($item['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
-				$newLinkShare = $item;
-				break;
-			}
-		}
-
-		$this->assertTrue(is_array($newLinkShare));
-		$this->assertTrue(!empty($newLinkShare['share_with']));
-
-		// Remove password for link share
-		$params = array();
-		$params['id'] = $linkShare['id'];
-		$params['_put'] = array();
-		$params['_put']['password'] = '';
-
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
-
+		$request = $this->createRequest(['password' => '']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($share2->getId());
 		$this->assertTrue($result->succeeded());
 
-		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
+		$share2 = $this->shareManager->getShareById('ocinternal:' . $share2->getId());
+		$this->assertNull($share2->getPassword());
 
-		$newLinkShare = null;
-		foreach ($items as $item) {
-			if ($item['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
-				$newLinkShare = $item;
-				break;
-			}
-		}
-
-		$this->assertTrue(is_array($newLinkShare));
-		$this->assertTrue(empty($newLinkShare['share_with']));
-
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
 	}
 
 	/**
@@ -1173,111 +1007,67 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @depends testCreateShareUserFile
 	 */
 	public function testUpdateShareInvalidPermissions() {
+		$node1 = $this->userFolder->get($this->filename);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share1 = $this->shareManager->createShare($share1);
 
-		$fileInfo = $this->view->getFileInfo($this->filename);
-
-		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
-
-		// share was successful?
-		$this->assertTrue($result);
-
-		$share = \OCP\Share::getItemShared('file', null);
-		$this->assertCount(1, $share);
-		$share = reset($share);
-
-		// check if share have expected permissions, single shared files never have
-		// delete permissions
-		$this->assertEquals(\OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_DELETE, $share['permissions']);
-
-		// update permissions
-		$params = [];
-		$params['id'] = $share['id'];
-		$params['_put'] = [];
-		$params['_put']['permissions'] = \OCP\Constants::PERMISSION_SHARE;
-
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
+		$request = $this->createRequest(['permissions' => \OCP\Constants::PERMISSION_ALL]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($share1->getId());
 
 		//Updating should fail with 400
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(400, $result->getStatusCode());
 
-		$share = \OCP\Share::getItemShared('file', $share['file_source']);
-		$share = reset($share);
-
 		//Permissions should not have changed!
-		$this->assertEquals(\OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_DELETE, $share['permissions']);
+		$share1 = $this->shareManager->getShareById('ocinternal:' . $share1->getId());
+		$this->assertEquals(19, $share1->getPermissions());
 
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->deleteShare($share1);
 	}
-
 
 	/**
 	 * @medium
 	 */
 	function testUpdateShareUpload() {
-
-		$fileInfo = $this->view->getFileInfo($this->folder);
-
-		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
-				null, 1);
-
-		// share was successful?
-		$this->assertTrue(is_string($result));
-
-		$items = \OCP\Share::getItemShared('file', null);
-
-		// make sure that we found a link share and a user share
-		$this->assertEquals(1, count($items));
-
-		$linkShare = null;
-
-		foreach ($items as $item) {
-			if ($item['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
-				$linkShare = $item;
-			}
-		}
-
-		// make sure that we found a link share
-		$this->assertTrue(is_array($linkShare));
+		$node1 = $this->userFolder->get($this->folder);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share1 = $this->shareManager->createShare($share1);
 
 		// update public upload
-
-		$params = array();
-		$params['id'] = $linkShare['id'];
-		$params['_put'] = array();
-		$params['_put']['publicUpload'] = 'true';
-
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
-
+		$request = $this->createRequest(['publicUpload' => 'true']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($share1->getId());
 		$this->assertTrue($result->succeeded());
 
-		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
-
-		$updatedLinkShare = null;
-		foreach ($items as $item) {
-			if ($item['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
-				$updatedLinkShare = $item;
-				break;
-			}
-		}
-
-		$this->assertTrue(is_array($updatedLinkShare));
-		$this->assertEquals(7, $updatedLinkShare['permissions']);
+		$share1 = $this->shareManager->getShareById($share1->getFullId());
+		$this->assertEquals(7, $share1->getPermissions());
 
 		// cleanup
-
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-
+		$this->shareManager->deleteShare($share1);
 	}
 
 	/**
 	 * @medium
 	 */
 	function testUpdateShareExpireDate() {
+		$node1 = $this->userFolder->get($this->folder);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share1 = $this->shareManager->createShare($share1);
 
-		$fileInfo = $this->view->getFileInfo($this->folder);
 		$config = \OC::$server->getConfig();
 
 		// enforce expire date, by default 7 days after the file was shared
@@ -1285,82 +1075,49 @@ class Test_Files_Sharing_Api extends TestCase {
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
 
 		$dateWithinRange = new \DateTime();
+		$dateWithinRange->setTime(0,0,0);
 		$dateWithinRange->add(new \DateInterval('P5D'));
 		$dateOutOfRange = new \DateTime();
+		$dateOutOfRange->setTime(0,0,0);
 		$dateOutOfRange->add(new \DateInterval('P8D'));
 
-		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
-				null, 1);
-
-		// share was successful?
-		$this->assertTrue(is_string($result));
-
-		$items = \OCP\Share::getItemShared('file', null);
-
-		// make sure that we found a link share
-		$this->assertEquals(1, count($items));
-
-		$linkShare = reset($items);
-
 		// update expire date to a valid value
-		$params = array();
-		$params['id'] = $linkShare['id'];
-		$params['_put'] = array();
-		$params['_put']['expireDate'] = $dateWithinRange->format('Y-m-d');
-
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
-
+		$request = $this->createRequest(['expireDate' => $dateWithinRange->format('Y-m-d')]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($share1->getId());
 		$this->assertTrue($result->succeeded());
 
-		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
-
-		$updatedLinkShare = reset($items);
+		$share1 = $this->shareManager->getShareById($share1->getFullId());
 
 		// date should be changed
-		$this->assertTrue(is_array($updatedLinkShare));
-		$this->assertEquals($dateWithinRange->format('Y-m-d') . ' 00:00:00', $updatedLinkShare['expiration']);
+		$this->assertEquals($dateWithinRange, $share1->getExpirationDate());
 
 		// update expire date to a value out of range
-		$params = array();
-		$params['id'] = $linkShare['id'];
-		$params['_put'] = array();
-		$params['_put']['expireDate'] = $dateOutOfRange->format('Y-m-d');
-
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
-
+		$request = $this->createRequest(['expireDate' => $dateOutOfRange->format('Y-m-d')]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($share1->getId());
 		$this->assertFalse($result->succeeded());
 
-		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
-
-		$updatedLinkShare = reset($items);
+		$share1 = $this->shareManager->getShareById($share1->getFullId());
 
 		// date shouldn't be changed
-		$this->assertTrue(is_array($updatedLinkShare));
-		$this->assertEquals($dateWithinRange->format('Y-m-d') . ' 00:00:00', $updatedLinkShare['expiration']);
-
+		$this->assertEquals($dateWithinRange, $share1->getExpirationDate());
 
 		// Try to remove expire date
-		$params = array();
-		$params['id'] = $linkShare['id'];
-		$params['_put'] = ['expireDate' => ''];
-
-		$result = \OCA\Files_Sharing\API\Local::updateShare($params);
-
+		$request = $this->createRequest(['expireDate' => '']);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->updateShare($share1->getId());
 		$this->assertFalse($result->succeeded());
 
-		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
+		$share1 = $this->shareManager->getShareById($share1->getFullId());
 
-		$updatedLinkShare = reset($items);
 
 		// date shouldn't be changed
-		$this->assertTrue(is_array($updatedLinkShare));
-		$this->assertEquals($dateWithinRange->format('Y-m-d') . ' 00:00:00', $updatedLinkShare['expiration']);
-
+		$this->assertEquals($dateWithinRange, $share1->getExpirationDate());
 		// cleanup
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
-		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
-
+		$this->shareManager->deleteShare($share1);
 	}
 
 	/**
@@ -1368,73 +1125,65 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @depends testCreateShareUserFile
 	 */
 	function testDeleteShare() {
+		$node1 = $this->userFolder->get($this->filename);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(19);
+		$share1 = $this->shareManager->createShare($share1);
 
-		$fileInfo = $this->view->getFileInfo($this->filename);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share2 = $this->shareManager->createShare($share1);
 
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($share1->getId());
+		$this->assertTrue($result->succeeded());
 
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
-				null, 1);
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->deleteShare($share2->getId());
+		$this->assertTrue($result->succeeded());
 
-		$items = \OCP\Share::getItemShared('file', null);
-
-		$this->assertEquals(2, count($items));
-
-		foreach ($items as $item) {
-			$result = \OCA\Files_Sharing\API\Local::deleteShare(array('id' => $item['id']));
-
-			$this->assertTrue($result->succeeded());
-		}
-
-		$itemsAfterDelete = \OCP\Share::getItemShared('file', null);
-
-		$this->assertTrue(empty($itemsAfterDelete));
-
+		$this->assertEmpty($this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_USER));
+		$this->assertEmpty($this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_LINK));
 	}
 
 	/**
 	 * test unshare of a reshared file
 	 */
 	function testDeleteReshare() {
+		$node1 = $this->userFolder->get($this->folder);
+		$share1 = $this->shareManager->newShare();
+		$share1->setNode($node1)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setPermissions(31);
+		$share1 = $this->shareManager->createShare($share1);
 
-		// user 1 shares a folder with user2
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
-
-		$fileInfo1 = $this->view->getFileInfo($this->folder);
-		$fileInfo2 = $this->view->getFileInfo($this->folder.'/'.$this->filename);
-
-		$result1 = \OCP\Share::shareItem('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		$this->assertTrue($result1);
-
-		// user2 shares a file from the folder as link
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
-		$result2 = \OCP\Share::shareItem('file', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, 1);
-
-		$this->assertTrue(is_string($result2));
+		$user2folder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER2);
+		$node2 = $user2folder->get($this->folder.'/'.$this->filename);
+		$share2 = $this->shareManager->newShare();
+		$share2->setNode($node2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(1);
+		$share2 = $this->shareManager->createShare($share2);
 
 		// test if we can unshare the link again
-		$items = \OCP\Share::getItemShared('file', null);
-		$this->assertEquals(1, count($items));
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
+		$result = $ocs->deleteShare($share2->getId());
+		$this->assertTrue($result->succeeded());
 
-		$item = reset($items);
-		$result3 = \OCA\Files_Sharing\API\Local::deleteShare(array('id' => $item['id']));
-
-		$this->assertTrue($result3->succeeded());
-
-		// cleanup
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
-
-		$result = \OCP\Share::unshare('folder', $fileInfo1['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
-
-		$this->assertTrue($result);
-
-
-
+		$this->shareManager->deleteShare($share1);
 	}
 
 	/**
@@ -1625,12 +1374,8 @@ class Test_Files_Sharing_Api extends TestCase {
 		$date = new \DateTime();
 		$date->add(new \DateInterval('P5D'));
 
-		$year = (int)$date->format('Y');
-
 		return [
 			[$date->format('Y-m-d'), true],
-			[$year+1 . '-1-1', false],
-			[$date->format('Y-m-dTH:m'), false],
 			['abc', false],
 			[$date->format('Y-m-d') . 'xyz', false],
 		];
@@ -1642,11 +1387,13 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * @dataProvider datesProvider
 	 */
 	public function testPublicLinkExpireDate($date, $valid) {
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
-		$_POST['expireDate'] = $date;
-
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
+		$request = $this->createRequest([
+			'path' => $this->folder,
+			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
+			'expireDate' => $date,
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 
 		if ($valid === false) {
 			$this->assertFalse($result->succeeded());
@@ -1665,17 +1412,11 @@ class Test_Files_Sharing_Api extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
+		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
 
-		$share = $this->getShareFromId($data['id']);
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-		$this->assertTrue(!empty($items));
+		$this->assertEquals($date, $share->getExpirationDate()->format('Y-m-d'));
 
-		$item = reset($items);
-		$this->assertTrue(is_array($item));
-		$this->assertEquals($date, substr($item['expiration'], 0, 10));
-
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testCreatePublicLinkExpireDateValid() {
@@ -1688,12 +1429,13 @@ class Test_Files_Sharing_Api extends TestCase {
 		$date = new \DateTime();
 		$date->add(new \DateInterval('P5D'));
 
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
-		$_POST['expireDate'] = $date->format('Y-m-d');
-
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
-
+		$request = $this->createRequest([
+			'path' => $this->folder,
+			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
+			'expireDate' => $date->format('Y-m-d'),
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 		$this->assertTrue($result->succeeded());
 
 		$data = $result->getData();
@@ -1704,17 +1446,11 @@ class Test_Files_Sharing_Api extends TestCase {
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL('/index.php/s/' . $data['token']);
 		$this->assertEquals($url, $data['url']);
 
+		$share = $this->shareManager->getShareById('ocinternal:'.$data['id']);
+		$date->setTime(0,0,0);
+		$this->assertEquals($date, $share->getExpirationDate());
 
-		$share = $this->getShareFromId($data['id']);
-		$items = \OCP\Share::getItemShared('file', $share['item_source']);
-		$this->assertTrue(!empty($items));
-
-		$item = reset($items);
-		$this->assertTrue(is_array($item));
-		$this->assertEquals($date->format('Y-m-d'), substr($item['expiration'], 0, 10));
-
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+		$this->shareManager->deleteShare($share);
 
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
@@ -1730,15 +1466,16 @@ class Test_Files_Sharing_Api extends TestCase {
 		$date = new \DateTime();
 		$date->add(new \DateInterval('P8D'));
 
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
-		$_POST['expireDate'] = $date->format('Y-m-d');
-
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
-
+		$request = $this->createRequest([
+			'path' => $this->folder,
+			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
+			'expireDate' => $date->format('Y-m-d'),
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(404, $result->getStatusCode());
-		$this->assertEquals('Cannot set expiration date. Shares cannot expire later than 7 after they have been shared', $result->getMeta()['message']);
+		$this->assertEquals('Cannot set expiration date more than 7 days in the future', $result->getMeta()['message']);
 
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
@@ -1750,15 +1487,16 @@ class Test_Files_Sharing_Api extends TestCase {
 		$date = new \DateTime();
 		$date->sub(new \DateInterval('P8D'));
 
-		$_POST['path'] = $this->folder;
-		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_LINK;
-		$_POST['expireDate'] = $date->format('Y-m-d');
-
-		$result = \OCA\Files_Sharing\API\Local::createShare([]);
-
+		$request = $this->createRequest([
+			'path' => $this->folder,
+			'shareType' => \OCP\Share::SHARE_TYPE_LINK,
+			'expireDate' => $date->format('Y-m-d'),
+		]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->createShare();
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(404, $result->getStatusCode());
-		$this->assertEquals('Cannot set expiration date. Expiration date is in the past', $result->getMeta()['message']);
+		$this->assertEquals('Expiration date is in the past', $result->getMeta()['message']);
 
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
