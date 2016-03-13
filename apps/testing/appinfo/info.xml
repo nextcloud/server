@@ -7,6 +7,6 @@
 	<author>Joas Schilling</author>
 	<version>0.1.0</version>
 	<dependencies>
-		<owncloud min-version="9.0" max-version="9.0" />
+		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
 </info>
