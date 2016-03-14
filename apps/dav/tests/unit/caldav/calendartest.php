@@ -32,7 +32,7 @@ class CalendarTest extends TestCase {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
 		$backend->expects($this->once())->method('updateShares');
-		$backend->method('getShares')->willReturn([
+		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:user2']
 		]);
 		$calendarInfo = [
@@ -52,7 +52,7 @@ class CalendarTest extends TestCase {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
 		$backend->expects($this->never())->method('updateShares');
-		$backend->method('getShares')->willReturn([
+		$backend->expects($this->any())->method('getShares')->willReturn([
 			['href' => 'principal:group2']
 		]);
 		$calendarInfo = [
@@ -90,7 +90,8 @@ class CalendarTest extends TestCase {
 		$calendarInfo = [
 			'{http://owncloud.org/ns}owner-principal' => 'user1',
 			'principaluri' => 'user2',
-			'id' => 666
+			'id' => 666,
+			'uri' => 'default'
 		];
 		$c = new Calendar($backend, $calendarInfo);
 
