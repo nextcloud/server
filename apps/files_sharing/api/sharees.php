@@ -147,8 +147,8 @@ class Sharees {
 
 		$foundUserById = false;
 		foreach ($users as $uid => $userDisplayName) {
-			if (strtolower($uid) === $search || strtolower($userDisplayName) === $search) {
-				if (strtolower($uid) === $search) {
+			if (strtolower($uid) === strtolower($search) || strtolower($userDisplayName) === strtolower($search)) {
+				if (strtolower($uid) === strtolower($search)) {
 					$foundUserById = true;
 				}
 				$this->result['exact']['users'][] = [
@@ -221,12 +221,12 @@ class Sharees {
 		}
 
 		foreach ($groups as $gid) {
-			if (strtolower($gid) === $search) {
+			if (strtolower($gid) === strtolower($search)) {
 				$this->result['exact']['groups'][] = [
-					'label' => $search,
+					'label' => $gid,
 					'value' => [
 						'shareType' => Share::SHARE_TYPE_GROUP,
-						'shareWith' => $search,
+						'shareWith' => $gid,
 					],
 				];
 			} else {
@@ -282,8 +282,8 @@ class Sharees {
 				}
 				foreach ($cloudIds as $cloudId) {
 					list(, $serverUrl) = $this->splitUserRemote($cloudId);
-					if (strtolower($contact['FN']) === $search || strtolower($cloudId) === $search) {
-						if (strtolower($cloudId) === $search) {
+					if (strtolower($contact['FN']) === strtolower($search) || strtolower($cloudId) === strtolower($search)) {
+						if (strtolower($cloudId) === strtolower($search)) {
 							$foundRemoteById = true;
 						}
 						$this->result['exact']['remotes'][] = [
