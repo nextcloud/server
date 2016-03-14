@@ -70,7 +70,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				\OC::$server->getL10N('lib'),
 				\OC::$server->getMailer(),
 				\OC::$server->getLogger(),
-				$defaults
+				$defaults,
+				\OC::$server->getURLGenerator()
 			);
 			$result = $mailNotification->sendInternalShareMail($recipientList, $itemSource, $itemType);
 
@@ -108,7 +109,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				\OC::$server->getL10N('lib'),
 				\OC::$server->getMailer(),
 				\OC::$server->getLogger(),
-				$defaults
+				$defaults,
+				\OC::$server->getURLGenerator()
 			);
 
 			$expiration = null;
