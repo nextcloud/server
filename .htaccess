@@ -65,7 +65,6 @@
   RewriteCond %{REQUEST_FILENAME} !/updater/
   RewriteCond %{REQUEST_FILENAME} !/ocs-provider/
   RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*
-  RewriteRule .* index.php [PT,E=PATH_INFO:$1]
 </IfModule>
 <IfModule mod_mime.c>
   AddType image/svg+xml svg svgz
