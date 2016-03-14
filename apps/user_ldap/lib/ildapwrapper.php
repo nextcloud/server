@@ -179,14 +179,6 @@ interface ILDAPWrapper {
 	public function startTls($link);
 
 	/**
-	 * Sort the result of a LDAP search
-	 * @param resource $link LDAP link resource
-	 * @param resource $result LDAP result resource
-	 * @param string $sortFilter attribute to use a key in sort
-	 */
-	public function sort($link, $result, $sortFilter);
-
-	/**
 	 * Unbind from LDAP directory
 	 * @param resource $link LDAP link resource
 	 * @return bool true on success, false otherwise
