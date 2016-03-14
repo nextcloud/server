@@ -612,7 +612,7 @@ class OC_Util {
 		$errors = array();
 		$CONFIG_DATADIRECTORY = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
 
-		if (!self::needUpgrade($config) && $config->getSystemValue('installed', false)) {
+		if (!self::needUpgrade($config)) {
 			// this check needs to be done every time
 			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
