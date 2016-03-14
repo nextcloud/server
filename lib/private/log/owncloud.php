@@ -76,9 +76,12 @@ class OC_Log_Owncloud {
 		} catch (Exception $e) {
 			$timezone = new DateTimeZone('UTC');
 		}
-		$time = DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""), $timezone);
+		$time = DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""));
 		if ($time === false) {
 			$time = new DateTime(null, $timezone);
+		} else {
+			// apply timezone if $time is created from UNIX timestamp
+			$time->setTimezone($timezone);
 		}
 		$request = \OC::$server->getRequest();
 		$reqId = $request->getId();
@@ -90,8 +93,7 @@ class OC_Log_Owncloud {
 			$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '--';
 			$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '--';
 			$entry = compact('reqId', 'remoteAddr', 'app', 'message', 'level', 'time', 'method', 'url');
-		}
-		else {
+		} else {
 			$entry = compact('reqId', 'remoteAddr', 'app', 'message', 'level', 'time');
 		}
 		$entry = json_encode($entry);
