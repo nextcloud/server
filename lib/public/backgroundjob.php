@@ -99,7 +99,7 @@ class BackgroundJob {
 	 * @since 4.5.0
 	 */
 	public static function addRegularTask($klass, $method) {
-		if (!\OC::needUpgrade()) {
+		if (!\OCP\Util::needUpgrade()) {
 			self::registerJob('OC\BackgroundJob\Legacy\RegularJob', array($klass, $method));
 			return true;
 		}

@@ -339,16 +339,6 @@ class OC {
 	}
 
 	/**
-	 * check if the instance needs to perform an upgrade
-	 *
-	 * @return bool
-	 * @deprecated use \OCP\Util::needUpgrade() instead
-	 */
-	public static function needUpgrade() {
-		return \OCP\Util::needUpgrade();
-	}
-
-	/**
 	 * Checks if the version requires an update and shows
 	 * @param bool $showTemplate Whether an update screen should get shown
 	 * @return bool|void
