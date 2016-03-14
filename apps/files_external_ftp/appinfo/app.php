@@ -1,16 +1,14 @@
 <?php
 
-$l = \OC::$server->getL10N('files_external_ftp');
+\OC::$server->getEventDispatcher()->addListener(
+	'OCA\\Files_External::loadAdditionalBackends', function($event) {
+		$l10n = \OC::$server->getL10N('files_external_ftp');
+		$backendService = \OC::$server->getStoragesBackendService();
+		$extContainer = \OC_Mount_Config::$app->getContainer();
 
-OC_Mount_Config::registerBackend('\OCA\Files_External_FTP\FTP', [
-	'backend' => (string)$l->t('FTP (Fly)'),
-	'priority' => 100,
-	'configuration' => [
-		'host' => (string)$l->t('hostname'),
-		'username' => (string)$l->t('Username'),
-		'password' => (string)$l->t('Password'),
-		'root' => '&' . $l->t('Remote subfolder'),
-		'ssl' => '!' . $l->t('Secure ftps://'),
-		'port' => '&' . $l->t('Port'),
-	],
-]);
+		$backendService->registerBackend(new \OCA\Files_External_FTP\Backend(
+			$l10n,
+			$extContainer->query('OCA\Files_External\Lib\Auth\Password\Password')
+		));
+	}
+);
