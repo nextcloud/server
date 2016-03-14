@@ -49,7 +49,7 @@ class CachingRouter extends Router {
 	 */
 	public function generate($name, $parameters = array(), $absolute = false) {
 		asort($parameters);
-		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . $name . json_encode($parameters) . intval($absolute);
+		$key = $this->context->getHost() . '#' . $this->context->getBaseUrl() . $name . sha1(json_encode($parameters)) . intval($absolute);
 		if ($this->cache->hasKey($key)) {
 			return $this->cache->get($key);
 		} else {
