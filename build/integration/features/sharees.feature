@@ -1,12 +1,12 @@
 Feature: sharees
   Background:
     Given using api version "1"
-
-  Scenario: Search without exact match
-    Given user "test" exists
+    And user "test" exists
     And user "Sharee1" exists
     And group "ShareeGroup" exists
-    And As an "test"
+
+  Scenario: Search without exact match
+    Given As an "test"
     When getting sharees for
       | search | Sharee |
       | itemType | file |
@@ -22,10 +22,7 @@ Feature: sharees
     And "remotes" sharees returned is empty
 
   Scenario: Search without exact match not-exact casing
-    Given user "test" exists
-    And user "Sharee1" exists
-    And group "ShareeGroup" exists
-    And As an "test"
+    Given As an "test"
     When getting sharees for
       | search | sharee |
       | itemType | file |
@@ -42,10 +39,7 @@ Feature: sharees
 
 # TODO need to move the appconfig setting from Capabilities to Basic/Provisioning
 #  Scenario: Search without exact match no iteration allowed
-#    Given user "test" exists
-#    And user "Sharee1" exists
-#    And group "ShareeGroup" exists
-#    And As an "test"
+#    Given As an "test"
 #    When getting sharees for
 #      | search | Sharee |
 #      | itemType | file |
@@ -59,10 +53,7 @@ Feature: sharees
 #    And "remotes" sharees returned is empty
 #
 #  Scenario: Search with exact match no iteration allowed
-#    Given user "test" exists
-#    And user "Sharee1" exists
-#    And group "ShareeGroup" exists
-#    And As an "test"
+#    Given As an "test"
 #    When getting sharees for
 #      | search | Sharee1 |
 #      | itemType | file |
@@ -77,10 +68,7 @@ Feature: sharees
 #    And "remotes" sharees returned is empty
 #
 #  Scenario: Search with exact match group no iteration allowed
-#    Given user "test" exists
-#    And user "Sharee1" exists
-#    And group "ShareeGroup" exists
-#    And As an "test"
+#    Given As an "test"
 #    When getting sharees for
 #      | search | ShareeGroup |
 #      | itemType | file |
@@ -95,10 +83,7 @@ Feature: sharees
 #    And "remotes" sharees returned is empty
 
   Scenario: Search with exact match
-    Given user "test" exists
-    And user "Sharee1" exists
-    And group "ShareeGroup" exists
-    And As an "test"
+    Given As an "test"
     When getting sharees for
       | search | Sharee1 |
       | itemType | file |
@@ -113,10 +98,7 @@ Feature: sharees
     Then "remotes" sharees returned is empty
 
   Scenario: Search with exact match not-exact casing
-    Given user "test" exists
-    And user "Sharee1" exists
-    And group "ShareeGroup" exists
-    And As an "test"
+    Given As an "test"
     When getting sharees for
       | search | sharee1 |
       | itemType | file |
@@ -131,10 +113,7 @@ Feature: sharees
     Then "remotes" sharees returned is empty
 
   Scenario: Search with exact match not-exact casing group
-    Given user "test" exists
-    And user "Sharee1" exists
-    And group "ShareeGroup" exists
-    And As an "test"
+    Given As an "test"
     When getting sharees for
       | search | shareegroup |
       | itemType | file |
@@ -149,10 +128,7 @@ Feature: sharees
     Then "remotes" sharees returned is empty
 
   Scenario: Search with "self"
-    Given user "test" exists
-    And user "Sharee1" exists
-    And group "ShareeGroup" exists
-    And As an "Sharee1"
+    Given As an "Sharee1"
     When getting sharees for
       | search | Sharee1 |
       | itemType | file |
@@ -167,10 +143,7 @@ Feature: sharees
     Then "remotes" sharees returned is empty
 
   Scenario: Remote sharee for files
-    Given user "test" exists
-    And user "Sharee1" exists
-    And group "ShareeGroup" exists
-    And As an "test"
+    Given As an "test"
     When getting sharees for
       | search | test@localhost |
       | itemType | file |
@@ -185,10 +158,7 @@ Feature: sharees
     Then "remotes" sharees returned is empty
 
   Scenario: Remote sharee for calendars not allowed
-    Given user "test" exists
-    And user "Sharee1" exists
-    And group "ShareeGroup" exists
-    And As an "test"
+    Given As an "test"
     When getting sharees for
       | search | test@localhost |
       | itemType | calendar |
