@@ -79,10 +79,12 @@ class File extends \OCP\Search\Result {
 		$info = pathinfo($path);
 		$this->id = $data->getId();
 		$this->name = $info['basename'];
-		$this->link = \OCP\Util::linkTo(
-			'files',
-			'index.php',
-			array('dir' => $info['dirname'], 'scrollto' => $info['basename'])
+		$this->link = \OC::$server->getURLGenerator()->linkToRoute(
+			'files.view.index',
+			[
+				'dir' => $info['dirname'],
+				'scrollto' => $info['basename'],
+			]
 		);
 		$this->permissions = $data->getPermissions();
 		$this->path = $path;
