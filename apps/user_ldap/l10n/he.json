@@ -131,6 +131,8 @@
     "Group-Member association" : "שיוך חברי-קבוצה",
     "Dynamic Group Member URL" : "נתיב חבר קבוצה דינמית",
     "Nested Groups" : "קבוצות משנה",
+    "Paging chunksize" : "Paging chunksize",
+    "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "Chunksize משמש לחיפושי paged LDAP שעלולים להחזיר תוצאות גסות כמו ספירת משתמש או קבוצה. (הגדרה כ- 0 מנטרל חיפושי paged LDAP במצבים אלה.)",
     "Special Attributes" : "מאפיינים מיוחדים",
     "Quota Field" : "שדה מכסה",
     "Quota Default" : "ברירת מחדל מכסה",

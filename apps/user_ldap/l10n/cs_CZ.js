@@ -92,7 +92,7 @@ OC.L10N.register(
     "One Base DN per line" : "Jedna základní DN na řádku",
     "You can specify Base DN for users and groups in the Advanced tab" : "V rozšířeném nastavení můžete určit základní DN pro uživatele a skupiny",
     "Detect Base DN" : "Detekovat Base DN",
-    "Test Base DN" : "Otestovat Base DN",
+    "Test Base DN" : "Test Base DN",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Zabraňuje automatickým LDAP požadavkům. Výhodné pro objemná nastavení, ale vyžaduje znalosti o LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Ručně vložit LDAP filtry (doporučeno pro obsáhlé adresáře)",
     "Limit %s access to users meeting these criteria:" : "Omezit přístup %s uživatelům splňujícím tyto podmínky:",

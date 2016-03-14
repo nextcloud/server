@@ -4,7 +4,7 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Server til server-deling er ikke aktivert på denne serveren",
     "The mountpoint name contains invalid characters." : "Navnet på oppkoblingspunktet inneholder ugyldige tegn.",
     "Not allowed to create a federated share with the same user server" : "Ikke tillatt å opprette en Sammenknyttet sky-deling med den samme bruker-serveren",
-    "Invalid or untrusted SSL certificate" : "Ugyldig eller ikke tiltrodd SSL-sertifikat",
+    "Invalid or untrusted SSL certificate" : "Ugyldig eller ikke-klarert SSL-sertifikat",
     "Could not authenticate to remote share, password might be wrong" : "Klarte ikke å autentisere mot ekstern deling. Passordet kan være feil",
     "Storage not valid" : "Lagerplass ikke gyldig",
     "Couldn't add remote share" : "Klarte ikke å legge til ekstern deling",
