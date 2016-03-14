@@ -97,10 +97,10 @@ Feature: federated
 		And Using server "REMOTE"
 		And As an "user1"
 		When creating a share with
-    		| path | /textfile0 (2).txt |
-    		| shareType | 0 |
-    		| shareWith | user2 |
-      		| permissions | 19 |
+			| path | /textfile0 (2).txt |
+			| shareType | 0 |
+			| shareWith | user2 |
+			| permissions | 19 |
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And Share fields of last share match with

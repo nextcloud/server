@@ -69,18 +69,20 @@ trait BasicStructure {
 	}
 
 	/**
-	 * @Given /^Using server "([^"]*)"$/
+	 * @Given /^Using server "(LOCAL|REMOTE)"$/
 	 * @param string $server
+	 * @return string Previous used server
 	 */
 	public function usingServer($server) {
+		$previousServer = $this->currentServer;
 		if ($server === 'LOCAL'){
 			$this->baseUrl = $this->localBaseUrl;
 			$this->currentServer = 'LOCAL';
-		} elseif ($server === 'REMOTE'){
+			return $previousServer;
+		} else {
 			$this->baseUrl = $this->remoteBaseUrl;
 			$this->currentServer = 'REMOTE';
-		} else{
-			PHPUnit_Framework_Assert::fail("Server can only be LOCAL or REMOTE");
+			return $previousServer;
 		}
 	}
 

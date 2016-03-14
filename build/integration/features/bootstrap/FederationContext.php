@@ -15,22 +15,32 @@ class FederationContext implements Context, SnippetAcceptingContext {
 	use Sharing;
 
 	/**
-	 * @When /^User "([^"]*)" from server "([^"]*)" shares "([^"]*)" with user "([^"]*)" from server "([^"]*)"$/
+	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with user "([^"]*)" from server "(LOCAL|REMOTE)"$/
+	 *
+	 * @param string $sharerUser
+	 * @param string $sharerServer "LOCAL" or "REMOTE"
+	 * @param string $sharerPath
+	 * @param string $shareeUser
+	 * @param string $shareeServer "LOCAL" or "REMOTE"
 	 */
-	public function federateSharing($userLocal, $serverLocal, $pathLocal, $userRemote, $serverRemote){
-		if ($serverRemote == "REMOTE"){
-			$shareWith = "$userRemote@" . substr($this->remoteBaseUrl, 0, -4);
-		} elseif ($serverRemote == "LOCAL") {
-			$shareWith = "$userRemote@" . substr($this->localBaseUrl, 0, -4);
+	public function federateSharing($sharerUser, $sharerServer, $sharerPath, $shareeUser, $shareeServer){
+		if ($shareeServer == "REMOTE"){
+			$shareWith = "$shareeUser@" . substr($this->remoteBaseUrl, 0, -4);
+		} else {
+			$shareWith = "$shareeUser@" . substr($this->localBaseUrl, 0, -4);
 		}
-		$this->createShare($userLocal, $pathLocal, 6, $shareWith, null, null, null);
+		$previous = $this->usingServer($sharerServer);
+		$this->createShare($sharerUser, $sharerPath, 6, $shareWith, null, null, null);
+		$this->usingServer($previous);
 	}
 
 	/**
-	 * @When /^User "([^"]*)" from server "([^"]*)" accepts last pending share$/
+	 * @When /^User "([^"]*)" from server "(LOCAL|REMOTE)" accepts last pending share$/
+	 * @param string $user
+	 * @param string $server
 	 */
 	public function acceptLastPendingShare($user, $server){
-		$this->usingServer($server);
+		$previous = $this->usingServer($server);
 		$this->asAn($user);
 		$this->sendingToWith('GET', "/apps/files_sharing/api/v1/remote_shares/pending", null);
 		$this->theHTTPStatusCodeShouldBe('200');
@@ -39,18 +49,6 @@ class FederationContext implements Context, SnippetAcceptingContext {
 		$this->sendingToWith('POST', "/apps/files_sharing/api/v1/remote_shares/pending/{$share_id}", null);
 		$this->theHTTPStatusCodeShouldBe('200');
 		$this->theOCSStatusCodeShouldBe('100');
+		$this->usingServer($previous);
 	}
-
-	/**
-	 * @param string $app
-	 * @param string $parameter
-	 * @param string $value
-	 */
-	protected function modifyServerConfig($app, $parameter, $value) {
-		$body = new \Behat\Gherkin\Node\TableNode([['value', $value]]);
-		$this->sendingToWith('post', "/apps/testing/api/v1/app/{$app}/{$parameter}", $body);
-		$this->theHTTPStatusCodeShouldBe('200');
-		$this->theOCSStatusCodeShouldBe('100');
-	}
-
 }
