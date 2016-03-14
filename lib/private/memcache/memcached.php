@@ -88,7 +88,9 @@ class Memcached extends Cache implements IMemcache {
 
 	public function remove($key) {
 		$result= self::$cache->delete($this->getNamespace() . $key);
-		$this->verifyReturnCode();
+		if (self::$cache->getResultCode() !== \Memcached::RES_NOTFOUND) {
+			$this->verifyReturnCode();
+		}
 		return $result;
 	}
 
@@ -124,10 +126,13 @@ class Memcached extends Cache implements IMemcache {
 	 * @param mixed $value
 	 * @param int $ttl Time To Live in seconds. Defaults to 60*60*24
 	 * @return bool
+	 * @throws \Exception
 	 */
 	public function add($key, $value, $ttl = 0) {
 		$result = self::$cache->add($this->getPrefix() . $key, $value, $ttl);
-		$this->verifyReturnCode();
+		if (self::$cache->getResultCode() !== \Memcached::RES_NOTSTORED) {
+			$this->verifyReturnCode();
+		}
 		return $result;
 	}
 
@@ -141,7 +146,11 @@ class Memcached extends Cache implements IMemcache {
 	public function inc($key, $step = 1) {
 		$this->add($key, 0);
 		$result = self::$cache->increment($this->getPrefix() . $key, $step);
-		$this->verifyReturnCode();
+
+		if (self::$cache->getResultCode() !== \Memcached::RES_SUCCESS) {
+			return false;
+		}
+
 		return $result;
 	}
 
@@ -154,7 +163,11 @@ class Memcached extends Cache implements IMemcache {
 	 */
 	public function dec($key, $step = 1) {
 		$result = self::$cache->decrement($this->getPrefix() . $key, $step);
-		$this->verifyReturnCode();
+
+		if (self::$cache->getResultCode() !== \Memcached::RES_SUCCESS) {
+			return false;
+		}
+
 		return $result;
 	}
 

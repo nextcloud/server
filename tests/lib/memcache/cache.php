@@ -39,6 +39,11 @@ abstract class Cache extends \Test_Cache {
 		$this->assertFalse($this->instance->hasKey('foo'));
 	}
 
+	public function testRemoveNonExisting() {
+		$this->instance->remove('foo');
+		$this->assertFalse($this->instance->hasKey('foo'));
+	}
+
 	public function testArrayAccessSet() {
 		$this->instance['foo'] = 'bar';
 		$this->assertEquals('bar', $this->instance->get('foo'));
@@ -72,7 +77,9 @@ abstract class Cache extends \Test_Cache {
 		$this->assertEquals(1, $this->instance->inc('foo'));
 		$this->assertEquals(1, $this->instance->get('foo'));
 		$this->assertEquals(2, $this->instance->inc('foo'));
+		$this->assertEquals(2, $this->instance->get('foo'));
 		$this->assertEquals(12, $this->instance->inc('foo', 10));
+		$this->assertEquals(12, $this->instance->get('foo'));
 
 		$this->instance->set('foo', 'bar');
 		$this->assertFalse($this->instance->inc('foo'));
@@ -80,7 +87,7 @@ abstract class Cache extends \Test_Cache {
 	}
 
 	public function testDec() {
-		$this->assertEquals(false, $this->instance->dec('foo'));
+		$this->assertFalse($this->instance->dec('foo'));
 		$this->instance->set('foo', 20);
 		$this->assertEquals(19, $this->instance->dec('foo'));
 		$this->assertEquals(19, $this->instance->get('foo'));
