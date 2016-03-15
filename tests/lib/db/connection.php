@@ -47,6 +47,11 @@ class Connection extends \Test\TestCase {
 		$this->connection = \OC::$server->getDatabaseConnection();
 	}
 
+	public function tearDown() {
+		parent::tearDown();
+		$this->connection->dropTable('table');
+	}
+
 	/**
 	 * @param string $table
 	 */
@@ -86,6 +91,7 @@ class Connection extends \Test\TestCase {
 	 * @depends testTableExists
 	 */
 	public function testDropTable() {
+		$this->makeTestTable();
 		$this->assertTableExist('table');
 		$this->connection->dropTable('table');
 		$this->assertTableNotExist('table');
@@ -111,8 +117,6 @@ class Connection extends \Test\TestCase {
 		]);
 
 		$this->assertEquals('foo', $this->getTextValueByIntergerField(1));
-
-		$this->connection->dropTable('table');
 	}
 
 	public function testSetValuesOverWrite() {
@@ -131,8 +135,6 @@ class Connection extends \Test\TestCase {
 		]);
 
 		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
-
-		$this->connection->dropTable('table');
 	}
 
 	public function testSetValuesOverWritePrecondition() {
@@ -154,8 +156,6 @@ class Connection extends \Test\TestCase {
 		]);
 
 		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
-
-		$this->connection->dropTable('table');
 	}
 
 	/**
@@ -177,6 +177,24 @@ class Connection extends \Test\TestCase {
 			'textfield' => 'bar'
 		], [
 			'booleanfield' => false
+		]);
+	}
+
+	public function testSetValuesSameNoError() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo',
+			'clobfield' => 'not_null'
+		]);
+
+		// this will result in 'no affected rows' on certain optimizing DBs
+		// ensure the PreConditionNotMetException isn't thrown
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo'
 		]);
 	}
 }

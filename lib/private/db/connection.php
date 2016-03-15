@@ -293,7 +293,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			$updateQb->where($where);
 			$affected = $updateQb->execute();
 
-			if ($affected === 0) {
+			if ($affected === 0 && !empty($updatePreconditionValues)) {
 				throw new PreconditionNotMetException();
 			}
 
