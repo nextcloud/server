@@ -71,7 +71,8 @@ class CheckerTest extends TestCase {
 			$this->appLocator,
 			$this->config,
 			$this->cacheFactory,
-			$this->appManager
+			$this->appManager,
+			\OC::$server->getTempManager()
 		);
 	}
 
@@ -523,13 +524,14 @@ class CheckerTest extends TestCase {
 		$this->checker->writeCoreSignature($x509, $rsa, \OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithInvalidModifiedContent/');
 	}
 
-	public function testWriteCoreSignatureWithValidModifiedHtaccess() {
+	public function testWriteCoreSignatureWithValidModifiedHtaccessAndUserIni() {
 		$expectedSignatureFileData = '{
     "hashes": {
-        ".htaccess": "a232e6a616c40635d0220e47ebaade40348aadf141a67a331b8870b8fae056584e52fe8b56c49468ee17b58f92cbcd269dc30ae598d6206e97f7d8bb00a766c6",
+        ".htaccess": "ef34c5f35fffb6e8e3008c2118617b53243cfc5ac2513edba9ebd383169862bc16e4f889316ad65788d6b172fe14713af90908c19838c4ba13b4146e12c7ac62",
+        ".user.ini": "0a557e3cdca4c2e3675deed761d79d109011dcdebbd9c7f6429f1d3476938ec95729543d7384651d1d0c48e26c5024cc5f517445920915a704ea748bdb903c5f",
         "subfolder\/.htaccess": "2c57b1e25050e11dc3ae975832f378c452159f7b69f818e47eeeafadd6ba568517461dcb4d843b90b906cd7c89d161bc1b89dff8e3ae0eb6f5088508c47befd1"
     },
-    "signature": "LNHvrAFg7NJL9h8TanIFmiI3xnmNRz8pltVgRJpnQTqLJCkhZWV5+poHIii\/\/dI4NhBijsoN0AAJckf1KFzyeI2rOk3w+niaOEXX7khoJDgbxuz0kwN13Bxa1A6j0cMFqm9IIWet0JK9MKaL8K\/n3CzNYovXhRBdJsYTQVWvkaY5KMQgTP2roqgaLBABfI8+fuZVnKie1D737UJ3LhxesEtqr9mJEUSdYuN1QpaScdv7bMkX7xTcg02T5Ljs4F0KsKSME43Pzxm33qCQ\/Gyfsz\/iNKHYQztg9wPkSanbqvFnDtHhcIhKBsETCbNuBZqBk0AwYCupLIJTjC6SShHc4TtWiv834wtSmc1fYfzrsq7gJalJifFAaeGemzFwkePFlVqjdYc63KSqK8ut0jEcjKPAmJ+5NCUoxc8iASMJCesf31mzUPlw1L9LCBMA0aywDqkZYK4tJHZYMvXc4UkSs19OuAzUbXMoVHsJ03ftfC02gpg4hqZDSiBqYuyKMvt2xuutTA+xQcl3fQGUuNdSmBqUFm0D5cCvT10aZPNUXA2cnS+89u58QSxO1wEZJCYKOrDvX1oqOyJs\/c8GNip3LwheIF2KB8\/Zh83h8ZncDxuesAzq89IjV815K3P1G\/kSVPhvQapw1KMLu9rBDZ3FVvQw8K8fg5a7opBrK2ggGds=",
+    "signature": "d6pqYc0pj5hihZK4Pi\/rM9XguY1xK9LEch+jUcxZWwhzOPL4qVHx5LN4FAhEOnr5ZjuhK\/umVEUjieamF4z8tP\/4nnnu2LmRuPMmj6+1tBEwbsKoeg7NiYfYL5h+VSdBePpIZDmjk0tjEpsMtCPhUPAY5vOSSDJ3Xef4KQIpeL6RKIctDcVdO26QWPLFpCo9NK3j91KHuXTcjbAsATDo+oXQzi0CaomBqL6Ft1SU\/Bdes6usgeVWd6mGygZ6zUCLqB4hSi6335xIkkUO1c3NekWksiqTWqdmVIpsTEsIpapx+nE0UFBGc7ZF2rnamg5813g67M5V\/UwhBRcHobMFWfbp73QDUsHcuLCOhamgYh7hbVIlDP7LS2V3kIRLgMLBVwLnvb8LAbaGUsdYGtbfmrhcMK\/jkpGCv0pqUCc4I+1QuVexNEQrdqafwYRnQUsmdFSFaCASYVvgxPrY5jA+y1HwNX5HEc5mMzVORNPhZXUcxWBRUQxUESY5j473DInMQUhq7SLVNAaglxDR1a9M5tQO8engvIJ5eTImLITm0qdefmEvFrxQ0BrrGmPNFYUysrHeNGDhMkGX+JIONj+T4Ht3Z7dr7cfufYDHRaummsTGgRx6206zRSqavsBWL\/Cbzrfu1HhiRagncVcoL40EommJt8lobaKHs3GZ8k861Wo=",
     "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEvjCCAqagAwIBAgIUc\/0FxYrsgSs9rDxp03EJmbjN0NwwDQYJKoZIhvcNAQEF\r\nBQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw\r\nMzIxMDMzM1oXDTE2MTEwMzIxMDMzM1owDzENMAsGA1UEAwwEY29yZTCCAiIwDQYJ\r\nKoZIhvcNAQEBBQADggIPADCCAgoCggIBALb6EgHpkAqZbO5vRO8XSh7G7XGWHw5s\r\niOf4RwPXR6SE9bWZEm\/b72SfWk\/\/J6AbrD8WiOzBuT\/ODy6k5T1arEdHO+Pux0W1\r\nMxYJJI4kH74KKgMpC0SB0Rt+8WrMqV1r3hhJ46df6Xr\/xolP3oD+eLbShPcblhdS\r\nVtkZEkoev8Sh6L2wDCeHDyPxzvj1w2dTdGVO9Kztn0xIlyfEBakqvBWtcxyi3Ln0\r\nklnxlMx3tPDUE4kqvpia9qNiB1AN2PV93eNr5\/2riAzIssMFSCarWCx0AKYb54+d\r\nxLpcYFyqPJ0ydBCkF78DD45RCZet6PNYkdzgbqlUWEGGomkuDoJbBg4wzgzO0D77\r\nH87KFhYW8tKFFvF1V3AHl\/sFQ9tDHaxM9Y0pZ2jPp\/ccdiqnmdkBxBDqsiRvHvVB\r\nCn6qpb4vWGFC7vHOBfYspmEL1zLlKXZv3ezMZEZw7O9ZvUP3VO\/wAtd2vUW8UFiq\r\ns2v1QnNLN6jNh51obcwmrBvWhJy9vQIdtIjQbDxqWTHh1zUSrw9wrlklCBZ\/zrM0\r\ni8nfCFwTxWRxp3H9KoECzO\/zS5R5KIS7s3\/wq\/w9T2Ie4rcecgXwDizwnn0C\/aKc\r\nbDIjujpL1s9HO05pcD\/V3wKcPZ1izymBkmMyIbL52iRVN5FTVHeZdXPpFuq+CTQJ\r\nQ238lC+A\/KOVAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBAGoKTnh8RfJV4sQItVC2\r\nAvfJagkrIqZ3iiQTUBQGTKBsTnAqE1H7QgUSV9vSd+8rgvHkyZsRjmtyR1e3A6Ji\r\noNCXUbExC\/0iCPUqdHZIVb+Lc\/vWuv4ByFMybGPydgtLoEUX2ZrKFWmcgZFDUSRd\r\n9Uj26vtUhCC4bU4jgu6hIrR9IuxOBLQUxGTRZyAcXvj7obqRAEZwFAKQgFpfpqTb\r\nH+kjcbZSaAlLVSF7vBc1syyI8RGYbqpwvtREqJtl5IEIwe6huEqJ3zPnlP2th\/55\r\ncf3Fovj6JJgbb9XFxrdnsOsDOu\/tpnaRWlvv5ib4+SzG5wWFT5UUEo4Wg2STQiiX\r\nuVSRQxK1LE1yg84bs3NZk9FSQh4B8vZVuRr5FaJsZZkwlFlhRO\/\/+TJtXRbyNgsf\r\noMRZGi8DLGU2SGEAHcRH\/QZHq\/XDUWVzdxrSBYcy7GSpT7UDVzGv1rEJUrn5veP1\r\n0KmauAqtiIaYRm4f6YBsn0INcZxzIPZ0p8qFtVZBPeHhvQtvOt0iXI\/XUxEWOa2F\r\nK2EqhErgMK\/N07U1JJJay5tYZRtvkGq46oP\/5kQG8hYST0MDK6VihJoPpvCmAm4E\r\npEYKQ96x6A4EH9Y9mZlYozH\/eqmxPbTK8n89\/p7Ydun4rI+B2iiLnY8REWWy6+UQ\r\nV204fGUkJqW5CrKy3P3XvY9X\r\n-----END CERTIFICATE-----"
 }';
 		$this->environmentHelper
@@ -610,6 +612,48 @@ class CheckerTest extends TestCase {
 						\OC::$SERVERROOT . '/tests/data/integritycheck/app//resources/codesigning/root.crt'
 				)
 				->will($this->returnValue(file_get_contents(__DIR__ .'/../../data/integritycheck/root.crt')));
+
+		$this->assertSame([], $this->checker->verifyCoreSignature());
+	}
+
+	public function testVerifyCoreSignatureWithValidModifiedHtaccessAndUserIniSignatureData() {
+		$this->environmentHelper
+			->expects($this->once())
+			->method('getChannel')
+			->will($this->returnValue('stable'));
+		$this->config
+			->expects($this->any())
+			->method('getSystemValue')
+			->with('integrity.check.disabled', false)
+			->will($this->returnValue(false));
+
+		$this->environmentHelper
+			->expects($this->any())
+			->method('getServerRoot')
+			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent'));
+		$signatureDataFile = '{
+    "hashes": {
+        ".htaccess": "ef34c5f35fffb6e8e3008c2118617b53243cfc5ac2513edba9ebd383169862bc16e4f889316ad65788d6b172fe14713af90908c19838c4ba13b4146e12c7ac62",
+        ".user.ini": "0a557e3cdca4c2e3675deed761d79d109011dcdebbd9c7f6429f1d3476938ec95729543d7384651d1d0c48e26c5024cc5f517445920915a704ea748bdb903c5f",
+        "subfolder\/.htaccess": "2c57b1e25050e11dc3ae975832f378c452159f7b69f818e47eeeafadd6ba568517461dcb4d843b90b906cd7c89d161bc1b89dff8e3ae0eb6f5088508c47befd1"
+    },
+    "signature": "d6pqYc0pj5hihZK4Pi\/rM9XguY1xK9LEch+jUcxZWwhzOPL4qVHx5LN4FAhEOnr5ZjuhK\/umVEUjieamF4z8tP\/4nnnu2LmRuPMmj6+1tBEwbsKoeg7NiYfYL5h+VSdBePpIZDmjk0tjEpsMtCPhUPAY5vOSSDJ3Xef4KQIpeL6RKIctDcVdO26QWPLFpCo9NK3j91KHuXTcjbAsATDo+oXQzi0CaomBqL6Ft1SU\/Bdes6usgeVWd6mGygZ6zUCLqB4hSi6335xIkkUO1c3NekWksiqTWqdmVIpsTEsIpapx+nE0UFBGc7ZF2rnamg5813g67M5V\/UwhBRcHobMFWfbp73QDUsHcuLCOhamgYh7hbVIlDP7LS2V3kIRLgMLBVwLnvb8LAbaGUsdYGtbfmrhcMK\/jkpGCv0pqUCc4I+1QuVexNEQrdqafwYRnQUsmdFSFaCASYVvgxPrY5jA+y1HwNX5HEc5mMzVORNPhZXUcxWBRUQxUESY5j473DInMQUhq7SLVNAaglxDR1a9M5tQO8engvIJ5eTImLITm0qdefmEvFrxQ0BrrGmPNFYUysrHeNGDhMkGX+JIONj+T4Ht3Z7dr7cfufYDHRaummsTGgRx6206zRSqavsBWL\/Cbzrfu1HhiRagncVcoL40EommJt8lobaKHs3GZ8k861Wo=",
+    "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIEvjCCAqagAwIBAgIUc\/0FxYrsgSs9rDxp03EJmbjN0NwwDQYJKoZIhvcNAQEF\r\nBQAwIzEhMB8GA1UECgwYb3duQ2xvdWQgQ29kZSBTaWduaW5nIENBMB4XDTE1MTEw\r\nMzIxMDMzM1oXDTE2MTEwMzIxMDMzM1owDzENMAsGA1UEAwwEY29yZTCCAiIwDQYJ\r\nKoZIhvcNAQEBBQADggIPADCCAgoCggIBALb6EgHpkAqZbO5vRO8XSh7G7XGWHw5s\r\niOf4RwPXR6SE9bWZEm\/b72SfWk\/\/J6AbrD8WiOzBuT\/ODy6k5T1arEdHO+Pux0W1\r\nMxYJJI4kH74KKgMpC0SB0Rt+8WrMqV1r3hhJ46df6Xr\/xolP3oD+eLbShPcblhdS\r\nVtkZEkoev8Sh6L2wDCeHDyPxzvj1w2dTdGVO9Kztn0xIlyfEBakqvBWtcxyi3Ln0\r\nklnxlMx3tPDUE4kqvpia9qNiB1AN2PV93eNr5\/2riAzIssMFSCarWCx0AKYb54+d\r\nxLpcYFyqPJ0ydBCkF78DD45RCZet6PNYkdzgbqlUWEGGomkuDoJbBg4wzgzO0D77\r\nH87KFhYW8tKFFvF1V3AHl\/sFQ9tDHaxM9Y0pZ2jPp\/ccdiqnmdkBxBDqsiRvHvVB\r\nCn6qpb4vWGFC7vHOBfYspmEL1zLlKXZv3ezMZEZw7O9ZvUP3VO\/wAtd2vUW8UFiq\r\ns2v1QnNLN6jNh51obcwmrBvWhJy9vQIdtIjQbDxqWTHh1zUSrw9wrlklCBZ\/zrM0\r\ni8nfCFwTxWRxp3H9KoECzO\/zS5R5KIS7s3\/wq\/w9T2Ie4rcecgXwDizwnn0C\/aKc\r\nbDIjujpL1s9HO05pcD\/V3wKcPZ1izymBkmMyIbL52iRVN5FTVHeZdXPpFuq+CTQJ\r\nQ238lC+A\/KOVAgMBAAEwDQYJKoZIhvcNAQEFBQADggIBAGoKTnh8RfJV4sQItVC2\r\nAvfJagkrIqZ3iiQTUBQGTKBsTnAqE1H7QgUSV9vSd+8rgvHkyZsRjmtyR1e3A6Ji\r\noNCXUbExC\/0iCPUqdHZIVb+Lc\/vWuv4ByFMybGPydgtLoEUX2ZrKFWmcgZFDUSRd\r\n9Uj26vtUhCC4bU4jgu6hIrR9IuxOBLQUxGTRZyAcXvj7obqRAEZwFAKQgFpfpqTb\r\nH+kjcbZSaAlLVSF7vBc1syyI8RGYbqpwvtREqJtl5IEIwe6huEqJ3zPnlP2th\/55\r\ncf3Fovj6JJgbb9XFxrdnsOsDOu\/tpnaRWlvv5ib4+SzG5wWFT5UUEo4Wg2STQiiX\r\nuVSRQxK1LE1yg84bs3NZk9FSQh4B8vZVuRr5FaJsZZkwlFlhRO\/\/+TJtXRbyNgsf\r\noMRZGi8DLGU2SGEAHcRH\/QZHq\/XDUWVzdxrSBYcy7GSpT7UDVzGv1rEJUrn5veP1\r\n0KmauAqtiIaYRm4f6YBsn0INcZxzIPZ0p8qFtVZBPeHhvQtvOt0iXI\/XUxEWOa2F\r\nK2EqhErgMK\/N07U1JJJay5tYZRtvkGq46oP\/5kQG8hYST0MDK6VihJoPpvCmAm4E\r\npEYKQ96x6A4EH9Y9mZlYozH\/eqmxPbTK8n89\/p7Ydun4rI+B2iiLnY8REWWy6+UQ\r\nV204fGUkJqW5CrKy3P3XvY9X\r\n-----END CERTIFICATE-----"
+}';
+		$this->fileAccessHelper
+			->expects($this->at(0))
+			->method('file_get_contents')
+			->with(
+				\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent/core/signature.json'
+			)
+			->will($this->returnValue($signatureDataFile));
+		$this->fileAccessHelper
+			->expects($this->at(1))
+			->method('file_get_contents')
+			->with(
+				\OC::$SERVERROOT . '/tests/data/integritycheck/htaccessWithValidModifiedContent/resources/codesigning/root.crt'
+			)
+			->will($this->returnValue(file_get_contents(__DIR__ .'/../../data/integritycheck/root.crt')));
 
 		$this->assertSame([], $this->checker->verifyCoreSignature());
 	}
@@ -867,6 +911,7 @@ class CheckerTest extends TestCase {
 				$this->config,
 				$this->cacheFactory,
 				$this->appManager,
+				\OC::$server->getTempManager()
 			])
 			->setMethods([
 				'verifyCoreSignature',

@@ -267,7 +267,7 @@ class OC_Files {
 				$pattern = vsprintf($patternMap['pattern'], [$key]);
 				$setting = vsprintf($patternMap['setting'], [$key, $size]);
 				$hasReplaced = 0;
-				$newContent = preg_replace($pattern, $setting, $content, 1, $hasReplaced);
+				$newContent = preg_replace($pattern, $setting, $content, 2, $hasReplaced);
 				if ($newContent !== null) {
 					$content = $newContent;
 				}
