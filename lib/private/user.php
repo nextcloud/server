@@ -281,7 +281,20 @@ class OC_User {
 	 */
 	public static function tryBasicAuthLogin() {
 		if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
-			\OC_User::login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+			$result = \OC_User::login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+			if($result === true) {
+				/**
+				 * Add DAV authenticated. This should in an ideal world not be
+				 * necessary but the iOS App reads cookies from anywhere instead
+				 * only the DAV endpoint.
+				 * This makes sure that the cookies will be valid for the whole scope
+				 * @see https://github.com/owncloud/core/issues/22893
+				 */
+				\OC::$server->getSession()->set(
+					\OCA\DAV\Connector\Sabre\Auth::DAV_AUTHENTICATED,
+					\OC::$server->getUserSession()->getUser()->getUID()
+				);
+			}
 		}
 	}
 
