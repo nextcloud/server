@@ -20,10 +20,10 @@
  *
  */
 
-namespace OCA\Files_External\Lib;
+namespace OC\Files\Storage;
 
+use OC\Files\Cache\FailedCache;
 use \OCP\Lock\ILockingProvider;
-use \OC\Files\Storage\Common;
 use \OCP\Files\StorageNotAvailableException;
 
 /**

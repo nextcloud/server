@@ -19,9 +19,8 @@
  *
  */
 
-namespace OCA\Files_External\Lib;
+namespace OC\Files\Cache;
 
-use OC\Files\Cache\CacheEntry;
 use OCP\Constants;
 use OCP\Files\Cache\ICache;
 
@@ -29,6 +28,18 @@ use OCP\Files\Cache\ICache;
  * Storage placeholder to represent a missing precondition, storage unavailable
  */
 class FailedCache implements ICache {
+	/** @var bool whether to show the failed storage in the ui */
+	private $visible;
+
+	/**
+	 * FailedCache constructor.
+	 *
+	 * @param bool $visible
+	 */
+	public function __construct($visible = true) {
+		$this->visible = $visible;
+	}
+
 
 	public function getNumericStorageId() {
 		return -1;
@@ -41,7 +52,7 @@ class FailedCache implements ICache {
 				'size' => 0,
 				'mimetype' => 'httpd/unix-directory',
 				'mimepart' => 'httpd',
-				'permissions' => Constants::PERMISSION_READ,
+				'permissions' => $this->visible ? Constants::PERMISSION_READ : 0,
 				'mtime' => time()
 			]);
 		} else {
