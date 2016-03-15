@@ -92,7 +92,7 @@ class DBConfigService {
 	protected function getForQuery(IQueryBuilder $builder, $type, $value) {
 		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
 			->from('external_mounts', 'm')
-			->innerJoin('m', 'external_applicable', 'a', 'm.mount_id = a.mount_id')
+			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'))
 			->where($builder->expr()->eq('a.type', $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)));
 
 		if (is_null($value)) {
@@ -148,7 +148,7 @@ class DBConfigService {
 
 		$query = $builder->select(['m.mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'm.type'])
 			->from('external_mounts', 'm')
-			->innerJoin('m', 'external_applicable', 'a', 'm.mount_id = a.mount_id')
+			->innerJoin('m', 'external_applicable', 'a', $builder->expr()->eq('m.mount_id', 'a.mount_id'))
 			->where($builder->expr()->eq('a.type', $builder->createNamedParameter($type, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('a.value', $params));
 		$query->andWhere($builder->expr()->eq('m.type', $builder->expr()->literal(self::MOUNT_TYPE_ADMIN, IQueryBuilder::PARAM_INT)));
