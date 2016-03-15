@@ -23,6 +23,7 @@
  */
 
 namespace OCA\user_ldap\tests;
+use OCA\user_ldap\lib\Connection;
 
 /**
  * Class Test_Connection
@@ -32,6 +33,26 @@ namespace OCA\user_ldap\tests;
  * @package OCA\user_ldap\tests
  */
 class Test_Connection extends \Test\TestCase {
+	/** @var \OCA\user_ldap\lib\ILDAPWrapper  */
+	protected $ldap;
+
+	/** @var  Connection */
+	protected $connection;
+
+	public function setUp() {
+		parent::setUp();
+
+		$this->ldap       = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
+		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
+		$this->connection = $this->getMockBuilder('OCA\user_ldap\lib\Connection')
+								 ->setMethods(['getFromCache', 'writeToCache'])
+								 ->setConstructorArgs([$this->ldap, '', null])
+								 ->getMock();
+
+		$this->ldap->expects($this->any())
+			->method('areLDAPFunctionsAvailable')
+			->will($this->returnValue(true));
+	}
 
 	public function testOriginalAgentUnchangedOnClone() {
 		//background: upon login a bind is done with the user credentials
@@ -39,7 +60,7 @@ class Test_Connection extends \Test\TestCase {
 		//to the agent's credentials
 		$lw  = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
 
-		$connection = new \OCA\user_ldap\lib\Connection($lw, '', null);
+		$connection = new Connection($lw, '', null);
 		$agent = array(
 			'ldapAgentName' => 'agent',
 			'ldapAgentPassword' => '123456',
@@ -58,6 +79,61 @@ class Test_Connection extends \Test\TestCase {
 
 		$this->assertSame($agentName, $agent['ldapAgentName']);
 		$this->assertSame($agentPawd, $agent['ldapAgentPassword']);
+	}
+
+	public function testUseBackupServer() {
+		$mainHost = 'ldap://nixda.ldap';
+		$backupHost = 'ldap://fallback.ldap';
+		$config = [
+			'ldapConfigurationActive' => true,
+			'ldapHost' => $mainHost,
+			'ldapPort' => 389,
+			'ldapBackupHost' => $backupHost,
+			'ldapBackupPort' => 389,
+			'ldapAgentName' => 'uid=agent',
+			'ldapAgentPassword' => 'SuchASecret'
+		];
+
+		$this->connection->setIgnoreValidation(true);
+		$this->connection->setConfiguration($config);
+
+		$this->ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->any())
+			->method('setOption')
+			->will($this->returnValue(true));
+
+		$this->ldap->expects($this->exactly(3))
+			->method('connect')
+			->will($this->returnValue('ldapResource'));
+
+		// Not called often enough? Then, the fallback to the backup server is broken.
+		$this->connection->expects($this->exactly(4))
+			->method('getFromCache')
+			->with('overrideMainServer')
+			->will($this->onConsecutiveCalls(false, false, true, true));
+
+		$this->connection->expects($this->once())
+			->method('writeToCache')
+			->with('overrideMainServer', true);
+
+		$isThrown = false;
+		$this->ldap->expects($this->exactly(3))
+			->method('bind')
+			->will($this->returnCallback(function () use (&$isThrown) {
+				if(!$isThrown) {
+					$isThrown = true;
+					throw new \OC\ServerNotAvailableException();
+				}
+				return true;
+			}));
+
+		$this->connection->init();
+		$this->connection->resetConnectionResource();
+		// with the second init() we test whether caching works
+		$this->connection->init();
 	}
 
 }
