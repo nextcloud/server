@@ -63,14 +63,15 @@ echo "${docker_image} container: $container"
 # put container IDs into a file to drop them after the test run (keep in mind that multiple tests run in parallel on the same host)
 echo $container >> $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 
-echo -n "Waiting for ceph initialization"
+echo "Waiting for ceph initialization"
 ready=$(timeout 600 cat "$notify_sock")
 if [[ $ready != 'READY=1' ]]; then
     echo "[ERROR] Waited 600 seconds, no response" >&2
     docker logs $container
     exit 1
 fi
-sleep 1
+echo "Waiting another 15 seconds"
+sleep 15
 
 cat > $thisFolder/config.swift.php <<DELIM
 <?php
