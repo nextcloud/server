@@ -179,6 +179,16 @@ class Connection extends LDAPUtility {
 	}
 
 	/**
+	 * resets the connection resource
+	 */
+	public function resetConnectionResource() {
+		if(!is_null($this->ldapConnectionRes)) {
+			@$this->ldap->unbind($this->ldapConnectionRes);
+			$this->ldapConnectionRes = null;
+		}
+	}
+
+	/**
 	 * @param string|null $key
 	 * @return string
 	 */
@@ -529,7 +539,7 @@ class Connection extends LDAPUtility {
 			}
 
 			$bindStatus = false;
-			$error = null;
+			$error = -1;
 			try {
 				if (!$this->configuration->ldapOverrideMainServer
 					&& !$this->getFromCache('overrideMainServer')
@@ -557,7 +567,7 @@ class Connection extends LDAPUtility {
 				$this->doConnect($this->configuration->ldapBackupHost,
 								 $this->configuration->ldapBackupPort);
 				$bindStatus = $this->bind();
-				if($bindStatus && $error === -1) {
+				if($bindStatus && $error === -1 && !$this->getFromCache('overrideMainServer')) {
 					//when bind to backup server succeeded and failed to main server,
 					//skip contacting him until next cache refresh
 					$this->writeToCache('overrideMainServer', true);
