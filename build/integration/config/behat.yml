@@ -42,6 +42,16 @@ default:
               - admin
               - admin
             regular_user_password: 123456
+    sharees:
+      paths:
+        - %paths.base%/../sharees_features
+      contexts:
+        - ShareesContext:
+            baseUrl:  http://localhost:8080/ocs/
+            admin:
+              - admin
+              - admin
+            regular_user_password: 123456
 
 
 
