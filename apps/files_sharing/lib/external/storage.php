@@ -136,9 +136,6 @@ class Storage extends DAV implements ISharedStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		if(!$this->remoteIsOwnCloud()) {
-			return parent::getScanner($path, $storage);
-		}
 		if (!isset($this->scanner)) {
 			$this->scanner = new Scanner($storage);
 		}
@@ -266,7 +263,7 @@ class Storage extends DAV implements ISharedStorage {
 	 *
 	 * @return bool
 	 */
-	private function remoteIsOwnCloud() {
+	public function remoteIsOwnCloud() {
 		if(defined('PHPUNIT_RUN') || !$this->testRemoteUrl($this->getRemote() . '/status.php')) {
 			return false;
 		}
