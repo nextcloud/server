@@ -459,7 +459,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		// Do not pass the password here. We want to use the Net_SFTP object
 		// supplied via stream context or fail. We only supply username and
 		// hostname because this might show up in logs (they are not used).
-		$url = 'sftp://'.$this->user.'@'.$this->host.':'.$this->port.$this->root.$path;
+		$url = 'sftp://' . urlencode($this->user) . '@' . $this->host . ':' . $this->port . $this->root . $path;
 		return $url;
 	}
 }
