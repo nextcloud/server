@@ -7,8 +7,9 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 
 
-trait Sharing{
+trait Sharing {
 	use Provisioning;
+	use AppConfiguration;
 
 	/** @var int */
 	private $sharingApiVersion = 1;
@@ -519,6 +520,11 @@ trait Sharing{
 			$sharees[] = [$element['label'], $element['value']['shareType'], $element['value']['shareWith']];
 		}
 		return $sharees;
+	}
+
+	protected function resetAppConfigs() {
+		$this->modifyServerConfig('core', 'shareapi_only_share_with_group_members', 'no');
+		$this->modifyServerConfig('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');
 	}
 }
 
