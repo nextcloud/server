@@ -31,6 +31,7 @@
 namespace OC\Files\Storage;
 
 use OC\Files\Filesystem;
+use OC\Files\Cache\FailedCache;
 use OCA\Files_Sharing\ISharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
@@ -67,10 +68,16 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	 */
 	private $sourceStorage;
 
+	/**
+	 * @var \OCP\ILogger
+	 */
+	private $logger;
+
 	public function __construct($arguments) {
 		$this->share = $arguments['share'];
 		$this->ownerView = $arguments['ownerView'];
 		$this->user = $arguments['user'];
+		$this->logger = \OC::$server->getLogger();
 	}
 
 	private function init() {
@@ -78,15 +85,19 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 			return;
 		}
 		$this->initialized = true;
-		Filesystem::initMountPoints($this->share['uid_owner']);
-		$sourcePath = $this->ownerView->getPath($this->share['file_source']);
-		list($this->sourceStorage, $sourceInternalPath) = $this->ownerView->resolvePath($sourcePath);
-		$this->sourceRootInfo = $this->sourceStorage->getCache()->get($sourceInternalPath);
+		try {
+			Filesystem::initMountPoints($this->share['uid_owner']);
+			$sourcePath = $this->ownerView->getPath($this->share['file_source']);
+			list($this->sourceStorage, $sourceInternalPath) = $this->ownerView->resolvePath($sourcePath);
+			$this->sourceRootInfo = $this->sourceStorage->getCache()->get($sourceInternalPath);
+		} catch (\Exception $e) {
+			$this->logger->logException($e);
+		}
 	}
 
 	private function isValid() {
 		$this->init();
-		return ($this->sourceRootInfo->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
+		return $this->sourceRootInfo && ($this->sourceRootInfo->getPermissions() & Constants::PERMISSION_SHARE) === Constants::PERMISSION_SHARE;
 	}
 
 	/**
@@ -568,6 +579,9 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 
 	public function getCache($path = '', $storage = null) {
 		$this->init();
+		if (is_null($this->sourceStorage)) {
+			return new FailedCache(false);
+		}
 		if (!$storage) {
 			$storage = $this;
 		}
