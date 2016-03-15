@@ -207,6 +207,7 @@ OC.L10N.register(
     "Admin documentation" : "管理员文档",
     "Show description …" : "显示描述...",
     "Hide description …" : "隐藏描述...",
+    "This app has an update available." : "此应用有可用的更新。",
     "This app has no minimum ownCloud version assigned. This will be an error in ownCloud 11 and later." : "这个程序没有指定最低的ownCloud版本。这是在ownCloud11之后版本的错误。",
     "This app has no maximum ownCloud version assigned. This will be an error in ownCloud 11 and later." : "这个程序没有指定最高的ownCloud版本。这是在ownCloud11之后版本的错误。",
     "This app cannot be installed because the following dependencies are not fulfilled:" : "此应用程序无法安装，因为以下依赖性不满足：",

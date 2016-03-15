@@ -26,6 +26,7 @@
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "不能上传文件 {filename} ，由于它是一个目录或者为0字节",
     "Total file size {size1} exceeds upload limit {size2}" : "总文件大小 {size1} 超过上传限制 {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "没有足够的可用空间，您正在上传 {size1} 的文件但是只有 {size2} 可用。",
+    "Error uploading file \"{fileName}\": {message}" : "上传文件错误 \"{fileName}\": {message}",
     "Could not get result from server." : "不能从服务器得到结果",
     "File upload is in progress. Leaving the page now will cancel the upload." : "文件正在上传中。现在离开此页会导致上传动作被取消。",
     "Actions" : "动作",
