@@ -390,7 +390,11 @@ class Encryption implements IEncryptionModule {
 				$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
 			} else {
 				foreach ($accessList['users'] as $user) {
-					$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+					try {
+						$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+					} catch (PublicKeyMissingException $e) {
+						$this->logger->warning('Could not encrypt file for ' . $user . ': ' . $e->getMessage());
+					}
 				}
 			}
 
