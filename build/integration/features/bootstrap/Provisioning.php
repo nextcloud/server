@@ -175,14 +175,15 @@ trait Provisioning {
 	 * @param string $group
 	 */
 	public function assureUserBelongsToGroup($user, $group){
-		if (!$this->userBelongsToGroup($user, $group)){
-			$previous_user = $this->currentUser;
-			$this->currentUser = "admin";
-			$this->addingUserToGroup($user, $group);
-			$this->currentUser = $previous_user;
-		}
-		$this->checkThatUserBelongsToGroup($user, $group);
+		$previous_user = $this->currentUser;
+		$this->currentUser = "admin";
 
+		if (!$this->userBelongsToGroup($user, $group)){
+			$this->addingUserToGroup($user, $group);
+		}
+
+		$this->checkThatUserBelongsToGroup($user, $group);
+		$this->currentUser = $previous_user;
 	}
 
 	/**
