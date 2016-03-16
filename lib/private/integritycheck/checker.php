@@ -31,6 +31,7 @@ use OCP\App\IAppManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\ITempManager;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 
@@ -58,6 +59,8 @@ class Checker {
 	private $cache;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var ITempManager */
+	private $tempManager;
 
 	/**
 	 * @param EnvironmentHelper $environmentHelper
@@ -66,19 +69,22 @@ class Checker {
 	 * @param IConfig $config
 	 * @param ICacheFactory $cacheFactory
 	 * @param IAppManager $appManager
+	 * @param ITempManager $tempManager
 	 */
 	public function __construct(EnvironmentHelper $environmentHelper,
 								FileAccessHelper $fileAccessHelper,
 								AppLocator $appLocator,
 								IConfig $config = null,
 								ICacheFactory $cacheFactory,
-								IAppManager $appManager = null) {
+								IAppManager $appManager = null,
+								ITempManager $tempManager) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
 		$this->config = $config;
 		$this->cache = $cacheFactory->create(self::CACHE_KEY);
 		$this->appManager = $appManager;
+		$this->tempManager = $tempManager;
 	}
 
 	/**
@@ -147,6 +153,8 @@ class Checker {
 	private function generateHashes(\RecursiveIteratorIterator $iterator,
 									$path) {
 		$hashes = [];
+		$copiedWebserverSettingFiles = false;
+		$tmpFolder = '';
 
 		$baseDirectoryLength = strlen($path);
 		foreach($iterator as $filename => $data) {
@@ -167,6 +175,36 @@ class Checker {
 				continue;
 			}
 
+			// The .user.ini and the .htaccess file of ownCloud can contain some
+			// custom modifications such as for example the maximum upload size
+			// to ensure that this will not lead to false positives this will
+			// copy the file to a temporary folder and reset it to the default
+			// values.
+			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess'
+				|| $filename === $this->environmentHelper->getServerRoot() . '/.user.ini') {
+
+				if(!$copiedWebserverSettingFiles) {
+					$tmpFolder = rtrim($this->tempManager->getTemporaryFolder(), '/');
+					copy($this->environmentHelper->getServerRoot() . '/.htaccess', $tmpFolder . '/.htaccess');
+					copy($this->environmentHelper->getServerRoot() . '/.user.ini', $tmpFolder . '/.user.ini');
+					\OC_Files::setUploadLimit(
+						\OCP\Util::computerFileSize('513MB'),
+						[
+							'.htaccess' => $tmpFolder . '/.htaccess',
+							'.user.ini' => $tmpFolder . '/.user.ini',
+						]
+					);
+				}
+			}
+
+			// The .user.ini file can contain custom modifications to the file size
+			// as well.
+			if($filename === $this->environmentHelper->getServerRoot() . '/.user.ini') {
+				$fileContent = file_get_contents($tmpFolder . '/.user.ini');
+				$hashes[$relativeFileName] = hash('sha512', $fileContent);
+				continue;
+			}
+
 			// The .htaccess file in the root folder of ownCloud can contain
 			// custom content after the installation due to the fact that dynamic
 			// content is written into it at installation time as well. This
@@ -175,7 +213,7 @@ class Checker {
 			// "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####" and have the
 			// hash generated based on this.
 			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess') {
-				$fileContent = file_get_contents($filename);
+				$fileContent = file_get_contents($tmpFolder . '/.htaccess');
 				$explodedArray = explode('#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####', $fileContent);
 				if(count($explodedArray) === 2) {
 					$hashes[$relativeFileName] = hash('sha512', $explodedArray[0]);
@@ -185,6 +223,7 @@ class Checker {
 
 			$hashes[$relativeFileName] = hash_file('sha512', $filename);
 		}
+
 		return $hashes;
 	}
 

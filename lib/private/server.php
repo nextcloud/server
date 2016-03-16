@@ -462,7 +462,8 @@ class Server extends ServerContainer implements IServerContainer {
 					new AppLocator(),
 					$config,
 					$c->getMemCacheFactory(),
-					$appManager
+					$appManager,
+					$c->getTempManager()
 			);
 		});
 		$this->registerService('Request', function ($c) {
