@@ -43,7 +43,7 @@ class RemoveCertificate extends Base {
 	protected function configure() {
 		$this
 			->setName('security:certificates:remove')
-			->setDescription('import trusted certificate')
+			->setDescription('remove trusted certificate')
 			->addArgument(
 				'name',
 				InputArgument::REQUIRED,

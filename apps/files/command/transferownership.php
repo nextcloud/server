@@ -69,7 +69,7 @@ class TransferOwnership extends Command {
 	protected function configure() {
 		$this
 			->setName('files:transfer-ownership')
-			->setDescription('All files and folders are move to another user - shares are moved as well.')
+			->setDescription('All files and folders are moved to another user - shares are moved as well.')
 			->addArgument(
 				'source-user',
 				InputArgument::REQUIRED,
