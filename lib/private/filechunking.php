@@ -89,7 +89,7 @@ class OC_FileChunking {
 	 * Assembles the chunks into the file specified by the path.
 	 * Chunks are deleted afterwards.
 	 *
-	 * @param string $f target path
+	 * @param resource $f target path
 	 *
 	 * @return integer assembled file size
 	 *
@@ -105,6 +105,8 @@ class OC_FileChunking {
 			// remove after reading to directly save space
 			$cache->remove($prefix.$i);
 			$count += fwrite($f, $chunk);
+			// let php release the memory to work around memory exhausted error with php 5.6
+			$chunk = null;
 		}
 
 		return $count;
