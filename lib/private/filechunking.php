@@ -150,59 +150,21 @@ class OC_FileChunking {
 	 * Assembles the chunks into the file specified by the path.
 	 * Also triggers the relevant hooks and proxies.
 	 *
-	 * @param \OC\Files\Storage\Storage $storage
+	 * @param \OC\Files\Storage\Storage $storage storage
 	 * @param string $path target path relative to the storage
-	 * @param string $absolutePath
-	 * @return bool assembled file size or false if file could not be created
+	 * @return bool true on success or false if file could not be created
 	 *
 	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function file_assemble($storage, $path, $absolutePath) {
-		$data = '';
+	public function file_assemble($storage, $path) {
 		// use file_put_contents as method because that best matches what this function does
 		if (\OC\Files\Filesystem::isValidPath($path)) {
-			$exists = $storage->file_exists($path);
-			$run = true;
-			$hookPath = \OC\Files\Filesystem::getView()->getRelativePath($absolutePath);
-			if(!$exists) {
-				OC_Hook::emit(
-					\OC\Files\Filesystem::CLASSNAME,
-					\OC\Files\Filesystem::signal_create,
-					array(
-						\OC\Files\Filesystem::signal_param_path => $hookPath,
-						\OC\Files\Filesystem::signal_param_run => &$run
-					)
-				);
-			}
-			OC_Hook::emit(
-				\OC\Files\Filesystem::CLASSNAME,
-				\OC\Files\Filesystem::signal_write,
-				array(
-					\OC\Files\Filesystem::signal_param_path => $hookPath,
-					\OC\Files\Filesystem::signal_param_run => &$run
-				)
-			);
-			if(!$run) {
-				return false;
-			}
 			$target = $storage->fopen($path, 'w');
-			if($target) {
+			if ($target) {
 				$count = $this->assemble($target);
 				fclose($target);
-				if(!$exists) {
-					OC_Hook::emit(
-						\OC\Files\Filesystem::CLASSNAME,
-						\OC\Files\Filesystem::signal_post_create,
-						array( \OC\Files\Filesystem::signal_param_path => $hookPath)
-					);
-				}
-				OC_Hook::emit(
-					\OC\Files\Filesystem::CLASSNAME,
-					\OC\Files\Filesystem::signal_post_write,
-					array( \OC\Files\Filesystem::signal_param_path => $hookPath)
-				);
 				return $count > 0;
-			}else{
+			} else {
 				return false;
 			}
 		}
