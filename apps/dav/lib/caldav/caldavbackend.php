@@ -22,6 +22,7 @@
 
 namespace OCA\DAV\CalDAV;
 
+use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\Connector\Sabre\Principal;
@@ -35,7 +36,9 @@ use Sabre\CalDAV\Plugin;
 use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV;
+use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\PropPatch;
 use Sabre\HTTP\URLUtil;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Reader;
@@ -104,12 +107,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * CalDavBackend constructor.
 	 *
 	 * @param IDBConnection $db
-	 * @param Principal $principalBackend
+	 * @param $userPrincipalBackend
+	 * @param GroupPrincipalBackend $groupPrincipalBackend
 	 */
-	public function __construct(IDBConnection $db, Principal $principalBackend) {
+	public function __construct(IDBConnection $db, $userPrincipalBackend, GroupPrincipalBackend $groupPrincipalBackend) {
 		$this->db = $db;
-		$this->principalBackend = $principalBackend;
-		$this->sharingBackend = new Backend($this->db, $principalBackend, 'calendar');
+		$this->principalBackend = $userPrincipalBackend;
+		$this->sharingBackend = new Backend($this->db, $userPrincipalBackend, $groupPrincipalBackend, 'calendar');
 	}
 
 	/**
@@ -340,6 +344,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $calendarUri
 	 * @param array $properties
 	 * @return int
+	 * @throws DAV\Exception
 	 */
 	function createCalendar($principalUri, $calendarUri, array $properties) {
 		$values = [
@@ -391,10 +396,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * Read the PropPatch documentation for more info and examples.
 	 *
-	 * @param \Sabre\DAV\PropPatch $propPatch
-	 * @return void
+	 * @param int $calendarId
+	 * @param PropPatch $propPatch
 	 */
-	function updateCalendar($calendarId, \Sabre\DAV\PropPatch $propPatch) {
+	function updateCalendar($calendarId, PropPatch $propPatch) {
 		$supportedProperties = array_keys($this->propertyMap);
 		$supportedProperties[] = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 
@@ -1034,6 +1039,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $uri
 	 * @param array $properties
 	 * @return mixed
+	 * @throws Forbidden
 	 */
 	function createSubscription($principalUri, $uri, array $properties) {
 
@@ -1082,10 +1088,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * Read the PropPatch documentation for more info and examples.
 	 *
 	 * @param mixed $subscriptionId
-	 * @param \Sabre\DAV\PropPatch $propPatch
+	 * @param PropPatch $propPatch
 	 * @return void
 	 */
-	function updateSubscription($subscriptionId, DAV\PropPatch $propPatch) {
+	function updateSubscription($subscriptionId, PropPatch $propPatch) {
 		$supportedProperties = array_keys($this->subscriptionPropertyMap);
 		$supportedProperties[] = '{http://calendarserver.org/ns/}source';
 
@@ -1275,6 +1281,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * @param string $calendarData
 	 * @return array
+	 * @throws BadRequest
 	 */
 	protected function getDenormalizedData($calendarData) {
 
@@ -1292,7 +1299,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			}
 		}
 		if (!$componentType) {
-			throw new \Sabre\DAV\Exception\BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
+			throw new BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
 		}
 		if ($componentType === 'VEVENT' && $component->DTSTART) {
 			$firstOccurence = $component->DTSTART->getDateTime()->getTimeStamp();
@@ -1359,19 +1366,21 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 	/**
 	 * @param int $resourceId
+	 * @param string $currentPrincipal
 	 * @return array
 	 */
-	public function getShares($resourceId) {
-		return $this->sharingBackend->getShares($resourceId);
+	public function getShares($resourceId, $currentPrincipal) {
+		return $this->sharingBackend->getShares($resourceId, $currentPrincipal);
 	}
 
 	/**
 	 * @param int $resourceId
 	 * @param array $acl
+	 * @param string $currentPrincipal
 	 * @return array
 	 */
-	public function applyShareAcl($resourceId, $acl) {
-		return $this->sharingBackend->applyShareAcl($resourceId, $acl);
+	public function applyShareAcl($resourceId, $acl, $currentPrincipal) {
+		return $this->sharingBackend->applyShareAcl($resourceId, $acl, $currentPrincipal);
 	}
 
 	private function convertPrincipal($principalUri, $toV2) {

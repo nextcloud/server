@@ -23,6 +23,7 @@
 namespace OCA\DAV\DAV\Sharing;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCP\IDBConnection;
 
 class Backend {
@@ -30,7 +31,9 @@ class Backend {
 	/** @var IDBConnection */
 	private $db;
 	/** @var Principal */
-	private $principalBackend;
+	private $userPrincipalBackend;
+	/** @var GroupPrincipalBackend */
+	private $groupPrincipalBackend;
 	/** @var string */
 	private $resourceType;
 
@@ -40,12 +43,14 @@ class Backend {
 
 	/**
 	 * @param IDBConnection $db
-	 * @param Principal $principalBackend
+	 * @param Principal $userPrincipalBackend
+	 * @param GroupPrincipalBackend $groupPrincipalBackend
 	 * @param string $resourceType
 	 */
-	public function __construct(IDBConnection $db, Principal $principalBackend, $resourceType) {
+	public function __construct(IDBConnection $db, Principal $userPrincipalBackend, GroupPrincipalBackend $groupPrincipalBackend, $resourceType) {
 		$this->db = $db;
-		$this->principalBackend = $principalBackend;
+		$this->userPrincipalBackend = $userPrincipalBackend;
+		$this->groupPrincipalBackend = $groupPrincipalBackend;
 		$this->resourceType = $resourceType;
 	}
 
@@ -143,9 +148,10 @@ class Backend {
 	 *   * summary - Optional, a description for the share
 	 *
 	 * @param int $resourceId
+	 * @param string $currentPrincipal
 	 * @return array
 	 */
-	public function getShares($resourceId) {
+	public function getShares($resourceId, $currentPrincipal) {
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select(['principaluri', 'access'])
 			->from('dav_shares')
@@ -155,13 +161,31 @@ class Backend {
 
 		$shares = [];
 		while($row = $result->fetch()) {
-			$p = $this->principalBackend->getPrincipalByPath($row['principaluri']);
+			$p = $this->userPrincipalBackend->getPrincipalByPath($row['principaluri']);
+			if (is_null($p)) {
+				$p = $this->groupPrincipalBackend->getPrincipalByPath($row['principaluri']);
+				if (is_null($p)) {
+					continue;
+				}
+				// also add the current user if it is member of the group
+				$groups = $this->userPrincipalBackend->getGroupMembership($currentPrincipal);
+				if (in_array($row['principaluri'], $groups)) {
+					$ownerPrincipal = $this->userPrincipalBackend->getPrincipalByPath($currentPrincipal);
+					$shares[]= [
+						'href' => "principal:$currentPrincipal",
+						'commonName' => isset($ownerPrincipal['{DAV:}displayname']) ? $ownerPrincipal['{DAV:}displayname'] : '',
+						'status' => 1,
+						'readOnly' => ($row['access'] == self::ACCESS_READ),
+						'{http://owncloud.org/ns}principal' => $currentPrincipal
+					];
+				}
+			}
 			$shares[]= [
 				'href' => "principal:${row['principaluri']}",
 				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
 				'readOnly' => ($row['access'] == self::ACCESS_READ),
-				'{'.\OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD.'}principal' => $row['principaluri']
+				'{http://owncloud.org/ns}principal' => $row['principaluri']
 			];
 		}
 
@@ -173,11 +197,12 @@ class Backend {
 	 *
 	 * @param int $resourceId
 	 * @param array $acl
+	 * @param string $currentPrincipal
 	 * @return array
 	 */
-	public function applyShareAcl($resourceId, $acl) {
+	public function applyShareAcl($resourceId, $acl, $currentPrincipal) {
 
-		$shares = $this->getShares($resourceId);
+		$shares = $this->getShares($resourceId, $currentPrincipal);
 		foreach ($shares as $share) {
 			$acl[] = [
 				'privilege' => '{DAV:}read',

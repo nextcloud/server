@@ -57,7 +57,7 @@ class RootCollection extends SimpleCollection {
 		$systemPrincipals->disableListing = $disableListing;
 		$filesCollection = new Files\RootCollection($userPrincipalBackend, 'principals/users');
 		$filesCollection->disableListing = $disableListing;
-		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend);
+		$caldavBackend = new CalDavBackend($db, $userPrincipalBackend, $groupPrincipalBackend);
 		$calendarRoot = new CalendarRoot($userPrincipalBackend, $caldavBackend, 'principals/users');
 		$calendarRoot->disableListing = $disableListing;
 
@@ -80,12 +80,13 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getRootFolder(),
 			\OC::$server->getLogger()
 		);
+		$groupPrincipal = new GroupPrincipalBackend(\OC::$server->getGroupManager());
 
-		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $dispatcher);
+		$usersCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $groupPrincipal, $dispatcher);
 		$usersAddressBookRoot = new AddressBookRoot($userPrincipalBackend, $usersCardDavBackend, 'principals/users');
 		$usersAddressBookRoot->disableListing = $disableListing;
 
-		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $dispatcher);
+		$systemCardDavBackend = new CardDavBackend($db, $userPrincipalBackend, $groupPrincipal, $dispatcher);
 		$systemAddressBookRoot = new AddressBookRoot(new SystemPrincipalBackend(), $systemCardDavBackend, 'principals/system');
 		$systemAddressBookRoot->disableListing = $disableListing;
 

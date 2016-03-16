@@ -34,7 +34,7 @@ $app = new Application();
 
 /** @var Symfony\Component\Console\Application $application */
 $application->add(new CreateCalendar($userManager, $groupManager, $dbConnection));
-$application->add(new CreateAddressBook($userManager, $app->getContainer()->query('CardDavBackend')));
+$application->add(new CreateAddressBook($userManager, $app->getCardDavBackend()));
 $application->add(new SyncSystemAddressBook($app->getSyncService()));
 $application->add(new SyncBirthdayCalendar($userManager, $app->getContainer()->query('BirthdayService')));
 $application->add(new MigrateAddressbooks($userManager, $app->getContainer()->query('MigrateAddressbooks')));
