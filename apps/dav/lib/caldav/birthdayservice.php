@@ -91,6 +91,11 @@ class BirthdayService {
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
 	public function ensureCalendarExists($principal, $id, $properties) {
+		$properties = array_merge([
+			'{DAV:}displayname' => 'Contact birthdays',
+			'{http://apple.com/ns/ical/}calendar-color' => '#FFFFCA',
+		], $properties);
+
 		$book = $this->calDavBackEnd->getCalendarByUri($principal, $id);
 		if (!is_null($book)) {
 			return $book;
