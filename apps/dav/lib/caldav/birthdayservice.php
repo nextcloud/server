@@ -50,8 +50,7 @@ class BirthdayService {
 
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
 		$principalUri = $book['principaluri'];
-		$calendarUri = self::BIRTHDAY_CALENDAR_URI;
-		$calendar = $this->ensureCalendarExists($principalUri, $calendarUri, []);
+		$calendar = $this->ensureCalendarExists($principalUri);
 		$objectUri = $book['uri'] . '-' . $cardUri. '.ics';
 		$calendarData = $this->buildBirthdayFromContact($cardData);
 		$existing = $this->calDavBackEnd->getCalendarObject($calendar['id'], $objectUri);
@@ -77,32 +76,27 @@ class BirthdayService {
 	public function onCardDeleted($addressBookId, $cardUri) {
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
 		$principalUri = $book['principaluri'];
-		$calendarUri = self::BIRTHDAY_CALENDAR_URI;
-		$calendar = $this->ensureCalendarExists($principalUri, $calendarUri, []);
+		$calendar = $this->ensureCalendarExists($principalUri);
 		$objectUri = $book['uri'] . '-' . $cardUri. '.ics';
 		$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
 	}
 
 	/**
 	 * @param string $principal
-	 * @param string $id
-	 * @param array $properties
 	 * @return array|null
 	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	public function ensureCalendarExists($principal, $id, $properties) {
-		$properties = array_merge([
-			'{DAV:}displayname' => 'Contact birthdays',
-			'{http://apple.com/ns/ical/}calendar-color' => '#FFFFCA',
-		], $properties);
-
-		$book = $this->calDavBackEnd->getCalendarByUri($principal, $id);
+	public function ensureCalendarExists($principal) {
+		$book = $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
 		if (!is_null($book)) {
 			return $book;
 		}
-		$this->calDavBackEnd->createCalendar($principal, $id, $properties);
+		$this->calDavBackEnd->createCalendar($principal, self::BIRTHDAY_CALENDAR_URI, [
+			'{DAV:}displayname' => 'Contact birthdays',
+			'{http://apple.com/ns/ical/}calendar-color' => '#FFFFCA',
+		]);
 
-		return $this->calDavBackEnd->getCalendarByUri($principal, $id);
+		return $this->calDavBackEnd->getCalendarByUri($principal, self::BIRTHDAY_CALENDAR_URI);
 	}
 
 	/**
@@ -161,7 +155,9 @@ class BirthdayService {
 	 * @param string $user
 	 */
 	public function syncUser($user) {
-		$books = $this->cardDavBackEnd->getAddressBooksForUser('principals/users/'.$user);
+		$principal = 'principals/users/'.$user;
+		$this->ensureCalendarExists($principal);
+		$books = $this->cardDavBackEnd->getAddressBooksForUser($principal);
 		foreach($books as $book) {
 			$cards = $this->cardDavBackEnd->getCards($book['id']);
 			foreach($cards as $card) {
