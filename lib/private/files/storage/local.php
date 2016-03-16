@@ -176,7 +176,12 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function file_get_contents($path) {
-		return file_get_contents($this->getSourcePath($path));
+		// file_get_contents() has a memory leak: https://bugs.php.net/bug.php?id=61961
+		$filename = $this->getSourcePath($path);
+		$handle = fopen($filename,'rb');
+		$content = fread($handle, filesize($filename));
+		fclose($handle);
+		return $content;
 	}
 
 	public function file_put_contents($path, $data) {
