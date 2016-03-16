@@ -49,7 +49,7 @@ class CheckCore extends Base {
 		parent::configure();
 		$this
 			->setName('integrity:check-core')
-			->setDescription('Check a core integrity using a signature.');
+			->setDescription('Check integrity of core code using a signature.');
 	}
 
 	/**
