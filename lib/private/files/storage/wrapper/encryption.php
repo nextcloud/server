@@ -634,7 +634,18 @@ class Encryption extends Wrapper {
 			'encrypted' => (bool)$isEncrypted,
 		];
 		if($isEncrypted === 1) {
-			$cacheInformation['encryptedVersion'] = $sourceStorage->getCache()->get($sourceInternalPath)['encryptedVersion'];
+			$encryptedVersion = $sourceStorage->getCache()->get($sourceInternalPath)['encryptedVersion'];
+
+			// In case of a move operation from an unencrypted to an encrypted
+			// storage the old encrypted version would stay with "0" while the
+			// correct value would be "1". Thus we manually set the value to "1"
+			// for those cases.
+			// See also https://github.com/owncloud/core/issues/23078
+			if($encryptedVersion === 0) {
+				$encryptedVersion = 1;
+			}
+
+			$cacheInformation['encryptedVersion'] = $encryptedVersion;
 		}
 
 		// in case of a rename we need to manipulate the source cache because
