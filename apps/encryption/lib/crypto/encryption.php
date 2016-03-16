@@ -311,7 +311,11 @@ class Encryption implements IEncryptionModule {
 
 			$publicKeys = array();
 			foreach ($accessList['users'] as $user) {
-				$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+				try {
+					$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+				} catch (PublicKeyMissingException $e) {
+					$this->logger->warning('Could not encrypt file for ' . $user . ': ' . $e->getMessage());
+				}
 			}
 
 			$publicKeys = $this->keyManager->addSystemKeys($accessList, $publicKeys, $uid);

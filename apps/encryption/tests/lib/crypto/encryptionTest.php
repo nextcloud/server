@@ -224,13 +224,49 @@ class EncryptionTest extends TestCase {
 		$this->assertSame($expected,
 			$this->instance->update('path', 'user1', ['users' => ['user1']])
 		);
-
 	}
 
 	public function dataTestUpdate() {
 		return array(
 			array('', false),
 			array('fileKey', true)
+		);
+	}
+
+	/**
+	 * Test case if the public key is missing. ownCloud should still encrypt
+	 * the file for the remaining users
+	 */
+	public function testUpdateMissingPublicKey() {
+		$this->keyManagerMock->expects($this->once())
+			->method('getFileKey')->willReturn('fileKey');
+
+		$this->keyManagerMock->expects($this->any())
+			->method('getPublicKey')->willReturnCallback(
+				function($user) {
+					throw new PublicKeyMissingException($user);
+				}
+			);
+
+		$this->keyManagerMock->expects($this->any())
+			->method('addSystemKeys')
+			->willReturnCallback(function($accessList, $publicKeys) {
+				return $publicKeys;
+			});
+
+		$this->cryptMock->expects($this->once())->method('multiKeyEncrypt')
+			->willReturnCallback(
+				function($fileKey, $publicKeys) {
+					$this->assertEmpty($publicKeys);
+					$this->assertSame('fileKey', $fileKey);
+				}
+			);
+
+		$this->keyManagerMock->expects($this->never())->method('getVersion');
+		$this->keyManagerMock->expects($this->never())->method('setVersion');
+
+		$this->assertTrue(
+			$this->instance->update('path', 'user1', ['users' => ['user1']])
 		);
 	}
 
