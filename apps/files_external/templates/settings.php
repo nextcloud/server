@@ -85,7 +85,11 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr id="addMountPoint">
+			<tr id="addMountPoint"
+			<?php if ($_['visibilityType'] === BackendService::VISIBILITY_PERSONAL && $_['allowUserMounting'] === false): ?>
+				style="display: none;"
+			<?php endif; ?>
+			>
 				<td class="status">
 					<span></span>
 				</td>
