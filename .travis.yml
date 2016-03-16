@@ -13,7 +13,7 @@ env:
 branches:
   only:
     - master
-#    - /^stable\d+(\.\d+)?$/
+    - /^stable\d+(\.\d+)?$/
 
 addons:
   apt:
