@@ -59,9 +59,7 @@ class Application extends App {
 		$backendService = $container->query('OCA\\Files_External\\Service\\BackendService');
 
 		\OCP\App::registerAdmin('files_external', 'settings');
-		if ($backendService->isUserMountingAllowed()) {
-			\OCP\App::registerPersonal('files_external', 'personal');
-		}
+		\OCP\App::registerPersonal('files_external', 'personal');
 	}
 
 	/**
