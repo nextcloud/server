@@ -77,7 +77,7 @@ OC.L10N.register(
     "Test Loginname" : "Testar nome de login",
     "Verify settings" : "Verificar definições",
     "1. Server" : "1. Servidor",
-    "%s. Server:" : "%s. Servvidor",
+    "%s. Server:" : "%s. Servidor",
     "Add a new and blank configuration" : "Adicione uma nova configuração em branco",
     "Copy current configuration into new directory binding" : "Copiar a configuração actual para um novo registo de conexão",
     "Delete the current configuration" : "Apagar a configuração actual",
