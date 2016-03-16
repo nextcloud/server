@@ -82,7 +82,10 @@
 
 			// add row with expiration date for link only shares - influenced by _createRow of filelist
 			if (this._linksOnly) {
-				var expirationTimestamp = moment(fileData.shares[0].expiration).valueOf();
+				var expirationTimestamp = 0;
+				if(fileData.shares[0].expiration !== null) {
+					expirationTimestamp = moment(fileData.shares[0].expiration).valueOf();
+				}
 				$tr.attr('data-expiration', expirationTimestamp);
 
 				// date column (1000 milliseconds to seconds, 60 seconds, 60 minutes, 24 hours)
