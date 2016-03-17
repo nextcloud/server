@@ -823,7 +823,7 @@ class OC {
 		}
 
 		$request = \OC::$server->getRequest();
-		$requestPath = $request->getPathInfo();
+		$requestPath = $request->getRawPathInfo();
 		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
 			self::checkMaintenanceMode();
 			self::checkUpgrade();
