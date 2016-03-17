@@ -38,4 +38,5 @@ $tmpl->assign('storages', $userStoragesService->getStorages());
 $tmpl->assign('dependencies', OC_Mount_Config::dependencyMessage($backendService->getBackends()));
 $tmpl->assign('backends', $backendService->getAvailableBackends());
 $tmpl->assign('authMechanisms', $backendService->getAuthMechanisms());
+$tmpl->assign('allowUserMounting', $backendService->isUserMountingAllowed());
 return $tmpl->fetchPage();

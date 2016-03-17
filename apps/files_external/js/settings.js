@@ -813,6 +813,7 @@ MountConfigListView.prototype = _.extend({
 		this.$el.find('tbody').append($tr.clone());
 
 		$tr.data('storageConfig', storageConfig);
+		$tr.show();
 		$tr.find('td').last().attr('class', 'remove');
 		$tr.find('td.mountOptionsToggle').removeClass('hidden');
 		$tr.find('td').last().removeAttr('style');
