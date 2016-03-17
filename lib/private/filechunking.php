@@ -146,35 +146,6 @@ class OC_FileChunking {
 		$cache->remove($prefix.$index);
 	}
 
-	public function signature_split($orgfile, $input) {
-		$info = unpack('n', fread($input, 2));
-		$blocksize = $info[1];
-		$this->info['transferid'] = mt_rand();
-		$count = 0;
-		$needed = array();
-		$cache = $this->getCache();
-		$prefix = $this->getPrefix();
-		while (!feof($orgfile)) {
-			$new_md5 = fread($input, 16);
-			if (feof($input)) {
-				break;
-			}
-			$data = fread($orgfile, $blocksize);
-			$org_md5 = md5($data, true);
-			if ($org_md5 == $new_md5) {
-				$cache->set($prefix.$count, $data);
-			} else {
-				$needed[] = $count;
-			}
-			$count++;
-		}
-		return array(
-			'transferid' => $this->info['transferid'],
-			'needed' => $needed,
-			'count' => $count,
-		);
-	}
-
 	/**
 	 * Assembles the chunks into the file specified by the path.
 	 * Also triggers the relevant hooks and proxies.
