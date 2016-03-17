@@ -20,12 +20,6 @@
  */
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
-/**
- * Copyright (c) 2016 Vincent Petry <pvince81@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
- */
 class SharesPlugin extends \Test\TestCase {
 
 	const SHARETYPES_PROPERTYNAME = \OCA\DAV\Connector\Sabre\SharesPlugin::SHARETYPES_PROPERTYNAME;
