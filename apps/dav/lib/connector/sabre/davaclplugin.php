@@ -46,7 +46,7 @@ class DavAclPlugin extends \Sabre\DAVACL\Plugin {
 
 	function checkPrivileges($uri, $privileges, $recursion = self::R_PARENT, $throwExceptions = true) {
 		$access = parent::checkPrivileges($uri, $privileges, $recursion, false);
-		if($access === false) {
+		if($access === false && $throwExceptions) {
 			/** @var INode $node */
 			$node = $this->server->tree->getNodeForPath($uri);
 
