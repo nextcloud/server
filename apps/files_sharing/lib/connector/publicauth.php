@@ -61,6 +61,11 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 			return false;
 		}
 
+		if ((int)$linkItem['share_type'] === \OCP\Share::SHARE_TYPE_LINK &&
+			$this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') !== 'yes') {
+			$this->share['permissions'] &= ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+		}
+
 		// check if the share is password protected
 		if (isset($linkItem['share_with'])) {
 			if ($linkItem['share_type'] == \OCP\Share::SHARE_TYPE_LINK) {
