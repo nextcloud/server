@@ -179,6 +179,12 @@ describe('OCA.External.Settings tests', function() {
 
 				// TODO: check "remove" button visibility
 			});
+			it('shows row even if selection row is hidden', function() {
+				view.$el.find('tr#addMountPoint').hide();
+				selectBackend('\\OC\\TestBackend');
+				expect(view.$el.find('tr:first').is(':visible')).toBe(true);
+				expect(view.$el.find('tr#addMountPoint').is(':visible')).toBe(false);
+			});
 			// TODO: test with personal mounts (no applicable fields)
 			// TODO: test suggested mount point logic
 		});
