@@ -287,6 +287,31 @@ class FactoryTest extends TestCase {
 		];
 	}
 
+	public function testFindAvailableLanguagesWithThemes() {
+		$serverRoot = \OC::$SERVERROOT;
+		\OC::$SERVERROOT = \OC::$SERVERROOT . '/tests/data';
+		$app = 'files';
+
+		$factory = $this->getFactory(['findL10nDir']);
+		$factory->expects($this->once())
+			->method('findL10nDir')
+			->with($app)
+			->willReturn(\OC::$SERVERROOT . '/apps/files/l10n/');
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('theme')
+			->willReturn('abc');
+
+		try {
+			$this->assertEquals(['en', 'zz'], $factory->findAvailableLanguages($app), '', 0.0, 10, true);
+		} catch (\Exception $e) {
+			\OC::$SERVERROOT = $serverRoot;
+			throw $e;
+		}
+		\OC::$SERVERROOT = $serverRoot;
+	}
+
 	/**
 	 * @dataProvider dataLanguageExists
 	 *

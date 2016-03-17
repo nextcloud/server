@@ -186,6 +186,23 @@ class Factory implements IFactory {
 			}
 		}
 
+		// merge with translations from theme
+		$theme = $this->config->getSystemValue('theme');
+		if (!empty($theme)) {
+			$themeDir = \OC::$SERVERROOT . '/themes/' . $theme . substr($dir, strlen(\OC::$SERVERROOT));
+
+			if (is_dir($themeDir)) {
+				$files = scandir($themeDir);
+				if ($files !== false) {
+					foreach ($files as $file) {
+						if (substr($file, -5) === '.json' && substr($file, 0, 4) !== 'l10n') {
+							$available[] = substr($file, 0, -5);
+						}
+					}
+				}
+			}
+		}
+
 		$this->availableLanguages[$key] = $available;
 		return $available;
 	}
@@ -271,14 +288,14 @@ class Factory implements IFactory {
 			&& file_exists($transFile)) {
 			// load the translations file
 			$languageFiles[] = $transFile;
+		}
 
-			// merge with translations from theme
-			$theme = $this->config->getSystemValue('theme');
-			if (!empty($theme)) {
-				$transFile = \OC::$SERVERROOT . '/themes/' . $theme . substr($transFile, strlen(\OC::$SERVERROOT));
-				if (file_exists($transFile)) {
-					$languageFiles[] = $transFile;
-				}
+		// merge with translations from theme
+		$theme = $this->config->getSystemValue('theme');
+		if (!empty($theme)) {
+			$transFile = \OC::$SERVERROOT . '/themes/' . $theme . substr($transFile, strlen(\OC::$SERVERROOT));
+			if (file_exists($transFile)) {
+				$languageFiles[] = $transFile;
 			}
 		}
 
