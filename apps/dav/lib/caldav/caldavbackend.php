@@ -195,6 +195,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$fields[] = 'a.components';
 		$fields[] = 'a.principaluri';
 		$fields[] = 'a.transparent';
+		$fields[] = 's.access';
 		$query = $this->db->getQueryBuilder();
 		$result = $query->select($fields)
 			->from('dav_shares', 's')
@@ -222,6 +223,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'{' . Plugin::NS_CALDAV . '}supported-calendar-component-set' => new SupportedCalendarComponentSet($components),
 				'{' . Plugin::NS_CALDAV . '}schedule-calendar-transp' => new ScheduleCalendarTransp($row['transparent']?'transparent':'opaque'),
 				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
+				'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => (int)$row['access'] === Backend::ACCESS_READ,
 			];
 
 			foreach($this->propertyMap as $xmlName=>$dbName) {

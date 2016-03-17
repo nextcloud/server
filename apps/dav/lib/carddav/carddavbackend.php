@@ -62,10 +62,6 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 			'BDAY', 'UID', 'N', 'FN', 'TITLE', 'ROLE', 'NOTE', 'NICKNAME',
 			'ORG', 'CATEGORIES', 'EMAIL', 'TEL', 'IMPP', 'ADR', 'URL', 'GEO', 'CLOUD');
 
-	const ACCESS_OWNER = 1;
-	const ACCESS_READ_WRITE = 2;
-	const ACCESS_READ = 3;
-
 	/** @var EventDispatcherInterface */
 	private $dispatcher;
 
@@ -153,7 +149,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 					'{http://calendarserver.org/ns/}getctag' => $row['synctoken'],
 					'{http://sabredav.org/ns}sync-token' => $row['synctoken']?$row['synctoken']:'0',
 					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}owner-principal' => $row['principaluri'],
-					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => $row['access'] === self::ACCESS_READ,
+					'{' . \OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD . '}read-only' => (int)$row['access'] === Backend::ACCESS_READ,
 				];
 			}
 		}

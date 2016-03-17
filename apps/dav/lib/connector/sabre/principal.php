@@ -132,6 +132,7 @@ class Principal implements BackendInterface {
 	 * Returns the list of groups a principal is a member of
 	 *
 	 * @param string $principal
+	 * @param bool $needGroups
 	 * @return array
 	 * @throws Exception
 	 */
