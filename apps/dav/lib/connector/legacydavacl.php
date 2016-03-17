@@ -23,7 +23,10 @@
 namespace OCA\DAV\Connector;
 
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
+use Sabre\DAV\INode;
+use Sabre\DAV\PropFind;
 use Sabre\HTTP\URLUtil;
+use Sabre\DAVACL\Xml\Property\Principal;
 
 class LegacyDAVACL extends DavAclPlugin {
 
@@ -66,5 +69,17 @@ class LegacyDAVACL extends DavAclPlugin {
 			return "principals/users/$name";
 		}
 		return "principals/$name";
+	}
+
+	function propFind(PropFind $propFind, INode $node) {
+		/* Overload current-user-principal */
+		$propFind->handle('{DAV:}current-user-principal', function () {
+			if ($url = parent::getCurrentUserPrincipal()) {
+				return new Principal(Principal::HREF, $url . '/');
+			} else {
+				return new Principal(Principal::UNAUTHENTICATED);
+			}
+		});
+		parent::propFind($propFind, $node);
 	}
 }
