@@ -21,7 +21,7 @@ interface File {
 	public function stream_open($path, $mode, $options, &$opened_path);
 
 	/**
-	 * @param string $offset
+	 * @param int $offset
 	 * @param int $whence
 	 * @return bool
 	 */

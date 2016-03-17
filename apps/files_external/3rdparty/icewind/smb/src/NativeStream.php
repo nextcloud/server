@@ -7,6 +7,7 @@
 
 namespace Icewind\SMB;
 
+use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\InvalidRequestException;
 use Icewind\Streams\File;
 
@@ -89,7 +90,11 @@ class NativeStream implements File {
 	}
 
 	public function stream_stat() {
-		return $this->state->fstat($this->handle);
+		try {
+			return $this->state->fstat($this->handle);
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	public function stream_tell() {

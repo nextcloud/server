@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/icewind1991/Streams.svg?branch=master)](https://travis-ci.org/icewind1991/Streams)
 [![Coverage Status](https://img.shields.io/coveralls/icewind1991/Streams.svg)](https://coveralls.io/r/icewind1991/Streams?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/icewind1991/Streams/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/icewind1991/Streams/?branch=master)
 
 Generic stream wrappers for php.
 
