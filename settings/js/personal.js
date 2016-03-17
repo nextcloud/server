@@ -83,7 +83,10 @@ function changeDisplayName () {
 				$('#oldDisplayName').val($('#displayName').val());
 				// update displayName on the top right expand button
 				$('#expandDisplayName').text($('#displayName').val());
-				updateAvatar();
+				// update avatar if avatar is available
+				if(!$('#removeavatar').hasClass('hidden')) {
+					updateAvatar();
+				}
 			}
 			else {
 				$('#newdisplayname').val(data.data.displayName);
