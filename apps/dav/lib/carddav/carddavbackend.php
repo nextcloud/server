@@ -130,7 +130,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result->closeCursor();
 
 		// query for shared calendars
-		$principals = $this->principalBackend->getGroupMembership($principalUri);
+		$principals = $this->principalBackend->getGroupMembership($principalUri, true);
 		$principals[]= $principalUri;
 
 		$query = $this->db->getQueryBuilder();

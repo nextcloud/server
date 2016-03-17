@@ -142,6 +142,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @return array
 	 */
 	function getCalendarsForUser($principalUri) {
+		$principalUriOriginal = $principalUri;
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$fields = array_values($this->propertyMap);
 		$fields[] = 'id';
@@ -188,7 +189,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$stmt->closeCursor();
 
 		// query for shared calendars
-		$principals = $this->principalBackend->getGroupMembership($principalUri);
+		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
 		$principals[]= $principalUri;
 
 		$fields = array_values($this->propertyMap);
