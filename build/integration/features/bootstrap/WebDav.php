@@ -190,7 +190,7 @@ trait WebDav {
 	 */
 	public function theSingleResponseShouldContainAPropertyWithValue($key, $expectedValue) {
 		$keys = $this->response;
-		if (!isset($keys[$key])) {
+		if (!array_key_exists($key, $keys)) {
 			throw new \Exception("Cannot find property \"$key\" with \"$expectedValue\"");
 		}
 
@@ -199,6 +199,57 @@ trait WebDav {
 			throw new \Exception("Property \"$key\" found with value \"$value\", expected \"$expectedValue\"");
 		}
 	}
+
+	/**
+	 * @Then the response should contain a share-types property with
+	 */
+	public function theResponseShouldContainAShareTypesPropertyWith($table)
+	{
+		$keys = $this->response;
+		if (!array_key_exists('{http://owncloud.org/ns}share-types', $keys)) {
+			throw new \Exception("Cannot find property \"{http://owncloud.org/ns}share-types\"");
+		}
+
+		$foundTypes = [];
+		$data = $keys['{http://owncloud.org/ns}share-types'];
+		foreach ($data as $item) {
+			if ($item['name'] !== '{http://owncloud.org/ns}share-type') {
+				throw new \Exception('Invalid property found: "' . $item['name'] . '"');
+			}
+
+			$foundTypes[] = $item['value'];
+		}
+
+		foreach ($table->getRows() as $row) {
+			$key = array_search($row[0], $foundTypes);
+			if ($key === false) {
+				throw new \Exception('Expected type ' . $row[0] . ' not found');
+			}
+
+			unset($foundTypes[$key]);
+		}
+
+		if ($foundTypes !== []) {
+			throw new \Exception('Found more share types then specified: ' . $foundTypes);
+		}
+	}
+
+	/**
+	 * @Then the response should contain an empty property :property
+	 * @param string $property
+	 * @throws \Exception
+	 */
+	public function theResponseShouldContainAnEmptyProperty($property) {
+		$properties = $this->response;
+		if (!array_key_exists($property, $properties)) {
+			throw new \Exception("Cannot find property \"$property\"");
+		}
+
+		if ($properties[$property] !== null) {
+			throw new \Exception("Property \"$property\" is not empty");
+		}
+	}
+
 
 	/*Returns the elements of a propfind, $folderDepth requires 1 to see elements without children*/
 	public function listFolder($user, $path, $folderDepth, $properties = null){
