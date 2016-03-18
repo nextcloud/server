@@ -407,15 +407,15 @@ class Auth extends TestCase {
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->exactly(2))
+		$user->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('MyTestUser'));
 		$this->userSession
-			->expects($this->exactly(2))
+			->expects($this->exactly(3))
 			->method('getUser')
 			->will($this->returnValue($user));
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
-		$this->assertEquals([true, 'principals/users/username'], $response);
+		$this->assertEquals([true, 'principals/users/MyTestUser'], $response);
 	}
 
 	public function testAuthenticateInvalidCredentials() {
