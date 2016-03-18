@@ -62,6 +62,9 @@ class Sharees {
 	/** @var ILogger */
 	protected $logger;
 
+	/** @var \OCP\Share\IManager */
+	protected $shareManager;
+
 	/** @var bool */
 	protected $shareWithGroupOnly = false;
 
@@ -97,6 +100,7 @@ class Sharees {
 	 * @param IURLGenerator $urlGenerator
 	 * @param IRequest $request
 	 * @param ILogger $logger
+	 * @param \OCP\Share\IManager $shareManager
 	 */
 	public function __construct(IGroupManager $groupManager,
 								IUserManager $userManager,
@@ -105,7 +109,8 @@ class Sharees {
 								IUserSession $userSession,
 								IURLGenerator $urlGenerator,
 								IRequest $request,
-								ILogger $logger) {
+								ILogger $logger,
+								\OCP\Share\IManager $shareManager) {
 		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->contactsManager = $contactsManager;
@@ -114,6 +119,7 @@ class Sharees {
 		$this->urlGenerator = $urlGenerator;
 		$this->request = $request;
 		$this->logger = $logger;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -411,9 +417,14 @@ class Sharees {
 
 		$shareTypes = [
 			Share::SHARE_TYPE_USER,
-			Share::SHARE_TYPE_GROUP,
-			Share::SHARE_TYPE_REMOTE,
 		];
+
+		if ($this->shareManager->allowGroupSharing()) {
+			$shareTypes[] = Share::SHARE_TYPE_GROUP;
+		}
+
+		$shareTypes[] = Share::SHARE_TYPE_REMOTE;
+
 		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
 			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
 			sort($shareTypes);
