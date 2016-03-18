@@ -19,20 +19,23 @@ fi
 
 echo "Docker executable found - setup docker"
 
-
 docker_image=xenopathic/ceph-keystone
 
 echo "Fetch recent ${docker_image} docker image"
 docker pull ${docker_image}
 
 # retrieve current folder to place the config in the parent folder
-thisFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+thisFolder=`echo $0 | sed 's#env/start-swift-ceph\.sh##'`
+
+if [ -z "$thisFolder" ]; then
+    thisFolder="."
+fi;
 
 # create readiness notification socket
 notify_sock=$(readlink -f "$thisFolder"/dockerContainerCeph.$EXECUTOR_NUMBER.swift.sock)
 mkfifo "$notify_sock"
 
-port=5034
+port=5001
 
 user=test
 pass=testing
@@ -48,11 +51,11 @@ container=`docker run -d \
     -e KEYSTONE_ENDPOINT_REGION=${region} \
     -e KEYSTONE_SERVICE=${service} \
     -e OSD_SIZE=300 \
-    -v "$notify_sock":/run/notifyme.sock \
     --privileged \
+    -v "$notify_sock":/run/notifyme.sock \
     ${docker_image}`
 
-host=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$container")
+host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
 
 echo "${docker_image} container: $container"
@@ -69,37 +72,23 @@ if [[ $ready != 'READY=1' ]]; then
 fi
 sleep 1
 
-cat > $thisFolder/swift.config.php <<DELIM
+cat > $thisFolder/config.swift.php <<DELIM
 <?php
-\$CONFIG = array (
-'objectstore' => array(
-	'class' => 'OC\\Files\\ObjectStore\\Swift',
-	'arguments' => array(
-		'username' => '$user',
-		'password' => '$pass',
-		'container' => 'owncloud-autotest$EXECUTOR_NUMBER',
-		'autocreate' => true,
-		'region' => '$region',
-		'url' => 'http://$host:$port/v2.0',
-		'tenantName' => '$tenant',
-		'serviceName' => '$service',
-	),
-),
+
+return array(
+    'run'=>true,
+    'url'=>'http://$host:$port/v2.0',
+    'user'=>'$user',
+    'tenant'=>'$tenant',
+    'password'=>'$pass',
+    'service_name'=>'$service',
+    'bucket'=>'swift',
+    'region' => '$region',
 );
 
 DELIM
 
 if [ -n "$DEBUG" ]; then
-    echo "############## DEBUG info ###############"
-    echo "### Docker info"
-    docker info
-    echo "### Docker images"
-    docker images
-    echo "### current mountpoints"
-    mount
-    echo "### contents of $thisFolder/swift.config.php"
-    cat $thisFolder/swift.config.php
-    echo "### contents of $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift"
+    cat $thisFolder/config.swift.php
     cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
-    echo "############## DEBUG info end ###########"
 fi

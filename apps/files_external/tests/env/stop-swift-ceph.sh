@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 #
 # ownCloud
 #
@@ -17,21 +17,23 @@ fi
 echo "Docker executable found - stop and remove docker containers"
 
 # retrieve current folder to remove the config from the parent folder
-thisFolder=`echo $0 | replace "env/stop-amazons3-ceph.sh" ""`
+thisFolder=`echo $0 | replace "env/stop-swift-ceph.sh" ""`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."
 fi;
 
 # stopping and removing docker containers
-for container in `cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.amazons3`; do
+for container in `cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift`; do
+    docker logs $container
+
     echo "Stopping and removing docker container $container"
     # kills running container and removes it
     docker rm -f $container
 done;
 
 # cleanup
-rm $thisFolder/config.amazons3.php
-rm $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.amazons3
-rm $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.amazons3.sock
+rm $thisFolder/config.swift.php
+rm $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
+rm $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift.sock
 

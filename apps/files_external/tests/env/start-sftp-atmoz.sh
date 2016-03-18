@@ -34,7 +34,7 @@ password=12345
 
 container=`docker run -d atmoz/sftp $user:$password:1001`
 
-host=`docker inspect $container | grep IPAddress | cut -d '"' -f 4`
+host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
 
 cat > $thisFolder/config.sftp.php <<DELIM
 <?php
@@ -54,14 +54,17 @@ echo "sftp container: $container"
 # put container IDs into a file to drop them after the test run (keep in mind that multiple tests run in parallel on the same host)
 echo $container >> $thisFolder/dockerContainerAtmoz.$EXECUTOR_NUMBER.sftp
 
+echo -n "Waiting for sftp initialization"
+if ! "$thisFolder"/env/wait-for-connection ${host} 22 60; then
+    echo "[ERROR] Waited 60 seconds, no response" >&2
+    exit 1
+fi
+sleep 1
+
 if [ -n "$DEBUG" ]; then
     cat $thisFolder/config.sftp.php
     cat $thisFolder/dockerContainerAtmoz.$EXECUTOR_NUMBER.sftp
 fi
-
-# TODO find a way to determine the successful initialization inside the docker container
-echo "Waiting 5 seconds for sftp initialization ... "
-sleep 5
 
 # create folder "upload" with correct permissions
 docker exec $container bash -c "mkdir /home/$user/upload && chown $user:users /home/$user/upload"
