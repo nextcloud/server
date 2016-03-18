@@ -169,6 +169,12 @@ class Auth extends AbstractBasic {
 			throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
 		}
 
-		return parent::check($request, $response);
+		$data = parent::check($request, $response);
+		if($data[0] === true) {
+			$startPos = strrpos($data[1], '/') + 1;
+			$user = $this->userSession->getUser()->getUID();
+			$data[1] = substr_replace($data[1], $user, $startPos);
+		}
+		return $data;
 	}
 }
