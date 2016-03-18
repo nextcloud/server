@@ -31,7 +31,7 @@ class L10nTest extends TestCase {
 		$request = $this->getMock('OCP\IRequest');
 		/** @var IUserSession $userSession */
 		$userSession = $this->getMock('OCP\IUserSession');
-		return new Factory($config, $request, $userSession);
+		return new Factory($config, $request, $userSession, \OC::$SERVERROOT);
 	}
 
 	public function testGermanPluralTranslations() {

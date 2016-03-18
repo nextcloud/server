@@ -261,7 +261,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new \OC\L10N\Factory(
 				$c->getConfig(),
 				$c->getRequest(),
-				$c->getUserSession()
+				$c->getUserSession(),
+				\OC::$SERVERROOT
 			);
 		});
 		$this->registerService('URLGenerator', function (Server $c) {

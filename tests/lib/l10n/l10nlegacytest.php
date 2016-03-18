@@ -124,7 +124,7 @@ class L10nLegacyTest extends \Test\TestCase {
 	}
 
 	public function testFactoryGetLanguageCode() {
-		$factory = new \OC\L10N\Factory($this->getMock('OCP\IConfig'), $this->getMock('OCP\IRequest'), $this->getMock('OCP\IUserSession'));
+		$factory = new \OC\L10N\Factory($this->getMock('OCP\IConfig'), $this->getMock('OCP\IRequest'), $this->getMock('OCP\IUserSession'), \OC::$SERVERROOT);
 		$l = $factory->get('lib', 'de');
 		$this->assertEquals('de', $l->getLanguageCode());
 	}

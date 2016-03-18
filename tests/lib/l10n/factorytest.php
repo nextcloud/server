@@ -28,6 +28,9 @@ class FactoryTest extends TestCase {
 	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $userSession;
 
+	/** @var string */
+	protected $serverRoot;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -42,6 +45,8 @@ class FactoryTest extends TestCase {
 			->getMock();
 
 		$this->userSession = $this->getMock('\OCP\IUserSession');
+
+		$this->serverRoot = \OC::$SERVERROOT;
 	}
 
 	/**
@@ -54,12 +59,13 @@ class FactoryTest extends TestCase {
 				->setConstructorArgs([
 					$this->config,
 					$this->request,
-					$this->userSession
+					$this->userSession,
+					$this->serverRoot,
 				])
 				->setMethods($methods)
 				->getMock();
 		} else {
-			return new Factory($this->config, $this->request, $this->userSession);
+			return new Factory($this->config, $this->request, $this->userSession, $this->serverRoot);
 		}
 	}
 
@@ -288,28 +294,21 @@ class FactoryTest extends TestCase {
 	}
 
 	public function testFindAvailableLanguagesWithThemes() {
-		$serverRoot = \OC::$SERVERROOT;
-		\OC::$SERVERROOT = \OC::$SERVERROOT . '/tests/data';
+		$this->serverRoot .= '/tests/data';
 		$app = 'files';
 
 		$factory = $this->getFactory(['findL10nDir']);
 		$factory->expects($this->once())
 			->method('findL10nDir')
 			->with($app)
-			->willReturn(\OC::$SERVERROOT . '/apps/files/l10n/');
+			->willReturn($this->serverRoot . '/apps/files/l10n/');
 		$this->config
 			->expects($this->once())
 			->method('getSystemValue')
 			->with('theme')
 			->willReturn('abc');
 
-		try {
-			$this->assertEquals(['en', 'zz'], $factory->findAvailableLanguages($app), '', 0.0, 10, true);
-		} catch (\Exception $e) {
-			\OC::$SERVERROOT = $serverRoot;
-			throw $e;
-		}
-		\OC::$SERVERROOT = $serverRoot;
+		$this->assertEquals(['en', 'zz'], $factory->findAvailableLanguages($app), '', 0.0, 10, true);
 	}
 
 	/**
