@@ -361,6 +361,11 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function groupCreateChecks(\OCP\Share\IShare $share) {
+		// Verify group shares are allowed
+		if (!$this->allowGroupSharing()) {
+			throw new \Exception('Group sharing is now allowed');
+		}
+
 		// Verify if the user can share with this group
 		if ($this->shareWithGroupMembersOnly()) {
 			$sharedBy = $this->userManager->get($share->getSharedBy());
