@@ -1108,6 +1108,13 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 	}
 
+	/**
+	 * Check if users can share with groups
+	 * @return bool
+	 */
+	public function allowGroupSharing() {
+		return $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
+	}
 
 	/**
 	 * Copied from \OC_Util::isSharingDisabledForUser
