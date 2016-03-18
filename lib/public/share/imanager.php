@@ -221,6 +221,13 @@ interface IManager {
 	public function shareWithGroupMembersOnly();
 
 	/**
+	 * Check if users can share with groups
+	 * @return bool
+	 * @since 9.0.1
+	 */
+	public function allowGroupSharing();
+
+	/**
 	 * Check if sharing is disabled for the given user
 	 *
 	 * @param string $userId
