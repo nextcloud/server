@@ -138,6 +138,8 @@
     "Adjusting this setting in php.ini will make ownCloud run again" : "Saktësimi i këtij rregullimi te php.ini do të bëjë që ownCloud-i të punojë sërish",
     "mbstring.func_overload is set to \"%s\" instead of the expected value \"0\"" : "mbstring.func_overload është caktuar si \"%s\", në vend të vlerës së pritshme \"0\"",
     "To fix this issue set <code>mbstring.func_overload</code> to <code>0</code> in your php.ini" : "Për ta ndrequr këtë problem, caktoni për <code>mbstring.func_overload</code> vlerën <code>0</code> te php.ini juaj",
+    "libxml2 2.7.0 is at least required. Currently %s is installed." : "Lypset të paktën libxml2 2.7.0. Hëpërhë e instaluar është %s.",
+    "To fix this issue update your libxml2 version and restart your web server." : "Për të ndrequr këtë problem, përditësoni libxml2 dhe rinisni shërbyesin tuaj web.",
     "PHP is apparently set up to strip inline doc blocks. This will make several core apps inaccessible." : "Me sa duket, PHP-ja është rregulluar që të heqë blloqe të brendshëm dokumentimi. Kjo do t’i nxjerrë nga funksionimi disa aplikacione bazë.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Kjo ka gjasa të jetë shkaktuar nga një fshehtinë/përshpejtues i tillë si Zend OPcache ose eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Modulet PHP janë instaluar, por tregohen ende sikur mungojnë?",
