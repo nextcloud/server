@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Failed to clear the mappings." : "Čiščenje preslikav je spodletelo.",
     "Failed to delete the server configuration" : "Brisanje nastavitev strežnika je spodletelo.",
+    "The configuration is invalid: anonymous bind is not allowed." : "Nastavitev ni veljavna: brezimne povezave niso dovoljene.",
     "The configuration is valid and the connection could be established!" : "Nastavitev je veljavna, zato je povezavo mogoče vzpostaviti!",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "Nastavitev je veljavna, vendar pa je vez spodletela. Preveriti je treba nastavitve strežnika in ustreznost poveril.",
     "The configuration is invalid. Please have a look at the logs for further details." : "Nastavitev ni veljavna. Več podrobnosti o napaki je zabeleženih v dnevniku.",
@@ -16,6 +17,7 @@ OC.L10N.register(
     "Configuration OK" : "Nastavitev je ustrezna",
     "Select groups" : "Izberi skupine",
     "Select object classes" : "Izbor razredov predmeta",
+    "Please check the credentials, they seem to be wrong." : "Preverite poverila! Najverjetneje so napačna.",
     "{nthServer}. Server" : "{nthServer}. strežnik",
     "More than 1,000 directory entries available." : "Na voljo je več kot 1000 vnosov imenika",
     "Do you really want to delete the current Server Configuration?" : "Ali res želite izbrisati trenutne nastavitve strežnika?",

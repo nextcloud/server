@@ -82,6 +82,7 @@ OC.L10N.register(
     "An error occurred while trying to update the tags" : "Ett fel uppstod när uppdatera taggarna",
     "A new file or folder has been <strong>created</strong>" : "En ny fil eller mapp har blivit <strong>skapad</strong>",
     "A file or folder has been <strong>changed</strong>" : "En ny fil eller mapp har blivit <strong>ändrad</strong>",
+    "Limit notifications about creation and changes to your <strong>favorite files</strong> <em>(Stream only)</em>" : "Begränsa notiser om skapande och ändringar till dina <strong>favoritfiler</strong> <em>(Endast ström)</em>",
     "A file or folder has been <strong>deleted</strong>" : "En ny fil eller mapp har blivit <strong>raderad</strong>",
     "A file or folder has been <strong>restored</strong>" : "En ny fil eller mapp har blivit <strong>återskapad</strong>",
     "You created %1$s" : "Du skapade %1$s",

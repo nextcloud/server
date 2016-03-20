@@ -114,8 +114,8 @@ OC.L10N.register(
     "Select all" : "izberi vse",
     "Upload too large" : "Prekoračenje omejitve velikosti",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
-    "No favorites" : "Ni priljubljenih",
-    "Files and folders you mark as favorite will show up here" : "Datoteke ali mape, ki so označene kot priljubljene, bodo izpisane tukaj.",
+    "No favorites" : "Ni priljubljenih predmetov",
+    "Files and folders you mark as favorite will show up here" : "Datoteke ali mape, ki so označene kot priljubljene, bodo zbrane na tem mestu.",
     "Text file" : "Besedilna datoteka",
     "New text file.txt" : "Nova datoteka.txt"
 },
