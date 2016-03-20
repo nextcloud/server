@@ -68,7 +68,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Your web server is not set up properly to resolve "/.well-known/caldav/". Further information can be found in our <a target="_blank" href="http://example.org/admin-setup-well-known-URL">documentation</a>.',
+					msg: 'Your web server is not set up properly to resolve "/.well-known/caldav/". Further information can be found in our <a target="_blank" rel="noreferrer" href="http://example.org/admin-setup-well-known-URL">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
@@ -164,7 +164,7 @@ describe('OC.SetupChecks tests', function() {
 						msg: 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					}, {
-						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
+						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" rel="noreferrer" href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -196,7 +196,7 @@ describe('OC.SetupChecks tests', function() {
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					},
 					{
-						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
+						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" rel="noreferrer" href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					}]);
 				done();
@@ -253,7 +253,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target="_blank" href="https://docs.owncloud.org/myDocs.html">documentation</a>.',
+					msg: '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target="_blank" rel="noreferrer" href="https://docs.owncloud.org/myDocs.html">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -281,7 +281,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a target="_blank" href="https://code.google.com/p/memcached/wiki/PHPClientComparison">memcached wiki about both modules</a>.',
+					msg: 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a target="_blank" rel="noreferrer" href="https://code.google.com/p/memcached/wiki/PHPClientComparison">memcached wiki about both modules</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -309,7 +309,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target="_blank" href="https://docs.owncloud.org/foo/bar.html">documentation</a>.',
+					msg: 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target="_blank" rel="noreferrer" href="https://docs.owncloud.org/foo/bar.html">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();
@@ -358,7 +358,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'You are currently running PHP 5.4.0. We encourage you to upgrade your PHP version to take advantage of <a target="_blank" href="https://secure.php.net/supported-versions.php">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.',
+					msg: 'You are currently running PHP 5.4.0. We encourage you to upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer" href="https://secure.php.net/supported-versions.php">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.',
 					type: OC.SetupChecks.MESSAGE_TYPE_INFO
 				}]);
 				done();
@@ -542,7 +542,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips" rel="noreferrer">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -567,7 +567,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips" rel="noreferrer">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -592,7 +592,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips" rel="noreferrer">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();

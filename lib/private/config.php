@@ -239,7 +239,7 @@ class Config {
 			throw new HintException(
 				"Can't write into config directory!",
 				'This can usually be fixed by '
-				.'<a href="' . $url . '" target="_blank">giving the webserver write access to the config directory</a>.');
+				.'<a href="' . $url . '" target="_blank" rel="noreferrer">giving the webserver write access to the config directory</a>.');
 		}
 
 		// Try to acquire a file lock

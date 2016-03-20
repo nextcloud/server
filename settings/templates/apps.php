@@ -31,7 +31,7 @@ script(
 
 <?php if($_['appstoreEnabled']): ?>
 	<li>
-		<a class="app-external" target="_blank" href="https://owncloud.org/dev"><?php p($l->t('Developer documentation'));?> ↗</a>
+		<a class="app-external" target="_blank" rel="noreferrer" href="https://owncloud.org/dev"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
 <?php endif; ?>
 </script>
@@ -53,7 +53,7 @@ script(
 	{{/if}}
 	<h2 class="app-name">
 		{{#if detailpage}}
-			<a href="{{detailpage}}" target="_blank">{{name}}</a>
+			<a href="{{detailpage}}" target="_blank" rel="noreferrer">{{name}}</a>
 		{{else}}
 			{{name}}
 		{{/if}}
@@ -82,13 +82,13 @@ script(
 			<?php p($l->t("Documentation:"));?>
 			{{#if documentation.user}}
 			<span class="userDocumentation">
-			<a id="userDocumentation" class="appslink" href="{{documentation.user}}" target="_blank"><?php p($l->t('User documentation'));?> ↗</a>
+			<a id="userDocumentation" class="appslink" href="{{documentation.user}}" target="_blank" rel="noreferrer"><?php p($l->t('User documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 
 			{{#if documentation.admin}}
 			<span class="adminDocumentation">
-			<a id="adminDocumentation" class="appslink" href="{{documentation.admin}}" target="_blank"><?php p($l->t('Admin documentation'));?> ↗</a>
+			<a id="adminDocumentation" class="appslink" href="{{documentation.admin}}" target="_blank" rel="noreferrer"><?php p($l->t('Admin documentation'));?> ↗</a>
 			</span>
 			{{/if}}
 		</p>

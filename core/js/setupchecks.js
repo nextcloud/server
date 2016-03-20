@@ -66,7 +66,7 @@
 				if (xhr.status !== 207) {
 					var docUrl = placeholderUrl.replace('PLACEHOLDER', 'admin-setup-well-known-URL');
 					messages.push({
-						msg: t('core', 'Your web server is not set up properly to resolve "{url}". Further information can be found in our <a target="_blank" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
+						msg: t('core', 'Your web server is not set up properly to resolve "{url}". Further information can be found in our <a target="_blank" rel="noreferrer" href="{docLink}">documentation</a>.', { docLink: docUrl, url: url }),
 						type: OC.SetupChecks.MESSAGE_TYPE_INFO
 					});
 				}
@@ -99,13 +99,13 @@
 					}
 					if(!data.isMemcacheConfigured) {
 						messages.push({
-							msg: t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs}),
+							msg: t('core', 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" rel="noreferrer" href="{docLink}">documentation</a>.', {docLink: data.memcacheDocs}),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
 					if(!data.isUrandomAvailable) {
 						messages.push({
-							msg: t('core', '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target="_blank" href="{docLink}">documentation</a>.', {docLink: data.securityDocs}),
+							msg: t('core', '/dev/urandom is not readable by PHP which is highly discouraged for security reasons. Further information can be found in our <a target="_blank" rel="noreferrer" href="{docLink}">documentation</a>.', {docLink: data.securityDocs}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -117,19 +117,19 @@
 					}
 					if(data.phpSupported && data.phpSupported.eol) {
 						messages.push({
-							msg: t('core', 'You are currently running PHP {version}. We encourage you to upgrade your PHP version to take advantage of <a target="_blank" href="{phpLink}">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.', {version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php'}),
+							msg: t('core', 'You are currently running PHP {version}. We encourage you to upgrade your PHP version to take advantage of <a target="_blank" rel="noreferrer" href="{phpLink}">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.', {version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php'}),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
 					if(!data.forwardedForHeadersWorking) {
 						messages.push({
-							msg: t('core', 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target="_blank" href="{docLink}">documentation</a>.', {docLink: data.reverseProxyDocs}),
+							msg: t('core', 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target="_blank" rel="noreferrer" href="{docLink}">documentation</a>.', {docLink: data.reverseProxyDocs}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
 					if(!data.isCorrectMemcachedPHPModuleInstalled) {
 						messages.push({
-							msg: t('core', 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a target="_blank" href="{wikiLink}">memcached wiki about both modules</a>.', {wikiLink: 'https://code.google.com/p/memcached/wiki/PHPClientComparison'}),
+							msg: t('core', 'Memcached is configured as distributed cache, but the wrong PHP module "memcache" is installed. \\OC\\Memcache\\Memcached only supports "memcached" and not "memcache". See the <a target="_blank" rel="noreferrer" href="{wikiLink}">memcached wiki about both modules</a>.', {wikiLink: 'https://code.google.com/p/memcached/wiki/PHPClientComparison'}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -137,7 +137,7 @@
 						messages.push({
 							msg: t(
 									'core',
-									'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target="_blank" href="{docLink}">documentation</a>. (<a href="{codeIntegrityDownloadEndpoint}">List of invalid files…</a> / <a href="{rescanEndpoint}">Rescan…</a>)',
+									'Some files have not passed the integrity check. Further information on how to resolve this issue can be found in our <a target="_blank" rel="noreferrer" href="{docLink}">documentation</a>. (<a href="{codeIntegrityDownloadEndpoint}">List of invalid files…</a> / <a href="{rescanEndpoint}">Rescan…</a>)',
 									{
 										docLink: data.codeIntegrityCheckerDocumentation,
 										codeIntegrityDownloadEndpoint: OC.generateUrl('/settings/integrity/failed'),
@@ -276,7 +276,7 @@
 					var minimumSeconds = 15768000;
 					if(isNaN(transportSecurityValidity) || transportSecurityValidity <= (minimumSeconds - 1)) {
 						messages.push({
-							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not configured to at least "{seconds}" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="{docUrl}">security tips</a>.', {'seconds': minimumSeconds, docUrl: '#admin-tips'}),
+							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not configured to at least "{seconds}" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="{docUrl}" rel="noreferrer">security tips</a>.', {'seconds': minimumSeconds, docUrl: '#admin-tips'}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
