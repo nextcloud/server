@@ -333,7 +333,12 @@ class Updater extends BasicEmitter {
 
 			// install new shipped apps on upgrade
 			OC_App::loadApps('authentication');
-			OC_Installer::installShippedApps();
+			$errors = OC_Installer::installShippedApps(true);
+			foreach ($errors as $appId => $exception) {
+				/** @var \Exception $exception */
+				$this->log->logException($exception, ['app' => $appId]);
+				$this->emit('\OC\Updater', 'failure', [$appId . ': ' . $exception->getMessage()]);
+			}
 
 			// post-upgrade repairs
 			$repair = new Repair(Repair::getRepairSteps());
