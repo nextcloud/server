@@ -28,7 +28,7 @@ OC.L10N.register(
     "Invalid ownCloud url" : "Ógild ownCloud-slóð",
     "Shared by" : "Deilt af",
     "Sharing" : "Deiling",
-    "A file or folder has been <strong>shared</strong>" : "Skjali eð  möppu hefur verið <strong>deilt</strong>",
+    "A file or folder has been <strong>shared</strong>" : "Skjali eða  möppu hefur verið <strong>deilt</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "Skjali eð  möppu hefur verið deilt <strong>frá öðrum þjóni</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Skrá eða mappa í almenningsaðgangi var <strong>sótt</strong>",
     "You received a new remote share %2$s from %1$s" : "Þú tókst við nýrri fjartengdri sameign %2$s frá %1$s",

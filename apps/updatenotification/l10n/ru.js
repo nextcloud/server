@@ -1,10 +1,13 @@
 OC.L10N.register(
     "updatenotification",
     {
+    "Updated channel" : "Обновленный канал",
     "{version} is available. Get more information on how to update." : "Доступна версия {version}. Получить дополнительную информацию о порядке обновления.",
     "Updater" : "Обновление",
     "A new version is available: %s" : "Доступна новая версия: %s",
     "Open updater" : "Открыть окно обновления",
+    "Your version is up to date." : "Версия не требует обновления.",
+    "Checked on %s" : "Проверено %s",
     "Update channel:" : "Канал обновлений:",
     "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Вы всегда можете переключится на экспериментальный канал обновлений для получения новейшей версии. Но учтите, что вы не сможете переключиться обратно на канал обновлений для стабильных версий. "
 },
