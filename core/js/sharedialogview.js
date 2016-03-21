@@ -216,8 +216,12 @@
 								.autocomplete("option", "autoFocus", true);
 							response(suggestions);
 						} else {
+							var title = t('core', 'No users or groups found for {search}', {search: $('.shareWithField').val()});
+							if (!view.configModel.get('allowGroupSharing')) {
+								title = t('core', 'No users found for {search}', {search: $('.shareWithField').val()});
+							}
 							$('.shareWithField').addClass('error')
-								.attr('data-original-title', t('core', 'No users or groups found for {search}', {search: $('.shareWithField').val()}))
+								.attr('data-original-title', title)
 								.tooltip('hide')
 								.tooltip({
 									placement: 'bottom',
@@ -386,10 +390,18 @@
 		},
 
 		_renderSharePlaceholderPart: function () {
-			var sharePlaceholder = t('core', 'Share with users or groups …');
-			if (this.configModel.get('isRemoteShareAllowed')) {
-				sharePlaceholder = t('core', 'Share with users, groups or remote users …');
+			var sharePlaceholder = t('core', 'Share with users…');
+
+			if (this.configModel.get('allowGroupSharing')) {
+				if (this.configModel.get('isRemoteShareAllowed')) {
+					sharePlaceholder = t('core', 'Share with users, groups or remote users…');
+				} else {
+					sharePlaceholder = t('core', 'Share with users or groups…')
+				}
+			} else if (this.configModel.get('isRemoteShareAllowed')) {
+					sharePlaceholder = t('core', 'Share with users or remote users…');
 			}
+
 			return sharePlaceholder;
 		},
 
