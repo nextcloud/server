@@ -411,32 +411,32 @@ class Setup {
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
-		if (strpos($htaccessContent, 'ErrorDocument 403') === false) {
+		if(strpos($htaccessContent, $content) === false) {
 			//custom 403 error page
 			$content.= "\nErrorDocument 403 ".\OC::$WEBROOT."/core/templates/403.php";
-		}
-		if (strpos($htaccessContent, 'ErrorDocument 404') === false) {
+
 			//custom 404 error page
 			$content.= "\nErrorDocument 404 ".\OC::$WEBROOT."/core/templates/404.php";
+
+			// Add rewrite base
+			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
+			$content .= "\n<IfModule mod_rewrite.c>";
+			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
+			$content .= "\n  RewriteBase ".$webRoot;
+			$content .= "\n  <IfModule mod_env.c>";
+			$content .= "\n    SetEnv front_controller_active true";
+			$content .= "\n    <IfModule mod_dir.c>";
+			$content .= "\n      DirectorySlash off";
+			$content .= "\n    </IfModule>";
+			$content.="\n  </IfModule>";
+			$content.="\n</IfModule>";
+
+			if ($content !== '') {
+				//suppress errors in case we don't have permissions for it
+				@file_put_contents($setupHelper->pathToHtaccess(), $content . "\n", FILE_APPEND);
+			}
 		}
 
-		// Add rewrite base
-		$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
-		$content .= "\n<IfModule mod_rewrite.c>";
-		$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
-		$content .= "\n  RewriteBase ".$webRoot;
-		$content .= "\n  <IfModule mod_env.c>";
-		$content .= "\n    SetEnv front_controller_active true";
-		$content .= "\n    <IfModule mod_dir.c>";
-		$content .= "\n      DirectorySlash off";
-		$content .= "\n    </IfModule>";
-		$content.="\n  </IfModule>";
-		$content.="\n</IfModule>";
-
-		if ($content !== '') {
-			//suppress errors in case we don't have permissions for it
-			@file_put_contents($setupHelper->pathToHtaccess(), $content . "\n", FILE_APPEND);
-		}
 	}
 
 	public static function protectDataDirectory() {
