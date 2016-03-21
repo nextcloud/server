@@ -422,6 +422,75 @@ class File extends \Test\TestCase {
 		);
 	}
 
+	/**
+	 * Test that putting a file with chunks triggers create hooks
+	 */
+	public function testPutChunkedFileTriggersHooks() {
+		HookHelper::setUpHooks();
+
+		$_SERVER['HTTP_OC_CHUNKED'] = true;
+		$this->assertNull($this->doPut('/foo.txt-chunking-12345-2-0'));
+		$this->assertNotEmpty($this->doPut('/foo.txt-chunking-12345-2-1'));
+
+		$this->assertCount(4, HookHelper::$hookCalls);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[0],
+			Filesystem::signal_create,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[1],
+			Filesystem::signal_write,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[2],
+			Filesystem::signal_post_create,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[3],
+			Filesystem::signal_post_write,
+			'/foo.txt'
+		);
+	}
+
+	/**
+	 * Test that putting a chunked file triggers update hooks
+	 */
+	public function testPutOverwriteChunkedFileTriggersHooks() {
+		$view = \OC\Files\Filesystem::getView();
+		$view->file_put_contents('/foo.txt', 'some content that will be replaced');
+
+		HookHelper::setUpHooks();
+
+		$_SERVER['HTTP_OC_CHUNKED'] = true;
+		$this->assertNull($this->doPut('/foo.txt-chunking-12345-2-0'));
+		$this->assertNotEmpty($this->doPut('/foo.txt-chunking-12345-2-1'));
+
+		$this->assertCount(4, HookHelper::$hookCalls);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[0],
+			Filesystem::signal_update,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[1],
+			Filesystem::signal_write,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[2],
+			Filesystem::signal_post_update,
+			'/foo.txt'
+		);
+		$this->assertHookCall(
+			HookHelper::$hookCalls[3],
+			Filesystem::signal_post_write,
+			'/foo.txt'
+		);
+	}
+
 	public static function cancellingHook($params) {
 		self::$hookCalls[] = array(
 			'signal' => Filesystem::signal_post_create,

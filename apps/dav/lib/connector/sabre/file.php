@@ -433,7 +433,7 @@ class File extends Node implements IFile {
 					list($partStorage, $partInternalPath) = $this->fileView->resolvePath($partFile);
 
 
-					$chunk_handler->file_assemble($partStorage, $partInternalPath, $this->fileView->getAbsolutePath($targetPath));
+					$chunk_handler->file_assemble($partStorage, $partInternalPath);
 
 					// here is the final atomic rename
 					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
@@ -452,7 +452,7 @@ class File extends Node implements IFile {
 					}
 				} else {
 					// assemble directly into the final file
-					$chunk_handler->file_assemble($targetStorage, $targetInternalPath, $this->fileView->getAbsolutePath($targetPath));
+					$chunk_handler->file_assemble($targetStorage, $targetInternalPath);
 				}
 
 				// allow sync clients to send the mtime along in a header
