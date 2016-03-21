@@ -49,5 +49,6 @@ $encryptHomeStorage = $util->shouldEncryptHomeStorage();
 $tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
 $tmpl->assign('initStatus', $session->getStatus());
 $tmpl->assign('encryptHomeStorage', $encryptHomeStorage);
+$tmpl->assign('masterKeyEnabled', $util->isMasterKeyEnabled());
 
 return $tmpl->fetchPage();
