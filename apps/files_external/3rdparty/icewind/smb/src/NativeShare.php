@@ -239,8 +239,9 @@ class NativeShare extends AbstractShare {
 	 */
 	public function read($source) {
 		$this->connect();
-		$handle = $this->state->open($this->buildUrl($source), 'r');
-		return NativeStream::wrap($this->state, $handle, 'r');
+		$url = $this->buildUrl($source);
+		$handle = $this->state->open($url, 'r');
+		return NativeStream::wrap($this->state, $handle, 'r', $url);
 	}
 
 	/**
@@ -254,8 +255,9 @@ class NativeShare extends AbstractShare {
 	 */
 	public function write($source) {
 		$this->connect();
-		$handle = $this->state->create($this->buildUrl($source));
-		return NativeStream::wrap($this->state, $handle, 'w');
+		$url = $this->buildUrl($source);
+		$handle = $this->state->create($url);
+		return NativeStream::wrap($this->state, $handle, 'w', $url);
 	}
 
 	/**

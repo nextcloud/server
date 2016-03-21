@@ -75,7 +75,7 @@ $share = $server->getShare('test');
 $content = $share->dir('test');
 
 foreach ($content as $info) {
-	echo $name->getName() . "\n";
+	echo $info->getName() . "\n";
 	echo "\tsize :" . $info->getSize() . "\n";
 }
 ```
