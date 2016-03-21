@@ -798,6 +798,7 @@ class Test_User_User extends \Test\TestCase {
 		}
 
 		$userMock->processAttributes($record);
+		\OC_Hook::emit('OC_User', 'post_login', array('uid' => $uid));
 	}
 
 	public function emptyHomeFolderAttributeValueProvider() {

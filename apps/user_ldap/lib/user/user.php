@@ -217,7 +217,11 @@ class User {
 		foreach ($attrs as $attr)  {
 			if(isset($ldapEntry[$attr])) {
 				$this->avatarImage = $ldapEntry[$attr][0];
-				$this->updateAvatar();
+				// the call to the method that saves the avatar in the file
+				// system must be postponed after the login. It is to ensure
+				// external mounts are mounted properly (e.g. with login
+				// credentials from the session).
+				\OCP\Util::connectHook('OC_User', 'post_login', $this, 'updateAvatarPostLogin');
 				break;
 			}
 		}
@@ -458,6 +462,17 @@ class User {
 		}
 		if(!is_null($quota)) {
 			$user = $this->userManager->get($this->uid)->setQuota($quota);
+		}
+	}
+
+	/**
+	 * called by a post_login hook to save the avatar picture
+	 *
+	 * @param array $params
+	 */
+	public function updateAvatarPostLogin($params) {
+		if(isset($params['uid']) && $params['uid'] === $this->getUsername()) {
+			$this->updateAvatar();
 		}
 	}
 
