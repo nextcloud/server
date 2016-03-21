@@ -476,11 +476,11 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 					if ($userMatch !== false) {
 						// match found so this user is in this group
 						$groupName = $this->access->dn2groupname($dynamicGroup['dn'][0]);
-                                                if(is_string($groupName)) {
-                                                        // be sure to never return false if the dn could not be
-                                                        // resolved to a name, for whatever reason.
-                                                        $groups[] = $groupName;
-                                                }
+						if(is_string($groupName)) {
+							// be sure to never return false if the dn could not be
+							// resolved to a name, for whatever reason.
+							$groups[] = $groupName;
+						}
 					}
 				} else {
 					\OCP\Util::writeLog('user_ldap', 'No search filter found on member url '.
@@ -530,9 +530,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$uid = $userDN;
 		}
 
-                if(isset($this->cachedGroupsByMember[$uid])) {
+		if(isset($this->cachedGroupsByMember[$uid])) {
 			$groups[] = $this->cachedGroupsByMember[$uid];
-                } else {
+		} else {
 			$groupsByMember = array_values($this->getGroupsByMember($uid));
 			$groupsByMember = $this->access->ownCloudGroupNames($groupsByMember);
 			$this->cachedGroupsByMember[$uid] = $groupsByMember;
