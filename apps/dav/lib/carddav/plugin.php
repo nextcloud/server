@@ -46,6 +46,10 @@ class Plugin extends \Sabre\CardDAV\Plugin {
 			list(, $principalId) = URLUtil::splitPath($principal);
 			return self::ADDRESSBOOK_ROOT . '/users/' . $principalId;
 		}
+		if (strrpos($principal, 'principals/groups', -strlen($principal)) !== false) {
+			list(, $principalId) = URLUtil::splitPath($principal);
+			return self::ADDRESSBOOK_ROOT . '/groups/' . $principalId;
+		}
 		if (strrpos($principal, 'principals/system', -strlen($principal)) !== false) {
 			list(, $principalId) = URLUtil::splitPath($principal);
 			return self::ADDRESSBOOK_ROOT . '/system/' . $principalId;

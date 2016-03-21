@@ -28,6 +28,7 @@ use OCA\DAV\Connector\FedAuth;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
+use OCA\DAV\Connector\Sabre\DummyGetResponsePlugin;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCA\DAV\Files\CustomPropertiesBackend;
 use OCP\IRequest;
@@ -68,7 +69,13 @@ class Server {
 		$event = new SabrePluginEvent($this->server);
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
 
-		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
+		// debugging
+		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
+			$this->server->addPlugin(new \Sabre\DAV\Browser\Plugin());
+		} else {
+			$this->server->addPlugin(new DummyGetResponsePlugin());
+		}
+
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $logger));
 		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
 		$this->server->addPlugin(new \Sabre\DAV\Sync\Plugin());
