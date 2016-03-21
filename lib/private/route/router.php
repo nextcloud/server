@@ -110,6 +110,10 @@ class Router implements IRouter {
 	 * @param null|string $app
 	 */
 	public function loadRoutes($app = null) {
+		if(is_string($app)) {
+			$app = \OC_App::cleanAppId($app);
+		}
+
 		$requestedApp = $app;
 		if ($this->loaded) {
 			return;
