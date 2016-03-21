@@ -119,7 +119,7 @@ class SystemTagObjectMapperTest extends TestCase {
 		$query->delete(SystemTagManager::TAG_TABLE)->execute();
 	}
 
-	public function testGetTagsForObjects() {
+	public function testGetTagIdsForObjects() {
 		$tagIdMapping = $this->tagMapper->getTagIdsForObjects(
 			['1', '2', '3', '4'],
 			'testtype'
@@ -131,6 +131,15 @@ class SystemTagObjectMapperTest extends TestCase {
 			'3' => [],
 			'4' => [],
 		], $tagIdMapping);
+	}
+
+	public function testGetTagIdsForNoObjects() {
+		$tagIdMapping = $this->tagMapper->getTagIdsForObjects(
+			[],
+			'testtype'
+		);
+
+		$this->assertEquals([], $tagIdMapping);
 	}
 
 	public function testGetObjectsForTags() {
