@@ -349,6 +349,28 @@ class SMB extends Common {
 		}
 	}
 
+	public function isReadable($path) {
+		try {
+			$info = $this->getFileInfo($path);
+			return !$info->isHidden();
+		} catch (NotFoundException $e) {
+			return false;
+		} catch (ForbiddenException $e) {
+			return false;
+		}
+	}
+
+	public function isUpdatable($path) {
+		try {
+			$info = $this->getFileInfo($path);
+			return !$info->isHidden() && !$info->isReadOnly();
+		} catch (NotFoundException $e) {
+			return false;
+		} catch (ForbiddenException $e) {
+			return false;
+		}
+	}
+
 	/**
 	 * check if smbclient is installed
 	 */
