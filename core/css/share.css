@@ -63,6 +63,11 @@
 	white-space: normal;
 }
 
+#shareWithList .shareOption {
+	white-space: nowrap;
+	display: inline-block;
+}
+
 #shareWithList .unshare img, #shareWithList .showCruds img {
 	vertical-align:text-bottom; /* properly align icons */
 }
