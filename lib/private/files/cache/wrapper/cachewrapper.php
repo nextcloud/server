@@ -54,7 +54,7 @@ class CacheWrapper extends Cache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param string /int $file
+	 * @param string|int $file
 	 * @return ICacheEntry|false
 	 */
 	public function get($file) {
