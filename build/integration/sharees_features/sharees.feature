@@ -222,3 +222,19 @@ Feature: sharees
     Then "groups" sharees returned is empty
     Then "exact remotes" sharees returned is empty
     Then "remotes" sharees returned is empty
+
+  Scenario: Group sharees not returned when group sharing is disabled
+    Given As an "test"
+    And parameter "shareapi_allow_group_sharing" of app "core" is set to "no"
+    When getting sharees for
+      | search | sharee |
+      | itemType | file |
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And "exact users" sharees returned is empty
+    And "users" sharees returned are
+      | Sharee1 | 0 | Sharee1 |
+    And "exact groups" sharees returned is empty
+    And "groups" sharees returned is empty
+    And "exact remotes" sharees returned is empty
+    And "remotes" sharees returned is empty
