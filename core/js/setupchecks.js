@@ -117,7 +117,7 @@
 					}
 					if(data.phpSupported && data.phpSupported.eol) {
 						messages.push({
-							msg: t('core', 'Your PHP version ({version}) is no longer <a target="_blank" href="{phpLink}">supported by PHP</a>. We encourage you to upgrade your PHP version to take advantage of performance and security updates provided by PHP.', {version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php'}),
+							msg: t('core', 'You are currently running PHP {version}. We encourage you to upgrade your PHP version to take advantage of <a target="_blank" href="{phpLink}">performance and security updates provided by the PHP Group</a> as soon as your distribution supports it.', {version: data.phpSupported.version, phpLink: 'https://secure.php.net/supported-versions.php'}),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						});
 					}
