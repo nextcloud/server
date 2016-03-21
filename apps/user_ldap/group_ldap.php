@@ -531,20 +531,20 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
                 if(isset($this->cachedGroupsByMember[$uid])) {
-                        $groups[] = $this->cachedGroupsByMember[$uid];
+			$groups[] = $this->cachedGroupsByMember[$uid];
                 } else {
-                        $groupsByMember = array_values($this->getGroupsByMember($uid));
-                        $groupsByMember = $this->access->ownCloudGroupNames($groupsByMember);
-                        $this->cachedGroupsByMember[$uid] = $groupsByMember;
-                        $groups = array_merge($groups, $groupsByMember);
-                }
+			$groupsByMember = array_values($this->getGroupsByMember($uid));
+			$groupsByMember = $this->access->ownCloudGroupNames($groupsByMember);
+			$this->cachedGroupsByMember[$uid] = $groupsByMember;
+			$groups = array_merge($groups, $groupsByMember);
+		}
 
-                if($primaryGroup !== false) {
-                        $groups[] = $primaryGroup;
-                }
+		if($primaryGroup !== false) {
+			$groups[] = $primaryGroup;
+		}
 
-                $groups = array_unique($groups, SORT_LOCALE_STRING);
-                $this->access->connection->writeToCache($cacheKey, $groups);
+		$groups = array_unique($groups, SORT_LOCALE_STRING);
+		$this->access->connection->writeToCache($cacheKey, $groups);
 
 		return $groups;
 	}
