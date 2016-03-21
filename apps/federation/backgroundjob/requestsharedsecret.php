@@ -27,7 +27,7 @@ namespace OCA\Federation\BackgroundJob;
 
 use GuzzleHttp\Exception\ClientException;
 use OC\BackgroundJob\JobList;
-use OC\BackgroundJob\QueuedJob;
+use OC\BackgroundJob\Job;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
@@ -43,7 +43,7 @@ use OCP\IURLGenerator;
  *
  * @package OCA\Federation\Backgroundjob
  */
-class RequestSharedSecret extends QueuedJob {
+class RequestSharedSecret extends Job {
 
 	/** @var IClient */
 	private $httpClient;
@@ -65,6 +65,9 @@ class RequestSharedSecret extends QueuedJob {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var bool */
+	protected $retainJob = false;
+
 	/**
 	 * RequestSharedSecret constructor.
 	 *
@@ -79,7 +82,7 @@ class RequestSharedSecret extends QueuedJob {
 		IURLGenerator $urlGenerator = null,
 		IJobList $jobList = null,
 		TrustedServers $trustedServers = null,
-		dbHandler $dbHandler = null
+		DbHandler $dbHandler = null
 	) {
 		$this->httpClient = $httpClient ? $httpClient : \OC::$server->getHTTPClientService()->newClient();
 		$this->jobList = $jobList ? $jobList : \OC::$server->getJobList();
@@ -109,15 +112,20 @@ class RequestSharedSecret extends QueuedJob {
 	 * @param ILogger $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
-		$jobList->remove($this, $this->argument);
 		$target = $this->argument['url'];
 		// only execute if target is still in the list of trusted domains
 		if ($this->trustedServers->isTrustedServer($target)) {
 			$this->parentExecute($jobList, $logger);
 		}
+
+		if (!$this->retainJob) {
+			$jobList->remove($this, $this->argument);
+		}
 	}
 
 	/**
+	 * call execute() method of parent
+	 *
 	 * @param JobList $jobList
 	 * @param ILogger $logger
 	 */
@@ -155,7 +163,7 @@ class RequestSharedSecret extends QueuedJob {
 				$this->logger->logException($e, ['app' => 'federation']);
 			}
 		} catch (\Exception $e) {
-			$status = HTTP::STATUS_INTERNAL_SERVER_ERROR;
+			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
 			$this->logger->logException($e, ['app' => 'federation']);
 		}
 
@@ -164,10 +172,7 @@ class RequestSharedSecret extends QueuedJob {
 			$status !== Http::STATUS_OK
 			&& $status !== Http::STATUS_FORBIDDEN
 		) {
-			$this->jobList->add(
-				'OCA\Federation\BackgroundJob\RequestSharedSecret',
-				$argument
-			);
+			$this->retainJob = true;
 		}
 
 		if ($status === Http::STATUS_FORBIDDEN) {

@@ -25,12 +25,13 @@ namespace OCA\Federation\BackgroundJob;
 
 use GuzzleHttp\Exception\ClientException;
 use OC\BackgroundJob\JobList;
-use OC\BackgroundJob\QueuedJob;
+use OC\BackgroundJob\Job;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClient;
+use OCP\Http\Client\IResponse;
 use OCP\ILogger;
 use OCP\IURLGenerator;
 
@@ -41,7 +42,7 @@ use OCP\IURLGenerator;
  *
  * @package OCA\Federation\Backgroundjob
  */
-class GetSharedSecret extends QueuedJob{
+class GetSharedSecret extends Job{
 
 	/** @var IClient */
 	private $httpClient;
@@ -61,6 +62,9 @@ class GetSharedSecret extends QueuedJob{
 	/** @var ILogger */
 	private $logger;
 
+	/** @var bool */
+	protected $retainJob = false;
+
 	private $endPoint = '/ocs/v2.php/apps/federation/api/v1/shared-secret?format=json';
 
 	/**
@@ -79,7 +83,7 @@ class GetSharedSecret extends QueuedJob{
 		IJobList $jobList = null,
 		TrustedServers $trustedServers = null,
 		ILogger $logger = null,
-		dbHandler $dbHandler = null
+		DbHandler $dbHandler = null
 	) {
 		$this->logger = $logger ? $logger : \OC::$server->getLogger();
 		$this->httpClient = $httpClient ? $httpClient : \OC::$server->getHTTPClientService()->newClient();
@@ -108,11 +112,14 @@ class GetSharedSecret extends QueuedJob{
 	 * @param ILogger $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
-		$jobList->remove($this, $this->argument);
 		$target = $this->argument['url'];
 		// only execute if target is still in the list of trusted domains
 		if ($this->trustedServers->isTrustedServer($target)) {
 			$this->parentExecute($jobList, $logger);
+		}
+
+		if (!$this->retainJob) {
+			$jobList->remove($this, $this->argument);
 		}
 	}
 
@@ -132,6 +139,7 @@ class GetSharedSecret extends QueuedJob{
 		$source = rtrim($source, '/');
 		$token = $argument['token'];
 
+		$result = null;
 		try {
 			$result = $this->httpClient->get(
 				$target . $this->endPoint,
@@ -156,7 +164,7 @@ class GetSharedSecret extends QueuedJob{
 				$this->logger->logException($e, ['app' => 'federation']);
 			}
 		} catch (\Exception $e) {
-			$status = HTTP::STATUS_INTERNAL_SERVER_ERROR;
+			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
 			$this->logger->logException($e, ['app' => 'federation']);
 		}
 
@@ -165,16 +173,13 @@ class GetSharedSecret extends QueuedJob{
 			$status !== Http::STATUS_OK
 			&& $status !== Http::STATUS_FORBIDDEN
 		) {
-			$this->jobList->add(
-				'OCA\Federation\BackgroundJob\GetSharedSecret',
-				$argument
-			);
+			$this->retainJob = true;
 		}  else {
 			// reset token if we received a valid response
 			$this->dbHandler->addToken($target, '');
 		}
 
-		if ($status === Http::STATUS_OK) {
+		if ($status === Http::STATUS_OK && $result instanceof IResponse) {
 			$body = $result->getBody();
 			$result = json_decode($body, true);
 			if (isset($result['ocs']['data']['sharedSecret'])) {
