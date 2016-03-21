@@ -75,8 +75,9 @@ class RequestSharedSecretTest extends TestCase {
 	 * @dataProvider dataTestExecute
 	 *
 	 * @param bool $isTrustedServer
+	 * @param bool $retainBackgroundJob
 	 */
-	public function testExecute($isTrustedServer) {
+	public function testExecute($isTrustedServer, $retainBackgroundJob) {
 		/** @var RequestSharedSecret |\PHPUnit_Framework_MockObject_MockObject $requestSharedSecret */
 		$requestSharedSecret = $this->getMockBuilder('OCA\Federation\BackgroundJob\RequestSharedSecret')
 			->setConstructorArgs(
@@ -90,13 +91,18 @@ class RequestSharedSecretTest extends TestCase {
 			)->setMethods(['parentExecute'])->getMock();
 		$this->invokePrivate($requestSharedSecret, 'argument', [['url' => 'url']]);
 
-		$this->jobList->expects($this->once())->method('remove');
 		$this->trustedServers->expects($this->once())->method('isTrustedServer')
 			->with('url')->willReturn($isTrustedServer);
 		if ($isTrustedServer) {
 			$requestSharedSecret->expects($this->once())->method('parentExecute');
 		} else {
 			$requestSharedSecret->expects($this->never())->method('parentExecute');
+		}
+		$this->invokePrivate($requestSharedSecret, 'retainJob', [$retainBackgroundJob]);
+		if ($retainBackgroundJob) {
+			$this->jobList->expects($this->never())->method('remove');
+		} else {
+			$this->jobList->expects($this->once())->method('remove');
 		}
 
 		$requestSharedSecret->execute($this->jobList);
@@ -105,8 +111,9 @@ class RequestSharedSecretTest extends TestCase {
 
 	public function dataTestExecute() {
 		return [
-			[true],
-			[false]
+			[true, true],
+			[true, false],
+			[false, false],
 		];
 	}
 
@@ -146,17 +153,22 @@ class RequestSharedSecretTest extends TestCase {
 			$statusCode !== Http::STATUS_OK
 			&& $statusCode !== Http::STATUS_FORBIDDEN
 		) {
-			$this->jobList->expects($this->once())->method('add')
-				->with('OCA\Federation\BackgroundJob\RequestSharedSecret', $argument);
 			$this->dbHandler->expects($this->never())->method('addToken');
 		}
 
 		if ($statusCode === Http::STATUS_FORBIDDEN) {
-			$this->jobList->expects($this->never())->method('add');
 			$this->dbHandler->expects($this->once())->method('addToken')->with($target, '');
 		}
 
 		$this->invokePrivate($this->requestSharedSecret, 'run', [$argument]);
+		if (
+			$statusCode !== Http::STATUS_OK
+			&& $statusCode !== Http::STATUS_FORBIDDEN
+		) {
+			$this->assertTrue($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
+		} else {
+			$this->assertFalse($this->invokePrivate($this->requestSharedSecret, 'retainJob'));
+		}
 	}
 
 	public function dataTestRun() {
