@@ -183,6 +183,22 @@ trait WebDav {
 	}
 
 	/**
+	 * @Then /^as "([^"]*)" gets list of folder "([^"]*)" with$/
+	 * @param string $user
+	 * @param string $path
+	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
+	 */
+	public function asGetsListOfFolderWith($user, $path, $propertiesTable) {
+		$properties = null;
+		if ($propertiesTable instanceof \Behat\Gherkin\Node\TableNode) {
+			foreach ($propertiesTable->getRows() as $row) {
+				$properties[] = $row[0];
+			}
+		}
+		$this->response = $this->listFolder($user, $path, 1, $properties);
+	}
+
+	/**
 	 * @Then the single response should contain a property :key with value :value
 	 * @param string $key
 	 * @param string $expectedValue
@@ -195,6 +211,41 @@ trait WebDav {
 		}
 
 		$value = $keys[$key];
+		if ($value !== $expectedValue) {
+			throw new \Exception("Property \"$key\" found with value \"$value\", expected \"$expectedValue\"");
+		}
+	}
+
+	/**
+	 * @Then the response for ":path" should contain a property :key with value :value
+	 * @param string $key
+	 * @param string $expectedValue
+	 * @throws \Exception
+	 */
+	public function theResponseForPathShouldContainAPropertyWithValue($path, $key, $expectedValue) {
+		$davPath = ltrim($this->davPath, '/');
+		$foundEntry = null;
+		$path = trim($path, '/');
+		foreach ($this->response as $href => $entry) {
+			$href = ltrim($href, '/');
+			if (strpos($href, $this->davPath) === 0) {
+				$href = substr($href, strlen($davPath) + 1);
+			}
+			$href = trim($href, '/');
+			if ($href === $path) {
+				$foundEntry = $entry;
+				break;
+			}
+		}
+		if (!$foundEntry) {
+			throw new \Exception("Path \"$path\" was not found in response");
+		}
+
+		if (!array_key_exists($key, $foundEntry)) {
+			throw new \Exception("Cannot find property \"$key\" with \"$expectedValue\" for path \"$path\"");
+		}
+
+		$value = $foundEntry[$key];
 		if ($value !== $expectedValue) {
 			throw new \Exception("Property \"$key\" found with value \"$value\", expected \"$expectedValue\"");
 		}
