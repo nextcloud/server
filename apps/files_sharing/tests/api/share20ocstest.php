@@ -759,8 +759,11 @@ class Share20OCSTest extends \Test\TestCase {
 				->with('valid-path')
 				->willReturn($path);
 
-		$group = $this->getMock('\OCP\IGroup');
 		$this->groupManager->method('groupExists')->with('validGroup')->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('allowGroupSharing')
+			->willReturn(true);
 
 		$share->method('setPath')->with($path);
 		$share->method('setPermissions')->with(\OCP\Constants::PERMISSION_ALL);
@@ -770,6 +773,51 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$expected = new \OC_OCS_Result();
 		$result = $ocs->createShare();
+
+		$this->assertEquals($expected->getMeta(), $result->getMeta());
+		$this->assertEquals($expected->getData(), $result->getData());
+	}
+
+	public function testCreateShareGroupNotAllowed() {
+		$share = $this->getMock('\OCP\Share\IShare');
+		$this->shareManager->method('newShare')->willReturn($share);
+
+		$this->request
+			->method('getParam')
+			->will($this->returnValueMap([
+				['path', null, 'valid-path'],
+				['permissions', null, \OCP\Constants::PERMISSION_ALL],
+				['shareType', '-1', \OCP\Share::SHARE_TYPE_GROUP],
+				['shareWith', null, 'validGroup'],
+			]));
+
+		$userFolder = $this->getMock('\OCP\Files\Folder');
+		$this->rootFolder->expects($this->once())
+			->method('getUserFolder')
+			->with('currentUser')
+			->willReturn($userFolder);
+
+		$path = $this->getMock('\OCP\Files\Folder');
+		$storage = $this->getMock('OCP\Files\Storage');
+		$storage->method('instanceOfStorage')
+			->with('OCA\Files_Sharing\External\Storage')
+			->willReturn(false);
+		$path->method('getStorage')->willReturn($storage);
+		$userFolder->expects($this->once())
+			->method('get')
+			->with('valid-path')
+			->willReturn($path);
+
+		$this->groupManager->method('groupExists')->with('validGroup')->willReturn(true);
+
+		$this->shareManager->expects($this->once())
+			->method('allowGroupSharing')
+			->willReturn(false);
+
+		$share->method('setPath')->with($path);
+
+		$expected = new \OC_OCS_Result(null, 404, 'group sharing is disabled by the administrator');
+		$result = $this->ocs->createShare();
 
 		$this->assertEquals($expected->getMeta(), $result->getMeta());
 		$this->assertEquals($expected->getData(), $result->getData());

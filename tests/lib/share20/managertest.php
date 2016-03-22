@@ -1149,6 +1149,22 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
+	 * @expectedExceptionMessage Group sharing is now allowed
+	 */
+	public function testGroupCreateChecksShareWithGroupMembersGroupSharingNotAllowed() {
+		$share = $this->manager->newShare();
+
+		$this->config
+			->method('getAppValue')
+			->will($this->returnValueMap([
+				['core', 'shareapi_allow_group_sharing', 'yes', 'no'],
+			]));
+
+		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
+	}
+
+	/**
+	 * @expectedException Exception
 	 * @expectedExceptionMessage Only sharing within your own groups is allowed
 	 */
 	public function testGroupCreateChecksShareWithGroupMembersOnlyNotInGroup() {
@@ -1167,6 +1183,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('getAppValue')
 			->will($this->returnValueMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 			]));
 
 		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
@@ -1195,6 +1212,7 @@ class ManagerTest extends \Test\TestCase {
 			->method('getAppValue')
 			->will($this->returnValueMap([
 				['core', 'shareapi_only_share_with_group_members', 'no', 'yes'],
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
 			]));
 
 		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
@@ -1222,6 +1240,12 @@ class ManagerTest extends \Test\TestCase {
 			->with($path)
 			->willReturn([$share2]);
 
+		$this->config
+			->method('getAppValue')
+			->will($this->returnValueMap([
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+			]));
+
 		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}
 
@@ -1239,6 +1263,12 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->method('getSharesByPath')
 			->with($path)
 			->willReturn([$share2]);
+
+		$this->config
+			->method('getAppValue')
+			->will($this->returnValueMap([
+				['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+			]));
 
 		$this->invokePrivate($this->manager, 'groupCreateChecks', [$share]);
 	}

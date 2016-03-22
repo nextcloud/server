@@ -161,6 +161,10 @@ $(document).ready(function(){
 		});
 	});
 
+	$('#allowGroupSharing').change(function() {
+		$('#allowGroupSharing').toggleClass('hidden', !this.checked);
+	});
+
 	$('#shareapiExcludeGroups').change(function() {
 		$("#selectExcludedGroups").toggleClass('hidden', !this.checked);
 	});
