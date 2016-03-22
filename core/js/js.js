@@ -747,7 +747,7 @@ var OC={
 			return;
 		}
 
-		if (_.contains([0, 302, 307, 401], xhr.status)) {
+		if (_.contains([0, 302, 303, 307, 401], xhr.status)) {
 			OC.reload();
 		}
 	},
