@@ -210,4 +210,19 @@ class Application extends App {
 			$this->getContainer()->getServer()->getLogger()->logException($ex);
 		}
 	}
+
+	public function generateBirthdays() {
+		try {
+			/** @var BirthdayService $migration */
+			$migration = $this->getContainer()->query('BirthdayService');
+			$userManager = $this->getContainer()->getServer()->getUserManager();
+
+			$userManager->callForAllUsers(function($user) use($migration) {
+				/** @var IUser $user */
+				$migration->syncUser($user->getUID());
+			});
+		} catch (\Exception $ex) {
+			$this->getContainer()->getServer()->getLogger()->logException($ex);
+		}
+	}
 }

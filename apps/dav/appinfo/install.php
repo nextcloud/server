@@ -25,3 +25,4 @@ $app = new Application();
 $app->setupCron();
 $app->migrateAddressbooks();
 $app->migrateCalendars();
+$app->generateBirthdays();
