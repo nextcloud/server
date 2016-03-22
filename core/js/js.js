@@ -741,7 +741,9 @@ var OC={
 	 */
 	_processAjaxError: function(xhr) {
 		// purposefully aborted request ?
-		if (xhr.status === 0 && (xhr.statusText === 'abort' || xhr.statusText === 'timeout')) {
+		// this._userIsNavigatingAway needed to distinguish ajax calls cancelled by navigating away
+		// from calls cancelled by failed cross-domain ajax due to SSO redirect
+		if (xhr.status === 0 && (xhr.statusText === 'abort' || xhr.statusText === 'timeout' || this._userIsNavigatingAway)) {
 			return;
 		}
 
@@ -1438,6 +1440,29 @@ function initCore() {
 		$('html').addClass('edge');
 	}
 
+	$(window).on('unload', function() {
+		OC._unloadCalled = true;
+	});
+	$(window).on('beforeunload', function() {
+		// super-trick thanks to http://stackoverflow.com/a/4651049
+		// in case another handler displays a confirmation dialog (ex: navigating away
+		// during an upload), there are two possible outcomes: user clicked "ok" or
+		// "cancel"
+
+		// first timeout handler is called after unload dialog is closed
+		setTimeout(function() {
+			OC._userIsNavigatingAway = true;
+
+			// second timeout event is only called if user cancelled (Chrome),
+			// but in other browsers it might still be triggered, so need to
+			// set a higher delay...
+			setTimeout(function() {
+				if (!OC._unloadCalled) {
+					OC._userIsNavigatingAway = false;
+				}
+			}, 10000);
+		},1);
+	});
 	$(document).on('ajaxError.main', function( event, request, settings ) {
 		if (settings && settings.allowAuthErrors) {
 			return;
