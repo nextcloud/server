@@ -27,7 +27,7 @@ class Node extends \Test\TestCase {
 	}
 
 	protected function getFileInfo($data) {
-		return new FileInfo('', $this->getMockStorage(), '', $data, null);
+		return new FileInfo($data['path'], $this->getMockStorage(), $data['path'], $data, null);
 	}
 
 	public function testStat() {
@@ -73,7 +73,8 @@ class Node extends \Test\TestCase {
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
-			'mtime' => 50
+			'path' => '/bar/foo',
+			'mtime' => 50,
 		));
 
 		$view->expects($this->once())
@@ -101,7 +102,8 @@ class Node extends \Test\TestCase {
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
-			'mtime' => 50
+			'path' => '/bar/foo',
+			'mtime' => 50,
 		));
 
 		$view->expects($this->once())
@@ -128,7 +130,8 @@ class Node extends \Test\TestCase {
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
-			'mtime' => 50
+			'path' => '/bar/foo',
+			'mtime' => 50,
 		));
 
 		$view->expects($this->once())
@@ -155,7 +158,8 @@ class Node extends \Test\TestCase {
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
-			'mtime' => 50
+			'path' => '/bar/foo',
+			'mtime' => 50,
 		));
 
 		$view->expects($this->once())
@@ -266,7 +270,10 @@ class Node extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL))));
+			->will($this->returnValue($this->getFileInfo([
+				'path' => '/bar/foo',
+				'permissions' => \OCP\Constants::PERMISSION_ALL,
+			])));
 
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);
@@ -319,7 +326,10 @@ class Node extends \Test\TestCase {
 		$view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL))));
+			->will($this->returnValue($this->getFileInfo([
+				'path' => '/bar/foo',
+				'permissions' => \OCP\Constants::PERMISSION_ALL,
+			])));
 
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);
@@ -343,7 +353,10 @@ class Node extends \Test\TestCase {
 		$view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_READ))));
+			->will($this->returnValue($this->getFileInfo([
+				'path' => '/bar/foo',
+				'permissions' => \OCP\Constants::PERMISSION_READ,
+			])));
 
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);
