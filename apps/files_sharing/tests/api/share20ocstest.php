@@ -65,6 +65,10 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->shareManager = $this->getMockBuilder('OCP\Share\IManager')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->shareManager
+			->expects($this->any())
+			->method('shareApiEnabled')
+			->willReturn(true);
 		$this->groupManager = $this->getMock('OCP\IGroupManager');
 		$this->userManager = $this->getMock('OCP\IUserManager');
 		$this->request = $this->getMock('OCP\IRequest');
@@ -1827,7 +1831,74 @@ class Share20OCSTest extends \Test\TestCase {
 		} catch (NotFoundException $e) {
 			$this->assertTrue($exception);
 		}
+	}
+
+	/**
+	 * @return Share20OCS
+	 */
+	public function getOcsDisabledAPI() {
+		$shareManager = $this->getMockBuilder('OCP\Share\IManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$shareManager
+			->expects($this->any())
+			->method('shareApiEnabled')
+			->willReturn(false);
+
+		return new Share20OCS(
+			$shareManager,
+			$this->groupManager,
+			$this->userManager,
+			$this->request,
+			$this->rootFolder,
+			$this->urlGenerator,
+			$this->currentUser
+		);
+	}
+
+	public function testGetShareApiDisabled() {
+		$ocs = $this->getOcsDisabledAPI();
+
+		$expected = new \OC_OCS_Result(null, 404, 'Share API is disabled');
+		$result = $ocs->getShare('my:id');
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testDeleteShareApiDisabled() {
+		$ocs = $this->getOcsDisabledAPI();
+
+		$expected = new \OC_OCS_Result(null, 404, 'Share API is disabled');
+		$result = $ocs->deleteShare('my:id');
+
+		$this->assertEquals($expected, $result);
+	}
 
 
+	public function testCreateShareApiDisabled() {
+		$ocs = $this->getOcsDisabledAPI();
+
+		$expected = new \OC_OCS_Result(null, 404, 'Share API is disabled');
+		$result = $ocs->createShare();
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testGetSharesApiDisabled() {
+		$ocs = $this->getOcsDisabledAPI();
+
+		$expected = new \OC_OCS_Result();
+		$result = $ocs->getShares();
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testUpdateShareApiDisabled() {
+		$ocs = $this->getOcsDisabledAPI();
+
+		$expected = new \OC_OCS_Result(null, 404, 'Share API is disabled');
+		$result = $ocs->updateShare('my:id');
+
+		$this->assertEquals($expected, $result);
 	}
 }
