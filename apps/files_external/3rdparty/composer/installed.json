@@ -1,26 +1,27 @@
 [
     {
         "name": "icewind/streams",
-        "version": "0.2",
-        "version_normalized": "0.2.0.0",
+        "version": "0.4.0",
+        "version_normalized": "0.4.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/icewind1991/Streams.git",
-            "reference": "5aae45f2ddd3d1a6e2a496dd5d1e7857bfeb605a"
+            "reference": "9ca40274645a967ecc3408b0ca2e6255ead1d1d3"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/icewind1991/Streams/zipball/5aae45f2ddd3d1a6e2a496dd5d1e7857bfeb605a",
-            "reference": "5aae45f2ddd3d1a6e2a496dd5d1e7857bfeb605a",
+            "url": "https://api.github.com/repos/icewind1991/Streams/zipball/9ca40274645a967ecc3408b0ca2e6255ead1d1d3",
+            "reference": "9ca40274645a967ecc3408b0ca2e6255ead1d1d3",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3"
         },
         "require-dev": {
-            "satooshi/php-coveralls": "dev-master"
+            "phpunit/phpunit": "^4.8",
+            "satooshi/php-coveralls": "v1.0.0"
         },
-        "time": "2014-07-30 23:46:15",
+        "time": "2016-03-17 12:32:25",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -43,28 +44,28 @@
     },
     {
         "name": "icewind/smb",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
+        "version": "v1.0.8",
+        "version_normalized": "1.0.8.0",
         "source": {
             "type": "git",
             "url": "https://github.com/icewind1991/SMB.git",
-            "reference": "acb94a0a85290d653cd64c883175b855ada5022f"
+            "reference": "764f3fc793a904eb937d619ad097fb076ff199cd"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/icewind1991/SMB/zipball/acb94a0a85290d653cd64c883175b855ada5022f",
-            "reference": "acb94a0a85290d653cd64c883175b855ada5022f",
+            "url": "https://api.github.com/repos/icewind1991/SMB/zipball/764f3fc793a904eb937d619ad097fb076ff199cd",
+            "reference": "764f3fc793a904eb937d619ad097fb076ff199cd",
             "shasum": ""
         },
         "require": {
-            "icewind/streams": "0.2.*",
+            "icewind/streams": ">=0.2.0",
             "php": ">=5.3"
         },
         "require-dev": {
             "phpunit/phpunit": "^4.8",
             "satooshi/php-coveralls": "v1.0.0"
         },
-        "time": "2016-01-20 13:12:36",
+        "time": "2016-03-17 13:29:58",
         "type": "library",
         "installation-source": "source",
         "autoload": {
