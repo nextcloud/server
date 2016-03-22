@@ -7,4 +7,5 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'OC\\' => array($baseDir . '/lib/private'),
+    'OCP\\' => array($baseDir . '/lib/public'),
 );
