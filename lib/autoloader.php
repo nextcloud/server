@@ -164,6 +164,10 @@ class Autoloader {
 			$pathsToRequire = $this->memoryCache->get($class);
 		}
 
+		if(class_exists($class, false)) {
+			return false;
+		}
+
 		if (!is_array($pathsToRequire)) {
 			// No cache or cache miss
 			$pathsToRequire = array();
