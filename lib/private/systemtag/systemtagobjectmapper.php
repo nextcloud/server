@@ -64,6 +64,8 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public function getTagIdsForObjects($objIds, $objectType) {
 		if (!is_array($objIds)) {
 			$objIds = [$objIds];
+		} else if (empty($objIds)) {
+			return [];
 		}
 
 		$query = $this->connection->getQueryBuilder();
