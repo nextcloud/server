@@ -129,6 +129,7 @@ $template->assign('allowPublicMailNotification', $appConfig->getValue('core', 's
 $template->assign('allowMailNotification', $appConfig->getValue('core', 'shareapi_allow_mail_notification', 'no'));
 $template->assign('allowShareDialogUserEnumeration', $appConfig->getValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes'));
 $template->assign('onlyShareWithGroupMembers', \OC\Share\Share::shareWithGroupMembersOnly());
+$template->assign('allowGroupSharing', $appConfig->getValue('core', 'shareapi_allow_group_sharing', 'yes'));
 $databaseOverload = (strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false);
 $template->assign('databaseOverload', $databaseOverload);
 $template->assign('cronErrors', $appConfig->getValue('core', 'cronErrors'));

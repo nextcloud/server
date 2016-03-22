@@ -361,6 +361,11 @@ class Manager implements IManager {
 	 * @throws \Exception
 	 */
 	protected function groupCreateChecks(\OCP\Share\IShare $share) {
+		// Verify group shares are allowed
+		if (!$this->allowGroupSharing()) {
+			throw new \Exception('Group sharing is now allowed');
+		}
+
 		// Verify if the user can share with this group
 		if ($this->shareWithGroupMembersOnly()) {
 			$sharedBy = $this->userManager->get($share->getSharedBy());
@@ -1108,6 +1113,13 @@ class Manager implements IManager {
 		return $this->config->getAppValue('core', 'shareapi_only_share_with_group_members', 'no') === 'yes';
 	}
 
+	/**
+	 * Check if users can share with groups
+	 * @return bool
+	 */
+	public function allowGroupSharing() {
+		return $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
+	}
 
 	/**
 	 * Copied from \OC_Util::isSharingDisabledForUser

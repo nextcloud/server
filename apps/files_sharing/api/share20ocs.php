@@ -275,6 +275,10 @@ class Share20OCS {
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+			if (!$this->shareManager->allowGroupSharing()) {
+				return new \OC_OCS_Result(null, 404, 'group sharing is disabled by the administrator');
+			}
+
 			// Valid group is required to share
 			if ($shareWith === null || !$this->groupManager->groupExists($shareWith)) {
 				return new \OC_OCS_Result(null, 404, 'please specify a valid group');
