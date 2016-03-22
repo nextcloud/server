@@ -90,7 +90,11 @@ class OC_Log_Owncloud {
 		$time = $time->format($format);
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
-		$userObj = \OC::$server->getUserSession()->getUser();
+		if(\OC::$server->getConfig()->getSystemValue('installed', false)) {
+			$userObj = \OC::$server->getUserSession()->getUser();
+		} else {
+			$userObj = null;
+		}
 		$user = !is_null($userObj) ? $userObj->getUID() : '--';
 		$entry = compact(
 			'reqId',
