@@ -256,11 +256,11 @@ class ActivityManager implements IManager {
 		foreach ($this->getExtensions() as $c) {
 			$result = $c->getNotificationTypes($languageCode);
 			if (is_array($result)) {
-				if (class_exists('\OCA\Files\Activity') && $c instanceof \OCA\Files\Activity) {
+				if (class_exists('\OCA\Files\Activity', false) && $c instanceof \OCA\Files\Activity) {
 					$filesNotificationTypes = $result;
 					continue;
 				}
-				if (class_exists('\OCA\Files_Sharing\Activity') && $c instanceof \OCA\Files_Sharing\Activity) {
+				if (class_exists('\OCA\Files_Sharing\Activity', false) && $c instanceof \OCA\Files_Sharing\Activity) {
 					$sharingNotificationTypes = $result;
 					continue;
 				}
