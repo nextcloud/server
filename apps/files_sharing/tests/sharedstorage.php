@@ -181,7 +181,7 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$fileinfoFolder = $this->view->getFileInfo($this->folder);
 
 		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, 1);
+			self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_READ);
 		$this->assertTrue($result);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -190,14 +190,20 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 
 		// for the share root we expect:
 		// the shared permissions (1)
+		// the update permission (4), to allow rename/move
 		// the delete permission (8), to enable unshare
 		$rootInfo = \OC\Files\Filesystem::getFileInfo($this->folder);
-		$this->assertSame(9, $rootInfo->getPermissions());
+		$this->assertSame(
+			\OCP\Constants::PERMISSION_READ |
+			\OCP\Constants::PERMISSION_UPDATE |
+			\OCP\Constants::PERMISSION_DELETE,
+			$rootInfo->getPermissions()
+		);
 
 		// for the file within the shared folder we expect:
 		// the shared permissions (1)
 		$subfileInfo = \OC\Files\Filesystem::getFileInfo($this->folder . $this->filename);
-		$this->assertSame(1, $subfileInfo->getPermissions());
+		$this->assertSame(\OCP\Constants::PERMISSION_READ, $subfileInfo->getPermissions());
 
 
 		//cleanup

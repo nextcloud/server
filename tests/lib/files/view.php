@@ -11,7 +11,6 @@ use OC\Files\Cache\Watcher;
 use OC\Files\Storage\Common;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\Temporary;
-use OCP\Files\FileInfo;
 use OCP\Lock\ILockingProvider;
 
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
@@ -2121,7 +2120,7 @@ class View extends \Test\TestCase {
 		$this->assertEquals('test', $view->getFileInfo($path)->getOwner()->getUID());
 
 		$folderInfo = $view->getDirectoryContent('');
-		$folderInfo = array_values(array_filter($folderInfo, function (FileInfo $info) {
+		$folderInfo = array_values(array_filter($folderInfo, function (\OCP\Files\FileInfo $info) {
 			return $info->getName() === 'foo.txt';
 		}));
 
@@ -2131,7 +2130,7 @@ class View extends \Test\TestCase {
 		\OC\Files\Filesystem::mount($subStorage, [], '/test/files/asd');
 
 		$folderInfo = $view->getDirectoryContent('');
-		$folderInfo = array_values(array_filter($folderInfo, function (FileInfo $info) {
+		$folderInfo = array_values(array_filter($folderInfo, function (\OCP\Files\FileInfo $info) {
 			return $info->getName() === 'asd';
 		}));
 
@@ -2417,7 +2416,7 @@ class View extends \Test\TestCase {
 
 		$content = $view->getDirectoryContent('', $filter);
 
-		$files = array_map(function(FileInfo $info) {
+		$files = array_map(function(\OCP\Files\FileInfo $info) {
 			return $info->getName();
 		}, $content);
 		sort($files);
