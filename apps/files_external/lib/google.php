@@ -490,18 +490,27 @@ class Google extends \OC\Files\Storage\Common {
 			$path = self::$tempFiles[$tmpFile];
 			$parentFolder = $this->getDriveFile(dirname($path));
 			if ($parentFolder) {
-				// TODO Research resumable upload
 				$mimetype = \OC::$server->getMimeTypeDetector()->detect($tmpFile);
-				$data = file_get_contents($tmpFile);
 				$params = array(
-					'data' => $data,
 					'mimeType' => $mimetype,
 					'uploadType' => 'media'
 				);
 				$result = false;
+
+				$chunkSizeBytes = 10 * 1024 * 1024;
+
+				$useChunking = false;
+				$size = filesize($tmpFile);
+				if ($size > $chunkSizeBytes) {
+					$useChunking = true;
+				} else {
+					$params['data'] = file_get_contents($tmpFile);
+				}
+
 				if ($this->file_exists($path)) {
 					$file = $this->getDriveFile($path);
-					$result = $this->service->files->update($file->getId(), $file, $params);
+					$this->client->setDefer($useChunking);
+					$request = $this->service->files->update($file->getId(), $file, $params);
 				} else {
 					$file = new \Google_Service_Drive_DriveFile();
 					$file->setTitle(basename($path));
@@ -509,8 +518,46 @@ class Google extends \OC\Files\Storage\Common {
 					$parent = new \Google_Service_Drive_ParentReference();
 					$parent->setId($parentFolder->getId());
 					$file->setParents(array($parent));
-					$result = $this->service->files->insert($file, $params);
+					$this->client->setDefer($useChunking);
+					$request = $this->service->files->insert($file, $params);
 				}
+
+				if ($useChunking) {
+					// Create a media file upload to represent our upload process.
+					$media = new \Google_Http_MediaFileUpload(
+						$this->client,
+						$request,
+						'text/plain',
+						null,
+						true,
+						$chunkSizeBytes
+					);
+					$media->setFileSize($size);
+
+					// Upload the various chunks. $status will be false until the process is
+					// complete.
+					$status = false;
+					$handle = fopen($tmpFile, 'rb');
+					while (!$status && !feof($handle)) {
+						$chunk = fread($handle, $chunkSizeBytes);
+						$status = $media->nextChunk($chunk);
+					}
+
+					// The final value of $status will be the data from the API for the object
+					// that has been uploaded.
+					$result = false;
+					if ($status !== false) {
+						$result = $status;
+					}
+
+					fclose($handle);
+				} else {
+					$result = $request;
+				}
+
+				// Reset to the client to execute requests immediately in the future.
+				$this->client->setDefer(false);
+
 				if ($result) {
 					$this->setDriveFile($path, $result);
 				}
