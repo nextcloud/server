@@ -740,15 +740,23 @@ var OC={
 	 * if an error/auth error status was returned.
 	 */
 	_processAjaxError: function(xhr) {
+		var self = this;
 		// purposefully aborted request ?
 		// this._userIsNavigatingAway needed to distinguish ajax calls cancelled by navigating away
 		// from calls cancelled by failed cross-domain ajax due to SSO redirect
-		if (xhr.status === 0 && (xhr.statusText === 'abort' || xhr.statusText === 'timeout' || this._userIsNavigatingAway)) {
+		if (xhr.status === 0 && (xhr.statusText === 'abort' || xhr.statusText === 'timeout' || self._reloadCalled)) {
 			return;
 		}
 
 		if (_.contains([0, 302, 303, 307, 401], xhr.status)) {
-			OC.reload();
+			// sometimes "beforeunload" happens later, so need to defer the reload a bit
+			setTimeout(function() {
+				if (!self._userIsNavigatingAway && !self._reloadCalled) {
+					OC.reload();
+					// only call reload once
+					self._reloadCalled = true;
+				}
+			}, 100);
 		}
 	},
 
