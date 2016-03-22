@@ -297,6 +297,8 @@
     "Start update" : "Iniciar actualización",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Para evitar tiempos de espera en grandes instalaciones, en su lugar puede ejecutar el siguiente comando desde el directorio de instalación:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Está instancia %s está en modo mantenimiento, por lo que puede llevar un tiempo.",
-    "This page will refresh itself when the %s instance is available again." : "La página se refrescará cuando la instalación %s vuelva a estar disponible."
+    "This page will refresh itself when the %s instance is available again." : "La página se refrescará cuando la instalación %s vuelva a estar disponible.",
+    "Repair error: " : "Error que reparar:",
+    "Password can not be changed. Please contact your administrator." : "La contraseña no se puede cambiar. Por favor, contacte a su administrador."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

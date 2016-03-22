@@ -103,6 +103,13 @@ OC.L10N.register(
     "No favorites" : "Nengún favoritu",
     "Files and folders you mark as favorite will show up here" : "Los ficheros y carpetes que marque como favoritos apaecerán equí",
     "Text file" : "Ficheru de testu",
-    "New text file.txt" : "Nuevu testu ficheru.txt"
+    "New text file.txt" : "Nuevu testu ficheru.txt",
+    "Changed by %2$s" : "Modificáu por %2$s",
+    "Deleted by %2$s" : "Desaniciáu por %2$s",
+    "Restored by %2$s" : "Recuperáu por %2$s",
+    "You changed %1$s" : "Modificasti %1$s",
+    "You created %1$s" : "Creasti %1$s",
+    "You deleted %1$s" : "Desaniciasti %1$s",
+    "You restored %1$s" : "Recuperóse %1$s"
 },
 "nplurals=2; plural=(n != 1);");

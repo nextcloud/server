@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Konservi",
     "Allowed characters {count} of {max}" : "Permesataj karakteroj: {count} el {max}",
     "{count} unread comments" : "{count} nelegitaj komentoj",
-    "Comment" : "Komento"
+    "Comment" : "Komento",
+    "<strong>Comments</strong> for files" : "<strong>Komentoj</strong> por dosieroj"
 },
 "nplurals=2; plural=(n != 1);");

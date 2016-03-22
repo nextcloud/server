@@ -100,6 +100,7 @@ OC.L10N.register(
     "Add storage" : "Tambahkan penyimpanan",
     "Advanced settings" : "Pengaturan Lanjutan",
     "Delete" : "Hapus",
-    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
+    "Allow users to mount the following external storage" : "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=1; plural=0;");

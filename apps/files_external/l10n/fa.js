@@ -60,6 +60,7 @@ OC.L10N.register(
     "Available for" : "در دسترس برای",
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
-    "Delete" : "حذف"
+    "Delete" : "حذف",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=1; plural=0;");

@@ -119,6 +119,7 @@ OC.L10N.register(
     "Alternative Logins" : "Alternatīvās pieteikšanās",
     "Use the following link to reset your password: {link}" : "Izmantojiet šo saiti, lai mainītu paroli: {link}",
     "New password" : "Jauna parole",
-    "Reset password" : "Mainīt paroli"
+    "Reset password" : "Mainīt paroli",
+    "Password can not be changed. Please contact your administrator." : "Paroli, nevar nomainīt. Lūdzu kontaktēties ar savu administratoru."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

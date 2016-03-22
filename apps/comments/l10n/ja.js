@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "保存",
     "Allowed characters {count} of {max}" : "入力文字数  {count} / {max}",
     "{count} unread comments" : "未読コメント数 {count}",
-    "Comment" : "コメント"
+    "Comment" : "コメント",
+    "<strong>Comments</strong> for files" : "ファイルについての<strong>コメント</strong>"
 },
 "nplurals=1; plural=0;");

@@ -101,6 +101,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID-attribut för grupper:",
     "Username-LDAP User Mapping" : "Användarnamn-LDAP användarmappning",
     "Clear Username-LDAP User Mapping" : "Rensa användarnamn-LDAP användarmappning",
-    "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning"
+    "Clear Groupname-LDAP Group Mapping" : "Rensa gruppnamn-LDAP gruppmappning",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN för användaren som skall användas, t.ex. uid=agent, dc=example, dc=com. För anonym åtkomst, lämna DN och lösenord tomt.",
+    "{nthServer}. Server" : "{nthServer}. Server"
 },
 "nplurals=2; plural=(n != 1);");

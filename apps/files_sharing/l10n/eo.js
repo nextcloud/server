@@ -91,6 +91,16 @@ OC.L10N.register(
     "Share it:" : "Kunhavigi ĝin:",
     "Add to your website" : "Aldoni al via TTT-ejo",
     "Share with me via ownCloud" : "Kunhavigi kun mi per ownCloud",
-    "HTML Code:" : "HTML-kodo:"
+    "HTML Code:" : "HTML-kodo:",
+    "Public shared file %1$s was downloaded" : "La publika kunhavata dosiero %1$s elŝutiĝis",
+    "Public shared folder %1$s was downloaded" : "La publika kunhavata dosierujo %1$s elŝutiĝis",
+    "Removed share for %2$s" : "Foriĝis kunhavo kun %2$s",
+    "Removed share of group %2$s" : "Foriĝis kunhavo kun grupo %2$s",
+    "Shared by %2$s" : "Kunhavigata de %2$s",
+    "Shared via link by %2$s" : "Kunhavata ligile de %2$s",
+    "Shared with group %3$s by %2$s" : "Kunhavata kun grupo %3$s de %2$s",
+    "You removed the public link for %1$s" : "Vi forigis la publikan ligilon por %1$s",
+    "You removed the share of %2$s for %1$s" : "Vi malkunhavigis %1$s kun %2$s",
+    "You removed the share of group %2$s for %1$s" : "Vi malkunhavigis %1$s kun grupo %2$s"
 },
 "nplurals=2; plural=(n != 1);");

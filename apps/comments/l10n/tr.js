@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Kaydet",
     "Allowed characters {count} of {max}" : "İzin verilen karakterler {count} {max}",
     "{count} unread comments" : "{count} okunmamış yorumlar",
-    "Comment" : "Yorum"
+    "Comment" : "Yorum",
+    "<strong>Comments</strong> for files" : "Dosyalar için <strong>Yorumlar</strong>"
 },
 "nplurals=2; plural=(n > 1);");

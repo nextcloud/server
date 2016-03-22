@@ -76,6 +76,7 @@ OC.L10N.register(
     "Email Field" : "Sähköpostikenttä",
     "User Home Folder Naming Rule" : "Käyttäjän kotihakemiston nimeämissääntö",
     "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti.",
-    "Internal Username" : "Sisäinen käyttäjänimi"
+    "Internal Username" : "Sisäinen käyttäjänimi",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Asiakasohjelman DN, jolla yhdistäminen tehdään, ts. uid=agent,dc=example,dc=com. Mahdollistaaksesi anonyymin yhteyden, jätä DN ja salasana tyhjäksi."
 },
 "nplurals=2; plural=(n != 1);");

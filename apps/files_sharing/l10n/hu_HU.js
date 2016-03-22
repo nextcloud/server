@@ -82,6 +82,11 @@ OC.L10N.register(
     "Share it:" : "Ossza meg:",
     "Add to your website" : "Add hozzá saját weboldaladhoz",
     "Share with me via ownCloud" : "Ossza meg velem ownCloud-on keresztül",
-    "HTML Code:" : "HTML Code:"
+    "HTML Code:" : "HTML Code:",
+    "Public shared file %1$s was downloaded" : "Nyilvánosan megosztott fálj %1$s le lett töltve",
+    "Public shared folder %1$s was downloaded" : "Nyilvánosan megosztott könyvtár %1$s le lett töltve",
+    "Shared by %2$s" : "Megosztó: %2$s",
+    "Shared via link by %2$s" : "Megosztva hivatkozással: %2$s",
+    "Shared with group %3$s by %2$s" : "Megosztva ezzel a csoporttal: %3$s, megosztó: %2$s"
 },
 "nplurals=2; plural=(n != 1);");

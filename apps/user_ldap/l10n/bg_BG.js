@@ -103,6 +103,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID Атрибут за Групите:",
     "Username-LDAP User Mapping" : "Username-LDAP User Mapping",
     "Clear Username-LDAP User Mapping" : "Изчисти Username-LDAP User Mapping",
-    "Clear Groupname-LDAP Group Mapping" : "Изчисти Groupname-LDAP Group Mapping"
+    "Clear Groupname-LDAP Group Mapping" : "Изчисти Groupname-LDAP Group Mapping",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "DN на потребителят, с който ще стане свързването, пр. uid=agent,dc=example,dc=com. За анонимен достъп, остави DN и Парола празни.",
+    "{nthServer}. Server" : "{nthServer}. Сървър"
 },
 "nplurals=2; plural=(n != 1);");

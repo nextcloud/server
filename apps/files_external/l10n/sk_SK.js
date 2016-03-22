@@ -99,6 +99,7 @@ OC.L10N.register(
     "Add storage" : "Pridať úložisko",
     "Advanced settings" : "Rozšírené nastavenia",
     "Delete" : "Zmazať",
-    "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská"
+    "Allow users to mount the following external storage" : "Povoliť používateľom pripojiť tieto externé úložiská",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

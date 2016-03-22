@@ -32,6 +32,15 @@
     "Enable password recovery:" : "Włącz hasło odzyskiwania:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła",
     "Enabled" : "Włączone",
-    "Disabled" : "Wyłączone"
+    "Disabled" : "Wyłączone",
+    "Could not enable the recovery key, please try again or contact your administrator" : "Nie można włączyć klucza odzyskiwania. Proszę spróbować ponownie lub skontakuj sie z administratorem",
+    "Encryption App is enabled and ready" : "Aplikacja szyfrowania jest włączona i gotowa do pracy",
+    "Missing parameters" : "Brakujące dane",
+    "New recovery key password" : "Nowe hasło klucza odzyskiwania",
+    "Old recovery key password" : "Stare hasło klucza odzyskiwania",
+    "Recovery Key disabled" : "Klucz odzyskiwania wyłączony",
+    "Recovery Key enabled" : "Klucz odzyskiwania włączony",
+    "Repeat new recovery key password" : "Powtórz nowe hasło klucza odzyskiwania",
+    "Repeat recovery key password" : "Powtórz hasło klucza odzyskiwania"
 },"pluralForm" :"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

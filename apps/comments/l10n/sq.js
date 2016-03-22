@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Ruaje",
     "Allowed characters {count} of {max}" : "Shenja të lejuara {count} nga {max}",
     "{count} unread comments" : "{count} komente të palexuar",
-    "Comment" : "Koment"
+    "Comment" : "Koment",
+    "<strong>Comments</strong> for files" : "<strong>Komente</strong> për kartela"
 },
 "nplurals=2; plural=(n != 1);");

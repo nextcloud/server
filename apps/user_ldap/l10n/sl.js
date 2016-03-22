@@ -117,6 +117,10 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atribut UUID za skupine:",
     "Username-LDAP User Mapping" : "Uporabniška preslikava uporabniškega imena na LDAP",
     "Clear Username-LDAP User Mapping" : "Izbriši preslikavo uporabniškega imena na LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Izbriši preslikavo skupine na LDAP",
+    "Detect Port" : "Zaznaj vrata",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Enolično ime uporabnikovega odjemalca, s katerim naj se opravi vezava, npr. uid=agent,dc=example,dc=com. Za brezimni dostop sta polji prikaznega imena in gesla prazni.",
+    "{nthServer}. Server" : "{nthServer}. strežnik",
+    "Test Loginname" : "Preizkusi prijavno ime"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

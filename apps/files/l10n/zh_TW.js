@@ -116,6 +116,13 @@ OC.L10N.register(
     "No favorites" : "沒有最愛",
     "Files and folders you mark as favorite will show up here" : "您標記為最愛的檔案與資料夾將會顯示在這裡",
     "Text file" : "文字檔",
-    "New text file.txt" : "新文字檔.txt"
+    "New text file.txt" : "新文字檔.txt",
+    "Changed by %2$s" : "由 %2$s 改動",
+    "Deleted by %2$s" : "由 %2$s 刪除",
+    "Restored by %2$s" : "由 %2$s 還原",
+    "You changed %1$s" : "您變更了 %1$s",
+    "You created %1$s" : "您建立了 %1$s",
+    "You deleted %1$s" : "您刪除了 %1$s",
+    "You restored %1$s" : "您還原了 %1$s"
 },
 "nplurals=1; plural=0;");

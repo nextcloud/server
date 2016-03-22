@@ -79,6 +79,11 @@
     "Share it:" : "Bagikan:",
     "Add to your website" : "Tambahkan pada situs web Anda",
     "Share with me via ownCloud" : "Dibagikan pada saya via ownCloud",
-    "HTML Code:" : "Kode HTML:"
+    "HTML Code:" : "Kode HTML:",
+    "Public shared file %1$s was downloaded" : "Berkas berbagi publik %1$s telah diunduh",
+    "Public shared folder %1$s was downloaded" : "Folder berbagi publik %1$s telah diunduh",
+    "Shared by %2$s" : "Dibagikan oleh %2$s",
+    "Shared via link by %2$s" : "Dibagikan via tautan oleh %2$s",
+    "Shared with group %3$s by %2$s" : "Dibagikan kepada grup %3$s oleh %2$s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -116,6 +116,13 @@ OC.L10N.register(
     "No favorites" : "无收藏",
     "Files and folders you mark as favorite will show up here" : "收藏的文件和文件夹会在这里显示",
     "Text file" : "文本文件",
-    "New text file.txt" : "创建文本文件 .txt"
+    "New text file.txt" : "创建文本文件 .txt",
+    "Changed by %2$s" : "被 %2$s 更改",
+    "Deleted by %2$s" : "被 %2$s 删除",
+    "Restored by %2$s" : "被 %2$s 恢复",
+    "You changed %1$s" : "您修改了%1$s",
+    "You created %1$s" : "您创建了%1$s",
+    "You deleted %1$s" : "您删除了 %1$s",
+    "You restored %1$s" : "你恢复了 %1$s"
 },
 "nplurals=1; plural=0;");

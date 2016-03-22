@@ -117,6 +117,13 @@ OC.L10N.register(
     "No favorites" : "אין מועדפים",
     "Files and folders you mark as favorite will show up here" : "קבצים ותיקיות שסומנו על ידך כמועדפים יוצגו כאן",
     "Text file" : "קובץ טקסט",
-    "New text file.txt" : "קובץ טקסט חדש.txt"
+    "New text file.txt" : "קובץ טקסט חדש.txt",
+    "Changed by %2$s" : "שונו על ידי %2$s",
+    "Deleted by %2$s" : "נמחקו על ידי %2$s",
+    "Restored by %2$s" : "שוחזרו על ידי %2$s",
+    "You changed %1$s" : "שינית %1$s",
+    "You created %1$s" : "יצרת %1$s",
+    "You deleted %1$s" : "מחקת %1$s",
+    "You restored %1$s" : "שחזרת %1$s"
 },
 "nplurals=2; plural=(n != 1);");

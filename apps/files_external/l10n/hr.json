@@ -51,6 +51,9 @@
     "Available for" : "Dostupno za",
     "Add storage" : "Dodajte spremište",
     "Delete" : "Izbrišite",
-    "Allow users to mount the following external storage" : "Dopustite korisnicima postavljanje sljedećeg vanjskog spremišta"
+    "Allow users to mount the following external storage" : "Dopustite korisnicima postavljanje sljedećeg vanjskog spremišta",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> Podrška FTP u PHP nije omogućena ili nije instalirana. Postavljanje%s nije moguće. Molimo zamolite svotg administratora sustava da je instalira.",
+    "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> Podrška cURL u PHP nije omogućena ili nije instalirana. Postavljanje%s nije moguće. Molimo zamolite svog administratora sustava da je instalira.",
+    "SMB / CIFS using OC login" : "SMB / CIFS uz prijavu putem programa OC"
 },"pluralForm" :"nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;"
 }

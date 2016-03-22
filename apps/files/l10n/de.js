@@ -117,6 +117,14 @@ OC.L10N.register(
     "No favorites" : "Keine Favoriten",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Du als Favoriten markierst, werden hier erscheinen",
     "Text file" : "Textdatei",
-    "New text file.txt" : "Neue Textdatei.txt"
+    "New text file.txt" : "Neue Textdatei.txt",
+    "Changed by %2$s" : "Geändert von %2$s",
+    "Deleted by %2$s" : "Gelöscht von %2$s",
+    "Restored by %2$s" : "Wiederhergestellt von %2$s",
+    "Unable to set upload directory." : "Das Upload-Verzeichnis konnte nicht gesetzt werden.",
+    "You changed %1$s" : "Du hast %1$s geändert",
+    "You created %1$s" : "Du hast %1$s erstellt",
+    "You deleted %1$s" : "Du hast %1$s gelöscht",
+    "You restored %1$s" : "Du hast %1$s wiederhergestellt"
 },
 "nplurals=2; plural=(n != 1);");

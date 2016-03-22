@@ -130,6 +130,8 @@ OC.L10N.register(
     "Internal Username Attribute:" : "內部使用者名稱屬性:",
     "Override UUID detection" : "偵測覆寫UUID",
     "UUID Attribute for Users:" : "使用者的UUID值:",
-    "UUID Attribute for Groups:" : "群組的UUID值:"
+    "UUID Attribute for Groups:" : "群組的UUID值:",
+    "Anonymous bind is not allowed. Please provide a User DN and Password." : "匿名是不允許的，請提供使用者DN和密碼",
+    "{nthServer}. Server" : "{nthServer}. 伺服器"
 },
 "nplurals=1; plural=0;");

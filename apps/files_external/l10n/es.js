@@ -120,6 +120,8 @@ OC.L10N.register(
     "Advanced settings" : "Configuración avanzada",
     "Delete" : "Eliminar",
     "Allow users to mount external storage" : "Permitir a los usuarios montar un almacenamiento externo",
-    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo"
+    "Allow users to mount the following external storage" : "Permitir a los usuarios montar el siguiente almacenamiento externo",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Algunos de los puntos de montaje externos configurados no están conectados. Por favor, haga clic en la fila roja (s) para obtener más información"
 },
 "nplurals=2; plural=(n != 1);");

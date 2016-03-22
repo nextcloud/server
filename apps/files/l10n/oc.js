@@ -116,6 +116,13 @@ OC.L10N.register(
     "No favorites" : "Pas cap de favorit",
     "Files and folders you mark as favorite will show up here" : "Los fichièrs e dorsièrs aponduts a vòstres favorits apareisseràn aicí",
     "Text file" : "Fichièr tèxte",
-    "New text file.txt" : "Novèl fichièr tèxte .txt"
+    "New text file.txt" : "Novèl fichièr tèxte .txt",
+    "Changed by %2$s" : "Modificat per %2$s",
+    "Deleted by %2$s" : "Suprimit per %2$s",
+    "Restored by %2$s" : "Restablit per %2$s",
+    "You changed %1$s" : "Avètz modificat %1$s",
+    "You created %1$s" : "Avètz creat %1$s",
+    "You deleted %1$s" : "Avètz suprimit %1$s",
+    "You restored %1$s" : "Avètz restablit %1$s"
 },
 "nplurals=2; plural=(n > 1);");

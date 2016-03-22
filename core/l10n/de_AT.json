@@ -56,6 +56,9 @@
     "Add" : "Hinzufügen",
     "Personal" : "Persönlich",
     "Help" : "Hilfe",
-    "Username" : "Benutzername"
+    "Username" : "Benutzername",
+    "Fri." : "Fr",
+    "Mon." : "Mo",
+    "Sat." : "Sa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

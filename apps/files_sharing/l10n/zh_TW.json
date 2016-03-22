@@ -80,6 +80,11 @@
     "Share it:" : "分享它：",
     "Add to your website" : "新增至您的網站",
     "Share with me via ownCloud" : "透過 ownCloud 與我分享",
-    "HTML Code:" : "HTML Code:"
+    "HTML Code:" : "HTML Code:",
+    "Public shared file %1$s was downloaded" : "共享檔案 %1$s 已被下載",
+    "Public shared folder %1$s was downloaded" : "共享資料夾 %1$s 已被下載",
+    "Shared by %2$s" : "由 %2$s 分享",
+    "Shared via link by %2$s" : "%2$s 透過連結分享",
+    "Shared with group %3$s by %2$s" : "透過 %2$s 與群組 %3$s 分享"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

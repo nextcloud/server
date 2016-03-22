@@ -12,6 +12,7 @@ OC.L10N.register(
     "Edit comment" : "แก้ไขความคิดเห็น",
     "[Deleted user]" : "[ผู้ใช้ถูกลบไปแล้ว]",
     "Save" : "บันทึก",
-    "Comment" : "แสดงความคิดเห็น"
+    "Comment" : "แสดงความคิดเห็น",
+    "<strong>Comments</strong> for files" : "<strong>แสดงความคิดเห็น</strong> สำหรับไฟล์"
 },
 "nplurals=1; plural=0;");

@@ -37,6 +37,10 @@ OC.L10N.register(
     "Save" : "Salveguardar",
     "Settings" : "Configurationes",
     "Upload too large" : "Incargamento troppo longe",
-    "Text file" : "File de texto"
+    "Text file" : "File de texto",
+    "You changed %1$s" : "Tu modificava %1$s",
+    "You created %1$s" : "Tu creava %1$s",
+    "You deleted %1$s" : "Tu  deleva %1$s",
+    "You restored %1$s" : "Tu restabiliva %1$s"
 },
 "nplurals=2; plural=(n != 1);");

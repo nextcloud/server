@@ -242,6 +242,9 @@
     "Start update" : "Starta uppdateringen",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "För att undvika timeout vid större installationer kan du istället köra följande kommando från din installationskatalog:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Denna %s instans befinner sig för närvarande i underhållsläge, vilket kan ta ett tag.",
-    "This page will refresh itself when the %s instance is available again." : "Denna sida uppdaterar sig själv när %s instansen är tillgänglig igen."
+    "This page will refresh itself when the %s instance is available again." : "Denna sida uppdaterar sig själv när %s instansen är tillgänglig igen.",
+    "Error loading file picker template: {error}" : "Fel uppstod för filväljarmall: {error}",
+    "Following apps have been disabled: %s" : "Följande appar har inaktiverats: %s",
+    "Password can not be changed. Please contact your administrator." : "Lösenordet kan inte ändras. Vänligen kontakta din administratör."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

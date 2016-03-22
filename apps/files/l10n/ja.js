@@ -117,6 +117,13 @@ OC.L10N.register(
     "No favorites" : "お気に入りなし",
     "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。",
     "Text file" : "テキストファイル",
-    "New text file.txt" : "新規のテキストファイル作成"
+    "New text file.txt" : "新規のテキストファイル作成",
+    "Changed by %2$s" : "%2$s により更新",
+    "Deleted by %2$s" : "%2$s により削除",
+    "Restored by %2$s" : "%2$s により復元",
+    "You changed %1$s" : "あなたは %1$s を変更しました",
+    "You created %1$s" : "あなたは %1$s を作成しました",
+    "You deleted %1$s" : "あなたは %1$s を削除しました",
+    "You restored %1$s" : "%1$s を復元しました"
 },
 "nplurals=1; plural=0;");

@@ -33,6 +33,10 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Cancel upload" : "បោះបង់​ការ​ផ្ទុកឡើង",
     "Upload too large" : "ផ្ទុក​ឡើង​ធំ​ពេក",
-    "Text file" : "ឯកសារ​អក្សរ"
+    "Text file" : "ឯកសារ​អក្សរ",
+    "Upload cancelled." : "បាន​បោះបង់​ការ​ផ្ទុក​ឡើង។",
+    "You changed %1$s" : "អ្នក​បាន​ផ្លាស់​ប្ដូរ %1$s",
+    "You created %1$s" : "អ្នក​បាន​បង្កើត %1$s",
+    "You deleted %1$s" : "អ្នក​បាន​លុប %1$s"
 },
 "nplurals=1; plural=0;");

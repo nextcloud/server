@@ -29,6 +29,9 @@
     "You deleted %1$s" : "আপনি %1$s কে মুছেছেন",
     "%2$s deleted %1$s" : "%2$s মুছেছে %1$s কে",
     "Save" : "সেভ",
-    "Settings" : "সেটিংস"
+    "Settings" : "সেটিংস",
+    "You changed %1$s" : "আপনি %1$s পরিবর্তন করেছেন ",
+    "You created %1$s" : "আপনি %1$s তৈরি করেছেন ",
+    "You deleted %1$s" : "আপনি %1$s কে মুছেছেন"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

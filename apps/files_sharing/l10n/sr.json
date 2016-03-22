@@ -59,6 +59,10 @@
     "Open documentation" : "Отвори документацију",
     "Allow users on this server to send shares to other servers" : "Дозвољава корисницима овог сервера да шаљу дељења на друге сервере",
     "Allow users on this server to receive shares from other servers" : "Дозвољава корисницима овог сервера да примају дељења са других сервера",
-    "Federated Cloud" : "Здружени облак"
+    "Federated Cloud" : "Здружени облак",
+    "Decline" : "Одбиј",
+    "Federated sharing" : "Здружено дељење",
+    "Public shared file %1$s was downloaded" : "Јавно дељени фајл %1$s је преузет",
+    "Public shared folder %1$s was downloaded" : "Јавно дељена фасцикла %1$s је преузета"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

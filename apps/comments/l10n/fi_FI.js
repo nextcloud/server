@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Tallenna",
     "Allowed characters {count} of {max}" : "Sallittujen merkkien määrä {count}/{max}",
     "{count} unread comments" : "{count} lukematonta kommenttia",
-    "Comment" : "Kommentti"
+    "Comment" : "Kommentti",
+    "<strong>Comments</strong> for files" : "<strong>Kommentit</strong> tiedostoille"
 },
 "nplurals=2; plural=(n != 1);");

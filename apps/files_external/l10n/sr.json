@@ -67,6 +67,13 @@
     "Add storage" : "Додај складиште",
     "Advanced settings" : "Напредне поставке",
     "Delete" : "Обриши",
-    "Allow users to mount the following external storage" : "Дозволи корисницима да монтирају следећа спољашња складишта"
+    "Allow users to mount the following external storage" : "Дозволи корисницима да монтирају следећа спољашња складишта",
+    "Authentication" : "Аутентификација",
+    "Domain" : "Домен",
+    "Enable sharing" : "Укључи дељење",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Напомена:</b> ФТП подршка за ПХП није омогућена или инсталирана. Монтирање %s није могуће. Затражите од вашег администратора система да је инсталира.",
+    "Root" : "Корен",
+    "Service name" : "Назив услуге",
+    "SMB / CIFS" : "ЦМБ/ЦИФС"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

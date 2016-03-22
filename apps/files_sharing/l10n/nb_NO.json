@@ -99,6 +99,19 @@
     "Share it:" : "Del den:",
     "Add to your website" : "Legg på websiden din",
     "Share with me via ownCloud" : "Del med meg via ownCloud",
-    "HTML Code:" : "HTML-kode:"
+    "HTML Code:" : "HTML-kode:",
+    "Public link of %2$s expired" : "Offentlig lenke til %2$s er utløpt",
+    "Public shared file %1$s was downloaded" : "Offentlig delt fil %1$s ble lastet ned",
+    "Public shared folder %1$s was downloaded" : "Offentlig delt mappe %1$s ble lastet ned",
+    "Removed share for %2$s" : "Fjernet deling for %2$s",
+    "Removed share of group %2$s" : "Fjernet deling av gruppe %2$s",
+    "Shared by %2$s" : "Delt av %2$s",
+    "Shared via link by %2$s" : "Delt via lenke av %2$s",
+    "Shared with group %3$s by %2$s" : "Delt med gruppe %3$s av %2$s",
+    "The public link of %2$s for %1$s expired" : "Den offentlige lenken til %2$s for %1$s er utløpt",
+    "You removed the public link for %1$s" : "Du fjernet den offentlige lenken for %1$s",
+    "You removed the share of %2$s for %1$s" : "Du fjernet deling av %2$s for %1$s",
+    "You removed the share of group %2$s for %1$s" : "Du fjernet deling av gruppe %2$s for %1$s",
+    "Your public link for %1$s expired" : "Din offentlige lenke for %1$s er utløpt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

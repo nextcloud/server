@@ -90,6 +90,10 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",
     "No favorites" : "Nav favorītu",
     "Files and folders you mark as favorite will show up here" : "Faili un mapes, ko atzīmēsit kā favorītus, tiks rādīti šeit",
-    "Text file" : "Teksta datne"
+    "Text file" : "Teksta datne",
+    "You changed %1$s" : "Tu izmainīji %1$s",
+    "You created %1$s" : "Tu izveidoji %1$s",
+    "You deleted %1$s" : "Tu izdzēsi %1$s",
+    "You restored %1$s" : "Tu atjaunoji %1$s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -81,6 +81,11 @@ OC.L10N.register(
     "Share it:" : "Del:",
     "Add to your website" : "Tilføj til dit websted",
     "Share with me via ownCloud" : "Del med mig gennem ownCloud",
-    "HTML Code:" : "HTMLkode:"
+    "HTML Code:" : "HTMLkode:",
+    "Public shared file %1$s was downloaded" : "Den offentligt delte fil %1$s blev downloadet",
+    "Public shared folder %1$s was downloaded" : "Den offentligt delte mappe %1$s blev downloadet",
+    "Shared by %2$s" : "Delt af %2$s",
+    "Shared via link by %2$s" : "Delt via link af %2$s",
+    "Shared with group %3$s by %2$s" : "Delt med gruppen %3$s af %2$s"
 },
 "nplurals=2; plural=(n != 1);");

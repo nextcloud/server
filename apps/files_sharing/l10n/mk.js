@@ -58,6 +58,9 @@ OC.L10N.register(
     "Share it:" : "Сподели го:",
     "Add to your website" : "Додади на твојот веб сајт",
     "Share with me via ownCloud" : "Сподели со мене преку ownCloud",
-    "HTML Code:" : "HTML код:"
+    "HTML Code:" : "HTML код:",
+    "Shared by %2$s" : "Споделено од %2$s",
+    "Shared via link by %2$s" : "Споделено со врска/линк од %2$s",
+    "Shared with group %3$s by %2$s" : "Споделено со група %3$s од %2$s"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

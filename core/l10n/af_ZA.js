@@ -108,6 +108,7 @@ OC.L10N.register(
     "Alternative Logins" : "Alternatiewe aantekeninge",
     "Use the following link to reset your password: {link}" : "Gebruik die volgende skakel om jou wagwoord te herstel: {link}",
     "New password" : "Nuwe wagwoord",
-    "Reset password" : "Herstel wagwoord"
+    "Reset password" : "Herstel wagwoord",
+    "Password can not be changed. Please contact your administrator." : "Wagwoord kan nie verander word nie. Kontak asseblief jou stelsel administrateur."
 },
 "nplurals=2; plural=(n != 1);");

@@ -116,6 +116,13 @@ OC.L10N.register(
     "No favorites" : "Nėra mėgstamiausių",
     "Files and folders you mark as favorite will show up here" : "Failai ir aplankai, kuriuos pažymite mėgstamais, atsiras čia",
     "Text file" : "Teksto failas",
-    "New text file.txt" : "Naujas tekstas file.txt"
+    "New text file.txt" : "Naujas tekstas file.txt",
+    "Changed by %2$s" : "Pakeitė %2$s",
+    "Deleted by %2$s" : "Ištrynė %2$s",
+    "Restored by %2$s" : "Atkūrė %2$s",
+    "You changed %1$s" : "Jūs pakeitėte %1$s",
+    "You created %1$s" : "Jūs sukūrėte %1$s",
+    "You deleted %1$s" : "Jūs ištrynėte %1$s",
+    "You restored %1$s" : "Jūs atkūrėte %1$s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);");

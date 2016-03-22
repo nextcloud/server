@@ -99,6 +99,19 @@
     "Share it:" : "Sdílet:",
     "Add to your website" : "Přidat na svou webovou stránku",
     "Share with me via ownCloud" : "Sdíleno se mnou přes ownCloud",
-    "HTML Code:" : "HTML kód:"
+    "HTML Code:" : "HTML kód:",
+    "Public link of %2$s expired" : "Veřejný odkaz %2$s vypršel",
+    "Public shared file %1$s was downloaded" : "Byl stažen veřejně sdílený soubor %1$s ",
+    "Public shared folder %1$s was downloaded" : "Byl stažen veřejně sdílený adresář %1$s ",
+    "Removed share for %2$s" : "Odstranil(a) sdílení pro %2$s",
+    "Removed share of group %2$s" : "Odstranil(a) sdílení skupině %2$s",
+    "Shared by %2$s" : "%2$s sdílel(a)",
+    "Shared via link by %2$s" : "%2$s sdílel(a) jako odkaz",
+    "Shared with group %3$s by %2$s" : "%2$s sdílí se skupinou %3$s",
+    "The public link of %2$s for %1$s expired" : "Veřejný odkaz na %2$s pro %1$s vypršel",
+    "You removed the public link for %1$s" : "Odstranil(a) jsi veřejný odkaz na %1$s",
+    "You removed the share of %2$s for %1$s" : "Odstranil(a) jsi sdílení %2$s pro %1$s",
+    "You removed the share of group %2$s for %1$s" : "Odstranil(a) jsi sdílení skupině %2$s pro %1$s",
+    "Your public link for %1$s expired" : "Veřejný odkaz pro %1$s vypršel"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

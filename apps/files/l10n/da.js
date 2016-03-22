@@ -103,6 +103,13 @@ OC.L10N.register(
     "No favorites" : "Ingen foretrukne",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du har markeret som foretrukne, vil blive vist her",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekst file.txt"
+    "New text file.txt" : "Ny tekst file.txt",
+    "Changed by %2$s" : "Ændret af %2$s",
+    "Deleted by %2$s" : "Slettet af %2$s",
+    "Restored by %2$s" : "Gendannet af %2$s",
+    "You changed %1$s" : "Du ændrede %1$s",
+    "You created %1$s" : "Du oprettede %1$s ",
+    "You deleted %1$s" : "Du slettede %1$s",
+    "You restored %1$s" : "Du gendannede %1$s"
 },
 "nplurals=2; plural=(n != 1);");

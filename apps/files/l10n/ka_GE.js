@@ -45,6 +45,7 @@ OC.L10N.register(
     "Cancel upload" : "ატვირთვის გაუქმება",
     "Upload too large" : "ასატვირთი ფაილი ძალიან დიდია",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",
-    "Text file" : "ტექსტური ფაილი"
+    "Text file" : "ტექსტური ფაილი",
+    "Upload cancelled." : "ატვირთვა შეჩერებულ იქნა."
 },
 "nplurals=1; plural=0;");

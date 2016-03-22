@@ -87,6 +87,13 @@
     "Share it:" : "Jaa se:",
     "Add to your website" : "Lisää verkkosivuillesi",
     "Share with me via ownCloud" : "Jaa kanssani ownCloudin kautta",
-    "HTML Code:" : "HTML-koodi:"
+    "HTML Code:" : "HTML-koodi:",
+    "Public link of %2$s expired" : "Kohteen %2$s julkinen linkki vanhentui",
+    "Public shared file %1$s was downloaded" : "Julkisesti jaettu tiedosto %1$s ladattiin",
+    "Public shared folder %1$s was downloaded" : "Julkisesti jaettu kansio %1$s ladattiin",
+    "Shared by %2$s" : "Jakanut %2$s",
+    "Shared via link by %2$s" : "Jaettu linkin kautta käyttäjän %2$s toimesta",
+    "Shared with group %3$s by %2$s" : "Jaettu ryhmän %3$s kanssa käyttäjän %2$s toimesta",
+    "Your public link for %1$s expired" : "Julkinen linkkisi kohteelle %1$s vanhentui"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

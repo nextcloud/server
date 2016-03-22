@@ -254,6 +254,8 @@
     "Start update" : "Inicia l'actualització",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Per evitar que s'esgoti el temps d'espera en instalacions grans, pots en el seu lloc fer córrer la següent comanda en el directori d'instalació. ",
     "This %s instance is currently in maintenance mode, which may take a while." : "Aquesta instància %s està actualment en manteniment i podria trigar una estona.",
-    "This page will refresh itself when the %s instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància %s estigui disponible de nou."
+    "This page will refresh itself when the %s instance is available again." : "Aquesta pàgina s'actualitzarà automàticament quan la instància %s estigui disponible de nou.",
+    "Repair error: " : "Error de reparació:",
+    "Password can not be changed. Please contact your administrator." : "La contrasenya no es pot canviar. Contacteu amb l'administrador."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

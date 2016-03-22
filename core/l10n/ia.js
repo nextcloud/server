@@ -155,6 +155,7 @@ OC.L10N.register(
     "New Password" : "Nove contrasigno",
     "Reset password" : "Reinitialisar contrasigno",
     "Thank you for your patience." : "Gratias pro tu patientia.",
-    "Start update" : "Initia actualisation"
+    "Start update" : "Initia actualisation",
+    "Password can not be changed. Please contact your administrator." : "Contrasigno non pote esser modificate. Pro favor continge tu administrator."
 },
 "nplurals=2; plural=(n != 1);");

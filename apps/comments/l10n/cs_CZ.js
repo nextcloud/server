@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Uložit",
     "Allowed characters {count} of {max}" : "Povolených znaků {count} z {max}",
     "{count} unread comments" : "{count} nepřečtených komentářů",
-    "Comment" : "Komentář"
+    "Comment" : "Komentář",
+    "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> souborů"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

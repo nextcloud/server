@@ -102,6 +102,7 @@ OC.L10N.register(
     "Advanced settings" : "進階設定",
     "Delete" : "刪除",
     "Allow users to mount external storage" : "允許使用者能自行掛載外部儲存",
-    "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存"
+    "Allow users to mount the following external storage" : "允許使用者自行掛載以下的外部儲存",
+    "SMB / CIFS" : "伺服器訊息區塊-SMB/網路文件共享系統 (CIFS)"
 },
 "nplurals=1; plural=0;");

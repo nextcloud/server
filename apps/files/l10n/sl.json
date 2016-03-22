@@ -115,6 +115,13 @@
     "No favorites" : "Ni priljubljenih",
     "Files and folders you mark as favorite will show up here" : "Datoteke ali mape, ki so označene kot priljubljene, bodo izpisane tukaj.",
     "Text file" : "Besedilna datoteka",
-    "New text file.txt" : "Nova datoteka.txt"
+    "New text file.txt" : "Nova datoteka.txt",
+    "Changed by %2$s" : "Zadnja sprememba: %2$s",
+    "Deleted by %2$s" : "Izbrisano: %2$s",
+    "Restored by %2$s" : "Obnovljeno: %2$s",
+    "You changed %1$s" : "Spremenili ste %1$s",
+    "You created %1$s" : "Ustvarili ste %1$s",
+    "You deleted %1$s" : "Izbrisali ste %1$s",
+    "You restored %1$s" : "Obnovljen je predmet %1$s"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

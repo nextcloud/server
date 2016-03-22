@@ -81,6 +81,11 @@ OC.L10N.register(
     "Share it:" : "Μοιραστείτε το:",
     "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
     "Share with me via ownCloud" : "Διαμοιρασμός με εμένα μέσω του ",
-    "HTML Code:" : "Κώδικας HTML:"
+    "HTML Code:" : "Κώδικας HTML:",
+    "Public shared file %1$s was downloaded" : "Το κοινόχρηστο διαμοιρασμένο αρχείο %1$s ελήφθη",
+    "Public shared folder %1$s was downloaded" : "Ο κοινόχρηστος διαμοιρασμένος φάκελος %1$s ελήφθη",
+    "Shared by %2$s" : "Διαμοιράστηκε από %2$s",
+    "Shared via link by %2$s" : "Διαμοιράστηκε μέσω συνδέσμου από %2$s",
+    "Shared with group %3$s by %2$s" : "Διαμοιράστηκε με την ομάδα %3$s από %2$s"
 },
 "nplurals=2; plural=(n != 1);");

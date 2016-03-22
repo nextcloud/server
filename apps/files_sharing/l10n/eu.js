@@ -52,6 +52,8 @@ OC.L10N.register(
     "Direct link" : "Lotura zuzena",
     "Federated Cloud Sharing" : "Federatutako Hodei Partekatzea",
     "Allow users on this server to send shares to other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzariekin partekatzera",
-    "Allow users on this server to receive shares from other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzarietatik partekatutakoak jasotzen"
+    "Allow users on this server to receive shares from other servers" : "Baimendu zerbitzari honetako erabiltzaileak beste zerbitzarietatik partekatutakoak jasotzen",
+    "Public shared file %1$s was downloaded" : "Publikoki partekatutako %1$s fitxategia deskargatu da",
+    "Public shared folder %1$s was downloaded" : "Publikoki partekatutako %1$s karpeta deskargatu da"
 },
 "nplurals=2; plural=(n != 1);");

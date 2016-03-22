@@ -216,6 +216,15 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Proszę się upewnić, że baza danych, folder konfiguracji oraz folder danych zostały zarchiwizowane przed przejściem dalej.",
     "Start update" : "Rozpocznij aktualizację",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Aby uniknąć timeout-ów przy większych instalacjach, możesz zamiast tego uruchomić następującą komendę w katalogu Twojej instalacji:",
-    "This page will refresh itself when the %s instance is available again." : "Strona odświeży się gdy instancja %s będzie ponownie dostępna."
+    "This page will refresh itself when the %s instance is available again." : "Strona odświeży się gdy instancja %s będzie ponownie dostępna.",
+    "Error loading file picker template: {error}" : "Błąd podczas ładowania pliku wybranego szablonu: {error}",
+    "Following apps have been disabled: %s" : "Poniższe aplikacje zostały wyłączone: %s",
+    "Fr" : "Pt",
+    "Password can not be changed. Please contact your administrator." : "Hasło nie może zostać zmienione. Skontaktuj się z administratorem.",
+    "Sa" : "So",
+    "Su" : "Nd",
+    "Th" : "Czw",
+    "Tu" : "Wt",
+    "We" : "Śr"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

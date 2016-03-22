@@ -33,6 +33,9 @@ OC.L10N.register(
     "Cancel upload" : "Batal muat naik",
     "Upload too large" : "Muatnaik terlalu besar",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fail yang cuba dimuat naik melebihi saiz maksimum fail upload server",
-    "Text file" : "Fail teks"
+    "Text file" : "Fail teks",
+    "Upload cancelled." : "Muatnaik dibatalkan.",
+    "You changed %1$s" : "Anda menukar %1$s",
+    "You created %1$s" : "Anda telah membina %1$s"
 },
 "nplurals=1; plural=0;");

@@ -1,4 +1,5 @@
 { "translations": {
-    "Updater" : "Eguneratzailea"
+    "Updater" : "Eguneratzailea",
+    "A new version is available: %s" : "Bertsio berri bat eskuragarri dago: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

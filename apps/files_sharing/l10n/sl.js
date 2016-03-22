@@ -71,6 +71,8 @@ OC.L10N.register(
     "Federated Cloud" : "Oblak s podporo prenosa dovoljenj",
     "Your Federated Cloud ID:" : "Vaš ID za prenos dovoljenj:",
     "Add to your website" : "Dodaj na spletišče",
-    "HTML Code:" : "Koda HTML:"
+    "HTML Code:" : "Koda HTML:",
+    "Public shared file %1$s was downloaded" : "Datoteka v souporabi %1$s je bila prejeta",
+    "Public shared folder %1$s was downloaded" : "Mapa v souporabi %1$s je bila prejeta"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -101,6 +101,19 @@ OC.L10N.register(
     "Share it:" : "Поделись этим:",
     "Add to your website" : "Добавить к себе на сайт",
     "Share with me via ownCloud" : "Поделитесь мной через ownCloud",
-    "HTML Code:" : "HTML код:"
+    "HTML Code:" : "HTML код:",
+    "Public link of %2$s expired" : "Срок действия публичной ссылки к %2$s закончился",
+    "Public shared file %1$s was downloaded" : "Общий файл %1$s, был скачан",
+    "Public shared folder %1$s was downloaded" : "Общий каталог %1$s был скачан",
+    "Removed share for %2$s" : "Удалён общий доступ к %2$s",
+    "Removed share of group %2$s" : "Удалён общий доступ к группе %2$s",
+    "Shared by %2$s" : "Поделился %2$s",
+    "Shared via link by %2$s" : "Поделился ссылкой %2$s",
+    "Shared with group %3$s by %2$s" : "Поделился %2$s с группой %3$s",
+    "The public link of %2$s for %1$s expired" : "Срок действия публичной ссылки к %2$s для %1$s закончился",
+    "You removed the public link for %1$s" : "Вы удалили публичную ссылку к %1$s",
+    "You removed the share of %2$s for %1$s" : "Вы удалили общий доступ к %2$s для %1$s",
+    "You removed the share of group %2$s for %1$s" : "Вы удалили общий доступ к группе %2$s для %1$s",
+    "Your public link for %1$s expired" : "Срок действия Вашей публичной ссылки к %1$s закончился"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

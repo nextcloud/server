@@ -45,6 +45,7 @@
     "Download" : "Pobierz",
     "Download %s" : "Pobierz %s",
     "Direct link" : "Bezpośredni link",
-    "Open documentation" : "Otwórz dokumentację"
+    "Open documentation" : "Otwórz dokumentację",
+    "Add to your website" : "Dodaj do swojej strony"
 },"pluralForm" :"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

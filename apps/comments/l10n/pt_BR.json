@@ -14,6 +14,7 @@
     "Save" : "Salvar",
     "Allowed characters {count} of {max}" : "Caracteres permitidos  {count} de {max}",
     "{count} unread comments" : "{count} comentários não lidos",
-    "Comment" : "Comentário"
+    "Comment" : "Comentário",
+    "<strong>Comments</strong> for files" : "<strong>Comentários</strong> por arquivos"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

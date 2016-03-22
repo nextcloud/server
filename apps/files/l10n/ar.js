@@ -93,6 +93,11 @@ OC.L10N.register(
     "No favorites" : "لا يوجد مفضلات ",
     "Files and folders you mark as favorite will show up here" : "الملفات والمجلدات التي حددتها كامفضلة سوف تظهر هنا ",
     "Text file" : "ملف نصي",
-    "New text file.txt" : "ملف نصي جديد fille.txt"
+    "New text file.txt" : "ملف نصي جديد fille.txt",
+    "Path" : "المسار",
+    "You changed %1$s" : "لقد غيرت %1$s",
+    "You created %1$s" : "لقد أنشأت %1$s",
+    "You deleted %1$s" : "حذفت %1$s",
+    "You restored %1$s" : "لقد قمت باستعادة %1$s"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");

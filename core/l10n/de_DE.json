@@ -280,6 +280,13 @@
     "Start update" : "Aktualisierung starten",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Zur Vermeidung von Zeitüberschreitungen bei größeren Installationen können Sie stattdessen den folgenden Befehl in Ihrem Installationsverzeichnis ausführen:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Diese %s-Instanz befindet sich gerade im Wartungsmodus, was eine Weile dauern kann.",
-    "This page will refresh itself when the %s instance is available again." : "Diese Seite aktualisiert sich automatisch, wenn die %s-Instanz wieder verfügbar ist."
+    "This page will refresh itself when the %s instance is available again." : "Diese Seite aktualisiert sich automatisch, wenn die %s-Instanz wieder verfügbar ist.",
+    "Could not unshare" : "Freigabe konnte nicht aufgehoben werden",
+    "Error loading file picker template: {error}" : "Fehler beim Laden der Dateiauswahlvorlage: {error}",
+    "Error removing share" : "Fehler beim Entfernen der Freigabe",
+    "Fri." : "Fr",
+    "Mon." : "Mo",
+    "Password can not be changed. Please contact your administrator." : "Passwort kann nicht geändert werden. Bitte kontaktieren Sie Ihren Administrator.",
+    "Sat." : "Sa"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

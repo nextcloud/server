@@ -148,6 +148,8 @@ OC.L10N.register(
     "New Password" : "Noua parolă",
     "Reset password" : "Resetează parola",
     "Thank you for your patience." : "Îți mulțumim pentru răbrade.",
-    "Start update" : "Începe actualizarea"
+    "Start update" : "Începe actualizarea",
+    "Error loading file picker template: {error}" : "Eroare la încărcarea șablonului selectorului de fișiere: {error}",
+    "Password can not be changed. Please contact your administrator." : "Parola nu poate fi modificata. Vă rugăm să contactați administratorul dvs."
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

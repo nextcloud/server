@@ -6,6 +6,9 @@ OC.L10N.register(
     "No ownCloud server found" : "Nessun server ownCloud trovato",
     "Could not add server" : "Impossibile aggiungere il server",
     "Federation" : "Federazione",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federazione di ownCloud ti consente di collegarti con altri ownCloud di fiducia per scambiare la cartella degli utenti. Ad esempio, sarà utilizzata per il completamento automatico degli utenti esterni per la condivisione federata."
+    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federazione di ownCloud ti consente di collegarti con altri ownCloud di fiducia per scambiare la cartella degli utenti. Ad esempio, sarà utilizzata per il completamento automatico degli utenti esterni per la condivisione federata.",
+    "Add server automatically once a federated share was created successfully" : "Aggiungi automaticamente il server dopo che una condivisione federata è stata creata con successo",
+    "ownCloud Server" : "Server ownCloud",
+    "Trusted ownCloud Servers" : "Server ownCloud di fiducia"
 },
 "nplurals=2; plural=(n != 1);");

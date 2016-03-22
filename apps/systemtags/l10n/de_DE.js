@@ -20,6 +20,7 @@ OC.L10N.register(
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Name" : "Name",
     "Size" : "Größe",
-    "Modified" : "Geändert"
+    "Modified" : "Geändert",
+    "<strong>System tags</strong> for a file have been modified" : "<strong>System-Tags</strong> für eine Datei sind geändert worden"
 },
 "nplurals=2; plural=(n != 1);");

@@ -116,6 +116,13 @@ OC.L10N.register(
     "No favorites" : "Nincsenek kedvencek",
     "Files and folders you mark as favorite will show up here" : "A kedvencnek jelölt fájlokat és mappákat itt találod meg",
     "Text file" : "Szövegfájl",
-    "New text file.txt" : "Új szöveges fájl.txt"
+    "New text file.txt" : "Új szöveges fájl.txt",
+    "Changed by %2$s" : "Megváltoztatta: %2$s",
+    "Deleted by %2$s" : "Törölte: %2$s",
+    "Restored by %2$s" : "Visszaállította: %2$s",
+    "You changed %1$s" : "Megváltoztattam: %1$s",
+    "You created %1$s" : "Létrehoztam: %1$s",
+    "You deleted %1$s" : "Töröltem: %1$s",
+    "You restored %1$s" : "Visszatöltötted %1$s"
 },
 "nplurals=2; plural=(n != 1);");

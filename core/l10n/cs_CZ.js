@@ -296,6 +296,8 @@ OC.L10N.register(
     "Start update" : "Spustit aktualizaci",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Abyste zabránili vypršení časového limitu u větších instalací, můžete namísto toho spustit následující příkaz v hlavním adresáři:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Tato instalace %s je právě ve stavu údržby a to může chvíli trvat.",
-    "This page will refresh itself when the %s instance is available again." : "Tato stránka se automaticky načte poté, co bude opět dostupná instance %s."
+    "This page will refresh itself when the %s instance is available again." : "Tato stránka se automaticky načte poté, co bude opět dostupná instance %s.",
+    "Error loading file picker template: {error}" : "Chyba při nahrávání šablony výběru souborů: {error}",
+    "Password can not be changed. Please contact your administrator." : "Heslo nelze změnit. Kontaktujte prosím svého správce systému."
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

@@ -51,6 +51,8 @@
     "Download %s" : "Изтегли %s",
     "Direct link" : "Директна връзка",
     "Allow users on this server to send shares to other servers" : "Позволи на потребители от този сървър да споделят папки  с други сървъри",
-    "Allow users on this server to receive shares from other servers" : "Позволи на потребители на този сървър да получават споделени папки от други сървъри"
+    "Allow users on this server to receive shares from other servers" : "Позволи на потребители на този сървър да получават споделени папки от други сървъри",
+    "Public shared file %1$s was downloaded" : "Публично споделения файл %1$s бе изтеглен",
+    "Public shared folder %1$s was downloaded" : "Публично споделената папка %1$s бе изтеглена"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

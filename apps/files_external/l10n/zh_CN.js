@@ -55,6 +55,19 @@ OC.L10N.register(
     "Add storage" : "增加存储",
     "Advanced settings" : "高级选项",
     "Delete" : "删除",
-    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储"
+    "Allow users to mount the following external storage" : "允许用户挂载以下外部存储",
+    "Allow users to mount external storage" : "允许用户挂载外部存储",
+    "Builtin" : "内置",
+    "Enable previews" : "启用预览",
+    "Enable sharing" : "启用分享",
+    "External mount error" : "外部挂载错误",
+    "Hostname" : "主机名",
+    "Invalid mount point" : "无效的挂载点",
+    "No external storage configured" : "未配置外部存储",
+    "Public key" : "公钥",
+    "RSA public key" : "RSA 公钥",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Username and password" : "用户名和密码",
+    "You can add external storages in the personal settings" : "您可以在个人设置中添加外部存储"
 },
 "nplurals=1; plural=0;");

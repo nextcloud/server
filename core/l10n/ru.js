@@ -297,6 +297,8 @@ OC.L10N.register(
     "Start update" : "Запустить обновление",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Чтобы избежать тайм-аутов в крупных установках, вместо этого можно выполнить следующую команду в каталоге установки:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Этот сервер %s находится в режиме технического обслуживания, которое может занять некоторое время.",
-    "This page will refresh itself when the %s instance is available again." : "Эта страница автоматически обновится, когда сервер %s снова станет доступен."
+    "This page will refresh itself when the %s instance is available again." : "Эта страница автоматически обновится, когда сервер %s снова станет доступен.",
+    "Error loading file picker template: {error}" : "Ошибка при загрузке шаблона выбора файлов: {error}",
+    "Password can not be changed. Please contact your administrator." : "Пароль не может быть изменён. Пожалуйста, свяжитесь с вашим администратором."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

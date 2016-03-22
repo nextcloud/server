@@ -112,6 +112,13 @@ OC.L10N.register(
     "No favorites" : "Δεν υπάρχουν αγαπημένα",
     "Files and folders you mark as favorite will show up here" : "Τα αρχεία και οι φάκελοι που σημειώνονται ως αγαπημένα  θα εμφανιστούν εδώ ",
     "Text file" : "Αρχείο κειμένου",
-    "New text file.txt" : "Νέο αρχείο κειμένου.txt"
+    "New text file.txt" : "Νέο αρχείο κειμένου.txt",
+    "Changed by %2$s" : "Άλλαξε από το χρήστη %2$s",
+    "Deleted by %2$s" : "Διαγράφηκε από το χρήστη %2$s",
+    "Restored by %2$s" : "Επαναφορά από το χρήστη %2$s",
+    "You changed %1$s" : "Αλλάξατε το %1$s",
+    "You created %1$s" : "Δημιουργήσατε το %1$s",
+    "You deleted %1$s" : "Διαγράψατε το %1$s",
+    "You restored %1$s" : "Επαναφέρατε το %1$s"
 },
 "nplurals=2; plural=(n != 1);");

@@ -117,6 +117,13 @@ OC.L10N.register(
     "No favorites" : "Ingen favoritter",
     "Files and folders you mark as favorite will show up here" : "Filer og mapper som du gjør til favoritter vises her",
     "Text file" : "Tekstfil",
-    "New text file.txt" : "Ny tekstfil.txt"
+    "New text file.txt" : "Ny tekstfil.txt",
+    "Changed by %2$s" : "Endret av %2$s",
+    "Deleted by %2$s" : "Slettet av %2$s",
+    "Restored by %2$s" : "Gjenopprettet av %2$s",
+    "You changed %1$s" : "Du endret %1$s",
+    "You created %1$s" : "Du opprettet %1$s",
+    "You deleted %1$s" : "Du slettet %1$s",
+    "You restored %1$s" : "Du gjenopprettet %1$s"
 },
 "nplurals=2; plural=(n != 1);");

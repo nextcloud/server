@@ -59,6 +59,8 @@
     "Allow users on this server to send shares to other servers" : "Дозволити користувачам цього сервера публікувати на інших серверах",
     "Allow users on this server to receive shares from other servers" : "Дозволити користувачам на цьому сервері отримувати публікації з інших серверів",
     "Share it:" : "Поділитися цим:",
-    "HTML Code:" : "HTML код:"
+    "HTML Code:" : "HTML код:",
+    "Public shared file %1$s was downloaded" : "Опублікований файл %1$s був завантажений",
+    "Public shared folder %1$s was downloaded" : "Опублікований каталог %1$s був завантажений"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

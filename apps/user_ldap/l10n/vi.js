@@ -40,6 +40,7 @@ OC.L10N.register(
     "Group-Member association" : "Nhóm thành viên Cộng đồng",
     "Special Attributes" : "Special Attributes",
     "in bytes" : "Theo Byte",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Để trống tên người dùng (mặc định). Nếu không chỉ định thuộc tính LDAP/AD"
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Để trống tên người dùng (mặc định). Nếu không chỉ định thuộc tính LDAP/AD",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Các DN của người sử dụng đã được thực hiện, ví dụ như uid =agent , dc = example, dc = com. Để truy cập nặc danh ,DN và mật khẩu trống."
 },
 "nplurals=1; plural=0;");

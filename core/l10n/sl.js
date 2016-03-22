@@ -264,6 +264,12 @@ OC.L10N.register(
     "Start update" : "Začni posodobitev",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Za razreševanje časovnih zahtev večjih namestitev lahko uporabite ukaz iz namestitvene mape:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Ta %s strežnik je trenutno v načinu vzdrževanja, kar lahko traja dlje časa.",
-    "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena ko bo %s spet na voljo."
+    "This page will refresh itself when the %s instance is available again." : "Stran bo osvežena ko bo %s spet na voljo.",
+    "Could not unshare" : "Ni mogoče prekiniti souporabe",
+    "Error loading file picker template: {error}" : "Napaka nalaganja predloge izbirnika datotek: {error}",
+    "Error removing share" : "Napaka odstranjevanja souporabe",
+    "invisible" : "nevidno",
+    "not assignable" : "ni dodeljivo",
+    "Password can not be changed. Please contact your administrator." : "Gesla ni mogoče spremeniti. Stopite v stik s skrbnikom."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

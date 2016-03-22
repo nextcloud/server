@@ -101,6 +101,19 @@ OC.L10N.register(
     "Share it:" : "שיתוף שלו:",
     "Add to your website" : "הוספה לאתר האינטרנט שלך",
     "Share with me via ownCloud" : "שיתוף איתי באמצעות ownCloud",
-    "HTML Code:" : "קוד HTML:"
+    "HTML Code:" : "קוד HTML:",
+    "Public link of %2$s expired" : "קישור ציבורי של %2$s פג תוקף",
+    "Public shared file %1$s was downloaded" : "קובץ שיתוף ציבורי %1$s הורד",
+    "Public shared folder %1$s was downloaded" : "תיקיית שיתוף ציבורית %1$s הורדה",
+    "Removed share for %2$s" : "הסיר/ה שיתוף של %2$s",
+    "Removed share of group %2$s" : "הסיר/ה שיתוף של קבוצה %2$s",
+    "Shared by %2$s" : "שיתף/שיתפה על ידי %2$s",
+    "Shared via link by %2$s" : "שיתף/שיתפה על בסיס קישור על ידי %2$s",
+    "Shared with group %3$s by %2$s" : "שיתף/שיתפה עם קבוצה %3$s על ידי %2$s",
+    "The public link of %2$s for %1$s expired" : "הקישור הציבורי של %2$s עבור %1$s פג תוקף",
+    "You removed the public link for %1$s" : "הסרת את הקישור הציבורי של %1$s",
+    "You removed the share of %2$s for %1$s" : "הסרת את השיתוף של %2$s עבור %1$s",
+    "You removed the share of group %2$s for %1$s" : "הסרת את השיתוף לקבוצה %2$s עבור %1$s",
+    "Your public link for %1$s expired" : "הקישור הציבורי של %1$s פג תוקף"
 },
 "nplurals=2; plural=(n != 1);");

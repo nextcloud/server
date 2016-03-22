@@ -299,6 +299,8 @@ OC.L10N.register(
     "Start update" : "Iniciar atualização",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Para evitar tempos de espera com instalações maiores, você pode em vez disso executar o seguinte comando a partir do diretório de instalação:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Esta instância %s está em modo de manutenção, o que pode demorar um pouco.",
-    "This page will refresh itself when the %s instance is available again." : "Esta página será atualizada automaticamente quando esta instância %s estiver disponível novamente."
+    "This page will refresh itself when the %s instance is available again." : "Esta página será atualizada automaticamente quando esta instância %s estiver disponível novamente.",
+    "Error loading file picker template: {error}" : "Erro no seletor de carregamento modelo de arquivos: {error}",
+    "Password can not be changed. Please contact your administrator." : "A senha não pode ser alterada. Por favor, contate o administrador."
 },
 "nplurals=2; plural=(n > 1);");

@@ -116,6 +116,13 @@ OC.L10N.register(
     "No favorites" : "Sık kullanılan öge yok.",
     "Files and folders you mark as favorite will show up here" : "Sık kullanılan olarak işaretlediğiniz dosya ve klasörler burada gösterilecek",
     "Text file" : "Metin dosyası",
-    "New text file.txt" : "Yeni metin dosyası.txt"
+    "New text file.txt" : "Yeni metin dosyası.txt",
+    "Changed by %2$s" : "%2$s tarafından değiştirildi",
+    "Deleted by %2$s" : "%2$s tarafından silindi",
+    "Restored by %2$s" : "%2$s tarafından geri yüklendi",
+    "You changed %1$s" : "%1$s dosyasını değiştirdiniz",
+    "You created %1$s" : "%1$s dosyasını oluşturdunuz",
+    "You deleted %1$s" : "%1$s dosyasını sildiniz",
+    "You restored %1$s" : "%1$s ögesini geri aldınız"
 },
 "nplurals=2; plural=(n > 1);");

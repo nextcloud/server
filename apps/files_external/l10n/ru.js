@@ -120,6 +120,8 @@ OC.L10N.register(
     "Advanced settings" : "Расширенные настройки",
     "Delete" : "Удалить",
     "Allow users to mount external storage" : "Разрешить пользователями монтировать внешние накопители",
-    "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных"
+    "Allow users to mount the following external storage" : "Разрешить пользователям монтировать следующие сервисы хранения данных",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Некоторые из настроенных внешних точек монтирования не подключены. Для получения дополнительной информации, пожалуйста нажмите на красную строку (ы)"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

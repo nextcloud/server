@@ -79,6 +79,23 @@
     "Share it:" : "공유하기:",
     "Add to your website" : "내 웹 사이트에 추가",
     "Share with me via ownCloud" : "ownCloud로 나와 공유하기",
-    "HTML Code:" : "HTML 코드:"
+    "HTML Code:" : "HTML 코드:",
+    "Federated sharing" : "연합 공유",
+    "Not allowed to create a federated share with the same user server" : "같은 사용자 서버 내에서 연합 공유를 만들 수 없음",
+    "Public link expired" : "공개 링크 만료됨",
+    "Public link of %2$s expired" : "%2$s 님의 공개 링크 만료됨",
+    "Public shared file %1$s was downloaded" : "공개 공유 파일 %1$s이(가) 다운로드됨",
+    "Public shared folder %1$s was downloaded" : "공개 공유 폴더 %1$s이(가) 다운로드됨",
+    "Removed public link" : "공개 링크 삭제함",
+    "Removed share for %2$s" : "%2$s 님의 공유를 삭제함",
+    "Removed share of group %2$s" : "%2$s 그룹의 공유를 삭제함",
+    "Shared by %2$s" : "%2$s 님이 공유함",
+    "Shared via link by %2$s" : "%2$s 님이 링크로 공유함",
+    "Shared with group %3$s by %2$s" : "%2$s 님이 %3$s 그룹과 공유함",
+    "The public link of %2$s for %1$s expired" : "%2$s 님의 %1$s 공개 링크가 만료됨",
+    "You removed the public link for %1$s" : "%1$s의 공개 링크를 삭제함",
+    "You removed the share of %2$s for %1$s" : "%1$s을(를) 위한 %2$s 그룹의 공유를 삭제함",
+    "You removed the share of group %2$s for %1$s" : "%1$s 님을 위한 %2$s 그룹 공유를 삭제함",
+    "Your public link for %1$s expired" : "%1$s의 공개 링크가 만료됨"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

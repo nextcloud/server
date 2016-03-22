@@ -81,6 +81,10 @@ OC.L10N.register(
     "Select all" : "Selectează tot",
     "Upload too large" : "Fișierul încărcat este prea mare",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fișierele pe care încerci să le încarci depășesc limita de încărcare maximă admisă pe acest server.",
-    "Text file" : "Fișier text"
+    "Text file" : "Fișier text",
+    "You changed %1$s" : "Ai schimbat %1$s",
+    "You created %1$s" : "Ai creat %1$s",
+    "You deleted %1$s" : "Ai şters %1$s",
+    "You restored %1$s" : "Ai restaurat %1$s"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

@@ -267,6 +267,8 @@
     "Start update" : "Почати оновлення",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Щоб уникнути затримок у великих встановленнях, ви можете виконати наступну команду в каталозі встановлення:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Цей %s знаходиться в режимі технічного обслуговування, яке може зайняти деякий час.",
-    "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли екземпляр %s стане знову доступний."
+    "This page will refresh itself when the %s instance is available again." : "Ця сторінка автоматично перезавантажиться коли екземпляр %s стане знову доступний.",
+    "Error loading file picker template: {error}" : "Помилка при завантаженні шаблону вибору: {error}",
+    "Password can not be changed. Please contact your administrator." : "Пароль не може бути змінено. Будь ласка, зверніться до вашого адміністратора"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

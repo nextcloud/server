@@ -299,6 +299,8 @@ OC.L10N.register(
     "Start update" : "アップデートを開始",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "大規模なサイトの場合、ブラウザーがタイムアウトする可能性があるため、インストールディレクトリで以下のコマンドを実行することもできます。",
     "This %s instance is currently in maintenance mode, which may take a while." : "このサーバー %s は現在メンテナンスモードです。しばらくお待ちください。",
-    "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。"
+    "This page will refresh itself when the %s instance is available again." : "この画面は、サーバー %s の再起動後に自動的に更新されます。",
+    "Error loading file picker template: {error}" : "ファイル選択テンプレートの読み込みエラー: {error}",
+    "Password can not be changed. Please contact your administrator." : "パスワードは変更できません。管理者に問い合わせてください。"
 },
 "nplurals=1; plural=0;");

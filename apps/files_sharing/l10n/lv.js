@@ -58,6 +58,8 @@ OC.L10N.register(
     "Federated Cloud Sharing" : "Federatīva mākoņkoplietošana",
     "Open documentation" : "Atvērt dokumentāciju",
     "Allow users on this server to send shares to other servers" : "Atļaut šī servera lietotājiem sūtīt koplietotnes uz citiem serveriem",
-    "Allow users on this server to receive shares from other servers" : "Atļaut šī servera lietotājiem saņem koplietotnes no citiem serveriem"
+    "Allow users on this server to receive shares from other servers" : "Atļaut šī servera lietotājiem saņem koplietotnes no citiem serveriem",
+    "Public shared file %1$s was downloaded" : "Publiski koplietots fails %1$s tika lejupielādēts",
+    "Public shared folder %1$s was downloaded" : "Publiski koplietota mape %1$s tika lejupielādēta"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

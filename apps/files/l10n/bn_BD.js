@@ -60,6 +60,10 @@ OC.L10N.register(
     "Cancel upload" : "আপলোড বাতিল কর",
     "Upload too large" : "আপলোডের আকারটি অনেক বড়",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "আপনি এই সার্ভারে আপলোড করার জন্য অনুমোদিত ফাইলের সর্বোচ্চ আকারের চেয়ে বৃহদাকার ফাইল আপলোড করার চেষ্টা করছেন ",
-    "Text file" : "টেক্সট ফাইল"
+    "Text file" : "টেক্সট ফাইল",
+    "Upload cancelled." : "আপলোড বাতিল করা হয়েছে।",
+    "You changed %1$s" : "আপনি পরিবরতন করেছেন %1$s",
+    "You created %1$s" : "আপনি তৈরি করেছেন %1$s",
+    "You deleted %1$s" : "আপনি ডিলিট করেছেন %1$s"
 },
 "nplurals=2; plural=(n != 1);");

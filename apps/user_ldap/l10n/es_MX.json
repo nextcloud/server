@@ -83,6 +83,7 @@
     "UUID Attribute for Groups:" : "Atributo UUID para Grupos:",
     "Username-LDAP User Mapping" : "Asignación del Nombre de usuario de un usuario LDAP",
     "Clear Username-LDAP User Mapping" : "Borrar la asignación de los Nombres de usuario de los usuarios LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Borrar la asignación de los Nombres de grupo de los grupos de LDAP",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "El DN del usuario cliente con el que se hará la asociación, p.ej. uid=agente,dc=ejemplo,dc=com. Para acceso anónimo, deje DN y contraseña vacíos."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

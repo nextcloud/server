@@ -110,6 +110,8 @@ OC.L10N.register(
     "Share" : "Teilen",
     "Delete" : "Löschen",
     "Personal" : "Persönlich",
-    "Username" : "Benutzername"
+    "Username" : "Benutzername",
+    "Error loading file picker template: {error}" : "Fehler beim Laden der Vorlage zum Auswählen von Dateien: {error}",
+    "Password can not be changed. Please contact your administrator." : "Das Passwort kann nicht geändert werden. Bitte wende Dich an Deinen Administrator."
 },
 "nplurals=2; plural=(n != 1);");

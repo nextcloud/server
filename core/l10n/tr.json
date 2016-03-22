@@ -292,6 +292,8 @@
     "Start update" : "Güncellemeyi başlat",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Daha büyük kurulumlarda zaman aşımlarının önüne geçmek için, kurulum dizininizden aşağıdaki komutu da çalıştırabilirsiniz:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Bu %s örneği şu anda bakım kipinde, bu biraz zaman alabilir.",
-    "This page will refresh itself when the %s instance is available again." : "Bu sayfa, %s örneği tekrar kullanılabilir olduğunda kendini yenileyecektir."
+    "This page will refresh itself when the %s instance is available again." : "Bu sayfa, %s örneği tekrar kullanılabilir olduğunda kendini yenileyecektir.",
+    "Error loading file picker template: {error}" : "Dosya seçici şablonu yüklenirken hata: {error}",
+    "Password can not be changed. Please contact your administrator." : "Parola değiştirilemedi. Lütfen yöneticiniz ile iletişime geçin."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

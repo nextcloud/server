@@ -268,6 +268,10 @@
     "Start update" : "Begynd opdatering",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "For at undgå tidsudløb ved større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instans befinder sig i vedligeholdelsestilstand for øjeblikket, hvilket kan tage et stykke tid.",
-    "This page will refresh itself when the %s instance is available again." : "Denne side vil genopfriske sig selv, når %s-instancen er tilgængelig igen."
+    "This page will refresh itself when the %s instance is available again." : "Denne side vil genopfriske sig selv, når %s-instancen er tilgængelig igen.",
+    "Error loading file picker template: {error}" : "Fejl ved indlæsning af filvælger skabelon: {error}",
+    "Error removing share" : "Fejl ved fjernelse af deling",
+    "invisible" : "usynlig",
+    "Password can not be changed. Please contact your administrator." : "Adgangskoden kunne ikke ændres. Kontakt venligst din administrator."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

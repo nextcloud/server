@@ -99,6 +99,19 @@
     "Share it:" : "Deila því:",
     "Add to your website" : "Bæta við vefsvæðið þitt",
     "Share with me via ownCloud" : "Deila með mér í gegnum ownCloud",
-    "HTML Code:" : "HTML-kóði:"
+    "HTML Code:" : "HTML-kóði:",
+    "Public link of %2$s expired" : "Almenningstengill %2$s er útrunninn",
+    "Public shared file %1$s was downloaded" : "Deild skrá í almenningsaðgangi %1$s var sótt",
+    "Public shared folder %1$s was downloaded" : "Deild mappa í almenningsaðgangi %1$s var sótt",
+    "Removed share for %2$s" : "Fjarlægði deilingu af %2$s",
+    "Removed share of group %2$s" : "Fjarlægði deilingu af hópnum %2$s",
+    "Shared by %2$s" : "Deilt af %2$s",
+    "Shared via link by %2$s" : "Deilt með tengli af %2$s",
+    "Shared with group %3$s by %2$s" : "Deilt með hópnum %3$s af %2$s",
+    "The public link of %2$s for %1$s expired" : "Almenningstengill %2$s fyrir %1$s er útrunninn",
+    "You removed the public link for %1$s" : "Þú fjarlægðir almenningstengilinn fyrir %1$s",
+    "You removed the share of %2$s for %1$s" : "Þú fjarlægðir deilingu af %2$s fyrir %1$s",
+    "You removed the share of group %2$s for %1$s" : "Þú fjarlægðir deilingu til hópsins %2$s fyrir %1$s",
+    "Your public link for %1$s expired" : "Almenningstengill þinn fyrir %1$s er útrunninn"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

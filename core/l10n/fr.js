@@ -297,6 +297,9 @@ OC.L10N.register(
     "Start update" : "Démarrer la mise à jour",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Afin d'éviter les timeouts avec les installations de volume conséquent, vous pouvez exécuter la commande suivante depuis le répertoire d'installation :",
     "This %s instance is currently in maintenance mode, which may take a while." : "Cette instance de %s est en cours de maintenance, cela peut prendre du temps.",
-    "This page will refresh itself when the %s instance is available again." : "Cette page se rafraîchira d'elle-même lorsque l'instance %s sera à nouveau disponible."
+    "This page will refresh itself when the %s instance is available again." : "Cette page se rafraîchira d'elle-même lorsque l'instance %s sera à nouveau disponible.",
+    "Collaborative tags" : "Étiquettes collaboratives ",
+    "Error loading file picker template: {error}" : "Erreur lors du chargement du modèle du sélecteur de fichiers : {error}",
+    "Password can not be changed. Please contact your administrator." : "Le mot de passe ne peut être modifié. Veuillez contacter votre administrateur."
 },
 "nplurals=2; plural=(n > 1);");

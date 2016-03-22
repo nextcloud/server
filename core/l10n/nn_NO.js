@@ -126,6 +126,7 @@ OC.L10N.register(
     "Alternative Logins" : "Alternative innloggingar",
     "Use the following link to reset your password: {link}" : "Klikk følgjande lenkje til å nullstilla passordet ditt: {link}",
     "New password" : "Nytt passord",
-    "Reset password" : "Nullstill passord"
+    "Reset password" : "Nullstill passord",
+    "Error loading file picker template: {error}" : "Klarte ikkje å lasta filplukkarmal: {error}"
 },
 "nplurals=2; plural=(n != 1);");

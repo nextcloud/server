@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Simpan",
     "Allowed characters {count} of {max}" : "Karakter yang diizinkan {count} dari {max}",
     "{count} unread comments" : "{count} komentar belum dibaca",
-    "Comment" : "Komentar"
+    "Comment" : "Komentar",
+    "<strong>Comments</strong> for files" : "<strong>Komentar</strong> untuk berkas"
 },
 "nplurals=1; plural=0;");

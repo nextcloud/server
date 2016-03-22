@@ -51,6 +51,7 @@ OC.L10N.register(
     "Enable password recovery:" : "Die Passwort-Wiederherstellung aktivieren:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "Durch die Aktivierung dieser Option haben Sie die Möglichkeit, wieder auf Ihre verschlüsselten Dateien zugreifen zu können, wenn Sie Ihr Passwort verloren haben.",
     "Enabled" : "Aktiviert",
-    "Disabled" : "Deaktiviert"
+    "Disabled" : "Deaktiviert",
+    "one-time password for server-side-encryption" : "Einmalpasswort für Serverseitige Verschlüsselung"
 },
 "nplurals=2; plural=(n != 1);");

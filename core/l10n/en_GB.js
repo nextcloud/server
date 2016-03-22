@@ -299,6 +299,8 @@ OC.L10N.register(
     "Start update" : "Start update",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:",
     "This %s instance is currently in maintenance mode, which may take a while." : "This %s instance is currently in maintenance mode, which may take a while.",
-    "This page will refresh itself when the %s instance is available again." : "This page will refresh itself when the %s instance is available again."
+    "This page will refresh itself when the %s instance is available again." : "This page will refresh itself when the %s instance is available again.",
+    "Error loading file picker template: {error}" : "Error loading file picker template: {error}",
+    "Password can not be changed. Please contact your administrator." : "Password can not be changed. Please contact your administrator."
 },
 "nplurals=2; plural=(n != 1);");

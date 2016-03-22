@@ -65,6 +65,9 @@ OC.L10N.register(
     "Cancel upload" : "Avbryt opplasting",
     "Upload too large" : "For stor opplasting",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filene du prøver å lasta opp er større enn maksgrensa til denne tenaren.",
-    "Text file" : "Tekst fil"
+    "Text file" : "Tekst fil",
+    "You changed %1$s" : "Du endra %1$s",
+    "You created %1$s" : "Du oppretta %1$s",
+    "You deleted %1$s" : "Du sletta %1$s"
 },
 "nplurals=2; plural=(n != 1);");

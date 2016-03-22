@@ -214,6 +214,8 @@
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Контактирајте го вашиот систем администратор до колку оваа порака продолжи да се појавува или пак се појавува ненадејно.",
     "Thank you for your patience." : "Благодариме на вашето трпение.",
     "These apps will be updated:" : "Следните апликации чќе бидат надградени:",
-    "Start update" : "Започни ја надградбата"
+    "Start update" : "Започни ја надградбата",
+    "Error loading file picker template: {error}" : "Грешка при вчитување на образецот за одбирач на датотеки: {error}",
+    "Password can not be changed. Please contact your administrator." : "Лозинката не може да се промени. Ве молам контактирајте го вашиот администратор."
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

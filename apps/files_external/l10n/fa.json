@@ -58,6 +58,7 @@
     "Available for" : "در دسترس برای",
     "Add storage" : "اضافه کردن حافظه",
     "Advanced settings" : "تنظیمات پیشرفته",
-    "Delete" : "حذف"
+    "Delete" : "حذف",
+    "SMB / CIFS" : "SMB / CIFS"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -212,6 +212,7 @@ OC.L10N.register(
     "%s will be updated to version %s" : "%s ĝisdatiĝos al eldono %s",
     "These apps will be updated:" : "Ĉi tiuj aplikaĵoj ĝisdatiĝos:",
     "These incompatible apps will be disabled:" : "Ĉi tiuj malkongruaj aplikaĵoj malkapabliĝos:",
-    "Start update" : "Ekĝisdatigi"
+    "Start update" : "Ekĝisdatigi",
+    "Error loading message template: {error}" : "Eraris ŝargo de mesaĝa ŝablono: {eraro}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -270,6 +270,9 @@ OC.L10N.register(
     "Start update" : "Jalankan pembaruan",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Untuk menghindari waktu habis dengan instalasi yang lebih besar, Anda bisa menjalankan perintah berikut dari direktori instalasi Anda:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Instansi %s ini sedang dalam modus pemeliharaan, mungkin memerlukan beberapa saat.",
-    "This page will refresh itself when the %s instance is available again." : "Halaman ini akan disegarkan dengan sendiri saat instansi %s tersebut tersedia kembali."
+    "This page will refresh itself when the %s instance is available again." : "Halaman ini akan disegarkan dengan sendiri saat instansi %s tersebut tersedia kembali.",
+    "Error loading file picker template: {error}" : "Kesalahan saat memuat templat berkas pemilih: {error}",
+    "Password can not be changed. Please contact your administrator." : "Sandi tidak dapat diubah. Silakan hubungi administrator Anda",
+    "This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "Server ini tidak tersambung ke internet. Ini berarti beberapa fitur seperti me-mount penyimpanan eksternal, notifikasi pembaruan atau instalasi aplikasi pihak ketiga tidak akan bekerja. Mengakses berkas secara remote dan mengirim notifikasi email juga tidak bekerja. Kami menyarankan untuk mengaktifkan koneksi internet untuk server ini jika Anda ingin memiliki fitur ini."
 },
 "nplurals=1; plural=0;");

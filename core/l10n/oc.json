@@ -268,6 +268,8 @@
     "Start update" : "Aviar la mesa a jorn",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Per fin d'evitar los timeouts amb las installacions de volum consequent, podètz executar la comanda seguenta dempuèi lo repertòri d'installacion :",
     "This %s instance is currently in maintenance mode, which may take a while." : "Aquesta instància de %s es en cors de mantenença, aquò pòt prene de temps.",
-    "This page will refresh itself when the %s instance is available again." : "Aquesta pagina se refrescarà d'ela-meteissa quand l'instància %s serà disponibla tornamai."
+    "This page will refresh itself when the %s instance is available again." : "Aquesta pagina se refrescarà d'ela-meteissa quand l'instància %s serà disponibla tornamai.",
+    "Repair error: " : "Error de reparacion :",
+    "Password can not be changed. Please contact your administrator." : "Lo senhal pòt pas èsser modificat. Contactatz vòstre administrator."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

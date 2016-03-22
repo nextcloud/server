@@ -1,4 +1,5 @@
 { "translations": {
-    "Updater" : "Yeniləyici"
+    "Updater" : "Yeniləyici",
+    "A new version is available: %s" : "Yeni versiya mövcuddur: %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

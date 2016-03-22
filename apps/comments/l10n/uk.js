@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Зберегти",
     "Allowed characters {count} of {max}" : "Доступно символів {count} з {max}",
     "{count} unread comments" : "{count} непрочитаних коментарів",
-    "Comment" : "Коментар"
+    "Comment" : "Коментар",
+    "<strong>Comments</strong> for files" : "<strong>Коментарі</strong> до файлів"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

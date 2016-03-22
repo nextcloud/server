@@ -99,6 +99,19 @@
     "Share it:" : "Deel het:",
     "Add to your website" : "Toevoegen aan uw website",
     "Share with me via ownCloud" : "Deel met mij via ownCloud",
-    "HTML Code:" : "HTML Code:"
+    "HTML Code:" : "HTML Code:",
+    "Public link of %2$s expired" : "Openbare link van %2$s is verlopen",
+    "Public shared file %1$s was downloaded" : "Openbaar gedeeld bestand %1$s werd gedownloaded",
+    "Public shared folder %1$s was downloaded" : "Openbaar gedeelde map %1$s werd gedownloaded",
+    "Removed share for %2$s" : "Share van %2$s verwijderd",
+    "Removed share of group %2$s" : "Share van de groep %2$s verwijderd",
+    "Shared by %2$s" : "Gedeeld door %2$s",
+    "Shared via link by %2$s" : "Gedeeld via link door %2$s",
+    "Shared with group %3$s by %2$s" : "Gedeeld met groep %3$s door %2$s",
+    "The public link of %2$s for %1$s expired" : "De openbare link van %2$s voor %1$s is verlopen",
+    "You removed the public link for %1$s" : "U heeft de openbare link voor %1$s verwijderd",
+    "You removed the share of %2$s for %1$s" : "U heeft de share van %1$s met %2$s verwijderd",
+    "You removed the share of group %2$s for %1$s" : "U heeft de share van %1$s met de groep %2$s verwijderd",
+    "Your public link for %1$s expired" : "Uw openbare link voor %1$s is verlopen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

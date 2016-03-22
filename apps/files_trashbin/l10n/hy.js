@@ -9,6 +9,7 @@ OC.L10N.register(
     "No deleted files" : "Ջնջված ֆայլեր չկան",
     "Select all" : "Նշել բոլորը",
     "Name" : "Անուն",
-    "Deleted" : "Ջնջված"
+    "Deleted" : "Ջնջված",
+    "Couldn't restore %s" : "Չկարողացա վերականգնել %s"
 },
 "nplurals=2; plural=(n != 1);");

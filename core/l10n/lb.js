@@ -120,6 +120,8 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Benotz folgende Link fir däi Passwuert zréckzesetzen: {link}",
     "New password" : "Neit Passwuert",
     "Reset password" : "Passwuert zréck setzen",
-    "Thank you for your patience." : "Merci fir deng Gedold."
+    "Thank you for your patience." : "Merci fir deng Gedold.",
+    "Fri." : "Fr.",
+    "Sat." : "Sa."
 },
 "nplurals=2; plural=(n != 1);");

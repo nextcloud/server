@@ -196,6 +196,9 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Prije nego nastavite, molim osigurajte se da su baza podataka, direktorij konfiguracije i direktorij podataka sigurnosno kopirani.",
     "Start update" : "Započnite ažuriranje",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Da biste izbjegli vremensko prekoračenje s većim instalacijama, možete pokrenuti slijedeću naredbu iz svoga instalacijskog direktorija:",
-    "This page will refresh itself when the %s instance is available again." : "Ova stranica će se sama aktualizirati nakon što instanca %s postane ponovo dostupna."
+    "This page will refresh itself when the %s instance is available again." : "Ova stranica će se sama aktualizirati nakon što instanca %s postane ponovo dostupna.",
+    "Error loading file picker template: {error}" : "Pogrešno učitavanje šablona za izabir datoteke: {error}",
+    "You can click here to return to %s." : "Možete kliknuti ovdje da bih se vratili na %s.",
+    "Password can not be changed. Please contact your administrator." : "Lozinku ne može biti promjenuta. Molimo kontaktirajte vašeg administratora."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

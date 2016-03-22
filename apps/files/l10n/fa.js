@@ -100,6 +100,13 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",
     "No favorites" : "هیچ برگزیده",
     "Files and folders you mark as favorite will show up here" : "فایل‌ها و پوشه‌های انتخاب شده به عنوان برگزیده توسط شما، در اینجا نمایش داده می‌شود",
-    "Text file" : "فایل متنی"
+    "Text file" : "فایل متنی",
+    "Changed by %2$s" : "تغییریافته توسط %2$s",
+    "Deleted by %2$s" : "حذف شده توسط %2$s",
+    "Restored by %2$s" : "بازگردانی شده توسط  %2$s",
+    "You changed %1$s" : "شما %1$s را تغییر دادید",
+    "You created %1$s" : "شما %1$s را ایجاد کردید",
+    "You deleted %1$s" : "شما %1$s را حذف کردید",
+    "You restored %1$s" : "شما %1$s را بازگردانی کردید"
 },
 "nplurals=1; plural=0;");

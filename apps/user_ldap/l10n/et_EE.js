@@ -127,6 +127,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "UUID atribuut gruppidele:",
     "Username-LDAP User Mapping" : "LDAP-Kasutajatunnus Kasutaja Vastendus",
     "Clear Username-LDAP User Mapping" : "Puhasta LDAP-Kasutajatunnus Kasutaja Vastendus",
-    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus"
+    "Clear Groupname-LDAP Group Mapping" : "Puhasta LDAP-Grupinimi Grupp Vastendus",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Klientkasutaja DN, kellega seotakse, nt. uid=agent,dc=näidis,dc=com. Anonüümseks ligipääsuks jäta DN ja parool tühjaks.",
+    "{nthServer}. Server" : "{nthServer}. Server"
 },
 "nplurals=2; plural=(n != 1);");

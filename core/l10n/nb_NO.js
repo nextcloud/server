@@ -299,6 +299,9 @@ OC.L10N.register(
     "Start update" : "Start oppdatering",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "For å unngå tidsavbrudd ved store installasjoner, kan du i stedet kjøre følgende kommando fra installasjonsmappen:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Denne %s-instansen er for øyeblikket i vedlikeholdsmodus, noe som kan vare en stund.",
-    "This page will refresh itself when the %s instance is available again." : "Denne siden vil bli lastet på nytt når %s-instansen er tilgjengelig igjen."
+    "This page will refresh itself when the %s instance is available again." : "Denne siden vil bli lastet på nytt når %s-instansen er tilgjengelig igjen.",
+    "Error loading file picker template: {error}" : "Feil ved lasting av filvelger-mal: {error}",
+    "Fri." : "Fr.",
+    "Password can not be changed. Please contact your administrator." : "Passordet kan ikke endres. Kontakt administratoren din."
 },
 "nplurals=2; plural=(n != 1);");

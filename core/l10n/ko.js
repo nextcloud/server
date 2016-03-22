@@ -270,6 +270,13 @@ OC.L10N.register(
     "Start update" : "업데이트 시작",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "큰 파일을 설치하는 경우 시간이 초과될 수 있으므로, 설치 디렉터리에서 다음 명령을 실행하셔도 됩니다:",
     "This %s instance is currently in maintenance mode, which may take a while." : "이 %s 인스턴스는 현재 점검 모드입니다. 시간이 걸릴 수도 있습니다.",
-    "This page will refresh itself when the %s instance is available again." : "%s 인스턴스를 다시 사용할 수 있으면 자동으로 새로 고칩니다."
+    "This page will refresh itself when the %s instance is available again." : "%s 인스턴스를 다시 사용할 수 있으면 자동으로 새로 고칩니다.",
+    "Collaborative tags" : "협동 태그",
+    "Could not unshare" : "공유 해제할 수 없음",
+    "Error loading file picker template: {error}" : "파일 선택 템플릿을 불러오는 중 오류 발생: {error}",
+    "Error removing share" : "공유 삭제 중 오류 발생",
+    "invisible" : "보이지 않음",
+    "not assignable" : "할당할 수 없음",
+    "Password can not be changed. Please contact your administrator." : "암호를 변경할 수 없습니다. 관리자에게 문의하십시오."
 },
 "nplurals=1; plural=0;");

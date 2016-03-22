@@ -94,6 +94,10 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
     "No favorites" : "No hi ha favorits",
     "Files and folders you mark as favorite will show up here" : "Aquí apareixeran els arxius i carpetes que vostè marqui com favorits",
-    "Text file" : "Fitxer de text"
+    "Text file" : "Fitxer de text",
+    "You changed %1$s" : "Has canviat %1$s",
+    "You created %1$s" : "Has creat %1$s",
+    "You deleted %1$s" : "Has esborrat %1$s",
+    "You restored %1$s" : "Has restaurat %1$s"
 },
 "nplurals=2; plural=(n != 1);");
