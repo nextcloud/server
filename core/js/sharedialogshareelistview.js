@@ -129,10 +129,23 @@
 			}
 			var displayName = this.model.getShareWithDisplayName(shareIndex);
 			if(!_.isUndefined(this._collections[id])) {
-				this._collections[id].text = this._collections[id].text + ", " + displayName;
+				if (this.model.getShareType(shareIndex) === OC.Share.SHARE_TYPE_LINK) {
+					this._collections[id].text = this._collections[id].text + ", " + t('core', 'by link');
+				} else {
+					this._collections[id].text = this._collections[id].text + ", " + displayName;
+				}
 			} else {
 				this._collections[id] = {};
-				this._collections[id].text = t('core', 'Shared in {item} with {user}', {'item': id, user: displayName});
+				if (this.model.getShareType(shareIndex) === OC.Share.SHARE_TYPE_LINK) {
+					this._collections[id].text = t('core', 'Shared in {item} by link', {
+						'item': id
+					});
+				} else {
+					this._collections[id].text = t('core', 'Shared in {item} with {user}', {
+						'item': id,
+						user: displayName
+					});
+				}
 				this._collections[id].id = id;
 				this._collections[id].isCollection = true;
 			}
