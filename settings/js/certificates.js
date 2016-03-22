@@ -16,6 +16,7 @@ $(document).ready(function () {
 	$('#sslCertificate tr > td').tipsy({gravity: 'n', live: true});
 
 	$('#rootcert_import').fileupload({
+		pasteZone: null,
 		submit: function (e, data) {
 			data.formData = _.extend(data.formData || {}, {
 				requesttoken: OC.requestToken
