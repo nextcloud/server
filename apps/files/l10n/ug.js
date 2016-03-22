@@ -32,6 +32,7 @@ OC.L10N.register(
     "WebDAV" : "WebDAV",
     "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
-    "Text file" : "تېكىست ھۆججەت"
+    "Text file" : "تېكىست ھۆججەت",
+    "Upload cancelled." : "يۈكلەشتىن ۋاز كەچتى."
 },
 "nplurals=1; plural=0;");

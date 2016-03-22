@@ -290,6 +290,8 @@
     "Start update" : "เริ่มต้นอัพเดท",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "เพื่อหลีกเลี่ยงการหมดเวลากับการติดตั้งขนาดใหญ่ คุณสามารถเรียกใช้คำสั่งต่อไปนี้จากไดเรกทอรีการติดตั้งของคุณ:",
     "This %s instance is currently in maintenance mode, which may take a while." : "%s กำลังอยู่ในโหมดการบำรุงรักษาซึ่งอาจใช้เวลาสักครู่",
-    "This page will refresh itself when the %s instance is available again." : "หน้านี้จะรีเฟรชตัวเองเมื่อ %s สามารถใช้ได้อีกครั้ง"
+    "This page will refresh itself when the %s instance is available again." : "หน้านี้จะรีเฟรชตัวเองเมื่อ %s สามารถใช้ได้อีกครั้ง",
+    "Error loading file picker template: {error}" : "เกิดข้อผิดพลาดขณะกำลังโหลดไฟล์แม่แบบ: {error}",
+    "Password can not be changed. Please contact your administrator." : "หากคุณไม่สามารถเปลี่ยนแปลงรหัสผ่าน กรุณาติดต่อผู้ดูแลระบบ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

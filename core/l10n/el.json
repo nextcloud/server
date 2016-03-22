@@ -269,6 +269,8 @@
     "Start update" : "Έναρξη ενημέρωσης",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Για να αποφύγετε τη λήξη χρόνου με μεγαλύτερες εγκαταστάσεις, μπορείτε αντί αυτού να τρέξετε την ακόλουθη εντολή από τον κατάλογο αρχείων εφαρμογών:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Αυτή %s η εγκατάσταση είναι σε κατάσταση συντήρησης, η οποία μπορεί να πάρει κάποιο χρόνο.",
-    "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά."
+    "This page will refresh itself when the %s instance is available again." : "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά.",
+    "Error loading file picker template: {error}" : "Σφάλμα κατά την φόρτωση προτύπου επιλογέα αρχείων: {σφάλμα}",
+    "Password can not be changed. Please contact your administrator." : "Ο κωδικός πρόσβασης δεν μπορεί να αλλάξει. Παρακαλώ επικοινωνήστε με το διαχειριστή σας."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -97,6 +97,7 @@ OC.L10N.register(
     "Advanced settings" : "Avancerade inställningar",
     "Delete" : "Radera",
     "Allow users to mount external storage" : "Tillåt användare att montera extern lagring",
-    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring"
+    "Allow users to mount the following external storage" : "Tillåt användare att montera följande extern lagring",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=2; plural=(n != 1);");

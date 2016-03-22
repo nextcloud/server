@@ -21,6 +21,15 @@ OC.L10N.register(
     "Save" : "Պահպանել",
     "Select all" : "Նշել բոլորը",
     "Text file" : "Տեքստ ֆայլ",
-    "New text file.txt" : "Նոր տեքստ ֆայլ.txt"
+    "New text file.txt" : "Նոր տեքստ ֆայլ.txt",
+    "Changed by %2$s" : "Փոխվել է %2$sի կողմից",
+    "Deleted by %2$s" : "Ջնջվել է %2$sի կողմից",
+    "No files in here" : "Ֆայլեր չկան այստեղ",
+    "Restored by %2$s" : "Վերականգնվել է %2$sի կողմից",
+    "Upload" : "Բեռնել",
+    "You changed %1$s" : "Դու փոխեցիր %1$s",
+    "You created %1$s" : "Դու ստեղծեցիր %1$s",
+    "You deleted %1$s" : "Դու ջնջեցիր %1$s",
+    "You restored %1$s" : "Դու վերականգնեցիր %1$s"
 },
 "nplurals=2; plural=(n != 1);");

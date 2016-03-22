@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "שמירה",
     "Allowed characters {count} of {max}" : "תווים מותרים {count} מתוך {max}",
     "{count} unread comments" : "{count} תגובות שלא נקראו",
-    "Comment" : "תגובה"
+    "Comment" : "תגובה",
+    "<strong>Comments</strong> for files" : "<strong>תגובות</strong> לקבצים"
 },
 "nplurals=2; plural=(n != 1);");

@@ -156,6 +156,7 @@
     "This ownCloud instance is currently in single user mode." : "ಪ್ರಸ್ತುತ ಕ್ರಮದಲ್ಲಿ, ಈ OwnCloud ನ್ನು ಕೇವಲ ಒಬ್ಬನೇ ಬಳಕೆದಾರ ಮಾತ್ರ ಬಳಸಬಹುದಾಗಿದೆ.",
     "This means only administrators can use the instance." : "ಇದರ ಅರ್ಥ, ಸದ್ಯದ ನಿದರ್ಶನದಲ್ಲಿ ನಿರ್ವಾಹಕರು ಮಾತ್ರ ಬಳಸಬಹುದಾಗಿದೆ.",
     "Thank you for your patience." : "﻿ನಿಮ್ಮ ತಾಳ್ಮೆಗೆ ಧನ್ಯವಾದಗಳು.",
-    "Start update" : "ನವೀಕರಿಣವನ್ನು ಆರಂಭಿಸಿ"
+    "Start update" : "ನವೀಕರಿಣವನ್ನು ಆರಂಭಿಸಿ",
+    "Password can not be changed. Please contact your administrator." : "ಗುಪ್ತಪದ ಬದಲಾವಣೆ ಸಾಧ್ಯವಿಲ್ಲ. ನಿಮ್ಮ ನಿರ್ವಾಹಕರನ್ನು ಸಂಪರ್ಕಿಸಿ."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

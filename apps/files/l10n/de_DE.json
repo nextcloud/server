@@ -115,6 +115,14 @@
     "No favorites" : "Keine Favoriten",
     "Files and folders you mark as favorite will show up here" : "Dateien und Ordner, die Sie als Favoriten kennzeichnen, werden hier erscheinen",
     "Text file" : "Textdatei",
-    "New text file.txt" : "Neue Textdatei file.txt"
+    "New text file.txt" : "Neue Textdatei file.txt",
+    "Changed by %2$s" : "Geändert von %2$s",
+    "Deleted by %2$s" : "Gelöscht durch %2$s",
+    "Restored by %2$s" : "Wiederhergestellt durch %2$s",
+    "Unable to set upload directory." : "Das Upload-Verzeichnis konnte nicht gesetzt werden.",
+    "You changed %1$s" : "Sie haben %1$s geändert",
+    "You created %1$s" : "Sie haben %1$s erstellt",
+    "You deleted %1$s" : "Sie haben %1$s gelöscht",
+    "You restored %1$s" : "Sie haben %1$s wiederhergestellt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -120,6 +120,8 @@ OC.L10N.register(
     "Advanced settings" : "Geavanceerde instellingen",
     "Delete" : "Verwijder",
     "Allow users to mount external storage" : "Sta gebruikers toe om een externe opslag aan te koppelen",
-    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen"
+    "Allow users to mount the following external storage" : "Sta gebruikers toe de volgende externe opslag aan te koppelen",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Sommige van de geconfigureerde koppelpunten zijn niet verbonden. Klik op de rode rij(en) voor meer informatie"
 },
 "nplurals=2; plural=(n != 1);");

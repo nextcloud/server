@@ -129,6 +129,7 @@
     "Alternative Logins" : "اسماء دخول بديلة",
     "Use the following link to reset your password: {link}" : "استخدم هذه الوصلة لاسترجاع كلمة السر: {link}",
     "New password" : "كلمات سر جديدة",
-    "Reset password" : "تعديل كلمة السر"
+    "Reset password" : "تعديل كلمة السر",
+    "Password can not be changed. Please contact your administrator." : "كلمة المرور لا يمكن تغييرها. فضلاً تحدث مع المسؤول"
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

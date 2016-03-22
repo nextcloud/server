@@ -1,6 +1,7 @@
 { "translations": {
     "Name" : "Անուն",
     "Size" : "Չափս",
-    "Modified" : "Փոփոխված"
+    "Modified" : "Փոփոխված",
+    "No files in here" : "Ֆայլեր չկան այստեղ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

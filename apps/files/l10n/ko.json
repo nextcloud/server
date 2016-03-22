@@ -101,6 +101,13 @@
     "No favorites" : "책갈피 없음",
     "Files and folders you mark as favorite will show up here" : "책갈피에 추가한 파일과 폴더가 여기에 나타납니다",
     "Text file" : "텍스트 파일",
-    "New text file.txt" : "새 텍스트 파일.txt"
+    "New text file.txt" : "새 텍스트 파일.txt",
+    "Changed by %2$s" : "%2$s 님이 변경함",
+    "Deleted by %2$s" : "%2$s 님이 삭제함",
+    "Restored by %2$s" : "%2$s 님이 복원함",
+    "You changed %1$s" : "내가 %1$s을(를) 변경함",
+    "You created %1$s" : "내가 %1$s을(를) 생성함",
+    "You deleted %1$s" : "내가 %1$s을(를) 삭제함",
+    "You restored %1$s" : "내가 %1$s을(를) 복원함"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -285,6 +285,8 @@ OC.L10N.register(
     "Start update" : "開始升級",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "在大型安裝上，為了避免升級請求逾時，你也可以在安裝目錄執行下列指令：",
     "This %s instance is currently in maintenance mode, which may take a while." : "這個 %s 安裝目前處於維護模式，需要一段時間恢復。",
-    "This page will refresh itself when the %s instance is available again." : "%s 安裝恢復可用之後，本頁會自動重新整理"
+    "This page will refresh itself when the %s instance is available again." : "%s 安裝恢復可用之後，本頁會自動重新整理",
+    "Error loading file picker template: {error}" : "載入檔案選擇器樣板出錯： {error}",
+    "Password can not be changed. Please contact your administrator." : "無法變更密碼，請聯絡您的系統管理員"
 },
 "nplurals=1; plural=0;");

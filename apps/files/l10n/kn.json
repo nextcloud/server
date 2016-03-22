@@ -55,6 +55,7 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ನೀವು ವರ್ಗಾಯಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವ ಕಡತಗಳ ಗಾತ್ರ, ಈ ಗಣಕ ಕೋಶದ ಗರಿಷ್ಠ ಕಡತ ಮೀತಿಯಾನ್ನು ಮೀರುವಂತಿಲ್ಲ.",
     "No favorites" : "ಯಾವ ಅಚ್ಚುಮೆಚ್ಚಿನವುಗಳು ಇಲ್ಲ",
     "Files and folders you mark as favorite will show up here" : "ನೀವು ಗುರುತು ಮಾಡಿರುವ ನೆಚ್ಚಿನ ಕಡತ ಮತ್ತು ಕಡತಕೋಶಗಳನ್ನು ಇಲ್ಲಿ ತೋರಿಸಲಾಗುತ್ತಿದೆ",
-    "Text file" : "ಸರಳಾಕ್ಷರದ ಕಡತ"
+    "Text file" : "ಸರಳಾಕ್ಷರದ ಕಡತ",
+    "Upload cancelled." : "ವರ್ಗಾವಣೆಯನ್ನು ರದ್ದು ಮಾಡಲಾಯಿತು."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

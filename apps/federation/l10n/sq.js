@@ -6,6 +6,9 @@ OC.L10N.register(
     "No ownCloud server found" : "S’u gjet shërbyes ownCloud",
     "Could not add server" : "Shërbyesi s’u shtua dot",
     "Federation" : "Federim",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federimi ownCloud ju lejon të lidheni me ownCloud-e të tjerë për të shkëmbyer drejtorinë e përdoruesve. Për shembull, kjo do të përdoret për për vetëplotësim përdoruesish të jashtëm për ndarje të federuar."
+    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federimi ownCloud ju lejon të lidheni me ownCloud-e të tjerë për të shkëmbyer drejtorinë e përdoruesve. Për shembull, kjo do të përdoret për për vetëplotësim përdoruesish të jashtëm për ndarje të federuar.",
+    "Add server automatically once a federated share was created successfully" : "Shtoje vetvetiu shërbyesin pasi të jetë krijuar me sukses një ndarje e federuar",
+    "ownCloud Server" : "Shërbyes ownCloud",
+    "Trusted ownCloud Servers" : "Shërbyes ownCloud të Besuar"
 },
 "nplurals=2; plural=(n != 1);");

@@ -81,6 +81,11 @@ OC.L10N.register(
     "Share it:" : "Partejar :",
     "Add to your website" : "Apondre a vòstre site web",
     "Share with me via ownCloud" : "Partejatz amb ieu via ownCloud",
-    "HTML Code:" : "Còde HTML :"
+    "HTML Code:" : "Còde HTML :",
+    "Public shared file %1$s was downloaded" : "Lo fichièr public %1$s es estat telecargat",
+    "Public shared folder %1$s was downloaded" : "Lo dorsièr public %1$s es estat telecargat",
+    "Shared by %2$s" : "Partejat per %2$s",
+    "Shared via link by %2$s" : "Partejat via ligam per %2$s",
+    "Shared with group %3$s by %2$s" : "Partejat amb lo grop %3$s per %2$s"
 },
 "nplurals=2; plural=(n > 1);");

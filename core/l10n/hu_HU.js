@@ -286,6 +286,9 @@ OC.L10N.register(
     "Start update" : "A frissítés megkezdése",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Nagyobb telepítések esetén úgy kerülhetők el az időtúllépések, ha inkább a következő parancsot adja ki a telepítési alkönyvtárban:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Ez a %s folyamat éppen karbantartó üzemmódban van, ami eltarthat egy darabig.",
-    "This page will refresh itself when the %s instance is available again." : "Ez az oldal frissíteni fogja magát amint a %s példány ismét elérhető."
+    "This page will refresh itself when the %s instance is available again." : "Ez az oldal frissíteni fogja magát amint a %s példány ismét elérhető.",
+    "Error loading file picker template: {error}" : "Nem sikerült betölteni a fájlkiválasztó sablont: {error}",
+    "not assignable" : "nem hozzárendelhető",
+    "Password can not be changed. Please contact your administrator." : "A jelszót nem lehet visszaállítani. Kérjük, lépjen kapcsolatba a redszergazdával."
 },
 "nplurals=2; plural=(n != 1);");

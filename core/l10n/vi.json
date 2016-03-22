@@ -142,6 +142,7 @@
     "This ownCloud instance is currently in single user mode." : "OwnCloud trong trường hợp này đang ở chế độ người dùng duy nhất.",
     "This means only administrators can use the instance." : "Điều này có nghĩa chỉ có người quản trị có thể sử dụng trong trường hợp này.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
-    "Thank you for your patience." : "Cảm ơn sự kiên nhẫn của bạn."
+    "Thank you for your patience." : "Cảm ơn sự kiên nhẫn của bạn.",
+    "Error loading file picker template: {error}" : "Lỗi khi tải mẫu tập tin picker: {error}"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -83,6 +83,11 @@ OC.L10N.register(
     "Share it:" : "แชร์มัน:",
     "Add to your website" : "เพิ่มไปยังเว็บไซต์",
     "Share with me via ownCloud" : "แชร์ร่วมกับฉันผ่าน ownCloud",
-    "HTML Code:" : "โค้ด HTML:"
+    "HTML Code:" : "โค้ด HTML:",
+    "Public shared file %1$s was downloaded" : "ไฟล์สาธารณะ %1$s ที่แชร์ถูกดาวน์โหลด",
+    "Public shared folder %1$s was downloaded" : "โฟลเดอร์สาธารณะ %1$s ที่แชร์ถูกดาวน์โหลด",
+    "Shared by %2$s" : "แชร์โดย %2$s",
+    "Shared via link by %2$s" : "แชร์ผ่านลิงค์โดย %2$s",
+    "Shared with group %3$s by %2$s" : "แชร์กับกลุ่ม %3$s โดย %2$s"
 },
 "nplurals=1; plural=0;");

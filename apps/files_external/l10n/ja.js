@@ -120,6 +120,8 @@ OC.L10N.register(
     "Advanced settings" : "詳細設定",
     "Delete" : "削除",
     "Allow users to mount external storage" : "ユーザーに外部ストレージの接続を許可する",
-    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する"
+    "Allow users to mount the following external storage" : "ユーザーに以下の外部ストレージのマウントを許可する",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "いくつかの設定済み外部マウントポイントに接続できませんでした。詳細情報は赤い行をクリックしてください"
 },
 "nplurals=1; plural=0;");

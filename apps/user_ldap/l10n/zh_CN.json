@@ -151,6 +151,9 @@
     "Username-LDAP User Mapping" : "用户名-LDAP用户映射",
     "Usernames are used to store and assign (meta) data. In order to precisely identify and recognize users, each LDAP user will have an internal username. This requires a mapping from username to LDAP user. The created username is mapped to the UUID of the LDAP user. Additionally the DN is cached as well to reduce LDAP interaction, but it is not used for identification. If the DN changes, the changes will be found. The internal username is used all over. Clearing the mappings will have leftovers everywhere. Clearing the mappings is not configuration sensitive, it affects all LDAP configurations! Never clear the mappings in a production environment, only in a testing or experimental stage." : "用户名用于存储和分配数据 (元)。为了准确地识别和确认用户，每个用户都有一个内部用户名。这需要一个 ownCloud 用户名到 LDAP 用户的映射。创建的用户名被映射到 LDAP 用户的 UUID。此外，DN 也会被缓存，以减少 LDAP 连接，但它不用于识别。DN 的变化会被监视到。内部用户名会被用于所有地方。清除映射将导致一片混乱。清除映射不是常用的设置，它会影响到所有的 LDAP 配置！千万不要在正式环境中清除映射，只有在测试或试验时才这样做。",
     "Clear Username-LDAP User Mapping" : "清除用户-LDAP用户映射",
-    "Clear Groupname-LDAP Group Mapping" : "清除组用户-LDAP级映射"
+    "Clear Groupname-LDAP Group Mapping" : "清除组用户-LDAP级映射",
+    "Anonymous bind is not allowed. Please provide a User DN and Password." : "禁止匿名绑定。请提供有效的用户DN和密码。",
+    "Select object classes" : "选择对象类型",
+    "{nthServer}. Server" : "{nthServer}. 服务器"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

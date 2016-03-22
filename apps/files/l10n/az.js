@@ -100,6 +100,10 @@ OC.L10N.register(
     "No favorites" : "Seçilmiş yoxdur",
     "Files and folders you mark as favorite will show up here" : "İstəkli qeyd etdiyiniz fayllar və qovluqlar burda göstəriləcək",
     "Text file" : "Tekst faylı",
-    "New text file.txt" : "Yeni mətn file.txt"
+    "New text file.txt" : "Yeni mətn file.txt",
+    "You changed %1$s" : "Siz dəyişdiniz %1$s",
+    "You created %1$s" : "Siz yaratdınız %1$s",
+    "You deleted %1$s" : "Siz silindiniz %1$s",
+    "You restored %1$s" : "Siz qayıtdınız %1$s"
 },
 "nplurals=2; plural=(n != 1);");

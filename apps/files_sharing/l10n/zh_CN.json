@@ -58,6 +58,14 @@
     "Federated Cloud" : "联合云",
     "Your Federated Cloud ID:" : "你的联合云ID：",
     "Share with me via ownCloud" : "通过联合云与我共享",
-    "HTML Code:" : "HTML 代码:"
+    "HTML Code:" : "HTML 代码:",
+    "Add to your website" : "添加到您的网站",
+    "No shared links" : "无分享链接",
+    "Public link of %2$s expired" : "%2$s 的公开链接已过期",
+    "Public shared file %1$s was downloaded" : "公共共享文件 %1$s 已被下载",
+    "Public shared folder %1$s was downloaded" : "公共共享文件夹 %1$s 已被下载",
+    "Shared by %2$s" : "由 %2$s 共享",
+    "Shared via link by %2$s" : "%2$s 以链接方式共享",
+    "Shared with group %3$s by %2$s" : "由 %2$s 共享给组 %3$s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

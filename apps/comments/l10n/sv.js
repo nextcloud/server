@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Spara",
     "Allowed characters {count} of {max}" : "Tillåtet antal tecken {count} av {max}",
     "{count} unread comments" : "{count} olästa kommentarer",
-    "Comment" : "Kommentar"
+    "Comment" : "Kommentar",
+    "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> till filer"
 },
 "nplurals=2; plural=(n != 1);");

@@ -125,6 +125,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Taldeentzako UUID atributuak:",
     "Username-LDAP User Mapping" : "LDAP-erabiltzaile-izena erabiltzailearen mapeatzea",
     "Clear Username-LDAP User Mapping" : "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa",
-    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa"
+    "Clear Groupname-LDAP Group Mapping" : "Garbitu LDAP-talde-izenaren talde mapaketa",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Lotura egingo den bezero erabiltzailearen DNa, adb. uid=agent,dc=example,dc=com. Sarrera anonimoak gaitzeko utzi DN eta Pasahitza hutsik.",
+    "{nthServer}. Server" : "{nthServer}. Zerbitzaria"
 },
 "nplurals=2; plural=(n != 1);");

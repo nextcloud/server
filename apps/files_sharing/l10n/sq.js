@@ -101,6 +101,19 @@ OC.L10N.register(
     "Share it:" : "Ndajeni:",
     "Add to your website" : "Shtojeni te sajti juaj",
     "Share with me via ownCloud" : "Ndani me mua përmes ownCloud-it",
-    "HTML Code:" : "Kod HTML:"
+    "HTML Code:" : "Kod HTML:",
+    "Public link of %2$s expired" : "Lidhja publike e %2$s skadoi",
+    "Public shared file %1$s was downloaded" : "U shkarkua kartela e ndarë publikisht %1$s",
+    "Public shared folder %1$s was downloaded" : "U shkarkua dosja e ndarë publikisht %1$s",
+    "Removed share for %2$s" : "Hoqi ndarjen për %2$s",
+    "Removed share of group %2$s" : "Hoqi ndarjen e grupit %2$s",
+    "Shared by %2$s" : "U nda nga %2$s",
+    "Shared via link by %2$s" : "U nda përmes një lidhje nga %2$s",
+    "Shared with group %3$s by %2$s" : "U nda me grupin %3$s nga %2$s",
+    "The public link of %2$s for %1$s expired" : "Lidhja publike e %2$s për %1$s skadoi",
+    "You removed the public link for %1$s" : "Hoqët lidhjen publike për %1$s",
+    "You removed the share of %2$s for %1$s" : "Hoqët ndarjen e %2$s për %1$s",
+    "You removed the share of group %2$s for %1$s" : "Hoqët ndarjen e grupit %2$s për %1$s",
+    "Your public link for %1$s expired" : "Lidhja juaj publike për %1$s skadoi"
 },
 "nplurals=2; plural=(n != 1);");

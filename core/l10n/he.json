@@ -297,6 +297,8 @@
     "Start update" : "התחלת עדכון",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "למניעת פסקי זמן בהתקנות גדולות, ניתן במקום להריץ את הפקודה הבאה בתיקיית ההתקנה שלך:",
     "This %s instance is currently in maintenance mode, which may take a while." : "הפעלה %s זו כרגע במצב אחזקה, שתמשך זמן מה.",
-    "This page will refresh itself when the %s instance is available again." : "עמוד זה ירענן את עצמו כשהפעלת %s תהיה זמינה שוב."
+    "This page will refresh itself when the %s instance is available again." : "עמוד זה ירענן את עצמו כשהפעלת %s תהיה זמינה שוב.",
+    "Error loading file picker template: {error}" : "שגיאה בטעינת תבנית בחירת הקבצים: {error}",
+    "Password can not be changed. Please contact your administrator." : "לא ניתן לשנות את הסיסמא. יש לפנות למנהל שלך."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

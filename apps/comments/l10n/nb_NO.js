@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Lagre",
     "Allowed characters {count} of {max}" : "Antall tegn tillatt {count} av {max}",
     "{count} unread comments" : "{count} uleste kommentarer",
-    "Comment" : "Kommentar"
+    "Comment" : "Kommentar",
+    "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> for filer"
 },
 "nplurals=2; plural=(n != 1);");

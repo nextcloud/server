@@ -80,6 +80,11 @@
     "Share it:" : "Pasidalink:",
     "Add to your website" : "Pridėti tavo puslapį",
     "Share with me via ownCloud" : "Pasidalink su manimi per ownCloud",
-    "HTML Code:" : "HTML kodas:"
+    "HTML Code:" : "HTML kodas:",
+    "Public shared file %1$s was downloaded" : "Viešai dalinamas failas %1$s parsiųstas",
+    "Public shared folder %1$s was downloaded" : "Viešas dalijimosi aplankas %1$s parsiųstas",
+    "Shared by %2$s" : "Pasidalino %2$s",
+    "Shared via link by %2$s" : "%2$s pasidalino nuoroda",
+    "Shared with group %3$s by %2$s" : "%2$s pasidalino su grupe %3$s"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

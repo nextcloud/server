@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Allowed characters {count} of {max}" : "Caracteres permitidos {count} de {max}",
     "{count} unread comments" : "{count} comentarios no leídos",
-    "Comment" : "Comentario"
+    "Comment" : "Comentario",
+    "<strong>Comments</strong> for files" : "<strong>Comentarios</strong> en archivos"
 },
 "nplurals=2; plural=(n != 1);");

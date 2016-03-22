@@ -81,6 +81,11 @@ OC.L10N.register(
     "Share it:" : "Zdieľať:",
     "Add to your website" : "Pridať na svoju webstránku",
     "Share with me via ownCloud" : "Zdieľané so mnou cez ownCloud",
-    "HTML Code:" : "HTML kód:"
+    "HTML Code:" : "HTML kód:",
+    "Public shared file %1$s was downloaded" : "Verejne zdieľaný súbor %1$s bol stiahnutý",
+    "Public shared folder %1$s was downloaded" : "Verejne zdieľaný priečinok %1$s bol stiahnutý",
+    "Shared by %2$s" : "Zdieľané s %2$s",
+    "Shared via link by %2$s" : "Zdieľané prostredníctvom odkazu s %2$s",
+    "Shared with group %3$s by %2$s" : "Zdieľané so skupinou %3$s prostredníctvom %2$s"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

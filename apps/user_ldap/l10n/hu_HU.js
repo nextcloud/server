@@ -98,6 +98,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "A csoportok UUID attribútuma:",
     "Username-LDAP User Mapping" : "Felhasználó - LDAP felhasználó hozzárendelés",
     "Clear Username-LDAP User Mapping" : "A felhasználó - LDAP felhasználó hozzárendelés törlése",
-    "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése"
+    "Clear Groupname-LDAP Group Mapping" : "A csoport - LDAP csoport hozzárendelés törlése",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Annak a felhasználónak a DN-je, akinek a nevében bejelentkezve kapcsolódunk a kiszolgálóhoz, pl. uid=agent,dc=example,dc=com. Bejelentkezés nélküli eléréshez ne töltse ki a DN és Jelszó mezőket!",
+    "{nthServer}. Server" : "{nthServer}. Kiszolgáló"
 },
 "nplurals=2; plural=(n != 1);");

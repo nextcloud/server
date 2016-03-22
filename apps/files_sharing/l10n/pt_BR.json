@@ -99,6 +99,19 @@
     "Share it:" : "Compartilhe:",
     "Add to your website" : "Adicione ao seu website",
     "Share with me via ownCloud" : "Compartilhe comigo via ownCloud",
-    "HTML Code:" : "Código HTML:"
+    "HTML Code:" : "Código HTML:",
+    "Public link of %2$s expired" : "O link público de %2$s expirou",
+    "Public shared file %1$s was downloaded" : "O arquivo %1$s compartilhado publicamente foi baixado",
+    "Public shared folder %1$s was downloaded" : "A pasta %1$s compartilhada publicamente foi baixada",
+    "Removed share for %2$s" : "Removido compartilhamento para %2$s",
+    "Removed share of group %2$s" : "Removido compartilhamento para o grupo %2$s",
+    "Shared by %2$s" : "Compartilhado por %2$s",
+    "Shared via link by %2$s" : "Compartilhado via link por %2$s",
+    "Shared with group %3$s by %2$s" : "Compartilhado com o grupo %3$s por %2$s",
+    "The public link of %2$s for %1$s expired" : "O link público de %2$s para %1$s expirou",
+    "You removed the public link for %1$s" : "Você removeu o link público de %1$s",
+    "You removed the share of %2$s for %1$s" : "Você removeu o compartilhamento de %2$s para %1$s",
+    "You removed the share of group %2$s for %1$s" : "Você removeu o compartilhamento de %2$s para %1$s",
+    "Your public link for %1$s expired" : "O seu link público para %1$s expirou"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

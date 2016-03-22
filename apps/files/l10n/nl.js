@@ -116,6 +116,13 @@ OC.L10N.register(
     "No favorites" : "Geen favorieten",
     "Files and folders you mark as favorite will show up here" : "Bestanden en mappen die u favoriet vindt worden hier getoont",
     "Text file" : "Tekstbestand",
-    "New text file.txt" : "Nieuw tekstbestand.txt"
+    "New text file.txt" : "Nieuw tekstbestand.txt",
+    "Changed by %2$s" : "Gewijzigd door %2$s",
+    "Deleted by %2$s" : "Verwijderd door %2$s",
+    "Restored by %2$s" : "Hersteld door %2$s",
+    "You changed %1$s" : "Gewijzigd: %1$s",
+    "You created %1$s" : "Gecreëerd: %1$s",
+    "You deleted %1$s" : "Verwijderd: %1$s",
+    "You restored %1$s" : "Hersteld: %1$s"
 },
 "nplurals=2; plural=(n != 1);");

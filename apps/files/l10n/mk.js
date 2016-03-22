@@ -75,6 +75,12 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
     "Files and folders you mark as favorite will show up here" : "Датотеките и папките кои ќе ги означите како чести, ќе се појават тука",
     "Text file" : "Текстуална датотека",
-    "New text file.txt" : "Нова текстуална датотека file.txt"
+    "New text file.txt" : "Нова текстуална датотека file.txt",
+    "Changed by %2$s" : "Променето од %2$s",
+    "Deleted by %2$s" : "Избришано од %2$s",
+    "Restored by %2$s" : "Повратено од %2$s",
+    "You changed %1$s" : "Вие изменивте %1$s",
+    "You created %1$s" : "Вие креиравте %1$s",
+    "You deleted %1$s" : "Вие избришавте %1$s"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

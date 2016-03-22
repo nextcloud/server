@@ -60,6 +60,9 @@ OC.L10N.register(
     "Cancel upload" : "Cancelar subida",
     "Upload too large" : "Subida demasido grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor.",
-    "Text file" : "Archivo de texto"
+    "Text file" : "Archivo de texto",
+    "You changed %1$s" : "Has cambiado %1$s",
+    "You created %1$s" : "Has creado %1$s",
+    "You deleted %1$s" : "Has eliminado %1$s"
 },
 "nplurals=2; plural=(n != 1);");

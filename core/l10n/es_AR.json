@@ -150,6 +150,8 @@
     "This ownCloud instance is currently in single user mode." : "Esta instancia de ownCloud está en modo de usuario único.",
     "This means only administrators can use the instance." : "Esto significa que solo administradores pueden usar esta instancia.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte su administrador de sistema si este mensaje persiste o aparece inesperadamente.",
-    "Thank you for your patience." : "Gracias por su paciencia."
+    "Thank you for your patience." : "Gracias por su paciencia.",
+    "Error loading file picker template: {error}" : "Error cargando la plantilla del selector de archivo: {error}",
+    "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Tu directorio de datos y tus archivos probablemente son accesibles a través de internet, ya que el archivo .htaccess no está funcionando."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

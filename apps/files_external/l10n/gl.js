@@ -70,6 +70,8 @@ OC.L10N.register(
     "Add storage" : "Engadir almacenamento",
     "Advanced settings" : "Axustes avanzados",
     "Delete" : "Eliminar",
-    "Allow users to mount the following external storage" : "Permitirlle aos usuarios montar o seguinte almacenamento externo"
+    "Allow users to mount the following external storage" : "Permitirlle aos usuarios montar o seguinte almacenamento externo",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> A compatibilidade de FTP en PHP non está activada, ou non está instalado. Non é posíbel a montaxe de %s. Consulte co administrador do sistema como instalalo.",
+    "SMB / CIFS using OC login" : "SMB / CIFS usando acceso OC"
 },
 "nplurals=2; plural=(n != 1);");

@@ -16,6 +16,7 @@ OC.L10N.register(
     "Save" : "保存",
     "Allowed characters {count} of {max}" : "当前字数： {count}，最大允许：{max}",
     "{count} unread comments" : "{count} 条未读评论",
-    "Comment" : "评论"
+    "Comment" : "评论",
+    "<strong>Comments</strong> for files" : "<strong>评论文件</strong>"
 },
 "nplurals=1; plural=0;");

@@ -70,6 +70,10 @@ OC.L10N.register(
     "Add storage" : "Dodaj zasoby dyskowe",
     "Advanced settings" : "Ustawienia zaawansowane",
     "Delete" : "Usuń",
-    "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe"
+    "Allow users to mount the following external storage" : "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe",
+    "Access key" : "Klucz dostępu",
+    "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Uwaga:</b> Wsparcie dla FTP w PHP nie zostało włączone lub zainstalowane. Zamontowanie %s nie jest możliwe. Proszę poproś Twojego administratora o zainstalowanie go.",
+    "RSA public key" : "Klucz publiczny RSA",
+    "SMB / CIFS using OC login" : "SMB / CIFS przy użyciu loginu OC"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

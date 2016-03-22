@@ -103,6 +103,10 @@ OC.L10N.register(
     "No favorites" : "Lemmikuid pole",
     "Files and folders you mark as favorite will show up here" : "Siin kuvatakse faile ja kaustasid, mille oled märkinud lemmikuteks",
     "Text file" : "Tekstifail",
-    "New text file.txt" : "Uus tekstifail.txt"
+    "New text file.txt" : "Uus tekstifail.txt",
+    "You changed %1$s" : "Sa muutsid %1$s",
+    "You created %1$s" : "Sa tekitasid %1$s",
+    "You deleted %1$s" : "Sa kustutasid %1$s",
+    "You restored %1$s" : "Sa taastasid %1$s"
 },
 "nplurals=2; plural=(n != 1);");

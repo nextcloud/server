@@ -4,6 +4,9 @@
     "No ownCloud server found" : "没有找到对应服务器",
     "Could not add server" : "无法添加服务器",
     "Federation" : "联合",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "联合云系统使您可以方便快速的和其他用户共享文件。"
+    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "联合云系统使您可以方便快速的和其他用户共享文件。",
+    "Add server automatically once a federated share was created successfully" : "一旦联合共享创建成功自动添加服务器",
+    "ownCloud Server" : "ownCloud 服务器",
+    "Trusted ownCloud Servers" : "可信 ownCloud 服务器"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -120,6 +120,8 @@ OC.L10N.register(
     "Advanced settings" : "הגדרות מתקדמות",
     "Delete" : "מחיקה",
     "Allow users to mount external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני",
-    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא"
+    "Allow users to mount the following external storage" : "מאפשר למשתמשים לחבר אחסון חיצוני הבא",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "חלק מנקודות העיגון החיצוניות שהוגדרו אינן מחוברות. יש ללחוץ על השורה/ות האדומה/ות למידע נוסף"
 },
 "nplurals=2; plural=(n != 1);");

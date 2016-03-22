@@ -99,6 +99,16 @@
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
     "Allow users to mount external storage" : "Erlauben Sie den Benutzern externen Speicher hinzuzufügen",
-    "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:"
+    "Allow users to mount the following external storage" : "Benutzern erlauben, den oder die folgenden externen Speicher einzubinden:",
+    "Admin defined" : "Administrator definiert",
+    "Credentials required" : "Zugangsdaten benötigt",
+    "Credentials saved" : "Zugangsdaten gespeichert",
+    "Credentials saving failed" : "Speichern der Zugangsdaten fehlgeschlagen",
+    "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",
+    "Log-in credentials, save in session" : "Anmelde-Zugangsdaten, speichere in Sitzung",
+    "Please enter the credentials for the {mount} mount" : "Bitte geben Sie die Zugangsdaten für den {mount} Speicher an",
+    "RSA public key" : "RSA öffentlicher Schlüssel",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Unsatisfied authentication mechanism parameters" : "Unbefriedigende Autentifizierungs-Mechanismus Parameter"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

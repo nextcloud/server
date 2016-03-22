@@ -4,6 +4,9 @@
     "No ownCloud server found" : "Geen ownCloud server gevonden",
     "Could not add server" : "Kon server niet toevoegen",
     "Federation" : "Federatie",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "ownCloud Federatie stelt u in staat om een verbinding op te zetten met andere vertrouwde ownClouds en uw gebruikers lijst uit te wisselen. Dit stelt u bijvoorbeeld in staat om automatish suggesties te rkijgen voor gebruikeners tijdens het delen via federatie."
+    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "ownCloud Federatie stelt u in staat om een verbinding op te zetten met andere vertrouwde ownClouds en uw gebruikers lijst uit te wisselen. Dit stelt u bijvoorbeeld in staat om automatish suggesties te rkijgen voor gebruikeners tijdens het delen via federatie.",
+    "Add server automatically once a federated share was created successfully" : "Voeg server automatisch toe zodra een gefedereerde share succesvol gecreëerd is",
+    "ownCloud Server" : "ownCloud Server",
+    "Trusted ownCloud Servers" : "Vertrouwde ownCloud Servers"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -2,6 +2,7 @@
     "Cancel" : "Չեղարկել",
     "Password" : "Գաղտնաբառ",
     "Name" : "Անուն",
-    "Download" : "Բեռնել"
+    "Download" : "Բեռնել",
+    "Download %s" : "Ներբեռնել %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

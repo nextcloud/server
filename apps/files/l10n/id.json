@@ -101,6 +101,13 @@
     "No favorites" : "Tidak ada favorit",
     "Files and folders you mark as favorite will show up here" : "Berkas dan folder yang Anda tandai sebagai favorit akan ditampilkan disini.",
     "Text file" : "Berkas teks",
-    "New text file.txt" : "Teks baru file.txt"
+    "New text file.txt" : "Teks baru file.txt",
+    "Changed by %2$s" : "Diubah oleh %2$s",
+    "Deleted by %2$s" : "Dihapus oleh %2$s",
+    "Restored by %2$s" : "Dipulihkan oleh %2$s",
+    "You changed %1$s" : "Anda mengubah %1$s",
+    "You created %1$s" : "Anda membuat %1$s",
+    "You deleted %1$s" : "Anda menghapus %1$s",
+    "You restored %1$s" : "Anda memulihkan %1$s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

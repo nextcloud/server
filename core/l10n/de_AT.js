@@ -58,6 +58,9 @@ OC.L10N.register(
     "Add" : "Hinzufügen",
     "Personal" : "Persönlich",
     "Help" : "Hilfe",
-    "Username" : "Benutzername"
+    "Username" : "Benutzername",
+    "Fri." : "Fr",
+    "Mon." : "Mo",
+    "Sat." : "Sa"
 },
 "nplurals=2; plural=(n != 1);");

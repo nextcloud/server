@@ -68,6 +68,8 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "ID da súa nube federada:",
     "Share it:" : "Compártao:",
     "Share with me via ownCloud" : "Comparte comigo a través do ownCloud",
-    "HTML Code:" : "Código HTML:"
+    "HTML Code:" : "Código HTML:",
+    "Public shared file %1$s was downloaded" : "Foi descargado o ficheiro público %1$s",
+    "Public shared folder %1$s was downloaded" : "Foi descargado o cartafol público %1$s"
 },
 "nplurals=2; plural=(n != 1);");

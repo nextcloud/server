@@ -98,6 +98,7 @@ OC.L10N.register(
     "Add storage" : "Lisa andmehoidla",
     "Advanced settings" : "Lisavalikud",
     "Delete" : "Kustuta",
-    "Allow users to mount the following external storage" : "Võimalda kasutajatel ühendada järgmist välist andmehoidlat"
+    "Allow users to mount the following external storage" : "Võimalda kasutajatel ühendada järgmist välist andmehoidlat",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=2; plural=(n != 1);");

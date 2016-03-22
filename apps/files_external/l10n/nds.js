@@ -94,6 +94,7 @@ OC.L10N.register(
     "Add storage" : "Speicher hinzufügen",
     "Advanced settings" : "Erweiterte Einstellungen",
     "Delete" : "Löschen",
-    "Allow users to mount the following external storage" : "Erlaube Benutzern folgenden externen Speicher einzuhängen"
+    "Allow users to mount the following external storage" : "Erlaube Benutzern folgenden externen Speicher einzuhängen",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=2; plural=(n != 1);");

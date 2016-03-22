@@ -115,6 +115,8 @@ OC.L10N.register(
     "Advanced settings" : "ตั้งค่าขั้นสูง",
     "Delete" : "ลบ",
     "Allow users to mount external storage" : "อนุญาตให้ผู้ใช้ติดตั้งการจัดเก็บข้อมูลภายนอก",
-    "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้"
+    "Allow users to mount the following external storage" : "อนุญาตให้ผู้ใช้ติดตั้งจัดเก็บข้อมูลภายนอกต่อไปนี้",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "การกำหนดค่าบางส่วนของจุดเชื่อมต่อภายนอกไม่ถูกเชื่อมต่อ กรุณาคลิกที่ตรงสีแดงสำหรับข้อมูลเพิ่มเติม"
 },
 "nplurals=1; plural=0;");

@@ -140,6 +140,14 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "מאפייני UUID לקבוצות:",
     "Username-LDAP User Mapping" : "מיפוי שם משתמש LDAP:",
     "Clear Username-LDAP User Mapping" : "ניקוי מיפוי שם משתמש LDAP:",
-    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:"
+    "Clear Groupname-LDAP Group Mapping" : "ניקוי מיפוי שם משתמש קבוצה LDAP:",
+    "Group-Member association" : "שיוך חברי-קבוצה",
+    "Nested Groups" : "קבוצות משנה",
+    "One Group Base DN per line" : "קבוצת DN בסיסית לשורה",
+    "One User Base DN per line" : "משתמש DN בסיסי אחד לשורה",
+    "Paging chunksize" : "Paging chunksize",
+    "Anonymous bind is not allowed. Please provide a User DN and Password." : "קישור אננונימי אינו מותר. יש לספק שם משתמש DN וסיסמא.",
+    "{nthServer}. Server" : "{nthServer}. שרת",
+    "User Home Folder Naming Rule" : "כלל קביעת שם תיקיית בית למשתמש"
 },
 "nplurals=2; plural=(n != 1);");

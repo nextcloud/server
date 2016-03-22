@@ -99,6 +99,19 @@
     "Share it:" : "Paylaşın:",
     "Add to your website" : "Web sitenize ekleyin",
     "Share with me via ownCloud" : "Benimle ownCloud aracılığıyla paylaşıldı",
-    "HTML Code:" : "HTML Kodu:"
+    "HTML Code:" : "HTML Kodu:",
+    "Public link of %2$s expired" : "%2$s için paylaşım bağlantısı süresi doldu",
+    "Public shared file %1$s was downloaded" : "Herkese açık paylaşılan dosya %1$s indirildi",
+    "Public shared folder %1$s was downloaded" : "Herkese açık paylaşılan klasör %1$s indirildi",
+    "Removed share for %2$s" : "%2$s için paylaşım kaldırıldı",
+    "Removed share of group %2$s" : "%2$s, grup paylaşımını kaldırdı",
+    "Shared by %2$s" : "%2$s tarafından paylaşıldı",
+    "Shared via link by %2$s" : "%2$s tarafından bağlantı ile paylaşıldı",
+    "Shared with group %3$s by %2$s" : "%2$s tarafından %3$s grubu ile paylaşıldı",
+    "The public link of %2$s for %1$s expired" : "%1$s için %2$s paylaşım bağlantısının süresi doldu",
+    "You removed the public link for %1$s" : "%1$s için paylaşım bağlantısını kaldırdınız",
+    "You removed the share of %2$s for %1$s" : "%1$s için %2$s paylaşımını kaldırdınız",
+    "You removed the share of group %2$s for %1$s" : "%1$s için %2$s grup paylaşımını kaldırdınız",
+    "Your public link for %1$s expired" : "%1$s için paylaşım bağlantınızın süresi doldu"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

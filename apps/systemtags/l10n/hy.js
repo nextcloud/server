@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Name" : "Անուն",
     "Size" : "Չափս",
-    "Modified" : "Փոփոխված"
+    "Modified" : "Փոփոխված",
+    "No files in here" : "Ֆայլեր չկան այստեղ"
 },
 "nplurals=2; plural=(n != 1);");

@@ -69,6 +69,21 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",
     "No favorites" : "Engin eftirlæti",
     "Text file" : "Textaskrá",
-    "New text file.txt" : "Ný textaskrá.txt"
+    "New text file.txt" : "Ný textaskrá.txt",
+    "An error occurred while trying to update the tags" : "Villa kom upp við að reyna að uppfæra merkin",
+    "Changed by %2$s" : "Breytt af %2$s",
+    "Deleted by %2$s" : "Eytt af %2$s",
+    "Files and folders you mark as favorite will show up here" : "Skrár og möppur sem þú merkir sem uppáhald birtast hér",
+    "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ekki nægilegt laust pláss, þú ert að senda inn {size1} en einungis {size2} eru eftir",
+    "Not enough storage available" : "Ekki er nægilegt geymslupláss tiltækt",
+    "Restored by %2$s" : "Endurheimt af %2$s",
+    "Storage invalid" : "Ógild geymsla",
+    "Storage not available" : "Geymsla ekki tiltæk",
+    "Unable to upload {filename} as it is a directory or has 0 bytes" : "Tókst ekki að hlaða inn {filename} þar sem þetta er mappa eða er 0 bæti",
+    "Upload failed. Could not find uploaded file" : "Innsending mistókst. Fann ekki innsendu skrána",
+    "You changed %1$s" : "Þú breyttir %1$s",
+    "You created %1$s" : "Þú bjóst til %1$s",
+    "You deleted %1$s" : "Þú eyddir %1$s",
+    "You restored %1$s" : "Þú endurheimtir %1$s"
 },"pluralForm" :"nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);"
 }

@@ -54,6 +54,8 @@ OC.L10N.register(
     "Download %s" : "Ladda ner %s",
     "Direct link" : "Direkt länk",
     "Allow users on this server to send shares to other servers" : "Tillåt användare på denna server att skicka utdelningar till andra servrar",
-    "Allow users on this server to receive shares from other servers" : "Tillåt användare på denna servern att ta emot utdelningar från andra servrar"
+    "Allow users on this server to receive shares from other servers" : "Tillåt användare på denna servern att ta emot utdelningar från andra servrar",
+    "Public shared file %1$s was downloaded" : "Publikt delad fil %1$s blev nerladdad",
+    "Public shared folder %1$s was downloaded" : "Publikt delad mapp %1$s blev nerladdad"
 },
 "nplurals=2; plural=(n != 1);");

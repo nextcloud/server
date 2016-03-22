@@ -85,6 +85,14 @@
     "Select all" : "Wybierz wszystko",
     "Upload too large" : "Ładowany plik jest za duży",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Pliki, które próbujesz przesłać, przekraczają maksymalną dopuszczalną wielkość.",
-    "Text file" : "Plik tekstowy"
+    "Text file" : "Plik tekstowy",
+    "Changed by %2$s" : "Zmienione przez %2$s",
+    "New text file.txt" : "Nowy plik tekstowy.txt",
+    "No files in here" : "Brak plików",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Ten folder jest niedostępny, proszę sprawdzić logi lub skontaktować się z administratorem.",
+    "You changed %1$s" : "Zmieniłeś %1$s",
+    "You created %1$s" : "Utworzyłeś %1$s",
+    "You deleted %1$s" : "Usunąłeś %1$s",
+    "You restored %1$s" : "Przywróciłeś %1$s"
 },"pluralForm" :"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

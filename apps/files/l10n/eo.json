@@ -111,6 +111,13 @@
     "No favorites" : "Neniu pliŝato",
     "Files and folders you mark as favorite will show up here" : "Dosieroj kaj dosierujoj, kiujn vi markas, kiel pliŝatoj, aperos ĉi tie",
     "Text file" : "Tekstodosiero",
-    "New text file.txt" : "Nova tekstodosiero.txt"
+    "New text file.txt" : "Nova tekstodosiero.txt",
+    "Changed by %2$s" : "Ŝanĝita de %2$s",
+    "Deleted by %2$s" : "Forigita de %2$s",
+    "Restored by %2$s" : "Restaŭrita de %2$s",
+    "You changed %1$s" : "Vi ŝanĝis %1$s",
+    "You created %1$s" : "Vi kreis %1$s",
+    "You deleted %1$s" : "Vi forigis %1$s",
+    "You restored %1$s" : "Vi restaŭris %1$s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

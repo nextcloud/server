@@ -100,6 +100,7 @@ OC.L10N.register(
     "Add storage" : "Tilføj lager",
     "Advanced settings" : "Avancerede indstillinger",
     "Delete" : "Slet",
-    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager"
+    "Allow users to mount the following external storage" : "Tillad brugere at montere følgende som eksternt lager",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=2; plural=(n != 1);");

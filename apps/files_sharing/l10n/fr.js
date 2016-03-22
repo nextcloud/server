@@ -101,6 +101,19 @@ OC.L10N.register(
     "Share it:" : "Partager :",
     "Add to your website" : "Ajouter à votre site web",
     "Share with me via ownCloud" : "Partagez avec moi via ownCloud",
-    "HTML Code:" : "Code HTML :"
+    "HTML Code:" : "Code HTML :",
+    "Public link of %2$s expired" : "Le lien public de %2$s a expiré",
+    "Public shared file %1$s was downloaded" : "Le fichier public %1$s a été téléchargé",
+    "Public shared folder %1$s was downloaded" : "Le dossier public %1$s a été téléchargé",
+    "Removed share for %2$s" : "Partage supprimé pour %2$s",
+    "Removed share of group %2$s" : "Partage supprimé du groupe %2$s",
+    "Shared by %2$s" : "Partagé par %2$s",
+    "Shared via link by %2$s" : "Partagé via lien par %2$s",
+    "Shared with group %3$s by %2$s" : "Partagé avec le groupe %3$s par %2$s",
+    "The public link of %2$s for %1$s expired" : "Le lien public de %2$s pour %1$s a expiré",
+    "You removed the public link for %1$s" : "Vous avez supprimé le lien public pour %1$s",
+    "You removed the share of %2$s for %1$s" : "Vous avez supprimé le partage de %2$s pour %1$s",
+    "You removed the share of group %2$s for %1$s" : "Vous avez supprimé le partage du groupe %2$s pour %1$s",
+    "Your public link for %1$s expired" : "Le lien public pour %1$s a expiré"
 },
 "nplurals=2; plural=(n > 1);");

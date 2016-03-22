@@ -253,6 +253,9 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Enne jätkamist veendu, et andmebaas, seadete ning andmete kataloog on varundatud.",
     "Start update" : "Käivita uuendus",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Suurtel saitidel aegumise vältimiseks võid sa paigalduskaustas käivitada järgmise käsu:",
-    "This page will refresh itself when the %s instance is available again." : "Se leht laetakse uuesti, kui %s instantsi on uuesti saadaval."
+    "This page will refresh itself when the %s instance is available again." : "Se leht laetakse uuesti, kui %s instantsi on uuesti saadaval.",
+    "Error loading file picker template: {error}" : "Viga failivalija malli laadimisel:  {error}",
+    "Password can not be changed. Please contact your administrator." : "Parooli ei saa muuta. Palun kontakteeru oma süsteemihalduriga.",
+    "Share with users, groups or remote users …" : "Jaga kasutajate, gruppide või eemal olevate kasutajatega ..."
 },
 "nplurals=2; plural=(n != 1);");

@@ -58,6 +58,7 @@ OC.L10N.register(
     "Internal Username" : "Ena uzantonomo",
     "Internal Username Attribute:" : "Atribuo de ena uzantonomo:",
     "UUID Attribute for Users:" : "UUID-atribuo por uzantoj:",
-    "UUID Attribute for Groups:" : "UUID-atribuo por grupoj:"
+    "UUID Attribute for Groups:" : "UUID-atribuo por grupoj:",
+    "{nthServer}. Server" : "{nthServer}. Servilo"
 },
 "nplurals=2; plural=(n != 1);");

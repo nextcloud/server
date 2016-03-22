@@ -96,6 +96,8 @@ OC.L10N.register(
     "UUID Attribute for Groups:" : "Atribut UUID per Grups:",
     "Username-LDAP User Mapping" : "Mapatge d'usuari Nom d'usuari-LDAP",
     "Clear Username-LDAP User Mapping" : "Elimina el mapatge d'usuari Nom d'usuari-LDAP",
-    "Clear Groupname-LDAP Group Mapping" : "Elimina el mapatge de grup Nom de grup-LDAP"
+    "Clear Groupname-LDAP Group Mapping" : "Elimina el mapatge de grup Nom de grup-LDAP",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "La DN de l'usuari client amb la que s'haurà de fer, per exemple uid=agent,dc=exemple,dc=com. Per un accés anònim, deixeu la DN i la contrasenya en blanc.",
+    "{nthServer}. Server" : "{nthServer}. Servidor"
 },
 "nplurals=2; plural=(n != 1);");

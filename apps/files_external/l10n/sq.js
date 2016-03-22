@@ -118,6 +118,8 @@ OC.L10N.register(
     "Advanced settings" : "Rregullime të mëtejshme",
     "Delete" : "Fshije",
     "Allow users to mount external storage" : "Lejoju përdoruesve të montojnë depozita të jashtme",
-    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese"
+    "Allow users to mount the following external storage" : "Lejoju përdoruesve të montojnë depozitën e jashtme vijuese",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Disa nga pikat e jashtme të formësuara të montimit s’janë të lidhura. Ju lutemi, klikoni në shigjetën(at) e kuqe për më tepër të dhëna"
 },
 "nplurals=2; plural=(n != 1);");

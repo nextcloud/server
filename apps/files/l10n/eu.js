@@ -88,6 +88,10 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
     "No favorites" : "Gogokorik ez",
     "Files and folders you mark as favorite will show up here" : "Gogokotzat markatutako fitxategi eta karpeta hemen agertuko dira",
-    "Text file" : "Testu fitxategia"
+    "Text file" : "Testu fitxategia",
+    "You changed %1$s" : "%1$s aldatu duzu",
+    "You created %1$s" : "Zuk sortua %1$s",
+    "You deleted %1$s" : "%1$s ezabatu duzu",
+    "You restored %1$s" : "Zuk %1$s berrezarri duzu"
 },
 "nplurals=2; plural=(n != 1);");

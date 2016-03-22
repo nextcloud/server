@@ -221,6 +221,9 @@ OC.L10N.register(
     "Start update" : "Започване на обновяването",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "За да избегнеш таймаутове при по-големи инсталации, можеш да изпълниш следните команди в инсталанционната директория:",
     "This %s instance is currently in maintenance mode, which may take a while." : "В момента този %s се обновява, а това може да отнеме време.",
-    "This page will refresh itself when the %s instance is available again." : "Тази страница ще се опресни автоматично, когато %s е отново на линия."
+    "This page will refresh itself when the %s instance is available again." : "Тази страница ще се опресни автоматично, когато %s е отново на линия.",
+    "Error loading file picker template: {error}" : "Грешка при зареждането на шаблон за избор на файл: {error}",
+    "Password can not be changed. Please contact your administrator." : "Паролата не може да бъде промена. Моля, свържете се с администратора.",
+    "This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "Сървърът няма работеща интернет връзка. Това означава, че някои функции като прикачването на външни дискови устройства, уведомления за обновяване или инсталиране на външни приложения няма да работят. Достъпът на файлове отвън или изпращане на имейли за уведомление вероятно също няма да работят. Препоръчваме да включиш интернет връзката за този сървър ако искаш да използваш всички тези функции."
 },
 "nplurals=2; plural=(n != 1);");

@@ -298,6 +298,10 @@ OC.L10N.register(
     "Start update" : "Begin de update",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Om time-outs tijdens grotere installaties te voorkomen, kunt u in plaats hiervan de volgende opdracht geven vanaf uw installatiedirectory:",
     "This %s instance is currently in maintenance mode, which may take a while." : "Deze %s staat momenteel in de onderhoudsstand, dat kan enige tijd duren.",
-    "This page will refresh itself when the %s instance is available again." : "Deze pagina wordt ververst als de %s-installatie weer beschikbaar is."
+    "This page will refresh itself when the %s instance is available again." : "Deze pagina wordt ververst als de %s-installatie weer beschikbaar is.",
+    "Collaborative tags" : "Meewerkende labels",
+    "Error loading file picker template: {error}" : "Fout bij laden bestandenselecteur sjabloon: {error}",
+    "Password can not be changed. Please contact your administrator." : "Het wachtwoord kan niet worden gewijzigd. Neem contact op met uw beheerder.",
+    "This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "Deze server heeft geen actieve internetverbinding. Dat betekent dat sommige functies, zoals aankoppelen van externe opslag, notificaties over updates of installatie van apps van 3e partijen niet werken. Ook het benaderen van bestanden vanaf een remote locatie en het versturen van notificatie emails kan mislukken. We adviseren om de internetverbinding voor deze server in te schakelen als u alle functies wilt gebruiken."
 },
 "nplurals=2; plural=(n != 1);");

@@ -102,6 +102,7 @@ OC.L10N.register(
     "Advanced settings" : "Paramètres avançats",
     "Delete" : "Suprimir",
     "Allow users to mount external storage" : "Autorizar los utilizaires a montar l'espaci d'emmagazinatge extèrne",
-    "Allow users to mount the following external storage" : "Autorizar los utilizaires a montar los emmagazinatges extèrnes seguents"
+    "Allow users to mount the following external storage" : "Autorizar los utilizaires a montar los emmagazinatges extèrnes seguents",
+    "SMB / CIFS" : "SMB / CIFS"
 },
 "nplurals=2; plural=(n > 1);");

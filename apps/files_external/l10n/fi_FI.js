@@ -97,6 +97,8 @@ OC.L10N.register(
     "Advanced settings" : "Lisäasetukset",
     "Delete" : "Poista",
     "Allow users to mount external storage" : "Salli käyttäjien liittää erillisiä tallennustiloja",
-    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
+    "Allow users to mount the following external storage" : "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Jotkin määritetyt erilliset liitospisteet eivät ole yhdistettynä. Napsauta punaisia rivejä saadaksesi lisätietoja"
 },
 "nplurals=2; plural=(n != 1);");

@@ -80,6 +80,20 @@
     "Share it:" : "Zum Teilen:",
     "Add to your website" : "Zu Ihrer Website hinzufügen",
     "Share with me via ownCloud" : "Teilen Sie mit mir über ownCloud",
-    "HTML Code:" : "HTML-Code:"
+    "HTML Code:" : "HTML-Code:",
+    "Not allowed to create a federated share with the same user server" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
+    "Public link of %2$s expired" : "Öffentlicher Link von %2$s ist abgelaufen",
+    "Public shared file %1$s was downloaded" : "Die öffentliche geteilte Datei %1$s wurde heruntergeladen",
+    "Public shared folder %1$s was downloaded" : "Der öffentliche geteilte Ordner %1$s wurde heruntergeladen",
+    "Removed share for %2$s" : "Freigabe für %2$s entfernt",
+    "Removed share of group %2$s" : "Freigabe für Gruppe %2$s entfernt",
+    "Shared by %2$s" : "Geteilt von %2$s",
+    "Shared via link by %2$s" : "Geteilt durch einen Link von %2$s",
+    "Shared with group %3$s by %2$s" : "Geteilt mit der Gruppe %3$s von %2$s",
+    "The public link of %2$s for %1$s expired" : "Die Freigabe als Link von %2$s für %1$s ist abgelaufen",
+    "You removed the public link for %1$s" : "Sie haben die Freigabe als Link für %1$s entfernt",
+    "You removed the share of %2$s for %1$s" : "Sie haben die Freigabe von %2$s für %1$s entfernt",
+    "You removed the share of group %2$s for %1$s" : "Sie haben die Freigabe der Gruppe %2$s für %1$s entfernt",
+    "Your public link for %1$s expired" : "Ihre Freigabe als Link für %1$s ist abgelaufen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

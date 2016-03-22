@@ -92,6 +92,17 @@ OC.L10N.register(
     "Advanced settings" : "Napredne nastavitve",
     "Delete" : "Izbriši",
     "Allow users to mount external storage" : "Dovoli uporabnikom priklapljanje zunanje shrambe",
-    "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb."
+    "Allow users to mount the following external storage" : "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb.",
+    "Admin defined" : "Skrbnik je določen",
+    "Credentials required" : "Zahtevana so poverila",
+    "Credentials saved" : "Poverila so shranjena",
+    "Credentials saving failed" : "Shranjevanje poveril je spodletelo",
+    "Enable sharing" : "Omogoči souporabo",
+    "external-storage" : "zunanja-shramba",
+    "Identity endpoint URL" : "Naslov URL končne točke istovetnosti",
+    "Please enter the credentials for the {mount} mount" : "Vpišite poverila za priklopno točko {mount}",
+    "SMB / CIFS" : "SMB / CIFS",
+    "Unsatisfied authentication mechanism parameters" : "Nezadovoljivi parametri mehanizma overitve",
+    "Unsatisfied backend parameters" : "Nezadovoljivi parametri ozadnjega programa"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

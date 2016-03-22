@@ -103,6 +103,13 @@ OC.L10N.register(
     "No favorites" : "Нема омиљених",
     "Files and folders you mark as favorite will show up here" : "Фајлови и фасцикле које обележите као омиљене појавиће се овде",
     "Text file" : "текстуални фајл",
-    "New text file.txt" : "Нов текстуални фајл.txt"
+    "New text file.txt" : "Нов текстуални фајл.txt",
+    "Changed by %2$s" : "Изменио %2$s",
+    "Deleted by %2$s" : "Обрисао %2$s",
+    "Restored by %2$s" : "Повратио %2$s",
+    "You changed %1$s" : "Изменили сте %1$s",
+    "You created %1$s" : "Направили сте %1$s",
+    "You deleted %1$s" : "Обрисали сте %1$s",
+    "You restored %1$s" : "Вратили сте %1$s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

@@ -288,6 +288,9 @@
     "Start update" : "开始更新",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "为进行避免较大的安装时超时，你可以在你的安装目录下运行下面的命令：",
     "This %s instance is currently in maintenance mode, which may take a while." : "该 %s 实例当前处于维护模式，这将进行一些时间。",
-    "This page will refresh itself when the %s instance is available again." : "当实例 %s 再次可用时这个页面将刷新。"
+    "This page will refresh itself when the %s instance is available again." : "当实例 %s 再次可用时这个页面将刷新。",
+    "Collaborative tags" : "协作标签",
+    "Error loading file picker template: {error}" : "加载文件分拣模板出错: {error}",
+    "Password can not be changed. Please contact your administrator." : "无法修改密码，请联系管理员。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

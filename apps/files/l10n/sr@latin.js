@@ -91,6 +91,10 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fajlovi koje želite da otpremite prevazilaze ograničenje otpremanja na ovom serveru.",
     "No favorites" : "Nema omiljenih",
     "Files and folders you mark as favorite will show up here" : "Fajlovi i fascikle koje obeležite kao omiljene pojaviće se ovde",
-    "Text file" : "tekstualni fajl"
+    "Text file" : "tekstualni fajl",
+    "You changed %1$s" : "Izmenili ste %1$s",
+    "You created %1$s" : "Napravili ste %1$s",
+    "You deleted %1$s" : "Obrisali ste %1$s",
+    "You restored %1$s" : "Vratili ste %1$s"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

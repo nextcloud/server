@@ -52,6 +52,8 @@
     "Enable password recovery:" : "암호 복구 사용:",
     "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" : "이 옵션을 사용하면 암호를 잊었을 때 암호화된 파일에 다시 접근할 수 있습니다",
     "Enabled" : "활성화",
-    "Disabled" : "비활성화"
+    "Disabled" : "비활성화",
+    "Bad Signature" : "잘못된 서명",
+    "Missing Signature" : "서명 없음"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

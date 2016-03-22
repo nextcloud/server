@@ -11,6 +11,7 @@ OC.L10N.register(
     "Share" : "Կիսվել",
     "Name" : "Անուն",
     "Folder name" : "Պանակի անուն",
-    "Delete" : "Ջնջել"
+    "Delete" : "Ջնջել",
+    "Saved" : "Պահված"
 },
 "nplurals=2; plural=(n != 1);");

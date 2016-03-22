@@ -101,6 +101,19 @@ OC.L10N.register(
     "Share it:" : "以下で共有:",
     "Add to your website" : "ウェブサイトに追加",
     "Share with me via ownCloud" : "OwnCloud経由で共有",
-    "HTML Code:" : "HTMLコード:"
+    "HTML Code:" : "HTMLコード:",
+    "Public link of %2$s expired" : "公開リンク%2$sの期限が切れています",
+    "Public shared file %1$s was downloaded" : "公開共有ファイル %1$s がダウンロードされました",
+    "Public shared folder %1$s was downloaded" : "公開共有フォルダー %1$s がダウンロードされました",
+    "Removed share for %2$s" : " %2$sとの共有を削除しました",
+    "Removed share of group %2$s" : " %2$s グループとの共有を削除しました",
+    "Shared by %2$s" : "%2$s が共有",
+    "Shared via link by %2$s" : "リンク経由で %2$s が共有しました",
+    "Shared with group %3$s by %2$s" : "%3$s グループと %2$s で共有しました",
+    "The public link of %2$s for %1$s expired" : "%1$sへの公開リンク%2$sの期限が切れました",
+    "You removed the public link for %1$s" : "%1$s の公開URL共有を削除しました",
+    "You removed the share of %2$s for %1$s" : "%1$sとの%2$sの共有を削除しました",
+    "You removed the share of group %2$s for %1$s" : "%1$sとのグループ%2$sの共有を削除しました",
+    "Your public link for %1$s expired" : "公開URLリンク %1$s の期限が切れています"
 },
 "nplurals=1; plural=0;");

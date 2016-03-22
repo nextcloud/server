@@ -100,6 +100,10 @@ OC.L10N.register(
     "No favorites" : "Žiadne obľúbené",
     "Files and folders you mark as favorite will show up here" : "Súbory a priečinky označené ako obľúbené budú zobrazené tu",
     "Text file" : "Textový súbor",
-    "New text file.txt" : "Nový text file.txt"
+    "New text file.txt" : "Nový text file.txt",
+    "You changed %1$s" : "Zmenili ste %1$s",
+    "You created %1$s" : "Vytvorili ste %1$s",
+    "You deleted %1$s" : "Bol zmazaný %1$s",
+    "You restored %1$s" : "Bol obnovený %1$s"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

@@ -185,6 +185,8 @@ OC.L10N.register(
     "Add \"%s\" as trusted domain" : "Amestáu \"%s\" como dominiu de confianza",
     "The theme %s has been disabled." : "Deshabilitóse'l tema %s.",
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Enantes de siguir, asegúrate de que se fizo una copia de seguridá de la base de datos, la carpeta de configuración y la carpeta de datos.",
-    "Start update" : "Aniciar anovamientu"
+    "Start update" : "Aniciar anovamientu",
+    "Error loading file picker template: {error}" : "Fallu cargando'l ficheru de plantía d'escoyeta: {error}",
+    "Password can not be changed. Please contact your administrator." : "Nun pue camudase la contraseña. Por favor, contauta col alministrador."
 },
 "nplurals=2; plural=(n != 1);");

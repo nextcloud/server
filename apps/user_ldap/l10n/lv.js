@@ -49,6 +49,7 @@ OC.L10N.register(
     "in bytes" : "baitos",
     "Email Field" : "E-pasta lauks",
     "User Home Folder Naming Rule" : "Lietotāja mājas mapes nosaukšanas kārtula",
-    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Atstāt tukšu lietotāja vārdam (noklusējuma). Citādi, norādi LDAP/AD atribūtu."
+    "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." : "Atstāt tukšu lietotāja vārdam (noklusējuma). Citādi, norādi LDAP/AD atribūtu.",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Klienta lietotāja DN, ar ko veiks sasaisti, piemēram, uid=agent,dc=example,dc=com. Lai piekļūtu anonīmi, atstājiet DN un paroli tukšu."
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

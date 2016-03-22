@@ -221,6 +221,8 @@ OC.L10N.register(
     "%s will be updated to version %s" : "%s به نسخه‌ی %s بروزرسانی خواهد شد",
     "These apps will be updated:" : "این برنامه‌ها بروزرسانی شده‌اند:",
     "The theme %s has been disabled." : "قالب %s غیر فعال شد.",
-    "Start update" : "اغاز به روز رسانی"
+    "Start update" : "اغاز به روز رسانی",
+    "Error loading file picker template: {error}" : "خطا در بارگذاری قالب انتخاب فایل : {error}",
+    "Password can not be changed. Please contact your administrator." : "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید ."
 },
 "nplurals=1; plural=0;");
