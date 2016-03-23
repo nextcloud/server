@@ -88,14 +88,25 @@ class OC_Log_Owncloud {
 		$remoteAddr = $request->getRemoteAddress();
 		// remove username/passwords from URLs before writing the to the log file
 		$time = $time->format($format);
-		$minLevel=min($config->getValue( "loglevel", \OCP\Util::WARN ), \OCP\Util::ERROR);
-		if($minLevel == \OCP\Util::DEBUG) {
-			$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '--';
-			$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '--';
-			$entry = compact('reqId', 'remoteAddr', 'app', 'message', 'level', 'time', 'method', 'url');
+		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
+		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
+		if(\OC::$server->getConfig()->getSystemValue('installed', false)) {
+			$userObj = \OC::$server->getUserSession()->getUser();
 		} else {
-			$entry = compact('reqId', 'remoteAddr', 'app', 'message', 'level', 'time');
+			$userObj = null;
 		}
+		$user = !is_null($userObj) ? $userObj->getUID() : '--';
+		$entry = compact(
+			'reqId',
+			'remoteAddr',
+			'app',
+			'message',
+			'level',
+			'time',
+			'method',
+			'url',
+			'user'
+		);
 		$entry = json_encode($entry);
 		$handle = @fopen(self::$logFile, 'a');
 		@chmod(self::$logFile, 0640);
