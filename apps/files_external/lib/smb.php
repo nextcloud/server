@@ -30,6 +30,7 @@
 
 namespace OC\Files\Storage;
 
+use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
@@ -39,6 +40,7 @@ use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OCP\Files\StorageNotAvailableException;
 
 class SMB extends Common {
 	/**
@@ -104,26 +106,36 @@ class SMB extends Common {
 	/**
 	 * @param string $path
 	 * @return \Icewind\SMB\IFileInfo
+	 * @throws StorageNotAvailableException
 	 */
 	protected function getFileInfo($path) {
-		$path = $this->buildPath($path);
-		if (!isset($this->statCache[$path])) {
-			$this->statCache[$path] = $this->share->stat($path);
+		try {
+			$path = $this->buildPath($path);
+			if (!isset($this->statCache[$path])) {
+				$this->statCache[$path] = $this->share->stat($path);
+			}
+			return $this->statCache[$path];
+		} catch (ConnectException $e) {
+			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
-		return $this->statCache[$path];
 	}
 
 	/**
 	 * @param string $path
 	 * @return \Icewind\SMB\IFileInfo[]
+	 * @throws StorageNotAvailableException
 	 */
 	protected function getFolderContents($path) {
-		$path = $this->buildPath($path);
-		$files = $this->share->dir($path);
-		foreach ($files as $file) {
-			$this->statCache[$path . '/' . $file->getName()] = $file;
+		try {
+			$path = $this->buildPath($path);
+			$files = $this->share->dir($path);
+			foreach ($files as $file) {
+				$this->statCache[$path . '/' . $file->getName()] = $file;
+			}
+			return $files;
+		} catch (ConnectException $e) {
+			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
-		return $files;
 	}
 
 	/**
@@ -163,6 +175,8 @@ class SMB extends Common {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
+		} catch (ConnectException $e) {
+			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -245,6 +259,8 @@ class SMB extends Common {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
+		} catch (ConnectException $e) {
+			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
@@ -265,16 +281,22 @@ class SMB extends Common {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
+		} catch (ConnectException $e) {
+			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
 	public function touch($path, $time = null) {
-		if (!$this->file_exists($path)) {
-			$fh = $this->share->write($this->buildPath($path));
-			fclose($fh);
-			return true;
+		try {
+			if (!$this->file_exists($path)) {
+				$fh = $this->share->write($this->buildPath($path));
+				fclose($fh);
+				return true;
+			}
+			return false;
+		} catch (ConnectException $e) {
+			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
-		return false;
 	}
 
 	public function opendir($path) {
@@ -307,6 +329,8 @@ class SMB extends Common {
 		try {
 			$this->share->mkdir($path);
 			return true;
+		} catch (ConnectException $e) {
+			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		} catch (Exception $e) {
 			return false;
 		}
@@ -320,6 +344,8 @@ class SMB extends Common {
 			return false;
 		} catch (ForbiddenException $e) {
 			return false;
+		} catch (ConnectException $e) {
+			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
 		}
 	}
 
