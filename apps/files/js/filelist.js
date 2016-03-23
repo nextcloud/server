@@ -271,7 +271,8 @@
 
 			this.updateSearch();
 
-			this.$fileList.on('click','td.filename>a.name', _.bind(this._onClickFile, this));
+			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
+
 			this.$fileList.on('change', 'td.filename>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
