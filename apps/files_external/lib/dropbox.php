@@ -29,7 +29,9 @@
 
 namespace OC\Files\Storage;
 
+use GuzzleHttp\Exception\RequestException;
 use Icewind\Streams\IteratorDirectory;
+use Icewind\Streams\RetryWrapper;
 
 require_once __DIR__ . '/../3rdparty/Dropbox/autoload.php';
 
@@ -257,10 +259,9 @@ class Dropbox extends \OC\Files\Storage\Common {
 
 					$client = \OC::$server->getHTTPClientService()->newClient();
 					try {
-						$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
-						$client->get($downloadUrl, [
+						$response = $client->get($downloadUrl, [
 							'headers' => $headers,
-							'save_to' => $tmpFile,
+							'stream' => true,
 						]);
 					} catch (RequestException $e) {
 						if (!is_null($e->getResponse())) {
@@ -274,7 +275,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 						}
 					}
 
-					return fopen($tmpFile, 'r');
+					$handle = $response->getBody();
+					return RetryWrapper::wrap($handle);
 				} catch (\Exception $exception) {
 					\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 					return false;
