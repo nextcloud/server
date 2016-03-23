@@ -31,18 +31,22 @@ CREATE TABLE addressbooks (
 			<field>
 				<name>principaluri</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>displayname</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>uri</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>description</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>synctoken</name>
@@ -102,6 +106,7 @@ CREATE TABLE cards (
 			<field>
 				<name>uri</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>lastmodified</name>
@@ -150,6 +155,7 @@ CREATE TABLE addressbookchanges (
 			<field>
 				<name>uri</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>synctoken</name>
@@ -219,6 +225,7 @@ CREATE TABLE calendarobjects (
 		<field>
 			<name>uri</name>
 			<type>text</type>
+			<length>255</length>
 		</field>
 		<field>
 			<name>calendarid</name>
@@ -246,6 +253,7 @@ CREATE TABLE calendarobjects (
 		<field>
 			<name>componenttype</name>
 			<type>text</type>
+			<length>8</length>
 		</field>
 		<field>
 			<name>firstoccurence</name>
@@ -260,6 +268,7 @@ CREATE TABLE calendarobjects (
 		<field>
 			<name>uid</name>
 			<type>text</type>
+			<length>255</length>
 		</field>
 		<index>
 			<name>calobjects_index</name>
@@ -304,14 +313,17 @@ CREATE TABLE calendarobjects (
 		<field>
 			<name>principaluri</name>
 			<type>text</type>
+			<length>255</length>
 		</field>
 		<field>
 			<name>displayname</name>
 			<type>text</type>
+			<length>255</length>
 		</field>
 		<field>
 			<name>uri</name>
 			<type>text</type>
+			<length>255</length>
 		</field>
 		<field>
 			<name>synctoken</name>
@@ -323,6 +335,7 @@ CREATE TABLE calendarobjects (
 		<field>
 			<name>description</name>
 			<type>text</type>
+			<length>255</length>
 		</field>
 		<field>
 			<name>calendarorder</name>
@@ -342,6 +355,7 @@ CREATE TABLE calendarobjects (
 		<field>
 			<name>components</name>
 			<type>text</type>
+			<length>20</length>
 		</field>
 		<field>
 			<name>transparent</name>
@@ -387,6 +401,7 @@ CREATE TABLE calendarobjects (
 			<field>
 				<name>uri</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>synctoken</name>
@@ -456,10 +471,12 @@ CREATE TABLE calendarobjects (
 		<field>
 			<name>principaluri</name>
 			<type>text</type>
+			<length>255</length>
 		</field>
 		<field>
 			<name>source</name>
 			<type>text</type>
+			<length>255</length>
 		</field>
 		<field>
 			<name>displayname</name>
@@ -541,6 +558,7 @@ CREATE TABLE calendarobjects (
 			<field>
 				<name>principaluri</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>calendardata</name>
@@ -549,6 +567,7 @@ CREATE TABLE calendarobjects (
 			<field>
 				<name>uri</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>lastmodified</name>
@@ -658,10 +677,12 @@ CREATE TABLE calendarobjects (
 			<field>
 				<name>principaluri</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>type</name>
 				<type>text</type>
+				<length>255</length>
 			</field>
 			<field>
 				<name>access</name>
