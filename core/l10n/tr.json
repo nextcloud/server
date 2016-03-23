@@ -167,8 +167,6 @@
     "An error occured. Please try again" : "Bir hata oluştu. Lütfen yeniden deneyin",
     "Share" : "Paylaş",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "kullanıcı@example.com/owncloud şeklinde diğer ownCloud kullanan diğer kullanıcılarla paylaş",
-    "Share with users or groups …" : "Kullanıcı ve gruplarla paylaş...",
-    "Share with users, groups or remote users …" : "Kullanıcılar, gruplar veya uzak kullanıcılarla paylaş ...",
     "Error removing share" : "Paylaşım kaldırılırken hata",
     "Warning" : "Uyarı",
     "Error while sending notification" : "Bildirim gönderilirken hata",

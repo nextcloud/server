@@ -153,8 +153,6 @@
     "An error occured. Please try again" : "Der skete en fejl. Prøv venligst igen",
     "Share" : "Del",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med andre på ownCloud ved hjælp af syntaxen username@example.com/owncloud",
-    "Share with users or groups …" : "Del med brugere eller grupper",
-    "Share with users, groups or remote users …" : "Del med brugere, grupper eller eksterne brugere...",
     "Error removing share" : "Fejl ved fjernelse af deling",
     "Warning" : "Advarsel",
     "Error while sending notification" : "Fejl ved afsendelse af notifikation",

@@ -174,8 +174,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (远程)",
     "Share" : "分享",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "使用语法 username@example.com/owncloud 分享给其他 ownCloud 上的用户",
-    "Share with users or groups …" : "分享给其他用户或组 ...",
-    "Share with users, groups or remote users …" : "分享给其他用户、组或远程用户 ...",
     "Error removing share" : "移除分享时出错",
     "Warning" : "警告",
     "Error while sending notification" : "发送通知时出现错误",

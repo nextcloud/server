@@ -171,8 +171,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (fjartengdur)",
     "Share" : "Deila",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Deila með fólki í öðrum ownCloud-skýjum með skipuninni notandanafn@dæmi.is/owncloud",
-    "Share with users or groups …" : "Deila með notendum eða hópum ...",
-    "Share with users, groups or remote users …" : "Deila með notendum, hópum eða fjartengdum notendum ...",
     "Error removing share" : "Villa við að fjarlægja sameign",
     "Warning" : "Aðvörun",
     "Error while sending notification" : "Villa við að senda tilkynningu",

@@ -124,8 +124,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (fora)",
     "Share" : "Kunhavigi",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Kunhaviki kun homoj en aliaj ownCloud-oj uzante la sintakson uzantonomo@ekzemplo.com/owncloud",
-    "Share with users or groups …" : "Kunhavigi kun uzantoj aŭ grupoj..",
-    "Share with users, groups or remote users …" : "Kunhavigi kun uzantoj, grupoj aŭ foraj uzantoj...",
     "Error removing share" : "Eraris forigo de kunhavigo",
     "Warning" : "Averto",
     "Error while sending notification" : "Eraris sendo de sciigo",

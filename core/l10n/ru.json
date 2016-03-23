@@ -171,8 +171,6 @@
     "{sharee} (remote)" : "{sharee} (удалённо)",
     "Share" : "Поделиться",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поделиться с людьми на других серверах ownCloud используя формат username@example.com/owncloud",
-    "Share with users or groups …" : "Поделиться с пользователями или группами ...",
-    "Share with users, groups or remote users …" : "Поделиться с пользователями, группами или удаленными пользователями ...",
     "Error removing share" : "Ошибка удаления общего доступа",
     "Warning" : "Предупреждение",
     "Error while sending notification" : "Ошибка при отправке уведомления",

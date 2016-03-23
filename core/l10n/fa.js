@@ -132,8 +132,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "یک خطا رخ داده است، لطفا مجددا تلاش کنید",
     "Share" : "اشتراک‌گذاری",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "اشتراک‌گذاری با دیگر افراد بر روی ownClouds بصورت username@example.com/owncloud",
-    "Share with users or groups …" : "اشتراک گذاری با کاربران یا گروه ها ...",
-    "Share with users, groups or remote users …" : "اشتراک گذاری با کاربران، گروه‌ها یا کاربران راه دور...",
     "Warning" : "اخطار",
     "Error while sending notification" : "خطا در حین ارسال نوتیفیکیشن",
     "Delete" : "حذف",

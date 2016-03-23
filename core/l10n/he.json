@@ -172,8 +172,6 @@
     "{sharee} (remote)" : "{sharee} (מרוחק)",
     "Share" : "שתף",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "ניתן לשתף עם אנשים אחרים המשתמשים ב- ownClouds בעזרת הפורמט הבא username@example.com/owncloud",
-    "Share with users or groups …" : "שיתוף עם משתמשים או קבוצות...",
-    "Share with users, groups or remote users …" : "שיתוף עם משתמשים, קבוצות או משתמשים חצוניים...",
     "Error removing share" : "שגיאה בזמן הסרת שיתוף",
     "Warning" : "אזהרה",
     "Error while sending notification" : "שגיאה בזמן שליחת הודעה",

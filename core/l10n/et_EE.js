@@ -142,8 +142,6 @@ OC.L10N.register(
     "Could not unshare" : "Jagamise lõpetamine ebaõnnestus",
     "An error occured. Please try again" : "Tekkis tõrge. Palun proovi uuesti",
     "Share" : "Jaga",
-    "Share with users or groups …" : "Jaga kasutajate või gruppidega ...",
-    "Share with users, groups or remote users …" : "Jaga kasutajate, gruppide või eemal olevate kasutajatega ...",
     "Warning" : "Hoiatus",
     "Error while sending notification" : "Tõrge teavituse saatmisel",
     "not assignable" : "pole määratav",

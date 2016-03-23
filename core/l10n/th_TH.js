@@ -168,8 +168,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "เกิดข้อผิดพลาด กรุณาลองอีกครั้ง",
     "Share" : "แชร์",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "แชร์กับคนใน ownClouds อื่นๆ ที่ใช้ไวยากรณ์ username@example.com/owncloud ",
-    "Share with users or groups …" : "แชร์กับผู้ใช้หรือกลุ่ม ...",
-    "Share with users, groups or remote users …" : "แชร์กับผู้ใช้กลุ่มหรือผู้ใช้ระยะไกล ...",
     "Error removing share" : "พบข้อผิดพลาดในรายการที่แชร์ออก",
     "Warning" : "คำเตือน",
     "Error while sending notification" : "เกิดข้อผิดพลาดขณะกำลังส่งการแจ้งเตือน",

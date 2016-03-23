@@ -143,8 +143,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "Produciuse un erro, ténteo de novo",
     "Share" : "Compartir",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Comparta con outra xente ou con outros ownClouds empregando a sintaxe «nomeusuario@exemplo.com/ouwncloud»",
-    "Share with users or groups …" : "Compartir con usuarios ou grupos ...",
-    "Share with users, groups or remote users …" : "Compartir con usuarios, grupos ou usuarios remotos ...",
     "Warning" : "Aviso",
     "Delete" : "Eliminar",
     "Rename" : "Renomear",

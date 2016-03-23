@@ -123,8 +123,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "Dogodila se pogreška. Molimo Vas, pokušajte ponovno. ",
     "Share" : "Podijelite",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Podijelite sa korisnicima drugoga ownClouda koristeći format korisnickoime@primjer.com/owncloud",
-    "Share with users or groups …" : "Podijeli sa korisnicima ili grupama ...",
-    "Share with users, groups or remote users …" : "Podijeli sa korisnicima, grupama ili udaljenim korisnicima ...",
     "Warning" : "Upozorenje",
     "Delete" : "Izbrišite",
     "Rename" : "Preimenujte",

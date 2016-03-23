@@ -98,8 +98,6 @@ OC.L10N.register(
     "delete" : "حذف",
     "access control" : "ضبط الوصول",
     "Share" : "شارك",
-    "Share with users or groups …" : "شارِك مع مستخدمين أو مجموعات",
-    "Share with users, groups or remote users …" : "شارِك مع مستخدمين أو مجموعات أو مستخدمين عن بُعد",
     "Warning" : "تحذير",
     "Delete" : "إلغاء",
     "Rename" : "إعادة التسمية",

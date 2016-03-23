@@ -173,8 +173,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (リモート)",
     "Share" : "共有",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "次の形式で指定して他のownCloudのユーザーと、共有",
-    "Share with users or groups …" : "ユーザーもしくはグループと共有 ...",
-    "Share with users, groups or remote users …" : "ユーザー、グループもしくはリモートユーザーと共有 ...",
     "Error removing share" : "共有の削除エラー",
     "Warning" : "警告",
     "Error while sending notification" : "通知送信中にエラーが発生",

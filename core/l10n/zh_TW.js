@@ -166,8 +166,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "發生錯誤，請重試",
     "Share" : "分享",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "與其他在ownCloud上的人們分享，請使用此格式 username@example.com/owncloud",
-    "Share with users or groups …" : "與用戶或群組分享 ...",
-    "Share with users, groups or remote users …" : "與用戶，群組或是遠端使用者分享 ...",
     "Warning" : "警告",
     "Error while sending notification" : "發送通知錯誤",
     "Delete" : "刪除",

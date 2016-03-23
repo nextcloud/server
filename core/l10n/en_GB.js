@@ -174,8 +174,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (remote)",
     "Share" : "Share",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Share with people on other ownClouds using the syntax username@example.com/owncloud",
-    "Share with users or groups …" : "Share with users or groups …",
-    "Share with users, groups or remote users …" : "Share with users, groups or remote users …",
     "Error removing share" : "Error removing share",
     "Warning" : "Warning",
     "Error while sending notification" : "Error whilst sending notification",

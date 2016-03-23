@@ -171,8 +171,6 @@
     "{sharee} (remote)" : "{sharee} (remoto)",
     "Share" : "Compartir",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Comparta con personas en otros ownClouds utilizando la sintáxis username@example.com/owncloud",
-    "Share with users or groups …" : "Compartir con usuarios o grupos ...",
-    "Share with users, groups or remote users …" : "Comparte con usuarios, grupos o usuarios remotos...",
     "Error removing share" : "Error quitando el comparto",
     "Warning" : "Precaución",
     "Error while sending notification" : "Error mientras se enviaba la notificación",

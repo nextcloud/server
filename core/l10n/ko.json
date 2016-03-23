@@ -171,8 +171,6 @@
     "{sharee} (remote)" : "{sharee}(원격)",
     "Share" : "공유",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "username@example.com/owncloud 형식으로 다른 ownCloud 사용자와 공유할 수 있습니다",
-    "Share with users or groups …" : "사용자 및 그룹과 공유...",
-    "Share with users, groups or remote users …" : "사용자, 그룹 및 원격 사용자와 공유...",
     "Error removing share" : "공유 삭제 중 오류 발생",
     "Warning" : "경고",
     "Error while sending notification" : "알림을 보내는 중 오류 발생",

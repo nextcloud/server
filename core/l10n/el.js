@@ -154,8 +154,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "Ένα σφάλμα προέκυψε. Παρακαλώ προσπαθήστε ξανά",
     "Share" : "Διαμοιρασμός",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Διαμοιρασμός με άτομα σε άλλα ownClouds χρησιμοποιώντας την σύνταξη username@example.com/owncloud",
-    "Share with users or groups …" : "Διαμοιρασμός με χρήστες ή ομάδες ...",
-    "Share with users, groups or remote users …" : "Διαμοιρασμός με χρήστες, ομάδες ή απομακρυσμένους χρήστες ...",
     "Warning" : "Προειδοποίηση",
     "Error while sending notification" : "Σφάλμα κατά την αποστολή ειδοποίησης",
     "Delete" : "Διαγραφή",

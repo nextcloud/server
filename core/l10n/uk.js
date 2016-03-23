@@ -157,8 +157,6 @@ OC.L10N.register(
     "{sharee} (group)" : "{sharee} (група)",
     "Share" : "Поділитися",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Поширити серед людей інших ownCloud'ів, використовуючи синтаксис ім'я_користувача@файли.укр/owncloud",
-    "Share with users or groups …" : "Поширити серед користувачів або груп ...",
-    "Share with users, groups or remote users …" : "Поширити серед локальних чи віддалених користувачів або груп ...",
     "Warning" : "Попередження",
     "Error while sending notification" : "Помилка при надсиланні повідомлення",
     "({scope})" : "({scope})",

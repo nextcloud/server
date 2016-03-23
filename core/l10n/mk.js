@@ -140,8 +140,6 @@ OC.L10N.register(
     "access control" : "контрола на пристап",
     "An error occured. Please try again" : "Се случи грешка. Обиди се повторно",
     "Share" : "Сподели",
-    "Share with users or groups …" : "Сподели со корисници или групи ...",
-    "Share with users, groups or remote users …" : "Споделено со корисници, групи или оддалечени корисници ...",
     "Warning" : "Предупредување",
     "not assignable" : "не може да се додаде",
     "invisible" : "невидлив",

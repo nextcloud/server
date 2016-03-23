@@ -144,8 +144,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "Va ocórrer un error. Per favor, intenta-ho de nou",
     "Share" : "Comparteix",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Compartir amb la gent en altres ownClouds utilitzant la sintaxi username@example.com/owncloud",
-    "Share with users or groups …" : "Comparteix amb usuaris o grups ...",
-    "Share with users, groups or remote users …" : "Comparteix amb usuaris, grups o usuaris remots ...",
     "Warning" : "Avís",
     "Delete" : "Esborra",
     "Rename" : "Reanomena",

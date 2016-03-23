@@ -154,8 +154,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "Una error s'es produsida. Mercé d'ensajar tornamai",
     "Share" : "Partejar",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Partejatz amb de personas sus d'autres ownClouds en utilizant la sintaxi utilizaire@exemple.com/owncloud",
-    "Share with users or groups …" : "Partejar amb d'utilizaires o gropes...",
-    "Share with users, groups or remote users …" : "Partejar amb d'utilizaires, gropes, o utilizaires distants",
     "Warning" : "Atencion",
     "Error while sending notification" : "Error al moment del mandadís de la notificacion",
     "Delete" : "Suprimir",

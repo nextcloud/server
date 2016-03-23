@@ -121,8 +121,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "Hebo un fallu. Por favor, inténtalo dempués. ",
     "Share" : "Compartir",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Compartir con xente d'otros ownClouds usando la sintaxis usuariu@exemplu.com/owncloud",
-    "Share with users or groups …" : "Compartir con usuarios o grupos",
-    "Share with users, groups or remote users …" : "Compartir con usuarios, grupos o usuarios remotos",
     "Warning" : "Avisu",
     "Delete" : "Desaniciar",
     "Rename" : "Renomar",

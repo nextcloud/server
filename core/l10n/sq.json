@@ -172,8 +172,6 @@
     "{sharee} (remote)" : "{sharee} (i largët)",
     "Share" : "Ndaje",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Ndajeni me persona në ownCloud-e të tjera duke përdorur sintaksën username@example.com/owncloud",
-    "Share with users or groups …" : "Ndajeni me përdorues ose grupe …",
-    "Share with users, groups or remote users …" : "Ndajeni me përdorues, grupe ose përdorues të largët …",
     "Error removing share" : "Gabim në heqjen e ndarjes",
     "Warning" : "Kujdes",
     "Error while sending notification" : "Gabim gjatë dërgimit të njoftimit",

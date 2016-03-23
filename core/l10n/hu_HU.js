@@ -169,8 +169,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (távoli)",
     "Share" : "Megosztás",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Megosztás más ownCloud szerverekkel, a következő formátum használatával felhasznalo@példa.com/owncloud",
-    "Share with users or groups …" : "Megosztás felhasználókkal vagy csoportokkal ...",
-    "Share with users, groups or remote users …" : "Megosztás felhasználókkal, csoportokkal vagy távoli felhasználókkal ...",
     "Error removing share" : "Hiba a megosztás törlésekor",
     "Warning" : "Figyelmeztetés",
     "Error while sending notification" : "Hiba történt az értesítő küldése közben",

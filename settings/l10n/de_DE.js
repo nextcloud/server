@@ -71,6 +71,7 @@ OC.L10N.register(
     "Enable" : "Aktivieren",
     "Error while enabling app" : "Beim Aktivieren der App ist ein Fehler aufgetreten",
     "Error: this app cannot be enabled because it makes the server unstable" : "Fehler: Diese App kann nicht aktiviert werden, da es den Server instabil macht.",
+    "Error while disabling broken app" : "Beim Deaktivieren der defekten App ist ein Fehler aufgetreten",
     "Updating...." : "Update…",
     "Error while updating app" : "Es ist ein Fehler während des Updates aufgetreten",
     "Updated" : "Aktualisiert",

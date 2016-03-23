@@ -160,8 +160,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (oddaljeno)",
     "Share" : "Souporaba",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Souporaba z uporabniki, ki so na drugih oblakih ownCloud s povezavo uporabnik@domena.si/owncloud",
-    "Share with users or groups …" : "Souporaba z uporabniki ali skupinami ...",
-    "Share with users, groups or remote users …" : "Souporaba z uporabniki, skupinami ali oddaljenimi uporabniki ...",
     "Error removing share" : "Napaka odstranjevanja souporabe",
     "Warning" : "Opozorilo",
     "Error while sending notification" : "Napaka med pošiljanjem obvestila",

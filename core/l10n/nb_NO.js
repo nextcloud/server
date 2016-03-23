@@ -173,8 +173,6 @@ OC.L10N.register(
     "{sharee} (remote)" : "{sharee} (ekstern)",
     "Share" : "Del",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Del med personer på andre ownCloud-installasjoner med syntaksen brukernavn@example.com/owncloud",
-    "Share with users or groups …" : "Del med brukere eller grupper ...",
-    "Share with users, groups or remote users …" : "Del med brukere, grupper eller eksterne brukere ...",
     "Error removing share" : "Feil ved fjerning av deling",
     "Warning" : "Advarsel",
     "Error while sending notification" : "Feil ved sending av varsling",

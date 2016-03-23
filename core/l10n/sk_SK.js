@@ -152,8 +152,6 @@ OC.L10N.register(
     "An error occured. Please try again" : "Nastala chyba. Skúste to znovu",
     "Share" : "Zdieľať",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Zdieľať s ľuďmi na iných serveroch ownClouds pomocou syntaxe používateľ@doména.com/owncloud",
-    "Share with users or groups …" : "Zdieľať s používateľmi alebo skupinami ...",
-    "Share with users, groups or remote users …" : "Zdieľať s používateľmi, skupinami alebo vzdialenými používateľmi ...",
     "Warning" : "Varovanie",
     "Error while sending notification" : "Chyba pri posielaní oznámenia",
     "Delete" : "Zmazať",
