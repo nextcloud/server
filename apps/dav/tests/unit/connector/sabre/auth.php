@@ -198,10 +198,7 @@ class Auth extends TestCase {
 		$this->assertFalse($this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
 	}
 
-	/**
-	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
-	 * @expectedExceptionMessage CSRF check not passed.
-	 */
+
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenForNonGet() {
 		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
 				->disableOriginalConstructor()
@@ -210,27 +207,182 @@ class Auth extends TestCase {
 				->disableOriginalConstructor()
 				->getMock();
 		$this->userSession
-			->expects($this->once())
+			->expects($this->any())
 			->method('isLoggedIn')
 			->will($this->returnValue(true));
+		$this->request
+			->expects($this->any())
+			->method('getMethod')
+			->willReturn('POST');
 		$this->session
-			->expects($this->once())
+			->expects($this->any())
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue(null));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->once())
+		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('MyWrongDavUser'));
 		$this->userSession
-			->expects($this->once())
+			->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($user));
+		$this->request
+			->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(false);
 
+		$expectedResponse = [
+			false,
+			"No 'Authorization: Basic' header found. Either the client didn't send one, or the server is mis-configured",
+		];
 		$response = $this->auth->check($request, $response);
-		$this->assertEquals([true, 'principals/users/MyWrongDavUser'], $response);
+		$this->assertSame($expectedResponse, $response);
+	}
+
+	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenAndCorrectlyDavAuthenticated() {
+		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->request
+			->expects($this->any())
+			->method('getMethod')
+			->willReturn('PROPFIND');
+		$this->request
+			->expects($this->any())
+			->method('isUserAgent')
+			->with([
+				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
+				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
+				'/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/',
+			])
+			->willReturn(false);
+		$this->session
+			->expects($this->any())
+			->method('get')
+			->with('AUTHENTICATED_TO_DAV_BACKEND')
+			->will($this->returnValue('LoggedInUser'));
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('LoggedInUser'));
+		$this->userSession
+			->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->request
+			->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(false);
+		$this->auth->check($request, $response);
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
+	 * @expectedExceptionMessage CSRF check not passed.
+	 */
+	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenAndIncorrectlyDavAuthenticated() {
+		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->request
+			->expects($this->any())
+			->method('getMethod')
+			->willReturn('PROPFIND');
+		$this->request
+			->expects($this->any())
+			->method('isUserAgent')
+			->with([
+				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
+				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
+				'/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/',
+			])
+			->willReturn(false);
+		$this->session
+			->expects($this->any())
+			->method('get')
+			->with('AUTHENTICATED_TO_DAV_BACKEND')
+			->will($this->returnValue('AnotherUser'));
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('LoggedInUser'));
+		$this->userSession
+			->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->request
+			->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(false);
+		$this->auth->check($request, $response);
+	}
+
+	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenForNonGetAndDesktopClient() {
+		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->any())
+			->method('isLoggedIn')
+			->will($this->returnValue(true));
+		$this->request
+			->expects($this->any())
+			->method('getMethod')
+			->willReturn('POST');
+		$this->request
+			->expects($this->any())
+			->method('isUserAgent')
+			->with([
+				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
+				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
+				'/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/',
+			])
+			->willReturn(true);
+		$this->session
+			->expects($this->any())
+			->method('get')
+			->with('AUTHENTICATED_TO_DAV_BACKEND')
+			->will($this->returnValue(null));
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('MyWrongDavUser'));
+		$this->userSession
+			->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->request
+			->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(false);
+
+		$this->auth->check($request, $response);
 	}
 
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenForGet() {
@@ -241,33 +393,32 @@ class Auth extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('isLoggedIn')
 			->will($this->returnValue(true));
 		$this->session
-			->expects($this->once())
+			->expects($this->any())
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue(null));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->once())
+		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('MyWrongDavUser'));
 		$this->userSession
-			->expects($this->once())
+			->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($user));
 		$this->request
-			->expects($this->once())
+			->expects($this->any())
 			->method('getMethod')
 			->willReturn('GET');
 
 		$response = $this->auth->check($request, $response);
 		$this->assertEquals([true, 'principals/users/MyWrongDavUser'], $response);
 	}
-
 
 	public function testAuthenticateAlreadyLoggedInWithCsrfTokenForGet() {
 		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
@@ -277,22 +428,22 @@ class Auth extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('isLoggedIn')
 			->will($this->returnValue(true));
 		$this->session
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue(null));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->exactly(2))
+		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('MyWrongDavUser'));
 		$this->userSession
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($user));
 		$this->request
@@ -368,6 +519,10 @@ class Auth extends TestCase {
 			->method('get')
 			->with('AUTHENTICATED_TO_DAV_BACKEND')
 			->will($this->returnValue('MyTestUser'));
+		$this->request
+			->expects($this->once())
+			->method('getMethod')
+			->willReturn('GET');
 		$httpRequest
 			->expects($this->atLeastOnce())
 			->method('getHeader')
