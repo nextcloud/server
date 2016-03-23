@@ -22,6 +22,7 @@
 
 namespace OCA\Files_Sharing\Propagation;
 
+use Doctrine\DBAL\Connection;
 use OC\Files\Cache\ChangePropagator;
 use OC\Files\View;
 use OC\Share\Share;
@@ -109,13 +110,50 @@ class RecipientPropagator {
 	protected function getDirtyShares($shares) {
 		$dirty = [];
 		$userTime = $this->config->getUserValue($this->userId, 'files_sharing', 'last_propagate', 0);
+		$sharePropagations = [];
 		foreach ($shares as $share) {
-			$updateTime = $this->config->getAppValue('files_sharing', $share['id'], 0);
-			if ($updateTime >= $userTime) {
+			$sharePropagations[(int) $share['id']] = 0;
+		}
+
+		$sharePropagations = $this->getPropagationTimestampForShares($sharePropagations);
+
+		foreach ($shares as $share) {
+			if ($sharePropagations[$share['id']] >= $userTime) {
 				$dirty[] = $share;
 			}
 		}
 		return $dirty;
+	}
+
+	/**
+	 * Load the last dirty timestamp from the appconfig table
+	 *
+	 * @param int[] $sharePropagations
+	 * @return int[]
+	 */
+	protected function getPropagationTimestampForShares(array $sharePropagations) {
+		$sql = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$allShareIds = array_keys($sharePropagations);
+
+		$shareIdChunks = array_chunk($allShareIds, 50);
+
+		$sql->select(['configkey', 'configvalue'])
+			->from('appconfig')
+			->where($sql->expr()->eq('appid', $sql->createParameter('appid')))
+			->andWhere($sql->expr()->in('configkey', $sql->createParameter('shareids')))
+			->setParameter('appid', 'files_sharing', \PDO::PARAM_STR);
+
+		foreach ($shareIdChunks as $shareIds) {
+			$sql->setParameter('shareids', $shareIds, Connection::PARAM_INT_ARRAY);
+			$result = $sql->execute();
+
+			while ($row = $result->fetch()) {
+				$sharePropagations[(int) $row['configkey']] = $row['configvalue'];
+			}
+			$result->closeCursor();
+		}
+
+		return $sharePropagations;
 	}
 
 	/**

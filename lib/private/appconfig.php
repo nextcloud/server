@@ -29,6 +29,7 @@
 
 namespace OC;
 
+use Doctrine\DBAL\Connection;
 use OCP\IAppConfig;
 use OCP\IDBConnection;
 
@@ -273,6 +274,17 @@ class AppConfig implements IAppConfig {
 		$sql = $this->conn->getQueryBuilder();
 		$sql->select('*')
 			->from('appconfig');
+		// Note: due to performance issues when there are a lot of shares,
+		// we are not loading the propagation timestamps by default anymore.
+		// The code relying on those values has been adjusted to grab the values
+		// manually. In 9.0 the propagation was changed to not be stored in this
+		// table anymore.
+		$sql->where($sql->expr()->orX(
+				$sql->expr()->neq('appid', $sql->createParameter('appid')),
+				$sql->expr()->in('configkey', $sql->createParameter('legit_configs'))
+			))
+			->setParameter('appid', 'files_sharing', \PDO::PARAM_STR)
+			->setParameter('legit_configs', ['enabled', 'installed_version', 'types'], Connection::PARAM_STR_ARRAY);
 		$result = $sql->execute();
 
 		while ($row = $result->fetch()) {
