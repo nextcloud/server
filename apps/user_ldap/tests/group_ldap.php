@@ -324,7 +324,12 @@ class Test_Group_Ldap extends \Test\TestCase {
 			->method('getFromCache')
 			->will($this->returnValue(null));
 
-		$access->expects($this->any())
+		$this->accessMock->expects($this->any())
+			->method('escapeFilterPart')
+			->with('', true)
+			->will($this->returnValue(''));
+
+		$this->accessMock->expects($this->any())
 			->method('readAttribute')
 			->will($this->returnCallback(function($dn, $attr) {
 				if($attr === 'primaryGroupToken') {
@@ -440,6 +445,46 @@ class Test_Group_Ldap extends \Test\TestCase {
 
 		$groupBackend = new GroupLDAP($this->accessMock);
 		$groupBackend->getUserGroups('userX');
+	}
+
+	public function testCountUsersInPrimaryGroupIllegalSearch() {
+		$groupDN = 'cn=foobar';
+
+		$groupBackend = new GroupLDAP($this->accessMock);
+		$count = $groupBackend->countUsersInPrimaryGroup($groupDN, null);
+
+		$this->assertSame(0, $count);
+
+		$groupBackend = new GroupLDAP($this->accessMock);
+		$count = $groupBackend->countUsersInPrimaryGroup($groupDN, 0);
+
+		$this->assertSame(0, $count);
+	}
+
+	public function testCountUsersInPrimaryGroup() {
+		$groupDN = 'cn=foobar';
+		$expected = 7;
+
+		$this->accessMock->expects($this->any())
+			->method('readAttribute')
+			->will($this->returnValue(['3117']));
+
+		$this->accessMock->expects($this->any())
+			->method('countUsers')
+			->with('properFilter')
+			->will($this->returnValue($expected));
+
+		$this->accessMock->expects($this->exactly(2))
+			->method('combineFilterWithAnd')
+			->will($this->returnValue('properFilter'));
+
+		$groupBackend = new GroupLDAP($this->accessMock);
+
+		$count = $groupBackend->countUsersInPrimaryGroup($groupDN);
+		$this->assertSame($expected, $count);
+
+		$count = $groupBackend->countUsersInPrimaryGroup($groupDN, 'barfoo');
+		$this->assertSame($expected, $count);
 	}
 
 }
