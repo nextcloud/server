@@ -471,18 +471,7 @@ class DefaultShareProvider implements IShareProvider {
 		 * Reshares for this user are shares where they are the owner.
 		 */
 		if ($reshares === false) {
-			//Special case for old shares created via the web UI
-			$or1 = $qb->expr()->andX(
-				$qb->expr()->eq('uid_owner', $qb->createNamedParameter($userId)),
-				$qb->expr()->isNull('uid_initiator')
-			);
-
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)),
-					$or1
-				)
-			);
+			$qb->andWhere($qb->expr()->eq('uid_initiator', $qb->createNamedParameter($userId)));
 		} else {
 			$qb->andWhere(
 				$qb->expr()->orX(
@@ -765,18 +754,8 @@ class DefaultShareProvider implements IShareProvider {
 			$share->setToken($data['token']);
 		}
 
-		if ($data['uid_initiator'] === null) {
-			//OLD SHARE
-			$share->setSharedBy($data['uid_owner']);
-			$path = $this->getNode($share->getSharedBy(), (int)$data['file_source']);
-
-			$owner = $path->getOwner();
-			$share->setShareOwner($owner->getUID());
-		} else {
-			//New share!
-			$share->setSharedBy($data['uid_initiator']);
-			$share->setShareOwner($data['uid_owner']);
-		}
+		$share->setSharedBy($data['uid_initiator']);
+		$share->setShareOwner($data['uid_owner']);
 
 		$share->setNodeId((int)$data['file_source']);
 		$share->setNodeType($data['item_type']);
@@ -789,30 +768,6 @@ class DefaultShareProvider implements IShareProvider {
 		$share->setProviderId($this->identifier());
 
 		return $share;
-	}
-
-	/**
-	 * Get the node with file $id for $user
-	 *
-	 * @param string $user The userId
-	 * @param int $id
-	 * @return \OCP\Files\File|\OCP\Files\Folder
-	 * @throws InvalidShare
-	 */
-	private function getNode($user, $id) {
-		try {
-			$userFolder = $this->rootFolder->getUserFolder($user);
-		} catch (NotFoundException $e) {
-			throw new InvalidShare();
-		}
-
-		$nodes = $userFolder->getById($id);
-
-		if (empty($nodes)) {
-			throw new InvalidShare();
-		}
-
-		return $nodes[0];
 	}
 
 	/**

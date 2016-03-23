@@ -123,7 +123,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->values([
 				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
 				'share_with'  => $qb->expr()->literal('sharedWith'),
-				'uid_owner'   => $qb->expr()->literal('sharedBy'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
 				'item_type'   => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(42),
 				'file_target' => $qb->expr()->literal('myTarget'),
@@ -133,27 +134,18 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$id = $qb->getLastInsertId();
 
-		$sharedWith = $this->getMock('OCP\IUser');
 		$sharedBy = $this->getMock('OCP\IUser');
 		$sharedBy->method('getUID')->willReturn('sharedBy');
 		$shareOwner = $this->getMock('OCP\IUser');
 		$shareOwner->method('getUID')->willReturn('shareOwner');
 
-		$sharedByPath = $this->getMock('\OCP\Files\File');
 		$ownerPath = $this->getMock('\OCP\Files\File');
-
-		$sharedByPath->method('getOwner')->willReturn($shareOwner);
-
-		$sharedByFolder = $this->getMock('\OCP\Files\Folder');
-		$sharedByFolder->method('getById')->with(42)->willReturn([$sharedByPath]);
-
 		$shareOwnerFolder = $this->getMock('\OCP\Files\Folder');
 		$shareOwnerFolder->method('getById')->with(42)->willReturn([$ownerPath]);
 
 		$this->rootFolder
 			->method('getUserFolder')
 			->will($this->returnValueMap([
-				['sharedBy', $sharedByFolder],
 				['shareOwner', $shareOwnerFolder],
 			]));
 
@@ -257,7 +249,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->values([
 				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
 				'share_with' => $qb->expr()->literal('sharedWith'),
-				'uid_owner' => $qb->expr()->literal('sharedBy'),
+				'uid_owner' => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
 				'item_type'   => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(42),
 				'file_target' => $qb->expr()->literal('myTarget'),
@@ -268,27 +261,13 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		// Get the id
 		$id = $qb->getLastInsertId();
 
-		$sharedWith = $this->getMock('OCP\IGroup');
-		$sharedBy = $this->getMock('OCP\IUser');
-		$sharedBy->method('getUID')->willReturn('sharedBy');
-		$shareOwner = $this->getMock('OCP\IUser');
-		$shareOwner->method('getUID')->willReturn('shareOwner');
-
-		$sharedByPath = $this->getMock('\OCP\Files\Folder');
 		$ownerPath = $this->getMock('\OCP\Files\Folder');
-
-		$sharedByPath->method('getOwner')->willReturn($shareOwner);
-
-		$sharedByFolder = $this->getMock('\OCP\Files\Folder');
-		$sharedByFolder->method('getById')->with(42)->willReturn([$sharedByPath]);
-
 		$shareOwnerFolder = $this->getMock('\OCP\Files\Folder');
 		$shareOwnerFolder->method('getById')->with(42)->willReturn([$ownerPath]);
 
 		$this->rootFolder
 				->method('getUserFolder')
 				->will($this->returnValueMap([
-						['sharedBy', $sharedByFolder],
 						['shareOwner', $shareOwnerFolder],
 				]));
 
@@ -351,7 +330,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->values([
 				'share_type' => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_LINK),
 				'share_with' => $qb->expr()->literal('sharedWith'),
-				'uid_owner' => $qb->expr()->literal('sharedBy'),
+				'uid_owner' => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
 				'item_type'   => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(42),
 				'file_target' => $qb->expr()->literal('myTarget'),
@@ -363,35 +343,15 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$id = $qb->getLastInsertId();
 
-		$sharedBy = $this->getMock('OCP\IUser');
-		$sharedBy->method('getUID')->willReturn('sharedBy');
-		$shareOwner = $this->getMock('OCP\IUser');
-		$shareOwner->method('getUID')->willReturn('shareOwner');
-
-		$sharedByPath = $this->getMock('\OCP\Files\Folder');
 		$ownerPath = $this->getMock('\OCP\Files\Folder');
-
-		$sharedByPath->method('getOwner')->willReturn($shareOwner);
-
-		$sharedByFolder = $this->getMock('\OCP\Files\Folder');
-		$sharedByFolder->method('getById')->with(42)->willReturn([$sharedByPath]);
-
 		$shareOwnerFolder = $this->getMock('\OCP\Files\Folder');
 		$shareOwnerFolder->method('getById')->with(42)->willReturn([$ownerPath]);
 
 		$this->rootFolder
 				->method('getUserFolder')
 				->will($this->returnValueMap([
-						['sharedBy', $sharedByFolder],
 						['shareOwner', $shareOwnerFolder],
 				]));
-
-		$this->userManager
-			->method('get')
-			->will($this->returnValueMap([
-				['sharedBy', $sharedBy],
-				['shareOwner', $shareOwner],
-			]));
 
 		$share = $this->provider->getShareById($id);
 
@@ -544,7 +504,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->values([
 				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
 				'share_with'  => $qb->expr()->literal('sharedWith'),
-				'uid_owner'   => $qb->expr()->literal('sharedBy'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('sharedBy'),
 				'item_type'   => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(42),
 				'file_target' => $qb->expr()->literal('myTarget'),
@@ -553,22 +514,15 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$qb->execute();
 
 		// Get the id
-		$qb = $this->dbConn->getQueryBuilder();
-		$cursor = $qb->select('id')
-			->from('share')
-			->setMaxResults(1)
-			->orderBy('id', 'DESC')
-			->execute();
-		$id = $cursor->fetch();
-		$id = $id['id'];
-		$cursor->closeCursor();
+		$id = $qb->getLastInsertId();
 
 		$qb = $this->dbConn->getQueryBuilder();
 		$qb->insert('share')
 			->values([
 				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_USER),
 				'share_with'  => $qb->expr()->literal('user1'),
-				'uid_owner'   => $qb->expr()->literal('user2'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('user2'),
 				'item_type'   => $qb->expr()->literal('file'),
 				'file_source' => $qb->expr()->literal(1),
 				'file_target' => $qb->expr()->literal('myTarget1'),
@@ -582,7 +536,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->values([
 				'share_type'  => $qb->expr()->literal(\OCP\Share::SHARE_TYPE_GROUP),
 				'share_with'  => $qb->expr()->literal('group1'),
-				'uid_owner'   => $qb->expr()->literal('user3'),
+				'uid_owner'   => $qb->expr()->literal('shareOwner'),
+				'uid_initiator' => $qb->expr()->literal('user3'),
 				'item_type'   => $qb->expr()->literal('folder'),
 				'file_source' => $qb->expr()->literal(3),
 				'file_target' => $qb->expr()->literal('myTarget2'),
@@ -590,30 +545,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 				'parent'      => $qb->expr()->literal($id),
 			]);
 		$qb->execute();
-
-		$shareOwner = $this->getMock('OCP\IUser');
-		$shareOwner->method('getUID')->willReturn('shareOwner');
-		$user1 = $this->getMock('OCP\IUser');
-		$user2 = $this->getMock('OCP\IUser');
-		$user2->method('getUID')->willReturn('user2');
-		$user3 = $this->getMock('OCP\IUser');
-		$user3->method('getUID')->willReturn('user3');
-
-		$user2Path = $this->getMock('\OCP\Files\File');
-		$user2Path->expects($this->once())->method('getOwner')->willReturn($shareOwner);
-		$user2Folder = $this->getMock('\OCP\Files\Folder');
-		$user2Folder->expects($this->once())
-			->method('getById')
-			->with(1)
-			->willReturn([$user2Path]);
-
-		$user3Path = $this->getMock('\OCP\Files\Folder');
-		$user3Path->expects($this->once())->method('getOwner')->willReturn($shareOwner);
-		$user3Folder = $this->getMock('\OCP\Files\Folder');
-		$user3Folder->expects($this->once())
-			->method('getById')
-			->with(3)
-			->willReturn([$user3Path]);
 
 		$ownerPath = $this->getMock('\OCP\Files\Folder');
 		$ownerFolder = $this->getMock('\OCP\Files\Folder');
@@ -623,23 +554,6 @@ class DefaultShareProviderTest extends \Test\TestCase {
 			->method('getUserFolder')
 			->will($this->returnValueMap([
 				['shareOwner', $ownerFolder],
-				['user2', $user2Folder],
-				['user3', $user3Folder],
-			]));
-
-		$this->userManager
-			->method('get')
-			->will($this->returnValueMap([
-				['user1', $user1],
-				['user2', $user2],
-				['user3', $user3],
-			]));
-
-		$group1 = $this->getMock('OCP\IGroup');
-		$this->groupManager
-			->method('get')
-			->will($this->returnValueMap([
-				['group1', $group1]
 			]));
 
 		$share = $this->getMock('\OCP\Share\IShare');
