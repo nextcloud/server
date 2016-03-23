@@ -244,6 +244,7 @@ $(document).ready(function () {
 	});
 
 	var uploadparms = {
+		pasteZone: null,
 		done: function (e, data) {
 			var response = data;
 			if (typeof data.result === 'string') {
