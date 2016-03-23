@@ -74,6 +74,19 @@ class Test_Files_Versioning extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
+		$config = \OC::$server->getConfig();
+		$mockConfig = $this->getMock('\OCP\IConfig');
+		$mockConfig->expects($this->any())
+			->method('getSystemValue')
+			->will($this->returnCallback(function ($key, $default) use ($config) {
+				if ($key === 'filesystem_check_changes') {
+					return \OC\Files\Cache\Watcher::CHECK_ONCE;
+				} else {
+					return $config->getSystemValue($key, $default);
+				}
+			}));
+		$this->overwriteService('AllConfig', $mockConfig);
+
 		// clear hooks
 		\OC_Hook::clear();
 		\OC::registerShareHooks();
@@ -87,6 +100,8 @@ class Test_Files_Versioning extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
+		$this->restoreService('AllConfig');
+
 		if ($this->rootView) {
 			$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files/');
 			$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files/');
