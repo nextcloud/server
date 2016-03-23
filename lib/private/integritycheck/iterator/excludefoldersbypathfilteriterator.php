@@ -34,10 +34,11 @@ class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 
 		$excludedFolders = [
 			rtrim($root . '/data', '/'),
-			rtrim($root .'/themes', '/'),
+			rtrim($root . '/themes', '/'),
 			rtrim($root . '/config', '/'),
 			rtrim($root . '/apps', '/'),
 			rtrim($root . '/assets', '/'),
+			rtrim($root . '/lost+found', '/'),
 		];
 		$customDataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', '');
 		if($customDataDir !== '') {
