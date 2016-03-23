@@ -132,7 +132,8 @@ class ServerFactory {
 			}
 			$objectTree->init($root, $view, $this->mountManager);
 
-			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FilesPlugin($objectTree, $view));
+			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FilesPlugin($objectTree, $view, false,
+				!$this->config->getSystemValue('debug', false)));
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\QuotaPlugin($view));
 
 			if($this->userSession->isLoggedIn()) {
