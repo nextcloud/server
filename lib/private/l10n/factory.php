@@ -89,20 +89,18 @@ class Factory implements IFactory {
 		if ($lang !== null) {
 			$lang = str_replace(array('\0', '/', '\\', '..'), '', (string) $lang);
 		}
-		$key = $lang;
-		if ($key === null || !$this->languageExists($app, $lang)) {
-			$key = 'null';
+		if ($lang === null || !$this->languageExists($app, $lang)) {
 			$lang = $this->findLanguage($app);
 		}
 
-		if (!isset($this->instances[$key][$app])) {
-			$this->instances[$key][$app] = new L10N(
+		if (!isset($this->instances[$lang][$app])) {
+			$this->instances[$lang][$app] = new L10N(
 				$this, $app, $lang,
 				$this->getL10nFilesForApp($app, $lang)
 			);
 		}
 
-		return $this->instances[$key][$app];
+		return $this->instances[$lang][$app];
 	}
 
 	/**
