@@ -147,6 +147,7 @@ class Application extends App {
 
 		$listener = function($event) {
 			if ($event instanceof GenericEvent) {
+				/** @var BirthdayService $b */
 				$b = $this->getContainer()->query('BirthdayService');
 				$b->onCardChanged(
 					$event->getArgument('addressBookId'),
@@ -161,6 +162,7 @@ class Application extends App {
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $listener);
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', function($event) {
 			if ($event instanceof GenericEvent) {
+				/** @var BirthdayService $b */
 				$b = $this->getContainer()->query('BirthdayService');
 				$b->onCardDeleted(
 					$event->getArgument('addressBookId'),

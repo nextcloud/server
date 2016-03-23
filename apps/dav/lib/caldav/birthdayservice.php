@@ -48,22 +48,33 @@ class BirthdayService {
 	 */
 	public function onCardChanged($addressBookId, $cardUri, $cardData) {
 
+		$shares = $this->cardDavBackEnd->getShares($addressBookId);
+		// TODO: resolve group shares
+		$shares = array_filter($shares, function($share) {
+			return !$share['{http://owncloud.org/ns}group-share'];
+		});
+		$targetPrincipals = array_map(function($share) {
+			return $share['{http://owncloud.org/ns}principal'];
+		}, $shares);
+		
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
-		$principalUri = $book['principaluri'];
-		$calendar = $this->ensureCalendarExists($principalUri);
-		$objectUri = $book['uri'] . '-' . $cardUri. '.ics';
-		$calendarData = $this->buildBirthdayFromContact($cardData);
-		$existing = $this->calDavBackEnd->getCalendarObject($calendar['id'], $objectUri);
-		if (is_null($calendarData)) {
-			if (!is_null($existing)) {
-				$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
-			}
-		} else {
-			if (is_null($existing)) {
-				$this->calDavBackEnd->createCalendarObject($calendar['id'], $objectUri, $calendarData->serialize());
+		$targetPrincipals[] = $book['principaluri'];
+		foreach ($targetPrincipals as $principalUri) {
+			$calendar = $this->ensureCalendarExists($principalUri);
+			$objectUri = $book['uri'] . '-' . $cardUri. '.ics';
+			$calendarData = $this->buildBirthdayFromContact($cardData);
+			$existing = $this->calDavBackEnd->getCalendarObject($calendar['id'], $objectUri);
+			if (is_null($calendarData)) {
+				if (!is_null($existing)) {
+					$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
+				}
 			} else {
-				if ($this->birthdayEvenChanged($existing['calendardata'], $calendarData)) {
-					$this->calDavBackEnd->updateCalendarObject($calendar['id'], $objectUri, $calendarData->serialize());
+				if (is_null($existing)) {
+					$this->calDavBackEnd->createCalendarObject($calendar['id'], $objectUri, $calendarData->serialize());
+				} else {
+					if ($this->birthdayEvenChanged($existing['calendardata'], $calendarData)) {
+						$this->calDavBackEnd->updateCalendarObject($calendar['id'], $objectUri, $calendarData->serialize());
+					}
 				}
 			}
 		}
@@ -74,11 +85,22 @@ class BirthdayService {
 	 * @param string $cardUri
 	 */
 	public function onCardDeleted($addressBookId, $cardUri) {
+		$shares = $this->cardDavBackEnd->getShares($addressBookId);
+		// TODO: resolve group shares
+		$shares = array_filter($shares, function($share) {
+			return !$share['{http://owncloud.org/ns}group-share'];
+		});
+		$targetPrincipals = array_map(function($share) {
+			return $share['href'];
+		}, $shares);
+
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
-		$principalUri = $book['principaluri'];
-		$calendar = $this->ensureCalendarExists($principalUri);
-		$objectUri = $book['uri'] . '-' . $cardUri. '.ics';
-		$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
+		$targetPrincipals[] = $book['principaluri'];
+		foreach ($targetPrincipals as $principalUri) {
+			$calendar = $this->ensureCalendarExists($principalUri);
+			$objectUri = $book['uri'] . '-' . $cardUri . '.ics';
+			$this->calDavBackEnd->deleteCalendarObject($calendar['id'], $objectUri);
+		}
 	}
 
 	/**
