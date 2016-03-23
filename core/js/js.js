@@ -1448,10 +1448,10 @@ function initCore() {
 		$('html').addClass('edge');
 	}
 
-	$(window).on('unload', function() {
+	$(window).on('unload.main', function() {
 		OC._unloadCalled = true;
 	});
-	$(window).on('beforeunload', function() {
+	$(window).on('beforeunload.main', function() {
 		// super-trick thanks to http://stackoverflow.com/a/4651049
 		// in case another handler displays a confirmation dialog (ex: navigating away
 		// during an upload), there are two possible outcomes: user clicked "ok" or
