@@ -657,7 +657,7 @@ class OC_Util {
 					'error' => $l->t('Cannot write into "config" directory'),
 					'hint' => $l->t('This can usually be fixed by '
 						. '%sgiving the webserver write access to the config directory%s.',
-						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
+						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>'))
 				);
 			}
 		}
@@ -673,7 +673,7 @@ class OC_Util {
 					'hint' => $l->t('This can usually be fixed by '
 						. '%sgiving the webserver write access to the apps directory%s'
 						. ' or disabling the appstore in the config file.',
-						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'))
+						array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>'))
 				);
 			}
 		}
@@ -687,7 +687,7 @@ class OC_Util {
 					$errors[] = array(
 						'error' => $l->t('Cannot create "data" directory (%s)', array($CONFIG_DATADIRECTORY)),
 						'hint' => $l->t('This can usually be fixed by '
-							. '<a href="%s" target="_blank">giving the webserver write access to the root directory</a>.',
+							. '<a href="%s" target="_blank" rel="noreferrer">giving the webserver write access to the root directory</a>.',
 							array($urlGenerator->linkToDocs('admin-dir_permissions')))
 					);
 				}
@@ -695,7 +695,7 @@ class OC_Util {
 				//common hint for all file permissions error messages
 				$permissionsHint = $l->t('Permissions can usually be fixed by '
 					. '%sgiving the webserver write access to the root directory%s.',
-					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank">', '</a>'));
+					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>'));
 				$errors[] = array(
 					'error' => 'Data directory (' . $CONFIG_DATADIRECTORY . ') not writable by ownCloud',
 					'hint' => $permissionsHint
