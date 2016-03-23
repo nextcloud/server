@@ -26,6 +26,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\IGroup;
+use OCP\Share\Exceptions\IllegalIDChangeException;
 
 class Share implements \OCP\Share\IShare {
 
@@ -75,7 +76,19 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function setId($id) {
-		$this->id = $id;
+		if (is_int($id)) {
+			$id = (string)$id;
+		}
+
+		if(!is_string($id)) {
+			throw new \InvalidArgumentException('String expected.');
+		}
+
+		if ($this->id !== null) {
+			throw new IllegalIDChangeException('Not allowed to assign a new internal id to a share');
+		}
+
+		$this->id = trim($id);
 		return $this;
 	}
 
@@ -100,7 +113,15 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function setProviderId($id) {
-		$this->providerId = $id;
+		if(!is_string($id)) {
+			throw new \InvalidArgumentException('String expected.');
+		}
+
+		if ($this->providerId !== null) {
+			throw new IllegalIDChangeException('Not allowed to assign a new provider id to a share');
+		}
+
+		$this->providerId = trim($id);
 		return $this;
 	}
 
