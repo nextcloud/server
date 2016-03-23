@@ -24,6 +24,7 @@ namespace OCA\DAV\Tests\Unit\CardDAV;
 use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\DAV\GroupPrincipalBackend;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 use Test\TestCase;
@@ -36,14 +37,17 @@ class BirthdayServiceTest extends TestCase {
 	private $calDav;
 	/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject */
 	private $cardDav;
+	/** @var GroupPrincipalBackend | \PHPUnit_Framework_MockObject_MockObject */
+	private $groupPrincialBackend;
 
 	public function setUp() {
 		parent::setUp();
 
 		$this->calDav = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
 		$this->cardDav = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
+		$this->groupPrincialBackend = $this->getMockBuilder('OCA\DAV\DAV\GroupPrincipalBackend')->disableOriginalConstructor()->getMock();
 
-		$this->service = new BirthdayService($this->calDav, $this->cardDav);
+		$this->service = new BirthdayService($this->calDav, $this->cardDav, $this->groupPrincialBackend);
 	}
 
 	/**
@@ -77,6 +81,7 @@ class BirthdayServiceTest extends TestCase {
 			'id' => 1234
 		]);
 		$this->calDav->expects($this->once())->method('deleteCalendarObject')->with(1234, 'default-gump.vcf.ics');
+		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 
 		$this->service->onCardDeleted(666, 'gump.vcf');
 	}
@@ -96,10 +101,11 @@ class BirthdayServiceTest extends TestCase {
 			->willReturn([
 				'id' => 1234
 			]);
+		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 
 		/** @var BirthdayService | \PHPUnit_Framework_MockObject_MockObject $service */
 		$service = $this->getMock('\OCA\DAV\CalDAV\BirthdayService',
-			['buildBirthdayFromContact', 'birthdayEvenChanged'], [$this->calDav, $this->cardDav]);
+			['buildBirthdayFromContact', 'birthdayEvenChanged'], [$this->calDav, $this->cardDav, $this->groupPrincialBackend]);
 
 		if ($expectedOp === 'delete') {
 			$this->calDav->expects($this->once())->method('getCalendarObject')->willReturn('');
@@ -130,6 +136,45 @@ class BirthdayServiceTest extends TestCase {
 	public function testBirthdayEvenChanged($expected, $old, $new) {
 		$new = Reader::read($new);
 		$this->assertEquals($expected, $this->service->birthdayEvenChanged($old, $new));
+	}
+
+	public function testGetAllAffectedPrincipals() {
+		$this->cardDav->expects($this->once())->method('getShares')->willReturn([
+			[
+				'{http://owncloud.org/ns}group-share' => false,
+				'{http://owncloud.org/ns}principal' => 'principals/users/user01'
+			],
+			[
+				'{http://owncloud.org/ns}group-share' => false,
+				'{http://owncloud.org/ns}principal' => 'principals/users/user01'
+			],
+			[
+				'{http://owncloud.org/ns}group-share' => false,
+				'{http://owncloud.org/ns}principal' => 'principals/users/user02'
+			],
+			[
+				'{http://owncloud.org/ns}group-share' => true,
+				'{http://owncloud.org/ns}principal' => 'principals/groups/users'
+			],
+		]);
+		$this->groupPrincialBackend->expects($this->once())->method('getGroupMemberSet')
+			->willReturn([
+				[
+					'uri' => 'principals/users/user01',
+				],
+				[
+					'uri' => 'principals/users/user02',
+				],
+				[
+					'uri' => 'principals/users/user03',
+				],
+			]);
+		$users = $this->invokePrivate($this->service, 'getAllAffectedPrincipals', [6666]);
+		$this->assertEquals([
+			'principals/users/user01',
+			'principals/users/user02',
+			'principals/users/user03'
+		], $users);
 	}
 
 	public function providesBirthday() {

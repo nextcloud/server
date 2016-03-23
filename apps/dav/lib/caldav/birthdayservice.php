@@ -23,6 +23,7 @@ namespace OCA\DAV\CalDAV;
 
 use Exception;
 use OCA\DAV\CardDAV\CardDavBackend;
+use OCA\DAV\DAV\GroupPrincipalBackend;
 use Sabre\VObject\Component\VCalendar;
 use Sabre\VObject\Reader;
 
@@ -30,15 +31,20 @@ class BirthdayService {
 
 	const BIRTHDAY_CALENDAR_URI = 'contact_birthdays';
 
+	/** @var GroupPrincipalBackend */
+	private $principalBackend;
+
 	/**
 	 * BirthdayService constructor.
 	 *
 	 * @param CalDavBackend $calDavBackEnd
 	 * @param CardDavBackend $cardDavBackEnd
+	 * @param GroupPrincipalBackend $principalBackend
 	 */
-	public function __construct($calDavBackEnd, $cardDavBackEnd) {
+	public function __construct($calDavBackEnd, $cardDavBackEnd, $principalBackend) {
 		$this->calDavBackEnd = $calDavBackEnd;
 		$this->cardDavBackEnd = $cardDavBackEnd;
+		$this->principalBackend = $principalBackend;
 	}
 
 	/**
@@ -48,14 +54,7 @@ class BirthdayService {
 	 */
 	public function onCardChanged($addressBookId, $cardUri, $cardData) {
 
-		$shares = $this->cardDavBackEnd->getShares($addressBookId);
-		// TODO: resolve group shares
-		$shares = array_filter($shares, function($share) {
-			return !$share['{http://owncloud.org/ns}group-share'];
-		});
-		$targetPrincipals = array_map(function($share) {
-			return $share['{http://owncloud.org/ns}principal'];
-		}, $shares);
+		$targetPrincipals = $this->getAllAffectedPrincipals($addressBookId);
 		
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
 		$targetPrincipals[] = $book['principaluri'];
@@ -85,15 +84,7 @@ class BirthdayService {
 	 * @param string $cardUri
 	 */
 	public function onCardDeleted($addressBookId, $cardUri) {
-		$shares = $this->cardDavBackEnd->getShares($addressBookId);
-		// TODO: resolve group shares
-		$shares = array_filter($shares, function($share) {
-			return !$share['{http://owncloud.org/ns}group-share'];
-		});
-		$targetPrincipals = array_map(function($share) {
-			return $share['href'];
-		}, $shares);
-
+		$targetPrincipals = $this->getAllAffectedPrincipals($addressBookId);
 		$book = $this->cardDavBackEnd->getAddressBookById($addressBookId);
 		$targetPrincipals[] = $book['principaluri'];
 		foreach ($targetPrincipals as $principalUri) {
@@ -205,6 +196,26 @@ class BirthdayService {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param $addressBookId
+	 * @return mixed
+	 */
+	protected function getAllAffectedPrincipals($addressBookId) {
+		$targetPrincipals = [];
+		$shares = $this->cardDavBackEnd->getShares($addressBookId);
+		foreach ($shares as $share) {
+			if ($share['{http://owncloud.org/ns}group-share']) {
+				$users = $this->principalBackend->getGroupMemberSet($share['{http://owncloud.org/ns}principal']);
+				foreach ($users as $user) {
+					$targetPrincipals[] = $user['uri'];
+				}
+			} else {
+				$targetPrincipals[] = $share['{http://owncloud.org/ns}principal'];
+			}
+		}
+		return array_values(array_unique($targetPrincipals, SORT_STRING));
 	}
 
 }

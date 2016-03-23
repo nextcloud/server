@@ -22,6 +22,7 @@ namespace OCA\DAV\DAV;
 
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IUser;
 use Sabre\DAV\Exception;
 use \Sabre\DAV\PropPatch;
 use Sabre\DAVACL\PrincipalBackend\BackendInterface;
@@ -82,10 +83,10 @@ class GroupPrincipalBackend implements BackendInterface {
 			return null;
 		}
 		$name = $elements[2];
-		$user = $this->groupManager->get($name);
+		$group = $this->groupManager->get($name);
 
-		if (!is_null($user)) {
-			return $this->groupToPrincipal($user);
+		if (!is_null($group)) {
+			return $this->groupToPrincipal($group);
 		}
 
 		return null;
@@ -99,8 +100,23 @@ class GroupPrincipalBackend implements BackendInterface {
 	 * @throws Exception
 	 */
 	public function getGroupMemberSet($principal) {
-		// TODO: implement if we want that
-		return [];
+		$elements = explode('/', $principal);
+		if ($elements[0] !== 'principals') {
+			return [];
+		}
+		if ($elements[1] !== 'groups') {
+			return [];
+		}
+		$name = $elements[2];
+		$group = $this->groupManager->get($name);
+
+		if (is_null($group)) {
+			return [];
+		}
+
+		return array_map(function($user) {
+			return $this->userToPrincipal($user);
+		}, $group->getUsers());
 	}
 
 	/**
@@ -162,8 +178,21 @@ class GroupPrincipalBackend implements BackendInterface {
 	protected function groupToPrincipal($group) {
 		$groupId = $group->getGID();
 		$principal = [
-				'uri' => "principals/groups/$groupId",
-				'{DAV:}displayname' => $groupId,
+			'uri' => "principals/groups/$groupId",
+			'{DAV:}displayname' => $groupId,
+		];
+
+		return $principal;
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return array
+	 */
+	protected function userToPrincipal($user) {
+		$principal = [
+			'uri' => 'principals/users/' . $user->getUID(),
+			'{DAV:}displayname' => $user->getDisplayName(),
 		];
 
 		return $principal;
