@@ -133,20 +133,25 @@ class RecipientPropagator {
 	 */
 	protected function getPropagationTimestampForShares(array $sharePropagations) {
 		$sql = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$shareIds = array_keys($sharePropagations);
+		$allShareIds = array_keys($sharePropagations);
+
+		$shareIdChunks = array_chunk($allShareIds, 50);
 
 		$sql->select(['configkey', 'configvalue'])
 			->from('appconfig')
 			->where($sql->expr()->eq('appid', $sql->createParameter('appid')))
 			->andWhere($sql->expr()->in('configkey', $sql->createParameter('shareids')))
-			->setParameter('appid', 'files_sharing', \PDO::PARAM_STR)
-			->setParameter('shareids', $shareIds, Connection::PARAM_INT_ARRAY);
-		$result = $sql->execute();
+			->setParameter('appid', 'files_sharing', \PDO::PARAM_STR);
 
-		while ($row = $result->fetch()) {
-			$sharePropagations[(int) $row['configkey']] = $row['configvalue'];
+		foreach ($shareIdChunks as $shareIds) {
+			$sql->setParameter('shareids', $shareIds, Connection::PARAM_INT_ARRAY);
+			$result = $sql->execute();
+
+			while ($row = $result->fetch()) {
+				$sharePropagations[(int) $row['configkey']] = $row['configvalue'];
+			}
+			$result->closeCursor();
 		}
-		$result->closeCursor();
 
 		return $sharePropagations;
 	}
