@@ -46,6 +46,8 @@ $eventDispatcher->addListener('OCP\Federation\TrustedServerEvent::remove',
 
 $cm = \OC::$server->getContactsManager();
 $cm->register(function() use ($cm, $app) {
-	$userId = \OC::$server->getUserSession()->getUser()->getUID();
-	$app->setupContactsProvider($cm, $userId);
+	$user = \OC::$server->getUserSession()->getUser();
+	if (!is_null($user)) {
+		$app->setupContactsProvider($cm, $user->getUID());
+	}
 });
