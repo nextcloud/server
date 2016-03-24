@@ -123,6 +123,8 @@
 								hasShares = true;
 							} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
 								hasShares = true;
+							} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
+								hasShares = true;
 							}
 						});
 						OCA.Sharing.Util._updateFileActionIcon($tr, hasShares, hasLink);
