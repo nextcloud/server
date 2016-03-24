@@ -26,6 +26,8 @@
 
 namespace OCA\DAV\Connector;
 
+use OCP\IRequest;
+
 class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 
 	/**
@@ -36,10 +38,17 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 	private $share;
 
 	/**
-	 * @param \OCP\IConfig $config
+	 * @var IRequest
 	 */
-	public function __construct($config) {
+	private $request;
+
+	/**
+	 * @param \OCP\IConfig $config
+	 * @param IRequest $request
+	 */
+	public function __construct($config, $request) {
 		$this->config = $config;
+		$this->request = $request;
 	}
 
 	/**
@@ -92,6 +101,12 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 					&& \OC::$server->getSession()->get('public_link_authenticated') === $linkItem['id']) {
 					return true;
 				} else {
+					if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')))) {
+						// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
+						header('Status: 401');
+						header('WWW-Authenticate', 'DummyBasic real="ownCloud"');
+						throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
+					}
 					return false;
 				}
 			} else if ($linkItem['share_type'] == \OCP\Share::SHARE_TYPE_REMOTE) {

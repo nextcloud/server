@@ -32,7 +32,7 @@ OC_App::loadApps($RUNTIME_APPTYPES);
 OC_Util::obEnd();
 
 // Backends
-$authBackend = new OCA\DAV\Connector\PublicAuth(\OC::$server->getConfig());
+$authBackend = new OCA\DAV\Connector\PublicAuth(\OC::$server->getConfig(), \OC::$server->getRequest());
 
 $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getConfig(),
