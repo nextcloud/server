@@ -423,7 +423,14 @@ class DAV extends Common {
 			// TODO: cacheable ?
 			$response = $this->client->propfind($this->encodePath($path), array('{DAV:}quota-available-bytes'));
 			if (isset($response['{DAV:}quota-available-bytes'])) {
-				return (int)$response['{DAV:}quota-available-bytes'];
+				$freeSpace = (int)$response['{DAV:}quota-available-bytes'];
+				if ($freeSpace === FileInfo::SPACE_UNLIMITED) {
+					// most of the code cannot cope with unlimited storage,
+					// so as a workaround convert to SPACE_UNKNOWN which is a
+					// value recognized in many places
+					return FileInfo::SPACE_UNKNOWN;
+				}
+				return $freeSpace;
 			} else {
 				return FileInfo::SPACE_UNKNOWN;
 			}
