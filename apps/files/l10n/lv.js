@@ -81,7 +81,6 @@ OC.L10N.register(
     "Save" : "Saglabāt",
     "Settings" : "Iestatījumi",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Izmantojot šo adresi, <a href=\"%s\" target=\"_blank\">piekļūstiet saviem failiem, izmantojot WebDAV</a>",
     "Cancel upload" : "Atcelt augšupielādi",
     "Upload some content or sync with your devices!" : "Augšupielādē kaut ko vai sinhronizē saturu ar savām ierīcēm!",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",

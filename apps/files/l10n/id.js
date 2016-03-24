@@ -92,7 +92,6 @@ OC.L10N.register(
     "Save" : "Simpan",
     "Settings" : "Pengaturan",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Gunakan alamat ini untuk <a href=\"%s\" target=\"_blank\">mengakses Berkas via WebDAV</a>",
     "Cancel upload" : "Batal unggah",
     "No files in here" : "Tidak ada berkas disini",
     "Upload some content or sync with your devices!" : "Unggah beberapa konten dan sinkronisasikan dengan perangkat Anda!",

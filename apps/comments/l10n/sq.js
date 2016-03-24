@@ -2,7 +2,9 @@ OC.L10N.register(
     "comments",
     {
     "<strong>Comments</strong> for files" : "<strong>Komente</strong> për kartela",
+    "You commented" : "Komentuat",
     "%1$s commented" : "%1$s komentoi",
+    "You commented on %2$s" : "Komentuat te %2$s",
     "%1$s commented on %2$s" : "%1$s komentoi te %2$s",
     "Comments" : "Komente",
     "Type in a new comment..." : "Shtypni një koment të ri…",

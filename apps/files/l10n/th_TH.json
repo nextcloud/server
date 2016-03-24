@@ -103,7 +103,6 @@
     "Missing permissions to edit from here." : "สิทธิ์ในการแก้ไขส่วนนี้หายไป",
     "Settings" : "ตั้งค่า",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "ใช้ที่อยู่นี้เพื่อ <a href=\"%s\" target=\"_blank\">เข้าถึงไฟล์ของคุณผ่าน WebDAV</a>",
     "Cancel upload" : "ยกเลิกการอัพโหลด",
     "No files in here" : "ไม่มีไฟล์ที่นี่",
     "Upload some content or sync with your devices!" : "อัพโหลดเนื้อหาบางส่วนหรือประสานข้อมูลกับอุปกรณ์ของคุณ! อีกครั้ง",

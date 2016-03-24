@@ -91,7 +91,6 @@ OC.L10N.register(
     "Help" : "Hulp",
     "Access forbidden" : "Toegang verbode",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Jou data gids en lêers is moontlik toeganklik vanaf die internet omdat die .htaccess lêer nie werk nie.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Vir inligting oor hoe om jou bediener behoorlik op te stel, sien asseblief die<a href=\"%s\" target=\"_blank\">dokumentasie</a>.",
     "Create an <strong>admin account</strong>" : "Skep `n <strong>admin-rekening</strong>",
     "Username" : "Gebruikersnaam",
     "Data folder" : "Data omslag",

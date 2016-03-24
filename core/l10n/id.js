@@ -214,7 +214,6 @@ OC.L10N.register(
     "Trace" : "Jejak",
     "Security warning" : "Peringatan keamanan",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Kemungkinan direktori data dan berkas anda dapat diakses dari internet karena berkas .htaccess tidak berfungsi.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Untuk informasi cara mengkonfigurasi server anda dengan benar, silakan lihat <a href=\"%s\" target=\"_blank\">dokumentasi</a>.",
     "Create an <strong>admin account</strong>" : "Buat sebuah <strong>akun admin</strong>",
     "Username" : "Nama pengguna",
     "Storage & database" : "Penyimpanan & Basis data",

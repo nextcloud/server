@@ -105,7 +105,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "您沒有在此編輯的權限",
     "Settings" : "設定",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "使用這個地址<a href=\"%s\" target=\"_blank\">來透過 WebDAV 存取檔案</a>",
     "Cancel upload" : "取消上傳",
     "No files in here" : "沒有任何檔案",
     "Upload some content or sync with your devices!" : "在您的裝置中同步或上傳一些內容",

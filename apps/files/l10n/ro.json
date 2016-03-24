@@ -74,7 +74,6 @@
     "Save" : "Salvează",
     "Settings" : "Setări",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Folosește această adresă <a href=\"%s\" target=\"_blank\">pentru acces la fișierele tale folosind WebDAV</a>",
     "Cancel upload" : "Anulează încărcarea",
     "Select all" : "Selectează tot",
     "Upload too large" : "Fișierul încărcat este prea mare",

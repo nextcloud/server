@@ -81,7 +81,6 @@
     "Save" : "حفظ",
     "Settings" : "إعدادات",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "استخدم هذا العنوان لـ  <a href=\"%s\" target=\"_blank\">الدخول الى ملفاتك عن طريق WebDAV</a>",
     "Cancel upload" : "إلغاء الرفع",
     "No files in here" : "لا يوجد ملفات هنا ",
     "Upload some content or sync with your devices!" : "ارفع بعض المحتوي او زامن مع اجهزتك !",

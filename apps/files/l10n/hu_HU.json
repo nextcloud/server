@@ -104,7 +104,6 @@
     "Missing permissions to edit from here." : "Innen nem lehet szerkeszteni hiányzó jogosultság miatt.",
     "Settings" : "Beállítások",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Ezt a címet használja, ha <a href=\"%s\" target=\"_blank\">WebDAV-on keresztül szeretné elérni a fájljait</a>",
     "Cancel upload" : "A feltöltés megszakítása",
     "No files in here" : "Itt nincsenek fájlok",
     "Upload some content or sync with your devices!" : "Tölts fel néhány tartalmat, vagy szinkronizálj az eszközöddel!",

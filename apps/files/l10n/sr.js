@@ -92,7 +92,6 @@ OC.L10N.register(
     "Save" : "Сачувај",
     "Settings" : "Поставке",
     "WebDAV" : "ВебДАВ",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Користите ову адресу да <a href=\"%s\" target=\"_blank\"> приступите фајловима преко ВебДАВ-а</a>",
     "Cancel upload" : "Откажи отпремање",
     "No files in here" : "Овде нема фајлова",
     "Upload some content or sync with your devices!" : "Отпремите неки садржај или синхронизујте са вашим уређајима!",

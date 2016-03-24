@@ -88,7 +88,6 @@ OC.L10N.register(
     "Save" : "Gardar",
     "Settings" : "Axustes",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Empregue esta ligazón para  <a href=\"%s\" target=\"_blank\">acceder aos seus ficheiros mediante WebDAV</a>",
     "Cancel upload" : "Cancelar o envío",
     "No files in here" : "Aquí non hai ficheiros",
     "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",

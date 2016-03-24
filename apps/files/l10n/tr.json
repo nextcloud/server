@@ -103,7 +103,6 @@
     "Missing permissions to edit from here." : "Buradan düzenleme için eksik yetki.",
     "Settings" : "Ayarlar",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\">Dosyalarınıza WebDAV aracılığıyla erişmek için</a> bu adresi kullanın",
     "Cancel upload" : "Yüklemeyi iptal et",
     "No files in here" : "Burada hiç dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin veya aygıtlarınızla eşitleyin!",

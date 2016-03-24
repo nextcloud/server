@@ -77,7 +77,6 @@
     "Save" : "Spremite",
     "Settings" : "Postavke",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Koristitet slijedeću adresu za <a href=\"%s\" target=\"_blank\">pristup vašim datotekama putem WebDAV-a</a>",
     "Cancel upload" : "Prekini upload",
     "Upload some content or sync with your devices!" : "Aplodujte neki sadrzaj ili sinkronizirajte sa vasim uredjajem!",
     "No entries found in this folder" : "Zapis nije pronadjen u ovom direktorijumu ",

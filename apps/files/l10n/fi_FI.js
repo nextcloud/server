@@ -106,7 +106,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Käyttöoikeudet eivät riitä tätä kautta muokkaamiseen.",
     "Settings" : "Asetukset",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\">käyttääksesi tiedostojasi WebDAVin kautta</a>",
     "Cancel upload" : "Peru lähetys",
     "No files in here" : "Täällä ei ole tiedostoja",
     "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",

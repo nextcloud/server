@@ -90,7 +90,6 @@
     "Save" : "Salvesta",
     "Settings" : "Seaded",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Kasuta seda aadressi <a href=\"%s\" target=\"_blank\">oma failidele ligipääsuks WebDAV kaudu</a>",
     "Cancel upload" : "Tühista üleslaadimine",
     "No files in here" : "Siin ei ole faile",
     "Upload some content or sync with your devices!" : "Laadi sisu üles või süngi oma seadmetega!",

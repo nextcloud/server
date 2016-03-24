@@ -177,7 +177,6 @@ OC.L10N.register(
     "Trace" : "Arrastoa",
     "Security warning" : "Segurtasun abisua",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Zure data karpeta eta fitxategiak interneten bidez eskuragarri egon daitezke .htaccess fitxategia ez delako funtzionatzen ari.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Zure zerbitrzaria ongi konfiguratzeko, mezedez <a href=\"%s\" target=\"_blank\">dokumentazioa</a> ikusi.",
     "Create an <strong>admin account</strong>" : "Sortu <strong>kudeatzaile kontu<strong> bat",
     "Username" : "Erabiltzaile izena",
     "Storage & database" : "Biltegia & datubasea",

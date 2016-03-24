@@ -103,7 +103,6 @@
     "Missing permissions to edit from here." : "Draudžiama iš čia redaguoti",
     "Settings" : "Nustatymai",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Naudokite šį adresą, kad <a href=\"%s\" target=\"_blank\">pasiektumėte savo failus per WebDAV</a>",
     "Cancel upload" : "Atšaukti siuntimą",
     "No files in here" : "Čia nėra failų",
     "Upload some content or sync with your devices!" : "Įkelkite kokį nors turinį, arba sinchronizuokite su savo įrenginiais!",

@@ -106,7 +106,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Faltan permisos para poder editar desde aquí.",
     "Settings" : "Ajustes",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Use esta URL <a href=\"%s\" target=\"_blank\">para acceder via WebDAV</a>",
     "Cancel upload" : "Cancelar la subida",
     "No files in here" : "Aquí no hay archivos",
     "Upload some content or sync with your devices!" : "Suba contenidos o sincronice sus dispositivos.",

@@ -115,7 +115,6 @@
     "SSL" : "SSL",
     "TLS" : "TLS",
     "php does not seem to be setup properly to query system environment variables. The test with getenv(\"PATH\") only returns an empty response." : "Úgy tűnik, hogy a PHP nem tudja olvasni a rendszer környezeti változóit. A getenv(\"PATH\") teszt visszatérési értéke üres.",
-    "Please check the <a target=\"_blank\" href=\"%s\">installation documentation ↗</a> for php configuration notes and the php configuration of your server, especially when using php-fpm." : "Kérjük ellenőrizd a <a target=\"_blank\" href=\"%s\">telepítési dokumentációt ↗</a> a PHP konfigurációs beállításaival kapcsolatban, főleg ha PHP-FPM-et használsz.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Úgy tűnik, hogy a PHP úgy van beállítva, hogy eltávolítja programok belsejében elhelyezett szövegblokkokat. Emiatt a rendszer több alapvető fontosságú eleme működésképtelen lesz.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Ezt valószínűleg egy gyorsítótár ill. kódgyorsító, mint pl, a Zend, OPcache vagy eAccelererator okozza.",
     "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "A szervered Microsoft Windowson fut. A legjobb felhasználói élményért erősen javasoljuk, hogy Linuxot használj.",

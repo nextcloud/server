@@ -87,7 +87,6 @@
     "Save" : "Uložiť",
     "Settings" : "Nastavenia",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Použite túto linku <a href=\"%s\" target=\"_blank\">pre prístup k vašim súborom cez WebDAV</a>",
     "Cancel upload" : "Zrušiť nahrávanie",
     "No files in here" : "Nie sú tu žiadne súbory",
     "Upload some content or sync with your devices!" : "Nahrajte nejaký obsah alebo synchronizujte zo svojimi zariadeniami!",

@@ -64,7 +64,6 @@ OC.L10N.register(
     "Save" : "Spasi",
     "Settings" : "Postavke",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Koristi slijedeću adresu za <a href=\"%s\" target=\"_blank\">pristup vašim datotekama putem WebDAV-a</a>",
     "Cancel upload" : "Prekini učitavanje",
     "Upload some content or sync with your devices!" : "Učitaj neki sadržaj ili sinhronizuj sa tvojim uređajima!",
     "Select all" : "Označi sve",

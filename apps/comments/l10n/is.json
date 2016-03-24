@@ -1,6 +1,8 @@
 { "translations": {
     "<strong>Comments</strong> for files" : "<strong>Athugasemdir</strong> við skrár",
+    "You commented" : "Þú settir inn athugasemd",
     "%1$s commented" : "%1$s setti inn athugasemd",
+    "You commented on %2$s" : "Þú settir inn athugasemd við %2$s",
     "%1$s commented on %2$s" : "%1$s setti inn athugasemd um %2$s",
     "Comments" : "Athugasemdir",
     "Type in a new comment..." : "Skrifaðu inn nýja athugasemd...",

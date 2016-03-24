@@ -198,7 +198,6 @@ OC.L10N.register(
     "Trace" : "Траг",
     "Security warning" : "Безбедносно упозорење",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Ваш директоријум са подацима и фајлови су вероватно доступни са интернета јер .htaccess не ради.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Информације о томе како исправно подесити серверможете наћи у<a href=\"%s\" target=\"_blank\">документацији</a>.",
     "Create an <strong>admin account</strong>" : "Направи <strong>административни налог</strong>",
     "Username" : "Корисничко име",
     "Storage & database" : "Складиште и база података",
