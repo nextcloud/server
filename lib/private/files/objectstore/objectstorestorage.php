@@ -39,6 +39,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	 */
 	protected $objectStore;
 	/**
+	 * @var string $id
+	 */
+	protected $id;
+	/**
 	 * @var \OC\User\User $user
 	 */
 	protected $user;
