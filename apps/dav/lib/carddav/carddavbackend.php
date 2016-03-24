@@ -103,6 +103,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * @return array
 	 */
 	function getAddressBooksForUser($principalUri) {
+		$principalUriOriginal = $principalUri;
 		$principalUri = $this->convertPrincipal($principalUri, true);
 		$query = $this->db->getQueryBuilder();
 		$query->select(['id', 'uri', 'displayname', 'principaluri', 'description', 'synctoken'])
@@ -126,7 +127,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$result->closeCursor();
 
 		// query for shared calendars
-		$principals = $this->principalBackend->getGroupMembership($principalUri, true);
+		$principals = $this->principalBackend->getGroupMembership($principalUriOriginal, true);
 		$principals[]= $principalUri;
 
 		$query = $this->db->getQueryBuilder();
