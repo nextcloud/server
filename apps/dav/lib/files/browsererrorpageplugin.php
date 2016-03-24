@@ -57,7 +57,13 @@ class BrowserErrorPagePlugin extends ServerPlugin {
 		if ($request->getMethod() !== 'GET') {
 			return false;
 		}
-		return $request->isUserAgent([Request::USER_AGENT_IE_8]);
+		return $request->isUserAgent([
+			Request::USER_AGENT_IE,
+			Request::USER_AGENT_MS_EDGE,
+			Request::USER_AGENT_CHROME,
+			Request::USER_AGENT_FIREFOX,
+			Request::USER_AGENT_SAFARI,
+		]);
 	}
 
 	/**
