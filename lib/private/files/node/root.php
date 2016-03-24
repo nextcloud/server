@@ -176,8 +176,9 @@ class Root extends Folder implements IRootFolder {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
 			$fullPath = $this->getFullPath($path);
-			if ($this->view->file_exists($fullPath)) {
-				return $this->createNode($fullPath);
+			$fileInfo = $this->view->getFileInfo($fullPath);
+			if ($fileInfo) {
+				return $this->createNode($fullPath, $fileInfo);
 			} else {
 				throw new NotFoundException($path);
 			}
@@ -336,18 +337,18 @@ class Root extends Folder implements IRootFolder {
 		$dir = '/' . $userId;
 		$folder = null;
 
-		if (!$this->nodeExists($dir)) {
-			$folder = $this->newFolder($dir);
-		} else {
+		try {
 			$folder = $this->get($dir);
+		} catch (NotFoundException $e) {
+			$folder = $this->newFolder($dir);
 		}
 
 		$dir = '/files';
-		if (!$folder->nodeExists($dir)) {
+		try {
+			$folder = $folder->get($dir);
+		} catch (NotFoundException $e) {
 			$folder = $folder->newFolder($dir);
 			\OC_Util::copySkeleton($userId, $folder);
-		} else {
-			$folder = $folder->get($dir);
 		}
 
 		return $folder;

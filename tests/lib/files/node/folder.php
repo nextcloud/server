@@ -376,6 +376,14 @@ class Folder extends \Test\TestCase {
 			->method('getCache')
 			->will($this->returnValue($cache));
 
+		$mount = $this->getMock('\OCP\Files\Mount\IMountPoint');
+		$mount->expects($this->once())
+			->method('getStorage')
+			->will($this->returnValue($storage));
+		$mount->expects($this->once())
+			->method('getInternalPath')
+			->will($this->returnValue('foo'));
+
 		$cache->expects($this->once())
 			->method('search')
 			->with('%qw%')
@@ -388,9 +396,10 @@ class Folder extends \Test\TestCase {
 			->with('/bar/foo')
 			->will($this->returnValue(array()));
 
-		$view->expects($this->once())
-			->method('resolvePath')
-			->will($this->returnValue(array($storage, 'foo')));
+		$root->expects($this->once())
+			->method('getMount')
+			->with('/bar/foo')
+			->will($this->returnValue($mount));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
 		$result = $node->search('qw');
@@ -404,12 +413,20 @@ class Folder extends \Test\TestCase {
 		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
 		 */
 		$view = $this->getMock('\OC\Files\View');
-		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn'), array($manager, $view, $this->user));
+		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn', 'getMount'), array($manager, $view, $this->user));
 		$root->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
 		$storage = $this->getMock('\OC\Files\Storage\Storage');
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
+
+		$mount = $this->getMock('\OCP\Files\Mount\IMountPoint');
+		$mount->expects($this->once())
+			->method('getStorage')
+			->will($this->returnValue($storage));
+		$mount->expects($this->once())
+			->method('getInternalPath')
+			->will($this->returnValue('files'));
 
 		$storage->expects($this->once())
 			->method('getCache')
@@ -428,9 +445,10 @@ class Folder extends \Test\TestCase {
 			->with('')
 			->will($this->returnValue(array()));
 
-		$view->expects($this->once())
-			->method('resolvePath')
-			->will($this->returnValue(array($storage, 'files')));
+		$root->expects($this->once())
+			->method('getMount')
+			->with('')
+			->will($this->returnValue($mount));
 
 		$result = $root->search('qw');
 		$this->assertEquals(1, count($result));
@@ -450,6 +468,14 @@ class Folder extends \Test\TestCase {
 		$storage = $this->getMock('\OC\Files\Storage\Storage');
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 
+		$mount = $this->getMock('\OCP\Files\Mount\IMountPoint');
+		$mount->expects($this->once())
+			->method('getStorage')
+			->will($this->returnValue($storage));
+		$mount->expects($this->once())
+			->method('getInternalPath')
+			->will($this->returnValue(''));
+
 		$storage->expects($this->once())
 			->method('getCache')
 			->will($this->returnValue($cache));
@@ -466,9 +492,10 @@ class Folder extends \Test\TestCase {
 			->with('/bar')
 			->will($this->returnValue(array()));
 
-		$view->expects($this->once())
-			->method('resolvePath')
-			->will($this->returnValue(array($storage, '')));
+		$root->expects($this->once())
+			->method('getMount')
+			->with('/bar')
+			->will($this->returnValue($mount));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar');
 		$result = $node->search('qw');
@@ -489,6 +516,14 @@ class Folder extends \Test\TestCase {
 		$storage = $this->getMock('\OC\Files\Storage\Storage');
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 
+		$mount = $this->getMock('\OCP\Files\Mount\IMountPoint');
+		$mount->expects($this->once())
+			->method('getStorage')
+			->will($this->returnValue($storage));
+		$mount->expects($this->once())
+			->method('getInternalPath')
+			->will($this->returnValue('foo'));
+
 		$storage->expects($this->once())
 			->method('getCache')
 			->will($this->returnValue($cache));
@@ -505,9 +540,10 @@ class Folder extends \Test\TestCase {
 			->with('/bar/foo')
 			->will($this->returnValue(array()));
 
-		$view->expects($this->once())
-			->method('resolvePath')
-			->will($this->returnValue(array($storage, 'foo')));
+		$root->expects($this->once())
+			->method('getMount')
+			->with('/bar/foo')
+			->will($this->returnValue($mount));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
 		$result = $node->searchByTag('tag1', 'user1');
@@ -530,6 +566,14 @@ class Folder extends \Test\TestCase {
 		$subCache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 		$subStorage = $this->getMock('\OC\Files\Storage\Storage');
 		$subMount = $this->getMock('\OC\Files\Mount\MountPoint', array(), array(null, ''));
+
+		$mount = $this->getMock('\OCP\Files\Mount\IMountPoint');
+		$mount->expects($this->once())
+			->method('getStorage')
+			->will($this->returnValue($storage));
+		$mount->expects($this->once())
+			->method('getInternalPath')
+			->will($this->returnValue('foo'));
 
 		$subMount->expects($this->once())
 			->method('getStorage')
@@ -566,9 +610,10 @@ class Folder extends \Test\TestCase {
 			->with('/bar/foo')
 			->will($this->returnValue(array($subMount)));
 
-		$view->expects($this->once())
-			->method('resolvePath')
-			->will($this->returnValue(array($storage, 'foo')));
+		$root->expects($this->once())
+			->method('getMount')
+			->with('/bar/foo')
+			->will($this->returnValue($mount));
 
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
@@ -601,8 +646,8 @@ class Folder extends \Test\TestCase {
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 
 		$view->expects($this->once())
-			->method('file_exists')
-			->will($this->returnValue(true));
+			->method('getFileInfo')
+			->will($this->returnValue(new FileInfo('/bar/foo/qwerty', null, 'qwerty', ['mimetype' => 'text/plain'], null)));
 
 		$storage->expects($this->once())
 			->method('getCache')
@@ -683,8 +728,8 @@ class Folder extends \Test\TestCase {
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 
 		$view->expects($this->any())
-			->method('file_exists')
-			->will($this->returnValue(true));
+			->method('getFileInfo')
+			->will($this->returnValue(new FileInfo('/bar/foo/qwerty', null, 'qwerty', ['mimetype' => 'plain'], null)));
 
 		$storage->expects($this->any())
 			->method('getCache')

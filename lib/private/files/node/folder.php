@@ -90,19 +90,19 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	/**
 	 * @param string $path
-	 * @param array $info
+	 * @param FileInfo $info
 	 * @return File|Folder
 	 */
-	protected function createNode($path, $info = array()) {
-		if (!isset($info['mimetype'])) {
+	protected function createNode($path, FileInfo $info = null) {
+		if (is_null($info)) {
 			$isDir = $this->view->is_dir($path);
 		} else {
-			$isDir = $info['mimetype'] === 'httpd/unix-directory';
+			$isDir = $info->getType() === FileInfo::TYPE_FOLDER;
 		}
 		if ($isDir) {
-			return new Folder($this->root, $this->view, $path);
+			return new Folder($this->root, $this->view, $path, $info);
 		} else {
-			return new File($this->root, $this->view, $path);
+			return new File($this->root, $this->view, $path, $info);
 		}
 	}
 
@@ -211,10 +211,9 @@ class Folder extends Node implements \OCP\Files\Folder {
 	private function searchCommon($method, $args) {
 		$files = array();
 		$rootLength = strlen($this->path);
-		/**
-		 * @var \OC\Files\Storage\Storage $storage
-		 */
-		list($storage, $internalPath) = $this->view->resolvePath($this->path);
+		$mount = $this->root->getMount($this->path);
+		$storage = $mount->getStorage();
+		$internalPath = $mount->getInternalPath($this->path);
 		$internalPath = rtrim($internalPath, '/');
 		if ($internalPath !== '') {
 			$internalPath = $internalPath . '/';
@@ -229,7 +228,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 				$result['internalPath'] = $result['path'];
 				$result['path'] = substr($result['path'], $internalRootLength);
 				$result['storage'] = $storage;
-				$files[] = $result;
+				$files[] = new \OC\Files\FileInfo($this->path . '/' . $result['path'], $storage, $result['internalPath'], $result, $mount);
 			}
 		}
 
@@ -245,17 +244,14 @@ class Folder extends Node implements \OCP\Files\Folder {
 					$result['internalPath'] = $result['path'];
 					$result['path'] = $relativeMountPoint . $result['path'];
 					$result['storage'] = $storage;
-					$files[] = $result;
+					$files[] = new \OC\Files\FileInfo($this->path . '/' . $result['path'], $storage, $result['internalPath'], $result, $mount);
 				}
 			}
 		}
 
-		$result = array();
-		foreach ($files as $file) {
-			$result[] = $this->createNode($this->normalizePath($this->path . '/' . $file['path']), $file);
-		}
-
-		return $result;
+		return array_map(function(FileInfo $file) {
+			return $this->createNode($file->getPath(), $file);
+		}, $files);
 	}
 
 	/**
