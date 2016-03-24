@@ -321,7 +321,8 @@ class ActivityManager implements IManager {
 	 * @return bool
 	 */
 	public function isFormattingFilteredObject() {
-		return $this->formattingObjectType === $this->request->getParam('object_type')
+		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
+			&& $this->formattingObjectType === $this->request->getParam('object_type')
 			&& $this->formattingObjectId === $this->request->getParam('object_id');
 	}
 
