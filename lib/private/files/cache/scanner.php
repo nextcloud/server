@@ -448,26 +448,38 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
 	public function backgroundScan() {
-		$lastPath = null;
-		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
-			try {
-				$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
-				\OC_Hook::emit('Scanner', 'correctFolderSize', array('path' => $path));
-				if ($this->cacheActive) {
-					$this->cache->correctFolderSize($path);
-				}
-			} catch (\OCP\Files\StorageInvalidException $e) {
-				// skip unavailable storages
-			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				// skip unavailable storages
-			} catch (\OCP\Files\ForbiddenException $e) {
-				// skip forbidden storages
-			} catch (\OCP\Lock\LockedException $e) {
-				// skip unavailable storages
+		if (!$this->cache->inCache('')) {
+			$this->runBackgroundScanJob(function () {
+				$this->scan('', self::SCAN_RECURSIVE, self::REUSE_ETAG);
+			}, '');
+		} else {
+			$lastPath = null;
+			while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
+				$this->runBackgroundScanJob(function() use ($path) {
+					$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
+				}, $path);
+				// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
+				// to make this possible
+				$lastPath = $path;
 			}
-			// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
-			// to make this possible
-			$lastPath = $path;
+		}
+	}
+
+	private function runBackgroundScanJob(callable $callback, $path) {
+		try {
+			$callback();
+			\OC_Hook::emit('Scanner', 'correctFolderSize', array('path' => $path));
+			if ($this->cacheActive) {
+				$this->cache->correctFolderSize($path);
+			}
+		} catch (\OCP\Files\StorageInvalidException $e) {
+			// skip unavailable storages
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			// skip unavailable storages
+		} catch (\OCP\Files\ForbiddenException $e) {
+			// skip forbidden storages
+		} catch (\OCP\Lock\LockedException $e) {
+			// skip unavailable storages
 		}
 	}
 
