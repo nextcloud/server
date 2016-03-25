@@ -45,6 +45,7 @@ class ReleaseNotes {
 	 */
 	public function getReleaseNotes($fromVersion, $toVersion){
 		$releaseNotes = [];
+		$l10n = \OC::$server->getL10N('core');
 
 		try {
 			$fromVersionMajorMinor = $this->getMajorMinor($fromVersion);
@@ -59,20 +60,28 @@ class ReleaseNotes {
 		}
 
 		if ( $fromVersionMajorMinor === '8.2' && $toVersionMajorMinor === '9.0' ) {
-			// MySQL only
-			if ($this->isMysql()) {
-				if ($this->countFilecacheEntries() > 200000) {
-					$message = \OC::$server->getL10N('core')->t(
-						"You have an ownCloud installation with over 200.000 files so the upgrade might take a while. Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
-						[$this->dbConnection->getPrefix().'filecache']
-					);
-					$releaseNotes[] = $message;
-				}
+			if (!$this->isCliMode() && $this->countFilecacheEntries() > 200000) {
+				$releaseNotes[] = $l10n->t(
+					"You have an ownCloud installation with over 200.000 files so the upgrade might take a while. The recommendation is to use the command-line instead of the web interface for big ownCloud servers."
+				);
+			}
+			if ($this->isMysql() && $this->countFilecacheEntries() > 200000) {
+				$releaseNotes[] = $l10n->t(
+					"Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
+					[$this->dbConnection->getPrefix().'filecache']
+				);
 			}
 		}
 		return $releaseNotes;
 	}
-
+	
+	/**
+	 * @return bool
+	 */
+	protected function isCliMode(){
+		return \OC::$CLI;
+	}
+	
 	/**
 	 * @return bool
 	 */

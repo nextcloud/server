@@ -32,24 +32,31 @@ class Test_ReleaseNotes extends \Test\TestCase {
 	}
 
 	public function resultProvider82to90(){
+		$l10n = \OC::$server->getL10N('core');
+		$alterTableMessage = $l10n->t(
+			"Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
+			['ocx_filecache']
+		);
+		$useCliMessage = $l10n->t(
+			"You have an ownCloud installation with over 200.000 files so the upgrade might take a while. The recommendation is to use the command-line instead of the web interface for big ownCloud servers."
+		);
 		return [
-			[ [], false, 20 ],
-			[ [], false, 1000000 ],
-			[ [], true, 20 ],
-			[ [ 
-				\OC::$server->getL10N('core')->t(
-						"You have an ownCloud installation with over 200.000 files so the upgrade might take a while. Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
-						['ocx_filecache']
-				)
-			], true, 1000000 ],
+			[ [], false, false, 20 ],
+			[ [], false, true, 20 ],
+			[ [], true, false, 20 ],
+			[ [], true, true, 20 ],
+			[ [ $useCliMessage ], false, false, 1000000 ],
+			[ [], false, true, 1000000 ],
+			[ [ $useCliMessage, $alterTableMessage ], true, false, 1000000 ],
+			[ [ $alterTableMessage ], true, true, 1000000 ],
 		];
 	}
 
 	/**
 	 * @dataProvider resultProvider82to90
 	 */
-	public function test82to90($expected, $isMysql, $fileCount){
-		$releaseNotesMock = $this->getReleaseNotesMock($isMysql, $fileCount);
+	public function test82to90($expected, $isMysql, $isCliMode, $fileCount){
+		$releaseNotesMock = $this->getReleaseNotesMock($isMysql, $isCliMode, $fileCount);
 		$actual = $releaseNotesMock->getReleaseNotes('8.2.22', '9.0.1');
 		$this->assertEquals($expected, $actual);
 	}
@@ -58,24 +65,28 @@ class Test_ReleaseNotes extends \Test\TestCase {
 
 	public function resultProvider90to91(){
 		return [
-			[ [], false, 20 ],
-			[ [], false, 1000000 ],
-			[ [], true, 20 ],
-			[ [], true, 1000000 ],
+			[ [], false, false, 20 ],
+			[ [], false, true, 20 ],
+			[ [], true, false, 20 ],
+			[ [], true, true, 20 ],
+			[ [], false, false, 1000000 ],
+			[ [], false, true, 1000000 ],
+			[ [], true, false, 1000000 ],
+			[ [], true, true, 1000000 ],
 		];
 	}
 
 	/**
 	 * @dataProvider resultProvider90to91
 	 */
-	public function test90to91($expected, $isMysql, $fileCount){
-		$releaseNotesMock = $this->getReleaseNotesMock($isMysql, $fileCount);
+	public function test90to91($expected, $isMysql, $isCliMode, $fileCount){
+		$releaseNotesMock = $this->getReleaseNotesMock($isMysql, $isCliMode, $fileCount);
 		$actual = $releaseNotesMock->getReleaseNotes('9.0.1', '9.1.0');
 		$this->assertEquals($expected, $actual);
 	}
 
 
-	private function getReleaseNotesMock($isMysql, $fileCount){
+	private function getReleaseNotesMock($isMysql, $isCliMode, $fileCount){
 		$dbConnectionMock = $this->getMockBuilder('OCP\IDBConnection')
 				->setMethods(array_merge($this->getMethods('OCP\IDBConnection'), ['getPrefix']))
 				->getMock()
@@ -86,13 +97,17 @@ class Test_ReleaseNotes extends \Test\TestCase {
 		;
 		$releaseNotesMock = $this->getMockBuilder('OC\ReleaseNotes')
 				->setConstructorArgs([$dbConnectionMock])
-				->setMethods(['isMysql', 'countFilecacheEntries'])
+				->setMethods(['isMysql', 'isCliMode', 'countFilecacheEntries'])
 				->getMock()
 		;
 
 		$releaseNotesMock->expects($this->any())
 				->method('isMysql')
 				->willReturn($isMysql)
+		;
+		$releaseNotesMock->expects($this->any())
+				->method('isCliMode')
+				->willReturn($isCliMode)
 		;
 		$releaseNotesMock->expects($this->any())
 				->method('countFilecacheEntries')
