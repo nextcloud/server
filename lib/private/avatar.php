@@ -31,10 +31,12 @@ use OC\User\User;
 use OCP\Files\Folder;
 use OCP\Files\File;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IAvatar;
 use OCP\IImage;
 use OCP\IL10N;
 use OC_Image;
+use OCP\ILogger;
 
 /**
  * This class gets and sets users avatars.
@@ -47,6 +49,8 @@ class Avatar implements IAvatar {
 	private $l;
 	/** @var User */
 	private $user;
+	/** @var ILogger  */
+	private $logger;
 
 	/**
 	 * constructor
@@ -54,11 +58,13 @@ class Avatar implements IAvatar {
 	 * @param Folder $folder The folder where the avatars are
 	 * @param IL10N $l
 	 * @param User $user
+	 * @param ILogger $logger
 	 */
-	public function __construct (Folder $folder, IL10N $l, $user) {
+	public function __construct (Folder $folder, IL10N $l, $user, ILogger $logger) {
 		$this->folder = $folder;
 		$this->l = $l;
 		$this->user = $user;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -164,8 +170,12 @@ class Avatar implements IAvatar {
 			if ($size !== -1) {
 				$avatar->resize($size);
 			}
-			$file = $this->folder->newFile($path);
-			$file->putContent($avatar->data());
+			try {
+				$file = $this->folder->newFile($path);
+				$file->putContent($avatar->data());
+			} catch (NotPermittedException $e) {
+				$this->logger->error('Failed to save avatar for ' . $this->user->getUID());
+			}
 		}
 
 		return $file;

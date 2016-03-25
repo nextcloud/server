@@ -313,7 +313,8 @@ class Server extends ServerContainer implements IServerContainer {
 			return new AvatarManager(
 				$c->getUserManager(),
 				$c->getRootFolder(),
-				$c->getL10N('lib')
+				$c->getL10N('lib'),
+				$c->getLogger()
 			);
 		});
 		$this->registerService('Logger', function (Server $c) {
