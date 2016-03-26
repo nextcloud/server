@@ -32,6 +32,7 @@ OC.L10N.register(
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Diese Datei kann nicht gelesen werden, es handelt sich wahrscheinlich um eine geteilte Datei. Bitte kontaktieren Sie den Eigentümer der Datei und bitten Sie darum, die Datei noch einmal mit Ihnen zu teilen.",
     "The share will expire on %s." : "Die Freigabe wird am %s ablaufen.",
     "Cheers!" : "Noch einen schönen Tag!",
+    "Encrypt the home storage" : "Benutzerverzeichnis verschlüsslen",
     "Enable recovery key" : "Wiederherstellungsschlüssel aktivieren",
     "Disable recovery key" : "Wiederherstellungsschlüssel deaktivieren",
     "The recovery key is an extra encryption key that is used to encrypt files. It allows recovery of a user's files if the user forgets his or her password." : "Der Wiederherstellungsschlüssel ist ein zusätzlicher Verschlüsselungsschlüssel, der zum Verschlüsseln von Dateien benutzt wird. Er erlaubt die Wiederherstellung von Benutzerdateien auch dann, wenn der Benutzer sein Passwort vergessen hat.",

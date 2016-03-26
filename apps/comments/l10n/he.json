@@ -1,6 +1,8 @@
 { "translations": {
     "<strong>Comments</strong> for files" : "<strong>תגובות</strong> לקבצים",
+    "You commented" : "הערות שלך",
     "%1$s commented" : "התקבלו תגובות %1$s",
+    "You commented on %2$s" : "הערות שלך ב- %2$s",
     "%1$s commented on %2$s" : "התקבלו תגובות %1$s ב- %2$s ",
     "Comments" : "תגובות",
     "Type in a new comment..." : "יש להכניס תגובה חדשה...",
