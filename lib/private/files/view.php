@@ -269,17 +269,21 @@ class View {
 			// cut of /user/files to get the relative path to data/user/files
 			$pathParts = explode('/', $path, 4);
 			$relPath = '/' . $pathParts[3];
+			$this->lockFile($relPath, ILockingProvider::LOCK_SHARED, true);
 			\OC_Hook::emit(
 				Filesystem::CLASSNAME, "umount",
 				array(Filesystem::signal_param_path => $relPath)
 			);
+			$this->changeLock($relPath, ILockingProvider::LOCK_EXCLUSIVE, true);
 			$result = $mount->removeMount();
+			$this->changeLock($relPath, ILockingProvider::LOCK_SHARED, true);
 			if ($result) {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, "post_umount",
 					array(Filesystem::signal_param_path => $relPath)
 				);
 			}
+			$this->unlockFile($relPath, ILockingProvider::LOCK_SHARED, true);
 			return $result;
 		} else {
 			// do not allow deleting the storage's root / the mount point

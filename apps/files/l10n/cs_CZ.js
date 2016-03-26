@@ -106,7 +106,7 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Pro úpravy v aktuálním náhledu chybí oprávnění.",
     "Settings" : "Nastavení",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\">přístup k vašim souborům přes WebDAV</a>",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Použijte tuto adresu pro <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">přístup k vašim Souborům přes WebDAV</a>",
     "Cancel upload" : "Zrušit odesílání",
     "No files in here" : "Žádné soubory",
     "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo synchronizujte se svými přístroji!",

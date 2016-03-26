@@ -79,7 +79,6 @@ OC.L10N.register(
     "Save" : "Gorde",
     "Settings" : "Ezarpenak",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "<a href=\"%s\" target=\"_blank\">helbidea erabili zure fitxategiak WebDAV bidez eskuratzeko</a>",
     "Cancel upload" : "Ezeztatu igoera",
     "Upload some content or sync with your devices!" : "Igo edukiren bat edo sinkronizatu zure gailuekin!",
     "No entries found in this folder" : "Ez da sarrerarik aurkitu karpeta honetan",

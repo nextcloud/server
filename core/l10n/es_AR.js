@@ -128,7 +128,6 @@ OC.L10N.register(
     "The share will expire on %s." : "El compartir expirará en %s.",
     "Cheers!" : "¡Saludos!",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Tu directorio de datos y tus archivos probablemente son accesibles a través de internet, ya que el archivo .htaccess no está funcionando.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Para información sobre cómo configurar apropiadamente tu servidor, por favor mirá la <a href=\"%s\" target=\"_blank\">documentación</a>.",
     "Create an <strong>admin account</strong>" : "Crear una <strong>cuenta de administrador</strong>",
     "Username" : "Nombre de usuario",
     "Data folder" : "Directorio de almacenamiento",

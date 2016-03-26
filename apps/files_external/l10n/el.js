@@ -34,6 +34,7 @@ OC.L10N.register(
     "All users. Type to select user or group." : "Όλοι οι χρήστες. Πληκτρολογήστε για να επιλέξετε χρήστη ή ομάδα.",
     "(group)" : "(ομάδα)",
     "Saved" : "Αποθηκεύτηκαν",
+    "There was an error with message: " : "Υπήρξε σφάλμα στο μήνυμα:",
     "External mount error" : "Σφάλμα εξωτερικής προσάρτησης",
     "Username" : "Όνομα χρήστη",
     "Password" : "Κωδικός πρόσβασης",

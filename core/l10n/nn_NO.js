@@ -109,7 +109,6 @@ OC.L10N.register(
     "Help" : "Hjelp",
     "Access forbidden" : "Tilgang forbudt",
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "Datamappa og filene dine er sannsynlegvis tilgjengelege frå Internett sidan .htaccess-fila ikkje fungerer.",
-    "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Ver venleg og les <a href=\"%s\" target=\"_blank\">dokumentasjonen</a> for meir informasjon om korleis du konfigurerer tenaren din.",
     "Create an <strong>admin account</strong>" : "Lag ein <strong>admin-konto</strong>",
     "Username" : "Brukarnamn",
     "Data folder" : "Datamappe",

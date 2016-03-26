@@ -103,7 +103,6 @@
     "Missing permissions to edit from here." : "Manca de permissions per editar a partir d'aicí.",
     "Settings" : "Paramètres",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Utilizatz aquesta adreça per <a href=\"%s\" target=\"_blank\">accedir a vòstres fichièrs per WebDAV</a>",
     "Cancel upload" : "Anullar lo mandadís",
     "No files in here" : "Pas cap de fichièr aicí",
     "Upload some content or sync with your devices!" : "Depausatz de contengut o sincronizatz vòstres aparelhs !",

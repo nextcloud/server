@@ -30,6 +30,7 @@
 namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
+use OC\AppFramework\Http\Request;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUserSession;
@@ -48,6 +49,8 @@ class Auth extends AbstractBasic {
 	private $userSession;
 	/** @var IRequest */
 	private $request;
+	/** @var string */
+	private $currentUser;
 
 	/**
 	 * @param ISession $session
@@ -130,7 +133,46 @@ class Auth extends AbstractBasic {
 			$msg = $e->getMessage();
 			throw new ServiceUnavailable("$class: $msg");
 		}
-    }
+	}
+
+	/**
+	 * Checks whether a CSRF check is required on the request
+	 *
+	 * @return bool
+	 */
+	private function requiresCSRFCheck() {
+		// GET requires no check at all
+		if($this->request->getMethod() === 'GET') {
+			return false;
+		}
+
+		// Official ownCloud clients require no checks
+		if($this->request->isUserAgent([
+			Request::USER_AGENT_OWNCLOUD_DESKTOP,
+			Request::USER_AGENT_OWNCLOUD_ANDROID,
+			Request::USER_AGENT_OWNCLOUD_IOS,
+		])) {
+			return false;
+		}
+
+		// If not logged-in no check is required
+		if(!$this->userSession->isLoggedIn()) {
+			return false;
+		}
+
+		// POST always requires a check
+		if($this->request->getMethod() === 'POST') {
+			return true;
+		}
+
+		// If logged-in AND DAV authenticated no check is required
+		if($this->userSession->isLoggedIn() &&
+			$this->isDavAuthenticated($this->userSession->getUser()->getUID())) {
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * @param RequestInterface $request
@@ -139,27 +181,33 @@ class Auth extends AbstractBasic {
 	 * @throws NotAuthenticated
 	 */
 	private function auth(RequestInterface $request, ResponseInterface $response) {
-		// If request is not GET and not authenticated via WebDAV a requesttoken is required
-		if($this->userSession->isLoggedIn() &&
-			$this->request->getMethod() !== 'GET' &&
-			!$this->isDavAuthenticated($this->userSession->getUser()->getUID())) {
-			if(!$this->request->passesCSRFCheck()) {
+		$forcedLogout = false;
+		if(!$this->request->passesCSRFCheck() &&
+			$this->requiresCSRFCheck()) {
+			// In case of a fail with POST we need to recheck the credentials
+			if($this->request->getMethod() === 'POST') {
+				$forcedLogout = true;
+			} else {
 				$response->setStatus(401);
 				throw new \Sabre\DAV\Exception\NotAuthenticated('CSRF check not passed.');
 			}
 		}
 
-		if (\OC_User::handleApacheAuth() ||
-			//Fix for broken webdav clients
-			($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED))) ||
-			//Well behaved clients that only send the cookie are allowed
-			($this->userSession->isLoggedIn() && $this->session->get(self::DAV_AUTHENTICATED) === $this->userSession->getUser()->getUID() && $request->getHeader('Authorization') === null)
-		) {
-			$user = $this->userSession->getUser()->getUID();
-			\OC_Util::setupFS($user);
-			$this->currentUser = $user;
-			$this->session->close();
-			return [true, $this->principalPrefix . $user];
+		if($forcedLogout) {
+			$this->userSession->logout();
+		} else {
+			if (\OC_User::handleApacheAuth() ||
+				//Fix for broken webdav clients
+				($this->userSession->isLoggedIn() && is_null($this->session->get(self::DAV_AUTHENTICATED))) ||
+				//Well behaved clients that only send the cookie are allowed
+				($this->userSession->isLoggedIn() && $this->session->get(self::DAV_AUTHENTICATED) === $this->userSession->getUser()->getUID() && $request->getHeader('Authorization') === null)
+			) {
+				$user = $this->userSession->getUser()->getUID();
+				\OC_Util::setupFS($user);
+				$this->currentUser = $user;
+				$this->session->close();
+				return [true, $this->principalPrefix . $user];
+			}
 		}
 
 		if (!$this->userSession->isLoggedIn() && in_array('XMLHttpRequest', explode(',', $request->getHeader('X-Requested-With')))) {

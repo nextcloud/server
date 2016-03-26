@@ -24,11 +24,11 @@
 // Backends
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\Connector\LegacyDAVACL;
+use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
-use Sabre\CalDAV\CalendarRoot;
 
 $authBackend = new Auth(
 	\OC::$server->getSession(),

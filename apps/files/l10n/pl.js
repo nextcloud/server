@@ -85,7 +85,6 @@ OC.L10N.register(
     "Save" : "Zapisz",
     "Settings" : "Ustawienia",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Użyj tego adresu do <a href=\"%s\" target=\"_blank\">dostępu do twoich plików przez WebDAV</a>",
     "Cancel upload" : "Anuluj wysyłanie",
     "No files in here" : "Brak plików",
     "No entries found in this folder" : "Brak wpisów w tym folderze",

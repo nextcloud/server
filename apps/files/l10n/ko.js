@@ -106,7 +106,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "여기에서 편집할 권한이 없습니다.",
     "Settings" : "설정",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "WebDAV로 파일에 접근하려면 <a href=\"%s\" target=\"_blank\">이 주소를 사용하십시오</a>",
     "Cancel upload" : "업로드 취소",
     "No files in here" : "여기에 파일 없음",
     "Upload some content or sync with your devices!" : "파일을 업로드하거나 장치와 동기화하십시오!",

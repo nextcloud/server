@@ -79,7 +79,6 @@
     "Save" : "Запис",
     "Settings" : "Настройки",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Използвай този адрес, за да получиш <a href=\"%s\" target=\"_blank\">достъп до своите файлове чрез WebDAV</a>.",
     "Cancel upload" : "Отказване на качването",
     "No files in here" : "Тук няма файлове",
     "Upload some content or sync with your devices!" : "Качи съдържание или синхронизирай с твоите устройства!",

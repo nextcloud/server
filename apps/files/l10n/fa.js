@@ -90,7 +90,6 @@ OC.L10N.register(
     "Save" : "ذخیره",
     "Settings" : "تنظیمات",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "از این آدرس استفاده کنید تا <a href=\"%s\" target=\"_blank\">بتوانید به فایل‌های خود توسط WebDAV دسترسی پیدا کنید</a>",
     "Cancel upload" : "متوقف کردن بار گذاری",
     "No files in here" : "هیچ فایلی اینجا وجود ندارد",
     "Upload some content or sync with your devices!" : "محتوایی را آپلود کنید یا با دستگاه خود همگام‌سازی کنید!",
