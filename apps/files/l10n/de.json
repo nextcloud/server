@@ -104,6 +104,7 @@
     "Missing permissions to edit from here." : "Fehlende Berechtigungen um von hier aus zu bearbeiten.",
     "Settings" : "Einstellungen",
     "WebDAV" : "WebDAV",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Benutze diese Adresse, um <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">über WebDAV auf Deine Dateien zuzugreifen</a>",
     "Cancel upload" : "Upload abbrechen",
     "No files in here" : "Keine Dateien vorhanden",
     "Upload some content or sync with your devices!" : "Lade Inhalte hoch oder synchronisiere mit Deinen Geräten!",

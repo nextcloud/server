@@ -129,6 +129,7 @@
     "Cannot write into \"apps\" directory" : "Não é possível gravar no diretório \"apps\"",
     "This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." : "Isto pode ser corrigido dando ao webserver permissão de escrita %sgiving para o diretório apps directory%s ou desabilitando o appstore no arquivo de configuração.",
     "Cannot create \"data\" directory (%s)" : "Não pode ser criado \"dados\" no diretório (%s)",
+    "This can usually be fixed by <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">giving the webserver write access to the root directory</a>." : "Esta geralmente pode ser fixado por <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">dando permissão de gravação ao diretório raiz do servidor</a>.",
     "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." : "Permissões podem ser corrigidas dando permissão de escita %sgiving ao webserver para o diretório raiz directory%s",
     "Setting locale to %s failed" : "Falha ao configurar localidade para %s",
     "Please install one of these locales on your system and restart your webserver." : "Por favor, defina uma dessas localizações em seu sistema e reinicie o seu servidor web.",
