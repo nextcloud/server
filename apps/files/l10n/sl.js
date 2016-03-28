@@ -106,6 +106,7 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Ni ustreznih dovoljenj za urejanje na tej ravni.",
     "Settings" : "Nastavitve",
     "WebDAV" : "WebDAV",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Uporabite naslov <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> za dostop do datotek prek sistema WebDAV</a>.",
     "Cancel upload" : "Prekliči pošiljanje",
     "No files in here" : "V mapi ni datotek",
     "Upload some content or sync with your devices!" : "Uvozite vsebino ali pa omogočite usklajevanje z napravami!",

@@ -158,6 +158,7 @@
     "{sharee} (remote)" : "{sharee} (oddaljeno)",
     "Share" : "Souporaba",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Souporaba z uporabniki, ki so na drugih oblakih ownCloud s povezavo uporabnik@domena.si/owncloud",
+    "Share with users…" : "Omogoči souporabo z ...",
     "Error removing share" : "Napaka odstranjevanja souporabe",
     "Warning" : "Opozorilo",
     "Error while sending notification" : "Napaka med pošiljanjem obvestila",
