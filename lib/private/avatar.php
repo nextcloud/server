@@ -134,7 +134,7 @@ class Avatar implements IAvatar {
 	*/
 	public function remove () {
 		$regex = '/^avatar\.([0-9]+\.)?(jpg|png)$/';
-		$avatars = $this->folder->search('avatar');
+		$avatars = $this->folder->getDirectoryListing();
 
 		foreach ($avatars as $avatar) {
 			if (preg_match($regex, $avatar->getName())) {
