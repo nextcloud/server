@@ -392,7 +392,7 @@ class OC {
 			$tmpl->assign('isAppsOnlyUpgrade', false);
 		}
 
-		$releaseNotes = \OC::$server->getReleaseNotes();
+		$releaseNotes = new \OC\ReleaseNotes(\OC::$server->getDatabaseConnection());
 
 		// get third party apps
 		$ocVersion = \OCP\Util::getVersion();

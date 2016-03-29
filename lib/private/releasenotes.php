@@ -32,18 +32,18 @@ class ReleaseNotes {
 	protected $dbConnection;
 
 	/**
-	 * @param OCP\IDBConnection $connection
+	 * @param \OCP\IDBConnection $dbConnection
 	 */
-	public function __construct(IDBConnection $dbConnection){
+	public function __construct(IDBConnection $dbConnection) {
 		$this->dbConnection = $dbConnection;
 	}
 
 	/**
 	 * @param string $fromVersion
 	 * @param string $toVersion
-	 * @return array
+	 * @return string[]
 	 */
-	public function getReleaseNotes($fromVersion, $toVersion){
+	public function getReleaseNotes($fromVersion, $toVersion) {
 		$releaseNotes = [];
 		$l10n = \OC::$server->getL10N('core');
 
@@ -59,16 +59,16 @@ class ReleaseNotes {
 			$toVersionMajorMinor = '';
 		}
 
-		if ( $fromVersionMajorMinor === '8.2' && $toVersionMajorMinor === '9.0' ) {
+		if ($fromVersionMajorMinor === '8.2' && $toVersionMajorMinor === '9.0') {
 			if (!$this->isCliMode() && $this->countFilecacheEntries() > 200000) {
 				$releaseNotes[] = $l10n->t(
-					"You have an ownCloud installation with over 200.000 files so the upgrade might take a while. The recommendation is to use the command-line instead of the web interface for big ownCloud servers."
+					'You have an ownCloud installation with over 200.000 files so the upgrade might take a while. The recommendation is to use the command-line instead of the web interface for big ownCloud servers.'
 				);
 			}
 			if ($this->isMysql() && $this->countFilecacheEntries() > 200000) {
 				$releaseNotes[] = $l10n->t(
-					"Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;",
-					[$this->dbConnection->getPrefix().'filecache']
+					'Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;',
+					[$this->dbConnection->getQueryBuilder()->getTableName('filecache')]
 				);
 			}
 		}
@@ -78,7 +78,7 @@ class ReleaseNotes {
 	/**
 	 * @return bool
 	 */
-	protected function isCliMode(){
+	protected function isCliMode() {
 		return \OC::$CLI;
 	}
 	
@@ -94,9 +94,15 @@ class ReleaseNotes {
 	 * @return int
 	 */
 	protected function countFilecacheEntries(){
-		$result = $this->dbConnection->executeQuery("SELECT COUNT(*) FROM *PREFIX*filecache");
-		$count = $result->fetchColumn();
-		return $count ? $count : 0;
+		$query = $this->dbConnection->getQueryBuilder();
+		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_entries')
+			->from('filecache');
+
+		$result = $query->execute();
+		$row = $result->fetch();
+		$result->closeCursor();
+
+		return (int) $row['num_entries'];
 	}
 
 	/**
