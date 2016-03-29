@@ -11,6 +11,7 @@ OC.L10N.register(
     "Shared with you" : "Delt med dig",
     "Shared with others" : "Delt med andre",
     "Shared by link" : "Delt via link",
+    "Federated sharing" : "Datafællesskabsdeling",
     "Nothing shared with you yet" : "Der deles ikke noget med dig endnu",
     "Files and folders others share with you will show up here" : "Filer og mapper som andre deler med dig, vil blive vist her",
     "Nothing shared yet" : "Der deles endnu ikke noget",

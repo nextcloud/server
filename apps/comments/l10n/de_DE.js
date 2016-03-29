@@ -4,6 +4,7 @@ OC.L10N.register(
     "<strong>Comments</strong> for files" : "<strong>Kommentare</strong> für Dateien",
     "You commented" : "Durch dich kommentiert",
     "%1$s commented" : "%1$s kommentiert",
+    "You commented on %2$s" : "Sie haben %2$s kommentiert",
     "%1$s commented on %2$s" : "%1$s kommentierte %2$s",
     "Comments" : "Kommentare",
     "Type in a new comment..." : "Neuer Kommentar...",

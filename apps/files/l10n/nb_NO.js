@@ -39,7 +39,7 @@ OC.L10N.register(
     "Unshare" : "Avslutt deling",
     "Details" : "Detaljer",
     "Select" : "Velg",
-    "Pending" : "Ventende",
+    "Pending" : "Venter",
     "Unable to determine date" : "Kan ikke fastslå datoen",
     "This operation is forbidden" : "Operasjonen er forbudt",
     "This directory is unavailable, please check the logs or contact the administrator" : "Denne mappen er utilgjengelig. Sjekk loggene eller kontakt administrator",

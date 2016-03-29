@@ -44,7 +44,7 @@ OC.L10N.register(
     "There was an error with message: " : "Es ist ein Fehler mit folgender Meldung aufgetreten:",
     "External mount error" : "Fehler beim einbinden des externen Speichers",
     "external-storage" : "Externer Speicher",
-    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Es konnte keine Liste der Windows Netzlaufwerk erstellt werden: leer Antwort vom Server",
+    "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Es konnte keine Liste der Windows-Netzlaufwerke erstellt werden: leer Antwort vom Server",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "Einige der konfigurierten externen Bereitstellungspunkte  sind nicht angeschlossen. Bitte klicke auf die roten Zeile(n) für weitere Informationen",
     "Please enter the credentials for the {mount} mount" : "Bitte gib die Anmeldeinformationen für den {mount} externen Bereitstellungspunkt ein",
     "Username" : "Benutzername",

@@ -134,7 +134,7 @@ OC.L10N.register(
     "One Group Base DN per line" : "Ein Gruppen Basis-DN pro Zeile",
     "Group Search Attributes" : "Gruppensucheigenschaften",
     "Group-Member association" : "Assoziation zwischen Gruppe und Benutzer",
-    "Dynamic Group Member URL" : "Dynamische Gruppen Mitglied URL",
+    "Dynamic Group Member URL" : "Dynamische Gruppenmitglied URL",
     "The LDAP attribute that on group objects contains an LDAP search URL that determines what objects belong to the group. (An empty setting disables dynamic group membership functionality.)" : "Ein LDAP-Attribut von Gruppenobjekten, das eine LDAP Such-URL enthält die festlegt welche Objekte zu der Gruppe gehören. (Ein leeres Feld deaktiviert die Funktion \"Dynamisch Gruppenzugehörigkeit\".)",
     "Nested Groups" : "Eingebundene Gruppen",
     "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Wenn aktiviert, werden Gruppen, die Gruppen enthalten, unterstützt. (Funktioniert nur, wenn das Merkmal des Gruppenmitgliedes den Domain-Namen enthält.)",

@@ -9,6 +9,6 @@ OC.L10N.register(
     "Your version is up to date." : "Deine Version ist aktuell.",
     "Checked on %s" : "Geprüft auf %s",
     "Update channel:" : "Update-Kanal:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kannst immer auf eine neuere Version updaten / experimentelle Version, aber kein Downgrade auf eine stabiliere Version durchführen."
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kannst immer auf eine neuere Version updaten / experimentelle Version, aber kein Downgrade auf eine stabilere Version durchführen."
 },
 "nplurals=2; plural=(n != 1);");
