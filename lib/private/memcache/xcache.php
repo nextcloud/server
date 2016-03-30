@@ -125,7 +125,7 @@ class XCache extends Cache implements IMemcache {
 			// AND administration functions are password-protected.
 			return false;
 		}
-		$var_size = \OC::$server->getIniWrapper()->getNumeric('xcache.var_size');
+		$var_size = \OC::$server->getIniWrapper()->getBytes('xcache.var_size');
 		if (!$var_size) {
 			return false;
 		}
