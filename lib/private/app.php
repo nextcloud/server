@@ -207,6 +207,9 @@ class OC_App {
 	 */
 	public static function setAppTypes($app) {
 		$appData = self::getAppInfo($app);
+		if(!is_array($appData)) {
+			return;
+		}
 
 		if (isset($appData['types'])) {
 			$appTypes = implode(',', $appData['types']);
@@ -788,6 +791,10 @@ class OC_App {
 			if (array_search($app, $blacklist) === false) {
 
 				$info = OC_App::getAppInfo($app);
+				if (!is_array($info)) {
+					\OCP\Util::writeLog('core', 'Could not read app info file for app "' . $app . '"', \OCP\Util::ERROR);
+					continue;
+				}
 
 				if (!isset($info['name'])) {
 					\OCP\Util::writeLog('core', 'App id "' . $app . '" has no name in appinfo', \OCP\Util::ERROR);
@@ -1086,6 +1093,14 @@ class OC_App {
 		if ($app !== false) {
 			// check if the app is compatible with this version of ownCloud
 			$info = self::getAppInfo($app);
+			if(!is_array($info)) {
+				throw new \Exception(
+					$l->t('App "%s" cannot be installed because appinfo file cannot be read.',
+						[$info['name']]
+					)
+				);
+			}
+
 			$version = \OCP\Util::getVersion();
 			if (!self::isAppCompatible($version, $info)) {
 				throw new \Exception(
