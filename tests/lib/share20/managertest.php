@@ -640,9 +640,20 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, null, null, null), 'A share requires permissions', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $limitedPermssions, null, $user0, $user0, null, null, null), 'A share requires permissions', true];
 
+		$mount = $this->getMock('OC\Files\Mount\MoveableMount');
+		$limitedPermssions->method('getMountPoint')->willReturn($mount);
+
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $limitedPermssions, $user2, $user0, $user0, 31, null, null), 'Cannot increase permissions of path', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Cannot increase permissions of path', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $limitedPermssions, null, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
+
+		$nonMoveableMountPermssions = $this->getMock('\OCP\Files\File');
+		$nonMoveableMountPermssions->method('isShareable')->willReturn(true);
+		$nonMoveableMountPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
+		$nonMoveableMountPermssions->method('getPath')->willReturn('path');
+
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_USER,  $nonMoveableMountPermssions, $user2, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
+		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $nonMoveableMountPermssions, $group0, $user0, $user0, 11, null, null), 'Cannot increase permissions of path', false];
 
 		$rootFolder = $this->getMock('\OCP\Files\Folder');
 		$rootFolder->method('isShareable')->willReturn(true);
