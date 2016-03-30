@@ -96,7 +96,7 @@ abstract class StoragesService {
 			$config->setId((int)$mount['mount_id']);
 			return $config;
 		} catch (\UnexpectedValueException $e) {
-			// dont die if a storage backend doesn't exist
+			// don't die if a storage backend doesn't exist
 			\OCP\Util::writeLog(
 				'files_external',
 				'Could not load storage: "' . $e->getMessage() . '"',
@@ -352,7 +352,7 @@ abstract class StoragesService {
 
 	/**
 	 * Triggers signal_create_mount or signal_delete_mount to
-	 * accomodate for additions/deletions in applicableUsers
+	 * accommodate for additions/deletions in applicableUsers
 	 * and applicableGroups fields.
 	 *
 	 * @param StorageConfig $oldStorage old storage data

@@ -82,7 +82,7 @@ class UserStoragesService extends StoragesService {
 
 	/**
 	 * Triggers signal_create_mount or signal_delete_mount to
-	 * accomodate for additions/deletions in applicableUsers
+	 * accommodate for additions/deletions in applicableUsers
 	 * and applicableGroups fields.
 	 *
 	 * @param StorageConfig $oldStorage old storage data
