@@ -34,9 +34,11 @@ use OC\Updater;
 use OCP\IConfig;
 use OCP\ILogger;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Upgrade extends Command {
 
@@ -135,6 +137,24 @@ class Upgrade extends Command {
 			$updater->setSimulateStepEnabled($simulateStepEnabled);
 			$updater->setUpdateStepEnabled($updateStepEnabled);
 			$updater->setSkip3rdPartyAppsDisable($skip3rdPartyAppsDisable);
+			$dispatcher = \OC::$server->getEventDispatcher();
+			$progress = new ProgressBar($output);
+			$progress->setFormat("%message%\n %current%/%max% [%bar%] %percent:3s%%");
+			$dispatcher->addListener('\OC\DB\Migrator::executeSql', function($event) use ($progress, $output) {
+				if ($event instanceof GenericEvent) {
+					if ($event[0] === 1) {
+						$output->writeln('');
+						$progress->start($event[1]);
+					}
+					$progress->setMessage($event->getSubject());
+					$progress->setProgress($event[0]);
+					$progress->display();
+					if ($event[0] === $event[1]) {
+						$progress->finish();
+						$output->writeln('');
+					}
+				}
+			});
 
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');

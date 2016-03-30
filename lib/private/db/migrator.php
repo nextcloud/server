@@ -35,6 +35,8 @@ use \Doctrine\DBAL\Schema\SchemaConfig;
 use \Doctrine\DBAL\Schema\Comparator;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Migrator {
 
@@ -51,15 +53,23 @@ class Migrator {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var EventDispatcher  */
+	private $dispatcher;
+
 	/**
-	 * @param Connection $connection
+	 * @param \Doctrine\DBAL\Connection|Connection $connection
 	 * @param ISecureRandom $random
 	 * @param IConfig $config
+	 * @param EventDispatcher $dispatcher
 	 */
-	public function __construct(\Doctrine\DBAL\Connection $connection, ISecureRandom $random, IConfig $config) {
+	public function __construct(\Doctrine\DBAL\Connection $connection,
+								ISecureRandom $random,
+								IConfig $config,
+								EventDispatcher $dispatcher = null) {
 		$this->connection = $connection;
 		$this->random = $random;
 		$this->config = $config;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -215,7 +225,10 @@ class Migrator {
 		$schemaDiff = $this->getDiff($targetSchema, $connection);
 
 		$connection->beginTransaction();
-		foreach ($schemaDiff->toSql($connection->getDatabasePlatform()) as $sql) {
+		$sqls = $schemaDiff->toSql($connection->getDatabasePlatform());
+		$step = 0;
+		foreach ($sqls as $sql) {
+			$this->emit($sql, $step++, count($sqls));
 			$connection->query($sql);
 		}
 		$connection->commit();
@@ -253,5 +266,12 @@ class Migrator {
 
 	protected function getFilterExpression() {
 		return '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+	}
+
+	protected function emit($sql, $step, $max) {
+		if(is_null($this->dispatcher)) {
+			return;
+		}
+		$this->dispatcher->dispatch('\OC\DB\Migrator::executeSql', new GenericEvent($sql, [$step+1, $max]));
 	}
 }

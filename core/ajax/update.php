@@ -26,6 +26,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+use Symfony\Component\EventDispatcher\GenericEvent;
+
 set_time_limit(0);
 require_once '../../lib/base.php';
 
@@ -52,6 +54,13 @@ if (OC::checkUpgrade(false)) {
 	);
 	$incompatibleApps = [];
 	$disabledThirdPartyApps = [];
+
+	$dispatcher = \OC::$server->getEventDispatcher();
+	$dispatcher->addListener('\OC\DB\Migrator::executeSql', function($event) use ($eventSource, $l) {
+		if ($event instanceof GenericEvent) {
+			$eventSource->send('success', (string)$l->t('[%d / %d]: %s', [$event[0], $event[1], $event->getSubject()]));
+		}
+	});
 
 	$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Turned on maintenance mode'));
@@ -132,6 +141,9 @@ if (OC::checkUpgrade(false)) {
 		$disabledApps[$app] = (string) $l->t('%s (incompatible)', [$app]);
 	}
 
+	$disabledApps=[
+		'Contacts Plus (incompatible)'
+	];
 	if (!empty($disabledApps)) {
 		$eventSource->send('notice',
 			(string)$l->t('Following apps have been disabled: %s', implode(', ', $disabledApps)));
