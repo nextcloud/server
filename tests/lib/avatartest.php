@@ -148,8 +148,7 @@ class AvatarTest extends \Test\TestCase {
 			->willReturn('avatarX');
 		$nonAvatarFile->expects($this->never())->method('delete');
 
-		$this->folder->method('search')
-			->with('avatar')
+		$this->folder->method('getDirectoryListing')
 			->willReturn([$avatarFileJPG, $avatarFilePNG, $resizedAvatarFile, $nonAvatarFile]);
 
 		$newFile = $this->getMock('\OCP\Files\File');
