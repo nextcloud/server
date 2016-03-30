@@ -49,6 +49,9 @@ class ActivityManager implements IManager {
 	/** @var int */
 	protected $formattingObjectId;
 
+	/** @var string */
+	protected $currentUserId;
+
 	/**
 	 * constructor of the controller
 	 *
@@ -321,7 +324,8 @@ class ActivityManager implements IManager {
 	 * @return bool
 	 */
 	public function isFormattingFilteredObject() {
-		return $this->formattingObjectType === $this->request->getParam('object_type')
+		return $this->formattingObjectType !== null && $this->formattingObjectId !== null
+			&& $this->formattingObjectType === $this->request->getParam('object_type')
 			&& $this->formattingObjectId === $this->request->getParam('object_id');
 	}
 
@@ -475,6 +479,19 @@ class ActivityManager implements IManager {
 	}
 
 	/**
+	 * Set the user we need to use
+	 *
+	 * @param string|null $currentUserId
+	 * @throws \UnexpectedValueException If the user is invalid
+	 */
+	public function setCurrentUserId($currentUserId) {
+		if (!is_string($currentUserId) && $currentUserId !== null) {
+			throw new \UnexpectedValueException('The given current user is invalid');
+		}
+		$this->currentUserId = $currentUserId;
+	}
+
+	/**
 	 * Get the user we need to use
 	 *
 	 * Either the user is logged in, or we try to get it from the token
@@ -483,7 +500,9 @@ class ActivityManager implements IManager {
 	 * @throws \UnexpectedValueException If the token is invalid, does not exist or is not unique
 	 */
 	public function getCurrentUserId() {
-		if (!$this->session->isLoggedIn()) {
+		if ($this->currentUserId !== null) {
+			return $this->currentUserId;
+		} else if (!$this->session->isLoggedIn()) {
 			return $this->getUserFromToken();
 		} else {
 			return $this->session->getUser()->getUID();
