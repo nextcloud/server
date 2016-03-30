@@ -8,8 +8,8 @@
 
 namespace Test\Traits;
 
-use OC\Encryption\Util;
-use OC\Files\View;
+use OC\Encryption\EncryptionWrapper;
+use OC\Memcache\ArrayCache;
 use OCA\Encryption\AppInfo\Application;
 use OCA\Encryption\KeyManager;
 use OCA\Encryption\Users\Setup;
@@ -68,13 +68,13 @@ trait EncryptionTrait {
 	}
 
 	protected function postLogin() {
-		$util = new Util(
-			new View(),
-			\OC::$server->getUserManager(),
-			\OC::$server->getGroupManager(),
-			\OC::$server->getConfig()
+		$encryptionWrapper = new EncryptionWrapper(
+			new ArrayCache(),
+			\OC::$server->getEncryptionManager(),
+			\OC::$server->getLogger()
 		);
-		$this->registerStorageWrapper('oc_encryption', array($util, 'wrapStorage'));
+
+		$this->registerStorageWrapper('oc_encryption', array($encryptionWrapper, 'wrapStorage'));
 	}
 
 	protected function setUpEncryptionTrait() {
