@@ -27,6 +27,7 @@ namespace OC\Encryption;
 use OC\Encryption\Keys\Storage;
 use OC\Files\Filesystem;
 use OC\Files\View;
+use OC\Memcache\ArrayCache;
 use OC\ServiceUnavailableException;
 use OCP\Encryption\IEncryptionModule;
 use OCP\Encryption\IManager;
@@ -54,20 +55,25 @@ class Manager implements IManager {
 	/** @var Util  */
 	protected $util;
 
+	/** @var ArrayCache  */
+	protected $arrayCache;
+
 	/**
 	 * @param IConfig $config
 	 * @param ILogger $logger
 	 * @param IL10N $l10n
 	 * @param View $rootView
 	 * @param Util $util
+	 * @param ArrayCache $arrayCache
 	 */
-	public function __construct(IConfig $config, ILogger $logger, IL10N $l10n, View $rootView, Util $util) {
+	public function __construct(IConfig $config, ILogger $logger, IL10N $l10n, View $rootView, Util $util, ArrayCache $arrayCache) {
 		$this->encryptionModules = array();
 		$this->config = $config;
 		$this->logger = $logger;
 		$this->l = $l10n;
 		$this->rootView = $rootView;
 		$this->util = $util;
+		$this->arrayCache = $arrayCache;
 	}
 
 	/**
@@ -227,14 +233,9 @@ class Manager implements IManager {
 	/**
 	 * Add storage wrapper
 	 */
-	public static function setupStorage() {
-		$util = new Util(
-			new View(),
-			\OC::$server->getUserManager(),
-			\OC::$server->getGroupManager(),
-			\OC::$server->getConfig()
-		);
-		Filesystem::addStorageWrapper('oc_encryption', array($util, 'wrapStorage'), 2);
+	public function setupStorage() {
+		$encryptionWrapper = new EncryptionWrapper($this->arrayCache, $this, $this->logger);
+		Filesystem::addStorageWrapper('oc_encryption', array($encryptionWrapper, 'wrapStorage'), 2);
 	}
 
 
