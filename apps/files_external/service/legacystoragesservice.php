@@ -188,7 +188,7 @@ abstract class LegacyStoragesService {
 							$storagesWithConfigHash[$configId] = $currentStorage;
 						}
 					} catch (\UnexpectedValueException $e) {
-						// dont die if a storage backend doesn't exist
+						// don't die if a storage backend doesn't exist
 						\OCP\Util::writeLog(
 							'files_external',
 							'Could not load storage: "' . $e->getMessage() . '"',

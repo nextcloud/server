@@ -392,7 +392,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
-	 * Returns a specfic card.
+	 * Returns a specific card.
 	 *
 	 * The same set of properties must be returned as with getCards. The only
 	 * exception is that 'carddata' is absolutely required.

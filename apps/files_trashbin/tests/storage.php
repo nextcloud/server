@@ -435,7 +435,7 @@ class Storage extends \Test\TestCase {
 	}
 
 	/**
-	 * Delete should fail is the source file cant be deleted
+	 * Delete should fail if the source file can't be deleted.
 	 */
 	public function testSingleStorageDeleteFileFail() {
 		/**
@@ -472,7 +472,7 @@ class Storage extends \Test\TestCase {
 	}
 
 	/**
-	 * Delete should fail is the source folder cant be deleted
+	 * Delete should fail if the source folder can't be deleted.
 	 */
 	public function testSingleStorageDeleteFolderFail() {
 		/**
