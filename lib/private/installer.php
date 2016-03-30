@@ -342,6 +342,9 @@ class OC_Installer{
 		}
 
 		$info = OC_App::getAppInfo($extractDir.'/appinfo/info.xml', true);
+		if(!is_array($info)) {
+			throw new \Exception($l->t('App cannot be installed because appinfo file cannot be read.'));
+		}
 
 		// We can't trust the parsed info.xml file as it may have been tampered
 		// with by an attacker and thus we need to use the local data to check
