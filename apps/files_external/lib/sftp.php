@@ -32,6 +32,7 @@
 namespace OC\Files\Storage;
 use Icewind\Streams\IteratorDirectory;
 
+use Icewind\Streams\RetryWrapper;
 use phpseclib\Net\SFTP\Stream;
 
 /**
@@ -374,7 +375,8 @@ class SFTP extends \OC\Files\Storage\Common {
 				case 'c':
 				case 'c+':
 					$context = stream_context_create(array('sftp' => array('session' => $this->getConnection())));
-					return fopen($this->constructUrl($path), $mode, false, $context);
+					$handle = fopen($this->constructUrl($path), $mode, false, $context);
+					return RetryWrapper::wrap($handle);
 			}
 		} catch (\Exception $e) {
 		}
