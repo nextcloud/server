@@ -111,8 +111,9 @@
 
 				_.each($files, function(file) {
 					var $tr = $(file);
-					var shareTypes = $tr.attr('data-share-types');
-					if (shareTypes) {
+					var shareTypes = $tr.attr('data-share-types') || '';
+					var shareOwner = $tr.attr('data-share-owner');
+					if (shareTypes || shareOwner) {
 						var hasLink = false;
 						var hasShares = false;
 						_.each(shareTypes.split(',') || [], function(shareType) {
