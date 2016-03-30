@@ -55,6 +55,7 @@ use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
+use OC\Memcache\ArrayCache;
 use OC\Notification\Manager;
 use OC\Security\CertificateManager;
 use OC\Security\Crypto;
@@ -106,7 +107,8 @@ class Server extends SimpleContainer implements IServerContainer {
 				$c->getLogger(),
 				$c->getL10N('core'),
 				new View(),
-				$util
+				$util,
+				new ArrayCache()
 			);
 		});
 
