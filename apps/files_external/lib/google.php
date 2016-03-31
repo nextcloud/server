@@ -35,6 +35,7 @@ namespace OC\Files\Storage;
 
 use GuzzleHttp\Exception\RequestException;
 use Icewind\Streams\IteratorDirectory;
+use Icewind\Streams\RetryWrapper;
 
 set_include_path(get_include_path().PATH_SEPARATOR.
 	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
@@ -441,10 +442,9 @@ class Google extends \OC\Files\Storage\Common {
 						// the library's service doesn't support streaming, so we use Guzzle instead
 						$client = \OC::$server->getHTTPClientService()->newClient();
 						try {
-							$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
-							$client->get($downloadUrl, [
+							$response = $client->get($downloadUrl, [
 								'headers' => $httpRequest->getRequestHeaders(),
-								'save_to' => $tmpFile,
+								'stream' => true,
 								'verify' => __DIR__ . '/../3rdparty/google-api-php-client/src/Google/IO/cacerts.pem',
 							]);
 						} catch (RequestException $e) {
@@ -459,7 +459,8 @@ class Google extends \OC\Files\Storage\Common {
 							}
 						}
 
-						return fopen($tmpFile, 'r');
+						$handle = $response->getBody();
+						return RetryWrapper::wrap($handle);
 					}
 				}
 				return false;
