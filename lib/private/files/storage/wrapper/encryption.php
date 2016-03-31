@@ -33,6 +33,7 @@ use OC\Files\Cache\CacheEntry;
 use OC\Files\Filesystem;
 use OC\Files\Mount\Manager;
 use OC\Files\Storage\LocalTempFileTrait;
+use OC\Memcache\ArrayCache;
 use OCP\Encryption\Exceptions\GenericEncryptionException;
 use OCP\Encryption\IFile;
 use OCP\Encryption\IManager;
@@ -82,6 +83,9 @@ class Encryption extends Wrapper {
 	/** @var array remember for which path we execute the repair step to avoid recursions */
 	private $fixUnencryptedSizeOf = array();
 
+	/** @var  ArrayCache */
+	private $arrayCache;
+
 	/**
 	 * @param array $parameters
 	 * @param IManager $encryptionManager
@@ -92,6 +96,7 @@ class Encryption extends Wrapper {
 	 * @param IStorage $keyStorage
 	 * @param Update $update
 	 * @param Manager $mountManager
+	 * @param ArrayCache $arrayCache
 	 */
 	public function __construct(
 			$parameters,
@@ -102,7 +107,8 @@ class Encryption extends Wrapper {
 			$uid = null,
 			IStorage $keyStorage = null,
 			Update $update = null,
-			Manager $mountManager = null
+			Manager $mountManager = null,
+			ArrayCache $arrayCache = null
 		) {
 		
 		$this->mountPoint = $parameters['mountPoint'];
@@ -116,6 +122,7 @@ class Encryption extends Wrapper {
 		$this->unencryptedSize = array();
 		$this->update = $update;
 		$this->mountManager = $mountManager;
+		$this->arrayCache = $arrayCache;
 		parent::__construct($parameters);
 	}
 
@@ -351,6 +358,14 @@ class Encryption extends Wrapper {
 	 * @throws ModuleDoesNotExistsException
 	 */
 	public function fopen($path, $mode) {
+
+		// check if the file is stored in the array cache, this means that we
+		// copy a file over to the versions folder, in this case we don't want to
+		// decrypt it
+		if ($this->arrayCache->hasKey('encryption_copy_version_' . $path)) {
+			$this->arrayCache->remove('encryption_copy_version_' . $path);
+			return $this->storage->fopen($path, $mode);
+		}
 
 		$encryptionEnabled = $this->encryptionManager->isEnabled();
 		$shouldEncrypt = false;
@@ -674,6 +689,10 @@ class Encryption extends Wrapper {
 		// key from the original file. Just create a 1:1 copy and done
 		if ($this->isVersion($targetInternalPath) ||
 			$this->isVersion($sourceInternalPath)) {
+			// remember that we try to create a version so that we can detect it during
+			// fopen($sourceInternalPath) and by-pass the encryption in order to
+			// create a 1:1 copy of the file
+			$this->arrayCache->set('encryption_copy_version_' . $sourceInternalPath, true);
 			$result = $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
 			if ($result) {
 				$info = $this->getCache('', $sourceStorage)->get($sourceInternalPath);

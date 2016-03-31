@@ -31,6 +31,7 @@ class Encryption extends \Test\TestCase {
 		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
+		$arrayCache = $this->getMock('OC\Memcache\ArrayCache');
 		$groupManager = $this->getMockBuilder('\OC\Group\Manager')
 			->disableOriginalConstructor()
 			->getMock();
@@ -39,7 +40,11 @@ class Encryption extends \Test\TestCase {
 			->setMethods(['getAccessList'])
 			->getMock();
 		$file->expects($this->any())->method('getAccessList')->willReturn([]);
-		$util = $this->getMock('\OC\Encryption\Util', ['getUidAndFilename'], [new View(), new \OC\User\Manager(), $groupManager, $config]);
+		$util = $this->getMock(
+			'\OC\Encryption\Util',
+			['getUidAndFilename'],
+			[new View(), new \OC\User\Manager(), $groupManager, $config, $arrayCache]
+		);
 		$util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturn(['user1', $internalPath]);
