@@ -30,6 +30,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\Mount\MoveableMount;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 
 
@@ -211,6 +212,55 @@ abstract class Node implements \Sabre\DAV\INode {
 	 */
 	public function getInternalFileId() {
 		return $this->info->getId();
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getSharePermissions() {
+		$storage = $this->info->getStorage();
+
+		$path = $this->info->getInternalPath();
+
+		if ($storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
+			/** @var \OC\Files\Storage\Shared $storage */
+			$permissions = (int)$storage->getShare()['permissions'];
+		} else {
+			$permissions = $storage->getPermissions($path);
+		}
+
+		/*
+		 * We can always share non moveable mount points with DELETE and UPDATE
+		 * Eventually we need to do this properly
+		 */
+		$mountpoint = $this->info->getMountPoint();
+		if (!($mountpoint instanceof MoveableMount)) {
+			$mountpointpath = $mountpoint->getMountPoint();
+			if (substr($mountpointpath, -1) === '/') {
+				$mountpointpath = substr($mountpointpath, 0, -1);
+			}
+
+			if ($mountpointpath === $this->info->getPath()) {
+				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+			}
+		}
+
+		/*
+		 * Without sharing permissions there are also no other permissions
+		 */
+		if (!($permissions & \OCP\Constants::PERMISSION_SHARE) ||
+			!($permissions & \OCP\Constants::PERMISSION_READ)) {
+			return 0;
+		}
+
+		/*
+		 * Files can't have create or delete permissions
+		 */
+		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
+			$permissions &= ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_DELETE);
+		}
+
+		return $permissions;
 	}
 
 	/**

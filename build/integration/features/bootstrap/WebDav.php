@@ -316,6 +316,20 @@ trait WebDav {
 	}
 
 	/**
+	 * @When User :user uploads file with content :content to :destination
+	 */
+	public function userUploadsAFileWithContentTo($user, $content, $destination)
+	{
+		$file = \GuzzleHttp\Stream\Stream::factory($content);
+		try {
+			$this->response = $this->makeDavRequest($user, "PUT", $destination, [], $file);
+		} catch (\GuzzleHttp\Exception\ServerException $e) {
+			// 4xx and 5xx responses cause an exception
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @When User :user deletes file :file
 	 * @param string $user
 	 * @param string $file
