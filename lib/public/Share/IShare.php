@@ -25,6 +25,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
+use OCP\Share\Exceptions\IllegalIDChangeException;
 
 /**
  * Interface IShare
@@ -33,6 +34,19 @@ use OCP\Files\NotFoundException;
  * @since 9.0.0
  */
 interface IShare {
+
+	/**
+	 * Set the internal id of the share
+	 * It is only allowed to set the internal id of a share once.
+	 * Attempts to override the internal id will result in an IllegalIDChangeException
+	 *
+	 * @param string $id
+	 * @return \OCP\Share\IShare
+	 * @throws IllegalIDChangeException
+	 * @throws \InvalidArgumentException
+	 * @since 9.1.0
+	 */
+	public function setId($id);
 
 	/**
 	 * Get the internal id of the share.
@@ -51,6 +65,19 @@ interface IShare {
 	 * @throws \UnexpectedValueException If the fullId could not be constructed
 	 */
 	public function getFullId();
+
+	/**
+	 * Set the provider id of the share
+	 * It is only allowed to set the provider id of a share once.
+	 * Attempts to override the provider id will result in an IllegalIDChangeException
+	 *
+	 * @param string $id
+	 * @return \OCP\Share\IShare
+	 * @throws IllegalIDChangeException
+	 * @throws \InvalidArgumentException
+	 * @since 9.1.0
+	 */
+	public function setProviderId($id);
 
 	/**
 	 * Set the node of the file/folder that is shared
