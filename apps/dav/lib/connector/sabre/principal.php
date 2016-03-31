@@ -132,10 +132,11 @@ class Principal implements BackendInterface {
 	 * Returns the list of groups a principal is a member of
 	 *
 	 * @param string $principal
+	 * @param bool $needGroups
 	 * @return array
 	 * @throws Exception
 	 */
-	public function getGroupMembership($principal) {
+	public function getGroupMembership($principal, $needGroups = false) {
 		list($prefix, $name) = URLUtil::splitPath($principal);
 
 		if ($prefix === $this->principalPrefix) {
@@ -144,7 +145,7 @@ class Principal implements BackendInterface {
 				throw new Exception('Principal not found');
 			}
 
-			if ($this->hasGroups) {
+			if ($this->hasGroups || $needGroups) {
 				$groups = $this->groupManager->getUserGroups($user);
 				$groups = array_map(function($group) {
 					/** @var IGroup $group */

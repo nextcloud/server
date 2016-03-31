@@ -23,6 +23,7 @@
 
 // Backends
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\Connector\LegacyDAVACL;
 use OCA\DAV\CalDAV\CalendarRoot;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
@@ -67,7 +68,7 @@ $server->addPlugin(new MaintenancePlugin());
 $server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
 $server->addPlugin(new \Sabre\CalDAV\Plugin());
 
-$acl = new \OCA\DAV\Connector\LegacyDAVACL();
+$acl = new LegacyDAVACL();
 $server->addPlugin($acl);
 
 $server->addPlugin(new \Sabre\CalDAV\ICSExportPlugin());

@@ -103,4 +103,64 @@ class CalendarTest extends TestCase {
 			$this->assertTrue(true);
 		}
 	}
+
+	/**
+	 * @dataProvider providesReadOnlyInfo
+	 */
+	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet) {
+		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
+		$calendarInfo = [
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'default'
+		];
+		if (!is_null($readOnlyValue)) {
+			$calendarInfo['{http://owncloud.org/ns}read-only'] = $readOnlyValue;
+		}
+		if ($hasOwnerSet) {
+			$calendarInfo['{http://owncloud.org/ns}owner-principal'] = 'user1';
+		}
+		$c = new Calendar($backend, $calendarInfo);
+		$acl = $c->getACL();
+		$childAcl = $c->getChildACL();
+
+		$expectedAcl = [[
+			'privilege' => '{DAV:}read',
+			'principal' => $hasOwnerSet ? 'user1' : 'user2',
+			'protected' => true
+		], [
+			'privilege' => '{DAV:}write',
+			'principal' => $hasOwnerSet ? 'user1' : 'user2',
+			'protected' => true
+		]];
+		if ($hasOwnerSet) {
+			$expectedAcl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'user2',
+				'protected' => true
+			];
+			if ($expectsWrite) {
+				$expectedAcl[] = [
+					'privilege' => '{DAV:}write',
+					'principal' => 'user2',
+					'protected' => true
+				];
+			}
+		}
+		$this->assertEquals($expectedAcl, $acl);
+		$this->assertEquals($expectedAcl, $childAcl);
+	}
+
+	public function providesReadOnlyInfo() {
+		return [
+			'read-only property not set' => [true, null, true],
+			'read-only property is false' => [true, false, true],
+			'read-only property is true' => [false, true, true],
+			'read-only property not set and no owner' => [true, null, false],
+			'read-only property is false and no owner' => [true, false, false],
+			'read-only property is true and no owner' => [false, true, false],
+		];
+	}
 }
