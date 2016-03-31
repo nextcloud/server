@@ -29,7 +29,7 @@ OC.L10N.register(
     "Error generating key pair" : "Error al generar el par de claves",
     "Enable encryption" : "Habilitar cifrado",
     "Enable previews" : "Habilitar previsualizaciones",
-    "Enable sharing" : "Habilitar comparto",
+    "Enable sharing" : "Habilitar el uso compartido",
     "Check for changes" : "Comprobar si hay cambios",
     "Never" : "Nunca",
     "Once every direct access" : "Una vez cada acceso directo",

@@ -106,6 +106,7 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Faltan permisos para poder editar desde aquí.",
     "Settings" : "Ajustes",
     "WebDAV" : "WebDAV",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Introduce esta dirección <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> en el cliente de ownCloud para acceder a tus archivos a través de él</a>",
     "Cancel upload" : "Cancelar la subida",
     "No files in here" : "Aquí no hay archivos",
     "Upload some content or sync with your devices!" : "Suba contenidos o sincronice sus dispositivos.",
