@@ -75,7 +75,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	function getShares() {
 		/** @var CalDavBackend $calDavBackend */
 		$calDavBackend = $this->caldavBackend;
-		return $calDavBackend->getShares($this->getResourceId(), parent::getOwner());
+		return $calDavBackend->getShares($this->getResourceId());
 	}
 
 	/**
@@ -114,7 +114,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
 		/** @var CalDavBackend $calDavBackend */
 		$calDavBackend = $this->caldavBackend;
-		return $calDavBackend->applyShareAcl($this->getResourceId(), $acl, parent::getOwner());
+		return $calDavBackend->applyShareAcl($this->getResourceId(), $acl);
 	}
 
 	function getChildACL() {
