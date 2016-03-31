@@ -3,14 +3,13 @@
  * @author Christian Berendt <berendt@b1-systems.de>
  * @author j-ed <juergen@eisfair.org>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Ross Nicoll <jrn@jrn.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -45,12 +44,9 @@ require_once __DIR__ . '/../3rdparty/autoload.php';
 \OC_Mount_Config::$app = new \OCA\Files_external\Appinfo\Application();
 $appContainer = \OC_Mount_Config::$app->getContainer();
 
-$l = \OC::$server->getL10N('files_external');
+\OC_Mount_Config::$app->registerSettings();
 
-OCP\App::registerAdmin('files_external', 'settings');
-if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == 'yes') {
-	OCP\App::registerPersonal('files_external', 'personal');
-}
+$l = \OC::$server->getL10N('files_external');
 
 \OCA\Files\App::getNavigationManager()->add([
 	"id" => 'extstoragemounts',

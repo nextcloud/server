@@ -3,8 +3,9 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -43,15 +44,18 @@ class MigrationTest extends \Test\TestCase {
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
-		\OC_User::createUser(self::TEST_ENCRYPTION_MIGRATION_USER1, 'foo');
-		\OC_User::createUser(self::TEST_ENCRYPTION_MIGRATION_USER2, 'foo');
-		\OC_User::createUser(self::TEST_ENCRYPTION_MIGRATION_USER3, 'foo');
+		\OC::$server->getUserManager()->createUser(self::TEST_ENCRYPTION_MIGRATION_USER1, 'foo');
+		\OC::$server->getUserManager()->createUser(self::TEST_ENCRYPTION_MIGRATION_USER2, 'foo');
+		\OC::$server->getUserManager()->createUser(self::TEST_ENCRYPTION_MIGRATION_USER3, 'foo');
 	}
 
 	public static function tearDownAfterClass() {
-		\OC_User::deleteUser(self::TEST_ENCRYPTION_MIGRATION_USER1);
-		\OC_User::deleteUser(self::TEST_ENCRYPTION_MIGRATION_USER2);
-		\OC_User::deleteUser(self::TEST_ENCRYPTION_MIGRATION_USER3);
+		$user = \OC::$server->getUserManager()->get(self::TEST_ENCRYPTION_MIGRATION_USER1);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get(self::TEST_ENCRYPTION_MIGRATION_USER2);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get(self::TEST_ENCRYPTION_MIGRATION_USER3);
+		if ($user !== null) { $user->delete(); }
 		parent::tearDownAfterClass();
 	}
 

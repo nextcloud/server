@@ -6,7 +6,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -50,7 +50,7 @@ class CertificateManager implements ICertificateManager {
 
 	/**
 	 * @param string $uid
-	 * @param \OC\Files\View $view relative zu data/
+	 * @param \OC\Files\View $view relative to data/
 	 * @param IConfig $config
 	 */
 	public function __construct($uid, \OC\Files\View $view, IConfig $config) {
@@ -83,7 +83,8 @@ class CertificateManager implements ICertificateManager {
 			if ($file != '.' && $file != '..') {
 				try {
 					$result[] = new Certificate($this->view->file_get_contents($path . $file), $file);
-				} catch(\Exception $e) {}
+				} catch (\Exception $e) {
+				}
 			}
 		}
 		closedir($handle);
@@ -97,22 +98,34 @@ class CertificateManager implements ICertificateManager {
 		$path = $this->getPathToCertificates();
 		$certs = $this->listCertificates();
 
-		$fh_certs = $this->view->fopen($path . '/rootcerts.crt', 'w');
+		if (!$this->view->file_exists($path)) {
+			$this->view->mkdir($path);
+		}
+
+		$fhCerts = $this->view->fopen($path . '/rootcerts.crt', 'w');
 
 		// Write user certificates
 		foreach ($certs as $cert) {
 			$file = $path . '/uploads/' . $cert->getName();
 			$data = $this->view->file_get_contents($file);
 			if (strpos($data, 'BEGIN CERTIFICATE')) {
-				fwrite($fh_certs, $data);
-				fwrite($fh_certs, "\r\n");
+				fwrite($fhCerts, $data);
+				fwrite($fhCerts, "\r\n");
 			}
 		}
 
 		// Append the default certificates
 		$defaultCertificates = file_get_contents(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
-		fwrite($fh_certs, $defaultCertificates);
-		fclose($fh_certs);
+		fwrite($fhCerts, $defaultCertificates);
+
+		// Append the system certificate bundle
+		$systemBundle = $this->getCertificateBundle(null);
+		if ($this->view->file_exists($systemBundle)) {
+			$systemCertificates = $this->view->file_get_contents($systemBundle);
+			fwrite($fhCerts, $systemCertificates);
+		}
+
+		fclose($fhCerts);
 	}
 
 	/**
@@ -166,18 +179,72 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * Get the path to the certificate bundle for this user
 	 *
+	 * @param string $uid (optional) user to get the certificate bundle for, use `null` to get the system bundle
 	 * @return string
 	 */
-	public function getCertificateBundle() {
-		return $this->getPathToCertificates() . 'rootcerts.crt';
+	public function getCertificateBundle($uid = '') {
+		if ($uid === '') {
+			$uid = $this->uid;
+		}
+		return $this->getPathToCertificates($uid) . 'rootcerts.crt';
 	}
 
 	/**
+	 * Get the full local path to the certificate bundle for this user
+	 *
+	 * @param string $uid (optional) user to get the certificate bundle for, use `null` to get the system bundle
 	 * @return string
 	 */
-	private function getPathToCertificates() {
-		$path = is_null($this->uid) ? '/files_external/' : '/' . $this->uid . '/files_external/';
+	public function getAbsoluteBundlePath($uid = '') {
+		if ($uid === '') {
+			$uid = $this->uid;
+		}
+		if ($this->needsRebundling($uid)) {
+			if (is_null($uid)) {
+				$manager = new CertificateManager(null, $this->view, $this->config);
+				$manager->createCertificateBundle();
+			} else {
+				$this->createCertificateBundle();
+			}
+		}
+		return $this->view->getLocalFile($this->getCertificateBundle($uid));
+	}
+
+	/**
+	 * @param string $uid (optional) user to get the certificate path for, use `null` to get the system path
+	 * @return string
+	 */
+	private function getPathToCertificates($uid = '') {
+		if ($uid === '') {
+			$uid = $this->uid;
+		}
+		$path = is_null($uid) ? '/files_external/' : '/' . $uid . '/files_external/';
 
 		return $path;
+	}
+
+	/**
+	 * Check if we need to re-bundle the certificates because one of the sources has updated
+	 *
+	 * @param string $uid (optional) user to get the certificate path for, use `null` to get the system path
+	 * @return bool
+	 */
+	private function needsRebundling($uid = '') {
+		if ($uid === '') {
+			$uid = $this->uid;
+		}
+		$sourceMTimes = [filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt')];
+		$targetBundle = $this->getCertificateBundle($uid);
+		if (!$this->view->file_exists($targetBundle)) {
+			return true;
+		}
+		if (!is_null($uid)) { // also depend on the system bundle
+			$sourceBundles[] = $this->view->filemtime($this->getCertificateBundle(null));
+		}
+
+		$sourceMTime = array_reduce($sourceMTimes, function ($max, $mtime) {
+			return max($max, $mtime);
+		}, 0);
+		return $sourceMTime > $this->view->filemtime($targetBundle);
 	}
 }

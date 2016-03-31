@@ -3,6 +3,7 @@
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
@@ -10,14 +11,13 @@
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Nicolai Ehemann <en@enlightened.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thibaut GRIDEL <tgridel@free.fr>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -115,7 +115,7 @@ class OC_Files {
 			self::lockFiles($view, $dir, $files);
 
 			$streamer->sendHeaders($name);
-			$executionTime = intval(ini_get('max_execution_time'));
+			$executionTime = intval(OC::$server->getIniWrapper()->getNumeric('max_execution_time'));
 			set_time_limit(0);
 			if ($getType === self::ZIP_FILES) {
 				foreach ($files as $file) {
@@ -159,6 +159,8 @@ class OC_Files {
 	/**
 	 * @param View $view
 	 * @param string $name
+	 * @param string $dir
+	 * @param boolean $onlyHeader
 	 */
 	private static function getSingleFile($view, $dir, $name, $onlyHeader) {
 		$filename = $dir . '/' . $name;
@@ -184,7 +186,7 @@ class OC_Files {
 
 	/**
 	 * @param View $view
-	 * @param $dir
+	 * @param string $dir
 	 * @param string[]|string $files
 	 */
 	public static function lockFiles($view, $dir, $files) {
@@ -265,7 +267,7 @@ class OC_Files {
 				$pattern = vsprintf($patternMap['pattern'], [$key]);
 				$setting = vsprintf($patternMap['setting'], [$key, $size]);
 				$hasReplaced = 0;
-				$newContent = preg_replace($pattern, $setting, $content, 1, $hasReplaced);
+				$newContent = preg_replace($pattern, $setting, $content, 2, $hasReplaced);
 				if ($newContent !== null) {
 					$content = $newContent;
 				}
@@ -289,11 +291,11 @@ class OC_Files {
 	}
 
 	/**
-	 * @param $dir
+	 * @param string $dir
 	 * @param $files
-	 * @param $getType
+	 * @param integer $getType
 	 * @param View $view
-	 * @param $filename
+	 * @param string $filename
 	 */
 	private static function unlockAllTheFiles($dir, $files, $getType, $view, $filename) {
 		if ($getType === self::FILE) {

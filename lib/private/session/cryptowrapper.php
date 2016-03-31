@@ -3,8 +3,9 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Phil Davis <phil.davis@inf.org>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,7 +24,6 @@
 
 namespace OC\Session;
 
-use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
@@ -75,7 +75,7 @@ class CryptoWrapper {
 		if (!is_null($request->getCookie(self::COOKIE_NAME))) {
 			$this->passphrase = $request->getCookie(self::COOKIE_NAME);
 		} else {
-			$this->passphrase = $this->random->getMediumStrengthGenerator()->generate(128);
+			$this->passphrase = $this->random->generate(128);
 			$secureCookie = $request->getServerProtocol() === 'https';
 			// FIXME: Required for CI
 			if (!defined('PHPUNIT_RUN')) {

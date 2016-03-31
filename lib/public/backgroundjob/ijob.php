@@ -1,10 +1,10 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -36,10 +36,27 @@ interface IJob {
 	 *
 	 * @param \OCP\BackgroundJob\IJobList $jobList The job list that manages the state of this job
 	 * @param ILogger $logger
-	 * @return void
 	 * @since 7.0.0
 	 */
 	public function execute($jobList, ILogger $logger = null);
+
+	/**
+	 * @param int $id
+	 * @since 7.0.0
+	 */
+	public function setId($id);
+
+	/**
+	 * @param int $lastRun
+	 * @since 7.0.0
+	 */
+	public function setLastRun($lastRun);
+
+	/**
+	 * @param mixed $argument
+	 * @since 7.0.0
+	 */
+	public function setArgument($argument);
 
 	/**
 	 * Get the id of the background job

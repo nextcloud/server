@@ -1,11 +1,12 @@
 <?php
 /**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -169,4 +170,32 @@ interface IUser {
 	 * @since 9.0.0
 	 */
 	public function getCloudId();
+
+	/**
+	 * set the email address of the user
+	 *
+	 * @param string|null $mailAddress
+	 * @return void
+	 * @since 9.0.0
+	 */
+	public function setEMailAddress($mailAddress);
+
+	/**
+	 * get the users' quota in human readable form. If a specific quota is not
+	 * set for the user, the default value is returned. If a default setting
+	 * was not set otherwise, it is return as 'none', i.e. quota is not limited.
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getQuota();
+
+	/**
+	 * set the users' quota
+	 *
+	 * @param string $quota
+	 * @return void
+	 * @since 9.0.0
+	 */
+	public function setQuota($quota);
 }

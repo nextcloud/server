@@ -1,0 +1,7 @@
+{ "translations": {
+    "Invalid Federated Cloud ID" : "Неверный ID в объединении облачных хранилищ.",
+    "Sharing %s failed, because this item is already shared with %s" : "Не удалось поделиться %s, пользователь %s уже имеет доступ к этому элементу",
+    "Not allowed to create a federated share with the same user" : "Не допускается создание федеративного общего ресурса с тем-же пользователем",
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Не удалось поделиться %s, не удалось найти %s, возможно, сервер не доступен."
+},"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
+}

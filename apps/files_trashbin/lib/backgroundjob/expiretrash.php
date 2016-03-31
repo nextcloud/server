@@ -3,7 +3,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -117,6 +117,12 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 	 */
 	private function setupFS($user){
 		if (!$this->userManager->userExists($user)) {
+			return false;
+		}
+
+		//Check if this user has a trashbin directory
+		$view = new \OC\Files\View('/' . $user);
+		if (!$view->is_dir('/files_trashbin/files')){
 			return false;
 		}
 

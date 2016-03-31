@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,20 +22,29 @@
 
 namespace OCA\Files_External\Controller;
 
+use OCA\Files_External\Lib\Auth\AuthMechanism;
+use OCA\Files_External\Lib\Auth\IUserProvided;
+use OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
+use OCP\ILogger;
 use \OCP\IRequest;
 use \OCP\IL10N;
 use \OCP\AppFramework\Http\DataResponse;
-use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http;
 use \OCA\Files_external\Service\UserGlobalStoragesService;
 use \OCA\Files_external\NotFoundException;
 use \OCA\Files_external\Lib\StorageConfig;
 use \OCA\Files_External\Lib\Backend\Backend;
+use OCP\IUserSession;
 
 /**
  * User global storages controller
  */
 class UserGlobalStoragesController extends StoragesController {
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+
 	/**
 	 * Creates a new user global storages controller.
 	 *
@@ -42,19 +52,24 @@ class UserGlobalStoragesController extends StoragesController {
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param UserGlobalStoragesService $userGlobalStoragesService storage service
+	 * @param IUserSession $userSession
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
 		IL10N $l10n,
-		UserGlobalStoragesService $userGlobalStoragesService
+		UserGlobalStoragesService $userGlobalStoragesService,
+		IUserSession $userSession,
+		ILogger $logger
 	) {
 		parent::__construct(
 			$AppName,
 			$request,
 			$l10n,
-			$userGlobalStoragesService
+			$userGlobalStoragesService,
+			$logger
 		);
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -76,6 +91,15 @@ class UserGlobalStoragesController extends StoragesController {
 			$storages,
 			Http::STATUS_OK
 		);
+	}
+
+	protected function manipulateStorageConfig(StorageConfig $storage) {
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+		$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		$backend->manipulateStorageConfig($storage, $this->userSession->getUser());
 	}
 
 	/**
@@ -109,6 +133,54 @@ class UserGlobalStoragesController extends StoragesController {
 	}
 
 	/**
+	 * Update an external storage entry.
+	 * Only allows setting user provided backend fields
+	 *
+	 * @param int $id storage id
+	 * @param array $backendOptions backend-specific options
+	 *
+	 * @return DataResponse
+	 *
+	 * @NoAdminRequired
+	 */
+	public function update(
+		$id,
+		$backendOptions
+	) {
+		try {
+			$storage = $this->service->getStorage($id);
+			$authMechanism = $storage->getAuthMechanism();
+			if ($authMechanism instanceof IUserProvided) {
+				$authMechanism->saveBackendOptions($this->userSession->getUser(), $id, $backendOptions);
+				$authMechanism->manipulateStorageConfig($storage, $this->userSession->getUser());
+			} else {
+				return new DataResponse(
+					[
+						'message' => (string)$this->l10n->t('Storage with id "%i" is not user editable', array($id))
+					],
+					Http::STATUS_FORBIDDEN
+				);
+			}
+		} catch (NotFoundException $e) {
+			return new DataResponse(
+				[
+					'message' => (string)$this->l10n->t('Storage with id "%i" not found', array($id))
+				],
+				Http::STATUS_NOT_FOUND
+			);
+		}
+
+		$this->updateStorageStatus($storage);
+		$this->sanitizeStorage($storage);
+
+		return new DataResponse(
+			$storage,
+			Http::STATUS_OK
+		);
+
+	}
+
+	/**
 	 * Remove sensitive data from a StorageConfig before returning it to the user
 	 *
 	 * @param StorageConfig $storage
@@ -116,6 +188,14 @@ class UserGlobalStoragesController extends StoragesController {
 	protected function sanitizeStorage(StorageConfig $storage) {
 		$storage->setBackendOptions([]);
 		$storage->setMountOptions([]);
+
+		if ($storage->getAuthMechanism() instanceof IUserProvided) {
+			try {
+				$storage->getAuthMechanism()->manipulateStorageConfig($storage, $this->userSession->getUser());
+			} catch (InsufficientDataForMeaningfulAnswerException $e) {
+				// not configured yet
+			}
+		}
 	}
 
 }

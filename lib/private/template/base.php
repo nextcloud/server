@@ -4,10 +4,10 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -34,12 +34,13 @@ class Base {
 
 	/**
 	 * @param string $template
+	 * @param string $requestToken
 	 * @param \OC_L10N $l10n
 	 * @param \OC_Defaults $theme
 	 */
-	public function __construct( $template, $requesttoken, $l10n, $theme ) {
+	public function __construct($template, $requestToken, $l10n, $theme ) {
 		$this->vars = array();
-		$this->vars['requesttoken'] = $requesttoken;
+		$this->vars['requesttoken'] = $requestToken;
 		$this->l10n = $l10n;
 		$this->template = $template;
 		$this->theme = $theme;

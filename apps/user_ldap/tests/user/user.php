@@ -3,8 +3,9 @@
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,6 +25,7 @@
 namespace OCA\user_ldap\tests;
 
 use OCA\user_ldap\lib\user\User;
+use OCP\IUserManager;
 
 /**
  * Class Test_User_User
@@ -42,11 +44,12 @@ class Test_User_User extends \Test\TestCase {
 		$avaMgr  = $this->getMock('\OCP\IAvatarManager');
 		$image   = $this->getMock('\OCP\Image');
 		$dbc     = $this->getMock('\OCP\IDBConnection');
+		$userMgr  = $this->getMock('\OCP\IUserManager');
 
-		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc);
+		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr);
 	}
 
-	private function getAdvancedMocks($cfMock, $fsMock, $logMock, $avaMgr, $dbc) {
+	private function getAdvancedMocks($cfMock, $fsMock, $logMock, $avaMgr, $dbc, $userMgr = null) {
 		static $conMethods;
 		static $accMethods;
 		static $umMethods;
@@ -60,8 +63,11 @@ class Test_User_User extends \Test\TestCase {
 		}
 		$lw = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
 		$im = $this->getMock('\OCP\Image');
+		if (is_null($userMgr)) {
+			$userMgr = $this->getMock('\OCP\IUserManager');
+		}
 		$um = $this->getMock('\OCA\user_ldap\lib\user\Manager',
-			$umMethods, array($cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc));
+			$umMethods, array($cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr));
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 			$conMethods, array($lw, null, null));
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
@@ -71,25 +77,25 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testGetDNandUsername() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr) =
 			$this->getTestInstances();
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$this->assertSame($dn, $user->getDN());
 		$this->assertSame($uid, $user->getUsername());
 	}
 
 	public function testUpdateEmailProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc, $userMgr);
 
 		$connection->expects($this->once())
 			->method('__get')
@@ -102,24 +108,27 @@ class Test_User_User extends \Test\TestCase {
 				$this->equalTo('email'))
 			->will($this->returnValue(array('alice@foo.bar')));
 
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo('alice'), $this->equalTo('settings'),
-				$this->equalTo('email'),
-				$this->equalTo('alice@foo.bar'))
-			->will($this->returnValue(true));
-
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
+		$uuser = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$uuser->expects($this->once())
+			->method('setEMailAddress')
+			->with('alice@foo.bar');
+		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $userMgr */
+		$userMgr->expects($this->any())
+			->method('get')
+			->willReturn($uuser);
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateEmail();
 	}
 
 	public function testUpdateEmailNotProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -143,13 +152,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateEmail();
 	}
 
 	public function testUpdateEmailNotConfigured() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -170,13 +179,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateEmail();
 	}
 
 	public function testUpdateQuotaAllProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -201,25 +210,27 @@ class Test_User_User extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(array('42 GB')));
 
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo('alice'),
-				$this->equalTo('files'),
-				$this->equalTo('quota'),
-				$this->equalTo('42 GB'))
-			->will($this->returnValue(true));
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('42 GB');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaDefaultProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -244,25 +255,27 @@ class Test_User_User extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(false));
 
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo('alice'),
-				$this->equalTo('files'),
-				$this->equalTo('quota'),
-				$this->equalTo('25 GB'))
-			->will($this->returnValue(true));
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('25 GB');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaIndividualProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -287,25 +300,27 @@ class Test_User_User extends \Test\TestCase {
 				$this->equalTo('myquota'))
 			->will($this->returnValue(array('27 GB')));
 
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo('alice'),
-				$this->equalTo('files'),
-				$this->equalTo('quota'),
-				$this->equalTo('27 GB'))
-			->will($this->returnValue(true));
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with('27 GB');
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaNoneProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -337,13 +352,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaNoneConfigured() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -372,13 +387,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateQuota();
 	}
 
 	public function testUpdateQuotaFromValue() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -399,26 +414,28 @@ class Test_User_User extends \Test\TestCase {
 		$access->expects($this->never())
 			->method('readAttribute');
 
-		$config->expects($this->once())
-			->method('setUserValue')
-			->with($this->equalTo('alice'),
-				$this->equalTo('files'),
-				$this->equalTo('quota'),
-				$this->equalTo($readQuota))
-			->will($this->returnValue(true));
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('setQuota')
+			->with($readQuota);
+
+		$userMgr->expects($this->once())
+			->method('get')
+			->with('alice')
+			->will($this->returnValue($user));
 
 		$uid = 'alice';
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateQuota($readQuota);
 	}
 
 	//the testUpdateAvatar series also implicitely tests getAvatarImage
 	public function testUpdateAvatarJpegPhotoProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -461,13 +478,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateAvatar();
 	}
 
 	public function testUpdateAvatarThumbnailPhotoProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -519,13 +536,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateAvatar();
 	}
 
 	public function testUpdateAvatarNotProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -565,13 +582,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->updateAvatar();
 	}
 
 	public function testUpdateBeforeFirstLogin() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -601,13 +618,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->update();
 	}
 
 	public function testUpdateAfterFirstLogin() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -641,13 +658,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->update();
 	}
 
 	public function testUpdateNoRefresh() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -677,13 +694,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->update();
 	}
 
 	public function testMarkLogin() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr) =
 			$this->getTestInstances();
 
 		$config->expects($this->once())
@@ -698,13 +715,13 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->markLogin();
 	}
 
 	public function testGetAvatarImageProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $db, $userMgr) =
 			$this->getTestInstances();
 
 		$access->expects($this->once())
@@ -717,7 +734,7 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$photo = $user->getAvatarImage();
 		$this->assertSame('this is a photo', $photo);
@@ -727,7 +744,7 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testProcessAttributes() {
-		list(, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list(, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -740,14 +757,14 @@ class Test_User_User extends \Test\TestCase {
 			'markRefreshTime',
 			'updateQuota',
 			'updateEmail',
-			'storeDisplayName',
+			'composeAndStoreDisplayName',
 			'storeLDAPUserName',
 			'getHomePath',
 			'updateAvatar'
 		);
 
 		$userMock = $this->getMockBuilder('OCA\user_ldap\lib\user\User')
-			->setConstructorArgs(array($uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr))
+			->setConstructorArgs(array($uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr))
 			->setMethods($requiredMethods)
 			->getMock();
 
@@ -781,6 +798,7 @@ class Test_User_User extends \Test\TestCase {
 		}
 
 		$userMock->processAttributes($record);
+		\OC_Hook::emit('OC_User', 'post_login', array('uid' => $uid));
 	}
 
 	public function emptyHomeFolderAttributeValueProvider() {
@@ -794,7 +812,7 @@ class Test_User_User extends \Test\TestCase {
 	 * @dataProvider emptyHomeFolderAttributeValueProvider
 	 */
 	public function testGetHomePathNotConfigured($attributeValue) {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -815,14 +833,14 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$path = $user->getHomePath();
 		$this->assertSame($path, false);
 	}
 
 	public function testGetHomePathConfiguredNotAvailableAllowed() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
@@ -846,7 +864,7 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$path = $user->getHomePath();
 
@@ -857,11 +875,11 @@ class Test_User_User extends \Test\TestCase {
 	 * @expectedException \Exception
 	 */
 	public function testGetHomePathConfiguredNotAvailableNotAllowed() {
-		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc, $userMgr);
 
 		$connection->expects($this->any())
 			->method('__get')
@@ -881,8 +899,33 @@ class Test_User_User extends \Test\TestCase {
 		$dn  = 'uid=alice,dc=foo,dc=bar';
 
 		$user = new User(
-			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr);
+			$uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
 
 		$user->getHomePath();
+	}
+
+	public function displayNameProvider() {
+		return [
+			['Roland Deschain', '', 'Roland Deschain'],
+			['Roland Deschain', null, 'Roland Deschain'],
+			['Roland Deschain', 'gunslinger@darktower.com', 'Roland Deschain (gunslinger@darktower.com)'],
+		];
+	}
+
+	/**
+	 * @dataProvider displayNameProvider
+	 */
+	public function testComposeAndStoreDisplayName($part1, $part2, $expected) {
+		list($access, $config, $filesys, $image, $log, $avaMgr, , $userMgr) =
+			$this->getTestInstances();
+
+		$config->expects($this->once())
+			->method('setUserValue');
+
+		$user = new User(
+			'user', 'cn=user', $access, $config, $filesys, $image, $log, $avaMgr, $userMgr);
+
+		$displayName = $user->composeAndStoreDisplayName($part1, $part2);
+		$this->assertSame($expected, $displayName);
 	}
 }

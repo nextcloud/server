@@ -7,6 +7,7 @@
 
 namespace Icewind\SMB;
 
+use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\InvalidRequestException;
 use Icewind\Streams\File;
 
@@ -32,19 +33,26 @@ class NativeStream implements File {
 	private $eof = false;
 
 	/**
+	 * @var string
+	 */
+	private $url;
+
+	/**
 	 * Wrap a stream from libsmbclient-php into a regular php stream
 	 *
 	 * @param \Icewind\SMB\NativeState $state
 	 * @param resource $smbStream
 	 * @param string $mode
+	 * @param string $url
 	 * @return resource
 	 */
-	public static function wrap($state, $smbStream, $mode) {
+	public static function wrap($state, $smbStream, $mode, $url) {
 		stream_wrapper_register('nativesmb', '\Icewind\SMB\NativeStream');
 		$context = stream_context_create(array(
 			'nativesmb' => array(
 				'state' => $state,
-				'handle' => $smbStream
+				'handle' => $smbStream,
+				'url' => $url
 			)
 		));
 		$fh = fopen('nativesmb://', $mode, false, $context);
@@ -68,6 +76,7 @@ class NativeStream implements File {
 		$context = stream_context_get_options($this->context);
 		$this->state = $context['nativesmb']['state'];
 		$this->handle = $context['nativesmb']['handle'];
+		$this->url = $context['nativesmb']['url'];
 		return true;
 	}
 
@@ -89,7 +98,11 @@ class NativeStream implements File {
 	}
 
 	public function stream_stat() {
-		return $this->state->fstat($this->handle);
+		try {
+			return $this->state->stat($this->url);
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	public function stream_tell() {

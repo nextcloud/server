@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Björn Schießle <schiessle@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
@@ -10,7 +10,7 @@
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -104,10 +104,10 @@ if (OC::checkUpgrade(false)) {
 		$config->setSystemValue('maintenance', false);
 	});
 	$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use($eventSource, $l) {
-		$eventSource->send('success', (string)$l->t('Set log level to debug - current level: "%s"', [ $logLevelName ]));
+		$eventSource->send('success', (string)$l->t('Set log level to debug'));
 	});
 	$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($eventSource, $l) {
-		$eventSource->send('success', (string)$l->t('Reset log level to  "%s"', [ $logLevelName ]));
+		$eventSource->send('success', (string)$l->t('Reset log level'));
 	});
 	$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Starting code integrity check'));

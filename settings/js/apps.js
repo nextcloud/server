@@ -3,8 +3,8 @@
 Handlebars.registerHelper('score', function() {
 	if(this.score) {
 		var score = Math.round( this.score / 10 );
-		var imageName = 'rating/s' + score + '.png';
-		
+		var imageName = 'rating/s' + score + '.svg';
+
 		return new Handlebars.SafeString('<img src="' + OC.imagePath('core', imageName) + '">');
 	}
 	return new Handlebars.SafeString('');
@@ -124,6 +124,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				$('.app-level .experimental').tipsy({fallback: t('settings', 'This app is not checked for security issues and is new or known to be unstable. Install at your own risk.')});
 			},
 			complete: function() {
+				var availableUpdates = 0;
 				$('#apps-list').removeClass('icon-loading');
 				$.ajax(OC.generateUrl('settings/apps/list?category={categoryId}&includeUpdateInfo=1', {
 					categoryId: categoryId
@@ -135,8 +136,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 								var $update = $('#app-' + app.id + ' .update');
 								$update.removeClass('hidden');
 								$update.val(t('settings', 'Update to %s').replace(/%s/g, app.update));
+								availableUpdates++;
+								OC.Settings.Apps.State.apps[app.id].update = true;
 							}
-						})
+						});
+
+						if (availableUpdates > 0) {
+							OC.Notification.show(n('settings', 'You have %n app update pending', 'You have %n app updates pending', availableUpdates));
+						}
 					}
 				});
 			}
@@ -152,6 +159,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			app = OC.Settings.Apps.State.apps[app];
 		}
 		app.firstExperimental = firstExperimental;
+
+		if (!app.preview) {
+			app.preview = OC.imagePath('core', 'default-app-icon');
+			app.previewAsIcon = true;
+		}
 
 		var html = template(app);
 		if (selector) {
@@ -176,7 +188,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		// set group select properly
 		if(OC.Settings.Apps.isType(app, 'filesystem') || OC.Settings.Apps.isType(app, 'prelogin') ||
-			OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging')) {
+			OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging') ||
+			OC.Settings.Apps.isType(app, 'prevent_group_restriction')) {
 			page.find(".groups-enable").hide();
 			page.find(".groups-enable__checkbox").attr('checked', null);
 		} else {
@@ -199,7 +212,19 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		return app.types && app.types.indexOf(type) !== -1;
 	},
 
+	/**
+	 * Checks the server health.
+	 *
+	 * If the promise fails, the server is broken.
+	 *
+	 * @return {Promise} promise
+	 */
+	_checkServerHealth: function() {
+		return $.get(OC.generateUrl('apps/files'));
+	},
+
 	enableApp:function(appId, active, element, groups) {
+		var self = this;
 		OC.Settings.Apps.hideErrorMessage(appId);
 		groups = groups || [];
 		var appItem = $('div#app-'+appId+'');
@@ -229,6 +254,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				}
 			},'json');
 		} else {
+			// TODO: display message to admin to not refresh the page!
+			// TODO: lock UI to prevent further operations
 			$.post(OC.filePath('settings','ajax','enableapp.php'),{appid: appId, groups: groups},function(result) {
 				if(!result || result.status !== 'success') {
 					if (result.data && result.data.message) {
@@ -241,35 +268,55 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					element.val(t('settings','Enable'));
 					appItem.addClass('appwarning');
 				} else {
-					if (result.data.update_required) {
-						OC.Settings.Apps.showReloadMessage();
+					self._checkServerHealth().done(function() {
+						if (result.data.update_required) {
+							OC.Settings.Apps.showReloadMessage();
 
-						setTimeout(function() {
-							location.reload();
-						}, 5000);
-					}
-
-					OC.Settings.Apps.rebuildNavigation();
-					appItem.data('active',true);
-					element.data('active',true);
-					appItem.addClass('active');
-					element.val(t('settings','Disable'));
-					var app = OC.Settings.Apps.State.apps[appId];
-					app.active = true;
-
-					if (OC.Settings.Apps.isType(app, 'filesystem') || OC.Settings.Apps.isType(app, 'prelogin') ||
-						OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging')) {
-						element.parent().find(".groups-enable").attr('checked', null);
-						element.parent().find(".groups-enable").hide();
-						element.parent().find('#group_select').hide().val(null);
-					} else {
-						element.parent().find("#groups-enable").show();
-						if (groups) {
-							appItem.data('groups', JSON.stringify(groups));
-						} else {
-							appItem.data('groups', '');
+							setTimeout(function() {
+								location.reload();
+							}, 5000);
 						}
-					}
+
+						OC.Settings.Apps.rebuildNavigation();
+						appItem.data('active',true);
+						element.data('active',true);
+						appItem.addClass('active');
+						element.val(t('settings','Disable'));
+						var app = OC.Settings.Apps.State.apps[appId];
+						app.active = true;
+
+						if (OC.Settings.Apps.isType(app, 'filesystem') || OC.Settings.Apps.isType(app, 'prelogin') ||
+							OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging')) {
+							element.parent().find(".groups-enable").attr('checked', null);
+							element.parent().find(".groups-enable").hide();
+							element.parent().find('#group_select').hide().val(null);
+						} else {
+							element.parent().find("#groups-enable").show();
+							if (groups) {
+								appItem.data('groups', JSON.stringify(groups));
+							} else {
+								appItem.data('groups', '');
+							}
+						}
+					}).fail(function() {
+						// server borked, emergency disable app
+						$.post(OC.webroot + '/index.php/disableapp', {appid: appId}, function() {
+							OC.Settings.Apps.showErrorMessage(
+								appId,
+								t('settings', 'Error: this app cannot be enabled because it makes the server unstable')
+							);
+							appItem.data('errormsg', t('settings', 'Error while enabling app'));
+							element.val(t('settings','Enable'));
+							appItem.addClass('appwarning');
+						}).fail(function() {
+							OC.Settings.Apps.showErrorMessage(
+								appId,
+								t('settings', 'Error: could not disable broken app')
+							);
+							appItem.data('errormsg', t('settings', 'Error while disabling broken app'));
+							element.val(t('settings','Enable'));
+						});
+					});
 				}
 			},'json')
 				.fail(function() {
@@ -422,6 +469,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			return app.name.toLowerCase().indexOf(query) !== -1;
 		});
 
+		// App ID
+		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+			return app.id.toLowerCase().indexOf(query) !== -1;
+		}));
+
 		// App Description
 		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
 			return app.description.toLowerCase().indexOf(query) !== -1;
@@ -454,7 +506,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (apps.length === 0) {
 			$appList.addClass('hidden');
 			$emptyList.removeClass('hidden');
-			$emptyList.removeClass('hidden').find('h2').text(t('settings', 'No apps found for "{query}"', {
+			$emptyList.removeClass('hidden').find('h2').text(t('settings', 'No apps found for {query}', {
 				query: query
 			}));
 		} else {

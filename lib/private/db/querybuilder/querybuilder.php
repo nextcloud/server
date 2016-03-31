@@ -1,8 +1,10 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,6 +23,13 @@
 
 namespace OC\DB\QueryBuilder;
 
+use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use OC\DB\OracleConnection;
+use OC\DB\QueryBuilder\ExpressionBuilder\ExpressionBuilder;
+use OC\DB\QueryBuilder\ExpressionBuilder\MySqlExpressionBuilder;
+use OC\DB\QueryBuilder\ExpressionBuilder\OCIExpressionBuilder;
+use OC\DB\QueryBuilder\ExpressionBuilder\PgSqlExpressionBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\DB\QueryBuilder\IQueryFunction;
 use OCP\DB\QueryBuilder\IParameter;
@@ -39,6 +48,9 @@ class QueryBuilder implements IQueryBuilder {
 
 	/** @var bool */
 	private $automaticTablePrefix = true;
+
+	/** @var string */
+	protected $lastInsertedTable;
 
 	/**
 	 * Initializes a new QueryBuilder.
@@ -79,7 +91,15 @@ class QueryBuilder implements IQueryBuilder {
 	 * @return \OCP\DB\QueryBuilder\IExpressionBuilder
 	 */
 	public function expr() {
-		return new ExpressionBuilder($this->connection);
+		if ($this->connection instanceof OracleConnection) {
+			return new OCIExpressionBuilder($this->connection);
+		} else if ($this->connection->getDatabasePlatform() instanceof PostgreSqlPlatform) {
+			return new PgSqlExpressionBuilder($this->connection);
+		} else if ($this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
+			return new MySqlExpressionBuilder($this->connection);
+		} else {
+			return new ExpressionBuilder($this->connection);
+		}
 	}
 
 	/**
@@ -150,7 +170,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @param string|integer $key The parameter position or name.
 	 * @param mixed $value The parameter value.
-	 * @param string|null $type One of the PDO::PARAM_* constants.
+	 * @param string|null $type One of the IQueryBuilder::PARAM_* constants.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 */
@@ -325,6 +345,28 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	/**
+	 * Specifies an item that is to be returned uniquely in the query result.
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->selectDistinct('type')
+	 *         ->from('users');
+	 * </code>
+	 *
+	 * @param mixed $select The selection expressions.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
+	 */
+	public function selectDistinct($select) {
+
+		$this->queryBuilder->addSelect(
+			'DISTINCT ' . $this->helper->quoteColumnName($select)
+		);
+
+		return $this;
+	}
+
+	/**
 	 * Adds an item that is to be returned in the query result.
 	 *
 	 * <code>
@@ -422,6 +464,8 @@ class QueryBuilder implements IQueryBuilder {
 		$this->queryBuilder->insert(
 			$this->getTableName($insert)
 		);
+
+		$this->lastInsertedTable = $insert;
 
 		return $this;
 	}
@@ -946,7 +990,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return IParameter the placeholder name used.
 	 */
-	public function createNamedParameter($value, $type = \PDO::PARAM_STR, $placeHolder = null) {
+	public function createNamedParameter($value, $type = IQueryBuilder::PARAM_STR, $placeHolder = null) {
 		return new Parameter($this->queryBuilder->createNamedParameter($value, $type, $placeHolder));
 	}
 
@@ -963,8 +1007,8 @@ class QueryBuilder implements IQueryBuilder {
 	 *  $qb = $conn->getQueryBuilder();
 	 *  $qb->select('u.*')
 	 *     ->from('users', 'u')
-	 *     ->where('u.username = ' . $qb->createPositionalParameter('Foo', PDO::PARAM_STR))
-	 *     ->orWhere('u.username = ' . $qb->createPositionalParameter('Bar', PDO::PARAM_STR))
+	 *     ->where('u.username = ' . $qb->createPositionalParameter('Foo', IQueryBuilder::PARAM_STR))
+	 *     ->orWhere('u.username = ' . $qb->createPositionalParameter('Bar', IQueryBuilder::PARAM_STR))
 	 * </code>
 	 *
 	 * @param mixed $value
@@ -972,7 +1016,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *
 	 * @return IParameter
 	 */
-	public function createPositionalParameter($value, $type = \PDO::PARAM_STR) {
+	public function createPositionalParameter($value, $type = IQueryBuilder::PARAM_STR) {
 		return new Parameter($this->queryBuilder->createPositionalParameter($value, $type));
 	}
 
@@ -985,7 +1029,7 @@ class QueryBuilder implements IQueryBuilder {
 	 *  $qb->select('u.*')
 	 *     ->from('users', 'u')
 	 *     ->where('u.username = ' . $qb->createParameter('name'))
-	 *     ->setParameter('name', 'Bar', PDO::PARAM_STR))
+	 *     ->setParameter('name', 'Bar', IQueryBuilder::PARAM_STR))
 	 * </code>
 	 *
 	 * @param string $name
@@ -1024,14 +1068,57 @@ class QueryBuilder implements IQueryBuilder {
 	}
 
 	/**
+	 * Used to get the id of the last inserted element
+	 * @return int
+	 * @throws \BadMethodCallException When being called before an insert query has been run.
+	 */
+	public function getLastInsertId() {
+		if ($this->getType() === \Doctrine\DBAL\Query\QueryBuilder::INSERT && $this->lastInsertedTable) {
+			// lastInsertId() needs the prefix but no quotes
+			$table = $this->prefixTableName($this->lastInsertedTable);
+			return (int) $this->connection->lastInsertId($table);
+		}
+
+		throw new \BadMethodCallException('Invalid call to getLastInsertId without using insert() before.');
+	}
+
+	/**
+	 * Returns the table name quoted and with database prefix as needed by the implementation
+	 *
 	 * @param string $table
 	 * @return string
 	 */
-	private function getTableName($table) {
+	public function getTableName($table) {
+		$table = $this->prefixTableName($table);
+		return $this->helper->quoteColumnName($table);
+	}
+
+	/**
+	 * Returns the table name with database prefix as needed by the implementation
+	 *
+	 * @param string $table
+	 * @return string
+	 */
+	protected function prefixTableName($table) {
 		if ($this->automaticTablePrefix === false || strpos($table, '*PREFIX*') === 0) {
-			return $this->helper->quoteColumnName($table);
+			return $table;
 		}
 
-		return $this->helper->quoteColumnName('*PREFIX*' . $table);
+		return '*PREFIX*' . $table;
+	}
+
+	/**
+	 * Returns the column name quoted and with table alias prefix as needed by the implementation
+	 *
+	 * @param string $column
+	 * @param string $tableAlias
+	 * @return string
+	 */
+	public function getColumnName($column, $tableAlias = '') {
+		if ($tableAlias !== '') {
+			$tableAlias .= '.';
+		}
+
+		return $this->helper->quoteColumnName($tableAlias . $column);
 	}
 }

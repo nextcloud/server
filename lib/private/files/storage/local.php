@@ -14,7 +14,7 @@
  * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -252,7 +252,15 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function free_space($path) {
-		$space = @disk_free_space($this->getSourcePath($path));
+		$sourcePath = $this->getSourcePath($path);
+		// using !is_dir because $sourcePath might be a part file or
+		// non-existing file, so we'd still want to use the parent dir
+		// in such cases
+		if (!is_dir($sourcePath)) {
+			// disk_free_space doesn't work on files
+			$sourcePath = dirname($sourcePath);
+		}
+		$space = @disk_free_space($sourcePath);
 		if ($space === false || is_null($space)) {
 			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 		}

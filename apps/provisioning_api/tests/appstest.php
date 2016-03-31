@@ -1,11 +1,13 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,6 +25,7 @@
  */
 
 namespace OCA\Provisioning_API\Tests;
+use OC\OCSClient;
 use OCA\Provisioning_API\Apps;
 use OCP\API;
 use OCP\App\IAppManager;
@@ -36,42 +39,43 @@ use OCP\IUserSession;
  * @package OCA\Provisioning_API\Tests
  */
 class AppsTest extends TestCase {
-
 	/** @var IAppManager */
 	private $appManager;
-
 	/** @var Apps */
 	private $api;
-
 	/** @var IUserSession */
 	private $userSession;
+	/** @var OCSClient */
+	private $ocsClient;
 
 	public function setup() {
 		parent::setup();
 		$this->appManager = \OC::$server->getAppManager();
 		$this->groupManager = \OC::$server->getGroupManager();
 		$this->userSession = \OC::$server->getUserSession();
-		$this->api = new Apps($this->appManager);
+		$this->ocsClient = $this->getMockBuilder('\OC\OCSClient')
+				->disableOriginalConstructor()->getMock();
+		$this->api = new Apps($this->appManager, $this->ocsClient);
 	}
 
 	public function testGetAppInfo() {
 		$result = $this->api->getAppInfo(['appid' => 'provisioning_api']);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
-
 	}
 
 	public function testGetAppInfoOnBadAppID() {
-
 		$result = $this->api->getAppInfo(['appid' => 'not_provisioning_api']);
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(API::RESPOND_NOT_FOUND, $result->getStatusCode());
-
 	}
 
 	public function testGetApps() {
-
+		$this->ocsClient
+				->expects($this->any())
+				->method($this->anything())
+				->will($this->returnValue(null));
 		$user = $this->generateUsers();
 		$this->groupManager->get('admin')->addUser($user);
 		$this->userSession->setUser($user);
@@ -80,27 +84,27 @@ class AppsTest extends TestCase {
 
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
-		$this->assertEquals(count(\OC_App::listAllApps()), count($data['apps']));
-
+		$this->assertEquals(count(\OC_App::listAllApps(false, true, $this->ocsClient)), count($data['apps']));
 	}
 
 	public function testGetAppsEnabled() {
-
 		$_GET['filter'] = 'enabled';
 		$result = $this->api->getApps(['filter' => 'enabled']);
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
 		$this->assertEquals(count(\OC_App::getEnabledApps()), count($data['apps']));
-
 	}
 
 	public function testGetAppsDisabled() {
-
+		$this->ocsClient
+				->expects($this->any())
+				->method($this->anything())
+				->will($this->returnValue(null));
 		$_GET['filter'] = 'disabled';
 		$result = $this->api->getApps(['filter' => 'disabled']);
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
-		$apps = \OC_App::listAllApps();
+		$apps = \OC_App::listAllApps(false, true, $this->ocsClient);
 		$list =  array();
 		foreach($apps as $app) {
 			$list[] = $app['id'];

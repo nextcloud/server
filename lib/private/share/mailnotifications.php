@@ -4,11 +4,12 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author scolebrook <scolebrook@mac.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -29,6 +30,7 @@ namespace OC\Share;
 
 use DateTime;
 use OCP\IL10N;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Mail\IMailer;
 use OCP\ILogger;
@@ -56,6 +58,8 @@ class MailNotifications {
 	private $defaults;
 	/** @var ILogger */
 	private $logger;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * @param IUser $user
@@ -63,17 +67,20 @@ class MailNotifications {
 	 * @param IMailer $mailer
 	 * @param ILogger $logger
 	 * @param Defaults $defaults
+	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(IUser $user,
 								IL10N $l10n,
 								IMailer $mailer,
 								ILogger $logger,
-								Defaults $defaults) {
+								Defaults $defaults,
+								IURLGenerator $urlGenerator) {
 		$this->l = $l10n;
 		$this->user = $user;
 		$this->mailer = $mailer;
 		$this->logger = $logger;
 		$this->defaults = $defaults;
+		$this->urlGenerator = $urlGenerator;
 
 		$this->replyTo = $this->user->getEMailAddress();
 		$this->senderDisplayName = $this->user->getDisplayName();
@@ -130,7 +137,10 @@ class MailNotifications {
 				);
 			}
 
-			$link = Util::linkToAbsolute('files', 'index.php', $args);
+			$link = $this->urlGenerator->linkToRouteAbsolute(
+				'files.view.index',
+				$args
+			);
 
 			list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration, 'internal');
 
@@ -170,16 +180,18 @@ class MailNotifications {
 	 * @param string $filename the shared file
 	 * @param string $link the public link
 	 * @param int $expiration expiration date (timestamp)
-	 * @return array $result of failed recipients
+	 * @return string[] $result of failed recipients
 	 */
 	public function sendLinkShareMail($recipient, $filename, $link, $expiration) {
 		$subject = (string)$this->l->t('%s shared »%s« with you', [$this->senderDisplayName, $filename]);
 		list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration);
 
+		$recipient = str_replace([', ', '; ', ',', ';', ' '], ',', $recipient);
+		$recipients = explode(',', $recipient);
 		try {
 			$message = $this->mailer->createMessage();
 			$message->setSubject($subject);
-			$message->setTo([$recipient]);
+			$message->setTo($recipients);
 			$message->setHtmlBody($htmlBody);
 			$message->setPlainBody($textBody);
 			$message->setFrom([
@@ -230,8 +242,8 @@ class MailNotifications {
 	}
 
 	/**
-	 * @param $itemSource
-	 * @param $itemType
+	 * @param string $itemSource
+	 * @param string $itemType
 	 * @param IUser $recipient
 	 * @return array
 	 */

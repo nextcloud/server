@@ -10,6 +10,7 @@ OC.L10N.register(
     "Close" : "Clauder",
     "Download" : "Discargar",
     "Delete" : "Deler",
+    "Unshare" : "Leva compartir",
     "Name" : "Nomine",
     "Size" : "Dimension",
     "Modified" : "Modificate",

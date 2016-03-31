@@ -1,9 +1,11 @@
-# Version: 9.0.0
 <IfModule mod_headers.c>
-  <IfModule mod_fcgid.c>
-    <IfModule mod_setenvif.c>
+  <IfModule mod_setenvif.c>
+    <IfModule mod_fcgid.c>
        SetEnvIfNoCase ^Authorization$ "(.+)" XAUTHORIZATION=$1
        RequestHeader set XAuthorization %{XAUTHORIZATION}e env=XAUTHORIZATION
+    </IfModule>
+    <IfModule mod_proxy_fcgi.c>
+       SetEnvIfNoCase Authorization "(.+)" HTTP_AUTHORIZATION=$1
     </IfModule>
   </IfModule>
 
@@ -13,6 +15,8 @@
     Header set X-XSS-Protection "1; mode=block"
     Header set X-Robots-Tag "none"
     Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Download-Options "noopen"
+    Header set X-Permitted-Cross-Domain-Policies "none"
     SetEnv modHeadersAvailable true
   </IfModule>
 
@@ -33,6 +37,17 @@
     SetEnv htaccessWorking true
   </IfModule>
 </IfModule>
+<IfModule mod_php7.c>
+  php_value upload_max_filesize 513M
+  php_value post_max_size 513M
+  php_value memory_limit 512M
+  php_value mbstring.func_overload 0
+  php_value default_charset 'UTF-8'
+  php_value output_buffering 0
+  <IfModule mod_env.c>
+    SetEnv htaccessWorking true
+  </IfModule>
+</IfModule>
 <IfModule mod_rewrite.c>
   RewriteEngine on
   RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -42,16 +57,15 @@
   RewriteRule ^\.well-known/caldav /remote.php/dav/ [R=301,L]
   RewriteRule ^remote/(.*) remote.php [QSA,L]
   RewriteRule ^(build|tests|config|lib|3rdparty|templates)/.* - [R=404,L]
+  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*
   RewriteRule ^(\.|autotest|occ|issue|indie|db_|console).* - [R=404,L]
 
   # Rewrite rules for `front_controller_active`
   Options -MultiViews
-  <IfModule mod_dir.c>
-    DirectorySlash off
-  </IfModule>
-  RewriteRule ^core/js/oc.js$ index.php/core/js/oc.js [PT,E=PATH_INFO:$1]
-  RewriteRule ^core/preview.png$ index.php/core/preview.png [PT,E=PATH_INFO:$1]
-  RewriteCond %{REQUEST_FILENAME} !\.(css|js|svg|gif|png|html|ttf|woff)$
+  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]
+  RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]
+  RewriteCond %{REQUEST_FILENAME} !\.(css|js|svg|gif|png|html|ttf|woff|ico|jpg|jpeg)$
+  RewriteCond %{REQUEST_FILENAME} !core/img/favicon.ico$
   RewriteCond %{REQUEST_FILENAME} !/remote.php
   RewriteCond %{REQUEST_FILENAME} !/public.php
   RewriteCond %{REQUEST_FILENAME} !/cron.php
@@ -59,7 +73,9 @@
   RewriteCond %{REQUEST_FILENAME} !/status.php
   RewriteCond %{REQUEST_FILENAME} !/ocs/v1.php
   RewriteCond %{REQUEST_FILENAME} !/ocs/v2.php
-  RewriteRule .* index.php [PT,E=PATH_INFO:$1]
+  RewriteCond %{REQUEST_FILENAME} !/updater/
+  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/
+  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*
 </IfModule>
 <IfModule mod_mime.c>
   AddType image/svg+xml svg svgz

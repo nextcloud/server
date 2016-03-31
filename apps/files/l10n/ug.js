@@ -17,6 +17,7 @@ OC.L10N.register(
     "Download" : "چۈشۈر",
     "Rename" : "ئات ئۆزگەرت",
     "Delete" : "ئۆچۈر",
+    "Unshare" : "ھەمبەھىرلىمە",
     "Pending" : "كۈتۈۋاتىدۇ",
     "Name" : "ئاتى",
     "Size" : "چوڭلۇقى",

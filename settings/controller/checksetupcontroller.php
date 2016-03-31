@@ -3,10 +3,10 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -271,6 +271,10 @@ class CheckSetupController extends Controller {
 	 * @return DataResponse
 	 */
 	public function getFailedIntegrityCheckFiles() {
+		if(!$this->checker->isCodeCheckEnforced()) {
+			return new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
+		}
+
 		$completeResults = $this->checker->getResults();
 
 		if(!empty($completeResults)) {
@@ -329,7 +333,6 @@ Raw output
 		return new DataResponse(
 			[
 				'serverHasInternetConnection' => $this->isInternetConnectionWorking(),
-				'dataDirectoryProtected' => $this->util->isHtaccessWorking($this->config),
 				'isMemcacheConfigured' => $this->isMemcacheConfigured(),
 				'memcacheDocs' => $this->urlGenerator->linkToDocs('admin-performance'),
 				'isUrandomAvailable' => $this->isUrandomAvailable(),

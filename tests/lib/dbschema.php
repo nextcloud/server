@@ -26,7 +26,7 @@ class Test_DBSchema extends \Test\TestCase {
 		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 		$dbfile2 = OC::$SERVERROOT.'/tests/data/db_structure2.xml';
 
-		$r = '_' . \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->
+		$r = '_' . \OC::$server->getSecureRandom()->
 			generate(4, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS) . '_';
 		$content = file_get_contents( $dbfile );
 		$content = str_replace( '*dbprefix*', '*dbprefix*'.$r, $content );
@@ -51,7 +51,7 @@ class Test_DBSchema extends \Test\TestCase {
 	 * @medium
 	 */
 	public function testSchema() {
-		$platform = \OC_DB::getConnection()->getDatabasePlatform();
+		$platform = \OC::$server->getDatabaseConnection()->getDatabasePlatform();
 		$this->doTestSchemaCreating();
 		$this->doTestSchemaChanging();
 		$this->doTestSchemaDumping();
@@ -94,7 +94,7 @@ class Test_DBSchema extends \Test\TestCase {
 	 * @param string $table
 	 */
 	public function assertTableNotExist($table) {
-		$platform = \OC_DB::getConnection()->getDatabasePlatform();
+		$platform = \OC::$server->getDatabaseConnection()->getDatabasePlatform();
 		if ($platform instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
 			// sqlite removes the tables after closing the DB
 			$this->assertTrue(true);

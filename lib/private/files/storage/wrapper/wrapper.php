@@ -2,11 +2,11 @@
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,9 +26,10 @@
 namespace OC\Files\Storage\Wrapper;
 
 use OCP\Files\InvalidPathException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\Lock\ILockingProvider;
 
-class Wrapper implements \OC\Files\Storage\Storage {
+class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -353,17 +354,6 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	}
 
 	/**
-	 * get the path to a local version of the folder.
-	 * The local version of the folder can be temporary and doesn't have to be persistent across requests
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	public function getLocalFolder($path) {
-		return $this->storage->getLocalFolder($path);
-	}
-
-	/**
 	 * check if a file or folder has been updated since $time
 	 *
 	 * @param string $path
@@ -583,7 +573,9 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	 * @throws \OCP\Lock\LockedException
 	 */
 	public function acquireLock($path, $type, ILockingProvider $provider) {
-		$this->storage->acquireLock($path, $type, $provider);
+		if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			$this->storage->acquireLock($path, $type, $provider);
+		}
 	}
 
 	/**
@@ -592,7 +584,9 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function releaseLock($path, $type, ILockingProvider $provider) {
-		$this->storage->releaseLock($path, $type, $provider);
+		if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			$this->storage->releaseLock($path, $type, $provider);
+		}
 	}
 
 	/**
@@ -601,6 +595,8 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
-		$this->storage->changeLock($path, $type, $provider);
+		if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			$this->storage->changeLock($path, $type, $provider);
+		}
 	}
 }

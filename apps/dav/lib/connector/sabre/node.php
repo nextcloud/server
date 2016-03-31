@@ -11,7 +11,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -230,7 +230,7 @@ abstract class Node implements \Sabre\DAV\INode {
 		if ($this->info->isDeletable()) {
 			$p .= 'D';
 		}
-		if ($this->info->isDeletable()) {
+		if ($this->info->isUpdateable()) {
 			$p .= 'NV'; // Renameable, Moveable
 		}
 		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {

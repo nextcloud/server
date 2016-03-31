@@ -4,7 +4,7 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -59,10 +59,11 @@ abstract class AbstractDatabase {
 
 	public function validate($config) {
 		$errors = array();
-		if(empty($config['dbuser'])) {
+		if(empty($config['dbuser']) && empty($config['dbname'])) {
+			$errors[] = $this->trans->t("%s enter the database username and name.", array($this->dbprettyname));
+		} else if(empty($config['dbuser'])) {
 			$errors[] = $this->trans->t("%s enter the database username.", array($this->dbprettyname));
-		}
-		if(empty($config['dbname'])) {
+		} else if(empty($config['dbname'])) {
 			$errors[] = $this->trans->t("%s enter the database name.", array($this->dbprettyname));
 		}
 		if(substr_count($config['dbname'], '.') >= 1) {
@@ -91,5 +92,8 @@ abstract class AbstractDatabase {
 		$this->tablePrefix = $dbTablePrefix;
 	}
 
+	/**
+	 * @param string $userName
+	 */
 	abstract public function setupDatabase($userName);
 }

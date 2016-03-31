@@ -5,7 +5,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -159,7 +159,7 @@ class AppSettingsController extends Controller {
 
 		if($this->ocsClient->isAppStoreEnabled()) {
 			// apps from external repo via OCS
-			$ocs = $this->ocsClient->getCategories(\OC_Util::getVersion());
+			$ocs = $this->ocsClient->getCategories(\OCP\Util::getVersion());
 			if ($ocs) {
 				foreach($ocs as $k => $v) {
 					$name = str_replace('ownCloud ', '', $v);
@@ -205,9 +205,10 @@ class AppSettingsController extends Controller {
 						}
 						return ($a < $b) ? -1 : 1;
 					});
+					$version = \OCP\Util::getVersion();
 					foreach($apps as $key => $app) {
 						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
-							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], \OC_Util::getVersion());
+							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], $version);
 
 							if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
 								$apps[$key]['level'] = $remoteAppEntry['level'];
@@ -217,13 +218,14 @@ class AppSettingsController extends Controller {
 					break;
 				// not-installed apps
 				case 1:
-					$apps = \OC_App::listAllApps(true, $includeUpdateInfo);
+					$apps = \OC_App::listAllApps(true, $includeUpdateInfo, $this->ocsClient);
 					$apps = array_filter($apps, function ($app) {
 						return !$app['active'];
 					});
+					$version = \OCP\Util::getVersion();
 					foreach($apps as $key => $app) {
 						if(!array_key_exists('level', $app) && array_key_exists('ocsid', $app)) {
-							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], \OC_Util::getVersion());
+							$remoteAppEntry = $this->ocsClient->getApplication($app['ocsid'], $version);
 
 							if(is_array($remoteAppEntry) && array_key_exists('level', $remoteAppEntry)) {
 								$apps[$key]['level'] = $remoteAppEntry['level'];
@@ -242,7 +244,7 @@ class AppSettingsController extends Controller {
 				default:
 					$filter = $this->config->getSystemValue('appstore.experimental.enabled', false) ? 'all' : 'approved';
 
-					$apps = \OC_App::getAppstoreApps($filter, $category);
+					$apps = \OC_App::getAppstoreApps($filter, $category, $this->ocsClient);
 					if (!$apps) {
 						$apps = array();
 					} else {
@@ -294,6 +296,9 @@ class AppSettingsController extends Controller {
 			$app['canInstall'] = empty($missing);
 			$app['missingDependencies'] = $missing;
 
+			$app['missingMinOwnCloudVersion'] = !isset($app['dependencies']['owncloud']['@attributes']['min-version']);
+			$app['missingMaxOwnCloudVersion'] = !isset($app['dependencies']['owncloud']['@attributes']['max-version']);
+
 			return $app;
 		}, $apps);
 
@@ -308,7 +313,7 @@ class AppSettingsController extends Controller {
 	 * @return array
 	 */
 	private function getInstalledApps($includeUpdateInfo = true) {
-		$apps = \OC_App::listAllApps(true, $includeUpdateInfo);
+		$apps = \OC_App::listAllApps(true, $includeUpdateInfo, $this->ocsClient);
 		$apps = array_filter($apps, function ($app) {
 			return $app['active'];
 		});

@@ -8,15 +8,16 @@
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Stephan Peijnik <speijnik@anexia-it.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -35,9 +36,9 @@
 
 OC_Util::checkSubAdminUser();
 
-OC_App::setActiveNavigationEntry( 'core_users' );
+\OC::$server->getNavigationManager()->setActiveEntry('core_users');
 
-$userManager = \OC_User::getManager();
+$userManager = \OC::$server->getUserManager();
 $groupManager = \OC_Group::getManager();
 
 // Set the sort option: SORT_USERCOUNT or SORT_GROUPNAME
@@ -103,6 +104,8 @@ $defaultQuota=$config->getAppValue('files', 'default_quota', 'none');
 $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false
 	&& array_search($defaultQuota, array('none', 'default'))===false;
 
+\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Users::loadAdditionalScripts');
+
 $tmpl = new OC_Template("settings", "users/main", "user");
 $tmpl->assign('groups', $groups);
 $tmpl->assign('sortGroups', $sortGroupsBy);
@@ -114,7 +117,7 @@ $tmpl->assign('quota_preset', $quotaPreset);
 $tmpl->assign('default_quota', $defaultQuota);
 $tmpl->assign('defaultQuotaIsUserDefined', $defaultQuotaIsUserDefined);
 $tmpl->assign('recoveryAdminEnabled', $recoveryAdminEnabled);
-$tmpl->assign('enableAvatars', \OC::$server->getConfig()->getSystemValue('enable_avatars', true));
+$tmpl->assign('enableAvatars', \OC::$server->getConfig()->getSystemValue('enable_avatars', true) === true);
 
 $tmpl->assign('show_storage_location', $config->getAppValue('core', 'umgmt_show_storage_location', 'false'));
 $tmpl->assign('show_last_login', $config->getAppValue('core', 'umgmt_show_last_login', 'false'));

@@ -6,7 +6,7 @@
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Tom Needham <tom@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -130,8 +130,8 @@ class Groups{
 	public function addGroup($parameters) {
 		// Validate name
 		$groupId = $this->request->getParam('groupid', '');
-		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $groupId ) || empty($groupId)){
-			\OCP\Util::writeLog('provisioning_api', 'Attempt made to create group using invalid characters.', \OCP\Util::ERROR);
+		if(empty($groupId)){
+			\OCP\Util::writeLog('provisioning_api', 'Group name not supplied', \OCP\Util::ERROR);
 			return new OC_OCS_Result(null, 101, 'Invalid group name');
 		}
 		// Check if it exists

@@ -39,13 +39,22 @@ class Connection extends RawConnection {
 		if (!$this->isValid()) {
 			throw new ConnectionException('Connection not valid');
 		}
-		$line = $this->readLine(); //first line is prompt
-		$this->checkConnectionError($line);
+		$promptLine = $this->readLine(); //first line is prompt
+		$this->checkConnectionError($promptLine);
 
 		$output = array();
 		$line = $this->readLine();
 		if ($line === false) {
-			throw new ConnectException('Unknown error');
+			if ($promptLine) { //maybe we have some error we missed on the previous line
+				throw new ConnectException('Unknown error (' . $promptLine . ')');
+			} else {
+				$error = $this->readError(); // maybe something on stderr
+				if ($error) {
+					throw new ConnectException('Unknown error (' . $error . ')');
+				} else {
+					throw new ConnectException('Unknown error');
+				}
+			}
 		}
 		$length = mb_strlen(self::DELIMITER);
 		while (mb_substr($line, 0, $length) !== self::DELIMITER) { //next prompt functions as delimiter

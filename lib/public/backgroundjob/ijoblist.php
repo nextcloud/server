@@ -1,11 +1,11 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -36,7 +36,6 @@ interface IJobList {
 	 *
 	 * @param \OCP\BackgroundJob\IJob|string $job
 	 * @param mixed $argument The argument to be passed to $job->run() when the job is exectured
-	 * @return void
 	 * @since 7.0.0
 	 */
 	public function add($job, $argument = null);
@@ -46,7 +45,6 @@ interface IJobList {
 	 *
 	 * @param \OCP\BackgroundJob\IJob|string $job
 	 * @param mixed $argument
-	 * @return void
 	 * @since 7.0.0
 	 */
 	public function remove($job, $argument = null);
@@ -66,20 +64,22 @@ interface IJobList {
 	 *
 	 * @return \OCP\BackgroundJob\IJob[]
 	 * @since 7.0.0
+	 * @deprecated 9.0.0 - This method is dangerous since it can cause load and
+	 * memory problems when creating too many instances.
 	 */
 	public function getAll();
 
 	/**
 	 * get the next job in the list
 	 *
-	 * @return \OCP\BackgroundJob\IJob
+	 * @return \OCP\BackgroundJob\IJob|null
 	 * @since 7.0.0
 	 */
 	public function getNext();
 
 	/**
 	 * @param int $id
-	 * @return \OCP\BackgroundJob\IJob
+	 * @return \OCP\BackgroundJob\IJob|null
 	 * @since 7.0.0
 	 */
 	public function getById($id);
@@ -88,7 +88,6 @@ interface IJobList {
 	 * set the job that was last ran to the current time
 	 *
 	 * @param \OCP\BackgroundJob\IJob $job
-	 * @return void
 	 * @since 7.0.0
 	 */
 	public function setLastJob($job);
@@ -105,7 +104,6 @@ interface IJobList {
 	 * set the lastRun of $job to now
 	 *
 	 * @param \OCP\BackgroundJob\IJob $job
-	 * @return void
 	 * @since 7.0.0
 	 */
 	public function setLastRun($job);

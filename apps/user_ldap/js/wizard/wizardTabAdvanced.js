@@ -55,6 +55,10 @@ OCA = OCA || {};
 					$element: $('#ldap_display_name'),
 					setMethod: 'setUserDisplayName'
 				},
+				ldap_user_display_name_2: {
+					$element: $('#ldap_user_display_name_2'),
+					setMethod: 'setUserDisplayName2'
+				},
 				ldap_base_users: {
 					$element: $('#ldap_base_users'),
 					setMethod: 'setBaseDNUsers'
@@ -78,6 +82,10 @@ OCA = OCA || {};
 				ldap_group_member_assoc_attribute: {
 					$element: $('#ldap_group_member_assoc_attribute'),
 					setMethod: 'setGroupMemberAssociationAttribute'
+				},
+				ldap_dynamic_group_member_url: {
+					$element: $('#ldap_dynamic_group_member_url'),
+					setMethod: 'setDynamicGroupMemberURL'
 				},
 				ldap_nested_groups: {
 					$element: $('#ldap_nested_groups'),
@@ -191,6 +199,15 @@ OCA = OCA || {};
 		},
 
 		/**
+		 * sets the additional user display name attribute
+		 *
+		 * @param {string} attribute
+		 */
+		setUserDisplayName2: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_user_display_name_2.$element, attribute);
+		},
+
+		/**
 		 * sets the Base DN for users
 		 *
 		 * @param {string} base
@@ -244,6 +261,15 @@ OCA = OCA || {};
 			this.setElementValue(this.managedItems.ldap_group_member_assoc_attribute.$element, attribute);
 		},
 
+		/**
+		  * sets the dynamic group member url attribute
+		  *
+		  * @param {string} attribute
+		  */
+		setDynamicGroupMemberURL: function(attribute) {
+			this.setElementValue(this.managedItems.ldap_dynamic_group_member_url.$element, attribute);
+		},
+                
 		/**
 		 * enabled or disables the use of nested groups (groups in groups in
 		 * groups…)

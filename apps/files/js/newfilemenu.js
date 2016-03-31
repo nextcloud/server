@@ -27,7 +27,7 @@
 	var TEMPLATE_FILENAME_FORM =
 		'<form class="filenameform">' +
 		'<label class="hidden-visually" for="{{cid}}-input-{{fileType}}">{{fileName}}</label>' +
-		'<input id="{{cid}}-input-{{fileType}}" type="text" value="{{fileName}}">' +
+		'<input id="{{cid}}-input-{{fileType}}" type="text" value="{{fileName}}" autocomplete="off" autocapitalize="off">' +
 		'</form>';
 
 	/**

@@ -3,7 +3,7 @@
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -158,12 +158,22 @@ abstract class AbstractMapping {
 	}
 
 	/**
-	 * Gets the name based on the provided LDAP DN.
+	 * Gets the name based on the provided LDAP UUID.
 	 * @param string $uuid
 	 * @return string|false
 	 */
 	public function getNameByUUID($uuid) {
 		return $this->getXbyY('owncloud_name', 'directory_uuid', $uuid);
+	}
+
+	/**
+	 * Gets the UUID based on the provided LDAP DN
+	 * @param string $dn
+	 * @return false|string
+	 * @throws \Exception
+	 */
+	public function getUUIDByDN($dn) {
+		return $this->getXbyY('directory_uuid', 'ldap_dn', $dn);
 	}
 
 	/**

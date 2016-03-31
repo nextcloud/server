@@ -93,8 +93,9 @@
 			this.$el.find('.expirationDateContainer').toggleClass('hidden', !state);
 			if (!state) {
 				// discard expiration date
-				this.model.setExpirationDate('');
-				this.model.saveLinkShare();
+				this.model.saveLinkShare({
+					expireDate: ''
+				});
 			}
 		},
 
@@ -103,8 +104,9 @@
 			$target.tooltip('hide');
 			$target.removeClass('error');
 
-			this.model.setExpirationDate($target.val());
-			this.model.saveLinkShare(null, {
+			this.model.saveLinkShare({
+				expiration: moment($target.val(), 'DD-MM-YYYY').format('YYYY-MM-DD')
+			}, {
 				error: function(model, message) {
 					if (!message) {
 						$target.attr('title', t('core', 'Error setting expiration date'));

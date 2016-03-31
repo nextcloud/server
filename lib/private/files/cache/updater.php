@@ -1,13 +1,12 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,12 +24,14 @@
  */
 
 namespace OC\Files\Cache;
+use OCP\Files\Cache\IUpdater;
+use OCP\Files\Storage\IStorage;
 
 /**
  * Update the cache and propagate changes
  *
  */
-class Updater {
+class Updater implements IUpdater {
 	/**
 	 * @var bool
 	 */
@@ -117,9 +118,15 @@ class Updater {
 		}
 
 		$data = $this->scanner->scan($path, Scanner::SCAN_SHALLOW, -1, false);
+		if (isset($data['oldSize']) && isset($data['size'])) {
+			$sizeDifference = $data['size'] - $data['oldSize'];
+		} else {
+			// scanner didn't provide size info, fallback to full size calculation
+			$sizeDifference = 0;
+			$this->cache->correctFolderSize($path, $data);
+		}
 		$this->correctParentStorageMtime($path);
-		$this->cache->correctFolderSize($path, $data);
-		$this->propagator->propagateChange($path, $time);
+		$this->propagator->propagateChange($path, $time, $sizeDifference);
 	}
 
 	/**
@@ -146,18 +153,18 @@ class Updater {
 	/**
 	 * Rename a file or folder in the cache and update the size, etag and mtime of the parent folders
 	 *
-	 * @param \OC\Files\Storage\Storage $sourceStorage
+	 * @param IStorage $sourceStorage
 	 * @param string $source
 	 * @param string $target
 	 */
-	public function renameFromStorage(\OC\Files\Storage\Storage $sourceStorage, $source, $target) {
+	public function renameFromStorage(IStorage $sourceStorage, $source, $target) {
 		if (!$this->enabled or Scanner::isPartialFile($source) or Scanner::isPartialFile($target)) {
 			return;
 		}
 
 		$time = time();
 
-		$sourceCache = $sourceStorage->getCache($source);
+		$sourceCache = $sourceStorage->getCache();
 		$sourceUpdater = $sourceStorage->getUpdater();
 		$sourcePropagator = $sourceStorage->getPropagator();
 
@@ -182,7 +189,9 @@ class Updater {
 
 		$sourceCache->correctFolderSize($source);
 		$this->cache->correctFolderSize($target);
-		$sourceUpdater->correctParentStorageMtime($source);
+		if ($sourceUpdater instanceof Updater) {
+			$sourceUpdater->correctParentStorageMtime($source);
+		}
 		$this->correctParentStorageMtime($target);
 		$this->updateStorageMTimeOnly($target);
 		$sourcePropagator->propagateChange($source, $time);
@@ -206,7 +215,7 @@ class Updater {
 	 *
 	 * @param string $internalPath
 	 */
-	public function correctParentStorageMtime($internalPath) {
+	private function correctParentStorageMtime($internalPath) {
 		$parentId = $this->cache->getParentId($internalPath);
 		$parent = dirname($internalPath);
 		if ($parentId != -1) {

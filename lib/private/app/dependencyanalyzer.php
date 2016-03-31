@@ -6,7 +6,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -73,7 +73,7 @@ class DependencyAnalyzer {
 	 * 5.2.6.5 and 5.1 will be turned into 5.2 and 5.1
 	 * @param string $first
 	 * @param string $second
-	 * @return array first element is the first version, second element is the
+	 * @return string[] first element is the first version, second element is the
 	 * second version
 	 */
 	private function normalizeVersions($first, $second) {

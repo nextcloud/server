@@ -4,7 +4,7 @@
 				<tr>
 					<td bgcolor="<?php p($theme->getMailHeaderColor());?>" width="20px">&nbsp;</td>
 					<td bgcolor="<?php p($theme->getMailHeaderColor());?>">
-						<img src="<?php p(OC_Helper::makeURLAbsolute(image_path('', 'logo-mail.gif'))); ?>" alt="<?php p($theme->getName()); ?>"/>
+						<img src="<?php p(\OC::$server->getURLGenerator()->getAbsoluteURL(image_path('', 'logo-mail.gif'))); ?>" alt="<?php p($theme->getName()); ?>"/>
 					</td>
 				</tr>
 				<tr><td colspan="2">&nbsp;</td></tr>

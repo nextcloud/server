@@ -1,6 +1,8 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Failed to clear the mappings." : "Неуспешно бришење на мапирањстс.",
+    "Select groups" : "Одбери групи",
     "Confirm Deletion" : "Потврдете го бришењето",
     "Users" : "Корисници",
     "Groups" : "Групи",

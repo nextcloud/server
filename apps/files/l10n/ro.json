@@ -32,6 +32,8 @@
     "Download" : "Descarcă",
     "Rename" : "Redenumește",
     "Delete" : "Șterge",
+    "Disconnect storage" : "Deconectează stocarea",
+    "Unshare" : "Nu mai partaja",
     "Details" : "Detalii",
     "Select" : "Alege",
     "Pending" : "În așteptare",
@@ -72,13 +74,10 @@
     "Save" : "Salvează",
     "Settings" : "Setări",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Folosește această adresă <a href=\"%s\" target=\"_blank\">pentru acces la fișierele tale folosind WebDAV</a>",
     "Cancel upload" : "Anulează încărcarea",
     "Select all" : "Selectează tot",
     "Upload too large" : "Fișierul încărcat este prea mare",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fișierele pe care încerci să le încarci depășesc limita de încărcare maximă admisă pe acest server.",
-    "Files are being scanned, please wait." : "Fișierele sunt scanate, te rog așteaptă.",
-    "Currently scanning" : "Acum scanează",
     "Text file" : "Fișier text"
 },"pluralForm" :"nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));"
 }

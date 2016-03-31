@@ -5,7 +5,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@
 namespace OC\Files\ObjectStore;
 
 use Icewind\Streams\IteratorDirectory;
+use OC\Files\Cache\CacheEntry;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common {
@@ -37,6 +38,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	 * @var \OCP\Files\ObjectStore\IObjectStore $objectStore
 	 */
 	protected $objectStore;
+	/**
+	 * @var string $id
+	 */
+	protected $id;
 	/**
 	 * @var \OC\User\User $user
 	 */
@@ -192,7 +197,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function stat($path) {
 		$path = $this->normalizePath($path);
-		return $this->getCache()->get($path);
+		$cacheEntry = $this->getCache()->get($path);
+		if ($cacheEntry instanceof CacheEntry) {
+			return $cacheEntry->getData();
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -274,7 +284,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = \OC_Helper::tmpFile($ext);
+				$tmpFile = \OC::$server->getTempManager()->getTemporaryFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
@@ -329,7 +339,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			$stat['mtime'] = $mtime;
 			$this->getCache()->update($stat['fileid'], $stat);
 		} else {
-			$mimeType = \OC_Helper::getFileNameMimeType($path);
+			$mimeType = \OC::$server->getMimeTypeDetector()->detectPath($path);
 			// create new file
 			$stat = array(
 				'etag' => $this->getETag($path),

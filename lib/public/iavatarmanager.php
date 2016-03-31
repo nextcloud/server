@@ -3,9 +3,10 @@
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -36,6 +37,8 @@ interface IAvatarManager {
 	 * @see \OCP\IAvatar
 	 * @param string $user the ownCloud user id
 	 * @return \OCP\IAvatar
+	 * @throws \Exception In case the username is potentially dangerous
+	 * @throws \OCP\Files\NotFoundException In case there is no user folder yet
 	 * @since 6.0.0
 	 */
 	public function getAvatar($user);

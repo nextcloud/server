@@ -64,8 +64,12 @@ var UserList = {
 		/**
 		 * Avatar or placeholder
 		 */
-		if ($tr.find('div.avatardiv').length){
-			$('div.avatardiv', $tr).avatar(user.name, 32, undefined, undefined, undefined, user.displayname);
+		if ($tr.find('div.avatardiv').length) {
+			if (user.isAvatarAvailable === true) {
+				$('div.avatardiv', $tr).avatar(user.name, 32, undefined, undefined, undefined, user.displayname);
+			} else {
+				$('div.avatardiv', $tr).imageplaceholder(user.displayname, undefined, 32);
+			}
 		}
 
 		/**
@@ -255,6 +259,10 @@ var UserList = {
 		}
 	},
 	doSort: function() {
+		// some browsers like Chrome lose the scrolling information
+		// when messing with the list elements
+		var lastScrollTop = this.scrollArea.scrollTop();
+		var lastScrollLeft = this.scrollArea.scrollLeft();
 		var rows = $userListBody.find('tr').get();
 
 		rows.sort(function(a, b) {
@@ -280,6 +288,8 @@ var UserList = {
 		if(items.length > 0) {
 			$userListBody.append(items);
 		}
+		this.scrollArea.scrollTop(lastScrollTop);
+		this.scrollArea.scrollLeft(lastScrollLeft);
 	},
 	checkUsersToLoad: function() {
 		//30 shall be loaded initially, from then on always 10 upon scrolling
@@ -601,10 +611,11 @@ $(document).ready(function () {
 	// Implements User Search
 	OCA.Search.users= new UserManagementFilter(UserList, GroupList);
 
+	UserList.scrollArea = $('#app-content');
+
 	UserList.doSort();
 	UserList.availableGroups = $userList.data('groups');
 
-	UserList.scrollArea = $('#app-content');
 	UserList.scrollArea.scroll(function(e) {UserList._onScroll(e);});
 
 	$userList.after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
@@ -646,7 +657,7 @@ $(document).ready(function () {
 							{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 							function (result) {
 								if (result.status != 'success') {
-									OC.Notification.show(t('admin', result.data.message));
+									OC.Notification.showTemporary(t('admin', result.data.message));
 								}
 							}
 						);
@@ -694,6 +705,8 @@ $(document).ready(function () {
 								}
 							}
 						);
+						var displayName = $input.val();
+						$tr.data('displayname', displayName);
 						$input.blur();
 					} else {
 						$input.blur();
@@ -701,8 +714,7 @@ $(document).ready(function () {
 				}
 			})
 			.blur(function () {
-				var displayName = $input.val();
-				$tr.data('displayname', displayName);
+				var displayName = $tr.data('displayname');
 				$input.replaceWith('<span>' + escapeHTML(displayName) + '</span>');
 				$td.find('img').show();
 			});
@@ -716,34 +728,46 @@ $(document).ready(function () {
 		var mailAddress = escapeHTML(UserList.getMailAddress($td));
 		var $input = $('<input type="text">').val(mailAddress);
 		$td.children('span').replaceWith($input);
+		$td.find('img').hide();
 		$input
 			.focus()
 			.keypress(function (event) {
 				if (event.keyCode === 13) {
-					if ($(this).val().length > 0) {
-						$input.blur();
-						$.ajax({
-							type: 'PUT',
-							url: OC.generateUrl('/settings/users/{id}/mailAddress', {id: uid}),
-							data: {
-								mailAddress: $(this).val()
-							}
-						}).fail(function (result) {
-							OC.Notification.show(result.responseJSON.data.message);
-							// reset the values
-							$tr.data('mailAddress', mailAddress);
-							$tr.children('.mailAddress').children('span').text(mailAddress);
-						});
-					} else {
-						$input.blur();
-					}
+					// enter key
+
+					var mailAddress = $input.val();
+					$td.find('.loading-small').css('display', 'inline-block');
+					$input.css('padding-right', '26px');
+					$input.attr('disabled', 'disabled');
+					$.ajax({
+						type: 'PUT',
+						url: OC.generateUrl('/settings/users/{id}/mailAddress', {id: uid}),
+						data: {
+							mailAddress: $(this).val()
+						}
+					}).success(function () {
+						// set data attribute to new value
+						// will in blur() be used to show the text instead of the input field
+						$tr.data('mailAddress', mailAddress);
+						$td.find('.loading-small').css('display', '');
+						$input.removeAttr('disabled')
+							.triggerHandler('blur'); // needed instead of $input.blur() for Firefox
+					}).fail(function (result) {
+						OC.Notification.showTemporary(result.responseJSON.data.message);
+						$td.find('.loading-small').css('display', '');
+						$input.removeAttr('disabled')
+							.css('padding-right', '6px');
+					});
 				}
 			})
 			.blur(function () {
-				var mailAddress = $input.val();
-				var $span = $('<span>').text(mailAddress);
-				$tr.data('mailAddress', mailAddress);
+				if($td.find('.loading-small').css('display') === 'inline-block') {
+					// in Chrome the blur event is fired too early by the browser - even if the request is still running
+					return;
+				}
+				var $span = $('<span>').text($tr.data('mailAddress'));
 				$input.replaceWith($span);
+				$td.find('img').show();
 			});
 	});
 
@@ -758,24 +782,24 @@ $(document).ready(function () {
 		var password = $('#newuserpassword').val();
 		var email = $('#newemail').val();
 		if ($.trim(username) === '') {
-			OC.dialogs.alert(
-				t('settings', 'A valid username must be provided'),
-				t('settings', 'Error creating user'));
+			OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
+				message: t('settings', 'A valid username must be provided')
+			}));
 			return false;
 		}
 		if ($.trim(password) === '') {
-			OC.dialogs.alert(
-				t('settings', 'A valid password must be provided'),
-				t('settings', 'Error creating user'));
+			OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
+				message: t('settings', 'A valid password must be provided')
+			}));
 			return false;
 		}
 		if(!$('#CheckboxMailOnUserCreate').is(':checked')) {
 			email = '';
 		}
 		if ($('#CheckboxMailOnUserCreate').is(':checked') && $.trim(email) === '') {
-			OC.dialogs.alert(
-				t('settings', 'A valid email must be provided'),
-				t('settings', 'Error creating user'));
+			OC.Notification.showTemporary( t('settings', 'Error creating user: {message}', {
+				message: t('settings', 'A valid email must be provided')
+			}));
 			return false;
 		}
 
@@ -813,8 +837,10 @@ $(document).ready(function () {
 					}
 					$('#newusername').focus();
 					GroupList.incEveryoneCount();
-				}).fail(function(result, textStatus, errorThrown) {
-					OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating user'));
+				}).fail(function(result) {
+					OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
+						message: result.responseJSON.message
+					}));
 				}).success(function(){
 					$('#newuser').get(0).reset();
 				});

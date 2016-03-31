@@ -8,8 +8,9 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -30,21 +31,21 @@ OC_Util::checkLoggedIn();
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );
-OC_App::setActiveNavigationEntry( "help" );
+\OC::$server->getNavigationManager()->setActiveEntry('help');
 
 
 if(isset($_GET['mode']) and $_GET['mode'] === 'admin') {
-	$url=OC_Helper::linkToAbsolute( 'core', 'doc/admin/index.html' );
+	$url=\OCP\Util::linkToAbsolute( 'core', 'doc/admin/index.html' );
 	$style1='';
 	$style2=' active';
 }else{
-	$url=OC_Helper::linkToAbsolute( 'core', 'doc/user/index.html' );
+	$url=\OCP\Util::linkToAbsolute( 'core', 'doc/user/index.html' );
 	$style1=' active';
 	$style2='';
 }
 
-$url1=OC_Helper::linkToRoute( "settings_help" ).'?mode=user';
-$url2=OC_Helper::linkToRoute( "settings_help" ).'?mode=admin';
+$url1=\OC::$server->getURLGenerator()->linkToRoute('settings_help').'?mode=user';
+$url2=\OC::$server->getURLGenerator()->linkToRoute('settings_help').'?mode=admin';
 
 $tmpl = new OC_Template( "settings", "help", "user" );
 $tmpl->assign( "admin", OC_User::isAdminUser(OC_User::getUser()));

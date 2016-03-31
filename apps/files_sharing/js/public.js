@@ -102,12 +102,12 @@ OCA.Sharing.PublicApp = {
 
 		// dynamically load image previews
 		var bottomMargin = 350;
-		var previewWidth = Math.ceil($(window).width() * window.devicePixelRatio);
-		var previewHeight = Math.ceil(($(window).height() - bottomMargin) * window.devicePixelRatio);
+		var previewWidth = $(window).width();
+		var previewHeight = $(window).height() - bottomMargin;
 		previewHeight = Math.max(200, previewHeight);
 		var params = {
-			x: previewWidth,
-			y: previewHeight,
+			x: Math.ceil(previewWidth * window.devicePixelRatio),
+			y: Math.ceil(previewHeight * window.devicePixelRatio),
 			a: 'true',
 			file: encodeURIComponent(this.initialDir + $('#filename').val()),
 			t: token,
@@ -115,6 +115,10 @@ OCA.Sharing.PublicApp = {
 		};
 
 		var img = $('<img class="publicpreview" alt="">');
+		img.css({
+			'max-width': previewWidth,
+			'max-height': previewHeight
+		});
 
 		var fileSize = parseInt($('#filesize').val(), 10);
 		var maxGifSize = parseInt($('#maxSizeAnimateGif').val(), 10);
@@ -150,16 +154,15 @@ OCA.Sharing.PublicApp = {
 			// TODO: move this to a separate PublicFileList class that extends OCA.Files.FileList (+ unit tests)
 			this.fileList.getDownloadUrl = function (filename, dir, isDir) {
 				var path = dir || this.getCurrentDirectory();
-				if (filename && !_.isArray(filename) && !isDir) {
-					return OC.getRootPath() + '/public.php/webdav' + OC.joinPaths(path, filename);
-				}
 				if (_.isArray(filename)) {
 					filename = JSON.stringify(filename);
 				}
 				var params = {
-					path: path,
-					files: filename
+					path: path
 				};
+				if (filename) {
+					params.files = filename;
+				}
 				return OC.generateUrl('/s/' + token + '/download') + '?' + OC.buildQueryString(params);
 			};
 
@@ -238,9 +241,10 @@ OCA.Sharing.PublicApp = {
 			var remote = $(this).find('input[type="text"]').val();
 			var token = $('#sharingToken').val();
 			var owner = $('#save').data('owner');
+			var ownerDisplayName = $('#save').data('owner-display-name');
 			var name = $('#save').data('name');
 			var isProtected = $('#save').data('protected') ? 1 : 0;
-			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token, owner, name, isProtected);
+			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token, owner, ownerDisplayName, name, isProtected);
 		});
 
 		$('#remote_address').on("keyup paste", function() {
@@ -287,7 +291,7 @@ OCA.Sharing.PublicApp = {
 		this.fileList.changeDirectory(params.path || params.dir, false, true);
 	},
 
-	_saveToOwnCloud: function (remote, token, owner, name, isProtected) {
+	_saveToOwnCloud: function (remote, token, owner, ownerDisplayName, name, isProtected) {
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
 		
 		if(remote.substr(-1) !== '/') {
@@ -295,7 +299,7 @@ OCA.Sharing.PublicApp = {
 		};
 
 		var url = remote + 'index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
-			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) + "&name=" + encodeURIComponent(name) + "&protected=" + isProtected;
+			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) +"&ownerDisplayName=" + encodeURIComponent(ownerDisplayName) + "&name=" + encodeURIComponent(name) + "&protected=" + isProtected;
 
 
 		if (remote.indexOf('://') > 0) {

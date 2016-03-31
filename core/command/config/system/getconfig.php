@@ -2,7 +2,7 @@
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -48,8 +48,8 @@ class GetConfig extends Base {
 			->setDescription('Get a system config value')
 			->addArgument(
 				'name',
-				InputArgument::REQUIRED,
-				'Name of the config to get'
+				InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+				'Name of the config to get, specify multiple for array parameter'
 			)
 			->addOption(
 				'default-value',
@@ -68,7 +68,8 @@ class GetConfig extends Base {
 	 * @return null|int null or 0 if everything went fine, or an error code
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$configName = $input->getArgument('name');
+		$configNames = $input->getArgument('name');
+		$configName = array_shift($configNames);
 		$defaultValue = $input->getOption('default-value');
 
 		if (!in_array($configName, $this->systemConfig->getKeys()) && !$input->hasParameterOption('--default-value')) {
@@ -79,6 +80,18 @@ class GetConfig extends Base {
 			$configValue = $defaultValue;
 		} else {
 			$configValue = $this->systemConfig->getValue($configName);
+			if (!empty($configNames)) {
+				foreach ($configNames as $configName) {
+					if (isset($configValue[$configName])) {
+						$configValue = $configValue[$configName];
+					} else if (!$input->hasParameterOption('--default-value')) {
+						return 1;
+					} else {
+						$configValue = $defaultValue;
+						break;
+					}
+				}
+			}
 		}
 
 		$this->writeMixedInOutputFormat($input, $output, $configValue);

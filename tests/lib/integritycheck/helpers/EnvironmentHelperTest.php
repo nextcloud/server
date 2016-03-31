@@ -25,8 +25,19 @@ use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use Test\TestCase;
 
 class EnvironmentHelperTest extends TestCase {
+	/** @var EnvironmentHelper */
+	private $environmentHelper;
+
+	public function setUp() {
+		$this->environmentHelper = new EnvironmentHelper();
+		return parent::setUp();
+	}
+
 	public function testGetServerRoot() {
-		$factory = new EnvironmentHelper();
-		$this->assertSame(\OC::$SERVERROOT, $factory->getServerRoot());
+		$this->assertSame(\OC::$SERVERROOT, $this->environmentHelper->getServerRoot());
+	}
+
+	public function testGetChannel() {
+		$this->assertSame(\OC_Util::getChannel(), $this->environmentHelper->getChannel());
 	}
 }

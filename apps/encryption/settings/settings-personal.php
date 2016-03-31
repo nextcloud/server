@@ -4,7 +4,7 @@
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -28,7 +28,8 @@ $template = new OCP\Template('encryption', 'settings-personal');
 $crypt = new \OCA\Encryption\Crypto\Crypt(
 	\OC::$server->getLogger(),
 	$userSession,
-	\OC::$server->getConfig());
+	\OC::$server->getConfig(),
+	\OC::$server->getL10N('encryption'));
 
 $util = new \OCA\Encryption\Util(
 	new \OC\Files\View(),

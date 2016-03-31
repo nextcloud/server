@@ -3,8 +3,9 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -50,12 +51,25 @@ class ApiControllerTest extends TestCase {
 	private $preview;
 	/** @var ApiController */
 	private $apiController;
+	/** @var \OCP\Share\IManager */
+	private $shareManager;
 
 	public function setUp() {
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('user1'));
+		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($user));
 		$this->tagService = $this->getMockBuilder('\OCA\Files\Service\TagService')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->shareManager = $this->getMockBuilder('\OCP\Share\IManager')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->preview = $this->getMockBuilder('\OCP\IPreview')
@@ -65,8 +79,10 @@ class ApiControllerTest extends TestCase {
 		$this->apiController = new ApiController(
 			$this->appName,
 			$this->request,
+			$userSession,
 			$this->tagService,
-			$this->preview
+			$this->preview,
+			$this->shareManager
 		);
 	}
 
@@ -92,6 +108,7 @@ class ApiControllerTest extends TestCase {
 			[
 				'mtime' => 55,
 				'mimetype' => 'application/pdf',
+				'permissions' => 31,
 				'size' => 1234,
 				'etag' => 'MyEtag',
 			],
@@ -99,10 +116,32 @@ class ApiControllerTest extends TestCase {
 				->disableOriginalConstructor()
 				->getMock()
 		);
+		$node = $this->getMockBuilder('\OC\Files\Node\File')
+			->disableOriginalConstructor()
+			->getMock();
+		$node->expects($this->once())
+			->method('getFileInfo')
+			->will($this->returnValue($fileInfo));
 		$this->tagService->expects($this->once())
 			->method('getFilesByTag')
 			->with($this->equalTo([$tagName]))
-			->will($this->returnValue([$fileInfo]));
+			->will($this->returnValue([$node]));
+
+		$this->shareManager->expects($this->any())
+			->method('getSharesBy')
+			->with(
+				$this->equalTo('user1'),
+				$this->anything(),
+				$node,
+				$this->equalTo(false),
+				$this->equalTo(1)
+			)
+			->will($this->returnCallback(function($userId, $shareType) {
+				if ($shareType === \OCP\Share::SHARE_TYPE_USER || $shareType === \OCP\Share::SHARE_TYPE_LINK) {
+					return ['dummy_share'];
+				}
+				return [];
+			}));
 
 		$expected = new DataResponse([
 			'files' => [
@@ -111,7 +150,7 @@ class ApiControllerTest extends TestCase {
 					'parentId' => null,
 					'mtime' => 55000,
 					'name' => 'root.txt',
-					'permissions' => null,
+					'permissions' => 31,
 					'mimetype' => 'application/pdf',
 					'size' => 1234,
 					'type' => 'file',
@@ -122,6 +161,7 @@ class ApiControllerTest extends TestCase {
 							'MyTagName'
 						]
 					],
+					'shareTypes' => [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_LINK]
 				],
 			],
 		]);
@@ -139,6 +179,7 @@ class ApiControllerTest extends TestCase {
 			[
 				'mtime' => 55,
 				'mimetype' => 'application/pdf',
+				'permissions' => 31,
 				'size' => 1234,
 				'etag' => 'MyEtag',
 			],
@@ -155,6 +196,7 @@ class ApiControllerTest extends TestCase {
 			[
 				'mtime' => 999,
 				'mimetype' => 'application/binary',
+				'permissions' => 31,
 				'size' => 9876,
 				'etag' => 'SubEtag',
 			],
@@ -162,10 +204,22 @@ class ApiControllerTest extends TestCase {
 				->disableOriginalConstructor()
 				->getMock()
 		);
+		$node1 = $this->getMockBuilder('\OC\Files\Node\File')
+			->disableOriginalConstructor()
+			->getMock();
+		$node1->expects($this->once())
+			->method('getFileInfo')
+			->will($this->returnValue($fileInfo1));
+		$node2 = $this->getMockBuilder('\OC\Files\Node\File')
+			->disableOriginalConstructor()
+			->getMock();
+		$node2->expects($this->once())
+			->method('getFileInfo')
+			->will($this->returnValue($fileInfo2));
 		$this->tagService->expects($this->once())
 			->method('getFilesByTag')
 			->with($this->equalTo([$tagName]))
-			->will($this->returnValue([$fileInfo1, $fileInfo2]));
+			->will($this->returnValue([$node1, $node2]));
 
 		$expected = new DataResponse([
 			'files' => [
@@ -174,7 +228,7 @@ class ApiControllerTest extends TestCase {
 					'parentId' => null,
 					'mtime' => 55000,
 					'name' => 'root.txt',
-					'permissions' => null,
+					'permissions' => 31,
 					'mimetype' => 'application/pdf',
 					'size' => 1234,
 					'type' => 'file',
@@ -191,7 +245,7 @@ class ApiControllerTest extends TestCase {
 					'parentId' => null,
 					'mtime' => 999000,
 					'name' => 'root.txt',
-					'permissions' => null,
+					'permissions' => 31,
 					'mimetype' => 'application/binary',
 					'size' => 9876,
 					'type' => 'file',

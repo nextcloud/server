@@ -1,10 +1,11 @@
 <?php
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -33,68 +34,6 @@ use \OCA\Files_external\NotFoundException;
  * Service class to manage global external storages
  */
 class GlobalStoragesService extends StoragesService {
-
-	/**
-	 * Write the storages to the configuration.
-	 *
-	 * @param array $storages map of storage id to storage config
-	 */
-	public function writeConfig($storages) {
-		// let the horror begin
-		$mountPoints = [];
-		foreach ($storages as $storageConfig) {
-			$mountPoint = $storageConfig->getMountPoint();
-			$oldBackendOptions = $storageConfig->getBackendOptions();
-			$storageConfig->setBackendOptions(
-				\OC_Mount_Config::encryptPasswords(
-					$oldBackendOptions
-				)
-			);
-
-			// system mount
-			$rootMountPoint = '/$user/files/' . ltrim($mountPoint, '/');
-
-			$applicableUsers = $storageConfig->getApplicableUsers();
-			$applicableGroups = $storageConfig->getApplicableGroups();
-			foreach ($applicableUsers as $applicable) {
-				$this->addMountPoint(
-					$mountPoints,
-					\OC_Mount_Config::MOUNT_TYPE_USER,
-					$applicable,
-					$rootMountPoint,
-					$storageConfig
-				);
-			}
-
-			foreach ($applicableGroups as $applicable) {
-				$this->addMountPoint(
-					$mountPoints,
-					\OC_Mount_Config::MOUNT_TYPE_GROUP,
-					$applicable,
-					$rootMountPoint,
-					$storageConfig
-				);
-			}
-
-			// if neither "applicableGroups" or "applicableUsers" were set, use "all" user
-			if (empty($applicableUsers) && empty($applicableGroups)) {
-				$this->addMountPoint(
-					$mountPoints,
-					\OC_Mount_Config::MOUNT_TYPE_USER,
-					'all',
-					$rootMountPoint,
-					$storageConfig
-				);
-			}
-
-			// restore old backend options where the password was not encrypted,
-			// because we don't want to change the state of the original object
-			$storageConfig->setBackendOptions($oldBackendOptions);
-		}
-
-		$this->writeLegacyConfig($mountPoints);
-	}
-
 	/**
 	 * Triggers $signal for all applicable users of the given
 	 * storage
@@ -133,7 +72,7 @@ class GlobalStoragesService extends StoragesService {
 
 	/**
 	 * Triggers signal_create_mount or signal_delete_mount to
-	 * accomodate for additions/deletions in applicableUsers
+	 * accommodate for additions/deletions in applicableUsers
 	 * and applicableGroups fields.
 	 *
 	 * @param StorageConfig $oldStorage old storage config
@@ -218,5 +157,9 @@ class GlobalStoragesService extends StoragesService {
 	 */
 	public function getVisibilityType() {
 		return BackendService::VISIBILITY_ADMIN;
+	}
+
+	protected function isApplicable(StorageConfig $config) {
+		return true;
 	}
 }

@@ -1,10 +1,11 @@
 <?php
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -59,9 +60,10 @@ class InfoParser {
 		$xml = simplexml_load_file($file);
 		libxml_disable_entity_loader($loadEntities);
 		if ($xml == false) {
+			libxml_clear_errors();
 			return null;
 		}
-		$array = $this->xmlToArray($xml, false);
+		$array = $this->xmlToArray($xml);
 		if (is_null($array)) {
 			return null;
 		}

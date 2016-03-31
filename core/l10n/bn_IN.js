@@ -8,6 +8,7 @@ OC.L10N.register(
     "Share" : "শেয়ার",
     "Warning" : "সতর্কীকরণ",
     "Delete" : "মুছে ফেলা",
+    "Rename" : "পুনঃনামকরণ",
     "Add" : "যোগ করা",
     "Username" : "ইউজারনেম",
     "Search" : "অনুসন্ধান"

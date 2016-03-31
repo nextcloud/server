@@ -39,7 +39,7 @@ class EtagTest extends \Test\TestCase {
 
 		$config = \OC::$server->getConfig();
 		$this->datadir = $config->getSystemValue('datadirectory');
-		$this->tmpDir = \OC_Helper::tmpFolder();
+		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$config->setSystemValue('datadirectory', $this->tmpDir);
 
 		$this->userBackend = new \Test\Util\User\Dummy();

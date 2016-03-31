@@ -13,22 +13,26 @@ OC.Lostpassword = {
 	resetErrorMsg : t('core', 'Password can not be changed. Please contact your administrator.'),
 
 	init : function() {
-		$('#lost-password').click(OC.Lostpassword.sendLink);
+		$('#lost-password').click(OC.Lostpassword.resetLink);
 		$('#reset-password #submit').click(OC.Lostpassword.resetPassword);
 	},
 
-	sendLink : function(event){
+	resetLink : function(event){
 		event.preventDefault();
 		if (!$('#user').val().length){
 			$('#submit').trigger('click');
 		} else {
-			$.post(
+			if (OC.config['lost_password_link']) {
+				window.location = OC.config['lost_password_link'];
+			} else {
+				$.post(
 					OC.generateUrl('/lostpassword/email'),
 					{
 						user : $('#user').val()
 					},
 					OC.Lostpassword.sendLinkDone
-			);
+				);
+			}
 		}
 	},
 

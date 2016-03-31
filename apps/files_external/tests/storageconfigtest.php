@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -30,6 +31,17 @@ class StorageConfigTest extends \Test\TestCase {
 		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
 			->disableOriginalConstructor()
 			->getMock();
+		$parameter = $this->getMockBuilder('\OCA\Files_External\Lib\DefinitionParameter')
+			->disableOriginalConstructor()
+			->getMock();
+		$parameter
+			->expects($this->once())
+			->method('getType')
+			->willReturn(1);
+		$backend
+			->expects($this->once())
+			->method('getParameters')
+			->willReturn(['secure' => $parameter]);
 		$backend->method('getIdentifier')
 			->willReturn('storage::identifier');
 
@@ -43,7 +55,7 @@ class StorageConfigTest extends \Test\TestCase {
 		$storageConfig->setMountPoint('test');
 		$storageConfig->setBackend($backend);
 		$storageConfig->setAuthMechanism($authMech);
-		$storageConfig->setBackendOptions(['user' => 'test', 'password' => 'password123']);
+		$storageConfig->setBackendOptions(['user' => 'test', 'password' => 'password123', 'secure' => '1']);
 		$storageConfig->setPriority(128);
 		$storageConfig->setApplicableUsers(['user1', 'user2']);
 		$storageConfig->setApplicableGroups(['group1', 'group2']);
@@ -51,16 +63,17 @@ class StorageConfigTest extends \Test\TestCase {
 
 		$json = $storageConfig->jsonSerialize();
 
-		$this->assertEquals(1, $json['id']);
-		$this->assertEquals('/test', $json['mountPoint']);
-		$this->assertEquals('storage::identifier', $json['backend']);
-		$this->assertEquals('auth::identifier', $json['authMechanism']);
-		$this->assertEquals('test', $json['backendOptions']['user']);
-		$this->assertEquals('password123', $json['backendOptions']['password']);
-		$this->assertEquals(128, $json['priority']);
-		$this->assertEquals(['user1', 'user2'], $json['applicableUsers']);
-		$this->assertEquals(['group1', 'group2'], $json['applicableGroups']);
-		$this->assertEquals(['preview' => false], $json['mountOptions']);
+		$this->assertSame(1, $json['id']);
+		$this->assertSame('/test', $json['mountPoint']);
+		$this->assertSame('storage::identifier', $json['backend']);
+		$this->assertSame('auth::identifier', $json['authMechanism']);
+		$this->assertSame('test', $json['backendOptions']['user']);
+		$this->assertSame('password123', $json['backendOptions']['password']);
+		$this->assertSame(true, $json['backendOptions']['secure']);
+		$this->assertSame(128, $json['priority']);
+		$this->assertSame(['user1', 'user2'], $json['applicableUsers']);
+		$this->assertSame(['group1', 'group2'], $json['applicableGroups']);
+		$this->assertSame(['preview' => false], $json['mountOptions']);
 	}
 
 }

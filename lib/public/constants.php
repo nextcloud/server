@@ -2,10 +2,11 @@
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -68,7 +69,8 @@ class Constants {
 	const PERMISSION_ALL = 31;
 
 	/**
-	 * @since 8.0.0
+	 * @since 8.0.0 - Updated in 9.0.0 to allow all POSIX chars since we no
+	 * longer support windows as server platform.
 	 */
-	const FILENAME_INVALID_CHARS = "\\/<>:\"|?*\n";
+	const FILENAME_INVALID_CHARS = "\\/";
 }

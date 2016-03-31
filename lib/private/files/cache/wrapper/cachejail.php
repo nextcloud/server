@@ -2,10 +2,10 @@
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ class CacheJail extends CacheWrapper {
 	protected $root;
 
 	/**
-	 * @param \OC\Files\Cache\Cache $cache
+	 * @param \OCP\Files\Cache\ICache $cache
 	 * @param string $root
 	 */
 	public function __construct($cache, $root) {
@@ -95,15 +95,16 @@ class CacheJail extends CacheWrapper {
 	}
 
 	/**
-	 * store meta data for a file or folder
+	 * insert meta data for a new file or folder
 	 *
 	 * @param string $file
 	 * @param array $data
 	 *
 	 * @return int file id
+	 * @throws \RuntimeException
 	 */
-	public function put($file, array $data) {
-		return $this->cache->put($this->getSourcePath($file), $data);
+	public function insert($file, array $data) {
+		return $this->cache->insert($this->getSourcePath($file), $data);
 	}
 
 	/**
@@ -113,7 +114,7 @@ class CacheJail extends CacheWrapper {
 	 * @param array $data
 	 */
 	public function update($id, array $data) {
-		$this->cache->update($this->getSourcePath($id), $data);
+		$this->cache->update($id, $data);
 	}
 
 	/**

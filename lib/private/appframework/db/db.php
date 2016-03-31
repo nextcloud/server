@@ -4,9 +4,10 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,6 +26,7 @@
 
 namespace OC\AppFramework\Db;
 
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDb;
 use OCP\IDBConnection;
 
@@ -147,6 +149,21 @@ class Db implements IDb {
 	}
 
 	/**
+	 * Insert or update a row value
+	 *
+	 * @param string $table
+	 * @param array $keys (column name => value)
+	 * @param array $values (column name => value)
+	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
+	 * @return int number of new rows
+	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws PreconditionNotMetException
+	 */
+	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
+		return $this->connection->setValues($table, $keys, $values, $updatePreconditionValues);
+	}
+
+	/**
 	 * Start a transaction
 	 */
 	public function beginTransaction() {
@@ -225,7 +242,7 @@ class Db implements IDb {
 	 * @param int $type Type of the parameter.
 	 * @return string The quoted parameter.
 	 */
-	public function quote($input, $type = \PDO::PARAM_STR) {
+	public function quote($input, $type = IQueryBuilder::PARAM_STR) {
 		return $this->connection->quote($input, $type);
 	}
 

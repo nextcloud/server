@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ use \OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\LegacyDependencyCheckPolyfill;
 use \OCA\Files_External\Lib\Backend\SMB;
+use OCP\IUser;
 
 /**
  * Deprecated SMB_OC class - use SMB with the password::sessioncredentials auth mechanism
@@ -59,7 +60,7 @@ class SMB_OC extends Backend {
 		;
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage) {
+	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 		$username_as_share = ($storage->getBackendOption('username_as_share') === true);
 
 		if ($username_as_share) {

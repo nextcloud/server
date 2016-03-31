@@ -1,0 +1,133 @@
+/*
+ * Copyright (c) 2016
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+#commentsTabView .newCommentForm {
+	margin-bottom: 20px;
+}
+
+#commentsTabView .newCommentForm .message {
+	width: 90%;
+	resize: vertical;
+}
+
+#commentsTabView .newCommentForm .submitLoading {
+	background-position: left;
+}
+
+#commentsTabView .comment {
+	margin-bottom: 30px;
+}
+
+#commentsTabView .comment .avatar {
+	width: 28px;
+	height: 28px;
+	line-height: 28px;
+}
+
+#commentsTabView .comment {
+	position: relative;
+	z-index: 1;
+}
+
+#commentsTabView .comment.collapsed .message {
+	white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+	white-space: -webkit-pre-wrap; /*Chrome & Safari */ 
+	white-space: -pre-wrap;      /* Opera 4-6 */
+	white-space: -o-pre-wrap;    /* Opera 7 */
+	white-space: pre-wrap;       /* css-3 */
+	word-wrap: break-word;       /* Internet Explorer 5.5+ */
+	word-break: break-all;
+	white-space: normal;
+}
+
+#commentsTabView .comment.collapsed .message {
+	max-height: 70px;
+	overflow: hidden;
+}
+
+#commentsTabView .comment .message-overlay {
+	display: none;
+}
+
+#commentsTabView .comment.collapsed .message-overlay {
+	display: block;
+    position: absolute;
+	z-index: 2;
+    height: 50px;
+    pointer-events: none;
+	left: 0;
+	right: 0;
+    bottom: 0;
+	background: -moz-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+	background: -webkit-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+	background: -o-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+	background: -ms-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#00FFFFFF', endColorstr='#FFFFFFFF');
+    background-repeat: no-repeat;
+}
+
+#commentsTabView .authorRow>div {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+#commentsTabView .comment .authorRow {
+	margin-bottom: 5px;
+	position: relative;
+}
+
+#commentsTabView .comment .author {
+	font-weight: bold;
+}
+
+#commentsTabView .comment .date {
+	position: absolute;
+	right: 0;
+}
+
+#commentsTabView .comment .action {
+	opacity: 0;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+#commentsTabView .comment:hover .action {
+	opacity: 0.3;
+}
+
+#commentsTabView .comment .action:hover {
+	opacity: 1;
+}
+
+#commentsTabView .comment .action.delete {
+	position: absolute;
+	right: 0;
+}
+
+#commentsTabView .comment.disabled {
+	opacity: 0.3;
+}
+
+#commentsTabView .comment.disabled .action {
+	visibility: hidden;
+}
+
+#commentsTabView .message.error {
+	color: #e9322d;
+	border-color: #e9322d;
+	-webkit-box-shadow: 0 0 6px #f8b9b7;
+	-moz-box-shadow: 0 0 6px #f8b9b7;
+	box-shadow: 0 0 6px #f8b9b7;
+}
+
+.app-files .action-comment {
+	padding: 16px 14px;
+}

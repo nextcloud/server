@@ -35,27 +35,28 @@
 		if (options.useHTTPS) {
 			url = 'https://';
 		}
-		var credentials = '';
-		if (options.userName) {
-			credentials += encodeURIComponent(options.userName);
-		}
-		if (options.password) {
-			credentials += ':' + encodeURIComponent(options.password);
-		}
-		if (credentials.length > 0) {
-			url += credentials + '@';
-		}
 
 		url += options.host + this._root;
-		this._defaultHeaders = options.defaultHeaders || {'X-Requested-With': 'XMLHttpRequest'};
+		this._defaultHeaders = options.defaultHeaders || {
+				'X-Requested-With': 'XMLHttpRequest',
+				'requesttoken': OC.requestToken
+			};
 		this._baseUrl = url;
-		this._client = new dav.Client({
+
+		var clientOptions = {
 			baseUrl: this._baseUrl,
 			xmlNamespaces: {
 				'DAV:': 'd',
 				'http://owncloud.org/ns': 'oc'
 			}
-		});
+		};
+		if (options.userName) {
+			clientOptions.userName = options.userName;
+		}
+		if (options.password) {
+			clientOptions.password = options.password;
+		}
+		this._client = new dav.Client(clientOptions);
 		this._client.xhrProvider = _.bind(this._xhrProvider, this);
 	};
 
@@ -139,6 +140,8 @@
 				});
 				return result;
 			};
+
+			OC.registerXHRForErrorProcessing(xhr);
 			return xhr;
 		},
 
@@ -241,9 +244,9 @@
 				path = path.substr(0, path.length - 1);
 			}
 
-			path = '/' + decodeURIComponent(path);
+			path = decodeURIComponent(path);
 
-			if (response.propStat.length === 1 && response.propStat[0].status !== 200) {
+			if (response.propStat.length === 0 || response.propStat[0].status !== 'HTTP/1.1 200 OK') {
 				return null;
 			}
 
@@ -253,7 +256,7 @@
 				id: props['{' + Client.NS_OWNCLOUD + '}fileid'],
 				path: OC.dirname(path) || '/',
 				name: OC.basename(path),
-				mtime: new Date(props['{' + Client.NS_DAV + '}getlastmodified'])
+				mtime: (new Date(props['{' + Client.NS_DAV + '}getlastmodified'])).getTime()
 			};
 
 			var etagProp = props['{' + Client.NS_DAV + '}getetag'];
@@ -303,10 +306,6 @@
 							}
 							break;
 						case 'W':
-							if (isFile) {
-								// also add create permissions
-								data.permissions |= OC.PERMISSION_CREATE;
-							}
 							data.permissions |= OC.PERMISSION_UPDATE;
 							break;
 						case 'D':
@@ -400,7 +399,6 @@
 				properties = options.properties;
 			}
 
-			// TODO: headers
 			this._client.propFind(
 				this._buildUrl(path),
 				properties,
@@ -412,6 +410,76 @@
 						// remove root dir, the first entry
 						results.shift();
 					}
+					deferred.resolve(result.status, results);
+				} else {
+					deferred.reject(result.status);
+				}
+			});
+			return promise;
+		},
+
+		/**
+		 * Fetches a flat list of files filtered by a given filter criteria.
+		 * (currently only system tags is supported)
+		 *
+		 * @param {Object} filter filter criteria
+		 * @param {Object} [filter.systemTagIds] list of system tag ids to filter by
+		 * @param {Object} [options] options
+		 * @param {Array} [options.properties] list of Webdav properties to retrieve
+		 *
+		 * @return {Promise} promise
+		 */
+		getFilteredFiles: function(filter, options) {
+			options = options || {};
+			var self = this;
+			var deferred = $.Deferred();
+			var promise = deferred.promise();
+			var properties;
+			if (_.isUndefined(options.properties)) {
+				properties = this.getPropfindProperties();
+			} else {
+				properties = options.properties;
+			}
+
+			if (!filter || !filter.systemTagIds || !filter.systemTagIds.length) {
+				throw 'Missing filter argument';
+			}
+
+			// root element with namespaces
+            var body = '<oc:filter-files ';
+			var namespace;
+			for (namespace in this._client.xmlNamespaces) {
+				body += ' xmlns:' + this._client.xmlNamespaces[namespace] + '="' + namespace + '"';
+			}
+			body += '>\n';
+
+			// properties query
+			body += '    <' + this._client.xmlNamespaces['DAV:'] + ':prop>\n';
+			_.each(properties, function(prop) {
+				var property = self._client.parseClarkNotation(prop);
+                body += '        <' + self._client.xmlNamespaces[property.namespace] + ':' + property.name + ' />\n';
+			});
+
+			body += '    </' + this._client.xmlNamespaces['DAV:'] + ':prop>\n';
+
+			// rules block
+			body +=	'    <oc:filter-rules>\n';
+			_.each(filter.systemTagIds, function(systemTagIds) {
+				body += '        <oc:systemtag>' + escapeHTML(systemTagIds) + '</oc:systemtag>\n';
+			});
+			body += '    </oc:filter-rules>\n';
+
+			// end of root
+			body += '</oc:filter-files>\n';
+
+			this._client.request(
+				'REPORT',
+				this._buildUrl(),
+				{},
+				body
+			).then(function(result) {
+				if (self._isSuccessStatus(result.status)) {
+					var results = self._parseResult(result.body);
 					deferred.resolve(result.status, results);
 				} else {
 					deferred.reject(result.status);
@@ -477,8 +545,7 @@
 
 			this._client.request(
 				'GET',
-				this._buildUrl(path),
-				this._defaultHeaders
+				this._buildUrl(path)
 			).then(
 				function(result) {
 					if (self._isSuccessStatus(result.status)) {
@@ -510,8 +577,8 @@
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
 			options = options || {};
-			var headers = _.extend({}, this._defaultHeaders);
-			var contentType = 'text/plain';
+			var headers = {};
+			var contentType = 'text/plain;charset=utf-8';
 			if (options.contentType) {
 				contentType = options.contentType;
 			}
@@ -551,8 +618,7 @@
 
 			this._client.request(
 				method,
-				this._buildUrl(path),
-				this._defaultHeaders
+				this._buildUrl(path)
 			).then(
 				function(result) {
 					if (self._isSuccessStatus(result.status)) {
@@ -608,10 +674,9 @@
 			var self = this;
 			var deferred = $.Deferred();
 			var promise = deferred.promise();
-			var headers =
-				_.extend({
-					'Destination' : this._buildUrl(destinationPath)
-				}, this._defaultHeaders);
+			var headers = {
+				'Destination' : this._buildUrl(destinationPath)
+			};
 
 			if (!allowOverwrite) {
 				headers['Overwrite'] = 'F';

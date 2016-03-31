@@ -3,7 +3,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ class GenerateChangeScript extends Command {
 
 		$file = $input->getArgument('schema-xml');
 
-		$schemaManager = new \OC\DB\MDB2SchemaManager(\OC_DB::getConnection());
+		$schemaManager = new \OC\DB\MDB2SchemaManager(\OC::$server->getDatabaseConnection());
 
 		try {
 			$result = $schemaManager->updateDbFromStructure($file, true);

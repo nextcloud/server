@@ -86,7 +86,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<table id="filestable">' +
 			'<thead><tr>' +
 			'<th id="headerName" class="hidden column-name">' +
-			'<input type="checkbox" id="select_all_files" class="select-all">' +
+			'<input type="checkbox" id="select_all_files" class="select-all checkbox">' +
 			'<a class="name columntitle" data-sort="name"><span>Name</span><span class="sort-indicator"></span></a>' +
 			'<span id="selectedActionsList" class="selectedActions hidden">' +
 			'<a href class="download"><img src="actions/download.svg">Download</a>' +
@@ -213,7 +213,7 @@ describe('OCA.Files.FileList tests', function() {
 				.toEqual(OC.webroot + '/remote.php/webdav/subdir/testName.txt');
 			expect($tr.find('.nametext').text().trim()).toEqual('testName.txt');
 
-			expect($tr.find('.filesize').text()).toEqual('1 kB');
+			expect($tr.find('.filesize').text()).toEqual('1 KB');
 			expect($tr.find('.date').text()).not.toEqual('?');
 			expect(fileList.findFileEl('testName.txt')[0]).toEqual($tr[0]);
 		});
@@ -239,7 +239,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('123456');
 
-			expect($tr.find('.filesize').text()).toEqual('1 kB');
+			expect($tr.find('.filesize').text()).toEqual('1 KB');
 			expect($tr.find('.date').text()).not.toEqual('?');
 
 			expect(fileList.findFileEl('testFolder')[0]).toEqual($tr[0]);
@@ -296,7 +296,7 @@ describe('OCA.Files.FileList tests', function() {
 				size: '0'
 			};
 			var $tr = fileList.add(fileData);
-			expect($tr.find('.filesize').text()).toEqual('0 kB');
+			expect($tr.find('.filesize').text()).toEqual('0 KB');
 		});
 		it('generates file element with unknown date when mtime invalid', function() {
 			var fileData = {
@@ -424,7 +424,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.find('.info').text()).toEqual('1 folder and 2 files');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
-			expect($summary.find('.filesize').text()).toEqual('69 kB');
+			expect($summary.find('.filesize').text()).toEqual('69 KB');
 			expect(fileList.isEmpty).toEqual(false);
 		});
 		it('Shows empty content when removing last file', function() {
@@ -479,7 +479,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.find('.info').text()).toEqual('1 folder and 1 file');
 			expect($summary.find('.dirinfo').hasClass('hidden')).toEqual(false);
 			expect($summary.find('.fileinfo').hasClass('hidden')).toEqual(false);
-			expect($summary.find('.filesize').text()).toEqual('57 kB');
+			expect($summary.find('.filesize').text()).toEqual('57 KB');
 			expect(fileList.isEmpty).toEqual(false);
 			expect($('#filestable thead th').hasClass('hidden')).toEqual(false);
 			expect($('#emptycontent').hasClass('hidden')).toEqual(true);
@@ -777,7 +777,7 @@ describe('OCA.Files.FileList tests', function() {
 
 			// folder size has increased
 			expect(fileList.findFileEl('somedir').data('size')).toEqual(12311);
-			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('12 kB');
+			expect(fileList.findFileEl('somedir').find('.filesize').text()).toEqual('12 KB');
 
 			expect(notificationStub.notCalled).toEqual(true);
 		});
@@ -812,6 +812,22 @@ describe('OCA.Files.FileList tests', function() {
 				.toEqual(OC.imagePath('core', 'filetypes/text.svg'));
 		});
 	});
+	describe('Update file', function() {
+		it('does not change summary', function() {
+			var $summary = $('#filestable .summary');
+			var fileData = new FileInfo({
+				type: 'file',
+				name: 'test file',
+			});
+			var $tr = fileList.add(fileData);
+
+			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+
+			var model = fileList.getModelForFile('test file');
+			model.set({size: '100'});
+			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+		});
+	})
 	describe('List rendering', function() {
 		it('renders a list of files using add()', function() {
 			expect(fileList.files.length).toEqual(0);
@@ -827,7 +843,7 @@ describe('OCA.Files.FileList tests', function() {
 			$summary = $('#filestable .summary');
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('1 folder and 3 files');
-			expect($summary.find('.filesize').text()).toEqual('69 kB');
+			expect($summary.find('.filesize').text()).toEqual('69 KB');
 		});
 		it('shows headers, summary and hide empty content message after setting files', function(){
 			fileList.setFiles(testFiles);
@@ -1689,16 +1705,6 @@ describe('OCA.Files.FileList tests', function() {
 			});
 		});
 		describe('Selection overlay', function() {
-			it('show delete action according to directory permissions', function() {
-				fileList.setFiles(testFiles);
-				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
-				$('.select-all').click();
-				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(false);
-				$('.select-all').click();
-				$('#permissions').val(OC.PERMISSION_READ);
-				$('.select-all').click();
-				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(true);
-			});
 			it('show doesnt show the delete action if one or more files are not deletable', function () {
 				fileList.setFiles(testFiles);
 				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
@@ -1963,14 +1969,35 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.hasClass('highlighted')).toEqual(true);
 			expect(fileList._detailsView.getFileInfo().id).toEqual(1);
 		});
-		it('keeps the last highlighted file when unselecting file using checkbox', function() {
+		it('removes last highlighted file when selecting via checkbox', function() {
 			var $tr = fileList.findFileEl('One.txt');
-			$tr.find('input:checkbox').click();
-			expect($tr.hasClass('highlighted')).toEqual(true);
-			$tr.find('input:checkbox').click();
 
-			expect($tr.hasClass('highlighted')).toEqual(true);
-			expect(fileList._detailsView.getFileInfo().id).toEqual(1);
+			// select
+			$tr.find('td.filename>a.name').click();
+			$tr.find('input:checkbox').click();
+			expect($tr.hasClass('highlighted')).toEqual(false);
+
+			// deselect
+			$tr.find('td.filename>a.name').click();
+			$tr.find('input:checkbox').click();
+			expect($tr.hasClass('highlighted')).toEqual(false);
+
+			expect(fileList._detailsView.getFileInfo()).toEqual(null);
+		});
+		it('removes last highlighted file when selecting all files via checkbox', function() {
+			var $tr = fileList.findFileEl('One.txt');
+
+			// select
+			$tr.find('td.filename>a.name').click();
+			fileList.$el.find('.select-all.checkbox').click();
+			expect($tr.hasClass('highlighted')).toEqual(false);
+
+			// deselect
+			$tr.find('td.filename>a.name').click();
+			fileList.$el.find('.select-all.checkbox').click();
+			expect($tr.hasClass('highlighted')).toEqual(false);
+
+			expect(fileList._detailsView.getFileInfo()).toEqual(null);
 		});
 		it('closes sidebar whenever the currently highlighted file was removed from the list', function() {
 			var $tr = fileList.findFileEl('One.txt');
@@ -2402,6 +2429,21 @@ describe('OCA.Files.FileList tests', function() {
 				expect(ev.result).not.toEqual(false);
 				expect(uploadData.targetDir).toEqual('/a/b');
 			});
+			it('renders upload indicator element for folders only', function() {
+				fileList.add({
+					name: 'afolder',
+					type: 'dir',
+					mime: 'httpd/unix-directory'
+				});
+				fileList.add({
+					name: 'afile.txt',
+					type: 'file',
+					mime: 'text/plain'
+				});
+
+				expect(fileList.findFileEl('afolder').find('.uploadtext').length).toEqual(1);
+				expect(fileList.findFileEl('afile.txt').find('.uploadtext').length).toEqual(0);
+			});
 		});
 	});
 	describe('Handling errors', function () {
@@ -2419,13 +2461,6 @@ describe('OCA.Files.FileList tests', function() {
 		afterEach(function() {
 			getFolderContentsStub.restore();
 			fileList = undefined;
-		});
-		it('redirects to files app in case of auth error', function () {
-			deferredList.reject(401, 'Authentication error');
-
-			expect(redirectStub.calledOnce).toEqual(true);
-			expect(redirectStub.getCall(0).args[0]).toEqual(OC.webroot + '/index.php/apps/files');
-			expect(getFolderContentsStub.calledOnce).toEqual(true);
 		});
 		it('redirects to root folder in case of forbidden access', function () {
 			deferredList.reject(403);
@@ -2500,6 +2535,12 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileInfo.size).toEqual(12);
 			expect(fileInfo.mimetype).toEqual('text/plain');
 			expect(fileInfo.type).toEqual('file');
+			expect(fileInfo.path).not.toBeDefined();
+		});
+		it('adds path attribute if available', function() {
+			$tr.attr('data-path', '/subdir');
+			var fileInfo = fileList.elementToFile($tr);
+			expect(fileInfo.path).toEqual('/subdir');
 		});
 	});
 	describe('new file menu', function() {
@@ -2532,6 +2573,36 @@ describe('OCA.Files.FileList tests', function() {
 			$button.addClass('disabled');
 			$button.click();
 			expect(newFileMenuStub.notCalled).toEqual(true);
+		});
+	});
+	describe('mount type detection', function() {
+		function testMountType(dirInfoId, dirInfoMountType, inputMountType, expectedMountType) {
+			var $tr;
+			fileList.dirInfo.id = dirInfoId;
+			fileList.dirInfo.mountType = dirInfoMountType;
+			$tr = fileList.add({
+				type: 'dir',
+				mimetype: 'httpd/unix-directory',
+				name: 'test dir',
+				mountType: inputMountType
+			});
+
+			expect($tr.attr('data-mounttype')).toEqual(expectedMountType);
+		}
+
+		it('leaves mount type as is if no parent exists', function() {
+			testMountType(null, null, 'external', 'external');
+			testMountType(null, null, 'shared', 'shared');
+		});
+		it('detects share root if parent exists', function() {
+			testMountType(123, null, 'shared', 'shared-root');
+			testMountType(123, 'shared', 'shared', 'shared');
+			testMountType(123, 'shared-root', 'shared', 'shared');
+		});
+		it('detects external storage root if parent exists', function() {
+			testMountType(123, null, 'external', 'external-root');
+			testMountType(123, 'external', 'external', 'external');
+			testMountType(123, 'external-root', 'external', 'external');
 		});
 	});
 });

@@ -9,8 +9,8 @@
  * consider important for your instance to your working ``config.php``, and
  * apply configuration options that are pertinent for your instance.
  *
- * This file is used to generate the config documentation. Please consider
- * following requirements of the current parser:
+ * This file is used to generate the configuration documentation. 
+ * Please consider following requirements of the current parser:
  *  * all comments need to start with `/**` and end with ` *\/` - each on their
  *    own line
  *  * add a `@see CONFIG_INDEX` to copy a previously described config option
@@ -214,6 +214,14 @@ $CONFIG = array(
 ),
 
 /**
+ * If your user backend does not allow to reset the password (e.g. when it's a
+ * read-only user backend like LDAP), you can specify a custom link, where the
+ * user is redirected to, when clicking the "reset password" link after a failed
+ * login-attempt.
+ */
+'lost_password_link' => 'https://example.org/link/to/password/reset',
+
+/**
  * Mail Parameters
  *
  * These configure the email settings for ownCloud notifications and password
@@ -397,13 +405,19 @@ $CONFIG = array(
  *     delete all files in the trash bin that are older than D days   
  *     automatically, delete other files anytime if space needed
  * * ``D1, D2``    
- *     keep files and folders the in trash bin for at least D1 days and 
+ *     keep files and folders in the trash bin for at least D1 days and 
  *     delete when exceeds D2 days
  * * ``disabled``  
  *     trash bin auto clean disabled, files and folders will be kept forever
  */
 'trashbin_retention_obligation' => 'auto',
 
+
+/**
+ * File versions
+ *
+ * These parameters control the Versions app.
+ */
 
 /**
  * If the versions app is enabled (default), this setting defines the policy
@@ -469,20 +483,27 @@ $CONFIG = array(
 'check_for_working_webdav' => true,
 
 /**
+ * Allows ownCloud to verify a working .well-known URL redirects. This is done
+ * by attempting to make a request from JS to
+ * https://your-domain.com/.well-known/caldav/
+ */
+'check_for_working_wellknown_setup' => true,
+
+/**
  * This is a crucial security check on Apache servers that should always be set
  * to ``true``. This verifies that the ``.htaccess`` file is writable and works.
  * If it is not, then any options controlled by ``.htaccess``, such as large
  * file uploads, will not work. It also runs checks on the ``data/`` directory,
- * which verifies that it can't be accessed directly through the web server.
+ * which verifies that it can't be accessed directly through the Web server.
  */
 'check_for_working_htaccess' => true,
 
 /**
- * In certain environments it is desired to have a read-only config file.
+ * In certain environments it is desired to have a read-only configuration file.
  * When this switch is set to ``true`` ownCloud will not verify whether the
  * configuration is writable. However, it will not be possible to configure
- * all options via the web-interface. Furthermore, when updating ownCloud
- * it is required to make the config file writable again for the update
+ * all options via the Web interface. Furthermore, when updating ownCloud
+ * it is required to make the configuration file writable again for the update
  * process.
  */
 'config_is_read_only' => false,
@@ -645,9 +666,9 @@ $CONFIG = array(
  * Use the ``apps_paths`` parameter to set the location of the Apps directory,
  * which should be scanned for available apps, and where user-specific apps
  * should be installed from the Apps store. The ``path`` defines the absolute
- * file system path to the app folder. The key ``url`` defines the HTTP web path
- * to that folder, starting from the ownCloud web root. The key ``writable``
- * indicates if a web server can write files to that folder.
+ * file system path to the app folder. The key ``url`` defines the HTTP Web path
+ * to that folder, starting from the ownCloud webroot. The key ``writable``
+ * indicates if a Web server can write files to that folder.
  */
 'apps_paths' => array(
 	array(
@@ -791,20 +812,24 @@ $CONFIG = array(
 'ldapUserCleanupInterval' => 51,
 
 /**
- * Enforce the existence of the home folder naming rule for all users
+ * Comments
  *
- * Following scenario:
- *  * a home folder naming rule is set in LDAP advanced settings
- *  * a user doesn't have the home folder naming rule attribute set
- *
- * If this is set to **true** (default) it will NOT fallback to the core's
- * default naming rule of using the internal user ID as home folder name.
- *
- * If this is set to **false** it will fallback for the users without the
- * attribute set to naming the home folder like the internal user ID.
- *
+ * Global settings for the Comments infrastructure
  */
-'enforce_home_folder_naming_rule' => true,
+
+/**
+ * Replaces the default Comments Manager Factory. This can be utilized if an
+ * own or 3rdParty CommentsManager should be used that – for instance – uses the
+ * filesystem instead of the database to keep the comments.
+ */
+'comments.managerFactory' => '\OC\Comments\ManagerFactory',
+
+/**
+ * Replaces the default System Tags Manager Factory. This can be utilized if an
+ * own or 3rdParty SystemTagsManager should be used that – for instance – uses the
+ * filesystem instead of the database to keep the comments.
+ */
+'systemtags.managerFactory' => '\OC\SystemTag\ManagerFactory',
 
 /**
  * Maintenance
@@ -840,6 +865,11 @@ $CONFIG = array(
 'openssl' => array(
 	'config' => '/absolute/location/of/openssl.cnf',
 ),
+
+/**
+ * Allow the configuration of system wide trusted certificates
+ */
+'enable_certificate_management' => false,
 
 /**
  * Memory caching backend configuration
@@ -953,11 +983,29 @@ $CONFIG = array(
 		// dev-/trystack uses swift by default, the lib defaults to 'cloudFiles'
 		// if omitted
 		'serviceName' => 'swift',
+		// The Interface / url Type, optional
+		'urlType' => 'internal'
 	),
 ),
 
+
 /**
- * All other config options
+ * Sharing
+ *
+ * Global settings for Sharing
+ */
+
+/**
+ * Replaces the default Share Provider Factory. This can be utilized if
+ * own or 3rdParty Share Providers be used that – for instance – uses the
+ * filesystem instead of the database to keep the share information.
+ */
+'sharing.managerFactory' => '\OC\Share20\ProviderFactory',
+
+
+
+/**
+ * All other configuration options
  */
 
 /**
@@ -969,8 +1017,8 @@ $CONFIG = array(
 ),
 
 /**
- * sqlite3 journal mode can be specified using this config parameter - can be
- * 'WAL' or 'DELETE' see for more details https://www.sqlite.org/wal.html
+ * sqlite3 journal mode can be specified using this configuration parameter -
+ * can be 'WAL' or 'DELETE' see for more details https://www.sqlite.org/wal.html
  */
 'sqlite.journal_mode' => 'DELETE',
 
@@ -996,7 +1044,7 @@ $CONFIG = array(
  * restricted, or if external storages which do not support streaming are in
  * use.
  *
- * The web server user must have write access to this directory.
+ * The Web server user must have write access to this directory.
  */
 'tempdirectory' => '/tmp/owncloudtemp',
 
@@ -1058,14 +1106,19 @@ $CONFIG = array(
  *
  * 1 -> Check each file or folder at most once per request, recommended for
  * general use if outside changes might happen.
- *
- * 2 -> Check every time the filesystem is used, causes a performance hit when
- * using external storages, not recommended for regular use.
  */
 'filesystem_check_changes' => 0,
 
 /**
- * All css and js files will be served by the web server statically in one js
+ * By default ownCloud will store the part files created during upload in the
+ * same storage as the upload target. Setting this to false will store the part
+ * files in the root of the users folder which might be required to work with certain
+ * external storage setups that have limited rename capabilities.
+ */
+'part_file_in_storage' => true,
+
+/**
+ * All css and js files will be served by the Web server statically in one js
  * file and one css file if this is set to ``true``. This improves performance.
  */
 'asset-pipeline.enabled' => false,
@@ -1076,7 +1129,7 @@ $CONFIG = array(
  * will be stored in a subdirectory of this directory named 'assets'. The
  * server *must* be configured to serve that directory as $WEBROOT/assets.
  * You will only likely need to change this if the main ownCloud directory
- * is not writeable by the web server in your configuration.
+ * is not writeable by the Web server in your configuration.
  */
 'assetdirectory' => '/var/www/owncloud',
 

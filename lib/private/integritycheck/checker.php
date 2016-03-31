@@ -2,7 +2,7 @@
 /**
  * @author Lukas Reschke <lukas@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -31,6 +31,7 @@ use OCP\App\IAppManager;
 use OCP\ICache;
 use OCP\ICacheFactory;
 use OCP\IConfig;
+use OCP\ITempManager;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 
@@ -58,6 +59,8 @@ class Checker {
 	private $cache;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var ITempManager */
+	private $tempManager;
 
 	/**
 	 * @param EnvironmentHelper $environmentHelper
@@ -66,34 +69,72 @@ class Checker {
 	 * @param IConfig $config
 	 * @param ICacheFactory $cacheFactory
 	 * @param IAppManager $appManager
+	 * @param ITempManager $tempManager
 	 */
 	public function __construct(EnvironmentHelper $environmentHelper,
 								FileAccessHelper $fileAccessHelper,
 								AppLocator $appLocator,
 								IConfig $config = null,
 								ICacheFactory $cacheFactory,
-								IAppManager $appManager = null) {
+								IAppManager $appManager = null,
+								ITempManager $tempManager) {
 		$this->environmentHelper = $environmentHelper;
 		$this->fileAccessHelper = $fileAccessHelper;
 		$this->appLocator = $appLocator;
 		$this->config = $config;
 		$this->cache = $cacheFactory->create(self::CACHE_KEY);
 		$this->appManager = $appManager;
+		$this->tempManager = $tempManager;
+	}
+
+	/**
+	 * Whether code signing is enforced or not.
+	 *
+	 * @return bool
+	 */
+	public function isCodeCheckEnforced() {
+		$signedChannels = [
+			'daily',
+			'testing',
+			'stable',
+		];
+		if(!in_array($this->environmentHelper->getChannel(), $signedChannels, true)) {
+			return false;
+		}
+
+		/**
+		 * This config option is undocumented and supposed to be so, it's only
+		 * applicable for very specific scenarios and we should not advertise it
+		 * too prominent. So please do not add it to config.sample.php.
+		 */
+		$isIntegrityCheckDisabled = $this->config->getSystemValue('integrity.check.disabled', false);
+		if($isIntegrityCheckDisabled === true) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
 	 * Enumerates all files belonging to the folder. Sensible defaults are excluded.
 	 *
 	 * @param string $folderToIterate
+	 * @param string $root
 	 * @return \RecursiveIteratorIterator
+	 * @throws \Exception
 	 */
-	private function getFolderIterator($folderToIterate) {
+	private function getFolderIterator($folderToIterate, $root = '') {
 		$dirItr = new \RecursiveDirectoryIterator(
 			$folderToIterate,
 			\RecursiveDirectoryIterator::SKIP_DOTS
 		);
+		if($root === '') {
+			$root = \OC::$SERVERROOT;
+		}
+		$root = rtrim($root, '/');
+
 		$excludeGenericFilesIterator = new ExcludeFileByNameFilterIterator($dirItr);
-		$excludeFoldersIterator = new ExcludeFoldersByPathFilterIterator($excludeGenericFilesIterator);
+		$excludeFoldersIterator = new ExcludeFoldersByPathFilterIterator($excludeGenericFilesIterator, $root);
 
 		return new \RecursiveIteratorIterator(
 			$excludeFoldersIterator,
@@ -112,6 +153,8 @@ class Checker {
 	private function generateHashes(\RecursiveIteratorIterator $iterator,
 									$path) {
 		$hashes = [];
+		$copiedWebserverSettingFiles = false;
+		$tmpFolder = '';
 
 		$baseDirectoryLength = strlen($path);
 		foreach($iterator as $filename => $data) {
@@ -121,18 +164,66 @@ class Checker {
 			}
 
 			$relativeFileName = substr($filename, $baseDirectoryLength);
+			$relativeFileName = ltrim($relativeFileName, '/');
 
 			// Exclude signature.json files in the appinfo and root folder
-			if($relativeFileName === '/appinfo/signature.json') {
+			if($relativeFileName === 'appinfo/signature.json') {
 				continue;
 			}
 			// Exclude signature.json files in the appinfo and core folder
-			if($relativeFileName === '/core/signature.json') {
+			if($relativeFileName === 'core/signature.json') {
 				continue;
+			}
+
+			// The .user.ini and the .htaccess file of ownCloud can contain some
+			// custom modifications such as for example the maximum upload size
+			// to ensure that this will not lead to false positives this will
+			// copy the file to a temporary folder and reset it to the default
+			// values.
+			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess'
+				|| $filename === $this->environmentHelper->getServerRoot() . '/.user.ini') {
+
+				if(!$copiedWebserverSettingFiles) {
+					$tmpFolder = rtrim($this->tempManager->getTemporaryFolder(), '/');
+					copy($this->environmentHelper->getServerRoot() . '/.htaccess', $tmpFolder . '/.htaccess');
+					copy($this->environmentHelper->getServerRoot() . '/.user.ini', $tmpFolder . '/.user.ini');
+					\OC_Files::setUploadLimit(
+						\OCP\Util::computerFileSize('513MB'),
+						[
+							'.htaccess' => $tmpFolder . '/.htaccess',
+							'.user.ini' => $tmpFolder . '/.user.ini',
+						]
+					);
+				}
+			}
+
+			// The .user.ini file can contain custom modifications to the file size
+			// as well.
+			if($filename === $this->environmentHelper->getServerRoot() . '/.user.ini') {
+				$fileContent = file_get_contents($tmpFolder . '/.user.ini');
+				$hashes[$relativeFileName] = hash('sha512', $fileContent);
+				continue;
+			}
+
+			// The .htaccess file in the root folder of ownCloud can contain
+			// custom content after the installation due to the fact that dynamic
+			// content is written into it at installation time as well. This
+			// includes for example the 404 and 403 instructions.
+			// Thus we ignore everything below the first occurrence of
+			// "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####" and have the
+			// hash generated based on this.
+			if($filename === $this->environmentHelper->getServerRoot() . '/.htaccess') {
+				$fileContent = file_get_contents($tmpFolder . '/.htaccess');
+				$explodedArray = explode('#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####', $fileContent);
+				if(count($explodedArray) === 2) {
+					$hashes[$relativeFileName] = hash('sha512', $explodedArray[0]);
+					continue;
+				}
 			}
 
 			$hashes[$relativeFileName] = hash_file('sha512', $filename);
 		}
+
 		return $hashes;
 	}
 
@@ -161,17 +252,19 @@ class Checker {
 	}
 
 	/**
-	 * Write the signature of the specified app
+	 * Write the signature of the app in the specified folder
 	 *
-	 * @param string $appId
+	 * @param string $path
 	 * @param X509 $certificate
 	 * @param RSA $privateKey
 	 * @throws \Exception
 	 */
-	public function writeAppSignature($appId,
+	public function writeAppSignature($path,
 									  X509 $certificate,
 									  RSA $privateKey) {
-		$path = $this->appLocator->getAppPath($appId);
+		if(!is_dir($path)) {
+			throw new \Exception('Directory does not exist.');
+		}
 		$iterator = $this->getFolderIterator($path);
 		$hashes = $this->generateHashes($iterator, $path);
 		$signature = $this->createSignatureData($hashes, $certificate, $privateKey);
@@ -186,14 +279,16 @@ class Checker {
 	 *
 	 * @param X509 $certificate
 	 * @param RSA $rsa
+	 * @param string $path
 	 */
 	public function writeCoreSignature(X509 $certificate,
-									   RSA $rsa) {
-		$iterator = $this->getFolderIterator($this->environmentHelper->getServerRoot());
-		$hashes = $this->generateHashes($iterator, $this->environmentHelper->getServerRoot());
+									   RSA $rsa,
+									   $path) {
+		$iterator = $this->getFolderIterator($path, $path);
+		$hashes = $this->generateHashes($iterator, $path);
 		$signatureData = $this->createSignatureData($hashes, $certificate, $rsa);
 		$this->fileAccessHelper->file_put_contents(
-				$this->environmentHelper->getServerRoot() . '/core/signature.json',
+				$path . '/core/signature.json',
 				json_encode($signatureData, JSON_PRETTY_PRINT)
 		);
 	}
@@ -209,6 +304,10 @@ class Checker {
 	 * @throws \Exception
 	 */
 	private function verify($signaturePath, $basePath, $certificateCN) {
+		if(!$this->isCodeCheckEnforced()) {
+			return [];
+		}
+
 		$signatureData = json_decode($this->fileAccessHelper->file_get_contents($signaturePath), true);
 		if(!is_array($signatureData)) {
 			throw new InvalidSignatureException('Signature data not found.');
@@ -320,6 +419,14 @@ class Checker {
 		$this->cache->set(self::CACHE_KEY, json_encode($resultArray));
 	}
 
+	/**
+	 *
+	 * Clean previous results for a proper rescanning. Otherwise
+	 */
+	private function cleanResults() {
+		$this->config->deleteAppValue('core', self::CACHE_KEY);
+		$this->cache->remove(self::CACHE_KEY);
+	}
 
 	/**
 	 * Verify the signature of $appId. Returns an array with the following content:
@@ -350,11 +457,14 @@ class Checker {
 	 * Array may be empty in case no problems have been found.
 	 *
 	 * @param string $appId
+	 * @param string $path Optional path. If none is given it will be guessed.
 	 * @return array
 	 */
-	public function verifyAppSignature($appId) {
+	public function verifyAppSignature($appId, $path = '') {
 		try {
-			$path = $this->appLocator->getAppPath($appId);
+			if($path === '') {
+				$path = $this->appLocator->getAppPath($appId);
+			}
 			$result = $this->verify(
 					$path . '/appinfo/signature.json',
 					$path,
@@ -428,6 +538,7 @@ class Checker {
 	 * and store the results.
 	 */
 	public function runInstanceVerification() {
+		$this->cleanResults();
 		$this->verifyCoreSignature();
 		$appIds = $this->appLocator->getAllApps();
 		foreach($appIds as $appId) {

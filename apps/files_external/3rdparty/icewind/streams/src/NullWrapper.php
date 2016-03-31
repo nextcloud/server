@@ -24,18 +24,15 @@ class NullWrapper extends Wrapper {
 			'null' => array(
 				'source' => $source)
 		));
-		stream_wrapper_register('null', '\Icewind\Streams\NullWrapper');
-		try {
-			$wrapped = fopen('null://', 'r+', false, $context);
-		} catch (\BadMethodCallException $e) {
-			stream_wrapper_unregister('null');
-			throw $e;
-		}
-		stream_wrapper_unregister('null');
-		return $wrapped;
+		return Wrapper::wrapSource($source, $context, 'null', '\Icewind\Streams\NullWrapper');
 	}
 
 	public function stream_open($path, $mode, $options, &$opened_path) {
+		$this->loadContext('null');
+		return true;
+	}
+
+	public function dir_opendir($path, $options) {
 		$this->loadContext('null');
 		return true;
 	}

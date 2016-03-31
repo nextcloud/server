@@ -5,15 +5,13 @@
 	<description>File Management</description>
 	<licence>AGPL</licence>
 	<author>Robin Appelman, Vincent Petry</author>
-	<shipped>true</shipped>
-	<standalone/>
 	<default_enable/>
-	<version>1.4.1</version>
+	<version>1.5.1</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
-		<owncloud min-version="9.0" />
+		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
 	<documentation>
 		<user>user-files</user>

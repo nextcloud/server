@@ -3,7 +3,7 @@
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -63,6 +63,7 @@ foreach ($users as $uid) {
 	$entry['sn'] = $sn;
 	$entry['userPassword'] = $uid;
 	$entry['displayName'] = $sn . ', ' . $fn;
+	$entry['mail'] = $fn . '@example.com';
 
 	$ok = ldap_add($cr, $newDN, $entry);
 	if ($ok) {

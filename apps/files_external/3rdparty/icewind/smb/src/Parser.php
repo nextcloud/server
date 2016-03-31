@@ -11,6 +11,7 @@ use Icewind\SMB\Exception\AccessDeniedException;
 use Icewind\SMB\Exception\AlreadyExistsException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\FileInUseException;
+use Icewind\SMB\Exception\InvalidResourceException;
 use Icewind\SMB\Exception\InvalidTypeException;
 use Icewind\SMB\Exception\NotEmptyException;
 use Icewind\SMB\Exception\NotFoundException;
@@ -42,6 +43,13 @@ class Parser {
 					$error = $part;
 				}
 			}
+
+			$notFoundMsg = 'Error opening local file ';
+			if (substr($output[0], 0, strlen($notFoundMsg)) === $notFoundMsg) {
+				$localPath = substr($output[0], strlen($notFoundMsg));
+				throw new InvalidResourceException('Failed opening local file "' . $localPath . '" for writing');
+			}
+
 			switch ($error) {
 				case ErrorCodes::PathNotFound:
 				case ErrorCodes::ObjectNotFound:

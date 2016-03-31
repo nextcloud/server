@@ -1,7 +1,6 @@
 <?php
 /**
  * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
- * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Dominik Schmidt <dev@dominik-schmidt.de>
@@ -16,7 +15,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -63,7 +62,7 @@ define('OC_USER_BACKEND_COUNT_USERS',       1 << 28);
  * Abstract base class for user management. Provides methods for querying backend
  * capabilities.
  */
-abstract class OC_User_Backend implements OC_User_Interface {
+abstract class OC_User_Backend implements \OCP\UserInterface {
 	/**
 	 * error code for functions not provided by the user backend
 	 */

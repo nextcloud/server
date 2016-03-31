@@ -15,17 +15,18 @@
 	var TEMPLATE_FAVORITE_ACTION =
 		'<a href="#" ' +
 		'class="action action-favorite {{#isFavorite}}permanent{{/isFavorite}}">' +
-		'<img class="svg" alt="{{altText}}" src="{{imgFile}}" />' +
+		'<span class="icon {{iconClass}}" />' +
+		'<span class="hidden-visually">{{altText}}</span>' +
 		'</a>';
 
 	/**
-	 * Returns the path to the star image
+	 * Returns the icon class for the matching state
 	 *
 	 * @param {boolean} state true if starred, false otherwise
-	 * @return {string} path to star image
+	 * @return {string} icon class for star image
 	 */
-	function getStarImage(state) {
-		return OC.imagePath('core', state ? 'actions/starred' : 'actions/star');
+	function getStarIconClass(state) {
+		return state ? 'icon-starred' : 'icon-star';
 	}
 
 	/**
@@ -41,7 +42,7 @@
 		return this._template({
 			isFavorite: state,
 			altText: state ? t('files', 'Favorited') : t('files', 'Favorite'),
-			imgFile: getStarImage(state)
+			iconClass: getStarIconClass(state)
 		});
 	}
 
@@ -52,8 +53,7 @@
 	 * @param {boolean} state true if starred, false otherwise
 	 */
 	function toggleStar($actionEl, state) {
-		$actionEl.find('img').attr('src', getStarImage(state));
-		$actionEl.hide().show(0); //force Safari to redraw element on src change
+		$actionEl.removeClass('icon-star icon-starred').addClass(getStarIconClass(state));
 		$actionEl.toggleClass('permanent', state);
 	}
 

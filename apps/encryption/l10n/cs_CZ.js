@@ -25,6 +25,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chybný soukromý klíč pro šifrovací aplikaci. Aktualizujte prosím heslo svého soukromého klíče ve vašem osobním nastavení, abyste znovu získali přístup k vašim zašifrovaným souborům.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale vaše klíče nejsou inicializované. Prosím odhlaste se a znovu přihlaste",
     "Encryption App is enabled and ready" : "Aplikace šifrování je již povolena",
+    "Bad Signature" : "Špatný podpis",
+    "Missing Signature" : "Chybějící podpis",
     "one-time password for server-side-encryption" : "jednorázové heslo pro šifrování na straně serveru",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tento soubor se nepodařilo dešifrovat, pravděpodobně je sdílený. Požádejte prosím majitele souboru, aby jej s vámi znovu sdílel.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Soubor nelze načíst, pravděpodobně se jedná o sdílený soubor. Požádejte prosím vlastníka souboru, aby vám jej znovu sdílel.",

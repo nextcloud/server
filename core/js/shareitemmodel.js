@@ -26,13 +26,6 @@
 	 */
 
 	/**
-	 * @typedef {object} OC.Share.Types.Collection
-	 * @property {string} item_type
-	 * @property {string} path
-	 * @property {string} item_source TODO: verify
-	 */
-
-	/**
 	 * @typedef {object} OC.Share.Types.Reshare
 	 * @property {string} uid_owner
 	 * @property {number} share_type
@@ -51,9 +44,9 @@
 	 * @property {string} share_with
 	 * @property {string} share_with_displayname
 	 * @property {string} mail_send
-	 * @property {OC.Share.Types.Collection|undefined} collection
 	 * @property {Date} expiration optional?
 	 * @property {number} stime optional?
+	 * @property {string} uid_owner
 	 */
 
 	/**
@@ -84,6 +77,11 @@
 	 * where the link share is one of them
 	 */
 	var ShareItemModel = OC.Backbone.Model.extend({
+		/**
+		 * @type share id of the link share, if applicable
+		 */
+		_linkShareId: null,
+
 		initialize: function(attributes, options) {
 			if(!_.isUndefined(options.configModel)) {
 				this.configModel = options.configModel;
@@ -110,118 +108,48 @@
 		 * TODO: this should be a separate model
 		 */
 		saveLinkShare: function(attributes, options) {
-			var model = this;
-			var itemType = this.get('itemType');
-			var itemSource = this.get('itemSource');
+			options = options || {};
+			attributes = _.extend({}, attributes);
 
-			// TODO: use backbone's default value mechanism once this is a separate model
-			var requiredAttributes = [
-				{ name: 'password', defaultValue: '' },
-				{ name: 'passwordChanged', defaultValue: false },
-				{ name: 'permissions', defaultValue: OC.PERMISSION_READ },
-				{ name: 'expiration', defaultValue: this.configModel.getDefaultExpirationDateString() }
-			];
+			var shareId = null;
+			var call;
 
-			attributes = attributes || {};
+			// oh yeah...
+			if (attributes.expiration) {
+				attributes.expireDate = attributes.expiration;
+				delete attributes.expiration;
+			}
 
-			// get attributes from the model and fill in with default values
-			_.each(requiredAttributes, function(attribute) {
-				// a provided options overrides a present value of the link
-				// share. If neither is given, the default value is used.
-				if(_.isUndefined(attribute[attribute.name])) {
-					attributes[attribute.name] = attribute.defaultValue;
-					var currentValue = model.get('linkShare')[attribute.name];
-					if(!_.isUndefined(currentValue)) {
-						attributes[attribute.name] = currentValue;
-					}
-				}
-			});
+			if (this.get('linkShare') && this.get('linkShare').isLinkShare) {
+				shareId = this.get('linkShare').id;
 
-			var password = {
-				password: attributes.password,
-				passwordChanged: attributes.passwordChanged
-			};
+				// note: update can only update a single value at a time
+				call = this.updateShare(shareId, attributes, options);
+			} else {
+				attributes = _.defaults(attributes, {
+					password: '',
+					passwordChanged: false,
+					permissions: OC.PERMISSION_READ,
+					expireDate: this.configModel.getDefaultExpirationDateString(),
+					shareType: OC.Share.SHARE_TYPE_LINK
+				});
 
-			OC.Share.share(
-				itemType,
-				itemSource,
-				OC.Share.SHARE_TYPE_LINK,
-				password,
-				attributes.permissions,
-				this.fileInfoModel.get('name'),
-				attributes.expiration,
-				function(result) {
-					if (!result || result.status !== 'success') {
-						model.fetch({
-							success: function() {
-								if (options && _.isFunction(options.success)) {
-									options.success(model);
-								}
-							}
-						});
-					} else {
-						if (options && _.isFunction(options.error)) {
-							options.error(model);
-						}
-					}
-				},
-				function(result) {
-					var msg = t('core', 'Error');
-					if (result.data && result.data.message) {
-						msg = result.data.message;
-					}
+				call = this.addShare(attributes, options);
+			}
 
-					if (options && _.isFunction(options.error)) {
-						options.error(model, msg);
-					} else {
-						OC.dialogs.alert(msg, t('core', 'Error while sharing'));
-					}
-				}
-			);
+			return call;
 		},
 
 		removeLinkShare: function() {
-			this.removeShare(OC.Share.SHARE_TYPE_LINK, '');
-		},
-
-		/**
-		 * Sets the public upload flag
-		 *
-		 * @param {bool} allow whether public upload is allowed
-		 */
-		setPublicUpload: function(allow) {
-			var permissions = OC.PERMISSION_READ;
-			if(allow) {
-				permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ;
+			if (this.get('linkShare')) {
+				return this.removeShare(this.get('linkShare').id);
 			}
-
-			this.get('linkShare').permissions = permissions;
-		},
-
-		/**
-		 * Sets the expiration date of the public link
-		 *
-		 * @param {string} expiration expiration date
-		 */
-		setExpirationDate: function(expiration) {
-			this.get('linkShare').expiration = expiration;
-		},
-
-		/**
-		 * Set password of the public link share
-		 *
-		 * @param {string} password
-		 */
-		setPassword: function(password) {
-			this.get('linkShare').password = password;
-			this.get('linkShare').passwordChanged = true;
 		},
 
 		addShare: function(attributes, options) {
 			var shareType = attributes.shareType;
-			var shareWith = attributes.shareWith;
-			var fileName = this.fileInfoModel.get('name');
 			options = options || {};
+			attributes = _.extend({}, attributes);
 
 			// Default permissions are Edit (CRUD) and Share
 			// Check if these permissions are possible
@@ -243,29 +171,101 @@
 				}
 			}
 
-			var model = this;
-			var itemType = this.get('itemType');
-			var itemSource = this.get('itemSource');
-			OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, fileName, options.expiration, function() {
-				model.fetch();
+			attributes.permissions = permissions;
+			if (_.isUndefined(attributes.path)) {
+				attributes.path = this.fileInfoModel.getFullPath();
+			}
+
+			var self = this;
+			return $.ajax({
+				type: 'POST',
+				url: this._getUrl('shares'),
+				data: attributes,
+				dataType: 'json'
+			}).done(function() {
+				self.fetch().done(function() {
+					if (_.isFunction(options.success)) {
+						options.success(self);
+					}
+				});
+			}).fail(function(xhr) {
+				var msg = t('core', 'Error');
+				var result = xhr.responseJSON;
+				if (result.ocs && result.ocs.meta) {
+					msg = result.ocs.meta.message;
+				}
+
+				if (_.isFunction(options.error)) {
+					options.error(self, msg);
+				} else {
+					OC.dialogs.alert(msg, t('core', 'Error while sharing'));
+				}
 			});
 		},
 
-		setPermissions: function(shareType, shareWith, permissions) {
-			var itemType = this.get('itemType');
-			var itemSource = this.get('itemSource');
+		updateShare: function(shareId, attrs, options) {
+			var self = this;
+			options = options || {};
+			return $.ajax({
+				type: 'PUT',
+				url: this._getUrl('shares/' + encodeURIComponent(shareId)),
+				data: attrs,
+				dataType: 'json'
+			}).done(function() {
+				self.fetch({
+					success: function() {
+						if (_.isFunction(options.success)) {
+							options.success(self);
+						}
+					}
+				});
+			}).fail(function(xhr) {
+				var msg = t('core', 'Error');
+				var result = xhr.responseJSON;
+				if (result.ocs && result.ocs.meta) {
+					msg = result.ocs.meta.message;
+				}
 
-			// TODO: in the future, only set the permissions on the model but don't save directly
-			OC.Share.setPermissions(itemType, itemSource, shareType, shareWith, permissions);
+				if (_.isFunction(options.error)) {
+					options.error(self, msg);
+				} else {
+					OC.dialogs.alert(msg, t('core', 'Error while sharing'));
+				}
+			});
 		},
 
-		removeShare: function(shareType, shareWith) {
-			var model = this;
-			var itemType = this.get('itemType');
-			var itemSource = this.get('itemSource');
+		/**
+		 * Deletes the share with the given id
+		 *
+		 * @param {int} shareId share id
+		 * @return {jQuery}
+		 */
+		removeShare: function(shareId, options) {
+			var self = this;
+			options = options || {};
+			return $.ajax({
+				type: 'DELETE',
+				url: this._getUrl('shares/' + encodeURIComponent(shareId)),
+			}).done(function() {
+				self.fetch({
+					success: function() {
+						if (_.isFunction(options.success)) {
+							options.success(self);
+						}
+					}
+				});
+			}).fail(function(xhr) {
+				var msg = t('core', 'Error');
+				var result = xhr.responseJSON;
+				if (result.ocs && result.ocs.meta) {
+					msg = result.ocs.meta.message;
+				}
 
-			OC.Share.unshare(itemType, itemSource, shareType, shareWith, function() {
-				model.fetch();
+				if (_.isFunction(options.error)) {
+					options.error(self, msg);
+				} else {
+					OC.dialogs.alert(msg, t('core', 'Error removing share'));
+				}
 			});
 		},
 
@@ -319,71 +319,6 @@
 			}
 			return false;
 		},
-
-		/**
-		 * @param {number} shareIndex
-		 * @returns {string}
-		 */
-		getCollectionType: function(shareIndex) {
-			/** @type OC.Share.Types.ShareInfo **/
-			var share = this.get('shares')[shareIndex];
-			if(!_.isObject(share)) {
-				throw "Unknown Share";
-			} else if(_.isUndefined(share.collection)) {
-				throw "Share is not a collection";
-			}
-
-			return share.collection.item_type;
-		},
-
-		/**
-		 * @param {number} shareIndex
-		 * @returns {string}
-		 */
-		getCollectionPath: function(shareIndex) {
-			/** @type OC.Share.Types.ShareInfo **/
-			var share = this.get('shares')[shareIndex];
-			if(!_.isObject(share)) {
-				throw "Unknown Share";
-			} else if(_.isUndefined(share.collection)) {
-				throw "Share is not a collection";
-			}
-
-			return share.collection.path;
-		},
-
-		/**
-		 * @param {number} shareIndex
-		 * @returns {string}
-		 */
-		getCollectionSource: function(shareIndex) {
-			/** @type OC.Share.Types.ShareInfo **/
-			var share = this.get('shares')[shareIndex];
-			if(!_.isObject(share)) {
-				throw "Unknown Share";
-			} else if(_.isUndefined(share.collection)) {
-				throw "Share is not a collection";
-			}
-
-			return share.collection.item_source;
-		},
-
-		/**
-		 * @param {number} shareIndex
-		 * @returns {boolean}
-		 */
-		isCollection: function(shareIndex) {
-			/** @type OC.Share.Types.ShareInfo **/
-			var share = this.get('shares')[shareIndex];
-			if(!_.isObject(share)) {
-				throw "Unknown Share";
-			}
-			if(_.isUndefined(share.collection)) {
-				return false;
-			}
-			return true;
-		},
-
 
 		/**
 		 * @returns {string}
@@ -635,13 +570,64 @@
 				   || this.hasDeletePermission(shareIndex);
 		},
 
+		_getUrl: function(base, params) {
+			params = _.extend({format: 'json'}, params || {});
+			return OC.linkToOCS('apps/files_sharing/api/v1', 2) + base + '?' + OC.buildQueryString(params);
+		},
+
+		_fetchShares: function() {
+			var path = this.fileInfoModel.getFullPath();
+			return $.ajax({
+				type: 'GET',
+				url: this._getUrl('shares', {path: path, reshares: true})
+			});
+		},
+
+		_fetchReshare: function() {
+			// only fetch original share once
+			if (!this._reshareFetched) {
+				var path = this.fileInfoModel.getFullPath();
+				this._reshareFetched = true;
+				return $.ajax({
+					type: 'GET',
+					url: this._getUrl('shares', {path: path, shared_with_me: true})
+				});
+			} else {
+				return $.Deferred().resolve([{
+					ocs: {
+						data: [this.get('reshare')]
+					}
+				}]);
+			}
+		},
+
 		fetch: function() {
 			var model = this;
 			this.trigger('request', this);
-			OC.Share.loadItem(this.get('itemType'), this.get('itemSource'), function(data) {
+
+			var deferred = $.when(
+				this._fetchShares(),
+				this._fetchReshare()
+			);
+			deferred.done(function(data1, data2) {
 				model.trigger('sync', 'GET', this);
-				model.set(model.parse(data));
+				var sharesMap = {};
+				_.each(data1[0].ocs.data, function(shareItem) {
+					sharesMap[shareItem.id] = shareItem;
+				});
+
+				var reshare = false;
+				if (data2[0].ocs.data.length) {
+					reshare = data2[0].ocs.data[0];
+				}
+
+				model.set(model.parse({
+					shares: sharesMap,
+					reshare: reshare
+				}));
 			});
+
+			return deferred;
 		},
 
 		/**
@@ -690,7 +676,7 @@
 		parse: function(data) {
 			if(data === false) {
 				console.warn('no data was returned');
-				trigger('fetchError');
+				this.trigger('fetchError');
 				return {};
 			}
 
@@ -738,6 +724,14 @@
 						|| share.item_source === this.get('itemSource'));
 
 					if (isShareLink) {
+						/*
+						 * Ignore reshared link shares for now
+						 * FIXME: Find a way to display properly
+						 */
+						if (share.uid_owner !== OC.currentUser) {
+							return share;
+						}
+
 						var link = window.location.protocol + '//' + window.location.host;
 						if (!share.token) {
 							// pre-token link
@@ -752,6 +746,7 @@
 						}
 						linkShare = {
 							isLinkShare: true,
+							id: share.id,
 							token: share.token,
 							password: share.share_with,
 							link: link,

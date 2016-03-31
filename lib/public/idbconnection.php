@@ -4,9 +4,10 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -32,6 +33,7 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
  * Interface IDBConnection
@@ -109,6 +111,20 @@ interface IDBConnection {
 	public function insertIfNotExist($table, $input, array $compare = null);
 
 	/**
+	 * Insert or update a row value
+	 *
+	 * @param string $table
+	 * @param array $keys (column name => value)
+	 * @param array $values (column name => value)
+	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
+	 * @return int number of new rows
+	 * @throws \Doctrine\DBAL\DBALException
+	 * @throws PreconditionNotMetException
+	 * @since 9.0.0
+	 */
+	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []);
+
+	/**
 	 * Start a transaction
 	 * @since 6.0.0
 	 */
@@ -179,7 +195,7 @@ interface IDBConnection {
 	 * @return string The quoted parameter.
 	 * @since 8.0.0
 	 */
-	public function quote($input, $type = \PDO::PARAM_STR);
+	public function quote($input, $type = IQueryBuilder::PARAM_STR);
 
 	/**
 	 * Gets the DatabasePlatform instance that provides all the metadata about

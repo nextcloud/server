@@ -3,7 +3,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -39,8 +39,9 @@ class StringUtils {
 	 * @param string $input The input to compare against
 	 * @return bool True if the two strings are equal, otherwise false.
 	 * @since 8.0.0
+	 * @deprecated 9.0.0 Use hash_equals
 	 */
 	public static function equals($expected, $input) {
-		return \OC\Security\StringUtils::equals($expected, $input);
+		return hash_equals($expected, $input);
 	}
 }

@@ -1,8 +1,10 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -149,7 +151,7 @@ class ViewControllerTest extends TestCase {
 
 		$nav = new Template('files', 'appnavigation');
 		$nav->assign('navigationItems', [
-			0 => [
+			[
 				'id' => 'files',
 				'appname' => 'files',
 				'script' => 'list.php',
@@ -158,7 +160,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			1 => [
+			[
 				'id' => 'favorites',
 				'appname' => 'files',
 				'script' => 'simplelist.php',
@@ -167,7 +169,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			2 => [
+			[
 			'id' => 'sharingin',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
@@ -176,7 +178,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			3 => [
+			[
 			'id' => 'sharingout',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
@@ -185,7 +187,7 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			4 => [
+			[
 				'id' => 'sharinglinks',
 				'appname' => 'files_sharing',
 				'script' => 'list.php',
@@ -194,7 +196,16 @@ class ViewControllerTest extends TestCase {
 				'active' => false,
 				'icon' => '',
 			],
-			5 => [
+			[
+				'id' => 'systemtagsfilter',
+				'appname' => 'systemtags',
+				'script' => 'list.php',
+				'order' => 25,
+				'name' => new \OC_L10N_String(new \OC_L10N('systemtags'), 'Tags', []),
+				'active' => false,
+				'icon' => '',
+			],
+			[
 				'id' => 'trashbin',
 				'appname' => 'files_trashbin',
 				'script' => 'list.php',
@@ -218,27 +229,31 @@ class ViewControllerTest extends TestCase {
 				'allowShareWithLink' => 'yes',
 				'appNavigation' => $nav,
 				'appContents' => [
-					0 => [
+					[
 						'id' => 'files',
 						'content' => null,
 					],
-					1 => [
+					[
 						'id' => 'favorites',
 						'content' => null,
 					],
-					2 => [
+					[
 						'id' => 'sharingin',
 						'content' => null,
 					],
-					3 => [
+					[
 						'id' => 'sharingout',
 						'content' => null,
 					],
-					4 => [
+					[
 						'id' => 'sharinglinks',
 						'content' => null,
 					],
-					5 => [
+					[
+						'id' => 'systemtagsfilter',
+						'content' => null,
+					],
+					[
 						'id' => 'trashbin',
 						'content' => null,
 					],

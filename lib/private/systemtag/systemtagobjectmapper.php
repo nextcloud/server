@@ -1,8 +1,9 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,37 +22,40 @@
 
 namespace OC\SystemTag;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\SystemTag\MapperEvent;
 use OCP\SystemTag\TagNotFoundException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagObjectMapper implements ISystemTagObjectMapper {
 
 	const RELATION_TABLE = 'systemtag_object_mapping';
 
-	/**
-	 * @var ISystemTagManager
-	 */
-	private $tagManager;
+	/** @var ISystemTagManager */
+	protected $tagManager;
 
-	/**
-	 * @var IDBConnection
-	 */
-	private $connection;
+	/** @var IDBConnection */
+	protected $connection;
+
+	/** @var EventDispatcherInterface */
+	protected $dispatcher;
 
 	/**
 	* Constructor.
 	*
 	* @param IDBConnection $connection database connection
 	* @param ISystemTagManager $tagManager system tag manager
+	* @param EventDispatcherInterface $dispatcher
 	*/
-	public function __construct(IDBConnection $connection, ISystemTagManager $tagManager) {
+	public function __construct(IDBConnection $connection, ISystemTagManager $tagManager, EventDispatcherInterface $dispatcher) {
 		$this->connection = $connection;
 		$this->tagManager = $tagManager;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -60,6 +64,8 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	public function getTagIdsForObjects($objIds, $objectType) {
 		if (!is_array($objIds)) {
 			$objIds = [$objIds];
+		} else if (empty($objIds)) {
+			return [];
 		}
 
 		$query = $this->connection->getQueryBuilder();
@@ -67,7 +73,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->from(self::RELATION_TABLE)
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
-			->setParameter('objectids', $objIds, Connection::PARAM_INT_ARRAY)
+			->setParameter('objectids', $objIds, IQueryBuilder::PARAM_INT_ARRAY)
 			->setParameter('objecttype', $objectType)
 			->addOrderBy('objectid', 'ASC')
 			->addOrderBy('systemtagid', 'ASC');
@@ -91,7 +97,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getObjectIdsForTags($tagIds, $objectType) {
+	public function getObjectIdsForTags($tagIds, $objectType, $limit = 0, $offset = '') {
 		if (!is_array($tagIds)) {
 			$tagIds = [$tagIds];
 		}
@@ -99,12 +105,23 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 		$this->assertTagsExist($tagIds);
 
 		$query = $this->connection->getQueryBuilder();
-		$query->select($query->createFunction('DISTINCT(`objectid`)'))
+		$query->selectDistinct('objectid')
 			->from(self::RELATION_TABLE)
-			->where($query->expr()->in('systemtagid', $query->createParameter('tagids')))
-			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
-			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY)
-			->setParameter('objecttype', $objectType);
+			->where($query->expr()->in('systemtagid', $query->createNamedParameter($tagIds, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($query->expr()->eq('objecttype', $query->createNamedParameter($objectType)));
+
+		if ($limit) {
+			if (sizeof($tagIds) !== 1) {
+				throw new \InvalidArgumentException('Limit is only allowed with a single tag');
+			}
+
+			$query->setMaxResults($limit)
+				->orderBy('objectid', 'ASC');
+
+			if ($offset !== '') {
+				$query->andWhere($query->expr()->gt('objectid', $query->createNamedParameter($offset)));
+			}
+		}
 
 		$objectIds = [];
 
@@ -142,6 +159,13 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 				// ignore existing relations
 			}
 		}
+
+		$this->dispatcher->dispatch(MapperEvent::EVENT_ASSIGN, new MapperEvent(
+			MapperEvent::EVENT_ASSIGN,
+			$objectType,
+			$objId,
+			$tagIds
+		));
 	}
 
 	/**
@@ -161,8 +185,15 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->andWhere($query->expr()->in('systemtagid', $query->createParameter('tagids')))
 			->setParameter('objectid', $objId)
 			->setParameter('objecttype', $objectType)
-			->setParameter('tagids', $tagIds, Connection::PARAM_INT_ARRAY)
+			->setParameter('tagids', $tagIds, IQueryBuilder::PARAM_INT_ARRAY)
 			->execute();
+
+		$this->dispatcher->dispatch(MapperEvent::EVENT_UNASSIGN, new MapperEvent(
+			MapperEvent::EVENT_UNASSIGN,
+			$objectType,
+			$objId,
+			$tagIds
+		));
 	}
 
 	/**
@@ -170,6 +201,10 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	 */
 	public function haveTag($objIds, $objectType, $tagId, $all = true) {
 		$this->assertTagsExist([$tagId]);
+
+		if (!is_array($objIds)) {
+			$objIds = [$objIds];
+		}
 
 		$query = $this->connection->getQueryBuilder();
 
@@ -186,7 +221,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 			->where($query->expr()->in('objectid', $query->createParameter('objectids')))
 			->andWhere($query->expr()->eq('objecttype', $query->createParameter('objecttype')))
 			->andWhere($query->expr()->eq('systemtagid', $query->createParameter('tagid')))
-			->setParameter('objectids', $objIds, Connection::PARAM_INT_ARRAY)
+			->setParameter('objectids', $objIds, IQueryBuilder::PARAM_STR_ARRAY)
 			->setParameter('tagid', $tagId)
 			->setParameter('objecttype', $objectType);
 
@@ -209,7 +244,7 @@ class SystemTagObjectMapper implements ISystemTagObjectMapper {
 	 * @throws \OCP\SystemTag\TagNotFoundException if at least one tag did not exist
 	 */
 	private function assertTagsExist($tagIds) {
-		$tags = $this->tagManager->getTagsById($tagIds);
+		$tags = $this->tagManager->getTagsByIds($tagIds);
 		if (count($tags) !== count($tagIds)) {
 			// at least one tag missing, bail out
 			$foundTagIds = array_map(

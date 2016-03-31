@@ -72,7 +72,7 @@ class Filesystem extends \Test\TestCase {
 	 * @return array
 	 */
 	private function getStorageData() {
-		$dir = \OC_Helper::tmpFolder();
+		$dir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->tmpDirs[] = $dir;
 		return array('datadir' => $dir);
 	}
@@ -302,7 +302,7 @@ class Filesystem extends \Test\TestCase {
 		\OC\Files\Filesystem::mkdir('/bar');
 //		\OC\Files\Filesystem::file_put_contents('/bar//foo', 'foo');
 
-		$tmpFile = \OC_Helper::tmpFile();
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile();
 		file_put_contents($tmpFile, 'foo');
 		$fh = fopen($tmpFile, 'r');
 //		\OC\Files\Filesystem::file_put_contents('/bar//foo', $fh);
@@ -325,7 +325,7 @@ class Filesystem extends \Test\TestCase {
 	public function testHomeMount() {
 		$userId = $this->getUniqueID('user_');
 
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 
 		\OC\Files\Filesystem::initMountPoints($userId);
 
@@ -340,7 +340,8 @@ class Filesystem extends \Test\TestCase {
 			$this->assertEquals('home::' . $userId, $homeMount->getId());
 		}
 
-		\OC_User::deleteUser($userId);
+		$user = \OC::$server->getUserManager()->get($userId);
+		if ($user !== null) { $user->delete(); }
 	}
 
 	/**
@@ -360,7 +361,7 @@ class Filesystem extends \Test\TestCase {
 		// this will trigger the insert
 		$cache = $localStorage->getCache();
 
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
 
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
@@ -368,7 +369,8 @@ class Filesystem extends \Test\TestCase {
 		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Home'));
 		$this->assertEquals('local::' . $datadir . '/' . $userId . '/', $homeMount->getId());
 
-		\OC_User::deleteUser($userId);
+		$user = \OC::$server->getUserManager()->get($userId);
+		if ($user !== null) { $user->delete(); }
 		// delete storage entry
 		$cache->clear();
 	}
@@ -388,7 +390,7 @@ class Filesystem extends \Test\TestCase {
 		// no cache path configured
 		$config->setSystemValue('cache_path', '');
 
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
 
 		$this->assertEquals(
@@ -398,7 +400,8 @@ class Filesystem extends \Test\TestCase {
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
 		$this->assertTrue($storage->instanceOfStorage('\OCP\Files\IHomeStorage'));
 		$this->assertEquals('cache', $internalPath);
-		\OC_User::deleteUser($userId);
+		$user = \OC::$server->getUserManager()->get($userId);
+		if ($user !== null) { $user->delete(); }
 
 		$config->setSystemValue('cache_path', $oldCachePath);
 	}
@@ -413,10 +416,10 @@ class Filesystem extends \Test\TestCase {
 		$config = \OC::$server->getConfig();
 		$oldCachePath = $config->getSystemValue('cache_path', '');
 		// set cache path to temp dir
-		$cachePath = \OC_Helper::tmpFolder() . '/extcache';
+		$cachePath = \OC::$server->getTempManager()->getTemporaryFolder() . '/extcache';
 		$config->setSystemValue('cache_path', $cachePath);
 
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 		\OC\Files\Filesystem::initMountPoints($userId);
 
 		$this->assertEquals(
@@ -426,7 +429,8 @@ class Filesystem extends \Test\TestCase {
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
 		$this->assertTrue($storage->instanceOfStorage('\OC\Files\Storage\Local'));
 		$this->assertEquals('', $internalPath);
-		\OC_User::deleteUser($userId);
+		$user = \OC::$server->getUserManager()->get($userId);
+		if ($user !== null) { $user->delete(); }
 
 		$config->setSystemValue('cache_path', $oldCachePath);
 	}

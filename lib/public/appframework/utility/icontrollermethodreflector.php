@@ -1,9 +1,10 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -35,6 +36,7 @@ interface IControllerMethodReflector {
 	/**
 	 * @param object $object an object or classname
 	 * @param string $method the method which we want to inspect
+	 * @return void
 	 * @since 8.0.0
 	 */
 	public function reflect($object, $method);

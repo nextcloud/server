@@ -9,10 +9,11 @@
  * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -50,6 +51,30 @@
  */
 class OC_Group_Database extends OC_Group_Backend {
 
+	/** @var string[] */
+	private $groupCache = [];
+
+	/** @var \OCP\IDBConnection */
+	private $dbConn;
+
+	/**
+	 * OC_Group_Database constructor.
+	 *
+	 * @param \OCP\IDBConnection|null $dbConn
+	 */
+	public function __construct(\OCP\IDBConnection $dbConn = null) {
+		$this->dbConn = $dbConn;
+	}
+
+	/**
+	 * FIXME: This function should not be required!
+	 */
+	private function fixDI() {
+		if ($this->dbConn === null) {
+			$this->dbConn = \OC::$server->getDatabaseConnection();
+		}
+	}
+
 	/**
 	 * Try to create a new group
 	 * @param string $gid The name of the group to create
@@ -59,21 +84,17 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * be returned.
 	 */
 	public function createGroup( $gid ) {
-		// Check for existence
-		$stmt = OC_DB::prepare( "SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` = ?" );
-		$result = $stmt->execute( array( $gid ));
+		$this->fixDI();
 
-		if( $result->fetchRow() ) {
-			// Can not add an existing group
-			return false;
-		}
-		else{
-			// Add group and exit
-			$stmt = OC_DB::prepare( "INSERT INTO `*PREFIX*groups` ( `gid` ) VALUES( ? )" );
-			$result = $stmt->execute( array( $gid ));
+		// Add group
+		$result = $this->dbConn->insertIfNotExist('*PREFIX*groups', [
+			'gid' => $gid,
+		]);
 
-			return $result ? true : false;
-		}
+		// Add to cache
+		$this->groupCache[$gid] = $gid;
+
+		return $result === 1;
 	}
 
 	/**
@@ -84,17 +105,28 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Deletes a group and removes it from the group_user-table
 	 */
 	public function deleteGroup( $gid ) {
+		$this->fixDI();
+
 		// Delete the group
-		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*groups` WHERE `gid` = ?" );
-		$stmt->execute( array( $gid ));
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('groups')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
 
 		// Delete the group-user relation
-		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `gid` = ?" );
-		$stmt->execute( array( $gid ));
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_user')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
 
 		// Delete the group-groupadmin relation
-		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*group_admin` WHERE `gid` = ?" );
-		$stmt->execute( array( $gid ));
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_admin')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
+
+		// Delete from cache
+		unset($this->groupCache[$gid]);
 
 		return true;
 	}
@@ -108,11 +140,20 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Checks whether the user is member of a group or not.
 	 */
 	public function inGroup( $uid, $gid ) {
-		// check
-		$stmt = OC_DB::prepare( "SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` = ?" );
-		$result = $stmt->execute( array( $gid, $uid ));
+		$this->fixDI();
 
-		return $result->fetchRow() ? true : false;
+		// check
+		$qb = $this->dbConn->getQueryBuilder();
+		$cursor = $qb->select('uid')
+			->from('group_user')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->execute();
+
+		$result = $cursor->fetch();
+		$cursor->closeCursor();
+
+		return $result ? true : false;
 	}
 
 	/**
@@ -124,10 +165,15 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Adds a user to a group.
 	 */
 	public function addToGroup( $uid, $gid ) {
+		$this->fixDI();
+
 		// No duplicate entries!
 		if( !$this->inGroup( $uid, $gid )) {
-			$stmt = OC_DB::prepare( "INSERT INTO `*PREFIX*group_user` ( `uid`, `gid` ) VALUES( ?, ? )" );
-			$stmt->execute( array( $uid, $gid ));
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->insert('group_user')
+				->setValue('uid', $qb->createNamedParameter($uid))
+				->setValue('gid', $qb->createNamedParameter($gid))
+				->execute();
 			return true;
 		}else{
 			return false;
@@ -143,8 +189,13 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * removes the user from a group.
 	 */
 	public function removeFromGroup( $uid, $gid ) {
-		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `uid` = ? AND `gid` = ?" );
-		$stmt->execute( array( $uid, $gid ));
+		$this->fixDI();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->delete('group_user')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->andWhere($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
 
 		return true;
 	}
@@ -158,14 +209,21 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * if the user exists at all.
 	 */
 	public function getUserGroups( $uid ) {
-		// No magic!
-		$stmt = OC_DB::prepare( "SELECT `gid` FROM `*PREFIX*group_user` WHERE `uid` = ?" );
-		$result = $stmt->execute( array( $uid ));
+		$this->fixDI();
 
-		$groups = array();
-		while( $row = $result->fetchRow()) {
+		// No magic!
+		$qb = $this->dbConn->getQueryBuilder();
+		$cursor = $qb->select('gid')
+			->from('group_user')
+			->where($qb->expr()->eq('uid', $qb->createNamedParameter($uid)))
+			->execute();
+
+		$groups = [];
+		while( $row = $cursor->fetch()) {
 			$groups[] = $row["gid"];
+			$this->groupCache[$row['gid']] = $row['gid'];
 		}
+		$cursor->closeCursor();
 
 		return $groups;
 	}
@@ -202,9 +260,23 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @return bool
 	 */
 	public function groupExists($gid) {
-		$query = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` = ?');
-		$result = $query->execute(array($gid))->fetchOne();
+		$this->fixDI();
+
+		// Check cache first
+		if (isset($this->groupCache[$gid])) {
+			return true;
+		}
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$cursor = $qb->select('gid')
+			->from('groups')
+			->where($qb->expr()->eq('gid', $qb->createNamedParameter($gid)))
+			->execute();
+		$result = $cursor->fetch();
+		$cursor->closeCursor();
+
 		if ($result !== false) {
+			$this->groupCache[$gid] = $gid;
 			return true;
 		}
 		return false;

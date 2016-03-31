@@ -8,7 +8,7 @@
 
 abstract class Test_Cache extends \Test\TestCase {
 	/**
-	 * @var \OC\Cache cache;
+	 * @var \OCP\ICache cache;
 	 */
 	protected $instance;
 

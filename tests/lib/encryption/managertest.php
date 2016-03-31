@@ -24,6 +24,9 @@ class ManagerTest extends TestCase {
 
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	private $util;
+	
+	/** @var  \PHPUnit_Framework_MockObject_MockObject | \OC\Memcache\ArrayCache */
+	private $arrayCache;
 
 	public function setUp() {
 		parent::setUp();
@@ -32,7 +35,8 @@ class ManagerTest extends TestCase {
 		$this->l10n = $this->getMock('\OCP\Il10n');
 		$this->view = $this->getMock('\OC\Files\View');
 		$this->util = $this->getMockBuilder('\OC\Encryption\Util')->disableOriginalConstructor()->getMock();
-		$this->manager = new Manager($this->config, $this->logger, $this->l10n, $this->view, $this->util);
+		$this->arrayCache = $this->getMock('OC\Memcache\ArrayCache');
+		$this->manager = new Manager($this->config, $this->logger, $this->l10n, $this->view, $this->util, $this->arrayCache);
 	}
 
 	public function testManagerIsDisabled() {

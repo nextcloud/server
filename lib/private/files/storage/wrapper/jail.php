@@ -3,7 +3,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -350,17 +350,6 @@ class Jail extends Wrapper {
 	 */
 	public function getLocalFile($path) {
 		return $this->storage->getLocalFile($this->getSourcePath($path));
-	}
-
-	/**
-	 * get the path to a local version of the folder.
-	 * The local version of the folder can be temporary and doesn't have to be persistent across requests
-	 *
-	 * @param string $path
-	 * @return string
-	 */
-	public function getLocalFolder($path) {
-		return $this->storage->getLocalFolder($this->getSourcePath($path));
 	}
 
 	/**

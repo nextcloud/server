@@ -1,10 +1,10 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -32,9 +32,75 @@
 namespace OCP;
 
 /**
- * Interface UserInterface
+ * TODO actually this is a IUserBackend
  *
  * @package OCP
  * @since 4.5.0
  */
-interface UserInterface extends \OC_User_Interface {}
+interface UserInterface {
+
+	/**
+	 * Check if backend implements actions
+	 * @param int $actions bitwise-or'ed actions
+	 * @return boolean
+	 *
+	 * Returns the supported actions as int to be
+	 * compared with \OC_User_Backend::CREATE_USER etc.
+	 * @since 4.5.0
+	 */
+	public function implementsActions($actions);
+
+	/**
+	 * delete a user
+	 * @param string $uid The username of the user to delete
+	 * @return bool
+	 * @since 4.5.0
+	 */
+	public function deleteUser($uid);
+
+	/**
+	 * Get a list of all users
+	 *
+	 * @param string $search
+	 * @param null|int $limit
+	 * @param null|int $offset
+	 * @return string[] an array of all uids
+	 * @since 4.5.0
+	 */
+	public function getUsers($search = '', $limit = null, $offset = null);
+
+	/**
+	 * check if a user exists
+	 * @param string $uid the username
+	 * @return boolean
+	 * @since 4.5.0
+	 */
+	public function userExists($uid);
+
+	/**
+	 * get display name of the user
+	 * @param string $uid user ID of the user
+	 * @return string display name
+	 * @since 4.5.0
+	 */
+	public function getDisplayName($uid);
+
+	/**
+	 * Get a list of all display names and user ids.
+	 *
+	 * @param string $search
+	 * @param string|null $limit
+	 * @param string|null $offset
+	 * @return array an array of all displayNames (value) and the corresponding uids (key)
+	 * @since 4.5.0
+	 */
+	public function getDisplayNames($search = '', $limit = null, $offset = null);
+
+	/**
+	 * Check if a user list is available or not
+	 * @return boolean if users can be listed or not
+	 * @since 4.5.0
+	 */
+	public function hasUserListings();
+
+}

@@ -8,7 +8,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,28 +26,23 @@
  */
 
 class OC_L10N_String implements JsonSerializable {
-	/**
-	 * @var OC_L10N
-	 */
+	/** @var \OC_L10N|\OC\L10N\L10N */
 	protected $l10n;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	protected $text;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	protected $parameters;
 
-	/**
-	 * @var integer
-	 */
+	/** @var integer */
 	protected $count;
 
 	/**
-	 * @param OC_L10N $l10n
+	 * @param \OC_L10N|\OC\L10N\L10N $l10n
+	 * @param string|string[] $text
+	 * @param array $parameters
+	 * @param int $count
 	 */
 	public function __construct($l10n, $text, $parameters, $count = 1) {
 		$this->l10n = $l10n;
@@ -80,5 +75,4 @@ class OC_L10N_String implements JsonSerializable {
 	public function jsonSerialize() {
 		return $this->__toString();
 	}
-
 }

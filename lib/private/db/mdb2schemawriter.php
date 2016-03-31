@@ -3,11 +3,10 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author tbelau666 <thomas.belau@gmx.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,7 +23,12 @@
  *
  */
 
-class OC_DB_MDB2SchemaWriter {
+namespace OC\DB;
+
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Index;
+
+class MDB2SchemaWriter {
 
 	/**
 	 * @param string $file
@@ -34,7 +38,7 @@ class OC_DB_MDB2SchemaWriter {
 	static public function saveSchemaToFile($file, \OC\DB\Connection $conn) {
 		$config = \OC::$server->getConfig();
 
-		$xml = new SimpleXMLElement('<database/>');
+		$xml = new \SimpleXMLElement('<database/>');
 		$xml->addChild('name', $config->getSystemValue('dbname', 'owncloud'));
 		$xml->addChild('create', 'true');
 		$xml->addChild('overwrite', 'false');
@@ -56,7 +60,8 @@ class OC_DB_MDB2SchemaWriter {
 	}
 
 	/**
-	 * @param SimpleXMLElement $xml
+	 * @param \Doctrine\DBAL\Schema\Table $table
+	 * @param \SimpleXMLElement $xml
 	 */
 	private static function saveTable($table, $xml) {
 		$xml->addChild('name', $table->getName());
@@ -81,7 +86,8 @@ class OC_DB_MDB2SchemaWriter {
 	}
 
 	/**
-	 * @param SimpleXMLElement $xml
+	 * @param Column $column
+	 * @param \SimpleXMLElement $xml
 	 */
 	private static function saveColumn($column, $xml) {
 		$xml->addChild('name', $column->getName());
@@ -147,7 +153,8 @@ class OC_DB_MDB2SchemaWriter {
 	}
 
 	/**
-	 * @param SimpleXMLElement $xml
+	 * @param Index $index
+	 * @param \SimpleXMLElement $xml
 	 */
 	private static function saveIndex($index, $xml) {
 		$xml->addChild('name', $index->getName());

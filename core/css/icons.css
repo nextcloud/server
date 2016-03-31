@@ -24,7 +24,6 @@
 	background-image: url('../img/loading-small.gif');
 }
 .icon-32 {
-	-webkit-background-size: 32px !important;
 	background-size: 32px !important;
 }
 
@@ -47,13 +46,19 @@
 .icon-checkmark {
 	background-image: url('../img/actions/checkmark.svg');
 }
-
 .icon-checkmark-white {
 	background-image: url('../img/actions/checkmark-white.svg');
+}
+.icon-checkmark-color {
+	background-image: url('../img/actions/checkmark-color.svg');
 }
 
 .icon-close {
 	background-image: url('../img/actions/close.svg');
+}
+
+.icon-comment {
+	background-image: url('../img/actions/comment.svg');
 }
 
 .icon-confirm {
@@ -69,6 +74,9 @@
 .icon-delete:focus {
 	background-image: url('../img/actions/delete-hover.svg');
 }
+.icon-delete-white {
+	background-image: url('../img/actions/delete-white.svg');
+}
 
 .icon-details {
 	background-image: url('../img/actions/details.svg');
@@ -80,6 +88,16 @@
 
 .icon-edit {
 	background-image: url('../img/actions/edit.svg');
+}
+
+.icon-error {
+	background-image: url('../img/actions/error.svg');
+}
+.icon-error-white {
+	background-image: url('../img/actions/error-white.svg');
+}
+.icon-error-color {
+	background-image: url('../img/actions/error-color.svg');
 }
 
 .icon-external {
@@ -212,6 +230,9 @@
 
 .icon-view-close {
 	background-image: url('../img/actions/view-close.svg');
+}
+.icon-view-download {
+	background-image: url('../img/actions/view-download.svg');
 }
 .icon-view-next {
 	background-image: url('../img/actions/view-next.svg');

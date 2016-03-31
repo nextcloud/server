@@ -3,7 +3,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ class CachePermissionsMask extends CacheWrapper {
 	protected $mask;
 
 	/**
-	 * @param \OC\Files\Cache\Cache $cache
+	 * @param \OCP\Files\Cache\ICache $cache
 	 * @param int $mask
 	 */
 	public function __construct($cache, $mask) {

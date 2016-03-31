@@ -3,17 +3,19 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Benjamin Liles <benliles@arch.tamu.edu>
  * @author Christian Berendt <berendt@b1-systems.de>
+ * @author Daniel Tosello <tosello.daniel@gmail.com>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Tim Dettrick <t.dettrick@uq.edu.au>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -32,6 +34,7 @@
 
 namespace OC\Files\Storage;
 
+use Guzzle\Http\Url;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Icewind\Streams\IteratorDirectory;
 use OpenCloud;
@@ -123,7 +126,14 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		$this->id = 'swift::' . $params['user'] . md5($params['bucket']);
-		$this->bucket = $params['bucket'];
+
+		$bucketUrl = Url::factory($params['bucket']);
+		if ($bucketUrl->isAbsolute()) {
+			$this->bucket = end(($bucketUrl->getPathSegments()));
+			$params['endpoint_url'] = $bucketUrl->addPath('..')->normalizePath();
+		} else {
+			$this->bucket = $params['bucket'];
+		}
 
 		if (empty($params['url'])) {
 			$params['url'] = 'https://identity.api.rackspacecloud.com/v2.0/';
@@ -314,27 +324,24 @@ class Swift extends \OC\Files\Storage\Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$tmpFile = \OCP\Files::tmpFile();
-				self::$tmpFiles[$tmpFile] = $path;
 				try {
-					$object = $this->getContainer()->getObject($path);
-				} catch (ClientErrorResponseException $e) {
-					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+					$c = $this->getContainer();
+					$streamFactory = new \Guzzle\Stream\PhpStreamRequestFactory();
+					$streamInterface = $streamFactory->fromRequest(
+						$c->getClient()
+							->get($c->getUrl($path)));
+					$streamInterface->rewind();
+					$stream = $streamInterface->getStream();
+					stream_context_set_option($stream, 'swift','content', $streamInterface);
+					if(!strrpos($streamInterface
+						->getMetaData('wrapper_data')[0], '404 Not Found')) {
+						return $stream;
+					}
 					return false;
-				} catch (Exception\ObjectNotFoundException $e) {
+				} catch (\Guzzle\Http\Exception\BadResponseException $e) {
 					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 					return false;
 				}
-				try {
-					$objectContent = $object->getContent();
-					$objectContent->rewind();
-					$stream = $objectContent->getStream();
-					file_put_contents($tmpFile, $stream);
-				} catch (Exceptions\IOError $e) {
-					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-					return false;
-				}
-				return fopen($tmpFile, 'r');
 			case 'w':
 			case 'wb':
 			case 'a':
@@ -354,9 +361,18 @@ class Swift extends \OC\Files\Storage\Common {
 				}
 				$tmpFile = \OCP\Files::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
-				if ($this->file_exists($path)) {
+				// Fetch existing file if required
+				if ($mode[0] !== 'w' && $this->file_exists($path)) {
+					if ($mode[0] === 'x') {
+						// File cannot already exist
+						return false;
+					}
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
+					// Seek to end if required
+					if ($mode[0] === 'a') {
+						fseek($tmpFile, 0, SEEK_END);
+					}
 				}
 				self::$tmpFiles[$tmpFile] = $path;
 
@@ -505,7 +521,16 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->anchor = new OpenStack($this->params['url'], $settings);
 		}
 
-		$this->connection = $this->anchor->objectStoreService($this->params['service_name'], $this->params['region']);
+		$connection = $this->anchor->objectStoreService($this->params['service_name'], $this->params['region']);
+
+		if (!empty($this->params['endpoint_url'])) {
+			$endpoint = $connection->getEndpoint();
+			$endpoint->setPublicUrl($this->params['endpoint_url']);
+			$endpoint->setPrivateUrl($this->params['endpoint_url']);
+			$connection->setEndpoint($endpoint);
+		}
+
+		$this->connection = $connection;
 
 		return $this->connection;
 	}

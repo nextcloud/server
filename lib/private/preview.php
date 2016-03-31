@@ -9,10 +9,11 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -201,7 +202,7 @@ class Preview {
 	/**
 	 * returns the max width set in ownCloud's config
 	 *
-	 * @return string
+	 * @return integer
 	 */
 	public function getConfigMaxX() {
 		return $this->configMaxWidth;
@@ -210,7 +211,7 @@ class Preview {
 	/**
 	 * returns the max height set in ownCloud's config
 	 *
-	 * @return string
+	 * @return integer
 	 */
 	public function getConfigMaxY() {
 		return $this->configMaxHeight;
@@ -545,7 +546,7 @@ class Preview {
 	/**
 	 * Determines the size of the preview we should be looking for in the cache
 	 *
-	 * @return int[]
+	 * @return integer[]
 	 */
 	private function simulatePreviewDimensions() {
 		$askedWidth = $this->getMaxX();
@@ -569,7 +570,7 @@ class Preview {
 	 *
 	 * @param int $originalWidth
 	 * @param int $originalHeight
-	 * @return \int[]
+	 * @return integer[]
 	 */
 	private function applyAspectRatio($askedWidth, $askedHeight, $originalWidth = 0, $originalHeight = 0) {
 		if(!$originalWidth){
@@ -601,7 +602,7 @@ class Preview {
 	 * @param int $askedHeight
 	 * @param int $previewWidth
 	 * @param int $previewHeight
-	 * @return \int[]
+	 * @return integer[]
 	 */
 	private function applyCover($askedWidth, $askedHeight, $previewWidth, $previewHeight) {
 		$originalRatio = $previewWidth / $previewHeight;
@@ -627,7 +628,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 *
-	 * @return \int[]
+	 * @return integer[]
 	 */
 	private function fixSize($askedWidth, $askedHeight) {
 		if ($this->scalingUp) {
@@ -920,7 +921,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 * @param int $previewWidth
-	 * @param null $previewHeight
+	 * @param int $previewHeight
 	 *
 	 * @return int[]
 	 */
@@ -970,7 +971,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 * @param int $previewWidth
-	 * @param null $previewHeight
+	 * @param int $previewHeight
 	 */
 	private function crop($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight = null) {
 		$cropX = floor(abs($askedWidth - $previewWidth) * 0.5);
@@ -989,7 +990,7 @@ class Preview {
 	 * @param int $askedWidth
 	 * @param int $askedHeight
 	 * @param int $previewWidth
-	 * @param null $previewHeight
+	 * @param int $previewHeight
 	 */
 	private function cropAndFill($image, $askedWidth, $askedHeight, $previewWidth, $previewHeight) {
 		if ($previewWidth > $askedWidth) {
@@ -1168,7 +1169,7 @@ class Preview {
 	 */
 	private function getMimeIcon() {
 		$image = new \OC_Image();
-		$mimeIconWebPath = \OC_Helper::mimetypeIcon($this->mimeType);
+		$mimeIconWebPath = \OC::$server->getMimeTypeDetector()->mimeTypeIcon($this->mimeType);
 		if (empty(\OC::$WEBROOT)) {
 			$mimeIconServerPath = \OC::$SERVERROOT . $mimeIconWebPath;
 		} else {
@@ -1217,7 +1218,7 @@ class Preview {
 	 * @param int $maxDim
 	 * @param string $dimName
 	 *
-	 * @return mixed
+	 * @return integer
 	 */
 	private function limitMaxDim($dim, $maxDim, $dimName) {
 		if (!is_null($maxDim)) {
@@ -1250,7 +1251,7 @@ class Preview {
 	 * @param array $args
 	 * @param string $prefix
 	 */
-	public static function prepare_delete($args, $prefix = '') {
+	public static function prepare_delete(array $args, $prefix = '') {
 		$path = $args['path'];
 		if (substr($path, 0, 1) === '/') {
 			$path = substr($path, 1);
@@ -1259,7 +1260,11 @@ class Preview {
 		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/' . $prefix);
 
 		$absPath = Files\Filesystem::normalizePath($view->getAbsolutePath($path));
-		self::addPathToDeleteFileMapper($absPath, $view->getFileInfo($path));
+		$fileInfo = $view->getFileInfo($path);
+		if($fileInfo === false) {
+			return;
+		}
+		self::addPathToDeleteFileMapper($absPath, $fileInfo);
 		if ($view->is_dir($path)) {
 			$children = self::getAllChildren($view, $path);
 			self::$deleteChildrenMapper[$absPath] = $children;

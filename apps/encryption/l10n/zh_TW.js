@@ -25,6 +25,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "無效的檔案加密私鑰，請在個人設定中更新您的私鑰密語以存取加密的檔案。",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "檔案加密已啓用，但是您的金鑰尚未初始化，請重新登入一次",
     "Encryption App is enabled and ready" : "加密應用程式已經被啟用",
+    "Bad Signature" : "壞的簽章",
+    "Missing Signature" : "遺失簽章",
     "one-time password for server-side-encryption" : "一次性密碼用於伺服器端的加密",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法解密這個檔案，也許這是分享的檔案。請詢問檔案所有人重新分享檔案給您。",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "無法檢視這個檔案，或許這是分享的檔案，請詢問這個檔案的擁有者並請他重新分享給您。",

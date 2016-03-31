@@ -1,3 +1,10 @@
+<!--
+Thanks for reporting issues back to ownCloud! This is the issue tracker of ownCloud, if you have any support question please check out https://owncloud.org/support
+
+This is the bug tracker for the Server component. Find other components at https://github.com/owncloud/core/blob/master/CONTRIBUTING.md#guidelines
+
+To make it possible for us to help you please fill out below information carefully.
+--> 
 ### Steps to reproduce
 1.
 2.
@@ -22,6 +29,16 @@ Tell us what happens instead
 
 **Updated from an older ownCloud or fresh install:**
 
+**Where did you install ownCloud from:**
+
+**Signing status (ownCloud 9.0 and above):**
+
+```
+Login as admin user into your ownCloud and access 
+http://example.com/index.php/settings/integrity/failed 
+paste the results here.
+```
+
 **List of activated apps:**
 
 ```
@@ -34,7 +51,7 @@ from within your ownCloud installation folder
 
 ```
 If you have access to your command line run e.g.:
-sudo -u www-data php occ config:list system --public
+sudo -u www-data php occ config:list system
 from within your ownCloud installation folder
 
 or 
@@ -52,16 +69,14 @@ Insert your config.php content here
 #### LDAP configuration (delete this part if not used)
 
 ```
-On ownCloud 7+ with access to your command line run e.g.:
+With access to your command line run e.g.:
 sudo -u www-data php occ ldap:show-config
 from within your ownCloud installation folder
 
-On ownCloud 6 with access to your command line run e.g.:
-sqlite3 data/owncloud.db or mysql -u root -p owncloud
-then execute:  select * from oc_appconfig where appid='user_ldap';
-
 Without access to your command line download the data/owncloud.db to your local
-computer or access your SQL server remotely and run the select query above.
+computer or access your SQL server remotely and run the select query:
+SELECT * FROM `oc_appconfig` WHERE `appid` = 'user_ldap';
+
 
 Eventually replace sensitive data as the name/IP-address of your LDAP server or groups.
 ```

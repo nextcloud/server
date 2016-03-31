@@ -3,13 +3,11 @@
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author scambra <sergio@entrecables.com>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -95,12 +93,14 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			$req = $this->server->httpRequest;
 			if ($req->getHeader('OC-Chunked')) {
 				$info = \OC_FileChunking::decodeName($newName);
-				$chunkHandler = new \OC_FileChunking($info);
+				$chunkHandler = $this->getFileChunking($info);
 				// subtract the already uploaded size to see whether
 				// there is still enough space for the remaining chunks
 				$length -= $chunkHandler->getCurrentSize();
+				// use target file name for free space check in case of shared files
+				$uri = rtrim($parentUri, '/') . '/' . $info['name'];
 			}
-			$freeSpace = $this->getFreeSpace($parentUri);
+			$freeSpace = $this->getFreeSpace($uri);
 			if ($freeSpace !== \OCP\Files\FileInfo::SPACE_UNKNOWN && $length > $freeSpace) {
 				if (isset($chunkHandler)) {
 					$chunkHandler->cleanup();
@@ -109,6 +109,11 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 			}
 		}
 		return true;
+	}
+
+	public function getFileChunking($info) {
+		// FIXME: need a factory for better mocking support
+		return new \OC_FileChunking($info);
 	}
 
 	public function getLength() {
@@ -127,12 +132,12 @@ class QuotaPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * @param string $parentUri
+	 * @param string $uri
 	 * @return mixed
 	 */
-	public function getFreeSpace($parentUri) {
+	public function getFreeSpace($uri) {
 		try {
-			$freeSpace = $this->view->free_space($parentUri);
+			$freeSpace = $this->view->free_space(ltrim($uri, '/'));
 			return $freeSpace;
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());

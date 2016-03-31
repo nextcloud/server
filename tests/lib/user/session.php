@@ -12,6 +12,10 @@ namespace Test\User;
 use OC\Session\Memory;
 use OC\User\User;
 
+/**
+ * @group DB
+ * @package Test\User
+ */
 class Session extends \Test\TestCase {
 	public function testGetUser() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
@@ -95,6 +99,8 @@ class Session extends \Test\TestCase {
 
 	public function testLoginValidPasswordEnabled() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
+		$session->expects($this->once())
+			->method('regenerateId');
 		$session->expects($this->exactly(2))
 			->method('set')
 			->with($this->callback(function ($key) {
@@ -148,6 +154,8 @@ class Session extends \Test\TestCase {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
+		$session->expects($this->once())
+				->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -179,10 +187,12 @@ class Session extends \Test\TestCase {
 		$userSession->login('foo', 'bar');
 	}
 
-	public function testLoginInValidPassword() {
+	public function testLoginInvalidPassword() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
+		$session->expects($this->once())
+				->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -217,6 +227,8 @@ class Session extends \Test\TestCase {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
+		$session->expects($this->once())
+				->method('regenerateId');
 
 		$manager = $this->getMock('\OC\User\Manager');
 
@@ -244,6 +256,8 @@ class Session extends \Test\TestCase {
 					}
 				},
 				'foo'));
+		$session->expects($this->once())
+				->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -292,6 +306,8 @@ class Session extends \Test\TestCase {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
+		$session->expects($this->once())
+				->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -334,6 +350,8 @@ class Session extends \Test\TestCase {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
+		$session->expects($this->once())
+				->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are

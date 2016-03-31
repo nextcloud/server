@@ -8,6 +8,8 @@
  *
  */
 
+/* global moment */
+
 (function() {
 	if (!OC.Share) {
 		OC.Share = {};
@@ -24,7 +26,8 @@
 			isDefaultExpireDateEnabled: oc_appconfig.core.defaultExpireDateEnabled === true,
 			isRemoteShareAllowed: oc_appconfig.core.remoteShareAllowed,
 			defaultExpireDate: oc_appconfig.core.defaultExpireDate,
-			isResharingAllowed: oc_appconfig.core.resharingAllowed
+			isResharingAllowed: oc_appconfig.core.resharingAllowed,
+			allowGroupSharing: oc_appconfig.core.allowGroupSharing
 		},
 
 		/**
@@ -52,6 +55,13 @@
 		/**
 		 * @returns {boolean}
 		 */
+		isMailNotificationEnabled: function() {
+			return $('input:hidden[name=mailNotificationEnabled]').val() === 'yes';
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
 		isShareWithLinkAllowed: function() {
 			return $('#allowShareWithLink').val() === 'yes';
 		},
@@ -66,13 +76,10 @@
 		getDefaultExpirationDateString: function () {
 			var expireDateString = '';
 			if (this.get('isDefaultExpireDateEnabled')) {
-				var date = new Date().getTime();
-				var expireAfterMs = this.get('defaultExpireDate') * 24 * 60 * 60 * 1000;
-				var expireDate = new Date(date + expireAfterMs);
-				var month = expireDate.getMonth() + 1;
-				var year = expireDate.getFullYear();
-				var day = expireDate.getDate();
-				expireDateString = year + "-" + month + '-' + day + ' 00:00:00';
+				var date = moment.utc();
+				var expireAfterDays = this.get('defaultExpireDate');
+				date.add(expireAfterDays, 'days');
+				expireDateString = date.format('YYYY-MM-DD 00:00:00');
 			}
 			return expireDateString;
 		}

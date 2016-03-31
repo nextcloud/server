@@ -2,7 +2,7 @@
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -33,4 +33,47 @@ interface IFactory {
 	 * @since 8.2.0
 	 */
 	public function get($app, $lang = null);
+
+	/**
+	 * Find the best language
+	 *
+	 * @param string|null $app App id or null for core
+	 * @return string language If nothing works it returns 'en'
+	 * @since 9.0.0
+	 */
+	public function findLanguage($app = null);
+
+	/**
+	 * Find all available languages for an app
+	 *
+	 * @param string|null $app App id or null for core
+	 * @return string[] an array of available languages
+	 * @since 9.0.0
+	 */
+	public function findAvailableLanguages($app = null);
+
+	/**
+	 * @param string|null $app App id or null for core
+	 * @param string $lang
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function languageExists($app, $lang);
+
+	/**
+	 * @param string|null $app App id or null for core
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function setLanguageFromRequest($app = null);
+
+
+	/**
+	 * Creates a function from the plural string
+	 *
+	 * @param string $string
+	 * @return string Unique function name
+	 * @since 9.0.0
+	 */
+	public function createPluralFunction($string);
 }

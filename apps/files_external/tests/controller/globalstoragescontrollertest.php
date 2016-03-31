@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -41,7 +42,8 @@ class GlobalStoragesControllerTest extends StoragesControllerTest {
 			'files_external',
 			$this->getMock('\OCP\IRequest'),
 			$this->getMock('\OCP\IL10N'),
-			$this->service
+			$this->service,
+			$this->getMock('\OCP\ILogger')
 		);
 	}
 }

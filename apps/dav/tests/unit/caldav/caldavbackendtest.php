@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,9 +23,12 @@ namespace Tests\Connector\Sabre;
 use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\CalDAV\Calendar;
+use OCA\DAV\Connector\Sabre\Principal;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
+use Sabre\DAVACL\IACL;
 use Test\TestCase;
 
 /**
@@ -40,14 +43,30 @@ class CalDavBackendTest extends TestCase {
 	/** @var CalDavBackend */
 	private $backend;
 
-	const UNIT_TEST_USER = 'caldav-unit-test';
+	/** @var Principal | \PHPUnit_Framework_MockObject_MockObject */
+	private $principal;
 
+	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
+	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
+	const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
 
 	public function setUp() {
 		parent::setUp();
 
+		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
+			->disableOriginalConstructor()
+			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
+			->getMock();
+		$this->principal->expects($this->any())->method('getPrincipalByPath')
+			->willReturn([
+				'uri' => 'principals/best-friend'
+			]);
+		$this->principal->expects($this->any())->method('getGroupMembership')
+			->withAnyParameters()
+			->willReturn([self::UNIT_TEST_GROUP]);
+
 		$db = \OC::$server->getDatabaseConnection();
-		$this->backend = new CalDavBackend($db);
+		$this->backend = new CalDavBackend($db, $this->principal);
 
 		$this->tearDown();
 	}
@@ -83,6 +102,87 @@ class CalDavBackendTest extends TestCase {
 		$this->assertEquals(1, count($books));
 		$this->assertEquals('Unit test', $books[0]['{DAV:}displayname']);
 		$this->assertEquals('Calendar used for unit testing', $books[0]['{urn:ietf:params:xml:ns:caldav}calendar-description']);
+
+		// delete the address book
+		$this->backend->deleteCalendar($books[0]['id']);
+		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(0, count($books));
+	}
+
+	public function providesSharingData() {
+		return [
+			[true, true, true, false, [
+				[
+					'href' => 'principal:' . self::UNIT_TEST_USER1,
+					'readOnly' => false
+				],
+				[
+					'href' => 'principal:' . self::UNIT_TEST_GROUP,
+					'readOnly' => true
+				]
+			]],
+			[true, false, false, false, [
+				[
+					'href' => 'principal:' . self::UNIT_TEST_USER1,
+					'readOnly' => true
+				],
+			]],
+
+		];
+	}
+
+	/**
+	 * @dataProvider providesSharingData
+	 */
+	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add) {
+
+		$calendarId = $this->createTestCalendar();
+		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
+		$this->assertEquals(1, count($books));
+		$calendar = new Calendar($this->backend, $books[0]);
+		$this->backend->updateShares($calendar, $add, []);
+		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
+		$this->assertEquals(1, count($books));
+		$calendar = new Calendar($this->backend, $books[0]);
+		$acl = $calendar->getACL();
+		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
+		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
+		$this->assertAccess($userCanRead, self::UNIT_TEST_USER1, '{DAV:}read', $acl);
+		$this->assertAccess($userCanWrite, self::UNIT_TEST_USER1, '{DAV:}write', $acl);
+		$this->assertAccess($groupCanRead, self::UNIT_TEST_GROUP, '{DAV:}read', $acl);
+		$this->assertAccess($groupCanWrite, self::UNIT_TEST_GROUP, '{DAV:}write', $acl);
+		$this->assertEquals(self::UNIT_TEST_USER, $calendar->getOwner());
+
+		// test acls on the child
+		$uri = $this->getUniqueID('calobj');
+		$calData = <<<'EOD'
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:ownCloud Calendar
+BEGIN:VEVENT
+CREATED;VALUE=DATE-TIME:20130910T125139Z
+UID:47d15e3ec8
+LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
+DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
+SUMMARY:Test Event
+DTSTART;VALUE=DATE-TIME:20130912T130000Z
+DTEND;VALUE=DATE-TIME:20130912T140000Z
+CLASS:PUBLIC
+END:VEVENT
+END:VCALENDAR
+EOD;
+
+		$this->backend->createCalendarObject($calendarId, $uri, $calData);
+
+		/** @var IACL $child */
+		$child = $calendar->getChild($uri);
+		$acl = $child->getACL();
+		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
+		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
+		$this->assertAccess($userCanRead, self::UNIT_TEST_USER1, '{DAV:}read', $acl);
+		$this->assertAccess($userCanWrite, self::UNIT_TEST_USER1, '{DAV:}write', $acl);
+		$this->assertAccess($groupCanRead, self::UNIT_TEST_GROUP, '{DAV:}read', $acl);
+		$this->assertAccess($groupCanWrite, self::UNIT_TEST_GROUP, '{DAV:}write', $acl);
 
 		// delete the address book
 		$this->backend->deleteCalendar($books[0]['id']);
@@ -344,5 +444,48 @@ EOD;
 
 		$sos = $this->backend->getSchedulingObjects(self::UNIT_TEST_USER);
 		$this->assertEquals(0, count($sos));
+	}
+
+	/**
+	 * @dataProvider providesCalDataForGetDenormalizedData
+	 */
+	public function testGetDenormalizedData($expectedFirstOccurance, $calData) {
+		$actual = $this->invokePrivate($this->backend, 'getDenormalizedData', [$calData]);
+		$this->assertEquals($expectedFirstOccurance, $actual['firstOccurence']);
+	}
+
+	public function providesCalDataForGetDenormalizedData() {
+		return [
+			[0, "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nDTSTART;VALUE=DATE:16040222\r\nDTEND;VALUE=DATE:16040223\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			[null, "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"]
+		];
+	}
+
+	private function assertAcl($principal, $privilege, $acl) {
+		foreach($acl as $a) {
+			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
+				$this->assertTrue(true);
+				return;
+			}
+		}
+		$this->fail("ACL does not contain $principal / $privilege");
+	}
+
+	private function assertNotAcl($principal, $privilege, $acl) {
+		foreach($acl as $a) {
+			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
+				$this->fail("ACL contains $principal / $privilege");
+				return;
+			}
+		}
+		$this->assertTrue(true);
+	}
+
+	private function assertAccess($shouldHaveAcl, $principal, $privilege, $acl) {
+		if ($shouldHaveAcl) {
+			$this->assertAcl($principal, $privilege, $acl);
+		} else {
+			$this->assertNotAcl($principal, $privilege, $acl);
+		}
 	}
 }

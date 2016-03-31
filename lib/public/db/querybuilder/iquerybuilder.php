@@ -2,7 +2,7 @@
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,11 +21,50 @@
 
 namespace OCP\DB\QueryBuilder;
 
+
+use Doctrine\DBAL\Connection;
+
 /**
  * This class provides a wrapper around Doctrine's QueryBuilder
  * @since 8.2.0
  */
 interface IQueryBuilder {
+
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_NULL = \PDO::PARAM_NULL;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_BOOL = \PDO::PARAM_BOOL;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_INT = \PDO::PARAM_INT;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_STR = \PDO::PARAM_STR;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_LOB = \PDO::PARAM_LOB;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_DATE = 'datetime';
+
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_INT_ARRAY = Connection::PARAM_INT_ARRAY;
+	/**
+	 * @since 9.0.0
+	 */
+	const PARAM_STR_ARRAY = Connection::PARAM_STR_ARRAY;
+
+
 	/**
 	 * Enable/disable automatic prefixing of table names with the oc_ prefix
 	 *
@@ -117,7 +156,7 @@ interface IQueryBuilder {
 	 *
 	 * @param string|integer $key The parameter position or name.
 	 * @param mixed $value The parameter value.
-	 * @param string|null $type One of the PDO::PARAM_* constants.
+	 * @param string|null $type One of the IQueryBuilder::PARAM_* constants.
 	 *
 	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
 	 * @since 8.2.0
@@ -255,6 +294,22 @@ interface IQueryBuilder {
 	 * @since 8.2.1
 	 */
 	public function selectAlias($select, $alias);
+
+	/**
+	 * Specifies an item that is to be returned uniquely in the query result.
+	 *
+	 * <code>
+	 *     $qb = $conn->getQueryBuilder()
+	 *         ->selectDistinct('type')
+	 *         ->from('users');
+	 * </code>
+	 *
+	 * @param mixed $select The selection expressions.
+	 *
+	 * @return \OCP\DB\QueryBuilder\IQueryBuilder This QueryBuilder instance.
+	 * @since 9.0.0
+	 */
+	public function selectDistinct($select);
 
 	/**
 	 * Adds an item that is to be returned in the query result.
@@ -725,7 +780,7 @@ interface IQueryBuilder {
 	 * @return IParameter
 	 * @since 8.2.0
 	 */
-	public function createNamedParameter($value, $type = \PDO::PARAM_STR, $placeHolder = null);
+	public function createNamedParameter($value, $type = self::PARAM_STR, $placeHolder = null);
 
 	/**
 	 * Creates a new positional parameter and bind the given value to it.
@@ -740,8 +795,8 @@ interface IQueryBuilder {
 	 *  $qb = $conn->getQueryBuilder();
 	 *  $qb->select('u.*')
 	 *     ->from('users', 'u')
-	 *     ->where('u.username = ' . $qb->createPositionalParameter('Foo', PDO::PARAM_STR))
-	 *     ->orWhere('u.username = ' . $qb->createPositionalParameter('Bar', PDO::PARAM_STR))
+	 *     ->where('u.username = ' . $qb->createPositionalParameter('Foo', IQueryBuilder::PARAM_STR))
+	 *     ->orWhere('u.username = ' . $qb->createPositionalParameter('Bar', IQueryBuilder::PARAM_STR))
 	 * </code>
 	 *
 	 * @param mixed $value
@@ -750,7 +805,7 @@ interface IQueryBuilder {
 	 * @return IParameter
 	 * @since 8.2.0
 	 */
-	public function createPositionalParameter($value, $type = \PDO::PARAM_STR);
+	public function createPositionalParameter($value, $type = self::PARAM_STR);
 
 	/**
 	 * Creates a new parameter
@@ -761,7 +816,7 @@ interface IQueryBuilder {
 	 *  $qb->select('u.*')
 	 *     ->from('users', 'u')
 	 *     ->where('u.username = ' . $qb->createParameter('name'))
-	 *     ->setParameter('name', 'Bar', PDO::PARAM_STR))
+	 *     ->setParameter('name', 'Bar', IQueryBuilder::PARAM_STR))
 	 * </code>
 	 *
 	 * @param string $name
@@ -796,4 +851,31 @@ interface IQueryBuilder {
 	 * @since 8.2.0
 	 */
 	public function createFunction($call);
+
+	/**
+	 * Used to get the id of the last inserted element
+	 * @return int
+	 * @throws \BadMethodCallException When being called before an insert query has been run.
+	 * @since 9.0.0
+	 */
+	public function getLastInsertId();
+
+	/**
+	 * Returns the table name quoted and with database prefix as needed by the implementation
+	 *
+	 * @param string $table
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getTableName($table);
+
+	/**
+	 * Returns the column name quoted and with table alias prefix as needed by the implementation
+	 *
+	 * @param string $column
+	 * @param string $tableAlias
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getColumnName($column, $tableAlias = '');
 }

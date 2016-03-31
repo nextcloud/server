@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCP\IConfig;
+use OCP\IUser;
 use \phpseclib\Crypt\RSA as RSACrypt;
 
 /**
@@ -55,7 +56,7 @@ class RSA extends AuthMechanism {
 		;
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage) {
+	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 		$auth = new RSACrypt();
 		$auth->setPassword($this->config->getSystemValue('secret', ''));
 		if (!$auth->loadKey($storage->getBackendOption('private_key'))) {

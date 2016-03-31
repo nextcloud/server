@@ -1,8 +1,10 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,7 +27,7 @@ namespace OCA\Federation\BackgroundJob;
 
 use GuzzleHttp\Exception\ClientException;
 use OC\BackgroundJob\JobList;
-use OC\BackgroundJob\QueuedJob;
+use OC\BackgroundJob\Job;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
@@ -41,7 +43,7 @@ use OCP\IURLGenerator;
  *
  * @package OCA\Federation\Backgroundjob
  */
-class RequestSharedSecret extends QueuedJob {
+class RequestSharedSecret extends Job {
 
 	/** @var IClient */
 	private $httpClient;
@@ -60,6 +62,12 @@ class RequestSharedSecret extends QueuedJob {
 
 	private $endPoint = '/ocs/v2.php/apps/federation/api/v1/request-shared-secret?format=json';
 
+	/** @var ILogger */
+	private $logger;
+
+	/** @var bool */
+	protected $retainJob = false;
+
 	/**
 	 * RequestSharedSecret constructor.
 	 *
@@ -74,22 +82,24 @@ class RequestSharedSecret extends QueuedJob {
 		IURLGenerator $urlGenerator = null,
 		IJobList $jobList = null,
 		TrustedServers $trustedServers = null,
-		dbHandler $dbHandler = null
+		DbHandler $dbHandler = null
 	) {
 		$this->httpClient = $httpClient ? $httpClient : \OC::$server->getHTTPClientService()->newClient();
 		$this->jobList = $jobList ? $jobList : \OC::$server->getJobList();
 		$this->urlGenerator = $urlGenerator ? $urlGenerator : \OC::$server->getURLGenerator();
 		$this->dbHandler = $dbHandler ? $dbHandler : new DbHandler(\OC::$server->getDatabaseConnection(), \OC::$server->getL10N('federation'));
+		$this->logger = \OC::$server->getLogger();
 		if ($trustedServers) {
 			$this->trustedServers = $trustedServers;
 		} else {
 			$this->trustedServers = new TrustedServers(
 				$this->dbHandler,
 				\OC::$server->getHTTPClientService(),
-				\OC::$server->getLogger(),
+				$this->logger,
 				$this->jobList,
 				\OC::$server->getSecureRandom(),
-				\OC::$server->getConfig()
+				\OC::$server->getConfig(),
+				\OC::$server->getEventDispatcher()
 			);
 		}
 	}
@@ -102,15 +112,20 @@ class RequestSharedSecret extends QueuedJob {
 	 * @param ILogger $logger
 	 */
 	public function execute($jobList, ILogger $logger = null) {
-		$jobList->remove($this, $this->argument);
 		$target = $this->argument['url'];
 		// only execute if target is still in the list of trusted domains
 		if ($this->trustedServers->isTrustedServer($target)) {
 			$this->parentExecute($jobList, $logger);
 		}
+
+		if (!$this->retainJob) {
+			$jobList->remove($this, $this->argument);
+		}
 	}
 
 	/**
+	 * call execute() method of parent
+	 *
 	 * @param JobList $jobList
 	 * @param ILogger $logger
 	 */
@@ -142,6 +157,14 @@ class RequestSharedSecret extends QueuedJob {
 
 		} catch (ClientException $e) {
 			$status = $e->getCode();
+			if ($status === Http::STATUS_FORBIDDEN) {
+				$this->logger->info($target . ' refused to ask for a shared secret.', ['app' => 'federation']);
+			} else {
+				$this->logger->logException($e, ['app' => 'federation']);
+			}
+		} catch (\Exception $e) {
+			$status = Http::STATUS_INTERNAL_SERVER_ERROR;
+			$this->logger->logException($e, ['app' => 'federation']);
 		}
 
 		// if we received a unexpected response we try again later
@@ -149,10 +172,7 @@ class RequestSharedSecret extends QueuedJob {
 			$status !== Http::STATUS_OK
 			&& $status !== Http::STATUS_FORBIDDEN
 		) {
-			$this->jobList->add(
-				'OCA\Federation\BackgroundJob\RequestSharedSecret',
-				$argument
-			);
+			$this->retainJob = true;
 		}
 
 		if ($status === Http::STATUS_FORBIDDEN) {

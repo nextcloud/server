@@ -2,9 +2,10 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -38,7 +39,7 @@ class Hooks extends \OC\Share\Constants {
 	public static function post_deleteUser($arguments) {
 		// Delete any items shared with the deleted user
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share`'
-			.' WHERE `share_with` = ? AND `share_type` = ? OR `share_type` = ?');
+			.' WHERE `share_with` = ? AND (`share_type` = ? OR `share_type` = ?)');
 		$query->execute(array($arguments['uid'], self::SHARE_TYPE_USER, self::$shareTypeGroupUserUnique));
 		// Delete any items the deleted user shared
 		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*share` WHERE `uid_owner` = ?');
@@ -55,6 +56,15 @@ class Hooks extends \OC\Share\Constants {
 	 * @param array $arguments
 	 */
 	public static function pre_addToGroup($arguments) {
+		$currentUser = \OC::$server->getUserSession()->getUser();
+		$currentUserID = is_null($currentUser) ? '' : $currentUser->getUID();
+
+		// setup filesystem for added user if it isn't the current user
+		if($currentUserID !== $arguments['uid']) {
+			\OC_Util::tearDownFS();
+			\OC_Util::setupFS($arguments['uid']);
+		}
+
 		/** @var \OC\DB\Connection $db */
 		$db = \OC::$server->getDatabaseConnection();
 
@@ -118,6 +128,14 @@ class Hooks extends \OC\Share\Constants {
 					'`stime`' => $insert->expr()->literal($item['stime']),
 					'`file_source`' => $insert->expr()->literal($item['file_source']),
 				];
+			}
+		}
+
+		// re-setup old filesystem state
+		if($currentUserID !== $arguments['uid']) {
+			\OC_Util::tearDownFS();
+			if($currentUserID !== '') {
+				\OC_Util::setupFS($currentUserID);
 			}
 		}
 	}

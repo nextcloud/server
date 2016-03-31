@@ -2,7 +2,7 @@
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -48,8 +48,8 @@ class DeleteConfig extends Base {
 			->setDescription('Delete a system config value')
 			->addArgument(
 				'name',
-				InputArgument::REQUIRED,
-				'Name of the config to delete'
+				InputArgument::REQUIRED | InputArgument::IS_ARRAY,
+				'Name of the config to delete, specify multiple for array parameter'
 			)
 			->addOption(
 				'error-if-not-exists',
@@ -61,15 +61,57 @@ class DeleteConfig extends Base {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$configName = $input->getArgument('name');
+		$configNames = $input->getArgument('name');
+		$configName = $configNames[0];
 
-		if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
-			$output->writeln('<error>System config ' . $configName . ' could not be deleted because it did not exist</error>');
-			return 1;
+		if (sizeof($configNames) > 1) {
+			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
+				$output->writeln('<error>System config ' . implode(' => ', $configNames) . ' could not be deleted because it did not exist</error>');
+				return 1;
+			}
+
+			$value = $this->systemConfig->getValue($configName);
+
+			try {
+				$value = $this->removeSubValue(array_slice($configNames, 1), $value, $input->hasParameterOption('--error-if-not-exists'));
+			}
+			catch (\UnexpectedValueException $e) {
+				$output->writeln('<error>System config ' . implode(' => ', $configNames) . ' could not be deleted because it did not exist</error>');
+				return 1;
+			}
+
+			$this->systemConfig->setValue($configName, $value);
+			$output->writeln('<info>System config value ' . implode(' => ', $configNames) . ' deleted</info>');
+			return 0;
+		} else {
+			if ($input->hasParameterOption('--error-if-not-exists') && !in_array($configName, $this->systemConfig->getKeys())) {
+				$output->writeln('<error>System config ' . $configName . ' could not be deleted because it did not exist</error>');
+				return 1;
+			}
+
+			$this->systemConfig->deleteValue($configName);
+			$output->writeln('<info>System config value ' . $configName . ' deleted</info>');
+			return 0;
+		}
+	}
+
+	protected function removeSubValue($keys, $currentValue, $throwError) {
+		$nextKey = array_shift($keys);
+
+		if (is_array($currentValue)) {
+			if (isset($currentValue[$nextKey])) {
+				if (empty($keys)) {
+					unset($currentValue[$nextKey]);
+				} else {
+					$currentValue[$nextKey] = $this->removeSubValue($keys, $currentValue[$nextKey], $throwError);
+				}
+			} else if ($throwError) {
+				throw new \UnexpectedValueException('Config parameter does not exist');
+			}
+		} else if ($throwError) {
+			throw new \UnexpectedValueException('Config parameter does not exist');
 		}
 
-		$this->systemConfig->deleteValue($configName);
-		$output->writeln('<info>System config value ' . $configName . ' deleted</info>');
-		return 0;
+		return $currentValue;
 	}
 }

@@ -46,7 +46,6 @@
 .error-wide {
 	width: 100%;
 	margin-left: 0 !important;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -72,10 +71,6 @@
 	background-color: #fff;
 	overflow-x: hidden !important;
 	z-index: 1000;
-}
-
-#app-sidebar{
-	width: 100% !important;
 }
 
 /* allow horizontal scrollbar in settings

@@ -29,8 +29,6 @@ body {
 	background: -moz-linear-gradient(top, #35537a 0%, #1d2d44 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d44)); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Opera11.10+ */
-	background: -ms-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* IE10+ */
 	background: linear-gradient(top, #35537a 0%,#1d2d44 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */
 }
@@ -75,13 +73,14 @@ body {
 
 /* SCROLLING */
 ::-webkit-scrollbar {
-	width: 8px;
+	width: 5px;
 }
 ::-webkit-scrollbar-track-piece {
 	background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
 	background: #ddd;
+	border-radius: 3px;
 }
 
 /* Searchbox */
@@ -99,8 +98,6 @@ body {
 	width: 0;
 	cursor: pointer;
 	-webkit-transition: all 100ms;
-	-moz-transition: all 100ms;
-	-o-transition: all 100ms;
 	transition: all 100ms;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	opacity: .7;
@@ -117,8 +114,6 @@ body {
 
 /* CONTENT ------------------------------------------------------------------ */
 #controls {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	position: fixed;
 	top: 45px;
@@ -149,8 +144,6 @@ body {
 #controls input[type='text'],
 #controls input[type='password'],
 #controls select {
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	display: inline-block;
 	height: 36px;
@@ -175,7 +168,6 @@ body {
 	width: 100%;
 	overflow-x: hidden; /* prevent horizontal scrollbar */
 	padding-top: 45px;
-	-moz-box-sizing:border-box;
 	box-sizing:border-box;
 }
 /* allow horizontal scrollbar for personal and admin settings */
@@ -185,17 +177,20 @@ body {
 
 #emptycontent,
 .emptycontent {
-	font-size: 16px;
 	color: #888;
 	text-align: center;
 	margin-top: 100px; /* ie8 */
 	margin-top: 30vh;
 	width: 100%;
 }
+#emptycontent.emptycontent-search,
+.emptycontent.emptycontent-search {
+	position: static;
+}
 #emptycontent h2,
 .emptycontent h2 {
-	font-weight: 600;
 	margin-bottom: 10px;
+	line-height: 150%;
 }
 #emptycontent [class^="icon-"],
 .emptycontent [class^="icon-"],
@@ -264,6 +259,10 @@ body {
 	width: 22em;
 	margin: 0 auto;
 	padding-top: 20px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 #body-login p.info a {
 	font-weight: 600;
@@ -301,6 +300,10 @@ body {
 #body-login form fieldset {
 	margin-bottom: 20px;
 	text-align: left;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 #body-login form #sqliteInformation {
 	margin-top: -20px;
@@ -358,6 +361,10 @@ body {
 .groupmiddle,
 .groupbottom {
 	position: relative;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 #body-login .grouptop input,
 .grouptop input {
@@ -383,6 +390,9 @@ body {
 	border-top-left-radius: 0;
 	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
 }
+#body-login .groupbottom input[type=submit] {
+	box-shadow: none !important;
+}
 
 /* keep the labels for screen readers but hide them since we use placeholders */
 label.infield {
@@ -395,6 +405,10 @@ label.infield {
 	padding: 14px;
 	padding-left: 28px;
 	vertical-align: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 html.ie8 #body-login form input[type="checkbox"]+label {
 	margin-left: -28px;
@@ -640,7 +654,7 @@ td.avatar {
 	width: 100%;
 	text-align: center;
 }
-#notification, #update-notification {
+#notification {
 	margin: 0 auto;
 	max-width: 60%;
 	z-index: 8000;
@@ -655,9 +669,27 @@ td.avatar {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
 	opacity: .9;
 }
-#notification span, #update-notification span {
+#notification span {
 	cursor: pointer;
 	margin-left: 1em;
+}
+#notification {
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: 100px;
+}
+#notification .row {
+	position: relative;
+}
+#notification .row .close {
+	display: inline-block;
+	vertical-align: middle;
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+#notification .row.closeable {
+	padding-right: 20px;
 }
 
 tr .action:not(.permanent),
@@ -699,9 +731,9 @@ code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono
 
 #quota {
 	cursor: default;
-	margin: 30px;
+	margin: 30px !important;
 	position: relative;
-	padding: 0;
+	padding: 0 !important;
 }
 #quota div {
 	padding: 0;
@@ -807,7 +839,7 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 	 width: 100%; height: 30px;
 }
 #tagsdialog .bottombuttons * { float:left;}
-#tagsdialog .taglist li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; -moz-transition:background-color 500ms; -o-transition:background-color 500ms; transition:background-color 500ms; }
+#tagsdialog .taglist li { background:#f8f8f8; padding:.3em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 500ms; transition:background-color 500ms; }
 #tagsdialog .taglist li:hover, #tagsdialog .taglist li:active { background:#eee; }
 #tagsdialog .addinput { width: 90%; clear: both; }
 
@@ -826,9 +858,9 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 .popup .close { position:absolute; top:0.2em; right:0.2em; height:20px; width:20px; background:url('../img/actions/close.svg') no-repeat center; }
 .popup h2 { font-size:20px; }
 .arrow { border-bottom:10px solid white; border-left:10px solid transparent; border-right:10px solid transparent; display:block; height:0; position:absolute; width:0; z-index:201; }
-.arrow.left { left:-13px; bottom:1.2em; -webkit-transform:rotate(270deg); -moz-transform:rotate(270deg); -o-transform:rotate(270deg); -ms-transform:rotate(270deg); transform:rotate(270deg); }
+.arrow.left { left:-13px; bottom:1.2em; -webkit-transform:rotate(270deg); -ms-transform:rotate(270deg); transform:rotate(270deg); }
 .arrow.up { top:-8px; right:6px; }
-.arrow.down { -webkit-transform:rotate(180deg); -moz-transform:rotate(180deg); -o-transform:rotate(180deg); -ms-transform:rotate(180deg); transform:rotate(180deg); }
+.arrow.down { -webkit-transform:rotate(180deg); -ms-transform:rotate(180deg); transform:rotate(180deg); }
 
 
 /* ---- BREADCRUMB ---- */

@@ -2,7 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,11 +25,12 @@ use Symfony\Component\Console\Helper\QuestionHelper;
 $userManager = OC::$server->getUserManager();
 $view = new \OC\Files\View();
 $config = \OC::$server->getConfig();
+$l = \OC::$server->getL10N('encryption');
 $userSession = \OC::$server->getUserSession();
 $connection = \OC::$server->getDatabaseConnection();
 $logger = \OC::$server->getLogger();
 $questionHelper = new QuestionHelper();
-$crypt = new \OCA\Encryption\Crypto\Crypt($logger, $userSession, $config);
+$crypt = new \OCA\Encryption\Crypto\Crypt($logger, $userSession, $config, $l);
 $util = new \OCA\Encryption\Util($view, $crypt, $logger, $userSession, $config, $userManager);
 
 $application->add(new MigrateKeys($userManager, $view, $connection, $config, $logger));

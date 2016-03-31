@@ -2,10 +2,11 @@
 /**
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -46,7 +47,7 @@ class Movie extends Provider {
 		if ($useFileDirectly) {
 			$absPath = $fileview->getLocalFile($path);
 		} else {
-			$absPath = \OC_Helper::tmpFile();
+			$absPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 			$handle = $fileview->fopen($path, 'rb');
 
@@ -79,12 +80,12 @@ class Movie extends Provider {
 	 * @return bool|\OCP\IImage
 	 */
 	private function generateThumbNail($maxX, $maxY, $absPath, $second) {
-		$tmpPath = \OC_Helper::tmpFile();
+		$tmpPath = \OC::$server->getTempManager()->getTemporaryFile();
 
 		if (self::$avconvBinary) {
-			$cmd = self::$avconvBinary . ' -an -y -ss ' . escapeshellarg($second) .
+			$cmd = self::$avconvBinary . ' -y -ss ' . escapeshellarg($second) .
 				' -i ' . escapeshellarg($absPath) .
-				' -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
+				' -an -f mjpeg -vframes 1 -vsync 1 ' . escapeshellarg($tmpPath) .
 				' > /dev/null 2>&1';
 		} else {
 			$cmd = self::$ffmpegBinary . ' -y -ss ' . escapeshellarg($second) .

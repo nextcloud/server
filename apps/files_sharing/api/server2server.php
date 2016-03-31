@@ -6,7 +6,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@
 
 namespace OCA\Files_Sharing\API;
 
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\Activity;
 use OCP\Files\NotFoundException;
 
@@ -70,17 +71,23 @@ class Server2Server {
 
 			\OC_Util::setupFS($shareWith);
 
+			$discoveryManager = new DiscoveryManager(
+				\OC::$server->getMemCacheFactory(),
+				\OC::$server->getHTTPClientService()
+			);
 			$externalManager = new \OCA\Files_Sharing\External\Manager(
 					\OC::$server->getDatabaseConnection(),
 					\OC\Files\Filesystem::getMountManager(),
 					\OC\Files\Filesystem::getLoader(),
 					\OC::$server->getHTTPHelper(),
 					\OC::$server->getNotificationManager(),
+					$discoveryManager,
 					$shareWith
 				);
 
 			try {
 				$externalManager->addShare($remote, $token, '', $name, $owner, false, $shareWith, $remoteId);
+				$shareId = \OC::$server->getDatabaseConnection()->lastInsertId('*PREFIX*share_external');
 
 				$user = $owner . '@' . $this->cleanupRemote($remote);
 
@@ -88,30 +95,27 @@ class Server2Server {
 					Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_RECEIVED, array($user, trim($name, '/')), '', array(),
 					'', '', $shareWith, Activity::TYPE_REMOTE_SHARE, Activity::PRIORITY_LOW);
 
-				/**
-				 * FIXME
 				$urlGenerator = \OC::$server->getURLGenerator();
 
 				$notificationManager = \OC::$server->getNotificationManager();
 				$notification = $notificationManager->createNotification();
 				$notification->setApp('files_sharing')
 					->setUser($shareWith)
-					->setTimestamp(time())
-					->setObject('remote_share', $remoteId)
+					->setDateTime(new \DateTime())
+					->setObject('remote_share', $shareId)
 					->setSubject('remote_share', [$user, trim($name, '/')]);
 
 				$declineAction = $notification->createAction();
 				$declineAction->setLabel('decline')
-					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/' . $remoteId), 'DELETE');
+					->setLink($urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'ocs/v1.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId)), 'DELETE');
 				$notification->addAction($declineAction);
 
 				$acceptAction = $notification->createAction();
 				$acceptAction->setLabel('accept')
-					->setLink($urlGenerator->getAbsoluteURL('/ocs/v1.php/apps/files_sharing/api/v1/remote_shares/' . $remoteId), 'POST');
+					->setLink($urlGenerator->getAbsoluteURL($urlGenerator->linkTo('', 'ocs/v1.php/apps/files_sharing/api/v1/remote_shares/pending/' . $shareId)), 'POST');
 				$notification->addAction($acceptAction);
 
 				$notificationManager->notify($notification);
-				 */
 
 				return new \OC_OCS_Result();
 			} catch (\Exception $e) {
@@ -174,7 +178,7 @@ class Server2Server {
 
 		if ($share) {
 			// userId must be set to the user who unshares
-			\OCP\Share::unshare($share['item_type'], $share['item_source'], $share['share_type'], null, $share['uid_owner']);
+			\OCP\Share::unshare($share['item_type'], $share['item_source'], $share['share_type'], $share['share_with'], $share['uid_owner']);
 
 			list($file, $link) = $this->getFile($share['uid_owner'], $share['file_source']);
 
@@ -226,6 +230,13 @@ class Server2Server {
 			} else {
 				$path = trim($share['name'], '/');
 			}
+
+			$notificationManager = \OC::$server->getNotificationManager();
+			$notification = $notificationManager->createNotification();
+			$notification->setApp('files_sharing')
+				->setUser($share['user'])
+				->setObject('remote_share', (int) $share['id']);
+			$notificationManager->markProcessed($notification);
 
 			\OC::$server->getActivityManager()->publishActivity(
 				Activity::FILES_SHARING_APP, Activity::SUBJECT_REMOTE_SHARE_UNSHARED, array($owner, $path), '', array(),

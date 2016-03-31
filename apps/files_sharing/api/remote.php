@@ -1,9 +1,10 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,6 +24,7 @@
 namespace OCA\Files_Sharing\API;
 
 use OC\Files\Filesystem;
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\External\Manager;
 
 class Remote {
@@ -34,12 +36,17 @@ class Remote {
 	 * @return \OC_OCS_Result
 	 */
 	public static function getOpenShares($params) {
+		$discoveryManager = new DiscoveryManager(
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getHTTPClientService()
+		);
 		$externalManager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getNotificationManager(),
+			$discoveryManager,
 			\OC_User::getUser()
 		);
 
@@ -53,18 +60,26 @@ class Remote {
 	 * @return \OC_OCS_Result
 	 */
 	public static function acceptShare($params) {
+		$discoveryManager = new DiscoveryManager(
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getHTTPClientService()
+		);
 		$externalManager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getNotificationManager(),
+			$discoveryManager,
 			\OC_User::getUser()
 		);
 
-		if ($externalManager->acceptShare($params['id'])) {
+		if ($externalManager->acceptShare((int) $params['id'])) {
 			return new \OC_OCS_Result();
 		}
+
+		// Make sure the user has no notification for something that does not exist anymore.
+		$externalManager->processNotification((int) $params['id']);
 
 		return new \OC_OCS_Result(null, 404, "wrong share ID, share doesn't exist.");
 	}
@@ -76,25 +91,33 @@ class Remote {
 	 * @return \OC_OCS_Result
 	 */
 	public static function declineShare($params) {
+		$discoveryManager = new DiscoveryManager(
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getHTTPClientService()
+		);
 		$externalManager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getNotificationManager(),
+			$discoveryManager,
 			\OC_User::getUser()
 		);
 
-		if ($externalManager->declineShare($params['id'])) {
+		if ($externalManager->declineShare((int) $params['id'])) {
 			return new \OC_OCS_Result();
 		}
+
+		// Make sure the user has no notification for something that does not exist anymore.
+		$externalManager->processNotification((int) $params['id']);
 
 		return new \OC_OCS_Result(null, 404, "wrong share ID, share doesn't exist.");
 	}
 
 	/**
 	 * @param array $share Share with info from the share_external table
-	 * @return enriched share info with data from the filecache
+	 * @return array enriched share info with data from the filecache
 	 */
 	private static function extendShareInfo($share) {
 		$view = new \OC\Files\View('/' . \OC_User::getUser() . '/files/');
@@ -116,12 +139,17 @@ class Remote {
 	 * @return \OC_OCS_Result
 	 */
 	public static function getShares($params) {
+		$discoveryManager = new DiscoveryManager(
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getHTTPClientService()
+		);
 		$externalManager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getNotificationManager(),
+			$discoveryManager,
 			\OC_User::getUser()
 		);
 
@@ -139,12 +167,17 @@ class Remote {
 	 * @return \OC_OCS_Result
 	 */
 	public static function getShare($params) {
+		$discoveryManager = new DiscoveryManager(
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getHTTPClientService()
+		);
 		$externalManager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getNotificationManager(),
+			$discoveryManager,
 			\OC_User::getUser()
 		);
 
@@ -165,12 +198,17 @@ class Remote {
 	 * @return \OC_OCS_Result
 	 */
 	public static function unshare($params) {
+		$discoveryManager = new DiscoveryManager(
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getHTTPClientService()
+		);
 		$externalManager = new Manager(
 			\OC::$server->getDatabaseConnection(),
 			Filesystem::getMountManager(),
 			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getNotificationManager(),
+			$discoveryManager,
 			\OC_User::getUser()
 		);
 

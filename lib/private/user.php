@@ -6,23 +6,20 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Björn Schießle <schiessle@owncloud.com>
- * @author Dominik Schmidt <dev@dominik-schmidt.de>
  * @author Florian Preinstorfer <nblock@archlinux.us>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author shkdee <louis.traynard@m4x.org>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -66,14 +63,6 @@ class OC_User {
 		return OC::$server->getUserSession();
 	}
 
-	/**
-	 * @return \OC\User\Manager
-	 * @deprecated Use \OC::$server->getUserManager()
-	 */
-	public static function getManager() {
-		return OC::$server->getUserManager();
-	}
-
 	private static $_backends = array();
 
 	private static $_usedBackends = array();
@@ -84,55 +73,17 @@ class OC_User {
 	private static $incognitoMode = false;
 
 	/**
-	 * registers backend
-	 *
-	 * @param string $backend name of the backend
-	 * @deprecated Add classes by calling OC_User::useBackend() with a class instance instead
-	 * @return bool
-	 *
-	 * Makes a list of backends that can be used by other modules
-	 */
-	public static function registerBackend($backend) {
-		self::$_backends[] = $backend;
-		return true;
-	}
-
-	/**
-	 * gets available backends
-	 *
-	 * @deprecated
-	 * @return array an array of backends
-	 *
-	 * Returns the names of all backends.
-	 */
-	public static function getBackends() {
-		return self::$_backends;
-	}
-
-	/**
-	 * gets used backends
-	 *
-	 * @deprecated
-	 * @return array an array of backends
-	 *
-	 * Returns the names of all used backends.
-	 */
-	public static function getUsedBackends() {
-		return array_keys(self::$_usedBackends);
-	}
-
-	/**
 	 * Adds the backend to the list of used backends
 	 *
-	 * @param string|OC_User_Interface $backend default: database The backend to use for user management
+	 * @param string|\OCP\UserInterface $backend default: database The backend to use for user management
 	 * @return bool
 	 *
 	 * Set the User Authentication Module
 	 */
 	public static function useBackend($backend = 'database') {
-		if ($backend instanceof OC_User_Interface) {
+		if ($backend instanceof \OCP\UserInterface) {
 			self::$_usedBackends[get_class($backend)] = $backend;
-			self::getManager()->registerBackend($backend);
+			\OC::$server->getUserManager()->registerBackend($backend);
 		} else {
 			// You'll never know what happens
 			if (null === $backend OR !is_string($backend)) {
@@ -146,17 +97,17 @@ class OC_User {
 				case 'sqlite':
 					\OCP\Util::writeLog('core', 'Adding user backend ' . $backend . '.', \OCP\Util::DEBUG);
 					self::$_usedBackends[$backend] = new OC_User_Database();
-					self::getManager()->registerBackend(self::$_usedBackends[$backend]);
+					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				case 'dummy':
 					self::$_usedBackends[$backend] = new \Test\Util\User\Dummy();
-					self::getManager()->registerBackend(self::$_usedBackends[$backend]);
+					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				default:
 					\OCP\Util::writeLog('core', 'Adding default user backend ' . $backend . '.', \OCP\Util::DEBUG);
 					$className = 'OC_USER_' . strToUpper($backend);
 					self::$_usedBackends[$backend] = new $className();
-					self::getManager()->registerBackend(self::$_usedBackends[$backend]);
+					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
 			}
 		}
@@ -168,7 +119,7 @@ class OC_User {
 	 */
 	public static function clearBackends() {
 		self::$_usedBackends = array();
-		self::getManager()->clearBackends();
+		\OC::$server->getUserManager()->clearBackends();
 	}
 
 	/**
@@ -176,7 +127,7 @@ class OC_User {
 	 */
 	public static function setupBackends() {
 		OC_App::loadApps(array('prelogin'));
-		$backends = OC_Config::getValue('user_backends', array());
+		$backends = \OC::$server->getSystemConfig()->getValue('user_backends', array());
 		foreach ($backends as $i => $config) {
 			$class = $config['class'];
 			$arguments = $config['arguments'];
@@ -199,42 +150,6 @@ class OC_User {
 	}
 
 	/**
-	 * Create a new user
-	 *
-	 * @param string $uid The username of the user to create
-	 * @param string $password The password of the new user
-	 * @throws Exception
-	 * @return bool true/false
-	 *
-	 * Creates a new user. Basic checking of username is done in OC_User
-	 * itself, not in its subclasses.
-	 *
-	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
-	 * @deprecated Use \OC::$server->getUserManager()->createUser($uid, $password)
-	 */
-	public static function createUser($uid, $password) {
-		return self::getManager()->createUser($uid, $password);
-	}
-
-	/**
-	 * delete a user
-	 *
-	 * @param string $uid The username of the user to delete
-	 * @return bool
-	 *
-	 * Deletes a user
-	 * @deprecated Use \OC::$server->getUserManager()->get() and then run delete() on the return
-	 */
-	public static function deleteUser($uid) {
-		$user = self::getManager()->get($uid);
-		if ($user) {
-			return $user->delete();
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * Try to login a user
 	 *
 	 * @param string $loginname The login name of the user to log in
@@ -244,9 +159,10 @@ class OC_User {
 	 * Log in a user and regenerate a new session - if the password is ok
 	 */
 	public static function login($loginname, $password) {
-		session_regenerate_id(true);
 		$result = self::getUserSession()->login($loginname, $password);
 		if ($result) {
+			// Refresh the token
+			\OC::$server->getCsrfTokenManager()->refreshToken();
 			//we need to pass the user name, which may differ from login name
 			$user = self::getUserSession()->getUser()->getUID();
 			OC_Util::setupFS($user);
@@ -336,14 +252,14 @@ class OC_User {
 	 * Sets user display name for session
 	 *
 	 * @param string $uid
-	 * @param null $displayName
+	 * @param string $displayName
 	 * @return bool Whether the display name could get set
 	 */
 	public static function setDisplayName($uid, $displayName = null) {
 		if (is_null($displayName)) {
 			$displayName = $uid;
 		}
-		$user = self::getManager()->get($uid);
+		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			return $user->setDisplayName($displayName);
 		} else {
@@ -365,7 +281,20 @@ class OC_User {
 	 */
 	public static function tryBasicAuthLogin() {
 		if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
-			\OC_User::login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+			$result = \OC_User::login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+			if($result === true) {
+				/**
+				 * Add DAV authenticated. This should in an ideal world not be
+				 * necessary but the iOS App reads cookies from anywhere instead
+				 * only the DAV endpoint.
+				 * This makes sure that the cookies will be valid for the whole scope
+				 * @see https://github.com/owncloud/core/issues/22893
+				 */
+				\OC::$server->getSession()->set(
+					\OCA\DAV\Connector\Sabre\Auth::DAV_AUTHENTICATED,
+					\OC::$server->getUserSession()->getUser()->getUID()
+				);
+			}
 		}
 	}
 
@@ -413,7 +342,7 @@ class OC_User {
 			return $backend->getLogoutAttribute();
 		}
 
-		return 'href="' . link_to('', 'index.php') . '?logout=true&amp;requesttoken=' . urlencode(OC_Util::callRegister()) . '"';
+		return 'href="' . link_to('', 'index.php') . '?logout=true&amp;requesttoken=' . urlencode(\OCP\Util::callRegister()) . '"';
 	}
 
 	/**
@@ -452,7 +381,7 @@ class OC_User {
 	 */
 	public static function getDisplayName($uid = null) {
 		if ($uid) {
-			$user = self::getManager()->get($uid);
+			$user = \OC::$server->getUserManager()->get($uid);
 			if ($user) {
 				return $user->getDisplayName();
 			} else {
@@ -476,7 +405,7 @@ class OC_User {
 	 * generates a password
 	 */
 	public static function generatePassword() {
-		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(30);
+		return \OC::$server->getSecureRandom()->generate(30);
 	}
 
 	/**
@@ -490,7 +419,7 @@ class OC_User {
 	 * Change the password of a user
 	 */
 	public static function setPassword($uid, $password, $recoveryPassword = null) {
-		$user = self::getManager()->get($uid);
+		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			return $user->setPassword($password, $recoveryPassword);
 		} else {
@@ -507,7 +436,7 @@ class OC_User {
 	 * Check whether a specified user can change his avatar
 	 */
 	public static function canUserChangeAvatar($uid) {
-		$user = self::getManager()->get($uid);
+		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			return $user->canChangeAvatar();
 		} else {
@@ -524,7 +453,7 @@ class OC_User {
 	 * Check whether a specified user can change his password
 	 */
 	public static function canUserChangePassword($uid) {
-		$user = self::getManager()->get($uid);
+		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			return $user->canChangePassword();
 		} else {
@@ -541,7 +470,7 @@ class OC_User {
 	 * Check whether a specified user can change his display name
 	 */
 	public static function canUserChangeDisplayName($uid) {
-		$user = self::getManager()->get($uid);
+		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			return $user->canChangeDisplayName();
 		} else {
@@ -560,7 +489,7 @@ class OC_User {
 	 * returns the user id or false
 	 */
 	public static function checkPassword($uid, $password) {
-		$manager = self::getManager();
+		$manager = \OC::$server->getUserManager();
 		$username = $manager->checkPassword($uid, $password);
 		if ($username !== false) {
 			return $username->getUID();
@@ -576,11 +505,11 @@ class OC_User {
 	 * @deprecated Use \OC::$server->getUserManager->getHome()
 	 */
 	public static function getHome($uid) {
-		$user = self::getManager()->get($uid);
+		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			return $user->getHome();
 		} else {
-			return OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid;
+			return \OC::$server->getSystemConfig()->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $uid;
 		}
 	}
 
@@ -595,7 +524,7 @@ class OC_User {
 	 * @param integer $offset
 	 */
 	public static function getUsers($search = '', $limit = null, $offset = null) {
-		$users = self::getManager()->search($search, $limit, $offset);
+		$users = \OC::$server->getUserManager()->search($search, $limit, $offset);
 		$uids = array();
 		foreach ($users as $user) {
 			$uids[] = $user->getUID();
@@ -616,7 +545,7 @@ class OC_User {
 	 */
 	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$displayNames = array();
-		$users = self::getManager()->searchDisplayName($search, $limit, $offset);
+		$users = \OC::$server->getUserManager()->searchDisplayName($search, $limit, $offset);
 		foreach ($users as $user) {
 			$displayNames[$user->getUID()] = $user->getDisplayName();
 		}
@@ -630,7 +559,7 @@ class OC_User {
 	 * @return boolean
 	 */
 	public static function userExists($uid) {
-		return self::getManager()->userExists($uid);
+		return \OC::$server->getUserManager()->userExists($uid);
 	}
 
 	/**
@@ -639,7 +568,7 @@ class OC_User {
 	 * @param string $uid the user to disable
 	 */
 	public static function disableUser($uid) {
-		$user = self::getManager()->get($uid);
+		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			$user->setEnabled(false);
 		}
@@ -651,7 +580,7 @@ class OC_User {
 	 * @param string $uid
 	 */
 	public static function enableUser($uid) {
-		$user = self::getManager()->get($uid);
+		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			$user->setEnabled(true);
 		}
@@ -664,7 +593,7 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isEnabled($uid) {
-		$user = self::getManager()->get($uid);
+		$user = \OC::$server->getUserManager()->get($uid);
 		if ($user) {
 			return $user->isEnabled();
 		} else {

@@ -10,11 +10,10 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -34,6 +33,8 @@
 namespace OC\Files\Storage;
 
 use Exception;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Message\ResponseInterface;
 use OC\Files\Filesystem;
 use OC\Files\Stream\Close;
 use Icewind\Streams\IteratorDirectory;
@@ -135,9 +136,13 @@ class DAV extends Common {
 			'password' => $this->password,
 		);
 
+		$proxy = \OC::$server->getConfig()->getSystemValue('proxy', '');
+		if($proxy !== '') {
+			$settings['proxy'] = $proxy;
+		}
+
 		$this->client = new Client($settings);
 		$this->client->setThrowExceptions(true);
-
 		if ($this->secure === true && $this->certPath) {
 			$this->client->addCurlSetting(CURLOPT_CAINFO, $this->certPath);
 		}
@@ -339,15 +344,21 @@ class DAV extends Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				if (!$this->file_exists($path)) {
-					return false;
+				try {
+					$response = $this->httpClientService
+							->newClient()
+							->get($this->createBaseUri() . $this->encodePath($path), [
+									'auth' => [$this->user, $this->password],
+									'stream' => true
+							]);
+				} catch (RequestException $e) {
+					if ($e->getResponse() instanceof ResponseInterface
+						&& $e->getResponse()->getStatusCode() === 404) {
+						return false;
+					} else {
+						throw $e;
+					}
 				}
-				$response = $this->httpClientService
-					->newClient()
-					->get($this->createBaseUri() . $this->encodePath($path), [
-						'auth' => [$this->user, $this->password],
-						'stream' => true
-					]);
 
 				if ($response->getStatusCode() !== Http::STATUS_OK) {
 					if ($response->getStatusCode() === Http::STATUS_LOCKED) {

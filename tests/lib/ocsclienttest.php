@@ -748,7 +748,7 @@ class OCSClientTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('get')
 			->with(
-				'https://api.owncloud.com/v1/content/data/MyId',
+				'https://api.owncloud.com/v1/content/data/166053',
 				[
 					'timeout' => 5,
 					'query' => ['version' => '8x1x0x7'],
@@ -779,8 +779,145 @@ class OCSClientTest extends \Test\TestCase {
 			'score' => 50,
 			'level' => 200,
 		];
-		$this->assertSame($expected, $this->ocsClient->getApplication('MyId', [8, 1, 0, 7]));
+		$this->assertSame($expected, $this->ocsClient->getApplication(166053, [8, 1, 0, 7]));
 	}
+
+	public function testGetApplicationSuccessfulWithOldId() {
+		$this->config
+				->expects($this->at(0))
+				->method('getSystemValue')
+				->with('appstoreenabled', true)
+				->will($this->returnValue(true));
+		$this->config
+				->expects($this->at(1))
+				->method('getSystemValue')
+				->with('appstoreurl', 'https://api.owncloud.com/v1')
+				->will($this->returnValue('https://api.owncloud.com/v1'));
+
+		$response = $this->getMock('\OCP\Http\Client\IResponse');
+		$response
+				->expects($this->once())
+				->method('getBody')
+				->will($this->returnValue('<?xml version="1.0"?>
+				<ocs>
+				 <meta>
+				  <status>ok</status>
+				  <statuscode>100</statuscode>
+				  <message></message>
+				 </meta>
+				 <data>
+				  <content details="full">
+				   <id>1337</id>
+				   <name>Versioning</name>
+				   <version>0.0.1</version>
+				   <label>recommended</label>
+				   <typeid>925</typeid>
+				   <typename>ownCloud other</typename>
+			   <language></language>
+			   <personid>owncloud</personid>
+			   <profilepage>http://opendesktop.org/usermanager/search.php?username=owncloud</profilepage>
+			   <created>2014-07-07T16:34:40+02:00</created>
+			   <changed>2014-07-07T16:34:40+02:00</changed>
+			   <downloads>140</downloads>
+			   <score>50</score>
+			   <description>Placeholder for future updates</description>
+			   <summary></summary>
+			   <feedbackurl></feedbackurl>
+			   <changelog></changelog>
+			   <homepage></homepage>
+			   <homepagetype></homepagetype>
+			   <homepage2></homepage2>
+			   <homepagetype2></homepagetype2>
+			   <homepage3></homepage3>
+			   <homepagetype3></homepagetype3>
+			   <homepage4></homepage4>
+			   <homepagetype4></homepagetype4>
+			   <homepage5></homepage5>
+			   <homepagetype5></homepagetype5>
+			   <homepage6></homepage6>
+			   <homepagetype6></homepagetype6>
+			   <homepage7></homepage7>
+			   <homepagetype7></homepagetype7>
+			   <homepage8></homepage8>
+			   <homepagetype8></homepagetype8>
+			   <homepage9></homepage9>
+			   <homepagetype9></homepagetype9>
+			   <homepage10></homepage10>
+			   <homepagetype10></homepagetype10>
+			   <licensetype>16</licensetype>
+			   <license>AGPL</license>
+			   <donationpage></donationpage>
+			   <comments>0</comments>
+			   <commentspage>http://apps.owncloud.com/content/show.php?content=166053</commentspage>
+			   <fans>0</fans>
+			   <fanspage>http://apps.owncloud.com/content/show.php?action=fan&amp;content=166053</fanspage>
+			   <knowledgebaseentries>0</knowledgebaseentries>
+			   <knowledgebasepage>http://apps.owncloud.com/content/show.php?action=knowledgebase&amp;content=166053</knowledgebasepage>
+			   <depend>ownCloud 7</depend>
+			   <preview1></preview1>
+			   <preview2></preview2>
+			   <preview3></preview3>
+			   <previewpic1></previewpic1>
+			   <previewpic2></previewpic2>
+			   <previewpic3></previewpic3>
+			   <picsmall1></picsmall1>
+			   <picsmall2></picsmall2>
+			   <picsmall3></picsmall3>
+			   <detailpage>https://apps.owncloud.com/content/show.php?content=166053</detailpage>
+			   <downloadtype1></downloadtype1>
+			   <downloadprice1>0</downloadprice1>
+			   <downloadlink1>http://apps.owncloud.com/content/download.php?content=166053&amp;id=1</downloadlink1>
+			   <downloadname1></downloadname1>
+			   <downloadgpgfingerprint1></downloadgpgfingerprint1>
+			   <downloadgpgsignature1></downloadgpgsignature1>
+			   <downloadpackagename1></downloadpackagename1>
+			   <downloadrepository1></downloadrepository1>
+			   <downloadsize1>1</downloadsize1>
+			   <approved>200</approved>
+			  </content>
+			 </data>
+			</ocs>
+			'));
+
+		$client = $this->getMock('\OCP\Http\Client\IClient');
+		$client
+				->expects($this->once())
+				->method('get')
+				->with(
+						'https://api.owncloud.com/v1/content/data/166053',
+						[
+								'timeout' => 5,
+								'query' => ['version' => '8x1x0x7'],
+						]
+				)
+				->will($this->returnValue($response));
+
+		$this->clientService
+				->expects($this->once())
+				->method('newClient')
+				->will($this->returnValue($client));
+
+		$expected = [
+				'id' => 166053,
+				'name' => 'Versioning',
+				'version' => '0.0.1',
+				'type' => '925',
+				'label' => 'recommended',
+				'typename' => 'ownCloud other',
+				'personid' => 'owncloud',
+				'profilepage' => 'http://opendesktop.org/usermanager/search.php?username=owncloud',
+				'detailpage' => 'https://apps.owncloud.com/content/show.php?content=166053',
+				'preview1' => '',
+				'preview2' => '',
+				'preview3' => '',
+				'changed' => 1404743680,
+				'description' => 'Placeholder for future updates',
+				'score' => 50,
+				'level' => 200,
+		];
+		$this->assertSame($expected, $this->ocsClient->getApplication(166053, [8, 1, 0, 7]));
+	}
+
 	public function testGetApplicationEmptyXml() {
 		$this->config
 			->expects($this->at(0))

@@ -13,7 +13,7 @@
  * @author Tom Needham <tom@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -188,7 +188,7 @@ class OC_API {
 	/**
 	 * merge the returned result objects into one response
 	 * @param array $responses
-	 * @return array|\OC_OCS_Result
+	 * @return OC_OCS_Result
 	 */
 	public static function mergeResponses($responses) {
 		// Sort into shipped and third-party
@@ -292,11 +292,9 @@ class OC_API {
 			case API::GUEST_AUTH:
 				// Anyone can access
 				return true;
-				break;
 			case API::USER_AUTH:
 				// User required
 				return self::loginUser();
-				break;
 			case API::SUBADMIN_AUTH:
 				// Check for subadmin
 				$user = self::loginUser();
@@ -315,7 +313,6 @@ class OC_API {
 						return false;
 					}
 				}
-				break;
 			case API::ADMIN_AUTH:
 				// Check for admin
 				$user = self::loginUser();
@@ -324,11 +321,9 @@ class OC_API {
 				} else {
 					return OC_User::isAdminUser($user);
 				}
-				break;
 			default:
 				// oops looks like invalid level supplied
 				return false;
-				break;
 		}
 	}
 
@@ -369,6 +364,18 @@ class OC_API {
 				\OC_Util::setUpFS(\OC_User::getUser());
 				self::$isLoggedIn = true;
 
+				/**
+				 * Add DAV authenticated. This should in an ideal world not be
+				 * necessary but the iOS App reads cookies from anywhere instead
+				 * only the DAV endpoint.
+				 * This makes sure that the cookies will be valid for the whole scope
+				 * @see https://github.com/owncloud/core/issues/22893
+				 */
+				\OC::$server->getSession()->set(
+					\OCA\DAV\Connector\Sabre\Auth::DAV_AUTHENTICATED,
+					\OC::$server->getUserSession()->getUser()->getUID()
+				);
+
 				return \OC_User::getUser();
 			}
 		}
@@ -382,9 +389,16 @@ class OC_API {
 	 * @param string $format the format xml|json
 	 */
 	public static function respond($result, $format='xml') {
+		$request = \OC::$server->getRequest();
+
 		// Send 401 headers if unauthorised
 		if($result->getStatusCode() === API::RESPOND_UNAUTHORISED) {
-			header('WWW-Authenticate: Basic realm="Authorisation Required"');
+			// If request comes from JS return dummy auth request
+			if($request->getHeader('X-Requested-With') === 'XMLHttpRequest') {
+				header('WWW-Authenticate: DummyBasic realm="Authorisation Required"');
+			} else {
+				header('WWW-Authenticate: Basic realm="Authorisation Required"');
+			}
 			header('HTTP/1.0 401 Unauthorized');
 		}
 
@@ -394,7 +408,7 @@ class OC_API {
 
 		$meta = $result->getMeta();
 		$data = $result->getData();
-		if (self::isV2(\OC::$server->getRequest())) {
+		if (self::isV2($request)) {
 			$statusCode = self::mapStatusCodes($result->getStatusCode());
 			if (!is_null($statusCode)) {
 				$meta['statuscode'] = $statusCode;
@@ -440,6 +454,7 @@ class OC_API {
 
 	/**
 	 * Based on the requested format the response content type is set
+	 * @param string $format
 	 */
 	public static function setContentType($format = null) {
 		$format = is_null($format) ? self::requestedFormat() : $format;

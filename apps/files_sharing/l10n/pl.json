@@ -25,8 +25,9 @@
     "A file or folder has been <strong>shared</strong>" : "Plik lub folder stał się <strong>współdzielony</strong>",
     "You shared %1$s with %2$s" : "Współdzielisz %1$s z %2$s",
     "You shared %1$s with group %2$s" : "Współdzielisz %1$s z grupą %2$s",
-    "%2$s shared %1$s with you" : "%2$s współdzieli %1$s z Tobą",
     "You shared %1$s via link" : "Udostępniasz %1$s przez link",
+    "%2$s shared %1$s with you" : "%2$s współdzieli %1$s z Tobą",
+    "%2$s removed the share for %1$s" : "%2$s usunął udział dla %1$s",
     "Shares" : "Udziały",
     "Accept" : "Akceptuj",
     "This share is password-protected" : "Udział ten jest chroniony hasłem",
@@ -45,6 +46,7 @@
     "Download" : "Pobierz",
     "Download %s" : "Pobierz %s",
     "Direct link" : "Bezpośredni link",
-    "Open documentation" : "Otwórz dokumentację"
+    "Open documentation" : "Otwórz dokumentację",
+    "Add to your website" : "Dodaj do swojej strony"
 },"pluralForm" :"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

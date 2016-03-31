@@ -13,17 +13,15 @@
 	</description>
 	<licence>AGPL</licence>
 	<author>Tom Needham</author>
-	<shipped>true</shipped>
 	<default_enable/>
 	<documentation>
 		<admin>admin-provisioning-api</admin>
 	</documentation>
-	<version>0.4.0</version>
+	<version>0.5.0</version>
 	<types>
-		<!-- this is used to disable the feature of enabling an app for specific groups only because this would break this app -->
-		<filesystem/>
+		<prevent_group_restriction/>
 	</types>
 	<dependencies>
-		<owncloud min-version="9.0" />
+		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
 </info>

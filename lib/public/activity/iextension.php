@@ -5,7 +5,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -57,8 +57,7 @@ interface IExtension {
 	 * 					'desc' => "translated string description for the setting"
 	 * 					'methods' => [self::METHOD_*],
 	 * 				]
-	 * @since 8.0.0
-	 * @changed 8.2.0 - Added support to allow limiting notifications to certain methods
+	 * @since 8.0.0 - 8.2.0: Added support to allow limiting notifications to certain methods
 	 */
 	public function getNotificationTypes($languageCode);
 

@@ -1,9 +1,11 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Jesús Macias <jmacias@solidgear.es>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,6 +26,8 @@ namespace OCA\Files_External\Controller;
 
 
 use \OCP\IConfig;
+use OCP\ILogger;
+use OCP\IUser;
 use \OCP\IUserSession;
 use \OCP\IRequest;
 use \OCP\IL10N;
@@ -59,22 +63,30 @@ abstract class StoragesController extends Controller {
 	protected $service;
 
 	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+
+	/**
 	 * Creates a new storages controller.
 	 *
 	 * @param string $AppName application name
 	 * @param IRequest $request request object
 	 * @param IL10N $l10n l10n service
 	 * @param StoragesService $storagesService storage service
+	 * @param ILogger $logger
 	 */
 	public function __construct(
 		$AppName,
 		IRequest $request,
 		IL10N $l10n,
-		StoragesService $storagesService
+		StoragesService $storagesService,
+		ILogger $logger
 	) {
 		parent::__construct($AppName, $request);
 		$this->l10n = $l10n;
 		$this->service = $storagesService;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -113,6 +125,7 @@ abstract class StoragesController extends Controller {
 				$priority
 			);
 		} catch (\InvalidArgumentException $e) {
+			$this->logger->logException($e);
 			return new DataResponse(
 				[
 					'message' => (string)$this->l10n->t('Invalid backend or authentication mechanism class')
@@ -126,7 +139,7 @@ abstract class StoragesController extends Controller {
 	 * Validate storage config
 	 *
 	 * @param StorageConfig $storage storage config
-	 *
+	 *1
 	 * @return DataResponse|null returns response in case of validation error
 	 */
 	protected function validate(StorageConfig $storage) {
@@ -211,6 +224,15 @@ abstract class StoragesController extends Controller {
 		return null;
 	}
 
+	protected function manipulateStorageConfig(StorageConfig $storage) {
+		/** @var AuthMechanism */
+		$authMechanism = $storage->getAuthMechanism();
+		$authMechanism->manipulateStorageConfig($storage);
+		/** @var Backend */
+		$backend = $storage->getBackend();
+		$backend->manipulateStorageConfig($storage);
+	}
+
 	/**
 	 * Check whether the given storage is available / valid.
 	 *
@@ -221,13 +243,10 @@ abstract class StoragesController extends Controller {
 	 */
 	protected function updateStorageStatus(StorageConfig &$storage) {
 		try {
-			/** @var AuthMechanism */
-			$authMechanism = $storage->getAuthMechanism();
-			$authMechanism->manipulateStorageConfig($storage);
+			$this->manipulateStorageConfig($storage);
+
 			/** @var Backend */
 			$backend = $storage->getBackend();
-			$backend->manipulateStorageConfig($storage);
-
 			// update status (can be time-consuming)
 			$storage->setStatus(
 				\OC_Mount_Config::getBackendStatus(
@@ -237,8 +256,9 @@ abstract class StoragesController extends Controller {
 				)
 			);
 		} catch (InsufficientDataForMeaningfulAnswerException $e) {
+			$status = $e->getCode() ? $e->getCode() : StorageNotAvailableException::STATUS_INDETERMINATE;
 			$storage->setStatus(
-				StorageNotAvailableException::STATUS_INDETERMINATE,
+				$status,
 				$this->l10n->t('Insufficient data: %s', [$e->getMessage()])
 			);
 		} catch (StorageNotAvailableException $e) {
@@ -261,7 +281,7 @@ abstract class StoragesController extends Controller {
 	 * @return DataResponse
 	 */
 	public function index() {
-		$storages = $this->service->getAllStorages();
+		$storages = $this->service->getStorages();
 
 		return new DataResponse(
 			$storages,

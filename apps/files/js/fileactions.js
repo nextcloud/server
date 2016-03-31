@@ -12,7 +12,12 @@
 
 	var TEMPLATE_FILE_ACTION_TRIGGER =
 		'<a class="action action-{{nameLowerCase}}" href="#" data-action="{{name}}">' +
-		'{{#if icon}}<img class="svg" alt="{{altText}}" src="{{icon}}" />{{/if}}' +
+		'{{#if icon}}' +
+			'<img class="svg" alt="{{altText}}" src="{{icon}}" />' +
+		'{{else}}' +
+			'{{#if iconClass}}<span class="icon {{iconClass}}" />{{/if}}' +
+			'{{#unless hasDisplayName}}<span class="hidden-visually">{{altText}}</span>{{/unless}}' +
+		'{{/if}}' +
 		'{{#if displayName}}<span> {{displayName}}</span>{{/if}}' +
 		'</a>';
 
@@ -143,6 +148,7 @@
 				mime: mime,
 				order: action.order || 0,
 				icon: action.icon,
+				iconClass: action.iconClass,
 				permissions: action.permissions,
 				type: action.type || FileActions.TYPE_DROPDOWN,
 				altText: action.altText || ''
@@ -299,10 +305,15 @@
 					nameLowerCase: actionSpec.name.toLowerCase(),
 					displayName: actionSpec.displayName,
 					icon: actionSpec.icon,
+					iconClass: actionSpec.iconClass,
 					altText: actionSpec.altText,
+					hasDisplayName: !!actionSpec.displayName
 				};
 				if (_.isFunction(actionSpec.icon)) {
-					params.icon = actionSpec.icon(context.$file.attr('data-file'));
+					params.icon = actionSpec.icon(context.$file.attr('data-file'), context);
+				}
+				if (_.isFunction(actionSpec.iconClass)) {
+					params.iconClass = actionSpec.iconClass(context.$file.attr('data-file'), context);
 				}
 
 				var $actionLink = this._makeActionLink(params, context);
@@ -363,7 +374,7 @@
 			var $el = this._renderInlineAction({
 				name: 'menu',
 				displayName: '',
-				icon: OC.imagePath('core', 'actions/more'),
+				iconClass: 'icon-more',
 				altText: t('files', 'Actions'),
 				action: this._showMenuClosure
 			}, false, context);
@@ -570,9 +581,7 @@
 				order: -20,
 				mime: 'all',
 				permissions: OC.PERMISSION_READ,
-				icon: function () {
-					return OC.imagePath('core', 'actions/download');
-				},
+				iconClass: 'icon-download',
 				actionHandler: function (filename, context) {
 					var dir = context.dir || context.fileList.getCurrentDirectory();
 					var isDir = context.$file.attr('data-type') === 'dir';
@@ -602,9 +611,7 @@
 				mime: 'all',
 				order: -30,
 				permissions: OC.PERMISSION_UPDATE,
-				icon: function() {
-					return OC.imagePath('core', 'actions/rename');
-				},
+				iconClass: 'icon-rename',
 				actionHandler: function (filename, context) {
 					context.fileList.rename(filename);
 				}
@@ -617,14 +624,21 @@
 
 			this.registerAction({
 				name: 'Delete',
-				displayName: t('files', 'Delete'),
+				displayName: function(context) {
+					var mountType = context.$file.attr('data-mounttype');
+					var deleteTitle = t('files', 'Delete');
+					if (mountType === 'external-root') {
+						deleteTitle = t('files', 'Disconnect storage');
+					} else if (mountType === 'shared-root') {
+						deleteTitle = t('files', 'Unshare');
+					}
+					return deleteTitle;
+				},
 				mime: 'all',
 				order: 1000,
 				// permission is READ because we show a hint instead if there is no permission
 				permissions: OC.PERMISSION_DELETE,
-				icon: function() {
-					return OC.imagePath('core', 'actions/delete');
-				},
+				iconClass: 'icon-delete',
 				actionHandler: function(fileName, context) {
 					// if there is no permission to delete do nothing
 					if((context.$file.data('permissions') & OC.PERMISSION_DELETE) === 0) {
@@ -645,19 +659,18 @@
 	 * Replaces the download icon with a loading spinner and vice versa
 	 * - also adds the class disabled to the passed in element
 	 *
-	 * @param downloadButtonElement download fileaction
+	 * @param {jQuery} $downloadButtonElement download fileaction
 	 * @param {boolean} showIt whether to show the spinner(true) or to hide it(false)
 	 */
-	OCA.Files.FileActions.updateFileActionSpinner = function(downloadButtonElement, showIt) {
-		var icon = downloadButtonElement.find('img'),
-			sourceImage = icon.attr('src');
-
-		if(showIt) {
-			downloadButtonElement.addClass('disabled');
-			icon.attr('src', sourceImage.replace('actions/download.svg', 'loading-small.gif'));
+	OCA.Files.FileActions.updateFileActionSpinner = function($downloadButtonElement, showIt) {
+		var $icon = $downloadButtonElement.find('.icon');
+		if (showIt) {
+			var $loadingIcon = $('<span class="icon loading"></span>');
+			$icon.after($loadingIcon);
+			$icon.addClass('hidden');
 		} else {
-			downloadButtonElement.removeClass('disabled');
-			icon.attr('src', sourceImage.replace('loading-small.gif', 'actions/download.svg'));
+			$downloadButtonElement.find('.loading').remove();
+			$downloadButtonElement.find('.icon').removeClass('hidden');
 		}
 	};
 
@@ -668,12 +681,13 @@
 	 * @typedef {Object} OCA.Files.FileAction
 	 *
 	 * @property {String} name identifier of the action
-	 * @property {String} displayName display name of the action, defaults
-	 * to the name given in name property
+	 * @property {(String|OCA.Files.FileActions~displayNameFunction)} displayName
+	 * display name string for the action, or function that returns the display name.
+	 * Defaults to the name given in name property
 	 * @property {String} mime mime type
 	 * @property {int} permissions permissions
-	 * @property {(Function|String)} icon icon path to the icon or function
-	 * that returns it
+	 * @property {(Function|String)} icon icon path to the icon or function that returns it (deprecated, use iconClass instead)
+	 * @property {(Function|String)} iconClass class name of the icon (recommended for theming)
 	 * @property {OCA.Files.FileActions~renderActionFunction} [render] optional rendering function
 	 * @property {OCA.Files.FileActions~actionHandler} actionHandler action handler function
 	 */
@@ -700,6 +714,16 @@
 	 * @param {boolean} isDefault true if the action is the default one,
 	 * false otherwise
 	 * @return {Object} jQuery link object
+	 */
+
+	/**
+	 * Display name function for actions.
+	 * The function returns the display name of the action using
+	 * the given context information..
+	 *
+	 * @callback OCA.Files.FileActions~displayNameFunction
+	 * @param {OCA.Files.FileActionContext} context action context
+	 * @return {String} display name
 	 */
 
 	/**

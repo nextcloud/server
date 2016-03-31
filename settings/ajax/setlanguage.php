@@ -2,12 +2,13 @@
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -31,7 +32,7 @@ OCP\JSON::callCheck();
 
 // Get data
 if( isset( $_POST['lang'] ) ) {
-	$languageCodes=OC_L10N::findAvailableLanguages();
+	$languageCodes = \OC::$server->getL10NFactory()->findAvailableLanguages();
 	$lang = (string)$_POST['lang'];
 	if(array_search($lang, $languageCodes) or $lang === 'en') {
 		\OC::$server->getConfig()->setUserValue( OC_User::getUser(), 'core', 'lang', $lang );

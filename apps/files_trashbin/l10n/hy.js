@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_trashbin",
     {
+    "Couldn't restore %s" : "Չկարողացա վերականգնել %s",
     "Deleted files" : "Ջնջված ֆայլեր",
     "Restore" : "Վերականգնել",
     "Delete" : "Ջնջել",

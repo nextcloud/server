@@ -11,13 +11,13 @@
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Sam Tuke <mail@samtuke.com>
  * @author scambra <sergio@entrecables.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -46,6 +46,7 @@ use OCP\Files\FileNameTooLongException;
 use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\ReservedWordException;
+use OCP\Files\Storage\ILockingStorage;
 use OCP\Lock\ILockingProvider;
 
 /**
@@ -59,7 +60,7 @@ use OCP\Lock\ILockingProvider;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-abstract class Common implements Storage {
+abstract class Common implements Storage, ILockingStorage {
 
 	use LocalTempFileTrait;
 
@@ -71,6 +72,7 @@ abstract class Common implements Storage {
 	protected $updater;
 
 	protected $mountOptions = [];
+	protected $owner = null;
 
 	public function __construct($parameters) {
 	}
@@ -141,10 +143,6 @@ abstract class Common implements Storage {
 	}
 
 	public function isSharable($path) {
-		if (\OCP\Util::isSharingDisabledForUser()) {
-			return false;
-		}
-
 		return $this->isReadable($path);
 	}
 
@@ -229,7 +227,7 @@ abstract class Common implements Storage {
 		if ($this->is_dir($path)) {
 			return 'httpd/unix-directory';
 		} elseif ($this->file_exists($path)) {
-			return \OC_Helper::getFileNameMimeType($path);
+			return \OC::$server->getMimeTypeDetector()->detectPath($path);
 		} else {
 			return false;
 		}
@@ -249,12 +247,6 @@ abstract class Common implements Storage {
 
 	public function getLocalFile($path) {
 		return $this->getCachedFile($path);
-	}
-
-	public function getLocalFolder($path) {
-		$baseDir = \OC_Helper::tmpFolder();
-		$this->addLocalFolder($path, $baseDir);
-		return $baseDir;
 	}
 
 	/**
@@ -392,14 +384,18 @@ abstract class Common implements Storage {
 	 * @return string|false uid or false
 	 */
 	public function getOwner($path) {
-		return \OC_User::getUser();
+		if ($this->owner === null) {
+			$this->owner = \OC_User::getUser();
+		}
+
+		return $this->owner;
 	}
 
 	/**
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string|false
+	 * @return string
 	 */
 	public function getETag($path) {
 		return uniqid();
@@ -615,6 +611,10 @@ abstract class Common implements Storage {
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		if ($sourceStorage === $this) {
 			return $this->rename($sourceInternalPath, $targetInternalPath);
+		}
+
+		if (!$sourceStorage->isDeletable($sourceInternalPath)) {
+			return false;
 		}
 
 		$result = $this->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath, true);

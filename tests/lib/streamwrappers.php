@@ -55,7 +55,7 @@ class Test_StreamWrappers extends \Test\TestCase {
 	public function testCloseStream() {
 		//ensure all basic stream stuff works
 		$sourceFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
-		$tmpFile = OC_Helper::TmpFile('.txt');
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('.txt');
 		$file = 'close://' . $tmpFile;
 		$this->assertTrue(file_exists($file));
 		file_put_contents($file, file_get_contents($sourceFile));
@@ -65,7 +65,7 @@ class Test_StreamWrappers extends \Test\TestCase {
 		$this->assertFalse(file_exists($file));
 
 		//test callback
-		$tmpFile = OC_Helper::TmpFile('.txt');
+		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('.txt');
 		$file = 'close://' . $tmpFile;
 		$actual = false;
 		$callback = function($path) use (&$actual) { $actual = $path; };

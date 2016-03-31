@@ -1,5 +1,25 @@
 <?php
-
+/**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ *
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ */
 namespace OCP\Comments;
 
 /**
@@ -11,6 +31,17 @@ namespace OCP\Comments;
  * @since 9.0.0
  */
 interface ICommentsManager {
+
+	/**
+	 * @const DELETED_USER type and id for a user that has been deleted
+	 * @see deleteReferencesOfActor
+	 * @since 9.0.0
+	 *
+	 * To be used as replacement for user type actors in deleteReferencesOfActor().
+	 *
+	 * User interfaces shall show "Deleted user" as display name, if needed.
+	 */
+	const DELETED_USER = 'deleted_users';
 
 	/**
 	 * returns a comment instance
@@ -28,7 +59,7 @@ interface ICommentsManager {
 	 * @param string $id
 	 * @param int $limit max number of entries to return, 0 returns all
 	 * @param int $offset the start entry
-	 * @return []
+	 * @return array
 	 * @since 9.0.0
 	 *
 	 * The return array looks like this
@@ -73,7 +104,6 @@ interface ICommentsManager {
 	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
 	 * that may be returned
 	 * @return IComment[]
-	 * @throws NotFoundException in case the requested type or id is not present
 	 * @since 9.0.0
 	 */
 	public function getForObject(
@@ -87,18 +117,19 @@ interface ICommentsManager {
 	/**
 	 * @param $objectType string the object type, e.g. 'files'
 	 * @param $objectId string the id of the object
+	 * @param \DateTime $notOlderThan optional, timestamp of the oldest comments
+	 * that may be returned
 	 * @return Int
-	 * @throws NotFoundException in case the requested type or id is not present
 	 * @since 9.0.0
 	 */
-	public function getNumberOfCommentsForObject($objectType, $objectId);
+	public function getNumberOfCommentsForObject($objectType, $objectId, \DateTime $notOlderThan = null);
 
 	/**
 	 * creates a new comment and returns it. At this point of time, it is not
 	 * saved in the used data storage. Use save() after setting other fields
 	 * of the comment (e.g. message or verb).
 	 *
-	 * @param string $actorType the actor type (e.g. 'user')
+	 * @param string $actorType the actor type (e.g. 'users')
 	 * @param string $actorId a user id
 	 * @param string $objectType the object type the comment is attached to
 	 * @param string $objectId the object id the comment is attached to
@@ -120,7 +151,7 @@ interface ICommentsManager {
 	public function delete($id);
 
 	/**
-	 * saves the comment permanently and returns it
+	 * saves the comment permanently
 	 *
 	 * if the supplied comment has an empty ID, a new entry comment will be
 	 * saved and the instance updated with the new ID.
@@ -130,18 +161,21 @@ interface ICommentsManager {
 	 * Throws NotFoundException when a comment that is to be updated does not
 	 * exist anymore at this point of time.
 	 *
-	 * @param IComment
+	 * @param IComment $comment
 	 * @return bool
 	 * @throws NotFoundException
 	 * @since 9.0.0
 	 */
-	public function save(&$comment);
+	public function save(IComment $comment);
 
 	/**
 	 * removes references to specific actor (e.g. on user delete) of a comment.
 	 * The comment itself must not get lost/deleted.
 	 *
-	 * @param string $actorType the actor type (e.g. 'user')
+	 * A 'users' type actor (type and id) should get replaced by the
+	 * value of the DELETED_USER constant of this interface.
+	 *
+	 * @param string $actorType the actor type (e.g. 'users')
 	 * @param string $actorId a user id
 	 * @return boolean
 	 * @since 9.0.0
@@ -151,11 +185,55 @@ interface ICommentsManager {
 	/**
 	 * deletes all comments made of a specific object (e.g. on file delete)
 	 *
-	 * @param string $objectType the object type (e.g. 'file')
+	 * @param string $objectType the object type (e.g. 'files')
 	 * @param string $objectId e.g. the file id
 	 * @return boolean
 	 * @since 9.0.0
 	 */
 	public function deleteCommentsAtObject($objectType, $objectId);
+
+	/**
+	 * sets the read marker for a given file to the specified date for the
+	 * provided user
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param \DateTime $dateTime
+	 * @param \OCP\IUser $user
+	 * @since 9.0.0
+	 */
+	public function setReadMark($objectType, $objectId, \DateTime $dateTime, \OCP\IUser $user);
+
+	/**
+	 * returns the read marker for a given file to the specified date for the
+	 * provided user. It returns null, when the marker is not present, i.e.
+	 * no comments were marked as read.
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @param \OCP\IUser $user
+	 * @return \DateTime|null
+	 * @since 9.0.0
+	 */
+	public function getReadMark($objectType, $objectId, \OCP\IUser $user);
+
+	/**
+	 * deletes the read markers for the specified user
+	 *
+	 * @param \OCP\IUser $user
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function deleteReadMarksFromUser(\OCP\IUser $user);
+
+	/**
+	 * deletes the read markers on the specified object
+	 *
+	 * @param string $objectType
+	 * @param string $objectId
+	 * @return bool
+	 * @since 9.0.0
+	 */
+	public function deleteReadMarksOnObject($objectType, $objectId);
 
 }

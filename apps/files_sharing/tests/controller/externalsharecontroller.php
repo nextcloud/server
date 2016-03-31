@@ -3,7 +3,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -93,23 +93,17 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$response = $this->getMockBuilder('\\OCP\\Http\\Client\\IResponse')
 			->disableOriginalConstructor()->getMock();
-		$client
-			->expects($this->once())
-			->method('get')
-			->with(
-				'https://owncloud.org/status.php',
-				[
-					'timeout' => 3,
-					'connect_timeout' => 3,
-				]
-			)->will($this->returnValue($response));
 		$response
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getBody')
-			->will($this->returnValue('{"installed":true,"maintenance":false,"version":"8.1.0.8","versionstring":"8.1.0","edition":""}'));
+			->will($this->onConsecutiveCalls('Certainly not a JSON string', '{"installed":true,"maintenance":false,"version":"8.1.0.8","versionstring":"8.1.0","edition":""}'));
+		$client
+			->expects($this->any())
+			->method('get')
+			->will($this->returnValue($response));
 
 		$this->clientService
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('newClient')
 			->will($this->returnValue($client));
 
@@ -123,13 +117,13 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$client
 			->method('get')
-			->will($this->onConsecutiveCalls($response, $response));
+			->will($this->returnValue($response));
 		$response
-			->expects($this->exactly(2))
+			->expects($this->exactly(5))
 			->method('getBody')
-			->will($this->onConsecutiveCalls('Certainly not a JSON string', '{"installed":true,"maintenance":false,"version":"8.1.0.8","versionstring":"8.1.0","edition":""}'));
+			->will($this->onConsecutiveCalls('Certainly not a JSON string', 'Certainly not a JSON string', 'Certainly not a JSON string', 'Certainly not a JSON string', '{"installed":true,"maintenance":false,"version":"8.1.0.8","versionstring":"8.1.0","edition":""}'));
 		$this->clientService
-			->expects($this->exactly(2))
+			->expects($this->exactly(5))
 			->method('newClient')
 			->will($this->returnValue($client));
 
@@ -143,13 +137,13 @@ class ExternalShareControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$client
 			->method('get')
-			->will($this->onConsecutiveCalls($response, $response));
+			->will($this->returnValue($response));
 		$response
-			->expects($this->exactly(2))
+			->expects($this->exactly(6))
 			->method('getBody')
 			->will($this->returnValue('Certainly not a JSON string'));
 		$this->clientService
-			->expects($this->exactly(2))
+			->expects($this->exactly(6))
 			->method('newClient')
 			->will($this->returnValue($client));
 

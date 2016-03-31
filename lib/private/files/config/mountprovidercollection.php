@@ -3,7 +3,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,6 +26,8 @@ use OC\Hooks\Emitter;
 use OC\Hooks\EmitterTrait;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IMountProvider;
+use OCP\Files\Config\IUserMountCache;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IUser;
 
@@ -43,10 +45,17 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	private $loader;
 
 	/**
-	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 * @var \OCP\Files\Config\IUserMountCache
 	 */
-	public function __construct(IStorageFactory $loader) {
+	private $mountCache;
+
+	/**
+	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 * @param IUserMountCache $mountCache
+	 */
+	public function __construct(IStorageFactory $loader, IUserMountCache $mountCache) {
 		$this->loader = $loader;
+		$this->mountCache = $mountCache;
 	}
 
 	/**
@@ -76,5 +85,24 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	public function registerProvider(IMountProvider $provider) {
 		$this->providers[] = $provider;
 		$this->emit('\OC\Files\Config', 'registerMountProvider', [$provider]);
+	}
+
+	/**
+	 * Cache mounts for user
+	 *
+	 * @param IUser $user
+	 * @param IMountPoint[] $mountPoints
+	 */
+	public function registerMounts(IUser $user, array $mountPoints) {
+		$this->mountCache->registerMounts($user, $mountPoints);
+	}
+
+	/**
+	 * Get the mount cache which can be used to search for mounts without setting up the filesystem
+	 *
+	 * @return IUserMountCache
+	 */
+	public function getMountCache() {
+		return $this->mountCache;
 	}
 }

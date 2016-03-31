@@ -326,10 +326,6 @@ class CheckSetupControllerTest extends TestCase {
 		$this->clientService->expects($this->once())
 			->method('newClient')
 			->will($this->returnValue($client));
-
-		$this->util->expects($this->once())
-			->method('isHtaccessWorking')
-			->will($this->returnValue(true));
 		$this->urlGenerator->expects($this->at(0))
 			->method('linkToDocs')
 			->with('admin-performance')
@@ -347,7 +343,6 @@ class CheckSetupControllerTest extends TestCase {
 		$expected = new DataResponse(
 			[
 				'serverHasInternetConnection' => false,
-				'dataDirectoryProtected' => true,
 				'isMemcacheConfigured' => true,
 				'memcacheDocs' => 'http://doc.owncloud.org/server/go.php?to=admin-performance',
 				'isUrandomAvailable' => self::invokePrivate($this->checkSetupController, 'isUrandomAvailable'),
@@ -623,7 +618,22 @@ class CheckSetupControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->checkSetupController->rescanFailedIntegrityCheck());
 	}
 
+	public function testGetFailedIntegrityCheckDisabled() {
+		$this->checker
+			->expects($this->once())
+			->method('isCodeCheckEnforced')
+			->willReturn(false);
+
+		$expected = new DataDisplayResponse('Integrity checker has been disabled. Integrity cannot be verified.');
+		$this->assertEquals($expected, $this->checkSetupController->getFailedIntegrityCheckFiles());
+	}
+
+
 	public function testGetFailedIntegrityCheckFilesWithNoErrorsFound() {
+		$this->checker
+			->expects($this->once())
+			->method('isCodeCheckEnforced')
+			->willReturn(true);
 		$this->checker
 			->expects($this->once())
 			->method('getResults')
@@ -640,6 +650,10 @@ class CheckSetupControllerTest extends TestCase {
 	}
 
 	public function testGetFailedIntegrityCheckFilesWithSomeErrorsFound() {
+		$this->checker
+			->expects($this->once())
+			->method('isCodeCheckEnforced')
+			->willReturn(true);
 		$this->checker
 				->expects($this->once())
 				->method('getResults')

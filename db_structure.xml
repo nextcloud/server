@@ -127,6 +127,93 @@
 
 	</table>
 
+	<!-- a list of all mounted storage per user, populated on filesystem setup -->
+	<table>
+
+		<name>*dbprefix*mounts</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>storage_id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+			</field>
+
+			<!-- fileid of the root of the mount, foreign key: oc_filecache.fileid -->
+			<field>
+				<name>root_id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+			</field>
+
+			<field>
+				<name>user_id</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>mount_point</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>4000</length>
+			</field>
+
+			<index>
+				<name>mounts_user_index</name>
+				<unique>false</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>mounts_storage_index</name>
+				<unique>false</unique>
+				<field>
+					<name>storage_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>mounts_root_index</name>
+				<unique>false</unique>
+				<field>
+					<name>root_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>mounts_user_root_index</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>root_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
 	<table>
 
 		<!--
@@ -309,6 +396,14 @@
                 <notnull>false</notnull>
                 <length>4</length>
             </field>
+
+			<field>
+				<name>checksum</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>255</length>
+			</field>
 
 
             <index>
@@ -684,7 +779,8 @@
 			</field>
 
 			<!-- Foreign Key users::uid -->
-            <!-- This is the initiator of the share -->
+            <!-- This is the owner of the share
+                 which does not have to be the initiator of the share -->
 			<field>
 				<name>uid_owner</name>
 				<type>text</type>
@@ -694,17 +790,16 @@
 			</field>
 
 			<!-- Foreign Key users::uid -->
-            <!-- This is the owner of the file, this can be
-                 different from the initiator of the share.
-                 The naming is subobtimal but prevents huge
-                 migration steps -->
+            <!-- This is the initiator of the share -->
 			<field>
-				<name>uid_fileowner</name>
+				<name>uid_initiator</name>
 				<type>text</type>
 				<default></default>
 				<notnull>false</notnull>
 				<length>64</length>
 			</field>
+
+
 
 			<!-- Foreign Key share::id or NULL -->
 			<field>
@@ -1154,11 +1249,10 @@
 		<!-- object id (ex: file id for files)-->
 		<field>
 			<name>objectid</name>
-			<type>integer</type>
-			<default>0</default>
+			<type>text</type>
+			<default></default>
 			<notnull>true</notnull>
-			<unsigned>true</unsigned>
-			<length>4</length>
+			<length>64</length>
 		</field>
 
 		<!-- object type (ex: "files")-->
@@ -1447,8 +1541,7 @@
 				<notnull>true</notnull>
 				<length>64</length>
 			</field>
-<!--
-			TODO: finalize indexes when all queries are done
+
 			<index>
 				<name>comments_parent_id_index</name>
 				<unique>false</unique>
@@ -1459,15 +1552,11 @@
 			</index>
 
 			<index>
-				<name>comments_actor_index</name>
+				<name>comments_topmost_parent_id_idx</name>
 				<unique>false</unique>
 				<field>
-					<name>actor_type</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>actor_id</name>
-					<sorting>ascending</sorting>
+					<name>topmost_parent_id</name>
+					<sorting>descending</sorting>
 				</field>
 			</index>
 
@@ -1487,11 +1576,151 @@
 					<sorting>descending</sorting>
 				</field>
 			</index>
--->
+
+			<index>
+				<name>comments_actor_index</name>
+				<unique>false</unique>
+				<field>
+					<name>actor_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>actor_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
 	</table>
 
+	<table>
+		<!--
+		default place to store per user and object read markers
+		-->
+		<name>*dbprefix*comments_read_markers</name>
+
+		<declaration>
+
+			<field>
+				<name>user_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>marker_datetime</name>
+				<type>timestamp</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<name>object_type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>object_id</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<index>
+				<name>comments_marker_object_index</name>
+				<unique>false</unique>
+				<field>
+					<name>object_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>object_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>comments_marker_index</name>
+				<unique>true</unique>
+				<field>
+					<name>user_id</name>
+					<sorting>descending</sorting>
+				</field>
+				<field>
+					<name>object_type</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>object_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+		<!--
+		Encrypted credentials storage
+		-->
+		<name>*dbprefix*credentials</name>
+
+		<declaration>
+
+			<field>
+				<name>user</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>identifier</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>credentials</name>
+				<type>clob</type>
+				<notnull>false</notnull>
+			</field>
+
+			<index>
+				<name>credentials_user_id</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>user</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>identifier</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>credentials_user</name>
+				<unique>false</unique>
+				<field>
+					<name>user</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
 
 </database>

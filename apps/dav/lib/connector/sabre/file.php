@@ -3,17 +3,17 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -111,7 +111,7 @@ class File extends Node implements IFile {
 
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
-			$partFilePath = $this->path . '.ocTransferId' . rand() . '.part';
+			$partFilePath = $this->getPartFileBasePath($this->path) . '.ocTransferId' . rand() . '.part';
 		} else {
 			// upload file directly as the final path
 			$partFilePath = $this->path;
@@ -129,8 +129,16 @@ class File extends Node implements IFile {
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new Exception('Could not write file contents');
 			}
-			list($count,) = \OC_Helper::streamCopy($data, $target);
+			list($count, $result) = \OC_Helper::streamCopy($data, $target);
 			fclose($target);
+
+			if ($result === false) {
+				$expected = -1;
+				if (isset($_SERVER['CONTENT_LENGTH'])) {
+					$expected = $_SERVER['CONTENT_LENGTH'];
+				}
+				throw new Exception('Error while copying file to target location (copied bytes: ' . $count . ', expected filesize: ' . $expected . ' )');
+			}
 
 			// if content length is sent by client:
 			// double check if the file was fully received
@@ -185,14 +193,14 @@ class File extends Node implements IFile {
 				}
 			}
 
+			// since we skipped the view we need to scan and emit the hooks ourselves
+			$storage->getUpdater()->update($internalPath);
+
 			try {
 				$this->changeLock(ILockingProvider::LOCK_SHARED);
 			} catch (LockedException $e) {
 				throw new FileLocked($e->getMessage(), $e->getCode(), $e);
 			}
-
-			// since we skipped the view we need to scan and emit the hooks ourselves
-			$storage->getUpdater()->update($internalPath);
 
 			if ($view) {
 				$this->emitPostHooks($exists);
@@ -205,12 +213,32 @@ class File extends Node implements IFile {
 					header('X-OC-MTime: accepted');
 				}
 			}
+
 			$this->refreshInfo();
+
+			if (isset($request->server['HTTP_OC_CHECKSUM'])) {
+				$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
+				$this->fileView->putFileInfo($this->path, ['checksum' => $checksum]);
+				$this->refreshInfo();
+			} else if ($this->getChecksum() !== null && $this->getChecksum() !== '') {
+				$this->fileView->putFileInfo($this->path, ['checksum' => '']);
+				$this->refreshInfo();
+			}
+
 		} catch (StorageNotAvailableException $e) {
 			throw new ServiceUnavailable("Failed to check file size: " . $e->getMessage());
 		}
 
 		return '"' . $this->info->getEtag() . '"';
+	}
+
+	private function getPartFileBasePath($path) {
+		$partFileInStorage = \OC::$server->getConfig()->getSystemValue('part_file_in_storage', true);
+		if ($partFileInStorage) {
+			return $path;
+		} else {
+			return md5($path); // will place it in the root of the view with a unique name
+		}
 	}
 
 	/**
@@ -329,7 +357,7 @@ class File extends Node implements IFile {
 		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND') {
 			return $mimeType;
 		}
-		return \OC_Helper::getSecureMimeType($mimeType);
+		return \OC::$server->getMimeTypeDetector()->getSecureMimeType($mimeType);
 	}
 
 	/**
@@ -400,12 +428,12 @@ class File extends Node implements IFile {
 
 				if ($needsPartFile) {
 					// we first assembly the target file as a part file
-					$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
+					$partFile = $this->getPartFileBasePath($path . '/' . $info['name']) . '.ocTransferId' . $info['transferid'] . '.part';
 					/** @var \OC\Files\Storage\Storage $targetStorage */
 					list($partStorage, $partInternalPath) = $this->fileView->resolvePath($partFile);
 
 
-					$chunk_handler->file_assemble($partStorage, $partInternalPath, $this->fileView->getAbsolutePath($targetPath));
+					$chunk_handler->file_assemble($partStorage, $partInternalPath);
 
 					// here is the final atomic rename
 					$renameOkay = $targetStorage->moveFromStorage($partStorage, $partInternalPath, $targetInternalPath);
@@ -424,7 +452,7 @@ class File extends Node implements IFile {
 					}
 				} else {
 					// assemble directly into the final file
-					$chunk_handler->file_assemble($targetStorage, $targetInternalPath, $this->fileView->getAbsolutePath($targetPath));
+					$chunk_handler->file_assemble($targetStorage, $targetInternalPath);
 				}
 
 				// allow sync clients to send the mtime along in a header
@@ -435,14 +463,22 @@ class File extends Node implements IFile {
 					}
 				}
 
-				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_SHARED);
-
 				// since we skipped the view we need to scan and emit the hooks ourselves
 				$targetStorage->getUpdater()->update($targetInternalPath);
 
+				$this->fileView->changeLock($targetPath, ILockingProvider::LOCK_SHARED);
+
 				$this->emitPostHooks($exists, $targetPath);
 
+				// FIXME: should call refreshInfo but can't because $this->path is not the of the final file
 				$info = $this->fileView->getFileInfo($targetPath);
+
+				if (isset($request->server['HTTP_OC_CHECKSUM'])) {
+					$checksum = trim($request->server['HTTP_OC_CHECKSUM']);
+					$this->fileView->putFileInfo($targetPath, ['checksum' => $checksum]);
+				} else if ($info->getChecksum() !== null && $info->getChecksum() !== '') {
+					$this->fileView->putFileInfo($this->path, ['checksum' => '']);
+				}
 
 				$this->fileView->unlockFile($targetPath, ILockingProvider::LOCK_SHARED);
 
@@ -518,5 +554,14 @@ class File extends Node implements IFile {
 		}
 
 		throw new \Sabre\DAV\Exception($e->getMessage(), 0, $e);
+	}
+
+	/**
+	 * Get the checksum for this file
+	 *
+	 * @return string
+	 */
+	public function getChecksum() {
+		return $this->info->getChecksum();
 	}
 }

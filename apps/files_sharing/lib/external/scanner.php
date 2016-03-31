@@ -6,7 +6,7 @@
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -36,6 +36,10 @@ class Scanner extends \OC\Files\Cache\Scanner {
 
 	/** {@inheritDoc} */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $lock = true) {
+		if(!$this->storage->remoteIsOwnCloud()) {
+			return parent::scan($path, $recursive, $recursive, $lock);
+		}
+
 		$this->scanAll();
 	}
 

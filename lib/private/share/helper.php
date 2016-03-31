@@ -5,11 +5,11 @@
  * @author Miguel Prokop <miguel.prokop@vtu.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -227,7 +227,7 @@ class Helper extends \OC\Share\Constants {
 	 *
 	 * all return: http://localhost
 	 *
-	 * @param string $shareWith
+	 * @param string $remote
 	 * @return string
 	 */
 	protected static function fixRemoteURL($remote) {
@@ -244,7 +244,7 @@ class Helper extends \OC\Share\Constants {
 	 * split user and remote from federated cloud id
 	 *
 	 * @param string $id
-	 * @return array
+	 * @return string[]
 	 * @throws HintException
 	 */
 	public static function splitUserRemote($id) {
@@ -288,5 +288,39 @@ class Helper extends \OC\Share\Constants {
 		$l = \OC::$server->getL10N('core');
 		$hint = $l->t('Invalid Federated Cloud ID');
 		throw new HintException('Invalid Fededrated Cloud ID', $hint);
+	}
+
+	/**
+	 * check if two federated cloud IDs refer to the same user
+	 *
+	 * @param string $user1
+	 * @param string $server1
+	 * @param string $user2
+	 * @param string $server2
+	 * @return bool true if both users and servers are the same
+	 */
+	public static function isSameUserOnSameServer($user1, $server1, $user2, $server2) {
+		$normalizedServer1 = strtolower(\OC\Share\Share::removeProtocolFromUrl($server1));
+		$normalizedServer2 = strtolower(\OC\Share\Share::removeProtocolFromUrl($server2));
+
+		if (rtrim($normalizedServer1, '/') === rtrim($normalizedServer2, '/')) {
+			// FIXME this should be a method in the user management instead
+			\OCP\Util::emitHook(
+					'\OCA\Files_Sharing\API\Server2Server',
+					'preLoginNameUsedAsUserName',
+					array('uid' => &$user1)
+			);
+			\OCP\Util::emitHook(
+					'\OCA\Files_Sharing\API\Server2Server',
+					'preLoginNameUsedAsUserName',
+					array('uid' => &$user2)
+			);
+
+			if ($user1 === $user2) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

@@ -753,6 +753,7 @@ var OCdialogs = {
 			var sorted = dirs.concat(others);
 
 			$.each(sorted, function(idx, entry) {
+				entry.icon = OC.MimeType.getIconUrl(entry.mimetype);
 				var $li = self.$listTmpl.octemplate({
 					type: entry.type,
 					dir: dir,

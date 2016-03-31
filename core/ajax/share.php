@@ -7,7 +7,7 @@
  * @author dampfklon <me@dampfklon.de>
  * @author Felix Böhm <felixboehm@gmx.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Leonardo Diez <leio10@users.noreply.github.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -16,9 +16,8 @@
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -44,92 +43,6 @@ $defaults = new \OCP\Defaults();
 
 if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSource'])) {
 	switch ($_POST['action']) {
-		case 'share':
-			if (isset($_POST['shareType']) && isset($_POST['shareWith']) && isset($_POST['permissions'])) {
-				try {
-					$shareType = (int)$_POST['shareType'];
-					$shareWith = $_POST['shareWith'];
-					$itemSourceName = isset($_POST['itemSourceName']) ? (string)$_POST['itemSourceName'] : null;
-
-					/*
-					 * Nasty nasty fix for https://github.com/owncloud/core/issues/19950
-					 */
-					$passwordChanged = null;
-					if (is_array($shareWith)) {
-						$passwordChanged = ($shareWith['passwordChanged'] === 'true');
-						if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith['password'] === '') {
-							$shareWith = null;
-						} else {
-							$shareWith = $shareWith['password'];
-						}
-					} else {
-						/*
-						 * We need this branch since the calendar and contacts also use this
-						 * endpoint
-						 */
-						if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith === '') {
-							$shareWith = null;
-						}
-					}
-
- 					$itemSourceName=(isset($_POST['itemSourceName'])) ? (string)$_POST['itemSourceName']:'';
-
-					$token = OCP\Share::shareItem(
-						$_POST['itemType'],
-						$_POST['itemSource'],
-						$shareType,
-						$shareWith,
-						$_POST['permissions'],
-						$itemSourceName,
-						(!empty($_POST['expirationDate']) ? new \DateTime((string)$_POST['expirationDate']) : null),
-						$passwordChanged
-					);
-
-					if (is_string($token)) {
-						OC_JSON::success(array('data' => array('token' => $token)));
-					} else {
-						OC_JSON::success();
-					}
-				} catch (\OC\HintException $exception) {
-					OC_JSON::error(array('data' => array('message' => $exception->getHint())));
-				} catch (Exception $exception) {
-					OC_JSON::error(array('data' => array('message' => $exception->getMessage())));
-				}
-			}
-			break;
-		case 'unshare':
-			if (isset($_POST['shareType']) && isset($_POST['shareWith'])) {
-				if ((int)$_POST['shareType'] === OCP\Share::SHARE_TYPE_LINK && $_POST['shareWith'] == '') {
-					$shareWith = null;
-				} else {
-					$shareWith = (string)$_POST['shareWith'];
-				}
-				$return = OCP\Share::unshare((string)$_POST['itemType'],(string) $_POST['itemSource'], (int)$_POST['shareType'], $shareWith);
-				($return) ? OC_JSON::success() : OC_JSON::error();
-			}
-			break;
-		case 'setPermissions':
-			if (isset($_POST['shareType']) && isset($_POST['shareWith']) && isset($_POST['permissions'])) {
-				$return = OCP\Share::setPermissions(
-					(string)$_POST['itemType'],
-					(string)$_POST['itemSource'],
-					(int)$_POST['shareType'],
-					(string)$_POST['shareWith'],
-					(int)$_POST['permissions']
-				);
-				($return) ? OC_JSON::success() : OC_JSON::error();
-			}
-			break;
-		case 'setExpirationDate':
-			if (isset($_POST['date'])) {
-				try {
-					$return = OCP\Share::setExpirationDate((string)$_POST['itemType'], (string)$_POST['itemSource'], (string)$_POST['date']);
-					($return) ? OC_JSON::success() : OC_JSON::error();
-				} catch (\Exception $e) {
-					OC_JSON::error(array('data' => array('message' => $e->getMessage())));
-				}
-			}
-			break;
 		case 'informRecipients':
 			$l = \OC::$server->getL10N('core');
 			$shareType = (int) $_POST['shareType'];
@@ -157,7 +70,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				\OC::$server->getL10N('lib'),
 				\OC::$server->getMailer(),
 				\OC::$server->getLogger(),
-				$defaults
+				$defaults,
+				\OC::$server->getURLGenerator()
 			);
 			$result = $mailNotification->sendInternalShareMail($recipientList, $itemSource, $itemType);
 
@@ -195,7 +109,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				\OC::$server->getL10N('lib'),
 				\OC::$server->getMailer(),
 				\OC::$server->getLogger(),
-				$defaults
+				$defaults,
+				\OC::$server->getURLGenerator()
 			);
 
 			$expiration = null;
@@ -341,7 +256,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 
 					if (isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]) &&
 					    is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])) {
-						$sharedGroups = isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP]);
+						$sharedGroups = $_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP];
 					}
 				}
 

@@ -23,6 +23,7 @@
 		"oc-dialogs.js",
 		"js.js",
 		"oc-backbone.js",
+		"oc-backbone-webdav.js",
 		"l10n.js",
 		"apps.js",
 		"share.js",
@@ -43,6 +44,11 @@
 		"mimetype.js",
 		"mimetypelist.js",
 		"files/fileinfo.js",
-		"files/client.js"
+		"files/client.js",
+		"systemtags/systemtags.js",
+		"systemtags/systemtagmodel.js",
+		"systemtags/systemtagscollection.js",
+		"systemtags/systemtagsmappingcollection.js",
+		"systemtags/systemtagsinputfield.js"
 	]
 }

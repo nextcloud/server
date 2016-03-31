@@ -20,9 +20,10 @@
 */
 
 describe('OCA.Files.FileActions tests', function() {
-	var fileList, fileActions;
+	var fileList, fileActions, clock;
 
 	beforeEach(function() {
+		clock = sinon.useFakeTimers();
 		// init horrible parameters
 		var $body = $('#testArea');
 		$body.append('<input type="hidden" id="dir" value="/subdir"></input>');
@@ -63,6 +64,7 @@ describe('OCA.Files.FileActions tests', function() {
 		fileActions = null;
 		fileList.destroy();
 		fileList = undefined;
+		clock.restore();
 		$('#dir, #permissions, #filestable').remove();
 	});
 	it('calling clear() clears file actions', function() {
@@ -151,7 +153,7 @@ describe('OCA.Files.FileActions tests', function() {
 			expect($tr.find('.action.action-match').length).toEqual(1);
 			expect($tr.find('.action.action-nomatch').length).toEqual(0);
 		});
-		it('display inline icon', function() {
+		it('display inline icon with image path', function() {
 			fileActions.registerAction({
 				name: 'Icon',
 				displayName: 'IconDisplay',
@@ -177,7 +179,7 @@ describe('OCA.Files.FileActions tests', function() {
 			expect($tr.find('.action.action-noicon').length).toEqual(1);
 			expect($tr.find('.action.action-noicon').find('img').length).toEqual(0);
 		});
-		it('display alt text on inline icon', function() {
+		it('display alt text on inline icon with image path', function() {
 			fileActions.registerAction({
 				name: 'IconAltText',
 				displayName: 'IconAltTextDisplay',
@@ -206,6 +208,63 @@ describe('OCA.Files.FileActions tests', function() {
 			expect($tr.find('.action.action-iconnoalttext').length).toEqual(1);
 			expect($tr.find('.action.action-iconnoalttext').find('img').length).toEqual(1);
 			expect($tr.find('.action.action-iconnoalttext').find('img').eq(0).attr('alt')).toEqual('');
+		});
+		it('display inline icon with iconClass', function() {
+			fileActions.registerAction({
+				name: 'Icon',
+				displayName: 'IconDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				iconClass: 'icon-test',
+				permissions: OC.PERMISSION_READ
+			});
+			fileActions.registerAction({
+				name: 'NoIcon',
+				displayName: 'NoIconDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action.action-icon').length).toEqual(1);
+			expect($tr.find('.action.action-icon').find('.icon').length).toEqual(1);
+			expect($tr.find('.action.action-icon').find('.icon').hasClass('icon-test')).toEqual(true);
+
+			expect($tr.find('.action.action-noicon').length).toEqual(1);
+			expect($tr.find('.action.action-noicon').find('.icon').length).toEqual(0);
+		});
+		it('display alt text on inline icon with iconClass when no display name exists', function() {
+			fileActions.registerAction({
+				name: 'IconAltText',
+				displayName: '',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				iconClass: 'icon-alttext',
+				altText: 'alt icon text',
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.registerAction({
+				name: 'IconNoAltText',
+				displayName: 'IconNoAltTextDisplay',
+				type: OCA.Files.FileActions.TYPE_INLINE,
+				mime: 'all',
+				altText: 'useless alt text',
+				iconClass: 'icon-noalttext',
+				permissions: OC.PERMISSION_READ
+			});
+
+			fileActions.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action.action-iconalttext').length).toEqual(1);
+			expect($tr.find('.action.action-iconalttext').find('.icon').length).toEqual(1);
+			expect($tr.find('.action.action-iconalttext').find('.hidden-visually').text()).toEqual('alt icon text');
+
+			expect($tr.find('.action.action-iconnoalttext').length).toEqual(1);
+			expect($tr.find('.action.action-iconnoalttext').find('.icon').length).toEqual(1);
+			expect($tr.find('.action.action-iconnoalttext').find('.hidden-visually').length).toEqual(0);
 		});
 	});
 	describe('action handler', function() {
@@ -595,6 +654,26 @@ describe('OCA.Files.FileActions tests', function() {
 				busyStub.restore();
 				handleDownloadStub.restore();
 			});
+		});
+	});
+	describe('download spinner', function() {
+		var FileActions = OCA.Files.FileActions;
+		var $el;
+
+		beforeEach(function() {
+			$el = $('<a href="#"><span class="icon icon-download"></span><span>Download</span></a>');
+		});
+
+		it('replaces download icon with spinner', function() {
+			FileActions.updateFileActionSpinner($el, true);
+			expect($el.find('.icon.loading').length).toEqual(1);
+			expect($el.find('.icon.icon-download').hasClass('hidden')).toEqual(true);
+		});
+		it('replaces spinner back with download icon with spinner', function() {
+			FileActions.updateFileActionSpinner($el, true);
+			FileActions.updateFileActionSpinner($el, false);
+			expect($el.find('.icon.loading').length).toEqual(0);
+			expect($el.find('.icon.icon-download').hasClass('hidden')).toEqual(false);
 		});
 	});
 });

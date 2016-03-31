@@ -5,7 +5,7 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -79,10 +79,12 @@ class File extends \OCP\Search\Result {
 		$info = pathinfo($path);
 		$this->id = $data->getId();
 		$this->name = $info['basename'];
-		$this->link = \OCP\Util::linkTo(
-			'files',
-			'index.php',
-			array('dir' => $info['dirname'], 'scrollto' => $info['basename'])
+		$this->link = \OC::$server->getURLGenerator()->linkToRoute(
+			'files.view.index',
+			[
+				'dir' => $info['dirname'],
+				'scrollto' => $info['basename'],
+			]
 		);
 		$this->permissions = $data->getPermissions();
 		$this->path = $path;

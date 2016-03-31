@@ -2,7 +2,7 @@
 /**
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -65,11 +65,7 @@ class SystemPrincipalBackend extends AbstractBackend {
 	 */
 	function getPrincipalByPath($path) {
 
-		$elements = explode('/', $path);
-		if ($elements[0] !== 'principals') {
-			return null;
-		}
-		if ($elements[1] === 'system') {
+		if ($path === 'principals/system/system') {
 			$principal = [
 				'uri' => 'principals/system/system',
 				'{DAV:}displayname' => 'system',

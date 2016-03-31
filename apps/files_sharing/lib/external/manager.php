@@ -3,11 +3,12 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -27,8 +28,9 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCP\Files;
-use OC\Notification\IManager;
+use OCP\Notification\IManager;
 
 class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
@@ -62,6 +64,8 @@ class Manager {
 	 * @var IManager
 	 */
 	private $notificationManager;
+	/** @var DiscoveryManager */
+	private $discoveryManager;
 
 	/**
 	 * @param \OCP\IDBConnection $connection
@@ -69,16 +73,23 @@ class Manager {
 	 * @param \OCP\Files\Storage\IStorageFactory $storageLoader
 	 * @param \OC\HTTPHelper $httpHelper
 	 * @param IManager $notificationManager
+	 * @param DiscoveryManager $discoveryManager
 	 * @param string $uid
 	 */
-	public function __construct(\OCP\IDBConnection $connection, \OC\Files\Mount\Manager $mountManager,
-								\OCP\Files\Storage\IStorageFactory $storageLoader, \OC\HTTPHelper $httpHelper, IManager $notificationManager, $uid) {
+	public function __construct(\OCP\IDBConnection $connection,
+								\OC\Files\Mount\Manager $mountManager,
+								\OCP\Files\Storage\IStorageFactory $storageLoader,
+								\OC\HTTPHelper $httpHelper,
+								IManager $notificationManager,
+								DiscoveryManager $discoveryManager,
+								$uid) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->storageLoader = $storageLoader;
 		$this->httpHelper = $httpHelper;
 		$this->uid = $uid;
 		$this->notificationManager = $notificationManager;
+		$this->discoveryManager = $discoveryManager;
 	}
 
 	/**
@@ -194,7 +205,7 @@ class Manager {
 
 			\OC_Hook::emit('OCP\Share', 'federated_share_added', ['server' => $share['remote']]);
 
-			//FIXME $this->scrapNotification($share['remote_id']);
+			$this->processNotification($id);
 			return true;
 		}
 
@@ -217,7 +228,7 @@ class Manager {
 			$removeShare->execute(array($id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 
-			//FIXME $this->scrapNotification($share['remote_id']);
+			$this->processNotification($id);
 			return true;
 		}
 
@@ -227,7 +238,7 @@ class Manager {
 	/**
 	 * @param int $remoteShare
 	 */
-	protected function scrapNotification($remoteShare) {
+	public function processNotification($remoteShare) {
 		$filter = $this->notificationManager->createNotification();
 		$filter->setApp('files_sharing')
 			->setUser($this->uid)
@@ -246,13 +257,13 @@ class Manager {
 	 */
 	private function sendFeedbackToRemote($remote, $token, $remoteId, $feedback) {
 
-		$url = rtrim($remote, '/') . \OCP\Share::BASE_PATH_TO_SHARE_API . '/' . $remoteId . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
+		$url = rtrim($remote, '/') . $this->discoveryManager->getShareEndpoint($remote) . '/' . $remoteId . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
 		$fields = array('token' => $token);
 
 		$result = $this->httpHelper->post($url, $fields);
 		$status = json_decode($result['result'], true);
 
-		return ($result['success'] && $status['ocs']['meta']['statuscode'] === 100);
+		return ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200));
 	}
 
 	/**

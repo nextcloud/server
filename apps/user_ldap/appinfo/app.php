@@ -6,8 +6,9 @@
  * @author Dominik Schmidt <dev@dominik-schmidt.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -37,7 +38,8 @@ if(count($configPrefixes) === 1) {
 		new OCA\user_ldap\lib\LogWrapper(),
 		\OC::$server->getAvatarManager(),
 		new \OCP\Image(),
-		$dbc
+		$dbc,
+		\OC::$server->getUserManager()
 	);
 	$connector = new OCA\user_ldap\lib\Connection($ldapWrapper, $configPrefixes[0]);
 	$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper, $userManager);

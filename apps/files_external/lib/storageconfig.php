@@ -1,9 +1,12 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Jesús Macias <jmacias@solidgear.es>
+ * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,6 +25,7 @@
 
 namespace OCA\Files_external\Lib;
 
+use OCA\Files_External\Lib\Auth\IUserProvided;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 
@@ -29,6 +33,8 @@ use \OCA\Files_External\Lib\Auth\AuthMechanism;
  * External storage configuration
  */
 class StorageConfig implements \JsonSerializable {
+	const MOUNT_TYPE_ADMIN = 1;
+	const MOUNT_TYPE_PERSONAl = 2;
 
 	/**
 	 * Storage config id
@@ -108,12 +114,20 @@ class StorageConfig implements \JsonSerializable {
 	private $mountOptions = [];
 
 	/**
+	 * Whether it's a personal or admin mount
+	 *
+	 * @var int
+	 */
+	private $type;
+
+	/**
 	 * Creates a storage config
 	 *
 	 * @param int|null $id config id or null for a new config
 	 */
 	public function __construct($id = null) {
 		$this->id = $id;
+		$this->mountOptions['enable_sharing'] = false;
 	}
 
 	/**
@@ -163,7 +177,7 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
-	 * @param Backend
+	 * @param Backend $backend
 	 */
 	public function setBackend(Backend $backend) {
 		$this->backend= $backend;
@@ -177,7 +191,7 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
-	 * @param AuthMechanism
+	 * @param AuthMechanism $authMechanism
 	 */
 	public function setAuthMechanism(AuthMechanism $authMechanism) {
 		$this->authMechanism = $authMechanism;
@@ -198,6 +212,20 @@ class StorageConfig implements \JsonSerializable {
 	 * @param array $backendOptions backend options
 	 */
 	public function setBackendOptions($backendOptions) {
+		if($this->getBackend() instanceof  Backend) {
+			$parameters = $this->getBackend()->getParameters();
+			foreach($backendOptions as $key => $value) {
+				if(isset($parameters[$key])) {
+					switch ($parameters[$key]->getType()) {
+						case \OCA\Files_External\Lib\DefinitionParameter::VALUE_BOOLEAN:
+							$value = (bool)$value;
+							break;
+					}
+					$backendOptions[$key] = $value;
+				}
+			}
+		}
+
 		$this->backendOptions = $backendOptions;
 	}
 
@@ -350,6 +378,20 @@ class StorageConfig implements \JsonSerializable {
 	}
 
 	/**
+	 * @return int self::MOUNT_TYPE_ADMIN or self::MOUNT_TYPE_PERSONAl
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @param int $type self::MOUNT_TYPE_ADMIN or self::MOUNT_TYPE_PERSONAl
+	 */
+	public function setType($type) {
+		$this->type = $type;
+	}
+
+	/**
 	 * Serialize config to JSON
 	 *
 	 * @return array
@@ -381,6 +423,8 @@ class StorageConfig implements \JsonSerializable {
 		if (!is_null($this->statusMessage)) {
 			$result['statusMessage'] = $this->statusMessage;
 		}
+		$result['userProvided'] = $this->authMechanism instanceof IUserProvided;
+		$result['type'] = ($this->getType() === self::MOUNT_TYPE_PERSONAl) ? 'personal': 'system';
 		return $result;
 	}
 }

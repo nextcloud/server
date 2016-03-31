@@ -17,6 +17,7 @@ OC.L10N.register(
     "Download" : "Download",
     "Rename" : "Ëmbenennen",
     "Delete" : "Läschen",
+    "Unshare" : "Net méi deelen",
     "Details" : "Detailer",
     "Select" : "Auswielen",
     "Name" : "Numm",
@@ -36,7 +37,6 @@ OC.L10N.register(
     "Select all" : "All auswielen",
     "Upload too large" : "Upload ze grouss",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass.",
-    "Files are being scanned, please wait." : "Fichieren gi gescannt, war weg.",
     "Text file" : "Text Fichier"
 },
 "nplurals=2; plural=(n != 1);");

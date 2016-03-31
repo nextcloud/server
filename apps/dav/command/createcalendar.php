@@ -1,9 +1,29 @@
 <?php
-
+/**
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ *
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ */
 namespace OCA\DAV\Command;
 
 use OCA\DAV\CalDAV\CalDavBackend;
+use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IDBConnection;
+use OCP\IGroupManager;
 use OCP\IUserManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,6 +35,9 @@ class CreateCalendar extends Command {
 	/** @var IUserManager */
 	protected $userManager;
 
+	/** @var IGroupManager $groupManager */
+	private $groupManager;
+
 	/** @var \OCP\IDBConnection */
 	protected $dbConnection;
 
@@ -22,9 +45,10 @@ class CreateCalendar extends Command {
 	 * @param IUserManager $userManager
 	 * @param IDBConnection $dbConnection
 	 */
-	function __construct(IUserManager $userManager, IDBConnection $dbConnection) {
+	function __construct(IUserManager $userManager, IGroupManager $groupManager, IDBConnection $dbConnection) {
 		parent::__construct();
 		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 		$this->dbConnection = $dbConnection;
 	}
 
@@ -45,8 +69,13 @@ class CreateCalendar extends Command {
 		if (!$this->userManager->userExists($user)) {
 			throw new \InvalidArgumentException("User <$user> in unknown.");
 		}
+		$principalBackend = new Principal(
+			$this->userManager,
+			$this->groupManager
+		);
+
 		$name = $input->getArgument('name');
-		$caldav = new CalDavBackend($this->dbConnection);
+		$caldav = new CalDavBackend($this->dbConnection, $principalBackend);
 		$caldav->createCalendar("principals/users/$user", $name, []);
 	}
 }

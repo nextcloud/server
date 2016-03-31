@@ -4,7 +4,7 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -54,14 +54,26 @@ class Activity implements IExtension {
 	const SUBJECT_REMOTE_SHARE_RECEIVED = 'remote_share_received';
 	const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
 
-	const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
-	const SUBJECT_SHARED_LINK_SELF = 'shared_link_self';
 	const SUBJECT_SHARED_USER_SELF = 'shared_user_self';
-	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
-	const SUBJECT_RESHARED_LINK_BY = 'reshared_link_by';
 	const SUBJECT_RESHARED_USER_BY = 'reshared_user_by';
+	const SUBJECT_UNSHARED_USER_SELF = 'unshared_user_self';
+	const SUBJECT_UNSHARED_USER_BY = 'unshared_user_by';
+
+	const SUBJECT_SHARED_GROUP_SELF = 'shared_group_self';
+	const SUBJECT_RESHARED_GROUP_BY = 'reshared_group_by';
+	const SUBJECT_UNSHARED_GROUP_SELF = 'unshared_group_self';
+	const SUBJECT_UNSHARED_GROUP_BY = 'unshared_group_by';
+
+	const SUBJECT_SHARED_LINK_SELF = 'shared_link_self';
+	const SUBJECT_RESHARED_LINK_BY = 'reshared_link_by';
+	const SUBJECT_UNSHARED_LINK_SELF = 'unshared_link_self';
+	const SUBJECT_UNSHARED_LINK_BY = 'unshared_link_by';
+	const SUBJECT_LINK_EXPIRED = 'link_expired';
+	const SUBJECT_LINK_BY_EXPIRED = 'link_by_expired';
+
 	const SUBJECT_SHARED_EMAIL = 'shared_with_email';
 	const SUBJECT_SHARED_WITH_BY = 'shared_with_by';
+	const SUBJECT_UNSHARED_BY = 'unshared_by';
 
 	/** @var IFactory */
 	protected $languageFactory;
@@ -197,20 +209,42 @@ class Activity implements IExtension {
 				return (string) $l->t('Public shared folder %1$s was downloaded', $params);
 			case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
 				return (string) $l->t('Public shared file %1$s was downloaded', $params);
+
 			case self::SUBJECT_SHARED_USER_SELF:
 				return (string) $l->t('You shared %1$s with %2$s', $params);
-			case self::SUBJECT_SHARED_GROUP_SELF:
-				return (string) $l->t('You shared %1$s with group %2$s', $params);
 			case self::SUBJECT_RESHARED_USER_BY:
 				return (string) $l->t('%2$s shared %1$s with %3$s', $params);
+			case self::SUBJECT_UNSHARED_USER_SELF:
+				return (string) $l->t('You removed the share of %2$s for %1$s', $params);
+			case self::SUBJECT_UNSHARED_USER_BY:
+				return (string) $l->t('%2$s removed the share of %3$s for %1$s', $params);
+
+			case self::SUBJECT_SHARED_GROUP_SELF:
+				return (string) $l->t('You shared %1$s with group %2$s', $params);
 			case self::SUBJECT_RESHARED_GROUP_BY:
 				return (string) $l->t('%2$s shared %1$s with group %3$s', $params);
+			case self::SUBJECT_UNSHARED_GROUP_SELF:
+				return (string) $l->t('You removed the share of group %2$s for %1$s', $params);
+			case self::SUBJECT_UNSHARED_GROUP_BY:
+				return (string) $l->t('%2$s removed the share of group %3$s for %1$s', $params);
+
 			case self::SUBJECT_RESHARED_LINK_BY:
 				return (string) $l->t('%2$s shared %1$s via link', $params);
-			case self::SUBJECT_SHARED_WITH_BY:
-				return (string) $l->t('%2$s shared %1$s with you', $params);
 			case self::SUBJECT_SHARED_LINK_SELF:
 				return (string) $l->t('You shared %1$s via link', $params);
+			case self::SUBJECT_UNSHARED_LINK_SELF:
+				return (string) $l->t('You removed the public link for %1$s', $params);
+			case self::SUBJECT_UNSHARED_LINK_BY:
+				return (string) $l->t('%2$s removed the public link for %1$s', $params);
+			case self::SUBJECT_LINK_EXPIRED:
+				return (string) $l->t('Your public link for %1$s expired', $params);
+			case self::SUBJECT_LINK_BY_EXPIRED:
+				return (string) $l->t('The public link of %2$s for %1$s expired', $params);
+
+			case self::SUBJECT_SHARED_WITH_BY:
+				return (string) $l->t('%2$s shared %1$s with you', $params);
+			case self::SUBJECT_UNSHARED_BY:
+				return (string) $l->t('%2$s removed the share for %1$s', $params);
 			case self::SUBJECT_SHARED_EMAIL:
 				return (string) $l->t('You shared %1$s with %2$s', $params);
 		}
@@ -229,20 +263,40 @@ class Activity implements IExtension {
 			case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
 			case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
 				return (string) $l->t('Downloaded via public link');
+
 			case self::SUBJECT_SHARED_USER_SELF:
 				return (string) $l->t('Shared with %2$s', $params);
-			case self::SUBJECT_SHARED_GROUP_SELF:
-				return (string) $l->t('Shared with group %2$s', $params);
 			case self::SUBJECT_RESHARED_USER_BY:
 				return (string) $l->t('Shared with %3$s by %2$s', $params);
+			case self::SUBJECT_UNSHARED_USER_SELF:
+				return (string) $l->t('Removed share for %2$s', $params);
+			case self::SUBJECT_UNSHARED_USER_BY:
+				return (string) $l->t('%2$s removed share for %3$s', $params);
+
+			case self::SUBJECT_SHARED_GROUP_SELF:
+				return (string) $l->t('Shared with group %2$s', $params);
 			case self::SUBJECT_RESHARED_GROUP_BY:
 				return (string) $l->t('Shared with group %3$s by %2$s', $params);
+			case self::SUBJECT_UNSHARED_GROUP_SELF:
+				return (string) $l->t('Removed share of group %2$s', $params);
+			case self::SUBJECT_UNSHARED_GROUP_BY:
+				return (string) $l->t('%2$s removed share of group %3$s', $params);
+
 			case self::SUBJECT_RESHARED_LINK_BY:
 				return (string) $l->t('Shared via link by %2$s', $params);
-			case self::SUBJECT_SHARED_WITH_BY:
-				return (string) $l->t('Shared by %2$s', $params);
 			case self::SUBJECT_SHARED_LINK_SELF:
 				return (string) $l->t('Shared via public link');
+			case self::SUBJECT_UNSHARED_LINK_SELF:
+				return (string) $l->t('Removed public link');
+			case self::SUBJECT_UNSHARED_LINK_BY:
+				return (string) $l->t('%2$s removed public link');
+			case self::SUBJECT_LINK_EXPIRED:
+				return (string) $l->t('Public link expired', $params);
+			case self::SUBJECT_LINK_BY_EXPIRED:
+				return (string) $l->t('Public link of %2$s expired', $params);
+
+			case self::SUBJECT_SHARED_WITH_BY:
+				return (string) $l->t('Shared by %2$s', $params);
 			case self::SUBJECT_SHARED_EMAIL:
 				return (string) $l->t('Shared with %2$s', $params);
 
@@ -283,6 +337,8 @@ class Activity implements IExtension {
 						0 => 'file',
 					);
 				case self::SUBJECT_SHARED_LINK_SELF:
+				case self::SUBJECT_UNSHARED_LINK_SELF:
+				case self::SUBJECT_LINK_EXPIRED:
 					return [0 => 'file'];
 				case self::SUBJECT_RESHARED_LINK_BY:
 					return [
@@ -298,8 +354,13 @@ class Activity implements IExtension {
 
 				case self::SUBJECT_SHARED_USER_SELF:
 				case self::SUBJECT_SHARED_WITH_BY:
+				case self::SUBJECT_UNSHARED_BY:
+				case self::SUBJECT_UNSHARED_LINK_BY:
+				case self::SUBJECT_LINK_BY_EXPIRED:
+				case self::SUBJECT_UNSHARED_USER_SELF:
 					return [0 => 'file', 1 => 'username'];
 				case self::SUBJECT_RESHARED_USER_BY:
+				case self::SUBJECT_UNSHARED_USER_BY:
 					return [
 						0 => 'file',
 						1 => 'username',
@@ -307,12 +368,14 @@ class Activity implements IExtension {
 					];
 
 				case self::SUBJECT_SHARED_GROUP_SELF:
+				case self::SUBJECT_UNSHARED_GROUP_SELF:
 					return [
 						0 => 'file',
 						1 => 'group',
 					];
 
 				case self::SUBJECT_RESHARED_GROUP_BY:
+				case self::SUBJECT_UNSHARED_GROUP_BY:
 					return [
 						0 => 'file',
 						1 => 'username',
@@ -335,18 +398,16 @@ class Activity implements IExtension {
 		if ($activity['app'] === self::FILES_SHARING_APP) {
 			switch ($activity['subject']) {
 				case self::SUBJECT_SHARED_LINK_SELF:
+				case self::SUBJECT_UNSHARED_LINK_SELF:
+				case self::SUBJECT_LINK_EXPIRED:
 				case self::SUBJECT_SHARED_WITH_BY:
+				case self::SUBJECT_UNSHARED_BY:
 					// Group by file name
 					return 0;
 				case self::SUBJECT_SHARED_USER_SELF:
 				case self::SUBJECT_SHARED_GROUP_SELF:
 					// Group by user/group
 					return 1;
-				case self::SUBJECT_RESHARED_USER_BY:
-				case self::SUBJECT_RESHARED_GROUP_BY:
-					// Group by user/group
-					// FIXME: Grouping does currently not work with more then 2 parameters
-					// return 2;
 			}
 		}
 

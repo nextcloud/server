@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,6 +24,7 @@ namespace OCA\Files_External\Service;
 
 use \OCA\Files_external\Service\GlobalStoragesService;
 use \OCA\Files_External\Service\BackendService;
+use OCP\Files\Config\IUserMountCache;
 use \OCP\IUserSession;
 use \OCP\IGroupManager;
 use \OCA\Files_External\Service\UserTrait;
@@ -41,15 +43,19 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 
 	/**
 	 * @param BackendService $backendService
+	 * @param DBConfigService $dbConfig
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
+	 * @param IUserMountCache $userMountCache
 	 */
 	public function __construct(
 		BackendService $backendService,
+		DBConfigService $dbConfig,
 		IUserSession $userSession,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
+		IUserMountCache $userMountCache
 	) {
-		parent::__construct($backendService);
+		parent::__construct($backendService, $dbConfig, $userMountCache);
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
 	}
@@ -67,46 +73,30 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		}
 	}
 
-	/**
-	 * Read legacy config data
-	 *
-	 * @return array list of mount configs
-	 */
-	protected function readLegacyConfig() {
-		// read global config
-		$data = parent::readLegacyConfig();
-		$userId = $this->getUser()->getUID();
-
-		// don't use array_filter() with ARRAY_FILTER_USE_KEY, it's PHP 5.6+
-		if (isset($data[\OC_Mount_Config::MOUNT_TYPE_USER])) {
-			$newData = [];
-			foreach ($data[\OC_Mount_Config::MOUNT_TYPE_USER] as $key => $value) {
-				if (strtolower($key) === strtolower($userId) || $key === 'all') {
-					$newData[$key] = $value;
-				}
-			}
-			$data[\OC_Mount_Config::MOUNT_TYPE_USER] = $newData;
+	protected function readDBConfig() {
+		$userMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
+		$globalMounts = $this->dbConfig->getAdminMountsFor(DBConfigService::APPLICABLE_TYPE_GLOBAL, null);
+		$groups = $this->groupManager->getUserGroupIds($this->getUser());
+		if (is_array($groups) && count($groups) !== 0) {
+			$groupMounts = $this->dbConfig->getAdminMountsForMultiple(DBConfigService::APPLICABLE_TYPE_GROUP, $groups);
+		} else {
+			$groupMounts = [];
 		}
+		return array_merge($userMounts, $groupMounts, $globalMounts);
+	}
 
-		if (isset($data[\OC_Mount_Config::MOUNT_TYPE_GROUP])) {
-			$newData = [];
-			foreach ($data[\OC_Mount_Config::MOUNT_TYPE_GROUP] as $key => $value) {
-				if ($this->groupManager->isInGroup($userId, $key)) {
-					$newData[$key] = $value;
-				}
-			}
-			$data[\OC_Mount_Config::MOUNT_TYPE_GROUP] = $newData;
-		}
+	public function addStorage(StorageConfig $newStorage) {
+		throw new \DomainException('UserGlobalStoragesService writing disallowed');
+	}
 
-		return $data;
+	public function updateStorage(StorageConfig $updatedStorage) {
+		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
 	/**
-	 * Write legacy config data
-	 *
-	 * @param array $mountPoints
+	 * @param integer $id
 	 */
-	protected function writeLegacyConfig(array $mountPoints) {
+	public function removeStorage($id) {
 		throw new \DomainException('UserGlobalStoragesService writing disallowed');
 	}
 
@@ -126,7 +116,7 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 
 		$result = [];
 		foreach ($storagesByMountpoint as $storageList) {
-			$storage = array_reduce($storageList, function($carry, $item) {
+			$storage = array_reduce($storageList, function ($carry, $item) {
 				if (isset($carry)) {
 					$carryPriorityType = $this->getPriorityType($carry);
 					$itemPriorityType = $this->getPriorityType($item);
@@ -166,4 +156,22 @@ class UserGlobalStoragesService extends GlobalStoragesService {
 		return 0;
 	}
 
+	protected function isApplicable(StorageConfig $config) {
+		$applicableUsers = $config->getApplicableUsers();
+		$applicableGroups = $config->getApplicableGroups();
+
+		if (count($applicableUsers) === 0 && count($applicableGroups) === 0) {
+			return true;
+		}
+		if (in_array($this->getUser()->getUID(), $applicableUsers, true)) {
+			return true;
+		}
+		$groupIds = $this->groupManager->getUserGroupIds($this->getUser());
+		foreach ($groupIds as $groupId) {
+			if (in_array($groupId, $applicableGroups, true)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

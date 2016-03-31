@@ -1,8 +1,9 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,6 +22,9 @@
 
 namespace OC\Notification;
 
+
+use OCP\Notification\IAction;
+use OCP\Notification\INotification;
 
 class Notification implements INotification {
 	/** @var string */
@@ -167,8 +171,7 @@ class Notification implements INotification {
 	 * @param string $id
 	 * @return $this
 	 * @throws \InvalidArgumentException if the object type or id is invalid
-	 * @since 8.2.0
-	 * @changed 9.0.0 Type of $id changed to string
+	 * @since 8.2.0 - 9.0.0: Type of $id changed to string
 	 */
 	public function setObject($type, $id) {
 		if (!is_string($type) || $type === '' || isset($type[64])) {
@@ -193,8 +196,7 @@ class Notification implements INotification {
 
 	/**
 	 * @return string
-	 * @since 8.2.0
-	 * @changed 9.0.0 Return type changed to string
+	 * @since 8.2.0 - 9.0.0: Return type changed to string
 	 */
 	public function getObjectId() {
 		return $this->objectId;

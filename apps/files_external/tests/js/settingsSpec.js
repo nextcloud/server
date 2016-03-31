@@ -37,6 +37,7 @@ describe('OCA.External.Settings tests', function() {
 			'<option disable selected>Add storage</option>' +
 			'<option value="\\OC\\TestBackend">Test Backend</option>' +
 			'<option value="\\OC\\AnotherTestBackend">Another Test Backend</option>' +
+			'<option value="\\OC\\InputsTestBackend">Inputs test backend</option>' +
 			'</select>' +
 			'</td>' +
 			'<td class="authentication"></td>' +
@@ -57,8 +58,13 @@ describe('OCA.External.Settings tests', function() {
 					'identifier': '\\OC\\TestBackend',
 					'name': 'Test Backend',
 					'configuration': {
-						'field1': 'Display Name 1',
-						'field2': '&Display Name 2'
+						'field1': {
+							'value': 'Display Name 1'
+						},
+						'field2': {
+							'value': 'Display Name 2',
+							'flags': 1
+						}
 					},
 					'authSchemes': {
 						'builtin': true,
@@ -69,13 +75,52 @@ describe('OCA.External.Settings tests', function() {
 					'identifier': '\\OC\\AnotherTestBackend',
 					'name': 'Another Test Backend',
 					'configuration': {
-						'field1': 'Display Name 1',
-						'field2': '&Display Name 2'
+						'field1': {
+							'value': 'Display Name 1'
+						},
+						'field2': {
+							'value': 'Display Name 2',
+							'flags': 1
+						}
 					},
 					'authSchemes': {
 						'builtin': true,
 					},
 					'priority': 12
+				},
+				'\\OC\\InputsTestBackend': {
+					'identifier': '\\OC\\InputsTestBackend',
+					'name': 'Inputs test backend',
+					'configuration': {
+						'field_text': {
+							'value': 'Text field'
+						},
+						'field_password': {
+							'value': ',Password field',
+							'type': 2
+						},
+						'field_bool': {
+							'value': 'Boolean field',
+							'type': 1
+						},
+						'field_hidden': {
+							'value': 'Hidden field',
+							'type': 3
+						},
+						'field_text_optional': {
+							'value': 'Text field optional',
+							'flags': 1
+						},
+						'field_password_optional': {
+							'value': 'Password field optional',
+							'flags': 1,
+							'type': 2
+						}
+					},
+					'authSchemes': {
+						'builtin': true,
+					},
+					'priority': 13
 				}
 			}
 		);
@@ -87,6 +132,7 @@ describe('OCA.External.Settings tests', function() {
 				'configuration': {
 				},
 				'scheme': 'builtin',
+				'visibility': 3
 			},
 		});
 
@@ -132,6 +178,12 @@ describe('OCA.External.Settings tests', function() {
 				expect($emptyRow.find('.applicable select').length).toEqual(0);
 
 				// TODO: check "remove" button visibility
+			});
+			it('shows row even if selection row is hidden', function() {
+				view.$el.find('tr#addMountPoint').hide();
+				selectBackend('\\OC\\TestBackend');
+				expect(view.$el.find('tr:first').is(':visible')).toBe(true);
+				expect(view.$el.find('tr#addMountPoint').is(':visible')).toBe(false);
 			});
 			// TODO: test with personal mounts (no applicable fields)
 			// TODO: test suggested mount point logic
@@ -190,12 +242,69 @@ describe('OCA.External.Settings tests', function() {
 				expect(fakeServer.requests.length).toEqual(1);
 			});
 			// TODO: tests with "applicableUsers" and "applicableGroups"
-			// TODO: test with non-optional config parameters
 			// TODO: test with missing mount point value
 			// TODO: test with personal mounts (no applicable fields)
 			// TODO: test save triggers: paste, keyup, checkbox
 			// TODO: test "custom" field with addScript
 			// TODO: status indicator
+		});
+		describe('validate storage configuration', function() {
+			var $tr;
+
+			beforeEach(function() {
+				$tr = view.$el.find('tr:first');
+				selectBackend('\\OC\\InputsTestBackend');
+			});
+
+			it('lists missing fields in storage errors', function() {
+				var storage = view.getStorageConfig($tr);
+
+				expect(storage.errors).toEqual({
+					backendOptions: ['field_text', 'field_password']
+				});
+			});
+
+			it('highlights missing non-optional fields', function() {
+				_.each([
+					'field_text',
+					'field_password'
+				], function(param) {
+					expect($tr.find('input[data-parameter='+param+']').hasClass('warning-input')).toBe(true);
+				});
+				_.each([
+					'field_bool',
+					'field_hidden',
+					'field_text_optional',
+					'field_password_optional'
+				], function(param) {
+					expect($tr.find('input[data-parameter='+param+']').hasClass('warning-input')).toBe(false);
+				});
+			});
+
+			it('validates correct storage', function() {
+				$tr.find('[name=mountPoint]').val('mountpoint');
+
+				$tr.find('input[data-parameter=field_text]').val('foo');
+				$tr.find('input[data-parameter=field_password]').val('bar');
+				$tr.find('input[data-parameter=field_text_optional]').val('foobar');
+				// don't set field_password_optional
+				$tr.find('input[data-parameter=field_hidden]').val('baz');
+
+				var storage = view.getStorageConfig($tr);
+
+				expect(storage.validate()).toBe(true);
+			});
+
+			it('checks missing mount point', function() {
+				$tr.find('[name=mountPoint]').val('');
+
+				$tr.find('input[data-parameter=field_text]').val('foo');
+				$tr.find('input[data-parameter=field_password]').val('bar');
+
+				var storage = view.getStorageConfig($tr);
+
+				expect(storage.validate()).toBe(false);
+			});
 		});
 		describe('update storage', function() {
 			// TODO
@@ -254,13 +363,14 @@ describe('OCA.External.Settings tests', function() {
 				// defaults to true
 				var $field = $td.find('.dropdown [name=previews]');
 				expect($field.prop('checked')).toEqual(true);
-				$td.find('.dropdown [name=filesystem_check_changes]').val(2);
+				$td.find('.dropdown [name=filesystem_check_changes]').val(0);
 				$('body').mouseup();
 
 				expect(JSON.parse($tr.find('input.mountOptions').val())).toEqual({
 					encrypt: true,
 					previews: true,
-					filesystem_check_changes: 2
+					enable_sharing: false,
+					filesystem_check_changes: 0
 				});
 			});
 		});

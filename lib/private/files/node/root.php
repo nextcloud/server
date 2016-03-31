@@ -5,8 +5,9 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -71,7 +72,7 @@ class Root extends Folder implements IRootFolder {
 	/**
 	 * @param \OC\Files\Mount\Manager $manager
 	 * @param \OC\Files\View $view
-	 * @param \OC\User\User $user
+	 * @param \OC\User\User|null $user
 	 */
 	public function __construct($manager, $view, $user) {
 		parent::__construct($this, $view, '');
@@ -169,14 +170,15 @@ class Root extends Folder implements IRootFolder {
 	 * @param string $path
 	 * @throws \OCP\Files\NotFoundException
 	 * @throws \OCP\Files\NotPermittedException
-	 * @return \OCP\Files\Node
+	 * @return string
 	 */
 	public function get($path) {
 		$path = $this->normalizePath($path);
 		if ($this->isValidPath($path)) {
 			$fullPath = $this->getFullPath($path);
-			if ($this->view->file_exists($fullPath)) {
-				return $this->createNode($fullPath);
+			$fileInfo = $this->view->getFileInfo($fullPath);
+			if ($fileInfo) {
+				return $this->createNode($fullPath, $fileInfo);
 			} else {
 				throw new NotFoundException($path);
 			}
@@ -335,18 +337,18 @@ class Root extends Folder implements IRootFolder {
 		$dir = '/' . $userId;
 		$folder = null;
 
-		if (!$this->nodeExists($dir)) {
-			$folder = $this->newFolder($dir);
-		} else {
+		try {
 			$folder = $this->get($dir);
+		} catch (NotFoundException $e) {
+			$folder = $this->newFolder($dir);
 		}
 
 		$dir = '/files';
-		if (!$folder->nodeExists($dir)) {
+		try {
+			$folder = $folder->get($dir);
+		} catch (NotFoundException $e) {
 			$folder = $folder->newFolder($dir);
 			\OC_Util::copySkeleton($userId, $folder);
-		} else {
-			$folder = $folder->get($dir);
 		}
 
 		return $folder;

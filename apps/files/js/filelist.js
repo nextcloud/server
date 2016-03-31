@@ -10,7 +10,10 @@
 
 (function() {
 
-	var TEMPLATE_ADDBUTTON = '<a href="#" class="button new"><img src="{{iconUrl}}" alt="{{addText}}"></img></a>';
+	var TEMPLATE_ADDBUTTON = '<a href="#" class="button new">' +
+		'<span class="icon {{iconClass}}"></span>' +
+		'<span class="hidden-visually">{{addText}}</span>' +
+		'</a>';
 
 	/**
 	 * @class OCA.Files.FileList
@@ -268,7 +271,8 @@
 
 			this.updateSearch();
 
-			this.$fileList.on('click','td.filename>a.name', _.bind(this._onClickFile, this));
+			this.$fileList.on('click','td.filename>a.name, td.filesize, td.date', _.bind(this._onClickFile, this));
+
 			this.$fileList.on('change', 'td.filename>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
 			this.$el.find('.select-all').click(_.bind(this._onClickSelectAll, this));
@@ -329,7 +333,7 @@
 					displayName: t('files', 'Details'),
 					mime: 'all',
 					order: -50,
-					icon: OC.imagePath('core', 'actions/details'),
+					iconClass: 'icon-details',
 					permissions: OC.PERMISSION_READ,
 					actionHandler: function(fileName, context) {
 						self._updateDetailsView(fileName);
@@ -465,7 +469,7 @@
 				actionsWidth += $(action).outerWidth();
 			});
 
-			// substract app navigation toggle when visible
+			// subtract app navigation toggle when visible
 			containerWidth -= $('#app-navigation-toggle').width();
 
 			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
@@ -510,8 +514,9 @@
 				delete this._selectedFiles[$tr.data('id')];
 				this._selectionSummary.remove(data);
 			}
-			if (this._detailsView && this._selectionSummary.getTotal() === 1 && !this._detailsView.$el.hasClass('disappear')) {
-				this._updateDetailsView(_.values(this._selectedFiles)[0].name);
+			if (this._detailsView && !this._detailsView.$el.hasClass('disappear')) {
+				// hide sidebar
+				this._updateDetailsView(null);
 			}
 			this.$el.find('.select-all').prop('checked', this._selectionSummary.getTotal() === this.files.length);
 		},
@@ -591,8 +596,9 @@
 			this._selectFileEl($tr, state);
 			this._lastChecked = $tr;
 			this.updateSelectionSummary();
-			if (state) {
-				this._updateDetailsView($tr.attr('data-file'));
+			if (this._detailsView && !this._detailsView.$el.hasClass('disappear')) {
+				// hide sidebar
+				this._updateDetailsView(null);
 			}
 		},
 
@@ -613,6 +619,10 @@
 				}
 			}
 			this.updateSelectionSummary();
+			if (this._detailsView && !this._detailsView.$el.hasClass('disappear')) {
+				// hide sidebar
+				this._updateDetailsView(null);
+			}
 		},
 
 		/**
@@ -642,7 +652,13 @@
 			};
 
 			OCA.Files.FileActions.updateFileActionSpinner(downloadFileaction, true);
-			OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir, true), disableLoadingState);
+			if(this.getSelectedFiles().length > 1) {
+				OCA.Files.Files.handleDownload(this.getDownloadUrl(files, dir, true), disableLoadingState);
+			}
+			else {
+				first = this.getSelectedFiles()[0];
+				OCA.Files.Files.handleDownload(this.getDownloadUrl(first.name, dir, true), disableLoadingState);
+			}
 			return false;
 		},
 
@@ -808,6 +824,10 @@
 			var mountType = $el.attr('data-mounttype');
 			if (mountType) {
 				data.mountType = mountType;
+			}
+			var path = $el.attr('data-path');
+			if (path) {
+				data.path = path;
 			}
 			return data;
 		},
@@ -990,13 +1010,16 @@
 			}
 
 			if (fileData.mountType) {
-				// FIXME: HACK: detect shared-root
-				if (fileData.mountType === 'shared' && this.dirInfo.mountType !== 'shared') {
-					// if parent folder isn't share, assume the displayed folder is a share root
-					fileData.mountType = 'shared-root';
-				} else if (fileData.mountType === 'external' && this.dirInfo.mountType !== 'external') {
-					// if parent folder isn't external, assume the displayed folder is the external storage root
-					fileData.mountType = 'external-root';
+				// dirInfo (parent) only exist for the "real" file list
+				if (this.dirInfo.id) {
+					// FIXME: HACK: detect shared-root
+					if (fileData.mountType === 'shared' && this.dirInfo.mountType !== 'shared' && this.dirInfo.mountType !== 'shared-root') {
+						// if parent folder isn't share, assume the displayed folder is a share root
+						fileData.mountType = 'shared-root';
+					} else if (fileData.mountType === 'external' && this.dirInfo.mountType !== 'external' && this.dirInfo.mountType !== 'external-root') {
+						// if parent folder isn't external, assume the displayed folder is the external storage root
+						fileData.mountType = 'external-root';
+					}
 				}
 				tr.attr('data-mounttype', fileData.mountType);
 			}
@@ -1065,7 +1088,7 @@
 				nameSpan.tooltip({placement: 'right'});
 			}
 			// dirs can show the number of uploaded files
-			if (mime !== 'httpd/unix-directory') {
+			if (mime === 'httpd/unix-directory') {
 				linkElem.append($('<span></span>').attr({
 					'class': 'uploadtext',
 					'currentUploads': 0
@@ -1380,7 +1403,7 @@
 		 * Returns list of webdav properties to request
 		 */
 		_getWebdavProperties: function() {
-			return this.filesClient.getPropfindProperties();
+			return [].concat(this.filesClient.getPropfindProperties());
 		},
 
 		/**
@@ -1415,9 +1438,6 @@
 			this.hideMask();
 
 			if (status === 401) {
-				// TODO: append current URL to be able to get back after logging in again
-				OC.redirect(OC.generateUrl('apps/files'));
-				OC.Notification.show(result);
 				return false;
 			}
 
@@ -1755,7 +1775,9 @@
 		updateRow: function($tr, fileInfo, options) {
 			this.files.splice($tr.index(), 1);
 			$tr.remove();
-			$tr = this.add(fileInfo, _.extend({updateSummary: false, silent: true}, options));
+			options = _.extend({silent: true}, options);
+			options = _.extend(options, {updateSummary: false});
+			$tr = this.add(fileInfo, options);
 			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this, $files: $tr}));
 			return $tr;
 		},
@@ -2069,7 +2091,7 @@
 		 */
 		showFileBusyState: function(files, state) {
 			var self = this;
-			if (!_.isArray(files)) {
+			if (!_.isArray(files) && !files.is) {
 				files = [files];
 			}
 
@@ -2077,10 +2099,13 @@
 				state = true;
 			}
 
-			_.each(files, function($tr) {
+			_.each(files, function(fileName) {
 				// jquery element already ?
-				if (!$tr.is) {
-					$tr = self.findFileEl($tr);
+				var $tr;
+				if (_.isString(fileName)) {
+					$tr = self.findFileEl(fileName);
+				} else {
+					$tr = $(fileName);
 				}
 
 				var $thumbEl = $tr.find('.thumbnail');
@@ -2255,12 +2280,14 @@
 				this.$el.find('#filestable thead th').addClass('hidden');
 				this.$el.find('#emptycontent').addClass('hidden');
 				$('#searchresults').addClass('filter-empty');
+				$('#searchresults .emptycontent').addClass('emptycontent-search');
 				if ( $('#searchresults').length === 0 || $('#searchresults').hasClass('hidden') ) {
 					this.$el.find('.nofilterresults').removeClass('hidden').
 						find('p').text(t('files', "No entries in this folder match '{filter}'", {filter:this._filter},  null, {'escape': false}));
 				}
 			} else {
 				$('#searchresults').removeClass('filter-empty');
+				$('#searchresults .emptycontent').removeClass('emptycontent-search');
 				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
 				if (!this.$el.find('.mask').exists()) {
 					this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
@@ -2291,7 +2318,6 @@
 		 */
 		updateSelectionSummary: function() {
 			var summary = this._selectionSummary.summary;
-			var canDelete;
 			var selection;
 
 			if (summary.totalFiles === 0 && summary.totalDirs === 0) {
@@ -2302,7 +2328,6 @@
 				this.$el.find('.selectedActions').addClass('hidden');
 			}
 			else {
-				canDelete = (this.getDirectoryPermissions() & OC.PERMISSION_DELETE) && this.isSelectedDeletable();
 				this.$el.find('.selectedActions').removeClass('hidden');
 				this.$el.find('#headerSize a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
 
@@ -2324,7 +2349,7 @@
 				this.$el.find('#headerName a.name>span:first').text(selection);
 				this.$el.find('#modified a>span:first').text('');
 				this.$el.find('table').addClass('multiselect');
-				this.$el.find('.delete-selected').toggleClass('hidden', !canDelete);
+				this.$el.find('.delete-selected').toggleClass('hidden', !this.isSelectedDeletable());
 			}
 		},
 
@@ -2465,6 +2490,7 @@
 				}
 			});
 			fileUploadStart.on('fileuploadadd', function(e, data) {
+				console.log('XXXXXXX');
 				OC.Upload.log('filelist handle fileuploadadd', e, data);
 
 				//finish delete if we are uploading a deleted file
@@ -2484,8 +2510,7 @@
 
 					var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 					if (currentUploads === 1) {
-						var img = OC.imagePath('core', 'loading.gif');
-						data.context.find('.thumbnail').css('background-image', 'url(' + img + ')');
+						self.showFileBusyState(uploadText.closest('tr'), true);
 						uploadText.text(translatedText);
 						uploadText.show();
 					} else {
@@ -2523,8 +2548,7 @@
 						uploadText.attr('currentUploads', currentUploads);
 						var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 						if (currentUploads === 0) {
-							var img = OC.imagePath('core', 'filetypes/folder');
-							data.context.find('.thumbnail').css('background-image', 'url(' + img + ')');
+							self.showFileBusyState(uploadText.closest('tr'), false);
 							uploadText.text(translatedText);
 							uploadText.hide();
 						} else {
@@ -2601,18 +2625,15 @@
 					}
 				}
 			});
-			fileUploadStart.on('fileuploadstop', function(e, data) {
-				OC.Upload.log('filelist handle fileuploadstop', e, data);
+			fileUploadStart.on('fileuploadstop', function() {
+				OC.Upload.log('filelist handle fileuploadstop');
 
-				//if user pressed cancel hide upload chrome
-				if (data.errorThrown === 'abort') {
-					//cleanup uploading to a dir
-					var uploadText = $('tr .uploadtext');
-					var img = OC.imagePath('core', 'filetypes/folder');
-					uploadText.parents('td.filename').find('.thumbnail').css('background-image', 'url(' + img + ')');
-					uploadText.fadeOut();
-					uploadText.attr('currentUploads', 0);
-				}
+				//cleanup uploading to a dir
+				var uploadText = self.$fileList.find('tr .uploadtext');
+				self.showFileBusyState(uploadText.closest('tr'), false);
+				uploadText.fadeOut();
+				uploadText.attr('currentUploads', 0);
+
 				self.updateStorageStatistics();
 			});
 			fileUploadStart.on('fileuploadfail', function(e, data) {
@@ -2621,9 +2642,8 @@
 				//if user pressed cancel hide upload chrome
 				if (data.errorThrown === 'abort') {
 					//cleanup uploading to a dir
-					var uploadText = $('tr .uploadtext');
-					var img = OC.imagePath('core', 'filetypes/folder');
-					uploadText.parents('td.filename').find('.thumbnail').css('background-image', 'url(' + img + ')');
+					var uploadText = self.$fileList.find('tr .uploadtext');
+					self.showFileBusyState(uploadText.closest('tr'), false);
 					uploadText.fadeOut();
 					uploadText.attr('currentUploads', 0);
 				}
@@ -2705,7 +2725,7 @@
 			}
 			var $newButton = $(this._addButtonTemplate({
 				addText: t('files', 'New'),
-				iconUrl: OC.imagePath('core', 'actions/add')
+				iconClass: 'icon-add'
 			}));
 
 			$actionsContainer.prepend($newButton);

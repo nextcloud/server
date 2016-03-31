@@ -9,6 +9,8 @@
 namespace Test\Files\Storage\Wrapper;
 
 //ensure the constants are loaded
+use OC\Files\Cache\CacheEntry;
+
 \OC::$loader->load('\OC\Files\Filesystem');
 
 /**
@@ -27,7 +29,7 @@ class Quota extends \Test\Files\Storage\Storage {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tmpDir = \OC_Helper::tmpFolder();
+		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$storage = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
 		$this->instance = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => 10000000));
 	}
@@ -194,7 +196,7 @@ class Quota extends \Test\Files\Storage\Storage {
 		$cache->expects($this->once())
 			->method('get')
 			->with('files')
-			->will($this->returnValue(array('size' => 50)));
+			->will($this->returnValue(new CacheEntry(['size' => 50])));
 
 		$instance = new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => 1024, 'root' => 'files'));
 

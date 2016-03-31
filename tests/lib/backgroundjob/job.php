@@ -18,15 +18,23 @@ class Job extends \Test\TestCase {
 
 	public function testRemoveAfterException() {
 		$jobList = new DummyJobList();
-		$job = new TestJob($this, function () {
-			throw new \Exception();
+		$e = new \Exception();
+		$job = new TestJob($this, function () use ($e) {
+			throw $e;
 		});
 		$jobList->add($job);
 
+		$logger = $this->getMockBuilder('OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
+		$logger->expects($this->once())
+			->method('logException')
+			->with($e);
+
 		$this->assertCount(1, $jobList->getAll());
-		$job->execute($jobList);
+		$job->execute($jobList, $logger);
 		$this->assertTrue($this->run);
-		$this->assertCount(0, $jobList->getAll());
+		$this->assertCount(1, $jobList->getAll());
 	}
 
 	public function markRun() {

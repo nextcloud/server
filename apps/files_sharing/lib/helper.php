@@ -10,7 +10,7 @@
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -28,7 +28,10 @@
  */
 namespace OCA\Files_Sharing;
 
+use OC\Files\Filesystem;
+use OC\Files\View;
 use OCP\Files\NotFoundException;
+use OCP\User;
 
 class Helper {
 
@@ -77,7 +80,7 @@ class Helper {
 		}
 
 		try {
-			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
+			$path = Filesystem::getPath($linkItem['file_source']);
 		} catch (NotFoundException $e) {
 			\OCP\Util::writeLog('share', 'could not resolve linkItem', \OCP\Util::DEBUG);
 			\OC_Response::setStatus(404);
@@ -102,8 +105,8 @@ class Helper {
 
 		$basePath = $path;
 
-		if ($relativePath !== null && \OC\Files\Filesystem::isReadable($basePath . $relativePath)) {
-			$path .= \OC\Files\Filesystem::normalizePath($relativePath);
+		if ($relativePath !== null && Filesystem::isReadable($basePath . $relativePath)) {
+			$path .= Filesystem::normalizePath($relativePath);
 		}
 
 		return array(
@@ -167,11 +170,11 @@ class Helper {
 
 	public static function getSharesFromItem($target) {
 		$result = array();
-		$owner = \OC\Files\Filesystem::getOwner($target);
-		\OC\Files\Filesystem::initMountPoints($owner);
-		$info = \OC\Files\Filesystem::getFileInfo($target);
-		$ownerView = new \OC\Files\View('/'.$owner.'/files');
-		if ( $owner != \OCP\User::getUser() ) {
+		$owner = Filesystem::getOwner($target);
+		Filesystem::initMountPoints($owner);
+		$info = Filesystem::getFileInfo($target);
+		$ownerView = new View('/'.$owner.'/files');
+		if ( $owner != User::getUser() ) {
 			$path = $ownerView->getPath($info['fileid']);
 		} else {
 			$path = $target;
@@ -204,15 +207,34 @@ class Helper {
 		return $result;
 	}
 
+	/**
+	 * get the UID of the owner of the file and the path to the file relative to
+	 * owners files folder
+	 *
+	 * @param $filename
+	 * @return array
+	 * @throws \OC\User\NoUserException
+	 */
 	public static function getUidAndFilename($filename) {
-		$uid = \OC\Files\Filesystem::getOwner($filename);
-		\OC\Files\Filesystem::initMountPoints($uid);
-		if ( $uid != \OCP\User::getUser() ) {
-			$info = \OC\Files\Filesystem::getFileInfo($filename);
-			$ownerView = new \OC\Files\View('/'.$uid.'/files');
-			$filename = $ownerView->getPath($info['fileid']);
+		$uid = Filesystem::getOwner($filename);
+		$userManager = \OC::$server->getUserManager();
+		// if the user with the UID doesn't exists, e.g. because the UID points
+		// to a remote user with a federated cloud ID we use the current logged-in
+		// user. We need a valid local user to create the share
+		if (!$userManager->userExists($uid)) {
+			$uid = User::getUser();
 		}
-		return array($uid, $filename);
+		Filesystem::initMountPoints($uid);
+		if ( $uid != User::getUser() ) {
+			$info = Filesystem::getFileInfo($filename);
+			$ownerView = new View('/'.$uid.'/files');
+			try {
+				$filename = $ownerView->getPath($info['fileid']);
+			} catch (NotFoundException $e) {
+				$filename = null;
+			}
+		}
+		return [$uid, $filename];
 	}
 
 	/**
@@ -240,7 +262,7 @@ class Helper {
 	 *
 	 * @param string $path
 	 * @param array $excludeList
-	 * @param \OC\Files\View $view
+	 * @param View $view
 	 * @return string $path
 	 */
 	public static function generateUniqueTarget($path, $excludeList, $view) {
@@ -250,7 +272,7 @@ class Helper {
 		$dir = $pathinfo['dirname'];
 		$i = 2;
 		while ($view->file_exists($path) || in_array($path, $excludeList)) {
-			$path = \OC\Files\Filesystem::normalizePath($dir . '/' . $name . ' ('.$i.')' . $ext);
+			$path = Filesystem::normalizePath($dir . '/' . $name . ' ('.$i.')' . $ext);
 			$i++;
 		}
 
@@ -284,15 +306,15 @@ class Helper {
 	 */
 	public static function getShareFolder() {
 		$shareFolder = \OC::$server->getConfig()->getSystemValue('share_folder', '/');
-		$shareFolder = \OC\Files\Filesystem::normalizePath($shareFolder);
+		$shareFolder = Filesystem::normalizePath($shareFolder);
 
-		if (!\OC\Files\Filesystem::file_exists($shareFolder)) {
+		if (!Filesystem::file_exists($shareFolder)) {
 			$dir = '';
 			$subdirs = explode('/', $shareFolder);
 			foreach ($subdirs as $subdir) {
 				$dir = $dir . '/' . $subdir;
-				if (!\OC\Files\Filesystem::is_dir($dir)) {
-					\OC\Files\Filesystem::mkdir($dir);
+				if (!Filesystem::is_dir($dir)) {
+					Filesystem::mkdir($dir);
 				}
 			}
 		}

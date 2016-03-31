@@ -1,16 +1,18 @@
 <?php
 /**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author cmeh <cmeh@users.noreply.github.com>
  * @author Florin Peter <github@florin-peter.de>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -55,10 +57,10 @@ class Controller {
 		\OC_JSON::callCheck();
 		\OC_JSON::checkLoggedIn();
 
+		$l = new \OC_L10n('settings');
 		if (isset($_POST['username'])) {
 			$username = $_POST['username'];
 		} else {
-			$l = new \OC_L10n('settings');
 			\OC_JSON::error(array('data' => array('message' => $l->t('No user supplied')) ));
 			exit();
 		}
@@ -78,7 +80,6 @@ class Controller {
 		} elseif ($isUserAccessible) {
 			$userstatus = 'subadmin';
 		} else {
-			$l = new \OC_L10n('settings');
 			\OC_JSON::error(array('data' => array('message' => $l->t('Authentication error')) ));
 			exit();
 		}
@@ -88,7 +89,8 @@ class Controller {
 			$crypt = new \OCA\Encryption\Crypto\Crypt(
 				\OC::$server->getLogger(),
 				\OC::$server->getUserSession(),
-				\OC::$server->getConfig());
+				\OC::$server->getConfig(),
+				\OC::$server->getL10N('encryption'));
 			$keyStorage = \OC::$server->getEncryptionKeyStorage();
 			$util = new \OCA\Encryption\Util(
 				new \OC\Files\View(),
@@ -122,7 +124,6 @@ class Controller {
 				$validRecoveryPassword = $keyManager->checkRecoveryPassword($recoveryPassword);
 				$recoveryEnabledForUser = $recovery->isRecoveryEnabledForUser($username);
 			}
-			$l = new \OC_L10n('settings');
 
 			if ($recoveryEnabledForUser && $recoveryPassword === '') {
 				\OC_JSON::error(array('data' => array(

@@ -3,7 +3,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -109,7 +109,7 @@ class Hasher implements IHasher {
 		// Verify whether it matches a legacy PHPass or SHA1 string
 		$hashLength = strlen($hash);
 		if($hashLength === 60 && password_verify($message.$this->legacySalt, $hash) ||
-			$hashLength === 40 && StringUtils::equals($hash, sha1($message))) {
+			$hashLength === 40 && hash_equals($hash, sha1($message))) {
 			$newHash = $this->hash($message);
 			return true;
 		}

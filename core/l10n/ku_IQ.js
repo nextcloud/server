@@ -12,8 +12,6 @@ OC.L10N.register(
     "Share" : "هاوبەشی کردن",
     "Warning" : "ئاگاداری",
     "Add" : "زیادکردن",
-    "New password" : "وشەی نهێنی نوێ",
-    "Reset password" : "دووباره‌ كردنه‌وه‌ی وشه‌ی نهێنی",
     "Users" : "به‌كارهێنه‌ر",
     "Apps" : "به‌رنامه‌كان",
     "Admin" : "به‌ڕێوه‌به‌ری سه‌ره‌كی",
@@ -26,6 +24,8 @@ OC.L10N.register(
     "Database host" : "هۆستی داتابه‌یس",
     "Finish setup" : "كۆتایی هات ده‌ستكاریه‌كان",
     "Log out" : "چوونەدەرەوە",
-    "Search" : "بگەڕێ"
+    "Search" : "بگەڕێ",
+    "New password" : "وشەی نهێنی نوێ",
+    "Reset password" : "دووباره‌ كردنه‌وه‌ی وشه‌ی نهێنی"
 },
 "nplurals=2; plural=(n != 1);");

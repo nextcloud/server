@@ -1,13 +1,15 @@
 <?php
 /**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -27,7 +29,6 @@
 namespace OC\Settings\Controller;
 
 use OC\AppFramework\Http;
-use OC\Settings\Factory\SubAdminFactory;
 use OC\User\User;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
@@ -43,6 +44,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Mail\IMailer;
+use OCP\IAvatarManager;
 
 /**
  * @package OC\Settings\Controller
@@ -74,6 +76,8 @@ class UsersController extends Controller {
 	private $isEncryptionAppEnabled;
 	/** @var bool contains the state of the admin recovery setting */
 	private $isRestoreEnabled = false;
+	/** @var IAvatarManager */
+	private $avatarManager;
 
 	/**
 	 * @param string $appName
@@ -104,7 +108,8 @@ class UsersController extends Controller {
 								IMailer $mailer,
 								$fromMailAddress,
 								IURLGenerator $urlGenerator,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								IAvatarManager $avatarManager) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -117,6 +122,7 @@ class UsersController extends Controller {
 		$this->mailer = $mailer;
 		$this->fromMailAddress = $fromMailAddress;
 		$this->urlGenerator = $urlGenerator;
+		$this->avatarManager = $avatarManager;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
@@ -168,17 +174,28 @@ class UsersController extends Controller {
 		if (is_null($displayName)) {
 			$displayName = '';
 		}
+
+		$avatarAvailable = false;
+		if ($this->config->getSystemValue('enable_avatars', true) === true) {
+			try {
+				$avatarAvailable = $this->avatarManager->getAvatar($user->getUID())->exists();
+			} catch (\Exception $e) {
+				//No avatar yet
+			}
+		}
+
 		return [
 			'name' => $user->getUID(),
 			'displayname' => $user->getDisplayName(),
 			'groups' => (empty($userGroups)) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
 			'subadmin' => $subAdminGroups,
-			'quota' => $this->config->getUserValue($user->getUID(), 'files', 'quota', 'default'),
+			'quota' => $user->getQuota(),
 			'storageLocation' => $user->getHome(),
 			'lastLogin' => $user->getLastLogin() * 1000,
 			'backend' => $user->getBackendClassName(),
 			'email' => $displayName,
 			'isRestoreDisabled' => !$restorePossible,
+			'isAvatarAvailable' => $avatarAvailable,
 		];
 	}
 
@@ -361,7 +378,7 @@ class UsersController extends Controller {
 			 * Send new user mail only if a mail is set
 			 */
 			if($email !== '') {
-				$this->config->setUserValue($username, 'settings', 'email', $email);
+				$user->setEMailAddress($email);
 
 				// data for the mail template
 				$mailData = array(
@@ -533,11 +550,7 @@ class UsersController extends Controller {
 		}
 
 		// delete user value if email address is empty
-		if($mailAddress === '') {
-			$this->config->deleteUserValue($id, 'settings', 'email');
-		} else {
-			$this->config->setUserValue($id, 'settings', 'email', $mailAddress);
-		}
+		$user->setEMailAddress($mailAddress);
 
 		return new DataResponse(
 			array(

@@ -90,13 +90,19 @@ class GetConfigTest extends TestCase {
 			['name', ['a' => 1, 'b' => 2], true, null, false, 'json', 0, json_encode(['a' => 1, 'b' => 2])],
 			['name', ['a' => 1, 'b' => 2], true, null, false, 'plain', 0, "a: 1\nb: 2"],
 
+			// Nested depth
+			[['name', 'a'], ['a' => 1, 'b' => 2], true, null, false, 'json', 0, json_encode(1)],
+			[['name', 'a'], ['a' => 1, 'b' => 2], true, null, false, 'plain', 0, '1'],
+			[['name', 'c'], ['a' => 1, 'b' => 2], true, true, true, 'json', 0, json_encode(true)],
+			[['name', 'c'], ['a' => 1, 'b' => 2], true, true, false, 'json', 1, null],
+
 		];
 	}
 
 	/**
 	 * @dataProvider getData
 	 *
-	 * @param string $configName
+	 * @param string[] $configNames
 	 * @param mixed $value
 	 * @param bool $configExists
 	 * @param mixed $defaultValue
@@ -105,7 +111,13 @@ class GetConfigTest extends TestCase {
 	 * @param int $expectedReturn
 	 * @param string $expectedMessage
 	 */
-	public function testGet($configName, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage) {
+	public function testGet($configNames, $value, $configExists, $defaultValue, $hasDefault, $outputFormat, $expectedReturn, $expectedMessage) {
+		if (is_array($configNames)) {
+			$configName = $configNames[0];
+		} else {
+			$configName = $configNames;
+			$configNames = [$configName];
+		}
 		$this->systemConfig->expects($this->atLeastOnce())
 			->method('getKeys')
 			->willReturn($configExists ? [$configName] : []);
@@ -122,7 +134,7 @@ class GetConfigTest extends TestCase {
 		$this->consoleInput->expects($this->once())
 			->method('getArgument')
 			->with('name')
-			->willReturn($configName);
+			->willReturn($configNames);
 		$this->consoleInput->expects($this->any())
 			->method('getOption')
 			->willReturnMap([

@@ -2,10 +2,10 @@
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,15 +25,17 @@
 namespace OC\Files\Cache\Wrapper;
 
 use OC\Files\Cache\Cache;
+use OCP\Files\Cache\ICacheEntry;
+use OCP\Files\Cache\ICache;
 
 class CacheWrapper extends Cache {
 	/**
-	 * @var \OC\Files\Cache\Cache
+	 * @var \OCP\Files\Cache\ICache
 	 */
 	protected $cache;
 
 	/**
-	 * @param \OC\Files\Cache\Cache $cache
+	 * @param \OCP\Files\Cache\ICache $cache
 	 */
 	public function __construct($cache) {
 		$this->cache = $cache;
@@ -42,8 +44,8 @@ class CacheWrapper extends Cache {
 	/**
 	 * Make it easy for wrappers to modify every returned cache entry
 	 *
-	 * @param array $entry
-	 * @return array
+	 * @param ICacheEntry $entry
+	 * @return ICacheEntry
 	 */
 	protected function formatCacheEntry($entry) {
 		return $entry;
@@ -52,8 +54,8 @@ class CacheWrapper extends Cache {
 	/**
 	 * get the stored metadata of a file or folder
 	 *
-	 * @param string /int $file
-	 * @return array|false
+	 * @param string|int $file
+	 * @return ICacheEntry|false
 	 */
 	public function get($file) {
 		$result = $this->cache->get($file);
@@ -67,7 +69,7 @@ class CacheWrapper extends Cache {
 	 * get the metadata of all files stored in $folder
 	 *
 	 * @param string $folder
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function getFolderContents($folder) {
 		// cant do a simple $this->cache->.... call here since getFolderContentsById needs to be called on this
@@ -88,15 +90,34 @@ class CacheWrapper extends Cache {
 	}
 
 	/**
-	 * store meta data for a file or folder
+	 * insert or update meta data for a file or folder
 	 *
 	 * @param string $file
 	 * @param array $data
 	 *
 	 * @return int file id
+	 * @throws \RuntimeException
 	 */
 	public function put($file, array $data) {
-		return $this->cache->put($file, $data);
+		if (($id = $this->getId($file)) > -1) {
+			$this->update($id, $data);
+			return $id;
+		} else {
+			return $this->insert($file, $data);
+		}
+	}
+
+	/**
+	 * insert meta data for a new file or folder
+	 *
+	 * @param string $file
+	 * @param array $data
+	 *
+	 * @return int file id
+	 * @throws \RuntimeException
+	 */
+	public function insert($file, array $data) {
+		return $this->cache->insert($file, $data);
 	}
 
 	/**
@@ -158,6 +179,10 @@ class CacheWrapper extends Cache {
 		$this->cache->move($source, $target);
 	}
 
+	public function moveFromCache(ICache $sourceCache, $sourcePath, $targetPath) {
+		$this->cache->moveFromCache($sourceCache, $sourcePath, $targetPath);
+	}
+
 	/**
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
@@ -178,7 +203,7 @@ class CacheWrapper extends Cache {
 	 * search for files matching $pattern
 	 *
 	 * @param string $pattern
-	 * @return array an array of file data
+	 * @return ICacheEntry[] an array of file data
 	 */
 	public function search($pattern) {
 		$results = $this->cache->search($pattern);
@@ -189,7 +214,7 @@ class CacheWrapper extends Cache {
 	 * search for files by mimetype
 	 *
 	 * @param string $mimetype
-	 * @return array
+	 * @return ICacheEntry[]
 	 */
 	public function searchByMime($mimetype) {
 		$results = $this->cache->searchByMime($mimetype);
@@ -201,7 +226,7 @@ class CacheWrapper extends Cache {
 	 *
 	 * @param string|int $tag name or tag id
 	 * @param string $userId owner of the tags
-	 * @return array file data
+	 * @return ICacheEntry[] file data
 	 */
 	public function searchByTag($tag, $userId) {
 		$results = $this->cache->searchByTag($tag, $userId);

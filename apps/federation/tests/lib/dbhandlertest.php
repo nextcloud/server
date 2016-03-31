@@ -1,8 +1,9 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,6 +27,7 @@ namespace OCA\Federation\Tests\lib;
 use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use Test\TestCase;
 
 /**
@@ -36,7 +38,7 @@ class DbHandlerTest extends TestCase {
 	/** @var  DbHandler */
 	private $dbHandler;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject */
+	/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject */
 	private $il10n;
 
 	/** @var  IDBConnection */
@@ -88,9 +90,9 @@ class DbHandlerTest extends TestCase {
 
 	public function dataTestAddServer() {
 		return [
-				['http://owncloud.org', 'http://owncloud.org', md5('owncloud.org')],
-				['https://owncloud.org', 'https://owncloud.org', md5('owncloud.org')],
-				['http://owncloud.org/', 'http://owncloud.org', md5('owncloud.org')],
+				['http://owncloud.org', 'http://owncloud.org', sha1('owncloud.org')],
+				['https://owncloud.org', 'https://owncloud.org', sha1('owncloud.org')],
+				['http://owncloud.org/', 'http://owncloud.org', sha1('owncloud.org')],
 		];
 	}
 
@@ -112,6 +114,15 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame(1, count($result));
 		$this->assertSame('server1', $result[0]['url']);
 		$this->assertSame($id1, (int)$result[0]['id']);
+	}
+
+
+	public function testGetServerById() {
+		$this->dbHandler->addServer('server1');
+		$id = $this->dbHandler->addServer('server2');
+
+		$result = $this->dbHandler->getServerById($id);
+		$this->assertSame('server2', $result['url']);
 	}
 
 	public function testGetAll() {
@@ -209,6 +220,11 @@ class DbHandlerTest extends TestCase {
 		$this->assertSame(TrustedServers::STATUS_OK,
 			$this->dbHandler->getServerStatus('https://server1')
 		);
+
+		// test sync token
+		$this->dbHandler->setServerStatus('http://server1', TrustedServers::STATUS_OK, 'token1234567890');
+		$servers = $this->dbHandler->getAllServer();
+		$this->assertSame('token1234567890', $servers[0]['sync_token']);
 	}
 
 	/**
@@ -227,10 +243,10 @@ class DbHandlerTest extends TestCase {
 
 	public function dataTestHash() {
 		return [
-			['server1', md5('server1')],
-			['http://server1', md5('server1')],
-			['https://server1', md5('server1')],
-			['http://server1/', md5('server1')],
+			['server1', sha1('server1')],
+			['http://server1', sha1('server1')],
+			['https://server1', sha1('server1')],
+			['http://server1/', sha1('server1')],
 		];
 	}
 
@@ -256,4 +272,22 @@ class DbHandlerTest extends TestCase {
 		];
 	}
 
+	/**
+	 * @dataProvider providesAuth
+	 */
+	public function testAuth($expectedResult, $user, $password) {
+		if ($expectedResult) {
+			$this->dbHandler->addServer('url1');
+			$this->dbHandler->addSharedSecret('url1', $password);
+		}
+		$result = $this->dbHandler->auth($user, $password);
+		$this->assertEquals($expectedResult, $result);
+	}
+
+	public function providesAuth() {
+		return [
+			[false, 'foo', ''],
+			[true, 'system', '123456789'],
+		];
+	}
 }

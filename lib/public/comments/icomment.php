@@ -1,16 +1,36 @@
 <?php
-
+/**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ *
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
+ */
 namespace OCP\Comments;
 
 /**
  * Interface IComment
  *
- * This class represents a comment and offers methods for modification.
+ * This class represents a comment
  *
  * @package OCP\Comments
  * @since 9.0.0
  */
 interface IComment {
+	const MAX_MESSAGE_LENGTH = 1000;
 
 	/**
 	 * returns the ID of the comment
@@ -49,12 +69,29 @@ interface IComment {
 
 	/**
 	 * sets the parent ID and returns itself
-	 *
 	 * @param string $parentId
 	 * @return IComment
 	 * @since 9.0.0
 	 */
 	public function setParentId($parentId);
+
+	/**
+	 * returns the topmost parent ID of the comment
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getTopmostParentId();
+
+
+	/**
+	 * sets the topmost parent ID and returns itself
+	 *
+	 * @param string $id
+	 * @return IComment
+	 * @since 9.0.0
+	 */
+	public function setTopmostParentId($id);
 
 	/**
 	 * returns the number of children
@@ -84,8 +121,12 @@ interface IComment {
 	/**
 	 * sets the message of the comment and returns itself
 	 *
+	 * When the given message length exceeds MAX_MESSAGE_LENGTH an
+	 * MessageTooLongException shall be thrown.
+	 *
 	 * @param string $message
 	 * @return IComment
+	 * @throws MessageTooLongException
 	 * @since 9.0.0
 	 */
 	public function setMessage($message);
@@ -126,7 +167,7 @@ interface IComment {
 	/**
 	 * sets (overwrites) the actor type and id
 	 *
-	 * @param string $actorType e.g. 'user'
+	 * @param string $actorType e.g. 'users'
 	 * @param string $actorId e.g. 'zombie234'
 	 * @return IComment
 	 * @since 9.0.0
@@ -188,7 +229,7 @@ interface IComment {
 	/**
 	 * sets (overwrites) the object of the comment
 	 *
-	 * @param string $objectType e.g. 'file'
+	 * @param string $objectType e.g. 'files'
 	 * @param string $objectId e.g. '16435'
 	 * @return IComment
 	 * @since 9.0.0

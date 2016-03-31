@@ -54,10 +54,8 @@ OC.L10N.register(
     "Share" : "Kongsi",
     "Warning" : "Amaran",
     "Delete" : "Padam",
+    "Rename" : "Namakan",
     "Add" : "Tambah",
-    "Use the following link to reset your password: {link}" : "Guna pautan berikut untuk menetapkan semula kata laluan anda: {link}",
-    "New password" : "Kata laluan baru",
-    "Reset password" : "Penetapan semula kata laluan",
     "Personal" : "Peribadi",
     "Users" : "Pengguna",
     "Apps" : "Aplikasi",
@@ -75,6 +73,9 @@ OC.L10N.register(
     "Finish setup" : "Setup selesai",
     "Log out" : "Log keluar",
     "Search" : "Cari",
-    "Log in" : "Log masuk"
+    "Log in" : "Log masuk",
+    "Use the following link to reset your password: {link}" : "Guna pautan berikut untuk menetapkan semula kata laluan anda: {link}",
+    "New password" : "Kata laluan baru",
+    "Reset password" : "Penetapan semula kata laluan"
 },
 "nplurals=1; plural=0;");

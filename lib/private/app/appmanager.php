@@ -1,12 +1,15 @@
 <?php
 /**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Christoph Schaefer <christophł@wolkesicher.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,13 +29,27 @@
 namespace OC\App;
 
 use OCP\App\IAppManager;
+use OCP\App\ManagerEvent;
 use OCP\IAppConfig;
 use OCP\ICacheFactory;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\IUserSession;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class AppManager implements IAppManager {
+
+	/**
+	 * Apps with these types can not be enabled for certain groups only
+	 * @var string[]
+	 */
+	protected $protectedAppTypes = [
+		'filesystem',
+		'prelogin',
+		'authentication',
+		'logging',
+		'prevent_group_restriction',
+	];
 
 	/** @var \OCP\IUserSession */
 	private $userSession;
@@ -55,6 +72,9 @@ class AppManager implements IAppManager {
 	/** @var string[] */
 	private $alwaysEnabled;
 
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+
 	/**
 	 * @param \OCP\IUserSession $userSession
 	 * @param \OCP\IAppConfig $appConfig
@@ -64,11 +84,13 @@ class AppManager implements IAppManager {
 	public function __construct(IUserSession $userSession,
 								IAppConfig $appConfig,
 								IGroupManager $groupManager,
-								ICacheFactory $memCacheFactory) {
+								ICacheFactory $memCacheFactory,
+								EventDispatcherInterface $dispatcher) {
 		$this->userSession = $userSession;
 		$this->appConfig = $appConfig;
 		$this->groupManager = $groupManager;
 		$this->memCacheFactory = $memCacheFactory;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -147,7 +169,18 @@ class AppManager implements IAppManager {
 		} elseif (is_null($user)) {
 			return false;
 		} else {
+			if(empty($enabled)){
+				return false;
+			}
+
 			$groupIds = json_decode($enabled);
+
+			if (!is_array($groupIds)) {
+				$jsonError = json_last_error();
+				\OC::$server->getLogger()->warning('AppManger::checkAppForUser - can\'t decode group IDs: ' . print_r($enabled, true) . ' - json error code: ' . $jsonError, ['app' => 'lib']);
+				return false;
+			}
+
 			$userGroups = $this->groupManager->getUserGroupIds($user);
 			foreach ($userGroups as $groupId) {
 				if (array_search($groupId, $groupIds) !== false) {
@@ -177,6 +210,9 @@ class AppManager implements IAppManager {
 	public function enableApp($appId) {
 		$this->installedAppsCache[$appId] = 'yes';
 		$this->appConfig->setValue($appId, 'enabled', 'yes');
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
+			ManagerEvent::EVENT_APP_ENABLE, $appId
+		));
 		$this->clearAppsCache();
 	}
 
@@ -185,14 +221,26 @@ class AppManager implements IAppManager {
 	 *
 	 * @param string $appId
 	 * @param \OCP\IGroup[] $groups
+	 * @throws \Exception if app can't be enabled for groups
 	 */
 	public function enableAppForGroups($appId, $groups) {
+		$info = $this->getAppInfo($appId);
+		if (!empty($info['types'])) {
+			$protectedTypes = array_intersect($this->protectedAppTypes, $info['types']);
+			if (!empty($protectedTypes)) {
+				throw new \Exception("$appId can't be enabled for groups.");
+			}
+		}
+
 		$groupIds = array_map(function ($group) {
 			/** @var \OCP\IGroup $group */
 			return $group->getGID();
 		}, $groups);
 		$this->installedAppsCache[$appId] = json_encode($groupIds);
 		$this->appConfig->setValue($appId, 'enabled', json_encode($groupIds));
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, new ManagerEvent(
+			ManagerEvent::EVENT_APP_ENABLE_FOR_GROUPS, $appId, $groups
+		));
 		$this->clearAppsCache();
 	}
 
@@ -208,6 +256,9 @@ class AppManager implements IAppManager {
 		}
 		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
+			ManagerEvent::EVENT_APP_DISABLE, $appId
+		));
 		$this->clearAppsCache();
 	}
 
@@ -247,9 +298,6 @@ class AppManager implements IAppManager {
 
 	/**
 	 * Returns the app information from "appinfo/info.xml".
-	 *
-	 * If no version was present in "appinfo/info.xml", reads it
-	 * from the external "appinfo/version" file instead.
 	 *
 	 * @param string $appId app id
 	 *

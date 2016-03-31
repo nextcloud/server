@@ -10,11 +10,11 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -33,7 +33,9 @@
 
 namespace OC\Files\Storage;
 
+use GuzzleHttp\Exception\RequestException;
 use Icewind\Streams\IteratorDirectory;
+use Icewind\Streams\RetryWrapper;
 
 set_include_path(get_include_path().PATH_SEPARATOR.
 	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
@@ -264,7 +266,8 @@ class Google extends \OC\Files\Storage\Common {
 				foreach ($children->getItems() as $child) {
 					$name = $child->getTitle();
 					// Check if this is a Google Doc i.e. no extension in name
-					if ($child->getFileExtension() === ''
+					$extension = $child->getFileExtension();
+					if (empty($extension)
 						&& $child->getMimeType() !== self::FOLDER
 					) {
 						$name .= '.'.$this->getGoogleDocExtension($child->getMimeType());
@@ -368,8 +371,14 @@ class Google extends \OC\Files\Storage\Common {
 	public function rename($path1, $path2) {
 		$file = $this->getDriveFile($path1);
 		if ($file) {
+			$newFile = $this->getDriveFile($path2);
 			if (dirname($path1) === dirname($path2)) {
-				$file->setTitle(basename(($path2)));
+				if ($newFile) {
+					// rename to the name of the target file, could be an office file without extension
+					$file->setTitle($newFile->getTitle());
+				} else {
+					$file->setTitle(basename(($path2)));
+				}
 			} else {
 				// Change file parent
 				$parentFolder2 = $this->getDriveFile(dirname($path2));
@@ -394,8 +403,11 @@ class Google extends \OC\Files\Storage\Common {
 			if ($result) {
 				$this->setDriveFile($path1, false);
 				$this->setDriveFile($path2, $result);
-				if ($oldfile) {
-					$this->service->files->delete($oldfile->getId());
+				if ($oldfile && $newFile) {
+					// only delete if they have a different id (same id can happen for part files)
+					if ($newFile->getId() !== $oldfile->getId()) {
+						$this->service->files->delete($oldfile->getId());
+					}
 				}
 			}
 			return (bool)$result;
@@ -426,13 +438,29 @@ class Google extends \OC\Files\Storage\Common {
 					}
 					if (isset($downloadUrl)) {
 						$request = new \Google_Http_Request($downloadUrl, 'GET', null, null);
-						$httpRequest = $this->client->getAuth()->authenticatedRequest($request);
-						if ($httpRequest->getResponseHttpCode() == 200) {
-							$tmpFile = \OCP\Files::tmpFile($ext);
-							$data = $httpRequest->getResponseBody();
-							file_put_contents($tmpFile, $data);
-							return fopen($tmpFile, $mode);
+						$httpRequest = $this->client->getAuth()->sign($request);
+						// the library's service doesn't support streaming, so we use Guzzle instead
+						$client = \OC::$server->getHTTPClientService()->newClient();
+						try {
+							$response = $client->get($downloadUrl, [
+								'headers' => $httpRequest->getRequestHeaders(),
+								'stream' => true,
+								'verify' => __DIR__ . '/../3rdparty/google-api-php-client/src/Google/IO/cacerts.pem',
+							]);
+						} catch (RequestException $e) {
+							if(!is_null($e->getResponse())) {
+								if ($e->getResponse()->getStatusCode() === 404) {
+									return false;
+								} else {
+									throw $e;
+								}
+							} else {
+								throw $e;
+							}
 						}
+
+						$handle = $response->getBody();
+						return RetryWrapper::wrap($handle);
 					}
 				}
 				return false;
@@ -464,18 +492,27 @@ class Google extends \OC\Files\Storage\Common {
 			$path = self::$tempFiles[$tmpFile];
 			$parentFolder = $this->getDriveFile(dirname($path));
 			if ($parentFolder) {
-				// TODO Research resumable upload
 				$mimetype = \OC::$server->getMimeTypeDetector()->detect($tmpFile);
-				$data = file_get_contents($tmpFile);
 				$params = array(
-					'data' => $data,
 					'mimeType' => $mimetype,
 					'uploadType' => 'media'
 				);
 				$result = false;
+
+				$chunkSizeBytes = 10 * 1024 * 1024;
+
+				$useChunking = false;
+				$size = filesize($tmpFile);
+				if ($size > $chunkSizeBytes) {
+					$useChunking = true;
+				} else {
+					$params['data'] = file_get_contents($tmpFile);
+				}
+
 				if ($this->file_exists($path)) {
 					$file = $this->getDriveFile($path);
-					$result = $this->service->files->update($file->getId(), $file, $params);
+					$this->client->setDefer($useChunking);
+					$request = $this->service->files->update($file->getId(), $file, $params);
 				} else {
 					$file = new \Google_Service_Drive_DriveFile();
 					$file->setTitle(basename($path));
@@ -483,8 +520,46 @@ class Google extends \OC\Files\Storage\Common {
 					$parent = new \Google_Service_Drive_ParentReference();
 					$parent->setId($parentFolder->getId());
 					$file->setParents(array($parent));
-					$result = $this->service->files->insert($file, $params);
+					$this->client->setDefer($useChunking);
+					$request = $this->service->files->insert($file, $params);
 				}
+
+				if ($useChunking) {
+					// Create a media file upload to represent our upload process.
+					$media = new \Google_Http_MediaFileUpload(
+						$this->client,
+						$request,
+						'text/plain',
+						null,
+						true,
+						$chunkSizeBytes
+					);
+					$media->setFileSize($size);
+
+					// Upload the various chunks. $status will be false until the process is
+					// complete.
+					$status = false;
+					$handle = fopen($tmpFile, 'rb');
+					while (!$status && !feof($handle)) {
+						$chunk = fread($handle, $chunkSizeBytes);
+						$status = $media->nextChunk($chunk);
+					}
+
+					// The final value of $status will be the data from the API for the object
+					// that has been uploaded.
+					$result = false;
+					if ($status !== false) {
+						$result = $status;
+					}
+
+					fclose($handle);
+				} else {
+					$result = $request;
+				}
+
+				// Reset to the client to execute requests immediately in the future.
+				$this->client->setDefer(false);
+
 				if ($result) {
 					$this->setDriveFile($path, $result);
 				}
@@ -510,7 +585,8 @@ class Google extends \OC\Files\Storage\Common {
 				// Download as .odp is not available
 				return 'application/pdf';
 			} else {
-				return $mimetype;
+				// use extension-based detection, could be an encrypted file
+				return parent::getMimeType($path);
 			}
 		} else {
 			return false;

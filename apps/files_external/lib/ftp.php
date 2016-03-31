@@ -7,11 +7,11 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -29,6 +29,8 @@
  */
 
 namespace OC\Files\Storage;
+
+use Icewind\Streams\RetryWrapper;
 
 class FTP extends \OC\Files\Storage\StreamWrapper{
 	private $password;
@@ -105,7 +107,8 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 			case 'ab':
 				//these are supported by the wrapper
 				$context = stream_context_create(array('ftp' => array('overwrite' => true)));
-				return fopen($this->constructUrl($path), $mode, false, $context);
+				$handle = fopen($this->constructUrl($path), $mode, false, $context);
+				return RetryWrapper::wrap($handle);
 			case 'r+':
 			case 'w+':
 			case 'wb+':

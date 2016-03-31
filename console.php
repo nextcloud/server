@@ -2,13 +2,16 @@
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christian Kampka <christian@kampka.net>
+ * @author Edward Crompton <edward.crompton@gmail.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jost Baron <Jost.Baron@gmx.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philippe Le Brouster <plb@nebkha.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,6 +29,7 @@
  */
 
 use OC\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 define('OC_CONSOLE', 1);
@@ -60,12 +64,27 @@ try {
 			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
 			echo "Current user: " . $user['name'] . PHP_EOL;
 			echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
+			echo "Try adding 'sudo -u " . $configUser['name'] . " ' to the beginning of the command (without the single quotes)" . PHP_EOL;  
 			exit(0);
 		}
 	}
 
-	$application = new Application(\OC::$server->getConfig());
-	$application->loadCommands(new ConsoleOutput());
+	$oldWorkingDir = getcwd();
+	if ($oldWorkingDir === false) {
+		echo "This script can be run from the ownCloud root directory only." . PHP_EOL;
+		echo "Can't determine current working dir - the script will continue to work but be aware of the above fact." . PHP_EOL;
+	} else if ($oldWorkingDir !== __DIR__ && !chdir(__DIR__)) {
+		echo "This script can be run from the ownCloud root directory only." . PHP_EOL;
+		echo "Can't change to ownCloud root directory." . PHP_EOL;
+		exit(1);
+	}
+
+	if (!function_exists('pcntl_signal') && !in_array('--no-warnings', $argv)) {
+		echo "The process control (PCNTL) extensions are required in case you want to interrupt long running commands - see http://php.net/manual/en/book.pcntl.php" . PHP_EOL;
+	}
+
+	$application = new Application(\OC::$server->getConfig(), \OC::$server->getEventDispatcher(), \OC::$server->getRequest());
+	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
 	$application->run();
 } catch (Exception $ex) {
 	echo "An unhandled exception has been thrown:" . PHP_EOL;

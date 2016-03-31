@@ -9,7 +9,7 @@
 		<?php p($l->t('Continue'));?>
 	</button>
 	<a href="<?php p(\OC::$server->getURLGenerator()->linkToDocs('admin-ldap')); ?>"
-		target="_blank">
+		target="_blank" rel="noreferrer">
 		<img src="<?php print_unescaped(OCP\Util::imagePath('', 'actions/info.png')); ?>"
 			style="height:1.75ex" />
 		<span class="ldap_grey"><?php p($l->t('Help'));?></span>

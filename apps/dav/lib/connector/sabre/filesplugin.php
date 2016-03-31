@@ -3,11 +3,12 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,11 +27,16 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\View;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
 use \Sabre\DAV\PropFind;
 use \Sabre\DAV\PropPatch;
+use Sabre\DAV\Tree;
 use \Sabre\HTTP\RequestInterface;
 use \Sabre\HTTP\ResponseInterface;
+use OCP\Files\StorageNotAvailableException;
 
 class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 
@@ -45,6 +51,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
 	const OWNER_ID_PROPERTYNAME = '{http://owncloud.org/ns}owner-id';
 	const OWNER_DISPLAY_NAME_PROPERTYNAME = '{http://owncloud.org/ns}owner-display-name';
+	const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
 
 	/**
 	 * Reference to main server object
@@ -54,7 +61,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	private $server;
 
 	/**
-	 * @var \Sabre\DAV\Tree
+	 * @var Tree
 	 */
 	private $tree;
 
@@ -67,21 +74,29 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	private $isPublic;
 
 	/**
-	 * @var \OC\Files\View
+	 * @var View
 	 */
 	private $fileView;
 
 	/**
-	 * @param \Sabre\DAV\Tree $tree
-	 * @param \OC\Files\View $view
-	 * @param bool $isPublic
+	 * @var bool
 	 */
-	public function __construct(\Sabre\DAV\Tree $tree,
-	                            \OC\Files\View $view,
-	                            $isPublic = false) {
+	private $downloadAttachment;
+
+	/**
+	 * @param Tree $tree
+	 * @param View $view
+	 * @param bool $isPublic
+	 * @param bool $downloadAttachment
+	 */
+	public function __construct(Tree $tree,
+								View $view,
+								$isPublic = false,
+								$downloadAttachment = true) {
 		$this->tree = $tree;
 		$this->fileView = $view;
 		$this->isPublic = $isPublic;
+		$this->downloadAttachment = $downloadAttachment;
 	}
 
 	/**
@@ -105,6 +120,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		$server->protectedProperties[] = self::DOWNLOADURL_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_ID_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_DISPLAY_NAME_PROPERTYNAME;
+		$server->protectedProperties[] = self::CHECKSUMS_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -130,7 +146,7 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	 * Plugin that checks if a move can actually be performed.
 	 * @param string $source source path
 	 * @param string $destination destination path
-	 * @throws \Sabre\DAV\Exception\Forbidden
+	 * @throws Forbidden
 	 */
 	function checkMove($source, $destination) {
 		list($sourceDir,) = \Sabre\HTTP\URLUtil::splitPath($source);
@@ -140,11 +156,11 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 			$sourceFileInfo = $this->fileView->getFileInfo($source);
 
 			if ($sourceFileInfo === false) {
-				throw new \Sabre\DAV\Exception\NotFound($source . ' does not exist');
+				throw new NotFound($source . ' does not exist');
 			}
 
 			if (!$sourceFileInfo->isDeletable()) {
-				throw new \Sabre\DAV\Exception\Forbidden($source . " cannot be deleted");
+				throw new Forbidden($source . " cannot be deleted");
 			}
 		}
 	}
@@ -176,8 +192,8 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 	}
 
 	/**
-	 * Plugin that adds a 'Content-Disposition: attachment' header to all files
-	 * delivered by SabreDAV.
+	 * Add headers to file download
+	 *
 	 * @param RequestInterface $request
 	 * @param ResponseInterface $response
 	 */
@@ -186,7 +202,19 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 		$node = $this->tree->getNodeForPath($request->getPath());
 		if (!($node instanceof IFile)) return;
 
-		$response->addHeader('Content-Disposition', 'attachment');
+		// adds a 'Content-Disposition: attachment' header
+		if ($this->downloadAttachment) {
+			$response->addHeader('Content-Disposition', 'attachment');
+		}
+
+		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
+			//Add OC-Checksum header
+			/** @var $node File */
+			$checksum = $node->getChecksum();
+			if ($checksum !== null && $checksum !== '') {
+				$response->addHeader('OC-Checksum', $checksum);
+			}
+		}
 	}
 
 	/**
@@ -218,19 +246,43 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 			});
 
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function() use ($node) {
-				return $node->getEtag();
+				return $node->getETag();
+			});
+
+			$propFind->handle(self::OWNER_ID_PROPERTYNAME, function() use ($node) {
+				$owner = $node->getOwner();
+				return $owner->getUID();
+			});
+			$propFind->handle(self::OWNER_DISPLAY_NAME_PROPERTYNAME, function() use ($node) {
+				$owner = $node->getOwner();
+				$displayName = $owner->getDisplayName();
+				return $displayName;
 			});
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
 			$propFind->handle(self::DOWNLOADURL_PROPERTYNAME, function() use ($node) {
 				/** @var $node \OCA\DAV\Connector\Sabre\File */
-				$directDownloadUrl = $node->getDirectDownload();
-				if (isset($directDownloadUrl['url'])) {
-					return $directDownloadUrl['url'];
+				try {
+					$directDownloadUrl = $node->getDirectDownload();
+					if (isset($directDownloadUrl['url'])) {
+						return $directDownloadUrl['url'];
+					}
+				} catch (StorageNotAvailableException $e) {
+					return false;
 				}
 				return false;
 			});
+
+			$propFind->handle(self::CHECKSUMS_PROPERTYNAME, function() use ($node) {
+				$checksum = $node->getChecksum();
+				if ($checksum === NULL || $checksum === '') {
+					return null;
+				}
+
+				return new ChecksumList($checksum);
+			});
+
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Directory) {
@@ -238,16 +290,6 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 				return $node->getSize();
 			});
 		}
-
-		$propFind->handle(self::OWNER_ID_PROPERTYNAME, function() use ($node) {
-			$owner = $node->getOwner();
-			return $owner->getUID();
-		});
-		$propFind->handle(self::OWNER_DISPLAY_NAME_PROPERTYNAME, function() use ($node) {
-			$owner = $node->getOwner();
-			$displayName = $owner->getDisplayName();
-			return $displayName;
-		});
 	}
 
 	/**

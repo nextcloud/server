@@ -5,6 +5,7 @@ OC.L10N.register(
     "Saved" : "Gespäichert",
     "Username" : "Benotzernumm",
     "Password" : "Passwuert",
+    "Save" : "Späicheren",
     "Port" : "Port",
     "Region" : "Regioun",
     "URL" : "URL",

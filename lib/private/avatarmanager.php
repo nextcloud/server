@@ -1,13 +1,12 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,7 +25,10 @@
 
 namespace OC;
 
+use OCP\Files\Folder;
+use OCP\Files\NotFoundException;
 use OCP\IAvatarManager;
+use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\Files\IRootFolder;
 use OCP\IL10N;
@@ -45,26 +47,51 @@ class AvatarManager implements IAvatarManager {
 	/** @var IL10N */
 	private $l;
 
+	/** @var ILogger  */
+	private $logger;
+
+	/**
+	 * AvatarManager constructor.
+	 *
+	 * @param IUserManager $userManager
+	 * @param IRootFolder $rootFolder
+	 * @param IL10N $l
+	 * @param ILogger $logger
+	 */
 	public function __construct(
 			IUserManager $userManager,
 			IRootFolder $rootFolder,
-			IL10N $l) {
+			IL10N $l,
+			ILogger $logger) {
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
 		$this->l = $l;
+		$this->logger = $logger;
 	}
 
 	/**
 	 * return a user specific instance of \OCP\IAvatar
 	 * @see \OCP\IAvatar
-	 * @param string $user the ownCloud user id
+	 * @param string $userId the ownCloud user id
 	 * @return \OCP\IAvatar
 	 * @throws \Exception In case the username is potentially dangerous
+	 * @throws NotFoundException In case there is no user folder yet
 	 */
-	public function getAvatar($user) {
-		if (!$this->userManager->userExists($user)) {
+	public function getAvatar($userId) {
+		$user = $this->userManager->get($userId);
+		if (is_null($user)) {
 			throw new \Exception('user does not exist');
 		}
-		return new Avatar($this->rootFolder->getUserFolder($user)->getParent(), $this->l);
+
+		/*
+		 * Fix for #22119
+		 * Basically we do not want to copy the skeleton folder
+		 */
+		\OC\Files\Filesystem::initMountPoints($userId);
+		$dir = '/' . $userId;
+		/** @var Folder $folder */
+		$folder = $this->rootFolder->get($dir);
+
+		return new Avatar($folder, $this->l, $user, $this->logger);
 	}
 }

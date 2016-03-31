@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,6 +23,7 @@
 
 namespace OCA\Files_external\Service;
 
+use OCP\Files\Config\IUserMountCache;
 use \OCP\IUserSession;
 use \OC\Files\Filesystem;
 
@@ -35,107 +37,28 @@ use \OCA\Files_External\Service\UserTrait;
  * (aka personal storages)
  */
 class UserStoragesService extends StoragesService {
-
 	use UserTrait;
 
 	/**
 	 * Create a user storages service
 	 *
 	 * @param BackendService $backendService
+	 * @param DBConfigService $dbConfig
 	 * @param IUserSession $userSession user session
+	 * @param IUserMountCache $userMountCache
 	 */
 	public function __construct(
 		BackendService $backendService,
-		IUserSession $userSession
+		DBConfigService $dbConfig,
+		IUserSession $userSession,
+		IUserMountCache $userMountCache
 	) {
 		$this->userSession = $userSession;
-		parent::__construct($backendService);
+		parent::__construct($backendService, $dbConfig, $userMountCache);
 	}
 
-	/**
-	 * Read legacy config data
-	 *
-	 * @return array list of storage configs
-	 */
-	protected function readLegacyConfig() {
-		// read user config
-		$user = $this->getUser()->getUID();
-		return \OC_Mount_Config::readData($user);
-	}
-
-	/**
-	 * Write legacy config data
-	 *
-	 * @param array $mountPoints
-	 */
-	protected function writeLegacyConfig(array $mountPoints) {
-		// write user config
-		$user = $this->getUser()->getUID();
-		\OC_Mount_Config::writeData($user, $mountPoints);
-	}
-
-	/**
-	 * Read the external storages config
-	 *
-	 * @return array map of storage id to storage config
-	 */
-	protected function readConfig() {
-		$user = $this->getUser()->getUID();
-		// TODO: in the future don't rely on the global config reading code
-		$storages = parent::readConfig();
-
-		$filteredStorages = [];
-		foreach ($storages as $configId => $storage) {
-			// filter out all bogus storages that aren't for the current user
-			if (!in_array($user, $storage->getApplicableUsers())) {
-				continue;
-			}
-
-			// clear applicable users, should not be used
-			$storage->setApplicableUsers([]);
-
-			// strip out unneeded applicableUser fields
-			$filteredStorages[$configId] = $storage;
-		}
-
-		return $filteredStorages;
-	}
-
-	/**
-	 * Write the storages to the user's configuration.
-	 *
-	 * @param array $storages map of storage id to storage config
-	 */
-	public function writeConfig($storages) {
-		$user = $this->getUser()->getUID();
-
-		// let the horror begin
-		$mountPoints = [];
-		foreach ($storages as $storageConfig) {
-			$mountPoint = $storageConfig->getMountPoint();
-			$oldBackendOptions = $storageConfig->getBackendOptions();
-			$storageConfig->setBackendOptions(
-				\OC_Mount_Config::encryptPasswords(
-					$oldBackendOptions
-				)
-			);
-
-			$rootMountPoint = '/' . $user . '/files/' . ltrim($mountPoint, '/');
-
-			$this->addMountPoint(
-				$mountPoints,
-				\OC_Mount_Config::MOUNT_TYPE_USER,
-				$user,
-				$rootMountPoint,
-				$storageConfig
-			);
-
-			// restore old backend options where the password was not encrypted,
-			// because we don't want to change the state of the original object
-			$storageConfig->setBackendOptions($oldBackendOptions);
-		}
-
-		$this->writeLegacyConfig($mountPoints);
+	protected function readDBConfig() {
+		return $this->dbConfig->getUserMountsFor(DBConfigService::APPLICABLE_TYPE_USER, $this->getUser()->getUID());
 	}
 
 	/**
@@ -159,7 +82,7 @@ class UserStoragesService extends StoragesService {
 
 	/**
 	 * Triggers signal_create_mount or signal_delete_mount to
-	 * accomodate for additions/deletions in applicableUsers
+	 * accommodate for additions/deletions in applicableUsers
 	 * and applicableGroups fields.
 	 *
 	 * @param StorageConfig $oldStorage old storage data
@@ -173,6 +96,36 @@ class UserStoragesService extends StoragesService {
 		}
 	}
 
+	protected function getType() {
+		return DBConfigService::MOUNT_TYPE_PERSONAl;
+	}
+
+	/**
+	 * Add new storage to the configuration
+	 *
+	 * @param StorageConfig $newStorage storage attributes
+	 *
+	 * @return StorageConfig storage config, with added id
+	 */
+	public function addStorage(StorageConfig $newStorage) {
+		$newStorage->setApplicableUsers([$this->getUser()->getUID()]);
+		$config = parent::addStorage($newStorage);
+		return $config;
+	}
+
+	/**
+	 * Update storage to the configuration
+	 *
+	 * @param StorageConfig $updatedStorage storage attributes
+	 *
+	 * @return StorageConfig storage config
+	 * @throws NotFoundException if the given storage does not exist in the config
+	 */
+	public function updateStorage(StorageConfig $updatedStorage) {
+		$updatedStorage->setApplicableUsers([$this->getUser()->getUID()]);
+		return parent::updateStorage($updatedStorage);
+	}
+
 	/**
 	 * Get the visibility type for this controller, used in validation
 	 *
@@ -180,5 +133,9 @@ class UserStoragesService extends StoragesService {
 	 */
 	public function getVisibilityType() {
 		return BackendService::VISIBILITY_PERSONAL;
+	}
+
+	protected function isApplicable(StorageConfig $config) {
+		return ($config->getApplicableUsers() === [$this->getUser()->getUID()]) && $config->getType() === StorageConfig::MOUNT_TYPE_PERSONAl;
 	}
 }

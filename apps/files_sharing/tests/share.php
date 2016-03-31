@@ -3,10 +3,11 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -220,6 +221,10 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 
 	}
 
+	/**
+	 * @param OC\Files\FileInfo[] $content
+	 * @param string[] $expected
+	 */
 	public function verifyDirContent($content, $expected) {
 		foreach ($content as $c) {
 			if (!in_array($c['name'], $expected)) {

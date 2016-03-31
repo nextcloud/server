@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author michag86 <micha_g@arcor.de>
@@ -8,7 +9,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -278,14 +279,14 @@ class Users {
 						$quota = \OCP\Util::humanFileSize($quota);
 					}
 				}
-				$this->config->setUserValue($targetUserId, 'files', 'quota', $quota);
+				$targetUser->setQuota($quota);
 				break;
 			case 'password':
 				$targetUser->setPassword($parameters['_put']['value']);
 				break;
 			case 'email':
 				if(filter_var($parameters['_put']['value'], FILTER_VALIDATE_EMAIL)) {
-					$this->config->setUserValue($targetUserId, 'settings', 'email', $parameters['_put']['value']);
+					$targetUser->setEMailAddress($parameters['_put']['value']);
 				} else {
 					return new OC_OCS_Result(null, 102);
 				}

@@ -2,10 +2,10 @@
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -129,6 +129,10 @@ class CheckCode extends Command {
 				} else {
 					$output->writeln("<info>Deprecated field available: $key => $value</info>");
 				}
+			});
+
+			$infoChecker->listen('InfoChecker', 'missingRequirement', function($minMax) use ($output) {
+				$output->writeln("<comment>ownCloud $minMax version requirement missing (will be an error in ownCloud 11 and later)</comment>");
 			});
 
 			$infoChecker->listen('InfoChecker', 'duplicateRequirement', function($minMax) use ($output) {

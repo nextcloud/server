@@ -1,8 +1,10 @@
 <?php
 /**
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -47,7 +49,7 @@ class LockPlugin extends ServerPlugin {
 	}
 
 	public function getLock(RequestInterface $request) {
-		// we cant listen on 'beforeMethod:PUT' due to order of operations with setting up the tree
+		// we can't listen on 'beforeMethod:PUT' due to order of operations with setting up the tree
 		// so instead we limit ourselves to the PUT method manually
 		if ($request->getMethod() !== 'PUT' || isset($_SERVER['HTTP_OC_CHUNKED'])) {
 			return;

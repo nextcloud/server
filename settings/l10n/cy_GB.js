@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "Authentication error" : "Gwall dilysu",
     "Invalid request" : "Cais annilys",
+    "Authentication error" : "Gwall dilysu",
     "Email sent" : "Anfonwyd yr e-bost",
     "Delete" : "Dileu",
     "Groups" : "Grwpiau",
@@ -11,11 +11,10 @@ OC.L10N.register(
     "None" : "Dim",
     "Login" : "Mewngofnodi",
     "Encryption" : "Amgryptiad",
-    "by" : "gan",
+    "Cancel" : "Diddymu",
+    "Email" : "E-bost",
     "Password" : "Cyfrinair",
     "New password" : "Cyfrinair newydd",
-    "Email" : "E-bost",
-    "Cancel" : "Diddymu",
     "Username" : "Enw defnyddiwr",
     "Other" : "Arall"
 },

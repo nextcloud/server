@@ -4,8 +4,9 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -54,7 +55,8 @@ $userManager = new \OCA\user_ldap\lib\user\Manager(
 	new \OCA\user_ldap\lib\LogWrapper(),
 	\OC::$server->getAvatarManager(),
 	new \OCP\Image(),
-	\OC::$server->getDatabaseConnection());
+	\OC::$server->getDatabaseConnection(),
+	\OC::$server->getUserManager());
 
 $access = new \OCA\user_ldap\lib\Access($con, $ldapWrapper, $userManager);
 

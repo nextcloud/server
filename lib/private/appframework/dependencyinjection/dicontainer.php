@@ -1,15 +1,16 @@
 <?php
 /**
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -31,7 +32,6 @@ namespace OC\AppFramework\DependencyInjection;
 
 use OC;
 use OC\AppFramework\Http;
-use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
 use OC\AppFramework\Core\API;
@@ -42,8 +42,6 @@ use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCP\AppFramework\IApi;
 use OCP\AppFramework\IAppContainer;
-use OCP\AppFramework\Middleware;
-use OCP\IServerContainer;
 
 
 class DIContainer extends SimpleContainer implements IAppContainer {
@@ -61,6 +59,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		parent::__construct();
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
+
+		/** @var \OC\ServerContainer $server */
+		$server = $this->getServer();
+		$server->registerAppContainer($appName, $this);
 
 		// aliases
 		$this->registerAlias('appName', 'AppName');
@@ -100,6 +102,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OC\\CapabilitiesManager', function($c) {
 			return $this->getServer()->getCapabilitiesManager();
+		});
+
+		$this->registerService('OCP\Comments\ICommentsManager', function($c) {
+			return $this->getServer()->getCommentsManager();
 		});
 
 		$this->registerService('OCP\\IConfig', function($c) {
@@ -150,6 +156,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getL10N($c->query('AppName'));
 		});
 
+		$this->registerService('OCP\\L10N\\IFactory', function($c) {
+			return $this->getServer()->getL10NFactory();
+		});
+
 		$this->registerService('OCP\\ILogger', function($c) {
 			return $this->getServer()->getLogger();
 		});
@@ -161,8 +171,16 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		$this->registerAlias('OCP\\AppFramework\\Utility\\IControllerMethodReflector', 'OC\AppFramework\Utility\ControllerMethodReflector');
 		$this->registerAlias('ControllerMethodReflector', 'OCP\\AppFramework\\Utility\\IControllerMethodReflector');
 
+		$this->registerService('OCP\\Files\\IMimeTypeDetector', function($c) {
+			return $this->getServer()->getMimeTypeDetector();
+		});
+
 		$this->registerService('OCP\\INavigationManager', function($c) {
 			return $this->getServer()->getNavigationManager();
+		});
+
+		$this->registerService('OCP\\Notification\IManager', function($c) {
+			return $this->getServer()->getNotificationManager();
 		});
 
 		$this->registerService('OCP\\IPreview', function($c) {
@@ -206,8 +224,16 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getHasher();
 		});
 
+		$this->registerService('OCP\\Security\\ICredentialsManager', function($c) {
+			return $this->getServer()->getCredentialsManager();
+		});
+
 		$this->registerService('OCP\\Security\\ISecureRandom', function($c) {
 			return $this->getServer()->getSecureRandom();
+		});
+
+		$this->registerService('OCP\\Share\\IManager', function($c) {
+			return $this->getServer()->getShareManager();
 		});
 
 		$this->registerService('OCP\\SystemTag\\ISystemTagManager', function() {
@@ -232,6 +258,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 
 		$this->registerService('OCP\\ISession', function($c) {
 			return $this->getServer()->getSession();
+		});
+
+		$this->registerService('OCP\\Security\\IContentSecurityPolicyManager', function($c) {
+			return $this->getServer()->getContentSecurityPolicyManager();
 		});
 
 		$this->registerService('ServerContainer', function ($c) {
@@ -298,7 +328,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 				$app->getServer()->getLogger(),
 				$c['AppName'],
 				$app->isLoggedIn(),
-				$app->isAdminUser()
+				$app->isAdminUser(),
+				$app->getServer()->getContentSecurityPolicyManager()
 			);
 		});
 

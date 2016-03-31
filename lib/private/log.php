@@ -2,13 +2,14 @@
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -31,6 +32,7 @@ use InterfaSys\LogNormalizer\Normalizer;
 
 use \OCP\ILogger;
 use OCP\Security\StringUtils;
+use OCP\Util;
 
 /**
  * logging utilities
@@ -46,11 +48,13 @@ class Log implements ILogger {
 
 	/** @var string */
 	private $logger;
+
 	/** @var SystemConfig */
 	private $config;
 
 	/** @var boolean|null cache the result of the log condition check for the request */
 	private $logConditionSatisfied = null;
+
 	/** @var Normalizer */
 	private $normalizer;
 
@@ -82,15 +86,15 @@ class Log implements ILogger {
 
 	}
 
-
 	/**
 	 * System is unusable.
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
 	public function emergency($message, array $context = array()) {
-		$this->log(\OCP\Util::FATAL, $message, $context);
+		$this->log(Util::FATAL, $message, $context);
 	}
 
 	/**
@@ -101,9 +105,10 @@ class Log implements ILogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
 	public function alert($message, array $context = array()) {
-		$this->log(\OCP\Util::ERROR, $message, $context);
+		$this->log(Util::ERROR, $message, $context);
 	}
 
 	/**
@@ -113,9 +118,10 @@ class Log implements ILogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
 	public function critical($message, array $context = array()) {
-		$this->log(\OCP\Util::ERROR, $message, $context);
+		$this->log(Util::ERROR, $message, $context);
 	}
 
 	/**
@@ -124,9 +130,10 @@ class Log implements ILogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
 	public function error($message, array $context = array()) {
-		$this->log(\OCP\Util::ERROR, $message, $context);
+		$this->log(Util::ERROR, $message, $context);
 	}
 
 	/**
@@ -137,9 +144,10 @@ class Log implements ILogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
 	public function warning($message, array $context = array()) {
-		$this->log(\OCP\Util::WARN, $message, $context);
+		$this->log(Util::WARN, $message, $context);
 	}
 
 	/**
@@ -147,9 +155,10 @@ class Log implements ILogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
 	public function notice($message, array $context = array()) {
-		$this->log(\OCP\Util::INFO, $message, $context);
+		$this->log(Util::INFO, $message, $context);
 	}
 
 	/**
@@ -159,9 +168,10 @@ class Log implements ILogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
 	public function info($message, array $context = array()) {
-		$this->log(\OCP\Util::INFO, $message, $context);
+		$this->log(Util::INFO, $message, $context);
 	}
 
 	/**
@@ -169,9 +179,10 @@ class Log implements ILogger {
 	 *
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
 	public function debug($message, array $context = array()) {
-		$this->log(\OCP\Util::DEBUG, $message, $context);
+		$this->log(Util::DEBUG, $message, $context);
 	}
 
 
@@ -181,9 +192,10 @@ class Log implements ILogger {
 	 * @param mixed $level
 	 * @param string $message
 	 * @param array $context
+	 * @return void
 	 */
 	public function log($level, $message, array $context = array()) {
-		$minLevel = min($this->config->getValue('loglevel', \OCP\Util::WARN), \OCP\Util::ERROR);
+		$minLevel = min($this->config->getValue('loglevel', Util::WARN), Util::ERROR);
 		$logCondition = $this->config->getValue('log.condition', []);
 
 		array_walk($context, [$this->normalizer, 'format']);
@@ -198,7 +210,7 @@ class Log implements ILogger {
 			if(!empty($logCondition)
 				&& isset($logCondition['apps'])
 				&& in_array($app, $logCondition['apps'], true)) {
-				$minLevel = \OCP\Util::DEBUG;
+				$minLevel = Util::DEBUG;
 			}
 
 		} else {
@@ -227,7 +239,7 @@ class Log implements ILogger {
 					$request = \OC::$server->getRequest();
 
 					// if token is found in the request change set the log condition to satisfied
-					if($request && StringUtils::equals($request->getParam('log_secret'), $logCondition['shared_secret'])) {
+					if($request && hash_equals($logCondition['shared_secret'], $request->getParam('log_secret'))) {
 						$this->logConditionSatisfied = true;
 					}
 				}
@@ -246,7 +258,7 @@ class Log implements ILogger {
 
 		// if log condition is satisfied change the required log level to DEBUG
 		if($this->logConditionSatisfied) {
-			$minLevel = \OCP\Util::DEBUG;
+			$minLevel = Util::DEBUG;
 		}
 
 		if ($level >= $minLevel) {
@@ -273,6 +285,8 @@ class Log implements ILogger {
 			'Line' => $exception->getLine(),
 		);
 		$exception['Trace'] = preg_replace('!(login|checkPassword)\(.*\)!', '$1(*** username and password replaced ***)', $exception['Trace']);
-		$this->error('Exception: ' . json_encode($exception), $context);
+		$msg = isset($context['message']) ? $context['message'] : 'Exception';
+		$msg .= ': ' . json_encode($exception);
+		$this->error($msg, $context);
 	}
 }

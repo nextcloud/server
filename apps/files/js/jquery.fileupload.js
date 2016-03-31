@@ -942,7 +942,7 @@
             var inputClone = input.clone(true);
             $('<form></form>').append(inputClone)[0].reset();
             // Detaching allows to insert the fileInput on another form
-            // without loosing the file input value:
+            // without losing the file input value:
             input.after(inputClone).detach();
             // Avoid memory leaks with the detached file input:
             $.cleanData(input.unbind('remove'));

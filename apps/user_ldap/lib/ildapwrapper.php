@@ -4,9 +4,9 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -177,14 +177,6 @@ interface ILDAPWrapper {
 	 * @return bool true on success, false otherwise
 	 */
 	public function startTls($link);
-
-	/**
-	 * Sort the result of a LDAP search
-	 * @param resource $link LDAP link resource
-	 * @param resource $result LDAP result resource
-	 * @param string $sortFilter attribute to use a key in sort
-	 */
-	public function sort($link, $result, $sortFilter);
 
 	/**
 	 * Unbind from LDAP directory

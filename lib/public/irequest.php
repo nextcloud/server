@@ -7,7 +7,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -91,6 +91,7 @@ interface IRequest {
 	 * Returns all params that were received, be it from the request
 	 *
 	 * (as GET or POST) or through the URL by the route
+	 *
 	 * @return array the array with all parameters
 	 * @since 6.0.0
 	 */
@@ -136,6 +137,7 @@ interface IRequest {
 
 	/**
 	 * Checks if the CSRF check was correct
+	 *
 	 * @return bool true if CSRF check passed
 	 * @since 6.0.0
 	 */
@@ -144,6 +146,7 @@ interface IRequest {
 	/**
 	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
 	 * If `mod_unique_id` is installed this value will be taken.
+	 *
 	 * @return string
 	 * @since 8.1.0
 	 */
@@ -154,6 +157,7 @@ interface IRequest {
 	 * and `forwarded_for_headers` has been configured then the IP address
 	 * specified in this header will be returned instead.
 	 * Do always use this instead of $_SERVER['REMOTE_ADDR']
+	 *
 	 * @return string IP address
 	 * @since 8.1.0
 	 */
@@ -162,6 +166,7 @@ interface IRequest {
 	/**
 	 * Returns the server protocol. It respects reverse proxy servers and load
 	 * balancers.
+	 *
 	 * @return string Server protocol (http or https)
 	 * @since 8.1.0
 	 */
@@ -176,15 +181,17 @@ interface IRequest {
 	public function getHttpProtocol();
 
 	/**
-	* Returns the request uri, even if the website uses one or more
-	* reverse proxies
-	* @return string
+	 * Returns the request uri, even if the website uses one or more
+	 * reverse proxies
+	 *
+	 * @return string
 	 * @since 8.1.0
-	*/
+	 */
 	public function getRequestUri();
 
 	/**
 	 * Get raw PathInfo from request (not urldecoded)
+	 *
 	 * @throws \Exception
 	 * @return string Path info
 	 * @since 8.1.0
@@ -193,6 +200,7 @@ interface IRequest {
 
 	/**
 	 * Get PathInfo from request
+	 *
 	 * @throws \Exception
 	 * @return string|false Path info or false when not found
 	 * @since 8.1.0
@@ -202,6 +210,7 @@ interface IRequest {
 	/**
 	 * Returns the script name, even if the website uses one or more
 	 * reverse proxies
+	 *
 	 * @return string the script name
 	 * @since 8.1.0
 	 */
@@ -209,6 +218,7 @@ interface IRequest {
 
 	/**
 	 * Checks whether the user agent matches a given regex
+	 *
 	 * @param array $agent array of agent names
 	 * @return bool true if at least one of the given agent matches, false otherwise
 	 * @since 8.1.0
@@ -218,6 +228,7 @@ interface IRequest {
 	/**
 	 * Returns the unverified server host from the headers without checking
 	 * whether it is a trusted domain
+	 *
 	 * @return string Server host
 	 * @since 8.1.0
 	 */
@@ -226,6 +237,7 @@ interface IRequest {
 	/**
 	 * Returns the server host from the headers, or the first configured
 	 * trusted domain if the host isn't in the trusted list
+	 *
 	 * @return string Server host
 	 * @since 8.1.0
 	 */

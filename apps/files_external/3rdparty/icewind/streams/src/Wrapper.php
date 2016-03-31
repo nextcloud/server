@@ -12,7 +12,7 @@ namespace Icewind\Streams;
  *
  * This wrapper itself doesn't implement any functionality but is just a base class for other wrappers to extend
  */
-abstract class Wrapper implements File {
+abstract class Wrapper implements File, Directory {
 	/**
 	 * @var resource
 	 */
@@ -24,6 +24,22 @@ abstract class Wrapper implements File {
 	 * @var resource
 	 */
 	protected $source;
+
+	protected static function wrapSource($source, $context, $protocol, $class) {
+		try {
+			stream_wrapper_register($protocol, $class);
+			if (@rewinddir($source) === false) {
+				$wrapped = fopen($protocol . '://', 'r+', false, $context);
+			} else {
+				$wrapped = opendir($protocol . '://', $context);
+			}
+		} catch (\BadMethodCallException $e) {
+			stream_wrapper_unregister($protocol);
+			throw $e;
+		}
+		stream_wrapper_unregister($protocol);
+		return $wrapped;
+	}
 
 	/**
 	 * Load the source from the stream context and return the context options
@@ -106,5 +122,18 @@ abstract class Wrapper implements File {
 
 	public function stream_close() {
 		return fclose($this->source);
+	}
+
+	public function dir_readdir() {
+		return readdir($this->source);
+	}
+
+	public function dir_closedir() {
+		closedir($this->source);
+		return true;
+	}
+
+	public function dir_rewinddir() {
+		return rewind($this->source);
 	}
 }

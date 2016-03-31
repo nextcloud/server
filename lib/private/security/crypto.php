@@ -3,8 +3,9 @@
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -90,7 +91,7 @@ class Crypto implements ICrypto {
 		}
 		$this->cipher->setPassword($password);
 
-		$iv = $this->random->getLowStrengthGenerator()->generate($this->ivLength);
+		$iv = $this->random->generate($this->ivLength);
 		$this->cipher->setIV($iv);
 
 		$ciphertext = bin2hex($this->cipher->encrypt($plaintext));
@@ -123,7 +124,7 @@ class Crypto implements ICrypto {
 
 		$this->cipher->setIV($iv);
 
-		if(!\OCP\Security\StringUtils::equals($this->calculateHMAC($parts[0].$parts[1], $password), $hmac)) {
+		if(!hash_equals($this->calculateHMAC($parts[0].$parts[1], $password), $hmac)) {
 			throw new \Exception('HMAC does not match.');
 		}
 

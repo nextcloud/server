@@ -4,6 +4,7 @@ OC.L10N.register(
     "Personal" : "شخصی",
     "Username" : "یوزر نیم",
     "Password" : "پاسورڈ",
+    "Save" : "حفظ",
     "URL" : "یو ار ایل",
     "Location" : "مقام",
     "Share" : "تقسیم",

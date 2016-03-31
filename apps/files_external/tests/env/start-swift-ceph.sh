@@ -25,11 +25,15 @@ echo "Fetch recent ${docker_image} docker image"
 docker pull ${docker_image}
 
 # retrieve current folder to place the config in the parent folder
-thisFolder=`echo $0 | replace "env/start-swift-ceph.sh" ""`
+thisFolder=`echo $0 | sed 's#env/start-swift-ceph\.sh##'`
 
 if [ -z "$thisFolder" ]; then
     thisFolder="."
 fi;
+
+# create readiness notification socket
+notify_sock=$(readlink -f "$thisFolder"/dockerContainerCeph.$EXECUTOR_NUMBER.swift.sock)
+mkfifo "$notify_sock"
 
 port=5001
 
@@ -46,6 +50,9 @@ container=`docker run -d \
     -e KEYSTONE_ADMIN_TENANT=${tenant} \
     -e KEYSTONE_ENDPOINT_REGION=${region} \
     -e KEYSTONE_SERVICE=${service} \
+    -e OSD_SIZE=300 \
+    --privileged \
+    -v "$notify_sock":/run/notifyme.sock \
     ${docker_image}`
 
 host=`docker inspect --format="{{.NetworkSettings.IPAddress}}" $container`
@@ -56,12 +63,15 @@ echo "${docker_image} container: $container"
 # put container IDs into a file to drop them after the test run (keep in mind that multiple tests run in parallel on the same host)
 echo $container >> $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
 
-echo -n "Waiting for ceph initialization"
-if ! "$thisFolder"/env/wait-for-connection ${host} 80 60; then
-    echo "[ERROR] Waited 60 seconds, no response" >&2
+echo "Waiting for ceph initialization"
+ready=$(timeout 600 cat "$notify_sock")
+if [[ $ready != 'READY=1' ]]; then
+    echo "[ERROR] Waited 600 seconds, no response" >&2
+    docker logs $container
     exit 1
 fi
-sleep 1
+echo "Waiting another 15 seconds"
+sleep 15
 
 cat > $thisFolder/config.swift.php <<DELIM
 <?php

@@ -7,11 +7,12 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -213,6 +214,7 @@ class Session implements IUserSession, Emitter {
 	 * @throws LoginException
 	 */
 	public function login($uid, $password) {
+		$this->session->regenerateId();
 		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 		$user = $this->manager->checkPassword($uid, $password);
 		if ($user !== false) {
@@ -243,6 +245,7 @@ class Session implements IUserSession, Emitter {
 	 * @return bool
 	 */
 	public function loginWithCookie($uid, $currentToken) {
+		$this->session->regenerateId();
 		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
@@ -258,7 +261,7 @@ class Session implements IUserSession, Emitter {
 		}
 		// replace successfully used token with a new one
 		\OC::$server->getConfig()->deleteUserValue($uid, 'login_token', $currentToken);
-		$newToken = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32);
+		$newToken = \OC::$server->getSecureRandom()->generate(32);
 		\OC::$server->getConfig()->setUserValue($uid, 'login_token', $newToken, time());
 		$this->setMagicInCookie($user->getUID(), $newToken);
 

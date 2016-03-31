@@ -3,7 +3,7 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -129,6 +129,16 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 		$this->sessionValues = [];
 		$this->isModified = true;
 		$this->session->clear();
+	}
+
+	/**
+	 * Wrapper around session_regenerate_id
+	 *
+	 * @param bool $deleteOldSession Whether to delete the old associated session file or not.
+	 * @return void
+	 */
+	public function regenerateId($deleteOldSession = true) {
+		$this->session->regenerateId($deleteOldSession);
 	}
 
 	/**

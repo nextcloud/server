@@ -45,9 +45,9 @@ class IteratorDirectory implements Directory {
 		} else {
 			throw new \BadMethodCallException('Invalid context, "' . $name . '" options not set');
 		}
-		if (isset($context['iterator']) and $context['iterator'] instanceof \Iterator) {
+		if (isset($context['iterator'])) {
 			$this->iterator = $context['iterator'];
-		} else if (isset($context['array']) and is_array($context['array'])) {
+		} else if (isset($context['array'])) {
 			$this->iterator = new \ArrayIterator($context['array']);
 		} else {
 			throw new \BadMethodCallException('Invalid context, iterator or array not set');

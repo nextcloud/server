@@ -1,0 +1,25 @@
+OC.L10N.register(
+    "systemtags",
+    {
+    "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové tagy</strong> souboru byly upraveny",
+    "%1$s assigned system tag %3$s" : "%1$s přiřadil systémový tag %3$s",
+    "%1$s unassigned system tag %3$s" : "%1$s odebral systémový tag %3$s",
+    "%1$s created system tag %2$s" : "%1$s vytvořil systémový tag %2$s",
+    "%1$s deleted system tag %2$s" : "%1$s smazal systémový tag %2$s",
+    "%1$s updated system tag %3$s to %2$s" : "%1$s aktualizoval systémový tag %3$s na %2$s",
+    "%1$s assigned system tag %3$s to %2$s" : "%1$s přiřadil systémový tag %3$s na %2$s",
+    "%1$s unassigned system tag %3$s from %2$s" : "%1$s odebral systémový tag %3$s ze %2$s",
+    "%s (not-assignable)" : "%s (nepřiřaditelný)",
+    "%s (invisible)" : "%s (neviditelný)",
+    "Tags" : "Značky",
+    "Tagged files" : "Otagované soubory",
+    "Select tags to filter by" : "Vybrat tagy pro filtr",
+    "Please select tags to filter by" : "Vyberte prosím tagy pro filtrování",
+    "No files found for the selected tags" : "Nebyly nalezeny žádné soubory s vybranými tagy",
+    "No files in here" : "Žádné soubory",
+    "No entries found in this folder" : "V této složce nebylo nic nalezeno",
+    "Name" : "Název",
+    "Size" : "Velikost",
+    "Modified" : "Upraveno"
+},
+"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

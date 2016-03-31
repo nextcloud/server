@@ -1,0 +1,29 @@
+{
+  "name": "base64",
+  "version": "0.3.0",
+  "description": "Base64 encoding and decoding",
+  "main": "./base64.js",
+  "license": "WTFPL",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/davidchambers/Base64.js.git"
+  },
+  "ignore": [
+    "**/.*",
+    "Makefile",
+    "coverage/",
+    "scripts/",
+    "test/"
+  ],
+  "homepage": "https://github.com/davidchambers/Base64.js",
+  "_release": "0.3.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.3.0",
+    "commit": "772df096a5ffe983f40202684ad45eed1e0e2d59"
+  },
+  "_source": "git://github.com/davidchambers/Base64.js.git",
+  "_target": "~0.3.0",
+  "_originalSource": "base64",
+  "_direct": true
+}

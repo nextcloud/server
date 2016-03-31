@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
@@ -7,10 +8,11 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -61,14 +63,29 @@ class Test_Files_Versioning extends \Test\TestCase {
 
 	public static function tearDownAfterClass() {
 		// cleanup test user
-		\OC_User::deleteUser(self::TEST_VERSIONS_USER);
-		\OC_User::deleteUser(self::TEST_VERSIONS_USER2);
+		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get(self::TEST_VERSIONS_USER2);
+		if ($user !== null) { $user->delete(); }
 
 		parent::tearDownAfterClass();
 	}
 
 	protected function setUp() {
 		parent::setUp();
+
+		$config = \OC::$server->getConfig();
+		$mockConfig = $this->getMock('\OCP\IConfig');
+		$mockConfig->expects($this->any())
+			->method('getSystemValue')
+			->will($this->returnCallback(function ($key, $default) use ($config) {
+				if ($key === 'filesystem_check_changes') {
+					return \OC\Files\Cache\Watcher::CHECK_ONCE;
+				} else {
+					return $config->getSystemValue($key, $default);
+				}
+			}));
+		$this->overwriteService('AllConfig', $mockConfig);
 
 		// clear hooks
 		\OC_Hook::clear();
@@ -83,10 +100,14 @@ class Test_Files_Versioning extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
-		$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files/');
-		$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files/');
-		$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files_versions/');
-		$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files_versions/');
+		$this->restoreService('AllConfig');
+
+		if ($this->rootView) {
+			$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files/');
+			$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files/');
+			$this->rootView->deleteAll(self::TEST_VERSIONS_USER . '/files_versions/');
+			$this->rootView->deleteAll(self::TEST_VERSIONS_USER2 . '/files_versions/');
+		}
 
 		\OC_Hook::clear();
 
@@ -647,7 +668,9 @@ class Test_Files_Versioning extends \Test\TestCase {
 			'path' => '/sub/test.txt',
 		);
 
-		$this->assertEquals($expectedParams, $params);
+		$this->assertEquals($expectedParams['path'], $params['path']);
+		$this->assertTrue(array_key_exists('revision', $params));
+		$this->assertTrue($params['revision'] > 0);
 
 		$this->assertEquals('version2', $this->rootView->file_get_contents($filePath));
 		$info2 = $this->rootView->getFileInfo($filePath);
@@ -797,9 +820,9 @@ class Test_Files_Versioning extends \Test\TestCase {
 		}
 
 		$storage = new \ReflectionClass('\OC\Files\Storage\Shared');
-		$isInitialized = $storage->getProperty('isInitialized');
+		$isInitialized = $storage->getProperty('initialized');
 		$isInitialized->setAccessible(true);
-		$isInitialized->setValue(array());
+		$isInitialized->setValue($storage, false);
 		$isInitialized->setAccessible(false);
 
 		\OC_Util::tearDownFS();

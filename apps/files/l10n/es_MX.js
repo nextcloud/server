@@ -28,6 +28,7 @@ OC.L10N.register(
     "Download" : "Descargar",
     "Rename" : "Renombrar",
     "Delete" : "Eliminar",
+    "Unshare" : "Dejar de compartir",
     "Details" : "Detalles",
     "Pending" : "Pendiente",
     "Name" : "Nombre",
@@ -55,11 +56,9 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Settings" : "Ajustes",
     "WebDAV" : "WebDAV",
-    "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Utilice esta dirección para <a href=\"%s\" target=\"_blank\">acceder a sus archivos vía WebDAV</a>",
     "Cancel upload" : "Cancelar subida",
     "Upload too large" : "Subida demasido grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor.",
-    "Files are being scanned, please wait." : "Los archivos están siendo escaneados,  por favor espere.",
     "Text file" : "Archivo de texto"
 },
 "nplurals=2; plural=(n != 1);");

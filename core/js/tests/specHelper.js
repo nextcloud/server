@@ -86,6 +86,7 @@ window.firstDay = 0;
 // setup dummy webroots
 /* jshint camelcase: false */
 window.oc_debug = true;
+window.oc_isadmin = false;
 // FIXME: oc_webroot is supposed to be only the path!!!
 window.oc_webroot = location.href + '/';
 window.oc_appswebroots = {
@@ -115,7 +116,8 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 // global setup for all tests
 (function setupTests() {
 	var fakeServer = null,
-		$testArea = null;
+		$testArea = null,
+		ajaxErrorStub = null;
 
 	/**
 	 * Utility functions for testing
@@ -160,7 +162,9 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 		OC.Plugins._plugins = [];
 
 		// dummy select2 (which isn't loaded during the tests)
-		$.fn.select2 = function() {};
+		$.fn.select2 = function() { return this; };
+
+		ajaxErrorStub = sinon.stub(OC, '_processAjaxError');
 	});
 
 	afterEach(function() {
@@ -171,6 +175,8 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 		$testArea.remove();
 
 		delete($.fn.select2);
+
+		ajaxErrorStub.restore();
 	});
 })();
 

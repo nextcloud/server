@@ -5,10 +5,11 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -49,10 +50,11 @@ class OCI extends AbstractDatabase {
 
 	public function validate($config) {
 		$errors = array();
-		if(empty($config['dbuser'])) {
+		if(empty($config['dbuser']) && empty($config['dbname'])) {
+			$errors[] = $this->trans->t("%s enter the database username and name.", array($this->dbprettyname));
+		} else if(empty($config['dbuser'])) {
 			$errors[] = $this->trans->t("%s enter the database username.", array($this->dbprettyname));
-		}
-		if(empty($config['dbname'])) {
+		} else if(empty($config['dbname'])) {
 			$errors[] = $this->trans->t("%s enter the database name.", array($this->dbprettyname));
 		}
 		return $errors;
@@ -106,7 +108,7 @@ class OCI extends AbstractDatabase {
 				//add prefix to the oracle user name to prevent collisions
 				$this->dbUser='oc_'.$username;
 				//create a new password so we don't need to store the admin config in the config file
-				$this->dbPassword=\OC_Util::generateRandomBytes(30);
+				$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
 				//oracle passwords are treated as identifiers:
 				//  must start with alphanumeric char

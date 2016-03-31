@@ -4,7 +4,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -54,8 +54,18 @@ interface ICertificateManager {
 	/**
 	 * Get the path to the certificate bundle for this user
 	 *
+	 * @param string $uid (optional) user to get the certificate bundle for, use `null` to get the system bundle (since 9.0.0)
 	 * @return string
 	 * @since 8.0.0
 	 */
-	public function getCertificateBundle();
+	public function getCertificateBundle($uid = '');
+
+	/**
+	 * Get the full local path to the certificate bundle for this user
+	 *
+	 * @param string $uid (optional) user to get the certificate bundle for, use `null` to get the system bundle
+	 * @return string
+	 * @since 9.0.0
+	 */
+	public function getAbsoluteBundlePath($uid = '');
 }

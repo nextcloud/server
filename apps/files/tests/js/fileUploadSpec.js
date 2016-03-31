@@ -102,7 +102,7 @@ describe('OC.Upload tests', function() {
 			expect(failStub.calledOnce).toEqual(true);
 			expect(failStub.getCall(0).args[1].textStatus).toEqual('sizeexceedlimit');
 			expect(failStub.getCall(0).args[1].errorThrown).toEqual(
-				'Total file size 5 kB exceeds upload limit 1000 B'
+				'Total file size 5 KB exceeds upload limit 1000 B'
 			);
 		});
 		it('does not add file if it exceeds free space', function() {
@@ -115,7 +115,7 @@ describe('OC.Upload tests', function() {
 			expect(failStub.calledOnce).toEqual(true);
 			expect(failStub.getCall(0).args[1].textStatus).toEqual('notenoughspace');
 			expect(failStub.getCall(0).args[1].errorThrown).toEqual(
-				'Not enough free space, you are uploading 5 kB but only 1000 B is left'
+				'Not enough free space, you are uploading 5 KB but only 1000 B is left'
 			);
 		});
 	});

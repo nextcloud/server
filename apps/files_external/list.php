@@ -1,8 +1,9 @@
 <?php
 /**
+ * @author Jesús Macias <jmacias@solidgear.es>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,6 +23,11 @@
 OCP\User::checkLoggedIn();
 
 $tmpl = new OCP\Template('files_external', 'list', '');
+
+/* Load Status Manager */
+\OCP\Util::addStyle('files_external', 'external');
+\OCP\Util::addScript('files_external', 'statusmanager');
+\OCP\Util::addScript('files_external', 'rollingqueue');
 
 OCP\Util::addScript('files_external', 'app');
 OCP\Util::addScript('files_external', 'mountsfilelist');

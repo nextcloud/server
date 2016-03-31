@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "সংরক্ষিত",
     "Username" : "ইউজারনেম",
+    "Save" : "সেভ",
     "URL" : "URL",
     "Host" : "হোস্ট",
     "Share" : "শেয়ার",

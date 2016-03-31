@@ -50,17 +50,29 @@ OC.Share = _.extend(OC.Share || {}, {
 	 * @param callback function to call after the shares were loaded
 	 */
 	loadIcons:function(itemType, fileList, callback) {
+		var path = fileList.dirInfo.path;
+		if (path === '/') {
+			path = '';
+		}
+		path += '/' + fileList.dirInfo.name;
+
 		// Load all share icons
 		$.get(
-			OC.filePath('core', 'ajax', 'share.php'),
+			OC.linkToOCS('apps/files_sharing/api/v1', 2) + 'shares',
 			{
-				fetch: 'getItemsSharedStatuses',
-				itemType: itemType
+				subfiles: 'true',
+				path: path,
+				format: 'json'
 			}, function(result) {
-				if (result && result.status === 'success') {
+				if (result && result.ocs.meta.statuscode === 200) {
 					OC.Share.statuses = {};
-					$.each(result.data, function(item, data) {
-						OC.Share.statuses[item] = data;
+					$.each(result.ocs.data, function(it, share) {
+						if (!(share.item_source in OC.Share.statuses)) {
+							OC.Share.statuses[share.item_source] = {link: false};
+						}
+						if (share.share_type === OC.Share.SHARE_TYPE_LINK) {
+							OC.Share.statuses[share.item_source] = {link: true};
+						}
 					});
 					if (_.isFunction(callback)) {
 						callback(OC.Share.statuses);
@@ -94,15 +106,15 @@ OC.Share = _.extend(OC.Share || {}, {
 		}
 		// TODO: iterating over the files might be more efficient
 		for (item in OC.Share.statuses){
-			var image = OC.imagePath('core', 'actions/share');
+			var iconClass = 'icon-share';
 			var data = OC.Share.statuses[item];
 			var hasLink = data.link;
 			// Links override shared in terms of icon display
 			if (hasLink) {
-				image = OC.imagePath('core', 'actions/public');
+				iconClass = 'icon-public';
 			}
 			if (itemType !== 'file' && itemType !== 'folder') {
-				$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
+				$('a.share[data-item="'+item+'"] .icon').removeClass('icon-share icon-public').addClass(iconClass);
 			} else {
 				// TODO: ultimately this part should be moved to files_sharing app
 				var file = $fileList.find('tr[data-id="'+item+'"]');
@@ -148,23 +160,24 @@ OC.Share = _.extend(OC.Share || {}, {
 		var shares = false;
 		var link = false;
 		var image = OC.imagePath('core', 'actions/share');
+		var iconClass = '';
 		$.each(OC.Share.itemShares, function(index) {
 			if (OC.Share.itemShares[index]) {
 				if (index == OC.Share.SHARE_TYPE_LINK) {
 					if (OC.Share.itemShares[index] == true) {
 						shares = true;
-						image = OC.imagePath('core', 'actions/public');
+						iconClass = 'icon-public';
 						link = true;
 						return;
 					}
 				} else if (OC.Share.itemShares[index].length > 0) {
 					shares = true;
-					image = OC.imagePath('core', 'actions/share');
+					iconClass = 'icon-share';
 				}
 			}
 		});
 		if (itemType != 'file' && itemType != 'folder') {
-			$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+image+') no-repeat center');
+			$('a.share[data-item="'+itemSource+'"] .icon').removeClass('icon-share icon-public').addClass(iconClass);
 		} else {
 			var $tr = $('tr').filterAttr('data-id', String(itemSource));
 			if ($tr.length > 0) {
@@ -243,12 +256,12 @@ OC.Share = _.extend(OC.Share || {}, {
 	markFileAsShared: function($tr, hasShares, hasLink) {
 		var action = $tr.find('.fileactions .action[data-action="Share"]');
 		var type = $tr.data('type');
-		var img = action.find('img');
+		var icon = action.find('.icon');
 		var message;
 		var recipients;
 		var owner = $tr.attr('data-share-owner');
 		var shareFolderIcon;
-		var image = OC.imagePath('core', 'actions/share');
+		var iconClass = 'icon-share';
 		action.removeClass('shared-style');
 		// update folder icon
 		if (type === 'dir' && (hasShares || hasLink || owner)) {
@@ -287,18 +300,18 @@ OC.Share = _.extend(OC.Share || {}, {
 			else if (recipients) {
 				message = t('core', 'Shared with {recipients}', {recipients: this._formatShareList(recipients.split(", ")).join(", ")}, 0, {escape: false});
 			}
-			action.html('<span> ' + message + '</span>').prepend(img);
+			action.html('<span> ' + message + '</span>').prepend(icon);
 			if (owner || recipients) {
 				action.find('.remoteAddress').tipsy({gravity: 's'});
 			}
 		}
 		else {
-			action.html('<span></span>').prepend(img);
+			action.html('<span></span>').prepend(icon);
 		}
 		if (hasLink) {
-			image = OC.imagePath('core', 'actions/public');
+			iconClass = 'icon-public';
 		}
-		img.attr('src', image);
+		icon.removeClass('icon-share icon-public').addClass(iconClass);
 	},
 	/**
 	 *
@@ -384,13 +397,6 @@ OC.Share = _.extend(OC.Share || {}, {
 				}
 			} else {
 				OC.dialogs.alert(t('core', 'Error while unsharing'), t('core', 'Error'));
-			}
-		});
-	},
-	setPermissions:function(itemType, itemSource, shareType, shareWith, permissions) {
-		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setPermissions', itemType: itemType, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
-			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error while changing permissions'), t('core', 'Error'));
 			}
 		});
 	},

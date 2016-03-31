@@ -25,6 +25,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "암호화 앱의 개인 키가 잘못되었습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 업데이트해야 합니다.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오",
     "Encryption App is enabled and ready" : "암호화 앱이 활성화되었고 준비됨",
+    "Bad Signature" : "잘못된 서명",
+    "Missing Signature" : "서명 없음",
     "one-time password for server-side-encryption" : "서버 측 암호화용 일회용 암호",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "이 파일을 복호화할 수 없습니다. 공유된 파일일 수도 있습니다. 파일 소유자에게 공유를 다시 요청하십시오.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "이 파일을 읽을 수 없습니다. 공유된 파일이라면 파일 소유자에게 연락하여 다시 공유해 달라고 요청하십시오.",

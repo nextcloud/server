@@ -48,12 +48,12 @@ class QueryBuilderTest extends \Test\TestCase {
 		$this->queryBuilder = new QueryBuilder($this->connection);
 	}
 
-	protected function createTestingRows() {
+	protected function createTestingRows($appId = 'testFirstResult') {
 		$qB = $this->connection->getQueryBuilder();
 		for ($i = 1; $i < 10; $i++) {
 			$qB->insert('*PREFIX*appconfig')
 				->values([
-					'appid' => $qB->expr()->literal('testFirstResult'),
+					'appid' => $qB->expr()->literal($appId),
 					'configkey' => $qB->expr()->literal('testing' . $i),
 					'configvalue' => $qB->expr()->literal(100 - $i),
 				])
@@ -80,11 +80,11 @@ class QueryBuilderTest extends \Test\TestCase {
 		return $rows;
 	}
 
-	protected function deleteTestingRows() {
+	protected function deleteTestingRows($appId = 'testFirstResult') {
 		$qB = $this->connection->getQueryBuilder();
 
 		$qB->delete('*PREFIX*appconfig')
-			->where($qB->expr()->eq('appid', $qB->expr()->literal('testFirstResult')))
+			->where($qB->expr()->eq('appid', $qB->expr()->literal($appId)))
 			->execute();
 	}
 
@@ -270,6 +270,34 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 
 		$this->deleteTestingRows();
+	}
+
+	public function testSelectDistinct() {
+		$this->deleteTestingRows('testFirstResult1');
+		$this->deleteTestingRows('testFirstResult2');
+		$this->createTestingRows('testFirstResult1');
+		$this->createTestingRows('testFirstResult2');
+
+		$this->queryBuilder->selectDistinct('appid');
+
+		$this->queryBuilder->from('*PREFIX*appconfig')
+			->where($this->queryBuilder->expr()->in(
+				'appid',
+				[$this->queryBuilder->expr()->literal('testFirstResult1'), $this->queryBuilder->expr()->literal('testFirstResult2')]
+			))
+			->orderBy('appid', 'DESC');
+
+		$query = $this->queryBuilder->execute();
+		$rows = $query->fetchAll();
+		$query->closeCursor();
+
+		$this->assertEquals(
+			[['appid' => 'testFirstResult2'], ['appid' => 'testFirstResult1']],
+			$rows
+		);
+
+		$this->deleteTestingRows('testFirstResult1');
+		$this->deleteTestingRows('testFirstResult2');
 	}
 
 	public function dataAddSelect() {
@@ -1086,6 +1114,43 @@ class QueryBuilderTest extends \Test\TestCase {
 		);
 	}
 
+	public function testGetLastInsertId() {
+		$qB = $this->connection->getQueryBuilder();
+
+		try {
+			$qB->getLastInsertId();
+			$this->fail('getLastInsertId() should throw an exception, when being called before insert()');
+		} catch (\BadMethodCallException $e) {
+			$this->assertTrue(true);
+		}
+
+		$qB->insert('properties')
+			->values([
+				'userid' => $qB->expr()->literal('testFirstResult'),
+				'propertypath' => $qB->expr()->literal('testing'),
+				'propertyname' => $qB->expr()->literal('testing'),
+				'propertyvalue' => $qB->expr()->literal('testing'),
+			])
+			->execute();
+
+		$actual = $qB->getLastInsertId();
+
+		$this->assertNotNull($actual);
+		$this->assertInternalType('int', $actual);
+		$this->assertEquals($this->connection->lastInsertId('*PREFIX*properties'), $actual);
+
+		$qB->delete('properties')
+			->where($qB->expr()->eq('userid', $qB->expr()->literal('testFirstResult')))
+			->execute();
+
+		try {
+			$qB->getLastInsertId();
+			$this->fail('getLastInsertId() should throw an exception, when being called after delete()');
+		} catch (\BadMethodCallException $e) {
+			$this->assertTrue(true);
+		}
+	}
+
 	public function dataGetTableName() {
 		return [
 			['*PREFIX*table', null, '`*PREFIX*table`'],
@@ -1112,7 +1177,27 @@ class QueryBuilderTest extends \Test\TestCase {
 
 		$this->assertSame(
 			$expected,
-			$this->invokePrivate($this->queryBuilder, 'getTableName', [$tableName])
+			$this->queryBuilder->getTableName($tableName)
+		);
+	}
+
+	public function dataGetColumnName() {
+		return [
+			['column', '', '`column`'],
+			['column', 'a', 'a.`column`'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGetColumnName
+	 * @param string $column
+	 * @param string $prefix
+	 * @param string $expected
+	 */
+	public function testGetColumnName($column, $prefix, $expected) {
+		$this->assertSame(
+			$expected,
+			$this->queryBuilder->getColumnName($column, $prefix)
 		);
 	}
 }

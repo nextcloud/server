@@ -1,7 +1,11 @@
 #content {
 	height: initial;
 	min-height: calc(100vh - 120px);
-	overflow: hidden;
+}
+
+/* force layout to make sure the content element's height matches its contents' height */
+.ie #content {
+	display: inline-block;
 }
 
 #preview {

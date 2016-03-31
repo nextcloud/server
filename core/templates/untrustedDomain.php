@@ -10,7 +10,7 @@
 			<?php p($l->t('Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain.')); ?>
 			<br><br>
 			<p style="text-align:center;">
-				<a href="<?php print_unescaped(OC_Helper::makeURLAbsolute(\OCP\Util::linkToRoute('settings_admin'))); ?>?trustDomain=<?php p($_['domain']); ?>" class="button">
+				<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->getAbsoluteURL(\OCP\Util::linkToRoute('settings_admin'))); ?>?trustDomain=<?php p($_['domain']); ?>" class="button">
 					<?php p($l->t('Add "%s" as trusted domain', array($_['domain']))); ?>
 				</a>
 			</p>

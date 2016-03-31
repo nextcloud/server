@@ -7,7 +7,7 @@
  * @author Sam Tuke <mail@samtuke.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -40,6 +40,11 @@ if( $versions ) {
 	}
 
 	$versions = array_slice($versions, $start, $count);
+
+	// remove owner path from request to not disclose it to the recipient
+	foreach ($versions as $version) {
+		unset($version['path']);
+	}
 
 	\OCP\JSON::success(array('data' => array('versions' => $versions, 'endReached' => $endReached)));
 

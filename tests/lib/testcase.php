@@ -33,7 +33,48 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	private $commandBus;
 
 	/** @var IDBConnection */
-	static private $realDatabase;
+	static protected $realDatabase = null;
+	static private $wasDatabaseAllowed = false;
+
+	/** @var array */
+	protected $services = [];
+
+	/**
+	 * @param string $name
+	 * @param mixed $newService
+	 * @return bool
+	 */
+	public function overwriteService($name, $newService) {
+		if (isset($this->services[$name])) {
+			return false;
+		}
+
+		$this->services[$name] = \OC::$server->query($name);
+		\OC::$server->registerService($name, function () use ($newService) {
+			return $newService;
+		});
+
+		return true;
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function restoreService($name) {
+		if (isset($this->services[$name])) {
+			$oldService = $this->services[$name];
+			\OC::$server->registerService($name, function () use ($oldService) {
+				return $oldService;
+			});
+
+
+			unset($this->services[$name]);
+			return true;
+		}
+
+		return false;
+	}
 
 	protected function getTestTraits() {
 		$traits = [];
@@ -52,7 +93,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	protected function setUp() {
 		// detect database access
+		self::$wasDatabaseAllowed = true;
 		if (!$this->IsDatabaseAccessAllowed()) {
+			self::$wasDatabaseAllowed = false;
 			if (is_null(self::$realDatabase)) {
 				self::$realDatabase = \OC::$server->getDatabaseConnection();
 			}
@@ -92,6 +135,12 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			throw $hookExceptions[0];
 		}
 
+		// fail hard if xml errors have not been cleaned up
+		$errors = libxml_get_errors();
+		libxml_clear_errors();
+		$this->assertEquals([], $errors);
+
+		// tearDown the traits
 		$traits = $this->getTestTraits();
 		foreach ($traits as $trait) {
 			$methodName = 'tearDown' . basename(str_replace('\\', '/', $trait));
@@ -141,7 +190,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 * @return string
 	 */
 	protected static function getUniqueID($prefix = '', $length = 13) {
-		return $prefix . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(
+		return $prefix . \OC::$server->getSecureRandom()->generate(
 			$length,
 			// Do not use dots and slashes as we use the value for file names
 			ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER
@@ -149,12 +198,21 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	}
 
 	public static function tearDownAfterClass() {
+		if (!self::$wasDatabaseAllowed && self::$realDatabase !== null) {
+			// in case an error is thrown in a test, PHPUnit jumps straight to tearDownAfterClass,
+			// so we need the database again
+			\OC::$server->registerService('DatabaseConnection', function () {
+				return self::$realDatabase;
+			});
+		}
 		$dataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
-		$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		if (self::$wasDatabaseAllowed && \OC::$server->getDatabaseConnection()) {
+			$queryBuilder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
 
-		self::tearDownAfterClassCleanShares($queryBuilder);
-		self::tearDownAfterClassCleanStorages($queryBuilder);
-		self::tearDownAfterClassCleanFileCache($queryBuilder);
+			self::tearDownAfterClassCleanShares($queryBuilder);
+			self::tearDownAfterClassCleanStorages($queryBuilder);
+			self::tearDownAfterClassCleanFileCache($queryBuilder);
+		}
 		self::tearDownAfterClassCleanStrayDataFiles($dataDir);
 		self::tearDownAfterClassCleanStrayHooks();
 		self::tearDownAfterClassCleanStrayLocks();

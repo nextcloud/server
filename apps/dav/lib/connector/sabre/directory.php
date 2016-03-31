@@ -10,7 +10,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -52,6 +52,23 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 	 * @var array
 	 */
 	private $quotaInfo;
+
+	/**
+	 * @var ObjectTree|null
+	 */
+	private $tree;
+
+	/**
+	 * Sets up the node, expects a full path name
+	 *
+	 * @param \OC\Files\View $view
+	 * @param \OCP\Files\FileInfo $info
+	 * @param ObjectTree|null $tree
+	 */
+	public function __construct($view, $info, $tree = null) {
+		parent::__construct($view, $info);
+		$this->tree = $tree;
+	}
 
 	/**
 	 * Creates a new file in the directory
@@ -185,9 +202,12 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 		}
 
 		if ($info['mimetype'] == 'httpd/unix-directory') {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info);
+			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree);
 		} else {
 			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
+		}
+		if ($this->tree) {
+			$this->tree->cacheNode($node);
 		}
 		return $node;
 	}
@@ -271,9 +291,14 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 		}
 		try {
 			$storageInfo = \OC_Helper::getStorageInfo($this->info->getPath(), $this->info);
+			if ($storageInfo['quota'] === \OCP\Files\FileInfo::SPACE_UNLIMITED) {
+				$free = \OCP\Files\FileInfo::SPACE_UNLIMITED;
+			} else {
+				$free = $storageInfo['free'];
+			}
 			$this->quotaInfo = array(
 				$storageInfo['used'],
-				$storageInfo['free']
+				$free
 			);
 			return $this->quotaInfo;
 		} catch (\OCP\Files\StorageNotAvailableException $e) {

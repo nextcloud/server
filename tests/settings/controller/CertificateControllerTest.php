@@ -44,12 +44,15 @@ class CertificateControllerTest extends \Test\TestCase {
 	private $l10n;
 	/** @var IAppManager */
 	private $appManager;
+	/** @var  ICertificateManager */
+	private $systemCertificateManager;
 
 	public function setUp() {
 		parent::setUp();
 
 		$this->request = $this->getMock('\OCP\IRequest');
 		$this->certificateManager = $this->getMock('\OCP\ICertificateManager');
+		$this->systemCertificateManager = $this->getMock('\OCP\ICertificateManager');
 		$this->l10n = $this->getMock('\OCP\IL10N');
 		$this->appManager = $this->getMock('OCP\App\IAppManager');
 
@@ -59,6 +62,7 @@ class CertificateControllerTest extends \Test\TestCase {
 					'settings',
 					$this->request,
 					$this->certificateManager,
+					$this->systemCertificateManager,
 					$this->l10n,
 					$this->appManager
 				]

@@ -426,21 +426,4 @@ class ContentSecurityPolicyTest extends \Test\TestCase {
 		$this->contentSecurityPolicy->disallowChildSrcDomain('www.owncloud.org')->disallowChildSrcDomain('www.owncloud.com');
 		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
 	}
-
-	public function testConfigureStacked() {
-		$expectedPolicy = "default-src 'none';script-src 'self' script.owncloud.org;style-src 'self' style.owncloud.org;img-src 'self' data: blob: img.owncloud.org;font-src 'self' font.owncloud.org;connect-src 'self' connect.owncloud.org;media-src 'self' media.owncloud.org;object-src objects.owncloud.org;frame-src frame.owncloud.org;child-src child.owncloud.org";
-
-		$this->contentSecurityPolicy->allowInlineStyle(false)
-			->allowEvalScript(false)
-			->addAllowedScriptDomain('script.owncloud.org')
-			->addAllowedStyleDomain('style.owncloud.org')
-			->addAllowedFontDomain('font.owncloud.org')
-			->addAllowedImageDomain('img.owncloud.org')
-			->addAllowedConnectDomain('connect.owncloud.org')
-			->addAllowedMediaDomain('media.owncloud.org')
-			->addAllowedObjectDomain('objects.owncloud.org')
-			->addAllowedChildSrcDomain('child.owncloud.org')
-			->addAllowedFrameDomain('frame.owncloud.org');
-		$this->assertSame($expectedPolicy, $this->contentSecurityPolicy->buildPolicy());
-	}
 }

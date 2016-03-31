@@ -18,20 +18,8 @@ If you have questions about how to install or use ownCloud, please direct these 
   - [iOS client](https://github.com/owncloud/ios/issues)
   - [Desktop client](https://github.com/owncloud/client/issues)
   - [Documentation](https://github.com/owncloud/documentation/issues)
-  - Apps:
-      - [Activity](https://github.com/owncloud/activity/issues)
-      - [Bookmarks](https://github.com/owncloud/bookmarks/issues)
-      - [Calendar](https://github.com/owncloud/calendar/issues)
-      - [Contacts](https://github.com/owncloud/contacts/issues)
-      - [Documents](https://github.com/owncloud/documents/issues)
-      - [Gallery](https://github.com/owncloud/gallery/issues)
-      - [Mail](https://github.com/owncloud/mail/issues)
-      - [Music](https://github.com/owncloud/music/issues)
-      - [News](https://github.com/owncloud/news/issues)
-      - [Notes](https://github.com/owncloud/notes/issues)
-      - [Shorty](https://github.com/owncloud/shorty/issues)
-      - [Tasks](https://github.com/owncloud/tasks/issues)
-      - [All other apps](https://github.com/owncloud/apps/issues)
+  - [ownCloud apps](https://github.com/owncloud/core/wiki/Maintainers#apps-repo)
+
 * Report the issue using our [template][template], it includes all the information we need to track down the issue.
 
 Help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.

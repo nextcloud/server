@@ -62,9 +62,8 @@ OC.L10N.register(
     "Share" : "බෙදා හදා ගන්න",
     "Warning" : "අවවාදය",
     "Delete" : "මකා දමන්න",
+    "Rename" : "නැවත නම් කරන්න",
     "Add" : "එකතු කරන්න",
-    "New password" : "නව මුරපදය",
-    "Reset password" : "මුරපදය ප්‍රත්‍යාරම්භ කරන්න",
     "Personal" : "පෞද්ගලික",
     "Users" : "පරිශීලකයන්",
     "Apps" : "යෙදුම්",
@@ -81,6 +80,8 @@ OC.L10N.register(
     "Finish setup" : "ස්ථාපනය කිරීම අවසන් කරන්න",
     "Log out" : "නික්මීම",
     "Search" : "සොයන්න",
-    "Log in" : "ප්‍රවේශවන්න"
+    "Log in" : "ප්‍රවේශවන්න",
+    "New password" : "නව මුරපදය",
+    "Reset password" : "මුරපදය ප්‍රත්‍යාරම්භ කරන්න"
 },
 "nplurals=2; plural=(n != 1);");

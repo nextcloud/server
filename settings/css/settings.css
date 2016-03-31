@@ -6,6 +6,60 @@ select#languageinput, select#timezone { width:15em; }
 input#openid, input#webdav { width:20em; }
 
 /* PERSONAL */
+
+#avatar {
+	display: inline-block;
+	float: left;
+	width: 160px;
+	padding-right: 0;
+}
+#avatar .avatardiv {
+	margin-bottom: 10px;
+}
+#avatar .warning {
+	width: 100%;
+}
+#uploadavatarbutton,
+#selectavatar,
+#removeavatar {
+	width: 33px;
+	height: 33px;
+}
+.jcrop-holder {
+	z-index: 500;
+}
+#avatar #cropper {
+	float: left;
+	background-color: #fff;
+	z-index: 500;
+	position: relative;
+}
+
+#displaynameform,
+#lostpassword,
+#groups,
+#passwordform,
+#language {
+	display: inline-block;
+	margin-bottom: 0;
+	padding-bottom: 0;
+	padding-right: 0;
+	min-width: 60%;
+}
+#avatar,
+#passwordform {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+#groups {
+	overflow-wrap: break-word;
+	max-width: 75%;
+}
+
+.clientsbox img {
+	height: 60px;
+}
+
 #sslCertificate tr.expired {
 	background-color: rgba(255, 0, 0, 0.5);
 }
@@ -13,22 +67,6 @@ input#openid, input#webdav { width:20em; }
 	padding: 5px;
 }
 
-/* Sync clients */
-.clientsbox {
-	padding-top: 30px;
-	margin-top: -30px;
-}
-.clientsbox h2 {
-	font-weight: 300;
-	font-size: 20px;
-	margin: 35px 0 10px;
-}
-.clientsbox .center {
-	margin-top: 10px;
-}
-.clientsbox a {
-	font-weight: 600;
-}
 
 #displaynameerror {
 	display: none;
@@ -44,8 +82,8 @@ input#identity {
 	width: 17em;
 }
 
-#avatar .warning {
-	width: 350px;
+#showWizard {
+	display: inline-block;
 }
 
 .msg.success {
@@ -139,6 +177,11 @@ td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidde
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
 td.password>span, td.quota>span, rd.displayName>span { margin-right: 1.2em; color: #C7C7C7; }
 span.usersLastLoginTooltip { white-space: nowrap; }
+
+/* dropdowns will be relative to this element */
+#userlist {
+	position: relative;
+}
 #userlist .mailAddress,
 #userlist .storageLocation,
 #userlist .userBackend,
@@ -149,6 +192,14 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 /* because of accessibility the name cell is <th> - therefore we enforce the black color */
 #userlist th.name {
 	color: #000000;
+}
+
+#userlist .mailAddress .loading-small {
+	width: 16px;
+	height: 16px;
+	margin-left: -26px;
+	position: relative;
+	top: 3px;
 }
 
 tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:pointer; }
@@ -206,9 +257,6 @@ input.userFilter {width: 200px;}
 /* APPS */
 
 .appinfo { margin: 1em 40px; }
-#app-navigation {
-	padding-bottom: 0px;
-}
 #app-navigation .appwarning {
 	background: #fcc;
 }
@@ -325,7 +373,6 @@ span.version {
 }
 
 .app-dependencies {
-	margin-top: 10px;
 	color: #ce3702;
 }
 

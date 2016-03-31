@@ -54,8 +54,8 @@ OC.L10N.register(
     "Share" : "ھەمبەھىر",
     "Warning" : "ئاگاھلاندۇرۇش",
     "Delete" : "ئۆچۈر",
+    "Rename" : "ئات ئۆزگەرت",
     "Add" : "قوش",
-    "New password" : "يېڭى ئىم",
     "Personal" : "شەخسىي",
     "Users" : "ئىشلەتكۈچىلەر",
     "Apps" : "ئەپلەر",
@@ -63,6 +63,7 @@ OC.L10N.register(
     "Username" : "ئىشلەتكۈچى ئاتى",
     "Finish setup" : "تەڭشەك تامام",
     "Log out" : "تىزىمدىن چىق",
-    "Search" : "ئىزدە"
+    "Search" : "ئىزدە",
+    "New password" : "يېڭى ئىم"
 },
 "nplurals=1; plural=0;");

@@ -23,7 +23,7 @@ class ConfigTests extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->randomTmpDir = \OC_Helper::tmpFolder();
+		$this->randomTmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$this->configFile = $this->randomTmpDir.'testconfig.php';
 		file_put_contents($this->configFile, self::TESTCONTENT);
 		$this->config = new \OC\Config($this->randomTmpDir, 'testconfig.php');

@@ -3,7 +3,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 namespace OC\Settings\Middleware;
 
 use OC\AppFramework\Http;
+use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
@@ -58,7 +59,7 @@ class SubadminMiddleware extends Middleware {
 	public function beforeController($controller, $methodName) {
 		if(!$this->reflector->hasAnnotation('NoSubadminRequired')) {
 			if(!$this->isSubAdmin) {
-				throw new \Exception('Logged in user must be a subadmin');
+				throw new NotAdminException('Logged in user must be a subadmin');
 			}
 		}
 	}
@@ -69,11 +70,16 @@ class SubadminMiddleware extends Middleware {
 	 * @param string $methodName
 	 * @param \Exception $exception
 	 * @return TemplateResponse
+	 * @throws \Exception
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
-		$response = new TemplateResponse('core', '403', array(), 'guest');
-		$response->setStatus(Http::STATUS_FORBIDDEN);
-		return $response;
+		if($exception instanceof NotAdminException) {
+			$response = new TemplateResponse('core', '403', array(), 'guest');
+			$response->setStatus(Http::STATUS_FORBIDDEN);
+			return $response;
+		}
+
+		throw $exception;
 	}
 
 }

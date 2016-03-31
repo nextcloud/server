@@ -3,12 +3,12 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@
 namespace OCA\Files_Trashbin;
 
 use OC\Files\FileInfo;
+use OCP\Constants;
 
 class Helper
 {
@@ -87,10 +88,12 @@ class Helper
 					$i = array(
 						'name' => $id,
 						'mtime' => $timestamp,
-						'mimetype' => $view->is_dir($dir . '/' . $entryName) ? 'httpd/unix-directory' : \OC_Helper::getFileNameMimeType($id),
+						'mimetype' => $view->is_dir($dir . '/' . $entryName) ? 'httpd/unix-directory' : \OC::$server->getMimeTypeDetector()->detectPath($id),
 						'type' => $view->is_dir($dir . '/' . $entryName) ? 'dir' : 'file',
 						'directory' => ($dir === '/') ? '' : $dir,
 						'size' => $size,
+						'etag' => '',
+						'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE
 					);
 					if ($originalPath) {
 						$i['extraData'] = $originalPath.'/'.$id;

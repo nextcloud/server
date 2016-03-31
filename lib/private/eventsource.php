@@ -8,7 +8,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -76,7 +76,7 @@ class OC_EventSource implements \OCP\IEventSource {
 		} else {
 			header("Content-Type: text/event-stream");
 		}
-		if (!OC_Util::isCallRegistered()) {
+		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
 			$this->send('error', 'Possible CSRF attack. Connection will be closed.');
 			$this->close();
 			exit();

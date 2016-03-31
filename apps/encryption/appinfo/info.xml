@@ -12,21 +12,20 @@
 		to enable server-side encryption.
 	</description>
 	<name>Default encryption module</name>
-	<license>AGPL</license>
+	<licence>AGPL</licence>
 	<author>Bjoern Schiessle, Clark Tomlinson</author>
-	<shipped>true</shipped>
 	<documentation>
 		<user>user-encryption</user>
 		<admin>admin-encryption</admin>
 	</documentation>
 	<rememberlogin>false</rememberlogin>
-	<version>1.2.0</version>
+	<version>1.3.0</version>
 	<types>
 		<filesystem/>
 	</types>
 	<dependencies>
 		<lib>openssl</lib>
-		<owncloud min-version="9.0" />
+		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
 
 </info>

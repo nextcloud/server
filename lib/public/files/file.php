@@ -3,8 +3,9 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -84,4 +85,14 @@ interface File extends Node {
 	 * @since 6.0.0
 	 */
 	public function hash($type, $raw = false);
+
+	/**
+	 * Get the stored checksum for this file
+	 *
+	 * @return string
+	 * @since 9.0.0
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 */
+	public function getChecksum();
 }

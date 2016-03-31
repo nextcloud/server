@@ -5,7 +5,7 @@
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ namespace OCA\Files_Trashbin;
 
 use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
+use OC\Files\View;
 use OCP\IUserManager;
 
 class Storage extends Wrapper {
@@ -151,8 +152,8 @@ class Storage extends Wrapper {
 
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$result = true;
-		if (!isset($this->deletedFiles[$normalized])) {
-			$view = Filesystem::getView();
+		$view = Filesystem::getView();
+		if (!isset($this->deletedFiles[$normalized]) && $view instanceof View) {
 			$this->deletedFiles[$normalized] = $normalized;
 			if ($filesPath = $view->getRelativePath($normalized)) {
 				$filesPath = trim($filesPath, '/');

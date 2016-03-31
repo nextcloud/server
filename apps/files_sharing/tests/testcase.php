@@ -6,11 +6,12 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -84,9 +85,15 @@ abstract class TestCase extends \Test\TestCase {
 		$groupBackend = new \OC_Group_Dummy();
 		$groupBackend->createGroup(self::TEST_FILES_SHARING_API_GROUP1);
 		$groupBackend->createGroup('group');
+		$groupBackend->createGroup('group1');
+		$groupBackend->createGroup('group2');
+		$groupBackend->createGroup('group3');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER1, 'group');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group1');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group2');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER4, 'group3');
 		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
 		\OC_Group::useBackend($groupBackend);
 
@@ -111,9 +118,12 @@ abstract class TestCase extends \Test\TestCase {
 
 	public static function tearDownAfterClass() {
 		// cleanup users
-		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER1);
-		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER2);
-		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER3);
+		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER1);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER2);
+		if ($user !== null) { $user->delete(); }
+		$user = \OC::$server->getUserManager()->get(self::TEST_FILES_SHARING_API_USER3);
+		if ($user !== null) { $user->delete(); }
 
 		// delete group
 		\OC_Group::deleteGroup(self::TEST_FILES_SHARING_API_GROUP1);
@@ -143,7 +153,7 @@ abstract class TestCase extends \Test\TestCase {
 		}
 
 		if ($create) {
-			\OC_User::createUser($user, $password);
+			\OC::$server->getUserManager()->createUser($user, $password);
 			\OC_Group::createGroup('group');
 			\OC_Group::addToGroup($user, 'group');
 		}
@@ -164,9 +174,9 @@ abstract class TestCase extends \Test\TestCase {
 	 */
 	protected static function resetStorage() {
 		$storage = new \ReflectionClass('\OC\Files\Storage\Shared');
-		$isInitialized = $storage->getProperty('isInitialized');
+		$isInitialized = $storage->getProperty('initialized');
 		$isInitialized->setAccessible(true);
-		$isInitialized->setValue(array());
+		$isInitialized->setValue($storage, false);
 		$isInitialized->setAccessible(false);
 	}
 

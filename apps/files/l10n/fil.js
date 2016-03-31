@@ -1,9 +1,11 @@
 OC.L10N.register(
     "files",
     {
-    "_%n folder_::_%n folders_" : ["",""],
-    "_%n file_::_%n files_" : ["",""],
-    "_Uploading %n file_::_Uploading %n files_" : ["",""],
-    "_matches '{filter}'_::_match '{filter}'_" : ["",""]
+    "Unknown error" : "Hindi kilalang error",
+    "Close" : "Isara",
+    "Download" : "I-download",
+    "Details" : "Mga Detalye",
+    "New folder" : "Bagong folder",
+    "Upload" : "Mag-upload"
 },
 "nplurals=2; plural=(n > 1);");

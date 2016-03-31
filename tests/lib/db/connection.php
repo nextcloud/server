@@ -11,6 +11,7 @@ namespace Test\DB;
 
 use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC\DB\MDB2SchemaManager;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 /**
  * Class Connection
@@ -25,28 +26,30 @@ class Connection extends \Test\TestCase {
 	 */
 	private $connection;
 
-	public static function setUpBeforeClass()
-	{
+	public static function setUpBeforeClass() {
 		self::dropTestTable();
 		parent::setUpBeforeClass();
 	}
 
-	public static function tearDownAfterClass()
-	{
+	public static function tearDownAfterClass() {
 		self::dropTestTable();
 		parent::tearDownAfterClass();
 	}
 
-	protected static function dropTestTable()
-	{
+	protected static function dropTestTable() {
 		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') !== 'oci') {
-			\OC_DB::dropTable('table');
+			\OC::$server->getDatabaseConnection()->dropTable('table');
 		}
 	}
 
 	public function setUp() {
 		parent::setUp();
 		$this->connection = \OC::$server->getDatabaseConnection();
+	}
+
+	public function tearDown() {
+		parent::tearDown();
+		$this->connection->dropTable('table');
 	}
 
 	/**
@@ -88,8 +91,110 @@ class Connection extends \Test\TestCase {
 	 * @depends testTableExists
 	 */
 	public function testDropTable() {
+		$this->makeTestTable();
 		$this->assertTableExist('table');
 		$this->connection->dropTable('table');
 		$this->assertTableNotExist('table');
+	}
+
+	private function getTextValueByIntergerField($integerField) {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select('textfield')
+			->from('table')
+			->where($builder->expr()->eq('integerfield', $builder->createNamedParameter($integerField, IQueryBuilder::PARAM_INT)));
+
+		$result = $query->execute();
+		return $result->fetchColumn();
+	}
+
+	public function testSetValues() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo',
+			'clobfield' => 'not_null'
+		]);
+
+		$this->assertEquals('foo', $this->getTextValueByIntergerField(1));
+	}
+
+	public function testSetValuesOverWrite() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo',
+			'clobfield' => 'not_null'
+		]);
+
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'bar'
+		]);
+
+		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
+	}
+
+	public function testSetValuesOverWritePrecondition() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo',
+			'booleanfield' => true,
+			'clobfield' => 'not_null'
+		]);
+
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'bar'
+		], [
+			'booleanfield' => true
+		]);
+
+		$this->assertEquals('bar', $this->getTextValueByIntergerField(1));
+	}
+
+	/**
+	 * @expectedException \OCP\PreConditionNotMetException
+	 */
+	public function testSetValuesOverWritePreconditionFailed() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo',
+			'booleanfield' => true,
+			'clobfield' => 'not_null'
+		]);
+
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'bar'
+		], [
+			'booleanfield' => false
+		]);
+	}
+
+	public function testSetValuesSameNoError() {
+		$this->makeTestTable();
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo',
+			'clobfield' => 'not_null'
+		]);
+
+		// this will result in 'no affected rows' on certain optimizing DBs
+		// ensure the PreConditionNotMetException isn't thrown
+		$this->connection->setValues('table', [
+			'integerfield' => 1
+		], [
+			'textfield' => 'foo'
+		]);
 	}
 }

@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christian Weiske <cweiske@cweiske.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Frank Karlitschek <frank@owncloud.org>
@@ -9,11 +10,10 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Remco Brenninkmeijer <requist1@starmail.nl>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -86,7 +86,7 @@ class OC_Archive_TAR extends OC_Archive {
 	 * @return bool
 	 */
 	function addFolder($path) {
-		$tmpBase = OC_Helper::tmpFolder();
+		$tmpBase = \OC::$server->getTempManager()->getTemporaryFolder();
 		if (substr($path, -1, 1) != '/') {
 			$path .= '/';
 		}

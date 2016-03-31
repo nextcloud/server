@@ -4,7 +4,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -51,10 +51,6 @@ class Streamer {
 	public function sendHeaders($name){
 		$extension = $this->streamerInstance instanceof ZipStreamer ? '.zip' : '.tar';
 		$fullName = $name . $extension;
-		// ZipStreamer does not escape name in Content-Disposition atm
-		if ($this->streamerInstance instanceof ZipStreamer) {
-			$fullName = rawurlencode($fullName);
-		}
 		$this->streamerInstance->sendHeaders($fullName);
 	}
 	

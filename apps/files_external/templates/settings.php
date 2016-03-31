@@ -85,7 +85,11 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr id="addMountPoint">
+			<tr id="addMountPoint"
+			<?php if ($_['visibilityType'] === BackendService::VISIBILITY_PERSONAL && $_['allowUserMounting'] === false): ?>
+				style="display: none;"
+			<?php endif; ?>
+			>
 				<td class="status">
 					<span></span>
 				</td>
@@ -120,7 +124,7 @@
 					</td>
 				<?php endif; ?>
 				<td class="mountOptionsToggle hidden">
-					<img class="svg action"
+					<img class="svg"
 						title="<?php p($l->t('Advanced settings')); ?>"
 						alt="<?php p($l->t('Advanced settings')); ?>"
 						src="<?php print_unescaped(image_path('core', 'actions/settings.svg')); ?>"
@@ -128,7 +132,7 @@
 					<input type="hidden" class="mountOptions" value="" />
 				</td>
 				<td class="hidden">
-					<img class="svg action"
+					<img class="svg"
 						alt="<?php p($l->t('Delete')); ?>"
 						title="<?php p($l->t('Delete')); ?>"
 						src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>"

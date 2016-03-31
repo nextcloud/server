@@ -1,8 +1,9 @@
 <?php
 /**
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -108,7 +109,7 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 	public function initialize(\Sabre\DAV\Server $server) {
 
 		$server->xml->namespacesMap[self::NS_OWNCLOUD] = 'oc';
-		$server->propertyMap[self::TAGS_PROPERTYNAME] = 'OCA\\DAV\\Connector\\Sabre\\TagList';
+		$server->xml->elementMap[self::TAGS_PROPERTYNAME] = 'OCA\\DAV\\Connector\\Sabre\\TagList';
 
 		$this->server = $server;
 		$this->server->on('propFind', array($this, 'handleGetProperties'));

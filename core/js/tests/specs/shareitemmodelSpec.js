@@ -21,14 +21,20 @@
 
 /* global oc_appconfig */
 describe('OC.Share.ShareItemModel', function() {
-	var loadItemStub;
+	var fetchSharesStub, fetchReshareStub;
+	var fetchSharesDeferred, fetchReshareDeferred;
 	var fileInfoModel, configModel, model;
 	var oldCurrentUser;
 
 	beforeEach(function() {
 		oldCurrentUser = OC.currentUser;
 
-		loadItemStub = sinon.stub(OC.Share, 'loadItem');
+		fetchSharesDeferred = new $.Deferred();
+		fetchSharesStub = sinon.stub(OC.Share.ShareItemModel.prototype, '_fetchShares')
+			.returns(fetchSharesDeferred.promise());
+		fetchReshareDeferred = new $.Deferred();
+		fetchReshareStub = sinon.stub(OC.Share.ShareItemModel.prototype, '_fetchReshare')
+			.returns(fetchReshareDeferred.promise());
 
 		fileInfoModel = new OCA.Files.FileInfoModel({
 			id: 123,
@@ -52,27 +58,70 @@ describe('OC.Share.ShareItemModel', function() {
 		});
 	});
 	afterEach(function() {
-		loadItemStub.restore();
+		if (fetchSharesStub) {
+			fetchSharesStub.restore();
+		}
+		if (fetchReshareStub) {
+			fetchReshareStub.restore();
+		}
 		OC.currentUser = oldCurrentUser;
 	});
 
+	function makeOcsResponse(data) {
+		return [{
+			ocs: {
+				data: data
+			}
+		}];
+	}
+
 	describe('Fetching and parsing', function() {
-		it('fetching calls loadItem with the correct arguments', function() {
+		it('fetches both outgoing shares and the current incoming share', function() {
 			model.fetch();
 
-			expect(loadItemStub.calledOnce).toEqual(true);
-			expect(loadItemStub.calledWith('file', 123)).toEqual(true);
+			expect(fetchSharesStub.calledOnce).toEqual(true);
+			expect(fetchReshareStub.calledOnce).toEqual(true);
+		});
+		it('fetches shares for the current path', function() {
+			fetchSharesStub.restore();
+
+			model._fetchShares();
+
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].method).toEqual('GET');
+			expect(fakeServer.requests[0].url).toEqual(
+				OC.linkToOCS('apps/files_sharing/api/v1', 2) +
+				'shares?format=json&path=%2Fsubdir%2Fshared_file_name.txt&reshares=true'
+			);
+
+			fetchSharesStub = null;
+		});
+		it('fetches reshare for the current path', function() {
+			fetchReshareStub.restore();
+
+			model._fetchReshare();
+
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].method).toEqual('GET');
+			expect(fakeServer.requests[0].url).toEqual(
+				OC.linkToOCS('apps/files_sharing/api/v1', 2) +
+				'shares?format=json&path=%2Fsubdir%2Fshared_file_name.txt&shared_with_me=true'
+			);
+
+			fetchReshareStub = null;
 		});
 		it('populates attributes with parsed response', function() {
-			loadItemStub.yields({
-				/* jshint camelcase: false */
-				reshare: {
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([
+				{
 					share_type: OC.Share.SHARE_TYPE_USER,
 					uid_owner: 'owner',
 					displayname_owner: 'Owner',
 					permissions: 31
-				},
-				shares: [{
+				}
+			]));
+			fetchSharesDeferred.resolve(makeOcsResponse([
+				{
 					id: 100,
 					item_source: 123,
 					permissions: 31,
@@ -112,8 +161,11 @@ describe('OC.Share.ShareItemModel', function() {
 					storage: 1,
 					token: 'tehtoken',
 					uid_owner: 'root'
-				}]
-			});
+				}
+			]));
+
+			OC.currentUser = 'root';
+
 			model.fetch();
 
 			var shares = model.get('shares');
@@ -130,10 +182,9 @@ describe('OC.Share.ShareItemModel', function() {
 			// TODO: check more attributes
 		});
 		it('does not parse link share when for a different file', function() {
-			loadItemStub.yields({
-				reshare: [],
-				/* jshint camelcase: false */
-				shares: [{
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([{
 					displayname_owner: 'root',
 					expiration: null,
 					file_source: 456,
@@ -152,7 +203,7 @@ describe('OC.Share.ShareItemModel', function() {
 					token: 'tehtoken',
 					uid_owner: 'root'
 				}]
-			});
+			));
 
 			model.fetch();
 
@@ -164,10 +215,9 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(linkShare.isLinkShare).toEqual(false);
 		});
 		it('parses correct link share when a nested link share exists along with parent one', function() {
-			loadItemStub.yields({
-				reshare: [],
-				/* jshint camelcase: false */
-				shares: [{
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([{
 					displayname_owner: 'root',
 					expiration: '2015-10-12 00:00:00',
 					file_source: 123,
@@ -204,8 +254,8 @@ describe('OC.Share.ShareItemModel', function() {
 					token: 'anothertoken',
 					uid_owner: 'root'
 				}]
-			});
-
+			));
+			OC.currentUser = 'root';
 			model.fetch();
 
 			var shares = model.get('shares');
@@ -219,26 +269,26 @@ describe('OC.Share.ShareItemModel', function() {
 			// TODO: check child too
 		});
 		it('reduces reshare permissions to the ones from the original share', function() {
-			loadItemStub.yields({
-				reshare: {
-					permissions: OC.PERMISSION_READ,
-					uid_owner: 'user1'
-				},
-				shares: []
-			});
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([{
+				id: 123,
+				permissions: OC.PERMISSION_READ,
+				uid_owner: 'user1'
+			}]));
+			fetchSharesDeferred.resolve(makeOcsResponse([]));
 			model.fetch();
 
 			// no resharing allowed
 			expect(model.get('permissions')).toEqual(OC.PERMISSION_READ);
 		});
 		it('reduces reshare permissions to possible permissions', function() {
-			loadItemStub.yields({
-				reshare: {
-					permissions: OC.PERMISSION_ALL,
-					uid_owner: 'user1'
-				},
-				shares: []
-			});
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([{
+				id: 123,
+				permissions: OC.PERMISSION_ALL,
+				uid_owner: 'user1'
+			}]));
+			fetchSharesDeferred.resolve(makeOcsResponse([]));
 
 			model.set('possiblePermissions', OC.PERMISSION_READ);
 			model.fetch();
@@ -248,10 +298,8 @@ describe('OC.Share.ShareItemModel', function() {
 		});
 		it('allows owner to share their own share when they are also the recipient', function() {
 			OC.currentUser = 'user1';
-			loadItemStub.yields({
-				reshare: {},
-				shares: []
-			});
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([]));
 
 			model.fetch();
 
@@ -259,9 +307,9 @@ describe('OC.Share.ShareItemModel', function() {
 			expect(model.get('permissions') & OC.PERMISSION_SHARE).toEqual(OC.PERMISSION_SHARE);
 		});
 		it('properly parses integer values when the server is in the mood of returning ints as string', function() {
-			loadItemStub.yields({
-				reshare: {},
-				shares: [{
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([{
 					displayname_owner: 'root',
 					expiration: '2015-10-12 00:00:00',
 					file_source: '123',
@@ -280,7 +328,7 @@ describe('OC.Share.ShareItemModel', function() {
 					token: 'tehtoken',
 					uid_owner: 'root'
 				}]
-			});
+			));
 
 			model.fetch();
 
@@ -306,55 +354,50 @@ describe('OC.Share.ShareItemModel', function() {
 	});
 	describe('hasUserShares', function() {
 		it('returns false when no user shares exist', function() {
-			loadItemStub.yields({
-				reshare: {},
-				shares: []
-			});
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([]));
 
 			model.fetch();
 
 			expect(model.hasUserShares()).toEqual(false);
 		});
 		it('returns true when user shares exist on the current item', function() {
-			loadItemStub.yields({
-				reshare: {},
-				shares: [{
-					id: 1,
-					share_type: OC.Share.SHARE_TYPE_USER,
-					share_with: 'user1',
-					item_source: '123'
-				}]
-			});
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([{
+				id: 1,
+				share_type: OC.Share.SHARE_TYPE_USER,
+				share_with: 'user1',
+				item_source: '123'
+			}]));
 
 			model.fetch();
 
 			expect(model.hasUserShares()).toEqual(true);
 		});
 		it('returns true when group shares exist on the current item', function() {
-			loadItemStub.yields({
-				reshare: {},
-				shares: [{
-					id: 1,
-					share_type: OC.Share.SHARE_TYPE_GROUP,
-					share_with: 'group1',
-					item_source: '123'
-				}]
-			});
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([{
+				id: 1,
+				share_type: OC.Share.SHARE_TYPE_GROUP,
+				share_with: 'group1',
+				item_source: '123'
+			}]));
 
 			model.fetch();
 
 			expect(model.hasUserShares()).toEqual(true);
 		});
 		it('returns false when share exist on parent item', function() {
-			loadItemStub.yields({
-				reshare: {},
-				shares: [{
-					id: 1,
-					share_type: OC.Share.SHARE_TYPE_GROUP,
-					share_with: 'group1',
-					item_source: '111'
-				}]
-			});
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([{
+				id: 1,
+				share_type: OC.Share.SHARE_TYPE_GROUP,
+				share_with: 'group1',
+				item_source: '111'
+			}]));
 
 			model.fetch();
 
@@ -381,27 +424,28 @@ describe('OC.Share.ShareItemModel', function() {
 
 	describe('sendEmailPrivateLink', function() {
 		it('succeeds', function() {
-			loadItemStub.yields({
-				shares: [{
-					displayname_owner: 'root',
-					expiration: null,
-					file_source: 123,
-					file_target: '/folder',
-					id: 20,
-					item_source: '123',
-					item_type: 'folder',
-					mail_send: '0',
-					parent: null,
-					path: '/folder',
-					permissions: OC.PERMISSION_READ,
-					share_type: OC.Share.SHARE_TYPE_LINK,
-					share_with: null,
-					stime: 1403884258,
-					storage: 1,
-					token: 'tehtoken',
-					uid_owner: 'root'
-				}]
-			});
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([{
+				displayname_owner: 'root',
+				expiration: null,
+				file_source: 123,
+				file_target: '/folder',
+				id: 20,
+				item_source: '123',
+				item_type: 'folder',
+				mail_send: '0',
+				parent: null,
+				path: '/folder',
+				permissions: OC.PERMISSION_READ,
+				share_type: OC.Share.SHARE_TYPE_LINK,
+				share_with: null,
+				stime: 1403884258,
+				storage: 1,
+				token: 'tehtoken',
+				uid_owner: 'root'
+			}]));
+			OC.currentUser = 'root';
 			model.fetch();
 
 			var res = model.sendEmailPrivateLink('foo@bar.com');
@@ -430,27 +474,28 @@ describe('OC.Share.ShareItemModel', function() {
 		});
 
 		it('fails', function() {
-			loadItemStub.yields({
-				shares: [{
-					displayname_owner: 'root',
-					expiration: null,
-					file_source: 123,
-					file_target: '/folder',
-					id: 20,
-					item_source: '123',
-					item_type: 'folder',
-					mail_send: '0',
-					parent: null,
-					path: '/folder',
-					permissions: OC.PERMISSION_READ,
-					share_type: OC.Share.SHARE_TYPE_LINK,
-					share_with: null,
-					stime: 1403884258,
-					storage: 1,
-					token: 'tehtoken',
-					uid_owner: 'root'
-				}]
-			});
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([]));
+			fetchSharesDeferred.resolve(makeOcsResponse([{
+				displayname_owner: 'root',
+				expiration: null,
+				file_source: 123,
+				file_target: '/folder',
+				id: 20,
+				item_source: '123',
+				item_type: 'folder',
+				mail_send: '0',
+				parent: null,
+				path: '/folder',
+				permissions: OC.PERMISSION_READ,
+				share_type: OC.Share.SHARE_TYPE_LINK,
+				share_with: null,
+				stime: 1403884258,
+				storage: 1,
+				token: 'tehtoken',
+				uid_owner: 'root'
+			}]));
+			OC.currentUser = 'root';
 			model.fetch();
 
 			var res = model.sendEmailPrivateLink('foo@bar.com');
@@ -476,6 +521,307 @@ describe('OC.Share.ShareItemModel', function() {
 				JSON.stringify({data: {message: 'fail'}, status: 'error'})
 			);
 			expect(res.state()).toEqual('rejected');
+		});
+	});
+	describe('share permissions', function() {
+		beforeEach(function() {
+			oc_appconfig.core.resharingAllowed = true;
+		});
+
+		/**
+		 * Tests sharing with the given possible permissions
+		 *
+		 * @param {int} possiblePermissions
+		 * @return {int} permissions sent to the server
+		 */
+		function testWithPermissions(possiblePermissions) {
+			model.set({
+				permissions: possiblePermissions,
+				possiblePermissions: possiblePermissions
+			});
+			model.addShare({
+				shareType: OC.Share.SHARE_TYPE_USER,
+				shareWith: 'user2'
+			});
+
+			var requestBody = OC.parseQueryString(_.last(fakeServer.requests).requestBody);
+			return parseInt(requestBody.permissions, 10);
+		}
+
+		describe('regular sharing', function() {
+			it('shares with given permissions with default config', function() {
+				configModel.set('isResharingAllowed', true);
+				model.set({
+					reshare: {},
+					shares: []
+				});
+				expect(
+					testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
+				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE);
+				expect(
+					testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_SHARE)
+				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_SHARE);
+			});
+			it('removes share permission when not allowed', function() {
+				configModel.set('isResharingAllowed', false);
+				model.set({
+					reshare: {},
+					shares: []
+				});
+				expect(
+					testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
+				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
+			});
+			it('automatically adds READ permission even when not specified', function() {
+				configModel.set('isResharingAllowed', false);
+				model.set({
+					reshare: {},
+					shares: []
+				});
+				expect(
+					testWithPermissions(OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
+				).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_UPDATE);
+			});
+		});
+	});
+
+	describe('saveLinkShare', function() {
+		var addShareStub;
+		var updateShareStub;
+
+		beforeEach(function() {
+			addShareStub = sinon.stub(model, 'addShare');
+			updateShareStub = sinon.stub(model, 'updateShare');
+		});
+		afterEach(function() { 
+			addShareStub.restore();
+			updateShareStub.restore();
+		});
+
+		it('creates a new share if no link share exists', function() {
+			model.set({
+				linkShare: {
+					isLinkShare: false
+				}
+			});
+
+			model.saveLinkShare();
+
+			expect(addShareStub.calledOnce).toEqual(true);
+			expect(addShareStub.firstCall.args[0]).toEqual({
+				password: '',
+				passwordChanged: false,
+				permissions: OC.PERMISSION_READ,
+				expireDate: '',
+				shareType: OC.Share.SHARE_TYPE_LINK
+			});
+			expect(updateShareStub.notCalled).toEqual(true);
+		});
+		it('creates a new share with default expiration date', function() {
+			var clock = sinon.useFakeTimers(Date.UTC(2015, 6, 17, 1, 2, 0, 3));
+			configModel.set({
+				isDefaultExpireDateEnabled: true,
+				defaultExpireDate: 7
+			});
+			model.set({
+				linkShare: {
+					isLinkShare: false
+				}
+			});
+
+			model.saveLinkShare();
+
+			expect(addShareStub.calledOnce).toEqual(true);
+			expect(addShareStub.firstCall.args[0]).toEqual({
+				password: '',
+				passwordChanged: false,
+				permissions: OC.PERMISSION_READ,
+			expireDate: '2015-07-24 00:00:00',
+			shareType: OC.Share.SHARE_TYPE_LINK
+			});
+			expect(updateShareStub.notCalled).toEqual(true);
+			clock.restore();
+		});
+		it('updates link share if it exists', function() {
+			model.set({
+				linkShare: {
+					isLinkShare: true,
+					id: 123
+				}
+			});
+
+			model.saveLinkShare({
+				password: 'test'
+			});
+
+			expect(addShareStub.notCalled).toEqual(true);
+			expect(updateShareStub.calledOnce).toEqual(true);
+			expect(updateShareStub.firstCall.args[0]).toEqual(123);
+			expect(updateShareStub.firstCall.args[1]).toEqual({
+				password: 'test'
+			});
+		});
+		it('forwards error message on add', function() {
+			var errorStub = sinon.stub();
+			model.set({
+				linkShare: {
+					isLinkShare: false
+				}
+			}, {
+			});
+
+			model.saveLinkShare({
+				password: 'test'
+			}, {
+				error: errorStub
+			});
+
+			addShareStub.yieldTo('error', 'Some error message');
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[0]).toEqual('Some error message');
+		});
+		it('forwards error message on update', function() {
+			var errorStub = sinon.stub();
+			model.set({
+				linkShare: {
+					isLinkShare: true,
+					id: '123'
+				}
+			}, {
+			});
+
+			model.saveLinkShare({
+				password: 'test'
+			}, {
+				error: errorStub
+			});
+
+			updateShareStub.yieldTo('error', 'Some error message');
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[0]).toEqual('Some error message');
+		});
+	});
+	describe('creating shares', function() {
+		it('sends POST method to endpoint with passed values', function() {
+			model.addShare({
+				shareType: OC.Share.SHARE_TYPE_GROUP,
+				shareWith: 'group1'
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].method).toEqual('POST');
+			expect(fakeServer.requests[0].url).toEqual(
+				OC.linkToOCS('apps/files_sharing/api/v1', 2) +
+				'shares?format=json'
+			);
+			expect(OC.parseQueryString(fakeServer.requests[0].requestBody)).toEqual({
+				path: '/subdir/shared_file_name.txt',
+				permissions: '' + OC.PERMISSION_READ,
+				shareType: '' + OC.Share.SHARE_TYPE_GROUP,
+				shareWith: 'group1'
+			});
+		});
+		it('calls error handler with error message', function() {
+			var errorStub = sinon.stub();
+			model.addShare({
+				shareType: OC.Share.SHARE_TYPE_GROUP,
+				shareWith: 'group1'
+			}, {
+				error: errorStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				400,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					ocs: {
+						meta: {
+							message: 'Some error message'
+						}
+					}
+				})
+			);
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
+		});
+	});
+	describe('updating shares', function() {
+		it('sends PUT method to endpoint with passed values', function() {
+			model.updateShare(123, {
+				permissions: OC.PERMISSION_READ | OC.PERMISSION_SHARE
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].method).toEqual('PUT');
+			expect(fakeServer.requests[0].url).toEqual(
+				OC.linkToOCS('apps/files_sharing/api/v1', 2) +
+				'shares/123?format=json'
+			);
+			expect(OC.parseQueryString(fakeServer.requests[0].requestBody)).toEqual({
+				permissions: '' + (OC.PERMISSION_READ | OC.PERMISSION_SHARE)
+			});
+		});
+		it('calls error handler with error message', function() {
+			var errorStub = sinon.stub();
+			model.updateShare(123, {
+				permissions: OC.PERMISSION_READ | OC.PERMISSION_SHARE
+			}, {
+				error: errorStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				400,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					ocs: {
+						meta: {
+							message: 'Some error message'
+						}
+					}
+				})
+			);
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
+		});
+	});
+	describe('removing shares', function() {
+		it('sends DELETE method to endpoint with share id', function() {
+			model.removeShare(123);
+
+			expect(fakeServer.requests.length).toEqual(1);
+			expect(fakeServer.requests[0].method).toEqual('DELETE');
+			expect(fakeServer.requests[0].url).toEqual(
+				OC.linkToOCS('apps/files_sharing/api/v1', 2) +
+				'shares/123?format=json'
+			);
+		});
+		it('calls error handler with error message', function() {
+			var errorStub = sinon.stub();
+			model.removeShare(123, {
+				error: errorStub
+			});
+
+			expect(fakeServer.requests.length).toEqual(1);
+			fakeServer.requests[0].respond(
+				400,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					ocs: {
+						meta: {
+							message: 'Some error message'
+						}
+					}
+				})
+			);
+
+			expect(errorStub.calledOnce).toEqual(true);
+			expect(errorStub.lastCall.args[1]).toEqual('Some error message');
 		});
 	});
 });

@@ -3,13 +3,13 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -34,7 +34,6 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
-use \OC\BackgroundJob\JobList;
 
 /**
  * This class provides functions to register backgroundjobs in ownCloud
@@ -100,7 +99,7 @@ class BackgroundJob {
 	 * @since 4.5.0
 	 */
 	public static function addRegularTask($klass, $method) {
-		if (!\OC::needUpgrade()) {
+		if (!\OCP\Util::needUpgrade()) {
 			self::registerJob('OC\BackgroundJob\Legacy\RegularJob', array($klass, $method));
 			return true;
 		}
@@ -115,16 +114,7 @@ class BackgroundJob {
 	 * @since 4.5.0
 	 */
 	static public function allRegularTasks() {
-		$jobList = \OC::$server->getJobList();
-		$allJobs = $jobList->getAll();
-		$regularJobs = array();
-		foreach ($allJobs as $job) {
-			if ($job instanceof RegularLegacyJob) {
-				$key = implode('-', $job->getArgument());
-				$regularJobs[$key] = $job->getArgument();
-			}
-		}
-		return $regularJobs;
+		return [];
 	}
 
 	/**
@@ -146,17 +136,7 @@ class BackgroundJob {
 	 * @since 4.5.0
 	 */
 	public static function allQueuedTasks() {
-		$jobList = \OC::$server->getJobList();
-		$allJobs = $jobList->getAll();
-		$queuedJobs = array();
-		foreach ($allJobs as $job) {
-			if ($job instanceof QueuedLegacyJob) {
-				$queuedJob = $job->getArgument();
-				$queuedJob['id'] = $job->getId();
-				$queuedJobs[] = $queuedJob;
-			}
-		}
-		return $queuedJobs;
+		return [];
 	}
 
 	/**
@@ -167,19 +147,7 @@ class BackgroundJob {
 	 * @since 4.5.0
 	 */
 	public static function queuedTaskWhereAppIs($app) {
-		$jobList = \OC::$server->getJobList();
-		$allJobs = $jobList->getAll();
-		$queuedJobs = array();
-		foreach ($allJobs as $job) {
-			if ($job instanceof QueuedLegacyJob) {
-				$queuedJob = $job->getArgument();
-				$queuedJob['id'] = $job->getId();
-				if ($queuedJob['app'] === $app) {
-					$queuedJobs[] = $queuedJob;
-				}
-			}
-		}
-		return $queuedJobs;
+		return [];
 	}
 
 	/**

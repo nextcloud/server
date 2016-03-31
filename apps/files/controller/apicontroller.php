@@ -8,7 +8,7 @@
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -34,6 +34,10 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCA\Files\Service\TagService;
 use OCP\IPreview;
+use OCP\Share\IManager;
+use OCP\Files\FileInfo;
+use OCP\Files\Node;
+use OCP\IUserSession;
 
 /**
  * Class ApiController
@@ -43,8 +47,12 @@ use OCP\IPreview;
 class ApiController extends Controller {
 	/** @var TagService */
 	private $tagService;
+	/** @var IManager **/
+	private $shareManager;
 	/** @var IPreview */
 	private $previewManager;
+	/** IUserSession */
+	private $userSession;
 
 	/**
 	 * @param string $appName
@@ -54,11 +62,15 @@ class ApiController extends Controller {
 	 */
 	public function __construct($appName,
 								IRequest $request,
+								IUserSession $userSession,
 								TagService $tagService,
-								IPreview $previewManager){
+								IPreview $previewManager,
+								IManager $shareManager) {
 		parent::__construct($appName, $request);
+		$this->userSession = $userSession;
 		$this->tagService = $tagService;
 		$this->previewManager = $previewManager;
+		$this->shareManager = $shareManager;
 	}
 
 	/**
@@ -132,8 +144,10 @@ class ApiController extends Controller {
 	 */
 	public function getFilesByTag($tagName) {
 		$files = array();
-		$fileInfos = $this->tagService->getFilesByTag($tagName);
-		foreach ($fileInfos as &$fileInfo) {
+		$nodes = $this->tagService->getFilesByTag($tagName);
+		foreach ($nodes as &$node) {
+			$shareTypes = $this->getShareTypes($node);
+			$fileInfo = $node->getFileInfo();
 			$file = \OCA\Files\Helper::formatFileInfo($fileInfo);
 			$parts = explode('/', dirname($fileInfo->getPath()), 4);
 			if(isset($parts[3])) {
@@ -142,9 +156,44 @@ class ApiController extends Controller {
 				$file['path'] = '/';
 			}
 			$file['tags'] = [$tagName];
+			if (!empty($shareTypes)) {
+				$file['shareTypes'] = $shareTypes;
+			}
 			$files[] = $file;
 		}
 		return new DataResponse(['files' => $files]);
+	}
+
+	/**
+	 * Return a list of share types for outgoing shares
+	 *
+	 * @param Node $node file node
+	 *
+	 * @return int[] array of share types
+	 */
+	private function getShareTypes(Node $node) {
+		$userId = $this->userSession->getUser()->getUID();
+		$shareTypes = [];
+		$requestedShareTypes = [
+			\OCP\Share::SHARE_TYPE_USER,
+			\OCP\Share::SHARE_TYPE_GROUP,
+			\OCP\Share::SHARE_TYPE_LINK,
+			\OCP\Share::SHARE_TYPE_REMOTE
+		];
+		foreach ($requestedShareTypes as $requestedShareType) {
+			// one of each type is enough to find out about the types
+			$shares = $this->shareManager->getSharesBy(
+				$userId,
+				$requestedShareType,
+				$node,
+				false,
+				1
+			);
+			if (!empty($shares)) {
+				$shareTypes[] = $requestedShareType;
+			}
+		}
+		return $shareTypes;
 	}
 
 }

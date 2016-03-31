@@ -35,11 +35,11 @@ OC.L10N.register(
     "Warning" : "హెచ్చరిక",
     "Delete" : "తొలగించు",
     "Add" : "చేర్చు",
-    "New password" : "కొత్త సంకేతపదం",
     "Personal" : "వ్యక్తిగతం",
     "Users" : "వాడుకరులు",
     "Help" : "సహాయం",
     "Username" : "వాడుకరి పేరు",
-    "Log out" : "నిష్క్రమించు"
+    "Log out" : "నిష్క్రమించు",
+    "New password" : "కొత్త సంకేతపదం"
 },
 "nplurals=2; plural=(n != 1);");

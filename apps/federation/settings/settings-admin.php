@@ -2,7 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -34,7 +34,8 @@ $trustedServers = new \OCA\Federation\TrustedServers(
 	\OC::$server->getLogger(),
 	\OC::$server->getJobList(),
 	\OC::$server->getSecureRandom(),
-	\OC::$server->getConfig()
+	\OC::$server->getConfig(),
+	\OC::$server->getEventDispatcher()
 );
 
 $template->assign('trustedServers', $trustedServers->getServers());

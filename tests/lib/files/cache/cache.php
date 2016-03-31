@@ -317,7 +317,7 @@ class Cache extends \Test\TestCase {
 
 	function testSearchByTag() {
 		$userId = $this->getUniqueId('user');
-		\OC_User::createUser($userId, $userId);
+		\OC::$server->getUserManager()->createUser($userId, $userId);
 		$this->loginAsUser($userId);
 		$user = new \OC\User\User($userId, null);
 
@@ -373,7 +373,8 @@ class Cache extends \Test\TestCase {
 		$tagManager->delete('tag2');
 
 		$this->logout();
-		\OC_User::deleteUser($userId);
+		$user = \OC::$server->getUserManager()->get($userId);
+		if ($user !== null) { $user->delete(); }
 	}
 
 	function testMove() {
@@ -555,7 +556,7 @@ class Cache extends \Test\TestCase {
 		$this->assertEquals($folderWith00F6, $unNormalizedFolderName['name']);
 
 		// put normalized folder
-		$this->assertTrue(is_array($this->cache->get('folder/' . $folderWith00F6)));
+		$this->assertInstanceOf('\OCP\Files\Cache\ICacheEntry', $this->cache->get('folder/' . $folderWith00F6));
 		$this->assertGreaterThan(0, $this->cache->put('folder/' . $folderWith00F6, $data));
 
 		// at this point we should have only one folder named "Schön"
@@ -640,8 +641,8 @@ class Cache extends \Test\TestCase {
 		$this->cache->put($name, $folderData);
 		$this->cache->put('other', $folderData);
 		$childs = ['asd', 'bar', 'foo', 'sub/folder'];
-		$this->cache->put($name . '/sub/folder', $folderData);
-		$this->cache->put('other/sub/folder', $folderData);
+		$this->cache->put($name . '/sub', $folderData);
+		$this->cache->put('other/sub', $folderData);
 		foreach ($childs as $child) {
 			$this->cache->put($name . '/' . $child, $data);
 			$this->cache->put('other/' . $child, $data);

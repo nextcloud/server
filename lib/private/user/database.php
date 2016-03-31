@@ -15,11 +15,11 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author nishiki <nishiki@yaegashi.fr>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -210,7 +210,7 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 			$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) = LOWER(?)');
 			$result = $query->execute(array($uid));
 
-			if (OC_DB::isError($result)) {
+			if ($result === false) {
 				\OCP\Util::writeLog('core', OC_DB::getErrorMessage(), \OCP\Util::ERROR);
 				return false;
 			}
@@ -287,7 +287,7 @@ class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 	public function countUsers() {
 		$query = OC_DB::prepare('SELECT COUNT(*) FROM `*PREFIX*users`');
 		$result = $query->execute();
-		if (OC_DB::isError($result)) {
+		if ($result === false) {
 			\OCP\Util::writeLog('core', OC_DB::getErrorMessage(), \OCP\Util::ERROR);
 			return false;
 		}

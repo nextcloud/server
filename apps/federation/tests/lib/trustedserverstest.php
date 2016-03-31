@@ -1,8 +1,9 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -32,6 +33,7 @@ use OCP\Http\Client\IResponse;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 class TrustedServersTest extends TestCase {
@@ -63,10 +65,15 @@ class TrustedServersTest extends TestCase {
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | IConfig */
 	private $config;
 
+	/** @var  \PHPUnit_Framework_MockObject_MockObject | EventDispatcherInterface */
+	private $dispatcher;
+
 	public function setUp() {
 		parent::setUp();
 
 		$this->dbHandler = $this->getMockBuilder('\OCA\Federation\DbHandler')
+			->disableOriginalConstructor()->getMock();
+		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
 			->disableOriginalConstructor()->getMock();
 		$this->httpClientService = $this->getMock('OCP\Http\Client\IClientService');
 		$this->httpClient = $this->getMock('OCP\Http\Client\IClient');
@@ -82,7 +89,8 @@ class TrustedServersTest extends TestCase {
 			$this->logger,
 			$this->jobList,
 			$this->secureRandom,
-			$this->config
+			$this->config,
+			$this->dispatcher
 		);
 
 	}
@@ -102,7 +110,8 @@ class TrustedServersTest extends TestCase {
 					$this->logger,
 					$this->jobList,
 					$this->secureRandom,
-					$this->config
+					$this->config,
+					$this->dispatcher
 				]
 			)
 			->setMethods(['normalizeUrl', 'updateProtocol'])
@@ -113,8 +122,6 @@ class TrustedServersTest extends TestCase {
 			->willReturn($success);
 
 		if ($success) {
-			$this->secureRandom->expects($this->once())->method('getMediumStrengthGenerator')
-				->willReturn($this->secureRandom);
 			$this->secureRandom->expects($this->once())->method('generate')
 				->willReturn('token');
 			$this->dbHandler->expects($this->once())->method('addToken')->with('https://url', 'token');
@@ -192,7 +199,18 @@ class TrustedServersTest extends TestCase {
 
 	public function testRemoveServer() {
 		$id = 42;
+		$server = ['url_hash' => 'url_hash'];
 		$this->dbHandler->expects($this->once())->method('removeServer')->with($id);
+		$this->dbHandler->expects($this->once())->method('getServerById')->with($id)
+			->willReturn($server);
+		$this->dispatcher->expects($this->once())->method('dispatch')
+			->willReturnCallback(
+				function($eventId, $event) {
+					$this->assertSame($eventId, 'OCP\Federation\TrustedServerEvent::remove');
+					$this->assertInstanceOf('Symfony\Component\EventDispatcher\GenericEvent', $event);
+					$this->assertSame('url_hash', $event->getSubject());
+				}
+			);
 		$this->trustedServers->removeServer($id);
 	}
 
@@ -248,7 +266,8 @@ class TrustedServersTest extends TestCase {
 					$this->logger,
 					$this->jobList,
 					$this->secureRandom,
-					$this->config
+					$this->config,
+					$this->dispatcher
 				]
 			)
 			->setMethods(['checkOwnCloudVersion'])
@@ -284,41 +303,50 @@ class TrustedServersTest extends TestCase {
 		];
 	}
 
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage simulated exception
+	 */
 	public function testIsOwnCloudServerFail() {
 		$server = 'server1';
 
 		$this->httpClientService->expects($this->once())->method('newClient')
 			->willReturn($this->httpClient);
 
-		$this->logger->expects($this->once())->method('error')
-			->with('simulated exception', ['app' => 'federation']);
-
 		$this->httpClient->expects($this->once())->method('get')->with($server . '/status.php')
 			->willReturnCallback(function () {
 				throw new \Exception('simulated exception');
 			});
 
-		$this->assertFalse($this->trustedServers->isOwnCloudServer($server));
-
+		$this->trustedServers->isOwnCloudServer($server);
 	}
 
 	/**
 	 * @dataProvider dataTestCheckOwnCloudVersion
-	 *
-	 * @param $statusphp
-	 * @param $expected
 	 */
-	public function testCheckOwnCloudVersion($statusphp, $expected) {
-		$this->assertSame($expected,
-			$this->invokePrivate($this->trustedServers, 'checkOwnCloudVersion', [$statusphp])
-		);
+	public function testCheckOwnCloudVersion($status) {
+		$this->assertTrue($this->invokePrivate($this->trustedServers, 'checkOwnCloudVersion', [$status]));
 	}
 
 	public function dataTestCheckOwnCloudVersion() {
 		return [
-			['{"version":"8.4.0"}', false],
-			['{"version":"9.0.0"}', true],
-			['{"version":"9.1.0"}', true]
+			['{"version":"9.0.0"}'],
+			['{"version":"9.1.0"}']
+		];
+	}
+
+	/**
+	 * @dataProvider dataTestCheckOwnCloudVersionTooLow
+	 * @expectedException \OC\HintException
+	 * @expectedExceptionMessage Remote server version is too low. ownCloud 9.0 is required.
+	 */
+	public function testCheckOwnCloudVersionTooLow($status) {
+		$this->invokePrivate($this->trustedServers, 'checkOwnCloudVersion', [$status]);
+	}
+
+	public function dataTestCheckOwnCloudVersionTooLow() {
+		return [
+			['{"version":"8.2.3"}'],
 		];
 	}
 

@@ -48,7 +48,7 @@
 			'    {{/if}}' +
 			'{{else}}' +
 			// FIXME: this doesn't belong in this view
-			'<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>' +
+			'{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}' +
 			'{{/if}}'
 		;
 
@@ -139,8 +139,8 @@
 					this.$el.find('.linkPassText').focus();
 				}
 			} else {
-				$loading.removeClass('hidden');
 				if (this.model.get('linkShare').isLinkShare) {
+					$loading.removeClass('hidden');
 					this.model.removeLinkShare();
 				} else {
 					this.$el.find('.linkPass').slideToggle(OC.menuSpeed);
@@ -157,8 +157,9 @@
 		onShowPasswordClick: function() {
 			this.$el.find('.linkPass').slideToggle(OC.menuSpeed);
 			if(!this.$el.find('.showPasswordCheckbox').is(':checked')) {
-				this.model.setPassword('');
-				this.model.saveLinkShare();
+				this.model.saveLinkShare({
+					password: ''
+				});
 			} else {
 				this.$el.find('.linkPassText').focus();
 			}
@@ -171,7 +172,6 @@
 		},
 
 		onPasswordEntered: function() {
-			var self = this;
 			var $loading = this.$el.find('.linkPass .icon-loading-small');
 			if (!$loading.hasClass('hidden')) {
 				// still in process
@@ -189,9 +189,12 @@
 				.removeClass('hidden')
 				.addClass('inlineblock');
 
-			this.model.setPassword(password);
-			this.model.saveLinkShare({}, {
+			this.model.saveLinkShare({
+				password: password
+			}, {
 				error: function(model, msg) {
+					// destroy old tooltips
+					$input.tooltip('destroy');
 					$loading.removeClass('inlineblock').addClass('hidden');
 					$input.addClass('error');
 					$input.attr('title', msg);
@@ -204,8 +207,15 @@
 		onAllowPublicUploadChange: function() {
 			var $checkbox = this.$('.publicUploadCheckbox');
 			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
-			this.model.setPublicUpload($checkbox.is(':checked'));
-			this.model.saveLinkShare();
+
+			var permissions = OC.PERMISSION_READ;
+			if($checkbox.is(':checked')) {
+				permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ;
+			}
+
+			this.model.saveLinkShare({
+				permissions: permissions
+			});
 		},
 
 		_onEmailPrivateLink: function(event) {
@@ -238,15 +248,18 @@
 
 		render: function() {
 			var linkShareTemplate = this.template();
+			var resharingAllowed = this.model.sharePermissionPossible();
 
-			if(    !this.model.sharePermissionPossible()
+			if(!resharingAllowed
 				|| !this.showLink
 				|| !this.configModel.isShareWithLinkAllowed())
 			{
-				this.$el.html(linkShareTemplate({
-					shareAllowed: false,
-					noSharingPlaceholder: t('core', 'Resharing is not allowed')
-				}));
+				var templateData = {shareAllowed: false};
+				if (!resharingAllowed) {
+					// add message
+					templateData.noSharingPlaceholder = t('core', 'Resharing is not allowed');
+				}
+				this.$el.html(linkShareTemplate(templateData));
 				return this;
 			}
 

@@ -5,7 +5,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@ namespace OC\Files\Storage;
  */
 class Temporary extends Local{
 	public function __construct($arguments = null) {
-		parent::__construct(array('datadir' => \OC_Helper::tmpFolder()));
+		parent::__construct(array('datadir' => \OC::$server->getTempManager()->getTemporaryFolder()));
 	}
 
 	public function cleanUp() {

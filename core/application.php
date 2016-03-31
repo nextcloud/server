@@ -7,7 +7,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -29,9 +29,9 @@ namespace OC\Core;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use \OCP\AppFramework\App;
-use OC\Core\LostPassword\Controller\LostController;
-use OC\Core\User\UserController;
-use OC\Core\Avatar\AvatarController;
+use OC\Core\Controller\LostController;
+use OC\Core\Controller\UserController;
+use OC\Core\Controller\AvatarController;
 use \OCP\Util;
 
 /**

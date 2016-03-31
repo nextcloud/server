@@ -2,7 +2,7 @@
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -81,35 +81,42 @@ class DecryptAll {
 	public function prepare(InputInterface $input, OutputInterface $output, $user) {
 
 		$question = new Question('Please enter the recovery key password: ');
-		$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
 
-		if (!empty($user)) {
-			$output->writeln('You can only decrypt the users files if you know');
-			$output->writeln('the users password or if he activated the recovery key.');
-			$output->writeln('');
-			$questionUseLoginPassword = new ConfirmationQuestion(
-				'Do you want to use the users login password to decrypt all files? (y/n) ',
-				false
-			);
-			$useLoginPassword = $this->questionHelper->ask($input, $output, $questionUseLoginPassword);
-			if ($useLoginPassword) {
-				$question = new Question('Please enter the user\'s login password: ');
-			} else if ($this->util->isRecoveryEnabledForUser($user) === false) {
-				$output->writeln('No recovery key available for user ' . $user);
-				return false;
+		if($this->util->isMasterKeyEnabled()) {
+			$output->writeln('Use master key to decrypt all files');
+			$user = $this->keyManager->getMasterKeyId();
+			$password =$this->keyManager->getMasterKeyPassword();
+		} else {
+			$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
+			if (!empty($user)) {
+				$output->writeln('You can only decrypt the users files if you know');
+				$output->writeln('the users password or if he activated the recovery key.');
+				$output->writeln('');
+				$questionUseLoginPassword = new ConfirmationQuestion(
+					'Do you want to use the users login password to decrypt all files? (y/n) ',
+					false
+				);
+				$useLoginPassword = $this->questionHelper->ask($input, $output, $questionUseLoginPassword);
+				if ($useLoginPassword) {
+					$question = new Question('Please enter the user\'s login password: ');
+				} else if ($this->util->isRecoveryEnabledForUser($user) === false) {
+					$output->writeln('No recovery key available for user ' . $user);
+					return false;
+				} else {
+					$user = $recoveryKeyId;
+				}
 			} else {
+				$output->writeln('You can only decrypt the files of all users if the');
+				$output->writeln('recovery key is enabled by the admin and activated by the users.');
+				$output->writeln('');
 				$user = $recoveryKeyId;
 			}
-		} else {
-			$output->writeln('You can only decrypt the files of all users if the');
-			$output->writeln('recovery key is enabled by the admin and activated by the users.');
-			$output->writeln('');
-			$user = $recoveryKeyId;
+
+			$question->setHidden(true);
+			$question->setHiddenFallback(false);
+			$password = $this->questionHelper->ask($input, $output, $question);
 		}
 
-		$question->setHidden(true);
-		$question->setHiddenFallback(false);
-		$password = $this->questionHelper->ask($input, $output, $question);
 		$privateKey = $this->getPrivateKey($user, $password);
 		if ($privateKey !== false) {
 			$this->updateSession($user, $privateKey);
@@ -132,9 +139,13 @@ class DecryptAll {
 	 */
 	protected function getPrivateKey($user, $password) {
 		$recoveryKeyId = $this->keyManager->getRecoveryKeyId();
+		$masterKeyId = $this->keyManager->getMasterKeyId();
 		if ($user === $recoveryKeyId) {
 			$recoveryKey = $this->keyManager->getSystemPrivateKey($recoveryKeyId);
 			$privateKey = $this->crypt->decryptPrivateKey($recoveryKey, $password);
+		} elseif ($user === $masterKeyId) {
+			$masterKey = $this->keyManager->getSystemPrivateKey($masterKeyId);
+			$privateKey = $this->crypt->decryptPrivateKey($masterKey, $password, $masterKeyId);
 		} else {
 			$userKey = $this->keyManager->getPrivateKey($user);
 			$privateKey = $this->crypt->decryptPrivateKey($userKey, $password, $user);

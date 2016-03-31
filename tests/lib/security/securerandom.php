@@ -42,7 +42,7 @@ class SecureRandomTest extends \Test\TestCase {
 	 * @dataProvider stringGenerationProvider
 	 */
 	function testGetLowStrengthGeneratorLength($length, $expectedLength) {
-		$generator = $this->rng->getLowStrengthGenerator();
+		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
 	}
@@ -51,24 +51,23 @@ class SecureRandomTest extends \Test\TestCase {
 	 * @dataProvider stringGenerationProvider
 	 */
 	function testMediumLowStrengthGeneratorLength($length, $expectedLength) {
-		$generator = $this->rng->getMediumStrengthGenerator();
+		$generator = $this->rng;
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
 	}
 
 	/**
-	 * @expectedException \Exception
-	 * @expectedExceptionMessage Generator is not initialized
+	 * @dataProvider stringGenerationProvider
 	 */
-	function testUninitializedGenerate() {
-		$this->rng->generate(30);
+	function testUninitializedGenerate($length, $expectedLength) {
+		$this->assertEquals($expectedLength, strlen($this->rng->generate($length)));
 	}
 
 	/**
 	 * @dataProvider charCombinations
 	 */
 	public function testScheme($charName, $chars) {
-		$generator = $this->rng->getMediumStrengthGenerator();
+		$generator = $this->rng;
 		$scheme = constant('OCP\Security\ISecureRandom::' . $charName);
 		$randomString = $generator->generate(100, $scheme);
 		$matchesRegex = preg_match('/^'.$chars.'+$/', $randomString);

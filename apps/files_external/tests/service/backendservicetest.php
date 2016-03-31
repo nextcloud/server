@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -35,6 +35,11 @@ class BackendServiceTest extends \Test\TestCase {
 		$this->l10n = $this->getMock('\OCP\IL10N');
 	}
 
+	/**
+	 * @param string $class
+	 *
+	 * @return \OCA\Files_External\Lib\Backend\Backend
+	 */
 	protected function getBackendMock($class) {
 		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
 			->disableOriginalConstructor()

@@ -9,11 +9,11 @@
  * @author Kamil Domanski <kdomanski@kdemail.net>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -97,6 +97,7 @@ class OCSClient {
 		libxml_disable_entity_loader($loadEntities);
 
 		if($data === false) {
+			libxml_clear_errors();
 			$this->logger->error(
 				sprintf('Could not get %s, content was no valid XML', $action),
 				[
@@ -283,7 +284,7 @@ class OCSClient {
 		}
 
 		$app = [];
-		$app['id'] = (int)$tmp->id;
+		$app['id'] = (int)$id;
 		$app['name'] = (string)$tmp->name;
 		$app['version'] = (string)$tmp->version;
 		$app['type'] = (string)$tmp->typeid;

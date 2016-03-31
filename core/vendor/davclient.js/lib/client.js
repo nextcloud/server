@@ -1,5 +1,19 @@
 if (typeof dav == 'undefined') { dav = {}; };
 
+dav._XML_CHAR_MAP = {
+    '<': '&lt;',
+    '>': '&gt;',
+    '&': '&amp;',
+    '"': '&quot;',
+    "'": '&apos;'
+};
+
+dav._escapeXml = function(s) {
+    return s.replace(/[<>&"']/g, function (ch) {
+        return dav._XML_CHAR_MAP[ch];
+    });
+};
+
 dav.Client = function(options) {
     var i;
     for(i in options) {
@@ -26,18 +40,19 @@ dav.Client.prototype = {
      *
      * @param {string} url Url to do the propfind request on
      * @param {Array} properties List of properties to retrieve.
+     * @param {Object} [headers] headers
      * @return {Promise}
      */
-    propFind : function(url, properties, depth) {
+    propFind : function(url, properties, depth, headers) {
 
         if(typeof depth == "undefined") {
             depth = 0;
         }
 
-        var headers = {
-            Depth          : depth,
-            'Content-Type' : 'application/xml; charset=utf-8'
-        };
+        headers = headers || {};
+
+        headers['Depth'] = depth;
+        headers['Content-Type'] = 'application/xml; charset=utf-8';
 
         var body =
             '<?xml version="1.0"?>\n' +
@@ -65,21 +80,72 @@ dav.Client.prototype = {
         return this.request('PROPFIND', url, headers, body).then(
             function(result) {
 
-                var resultBody = this.parseMultiStatus(result.body);
                 if (depth===0) {
                     return {
                         status: result.status,
-                        body: resultBody[0],
+                        body: result.body[0],
                         xhr: result.xhr
                     };
                 } else {
                     return {
                         status: result.status,
-                        body: resultBody,
+                        body: result.body,
                         xhr: result.xhr
                     };
                 }
 
+            }.bind(this)
+        );
+
+    },
+
+    /**
+     * Generates a propPatch request.
+     *
+     * @param {string} url Url to do the proppatch request on
+     * @param {Array} properties List of properties to store.
+     * @param {Object} [headers] headers
+     * @return {Promise}
+     */
+    propPatch : function(url, properties, headers) {
+        headers = headers || {};
+
+        headers['Content-Type'] = 'application/xml; charset=utf-8';
+
+        var body =
+            '<?xml version="1.0"?>\n' +
+            '<d:propertyupdate ';
+        var namespace;
+        for (namespace in this.xmlNamespaces) {
+            body += ' xmlns:' + this.xmlNamespaces[namespace] + '="' + namespace + '"';
+        }
+        body += '>\n' +
+            '  <d:set>\n' +
+            '   <d:prop>\n';
+
+        for(var ii in properties) {
+
+            var property = this.parseClarkNotation(ii);
+            var propName;
+            var propValue = properties[ii];
+            if (this.xmlNamespaces[property.namespace]) {
+                propName = this.xmlNamespaces[property.namespace] + ':' + property.name;
+            } else {
+                propName = 'x:' + property.name + ' xmlns:x="' + property.namespace + '"';
+            }
+            body += '      <' + propName + '>' + dav._escapeXml(propValue) + '</' + propName + '>\n';
+        }
+        body+='    </d:prop>\n';
+        body+='  </d:set>\n';
+        body+='</d:propertyupdate>';
+
+        return this.request('PROPPATCH', url, headers, body).then(
+            function(result) {
+                return {
+                    status: result.status,
+                    body: result.body,
+                    xhr: result.xhr
+                };
             }.bind(this)
         );
 
@@ -96,8 +162,10 @@ dav.Client.prototype = {
      */
     request : function(method, url, headers, body) {
 
+        var self = this;
         var xhr = this.xhrProvider();
-
+        headers = headers || {};
+        
         if (this.userName) {
             headers['Authorization'] = 'Basic ' + btoa(this.userName + ':' + this.password);
             // xhr.open(method, this.resolveUrl(url), true, this.userName, this.password);
@@ -107,7 +175,13 @@ dav.Client.prototype = {
         for(ii in headers) {
             xhr.setRequestHeader(ii, headers[ii]);
         }
-        xhr.send(body);
+
+        // Work around for edge
+        if (body === undefined) {
+            xhr.send();
+        } else {
+            xhr.send(body);
+        }
 
         return new Promise(function(fulfill, reject) {
 
@@ -117,8 +191,13 @@ dav.Client.prototype = {
                     return;
                 }
 
+                var resultBody = xhr.response;
+                if (xhr.status === 207) {
+                    resultBody = self.parseMultiStatus(xhr.response);
+                }
+
                 fulfill({
-                    body: xhr.response,
+                    body: resultBody,
                     status: xhr.status,
                     xhr: xhr
                 });
@@ -173,7 +252,7 @@ dav.Client.prototype = {
             }
         }
 
-        return content || propNode.textContent || propNode.text;
+        return content || propNode.textContent || propNode.text || '';
     },
 
     /**

@@ -25,6 +25,8 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Votre clef privée de chiffrement n'est pas valide ! Veuillez mettre à jour le mot de passe de la clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers chiffrés.",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "Encryption App is enabled and ready" : "L'application de chiffrement est activée et prête",
+    "Bad Signature" : "Mauvaise signature",
+    "Missing Signature" : "Signature manquante",
     "one-time password for server-side-encryption" : "Mot de passe à usage unique pour le chiffrement côté serveur",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de déchiffrer ce fichier : il s'agit probablement d'un fichier partagé. Veuillez demander au propriétaire du fichier de le partager à nouveau avec vous.",
     "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossible de lire ce fichier, il s'agit probablement d'un fichier partagé. Veuillez demander au propriétaire du fichier de le repartager avec vous.  ",

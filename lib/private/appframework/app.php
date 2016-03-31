@@ -6,7 +6,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 
 namespace OC\AppFramework;
 
+use OC\AppFramework\Http\Dispatcher;
 use OC_App;
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OCP\AppFramework\QueryException;
@@ -97,6 +98,7 @@ class App {
 		}
 
 		// initialize the dispatcher and run all the middleware before the controller
+		/** @var Dispatcher $dispatcher */
 		$dispatcher = $container['Dispatcher'];
 
 		list(

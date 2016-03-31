@@ -4,7 +4,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -36,6 +36,12 @@ class AppHelper implements \OCP\IHelper {
 	 * @deprecated 8.1.0 Use \OCP\IServerContainer::getHTTPClientService
 	 */
 	public function getUrlContent($url) {
-		return \OC_Util::getUrlContent($url);
+		try {
+			$client = \OC::$server->getHTTPClientService()->newClient();
+			$response = $client->get($url);
+			return $response->getBody();
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 }

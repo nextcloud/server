@@ -8,7 +8,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author unclejamal3000 <andreas.pramhaas@posteo.de>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -166,7 +166,7 @@ class ConvertType extends Command {
 		$this->validateInput($input, $output);
 		$this->readPassword($input, $output);
 
-		$fromDB = \OC_DB::getConnection();
+		$fromDB = \OC::$server->getDatabaseConnection();
 		$toDB = $this->getToDBConnection($input, $output);
 
 		if ($input->getOption('clear-schema')) {

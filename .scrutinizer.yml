@@ -1,3 +1,6 @@
+before_commands:
+  - 'git submodule update --init --recursive'
+
 filter:
     excluded_paths:
         - '3rdparty/*'
@@ -6,6 +9,7 @@ filter:
         - 'l10n/*'
         - 'core/l10n/*'
         - 'apps/*/l10n/*'
+        - 'apps/*/tests/*'
         - 'lib/l10n/*'
         - 'core/vendor/*'
         - 'core/js/tests/lib/*.js'
@@ -13,12 +17,11 @@ filter:
         - 'core/js/jquery-showpassword.js'
         - 'core/js/jquery-tipsy.js'
         - 'core/js/placeholders.js'
-
+        - 'settings/l10n/*'
+        - 'tests/*'
+        - 'build/*'
+        - 'lib/composer/*'
 
 imports:
     - javascript
     - php
-
-tools:
-    external_code_coverage:
-        timeout: 7200    # Timeout in seconds. 120 minutes

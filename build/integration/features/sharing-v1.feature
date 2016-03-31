@@ -65,6 +65,7 @@ Feature: sharing
       | expiration | +3 days |
       | url | AN_URL |
       | token | A_TOKEN |
+      | mimetype | httpd/unix-directory |
 
   Scenario: Creating a new public share with password and adding an expiration date
     Given user "user0" exists
@@ -108,6 +109,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
       | url | AN_URL |
+      | mimetype | httpd/unix-directory |
 
   Scenario: Creating a new public share, updating its password and getting its info
     Given user "user0" exists
@@ -137,6 +139,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
       | url | AN_URL |
+      | mimetype | httpd/unix-directory |
 
   Scenario: Creating a new public share, updating its permissions and getting its info
     Given user "user0" exists
@@ -166,6 +169,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
       | url | AN_URL |
+      | mimetype | httpd/unix-directory |
 
   Scenario: Creating a new public share, updating publicUpload option and getting its info
     Given user "user0" exists
@@ -195,6 +199,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
       | url | AN_URL |
+      | mimetype | httpd/unix-directory |
 
   Scenario: getting all shares of a user using that user
     Given user "user0" exists
@@ -204,7 +209,7 @@ Feature: sharing
     When sending "GET" to "/apps/files_sharing/api/v1/shares"
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And File "textfile0.txt" should be included in the response
+    And File "textfile0 (2).txt" should be included in the response
 
   Scenario: getting all shares of a user using another user
     Given user "user0" exists
@@ -237,7 +242,7 @@ Feature: sharing
     And user "user2" exists
     And user "user3" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
-    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And file "textfile0 (2).txt" of user "user1" is shared with user "user2"
     And As an "user0"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?reshares=true&path=textfile0.txt"
     Then the OCS status code should be "100"
@@ -261,9 +266,9 @@ Feature: sharing
       | share_type | 0 |
       | share_with | user1 |
       | file_source | A_NUMBER |
-      | file_target | /textfile0.txt |
+      | file_target | /textfile0 (2).txt |
       | path | /textfile0.txt |
-      | permissions | 23 |
+      | permissions | 19 |
       | stime | A_NUMBER |
       | storage | A_NUMBER |
       | mail_send | 0 |
@@ -272,6 +277,7 @@ Feature: sharing
       | file_parent | A_NUMBER |
       | share_with_displayname | user1 |
       | displayname_owner | user0 |
+      | mimetype          | text/plain |
 
   Scenario: keep group permissions in sync
     Given As an "admin"
@@ -302,11 +308,47 @@ Feature: sharing
       | storage_id | home::user0 |
       | file_parent | A_NUMBER |
       | displayname_owner | user0 |
+      | mimetype          | text/plain |
 
   Scenario: Sharee can see the share
     Given user "user0" exists
     And user "user1" exists
     And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And As an "user1"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is included in the answer
+
+  Scenario: Sharee can see the filtered share
+    Given user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile1.txt" of user "user0" is shared with user "user1"
+    And As an "user1"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true&path=textfile1 (2).txt"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is included in the answer
+
+  Scenario: Sharee can't see the share that is filtered out
+    Given user "user0" exists
+    And user "user1" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile1.txt" of user "user0" is shared with user "user1"
+    And As an "user1"
+    When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true&path=textfile0 (2).txt"
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And last share_id is not included in the answer
+
+  Scenario: Sharee can see the group share
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group0" exists
+    And user "user1" belongs to group "group0"
+    And file "textfile0.txt" of user "user0" is shared with group "group0"
     And As an "user1"
     When sending "GET" to "/apps/files_sharing/api/v1/shares?shared_with_me=true"
     Then the OCS status code should be "100"
@@ -326,7 +368,7 @@ Feature: sharing
       | permissions | 8 |
     And As an "user1"
     When creating a share with
-      | path | /textfile0. (2).txt |
+      | path | /textfile0 (2).txt |
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 31 |
@@ -346,7 +388,7 @@ Feature: sharing
       | permissions | 16 |
     And As an "user1"
     When creating a share with
-      | path | /textfile0. (2).txt |
+      | path | /textfile0 (2).txt |
       | shareType | 0 |
       | shareWith | user2 |
       | permissions | 31 |
@@ -379,6 +421,47 @@ Feature: sharing
       | /CHILD/child.txt |
     And the HTTP status code should be "200"
 
+  Scenario: Share a file by multiple channels 
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And group "group0" exists
+    And user "user1" belongs to group "group0"
+    And user "user2" belongs to group "group0"
+    And user "user0" created a folder "/common"
+    And user "user0" created a folder "/common/sub"
+    And file "common" of user "user0" is shared with group "group0"
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And User "user1" moved file "/textfile0.txt" to "/common/textfile0.txt"
+    And User "user1" moved file "/common/textfile0.txt" to "/common/sub/textfile0.txt"
+    And As an "user2"
+    When Downloading file "/common/sub/textfile0.txt" with range "bytes=9-17"
+    Then Downloaded content should be "test text"
+    And Downloaded content when downloading file "/textfile0.txt" with range "bytes=9-17" should be "test text"
+    And user "user2" should see following elements
+      | /common/sub/textfile0.txt |
+
+  Scenario: Share a file by multiple channels
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And group "group0" exists
+    And user "user1" belongs to group "group0"
+    And user "user2" belongs to group "group0"
+    And user "user0" created a folder "/common"
+    And user "user0" created a folder "/common/sub"
+    And file "common" of user "user0" is shared with group "group0"
+    And file "textfile0.txt" of user "user1" is shared with user "user2"
+    And User "user1" moved file "/textfile0.txt" to "/common/textfile0.txt"
+    And User "user1" moved file "/common/textfile0.txt" to "/common/sub/textfile0.txt"
+    And As an "user2"
+    When Downloading file "/textfile0.txt" with range "bytes=9-17"
+    Then Downloaded content should be "test text"
+    And user "user2" should see following elements
+      | /common/sub/textfile0.txt |
+
   Scenario: Delete all group shares
     Given As an "admin"
     And user "user0" exists
@@ -404,13 +487,82 @@ Feature: sharing
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
 
+  Scenario: Keep usergroup shares (#22143)
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And group "group" exists
+    And user "user1" belongs to group "group"
+    And user "user2" belongs to group "group"
+    And user "user0" created a folder "/TMP"
+    And file "TMP" of user "user0" is shared with group "group"
+    And user "user1" created a folder "/myFOLDER"
+    And User "user1" moves file "/TMP" to "/myFOLDER/myTMP"
+    And user "user2" does not exist
+    And user "user1" should see following elements
+      | /myFOLDER/myTMP/ |
 
+  Scenario: Check quota of owners parent directory of a shared file
+    Given using dav path "remote.php/webdav"
+    And As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And user "user1" has a quota of "0"
+    And User "user0" moved file "/welcome.txt" to "/myfile.txt"
+    And file "myfile.txt" of user "user0" is shared with user "user1"
+    When User "user1" uploads file "data/textfile.txt" to "/myfile.txt"
+    Then the HTTP status code should be "204"
 
+  Scenario: Don't allow sharing of the root
+    Given user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | / |
+      | shareType | 3 |
+    Then the OCS status code should be "403"
 
+  Scenario: Allow modification of reshare
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user0" created a folder "/TMP"
+    And file "TMP" of user "user0" is shared with user "user1"
+    And file "TMP" of user "user1" is shared with user "user2"
+    And As an "user1"
+    When Updating last share with
+      | permissions | 1 |
+    Then the OCS status code should be "100"
 
+  Scenario: Do not allow reshare to exceed permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user0" created a folder "/TMP"
+    And As an "user0"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user1 |
+      | permissions | 21 |
+    And As an "user1"
+    And creating a share with
+      | path | /TMP |
+      | shareType | 0 |
+      | shareWith | user2 |
+      | permissions | 21 |
+    When Updating last share with
+      | permissions | 31 |
+    Then the OCS status code should be "404"
 
-
-
-
-
-
+  Scenario: Only allow 1 link share per file/folder
+    Given user "user0" exists
+    And As an "user0"
+    And creating a share with
+      | path | welcome.txt |
+      | shareType | 3 |
+    When save last share id
+    And creating a share with
+      | path | welcome.txt |
+      | shareType | 3      |
+    Then share ids should match

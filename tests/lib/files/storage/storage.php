@@ -262,9 +262,6 @@ abstract class Storage extends \Test\TestCase {
 		$this->instance->file_put_contents('/folder/bar.txt', 'asd');
 		$this->instance->mkdir('/folder/recursive');
 		$this->instance->file_put_contents('/folder/recursive/file.txt', 'foo');
-		$localFolder = $this->instance->getLocalFolder('/folder');
-
-		$this->assertTrue(is_dir($localFolder));
 
 		// test below require to use instance->getLocalFile because the physical storage might be different
 		$localFile = $this->instance->getLocalFile('/folder/lorem.txt');
@@ -597,5 +594,24 @@ abstract class Storage extends \Test\TestCase {
 	public function testIsShareable() {
 		$this->instance->mkdir('source');
 		$this->assertTrue($this->instance->isSharable('source'));
+	}
+
+	public function testStatAfterWrite() {
+		$this->instance->file_put_contents('foo.txt', 'bar');
+		$stat = $this->instance->stat('foo.txt');
+		$this->assertEquals(3, $stat['size']);
+
+		$fh = $this->instance->fopen('foo.txt', 'w');
+		fwrite($fh, 'qwerty');
+		fclose($fh);
+
+		$stat = $this->instance->stat('foo.txt');
+		$this->assertEquals(6, $stat['size']);
+	}
+
+	public function testPartFile() {
+		$this->instance->file_put_contents('bar.txt.part', 'bar');
+		$this->instance->rename('bar.txt.part', 'bar.txt');
+		$this->assertEquals('bar', $this->instance->file_get_contents('bar.txt'));
 	}
 }

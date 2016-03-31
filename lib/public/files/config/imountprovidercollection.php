@@ -3,7 +3,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
 
 namespace OCP\Files\Config;
 
+use OCP\Files\Mount\IMountPoint;
 use OCP\IUser;
 
 /**
@@ -45,4 +46,12 @@ interface IMountProviderCollection {
 	 * @since 8.0.0
 	 */
 	public function registerProvider(IMountProvider $provider);
+
+	/**
+	 * Get the mount cache which can be used to search for mounts without setting up the filesystem
+	 *
+	 * @return IUserMountCache
+	 * @since 9.0.0
+	 */
+	public function getMountCache();
 }

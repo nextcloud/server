@@ -1,0 +1,28 @@
+# Start of valid file
+<IfModule mod_php5.c>
+  php_value upload_max_filesize 519M
+  php_value post_max_size 519M
+  php_value memory_limit 512M
+  php_value mbstring.func_overload 0
+  php_value always_populate_raw_post_data -1
+  php_value default_charset 'UTF-8'
+  php_value output_buffering 0
+  <IfModule mod_env.c>
+    SetEnv htaccessWorking true
+  </IfModule>
+</IfModule>
+<IfModule mod_php7.c>
+  php_value upload_max_filesize 519M
+  php_value post_max_size 519M
+  php_value memory_limit 512M
+  php_value mbstring.func_overload 0
+  php_value always_populate_raw_post_data -1
+  php_value default_charset 'UTF-8'
+  php_value output_buffering 0
+  <IfModule mod_env.c>
+    SetEnv htaccessWorking true
+  </IfModule>
+</IfModule>
+#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####
+
+# Content that should change the hash in the root folder

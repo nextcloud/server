@@ -4,8 +4,9 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -38,6 +39,9 @@ class HintException extends \Exception {
 	}
 
 	public function getHint() {
+		if (empty($this->hint)) {
+			return $this->message;
+		}
 		return $this->hint;
 	}
 }

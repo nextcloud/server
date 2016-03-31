@@ -12,10 +12,9 @@
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
- * @author Volkan Gezer <volkangezer@gmail.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -185,7 +184,7 @@ class Config {
 
 		// Include file and merge config
 		foreach ($configFiles as $file) {
-			$filePointer = @fopen($file, 'r');
+			$filePointer = file_exists($file) ? fopen($file, 'r') : false;
 			if($file === $this->configFilePath &&
 				$filePointer === false &&
 				@!file_exists($this->configFilePath)) {
@@ -240,7 +239,7 @@ class Config {
 			throw new HintException(
 				"Can't write into config directory!",
 				'This can usually be fixed by '
-				.'<a href="' . $url . '" target="_blank">giving the webserver write access to the config directory</a>.');
+				.'<a href="' . $url . '" target="_blank" rel="noreferrer">giving the webserver write access to the config directory</a>.');
 		}
 
 		// Try to acquire a file lock

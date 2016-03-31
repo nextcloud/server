@@ -2,8 +2,9 @@
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author scolebrook <scolebrook@mac.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,6 +25,7 @@ namespace OCA\user_ldap\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\user_ldap\lib\user\DeletedUsersIndex;
@@ -50,7 +52,7 @@ class ShowRemnants extends Command {
 		$this
 			->setName('ldap:show-remnants')
 			->setDescription('shows which users are not available on LDAP anymore, but have remnants in ownCloud.')
-		;
+			->addOption('json', null, InputOption::VALUE_NONE, 'return JSON array instead of pretty table.');
 	}
 
 	/**
@@ -70,18 +72,21 @@ class ShowRemnants extends Command {
 			$hAS = $user->getHasActiveShares() ? 'Y' : 'N';
 			$lastLogin = ($user->getLastLogin() > 0) ?
 				$this->dateFormatter->formatDate($user->getLastLogin()) : '-';
-			$rows[] = array(
-				$user->getOCName(),
-				$user->getDisplayName(),
-				$user->getUid(),
-				$user->getDN(),
-				$lastLogin,
-				$user->getHomePath(),
-				$hAS
+			$rows[] = array('ocName'      => $user->getOCName(),
+							'displayName' => $user->getDisplayName(),
+							'uid'         => $user->getUid(),
+							'dn'          => $user->getDN(),
+							'lastLogin'   => $lastLogin,
+							'homePath'    => $user->getHomePath(),
+							'sharer'      => $hAS
 			);
 		}
 
-		$table->setRows($rows);
-		$table->render($output);
+		if ($input->getOption('json')) {
+			$output->writeln(json_encode($rows));			
+		} else {
+			$table->setRows($rows);
+			$table->render($output);
+		}
 	}
 }

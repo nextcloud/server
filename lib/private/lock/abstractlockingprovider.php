@@ -2,7 +2,7 @@
 /**
  * @author Robin Appelman <icewind@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ use OCP\Lock\ILockingProvider;
  * to release any left over locks at the end of the request
  */
 abstract class AbstractLockingProvider implements ILockingProvider {
+	const TTL = 3600; // how long until we clear stray locks in seconds
+
 	protected $acquiredLocks = [
 		'shared' => [],
 		'exclusive' => []

@@ -1,13 +1,14 @@
 <?php
 /**
+ * @author Lars <winnetou+github@catolic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -213,7 +214,7 @@ class TempManager implements ITempManager {
 		if ($temp = $this->config->getSystemValue('tempdirectory', null)) {
 			$directories[] = $temp;
 		}
-		if ($temp = ini_get('upload_tmp_dir')) {
+		if ($temp = \OC::$server->getIniWrapper()->get('upload_tmp_dir')) {
 			$directories[] = $temp;
 		}
 		if ($temp = getenv('TMP')) {
@@ -225,11 +226,6 @@ class TempManager implements ITempManager {
 		if ($temp = getenv('TMPDIR')) {
 			$directories[] = $temp;
 		}
-		$temp = tempnam(__FILE__, '');
-		if (file_exists($temp)) {
-			unlink($temp);
-			$directories[] = dirname($temp);
-		}
 		if ($temp = sys_get_temp_dir()) {
 			$directories[] = $temp;
 		}
@@ -238,6 +234,12 @@ class TempManager implements ITempManager {
 			if ($this->checkTemporaryDirectory($dir)) {
 				return $dir;
 			}
+		}
+
+		$temp = tempnam(dirname(__FILE__), '');
+		if (file_exists($temp)) {
+			unlink($temp);
+			return dirname($temp);
 		}
 		throw new \UnexpectedValueException('Unable to detect system temporary directory');
 	}
@@ -255,7 +257,7 @@ class TempManager implements ITempManager {
 			if (is_writeable($directory)) {
 				return true;
 			}
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 		}
 		$this->log->warning('Temporary directory {dir} is not present or writable',
 			['dir' => $directory]

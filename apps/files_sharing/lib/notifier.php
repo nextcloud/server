@@ -2,7 +2,7 @@
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -22,8 +22,8 @@
 namespace OCA\Files_Sharing;
 
 
-use OC\Notification\INotification;
-use OC\Notification\INotifier;
+use OCP\Notification\INotification;
+use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
 	/** @var \OCP\L10N\IFactory */
@@ -55,7 +55,7 @@ class Notifier implements INotifier {
 			case 'remote_share':
 				$params = $notification->getSubjectParameters();
 				$notification->setParsedSubject(
-					(string) $l->t('You received %2$s as a remote share from %1$s', $params)
+					(string) $l->t('You received "/%2$s" as a remote share from %1$s', $params)
 				);
 
 				// Deal with the actions for a known subject
@@ -64,7 +64,8 @@ class Notifier implements INotifier {
 						case 'accept':
 							$action->setParsedLabel(
 								(string) $l->t('Accept')
-							);
+							)
+							->setPrimary(true);
 							break;
 
 						case 'decline':

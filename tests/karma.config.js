@@ -67,7 +67,8 @@ module.exports = function(config) {
 					// up with the global namespace/classes/state
 					'apps/files_external/js/app.js',
 					'apps/files_external/js/mountsfilelist.js',
-					'apps/files_external/js/settings.js'
+					'apps/files_external/js/settings.js',
+					'apps/files_external/js/statusmanager.js'
 				],
 				testFiles: ['apps/files_external/tests/js/*.js']
 			},
@@ -80,6 +81,30 @@ module.exports = function(config) {
 					'apps/files_versions/js/versionstabview.js'
 				],
 				testFiles: ['apps/files_versions/tests/js/**/*.js']
+			},
+			{
+				name: 'comments',
+				srcFiles: [
+					// need to enforce loading order...
+					'apps/comments/js/app.js',
+					'apps/comments/js/commentmodel.js',
+					'apps/comments/js/commentcollection.js',
+					'apps/comments/js/commentsummarymodel.js',
+					'apps/comments/js/commentstabview.js',
+					'apps/comments/js/filesplugin.js'
+				],
+				testFiles: ['apps/comments/tests/js/**/*.js']
+			},
+			{
+				name: 'systemtags',
+				srcFiles: [
+					// need to enforce loading order...
+					'apps/systemtags/js/app.js',
+					'apps/systemtags/js/systemtagsinfoview.js',
+					'apps/systemtags/js/systemtagsfilelist.js',
+					'apps/systemtags/js/filesplugin.js'
+				],
+				testFiles: ['apps/systemtags/tests/js/**/*.js']
 			},
 			{
 				name: 'settings',

@@ -62,3 +62,33 @@ source_file = templates/user_ldap.pot
 source_lang = en
 type = PO
 
+[owncloud.comments]
+file_filter = <lang>/comments.po
+source_file = templates/comments.pot
+source_lang = en
+type = PO
+
+[owncloud.federatedfilesharing]
+file_filter = <lang>/federatedfilesharing.po
+source_file = templates/federatedfilesharing.pot
+source_lang = en
+type = PO
+
+[owncloud.federation]
+file_filter = <lang>/federation.po
+source_file = templates/federation.pot
+source_lang = en
+type = PO
+
+[owncloud.systemtags]
+file_filter = <lang>/systemtags.po
+source_file = templates/systemtags.pot
+source_lang = en
+type = PO
+
+[owncloud.updatenotification]
+file_filter = <lang>/updatenotification.po
+source_file = templates/updatenotification.pot
+source_lang = en
+type = PO
+

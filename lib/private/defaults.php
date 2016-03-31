@@ -7,12 +7,12 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Pascal de Bruijn <pmjdebruijn@pcode.nl>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author scolebrook <scolebrook@mac.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Volkan Gezer <volkangezer@gmail.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ class OC_Defaults {
 
 	function __construct() {
 		$this->l = \OC::$server->getL10N('lib');
-		$version = OC_Util::getVersion();
+		$version = \OCP\Util::getVersion();
 
 		$this->defaultEntity = 'ownCloud'; /* e.g. company name, used for footers and copyright notices */
 		$this->defaultName = 'ownCloud'; /* short name, used when referring to the software */
@@ -261,6 +261,9 @@ class OC_Defaults {
 		return $footer;
 	}
 
+	/**
+	 * @param string $key
+	 */
 	public function buildDocLinkToKey($key) {
 		if ($this->themeExist('buildDocLinkToKey')) {
 			return $this->theme->buildDocLinkToKey($key);

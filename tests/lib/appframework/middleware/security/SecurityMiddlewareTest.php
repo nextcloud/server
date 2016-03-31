@@ -32,6 +32,7 @@ use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
 use OC\Appframework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Security\CSP\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -48,6 +49,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	private $logger;
 	private $navigationManager;
 	private $urlGenerator;
+	private $contentSecurityPolicyManager;
 
 	protected function setUp() {
 		parent::setUp();
@@ -72,6 +74,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 				'OCP\IRequest')
 				->disableOriginalConstructor()
 				->getMock();
+		$this->contentSecurityPolicyManager = $this->getMockBuilder(
+				'OC\Security\CSP\ContentSecurityPolicyManager')
+				->disableOriginalConstructor()
+				->getMock();
 		$this->middleware = $this->getMiddleware(true, true);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
@@ -91,7 +97,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			$this->logger,
 			'files',
 			$isLoggedIn,
-			$isAdminUser
+			$isAdminUser,
+			$this->contentSecurityPolicyManager
 		);
 	}
 
@@ -410,5 +417,31 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->assertTrue($response instanceof JSONResponse);
 	}
 
+	public function testAfterController() {
+		$response = $this->getMockBuilder('\OCP\AppFramework\Http\Response')->disableOriginalConstructor()->getMock();
+		$defaultPolicy = new ContentSecurityPolicy();
+		$defaultPolicy->addAllowedImageDomain('defaultpolicy');
+		$currentPolicy = new ContentSecurityPolicy();
+		$currentPolicy->addAllowedConnectDomain('currentPolicy');
+		$mergedPolicy = new ContentSecurityPolicy();
+		$mergedPolicy->addAllowedMediaDomain('mergedPolicy');
+		$response
+			->expects($this->exactly(2))
+			->method('getContentSecurityPolicy')
+			->willReturn($currentPolicy);
+		$this->contentSecurityPolicyManager
+			->expects($this->once())
+			->method('getDefaultPolicy')
+			->willReturn($defaultPolicy);
+		$this->contentSecurityPolicyManager
+				->expects($this->once())
+				->method('mergePolicies')
+				->with($defaultPolicy, $currentPolicy)
+				->willReturn($mergedPolicy);
+		$response->expects($this->once())
+			->method('setContentSecurityPolicy')
+			->with($mergedPolicy);
 
+		$this->middleware->afterController($this->controller, 'test', $response);
+	}
 }

@@ -17,7 +17,7 @@ class Wrapper extends \Test\Files\Storage\Storage {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tmpDir = \OC_Helper::tmpFolder();
+		$this->tmpDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		$storage = new \OC\Files\Storage\Local(array('datadir' => $this->tmpDir));
 		$this->instance = new \OC\Files\Storage\Wrapper\Wrapper(array('storage' => $storage));
 	}

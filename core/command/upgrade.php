@@ -1,14 +1,16 @@
 <?php
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
+ * @author Björn Schießle <schiessle@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Owen Winkler <a_github@midnightcircus.com>
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -199,10 +201,16 @@ class Upgrade extends Command {
 				$output->writeln("<error>$message</error>");
 			});
 			$updater->listen('\OC\Updater', 'setDebugLogLevel', function ($logLevel, $logLevelName) use($output) {
-				$output->writeln("<info>Set log level to debug - current level: '$logLevelName'</info>");
+				$output->writeln("<info>Set log level to debug</info>");
 			});
 			$updater->listen('\OC\Updater', 'resetLogLevel', function ($logLevel, $logLevelName) use($output) {
-				$output->writeln("<info>Reset log level to '$logLevelName'</info>");
+				$output->writeln("<info>Reset log level</info>");
+			});
+			$updater->listen('\OC\Updater', 'startCheckCodeIntegrity', function () use($output) {
+				$output->writeln("<info>Starting code integrity check...</info>");
+			});
+			$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use($output) {
+				$output->writeln("<info>Finished code integrity check</info>");
 			});
 
 			if(OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {

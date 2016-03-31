@@ -81,8 +81,10 @@
 
 		// If the displayname is not defined we use the old code path
 		if (typeof(displayname) === 'undefined') {
-			$.get(url, function(result) {
-				if (typeof(result) === 'object') {
+			$.get(url).always(function(result, status) {
+				// if there is an error or an object returned (contains user information):
+				// -> show the fallback placeholder
+				if (typeof(result) === 'object' || status === 'error') {
 					if (!hidedefault) {
 						if (result.data && result.data.displayname) {
 							$div.imageplaceholder(user, result.data.displayname);
@@ -94,6 +96,7 @@
 					} else {
 						$div.hide();
 					}
+				// else an image is transferred and should be shown
 				} else {
 					$div.show();
 					if (ie8fix === true) {

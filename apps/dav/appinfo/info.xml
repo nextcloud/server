@@ -5,10 +5,7 @@
 	<description>ownCloud WebDAV endpoint</description>
 	<licence>AGPL</licence>
 	<author>owncloud.org</author>
-	<version>0.1.3</version>
-	<requiremin>9.0</requiremin>
-	<shipped>true</shipped>
-	<standalone/>
+	<version>0.2.3</version>
 	<default_enable/>
 	<types>
 		<filesystem/>
@@ -17,8 +14,17 @@
 		<files>appinfo/v1/webdav.php</files>
 		<webdav>appinfo/v1/webdav.php</webdav>
 		<dav>appinfo/v2/remote.php</dav>
+		<!-- carddav endpoints as used before ownCloud 9.0 -->
+		<contacts>appinfo/v1/carddav.php</contacts>
+		<carddav>appinfo/v1/carddav.php</carddav>
+		<!-- caldav endpoints as used before ownCloud 9.0 -->
+		<calendar>appinfo/v1/caldav.php</calendar>
+		<caldav>appinfo/v1/caldav.php</caldav>
 	</remote>
 	<public>
 		<webdav>appinfo/v1/publicwebdav.php</webdav>
 	</public>
+	<dependencies>
+		<owncloud min-version="9.1" max-version="9.1" />
+	</dependencies>
 </info>

@@ -27,6 +27,7 @@ fi;
 for container in `cat $thisFolder/dockerContainerAtmoz.$EXECUTOR_NUMBER.sftp`; do
     echo "Stopping and removing docker container $container"
     # kills running container and removes it
+    docker stop $container
     docker rm -f $container
 done;
 

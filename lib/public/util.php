@@ -6,7 +6,6 @@
  * @author Frank Karlitschek <frank@owncloud.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Individual IT Services <info@individual-it.net>
- * @author itheiss <ingo.theiss@i-matrixx.de>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
@@ -16,14 +15,15 @@
  * @author Pellaeon Lin <nfsmwlin@gmail.com>
  * @author Randolph Carter <RandolphCarter@fantasymail.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -269,7 +269,10 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkToAbsolute( $app, $file, $args = array() ) {
-		return(\OC_Helper::linkToAbsolute( $app, $file, $args ));
+		$urlGenerator = \OC::$server->getURLGenerator();
+		return $urlGenerator->getAbsoluteURL(
+			$urlGenerator->linkTo($app, $file, $args)
+		);
 	}
 
 	/**
@@ -279,7 +282,11 @@ class Util {
 	 * @since 4.0.0
 	 */
 	public static function linkToRemote( $service ) {
-		return(\OC_Helper::linkToRemote( $service ));
+		$urlGenerator = \OC::$server->getURLGenerator();
+		$remoteBase = $urlGenerator->linkTo('', 'remote.php') . '/' . $service;
+		return $urlGenerator->getAbsoluteURL(
+			$remoteBase . (($service[strlen($service) - 1] != '/') ? '/' : '')
+		);
 	}
 
 	/**
@@ -302,7 +309,7 @@ class Util {
 	 * @since 5.0.0
 	 */
 	public static function linkToRoute( $route, $parameters = array() ) {
-		return \OC_Helper::linkToRoute($route, $parameters);
+		return \OC::$server->getURLGenerator()->linkToRoute($route, $parameters);
 	}
 
 	/**
@@ -316,7 +323,7 @@ class Util {
 	 * @since 4.0.0 - parameter $args was added in 4.5.0
 	 */
 	public static function linkTo( $app, $file, $args = array() ) {
-		return(\OC_Helper::linkTo( $app, $file, $args ));
+		return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
 	}
 
 	/**
@@ -473,21 +480,33 @@ class Util {
 	}
 
 	/**
+	 * Cached encrypted CSRF token. Some static unit-tests of ownCloud compare
+	 * multiple OC_Template elements which invoke `callRegister`. If the value
+	 * would not be cached these unit-tests would fail.
+	 * @var string
+	 */
+	private static $token = '';
+
+	/**
 	 * Register an get/post call. This is important to prevent CSRF attacks
-	 * TODO: write example
 	 * @since 4.5.0
 	 */
 	public static function callRegister() {
-		return(\OC_Util::callRegister());
+		if(self::$token === '') {
+			self::$token = \OC::$server->getCsrfTokenManager()->getToken()->getEncryptedValue();
+		}
+		return self::$token;
 	}
 
 	/**
 	 * Check an ajax get/post call if the request token is valid. exit if not.
-	 * Todo: Write howto
 	 * @since 4.5.0
+	 * @deprecated 9.0.0 Use annotations based on the app framework.
 	 */
 	public static function callCheck() {
-		\OC_Util::callCheck();
+		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
+			exit();
+		}
 	}
 
 	/**
@@ -497,11 +516,11 @@ class Util {
 	 * string or array of strings before displaying it on a web page.
 	 *
 	 * @param string|array $value
-	 * @return string|array an array of sanitized strings or a single sinitized string, depends on the input parameter.
+	 * @return string|array an array of sanitized strings or a single sanitized string, depends on the input parameter.
 	 * @since 4.5.0
 	 */
-	public static function sanitizeHTML( $value ) {
-		return(\OC_Util::sanitizeHTML($value));
+	public static function sanitizeHTML($value) {
+		return \OC_Util::sanitizeHTML($value);
 	}
 
 	/**
@@ -628,7 +647,7 @@ class Util {
 	 * @since 7.0.0
 	 */
 	public static function generateRandomBytes($length = 30) {
-		return \OC_Util::generateRandomBytes($length);
+		return \OC::$server->getSecureRandom()->generate($length, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 	}
 
 	/**

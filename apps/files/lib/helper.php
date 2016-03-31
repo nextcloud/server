@@ -6,11 +6,12 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -66,15 +67,15 @@ class Helper {
 	 */
 	public static function determineIcon($file) {
 		if($file['type'] === 'dir') {
-			$icon = \OC_Helper::mimetypeIcon('dir');
+			$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon('dir');
 			// TODO: move this part to the client side, using mountType
 			if ($file->isShared()) {
-				$icon = \OC_Helper::mimetypeIcon('dir-shared');
+				$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon('dir-shared');
 			} elseif ($file->isMounted()) {
-				$icon = \OC_Helper::mimetypeIcon('dir-external');
+				$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon('dir-external');
 			}
 		}else{
-			$icon = \OC_Helper::mimetypeIcon($file->getMimetype());
+			$icon = \OC::$server->getMimeTypeDetector()->mimeTypeIcon($file->getMimetype());
 		}
 
 		return substr($icon, 0, -3) . 'svg';

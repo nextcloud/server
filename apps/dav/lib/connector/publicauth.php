@@ -7,7 +7,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -59,6 +59,11 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 		$this->share = $linkItem;
 		if (!$linkItem) {
 			return false;
+		}
+
+		if ((int)$linkItem['share_type'] === \OCP\Share::SHARE_TYPE_LINK &&
+			$this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') !== 'yes') {
+			$this->share['permissions'] &= ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
 		}
 
 		// check if the share is password protected

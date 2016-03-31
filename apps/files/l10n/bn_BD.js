@@ -26,6 +26,7 @@ OC.L10N.register(
     "Download" : "ডাউনলোড",
     "Rename" : "পূনঃনামকরণ",
     "Delete" : "মুছে",
+    "Unshare" : "ভাগাভাগি বাতিল ",
     "Details" : "বিস্তারিত",
     "Pending" : "মুলতুবি",
     "Name" : "রাম",
@@ -59,7 +60,6 @@ OC.L10N.register(
     "Cancel upload" : "আপলোড বাতিল কর",
     "Upload too large" : "আপলোডের আকারটি অনেক বড়",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "আপনি এই সার্ভারে আপলোড করার জন্য অনুমোদিত ফাইলের সর্বোচ্চ আকারের চেয়ে বৃহদাকার ফাইল আপলোড করার চেষ্টা করছেন ",
-    "Files are being scanned, please wait." : "ফাইলগুলো স্ক্যান করা হচ্ছে, দয়া করে অপেক্ষা করুন।",
     "Text file" : "টেক্সট ফাইল"
 },
 "nplurals=2; plural=(n != 1);");

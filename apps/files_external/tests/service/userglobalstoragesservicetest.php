@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,16 +22,33 @@
  */
 namespace OCA\Files_External\Tests\Service;
 
+use OCA\Files_external\NotFoundException;
+use OCA\Files_external\Service\StoragesService;
 use \OCA\Files_External\Service\UserGlobalStoragesService;
 use \OCP\IGroupManager;
 
 use \OCA\Files_External\Lib\StorageConfig;
+use OCP\IUser;
+use Test\Traits\UserTrait;
 
+/**
+ * @group DB
+ */
 class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
+	use UserTrait;
 
+	/** @var \OCP\IGroupManager|\PHPUnit_Framework_MockObject_MockObject groupManager */
 	protected $groupManager;
 
+	/**
+	 * @var StoragesService
+	 */
 	protected $globalStoragesService;
+
+	/**
+	 * @var UserGlobalStoragesService
+	 */
+	protected $service;
 
 	protected $user;
 
@@ -44,6 +62,7 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->globalStoragesService = $this->service;
 
 		$this->user = new \OC\User\User(self::USER_ID, null);
+		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSession */
 		$userSession = $this->getMock('\OCP\IUserSession');
 		$userSession
 			->expects($this->any())
@@ -52,21 +71,31 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 		$this->groupManager = $this->getMock('\OCP\IGroupManager');
 		$this->groupManager->method('isInGroup')
-			->will($this->returnCallback(function($userId, $groupId) {
+			->will($this->returnCallback(function ($userId, $groupId) {
 				if ($userId === self::USER_ID) {
 					switch ($groupId) {
-					case self::GROUP_ID:
-					case self::GROUP_ID2:
-						return true;
+						case self::GROUP_ID:
+						case self::GROUP_ID2:
+							return true;
 					}
 				}
 				return false;
 			}));
+		$this->groupManager->method('getUserGroupIds')
+			->will($this->returnCallback(function (IUser $user) {
+				if ($user->getUID() === self::USER_ID) {
+					return [self::GROUP_ID, self::GROUP_ID2];
+				} else {
+					return [];
+				}
+			}));
 
 		$this->service = new UserGlobalStoragesService(
 			$this->backendService,
+			$this->dbConfig,
 			$userSession,
-			$this->groupManager
+			$this->groupManager,
+			$this->mountCache
 		);
 	}
 
@@ -114,6 +143,13 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 			$this->assertEquals('/mountpoint', $retrievedStorage->getMountPoint());
 		} else {
 			$this->assertEquals(0, count($storages));
+
+			try {
+				$this->service->getStorage($newStorage->getId());
+				$this->fail('Failed asserting that storage can\'t be accessed by id');
+			} catch (NotFoundException $e) {
+
+			}
 		}
 
 	}
@@ -156,6 +192,13 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 
 	/**
 	 * @expectedException \DomainException
+	 */
+	public function testNonExistingStorage() {
+		parent::testNonExistingStorage();
+	}
+
+	/**
+	 * @expectedException \DomainException
 	 * @dataProvider deleteStorageDataProvider
 	 */
 	public function testDeleteStorage($backendOptions, $rustyStorageId, $expectedCountAfterDeletion) {
@@ -169,9 +212,16 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$storage->setBackendOptions($backendOptions);
 
 		$newStorage = $this->globalStoragesService->addStorage($storage);
-		$this->assertEquals(1, $newStorage->getId());
+		$id = $newStorage->getId();
 
-		$this->service->removeStorage(1);
+		$this->service->removeStorage($id);
+	}
+
+	/**
+	 * @expectedException \DomainException
+	 */
+	public function testDeleteUnexistingStorage() {
+		parent::testDeleteUnexistingStorage();
 	}
 
 	public function getUniqueStoragesProvider() {
@@ -309,4 +359,8 @@ class UserGlobalStoragesServiceTest extends GlobalStoragesServiceTest {
 		$this->assertTrue(true);
 	}
 
+	public function testUpdateStorageMountPoint() {
+		// we don't test this here
+		$this->assertTrue(true);
+	}
 }

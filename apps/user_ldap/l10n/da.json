@@ -22,6 +22,7 @@
     "Could not detect Base DN, please enter it manually." : "Kunne ikke registrere Base DN - angiv den venligst manuelt.",
     "{nthServer}. Server" : "{nthServer}. server",
     "No object found in the given Base DN. Please revise." : "Intet objekt fundet i den givne Base DN. Gennemse venligst.",
+    "More than 1,000 directory entries available." : "Mere end 1.000 mappeposter",
     " entries available within the provided Base DN" : "poster tilgængelige inden for det angivne Base DN.",
     "An error occurred. Please check the Base DN, as well as connection settings and credentials." : "Der opstod en fejl. Tjek venligst Base DN, såvel som forbindelsesindstillingerne og brugeroplysningerne.",
     "Do you really want to delete the current Server Configuration?" : "Ønsker du virkelig at slette den nuværende Server Konfiguration?",

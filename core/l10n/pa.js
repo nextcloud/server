@@ -34,6 +34,7 @@ OC.L10N.register(
     "Share" : "ਸਾਂਝਾ ਕਰੋ",
     "Warning" : "ਚੇਤਾਵਨੀ",
     "Delete" : "ਹਟਾਓ",
+    "Rename" : "ਨਾਂ ਬਦਲੋ",
     "Username" : "ਯੂਜ਼ਰ-ਨਾਂ",
     "Search" : "ਖੋਜ"
 },

@@ -7,7 +7,7 @@
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Tom Needham <tom@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -62,7 +62,8 @@ API::register('get', '/cloud/groups/{groupid}/subadmins', [$groups, 'getSubAdmin
 
 // Apps
 $apps = new \OCA\Provisioning_API\Apps(
-	\OC::$server->getAppManager()
+	\OC::$server->getAppManager(),
+	\OC::$server->getOcsClient()
 );
 API::register('get', '/cloud/apps', [$apps, 'getApps'], 'provisioning_api', API::ADMIN_AUTH);
 API::register('get', '/cloud/apps/{appid}', [$apps, 'getAppInfo'], 'provisioning_api', API::ADMIN_AUTH);

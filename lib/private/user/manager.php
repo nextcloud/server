@@ -4,13 +4,16 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Michael U <mdusher@users.noreply.github.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author RealRancor <Fisch.666@gmx.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Chan <plus.vincchan@gmail.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -43,12 +46,13 @@ use OCP\IConfig;
  * - postDelete(\OC\User\User $user)
  * - preCreateUser(string $uid, string $password)
  * - postCreateUser(\OC\User\User $user, string $password)
+ * - change(\OC\User\User $user)
  *
  * @package OC\User
  */
 class Manager extends PublicEmitter implements IUserManager {
 	/**
-	 * @var \OCP\UserInterface [] $backends
+	 * @var \OCP\UserInterface[] $backends
 	 */
 	private $backends = array();
 
@@ -254,14 +258,18 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function createUser($uid, $password) {
 		$l = \OC::$server->getL10N('lib');
 		// Check the name for bad characters
-		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
-		if (preg_match('/[^a-zA-Z0-9 _\.@\-]/', $uid)) {
+		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-'"
+		if (preg_match('/[^a-zA-Z0-9 _\.@\-\']/', $uid)) {
 			throw new \Exception($l->t('Only the following characters are allowed in a username:'
-				. ' "a-z", "A-Z", "0-9", and "_.@-"'));
+				. ' "a-z", "A-Z", "0-9", and "_.@-\'"'));
 		}
 		// No empty username
 		if (trim($uid) == '') {
 			throw new \Exception($l->t('A valid username must be provided'));
+		}
+		// No whitespace at the beginning or at the end
+		if (strlen(trim($uid, "\t\n\r\0\x0B\xe2\x80\x8b")) !== strlen(trim($uid))) {
+			throw new \Exception($l->t('Username contains whitespace at the beginning or at the end'));
 		}
 		// No empty password
 		if (trim($password) == '') {

@@ -2,11 +2,13 @@
 /**
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -52,7 +54,7 @@ interface IGroupManager {
 	public function isBackendUsed($backendClass);
 
 	/**
-	 * @param \OCP\UserInterface $backend
+	 * @param \OCP\GroupInterface $backend
 	 * @since 8.0.0
 	 */
 	public function addBackend($backend);

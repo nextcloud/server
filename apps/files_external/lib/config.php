@@ -4,17 +4,18 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -90,6 +91,7 @@ class OC_Mount_Config {
 		$userStoragesService->setUser($user);
 
 		foreach ($userGlobalStoragesService->getStorages() as $storage) {
+			/** @var \OCA\Files_external\Lib\StorageConfig $storage */
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, false);
 			foreach ($mountEntry['options'] as &$option) {
@@ -267,26 +269,6 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * Write the mount points to the config file
-	 *
-	 * @param string|null $user If not null, personal for $user, otherwise system
-	 * @param array $data Mount points
-	 */
-	public static function writeData($user, $data) {
-		if (isset($user)) {
-			$file = \OC::$server->getUserManager()->get($user)->getHome() . '/mount.json';
-		} else {
-			$config = \OC::$server->getConfig();
-			$datadir = $config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
-			$file = $config->getSystemValue('mount_file', $datadir . '/mount.json');
-		}
-
-		$content = json_encode($data, JSON_PRETTY_PRINT);
-		@file_put_contents($file, $content);
-		@chmod($file, 0640);
-	}
-
-	/**
 	 * Get backend dependency message
 	 * TODO: move into AppFramework along with templates
 	 *
@@ -397,39 +379,9 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * Merges mount points
-	 *
-	 * @param array $data Existing mount points
-	 * @param array $mountPoint New mount point
-	 * @param string $mountType
-	 * @return array
-	 */
-	private static function mergeMountPoints($data, $mountPoint, $mountType) {
-		$applicable = key($mountPoint);
-		$mountPath = key($mountPoint[$applicable]);
-		if (isset($data[$mountType])) {
-			if (isset($data[$mountType][$applicable])) {
-				// Merge priorities
-				if (isset($data[$mountType][$applicable][$mountPath])
-					&& isset($data[$mountType][$applicable][$mountPath]['priority'])
-					&& !isset($mountPoint[$applicable][$mountPath]['priority'])
-				) {
-					$mountPoint[$applicable][$mountPath]['priority']
-						= $data[$mountType][$applicable][$mountPath]['priority'];
-				}
-				$data[$mountType][$applicable]
-					= array_merge($data[$mountType][$applicable], $mountPoint[$applicable]);
-			} else {
-				$data[$mountType] = array_merge($data[$mountType], $mountPoint);
-			}
-		} else {
-			$data[$mountType] = $mountPoint;
-		}
-		return $data;
-	}
-
-	/**
 	 * Returns the encryption cipher
+	 *
+	 * @return AES
 	 */
 	private static function getCipher() {
 		$cipher = new AES(AES::MODE_CBC);
@@ -441,6 +393,9 @@ class OC_Mount_Config {
 	 * Computes a hash based on the given configuration.
 	 * This is mostly used to find out whether configurations
 	 * are the same.
+	 *
+	 * @param array $config
+	 * @return string
 	 */
 	public static function makeConfigHash($config) {
 		$data = json_encode(

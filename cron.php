@@ -13,7 +13,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -130,11 +130,20 @@ try {
 
 		// Work
 		$jobList = \OC::$server->getJobList();
-		$jobs = $jobList->getAll();
-		foreach ($jobs as $job) {
+
+		$executedJobs = [];
+		while ($job = $jobList->getNext()) {
+			if (isset($executedJobs[$job->getId()])) {
+				break;
+			}
+
 			$logger->debug('Run job with ID ' . $job->getId(), ['app' => 'cron']);
 			$job->execute($jobList, $logger);
 			$logger->debug('Finished job with ID ' . $job->getId(), ['app' => 'cron']);
+
+			$jobList->setLastJob($job);
+			$executedJobs[$job->getId()] = true;
+			unset($job);
 		}
 
 		// unlock the file

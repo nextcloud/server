@@ -6,7 +6,7 @@
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ try {
 			 * pass (like e.g. expected syntax error).
 			 */
 			try {
-				$ldapWrapper->read($connection->getConnectionResource(), 'neverwhere', 'objectClass=*', array('dn'));
+				$ldapWrapper->read($connection->getConnectionResource(), '', 'objectClass=*', array('dn'));
 			} catch (\Exception $e) {
 				if($e->getCode() === 1) {
 					OCP\JSON::error(array('message' => $l->t('The configuration is invalid: anonymous bind is not allowed.')));

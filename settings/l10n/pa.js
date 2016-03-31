@@ -14,9 +14,9 @@ OC.L10N.register(
     "__language_name__" : "__ਭਾਸ਼ਾ_ਨਾਂ__",
     "Login" : "ਲਾਗਇਨ",
     "Server address" : "ਸਰਵਰ ਐਡਰੈਸ",
+    "Cancel" : "ਰੱਦ ਕਰੋ",
     "Password" : "ਪਾਸਵਰ",
     "Change password" : "ਪਾਸਵਰਡ ਬਦਲੋ",
-    "Cancel" : "ਰੱਦ ਕਰੋ",
     "Username" : "ਯੂਜ਼ਰ-ਨਾਂ"
 },
 "nplurals=2; plural=(n != 1);");

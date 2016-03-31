@@ -11,7 +11,7 @@
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -66,6 +66,7 @@ class OC_JSON{
 	public static function checkLoggedIn() {
 		if( !OC_User::isLoggedIn()) {
 			$l = \OC::$server->getL10N('lib');
+			http_response_code(\OCP\AppFramework\Http::STATUS_UNAUTHORIZED);
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' )));
 			exit();
 		}
@@ -76,7 +77,7 @@ class OC_JSON{
 	 * @deprecated Use annotation based CSRF checks from the AppFramework instead
 	 */
 	public static function callCheck() {
-		if( !OC_Util::isCallRegistered()) {
+		if( !(\OC::$server->getRequest()->passesCSRFCheck())) {
 			$l = \OC::$server->getL10N('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Token expired. Please reload page.'), 'error' => 'token_expired' )));
 			exit();

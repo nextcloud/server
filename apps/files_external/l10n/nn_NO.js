@@ -4,6 +4,7 @@ OC.L10N.register(
     "Personal" : "Personleg",
     "Username" : "Brukarnamn",
     "Password" : "Passord",
+    "Save" : "Lagra",
     "Region" : "Region/fylke",
     "WebDAV" : "WebDAV",
     "URL" : "Nettstad",

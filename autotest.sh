@@ -13,8 +13,6 @@
 # @copyright 2012-2015 Thomas Müller thomas.mueller@tmit.eu
 #
 
-set -e
-
 #$EXECUTOR_NUMBER is set by Jenkins and allows us to run autotest in parallel
 DATABASENAME=oc_autotest$EXECUTOR_NUMBER
 DATABASEUSER=oc_autotest$EXECUTOR_NUMBER
@@ -33,6 +31,8 @@ if [ -z "$PHP_EXE" ]; then
 fi
 PHP=$(which "$PHP_EXE")
 PHPUNIT=$(which phpunit)
+
+set -e
 
 _XDEBUG_CONFIG=$XDEBUG_CONFIG
 unset XDEBUG_CONFIG
@@ -69,8 +69,8 @@ PHPUNIT_VERSION=$($PHPUNIT --version | cut -d" " -f2)
 PHPUNIT_MAJOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f1)
 PHPUNIT_MINOR_VERSION=$(echo "$PHPUNIT_VERSION" | cut -d"." -f2)
 
-if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 3 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 3 -a "$PHPUNIT_MINOR_VERSION" -ge 7 \) ]; then
-	echo "phpunit version >= 3.7 required. Version found: $PHPUNIT_VERSION" >&2
+if ! [ "$PHPUNIT_MAJOR_VERSION" -gt 4 -o \( "$PHPUNIT_MAJOR_VERSION" -eq 4 -a "$PHPUNIT_MINOR_VERSION" -ge 4 \) ]; then
+	echo "phpunit version >= 4.4 required. Version found: $PHPUNIT_VERSION" >&2
 	exit 4
 fi
 
@@ -122,6 +122,7 @@ function cleanup_config {
 
 	if [ ! -z "$DOCKER_CONTAINER_ID" ]; then
 		echo "Kill the docker $DOCKER_CONTAINER_ID"
+		docker stop "$DOCKER_CONTAINER_ID"
 		docker rm -f "$DOCKER_CONTAINER_ID"
 	fi
 
@@ -185,17 +186,19 @@ function execute_tests {
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the mariadb docker"
 			DOCKER_CONTAINER_ID=$(docker run \
+				-v $BASEDIR/tests/docker/mariadb:/etc/mysql/conf.d \
 				-e MYSQL_ROOT_PASSWORD=owncloud \
 				-e MYSQL_USER="$DATABASEUSER" \
 				-e MYSQL_PASSWORD=owncloud \
 				-e MYSQL_DATABASE="$DATABASENAME" \
-				-d rullzer/mariadb-owncloud)
+				-d mariadb)
 			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for MariaDB initialisation ..."
-
-			# grep exits on the first match and then the script continues
-			timeout 30 docker logs -f $DOCKER_CONTAINER_ID 2>&1 | grep -q "mysqld: ready for connections."
+			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 60; then
+				echo "[ERROR] Waited 60 seconds, no response" >&2
+				exit 1
+			fi
 
 			echo "MariaDB is up."
 
@@ -249,7 +252,7 @@ function execute_tests {
 
 	# trigger installation
 	echo "Installing ...."
-	"$PHP" ./occ maintenance:install --database="$_DB" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --database-table-prefix=oc_ --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
+	"$PHP" ./occ maintenance:install -vvv --database="$_DB" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --database-table-prefix=oc_ --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
 
 	#test execution
 	echo "Testing with $DB ..."
@@ -286,6 +289,7 @@ function execute_tests {
 
 	if [ ! -z "$DOCKER_CONTAINER_ID" ] ; then
 		echo "Kill the docker $DOCKER_CONTAINER_ID"
+		docker stop $DOCKER_CONTAINER_ID
 		docker rm -f $DOCKER_CONTAINER_ID
 		unset DOCKER_CONTAINER_ID
 	fi

@@ -4,9 +4,8 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -25,7 +24,7 @@
 
 namespace OCA\Files_Sharing\AppInfo;
 
-use OCA\Files_Sharing\Helper;
+use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\MountProvider;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -49,13 +48,15 @@ class Application extends App {
 			return new ShareController(
 				$c->query('AppName'),
 				$c->query('Request'),
-				$c->query('UserSession'),
-				$server->getAppConfig(),
 				$server->getConfig(),
-				$c->query('URLGenerator'),
-				$c->query('UserManager'),
+				$server->getURLGenerator(),
+				$server->getUserManager(),
 				$server->getLogger(),
-				$server->getActivityManager()
+				$server->getActivityManager(),
+				$server->getShareManager(),
+				$server->getSession(),
+				$server->getPreviewManager(),
+				$server->getRootFolder()
 			);
 		});
 		$container->registerService('ExternalSharesController', function (SimpleContainer $c) {
@@ -70,27 +71,23 @@ class Application extends App {
 		/**
 		 * Core class wrappers
 		 */
-		$container->registerService('UserSession', function (SimpleContainer $c) use ($server) {
-			return $server->getUserSession();
-		});
-		$container->registerService('URLGenerator', function (SimpleContainer $c) use ($server) {
-			return $server->getUrlGenerator();
-		});
-		$container->registerService('UserManager', function (SimpleContainer $c) use ($server) {
-			return $server->getUserManager();
-		});
 		$container->registerService('HttpClientService', function (SimpleContainer $c) use ($server) {
 			return $server->getHTTPClientService();
 		});
 		$container->registerService('ExternalManager', function (SimpleContainer $c) use ($server) {
 			$user = $server->getUserSession()->getUser();
 			$uid = $user ? $user->getUID() : null;
+			$discoveryManager = new DiscoveryManager(
+				\OC::$server->getMemCacheFactory(),
+				\OC::$server->getHTTPClientService()
+			);
 			return new \OCA\Files_Sharing\External\Manager(
 				$server->getDatabaseConnection(),
 				\OC\Files\Filesystem::getMountManager(),
 				\OC\Files\Filesystem::getLoader(),
 				$server->getHTTPHelper(),
 				$server->getNotificationManager(),
+				$discoveryManager,
 				$uid
 			);
 		});

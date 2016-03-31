@@ -99,7 +99,8 @@ describe('OCA.Files.TagsPlugin tests', function() {
 			expect($tr.attr('data-favorite')).toEqual('true');
 			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
 			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
-			expect($action.find('img').attr('src')).toEqual(OC.imagePath('core', 'actions/starred'));
+			expect($action.find('.icon').hasClass('icon-star')).toEqual(false);
+			expect($action.find('.icon').hasClass('icon-starred')).toEqual(true);
 
 			$action.click();
 
@@ -119,7 +120,8 @@ describe('OCA.Files.TagsPlugin tests', function() {
 			expect($tr.attr('data-favorite')).toBeFalsy();
 			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3']);
 			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3']);
-			expect($action.find('img').attr('src')).toEqual(OC.imagePath('core', 'actions/star'));
+			expect($action.find('.icon').hasClass('icon-star')).toEqual(true);
+			expect($action.find('.icon').hasClass('icon-starred')).toEqual(false);
 		});
 	});
 	describe('elementToFile', function() {

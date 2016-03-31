@@ -1,12 +1,13 @@
 <?php
 /**
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Phil Davis <phil.davis@inf.org>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -79,6 +80,13 @@ class Memory extends Session {
 	public function clear() {
 		$this->data = array();
 	}
+
+	/**
+	 * Stub since the session ID does not need to get regenerated for the cache
+	 *
+	 * @param bool $deleteOldSession
+	 */
+	public function regenerateId($deleteOldSession = true) {}
 
 	/**
 	 * Helper function for PHPUnit execution - don't use in non-test code

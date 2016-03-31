@@ -1,0 +1,33 @@
+{
+  "maxReviewers": 3,
+  "numFilesToCheck": 5,
+  "alwaysNotifyForPaths": [
+    {
+      "name": "DeepDiver1975",
+      "files": [
+        "apps/dav/**"
+      ]
+    },
+    {
+      "name": "nickvergessen",
+      "files": [
+        "lib/private/activity/**",
+        "lib/private/notification/**",
+        "lib/public/activity/**",
+        "lib/public/notification/**"
+      ]
+    },
+    {
+      "name": "Xenopathic",
+      "files": [
+        "apps/files_external/**"
+      ]
+    }
+  ],
+  "userBlacklist": [
+    "owncloud-bot",
+    "scrutinizer-auto-fixer",
+    "th3fallen",
+    "zander"
+  ]
+}

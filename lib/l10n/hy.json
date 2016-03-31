@@ -1,6 +1,8 @@
 { "translations": {
+    "Help" : "Օգնություն",
     "Personal" : "Անձնական",
     "today" : "այսօր",
-    "seconds ago" : "վրկ. առաջ"
+    "seconds ago" : "վրկ. առաջ",
+    "File name contains at least one invalid character" : "Ֆայլի անունը առնվազն մի անվավեր նիշ է պարունակում"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

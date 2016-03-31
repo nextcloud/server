@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -136,10 +137,12 @@ trait FrontendDefinitionTrait {
 	public function validateStorageDefinition(StorageConfig $storage) {
 		foreach ($this->getParameters() as $name => $parameter) {
 			$value = $storage->getBackendOption($name);
-			if (!$parameter->validateValue($value)) {
-				return false;
+			if (!is_null($value) || !$parameter->isOptional()) {
+				if (!$parameter->validateValue($value)) {
+					return false;
+				}
+				$storage->setBackendOption($name, $value);
 			}
-			$storage->setBackendOption($name, $value);
 		}
 		return true;
 	}

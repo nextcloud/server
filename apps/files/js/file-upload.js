@@ -251,10 +251,30 @@ OC.Upload = {
 		$('#file_upload_start').trigger(new $.Event('resized'));
 	},
 
+	/**
+	 * Returns whether the given file is known to be a received shared file
+	 *
+	 * @param {Object} file file
+	 * @return {bool} true if the file is a shared file
+	 */
+	_isReceivedSharedFile: function(file) {
+		if (!window.FileList) {
+			return false;
+		}
+		var $tr = window.FileList.findFileEl(file.name);
+		if (!$tr.length) {
+			return false;
+		}
+
+		return ($tr.attr('data-mounttype') === 'shared-root' && $tr.attr('data-mime') !== 'httpd/unix-directory');
+	},
+
 	init: function() {
+		var self = this;
 		if ( $('#file_upload_start').exists() ) {
 			var file_upload_param = {
 				dropZone: $('#content'), // restrict dropZone to content div
+				pasteZone: null, 
 				autoUpload: false,
 				sequentialUploads: true,
 				//singleFileUploads is on by default, so the data.files array will always have length 1
@@ -341,10 +361,15 @@ OC.Upload = {
 						}
 					}
 
-					// add size
-					selection.totalBytes += file.size;
-					// update size of biggest file
-					selection.biggestFileBytes = Math.max(selection.biggestFileBytes, file.size);
+					// only count if we're not overwriting an existing shared file
+					if (self._isReceivedSharedFile(file)) {
+						file.isReceivedShare = true;
+					} else {
+						// add size
+						selection.totalBytes += file.size;
+						// update size of biggest file
+						selection.biggestFileBytes = Math.max(selection.biggestFileBytes, file.size);
+					}
 
 					// check PHP upload limit against biggest file
 					if (selection.biggestFileBytes > $('#upload_limit').val()) {
@@ -430,11 +455,16 @@ OC.Upload = {
 						fileDirectory = data.files[0].relativePath;
 					}
 
-					addFormData(data.formData, {
+					var params = {
 						requesttoken: oc_requesttoken,
 						dir: data.targetDir || FileList.getCurrentDirectory(),
-						file_directory: fileDirectory
-					});
+						file_directory: fileDirectory,
+					};
+					if (data.files[0].isReceivedShare) {
+						params.isReceivedShare = true;
+					}
+
+					addFormData(data.formData, params);
 				},
 				fail: function(e, data) {
 					OC.Upload.log('fail', e, data);
@@ -443,7 +473,11 @@ OC.Upload = {
 							OC.Upload.showUploadCancelMessage();
 						} else {
 							// HTTP connection problem
-							OC.Notification.showTemporary(data.errorThrown, {timeout: 10});
+							var message = t('files', 'Error uploading file "{fileName}": {message}', {
+								fileName: data.files[0].name,
+								message: data.errorThrown
+							});
+							OC.Notification.show(message, {timeout: 0, type: 'error'});
 							if (data.result) {
 								var result = JSON.parse(data.result);
 								if (result && result[0] && result[0].data && result[0].data.code === 'targetnotfound') {

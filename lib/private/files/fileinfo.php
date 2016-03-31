@@ -4,12 +4,13 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
- * @author Scrutinizer Auto-Fixer <auto-fixer@scrutinizer-ci.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author tbartenstein <tbartenstein@users.noreply.github.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -28,6 +29,7 @@
 
 namespace OC\Files;
 
+use OCP\Files\Cache\ICacheEntry;
 use OCP\IUser;
 
 class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
@@ -70,7 +72,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @param string|boolean $path
 	 * @param Storage\Storage $storage
 	 * @param string $internalPath
-	 * @param array $data
+	 * @param array|ICacheEntry $data
 	 * @param \OCP\Files\Mount\IMountPoint $mount
 	 * @param \OCP\IUser|null $owner
 	 */
@@ -100,6 +102,8 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 			return $this->getType();
 		} else if ($offset === 'etag') {
 			return $this->getEtag();
+		} elseif ($offset === 'permissions') {
+			return $this->getPermissions();
 		} elseif (isset($this->data[$offset])) {
 			return $this->data[$offset];
 		} else {
@@ -190,10 +194,23 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	/**
+	 * Return the currently version used for the HMAC in the encryption app
+	 *
+	 * @return int
+	 */
+	public function getEncryptedVersion() {
+		return isset($this->data['encryptedVersion']) ? (int) $this->data['encryptedVersion'] : 1;
+	}
+
+	/**
 	 * @return int
 	 */
 	public function getPermissions() {
-		return $this->data['permissions'];
+		$perms = $this->data['permissions'];
+		if (\OCP\Util::isSharingDisabledForUser() || ($this->isShared() && !\OC\Share\Share::isResharingAllowed())) {
+			$perms = $perms & ~\OCP\Constants::PERMISSION_SHARE;
+		}
+		return $perms;
 	}
 
 	/**
@@ -318,5 +335,12 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 			$permissions = isset($data['permissions']) ? $data['permissions'] : 0;
 			$this->childEtags[] = $relativeEntryPath . '/' . $data['etag'] . $permissions;
 		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getChecksum() {
+		return $this->data['checksum'];
 	}
 }

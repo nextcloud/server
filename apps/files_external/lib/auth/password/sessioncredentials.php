@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,6 +22,7 @@
 
 namespace OCA\Files_External\Lib\Auth\Password;
 
+use \OCP\IUser;
 use \OCP\IL10N;
 use \OCA\Files_External\Lib\DefinitionParameter;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
@@ -49,7 +51,7 @@ class SessionCredentials extends AuthMechanism {
 		$this
 			->setIdentifier('password::sessioncredentials')
 			->setScheme(self::SCHEME_PASSWORD)
-			->setText($l->t('Session credentials'))
+			->setText($l->t('Log-in credentials, save in session'))
 			->addParameters([
 			])
 		;
@@ -66,7 +68,7 @@ class SessionCredentials extends AuthMechanism {
 		$this->session->set('password::sessioncredentials/credentials', $this->crypto->encrypt(json_encode($params)));
 	}
 
-	public function manipulateStorageConfig(StorageConfig &$storage) {
+	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 		$encrypted = $this->session->get('password::sessioncredentials/credentials');
 		if (!isset($encrypted)) {
 			throw new InsufficientDataForMeaningfulAnswerException('No session credentials saved');

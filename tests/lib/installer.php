@@ -32,12 +32,16 @@ class Test_Installer extends \Test\TestCase {
 		$pathOfTestApp .= '/../data/';
 		$pathOfTestApp .= 'testapp.zip';
 
-		$tmp = OC_Helper::tmpFile('.zip');
+		$tmp = \OC::$server->getTempManager()->getTemporaryFile('.zip');
 		OC_Helper::copyr($pathOfTestApp, $tmp);
 
 		$data = array(
 			'path' => $tmp,
 			'source' => 'path',
+			'appdata' => [
+				'id' => 'Bar',
+				'level' => 100,
+			]
 		);
 
 		OC_Installer::installApp($data);
@@ -51,24 +55,32 @@ class Test_Installer extends \Test\TestCase {
 		$pathOfOldTestApp .= '/../data/';
 		$pathOfOldTestApp .= 'testapp.zip';
 
-		$oldTmp = OC_Helper::tmpFile('.zip');
+		$oldTmp = \OC::$server->getTempManager()->getTemporaryFile('.zip');
 		OC_Helper::copyr($pathOfOldTestApp, $oldTmp);
 
 		$oldData = array(
 			'path' => $oldTmp,
 			'source' => 'path',
+			'appdata' => [
+				'id' => 'Bar',
+				'level' => 100,
+			]
 		);
 
 		$pathOfNewTestApp  = __DIR__;
 		$pathOfNewTestApp .= '/../data/';
 		$pathOfNewTestApp .= 'testapp2.zip';
 
-		$newTmp = OC_Helper::tmpFile('.zip');
+		$newTmp = \OC::$server->getTempManager()->getTemporaryFile('.zip');
 		OC_Helper::copyr($pathOfNewTestApp, $newTmp);
 
 		$newData = array(
 			'path' => $newTmp,
 			'source' => 'path',
+			'appdata' => [
+				'id' => 'Bar',
+				'level' => 100,
+			]
 		);
 
 		OC_Installer::installApp($oldData);

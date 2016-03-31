@@ -10,14 +10,15 @@
 
 namespace Test\SystemTag;
 
+use OC\SystemTag\SystemTag;
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
-use \OCP\SystemTag\ISystemTag;
-use \OCP\SystemTag\ISystemTagManager;
-use \OCP\SystemTag\ISystemTagObjectMapper;
-use \OCP\SystemTag\TagNotFoundException;
-use \OCP\IDBConnection;
-use \OC\SystemTag\SystemTag;
+use OCP\IDBConnection;
+use OCP\SystemTag\ISystemTag;
+use OCP\SystemTag\ISystemTagManager;
+use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\SystemTag\TagNotFoundException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -44,6 +45,11 @@ class SystemTagObjectMapperTest extends TestCase {
 	private $connection;
 
 	/**
+	 * @var EventDispatcherInterface
+	 */
+	private $dispatcher;
+
+	/**
 	 * @var ISystemTag
 	 */
 	private $tag1;
@@ -67,14 +73,21 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->tagManager = $this->getMockBuilder('OCP\SystemTag\ISystemTagManager')
 			->getMock();
 
-		$this->tagMapper = new SystemTagObjectMapper($this->connection, $this->tagManager);
+		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
+			->getMock();
+
+		$this->tagMapper = new SystemTagObjectMapper(
+			$this->connection,
+			$this->tagManager,
+			$this->dispatcher
+		);
 
 		$this->tag1 = new SystemTag(1, 'testtag1', false, false);
 		$this->tag2 = new SystemTag(2, 'testtag2', true, false);
 		$this->tag3 = new SystemTag(3, 'testtag3', false, false);
 
 		$this->tagManager->expects($this->any())
-			->method('getTagsById')
+			->method('getTagsByIds')
 			->will($this->returnCallback(function($tagIds) {
 				$result = [];
 				if (in_array(1, $tagIds)) {
@@ -89,10 +102,10 @@ class SystemTagObjectMapperTest extends TestCase {
 				return $result;
 			}));
 
-		$this->tagMapper->assignTags(1, 'testtype', $this->tag1->getId());
-		$this->tagMapper->assignTags(1, 'testtype', $this->tag2->getId());
-		$this->tagMapper->assignTags(2, 'testtype', $this->tag1->getId());
-		$this->tagMapper->assignTags(3, 'anothertype', $this->tag1->getId());
+		$this->tagMapper->assignTags('1', 'testtype', $this->tag1->getId());
+		$this->tagMapper->assignTags('1', 'testtype', $this->tag2->getId());
+		$this->tagMapper->assignTags('2', 'testtype', $this->tag1->getId());
+		$this->tagMapper->assignTags('3', 'anothertype', $this->tag1->getId());
 	}
 
 	public function tearDown() {
@@ -106,18 +119,27 @@ class SystemTagObjectMapperTest extends TestCase {
 		$query->delete(SystemTagManager::TAG_TABLE)->execute();
 	}
 
-	public function testGetTagsForObjects() {
+	public function testGetTagIdsForObjects() {
 		$tagIdMapping = $this->tagMapper->getTagIdsForObjects(
-			[1, 2, 3, 4],
+			['1', '2', '3', '4'],
 			'testtype'
 		);
 
 		$this->assertEquals([
-			1 => [$this->tag1->getId(), $this->tag2->getId()],
-			2 => [$this->tag1->getId()],
-			3 => [],
-			4 => [],
+			'1' => [$this->tag1->getId(), $this->tag2->getId()],
+			'2' => [$this->tag1->getId()],
+			'3' => [],
+			'4' => [],
 		], $tagIdMapping);
+	}
+
+	public function testGetTagIdsForNoObjects() {
+		$tagIdMapping = $this->tagMapper->getTagIdsForObjects(
+			[],
+			'testtype'
+		);
+
+		$this->assertEquals([], $tagIdMapping);
 	}
 
 	public function testGetObjectsForTags() {
@@ -127,7 +149,43 @@ class SystemTagObjectMapperTest extends TestCase {
 		);
 
 		$this->assertEquals([
+			'1',
+			'2',
+		], $objectIds);
+	}
+
+	public function testGetObjectsForTagsLimit() {
+		$objectIds = $this->tagMapper->getObjectIdsForTags(
+			[$this->tag1->getId()],
+			'testtype',
+			1
+		);
+
+		$this->assertEquals([
 			1,
+		], $objectIds);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testGetObjectsForTagsLimitWithMultipleTags() {
+		$this->tagMapper->getObjectIdsForTags(
+			[$this->tag1->getId(), $this->tag2->getId(), $this->tag3->getId()],
+			'testtype',
+			1
+		);
+	}
+
+	public function testGetObjectsForTagsLimitOffset() {
+		$objectIds = $this->tagMapper->getObjectIdsForTags(
+			[$this->tag1->getId()],
+			'testtype',
+			1,
+			'1'
+		);
+
+		$this->assertEquals([
 			2,
 		], $objectIds);
 	}
@@ -143,29 +201,29 @@ class SystemTagObjectMapperTest extends TestCase {
 	}
 
 	public function testAssignUnassignTags() {
-		$this->tagMapper->unassignTags(1, 'testtype', [$this->tag1->getId()]);
+		$this->tagMapper->unassignTags('1', 'testtype', [$this->tag1->getId()]);
 
-		$tagIdMapping = $this->tagMapper->getTagIdsForObjects(1, 'testtype');
+		$tagIdMapping = $this->tagMapper->getTagIdsForObjects('1', 'testtype');
 		$this->assertEquals([
 			1 => [$this->tag2->getId()],
 		], $tagIdMapping);
 
-		$this->tagMapper->assignTags(1, 'testtype', [$this->tag1->getId()]);
-		$this->tagMapper->assignTags(1, 'testtype', $this->tag3->getId());
+		$this->tagMapper->assignTags('1', 'testtype', [$this->tag1->getId()]);
+		$this->tagMapper->assignTags('1', 'testtype', $this->tag3->getId());
 
-		$tagIdMapping = $this->tagMapper->getTagIdsForObjects(1, 'testtype');
+		$tagIdMapping = $this->tagMapper->getTagIdsForObjects('1', 'testtype');
 
 		$this->assertEquals([
-			1 => [$this->tag1->getId(), $this->tag2->getId(), $this->tag3->getId()],
+			'1' => [$this->tag1->getId(), $this->tag2->getId(), $this->tag3->getId()],
 		], $tagIdMapping);
 	}
 
 	public function testReAssignUnassignTags() {
 		// reassign tag1
-		$this->tagMapper->assignTags(1, 'testtype', [$this->tag1->getId()]);
+		$this->tagMapper->assignTags('1', 'testtype', [$this->tag1->getId()]);
 
 		// tag 3 was never assigned
-		$this->tagMapper->unassignTags(1, 'testtype', [$this->tag3->getId()]);
+		$this->tagMapper->unassignTags('1', 'testtype', [$this->tag3->getId()]);
 
 		$this->assertTrue(true, 'No error when reassigning/unassigning');
 	}
@@ -174,13 +232,13 @@ class SystemTagObjectMapperTest extends TestCase {
 	 * @expectedException \OCP\SystemTag\TagNotFoundException
 	 */
 	public function testAssignNonExistingTags() {
-		$this->tagMapper->assignTags(1, 'testtype', [100]);
+		$this->tagMapper->assignTags('1', 'testtype', [100]);
 	}
 
 	public function testAssignNonExistingTagInArray() {
 		$caught = false;
 		try {
-			$this->tagMapper->assignTags(1, 'testtype', [100, $this->tag3->getId()]);
+			$this->tagMapper->assignTags('1', 'testtype', [100, $this->tag3->getId()]);
 		} catch (TagNotFoundException $e) {
 			$caught = true;
 		}
@@ -188,12 +246,12 @@ class SystemTagObjectMapperTest extends TestCase {
 		$this->assertTrue($caught, 'Exception thrown');
 
 		$tagIdMapping = $this->tagMapper->getTagIdsForObjects(
-			[1],
+			['1'],
 			'testtype'
 		);
 
 		$this->assertEquals([
-			1 => [$this->tag1->getId(), $this->tag2->getId()],
+			'1' => [$this->tag1->getId(), $this->tag2->getId()],
 		], $tagIdMapping, 'None of the tags got assigned');
 	}
 
@@ -201,13 +259,13 @@ class SystemTagObjectMapperTest extends TestCase {
 	 * @expectedException \OCP\SystemTag\TagNotFoundException
 	 */
 	public function testUnassignNonExistingTags() {
-		$this->tagMapper->unassignTags(1, 'testtype', [100]);
+		$this->tagMapper->unassignTags('1', 'testtype', [100]);
 	}
 
 	public function testUnassignNonExistingTagsInArray() {
 		$caught = false;
 		try {
-			$this->tagMapper->unassignTags(1, 'testtype', [100, $this->tag1->getId()]);
+			$this->tagMapper->unassignTags('1', 'testtype', [100, $this->tag1->getId()]);
 		} catch (TagNotFoundException $e) {
 			$caught = true;
 		}
@@ -220,14 +278,14 @@ class SystemTagObjectMapperTest extends TestCase {
 		);
 
 		$this->assertEquals([
-			1 => [$this->tag1->getId(), $this->tag2->getId()],
+			'1' => [$this->tag1->getId(), $this->tag2->getId()],
 		], $tagIdMapping, 'None of the tags got unassigned');
 	}
 
 	public function testHaveTagAllMatches() {
 		$this->assertTrue(
 			$this->tagMapper->haveTag(
-				[1],
+				['1'],
 				'testtype',
 				$this->tag1->getId(),
 				true
@@ -237,7 +295,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->assertTrue(
 			$this->tagMapper->haveTag(
-				[1, 2],
+				['1', '2'],
 				'testtype',
 				$this->tag1->getId(),
 				true
@@ -247,7 +305,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->assertFalse(
 			$this->tagMapper->haveTag(
-				[1, 2],
+				['1', '2'],
 				'testtype',
 				$this->tag2->getId(),
 				true
@@ -257,7 +315,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->assertFalse(
 			$this->tagMapper->haveTag(
-				[2],
+				['2'],
 				'testtype',
 				$this->tag2->getId(),
 				true
@@ -267,7 +325,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->assertFalse(
 			$this->tagMapper->haveTag(
-				[3],
+				['3'],
 				'testtype',
 				$this->tag2->getId(),
 				true
@@ -279,7 +337,7 @@ class SystemTagObjectMapperTest extends TestCase {
 	public function testHaveTagAtLeastOneMatch() {
 		$this->assertTrue(
 			$this->tagMapper->haveTag(
-				[1],
+				['1'],
 				'testtype',
 				$this->tag1->getId(),
 				false
@@ -289,7 +347,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->assertTrue(
 			$this->tagMapper->haveTag(
-				[1, 2],
+				['1', '2'],
 				'testtype',
 				$this->tag1->getId(),
 				false
@@ -299,7 +357,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->assertTrue(
 			$this->tagMapper->haveTag(
-				[1, 2],
+				['1', '2'],
 				'testtype',
 				$this->tag2->getId(),
 				false
@@ -309,7 +367,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->assertFalse(
 			$this->tagMapper->haveTag(
-				[2],
+				['2'],
 				'testtype',
 				$this->tag2->getId(),
 				false
@@ -319,7 +377,7 @@ class SystemTagObjectMapperTest extends TestCase {
 
 		$this->assertFalse(
 			$this->tagMapper->haveTag(
-				[3],
+				['3'],
 				'testtype',
 				$this->tag2->getId(),
 				false
@@ -333,7 +391,7 @@ class SystemTagObjectMapperTest extends TestCase {
 	 */
 	public function testHaveTagNonExisting() {
 		$this->tagMapper->haveTag(
-			[1],
+			['1'],
 			'testtype',
 			100
 		);

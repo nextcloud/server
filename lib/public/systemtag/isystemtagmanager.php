@@ -1,8 +1,9 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -41,7 +42,7 @@ interface ISystemTagManager {
 	 *
 	 * @since 9.0.0
 	 */
-	public function getTagsById($tagIds);
+	public function getTagsByIds($tagIds);
 
 	/**
 	 * Returns the tag object matching the given attributes.

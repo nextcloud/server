@@ -4,6 +4,7 @@ OC.L10N.register(
     "Personal" : "Persönlich",
     "Username" : "Benutzername",
     "Password" : "Passwort",
+    "Save" : "Speichern",
     "Port" : "Port",
     "Host" : "Host",
     "Location" : "Ort",

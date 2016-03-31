@@ -3,9 +3,10 @@
  * @author Björn Schießle <schiessle@owncloud.com>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -342,25 +343,77 @@ class KeyManagerTest extends TestCase {
 		$this->assertTrue($this->instance->getEncryptedFileKey('/'));
 	}
 
-	public function testGetFileKey() {
-		$this->keyStorageMock->expects($this->exactly(4))
+	/**
+	 * @dataProvider dataTestGetFileKey
+	 *
+	 * @param $uid
+	 * @param $isMasterKeyEnabled
+	 * @param $privateKey
+	 * @param $expected
+	 */
+	public function testGetFileKey($uid, $isMasterKeyEnabled, $privateKey, $expected) {
+
+		$path = '/foo.txt';
+
+		if ($isMasterKeyEnabled) {
+			$expectedUid = 'masterKeyId';
+		} else {
+			$expectedUid = $uid;
+		}
+
+		$this->invokePrivate($this->instance, 'masterKeyId', ['masterKeyId']);
+
+		$this->keyStorageMock->expects($this->at(0))
 			->method('getFileKey')
+			->with($path, 'fileKey', 'OC_DEFAULT_MODULE')
 			->willReturn(true);
 
-		$this->keyStorageMock->expects($this->once())
-			->method('getSystemUserKey')
+		$this->keyStorageMock->expects($this->at(1))
+			->method('getFileKey')
+			->with($path, $expectedUid . '.shareKey', 'OC_DEFAULT_MODULE')
 			->willReturn(true);
 
-		$this->cryptMock->expects($this->once())
-			->method('decryptPrivateKey')
-			->willReturn(true);
+		if (is_null($uid)) {
+			$this->keyStorageMock->expects($this->once())
+				->method('getSystemUserKey')
+				->willReturn(true);
+			$this->cryptMock->expects($this->once())
+				->method('decryptPrivateKey')
+				->willReturn($privateKey);
+		} else {
+			$this->keyStorageMock->expects($this->never())
+				->method('getSystemUserKey');
+			$this->utilMock->expects($this->once())->method('isMasterKeyEnabled')
+				->willReturn($isMasterKeyEnabled);
+			$this->sessionMock->expects($this->once())->method('getPrivateKey')->willReturn($privateKey);
+		}
 
-		$this->cryptMock->expects($this->once())
-			->method('multiKeyDecrypt')
-			->willReturn(true);
+		if($privateKey) {
+			$this->cryptMock->expects($this->once())
+				->method('multiKeyDecrypt')
+				->willReturn(true);
+		} else {
+			$this->cryptMock->expects($this->never())
+				->method('multiKeyDecrypt');
+		}
 
-		$this->assertTrue($this->instance->getFileKey('/', null));
-		$this->assertEmpty($this->instance->getFileKey('/', $this->userId));
+		$this->assertSame($expected,
+			$this->instance->getFileKey($path, $uid)
+		);
+
+	}
+
+	public function dataTestGetFileKey() {
+		return [
+			['user1', false, 'privateKey', true],
+			['user1', false, false, ''],
+			['user1', true, 'privateKey', true],
+			['user1', true, false, ''],
+			['', false, 'privateKey', true],
+			['', false, false, ''],
+			['', true, 'privateKey', true],
+			['', true, false, '']
+		];
 	}
 
 	public function testDeletePrivateKey() {
@@ -525,6 +578,73 @@ class KeyManagerTest extends TestCase {
 			['masterKey'],
 			['']
 		];
+	}
+
+	public function testGetVersionWithoutFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn(false);
+
+		$this->assertSame(0, $this->instance->getVersion('/admin/files/myfile.txt', $view));
+	}
+
+	public function testGetVersionWithFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$fileInfo = $this->getMockBuilder('\\OC\\Files\\FileInfo')
+			->disableOriginalConstructor()->getMock();
+		$fileInfo->expects($this->once())
+			->method('getEncryptedVersion')
+			->willReturn(1337);
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn($fileInfo);
+
+		$this->assertSame(1337, $this->instance->getVersion('/admin/files/myfile.txt', $view));
+	}
+
+	public function testSetVersionWithFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$cache = $this->getMockBuilder('\\OCP\\Files\\Cache\\ICache')
+			->disableOriginalConstructor()->getMock();
+		$cache->expects($this->once())
+			->method('update')
+			->with(123, ['encrypted' => 5, 'encryptedVersion' => 5]);
+		$storage = $this->getMockBuilder('\\OCP\\Files\\Storage')
+			->disableOriginalConstructor()->getMock();
+		$storage->expects($this->once())
+			->method('getCache')
+			->willReturn($cache);
+		$fileInfo = $this->getMockBuilder('\\OC\\Files\\FileInfo')
+			->disableOriginalConstructor()->getMock();
+		$fileInfo->expects($this->once())
+			->method('getStorage')
+			->willReturn($storage);
+		$fileInfo->expects($this->once())
+			->method('getId')
+			->willReturn(123);
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn($fileInfo);
+
+		$this->instance->setVersion('/admin/files/myfile.txt', 5, $view);
+	}
+
+	public function testSetVersionWithoutFileInfo() {
+		$view = $this->getMockBuilder('\\OC\\Files\\View')
+			->disableOriginalConstructor()->getMock();
+		$view->expects($this->once())
+			->method('getFileInfo')
+			->with('/admin/files/myfile.txt')
+			->willReturn(false);
+
+		$this->instance->setVersion('/admin/files/myfile.txt', 5, $view);
 	}
 
 }

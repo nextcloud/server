@@ -7,7 +7,7 @@
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ namespace OCA\Encryption\Crypto;
 
 
 use OC\Encryption\Exceptions\DecryptionFailedException;
+use OC\Files\Cache\Scanner;
+use OC\Files\View;
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use OCA\Encryption\Session;
 use OCA\Encryption\Util;
@@ -93,6 +95,19 @@ class Encryption implements IEncryptionModule {
 	/** @var DecryptAll  */
 	private $decryptAll;
 
+	/** @var int unencrypted block size if block contains signature */
+	private $unencryptedBlockSizeSigned = 6072;
+
+	/** @var int unencrypted block size */
+	private $unencryptedBlockSize = 6126;
+
+	/** @var int Current version of the file */
+	private $version = 0;
+
+	/** @var array remember encryption signature version */
+	private static $rememberVersion = [];
+
+
 	/**
 	 *
 	 * @param Crypt $crypt
@@ -155,7 +170,6 @@ class Encryption implements IEncryptionModule {
 	 *                       or if no additional data is needed return a empty array
 	 */
 	public function begin($path, $user, $mode, array $header, array $accessList) {
-
 		$this->path = $this->getPathToRealFile($path);
 		$this->accessList = $accessList;
 		$this->user = $user;
@@ -172,6 +186,11 @@ class Encryption implements IEncryptionModule {
 			$this->fileKey = $this->keyManager->getFileKey($this->path, $this->user);
 		}
 
+		// always use the version from the original file, also part files
+		// need to have a correct version number if they get moved over to the
+		// final location
+		$this->version = (int)$this->keyManager->getVersion($this->stripPartFileExtension($path), new View());
+
 		if (
 			$mode === 'w'
 			|| $mode === 'w+'
@@ -182,19 +201,26 @@ class Encryption implements IEncryptionModule {
 			if (empty($this->fileKey)) {
 				$this->fileKey = $this->crypt->generateFileKey();
 			}
+		} else {
+			// if we read a part file we need to increase the version by 1
+			// because the version number was also increased by writing
+			// the part file
+			if(Scanner::isPartialFile($path)) {
+				$this->version = $this->version + 1;
+			}
 		}
 
-		if (isset($header['cipher'])) {
-			$this->cipher = $header['cipher'];
-		} elseif ($this->isWriteOperation) {
+		if ($this->isWriteOperation) {
 			$this->cipher = $this->crypt->getCipher();
+		} elseif (isset($header['cipher'])) {
+			$this->cipher = $header['cipher'];
 		} else {
 			// if we read a file without a header we fall-back to the legacy cipher
 			// which was used in <=oC6
 			$this->cipher = $this->crypt->getLegacyCipher();
 		}
 
-		return array('cipher' => $this->cipher);
+		return array('cipher' => $this->cipher, 'signed' => 'true');
 	}
 
 	/**
@@ -203,17 +229,26 @@ class Encryption implements IEncryptionModule {
 	 * buffer.
 	 *
 	 * @param string $path to the file
+	 * @param int $position
 	 * @return string remained data which should be written to the file in case
 	 *                of a write operation
 	 * @throws PublicKeyMissingException
 	 * @throws \Exception
 	 * @throws \OCA\Encryption\Exceptions\MultiKeyEncryptException
 	 */
-	public function end($path) {
+	public function end($path, $position = 0) {
 		$result = '';
 		if ($this->isWriteOperation) {
+			$this->keyManager->setVersion($path, $this->version + 1, new View());
+			// in case of a part file we remember the new signature versions
+			// the version will be set later on update.
+			// This way we make sure that other apps listening to the pre-hooks
+			// still get the old version which should be the correct value for them
+			if (Scanner::isPartialFile($path)) {
+				self::$rememberVersion[$this->stripPartFileExtension($path)] = $this->version + 1;
+			}
 			if (!empty($this->writeCache)) {
-				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey);
+				$result = $this->crypt->symmetricEncryptFileContent($this->writeCache, $this->fileKey, $this->version + 1, $position);
 				$this->writeCache = '';
 			}
 			$publicKeys = array();
@@ -247,12 +282,12 @@ class Encryption implements IEncryptionModule {
 	 * encrypt data
 	 *
 	 * @param string $data you want to encrypt
+	 * @param int $position
 	 * @return string encrypted data
 	 */
-	public function encrypt($data) {
-
+	public function encrypt($data, $position = 0) {
 		// If extra data is left over from the last round, make sure it
-		// is integrated into the next 6126 / 8192 block
+		// is integrated into the next block
 		if ($this->writeCache) {
 
 			// Concat writeCache to start of $data
@@ -274,7 +309,7 @@ class Encryption implements IEncryptionModule {
 
 			// If data remaining to be written is less than the
 			// size of 1 6126 byte block
-			if ($remainingLength < 6126) {
+			if ($remainingLength < $this->unencryptedBlockSizeSigned) {
 
 				// Set writeCache to contents of $data
 				// The writeCache will be carried over to the
@@ -292,14 +327,14 @@ class Encryption implements IEncryptionModule {
 			} else {
 
 				// Read the chunk from the start of $data
-				$chunk = substr($data, 0, 6126);
+				$chunk = substr($data, 0, $this->unencryptedBlockSizeSigned);
 
-				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey);
+				$encrypted .= $this->crypt->symmetricEncryptFileContent($chunk, $this->fileKey, $this->version + 1, $position);
 
 				// Remove the chunk we just processed from
 				// $data, leaving only unprocessed data in $data
 				// var, for handling on the next round
-				$data = substr($data, 6126);
+				$data = substr($data, $this->unencryptedBlockSizeSigned);
 
 			}
 
@@ -312,10 +347,11 @@ class Encryption implements IEncryptionModule {
 	 * decrypt data
 	 *
 	 * @param string $data you want to decrypt
+	 * @param int $position
 	 * @return string decrypted data
 	 * @throws DecryptionFailedException
 	 */
-	public function decrypt($data) {
+	public function decrypt($data, $position = 0) {
 		if (empty($this->fileKey)) {
 			$msg = 'Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.';
 			$hint = $this->l->t('Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you.');
@@ -324,11 +360,7 @@ class Encryption implements IEncryptionModule {
 			throw new DecryptionFailedException($msg, $hint);
 		}
 
-		$result = '';
-		if (!empty($data)) {
-			$result = $this->crypt->symmetricDecryptFileContent($data, $this->fileKey, $this->cipher);
-		}
-		return $result;
+		return $this->crypt->symmetricDecryptFileContent($data, $this->fileKey, $this->cipher, $this->version, $position);
 	}
 
 	/**
@@ -340,6 +372,15 @@ class Encryption implements IEncryptionModule {
 	 * @return boolean
 	 */
 	public function update($path, $uid, array $accessList) {
+
+		if (empty($accessList)) {
+			if (isset(self::$rememberVersion[$path])) {
+				$this->keyManager->setVersion($path, self::$rememberVersion[$path], new View());
+				unset(self::$rememberVersion[$path]);
+			}
+			return;
+		}
+
 		$fileKey = $this->keyManager->getFileKey($path, $uid);
 
 		if (!empty($fileKey)) {
@@ -349,7 +390,11 @@ class Encryption implements IEncryptionModule {
 				$publicKeys[$this->keyManager->getMasterKeyId()] = $this->keyManager->getPublicMasterKey();
 			} else {
 				foreach ($accessList['users'] as $user) {
-					$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+					try {
+						$publicKeys[$user] = $this->keyManager->getPublicKey($user);
+					} catch (PublicKeyMissingException $e) {
+						$this->logger->warning('Could not encrypt file for ' . $user . ': ' . $e->getMessage());
+					}
 				}
 			}
 
@@ -406,10 +451,15 @@ class Encryption implements IEncryptionModule {
 	 * get size of the unencrypted payload per block.
 	 * ownCloud read/write files with a block size of 8192 byte
 	 *
-	 * @return integer
+	 * @param bool $signed
+	 * @return int
 	 */
-	public function getUnencryptedBlockSize() {
-		return 6126;
+	public function getUnencryptedBlockSize($signed = false) {
+		if ($signed === false) {
+			return $this->unencryptedBlockSize;
+		}
+
+		return $this->unencryptedBlockSizeSigned;
 	}
 
 	/**
@@ -479,6 +529,22 @@ class Encryption implements IEncryptionModule {
 		}
 
 		return $realPath;
+	}
+
+	/**
+	 * remove .part file extension and the ocTransferId from the file to get the
+	 * original file name
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	protected function stripPartFileExtension($path) {
+		if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
+			$pos = strrpos($path, '.', -6);
+			$path = substr($path, 0, $pos);
+		}
+
+		return $path;
 	}
 
 }

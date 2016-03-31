@@ -1,11 +1,12 @@
 <?php
 /**
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -202,7 +203,7 @@ abstract class Mapper {
 	/**
 	 * Returns the correct PDO constant based on the value type
 	 * @param $value
-	 * @return PDO constant
+	 * @return int PDO constant
 	 * @since 8.1.0
 	 */
 	private function getPDOType($value) {

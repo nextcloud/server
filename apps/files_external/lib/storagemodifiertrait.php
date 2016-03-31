@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@
 
 namespace OCA\Files_External\Lib;
 
+use \OCP\IUser;
 use \OCP\Files\Storage;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\InsufficientDataForMeaningfulAnswerException;
@@ -45,10 +46,11 @@ trait StorageModifierTrait {
 	 * Modify a StorageConfig parameters
 	 *
 	 * @param StorageConfig $storage
+	 * @param IUser $user User the storage is being used as
 	 * @throws InsufficientDataForMeaningfulAnswerException
 	 * @throws StorageNotAvailableException
 	 */
-	public function manipulateStorageConfig(StorageConfig &$storage) {
+	public function manipulateStorageConfig(StorageConfig &$storage, IUser $user = null) {
 	}
 
 	/**

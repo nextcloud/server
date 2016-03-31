@@ -1,8 +1,12 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,9 +30,9 @@ use OCA\Federation\DbHandler;
 use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
+use OCP\ILogger;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
-use OCP\Security\StringUtils;
 
 /**
  * Class OCSAuthAPI
@@ -54,6 +58,9 @@ class OCSAuthAPI {
 	/** @var DbHandler */
 	private $dbHandler;
 
+	/** @var ILogger */
+	private $logger;
+
 	/**
 	 * OCSAuthAPI constructor.
 	 *
@@ -62,19 +69,22 @@ class OCSAuthAPI {
 	 * @param IJobList $jobList
 	 * @param TrustedServers $trustedServers
 	 * @param DbHandler $dbHandler
+	 * @param ILogger $logger
 	 */
 	public function __construct(
 		IRequest $request,
 		ISecureRandom $secureRandom,
 		IJobList $jobList,
 		TrustedServers $trustedServers,
-		DbHandler $dbHandler
+		DbHandler $dbHandler,
+		ILogger $logger
 	) {
 		$this->request = $request;
 		$this->secureRandom = $secureRandom;
 		$this->jobList = $jobList;
 		$this->trustedServers = $trustedServers;
 		$this->dbHandler = $dbHandler;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -88,6 +98,7 @@ class OCSAuthAPI {
 		$token = $this->request->getParam('token');
 
 		if ($this->trustedServers->isTrustedServer($url) === false) {
+			$this->logger->error('remote server not trusted (' . $url . ') while requesting shared secret', ['app' => 'federation']);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
@@ -95,8 +106,21 @@ class OCSAuthAPI {
 		// token wins
 		$localToken = $this->dbHandler->getToken($url);
 		if (strcmp($localToken, $token) > 0) {
+			$this->logger->info(
+				'remote server (' . $url . ') presented lower token. We will initiate the exchange of the shared secret.',
+				['app' => 'federation']
+			);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
+
+		// we ask for the shared secret so we no longer have to ask the other server
+		// to request the shared secret
+		$this->jobList->remove('OCA\Federation\BackgroundJob\RequestSharedSecret',
+			[
+				'url' => $url,
+				'token' => $localToken
+			]
+		);
 
 		$this->jobList->add(
 			'OCA\Federation\BackgroundJob\GetSharedSecret',
@@ -120,14 +144,21 @@ class OCSAuthAPI {
 		$url = $this->request->getParam('url');
 		$token = $this->request->getParam('token');
 
-		if (
-			$this->trustedServers->isTrustedServer($url) === false
-			|| $this->isValidToken($url, $token) === false
-		) {
+		if ($this->trustedServers->isTrustedServer($url) === false) {
+			$this->logger->error('remote server not trusted (' . $url . ') while getting shared secret', ['app' => 'federation']);
 			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
 		}
 
-		$sharedSecret = $this->secureRandom->getMediumStrengthGenerator()->generate(32);
+		if ($this->isValidToken($url, $token) === false) {
+			$expectedToken = $this->dbHandler->getToken($url);
+			$this->logger->error(
+				'remote server (' . $url . ') didn\'t send a valid token (got "' . $token . '" but expected "'. $expectedToken . '") while getting shared secret',
+				['app' => 'federation']
+			);
+			return new \OC_OCS_Result(null, HTTP::STATUS_FORBIDDEN);
+		}
+
+		$sharedSecret = $this->secureRandom->generate(32);
 
 		$this->trustedServers->addSharedSecret($url, $sharedSecret);
 		// reset token after the exchange of the shared secret was successful
@@ -139,7 +170,7 @@ class OCSAuthAPI {
 
 	protected function isValidToken($url, $token) {
 		$storedToken = $this->dbHandler->getToken($url);
-		return StringUtils::equals($storedToken, $token);
+		return hash_equals($storedToken, $token);
 	}
 
 }

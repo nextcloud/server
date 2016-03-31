@@ -9,7 +9,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -36,11 +36,11 @@ use OC\Repair\Collation;
 use OC\Repair\DropOldJobs;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
+use OC\Repair\SharePropagation;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
 use OC\Repair\FillETags;
 use OC\Repair\InnoDB;
-use OC\Repair\RepairConfig;
 use OC\Repair\RepairLegacyStorages;
 use OC\Repair\RepairMimeTypes;
 use OC\Repair\SearchLuceneTables;
@@ -107,7 +107,6 @@ class Repair extends BasicEmitter {
 		return [
 			new RepairMimeTypes(\OC::$server->getConfig()),
 			new RepairLegacyStorages(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new RepairConfig(),
 			new AssetCache(),
 			new FillETags(\OC::$server->getDatabaseConnection()),
 			new CleanTags(\OC::$server->getDatabaseConnection()),
@@ -116,6 +115,7 @@ class Repair extends BasicEmitter {
 			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			new SharePropagation(\OC::$server->getConfig()),
 		];
 	}
 
@@ -138,13 +138,13 @@ class Repair extends BasicEmitter {
 	 * @return array of RepairStep instances
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
-		$steps = array(
+		$connection = \OC::$server->getDatabaseConnection();
+		$steps = [
 			new InnoDB(),
-			new Collation(\OC::$server->getConfig(), \OC_DB::getConnection()),
-			new SqliteAutoincrement(\OC_DB::getConnection()),
+			new Collation(\OC::$server->getConfig(), $connection),
+			new SqliteAutoincrement($connection),
 			new SearchLuceneTables(),
-			new RepairConfig()
-		);
+		];
 
 		//There is no need to delete all previews on every single update
 		//only 7.0.0 through 7.0.2 generated broken previews

@@ -6,12 +6,12 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -41,8 +41,9 @@
 
 namespace OC;
 
-use \OC\Tagging\Tag;
-use \OC\Tagging\TagMapper;
+use OC\Tagging\Tag;
+use OC\Tagging\TagMapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 
 class Tags implements \OCP\ITags {
 
@@ -215,7 +216,7 @@ class Tags implements \OCP\ITags {
 		$entries = array();
 
 		try {
-			$conn = \OC_DB::getConnection();
+			$conn = \OC::$server->getDatabaseConnection();
 			$chunks = array_chunk($objIds, 900, false);
 			foreach ($chunks as $chunk) {
 				$result = $conn->executeQuery(
@@ -223,7 +224,7 @@ class Tags implements \OCP\ITags {
 					'FROM `' . self::RELATION_TABLE . '` r, `' . self::TAG_TABLE . '` ' .
 					'WHERE `categoryid` = `id` AND `uid` = ? AND r.`type` = ? AND `objid` IN (?)',
 					array($this->user, $this->type, $chunk),
-					array(null, null, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+					array(null, null, IQueryBuilder::PARAM_INT_ARRAY)
 				);
 				while ($row = $result->fetch()) {
 					$objId = (int)$row['objid'];

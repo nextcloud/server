@@ -1,8 +1,9 @@
 <?php
 /**
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -105,13 +106,35 @@ class DbHandler {
 	}
 
 	/**
+	 * get trusted server with given ID
+	 *
+	 * @param int $id
+	 * @return array
+	 * @throws \Exception
+	 */
+	public function getServerById($id) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')->from($this->dbTable)
+			->where($query->expr()->eq('id', $query->createParameter('id')))
+			->setParameter('id', $id);
+		$query->execute();
+		$result = $query->execute()->fetchAll();
+
+		if (empty($result)) {
+			throw new \Exception('No Server found with ID: ' . $id);
+		}
+
+		return $result[0];
+	}
+
+	/**
 	 * get all trusted servers
 	 *
 	 * @return array
 	 */
 	public function getAllServer() {
 		$query = $this->connection->getQueryBuilder();
-		$query->select(['url', 'id', 'status'])->from($this->dbTable);
+		$query->select(['url', 'url_hash', 'id', 'status', 'shared_secret', 'sync_token'])->from($this->dbTable);
 		$result = $query->execute()->fetchAll();
 		return $result;
 	}
@@ -155,6 +178,7 @@ class DbHandler {
 	 *
 	 * @param string $url
 	 * @return string
+	 * @throws \Exception
 	 */
 	public function getToken($url) {
 		$hash = $this->hash($url);
@@ -164,6 +188,11 @@ class DbHandler {
 			->setParameter('url_hash', $hash);
 
 		$result = $query->execute()->fetch();
+
+		if (!isset($result['token'])) {
+			throw new \Exception('No token found for: ' . $url);
+		}
+
 		return $result['token'];
 	}
 
@@ -206,15 +235,17 @@ class DbHandler {
 	 *
 	 * @param string $url
 	 * @param int $status
+	 * @param string|null $token
 	 */
-	public function setServerStatus($url, $status) {
+	public function setServerStatus($url, $status, $token = null) {
 		$hash = $this->hash($url);
 		$query = $this->connection->getQueryBuilder();
 		$query->update($this->dbTable)
-				->set('status', $query->createParameter('status'))
-				->where($query->expr()->eq('url_hash', $query->createParameter('url_hash')))
-				->setParameter('url_hash', $hash)
-				->setParameter('status', $status);
+				->set('status', $query->createNamedParameter($status))
+				->where($query->expr()->eq('url_hash', $query->createNamedParameter($hash)));
+		if (!is_null($token)) {
+			$query->set('sync_token', $query->createNamedParameter($token));
+		}
 		$query->execute();
 	}
 
@@ -243,11 +274,11 @@ class DbHandler {
 	 */
 	protected function hash($url) {
 		$normalized = $this->normalizeUrl($url);
-		return md5($normalized);
+		return sha1($normalized);
 	}
 
 	/**
-	 * normalize URL, used to create the md5 hash
+	 * normalize URL, used to create the sha1 hash
 	 *
 	 * @param string $url
 	 * @return string
@@ -265,6 +296,23 @@ class DbHandler {
 		$normalized = trim($normalized, '/');
 
 		return $normalized;
+	}
+
+	/**
+	 * @param $username
+	 * @param $password
+	 * @return bool
+	 */
+	public function auth($username, $password) {
+		if ($username !== 'system') {
+			return false;
+		}
+		$query = $this->connection->getQueryBuilder();
+		$query->select('url')->from($this->dbTable)
+				->where($query->expr()->eq('shared_secret', $query->createNamedParameter($password)));
+
+		$result = $query->execute()->fetch();
+		return !empty($result);
 	}
 
 }

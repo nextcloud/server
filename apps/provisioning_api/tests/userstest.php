@@ -1,13 +1,15 @@
 <?php
 /**
+ * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
+ * @author michag86 <micha_g@arcor.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -931,10 +933,10 @@ class UsersTest extends OriginalTest {
 			->method('get')
 			->with('UserToEdit')
 			->will($this->returnValue($targetUser));
-		$this->config
+		$targetUser
 			->expects($this->once())
-			->method('setUserValue')
-			->with('UserToEdit', 'settings', 'email', 'demo@owncloud.org');
+			->method('setEMailAddress')
+			->with('demo@owncloud.org');
 
 		$expected = new \OC_OCS_Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'email', 'value' => 'demo@owncloud.org']]));
@@ -1014,6 +1016,9 @@ class UsersTest extends OriginalTest {
 			->method('getUID')
 			->will($this->returnValue('UserToEdit'));
 		$targetUser = $this->getMock('\OCP\IUser');
+		$targetUser->expects($this->once())
+			->method('setQuota')
+			->with('2.9 MB');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1028,10 +1033,6 @@ class UsersTest extends OriginalTest {
 			->method('isAdmin')
 			->with('UserToEdit')
 			->will($this->returnValue(true));
-		$this->config
-			->expects($this->once())
-			->method('setUserValue')
-			->with('UserToEdit', 'files', 'quota', '2.9 MB');
 
 		$expected = new \OC_OCS_Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
@@ -1070,6 +1071,9 @@ class UsersTest extends OriginalTest {
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$targetUser = $this->getMock('\OCP\IUser');
+		$targetUser->expects($this->once())
+			->method('setQuota')
+			->with('2.9 MB');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1091,10 +1095,6 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
-		$this->config
-			->expects($this->once())
-			->method('setUserValue')
-			->with('UserToEdit', 'files', 'quota', '2.9 MB');
 
 		$expected = new \OC_OCS_Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));
@@ -1107,6 +1107,9 @@ class UsersTest extends OriginalTest {
 			->method('getUID')
 			->will($this->returnValue('subadmin'));
 		$targetUser = $this->getMock('\OCP\IUser');
+		$targetUser->expects($this->once())
+			->method('setQuota')
+			->with('2.9 MB');
 		$this->userSession
 			->expects($this->once())
 			->method('getUser')
@@ -1128,10 +1131,6 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('getSubAdmin')
 			->will($this->returnValue($subAdminManager));
-		$this->config
-			->expects($this->once())
-			->method('setUserValue')
-			->with('UserToEdit', 'files', 'quota', '2.9 MB');
 
 		$expected = new \OC_OCS_Result(null, 100);
 		$this->assertEquals($expected, $this->api->editUser(['userid' => 'UserToEdit', '_put' => ['key' => 'quota', 'value' => '3042824']]));

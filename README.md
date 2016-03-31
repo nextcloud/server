@@ -2,6 +2,7 @@
 
 [![Build Status](https://ci.owncloud.org/job/server-master-linux/badge/icon)](https://ci.owncloud.org/job/server-master-linux/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/core/badges/quality-score.png?s=ce2f5ded03d4ac628e9ee5c767243fa7412e644f)](https://scrutinizer-ci.com/g/owncloud/core/)
+[![codecov.io](https://codecov.io/github/owncloud/core/coverage.svg?branch=master)](https://codecov.io/github/owncloud/core?branch=master)
 [![CodeClimate](https://codeclimate.com/github/owncloud/core/badges/gpa.svg)](https://codeclimate.com/github/owncloud/core)
 [![Coverity](https://scan.coverity.com/projects/6893/badge.svg)](https://scan.coverity.com/projects/owncloud-core)
 [![Dependency Status](https://www.versioneye.com/user/projects/54f4a2384f3108959a000a16/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f4a2384f3108959a000a16)
@@ -27,10 +28,14 @@ https://doc.owncloud.org/server/9.0/developer_manual/app/index.html
 ## Contribution Guidelines
 https://owncloud.org/contribute/
 
+## Support
+Learn about the different ways you can get support for ownCloud: https://owncloud.org/support/
+
 ## Get in touch
 * :clipboard: [Forum](https://forum.owncloud.org)
 * :envelope: [Mailing list](https://mailman.owncloud.org/mailman/listinfo)
-* :busts_in_silhouette: [IRC channel](https://webchat.freenode.net/?channels=owncloud)
+* :hash: [IRC channel](https://webchat.freenode.net/?channels=owncloud)
+* :busts_in_silhouette: [Facebook] (https://facebook.com/ownclouders)
 * :hatching_chick: [Twitter](https://twitter.com/ownClouders)
 
 ## Important notice on translations

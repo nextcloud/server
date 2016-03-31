@@ -1,9 +1,10 @@
 <?php
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -113,9 +114,7 @@ class TagList implements Element {
 	function xmlSerialize(Writer $writer) {
 
 		foreach ($this->tags as $tag) {
-			$writer->startElement(self::NS_OWNCLOUD . ':tag');
-			$writer->writeElement($tag);
-			$writer->endElement();
+			$writer->writeElement('{' . self::NS_OWNCLOUD . '}tag', $tag);
 		}
 	}
 }

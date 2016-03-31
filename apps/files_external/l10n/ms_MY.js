@@ -4,6 +4,7 @@ OC.L10N.register(
     "Personal" : "Peribadi",
     "Username" : "Nama pengguna",
     "Password" : "Kata laluan",
+    "Save" : "Simpan",
     "Region" : "Wilayah",
     "URL" : "URL",
     "Location" : "Lokasi",

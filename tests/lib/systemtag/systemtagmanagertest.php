@@ -15,6 +15,7 @@ use OC\SystemTag\SystemTagObjectMapper;
 use OCP\IDBConnection;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
 
 /**
@@ -35,11 +36,23 @@ class SystemTagManagerTest extends TestCase {
 	 */
 	private $connection;
 
+	/**
+	 * @var EventDispatcherInterface
+	 */
+	private $dispatcher;
+
 	public function setUp() {
 		parent::setUp();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->tagManager = new SystemTagManager($this->connection);
+
+		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
+			->getMock();
+
+		$this->tagManager = new SystemTagManager(
+			$this->connection,
+			$this->dispatcher
+		);
 		$this->pruneTagsTables();
 	}
 
@@ -250,7 +263,7 @@ class SystemTagManagerTest extends TestCase {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$tag2 = $this->tagManager->createTag('two', false, true);
 
-		$tagList = $this->tagManager->getTagsById([$tag1->getId(), $tag2->getId()]);
+		$tagList = $this->tagManager->getTagsByIds([$tag1->getId(), $tag2->getId()]);
 
 		$this->assertCount(2, $tagList);
 
@@ -270,7 +283,7 @@ class SystemTagManagerTest extends TestCase {
 	 */
 	public function testGetNonExistingTagsById() {
 		$tag1 = $this->tagManager->createTag('one', true, false);
-		$this->tagManager->getTagsById([$tag1->getId(), 100, 101]);
+		$this->tagManager->getTagsByIds([$tag1->getId(), 100, 101]);
 	}
 
 	/**
@@ -278,7 +291,7 @@ class SystemTagManagerTest extends TestCase {
 	 */
 	public function testGetInvalidTagIdFormat() {
 		$tag1 = $this->tagManager->createTag('one', true, false);
-		$this->tagManager->getTagsById([$tag1->getId() . 'suffix']);
+		$this->tagManager->getTagsByIds([$tag1->getId() . 'suffix']);
 	}
 
 	public function updateTagProvider() {
@@ -378,7 +391,7 @@ class SystemTagManagerTest extends TestCase {
 		$tag1 = $this->tagManager->createTag('one', true, false);
 		$tag2 = $this->tagManager->createTag('two', true, true);
 
-		$tagMapper = new SystemTagObjectMapper($this->connection, $this->tagManager);
+		$tagMapper = new SystemTagObjectMapper($this->connection, $this->tagManager, $this->dispatcher);
 
 		$tagMapper->assignTags(1, 'testtype', $tag1->getId());
 		$tagMapper->assignTags(1, 'testtype', $tag2->getId());

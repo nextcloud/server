@@ -2,9 +2,10 @@
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -24,6 +25,7 @@
 namespace OCA\Files\Service;
 
 use OC\Files\FileInfo;
+use OCP\Files\Node;
 
 /**
  * Service class to manage tags on files.
@@ -92,7 +94,7 @@ class TagService {
 	 * Get all files for the given tag
 	 *
 	 * @param string $tagName tag name to filter by
-	 * @return FileInfo[] list of matching files
+	 * @return Node[] list of matching files
 	 * @throws \Exception if the tag does not exist
 	 */
 	public function getFilesByTag($tagName) {
@@ -102,15 +104,11 @@ class TagService {
 			return [];
 		}
 
-		$fileInfos = [];
+		$allNodes = [];
 		foreach ($fileIds as $fileId) {
-			$nodes = $this->homeFolder->getById((int) $fileId);
-			foreach ($nodes as $node) {
-				/** @var \OC\Files\Node\Node $node */
-				$fileInfos[] = $node->getFileInfo();
-			}
+			$allNodes = array_merge($allNodes, $this->homeFolder->getById((int) $fileId));
 		}
-		return $fileInfos;
+		return $allNodes;
 	}
 }
 

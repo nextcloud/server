@@ -59,7 +59,7 @@
 
 /* fit app list view heights */
 .app-files #app-content>.viewcontainer {
-	min-height: 100%;
+	min-height: 0%;
 }
 
 .app-files #app-content {
@@ -468,6 +468,7 @@ html.ie8 #fileList tr.selected td.filename>.selectCheckBox {
 	position: relative;
 	width: 100%;
 	padding-left: 0;
+	padding-right:0;
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
 
@@ -530,8 +531,8 @@ html.ie8 #fileList tr.selected td.filename>.selectCheckBox {
 }
 
 a.action > img {
-	max-height: 16px;
-	max-width: 16px;
+	height: 16px;
+	width: 16px;
 	vertical-align: text-bottom;
 }
 
@@ -572,13 +573,26 @@ html.ie8 .column-mtime .selectedActions {
 	opacity: 0;
 	display:none;
 }
-#fileList a.action.action-share,
-#fileList a.action.action-menu {
+#fileList a.action.action-share {
 	padding: 17px 14px;
 }
 
+#fileList a.action.action-menu {
+	padding-top: 17px;
+	padding-bottom: 17px;
+	padding-left:14px;
+	padding-right:0px;
+}
+
+#fileList .filesize {
+	padding-top:0px;
+	padding-bottom:0px;
+	padding-left:60px;
+	padding-right:15px;
+}
+
 #fileList .popovermenu {
-	margin-right: 21px;
+	margin-right: -5px;
 }
 .ie8 #fileList .popovermenu {
 	margin-top: -10px;
@@ -682,8 +696,6 @@ table tr.summary td {
 	margin-left: 90px;
 }
 
-#scanning-message{ top:40%; left:40%; position:absolute; display:none; }
-
 table.dragshadow {
 	width:auto;
 }
@@ -749,9 +761,6 @@ html.ie8 #controls .button.new {
 	white-space: nowrap;
 	overflow: hidden;
 }
-.newFileMenu.popovermenu .menuitem .icon {
-	margin-bottom: -2px;
-}
 .newFileMenu.popovermenu a.menuitem,
 .newFileMenu.popovermenu label.menuitem,
 .newFileMenu.popovermenu .menuitem {
@@ -790,3 +799,27 @@ html.ie8 #controls .button.new {
 	padding: 0;
 }
 
+#filestable .filename .action .icon,
+#filestable .selectedActions a .icon,
+#controls .actions .button .icon {
+	display: inline-block;
+	vertical-align: middle;
+	background-size: 16px 16px;
+}
+
+#filestable .filename .action .icon.hidden,
+#filestable .selectedActions a .icon.hidden,
+#controls .actions .button .icon.hidden {
+	display: none;
+}
+
+#filestable .filename .action .icon.loading,
+#filestable .selectedActions a .icon.loading,
+#controls .actions .button .icon.loading {
+	width: 15px;
+	height: 15px;
+}
+
+.app-files .actions .button.new .icon {
+	margin-bottom: 2px;
+}

@@ -1,10 +1,25 @@
 <?php
-
 /**
- * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
+ *
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
@@ -184,15 +199,48 @@ class Directory extends \Test\TestCase {
 		$dir->getChild('.');
 	}
 
-	public function testGetQuotaInfo() {
+	public function testGetQuotaInfoUnlimited() {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Quota')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$storage->expects($this->once())
+		$storage->expects($this->any())
 			->method('instanceOfStorage')
-			->with('\OC\Files\Storage\Wrapper\Quota')
-			->will($this->returnValue(true));
+			->will($this->returnValueMap([
+				'\OC\Files\Storage\Shared' => false,
+				'\OC\Files\Storage\Wrapper\Quota' => false,
+			]));
+
+		$storage->expects($this->never())
+			->method('getQuota');
+
+		$storage->expects($this->once())
+			->method('free_space')
+			->will($this->returnValue(800));
+
+		$this->info->expects($this->once())
+			->method('getSize')
+			->will($this->returnValue(200));
+
+		$this->info->expects($this->once())
+			->method('getStorage')
+			->will($this->returnValue($storage));
+
+		$dir = new \OCA\DAV\Connector\Sabre\Directory($this->view, $this->info);
+		$this->assertEquals([200, -3], $dir->getQuotaInfo()); //200 used, unlimited
+	}
+
+	public function testGetQuotaInfoSpecific() {
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Quota')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$storage->expects($this->any())
+			->method('instanceOfStorage')
+			->will($this->returnValueMap([
+				['\OC\Files\Storage\Shared', false],
+				['\OC\Files\Storage\Wrapper\Quota', true],
+			]));
 
 		$storage->expects($this->once())
 			->method('getQuota')

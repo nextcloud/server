@@ -7,11 +7,12 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -33,7 +34,7 @@
  * @param string $string the string which will be escaped and printed
  */
 function p($string) {
-	print(OC_Util::sanitizeHTML($string));
+	print(\OCP\Util::sanitizeHTML($string));
 }
 
 /**
@@ -137,16 +138,16 @@ function component($app, $file) {
 }
 
 /**
- * make OC_Helper::linkTo available as a simple function
+ * make \OCP\IURLGenerator::linkTo available as a simple function
  * @param string $app app
  * @param string $file file
  * @param array $args array with param=>value, will be appended to the returned url
  * @return string link to the file
  *
- * For further information have a look at OC_Helper::linkTo
+ * For further information have a look at \OCP\IURLGenerator::linkTo
  */
 function link_to( $app, $file, $args = array() ) {
-	return OC_Helper::linkTo( $app, $file, $args );
+	return \OC::$server->getURLGenerator()->linkTo($app, $file, $args);
 }
 
 /**
@@ -158,26 +159,24 @@ function link_to_docs($key) {
 }
 
 /**
- * make OC_Helper::imagePath available as a simple function
+ * make \OCP\IURLGenerator::imagePath available as a simple function
  * @param string $app app
  * @param string $image image
  * @return string link to the image
  *
- * For further information have a look at OC_Helper::imagePath
+ * For further information have a look at \OCP\IURLGenerator::imagePath
  */
 function image_path( $app, $image ) {
-	return OC_Helper::imagePath( $app, $image );
+	return \OC::$server->getURLGenerator()->imagePath( $app, $image );
 }
 
 /**
  * make OC_Helper::mimetypeIcon available as a simple function
  * @param string $mimetype mimetype
  * @return string link to the image
- *
- * For further information have a look at OC_Helper::mimetypeIcon
  */
 function mimetype_icon( $mimetype ) {
-	return OC_Helper::mimetypeIcon( $mimetype );
+	return \OC::$server->getMimeTypeDetector()->mimeTypeIcon( $mimetype );
 }
 
 /**
@@ -262,7 +261,7 @@ function html_select_options($options, $selected, $params=array()) {
 			$label = $label[$label_name];
 		}
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
-		$html .= '<option value="' . OC_Util::sanitizeHTML($value) . '"' . $select . '>' . OC_Util::sanitizeHTML($label) . '</option>'."\n";
+		$html .= '<option value="' . \OCP\Util::sanitizeHTML($value) . '"' . $select . '>' . \OCP\Util::sanitizeHTML($label) . '</option>'."\n";
 	}
 	return $html;
 }

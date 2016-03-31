@@ -5,8 +5,9 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -66,10 +67,13 @@ class Test_Group_Ldap extends \Test\TestCase {
 
 	private function enableGroups($access) {
 		$access->connection->expects($this->any())
-			   ->method('__get')
-			   ->will($this->returnCallback(function() {
-					return 1;
-			   }));
+			->method('__get')
+			->will($this->returnCallback(function($name) {
+				if($name === 'ldapDynamicGroupMemberURL') {
+					return '';
+				}
+				return 1;
+			}));
 	}
 
 	public function testCountEmptySearchString() {
@@ -429,6 +433,8 @@ class Test_Group_Ldap extends \Test\TestCase {
 			->will($this->returnCallback(function($name) {
 				if($name === 'useMemberOfToDetectMembership') {
 					return 0;
+				} else if($name === 'ldapDynamicGroupMemberURL') {
+					return '';
 				}
 				return 1;
 			}));

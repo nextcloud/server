@@ -2,9 +2,9 @@
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <rmccorkell@karoshi.org.uk>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
- * @copyright Copyright (c) 2015, ownCloud, Inc.
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -23,6 +23,8 @@
 
 namespace OCA\Files_External\Config;
 
+use OC\Files\Storage\Wrapper\Availability;
+use OCA\Files_external\Migration\StorageMigrator;
 use OCP\Files\Storage;
 use OC\Files\Mount\MountPoint;
 use OCP\Files\Storage\IStorageFactory;
@@ -32,7 +34,8 @@ use OCP\IUser;
 use OCA\Files_external\Service\UserStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Lib\StorageConfig;
-use OCA\Files_External\Lib\FailedStorage;
+use OC\Files\Storage\FailedStorage;
+use OCP\Files\StorageNotAvailableException;
 
 /**
  * Make the old files_external config work with the new public mount config api
@@ -44,17 +47,22 @@ class ConfigAdapter implements IMountProvider {
 
 	/** @var UserGlobalStoragesService */
 	private $userGlobalStoragesService;
+	/** @var StorageMigrator  */
+	private $migrator;
 
 	/**
 	 * @param UserStoragesService $userStoragesService
 	 * @param UserGlobalStoragesService $userGlobalStoragesService
+	 * @param StorageMigrator $migrator
 	 */
 	public function __construct(
 		UserStoragesService $userStoragesService,
-		UserGlobalStoragesService $userGlobalStoragesService
+		UserGlobalStoragesService $userGlobalStoragesService,
+		StorageMigrator $migrator
 	) {
 		$this->userStoragesService = $userStoragesService;
 		$this->userGlobalStoragesService = $userGlobalStoragesService;
+		$this->migrator = $migrator;
 	}
 
 	/**
@@ -79,8 +87,8 @@ class ConfigAdapter implements IMountProvider {
 			$storage->setBackendOption('objectstore', new $objectClass($objectStore));
 		}
 
-		$storage->getAuthMechanism()->manipulateStorageConfig($storage);
-		$storage->getBackend()->manipulateStorageConfig($storage);
+		$storage->getAuthMechanism()->manipulateStorageConfig($storage, $user);
+		$storage->getBackend()->manipulateStorageConfig($storage, $user);
 	}
 
 	/**
@@ -108,6 +116,8 @@ class ConfigAdapter implements IMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $loader) {
+		$this->migrator->migrateUser($user);
+
 		$mounts = [];
 
 		$this->userStoragesService->setUser($user);
@@ -122,9 +132,21 @@ class ConfigAdapter implements IMountProvider {
 				$impl = new FailedStorage(['exception' => $e]);
 			}
 
+			try {
+				$availability = $impl->getAvailability();
+				if (!$availability['available'] && !Availability::shouldRecheck($availability)) {
+					$impl = new FailedStorage([
+						'exception' => new StorageNotAvailableException('Storage with mount id ' . $storage->getId() . ' is not available')
+					]);
+				}
+			} catch (\Exception $e) {
+				// propagate exception into filesystem
+				$impl = new FailedStorage(['exception' => $e]);
+			}
+
 			$mount = new MountPoint(
 				$impl,
-				'/'.$user->getUID().'/files' . $storage->getMountPoint(),
+				'/' . $user->getUID() . '/files' . $storage->getMountPoint(),
 				null,
 				$loader,
 				$storage->getMountOptions()
@@ -145,7 +167,7 @@ class ConfigAdapter implements IMountProvider {
 				$this->userStoragesService,
 				$storage->getId(),
 				$impl,
-				'/'.$user->getUID().'/files' . $storage->getMountPoint(),
+				'/' . $user->getUID() . '/files' . $storage->getMountPoint(),
 				null,
 				$loader,
 				$storage->getMountOptions()

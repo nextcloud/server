@@ -1,9 +1,26 @@
 <?php
 /**
- * Copyright (c) 2013 Thomas Müller <thomas.mueller@tmit.eu>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
+ *
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @license AGPL-3.0
+ *
+ * This code is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License, version 3,
+ * as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License, version 3,
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>
+ *
  */
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
@@ -293,5 +310,46 @@ class ObjectTree extends \Test\TestCase {
 		$tree->init($rootNode, $view, $mountManager);
 
 		$this->assertInstanceOf('\Sabre\DAV\INode', $tree->getNodeForPath($path));
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 * @expectedExceptionMessage Could not copy directory nameOfSourceNode, target exists
+	 */
+	public function testFailingMove() {
+		$source = 'a/b';
+		$destination = 'b/b';
+		$updatables = array('a' => true, 'a/b' => true, 'b' => true, 'b/b' => false);
+		$deletables = array('a/b' => true);
+
+		$view = new TestDoubleFileView($updatables, $deletables);
+
+		$info = new FileInfo('', null, null, array(), null);
+
+		$rootDir = new \OCA\DAV\Connector\Sabre\Directory($view, $info);
+		$objectTree = $this->getMock('\OCA\DAV\Connector\Sabre\ObjectTree',
+			array('nodeExists', 'getNodeForPath'),
+			array($rootDir, $view));
+
+		$sourceNode = $this->getMockBuilder('\Sabre\DAV\ICollection')
+			->disableOriginalConstructor()
+			->getMock();
+		$sourceNode->expects($this->once())
+			->method('getName')
+			->will($this->returnValue('nameOfSourceNode'));
+
+		$objectTree->expects($this->once())
+			->method('nodeExists')
+			->with($this->identicalTo($destination))
+			->will($this->returnValue(true));
+		$objectTree->expects($this->once())
+			->method('getNodeForPath')
+			->with($this->identicalTo($source))
+			->will($this->returnValue($sourceNode));
+
+		/** @var $objectTree \OCA\DAV\Connector\Sabre\ObjectTree */
+		$mountManager = \OC\Files\Filesystem::getMountManager();
+		$objectTree->init($rootDir, $view, $mountManager);
+		$objectTree->move($source, $destination);
 	}
 }
