@@ -8,6 +8,8 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/54f4a2384f3108959a000a16/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f4a2384f3108959a000a16)
 [![Dependency Status](https://www.versioneye.com/user/projects/54d1f76f3ca0840b190000c0/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54d1f76f3ca0840b190000c0)
 
+![codecov.io](https://codecov.io/github/owncloud/core/branch.svg?branch=master)
+
 **[ownCloud](http://ownCloud.org) gives you freedom and control over your own data.
 A personal cloud which runs on your own server.**
 
