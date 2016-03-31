@@ -78,7 +78,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 		if ($this->secure) {
 			$url.='s';
 		}
-		$url.='://'.$this->user.':'.$this->password.'@'.$this->host.$this->root.$path;
+		$url.='://'.urlencode($this->user).':'.urlencode($this->password).'@'.$this->host.$this->root.$path;
 		return $url;
 	}
 
