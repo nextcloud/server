@@ -146,7 +146,11 @@ class Upgrade extends Command {
 						$output->writeln('');
 						$progress->start($event[1]);
 					}
-					$progress->setMessage($event->getSubject());
+					$message = $event->getSubject();
+					if (strlen($message) > 30) {
+						$message = substr($message, 0, 27) . '...';
+					}
+					$progress->setMessage($message);
 					$progress->setProgress($event[0]);
 					$progress->display();
 					if ($event[0] === $event[1]) {
