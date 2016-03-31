@@ -124,7 +124,7 @@
 					</td>
 				<?php endif; ?>
 				<td class="mountOptionsToggle hidden">
-					<img class="svg action"
+					<img class="svg"
 						title="<?php p($l->t('Advanced settings')); ?>"
 						alt="<?php p($l->t('Advanced settings')); ?>"
 						src="<?php print_unescaped(image_path('core', 'actions/settings.svg')); ?>"
@@ -132,7 +132,7 @@
 					<input type="hidden" class="mountOptions" value="" />
 				</td>
 				<td class="hidden">
-					<img class="svg action"
+					<img class="svg"
 						alt="<?php p($l->t('Delete')); ?>"
 						title="<?php p($l->t('Delete')); ?>"
 						src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>"
