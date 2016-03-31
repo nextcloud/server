@@ -728,31 +728,46 @@ $(document).ready(function () {
 		var mailAddress = escapeHTML(UserList.getMailAddress($td));
 		var $input = $('<input type="text">').val(mailAddress);
 		$td.children('span').replaceWith($input);
+		$td.find('img').hide();
 		$input
 			.focus()
 			.keypress(function (event) {
 				if (event.keyCode === 13) {
-					$tr.data('mailAddress', $input.val());
-					$input.blur();
+					// enter key
+
+					var mailAddress = $input.val();
+					$td.find('.loading-small').css('display', 'inline-block');
+					$input.css('padding-right', '26px');
+					$input.attr('disabled', 'disabled');
 					$.ajax({
 						type: 'PUT',
 						url: OC.generateUrl('/settings/users/{id}/mailAddress', {id: uid}),
 						data: {
 							mailAddress: $(this).val()
 						}
-					}).fail(function (result) {
-						OC.Notification.show(result.responseJSON.data.message);
-						// reset the values
+					}).success(function () {
+						// set data attribute to new value
+						// will in blur() be used to show the text instead of the input field
 						$tr.data('mailAddress', mailAddress);
-						$tr.children('.mailAddress').children('span').text(mailAddress);
+						$td.find('.loading-small').css('display', '');
+						$input.removeAttr('disabled')
+							.triggerHandler('blur'); // needed instead of $input.blur() for Firefox
+					}).fail(function (result) {
+						OC.Notification.showTemporary(result.responseJSON.data.message);
+						$td.find('.loading-small').css('display', '');
+						$input.removeAttr('disabled')
+							.css('padding-right', '6px');
 					});
 				}
 			})
 			.blur(function () {
-				var mailAddress = $tr.data('mailAddress');
-				var $span = $('<span>').text(mailAddress);
-				$tr.data('mailAddress', mailAddress);
+				if($td.find('.loading-small').css('display') === 'inline-block') {
+					// in Chrome the blur event is fired too early by the browser - even if the request is still running
+					return;
+				}
+				var $span = $('<span>').text($tr.data('mailAddress'));
 				$input.replaceWith($span);
+				$td.find('img').show();
 			});
 	});
 
