@@ -699,6 +699,7 @@ class Encryption extends Wrapper {
 			// create a 1:1 copy of the file
 			$this->arrayCache->set('encryption_copy_version_' . $sourceInternalPath, true);
 			$result = $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			$this->arrayCache->remove('encryption_copy_version_' . $sourceInternalPath);
 			if ($result) {
 				$info = $this->getCache('', $sourceStorage)->get($sourceInternalPath);
 				// make sure that we update the unencrypted size for the version
