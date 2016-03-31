@@ -160,7 +160,11 @@ class TemplateLayout extends \OC_Template {
 				$web = $info[1];
 				$file = $info[2];
 
-				$this->append( 'cssfiles', $web.'/'.$file . '?v=' . self::$versionHash);
+			if (substr($file, -strlen('print.css')) === 'print.css') {
+					$this->append( 'printcssfiles', $web.'/'.$file . '?v=' . self::$versionHash);
+				} else {
+					$this->append( 'cssfiles', $web.'/'.$file . '?v=' . self::$versionHash);
+				}
 			}
 		}
 	}
@@ -227,10 +231,35 @@ class TemplateLayout extends \OC_Template {
 		}
 
 		$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
-		$cssHash = self::hashFileNames($cssFiles);
 
-		if (!file_exists("$assetDir/assets/$cssHash.css")) {
-			$cssFiles = array_map(function ($item) {
+		// differentiate between screen stylesheets and printer stylesheets
+		$screenCssFiles = array_filter($cssFiles, function($cssFile) {
+			return substr_compare($cssFile[2], 'print.css', -strlen('print.css')) !== 0;
+		});
+		$screenCssAsset = $this->generateCssAsset($screenCssFiles);
+
+		$printCssFiles = array_filter($cssFiles, function($cssFile) {
+			return substr_compare($cssFile[2], 'print.css', -strlen('print.css')) === 0;
+		});
+		$printCssAsset = $this->generateCssAsset($printCssFiles);
+
+		$this->append('jsfiles', \OC::$server->getURLGenerator()->linkTo('assets', "$jsHash.js"));
+		$this->append('cssfiles', $screenCssAsset);
+		$this->append('printcssfiles', $printCssAsset);
+	}
+
+	/**
+	 * generates a single css asset file from an array of css files if at least one of them has changed
+	 * otherwise it just returns the path to the old asset file
+	 * @param $files
+	 * @return string
+	 */
+	private function generateCssAsset($files) {
+		$assetDir = \OC::$server->getConfig()->getSystemValue('assetdirectory', \OC::$SERVERROOT);
+		$hash = self::hashFileNames($files);
+
+		if (!file_exists("$assetDir/assets/$hash.css")) {
+			$files = array_map(function ($item) {
 				$root = $item[0];
 				$file = $item[2];
 				$assetPath = $root . '/' . $file;
@@ -246,16 +275,17 @@ class TemplateLayout extends \OC_Template {
 					$sourceRoot,
 					$sourcePath
 				);
-			}, $cssFiles);
-			$cssCollection = new AssetCollection($cssFiles);
-			$cssCollection->setTargetPath("assets/$cssHash.css");
+			}, $files);
+
+			$cssCollection = new AssetCollection($files);
+			$cssCollection->setTargetPath("assets/$hash.css");
 
 			$writer = new AssetWriter($assetDir);
 			$writer->writeAsset($cssCollection);
+
 		}
 
-		$this->append('jsfiles', \OC::$server->getURLGenerator()->linkTo('assets', "$jsHash.js"));
-		$this->append('cssfiles', \OC::$server->getURLGenerator()->linkTo('assets', "$cssHash.css"));
+		return \OC::$server->getURLGenerator()->linkTo('assets', "$hash.css");
 	}
 
 	/**
