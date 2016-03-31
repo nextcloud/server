@@ -260,25 +260,39 @@ class Encryption extends Storage {
 			$this->invokePrivate($this->instance, 'unencryptedSize', [[$path => $storedUnencryptedSize]]);
 		}
 
-
+		$fileEntry = $this->getMockBuilder('\OC\Files\Cache\Cache')
+			->disableOriginalConstructor()->getMock();
 		$sourceStorage->expects($this->once())->method('getMetaData')->with($path)
 			->willReturn($metaData);
+		$sourceStorage->expects($this->any())
+			->method('getCache')
+			->with($path)
+			->willReturn($fileEntry);
+		$fileEntry->expects($this->any())
+			->method('get')
+			->with($metaData['fileid']);
 
 		$this->instance->expects($this->any())->method('getCache')->willReturn($cache);
 		$this->instance->expects($this->any())->method('verifyUnencryptedSize')
 			->with($path, 0)->willReturn($expected['size']);
 
 		$result = $this->instance->getMetaData($path);
-		$this->assertSame($expected['encrypted'], $result['encrypted']);
+		if(isset($expected['encrypted'])) {
+			$this->assertSame($expected['encrypted'], (bool)$result['encrypted']);
+
+			if(isset($expected['encryptedVersion'])) {
+				$this->assertSame($expected['encryptedVersion'], $result['encryptedVersion']);
+			}
+		}
 		$this->assertSame($expected['size'], $result['size']);
 	}
 
 	public function dataTestGetMetaData() {
 		return [
-			['/test.txt', ['size' => 42, 'encrypted' => false], true, true, 12, ['size' => 12, 'encrypted' => true]],
+			['/test.txt', ['size' => 42, 'encrypted' => 2, 'encryptedVersion' => 2, 'fileid' => 1], true, true, 12, ['size' => 12, 'encrypted' => true, 'encryptedVersion' => 2]],
 			['/test.txt', null, true, true, 12, null],
-			['/test.txt', ['size' => 42, 'encrypted' => false], false, false, 12, ['size' => 42, 'encrypted' => false]],
-			['/test.txt', ['size' => 42, 'encrypted' => false], true, false, 12, ['size' => 12, 'encrypted' => true]]
+			['/test.txt', ['size' => 42, 'encrypted' => 0, 'fileid' => 1], false, false, 12, ['size' => 42, 'encrypted' => false]],
+			['/test.txt', ['size' => 42, 'encrypted' => false, 'fileid' => 1], true, false, 12, ['size' => 12, 'encrypted' => true]]
 		];
 	}
 

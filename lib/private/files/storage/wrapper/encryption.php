@@ -110,7 +110,7 @@ class Encryption extends Wrapper {
 			Manager $mountManager = null,
 			ArrayCache $arrayCache = null
 		) {
-		
+
 		$this->mountPoint = $parameters['mountPoint'];
 		$this->mount = $parameters['mount'];
 		$this->encryptionManager = $encryptionManager;
@@ -174,20 +174,25 @@ class Encryption extends Wrapper {
 			return null;
 		}
 		$fullPath = $this->getFullPath($path);
+		$info = $this->getCache()->get($path);
 
 		if (isset($this->unencryptedSize[$fullPath])) {
 			$data['encrypted'] = true;
 			$data['size'] = $this->unencryptedSize[$fullPath];
 		} else {
-			$info = $this->getCache()->get($path);
 			if (isset($info['fileid']) && $info['encrypted']) {
 				$data['size'] = $this->verifyUnencryptedSize($path, $info['size']);
 				$data['encrypted'] = true;
 			}
 		}
 
+		if (isset($info['encryptedVersion']) && $info['encryptedVersion'] > 1) {
+			$data['encryptedVersion'] = $info['encryptedVersion'];
+		}
+
 		return $data;
 	}
+
 	/**
 	 * see http://php.net/manual/en/function.file_get_contents.php
 	 *
