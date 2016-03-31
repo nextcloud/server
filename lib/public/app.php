@@ -112,7 +112,7 @@ class App {
 	 * Read app metadata from the info.xml file
 	 * @param string $app id of the app or the path of the info.xml file
 	 * @param boolean $path (optional)
-	 * @return array
+	 * @return array|null
 	 * @since 4.0.0
 	*/
 	public static function getAppInfo( $app, $path=false ) {
