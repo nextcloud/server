@@ -18,6 +18,11 @@ td.mountPoint, td.backend { width:160px; }
 #addMountPoint>td.applicable { visibility:hidden; }
 #addMountPoint>td.hidden { visibility:hidden; }
 
+#externalStorage .icon-settings {
+	padding: 11px 20px;
+	vertical-align: text-bottom;
+}
+
 #selectBackend {
 	margin-left: -10px;
 	width: 150px;

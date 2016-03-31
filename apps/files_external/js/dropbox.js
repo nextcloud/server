@@ -11,17 +11,19 @@ $(document).ready(function() {
 
 	OCA.External.Settings.mountConfig.whenSelectBackend(function($tr, backend, onCompletion) {
 		if (backend === 'dropbox') {
-			var config = $tr.find('.configuration');
+			var backendEl = $tr.find('.backend');
 			var el = $(document.createElement('a'))
 				.attr('href', generateUrl($tr))
 				.attr('target', '_blank')
-				.text(t('files_external', 'Dropbox Configuration') + ' ↗')
+				.attr('title', t('files_external', 'Dropbox App Configuration'))
+				.addClass('icon-settings svg')
 			;
 			el.on('click', function(event) {
 				var a = $(event.target);
-				a.attr('href', generateUrl($(this).parent()));
+				a.attr('href', generateUrl($(this).closest('tr')));
 			});
-			config.append(el);
+			el.tooltip({placement: 'top'});
+			backendEl.append(el);
 		}
 	});
 
