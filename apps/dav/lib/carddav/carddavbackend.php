@@ -25,6 +25,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCA\DAV\DAV\Sharing\Backend;
 use OCA\DAV\DAV\Sharing\IShareable;
@@ -34,6 +35,7 @@ use Sabre\CardDAV\Backend\BackendInterface;
 use Sabre\CardDAV\Backend\SyncSupport;
 use Sabre\CardDAV\Plugin;
 use Sabre\DAV\Exception\BadRequest;
+use Sabre\DAV\PropPatch;
 use Sabre\HTTP\URLUtil;
 use Sabre\VObject\Component\VCard;
 use Sabre\VObject\Reader;
@@ -73,16 +75,18 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * CardDavBackend constructor.
 	 *
 	 * @param IDBConnection $db
-	 * @param Principal $principalBackend
+	 * @param Principal $userPrincipalBackend
+	 * @param GroupPrincipalBackend $groupPrincipalBackend
 	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(IDBConnection $db,
-								Principal $principalBackend,
+								Principal $userPrincipalBackend,
+								GroupPrincipalBackend $groupPrincipalBackend,
 								EventDispatcherInterface $dispatcher = null) {
 		$this->db = $db;
-		$this->principalBackend = $principalBackend;
+		$this->principalBackend = $userPrincipalBackend;
 		$this->dispatcher = $dispatcher;
-		$this->sharingBackend = new Backend($this->db, $principalBackend, 'addressbook');
+		$this->sharingBackend = new Backend($this->db, $userPrincipalBackend, $groupPrincipalBackend, 'addressbook');
 	}
 
 	/**
@@ -164,6 +168,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 
 	/**
 	 * @param int $addressBookId
+	 * @return array|null
 	 */
 	public function getAddressBookById($addressBookId) {
 		$query = $this->db->getQueryBuilder();
@@ -190,7 +195,8 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	}
 
 	/**
-	 * @param $addressBookUri
+	 * @param string $principal
+	 * @param string $addressBookUri
 	 * @return array|null
 	 */
 	public function getAddressBooksByUri($principal, $addressBookUri) {
@@ -232,10 +238,10 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * Read the PropPatch documentation for more info and examples.
 	 *
 	 * @param string $addressBookId
-	 * @param \Sabre\DAV\PropPatch $propPatch
+	 * @param PropPatch $propPatch
 	 * @return void
 	 */
-	function updateAddressBook($addressBookId, \Sabre\DAV\PropPatch $propPatch) {
+	function updateAddressBook($addressBookId, PropPatch $propPatch) {
 		$supportedProperties = [
 			'{DAV:}displayname',
 			'{' . Plugin::NS_CARDDAV . '}addressbook-description',
@@ -870,10 +876,12 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 *   * readOnly - boolean
 	 *   * summary - Optional, a description for the share
 	 *
+	 * @param $addressBookId
+	 * @param string $currentPrincipal
 	 * @return array
 	 */
-	public function getShares($addressBookId) {
-		return $this->sharingBackend->getShares($addressBookId);
+	public function getShares($addressBookId, $currentPrincipal) {
+		return $this->sharingBackend->getShares($addressBookId, $currentPrincipal);
 	}
 
 	/**
@@ -971,10 +979,11 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 	 * For shared address books the sharee is set in the ACL of the address book
 	 * @param $addressBookId
 	 * @param $acl
+	 * @param string $currentPrincipal
 	 * @return array
 	 */
-	public function applyShareAcl($addressBookId, $acl) {
-		return $this->sharingBackend->applyShareAcl($addressBookId, $acl);
+	public function applyShareAcl($addressBookId, $acl, $currentPrincipal) {
+		return $this->sharingBackend->applyShareAcl($addressBookId, $acl, $currentPrincipal);
 	}
 
 	private function convertPrincipal($principalUri, $toV2) {

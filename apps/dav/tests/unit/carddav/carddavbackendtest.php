@@ -27,6 +27,7 @@ use InvalidArgumentException;
 use OCA\DAV\CardDAV\AddressBook;
 use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use Sabre\DAV\PropPatch;
@@ -58,6 +59,9 @@ class CardDavBackendTest extends TestCase {
 	/** @var string */
 	private $dbCardsPropertiesTable = 'cards_properties';
 
+	/** @var GroupPrincipalBackend */
+	private $groupPrincipal;
+
 	const UNIT_TEST_USER = 'principals/users/carddav-unit-test';
 	const UNIT_TEST_USER1 = 'principals/users/carddav-unit-test1';
 	const UNIT_TEST_GROUP = 'principals/groups/carddav-unit-test-group';
@@ -69,17 +73,21 @@ class CardDavBackendTest extends TestCase {
 			->disableOriginalConstructor()
 			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
 			->getMock();
-		$this->principal->method('getPrincipalByPath')
+		$this->principal->expects($this->any())->method('getPrincipalByPath')
 			->willReturn([
 				'uri' => 'principals/best-friend'
 			]);
-		$this->principal->method('getGroupMembership')
+		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP]);
+		$this->groupPrincipal = $this->getMockBuilder('OCA\DAV\DAV\GroupPrincipalBackend')
+			->disableOriginalConstructor()
+			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
+			->getMock();
 
 		$this->db = \OC::$server->getDatabaseConnection();
 
-		$this->backend = new CardDavBackend($this->db, $this->principal, null);
+		$this->backend = new CardDavBackend($this->db, $this->principal, $this->groupPrincipal, null);
 
 		// start every test with a empty cards_properties and cards table
 		$query = $this->db->getQueryBuilder();
@@ -157,7 +165,7 @@ class CardDavBackendTest extends TestCase {
 
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backend */
 		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
-				->setConstructorArgs([$this->db, $this->principal, null])
+				->setConstructorArgs([$this->db, $this->principal, $this->groupPrincipal, null])
 				->setMethods(['updateProperties', 'purgeProperties'])->getMock();
 
 		// create a new address book
@@ -203,7 +211,7 @@ class CardDavBackendTest extends TestCase {
 	public function testMultiCard() {
 
 		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
-			->setConstructorArgs([$this->db, $this->principal, null])
+			->setConstructorArgs([$this->db, $this->principal, $this->groupPrincipal, null])
 			->setMethods(['updateProperties'])->getMock();
 
 		// create a new address book
@@ -248,9 +256,8 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testDeleteWithoutCard() {
-
 		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
-			->setConstructorArgs([$this->db, $this->principal, null])
+			->setConstructorArgs([$this->db, $this->principal, $this->groupPrincipal, null])
 			->setMethods([
 				'getCardId',
 				'addChange',
@@ -289,9 +296,8 @@ class CardDavBackendTest extends TestCase {
 	}
 
 	public function testSyncSupport() {
-
 		$this->backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
-			->setConstructorArgs([$this->db, $this->principal, null])
+			->setConstructorArgs([$this->db, $this->principal, $this->groupPrincipal, null])
 			->setMethods(['updateProperties'])->getMock();
 
 		// create a new address book
@@ -321,13 +327,13 @@ class CardDavBackendTest extends TestCase {
 		$exampleBook = new AddressBook($this->backend, $books[0]);
 		$this->backend->updateShares($exampleBook, [['href' => 'principal:principals/best-friend']], []);
 
-		$shares = $this->backend->getShares($exampleBook->getResourceId());
+		$shares = $this->backend->getShares($exampleBook->getResourceId(), null);
 		$this->assertEquals(1, count($shares));
 
 		// adding the same sharee again has no effect
 		$this->backend->updateShares($exampleBook, [['href' => 'principal:principals/best-friend']], []);
 
-		$shares = $this->backend->getShares($exampleBook->getResourceId());
+		$shares = $this->backend->getShares($exampleBook->getResourceId(), null);
 		$this->assertEquals(1, count($shares));
 
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
@@ -335,7 +341,7 @@ class CardDavBackendTest extends TestCase {
 
 		$this->backend->updateShares($exampleBook, [], ['principal:principals/best-friend']);
 
-		$shares = $this->backend->getShares($exampleBook->getResourceId());
+		$shares = $this->backend->getShares($exampleBook->getResourceId(), null);
 		$this->assertEquals(0, count($shares));
 
 		$books = $this->backend->getAddressBooksForUser('principals/best-friend');
@@ -349,7 +355,7 @@ class CardDavBackendTest extends TestCase {
 		$cardId = 2;
 
 		$backend = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')
-			->setConstructorArgs([$this->db, $this->principal, null])
+			->setConstructorArgs([$this->db, $this->principal, $this->groupPrincipal, null])
 			->setMethods(['getCardId'])->getMock();
 
 		$backend->expects($this->any())->method('getCardId')->willReturn($cardId);
