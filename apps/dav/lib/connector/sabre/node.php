@@ -229,6 +229,15 @@ abstract class Node implements \Sabre\DAV\INode {
 		}
 
 		/*
+		 * We can always share non moveable mount points with DELETE and UPDATE
+		 * Eventually we need to do this properly
+		 */
+		$mountpoint = $this->info->getMountPoint();
+		if (!($mountpoint instanceof MoveableMount)) {
+			$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+		}
+
+		/*
 		 * Without sharing permissions there are also no other permissions
 		 */
 		if (!($permissions & \OCP\Constants::PERMISSION_SHARE) ||
