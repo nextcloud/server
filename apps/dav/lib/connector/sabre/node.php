@@ -30,6 +30,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OC\Files\Mount\MoveableMount;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
 
 
@@ -234,7 +235,14 @@ abstract class Node implements \Sabre\DAV\INode {
 		 */
 		$mountpoint = $this->info->getMountPoint();
 		if (!($mountpoint instanceof MoveableMount)) {
-			$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+			$mountpointpath = $mountpoint->getMountPoint();
+			if (substr($mountpointpath, -1) === '/') {
+				$mountpointpath = substr($mountpointpath, 0, -1);
+			}
+
+			if ($mountpointpath === $this->info->getPath()) {
+				$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+			}
 		}
 
 		/*

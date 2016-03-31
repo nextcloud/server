@@ -108,16 +108,19 @@ class Node extends \Test\TestCase {
 	 */
 	public function testSharePermissions($type, $permissions, $expected) {
 		$storage = $this->getMock('\OCP\Files\Storage');
-
 		$storage->method('getPermissions')->willReturn($permissions);
+
+		$mountpoint = $this->getMock('\OCP\Files\Mount\IMountPoint');
+		$mountpoint->method('getMountPoint')->willReturn('myPath');
 
 		$info = $this->getMockBuilder('\OC\Files\FileInfo')
 			->disableOriginalConstructor()
-			->setMethods(array('getStorage', 'getType'))
+			->setMethods(['getStorage', 'getType', 'getMountPoint'])
 			->getMock();
 
 		$info->method('getStorage')->willReturn($storage);
 		$info->method('getType')->willReturn($type);
+		$info->method('getMountPoint')->willReturn($mountpoint);
 
 		$view = $this->getMock('\OC\Files\View');
 
