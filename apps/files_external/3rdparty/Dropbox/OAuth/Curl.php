@@ -196,7 +196,7 @@ class Dropbox_OAuth_Curl extends Dropbox_OAuth {
      * @return array Array for request's headers section like
      * array('Authorization' => 'OAuth ...');
      */
-    private function getOAuthHeader($uri, $params, $method = 'GET', $oAuthParams = null) {
+    public function getOAuthHeader($uri, $params, $method = 'GET', $oAuthParams = null) {
         $oAuthParams = $oAuthParams ? $oAuthParams : $this->getOAuthBaseParams();
 
         // create baseString to encode for the sent parameters

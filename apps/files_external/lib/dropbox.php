@@ -29,7 +29,9 @@
 
 namespace OC\Files\Storage;
 
+use GuzzleHttp\Exception\RequestException;
 use Icewind\Streams\IteratorDirectory;
+use Icewind\Streams\RetryWrapper;
 
 require_once __DIR__ . '/../3rdparty/Dropbox/autoload.php';
 
@@ -39,6 +41,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 	private $root;
 	private $id;
 	private $metaData = array();
+	private $oauth;
 
 	private static $tempFiles = array();
 
@@ -51,10 +54,10 @@ class Dropbox extends \OC\Files\Storage\Common {
 		) {
 			$this->root = isset($params['root']) ? $params['root'] : '';
 			$this->id = 'dropbox::'.$params['app_key'] . $params['token']. '/' . $this->root;
-			$oauth = new \Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
-			$oauth->setToken($params['token'], $params['token_secret']);
+			$this->oauth = new \Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
+			$this->oauth->setToken($params['token'], $params['token_secret']);
 			// note: Dropbox_API connection is lazy
-			$this->dropbox = new \Dropbox_API($oauth, 'auto');
+			$this->dropbox = new \Dropbox_API($this->oauth, 'auto');
 		} else {
 			throw new \Exception('Creating \OC\Files\Storage\Dropbox storage failed');
 		}
@@ -248,11 +251,32 @@ class Dropbox extends \OC\Files\Storage\Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				$tmpFile = \OCP\Files::tmpFile();
 				try {
-					$data = $this->dropbox->getFile($path);
-					file_put_contents($tmpFile, $data);
-					return fopen($tmpFile, 'r');
+					// slashes need to stay
+					$encodedPath = str_replace('%2F', '/', rawurlencode(trim($path, '/')));
+					$downloadUrl = 'https://api-content.dropbox.com/1/files/auto/' . $encodedPath;
+					$headers = $this->oauth->getOAuthHeader($downloadUrl, [], 'GET');
+
+					$client = \OC::$server->getHTTPClientService()->newClient();
+					try {
+						$response = $client->get($downloadUrl, [
+							'headers' => $headers,
+							'stream' => true,
+						]);
+					} catch (RequestException $e) {
+						if (!is_null($e->getResponse())) {
+							if ($e->getResponse()->getStatusCode() === 404) {
+								return false;
+							} else {
+								throw $e;
+							}
+						} else {
+							throw $e;
+						}
+					}
+
+					$handle = $response->getBody();
+					return RetryWrapper::wrap($handle);
 				} catch (\Exception $exception) {
 					\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 					return false;
