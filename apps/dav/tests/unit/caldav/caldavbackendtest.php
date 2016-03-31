@@ -25,7 +25,6 @@ use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\Connector\Sabre\Principal;
-use OCA\DAV\DAV\GroupPrincipalBackend;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
@@ -47,9 +46,6 @@ class CalDavBackendTest extends TestCase {
 	/** @var Principal | \PHPUnit_Framework_MockObject_MockObject */
 	private $principal;
 
-	/** @var GroupPrincipalBackend | \PHPUnit_Framework_MockObject_MockObject */
-	private $groupPrincipal;
-
 	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
 	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
 	const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
@@ -68,13 +64,9 @@ class CalDavBackendTest extends TestCase {
 		$this->principal->expects($this->any())->method('getGroupMembership')
 			->withAnyParameters()
 			->willReturn([self::UNIT_TEST_GROUP]);
-		$this->groupPrincipal = $this->getMockBuilder('OCA\DAV\DAV\GroupPrincipalBackend')
-			->disableOriginalConstructor()
-			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
-			->getMock();
 
 		$db = \OC::$server->getDatabaseConnection();
-		$this->backend = new CalDavBackend($db, $this->principal, $this->groupPrincipal);
+		$this->backend = new CalDavBackend($db, $this->principal);
 
 		$this->tearDown();
 	}

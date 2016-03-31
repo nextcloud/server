@@ -29,7 +29,6 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin;
 use OCA\DAV\Connector\Sabre\MaintenancePlugin;
 use OCA\DAV\Connector\Sabre\Principal;
-use OCA\DAV\DAV\GroupPrincipalBackend;
 
 $authBackend = new Auth(
 	\OC::$server->getSession(),
@@ -43,8 +42,7 @@ $principalBackend = new Principal(
 	'principals/'
 );
 $db = \OC::$server->getDatabaseConnection();
-$groupPrincipal = new GroupPrincipalBackend(\OC::$server->getGroupManager());
-$calDavBackend = new CalDavBackend($db, $principalBackend, $groupPrincipal);
+$calDavBackend = new CalDavBackend($db, $principalBackend);
 
 // Root nodes
 $principalCollection = new \Sabre\CalDAV\Principal\Collection($principalBackend);
