@@ -506,7 +506,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (apps.length === 0) {
 			$appList.addClass('hidden');
 			$emptyList.removeClass('hidden');
-			$emptyList.removeClass('hidden').find('h2').text(t('settings', 'No apps found for "{query}"', {
+			$emptyList.removeClass('hidden').find('h2').text(t('settings', 'No apps found for {query}', {
 				query: query
 			}));
 		} else {

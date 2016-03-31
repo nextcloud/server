@@ -177,17 +177,20 @@ body {
 
 #emptycontent,
 .emptycontent {
-	font-size: 16px;
 	color: #888;
 	text-align: center;
 	margin-top: 100px; /* ie8 */
 	margin-top: 30vh;
 	width: 100%;
 }
+#emptycontent.emptycontent-search,
+.emptycontent.emptycontent-search {
+	position: static;
+}
 #emptycontent h2,
 .emptycontent h2 {
-	font-weight: 600;
 	margin-bottom: 10px;
+	line-height: 150%;
 }
 #emptycontent [class^="icon-"],
 .emptycontent [class^="icon-"],

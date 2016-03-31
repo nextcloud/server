@@ -167,7 +167,7 @@ script(
 </div>
 <div id="app-content">
 	<div id="apps-list" class="icon-loading"></div>
-	<div id="apps-list-empty" class="hidden emptycontent">
+	<div id="apps-list-empty" class="hidden emptycontent emptycontent-search">
 		<div class="icon-search"></div>
 		<h2><?php p($l->t('No apps found for your version')) ?></h2>
 	</div>
