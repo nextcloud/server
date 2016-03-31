@@ -7,3 +7,20 @@
 #update-progress-message {
 	margin-bottom: 10px;
 }
+
+.update-show-detailed {
+	padding: 13px;
+	display: block;
+}
+
+#body-login .update a.update-show-detailed {
+	border-bottom: inherit;
+}
+
+#update-progress-detailed {
+	text-align: left;
+}
+
+#body-login .warning.hidden {
+	display: none;
+}

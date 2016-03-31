@@ -141,9 +141,6 @@ if (OC::checkUpgrade(false)) {
 		$disabledApps[$app] = (string) $l->t('%s (incompatible)', [$app]);
 	}
 
-	$disabledApps=[
-		'Contacts Plus (incompatible)'
-	];
 	if (!empty($disabledApps)) {
 		$eventSource->send('notice',
 			(string)$l->t('Following apps have been disabled: %s', implode(', ', $disabledApps)));

@@ -90,16 +90,16 @@
 					.removeClass('icon-loading-dark');
 
 				if (hasWarnings) {
-					$('<span>')
-						.append('<br />')
-						.append(t('core', 'The update was successful. There were warnings.'))
-						.appendTo($el);
+					$el.find('.update-show-detailed').before(
+						$('<span>')
+							.append('<br />')
+							.append(t('core', 'The update was successful. There were warnings.'))
+					);
 					var message = t('core', 'Please reload the page.');
-					$('<span>').append('<br />').append(message).append('<br />').appendTo($el);
+					$('<span>').append(message).append('<br />').appendTo($el);
 				} else {
 					// FIXME: use product name
 					$('<span>')
-						.append('<br />')
 						.append(t('core', 'The update was successful. Redirecting you to ownCloud now.'))
 						.appendTo($el);
 					setTimeout(function () {
@@ -111,19 +111,31 @@
 
 		setMessage: function(message) {
 			$('#update-progress-message').html(message);
+			$('#update-progress-detailed')
+				.append($('<span>'))
+				.append(message)
+				.append($('<br>'));
 		},
 
 		setPermanentMessage: function(message) {
 			$('#update-progress-message').html(message);
 			$('#update-progress-message-warnings')
 				.show()
-				.append($('<ul>').append(message))
+				.append($('<ul>').append(message));
+			$('#update-progress-detailed')
+				.append($('<span>'))
+				.append(message)
+				.append($('<br>'));
 		},
 		
 		setErrorMessage: function (message) {
 			$('#update-progress-message-error')
 				.show()
 				.html(message);
+			$('#update-progress-detailed')
+				.append($('<span>'))
+				.append(message)
+				.append($('<br>'));
 		}
 	};
 
@@ -141,6 +153,10 @@ $(document).ready(function() {
 			productName: $updateEl.attr('data-productname'),
 			version: $updateEl.attr('data-version')
 		});
+		return false;
+	});
+	$('.update-show-detailed').on('click', function() {
+		$('#update-progress-detailed').toggleClass('hidden');
 		return false;
 	});
 });
