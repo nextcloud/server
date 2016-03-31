@@ -2,6 +2,7 @@
 
 [![Build Status](https://ci.owncloud.org/job/server-master-linux/badge/icon)](https://ci.owncloud.org/job/server-master-linux/)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/owncloud/core/badges/quality-score.png?s=ce2f5ded03d4ac628e9ee5c767243fa7412e644f)](https://scrutinizer-ci.com/g/owncloud/core/)
+[![codecov.io](https://codecov.io/github/owncloud/core/coverage.svg?branch=master)](https://codecov.io/github/owncloud/core?branch=master)
 [![CodeClimate](https://codeclimate.com/github/owncloud/core/badges/gpa.svg)](https://codeclimate.com/github/owncloud/core)
 [![Coverity](https://scan.coverity.com/projects/6893/badge.svg)](https://scan.coverity.com/projects/owncloud-core)
 [![Dependency Status](https://www.versioneye.com/user/projects/54f4a2384f3108959a000a16/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54f4a2384f3108959a000a16)
