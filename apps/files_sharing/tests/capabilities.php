@@ -243,6 +243,24 @@ class FilesSharingCapabilitiesTest extends \Test\TestCase {
 		$this->assertFalse($result['public']['upload']);
 	}
 
+	public function testNoGroupSharing() {
+		$map = [
+			['core', 'shareapi_enabled', 'yes', 'yes'],
+			['core', 'shareapi_allow_group_sharing', 'yes', 'no'],
+		];
+		$result = $this->getResults($map);
+		$this->assertFalse($result['group_sharing']);
+	}
+
+	public function testGroupSharing() {
+		$map = [
+			['core', 'shareapi_enabled', 'yes', 'yes'],
+			['core', 'shareapi_allow_group_sharing', 'yes', 'yes'],
+		];
+		$result = $this->getResults($map);
+		$this->assertTrue($result['group_sharing']);
+	}
+
 	public function testFederatedSharingIncomming() {
 		$map = [
 			['files_sharing', 'incoming_server2server_share_enabled', 'yes', 'yes'],
