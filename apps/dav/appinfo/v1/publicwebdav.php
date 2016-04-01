@@ -32,7 +32,11 @@ OC_App::loadApps($RUNTIME_APPTYPES);
 OC_Util::obEnd();
 
 // Backends
-$authBackend = new OCA\DAV\Connector\PublicAuth(\OC::$server->getConfig(), \OC::$server->getRequest());
+$authBackend = new OCA\DAV\Connector\PublicAuth(
+	\OC::$server->getRequest(),
+	\OC::$server->getShareManager(),
+	\OC::$server->getSession()
+);
 
 $serverFactory = new OCA\DAV\Connector\Sabre\ServerFactory(
 	\OC::$server->getConfig(),
@@ -56,10 +60,9 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, func
 	}
 
 	$share = $authBackend->getShare();
-	$rootShare = \OCP\Share::resolveReShare($share);
-	$owner = $rootShare['uid_owner'];
-	$isWritable = $share['permissions'] & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
-	$fileId = $share['file_source'];
+	$owner = $share->getShareOwner();
+	$isWritable = $share->getPermissions() & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
+	$fileId = $share->getNodeId();
 
 	if (!$isWritable) {
 		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, $storage) {
