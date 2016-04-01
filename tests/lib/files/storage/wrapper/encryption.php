@@ -87,6 +87,9 @@ class Encryption extends Storage {
 	 */
 	private $config;
 
+	/** @var  \OC\Memcache\ArrayCache | \PHPUnit_Framework_MockObject_MockObject */
+	private $arrayCache;
+
 
 	/** @var  integer dummy unencrypted size */
 	private $dummySize = -1;
@@ -104,6 +107,7 @@ class Encryption extends Storage {
 			->method('getEncryptionModule')
 			->willReturn($mockModule);
 
+		$this->arrayCache = $this->getMock('OC\Memcache\ArrayCache');
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
@@ -111,9 +115,10 @@ class Encryption extends Storage {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->util = $this->getMock('\OC\Encryption\Util',
+		$this->util = $this->getMock(
+			'\OC\Encryption\Util',
 			['getUidAndFilename', 'isFile', 'isExcluded'],
-			[new View(), new \OC\User\Manager(), $this->groupManager, $this->config]);
+			[new View(), new \OC\User\Manager(), $this->groupManager, $this->config, $this->arrayCache]);
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturnCallback(function ($path) {
@@ -168,7 +173,7 @@ class Encryption extends Storage {
 						'mountPoint' => '/',
 						'mount' => $this->mount
 					],
-					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 				]
 			)
 			->setMethods(['getMetaData', 'getCache', 'getEncryptionModule'])
@@ -245,7 +250,7 @@ class Encryption extends Storage {
 						'mountPoint' => '/',
 						'mount' => $this->mount
 					],
-					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 				]
 			)
 			->setMethods(['getCache', 'verifyUnencryptedSize'])
@@ -293,7 +298,7 @@ class Encryption extends Storage {
 						'mountPoint' => '/',
 						'mount' => $this->mount
 					],
-					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 				]
 			)
 			->setMethods(['getCache', 'verifyUnencryptedSize'])
@@ -331,7 +336,7 @@ class Encryption extends Storage {
 						'mountPoint' => '/',
 						'mount' => $this->mount
 					],
-					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 				]
 			)
 			->setMethods(['fixUnencryptedSize'])
@@ -521,8 +526,15 @@ class Encryption extends Storage {
 			->disableOriginalConstructor()->getMock();
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
-			->setConstructorArgs([new View(), new \OC\User\Manager(), $this->groupManager, $this->config])
-			->getMock();
+			->setConstructorArgs(
+				[
+					new View(),
+					new \OC\User\Manager(),
+					$this->groupManager,
+					$this->config,
+					$this->arrayCache
+				]
+			)->getMock();
 
 		$instance = $this->getMockBuilder('\OC\Files\Storage\Wrapper\Encryption')
 			->setConstructorArgs(
@@ -533,7 +545,7 @@ class Encryption extends Storage {
 						'mountPoint' => '/',
 						'mount' => $this->mount
 					],
-					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 				]
 			)
 			->setMethods(['readFirstBlock', 'parseRawHeader'])
@@ -582,7 +594,7 @@ class Encryption extends Storage {
 			->disableOriginalConstructor()->getMock();
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
-			->setConstructorArgs([new View(), new \OC\User\Manager(), $this->groupManager, $this->config])
+			->setConstructorArgs([new View(), new \OC\User\Manager(), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
@@ -600,7 +612,7 @@ class Encryption extends Storage {
 						'mountPoint' => '/',
 						'mount' => $this->mount
 					],
-					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+					$this->encryptionManager, $util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 				]
 			)
 			->setMethods(['readFirstBlock', 'parseRawHeader', 'getCache'])
@@ -636,7 +648,7 @@ class Encryption extends Storage {
 						'mountPoint' => '/',
 						'mount' => $this->mount
 					],
-					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager
+					$this->encryptionManager, $this->util, $this->logger, $this->file, null, $this->keyStore, $this->update, $this->mountManager, $this->arrayCache
 
 			);
 
@@ -763,6 +775,8 @@ class Encryption extends Storage {
 			$expectedCachePut['encryptedVersion'] = 12345;
 		}
 
+		$this->arrayCache->expects($this->never())->method('set');
+
 		$this->cache->expects($this->once())
 			->method('put')
 			->with($sourceInternalPath, $expectedCachePut);
@@ -812,7 +826,8 @@ class Encryption extends Storage {
 					null,
 					$this->keyStore,
 					$this->update,
-					$this->mountManager
+					$this->mountManager,
+					$this->arrayCache
 				]
 			)
 			->setMethods(['updateUnencryptedSize', 'getCache'])
@@ -824,6 +839,9 @@ class Encryption extends Storage {
 
 		$instance->expects($this->any())->method('getCache')
 			->willReturn($cache);
+
+		$this->arrayCache->expects($this->once())->method('set')
+			->with('encryption_copy_version_' . $sourceInternalPath, true);
 
 		if ($copyResult) {
 			$cache->expects($this->once())->method('get')
