@@ -156,6 +156,7 @@ class TemplateLayout extends \OC_Template {
 			// Add the css files
 			$cssFiles = self::findStylesheetFiles(\OC_Util::$styles);
 			$this->assign('cssfiles', array());
+			$this->assign('printcssfiles', []);
 			foreach($cssFiles as $info) {
 				$web = $info[1];
 				$file = $info[2];
