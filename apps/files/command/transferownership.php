@@ -203,9 +203,15 @@ class TransferOwnership extends Command {
 	private function restoreShares(OutputInterface $output) {
 		$output->writeln("Restoring shares ...");
 		$progress = new ProgressBar($output, count($this->shares));
+		$mountManager = Filesystem::getMountManager($this->destinationUser);
 
 		foreach($this->shares as $share) {
 			if ($share->getSharedWith() === $this->destinationUser) {
+				// Unmount the shares before deleting, so we don't try to get the storage later on.
+				$shareMountPoint = $mountManager->find('/' . $this->destinationUser . '/files' . $share->getTarget());
+				if ($shareMountPoint) {
+					$mountManager->removeMount($shareMountPoint->getMountPoint());
+				}
 				$this->shareManager->deleteShare($share);
 			} else {
 				if ($share->getShareOwner() === $this->sourceUser) {
