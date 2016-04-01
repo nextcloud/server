@@ -84,7 +84,6 @@ OC.L10N.register(
     "Uninstall" : "Henda út",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Forritið hefur verið virkjað, en það þarf að uppfæra það. Þú verður áframsendur á uppfærslusíðuna eftir 5 sekúndur.",
     "App update" : "Uppfærsla forrits",
-    "No apps found for \"{query}\"" : "Engin forrit fundust fyrir \"{query}\"",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Villa kom upp. Sendu inn ASCII-kóðað PEM-skilríki.",
     "Valid until {date}" : "Gildir til {date}",
     "Delete" : "Eyða",

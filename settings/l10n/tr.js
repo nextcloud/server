@@ -84,7 +84,6 @@ OC.L10N.register(
     "Uninstall" : "Kaldır",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Uygulama etkinleştirildi fakat güncellenmesi gerekiyor. 5 saniye içinde güncelleme sayfasına yönlendirileceksiniz.",
     "App update" : "Uygulama güncellemesi",
-    "No apps found for \"{query}\"" : "\"{query}\" için uygulama bulunamadı",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Bir hata oluştu. Lütfen ASCII-kodlanmış PEM sertifikasını yükleyin.",
     "Valid until {date}" : "{date} tarihine kadar geçerli",
     "Delete" : "Sil",

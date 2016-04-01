@@ -79,7 +79,6 @@
     "Uninstall" : "アンインストール",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "アプリは有効ですが、更新が必要です。5秒後に更新ページにリダイレクトします。",
     "App update" : "アプリのアップデート",
-    "No apps found for \"{query}\"" : "\"{query}\" に対応するアプリはありません",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "エラーが発生しました。ASCIIコードのPEM証明書をアップロードしてください。",
     "Valid until {date}" : "{date} まで有効",
     "Delete" : "削除",

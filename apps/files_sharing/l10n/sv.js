@@ -40,6 +40,7 @@ OC.L10N.register(
     "Public shared file %1$s was downloaded" : "Publikt delad fil %1$s blev nerladdad",
     "You shared %1$s with %2$s" : "Du delade %1$s med %2$s",
     "%2$s shared %1$s with %3$s" : "%2$s delade %1$s med %3$s",
+    "You removed the share of %2$s for %1$s" : "Du tog bort delning av %2$s för %1$s",
     "%2$s removed the share of %3$s for %1$s" : "%2$s tog bort delningen av %3$s för %1$s",
     "You shared %1$s with group %2$s" : "Du delade %1$s med grupp %2$s",
     "%2$s shared %1$s with group %3$s" : "%2$s delade %1$s med gruppen %3$s",

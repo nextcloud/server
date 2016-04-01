@@ -80,7 +80,6 @@ OC.L10N.register(
     "Uninstall" : "Desinstallar",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "L'aplicacion es estada activada mas deu èsser mesa a jorn. Seretz redirigit cap a la pagina de las mesas a jorn dins 5 segondas.",
     "App update" : "Mesa a jorn",
-    "No apps found for \"{query}\"" : "Cap d'aplicacion pas trobada per \"{query}\"",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Una error s'es produsida. Provesissètz un certificat PEM encodat al format ASCII.",
     "Valid until {date}" : "Valid fins al {date}",
     "Delete" : "Suprimir",

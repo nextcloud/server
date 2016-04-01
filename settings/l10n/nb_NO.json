@@ -82,7 +82,6 @@
     "Uninstall" : "Avinstaller",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Appen er aktivert men må oppdateres. Du vil bli omdirigert til oppdateringssiden om 5 sekunder.",
     "App update" : "Oppdatering av applikasjon",
-    "No apps found for \"{query}\"" : "Ingen apper funnet for \"{query}\"",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Det oppstod en feil. Vennligst last opp et ASCII-kodet PEM-sertifikat.",
     "Valid until {date}" : "Gyldig til {date}",
     "Delete" : "Slett",

@@ -84,7 +84,6 @@ OC.L10N.register(
     "Uninstall" : "הסרת התקנה",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "היישום הופעל אך יש לעדכן אותו. בעוד 5 שניות הדף ינותב לעמוד העדכון.",
     "App update" : "עדכון יישום",
-    "No apps found for \"{query}\"" : "לא נמצא יישום עבור \"{query}\"",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "אירעה שגיאה. יש להעלות תעודת ASCII-encoded PEM.",
     "Valid until {date}" : "בתוקף עד ל- {date}",
     "Delete" : "מחיקה",

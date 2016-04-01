@@ -81,7 +81,6 @@
     "Uninstall" : "Poista asennus",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Tämä sovellus on otettu käyttöön, mutta se vaatii päivityksen. Sinut ohjataan päivityssivulle viiden sekunnin kuluttua.",
     "App update" : "Sovelluspäivitys",
-    "No apps found for \"{query}\"" : "Haulla \"{query}\" ei löytynyt sovelluksia",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Tapahtu virhe. Lähetä ASCII-koodattu PEM-varmenne.",
     "Valid until {date}" : "Kelvollinen {date} asti",
     "Delete" : "Poista",

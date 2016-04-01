@@ -82,7 +82,6 @@
     "Uninstall" : "卸载",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "该应用已启用，但是需要更新。5秒后将跳转到更新页面。",
     "App update" : "应用更新",
-    "No apps found for \"{query}\"" : "未找到应用适合 \"{query}\"",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "出现了一个错误。请上传 ASCII 编码的 PEM 证书。",
     "Valid until {date}" : "有效期至 {date}",
     "Delete" : "删除",

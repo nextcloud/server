@@ -75,7 +75,6 @@
     "Error while uninstalling app" : "Hiba történt az alkalmazás eltávolítása közben",
     "Uninstall" : "Eltávolítás",
     "App update" : "Alkalmazás frissítése",
-    "No apps found for \"{query}\"" : "Nem található alkalmazás a „{query}” lekérdezésre.",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Hiba történt! Kérem töltsön fel egy, ASCII karakterekkel kódolt PEM tanusítványt!",
     "Valid until {date}" : "Érvényes: {date}",
     "Delete" : "Törlés",

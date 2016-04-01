@@ -80,7 +80,6 @@ OC.L10N.register(
     "Uninstall" : "ถอนการติดตั้ง",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "แอพฯจะต้องเปิดใช้งานก่อนทำการอัพเดท คุณจะถูกนำไปยังหน้าอัพเดทใน 5 วินาที",
     "App update" : "อัพเดทแอพฯ",
-    "No apps found for \"{query}\"" : "ไม่พบแอพฯสำหรับ \"{query}\"",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "เกิดข้อผิดพลาด กรุณาอัพโหลดใบรับรองเข้ารหัส ASCII PEM",
     "Valid until {date}" : "ใช้ได้จนถึงวันที่ {date}",
     "Delete" : "ลบ",

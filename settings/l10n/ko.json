@@ -82,7 +82,6 @@
     "Uninstall" : "제거",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "앱이 활성화되었지만, 앱을 업데이트해야 합니다. 5초 후 앱 업데이트 페이지로 넘어갑니다.",
     "App update" : "앱 업데이트",
-    "No apps found for \"{query}\"" : "\"{query}\"에 해당하는 앱을 찾을 수 없음",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "오류가 발생했습니다. ASCII로 인코딩된 PEM 인증서를 업로드하십시오.",
     "Valid until {date}" : "{date}까지 유효함",
     "Delete" : "삭제",

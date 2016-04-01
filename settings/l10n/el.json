@@ -78,7 +78,6 @@
     "Uninstall" : "Απεγκατάσταση",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Η εφαρμογή έχει ενεργοποιηθεί αλλά χρειάζεται ενημέρωση. Θα μεταφερθείτε στη σελίδα ενημέρωσης σε 5 δευτερόλεπτα.",
     "App update" : "Ενημέρωση εφαρμογής",
-    "No apps found for \"{query}\"" : "Δεν βρέθηκαν εφαρμογές για \"{query\"}",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Προέκυψε σφάλμα. Παρακαλούμε μεταφορτώστε ένα πιστοποιητικό PEM κωδικοποιημένο κατά ASCII.",
     "Valid until {date}" : "Έγκυρο έως {date}",
     "Delete" : "Διαγραφή",

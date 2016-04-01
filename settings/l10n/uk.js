@@ -78,7 +78,6 @@ OC.L10N.register(
     "Error while uninstalling app" : "Помилка видалення додатка",
     "Uninstall" : "Видалити",
     "App update" : "Оновлення додатку",
-    "No apps found for \"{query}\"" : "Не знайдено додатків для \"{query}\"",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Виникла помилка. Будь ласка вивантажте PEM сертифікат в ASCII-кодуванні.",
     "Valid until {date}" : "Дійсно до {date}",
     "Delete" : "Видалити",

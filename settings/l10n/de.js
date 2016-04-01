@@ -84,7 +84,6 @@ OC.L10N.register(
     "Uninstall" : "Deinstallieren",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Die App wurde aktiviert, muss aber aktualisiert werden. Du wirst in 5 Sekunden zu Aktualisierungsseite weitergeleitet",
     "App update" : "App aktualisiert",
-    "No apps found for \"{query}\"" : "Es wurden keine Apps für \"{query}\"",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Es ist ein Fehler aufgetreten. Bitte lade ein ASCII-kodiertes PEM-Zertifikat hoch.",
     "Valid until {date}" : "Gültig bis {date}",
     "Delete" : "Löschen",
