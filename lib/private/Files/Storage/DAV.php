@@ -449,7 +449,16 @@ class DAV extends Common {
 		if ($this->file_exists($path)) {
 			try {
 				$this->statCache->remove($path);
-				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
+				$this->client->proppatch($this->encodePath($path), ['{DAV:}lastmodified' => $mtime]);
+				// non-owncloud clients might not have accepted the property, need to recheck it
+				$response = $this->client->propfind($this->encodePath($path), ['{DAV:}getlastmodified'], 0);
+				if (isset($response['{DAV:}getlastmodified'])) {
+					$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
+					if ($remoteMtime !== $mtime) {
+						// server has not accepted the mtime
+						return false;
+					}
+				}
 			} catch (ClientHttpException $e) {
 				if ($e->getHttpStatus() === 501) {
 					return false;
