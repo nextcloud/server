@@ -20,6 +20,15 @@
 */
 
 describe('Core base tests', function() {
+	afterEach(function() {
+		// many tests call window.initCore so need to unregister global events
+		// ideally in the future we'll need a window.unloadCore() function
+		$(document).off('ajaxError.main');
+		$(document).off('unload.main');
+		$(document).off('beforeunload.main');
+		OC._userIsNavigatingAway = false;
+		OC._reloadCalled = false;
+	});
 	describe('Base values', function() {
 		it('Sets webroots', function() {
 			expect(OC.webroot).toBeDefined();
@@ -925,9 +934,10 @@ describe('Core base tests', function() {
 		});
 	});
 	describe('global ajax errors', function() {
-		var reloadStub, ajaxErrorStub;
+		var reloadStub, ajaxErrorStub, clock;
 
 		beforeEach(function() {
+			clock = sinon.useFakeTimers();
 			reloadStub = sinon.stub(OC, 'reload');
 			// unstub the error processing method
 			ajaxErrorStub = OC._processAjaxError;
@@ -936,15 +946,17 @@ describe('Core base tests', function() {
 		});
 		afterEach(function() {
 			reloadStub.restore();
-			$(document).off('ajaxError');
+			clock.restore();
 		});
 
-		it('reloads current page in case of auth error', function () {
+		it('reloads current page in case of auth error', function() {
 			var dataProvider = [
 				[200, false],
 				[400, false],
+				[0, true],
 				[401, true],
 				[302, true],
+				[303, true],
 				[307, true]
 			];
 
@@ -953,8 +965,12 @@ describe('Core base tests', function() {
 				var expectedCall = dataProvider[i][1];
 
 				reloadStub.reset();
+				OC._reloadCalled = false;
 
 				$(document).trigger(new $.Event('ajaxError'), xhr);
+
+				// trigger timers
+				clock.tick(1000);
 
 				if (expectedCall) {
 					expect(reloadStub.calledOnce).toEqual(true);
@@ -963,6 +979,27 @@ describe('Core base tests', function() {
 				}
 			}
 		});
-	})
+		it('reload only called once in case of auth error', function() {
+			var xhr = { status: 401 };
+
+			$(document).trigger(new $.Event('ajaxError'), xhr);
+			$(document).trigger(new $.Event('ajaxError'), xhr);
+
+			// trigger timers
+			clock.tick(1000);
+
+			expect(reloadStub.calledOnce).toEqual(true);
+		});
+		it('does not reload the page if the user was navigating away', function() {
+			var xhr = { status: 0 };
+			OC._userIsNavigatingAway = true;
+			clock.tick(100);
+
+			$(document).trigger(new $.Event('ajaxError'), xhr);
+
+			clock.tick(1000);
+			expect(reloadStub.notCalled).toEqual(true);
+		});
+	});
 });
 

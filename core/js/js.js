@@ -740,13 +740,23 @@ var OC={
 	 * if an error/auth error status was returned.
 	 */
 	_processAjaxError: function(xhr) {
+		var self = this;
 		// purposefully aborted request ?
-		if (xhr.status === 0 && (xhr.statusText === 'abort' || xhr.statusText === 'timeout')) {
+		// this._userIsNavigatingAway needed to distinguish ajax calls cancelled by navigating away
+		// from calls cancelled by failed cross-domain ajax due to SSO redirect
+		if (xhr.status === 0 && (xhr.statusText === 'abort' || xhr.statusText === 'timeout' || self._reloadCalled)) {
 			return;
 		}
 
-		if (_.contains([0, 302, 307, 401], xhr.status)) {
-			OC.reload();
+		if (_.contains([0, 302, 303, 307, 401], xhr.status)) {
+			// sometimes "beforeunload" happens later, so need to defer the reload a bit
+			setTimeout(function() {
+				if (!self._userIsNavigatingAway && !self._reloadCalled) {
+					OC.reload();
+					// only call reload once
+					self._reloadCalled = true;
+				}
+			}, 100);
 		}
 	},
 
@@ -1438,6 +1448,29 @@ function initCore() {
 		$('html').addClass('edge');
 	}
 
+	$(window).on('unload.main', function() {
+		OC._unloadCalled = true;
+	});
+	$(window).on('beforeunload.main', function() {
+		// super-trick thanks to http://stackoverflow.com/a/4651049
+		// in case another handler displays a confirmation dialog (ex: navigating away
+		// during an upload), there are two possible outcomes: user clicked "ok" or
+		// "cancel"
+
+		// first timeout handler is called after unload dialog is closed
+		setTimeout(function() {
+			OC._userIsNavigatingAway = true;
+
+			// second timeout event is only called if user cancelled (Chrome),
+			// but in other browsers it might still be triggered, so need to
+			// set a higher delay...
+			setTimeout(function() {
+				if (!OC._unloadCalled) {
+					OC._userIsNavigatingAway = false;
+				}
+			}, 10000);
+		},1);
+	});
 	$(document).on('ajaxError.main', function( event, request, settings ) {
 		if (settings && settings.allowAuthErrors) {
 			return;
