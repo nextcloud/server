@@ -134,6 +134,11 @@
 				// root has special permissions
 				this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
 				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
+
+				// hide expiration date header for non link only shares
+				if (!this._linksOnly) {
+					this.$el.find('th.column-expiration').addClass('hidden');
+				}
 			}
 			else {
 				OCA.Files.FileList.prototype.updateEmptyContent.apply(this, arguments);
@@ -208,11 +213,6 @@
 
 			if (shares[0].ocs && shares[0].ocs.data) {
 				files = files.concat(this._makeFilesFromShares(shares[0].ocs.data));
-
-				// hide expiration date header for non link only shares
-				if (!this._linksOnly) {
-					this.$el.find('th.column-expiration').addClass('hidden');
-				}
 			}
 
 			if (remoteShares && remoteShares[0].ocs && remoteShares[0].ocs.data) {
