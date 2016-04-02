@@ -84,6 +84,7 @@ OC.L10N.register(
     "Uninstall" : "Çinstaloje",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikacioni është aktivizuar, por lyp të përditësohet. Do të ridrejtoheni te faqja e përditësimeve brenda 5 sekondash.",
     "App update" : "Përditësim aplikacioni",
+    "No apps found for {query}" : "S’u gjetën aplikacione për {query}",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Ndodhi një gabim. Ju lutemi, ngarkoni një dëshmi PEM të koduar me ASCII.",
     "Valid until {date}" : "E vlefshme deri më {date}",
     "Delete" : "Fshije",
