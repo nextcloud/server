@@ -333,7 +333,7 @@ class OC_Template extends \OC\Template\Base {
 	 * print error page using Exception details
 	 * @param Exception $exception
 	 */
-	public static function printExceptionErrorPage($exception) {
+	public static function printExceptionErrorPage($exception, $fetchPage = false) {
 		try {
 			$request = \OC::$server->getRequest();
 			$content = new \OC_Template('', 'exception', 'error', false);
@@ -346,6 +346,9 @@ class OC_Template extends \OC\Template\Base {
 			$content->assign('debugMode', \OC::$server->getSystemConfig()->getValue('debug', false));
 			$content->assign('remoteAddr', $request->getRemoteAddress());
 			$content->assign('requestID', $request->getId());
+			if ($fetchPage) {
+				return $content->fetchPage();
+			}
 			$content->printPage();
 		} catch (\Exception $e) {
 			$logger = \OC::$server->getLogger();

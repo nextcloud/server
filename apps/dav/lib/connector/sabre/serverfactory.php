@@ -26,6 +26,7 @@
 
 namespace OCA\DAV\Connector\Sabre;
 
+use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -113,6 +114,10 @@ class ServerFactory {
 				'/Microsoft-WebDAV-MiniRedir/',
 		])) {
 			$server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
+		}
+
+		if (BrowserErrorPagePlugin::isBrowserRequest($this->request)) {
+			$server->addPlugin(new BrowserErrorPagePlugin());
 		}
 
 		// wait with registering these until auth is handled and the filesystem is setup
