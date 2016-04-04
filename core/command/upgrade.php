@@ -139,26 +139,32 @@ class Upgrade extends Command {
 			$updater->setSkip3rdPartyAppsDisable($skip3rdPartyAppsDisable);
 			$dispatcher = \OC::$server->getEventDispatcher();
 			$progress = new ProgressBar($output);
-			$progress->setFormat("%message%\n %current%/%max% [%bar%] %percent:3s%%");
-			$dispatcher->addListener('\OC\DB\Migrator::executeSql', function($event) use ($progress, $output) {
+			$progress->setFormat(" %message%\n %current%/%max% [%bar%] %percent:3s%%");
+			$listener = function($event) use ($progress, $output) {
 				if ($event instanceof GenericEvent) {
-					if ($event[0] === 1) {
-						$output->writeln('');
-						$progress->start($event[1]);
-					}
 					$message = $event->getSubject();
-					if (strlen($message) > 30) {
-						$message = substr($message, 0, 27) . '...';
-					}
-					$progress->setMessage($message);
-					$progress->setProgress($event[0]);
-					$progress->display();
-					if ($event[0] === $event[1]) {
-						$progress->finish();
-						$output->writeln('');
+					if (OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+						$output->writeln(' Checking table ' . $message);
+					} else {
+						if (strlen($message) > 60) {
+							$message = substr($message, 0, 57) . '...';
+						}
+						$progress->setMessage($message);
+						if ($event[0] === 1) {
+							$output->writeln('');
+							$progress->start($event[1]);
+						}
+						$progress->setProgress($event[0]);
+						if ($event[0] === $event[1]) {
+							$progress->setMessage('Done');
+							$progress->finish();
+							$output->writeln('');
+						}
 					}
 				}
-			});
+			};
+			$dispatcher->addListener('\OC\DB\Migrator::executeSql', $listener);
+			$dispatcher->addListener('\OC\DB\Migrator::checkTable', $listener);
 
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');

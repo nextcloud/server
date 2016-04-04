@@ -61,6 +61,11 @@ if (OC::checkUpgrade(false)) {
 			$eventSource->send('success', (string)$l->t('[%d / %d]: %s', [$event[0], $event[1], $event->getSubject()]));
 		}
 	});
+	$dispatcher->addListener('\OC\DB\Migrator::checkTable', function($event) use ($eventSource, $l) {
+		if ($event instanceof GenericEvent) {
+			$eventSource->send('success', (string)$l->t('[%d / %d]: Checking table %s', [$event[0], $event[1], $event->getSubject()]));
+		}
+	});
 
 	$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Turned on maintenance mode'));

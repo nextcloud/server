@@ -56,6 +56,9 @@ class Migrator {
 	/** @var EventDispatcher  */
 	private $dispatcher;
 
+	/** @var bool */
+	private $noEmit = false;
+
 	/**
 	 * @param \Doctrine\DBAL\Connection|Connection $connection
 	 * @param ISecureRandom $random
@@ -76,6 +79,7 @@ class Migrator {
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
 	 */
 	public function migrate(Schema $targetSchema) {
+		$this->noEmit = true;
 		$this->applySchema($targetSchema);
 	}
 
@@ -100,21 +104,22 @@ class Migrator {
 	 * @throws \OC\DB\MigrationException
 	 */
 	public function checkMigrate(Schema $targetSchema) {
-		/**
-		 * @var \Doctrine\DBAL\Schema\Table[] $tables
-		 */
+		$this->noEmit = true;
+		/**@var \Doctrine\DBAL\Schema\Table[] $tables */
 		$tables = $targetSchema->getTables();
 		$filterExpression = $this->getFilterExpression();
 		$this->connection->getConfiguration()->
 			setFilterSchemaAssetsExpression($filterExpression);
 		$existingTables = $this->connection->getSchemaManager()->listTableNames();
 
+		$step = 0;
 		foreach ($tables as $table) {
 			if (strpos($table->getName(), '.')) {
 				list(, $tableName) = explode('.', $table->getName());
 			} else {
 				$tableName = $table->getName();
 			}
+			$this->emitCheckStep($tableName, $step++, count($tables));
 			// don't need to check for new tables
 			if (array_search($tableName, $existingTables) !== false) {
 				$this->checkTableMigrate($table);
@@ -269,9 +274,19 @@ class Migrator {
 	}
 
 	protected function emit($sql, $step, $max) {
+		if ($this->noEmit) {
+			return;
+		}
 		if(is_null($this->dispatcher)) {
 			return;
 		}
 		$this->dispatcher->dispatch('\OC\DB\Migrator::executeSql', new GenericEvent($sql, [$step+1, $max]));
+	}
+
+	private function emitCheckStep($tableName, $step, $max) {
+		if(is_null($this->dispatcher)) {
+			return;
+		}
+		$this->dispatcher->dispatch('\OC\DB\Migrator::checkTable', new GenericEvent($tableName, [$step+1, $max]));
 	}
 }
