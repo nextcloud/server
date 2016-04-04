@@ -238,7 +238,7 @@
 			).fail(function() {
 				$loading.addClass('hidden');
 				$loading.removeClass('inlineblock');
-				OC.Notification.show(t('core', 'An error occured. Please try again'));
+				OC.Notification.show(t('core', 'An error occurred. Please try again'));
 				window.setTimeout(OC.Notification.hide, 5000);
 			});
 		},

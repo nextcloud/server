@@ -1,6 +1,6 @@
 /*
 *	@name							Show Password
-*	@descripton						
+*	@description
 *	@version						1.3
 *	@requires						Jquery 1.5
 *

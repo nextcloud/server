@@ -21,7 +21,7 @@
  * This will make the div to jdoe's fitting avatar, with a size of 128px.
  *
  * 2. $('.avatardiv').avatar('jdoe');
- * This will make the div to jdoe's fitting avatar. If the div aready has a
+ * This will make the div to jdoe's fitting avatar. If the div already has a
  * height, it will be used for the avatars size. Otherwise this plugin will
  * search for 'size' DOM data, to use for avatar size. If neither are available
  * it will default to 64px.
@@ -117,7 +117,7 @@
 
 			var img = new Image();
 
-			// If the new image loads successfull set it.
+			// If the new image loads successfully set it.
 			img.onload = function() {
 				$div.show();
 				$div.text('');

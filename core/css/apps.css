@@ -84,7 +84,7 @@
 }
 
 #app-navigation .collapse {
-	display: none; /* hide collapse button intially */
+	display: none; /* hide collapse button initially */
 }
 #app-navigation .collapsible > .collapse {
 	position: absolute;

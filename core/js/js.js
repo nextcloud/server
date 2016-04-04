@@ -255,7 +255,7 @@ var OC={
 	 *
 	 * Examples:
 	 * http://example.com => example.com
-	 * https://example.com => exmaple.com
+	 * https://example.com => example.com
 	 * http://example.com:8080 => example.com:8080
 	 *
 	 * @return {string} host
@@ -1510,7 +1510,7 @@ function initCore() {
 		initSessionHeartBeat();
 	}
 
-	if(!OC.Util.hasSVGSupport()){ //replace all svg images with png images for browser that dont support svg
+	if(!OC.Util.hasSVGSupport()){ //replace all svg images with png images for browser that don't support svg
 		OC.Util.replaceSVG();
 	}else{
 		SVGSupport.checkMimeType();

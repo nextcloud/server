@@ -27,7 +27,7 @@ script('core', [
 		<?php endforeach; ?>
 		<?php if (isset($_['internalexception']) && ($_['internalexception'])): ?>
 			<div class="warning">
-				<?php p($l->t('An internal error occured.')); ?><br>
+				<?php p($l->t('An internal error occurred.')); ?><br>
 				<small><?php p($l->t('Please try again or contact your administrator.')); ?></small>
 			</div>
 		<?php endif; ?>
