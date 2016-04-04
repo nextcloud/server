@@ -74,6 +74,8 @@ class Capabilities implements ICapability {
 			$res['user']['send_mail'] = $this->config->getAppValue('core', 'shareapi_allow_mail_notification', 'no') === 'yes';
 
 			$res['resharing'] = $this->config->getAppValue('core', 'shareapi_allow_resharing', 'yes') === 'yes';
+
+			$res['group_sharing'] = $this->config->getAppValue('core', 'shareapi_allow_group_sharing', 'yes') === 'yes';
 		}
 
 		//Federated sharing

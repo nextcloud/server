@@ -51,5 +51,6 @@ class CapabilitiesContext implements Context, SnippetAcceptingContext {
 		$this->modifyServerConfig('core', 'shareapi_allow_public_notification', 'no');
 		$this->modifyServerConfig('core', 'shareapi_default_expire_date', 'no');
 		$this->modifyServerConfig('core', 'shareapi_enforce_expire_date', 'no');
+		$this->modifyServerConfig('core', 'shareapi_allow_group_sharing', 'yes');
 	}
 }
