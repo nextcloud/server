@@ -24,7 +24,7 @@ namespace OCA\Files\Command;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Files\FileInfo;
-use OCP\Files\Folder;
+use OCP\Files\Mount\IMountManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -41,6 +41,9 @@ class TransferOwnership extends Command {
 
 	/** @var IManager */
 	private $shareManager;
+
+	/** @var IMountManager */
+	private $mountManager;
 
 	/** @var FileInfo[] */
 	private $allFiles = [];
@@ -60,9 +63,10 @@ class TransferOwnership extends Command {
 	/** @var string */
 	private $finalTarget;
 
-	public function __construct(IUserManager $userManager, IManager $shareManager) {
+	public function __construct(IUserManager $userManager, IManager $shareManager, IMountManager $mountManager) {
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
+		$this->mountManager = $mountManager;
 		parent::__construct();
 	}
 
@@ -206,6 +210,11 @@ class TransferOwnership extends Command {
 
 		foreach($this->shares as $share) {
 			if ($share->getSharedWith() === $this->destinationUser) {
+				// Unmount the shares before deleting, so we don't try to get the storage later on.
+				$shareMountPoint = $this->mountManager->find('/' . $this->destinationUser . '/files' . $share->getTarget());
+				if ($shareMountPoint) {
+					$this->mountManager->removeMount($shareMountPoint->getMountPoint());
+				}
 				$this->shareManager->deleteShare($share);
 			} else {
 				if ($share->getShareOwner() === $this->sourceUser) {
