@@ -28,7 +28,6 @@ use OC\Share20\Exception\ProviderException;
 use OCP\Share\Exceptions\ShareNotFound;
 use OC\Share20\Exception\BackendError;
 use OCP\DB\QueryBuilder\IQueryBuilder;
-use OCP\Files\NotFoundException;
 use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -804,4 +803,68 @@ class DefaultShareProvider implements IShareProvider {
 		return $share;
 	}
 
+	/**
+	 * A user is deleted from the system
+	 * So clean up the relevant shares.
+	 *
+	 * @param string $uid
+	 * @param int $shareType
+	 */
+	public function userDeleted($uid, $shareType) {
+		$qb = $this->dbConn->getQueryBuilder();
+
+		$qb->delete('share');
+
+		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
+			/*
+			 * Delete all user shares that are owned by this user
+			 * or that are received by this user
+			 */
+
+			$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_USER)));
+
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)),
+					$qb->expr()->eq('share_with', $qb->createNamedParameter($uid))
+				)
+			);
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+			/*
+			 * Delete all group shares that are owned by this user
+			 * Or special user group shares that are received by this user
+			 */
+			$qb->where(
+				$qb->expr()->andX(
+					$qb->expr()->orX(
+						$qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)),
+						$qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP))
+					),
+					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid))
+				)
+			);
+
+			$qb->orWhere(
+				$qb->expr()->andX(
+					$qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)),
+					$qb->expr()->eq('share_with', $qb->createNamedParameter($uid))
+				)
+			);
+		} else if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
+			/*
+			 * Delete all link shares owned by this user.
+			 * And all link shares initiated by this user (until #22327 is in)
+			 */
+			$qb->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_LINK)));
+
+			$qb->andWhere(
+				$qb->expr()->orX(
+					$qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)),
+					$qb->expr()->eq('uid_initiator', $qb->createNamedParameter($uid))
+				)
+			);
+		}
+
+		$qb->execute();
+	}
 }
