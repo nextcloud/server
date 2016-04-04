@@ -282,16 +282,41 @@ abstract class Mapper {
 
 		if($row === false || $row === null){
 			$stmt->closeCursor();
-			throw new DoesNotExistException('No matching entry found');
+			$msg = $this->buildDebugMessage(
+				'Did expect one result but found none when executing', $sql, $params, $limit, $offset
+			);
+			throw new DoesNotExistException($msg);
 		}
 		$row2 = $stmt->fetch();
 		$stmt->closeCursor();
 		//MDB2 returns null, PDO and doctrine false when no row is available
 		if( ! ($row2 === false || $row2 === null )) {
-			throw new MultipleObjectsReturnedException('More than one result');
+			$msg = $this->buildDebugMessage(
+				'Did not expect more than one result when executing', $sql, $params, $limit, $offset
+			);
+			throw new MultipleObjectsReturnedException($msg);
 		} else {
 			return $row;
 		}
+	}
+
+	/**
+	 * Builds an error message by prepending the $msg to an error message which
+	 * has the parameters
+	 * @see findEntity
+	 * @param string $sql the sql query
+	 * @param array $params the parameters of the sql query
+	 * @param int $limit the maximum number of rows
+	 * @param int $offset from which row we want to start
+	 * @return string formatted error message string
+	 * @since 9.1.0
+	 */
+	private function buildDebugMessage($msg, $sql, array $params=[], $limit=null, $offset=null) {
+		return $msg .
+					': query "' .	$sql . '"; ' .
+					'parameters ' . print_r($params, true) . '; ' .
+					'limit "' . $limit . '"; '.
+					'offset "' . $offset . '"';
 	}
 
 
