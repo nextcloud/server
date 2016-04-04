@@ -64,17 +64,23 @@ class Factory implements IFactory {
 	/** @var IUserSession */
 	protected $userSession;
 
+	/** @var string */
+	protected $serverRoot;
+
 	/**
 	 * @param IConfig $config
 	 * @param IRequest $request
 	 * @param IUserSession $userSession
+	 * @param string $serverRoot
 	 */
 	public function __construct(IConfig $config,
 								IRequest $request,
-								IUserSession $userSession) {
+								IUserSession $userSession,
+								$serverRoot) {
 		$this->config = $config;
 		$this->request = $request;
 		$this->userSession = $userSession;
+		$this->serverRoot = $serverRoot;
 	}
 
 	/**
@@ -186,6 +192,23 @@ class Factory implements IFactory {
 			}
 		}
 
+		// merge with translations from theme
+		$theme = $this->config->getSystemValue('theme');
+		if (!empty($theme)) {
+			$themeDir = $this->serverRoot . '/themes/' . $theme . substr($dir, strlen($this->serverRoot));
+
+			if (is_dir($themeDir)) {
+				$files = scandir($themeDir);
+				if ($files !== false) {
+					foreach ($files as $file) {
+						if (substr($file, -5) === '.json' && substr($file, 0, 4) !== 'l10n') {
+							$available[] = substr($file, 0, -5);
+						}
+					}
+				}
+			}
+		}
+
 		$this->availableLanguages[$key] = $available;
 		return $available;
 	}
@@ -263,22 +286,22 @@ class Factory implements IFactory {
 		$i18nDir = $this->findL10nDir($app);
 		$transFile = strip_tags($i18nDir) . strip_tags($lang) . '.json';
 
-		if ((\OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/core/l10n/')
-				|| \OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/lib/l10n/')
-				|| \OC_Helper::isSubDirectory($transFile, \OC::$SERVERROOT . '/settings/l10n/')
+		if ((\OC_Helper::isSubDirectory($transFile, $this->serverRoot . '/core/l10n/')
+				|| \OC_Helper::isSubDirectory($transFile, $this->serverRoot . '/lib/l10n/')
+				|| \OC_Helper::isSubDirectory($transFile, $this->serverRoot . '/settings/l10n/')
 				|| \OC_Helper::isSubDirectory($transFile, \OC_App::getAppPath($app) . '/l10n/')
 			)
 			&& file_exists($transFile)) {
 			// load the translations file
 			$languageFiles[] = $transFile;
+		}
 
-			// merge with translations from theme
-			$theme = $this->config->getSystemValue('theme');
-			if (!empty($theme)) {
-				$transFile = \OC::$SERVERROOT . '/themes/' . $theme . substr($transFile, strlen(\OC::$SERVERROOT));
-				if (file_exists($transFile)) {
-					$languageFiles[] = $transFile;
-				}
+		// merge with translations from theme
+		$theme = $this->config->getSystemValue('theme');
+		if (!empty($theme)) {
+			$transFile = $this->serverRoot . '/themes/' . $theme . substr($transFile, strlen($this->serverRoot));
+			if (file_exists($transFile)) {
+				$languageFiles[] = $transFile;
 			}
 		}
 
@@ -293,14 +316,14 @@ class Factory implements IFactory {
 	 */
 	protected function findL10nDir($app = null) {
 		if (in_array($app, ['core', 'lib', 'settings'])) {
-			if (file_exists(\OC::$SERVERROOT . '/' . $app . '/l10n/')) {
-				return \OC::$SERVERROOT . '/' . $app . '/l10n/';
+			if (file_exists($this->serverRoot . '/' . $app . '/l10n/')) {
+				return $this->serverRoot . '/' . $app . '/l10n/';
 			}
 		} else if ($app && \OC_App::getAppPath($app) !== false) {
 			// Check if the app is in the app folder
 			return \OC_App::getAppPath($app) . '/l10n/';
 		}
-		return \OC::$SERVERROOT . '/core/l10n/';
+		return $this->serverRoot . '/core/l10n/';
 	}
 
 
