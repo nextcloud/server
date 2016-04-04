@@ -411,12 +411,6 @@
 			if(!_.isObject(share)) {
 				throw "Unknown Share";
 			}
-			if(   share.share_type === OC.Share.SHARE_TYPE_REMOTE
-			   && (   permission === OC.PERMISSION_SHARE
-				   || permission === OC.PERMISSION_DELETE))
-			{
-				return false;
-			}
 			return (share.permissions & permission) === permission;
 		},
 
