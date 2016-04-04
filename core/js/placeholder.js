@@ -47,12 +47,23 @@
  * <div id="albumart" style="background-color: hsl(123, 90%, 65%); ... ">A</div>
  *
  */
+ 
+ /*
+ * Alternatively, you can use the prototype function to convert your string to hsl colors:
+ *
+ * "a6741a86aded5611a8e46ce16f2ad646".toHsl()
+ *
+ * Will return the hsl parameters within an array:
+ *
+ * [290, 60, 68]
+ *
+ */
 
 (function ($) {
-	$.fn.imageplaceholder = function(seed, text, size) {
-		text = text || seed;
 
-		var hash = seed.toLowerCase().replace(/[^0-9a-f]+/g, '');
+	String.prototype.toHsl = function() {
+
+		var hash = this.toLowerCase().replace(/[^0-9a-f]+/g, '');
 
 		// Already a md5 hash?
 		if( !hash.match(/^[0-9a-f]{32}$/g) ) {
@@ -103,8 +114,15 @@
 		if (bright >= 200) {
 			sat = 60;
 		}
-		var hue = parseInt(hsl[0] * 360);
-		this.css('background-color', 'hsl('+hue+', '+sat+'%, '+lum+'%)');
+		return [parseInt(hsl[0] * 360), sat, lum];
+	};
+
+	$.fn.imageplaceholder = function(seed, text, size) {
+		text = text || seed;
+
+		// Compute the hash
+		var hsl = seed.toHsl();
+		this.css('background-color', 'hsl('+hsl[0]+', '+hsl[1]+'%, '+hsl[2]+'%)');
 
 		// Placeholders are square
 		var height = this.height() || size || 32;
