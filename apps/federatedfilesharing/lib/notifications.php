@@ -23,6 +23,7 @@
 
 namespace OCA\FederatedFileSharing;
 
+use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
 
 class Notifications {
@@ -30,24 +31,32 @@ class Notifications {
 
 	/** @var AddressHandler */
 	private $addressHandler;
+
 	/** @var IClientService */
 	private $httpClientService;
+
 	/** @var DiscoveryManager */
 	private $discoveryManager;
+
+	/** @var IJobList  */
+	private $jobList;
 
 	/**
 	 * @param AddressHandler $addressHandler
 	 * @param IClientService $httpClientService
 	 * @param DiscoveryManager $discoveryManager
+	 * @param IJobList $jobList
 	 */
 	public function __construct(
 		AddressHandler $addressHandler,
 		IClientService $httpClientService,
-		DiscoveryManager $discoveryManager
+		DiscoveryManager $discoveryManager,
+		IJobList $jobList
 	) {
 		$this->addressHandler = $addressHandler;
 		$this->httpClientService = $httpClientService;
 		$this->discoveryManager = $discoveryManager;
+		$this->jobList = $jobList;
 	}
 
 	/**
@@ -97,16 +106,45 @@ class Notifications {
 	 * @param string $remote url
 	 * @param int $id share id
 	 * @param string $token
+	 * @param int $try how often did we already tried to send the un-share request
 	 * @return bool
 	 */
-	public function sendRemoteUnShare($remote, $id, $token) {
+	public function sendRemoteUnShare($remote, $id, $token, $try = 0) {
 		$url = rtrim($remote, '/');
 		$fields = array('token' => $token, 'format' => 'json');
 		$url = $this->addressHandler->removeProtocolFromUrl($url);
 		$result = $this->tryHttpPostToShareEndpoint($url, '/'.$id.'/unshare', $fields);
 		$status = json_decode($result['result'], true);
 
-		return ($result['success'] && ($status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200));
+		if ($result['success'] && 
+			($status['ocs']['meta']['statuscode'] === 100 || 
+				$status['ocs']['meta']['statuscode'] === 200
+			)
+		) {
+			return true;
+		} elseif ($try === 0) {
+			// only add new job on first try
+			$this->jobList->add('OCA\FederatedFileSharing\BackgroundJob\UnShare',
+				[
+					'remote' => $remote,
+					'id' => $id,
+					'token' => $token,
+					'try' => $try,
+					'lastRun' => $this->getTimestamp()
+				]
+			);
+		}
+
+		return false;
+	}
+
+	/**
+	 * return current timestamp
+	 *
+	 * @return int
+	 */
+	protected function getTimestamp() {
+		return time();
 	}
 
 	/**
@@ -117,7 +155,7 @@ class Notifications {
 	 * @param array $fields post parameters
 	 * @return array
 	 */
-	private function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields) {
+	protected function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields) {
 		$client = $this->httpClientService->newClient();
 		$protocol = 'https://';
 		$result = [
