@@ -33,6 +33,7 @@
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
+use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
 
@@ -170,24 +171,24 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * Check if the password is valid for the user
 	 *
-	 * @param string $loginname
+	 * @param string $loginName
 	 * @param string $password
 	 * @return mixed the User object on success, false otherwise
 	 */
-	public function checkPassword($loginname, $password) {
-		$loginname = str_replace("\0", '', $loginname);
+	public function checkPassword($loginName, $password) {
+		$loginName = str_replace("\0", '', $loginName);
 		$password = str_replace("\0", '', $password);
 		
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC_User_Backend::CHECK_PASSWORD)) {
-				$uid = $backend->checkPassword($loginname, $password);
+				$uid = $backend->checkPassword($loginName, $password);
 				if ($uid !== false) {
 					return $this->getUserObject($uid, $backend);
 				}
 			}
 		}
 
-		\OC::$server->getLogger()->warning('Login failed: \''. $loginname .'\' (Remote IP: \''. \OC::$server->getRequest()->getRemoteAddress(). '\')', ['app' => 'core']);
+		\OC::$server->getLogger()->warning('Login failed: \''. $loginName .'\' (Remote IP: \''. \OC::$server->getRequest()->getRemoteAddress(). '\')', ['app' => 'core']);
 		return false;
 	}
 
@@ -304,7 +305,7 @@ class Manager extends PublicEmitter implements IUserManager {
 			if ($backend->implementsActions(\OC_User_Backend::COUNT_USERS)) {
 				$backendUsers = $backend->countUsers();
 				if($backendUsers !== false) {
-					if($backend instanceof \OCP\IUserBackend) {
+					if($backend instanceof IUserBackend) {
 						$name = $backend->getBackendName();
 					} else {
 						$name = get_class($backend);
@@ -325,7 +326,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * If the callback returns false no further users will be retrieved.
 	 *
 	 * @param \Closure $callback
-	 * @return void
+	 * @param string $search
 	 * @since 9.0.0
 	 */
 	public function callForAllUsers(\Closure $callback, $search = '') {
@@ -336,6 +337,9 @@ class Manager extends PublicEmitter implements IUserManager {
 				$users = $backend->getUsers($search, $limit, $offset);
 				foreach ($users as $user) {
 					$user = $this->get($user);
+					if (is_null($user)) {
+						continue;
+					}
 					$return = $callback($user);
 					if ($return === false) {
 						break;
