@@ -23,6 +23,8 @@
  */
 namespace OC\Preview;
 
+use ID3Parser\ID3Parser;
+
 class MP3 extends Provider {
 	/**
 	 * {@inheritDoc}
@@ -35,15 +37,17 @@ class MP3 extends Provider {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		$getID3 = new \getID3();
+		$getID3 = new ID3Parser();
 
 		$tmpPath = $fileview->toTmpFile($path);
-
 		$tags = $getID3->analyze($tmpPath);
-		\getid3_lib::CopyTagsToComments($tags);
-		if(isset($tags['id3v2']['APIC'][0]['data'])) {
-			$picture = @$tags['id3v2']['APIC'][0]['data'];
-			unlink($tmpPath);
+		unlink($tmpPath);
+		$picture = isset($tags['id3v2']['APIC'][0]['data']) ? $tags['id3v2']['APIC'][0]['data'] : null;
+		if(is_null($picture) && isset($tags['id3v2']['PIC'][0]['data'])) {
+			$picture = $tags['id3v2']['PIC'][0]['data'];
+		}
+
+		if(!is_null($picture)) {
 			$image = new \OC_Image();
 			$image->loadFromData($picture);
 
