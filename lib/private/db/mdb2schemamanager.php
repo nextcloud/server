@@ -32,15 +32,14 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use OCP\IDBConnection;
 
 class MDB2SchemaManager {
-	/**
-	 * @var \OC\DB\Connection $conn
-	 */
+	/** @var \OC\DB\Connection $conn */
 	protected $conn;
 
 	/**
-	 * @param \OCP\IDBConnection $conn
+	 * @param IDBConnection $conn
 	 */
 	public function __construct($conn) {
 		$this->conn = $conn;
@@ -77,16 +76,17 @@ class MDB2SchemaManager {
 		$random = \OC::$server->getSecureRandom();
 		$platform = $this->conn->getDatabasePlatform();
 		$config = \OC::$server->getConfig();
+		$dispatcher = \OC::$server->getEventDispatcher();
 		if ($platform instanceof SqlitePlatform) {
-			return new SQLiteMigrator($this->conn, $random, $config);
+			return new SQLiteMigrator($this->conn, $random, $config, $dispatcher);
 		} else if ($platform instanceof OraclePlatform) {
-			return new OracleMigrator($this->conn, $random, $config);
+			return new OracleMigrator($this->conn, $random, $config, $dispatcher);
 		} else if ($platform instanceof MySqlPlatform) {
-			return new MySQLMigrator($this->conn, $random, $config);
+			return new MySQLMigrator($this->conn, $random, $config, $dispatcher);
 		} else if ($platform instanceof PostgreSqlPlatform) {
-			return new Migrator($this->conn, $random, $config);
+			return new Migrator($this->conn, $random, $config, $dispatcher);
 		} else {
-			return new NoCheckMigrator($this->conn, $random, $config);
+			return new NoCheckMigrator($this->conn, $random, $config, $dispatcher);
 		}
 	}
 
@@ -94,6 +94,7 @@ class MDB2SchemaManager {
 	 * Reads database schema from file
 	 *
 	 * @param string $file file to read from
+	 * @return \Doctrine\DBAL\Schema\Schema
 	 */
 	private function readSchemaFromFile($file) {
 		$platform = $this->conn->getDatabasePlatform();

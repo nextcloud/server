@@ -41,5 +41,13 @@
 		</div>
 	</div>
 
-	<div class="updateProgress hidden"></div>
+	<div class="update-progress hidden">
+		<h2 id="update-progress-title"></h2>
+		<div id="update-progress-icon" class="icon-loading-dark"></div>
+		<p id="update-progress-message-error" class="warning hidden"></p>
+		<ul id="update-progress-message-warnings" class="warning hidden"></ul>
+		<p id="update-progress-message"></p>
+		<a class="update-show-detailed"><?php p($l->t( 'Detailed logs' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a>
+		<div id="update-progress-detailed" class="hidden warning"></div>
+	</div>
 </div>

@@ -365,6 +365,7 @@ class OC {
 		$systemConfig->setValue('theme', '');
 		\OCP\Util::addScript('config'); // needed for web root
 		\OCP\Util::addScript('update');
+		\OCP\Util::addStyle('update');
 
 		// check whether this is a core update or apps update
 		$installedVersion = $systemConfig->getValue('version', '0.0.0');

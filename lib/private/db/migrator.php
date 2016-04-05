@@ -35,6 +35,8 @@ use \Doctrine\DBAL\Schema\SchemaConfig;
 use \Doctrine\DBAL\Schema\Comparator;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Migrator {
 
@@ -51,21 +53,33 @@ class Migrator {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var EventDispatcher  */
+	private $dispatcher;
+
+	/** @var bool */
+	private $noEmit = false;
+
 	/**
-	 * @param Connection $connection
+	 * @param \Doctrine\DBAL\Connection|Connection $connection
 	 * @param ISecureRandom $random
 	 * @param IConfig $config
+	 * @param EventDispatcher $dispatcher
 	 */
-	public function __construct(\Doctrine\DBAL\Connection $connection, ISecureRandom $random, IConfig $config) {
+	public function __construct(\Doctrine\DBAL\Connection $connection,
+								ISecureRandom $random,
+								IConfig $config,
+								EventDispatcher $dispatcher = null) {
 		$this->connection = $connection;
 		$this->random = $random;
 		$this->config = $config;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
 	 */
 	public function migrate(Schema $targetSchema) {
+		$this->noEmit = true;
 		$this->applySchema($targetSchema);
 	}
 
@@ -90,21 +104,22 @@ class Migrator {
 	 * @throws \OC\DB\MigrationException
 	 */
 	public function checkMigrate(Schema $targetSchema) {
-		/**
-		 * @var \Doctrine\DBAL\Schema\Table[] $tables
-		 */
+		$this->noEmit = true;
+		/**@var \Doctrine\DBAL\Schema\Table[] $tables */
 		$tables = $targetSchema->getTables();
 		$filterExpression = $this->getFilterExpression();
 		$this->connection->getConfiguration()->
 			setFilterSchemaAssetsExpression($filterExpression);
 		$existingTables = $this->connection->getSchemaManager()->listTableNames();
 
+		$step = 0;
 		foreach ($tables as $table) {
 			if (strpos($table->getName(), '.')) {
 				list(, $tableName) = explode('.', $table->getName());
 			} else {
 				$tableName = $table->getName();
 			}
+			$this->emitCheckStep($tableName, $step++, count($tables));
 			// don't need to check for new tables
 			if (array_search($tableName, $existingTables) !== false) {
 				$this->checkTableMigrate($table);
@@ -215,7 +230,10 @@ class Migrator {
 		$schemaDiff = $this->getDiff($targetSchema, $connection);
 
 		$connection->beginTransaction();
-		foreach ($schemaDiff->toSql($connection->getDatabasePlatform()) as $sql) {
+		$sqls = $schemaDiff->toSql($connection->getDatabasePlatform());
+		$step = 0;
+		foreach ($sqls as $sql) {
+			$this->emit($sql, $step++, count($sqls));
 			$connection->query($sql);
 		}
 		$connection->commit();
@@ -253,5 +271,22 @@ class Migrator {
 
 	protected function getFilterExpression() {
 		return '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+	}
+
+	protected function emit($sql, $step, $max) {
+		if ($this->noEmit) {
+			return;
+		}
+		if(is_null($this->dispatcher)) {
+			return;
+		}
+		$this->dispatcher->dispatch('\OC\DB\Migrator::executeSql', new GenericEvent($sql, [$step+1, $max]));
+	}
+
+	private function emitCheckStep($tableName, $step, $max) {
+		if(is_null($this->dispatcher)) {
+			return;
+		}
+		$this->dispatcher->dispatch('\OC\DB\Migrator::checkTable', new GenericEvent($tableName, [$step+1, $max]));
 	}
 }
