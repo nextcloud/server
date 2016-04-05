@@ -149,7 +149,6 @@ OC.L10N.register(
     "change" : "zmiany",
     "delete" : "usuń",
     "access control" : "kontrola dostępu",
-    "An error occured. Please try again" : "Wystąpił błąd. Proszę spróbować ponownie.",
     "Share" : "Udostępnij",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Współdziel z użytkownikami innych chmur ownCloud używając wzorca uzytkownik@example.com/owncloud",
     "Warning" : "Ostrzeżenie",

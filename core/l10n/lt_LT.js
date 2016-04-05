@@ -129,7 +129,6 @@ OC.L10N.register(
     "change" : "keisti",
     "delete" : "ištrinti",
     "access control" : "priėjimo kontrolė",
-    "An error occured. Please try again" : "Klaida, prašau bandyti dar kartą.",
     "Share" : "Dalintis",
     "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Dalintis su vartotoju kitame ownCloud debesyje, sintaksė vartotojas@example.com/owncloud",
     "Warning" : "Įspėjimas",
