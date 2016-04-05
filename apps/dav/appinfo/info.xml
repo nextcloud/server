@@ -10,17 +10,6 @@
 	<types>
 		<filesystem/>
 	</types>
-	<remote>
-		<files>appinfo/v1/webdav.php</files>
-		<webdav>appinfo/v1/webdav.php</webdav>
-		<dav>appinfo/v2/remote.php</dav>
-		<!-- carddav endpoints as used before ownCloud 9.0 -->
-		<contacts>appinfo/v1/carddav.php</contacts>
-		<carddav>appinfo/v1/carddav.php</carddav>
-		<!-- caldav endpoints as used before ownCloud 9.0 -->
-		<calendar>appinfo/v1/caldav.php</calendar>
-		<caldav>appinfo/v1/caldav.php</caldav>
-	</remote>
 	<public>
 		<webdav>appinfo/v1/publicwebdav.php</webdav>
 	</public>
