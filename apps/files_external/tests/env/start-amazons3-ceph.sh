@@ -33,6 +33,7 @@ fi;
 
 # create readiness notification socket
 notify_sock=$(readlink -f "$thisFolder"/dockerContainerCeph.$EXECUTOR_NUMBER.amazons3.sock)
+rm -f "$notify_sock" # in case an unfinished test left one behind
 mkfifo "$notify_sock"
 
 user=test
