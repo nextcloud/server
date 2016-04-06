@@ -110,7 +110,7 @@ class Autoloader {
 				$split[1] = strtolower($split[1]);
 
 				if ($split[1] === 'core') {
-					$paths[] = \OC::$SERVERROOT . '/core/' . strtolower(str_replace('\\', '/', $split[2])) . '.php';
+					// Covered by PSR-4 autoloader
 				} else if ($split[1] === 'settings') {
 					// Covered by PSR-4 autoloader
 				} else {
