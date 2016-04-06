@@ -72,7 +72,7 @@ class Connection extends \Test\TestCase {
 			// sqlite removes the tables after closing the DB
 			$this->assertTrue(true);
 		} else {
-			$this->assertFalse($this->connection->tableExists($table), 'Table ' . $table . ' doesnt exists.');
+			$this->assertFalse($this->connection->tableExists($table), 'Table ' . $table . " doesn't exist.");
 		}
 	}
 

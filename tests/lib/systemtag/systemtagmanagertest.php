@@ -124,7 +124,7 @@ class SystemTagManagerTest extends TestCase {
 				null,
 				[]
 			],
-			// filter by visibile only
+			// filter by visible only
 			[
 				// none visible
 				[

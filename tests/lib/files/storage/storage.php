@@ -87,13 +87,13 @@ abstract class Storage extends \Test\TestCase {
 		}
 		$this->assertEquals(array($directory), $content);
 
-		$this->assertFalse($this->instance->mkdir('/' . $directory)); //cant create existing folders
+		$this->assertFalse($this->instance->mkdir('/' . $directory)); //can't create existing folders
 		$this->assertTrue($this->instance->rmdir('/' . $directory));
 
 		$this->wait();
 		$this->assertFalse($this->instance->file_exists('/' . $directory));
 
-		$this->assertFalse($this->instance->rmdir('/' . $directory)); //cant remove non existing folders
+		$this->assertFalse($this->instance->rmdir('/' . $directory)); //can't remove non existing folders
 
 		$dh = $this->instance->opendir('/');
 		$content = array();

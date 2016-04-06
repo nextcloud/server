@@ -28,7 +28,7 @@ abstract class Test_Cache extends \Test\TestCase {
 		$this->instance->set('value1', $value);
 		$this->assertTrue($this->instance->hasKey('value1'));
 		$received=$this->instance->get('value1');
-		$this->assertEquals($value, $received, 'Value recieved from cache not equal to the original');
+		$this->assertEquals($value, $received, 'Value received from cache not equal to the original');
 		$value='ipsum lorum';
 		$this->instance->set('value1', $value);
 		$received=$this->instance->get('value1');

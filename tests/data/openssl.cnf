@@ -55,7 +55,7 @@ crl		= $dir/crl.pem 		# The current CRL
 private_key	= $dir/private/cakey.pem# The private key
 RANDFILE	= $dir/private/.rand	# private random number file
 
-x509_extensions	= usr_cert		# The extentions to add to the cert
+x509_extensions	= usr_cert		# The extensions to add to the cert
 
 # Comment out the following two lines for the "traditional"
 # (and highly broken) format.
@@ -107,7 +107,7 @@ default_bits		= 2048
 default_keyfile 	= privkey.pem
 distinguished_name	= req_distinguished_name
 attributes		= req_attributes
-x509_extensions	= v3_ca	# The extentions to add to the self signed cert
+x509_extensions	= v3_ca	# The extensions to add to the self signed cert
 
 # Passwords for private keys if not present they will be prompted for
 # input_password = secret

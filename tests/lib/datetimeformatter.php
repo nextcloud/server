@@ -42,7 +42,7 @@ class DateTimeFormatter extends TestCase {
 	}
 
 	public function formatTimeSpanData() {
-		$time = 1416916800; // Use a fixed timestamp so we dont switch days/years with the getTimestampAgo
+		$time = 1416916800; // Use a fixed timestamp so we don't switch days/years with the getTimestampAgo
 		$deL10N = new \OC_L10N('lib', 'de');
 		return array(
 			array('seconds ago',	$time, $time),
@@ -80,7 +80,7 @@ class DateTimeFormatter extends TestCase {
 	}
 
 	public function formatDateSpanData() {
-		$time = 1416916800; // Use a fixed timestamp so we dont switch days/years with the getTimestampAgo
+		$time = 1416916800; // Use a fixed timestamp so we don't switch days/years with the getTimestampAgo
 		$deL10N = new \OC_L10N('lib', 'de');
 		return array(
 			// Normal testing
