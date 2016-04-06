@@ -24,12 +24,12 @@
 
 namespace OCA\user_ldap\lib\user;
 
-use OCA\user_ldap\lib\user\IUserTools;
 use OCA\user_ldap\lib\Connection;
 use OCA\user_ldap\lib\FilesystemHelper;
 use OCA\user_ldap\lib\LogWrapper;
 use OCP\IAvatarManager;
 use OCP\IConfig;
+use OCP\Image;
 use OCP\IUserManager;
 
 /**
@@ -55,7 +55,7 @@ class User {
 	 */
 	protected $fs;
 	/**
-	 * @var \OCP\Image
+	 * @var Image
 	 */
 	protected $image;
 	/**
@@ -101,13 +101,13 @@ class User {
 	 * LDAP interaction
 	 * @param IConfig $config
 	 * @param FilesystemHelper $fs
-	 * @param \OCP\Image $image any empty instance
+	 * @param Image $image any empty instance
 	 * @param LogWrapper $log
 	 * @param IAvatarManager $avatarManager
 	 * @param IUserManager $userManager
 	 */
 	public function __construct($username, $dn, IUserTools $access,
-		IConfig $config, FilesystemHelper $fs, \OCP\Image $image,
+		IConfig $config, FilesystemHelper $fs, Image $image,
 		LogWrapper $log, IAvatarManager $avatarManager, IUserManager $userManager) {
 
 		$this->access        = $access;
@@ -432,7 +432,9 @@ class User {
 		}
 		if(!is_null($email)) {
 			$user = $this->userManager->get($this->uid);
-			$user->setEMailAddress($email);
+			if (!is_null($user)) {
+				$user->setEMailAddress($email);
+			}
 		}
 	}
 
