@@ -155,7 +155,6 @@
     "Hello {name}, the weather is {weather}" : "Здраво {name}, време је {weather}",
     "Hello {name}" : "Здраво {name}",
     "_download %n file_::_download %n files_" : ["преузми %n фајл","преузми %n фајла","преузми %n фајлова"],
-    "Updating {productName} to version {version}, this may take a while." : "Надограђујем {productName} на издање {version}. Ово би могло да потраје.",
     "Please reload the page." : "Поново учитајте страницу.",
     "The update was unsuccessful. " : "Ажурирање није успело.",
     "The update was successful. There were warnings." : "Ажурирање је успело. Било је упозорења.",

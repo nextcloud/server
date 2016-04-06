@@ -168,7 +168,6 @@ OC.L10N.register(
     "Hello {name}" : "Vitaj {name}",
     "_download %n file_::_download %n files_" : ["stiahnuť %n súbor","stiahnuť %n súbory","stiahnuť %n súborov"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Aktualizácie prebieha. V niektorých prostrediach môže opustenie tejto stránky spôsobiť prerušenie aktualizácie.",
-    "Updating {productName} to version {version}, this may take a while." : "Aktualizujem {productName} na verziu {version}, chvíľu to môže trvať.",
     "An error occurred." : "Vyskytla sa chyba.",
     "Please reload the page." : "Obnovte prosím stránku.",
     "The update was unsuccessful. " : "Aktualizácia bola neúspešná.",

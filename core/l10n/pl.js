@@ -166,7 +166,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Cześć {name}, dzisiejsza pogoda jest {weather}",
     "Hello {name}" : "Witaj {name}",
     "_download %n file_::_download %n files_" : ["pobrano %n plik","pobrano %n plików","pobrano %n plików"],
-    "Updating {productName} to version {version}, this may take a while." : "Aktualizuję {productName} do wersji {version}, to może chwilę potrwać.",
     "Please reload the page." : "Proszę przeładować stronę",
     "The update was unsuccessful. " : "Aktualizowanie zakończyło się niepowodzeniem.",
     "The update was successful. Redirecting you to ownCloud now." : "Aktualizacji zakończyła się powodzeniem. Przekierowuję do ownCloud.",

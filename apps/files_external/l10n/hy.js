@@ -2,7 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Personal" : "Անձնական",
-    "Never" : "Երբեք",
     "Saved" : "Պահված",
     "Username" : "Օգտանուն",
     "Password" : "Գաղտնաբառ",

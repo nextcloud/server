@@ -189,7 +189,6 @@ OC.L10N.register(
     "new" : "new",
     "_download %n file_::_download %n files_" : ["download %n file","download %n files"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "The upgrade is in progress, leaving this page might interrupt the process in some environments.",
-    "Updating {productName} to version {version}, this may take a while." : "Updating {productName} to version {version}, this may take a while.",
     "An error occurred." : "An error occurred.",
     "Please reload the page." : "Please reload the page.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue.",

@@ -187,7 +187,6 @@ OC.L10N.register(
     "new" : "új",
     "_download %n file_::_download %n files_" : ["%n fájl letöltése","%n fájl letöltése"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "A frissítés folyamatban van, az oldal elhagyása néhány környezetben lehet, hogy megszakítja a folyamatot.",
-    "Updating {productName} to version {version}, this may take a while." : " {productName} frissítése zajlik erre a verzióra: {version}. Ez eltarthat egy darabig.",
     "An error occurred." : "Hiba történt.",
     "Please reload the page." : "Kérjük frissítse az oldalt!",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Frissítés sikertelen. Bővebb információért <a href=\"{url}\">keresse fel a fórumunkat</a> a probléma lefedéséért.",

@@ -174,7 +174,6 @@ OC.L10N.register(
     "Hello {name}" : "Привіт {name}",
     "new" : "новий",
     "_download %n file_::_download %n files_" : ["завантаження %n файлу","завантаження %n файлів","завантаження %n файлів"],
-    "Updating {productName} to version {version}, this may take a while." : "Оновлення {productName} до версії {version}, це може займати деякий час.",
     "An error occurred." : "Виникла помилка.",
     "Please reload the page." : "Будь ласка, перезавантажте сторінку.",
     "The update was unsuccessful. " : "Оновлення завершилось невдачею.",

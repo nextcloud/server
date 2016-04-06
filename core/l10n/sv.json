@@ -200,7 +200,6 @@
     "new" : "ny",
     "_download %n file_::_download %n files_" : ["Ladda ner %n fil","Ladda ner %n filer"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Uppgradering pågår, att lämna denna sidan kan störa processen i vissa miljöer",
-    "Updating {productName} to version {version}, this may take a while." : "Uppdaterar {productName} till version {version}, detta kan ta en stund.",
     "An error occurred." : "Ett fel inträffade.",
     "Please reload the page." : "Vänligen ladda om sidan.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Uppdateringen misslyckades. För mer information <a href=\"{url}\">kolla vår forum post</a> angående problemet.",

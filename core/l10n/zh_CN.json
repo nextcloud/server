@@ -187,7 +187,6 @@
     "new" : "新建",
     "_download %n file_::_download %n files_" : ["下载 %n 个文件"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "升级正在进行，在某些环境中离开此网页可能中断该过程。",
-    "Updating {productName} to version {version}, this may take a while." : "更新 {productName} 到版本 {version}，这可能需要一些时间。",
     "An error occurred." : "发生了一个错误",
     "Please reload the page." : "请重新加载页面。",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "更新不成功。有关此问题的更多信息请<a href=\"{url}\">查看我们的论坛帖子</a>。",

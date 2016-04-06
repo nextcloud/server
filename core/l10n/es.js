@@ -194,7 +194,6 @@ OC.L10N.register(
     "new" : "Nuevo",
     "_download %n file_::_download %n files_" : ["descargar %n ficheros","descargar %n archivos"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "La actualización está en curso, salir de esta página podrían interrumpir el proceso en algunos entornos.",
-    "Updating {productName} to version {version}, this may take a while." : "Actualizando {productName} a la versión {version}. Esto puede tardar un poco.",
     "An error occurred." : "Ocurrió un error.",
     "Please reload the page." : "Recargue/Actualice la página",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La actualización tuvo un problema. Para más información <a href=\"{url}\">consulta nuestro artículo del foro</a> para arreglar este problema.",

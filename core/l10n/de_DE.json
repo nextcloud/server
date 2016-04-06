@@ -1,6 +1,8 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "An folgende Benutzer konnte keine E-Mail gesendet werden: %s",
     "Preparing update" : "Update vorbereiten",
+    "[%d / %d]: %s" : "[%d / %d]: %s",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: Überprüfe Tabelle %s",
     "Turned on maintenance mode" : "Wartungsmodus eingeschaltet ",
     "Turned off maintenance mode" : "Wartungsmodus ausgeschaltet",
     "Maintenance mode is kept active" : "Wartungsmodus bleibt aktiviert",
@@ -167,6 +169,7 @@
     "Share details could not be loaded for this item." : "Die Freigabedetails konnten für dieses Element nicht geladen werden.",
     "No users or groups found for {search}" : "Keine Benutzer oder Gruppen für {search} gefunden",
     "No users found for {search}" : "Keine Benutzer für {search} gefunden",
+    "An error occurred. Please try again" : "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es noch einmal",
     "{sharee} (group)" : "{sharee} (Gruppe)",
     "{sharee} (at {server})" : "{sharee} (über {server})",
     "{sharee} (remote)" : "{sharee} (entfernt)",
@@ -200,7 +203,7 @@
     "new" : "Neu",
     "_download %n file_::_download %n files_" : ["Lade %n Datei herunter","Lade %n Dateien herunter"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Das Upgrade läuft noch , diese Seite zu verlassen könnte das Verfahren in einigen Umgebungen unterbrechen.",
-    "Updating {productName} to version {version}, this may take a while." : "{productName} wird auf Version {version} aktualisiert. Das könnte eine Weile dauern.",
+    "Updating to {version}" : "Aktualisierung auf {version}",
     "An error occurred." : "Ein Fehler ist aufgetreten.",
     "Please reload the page." : "Bitte laden Sie die Seite neu.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Das Update war nicht erfolgreich. Für mehr Informationen <a href=\"{url}\">lesen Sie unseren Forenbeitrag</a> zu diesem Thema.",
@@ -272,6 +275,7 @@
     "Search" : "Suche",
     "Server side authentication failed!" : "Serverseitige Authentifizierung fehlgeschlagen!",
     "Please contact your administrator." : "Bitte kontaktieren Sie Ihren Administrator.",
+    "An internal error occurred." : "Es ist ein interner Fehler aufgetreten.",
     "Please try again or contact your administrator." : "Bitte versuchen Sie es noch einmal oder kontaktieren Sie Ihren Administrator.",
     "Log in" : "Einloggen",
     "Wrong password. Reset it?" : "Falsches Passwort. Soll es zurückgesetzt werden?",
@@ -298,6 +302,7 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Stellen Sie vor dem Fortsetzen bitte sicher, dass die Datenbank, der Konfigurationsordner und der Datenordner gesichert wurden.",
     "Start update" : "Aktualisierung starten",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Zur Vermeidung von Zeitüberschreitungen bei größeren Installationen können Sie stattdessen den folgenden Befehl in Ihrem Installationsverzeichnis ausführen:",
+    "Detailed logs" : "Detaillierte Fehlermeldungen",
     "This %s instance is currently in maintenance mode, which may take a while." : "Diese %s-Instanz befindet sich gerade im Wartungsmodus, was eine Weile dauern kann.",
     "This page will refresh itself when the %s instance is available again." : "Diese Seite aktualisiert sich automatisch, wenn die %s-Instanz wieder verfügbar ist."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

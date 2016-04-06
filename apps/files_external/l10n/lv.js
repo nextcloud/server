@@ -5,7 +5,6 @@ OC.L10N.register(
     "Personal" : "Personīgi",
     "Grant access" : "Piešķirt pieeju",
     "Access granted" : "Piešķirta pieeja",
-    "Enable encryption" : "Ieslēgt šifrēšanu",
     "Saved" : "Saglabāts",
     "Username" : "Lietotājvārds",
     "Password" : "Parole",

@@ -170,7 +170,6 @@ OC.L10N.register(
     "Hello {name}" : "Adiu {name}",
     "_download %n file_::_download %n files_" : ["Telecargar %n fichièr","Telecargar %n fichièrs"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "La mesa a jorn es en cors. Segon la configuracion, lo fach de quitar aquesta pagina pòt entraïnar l'interrupcion de la procedura.",
-    "Updating {productName} to version {version}, this may take a while." : "La mesa a jorn de {productName} cap a la version {version} es en cors. Aquò pòt prene un certan temps.",
     "An error occurred." : "Una error s'es produsida.",
     "Please reload the page." : "Recargatz la pagina.",
     "The update was unsuccessful. " : "La mesa a jorn a fracassat.",

@@ -114,7 +114,6 @@ OC.L10N.register(
     "The object type is not specified." : "Tipul obiectului nu este specificat.",
     "Enter new" : "Introducere nou",
     "Add" : "Adaugă",
-    "Updating {productName} to version {version}, this may take a while." : "Se actualizează {productName} la versiunea {version}, poate dura câteva momente.",
     "Please reload the page." : "Te rugăm să reîncarci pagina.",
     "The update was successful. Redirecting you to ownCloud now." : "Actualizare reușită. Ești redirecționat către ownCloud.",
     "Personal" : "Personal",

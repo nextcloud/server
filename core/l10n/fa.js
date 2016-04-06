@@ -146,7 +146,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "سلام {name}, هوا  {weather} است",
     "Hello {name}" : "سلام {name}",
     "_download %n file_::_download %n files_" : ["دانلود %n فایل"],
-    "Updating {productName} to version {version}, this may take a while." : "بروزرسانی {productName}  به نسخه‎ی  {version}، این عملیات ممکن است زمان‎بر باشد.",
     "An error occurred." : "یک خطا رخ‌داده است.",
     "The update was unsuccessful. " : "بروزرسانی ناموفق بود.",
     "The update was successful. There were warnings." : "بروزرسانی با موفقیت انجام شد، اخطارهایی وجود دارد.",

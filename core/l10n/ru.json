@@ -188,7 +188,6 @@
     "new" : "новый",
     "_download %n file_::_download %n files_" : ["скачать %n файл","скачать %n файла","скачать %n файлов","скачать %n файлов"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Идет обновление. Покидая эту страницу, вы можете прервать процесс обновления.",
-    "Updating {productName} to version {version}, this may take a while." : "Идет обновление {productName} до версии {version}, это может занять некоторое время.",
     "An error occurred." : "Произошла ошибка.",
     "Please reload the page." : "Пожалуйста, обновите страницу.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Обновление прошло не успешно. За дополнительной информацией по этой проблеме <a href=\"{url}\">обратитесь к нашему форуму</a>.",

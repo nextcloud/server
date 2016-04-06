@@ -134,7 +134,6 @@ OC.L10N.register(
     "sunny" : "sunčano",
     "Hello {name}, the weather is {weather}" : "Zdravo {name}, vreme je {weather}",
     "_download %n file_::_download %n files_" : ["Preuzmi %n fajl","Preuzmi %n fajlova","Preuzmi %n fajlova"],
-    "Updating {productName} to version {version}, this may take a while." : "Osvežavam {productName} na verziju {version}, ovo može potrajati.",
     "Please reload the page." : "Molimo, ponovo učitajte stranu.",
     "The update was unsuccessful. " : "Osvežavanje je uspelo.",
     "The update was successful. Redirecting you to ownCloud now." : "Ažuriranje je uspelo. Prosleđivanje na ownCloud.",

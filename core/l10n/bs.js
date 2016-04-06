@@ -130,7 +130,6 @@ OC.L10N.register(
     "Hello world!" : "Halo svijete!",
     "sunny" : "sunčan",
     "Hello {name}, the weather is {weather}" : "Halo {name}, vrijeme je {weather}",
-    "Updating {productName} to version {version}, this may take a while." : "Ažuriranje {productName} u verziiju {version}, to može potrajati neko vrijeme.",
     "Please reload the page." : "Molim, ponovno učitajte stranicu",
     "The update was unsuccessful. " : "Ažuriranje nije uspjelo.",
     "The update was successful. Redirecting you to ownCloud now." : "Ažuriranje je uspjelo. Preusmjeravam vas na ownCloud.",

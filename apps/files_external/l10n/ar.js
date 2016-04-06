@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Personal" : "شخصي",
     "System" : "النظام",
-    "Never" : "أبدا",
     "Saved" : "حفظ",
     "Username" : "إسم المستخدم",
     "Password" : "كلمة السر",

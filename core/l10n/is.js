@@ -194,7 +194,6 @@ OC.L10N.register(
     "new" : "nýtt",
     "_download %n file_::_download %n files_" : ["sækja %n skrá","sækja %n skrár"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Uppfærslan er í gangi, ef farið er af þessari síðu gæti það truflað ferlið á sumum kerfum.",
-    "Updating {productName} to version {version}, this may take a while." : "Uppfæri {productName} í útgáfu {version}, þetta getur tekið smá stund.",
     "An error occurred." : "Villa átti sér stað.",
     "Please reload the page." : "Þú ættir að hlaða síðunni aftur inn.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Uppfærslan tókst ekki. Til að fá frekari upplýsingar <a href=\"{url}\">skoðaðu færslu á spjallsvæðinu okkar</a> sem fjallar um þetta mál.",

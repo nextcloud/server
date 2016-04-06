@@ -4,7 +4,6 @@ OC.L10N.register(
     "Personal" : "Лично",
     "Grant access" : "Дозволи пристап",
     "Access granted" : "Пристапот е дозволен",
-    "Enable encryption" : "Овозможи енкрипција",
     "Saved" : "Снимено",
     "Username" : "Корисничко име",
     "Password" : "Лозинка",

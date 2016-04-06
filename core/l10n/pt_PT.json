@@ -200,7 +200,6 @@
     "new" : "novo",
     "_download %n file_::_download %n files_" : ["transferir %n ficheiro","transferir %n ficheiros"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "A atualização está em curso. Deixar esta página agora poderá interromper o processo nalguns ambientes.",
-    "Updating {productName} to version {version}, this may take a while." : "A atualizar {productName} para a versão {version}, isto poderá demorar algum tempo.",
     "An error occurred." : "Ocorreu um erro.",
     "Please reload the page." : "Por favor, recarregue a página.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "A atualização falhou. Para mais informação <a href=\"{url}\">verifique o nosso fórum</a> sobre como resolver este problema.",

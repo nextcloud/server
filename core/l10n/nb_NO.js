@@ -189,7 +189,6 @@ OC.L10N.register(
     "new" : "ny",
     "_download %n file_::_download %n files_" : ["last ned %n fil","last ned %n filer"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "En oppdatering foregår, lukking av denne siden kan forstyrre prosessen for enkelte systemer.",
-    "Updating {productName} to version {version}, this may take a while." : "Oppdaterer {productName} til versjon {version}. Dette kan ta litt tid.",
     "An error occurred." : "En feil oppstod.",
     "Please reload the page." : "Vennligst last siden på nytt.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Oppdateringen var mislykket. For mer informasjon <a href=\"{url}\">se vår forum-artikkel</a> som beskriver dette problemet.",

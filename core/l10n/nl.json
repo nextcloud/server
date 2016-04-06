@@ -200,7 +200,6 @@
     "new" : "nieuw",
     "_download %n file_::_download %n files_" : ["download %n bestand","download %n bestanden"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "De update is bezig, deze pagina verlaten kan het updateproces in sommige omgevingen onderbreken.",
-    "Updating {productName} to version {version}, this may take a while." : "Bijwerken {productName} naar versie {version}, dit kan even duren.",
     "An error occurred." : "Er heeft zich een fout voorgedaan.",
     "Please reload the page." : "Herlaad deze pagina.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "De update was niet succesvol. Voor meer informatie <a href=\"{url}\">zie ons bericht op het forum</a> over dit probleem.",

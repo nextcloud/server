@@ -168,7 +168,6 @@
     "Hello {name}" : "Helo {name}",
     "_download %n file_::_download %n files_" : ["unduh %n berkas"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Pembaruan sedang dalam proses, meninggalkan halaman ini mungkin dapat mengganggu proses di beberapa lingkungan.",
-    "Updating {productName} to version {version}, this may take a while." : "Memperbarui {productName} ke versi {version}, ini memerlukan waktu.",
     "An error occurred." : "Terjadi kesalahan.",
     "Please reload the page." : "Silakan muat ulang halaman.",
     "The update was unsuccessful. " : "Pembaruan tidak berhasil.",

@@ -183,7 +183,6 @@ OC.L10N.register(
     "new" : "novo",
     "_download %n file_::_download %n files_" : ["prejmi %n datoteko","prejmi %n datoteki","prejmi %n datoteke","prejmi %n datotek"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Trenutno se izvaja posodobitev sistema. Priporočljivo je počakati, saj se lahko opravilo, če stran zapustite, prekine.",
-    "Updating {productName} to version {version}, this may take a while." : "Poteka posodabljanje {productName} na različico {version}. Opravilo je lahko dolgotrajno.",
     "An error occurred." : "Prišlo je do napake.",
     "Please reload the page." : "Stran je treba ponovno naložiti",
     "The update was unsuccessful. " : "Posodobitev je spodletela.",

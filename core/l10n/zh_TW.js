@@ -193,7 +193,6 @@ OC.L10N.register(
     "new" : "新",
     "_download %n file_::_download %n files_" : ["下載 %n 個檔案"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "正在更新，在某些狀況下，離開本頁面可能會導致更新中斷",
-    "Updating {productName} to version {version}, this may take a while." : "正在更新 {productName} 到版本 {version} ，請稍候",
     "An error occurred." : "發生錯誤",
     "Please reload the page." : "請重新整理頁面",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "更新失敗，檢視<a href=\"{url}\">論壇上的文章</a>來瞭解更多",

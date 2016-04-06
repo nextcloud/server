@@ -142,7 +142,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Здравей {name}, времето е {weather}",
     "Hello {name}" : "Здравейте, {name}",
     "_download %n file_::_download %n files_" : ["изтегли %n файл","изтегли %n файла"],
-    "Updating {productName} to version {version}, this may take a while." : "Обновяване на {productName} към версия {version}. Това може да отнеме време.",
     "Please reload the page." : "Моля, презаредете страницата.",
     "The update was unsuccessful. " : "Обновяването бе неуспешно.",
     "The update was successful. Redirecting you to ownCloud now." : "Обновяването е успешно. Сега Ви пренасочваме към ownCloud.",

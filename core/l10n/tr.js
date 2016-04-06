@@ -184,7 +184,6 @@ OC.L10N.register(
     "Hello {name}" : "Merhaba {name}",
     "_download %n file_::_download %n files_" : ["%n dosya indir","%n dosya indir"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Güncelleme yapılıyor, sayfadan ayrılmak bazı işlemleri kesebilir.",
-    "Updating {productName} to version {version}, this may take a while." : "{productName}, {version} sürümüne güncelleniyor, bu biraz zaman alabilir.",
     "An error occurred." : "Bir hata oluştu",
     "Please reload the page." : "Lütfen sayfayı yeniden yükleyin.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Güncelleme başarısız oldu. Daha fazla bilgi için bu sorunu kapsayan <a href=\"{url}\">forum gönderimize</a> bakın.",

@@ -135,7 +135,6 @@
     "Hello {name}, the weather is {weather}" : "Kaixo {name}, eguraldia {weather} da",
     "Hello {name}" : "Kaixo {name}",
     "_download %n file_::_download %n files_" : ["%n fitxategia jaitsi","jaitsi %n fitxategiak"],
-    "Updating {productName} to version {version}, this may take a while." : "Eguneratu  {productName} {version} bertsiora, bere denbora behar du.",
     "An error occurred." : "Errore bat gertatu da.",
     "Please reload the page." : "Mesedez birkargatu orria.",
     "The update was unsuccessful. " : "Eguneraketa ongi burutu da.",

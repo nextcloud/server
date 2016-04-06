@@ -188,7 +188,6 @@ OC.L10N.register(
     "Hello {name}" : " {name}さん､こんにちは",
     "_download %n file_::_download %n files_" : ["%n個のファイルをダウンロード"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "アップグレード実行中です。このページを離れると、一部の環境では処理が中断されてしまうことがあります。",
-    "Updating {productName} to version {version}, this may take a while." : "{productName} を バージョン {version} に更新しています。しばらくお待ちください。",
     "An error occurred." : "エラーが発生しました。",
     "Please reload the page." : "ページをリロードしてください。",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "アップデートできませんでした。この問題に対する詳細な情報については、<a href=\"{url}\">フォーラムの投稿を確認してください</a> ",

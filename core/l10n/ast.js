@@ -129,7 +129,6 @@ OC.L10N.register(
     "Edit tags" : "Editar etiquetes",
     "Error loading dialog template: {error}" : "Fallu cargando plantía de diálogu: {error}",
     "No tags selected for deletion." : "Nun s'esbillaron etiquetes pa desaniciar.",
-    "Updating {productName} to version {version}, this may take a while." : "Anovando {productName} a la versión {version}, esto pue llevar un tiempu.",
     "Please reload the page." : "Por favor, recarga la páxina",
     "The update was successful. Redirecting you to ownCloud now." : "L'anovamientu fízose con ésitu. Redirixiendo agora al to ownCloud.",
     "Personal" : "Personal",

@@ -2,9 +2,9 @@ OC.L10N.register(
     "comments",
     {
     "<strong>Comments</strong> for files" : "<strong>Komentáře</strong> souborů",
-    "You commented" : "Okomentoval jste",
+    "You commented" : "Okomentoval(a) jsi",
     "%1$s commented" : "%1$s okomentován",
-    "You commented on %2$s" : "Okomentoval jste %2$s",
+    "You commented on %2$s" : "Okomentoval(a) jsi %2$s",
     "%1$s commented on %2$s" : "%1$s okomentoval %2$s",
     "Comments" : "Komentáře",
     "Type in a new comment..." : "Zadat nový komentář...",

@@ -189,7 +189,6 @@ OC.L10N.register(
     "new" : "새로운 항목",
     "_download %n file_::_download %n files_" : ["파일 %n개 다운로드"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "업그레이드 중입니다. 이 페이지를 열어 두면 일부 환경에서 진행 과정을 중단시킬 수 있습니다.",
-    "Updating {productName} to version {version}, this may take a while." : "{productName}을(를) 버전 {version}으로 업데이트하고 있습니다. 시간이 걸릴 수 있습니다.",
     "An error occurred." : "오류가 발생했습니다.",
     "Please reload the page." : "페이지를 새로 고치십시오.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "업데이트에 실패했습니다. 더 많은 정보를 보려면 이 문제를 다루은 <a href=\"{url}\">포럼 글</a>을 참조하십시오.",

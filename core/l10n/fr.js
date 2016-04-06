@@ -202,7 +202,6 @@ OC.L10N.register(
     "new" : "Nouveau ",
     "_download %n file_::_download %n files_" : ["Télécharger %n fichier","Télécharger %n fichiers"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "La mise à jour est en cours. Selon la configuration, le fait de quitter cette page peut entraîner l'interruption de la procédure.",
-    "Updating {productName} to version {version}, this may take a while." : "La mise à jour de {productName} vers la version {version} est en cours. Cela peut prendre un certain temps.",
     "An error occurred." : "Une erreur est survenue.",
     "Please reload the page." : "Veuillez recharger la page.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "La mise à jour a échoué. Pour plus d'informations <a href=\"{url}\">consultez notre publication sur le forum</a> à propos de ce problème.",

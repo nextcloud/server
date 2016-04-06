@@ -194,7 +194,6 @@ OC.L10N.register(
     "new" : "חדש",
     "_download %n file_::_download %n files_" : ["הורד %n קובץ","הורדו %n קבצים"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "מתבצע עכשיו שדרוג, מעבר מדף זה עלול לפגוע בתהליך בסביבות הפעלה מסויימות.",
-    "Updating {productName} to version {version}, this may take a while." : "מעדכן {productName} לגרסה {version}, זה יקח זמן מה.",
     "An error occurred." : "אירעה שגיאה.",
     "Please reload the page." : "יש להעלות מחדש דף זה.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "העדכון בוצע בהצלחה. למידע נוסף <a href=\"{url}\">ניתן לבדוק בהודעת הפורום שלנו</a> המכסה נושא זו.",

@@ -13,7 +13,6 @@ OC.L10N.register(
     "Access granted" : "Доступ дозволено",
     "Generate keys" : "Створити ключі",
     "Error generating key pair" : "Помилка створення ключової пари",
-    "Enable encryption" : "Увімкнути шифрування",
     "All users. Type to select user or group." : "Всі користувачі. Введіть ім'я користувача або групи.",
     "(group)" : "(група)",
     "Saved" : "Збережено",

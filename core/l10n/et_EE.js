@@ -160,7 +160,6 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Tere {name}, ilm on {weather}",
     "Hello {name}" : "Tere, {name}",
     "_download %n file_::_download %n files_" : ["laadi alla %n fail","laadi alla %n faili"],
-    "Updating {productName} to version {version}, this may take a while." : "Uuendan {productName} versioonile {version}, see võtab veidi aega.",
     "An error occurred." : "Tekkis tõrge.",
     "Please reload the page." : "Palun laadi see uuesti.",
     "The update was unsuccessful. " : "Uuendamine ebaõnnestus.",
