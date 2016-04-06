@@ -83,9 +83,7 @@ class AutoLoader extends TestCase {
 	}
 
 	public function testLoadCoreNamespaceSettings() {
-		$this->assertEquals([
-			\OC::$SERVERROOT . '/settings/foo/bar.php', 
-		], $this->loader->findClass('OC\Settings\Foo\Bar'));
+		$this->assertEquals([], $this->loader->findClass('OC\Settings\Foo\Bar'));
 	}
 
 	public function testLoadCoreNamespaceRepair() {
