@@ -34,7 +34,7 @@ script('core', 'lostpassword');
 		</p>
 		<input type="submit" id="submit" value="<?php p($l->t('Reset password')); ?>" />
 		<p class="text-center">
-			<img class="hidden" id="float-spinner" src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>"/>
+			<img class="hidden" id="float-spinner" src="<?php p(image_path('core', 'loading-dark.gif'));?>"/>
 		</p>
 	</fieldset>
 </form>

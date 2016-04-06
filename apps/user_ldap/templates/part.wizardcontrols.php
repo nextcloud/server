@@ -8,9 +8,9 @@
 	<button class="ldap_action_continue" name="ldap_action_continue" type="button">
 		<?php p($l->t('Continue'));?>
 	</button>
-	<a href="<?php p(\OC::$server->getURLGenerator()->linkToDocs('admin-ldap')); ?>"
+	<a href="<?php p(link_to_docs('admin-ldap')); ?>"
 		target="_blank" rel="noreferrer">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('', 'actions/info.png')); ?>"
+		<img src="<?php print_unescaped(image_path('', 'actions/info.png')); ?>"
 			style="height:1.75ex" />
 		<span class="ldap_grey"><?php p($l->t('Help'));?></span>
 	</a>

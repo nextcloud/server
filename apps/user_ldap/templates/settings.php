@@ -120,5 +120,5 @@ style('user_ldap', 'settings');
 	</fieldset>
 	</div>
 	<!-- Spinner Template -->
-	<img class="ldapSpinner hidden" src="<?php p(\OCP\Util::imagePath('core', 'loading.gif')); ?>">
+	<img class="ldapSpinner hidden" src="<?php p(image_path('core', 'loading.gif')); ?>">
 </form>

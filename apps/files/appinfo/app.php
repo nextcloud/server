@@ -34,7 +34,7 @@
 		'id' => 'files_index',
 		'order' => 0,
 		'href' => $urlGenerator->linkToRoute('files.view.index'),
-		'icon' => \OCP\Util::imagePath('core', 'places/files.svg'),
+		'icon' => $urlGenerator->imagePath('core', 'places/files.svg'),
 		'name' => $l->t('Files'),
 	];
 });
