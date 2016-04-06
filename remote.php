@@ -84,6 +84,27 @@ function handleException(Exception $e) {
 	}
 }
 
+/**
+ * @param $service
+ * @return string
+ */
+function resolveService($service) {
+	$services = [
+		'webdav' => 'dav/appinfo/v1/webdav.php',
+		'dav' => 'dav/appinfo/v2/remote.php',
+		'caldav' => 'dav/appinfo/v1/caldav.php',
+		'calendar' => 'dav/appinfo/v1/caldav.php',
+		'carddav' => 'dav/appinfo/v1/carddav.php',
+		'contacts' => 'dav/appinfo/v1/carddav.php',
+		'files' => 'dav/appinfo/v1/webdav.php',
+	];
+	if (isset($services[$service])) {
+		return $services[$service];
+	}
+
+	return \OC::$server->getConfig()->getAppValue('core', 'remote_' . $service);
+}
+
 try {
 	require_once 'lib/base.php';
 
@@ -103,7 +124,7 @@ try {
 	}
 	$service=substr($pathInfo, 1, $pos-1);
 
-	$file = \OC::$server->getConfig()->getAppValue('core', 'remote_' . $service);
+	$file = resolveService($service);
 
 	if(is_null($file)) {
 		throw new RemoteException('Path not found', OC_Response::STATUS_NOT_FOUND);
