@@ -25,11 +25,10 @@ class ReleaseNotesTest extends \Test\TestCase {
 
 	/**
 	 * @param bool $isMysql
-	 * @param bool $isCliMode
 	 * @param int $fileCount
 	 * @return \PHPUnit_Framework_MockObject_MockObject|\OC\ReleaseNotes
 	 */
-	protected function getReleaseNotesMock($isMysql, $isCliMode, $fileCount) {
+	protected function getReleaseNotesMock($isMysql, $fileCount) {
 		$query = $this->getMockBuilder('OCP\DB\QueryBuilder\IQueryBuilder')
 			->disableOriginalConstructor()
 			->getMock();
@@ -47,15 +46,12 @@ class ReleaseNotesTest extends \Test\TestCase {
 			->willReturn($query);
 		$releaseNotesMock = $this->getMockBuilder('OC\ReleaseNotes')
 			->setConstructorArgs([$dbConnectionMock])
-			->setMethods(['isMysql', 'isCliMode', 'countFilecacheEntries'])
+			->setMethods(['isMysql', 'countFilecacheEntries'])
 			->getMock();
 
 		$releaseNotesMock->expects($this->any())
 			->method('isMysql')
 			->willReturn($isMysql);
-		$releaseNotesMock->expects($this->any())
-			->method('isCliMode')
-			->willReturn($isCliMode);
 		$releaseNotesMock->expects($this->any())
 			->method('countFilecacheEntries')
 			->willReturn($fileCount);
@@ -63,17 +59,11 @@ class ReleaseNotesTest extends \Test\TestCase {
 	}
 
 	public function data82to90() {
-		$alterTableMessage = 'Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE ocx_filecache ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;';
-		$useCliMessage = 'You have an ownCloud installation with over 200.000 files so the upgrade might take a while. The recommendation is to use the command-line instead of the web interface for big ownCloud servers.';
 		return [
-			[[], false, false, 20],
-			[[], false, true, 20],
-			[[], true, false, 20],
-			[[], true, true, 20],
-			[[$useCliMessage], false, false, 1000000],
-			[[], false, true, 1000000],
-			[[$useCliMessage, $alterTableMessage], true, false, 1000000],
-			[[$alterTableMessage], true, true, 1000000],
+			[[], false, 20],
+			[[], true, 20],
+			[[], false, 1000000],
+			[['Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE ocx_filecache ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;'], true, 1000000],
 		];
 	}
 
@@ -82,25 +72,20 @@ class ReleaseNotesTest extends \Test\TestCase {
 	 *
 	 * @param string[] $expected
 	 * @param bool $isMysql
-	 * @param bool $isCliMode
 	 * @param int $fileCount
 	 */
-	public function test82to90($expected, $isMysql, $isCliMode, $fileCount) {
-		$releaseNotesMock = $this->getReleaseNotesMock($isMysql, $isCliMode, $fileCount);
+	public function test82to90($expected, $isMysql, $fileCount) {
+		$releaseNotesMock = $this->getReleaseNotesMock($isMysql, $fileCount);
 		$actual = $releaseNotesMock->getReleaseNotes('8.2.22', '9.0.1');
 		$this->assertEquals($expected, $actual);
 	}
 
 	public function data90to91() {
 		return [
-			[false, false, 20],
-			[false, true, 20],
-			[true, false, 20],
-			[true, true, 20],
-			[false, false, 1000000],
-			[false, true, 1000000],
-			[true, false, 1000000],
-			[true, true, 1000000],
+			[false, 20],
+			[true, 20],
+			[false, 1000000],
+			[true, 1000000],
 		];
 	}
 
@@ -108,11 +93,10 @@ class ReleaseNotesTest extends \Test\TestCase {
 	 * @dataProvider data90to91
 	 *
 	 * @param bool $isMysql
-	 * @param bool $isCliMode
 	 * @param int $fileCount
 	 */
-	public function test90to91($isMysql, $isCliMode, $fileCount) {
-		$releaseNotesMock = $this->getReleaseNotesMock($isMysql, $isCliMode, $fileCount);
+	public function test90to91($isMysql, $fileCount) {
+		$releaseNotesMock = $this->getReleaseNotesMock($isMysql, $fileCount);
 		$actual = $releaseNotesMock->getReleaseNotes('9.0.1', '9.1.0');
 		$this->assertCount(0, $actual);
 	}

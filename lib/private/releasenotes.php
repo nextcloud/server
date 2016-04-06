@@ -28,11 +28,11 @@ use OCP\IDBConnection;
  * Class to store release notes
  */
 class ReleaseNotes {
-	 /** @var \OCP\IDBConnection $dbConnection */
+	 /** @var IDBConnection $dbConnection */
 	protected $dbConnection;
 
 	/**
-	 * @param \OCP\IDBConnection $dbConnection
+	 * @param IDBConnection $dbConnection
 	 */
 	public function __construct(IDBConnection $dbConnection) {
 		$this->dbConnection = $dbConnection;
@@ -60,11 +60,6 @@ class ReleaseNotes {
 		}
 
 		if ($fromVersionMajorMinor === '8.2' && $toVersionMajorMinor === '9.0') {
-			if (!$this->isCliMode() && $this->countFilecacheEntries() > 200000) {
-				$releaseNotes[] = $l10n->t(
-					'You have an ownCloud installation with over 200.000 files so the upgrade might take a while. The recommendation is to use the command-line instead of the web interface for big ownCloud servers.'
-				);
-			}
 			if ($this->isMysql() && $this->countFilecacheEntries() > 200000) {
 				$releaseNotes[] = $l10n->t(
 					'Hint: You can speed up the upgrade by executing this SQL command manually: ALTER TABLE %s ADD COLUMN checksum varchar(255) DEFAULT NULL AFTER permissions;',
@@ -74,14 +69,7 @@ class ReleaseNotes {
 		}
 		return $releaseNotes;
 	}
-	
-	/**
-	 * @return bool
-	 */
-	protected function isCliMode() {
-		return \OC::$CLI;
-	}
-	
+
 	/**
 	 * @return bool
 	 */
@@ -109,10 +97,11 @@ class ReleaseNotes {
 	 * Strip everything except first digits
 	 * @param string $version
 	 * @return string
+	 * @throws \InvalidArgumentException
 	 */
 	private function getMajorMinor($version){
 		$versionArray = explode('.', $version);
-		if ( count($versionArray)<2 ) {
+		if (count($versionArray) < 2) {
 			throw new \InvalidArgumentException('Version should have at least 2 parts separated by dot.');
 		}
 		return implode('.', [ $versionArray[0], $versionArray[1] ]);
