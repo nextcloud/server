@@ -349,7 +349,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			$user = null;
 		}
 
-		\OC_Util::tearDownFS(); // command cant reply on the fs being setup
+		\OC_Util::tearDownFS(); // command can't reply on the fs being setup
 		$this->commandBus->run();
 		\OC_Util::tearDownFS();
 

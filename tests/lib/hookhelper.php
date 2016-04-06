@@ -104,7 +104,7 @@ class HookHelper {
 	}
 
 	/**
-	 * Callback that sets the run paramter to false
+	 * Callback that sets the run parameter to false
 	 */
 	public static function cancellingCallback($params) {
 		$params[Filesystem::signal_param_run] = false;
