@@ -1,6 +1,8 @@
 { "translations": {
     "Couldn't send mail to following users: %s " : "S’u dërgua dot e-mail përdoruesve vijues: %s ",
     "Preparing update" : "Po përgatitet përditësimi",
+    "[%d / %d]: %s" : "[%d / %d]: %s",
+    "[%d / %d]: Checking table %s" : "[%d / %d]: Po kontrollohet tabela %s",
     "Turned on maintenance mode" : "Mënyra e mirëmbajtjes u aktivizua",
     "Turned off maintenance mode" : "Mënyra e mirëmbajtjes u çaktivizua",
     "Maintenance mode is kept active" : "Mënyra mirëmbajtje është mbajtur e aktivizuar",
@@ -200,6 +202,7 @@
     "Hello {name}" : "Tungjatjeta {name}",
     "_download %n file_::_download %n files_" : ["shkarko %n kartelë","shkarko %n kartela"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Përmirësimi po kryhet, braktisja e kësaj faqeje mund ta ndërpresë procesin në disa mjedise.",
+    "Updating to {version}" : "Po përditësohet me {version}",
     "An error occurred." : "Ndodhi një gabim.",
     "Please reload the page." : "Ju lutemi, ringarkoni faqen.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Përditësimi qe i pasuksesshëm. Për më tepër të dhëna <a href=\"{url}\">shihni postimin te forumi ynë</a> lidhur me këtë çështje.",
@@ -298,6 +301,7 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Ju lutemi, para se të vazhdoni më tej, sigurohuni që baza e të dhënave, dosja e formësimeve dhe dosja e të dhënave janë kopjeruajtur.",
     "Start update" : "Fillo përditësimin",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Për të shmangur çaste bllokimi pune me instalime të mëdha, mundeni të ekzekutoni urdhrin vijues që nga drejtoria juaj e instalimit:",
+    "Detailed logs" : "Regjistrime të hollësishme",
     "This %s instance is currently in maintenance mode, which may take a while." : "Kjo instancë %s hëpërhë gjendet nën mënyrën mirëmbajtje, çka mund të zgjasë ca.",
     "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
