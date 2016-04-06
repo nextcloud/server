@@ -29,6 +29,7 @@ use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
 use OCA\DAV\Connector\Sabre\FilesPlugin;
+use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\CustomPropertiesBackend;
 use OCP\IRequest;
 use OCP\SabrePluginEvent;
@@ -110,6 +111,10 @@ class Server {
 			'/Microsoft Office OneNote 2013/',
 		])) {
 			$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\FakeLockerPlugin());
+		}
+
+		if (BrowserErrorPagePlugin::isBrowserRequest($request)) {
+			$this->server->addPlugin(new BrowserErrorPagePlugin());
 		}
 
 		// wait with registering these until auth is handled and the filesystem is setup

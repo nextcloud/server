@@ -102,9 +102,11 @@ class ObjectTree extends \Sabre\DAV\Tree {
 	 * Returns the INode object for the requested path
 	 *
 	 * @param string $path
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
-	 * @throws \Sabre\DAV\Exception\NotFound
 	 * @return \Sabre\DAV\INode
+	 * @throws InvalidPath
+	 * @throws \Sabre\DAV\Exception\Locked
+	 * @throws \Sabre\DAV\Exception\NotFound
+	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function getNodeForPath($path) {
 		if (!$this->fileView) {
