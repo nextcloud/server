@@ -144,9 +144,7 @@ class ProviderFactory implements IProviderFactory {
 	public function getProviderForType($shareType) {
 		$provider = null;
 
-		//FIXME we should not report type 2
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER  ||
-			$shareType === 2 ||
 			$shareType === \OCP\Share::SHARE_TYPE_GROUP ||
 			$shareType === \OCP\Share::SHARE_TYPE_LINK) {
 			$provider = $this->defaultShareProvider();
