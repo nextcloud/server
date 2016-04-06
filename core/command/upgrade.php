@@ -105,7 +105,7 @@ class Upgrade extends Base {
 
 		if ($input->isInteractive()) {
 			$installedVersion = $this->config->getSystemValue('version', '0.0.0');
-			$currentVersion = \OCP\Util::getVersion();
+			$currentVersion = implode('.', \OCP\Util::getVersion());
 
 			$releaseNotesArray = $this->releaseNotes->getReleaseNotes($installedVersion, $currentVersion);
 			if (!empty($releaseNotesArray)) {
