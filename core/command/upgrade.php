@@ -30,6 +30,7 @@
 namespace OC\Core\Command;
 
 use OC\Console\TimestampFormatter;
+use OC\ReleaseNotes;
 use OC\Updater;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -37,8 +38,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
-class Upgrade extends Command {
+class Upgrade extends Base {
 
 	const ERROR_SUCCESS = 0;
 	const ERROR_NOT_INSTALLED = 1;
@@ -53,17 +55,23 @@ class Upgrade extends Command {
 	/** @var ILogger */
 	private $logger;
 
+	/** @var ReleaseNotes */
+	private $releaseNotes;
+
 	/**
 	 * @param IConfig $config
 	 * @param ILogger $logger
+	 * @param ReleaseNotes $releaseNotes
 	 */
-	public function __construct(IConfig $config, ILogger $logger) {
+	public function __construct(IConfig $config, ILogger $logger, ReleaseNotes $releaseNotes) {
 		parent::__construct();
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->releaseNotes = $releaseNotes;
 	}
 
 	protected function configure() {
+		parent::configure();
 		$this
 			->setName('upgrade')
 			->setDescription('run upgrade routines after installation of a new release. The release has to be installed before.')
@@ -94,6 +102,19 @@ class Upgrade extends Command {
 	 * @param OutputInterface $output output interface
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
+
+		if ($input->isInteractive()) {
+			$installedVersion = $this->config->getSystemValue('version', '0.0.0');
+			$currentVersion = implode('.', \OCP\Util::getVersion());
+
+			$releaseNotesArray = $this->releaseNotes->getReleaseNotes($installedVersion, $currentVersion);
+			if (!empty($releaseNotesArray)) {
+				$this->writeArrayInOutputFormat($input, $output, $releaseNotesArray);
+				if (!$this->ask($input, $output)){
+					return self::ERROR_SUCCESS;
+				}
+			}
+		}
 
 		$simulateStepEnabled = true;
 		$updateStepEnabled = true;
@@ -262,4 +283,17 @@ class Upgrade extends Command {
 			);
 		}
 	}
+
+	/**
+	 * Ask for confirmation
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @return bool
+	 */
+	public function ask(InputInterface $input, OutputInterface $output){
+		$helper = $this->getHelper('question');
+		$question = new ConfirmationQuestion('Continue with update (y/n)' . PHP_EOL, true);
+		return $helper->ask($input, $output, $question);
+	}
+
 }

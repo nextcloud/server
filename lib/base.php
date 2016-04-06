@@ -392,12 +392,15 @@ class OC {
 			$tmpl->assign('isAppsOnlyUpgrade', false);
 		}
 
+		$releaseNotes = new \OC\ReleaseNotes(\OC::$server->getDatabaseConnection());
+
 		// get third party apps
 		$ocVersion = \OCP\Util::getVersion();
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
 		$tmpl->assign('incompatibleAppsList', $appManager->getIncompatibleApps($ocVersion));
 		$tmpl->assign('productName', 'ownCloud'); // for now
 		$tmpl->assign('oldTheme', $oldTheme);
+		$tmpl->assign('releaseNotes', $releaseNotes->getReleaseNotes($installedVersion, $currentVersion));
 		$tmpl->printPage();
 	}
 
