@@ -147,6 +147,11 @@ class BirthdayService {
 		$vEvent->{'RRULE'} = 'FREQ=YEARLY';
 		$vEvent->{'SUMMARY'} = $title . ' (*' . $date->format('Y') . ')';
 		$vEvent->{'TRANSP'} = 'TRANSPARENT';
+		$alarm = $vCal->createComponent('VALARM');
+		$alarm->add($vCal->createProperty('TRIGGER', '-PT0M', ['VALUE' => 'DURATION']));
+		$alarm->add($vCal->createProperty('ACTION', 'DISPLAY'));
+		$alarm->add($vCal->createProperty('DESCRIPTION', $vEvent->{'SUMMARY'}));
+		$vEvent->add($alarm);
 		$vCal->add($vEvent);
 		return $vCal;
 	}
