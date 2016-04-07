@@ -181,6 +181,26 @@ class SMB extends \OC\Files\Storage\Common {
 	}
 
 	/**
+	 * @param string $path1 the old name
+	 * @param string $path2 the new name
+	 * @return bool
+	 */
+	public function rename($path1, $path2) {
+		try {
+			$this->remove($path2);
+			$path1 = $this->buildPath($path1);
+			$path2 = $this->buildPath($path2);
+			return $this->share->rename($path1, $path2);
+		} catch (NotFoundException $e) {
+			return false;
+		} catch (ForbiddenException $e) {
+			return false;
+		} catch (ConnectException $e) {
+			throw new StorageNotAvailableException($e->getMessage(), $e->getCode(), $e);
+		}
+	}
+
+	/**
 	 * check if a file or folder has been updated since $time
 	 *
 	 * @param string $path
