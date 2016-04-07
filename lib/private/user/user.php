@@ -417,5 +417,4 @@ class User implements IUser {
 			$this->emitter->emit('\OC\User', 'changeUser', array($this, $feature, $value));
 		}
 	}
-
 }
