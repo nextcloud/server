@@ -462,4 +462,52 @@ class FederatedShareProviderTest extends TestCase {
 		$this->assertCount(1, $shares);
 		$this->assertEquals('user2@server.com', $shares[0]->getSharedWith());
 	}
+
+	public function dataDeleteUser() {
+		return [
+			['a', 'b', 'c', 'a', true],
+			['a', 'b', 'c', 'b', false],
+			// The recipient is non local.
+			['a', 'b', 'c', 'c', false],
+			['a', 'b', 'c', 'd', false],
+		];
+	}
+
+	/**
+	 * @dataProvider dataDeleteUser
+	 *
+	 * @param string $owner The owner of the share (uid)
+	 * @param string $initiator The initiator of the share (uid)
+	 * @param string $recipient The recipient of the share (uid/gid/pass)
+	 * @param string $deletedUser The user that is deleted
+	 * @param bool $rowDeleted Is the row deleted in this setup
+	 */
+	public function testDeleteUser($owner, $initiator, $recipient, $deletedUser, $rowDeleted) {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->setValue('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_REMOTE))
+			->setValue('uid_owner', $qb->createNamedParameter($owner))
+			->setValue('uid_initiator', $qb->createNamedParameter($initiator))
+			->setValue('share_with', $qb->createNamedParameter($recipient))
+			->setValue('item_type', $qb->createNamedParameter('file'))
+			->setValue('item_source', $qb->createNamedParameter(42))
+			->setValue('file_source', $qb->createNamedParameter(42))
+			->execute();
+
+		$id = $qb->getLastInsertId();
+
+		$this->provider->userDeleted($deletedUser, \OCP\Share::SHARE_TYPE_REMOTE);
+
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share')
+			->where(
+				$qb->expr()->eq('id', $qb->createNamedParameter($id))
+			);
+		$cursor = $qb->execute();
+		$data = $cursor->fetchAll();
+		$cursor->closeCursor();
+
+		$this->assertCount($rowDeleted ? 0 : 1, $data);
+	}
 }

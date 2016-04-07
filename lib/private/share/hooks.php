@@ -33,24 +33,6 @@ class Hooks extends \OC\Share\Constants {
 	private static $updateTargets = array();
 
 	/**
-	 * Function that is called after a user is deleted. Cleans up the shares of that user.
-	 * @param array $arguments
-	 */
-	public static function post_deleteUser($arguments) {
-		// Delete any items shared with the deleted user
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share`'
-			.' WHERE `share_with` = ? AND (`share_type` = ? OR `share_type` = ?)');
-		$query->execute(array($arguments['uid'], self::SHARE_TYPE_USER, self::$shareTypeGroupUserUnique));
-		// Delete any items the deleted user shared
-		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*share` WHERE `uid_owner` = ?');
-		$result = $query->execute(array($arguments['uid']));
-		while ($item = $result->fetchRow()) {
-			Helper::delete($item['id']);
-		}
-	}
-
-
-	/**
 	 * Function that is called before a user is added to a group.
 	 * check if we need to create a unique target for the user
 	 * @param array $arguments
