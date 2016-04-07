@@ -273,7 +273,9 @@ class AppConfig implements IAppConfig {
 			->from('appconfig');
 		$result = $sql->execute();
 
-		while ($row = $result->fetch()) {
+		// we are going to store the result in memory anyway
+		$rows = $result->fetchAll();
+		foreach ($rows as $row) {
 			if (!isset($this->cache[$row['appid']])) {
 				$this->cache[$row['appid']] = [];
 			}
