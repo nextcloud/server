@@ -14,4 +14,6 @@ fi
 
 # sleep is necessary, otherwise the LDAP server cannot be connected to, yet.
 setup-scripts/start.sh && sleep 5 && php -f "$TESTSCRIPT"
+CODE=$?
 setup-scripts/stop.sh
+exit ${CODE}

@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OCA\user_ldap\lib\user\User;
+
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
 
@@ -97,6 +97,12 @@ class IntegrationTestUserDisplayName extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../../setup-scripts/config.php');
-$test = new IntegrationTestUserDisplayName($host, $port, $adn, $apwd, $bdn);
+/** @global $host string */
+/** @global $port int */
+/** @global $adn string */
+/** @global $apw string */
+/** @global $bdn string */
+
+$test = new IntegrationTestUserDisplayName($host, $port, $adn, $apw, $bdn);
 $test->init();
 $test->run();

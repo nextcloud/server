@@ -21,7 +21,7 @@
 
 namespace OCA\user_ldap\tests\integration\lib;
 
-use OCA\user_ldap\lib\user\Manager as LDAPUserManager;
+use OC\ServerNotAvailableException;
 use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\user_ldap\USER_LDAP;
@@ -67,7 +67,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return true;
 		}
 		return false;
@@ -86,7 +86,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return false;
 		}
 		return true;
@@ -105,7 +105,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return false;
 		}
 		return true;
@@ -124,7 +124,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return false;
 		}
 		return true;
@@ -143,7 +143,7 @@ class IntegrationConnect extends AbstractIntegrationTest {
 		]);
 		try {
 			$this->connection->getConnectionResource();
-		} catch (\OC\ServerNotAvailableException $e) {
+		} catch (ServerNotAvailableException $e) {
 			return false;
 		}
 		return true;
@@ -161,6 +161,12 @@ class IntegrationConnect extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
-$test = new IntegrationConnect($host, $port, $adn, $apwd, $bdn);
+/** @global $host string */
+/** @global $port int */
+/** @global $adn string */
+/** @global $apw string */
+/** @global $bdn string */
+
+$test = new IntegrationConnect($host, $port, $adn, $apw, $bdn);
 $test->init();
 $test->run();

@@ -21,10 +21,13 @@
 
 namespace OCA\user_ldap\tests\integration\lib;
 
+use OCA\user_ldap\lib\FilesystemHelper;
+use OCA\user_ldap\lib\LogWrapper;
 use OCA\user_ldap\lib\user\Manager as LDAPUserManager;
 use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\user_ldap\USER_LDAP;
+use OCP\Image;
 
 require_once __DIR__  . '/../../../../../lib/base.php';
 
@@ -46,7 +49,7 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$this->backend = new \OCA\user_ldap\USER_LDAP($this->access, \OC::$server->getConfig());
+		$this->backend = new USER_LDAP($this->access, \OC::$server->getConfig());
 	}
 
 	/**
@@ -66,11 +69,12 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 	protected function initUserManager() {
 		$this->userManager = new LDAPUserManager(
 			\OC::$server->getConfig(),
-			new \OCA\user_ldap\lib\FilesystemHelper(),
-			new \OCA\user_ldap\lib\LogWrapper(),
+			new FilesystemHelper(),
+			new LogWrapper(),
 			\OC::$server->getAvatarManager(),
-			new \OCP\Image(),
-			\OC::$server->getDatabaseConnection()
+			new Image(),
+			\OC::$server->getDatabaseConnection(),
+			\OC::$server->getUserManager()
 		);
 	}
 
@@ -81,8 +85,9 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 	 * @return bool
 	 */
 	protected function case1() {
-		\OC::$server->getConfig()->setAppValue('user_ldap', 'enforce_home_folder_naming_rule', false);
-		$userManager = \oc::$server->getUserManager();
+		\OC::$server->getConfig()->setAppValue(
+			'user_ldap', 'enforce_home_folder_naming_rule', false);
+		$userManager = \OC::$server->getUserManager();
 		$userManager->clearBackends();
 		$userManager->registerBackend($this->backend);
 		$users = $userManager->search('', 5, 0);
@@ -108,7 +113,7 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 	 */
 	protected function case2() {
 		\OC::$server->getConfig()->setAppValue('user_ldap', 'enforce_home_folder_naming_rule', true);
-		$userManager = \oc::$server->getUserManager();
+		$userManager = \OC::$server->getUserManager();
 		// clearing backends is critical, otherwise the userManager will have
 		// the user objects cached and the value from case1 returned
 		$userManager->clearBackends();
@@ -141,7 +146,7 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 		$this->connection->setConfiguration([
 			'homeFolderNamingRule' => 'attr:',
 		]);
-		$userManager = \oc::$server->getUserManager();
+		$userManager = \OC::$server->getUserManager();
 		$userManager->clearBackends();
 		$userManager->registerBackend($this->backend);
 		$users = $userManager->search('', 5, 0);
@@ -167,6 +172,12 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
-$test = new IntegrationTestUserHome($host, $port, $adn, $apwd, $bdn);
+/** @global $host string */
+/** @global $port int */
+/** @global $adn string */
+/** @global $apw string */
+/** @global $bdn string */
+
+$test = new IntegrationTestUserHome($host, $port, $adn, $apw, $bdn);
 $test->init();
 $test->run();

@@ -21,7 +21,6 @@
 
 namespace OCA\user_ldap\tests\integration\lib;
 
-use OCA\user_ldap\lib\user\Manager as LDAPUserManager;
 use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\user_ldap\USER_LDAP;
@@ -43,7 +42,7 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 		require(__DIR__ . '/../setup-scripts/createExplicitUsers.php');
 		parent::init();
 
-		$this->backend = new \OCA\user_ldap\USER_LDAP($this->access, \OC::$server->getConfig());
+		$this->backend = new USER_LDAP($this->access, \OC::$server->getConfig());
 	}
 
 	/**
@@ -76,6 +75,12 @@ class IntegrationTestPaging extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
-$test = new IntegrationTestPaging($host, $port, $adn, $apwd, $bdn);
+/** @global $host string */
+/** @global $port int */
+/** @global $adn string */
+/** @global $apw string */
+/** @global $bdn string */
+
+$test = new IntegrationTestPaging($host, $port, $adn, $apw, $bdn);
 $test->init();
 $test->run();

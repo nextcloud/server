@@ -27,7 +27,7 @@ include __DIR__ . '/config.php';
 
 $cr = ldap_connect($host, $port);
 ldap_set_option($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
-$ok = ldap_bind($cr, $adn, $apwd);
+$ok = ldap_bind($cr, $adn, $apw);
 
 if (!$ok) {
 	die(ldap_error($cr));
