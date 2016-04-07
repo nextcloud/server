@@ -26,10 +26,13 @@
 
 namespace OCA\Provisioning_API\AppInfo;
 
+use OCA\Provisioning_API\Apps;
+use OCA\Provisioning_API\Groups;
+use OCA\Provisioning_API\Users;
 use OCP\API;
 
 // Users
-$users = new \OCA\Provisioning_API\Users(
+$users = new Users(
 	\OC::$server->getUserManager(),
 	\OC::$server->getConfig(),
 	\OC::$server->getGroupManager(),
@@ -41,6 +44,8 @@ API::register('post', '/cloud/users', [$users, 'addUser'], 'provisioning_api', A
 API::register('get', '/cloud/users/{userid}', [$users, 'getUser'], 'provisioning_api', API::USER_AUTH);
 API::register('put', '/cloud/users/{userid}', [$users, 'editUser'], 'provisioning_api', API::USER_AUTH);
 API::register('delete', '/cloud/users/{userid}', [$users, 'deleteUser'], 'provisioning_api', API::SUBADMIN_AUTH);
+API::register('put', '/cloud/users/{userid}/enable', [$users, 'enableUser'], 'provisioning_api', API::SUBADMIN_AUTH);
+API::register('put', '/cloud/users/{userid}/disable', [$users, 'disableUser'], 'provisioning_api', API::SUBADMIN_AUTH);
 API::register('get', '/cloud/users/{userid}/groups', [$users, 'getUsersGroups'], 'provisioning_api', API::USER_AUTH);
 API::register('post', '/cloud/users/{userid}/groups', [$users, 'addToGroup'], 'provisioning_api', API::SUBADMIN_AUTH);
 API::register('delete', '/cloud/users/{userid}/groups', [$users, 'removeFromGroup'], 'provisioning_api', API::SUBADMIN_AUTH);
@@ -49,7 +54,7 @@ API::register('delete', '/cloud/users/{userid}/subadmins', [$users, 'removeSubAd
 API::register('get', '/cloud/users/{userid}/subadmins', [$users, 'getUserSubAdminGroups'], 'provisioning_api', API::ADMIN_AUTH);
 
 // Groups
-$groups = new \OCA\Provisioning_API\Groups(
+$groups = new Groups(
 	\OC::$server->getGroupManager(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getRequest()
@@ -61,7 +66,7 @@ API::register('delete', '/cloud/groups/{groupid}', [$groups, 'deleteGroup'], 'pr
 API::register('get', '/cloud/groups/{groupid}/subadmins', [$groups, 'getSubAdminsOfGroup'], 'provisioning_api', API::ADMIN_AUTH);
 
 // Apps
-$apps = new \OCA\Provisioning_API\Apps(
+$apps = new Apps(
 	\OC::$server->getAppManager(),
 	\OC::$server->getOcsClient()
 );
