@@ -1,11 +1,11 @@
 OC.L10N.register(
     "core",
     {
-    "Updated database" : "قاعدة بيانات المرفوعات",
     "No image or file provided" : "لم يتم توفير صورة أو ملف",
     "Unknown filetype" : "نوع الملف غير معروف",
     "Invalid image" : "الصورة غير صالحة",
     "%s password reset" : "تمت إعادة ضبط كلمة مرور %s",
+    "Updated database" : "قاعدة بيانات المرفوعات",
     "Sunday" : "الأحد",
     "Monday" : "الأثنين",
     "Tuesday" : "الثلاثاء",

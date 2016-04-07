@@ -28,6 +28,7 @@ OC.L10N.register(
     "Missing Signature" : "Manjkajoč podpis",
     "one-time password for server-side-encryption" : "enkratno geslo za šifriranje na strani strežnika",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Te datoteke ni mogoče šifrirati, ker je to najverjetneje datoteka v souporabi. Prosite lastnika datoteke, da jo da ponovno v souporabo.",
+    "Can not read this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Te datoteke ni mogoče brati, ker je to najverjetneje datoteka v souporabi. Prosite lastnika datoteke, da jo da ponovno v souporabo.",
     "The share will expire on %s." : "Povezava souporabe bo potekla %s.",
     "Cheers!" : "Na zdravje!",
     "Encrypt the home storage" : "Šifriraj domačo shrambo",

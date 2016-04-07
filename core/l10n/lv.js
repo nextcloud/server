@@ -1,13 +1,13 @@
 OC.L10N.register(
     "core",
     {
+    "Unknown filetype" : "Nezināms datnes tips",
+    "Invalid image" : "Nederīgs attēls",
+    "%s password reset" : "%s paroles maiņa",
     "Couldn't send mail to following users: %s " : "Nevar nosūtīt epastu, sekojošiem lietotājiem: %s",
     "Turned on maintenance mode" : "Ieslēgts uzturēšanas režīms",
     "Turned off maintenance mode" : "Izslēgts uzturēšanas režīms",
     "Updated database" : "Atjaunota datu bāze",
-    "Unknown filetype" : "Nezināms datnes tips",
-    "Invalid image" : "Nederīgs attēls",
-    "%s password reset" : "%s paroles maiņa",
     "Sunday" : "Svētdiena",
     "Monday" : "Pirmdiena",
     "Tuesday" : "Otrdiena",

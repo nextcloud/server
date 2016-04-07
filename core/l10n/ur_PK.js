@@ -1,13 +1,13 @@
 OC.L10N.register(
     "core",
     {
-    "Turned on maintenance mode" : "بحالی موڈ چالو ہے",
-    "Turned off maintenance mode" : "بحالی موڈ بند ہے",
-    "Updated database" : "اپ ڈیٹ ہوئ ڈیٹا بیس",
     "No image or file provided" : "کوئی تصویر یا فائل فراہم نہیں",
     "Unknown filetype" : "غیر معرروف قسم کی فائل",
     "Invalid image" : "غلط تصویر",
     "No crop data provided" : "کوئی کروپ ڈیٹا ميسر نہیں ",
+    "Turned on maintenance mode" : "بحالی موڈ چالو ہے",
+    "Turned off maintenance mode" : "بحالی موڈ بند ہے",
+    "Updated database" : "اپ ڈیٹ ہوئ ڈیٹا بیس",
     "Sunday" : "اتوار",
     "Monday" : "سوموار",
     "Tuesday" : "منگل",
