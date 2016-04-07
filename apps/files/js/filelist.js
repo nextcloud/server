@@ -2490,7 +2490,6 @@
 				}
 			});
 			fileUploadStart.on('fileuploadadd', function(e, data) {
-				console.log('XXXXXXX');
 				OC.Upload.log('filelist handle fileuploadadd', e, data);
 
 				//finish delete if we are uploading a deleted file
