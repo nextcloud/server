@@ -742,7 +742,7 @@ class View {
 
 					$this->writeUpdate($storage2, $internalPath2);
 				} else if ($result) {
-					if ($internalPath1 !== '') { // dont do a cache update for moved mounts
+					if ($internalPath1 !== '') { // don't do a cache update for moved mounts
 						$this->renameUpdate($storage1, $storage2, $internalPath1, $internalPath2);
 					}
 				}

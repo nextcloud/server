@@ -55,7 +55,7 @@ class MySQL extends AbstractDatabase {
 		try{
 			$name = $this->dbName;
 			$user = $this->dbUser;
-			//we cant use OC_BD functions here because we need to connect as the administrative user.
+			//we can't use OC_BD functions here because we need to connect as the administrative user.
 			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8 COLLATE utf8_bin;";
 			$connection->executeUpdate($query);
 

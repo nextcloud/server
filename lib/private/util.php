@@ -440,7 +440,7 @@ class OC_Util {
 	 * generates a path for JS/CSS files. If no application is provided it will create the path for core.
 	 *
 	 * @param string $application application to get the files from
-	 * @param string $directory directory withing this application (css, js, vendor, etc)
+	 * @param string $directory directory within this application (css, js, vendor, etc)
 	 * @param string $file the file inside of the above folder
 	 * @return string the path
 	 */

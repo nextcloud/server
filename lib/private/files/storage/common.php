@@ -634,7 +634,7 @@ abstract class Common implements Storage, ILockingStorage {
 	public function getMetaData($path) {
 		$permissions = $this->getPermissions($path);
 		if (!$permissions & \OCP\Constants::PERMISSION_READ) {
-			//cant read, nothing we can do
+			//can't read, nothing we can do
 			return null;
 		}
 

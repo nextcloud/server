@@ -417,7 +417,7 @@ class OC {
 			$session = $cryptoWrapper->wrapSession($session);
 			self::$server->setSession($session);
 
-			// if session cant be started break with http 500 error
+			// if session can't be started break with http 500 error
 		} catch (Exception $e) {
 			\OCP\Util::logException('base', $e);
 			//show the user a detailed error page
@@ -788,7 +788,7 @@ class OC {
 	protected static function registerAutoloaderCache() {
 		// The class loader takes an optional low-latency cache, which MUST be
 		// namespaced. The instanceid is used for namespacing, but might be
-		// unavailable at this point. Futhermore, it might not be possible to
+		// unavailable at this point. Furthermore, it might not be possible to
 		// generate an instanceid via \OC_Util::getInstanceId() because the
 		// config file may not be writable. As such, we only register a class
 		// loader cache if instanceid is available without trying to create one.

@@ -187,7 +187,7 @@ class Root extends Folder implements IRootFolder {
 		}
 	}
 
-	//most operations cant be done on the root
+	//most operations can't be done on the root
 
 	/**
 	 * @param string $targetPath

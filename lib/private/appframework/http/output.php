@@ -48,7 +48,7 @@ class Output implements IOutput {
 	/**
 	 * @param string $path
 	 *
-	 * @return bool false if an error occured
+	 * @return bool false if an error occurred
 	 */
 	public function setReadfile($path) {
 		return @readfile($path);
