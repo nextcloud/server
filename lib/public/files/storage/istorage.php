@@ -34,6 +34,7 @@ use OCP\Files\Cache\IScanner;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Cache\IWatcher;
 use OCP\Files\InvalidPathException;
+use OCP\ISearchQuery;
 
 /**
  * Provide a common interface to all different storage options
@@ -296,6 +297,15 @@ interface IStorage {
 	 * @since 9.0.0
 	 */
 	public function free_space($path);
+
+	/**
+	 * @param string $query
+	 * @param int $page
+	 * @param int $size
+	 * @return mixed
+	 * @since 9.1.0
+	 */
+	public function searchPaged($query, $page = 1, $size = 50);
 
 	/**
 	 * see http://php.net/manual/en/function.touch.php

@@ -245,6 +245,10 @@ abstract class Common implements Storage, ILockingStorage {
 		return $this->searchInDir($query);
 	}
 
+	public function searchPaged($query, $page = 1, $size = 50) {
+		return [];
+	}
+
 	public function getLocalFile($path) {
 		return $this->getCachedFile($path);
 	}

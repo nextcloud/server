@@ -331,6 +331,18 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	}
 
 	/**
+	 * perform advanced search on storage
+	 *
+	 * @param string $query
+	 * @param int $page
+	 * @param int $size
+	 * @return array
+	 */
+	public function searchPaged($query, $page = 1, $size = 50) {
+		return $this->storage->searchPaged($query, $page, $size);
+	}
+
+	/**
 	 * see http://php.net/manual/en/function.touch.php
 	 * If the backend does not support the operation, false should be returned
 	 *
