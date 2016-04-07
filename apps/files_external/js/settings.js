@@ -34,17 +34,7 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'		</select>' +
 	'	</div>' +
 	'</div>';
-
-	/* TODO the current l10n extrator can't handle JS functions within handlebar
-	   templates therefore they are duplicated here
-	t("files_external", "Enable encryption")
-	t("files_external", "Enable previews")
-	t("files_external", "Enable sharing")
-	t("files_external", "Check for changes")
-	t("files_external", "Never")
-	t("files_external", "Once every direct access")
-	 */
-
+	
 /**
  * Returns the selection of applicable users in the given configuration row
  *

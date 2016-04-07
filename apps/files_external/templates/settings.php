@@ -3,11 +3,19 @@
 	use \OCA\Files_External\Lib\DefinitionParameter;
 	use \OCA\Files_External\Service\BackendService;
 
+	$l->t("Enable encryption");
+	$l->t("Enable previews");
+	$l->t("Enable sharing");
+	$l->t("Check for changes");
+	$l->t("Never");
+	$l->t("Once every direct access");
+
 	script('files_external', 'settings');
 	style('files_external', 'settings');
 
 	// load custom JS
 	foreach ($_['backends'] as $backend) {
+		/** @var Backend $backend */
 		if ($backend->getCustomJs()) {
 			script('files_external', $backend->getCustomJs());
 		}
