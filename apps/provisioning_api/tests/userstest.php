@@ -58,8 +58,8 @@ class UsersTest extends OriginalTest {
 		parent::tearDown();
 	}
 
-	protected function setup() {
-		parent::setup();
+	protected function setUp() {
+		parent::setUp();
 
 		$this->userManager = $this->getMock('\OCP\IUserManager');
 		$this->config = $this->getMock('\OCP\IConfig');
@@ -540,7 +540,7 @@ class UsersTest extends OriginalTest {
 			->expects($this->once())
 			->method('isSubAdminOfGroup')
 			->with($loggedInUser, $existingGroup)
-			->wilLReturn(false);
+			->willReturn(false);
 		$this->groupManager
 			->expects($this->once())
 			->method('getSubAdmin')
@@ -642,7 +642,7 @@ class UsersTest extends OriginalTest {
 				[$loggedInUser, $existingGroup1],
 				[$loggedInUser, $existingGroup2]
 			)
-			->wilLReturn(true);
+			->willReturn(true);
 
 
 		$expected = new \OC_OCS_Result(null, 100);
@@ -2294,5 +2294,61 @@ class UsersTest extends OriginalTest {
 
 		$expected = new \OC_OCS_Result(null, 102, 'Unknown error occurred');
 		$this->assertEquals($expected, $this->api->getUserSubAdminGroups(['userid' => 'RequestedUser']));
+	}
+
+	public function testEnableUser() {
+		$targetUser = $this->getMock('\OCP\IUser');
+		$targetUser->expects($this->once())
+			->method('setEnabled')
+			->with(true);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('RequestedUser')
+			->will($this->returnValue($targetUser));
+		$loggedInUser = $this->getMock('\OCP\IUser');
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->will($this->returnValue('admin'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->will($this->returnValue(true));
+
+		$expected = new \OC_OCS_Result(null, 100);
+		$this->assertEquals($expected, $this->api->enableUser(['userid' => 'RequestedUser']));
+	}
+
+	public function testDisableUser() {
+		$targetUser = $this->getMock('\OCP\IUser');
+		$targetUser->expects($this->once())
+			->method('setEnabled')
+			->with(false);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('RequestedUser')
+			->will($this->returnValue($targetUser));
+		$loggedInUser = $this->getMock('\OCP\IUser');
+		$loggedInUser
+			->expects($this->exactly(2))
+			->method('getUID')
+			->will($this->returnValue('admin'));
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($loggedInUser));
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->will($this->returnValue(true));
+
+		$expected = new \OC_OCS_Result(null, 100);
+		$this->assertEquals($expected, $this->api->disableUser(['userid' => 'RequestedUser']));
 	}
 }
