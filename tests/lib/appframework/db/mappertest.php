@@ -22,10 +22,11 @@
  */
 
 
-namespace OCP\AppFramework\Db;
+namespace Test\AppFramework\Db;
 
 use \OCP\IDBConnection;
-use Test\AppFramework\Db\MapperTestUtility;
+use \OCP\AppFramework\Db\Entity;
+use \OCP\AppFramework\Db\Mapper;
 
 /**
  * @method integer getId()
@@ -236,7 +237,7 @@ class MapperTest extends MapperTestUtility {
 		$entity->resetUpdatedFields();
 
 		$this->db->expects($this->never())
-			->method('prepareQuery');
+			->method('prepare');
 
 		$this->mapper->update($entity);
 	}
