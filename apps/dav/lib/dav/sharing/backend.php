@@ -161,7 +161,8 @@ class Backend {
 				'commonName' => isset($p['{DAV:}displayname']) ? $p['{DAV:}displayname'] : '',
 				'status' => 1,
 				'readOnly' => ($row['access'] == self::ACCESS_READ),
-				'{'.\OCA\DAV\DAV\Sharing\Plugin::NS_OWNCLOUD.'}principal' => $row['principaluri']
+				'{http://owncloud.org/ns}principal' => $row['principaluri'],
+				'{http://owncloud.org/ns}group-share' => is_null($p)
 			];
 		}
 

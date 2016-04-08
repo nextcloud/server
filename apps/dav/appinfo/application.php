@@ -27,6 +27,8 @@ use OCA\DAV\CardDAV\CardDavBackend;
 use OCA\DAV\CardDAV\ContactsManager;
 use OCA\DAV\CardDAV\SyncJob;
 use OCA\DAV\CardDAV\SyncService;
+use OCA\DAV\Connector\Sabre\Principal;
+use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\HookManager;
 use OCA\Dav\Migration\AddressBookAdapter;
 use OCA\Dav\Migration\CalendarAdapter;
@@ -79,7 +81,7 @@ class Application extends App {
 			/** @var IAppContainer $c */
 			$db = $c->getServer()->getDatabaseConnection();
 			$dispatcher = $c->getServer()->getEventDispatcher();
-			$principal = new \OCA\DAV\Connector\Sabre\Principal(
+			$principal = new Principal(
 				$c->getServer()->getUserManager(),
 				$c->getServer()->getGroupManager()
 			);
@@ -89,7 +91,7 @@ class Application extends App {
 		$container->registerService('CalDavBackend', function($c) {
 			/** @var IAppContainer $c */
 			$db = $c->getServer()->getDatabaseConnection();
-			$principal = new \OCA\DAV\Connector\Sabre\Principal(
+			$principal = new Principal(
 				$c->getServer()->getUserManager(),
 				$c->getServer()->getGroupManager()
 			);
@@ -122,11 +124,14 @@ class Application extends App {
 
 		$container->registerService('BirthdayService', function($c) {
 			/** @var IAppContainer $c */
+			$g = new GroupPrincipalBackend(
+				$c->getServer()->getGroupManager()
+			);
 			return new BirthdayService(
 				$c->query('CalDavBackend'),
-				$c->query('CardDavBackend')
+				$c->query('CardDavBackend'),
+				$g
 			);
-
 		});
 	}
 
@@ -147,6 +152,7 @@ class Application extends App {
 
 		$listener = function($event) {
 			if ($event instanceof GenericEvent) {
+				/** @var BirthdayService $b */
 				$b = $this->getContainer()->query('BirthdayService');
 				$b->onCardChanged(
 					$event->getArgument('addressBookId'),
@@ -161,6 +167,7 @@ class Application extends App {
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::updateCard', $listener);
 		$dispatcher->addListener('\OCA\DAV\CardDAV\CardDavBackend::deleteCard', function($event) {
 			if ($event instanceof GenericEvent) {
+				/** @var BirthdayService $b */
 				$b = $this->getContainer()->query('BirthdayService');
 				$b->onCardDeleted(
 					$event->getArgument('addressBookId'),
