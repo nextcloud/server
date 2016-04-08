@@ -93,11 +93,13 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OCP\ILogger $logger
 	 * @param \OCP\AppFramework\Utility\ITimeFactory $timeFactory
+	 * @param int $ttl
 	 */
-	public function __construct(IDBConnection $connection, ILogger $logger, ITimeFactory $timeFactory) {
+	public function __construct(IDBConnection $connection, ILogger $logger, ITimeFactory $timeFactory, $ttl = 3600) {
 		$this->connection = $connection;
 		$this->logger = $logger;
 		$this->timeFactory = $timeFactory;
+		$this->ttl = $ttl;
 	}
 
 	/**
@@ -117,7 +119,7 @@ class DBLockingProvider extends AbstractLockingProvider {
 	 * @return int
 	 */
 	protected function getExpireTime() {
-		return $this->timeFactory->getTime() + self::TTL;
+		return $this->timeFactory->getTime() + $this->ttl;
 	}
 
 	/**

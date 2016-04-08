@@ -1194,6 +1194,15 @@ $CONFIG = array(
 'filelocking.enabled' => true,
 
 /**
+ * Set the time-to-live for locks in secconds.
+ *
+ * Any lock older than this will be automatically cleaned up.
+ *
+ * If not set this defaults to either 1 hour or the php max_execution_time, whichever is higher.
+ */
+'filelocking.ttl' => 3600,
+
+/**
  * Memory caching backend for file locking
  *
  * Because most memcache backends can clean values without warning using redis

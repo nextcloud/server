@@ -33,14 +33,16 @@ class MemcacheLockingProvider extends AbstractLockingProvider {
 
 	/**
 	 * @param \OCP\IMemcache $memcache
+	 * @param int $ttl
 	 */
-	public function __construct(IMemcache $memcache) {
+	public function __construct(IMemcache $memcache, $ttl = 3600) {
 		$this->memcache = $memcache;
+		$this->ttl = $ttl;
 	}
 
 	private function setTTL($path) {
 		if ($this->memcache instanceof IMemcacheTTL) {
-			$this->memcache->setTTL($path, self::TTL);
+			$this->memcache->setTTL($path, $this->ttl);
 		}
 	}
 
