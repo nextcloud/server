@@ -204,7 +204,7 @@ class BirthdayService {
 	}
 
 	/**
-	 * @param $addressBookId
+	 * @param integer $addressBookId
 	 * @return mixed
 	 */
 	protected function getAllAffectedPrincipals($addressBookId) {
