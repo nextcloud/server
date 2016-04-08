@@ -35,7 +35,6 @@ trait Provisioning {
 		}
 		$this->userExists($user);
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
-
 	}
 
 	/**
@@ -228,6 +227,20 @@ trait Provisioning {
 		} elseif ($this->currentServer === 'REMOTE') {
 			$this->createdRemoteGroups[$group] = $group;
 		}
+	}
+
+	/**
+	 * @When /^user "([^"]*)" is disabled$/
+	 */
+	public function userIsDisabled($user) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/disable";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
 	}
 
 	/**
@@ -588,4 +601,5 @@ trait Provisioning {
 		}
 		$this->usingServer($previousServer);
 	}
+
 }
