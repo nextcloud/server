@@ -517,6 +517,7 @@ class NotificationTest extends TestCase {
 			->setMethods([
 				'isValidCommon',
 				'getSubject',
+				'getParsedSubject',
 			])
 			->getMock();
 
@@ -548,6 +549,7 @@ class NotificationTest extends TestCase {
 			->setMethods([
 				'isValidCommon',
 				'getParsedSubject',
+				'getSubject',
 			])
 			->getMock();
 
