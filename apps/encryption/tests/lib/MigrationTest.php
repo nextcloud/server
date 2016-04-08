@@ -512,13 +512,9 @@ class MigrationTest extends \Test\TestCase {
 	 */
 	public function testGetTargetDir($user, $keyPath, $filename, $trash, $systemMounts, $expected) {
 
-		$updater = $this->getMockBuilder('\OC\Files\Cache\Updater')
-			->disableOriginalConstructor()->getMock();
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()->getMock();
 		$view->expects($this->any())->method('file_exists')->willReturn(true);
-		$view->expects($this->any())->method('getUpdater')->willReturn($updater);
-
 
 		$m = $this->getMockBuilder('OCA\Encryption\Migration')
 			->setConstructorArgs(
