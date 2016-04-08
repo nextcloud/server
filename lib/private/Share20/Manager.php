@@ -976,12 +976,30 @@ class Manager implements IManager {
 	public function getShareByToken($token) {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
 
-		$share = $provider->getShareByToken($token);
+		try {
+			$share = $provider->getShareByToken($token);
+		} catch (ShareNotFound $e) {
+			//Ignore
+		}
+
+		// If it is not a link share try to fetch a federated share by token
+		if ($share === null) {
+			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_REMOTE);
+			$share = $provider->getShareByToken($token);
+		}
 
 		if ($share->getExpirationDate() !== null &&
 			$share->getExpirationDate() <= new \DateTime()) {
 			$this->deleteShare($share);
 			throw new ShareNotFound();
+		}
+
+		/*
+		 * Reduce the permissions for link shares if public upload is not enabled
+		 */
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+			!$this->shareApiLinkAllowPublicUpload()) {
+			$share->setPermissions($share->getPermissions() & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE));
 		}
 
 		return $share;

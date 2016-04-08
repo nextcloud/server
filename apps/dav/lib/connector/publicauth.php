@@ -26,31 +26,41 @@
 
 namespace OCA\DAV\Connector;
 
-use OCP\IConfig;
 use OCP\IRequest;
+use OCP\ISession;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager;
 
+/**
+ * Class PublicAuth
+ *
+ * @package OCA\DAV\Connector
+ */
 class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 
-	/**
-	 * @var \OCP\IConfig
-	 */
-	private $config;
-
+	/** @var \OCP\Share\IShare */
 	private $share;
 
-	/**
-	 * @var IRequest
-	 */
+	/** @var IManager */
+	private $shareManager;
+
+	/** @var ISession */
+	private $session;
+
+	/** @var IRequest */
 	private $request;
 
 	/**
-	 * @param \OCP\IConfig $config
 	 * @param IRequest $request
+	 * @param IManager $shareManager
+	 * @param ISession $session
 	 */
-	public function __construct(IConfig $config,
-								IRequest $request) {
-		$this->config = $config;
+	public function __construct(IRequest $request,
+								IManager $shareManager,
+								ISession $session) {
 		$this->request = $request;
+		$this->shareManager = $shareManager;
+		$this->session = $session;
 	}
 
 	/**
@@ -66,42 +76,23 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 	 * @throws \Sabre\DAV\Exception\NotAuthenticated
 	 */
 	protected function validateUserPass($username, $password) {
-		$linkItem = \OCP\Share::getShareByToken($username, false);
-		\OC_User::setIncognitoMode(true);
-		$this->share = $linkItem;
-		if (!$linkItem) {
+		try {
+			$share = $this->shareManager->getShareByToken($username);
+		} catch (ShareNotFound $e) {
 			return false;
 		}
 
-		if ((int)$linkItem['share_type'] === \OCP\Share::SHARE_TYPE_LINK &&
-			$this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') !== 'yes') {
-			$this->share['permissions'] &= ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
-		}
+		$this->share = $share;
+
+		\OC_User::setIncognitoMode(true);
 
 		// check if the share is password protected
-		if (isset($linkItem['share_with'])) {
-			if ($linkItem['share_type'] == \OCP\Share::SHARE_TYPE_LINK) {
-				// Check Password
-				$newHash = '';
-				if(\OC::$server->getHasher()->verify($password, $linkItem['share_with'], $newHash)) {
-					/**
-					 * FIXME: Migrate old hashes to new hash format
-					 * Due to the fact that there is no reasonable functionality to update the password
-					 * of an existing share no migration is yet performed there.
-					 * The only possibility is to update the existing share which will result in a new
-					 * share ID and is a major hack.
-					 *
-					 * In the future the migration should be performed once there is a proper method
-					 * to update the share's password. (for example `$share->updatePassword($password)`
-					 *
-					 * @link https://github.com/owncloud/core/issues/10671
-					 */
-					if(!empty($newHash)) {
-
-					}
+		if ($share->getPassword() !== null) {
+			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+				if ($this->shareManager->checkPassword($share, $password)) {
 					return true;
-				} else if (\OC::$server->getSession()->exists('public_link_authenticated')
-					&& \OC::$server->getSession()->get('public_link_authenticated') === $linkItem['id']) {
+				} else if ($this->session->exists('public_link_authenticated')
+					&& $this->session->get('public_link_authenticated') === $share->getId()) {
 					return true;
 				} else {
 					if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')))) {
@@ -112,7 +103,7 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 					}
 					return false;
 				}
-			} else if ($linkItem['share_type'] == \OCP\Share::SHARE_TYPE_REMOTE) {
+			} else if ($share->getShareType() === \OCP\Share::SHARE_TYPE_REMOTE) {
 				return true;
 			} else {
 				return false;
@@ -123,7 +114,7 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 	}
 
 	/**
-	 * @return array
+	 * @return \OCP\Share\IShare
 	 */
 	public function getShare() {
 		return $this->share;

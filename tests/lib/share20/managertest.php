@@ -2084,6 +2084,25 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($share, $res);
 	}
 
+	public function testGetShareByTokenPublicSharingDisabled() {
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_LINK)
+			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE);
+
+		$this->config->method('getAppValue')->will($this->returnValueMap([
+			['core', 'shareapi_allow_public_upload', 'yes', 'no'],
+		]));
+
+		$this->defaultProvider->expects($this->once())
+			->method('getShareByToken')
+			->willReturn('validToken')
+			->willReturn($share);
+
+		$res = $this->manager->getShareByToken('validToken');
+
+		$this->assertSame(\OCP\Constants::PERMISSION_READ, $res->getPermissions());
+	}
+
 	public function testCheckPasswordNoLinkShare() {
 		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getShareType')->willReturn(\OCP\Share::SHARE_TYPE_USER);
