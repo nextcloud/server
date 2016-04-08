@@ -40,7 +40,7 @@ class OC_Response {
 	* @param integer $cache_time time to cache the response
 	*  >0		cache time in seconds
 	*  0 and <0	enable default browser caching
-	*  null		cache indefinitly
+	*  null		cache indefinitely
 	*/
 	static public function enableCaching($cache_time = null) {
 		if (is_numeric($cache_time)) {
@@ -113,7 +113,7 @@ class OC_Response {
 	}
 
 	/**
-	* Set reponse expire time
+	* Set response expire time
 	* @param string|DateTime $expires date-time when the response expires
 	*  string for DateInterval from now
 	*  DateTime object when to expire response
@@ -152,7 +152,7 @@ class OC_Response {
 	/**
 	* Checks and set Last-Modified header, when the request matches sends a
 	* 'not modified' response
-	* @param int|DateTime|string $lastModified time when the reponse was last modified
+	* @param int|DateTime|string $lastModified time when the response was last modified
 	*/
 	static public function setLastModifiedHeader($lastModified) {
 		if (empty($lastModified)) {

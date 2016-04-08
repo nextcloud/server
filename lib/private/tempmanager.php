@@ -251,8 +251,8 @@ class TempManager implements ITempManager {
 	 * @return bool
 	 */
 	private function checkTemporaryDirectory($directory) {
-		// surpress any possible errors caused by is_writable
-		// checks missing or invalid path or characters, wrong permissions ect
+		// suppress any possible errors caused by is_writable
+		// checks missing or invalid path or characters, wrong permissions etc
 		try {
 			if (is_writeable($directory)) {
 				return true;

@@ -123,7 +123,7 @@ class Files {
 
 	/**
 	 * Gets the Storage for an app - creates the needed folder if they are not
-	 * existant
+	 * existent
 	 * @param string $app
 	 * @return \OC\Files\View
 	 * @since 5.0.0

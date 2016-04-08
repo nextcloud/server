@@ -225,7 +225,7 @@ class Local extends \OC\Files\Storage\Common {
 		}
 
 		if ($this->is_dir($path1)) {
-			// we cant move folders across devices, use copy instead
+			// we can't move folders across devices, use copy instead
 			$stat1 = stat(dirname($this->getSourcePath($path1)));
 			$stat2 = stat(dirname($this->getSourcePath($path2)));
 			if ($stat1['dev'] !== $stat2['dev']) {

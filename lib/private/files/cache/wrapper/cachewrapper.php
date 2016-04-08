@@ -72,7 +72,7 @@ class CacheWrapper extends Cache {
 	 * @return ICacheEntry[]
 	 */
 	public function getFolderContents($folder) {
-		// cant do a simple $this->cache->.... call here since getFolderContentsById needs to be called on this
+		// can't do a simple $this->cache->.... call here since getFolderContentsById needs to be called on this
 		// and not the wrapped cache
 		$fileId = $this->getId($folder);
 		return $this->getFolderContentsById($fileId);

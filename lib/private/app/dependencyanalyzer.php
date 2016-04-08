@@ -97,7 +97,7 @@ class DependencyAnalyzer {
 	 * @return bool result similar to version_compare
 	 */
 	private function compare($first, $second, $operator) {
-		// we cant normalize versions if one of the given parameters is not a
+		// we can't normalize versions if one of the given parameters is not a
 		// version string but null. In case one parameter is null normalization
 		// will therefore be skipped
 		if ($first !== null && $second !== null) {

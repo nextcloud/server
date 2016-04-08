@@ -179,7 +179,7 @@ class SecurityMiddleware extends Middleware {
 	 * @param string $methodName the name of the method that will be called on
 	 *                           the controller
 	 * @param \Exception $exception the thrown exception
-	 * @throws \Exception the passed in exception if it cant handle it
+	 * @throws \Exception the passed in exception if it can't handle it
 	 * @return Response a Response object or null in case that the exception could not be handled
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {

@@ -46,7 +46,7 @@ abstract class OCSController extends ApiController {
 	 * @param string $corsMethods comma separated string of HTTP verbs which
 	 * should be allowed for websites or webapps when calling your API, defaults to
 	 * 'PUT, POST, GET, DELETE, PATCH'
-	 * @param string $corsAllowedHeaders comma seperated string of HTTP headers
+	 * @param string $corsAllowedHeaders comma separated string of HTTP headers
 	 * which should be allowed for websites or webapps when calling your API,
 	 * defaults to 'Authorization, Content-Type, Accept'
 	 * @param int $corsMaxAge number in seconds how long a preflighted OPTIONS

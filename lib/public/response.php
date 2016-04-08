@@ -47,7 +47,7 @@ class Response {
 	 * @param int $cache_time time to cache the response
 	 *  >0		cache time in seconds
 	 *  0 and <0	enable default browser caching
-	 *  null		cache indefinitly
+	 *  null		cache indefinitely
 	 * @since 4.0.0
 	 */
 	static public function enableCaching( $cache_time = null ) {
@@ -57,7 +57,7 @@ class Response {
 	/**
 	 * Checks and set Last-Modified header, when the request matches sends a
 	 * 'not modified' response
-	 * @param string $lastModified time when the reponse was last modified
+	 * @param string $lastModified time when the response was last modified
 	 * @since 4.0.0
 	 */
 	static public function setLastModifiedHeader( $lastModified ) {

@@ -107,7 +107,7 @@ class MiddlewareDispatcher {
 	 * @param \Exception $exception the thrown exception
 	 * @return Response a Response object if the middleware can handle the
 	 * exception
-	 * @throws \Exception the passed in exception if it cant handle it
+	 * @throws \Exception the passed in exception if it can't handle it
 	 */
 	public function afterException(Controller $controller, $methodName, \Exception $exception){
 		for($i=$this->middlewareCounter-1; $i>=0; $i--){

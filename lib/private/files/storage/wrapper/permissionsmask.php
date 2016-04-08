@@ -32,7 +32,7 @@ use OCP\Constants;
  *
  * This can be used to restrict update, create, delete and/or share permissions of a storage
  *
- * Note that the read permissions cant be masked
+ * Note that the read permissions can't be masked
  */
 class PermissionsMask extends Wrapper {
 	/**

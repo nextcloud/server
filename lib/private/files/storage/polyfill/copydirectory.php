@@ -76,7 +76,7 @@ trait CopyDirectory {
 	}
 
 	/**
-	 * For adapters that dont support copying folders natively
+	 * For adapters that don't support copying folders natively
 	 *
 	 * @param $source
 	 * @param $target

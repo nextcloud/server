@@ -112,7 +112,7 @@ class Factory implements ICacheFactory {
 			}
 		}
 		if (!($lockingCacheClass && $lockingCacheClass::isAvailable())) {
-			// dont fallback since the fallback might not be suitable for storing lock
+			// don't fallback since the fallback might not be suitable for storing lock
 			$lockingCacheClass = self::NULL_CACHE;
 		}
 

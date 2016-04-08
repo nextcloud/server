@@ -122,7 +122,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return bool
 	 */
 	public function add($key, $value, $ttl = 0) {
-		// dont encode ints for inc/dec
+		// don't encode ints for inc/dec
 		if (!is_int($value)) {
 			$value = json_encode($value);
 		}

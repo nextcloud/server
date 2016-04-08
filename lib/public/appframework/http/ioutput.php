@@ -39,7 +39,7 @@ interface IOutput {
 	/**
 	 * @param string $path
 	 *
-	 * @return bool false if an error occured
+	 * @return bool false if an error occurred
 	 * @since 8.1.0
 	 */
 	public function setReadfile($path);

@@ -113,7 +113,7 @@ class PostgreSQL extends AbstractDatabase {
 	}
 
 	private function createDatabase($connection) {
-		//we cant use OC_BD functions here because we need to connect as the administrative user.
+		//we can't use OC_BD functions here because we need to connect as the administrative user.
 		$e_name = pg_escape_string($this->dbName);
 		$e_user = pg_escape_string($this->dbUser);
 		$query = "select datname from pg_database where datname = '$e_name'";

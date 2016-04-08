@@ -185,7 +185,7 @@ class OC_Archive_ZIP extends OC_Archive{
 		if($mode=='r' or $mode=='rb') {
 			return $this->zip->getStream($path);
 		} else {
-			//since we cant directly get a writable stream,
+			//since we can't directly get a writable stream,
 			//make a temp copy of the file and put it back
 			//in the archive when the stream is closed
 			if(strrpos($path, '.')!==false) {
