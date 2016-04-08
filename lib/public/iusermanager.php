@@ -90,12 +90,12 @@ interface IUserManager {
 	/**
 	 * Check if the password is valid for the user
 	 *
-	 * @param string $loginname
+	 * @param string $loginName
 	 * @param string $password
 	 * @return mixed the User object on success, false otherwise
 	 * @since 8.0.0
 	 */
-	public function checkPassword($loginname, $password);
+	public function checkPassword($loginName, $password);
 
 	/**
 	 * search by user id
@@ -138,7 +138,7 @@ interface IUserManager {
 
 	/**
 	 * @param \Closure $callback
-	 * @return void
+	 * @param string $search
 	 * @since 9.0.0
 	 */
 	public function callForAllUsers (\Closure $callback, $search = '');
