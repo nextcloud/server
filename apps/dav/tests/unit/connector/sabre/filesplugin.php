@@ -84,6 +84,7 @@ class FilesPlugin extends \Test\TestCase {
 		$node = $this->getMockBuilder($class)
 			->disableOriginalConstructor()
 			->getMock();
+
 		$node->expects($this->any())
 			->method('getId')
 			->will($this->returnValue(123));
@@ -164,7 +165,9 @@ class FilesPlugin extends \Test\TestCase {
 	}
 
 	public function testGetPropertiesForFileHome() {
-		$node = $this->createTestNode('\OCA\DAV\Files\FilesHome');
+		$node = $this->getMockBuilder('\OCA\DAV\Files\FilesHome')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummyPath',
@@ -185,9 +188,6 @@ class FilesPlugin extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->never())->method('getUID');
 		$user->expects($this->never())->method('getDisplayName');
-		$node->expects($this->never())->method('getDirectDownload');
-		$node->expects($this->never())->method('getOwner');
-		$node->expects($this->never())->method('getSize');
 
 		$this->plugin->handleGetProperties(
 			$propFind,
@@ -276,8 +276,6 @@ class FilesPlugin extends \Test\TestCase {
 			0
 		);
 
-		$node->expects($this->never())
-			->method('getDirectDownload');
 		$node->expects($this->once())
 			->method('getSize')
 			->will($this->returnValue(1025));
