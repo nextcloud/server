@@ -212,7 +212,7 @@ OC.L10N.register(
     "An error occurred." : "Ett fel inträffade.",
     "Please reload the page." : "Vänligen ladda om sidan.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Uppdateringen misslyckades. För mer information <a href=\"{url}\">kolla vår forum post</a> angående problemet.",
-    "The update was unsuccessful. " : "Uppdateringen misslyckades.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Uppdateringen misslyckades. Rapportera detta problem till <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud Community</a>.",
     "The update was successful. There were warnings." : "Uppdateringen lyckades. Det finns varningar.",
     "The update was successful. Redirecting you to ownCloud now." : "Uppdateringen lyckades. Du omdirigeras nu till OwnCloud.",
     "Searching other places" : "Söker på andra platser",

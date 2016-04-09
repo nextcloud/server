@@ -192,7 +192,7 @@
     "An error occurred." : "Bir hata oluştu",
     "Please reload the page." : "Lütfen sayfayı yeniden yükleyin.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Güncelleme başarısız oldu. Daha fazla bilgi için bu sorunu kapsayan <a href=\"{url}\">forum gönderimize</a> bakın.",
-    "The update was unsuccessful. " : "Güncelleştirme başarısız.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Güncelleme başarısız oldu. Lütfen bu hatayı <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud topluluğu</a>na bildirin.",
     "The update was successful. There were warnings." : "Güncelleme başarılı. Uyarılar mevcut.",
     "The update was successful. Redirecting you to ownCloud now." : "Güncelleme başarılı. Şimdi ownCloud'a yönlendiriliyorsunuz.",
     "Searching other places" : "Diğer konumlarda aranıyor",

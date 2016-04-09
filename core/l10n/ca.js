@@ -166,7 +166,7 @@ OC.L10N.register(
     "Hello {name}" : "Hola {name}",
     "_download %n file_::_download %n files_" : ["descarregar l'arxiu %n","descarregar arxius %n "],
     "Please reload the page." : "Carregueu la pàgina de nou.",
-    "The update was unsuccessful. " : "La actualització no ha tingut èxit",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "L'actualització ha estat incorrecte. Comuniqueu aquest error a <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">la comunitat ownCloud</a>.",
     "The update was successful. There were warnings." : "La actualització ha estat exitosa. Hi ha alertes.",
     "The update was successful. Redirecting you to ownCloud now." : "L'actualització ha estat correcte. Ara us redirigim a ownCloud.",
     "Searching other places" : "Buscant altres ubicacions",

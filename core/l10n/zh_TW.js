@@ -203,7 +203,7 @@ OC.L10N.register(
     "An error occurred." : "發生錯誤",
     "Please reload the page." : "請重新整理頁面",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "更新失敗，檢視<a href=\"{url}\">論壇上的文章</a>來瞭解更多",
-    "The update was unsuccessful. " : "更新失敗",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "升級失敗，請將此問題回報 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社群</a>。",
     "The update was successful. There were warnings." : "更新成功，有警告訊息",
     "The update was successful. Redirecting you to ownCloud now." : "升級成功，正將您重新導向至 ownCloud 。",
     "Searching other places" : "搜尋其他位置",

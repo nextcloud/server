@@ -188,7 +188,7 @@ OC.L10N.register(
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Opgraderingen er i gang, forlader du denne side kan det afbryde processen.",
     "An error occurred." : "Der opstod en fejl.",
     "Please reload the page." : "Genindlæs venligst siden",
-    "The update was unsuccessful. " : "Opdateringen blev ikke gennemført.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Opdateringen blev ikke udført korrekt. Rapporter venligst problemet til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownClouds fællesskabet</a>.",
     "The update was successful. There were warnings." : "Opdateringen blev gennemført. Der fremkom advarsler.",
     "The update was successful. Redirecting you to ownCloud now." : "Opdateringen blev udført korrekt. Du bliver nu viderestillet til ownCloud.",
     "Searching other places" : "Søger på andre steder",

@@ -138,7 +138,6 @@ OC.L10N.register(
     "sunny" : "sunčan",
     "Hello {name}, the weather is {weather}" : "Halo {name}, vrijeme je {weather}",
     "Please reload the page." : "Molim, ponovno učitajte stranicu",
-    "The update was unsuccessful. " : "Ažuriranje nije uspjelo.",
     "The update was successful. Redirecting you to ownCloud now." : "Ažuriranje je uspjelo. Preusmjeravam vas na ownCloud.",
     "Personal" : "Osobno",
     "Users" : "Korisnici",

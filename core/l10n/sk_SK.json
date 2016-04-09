@@ -175,7 +175,7 @@
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Aktualizácie prebieha. V niektorých prostrediach môže opustenie tejto stránky spôsobiť prerušenie aktualizácie.",
     "An error occurred." : "Vyskytla sa chyba.",
     "Please reload the page." : "Obnovte prosím stránku.",
-    "The update was unsuccessful. " : "Aktualizácia bola neúspešná.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Aktualizácia nebola úspešná. Problém nahláste <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud comunite</a>.",
     "The update was successful. There were warnings." : "Aktualizácia bola úspešná. Vyskytli sa upozornenia.",
     "The update was successful. Redirecting you to ownCloud now." : "Aktualizácia bola úspešná. Presmerovávam vás na prihlasovaciu stránku.",
     "Searching other places" : "Prehľadanie ostatných umiestnení",

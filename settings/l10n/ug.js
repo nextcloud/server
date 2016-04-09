@@ -1,16 +1,16 @@
 OC.L10N.register(
     "settings",
     {
+    "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
+    "Email saved" : "تورخەت ساقلاندى",
     "Sharing" : "ھەمبەھىر",
     "Log" : "خاتىرە",
     "Language changed" : "تىل ئۆزگەردى",
     "Invalid request" : "ئىناۋەتسىز ئىلتىماس",
-    "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
     "Admins can't remove themself from the admin group" : "باشقۇرغۇچى ئۆزىنى باشقۇرۇش گۇرۇپپىسىدىن چىقىرىۋېتەلمەيدۇ",
     "Unable to add user to group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىغا قوشالمايدۇ",
     "Unable to remove user from group %s" : "ئىشلەتكۈچىنى %s گۇرۇپپىدىن چىقىرىۋېتەلمەيدۇ",
     "Couldn't update app." : "ئەپنى يېڭىلىيالمايدۇ.",
-    "Email saved" : "تورخەت ساقلاندى",
     "All" : "ھەممىسى",
     "Please wait...." : "سەل كۈتۈڭ…",
     "Disable" : "چەكلە",

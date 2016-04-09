@@ -137,6 +137,7 @@ OC.L10N.register(
     "Error loading dialog template: {error}" : "Fallu cargando plantía de diálogu: {error}",
     "No tags selected for deletion." : "Nun s'esbillaron etiquetes pa desaniciar.",
     "Please reload the page." : "Por favor, recarga la páxina",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "L'anovamientu fízose con ésitu. Por favor, informa d'esti problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comuña ownCloud</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "L'anovamientu fízose con ésitu. Redirixiendo agora al to ownCloud.",
     "Personal" : "Personal",
     "Users" : "Usuarios",

@@ -115,6 +115,7 @@
     "Enter new" : "Introducere nou",
     "Add" : "Adaugă",
     "Please reload the page." : "Te rugăm să reîncarci pagina.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Actualizarea a eșuat! Raportați problema către <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunitatea ownCloud</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "Actualizare reușită. Ești redirecționat către ownCloud.",
     "Personal" : "Personal",
     "Users" : "Utilizatori",

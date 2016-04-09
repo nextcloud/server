@@ -109,6 +109,7 @@
     "Error loading dialog template: {error}" : "Error cargando plantilla de diálogo: {error}",
     "No tags selected for deletion." : "No hay etiquetas seleccionadas para borrar.",
     "Please reload the page." : "Vuelva a cargar la página.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "La actualización ha fracasado. Por favor, informe de este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "La actualización se ha realizado con éxito. Redireccionando a ownCloud ahora.",
     "Personal" : "Personal",
     "Users" : "Usuarios",

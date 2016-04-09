@@ -204,7 +204,7 @@ OC.L10N.register(
     "An error occurred." : "אירעה שגיאה.",
     "Please reload the page." : "יש להעלות מחדש דף זה.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "העדכון בוצע בהצלחה. למידע נוסף <a href=\"{url}\">ניתן לבדוק בהודעת הפורום שלנו</a> המכסה נושא זו.",
-    "The update was unsuccessful. " : "העדכון בוצע בהצלחה.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "תהליך העדכון לא הושלם בהצלחה. נא דווח את הבעיה ב<a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">קהילת ownCloud</a>.",
     "The update was successful. There were warnings." : "העדכון בוצע בהצלחה. היו הזהרות.",
     "The update was successful. Redirecting you to ownCloud now." : "תהליך העדכון הסתיים בהצלחה. עכשיו מנתב אותך אל ownCloud.",
     "Searching other places" : "מחפש במקומות אחרים",

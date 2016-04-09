@@ -99,6 +99,7 @@
     "Rename" : "Endra namn",
     "The object type is not specified." : "Objekttypen er ikkje spesifisert.",
     "Add" : "Legg til",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Oppdateringa feila. Ver venleg og rapporter feilen til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-fellesskapet</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "Oppdateringa er fullført. Sender deg vidare til ownCloud no.",
     "Personal" : "Personleg",
     "Users" : "Brukarar",

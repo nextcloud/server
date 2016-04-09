@@ -197,7 +197,7 @@
     "An error occurred." : "发生了一个错误",
     "Please reload the page." : "请重新加载页面。",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "更新不成功。有关此问题的更多信息请<a href=\"{url}\">查看我们的论坛帖子</a>。",
-    "The update was unsuccessful. " : "升级未成功",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "更新不成功。请汇报将此问题汇报给  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社区</a>。",
     "The update was successful. There were warnings." : "更新成功。有警告。",
     "The update was successful. Redirecting you to ownCloud now." : "更新成功。正在重定向至 ownCloud。",
     "Searching other places" : "搜索其他地方",

@@ -179,7 +179,6 @@ OC.L10N.register(
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "La mesa a jorn es en cors. Segon la configuracion, lo fach de quitar aquesta pagina pòt entraïnar l'interrupcion de la procedura.",
     "An error occurred." : "Una error s'es produsida.",
     "Please reload the page." : "Recargatz la pagina.",
-    "The update was unsuccessful. " : "La mesa a jorn a fracassat.",
     "The update was successful. There were warnings." : "La mesa a jorn a capitat, mas i a agut d'avertiments",
     "The update was successful. Redirecting you to ownCloud now." : "La mesa a jorn a capitat. Ara sètz redirigit cap a ownCloud.",
     "Searching other places" : "Recèrca en cors dins d'autres emplaçaments",

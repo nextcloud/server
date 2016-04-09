@@ -142,7 +142,7 @@ OC.L10N.register(
     "Hello {name}, the weather is {weather}" : "Zdravo {name}, vreme je {weather}",
     "_download %n file_::_download %n files_" : ["Preuzmi %n fajl","Preuzmi %n fajlova","Preuzmi %n fajlova"],
     "Please reload the page." : "Molimo, ponovo učitajte stranu.",
-    "The update was unsuccessful. " : "Osvežavanje je uspelo.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Ažuriranje nije uspelo. Molimo obavestite <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud zajednicu</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "Ažuriranje je uspelo. Prosleđivanje na ownCloud.",
     "Personal" : "Lično",
     "Users" : "Korisnici",

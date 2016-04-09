@@ -148,7 +148,6 @@
     "Hello {name}" : "Здравейте, {name}",
     "_download %n file_::_download %n files_" : ["изтегли %n файл","изтегли %n файла"],
     "Please reload the page." : "Моля, презаредете страницата.",
-    "The update was unsuccessful. " : "Обновяването бе неуспешно.",
     "The update was successful. Redirecting you to ownCloud now." : "Обновяването е успешно. Сега Ви пренасочваме към ownCloud.",
     "Searching other places" : "Търсене в други места",
     "Personal" : "Лични",

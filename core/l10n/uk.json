@@ -181,7 +181,7 @@
     "_download %n file_::_download %n files_" : ["завантаження %n файлу","завантаження %n файлів","завантаження %n файлів"],
     "An error occurred." : "Виникла помилка.",
     "Please reload the page." : "Будь ласка, перезавантажте сторінку.",
-    "The update was unsuccessful. " : "Оновлення завершилось невдачею.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Оновлення виконалось неуспішно. Будь ласка, повідомте про цю проблему в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">спільноті ownCloud</a>.",
     "The update was successful. There were warnings." : "Оновлення виконалось успішно, але були попередження.",
     "The update was successful. Redirecting you to ownCloud now." : "Оновлення виконалось успішно. Перенаправляємо вас на  ownCloud.",
     "Searching other places" : "Йде пошук в інших місцях",

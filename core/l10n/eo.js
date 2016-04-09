@@ -152,7 +152,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["elŝuti %n dosieron","elŝuti %n dosierojn"],
     "An error occurred." : "Eraro okazis.",
     "Please reload the page." : "Bonvolu reŝargi la paĝon.",
-    "The update was unsuccessful. " : "La ĝisdatigo malsukcesis.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "La ĝisdatigo estis malsukcese. Bonvolu raporti tiun problemon al la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownClouda komunumo</a>.",
     "The update was successful. There were warnings." : "La ĝisdatigo sukcesis. Estis avertoj.",
     "The update was successful. Redirecting you to ownCloud now." : "La ĝisdatigo estis sukcesa. Alidirektante nun al ownCloud.",
     "Searching other places" : "Serĉante en aliaj lokoj",

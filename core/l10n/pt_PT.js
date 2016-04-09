@@ -216,7 +216,7 @@ OC.L10N.register(
     "An error occurred." : "Ocorreu um erro.",
     "Please reload the page." : "Por favor, recarregue a página.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "A atualização falhou. Para mais informação <a href=\"{url}\">verifique o nosso fórum</a> sobre como resolver este problema.",
-    "The update was unsuccessful. " : "Não foi possível atualizar.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "A actualização falhou. Por favor reporte este incidente seguindo este link <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
     "The update was successful. There were warnings." : "A atualização foi bem sucedida. Tem alguns avisos.",
     "The update was successful. Redirecting you to ownCloud now." : "A actualização foi concluída com sucesso. Vai ser redireccionado para o ownCloud agora.",
     "Searching other places" : "A pesquisar noutros lugares",

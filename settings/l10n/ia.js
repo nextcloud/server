@@ -1,13 +1,13 @@
 OC.L10N.register(
     "settings",
     {
+    "Wrong password" : "Contrasigno errate",
+    "Saved" : "Salveguardate",
+    "Email sent" : "Message de e-posta inviate",
     "Log" : "Registro",
     "Updates" : "Actualisationes",
     "Language changed" : "Linguage cambiate",
     "Invalid request" : "Requesta invalide",
-    "Wrong password" : "Contrasigno errate",
-    "Saved" : "Salveguardate",
-    "Email sent" : "Message de e-posta inviate",
     "All" : "Omne",
     "Delete" : "Deler",
     "Very weak password" : "Contrasigno multo debile",

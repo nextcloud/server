@@ -165,7 +165,7 @@ OC.L10N.register(
     "Hello {name}" : "Ola {name}",
     "_download %n file_::_download %n files_" : ["descargar %n ficheiro","descargar %n ficheiros"],
     "Please reload the page." : "Volva cargar a páxina.",
-    "The update was unsuccessful. " : "Fracasou a actualización.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "A actualización non foi satisfactoria, informe deste problema á  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunidade de ownCloud</a>.",
     "The update was successful. There were warnings." : "A actualización realizouse correctamente. Houbo algún aviso.",
     "The update was successful. Redirecting you to ownCloud now." : "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud.",
     "Searching other places" : "Buscando noutros lugares",

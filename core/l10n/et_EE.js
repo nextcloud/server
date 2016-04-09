@@ -177,7 +177,7 @@ OC.L10N.register(
     "Updating to {version}" : "Uuendamine versioonile {version}",
     "An error occurred." : "Tekkis tõrge.",
     "Please reload the page." : "Palun laadi see uuesti.",
-    "The update was unsuccessful. " : "Uuendamine ebaõnnestus.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Uuendus ebaõnnestus. Palun teavita probleemidest  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kogukonda</a>.",
     "The update was successful. There were warnings." : "Uuendamine läks kenasti. hoiatusi polnud.",
     "The update was successful. Redirecting you to ownCloud now." : "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi.",
     "Searching other places" : "Otsi teistest kohtadest",

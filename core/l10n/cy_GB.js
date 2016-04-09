@@ -75,6 +75,7 @@ OC.L10N.register(
     "Rename" : "Ailenwi",
     "The object type is not specified." : "Nid yw'r math o wrthrych wedi cael ei nodi.",
     "Add" : "Ychwanegu",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Methodd y diweddariad. Adroddwch y mater hwn i <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">gymuned ownCloud</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "Roedd y diweddariad yn llwyddiannus. Cewch eich ailgyfeirio i ownCloud nawr.",
     "Personal" : "Personol",
     "Users" : "Defnyddwyr",

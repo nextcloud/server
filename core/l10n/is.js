@@ -204,7 +204,6 @@ OC.L10N.register(
     "An error occurred." : "Villa átti sér stað.",
     "Please reload the page." : "Þú ættir að hlaða síðunni aftur inn.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Uppfærslan tókst ekki. Til að fá frekari upplýsingar <a href=\"{url}\">skoðaðu færslu á spjallsvæðinu okkar</a> sem fjallar um þetta mál.",
-    "The update was unsuccessful. " : "Uppfærslan tókst ekki.",
     "The update was successful. There were warnings." : "Uppfærslan tókst. Það voru viðvaranir.",
     "The update was successful. Redirecting you to ownCloud now." : "Uppfærslan heppnaðist. Beini þér til ownCloud nú.",
     "Searching other places" : "Leitað á öðrum stöðum",

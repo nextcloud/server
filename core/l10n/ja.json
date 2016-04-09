@@ -196,7 +196,7 @@
     "An error occurred." : "エラーが発生しました。",
     "Please reload the page." : "ページをリロードしてください。",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "アップデートできませんでした。この問題に対する詳細な情報については、<a href=\"{url}\">フォーラムの投稿を確認してください</a> ",
-    "The update was unsuccessful. " : "アップデートに失敗しました。",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "アップデートに失敗しました。この問題を <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a> にレポートしてください。",
     "The update was successful. There were warnings." : "アップデートは成功しました。警告がありました。",
     "The update was successful. Redirecting you to ownCloud now." : "アップデートに成功しました。今すぐownCloudにリダイレクトします。",
     "Searching other places" : "他の場所の検索",

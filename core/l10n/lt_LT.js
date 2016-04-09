@@ -150,6 +150,7 @@ OC.L10N.register(
     "Hello world!" : "Sveikas pasauli!",
     "sunny" : "saulėta",
     "Please reload the page." : "Prašome perkrauti puslapį.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Atnaujinimas buvo nesėkmingas. PApie tai prašome pranešti the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud bendruomenei</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "Atnaujinimas buvo sėkmingas. Nukreipiame į jūsų ownCloud.",
     "Personal" : "Asmeniniai",
     "Users" : "Vartotojai",

@@ -180,7 +180,7 @@ OC.L10N.register(
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Η αναβάθμιση είναι σε εξέλιξη, αν φύγετε από αυτή τη σελίδα μπορεί να διακοπεί η διαδικασία σε ορισμένα περιβάλλοντα χρήσης.",
     "An error occurred." : "Παρουσιάστηκε σφάλμα",
     "Please reload the page." : "Παρακαλώ επαναφορτώστε τη σελίδα.",
-    "The update was unsuccessful. " : "Η ενημέρωση ήταν ανεπιτυχής.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Η ενημέρωση ήταν ανεπιτυχής. Παρακαλώ στείλτε αναφορά στην <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">κοινότητα ownCloud</a>.",
     "The update was successful. There were warnings." : "Η ενημέρωση ήταν επιτυχής. Υπήρχαν προειδοποιήσεις.",
     "The update was successful. Redirecting you to ownCloud now." : "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud.",
     "Searching other places" : "Έρευνα σε άλλα σημεία.",

@@ -144,7 +144,7 @@
     "_download %n file_::_download %n files_" : ["%n fitxategia jaitsi","jaitsi %n fitxategiak"],
     "An error occurred." : "Errore bat gertatu da.",
     "Please reload the page." : "Mesedez birkargatu orria.",
-    "The update was unsuccessful. " : "Eguneraketa ongi burutu da.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Eguneraketa ez da ongi egin. Mesedez egin arazoaren txosten bat <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud komunitatearentzako</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "Eguneraketa ongi egin da. Orain zure ownClouderea berbideratua izango zara.",
     "Searching other places" : "Beste lekuak bilatzen",
     "No search results in other folders" : "Ez da bilaketaren emaitzik lortu beste karpetatan",

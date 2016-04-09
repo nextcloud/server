@@ -212,7 +212,7 @@ OC.L10N.register(
     "An error occurred." : "Er heeft zich een fout voorgedaan.",
     "Please reload the page." : "Herlaad deze pagina.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "De update was niet succesvol. Voor meer informatie <a href=\"{url}\">zie ons bericht op het forum</a> over dit probleem.",
-    "The update was unsuccessful. " : "De update is niet geslaagd.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "De update is niet geslaagd. Meld dit probleem bij de <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
     "The update was successful. There were warnings." : "De update is geslaagd. Er zijn wel waarschuwingen.",
     "The update was successful. Redirecting you to ownCloud now." : "De update is geslaagd. U wordt teruggeleid naar uw eigen ownCloud.",
     "Searching other places" : "Zoeken op andere plaatsen",

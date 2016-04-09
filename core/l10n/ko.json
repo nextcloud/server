@@ -197,7 +197,7 @@
     "An error occurred." : "오류가 발생했습니다.",
     "Please reload the page." : "페이지를 새로 고치십시오.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "업데이트에 실패했습니다. 더 많은 정보를 보려면 이 문제를 다루은 <a href=\"{url}\">포럼 글</a>을 참조하십시오.",
-    "The update was unsuccessful. " : "업데이트가 실패했습니다. ",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "업데이트가 실패하였습니다. 이 문제를 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 커뮤니티</a>에 보고해 주십시오.",
     "The update was successful. There were warnings." : "업데이트가 성공했습니다. 일부 경고가 있습니다.",
     "The update was successful. Redirecting you to ownCloud now." : "업데이트가 성공했습니다. ownCloud로 돌아갑니다.",
     "Searching other places" : "다른 장소 찾는 중",

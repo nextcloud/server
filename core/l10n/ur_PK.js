@@ -81,6 +81,7 @@ OC.L10N.register(
     "Add" : "شامل کریں",
     "Edit tags" : "ترمیم ٹیگز",
     "Please reload the page." : "براہ مہربانی صفحہ دوبارہ لوڈ کریں.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "اپ ڈیٹ نا کامیاب تھی۔ براہ مہربانی اس مسلے کو رپورٹ کریں اس پے  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>. ",
     "The update was successful. Redirecting you to ownCloud now." : "اپ ڈیٹ کامیاب تھی۔ اپ کو اون کلوڈ سے منسلک کیا جا رہا ہے",
     "Personal" : "شخصی",
     "Users" : "صارفین",

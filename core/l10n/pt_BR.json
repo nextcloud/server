@@ -214,7 +214,7 @@
     "An error occurred." : "Ocorreu um erro.",
     "Please reload the page." : "Por favor recarregue a página",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "A atualização não foi bem sucedida. Para mais informações <a href=\"{url}\">verificar o nosso post no fórum</a> que abrange esta questão.",
-    "The update was unsuccessful. " : "A atualização não foi bem sucedida.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "A atualização falhou. Por favor, relate este problema para a <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunidade ownCloud</a>.",
     "The update was successful. There were warnings." : "A atualização foi bem sucedida. Havia advertências.",
     "The update was successful. Redirecting you to ownCloud now." : "A atualização teve êxito. Você será redirecionado ao ownCloud agora.",
     "Searching other places" : "Pesquisando em outros lugares",

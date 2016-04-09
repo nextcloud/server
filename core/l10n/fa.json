@@ -152,7 +152,7 @@
     "Hello {name}" : "سلام {name}",
     "_download %n file_::_download %n files_" : ["دانلود %n فایل"],
     "An error occurred." : "یک خطا رخ‌داده است.",
-    "The update was unsuccessful. " : "بروزرسانی ناموفق بود.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "به روز رسانی ناموفق بود. لطفا این خطا را به  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">جامعه ی OwnCloud</a> گزارش نمایید.",
     "The update was successful. There were warnings." : "بروزرسانی با موفقیت انجام شد، اخطارهایی وجود دارد.",
     "The update was successful. Redirecting you to ownCloud now." : "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud.",
     "Searching other places" : "جستجو در مکان‌های دیگر",

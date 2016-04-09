@@ -179,7 +179,7 @@ OC.L10N.register(
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Pembaruan sedang dalam proses, meninggalkan halaman ini mungkin dapat mengganggu proses di beberapa lingkungan.",
     "An error occurred." : "Terjadi kesalahan.",
     "Please reload the page." : "Silakan muat ulang halaman.",
-    "The update was unsuccessful. " : "Pembaruan tidak berhasil.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Pembaruan gagal. Silakan laporkan masalah ini ke <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">komunitas ownCloud</a>.",
     "The update was successful. There were warnings." : "Pembaruan telah berhasil. Terdapat peringatan.",
     "The update was successful. Redirecting you to ownCloud now." : "Pembaruan sukses. Anda akan diarahkan ulang ke ownCloud.",
     "Searching other places" : "Mencari tempat lainnya",

@@ -1,8 +1,8 @@
 OC.L10N.register(
     "settings",
     {
-    "External Storage" : "Externer Speicher",
     "Saved" : "Gespeichert",
+    "External Storage" : "Externer Speicher",
     "Delete" : "Löschen",
     "Very weak password" : "Sehr schwaches Passwort",
     "Weak password" : "Schwaches Passwort",

@@ -1,13 +1,13 @@
 OC.L10N.register(
     "settings",
     {
+    "Authentication error" : "Greška pri autentifikaciji",
+    "Saved" : "Sačuvano",
+    "Email sent" : "Email poslat",
     "External Storage" : "Spoljašnje skladište",
     "Updates" : "Ažuriranja",
     "Language changed" : "Jezik je izmenjen",
     "Invalid request" : "Neispravan zahtev",
-    "Authentication error" : "Greška pri autentifikaciji",
-    "Saved" : "Sačuvano",
-    "Email sent" : "Email poslat",
     "Delete" : "Obriši",
     "Very weak password" : "Veoma slaba lozinka",
     "Weak password" : "Slaba lozinka",

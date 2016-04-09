@@ -143,7 +143,6 @@
     "Hello {name}" : "Pozdrav  {name}",
     "_download %n file_::_download %n files_" : ["preuzimanje %n datoteke","preuzimanje %n datoteke","preuzimanje %n datoteka"],
     "Please reload the page." : "Molimo, ponovno učitajte stranicu",
-    "The update was unsuccessful. " : "Usklađivanje je bilo neuspješno.",
     "The update was successful. Redirecting you to ownCloud now." : "Ažuriranje je uspjelo. Upravo ste preusmjeravani na ownCloud.",
     "Searching other places" : "Pretraživanje drugih lokacija",
     "Personal" : "Osobno",

@@ -215,7 +215,7 @@ OC.L10N.register(
     "An error occurred." : "Ndodhi një gabim.",
     "Please reload the page." : "Ju lutemi, ringarkoni faqen.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Përditësimi qe i pasuksesshëm. Për më tepër të dhëna <a href=\"{url}\">shihni postimin te forumi ynë</a> lidhur me këtë çështje.",
-    "The update was unsuccessful. " : "Përditësimi qe i pasuksesshëm. ",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Azhurnimi dështoi. Ju lutemi njoftoni për këtë problem <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">komunitetin ownCloud</a>.",
     "The update was successful. There were warnings." : "Përditësimi qe i suksesshëm. Pati sinjalizime.",
     "The update was successful. Redirecting you to ownCloud now." : "Përditësimi qe i suksesshëm. Po ridrejtoheni te ownCloud-i.",
     "Searching other places" : "Po kërkohet në vende të tjera",

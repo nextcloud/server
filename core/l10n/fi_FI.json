@@ -206,7 +206,7 @@
     "An error occurred." : "Tapahtui virhe.",
     "Please reload the page." : "Päivitä sivu.",
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Päivitys epäonnistui. Katso lisätietoja tähän ongelmaan liittyen <a href=\"{url}\">keskustelupalstan viestistä</a>.",
-    "The update was unsuccessful. " : "Päivitys epäonnistui.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Päivitys epäonnistui. Ilmoita ongelmasta <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-yhteisölle</a>.",
     "The update was successful. There were warnings." : "Päivitys onnistui, tosin ilmeni varoituksia.",
     "The update was successful. Redirecting you to ownCloud now." : "Päivitys onnistui. Selain ohjautuu nyt ownCloudiisi.",
     "Searching other places" : "Etsitään muista paikoista",

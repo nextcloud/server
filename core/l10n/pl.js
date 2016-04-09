@@ -174,7 +174,7 @@ OC.L10N.register(
     "Hello {name}" : "Witaj {name}",
     "_download %n file_::_download %n files_" : ["pobrano %n plik","pobrano %n plików","pobrano %n plików"],
     "Please reload the page." : "Proszę przeładować stronę",
-    "The update was unsuccessful. " : "Aktualizowanie zakończyło się niepowodzeniem.",
+    "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "Aktualizacja zakończyła się niepowodzeniem. Zgłoś ten problem <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">spoleczności ownCloud</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "Aktualizacji zakończyła się powodzeniem. Przekierowuję do ownCloud.",
     "Searching other places" : "Przeszukaj inne miejsca",
     "Personal" : "Osobiste",
