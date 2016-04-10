@@ -661,10 +661,9 @@ class Share20OCSTest extends \Test\TestCase {
 				->with('valid-path')
 				->willReturn($path);
 
-		$user = $this->getMock('\OCP\IUser');
 		$this->userManager->method('userExists')->with('validUser')->willReturn(true);
 
-		$share->method('setPath')->with($path);
+		$share->method('setNode')->with($path);
 		$share->method('setPermissions')
 			->with(
 				\OCP\Constants::PERMISSION_ALL &
@@ -769,7 +768,7 @@ class Share20OCSTest extends \Test\TestCase {
 			->method('allowGroupSharing')
 			->willReturn(true);
 
-		$share->method('setPath')->with($path);
+		$share->method('setNode')->with($path);
 		$share->method('setPermissions')->with(\OCP\Constants::PERMISSION_ALL);
 		$share->method('setShareType')->with(\OCP\Share::SHARE_TYPE_GROUP);
 		$share->method('setSharedWith')->with('validGroup');
@@ -818,7 +817,7 @@ class Share20OCSTest extends \Test\TestCase {
 			->method('allowGroupSharing')
 			->willReturn(false);
 
-		$share->method('setPath')->with($path);
+		$share->method('setNode')->with($path);
 
 		$expected = new \OC_OCS_Result(null, 404, 'group sharing is disabled by the administrator');
 		$result = $this->ocs->createShare();

@@ -579,7 +579,7 @@ class ManagerTest extends \Test\TestCase {
 		$share->method('getShareType')->willReturn($type);
 		$share->method('getSharedWith')->willReturn($sharedWith);
 		$share->method('getSharedBy')->willReturn($sharedBy);
-		$share->method('getSharedOwner')->willReturn($shareOwner);
+		$share->method('getShareOwner')->willReturn($shareOwner);
 		$share->method('getNode')->willReturn($path);
 		$share->method('getPermissions')->willReturn($permissions);
 		$share->method('getExpirationDate')->willReturn($expireDate);
