@@ -34,6 +34,7 @@ use OCA\DAV\Files\BrowserErrorPagePlugin;
 use OCA\DAV\Files\CustomPropertiesBackend;
 use OCP\IRequest;
 use OCP\SabrePluginEvent;
+use Sabre\CardDAV\VCFExportPlugin;
 use Sabre\DAV\Auth\Plugin;
 
 class Server {
@@ -97,6 +98,7 @@ class Server {
 
 		// addressbook plugins
 		$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
+		$this->server->addPlugin(new VCFExportPlugin());
 
 		// system tags plugins
 		$this->server->addPlugin(new \OCA\DAV\SystemTag\SystemTagPlugin(
