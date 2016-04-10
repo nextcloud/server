@@ -1,10 +1,12 @@
 { "translations": {
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Pridobivanje žetonov zahteve je spodletelo. Preverite, ali sta ključ in skrivno geslo programa navedena pravilno.",
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Pridobivanje žetonov za dostop je spodletelo. Preverite, da sta ključ in skrivno geslo navedena pravilno.",
     "Please provide a valid app key and secret." : "Vpisati je treba veljaven ključ programa in kodo.",
     "Step 1 failed. Exception: %s" : "1. korak je spodletel. Izjemna napaka: %s",
     "Step 2 failed. Exception: %s" : "2. korak je spodletel. Izjemna napaka: %s",
     "External storage" : "Zunanja shramba",
     "Storage with id \"%i\" not found" : "Shrambe z ID \"%i\" ni mogoče najti.",
+    "Invalid backend or authentication mechanism class" : "Neveljaven ozadnji program oziroma razred mehanizma overitve",
     "Invalid mount point" : "Neveljavna priklopna točka",
     "Invalid storage backend \"%s\"" : "Neveljaven ozadnji program shrambe \"%s\"",
     "Not permitted to use backend \"%s\"" : "Uporaba ozadnjega programa \"%s\" ni dovoljena.",

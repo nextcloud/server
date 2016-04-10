@@ -4,6 +4,7 @@
     "Authentication error" : "Napaka med overjanjem",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Podati je treba skrbniško obnovitveno geslo, sicer bodo vsi uporabniški podatki izgubljeni.",
     "Wrong admin recovery password. Please check the password and try again." : "Napačno navedeno skrbniško obnovitveno geslo. Preverite geslo in poskusite znova.",
+    "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Ozadnji program ne podpira spreminjanja gesla, je pa uspešno posodobljeno uporabniško šifriranje.",
     "Unable to change password" : "Ni mogoče spremeniti gesla",
     "Enabled" : "Omogočeno",
     "Not enabled" : "Ni omogočeno",
