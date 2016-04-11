@@ -100,7 +100,8 @@ class ProviderFactory implements IProviderFactory {
 			$notifications = new Notifications(
 				$addressHandler,
 				$this->serverContainer->getHTTPClientService(),
-				$discoveryManager
+				$discoveryManager,
+				$this->serverContainer->getJobList()
 			);
 			$tokenHandler = new TokenHandler(
 				$this->serverContainer->getSecureRandom()
