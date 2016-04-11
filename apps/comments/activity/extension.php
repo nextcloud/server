@@ -80,7 +80,10 @@ class Extension implements IExtension {
 		$l = $this->getL10N($languageCode);
 
 		return array(
-			self::APP_NAME => (string) $l->t('<strong>Comments</strong> for files'),
+			self::APP_NAME => [
+				'desc' => (string) $l->t('<strong>Comments</strong> for files <em>(always listed in stream)</em>'),
+				'methods' => [self::METHOD_MAIL], // self::METHOD_STREAM is forced true by the default value
+			],
 		);
 	}
 
@@ -274,7 +277,11 @@ class Extension implements IExtension {
 	 */
 	public function filterNotificationTypes($types, $filter) {
 		if ($filter === self::APP_NAME) {
-			return array_intersect($types, [self::APP_NAME]);
+			return [self::APP_NAME];
+		}
+		if (in_array($filter, ['all', 'by', 'self', 'filter'])) {
+			$types[] = self::APP_NAME;
+			return $types;
 		}
 		return false;
 	}
