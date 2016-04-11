@@ -24,6 +24,7 @@
 namespace OCA\Files;
 
 use OCP\Capabilities\ICapability;
+use OCP\IConfig;
 
 /**
  * Class Capabilities
@@ -31,6 +32,17 @@ use OCP\Capabilities\ICapability;
  * @package OCA\Files
  */
 class Capabilities implements ICapability {
+	/** @var IConfig */
+	protected $config;
+
+	/**
+	 * Capabilities constructor.
+	 *
+	 * @param IConfig $config
+	 */
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
 
 	/**
 	 * Return this classes capabilities
@@ -41,6 +53,7 @@ class Capabilities implements ICapability {
 		return [
 			'files' => [
 				'bigfilechunking' => true,
+				'blacklisted_files' => $this->config->getSystemValue('blacklisted_files', ['.htaccess']),
 			],
 		];
 	}
