@@ -47,7 +47,6 @@ if (OC::checkUpgrade(false)) {
 	$logger = \OC::$server->getLogger();
 	$config = \OC::$server->getConfig();
 	$updater = new \OC\Updater(
-			\OC::$server->getHTTPHelper(),
 			$config,
 			\OC::$server->getIntegrityCodeChecker(),
 			$logger
