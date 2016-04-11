@@ -343,9 +343,14 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware = $this->getMiddleware(false, false);
 		$this->urlGenerator
 				->expects($this->once())
-				->method('getAbsoluteURL')
-				->with('index.php')
-				->will($this->returnValue('http://localhost/index.php'));
+				->method('linkToRoute')
+				->with(
+					'core.login.showLoginForm',
+					[
+						'redirect_url' => 'owncloud%2Findex.php%2Fapps%2Fspecialapp',
+					]
+				)
+				->will($this->returnValue('http://localhost/index.php/login?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp'));
 		$this->logger
 				->expects($this->once())
 				->method('debug')
@@ -356,7 +361,7 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 				new NotLoggedInException()
 		);
 
-		$expected = new RedirectResponse('http://localhost/index.php?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp');
+		$expected = new RedirectResponse('http://localhost/index.php/login?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp');
 		$this->assertEquals($expected , $response);
 	}
 

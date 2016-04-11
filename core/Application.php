@@ -28,6 +28,7 @@ namespace OC\Core;
 
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Core\Controller\LoginController;
 use \OCP\AppFramework\App;
 use OC\Core\Controller\LostController;
 use OC\Core\Controller\UserController;
@@ -89,6 +90,16 @@ class Application extends App {
 				$c->query('Logger')
 			);
 		});
+		$container->registerService('LoginController', function(SimpleContainer $c) {
+			return new LoginController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('UserManager'),
+				$c->query('Config'),
+				$c->query('Session'),
+				$c->query('UserSession')
+			);
+		});
 
 		/**
 		 * Core class wrappers
@@ -113,6 +124,9 @@ class Application extends App {
 		});
 		$container->registerService('AvatarManager', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getAvatarManager();
+		});
+		$container->registerService('Session', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getSession();
 		});
 		$container->registerService('UserSession', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getUserSession();

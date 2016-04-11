@@ -192,9 +192,12 @@ class SecurityMiddleware extends Middleware {
 				);
 			} else {
 				if($exception instanceof NotLoggedInException) {
-					// TODO: replace with link to route
-					$url = $this->urlGenerator->getAbsoluteURL('index.php');
-					$url .= '?redirect_url=' . urlencode($this->request->server['REQUEST_URI']);
+					$url = $this->urlGenerator->linkToRoute(
+						'core.login.showLoginForm',
+						[
+							'redirect_url' => urlencode($this->request->server['REQUEST_URI']),
+						]
+					);
 					$response = new RedirectResponse($url);
 				} else {
 					$response = new TemplateResponse('core', '403', ['file' => $exception->getMessage()], 'guest');
