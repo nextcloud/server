@@ -1010,10 +1010,11 @@ $CONFIG = array(
 
 /**
  * Additional driver options for the database connection, eg. to enable SSL
- * encryption in MySQL.
+ * encryption in MySQL or specify a custom wait timeout on a cheap hoster.
  */
 'dbdriveroptions' => array(
 	PDO::MYSQL_ATTR_SSL_CA => '/file/path/to/ca_cert.pem',
+	PDO::MYSQL_ATTR_INIT_COMMAND => 'SET wait_timeout = 28800'
 ),
 
 /**
