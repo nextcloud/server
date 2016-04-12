@@ -218,7 +218,7 @@ EOF
 		stopFile=`echo "$startFile" | sed 's/start/stop/'`
 		echo "stop: $stopFile"
 		if [ -f $FILES_EXTERNAL_BACKEND_ENV_PATH/$stopFile ]; then
-			# execute stop file if existant
+			# execute stop file if existent
 			./$FILES_EXTERNAL_BACKEND_ENV_PATH/$stopFile
 		fi
 		if [ "$DOEXIT" ]; then

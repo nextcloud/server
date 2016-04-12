@@ -74,9 +74,9 @@ class ChangeKeyStorageRootTest extends TestCase {
 		$this->outputInterface = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
 		$this->userInterface = $this->getMock('\OCP\UserInterface');
 
-		$outputFormaterInterface = $this->getMock('Symfony\Component\Console\Formatter\OutputFormatterInterface');
+		$outputFormatterInterface = $this->getMock('Symfony\Component\Console\Formatter\OutputFormatterInterface');
 		$this->outputInterface->expects($this->any())->method('getFormatter')
-			->willReturn($outputFormaterInterface);
+			->willReturn($outputFormatterInterface);
 
 		$this->changeKeyStorageRoot = new ChangeKeyStorageRoot(
 			$this->view,

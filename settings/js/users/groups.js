@@ -31,7 +31,7 @@ GroupList = {
 
 	setUserCount: function (groupLiElement, usercount) {
 		if ($sortGroupBy !== 1) {
-			// If we don't sort by group count we dont display them either
+			// If we don't sort by group count we don't display them either
 			return;
 		}
 
