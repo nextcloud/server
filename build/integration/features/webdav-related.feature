@@ -74,7 +74,7 @@ Feature: webdav-related
 		When Downloading file "/welcome.txt"
 		Then The following headers should be set
 			|Content-Disposition|attachment|
-			|Content-Security-Policy|default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src * data: blob:; font-src 'self' data:; media-src *; connect-src *|
+			|Content-Security-Policy|default-src 'none';|
 			|X-Content-Type-Options |nosniff|
 			|X-Download-Options|noopen|
 			|X-Frame-Options|Sameorigin|
@@ -89,7 +89,7 @@ Feature: webdav-related
 		When Downloading file "/welcome.txt"
 		Then The following headers should be set
 			|Content-Disposition|attachment|
-			|Content-Security-Policy|default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src * data: blob:; font-src 'self' data:; media-src *; connect-src *|
+			|Content-Security-Policy|default-src 'none';|
 			|X-Content-Type-Options |nosniff|
 			|X-Download-Options|noopen|
 			|X-Frame-Options|Sameorigin|
