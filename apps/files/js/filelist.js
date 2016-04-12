@@ -240,9 +240,9 @@
 			this.fileSummary = this._createSummary();
 
 			if (options.sorting) {
-				this.setSort(options.sorting.mode, options.sorting.direction);
+				this.setSort(options.sorting.mode, options.sorting.direction, false, false);
 			} else {
-				this.setSort('name', 'asc');
+				this.setSort('name', 'asc', false, false);
 			}
 
 			var breadcrumbOptions = {
@@ -694,14 +694,14 @@
 			sort = $target.attr('data-sort');
 			if (sort) {
 				if (this._sort === sort) {
-					this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc', true);
+					this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc', true, true);
 				}
 				else {
 					if ( sort === 'name' ) {	//default sorting of name is opposite to size and mtime
-						this.setSort(sort, 'asc', true);
+						this.setSort(sort, 'asc', true, true);
 					}
 					else {
-						this.setSort(sort, 'desc', true);
+						this.setSort(sort, 'desc', true, true);
 					}
 				}
 			}
@@ -1369,8 +1369,9 @@
 		 * @param sort sort attribute name
 		 * @param direction sort direction, one of "asc" or "desc"
 		 * @param update true to update the list, false otherwise (default)
+		 * @param persist true to save changes in the database (default)
 		 */
-		setSort: function(sort, direction, update) {
+		setSort: function(sort, direction, update, persist) {
 			var comparator = FileList.Comparators[sort] || FileList.Comparators.name;
 			this._sort = sort;
 			this._sortDirection = (direction === 'desc')?'desc':'asc';
@@ -1402,10 +1403,12 @@
 				}
 			}
 
-			$.post(OC.generateUrl('/apps/files/api/v1/sorting'), {
-				mode: sort,
-				direction: direction
-			});
+			if (persist) {
+				$.post(OC.generateUrl('/apps/files/api/v1/sorting'), {
+					mode: sort,
+					direction: direction
+				});
+			}
 		},
 
 		/**

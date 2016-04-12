@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
@@ -33,6 +34,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\INavigationManager;
 use OCP\IL10N;
 use OCP\IConfig;
+use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -55,6 +57,10 @@ class ViewControllerTest extends TestCase {
 	private $eventDispatcher;
 	/** @var ViewController */
 	private $viewController;
+	/** @var IUser */
+	private $user;
+	/** @var IUserSession */
+	private $userSession;
 
 	public function setUp() {
 		parent::setUp();
@@ -64,6 +70,11 @@ class ViewControllerTest extends TestCase {
 		$this->l10n = $this->getMock('\OCP\IL10N');
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->eventDispatcher = $this->getMock('\Symfony\Component\EventDispatcher\EventDispatcherInterface');
+		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->user = $this->getMock('\OCP\IUser');
+		$this->userSession->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($this->user));
 		$this->viewController = $this->getMockBuilder('\OCA\Files\Controller\ViewController')
 			->setConstructorArgs([
 			'files',
@@ -72,7 +83,8 @@ class ViewControllerTest extends TestCase {
 			$this->navigationManager,
 			$this->l10n,
 			$this->config,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->userSession
 		])
 		->setMethods([
 			'getStorageInfo',
@@ -142,6 +154,12 @@ class ViewControllerTest extends TestCase {
 				'relative' => 123,
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
+			]));
+		$this->config->expects($this->exactly(2))
+			->method('getUserValue')
+			->will($this->returnValueMap([
+				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
+				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc']
 			]));
 
 		$this->config
@@ -224,6 +242,8 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 				'isPublic' => false,
+				'defaultFileSorting' => 'name',
+				'defaultFileSortingDirection' => 'asc',
 				'mailNotificationEnabled' => 'no',
 				'mailPublicNotificationEnabled' => 'no',
 				'allowShareWithLink' => 'yes',

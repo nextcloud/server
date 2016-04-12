@@ -34,6 +34,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\Response;
 use OCA\Files\Service\TagService;
 use OCP\IPreview;
 use OCP\Share\IManager;
@@ -201,14 +202,26 @@ class ApiController extends Controller {
 		return $shareTypes;
 	}
 
+	/**
+	 * Change the default sort mode
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string $mode
+	 * @param string $direction
+	 * @return Response
+	 */
 	public function updateFileSorting($mode, $direction) {
 		$allowedMode = ['name', 'size', 'mtime'];
 		$allowedDirection = ['asc', 'desc'];
 		if (!in_array($mode, $allowedMode) || !in_array($direction, $allowedDirection)) {
-			return $this->buildResponse(null)->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
+			$response = new Response();
+			$response->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
+			return $response;
 		}
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'file_sorting', $mode);
 		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'file_sorting_direction', $direction);
+		return new Response();
 	}
 
 }
