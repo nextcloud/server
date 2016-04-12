@@ -648,7 +648,7 @@ abstract class Common implements Storage, ILockingStorage {
 		}
 		$data['etag'] = $this->getETag($path);
 		$data['storage_mtime'] = $data['mtime'];
-		$data['permissions'] = $this->getPermissions($path);
+		$data['permissions'] = $permissions;
 
 		return $data;
 	}
