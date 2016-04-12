@@ -9,13 +9,6 @@ Feature: webdav-related
 		When User "user0" moves file "/textfile0.txt" to "/FOLDER/textfile0.txt"
 		Then the HTTP status code should be "201"
 
-	Scenario: moving a file new endpoint way
-		Given using dav path "remote.php/dav"
-		And As an "admin"
-		And user "user0" exists
-		When User "user0" moves file "/files/user0/textfile0.txt" to "/files/user0/FOLDER/textfile0.txt"
-		Then the HTTP status code should be "201"
-
 	Scenario: download a file with range
 		Given using dav path "remote.php/webdav"
 		And As an "admin"
@@ -99,6 +92,7 @@ Feature: webdav-related
 			|X-XSS-Protection|1; mode=block|
 		And Downloaded content should start with "Welcome to your ownCloud account!"
 
+<<<<<<< HEAD
 	Scenario: Downloading a file on the new endpoint should serve security headers
 		Given using dav path "remote.php/dav/files/admin/"
 		And As an "admin"
@@ -136,6 +130,8 @@ Feature: webdav-related
 		When Sending a "PROPFIND" to "/remote.php/dav/files/admin/welcome.txt" with requesttoken
 		Then the HTTP status code should be "207"
 
+=======
+>>>>>>> d29d49f... Moved all scenarios using new dav endpoint to a new feature file
 	Scenario: Doing a GET with a web login should work without CSRF token on the old backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/webdav/welcome.txt" without requesttoken
