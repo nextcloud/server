@@ -580,4 +580,14 @@ class FederatedShareProvider implements IShareProvider {
 			->andWhere($qb->expr()->eq('uid_owner', $qb->createNamedParameter($uid)))
 			->execute();
 	}
+
+	/**
+	 * This provider does not handle groups
+	 *
+	 * @param string $gid
+	 */
+	public function groupDeleted($gid) {
+		// We don't handle groups here
+		return;
+	}
 }

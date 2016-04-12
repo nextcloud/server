@@ -43,17 +43,4 @@ class Hooks extends \OC\Share\Constants {
 			}
 		}
 	}
-
-	/**
-	 * Function that is called after a group is removed. Cleans up the shares to that group.
-	 * @param array $arguments
-	 */
-	public static function post_deleteGroup($arguments) {
-		$sql = 'SELECT `id` FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?';
-		$result = \OC_DB::executeAudited($sql, array(self::SHARE_TYPE_GROUP, $arguments['gid']));
-		while ($item = $result->fetchRow()) {
-			Helper::delete($item['id']);
-		}
-	}
-
 }

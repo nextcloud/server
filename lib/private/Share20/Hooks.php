@@ -24,4 +24,8 @@ class Hooks {
 	public static function post_deleteUser($arguments) {
 		\OC::$server->getShareManager()->userDeleted($arguments['uid']);
 	}
+
+	public static function post_deleteGroup($arguments) {
+		\OC::$server->getShareManager()->groupDeleted($arguments['gid']);
+	}
 }

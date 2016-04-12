@@ -1999,4 +1999,98 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$cursor->closeCursor();
 		$this->assertCount($groupShareDeleted ? 0 : 1, $data);
 	}
+
+	public function dataGroupDeleted() {
+		return [
+			[
+				[
+					'type' => \OCP\Share::SHARE_TYPE_USER,
+					'recipient' => 'user',
+					'children' => []
+				], 'group', false
+			],
+			[
+				[
+					'type' => \OCP\Share::SHARE_TYPE_USER,
+					'recipient' => 'user',
+					'children' => []
+				], 'user', false
+			],
+			[
+				[
+					'type' => \OCP\Share::SHARE_TYPE_LINK,
+					'recipient' => 'user',
+					'children' => []
+				], 'group', false
+			],
+			[
+				[
+					'type' => \OCP\Share::SHARE_TYPE_GROUP,
+					'recipient' => 'group1',
+					'children' => [
+						'foo',
+						'bar'
+					]
+				], 'group2', false
+			],
+			[
+				[
+					'type' => \OCP\Share::SHARE_TYPE_GROUP,
+					'recipient' => 'group1',
+					'children' => [
+						'foo',
+						'bar'
+					]
+				], 'group1', true
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider dataGroupDeleted
+	 *
+	 * @param $shares
+	 * @param $groupToDelete
+	 * @param $shouldBeDeleted
+	 */
+	public function testGroupDeleted($shares, $groupToDelete, $shouldBeDeleted) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->setValue('share_type', $qb->createNamedParameter($shares['type']))
+			->setValue('uid_owner', $qb->createNamedParameter('owner'))
+			->setValue('uid_initiator', $qb->createNamedParameter('initiator'))
+			->setValue('share_with', $qb->createNamedParameter($shares['recipient']))
+			->setValue('item_type', $qb->createNamedParameter('file'))
+			->setValue('item_source', $qb->createNamedParameter(42))
+			->setValue('file_source', $qb->createNamedParameter(42))
+			->execute();
+		$ids = [$qb->getLastInsertId()];
+
+		foreach ($shares['children'] as $child) {
+			$qb = $this->dbConn->getQueryBuilder();
+			$qb->insert('share')
+				->setValue('share_type', $qb->createNamedParameter(2))
+				->setValue('uid_owner', $qb->createNamedParameter('owner'))
+				->setValue('uid_initiator', $qb->createNamedParameter('initiator'))
+				->setValue('share_with', $qb->createNamedParameter($child))
+				->setValue('item_type', $qb->createNamedParameter('file'))
+				->setValue('item_source', $qb->createNamedParameter(42))
+				->setValue('file_source', $qb->createNamedParameter(42))
+				->setValue('parent', $qb->createNamedParameter($ids[0]))
+				->execute();
+			$ids[] = $qb->getLastInsertId();
+		}
+
+		$this->provider->groupDeleted($groupToDelete);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$cursor = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->in('id', $qb->createNamedParameter($ids, IQueryBuilder::PARAM_INT_ARRAY)))
+			->execute();
+		$data = $cursor->fetchAll();
+		$cursor->closeCursor();
+
+		$this->assertCount($shouldBeDeleted ? 0 : count($ids), $data);
+	}
 }
