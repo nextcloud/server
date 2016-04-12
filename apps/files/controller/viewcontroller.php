@@ -213,6 +213,7 @@ class ViewController extends Controller {
 		$params['mailNotificationEnabled'] = $this->config->getAppValue('core', 'shareapi_allow_mail_notification', 'no');
 		$params['mailPublicNotificationEnabled'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no');
 		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
+		$params['defaultFileSorting'] = $this->config->getAppValue('files', 'file_sorting', 'name');
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;
 		$this->navigationManager->setActiveEntry('files_index');

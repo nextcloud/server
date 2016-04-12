@@ -239,7 +239,11 @@
 
 			this.fileSummary = this._createSummary();
 
-			this.setSort('name', 'asc');
+			if (options.sorting) {
+				this.setSort(options.sorting, 'asc');
+			} else {
+				this.setSort('name', 'asc');
+			}
 
 			var breadcrumbOptions = {
 				onClick: _.bind(this._onClickBreadCrumb, this),
