@@ -33,7 +33,8 @@ OCA.Sharing.App = {
 				id: 'shares.self',
 				scrollContainer: $('#app-content'),
 				sharedWithUser: true,
-				fileActions: this._createFileActions()
+				fileActions: this._createFileActions(),
+				config: OCA.Files.App.getFilesConfig()
 			}
 		);
 
@@ -55,7 +56,8 @@ OCA.Sharing.App = {
 				id: 'shares.others',
 				scrollContainer: $('#app-content'),
 				sharedWithUser: false,
-				fileActions: this._createFileActions()
+				fileActions: this._createFileActions(),
+				config: OCA.Files.App.getFilesConfig()
 			}
 		);
 
@@ -77,7 +79,8 @@ OCA.Sharing.App = {
 				id: 'shares.link',
 				scrollContainer: $('#app-content'),
 				linksOnly: true,
-				fileActions: this._createFileActions()
+				fileActions: this._createFileActions(),
+				config: OCA.Files.App.getFilesConfig()
 			}
 		);
 

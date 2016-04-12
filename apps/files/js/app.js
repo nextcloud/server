@@ -11,7 +11,7 @@
  *
  */
 
-/* global dragOptions, folderDropOptions */
+/* global dragOptions, folderDropOptions, OC */
 (function() {
 
 	if (!OCA.Files) {
@@ -41,10 +41,22 @@
 		fileList: null,
 
 		/**
+		 * Backbone model for storing files preferences
+		 */
+		_filesConfig: null,
+
+		/**
 		 * Initializes the files app
 		 */
 		initialize: function() {
 			this.navigation = new OCA.Files.Navigation($('#app-navigation'));
+			this.$showHiddenFiles = $('input#showhiddenfilesToggle');
+			var showHidden = $('#showHiddenFiles').val() === "1";
+			this.$showHiddenFiles.prop('checked', showHidden);
+
+			this._filesConfig = new OC.Backbone.Model({
+				showhidden: showHidden
+			});
 
 			var urlParams = OC.Util.History.parseUrlQuery();
 			var fileActions = new OCA.Files.FileActions();
@@ -76,7 +88,8 @@
 					sorting: {
 						mode: $('#defaultFileSorting').val(),
 						direction: $('#defaultFileSortingDirection').val()
-					}
+					},
+					config: this._filesConfig,
 				}
 			);
 			this.files.initialize();
@@ -90,6 +103,8 @@
 			this._setupEvents();
 			// trigger URL change event handlers
 			this._onPopState(urlParams);
+
+			this._debouncedPersistShowHiddenFilesState = _.debounce(this._persistShowHiddenFilesState, 1200);
 		},
 
 		/**
@@ -144,6 +159,14 @@
 		},
 
 		/**
+		 *
+		 * @returns {Backbone.Model}
+		 */
+		getFilesConfig: function() {
+			return this._filesConfig;
+		},
+
+		/**
 		 * Setup events based on URL changes
 		 */
 		_setupEvents: function() {
@@ -154,6 +177,30 @@
 			$('#app-content').delegate('>div', 'changeViewerMode', _.bind(this._onChangeViewerMode, this));
 
 			$('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
+			this.$showHiddenFiles.on('change', _.bind(this._onShowHiddenFilesChange, this));
+		},
+
+		/**
+		 * Toggle showing hidden files according to the settings checkbox
+		 *
+		 * @returns {undefined}
+		 */
+		_onShowHiddenFilesChange: function() {
+			var show = this.$showHiddenFiles.is(':checked');
+			this._filesConfig.set('showhidden', show);
+			this._debouncedPersistShowHiddenFilesState();
+		},
+
+		/**
+		 * Persist show hidden preference on ther server
+		 *
+		 * @returns {undefined}
+		 */
+		_persistShowHiddenFilesState: function() {
+			var show = this._filesConfig.get('showhidden');
+			$.post(OC.generateUrl('/apps/files/api/v1/showhidden'), {
+				show: show
+			});
 		},
 
 		/**

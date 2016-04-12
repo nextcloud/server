@@ -29,7 +29,8 @@ OCA.Trashbin.App = {
 				scrollContainer: $('#app-content'),
 				fileActions: this._createFileActions(),
 				detailsViewEnabled: false,
-				scrollTo: urlParams.scrollto
+				scrollTo: urlParams.scrollto,
+				config: OCA.Files.App.getFilesConfig()
 			}
 		);
 	},

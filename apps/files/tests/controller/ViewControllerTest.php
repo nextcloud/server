@@ -155,11 +155,12 @@ class ViewControllerTest extends TestCase {
 				'owner' => 'MyName',
 				'ownerDisplayName' => 'MyDisplayName',
 			]));
-		$this->config->expects($this->exactly(2))
+		$this->config->expects($this->exactly(3))
 			->method('getUserValue')
 			->will($this->returnValueMap([
 				[$this->user->getUID(), 'files', 'file_sorting', 'name', 'name'],
-				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc']
+				[$this->user->getUID(), 'files', 'file_sorting_direction', 'asc', 'asc'],
+				[$this->user->getUID(), 'files', 'show_hidden', false, false],
 			]));
 
 		$this->config
@@ -244,6 +245,7 @@ class ViewControllerTest extends TestCase {
 				'isPublic' => false,
 				'defaultFileSorting' => 'name',
 				'defaultFileSortingDirection' => 'asc',
+				'showHiddenFiles' => false,
 				'mailNotificationEnabled' => 'no',
 				'mailPublicNotificationEnabled' => 'no',
 				'allowShareWithLink' => 'yes',

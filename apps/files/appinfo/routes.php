@@ -54,6 +54,11 @@ $application->registerRoutes(
 				'url' => '/api/v1/sorting',
 				'verb' => 'POST'
 			),
+			array(
+				'name' => 'API#showHiddenFiles',
+				'url' => '/api/v1/showhidden',
+				'verb' => 'POST'
+			),
 			[
 				'name' => 'view#index',
 				'url' => '/',

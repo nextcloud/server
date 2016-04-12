@@ -224,4 +224,16 @@ class ApiController extends Controller {
 		return new Response();
 	}
 
+	/**
+	 * Toggle default for showing/hiding hidden files
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param bool $show
+	 */
+	public function showHiddenFiles($show) {
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', (int) $show);
+		return new Response();
+	}
+
 }
