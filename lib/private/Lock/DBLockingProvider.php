@@ -24,6 +24,7 @@
 
 namespace OC\Lock;
 
+use OC\DB\QueryBuilder\Literal;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IDBConnection;
 use OCP\ILogger;
@@ -257,13 +258,25 @@ class DBLockingProvider extends AbstractLockingProvider {
 		parent::releaseAll();
 
 		// since we keep shared locks we need to manually clean those
-		foreach ($this->sharedLocks as $path => $lock) {
-			if ($lock) {
-				$this->connection->executeUpdate(
-					'UPDATE `*PREFIX*file_locks` SET `lock` = `lock` - 1 WHERE `key` = ? AND `lock` > 0',
-					[$path]
-				);
-			}
+		$lockedPaths = array_keys($this->sharedLocks);
+		$lockedPaths = array_filter($lockedPaths, function ($path) {
+			return $this->sharedLocks[$path];
+		});
+
+		$chunkedPaths = array_chunk($lockedPaths, 100);
+
+		foreach ($chunkedPaths as $chunk) {
+			$builder = $this->connection->getQueryBuilder();
+			$params = array_map(function ($path) use ($builder) {
+				return $builder->createNamedParameter($path);
+			}, $chunk);
+
+			$query = $builder->update('file_locks')
+				->set('lock', $builder->createFunction('`lock` -1'))
+				->where($builder->expr()->in('key', $params))
+				->andWhere($builder->expr()->gt('lock', new Literal(0)));
+
+			$query->execute();
 		}
 	}
 }
