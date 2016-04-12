@@ -22,10 +22,15 @@
 
 namespace Test;
 
+use DOMDocument;
+use DOMNode;
 use OC\Command\QueueBus;
 use OC\Files\Filesystem;
+use OC\Template\Base;
+use OC_Defaults;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\Security\ISecureRandom;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
@@ -34,6 +39,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	/** @var IDBConnection */
 	static protected $realDatabase = null;
+
+	/** @var bool */
 	static private $wasDatabaseAllowed = false;
 
 	/** @var array */
@@ -407,5 +414,66 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param string $expectedHtml
+	 * @param string $template
+	 * @param array $vars
+	 */
+	protected function assertTemplate($expectedHtml, $template, $vars = []) {
+
+		require_once __DIR__.'/../../lib/private/template/functions.php';
+
+		$requestToken = 12345;
+		$theme = new OC_Defaults();
+		/** @var IL10N | \PHPUnit_Framework_MockObject_MockObject $l10n */
+		$l10n = $this->getMockBuilder('\OCP\IL10N')
+			->disableOriginalConstructor()->getMock();
+		$l10n
+			->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function($text, $parameters = array()) {
+				return vsprintf($text, $parameters);
+			}));
+
+		$t = new Base($template, $requestToken, $l10n, $theme);
+		$buf = $t->fetchPage($vars);
+		$this->assertHtmlStringEqualsHtmlString($expectedHtml, $buf);
+	}
+
+	/**
+	 * @param string $expectedHtml
+	 * @param string $actualHtml
+	 * @param string $message
+	 */
+	protected function assertHtmlStringEqualsHtmlString($expectedHtml, $actualHtml, $message = '') {
+		$expected = new DOMDocument();
+		$expected->preserveWhiteSpace = false;
+		$expected->formatOutput = true;
+		$expected->loadHTML($expectedHtml);
+
+		$actual = new DOMDocument();
+		$actual->preserveWhiteSpace = false;
+		$actual->formatOutput = true;
+		$actual->loadHTML($actualHtml);
+		$this->removeWhitespaces($actual);
+
+		$expectedHtml1 = $expected->saveHTML();
+		$actualHtml1 = $actual->saveHTML();
+		self::assertEquals($expectedHtml1, $actualHtml1, $message);
+	}
+
+
+	private function removeWhitespaces(DOMNode $domNode) {
+		foreach ($domNode->childNodes as $node) {
+			if($node->hasChildNodes()) {
+				$this->removeWhitespaces($node);
+			} else {
+				if ($node instanceof \DOMText && $node->isWhitespaceInElementContent() ) {
+					$domNode->removeChild($node);
+				}
+			}
+		}
 	}
 }

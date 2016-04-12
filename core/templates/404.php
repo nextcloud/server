@@ -1,6 +1,8 @@
 <?php
 /** @var $_ array */
 /** @var $l OC_L10N */
+/** @var $theme OC_Theme */
+// @codeCoverageIgnoreStart
 if(!isset($_)) {//also provide standalone error page
 	require_once '../../lib/base.php';
 	
@@ -8,6 +10,7 @@ if(!isset($_)) {//also provide standalone error page
 	$tmpl->printPage();
 	exit;
 }
+// @codeCoverageIgnoreEnd
 ?>
 <?php if (isset($_['content'])): ?>
 	<?php print_unescaped($_['content']) ?>

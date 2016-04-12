@@ -29,13 +29,17 @@ namespace OC\Template;
 class Base {
 	private $template; // The template
 	private $vars; // Vars
-	private $l10n; // The l10n-Object
-	private $theme; // theme defaults
+
+	/** @var \OCP\IL10N */
+	private $l10n;
+
+	/** @var \OC_Defaults */
+	private $theme;
 
 	/**
 	 * @param string $template
 	 * @param string $requestToken
-	 * @param \OC_L10N $l10n
+	 * @param \OCP\IL10N $l10n
 	 * @param \OC_Defaults $theme
 	 */
 	public function __construct($template, $requestToken, $l10n, $theme ) {
@@ -47,34 +51,36 @@ class Base {
 	}
 
 	/**
-	 * @param string $serverroot
+	 * @param string $serverRoot
 	 * @param string|false $app_dir
 	 * @param string $theme
 	 * @param string $app
+	 * @return array
 	 */
-	protected function getAppTemplateDirs($theme, $app, $serverroot, $app_dir) {
+	protected function getAppTemplateDirs($theme, $app, $serverRoot, $app_dir) {
 		// Check if the app is in the app folder or in the root
 		if( file_exists($app_dir.'/templates/' )) {
-			return array(
-				$serverroot.'/themes/'.$theme.'/apps/'.$app.'/templates/',
+			return [
+				$serverRoot.'/themes/'.$theme.'/apps/'.$app.'/templates/',
 				$app_dir.'/templates/',
-			);
+			];
 		}
-		return array(
-			$serverroot.'/themes/'.$theme.'/'.$app.'/templates/',
-			$serverroot.'/'.$app.'/templates/',
-		);
+		return [
+			$serverRoot.'/themes/'.$theme.'/'.$app.'/templates/',
+			$serverRoot.'/'.$app.'/templates/',
+		];
 	}
 
 	/**
-	 * @param string $serverroot
+	 * @param string $serverRoot
 	 * @param string $theme
+	 * @return array
 	 */
-	protected function getCoreTemplateDirs($theme, $serverroot) {
-		return array(
-			$serverroot.'/themes/'.$theme.'/core/templates/',
-			$serverroot.'/core/templates/',
-		);
+	protected function getCoreTemplateDirs($theme, $serverRoot) {
+		return [
+			$serverRoot.'/themes/'.$theme.'/core/templates/',
+			$serverRoot.'/core/templates/',
+		];
 	}
 
 	/**
@@ -131,29 +137,33 @@ class Base {
 
 	/**
 	 * Process the template
-	 * @return string
+	 *
+	 * @param array|null $additionalParams
+	 * @return string This function processes the template.
 	 *
 	 * This function processes the template.
 	 */
-	public function fetchPage() {
-		return $this->load($this->template);
+	public function fetchPage($additionalParams = null) {
+		return $this->load($this->template, $additionalParams);
 	}
 
 	/**
 	 * doing the actual work
+	 *
 	 * @param string $file
+	 * @param array|null $additionalParams
 	 * @return string content
 	 *
 	 * Includes the template file, fetches its output
 	 */
-	protected function load( $file, $additionalparams = null ) {
+	protected function load($file, $additionalParams = null) {
 		// Register the variables
 		$_ = $this->vars;
 		$l = $this->l10n;
 		$theme = $this->theme;
 
-		if( !is_null($additionalparams)) {
-			$_ = array_merge( $additionalparams, $this->vars );
+		if( !is_null($additionalParams)) {
+			$_ = array_merge( $additionalParams, $this->vars );
 		}
 
 		// Include

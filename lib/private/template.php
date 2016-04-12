@@ -34,6 +34,8 @@
  *
  */
 
+use OC\TemplateLayout;
+
 require_once __DIR__.'/template/functions.php';
 
 /**
@@ -218,11 +220,11 @@ class OC_Template extends \OC\Template\Base {
 	 * This function process the template. If $this->renderAs is set, it
 	 * will produce a full page.
 	 */
-	public function fetchPage() {
-		$data = parent::fetchPage();
+	public function fetchPage($additionalParams = null) {
+		$data = parent::fetchPage($additionalParams);
 
 		if( $this->renderAs ) {
-			$page = new \OC\TemplateLayout($this->renderAs, $this->app);
+			$page = new TemplateLayout($this->renderAs, $this->app);
 
 			// Add custom headers
 			$headers = '';
