@@ -2042,6 +2042,46 @@ class ManagerTest extends \Test\TestCase {
 		$this->assertSame($share, $ret);
 	}
 
+	public function testGetShareByTokenWithException() {
+		$factory = $this->getMock('\OCP\Share\IProviderFactory');
+
+		$manager = new Manager(
+			$this->logger,
+			$this->config,
+			$this->secureRandom,
+			$this->hasher,
+			$this->mountManager,
+			$this->groupManager,
+			$this->l,
+			$factory,
+			$this->userManager,
+			$this->rootFolder
+		);
+
+		$share = $this->getMock('\OCP\Share\IShare');
+
+		$factory->expects($this->at(0))
+			->method('getProviderForType')
+			->with(\OCP\Share::SHARE_TYPE_LINK)
+			->willReturn($this->defaultProvider);
+		$factory->expects($this->at(1))
+			->method('getProviderForType')
+			->with(\OCP\Share::SHARE_TYPE_REMOTE)
+			->willReturn($this->defaultProvider);
+
+		$this->defaultProvider->expects($this->at(0))
+			->method('getShareByToken')
+			->with('token')
+			->will($this->throwException(new ShareNotFound()));
+		$this->defaultProvider->expects($this->at(1))
+			->method('getShareByToken')
+			->with('token')
+			->willReturn($share);
+
+		$ret = $manager->getShareByToken('token');
+		$this->assertSame($share, $ret);
+	}
+
 	/**
 	 * @expectedException \OCP\Share\Exceptions\ShareNotFound
 	 */

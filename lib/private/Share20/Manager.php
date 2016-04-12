@@ -979,7 +979,7 @@ class Manager implements IManager {
 		try {
 			$share = $provider->getShareByToken($token);
 		} catch (ShareNotFound $e) {
-			//Ignore
+			$share = null;
 		}
 
 		// If it is not a link share try to fetch a federated share by token
