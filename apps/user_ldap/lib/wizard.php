@@ -221,7 +221,7 @@ class Wizard extends LDAPUtility {
 			$count = intval($this->countUsersWithAttribute($attr, true));
 			if($count > 0) {
 				//no change, but we sent it back to make sure the user interface
-				//is still correct, even if the ajax call was cancelled inbetween
+				//is still correct, even if the ajax call was cancelled meanwhile
 				$this->result->addChange('ldap_display_name', $attr);
 				return $this->result;
 			}

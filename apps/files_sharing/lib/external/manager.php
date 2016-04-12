@@ -384,7 +384,7 @@ class Manager {
 	}
 
 	/**
-	 * return a list of shares wich are accepted by the user
+	 * return a list of shares which are accepted by the user
 	 *
 	 * @return array list of accepted server-to-server shares
 	 */

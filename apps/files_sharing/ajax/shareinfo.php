@@ -71,12 +71,12 @@ function getChildInfo($dir, $view) {
 	$children = $view->getDirectoryContent($dir->getPath());
 	$result = array();
 	foreach ($children as $child) {
-		$formated = \OCA\Files\Helper::formatFileInfo($child);
+		$formatted = \OCA\Files\Helper::formatFileInfo($child);
 		if ($child->getType() === 'dir') {
-			$formated['children'] = getChildInfo($child, $view);
+			$formatted['children'] = getChildInfo($child, $view);
 		}
-		$formated['mtime'] = $formated['mtime'] / 1000;
-		$result[] = $formated;
+		$formatted['mtime'] = $formatted['mtime'] / 1000;
+		$result[] = $formatted;
 	}
 	return $result;
 }

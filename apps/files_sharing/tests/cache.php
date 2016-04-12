@@ -193,7 +193,7 @@ class Test_Files_Sharing_Cache extends TestCase {
 					array('name' => 'shareddir', 'path' => ''),
 				)
 			),
-			array('%nonexistant%',
+			array('%nonexistent%',
 				array(
 				)
 			),

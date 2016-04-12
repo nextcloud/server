@@ -112,7 +112,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	}
 
 	/**
-	 * tests unmap() for both successfuly and not successful removing of
+	 * tests unmap() for both successful and unsuccessful removing of
 	 * mapping entries
 	 */
 	public function testUnmap() {

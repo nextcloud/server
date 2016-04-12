@@ -224,7 +224,7 @@ class Test_Files_Versioning extends \Test\TestCase {
 				),
 				11 // size of all deleted files (every file has the size 1)
 			),
-			// third set of versions, with some gaps inbetween
+			// third set of versions, with some gaps between
 			array(
 				array(
 					// first slice (10sec) keep one version every 2 seconds
@@ -605,7 +605,7 @@ class Test_Files_Versioning extends \Test\TestCase {
 
 	/**
 	 * @param string $hookName name of hook called
-	 * @param string $params variable to recieve parameters provided by hook
+	 * @param string $params variable to receive parameters provided by hook
 	 */
 	private function connectMockHooks($hookName, &$params) {
 		if ($hookName === null) {
