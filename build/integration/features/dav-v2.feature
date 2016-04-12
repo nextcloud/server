@@ -18,7 +18,7 @@ Feature: dav-v2
 	Scenario: Downloading a file on the new endpoint should serve security headers
 		Given using dav path "remote.php/dav/files/admin/"
 		And As an "admin"
-		When Downloading file "/welcome.txt"
+		When Downloading file "welcome.txt"
 		Then The following headers should be set
 			|Content-Disposition|attachment|
 			|Content-Security-Policy|default-src 'none';|
