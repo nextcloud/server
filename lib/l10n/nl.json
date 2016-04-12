@@ -58,6 +58,7 @@
     "Archives of type %s are not supported" : "Archiefbestanden van type %s niet ondersteund",
     "Failed to open archive when installing app" : "Kon archiefbestand bij installatie van de app niet openen",
     "App does not provide an info.xml file" : "De app heeft geen info.xml bestand",
+    "App cannot be installed because appinfo file cannot be read." : "App kan niet worden geïnstalleerd, omdat appinfo bestand niet gelezen kan worden.",
     "Signature could not get checked. Please contact the app developer and check your admin screen." : "Handtekening kon niet worden geverifieerd. Nee contact op met de ontwikkelaar van de app en check uw beheerscherm.",
     "App can't be installed because of not allowed code in the App" : "De app kan niet worden geïnstalleerd wegens onjuiste code in de app",
     "App can't be installed because it is not compatible with this version of ownCloud" : "De app kan niet worden geïnstalleerd, omdat die niet compatible is met deze versie van ownCloud",
