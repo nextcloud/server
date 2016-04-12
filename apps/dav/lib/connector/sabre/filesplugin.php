@@ -155,7 +155,7 @@ class FilesPlugin extends ServerPlugin {
 	 * @throws NotFound
 	 */
 	function checkMove($source, $destination) {
-		$sourceNode = $this->server->tree->getNodeForPath($source);
+		$sourceNode = $this->tree->getNodeForPath($source);
 		if ($sourceNode instanceof FutureFile) {
 			return;
 		}

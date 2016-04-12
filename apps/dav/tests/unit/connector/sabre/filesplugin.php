@@ -23,6 +23,9 @@
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OCP\Files\StorageNotAvailableException;
+use Sabre\DAV\PropFind;
+use Sabre\DAV\PropPatch;
+use Test\TestCase;
 
 /**
  * Copyright (c) 2015 Vincent Petry <pvince81@owncloud.com>
@@ -30,7 +33,7 @@ use OCP\Files\StorageNotAvailableException;
  * later.
  * See the COPYING-README file.
  */
-class FilesPlugin extends \Test\TestCase {
+class FilesPlugin extends TestCase {
 	const GETETAG_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::GETETAG_PROPERTYNAME;
 	const FILEID_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::FILEID_PROPERTYNAME;
 	const INTERNAL_FILEID_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::INTERNAL_FILEID_PROPERTYNAME;
@@ -42,12 +45,12 @@ class FilesPlugin extends \Test\TestCase {
 	const OWNER_DISPLAY_NAME_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME;
 
 	/**
-	 * @var \Sabre\DAV\Server
+	 * @var \Sabre\DAV\Server | \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $server;
 
 	/**
-	 * @var \Sabre\DAV\Tree
+	 * @var \Sabre\DAV\Tree | \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $tree;
 
@@ -57,7 +60,7 @@ class FilesPlugin extends \Test\TestCase {
 	private $plugin;
 
 	/**
-	 * @var \OC\Files\View
+	 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $view;
 
@@ -79,6 +82,7 @@ class FilesPlugin extends \Test\TestCase {
 
 	/**
 	 * @param string $class
+	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
 	private function createTestNode($class) {
 		$node = $this->getMockBuilder($class)
@@ -111,9 +115,10 @@ class FilesPlugin extends \Test\TestCase {
 	}
 
 	public function testGetPropertiesForFile() {
+		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
-		$propFind = new \Sabre\DAV\PropFind(
+		$propFind = new PropFind(
 			'/dummyPath',
 			array(
 				self::GETETAG_PROPERTYNAME,
@@ -165,11 +170,12 @@ class FilesPlugin extends \Test\TestCase {
 	}
 
 	public function testGetPropertiesForFileHome() {
+		/** @var \OCA\DAV\Files\FilesHome | \PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->getMockBuilder('\OCA\DAV\Files\FilesHome')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$propFind = new \Sabre\DAV\PropFind(
+		$propFind = new PropFind(
 			'/dummyPath',
 			array(
 				self::GETETAG_PROPERTYNAME,
@@ -214,9 +220,10 @@ class FilesPlugin extends \Test\TestCase {
 	}
 
 	public function testGetPropertiesStorageNotAvailable() {
+		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 
-		$propFind = new \Sabre\DAV\PropFind(
+		$propFind = new PropFind(
 			'/dummyPath',
 			array(
 				self::DOWNLOADURL_PROPERTYNAME,
@@ -240,7 +247,7 @@ class FilesPlugin extends \Test\TestCase {
 		$this->plugin = new \OCA\DAV\Connector\Sabre\FilesPlugin($this->tree, $this->view, true);
 		$this->plugin->initialize($this->server);
 
-		$propFind = new \Sabre\DAV\PropFind(
+		$propFind = new PropFind(
 			'/dummyPath',
 			[
 				self::PERMISSIONS_PROPERTYNAME,
@@ -248,6 +255,7 @@ class FilesPlugin extends \Test\TestCase {
 			0
 		);
 
+		/** @var \OCA\DAV\Connector\Sabre\File | \PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
 		$node->expects($this->any())
 			->method('getDavPermissions')
@@ -262,9 +270,10 @@ class FilesPlugin extends \Test\TestCase {
 	}
 
 	public function testGetPropertiesForDirectory() {
+		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit_Framework_MockObject_MockObject $node */
 		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
 
-		$propFind = new \Sabre\DAV\PropFind(
+		$propFind = new PropFind(
 			'/dummyPath',
 			array(
 				self::GETETAG_PROPERTYNAME,
@@ -308,7 +317,7 @@ class FilesPlugin extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		// properties to set
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new PropPatch(array(
 			self::GETETAG_PROPERTYNAME => 'newetag',
 			self::LASTMODIFIED_PROPERTYNAME => $testDate
 		));
@@ -328,9 +337,7 @@ class FilesPlugin extends \Test\TestCase {
 	}
 
 	public function testUpdatePropsForbidden() {
-		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\File');
-
-		$propPatch = new \Sabre\DAV\PropPatch(array(
+		$propPatch = new PropPatch(array(
 			self::OWNER_ID_PROPERTYNAME => 'user2',
 			self::OWNER_DISPLAY_NAME_PROPERTYNAME => 'User Two',
 			self::FILEID_PROPERTYNAME => 12345,
