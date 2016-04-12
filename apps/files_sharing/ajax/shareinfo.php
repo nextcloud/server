@@ -62,20 +62,25 @@ if (!$isWritable) {
 $rootInfo = \OC\Files\Filesystem::getFileInfo($path);
 $rootView = new \OC\Files\View('');
 
+$shareManager = \OC::$server->getShareManager();
+$share = $shareManager->getShareByToken($token);
+$sharePermissions= (int)$share->getPermissions();
+
 /**
  * @param \OCP\Files\FileInfo $dir
  * @param \OC\Files\View $view
  * @return array
  */
-function getChildInfo($dir, $view) {
+function getChildInfo($dir, $view, $sharePermissions) {
 	$children = $view->getDirectoryContent($dir->getPath());
 	$result = array();
 	foreach ($children as $child) {
 		$formatted = \OCA\Files\Helper::formatFileInfo($child);
 		if ($child->getType() === 'dir') {
-			$formatted['children'] = getChildInfo($child, $view);
+			$formatted['children'] = getChildInfo($child, $view, $sharePermissions);
 		}
 		$formatted['mtime'] = $formatted['mtime'] / 1000;
+		$formatted['permissions'] = $sharePermissions & (int)$formatted['permissions'];
 		$result[] = $formatted;
 	}
 	return $result;
@@ -83,8 +88,11 @@ function getChildInfo($dir, $view) {
 
 $result = \OCA\Files\Helper::formatFileInfo($rootInfo);
 $result['mtime'] = $result['mtime'] / 1000;
+$result['permissions'] = (int)$result['permissions'] & $sharePermissions;
+
+
 if ($rootInfo->getType() === 'dir') {
-	$result['children'] = getChildInfo($rootInfo, $rootView);
+	$result['children'] = getChildInfo($rootInfo, $rootView, $sharePermissions);
 }
 
 OCP\JSON::success(array('data' => $result));
