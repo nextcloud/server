@@ -240,7 +240,7 @@
 			this.fileSummary = this._createSummary();
 
 			if (options.sorting) {
-				this.setSort(options.sorting, 'asc');
+				this.setSort(options.sorting.mode, options.sorting.direction);
 			} else {
 				this.setSort('name', 'asc');
 			}
@@ -1401,6 +1401,11 @@
 					this.reload();
 				}
 			}
+
+			$.post(OC.generateUrl('/apps/files/api/v1/sorting'), {
+				mode: sort,
+				direction: direction
+			});
 		},
 
 		/**
