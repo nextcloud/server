@@ -593,7 +593,7 @@ Feature: sharing
       | permissions | 3 |
     When as "user1" gets properties of folder "/tmp.txt" with
       |{http://owncloud.org/ns}share-permissions|
-    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "0"
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "3"
 
   Scenario: Correct webdav share-permissions for received file with reshare permissions but no edit permissions
     Given user "user0" exists
@@ -669,4 +669,4 @@ Feature: sharing
       | permissions | 15 |
     When as "user1" gets properties of folder "/tmp" with
       |{http://owncloud.org/ns}share-permissions|
-    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "0"
+    Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "15"

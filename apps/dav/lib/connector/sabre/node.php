@@ -246,14 +246,6 @@ abstract class Node implements \Sabre\DAV\INode {
 		}
 
 		/*
-		 * Without sharing permissions there are also no other permissions
-		 */
-		if (!($permissions & \OCP\Constants::PERMISSION_SHARE) ||
-			!($permissions & \OCP\Constants::PERMISSION_READ)) {
-			return 0;
-		}
-
-		/*
 		 * Files can't have create or delete permissions
 		 */
 		if ($this->info->getType() === \OCP\Files\FileInfo::TYPE_FILE) {
