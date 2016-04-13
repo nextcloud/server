@@ -390,6 +390,11 @@
 					model.toJSON(),
 					{updateSummary: true, silent: false, animate: true}
 				);
+
+				// restore selection state
+				var selected = !!self._selectedFiles[$tr.data('id')];
+				self._selectFileEl($tr, selected);
+
 				$tr.toggleClass('highlighted', highlightState);
 			});
 			model.on('busy', function(model, state) {
