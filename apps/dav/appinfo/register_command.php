@@ -21,8 +21,6 @@
 use OCA\Dav\AppInfo\Application;
 use OCA\DAV\Command\CreateAddressBook;
 use OCA\DAV\Command\CreateCalendar;
-use OCA\Dav\Command\MigrateAddressbooks;
-use OCA\Dav\Command\MigrateCalendars;
 use OCA\DAV\Command\SyncBirthdayCalendar;
 use OCA\DAV\Command\SyncSystemAddressBook;
 
@@ -37,5 +35,3 @@ $application->add(new CreateCalendar($userManager, $groupManager, $dbConnection)
 $application->add(new CreateAddressBook($userManager, $app->getContainer()->query('CardDavBackend')));
 $application->add(new SyncSystemAddressBook($app->getSyncService()));
 $application->add(new SyncBirthdayCalendar($userManager, $app->getContainer()->query('BirthdayService')));
-$application->add(new MigrateAddressbooks($userManager, $app->getContainer()->query('MigrateAddressbooks')));
-$application->add(new MigrateCalendars($userManager, $app->getContainer()->query('MigrateCalendars')));

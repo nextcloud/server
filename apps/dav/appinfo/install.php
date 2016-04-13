@@ -23,6 +23,4 @@ use OCA\Dav\AppInfo\Application;
 
 $app = new Application();
 $app->setupCron();
-$app->migrateAddressbooks();
-$app->migrateCalendars();
 $app->generateBirthdays();
