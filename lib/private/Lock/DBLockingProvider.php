@@ -26,6 +26,7 @@ namespace OC\Lock;
 
 use OC\DB\QueryBuilder\Literal;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\ILogger;
 use OCP\Lock\ILockingProvider;
@@ -267,13 +268,10 @@ class DBLockingProvider extends AbstractLockingProvider {
 
 		foreach ($chunkedPaths as $chunk) {
 			$builder = $this->connection->getQueryBuilder();
-			$params = array_map(function ($path) use ($builder) {
-				return $builder->createNamedParameter($path);
-			}, $chunk);
 
 			$query = $builder->update('file_locks')
 				->set('lock', $builder->createFunction('`lock` -1'))
-				->where($builder->expr()->in('key', $params))
+				->where($builder->expr()->in('key', $builder->createNamedParameter($chunk, IQueryBuilder::PARAM_STR_ARRAY)))
 				->andWhere($builder->expr()->gt('lock', new Literal(0)));
 
 			$query->execute();
