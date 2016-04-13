@@ -273,7 +273,7 @@
 						}
 					}
 
-					var minimumSeconds = 15768000;
+					var minimumSeconds = 15552000;
 					if(isNaN(transportSecurityValidity) || transportSecurityValidity <= (minimumSeconds - 1)) {
 						messages.push({
 							msg: t('core', 'The "Strict-Transport-Security" HTTP header is not configured to at least "{seconds}" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="{docUrl}" rel="noreferrer">security tips</a>.', {'seconds': minimumSeconds, docUrl: '#admin-tips'}),
