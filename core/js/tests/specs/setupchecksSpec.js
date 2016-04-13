@@ -542,7 +542,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips" rel="noreferrer">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15552000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips" rel="noreferrer">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -555,7 +555,7 @@ describe('OC.SetupChecks tests', function() {
 
 		suite.server.requests[0].respond(200,
 			{
-				'Strict-Transport-Security': 'max-age=15767999',
+				'Strict-Transport-Security': 'max-age=15551999',
 				'X-XSS-Protection': '1; mode=block',
 				'X-Content-Type-Options': 'nosniff',
 				'X-Robots-Tag': 'none',
@@ -567,7 +567,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips" rel="noreferrer">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15552000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips" rel="noreferrer">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
@@ -592,7 +592,7 @@ describe('OC.SetupChecks tests', function() {
 
 		async.done(function( data, s, x ){
 			expect(data).toEqual([{
-				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15768000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips" rel="noreferrer">security tips</a>.',
+				msg: 'The "Strict-Transport-Security" HTTP header is not configured to at least "15552000" seconds. For enhanced security we recommend enabling HSTS as described in our <a href="#admin-tips" rel="noreferrer">security tips</a>.',
 				type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 			}]);
 			done();
