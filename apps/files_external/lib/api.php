@@ -23,7 +23,7 @@
  *
  */
 
-namespace OCA\Files\External;
+namespace OCA\Files_External\Lib;
 
 class Api {
 

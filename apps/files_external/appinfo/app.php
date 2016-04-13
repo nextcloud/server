@@ -27,7 +27,6 @@
  */
 
 OC::$CLASSPATH['OC_Mount_Config'] = 'files_external/lib/config.php';
-OC::$CLASSPATH['OCA\Files\External\Api'] = 'files_external/lib/api.php';
 
 require_once __DIR__ . '/../3rdparty/autoload.php';
 
