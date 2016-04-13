@@ -32,6 +32,8 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\Mount\MoveableMount;
 use OCA\DAV\Connector\Sabre\Exception\InvalidPath;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager;
 
 
 abstract class Node implements \Sabre\DAV\INode {
@@ -61,15 +63,26 @@ abstract class Node implements \Sabre\DAV\INode {
 	protected $info;
 
 	/**
+	 * @var IManager
+	 */
+	protected $shareManager;
+
+	/**
 	 * Sets up the node, expects a full path name
 	 *
 	 * @param \OC\Files\View $view
 	 * @param \OCP\Files\FileInfo $info
+	 * @param IManager $shareManager
 	 */
-	public function __construct($view, $info) {
+	public function __construct($view, $info, IManager $shareManager = null) {
 		$this->fileView = $view;
 		$this->path = $this->fileView->getRelativePath($info->getPath());
 		$this->info = $info;
+		if ($shareManager) {
+			$this->shareManager = $shareManager;
+		} else {
+			$this->shareManager = \OC::$server->getShareManager();
+		}
 	}
 
 	protected function refreshInfo() {
@@ -215,9 +228,21 @@ abstract class Node implements \Sabre\DAV\INode {
 	}
 
 	/**
+	 * @param string $user
 	 * @return int
 	 */
-	public function getSharePermissions() {
+	public function getSharePermissions($user) {
+
+		// check of we access a federated share
+		if ($user !== null) {
+			try {
+				$share = $this->shareManager->getShareByToken($user);
+				return $share->getPermissions();
+			} catch (ShareNotFound $e) {
+				// ignore
+			}
+		}
+
 		$storage = $this->info->getStorage();
 
 		$path = $this->info->getInternalPath();

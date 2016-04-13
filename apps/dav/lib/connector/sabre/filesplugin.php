@@ -236,6 +236,8 @@ class FilesPlugin extends ServerPlugin {
 	 */
 	public function handleGetProperties(PropFind $propFind, \Sabre\DAV\INode $node) {
 
+		$httpRequest = $this->server->httpRequest;
+
 		if ($node instanceof \OCA\DAV\Connector\Sabre\Node) {
 
 			$propFind->handle(self::FILEID_PROPERTYNAME, function() use ($node) {
@@ -255,8 +257,10 @@ class FilesPlugin extends ServerPlugin {
 				return $perms;
 			});
 
-			$propFind->handle(self::SHARE_PERMISSIONS_PROPERTYNAME, function() use ($node) {
-				return $node->getSharePermissions();
+			$propFind->handle(self::SHARE_PERMISSIONS_PROPERTYNAME, function() use ($node, $httpRequest) {
+				return $node->getSharePermissions(
+					$httpRequest->getRawServerValue('PHP_AUTH_USER')
+				);
 			});
 
 			$propFind->handle(self::GETETAG_PROPERTYNAME, function() use ($node) {
