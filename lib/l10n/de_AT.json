@@ -1,6 +1,11 @@
 { "translations": {
     "Help" : "Hilfe",
     "Personal" : "Persönlich",
-    "seconds ago" : "Sekunden zuvor"
+    "Users" : "Benutzer",
+    "Admin" : "Administration",
+    "Unknown filetype" : "Unbekannter Dateityp",
+    "Invalid image" : "Ungültiges Bild",
+    "seconds ago" : "Sekunden zuvor",
+    "Apps" : "Apps"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

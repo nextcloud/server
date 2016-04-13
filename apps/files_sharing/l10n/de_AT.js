@@ -9,6 +9,7 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s hat %1$s mit dir geteilt",
     "Shares" : "teilt",
     "Password" : "Passwort",
+    "Name" : "Name",
     "Download" : "Herunterladen"
 },
 "nplurals=2; plural=(n != 1);");

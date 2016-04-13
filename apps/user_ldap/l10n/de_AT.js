@@ -22,6 +22,7 @@ OC.L10N.register(
     "Could not find the desired feature" : "Funktion konnte nicht gefunden werden",
     "Invalid Host" : "Ungültiger Host",
     "Server" : "Server",
+    "Users" : "Benutzer",
     "Test Configuration" : "Konfiguration testen",
     "Help" : "Hilfe",
     "Groups meeting these criteria are available in %s:" : "Gruppen die den Kriterien entsprechen sind verfügbar unter %s:",

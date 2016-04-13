@@ -293,6 +293,7 @@ OC.L10N.register(
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Kérjük gondoskodjon róla, hogy elmentse az adatbázist, a konfigurációs mappa és az adatamappa tartalmát, mielőtt folytatja.",
     "Start update" : "A frissítés megkezdése",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Nagyobb telepítések esetén úgy kerülhetők el az időtúllépések, ha inkább a következő parancsot adja ki a telepítési alkönyvtárban:",
+    "Detailed logs" : "Részletezett naplók",
     "This %s instance is currently in maintenance mode, which may take a while." : "Ez a %s folyamat éppen karbantartó üzemmódban van, ami eltarthat egy darabig.",
     "This page will refresh itself when the %s instance is available again." : "Ez az oldal frissíteni fogja magát amint a %s példány ismét elérhető."
 },

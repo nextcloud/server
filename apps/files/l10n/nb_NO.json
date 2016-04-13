@@ -104,6 +104,7 @@
     "Missing permissions to edit from here." : "Manglende rettigheter til å redigere herfra.",
     "Settings" : "Innstillinger",
     "WebDAV" : "WebDAV",
+    "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Bruk adressen <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">for å få tilgang til WebDAV</a>",
     "Cancel upload" : "Avbryt opplasting",
     "No files in here" : "Ingen filer her",
     "Upload some content or sync with your devices!" : "Last opp noe innhold eller synkroniser med enhetene dine!",
