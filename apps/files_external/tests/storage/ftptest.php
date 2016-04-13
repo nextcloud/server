@@ -24,16 +24,18 @@
  *
  */
 
-namespace Test\Files\Storage;
+namespace OCA\Files_External\Tests\Storage;
+
+use \OCA\Files_External\Lib\Storage\FTP;
 
 /**
- * Class FTP
+ * Class FTPTest
  *
  * @group DB
  *
- * @package Test\Files\Storage
+ * @package OCA\Files_External\Tests\Storage
  */
-class FTP extends Storage {
+class FTPTest extends \Test\Files\Storage\Storage {
 	private $config;
 
 	protected function setUp() {
@@ -45,7 +47,7 @@ class FTP extends Storage {
 			$this->markTestSkipped('FTP backend not configured');
 		}
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new \OC\Files\Storage\FTP($this->config);
+		$this->instance = new FTP($this->config);
 		$this->instance->mkdir('/');
 	}
 
@@ -63,31 +65,31 @@ class FTP extends Storage {
 						  'password' => 'ftp',
 						  'root' => '/',
 						  'secure' => false );
-		$instance = new \OC\Files\Storage\FTP($config);
+		$instance = new FTP($config);
 		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = true;
-		$instance = new \OC\Files\Storage\FTP($config);
+		$instance = new FTP($config);
 		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = 'false';
-		$instance = new \OC\Files\Storage\FTP($config);
+		$instance = new FTP($config);
 		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = 'true';
-		$instance = new \OC\Files\Storage\FTP($config);
+		$instance = new FTP($config);
 		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['root'] = '';
-		$instance = new \OC\Files\Storage\FTP($config);
+		$instance = new FTP($config);
 		$this->assertEquals('ftps://ftp:ftp@localhost/somefile.txt', $instance->constructUrl('somefile.txt'));
 
 		$config['root'] = '/abc';
-		$instance = new \OC\Files\Storage\FTP($config);
+		$instance = new FTP($config);
 		$this->assertEquals('ftps://ftp:ftp@localhost/abc/somefile.txt', $instance->constructUrl('somefile.txt'));
 
 		$config['root'] = '/abc/';
-		$instance = new \OC\Files\Storage\FTP($config);
+		$instance = new FTP($config);
 		$this->assertEquals('ftps://ftp:ftp@localhost/abc/somefile.txt', $instance->constructUrl('somefile.txt'));
 	}
 }

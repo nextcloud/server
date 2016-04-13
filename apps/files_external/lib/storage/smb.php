@@ -28,7 +28,7 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
@@ -42,7 +42,7 @@ use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
 use OCP\Files\StorageNotAvailableException;
 
-class SMB extends Common {
+class SMB extends \OC\Files\Storage\Common {
 	/**
 	 * @var \Icewind\SMB\Server
 	 */

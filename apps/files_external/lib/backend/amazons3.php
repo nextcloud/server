@@ -38,7 +38,7 @@ class AmazonS3 extends Backend {
 		$this
 			->setIdentifier('amazons3')
 			->addIdentifierAlias('\OC\Files\Storage\AmazonS3') // legacy compat
-			->setStorageClass('\OC\Files\Storage\AmazonS3')
+			->setStorageClass('\OCA\Files_External\Lib\Storage\AmazonS3')
 			->setText($l->t('Amazon S3'))
 			->addParameters([
 				(new DefinitionParameter('bucket', $l->t('Bucket'))),

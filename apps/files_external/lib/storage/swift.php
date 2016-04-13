@@ -32,7 +32,7 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace OCA\Files_External\Lib\Storage;
 
 use Guzzle\Http\Url;
 use Guzzle\Http\Exception\ClientErrorResponseException;

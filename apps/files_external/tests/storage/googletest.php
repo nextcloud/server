@@ -1,11 +1,12 @@
 <?php
 /**
+ * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -24,51 +25,38 @@
  *
  */
 
-namespace Test\Files\Storage;
+namespace OCA\Files_External\Tests\Storage;
+
+use \OCA\Files_External\Lib\Storage\Google;
 
 /**
- * Class Dropbox
+ * Class GoogleTest
  *
  * @group DB
  *
- * @package Test\Files\Storage
+ * @package OCA\Files_External\Tests\Storage
  */
-class Dropbox extends Storage {
+class GoogleTest extends \Test\Files\Storage\Storage {
+
 	private $config;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$id = $this->getUniqueID();
 		$this->config = include('files_external/tests/config.php');
-		if ( ! is_array($this->config) or ! isset($this->config['dropbox']) or ! $this->config['dropbox']['run']) {
-			$this->markTestSkipped('Dropbox backend not configured');
+		if (!is_array($this->config) || !isset($this->config['google'])
+			|| !$this->config['google']['run']
+		) {
+			$this->markTestSkipped('Google Drive backend not configured');
 		}
-		$this->config['dropbox']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new \OC\Files\Storage\Dropbox($this->config['dropbox']);
+		$this->instance = new Google($this->config['google']);
 	}
 
 	protected function tearDown() {
 		if ($this->instance) {
-			$this->instance->unlink('/');
+			$this->instance->rmdir('/');
 		}
 
 		parent::tearDown();
-	}
-
-	public function directoryProvider() {
-		// doesn't support leading/trailing spaces
-		return array(array('folder'));
-	}
-
-	public function testDropboxTouchReturnValue() {
-		$this->assertFalse($this->instance->file_exists('foo'));
-
-		// true because succeeded
-		$this->assertTrue($this->instance->touch('foo'));
-		$this->assertTrue($this->instance->file_exists('foo'));
-
-		// false because not supported
-		$this->assertFalse($this->instance->touch('foo'));
 	}
 }

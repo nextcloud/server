@@ -24,9 +24,9 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace OCA\Files_External\Lib\Storage;
 
-abstract class StreamWrapper extends Common {
+abstract class StreamWrapper extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $path

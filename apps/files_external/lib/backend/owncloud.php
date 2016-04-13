@@ -35,7 +35,7 @@ class OwnCloud extends Backend {
 		$this
 			->setIdentifier('owncloud')
 			->addIdentifierAlias('\OC\Files\Storage\OwnCloud') // legacy compat
-			->setStorageClass('\OC\Files\Storage\OwnCloud')
+			->setStorageClass('\OCA\Files_External\Lib\Storage\OwnCloud')
 			->setText($l->t('ownCloud'))
 			->addParameters([
 				(new DefinitionParameter('host', $l->t('URL'))),

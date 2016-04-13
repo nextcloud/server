@@ -38,7 +38,7 @@ class Dropbox extends Backend {
 		$this
 			->setIdentifier('dropbox')
 			->addIdentifierAlias('\OC\Files\Storage\Dropbox') // legacy compat
-			->setStorageClass('\OC\Files\Storage\Dropbox')
+			->setStorageClass('\OCA\Files_External\Lib\Storage\Dropbox')
 			->setText($l->t('Dropbox'))
 			->addParameters([
 				// all parameters handled in OAuth1 mechanism

@@ -42,7 +42,7 @@ class SMB_OC extends Backend {
 	public function __construct(IL10N $l, SessionCredentials $legacyAuth, SMB $smbBackend) {
 		$this
 			->setIdentifier('\OC\Files\Storage\SMB_OC')
-			->setStorageClass('\OC\Files\Storage\SMB')
+			->setStorageClass('\OCA\Files_External\Lib\Storage\SMB')
 			->setText($l->t('SMB / CIFS using OC login'))
 			->addParameters([
 				(new DefinitionParameter('host', $l->t('Host'))),

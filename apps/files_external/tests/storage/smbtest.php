@@ -23,16 +23,18 @@
  *
  */
 
-namespace Test\Files\Storage;
+namespace OCA\Files_External\Tests\Storage;
+
+use \OCA\Files_External\Lib\Storage\SMB;
 
 /**
- * Class SMB
+ * Class SMBTest
  *
  * @group DB
  *
- * @package Test\Files\Storage
+ * @package OCA\Files_External\Tests\Storage
  */
-class SMB extends Storage {
+class SMBTest extends \Test\Files\Storage\Storage {
 
 	protected function setUp() {
 		parent::setUp();
@@ -46,7 +48,7 @@ class SMB extends Storage {
 			$config['root'] .= '/';
 		}
 		$config['root'] .= $id; //make sure we have an new empty folder to work in
-		$this->instance = new \OC\Files\Storage\SMB($config);
+		$this->instance = new SMB($config);
 		$this->instance->mkdir('/');
 	}
 
@@ -71,7 +73,7 @@ class SMB extends Storage {
 	}
 
 	public function testStorageId() {
-		$this->instance = new \OC\Files\Storage\SMB([
+		$this->instance = new SMB([
 			'host' => 'testhost',
 			'user' => 'testuser',
 			'password' => 'somepass',

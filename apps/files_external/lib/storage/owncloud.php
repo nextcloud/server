@@ -21,7 +21,7 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace OCA\Files_External\Lib\Storage;
 
 /**
  * ownCloud backend for external storage based on DAV backend.

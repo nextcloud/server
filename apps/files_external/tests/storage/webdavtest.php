@@ -23,16 +23,18 @@
  *
  */
 
-namespace Test\Files\Storage;
+namespace OCA\Files_External\Tests\Storage;
+
+use \OC\Files\Storage\DAV;
 
 /**
- * Class DAV
+ * Class WebDAVTest
  *
  * @group DB
  *
- * @package Test\Files\Storage
+ * @package OCA\Files_External\Tests\Storage
  */
-class DAV extends Storage {
+class WebDAVTest extends \Test\Files\Storage\Storage {
 
 	protected function setUp() {
 		parent::setUp();
@@ -46,7 +48,7 @@ class DAV extends Storage {
 			$this->waitDelay = $config['wait'];
 		}
 		$config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new \OC\Files\Storage\DAV($config);
+		$this->instance = new DAV($config);
 		$this->instance->mkdir('/');
 	}
 

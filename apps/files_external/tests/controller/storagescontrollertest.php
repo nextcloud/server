@@ -51,7 +51,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 	/**
 	 * @return \OCA\Files_External\Lib\Backend\Backend
 	 */
-	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OC\Files\Storage\SMB') {
+	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OCA\Files_External\Lib\Storage\SMB') {
 		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
 			->disableOriginalConstructor()
 			->getMock();
@@ -104,7 +104,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$response = $this->controller->create(
 			'mount',
-			'\OC\Files\Storage\SMB',
+			'\OCA\Files_External\Lib\Storage\SMB',
 			'\OCA\Files_External\Lib\Auth\NullMechanism',
 			array(),
 			[],
@@ -146,7 +146,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->update(
 			1,
 			'mount',
-			'\OC\Files\Storage\SMB',
+			'\OCA\Files_External\Lib\Storage\SMB',
 			'\OCA\Files_External\Lib\Auth\NullMechanism',
 			array(),
 			[],
@@ -188,7 +188,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$response = $this->controller->create(
 			$mountPoint,
-			'\OC\Files\Storage\SMB',
+			'\OCA\Files_External\Lib\Storage\SMB',
 			'\OCA\Files_External\Lib\Auth\NullMechanism',
 			array(),
 			[],
@@ -202,7 +202,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->update(
 			1,
 			$mountPoint,
-			'\OC\Files\Storage\SMB',
+			'\OCA\Files_External\Lib\Storage\SMB',
 			'\OCA\Files_External\Lib\Auth\NullMechanism',
 			array(),
 			[],
@@ -279,7 +279,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 		$response = $this->controller->update(
 			255,
 			'mount',
-			'\OC\Files\Storage\SMB',
+			'\OCA\Files_External\Lib\Storage\SMB',
 			'\OCA\Files_External\Lib\Auth\NullMechanism',
 			array(),
 			[],
@@ -375,7 +375,7 @@ abstract class StoragesControllerTest extends \Test\TestCase {
 
 		$response = $this->controller->create(
 			'mount',
-			'\OC\Files\Storage\SMB',
+			'\OCA\Files_External\Lib\Storage\SMB',
 			'\OCA\Files_External\Lib\Auth\NullMechanism',
 			array(),
 			[],

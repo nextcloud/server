@@ -24,18 +24,20 @@
  *
  */
 
-namespace Test\Files\Storage;
+namespace OCA\Files_External\Tests\Storage;
+
+use \OCA\Files_External\Lib\Storage\SFTP;
 
 /**
- * Class SFTP
+ * Class SFTPTest
  *
  * @group DB
  *
- * @package Test\Files\Storage
+ * @package OCA\Files_External\Tests\Storage
  */
-class SFTP extends Storage {
+class SFTPTest extends \Test\Files\Storage\Storage {
 	/**
-	 * @var \OC\Files\Storage\SFTP instance
+	 * @var SFTP instance
 	 */
 	protected $instance;
 
@@ -50,7 +52,7 @@ class SFTP extends Storage {
 			$this->markTestSkipped('SFTP backend not configured');
 		}
 		$this->config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new \OC\Files\Storage\SFTP($this->config);
+		$this->instance = new SFTP($this->config);
 		$this->instance->mkdir('/');
 	}
 
@@ -66,7 +68,7 @@ class SFTP extends Storage {
 	 * @dataProvider configProvider
 	 */
 	public function testStorageId($config, $expectedStorageId) {
-		$instance = new \OC\Files\Storage\SFTP($config);
+		$instance = new SFTP($config);
 		$this->assertEquals($expectedStorageId, $instance->getId());
 	}
 

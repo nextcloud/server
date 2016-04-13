@@ -22,16 +22,18 @@
  *
  */
 
-namespace Test\Files\Storage;
+namespace OCA\Files_External\Tests\Storage;
+
+use \OCA\Files_External\Lib\Storage\SFTP_Key;
 
 /**
- * Class SFTP_Key
+ * Class SFTP_KeyTest
  *
  * @group DB
  *
- * @package Test\Files\Storage
+ * @package OCA\Files_External\Tests\Storage
  */
-class SFTP_Key extends Storage {
+class SFTP_KeyTest extends \Test\Files\Storage\Storage {
 	private $config;
 
 	protected function setUp() {
@@ -44,7 +46,7 @@ class SFTP_Key extends Storage {
 		}
 		// Make sure we have an new empty folder to work in
 		$this->config['sftp_key']['root'] .= '/' . $id;
-		$this->instance = new \OC\Files\Storage\SFTP_Key($this->config['sftp_key']);
+		$this->instance = new SFTP_Key($this->config['sftp_key']);
 		$this->instance->mkdir('/');
 	}
 

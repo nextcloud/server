@@ -28,11 +28,11 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace OCA\Files_External\Lib\Storage;
 
 use Icewind\Streams\RetryWrapper;
 
-class FTP extends \OC\Files\Storage\StreamWrapper{
+class FTP extends StreamWrapper{
 	private $password;
 	private $user;
 	private $host;
@@ -59,7 +59,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 				$this->root .= '/';
 			}
 		} else {
-			throw new \Exception('Creating \OC\Files\Storage\FTP storage failed');
+			throw new \Exception('Creating FTP storage failed');
 		}
 		
 	}

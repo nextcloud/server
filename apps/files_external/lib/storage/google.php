@@ -31,7 +31,7 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace OCA\Files_External\Lib\Storage;
 
 use GuzzleHttp\Exception\RequestException;
 use Icewind\Streams\IteratorDirectory;
@@ -79,7 +79,7 @@ class Google extends \OC\Files\Storage\Common {
 			$token = json_decode($params['token'], true);
 			$this->id = 'google::'.substr($params['client_id'], 0, 30).$token['created'];
 		} else {
-			throw new \Exception('Creating \OC\Files\Storage\Google storage failed');
+			throw new \Exception('Creating Google storage failed');
 		}
 	}
 

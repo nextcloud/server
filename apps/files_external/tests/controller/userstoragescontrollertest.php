@@ -78,7 +78,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 
 		$response = $this->controller->create(
 			'mount',
-			'\OC\Files\Storage\SMB',
+			'\OCA\Files_External\Lib\Storage\SMB',
 			'\Auth\Mechanism',
 			array(),
 			[],
@@ -92,7 +92,7 @@ class UserStoragesControllerTest extends StoragesControllerTest {
 		$response = $this->controller->update(
 			1,
 			'mount',
-			'\OC\Files\Storage\SMB',
+			'\OCA\Files_External\Lib\Storage\SMB',
 			'\Auth\Mechanism',
 			array(),
 			[],
