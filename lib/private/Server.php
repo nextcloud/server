@@ -48,6 +48,7 @@ use OC\Diagnostics\QueryLogger;
 use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
 use OC\Files\Node\HookConnector;
+use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Http\Client\ClientService;
@@ -171,6 +172,11 @@ class Server extends ServerContainer implements IServerContainer {
 			$connector = new HookConnector($root, $view);
 			$connector->viewToNode();
 			return $root;
+		});
+		$this->registerService('LazyRootFolder', function(Server $c) {
+			return new LazyRoot(function() use ($c) {
+				return $c->getRootFolder();
+			});
 		});
 		$this->registerService('UserManager', function (Server $c) {
 			$config = $c->getConfig();
@@ -621,7 +627,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getL10N('core'),
 				$factory,
 				$c->getUserManager(),
-				$c->getRootFolder()
+				$c->getLazyRootFolder()
 			);
 
 			return $manager;
@@ -725,6 +731,17 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getRootFolder() {
 		return $this->query('RootFolder');
+	}
+
+	/**
+	 * Returns the root folder of ownCloud's data directory
+	 * This is the lazy variant so this gets only initialized once it
+	 * is actually used.
+	 *
+	 * @return \OCP\Files\IRootFolder
+	 */
+	public function getLazyRootFolder() {
+		return $this->query('LazyRootFolder');
 	}
 
 	/**

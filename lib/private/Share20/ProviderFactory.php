@@ -63,7 +63,7 @@ class ProviderFactory implements IProviderFactory {
 				$this->serverContainer->getDatabaseConnection(),
 				$this->serverContainer->getUserManager(),
 				$this->serverContainer->getGroupManager(),
-				$this->serverContainer->getRootFolder()
+				$this->serverContainer->getLazyRootFolder()
 			);
 		}
 
@@ -114,7 +114,7 @@ class ProviderFactory implements IProviderFactory {
 				$tokenHandler,
 				$l,
 				$this->serverContainer->getLogger(),
-				$this->serverContainer->getRootFolder()
+				$this->serverContainer->getLazyRootFolder()
 			);
 		}
 
