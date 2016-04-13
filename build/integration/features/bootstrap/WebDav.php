@@ -100,6 +100,25 @@ trait WebDav {
 	}
 
 	/**
+	 * @When /^Downloading last public shared file inside a folder "([^"]*)" with range "([^"]*)"$/
+	 * @param string $range
+	 */
+	public function downloadPublicFileInsideAFolderWithRange($path, $range){
+		$token = $this->lastShareData->data->token;
+		$fullUrl = substr($this->baseUrl, 0, -4) . "public.php/webdav" . "$path";
+		$headers['Range'] = $range;
+
+		$client = new GClient();
+		$options = [];
+		$options['auth'] = [$token, ""];
+
+		$request = $client->createRequest("GET", $fullUrl, $options);
+		$request->addHeader('Range', $range);
+
+		$this->response = $client->send($request);
+	}
+
+	/**
 	 * @Then /^Downloaded content should be "([^"]*)"$/
 	 * @param string $content
 	 */
