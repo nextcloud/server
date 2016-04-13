@@ -1057,6 +1057,14 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function userDeletedFromGroup($uid, $gid) {
+		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
+		$provider->userDeletedFromGroup($uid, $gid);
+	}
+
+	/**
 	 * Get access list to a path. This means
 	 * all the users and groups that can access a given path.
 	 *
