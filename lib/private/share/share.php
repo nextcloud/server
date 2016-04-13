@@ -1265,7 +1265,7 @@ class Share extends Constants {
 	/**
 	 * validate expiration date if it meets all constraints
 	 *
-	 * @param string $expireDate well formate date string, e.g. "DD-MM-YYYY"
+	 * @param string $expireDate well formatted date string, e.g. "DD-MM-YYYY"
 	 * @param string $shareTime timestamp when the file was shared
 	 * @param string $itemType
 	 * @param string $itemSource
