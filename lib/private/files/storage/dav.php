@@ -246,7 +246,7 @@ class DAV extends Common {
 	 *
 	 * @throws NotFound
 	 */
-	private function propfind($path) {
+	protected function propfind($path) {
 		$path = $this->cleanPath($path);
 		$cachedResponse = $this->statCache->get($path);
 		if ($cachedResponse === false) {
@@ -264,6 +264,7 @@ class DAV extends Common {
 						'{DAV:}getcontentlength',
 						'{DAV:}getcontenttype',
 						'{http://owncloud.org/ns}permissions',
+						'{http://open-collaboration-services.org/ns}share-permissions',
 						'{DAV:}resourcetype',
 						'{DAV:}getetag',
 					)
