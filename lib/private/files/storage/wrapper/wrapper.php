@@ -35,6 +35,12 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	 */
 	protected $storage;
 
+	public $cache;
+	public $scanner;
+	public $watcher;
+	public $propagator;
+	public $updater;
+
 	/**
 	 * @param array $parameters
 	 */
