@@ -259,6 +259,12 @@ class AppSettingsController extends Controller {
 						$apps = array_filter($apps, function ($app) use ($installedApps) {
 							return !in_array($app['id'], $installedApps);
 						});
+
+						// show tooltip if app is downloaded from remote server
+						$inactiveApps = $this->getInactiveApps();
+						foreach ($apps as &$app) {
+							$app['needsDownload'] = !in_array($app['id'], $inactiveApps);
+						}
 					}
 
 					// sort by score
@@ -319,4 +325,23 @@ class AppSettingsController extends Controller {
 		});
 		return $apps;
 	}
+
+	/**
+	 * @return array
+	 */
+	private function getInactiveApps() {
+		$inactiveApps = \OC_App::listAllApps(true, false, $this->ocsClient);
+		$inactiveApps = array_filter($inactiveApps,
+			function ($app) {
+			return !$app['active'];
+		});
+		$inactiveApps = array_map(function($app) {
+			if (isset($app['ocsid'])) {
+				return $app['ocsid'];
+			}
+			return $app['id'];
+		}, $inactiveApps);
+		return $inactiveApps;
+	}
+
 }
