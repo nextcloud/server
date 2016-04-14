@@ -27,7 +27,7 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace OCA\Files_External\Lib\Storage;
 
 use GuzzleHttp\Exception\RequestException;
 use Icewind\Streams\IteratorDirectory;
@@ -59,7 +59,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 			// note: Dropbox_API connection is lazy
 			$this->dropbox = new \Dropbox_API($this->oauth, 'auto');
 		} else {
-			throw new \Exception('Creating \OC\Files\Storage\Dropbox storage failed');
+			throw new \Exception('Creating Dropbox storage failed');
 		}
 	}
 

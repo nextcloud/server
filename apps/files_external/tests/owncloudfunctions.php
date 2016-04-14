@@ -23,14 +23,14 @@
  *
  */
 
-namespace Test\Files\Storage;
+namespace OCA\Files_External\Tests;
 
 /**
  * Class OwnCloudFunctions
  *
  * @group DB
  *
- * @package Test\Files\Storage
+ * @package OCA\Files_External\Tests
  */
 class OwnCloudFunctions extends \Test\TestCase {
 
@@ -109,7 +109,7 @@ class OwnCloudFunctions extends \Test\TestCase {
 	public function testConfig($config, $expectedUri) {
 		$config['user'] = 'someuser';
 		$config['password'] = 'somepassword';
-		$instance = new \OC\Files\Storage\OwnCloud($config);
+		$instance = new \OCA\Files_External\Lib\Storage\OwnCloud($config);
 		$this->assertEquals($expectedUri, $instance->createBaseUri());
 	}
 }

@@ -26,17 +26,7 @@
  *
  */
 
-OC::$CLASSPATH['OC\Files\Storage\StreamWrapper'] = 'files_external/lib/streamwrapper.php';
-OC::$CLASSPATH['OC\Files\Storage\FTP'] = 'files_external/lib/ftp.php';
-OC::$CLASSPATH['OC\Files\Storage\OwnCloud'] = 'files_external/lib/owncloud.php';
-OC::$CLASSPATH['OC\Files\Storage\Google'] = 'files_external/lib/google.php';
-OC::$CLASSPATH['OC\Files\Storage\Swift'] = 'files_external/lib/swift.php';
-OC::$CLASSPATH['OC\Files\Storage\SMB'] = 'files_external/lib/smb.php';
-OC::$CLASSPATH['OC\Files\Storage\AmazonS3'] = 'files_external/lib/amazons3.php';
-OC::$CLASSPATH['OC\Files\Storage\Dropbox'] = 'files_external/lib/dropbox.php';
-OC::$CLASSPATH['OC\Files\Storage\SFTP'] = 'files_external/lib/sftp.php';
 OC::$CLASSPATH['OC_Mount_Config'] = 'files_external/lib/config.php';
-OC::$CLASSPATH['OCA\Files\External\Api'] = 'files_external/lib/api.php';
 
 require_once __DIR__ . '/../3rdparty/autoload.php';
 

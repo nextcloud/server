@@ -1,7 +1,9 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -22,17 +24,18 @@
  *
  */
 
-namespace Test\Files\Storage;
+namespace OCA\Files_External\Tests\Storage;
+
+use \OCA\Files_External\Lib\Storage\Dropbox;
 
 /**
- * Class OwnCloud
+ * Class DropboxTest
  *
  * @group DB
  *
- * @package Test\Files\Storage
+ * @package OCA\Files_External\Tests\Storage
  */
-class OwnCloud extends Storage {
-
+class DropboxTest extends \Test\Files\Storage\Storage {
 	private $config;
 
 	protected function setUp() {
@@ -40,19 +43,34 @@ class OwnCloud extends Storage {
 
 		$id = $this->getUniqueID();
 		$this->config = include('files_external/tests/config.php');
-		if ( ! is_array($this->config) or ! isset($this->config['owncloud']) or ! $this->config['owncloud']['run']) {
-			$this->markTestSkipped('ownCloud backend not configured');
+		if ( ! is_array($this->config) or ! isset($this->config['dropbox']) or ! $this->config['dropbox']['run']) {
+			$this->markTestSkipped('Dropbox backend not configured');
 		}
-		$this->config['owncloud']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new \OC\Files\Storage\OwnCloud($this->config['owncloud']);
-		$this->instance->mkdir('/');
+		$this->config['dropbox']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
+		$this->instance = new Dropbox($this->config['dropbox']);
 	}
 
 	protected function tearDown() {
 		if ($this->instance) {
-			$this->instance->rmdir('/');
+			$this->instance->unlink('/');
 		}
 
 		parent::tearDown();
+	}
+
+	public function directoryProvider() {
+		// doesn't support leading/trailing spaces
+		return array(array('folder'));
+	}
+
+	public function testDropboxTouchReturnValue() {
+		$this->assertFalse($this->instance->file_exists('foo'));
+
+		// true because succeeded
+		$this->assertTrue($this->instance->touch('foo'));
+		$this->assertTrue($this->instance->file_exists('foo'));
+
+		// false because not supported
+		$this->assertFalse($this->instance->touch('foo'));
 	}
 }

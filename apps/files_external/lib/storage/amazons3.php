@@ -33,7 +33,7 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace OCA\Files_External\Lib\Storage;
 
 set_include_path(get_include_path() . PATH_SEPARATOR .
 	\OC_App::getAppPath('files_external') . '/3rdparty/aws-sdk-php');

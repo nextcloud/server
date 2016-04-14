@@ -121,9 +121,9 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		$this->backendService->method('getAuthMechanisms')
 			->will($this->returnValue($authMechanisms));
 
-		$sftpBackend = $this->getBackendMock('\OCA\Files_External\Lib\Backend\SFTP', '\OC\Files\Storage\SFTP');
+		$sftpBackend = $this->getBackendMock('\OCA\Files_External\Lib\Backend\SFTP', '\OCA\Files_External\Lib\Storage\SFTP');
 		$backends = [
-			'identifier:\OCA\Files_External\Lib\Backend\SMB' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\SMB', '\OC\Files\Storage\SMB'),
+			'identifier:\OCA\Files_External\Lib\Backend\SMB' => $this->getBackendMock('\OCA\Files_External\Lib\Backend\SMB', '\OCA\Files_External\Lib\Storage\SMB'),
 			'identifier:\OCA\Files_External\Lib\Backend\SFTP' => $sftpBackend,
 			'identifier:sftp_alias' => $sftpBackend,
 		];
@@ -171,7 +171,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 		}
 	}
 
-	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OC\Files\Storage\SMB') {
+	protected function getBackendMock($class = '\OCA\Files_External\Lib\Backend\SMB', $storageClass = '\OCA\Files_External\Lib\Storage\SMB') {
 		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Backend\Backend')
 			->disableOriginalConstructor()
 			->getMock();

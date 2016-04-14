@@ -178,7 +178,7 @@ EOF
 		return;
 	fi
 
-	FILES_EXTERNAL_BACKEND_PATH=../apps/files_external/tests/backends
+	FILES_EXTERNAL_BACKEND_PATH=../apps/files_external/tests/storage
 	FILES_EXTERNAL_BACKEND_ENV_PATH=../apps/files_external/tests/env
 
 	for startFile in `ls -1 $FILES_EXTERNAL_BACKEND_ENV_PATH | grep start`; do
@@ -198,16 +198,17 @@ EOF
 			# getting backend to test from filename
 			# it's the part between the dots startSomething.TestToRun.sh
 			testToRun=`echo $startFile | cut -d '-' -f 2`
+			testToRun="${testToRun}test.php"
 
 			# run the specific test
 			if [ -z "$NOCOVERAGE" ]; then
 				rm -rf "coverage-external-html-$1-$name"
 				mkdir "coverage-external-html-$1-$name"
-				"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1-$name.xml" --coverage-clover "autotest-external-clover-$1-$name.xml" --coverage-html "coverage-external-html-$1-$name" "$FILES_EXTERNAL_BACKEND_PATH/$testToRun.php"
+				"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1-$name.xml" --coverage-clover "autotest-external-clover-$1-$name.xml" --coverage-html "coverage-external-html-$1-$name" "$FILES_EXTERNAL_BACKEND_PATH/$testToRun"
 				RESULT=$?
 			else
 				echo "No coverage"
-				"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1-$name.xml" "$FILES_EXTERNAL_BACKEND_PATH/$testToRun.php"
+				"$PHPUNIT" --configuration phpunit-autotest-external.xml --log-junit "autotest-external-results-$1-$name.xml" "$FILES_EXTERNAL_BACKEND_PATH/$testToRun"
 				RESULT=$?
 			fi
 		else

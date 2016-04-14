@@ -1,7 +1,7 @@
 <?php
 /**
+ * @author Christian Berendt <berendt@b1-systems.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -24,38 +24,53 @@
  *
  */
 
-namespace Test\Files\Storage;
+namespace OCA\Files_External\Tests\Storage;
+
+use \OCA\Files_External\Lib\Storage\Swift;
 
 /**
- * Class AmazonS3
+ * Class SwiftTest
  *
  * @group DB
  *
- * @package Test\Files\Storage
+ * @package OCA\Files_External\Tests\Storage
  */
-class AmazonS3 extends Storage {
+class SwiftTest extends \Test\Files\Storage\Storage {
 
 	private $config;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = include('files_external/tests/config.amazons3.php');
-		if ( ! is_array($this->config) or ! $this->config['run']) {
-			$this->markTestSkipped('AmazonS3 backend not configured');
+		$this->config = include('files_external/tests/config.swift.php');
+		if (!is_array($this->config) or !$this->config['run']) {
+			$this->markTestSkipped('OpenStack Object Storage backend not configured');
 		}
-		$this->instance = new \OC\Files\Storage\AmazonS3($this->config);
+		$this->instance = new Swift($this->config);
 	}
 
 	protected function tearDown() {
 		if ($this->instance) {
-			$this->instance->rmdir('');
+			try {
+				$connection = $this->instance->getConnection();
+				$container = $connection->getContainer($this->config['bucket']);
+
+				$objects = $container->objectList();
+				while($object = $objects->next()) {
+					$object->setName(str_replace('#','%23',$object->getName()));
+					$object->delete();
+				}
+
+				$container->delete();
+			} catch (\Guzzle\Http\Exception\ClientErrorResponseException $e) {
+				// container didn't exist, so we don't need to delete it
+			}
 		}
 
 		parent::tearDown();
 	}
 
 	public function testStat() {
-		$this->markTestSkipped('S3 doesn\'t update the parents folder mtime');
+		$this->markTestSkipped('Swift doesn\'t update the parents folder mtime');
 	}
 }
