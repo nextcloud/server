@@ -1553,6 +1553,10 @@ function initCore() {
 			}
 			if(!event.ctrlKey) {
 				$app.addClass('app-loading');
+			} else {
+				// Close navigation when opening app in
+				// a new tab
+				OC.hideMenus();
 			}
 		});
 	}
