@@ -5,6 +5,7 @@ namespace Test\Files\Storage\Wrapper;
 use OC\Encryption\Util;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
+use OC\User\Manager;
 use Test\Files\Storage\Storage;
 
 class Encryption extends Storage {
@@ -118,7 +119,7 @@ class Encryption extends Storage {
 		$this->util = $this->getMock(
 			'\OC\Encryption\Util',
 			['getUidAndFilename', 'isFile', 'isExcluded'],
-			[new View(), new \OC\User\Manager(), $this->groupManager, $this->config, $this->arrayCache]);
+			[new View(), new Manager(), $this->groupManager, $this->config, $this->arrayCache]);
 		$this->util->expects($this->any())
 			->method('getUidAndFilename')
 			->willReturnCallback(function ($path) {
@@ -200,7 +201,7 @@ class Encryption extends Storage {
 	protected function buildMockModule() {
 		$this->encryptionModule = $this->getMockBuilder('\OCP\Encryption\IEncryptionModule')
 			->disableOriginalConstructor()
-			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll'])
+			->setMethods(['getId', 'getDisplayName', 'begin', 'end', 'encrypt', 'decrypt', 'update', 'shouldEncrypt', 'getUnencryptedBlockSize', 'isReadable', 'encryptAll', 'prepareDecryptAll', 'isReadyForUser'])
 			->getMock();
 
 		$this->encryptionModule->expects($this->any())->method('getId')->willReturn('UNIT_TEST_MODULE');
@@ -543,7 +544,7 @@ class Encryption extends Storage {
 			->setConstructorArgs(
 				[
 					new View(),
-					new \OC\User\Manager(),
+					new Manager(),
 					$this->groupManager,
 					$this->config,
 					$this->arrayCache
@@ -608,7 +609,7 @@ class Encryption extends Storage {
 			->disableOriginalConstructor()->getMock();
 
 		$util = $this->getMockBuilder('\OC\Encryption\Util')
-			->setConstructorArgs([new View(), new \OC\User\Manager(), $this->groupManager, $this->config, $this->arrayCache])
+			->setConstructorArgs([new View(), new Manager(), $this->groupManager, $this->config, $this->arrayCache])
 			->getMock();
 
 		$cache = $this->getMockBuilder('\OC\Files\Cache\Cache')
