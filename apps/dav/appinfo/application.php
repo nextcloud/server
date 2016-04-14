@@ -30,10 +30,6 @@ use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\HookManager;
-use OCA\Dav\Migration\AddressBookAdapter;
-use OCA\Dav\Migration\CalendarAdapter;
-use OCA\Dav\Migration\MigrateAddressbooks;
-use OCA\Dav\Migration\MigrateCalendars;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\IManager;
@@ -98,30 +94,6 @@ class Application extends App {
 			return new CalDavBackend($db, $principal);
 		});
 
-		$container->registerService('MigrateAddressbooks', function($c) {
-			/** @var IAppContainer $c */
-			$db = $c->getServer()->getDatabaseConnection();
-			$logger = $c->getServer()->getLogger();
-			return new MigrateAddressbooks(
-				new AddressBookAdapter($db),
-				$c->query('CardDavBackend'),
-				$logger,
-				null
-			);
-		});
-
-		$container->registerService('MigrateCalendars', function($c) {
-			/** @var IAppContainer $c */
-			$db = $c->getServer()->getDatabaseConnection();
-			$logger = $c->getServer()->getLogger();
-			return new MigrateCalendars(
-				new CalendarAdapter($db),
-				$c->query('CalDavBackend'),
-				$logger,
-				null
-			);
-		});
-
 		$container->registerService('BirthdayService', function($c) {
 			/** @var IAppContainer $c */
 			$g = new GroupPrincipalBackend(
@@ -184,38 +156,6 @@ class Application extends App {
 	public function setupCron() {
 		$jl = $this->getContainer()->getServer()->getJobList();
 		$jl->add(new SyncJob());
-	}
-
-	public function migrateAddressbooks() {
-		try {
-			/** @var MigrateAddressbooks $migration */
-			$migration = $this->getContainer()->query('MigrateAddressbooks');
-			$migration->setup();
-			$userManager = $this->getContainer()->getServer()->getUserManager();
-
-			$userManager->callForAllUsers(function($user) use($migration) {
-				/** @var IUser $user */
-				$migration->migrateForUser($user->getUID());
-			});
-		} catch (\Exception $ex) {
-			$this->getContainer()->getServer()->getLogger()->logException($ex);
-		}
-	}
-
-	public function migrateCalendars() {
-		try {
-			/** @var MigrateCalendars $migration */
-			$migration = $this->getContainer()->query('MigrateCalendars');
-			$migration->setup();
-			$userManager = $this->getContainer()->getServer()->getUserManager();
-
-			$userManager->callForAllUsers(function($user) use($migration) {
-				/** @var IUser $user */
-				$migration->migrateForUser($user->getUID());
-			});
-		} catch (\Exception $ex) {
-			$this->getContainer()->getServer()->getLogger()->logException($ex);
-		}
 	}
 
 	public function generateBirthdays() {
