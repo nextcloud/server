@@ -55,7 +55,7 @@ class Base {
 	 * @param string|false $app_dir
 	 * @param string $theme
 	 * @param string $app
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getAppTemplateDirs($theme, $app, $serverRoot, $app_dir) {
 		// Check if the app is in the app folder or in the root
@@ -74,7 +74,7 @@ class Base {
 	/**
 	 * @param string $serverRoot
 	 * @param string $theme
-	 * @return array
+	 * @return string[]
 	 */
 	protected function getCoreTemplateDirs($theme, $serverRoot) {
 		return [
