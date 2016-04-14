@@ -120,6 +120,36 @@ Feature: federated
 			| share_with | user2 |
 			| share_with_displayname | user2 |
 
+	Scenario: Overwrite a federated shared file as recipient
+		Given Using server "REMOTE"
+		And user "user1" exists
+		And user "user2" exists
+		And Using server "LOCAL"
+		And user "user0" exists
+		And User "user0" from server "LOCAL" shares "/textfile0.txt" with user "user1" from server "REMOTE"
+		And User "user1" from server "REMOTE" accepts last pending share
+		And Using server "REMOTE"
+		And As an "user1"
+		And User "user1" modifies text of "/textfile0.txt" with text "BLABLABLA"
+		When User "user1" uploads file "../../data/user1/files/textfile0.txt" to "/textfile0 (2).txt"
+		And Downloading file "/textfile0 (2).txt" with range "bytes=0-8"
+		Then Downloaded content should be "BLABLABLA"
+
+	Scenario: Overwrite a federated shared folder as recipient
+		Given Using server "REMOTE"
+		And user "user1" exists
+		And user "user2" exists
+		And Using server "LOCAL"
+		And user "user0" exists
+		And User "user0" from server "LOCAL" shares "/PARENT" with user "user1" from server "REMOTE"
+		And User "user1" from server "REMOTE" accepts last pending share
+		And Using server "REMOTE"
+		And As an "user1"
+		And User "user1" modifies text of "/textfile0.txt" with text "BLABLABLA"
+		When User "user1" uploads file "../../data/user1/files/textfile0.txt" to "/PARENT (2)/textfile0.txt"
+		And Downloading file "/PARENT (2)/textfile0.txt" with range "bytes=0-8"
+		Then Downloaded content should be "BLABLABLA"
+
 
 
 
