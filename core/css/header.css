@@ -294,6 +294,12 @@
 	color: #bbb;
 	cursor: pointer;
 }
+#settings .icon-loading-dark {
+	display: inline-block;
+	margin-bottom: -3px;
+	margin-right: 6px;
+	background-size: 16px 16px;
+}
 #expand {
 	display: block;
 	padding: 7px 30px 6px 10px;
