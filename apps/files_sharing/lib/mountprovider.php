@@ -55,19 +55,20 @@ class MountProvider implements IMountProvider {
 		$shares = array_filter($shares, function ($share) {
 			return $share['permissions'] > 0;
 		});
-		$shares = array_map(function ($share) use ($user, $storageFactory) {
-
-			return new SharedMount(
+		$mounts = [];
+		foreach ($shares as $share) {
+			$mounts[] = new SharedMount(
 				'\OC\Files\Storage\Shared',
-				'/' . $user->getUID() . '/' . $share['file_target'],
-				array(
+				$mounts,
+				[
 					'share' => $share,
 					'user' => $user->getUID()
-				),
+				],
 				$storageFactory
 			);
-		}, $shares);
+		}
+
 		// array_filter removes the null values from the array
-		return array_filter($shares);
+		return array_filter($mounts);
 	}
 }

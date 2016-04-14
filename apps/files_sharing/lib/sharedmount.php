@@ -25,6 +25,7 @@
 
 namespace OCA\Files_Sharing;
 
+use OC\Files\Filesystem;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 use OC\Files\View;
@@ -50,14 +51,14 @@ class SharedMount extends MountPoint implements MoveableMount {
 
 	/**
 	 * @param string $storage
-	 * @param string $mountpoint
+	 * @param SharedMount[] $mountpoints
 	 * @param array|null $arguments
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 */
-	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
+	public function __construct($storage, array $mountpoints, $arguments = null, $loader = null) {
 		$this->user = $arguments['user'];
 		$this->recipientView = new View('/' . $this->user . '/files');
-		$newMountPoint = $this->verifyMountPoint($arguments['share']);
+		$newMountPoint = $this->verifyMountPoint($arguments['share'], $mountpoints);
 		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
 		$arguments['ownerView'] = new View('/' . $arguments['share']['uid_owner'] . '/files');
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
@@ -67,9 +68,10 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * check if the parent folder exists otherwise move the mount point up
 	 *
 	 * @param array $share
+	 * @param SharedMount[] $mountpoints
 	 * @return string
 	 */
-	private function verifyMountPoint(&$share) {
+	private function verifyMountPoint(&$share, array $mountpoints) {
 
 		$mountPoint = basename($share['file_target']);
 		$parent = dirname($share['file_target']);
@@ -78,10 +80,10 @@ class SharedMount extends MountPoint implements MoveableMount {
 			$parent = Helper::getShareFolder();
 		}
 
-		$newMountPoint = \OCA\Files_Sharing\Helper::generateUniqueTarget(
+		$newMountPoint = $this->generateUniqueTarget(
 			\OC\Files\Filesystem::normalizePath($parent . '/' . $mountPoint),
-			[],
-			$this->recipientView
+			$this->recipientView,
+			$mountpoints
 		);
 
 		if ($newMountPoint !== $share['file_target']) {
@@ -91,6 +93,37 @@ class SharedMount extends MountPoint implements MoveableMount {
 		}
 
 		return $newMountPoint;
+	}
+
+	/**
+	 * @param string $path
+	 * @param View $view
+	 * @param SharedMount[] $mountpoints
+	 * @return mixed
+	 */
+	private function generateUniqueTarget($path, $view, array $mountpoints) {
+		$pathinfo = pathinfo($path);
+		$ext = (isset($pathinfo['extension'])) ? '.'.$pathinfo['extension'] : '';
+		$name = $pathinfo['filename'];
+		$dir = $pathinfo['dirname'];
+
+		// Helper function to find existing mount points
+		$mountpointExists = function($path) use ($mountpoints) {
+			foreach ($mountpoints as $mountpoint) {
+				if ($mountpoint->getShare()['file_target'] === $path) {
+					return true;
+				}
+			}
+			return false;
+		};
+
+		$i = 2;
+		while ($view->file_exists($path) || $mountpointExists($path)) {
+			$path = Filesystem::normalizePath($dir . '/' . $name . ' ('.$i.')' . $ext);
+			$i++;
+		}
+
+		return $path;
 	}
 
 	/**

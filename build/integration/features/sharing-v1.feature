@@ -670,3 +670,15 @@ Feature: sharing
     When as "user1" gets properties of folder "/tmp" with
       |{http://owncloud.org/ns}share-permissions|
     Then the single response should contain a property "{http://owncloud.org/ns}share-permissions" with value "15"
+
+  Scenario: unique target names for incomming shares
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user0" created a folder "/foo"
+    And user "user1" created a folder "/foo"
+    When file "/foo" of user "user0" is shared with user "user2"
+    And file "/foo" of user "user1" is shared with user "user2"
+    Then user "user2" should see following elements
+      | /foo/       |
+      | /foo%20(2)/ |
