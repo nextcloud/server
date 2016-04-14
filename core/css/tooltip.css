@@ -53,6 +53,7 @@
   text-align: center;
   background-color: #000000;
   border-radius: 4px;
+  word-break: break-all;
 }
 .tooltip-arrow {
   position: absolute;
