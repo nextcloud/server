@@ -40,7 +40,7 @@ use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\TimeFactory;
-use OC\Command\AsyncBus;
+use OC\Command\BusFactory;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\NullEventLogger;
 use OC\Diagnostics\NullQueryLogger;
@@ -449,9 +449,8 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('IniWrapper', function ($c) {
 			return new IniGetWrapper();
 		});
-		$this->registerService('AsyncCommandBus', function (Server $c) {
-			$jobList = $c->getJobList();
-			return new AsyncBus($jobList);
+		$this->registerService('AsyncBusFactory', function (Server $c) {
+			return new BusFactory($c->getSystemConfig(), $c->getJobList(), $c->getRedisFactory());
 		});
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());
@@ -1146,7 +1145,9 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return \OCP\Command\IBus
 	 */
 	public function getCommandBus() {
-		return $this->query('AsyncCommandBus');
+		/** @var BusFactory $factory */
+		$factory = $this->query('AsyncBusFactory');
+		return $factory->getAsyncBus();
 	}
 
 	/**
