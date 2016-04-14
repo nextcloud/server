@@ -176,6 +176,7 @@
     "Share details could not be loaded for this item." : "Detaily sdílení pro tuto položku nelze načíst.",
     "No users or groups found for {search}" : "Nebyli nalezeni žádní členové ani skupiny pro {search}",
     "No users found for {search}" : "Nebyli nalezeni žádní uživatelé pro {search}",
+    "An error occurred. Please try again" : "Došlo k chybě. Zkuste to prosím znovu",
     "{sharee} (group)" : "{sharee} (skupina)",
     "{sharee} (at {server})" : "{sharee} (na {server})",
     "{sharee} (remote)" : "{sharee} (vzdálený)",

@@ -84,6 +84,7 @@ OC.L10N.register(
     "Uninstall" : "Avinstallera",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Applikationen har aktiverats men behöver uppdateras. Du kommer bli omdirigerad till uppdateringssidan inom 5 sekunder.",
     "App update" : "Uppdatering av app",
+    "No apps found for {query}" : "Inga applikationer funna för {query}",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Ett fel uppstod. Var god ladda upp ett ASCII-kodad PEM certifikat.",
     "Valid until {date}" : "Giltig t.o.m. {date}",
     "Delete" : "Radera",
