@@ -493,6 +493,7 @@ class KeyManager {
 	 */
 	public function userHasKeys($userId) {
 		$privateKey = $publicKey = true;
+		$exception = null;
 
 		try {
 			$this->getPrivateKey($userId);
