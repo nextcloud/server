@@ -182,7 +182,7 @@ class TemplateLayout extends \OC_Template {
 			\OC::$server->getLogger(),
 			$theme,
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			array( \OC::$THIRDPARTYROOT => \OC::$THIRDPARTYWEBROOT ));
+			array( \OC::$SERVERROOT => \OC::$WEBROOT ));
 		$locator->find($styles);
 		return $locator->getResources();
 	}
@@ -199,7 +199,7 @@ class TemplateLayout extends \OC_Template {
 			\OC::$server->getLogger(),
 			$theme,
 			array( \OC::$SERVERROOT => \OC::$WEBROOT ),
-			array( \OC::$THIRDPARTYROOT => \OC::$THIRDPARTYWEBROOT ));
+			array( \OC::$SERVERROOT => \OC::$WEBROOT ));
 		$locator->find($scripts);
 		return $locator->getResources();
 	}
