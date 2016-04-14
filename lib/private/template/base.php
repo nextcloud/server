@@ -168,8 +168,13 @@ class Base {
 
 		// Include
 		ob_start();
-		include $file;
-		$data = ob_get_contents();
+		try {
+			include $file;
+			$data = ob_get_contents();
+		} catch (\Exception $e) {
+			@ob_end_clean();
+			throw $e;
+		}
 		@ob_end_clean();
 
 		// Return data
