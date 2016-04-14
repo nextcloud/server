@@ -566,3 +566,16 @@ Feature: sharing
       | path | welcome.txt |
       | shareType | 3      |
     Then share ids should match
+
+  Scenario: unique target names for incomming shares
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user0" created a folder "/foo"
+    And user "user1" created a folder "/foo"
+    When file "/foo" of user "user0" is shared with user "user2"
+    And file "/foo" of user "user1" is shared with user "user2"
+    Then user "user2" should see following elements
+      | /foo/       |
+      | /foo%20(2)/ |
+
