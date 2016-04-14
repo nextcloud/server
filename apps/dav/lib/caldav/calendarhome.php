@@ -21,6 +21,7 @@
  */
 namespace OCA\DAV\CalDAV;
 
+use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\CalDAV\Backend\NotificationSupport;
 use Sabre\CalDAV\Backend\SchedulingSupport;
 use Sabre\CalDAV\Backend\SubscriptionSupport;
@@ -31,34 +32,42 @@ use Sabre\DAV\Exception\NotFound;
 
 class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 
+	/** @var \OCP\IL10N */
+	private $l10n;
+
+	public function __construct(BackendInterface $caldavBackend, $principalInfo) {
+		parent::__construct($caldavBackend, $principalInfo);
+		$this->l10n = \OC::$server->getL10N('dav');
+	}
+
 	/**
 	 * @inheritdoc
 	 */
 	function getChildren() {
 		$calendars = $this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']);
-		$objs = [];
+		$objects = [];
 		foreach ($calendars as $calendar) {
-			$objs[] = new Calendar($this->caldavBackend, $calendar);
+			$objects[] = new Calendar($this->caldavBackend, $calendar, $this->l10n);
 		}
 
 		if ($this->caldavBackend instanceof SchedulingSupport) {
-			$objs[] = new Inbox($this->caldavBackend, $this->principalInfo['uri']);
-			$objs[] = new Outbox($this->principalInfo['uri']);
+			$objects[] = new Inbox($this->caldavBackend, $this->principalInfo['uri']);
+			$objects[] = new Outbox($this->principalInfo['uri']);
 		}
 
 		// We're adding a notifications node, if it's supported by the backend.
 		if ($this->caldavBackend instanceof NotificationSupport) {
-			$objs[] = new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
+			$objects[] = new \Sabre\CalDAV\Notifications\Collection($this->caldavBackend, $this->principalInfo['uri']);
 		}
 
 		// If the backend supports subscriptions, we'll add those as well,
 		if ($this->caldavBackend instanceof SubscriptionSupport) {
 			foreach ($this->caldavBackend->getSubscriptionsForUser($this->principalInfo['uri']) as $subscription) {
-				$objs[] = new Subscription($this->caldavBackend, $subscription);
+				$objects[] = new Subscription($this->caldavBackend, $subscription);
 			}
 		}
 
-		return $objs;
+		return $objects;
 	}
 
 	/**
@@ -79,7 +88,7 @@ class CalendarHome extends \Sabre\CalDAV\CalendarHome {
 		// Calendars
 		foreach ($this->caldavBackend->getCalendarsForUser($this->principalInfo['uri']) as $calendar) {
 			if ($calendar['uri'] === $name) {
-				return new Calendar($this->caldavBackend, $calendar);
+				return new Calendar($this->caldavBackend, $calendar, $this->l10n);
 			}
 		}
 

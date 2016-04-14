@@ -23,10 +23,26 @@ namespace OCA\DAV\Tests\Unit\CalDAV;
 
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
+use OCP\IL10N;
 use Sabre\DAV\PropPatch;
 use Test\TestCase;
 
 class CalendarTest extends TestCase {
+
+	/** @var IL10N */
+	private $l10n;
+
+	public function setUp() {
+		parent::setUp();
+		$this->l10n = $this->getMockBuilder('\OCP\IL10N')
+			->disableOriginalConstructor()->getMock();
+		$this->l10n
+			->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function ($text, $parameters = array()) {
+				return vsprintf($text, $parameters);
+			}));
+	}
 
 	public function testDelete() {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
@@ -41,7 +57,7 @@ class CalendarTest extends TestCase {
 			'id' => 666,
 			'uri' => 'cal',
 		];
-		$c = new Calendar($backend, $calendarInfo);
+		$c = new Calendar($backend, $calendarInfo, $this->l10n);
 		$c->delete();
 	}
 
@@ -61,7 +77,7 @@ class CalendarTest extends TestCase {
 			'id' => 666,
 			'uri' => 'cal',
 		];
-		$c = new Calendar($backend, $calendarInfo);
+		$c = new Calendar($backend, $calendarInfo, $this->l10n);
 		$c->delete();
 	}
 
@@ -93,7 +109,7 @@ class CalendarTest extends TestCase {
 			'id' => 666,
 			'uri' => 'default'
 		];
-		$c = new Calendar($backend, $calendarInfo);
+		$c = new Calendar($backend, $calendarInfo, $this->l10n);
 
 		if ($throws) {
 			$this->setExpectedException('\Sabre\DAV\Exception\Forbidden');
@@ -122,7 +138,7 @@ class CalendarTest extends TestCase {
 		if ($hasOwnerSet) {
 			$calendarInfo['{http://owncloud.org/ns}owner-principal'] = 'user1';
 		}
-		$c = new Calendar($backend, $calendarInfo);
+		$c = new Calendar($backend, $calendarInfo, $this->l10n);
 		$acl = $c->getACL();
 		$childAcl = $c->getChildACL();
 

@@ -136,14 +136,23 @@ class CalDavBackendTest extends TestCase {
 	 */
 	public function testCalendarSharing($userCanRead, $userCanWrite, $groupCanRead, $groupCanWrite, $add) {
 
+		$l10n = $this->getMockBuilder('\OCP\IL10N')
+			->disableOriginalConstructor()->getMock();
+		$l10n
+			->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function ($text, $parameters = array()) {
+				return vsprintf($text, $parameters);
+			}));
+
 		$calendarId = $this->createTestCalendar();
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($books));
-		$calendar = new Calendar($this->backend, $books[0]);
+		$calendar = new Calendar($this->backend, $books[0], $l10n);
 		$this->backend->updateShares($calendar, $add, []);
 		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER1);
 		$this->assertEquals(1, count($books));
-		$calendar = new Calendar($this->backend, $books[0]);
+		$calendar = new Calendar($this->backend, $books[0], $l10n);
 		$acl = $calendar->getACL();
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}read', $acl);
 		$this->assertAcl(self::UNIT_TEST_USER, '{DAV:}write', $acl);
