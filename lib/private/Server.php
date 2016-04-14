@@ -74,6 +74,7 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
+use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\Security\IContentSecurityPolicyManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -857,7 +858,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @param string $app appid
 	 * @param string $lang
-	 * @return \OC_L10N
+	 * @return IL10N
 	 */
 	public function getL10N($app, $lang = null) {
 		return $this->getL10NFactory()->get($app, $lang);

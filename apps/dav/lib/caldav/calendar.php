@@ -22,17 +22,19 @@
 namespace OCA\DAV\CalDAV;
 
 use OCA\DAV\DAV\Sharing\IShareable;
+use OCP\IL10N;
 use Sabre\CalDAV\Backend\BackendInterface;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\PropPatch;
 
 class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 
-	public function __construct(BackendInterface $caldavBackend, $calendarInfo) {
+	public function __construct(BackendInterface $caldavBackend, $calendarInfo, IL10N $l10n) {
 		parent::__construct($caldavBackend, $calendarInfo);
 
 		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
 			$this->calendarInfo['{http://sabredav.org/ns}read-only'] = true;
+			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Contact birthdays');
 		}
 	}
 
