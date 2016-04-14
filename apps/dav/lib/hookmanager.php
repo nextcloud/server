@@ -105,7 +105,8 @@ class HookManager {
 		$calendars = $this->calDav->getCalendarsForUser($principal);
 		if (empty($calendars)) {
 			try {
-				$this->calDav->createCalendar($principal, 'default', []);
+				$this->calDav->createCalendar($principal, 'personal', [
+					'displayname' => 'Personal']);
 			} catch (\Exception $ex) {
 				\OC::$server->getLogger()->logException($ex);
 			}
@@ -113,7 +114,8 @@ class HookManager {
 		$books = $this->cardDav->getAddressBooksForUser($principal);
 		if (empty($books)) {
 			try {
-				$this->cardDav->createAddressBook($principal, 'default', []);
+				$this->cardDav->createAddressBook($principal, 'contacts', [
+					'displayname' => 'Contacts']);
 			} catch (\Exception $ex) {
 				\OC::$server->getLogger()->logException($ex);
 			}
