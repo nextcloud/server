@@ -63,6 +63,7 @@ OC.L10N.register(
     "Experimental" : "Eksperimentale",
     "All" : "Krejt",
     "No apps found for your version" : "S’u gjetën aplikacione për versionin tuaj",
+    "The app will be downloaded from the app store" : "Aplikacioni do të shkarkohet nga shitorja e aplikacioneve",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Aplikacionet zyrtare ndërtohen brenda bashkësisë ownCloud. Ato ofrojnë funksione qendrore për ownCloud dhe janë gati për t’u përdorur në prodhim.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Aplikacionet e miratuara ndërtohen nga zhvillues të besuar dhe kanë kaluar një kontroll të përciptë sigurie. Mirëmbahen aktivisht në një depo të hapur kodi dhe mirëmbajtësit e tyre i konsiderojnë të qëndrueshme për përdorime nga të rastit deri në ato normale.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Ky aplikacion s’është kontrolluar për probleme sigurie dhe është i ri ose i njohur si i paqëndrueshëm. Instalojeni duke e mbajtur vetë përgjegjësinë.",

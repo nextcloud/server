@@ -60,6 +60,7 @@
     "Experimental" : "Kokeellinen",
     "All" : "Kaikki",
     "No apps found for your version" : "Sovelluksia ei löytynyt versiollesi",
+    "The app will be downloaded from the app store" : "Sovellus ladataan sovelluskaupasta",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Viralliset sovellukset kehitetään ownCloud-yhteisön toimesta. Sovellukset tarjoavat lisäominaisuuksia ownCloudin keskeisiin toimintoihin liittyen ja ovat valmiita tuotantokäyttöön.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Hyväksytyt sovellukset on kehitetty luotettujen kehittäjien toimesta. Hyväksytyille sovelluksille on suoritettu pintapuolinen turvallisuustarkastus. Sovelluksia ylläpidetään avoimen koodin tietovarastoissa. Sovellusten kehittäjät mieltävät sovellukset vakaiksi ja valmiiksi tavalliseen käyttöön.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Tätä sovellusta ei ole tarkistettu tietoturvauhkien varalta. Sovellus on uusi ja mahdollisesti tiedostettu epävakaaksi. Asenna omalla vastuulla.",
