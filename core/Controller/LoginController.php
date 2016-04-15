@@ -74,7 +74,7 @@ class LoginController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function showLoginForm($user,
+	public function showLoginForm($user = '',
 								  $redirect_url,
 								  $remember_login) {
 		if($this->userSession->isLoggedIn()) {
@@ -94,7 +94,7 @@ class LoginController extends Controller {
 		}
 
 		$parameters['messages'] = $messages;
-		if (!empty($user)) {
+		if ($user !== '') {
 			$parameters['username'] = $user;
 			$parameters['user_autofocus'] = false;
 		} else {
@@ -107,7 +107,7 @@ class LoginController extends Controller {
 
 		$parameters['canResetPassword'] = true;
 		if (!$this->config->getSystemValue('lost_password_link')) {
-			if (!empty($user)) {
+			if ($user !== '') {
 				$userObj = $this->userManager->get($user);
 				if ($userObj instanceof IUser) {
 					$parameters['canResetPassword'] = $userObj->canChangePassword();
@@ -119,7 +119,7 @@ class LoginController extends Controller {
 		$parameters['rememberLoginAllowed'] = \OC_Util::rememberLoginAllowed();
 		$parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
 
-		if (!empty($user)) {
+		if ($user !== '') {
 			$parameters['username'] = $user;
 			$parameters['user_autofocus'] = false;
 		} else {

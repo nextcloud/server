@@ -173,4 +173,42 @@ class LoginControllerTest extends TestCase {
 		);
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('LdapUser', '', ''));
 	}
+
+	public function testShowLoginFormForUserNamedNull() {
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->willReturn(false);
+		$this->config
+			->expects($this->once())
+			->method('getSystemValue')
+			->with('lost_password_link')
+			->willReturn(false);
+		$user = $this->getMock('\\OCP\\IUser');
+		$user
+			->expects($this->once())
+			->method('canChangePassword')
+			->willReturn(false);
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('0')
+			->willReturn($user);
+
+		$expectedResponse = new TemplateResponse(
+			'core',
+			'login',
+			[
+				'messages' => [],
+				'username' => '0',
+				'user_autofocus' => false,
+				'canResetPassword' => false,
+				'alt_login' => [],
+				'rememberLoginAllowed' => \OC_Util::rememberLoginAllowed(),
+				'rememberLoginState' => 0,
+			],
+			'guest'
+		);
+		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('0', '', ''));
+	}
 }
