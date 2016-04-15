@@ -47,7 +47,7 @@ class FilesPlugin extends ServerPlugin {
 	const FILEID_PROPERTYNAME = '{http://owncloud.org/ns}id';
 	const INTERNAL_FILEID_PROPERTYNAME = '{http://owncloud.org/ns}fileid';
 	const PERMISSIONS_PROPERTYNAME = '{http://owncloud.org/ns}permissions';
-	const SHARE_PERMISSIONS_PROPERTYNAME = '{http://owncloud.org/ns}share-permissions';
+	const SHARE_PERMISSIONS_PROPERTYNAME = '{http://open-collaboration-services.org/ns}share-permissions';
 	const DOWNLOADURL_PROPERTYNAME = '{http://owncloud.org/ns}downloadURL';
 	const SIZE_PROPERTYNAME = '{http://owncloud.org/ns}size';
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
