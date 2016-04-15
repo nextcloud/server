@@ -75,7 +75,13 @@ class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
 		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
 		$this->assertTrue($fileinfo instanceof \OC\Files\FileInfo);
 
-		\OCP\Share::shareItem('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
+		$this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -152,9 +158,14 @@ class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
 		$etagBeforeShareDir = $beforeShareDir->getEtag();
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
-		$result = \OCP\Share::shareItem('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
-		$this->assertTrue($result);
+
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
@@ -173,8 +184,7 @@ class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
 
 		// cleanup
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share);
 
 		$config->setSystemValue('share_folder', $oldShareFolder);
 	}
@@ -185,8 +195,14 @@ class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
 	function testRename() {
 
 		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
-		$result = \OCP\Share::shareItem('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
-		$this->assertTrue($result);
+
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
@@ -210,9 +226,7 @@ class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
 		$this->assertTrue(\OC\Files\Filesystem::file_exists('/newTarget/oldTarget/subfolder/' . $this->folder));
 
 		// cleanup
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share);
 	}
 
 }

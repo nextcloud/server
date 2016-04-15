@@ -211,9 +211,14 @@ class Test_Trashbin extends \Test\TestCase {
 		\OC\Files\Filesystem::file_put_contents($folder . 'user1-4.txt', 'file4');
 
 		//share user1-4.txt with user2
-		$fileInfo = \OC\Files\Filesystem::getFileInfo($folder);
-		$result = \OCP\Share::shareItem('folder', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_TRASHBIN_USER2, 31);
-		$this->assertTrue($result);
+		$node = \OC::$server->getUserFolder(self::TEST_TRASHBIN_USER1)->get($folder);
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setNode($node)
+			->setSharedBy(self::TEST_TRASHBIN_USER1)
+			->setSharedWith(self::TEST_TRASHBIN_USER2)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		\OC::$server->getShareManager()->createShare($share);
 
 		// delete them so that they end up in the trash bin
 		\OC\Files\Filesystem::unlink($folder . 'user1-1.txt');

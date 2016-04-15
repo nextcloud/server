@@ -78,14 +78,19 @@ class UnshareChildren extends TestCase {
 
 		$fileInfo2 = \OC\Files\Filesystem::getFileInfo($this->folder);
 
-		$result = \OCP\Share::shareItem('folder', $fileInfo2->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
-		$this->assertTrue($result);
+		$this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// one folder should be shared with the user
-		$sharedFolders = \OCP\Share::getItemsSharedWith('folder');
-		$this->assertSame(1, count($sharedFolders));
+		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_USER);
+		$this->assertCount(1, $shares);
 
 		// move shared folder to 'localDir'
 		\OC\Files\Filesystem::mkdir('localDir');
@@ -97,8 +102,8 @@ class UnshareChildren extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		// after the parent directory was deleted the share should be unshared
-		$sharedFolders = \OCP\Share::getItemsSharedWith('folder');
-		$this->assertTrue(empty($sharedFolders));
+		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_USER);
+		$this->assertEmpty($shares);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 

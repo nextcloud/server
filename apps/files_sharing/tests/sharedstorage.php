@@ -50,8 +50,12 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 
 	protected function tearDown() {
 		if ($this->view) {
-			$this->view->unlink($this->folder);
-			$this->view->unlink($this->filename);
+			if ($this->view->file_exists($this->folder)) {
+				$this->view->unlink($this->folder);
+			}
+			if ($this->view->file_exists($this->filename)) {
+				$this->view->unlink($this->filename);
+			}
 		}
 
 		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
@@ -64,14 +68,16 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 	 *
 	 * @medium
 	 */
-	function testParentOfMountPointIsGone() {
+	public function testParentOfMountPointIsGone() {
 
 		// share to user
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		$result = \OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, 31);
-
-		$this->assertTrue($result);
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -107,14 +113,17 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 	/**
 	 * @medium
 	 */
-	function testRenamePartFile() {
+	public function testRenamePartFile() {
 
 		// share to user
-		$fileinfo = $this->view->getFileInfo($this->folder);
-		$result = \OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, 31);
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
-		$this->assertTrue($result);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -139,26 +148,30 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($this->view->file_exists($this->folder . '/foo.txt'));
 
 		//cleanup
-		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testFilesize() {
-
-		$fileinfoFolder = $this->view->getFileInfo($this->folder);
-		$fileinfoFile = $this->view->getFileInfo($this->filename);
-
 		$folderSize = $this->view->filesize($this->folder);
 		$file1Size = $this->view->filesize($this->folder . $this->filename);
 		$file2Size = $this->view->filesize($this->filename);
 
-		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, 31);
-		$this->assertTrue($result);
+		$share1 = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
-		$result = \OCP\Share::shareItem('file', $fileinfoFile['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, 31);
-		$this->assertTrue($result);
+		$share2 = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+		);
+
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
@@ -168,21 +181,19 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertSame($file2Size, \OC\Files\Filesystem::filesize($this->filename));
 
 		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
-		$result = \OCP\Share::unshare('file', $fileinfoFile['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
 	}
 
-	function testGetPermissions() {
-		$fileinfoFolder = $this->view->getFileInfo($this->folder);
+	public function testGetPermissions() {
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ
+		);
 
-		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, 1);
-		$this->assertTrue($result);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
@@ -201,18 +212,19 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 
 
 		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testFopenWithReadOnlyPermission() {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
-		$fileinfoFolder = $this->view->getFileInfo($this->folder);
-		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_READ);
-		$this->assertTrue($result);
+
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -232,18 +244,20 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertFalse($user2View->unlink($this->folder . '/existing.txt'));
 
 		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testFopenWithCreateOnlyPermission() {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
 		$fileinfoFolder = $this->view->getFileInfo($this->folder);
-		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE);
-		$this->assertTrue($result);
+
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -284,11 +298,14 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 
 	public function testFopenWithUpdateOnlyPermission() {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
-		$fileinfoFolder = $this->view->getFileInfo($this->folder);
 
-		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE);
-		$this->assertTrue($result);
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -322,18 +339,19 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertFalse($user2View->unlink($this->folder . '/existing-renamed.txt'));
 
 		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testFopenWithDeleteOnlyPermission() {
 		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
-		$fileinfoFolder = $this->view->getFileInfo($this->folder);
-		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_DELETE);
-		$this->assertTrue($result);
+
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_DELETE
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -353,23 +371,28 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($user2View->unlink($this->folder . '/existing.txt'));
 
 		//cleanup
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
+		$this->shareManager->deleteShare($share);
 	}
 
-	function testMountSharesOtherUser() {
-		$folderInfo = $this->view->getFileInfo($this->folder);
-		$fileInfo = $this->view->getFileInfo($this->filename);
+	public function testMountSharesOtherUser() {
 		$rootView = new \OC\Files\View('');
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		// share 2 different files with 2 different users
-		\OCP\Share::shareItem('folder', $folderInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, 31);
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER3, 31);
+		$share1 = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
+		$share2 = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER3,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . $this->folder));
@@ -387,15 +410,21 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->view->unlink($this->folder);
+
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
 	}
 
 	public function testCopyFromStorage() {
-		$folderInfo = $this->view->getFileInfo($this->folder);
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		// share 2 different files with 2 different users
-		\OCP\Share::shareItem('folder', $folderInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, 31);
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -416,15 +445,19 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->view->unlink($this->folder);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testMoveFromStorage() {
-		$folderInfo = $this->view->getFileInfo($this->folder);
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		// share 2 different files with 2 different users
-		\OCP\Share::shareItem('folder', $folderInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			self::TEST_FILES_SHARING_API_USER2, 31);
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -445,31 +478,40 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->view->unlink($this->folder);
+		$this->shareManager->deleteShare($share);
 	}
 
 	public function testNameConflict() {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$view1 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
 		$view1->mkdir('foo');
-		$folderInfo1 = $view1->getFileInfo('foo');
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 		$view3 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER3 . '/files');
 		$view3->mkdir('foo');
-		$folderInfo2 = $view3->getFileInfo('foo');
 
 		// share a folder with the same name from two different users to the same user
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		\OCP\Share::shareItem('folder', $folderInfo1['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
-			self::TEST_FILES_SHARING_API_GROUP1, 31);
+		$share1 = $this->share(
+			\OCP\Share::SHARE_TYPE_GROUP,
+			'foo',
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_GROUP1,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 
-		\OCP\Share::shareItem('folder', $folderInfo2['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
-			self::TEST_FILES_SHARING_API_GROUP1, 31);
+		$share2 = $this->share(
+			\OCP\Share::SHARE_TYPE_GROUP,
+			'foo',
+			self::TEST_FILES_SHARING_API_USER3,
+			self::TEST_FILES_SHARING_API_GROUP1,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$view2 = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -482,7 +524,9 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		/** @var \OC\Files\Storage\Shared $storage */
 		$storage = $mount->getStorage();
 
-		$source = $storage->getFile('');
-		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $source['uid_owner']);
+		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $storage->getOwner(''));
+
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
 	}
 }

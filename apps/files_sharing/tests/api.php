@@ -40,9 +40,6 @@ class Test_Files_Sharing_Api extends TestCase {
 
 	private static $tempStorage;
 
-	/** @var \OCP\Share\IManager */
-	private $shareManager;
-
 	/** @var \OCP\Files\Folder */
 	private $userFolder;
 
@@ -66,7 +63,6 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->view->file_put_contents($this->folder.$this->filename, $this->data);
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
 
-		$this->shareManager = \OC::$server->getShareManager();
 		$this->userFolder = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
 	}
 
@@ -1195,10 +1191,13 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		$fileInfo = $this->view->getFileInfo($this->folder);
 
-		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		$this->assertTrue($result);
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		// user2 shares a file from the folder as link
 		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
@@ -1215,14 +1214,20 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		$this->assertTrue($fileInfo2 instanceof \OC\Files\FileInfo);
 
+		$pass = true;
 		try {
-			$result2 = \OCP\Share::shareItem('folder', $fileInfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
-					\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER3, 31);
+			$this->share(
+				\OCP\Share::SHARE_TYPE_USER,
+				'localDir',
+				self::TEST_FILES_SHARING_API_USER2,
+				self::TEST_FILES_SHARING_API_USER3,
+				\OCP\Constants::PERMISSION_ALL
+			);
 		} catch (\Exception $e) {
-			$result2 = false;
+			$pass = false;
 		}
 
-		$this->assertFalse($result2);
+		$this->assertFalse($pass);
 
 		//cleanup
 
@@ -1232,8 +1237,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
 
-		\OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->deleteShare($share);
 	}
 
 	/**
@@ -1264,10 +1268,13 @@ class Test_Files_Sharing_Api extends TestCase {
 		$fileInfo = $this->view->getFileInfo($this->folder);
 
 		// user 1 shares the mount point folder with user2
-		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
-
-		$this->assertTrue($result);
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		// user2: check that mount point name appears correctly
 		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
@@ -1279,8 +1286,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
 
-		\OCP\Share::unshare('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-			\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$this->shareManager->deleteShare($share);
 
 		\OC_Hook::clear('OC_Filesystem', 'post_initMountPoints', '\Test_Files_Sharing_Api', 'initTestMountPointsHook');
 	}
