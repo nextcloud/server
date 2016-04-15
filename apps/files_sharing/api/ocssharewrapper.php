@@ -33,7 +33,9 @@ class OCSShareWrapper {
 			\OC::$server->getRequest(),
 			\OC::$server->getRootFolder(),
 			\OC::$server->getURLGenerator(),
-			\OC::$server->getUserSession()->getUser());
+			\OC::$server->getUserSession()->getUser(),
+			\OC::$server->getL10N('files_sharing')
+		);
 	}
 
 	public function getAllShares() {

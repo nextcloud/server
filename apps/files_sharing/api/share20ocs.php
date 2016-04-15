@@ -22,6 +22,7 @@ namespace OCA\Files_Sharing\API;
 
 use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IUserManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
@@ -54,6 +55,8 @@ class Share20OCS {
 	private $urlGenerator;
 	/** @var IUser */
 	private $currentUser;
+	/** @var IL10N */
+	private $l;
 
 	/**
 	 * Share20OCS constructor.
@@ -73,7 +76,8 @@ class Share20OCS {
 			IRequest $request,
 			IRootFolder $rootFolder,
 			IURLGenerator $urlGenerator,
-			IUser $currentUser
+			IUser $currentUser,
+			IL10N $l10n
 	) {
 		$this->shareManager = $shareManager;
 		$this->userManager = $userManager;
@@ -82,6 +86,7 @@ class Share20OCS {
 		$this->rootFolder = $rootFolder;
 		$this->urlGenerator = $urlGenerator;
 		$this->currentUser = $currentUser;
+		$this->l = $l10n;
 	}
 
 	/**
@@ -162,13 +167,13 @@ class Share20OCS {
 	 */
 	public function getShare($id) {
 		if (!$this->shareManager->shareApiEnabled()) {
-			return new \OC_OCS_Result(null, 404, 'Share API is disabled');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Share API is disabled'));
 		}
 
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
 		if ($this->canAccessShare($share)) {
@@ -180,7 +185,7 @@ class Share20OCS {
 			}
 		}
 
-		return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+		return new \OC_OCS_Result(null, 404, $this->l->t('Wrong share ID, share doesn\'t exist'));
 	}
 
 	/**
@@ -191,17 +196,17 @@ class Share20OCS {
 	 */
 	public function deleteShare($id) {
 		if (!$this->shareManager->shareApiEnabled()) {
-			return new \OC_OCS_Result(null, 404, 'Share API is disabled');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Share API is disabled'));
 		}
 
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
 		if (!$this->canAccessShare($share)) {
-			return new \OC_OCS_Result(null, 404, 'could not delete share');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Could not delete share'));
 		}
 
 		$this->shareManager->deleteShare($share);
@@ -216,20 +221,20 @@ class Share20OCS {
 		$share = $this->shareManager->newShare();
 
 		if (!$this->shareManager->shareApiEnabled()) {
-			return new \OC_OCS_Result(null, 404, 'Share API is disabled');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Share API is disabled'));
 		}
 
 		// Verify path
 		$path = $this->request->getParam('path', null);
 		if ($path === null) {
-			return new \OC_OCS_Result(null, 404, 'please specify a file or folder path');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Please specify a file or folder path'));
 		}
 
 		$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
 		try {
 			$path = $userFolder->get($path);
 		} catch (\OCP\Files\NotFoundException $e) {
-			return new \OC_OCS_Result(null, 404, 'wrong path, file/folder doesn\'t exist');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Wrong path, file/folder doesn\'t exist'));
 		}
 
 		$share->setNode($path);
@@ -270,25 +275,25 @@ class Share20OCS {
 		if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
 			// Valid user is required to share
 			if ($shareWith === null || !$this->userManager->userExists($shareWith)) {
-				return new \OC_OCS_Result(null, 404, 'please specify a valid user');
+				return new \OC_OCS_Result(null, 404, $this->l->t('Please specify a valid user'));
 			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
 			if (!$this->shareManager->allowGroupSharing()) {
-				return new \OC_OCS_Result(null, 404, 'group sharing is disabled by the administrator');
+				return new \OC_OCS_Result(null, 404, $this->l->t('Group sharing is disabled by the administrator'));
 			}
 
 			// Valid group is required to share
 			if ($shareWith === null || !$this->groupManager->groupExists($shareWith)) {
-				return new \OC_OCS_Result(null, 404, 'please specify a valid group');
+				return new \OC_OCS_Result(null, 404, $this->l->t('Please specify a valid group'));
 			}
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_LINK) {
 			//Can we even share links?
 			if (!$this->shareManager->shareApiAllowLinks()) {
-				return new \OC_OCS_Result(null, 404, 'public link sharing is disabled by the administrator');
+				return new \OC_OCS_Result(null, 404, $this->l->t('Public link sharing is disabled by the administrator'));
 			}
 
 			/*
@@ -304,12 +309,12 @@ class Share20OCS {
 			if ($publicUpload === 'true') {
 				// Check if public upload is allowed
 				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
-					return new \OC_OCS_Result(null, 403, 'public upload disabled by the administrator');
+					return new \OC_OCS_Result(null, 403, $this->l->t('Public upload disabled by the administrator'));
 				}
 
 				// Public upload can only be set for folders
 				if ($path instanceof \OCP\Files\File) {
-					return new \OC_OCS_Result(null, 404, 'public upload is only possible for public shared folders');
+					return new \OC_OCS_Result(null, 404, $this->l->t('Public upload is only possible for publicly shared folders'));
 				}
 
 				$share->setPermissions(
@@ -336,19 +341,19 @@ class Share20OCS {
 					$expireDate = $this->parseDate($expireDate);
 					$share->setExpirationDate($expireDate);
 				} catch (\Exception $e) {
-					return new \OC_OCS_Result(null, 404, 'Invalid Date. Format must be YYYY-MM-DD.');
+					return new \OC_OCS_Result(null, 404, $this->l->t('Invalid date, date format must be YYYY-MM-DD'));
 				}
 			}
 
 		} else if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
 			if (!$this->shareManager->outgoingServer2ServerSharesAllowed()) {
-				return new \OC_OCS_Result(null, 403, 'Sharing '.$path->getPath().' failed, because the backend does not allow shares from type '.$shareType);
+				return new \OC_OCS_Result(null, 403, $this->l->t('Sharing %s failed because the back end does not allow shares from type %s', [$path->getPath(), $shareType]));
 			}
 
 			$share->setSharedWith($shareWith);
 			$share->setPermissions($permissions);
 		} else {
-			return new \OC_OCS_Result(null, 400, "unknown share type");
+			return new \OC_OCS_Result(null, 400, $this->l->t('Unknown share type'));
 		}
 
 		$share->setShareType($shareType);
@@ -397,7 +402,7 @@ class Share20OCS {
 	 */
 	private function getSharesInDir($folder) {
 		if (!($folder instanceof \OCP\Files\Folder)) {
-			return new \OC_OCS_Result(null, 400, "not a directory");
+			return new \OC_OCS_Result(null, 400, $this->l->t('Not a directory'));
 		}
 
 		$nodes = $folder->getDirectoryListing();
@@ -450,7 +455,7 @@ class Share20OCS {
 			try {
 				$path = $userFolder->get($path);
 			} catch (\OCP\Files\NotFoundException $e) {
-				return new \OC_OCS_Result(null, 404, 'wrong path, file/folder doesn\'t exist');
+				return new \OC_OCS_Result(null, 404, $this->l->t('Wrong path, file/folder doesn\'t exist'));
 			}
 		}
 
@@ -498,17 +503,17 @@ class Share20OCS {
 	 */
 	public function updateShare($id) {
 		if (!$this->shareManager->shareApiEnabled()) {
-			return new \OC_OCS_Result(null, 404, 'Share API is disabled');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Share API is disabled'));
 		}
 
 		try {
 			$share = $this->getShareById($id);
 		} catch (ShareNotFound $e) {
-			return new \OC_OCS_Result(null, 404, 'wrong share ID, share doesn\'t exist.');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
 		if (!$this->canAccessShare($share)) {
-			return new \OC_OCS_Result(null, 404, 'wrong share Id, share doesn\'t exist.');
+			return new \OC_OCS_Result(null, 404, $this->l->t('Wrong share ID, share doesn\'t exist'));
 		}
 
 		$permissions = $this->request->getParam('permissions', null);
@@ -538,16 +543,16 @@ class Share20OCS {
 			if ($newPermissions !== null &&
 				$newPermissions !== \OCP\Constants::PERMISSION_READ &&
 				$newPermissions !== (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE)) {
-				return new \OC_OCS_Result(null, 400, 'can\'t change permission for public link share');
+				return new \OC_OCS_Result(null, 400, $this->l->t('Can\'t change permissions for public share links'));
 			}
 
 			if ($newPermissions === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE)) {
 				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
-					return new \OC_OCS_Result(null, 403, 'public upload disabled by the administrator');
+					return new \OC_OCS_Result(null, 403, $this->l->t('Public upload disabled by the administrator'));
 				}
 
 				if (!($share->getNode() instanceof \OCP\Files\Folder)) {
-					return new \OC_OCS_Result(null, 400, "public upload is only possible for public shared folders");
+					return new \OC_OCS_Result(null, 400, $this->l->t('Public upload is only possible for publicly shared folders'));
 				}
 			}
 
@@ -575,7 +580,7 @@ class Share20OCS {
 		} else {
 			// For other shares only permissions is valid.
 			if ($permissions === null) {
-				return new \OC_OCS_Result(null, 400, 'Wrong or no update parameter given');
+				return new \OC_OCS_Result(null, 400, $this->l->t('Wrong or no update parameter given'));
 			} else {
 				$permissions = (int)$permissions;
 				$share->setPermissions($permissions);
@@ -594,7 +599,7 @@ class Share20OCS {
 				}
 
 				if ($share->getPermissions() & ~$maxPermissions) {
-					return new \OC_OCS_Result(null, 404, 'Cannot increase permissions');
+					return new \OC_OCS_Result(null, 404, $this->l->t('Cannot increase permissions'));
 				}
 			}
 		}
