@@ -22,12 +22,11 @@
 
 namespace OCA\Files_Sharing;
 
-use OC\Files\Filesystem;
-use OC\User\NoUserException;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
 use OCP\IUser;
+use OCP\Share\IManager;
 
 class MountProvider implements IMountProvider {
 	/**
@@ -36,10 +35,17 @@ class MountProvider implements IMountProvider {
 	protected $config;
 
 	/**
-	 * @param \OCP\IConfig $config
+	 * @var IManager
 	 */
-	public function __construct(IConfig $config) {
+	protected $shareManager;
+
+	/**
+	 * @param \OCP\IConfig $config
+	 * @param IManager $shareManager
+	 */
+	public function __construct(IConfig $config, IManager $shareManager) {
 		$this->config = $config;
+		$this->shareManager = $shareManager;
 	}
 
 
@@ -51,18 +57,21 @@ class MountProvider implements IMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $storageFactory) {
-		$shares = \OCP\Share::getItemsSharedWithUser('file', $user->getUID());
-		$shares = array_filter($shares, function ($share) {
-			return $share['permissions'] > 0;
+		$shares = $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_USER, null, -1);
+		$shares = array_merge($shares, $this->shareManager->getSharedWith($user->getUID(), \OCP\Share::SHARE_TYPE_GROUP, null, -1));
+		$shares = array_filter($shares, function (\OCP\Share\IShare $share) {
+			return $share->getPermissions() > 0;
 		});
+
 		$mounts = [];
 		foreach ($shares as $share) {
+
 			$mounts[] = new SharedMount(
 				'\OC\Files\Storage\Shared',
 				$mounts,
 				[
-					'share' => $share,
-					'user' => $user->getUID()
+					'user' => $user->getUID(),
+					'newShare' => $share,
 				],
 				$storageFactory
 			);

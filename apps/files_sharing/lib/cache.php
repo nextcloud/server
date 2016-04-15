@@ -102,4 +102,8 @@ class Shared_Cache extends CacheJail {
 	public function clear() {
 		// Not a valid action for Shared Cache
 	}
+
+	public function moveFromCache(\OCP\Files\Cache\ICache $sourceCache, $sourcePath, $targetPath) {
+		parent::moveFromCache($sourceCache, $sourcePath, $this->storage->getSourcePath($targetPath));
+	}
 }
