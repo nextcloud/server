@@ -237,6 +237,17 @@ class Manager implements IManager {
 		if (($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
 			throw new \InvalidArgumentException('Shares need at least read permissions');
 		}
+
+		if ($share->getNode() instanceof \OCP\Files\File) {
+			if ($share->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
+				$message_t = $this->l->t('Files can\'t be shared with delete permissions');
+				throw new GenericShareException($message_t);
+			}
+			if ($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE) {
+				$message_t = $this->l->t('Files can\'t be shared with create permissions');
+				throw new GenericShareException($message_t);
+			}
+		}
 	}
 
 	/**
@@ -505,6 +516,24 @@ class Manager implements IManager {
 
 		$this->generalCreateChecks($share);
 
+		// Verify if there are any issues with the path
+		$this->pathCreateChecks($share->getNode());
+
+		/*
+		 * On creation of a share the owner is always the owner of the path
+		 * Except for mounted federated shares.
+		 */
+		$storage = $share->getNode()->getStorage();
+		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+			$parent = $share->getNode()->getParent();
+			while($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+				$parent = $parent->getParent();
+			}
+			$share->setShareOwner($parent->getOwner()->getUID());
+		} else {
+			$share->setShareOwner($share->getNode()->getOwner()->getUID());
+		}
+
 		//Verify share type
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$this->userCreateChecks($share);
@@ -536,24 +565,6 @@ class Manager implements IManager {
 			if ($share->getPassword() !== null) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 			}
-		}
-
-		// Verify if there are any issues with the path
-		$this->pathCreateChecks($share->getNode());
-
-		/*
-		 * On creation of a share the owner is always the owner of the path
-		 * Except for mounted federated shares.
-		 */
-		$storage = $share->getNode()->getStorage();
-		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
-			$parent = $share->getNode()->getParent();
-			while($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
-				$parent = $parent->getParent();
-			}
-			$share->setShareOwner($parent->getOwner()->getUID());
-		} else {
-			$share->setShareOwner($share->getNode()->getOwner()->getUID());
 		}
 
 		// Cannot share with the owner
@@ -818,7 +829,7 @@ class Manager implements IManager {
 	 * @param string $recipientId
 	 */
 	public function deleteFromSelf(\OCP\Share\IShare $share, $recipientId) {
-		list($providerId, ) = $this->splitFullId($share->getId());
+		list($providerId, ) = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->deleteFromSelf($share, $recipientId);
@@ -844,7 +855,7 @@ class Manager implements IManager {
 			}
 		}
 
-		list($providerId, ) = $this->splitFullId($share->getId());
+		list($providerId, ) = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->move($share, $recipientId);

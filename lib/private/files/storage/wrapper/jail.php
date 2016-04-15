@@ -47,7 +47,7 @@ class Jail extends Wrapper {
 		$this->rootPath = $arguments['root'];
 	}
 
-	protected function getSourcePath($path) {
+	public function getSourcePath($path) {
 		if ($path === '') {
 			return $this->rootPath;
 		} else {
@@ -417,6 +417,14 @@ class Jail extends Wrapper {
 
 	/**
 	 * @param string $path
+	 * @return array
+	 */
+	public function getMetaData($path) {
+		return $this->storage->getMetaData($this->getSourcePath($path));
+	}
+
+	/**
+	 * @param string $path
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 * @throws \OCP\Lock\LockedException
@@ -441,5 +449,10 @@ class Jail extends Wrapper {
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
 		$this->storage->changeLock($this->getSourcePath($path), $type, $provider);
+	}
+
+	public function resolvePath($path) {
+		$path = $this->getSourcePath($path);
+		return \OC\Files\Filesystem::resolvePath($path);
 	}
 }

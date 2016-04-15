@@ -82,7 +82,7 @@ class UserMountCache implements IUserMountCache {
 		$newMounts = array_map(function (IMountPoint $mount) use ($user) {
 			$storage = $mount->getStorage();
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
-				$rootId = (int)$storage->getShare()['file_source'];
+				$rootId = (int)$storage->getShare()->getNodeId();
 			} else {
 				$rootId = (int)$storage->getCache()->getId('');
 			}
