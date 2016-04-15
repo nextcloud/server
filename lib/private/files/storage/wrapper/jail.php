@@ -451,8 +451,13 @@ class Jail extends Wrapper {
 		$this->storage->changeLock($this->getSourcePath($path), $type, $provider);
 	}
 
+	/**
+	 * Resolve the path for the source of the share
+	 *
+	 * @param string $path
+	 * @return array
+	 */
 	public function resolvePath($path) {
-		$path = $this->getSourcePath($path);
-		return \OC\Files\Filesystem::resolvePath($path);
+		return [$this->storage, $this->getSourcePath($path)];
 	}
 }

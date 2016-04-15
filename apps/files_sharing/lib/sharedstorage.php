@@ -350,17 +350,6 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	}
 
 	/**
-	 * Resolve the path for the source of the share
-	 *
-	 * @param string $path
-	 * @return array
-	 */
-	public function resolvePath($path) {
-		$source = '/' . $this->newShare->getShareOwner() . '/' . $this->getSourcePath($path);
-		return \OC\Files\Filesystem::resolvePath($source);
-	}
-
-	/**
 	 * @param string $path
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @param \OCP\Lock\ILockingProvider $provider

@@ -45,8 +45,7 @@ class SharedScanner extends Scanner {
 		if ($data === null) {
 			return null;
 		}
-		$sourcePath = '/' . $this->storage->getOwner($path) . '/' . $this->storage->getSourcePath($path);
-		list($sourceStorage, $internalPath) = \OC\Files\Filesystem::resolvePath($sourcePath);
+		list($sourceStorage, $internalPath) = $this->storage->resolvePath($path);
 		$data['permissions'] = $sourceStorage->getPermissions($internalPath);
 		return $data;
 	}
