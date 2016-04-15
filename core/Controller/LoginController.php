@@ -95,10 +95,10 @@ class LoginController extends Controller {
 
 		$parameters['messages'] = $messages;
 		if ($user !== '') {
-			$parameters['username'] = $user;
+			$parameters['loginName'] = $user;
 			$parameters['user_autofocus'] = false;
 		} else {
-			$parameters['username'] = '';
+			$parameters['loginName'] = '';
 			$parameters['user_autofocus'] = true;
 		}
 		if (!empty($redirect_url)) {
@@ -120,10 +120,10 @@ class LoginController extends Controller {
 		$parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
 
 		if ($user !== '') {
-			$parameters['username'] = $user;
+			$parameters['loginName'] = $user;
 			$parameters['user_autofocus'] = false;
 		} else {
-			$parameters['username'] = '';
+			$parameters['loginName'] = '';
 			$parameters['user_autofocus'] = true;
 		}
 

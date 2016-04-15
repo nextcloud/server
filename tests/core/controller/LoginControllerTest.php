@@ -104,7 +104,7 @@ class LoginControllerTest extends TestCase {
 					'MessageArray1',
 					'MessageArray2',
 				],
-				'username' => '',
+				'loginName' => '',
 				'user_autofocus' => true,
 				'canResetPassword' => true,
 				'alt_login' => [],
@@ -162,7 +162,7 @@ class LoginControllerTest extends TestCase {
 			'login',
 			[
 				'messages' => [],
-				'username' => 'LdapUser',
+				'loginName' => 'LdapUser',
 				'user_autofocus' => false,
 				'canResetPassword' => $expectedResult,
 				'alt_login' => [],
@@ -200,7 +200,7 @@ class LoginControllerTest extends TestCase {
 			'login',
 			[
 				'messages' => [],
-				'username' => '0',
+				'loginName' => '0',
 				'user_autofocus' => false,
 				'canResetPassword' => false,
 				'alt_login' => [],
