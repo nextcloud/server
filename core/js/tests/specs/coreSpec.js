@@ -491,7 +491,6 @@ describe('Core base tests', function() {
 		});
 		it('Clicking menu toggle toggles navigation in', function() {
 			window.initCore();
-			$navigation.hide(); // normally done through media query triggered CSS
 			expect($navigation.is(':visible')).toEqual(false);
 			$toggle.click();
 			clock.tick(1 * 1000);
