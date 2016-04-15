@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -27,11 +28,12 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
 use OCP\IRequest;
 use OCP\IURLGenerator;
-use OCP\IConfig;
+use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -54,6 +56,8 @@ class ViewController extends Controller {
 	protected $config;
 	/** @var EventDispatcherInterface */
 	protected $eventDispatcher;
+	/** @var IUserSession */
+	protected $userSession;
 
 	/**
 	 * @param string $appName
@@ -70,7 +74,8 @@ class ViewController extends Controller {
 								INavigationManager $navigationManager,
 								IL10N $l10n,
 								IConfig $config,
-								EventDispatcherInterface $eventDispatcherInterface) {
+								EventDispatcherInterface $eventDispatcherInterface,
+								IUserSession $userSession) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
 		$this->request = $request;
@@ -79,6 +84,7 @@ class ViewController extends Controller {
 		$this->l10n = $l10n;
 		$this->config = $config;
 		$this->eventDispatcher = $eventDispatcherInterface;
+		$this->userSession = $userSession;
 	}
 
 	/**
@@ -213,6 +219,9 @@ class ViewController extends Controller {
 		$params['mailNotificationEnabled'] = $this->config->getAppValue('core', 'shareapi_allow_mail_notification', 'no');
 		$params['mailPublicNotificationEnabled'] = $this->config->getAppValue('core', 'shareapi_allow_public_notification', 'no');
 		$params['allowShareWithLink'] = $this->config->getAppValue('core', 'shareapi_allow_links', 'yes');
+		$user = $this->userSession->getUser()->getUID();
+		$params['defaultFileSorting'] = $this->config->getUserValue($user, 'files', 'file_sorting', 'name');
+		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;
 		$this->navigationManager->setActiveEntry('files_index');

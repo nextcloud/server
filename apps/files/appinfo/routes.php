@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
@@ -47,6 +48,11 @@ $application->registerRoutes(
 				'url' => '/api/v1/tags/{tagName}/files',
 				'verb' => 'GET',
 				'requirements' => array('tagName' => '.+'),
+			),
+			array(
+				'name' => 'API#updateFileSorting',
+				'url' => '/api/v1/sorting',
+				'verb' => 'POST'
 			),
 			[
 				'name' => 'view#index',

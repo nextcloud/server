@@ -72,7 +72,11 @@
 					fileActions: fileActions,
 					allowLegacyActions: true,
 					scrollTo: urlParams.scrollto,
-					filesClient: OC.Files.getClient()
+					filesClient: OC.Files.getClient(),
+					sorting: {
+						mode: $('#defaultFileSorting').val(),
+						direction: $('#defaultFileSortingDirection').val()
+					}
 				}
 			);
 			this.files.initialize();

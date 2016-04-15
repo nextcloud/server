@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
@@ -29,13 +30,14 @@ namespace OCA\Files\Controller;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Controller;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\DataDisplayResponse;
+use OCP\AppFramework\Http\Response;
 use OCA\Files\Service\TagService;
 use OCP\IPreview;
 use OCP\Share\IManager;
-use OCP\Files\FileInfo;
 use OCP\Files\Node;
 use OCP\IUserSession;
 
@@ -53,6 +55,8 @@ class ApiController extends Controller {
 	private $previewManager;
 	/** IUserSession */
 	private $userSession;
+	/** IConfig */
+	private $config;
 
 	/**
 	 * @param string $appName
@@ -65,12 +69,14 @@ class ApiController extends Controller {
 								IUserSession $userSession,
 								TagService $tagService,
 								IPreview $previewManager,
-								IManager $shareManager) {
+								IManager $shareManager,
+								IConfig $config) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->tagService = $tagService;
 		$this->previewManager = $previewManager;
 		$this->shareManager = $shareManager;
+		$this->config = $config;
 	}
 
 	/**
@@ -194,6 +200,28 @@ class ApiController extends Controller {
 			}
 		}
 		return $shareTypes;
+	}
+
+	/**
+	 * Change the default sort mode
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string $mode
+	 * @param string $direction
+	 * @return Response
+	 */
+	public function updateFileSorting($mode, $direction) {
+		$allowedMode = ['name', 'size', 'mtime'];
+		$allowedDirection = ['asc', 'desc'];
+		if (!in_array($mode, $allowedMode) || !in_array($direction, $allowedDirection)) {
+			$response = new Response();
+			$response->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
+			return $response;
+		}
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'file_sorting', $mode);
+		$this->config->setUserValue($this->userSession->getUser()->getUID(), 'files', 'file_sorting_direction', $direction);
+		return new Response();
 	}
 
 }
