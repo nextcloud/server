@@ -27,44 +27,17 @@
 namespace OC\Memcache;
 
 use OCP\IMemcacheTTL;
+use Predis\Client;
+use Predis\Response\ServerException;
+use Predis\Transaction\MultiExec;
 
 class Redis extends Cache implements IMemcacheTTL {
-	/**
-	 * @var \Redis $cache
-	 */
-	private static $cache = null;
+	/** @var  Client */
+	private $instance;
 
 	public function __construct($prefix = '') {
 		parent::__construct($prefix);
-		if (is_null(self::$cache)) {
-			// TODO allow configuring a RedisArray, see https://github.com/nicolasff/phpredis/blob/master/arrays.markdown#redis-arrays
-			self::$cache = new \Redis();
-			$config = \OC::$server->getSystemConfig()->getValue('redis', array());
-			if (isset($config['host'])) {
-				$host = $config['host'];
-			} else {
-				$host = '127.0.0.1';
-			}
-			if (isset($config['port'])) {
-				$port = $config['port'];
-			} else {
-				$port = 6379;
-			}
-			if (isset($config['timeout'])) {
-				$timeout = $config['timeout'];
-			} else {
-				$timeout = 0.0; // unlimited
-			}
-
-			self::$cache->connect($host, $port, $timeout);
-			if(isset($config['password']) && $config['password'] !== '') {
-				self::$cache->auth($config['password']);
-			}
-
-			if (isset($config['dbindex'])) {
-				self::$cache->select($config['dbindex']);
-			}
-		}
+		$this->instance = \OC::$server->getRedisFactory()->getInstance();
 	}
 
 	/**
@@ -75,8 +48,8 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function get($key) {
-		$result = self::$cache->get($this->getNamespace() . $key);
-		if ($result === false && !self::$cache->exists($this->getNamespace() . $key)) {
+		$result = $this->instance->get($this->getNameSpace() . $key);
+		if ($result === null && !$this->instance->exists($this->getNameSpace() . $key)) {
 			return null;
 		} else {
 			return json_decode($result, true);
@@ -85,18 +58,18 @@ class Redis extends Cache implements IMemcacheTTL {
 
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
-			return self::$cache->setex($this->getNamespace() . $key, $ttl, json_encode($value));
+			return $this->instance->setex($this->getNameSpace() . $key, $ttl, json_encode($value));
 		} else {
-			return self::$cache->set($this->getNamespace() . $key, json_encode($value));
+			return $this->instance->set($this->getNameSpace() . $key, json_encode($value));
 		}
 	}
 
 	public function hasKey($key) {
-		return self::$cache->exists($this->getNamespace() . $key);
+		return $this->instance->exists($this->getNameSpace() . $key);
 	}
 
 	public function remove($key) {
-		if (self::$cache->delete($this->getNamespace() . $key)) {
+		if ($this->instance->del([$this->getNameSpace() . $key])) {
 			return true;
 		} else {
 			return false;
@@ -104,11 +77,10 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	public function clear($prefix = '') {
-		$prefix = $this->getNamespace() . $prefix . '*';
-		$it = null;
-		self::$cache->setOption(\Redis::OPT_SCAN, \Redis::SCAN_RETRY);
-		while ($keys = self::$cache->scan($it, $prefix)) {
-			self::$cache->delete($keys);
+		$prefix = $this->getNameSpace() . $prefix . '*';
+		$keys = $this->instance->keys($prefix);
+		foreach ($keys as $key) {
+			$this->instance->del([$key]);
 		}
 		return true;
 	}
@@ -126,7 +98,7 @@ class Redis extends Cache implements IMemcacheTTL {
 		if (!is_int($value)) {
 			$value = json_encode($value);
 		}
-		return self::$cache->setnx($this->getPrefix() . $key, $value);
+		return $this->instance->setnx($this->getPrefix() . $key, $value);
 	}
 
 	/**
@@ -137,7 +109,11 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return int | bool
 	 */
 	public function inc($key, $step = 1) {
-		return self::$cache->incrBy($this->getNamespace() . $key, $step);
+		try {
+			return $this->instance->incrby($this->getNameSpace() . $key, $step);
+		} catch (ServerException $e) { // not an int
+			return false;
+		}
 	}
 
 	/**
@@ -151,7 +127,11 @@ class Redis extends Cache implements IMemcacheTTL {
 		if (!$this->hasKey($key)) {
 			return false;
 		}
-		return self::$cache->decrBy($this->getNamespace() . $key, $step);
+		try {
+			return $this->instance->decrby($this->getNameSpace() . $key, $step);
+		} catch (ServerException $e) { // not an int
+			return false;
+		}
 	}
 
 	/**
@@ -166,14 +146,16 @@ class Redis extends Cache implements IMemcacheTTL {
 		if (!is_int($new)) {
 			$new = json_encode($new);
 		}
-		self::$cache->watch($this->getNamespace() . $key);
-		if ($this->get($key) === $old) {
-			$result = self::$cache->multi()
-				->set($this->getNamespace() . $key, $new)
-				->exec();
-			return ($result === false) ? false : true;
+		$fullKey = $this->getNameSpace() . $key;
+
+		$this->instance->watch($fullKey);
+		$existing = json_decode($this->instance->get($fullKey), true);
+		if ($existing === $old) {
+			$this->instance->multi();
+			$this->instance->set($fullKey, $new);
+			return !is_null($this->instance->exec());
 		}
-		self::$cache->unwatch();
+		$this->instance->unwatch();
 		return false;
 	}
 
@@ -185,24 +167,25 @@ class Redis extends Cache implements IMemcacheTTL {
 	 * @return bool
 	 */
 	public function cad($key, $old) {
-		self::$cache->watch($this->getNamespace() . $key);
-		if ($this->get($key) === $old) {
-			$result = self::$cache->multi()
-				->del($this->getNamespace() . $key)
-				->exec();
-			return ($result === false) ? false : true;
+		$fullKey = $this->getNameSpace() . $key;
+
+		$this->instance->watch($fullKey);
+		$existing = json_decode($this->instance->get($fullKey), true);
+		if ($existing === $old) {
+			$this->instance->multi();
+			$this->instance->del([$fullKey]);
+			return !is_null($this->instance->exec());
 		}
-		self::$cache->unwatch();
+		$this->instance->unwatch();
 		return false;
 	}
 
 	public function setTTL($key, $ttl) {
-		self::$cache->expire($this->getNamespace() . $key, $ttl);
+		$this->instance->expire($this->getNameSpace() . $key, $ttl);
 	}
 
 	static public function isAvailable() {
-		return extension_loaded('redis')
-		&& version_compare(phpversion('redis'), '2.2.5', '>=');
+		return true;
 	}
 }
 
