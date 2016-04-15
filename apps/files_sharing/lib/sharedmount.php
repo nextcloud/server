@@ -49,6 +49,9 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	private $user;
 
+	/** @var \OCP\Share\IShare */
+	private $share;
+
 	/**
 	 * @param string $storage
 	 * @param SharedMount[] $mountpoints
@@ -58,11 +61,10 @@ class SharedMount extends MountPoint implements MoveableMount {
 	public function __construct($storage, array $mountpoints, $arguments = null, $loader = null) {
 		$this->user = $arguments['user'];
 		$this->recipientView = new View('/' . $this->user . '/files');
-		/** @var \OCP\Share\IShare $share */
-		$share = $arguments['newShare'];
-		$newMountPoint = $this->verifyMountPoint($share, $mountpoints);
+		$this->share = $arguments['newShare'];
+		$newMountPoint = $this->verifyMountPoint($this->share, $mountpoints);
 		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
-		$arguments['ownerView'] = new View('/' . $share->getShareOwner() . '/files');
+		$arguments['ownerView'] = new View('/' . $this->share->getShareOwner() . '/files');
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
 	}
 
@@ -210,8 +212,15 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @return \OCP\Share\IShare
 	 */
 	public function getShare() {
-		/** @var $storage \OC\Files\Storage\Shared */
-		$storage = $this->getStorage();
-		return $storage->getShare();
+		return $this->share;
+	}
+
+	/**
+	 * Get the file id of the root of the storage
+	 *
+	 * @return int
+	 */
+	public function getStorageRootId() {
+		return $this->share->getNodeId();
 	}
 }

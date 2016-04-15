@@ -239,4 +239,13 @@ class MountPoint implements IMountPoint {
 	public function getOptions() {
 		return $this->mountOptions;
 	}
+
+	/**
+	 * Get the file id of the root of the storage
+	 *
+	 * @return int
+	 */
+	public function getStorageRootId() {
+		return (int)$this->getStorage()->getCache()->getId('');
+	}
 }

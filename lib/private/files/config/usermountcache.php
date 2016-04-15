@@ -80,18 +80,11 @@ class UserMountCache implements IUserMountCache {
 		});
 		/** @var ICachedMountInfo[] $newMounts */
 		$newMounts = array_map(function (IMountPoint $mount) use ($user) {
-			$storage = $mount->getStorage();
-			if ($storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
-				$rootId = (int)$storage->getShare()->getNodeId();
-			} else {
-				$rootId = (int)$storage->getCache()->getId('');
-			}
-			$storageId = (int)$storage->getStorageCache()->getNumericId();
 			// filter out any storages which aren't scanned yet since we aren't interested in files from those storages (yet)
-			if ($rootId === -1) {
+			if ($mount->getStorageRootId() === -1) {
 				return null;
 			} else {
-				return new CachedMountInfo($user, $storageId, $rootId, $mount->getMountPoint());
+				return new LazyStorageMountInfo($user, $mount);
 			}
 		}, $mounts);
 		$newMounts = array_values(array_filter($newMounts));
