@@ -954,7 +954,14 @@ class OC {
 		if(!\OC::$server->getUserSession()->isLoggedIn()) {
 			$loginMessages = array(array_unique($error), $messages);
 			\OC::$server->getSession()->set('loginMessages', $loginMessages);
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute('core.login.showLoginForm'));
+			// Read current user and append if possible
+			$args = [];
+			if(isset($_POST['user'])) {
+				$args['user'] = $_POST['user'];
+			}
+
+			$redirectionTarget = \OC::$server->getURLGenerator()->linkToRoute('core.login.showLoginForm', $args);
+			header('Location: ' . $redirectionTarget);
 		}
 	}
 
