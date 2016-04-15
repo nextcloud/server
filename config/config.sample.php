@@ -430,14 +430,14 @@ $CONFIG = array(
  * Both minimum and maximum times can be set together to explicitly define
  * version deletion. For migration purposes, this setting is installed
  * initially set to "auto", which is equivalent to the default setting in
- * ownCloud 8.1 and before.
+ * ownCloud 8.1 and before. 
  *
  * Available values:
  *
  * * ``auto``      
  *     default setting. Automatically expire versions according to expire 
- *     rules. Please refer to Files_versions online documentation for more 
- *     info.
+ *     rules. Please refer to :doc:`../configuration_files/file_versioning` for 
+ *     more information.
  * * ``D, auto``   
  *     keep versions at least for D days, apply expire rules to all versions 
  *     that are older than D days
