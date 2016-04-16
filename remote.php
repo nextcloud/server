@@ -108,6 +108,11 @@ function resolveService($service) {
 try {
 	require_once 'lib/base.php';
 
+	// All resources served via the DAV endpoint should have the strictest possible
+	// policy. Exempted from this is the SabreDAV browser plugin which overwrites
+	// this policy with a softer one if debug mode is enabled.
+	header("Content-Security-Policy: default-src 'none';");
+
 	if (\OCP\Util::needUpgrade()) {
 		// since the behavior of apps or remotes are unpredictable during
 		// an upgrade, return a 503 directly
