@@ -68,6 +68,15 @@ Feature: webdav-related
 		And Downloading last public shared file with range "bytes=51-77"
 		Then Downloaded content should be "example file for developers"
 
+	Scenario: download a public shared file inside a folder with range
+		Given user "user0" exists
+		And As an "user0"
+		When creating a share with
+			| path | PARENT |
+			| shareType | 3 |
+		And Downloading last public shared file inside a folder "/parent.txt" with range "bytes=1-7"
+		Then Downloaded content should be "wnCloud"
+
 	Scenario: Downloading a file on the old endpoint should serve security headers
 		Given using dav path "remote.php/webdav"
 		And As an "admin"
