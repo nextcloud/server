@@ -9,7 +9,7 @@ branches:
     - /^stable\d+(\.\d+)?$/
 
 script:
-  - sh -c "if [ '$TC' = 'syntax' ]; then composer install && vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/patchwork/utf8/class/Patchwork/Utf8/Bootup/ .; fi"
+  - sh -c "if [ '$TC' = 'syntax' ]; then composer install && vendor/bin/parallel-lint --exclude vendor/jakub-onderka/ --exclude 3rdparty/patchwork/utf8/class/Patchwork/Utf8/Bootup/ --exclude vendor/composer/autoload_static.php --exclude 3rdparty/composer/autoload_static.php .; fi"
 
 matrix:
   include:
