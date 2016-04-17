@@ -63,6 +63,7 @@ OC.L10N.register(
     "Experimental" : "Experimentální",
     "All" : "Vše",
     "No apps found for your version" : "Nebyly nalezeny aplikace pro vaši verzi",
+    "The app will be downloaded from the app store" : "Aplikace bude stažena z obchodu aplikací",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Oficiální aplikace jsou vyvíjeny komunitou ownCloud. Nabízejí funkce důležité pro ownCloud a jsou připraveny pro nasazení v produkčním prostředí.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Schválené aplikace jsou vyvíjeny důvěryhodnými vývojáři a prošly zběžným bezpečnostním prověřením. Jsou aktivně udržovány v repozitáři s otevřeným kódem a jejich správci je považují za stabilní pro občasné až normální použití.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "U této aplikace nebyla provedena kontrola na bezpečnostní problémy. Aplikace je nová nebo nestabilní. Instalujte pouze na vlastní nebezpečí.",
