@@ -42,6 +42,11 @@ if (version_compare(PHP_VERSION, '5.4.0') === -1) {
 	return;
 }
 
+function exceptionHandler($exception) {
+	echo "An unhandled exception has been thrown:" . PHP_EOL;
+	echo $exception;
+	exit(1);
+}
 try {
 	require_once 'lib/base.php';
 
@@ -52,6 +57,8 @@ try {
 		echo "This script can be run from the command line only" . PHP_EOL;
 		exit(0);
 	}
+
+	set_exception_handler('exceptionHandler');
 
 	if (!OC_Util::runningOnWindows())  {
 		if (!function_exists('posix_getuid')) {
@@ -87,7 +94,5 @@ try {
 	$application->loadCommands(new ArgvInput(), new ConsoleOutput());
 	$application->run();
 } catch (Exception $ex) {
-	echo "An unhandled exception has been thrown:" . PHP_EOL;
-	echo $ex;
-	exit(1);
+	exceptionHandler($ex);
 }

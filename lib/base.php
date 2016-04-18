@@ -545,14 +545,9 @@ class OC {
 		OC_Util::isSetLocaleWorking();
 
 		if (!defined('PHPUNIT_RUN')) {
-			$logger = \OC::$server->getLogger();
-			OC\Log\ErrorHandler::setLogger($logger);
-			if (\OC::$server->getConfig()->getSystemValue('debug', false)) {
-				OC\Log\ErrorHandler::register(true);
-				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
-			} else {
-				OC\Log\ErrorHandler::register();
-			}
+			OC\Log\ErrorHandler::setLogger(\OC::$server->getLogger());
+			$debug = \OC::$server->getConfig()->getSystemValue('debug', false);
+			OC\Log\ErrorHandler::register($debug);
 		}
 
 		// register the stream wrappers
