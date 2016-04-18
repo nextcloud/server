@@ -1205,6 +1205,19 @@ $CONFIG = array(
 'debug' => false,
 
 /**
+ * Sets the data-fingerprint of the current data served
+ *
+ * This is a property used by the clients to find out if a backup has been
+ * restored on the server. Once a backup is restored run
+ * ./occ maintenance:data-fingerprint
+ * To set this to a new value.
+ *
+ * Updating/Deleting this value can make connected clients stall until
+ * the user has resolved conflicts.
+ */
+'data-fingerprint' => '',
+
+/**
  * This entry is just here to show a warning in case somebody copied the sample
  * configuration. DO NOT ADD THIS SWITCH TO YOUR CONFIGURATION!
  *
