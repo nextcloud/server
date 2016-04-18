@@ -154,21 +154,17 @@
 			// Default permissions are Edit (CRUD) and Share
 			// Check if these permissions are possible
 			var permissions = OC.PERMISSION_READ;
-			if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
-				permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_READ;
-			} else {
-				if (this.updatePermissionPossible()) {
-					permissions = permissions | OC.PERMISSION_UPDATE;
-				}
-				if (this.createPermissionPossible()) {
-					permissions = permissions | OC.PERMISSION_CREATE;
-				}
-				if (this.deletePermissionPossible()) {
-					permissions = permissions | OC.PERMISSION_DELETE;
-				}
-				if (this.configModel.get('isResharingAllowed') && (this.sharePermissionPossible())) {
-					permissions = permissions | OC.PERMISSION_SHARE;
-				}
+			if (this.updatePermissionPossible()) {
+				permissions = permissions | OC.PERMISSION_UPDATE;
+			}
+			if (this.createPermissionPossible()) {
+				permissions = permissions | OC.PERMISSION_CREATE;
+			}
+			if (this.deletePermissionPossible()) {
+				permissions = permissions | OC.PERMISSION_DELETE;
+			}
+			if (this.configModel.get('isResharingAllowed') && (this.sharePermissionPossible())) {
+				permissions = permissions | OC.PERMISSION_SHARE;
 			}
 
 			attributes.permissions = permissions;
