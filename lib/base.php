@@ -951,7 +951,18 @@ class OC {
 			$error[] = 'internalexception';
 		}
 
-		OC_Util::displayLoginPage(array_unique($error), $messages);
+		if(!\OC::$server->getUserSession()->isLoggedIn()) {
+			$loginMessages = array(array_unique($error), $messages);
+			\OC::$server->getSession()->set('loginMessages', $loginMessages);
+			// Read current user and append if possible
+			$args = [];
+			if(isset($_POST['user'])) {
+				$args['user'] = $_POST['user'];
+			}
+
+			$redirectionTarget = \OC::$server->getURLGenerator()->linkToRoute('core.login.showLoginForm', $args);
+			header('Location: ' . $redirectionTarget);
+		}
 	}
 
 	/**

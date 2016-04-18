@@ -947,44 +947,6 @@ class OC_Util {
 	}
 
 	/**
-	 * @param array $errors
-	 * @param string[] $messages
-	 */
-	public static function displayLoginPage($errors = array(), $messages = []) {
-		$parameters = array();
-		foreach ($errors as $value) {
-			$parameters[$value] = true;
-		}
-		$parameters['messages'] = $messages;
-		if (!empty($_REQUEST['user'])) {
-			$parameters["username"] = $_REQUEST['user'];
-			$parameters['user_autofocus'] = false;
-		} else {
-			$parameters["username"] = '';
-			$parameters['user_autofocus'] = true;
-		}
-		if (isset($_REQUEST['redirect_url'])) {
-			$parameters['redirect_url'] = $_REQUEST['redirect_url'];
-		}
-
-		$parameters['canResetPassword'] = true;
-		if (!\OC::$server->getSystemConfig()->getValue('lost_password_link')) {
-			if (isset($_REQUEST['user'])) {
-				$user = \OC::$server->getUserManager()->get($_REQUEST['user']);
-				if ($user instanceof IUser) {
-					$parameters['canResetPassword'] = $user->canChangePassword();
-				}
-			}
-		}
-
-		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
-		$parameters['rememberLoginAllowed'] = self::rememberLoginAllowed();
-		$parameters['rememberLoginState'] = isset($_POST['remember_login']) ? $_POST['remember_login'] : 0;
-		\OC_Hook::emit('OC_Util', 'pre_displayLoginPage', array('parameters' => $parameters));
-		OC_Template::printGuestPage("", "login", $parameters);
-	}
-
-	/**
 	 * Check if the user is logged in, redirects to home if not. With
 	 * redirect URL parameter to the request URI.
 	 *
@@ -993,7 +955,8 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if (!OC_User::isLoggedIn()) {
-			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php',
+			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
+					'core.login.showLoginForm',
 					[
 						'redirect_url' => \OC::$server->getRequest()->getRequestUri()
 					]

@@ -9,7 +9,7 @@ script('core', [
 ?>
 
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
-<form method="post" name="login">
+<form method="post" name="login" action="<?php p(OC::$WEBROOT) ?>/">
 	<fieldset>
 	<?php if (!empty($_['redirect_url'])) {
 		print_unescaped('<input type="hidden" name="redirect_url" value="' . \OCP\Util::sanitizeHTML($_['redirect_url']) . '">');
@@ -41,7 +41,7 @@ script('core', [
 		<p class="grouptop">
 			<input type="text" name="user" id="user"
 				placeholder="<?php p($l->t('Username')); ?>"
-				value="<?php p($_['username']); ?>"
+				value="<?php p($_['loginName']); ?>"
 				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
 				autocomplete="on" autocapitalize="off" autocorrect="off" required>
 			<label for="user" class="infield"><?php p($l->t('Username')); ?></label>
