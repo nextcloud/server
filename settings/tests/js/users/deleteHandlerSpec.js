@@ -132,6 +132,20 @@ describe('DeleteHandler tests', function() {
 		var	request = fakeServer.requests[0];
 		expect(request.url).toEqual(OC.webroot + '/index.php/dummyendpoint.php/some_uid');
 	});
+	it('deletes when deleteEntry is called and escapes', function() {
+		fakeServer.respondWith(/\/index\.php\/dummyendpoint.php\/some_uid/, [
+			200,
+			{ 'Content-Type': 'application/json' },
+			JSON.stringify({status: 'success'})
+		]);
+		var handler = init(markCallback, removeCallback, undoCallback);
+		handler.mark('some_uid<>/"..\\');
+
+		handler.deleteEntry();
+		expect(fakeServer.requests.length).toEqual(1);
+		var	request = fakeServer.requests[0];
+		expect(request.url).toEqual(OC.webroot + '/index.php/dummyendpoint.php/some_uid%3C%3E%2F%22..%5C');
+	});
 	it('cancels deletion when undo is clicked', function() {
 		var handler = init(markCallback, removeCallback, undoCallback);
 		handler.setNotification(OC.Notification, 'dataid', 'removed %oid entry <span class="undo">Undo</span>', undoCallback);
