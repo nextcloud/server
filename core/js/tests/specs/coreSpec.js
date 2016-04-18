@@ -470,6 +470,7 @@ describe('Core base tests', function() {
 		var $navigation;
 
 		beforeEach(function() {
+			jQuery.fx.off = true;
 			clock = sinon.useFakeTimers();
 			$('#testArea').append('<div id="header">' +
 				'<a class="menutoggle header-appname-container" href="#">' +
@@ -482,6 +483,7 @@ describe('Core base tests', function() {
 			$navigation = $('#navigation');
 		});
 		afterEach(function() {
+			jQuery.fx.off = false;
 			clock.restore();
 			$(document).off('ajaxError');
 		});
