@@ -20,10 +20,9 @@
  */
 
 if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
-	$updater = new \OC\Updater(
-		\OC::$server->getHTTPHelper(),
-		\OC::$server->getConfig(),
-		\OC::$server->getIntegrityCodeChecker()
+	$updater = new \OC\Updater\VersionCheck(
+		\OC::$server->getHTTPClientService(),
+		\OC::$server->getConfig()
 	);
 	$updateChecker = new \OCA\UpdateNotification\UpdateChecker(
 		$updater

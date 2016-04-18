@@ -34,7 +34,7 @@ class UpdateCheckerTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->updater = $this->getMockBuilder('\OC\Updater')
+		$this->updater = $this->getMockBuilder('\OC\Updater\VersionCheck')
 			->disableOriginalConstructor()->getMock();
 		$this->updateChecker = new UpdateChecker($this->updater);
 	}

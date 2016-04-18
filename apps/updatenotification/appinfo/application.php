@@ -34,10 +34,9 @@ class Application extends App {
 		$container = $this->getContainer();
 
 		$container->registerService('AdminController', function(IAppContainer $c) {
-			$updater = new \OC\Updater(
-				\OC::$server->getHTTPHelper(),
-				\OC::$server->getConfig(),
-				\OC::$server->getIntegrityCodeChecker()
+			$updater = new \OC\Updater\VersionCheck(
+				\OC::$server->getHTTPClientService(),
+				\OC::$server->getConfig()
 			);
 			return new AdminController(
 				$c->query('AppName'),

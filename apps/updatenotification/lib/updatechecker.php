@@ -21,16 +21,16 @@
 
 namespace OCA\UpdateNotification;
 
-use OC\Updater;
+use OC\Updater\VersionCheck;
 
 class UpdateChecker {
-	/** @var Updater */
+	/** @var VersionCheck */
 	private $updater;
 
 	/**
-	 * @param Updater $updater
+	 * @param VersionCheck $updater
 	 */
-	public function __construct(Updater $updater) {
+	public function __construct(VersionCheck $updater) {
 		$this->updater = $updater;
 	}
 

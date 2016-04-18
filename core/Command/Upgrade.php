@@ -128,7 +128,6 @@ class Upgrade extends Command {
 
 			$self = $this;
 			$updater = new Updater(
-					\OC::$server->getHTTPHelper(),
 					$this->config,
 					\OC::$server->getIntegrityCodeChecker(),
 					$this->logger
