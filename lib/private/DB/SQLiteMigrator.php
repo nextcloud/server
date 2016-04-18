@@ -70,7 +70,7 @@ class SQLiteMigrator extends Migrator {
 	 * @param \Doctrine\DBAL\Connection $connection
 	 * @return \Doctrine\DBAL\Schema\SchemaDiff
 	 */
-	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+	public function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
 		$platform = $connection->getDatabasePlatform();
 		$platform->registerDoctrineTypeMapping('tinyint unsigned', 'integer');
 		$platform->registerDoctrineTypeMapping('smallint unsigned', 'integer');

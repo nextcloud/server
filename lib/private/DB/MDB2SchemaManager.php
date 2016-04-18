@@ -97,7 +97,7 @@ class MDB2SchemaManager {
 	 * @param bool $isCreate
 	 * @return \Doctrine\DBAL\Schema\Schema
 	 */
-	private function readSchemaFromFile($file, $isCreate) {
+	public function readSchemaFromFile($file, $isCreate) {
 		$platform = $this->conn->getDatabasePlatform();
 		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $platform, $isCreate);
 		return $schemaReader->loadSchemaFromFile($file);

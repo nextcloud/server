@@ -31,7 +31,7 @@ class OracleMigrator extends NoCheckMigrator {
 	 * @param \Doctrine\DBAL\Connection $connection
 	 * @return \Doctrine\DBAL\Schema\SchemaDiff
 	 */
-	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+	public function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
 		$schemaDiff = parent::getDiff($targetSchema, $connection);
 
 		// oracle forces us to quote the identifiers

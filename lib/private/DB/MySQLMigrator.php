@@ -31,7 +31,7 @@ class MySQLMigrator extends Migrator {
 	 * @param \Doctrine\DBAL\Connection $connection
 	 * @return \Doctrine\DBAL\Schema\SchemaDiff
 	 */
-	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+	public function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
 		$platform = $connection->getDatabasePlatform();
 		$platform->registerDoctrineTypeMapping('enum', 'string');
 		$platform->registerDoctrineTypeMapping('bit', 'string');
