@@ -406,7 +406,7 @@
 			</field>
 
 
-            <index>
+			<index>
 				<name>fs_storage_path_hash</name>
 				<unique>true</unique>
 				<field>
@@ -416,6 +416,21 @@
 				<field>
 					<name>path_hash</name>
 					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<only-on-create/>
+				<name>fs_storage_path</name>
+				<unique>true</unique>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>path</name>
+					<sorting>ascending</sorting>
+					<length>250</length>
 				</field>
 			</index>
 
