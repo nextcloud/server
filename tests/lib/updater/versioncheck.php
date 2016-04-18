@@ -29,24 +29,20 @@ use OCP\Util;
 class VersionCheckTest extends \Test\TestCase {
 	/** @var IConfig| \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var HTTPHelper | \PHPUnit_Framework_MockObject_MockObject*/
-	private $httpHelper;
-	/** @var VersionCheck */
+	/** @var VersionCheck | \PHPUnit_Framework_MockObject_MockObject*/
 	private $updater;
 
 	public function setUp() {
 		parent::setUp();
-		$this->config = $this->getMockBuilder('\\OCP\\IConfig')
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->httpHelper = $this->getMockBuilder('\\OC\\HTTPHelper')
+		$clientService = $this->getMockBuilder('\OCP\Http\Client\IClientService')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->updater = new VersionCheck(
-			$this->httpHelper,
-			$this->config
-		);
+		$this->updater = $this->getMock('\OC\Updater\VersionCheck',
+			['getUrlContent'], [$clientService, $this->config]);
 	}
 
 	/**
@@ -118,7 +114,7 @@ class VersionCheckTest extends \Test\TestCase {
   <url>https://download.owncloud.org/community/owncloud-8.0.4.zip</url>
   <web>http://doc.owncloud.org/server/8.0/admin_manual/maintenance/upgrade.html</web>
 </owncloud>';
-		$this->httpHelper
+		$this->updater
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://updates.owncloud.com/server/'))
@@ -153,7 +149,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->with('core', 'lastupdateResult', 'false');
 
 		$updateXml = 'Invalid XML Response!';
-		$this->httpHelper
+		$this->updater
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://updates.owncloud.com/server/'))
@@ -201,7 +197,7 @@ class VersionCheckTest extends \Test\TestCase {
   <url>https://download.owncloud.org/community/owncloud-8.0.4.zip</url>
   <web>http://doc.owncloud.org/server/8.0/admin_manual/maintenance/upgrade.html</web>
 </owncloud>';
-		$this->httpHelper
+		$this->updater
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://myupdater.com/'))
@@ -245,7 +241,7 @@ class VersionCheckTest extends \Test\TestCase {
   <url></url>
   <web></web>
 </owncloud>';
-		$this->httpHelper
+		$this->updater
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://updates.owncloud.com/server/'))
@@ -282,7 +278,7 @@ class VersionCheckTest extends \Test\TestCase {
 			->with('core', 'lastupdateResult', json_encode($expectedResult));
 
 		$updateXml = '';
-		$this->httpHelper
+		$this->updater
 			->expects($this->once())
 			->method('getUrlContent')
 			->with($this->buildUpdateUrl('https://updates.owncloud.com/server/'))

@@ -21,7 +21,7 @@
 
 if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
 	$updater = new \OC\Updater\VersionCheck(
-		\OC::$server->getHTTPHelper(),
+		\OC::$server->getHTTPClientService(),
 		\OC::$server->getConfig()
 	);
 	$updateChecker = new \OCA\UpdateNotification\UpdateChecker(

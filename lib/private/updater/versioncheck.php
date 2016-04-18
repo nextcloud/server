@@ -33,28 +33,27 @@
 
 namespace OC\Updater;
 
-use OC\Hooks\BasicEmitter;
-use OC\HTTPHelper;
 use OC_Util;
+use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OC\Setup;
 use OCP\Util;
 
 class VersionCheck {
 
-	/** @var \OC\HTTPHelper $helper */
-	private $httpHelper;
+	/** @var IClientService */
+	private $clientService;
 	
 	/** @var IConfig */
 	private $config;
 
 	/**
-	 * @param HTTPHelper $httpHelper
+	 * @param IClientService $clientService
 	 * @param IConfig $config
 	 */
-	public function __construct(HTTPHelper $httpHelper,
+	public function __construct(IClientService $clientService,
 								IConfig $config) {
-		$this->httpHelper = $httpHelper;
+		$this->clientService = $clientService;
 		$this->config = $config;
 	}
 
@@ -94,7 +93,7 @@ class VersionCheck {
 		$url = $updaterUrl . '?version=' . $versionString;
 
 		$tmp = [];
-		$xml = $this->httpHelper->getUrlContent($url);
+		$xml = $this->getUrlContent($url);
 		if ($xml) {
 			$loadEntities = libxml_disable_entity_loader(true);
 			$data = @simplexml_load_string($xml);
@@ -114,6 +113,21 @@ class VersionCheck {
 		// Cache the result
 		$this->config->setAppValue('core', 'lastupdateResult', json_encode($data));
 		return $tmp;
+	}
+
+	/**
+	 * @codeCoverageIgnore
+	 * @param string $url
+	 * @return bool|resource|string
+	 */
+	protected function getUrlContent($url) {
+		try {
+			$client = $this->clientService->newClient();
+			$response = $client->get($url);
+			return $response->getBody();
+		} catch (\Exception $e) {
+			return false;
+		}
 	}
 }
 
