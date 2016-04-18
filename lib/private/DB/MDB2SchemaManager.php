@@ -64,7 +64,7 @@ class MDB2SchemaManager {
 	 * TODO: write more documentation
 	 */
 	public function createDbFromStructure($file) {
-		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $this->conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $this->conn->getDatabasePlatform(), true);
 		$toSchema = $schemaReader->loadSchemaFromFile($file);
 		return $this->executeSchemaChange($toSchema);
 	}
@@ -94,11 +94,12 @@ class MDB2SchemaManager {
 	 * Reads database schema from file
 	 *
 	 * @param string $file file to read from
+	 * @param bool $isCreate
 	 * @return \Doctrine\DBAL\Schema\Schema
 	 */
-	private function readSchemaFromFile($file) {
+	private function readSchemaFromFile($file, $isCreate) {
 		$platform = $this->conn->getDatabasePlatform();
-		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $platform);
+		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $platform, $isCreate);
 		return $schemaReader->loadSchemaFromFile($file);
 	}
 
@@ -109,7 +110,7 @@ class MDB2SchemaManager {
 	 * @return string|boolean
 	 */
 	public function updateDbFromStructure($file, $generateSql = false) {
-		$toSchema = $this->readSchemaFromFile($file);
+		$toSchema = $this->readSchemaFromFile($file, false);
 		$migrator = $this->getMigrator();
 
 		if ($generateSql) {
@@ -126,7 +127,7 @@ class MDB2SchemaManager {
 	 * @return boolean
 	 */
 	public function simulateUpdateDbFromStructure($file) {
-		$toSchema = $this->readSchemaFromFile($file);
+		$toSchema = $this->readSchemaFromFile($file, false);
 		$this->getMigrator()->checkMigrate($toSchema);
 		return true;
 	}
@@ -146,7 +147,7 @@ class MDB2SchemaManager {
 	 * @param string $file the xml file describing the tables
 	 */
 	public function removeDBStructure($file) {
-		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $this->conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $this->conn->getDatabasePlatform(), false);
 		$fromSchema = $schemaReader->loadSchemaFromFile($file);
 		$toSchema = clone $fromSchema;
 		/** @var $table \Doctrine\DBAL\Schema\Table */

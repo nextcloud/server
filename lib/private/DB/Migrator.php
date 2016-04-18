@@ -27,6 +27,7 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Connection;
 use \Doctrine\DBAL\DBALException;
 use \Doctrine\DBAL\Schema\Index;
 use \Doctrine\DBAL\Schema\Table;
@@ -41,7 +42,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class Migrator {
 
 	/**
-	 * @var \Doctrine\DBAL\Connection $connection
+	 * @var Connection $connection
 	 */
 	protected $connection;
 
@@ -60,12 +61,12 @@ class Migrator {
 	private $noEmit = false;
 
 	/**
-	 * @param \Doctrine\DBAL\Connection|Connection $connection
+	 * @param Connection|Connection $connection
 	 * @param ISecureRandom $random
 	 * @param IConfig $config
 	 * @param EventDispatcher $dispatcher
 	 */
-	public function __construct(\Doctrine\DBAL\Connection $connection,
+	public function __construct(Connection $connection,
 								ISecureRandom $random,
 								IConfig $config,
 								EventDispatcher $dispatcher = null) {
@@ -194,7 +195,7 @@ class Migrator {
 		return new Table($newName, $table->getColumns(), $newIndexes, array(), 0, $table->getOptions());
 	}
 
-	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+	protected function getDiff(Schema $targetSchema, Connection $connection) {
 		$filterExpression = $this->getFilterExpression();
 		$this->connection->getConfiguration()->
 		setFilterSchemaAssetsExpression($filterExpression);
@@ -220,9 +221,9 @@ class Migrator {
 
 	/**
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
-	 * @param \Doctrine\DBAL\Connection $connection
+	 * @param Connection $connection
 	 */
-	protected function applySchema(Schema $targetSchema, \Doctrine\DBAL\Connection $connection = null) {
+	protected function applySchema(Schema $targetSchema, Connection $connection = null) {
 		if (is_null($connection)) {
 			$connection = $this->connection;
 		}

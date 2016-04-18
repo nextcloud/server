@@ -10,15 +10,16 @@
 namespace Test\DB;
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Test\TestCase;
 
-class MDB2SchemaReader extends \Test\TestCase {
+class MDB2SchemaReader extends TestCase {
 	/**
 	 * @var \OC\DB\MDB2SchemaReader $reader
 	 */
 	protected $reader;
 
 	/**
-	 * @return \OC\Config
+	 * @return \OCP\IConfig
 	 */
 	protected function getConfig() {
 		$config = $this->getMockBuilder('\OCP\IConfig')
@@ -34,7 +35,7 @@ class MDB2SchemaReader extends \Test\TestCase {
 	}
 
 	public function testRead() {
-		$reader = new \OC\DB\MDB2SchemaReader($this->getConfig(), new MySqlPlatform());
+		$reader = new \OC\DB\MDB2SchemaReader($this->getConfig(), new MySqlPlatform(), true);
 		$schema = $reader->loadSchemaFromFile(__DIR__ . '/testschema.xml');
 		$this->assertCount(1, $schema->getTables());
 

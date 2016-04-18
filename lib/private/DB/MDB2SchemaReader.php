@@ -35,29 +35,27 @@ use Doctrine\DBAL\Schema\SchemaConfig;
 use OCP\IConfig;
 
 class MDB2SchemaReader {
-	/**
-	 * @var string $DBNAME
-	 */
+	/** @var string $DBNAME */
 	protected $DBNAME;
 
-	/**
-	 * @var string $DBTABLEPREFIX
-	 */
+	/** @var string $DBTABLEPREFIX */
 	protected $DBTABLEPREFIX;
 
-	/**
-	 * @var \Doctrine\DBAL\Platforms\AbstractPlatform $platform
-	 */
+	/** @var AbstractPlatform $platform */
 	protected $platform;
 
-	/** @var \Doctrine\DBAL\Schema\SchemaConfig $schemaConfig */
+	/** @var SchemaConfig $schemaConfig */
 	protected $schemaConfig;
 
+	/** @var boolean */
+	private $isCreate;
+
 	/**
-	 * @param \OCP\IConfig $config
-	 * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
+	 * @param IConfig $config
+	 * @param AbstractPlatform $platform
 	 */
-	public function __construct(IConfig $config, AbstractPlatform $platform) {
+	public function __construct(IConfig $config, AbstractPlatform $platform, $isCreate) {
+		$this->isCreate = $isCreate;
 		$this->platform = $platform;
 		$this->DBNAME = $config->getSystemValue('dbname', 'owncloud');
 		$this->DBTABLEPREFIX = $config->getSystemValue('dbtableprefix', 'oc_');
@@ -291,6 +289,12 @@ class MDB2SchemaReader {
 			 * @var \SimpleXMLElement $child
 			 */
 			switch ($child->getName()) {
+				case 'only-on-create':
+					// the index will only be created in case the instance is newly being installed
+					if (!$this->isCreate) {
+						return;
+					}
+				break;
 				case 'name':
 					$name = (string)$child;
 					break;
