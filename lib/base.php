@@ -337,27 +337,49 @@ class OC {
 	 */
 	private static function printUpgradePage() {
 		$systemConfig = \OC::$server->getSystemConfig();
+
+		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
+		$tooBig = false;
+		if (!$disableWebUpdater) {
+			// count users
+			$stats = \OC::$server->getUserManager()->countUsers();
+			$totalUsers = array_sum($stats);
+			$tooBig = ($totalUsers > 50);
+		}
+		if ($disableWebUpdater || $tooBig) {
+			// send http status 503
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			header('Retry-After: 120');
+
+			// render error page
+			$template = new OC_Template('', 'update.use-cli', 'guest');
+			$template->assign('productName', 'ownCloud'); // for now
+			$template->assign('version', OC_Util::getVersionString());
+			$template->assign('tooBig', $tooBig);
+
+			$template->printPage();
+			die();
+		}
+
+		// check whether this is a core update or apps update
+		$installedVersion = $systemConfig->getValue('version', '0.0.0');
+		$currentVersion = implode('.', \OCP\Util::getVersion());
+
+		// if not a core upgrade, then it's apps upgrade
+		$isAppsOnlyUpgrade = (version_compare($currentVersion, $installedVersion, '='));
+
 		$oldTheme = $systemConfig->getValue('theme');
 		$systemConfig->setValue('theme', '');
 		\OCP\Util::addScript('config'); // needed for web root
 		\OCP\Util::addScript('update');
 		\OCP\Util::addStyle('update');
 
-		// check whether this is a core update or apps update
-		$installedVersion = $systemConfig->getValue('version', '0.0.0');
-		$currentVersion = implode('.', \OCP\Util::getVersion());
-
 		$appManager = \OC::$server->getAppManager();
 
 		$tmpl = new OC_Template('', 'update.admin', 'guest');
 		$tmpl->assign('version', OC_Util::getVersionString());
-
-		// if not a core upgrade, then it's apps upgrade
-		if (version_compare($currentVersion, $installedVersion, '=')) {
-			$tmpl->assign('isAppsOnlyUpgrade', true);
-		} else {
-			$tmpl->assign('isAppsOnlyUpgrade', false);
-		}
+		$tmpl->assign('isAppsOnlyUpgrade', $isAppsOnlyUpgrade);
 
 		// get third party apps
 		$ocVersion = \OCP\Util::getVersion();
@@ -423,7 +445,7 @@ class OC {
 	}
 
 	public static function loadAppClassPaths() {
-		foreach (OC_APP::getEnabledApps() as $app) {
+		foreach (OC_App::getEnabledApps() as $app) {
 			$appPath = OC_App::getAppPath($app);
 			if ($appPath === false) {
 				continue;

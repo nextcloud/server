@@ -37,9 +37,17 @@ $eventSource = \OC::$server->createEventSource();
 // need to send an initial message to force-init the event source,
 // which will then trigger its own CSRF check and produces its own CSRF error
 // message
-$eventSource->send('success', (string)$l->t('Preparing update'));
+//$eventSource->send('success', (string)$l->t('Preparing update'));
 
 if (OC::checkUpgrade(false)) {
+
+	$config = \OC::$server->getSystemConfig();
+	if ($config->getValue('upgrade.disable-web', true)) {
+		$eventSource->send('failure', (string)$l->t('Updates need to be installed. Please use the command line updater.'));
+		$eventSource->close();
+		exit();
+	}
+
 	// if a user is currently logged in, their session must be ignored to
 	// avoid side effects
 	\OC_User::setIncognitoMode(true);
