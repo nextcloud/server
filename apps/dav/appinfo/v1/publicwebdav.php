@@ -30,6 +30,7 @@ $RUNTIME_APPTYPES = ['filesystem', 'authentication', 'logging'];
 OC_App::loadApps($RUNTIME_APPTYPES);
 
 OC_Util::obEnd();
+\OC::$server->getSession()->close();
 
 // Backends
 $authBackend = new OCA\DAV\Connector\PublicAuth(
