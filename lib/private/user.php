@@ -268,15 +268,6 @@ class OC_User {
 	}
 
 	/**
-	 * Logs the current user out and kills all the session data
-	 *
-	 * Logout, destroys session
-	 */
-	public static function logout() {
-		self::getUserSession()->logout();
-	}
-
-	/**
 	 * Tries to login the user with HTTP Basic Authentication
 	 */
 	public static function tryBasicAuthLogin() {
@@ -342,7 +333,14 @@ class OC_User {
 			return $backend->getLogoutAttribute();
 		}
 
-		return 'href="' . link_to('', 'index.php') . '?logout=true&amp;requesttoken=' . urlencode(\OCP\Util::callRegister()) . '"';
+		$logoutUrl = \OC::$server->getURLGenerator()->linkToRouteAbsolute(
+			'core.login.logout',
+			[
+				'requesttoken' => \OCP\Util::callRegister(),
+			]
+		);
+
+		return 'href="'.$logoutUrl.'"';
 	}
 
 	/**

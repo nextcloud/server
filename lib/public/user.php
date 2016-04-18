@@ -119,7 +119,7 @@ class User {
 	 * @since 5.0.0
 	 */
 	public static function logout() {
-		\OC_User::logout();
+		\OC::$server->getUserSession()->logout();
 	}
 
 	/**

@@ -129,7 +129,7 @@ interface IRequest {
 	 * Shortcut for getting cookie variables
 	 *
 	 * @param string $key the key that will be taken from the $_COOKIE array
-	 * @return array the value in the $_COOKIE element
+	 * @return string the value in the $_COOKIE element
 	 * @since 6.0.0
 	 */
 	public function getCookie($key);

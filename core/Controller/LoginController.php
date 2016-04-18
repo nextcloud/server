@@ -28,6 +28,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -41,6 +42,8 @@ class LoginController extends Controller {
 	private $session;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * @param string $appName
@@ -49,18 +52,37 @@ class LoginController extends Controller {
 	 * @param IConfig $config
 	 * @param ISession $session
 	 * @param IUserSession $userSession
+	 * @param IURLGenerator $urlGenerator
 	 */
 	function __construct($appName,
 						 IRequest $request,
 						 IUserManager $userManager,
 						 IConfig $config,
 						 ISession $session,
-						 IUserSession $userSession) {
+						 IUserSession $userSession,
+						 IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
 		$this->session = $session;
 		$this->userSession = $userSession;
+		$this->urlGenerator = $urlGenerator;
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @UseSession
+	 *
+	 * @return RedirectResponse
+	 */
+	public function logout() {
+		$loginToken = $this->request->getCookie('oc_token');
+		if (!is_null($loginToken)) {
+			$this->config->deleteUserValue($this->userSession->getUser()->getUID(), 'login_token', $loginToken);
+		}
+		$this->userSession->logout();
+
+		return new RedirectResponse($this->urlGenerator->linkToRouteAbsolute('core.login.showLoginForm'));
 	}
 
 	/**
