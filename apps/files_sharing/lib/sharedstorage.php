@@ -415,24 +415,4 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		return $this->sourceStorage;
 	}
 
-	/**
-	 * @param \OCP\Files\Storage $sourceStorage
-	 * @param string $sourceInternalPath
-	 * @param string $targetInternalPath
-	 * @return bool
-	 */
-	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $this->getSourcePath($targetInternalPath));
-	}
-
-	/**
-	 * @param \OCP\Files\Storage $sourceStorage
-	 * @param string $sourceInternalPath
-	 * @param string $targetInternalPath
-	 * @return bool
-	 */
-	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $this->getSourcePath($targetInternalPath));
-	}
-
 }
