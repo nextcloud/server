@@ -100,26 +100,26 @@ class HookManager {
 
 	public function postLogin($params) {
 		$user = $this->userManager->get($params['uid']);
-		if (!is_null($user)) {
-			$principal = 'principals/users/' . $user->getUID();
-			$calendars = $this->calDav->getCalendarsForUser($principal);
-			if (empty($calendars)) {
-				try {
-					$this->calDav->createCalendar($principal, 'personal', [
-						'{DAV:}displayname' => 'Personal']);
-				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
-				}
-			}
-			$books = $this->cardDav->getAddressBooksForUser($principal);
-			if (empty($books)) {
-				try {
-					$this->cardDav->createAddressBook($principal, 'contacts', [
-						'{DAV:}displayname' => 'Contacts']);
-				} catch (\Exception $ex) {
-					\OC::$server->getLogger()->logException($ex);
-				}
+
+		$principal = 'principals/users/' . $user->getUID();
+		$calendars = $this->calDav->getCalendarsForUser($principal);
+		if (empty($calendars)) {
+			try {
+				$this->calDav->createCalendar($principal, 'personal', [
+					'displayname' => 'Personal']);
+			} catch (\Exception $ex) {
+				\OC::$server->getLogger()->logException($ex);
 			}
 		}
+		$books = $this->cardDav->getAddressBooksForUser($principal);
+		if (empty($books)) {
+			try {
+				$this->cardDav->createAddressBook($principal, 'contacts', [
+					'displayname' => 'Contacts']);
+			} catch (\Exception $ex) {
+				\OC::$server->getLogger()->logException($ex);
+			}
+		}
+
 	}
 }
