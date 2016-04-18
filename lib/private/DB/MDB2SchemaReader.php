@@ -283,7 +283,8 @@ class MDB2SchemaReader {
 	 */
 	private function loadIndex($table, $xml) {
 		$name = null;
-		$fields = array();
+		$fields = [];
+		$lengths = [];
 		foreach ($xml->children() as $child) {
 			/**
 			 * @var \SimpleXMLElement $child
@@ -305,23 +306,29 @@ class MDB2SchemaReader {
 					$unique = $this->asBool($child);
 					break;
 				case 'field':
+					$fieldName = null;
+					$length = null;
 					foreach ($child->children() as $field) {
-						/**
-						 * @var \SimpleXMLElement $field
-						 */
+						/** @var \SimpleXMLElement $field */
 						switch ($field->getName()) {
 							case 'name':
-								$field_name = (string)$field;
-								$field_name = $this->platform->quoteIdentifier($field_name);
-								$fields[] = $field_name;
+								$fieldName = (string)$field;
+								$fieldName = $this->platform->quoteIdentifier($fieldName);
 								break;
 							case 'sorting':
 								break;
+							case 'length':
+								$length = (string)$field;
+								break;
 							default:
 								throw new \DomainException('Unknown element: ' . $field->getName());
-
 						}
 					}
+					$fields[] = $fieldName;
+					if (!is_null($length)) {
+						$lengths[$fieldName] = $length;
+					}
+
 					break;
 				default:
 					throw new \DomainException('Unknown element: ' . $child->getName());
@@ -335,10 +342,14 @@ class MDB2SchemaReader {
 				}
 				$table->setPrimaryKey($fields, $name);
 			} else {
+				$options = [];
+				if (count($lengths) > 0) {
+					$options['oc-length'] = $lengths;
+				}
 				if (isset($unique) && $unique) {
-					$table->addUniqueIndex($fields, $name);
+					$table->addUniqueIndex($fields, $name, $options);
 				} else {
-					$table->addIndex($fields, $name);
+					$table->addIndex($fields, $name, [], $options);
 				}
 			}
 		} else {

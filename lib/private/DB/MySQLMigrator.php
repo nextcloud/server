@@ -23,6 +23,7 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Schema\Index;
 use Doctrine\DBAL\Schema\Schema;
 
 class MySQLMigrator extends Migrator {
@@ -38,12 +39,35 @@ class MySQLMigrator extends Migrator {
 
 		$schemaDiff = parent::getDiff($targetSchema, $connection);
 
-		// identifiers need to be quoted for mysql
 		foreach ($schemaDiff->changedTables as $tableDiff) {
+			// identifiers need to be quoted for mysql
 			$tableDiff->name = $this->connection->quoteIdentifier($tableDiff->name);
 			foreach ($tableDiff->changedColumns as $column) {
 				$column->oldColumnName = $this->connection->quoteIdentifier($column->oldColumnName);
 			}
+
+			// adjust max index length if needed
+			$addedIndexes = [];
+			foreach ($tableDiff->addedIndexes as $index) {
+				if ($index->hasOption('oc-length')) {
+					$columnLength = $index->getOption('oc-length');
+					$columns = [];
+					foreach ($index->getUnquotedColumns() as $c) {
+						$quotedC = $this->connection->quoteIdentifier($c);
+						if (array_key_exists($quotedC, $columnLength)) {
+							$l = $columnLength[$quotedC];
+							// HACK: the whitespace in the beginning prevents Doctrine to remove the quotes
+							$c = "$c($l)";
+						}
+						$columns[]= $c;
+					}
+					$newIndex = new Index($index->getName(), $columns);
+					$addedIndexes[] = $newIndex;
+				} else {
+					$addedIndexes[] = $index;
+				}
+			}
+			$tableDiff->addedIndexes = $addedIndexes;
 		}
 
 		return $schemaDiff;

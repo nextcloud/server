@@ -59,10 +59,10 @@ class ApplyIndexes extends Command {
 				$migrator->applyDiff($diff, $connection);
 			}
 			$progress->finish();
+			$output->writeln('');
 		} catch (\Exception $e) {
 			$output->writeln('Failed to update database structure ('.$e.')');
 		}
-
 	}
 
 	/**
