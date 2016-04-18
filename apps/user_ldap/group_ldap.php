@@ -72,8 +72,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return false;
 		}
 		$cacheKey = 'inGroup'.$uid.':'.$gid;
-		if($this->access->connection->isCached($cacheKey)) {
-			return $this->access->connection->getFromCache($cacheKey);
+		$inGroup = $this->access->connection->getFromCache($cacheKey);
+		if(!is_null($inGroup)) {
+			return (bool)$inGroup;
 		}
 
 		$userDN = $this->access->username2dn($uid);
@@ -84,8 +85,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		$cacheKeyMembers = 'inGroup-members:'.$gid;
-		if($this->access->connection->isCached($cacheKeyMembers)) {
-			$members = $this->access->connection->getFromCache($cacheKeyMembers);
+		$members = $this->access->connection->getFromCache($cacheKeyMembers);
+		if(!is_null($members)) {
 			$this->cachedGroupMembers[$gid] = $members;
 			$isInGroup = in_array($userDN, $members);
 			$this->access->connection->writeToCache($cacheKey, $isInGroup);
@@ -204,8 +205,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 		// used extensively in cron job, caching makes sense for nested groups
 		$cacheKey = '_groupMembers'.$dnGroup;
-		if($this->access->connection->isCached($cacheKey)) {
-			return $this->access->connection->getFromCache($cacheKey);
+		$groupMembers = $this->access->connection->getFromCache($cacheKey);
+		if(!is_null($groupMembers)) {
+			return $groupMembers;
 		}
 		$seen[$dnGroup] = 1;
 		$members = $this->access->readAttribute($dnGroup, $this->access->connection->ldapGroupMemberAssocAttr,
@@ -267,11 +269,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 */
 	public function primaryGroupID2Name($gid, $dn) {
 		$cacheKey = 'primaryGroupIDtoName';
-		if($this->access->connection->isCached($cacheKey)) {
-			$groupNames = $this->access->connection->getFromCache($cacheKey);
-			if(isset($groupNames[$gid])) {
-				return $groupNames[$gid];
-			}
+		$groupNames = $this->access->connection->getFromCache($cacheKey);
+		if(!is_null($groupNames) && isset($groupNames[$gid])) {
+			return $groupNames[$gid];
 		}
 
 		$domainObjectSid = $this->access->getSID($dn);
@@ -440,8 +440,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return array();
 		}
 		$cacheKey = 'getUserGroups'.$uid;
-		if($this->access->connection->isCached($cacheKey)) {
-			return $this->access->connection->getFromCache($cacheKey);
+		$userGroups = $this->access->connection->getFromCache($cacheKey);
+		if(!is_null($userGroups)) {
+			return $userGroups;
 		}
 		$userDN = $this->access->username2dn($uid);
 		if(!$userDN) {
@@ -861,8 +862,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 * @return bool
 	 */
 	public function groupExists($gid) {
-		if($this->access->connection->isCached('groupExists'.$gid)) {
-			return $this->access->connection->getFromCache('groupExists'.$gid);
+		$groupExists = $this->access->connection->getFromCache('groupExists'.$gid);
+		if(!is_null($groupExists)) {
+			return (bool)$groupExists;
 		}
 
 		//getting dn, if false the group does not exist. If dn, it may be mapped

@@ -297,8 +297,9 @@ class User {
 
 	public function getMemberOfGroups() {
 		$cacheKey = 'getMemberOf'.$this->getUsername();
-		if($this->connection->isCached($cacheKey)) {
-			return $this->connection->getFromCache($cacheKey);
+		$memberOfGroups = $this->connection->getFromCache($cacheKey);
+		if(!is_null($memberOfGroups)) {
+			return $memberOfGroups;
 		}
 		$groupDNs = $this->access->readAttribute($this->getDN(), 'memberOf');
 		$this->connection->writeToCache($cacheKey, $groupDNs);
