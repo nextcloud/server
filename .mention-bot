@@ -11,8 +11,8 @@
     {
       "name": "nickvergessen",
       "files": [
-        "lib/private/activity/**",
-        "lib/private/notification/**",
+        "lib/private/Activity/**",
+        "lib/private/Notification/**",
         "lib/public/activity/**",
         "lib/public/notification/**"
       ]
