@@ -25,6 +25,8 @@ namespace OCA\FederatedFileSharing;
 
 use OC\Share20\Share;
 use OCP\Files\IRootFolder;
+use OCP\IAppConfig;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\Share\IShare;
@@ -65,6 +67,9 @@ class FederatedShareProvider implements IShareProvider {
 	/** @var IRootFolder */
 	private $rootFolder;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * DefaultShareProvider constructor.
 	 *
@@ -75,6 +80,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IL10N $l10n
 	 * @param ILogger $logger
 	 * @param IRootFolder $rootFolder
+	 * @param IConfig $config
 	 */
 	public function __construct(
 			IDBConnection $connection,
@@ -83,7 +89,8 @@ class FederatedShareProvider implements IShareProvider {
 			TokenHandler $tokenHandler,
 			IL10N $l10n,
 			ILogger $logger,
-			IRootFolder $rootFolder
+			IRootFolder $rootFolder,
+			IConfig $config
 	) {
 		$this->dbConnection = $connection;
 		$this->addressHandler = $addressHandler;
@@ -92,6 +99,7 @@ class FederatedShareProvider implements IShareProvider {
 		$this->l = $l10n;
 		$this->logger = $logger;
 		$this->rootFolder = $rootFolder;
+		$this->config = $config;
 	}
 
 	/**
@@ -600,5 +608,25 @@ class FederatedShareProvider implements IShareProvider {
 	public function userDeletedFromGroup($uid, $gid) {
 		// We don't handle groups here
 		return;
+	}
+
+	/**
+	 * check if users from other ownCloud instances are allowed to mount public links share by this instance
+	 *
+	 * @return bool
+	 */
+	public function isOutgoingServer2serverShareEnabled() {
+		$result = $this->config->getAppValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
+		return ($result === 'yes') ? true : false;
+	}
+
+	/**
+	 * check if users are allowed to mount public links from other ownClouds
+	 *
+	 * @return bool
+	 */
+	public function isIncomingServer2serverShareEnabled() {
+		$result = $this->config->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
+		return ($result === 'yes') ? true : false;
 	}
 }

@@ -280,26 +280,6 @@ class Helper {
 	}
 
 	/**
-	 * allow users from other ownCloud instances to mount public links share by this instance
-	 * @return bool
-	 */
-	public static function isOutgoingServer2serverShareEnabled() {
-		$appConfig = \OC::$server->getAppConfig();
-		$result = $appConfig->getValue('files_sharing', 'outgoing_server2server_share_enabled', 'yes');
-		return ($result === 'yes') ? true : false;
-	}
-
-	/**
-	 * allow user to mount public links from onther ownClouds
-	 * @return bool
-	 */
-	public static function isIncomingServer2serverShareEnabled() {
-		$appConfig = \OC::$server->getAppConfig();
-		$result = $appConfig->getValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
-		return ($result === 'yes') ? true : false;
-	}
-
-	/**
 	 * get default share folder
 	 *
 	 * @return string

@@ -21,7 +21,5 @@
 
 namespace OCA\FederatedFileSharing\AppInfo;
 
-use OCP\AppFramework\App;
-
-new App('federatedfilesharing');
-
+$app = new Application('federatedfilesharing');
+$app->registerSettings();

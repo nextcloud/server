@@ -21,9 +21,14 @@
  *
  */
 
+use OCA\FederatedFileSharing\AppInfo\Application;
+
 \OC_Util::checkLoggedIn();
 
-$l = \OC::$server->getL10N('files_sharing');
+$l = \OC::$server->getL10N('federatedfilesharing');
+
+$app = new Application('federatedfilesharing');
+$federatedShareProvider = $app->getFederatedShareProvider();
 
 $isIE8 = false;
 preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
@@ -35,8 +40,8 @@ $cloudID = \OC::$server->getUserSession()->getUser()->getCloudId();
 $url = 'https://owncloud.org/federation#' . $cloudID;
 $ownCloudLogoPath = \OC::$server->getURLGenerator()->imagePath('core', 'logo-icon.svg');
 
-$tmpl = new OCP\Template('files_sharing', 'settings-personal');
-$tmpl->assign('outgoingServer2serverShareEnabled', \OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled());
+$tmpl = new OCP\Template('federatedfilesharing', 'settings-personal');
+$tmpl->assign('outgoingServer2serverShareEnabled', $federatedShareProvider->isOutgoingServer2serverShareEnabled());
 $tmpl->assign('message_with_URL', $l->t('Share with me through my #ownCloud Federated Cloud ID, see %s', [$url]));
 $tmpl->assign('message_without_URL', $l->t('Share with me through my #ownCloud Federated Cloud ID', [$cloudID]));
 $tmpl->assign('owncloud_logo_path', $ownCloudLogoPath);
