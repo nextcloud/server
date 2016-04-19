@@ -272,6 +272,12 @@ CREATE TABLE calendarobjects (
 			<type>text</type>
 			<length>255</length>
 		</field>
+		<field>
+			<comments>0 - public, 1 - private, 2 - confidential</comments>
+			<name>classification</name>
+			<type>int</type>
+			<default>0</default>
+		</field>
 		<index>
 			<name>calobjects_index</name>
 			<unique>true</unique>

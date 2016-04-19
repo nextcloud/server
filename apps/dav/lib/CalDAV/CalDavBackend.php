@@ -37,10 +37,11 @@ use Sabre\CalDAV\Xml\Property\ScheduleCalendarTransp;
 use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\PropPatch;
 use Sabre\HTTP\URLUtil;
 use Sabre\VObject\DateTimeParser;
 use Sabre\VObject\Reader;
-use Sabre\VObject\RecurrenceIterator;
+use Sabre\VObject\Recur\EventIterator;
 
 /**
  * Class CalDavBackend
@@ -60,6 +61,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * to a unix timestamp.
 	 */
 	const MAX_DATE = '2038-01-01';
+
+	const CLASSIFICATION_PUBLIC = 0;
+	const CLASSIFICATION_PRIVATE = 1;
+	const CLASSIFICATION_CONFIDENTIAL = 2;
 
 	/**
 	 * List of CalDAV properties, and how they map to database field names
@@ -395,10 +400,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 *
 	 * Read the PropPatch documentation for more info and examples.
 	 *
-	 * @param \Sabre\DAV\PropPatch $propPatch
+	 * @param PropPatch $propPatch
 	 * @return void
 	 */
-	function updateCalendar($calendarId, \Sabre\DAV\PropPatch $propPatch) {
+	function updateCalendar($calendarId, PropPatch $propPatch) {
 		$supportedProperties = array_keys($this->propertyMap);
 		$supportedProperties[] = '{' . Plugin::NS_CALDAV . '}schedule-calendar-transp';
 
@@ -618,6 +623,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'componenttype' => $query->createNamedParameter($extraData['componentType']),
 				'firstoccurence' => $query->createNamedParameter($extraData['firstOccurence']),
 				'lastoccurence' => $query->createNamedParameter($extraData['lastOccurence']),
+				'classification' => $query->createNamedParameter($extraData['classification']),
 				'uid' => $query->createNamedParameter($extraData['uid']),
 			])
 			->execute();
@@ -657,6 +663,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				->set('componenttype', $query->createNamedParameter($extraData['componentType']))
 				->set('firstoccurence', $query->createNamedParameter($extraData['firstOccurence']))
 				->set('lastoccurence', $query->createNamedParameter($extraData['lastOccurence']))
+				->set('classification', $query->createNamedParameter($extraData['classification']))
 				->set('uid', $query->createNamedParameter($extraData['uid']))
 			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 			->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)))
@@ -665,6 +672,18 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$this->addChange($calendarId, $objectUri, 2);
 
 		return '"' . $extraData['etag'] . '"';
+	}
+
+	/**
+	 * @param int $calendarObjectId
+	 * @param int $classification
+	 */
+	public function setClassification($calendarObjectId, $classification) {
+		$query = $this->db->getQueryBuilder();
+		$query->update('calendarobjects')
+			->set('classification', $query->createNamedParameter($classification))
+			->where($query->expr()->eq('id', $query->createNamedParameter($calendarObjectId)))
+			->execute();
 	}
 
 	/**
@@ -1086,10 +1105,10 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * Read the PropPatch documentation for more info and examples.
 	 *
 	 * @param mixed $subscriptionId
-	 * @param \Sabre\DAV\PropPatch $propPatch
+	 * @param PropPatch $propPatch
 	 * @return void
 	 */
-	function updateSubscription($subscriptionId, DAV\PropPatch $propPatch) {
+	function updateSubscription($subscriptionId, PropPatch $propPatch) {
 		$supportedProperties = array_keys($this->subscriptionPropertyMap);
 		$supportedProperties[] = '{http://calendarserver.org/ns/}source';
 
@@ -1280,14 +1299,15 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param string $calendarData
 	 * @return array
 	 */
-	protected function getDenormalizedData($calendarData) {
+	public function getDenormalizedData($calendarData) {
 
 		$vObject = Reader::read($calendarData);
 		$componentType = null;
 		$component = null;
-		$firstOccurence = null;
-		$lastOccurence = null;
+		$firstOccurrence = null;
+		$lastOccurrence = null;
 		$uid = null;
+		$classification = self::CLASSIFICATION_PUBLIC;
 		foreach($vObject->getComponents() as $component) {
 			if ($component->name!=='VTIMEZONE') {
 				$componentType = $component->name;
@@ -1303,23 +1323,23 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			// Finding the last occurrence is a bit harder
 			if (!isset($component->RRULE)) {
 				if (isset($component->DTEND)) {
-					$lastOccurence = $component->DTEND->getDateTime()->getTimeStamp();
+					$lastOccurrence = $component->DTEND->getDateTime()->getTimeStamp();
 				} elseif (isset($component->DURATION)) {
 					$endDate = clone $component->DTSTART->getDateTime();
 					$endDate->add(DateTimeParser::parse($component->DURATION->getValue()));
-					$lastOccurence = $endDate->getTimeStamp();
+					$lastOccurrence = $endDate->getTimeStamp();
 				} elseif (!$component->DTSTART->hasTime()) {
 					$endDate = clone $component->DTSTART->getDateTime();
 					$endDate->modify('+1 day');
-					$lastOccurence = $endDate->getTimeStamp();
+					$lastOccurrence = $endDate->getTimeStamp();
 				} else {
-					$lastOccurence = $firstOccurence;
+					$lastOccurrence = $firstOccurence;
 				}
 			} else {
-				$it = new RecurrenceIterator($vObject, (string)$component->UID);
+				$it = new EventIterator($vObject, (string)$component->UID);
 				$maxDate = new \DateTime(self::MAX_DATE);
 				if ($it->isInfinite()) {
-					$lastOccurence = $maxDate->getTimeStamp();
+					$lastOccurrence = $maxDate->getTimeStamp();
 				} else {
 					$end = $it->getDtEnd();
 					while($it->valid() && $end < $maxDate) {
@@ -1327,19 +1347,31 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 						$it->next();
 
 					}
-					$lastOccurence = $end->getTimeStamp();
+					$lastOccurrence = $end->getTimeStamp();
 				}
 
 			}
 		}
 
+		if ($component->CLASS) {
+			$classification = CalDavBackend::CLASSIFICATION_PRIVATE;
+			switch ($component->CLASS->getValue()) {
+				case 'PUBLIC':
+					$classification = CalDavBackend::CLASSIFICATION_PUBLIC;
+					break;
+				case 'CONFIDENTIAL':
+					$classification = CalDavBackend::CLASSIFICATION_CONFIDENTIAL;
+					break;
+			}
+		}
 		return [
-				'etag' => md5($calendarData),
-				'size' => strlen($calendarData),
-				'componentType' => $componentType,
-				'firstOccurence' => is_null($firstOccurence) ? null : max(0, $firstOccurence),
-				'lastOccurence'  => $lastOccurence,
-				'uid' => $uid,
+			'etag' => md5($calendarData),
+			'size' => strlen($calendarData),
+			'componentType' => $componentType,
+			'firstOccurence' => is_null($firstOccurrence) ? null : max(0, $firstOccurrence),
+			'lastOccurence'  => $lastOccurrence,
+			'uid' => $uid,
+			'classification' => $classification
 		];
 
 	}
