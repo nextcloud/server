@@ -2862,7 +2862,7 @@ $(document).ready(function() {
 			OCA.Files.FileList.lastAction();
 		}
 	});
-	$(window).unload(function () {
+	$(window).on('unload', function () {
 		$(window).trigger('beforeunload');
 	});
 
