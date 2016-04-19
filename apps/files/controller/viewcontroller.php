@@ -136,7 +136,6 @@ class ViewController extends Controller {
 		\OCP\Util::addscript('files', 'app');
 		\OCP\Util::addscript('files', 'file-upload');
 		\OCP\Util::addscript('files', 'newfilemenu');
-		\OCP\Util::addscript('files', 'jquery.iframe-transport');
 		\OCP\Util::addscript('files', 'jquery.fileupload');
 		\OCP\Util::addscript('files', 'jquery-visibility');
 		\OCP\Util::addscript('files', 'fileinfomodel');

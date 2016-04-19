@@ -2549,7 +2549,7 @@
 					// fetch response from iframe
 					response = data.result[0].body.innerText;
 				}
-				var result=$.parseJSON(response);
+				var result = JSON.parse(response);
 
 				if (typeof result[0] !== 'undefined' && result[0].status === 'success') {
 					var file = result[0];

@@ -166,7 +166,7 @@ function cleanCropper () {
 
 function avatarResponseHandler (data) {
 	if (typeof data === 'string') {
-		data = $.parseJSON(data);
+		data = JSON.parse(data);
 	}
 	var $warning = $('#avatar .warning');
 	$warning.hide();
@@ -248,10 +248,10 @@ $(document).ready(function () {
 		done: function (e, data) {
 			var response = data;
 			if (typeof data.result === 'string') {
-				response = $.parseJSON(data.result);
+				response = JSON.parse(data.result);
 			} else if (data.result && data.result.length) {
 				// fetch response from iframe
-				response = $.parseJSON(data.result[0].body.innerText);
+				response = JSON.parse(data.result[0].body.innerText);
 			} else {
 				response = data.result;
 			}
