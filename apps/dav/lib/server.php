@@ -132,8 +132,15 @@ class Server {
 			$user = \OC::$server->getUserSession()->getUser();
 			if (!is_null($user)) {
 				$view = \OC\Files\Filesystem::getView();
-				$this->server->addPlugin(new FilesPlugin($this->server->tree, $view, false,
-					!\OC::$server->getConfig()->getSystemValue('debug', false)));
+				$this->server->addPlugin(
+					new FilesPlugin(
+						$this->server->tree,
+						$view,
+						\OC::$server->getConfig(),
+						false,
+						!\OC::$server->getConfig()->getSystemValue('debug', false)
+					)
+				);
 
 				$this->server->addPlugin(
 					new \Sabre\DAV\PropertyStorage\Plugin(

@@ -39,6 +39,7 @@ use Sabre\DAV\Tree;
 use \Sabre\HTTP\RequestInterface;
 use \Sabre\HTTP\ResponseInterface;
 use OCP\Files\StorageNotAvailableException;
+use OCP\IConfig;
 
 class FilesPlugin extends ServerPlugin {
 
@@ -55,6 +56,7 @@ class FilesPlugin extends ServerPlugin {
 	const OWNER_ID_PROPERTYNAME = '{http://owncloud.org/ns}owner-id';
 	const OWNER_DISPLAY_NAME_PROPERTYNAME = '{http://owncloud.org/ns}owner-display-name';
 	const CHECKSUMS_PROPERTYNAME = '{http://owncloud.org/ns}checksums';
+	const DATA_FINGERPRINT_PROPERTYNAME = '{http://owncloud.org/ns}data-fingerprint';
 
 	/**
 	 * Reference to main server object
@@ -87,6 +89,11 @@ class FilesPlugin extends ServerPlugin {
 	private $downloadAttachment;
 
 	/**
+	 * @var IConfig
+	 */
+	private $config;
+
+	/**
 	 * @param Tree $tree
 	 * @param View $view
 	 * @param bool $isPublic
@@ -94,10 +101,12 @@ class FilesPlugin extends ServerPlugin {
 	 */
 	public function __construct(Tree $tree,
 								View $view,
+								IConfig $config,
 								$isPublic = false,
 								$downloadAttachment = true) {
 		$this->tree = $tree;
 		$this->fileView = $view;
+		$this->config = $config;
 		$this->isPublic = $isPublic;
 		$this->downloadAttachment = $downloadAttachment;
 	}
@@ -125,6 +134,7 @@ class FilesPlugin extends ServerPlugin {
 		$server->protectedProperties[] = self::OWNER_ID_PROPERTYNAME;
 		$server->protectedProperties[] = self::OWNER_DISPLAY_NAME_PROPERTYNAME;
 		$server->protectedProperties[] = self::CHECKSUMS_PROPERTYNAME;
+		$server->protectedProperties[] = self::DATA_FINGERPRINT_PROPERTYNAME;
 
 		// normally these cannot be changed (RFC4918), but we want them modifiable through PROPPATCH
 		$allowedProperties = ['{DAV:}getetag'];
@@ -271,6 +281,18 @@ class FilesPlugin extends ServerPlugin {
 				$owner = $node->getOwner();
 				$displayName = $owner->getDisplayName();
 				return $displayName;
+			});
+
+			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function() use ($node) {
+				if ($node->getPath() === '/') {
+					return $this->config->getSystemValue('data-fingerprint', '');
+				}
+			});
+		}
+
+		if ($node instanceof \OCA\DAV\Files\FilesHome) {
+			$propFind->handle(self::DATA_FINGERPRINT_PROPERTYNAME, function() use ($node) {
+				return $this->config->getSystemValue('data-fingerprint', '');
 			});
 		}
 
