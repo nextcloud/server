@@ -25,7 +25,7 @@ use OC\IntegrityCheck\Exceptions\InvalidSignatureException;
 use OC\IntegrityCheck\Helpers\AppLocator;
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use OC\IntegrityCheck\Helpers\FileAccessHelper;
-use OC\Integritycheck\Iterator\ExcludeFileByNameFilterIterator;
+use OC\IntegrityCheck\Iterator\ExcludeFileByNameFilterIterator;
 use OC\IntegrityCheck\Iterator\ExcludeFoldersByPathFilterIterator;
 use OCP\App\IAppManager;
 use OCP\ICache;
