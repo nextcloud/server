@@ -92,7 +92,7 @@
 		// Init vars
 		var result = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 		var rgb = [0, 0, 0];
-		var sat = 80;
+		var sat = 70;
 		var lum = 68;
 		var modulo = 16;
 
@@ -106,6 +106,12 @@
 		for(var count=1;count<modulo;count++) {
 			rgb[count%3] += parseInt(result[count]);
 		}
+
+		// Reduce values bigger than rgb requirements
+		rgb[0] = rgb[0]%255;
+		rgb[1] = rgb[1]%255;
+		rgb[2] = rgb[2]%255;
+
 		var hsl = rgbToHsl(rgb[0], rgb[1], rgb[2]);
 
 		// Classic formulla to check the brigtness for our eye
