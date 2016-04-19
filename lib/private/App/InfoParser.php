@@ -60,25 +60,25 @@ class InfoParser {
 			return null;
 		}
 		if (!array_key_exists('info', $array)) {
-			$array['info'] = array();
+			$array['info'] = [];
 		}
 		if (!array_key_exists('remote', $array)) {
-			$array['remote'] = array();
+			$array['remote'] = [];
 		}
 		if (!array_key_exists('public', $array)) {
-			$array['public'] = array();
+			$array['public'] = [];
 		}
 		if (!array_key_exists('types', $array)) {
-			$array['types'] = array();
+			$array['types'] = [];
 		}
 		if (!array_key_exists('repair-steps', $array)) {
-			$array['repair-steps'] = array();
+			$array['repair-steps'] = [];
 		}
 		if (!array_key_exists('pre-migration', $array['repair-steps'])) {
-			$array['repair-steps']['pre-migration'] = array();
+			$array['repair-steps']['pre-migration'] = [];
 		}
 		if (!array_key_exists('post-migration', $array['repair-steps'])) {
-			$array['repair-steps']['post-migration'] = array();
+			$array['repair-steps']['post-migration'] = [];
 		}
 
 		if (array_key_exists('documentation', $array) && is_array($array['documentation'])) {
@@ -101,7 +101,7 @@ class InfoParser {
 					}
 				}
 			} else {
-				$array['types'] = array();
+				$array['types'] = [];
 			}
 		}
 		if (isset($array['repair-steps']['pre-migration']['step']) && is_array($array['repair-steps']['pre-migration']['step'])) {
@@ -122,7 +122,7 @@ class InfoParser {
 			return (string)$xml;
 		}
 
-		$array = array();
+		$array = [];
 		foreach ($xml->children() as $element => $node) {
 			$totalElement = count($xml->{$element});
 
@@ -135,9 +135,9 @@ class InfoParser {
 
 			// Has attributes
 			if ($attributes = $node->attributes()) {
-				$data = array(
-					'@attributes' => array(),
-				);
+				$data = [
+					'@attributes' => [],
+				];
 				if (!count($node->children())){
 					$value = (string)$node;
 					if (!empty($value)) {

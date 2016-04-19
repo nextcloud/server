@@ -24,15 +24,14 @@
 
 namespace OC\Core\Command\Maintenance;
 
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Repair extends Command {
-	/**
-	 * @var \OC\Repair $repair
-	 */
+	/** @var \OC\Repair $repair */
 	protected $repair;
 	/** @var \OCP\IConfig */
 	protected $config;
@@ -55,9 +54,7 @@ class Repair extends Command {
 				'include-expensive',
 				null,
 				InputOption::VALUE_NONE,
-				'Use this option when you want to include resource and load expensive tasks'
-			)
-		;
+				'Use this option when you want to include resource and load expensive tasks');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
@@ -65,6 +62,25 @@ class Repair extends Command {
 		if ($includeExpensive) {
 			foreach ($this->repair->getExpensiveRepairSteps() as $step) {
 				$this->repair->addStep($step);
+			}
+		}
+
+		$apps = \OC::$server->getAppManager()->getInstalledApps();
+		foreach ($apps as $app) {
+			if (!\OC_App::isEnabled($app)) {
+				continue;
+			}
+			$info = \OC_App::getAppInfo($app);
+			if (!is_array($info)) {
+				continue;
+			}
+			$steps = $info['repair-steps']['post-migration'];
+			foreach ($steps as $step) {
+				try {
+					$this->repair->addStep($step);
+				} catch (Exception $ex) {
+					$output->writeln("<error>Failed to load repair step for $app: {$ex->getMessage()}</error>");
+				}
 			}
 		}
 
