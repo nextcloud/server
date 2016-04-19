@@ -274,13 +274,21 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					$reshare = false;
 				}
 				if ($_GET['checkShares'] == 'true') {
-					$shares = OCP\Share::getItemShared(
+					$sharesTMP = OCP\Share::getItemShared(
 						(string)$_GET['itemType'],
 						(string)$_GET['itemSource'],
 						OCP\Share::FORMAT_NONE,
 						null,
 						true
 					);
+					$ids = [];
+					$shares = [];
+					foreach($sharesTMP as $share) {
+						if (!isset($ids[$share['id']])) {
+							$ids[$share['id']] = true;
+							$shares[] = $share;
+						}
+					}
 				} else {
 					$shares = false;
 				}
