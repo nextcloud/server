@@ -24,6 +24,7 @@
 namespace OCA\Encryption\Hooks;
 
 
+use OC\Files\Filesystem;
 use OCP\IUserManager;
 use OCP\Util as OCUtil;
 use OCA\Encryption\Hooks\Contracts\IHook;
@@ -244,6 +245,7 @@ class UserHooks implements IHook {
 			// used to decrypt it has changed
 		} else { // admin changed the password for a different user, create new keys and re-encrypt file keys
 			$user = $params['uid'];
+			$this->initMountPoints($user);
 			$recoveryPassword = isset($params['recoveryPassword']) ? $params['recoveryPassword'] : null;
 
 			// we generate new keys if...
@@ -283,6 +285,15 @@ class UserHooks implements IHook {
 		}
 	}
 
+	/**
+	 * init mount points for given user
+	 *
+	 * @param string $user
+	 * @throws \OC\User\NoUserException
+	 */
+	protected function initMountPoints($user) {
+		Filesystem::initMountPoints($user);
+	}
 
 
 	/**
