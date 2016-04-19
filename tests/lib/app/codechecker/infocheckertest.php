@@ -43,7 +43,7 @@ class InfoCheckerTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$infoParser = new InfoParser(\OC::$server->getHTTPHelper(), \OC::$server->getURLGenerator());
+		$infoParser = new InfoParser(\OC::$server->getURLGenerator());
 
 		$this->infoChecker = new InfoChecker($infoParser);
 	}

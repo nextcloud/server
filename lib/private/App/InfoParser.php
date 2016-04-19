@@ -27,22 +27,14 @@ namespace OC\App;
 use OCP\IURLGenerator;
 
 class InfoParser {
-	/**
-	 * @var \OC\HTTPHelper
-	 */
-	private $httpHelper;
 
-	/**
-	 * @var IURLGenerator
-	 */
+	/** @var IURLGenerator */
 	private $urlGenerator;
 
 	/**
-	 * @param \OC\HTTPHelper $httpHelper
 	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(\OC\HTTPHelper $httpHelper, IURLGenerator $urlGenerator) {
-		$this->httpHelper = $httpHelper;
+	public function __construct(IURLGenerator $urlGenerator) {
 		$this->urlGenerator = $urlGenerator;
 	}
 
@@ -79,12 +71,21 @@ class InfoParser {
 		if (!array_key_exists('types', $array)) {
 			$array['types'] = array();
 		}
+		if (!array_key_exists('repair-steps', $array)) {
+			$array['repair-steps'] = array();
+		}
+		if (!array_key_exists('pre-migration', $array['repair-steps'])) {
+			$array['repair-steps']['pre-migration'] = array();
+		}
+		if (!array_key_exists('post-migration', $array['repair-steps'])) {
+			$array['repair-steps']['post-migration'] = array();
+		}
 
 		if (array_key_exists('documentation', $array) && is_array($array['documentation'])) {
 			foreach ($array['documentation'] as $key => $url) {
 				// If it is not an absolute URL we assume it is a key
 				// i.e. admin-ldap will get converted to go.php?to=admin-ldap
-				if (!$this->httpHelper->isHTTPURL($url)) {
+				if (!$this->isHTTPURL($url)) {
 					$url = $this->urlGenerator->linkToDocs($url);
 				}
 
@@ -103,7 +104,12 @@ class InfoParser {
 				$array['types'] = array();
 			}
 		}
-
+		if (isset($array['repair-steps']['pre-migration']['step']) && is_array($array['repair-steps']['pre-migration']['step'])) {
+			$array['repair-steps']['pre-migration'] = $array['repair-steps']['pre-migration']['step'];
+		}
+		if (isset($array['repair-steps']['post-migration']['step']) && is_array($array['repair-steps']['post-migration']['step'])) {
+			$array['repair-steps']['post-migration'] = $array['repair-steps']['post-migration']['step'];
+		}
 		return $array;
 	}
 
@@ -160,5 +166,9 @@ class InfoParser {
 		}
 
 		return $array;
+	}
+
+	private function isHTTPURL($url) {
+		return stripos($url, 'https://') === 0 || stripos($url, 'http://') === 0;
 	}
 }

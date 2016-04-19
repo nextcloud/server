@@ -626,7 +626,7 @@ class OC_App {
 			$file = $appPath . '/appinfo/info.xml';
 		}
 
-		$parser = new \OC\App\InfoParser(\OC::$server->getHTTPHelper(), \OC::$server->getURLGenerator());
+		$parser = new \OC\App\InfoParser(\OC::$server->getURLGenerator());
 		$data = $parser->parse($file);
 
 		if (is_array($data)) {
