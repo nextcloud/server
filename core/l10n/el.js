@@ -25,7 +25,6 @@ OC.L10N.register(
     "Error favoriting" : "Σφάλμα προσθήκης στα αγαπημένα",
     "Error unfavoriting" : "Σφάλμα αφαίρεσης από τα αγαπημένα",
     "Couldn't send mail to following users: %s " : "Αδυναμία αποστολής μηνύματος στους ακόλουθους χρήστες: %s",
-    "Preparing update" : "Προετοιμασία ενημέρωσης",
     "Turned on maintenance mode" : "Η κατάσταση συντήρησης ενεργοποιήθηκε",
     "Turned off maintenance mode" : "Η κατάσταση συντήρησης απενεργοποιήθηκε",
     "Maintenance mode is kept active" : "Η λειτουργία συντήρησης διατηρήθηκε ενεργή",

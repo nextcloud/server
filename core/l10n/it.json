@@ -24,7 +24,6 @@
     "Error favoriting" : "Errore di creazione dei preferiti",
     "Error unfavoriting" : "Errore di rimozione dai preferiti",
     "Couldn't send mail to following users: %s " : "Impossibile inviare email ai seguenti utenti: %s",
-    "Preparing update" : "Preparazione aggiornamento",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: controllo della tabella %s",
     "Turned on maintenance mode" : "Modalità di manutenzione attivata",

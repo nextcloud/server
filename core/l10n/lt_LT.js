@@ -18,7 +18,6 @@ OC.L10N.register(
     "Error favoriting" : "Klaida įtraukiant į mėgstamus.",
     "Error unfavoriting" : "Klaida pašalinant iš mėgstamų.",
     "Couldn't send mail to following users: %s " : "Nepavyko nusiųsti el. pašto šiems naudotojams: %s ",
-    "Preparing update" : "Ruošiamasi atnaujinimui",
     "Turned on maintenance mode" : "Įjungta priežiūros veiksena",
     "Turned off maintenance mode" : "Išjungta priežiūros veiksena",
     "Maintenance mode is kept active" : "Priežiūros veiksena yra aktyvi",

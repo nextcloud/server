@@ -23,7 +23,6 @@
     "Error favoriting" : "Помилка додавання в улюблені",
     "Error unfavoriting" : "Помилка видалення з улюбленого",
     "Couldn't send mail to following users: %s " : "Неможливо надіслати листа наступним користувачам: %s ",
-    "Preparing update" : "Підготовка до оновлення",
     "Turned on maintenance mode" : "Увімкнено режим технічного обслуговування",
     "Turned off maintenance mode" : "Вимкнено режим технічного обслуговування",
     "Maintenance mode is kept active" : "Режим обслуговування залишається активним",

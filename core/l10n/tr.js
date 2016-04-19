@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Beğenilirken hata",
     "Error unfavoriting" : "Beğeniden kaldırılırken hata",
     "Couldn't send mail to following users: %s " : "Şu kullanıcılara posta gönderilemedi: %s",
-    "Preparing update" : "Güncelleme hazırlanıyor",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Tablo kontroi ediliyor %s",
     "Turned on maintenance mode" : "Bakım kipi etkinleştirildi",

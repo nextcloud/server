@@ -24,7 +24,6 @@
     "Error favoriting" : "收藏时出错",
     "Error unfavoriting" : "删除收藏时出错",
     "Couldn't send mail to following users: %s " : "无法发送邮件到用户: %s ",
-    "Preparing update" : "正在准备更新",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: 检查数据表 %s",
     "Turned on maintenance mode" : "启用维护模式",

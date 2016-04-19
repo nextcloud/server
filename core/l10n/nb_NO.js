@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Feil ved favorittmerking",
     "Error unfavoriting" : "Feil ved fjerning av favorittmerking",
     "Couldn't send mail to following users: %s " : "Klarte ikke å sende mail til følgende brukere: %s",
-    "Preparing update" : "Forbereder oppdatering",
     "Turned on maintenance mode" : "Slo på vedlikeholdsmodus",
     "Turned off maintenance mode" : "Slo av vedlikeholdsmodus",
     "Maintenance mode is kept active" : "Vedlikeholdsmodus blir beholdt aktiv",

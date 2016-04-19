@@ -21,7 +21,6 @@
     "Error favoriting" : "Error en posar a preferits",
     "Error unfavoriting" : "Error en treure de preferits",
     "Couldn't send mail to following users: %s " : "No s'ha pogut enviar correu als usuaris següents: %s",
-    "Preparing update" : "Preparant l'actualització",
     "Turned on maintenance mode" : "Activat el mode de manteniment",
     "Turned off maintenance mode" : "Desactivat el mode de manteniment",
     "Maintenance mode is kept active" : "El mode de manteniment es manté activat",

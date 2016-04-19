@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Suosituksen kirjoitusvirhe",
     "Error unfavoriting" : "Suosituksen poisto virhe",
     "Couldn't send mail to following users: %s " : "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s",
-    "Preparing update" : "Valmistellaan päivitystä",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Tarkistetaan taulua %s",
     "Turned on maintenance mode" : "Siirrytty huoltotilaan",

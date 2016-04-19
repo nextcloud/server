@@ -24,7 +24,6 @@
     "Error favoriting" : "お気に入りに追加エラー",
     "Error unfavoriting" : "お気に入りから削除エラー",
     "Couldn't send mail to following users: %s " : "次のユーザーにメールを送信できませんでした: %s",
-    "Preparing update" : "アップデートの準備中",
     "Turned on maintenance mode" : "メンテナンスモードがオンになりました",
     "Turned off maintenance mode" : "メンテナンスモードがオフになりました",
     "Maintenance mode is kept active" : "メンテナンスモードが継続中です",

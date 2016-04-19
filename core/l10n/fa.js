@@ -19,7 +19,6 @@ OC.L10N.register(
     "Error favoriting" : "خطا هنگام افزودن به موارد محبوب",
     "Error unfavoriting" : "خطا هنگام حذف از موارد محبوب",
     "Couldn't send mail to following users: %s " : "ارسال ایمیل برای کاربران روبرو با شکست مواجه شد : %s",
-    "Preparing update" : "آماده‌سازی به روز‌ رسانی",
     "Turned on maintenance mode" : "حالت \" در دست تعمیر \" فعال شد .",
     "Turned off maintenance mode" : "حالت \" در دست تعمیر \" غیرفعال شد .",
     "Maintenance mode is kept active" : "حالت تعمیرات فعال نگه‌داشته شده است",

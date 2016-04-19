@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Fel vid favorisering",
     "Error unfavoriting" : "Fel vid avfavorisering ",
     "Couldn't send mail to following users: %s " : "Gick inte att skicka e-post till följande användare: %s",
-    "Preparing update" : "Förbereder uppdatering",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Kontrollerar tabell %s",
     "Turned on maintenance mode" : "Aktiverade underhållsläge",

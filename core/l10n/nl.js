@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Fout bij favoriet maken",
     "Error unfavoriting" : "Fout bij verwijderen favorietstatus",
     "Couldn't send mail to following users: %s " : "Kon geen e-mail sturen aan de volgende gebruikers: %s",
-    "Preparing update" : "Update voorbereiden",
     "Turned on maintenance mode" : "Onderhoudsmodus ingeschakeld",
     "Turned off maintenance mode" : "Onderhoudsmodus uitgeschakeld",
     "Maintenance mode is kept active" : "Onderhoudsmodus blijft actief",

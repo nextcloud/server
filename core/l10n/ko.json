@@ -24,7 +24,6 @@
     "Error favoriting" : "즐겨찾기 추가 오류",
     "Error unfavoriting" : "즐겨찾기 삭제 오류",
     "Couldn't send mail to following users: %s " : "%s 님에게 메일을 보낼 수 없습니다.",
-    "Preparing update" : "업데이트 준비 중",
     "Turned on maintenance mode" : "유지 보수 모드 켜짐",
     "Turned off maintenance mode" : "유지 보수 모드 꺼짐",
     "Maintenance mode is kept active" : "유지 보수 모드가 켜져 있음",

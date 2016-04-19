@@ -24,7 +24,6 @@
     "Error favoriting" : "Gabim në ruajtjen si të parapëlqyer",
     "Error unfavoriting" : "Gabim në heqjen nga të parapëlqyerat",
     "Couldn't send mail to following users: %s " : "S’u dërgua dot e-mail përdoruesve vijues: %s ",
-    "Preparing update" : "Po përgatitet përditësimi",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Po kontrollohet tabela %s",
     "Turned on maintenance mode" : "Mënyra e mirëmbajtjes u aktivizua",

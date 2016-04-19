@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Erreur lors de la mise en favori",
     "Error unfavoriting" : "Erreur lors de la suppression des favoris",
     "Couldn't send mail to following users: %s " : "Impossible d'envoyer un courriel aux utilisateurs suivants : %s",
-    "Preparing update" : "Préparation de la mise à jour",
     "Turned on maintenance mode" : "Mode de maintenance activé",
     "Turned off maintenance mode" : "Mode de maintenance désactivé",
     "Maintenance mode is kept active" : "Le mode de maintenance est laissé actif",

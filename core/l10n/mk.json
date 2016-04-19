@@ -17,7 +17,6 @@
     "Error untagging" : "Грешка при отстранување на таговите",
     "Error favoriting" : "Грешка при ",
     "Couldn't send mail to following users: %s " : "Не можев да пратам порака на следниве корисници: %s",
-    "Preparing update" : "Ја подготвувам надградбата",
     "Turned on maintenance mode" : "Вклучен е модот за одржување",
     "Turned off maintenance mode" : "Ислкучен е модот за одржување",
     "Maintenance mode is kept active" : "Модот за одржување е уште активен",

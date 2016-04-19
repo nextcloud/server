@@ -23,7 +23,6 @@ OC.L10N.register(
     "Error favoriting" : "Viga lemmikuks lisamisel",
     "Error unfavoriting" : "Viga lemmikutest eemaldamisel",
     "Couldn't send mail to following users: %s " : "Kirja saatmine järgnevatele kasutajatele ebaõnnestus: %s ",
-    "Preparing update" : "Uuendamise ettevalmistamine",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "Turned on maintenance mode" : "Haldusrežiimis sisse lülitatud",
     "Turned off maintenance mode" : "Haldusrežiimis välja lülitatud",

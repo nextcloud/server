@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Ошибка добавления в избранные",
     "Error unfavoriting" : "Ошибка удаления из избранного",
     "Couldn't send mail to following users: %s " : "Невозможно отправить письмо следующим пользователям: %s",
-    "Preparing update" : "Подготовка к обновлению",
     "Turned on maintenance mode" : "Режим отладки включён",
     "Turned off maintenance mode" : "Режим отладки отключён",
     "Maintenance mode is kept active" : "Режим обслуживания оставлен включенным",

@@ -24,7 +24,6 @@
     "Error favoriting" : "加入最愛時出錯",
     "Error unfavoriting" : "從最愛移除出錯",
     "Couldn't send mail to following users: %s " : "無法寄送郵件給這些使用者：%s",
-    "Preparing update" : "準備更新",
     "Turned on maintenance mode" : "已啓用維護模式",
     "Turned off maintenance mode" : "已停用維護模式",
     "Maintenance mode is kept active" : "維護模式維持在開啟狀態",

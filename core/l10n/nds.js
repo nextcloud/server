@@ -12,7 +12,6 @@ OC.L10N.register(
     "Crop is not square" : "Zuschnitt ist nicht quadratisch",
     "Couldn't send reset email. Please contact your administrator." : "E-Mail zum Zurücksetzen konnte nicht gesendet werden. Bitte wende Dich an Deinem Administrator.",
     "Couldn't send mail to following users: %s " : "Senden der E-Mail an folgende Benutzer fehlgeschlagen: %s",
-    "Preparing update" : "Bereite Aktualisierung vor",
     "Turned on maintenance mode" : "Wartungsmodus eingeschaltet",
     "Turned off maintenance mode" : "Wartungsmodus ausgeschaltet",
     "Maintenance mode is kept active" : "Wartungsmodus wird fortgeführt",

@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Villa við bókmerkingu ",
     "Error unfavoriting" : "Villa við afmá bókmerkingu",
     "Couldn't send mail to following users: %s " : "Gat ekki sent póst á eftirfarandi notendur: %s",
-    "Preparing update" : "Undirbý uppfærslu",
     "Turned on maintenance mode" : "Kveikt á viðhaldsham",
     "Turned off maintenance mode" : "Slökkt á viðhaldsham",
     "Maintenance mode is kept active" : "Viðhaldsham er haldið virkum",

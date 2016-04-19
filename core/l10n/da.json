@@ -24,7 +24,6 @@
     "Error favoriting" : "Fejl ved omdannelse til foretrukken",
     "Error unfavoriting" : "Fejl ved fjernelse fra foretrukken.",
     "Couldn't send mail to following users: %s " : "Kunne ikke sende mail til følgende brugere: %s",
-    "Preparing update" : "Forbereder opdatering",
     "Turned on maintenance mode" : "Startede vedligeholdelsestilstand",
     "Turned off maintenance mode" : "standsede vedligeholdelsestilstand",
     "Maintenance mode is kept active" : "Vedligeholdelsestilstanden holdes kørende",

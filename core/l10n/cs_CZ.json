@@ -24,7 +24,6 @@
     "Error favoriting" : "Chyba při označování jako oblíbené",
     "Error unfavoriting" : "Chyba při odznačování jako oblíbené",
     "Couldn't send mail to following users: %s " : "Nebylo možné odeslat email následujícím uživatelům: %s",
-    "Preparing update" : "Příprava na aktualizaci",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Kontrola tabulky %s",
     "Turned on maintenance mode" : "Zapnut režim údržby",

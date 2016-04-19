@@ -63,6 +63,7 @@ OC.L10N.register(
     "Experimental" : "Experimentell",
     "All" : "Alle",
     "No apps found for your version" : "Es wurden keine Apps für Ihre Version gefunden",
+    "The app will be downloaded from the app store" : "Die App wird aus dem App-Store heruntergeladen",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Offizielle Apps werden von und innerhalb der ownCloud-Community entwickelt. Sie stellen zentrale Funktionen von ownCloud bereit und sind auf den Produktiveinsatz vorbereitet.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Geprüfte Apps werden von vertrauenswürdigen Entwicklern entwickelt und haben eine oberflächliche Sicherheitsprüfung durchlaufen. Sie werden innerhalb eines offenen Code-Repositorys aktiv gepflegt und ihre Betreuer erachten sie als stabil genug für für den gelegentlichen bis normalen Einsatz.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Diese App ist nicht auf Sicherheitsprobleme hin überprüft und ist neu oder bekanntermaßen instabil. Die Installation erfolgt auf eigenes Risiko.",

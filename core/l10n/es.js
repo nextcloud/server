@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Error al marcar como favorito",
     "Error unfavoriting" : "Error al quitar como favorito",
     "Couldn't send mail to following users: %s " : "No se pudo enviar el mensaje a los siguientes usuarios: %s",
-    "Preparing update" : "Preparando la actualización",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Comprobando cuadro %s",
     "Turned on maintenance mode" : "Modo mantenimiento activado",

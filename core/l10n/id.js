@@ -24,7 +24,6 @@ OC.L10N.register(
     "Error favoriting" : "Kesalahan saat memberikan sebagai favorit",
     "Error unfavoriting" : "Kesalahan saat menghapus sebagai favorit",
     "Couldn't send mail to following users: %s " : "Tidak dapat mengirim Email ke pengguna berikut: %s",
-    "Preparing update" : "Mempersiapkan pembaruan",
     "Turned on maintenance mode" : "Hidupkan mode perawatan",
     "Turned off maintenance mode" : "Matikan mode perawatan",
     "Maintenance mode is kept active" : "Mode Pemeliharaan masih aktif",

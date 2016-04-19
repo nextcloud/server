@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "เกิดข้อผิดพลาดขณะเลือกที่ชื่นชอบ",
     "Error unfavoriting" : "เกิดข้อผิดพลาดขณะยกเลิกการเลือกที่ชื่นชอบ",
     "Couldn't send mail to following users: %s " : "ไม่สามารถส่งอีเมลไปยังผู้ใช้: %s",
-    "Preparing update" : "เตรียมอัพเดท",
     "Turned on maintenance mode" : "เปิดโหมดการบำรุงรักษา",
     "Turned off maintenance mode" : "ปิดโหมดการบำรุงรักษา",
     "Maintenance mode is kept active" : "โหมดการบำรุงรักษาจะถูกเก็บไว้ใช้งาน",

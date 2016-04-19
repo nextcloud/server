@@ -23,7 +23,6 @@
     "Error favoriting" : "Chyba pri pridaní do obľúbených",
     "Error unfavoriting" : "Chyba pri odobratí z obľúbených",
     "Couldn't send mail to following users: %s " : "Nebolo možné odoslať email týmto používateľom: %s ",
-    "Preparing update" : "Pripravuje sa aktualizácia",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Kontrola tabuľky %s",
     "Turned on maintenance mode" : "Mód údržby je zapnutý",
     "Turned off maintenance mode" : "Mód údržby je vypnutý",

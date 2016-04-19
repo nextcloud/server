@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "Fehler beim Favorisieren",
     "Error unfavoriting" : "Fehler beim Entfernen aus den Favoriten",
     "Couldn't send mail to following users: %s " : "Die E-Mail konnte nicht an folgende Benutzer gesendet werden: %s",
-    "Preparing update" : "Update vorbereiten",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Überprüfe Tabelle %s",
     "Turned on maintenance mode" : "Wartungsmodus eingeschaltet",

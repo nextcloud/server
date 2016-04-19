@@ -26,7 +26,6 @@ OC.L10N.register(
     "Error favoriting" : "שגיאה בקביעת מועדפים",
     "Error unfavoriting" : "שגיאה בהסרת מועדפים",
     "Couldn't send mail to following users: %s " : "לא ניתן היה לשלוח דואר אלקטרוני למשתמשים הבאים %s ",
-    "Preparing update" : "מכין עדכון",
     "Turned on maintenance mode" : "הפעלת מצב אחזקה",
     "Turned off maintenance mode" : "כיבוי מצב אחזקה",
     "Maintenance mode is kept active" : "מצב אחזקה נשמר פעיל",

@@ -24,7 +24,6 @@
     "Error favoriting" : "Hiba a kedvencekhez adáskor",
     "Error unfavoriting" : "Hiba a kedvencekből törléskor",
     "Couldn't send mail to following users: %s " : "Nem sikerült e-mailt küldeni a következő felhasználóknak: %s",
-    "Preparing update" : "Felkészülés a frissítésre",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Tábla ellenőrzése: %s",
     "Turned on maintenance mode" : "A karbantartási mód bekapcsolva",

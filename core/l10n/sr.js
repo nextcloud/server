@@ -22,7 +22,6 @@ OC.L10N.register(
     "Error favoriting" : "Грешка при постављању омиљеног",
     "Error unfavoriting" : "Грешка при укидању омиљеног",
     "Couldn't send mail to following users: %s " : "Не могу да пошаљем е-пошту следећим корисницима: %s ",
-    "Preparing update" : "Припремам надоградњу",
     "Turned on maintenance mode" : "Режим одржавања укључен",
     "Turned off maintenance mode" : "Режим одржавања искључен",
     "Maintenance mode is kept active" : "Режим одржавања се држи активним",
