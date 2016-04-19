@@ -275,7 +275,7 @@ CREATE TABLE calendarobjects (
 		<field>
 			<comments>0 - private, 1 - public, 2 - confidential</comments>
 			<name>classification</name>
-			<type>int</type>
+			<type>integer</type>
 			<default>0</default>
 		</field>
 		<index>

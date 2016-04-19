@@ -31,10 +31,12 @@ use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\HookManager;
+use OCA\DAV\Migration\Classification;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\IManager;
 use OCP\IUser;
+use Sabre\VObject\Reader;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
@@ -163,6 +165,22 @@ class Application extends App {
 			$userManager->callForAllUsers(function($user) use($migration) {
 				/** @var IUser $user */
 				$migration->syncUser($user->getUID());
+			});
+		} catch (\Exception $ex) {
+			$this->getContainer()->getServer()->getLogger()->logException($ex);
+		}
+	}
+
+	public function migrateClassification() {
+		try {
+			/** @var CalDavBackend $calDavBackend */
+			$calDavBackend = $this->getContainer()->query('CalDavBackend');
+			$migration = new Classification($calDavBackend);
+			$userManager = $this->getContainer()->getServer()->getUserManager();
+
+			$userManager->callForAllUsers(function($user) use($migration) {
+				/** @var IUser $user */
+				$migration->runForUser($user);
 			});
 		} catch (\Exception $ex) {
 			$this->getContainer()->getServer()->getLogger()->logException($ex);
