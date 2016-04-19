@@ -168,4 +168,16 @@ interface IEncryptionModule {
 	 */
 	public function prepareDecryptAll(InputInterface $input, OutputInterface $output, $user = '');
 
+	/**
+	 * Check if the module is ready to be used by that specific user.
+	 * In case a module is not ready - because e.g. key pairs have not been generated
+	 * upon login this method can return false before any operation starts and might
+	 * cause issues during operations.
+	 *
+	 * @param string $user
+	 * @return boolean
+	 * @since 9.1.0
+	 */
+	public function isReadyForUser($user);
+
 }

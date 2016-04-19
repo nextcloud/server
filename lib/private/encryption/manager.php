@@ -117,6 +117,25 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @param string $user
+	 */
+	public function isReadyForUser($user) {
+		if (!$this->isReady()) {
+			return false;
+		}
+
+		foreach ($this->getEncryptionModules() as $module) {
+			/** @var IEncryptionModule $m */
+			$m = call_user_func($module['callback']);
+			if (!$m->isReadyForUser($user)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+		/**
 	 * Registers an callback function which must return an encryption module instance
 	 *
 	 * @param string $id
