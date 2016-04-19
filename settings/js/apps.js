@@ -193,15 +193,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging') ||
 			OC.Settings.Apps.isType(app, 'prevent_group_restriction')) {
 			page.find(".groups-enable").hide();
-			page.find(".groups-enable__checkbox").attr('checked', null);
+			page.find(".groups-enable__checkbox").prop('checked', false);
 		} else {
 			page.find('#group_select').val((app.groups || []).join('|'));
 			if (app.active) {
 				if (app.groups.length) {
 					OC.Settings.Apps.setupGroupsSelect(page.find('#group_select'));
-					page.find(".groups-enable__checkbox").attr('checked','checked');
+					page.find(".groups-enable__checkbox").prop('checked', true);
 				} else {
-					page.find(".groups-enable__checkbox").attr('checked', null);
+					page.find(".groups-enable__checkbox").prop('checked', false);
 				}
 				page.find(".groups-enable").show();
 			} else {
@@ -289,7 +289,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 						if (OC.Settings.Apps.isType(app, 'filesystem') || OC.Settings.Apps.isType(app, 'prelogin') ||
 							OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging')) {
-							element.parent().find(".groups-enable").attr('checked', null);
+							element.parent().find(".groups-enable").prop('checked', true);
 							element.parent().find(".groups-enable").hide();
 							element.parent().find('#group_select').hide().val(null);
 						} else {

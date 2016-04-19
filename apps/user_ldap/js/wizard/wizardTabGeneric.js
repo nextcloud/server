@@ -391,7 +391,7 @@ OCA = OCA || {};
 		 */
 		_setCheckBox: function($element, value) {
 			if(parseInt(value, 10) === 1) {
-				$element.attr('checked', 'checked');
+				$element.prop('checked', 'checked');
 			} else {
 				$element.removeAttr('checked');
 			}
