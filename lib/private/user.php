@@ -203,6 +203,10 @@ class OC_User {
 				self::setUserId($uid);
 				self::setDisplayName($uid);
 				self::getUserSession()->setLoginName($uid);
+				// setup the filesystem
+				OC_Util::setupFS($uid);
+				//trigger creation of user home and /files folder
+				\OC::$server->getUserFolder($uid);
 
 				OC_Hook::emit("OC_User", "post_login", array("uid" => $uid, 'password' => ''));
 			}
