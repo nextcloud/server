@@ -590,4 +590,15 @@ class FederatedShareProvider implements IShareProvider {
 		// We don't handle groups here
 		return;
 	}
+
+	/**
+	 * This provider does not handle groups
+	 *
+	 * @param string $uid
+	 * @param string $gid
+	 */
+	public function userDeletedFromGroup($uid, $gid) {
+		// We don't handle groups here
+		return;
+	}
 }

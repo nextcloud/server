@@ -166,4 +166,15 @@ interface IShareProvider {
 	 * @since 9.1.0
 	 */
 	public function groupDeleted($gid);
+
+	/**
+	 * A user is deleted from a group
+	 * We have to clean up all the related user specific group shares
+	 * Providers not handling group shares should just return
+	 *
+	 * @param string $uid
+	 * @param string $gid
+	 * @since 9.1.0
+	 */
+	public function userDeletedFromGroup($uid, $gid);
 }

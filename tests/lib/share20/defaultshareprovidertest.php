@@ -2093,4 +2093,62 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertCount($shouldBeDeleted ? 0 : count($ids), $data);
 	}
+
+	public function dataUserDeletedFromGroup() {
+		return [
+			['group1', 'user1', true],
+			['group1', 'user2', false],
+			['group2', 'user1', false],
+		];
+	}
+
+	/**
+	 * Given a group share with 'group1'
+	 * And a user specific group share with 'user1'.
+	 * User $user is deleted from group $gid.
+	 *
+	 * @dataProvider dataUserDeletedFromGroup
+	 *
+	 * @param string $group
+	 * @param string $user
+	 * @param bool $toDelete
+	 */
+	public function testUserDeletedFromGroup($group, $user, $toDelete) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->setValue('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP))
+			->setValue('uid_owner', $qb->createNamedParameter('owner'))
+			->setValue('uid_initiator', $qb->createNamedParameter('initiator'))
+			->setValue('share_with', $qb->createNamedParameter('group1'))
+			->setValue('item_type', $qb->createNamedParameter('file'))
+			->setValue('item_source', $qb->createNamedParameter(42))
+			->setValue('file_source', $qb->createNamedParameter(42));
+		$qb->execute();
+		$id1 = $qb->getLastInsertId();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->setValue('share_type', $qb->createNamedParameter(2))
+			->setValue('uid_owner', $qb->createNamedParameter('owner'))
+			->setValue('uid_initiator', $qb->createNamedParameter('initiator'))
+			->setValue('share_with', $qb->createNamedParameter('user1'))
+			->setValue('item_type', $qb->createNamedParameter('file'))
+			->setValue('item_source', $qb->createNamedParameter(42))
+			->setValue('file_source', $qb->createNamedParameter(42))
+			->setValue('parent', $qb->createNamedParameter($id1));
+		$qb->execute();
+		$id2 = $qb->getLastInsertId();
+
+		$this->provider->userDeletedFromGroup($user, $group);
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id2)));
+		$cursor = $qb->execute();
+		$data = $cursor->fetchAll();
+		$cursor->closeCursor();
+
+		$this->assertCount($toDelete ? 0 : 1, $data);
+	}
 }

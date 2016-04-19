@@ -910,4 +910,42 @@ class DefaultShareProvider implements IShareProvider {
 			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($gid)));
 		$qb->execute();
 	}
+
+	/**
+	 * Delete custom group shares to this group for this user
+	 *
+	 * @param string $uid
+	 * @param string $gid
+	 */
+	public function userDeletedFromGroup($uid, $gid) {
+		/*
+		 * Get all group shares
+		 */
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('id')
+			->from('share')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP)))
+			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($gid)));
+
+		$cursor = $qb->execute();
+		$ids = [];
+		while($row = $cursor->fetch()) {
+			$ids[] = (int)$row['id'];
+		}
+		$cursor->closeCursor();
+
+		if (!empty($ids)) {
+			$chunks = array_chunk($ids, 100);
+			foreach ($chunks as $chunk) {
+				/*
+				 * Delete all special shares wit this users for the found group shares
+				 */
+				$qb->delete('share')
+					->where($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
+					->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($uid)))
+					->andWhere($qb->expr()->in('parent', $qb->createNamedParameter($chunk, IQueryBuilder::PARAM_INT_ARRAY)));
+				$qb->execute();
+			}
+		}
+	}
 }

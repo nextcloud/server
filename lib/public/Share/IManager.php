@@ -164,10 +164,20 @@ interface IManager {
 	 * The group with $gid is deleted
 	 * We need to clear up all shares to this group
 	 *
-	 * @param $gid
+	 * @param string $gid
 	 * @since 9.1.0
 	 */
 	public function groupDeleted($gid);
+
+	/**
+	 * The user $uid is deleted from the group $gid
+	 * All user specific group shares have to be removed
+	 *
+	 * @param string $uid
+	 * @param string $gid
+	 * @since 9.1.0
+	 */
+	public function userDeletedFromGroup($uid, $gid);
 
 	/**
 	 * Instantiates a new share object. This is to be passed to
