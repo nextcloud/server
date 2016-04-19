@@ -65,7 +65,7 @@ class Manager extends \Test\TestCase {
 	}
 
 	public function testGetDeleted() {
-		$backend = new \OC_Group_Dummy();
+		$backend = new \Test\Util\Group\Dummy();
 		$backend->createGroup('group1');
 
 		/**
