@@ -125,12 +125,14 @@ backbone/backbone-min*
 
 # davclient.js
 davclient.js/**
-!davclient.js/lib/*
+!davclient.js/lib
 !davclient.js/LICENSE
 
 # es6-promise
 es6-promise/**
 !es6-promise/LICENSE
+!es6-promise/dist
+es6-promise/dist/*
 !es6-promise/dist/es6-promise.js
 
 # base64
