@@ -858,7 +858,7 @@ class OC {
 			}
 		}
 
-		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
+		if (!self::$CLI) {
 			try {
 				if (!$systemConfig->getValue('maintenance', false) && !self::checkUpgrade(false)) {
 					OC_App::loadApps(array('filesystem', 'logging'));
@@ -897,31 +897,13 @@ class OC {
 			return;
 		}
 
-		// Redirect to index if the logout link is accessed without valid session
-		// this is needed to prevent "Token expired" messages while login if a session is expired
-		// @see https://github.com/owncloud/core/pull/8443#issuecomment-42425583
-		if(isset($_GET['logout']) && !OC_User::isLoggedIn()) {
-			header("Location: " . \OC::$server->getURLGenerator()->getAbsoluteURL('/'));
-			return;
-		}
-
 		// Someone is logged in
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			OC_Util::setupFS();
-			if (isset($_GET["logout"]) and ($_GET["logout"])) {
-				OC_JSON::callCheck();
-				if (isset($_COOKIE['oc_token'])) {
-					\OC::$server->getConfig()->deleteUserValue(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
-				}
-				OC_User::logout();
-				// redirect to webroot and add slash if webroot is empty
-				header("Location: " . \OC::$server->getURLGenerator()->getAbsoluteURL('/'));
-			} else {
-				// Redirect to default application
-				OC_Util::redirectToDefaultPage();
-			}
+			// Redirect to default application
+			OC_Util::redirectToDefaultPage();
 		} else {
 			// Not handled and not logged in
 			self::handleLogin();

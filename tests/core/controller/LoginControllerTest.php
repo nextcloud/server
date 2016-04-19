@@ -26,6 +26,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use Test\TestCase;
@@ -43,6 +44,8 @@ class LoginControllerTest extends TestCase {
 	private $session;
 	/** @var IUserSession */
 	private $userSession;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	public function setUp() {
 		parent::setUp();
@@ -51,6 +54,7 @@ class LoginControllerTest extends TestCase {
 		$this->config = $this->getMock('\\OCP\\IConfig');
 		$this->session = $this->getMock('\\OCP\\ISession');
 		$this->userSession = $this->getMock('\\OCP\\IUserSession');
+		$this->urlGenerator = $this->getMock('\\OCP\\IURLGenerator');
 
 		$this->loginController = new LoginController(
 			'core',
@@ -58,8 +62,57 @@ class LoginControllerTest extends TestCase {
 			$this->userManager,
 			$this->config,
 			$this->session,
-			$this->userSession
+			$this->userSession,
+			$this->urlGenerator
 		);
+	}
+
+	public function testLogoutWithoutToken() {
+		$this->request
+			->expects($this->once())
+			->method('getCookie')
+			->with('oc_token')
+			->willReturn(null);
+		$this->config
+			->expects($this->never())
+			->method('deleteUserValue');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.login.showLoginForm')
+			->willReturn('/login');
+
+		$expected = new RedirectResponse('/login');
+		$this->assertEquals($expected, $this->loginController->logout());
+	}
+
+	public function testLogoutWithToken() {
+		$this->request
+			->expects($this->once())
+			->method('getCookie')
+			->with('oc_token')
+			->willReturn('MyLoginToken');
+		$user = $this->getMock('\\OCP\\IUser');
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->willReturn('JohnDoe');
+		$this->userSession
+			->expects($this->once())
+			->method('getUser')
+			->willReturn($user);
+		$this->config
+			->expects($this->once())
+			->method('deleteUserValue')
+			->with('JohnDoe', 'login_token', 'MyLoginToken');
+		$this->urlGenerator
+			->expects($this->once())
+			->method('linkToRouteAbsolute')
+			->with('core.login.showLoginForm')
+			->willReturn('/login');
+
+		$expected = new RedirectResponse('/login');
+		$this->assertEquals($expected, $this->loginController->logout());
 	}
 
 	public function testShowLoginFormForLoggedInUsers() {

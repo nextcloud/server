@@ -179,7 +179,7 @@ class OC_API {
 		$response = self::mergeResponses($responses);
 		$format = self::requestedFormat();
 		if (self::$logoutRequired) {
-			OC_User::logout();
+			\OC::$server->getUserSession()->logout();
 		}
 
 		self::respond($response, $format);
