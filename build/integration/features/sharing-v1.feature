@@ -696,3 +696,15 @@ Feature: sharing
     Then user "user2" should see following elements
       | /foo/       |
       | /foo%20(2)/ |
+
+  Scenario: Creating a new share with a disabled user
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And assure user "user0" is disabled
+    And As an "user0"
+    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    Then the HTTP status code should be "503"
