@@ -44,6 +44,9 @@ class ErrorHandler {
 
 		if ($debug) {
 			set_error_handler(array($handler, 'onAll'), E_ALL);
+			if (\OC::$CLI) {
+				set_exception_handler(array('OC_Template', 'printExceptionErrorPage'));
+			}
 		} else {
 			set_error_handler(array($handler, 'onError'));
 		}
