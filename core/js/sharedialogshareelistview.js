@@ -280,6 +280,17 @@
 				permissions |= $(checkbox).data('permissions');
 			});
 
+			// The federated share UI is a bit different so handle it properly
+			if (shareType === OC.Share.SHARE_TYPE_REMOTE &&
+				$element.attr('name') === 'edit' &&
+				$element.is(':checked')) {
+				permissions |= OC.PERMISSION_UPDATE;
+
+				if (this.model.deletePermissionPossible()) {
+					permissions |= OC.PERMISSION_CREATE;
+				}
+			}
+
 			this.model.updateShare(shareId, {permissions: permissions});
 		},
 
