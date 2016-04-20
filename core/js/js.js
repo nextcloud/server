@@ -752,7 +752,8 @@ var OC={
 			// sometimes "beforeunload" happens later, so need to defer the reload a bit
 			setTimeout(function() {
 				if (!self._userIsNavigatingAway && !self._reloadCalled) {
-					OC.reload();
+					OC.Notification.show(t('core', 'Problem loading page, reloading in 5 seconds'));
+					setTimeout(OC.reload, 5000);
 					// only call reload once
 					self._reloadCalled = true;
 				}
