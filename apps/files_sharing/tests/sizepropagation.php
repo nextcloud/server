@@ -24,6 +24,8 @@
 namespace OCA\Files_sharing\Tests;
 
 use OC\Files\View;
+use Test\Traits\MountProviderTrait;
+use Test\Traits\UserTrait;
 
 /**
  * Class SizePropagation
@@ -33,13 +35,21 @@ use OC\Files\View;
  * @package OCA\Files_sharing\Tests
  */
 class SizePropagation extends TestCase {
+	use UserTrait;
+	use MountProviderTrait;
+
+	protected function setupUser($name, $password = '') {
+		$this->createUser($name, $password);
+		$tmpFolder = \OC::$server->getTempManager()->getTemporaryFolder();
+		$this->registerMount($name, '\OC\Files\Storage\Local', '/' . $name, ['datadir' => $tmpFolder]);
+		$this->loginAsUser($name);
+		return new View('/' . $name . '/files');
+	}
 
 	public function testSizePropagationWhenOwnerChangesFile() {
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$recipientView = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$recipientView = $this->setupUser(self::TEST_FILES_SHARING_API_USER1);
 
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$ownerView = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$ownerView = $this->setupUser(self::TEST_FILES_SHARING_API_USER2);
 		$ownerView->mkdir('/sharedfolder/subfolder');
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
@@ -48,31 +58,29 @@ class SizePropagation extends TestCase {
 		\OCP\Share::shareItem('folder', $sharedFolderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER1, 31);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$this->assertTrue($recipientView->file_exists('/sharedfolder/subfolder/foo.txt'));
 		$recipientRootInfo = $recipientView->getFileInfo('', false);
 
 		// when file changed as owner
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'foobar');
 
 		// size of recipient's root stays the same
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$newRecipientRootInfo = $recipientView->getFileInfo('', false);
 		$this->assertEquals($recipientRootInfo->getSize(), $newRecipientRootInfo->getSize());
 
 		// size of owner's root increases
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 		$newOwnerRootInfo = $ownerView->getFileInfo('', false);
 		$this->assertEquals($ownerRootInfo->getSize() + 3, $newOwnerRootInfo->getSize());
 	}
 
 	public function testSizePropagationWhenRecipientChangesFile() {
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$recipientView = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
+		$recipientView = $this->setupUser(self::TEST_FILES_SHARING_API_USER1);
 
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$ownerView = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$ownerView = $this->setupUser(self::TEST_FILES_SHARING_API_USER2);
 		$ownerView->mkdir('/sharedfolder/subfolder');
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
@@ -81,9 +89,10 @@ class SizePropagation extends TestCase {
 		\OCP\Share::shareItem('folder', $sharedFolderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER1, 31);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$this->assertTrue($recipientView->file_exists('/sharedfolder/subfolder/foo.txt'));
 		$recipientRootInfo = $recipientView->getFileInfo('', false);
+		$recipientRootInfoWithMounts = $recipientView->getFileInfo('', true);
 
 		// when file changed as recipient
 		$recipientView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'foobar');
@@ -92,8 +101,12 @@ class SizePropagation extends TestCase {
 		$newRecipientRootInfo = $recipientView->getFileInfo('', false);
 		$this->assertEquals($recipientRootInfo->getSize(), $newRecipientRootInfo->getSize());
 
+		// but the size including mountpoints increases
+		$newRecipientRootInfo = $recipientView->getFileInfo('', true);
+		$this->assertEquals($recipientRootInfoWithMounts->getSize() +3, $newRecipientRootInfo->getSize());
+
 		// size of owner's root increases
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 		$newOwnerRootInfo = $ownerView->getFileInfo('', false);
 		$this->assertEquals($ownerRootInfo->getSize() + 3, $newOwnerRootInfo->getSize());
 	}
