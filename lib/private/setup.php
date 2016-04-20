@@ -400,12 +400,21 @@ class Setup {
 	 * Append the correct ErrorDocument path for Apache hosts
 	 */
 	public static function updateHtaccess() {
-		// From CLI we don't know the defined web root. Thus we can't write any
-		// directives into the .htaccess file.
+		$config = \OC::$server->getConfig();
+
+		// For CLI read the value from overwrite.cli.url
 		if(\OC::$CLI) {
-			return;
+			$webRoot = $config->getSystemValue('overwrite.cli.url', '');
+			if($webRoot === '') {
+				return;
+			}
+			$webRoot = parse_url($webRoot, PHP_URL_PATH);
+			$webRoot = rtrim($webRoot, '/');
+		} else {
+			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
 		}
-		$setupHelper = new \OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(),
+
+		$setupHelper = new \OC\Setup($config, \OC::$server->getIniWrapper(),
 			\OC::$server->getL10N('lib'), new \OC_Defaults(), \OC::$server->getLogger(),
 			\OC::$server->getSecureRandom());
 
@@ -413,13 +422,12 @@ class Setup {
 		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
 		if(strpos($htaccessContent, $content) === false) {
 			//custom 403 error page
-			$content.= "\nErrorDocument 403 ".\OC::$WEBROOT."/core/templates/403.php";
+			$content.= "\nErrorDocument 403 ".$webRoot."/core/templates/403.php";
 
 			//custom 404 error page
-			$content.= "\nErrorDocument 404 ".\OC::$WEBROOT."/core/templates/404.php";
+			$content.= "\nErrorDocument 404 ".$webRoot."/core/templates/404.php";
 
 			// Add rewrite base
-			$webRoot = !empty(\OC::$WEBROOT) ? \OC::$WEBROOT : '/';
 			$content .= "\n<IfModule mod_rewrite.c>";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteBase ".$webRoot;
