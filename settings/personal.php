@@ -54,6 +54,8 @@ if ($config->getSystemValue('enable_avatars', true) === true) {
 	\OC_Util::addVendorStyle('jcrop/css/jquery.Jcrop');
 }
 
+\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Personal::loadAdditionalScripts');
+
 // Highlight navigation entry
 OC::$server->getNavigationManager()->setActiveEntry('personal');
 

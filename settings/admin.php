@@ -41,6 +41,8 @@ OC_Util::addScript('settings', 'certificates');
 OC_Util::addScript('files', 'jquery.iframe-transport');
 OC_Util::addScript('files', 'jquery.fileupload');
 
+\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Admin::loadAdditionalScripts');
+
 $showLog = (\OC::$server->getConfig()->getSystemValue('log_type', 'owncloud') === 'owncloud');
 $numEntriesToLoad = 3;
 $entries = OC_Log_Owncloud::getEntries($numEntriesToLoad + 1);
