@@ -63,7 +63,7 @@ class Test_Share extends \Test\TestCase {
 		\OC::$server->getUserManager()->createUser($this->groupAndUser, 'pass');
 		OC_User::setUserId($this->user1);
 		OC_Group::clearBackends();
-		OC_Group::useBackend(new OC_Group_Dummy);
+		OC_Group::useBackend(new \Test\Util\Group\Dummy());
 		$this->group1 = $this->getUniqueID('group1_');
 		$this->group2 = $this->getUniqueID('group2_');
 		OC_Group::createGroup($this->group1);

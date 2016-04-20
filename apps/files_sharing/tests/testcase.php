@@ -82,7 +82,7 @@ abstract class TestCase extends \Test\TestCase {
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER4, self::TEST_FILES_SHARING_API_USER4);
 
 		// create group
-		$groupBackend = new \OC_Group_Dummy();
+		$groupBackend = new \Test\Util\Group\Dummy();
 		$groupBackend->createGroup(self::TEST_FILES_SHARING_API_GROUP1);
 		$groupBackend->createGroup('group');
 		$groupBackend->createGroup('group1');

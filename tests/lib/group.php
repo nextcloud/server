@@ -32,7 +32,7 @@ class Test_Group extends \Test\TestCase {
 	public function testSingleBackend() {
 		$userBackend = new \Test\Util\User\Dummy();
 		\OC::$server->getUserManager()->registerBackend($userBackend);
-		OC_Group::useBackend(new OC_Group_Dummy());
+		OC_Group::useBackend(new \Test\Util\Group\Dummy());
 
 		$group1 = $this->getUniqueID();
 		$group2 = $this->getUniqueID();
@@ -72,7 +72,7 @@ class Test_Group extends \Test\TestCase {
 
 
 	public function testNoEmptyGIDs() {
-		OC_Group::useBackend(new OC_Group_Dummy());
+		OC_Group::useBackend(new \Test\Util\Group\Dummy());
 		$emptyGroup = null;
 
 		$this->assertFalse(OC_Group::createGroup($emptyGroup));
@@ -80,7 +80,7 @@ class Test_Group extends \Test\TestCase {
 
 
 	public function testNoGroupsTwice() {
-		OC_Group::useBackend(new OC_Group_Dummy());
+		OC_Group::useBackend(new \Test\Util\Group\Dummy());
 		$group = $this->getUniqueID();
 		OC_Group::createGroup($group);
 
@@ -92,7 +92,7 @@ class Test_Group extends \Test\TestCase {
 
 
 	public function testDontDeleteAdminGroup() {
-		OC_Group::useBackend(new OC_Group_Dummy());
+		OC_Group::useBackend(new \Test\Util\Group\Dummy());
 		$adminGroup = 'admin';
 		OC_Group::createGroup($adminGroup);
 
@@ -102,7 +102,7 @@ class Test_Group extends \Test\TestCase {
 
 
 	public function testDontAddUserToNonexistentGroup() {
-		OC_Group::useBackend(new OC_Group_Dummy());
+		OC_Group::useBackend(new \Test\Util\Group\Dummy());
 		$groupNonExistent = 'notExistent';
 		$user = $this->getUniqueID();
 
@@ -111,7 +111,7 @@ class Test_Group extends \Test\TestCase {
 	}
 
 	public function testUsersInGroup() {
-		OC_Group::useBackend(new OC_Group_Dummy());
+		OC_Group::useBackend(new \Test\Util\Group\Dummy());
 		$userBackend = new \Test\Util\User\Dummy();
 		\OC::$server->getUserManager()->registerBackend($userBackend);
 
@@ -143,8 +143,8 @@ class Test_Group extends \Test\TestCase {
 	public function testMultiBackend() {
 		$userBackend = new \Test\Util\User\Dummy();
 		\OC::$server->getUserManager()->registerBackend($userBackend);
-		$backend1 = new OC_Group_Dummy();
-		$backend2 = new OC_Group_Dummy();
+		$backend1 = new \Test\Util\Group\Dummy();
+		$backend2 = new \Test\Util\Group\Dummy();
 		OC_Group::useBackend($backend1);
 		OC_Group::useBackend($backend2);
 
