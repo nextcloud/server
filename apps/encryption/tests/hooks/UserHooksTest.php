@@ -29,6 +29,12 @@ use OCA\Encryption\Crypto\Crypt;
 use OCA\Encryption\Hooks\UserHooks;
 use Test\TestCase;
 
+/**
+ * Class UserHooksTest
+ *
+ * @group DB
+ * @package OCA\Encryption\Tests\Hooks
+ */
 class UserHooksTest extends TestCase {
 	/**
 	 * @var \PHPUnit_Framework_MockObject_MockObject
@@ -190,6 +196,23 @@ class UserHooksTest extends TestCase {
 			->willReturnOnConsecutiveCalls(true, false);
 
 
+		$this->instance = $this->getMockBuilder('OCA\Encryption\Hooks\UserHooks')
+			->setConstructorArgs(
+				[
+					$this->keyManagerMock,
+					$this->userManagerMock,
+					$this->loggerMock,
+					$this->userSetupMock,
+					$this->userSessionMock,
+					$this->utilMock,
+					$this->sessionMock,
+					$this->cryptMock,
+					$this->recoveryMock
+				]
+			)->setMethods(['initMountPoints'])->getMock();
+
+		$this->instance->expects($this->exactly(3))->method('initMountPoints');
+
 		// Test first if statement
 		$this->assertNull($this->instance->setPassphrase($this->params));
 
@@ -236,16 +259,20 @@ class UserHooksTest extends TestCase {
 			->with('testUser')
 			->willReturn(false);
 
-		$userHooks = new UserHooks($this->keyManagerMock,
-			$this->userManagerMock,
-			$this->loggerMock,
-			$this->userSetupMock,
-			$userSessionMock,
-			$this->utilMock,
-			$this->sessionMock,
-			$this->cryptMock,
-			$this->recoveryMock
-		);
+		$userHooks = $this->getMockBuilder('OCA\Encryption\Hooks\UserHooks')
+			->setConstructorArgs(
+				[
+					$this->keyManagerMock,
+					$this->userManagerMock,
+					$this->loggerMock,
+					$this->userSetupMock,
+					$userSessionMock,
+					$this->utilMock,
+					$this->sessionMock,
+					$this->cryptMock,
+					$this->recoveryMock
+				]
+			)->setMethods(['initMountPoints'])->getMock();
 
 		$this->assertNull($userHooks->setPassphrase($this->params));
 	}
