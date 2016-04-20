@@ -26,6 +26,7 @@ OC.L10N.register(
     "Error favoriting" : "Gabim në ruajtjen si të parapëlqyer",
     "Error unfavoriting" : "Gabim në heqjen nga të parapëlqyerat",
     "Couldn't send mail to following users: %s " : "S’u dërgua dot e-mail përdoruesve vijues: %s ",
+    "Updates need to be installed. Please use the command line updater." : "Lypset të instalohen përditësime. Ju lutemi, përdorni përditësuesin e rreshtit të urdhrave.",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Po kontrollohet tabela %s",
     "Turned on maintenance mode" : "Mënyra e mirëmbajtjes u aktivizua",
@@ -303,6 +304,10 @@ OC.L10N.register(
     "Start update" : "Fillo përditësimin",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Për të shmangur çaste bllokimi pune me instalime të mëdha, mundeni të ekzekutoni urdhrin vijues që nga drejtoria juaj e instalimit:",
     "Detailed logs" : "Regjistrime të hollësishme",
+    "Update needed" : "Lyp përditësim",
+    "Please use the command line updater because you have a big instance." : "Ju lutemi, përdorni përditësuesin e rreshtit të urdhrave, sepse keni një instalim të madh.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Ju lutemi, përdorni përditësuesin e rreshtit të urdhrave, sepse përditësimi i vetvetishëm është i çaktivizuar te config.php.",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Për ndihmë, shihni  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentimin</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Kjo instancë %s hëpërhë gjendet nën mënyrën mirëmbajtje, çka mund të zgjasë ca.",
     "This page will refresh itself when the %s instance is available again." : "Kjo faqe do të rifreskohet vetiu, sapo instanca %s të jetë sërish gati."
 },

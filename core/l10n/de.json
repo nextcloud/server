@@ -24,6 +24,7 @@
     "Error favoriting" : "Fehler beim Favorisieren",
     "Error unfavoriting" : "Fehler beim Entfernen aus den Favoriten",
     "Couldn't send mail to following users: %s " : "Die E-Mail konnte nicht an folgende Benutzer gesendet werden: %s",
+    "Updates need to be installed. Please use the command line updater." : "Updates müssen installiert werden. Bitte nutze den Updater über die Kommandozeile.",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Überprüfe Tabelle %s",
     "Turned on maintenance mode" : "Wartungsmodus eingeschaltet",
@@ -302,6 +303,10 @@
     "Start update" : "Aktualisierung starten",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Zur Vermeidung von Zeitüberschreitungen bei größeren Installationen kannst Du stattdessen den folgenden Befehl in Deinem Installationsverzeichnis ausführen:",
     "Detailed logs" : "Detaillierte Fehlermeldungen",
+    "Update needed" : "Update wird benötigt",
+    "Please use the command line updater because you have a big instance." : "Da du eine große Instanz von Owncloud besitzt, nutze bitte den Updater über die Kommandozeile.",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Da automatische Updates in der config.php deaktivert sind, nutze bitte den Updater über die Kommandozeile.",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Für weitere Hilfen, schaue bitte in die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Dokumentation</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Diese %s-Instanz befindet sich gerade im Wartungsmodus, was eine Weile dauern kann.",
     "This page will refresh itself when the %s instance is available again." : "Diese Seite aktualisiert sich automatisch, wenn die %s-Instanz wieder verfügbar ist."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

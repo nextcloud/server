@@ -26,6 +26,7 @@ OC.L10N.register(
     "Error favoriting" : "Suosituksen kirjoitusvirhe",
     "Error unfavoriting" : "Suosituksen poisto virhe",
     "Couldn't send mail to following users: %s " : "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s",
+    "Updates need to be installed. Please use the command line updater." : "Päivitykset tulee asentaa. Käytä komentorivipäivitintä.",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Tarkistetaan taulua %s",
     "Turned on maintenance mode" : "Siirrytty huoltotilaan",
@@ -295,6 +296,8 @@ OC.L10N.register(
     "Start update" : "Käynnistä päivitys",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Välttääksesi aikakatkaisuja suurikokoisten asennusten kanssa, voit suorittaa vaihtoehtoisesti seuraavan komennon asennushakemistossa:",
     "Detailed logs" : "Yksityiskohtainen loki",
+    "Update needed" : "Päivitys vaaditaan",
+    "Please use the command line updater because you have a big instance." : "Käytä komentorivipäivitintä, koska käyttämäsi ownCloud on sen verran suuri.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Tämä %s-instanssi on parhaillaan huoltotilassa, huollossa saattaa kestää hetki.",
     "This page will refresh itself when the %s instance is available again." : "Tämä sivu päivittää itsensä, kun %s on jälleen käytettävissä."
 },
