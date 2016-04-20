@@ -33,42 +33,94 @@
 </div>
 
 <?php if ($_['enableAvatars']): ?>
-<form id="avatar" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
-	<h2><?php p($l->t('Profile picture')); ?></h2>
-	<div id="displayavatar">
-		<div class="avatardiv"></div>
-		<div class="warning hidden"></div>
-		<?php if ($_['avatarChangeSupported']): ?>
-		<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>"></label>
-		<div class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></div>
-		<div class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></div>
-		<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield">
-		<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
-		<?php else: ?>
-		<?php p($l->t('Picture provided by original account')); ?>
-		<?php endif; ?>
-	</div>
+<div id="personal-settings-avatar-container">
+	<form id="avatar" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
+		<h2><?php p($l->t('Profile picture')); ?></h2>
+		<div id="displayavatar">
+			<div class="avatardiv"></div>
+			<div class="warning hidden"></div>
+			<?php if ($_['avatarChangeSupported']): ?>
+				<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>"></label>
+				<div class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></div>
+				<div class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></div>
+				<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield">
+				<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
+			<?php else: ?>
+				<?php p($l->t('Picture provided by original account')); ?>
+			<?php endif; ?>
+		</div>
 
-	<div id="cropper" class="hidden">
-		<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
-		<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
-	</div>
-</form>
+		<div id="cropper" class="hidden">
+			<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
+			<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
+		</div>
+	</form>
+</div>
 <?php endif; ?>
 
 <?php
 if($_['displayNameChangeSupported']) {
 ?>
-<form id="displaynameform" class="section">
-	<h2>
-		<label for="displayName"><?php echo $l->t('Full name');?></label>
-	</h2>
-	<input type="text" id="displayName" name="displayName"
-		value="<?php p($_['displayName'])?>"
-		autocomplete="on" autocapitalize="off" autocorrect="off" />
-    <span class="msg"></span>
-	<input type="hidden" id="oldDisplayName" name="oldDisplayName" value="<?php p($_['displayName'])?>" />
-</form>
+<div id="personal-settings-container">
+	<div class="personal-settings-setting-box">
+		<form id="displaynameform" class="section">
+			<h2>
+				<label for="displayname"><?php p($l->t('Full name')); ?></label>
+				<span class="icon-password"/>
+			</h2>
+			<input type="text" id="displayname" name="displayname"
+			       value="<?php p($_['displayName']) ?>"
+			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+		</form>
+	</div>
+	<div class="personal-settings-setting-box">
+		<form id="phoneform" class="section">
+			<h2>
+				<label for="phone"><?php p($l->t('Phone name')); ?></label>
+				<span class="icon-password"/>
+			</h2>
+			<input type="tel" id="phone" name="phone"
+			       value="<?php p($_['phone']) ?>"
+			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+		</form>
+	</div>
+	<div class="personal-settings-setting-box">
+		<form id="emailform" class="section">
+			<h2>
+				<label for="email"><?php p($l->t('Email')); ?></label>
+				<span class="icon-password"/>
+			</h2>
+			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
+			       placeholder="<?php p($l->t('Your email address')); ?>"
+			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+			<br />
+			<em><?php p($l->t('For password recovery and notifications')); ?></em>
+		</form>
+	</div>
+	<div class="personal-settings-setting-box">
+		<form id="websiteform" class="section">
+			<h2>
+				<label for="website"><?php p($l->t('Website')); ?></label>
+				<span class="icon-password"/>
+			</h2>
+			<input type="text" name="website" id="website" value="<?php p($_['website']); ?>"
+			       placeholder="<?php p($l->t('Your website')); ?>"
+			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+		</form>
+	</div>
+	<div class="personal-settings-setting-box">
+		<form id="addressform" class="section">
+			<h2>
+				<label for="address"><?php echo $l->t('Address'); ?></label>
+				<span class="icon-password"/>
+			</h2>
+			<input type="text" id="address" name="address"
+			       value="<?php p($_['address']) ?>"
+			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+		</form>
+	</div>
+	<span class="msg"></span>
+</div>
 <?php
 } else {
 ?>
@@ -76,30 +128,11 @@ if($_['displayNameChangeSupported']) {
 	<h2><?php echo $l->t('Full name');?></h2>
 	<span><?php if(isset($_['displayName'][0])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
 </div>
-<?php
-}
-?>
-
-<?php
-if($_['displayNameChangeSupported']) {
-?>
-<form id="lostpassword" class="section">
-	<h2>
-		<label for="email"><?php p($l->t('Email'));?></label>
-	</h2>
-	<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
-		placeholder="<?php p($l->t('Your email address'));?>"
-		autocomplete="on" autocapitalize="off" autocorrect="off" />
-	<span class="msg"></span><br />
-	<em><?php p($l->t('For password recovery and notifications'));?></em>
-</form>
-<?php
-} else {
-?>
 <div id="lostpassword" class="section">
 	<h2><?php echo $l->t('Email'); ?></h2>
 	<span><?php if(isset($_['email'][0])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
 </div>
+<!-- TODO: show phone/address -->
 <?php
 }
 ?>

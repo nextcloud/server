@@ -1,9 +1,14 @@
+/* global OC */
+
 /**
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
  *               2013, Morris Jobke <morris.jobke@gmail.com>
+ *               2016, Christoph Wurst <christoph@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
+
+OC.Settings = OC.Settings || {};
 
 /**
  * The callback will be fired as soon as enter is pressed by the
@@ -21,80 +26,25 @@ jQuery.fn.keyUpDelayedOrEnter = function (callback, allowEmptyValue) {
 			return;
 		}
 		if (allowEmptyValue || that.val() !== '') {
-			cb();
+			cb(event);
 		}
 	}, 1000));
 
 	this.keypress(function (event) {
 		if (event.keyCode === 13 && (allowEmptyValue || that.val() !== '')) {
 			event.preventDefault();
-			cb();
+			cb(event);
 		}
 	});
 
-	this.bind('paste', null, function (e) {
-		if(!e.keyCode){
+	this.bind('paste', null, function (event) {
+		if(!event.keyCode){
 			if (allowEmptyValue || that.val() !== '') {
-				cb();
+				cb(event);
 			}
 		}
 	});
 };
-
-
-/**
- * Post the email address change to the server.
- */
-function changeEmailAddress () {
-	var emailInfo = $('#email');
-	if (emailInfo.val() === emailInfo.defaultValue) {
-		return;
-	}
-	emailInfo.defaultValue = emailInfo.val();
-	OC.msg.startSaving('#lostpassword .msg');
-	var post = $("#lostpassword").serializeArray();
-	$.ajax({
-		type: 'PUT',
-		url: OC.generateUrl('/settings/users/{id}/mailAddress', {id: OC.currentUser}),
-		data: {
-			mailAddress: post[0].value
-		}
-	}).done(function(result){
-		// I know the following 4 lines look weird, but that is how it works
-		// in jQuery -  for success the first parameter is the result
-		//              for failure the first parameter is the result object
-		OC.msg.finishedSaving('#lostpassword .msg', result);
-	}).fail(function(result){
-		OC.msg.finishedSaving('#lostpassword .msg', result.responseJSON);
-	});
-}
-
-/**
- * Post the display name change to the server.
- */
-function changeDisplayName () {
-	if ($('#displayName').val() !== '') {
-		OC.msg.startSaving('#displaynameform .msg');
-		// Serialize the data
-		var post = $("#displaynameform").serialize();
-		// Ajax foo
-		$.post(OC.generateUrl('/settings/users/{id}/displayName', {id: OC.currentUser}), post, function (data) {
-			if (data.status === "success") {
-				$('#oldDisplayName').val($('#displayName').val());
-				// update displayName on the top right expand button
-				$('#expandDisplayName').text($('#displayName').val());
-				// update avatar if avatar is available
-				if(!$('#removeavatar').hasClass('hidden')) {
-					updateAvatar();
-				}
-			}
-			else {
-				$('#newdisplayname').val(data.data.displayName);
-			}
-			OC.msg.finishedSaving('#displaynameform .msg', data);
-		});
-	}
-}
 
 function updateAvatar (hidedefault) {
 	var $headerdiv = $('#header .avatardiv');
@@ -232,8 +182,10 @@ $(document).ready(function () {
 
 	});
 
-	$('#displayName').keyUpDelayedOrEnter(changeDisplayName);
-	$('#email').keyUpDelayedOrEnter(changeEmailAddress, true);
+	var federationSettingsView = new OC.Settings.FederationSettingsView({
+		el: '#personal-settings-container'
+	});
+	federationSettingsView.render();
 
 	$("#languageinput").change(function () {
 		// Serialize the data
@@ -395,3 +347,5 @@ OC.Encryption.msg = {
 		}
 	}
 };
+
+OC.Settings.updateAvatar = updateAvatar;

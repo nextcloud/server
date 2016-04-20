@@ -8,8 +8,6 @@ input#openid, input#webdav { width:20em; }
 /* PERSONAL */
 
 #avatar {
-	display: inline-block;
-	float: left;
 	width: 160px;
 	padding-right: 0;
 }
@@ -33,6 +31,46 @@ input#openid, input#webdav { width:20em; }
 	background-color: #fff;
 	z-index: 500;
 	position: relative;
+}
+
+#personal-settings-avatar-container {
+	float: left;
+}
+#personal-settings-container {
+	position: relative;
+	float: left;
+	min-width: 280px;
+	width: calc(100% - 200px);
+}
+#personal-settings-container:after {
+	clear: both;
+}
+#personal-settings-container > div {
+	float: left;
+	height: 100px;
+	min-width: 300px;
+}
+#personal-settings-container > div h2 span[class^="icon-"] {
+	display: inline-block;
+	margin-left: 5px;
+	background-size: 110%;
+	opacity: 0.3;
+	cursor: pointer;
+}
+.personal-settings-setting-box input[type="text"],
+.personal-settings-setting-box input[type="email"],
+.personal-settings-setting-box input[type="tel"] {
+	width: 17em;
+}
+.federationScopeMenu {
+	top: 66px;
+}
+.federationScopeMenu.bubble::after {
+	left: 45px;
+}
+.federationScopeMenu.popovermenu {
+	font-weight: 100;
+	font-size: medium;
 }
 
 #displaynameform,
@@ -76,10 +114,6 @@ input#openid, input#webdav { width:20em; }
 }
 input#identity {
 	width: 20em;
-}
-#displayName,
-#email {
-	width: 17em;
 }
 
 #showWizard {
