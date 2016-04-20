@@ -95,6 +95,15 @@ class RawConnection {
 	}
 
 	/**
+	 * read a line of output
+	 *
+	 * @return string
+	 */
+	public function readError() {
+		return trim(stream_get_line($this->getErrorStream(), 4086));
+	}
+
+	/**
 	 * get all output until the process closes
 	 *
 	 * @return array

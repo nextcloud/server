@@ -4,28 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5c612406bc1235075305b09a5d6996a9",
+    "hash": "44a8cfa909a9a5273db4fea4a2d9bd69",
+    "content-hash": "9bd1a06cb9a4ee6cc48af41325383693",
     "packages": [
         {
             "name": "icewind/smb",
-            "version": "v1.0.4",
+            "version": "v1.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/icewind1991/SMB.git",
-                "reference": "9277bd20262a01b38a33cc7356e98055f2262d32"
+                "reference": "764f3fc793a904eb937d619ad097fb076ff199cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/9277bd20262a01b38a33cc7356e98055f2262d32",
-                "reference": "9277bd20262a01b38a33cc7356e98055f2262d32",
+                "url": "https://api.github.com/repos/icewind1991/SMB/zipball/764f3fc793a904eb937d619ad097fb076ff199cd",
+                "reference": "764f3fc793a904eb937d619ad097fb076ff199cd",
                 "shasum": ""
             },
             "require": {
-                "icewind/streams": "0.2.*",
+                "icewind/streams": ">=0.2.0",
                 "php": ">=5.3"
             },
             "require-dev": {
-                "satooshi/php-coveralls": "dev-master"
+                "phpunit/phpunit": "^4.8",
+                "satooshi/php-coveralls": "v1.0.0"
             },
             "type": "library",
             "autoload": {
@@ -45,7 +47,7 @@
                 }
             ],
             "description": "php wrapper for smbclient and libsmbclient-php",
-            "time": "2015-08-17 14:20:38"
+            "time": "2016-03-17 13:29:58"
         },
         {
             "name": "icewind/streams",
