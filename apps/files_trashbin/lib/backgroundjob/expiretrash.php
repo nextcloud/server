@@ -23,6 +23,7 @@
 namespace OCA\Files_Trashbin\BackgroundJob;
 
 use OCP\IConfig;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCA\Files_Trashbin\AppInfo\Application;
 use OCA\Files_Trashbin\Expiration;
@@ -31,40 +32,28 @@ use OCA\Files_Trashbin\Trashbin;
 
 class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 
-	const ITEMS_PER_SESSION = 1000;
-
 	/**
 	 * @var Expiration
 	 */
 	private $expiration;
-
-	/**
-	 * @var IConfig
-	 */
-	private $config;
 	
 	/**
 	 * @var IUserManager
 	 */
 	private $userManager;
-	
-	const USERS_PER_SESSION = 1000;
 
 	/**
-	 * @param IConfig|null $config
 	 * @param IUserManager|null $userManager
 	 * @param Expiration|null $expiration
 	 */
-	public function __construct(IConfig $config = null,
-								IUserManager $userManager = null,
+	public function __construct(IUserManager $userManager = null,
 								Expiration $expiration = null) {
 		// Run once per 30 minutes
 		$this->setInterval(60 * 30);
 
-		if (is_null($expiration) || is_null($userManager) || is_null($config)) {
+		if (is_null($expiration) || is_null($userManager)) {
 			$this->fixDIForJobs();
 		} else {
-			$this->config = $config;
 			$this->userManager = $userManager;
 			$this->expiration = $expiration;
 		}
@@ -72,7 +61,6 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 
 	protected function fixDIForJobs() {
 		$application = new Application();
-		$this->config = \OC::$server->getConfig();
 		$this->userManager = \OC::$server->getUserManager();
 		$this->expiration = $application->getContainer()->query('Expiration');
 	}
@@ -86,26 +74,15 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 		if (!$maxAge) {
 			return;
 		}
-		
-		$offset = $this->config->getAppValue('files_trashbin', 'cronjob_user_offset', 0);
-		$users = $this->userManager->search('', self::USERS_PER_SESSION, $offset);
-		if (!count($users)) {
-			// No users found, reset offset and retry
-			$offset = 0;
-			$users = $this->userManager->search('', self::USERS_PER_SESSION);
-		}
-		
-		$offset += self::USERS_PER_SESSION;
-		$this->config->setAppValue('files_trashbin', 'cronjob_user_offset', $offset);
-		
-		foreach ($users as $user) {
+
+		$this->userManager->callForAllUsers(function(IUser $user) {
 			$uid = $user->getUID();
 			if (!$this->setupFS($uid)) {
-				continue;
+				return;
 			}
 			$dirContent = Helper::getTrashFiles('/', $uid, 'mtime');
 			Trashbin::deleteExpiredFiles($dirContent, $uid);
-		}
+		});
 		
 		\OC_Util::tearDownFS();
 	}
@@ -115,19 +92,15 @@ class ExpireTrash extends \OC\BackgroundJob\TimedJob {
 	 * @param string $user
 	 * @return boolean
 	 */
-	private function setupFS($user){
-		if (!$this->userManager->userExists($user)) {
-			return false;
-		}
-
-		//Check if this user has a trashbin directory
-		$view = new \OC\Files\View('/' . $user);
-		if (!$view->is_dir('/files_trashbin/files')){
-			return false;
-		}
-
+	protected function setupFS($user) {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
+
+		// Check if this user has a trashbin directory
+		$view = new \OC\Files\View('/' . $user);
+		if (!$view->is_dir('/files_trashbin/files')) {
+			return false;
+		}
 
 		return true;
 	}
