@@ -468,6 +468,7 @@ html.ie8 #fileList tr.selected td.filename>.selectCheckBox {
 	position: relative;
 	width: 100%;
 	padding-left: 0;
+	padding-right:0;
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
 
@@ -572,13 +573,26 @@ html.ie8 .column-mtime .selectedActions {
 	opacity: 0;
 	display:none;
 }
-#fileList a.action.action-share,
-#fileList a.action.action-menu {
+#fileList a.action.action-share {
 	padding: 17px 14px;
 }
 
+#fileList a.action.action-menu {
+	padding-top: 17px;
+	padding-bottom: 17px;
+	padding-left:14px;
+	padding-right:0px;
+}
+
+#fileList .filesize {
+	padding-top:0px;
+	padding-bottom:0px;
+	padding-left:60px;
+	padding-right:15px;
+}
+
 #fileList .popovermenu {
-	margin-right: 21px;
+	margin-right: -5px;
 }
 .ie8 #fileList .popovermenu {
 	margin-top: -10px;
