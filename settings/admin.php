@@ -38,7 +38,6 @@ $template = new OC_Template('settings', 'admin', 'user');
 $l = \OC::$server->getL10N('settings');
 
 OC_Util::addScript('settings', 'certificates');
-OC_Util::addScript('files', 'jquery.iframe-transport');
 OC_Util::addScript('files', 'jquery.fileupload');
 
 \OC::$server->getEventDispatcher()->dispatch('OC\Settings\Admin::loadAdditionalScripts');

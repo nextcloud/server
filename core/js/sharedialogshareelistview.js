@@ -268,11 +268,11 @@
 			if ($element.attr('name') === 'edit') {
 				checked = $element.is(':checked');
 				// Check/uncheck Create, Update, and Delete checkboxes if Edit is checked/unck
-				$($checkboxes).attr('checked', checked);
+				$($checkboxes).prop('checked', checked);
 			} else {
 				var numberChecked = $checkboxes.filter(':checked').length;
 				checked = numberChecked > 0;
-				$('input[name="edit"]', $li).attr('checked', checked);
+				$('input[name="edit"]', $li).prop('checked', checked);
 			}
 
 			var permissions = OC.PERMISSION_READ;

@@ -1337,9 +1337,6 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 			var item = localStorage.getItem(OC.localStorage.namespace+name);
 			if(item === null) {
 				return null;
-			} else if (typeof JSON === 'undefined') {
-				//fallback to jquery for IE6/7/8
-				return $.parseJSON(item);
 			} else {
 				return JSON.parse(item);
 			}
@@ -1439,11 +1436,15 @@ function initCore() {
 	 */
 	moment.locale(OC.getLocale());
 
-	if ($.browser.msie || !!navigator.userAgent.match(/Trident\/7\./)) {
-		// for IE10+ that don't have conditional comments
-		// and IE11 doesn't identify as MSIE any more...
+	var userAgent = window.navigator.userAgent;
+	var msie = userAgent.indexOf('MSIE ');
+	var trident = userAgent.indexOf('Trident/');
+	var edge = userAgent.indexOf('Edge/');
+
+	if (msie > 0 || trident > 0) {
+		// (IE 10 or older) || IE 11
 		$('html').addClass('ie');
-	} else if (!!navigator.userAgent.match(/Edge\/12/)) {
+	} else if (edge > 0) {
 		// for edge
 		$('html').addClass('edge');
 	}

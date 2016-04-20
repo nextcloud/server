@@ -120,7 +120,7 @@
 				label.text(element.text() || item);
 				label.attr('title', element.text() || item);
 				if(settings.checked.indexOf(item) !== -1 || checked) {
-					input.attr('checked', true);
+					input.prop('checked', true);
 				}
 				if(checked){
 					if(settings.singleSelect) {
@@ -145,7 +145,7 @@
 						element.attr('selected','selected');
 						if(typeof settings.oncheck === 'function') {
 							if(settings.oncheck(value)===false) {
-								$(this).attr('checked', false);
+								$(this).prop('checked', false);
 								return;
 							}
 						}
@@ -157,7 +157,7 @@
 						element.attr('selected',null);
 						if(typeof settings.onuncheck === 'function') {
 							if(settings.onuncheck(value)===false) {
-								$(this).attr('checked',true);
+								$(this).prop('checked',true);
 								return;
 							}
 						}

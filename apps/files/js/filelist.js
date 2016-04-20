@@ -2593,7 +2593,7 @@
 					// fetch response from iframe
 					response = data.result[0].body.innerText;
 				}
-				var result=$.parseJSON(response);
+				var result = JSON.parse(response);
 
 				if (typeof result[0] !== 'undefined' && result[0].status === 'success') {
 					var file = result[0];
@@ -2906,7 +2906,7 @@ $(document).ready(function() {
 			OCA.Files.FileList.lastAction();
 		}
 	});
-	$(window).unload(function () {
+	$(window).on('unload', function () {
 		$(window).trigger('beforeunload');
 	});
 
