@@ -145,6 +145,11 @@
 		_filter: '',
 
 		/**
+		 * @type Backbone.Model
+		 */
+		_filesConfig: null,
+
+		/**
 		 * Sort attribute
 		 * @type String
 		 */
@@ -197,6 +202,15 @@
 			if (this.initialized) {
 				return;
 			}
+
+			if (options.config) {
+				this._filesConfig = options.config;
+			} else {
+				this._filesConfig = OCA.Files.App.getFilesConfig();
+			}
+			this._filesConfig.on('change:showhidden', function() {
+				self.setFiles(self.files);
+			});
 
 			if (options.dragOptions) {
 				this._dragOptions = options.dragOptions;
@@ -847,6 +861,10 @@
 		 * @return array of DOM elements of the newly added files
 		 */
 		_nextPage: function(animate) {
+			// Save full files list while rendering
+			var allFiles = this.files;
+			this.files = this._filterHiddenFiles(this.files);
+
 			var index = this.$fileList.children().length,
 				count = this.pageSize(),
 				hidden,
@@ -893,6 +911,10 @@
 					}
 				}, 0);
 			}
+
+			// Restore full files list after rendering
+			this.files = allFiles;
+
 			return newTrs;
 		},
 
@@ -930,21 +952,43 @@
 			// clear "Select all" checkbox
 			this.$el.find('.select-all').prop('checked', false);
 
+			// Save full files list while rendering
+			var allFiles = this.files;
+			this.files = this._filterHiddenFiles(this.files);
+
 			this.isEmpty = this.files.length === 0;
 			this._nextPage();
 
 			this.updateEmptyContent();
 
-			this.fileSummary.calculate(filesArray);
+			this.fileSummary.calculate(this.files);
 
 			this._selectedFiles = {};
 			this._selectionSummary.clear();
 			this.updateSelectionSummary();
 			$(window).scrollTop(0);
 
+			// Restore full files list after rendering
+			this.files = allFiles;
+
 			this.$fileList.trigger(jQuery.Event('updated'));
 			_.defer(function() {
 				self.$el.closest('#app-content').trigger(jQuery.Event('apprendered'));
+			});
+		},
+
+		/**
+		 * Filter hidden files of the given filesArray (dot-files)
+		 *
+		 * @param filesArray files to be filtered
+		 * @returns {array}
+		 */
+		_filterHiddenFiles: function(files) {
+			if (this._filesConfig.get('showhidden')) {
+				return files;
+			}
+			return _.filter(files, function(file) {
+				return file.name.indexOf('.') !== 0;
 			});
 		},
 

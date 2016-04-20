@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@owncloud.com>
@@ -380,6 +381,19 @@ class ApiControllerTest extends TestCase {
 		$result = $this->apiController->updateFileSorting($mode, $direction);
 
 		$this->assertEquals($expected, $result);
+	}
+
+	public function testShowHiddenFiles() {
+		$show = false;
+
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with($this->user->getUID(), 'files', 'show_hidden', $show);
+
+		$expected = new Http\Response();
+		$actual = $this->apiController->showHiddenFiles($show);
+
+		$this->assertEquals($expected, $actual);
 	}
 
 }
