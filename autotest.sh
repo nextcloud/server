@@ -211,7 +211,7 @@ function execute_tests {
 	if [ "$DB" == "mysqlmb4" ] ; then
 		echo "Fire up the mysql docker"
 		DOCKER_CONTAINER_ID=$(docker run \
-			-v tests/docker/mysqlmb4:/etc/mysql/conf.d \
+			-v $BASEDIR/tests/docker/mysqlmb4:/etc/mysql/conf.d \
 			-e MYSQL_ROOT_PASSWORD=owncloud \
 			-e MYSQL_USER="$DATABASEUSER" \
 			-e MYSQL_PASSWORD=owncloud \
