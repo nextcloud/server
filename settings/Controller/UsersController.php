@@ -493,17 +493,62 @@ class UsersController extends Controller {
 	}
 
 	/**
-	 * Set the mail address of a user
+	 * @todo add method description
 	 *
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
 	 * @PasswordConfirmationRequired
 	 *
+	 * @param string $userId
+	 * @param string $displayname
+	 * @param string $displaynameScope
+	 * @param string $phone
+	 * @param string $phoneScope
+	 * @param string $email
+	 * @param string $emailScope
+	 * @param string $website
+	 * @param string $websiteScope
+	 * @param string $address
+	 * @param string $addressScope
+	 * @return DataResponse
+	 */
+	public function saveUserSettings($userId,
+					$displayname, $displaynameScope,
+					$phone, $phoneScope,
+					$email, $emailScope,
+					$website, $websiteScope,
+					$address, $addressScope) {
+		// TODO: implement
+		return new DataResponse(
+			array(
+				'status' => 'success',
+				'data' => array(
+					'userId' => $userId,
+					'displayname' => $displayname,
+					'displaynameScope' => 'public', // force value for test purposes
+					'email' => $email,
+					'emailScope' => $emailScope,
+					'website' => $website,
+					'websiteScope' => $websiteScope,
+					'address' => $address,
+					'addressScope' => $addressScope,
+					'message' => (string)$this->l10n->t('Settings saved')
+				)
+			),
+			Http::STATUS_OK
+		);
+	}
+
+	/**
+	 * Set the mail address of a user
+	 *
+	 * @todo Merge into saveUserSettings
+	 *
 	 * @param string $id
 	 * @param string $mailAddress
 	 * @return DataResponse
 	 */
-	public function setMailAddress($id, $mailAddress) {
+	private function setMailAddress($id, $mailAddress) {
 		$userId = $this->userSession->getUser()->getUID();
 		$user = $this->userManager->get($id);
 
@@ -619,12 +664,13 @@ class UsersController extends Controller {
 	 * @NoAdminRequired
 	 * @NoSubadminRequired
 	 * @PasswordConfirmationRequired
+	 * @todo merge into saveUserSettings
 	 *
 	 * @param string $username
 	 * @param string $displayName
 	 * @return DataResponse
 	 */
-	public function setDisplayName($username, $displayName) {
+	private function setDisplayName($username, $displayName) {
 		$currentUser = $this->userSession->getUser();
 
 		if ($username === null) {
