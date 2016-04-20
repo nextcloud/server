@@ -175,4 +175,6 @@ try {
 
 } catch (Exception $ex) {
 	\OCP\Util::writeLog('cron', $ex->getMessage(), \OCP\Util::FATAL);
+} catch (Error $ex) {
+	\OCP\Util::writeLog('cron', $ex->getMessage(), \OCP\Util::FATAL);
 }
