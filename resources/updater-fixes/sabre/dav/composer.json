@@ -1,0 +1,66 @@
+{
+    "name": "sabre/dav",
+    "type": "library",
+    "description": "WebDAV Framework for PHP",
+    "keywords": ["Framework", "WebDAV", "CalDAV", "CardDAV", "iCalendar"],
+    "homepage": "http://sabre.io/",
+    "license" : "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Evert Pot",
+            "email": "me@evertpot.com",
+            "homepage" : "http://evertpot.com/",
+            "role" : "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.1",
+        "sabre/vobject": "^3.3.4",
+        "sabre/event" : "~2.0",
+        "sabre/xml"  : "~1.0",
+        "sabre/http" : "~4.0",
+        "sabre/uri" : "~1.0",
+        "ext-dom": "*",
+        "ext-pcre": "*",
+        "ext-spl": "*",
+        "ext-simplexml": "*",
+        "ext-mbstring" : "*",
+        "ext-ctype" : "*",
+        "ext-date" : "*",
+        "ext-iconv" : "*",
+        "lib-libxml" : ">=2.7.0"
+    },
+    "require-dev" : {
+        "phpunit/phpunit" : "~4.2",
+        "evert/phpdoc-md" : "~0.1.0",
+        "sabre/cs"        : "~0.0.2"
+    },
+    "suggest" : {
+        "ext-curl" : "*",
+        "ext-pdo" : "*"
+    },
+    "autoload": {
+        "psr-4" : {
+            "Sabre\\DAV\\"     : "lib/DAV/",
+            "Sabre\\DAVACL\\"  : "lib/DAVACL/",
+            "Sabre\\CalDAV\\"  : "lib/CalDAV/",
+            "Sabre\\CardDAV\\" : "lib/CardDAV/"
+        }
+    },
+    "support" : {
+        "forum" : "https://groups.google.com/group/sabredav-discuss",
+        "source" : "https://github.com/fruux/sabre-dav"
+    },
+    "bin" : [
+        "bin/sabredav",
+        "bin/naturalselection"
+    ],
+    "config" : {
+        "bin-dir" : "./bin"
+    },
+    "extra" : {
+        "branch-alias": {
+            "dev-master": "3.0.0-dev"
+        }
+    }
+}
