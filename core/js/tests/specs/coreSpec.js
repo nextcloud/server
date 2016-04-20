@@ -936,10 +936,13 @@ describe('Core base tests', function() {
 	});
 	describe('global ajax errors', function() {
 		var reloadStub, ajaxErrorStub, clock;
+		var notificationStub;
+		var waitTimeMs = 6000;
 
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
 			reloadStub = sinon.stub(OC, 'reload');
+			notificationStub = sinon.stub(OC.Notification, 'show');
 			// unstub the error processing method
 			ajaxErrorStub = OC._processAjaxError;
 			ajaxErrorStub.restore();
@@ -947,6 +950,7 @@ describe('Core base tests', function() {
 		});
 		afterEach(function() {
 			reloadStub.restore();
+			notificationStub.restore();
 			clock.restore();
 		});
 
@@ -971,7 +975,7 @@ describe('Core base tests', function() {
 				$(document).trigger(new $.Event('ajaxError'), xhr);
 
 				// trigger timers
-				clock.tick(1000);
+				clock.tick(waitTimeMs);
 
 				if (expectedCall) {
 					expect(reloadStub.calledOnce).toEqual(true);
@@ -987,7 +991,7 @@ describe('Core base tests', function() {
 			$(document).trigger(new $.Event('ajaxError'), xhr);
 
 			// trigger timers
-			clock.tick(1000);
+			clock.tick(waitTimeMs);
 
 			expect(reloadStub.calledOnce).toEqual(true);
 		});
@@ -998,8 +1002,16 @@ describe('Core base tests', function() {
 
 			$(document).trigger(new $.Event('ajaxError'), xhr);
 
-			clock.tick(1000);
+			clock.tick(waitTimeMs);
 			expect(reloadStub.notCalled).toEqual(true);
+		});
+		it('displays notification', function() {
+			var xhr = { status: 401 };
+
+			$(document).trigger(new $.Event('ajaxError'), xhr);
+
+			clock.tick(waitTimeMs);
+			expect(notificationStub.calledOnce).toEqual(true);
 		});
 	});
 });
