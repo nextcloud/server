@@ -23,85 +23,52 @@ namespace OC\Files\Config;
 
 use OC\Files\Filesystem;
 use OCP\Files\Config\ICachedMountInfo;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\Node;
 use OCP\IUser;
 
-class CachedMountInfo implements ICachedMountInfo {
-	/**
-	 * @var IUser
-	 */
-	protected $user;
-
-	/**
-	 * @var int
-	 */
-	protected $storageId;
-
-	/**
-	 * @var int
-	 */
-	protected $rootId;
-
-	/**
-	 * @var string
-	 */
-	protected $mountPoint;
+class LazyStorageMountInfo extends CachedMountInfo {
+	/** @var IMountPoint  */
+	private $mount;
 
 	/**
 	 * CachedMountInfo constructor.
 	 *
 	 * @param IUser $user
-	 * @param int $storageId
-	 * @param int $rootId
-	 * @param string $mountPoint
+	 * @param IMountPoint $mount
 	 */
-	public function __construct(IUser $user, $storageId, $rootId, $mountPoint) {
+	public function __construct(IUser $user, IMountPoint $mount) {
 		$this->user = $user;
-		$this->storageId = $storageId;
-		$this->rootId = $rootId;
-		$this->mountPoint = $mountPoint;
-	}
-
-	/**
-	 * @return IUser
-	 */
-	public function getUser() {
-		return $this->user;
+		$this->mount = $mount;
 	}
 
 	/**
 	 * @return int the numeric storage id of the mount
 	 */
 	public function getStorageId() {
-		return $this->storageId;
+		if (!$this->storageId) {
+			$this->storageId = $this->mount->getStorage()->getStorageCache()->getNumericId();
+		}
+		return parent::getStorageId();
 	}
 
 	/**
 	 * @return int the fileid of the root of the mount
 	 */
 	public function getRootId() {
-		return $this->rootId;
-	}
-
-	/**
-	 * @return Node the root node of the mount
-	 */
-	public function getMountPointNode() {
-		// TODO injection etc
-		Filesystem::initMountPoints($this->getUser()->getUID());
-		$userNode = \OC::$server->getUserFolder($this->getUser()->getUID());
-		$nodes = $userNode->getById($this->getRootId());
-		if (count($nodes) > 0) {
-			return $nodes[0];
-		} else {
-			return null;
+		if (!$this->rootId) {
+			$this->rootId = $this->mount->getStorageRootId();
 		}
+		return parent::getRootId();
 	}
 
 	/**
 	 * @return string the mount point of the mount for the user
 	 */
 	public function getMountPoint() {
-		return $this->mountPoint;
+		if (!$this->mountPoint) {
+			$this->mountPoint = $this->mount->getMountPoint();
+		}
+		return parent::getMountPoint();
 	}
 }

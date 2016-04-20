@@ -50,12 +50,14 @@ class EtagPropagation extends PropagationTestCase {
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER3] = [];
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER4] = [];
 
+		$rootFolder = \OC::$server->getRootFolder();
+		$shareManager = \OC::$server->getShareManager();
+
 		$this->rootView = new View('');
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$view1 = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
 		$view1->mkdir('/sub1/sub2/folder/inside');
 		$view1->mkdir('/directReshare');
-		$view1->mkdir('/sub1/sub2/folder/other');
 		$view1->mkdir('/sub1/sub2/folder/other');
 		$view1->file_put_contents('/foo.txt', 'foobar');
 		$view1->file_put_contents('/sub1/sub2/folder/file.txt', 'foobar');
@@ -64,30 +66,90 @@ class EtagPropagation extends PropagationTestCase {
 		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
 		$fileInfo = $view1->getFileInfo('/foo.txt');
 		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
-		\OCP\Share::shareItem('file', $fileInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
-		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
-		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER3, 31);
+
+		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)
+			->get('/foo.txt');
+		$share = $shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE);
+		$shareManager->createShare($share);
+		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)
+			->get('/sub1/sub2/folder');
+		$share = $shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$shareManager->createShare($share);
+		$share = $shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER3)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$shareManager->createShare($share);
+
 		$folderInfo = $view1->getFileInfo('/directReshare');
 		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
-		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
+
+		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1)
+			->get('/directReshare');
+		$share = $shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER2)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER1)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$shareManager->createShare($share);
+
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1][''] = $view1->getFileInfo('')->getId();
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1]['sub1'] = $view1->getFileInfo('sub1')->getId();
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER1]['sub1/sub2'] = $view1->getFileInfo('sub1/sub2')->getId();
 
+		/*
+		 * User 2
+		 */
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 		$view2 = new View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 		$view2->mkdir('/sub1/sub2');
 		$view2->rename('/folder', '/sub1/sub2/folder');
 		$insideInfo = $view2->getFileInfo('/sub1/sub2/folder/inside');
 		$this->assertInstanceOf('\OC\Files\FileInfo', $insideInfo);
-		\OCP\Share::shareItem('folder', $insideInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER4, 31);
+
+		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER2)
+			->get('/sub1/sub2/folder/inside');
+		$share = $shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER4)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$shareManager->createShare($share);
+
 		$folderInfo = $view2->getFileInfo('/directReshare');
 		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
-		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER4, 31);
+
+		$node = $rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER2)
+			->get('/directReshare');
+		$share = $shareManager->newShare();
+		$share->setNode($node)
+			->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setSharedWith(self::TEST_FILES_SHARING_API_USER4)
+			->setSharedBy(self::TEST_FILES_SHARING_API_USER2)
+			->setPermissions(\OCP\Constants::PERMISSION_ALL);
+		$shareManager->createShare($share);
+
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER2][''] = $view2->getFileInfo('')->getId();
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['sub1'] = $view2->getFileInfo('sub1')->getId();
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER2]['sub1/sub2'] = $view2->getFileInfo('sub1/sub2')->getId();
 
+		/*
+		 * User 3
+		 */
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER3);
 		$view3 = new View('/' . self::TEST_FILES_SHARING_API_USER3 . '/files');
 		$view3->mkdir('/sub1/sub2');
@@ -96,6 +158,9 @@ class EtagPropagation extends PropagationTestCase {
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER3]['sub1'] = $view3->getFileInfo('sub1')->getId();
 		$this->fileIds[self::TEST_FILES_SHARING_API_USER3]['sub1/sub2'] = $view3->getFileInfo('sub1/sub2')->getId();
 
+		/*
+		 * User 4
+		 */
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER4);
 		$view4 = new View('/' . self::TEST_FILES_SHARING_API_USER4 . '/files');
 		$view4->mkdir('/sub1/sub2');
@@ -108,6 +173,7 @@ class EtagPropagation extends PropagationTestCase {
 			$this->loginAsUser($user);
 			foreach ($ids as $id) {
 				$path = $this->rootView->getPath($id);
+				$ls = $this->rootView->getDirectoryContent($path);
 				$this->fileEtags[$id] = $this->rootView->getFileInfo($path)->getEtag();
 			}
 		}
@@ -202,19 +268,40 @@ class EtagPropagation extends PropagationTestCase {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
 		$folderInfo = $this->rootView->getFileInfo('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/sub1/sub2/folder');
 		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
-		$folderId = $folderInfo->getId();
-		$this->assertTrue(
-			\OCP\Share::unshare(
-				'folder',
-				$folderId,
-				\OCP\Share::SHARE_TYPE_USER,
-				self::TEST_FILES_SHARING_API_USER2
-			)
-		);
+
+		$node = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder');
+		$shareManager = \OC::$server->getShareManager();
+		$shares = $shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, \OCP\Share::SHARE_TYPE_USER, $node, true);
+
+		foreach ($shares as $share) {
+			if ($share->getSharedWith() === self::TEST_FILES_SHARING_API_USER2) {
+				$shareManager->deleteShare($share);
+			}
+		}
+
 		$this->assertEtagsForFoldersChanged([
 			// direct recipient affected
 			self::TEST_FILES_SHARING_API_USER2,
-			// reshare recipient affected
+		]);
+
+		$this->assertAllUnchanged();
+	}
+
+	public function testOwnerUnsharesFlatReshares() {
+		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
+		$folderInfo = $this->rootView->getFileInfo('/' . self::TEST_FILES_SHARING_API_USER1 . '/files/sub1/sub2/folder/inside');
+		$this->assertInstanceOf('\OC\Files\FileInfo', $folderInfo);
+
+		$node = \OC::$server->getUserFolder(self::TEST_FILES_SHARING_API_USER1)->get('/sub1/sub2/folder/inside');
+		$shareManager = \OC::$server->getShareManager();
+		$shares = $shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, \OCP\Share::SHARE_TYPE_USER, $node, true);
+
+		foreach ($shares as $share) {
+			$shareManager->deleteShare($share);
+		}
+
+		$this->assertEtagsForFoldersChanged([
+			// direct recipient affected
 			self::TEST_FILES_SHARING_API_USER4,
 		]);
 
@@ -223,14 +310,13 @@ class EtagPropagation extends PropagationTestCase {
 
 	public function testRecipientUnsharesFromSelf() {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
+		$ls = $this->rootView->getDirectoryContent('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/sub1/sub2/');
 		$this->assertTrue(
 			$this->rootView->unlink('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/sub1/sub2/folder')
 		);
 		$this->assertEtagsForFoldersChanged([
 			// direct recipient affected
 			self::TEST_FILES_SHARING_API_USER2,
-			// reshare recipient affected
-			self::TEST_FILES_SHARING_API_USER4,
 		]);
 
 		$this->assertAllUnchanged();
@@ -240,8 +326,11 @@ class EtagPropagation extends PropagationTestCase {
 		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER2);
 		Filesystem::file_put_contents('/sub1/sub2/folder/asd.txt', 'bar');
 		$this->assertEtagsNotChanged([self::TEST_FILES_SHARING_API_USER4]);
-		$this->assertEtagsForFoldersChanged([self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER2,
-			self::TEST_FILES_SHARING_API_USER3]);
+		$this->assertEtagsForFoldersChanged([
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			self::TEST_FILES_SHARING_API_USER3
+		]);
 
 		$this->assertAllUnchanged();
 	}
@@ -350,14 +439,21 @@ class EtagPropagation extends PropagationTestCase {
 	}
 
 	public function testEtagChangeOnPermissionsChange() {
-		$this->loginAsUser(self::TEST_FILES_SHARING_API_USER1);
+		$userFolder = $this->rootFolder->getUserFolder(self::TEST_FILES_SHARING_API_USER1);
+		$node = $userFolder->get('/sub1/sub2/folder');
 
-		$view = new View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
-		$folderInfo = $view->getFileInfo('/sub1/sub2/folder');
+		$shares = $this->shareManager->getSharesBy(self::TEST_FILES_SHARING_API_USER1, \OCP\Share::SHARE_TYPE_USER, $node);
+		/** @var \OCP\Share\IShare[] $shares */
+		$shares = array_filter($shares, function(\OCP\Share\IShare $share) {
+			return $share->getSharedWith() === self::TEST_FILES_SHARING_API_USER2;
+		});
+		$this->assertCount(1, $shares);
 
-		\OCP\Share::setPermissions('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 17);
+		$share = $shares[0];
+		$share->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE);
+		$this->shareManager->updateShare($share);
 
-		$this->assertEtagsForFoldersChanged([self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER4]);
+		$this->assertEtagsForFoldersChanged([self::TEST_FILES_SHARING_API_USER2]);
 
 		$this->assertAllUnchanged();
 	}

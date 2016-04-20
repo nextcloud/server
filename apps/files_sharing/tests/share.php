@@ -75,17 +75,21 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
 		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
 
-		$fileinfo = $this->view->getFileInfo($this->filename);
+		$share1 = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+		);
 
-		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2, 31);
-
-		$this->assertTrue($result);
-
-		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
-				'testGroup', 31);
-
-		$this->assertTrue($result);
+		$share2 = $this->share(
+			\OCP\Share::SHARE_TYPE_GROUP,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			'testGroup',
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
@@ -102,123 +106,9 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		// for user3 nothing should change
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
 		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
-	}
 
-	/**
-	 * if a file was shared as group share and as individual share they should be grouped
-	 */
-	public function testGroupingOfShares() {
-
-		$fileinfo = $this->view->getFileInfo($this->filename);
-
-		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
-				\Test_Files_Sharing::TEST_FILES_SHARING_API_GROUP1, \OCP\Constants::PERMISSION_READ);
-
-		$this->assertTrue($result);
-
-		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_UPDATE);
-
-		$this->assertTrue($result);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		$result = \OCP\Share::getItemSharedWith('file', null);
-
-		$this->assertTrue(is_array($result));
-
-		// test should return exactly one shares created from testCreateShare()
-		$this->assertSame(1, count($result));
-
-		$share = reset($result);
-		$this->assertSame(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, $share['permissions']);
-
-		\OC\Files\Filesystem::rename($this->filename, $this->filename . '-renamed');
-
-		$result = \OCP\Share::getItemSharedWith('file', null);
-
-		$this->assertTrue(is_array($result));
-
-		// test should return exactly one shares created from testCreateShare()
-		$this->assertSame(1, count($result));
-
-		$share = reset($result);
-		$this->assertSame(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, $share['permissions']);
-		$this->assertSame($this->filename . '-renamed', $share['file_target']);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		// unshare user share
-		$result = \OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		$result = \OCP\Share::getItemSharedWith('file', null);
-
-		$this->assertTrue(is_array($result));
-
-		// test should return the remaining group share
-		$this->assertSame(1, count($result));
-
-		$share = reset($result);
-		// only the group share permissions should be available now
-		$this->assertSame(\OCP\Constants::PERMISSION_READ, $share['permissions']);
-		$this->assertSame($this->filename . '-renamed', $share['file_target']);
-
-	}
-
-	/**
-	 * user1 share file to a group and to a user2 in the same group. Then user2
-	 * unshares the file from self. Afterwards user1 should no longer see the
-	 * single user share to user2. If he re-shares the file to user2 the same target
-	 * then the group share should be used to group the item
-	 */
-	public function testShareAndUnshareFromSelf() {
-		$fileinfo = $this->view->getFileInfo($this->filename);
-
-		// share the file to group1 (user2 is a member of this group) and explicitely to user2
-		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, self::TEST_FILES_SHARING_API_GROUP1, \OCP\Constants::PERMISSION_ALL);
-		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
-
-		// user1 should have to shared files
-		$shares = \OCP\Share::getItemsShared('file');
-		$this->assertSame(2, count($shares));
-
-		// user2 should have two files "welcome.txt" and the shared file,
-		// both the group share and the single share of the same file should be
-		// grouped to one file
-		\Test_Files_Sharing::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$dirContent = \OC\Files\Filesystem::getDirectoryContent('/');
-		$this->assertSame(2, count($dirContent));
-		$this->verifyDirContent($dirContent, array('welcome.txt', ltrim($this->filename, '/')));
-
-		// now user2 deletes the share (= unshare from self)
-		\OC\Files\Filesystem::unlink($this->filename);
-
-		// only welcome.txt should exists
-		$dirContent = \OC\Files\Filesystem::getDirectoryContent('/');
-		$this->assertSame(1, count($dirContent));
-		$this->verifyDirContent($dirContent, array('welcome.txt'));
-
-		// login as user1...
-		\Test_Files_Sharing::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-
-		// ... now user1 should have only one shared file, the group share
-		$shares = \OCP\Share::getItemsShared('file');
-		$this->assertSame(1, count($shares));
-
-		// user1 shares a gain the file directly to user2
-		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
-
-		// user2 should see again welcome.txt and the shared file
-		\Test_Files_Sharing::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$dirContent = \OC\Files\Filesystem::getDirectoryContent('/');
-		$this->assertSame(2, count($dirContent));
-		$this->verifyDirContent($dirContent, array('welcome.txt', ltrim($this->filename, '/')));
-
-
+		$this->shareManager->deleteShare($share1);
+		$this->shareManager->deleteShare($share2);
 	}
 
 	/**
@@ -238,15 +128,23 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		$fileinfo = $this->view->getFileInfo($this->filename);
 		$folderinfo = $this->view->getFileInfo($this->folder);
 
-		$fileShare = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				self::TEST_FILES_SHARING_API_USER2, 31);
-		$this->assertTrue($fileShare);
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+		);
 
 		\OCA\Files_Sharing\Helper::setShareFolder('/Shared/subfolder');
 
-		$folderShare = \OCP\Share::shareItem('folder', $folderinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				self::TEST_FILES_SHARING_API_USER2, 31);
-		$this->assertTrue($folderShare);
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->folder,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_ALL
+		);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
@@ -261,56 +159,59 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OC\Files\Filesystem::file_put_contents('test.txt', 'test');
 
-		$fileInfo = \OC\Files\Filesystem::getFileInfo('test.txt');
-
-		$this->assertTrue(
-				\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, self::TEST_FILES_SHARING_API_GROUP1, 23)
+		$share = $this->share(
+			\OCP\Share::SHARE_TYPE_GROUP,
+			'test.txt',
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_GROUP1,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
 		);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$items = \OCP\Share::getItemsSharedWith('file');
-		$this->assertSame('/test.txt' ,$items[0]['file_target']);
-		$this->assertSame(23, $items[0]['permissions']);
+		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_GROUP);
+		$share = $shares[0];
+		$this->assertSame('/test.txt' ,$share->getTarget());
+		$this->assertSame(19, $share->getPermissions());
 		
 		\OC\Files\Filesystem::rename('test.txt', 'new test.txt');
 
-		$items = \OCP\Share::getItemsSharedWith('file');
-		$this->assertSame('/new test.txt' ,$items[0]['file_target']);
-		$this->assertSame(23, $items[0]['permissions']);
+		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_GROUP);
+		$share = $shares[0];
+		$this->assertSame('/new test.txt' ,$share->getTarget());
+		$this->assertSame(19, $share->getPermissions());
 		
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		\OCP\Share::setPermissions('file', $items[0]['item_source'], $items[0]['share_type'], $items[0]['share_with'], 3);
+		$share->setPermissions(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE);
+		$this->shareManager->updateShare($share);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
-		$items = \OCP\Share::getItemsSharedWith('file');
+		$shares = $this->shareManager->getSharedWith(self::TEST_FILES_SHARING_API_USER2, \OCP\Share::SHARE_TYPE_GROUP);
+		$share = $shares[0];
 
-		$this->assertSame('/new test.txt' ,$items[0]['file_target']);
-		$this->assertSame(3, $items[0]['permissions']);
+		$this->assertSame('/new test.txt' ,$share->getTarget());
+		$this->assertSame(3, $share->getPermissions());
 	}
 
 	/**
 	 * shared files should never have delete permissions
 	 * @dataProvider dataProviderTestFileSharePermissions
 	 */
-	public function testFileSharePermissions($permission, $expectedPermissions) {
+	public function testFileSharePermissions($permission, $expectedvalid) {
 
-		$fileinfo = $this->view->getFileInfo($this->filename);
+		$pass = true;
+		try {
+			$this->share(
+				\OCP\Share::SHARE_TYPE_USER,
+				$this->filename,
+				self::TEST_FILES_SHARING_API_USER1,
+				self::TEST_FILES_SHARING_API_USER2,
+				$permission
+			);
+		} catch (\Exception $e) {
+			$pass = false;
+		}
 
-		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2, $permission);
-
-		$this->assertTrue($result);
-
-		$result = \OCP\Share::getItemShared('file', null);
-
-		$this->assertTrue(is_array($result));
-
-		// test should return exactly one shares created from testCreateShare()
-		$this->assertSame(1, count($result), 'more then one share found');
-
-		$share = reset($result);
-		$this->assertSame($expectedPermissions, $share['permissions']);
+		$this->assertEquals($expectedvalid, $pass);
 	}
 
 	public function dataProviderTestFileSharePermissions() {
@@ -321,22 +222,23 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		$permission6 = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
 
 		return array(
-			array($permission1, \OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_DELETE),
-			array($permission3, $permission3),
-			array($permission4, $permission4),
-			array($permission5, $permission3),
-			array($permission6, $permission4),
+			array($permission1, false),
+			array($permission3, true),
+			array($permission4, true),
+			array($permission5, false),
+			array($permission6, false),
 		);
 	}
 
 	public function testFileOwner() {
 
-		$fileinfo = $this->view->getFileInfo($this->filename);
-
-		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
-
-		$this->assertTrue($result);
+		$this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			$this->filename,
+			self::TEST_FILES_SHARING_API_USER1,
+			self::TEST_FILES_SHARING_API_USER2,
+			\OCP\Constants::PERMISSION_READ
+		);
 
 		$this->loginHelper(\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2);
 
@@ -344,135 +246,4 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 
 		$this->assertSame(\Test_Files_Sharing::TEST_FILES_SHARING_API_USER1, $info->getOwner()->getUID());
 	}
-
-	/**
-	 * @dataProvider dataProviderGetUsersSharingFile
-	 *
-	 * @param string $groupName name of group to share with
-	 * @param bool $includeOwner whether to include the owner in the result
-	 * @param bool $includePaths whether to include paths in the result
-	 * @param array $expectedResult expected result of the API call
-	 */
-	public function testGetUsersSharingFile($groupName, $includeOwner, $includePaths, $expectedResult) {
-
-		$fileinfo = $this->view->getFileInfo($this->folder);
-
-		$result = \OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
-				$groupName, \OCP\Constants::PERMISSION_READ);
-		$this->assertTrue($result);
-
-		// public share
-		$result = \OCP\Share::shareItem('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
-				null, \OCP\Constants::PERMISSION_READ);
-		$this->assertNotNull($result); // returns the token!
-
-		// owner renames after sharing
-		$this->view->rename($this->folder, $this->folder . '_owner_renamed');
-
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
-
-		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
-		$user2View->rename($this->folder, $this->folder . '_renamed');
-
-		$ownerPath = $this->folder . '_owner_renamed';
-		$owner = self::TEST_FILES_SHARING_API_USER1;
-
-		$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner, $includeOwner, $includePaths);
-
-		// sort users to make sure it matches
-		if ($includePaths) {
-			ksort($result);
-		} else {
-			sort($result['users']);
-		}
-		
-		$this->assertEquals(
-			$expectedResult,
-			$result
-		);
-	}
-
-	public function dataProviderGetUsersSharingFile() {
-		// note: "group" contains user1 (the owner), user2 and user3
-		// and self::TEST_FILES_SHARING_API_GROUP1 contains only user2
-		return [
-			// share with group that contains owner
-			[
-				'group',
-				false,
-				false,
-				[
-					'users' =>
-					[
-						// because user1 was in group
-						self::TEST_FILES_SHARING_API_USER1,
-						self::TEST_FILES_SHARING_API_USER2,
-						self::TEST_FILES_SHARING_API_USER3,
-					],
-					'public' => true,
-					'remote' => false,
-				],
-			],
-			// share with group that does not contain owner
-			[
-				self::TEST_FILES_SHARING_API_GROUP1,
-				false,
-				false,
-				[
-					'users' =>
-					[
-						self::TEST_FILES_SHARING_API_USER2,
-					],
-					'public' => true,
-					'remote' => false,
-				],
-			],
-			// share with group that does not contain owner, include owner
-			[
-				self::TEST_FILES_SHARING_API_GROUP1,
-				true,
-				false,
-				[
-					'users' =>
-					[
-						self::TEST_FILES_SHARING_API_USER1,
-						self::TEST_FILES_SHARING_API_USER2,
-					],
-					'public' => true,
-					'remote' => false,
-				],
-			],
-			// include paths, with owner
-			[
-				'group',
-				true,
-				true,
-				[
-					self::TEST_FILES_SHARING_API_USER1 => self::TEST_FOLDER_NAME . '_owner_renamed',
-					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME . '_renamed',
-					self::TEST_FILES_SHARING_API_USER3 => self::TEST_FOLDER_NAME,
-				],
-			],
-			// include paths, group without owner
-			[
-				self::TEST_FILES_SHARING_API_GROUP1,
-				false,
-				true,
-				[
-					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME. '_renamed',
-				],
-			],
-			// include paths, include owner, group without owner
-			[
-				self::TEST_FILES_SHARING_API_GROUP1,
-				true,
-				true,
-				[
-					self::TEST_FILES_SHARING_API_USER1 => self::TEST_FOLDER_NAME . '_owner_renamed',
-					self::TEST_FILES_SHARING_API_USER2 => self::TEST_FOLDER_NAME . '_renamed',
-				],
-			],
-		];
-	}
-
 }

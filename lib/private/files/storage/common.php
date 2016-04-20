@@ -313,20 +313,20 @@ abstract class Common implements Storage, ILockingStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		if (!isset($this->cache)) {
-			$this->cache = new Cache($storage);
+		if (!isset($storage->cache)) {
+			$storage->cache = new Cache($storage);
 		}
-		return $this->cache;
+		return $storage->cache;
 	}
 
 	public function getScanner($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
-		if (!isset($this->scanner)) {
-			$this->scanner = new Scanner($storage);
+		if (!isset($storage->scanner)) {
+			$storage->scanner = new Scanner($storage);
 		}
-		return $this->scanner;
+		return $storage->scanner;
 	}
 
 	public function getWatcher($path = '', $storage = null) {
@@ -351,20 +351,20 @@ abstract class Common implements Storage, ILockingStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		if (!isset($this->propagator)) {
-			$this->propagator = new Propagator($storage);
+		if (!isset($storage->propagator)) {
+			$storage->propagator = new Propagator($storage);
 		}
-		return $this->propagator;
+		return $storage->propagator;
 	}
 
 	public function getUpdater($storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
-		if (!isset($this->updater)) {
-			$this->updater = new Updater($storage);
+		if (!isset($storage->updater)) {
+			$storage->updater = new Updater($storage);
 		}
-		return $this->updater;
+		return $storage->updater;
 	}
 
 	public function getStorageCache($storage = null) {

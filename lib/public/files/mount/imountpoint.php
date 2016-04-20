@@ -94,4 +94,12 @@ interface IMountPoint {
 	 * @since 8.1.0
 	 */
 	public function getOptions();
+
+	/**
+	 * Get the file id of the root of the storage
+	 *
+	 * @return int
+	 * @since 9.1.0
+	 */
+	public function getStorageRootId();
 }

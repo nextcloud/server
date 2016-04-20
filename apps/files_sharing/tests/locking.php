@@ -59,7 +59,13 @@ class Locking extends TestCase {
 		Filesystem::file_put_contents('/foo/bar.txt', 'asd');
 		$fileId = Filesystem::getFileInfo('/foo/bar.txt')->getId();
 
-		\OCP\Share::shareItem('file', $fileId, \OCP\Share::SHARE_TYPE_USER, $this->recipientUid, 31);
+		$this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			'/foo/bar.txt',
+			$this->ownerUid,
+			$this->recipientUid,
+			\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+		);
 
 		$this->loginAsUser($this->recipientUid);
 		$this->assertTrue(Filesystem::file_exists('bar.txt'));

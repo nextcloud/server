@@ -647,7 +647,7 @@ class ManagerTest extends \Test\TestCase {
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_GROUP, $limitedPermssions, $group0, $user0, $user0, 17, null, null), 'Cannot increase permissions of path', true];
 		$data[] = [$this->createShare(null, \OCP\Share::SHARE_TYPE_LINK,  $limitedPermssions, null, $user0, $user0, 3, null, null), 'Cannot increase permissions of path', true];
 
-		$nonMoveableMountPermssions = $this->getMock('\OCP\Files\File');
+		$nonMoveableMountPermssions = $this->getMock('\OCP\Files\Folder');
 		$nonMoveableMountPermssions->method('isShareable')->willReturn(true);
 		$nonMoveableMountPermssions->method('getPermissions')->willReturn(\OCP\Constants::PERMISSION_READ);
 		$nonMoveableMountPermssions->method('getPath')->willReturn('path');
@@ -2477,7 +2477,9 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testMoveShareUser() {
 		$share = $this->manager->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_USER);
+		$share->setShareType(\OCP\Share::SHARE_TYPE_USER)
+			->setId('42')
+			->setProviderId('foo');
 
 		$share->setSharedWith('recipient');
 
@@ -2508,7 +2510,9 @@ class ManagerTest extends \Test\TestCase {
 
 	public function testMoveShareGroup() {
 		$share = $this->manager->newShare();
-		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP);
+		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setId('42')
+			->setProviderId('foo');
 
 		$group = $this->getMock('\OCP\IGroup');
 		$share->setSharedWith('group');

@@ -47,7 +47,7 @@ class Jail extends Wrapper {
 		$this->rootPath = $arguments['root'];
 	}
 
-	protected function getSourcePath($path) {
+	public function getSourcePath($path) {
 		if ($path === '') {
 			return $this->rootPath;
 		} else {
@@ -417,6 +417,14 @@ class Jail extends Wrapper {
 
 	/**
 	 * @param string $path
+	 * @return array
+	 */
+	public function getMetaData($path) {
+		return $this->storage->getMetaData($this->getSourcePath($path));
+	}
+
+	/**
+	 * @param string $path
 	 * @param int $type \OCP\Lock\ILockingProvider::LOCK_SHARED or \OCP\Lock\ILockingProvider::LOCK_EXCLUSIVE
 	 * @param \OCP\Lock\ILockingProvider $provider
 	 * @throws \OCP\Lock\LockedException
@@ -441,5 +449,41 @@ class Jail extends Wrapper {
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider) {
 		$this->storage->changeLock($this->getSourcePath($path), $type, $provider);
+	}
+
+	/**
+	 * Resolve the path for the source of the share
+	 *
+	 * @param string $path
+	 * @return array
+	 */
+	public function resolvePath($path) {
+		return [$this->storage, $this->getSourcePath($path)];
+	}
+
+	/**
+	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param string $sourceInternalPath
+	 * @param string $targetInternalPath
+	 * @return bool
+	 */
+	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		if ($sourceStorage === $this) {
+			return $this->copy($sourceInternalPath, $targetInternalPath);
+		}
+		return $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $this->getSourcePath($targetInternalPath));
+	}
+
+	/**
+	 * @param \OCP\Files\Storage $sourceStorage
+	 * @param string $sourceInternalPath
+	 * @param string $targetInternalPath
+	 * @return bool
+	 */
+	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+		if ($sourceStorage === $this) {
+			return $this->rename($sourceInternalPath, $targetInternalPath);
+		}
+		return $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $this->getSourcePath($targetInternalPath));
 	}
 }

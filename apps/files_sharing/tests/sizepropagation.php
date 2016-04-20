@@ -43,9 +43,13 @@ class SizePropagation extends TestCase {
 		$ownerView->mkdir('/sharedfolder/subfolder');
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
-		$sharedFolderInfo = $ownerView->getFileInfo('/sharedfolder', false);
-		$this->assertInstanceOf('\OC\Files\FileInfo', $sharedFolderInfo);
-		\OCP\Share::shareItem('folder', $sharedFolderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER1, 31);
+		$this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			'/sharedfolder',
+			self::TEST_FILES_SHARING_API_USER2,
+			self::TEST_FILES_SHARING_API_USER1,
+			\OCP\Constants::PERMISSION_ALL
+		);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -76,9 +80,13 @@ class SizePropagation extends TestCase {
 		$ownerView->mkdir('/sharedfolder/subfolder');
 		$ownerView->file_put_contents('/sharedfolder/subfolder/foo.txt', 'bar');
 
-		$sharedFolderInfo = $ownerView->getFileInfo('/sharedfolder', false);
-		$this->assertInstanceOf('\OC\Files\FileInfo', $sharedFolderInfo);
-		\OCP\Share::shareItem('folder', $sharedFolderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER1, 31);
+		$this->share(
+			\OCP\Share::SHARE_TYPE_USER,
+			'/sharedfolder',
+			self::TEST_FILES_SHARING_API_USER2,
+			self::TEST_FILES_SHARING_API_USER1,
+			\OCP\Constants::PERMISSION_ALL
+		);
 		$ownerRootInfo = $ownerView->getFileInfo('', false);
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
