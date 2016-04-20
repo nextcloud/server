@@ -356,7 +356,11 @@ class OC_API {
 		if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) ) {
 			$authUser = $_SERVER['PHP_AUTH_USER'];
 			$authPw = $_SERVER['PHP_AUTH_PW'];
-			$return = OC_User::login($authUser, $authPw);
+			try {
+				$return = OC_User::login($authUser, $authPw);
+			} catch (\OC\User\LoginException $e) {
+				return false;
+			}
 			if ($return === true) {
 				self::$logoutRequired = true;
 
