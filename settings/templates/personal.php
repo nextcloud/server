@@ -71,6 +71,8 @@ if($_['displayNameChangeSupported']) {
 			<input type="text" id="displayname" name="displayname"
 			       value="<?php p($_['displayName']) ?>"
 			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+			<span class="icon-checkmark hidden"/>
+			<input type="hidden" id="displaynamescope" value="<?php p($_['displayNameScope']) ?>">
 		</form>
 	</div>
 	<div class="personal-settings-setting-box">
@@ -82,6 +84,8 @@ if($_['displayNameChangeSupported']) {
 			<input type="tel" id="phone" name="phone"
 			       value="<?php p($_['phone']) ?>"
 			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+			<span class="icon-checkmark hidden"/>
+			<input type="hidden" id="phonescope" value="<?php p($_['phoneScope']) ?>">
 		</form>
 	</div>
 	<div class="personal-settings-setting-box">
@@ -93,8 +97,10 @@ if($_['displayNameChangeSupported']) {
 			<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 			       placeholder="<?php p($l->t('Your email address')); ?>"
 			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+			<input type="hidden" id="emailscope" value="<?php p($_['emailScope']) ?>">
 			<br />
 			<em><?php p($l->t('For password recovery and notifications')); ?></em>
+			<span class="icon-checkmark hidden"/>
 		</form>
 	</div>
 	<div class="personal-settings-setting-box">
@@ -106,6 +112,8 @@ if($_['displayNameChangeSupported']) {
 			<input type="text" name="website" id="website" value="<?php p($_['website']); ?>"
 			       placeholder="<?php p($l->t('Your website')); ?>"
 			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+			<span class="icon-checkmark hidden"/>
+			<input type="hidden" id="websitescope" value="<?php p($_['websiteScope']) ?>">
 		</form>
 	</div>
 	<div class="personal-settings-setting-box">
@@ -117,6 +125,8 @@ if($_['displayNameChangeSupported']) {
 			<input type="text" id="address" name="address"
 			       value="<?php p($_['address']) ?>"
 			       autocomplete="on" autocapitalize="off" autocorrect="off" />
+			<span class="icon-checkmark hidden"/>
+			<input type="hidden" id="addressscope" value="<?php p($_['addressScope']) ?>">
 		</form>
 	</div>
 	<span class="msg"></span>
@@ -124,15 +134,28 @@ if($_['displayNameChangeSupported']) {
 <?php
 } else {
 ?>
-<div id="displaynameform" class="section">
-	<h2><?php echo $l->t('Full name');?></h2>
-	<span><?php if(isset($_['displayName'][0])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
+<div id="personal-settings-container" class="no-edit">
+	<div id="displaynameform" class="section">
+		<h2><?php p($l->t('Full name'));?></h2>
+		<span><?php if(isset($_['displayName'][0])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
+	</div>
+	<div id="emailform" class="section">
+		<h2><?php p($l->t('Email')); ?></h2>
+		<span><?php if(isset($_['email'][0])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
+	</div>
+	<div id="phoneform" class="section">
+		<h2><?php p($l->t('Phone')); ?></h2>
+		<span><?php if(isset($_['phone'][0])) { p($_['phone']); } else { p($l->t('No phone number set')); }?></span>
+	</div>
+	<div id="websiteform" class="section">
+		<h2><?php p($l->t('Website')); ?></h2>
+		<span><?php if(isset($_['website'][0])) { p($_['website']); } else { p($l->t('No website set')); }?></span>
+	</div>
+	<div id="addressform" class="section">
+		<h2><?php p($l->t('Address')); ?></h2>
+		<span><?php if(isset($_['address'][0])) { p($_['address']); } else { p($l->t('No address set')); }?></span>
+	</div>
 </div>
-<div id="lostpassword" class="section">
-	<h2><?php echo $l->t('Email'); ?></h2>
-	<span><?php if(isset($_['email'][0])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
-</div>
-<!-- TODO: show phone/address -->
 <?php
 }
 ?>

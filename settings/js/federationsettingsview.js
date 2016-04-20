@@ -1,4 +1,4 @@
-/* global OC */
+/* global OC, result */
 
 /**
  * Copyright (c) 2016, Christoph Wurst <christoph@owncloud.com>
@@ -22,7 +22,7 @@
 			if (options.config) {
 				this._config = options.config;
 			} else {
-				this._config = new OC.Backbone.Model()
+				this._config = new OC.Settings.UserSettings();
 			}
 
 			this._inputFields = [
@@ -32,6 +32,21 @@
 				'website',
 				'address'
 			];
+
+			var self = this;
+			_.each(this._inputFields, function(field) {
+				// Initialize config model
+				self._config.set(field, $('#' + field).val());
+				self._config.set(field + 'Scope', $('#' + field + 'scope').val());
+
+				// Set inputs whenever model values change
+				self.listenTo(self._config, 'change:' + field, function () {
+					self.$('#' + field).val(self._config.get(field));
+				});
+				self.listenTo(self._config, 'change:' + field + 'Scope', function () {
+					self._onScopeChanged(field, self._config.get(field + 'Scope'));
+				});
+			});
 
 			this._registerEvents();
 		},
@@ -53,6 +68,8 @@
 				// TODO: fix position without magic numbers
 				var pos = ($heading.width() - $heading.find('label').width()) - 68;
 				scopeMenu.$el.css('right', pos);
+
+				self._onScopeChanged(field, self._config.get(field + 'Scope'));
 			});
 		},
 
@@ -64,21 +81,30 @@
 		},
 
 		_onInputChanged: function(e) {
-			OC.msg.startSaving('#personal-settings-container .msg');
+			var self = this;
+
 			var $target = $(e.target);
 			var value = $target.val();
 			var field = $target.attr('id');
-			console.log(field + ' changed to ' + value);
 			this._config.set(field, value);
-			console.log(this._config.toJSON());
-			// TODO: this._config.save();
-			// TODO: OC.msg.finishedSaving('#personal-settings-container .msg', result);
-			// TODO: call _updateDisplayName after successful update
+			var savingData = this._config.save({
+				error: function(jqXHR) {
+					OC.msg.finishedSaving('#personal-settings-container .msg', jqXHR);
+				}
+			});
+
+			$.when(savingData).done(function() {
+				//OC.msg.finishedSaving('#personal-settings-container .msg', result)
+				self._showInputChangeSuccess(field);
+				if (field === 'displayname') {
+					self._updateDisplayName(value);
+				}
+			});
 		},
 
 		_updateDisplayName: function(displayName) {
 			// update displayName on the top right expand button
-			$('#expandDisplayName').text($('#displayName').val());
+			$('#expandDisplayName').text(displayName);
 			// update avatar if avatar is available
 			if(!$('#removeavatar').hasClass('hidden')) {
 				updateAvatar();
@@ -86,10 +112,18 @@
 		},
 
 		_onScopeChanged: function(field, scope) {
-			// TODO: save changes to the server
-			console.log(field + ' changed to ' + scope);
-
+			this._config.set(field + 'Scope', scope);
+			// TODO: user loading/success feedback
+			this._config.save();
 			this._setFieldScopeIcon(field, scope);
+		},
+
+		_showInputChangeSuccess: function(field) {
+			var $icon = this.$('#' + field + 'form > span');
+			$icon.fadeIn(200);
+			setTimeout(function() {
+				$icon.fadeOut(300);
+			}, 2000);
 		},
 
 		_setFieldScopeIcon: function(field, scope) {

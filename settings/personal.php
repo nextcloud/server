@@ -46,6 +46,7 @@ $urlGenerator = \OC::$server->getURLGenerator();
 OC_Util::addScript('settings', 'authtoken');
 OC_Util::addScript('settings', 'authtoken_collection');
 OC_Util::addScript('settings', 'authtoken_view');
+OC_Util::addScript('settings', 'usersettings');
 OC_Util::addScript('settings', 'federationsettingsview');
 OC_Util::addScript('settings', 'federationscopemenu');
 OC_Util::addScript('settings', 'personal');
@@ -162,6 +163,18 @@ $tmpl->assign('activelanguage', $userLang);
 $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User::getUser()));
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
 $tmpl->assign('displayName', OC_User::getDisplayName());
+// TODO: insert real data
+$tmpl->assign('phone', '+43 660 56565 5446');
+$tmpl->assign('website', 'owncloud.org');
+$tmpl->assign('address', 'Stuttgart');
+
+$tmpl->assign('avatarScope', 'contacts');
+$tmpl->assign('displayNameScope', 'public');
+$tmpl->assign('phoneScope', 'contacts');
+$tmpl->assign('emailScope', 'contacts');
+$tmpl->assign('websiteScope', 'public');
+$tmpl->assign('addressScope', 'private');
+// END TODO
 $tmpl->assign('enableAvatars', $config->getSystemValue('enable_avatars', true) === true);
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());

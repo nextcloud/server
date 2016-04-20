@@ -50,6 +50,10 @@ input#openid, input#webdav { width:20em; }
 	height: 100px;
 	min-width: 300px;
 }
+#personal-settings-container.no-edit > div {
+	height: 20px;
+	min-width: 200px;
+}
 #personal-settings-container > div h2 span[class^="icon-"] {
 	display: inline-block;
 	margin-left: 5px;
@@ -62,6 +66,12 @@ input#openid, input#webdav { width:20em; }
 .personal-settings-setting-box input[type="tel"] {
 	width: 17em;
 }
+#personal-settings-container > div > form span[class^="icon-checkmark"] {
+	position: absolute;
+	left: 239px;
+	top: 73px;
+	pointer-events: none;
+}
 .federationScopeMenu {
 	top: 66px;
 }
@@ -73,7 +83,6 @@ input#openid, input#webdav { width:20em; }
 	font-size: medium;
 }
 
-#displaynameform,
 #lostpassword,
 #groups,
 #passwordform,
