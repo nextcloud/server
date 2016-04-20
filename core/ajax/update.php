@@ -37,13 +37,13 @@ $eventSource = \OC::$server->createEventSource();
 // need to send an initial message to force-init the event source,
 // which will then trigger its own CSRF check and produces its own CSRF error
 // message
-//$eventSource->send('success', (string)$l->t('Preparing update'));
+$eventSource->send('success', (string)$l->t('Preparing update'));
 
 if (OC::checkUpgrade(false)) {
 
 	$config = \OC::$server->getSystemConfig();
-	if ($config->getValue('upgrade.disable-web', true)) {
-		$eventSource->send('failure', (string)$l->t('Updates need to be installed. Please use the command line updater.'));
+	if ($config->getValue('upgrade.disable-web', false)) {
+		$eventSource->send('failure', (string)$l->t('Please use the command line updater because automatic updating is disabled in the config.php.'));
 		$eventSource->close();
 		exit();
 	}
