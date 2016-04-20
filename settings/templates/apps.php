@@ -25,7 +25,7 @@ script(
 <script id="categories-template" type="text/x-handlebars-template">
 {{#each this}}
 	<li id="app-category-{{ident}}" data-category-id="{{ident}}" tabindex="0">
-		<a>{{displayName}}</a>
+		<a href="#">{{displayName}}</a>
 	</li>
 {{/each}}
 
@@ -94,8 +94,8 @@ script(
 		</p>
 		{{/if}}
 	</div><!-- end app-description-container -->
-	<div class="app-description-toggle-show"><?php p($l->t("Show description …"));?></div>
-	<div class="app-description-toggle-hide hidden"><?php p($l->t("Hide description …"));?></div>
+	<div class="app-description-toggle-show" role="link"><?php p($l->t("Show description …"));?></div>
+	<div class="app-description-toggle-hide hidden" role="link"><?php p($l->t("Hide description …"));?></div>
 
 	<div class="app-dependencies update hidden">
 		<p><?php p($l->t('This app has an update available.')); ?></p>
