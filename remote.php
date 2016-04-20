@@ -40,9 +40,9 @@ class RemoteException extends Exception {
 }
 
 /**
- * @param Exception $e
+ * @param Exception | Error $e
  */
-function handleException(Exception $e) {
+function handleException($e) {
 	$request = \OC::$server->getRequest();
 	// in case the request content type is text/xml - we assume it's a WebDAV request
 	$isXmlContentType = strpos($request->getHeader('Content-Type'), 'text/xml');
@@ -77,7 +77,7 @@ function handleException(Exception $e) {
 			OC_Response::setStatus($e->getCode());
 			OC_Template::printErrorPage($e->getMessage());
 		} else {
-			\OCP\Util::writeLog('remote', $e->getMessage(), \OCP\Util::FATAL);
+			\OC::$server->getLogger()->logException($e, ['app' => 'remote']);
 			OC_Response::setStatus($statusCode);
 			OC_Template::printExceptionErrorPage($e);
 		}
@@ -164,5 +164,7 @@ try {
 	require_once $file;
 
 } catch (Exception $ex) {
+	handleException($ex);
+} catch (Error $e) {
 	handleException($ex);
 }

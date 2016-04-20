@@ -135,10 +135,10 @@ interface ILogger {
 	 * ]);
 	 * </code>
 	 *
-	 * @param \Exception $exception
+	 * @param \Exception | \Throwable $exception
 	 * @param array $context
 	 * @return void
 	 * @since 8.2.0
 	 */
-	public function logException(\Exception $exception, array $context = array());
+	public function logException($exception, array $context = array());
 }

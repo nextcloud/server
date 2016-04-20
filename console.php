@@ -95,4 +95,6 @@ try {
 	$application->run();
 } catch (Exception $ex) {
 	exceptionHandler($ex);
+} catch (Error $ex) {
+	exceptionHandler($ex);
 }
