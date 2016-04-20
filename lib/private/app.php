@@ -159,8 +159,16 @@ class OC_App {
 	 * @param string $app app name
 	 */
 	private static function requireAppFile($app) {
-		// encapsulated here to avoid variable scope conflicts
-		require_once $app . '/appinfo/app.php';
+		try {
+			// encapsulated here to avoid variable scope conflicts
+			require_once $app . '/appinfo/app.php';
+		} catch (Error $ex) {
+			\OC::$server->getLogger()->logException($ex);
+			$blacklist = \OC::$server->getAppManager()->getAlwaysEnabledApps();
+			if (!in_array($app, $blacklist)) {
+				self::disable($app);
+			}
+		}
 	}
 
 	/**
