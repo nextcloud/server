@@ -707,4 +707,5 @@ Feature: sharing
       | path | welcome.txt |
       | shareWith | user1 |
       | shareType | 0 |
-    Then the HTTP status code should be "503"
+    Then the OCS status code should be "997"
+    And the HTTP status code should be "401"
