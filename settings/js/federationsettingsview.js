@@ -51,7 +51,7 @@
 					});
 				}
 				self.listenTo(self._config, 'change:' + field + 'Scope', function () {
-					self._onScopeChanged(field, self._config.get(field + 'Scope'));
+					self._setFieldScopeIcon(field, self._config.get(field + 'Scope'));
 				});
 			});
 
@@ -77,7 +77,8 @@
 				var pos = ($heading.width() - $heading.find('label').width()) - diff;
 				scopeMenu.$el.css('right', pos);
 
-				self._onScopeChanged(field, self._config.get(field + 'Scope'));
+				// Restore initial state
+				self._setFieldScopeIcon(field, self._config.get(field + 'Scope'));
 			});
 		},
 

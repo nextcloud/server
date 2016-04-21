@@ -17,6 +17,9 @@
 	 */
 	var UserSettings = OC.Backbone.Model.extend({
 		url: OC.generateUrl('/settings/users/{id}/settings', {id: OC.currentUser}),
+		isNew: function() {
+			return false; // Force PUT on .save()
+		},
 		parse: function(data) {
 			if (_.isUndefined(data)) {
 				return null;
