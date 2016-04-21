@@ -495,6 +495,7 @@ class UsersController extends Controller {
 	 * @NoSubadminRequired
 	 *
 	 * @param string $userId
+	 * @param string $avatarScope
 	 * @param string $displayname
 	 * @param string $displaynameScope
 	 * @param string $phone
@@ -507,7 +508,7 @@ class UsersController extends Controller {
 	 * @param string $addressScope
 	 * @return DataResponse
 	 */
-	public function saveUserSettings($userId,
+	public function saveUserSettings($userId, $avatarScope,
 					$displayname, $displaynameScope,
 					$phone, $phoneScope,
 					$email, $emailScope,
@@ -519,6 +520,7 @@ class UsersController extends Controller {
 				'status' => 'success',
 				'data' => array(
 					'userId' => $userId,
+					'avatarScope' => $avatarScope,
 					'displayname' => $displayname,
 					'displaynameScope' => 'public', // force value for test purposes
 					'email' => $email,
