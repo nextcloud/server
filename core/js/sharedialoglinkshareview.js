@@ -42,7 +42,7 @@
 			'    {{/if}}' +
 			'    {{#if mailPublicNotificationEnabled}}' +
 			'<form id="emailPrivateLink" class="emailPrivateLinkForm">' +
-			'    <input id="email" class="emailField" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
+			'    <input id="email" class="emailField" value="{{email}}" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
 			'    <input id="emailButton" class="emailButton" type="submit" value="{{mailButtonText}}" />' +
 			'</form>' +
 			'    {{/if}}' +
@@ -249,6 +249,7 @@
 		render: function() {
 			var linkShareTemplate = this.template();
 			var resharingAllowed = this.model.sharePermissionPossible();
+			var email = this.$el.find('.emailField').val();
 
 			if(!resharingAllowed
 				|| !this.showLink
@@ -296,7 +297,8 @@
 				publicUploadLabel: t('core', 'Allow editing'),
 				mailPublicNotificationEnabled: isLinkShare && this.configModel.isMailPublicNotificationEnabled(),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
-				mailButtonText: t('core', 'Send')
+				mailButtonText: t('core', 'Send'),
+				email: email
 			}));
 
 			var $emailField = this.$el.find('.emailField');
