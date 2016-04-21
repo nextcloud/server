@@ -41,26 +41,6 @@ class SetupTest extends TestCase {
 	 */
 	private $instance;
 
-	public function testSetupServerSide() {
-		$this->keyManagerMock->expects($this->exactly(2))->method('validateShareKey');
-		$this->keyManagerMock->expects($this->exactly(2))->method('validateMasterKey');
-		$this->keyManagerMock->expects($this->exactly(2))
-			->method('userHasKeys')
-			->with('admin')
-			->willReturnOnConsecutiveCalls(true, false);
-
-		$this->assertTrue($this->instance->setupServerSide('admin',
-			'password'));
-
-		$this->keyManagerMock->expects($this->once())
-			->method('storeKeyPair')
-			->with('admin', 'password')
-			->willReturn(false);
-
-		$this->assertFalse($this->instance->setupServerSide('admin',
-			'password'));
-	}
-
 	protected function setUp() {
 		parent::setUp();
 		$logMock = $this->getMock('OCP\ILogger');
@@ -79,6 +59,45 @@ class SetupTest extends TestCase {
 			$userSessionMock,
 			$this->cryptMock,
 			$this->keyManagerMock);
+	}
+
+
+	public function testSetupSystem() {
+		$this->keyManagerMock->expects($this->once())->method('validateShareKey');
+		$this->keyManagerMock->expects($this->once())->method('validateMasterKey');
+
+		$this->instance->setupSystem();
+	}
+
+	/**
+	 * @dataProvider dataTestSetupUser
+	 *
+	 * @param bool $hasKeys
+	 * @param bool $expected
+	 */
+	public function testSetupUser($hasKeys, $expected) {
+
+		$this->keyManagerMock->expects($this->once())->method('userHasKeys')
+			->with('uid')->willReturn($hasKeys);
+
+		if ($hasKeys) {
+			$this->keyManagerMock->expects($this->never())->method('storeKeyPair');
+		} else {
+			$this->cryptMock->expects($this->once())->method('createKeyPair')->willReturn('keyPair');
+			$this->keyManagerMock->expects($this->once())->method('storeKeyPair')
+				->with('uid', 'password', 'keyPair')->willReturn(true);
+		}
+
+		$this->assertSame($expected,
+			$this->instance->setupUser('uid', 'password')
+		);
+	}
+
+	public function dataTestSetupUser() {
+		return [
+			[true, true],
+			[false, true]
+		];
 	}
 
 }

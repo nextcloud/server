@@ -174,6 +174,11 @@ class KeyManager {
 	 * check if a key pair for the master key exists, if not we create one
 	 */
 	public function validateMasterKey() {
+
+		if ($this->util->isMasterKeyEnabled() === false) {
+			return;
+		}
+
 		$masterKey = $this->getPublicMasterKey();
 		if (empty($masterKey)) {
 			$keyPair = $this->crypt->createKeyPair();
@@ -334,14 +339,13 @@ class KeyManager {
 	/**
 	 * Decrypt private key and store it
 	 *
-	 * @param string $uid userid
+	 * @param string $uid user id
 	 * @param string $passPhrase users password
 	 * @return boolean
 	 */
 	public function init($uid, $passPhrase) {
 
 		$this->session->setStatus(Session::INIT_EXECUTED);
-
 
 		try {
 			if($this->util->isMasterKeyEnabled()) {
@@ -554,9 +558,11 @@ class KeyManager {
 	}
 
 	/**
+	 * creat a backup of the users private and public key and then  delete it
+	 *
 	 * @param string $uid
 	 */
-	public function replaceUserKeys($uid) {
+	public function deleteUserKeys($uid) {
 		$this->backupAllKeys('password_reset');
 		$this->deletePublicKey($uid);
 		$this->deletePrivateKey($uid);
