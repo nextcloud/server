@@ -147,7 +147,7 @@
 		/**
 		 * @type Backbone.Model
 		 */
-		_filesConfig: null,
+		_filesConfig: undefined,
 
 		/**
 		 * Sort attribute
@@ -205,12 +205,15 @@
 
 			if (options.config) {
 				this._filesConfig = options.config;
-			} else {
+			} else if (!_.isUndefined(OCA.Files) && !_.isUndefined(OCA.Files.App)) {
 				this._filesConfig = OCA.Files.App.getFilesConfig();
 			}
-			this._filesConfig.on('change:showhidden', function() {
-				self.setFiles(self.files);
-			});
+
+			if (!_.isUndefined(this._filesConfig)) {
+				this._filesConfig.on('change:showhidden', function() {
+					self.setFiles(self.files);
+				});
+			}
 
 			if (options.dragOptions) {
 				this._dragOptions = options.dragOptions;
@@ -984,7 +987,7 @@
 		 * @returns {array}
 		 */
 		_filterHiddenFiles: function(files) {
-			if (this._filesConfig.get('showhidden')) {
+			if (_.isUndefined(this._filesConfig) || this._filesConfig.get('showhidden')) {
 				return files;
 			}
 			return _.filter(files, function(file) {
