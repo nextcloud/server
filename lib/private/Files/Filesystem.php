@@ -423,8 +423,6 @@ class Filesystem {
 
 		$home = \OC\Files\Filesystem::getStorage($user);
 
-		self::mountCacheDir($user);
-
 		// Chance to mount for other storages
 		/** @var \OC\Files\Config\MountProviderCollection $mountConfigManager */
 		$mountConfigManager = \OC::$server->getMountProviderCollection();
@@ -457,23 +455,6 @@ class Filesystem {
 					}
 				}
 			});
-		}
-	}
-
-	/**
-	 * Mounts the cache directory
-	 *
-	 * @param string $user user name
-	 */
-	private static function mountCacheDir($user) {
-		$cacheBaseDir = \OC::$server->getConfig()->getSystemValue('cache_path', '');
-		if ($cacheBaseDir !== '') {
-			$cacheDir = rtrim($cacheBaseDir, '/') . '/' . $user;
-			if (!file_exists($cacheDir)) {
-				mkdir($cacheDir, 0770, true);
-			}
-			// mount external cache dir to "/$user/cache" mount point
-			self::mount('\OC\Files\Storage\Local', array('datadir' => $cacheDir), '/' . $user . '/cache');
 		}
 	}
 
