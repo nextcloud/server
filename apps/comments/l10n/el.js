@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "<strong>Σχόλια</strong> για αρχεία",
     "You commented" : "Σχολιάσατε",
     "%1$s commented" : "%1$s σχολίασε",
     "You commented on %2$s" : "Σχολιάσατε στο %2$s",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "<strong>Комментарии</strong> к файлам",
     "You commented" : "Вы откомментировали",
     "%1$s commented" : "%1$s откомментировано",
     "You commented on %2$s" : "Вы откомментировали в %2$s",

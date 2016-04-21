@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "파일에 <strong>댓글</strong> 남기기",
     "%1$s commented" : "%1$s 님의 댓글",
     "%1$s commented on %2$s" : "%2$s에 %1$s 님이 댓글 남김",
     "Comments" : "댓글",

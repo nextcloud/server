@@ -1,8 +1,9 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "<strong>Comments</strong> for files",
+    "You commented" : "You commented",
     "%1$s commented" : "%1$s commented",
+    "You commented on %2$s" : "You commented on %2$s",
     "%1$s commented on %2$s" : "%1$s commented on %2$s",
     "Comments" : "Comments",
     "Type in a new comment..." : "Type in a new comment...",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "<strong>Opombe</strong> datotek",
     "You commented" : "Vaša opomba",
     "%1$s commented" : "%1$s opomb",
     "You commented on %2$s" : "Napisali ste opombo na %2$s",

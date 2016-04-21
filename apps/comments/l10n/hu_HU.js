@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "<strong>Hozzászólások</strong> a fájlokhoz",
     "You commented" : "Hozzászólt",
     "%1$s commented" : "%1$s hozzászólt",
     "You commented on %2$s" : "Hozzászólt ehhez: %2$s",

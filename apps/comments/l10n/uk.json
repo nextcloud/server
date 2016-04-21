@@ -1,5 +1,4 @@
 { "translations": {
-    "<strong>Comments</strong> for files" : "<strong>Коментарі</strong> до файлів",
     "%1$s commented" : "%1$s прокоментовано",
     "%1$s commented on %2$s" : "%1$s прокоментовано у %2$s",
     "Comments" : "Коментарі",

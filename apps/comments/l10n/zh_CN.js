@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "<strong>评论文件</strong>",
     "%1$s commented" : "%1$s 已评论",
     "%1$s commented on %2$s" : "%1$s 评论了 %2$s",
     "Comments" : "评论",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "<strong>Athugasemdir</strong> við skrár",
     "You commented" : "Þú settir inn athugasemd",
     "%1$s commented" : "%1$s setti inn athugasemd",
     "You commented on %2$s" : "Þú settir inn athugasemd við %2$s",

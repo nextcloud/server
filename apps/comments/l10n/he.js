@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "<strong>תגובות</strong> לקבצים",
     "You commented" : "הערות שלך",
     "%1$s commented" : "התקבלו תגובות %1$s",
     "You commented on %2$s" : "הערות שלך ב- %2$s",

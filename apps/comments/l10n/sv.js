@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "<strong>Kommentarer</strong> till filer",
     "You commented" : "Du kommenterade",
     "%1$s commented" : "%1$s har kommenterat",
     "You commented on %2$s" : "Du kommenterade %2$s",

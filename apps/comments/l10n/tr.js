@@ -1,7 +1,6 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files" : "Dosyalar için <strong>yorumlar</strong>",
     "You commented" : "Yorum yaptınız",
     "%1$s commented" : "%1$s yorumlanmış",
     "You commented on %2$s" : "%2$s için yorum yaptınız",
