@@ -50,6 +50,13 @@ class Certificate implements ICertificate {
 	public function __construct($data, $name) {
 		$this->name = $name;
 		$gmt = new \DateTimeZone('GMT');
+
+		// If string starts with "file://" ignore the certificate
+		$query = 'file://';
+		if(strtolower(substr($data, 0, strlen($query))) === $query) {
+			throw new \Exception('Certificate could not get parsed.');
+		}
+
 		$info = openssl_x509_parse($data);
 		if(!is_array($info)) {
 			throw new \Exception('Certificate could not get parsed.');
