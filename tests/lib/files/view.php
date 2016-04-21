@@ -2424,4 +2424,24 @@ class View extends \Test\TestCase {
 
 		$this->assertEquals($expected, $files);
 	}
+
+	public function testFilePutContentsClearsChecksum() {
+		$storage = new Temporary(array());
+		$scanner = $storage->getScanner();
+		$storage->file_put_contents('foo.txt', 'bar');
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$scanner->scan('');
+
+		$view = new \OC\Files\View('/test/foo.txt');
+		$view->putFileInfo('.', ['checksum' => '42']);
+
+		$this->assertEquals('bar', $view->file_get_contents(''));
+		$fh = tmpfile();
+		fwrite($fh, 'fooo');
+		rewind($fh);
+		$view->file_put_contents('', $fh);
+		$this->assertEquals('fooo', $view->file_get_contents(''));
+		$data = $view->getFileInfo('.');
+		$this->assertEquals('', $data->getChecksum());
+	}
 }
