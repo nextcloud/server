@@ -192,7 +192,7 @@ function avatarResponseHandler (data) {
 	if (typeof data === 'string') {
 		data = JSON.parse(data);
 	}
-	var $warning = $('#avatar .warning');
+	var $warning = $('#avatarform .warning');
 	$warning.hide();
 	if (data.status === "success") {
 		updateAvatar();
@@ -271,7 +271,7 @@ $(document).ready(function () {
 	});
 
 	var federationSettingsView = new OC.Settings.FederationSettingsView({
-		el: '#personal-settings-container'
+		el: '#personal-settings'
 	});
 	federationSettingsView.render();
 
@@ -412,7 +412,7 @@ $(document).ready(function () {
 
 	// Load the big avatar
 	if (oc_config.enable_avatars) {
-		$('#avatar .avatardiv').avatar(OC.currentUser, 145);
+		$('#avatarform .avatardiv').avatar(OC.currentUser, 145);
 	}
 
 	// Show token views

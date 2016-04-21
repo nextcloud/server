@@ -30,19 +30,26 @@
 				'phone',
 				'email',
 				'website',
-				'address'
+				'address',
+				'avatar'
 			];
 
 			var self = this;
 			_.each(this._inputFields, function(field) {
+				var scopeOnly = field === 'avatar';
+
 				// Initialize config model
-				self._config.set(field, $('#' + field).val());
+				if (!scopeOnly) {
+					self._config.set(field, $('#' + field).val());
+				}
 				self._config.set(field + 'Scope', $('#' + field + 'scope').val());
 
 				// Set inputs whenever model values change
-				self.listenTo(self._config, 'change:' + field, function () {
-					self.$('#' + field).val(self._config.get(field));
-				});
+				if (!scopeOnly) {
+					self.listenTo(self._config, 'change:' + field, function () {
+						self.$('#' + field).val(self._config.get(field));
+					});
+				}
 				self.listenTo(self._config, 'change:' + field + 'Scope', function () {
 					self._onScopeChanged(field, self._config.get(field + 'Scope'));
 				});
@@ -54,8 +61,8 @@
 		render: function() {
 			var self = this;
 			_.each(this._inputFields, function(field) {
-				var $heading = self.$('#' + field + 'form > h2');
-				var $icon = self.$('#' + field + 'form > h2 > span');
+				var $heading = self.$('#' + field + 'form h2');
+				var $icon = self.$('#' + field + 'form h2 > span');
 				var scopeMenu = new OC.Settings.FederationScopeMenu();
 
 				self.listenTo(scopeMenu, 'select:scope', function(scope) {
@@ -65,8 +72,9 @@
 				$icon.on('click', _.bind(scopeMenu.show, scopeMenu));
 
 				// Fix absolute position according to the heading text length
-				// TODO: fix position without magic numbers
-				var pos = ($heading.width() - $heading.find('label').width()) - 68;
+				// TODO: find alternative to those magic number
+				var diff = field === 'avatar' ? 104 : 68;
+				var pos = ($heading.width() - $heading.find('label').width()) - diff;
 				scopeMenu.$el.css('right', pos);
 
 				self._onScopeChanged(field, self._config.get(field + 'Scope'));
@@ -76,6 +84,9 @@
 		_registerEvents: function() {
 			var self = this;
 			_.each(this._inputFields, function(field) {
+				if (field === 'avatar') {
+					return;
+				}
 				self.$('#' + field).keyUpDelayedOrEnter(_.bind(self._onInputChanged, self));
 			});
 		},
