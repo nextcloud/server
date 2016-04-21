@@ -31,6 +31,7 @@ namespace OC;
 use OC\Hooks\BasicEmitter;
 use OC\Hooks\Emitter;
 use OC\Repair\AssetCache;
+use OC\Repair\BrokenUpdaterRepair;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\DropOldJobs;
@@ -114,6 +115,7 @@ class Repair extends BasicEmitter {
 			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			new BrokenUpdaterRepair(),
 		];
 	}
 

@@ -342,6 +342,19 @@ class Checker {
 			throw new InvalidSignatureException('Signature could not get verified.');
 		}
 
+		// Fixes for the updater as shipped with ownCloud 9.0.x: The updater is
+		// replaced after the code integrity check is performed.
+		//
+		// Due to this reason we exclude the whole updater/ folder from the code
+		// integrity check.
+		if($basePath === $this->environmentHelper->getServerRoot()) {
+			foreach($expectedHashes as $fileName => $hash) {
+				if(strpos($fileName, 'updater/') === 0) {
+					unset($expectedHashes[$fileName]);
+				}
+			}
+		}
+
 		// Compare the list of files which are not identical
 		$currentInstanceHashes = $this->generateHashes($this->getFolderIterator($basePath), $basePath);
 		$differencesA = array_diff($expectedHashes, $currentInstanceHashes);
