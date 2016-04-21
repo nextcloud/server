@@ -21,6 +21,7 @@
 
 namespace OCA\DAV\Tests\Unit\CalDAV;
 
+use OCA\DAV\CalDAV\BirthdayService;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCP\IL10N;
@@ -123,14 +124,14 @@ class CalendarTest extends TestCase {
 	/**
 	 * @dataProvider providesReadOnlyInfo
 	 */
-	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet) {
+	public function testAcl($expectsWrite, $readOnlyValue, $hasOwnerSet, $uri = 'default') {
 		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
 		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
 		$backend->expects($this->any())->method('applyShareAcl')->willReturnArgument(1);
 		$calendarInfo = [
 			'principaluri' => 'user2',
 			'id' => 666,
-			'uri' => 'default'
+			'uri' => $uri
 		];
 		if (!is_null($readOnlyValue)) {
 			$calendarInfo['{http://owncloud.org/ns}read-only'] = $readOnlyValue;
@@ -151,6 +152,13 @@ class CalendarTest extends TestCase {
 			'principal' => $hasOwnerSet ? 'user1' : 'user2',
 			'protected' => true
 		]];
+		if ($uri === BirthdayService::BIRTHDAY_CALENDAR_URI) {
+			$expectedAcl = [[
+				'privilege' => '{DAV:}read',
+				'principal' => $hasOwnerSet ? 'user1' : 'user2',
+				'protected' => true
+			]];
+		}
 		if ($hasOwnerSet) {
 			$expectedAcl[] = [
 				'privilege' => '{DAV:}read',
@@ -177,6 +185,7 @@ class CalendarTest extends TestCase {
 			'read-only property not set and no owner' => [true, null, false],
 			'read-only property is false and no owner' => [true, false, false],
 			'read-only property is true and no owner' => [false, true, false],
+			'birthday calendar' => [false, false, false, BirthdayService::BIRTHDAY_CALENDAR_URI]
 		];
 	}
 }

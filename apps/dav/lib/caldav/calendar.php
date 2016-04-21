@@ -33,7 +33,6 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		parent::__construct($caldavBackend, $calendarInfo);
 
 		if ($this->getName() === BirthdayService::BIRTHDAY_CALENDAR_URI) {
-			$this->calendarInfo['{http://sabredav.org/ns}read-only'] = true;
 			$this->calendarInfo['{DAV:}displayname'] = $l10n->t('Contact birthdays');
 		}
 	}
@@ -94,11 +93,13 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 				'principal' => $this->getOwner(),
 				'protected' => true,
 			]];
-		$acl[] = [
-			'privilege' => '{DAV:}write',
-			'principal' => $this->getOwner(),
-			'protected' => true,
-		];
+		if ($this->getName() !== BirthdayService::BIRTHDAY_CALENDAR_URI) {
+			$acl[] = [
+				'privilege' => '{DAV:}write',
+				'principal' => $this->getOwner(),
+				'protected' => true,
+			];
+		}
 		if ($this->getOwner() !== parent::getOwner()) {
 			$acl[] =  [
 					'privilege' => '{DAV:}read',

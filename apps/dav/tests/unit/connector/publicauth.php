@@ -7,6 +7,13 @@ use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
 
+/**
+ * Class PublicAuth
+ *
+ * @group DB
+ * 
+ * @package OCA\DAV\Tests\Unit\Connector
+ */
 class PublicAuth extends \Test\TestCase {
 
 	/** @var ISession|\PHPUnit_Framework_MockObject_MockObject */
