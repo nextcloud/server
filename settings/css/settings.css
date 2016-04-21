@@ -7,14 +7,14 @@ input#openid, input#webdav { width:20em; }
 
 /* PERSONAL */
 
-#avatar {
+#avatarform {
 	width: 160px;
 	padding-right: 0;
 }
-#avatar .avatardiv {
+#avatarform .avatardiv {
 	margin-bottom: 10px;
 }
-#avatar .warning {
+#avatarform .warning {
 	width: 100%;
 }
 #uploadavatarbutton,
@@ -26,7 +26,7 @@ input#openid, input#webdav { width:20em; }
 .jcrop-holder {
 	z-index: 500;
 }
-#avatar #cropper {
+#avatarform #cropper {
 	float: left;
 	background-color: #fff;
 	z-index: 500;
@@ -54,6 +54,7 @@ input#openid, input#webdav { width:20em; }
 	height: 20px;
 	min-width: 200px;
 }
+#avatarform > h2 span,
 #personal-settings-container > div h2 span[class^="icon-"] {
 	display: inline-block;
 	margin-left: 5px;
@@ -93,7 +94,7 @@ input#openid, input#webdav { width:20em; }
 	padding-right: 0;
 	min-width: 60%;
 }
-#avatar,
+#avatarform,
 #passwordform {
 	margin-bottom: 0;
 	padding-bottom: 0;

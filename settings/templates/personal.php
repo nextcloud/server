@@ -32,10 +32,14 @@
 	</div>
 </div>
 
+<div id="personal-settings">
 <?php if ($_['enableAvatars']): ?>
 <div id="personal-settings-avatar-container">
-	<form id="avatar" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
-		<h2><?php p($l->t('Profile picture')); ?></h2>
+	<form id="avatarform" class="section" method="post" action="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.avatar.postAvatar')); ?>">
+		<h2>
+			<label><?php p($l->t('Profile picture')); ?></label>
+			<span class="icon-loading"/>
+		</h2>
 		<div id="displayavatar">
 			<div class="avatardiv"></div>
 			<div class="warning hidden"></div>
@@ -54,6 +58,7 @@
 			<div class="inlineblock button" id="abortcropperbutton"><?php p($l->t('Cancel')); ?></div>
 			<div class="inlineblock button primary" id="sendcropperbutton"><?php p($l->t('Choose as profile picture')); ?></div>
 		</div>
+		<input type="hidden" id="avatarscope" value="<?php p($_['avatarScope']) ?>">
 	</form>
 </div>
 <?php endif; ?>
@@ -159,6 +164,7 @@ if($_['displayNameChangeSupported']) {
 <?php
 }
 ?>
+</div>
 
 <div id="groups" class="section">
 	<h2><?php p($l->t('Groups')); ?></h2>
