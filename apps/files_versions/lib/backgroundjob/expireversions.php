@@ -21,6 +21,7 @@
 
 namespace OCA\Files_Versions\BackgroundJob;
 
+use OCP\IUser;
 use OCP\IUserManager;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Storage;
@@ -64,20 +65,13 @@ class ExpireVersions extends \OC\BackgroundJob\TimedJob {
 			return;
 		}
 
-		$users = $this->userManager->search('');
-		$isFSready = false;
-		foreach ($users as $user) {
+		$this->callForAllUsers(function(IUser $user) {
 			$uid = $user->getUID();
-			if (!$isFSready) {
-				if (!$this->setupFS($uid)) {
-					continue;
-				}
-				$isFSready = true;
+			if (!$this->setupFS($uid)) {
+				return;
 			}
 			Storage::expireOlderThanMaxForUser($uid);
-		}
-
-		\OC_Util::tearDownFS();
+		});
 	}
 
 	/**
@@ -85,14 +79,44 @@ class ExpireVersions extends \OC\BackgroundJob\TimedJob {
 	 * @param string $user
 	 * @return boolean
 	 */
-	private function setupFS($user){
-		if (!$this->userManager->userExists($user)) {
-			return false;
-		}
-
+	protected function setupFS($user) {
 		\OC_Util::tearDownFS();
 		\OC_Util::setupFS($user);
 
+		// Check if this user has a versions directory
+		$view = new \OC\Files\View('/' . $user);
+		if (!$view->is_dir('/files_versions')) {
+			return false;
+		}
+
 		return true;
+	}
+
+	/**
+	 * The callback is executed for each user on each backend.
+	 * If the callback returns false no further users will be retrieved.
+	 *
+	 * @param \Closure $callback
+	 * @param string $search
+	 */
+	protected function callForAllUsers(\Closure $callback, $search = '') {
+		foreach ($this->userManager->getBackends() as $backend) {
+			$limit = 500;
+			$offset = 0;
+			do {
+				$users = $backend->getUsers($search, $limit, $offset);
+				foreach ($users as $user) {
+					$user = $this->userManager->get($user);
+					if (is_null($user)) {
+						continue;
+					}
+					$return = $callback($user);
+					if ($return === false) {
+						break;
+					}
+				}
+				$offset += $limit;
+			} while (count($users) >= $limit);
+		}
 	}
 }
