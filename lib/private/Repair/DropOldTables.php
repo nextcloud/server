@@ -92,6 +92,13 @@ class DropOldTables extends BasicEmitter implements RepairStep {
 			'principals',
 			'queuedtasks',
 			'sharing',
+			'clndr_calendars',
+			'clndr_objects',
+			'clndr_share_event',
+			'clndr_share_calendar',
+			'clndr_repeat',
+			'contacts_addressbooks',
+			'contacts_cards'
 		];
 	}
 }
