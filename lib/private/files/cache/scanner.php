@@ -205,6 +205,10 @@ class Scanner extends BasicEmitter implements IScanner {
 					$data['oldSize'] = 0;
 				}
 
+				if (isset($cacheData['encrypted'])) {
+					$data['encrypted'] = $cacheData['encrypted'];
+				}
+
 				// post-emit only if it was a file. By that we avoid counting/treating folders as files
 				if ($data['mimetype'] !== 'httpd/unix-directory') {
 					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
@@ -222,6 +226,9 @@ class Scanner extends BasicEmitter implements IScanner {
 				}
 			}
 
+			if ($data && !isset($data['encrypted'])) {
+				$data['encrypted'] = false;
+			}
 			return $data;
 		}
 
