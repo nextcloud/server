@@ -30,7 +30,7 @@ use Test\TestCase;
  * @package Test\Repair
  */
 class UpdateOutdatedOcsIds extends TestCase {
-	/** @var IConfig */
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 	/** @var \OC\Repair\UpdateOutdatedOcsIds */
 	private $updateOutdatedOcsIds;

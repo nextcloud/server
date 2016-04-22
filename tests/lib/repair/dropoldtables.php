@@ -7,6 +7,7 @@
  */
 
 namespace Test\Repair;
+use OCP\Migration\IOutput;
 
 /**
  * Tests for the dropping old tables
@@ -31,8 +32,13 @@ class DropOldTables extends \Test\TestCase {
 		$this->assertFalse($this->connection->tableExists('sharing'), 'Asserting that the table oc_sharing does not exist before repairing');
 		$this->assertTrue($this->connection->tableExists('permissions'), 'Asserting that the table oc_permissions does exist before repairing');
 
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$repair = new \OC\Repair\DropOldTables($this->connection);
-		$repair->run();
+		$repair->run($outputMock);
 
 		$this->assertFalse($this->connection->tableExists('sharing'), 'Asserting that the table oc_sharing does not exist after repairing');
 		$this->assertFalse($this->connection->tableExists('permissions'), 'Asserting that the table oc_permissions does not exist after repairing');

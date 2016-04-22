@@ -23,9 +23,10 @@
 namespace OC\Repair;
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
-use OC\Hooks\BasicEmitter;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class Collation extends BasicEmitter implements \OC\RepairStep {
+class Collation implements IRepairStep {
 	/**
 	 * @var \OCP\IConfig
 	 */
@@ -52,15 +53,15 @@ class Collation extends BasicEmitter implements \OC\RepairStep {
 	/**
 	 * Fix mime types
 	 */
-	public function run() {
+	public function run(IOutput $output) {
 		if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
-			$this->emit('\OC\Repair', 'info', array('Not a mysql database -> nothing to no'));
+			$output->info('Not a mysql database -> nothing to no');
 			return;
 		}
 
 		$tables = $this->getAllNonUTF8BinTables($this->connection);
 		foreach ($tables as $table) {
-			$this->emit('\OC\Repair', 'info', array("Change collation for $table ..."));
+			$output->info("Change collation for $table ...");
 			$query = $this->connection->prepare('ALTER TABLE `' . $table . '` CONVERT TO CHARACTER SET utf8 COLLATE utf8_bin;');
 			$query->execute();
 		}

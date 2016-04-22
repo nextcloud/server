@@ -23,11 +23,11 @@
 namespace OC\Repair;
 
 
-use OC\Hooks\BasicEmitter;
-use OC\RepairStep;
 use OCP\IDBConnection;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class DropOldTables extends BasicEmitter implements RepairStep {
+class DropOldTables implements IRepairStep {
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -54,12 +54,10 @@ class DropOldTables extends BasicEmitter implements RepairStep {
 	 *
 	 * @throws \Exception in case of failure
 	 */
-	public function run() {
+	public function run(IOutput $output) {
 		foreach ($this->oldDatabaseTables() as $tableName) {
 			if ($this->connection->tableExists($tableName)){
-				$this->emit('\OC\Repair', 'info', [
-					sprintf('Table %s has been deleted', $tableName)
-				]);
+				$output->info(sprintf('Table %s has been deleted', $tableName));
 				$this->connection->dropTable($tableName);
 			}
 		}

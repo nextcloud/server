@@ -20,10 +20,12 @@
  */
 namespace OC\Repair;
 
-use OC\Hooks\BasicEmitter;
 use OCP\IConfig;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class SharePropagation extends BasicEmitter implements \OC\RepairStep {
+class SharePropagation implements IRepairStep {
+
 	/** @var  IConfig */
 	private $config;
 
@@ -40,7 +42,7 @@ class SharePropagation extends BasicEmitter implements \OC\RepairStep {
 		return 'Remove old share propagation app entries';
 	}
 
-	public function run() {
+	public function run(IOutput $out ) {
 		$keys = $this->config->getAppKeys('files_sharing');
 
 		foreach ($keys as $key) {

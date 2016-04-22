@@ -22,17 +22,17 @@
 
 namespace OC\Repair;
 
-use OC\Hooks\BasicEmitter;
-use OC\RepairStep;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
 /**
  * Class RepairConfig
  *
  * @package OC\Repair
  */
-class CleanTags extends BasicEmitter implements RepairStep {
+class CleanTags implements IRepairStep {
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -54,17 +54,18 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	/**
 	 * Updates the configuration after running an update
 	 */
-	public function run() {
-		$this->deleteOrphanFileEntries();
-		$this->deleteOrphanTagEntries();
-		$this->deleteOrphanCategoryEntries();
+	public function run(IOutput $output) {
+		$this->deleteOrphanFileEntries($output);
+		$this->deleteOrphanTagEntries($output);
+		$this->deleteOrphanCategoryEntries($output);
 	}
 
 	/**
 	 * Delete tag entries for deleted files
 	 */
-	protected function deleteOrphanFileEntries() {
+	protected function deleteOrphanFileEntries(IOutput $output) {
 		$this->deleteOrphanEntries(
+			$output,
 			'%d tags for delete files have been removed.',
 			'vcategory_to_object', 'objid',
 			'filecache', 'fileid', 'path_hash'
@@ -74,8 +75,9 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	/**
 	 * Delete tag entries for deleted tags
 	 */
-	protected function deleteOrphanTagEntries() {
+	protected function deleteOrphanTagEntries(IOutput $output) {
 		$this->deleteOrphanEntries(
+			$output,
 			'%d tag entries for deleted tags have been removed.',
 			'vcategory_to_object', 'categoryid',
 			'vcategory', 'id', 'uid'
@@ -85,8 +87,9 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	/**
 	 * Delete tags that have no entries
 	 */
-	protected function deleteOrphanCategoryEntries() {
+	protected function deleteOrphanCategoryEntries(IOutput $output) {
 		$this->deleteOrphanEntries(
+			$output,
 			'%d tags with no entries have been removed.',
 			'vcategory', 'id',
 			'vcategory_to_object', 'categoryid', 'type'
@@ -108,7 +111,7 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	 * @param string $sourceNullColumn	If this column is null in the source table,
 	 * 								the entry is deleted in the $deleteTable
 	 */
-	protected function deleteOrphanEntries($repairInfo, $deleteTable, $deleteId, $sourceTable, $sourceId, $sourceNullColumn) {
+	protected function deleteOrphanEntries(IOutput $output, $repairInfo, $deleteTable, $deleteId, $sourceTable, $sourceId, $sourceNullColumn) {
 		$qb = $this->connection->getQueryBuilder();
 
 		$qb->select('d.' . $deleteId)
@@ -141,7 +144,7 @@ class CleanTags extends BasicEmitter implements RepairStep {
 		}
 
 		if ($repairInfo) {
-			$this->emit('\OC\Repair', 'info', array(sprintf($repairInfo, sizeof($orphanItems))));
+			$output->info(sprintf($repairInfo, sizeof($orphanItems)));
 		}
 	}
 }

@@ -26,13 +26,14 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\DBAL\Schema\SchemaDiff;
 use Doctrine\DBAL\Schema\TableDiff;
 use Doctrine\DBAL\Schema\ColumnDiff;
-use OC\Hooks\BasicEmitter;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
 /**
  * Fixes Sqlite autoincrement by forcing the SQLite table schemas to be
  * altered in order to retrigger SQL schema generation through OCSqlitePlatform.
  */
-class SqliteAutoincrement extends BasicEmitter implements \OC\RepairStep {
+class SqliteAutoincrement implements IRepairStep {
 	/**
 	 * @var \OC\DB\Connection
 	 */
@@ -52,7 +53,7 @@ class SqliteAutoincrement extends BasicEmitter implements \OC\RepairStep {
 	/**
 	 * Fix mime types
 	 */
-	public function run() {
+	public function run(IOutput $out) {
 		if (!$this->connection->getDatabasePlatform() instanceof SqlitePlatform) {
 			return;
 		}

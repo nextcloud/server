@@ -7,6 +7,7 @@
  */
 
 namespace Test\Repair;
+use OCP\Migration\IOutput;
 
 /**
  * Tests for fixing the SQLite id recycling
@@ -76,7 +77,12 @@ class RepairSqliteAutoincrement extends \Test\TestCase {
 	public function testConvertIdColumn() {
 		$this->assertFalse($this->checkAutoincrement());
 
-		$this->repair->run();
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
 
 		$this->assertTrue($this->checkAutoincrement());
 	}

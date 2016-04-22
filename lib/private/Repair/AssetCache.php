@@ -23,23 +23,23 @@
 
 namespace OC\Repair;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
-use OC\Hooks\BasicEmitter;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class AssetCache extends BasicEmitter implements \OC\RepairStep {
+class AssetCache implements IRepairStep {
 
 	public function getName() {
 		return 'Clear asset cache after upgrade';
 	}
 
-	public function run() {
+	public function run(IOutput $output) {
 		if (!\OC_Template::isAssetPipelineEnabled()) {
-			$this->emit('\OC\Repair', 'info', array('Asset pipeline disabled -> nothing to do'));
+			$output->info('Asset pipeline disabled -> nothing to do');
 			return;
 		}
 		$assetDir = \OC::$server->getConfig()->getSystemValue('assetdirectory', \OC::$SERVERROOT) . '/assets';
 		\OC_Helper::rmdirr($assetDir, false);
-		$this->emit('\OC\Repair', 'info', array('Asset cache cleared.'));
+		$output->info('Asset cache cleared.');
 	}
 }
 

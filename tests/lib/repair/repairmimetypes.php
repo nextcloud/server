@@ -8,6 +8,12 @@
  */
 namespace Test\Repair;
 
+use OC\Files\Storage\Temporary;
+use OCP\Files\IMimeTypeLoader;
+use OCP\IConfig;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
+
 /**
  * Tests for the converting of legacy storages to home storages.
  *
@@ -17,10 +23,14 @@ namespace Test\Repair;
  */
 class RepairMimeTypes extends \Test\TestCase {
 
-	/** @var \OC\RepairStep */
+	/** @var IRepairStep */
 	private $repair;
 
+	/** @var Temporary */
 	private $storage;
+
+	/** @var IMimeTypeLoader */
+	private $mimetypeLoader;
 
 	protected function setUp() {
 		parent::setUp();
@@ -28,6 +38,7 @@ class RepairMimeTypes extends \Test\TestCase {
 		$this->savedMimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$this->mimetypeLoader = \OC::$server->getMimeTypeLoader();
 
+		/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject $config */
 		$config = $this->getMockBuilder('OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
@@ -96,7 +107,12 @@ class RepairMimeTypes extends \Test\TestCase {
 	private function renameMimeTypes($currentMimeTypes, $fixedMimeTypes) {
 		$this->addEntries($currentMimeTypes);
 
-		$this->repair->run();
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
 
 		// force mimetype reload
 		$this->mimetypeLoader->reset();

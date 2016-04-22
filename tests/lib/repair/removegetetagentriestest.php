@@ -22,6 +22,7 @@
 namespace Test\Repair;
 
 use OC\Repair\RemoveGetETagEntries;
+use OCP\Migration\IOutput;
 use Test\TestCase;
 
 /**
@@ -65,9 +66,14 @@ class RemoveGetETagEntriesTest extends TestCase {
 			$this->assertTrue(in_array($entry, $data), 'Asserts that the entries are the ones from the test data set');
 		}
 
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
 		// run repair step
 		$repair = new RemoveGetETagEntries($this->connection);
-		$repair->run();
+		$repair->run($outputMock);
 
 		// check if test data is correctly modified in DB
 		$stmt = $this->connection->executeQuery($sqlToFetchProperties, [$userName]);
