@@ -97,6 +97,12 @@ class TransferOwnership extends Command {
 			$output->writeln("<error>Unknown destination user $this->destinationUser</error>");
 			return;
 		}
+		
+		// target user has to be ready
+		if (!\OC::$server->getEncryptionManager()->isReadyForUser($this->destinationUser)) {
+			$output->writeln("<error>The target user is not ready to accept files. The user has at least to be logged in once.</error>");
+			return;
+		}
 
 		$date = date('c');
 		$this->finalTarget = "$this->destinationUser/files/transferred from $this->sourceUser on $date";
