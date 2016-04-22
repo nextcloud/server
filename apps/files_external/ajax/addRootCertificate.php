@@ -27,6 +27,12 @@ if ($isValid == false) {
 	$isValid = openssl_pkey_get_public($data);
 }
 
+// If string starts with "file://" ignore the certificate
+$query = 'file://';
+if(strtolower(substr($data, 0, strlen($query))) === $query) {
+	$isValid = false;
+}
+
 // add the certificate if it could be verified
 if ( $isValid ) {
 	// disable proxy to prevent multiple fopen calls
