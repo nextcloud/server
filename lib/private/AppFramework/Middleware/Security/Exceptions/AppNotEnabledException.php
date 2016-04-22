@@ -21,18 +21,18 @@
  *
  */
 
-namespace OC\Appframework\Middleware\Security\Exceptions;
+namespace OC\AppFramework\Middleware\Security\Exceptions;
 
 use OCP\AppFramework\Http;
 
 /**
- * Class NotAdminException is thrown when a resource has been requested by a
- * non-admin user that is not accessible to non-admin users.
+ * Class AppNotEnabledException is thrown when a resource for an application is
+ * requested that is not enabled.
  *
- * @package OC\Appframework\Middleware\Security\Exceptions
+ * @package OC\AppFramework\Middleware\Security\Exceptions
  */
-class NotAdminException extends SecurityException {
+class AppNotEnabledException extends SecurityException {
 	public function __construct() {
-		parent::__construct('Logged in user must be an admin', Http::STATUS_FORBIDDEN);
+		parent::__construct('App is not enabled', Http::STATUS_PRECONDITION_FAILED);
 	}
 }

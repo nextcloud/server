@@ -10,7 +10,7 @@
 
 namespace OC\Settings\Middleware;
 
-use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
+use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -42,7 +42,7 @@ class SubadminMiddlewareTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OC\Appframework\Middleware\Security\Exceptions\NotAdminException
+	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\NotAdminException
 	 */
 	public function testBeforeControllerAsUserWithExemption() {
 		$this->reflector

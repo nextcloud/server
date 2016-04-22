@@ -21,7 +21,7 @@
  *
  */
 
-namespace OC\Appframework\Middleware\Security\Exceptions;
+namespace OC\AppFramework\Middleware\Security\Exceptions;
 
 use OCP\AppFramework\Http;
 
@@ -29,7 +29,7 @@ use OCP\AppFramework\Http;
  * Class CrossSiteRequestForgeryException is thrown when a CSRF exception has
  * been encountered.
  *
- * @package OC\Appframework\Middleware\Security\Exceptions
+ * @package OC\AppFramework\Middleware\Security\Exceptions
  */
 class CrossSiteRequestForgeryException extends SecurityException {
 	public function __construct() {

@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -21,27 +21,18 @@
  *
  */
 
-namespace OC\AppFramework\routing;
+namespace OC\AppFramework\Middleware\Security\Exceptions;
 
-use \OC\AppFramework\App;
-use \OC\AppFramework\DependencyInjection\DIContainer;
+use OCP\AppFramework\Http;
 
-class RouteActionHandler {
-	private $controllerName;
-	private $actionName;
-	private $container;
-
-	/**
-	 * @param string $controllerName
-	 * @param string $actionName
-	 */
-	public function __construct(DIContainer $container, $controllerName, $actionName) {
-		$this->controllerName = $controllerName;
-		$this->actionName = $actionName;
-		$this->container = $container;
-	}
-
-	public function __invoke($params) {
-		App::main($this->controllerName, $this->actionName, $this->container, $params);
+/**
+ * Class NotLoggedInException is thrown when a resource has been requested by a
+ * guest user that is not accessible to the public.
+ *
+ * @package OC\AppFramework\Middleware\Security\Exceptions
+ */
+class NotLoggedInException extends SecurityException {
+	public function __construct() {
+		parent::__construct('Current user is not logged in', Http::STATUS_UNAUTHORIZED);
 	}
 }
