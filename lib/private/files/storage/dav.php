@@ -246,7 +246,7 @@ class DAV extends Common {
 	 *
 	 * @throws NotFound
 	 */
-	private function propfind($path) {
+	protected function propfind($path) {
 		$path = $this->cleanPath($path);
 		$cachedResponse = $this->statCache->get($path);
 		if ($cachedResponse === false) {
@@ -264,6 +264,7 @@ class DAV extends Common {
 						'{DAV:}getcontentlength',
 						'{DAV:}getcontenttype',
 						'{http://owncloud.org/ns}permissions',
+						'{http://open-collaboration-services.org/ns}share-permissions',
 						'{DAV:}resourcetype',
 						'{DAV:}getetag',
 					)
@@ -741,6 +742,9 @@ class DAV extends Common {
 				}
 				if (!empty($etag) && $cachedData['etag'] !== $etag) {
 					return true;
+				} else if (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
+					$sharePermissions = (int)$response['{http://open-collaboration-services.org/ns}share-permissions'];
+					return $sharePermissions !== $cachedData['permissions'];
 				} else if (isset($response['{http://owncloud.org/ns}permissions'])) {
 					$permissions = $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
 					return $permissions !== $cachedData['permissions'];

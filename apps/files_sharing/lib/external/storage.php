@@ -319,5 +319,21 @@ class Storage extends DAV implements ISharedStorage {
 		}
 		return ($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
 	}
+	
+	public function getPermissions($path) {
+		$response = $this->propfind($path);
+		if (isset($response['{http://open-collaboration-services.org/ns}share-permissions'])) {
+			$permissions = $response['{http://open-collaboration-services.org/ns}share-permissions'];
+		} else {
+			// use default permission if remote server doesn't provide the share permissions
+			if ($this->is_dir($path)) {
+				$permissions = \OCP\Constants::PERMISSION_ALL;
+			} else {
+				$permissions = \OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_CREATE;
+			}
+		}
+
+		return $permissions;
+	}
 
 }

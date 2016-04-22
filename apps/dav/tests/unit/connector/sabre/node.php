@@ -23,6 +23,12 @@
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
+/**
+ * Class Node
+ *
+ * @group DB
+ * @package OCA\DAV\Tests\Unit\Connector\Sabre
+ */
 class Node extends \Test\TestCase {
 	public function davPermissionsProvider() {
 		return array(
@@ -66,52 +72,64 @@ class Node extends \Test\TestCase {
 
 	public function sharePermissionsProvider() {
 		return [
-			[\OCP\Files\FileInfo::TYPE_FILE, 1, 1],
-			[\OCP\Files\FileInfo::TYPE_FILE, 3, 3],
-			[\OCP\Files\FileInfo::TYPE_FILE, 5, 1],
-			[\OCP\Files\FileInfo::TYPE_FILE, 7, 3],
-			[\OCP\Files\FileInfo::TYPE_FILE, 9, 1],
-			[\OCP\Files\FileInfo::TYPE_FILE, 11, 3],
-			[\OCP\Files\FileInfo::TYPE_FILE, 13, 1],
-			[\OCP\Files\FileInfo::TYPE_FILE, 15, 3],
-			[\OCP\Files\FileInfo::TYPE_FILE, 17, 17],
-			[\OCP\Files\FileInfo::TYPE_FILE, 19, 19],
-			[\OCP\Files\FileInfo::TYPE_FILE, 21, 17],
-			[\OCP\Files\FileInfo::TYPE_FILE, 23, 19],
-			[\OCP\Files\FileInfo::TYPE_FILE, 25, 17],
-			[\OCP\Files\FileInfo::TYPE_FILE, 27, 19],
-			[\OCP\Files\FileInfo::TYPE_FILE, 29, 17],
-			[\OCP\Files\FileInfo::TYPE_FILE, 30, 18],
-			[\OCP\Files\FileInfo::TYPE_FILE, 31, 19],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 1, 1],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 3, 3],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 5, 5],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 7, 7],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 9, 9],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 11, 11],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 13, 13],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 15, 15],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 17, 17],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 19, 19],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 21, 21],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 23, 23],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 25, 25],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 27, 27],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 29, 29],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 30, 30],
-			[\OCP\Files\FileInfo::TYPE_FOLDER, 31, 31],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 1, 1],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 3, 3],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 5, 1],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 7, 3],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 9, 1],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 11, 3],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 13, 1],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 15, 3],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 17, 17],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 19, 19],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 21, 17],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 23, 19],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 25, 17],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 27, 19],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 29, 17],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 30, 18],
+			[\OCP\Files\FileInfo::TYPE_FILE, null, 31, 19],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 1, 1],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 3, 3],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 5, 5],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 7, 7],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 9, 9],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 11, 11],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 13, 13],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 15, 15],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 17, 17],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 19, 19],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 21, 21],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 23, 23],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 25, 25],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 27, 27],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 29, 29],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 30, 30],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, null, 31, 31],
+			[\OCP\Files\FileInfo::TYPE_FOLDER, 'shareToken', 7, 7],
 		];
 	}
 
 	/**
 	 * @dataProvider sharePermissionsProvider
 	 */
-	public function testSharePermissions($type, $permissions, $expected) {
+	public function testSharePermissions($type, $user, $permissions, $expected) {
 		$storage = $this->getMock('\OCP\Files\Storage');
 		$storage->method('getPermissions')->willReturn($permissions);
 
 		$mountpoint = $this->getMock('\OCP\Files\Mount\IMountPoint');
 		$mountpoint->method('getMountPoint')->willReturn('myPath');
+		$shareManager = $this->getMockBuilder('OCP\Share\IManager')->disableOriginalConstructor()->getMock();
+		$share = $this->getMockBuilder('OCP\Share\IShare')->disableOriginalConstructor()->getMock();
+
+		if ($user === null) {
+			$shareManager->expects($this->never())->method('getShareByToken');
+			$share->expects($this->never())->method('getPermissions');
+		} else {
+			$shareManager->expects($this->once())->method('getShareByToken')->with($user)
+				->willReturn($share);
+			$share->expects($this->once())->method('getPermissions')->willReturn($permissions);
+		}
 
 		$info = $this->getMockBuilder('\OC\Files\FileInfo')
 			->disableOriginalConstructor()
@@ -125,6 +143,7 @@ class Node extends \Test\TestCase {
 		$view = $this->getMock('\OC\Files\View');
 
 		$node = new  \OCA\DAV\Connector\Sabre\File($view, $info);
-		$this->assertEquals($expected, $node->getSharePermissions());
+		$this->invokePrivate($node, 'shareManager', [$shareManager]);
+		$this->assertEquals($expected, $node->getSharePermissions($user));
 	}
 }
