@@ -105,6 +105,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Com PHP-FPM pode demorar 5 minutos para que as alterações sejam aplicadas.",
     "Missing permissions to edit from here." : "Faltando permissões para editar a partir daqui.",
     "Settings" : "Configurações",
+    "Show hidden files" : "Mostrar arquivos escondidos",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Use este endereço <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">para  acessar seus Arquivos via WebDAV</a>",
     "Cancel upload" : "Cancelar envio",

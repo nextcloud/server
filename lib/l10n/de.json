@@ -17,6 +17,8 @@
     "ownCloud %s or lower is required." : "ownCloud %s oder niedriger wird benötigt.",
     "You are not allowed to share %s" : "Die Freigabe von %s ist Dir nicht erlaubt",
     "Cannot increase permissions of %s" : "Kann die Berechtigungen von %s nicht erhöhen",
+    "Files can't be shared with delete permissions" : "Dateien mit Lösch-Berechtigungen können nicht geteilt werden",
+    "Files can't be shared with create permissions" : "Dateien mit Erstell-Berechtigungen können nicht geteilt werden",
     "Expiration date is in the past" : "Ablaufdatum ist in der Vergangenheit",
     "Cannot set expiration date more than %s days in the future" : "Das Ablaufdatum kann nicht mehr als %s Tage in die Zukunft liegen",
     "Help" : "Hilfe",
