@@ -106,7 +106,9 @@ class Watcher implements IWatcher {
 		if ($cachedData['mimetype'] === 'httpd/unix-directory') {
 			$this->cleanFolder($path);
 		}
-		$this->cache->correctFolderSize($path);
+		if ($this->cache instanceof Cache) {
+			$this->cache->correctFolderSize($path);
+		}
 	}
 
 	/**

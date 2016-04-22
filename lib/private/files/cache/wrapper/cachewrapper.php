@@ -240,7 +240,9 @@ class CacheWrapper extends Cache {
 	 * @param array $data (optional) meta data of the folder
 	 */
 	public function correctFolderSize($path, $data = null) {
-		$this->cache->correctFolderSize($path, $data);
+		if ($this->cache instanceof Cache) {
+			$this->cache->correctFolderSize($path, $data);
+		}
 	}
 
 	/**
@@ -251,7 +253,11 @@ class CacheWrapper extends Cache {
 	 * @return int
 	 */
 	public function calculateFolderSize($path, $entry = null) {
-		return $this->cache->calculateFolderSize($path, $entry);
+		if ($this->cache instanceof Cache) {
+			return $this->cache->calculateFolderSize($path, $entry);
+		} else {
+			return 0;
+		}
 	}
 
 	/**
