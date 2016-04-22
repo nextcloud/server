@@ -342,6 +342,28 @@ class Filesystem extends \Test\TestCase {
 	}
 
 	/**
+	 * Tests that an exception is thrown when passed user does not exist.
+	 */
+	public function testLocalMountWhenUserDoesNotExistTwice() {
+		$thrown = 0;
+		$userId = $this->getUniqueID('user_');
+
+		try {
+			\OC\Files\Filesystem::initMountPoints($userId);
+		} catch (NoUserException $e) {
+			$thrown++;
+		}
+
+		try {
+			\OC\Files\Filesystem::initMountPoints($userId);
+		} catch (NoUserException $e) {
+			$thrown++;
+		}
+
+		$this->assertEquals(2, $thrown);
+	}
+
+	/**
 	 * Tests that the home storage is used for the user's mount point
 	 */
 	public function testHomeMount() {
