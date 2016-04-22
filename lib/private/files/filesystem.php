@@ -378,8 +378,6 @@ class Filesystem {
 		if (isset(self::$usersSetup[$user])) {
 			return;
 		}
-		self::$usersSetup[$user] = true;
-
 		$root = \OC_User::getHome($user);
 
 		$userManager = \OC::$server->getUserManager();
@@ -389,6 +387,8 @@ class Filesystem {
 			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, \OCP\Util::ERROR);
 			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
 		}
+
+		self::$usersSetup[$user] = true;
 
 		$homeStorage = \OC::$server->getConfig()->getSystemValue('objectstore');
 		if (!empty($homeStorage)) {
