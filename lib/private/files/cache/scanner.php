@@ -296,6 +296,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 		if ($lock) {
 			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+				$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 				$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 			}
 		}
@@ -307,6 +308,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		if ($lock) {
 			if ($this->storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 				$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
+				$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
 			}
 		}
 		return $data;
