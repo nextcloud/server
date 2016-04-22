@@ -9,6 +9,7 @@
 namespace Test\BackgroundJob;
 
 use OCP\BackgroundJob\IJob;
+use OCP\IDBConnection;
 use Test\TestCase;
 
 /**
@@ -28,8 +29,15 @@ class JobList extends TestCase {
 		parent::setUp();
 
 		$connection = \OC::$server->getDatabaseConnection();
+		$this->clearJobsList($connection);
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->instance = new \OC\BackgroundJob\JobList($connection, $this->config);
+	}
+
+	protected function clearJobsList(IDBConnection $connection) {
+		$query = $connection->getQueryBuilder();
+		$query->delete('jobs');
+		$query->execute();
 	}
 
 	protected function getAllSorted() {
@@ -149,11 +157,11 @@ class JobList extends TestCase {
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('backgroundjob', 'lastjob', 0)
-			->will($this->returnValue($savedJob1->getId()));
+			->will($this->returnValue($savedJob2->getId()));
 
 		$nextJob = $this->instance->getNext();
 
-		$this->assertEquals($savedJob2, $nextJob);
+		$this->assertEquals($savedJob1, $nextJob);
 
 		$this->instance->remove($job, 1);
 		$this->instance->remove($job, 2);
@@ -166,16 +174,17 @@ class JobList extends TestCase {
 
 		$jobs = $this->getAllSorted();
 
+		$savedJob1 = $jobs[count($jobs) - 2];
 		$savedJob2 = $jobs[count($jobs) - 1];
 
 		$this->config->expects($this->once())
 			->method('getAppValue')
 			->with('backgroundjob', 'lastjob', 0)
-			->will($this->returnValue($savedJob2->getId()));
+			->will($this->returnValue($savedJob1->getId()));
 
 		$nextJob = $this->instance->getNext();
 
-		$this->assertEquals($jobs[0], $nextJob);
+		$this->assertEquals($savedJob2, $nextJob);
 
 		$this->instance->remove($job, 1);
 		$this->instance->remove($job, 2);

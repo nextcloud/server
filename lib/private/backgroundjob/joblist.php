@@ -172,8 +172,8 @@ class JobList implements IJobList {
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->gt('id', $query->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)))
-			->orderBy('id', 'ASC')
+			->where($query->expr()->lt('id', $query->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)))
+			->orderBy('id', 'DESC')
 			->setMaxResults(1);
 		$result = $query->execute();
 		$row = $result->fetch();
@@ -187,7 +187,7 @@ class JobList implements IJobList {
 			$query = $this->connection->getQueryBuilder();
 			$query->select('*')
 				->from('jobs')
-				->orderBy('id', 'ASC')
+				->orderBy('id', 'DESC')
 				->setMaxResults(1);
 			$result = $query->execute();
 			$row = $result->fetch();
