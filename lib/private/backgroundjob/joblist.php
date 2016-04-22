@@ -138,14 +138,14 @@ class JobList implements IJobList {
 	 */
 	public function getNext() {
 		$lastId = $this->getLastJob();
-		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` > ? ORDER BY `id` ASC', 1);
+		$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` < ? ORDER BY `id` DESC', 1);
 		$query->execute(array($lastId));
 		if ($row = $query->fetch()) {
 			$jobId = $row['id'];
 			$job = $this->buildJob($row);
 		} else {
 			//begin at the start of the queue
-			$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` ORDER BY `id` ASC', 1);
+			$query = $this->conn->prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` ORDER BY `id` DESC', 1);
 			$query->execute();
 			if ($row = $query->fetch()) {
 				$jobId = $row['id'];
