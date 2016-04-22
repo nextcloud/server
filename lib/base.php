@@ -488,6 +488,9 @@ class OC {
 
 		self::$CLI = (php_sapi_name() == 'cli');
 
+		// Add default composer PSR-4 autoloader
+		require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
+
 		try {
 			self::initPaths();
 			// setup 3rdparty autoloader
@@ -506,9 +509,6 @@ class OC {
 			print($e->getMessage());
 			exit();
 		}
-
-		// Add default composer PSR-4 autoloader
-		require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
 
 		// setup the basic server
 		self::$server = new \OC\Server(\OC::$WEBROOT, self::$config);

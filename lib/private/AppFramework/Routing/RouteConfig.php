@@ -24,7 +24,7 @@
  *
  */
 
-namespace OC\AppFramework\routing;
+namespace OC\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
 use OCP\Route\IRouter;

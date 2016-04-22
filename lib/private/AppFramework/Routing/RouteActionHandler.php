@@ -21,7 +21,7 @@
  *
  */
 
-namespace OC\AppFramework\routing;
+namespace OC\AppFramework\Routing;
 
 use \OC\AppFramework\App;
 use \OC\AppFramework\DependencyInjection\DIContainer;
