@@ -118,7 +118,10 @@ class Updater implements IUpdater {
 		}
 
 		$data = $this->scanner->scan($path, Scanner::SCAN_SHALLOW, -1, false);
-		if (isset($data['oldSize']) && isset($data['size'])) {
+		if (
+			isset($data['oldSize']) && isset($data['size']) &&
+			!$data['encrypted'] // encryption is a pita and touches the cache itself
+		) {
 			$sizeDifference = $data['size'] - $data['oldSize'];
 		} else {
 			// scanner didn't provide size info, fallback to full size calculation
