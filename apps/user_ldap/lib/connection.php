@@ -49,9 +49,6 @@ class Connection extends LDAPUtility {
 	private $configPrefix;
 	private $configID;
 	private $configured = false;
-
-	//whether connection should be kept on __destruct
-	private $dontDestruct = false;
 	private $hasPagedResultSupport = true;
 
 	/**
@@ -94,8 +91,7 @@ class Connection extends LDAPUtility {
 	}
 
 	public function __destruct() {
-		if(!$this->dontDestruct &&
-			$this->ldap->isResource($this->ldapConnectionRes)) {
+		if($this->ldap->isResource($this->ldapConnectionRes)) {
 			@$this->ldap->unbind($this->ldapConnectionRes);
 		};
 	}
@@ -104,11 +100,9 @@ class Connection extends LDAPUtility {
 	 * defines behaviour when the instance is cloned
 	 */
 	public function __clone() {
-		//a cloned instance inherits the connection resource. It may use it,
-		//but it may not disconnect it
-		$this->dontDestruct = true;
 		$this->configuration = new Configuration($this->configPrefix,
 												 !is_null($this->configID));
+		$this->ldapConnectionRes = null;
 	}
 
 	/**
