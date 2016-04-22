@@ -1372,7 +1372,7 @@
 				if (result.data.error === 'authentication_error' ||
 					result.data.error === 'token_expired' ||
 					result.data.error === 'application_not_enabled' ||
-					result.data.exception === '\\OCP\\Files\\StorageNotAvailableException'
+					(result.data.exception && result.data.exception.indexOf('StorageNotAvailableException') > 0)
 				) {
 					OC.redirect(OC.generateUrl('apps/files'));
 				}
