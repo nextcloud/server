@@ -30,30 +30,6 @@ namespace OC\Files\Cache;
 class Shared_Updater {
 
 	/**
-	 * Walk up the users file tree and update the etags.
-	 *
-	 * @param string $user user id
-	 * @param string $path share mount point path, relative to the user's "files" folder
-	 */
-	static private function correctUsersFolder($user, $path) {
-		// $path points to the mount point which is a virtual folder, so we start with
-		// the parent
-		$path = '/' . ltrim($path, '/');
-		$path = '/files' . dirname($path);
-		\OC\Files\Filesystem::initMountPoints($user);
-		$view = new \OC\Files\View('/' . $user);
-		if ($view->file_exists($path)) {
-			while ($path !== dirname($path)) {
-				$etag = $view->getETag($path);
-				$view->putFileInfo($path, array('etag' => $etag));
-				$path = dirname($path);
-			}
-		} else {
-			\OCP\Util::writeLog('files_sharing', 'can not update etags on ' . $path . ' for user ' . $user . '. Path does not exists', \OCP\Util::DEBUG);
-		}
-	}
-
-	/**
 	 * @param array $params
 	 */
 	static public function renameHook($params) {
@@ -105,78 +81,6 @@ class Shared_Updater {
 			/** @var \OCP\Share\IShare $share */
 			$share->setShareOwner($newOwner);
 			$shareManager->updateShare($share);
-		}
-	}
-
-	/**
-	 * @param array $params
-	 */
-	static public function deleteHook($params) {
-		$path = $params['path'];
-	}
-
-	/**
-	 * update etags if a file was shared
-	 * @param array $params
-	 */
-	static public function postShareHook($params) {
-
-		if ($params['itemType'] === 'folder' || $params['itemType'] === 'file') {
-
-			$shareWith = $params['shareWith'];
-			$shareType = $params['shareType'];
-
-			if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
-				self::correctUsersFolder($shareWith, $params['fileTarget']);
-			} elseif ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
-				foreach (\OC_Group::usersInGroup($shareWith) as $user) {
-					self::correctUsersFolder($user, $params['fileTarget']);
-				}
-			}
-		}
-	}
-
-	/**
-	 * update etags if a file was unshared
-	 *
-	 * @param array $params
-	 */
-	static public function postUnshareHook($params) {
-
-		// only update etags for file/folders shared to local users/groups
-		if (($params['itemType'] === 'file' || $params['itemType'] === 'folder') &&
-				$params['shareType'] !== \OCP\Share::SHARE_TYPE_LINK &&
-				$params['shareType'] !== \OCP\Share::SHARE_TYPE_REMOTE) {
-
-			$deletedShares = isset($params['deletedShares']) ? $params['deletedShares'] : array();
-
-			foreach ($deletedShares as $share) {
-				if ($share['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
-					foreach (\OC_Group::usersInGroup($share['shareWith']) as $user) {
-						self::correctUsersFolder($user, $share['fileTarget']);
-					}
-				} else {
-					self::correctUsersFolder($share['shareWith'], $share['fileTarget']);
-				}
-			}
-		}
-	}
-
-	/**
-	 * update etags if file was unshared from self
-	 * @param array $params
-	 */
-	static public function postUnshareFromSelfHook($params) {
-		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-			foreach ($params['unsharedItems'] as $item) {
-				if ($item['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
-					foreach (\OC_Group::usersInGroup($item['shareWith']) as $user) {
-						self::correctUsersFolder($user, $item['fileTarget']);
-					}
-				} else {
-					self::correctUsersFolder($item['shareWith'], $item['fileTarget']);
-				}
-			}
 		}
 	}
 
