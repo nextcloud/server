@@ -36,6 +36,14 @@ class CertificateTest extends \Test\TestCase {
 		new Certificate('foo', 'bar');
 	}
 
+	/**
+	 * @expectedException \Exception
+	 * @expectedExceptionMessage Certificate could not get parsed.
+	 */
+	function testCertificateStartingWithFileReference() {
+		new Certificate('file://'.__DIR__ . '/../../data/certificates/goodCertificate.crt', 'bar');
+	}
+
 	function testGetName() {
 		$this->assertSame('GoodCertificate', $this->goodCertificate->getName());
 		$this->assertSame('BadCertificate', $this->invalidCertificate->getName());
