@@ -320,6 +320,28 @@ class Filesystem extends \Test\TestCase {
 	}
 
 	/**
+	 * @expectedException \OC\User\NoUserException
+	 */
+	public function testNullUserThrows() {
+		\OC\Files\Filesystem::initMountPoints(null);
+	}
+
+	public function testNullUserThrowsTwice() {
+		$thrown = 0;
+		try {
+			\OC\Files\Filesystem::initMountPoints(null);
+		} catch (NoUserException $e) {
+			$thrown++;
+		}
+		try {
+			\OC\Files\Filesystem::initMountPoints(null);
+		} catch (NoUserException $e) {
+			$thrown++;
+		}
+		$this->assertEquals(2, $thrown);
+	}
+
+	/**
 	 * Tests that the home storage is used for the user's mount point
 	 */
 	public function testHomeMount() {

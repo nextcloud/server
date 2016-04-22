@@ -372,6 +372,9 @@ class Filesystem {
 		if ($user == '') {
 			$user = \OC_User::getUser();
 		}
+		if ($user === null || $user === false || $user === '') {
+			throw new \OC\User\NoUserException('Attempted to initialize mount points for null user and no user in session');
+		}
 		if (isset(self::$usersSetup[$user])) {
 			return;
 		}
