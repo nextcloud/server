@@ -23,7 +23,7 @@
 namespace OC\Settings\Middleware;
 
 use OC\AppFramework\Http;
-use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
+use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;

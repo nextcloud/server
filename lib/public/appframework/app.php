@@ -29,7 +29,7 @@
  */
 
 namespace OCP\AppFramework;
-use OC\AppFramework\routing\RouteConfig;
+use OC\AppFramework\Routing\RouteConfig;
 
 
 /**

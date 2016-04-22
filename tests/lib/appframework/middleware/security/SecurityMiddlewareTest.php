@@ -26,10 +26,10 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
-use OC\Appframework\Middleware\Security\Exceptions\AppNotEnabledException;
-use OC\Appframework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
-use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
-use OC\Appframework\Middleware\Security\Exceptions\NotLoggedInException;
+use OC\AppFramework\Middleware\Security\Exceptions\AppNotEnabledException;
+use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
+use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
+use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicy;

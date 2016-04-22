@@ -3,8 +3,6 @@
 namespace OC\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
-use OC\AppFramework\routing\RouteConfig;
-
 
 class RoutingTest extends \Test\TestCase
 {

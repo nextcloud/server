@@ -21,7 +21,7 @@
  *
  */
 
-namespace OC\Appframework\Middleware\Security\Exceptions;
+namespace OC\AppFramework\Middleware\Security\Exceptions;
 
 use OCP\AppFramework\Http;
 
@@ -29,7 +29,7 @@ use OCP\AppFramework\Http;
  * Class AppNotEnabledException is thrown when a resource for an application is
  * requested that is not enabled.
  *
- * @package OC\Appframework\Middleware\Security\Exceptions
+ * @package OC\AppFramework\Middleware\Security\Exceptions
  */
 class AppNotEnabledException extends SecurityException {
 	public function __construct() {

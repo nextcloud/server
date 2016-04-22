@@ -21,7 +21,7 @@
  *
  */
 
-namespace OC\Appframework\Middleware\Security\Exceptions;
+namespace OC\AppFramework\Middleware\Security\Exceptions;
 
 use OCP\AppFramework\Http;
 
@@ -29,7 +29,7 @@ use OCP\AppFramework\Http;
  * Class NotLoggedInException is thrown when a resource has been requested by a
  * guest user that is not accessible to the public.
  *
- * @package OC\Appframework\Middleware\Security\Exceptions
+ * @package OC\AppFramework\Middleware\Security\Exceptions
  */
 class NotLoggedInException extends SecurityException {
 	public function __construct() {
