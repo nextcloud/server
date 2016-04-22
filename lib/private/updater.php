@@ -40,6 +40,7 @@ use OC_Installer;
 use OCP\IConfig;
 use OC\Setup;
 use OCP\ILogger;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class that handles autoupdating of ownCloud
@@ -361,6 +362,7 @@ class Updater extends BasicEmitter {
 	 * @throws NeedsUpdateException
 	 */
 	protected function doAppUpgrade() {
+		$this->emitRepairEvents();
 		$apps = \OC_App::getEnabledApps();
 		$priorityTypes = array('authentication', 'filesystem', 'logging');
 		$pseudoOtherType = 'other';
@@ -385,9 +387,9 @@ class Updater extends BasicEmitter {
 		foreach ($stacks as $type => $stack) {
 			foreach ($stack as $appId) {
 				if (\OC_App::shouldUpgrade($appId)) {
-					$this->emit('\OC\Updater', 'appUpgradeStarted', array($appId, \OC_App::getAppVersion($appId)));
+					$this->emit('\OC\Updater', 'appUpgradeStarted', [$appId, \OC_App::getAppVersion($appId)]);
 					\OC_App::updateApp($appId);
-					$this->emit('\OC\Updater', 'appUpgrade', array($appId, \OC_App::getAppVersion($appId)));
+					$this->emit('\OC\Updater', 'appUpgrade', [$appId, \OC_App::getAppVersion($appId)]);
 				}
 				if($type !== $pseudoOtherType) {
 					// load authentication, filesystem and logging apps after
@@ -473,5 +475,33 @@ class Updater extends BasicEmitter {
 			}
 		}
 	}
+
+	/**
+	 * Forward messages emitted by the repair routine
+	 */
+	private function emitRepairEvents() {
+		$dispatcher = \OC::$server->getEventDispatcher();
+		$dispatcher->addListener('\OC\Repair::warning', function ($event) {
+			if ($event instanceof GenericEvent) {
+				$this->emit('\OC\Updater', 'repairWarning', $event->getArguments());
+			}
+		});
+		$dispatcher->addListener('\OC\Repair::error', function ($event) {
+			if ($event instanceof GenericEvent) {
+				$this->emit('\OC\Updater', 'repairError', $event->getArguments());
+			}
+		});
+		$dispatcher->addListener('\OC\Repair::info', function ($event) {
+			if ($event instanceof GenericEvent) {
+				$this->emit('\OC\Updater', 'repairInfo', $event->getArguments());
+			}
+		});
+		$dispatcher->addListener('\OC\Repair::step', function ($event) {
+			if ($event instanceof GenericEvent) {
+				$this->emit('\OC\Updater', 'repairStep', $event->getArguments());
+			}
+		});
+	}
+
 }
 
