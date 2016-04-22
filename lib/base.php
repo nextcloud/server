@@ -341,10 +341,14 @@ class OC {
 		$disableWebUpdater = $systemConfig->getValue('upgrade.disable-web', false);
 		$tooBig = false;
 		if (!$disableWebUpdater) {
-			// count users
-			$stats = \OC::$server->getUserManager()->countUsers();
-			$totalUsers = array_sum($stats);
-			$tooBig = ($totalUsers > 50);
+			$apps = \OC::$server->getAppManager();
+			$tooBig = $apps->isInstalled('user_ldap') || $apps->isInstalled('user_shibboleth');
+			if (!$tooBig) {
+				// count users
+				$stats = \OC::$server->getUserManager()->countUsers();
+				$totalUsers = array_sum($stats);
+				$tooBig = ($totalUsers > 50);
+			}
 		}
 		if ($disableWebUpdater || $tooBig) {
 			// send http status 503
