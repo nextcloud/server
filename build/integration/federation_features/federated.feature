@@ -150,7 +150,7 @@ Feature: federated
 		And Downloading file "/PARENT (2)/textfile0.txt" with range "bytes=0-8"
 		Then Downloaded content should be "BLABLABLA"
 
-	Scenario: Overwrite a federated shared file as recipient using chunking
+	Scenario: Overwrite a federated shared file as recipient using new chunking
 		Given Using server "REMOTE"
 		And user "user1" exists
 		And user "user2" exists
@@ -167,6 +167,22 @@ Feature: federated
 		And user "user1" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
 		And user "user1" moves new chunk file with id "chunking-42" to "/textfile0 (2).txt"
 		And using dav path "remote.php/webdav"
+		And Downloading file "/textfile0 (2).txt" with range "bytes=0-4"
+		Then Downloaded content should be "AAAAA"
+
+	Scenario: Overwrite a federated shared file as recipient using old chunking
+		Given Using server "REMOTE"
+		And user "user1" exists
+		And user "user2" exists
+		And Using server "LOCAL"
+		And user "user0" exists
+		And User "user0" from server "LOCAL" shares "/textfile0.txt" with user "user1" from server "REMOTE"
+		And User "user1" from server "REMOTE" accepts last pending share
+		And Using server "REMOTE"
+		And As an "user1"
+		And user "user1" uploads chunk file "1" of "3" with "AAAAA" to "/textfile0 (2).txt"
+		And user "user1" uploads chunk file "2" of "3" with "BBBBB" to "/textfile0 (2).txt"
+		And user "user1" uploads chunk file "3" of "3" with "CCCCC" to "/textfile0 (2).txt"
 		And Downloading file "/textfile0 (2).txt" with range "bytes=0-4"
 		Then Downloaded content should be "AAAAA"
 
