@@ -1,6 +1,7 @@
 OC.L10N.register(
     "comments",
     {
+    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Komente</strong> për kartela <em>(përherë të pranishme në rrjedhë)</em>",
     "You commented" : "Komentuat",
     "%1$s commented" : "%1$s komentoi",
     "You commented on %2$s" : "Komentuat te %2$s",

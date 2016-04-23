@@ -161,6 +161,7 @@
     "Send" : "Dërgoje",
     "Sending ..." : "Po dërgohet …",
     "Email sent" : "Email-i u dërgua",
+    "Send link via email" : "Dërgojeni lidhjen me email",
     "Shared with you and the group {group} by {owner}" : "Ndarë me ju dhe me grupin {group} nga {owner}",
     "Shared with you by {owner}" : "Ndarë me ju nga {owner}",
     "group" : "grup",

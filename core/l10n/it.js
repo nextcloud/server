@@ -163,6 +163,7 @@ OC.L10N.register(
     "Send" : "Invia",
     "Sending ..." : "Invio in corso...",
     "Email sent" : "Messaggio inviato",
+    "Send link via email" : "Invia collegamento tramite email",
     "Shared with you and the group {group} by {owner}" : "Condiviso con te e con il gruppo {group} da {owner}",
     "Shared with you by {owner}" : "Condiviso con te da {owner}",
     "group" : "gruppo",
