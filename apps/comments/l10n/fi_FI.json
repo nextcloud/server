@@ -1,4 +1,5 @@
 { "translations": {
+    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Kommentit</strong> tiedostoille <em>(aina listattu luettelossa)</em>",
     "You commented" : "Kommentoit",
     "%1$s commented" : "%1$s kommentoi",
     "You commented on %2$s" : "Kommentoit %2$s",

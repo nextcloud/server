@@ -98,6 +98,7 @@ OC.L10N.register(
     "Dec." : "Dhj.",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Pati probleme me kontrollin e integritetit të kodit. Më tepër të dhëna…</a>",
     "Settings" : "Rregullime",
+    "Problem loading page, reloading in 5 seconds" : "Gabim në ngarkimin e faqes, do të ringarkohet pas 5 sekondash",
     "Saving..." : "Po ruhet …",
     "Dismiss" : "Mos e merr parasysh",
     "seconds ago" : "sekonda më parë",

@@ -28,6 +28,7 @@ OC.L10N.register(
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "ไม่สามารถอัพโหลด {filename} มันเป็นไดเรกทอรีหรือมี 0 ไบต์",
     "Total file size {size1} exceeds upload limit {size2}" : "ขนาดไฟล์ {size1} ทั้งหมดเกินขีดจำกัด ของการอัพโหลด {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "พื้นที่ว่างไม่เพียงพอคุณจะอัพโหลด {size1} แต่มีพืนที่แค่ {size2}",
+    "Error uploading file \"{fileName}\": {message}" : "ข้อผิดพลาดขณะอัพโหลดไฟล์ \"{fileName}\": {message}",
     "Could not get result from server." : "ไม่สามารถรับผลลัพธ์จากเซิร์ฟเวอร์",
     "File upload is in progress. Leaving the page now will cancel the upload." : "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก",
     "Actions" : "การกระทำ",

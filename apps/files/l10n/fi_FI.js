@@ -105,6 +105,7 @@ OC.L10N.register(
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM:tä käyttäen muutoksien voimaantulossa saattaa kestää 5 minuuttia.",
     "Missing permissions to edit from here." : "Käyttöoikeudet eivät riitä tätä kautta muokkaamiseen.",
     "Settings" : "Asetukset",
+    "Show hidden files" : "Näytä piilotetut tiedostot",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">päästäksesi tiedostoihisi WebDAV-liittymän kautta</a>",
     "Cancel upload" : "Peru lähetys",

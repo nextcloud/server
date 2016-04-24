@@ -98,6 +98,7 @@ OC.L10N.register(
     "Dec." : "Dic.",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Si sono verificati errori con il controllo di integrità del codice. Ulteriori informazioni…</a>",
     "Settings" : "Impostazioni",
+    "Problem loading page, reloading in 5 seconds" : "Problema durante il caricamento della pagina, aggiornamento tra 5 secondi",
     "Saving..." : "Salvataggio in corso...",
     "Dismiss" : "Annulla",
     "seconds ago" : "secondi fa",

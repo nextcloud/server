@@ -1,6 +1,7 @@
 OC.L10N.register(
     "comments",
     {
+    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Comentários</strong> para ficheiros <em>(listados sempre na transmissão)</em>",
     "You commented" : "Comentou",
     "%1$s commented" : "%1$s comentou",
     "You commented on %2$s" : "Comentou %2$s",

@@ -61,6 +61,7 @@
     "Experimental" : "Experimental",
     "All" : "Todos",
     "No apps found for your version" : "Nenhuma aplicação encontrada para a sua versão",
+    "The app will be downloaded from the app store" : "A aplicação será descarregada da loja de aplicações.",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "As apps oficiais são desenvolvidas por e na comunidade da ownCloud. Elas oferecem funcionalidade central para a ownCloud e está pronta para uma utilização na produção.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "As aplicações aprovadas são desenvolvidas por developers de confiança e passaram numa verificação de segurança. São mantidas ativamente num repositório de código aberto e quem as mantém considera-as estáveis para uso casual a normal.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Esta aplicação não foi verificada por problemas de segurança e é nova ou conhecida por ser instável. Instale-a por sua conta e risco.",
