@@ -271,4 +271,15 @@ class DBConfigServiceTest extends TestCase {
 		$mount = $this->dbConfig->getMountById($id2);
 		$this->assertEquals('bar', $mount['auth_backend']);
 	}
+
+	public function testGetMountsForDuplicateByGroup() {
+		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
+
+		$this->dbConfig->addApplicable($id1, DBConfigService::APPLICABLE_TYPE_GROUP, 'group1');
+		$this->dbConfig->addApplicable($id1, DBConfigService::APPLICABLE_TYPE_GROUP, 'group2');
+
+		$mounts = $this->dbConfig->getAdminMountsForMultiple(DBConfigService::APPLICABLE_TYPE_GROUP, ['group1', 'group2']);
+		$this->assertCount(1, $mounts);
+		$this->assertEquals($id1, $mounts[0]['mount_id']);
+	}
 }
