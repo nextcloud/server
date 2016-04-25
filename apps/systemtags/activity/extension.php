@@ -142,9 +142,15 @@ class Extension implements IExtension {
 		switch ($text) {
 			case self::ASSIGN_TAG:
 				$params[2] = $this->convertParameterToTag($params[2], $l);
+				if ($this->actorIsCurrentUser($params[0])) {
+					return (string) $l->t('You assigned system tag %3$s', $params);
+				}
 				return (string) $l->t('%1$s assigned system tag %3$s', $params);
 			case self::UNASSIGN_TAG:
 				$params[2] = $this->convertParameterToTag($params[2], $l);
+				if ($this->actorIsCurrentUser($params[0])) {
+					return (string) $l->t('You unassigned system tag %3$s', $params);
+				}
 				return (string) $l->t('%1$s unassigned system tag %3$s', $params);
 		}
 
@@ -162,23 +168,52 @@ class Extension implements IExtension {
 		switch ($text) {
 			case self::CREATE_TAG:
 				$params[1] = $this->convertParameterToTag($params[1], $l);
+				if ($this->actorIsCurrentUser($params[0])) {
+					return (string) $l->t('You created system tag %2$s', $params);
+				}
 				return (string) $l->t('%1$s created system tag %2$s', $params);
 			case self::DELETE_TAG:
 				$params[1] = $this->convertParameterToTag($params[1], $l);
+				if ($this->actorIsCurrentUser($params[0])) {
+					return (string) $l->t('You deleted system tag %2$s', $params);
+				}
 				return (string) $l->t('%1$s deleted system tag %2$s', $params);
 			case self::UPDATE_TAG:
 				$params[1] = $this->convertParameterToTag($params[1], $l);
 				$params[2] = $this->convertParameterToTag($params[2], $l);
+				if ($this->actorIsCurrentUser($params[0])) {
+					return (string) $l->t('You updated system tag %3$s to %2$s', $params);
+				}
 				return (string) $l->t('%1$s updated system tag %3$s to %2$s', $params);
 			case self::ASSIGN_TAG:
 				$params[2] = $this->convertParameterToTag($params[2], $l);
+				if ($this->actorIsCurrentUser($params[0])) {
+					return (string) $l->t('You assigned system tag %3$s to %2$s', $params);
+				}
 				return (string) $l->t('%1$s assigned system tag %3$s to %2$s', $params);
 			case self::UNASSIGN_TAG:
 				$params[2] = $this->convertParameterToTag($params[2], $l);
+				if ($this->actorIsCurrentUser($params[0])) {
+					return (string) $l->t('You unassigned system tag %3$s from %2$s', $params);
+				}
 				return (string) $l->t('%1$s unassigned system tag %3$s from %2$s', $params);
 		}
 
 		return false;
+	}
+
+	/**
+	 * Check if the author is the current user
+	 *
+	 * @param string $user Parameter e.g. `<user display-name="admin">admin</user>`
+	 * @return bool
+	 */
+	protected function actorIsCurrentUser($user) {
+		try {
+			return strip_tags($user) === $this->activityManager->getCurrentUserId();
+		} catch (\UnexpectedValueException $e) {
+			return false;
+		}
 	}
 
 	/**
