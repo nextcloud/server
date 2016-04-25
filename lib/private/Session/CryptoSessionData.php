@@ -142,6 +142,16 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	}
 
 	/**
+	 * Wrapper around session_id
+	 *
+	 * @return string
+	 * @since 9.1.0
+	 */
+	public function getId() {
+		return $this->session->getId();
+	}
+
+	/**
 	 * Close the session and release the lock, also writes all changed data in batch
 	 */
 	public function close() {

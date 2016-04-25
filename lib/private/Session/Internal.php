@@ -112,6 +112,16 @@ class Internal extends Session {
 	}
 
 	/**
+	 * Wrapper around session_id
+	 *
+	 * @return string
+	 * @since 9.1.0
+	 */
+	public function getId() {
+		return @session_id();
+	}
+
+	/**
 	 * @throws \Exception
 	 */
 	public function reopen() {

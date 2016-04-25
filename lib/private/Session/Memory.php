@@ -89,6 +89,16 @@ class Memory extends Session {
 	public function regenerateId($deleteOldSession = true) {}
 
 	/**
+	 * Wrapper around session_id
+	 *
+	 * @return string
+	 * @since 9.1.0
+	 */
+	public function getId() {
+		throw new \Exception('Memory session does not have an ID');
+	}
+
+	/**
 	 * Helper function for PHPUnit execution - don't use in non-test code
 	 */
 	public function reopen() {

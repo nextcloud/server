@@ -95,4 +95,12 @@ interface ISession {
 	 * @since 9.0.0
 	 */
 	public function regenerateId($deleteOldSession = true);
+
+	/**
+	 * Wrapper around session_id
+	 *
+	 * @return string
+	 * @since 9.1.0
+	 */
+	public function getId();
 }
