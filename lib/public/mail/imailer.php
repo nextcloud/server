@@ -32,9 +32,10 @@ use OC\Mail\Message;
  * 	$mailer = \OC::$server->getMailer();
  * 	$message = $mailer->createMessage();
  * 	$message->setSubject('Your Subject');
- * 	$message->setFrom(array('cloud@domain.org' => 'ownCloud Notifier');
- * 	$message->setTo(array('recipient@domain.org' => 'Recipient');
- * 	$message->setBody('The message text');
+ * 	$message->setFrom(['cloud@domain.org' => 'ownCloud Notifier']);
+ * 	$message->setTo(['recipient@domain.org' => 'Recipient']);
+ * 	$message->setPlainBody('The message text');
+ * 	$message->setHtmlBody('The <strong>message</strong> text');
  * 	$mailer->send($message);
  *
  * This message can then be passed to send() of \OC\Mail\Mailer
