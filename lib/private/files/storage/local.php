@@ -39,6 +39,9 @@ class Local extends \OC\Files\Storage\Common {
 	protected $datadir;
 
 	public function __construct($arguments) {
+		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
+			throw new \InvalidArgumentException('No data directory set for local storage');
+		}
 		$this->datadir = $arguments['datadir'];
 		if (substr($this->datadir, -1) !== '/') {
 			$this->datadir .= '/';
