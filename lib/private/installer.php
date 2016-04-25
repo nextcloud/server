@@ -267,7 +267,8 @@ class OC_Installer{
 		//download the file if necessary
 		if($data['source']=='http') {
 			$pathInfo = pathinfo($data['href']);
-			$path=OC_Helper::tmpFile('.' . $pathInfo['extension']);
+			$extension = isset($pathInfo['extension']) ? '.' . $pathInfo['extension'] : '';
+			$path = \OC::$server->getTempManager()->getTemporaryFile($extension);
 			if(!isset($data['href'])) {
 				throw new \Exception($l->t("No href specified when installing app from http"));
 			}
