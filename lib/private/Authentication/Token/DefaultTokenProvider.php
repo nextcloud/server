@@ -42,6 +42,12 @@ class DefaultTokenProvider implements IProvider {
 	/** @var ILogger $logger */
 	private $logger;
 
+	/**
+	 * @param DefaultTokenMapper $mapper
+	 * @param ICrypto $crypto
+	 * @param IConfig $config
+	 * @param ILogger $logger
+	 */
 	public function __construct(DefaultTokenMapper $mapper, ICrypto $crypto,
 		IConfig $config, ILogger $logger) {
 		$this->mapper = $mapper;
@@ -64,11 +70,30 @@ class DefaultTokenProvider implements IProvider {
 		$secret = $this->config->getSystemValue('secret');
 		$dbToken->setPassword($this->crypto->encrypt($password . $secret));
 		$dbToken->setName($name);
-		$dbToken->setToken(hash('sha512', $token));
+		$dbToken->setToken($this->hashToken($token));
+		$dbToken->setLastActivity(time());
 
 		$this->mapper->insert($dbToken);
 
 		return $dbToken;
+	}
+
+	/**
+	 * Invalidate (delete) the given session token
+	 *
+	 * @param string $token
+	 */
+	public function invalidateToken($token) {
+		$this->mapper->invalidate($this->hashToken($token));
+	}
+
+	/**
+	 * Invalidate (delete) old session tokens
+	 */
+	public function invalidateOldTokens() {
+		$olderThan = time() - (int) $this->config->getSystemValue('session_lifetime', 60 * 60 * 24);
+		$this->logger->info('Invalidating tokens older than ' . date('c', $olderThan));
+		$this->mapper->invalidateOld($olderThan);
 	}
 
 	/**
@@ -79,13 +104,21 @@ class DefaultTokenProvider implements IProvider {
 	public function validateToken($token) {
 		$this->logger->debug('validating default token <' . $token . '>');
 		try {
-			$dbToken = $this->mapper->getTokenUser(hash('sha512', $token));
+			$dbToken = $this->mapper->getTokenUser($this->hashToken($token));
 			$this->logger->debug('valid token for ' . $dbToken->getUid());
 			return $dbToken->getUid();
 		} catch (DoesNotExistException $ex) {
 			$this->logger->warning('invalid token');
 			throw new InvalidTokenException();
 		}
+	}
+
+	/**
+	 * @param string $token
+	 * @return string
+	 */
+	private function hashToken($token) {
+		return hash('sha512', $token);
 	}
 
 }

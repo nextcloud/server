@@ -209,12 +209,12 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $groupManager;
 		});
-		$this->registerService('DefaultTokenMapper', function (Server $c) {
+		$this->registerService('OC\Authentication\Token\DefaultTokenMapper', function (Server $c) {
 			$dbConnection = $c->getDatabaseConnection();
 			return new Authentication\Token\DefaultTokenMapper($dbConnection);
 		});
-		$this->registerService('DefaultTokenProvider', function (Server $c) {
-			$mapper = $c->query('DefaultTokenMapper');
+		$this->registerService('OC\Authentication\Token\DefaultTokenProvider', function (Server $c) {
+			$mapper = $c->query('OC\Authentication\Token\DefaultTokenMapper');
 			$crypto = $c->getCrypto();
 			$config = $c->getConfig();
 			$logger = $c->getLogger();
@@ -223,7 +223,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('UserSession', function (Server $c) {
 			$manager = $c->getUserManager();
 			$session = new \OC\Session\Memory('');
-			$defaultTokenProvider = $c->query('DefaultTokenProvider');
+			$defaultTokenProvider = $c->query('OC\Authentication\Token\DefaultTokenProvider');
 			$tokenProviders = [
 				$defaultTokenProvider,
 			];

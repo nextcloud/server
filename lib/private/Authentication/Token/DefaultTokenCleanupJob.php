@@ -22,42 +22,15 @@
 
 namespace OC\Authentication\Token;
 
-use OCP\AppFramework\Db\Entity;
+use OC;
+use OC\BackgroundJob\Job;
 
-class DefaultToken extends Entity implements IToken {
+class DefaultTokenCleanupJob extends Job {
 
-	/**
-	 * @var string user UID
-	 */
-	protected $uid;
-
-	/**
-	 * @var string encrypted user password
-	 */
-	protected $password;
-
-	/**
-	 * @var string token name (e.g. browser/OS)
-	 */
-	protected $name;
-
-	/**
-	 * @var string
-	 */
-	protected $token;
-
-	/**
-	 * @var int
-	 */
-	protected $lastActivity;
-
-	/**
-	 * Get the token ID
-	 *
-	 * @return string
-	 */
-	public function getId() {
-		return $this->token;
+	protected function run($argument) {
+		/* @var $provider DefaultTokenProvider */
+		$provider = OC::$server->query('OC\Authentication\Token\DefaultTokenProvider');
+		$provider->invalidateOldTokens();
 	}
 
 }

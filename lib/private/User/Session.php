@@ -316,16 +316,20 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean
 	 */
 	public function createSessionToken($uid, $password) {
+		$this->session->regenerateId();
 		if (is_null($this->manager->get($uid))) {
 			// User does not exist
 			return false;
 		}
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown device';
-		$token = $this->tokenProvider->generateToken($token, $uid, $password, $name);
+		// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
+		$sessionId = session_id();
+		$token = $this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
 		return $this->loginWithToken($uid);
 	}
 
 	/**
+	 * @param IRequest $request
 	 * @param string $token
 	 * @return boolean
 	 */
@@ -407,6 +411,11 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function logout() {
 		$this->manager->emit('\OC\User', 'logout');
+		$user = $this->getUser();
+		if (!is_null($user)) {
+			// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
+			$this->tokenProvider->invalidateToken(session_id());
+		}
 		$this->setUser(null);
 		$this->setLoginName(null);
 		$this->unsetMagicInCookie();

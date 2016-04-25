@@ -22,6 +22,7 @@
 
 namespace OC\Authentication\Token;
 
+use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
 use OCP\IDBConnection;
 
@@ -31,6 +32,37 @@ class DefaultTokenMapper extends Mapper {
 		parent::__construct($db, 'authtoken');
 	}
 
+	/**
+	 * Invalidate (delete) a given token
+	 *
+	 * @param string $token
+	 */
+	public function invalidate($token) {
+		$sql = 'DELETE FROM `' . $this->getTableName() . '` '
+			. 'WHERE `token` = ?';
+		return $this->execute($sql, [
+				$token
+		]);
+	}
+
+	/**
+	 * @param int $olderThan
+	 */
+	public function invalidateOld($olderThan) {
+		$sql = 'DELETE FROM `' . $this->getTableName() . '` '
+			. 'WHERE `last_activity` < ?';
+		$this->execute($sql, [
+			$olderThan
+		]);
+	}
+
+	/**
+	 * Get the user UID for the given token
+	 *
+	 * @param string $token
+	 * @throws DoesNotExistException
+	 * @return string
+	 */
 	public function getTokenUser($token) {
 		$sql = 'SELECT `uid` '
 			. 'FROM `' . $this->getTableName() . '` '

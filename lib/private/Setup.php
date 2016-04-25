@@ -382,11 +382,17 @@ class Setup {
 				$config->setSystemValue('logtimezone', date_default_timezone_get());
 			}
 
+			self::installBackgroundJobs();
+
 			//and we are done
 			$config->setSystemValue('installed', true);
 		}
 
 		return $error;
+	}
+
+	public static function installBackgroundJobs() {
+		\OC::$server->getJobList()->add('\OC\Authentication\Token\DefaultTokenCleanupJob');
 	}
 
 	/**
