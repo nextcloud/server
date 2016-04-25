@@ -373,5 +373,42 @@ trait WebDav {
 		$this->makeDavRequest($user, 'PUT', $file, ['OC-Chunked' => '1'], $data);
 	}
 
-}
+	/**
+	 * @When user "([^"]*)" favorites folder "([^"]*)"
+	 * @param string $user
+	 * @param string $path
+	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
+	 */
+	public function userFavoritesFolder($user, $path, $propertiesTable) {
+		$properties = null;
+		if ($propertiesTable instanceof \Behat\Gherkin\Node\TableNode) {
+			foreach ($propertiesTable->getRows() as $row) {
+				$properties[] = $row[0];
+			}
+		}
+		$this->response = $this->favFolder($user, $path, 0, $properties);
+	}
 
+	/*Set the elements of a proppatch, $folderDepth requires 1 to see elements without children*/
+	public function favFolder($user, $path, $folderDepth, $properties = null){
+		$fullUrl = substr($this->baseUrl, 0, -4);
+		$settings = array(
+			'baseUri' => $fullUrl,
+			'userName' => $user,
+		);
+		if ($user === 'admin') {
+			$settings['password'] = $this->adminUser[1];
+		} else {
+			$settings['password'] = $this->regularUser;
+		}
+		$client = new SClient($settings);
+		if (!$properties) {
+			$properties = [
+				'{http://owncloud.org/ns}favorite'
+			];
+		}
+		echo $properties,
+		$response = $client->proppatch($this->davPath . '/' . ltrim($path, '/'), $properties, $folderDepth);
+		return $response;
+	}
+}
