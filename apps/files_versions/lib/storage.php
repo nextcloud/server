@@ -45,6 +45,7 @@ use OC\Files\Filesystem;
 use OC\Files\View;
 use OCA\Files_Versions\AppInfo\Application;
 use OCA\Files_Versions\Command\Expire;
+use OCP\Files\NotFoundException;
 use OCP\Lock\ILockingProvider;
 use OCP\User;
 
