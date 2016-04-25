@@ -24,6 +24,8 @@ OCA = OCA || {};
 		STATUS_INCOMPLETE: 1,
 		/** @constant {number} */
 		STATUS_SUCCESS: 2,
+		/** @constant {number} */
+		STATUS_UNTESTED: 3,
 
 		/**
 		 * initializes the instance. Always call it after creating the instance.
@@ -210,6 +212,7 @@ OCA = OCA || {};
 		 * @listens ConfigModel#configLoaded
 		 */
 		onConfigLoaded: function(view) {
+			view._updateStatusIndicator(view.STATUS_UNTESTED);
 			view.basicStatusCheck(view);
 			view.functionalityCheck();
 		},
@@ -370,6 +373,14 @@ OCA = OCA || {};
 			var $indicatorLight = $('.ldap_config_state_indicator_sign');
 
 			switch(state) {
+				case this.STATUS_UNTESTED:
+					$indicator.text(t('user_ldap',
+						'Testing configuration…'
+					));
+					$indicator.addClass('ldap_grey');
+					$indicatorLight.removeClass('error');
+					$indicatorLight.removeClass('success');
+					break;
 				case this.STATUS_ERROR:
 					$indicator.text(t('user_ldap',
 						'Configuration incorrect'
