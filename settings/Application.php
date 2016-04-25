@@ -29,6 +29,7 @@
 
 namespace OC\Settings;
 
+use OC\Accounts\AccountManager;
 use OC\Files\View;
 use OC\Server;
 use OC\Settings\Controller\AppSettingsController;
@@ -43,6 +44,7 @@ use OC\Settings\Controller\SecuritySettingsController;
 use OC\Settings\Controller\UsersController;
 use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\App;
+use OCP\AppFramework\IAppContainer;
 use OCP\IContainer;
 use OCP\Util;
 
@@ -117,6 +119,9 @@ class Application extends App {
 				$c->query('Config')
 			);
 		});
+		$container->registerService('AccountManager', function(IAppContainer $c) {
+			return new AccountManager($c->getServer()->getDatabaseConnection());
+		});
 		$container->registerService('CertificateController', function(IContainer $c) {
 			return new CertificateController(
 				$c->query('AppName'),
@@ -153,7 +158,8 @@ class Application extends App {
 				$c->query('DefaultMailAddress'),
 				$c->query('URLGenerator'),
 				$c->query('OCP\\App\\IAppManager'),
-				$c->query('OCP\\IAvatarManager')
+				$c->query('OCP\\IAvatarManager'),
+				$c->query('AccountManager')
 			);
 		});
 		$container->registerService('LogSettingsController', function(IContainer $c) {
@@ -187,7 +193,7 @@ class Application extends App {
 			);
 		});
 		// Execute middlewares
-		$container->registerMiddleware('SubadminMiddleware');
+		$container->registerMiddleWare('SubadminMiddleware');
 
 		/**
 		 * Core class wrappers

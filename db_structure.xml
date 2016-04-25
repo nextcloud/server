@@ -1876,4 +1876,37 @@
 
 	</table>
 
+
+	<table>
+
+		<name>*dbprefix*accounts</name>
+
+		<declaration>
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+			<field>
+				<name>data</name>
+				<type>clob</type>
+				<default></default>
+				<notnull>true</notnull>
+			</field>
+
+			<index>
+				<name>uid_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
 </database>
