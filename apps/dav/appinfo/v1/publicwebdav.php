@@ -55,7 +55,9 @@ $linkCheckPlugin = new \OCA\DAV\Files\Sharing\PublicLinkCheckPlugin();
 
 $server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, function (\Sabre\DAV\Server $server) use ($authBackend, $linkCheckPlugin) {
 	$isAjax = (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest');
-	if (OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
+	$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
+	$federatedShareProvider = $federatedSharingApp->getFederatedShareProvider();
+	if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false && !$isAjax) {
 		// this is what is thrown when trying to access a non-existing share
 		throw new \Sabre\DAV\Exception\NotAuthenticated();
 	}

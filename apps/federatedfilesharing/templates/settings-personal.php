@@ -1,11 +1,11 @@
 <?php
 /** @var OC_L10N $l */
 /** @var array $_ */
-script('files_sharing', 'settings-personal');
-style('files_sharing', 'settings-personal');
+script('federatedfilesharing', 'settings-personal');
+style('federatedfilesharing', 'settings-personal');
 if ($_['showShareIT']) {
-	script('files_sharing', '3rdparty/gs-share/gs-share');
-	style('files_sharing', '3rdparty/gs-share/style');
+	script('federatedfilesharing', '3rdparty/gs-share/gs-share');
+	style('federatedfilesharing', '3rdparty/gs-share/style');
 }
 ?>
 

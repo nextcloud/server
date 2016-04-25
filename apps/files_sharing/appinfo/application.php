@@ -45,6 +45,7 @@ class Application extends App {
 		 * Controllers
 		 */
 		$container->registerService('ShareController', function (SimpleContainer $c) use ($server) {
+			$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
 			return new ShareController(
 				$c->query('AppName'),
 				$c->query('Request'),
@@ -56,7 +57,8 @@ class Application extends App {
 				$server->getShareManager(),
 				$server->getSession(),
 				$server->getPreviewManager(),
-				$server->getRootFolder()
+				$server->getRootFolder(),
+				$federatedSharingApp->getFederatedShareProvider()
 			);
 		});
 		$container->registerService('ExternalSharesController', function (SimpleContainer $c) {

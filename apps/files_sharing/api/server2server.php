@@ -26,10 +26,24 @@
 namespace OCA\Files_Sharing\API;
 
 use OCA\FederatedFileSharing\DiscoveryManager;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity;
 use OCP\Files\NotFoundException;
 
 class Server2Server {
+
+	/** @var FederatedShareProvider */
+	private $federatedShareProvider;
+
+
+	/**
+	 * Server2Server constructor.
+	 *
+	 * @param FederatedShareProvider $federatedShareProvider
+	 */
+	public function __construct(FederatedShareProvider $federatedShareProvider) {
+		$this->federatedShareProvider = $federatedShareProvider;
+	}
 
 	/**
 	 * create a new share
@@ -300,9 +314,9 @@ class Server2Server {
 		$result = \OCP\App::isEnabled('files_sharing');
 
 		if ($incoming) {
-			$result = $result && \OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled();
+			$result = $result && $this->federatedShareProvider->isIncomingServer2serverShareEnabled();
 		} else {
-			$result = $result && \OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled();
+			$result = $result && $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
 		}
 
 		return $result;

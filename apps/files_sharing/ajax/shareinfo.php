@@ -29,7 +29,10 @@ if (!isset($_GET['t'])) {
 	exit;
 }
 
-if (OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled() === false) {
+$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
+$federatedShareProvider = $federatedSharingApp->getFederatedShareProvider();
+
+if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false) {
 	\OC_Response::setStatus(404); // 404 not found
 	exit;
 }

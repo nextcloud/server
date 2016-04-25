@@ -20,12 +20,15 @@
  *
  */
 
+use OCA\FederatedFileSharing\AppInfo\Application;
+
 \OC_Util::checkAdminUser();
 
-\OCP\Util::addScript('files_sharing', 'settings-admin');
+$app = new Application('federatedfilesharing');
+$federatedShareProvider = $app->getFederatedShareProvider();
 
-$tmpl = new OCP\Template('files_sharing', 'settings-admin');
-$tmpl->assign('outgoingServer2serverShareEnabled', OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled());
-$tmpl->assign('incomingServer2serverShareEnabled', OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled());
+$tmpl = new OCP\Template('federatedfilesharing', 'settings-admin');
+$tmpl->assign('outgoingServer2serverShareEnabled', $federatedShareProvider->isOutgoingServer2serverShareEnabled());
+$tmpl->assign('incomingServer2serverShareEnabled', $federatedShareProvider->isIncomingServer2serverShareEnabled());
 
 return $tmpl->fetchPage();

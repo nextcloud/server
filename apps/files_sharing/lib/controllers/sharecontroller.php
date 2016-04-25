@@ -33,6 +33,7 @@ namespace OCA\Files_Sharing\Controllers;
 use OC;
 use OC_Files;
 use OC_Util;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP;
 use OCP\Template;
 use OCP\Share;
@@ -79,6 +80,8 @@ class ShareController extends Controller {
 	protected $previewManager;
 	/** @var IRootFolder */
 	protected $rootFolder;
+	/** @var FederatedShareProvider */
+	protected $federatedShareProvider;
 
 	/**
 	 * @param string $appName
@@ -92,6 +95,7 @@ class ShareController extends Controller {
 	 * @param ISession $session
 	 * @param IPreview $previewManager
 	 * @param IRootFolder $rootFolder
+	 * @param FederatedShareProvider $federatedShareProvider
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -103,7 +107,8 @@ class ShareController extends Controller {
 								\OCP\Share\IManager $shareManager,
 								ISession $session,
 								IPreview $previewManager,
-								IRootFolder $rootFolder) {
+								IRootFolder $rootFolder,
+								FederatedShareProvider $federatedShareProvider) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
@@ -115,6 +120,7 @@ class ShareController extends Controller {
 		$this->session = $session;
 		$this->previewManager = $previewManager;
 		$this->rootFolder = $rootFolder;
+		$this->federatedShareProvider = $federatedShareProvider;
 	}
 
 	/**
@@ -300,7 +306,7 @@ class ShareController extends Controller {
 		$shareTmpl['previewSupported'] = $this->previewManager->isMimeSupported($share->getNode()->getMimetype());
 		$shareTmpl['dirToken'] = $token;
 		$shareTmpl['sharingToken'] = $token;
-		$shareTmpl['server2serversharing'] = Helper::isOutgoingServer2serverShareEnabled();
+		$shareTmpl['server2serversharing'] = $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
 		$shareTmpl['protected'] = $share->getPassword() !== null ? 'true' : 'false';
 		$shareTmpl['dir'] = '';
 		$shareTmpl['nonHumanFileSize'] = $share->getNode()->getSize();

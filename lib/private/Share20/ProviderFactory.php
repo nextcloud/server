@@ -114,7 +114,8 @@ class ProviderFactory implements IProviderFactory {
 				$tokenHandler,
 				$l,
 				$this->serverContainer->getLogger(),
-				$this->serverContainer->getLazyRootFolder()
+				$this->serverContainer->getLazyRootFolder(),
+				$this->serverContainer->getConfig()
 			);
 		}
 

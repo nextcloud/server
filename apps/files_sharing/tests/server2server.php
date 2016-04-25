@@ -44,6 +44,9 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 	 */
 	private $s2s;
 
+	/** @var  \OCA\FederatedFileSharing\FederatedShareProvider | PHPUnit_Framework_MockObject_MockObject */
+	private $federatedShareProvider;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -57,10 +60,16 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 				->setConstructorArgs([$config, $clientService])
 				->getMock();
 		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(true));
+		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
+			->disableOriginalConstructor()->getMock();
+		$this->federatedShareProvider->expects($this->any())
+			->method('isOutgoingServer2serverShareEnabled')->willReturn(true);
+		$this->federatedShareProvider->expects($this->any())
+			->method('isIncomingServer2serverShareEnabled')->willReturn(true);
 
 		$this->registerHttpHelper($httpHelperMock);
 
-		$this->s2s = new \OCA\Files_Sharing\API\Server2Server();
+		$this->s2s = new \OCA\Files_Sharing\API\Server2Server($this->federatedShareProvider);
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 	}
