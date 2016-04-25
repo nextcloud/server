@@ -32,6 +32,7 @@ class AdapterSqlite extends Adapter {
 		$statement = preg_replace('/`(\w+)` ILIKE \?/', 'LOWER($1) LIKE LOWER(?)', $statement);
 		$statement = str_replace( '`', '"', $statement );
 		$statement = str_ireplace( 'NOW()', 'datetime(\'now\')', $statement );
+		$statement = str_ireplace('GREATEST(', 'MAX(', $statement);
 		$statement = str_ireplace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $statement );
 		return $statement;
 	}
