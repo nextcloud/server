@@ -250,8 +250,9 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * @throws \Exception when connection could not be established
 	 */
 	public function userExists($uid) {
-		if($this->access->connection->isCached('userExists'.$uid)) {
-			return $this->access->connection->getFromCache('userExists'.$uid);
+		$userExists = $this->access->connection->getFromCache('userExists'.$uid);
+		if(!is_null($userExists)) {
+			return (bool)$userExists;
 		}
 		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
 		$user = $this->access->userManager->get($uid);
@@ -321,8 +322,9 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		}
 
 		$cacheKey = 'getHome'.$uid;
-		if($this->access->connection->isCached($cacheKey)) {
-			return $this->access->connection->getFromCache($cacheKey);
+		$path = $this->access->connection->getFromCache($cacheKey);
+		if(!is_null($path)) {
+			return $path;
 		}
 
 		$user = $this->access->userManager->get($uid);

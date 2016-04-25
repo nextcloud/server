@@ -294,10 +294,6 @@ class Test_Group_Ldap extends \Test\TestCase {
 		$uid = 'someUser';
 		$gid = 'someGroup';
 		$cacheKey = 'inGroup'.$uid.':'.$gid;
-		$access->connection->expects($this->once())
-			->method('isCached')
-			->with($cacheKey)
-			->will($this->returnValue(true));
 
 		$access->connection->expects($this->once())
 			->method('getFromCache')

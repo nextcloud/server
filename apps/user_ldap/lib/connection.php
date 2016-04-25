@@ -207,28 +207,9 @@ class Connection extends LDAPUtility {
 		if(is_null($this->cache) || !$this->configuration->ldapCacheTTL) {
 			return null;
 		}
-		if(!$this->isCached($key)) {
-			return null;
-
-		}
 		$key = $this->getCacheKey($key);
 
 		return json_decode(base64_decode($this->cache->get($key)), true);
-	}
-
-	/**
-	 * @param string $key
-	 * @return bool
-	 */
-	public function isCached($key) {
-		if(!$this->configured) {
-			$this->readConfiguration();
-		}
-		if(is_null($this->cache) || !$this->configuration->ldapCacheTTL) {
-			return false;
-		}
-		$key = $this->getCacheKey($key);
-		return $this->cache->hasKey($key);
 	}
 
 	/**
