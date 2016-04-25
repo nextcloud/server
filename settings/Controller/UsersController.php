@@ -30,6 +30,7 @@
 
 namespace OC\Settings\Controller;
 
+use OC\Accounts\AccountManager;
 use OC\AppFramework\Http;
 use OC\User\User;
 use OCP\App\IAppManager;
@@ -80,6 +81,8 @@ class UsersController extends Controller {
 	private $isRestoreEnabled = false;
 	/** @var IAvatarManager */
 	private $avatarManager;
+	/** @var AccountManager */
+	private $accountManager;
 
 	/**
 	 * @param string $appName
@@ -97,6 +100,7 @@ class UsersController extends Controller {
 	 * @param IURLGenerator $urlGenerator
 	 * @param IAppManager $appManager
 	 * @param IAvatarManager $avatarManager
+	 * @param AccountManager $accountManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -112,7 +116,9 @@ class UsersController extends Controller {
 								$fromMailAddress,
 								IURLGenerator $urlGenerator,
 								IAppManager $appManager,
-								IAvatarManager $avatarManager) {
+								IAvatarManager $avatarManager,
+								AccountManager $accountManager
+) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -126,6 +132,7 @@ class UsersController extends Controller {
 		$this->fromMailAddress = $fromMailAddress;
 		$this->urlGenerator = $urlGenerator;
 		$this->avatarManager = $avatarManager;
+		$this->accountManager = $accountManager;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('encryption');
@@ -519,7 +526,22 @@ class UsersController extends Controller {
 					$email, $emailScope,
 					$website, $websiteScope,
 					$address, $addressScope) {
-		// TODO: implement
+
+		if($userId === null) {
+			$userId = $this->userSession->getUser()->getUID();
+		}
+
+		$data = [
+			'avatar' =>  ['scope' => $avatarScope],
+			'displayName' => ['value' => $displayname, 'scope' => $displaynameScope],
+			'email' => ['value' => $email, 'scope' => $emailScope],
+			'website' => ['value' => $website, 'scope' => $websiteScope],
+			'address' => ['value' => $address, 'scope' => $addressScope],
+			'phone' => ['value' => $phone, 'scope' => $phoneScope]
+		];
+
+		$this->accountManager->updateUser($userId, $data);
+
 		return new DataResponse(
 			array(
 				'status' => 'success',
