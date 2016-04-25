@@ -32,7 +32,7 @@
     "The share will expire on %s." : "Die Freigabe wird am %s ablaufen.",
     "Cheers!" : "Noch einen schönen Tag!",
     "Hey there,<br><br>the admin enabled server-side-encryption. Your files were encrypted using the password <strong>%s</strong>.<br><br>Please login to the web interface, go to the section \"ownCloud basic encryption module\" of your personal settings and update your encryption password by entering this password into the \"old log-in password\" field and your current login-password.<br><br>" : "Hey,<br><br>der Administrator hat die servereitige Verschlüsselung aktiviert. Die Dateien wurden mit dem Kennwort <strong>%s</strong> verschlüsselt.<br><br>Bitte melde dich im Web-Interface an, gehe in deine persönlichen Einstellungen. Dort findest du die Option 'ownCloud-Basisverschlüsselungsmodul' und aktualisiere dort dein Verschlüsselungspasswort indem du das Passwort in das 'alte Log - in Passwort' und in das 'aktuellen Login - Passwort' Feld eingibst.<br><br>",
-    "Encrypt the home storage" : "verschlüssel den Speicher",
+    "Encrypt the home storage" : "Verschlüssle den Speicher",
     "Enabling this option encrypts all files stored on the main storage, otherwise only files on external storage will be encrypted" : "Die Aktivierung dieser Option verschlüsselt alle Dateien die auf dem Hauptspeicher gespeichert sind, ansonsten werden nur Dateien auf dem externen Speicher verschlüsselt",
     "Enable recovery key" : "Wiederherstellungsschlüssel aktivieren",
     "Disable recovery key" : "Wiederherstellungsschlüssel deaktivieren",
