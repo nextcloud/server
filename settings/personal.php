@@ -167,16 +167,16 @@ $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User:
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
 $tmpl->assign('displayName', OC_User::getDisplayName());
 
-$tmpl->assign('phone', isset($userData['phone']['value']) ? $userData['phone']['value'] : null);
-$tmpl->assign('website', isset($userData['website']['value']) ? $userData['website']['value'] : null);
-$tmpl->assign('address', isset($userData['address']['value']) ? $userData['address']['value'] : null);
+$tmpl->assign('phone', isset($userData['phone'][0]['value']) ? $userData['phone'][0]['value'] : null);
+$tmpl->assign('website', isset($userData['website'][0]['value']) ? $userData['website'][0]['value'] : null);
+$tmpl->assign('address', isset($userData['address'][0]['value']) ? $userData['address'][0]['value'] : null);
 
 $tmpl->assign('avatarScope', isset($userData['avatar']['scope']) ? $userData['avatar']['scope'] : 'contacts');
 $tmpl->assign('displayNameScope', isset($userData['displayName']['scope']) ? $userData['displayName']['scope'] : 'contacts');
-$tmpl->assign('phoneScope', isset($userData['phone']['scope']) ? $userData['phone']['scope'] : 'private');
-$tmpl->assign('emailScope', isset($userData['email']['scope']) ? $userData['email']['scope'] : 'private');
-$tmpl->assign('websiteScope', isset($userData['website']['scope']) ? $userData['website']['scope'] : 'private');
-$tmpl->assign('addressScope', isset($userData['address']['scope']) ? $userData['address']['scope'] : 'private');
+$tmpl->assign('phoneScope', isset($userData['phone'][0]['scope']) ? $userData['phone'][0]['scope'] : 'private');
+$tmpl->assign('emailScope', isset($userData['email'][0]['scope']) ? $userData['email'][0]['scope'] : 'private');
+$tmpl->assign('websiteScope', isset($userData['website'][0]['scope']) ? $userData['website'][0]['scope'] : 'private');
+$tmpl->assign('addressScope', isset($userData['address'][0]['scope']) ? $userData['address'][0]['scope'] : 'private');
 
 $tmpl->assign('enableAvatars', $config->getSystemValue('enable_avatars', true) === true);
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));

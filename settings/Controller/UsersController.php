@@ -530,10 +530,10 @@ class UsersController extends Controller {
 		$data = [
 			'avatar' =>  ['scope' => $avatarScope],
 			'displayName' => ['value' => $displayname, 'scope' => $displaynameScope],
-			'email' => ['value' => $email, 'scope' => $emailScope],
-			'website' => ['value' => $website, 'scope' => $websiteScope],
-			'address' => ['value' => $address, 'scope' => $addressScope],
-			'phone' => ['value' => $phone, 'scope' => $phoneScope]
+			'email' => [['value' => $email, 'scope' => $emailScope]],
+			'website' => [['value' => $website, 'scope' => $websiteScope]],
+			'address' => [['value' => $address, 'scope' => $addressScope]],
+			'phone' => [['value' => $phone, 'scope' => $phoneScope]]
 		];
 		
 		$this->accountManager->updateUser($userId, $data);
