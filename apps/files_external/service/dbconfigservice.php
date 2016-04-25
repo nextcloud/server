@@ -322,10 +322,19 @@ class DBConfigService {
 	private function getMountsFromQuery(IQueryBuilder $query) {
 		$result = $query->execute();
 		$mounts = $result->fetchAll();
+		$uniqueMounts = [];
+		foreach ($mounts as $mount) {
+			$id = $mount['mount_id'];
+			if (!isset($uniqueMounts[$id])) {
+				$uniqueMounts[$id] = $mount;
+			}
+		}
+		$uniqueMounts = array_values($uniqueMounts);
 
 		$mountIds = array_map(function ($mount) {
 			return $mount['mount_id'];
-		}, $mounts);
+		}, $uniqueMounts);
+		$mountIds = array_values(array_unique($mountIds));
 
 		$applicable = $this->getApplicableForMounts($mountIds);
 		$config = $this->getConfigForMounts($mountIds);
@@ -338,7 +347,7 @@ class DBConfigService {
 			$mount['config'] = $config;
 			$mount['options'] = $options;
 			return $mount;
-		}, $mounts, $applicable, $config, $options);
+		}, $uniqueMounts, $applicable, $config, $options);
 	}
 
 	/**
