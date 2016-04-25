@@ -110,8 +110,15 @@ function updateAvatar (hidedefault) {
 	}
 	$displaydiv.css({'background-color': ''});
 	$displaydiv.avatar(OC.currentUser, 145, true);
-
-	$('#removeavatar').removeClass('hidden').addClass('inlineblock');
+	$.get(OC.generateUrl(
+		'/avatar/{user}/{size}',
+		{user: OC.currentUser, size: 1}
+	), function (result) {
+		if (typeof(result) === 'string') {
+			// Show the delete button when the avatar is custom
+			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
+		}
+	});
 }
 
 function showAvatarCropper () {
