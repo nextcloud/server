@@ -126,7 +126,9 @@ class Updater implements IUpdater {
 		} else {
 			// scanner didn't provide size info, fallback to full size calculation
 			$sizeDifference = 0;
-			$this->cache->correctFolderSize($path, $data);
+			if ($this->cache instanceof Cache) {
+				$this->cache->correctFolderSize($path, $data);
+			}
 		}
 		$this->correctParentStorageMtime($path);
 		$this->propagator->propagateChange($path, $time, $sizeDifference);
@@ -148,7 +150,9 @@ class Updater implements IUpdater {
 		}
 
 		$this->cache->remove($path);
-		$this->cache->correctFolderSize($parent);
+		if ($this->cache instanceof Cache) {
+			$this->cache->correctFolderSize($parent);
+		}
 		$this->correctParentStorageMtime($path);
 		$this->propagator->propagateChange($path, time());
 	}
@@ -190,8 +194,12 @@ class Updater implements IUpdater {
 			$this->cache->update($fileId, ['mimetype' => $mimeType]);
 		}
 
-		$sourceCache->correctFolderSize($source);
-		$this->cache->correctFolderSize($target);
+		if ($sourceCache instanceof Cache) {
+			$sourceCache->correctFolderSize($source);
+		}
+		if ($this->cache instanceof Cache) {
+			$this->cache->correctFolderSize($target);
+		}
 		if ($sourceUpdater instanceof Updater) {
 			$sourceUpdater->correctParentStorageMtime($source);
 		}

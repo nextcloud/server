@@ -23,6 +23,7 @@
  */
 
 namespace OC\Files\Cache\Wrapper;
+use OC\Files\Cache\Cache;
 
 /**
  * Jail to a subdirectory of the wrapped cache
@@ -233,7 +234,9 @@ class CacheJail extends CacheWrapper {
 	 * @param array $data (optional) meta data of the folder
 	 */
 	public function correctFolderSize($path, $data = null) {
-		$this->cache->correctFolderSize($this->getSourcePath($path), $data);
+		if ($this->cache instanceof Cache) {
+			$this->cache->correctFolderSize($this->getSourcePath($path), $data);
+		}
 	}
 
 	/**
@@ -244,7 +247,12 @@ class CacheJail extends CacheWrapper {
 	 * @return int
 	 */
 	public function calculateFolderSize($path, $entry = null) {
-		return $this->cache->calculateFolderSize($this->getSourcePath($path), $entry);
+		if ($this->cache instanceof Cache) {
+			return $this->cache->calculateFolderSize($this->getSourcePath($path), $entry);
+		} else {
+			return 0;
+		}
+
 	}
 
 	/**
