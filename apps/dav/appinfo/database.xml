@@ -259,11 +259,13 @@ CREATE TABLE calendarobjects (
 			<name>firstoccurence</name>
 			<type>integer</type>
 			<unsigned>true</unsigned>
+			<length>11</length>
 		</field>
 		<field>
 			<name>lastoccurence</name>
 			<type>integer</type>
 			<unsigned>true</unsigned>
+			<length>11</length>
 		</field>
 		<field>
 			<name>uid</name>
