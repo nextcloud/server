@@ -1295,9 +1295,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		if(!$testConnection->setConfiguration($credentials)) {
 			return false;
 		}
-		$result=$testConnection->bind();
-		$this->ldap->unbind($this->connection->getConnectionResource());
-		return $result;
+		return $testConnection->bind();
 	}
 
 	/**
