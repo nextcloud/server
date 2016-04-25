@@ -163,4 +163,28 @@ class Scanner extends \Test\TestCase {
 		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 		$scanner->scan($invalidPath);
 	}
+
+	public function testPropagateEtag() {
+		$storage = new Temporary(array());
+		$mount = new MountPoint($storage, '');
+		Filesystem::getMountManager()->addMount($mount);
+		$cache = $storage->getCache();
+
+		$storage->mkdir('folder');
+		$storage->file_put_contents('folder/bar.txt', 'qwerty');
+		$storage->touch('folder/bar.txt', time() - 200);
+
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
+		$scanner->addMount($mount);
+
+		$scanner->scan('');
+		$this->assertTrue($cache->inCache('folder/bar.txt'));
+		$oldRoot = $cache->get('');
+
+		$storage->file_put_contents('folder/bar.txt', 'qwerty');
+		$scanner->scan('');
+		$newRoot = $cache->get('');
+
+		$this->assertNotEquals($oldRoot->getEtag(), $newRoot->getEtag());
+	}
 }
