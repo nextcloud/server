@@ -1,7 +1,9 @@
 <?php
+
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@owncloud.com>
@@ -31,8 +33,17 @@
 
 namespace OC\User;
 
+use OC;
+use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\DefaultTokenProvider;
+use OC\Authentication\Token\IProvider;
 use OC\Hooks\Emitter;
+use OC\Session\Session;
+use OC_User;
+use OCA\DAV\Connector\Sabre\Auth;
+use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
@@ -55,22 +66,42 @@ use OCP\IUserSession;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-	/** @var \OC\User\Manager $manager */
+
+	/*
+	 * @var Manager $manager
+	 */
 	private $manager;
 
-	/** @var \OC\Session\Session $session */
+	/*
+	 * @var Session $session
+	 */
 	private $session;
 
-	/** @var \OC\User\User $activeUser */
+	/*
+	 * @var DefaultTokenProvider
+	 */
+	private $tokenProvider;
+
+	/**
+	 * @var IProvider[]
+	 */
+	private $tokenProviders;
+
+	/**
+	 * @var User $activeUser
 	protected $activeUser;
 
 	/**
 	 * @param IUserManager $manager
 	 * @param ISession $session
+	 * @param IProvider[] $tokenProviders
 	 */
-	public function __construct(IUserManager $manager, ISession $session) {
+	public function __construct(IUserManager $manager, ISession $session,
+		DefaultTokenProvider $tokenProvider, array $tokenProviders = []) {
 		$this->manager = $manager;
 		$this->session = $session;
+		$this->tokenProvider = $tokenProvider;
+		$this->tokenProviders = $tokenProviders;
 	}
 
 	/**
@@ -87,14 +118,15 @@ class Session implements IUserSession, Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
-	public function removeListener($scope = null, $method = null, callable $callback = null) {
+	public function removeListener($scope = null, $method = null,
+		callable $callback = null) {
 		$this->manager->removeListener($scope, $method, $callback);
 	}
 
 	/**
 	 * get the manager object
 	 *
-	 * @return \OC\User\Manager
+	 * @return Manager
 	 */
 	public function getManager() {
 		return $this->manager;
@@ -125,7 +157,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * set the currently active user
 	 *
-	 * @param \OC\User\User|null $user
+	 * @param User|null $user
 	 */
 	public function setUser($user) {
 		if (is_null($user)) {
@@ -139,12 +171,12 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * get the current active user
 	 *
-	 * @return \OCP\IUser|null Current user, otherwise null
+	 * @return IUser|null Current user, otherwise null
 	 */
 	public function getUser() {
 		// FIXME: This is a quick'n dirty work-around for the incognito mode as
 		// described at https://github.com/owncloud/core/pull/12912#issuecomment-67391155
-		if (\OC_User::isIncognitoMode()) {
+		if (OC_User::isIncognitoMode()) {
 			return null;
 		}
 		if ($this->activeUser) {
@@ -242,6 +274,101 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * Tries to login the user with HTTP Basic Authentication
+	 */
+	public function tryBasicAuthLogin() {
+		if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
+			$result = $this->login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+			if ($result === true) {
+				/**
+				 * Add DAV authenticated. This should in an ideal world not be
+				 * necessary but the iOS App reads cookies from anywhere instead
+				 * only the DAV endpoint.
+				 * This makes sure that the cookies will be valid for the whole scope
+				 * @see https://github.com/owncloud/core/issues/22893
+				 */
+				$this->session->set(
+					Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
+				);
+			}
+		}
+	}
+
+	private function loginWithToken($uid) {
+		//$this->manager->emit('\OC\User', 'preTokenLogin', array($uid));
+		$user = $this->manager->get($uid);
+		if (is_null($user)) {
+			// user does not exist
+			return false;
+		}
+
+		//login
+		$this->setUser($user);
+		//$this->manager->emit('\OC\User', 'postTokenLogin', array($user));
+		return true;
+	}
+
+	/**
+	 * Create a new session token for the given user credentials
+	 *
+	 * @param string $uid user UID
+	 * @param string $password
+	 * @return boolean
+	 */
+	public function createSessionToken($uid, $password) {
+		if (is_null($this->manager->get($uid))) {
+			// User does not exist
+			return false;
+		}
+		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown device';
+		$token = $this->tokenProvider->generateToken($token, $uid, $password, $name);
+		return $this->loginWithToken($uid);
+	}
+
+	/**
+	 * @param string $token
+	 * @return boolean
+	 */
+	private function validateToken(IRequest $request, $token) {
+		// TODO: hash token
+		foreach ($this->tokenProviders as $provider) {
+			try {
+				$user = $provider->validateToken($token);
+				if (!is_null($user)) {
+					$result = $this->loginWithToken($user);
+					if ($result) {
+						// Login success
+						return true;
+					}
+				}
+			} catch (InvalidTokenException $ex) {
+				
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Tries to login the user with auth token header
+	 *
+	 * @todo check remember me cookie
+	 */
+	public function tryTokenLogin() {
+		// TODO: resolve cyclic dependency and inject IRequest somehow
+		$request = \OC::$server->getRequest();
+		$authHeader = $request->getHeader('Authorization');
+		if (strpos($authHeader, 'token ') === false) {
+			// No auth header, let's try session id
+			// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
+			$sessionId = session_id();
+			return $this->validateToken($request, $sessionId);
+		} else {
+			$token = substr($authHeader, 6);
+			return $this->validateToken($request, $token);
+		}
+	}
+
+	/**
 	 * perform login using the magic cookie (remember login)
 	 *
 	 * @param string $uid the username
@@ -258,15 +385,15 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// get stored tokens
-		$tokens = \OC::$server->getConfig()->getUserKeys($uid, 'login_token');
+		$tokens = OC::$server->getConfig()->getUserKeys($uid, 'login_token');
 		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
 			return false;
 		}
 		// replace successfully used token with a new one
-		\OC::$server->getConfig()->deleteUserValue($uid, 'login_token', $currentToken);
-		$newToken = \OC::$server->getSecureRandom()->generate(32);
-		\OC::$server->getConfig()->setUserValue($uid, 'login_token', $newToken, time());
+		OC::$server->getConfig()->deleteUserValue($uid, 'login_token', $currentToken);
+		$newToken = OC::$server->getSecureRandom()->generate(32);
+		OC::$server->getConfig()->setUserValue($uid, 'login_token', $newToken, time());
 		$this->setMagicInCookie($user->getUID(), $newToken);
 
 		//login
@@ -293,11 +420,11 @@ class Session implements IUserSession, Emitter {
 	 * @param string $token
 	 */
 	public function setMagicInCookie($username, $token) {
-		$secureCookie = \OC::$server->getRequest()->getServerProtocol() === 'https';
-		$expires = time() + \OC::$server->getConfig()->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		setcookie("oc_username", $username, $expires, \OC::$WEBROOT, '', $secureCookie, true);
-		setcookie("oc_token", $token, $expires, \OC::$WEBROOT, '', $secureCookie, true);
-		setcookie("oc_remember_login", "1", $expires, \OC::$WEBROOT, '', $secureCookie, true);
+		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
+		$expires = time() + OC::$server->getConfig()->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		setcookie("oc_username", $username, $expires, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie("oc_token", $token, $expires, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie("oc_remember_login", "1", $expires, OC::$WEBROOT, '', $secureCookie, true);
 	}
 
 	/**
@@ -305,18 +432,19 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function unsetMagicInCookie() {
 		//TODO: DI for cookies and IRequest
-		$secureCookie = \OC::$server->getRequest()->getServerProtocol() === 'https';
+		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
 
 		unset($_COOKIE["oc_username"]); //TODO: DI
 		unset($_COOKIE["oc_token"]);
 		unset($_COOKIE["oc_remember_login"]);
-		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT, '',$secureCookie, true);
-		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT, '', $secureCookie, true);
-		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('oc_username', '', time() - 3600, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('oc_token', '', time() - 3600, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('oc_remember_login', '', time() - 3600, OC::$WEBROOT, '', $secureCookie, true);
 		// old cookies might be stored under /webroot/ instead of /webroot
 		// and Firefox doesn't like it!
-		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT . '/', '', $secureCookie, true);
-		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('oc_username', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('oc_token', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+		setcookie('oc_remember_login', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
 	}
+
 }

@@ -1032,6 +1032,66 @@
 	</table>
 
 	<table>
+		<name>*dbprefix*authtoken</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>password</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>100</length>
+			</field>
+
+			<field>
+				<name>name</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>100</length>
+			</field>
+
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>100</length>
+			</field>
+
+			<index>
+				<name>authtoken_token_index</name>
+				<unique>true</unique>
+				<field>
+					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
 
 		<!--
 		List of tags (category) + a unique tag id (id) per user (uid) and type.

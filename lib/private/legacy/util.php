@@ -957,8 +957,7 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if (!OC_User::isLoggedIn()) {
-			header('Location: ' . \OC::$server->getURLGenerator()->linkToRoute(
-					'core.login.showLoginForm',
+			header('Location: ' . \OCP\Util::linkToAbsolute('', 'index.php',
 					[
 						'redirect_url' => \OC::$server->getRequest()->getRequestUri()
 					]

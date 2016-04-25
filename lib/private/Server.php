@@ -5,6 +5,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bernhard Reiter <ockham@raz.or.at>
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -208,12 +209,26 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $groupManager;
 		});
+		$this->registerService('DefaultTokenMapper', function (Server $c) {
+			$dbConnection = $c->getDatabaseConnection();
+			return new Authentication\Token\DefaultTokenMapper($dbConnection);
+		});
+		$this->registerService('DefaultTokenProvider', function (Server $c) {
+			$mapper = $c->query('DefaultTokenMapper');
+			$crypto = $c->getCrypto();
+			$config = $c->getConfig();
+			$logger = $c->getLogger();
+			return new \OC\Authentication\Token\DefaultTokenProvider($mapper, $crypto, $config, $logger);
+		});
 		$this->registerService('UserSession', function (Server $c) {
 			$manager = $c->getUserManager();
-
 			$session = new \OC\Session\Memory('');
+			$defaultTokenProvider = $c->query('DefaultTokenProvider');
+			$tokenProviders = [
+				$defaultTokenProvider,
+			];
 
-			$userSession = new \OC\User\Session($manager, $session);
+			$userSession = new \OC\User\Session($manager, $session, $defaultTokenProvider, $tokenProviders);
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});

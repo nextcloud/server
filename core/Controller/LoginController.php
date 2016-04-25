@@ -1,5 +1,7 @@
 <?php
+
 /**
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Lukas Reschke <lukas@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -21,7 +23,11 @@
 
 namespace OC\Core\Controller;
 
-use OC\Setup;
+use OC;
+use OC\User\Session;
+use OC_App;
+use OC_User;
+use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -31,17 +37,21 @@ use OCP\ISession;
 use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
-use OCP\IUserSession;
 
 class LoginController extends Controller {
+
 	/** @var IUserManager */
 	private $userManager;
+
 	/** @var IConfig */
 	private $config;
+
 	/** @var ISession */
 	private $session;
-	/** @var IUserSession */
+
+	/** @var Session */
 	private $userSession;
+
 	/** @var IURLGenerator */
 	private $urlGenerator;
 
@@ -51,16 +61,12 @@ class LoginController extends Controller {
 	 * @param IUserManager $userManager
 	 * @param IConfig $config
 	 * @param ISession $session
-	 * @param IUserSession $userSession
+	 * @param Session $userSession
 	 * @param IURLGenerator $urlGenerator
 	 */
-	function __construct($appName,
-						 IRequest $request,
-						 IUserManager $userManager,
-						 IConfig $config,
-						 ISession $session,
-						 IUserSession $userSession,
-						 IURLGenerator $urlGenerator) {
+	function __construct($appName, IRequest $request, IUserManager $userManager,
+		IConfig $config, ISession $session, Session $userSession,
+		IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -96,18 +102,16 @@ class LoginController extends Controller {
 	 *
 	 * @return TemplateResponse
 	 */
-	public function showLoginForm($user,
-								  $redirect_url,
-								  $remember_login) {
-		if($this->userSession->isLoggedIn()) {
-			return new RedirectResponse(\OC_Util::getDefaultPageUrl());
+	public function showLoginForm($user, $redirect_url, $remember_login) {
+		if ($this->userSession->isLoggedIn()) {
+			return new RedirectResponse(OC_Util::getDefaultPageUrl());
 		}
 
 		$parameters = array();
 		$loginMessages = $this->session->get('loginMessages');
 		$errors = [];
 		$messages = [];
-		if(is_array($loginMessages)) {
+		if (is_array($loginMessages)) {
 			list($errors, $messages) = $loginMessages;
 		}
 		$this->session->remove('loginMessages');
@@ -137,8 +141,8 @@ class LoginController extends Controller {
 			}
 		}
 
-		$parameters['alt_login'] = \OC_App::getAlternativeLogIns();
-		$parameters['rememberLoginAllowed'] = \OC_Util::rememberLoginAllowed();
+		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
+		$parameters['rememberLoginAllowed'] = OC_Util::rememberLoginAllowed();
 		$parameters['rememberLoginState'] = !empty($remember_login) ? $remember_login : 0;
 
 		if (!is_null($user) && $user !== '') {
@@ -150,11 +154,36 @@ class LoginController extends Controller {
 		}
 
 		return new TemplateResponse(
-			$this->appName,
-			'login',
-			$parameters,
-			'guest'
+			$this->appName, 'login', $parameters, 'guest'
 		);
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 * @UseSession
+	 *
+	 * @param string $user
+	 * @param string $password
+	 * @param string $redirect_url
+	 * @return RedirectResponse
+	 */
+	public function tryLogin($user, $password, $redirect_url) {
+		// TODO: Add all the insane error handling
+		if ($this->userManager->checkPassword($user, $password) === false) {
+			return new RedirectResponse($this->urlGenerator->linkToRoute('login#showLoginForm'));
+		}
+		$this->userSession->createSessionToken($user, $password);
+		if (!is_null($redirect_url) && $this->userSession->isLoggedIn()) {
+			$location = OC::$server->getURLGenerator()->getAbsoluteURL(urldecode($redirect_url));
+			// Deny the redirect if the URL contains a @
+			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
+			if (strpos($location, '@') === false) {
+				return new RedirectResponse($location);
+			}
+		}
+		// TODO: Show invalid login warning
+		return new RedirectResponse($this->urlGenerator->linkTo('files', 'index'));
 	}
 
 }

@@ -9,7 +9,7 @@ script('core', [
 ?>
 
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
-<form method="post" name="login" action="<?php p(OC::$WEBROOT) ?>/">
+<form method="post" name="login">
 	<fieldset>
 	<?php if (!empty($_['redirect_url'])) {
 		print_unescaped('<input type="hidden" name="redirect_url" value="' . \OCP\Util::sanitizeHTML($_['redirect_url']) . '">');
