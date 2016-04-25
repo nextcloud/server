@@ -175,6 +175,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getMimeTypeDetector();
 		});
 
+		$this->registerService('OCP\\Mail\\IMailer', function() {
+			return $this->getServer()->getMailer();
+		});
+
 		$this->registerService('OCP\\INavigationManager', function($c) {
 			return $this->getServer()->getNavigationManager();
 		});
