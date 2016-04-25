@@ -328,6 +328,7 @@ EOD;
 		$events[0] = $this->createEvent($calendarId, '20130912T130000Z', '20130912T140000Z');
 		$events[1] = $this->createEvent($calendarId, '20130912T150000Z', '20130912T170000Z');
 		$events[2] = $this->createEvent($calendarId, '20130912T173000Z', '20130912T220000Z');
+		$events[3] = $this->createEvent($calendarId, '21130912T130000Z', '22130912T130000Z');
 
 		$result = $this->backend->calendarQuery($calendarId, [
 			'name' => '',
@@ -351,11 +352,12 @@ EOD;
 
 	public function providesCalendarQueryParameters() {
 		return [
-			'all' => [[0, 1, 2], [], []],
+			'all' => [[0, 1, 2, 3], [], []],
 			'only-todos' => [[], ['name' => 'VTODO'], []],
-			'only-events' => [[0, 1, 2], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => null, 'end' => null], 'prop-filters' => []]],],
-			'start' => [[1, 2], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => new DateTime('2013-09-12 14:00:00', new DateTimeZone('UTC')), 'end' => null], 'prop-filters' => []]],],
+			'only-events' => [[0, 1, 2, 3], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => null, 'end' => null], 'prop-filters' => []]],],
+			'start' => [[1, 2, 3], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => new DateTime('2013-09-12 14:00:00', new DateTimeZone('UTC')), 'end' => null], 'prop-filters' => []]],],
 			'end' => [[0], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => null, 'end' => new DateTime('2013-09-12 14:00:00', new DateTimeZone('UTC'))], 'prop-filters' => []]],],
+			'future' => [[3], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => new DateTime('2099-09-12 14:00:00', new DateTimeZone('UTC')), 'end' => null], 'prop-filters' => []]],],
 		];
 	}
 
