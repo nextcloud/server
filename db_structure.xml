@@ -1080,6 +1080,15 @@
 			</field>
 
 			<field>
+				<name>type</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>2</length>
+			</field>
+
+			<field>
 				<name>last_activity</name>
 				<type>integer</type>
 				<default>0</default>
@@ -1093,6 +1102,14 @@
 				<unique>true</unique>
 				<field>
 					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>authtoken_last_activity_index</name>
+				<field>
+					<name>last_activity</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>

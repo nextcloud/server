@@ -49,6 +49,11 @@ class DefaultToken extends Entity implements IToken {
 	/**
 	 * @var int
 	 */
+	protected $type;
+
+	/**
+	 * @var int
+	 */
 	protected $lastActivity;
 
 	public function getId() {

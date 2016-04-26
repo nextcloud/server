@@ -50,9 +50,11 @@ class DefaultTokenMapper extends Mapper {
 	 */
 	public function invalidateOld($olderThan) {
 		$sql = 'DELETE FROM `' . $this->getTableName() . '` '
-			. 'WHERE `last_activity` < ?';
+			. 'WHERE `last_activity` < ? '
+			. 'AND `type` = ?';
 		$this->execute($sql, [
-			$olderThan
+			$olderThan,
+			IToken::TEMPORARY_TOKEN,
 		]);
 	}
 

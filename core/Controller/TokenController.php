@@ -24,6 +24,7 @@ namespace OC\Core\Controller;
 
 use OC\AppFramework\Http;
 use OC\Authentication\Token\DefaultTokenProvider;
+use OC\Authentication\Token\IToken;
 use OC\User\Manager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
@@ -49,7 +50,7 @@ class TokenController extends Controller {
 	 * @param ISecureRandom $crypto
 	 */
 	public function __construct($appName, IRequest $request, Manager $userManager, DefaultTokenProvider $tokenProvider,
-			ISecureRandom $crypto) {
+		ISecureRandom $crypto) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->tokenProvider = $tokenProvider;
@@ -73,7 +74,7 @@ class TokenController extends Controller {
 			return new Response([], Http::STATUS_UNAUTHORIZED);
 		}
 		$token = $this->secureRandom->generate(128);
-		$this->tokenProvider->generateToken($token, $user, $password, $name);
+		$this->tokenProvider->generateToken($token, $user, $password, $name, IToken::PERMANENT_TOKEN);
 		return [
 			'token' => $token,
 		];

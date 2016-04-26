@@ -27,6 +27,9 @@ namespace OC\Authentication\Token;
  */
 interface IToken {
 
+	const TEMPORARY_TOKEN = 0;
+	const PERMANENT_TOKEN = 1;
+
 	/**
 	 * Get the token ID
 	 *

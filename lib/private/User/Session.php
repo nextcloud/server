@@ -38,7 +38,6 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
 use OC\Hooks\Emitter;
-use OC\Session\Session;
 use OC_User;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\IRequest;
@@ -73,7 +72,7 @@ class Session implements IUserSession, Emitter {
 	private $manager;
 
 	/*
-	 * @var Session $session
+	 * @var ISession $session
 	 */
 	private $session;
 
@@ -219,7 +218,12 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// Session is valid, so the token can be refreshed
-		$this->tokenProvider->updateToken($token);
+		// To save unnecessary DB queries, this is only done once a minute
+		$lastTokenUpdate = $this->session->get('last_token_update') ? : 0;
+		if ($lastTokenUpdate < (time () - 60)) {
+			$this->tokenProvider->updateToken($token);
+			$this->session->set('last_token_update', time());
+		}
 
 		return true;
 	}
