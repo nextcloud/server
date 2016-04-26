@@ -32,6 +32,7 @@ use OC\AppFramework\Utility\TimeFactory;
 use OC\Core\Controller\AvatarController;
 use OC\Core\Controller\LoginController;
 use OC\Core\Controller\LostController;
+use OC\Core\Controller\TokenController;
 use OC\Core\Controller\UserController;
 use OC_Defaults;
 use OCP\AppFramework\App;
@@ -101,6 +102,15 @@ class Application extends App {
 				$c->query('Session'),
 				$c->query('UserSession'),
 				$c->query('URLGenerator')
+			);
+		});
+		$container->registerService('TokenController', function(SimpleContainer $c) {
+			return new TokenController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('UserManager'),
+				$c->query('OC\Authentication\Token\DefaultTokenProvider'),
+				$c->query('SecureRandom')
 			);
 		});
 

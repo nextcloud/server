@@ -353,7 +353,7 @@ class Session implements IUserSession, Emitter {
 			// User does not exist
 			return false;
 		}
-		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown device';
+		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
 		// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
 		$sessionId = session_id();
 		$token = $this->tokenProvider->generateToken($sessionId, $uid, $password, $name);

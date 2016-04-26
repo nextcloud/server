@@ -45,6 +45,7 @@ $application->registerRoutes($this, [
 		['name' => 'login#tryLogin', 'url' => '/login', 'verb' => 'POST'],
 		['name' => 'login#showLoginForm', 'url' => '/login', 'verb' => 'GET'],
 		['name' => 'login#logout', 'url' => '/logout', 'verb' => 'GET'],
+		['name' => 'token#generateToken', 'url' => '/token/generate', 'verb' => 'POST'],
 	],
 ]);
 
