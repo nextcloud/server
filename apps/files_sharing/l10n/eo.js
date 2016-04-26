@@ -66,8 +66,6 @@ OC.L10N.register(
     "You received \"/%2$s\" as a remote share from %1$s" : "Vi ricevis “/%2$s” kiel fora kunhavigo de %1$s",
     "Accept" : "Akcepti",
     "Decline" : "Malakcepti",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Kunhavigi kun mi per mia identigilo de #ownCloud-federnuba identigilo; vidu %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Kunhavigi kun mi per mia #ownCloud-federnuba identigilo",
     "This share is password-protected" : "Ĉi tiu kunhavigo estas protektata per pasvorto",
     "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove.",
     "Password" : "Pasvorto",
@@ -83,14 +81,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Aldoni al via ownCloud",
     "Download" : "Elŝuti",
     "Download %s" : "Elŝuti %s",
-    "Direct link" : "Direkta ligilo",
-    "Federated Cloud Sharing" : "Federnuba kunhavado",
-    "Open documentation" : "Malfermi la dokumentaron",
-    "Federated Cloud" : "Federa nubo",
-    "Your Federated Cloud ID:" : "Via federnuba identigilo:",
-    "Share it:" : "Kunhavigi ĝin:",
-    "Add to your website" : "Aldoni al via TTT-ejo",
-    "Share with me via ownCloud" : "Kunhavigi kun mi per ownCloud",
-    "HTML Code:" : "HTML-kodo:"
+    "Direct link" : "Direkta ligilo"
 },
 "nplurals=2; plural=(n != 1);");

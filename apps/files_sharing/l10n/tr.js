@@ -74,8 +74,6 @@ OC.L10N.register(
     "You received \"/%2$s\" as a remote share from %1$s" : "%1$s kişisinden \"/%2$s\" uzak paylaşımını aldınız",
     "Accept" : "Kabul et",
     "Decline" : "Reddet",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud Birleşik Bulut kimliğim ile paylaş, bkz %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "#ownCloud Birleşmiş Bulut kimliğim ile paylaş",
     "This share is password-protected" : "Bu paylaşım parola korumalı",
     "The password is wrong. Try again." : "Parola hatalı. Yeniden deneyin.",
     "Password" : "Parola",
@@ -91,16 +89,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "ownCloud'ınıza Ekleyin",
     "Download" : "İndir",
     "Download %s" : "İndir: %s",
-    "Direct link" : "Doğrudan bağlantı",
-    "Federated Cloud Sharing" : "Birleşmiş Bulut Paylaşımı",
-    "Open documentation" : "Belgelendirmeyi aç",
-    "Allow users on this server to send shares to other servers" : "Bu sunucudaki kullanıcıların diğer sunuculara paylaşım göndermelerine izin ver",
-    "Allow users on this server to receive shares from other servers" : "Bu sunucudaki kullanıcıların diğer sunuculardan paylaşım almalarına izin ver",
-    "Federated Cloud" : "Birleşmiş Bulut",
-    "Your Federated Cloud ID:" : "Birleşmiş Bulut Kimliğiniz:",
-    "Share it:" : "Paylaşın:",
-    "Add to your website" : "Web sitenize ekleyin",
-    "Share with me via ownCloud" : "Benimle ownCloud aracılığıyla paylaşın",
-    "HTML Code:" : "HTML Kodu:"
+    "Direct link" : "Doğrudan bağlantı"
 },
 "nplurals=2; plural=(n > 1);");

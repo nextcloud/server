@@ -103,6 +103,7 @@
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Uveljavljanje sprememb prek PHP-FPM lahko traja tudi 5  minut.",
     "Missing permissions to edit from here." : "Ni ustreznih dovoljenj za urejanje na tej ravni.",
     "Settings" : "Nastavitve",
+    "Show hidden files" : "Pokaži skrite datoteke",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Uporabite naslov <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> za dostop do datotek prek sistema WebDAV</a>.",
     "Cancel upload" : "Prekliči pošiljanje",

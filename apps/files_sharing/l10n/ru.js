@@ -74,8 +74,6 @@ OC.L10N.register(
     "You received \"/%2$s\" as a remote share from %1$s" : "Вы получили доступ к \"/%2$s\" от пользователя %1$s",
     "Accept" : "Принять",
     "Decline" : "Отклонить",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Поделитесь со мной через мой #ownCloud ID в объединении облачных хранилищ, смотрите %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Поделитесь со мной через мой #ownCloud ID в объединении облачных хранилищ",
     "This share is password-protected" : "Общий ресурс защищен паролем",
     "The password is wrong. Try again." : "Неверный пароль. Попробуйте еще раз.",
     "Password" : "Пароль",
@@ -91,16 +89,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Добавить в свой ownCloud",
     "Download" : "Скачать",
     "Download %s" : "Скачать %s",
-    "Direct link" : "Прямая ссылка",
-    "Federated Cloud Sharing" : "Объединение облачных хранилищ",
-    "Open documentation" : "Открыть документацию",
-    "Allow users on this server to send shares to other servers" : "Разрешить пользователям делиться с пользователями других серверов",
-    "Allow users on this server to receive shares from other servers" : "Разрешить пользователям использовать общие ресурсы с других серверов",
-    "Federated Cloud" : "Объединение облачных хранилищ",
-    "Your Federated Cloud ID:" : "Ваш ID в объединении облачных хранилищ:",
-    "Share it:" : "Поделись этим:",
-    "Add to your website" : "Добавить к себе на сайт",
-    "Share with me via ownCloud" : "Поделитесь мной через ownCloud",
-    "HTML Code:" : "HTML код:"
+    "Direct link" : "Прямая ссылка"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

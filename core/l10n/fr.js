@@ -160,6 +160,7 @@ OC.L10N.register(
     "Send" : "Envoyer",
     "Sending ..." : "Envoi…",
     "Email sent" : "Courriel envoyé",
+    "Send link via email" : "Envoyer le lien par mail",
     "Shared with you and the group {group} by {owner}" : "Partagé avec vous et le groupe {group} par {owner}",
     "Shared with you by {owner}" : "Partagé avec vous par {owner}",
     "group" : "groupe",

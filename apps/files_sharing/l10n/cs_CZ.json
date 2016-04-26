@@ -72,8 +72,6 @@
     "You received \"/%2$s\" as a remote share from %1$s" : "Obdržel(a) jsi \"/%2$s\" jako vzdálené sdílení od %1$s",
     "Accept" : "Přijmout",
     "Decline" : "Zamítnout",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID, více na %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
     "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
     "Password" : "Heslo",
@@ -89,16 +87,6 @@
     "Add to your ownCloud" : "Přidat do svého ownCloudu",
     "Download" : "Stáhnout",
     "Download %s" : "Stáhnout %s",
-    "Direct link" : "Přímý odkaz",
-    "Federated Cloud Sharing" : "Propojené cloudové sdílení",
-    "Open documentation" : "Otevřít dokumentaci",
-    "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery",
-    "Allow users on this server to receive shares from other servers" : "Povolit uživatelům z tohoto serveru přijímat sdílení z jiných serverů",
-    "Federated Cloud" : "Sdružený cloud",
-    "Your Federated Cloud ID:" : "Vaše sdružené cloud ID:",
-    "Share it:" : "Sdílet:",
-    "Add to your website" : "Přidat na svou webovou stránku",
-    "Share with me via ownCloud" : "Sdíleno se mnou přes ownCloud",
-    "HTML Code:" : "HTML kód:"
+    "Direct link" : "Přímý odkaz"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

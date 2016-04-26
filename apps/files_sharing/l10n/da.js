@@ -56,8 +56,6 @@ OC.L10N.register(
     "Shares" : "Delt",
     "Accept" : "Acceptér",
     "Decline" : "Afvis",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med mig gennem min #ownCloud Federated Cloud ID, se %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Del med mig gennem min #ownCloud Federated Cloud ID",
     "This share is password-protected" : "Delingen er beskyttet af kodeord",
     "The password is wrong. Try again." : "Kodeordet er forkert. Prøv igen.",
     "Password" : "Kodeord",
@@ -73,16 +71,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Tilføj til din ownCload",
     "Download" : "Hent",
     "Download %s" : "Hent %s",
-    "Direct link" : "Direkte link",
-    "Federated Cloud Sharing" : "Sammensluttet Cloud deling",
-    "Open documentation" : "Åben dokumentation",
-    "Allow users on this server to send shares to other servers" : "Tillad brugere på denne server, at sende delinger til andre servere",
-    "Allow users on this server to receive shares from other servers" : "Tillad brugere på denne server, at modtage delinger fra andre servere",
-    "Federated Cloud" : "Federated Cloud",
-    "Your Federated Cloud ID:" : "Din Federated Cloud ID:",
-    "Share it:" : "Del:",
-    "Add to your website" : "Tilføj til dit websted",
-    "Share with me via ownCloud" : "Del med mig gennem ownCloud",
-    "HTML Code:" : "HTMLkode:"
+    "Direct link" : "Direkte link"
 },
 "nplurals=2; plural=(n != 1);");

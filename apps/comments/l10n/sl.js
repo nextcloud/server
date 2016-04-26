@@ -1,7 +1,7 @@
 OC.L10N.register(
     "comments",
     {
-    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Komentarji</strong> za datoteke <em>(vedno prikaži)</em>",
+    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Opombe</strong> k datotekam <em>(vedno pokaži)</em>",
     "You commented" : "Vaša opomba",
     "%1$s commented" : "%1$s opomb",
     "You commented on %2$s" : "Napisali ste opombo na %2$s",

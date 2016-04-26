@@ -2,6 +2,18 @@
     "Invalid Federated Cloud ID" : "ID Federated Cloud e pavlefshme",
     "Sharing %s failed, because this item is already shared with %s" : "Ndarja për %s dështoi, ngaqë ky objekt është ndarë një herë me %s",
     "Not allowed to create a federated share with the same user" : "S’i lejohet të krijojë një ndarje të federuar me të njëjtin përdorues",
-    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Ndarja për %s dështoi, s’u gjet dot %s, ndoshta shërbyesi është hëpërhë jashtë pune."
+    "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Ndarja për %s dështoi, s’u gjet dot %s, ndoshta shërbyesi është hëpërhë jashtë pune.",
+    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #ownCloud Federated Cloud, shihni %s",
+    "Share with me through my #ownCloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #ownCloud Federated Cloud",
+    "Federated Cloud Sharing" : "Ndarje Në Re të Federuar ",
+    "Open documentation" : "Hap dokumentimin",
+    "Allow users on this server to send shares to other servers" : "Lejoju përdoruesve në këtë shërbyes të dërgojnë ndarje në shërbyes të tjerë",
+    "Allow users on this server to receive shares from other servers" : "Lejoju përdoruesve në këtë shërbyes të marrin ndarje nga shërbyes të tjerë",
+    "Federated Cloud" : "Re e Federuar",
+    "Your Federated Cloud ID:" : "ID-ja juaj për Re të Federuar:",
+    "Share it:" : "Ndajeni:",
+    "Add to your website" : "Shtojeni te sajti juaj",
+    "Share with me via ownCloud" : "Ndani me mua përmes ownCloud-it",
+    "HTML Code:" : "Kod HTML:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

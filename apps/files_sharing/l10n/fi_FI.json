@@ -60,8 +60,6 @@
     "You received \"/%2$s\" as a remote share from %1$s" : "Vastaanotit kohteen \"/%2$s\" etäjakona käyttäjältä %1$s",
     "Accept" : "Hyväksy",
     "Decline" : "Kieltäydy",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Jaa kanssani käyttäen #ownCloud ja federoitua pilvitunnistetta, katso %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Jaa kanssani käyttäen #ownCloud ja federoitua pilvitunnistetta",
     "This share is password-protected" : "Tämä jako on suojattu salasanalla",
     "The password is wrong. Try again." : "Väärä salasana. Yritä uudelleen.",
     "Password" : "Salasana",
@@ -77,16 +75,6 @@
     "Add to your ownCloud" : "Lisää ownCloudiisi",
     "Download" : "Lataa",
     "Download %s" : "Lataa %s",
-    "Direct link" : "Suora linkki",
-    "Federated Cloud Sharing" : "Federoitu pilvijakaminen",
-    "Open documentation" : "Avaa dokumentaatio",
-    "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille",
-    "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta",
-    "Federated Cloud" : "Federoitu pilvi",
-    "Your Federated Cloud ID:" : "Federoidun pilvesi tunniste:",
-    "Share it:" : "Jaa se:",
-    "Add to your website" : "Lisää verkkosivuillesi",
-    "Share with me via ownCloud" : "Jaa kanssani ownCloudin kautta",
-    "HTML Code:" : "HTML-koodi:"
+    "Direct link" : "Suora linkki"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

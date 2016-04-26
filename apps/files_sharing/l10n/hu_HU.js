@@ -55,8 +55,6 @@ OC.L10N.register(
     "Shares" : "Megosztások",
     "Accept" : "Elfogadás",
     "Decline" : "Elutasítás",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével, lásd %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével ",
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",
     "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
     "Password" : "Jelszó",
@@ -72,16 +70,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Adjuk hozzá a saját ownCloudunkhoz",
     "Download" : "Letöltés",
     "Download %s" : "%s letöltése",
-    "Direct link" : "Közvetlen link",
-    "Federated Cloud Sharing" : "Megosztás Egyesített Felhőben",
-    "Open documentation" : "Dokumentáció megnyitása",
-    "Allow users on this server to send shares to other servers" : "Engedélyezze ezen szerver felhasználóinak, hogy fájlokat osszanak meg más szerverekkel.",
-    "Allow users on this server to receive shares from other servers" : "Engedélyezze ezen szerver felhasználóinak, hogy megosztásokat fogadjanak más szerverektől",
-    "Federated Cloud" : "Egyesített felhő",
-    "Your Federated Cloud ID:" : "Egyesített felhő azonosító:",
-    "Share it:" : "Ossza meg:",
-    "Add to your website" : "Adja hozzá saját weboldalához",
-    "Share with me via ownCloud" : "Ossza meg velem ownCloud-on keresztül",
-    "HTML Code:" : "HTML kód:"
+    "Direct link" : "Közvetlen link"
 },
 "nplurals=2; plural=(n != 1);");

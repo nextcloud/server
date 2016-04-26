@@ -10,7 +10,6 @@ OC.L10N.register(
     "No entries found in this folder" : "Keng Elementer an dësem Dossier fonnt",
     "Name" : "Numm",
     "Download" : "Download",
-    "Direct link" : "Direkte Link",
-    "Open documentation" : "Dokumentatioun opmaachen"
+    "Direct link" : "Direkte Link"
 },
 "nplurals=2; plural=(n != 1);");

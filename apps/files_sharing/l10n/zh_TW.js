@@ -55,8 +55,6 @@ OC.L10N.register(
     "Shares" : "分享",
     "Accept" : "接受",
     "Decline" : "拒絕",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "可透過我的 #ownCloud 聯盟雲端 ID，與我分享，請看 %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "可透過我的 #ownCloud 聯盟雲端 ID，與我分享",
     "This share is password-protected" : "這個分享有密碼保護",
     "The password is wrong. Try again." : "請檢查您的密碼並再試一次",
     "Password" : "密碼",
@@ -72,16 +70,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "加入到你的 ownCloud",
     "Download" : "下載",
     "Download %s" : "下載 %s",
-    "Direct link" : "直接連結",
-    "Federated Cloud Sharing" : "聯盟式雲端分享",
-    "Open documentation" : "開啟文件",
-    "Allow users on this server to send shares to other servers" : "允許這台伺服器上的使用者發送分享給其他伺服器",
-    "Allow users on this server to receive shares from other servers" : "允許這台伺服器上的使用者發送接收來自其他伺服器的分享",
-    "Federated Cloud" : "聯盟式雲端",
-    "Your Federated Cloud ID:" : "您的雲端聯盟 ID：",
-    "Share it:" : "分享它：",
-    "Add to your website" : "新增至您的網站",
-    "Share with me via ownCloud" : "透過 ownCloud 與我分享",
-    "HTML Code:" : "HTML Code:"
+    "Direct link" : "直接連結"
 },
 "nplurals=1; plural=0;");

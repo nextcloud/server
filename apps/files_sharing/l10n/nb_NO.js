@@ -74,8 +74,6 @@ OC.L10N.register(
     "You received \"/%2$s\" as a remote share from %1$s" : "Du mottok \"/%2$s\" som en ekstern deling fra %1$s",
     "Accept" : "Aksepter",
     "Decline" : "Avslå",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med meg gjennom min #ownCloud ID for sammenknyttet sky, se %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Del med meg gjennom min #ownCloud ID for sammenknyttet sky",
     "This share is password-protected" : "Denne delingen er passordbeskyttet",
     "The password is wrong. Try again." : "Passordet er feil. Prøv på nytt.",
     "Password" : "Passord",
@@ -91,16 +89,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Legg til i din ownCloud",
     "Download" : "Last ned",
     "Download %s" : "Last ned %s",
-    "Direct link" : "Direkte lenke",
-    "Federated Cloud Sharing" : "Sammenknyttet sky-deling",
-    "Open documentation" : "Åpne dokumentasjonen",
-    "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne serveren sender delinger til andre servere",
-    "Allow users on this server to receive shares from other servers" : "Tillat at brukere på denne serveren mottar delinger fra andre servere",
-    "Federated Cloud" : "Sammenknyttet sky",
-    "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
-    "Share it:" : "Del den:",
-    "Add to your website" : "Legg på websiden din",
-    "Share with me via ownCloud" : "Del med meg via ownCloud",
-    "HTML Code:" : "HTML-kode:"
+    "Direct link" : "Direkte lenke"
 },
 "nplurals=2; plural=(n != 1);");

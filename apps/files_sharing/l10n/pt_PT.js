@@ -74,8 +74,6 @@ OC.L10N.register(
     "You received \"/%2$s\" as a remote share from %1$s" : "Recebeu \"/%2$s\" como uma partilha remota de %1$s",
     "Accept" : "Aceitar",
     "Decline" : "Recusar",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Partilhe comigo através da minha Id. da Nuvem Federada #ownCloud, veja %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Partilhe comigo através da minha Id. da Nuvem Federada #ownCloud",
     "This share is password-protected" : "Esta partilha está protegida por senha",
     "The password is wrong. Try again." : "A senha está errada. Por favor, tente de novo.",
     "Password" : "Senha",
@@ -91,16 +89,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Adicionar à sua ownCloud",
     "Download" : "Transferir",
     "Download %s" : "Transferir %s",
-    "Direct link" : "Hiperligação direta",
-    "Federated Cloud Sharing" : "Partilha de Nuvem Federada",
-    "Open documentation" : "Abrir documentação",
-    "Allow users on this server to send shares to other servers" : "Permitir utilizadores neste servidor para enviar as partilhas para outros servidores",
-    "Allow users on this server to receive shares from other servers" : "Permitir utilizadores neste servidor para receber as partilhas de outros servidores",
-    "Federated Cloud" : "Nuvem Federada",
-    "Your Federated Cloud ID:" : "A Sua Id. da Nuvem Federada",
-    "Share it:" : "Partilhe:",
-    "Add to your website" : "Adicione ao seu sítio da Web",
-    "Share with me via ownCloud" : "Partilhe comigo via ownCloud",
-    "HTML Code:" : "Código HTML:"
+    "Direct link" : "Hiperligação direta"
 },
 "nplurals=2; plural=(n != 1);");

@@ -74,8 +74,6 @@ OC.L10N.register(
     "You received \"/%2$s\" as a remote share from %1$s" : "U ontving \"/%2$s\" als een externe share van %1$s",
     "Accept" : "Accepteren",
     "Decline" : "Afwijzen",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Deel met mij via mijn #ownCloud federated Cloud ID, zie %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Deel met mij via mijn #ownCloud federated Cloud ID",
     "This share is password-protected" : "Deze share is met een wachtwoord beveiligd",
     "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
     "Password" : "Wachtwoord",
@@ -91,16 +89,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Toevoegen aan uw ownCloud",
     "Download" : "Downloaden",
     "Download %s" : "Download %s",
-    "Direct link" : "Directe link",
-    "Federated Cloud Sharing" : "Federated Cloud Sharing",
-    "Open documentation" : "Open documentatie",
-    "Allow users on this server to send shares to other servers" : "Toestaan dat gebruikers op deze server shares sturen naar andere servers",
-    "Allow users on this server to receive shares from other servers" : "Toestaan dat gebruikers op deze server shares ontvangen van andere servers",
-    "Federated Cloud" : "Gefedereerde Cloud",
-    "Your Federated Cloud ID:" : "Uw Federated Cloud ID:",
-    "Share it:" : "Deel het:",
-    "Add to your website" : "Toevoegen aan uw website",
-    "Share with me via ownCloud" : "Deel met mij via ownCloud",
-    "HTML Code:" : "HTML Code:"
+    "Direct link" : "Directe link"
 },
 "nplurals=2; plural=(n != 1);");

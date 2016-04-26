@@ -74,8 +74,6 @@ OC.L10N.register(
     "You received \"/%2$s\" as a remote share from %1$s" : "Ju erdhi \"/%2$s\" si ndarje e largët prej %1$s",
     "Accept" : "Pranoje",
     "Decline" : "Hidhe poshtë",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #ownCloud Federated Cloud, shihni %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #ownCloud Federated Cloud",
     "This share is password-protected" : "Kjo pjesë është e mbrojtur me fjalëkalim",
     "The password is wrong. Try again." : "Fjalëkalimi është i gabuar. Riprovoni.",
     "Password" : "Fjalëkalim",
@@ -91,16 +89,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Shtojeni te ownCloud-i juaj",
     "Download" : "Shkarko",
     "Download %s" : "Shkarko %s",
-    "Direct link" : "Lidhje e drejtpërdrejtë",
-    "Federated Cloud Sharing" : "Ndarje e Federuar Në Re",
-    "Open documentation" : "Hap dokumentimin",
-    "Allow users on this server to send shares to other servers" : "Lejoju përdoruesve në këtë shërbyes të dërgojnë ndarje në shërbyes të tjerë",
-    "Allow users on this server to receive shares from other servers" : "Lejoju përdoruesve në këtë shërbyes të marrin ndarje nga shërbyes të tjerë",
-    "Federated Cloud" : "Re e Federuar",
-    "Your Federated Cloud ID:" : "ID-ja juaj për Re të Federuar:",
-    "Share it:" : "Ndajeni:",
-    "Add to your website" : "Shtojeni te sajti juaj",
-    "Share with me via ownCloud" : "Ndani me mua përmes ownCloud-it",
-    "HTML Code:" : "Kod HTML:"
+    "Direct link" : "Lidhje e drejtpërdrejtë"
 },
 "nplurals=2; plural=(n != 1);");

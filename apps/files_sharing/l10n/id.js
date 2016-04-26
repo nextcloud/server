@@ -54,8 +54,6 @@ OC.L10N.register(
     "Shares" : "Dibagikan",
     "Accept" : "Terima",
     "Decline" : "Tolak",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Dibagikan pada saya melalui #ownCloud Federated Cloud ID saya, lihat %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Dibagikan pada saya melalui #ownCloud Federated Cloud ID saya",
     "This share is password-protected" : "Berbagi ini dilindungi sandi",
     "The password is wrong. Try again." : "Sandi salah. Coba lagi",
     "Password" : "Sandi",
@@ -71,16 +69,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Tambahkan ke ownCloud Anda",
     "Download" : "Unduh",
     "Download %s" : "Unduh %s",
-    "Direct link" : "Tautan langsung",
-    "Federated Cloud Sharing" : "Federated Cloud Sharing",
-    "Open documentation" : "Buka dokumentasi",
-    "Allow users on this server to send shares to other servers" : "Izinkan para pengguna di server ini untuk mengirimkan berbagi ke server lainnya.",
-    "Allow users on this server to receive shares from other servers" : "Izinkan para pengguna di server ini untuk menerima berbagi ke server lainnya.",
-    "Federated Cloud" : "Federated Cloud",
-    "Your Federated Cloud ID:" : "Federated Cloud ID Anda:",
-    "Share it:" : "Bagikan:",
-    "Add to your website" : "Tambahkan pada situs web Anda",
-    "Share with me via ownCloud" : "Dibagikan pada saya via ownCloud",
-    "HTML Code:" : "Kode HTML:"
+    "Direct link" : "Tautan langsung"
 },
 "nplurals=1; plural=0;");

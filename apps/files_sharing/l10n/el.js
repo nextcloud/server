@@ -54,8 +54,6 @@ OC.L10N.register(
     "Shares" : "Κοινόχρηστοι φάκελοι",
     "Accept" : "Αποδοχή",
     "Decline" : "Απόρριψη",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Διαμοιρασμός με εμένα μέσω του #ownCloud Federated Cloud ID μου, δείτε %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Διαμοιρασμός με εμένα μέσω του #ownCloud Federated Cloud ID μου",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
     "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",
     "Password" : "Κωδικός πρόσβασης",
@@ -71,16 +69,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Προσθήκη στο ownCloud σου",
     "Download" : "Λήψη",
     "Download %s" : "Λήψη %s",
-    "Direct link" : "Άμεσος σύνδεσμος",
-    "Federated Cloud Sharing" : "Διαμοιρασμός σε ομόσπονδα σύννεφα ",
-    "Open documentation" : "Ανοιχτή τεκμηρίωση.",
-    "Allow users on this server to send shares to other servers" : "Να επιτρέπεται σε χρήστες αυτού του διακομιστή να στέλνουν διαμοιρασμένους φακέλους σε άλλους διακομιστές",
-    "Allow users on this server to receive shares from other servers" : "Να επιτρέπεται στους χρίστες του διακομιστή να λαμβάνουν διαμοιρασμένα αρχεία από άλλους διακομιστές",
-    "Federated Cloud" : "Federated σύννεφο",
-    "Your Federated Cloud ID:" : "Το ID σας στο Federated Cloud:",
-    "Share it:" : "Μοιραστείτε το:",
-    "Add to your website" : "Προσθήκη στην ιστοσελίδα σας",
-    "Share with me via ownCloud" : "Διαμοιρασμός με εμένα μέσω του ",
-    "HTML Code:" : "Κώδικας HTML:"
+    "Direct link" : "Άμεσος σύνδεσμος"
 },
 "nplurals=2; plural=(n != 1);");

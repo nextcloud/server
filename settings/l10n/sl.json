@@ -168,6 +168,7 @@
     "The logfile is bigger than 100 MB. Downloading it may take some time!" : "Dnevniškega datoteka je večja od 100 MB. Hitrost prejema je odvisna od širokopasovne povezave!",
     "What to log" : "Kaj naj se beleži?",
     "SQLite is used as database. For larger installations we recommend to switch to a different database backend." : "Uporabljena zbirka je SQLite. Za obsežnejše sisteme je priporočljiv prehod na drugo vrsto zbirke.",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Uporaba SQLite ni priporočljiva iz varnostnih razlogov, še posebej če se sistem krajevno usklajuje z namizjem prek odjemalca.",
     "How to do backups" : "Kako ustvariti varnostne kopije",
     "Advanced monitoring" : "Napredno sledenje",
     "Performance tuning" : "Prilagajanje delovanja",

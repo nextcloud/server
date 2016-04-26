@@ -74,8 +74,6 @@ OC.L10N.register(
     "You received \"/%2$s\" as a remote share from %1$s" : "Você recebeu \"/%2$s\" como um compartilhamento remoto de %1$s",
     "Accept" : "Aceitar",
     "Decline" : "Rejeitar",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Compartilhe comigo através do meu #ownCloud Nuvem ID Associada, veja %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Compartilhe comigo através do meu #ownCloud Nuvem ID Associada",
     "This share is password-protected" : "Este compartilhamento esta protegido por senha",
     "The password is wrong. Try again." : "Senha incorreta. Tente novamente.",
     "Password" : "Senha",
@@ -91,16 +89,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Adiconar ao seu ownCloud",
     "Download" : "Baixar",
     "Download %s" : "Baixar %s",
-    "Direct link" : "Link direto",
-    "Federated Cloud Sharing" : "Compartilhamento de Nuvem Associada",
-    "Open documentation" : "Abrir documentação",
-    "Allow users on this server to send shares to other servers" : "Permitir que os usuários deste servidor enviem compartilhamentos para outros servidores",
-    "Allow users on this server to receive shares from other servers" : "Permitir que os usuários nesse servidor recebam compartilhamentos de outros servidores",
-    "Federated Cloud" : "Nuvem Associada",
-    "Your Federated Cloud ID:" : "Sua ID na Nuvem Associada:",
-    "Share it:" : "Compartilhe:",
-    "Add to your website" : "Adicione ao seu website",
-    "Share with me via ownCloud" : "Compartilhe comigo via ownCloud",
-    "HTML Code:" : "Código HTML:"
+    "Direct link" : "Link direto"
 },
 "nplurals=2; plural=(n > 1);");

@@ -103,6 +103,7 @@
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Силно препоръчваме инсталиране на необходимите паките на системата, за поддръжка на следните местоположения: %s.",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Ако инсталацията не е в основата на вашия домейн и използва системния cron, могат да възникнат проблеми с генерирането на URLи. За избягване на тези проблеми, моля настройте <code>overwrite.cli.url</code> опцията в config.php файла с мрежовия път към вашята инсталация (Вероятно : \\\"%s\\\")",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Не бе възможно да изпълним cron задачата през команден интерфейс. Следните технически грешки се появиха:",
+    "Open documentation" : "Отвори документацията",
     "Allow apps to use the Share API" : "Разреши приложенията да използват Share API.",
     "Allow users to share via link" : "Разреши потребителите да споделят с връзка",
     "Enforce password protection" : "Изискай защита с парола.",

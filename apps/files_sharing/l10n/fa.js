@@ -44,8 +44,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "افزودن به ownCloud شما",
     "Download" : "دانلود",
     "Download %s" : "دانلود %s",
-    "Direct link" : "پیوند مستقیم",
-    "Open documentation" : "بازکردن مستند",
-    "HTML Code:" : "کد HTML :"
+    "Direct link" : "پیوند مستقیم"
 },
 "nplurals=1; plural=0;");

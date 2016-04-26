@@ -62,16 +62,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "添加到您的 ownCloud",
     "Download" : "下载",
     "Download %s" : "下载 %s",
-    "Direct link" : "直接链接",
-    "Federated Cloud Sharing" : "联合云共享",
-    "Open documentation" : "打开文档",
-    "Allow users on this server to send shares to other servers" : "允许用户分享文件给其他服务器上的用户",
-    "Allow users on this server to receive shares from other servers" : "允许用户从其他服务器接收分享",
-    "Federated Cloud" : "联合云",
-    "Your Federated Cloud ID:" : "你的联合云ID：",
-    "Share it:" : "分享它：",
-    "Add to your website" : "添加到您的网站",
-    "Share with me via ownCloud" : "通过联合云与我共享",
-    "HTML Code:" : "HTML 代码:"
+    "Direct link" : "直接链接"
 },
 "nplurals=1; plural=0;");

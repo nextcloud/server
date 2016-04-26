@@ -45,14 +45,12 @@
     "Downloaded via public link" : "Prejeto preko javne povezave",
     "Shared with %2$s" : "Omogočena souporaba z %2$s",
     "Shared via public link" : "Omogočena javna povezava za souporabo",
-    "Removed public link" : "Javno dostopna povezava odstranjena",
+    "Removed public link" : "Javno povezava je odstranjena",
     "Public link expired" : "Javna povezava je potekla",
     "Shared by %2$s" : "Omogočena souporaba iz strani %2$s",
     "Shares" : "Souporaba",
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Omogoči souporabo prek #ownCloud ID zveznega oblaka, več na %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Omogoči souporabo prek #ownCloud ID zveznega oblaka",
     "This share is password-protected" : "To mesto je zaščiteno z geslom.",
     "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
     "Password" : "Geslo",
@@ -68,16 +66,6 @@
     "Add to your ownCloud" : "Dodaj v svoj oblak ownCloud",
     "Download" : "Prejmi",
     "Download %s" : "Prejmi %s",
-    "Direct link" : "Neposredna povezava",
-    "Federated Cloud Sharing" : "Souporaba zveznega oblaka",
-    "Open documentation" : "Odpri dokumentacijo",
-    "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike.",
-    "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map za souporabo z drugih strežnikov.",
-    "Federated Cloud" : "Zvezni oblak",
-    "Your Federated Cloud ID:" : "Vaš ID zveznega oblaka:",
-    "Share it:" : "Omogoči souporabo:",
-    "Add to your website" : "Dodaj na spletišče",
-    "Share with me via ownCloud" : "Omogoči souporabo prek ownCloud",
-    "HTML Code:" : "Koda HTML:"
+    "Direct link" : "Neposredna povezava"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

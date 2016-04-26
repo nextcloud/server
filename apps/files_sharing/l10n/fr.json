@@ -72,8 +72,6 @@
     "You received \"/%2$s\" as a remote share from %1$s" : "L'utilisateur %1$s a partagé la ressource distante %2$s avec vous",
     "Accept" : "Accepter",
     "Decline" : "Refuser",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Partagez avec moi grâce à mon identifiant Federated Cloud #owncloud %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Partagez avec moi grâce à mon identifiant Federated Cloud #owncloud",
     "This share is password-protected" : "Ce partage est protégé par un mot de passe",
     "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
     "Password" : "Mot de passe",
@@ -89,16 +87,6 @@
     "Add to your ownCloud" : "Ajouter à votre ownCloud",
     "Download" : "Télécharger",
     "Download %s" : "Télécharger %s",
-    "Direct link" : "Lien direct",
-    "Federated Cloud Sharing" : "Federated Cloud Sharing",
-    "Open documentation" : "Voir la documentation",
-    "Allow users on this server to send shares to other servers" : "Autoriser les utilisateurs de ce serveur à envoyer des partages vers d'autres serveurs",
-    "Allow users on this server to receive shares from other servers" : "Autoriser les utilisateurs de ce serveur à recevoir des partages d'autres serveurs",
-    "Federated Cloud" : "Federated Cloud",
-    "Your Federated Cloud ID:" : "Votre identifiant Federated Cloud :",
-    "Share it:" : "Partager :",
-    "Add to your website" : "Ajouter à votre site web",
-    "Share with me via ownCloud" : "Partagez avec moi via ownCloud",
-    "HTML Code:" : "Code HTML :"
+    "Direct link" : "Lien direct"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

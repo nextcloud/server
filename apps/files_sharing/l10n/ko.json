@@ -72,8 +72,6 @@
     "You received \"/%2$s\" as a remote share from %1$s" : "%1$s에서 원격 공유로 \"/%2$s\"을(를) 받음",
     "Accept" : "수락",
     "Decline" : "거절",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "내 #ownCloud 연합 클라우드 ID를 통해서 공유됨, 더 알아보기: %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "내 #ownCloud 연합 클라우드 ID를 통해서 공유됨",
     "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 입력해 주십시오.",
     "Password" : "암호",
@@ -89,16 +87,6 @@
     "Add to your ownCloud" : "내 ownCloud에 추가하기",
     "Download" : "다운로드",
     "Download %s" : "%s 다운로드",
-    "Direct link" : "직접 링크",
-    "Federated Cloud Sharing" : "클라우드 연합 공유",
-    "Open documentation" : "문서 열기",
-    "Allow users on this server to send shares to other servers" : "이 서버의 사용자가 다른 서버와 공유할 수 있도록 허용",
-    "Allow users on this server to receive shares from other servers" : "이 서버의 사용자가 다른 서버에서 공유한 파일을 받을 수 있도록 허용",
-    "Federated Cloud" : "연합 클라우드",
-    "Your Federated Cloud ID:" : "내 연합 클라우드 ID:",
-    "Share it:" : "공유하기:",
-    "Add to your website" : "내 웹 사이트에 추가",
-    "Share with me via ownCloud" : "ownCloud로 나와 공유하기",
-    "HTML Code:" : "HTML 코드:"
+    "Direct link" : "직접 링크"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

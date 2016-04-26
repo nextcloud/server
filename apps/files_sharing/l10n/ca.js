@@ -38,7 +38,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Afegiu a ownCloud",
     "Download" : "Baixa",
     "Download %s" : "Baixa %s",
-    "Direct link" : "Enllaç directe",
-    "Open documentation" : "Obre la documentació"
+    "Direct link" : "Enllaç directe"
 },
 "nplurals=2; plural=(n != 1);");

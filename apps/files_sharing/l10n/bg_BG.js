@@ -51,8 +51,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Добави към своя ownCloud",
     "Download" : "Изтегли",
     "Download %s" : "Изтегли %s",
-    "Direct link" : "Директна връзка",
-    "Allow users on this server to send shares to other servers" : "Позволи на потребители от този сървър да споделят папки  с други сървъри",
-    "Allow users on this server to receive shares from other servers" : "Позволи на потребители на този сървър да получават споделени папки от други сървъри"
+    "Direct link" : "Директна връзка"
 },
 "nplurals=2; plural=(n != 1);");

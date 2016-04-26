@@ -72,8 +72,6 @@
     "You received \"/%2$s\" as a remote share from %1$s" : "Du empfängst \"/%2$s\" als Remotefreigabe von %1$s",
     "Accept" : "Ok",
     "Decline" : "Abgelehnt",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Teile mit mir über meine #ownCloud Federated-Cloud-ID, siehe %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Teile mit mir über meine #ownCloud Federated-Cloud-ID",
     "This share is password-protected" : "Diese Freigabe ist durch ein Passwort geschützt",
     "The password is wrong. Try again." : "Bitte überprüfe Dein Passwort und versuche es erneut.",
     "Password" : "Passwort",
@@ -89,16 +87,6 @@
     "Add to your ownCloud" : "Zu Deiner ownCloud hinzufügen",
     "Download" : "Herunterladen",
     "Download %s" : "Download %s",
-    "Direct link" : "Direkter Link",
-    "Federated Cloud Sharing" : "Federated-Cloud-Sharing",
-    "Open documentation" : "Dokumentation öffnen",
-    "Allow users on this server to send shares to other servers" : "Benutzern auf diesem Server das Senden von Freigaben an andere Server erlauben",
-    "Allow users on this server to receive shares from other servers" : "Benutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben",
-    "Federated Cloud" : "Federated Cloud",
-    "Your Federated Cloud ID:" : "Deine Federated-Cloud-ID:",
-    "Share it:" : "Zum Teilen:",
-    "Add to your website" : "Zu deiner Webseite hinzufügen",
-    "Share with me via ownCloud" : "Teile mit mir über ownCloud",
-    "HTML Code:" : "HTML-Code:"
+    "Direct link" : "Direkter Link"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

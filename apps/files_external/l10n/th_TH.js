@@ -75,7 +75,7 @@ OC.L10N.register(
     "Enable Path Style" : "เปิดใช้งานสไตล์เส้นทาง",
     "WebDAV" : "WebDAV",
     "URL" : "URL",
-    "Remote subfolder" : "โฟลเดอร์ย่อยระยะไกล",
+    "Remote subfolder" : "โฟลเดอร์ย่อยรีโมท",
     "Secure https://" : "โหมดปลอดภัย https://",
     "Dropbox" : "Dropbox",
     "FTP" : "FTP",

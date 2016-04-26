@@ -74,8 +74,6 @@ OC.L10N.register(
     "You received \"/%2$s\" as a remote share from %1$s" : "Du mottog \"/%2$s\" som fjärrdelning från %1$s",
     "Accept" : "Acceptera",
     "Decline" : "Neka",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Dela med mig genom min #owncloud Federated Cloud ID, se %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Dela med mig genom min #ownCloud Federated Cloud ID",
     "This share is password-protected" : "Den här delningen är lösenordsskyddad",
     "The password is wrong. Try again." : "Lösenordet är fel. Försök igen.",
     "Password" : "Lösenord",
@@ -91,16 +89,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Lägg till i din ownCloud",
     "Download" : "Ladda ner",
     "Download %s" : "Ladda ner %s",
-    "Direct link" : "Direkt länk",
-    "Federated Cloud Sharing" : "Federate Cloud delning",
-    "Open documentation" : "Öppna dokumentation",
-    "Allow users on this server to send shares to other servers" : "Tillåt användare på denna server att skicka utdelningar till andra servrar",
-    "Allow users on this server to receive shares from other servers" : "Tillåt användare på denna servern att ta emot utdelningar från andra servrar",
-    "Federated Cloud" : "Federated Cloud",
-    "Your Federated Cloud ID:" : "Ditt Federated Cloud ID",
-    "Share it:" : "Dela detta:",
-    "Add to your website" : "Lägg till på din hemsida",
-    "Share with me via ownCloud" : "Dela med mig via Owncloud",
-    "HTML Code:" : "HTML Kod:"
+    "Direct link" : "Direkt länk"
 },
 "nplurals=2; plural=(n != 1);");
