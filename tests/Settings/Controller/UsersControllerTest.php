@@ -1723,74 +1723,6 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
-	/**
-	 * @return array
-	 */
-	public function setEmailAddressData() {
-		return [
-			/* mailAddress,    isValid, expectsUpdate, canChangeDisplayName, responseCode */
-			[ '',              true,    true,          true,                 Http::STATUS_OK ],
-			[ 'foo@local',     true,    true,          true,                 Http::STATUS_OK],
-			[ 'foo@bar@local', false,   false,         true,                 Http::STATUS_UNPROCESSABLE_ENTITY],
-			[ 'foo@local',     true,    false,         false,                Http::STATUS_FORBIDDEN],
-		];
-	}
-
-	/**
-	 * @dataProvider setEmailAddressData
-	 *
-	 * @param string $mailAddress
-	 * @param bool $isValid
-	 * @param bool $expectsUpdate
-	 * @param bool $expectsDelete
-	 */
-	public function testSetEmailAddress($mailAddress, $isValid, $expectsUpdate, $canChangeDisplayName, $responseCode) {
-		$this->container['IsAdmin'] = true;
-
-		$user = $this->getMockBuilder('\OC\User\User')
-			->disableOriginalConstructor()->getMock();
-		$user
-			->expects($this->any())
-			->method('getUID')
-			->will($this->returnValue('foo'));
-		$user
-			->expects($this->any())
-			->method('canChangeDisplayName')
-			->will($this->returnValue($canChangeDisplayName));
-		$user
-			->expects($expectsUpdate ? $this->once() : $this->never())
-			->method('setEMailAddress')
-			->with(
-				$this->equalTo($mailAddress)
-			);
-
-		$this->container['UserSession']
-			->expects($this->atLeastOnce())
-			->method('getUser')
-			->will($this->returnValue($user));
-		$this->container['Mailer']
-			->expects($this->any())
-			->method('validateMailAddress')
-			->with($mailAddress)
-			->willReturn($isValid);
-
-		if ($isValid) {
-			$user->expects($this->atLeastOnce())
-				->method('canChangeDisplayName')
-				->willReturn(true);
-
-			$this->container['UserManager']
-				->expects($this->atLeastOnce())
-				->method('get')
-				->with('foo')
-				->will($this->returnValue($user));
-		}
-
-		$response = $this->container['UsersController']->setMailAddress($user->getUID(), $mailAddress);
-
-		$this->assertSame($responseCode, $response->getStatus());
-	}
-
 	public function testStatsAdmin() {
 		$this->container['IsAdmin'] = true;
 
@@ -1928,7 +1860,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($currentUser);
 		$this->container['UserManager']
-			->expects($this->once())
+			->expects($this->atLeastOnce())
 			->method('get')
 			->with($editUser->getUID())
 			->willReturn($editUser);
@@ -1995,7 +1927,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUser')
 			->willReturn($user);
 		$this->container['UserManager']
-			->expects($this->once())
+			->expects($this->atLeastOnce())
 			->method('get')
 			->with($user->getUID())
 			->willReturn($user);
