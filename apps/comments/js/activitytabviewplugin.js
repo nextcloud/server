@@ -34,6 +34,9 @@
 			}
 		},
 
+		/*
+		 * Copy of CommentsTabView._onClickComment()
+		 */
 		_onClickCollapsedComment: function(ev) {
 			var $row = $(ev.target);
 			if (!$row.is('.comment')) {
@@ -42,9 +45,8 @@
 			$row.removeClass('collapsed');
 		},
 
-		/**
-		 * Returns whether the given message is long and needs
-		 * collapsing
+		/*
+		 * Copy of CommentsTabView._isLong()
 		 */
 		_isLong: function(message) {
 			return message.length > 250 || (message.match(/\n/g) || []).length > 1;
