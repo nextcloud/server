@@ -427,10 +427,18 @@ class Setup {
 			//custom 404 error page
 			$content.= "\nErrorDocument 404 ".$webRoot."/core/templates/404.php";
 
+			// ownCloud may be configured to live at the root folder without a
+			// trailing slash being specified. In this case manually set the
+			// rewrite base to `/`
+			$rewriteBase = $webRoot;
+			if($webRoot === '') {
+				$rewriteBase = '/';
+			}
+
 			// Add rewrite base
 			$content .= "\n<IfModule mod_rewrite.c>";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
-			$content .= "\n  RewriteBase ".$webRoot;
+			$content .= "\n  RewriteBase ".$rewriteBase;
 			$content .= "\n  <IfModule mod_env.c>";
 			$content .= "\n    SetEnv front_controller_active true";
 			$content .= "\n    <IfModule mod_dir.c>";
