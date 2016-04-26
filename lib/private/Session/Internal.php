@@ -26,6 +26,8 @@
 
 namespace OC\Session;
 
+use OCP\Session\Exceptions\SessionNotAvailableException;
+
 /**
  * Class Internal
  *
@@ -115,10 +117,15 @@ class Internal extends Session {
 	 * Wrapper around session_id
 	 *
 	 * @return string
+	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
 	public function getId() {
-		return @session_id();
+		$id = @session_id();
+		if ($id === '') {
+			throw new SessionNotAvailableException();
+		}
+		return $id;
 	}
 
 	/**

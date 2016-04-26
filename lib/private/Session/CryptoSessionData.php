@@ -24,6 +24,7 @@ namespace OC\Session;
 
 use OCP\ISession;
 use OCP\Security\ICrypto;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 
 /**
  * Class CryptoSessionData
@@ -145,6 +146,7 @@ class CryptoSessionData implements \ArrayAccess, ISession {
 	 * Wrapper around session_id
 	 *
 	 * @return string
+	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
 	public function getId() {

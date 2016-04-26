@@ -26,6 +26,9 @@
 
 namespace OC\Session;
 
+use Exception;
+use OCP\Session\Exceptions\SessionNotAvailableException;
+
 /**
  * Class Internal
  *
@@ -92,10 +95,11 @@ class Memory extends Session {
 	 * Wrapper around session_id
 	 *
 	 * @return string
+	 * @throws SessionNotAvailableException
 	 * @since 9.1.0
 	 */
 	public function getId() {
-		throw new \Exception('Memory session does not have an ID');
+		throw new SessionNotAvailableException('Memory session does not have an ID');
 	}
 
 	/**
@@ -108,11 +112,11 @@ class Memory extends Session {
 	/**
 	 * In case the session has already been locked an exception will be thrown
 	 *
-	 * @throws \Exception
+	 * @throws Exception
 	 */
 	private function validateSession() {
 		if ($this->sessionClosed) {
-			throw new \Exception('Session has been closed - no further changes to the session are allowed');
+			throw new Exception('Session has been closed - no further changes to the session are allowed');
 		}
 	}
 }
