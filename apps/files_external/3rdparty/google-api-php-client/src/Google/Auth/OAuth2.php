@@ -15,20 +15,12 @@
  * limitations under the License.
  */
 
-require_once "Google/Auth/Abstract.php";
-require_once "Google/Auth/AssertionCredentials.php";
-require_once "Google/Auth/Exception.php";
-require_once "Google/Auth/LoginTicket.php";
-require_once "Google/Client.php";
-require_once "Google/Http/Request.php";
-require_once "Google/Utils.php";
-require_once "Google/Verifier/Pem.php";
+if (!class_exists('Google_Client')) {
+  require_once dirname(__FILE__) . '/../autoload.php';
+}
 
 /**
  * Authentication class that deals with the OAuth 2 web-server authentication flow
- *
- * @author Chris Chabot <chabotc@google.com>
- * @author Chirag Shah <chirags@google.com>
  *
  */
 class Google_Auth_OAuth2 extends Google_Auth_Abstract
@@ -40,6 +32,7 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
   const AUTH_TOKEN_LIFETIME_SECS = 300; // five minutes in seconds
   const MAX_TOKEN_LIFETIME_SECS = 86400; // one day in seconds
   const OAUTH2_ISSUER = 'accounts.google.com';
+  const OAUTH2_ISSUER_HTTPS = 'https://accounts.google.com';
 
   /** @var Google_Auth_AssertionCredentials $assertionCredentials */
   private $assertionCredentials;
@@ -86,13 +79,25 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
 
   /**
    * @param string $code
+   * @param boolean $crossClient
    * @throws Google_Auth_Exception
    * @return string
    */
-  public function authenticate($code)
+  public function authenticate($code, $crossClient = false)
   {
     if (strlen($code) == 0) {
       throw new Google_Auth_Exception("Invalid code");
+    }
+
+    $arguments = array(
+          'code' => $code,
+          'grant_type' => 'authorization_code',
+          'client_id' => $this->client->getClassConfig($this, 'client_id'),
+          'client_secret' => $this->client->getClassConfig($this, 'client_secret')
+    );
+
+    if ($crossClient !== true) {
+        $arguments['redirect_uri'] = $this->client->getClassConfig($this, 'redirect_uri');
     }
 
     // We got here from the redirect from a successful authorization grant,
@@ -101,13 +106,7 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
         self::OAUTH2_TOKEN_URI,
         'POST',
         array(),
-        array(
-          'code' => $code,
-          'grant_type' => 'authorization_code',
-          'redirect_uri' => $this->client->getClassConfig($this, 'redirect_uri'),
-          'client_id' => $this->client->getClassConfig($this, 'client_id'),
-          'client_secret' => $this->client->getClassConfig($this, 'client_secret')
-        )
+        $arguments
     );
     $request->disableGzip();
     $response = $this->client->getIo()->makeRequest($request);
@@ -119,15 +118,15 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
     } else {
       $decodedResponse = json_decode($response->getResponseBody(), true);
       if ($decodedResponse != null && $decodedResponse['error']) {
-        $decodedResponse = $decodedResponse['error'];
+        $errorText = $decodedResponse['error'];
         if (isset($decodedResponse['error_description'])) {
-          $decodedResponse .= ": " . $decodedResponse['error_description'];
+          $errorText .= ": " . $decodedResponse['error_description'];
         }
       }
       throw new Google_Auth_Exception(
           sprintf(
               "Error fetching OAuth2 access token, message: '%s'",
-              $decodedResponse
+              $errorText
           ),
           $response->getResponseHttpCode()
       );
@@ -151,11 +150,15 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
         'access_type' => $this->client->getClassConfig($this, 'access_type'),
     );
 
-    $params = $this->maybeAddParam($params, 'approval_prompt');
+    // Prefer prompt to approval prompt.
+    if ($this->client->getClassConfig($this, 'prompt')) {
+      $params = $this->maybeAddParam($params, 'prompt');
+    } else {
+      $params = $this->maybeAddParam($params, 'approval_prompt');
+    }
     $params = $this->maybeAddParam($params, 'login_hint');
     $params = $this->maybeAddParam($params, 'hd');
     $params = $this->maybeAddParam($params, 'openid.realm');
-    $params = $this->maybeAddParam($params, 'prompt');
     $params = $this->maybeAddParam($params, 'include_granted_scopes');
 
     // If the list of scopes contains plus.login, add request_visible_actions
@@ -236,16 +239,20 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
       if ($this->assertionCredentials) {
         $this->refreshTokenWithAssertion();
       } else {
+        $this->client->getLogger()->debug('OAuth2 access token expired');
         if (! array_key_exists('refresh_token', $this->token)) {
-            throw new Google_Auth_Exception(
-                "The OAuth 2.0 access token has expired,"
-                ." and a refresh token is not available. Refresh tokens"
-                ." are not returned for responses that were auto-approved."
-            );
+          $error = "The OAuth 2.0 access token has expired,"
+                  ." and a refresh token is not available. Refresh tokens"
+                  ." are not returned for responses that were auto-approved.";
+
+          $this->client->getLogger()->error($error);
+          throw new Google_Auth_Exception($error);
         }
         $this->refreshToken($this->token['refresh_token']);
       }
     }
+
+    $this->client->getLogger()->debug('OAuth2 authentication');
 
     // Add the OAuth2 header to the request
     $request->setRequestHeaders(
@@ -298,6 +305,7 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
       }
     }
 
+    $this->client->getLogger()->debug('OAuth2 access token expired');
     $this->refreshTokenRequest(
         array(
           'grant_type' => 'assertion',
@@ -317,6 +325,14 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
 
   private function refreshTokenRequest($params)
   {
+    if (isset($params['assertion'])) {
+      $this->client->getLogger()->info(
+          'OAuth2 access token refresh with Signed JWT assertion grants.'
+      );
+    } else {
+      $this->client->getLogger()->info('OAuth2 access token refresh');
+    }
+
     $http = new Google_Http_Request(
         self::OAUTH2_TOKEN_URI,
         'POST',
@@ -414,7 +430,9 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
 
   /**
    * Retrieve and cache a certificates file.
-   * @param $url location
+   *
+   * @param $url string location
+   * @throws Google_Auth_Exception
    * @return array certificates
    */
   public function retrieveCertsFromLocation($url)
@@ -471,18 +489,24 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
       $audience = $this->client->getClassConfig($this, 'client_id');
     }
 
-    return $this->verifySignedJwtWithCerts($id_token, $certs, $audience, self::OAUTH2_ISSUER);
+    return $this->verifySignedJwtWithCerts(
+        $id_token,
+        $certs,
+        $audience,
+        array(self::OAUTH2_ISSUER, self::OAUTH2_ISSUER_HTTPS)
+    );
   }
 
   /**
    * Verifies the id token, returns the verified token contents.
    *
-   * @param $jwt the token
+   * @param $jwt string the token
    * @param $certs array of certificates
-   * @param $required_audience the expected consumer of the token
+   * @param $required_audience string the expected consumer of the token
    * @param [$issuer] the expected issues, defaults to Google
    * @param [$max_expiry] the max lifetime of a token, defaults to MAX_TOKEN_LIFETIME_SECS
-   * @return token information if valid, false if not
+   * @throws Google_Auth_Exception
+   * @return mixed token information if valid, false if not
    */
   public function verifySignedJwtWithCerts(
       $jwt,
@@ -577,13 +601,15 @@ class Google_Auth_OAuth2 extends Google_Auth_Abstract
       );
     }
 
+    // support HTTP and HTTPS issuers
+    // @see https://developers.google.com/identity/sign-in/web/backend-auth
     $iss = $payload['iss'];
-    if ($issuer && $iss != $issuer) {
+    if ($issuer && !in_array($iss, (array) $issuer)) {
       throw new Google_Auth_Exception(
           sprintf(
-              "Invalid issuer, %s != %s: %s",
+              "Invalid issuer, %s not in %s: %s",
               $iss,
-              $issuer,
+              "[".implode(",", (array) $issuer)."]",
               $json_body
           )
       );

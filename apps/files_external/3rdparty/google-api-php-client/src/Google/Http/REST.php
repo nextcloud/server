@@ -15,21 +15,18 @@
  * limitations under the License.
  */
 
-require_once 'Google/Client.php';
-require_once 'Google/Http/Request.php';
-require_once 'Google/Service/Exception.php';
-require_once 'Google/Utils/URITemplate.php';
+if (!class_exists('Google_Client')) {
+  require_once dirname(__FILE__) . '/../autoload.php';
+}
 
 /**
  * This class implements the RESTful transport of apiServiceRequest()'s
- *
- * @author Chris Chabot <chabotc@google.com>
- * @author Chirag Shah <chirags@google.com>
  */
 class Google_Http_REST
 {
   /**
-   * Executes a Google_Http_Request
+   * Executes a Google_Http_Request and (if applicable) automatically retries
+   * when errors occur.
    *
    * @param Google_Client $client
    * @param Google_Http_Request $req
@@ -39,9 +36,30 @@ class Google_Http_REST
    */
   public static function execute(Google_Client $client, Google_Http_Request $req)
   {
+    $runner = new Google_Task_Runner(
+        $client,
+        sprintf('%s %s', $req->getRequestMethod(), $req->getUrl()),
+        array(get_class(), 'doExecute'),
+        array($client, $req)
+    );
+
+    return $runner->run();
+  }
+
+  /**
+   * Executes a Google_Http_Request
+   *
+   * @param Google_Client $client
+   * @param Google_Http_Request $req
+   * @return array decoded result
+   * @throws Google_Service_Exception on server side error (ie: not authenticated,
+   *  invalid or malformed post body, invalid url)
+   */
+  public static function doExecute(Google_Client $client, Google_Http_Request $req)
+  {
     $httpRequest = $client->getIo()->makeRequest($req);
     $httpRequest->setExpectedClass($req->getExpectedClass());
-    return self::decodeHttpResponse($httpRequest);
+    return self::decodeHttpResponse($httpRequest, $client);
   }
 
   /**
@@ -49,9 +67,10 @@ class Google_Http_REST
    * @static
    * @throws Google_Service_Exception
    * @param Google_Http_Request $response The http response to be decoded.
+   * @param Google_Client $client
    * @return mixed|null
    */
-  public static function decodeHttpResponse($response)
+  public static function decodeHttpResponse($response, Google_Client $client = null)
   {
     $code = $response->getResponseHttpCode();
     $body = $response->getResponseBody();
@@ -76,14 +95,34 @@ class Google_Http_REST
         $errors = $decoded['error']['errors'];
       }
 
-      throw new Google_Service_Exception($err, $code, null, $errors);
+      $map = null;
+      if ($client) {
+        $client->getLogger()->error(
+            $err,
+            array('code' => $code, 'errors' => $errors)
+        );
+
+        $map = $client->getClassConfig(
+            'Google_Service_Exception',
+            'retry_map'
+        );
+      }
+      throw new Google_Service_Exception($err, $code, null, $errors, $map);
     }
 
     // Only attempt to decode the response, if the response code wasn't (204) 'no content'
     if ($code != '204') {
+      if ($response->getExpectedRaw()) {
+        return $body;
+      }
+      
       $decoded = json_decode($body, true);
       if ($decoded === null || $decoded === "") {
-        throw new Google_Service_Exception("Invalid json in service response: $body");
+        $error = "Invalid json in service response: $body";
+        if ($client) {
+          $client->getLogger()->error($error);
+        }
+        throw new Google_Service_Exception($error);
       }
 
       if ($response->getExpectedClass()) {
@@ -117,10 +156,10 @@ class Google_Http_REST
       } else if ($paramSpec['location'] == 'query') {
         if (isset($paramSpec['repeated']) && is_array($paramSpec['value'])) {
           foreach ($paramSpec['value'] as $value) {
-            $queryVars[] = $paramName . '=' . rawurlencode($value);
+            $queryVars[] = $paramName . '=' . rawurlencode(rawurldecode($value));
           }
         } else {
-          $queryVars[] = $paramName . '=' . rawurlencode($paramSpec['value']);
+          $queryVars[] = $paramName . '=' . rawurlencode(rawurldecode($paramSpec['value']));
         }
       }
     }

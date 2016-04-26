@@ -18,8 +18,6 @@
 /**
  * Collection of static utility methods used for convenience across
  * the client library.
- *
- * @author Chirag Shah <chirags@google.com>
  */
 class Google_Utils
 {
