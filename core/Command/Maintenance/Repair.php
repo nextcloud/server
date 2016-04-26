@@ -25,24 +25,36 @@
 namespace OC\Core\Command\Maintenance;
 
 use Exception;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Repair extends Command {
 	/** @var \OC\Repair $repair */
 	protected $repair;
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	protected $config;
+	/** @var EventDispatcherInterface */
+	private $dispatcher;
+	/** @var ProgressBar */
+	private $progress;
+	/** @var OutputInterface */
+	private $output;
 
 	/**
 	 * @param \OC\Repair $repair
-	 * @param \OCP\IConfig $config
+	 * @param IConfig $config
 	 */
-	public function __construct(\OC\Repair $repair, \OCP\IConfig $config) {
+	public function __construct(\OC\Repair $repair, IConfig $config, EventDispatcherInterface $dispatcher) {
 		$this->repair = $repair;
 		$this->config = $config;
+		$this->dispatcher = $dispatcher;
 		parent::__construct();
 	}
 
@@ -87,21 +99,48 @@ class Repair extends Command {
 		$maintenanceMode = $this->config->getSystemValue('maintenance', false);
 		$this->config->setSystemValue('maintenance', true);
 
-		$this->repair->listen('\OC\Repair', 'step', function ($description) use ($output) {
-			$output->writeln(' - ' . $description);
-		});
-		$this->repair->listen('\OC\Repair', 'info', function ($description) use ($output) {
-			$output->writeln('     - ' . $description);
-		});
-		$this->repair->listen('\OC\Repair', 'warning', function ($description) use ($output) {
-			$output->writeln('     - WARNING: ' . $description);
-		});
-		$this->repair->listen('\OC\Repair', 'error', function ($description) use ($output) {
-			$output->writeln('     - ERROR: ' . $description);
-		});
+		$this->progress = new ProgressBar($output);
+		$this->output = $output;
+		$this->dispatcher->addListener('\OC\Repair::startProgress', [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener('\OC\Repair::advance', [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener('\OC\Repair::finishProgress', [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener('\OC\Repair::step', [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener('\OC\Repair::info', [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener('\OC\Repair::warning', [$this, 'handleRepairFeedBack']);
+		$this->dispatcher->addListener('\OC\Repair::error', [$this, 'handleRepairFeedBack']);
 
 		$this->repair->run();
 
 		$this->config->setSystemValue('maintenance', $maintenanceMode);
+	}
+
+	public function handleRepairFeedBack($event) {
+		if (!$event instanceof GenericEvent) {
+			return;
+		}
+		switch ($event->getSubject()) {
+			case '\OC\Repair::startProgress':
+				$this->progress->start($event->getArgument(0));
+				break;
+			case '\OC\Repair::advance':
+				$this->progress->advance($event->getArgument(0));
+				break;
+			case '\OC\Repair::finishProgress':
+				$this->progress->finish();
+				$this->output->writeln('');
+				break;
+			case '\OC\Repair::step':
+				$this->output->writeln(' - ' . $event->getArgument(0));
+				break;
+			case '\OC\Repair::info':
+				$this->output->writeln('     - ' . $event->getArgument(0));
+				break;
+			case '\OC\Repair::warning':
+				$this->output->writeln('     - WARNING: ' . $event->getArgument(0));
+				break;
+			case '\OC\Repair::error':
+				$this->output->writeln('     - ERROR: ' . $event->getArgument(0));
+				break;
+		}
 	}
 }
