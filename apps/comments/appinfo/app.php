@@ -32,6 +32,7 @@ $eventDispatcher->addListener(
 		\OCP\Util::addScript('comments', 'commentsummarymodel');
 		\OCP\Util::addScript('comments', 'commentstabview');
 		\OCP\Util::addScript('comments', 'filesplugin');
+		\OCP\Util::addScript('comments', 'activitytabviewplugin');
 		\OCP\Util::addStyle('comments', 'comments');
 	}
 );
