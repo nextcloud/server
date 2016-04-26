@@ -196,7 +196,6 @@ class Extension implements IExtension {
 		try {
 			return strip_tags($user) === $this->activityManager->getCurrentUserId();
 		} catch (\UnexpectedValueException $e) {
-			// FIXME this is awkward, but we have no access to the current user in emails
 			return false;
 		}
 	}
