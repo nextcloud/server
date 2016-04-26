@@ -7,7 +7,9 @@ cd "$(dirname "$0")"
 for SCRIPT in start.sh stop.sh config.php
 do
     if [ ! -e "$SETUP_SCRIPTS_DIR/$SCRIPT" ] ; then
-        wget "https://raw.githubusercontent.com/owncloud/administration/master/ldap-testing/$SCRIPT" \
+        URL="https://raw.githubusercontent.com/owncloud/administration/master/ldap-testing/$SCRIPT"
+        echo "fetching $URL"
+        wget -q "$URL" \
             -O "$SETUP_SCRIPTS_DIR/$SCRIPT"
         if [[ "$SCRIPT" == *.sh ]] ; then
             chmod +x "$SETUP_SCRIPTS_DIR/$SCRIPT"
@@ -22,4 +24,5 @@ do
     CMD="./run-test.sh $SCRIPT"
     echo "$CMD"
     ${CMD} || exit $?
+    printf "\n"
 done
