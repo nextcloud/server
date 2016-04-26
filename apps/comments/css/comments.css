@@ -59,35 +59,39 @@
 	line-height: 32px;
 }
 
+#activityTabView li.comment.collapsed .activitymessage,
 #commentsTabView .comment.collapsed .message {
 	white-space: pre-wrap;
 }
 
+#activityTabView li.comment.collapsed .activitymessage,
 #commentsTabView .comment.collapsed .message {
 	max-height: 70px;
 	overflow: hidden;
 }
 
+#activityTabView li.comment .message-overlay,
 #commentsTabView .comment .message-overlay {
 	display: none;
 }
 
+#activityTabView li.comment.collapsed .message-overlay,
 #commentsTabView .comment.collapsed .message-overlay {
 	display: block;
-    position: absolute;
+	position: absolute;
 	z-index: 2;
-    height: 50px;
-    pointer-events: none;
+	height: 50px;
+	pointer-events: none;
 	left: 0;
 	right: 0;
-    bottom: 0;
+	bottom: 0;
 	background: -moz-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
 	background: -webkit-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
 	background: -o-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
 	background: -ms-linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
 	background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#00FFFFFF', endColorstr='#FFFFFFFF');
-    background-repeat: no-repeat;
+	background-repeat: no-repeat;
 }
 
 #commentsTabView .authorRow>div {
