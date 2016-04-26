@@ -29,6 +29,7 @@ use OC\Files\Filesystem;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 use OC\Lock\DBLockingProvider;
+use OCP\Files\Storage\IStorage;
 use OCP\Files\StorageNotAvailableException;
 use OCP\ILogger;
 
@@ -153,6 +154,17 @@ class Scanner extends PublicEmitter {
 			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
 			$isDbLocking = \OC::$server->getLockingProvider() instanceof DBLockingProvider;
+
+			$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
+				$this->triggerPropagator($storage, $path);
+			});
+			$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
+				$this->triggerPropagator($storage, $path);
+			});
+			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage) {
+				$this->triggerPropagator($storage, $path);
+			});
+
 			if (!$isDbLocking) {
 				$this->db->beginTransaction();
 			}
@@ -167,6 +179,10 @@ class Scanner extends PublicEmitter {
 				$this->db->commit();
 			}
 		}
+	}
+
+	private function triggerPropagator(IStorage $storage, $internalPath) {
+		$storage->getPropagator()->propagateChange($internalPath, time());
 	}
 }
 
