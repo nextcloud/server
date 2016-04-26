@@ -15,6 +15,7 @@ use Icewind\SMB\Exception\NoLoginServerException;
 
 class Connection extends RawConnection {
 	const DELIMITER = 'smb:';
+	const DELIMITER_LENGTH = 4;
 
 	/**
 	 * send input to smbclient
@@ -28,6 +29,7 @@ class Connection extends RawConnection {
 	/**
 	 * get all unprocessed output from smbclient until the next prompt
 	 *
+	 * @param callable $callback (optional) callback to call for every line read
 	 * @return string
 	 * @throws AuthenticationException
 	 * @throws ConnectException
@@ -35,7 +37,7 @@ class Connection extends RawConnection {
 	 * @throws InvalidHostException
 	 * @throws NoLoginServerException
 	 */
-	public function read() {
+	public function read(callable $callback = null) {
 		if (!$this->isValid()) {
 			throw new ConnectionException('Connection not valid');
 		}
@@ -45,23 +47,47 @@ class Connection extends RawConnection {
 		$output = array();
 		$line = $this->readLine();
 		if ($line === false) {
-			if ($promptLine) { //maybe we have some error we missed on the previous line
-				throw new ConnectException('Unknown error (' . $promptLine . ')');
-			} else {
-				$error = $this->readError(); // maybe something on stderr
-				if ($error) {
-					throw new ConnectException('Unknown error (' . $error . ')');
-				} else {
-					throw new ConnectException('Unknown error');
-				}
-			}
+			$this->unknownError($promptLine);
 		}
-		$length = mb_strlen(self::DELIMITER);
-		while (mb_substr($line, 0, $length) !== self::DELIMITER) { //next prompt functions as delimiter
-			$output[] .= $line;
+		while (!$this->isPrompt($line)) { //next prompt functions as delimiter
+			if (is_callable($callback)) {
+				$result = $callback($line);
+				if ($result === false) { // allow the callback to close the connection for infinite running commands
+					$this->close(true);
+				}
+			} else {
+				$output[] .= $line;
+			}
 			$line = $this->readLine();
 		}
 		return $output;
+	}
+
+	/**
+	 * Check
+	 *
+	 * @param $line
+	 * @return bool
+	 */
+	private function isPrompt($line) {
+		return mb_substr($line, 0, self::DELIMITER_LENGTH) === self::DELIMITER || $line === false;
+	}
+
+	/**
+	 * @param string $promptLine (optional) prompt line that might contain some info about the error
+	 * @throws ConnectException
+	 */
+	private function unknownError($promptLine = '') {
+		if ($promptLine) { //maybe we have some error we missed on the previous line
+			throw new ConnectException('Unknown error (' . $promptLine . ')');
+		} else {
+			$error = $this->readError(); // maybe something on stderr
+			if ($error) {
+				throw new ConnectException('Unknown error (' . $error . ')');
+			} else {
+				throw new ConnectException('Unknown error');
+			}
+		}
 	}
 
 	/**

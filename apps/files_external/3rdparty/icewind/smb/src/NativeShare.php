@@ -301,6 +301,18 @@ class NativeShare extends AbstractShare {
 		return $this->setAttribute($path, 'system.dos_attr.mode', $mode);
 	}
 
+	/**
+	 * @param string $path
+	 * @param callable $callback callable which will be called for each received change
+	 * @return mixed
+	 */
+	public function notify($path, callable $callback) {
+		// php-smbclient does support notify (https://github.com/eduardok/libsmbclient-php/issues/29)
+		// so we use the smbclient based backend for this
+		$share = new Share($this->server, $this->getName());
+		$share->notify($path, $callback);
+	}
+
 	public function __destruct() {
 		unset($this->state);
 	}
