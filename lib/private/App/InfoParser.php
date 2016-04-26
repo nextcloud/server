@@ -80,6 +80,9 @@ class InfoParser {
 		if (!array_key_exists('post-migration', $array['repair-steps'])) {
 			$array['repair-steps']['post-migration'] = [];
 		}
+		if (!array_key_exists('live-migration', $array['repair-steps'])) {
+			$array['repair-steps']['live-migration'] = [];
+		}
 
 		if (array_key_exists('documentation', $array) && is_array($array['documentation'])) {
 			foreach ($array['documentation'] as $key => $url) {
@@ -109,6 +112,9 @@ class InfoParser {
 		}
 		if (isset($array['repair-steps']['post-migration']['step']) && is_array($array['repair-steps']['post-migration']['step'])) {
 			$array['repair-steps']['post-migration'] = $array['repair-steps']['post-migration']['step'];
+		}
+		if (isset($array['repair-steps']['live-migration']['step']) && is_array($array['repair-steps']['live-migration']['step'])) {
+			$array['repair-steps']['live-migration'] = $array['repair-steps']['live-migration']['step'];
 		}
 		return $array;
 	}

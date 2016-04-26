@@ -1153,6 +1153,7 @@ class OC_App {
 			OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
 		}
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
+		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);
 		unset(self::$appVersion[$appId]);
 		// run upgrade code
 		if (file_exists($appPath . '/appinfo/update.php')) {
@@ -1207,6 +1208,19 @@ class OC_App {
 		}
 		// run the steps
 		$r->run();
+	}
+
+	/**
+	 * @param string $appId
+	 * @param string[] $steps
+	 */
+	private static function setupLiveMigrations($appId, array $steps) {
+		$queue = \OC::$server->getJobList();
+		foreach ($steps as $step) {
+			$queue->add('OC\Migration\BackgroundRepair', [
+				'app' => $appId,
+				'step' => $step]);
+		}
 	}
 
 	/**

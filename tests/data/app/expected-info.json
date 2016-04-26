@@ -70,6 +70,7 @@
 	},
 	"repair-steps": {
 		"pre-migration": [],
-		"post-migration": []
+		"post-migration": [],
+		"live-migration": []
 	}
 }
