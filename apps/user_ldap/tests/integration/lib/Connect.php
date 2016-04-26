@@ -164,9 +164,9 @@ require_once(__DIR__ . '/../setup-scripts/config.php');
 /** @global $host string */
 /** @global $port int */
 /** @global $adn string */
-/** @global $apw string */
+/** @global $apwd string */
 /** @global $bdn string */
 
-$test = new IntegrationConnect($host, $port, $adn, $apw, $bdn);
+$test = new IntegrationConnect($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();
