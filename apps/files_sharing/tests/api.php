@@ -101,6 +101,12 @@ class Test_Files_Sharing_Api extends TestCase {
 	private function createOCS($request, $userId) {
 		$currentUser = \OC::$server->getUserManager()->get($userId);
 
+		$l = $this->getMock('\OCP\IL10N');
+		$l->method('t')
+			->will($this->returnCallback(function($text, $parameters = []) {
+				return vsprintf($text, $parameters);
+			}));
+
 		return new \OCA\Files_Sharing\API\Share20OCS(
 			$this->shareManager,
 			\OC::$server->getGroupManager(),
@@ -108,7 +114,8 @@ class Test_Files_Sharing_Api extends TestCase {
 			$request,
 			\OC::$server->getRootFolder(),
 			\OC::$server->getURLGenerator(),
-			$currentUser
+			$currentUser,
+			$l
 		);
 	}
 
@@ -665,7 +672,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(400, $result->getStatusCode());
-		$this->assertEquals('not a directory', $result->getMeta()['message']);
+		$this->assertEquals('Not a directory', $result->getMeta()['message']);
 
 		$this->shareManager->deleteShare($share1);
 	}
@@ -935,7 +942,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		$this->assertEquals(404, $result->getStatusCode());
 		$meta = $result->getMeta();
-		$this->assertEquals('wrong share ID, share doesn\'t exist.', $meta['message']);
+		$this->assertEquals('Wrong share ID, share doesn\'t exist', $meta['message']);
 	}
 
 	/**
@@ -1404,7 +1411,7 @@ class Test_Files_Sharing_Api extends TestCase {
 		if ($valid === false) {
 			$this->assertFalse($result->succeeded());
 			$this->assertEquals(404, $result->getStatusCode());
-			$this->assertEquals('Invalid Date. Format must be YYYY-MM-DD.', $result->getMeta()['message']);
+			$this->assertEquals('Invalid date, date format must be YYYY-MM-DD', $result->getMeta()['message']);
 			return;
 		}
 
