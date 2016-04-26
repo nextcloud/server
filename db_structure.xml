@@ -1057,10 +1057,10 @@
 
 			<field>
 				<name>password</name>
-				<type>text</type>
+				<type>clob</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>100</length>
+				<length>4000</length>
 			</field>
 
 			<field>

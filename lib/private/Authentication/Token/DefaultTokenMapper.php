@@ -61,10 +61,10 @@ class DefaultTokenMapper extends Mapper {
 	 *
 	 * @param string $token
 	 * @throws DoesNotExistException
-	 * @return string
+	 * @return DefaultToken
 	 */
-	public function getTokenUser($token) {
-		$sql = 'SELECT `uid` '
+	public function getToken($token) {
+		$sql = 'SELECT `id`, `uid`, `password`, `name`, `token`, `last_activity` '
 			. 'FROM `' . $this->getTableName() . '` '
 			. 'WHERE `token` = ?';
 		return $this->findEntity($sql, [

@@ -26,7 +26,6 @@ namespace OC\Core\Controller;
 use OC;
 use OC\User\Session;
 use OC_App;
-use OC_User;
 use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;

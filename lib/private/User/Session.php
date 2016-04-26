@@ -96,8 +96,7 @@ class Session implements IUserSession, Emitter {
 	 * @param ISession $session
 	 * @param IProvider[] $tokenProviders
 	 */
-	public function __construct(IUserManager $manager, ISession $session,
-		DefaultTokenProvider $tokenProvider, array $tokenProviders = []) {
+	public function __construct(IUserManager $manager, ISession $session, DefaultTokenProvider $tokenProvider, array $tokenProviders = []) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->tokenProvider = $tokenProvider;
@@ -118,8 +117,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
-	public function removeListener($scope = null, $method = null,
-		callable $callback = null) {
+	public function removeListener($scope = null, $method = null, callable $callback = null) {
 		$this->manager->removeListener($scope, $method, $callback);
 	}
 
@@ -183,13 +181,47 @@ class Session implements IUserSession, Emitter {
 			return $this->activeUser;
 		} else {
 			$uid = $this->session->get('user_id');
-			if ($uid !== null) {
-				$this->activeUser = $this->manager->get($uid);
+			if ($uid !== null && $this->isValidSession($uid)) {
 				return $this->activeUser;
 			} else {
 				return null;
 			}
 		}
+	}
+
+	private function isValidSession($uid) {
+		$this->activeUser = $this->manager->get($uid);
+		if (is_null($this->activeUser)) {
+			// User does not exist
+			return false;
+		}
+		// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
+		$sessionId = session_id();
+		try {
+			$token = $this->tokenProvider->getToken($sessionId);
+		} catch (InvalidTokenException $ex) {
+			// Session was inalidated
+			$this->logout();
+			return false;
+		}
+
+		// Check whether login credentials are still valid
+		// This check is performed each 5 minutes
+		$lastCheck = $this->session->get('last_login_check') ? : 0;
+		if ($lastCheck < (time() - 60 * 5)) {
+			$pwd = $this->tokenProvider->getPassword($token, $sessionId);
+			if ($this->manager->checkPassword($uid, $pwd) === false) {
+				// Password has changed -> log user out
+				$this->logout();
+				return false;
+			}
+			$this->session->set('last_login_check', time());
+		}
+
+		// Session is valid, so the token can be refreshed
+		$this->tokenProvider->updateToken($token);
+
+		return true;
 	}
 
 	/**
@@ -334,7 +366,6 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean
 	 */
 	private function validateToken(IRequest $request, $token) {
-		// TODO: hash token
 		foreach ($this->tokenProviders as $provider) {
 			try {
 				$user = $provider->validateToken($token);

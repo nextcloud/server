@@ -51,13 +51,8 @@ class DefaultToken extends Entity implements IToken {
 	 */
 	protected $lastActivity;
 
-	/**
-	 * Get the token ID
-	 *
-	 * @return string
-	 */
 	public function getId() {
-		return $this->token;
+		return $this->id;
 	}
 
 }

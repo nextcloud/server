@@ -48,8 +48,7 @@ class DefaultTokenProvider implements IProvider {
 	 * @param IConfig $config
 	 * @param ILogger $logger
 	 */
-	public function __construct(DefaultTokenMapper $mapper, ICrypto $crypto,
-		IConfig $config, ILogger $logger) {
+	public function __construct(DefaultTokenMapper $mapper, ICrypto $crypto, IConfig $config, ILogger $logger) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
@@ -67,8 +66,7 @@ class DefaultTokenProvider implements IProvider {
 	public function generateToken($token, $uid, $password, $name) {
 		$dbToken = new DefaultToken();
 		$dbToken->setUid($uid);
-		$secret = $this->config->getSystemValue('secret');
-		$dbToken->setPassword($this->crypto->encrypt($password . $secret));
+		$dbToken->setPassword($this->encryptPassword($password, $token));
 		$dbToken->setName($name);
 		$dbToken->setToken($this->hashToken($token));
 		$dbToken->setLastActivity(time());
@@ -76,6 +74,37 @@ class DefaultTokenProvider implements IProvider {
 		$this->mapper->insert($dbToken);
 
 		return $dbToken;
+	}
+
+	/**
+	 * Update token activity timestamp
+	 *
+	 * @param DefaultToken $token
+	 */
+	public function updateToken(DefaultToken $token) {
+		$token->setLastActivity(time());
+
+		$this->mapper->update($token);
+	}
+
+	/**
+	 * @param string $token
+	 * @throws InvalidTokenException
+	 */
+	public function getToken($token) {
+		try {
+			return $this->mapper->getToken($this->hashToken($token));
+		} catch (DoesNotExistException $ex) {
+			throw new InvalidTokenException();
+		}
+	}
+
+	/**
+	 * @param DefaultToken $savedToken
+	 * @param string $token session token
+	 */
+	public function getPassword(DefaultToken $savedToken, $token) {
+		return $this->decryptPassword($savedToken->getPassword(), $token);
 	}
 
 	/**
@@ -104,7 +133,7 @@ class DefaultTokenProvider implements IProvider {
 	public function validateToken($token) {
 		$this->logger->debug('validating default token <' . $token . '>');
 		try {
-			$dbToken = $this->mapper->getTokenUser($this->hashToken($token));
+			$dbToken = $this->mapper->getToken($this->hashToken($token));
 			$this->logger->debug('valid token for ' . $dbToken->getUid());
 			return $dbToken->getUid();
 		} catch (DoesNotExistException $ex) {
@@ -119,6 +148,34 @@ class DefaultTokenProvider implements IProvider {
 	 */
 	private function hashToken($token) {
 		return hash('sha512', $token);
+	}
+
+	/**
+	 * Encrypt the given password
+	 *
+	 * The token is used as key
+	 *
+	 * @param string $password
+	 * @param string $token
+	 * @return string encrypted password
+	 */
+	private function encryptPassword($password, $token) {
+		$secret = $this->config->getSystemValue('secret');
+		return $this->crypto->encrypt($password, $token . $secret);
+	}
+
+	/**
+	 * Decrypt the given password
+	 *
+	 * The token is used as key
+	 *
+	 * @param string $password
+	 * @param string $token
+	 * @return string the decrypted key
+	 */
+	private function decryptPassword($password, $token) {
+		$secret = $this->config->getSystemValue('secret');
+		return $this->crypto->decrypt($password, $token . $secret);
 	}
 
 }

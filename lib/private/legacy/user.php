@@ -68,7 +68,7 @@ class OC_User {
 
 	private static $_setupedBackends = array();
 
-	// bool, stores if a user want to access a resource anonymously, e.g if he opens a public link
+	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
 	private static $incognitoMode = false;
 
 	/**
