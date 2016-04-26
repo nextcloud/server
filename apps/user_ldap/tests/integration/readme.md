@@ -1,6 +1,6 @@
 # Requirements #
 
-Have (as in do copy if not already done) the following files from https://github.com/owncloud/administration/tree/master/ldap-testing copied into the directory "setup-scripts":
+For running the tests manually (e.g. in your dev environment), have (as in do copy if not already done) the following files from https://github.com/owncloud/administration/tree/master/ldap-testing copied into the directory "setup-scripts":
 
  * start.sh
  * stop.sh
@@ -8,9 +8,23 @@ Have (as in do copy if not already done) the following files from https://github
 
 Configure config.php according to your needs, also have a look into the LDAP and network settings in start.sh and stop.sh.
 
+Automated test runs should work fine with the default configuration. Then the files do not need to be present (see Usage).
+
 # Usage #
 
-The basic command to run a test is:
+## running all tests ##
+
+There is a script for this.
+
+```# ./autotest.sh```
+
+If not run from the within the tests/integration directory, the script will cd into it.
+
+If either start.sh, stop.sh or config.php are not present, the missing file will be fetched from https://github.com/owncloud/administration/tree/master/ldap-testing
+
+## running specific tests ##
+
+The basic command to run a single test is:
 
 ```# ./run-test.sh [phpscript]```
 
@@ -50,11 +64,11 @@ docker-phpldapadmin
 2. The provided test script is executed. It also outputs results.
 3. stop.sh is executed to shut down OpenLDAP
 
+autotest.sh (after ensuring certain files are present) just invokes run-test.sh with specific test files. The procedure is like above. autotest.sh will stop immediately once a test fails.
+
 # Beware #
 
-This is quick solution for basically one test case. With expension this mechanism should be improved as well.
-
-It does not run automatically, unless you do it. No integration with any testing framework.
+There is no integration with any testing framework.
 
 exceptionOnLostConnection.php is not part of this mechanism. Read its source and run it isolated. While you're at it, port it :þ
 
