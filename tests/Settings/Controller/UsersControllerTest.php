@@ -2040,6 +2040,7 @@ class UsersControllerTest extends \Test\TestCase {
 			->expects($this->once())
 			->method('getUser')
 			->willReturn($user);
+
 		$this->userManager
 			->expects($this->once())
 			->method('get')
