@@ -39,6 +39,7 @@ use Icewind\Streams\RetryWrapper;
 
 set_include_path(get_include_path().PATH_SEPARATOR.
 	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
+require_once 'Google/autoload.php';
 require_once 'Google/Client.php';
 require_once 'Google/Service/Drive.php';
 
