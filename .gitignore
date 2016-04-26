@@ -31,6 +31,11 @@
 /apps/files_external/tests/config.*.php
 
 
+# ignore integration test-related, external files in user_ldap
+/apps/user_ldap/tests/integration/setup-scripts/config.php
+/apps/user_ldap/tests/integration/setup-scripts/start.sh
+/apps/user_ldap/tests/integration/setup-scripts/stop.sh
+
 
 # ignore themes except the example and the README
 /themes/*
