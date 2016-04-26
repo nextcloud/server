@@ -21,9 +21,9 @@
 
 namespace OC\Repair;
 
-use OC\Hooks\BasicEmitter;
-use OC\RepairStep;
 use OCP\IConfig;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
 /**
  * Class UpdateOutdatedOcsIds is used to update invalid outdated OCS IDs, this is
@@ -33,7 +33,7 @@ use OCP\IConfig;
  *
  * @package OC\Repair
  */
-class UpdateOutdatedOcsIds extends BasicEmitter implements RepairStep {
+class UpdateOutdatedOcsIds implements IRepairStep {
 	/** @var IConfig */
 	private $config;
 
@@ -71,7 +71,7 @@ class UpdateOutdatedOcsIds extends BasicEmitter implements RepairStep {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function run() {
+	public function run(IOutput $output) {
 		$appsToUpdate = [
 			'contacts' => [
 				'old' => '166044',
@@ -97,11 +97,7 @@ class UpdateOutdatedOcsIds extends BasicEmitter implements RepairStep {
 
 		foreach($appsToUpdate as $appName => $ids) {
 			if ($this->fixOcsId($appName, $ids['old'], $ids['new'])) {
-				$this->emit(
-					'\OC\Repair',
-					'info',
-					[sprintf('Fixed invalid %s OCS id', $appName)]
-				);
+				$output->info("Fixed invalid $appName OCS id");
 			}
 		}
 	}

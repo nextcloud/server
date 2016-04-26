@@ -23,9 +23,10 @@
 
 namespace OC\Repair;
 
-use OC\Hooks\BasicEmitter;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class FillETags extends BasicEmitter implements \OC\RepairStep {
+class FillETags implements IRepairStep {
 
 	/** @var \OCP\IDBConnection */
 	protected $connection;
@@ -41,7 +42,7 @@ class FillETags extends BasicEmitter implements \OC\RepairStep {
 		return 'Generate ETags for file where no ETag is present.';
 	}
 
-	public function run() {
+	public function run(IOutput $output) {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->update('filecache')
 			->set('etag', $qb->expr()->literal('xxx'))
@@ -49,7 +50,7 @@ class FillETags extends BasicEmitter implements \OC\RepairStep {
 			->orWhere($qb->expr()->isNull('etag'));
 
 		$result = $qb->execute();
-		$this->emit('\OC\Repair', 'info', array("ETags have been fixed for $result files/folders."));
+		$output->info("ETags have been fixed for $result files/folders.");
 	}
 }
 

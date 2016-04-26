@@ -6,6 +6,8 @@
  * See the COPYING-README file.
  */
 namespace Test\Repair;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
 /**
  * Tests for the converting of MySQL tables to InnoDB engine
@@ -16,7 +18,7 @@ namespace Test\Repair;
  */
 class RepairInnoDB extends \Test\TestCase {
 
-	/** @var \OC\RepairStep */
+	/** @var IRepairStep */
 	private $repair;
 
 	/** @var \Doctrine\DBAL\Connection */
@@ -49,7 +51,12 @@ class RepairInnoDB extends \Test\TestCase {
 		$result = $this->countMyIsamTables();
 		$this->assertEquals(1, $result);
 
-		$this->repair->run();
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
 
 		$result = $this->countMyIsamTables();
 		$this->assertEquals(0, $result);

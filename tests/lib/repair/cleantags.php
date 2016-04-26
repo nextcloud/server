@@ -8,6 +8,7 @@
 
 namespace Test\Repair;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\Migration\IOutput;
 
 /**
  * Tests for the cleaning the tags tables
@@ -18,7 +19,7 @@ use OCP\DB\QueryBuilder\IQueryBuilder;
  */
 class CleanTags extends \Test\TestCase {
 
-	/** @var \OC\RepairStep */
+	/** @var \OC\Repair\CleanTags */
 	protected $repair;
 
 	/** @var \OCP\IDBConnection */
@@ -27,8 +28,15 @@ class CleanTags extends \Test\TestCase {
 	/** @var int */
 	protected $createdFile;
 
+	/** @var IOutput */
+	private $outputMock;
+
 	protected function setUp() {
 		parent::setUp();
+
+		$this->outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 		$this->repair = new \OC\Repair\CleanTags($this->connection);
@@ -67,15 +75,15 @@ class CleanTags extends \Test\TestCase {
 		$this->assertEntryCount('vcategory_to_object', 4, 'Assert tag entries count before repair step');
 		$this->assertEntryCount('vcategory', 4, 'Assert tag categories count before repair step');
 
-		self::invokePrivate($this->repair, 'deleteOrphanFileEntries');
+		self::invokePrivate($this->repair, 'deleteOrphanFileEntries', [$this->outputMock]);
 		$this->assertEntryCount('vcategory_to_object', 3, 'Assert tag entries count after cleaning file entries');
 		$this->assertEntryCount('vcategory', 4, 'Assert tag categories count after cleaning file entries');
 
-		self::invokePrivate($this->repair, 'deleteOrphanTagEntries');
+		self::invokePrivate($this->repair, 'deleteOrphanTagEntries', [$this->outputMock]);
 		$this->assertEntryCount('vcategory_to_object', 2, 'Assert tag entries count after cleaning tag entries');
 		$this->assertEntryCount('vcategory', 4, 'Assert tag categories count after cleaning tag entries');
 
-		self::invokePrivate($this->repair, 'deleteOrphanCategoryEntries');
+		self::invokePrivate($this->repair, 'deleteOrphanCategoryEntries', [$this->outputMock]);
 		$this->assertEntryCount('vcategory_to_object', 2, 'Assert tag entries count after cleaning category entries');
 		$this->assertEntryCount('vcategory', 2, 'Assert tag categories count after cleaning category entries');
 	}

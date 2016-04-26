@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Georg Ehrke <georg@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -18,29 +18,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC\Repair;
+namespace OCP\Migration;
 
-use OC\Files\View;
-use OCP\Migration\IOutput;
-use OCP\Migration\IRepairStep;
+/**
+ * Interface IOutput
+ *
+ * @package OCP\Migration
+ * @since 9.1.0
+ */
+interface IOutput {
 
-class Preview implements IRepairStep {
+	/**
+	 * @param string $message
+	 * @since 9.1.0
+	 */
+	public function info($message);
 
-	public function getName() {
-		return 'Cleaning-up broken previews';
-	}
+	/**
+	 * @param string $message
+	 * @since 9.1.0
+	 */
+	public function warning($message);
 
-	public function run(IOutput $out) {
-		$view = new View('/');
-		$children = $view->getDirectoryContent('/');
+	/**
+	 * @param int $max
+	 * @since 9.1.0
+	 */
+	public function startProgress($max = 0);
 
-		foreach ($children as $child) {
-			if ($view->is_dir($child->getPath())) {
-				$thumbnailsFolder = $child->getPath() . '/thumbnails';
-				if ($view->is_dir($thumbnailsFolder)) {
-					$view->rmdir($thumbnailsFolder);
-				}
-			}
-		}
-	}
+	/**
+	 * @param int $step
+	 * @since 9.1.0
+	 */
+	public function advance($step = 1);
+
+	/**
+	 * @param int $max
+	 * @since 9.1.0
+	 */
+	public function finishProgress();
+
 }

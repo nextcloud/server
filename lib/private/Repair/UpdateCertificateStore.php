@@ -22,10 +22,10 @@
 namespace OC\Repair;
 
 use OC\Files\View;
-use OC\Hooks\BasicEmitter;
-use OC\RepairStep;
 use OC\Server;
 use OCP\IConfig;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
 /**
  * Class UpdateCertificateStore rewrites the user specific certificate store after
@@ -34,7 +34,7 @@ use OCP\IConfig;
  *
  * @package OC\Repair
  */
-class UpdateCertificateStore extends BasicEmitter implements RepairStep {
+class UpdateCertificateStore implements IRepairStep {
 	/**
 	 * FIXME: The certificate manager does only allow specifying the user
 	 *        within the constructor. This makes DI impossible.
@@ -60,7 +60,7 @@ class UpdateCertificateStore extends BasicEmitter implements RepairStep {
 	}
 
 	/** {@inheritDoc} */
-	public function run() {
+	public function run(IOutput $out) {
 		$rootView = new View();
 		$dataDirectory = $this->config->getSystemValue('datadirectory', null);
 		if(is_null($dataDirectory)) {

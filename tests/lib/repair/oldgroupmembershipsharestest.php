@@ -10,6 +10,7 @@ namespace Test\Repair;
 
 use OC\Repair\OldGroupMembershipShares;
 use OC\Share\Constants;
+use OCP\Migration\IOutput;
 
 /**
  * Class OldGroupMembershipSharesTest
@@ -82,7 +83,12 @@ class OldGroupMembershipSharesTest extends \Test\TestCase {
 		$this->assertEquals([['id' => $parent], ['id' => $group2], ['id' => $user1], ['id' => $member], ['id' => $notAMember]], $rows);
 		$result->closeCursor();
 
-		$repair->run();
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$repair->run($outputMock);
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('id')

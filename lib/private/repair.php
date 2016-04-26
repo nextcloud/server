@@ -46,11 +46,13 @@ use OC\Repair\RepairMimeTypes;
 use OC\Repair\SearchLuceneTables;
 use OC\Repair\UpdateOutdatedOcsIds;
 use OC\Repair\RepairInvalidShares;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Repair extends BasicEmitter {
-	/* @var RepairStep[] */
+class Repair extends BasicEmitter implements IOutput{
+	/* @var IRepairStep[] */
 	private $repairSteps;
 	/** @var EventDispatcher */
 	private $dispatcher;
@@ -58,7 +60,7 @@ class Repair extends BasicEmitter {
 	/**
 	 * Creates a new repair step runner
 	 *
-	 * @param RepairStep[] $repairSteps array of RepairStep instances
+	 * @param IRepairStep[] $repairSteps array of RepairStep instances
 	 * @param EventDispatcher $dispatcher
 	 */
 	public function __construct($repairSteps = [], EventDispatcher $dispatcher = null) {
@@ -88,24 +90,24 @@ class Repair extends BasicEmitter {
 				});
 			}
 
-			$step->run();
+			$step->run($this);
 		}
 	}
 
 	/**
 	 * Add repair step
 	 *
-	 * @param RepairStep|string $repairStep repair step
+	 * @param IRepairStep|string $repairStep repair step
 	 * @throws \Exception
 	 */
 	public function addStep($repairStep) {
 		if (is_string($repairStep)) {
 			if (class_exists($repairStep)) {
 				$s = new $repairStep();
-				if ($s instanceof RepairStep) {
+				if ($s instanceof IRepairStep) {
 					$this->repairSteps[] = $s;
 				} else {
-					throw new \Exception("Repair step '$repairStep' is not of type \\OC\\RepairStep");
+					throw new \Exception("Repair step '$repairStep' is not of type \\OCP\\Migration\\IRepairStep");
 				}
 			} else {
 				throw new \Exception("Repair step '$repairStep' is unknown");
@@ -119,7 +121,7 @@ class Repair extends BasicEmitter {
 	 * Returns the default repair steps to be run on the
 	 * command line or after an upgrade.
 	 *
-	 * @return array of RepairStep instances
+	 * @return IRepairStep[]
 	 */
 	public static function getRepairSteps() {
 		return [
@@ -141,7 +143,7 @@ class Repair extends BasicEmitter {
 	 * Returns expensive repair steps to be run on the
 	 * command line with a special option.
 	 *
-	 * @return array of RepairStep instances
+	 * @return IRepairStep[]
 	 */
 	public static function getExpensiveRepairSteps() {
 		return [
@@ -153,7 +155,7 @@ class Repair extends BasicEmitter {
 	 * Returns the repair steps to be run before an
 	 * upgrade.
 	 *
-	 * @return array of RepairStep instances
+	 * @return IRepairStep[]
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
 		$connection = \OC::$server->getDatabaseConnection();
@@ -184,5 +186,42 @@ class Repair extends BasicEmitter {
 			$this->dispatcher->dispatch("$scope::$method",
 				new GenericEvent("$scope::$method", $arguments));
 		}
+	}
+
+	public function info($string) {
+		// for now just emit as we did in the past
+		$this->emit('\OC\Repair', 'info', array($string));
+	}
+
+	/**
+	 * @param string $message
+	 */
+	public function warning($message) {
+		// for now just emit as we did in the past
+		$this->emit('\OC\Repair', 'warning', [$message]);
+	}
+
+	/**
+	 * @param int $max
+	 */
+	public function startProgress($max = 0) {
+		// for now just emit as we did in the past
+		$this->emit('\OC\Repair', 'startProgress', [$max]);
+	}
+
+	/**
+	 * @param int $step
+	 */
+	public function advance($step = 1) {
+		// for now just emit as we did in the past
+		$this->emit('\OC\Repair', 'advance', [$step]);
+	}
+
+	/**
+	 * @param int $max
+	 */
+	public function finishProgress() {
+		// for now just emit as we did in the past
+		$this->emit('\OC\Repair', 'finishProgress', []);
 	}
 }

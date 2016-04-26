@@ -24,10 +24,11 @@
 namespace OC\Repair;
 
 use OC\Files\Cache\Storage;
-use OC\Hooks\BasicEmitter;
 use OC\RepairException;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class RepairLegacyStorages extends BasicEmitter {
+class RepairLegacyStorages implements IRepairStep{
 	/**
 	 * @var \OCP\IConfig
 	 */
@@ -149,7 +150,7 @@ class RepairLegacyStorages extends BasicEmitter {
 	 * Converts legacy home storage ids in the format
 	 * "local::/data/dir/path/userid/" to the new format "home::userid"
 	 */
-	public function run() {
+	public function run(IOutput $out) {
 		// only run once
 		if ($this->config->getAppValue('core', 'repairlegacystoragesdone') === 'yes') {
 			return;
@@ -186,11 +187,7 @@ class RepairLegacyStorages extends BasicEmitter {
 			}
 			catch (RepairException $e) {
 				$hasWarnings = true;
-				$this->emit(
-					'\OC\Repair',
-					'warning',
-					array('Could not repair legacy storage ' . $currentId . ' automatically.')
-				);
+				$out->warning('Could not repair legacy storage ' . $currentId . ' automatically.');
 			}
 		}
 
@@ -233,11 +230,7 @@ class RepairLegacyStorages extends BasicEmitter {
 						}
 						catch (RepairException $e) {
 							$hasWarnings = true;
-							$this->emit(
-								'\OC\Repair',
-								'warning',
-								array('Could not repair legacy storage ' . $storageId . ' automatically.')
-							);
+							$out->warning('Could not repair legacy storage ' . $storageId . ' automatically.');
 						}
 					}
 				}
@@ -245,16 +238,12 @@ class RepairLegacyStorages extends BasicEmitter {
 			} while (count($results) >= $limit);
 		}
 
-		$this->emit('\OC\Repair', 'info', array('Updated ' . $count . ' legacy home storage ids'));
+		$out->info('Updated ' . $count . ' legacy home storage ids');
 
 		$this->connection->commit();
 
 		if ($hasWarnings) {
-			$this->emit(
-				'\OC\Repair',
-				'warning',
-				array('Some legacy storages could not be repaired. Please manually fix them then re-run ./occ maintenance:repair')
-			);
+			$out->warning('Some legacy storages could not be repaired. Please manually fix them then re-run ./occ maintenance:repair');
 		} else {
 			// if all were done, no need to redo the repair during next upgrade
 			$this->config->setAppValue('core', 'repairlegacystoragesdone', 'yes');

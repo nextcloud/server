@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-use OC\Hooks\BasicEmitter;
+use OCP\Migration\IRepairStep;
 
-class TestRepairStep extends BasicEmitter implements \OC\RepairStep{
+class TestRepairStep implements IRepairStep {
 	private $warning;
 
 	public function __construct($warning = false) {
@@ -19,12 +19,12 @@ class TestRepairStep extends BasicEmitter implements \OC\RepairStep{
 		return 'Test Name';
 	}
 
-	public function run() {
+	public function run(\OCP\Migration\IOutput $out) {
 		if ($this->warning) {
-			$this->emit('\OC\Repair', 'warning', array('Simulated warning'));
+			$out->warning('Simulated warning');
 		}
 		else {
-			$this->emit('\OC\Repair', 'info', array('Simulated info'));
+			$out->info('Simulated info');
 		}
 	}
 }

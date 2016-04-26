@@ -11,6 +11,8 @@ namespace Test\Repair;
 
 use OC\Repair\RepairInvalidShares;
 use OC\Share\Constants;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 use Test\TestCase;
 
 /**
@@ -22,7 +24,7 @@ use Test\TestCase;
  */
 class RepairInvalidSharesTest extends TestCase {
 
-	/** @var \OC\RepairStep */
+	/** @var IRepairStep */
 	private $repair;
 
 	/** @var \OCP\IDBConnection */
@@ -98,7 +100,12 @@ class RepairInvalidSharesTest extends TestCase {
 				'token' => $qb->expr()->literal('abcdefg')
 			])->execute();
 
-		$this->repair->run();
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
 
 		$results = $this->connection->getQueryBuilder()
 			->select('*')
@@ -167,7 +174,12 @@ class RepairInvalidSharesTest extends TestCase {
 		$this->assertEquals([['id' => $parent], ['id' => $validChild], ['id' => $invalidChild]], $rows);
 		$result->closeCursor();
 
-		$this->repair->run();
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
 
 		$query = $this->connection->getQueryBuilder();
 		$result = $query->select('id')

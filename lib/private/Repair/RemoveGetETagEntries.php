@@ -21,10 +21,11 @@
 
 namespace OC\Repair;
 
-use OC\Hooks\BasicEmitter;
 use OCP\IDBConnection;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class RemoveGetETagEntries extends BasicEmitter {
+class RemoveGetETagEntries implements IRepairStep {
 
 	/**
 	 * @var IDBConnection
@@ -45,15 +46,11 @@ class RemoveGetETagEntries extends BasicEmitter {
 	/**
 	 * Removes all entries with the key "{DAV:}getetag" from the table properties
 	 */
-	public function run() {
+	public function run(IOutput $out) {
 		$sql = 'DELETE FROM `*PREFIX*properties`'
 			. ' WHERE `propertyname` = ?';
 		$deletedRows = $this->connection->executeUpdate($sql, ['{DAV:}getetag']);
 
-		$this->emit(
-			'\OC\Repair',
-			'info',
-			['Removed ' . $deletedRows . ' unneeded "{DAV:}getetag" entries from properties table.']
-		);
+		$out->info('Removed ' . $deletedRows . ' unneeded "{DAV:}getetag" entries from properties table.');
 	}
 }

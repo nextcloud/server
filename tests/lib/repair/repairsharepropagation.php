@@ -9,6 +9,7 @@
 namespace Test\Repair;
 
 use OC\Repair\SharePropagation;
+use OCP\Migration\IOutput;
 
 class RepairSharePropagation extends \Test\TestCase {
 	public function keyProvider() {
@@ -40,8 +41,13 @@ class RepairSharePropagation extends \Test\TestCase {
 				$removedKeys[] = $key;
 			}));
 
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$step = new SharePropagation($config);
-		$step->run();
+		$step->run($outputMock);
 
 		sort($expectedRemovedKeys);
 		sort($removedKeys);

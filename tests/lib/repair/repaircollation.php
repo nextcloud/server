@@ -1,4 +1,6 @@
 <?php
+use OCP\Migration\IOutput;
+
 /**
  * Copyright (c) 2014 Thomas Müller <deepdiver@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
@@ -70,7 +72,12 @@ class TestRepairCollation extends \Test\TestCase {
 		$tables = $this->repair->getAllNonUTF8BinTables($this->connection);
 		$this->assertGreaterThanOrEqual(1, count($tables));
 
-		$this->repair->run();
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
 
 		$tables = $this->repair->getAllNonUTF8BinTables($this->connection);
 		$this->assertCount(0, $tables);

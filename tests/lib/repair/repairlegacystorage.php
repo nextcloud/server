@@ -10,6 +10,8 @@ namespace Test\Repair;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Cache\Storage;
+use OCP\Migration\IOutput;
+use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
 /**
@@ -34,7 +36,8 @@ class RepairLegacyStorages extends TestCase {
 	private $legacyStorageId;
 	private $newStorageId;
 
-	private $warnings;
+	/** @var IOutput | PHPUnit_Framework_MockObject_MockObject */
+	private $outputMock;
 
 	protected function setUp() {
 		parent::setUp();
@@ -45,11 +48,9 @@ class RepairLegacyStorages extends TestCase {
 
 		$this->repair = new \OC\Repair\RepairLegacyStorages($this->config, $this->connection);
 
-		$this->warnings = [];
-
-		$this->repair->listen('\OC\Repair', 'warning', function ($description){
-			$this->warnings[] = $description;
-		});
+		$this->outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
 	}
 
 	protected function tearDown() {
@@ -141,7 +142,7 @@ class RepairLegacyStorages extends TestCase {
 		$this->prepareSettings($dataDir, $userId);
 		$newStorageNumId = $this->createStorage($this->newStorageId);
 
-		$this->repair->run();
+		$this->repair->run($this->outputMock);
 
 		$this->assertNull($this->getStorageId($this->legacyStorageId));
 		$this->assertEquals($newStorageNumId, $this->getStorageId($this->newStorageId));
@@ -160,7 +161,7 @@ class RepairLegacyStorages extends TestCase {
 		$this->prepareSettings($dataDir, $userId);
 		$legacyStorageNumId = $this->createStorage($this->legacyStorageId);
 
-		$this->repair->run();
+		$this->repair->run($this->outputMock);
 
 		$this->assertNull($this->getStorageId($this->legacyStorageId));
 		$this->assertEquals($legacyStorageNumId, $this->getStorageId($this->newStorageId));
@@ -182,7 +183,7 @@ class RepairLegacyStorages extends TestCase {
 
 		$this->createData($this->legacyStorageId);
 
-		$this->repair->run();
+		$this->repair->run($this->outputMock);
 
 		$this->assertNull($this->getStorageId($this->legacyStorageId));
 		$this->assertEquals($legacyStorageNumId, $this->getStorageId($this->newStorageId));
@@ -205,7 +206,7 @@ class RepairLegacyStorages extends TestCase {
 
 		$this->createData($this->newStorageId);
 
-		$this->repair->run();
+		$this->repair->run($this->outputMock);
 
 		$this->assertNull($this->getStorageId($this->legacyStorageId));
 		$this->assertEquals($newStorageNumId, $this->getStorageId($this->newStorageId));
@@ -228,10 +229,8 @@ class RepairLegacyStorages extends TestCase {
 		$this->createData($this->legacyStorageId);
 		$this->createData($this->newStorageId);
 
-		$this->repair->run();
-
-		$this->assertEquals(2, count($this->warnings));
-		$this->assertEquals('Could not repair legacy storage ', substr(current($this->warnings), 0, 32));
+		$this->outputMock->expects($this->exactly(2))->method('warning');
+		$this->repair->run($this->outputMock);
 
 		// storages left alone
 		$this->assertEquals($legacyStorageNumId, $this->getStorageId($this->legacyStorageId));
@@ -254,7 +253,7 @@ class RepairLegacyStorages extends TestCase {
 		$storageId = 'local::' . $this->dataDir;
 		$numId = $this->createStorage($storageId);
 
-		$this->repair->run();
+		$this->repair->run($this->outputMock);
 
 		$this->assertEquals($numId, $this->getStorageId($storageId));
 	}
@@ -272,7 +271,7 @@ class RepairLegacyStorages extends TestCase {
 		$storageId = 'local::/tmp/somedir/' . $this->user;
 		$numId = $this->createStorage($storageId);
 
-		$this->repair->run();
+		$this->repair->run($this->outputMock);
 
 		$this->assertEquals($numId, $this->getStorageId($storageId));
 	}
@@ -290,7 +289,7 @@ class RepairLegacyStorages extends TestCase {
 		$storageId = 'smb::user@password/tmp/somedir/' . $this->user;
 		$numId = $this->createStorage($storageId);
 
-		$this->repair->run();
+		$this->repair->run($this->outputMock);
 
 		$this->assertEquals($numId, $this->getStorageId($storageId));
 	}
@@ -322,21 +321,15 @@ class RepairLegacyStorages extends TestCase {
 	 * Only run the repair once
 	 */
 	public function testOnlyRunOnce() {
-		$output = array();
-		$this->repair->listen('\OC\Repair', 'info', function ($description) use (&$output) {
-			$output[] = 'info: ' . $description;
-		});
+		$this->outputMock->expects($this->exactly(1))->method('info');
 
 		$this->prepareSettings('/tmp/oc-autotest/datadir', $this->getUniqueID('user_'));
 		$this->assertNotEquals('yes', $this->config->getAppValue('core', 'repairlegacystoragesdone'));
-		$this->repair->run();
-		$this->assertEquals(1, count($output));
+		$this->repair->run($this->outputMock);
 		$this->assertEquals('yes', $this->config->getAppValue('core', 'repairlegacystoragesdone'));
 
-		$output = array();
-		$this->repair->run();
-		// no output which means it did not run
-		$this->assertEquals(0, count($output));
+		$this->outputMock->expects($this->never())->method('info');
+		$this->repair->run($this->outputMock);
 		$this->assertEquals('yes', $this->config->getAppValue('core', 'repairlegacystoragesdone'));
 	}
 }

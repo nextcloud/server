@@ -23,23 +23,20 @@
 
 namespace OC\Repair;
 
-use OC\Hooks\BasicEmitter;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
 /**
  * Repairs shares with invalid data
  */
-class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
+class RepairInvalidShares implements IRepairStep {
 
 	const CHUNK_SIZE = 200;
 
-	/**
-	 * @var \OCP\IConfig
-	 */
+	/** @var \OCP\IConfig */
 	protected $config;
 
-	/**
-	 * @var \OCP\IDBConnection
-	 */
+	/** @var \OCP\IDBConnection */
 	protected $connection;
 
 	/**
@@ -59,7 +56,7 @@ class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
 	 * Past bugs would make it possible to set an expiration date on user shares even
 	 * though it is not supported. This functions removes the expiration date from such entries.
 	 */
-	private function removeExpirationDateFromNonLinkShares() {
+	private function removeExpirationDateFromNonLinkShares(IOutput $out) {
 		$builder = $this->connection->getQueryBuilder();
 		$builder
 			->update('share')
@@ -69,14 +66,14 @@ class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
 
 		$updatedEntries = $builder->execute();
 		if ($updatedEntries > 0) {
-			$this->emit('\OC\Repair', 'info', array('Removed invalid expiration date from ' . $updatedEntries . ' shares'));
+			$out->info('Removed invalid expiration date from ' . $updatedEntries . ' shares');
 		}
 	}
 
 	/**
 	 * Remove shares where the parent share does not exist anymore
 	 */
-	private function removeSharesNonExistingParent() {
+	private function removeSharesNonExistingParent(IOutput $out) {
 		$deletedEntries = 0;
 
 		$query = $this->connection->getQueryBuilder();
@@ -105,17 +102,17 @@ class RepairInvalidShares extends BasicEmitter implements \OC\RepairStep {
 		}
 
 		if ($deletedEntries) {
-			$this->emit('\OC\Repair', 'info', array('Removed ' . $deletedEntries . ' shares where the parent did not exist'));
+			$out->info('Removed ' . $deletedEntries . ' shares where the parent did not exist');
 		}
 	}
 
-	public function run() {
+	public function run(IOutput $out) {
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
 		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0.7', '<')) {
 			// this situation was only possible before 8.2
-			$this->removeExpirationDateFromNonLinkShares();
+			$this->removeExpirationDateFromNonLinkShares($out);
 		}
 
-		$this->removeSharesNonExistingParent();
+		$this->removeSharesNonExistingParent($out);
 	}
 }

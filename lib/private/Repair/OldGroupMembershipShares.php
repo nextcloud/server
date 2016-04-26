@@ -21,14 +21,13 @@
 
 namespace OC\Repair;
 
-
-use OC\Hooks\BasicEmitter;
-use OC\RepairStep;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 use OCP\Share;
 
-class OldGroupMembershipShares extends BasicEmitter implements RepairStep {
+class OldGroupMembershipShares implements IRepairStep {
 
 	/** @var \OCP\IDBConnection */
 	protected $connection;
@@ -65,7 +64,7 @@ class OldGroupMembershipShares extends BasicEmitter implements RepairStep {
 	 *
 	 * @throws \Exception in case of failure
 	 */
-	public function run() {
+	public function run(IOutput $output) {
 		$deletedEntries = 0;
 
 		$query = $this->connection->getQueryBuilder();
@@ -92,7 +91,7 @@ class OldGroupMembershipShares extends BasicEmitter implements RepairStep {
 		$result->closeCursor();
 
 		if ($deletedEntries) {
-			$this->emit('\OC\Repair', 'info', array('Removed ' . $deletedEntries . ' shares where user is not a member of the group anymore'));
+			$output->info('Removed ' . $deletedEntries . ' shares where user is not a member of the group anymore');
 		}
 	}
 

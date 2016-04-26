@@ -25,9 +25,10 @@
 namespace OC\Repair;
 
 use Doctrine\DBAL\Platforms\MySqlPlatform;
-use OC\Hooks\BasicEmitter;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class InnoDB extends BasicEmitter implements \OC\RepairStep {
+class InnoDB implements IRepairStep {
 
 	public function getName() {
 		return 'Repair MySQL database engine';
@@ -36,10 +37,10 @@ class InnoDB extends BasicEmitter implements \OC\RepairStep {
 	/**
 	 * Fix mime types
 	 */
-	public function run() {
+	public function run(IOutput $output) {
 		$connection = \OC::$server->getDatabaseConnection();
 		if (!$connection->getDatabasePlatform() instanceof MySqlPlatform) {
-			$this->emit('\OC\Repair', 'info', array('Not a mysql database -> nothing to do'));
+			$output->info('Not a mysql database -> nothing to do');
 			return;
 		}
 
@@ -47,7 +48,7 @@ class InnoDB extends BasicEmitter implements \OC\RepairStep {
 		if (is_array($tables)) {
 			foreach ($tables as $table) {
 				$connection->exec("ALTER TABLE $table ENGINE=InnoDB;");
-				$this->emit('\OC\Repair', 'info', array("Fixed $table"));
+				$output->info("Fixed $table");
 			}
 		}
 	}

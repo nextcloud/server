@@ -22,9 +22,10 @@
 
 namespace OC\Repair;
 
-use OC\Hooks\BasicEmitter;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class SearchLuceneTables extends BasicEmitter implements \OC\RepairStep {
+class SearchLuceneTables implements IRepairStep {
 
 	public function getName() {
 		return 'Repair duplicate entries in oc_lucene_status';
@@ -51,10 +52,10 @@ class SearchLuceneTables extends BasicEmitter implements \OC\RepairStep {
 	 *
 	 * search_lucene will then reindex the fileids without a status when the next indexing job is executed
 	 */
-	public function run() {
+	public function run(IOutput $out) {
 		$connection = \OC::$server->getDatabaseConnection();
 		if ($connection->tableExists('lucene_status')) {
-			$this->emit('\OC\Repair', 'info', array('removing duplicate entries from lucene_status'));
+			$out->info('removing duplicate entries from lucene_status');
 
 			$query = $connection->prepare('
 				DELETE FROM `*PREFIX*lucene_status`
@@ -69,7 +70,7 @@ class SearchLuceneTables extends BasicEmitter implements \OC\RepairStep {
 				)');
 			$query->execute();
 		} else {
-			$this->emit('\OC\Repair', 'info', array('lucene_status table does not exist -> nothing to do'));
+			$out->info('lucene_status table does not exist -> nothing to do');
 		}
 	}
 

@@ -18,17 +18,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC;
+namespace OCP\Migration;
 
 /**
  * Repair step
+ * @since 9.1.0
  */
-interface RepairStep {
+interface IRepairStep {
 
 	/**
 	 * Returns the step's name
 	 *
 	 * @return string
+	 * @since 9.1.0
 	 */
 	public function getName();
 
@@ -36,8 +38,9 @@ interface RepairStep {
 	 * Run repair step.
 	 * Must throw exception on error.
 	 *
+	 * @since 9.1.0
 	 * @throws \Exception in case of failure
 	 */
-	public function run();
+	public function run(IOutput $output);
 
 }

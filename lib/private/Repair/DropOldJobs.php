@@ -22,11 +22,11 @@
 
 namespace OC\Repair;
 
-use OC\Hooks\BasicEmitter;
-use OC\RepairStep;
 use OCP\BackgroundJob\IJobList;
+use OCP\Migration\IOutput;
+use OCP\Migration\IRepairStep;
 
-class DropOldJobs extends BasicEmitter implements RepairStep {
+class DropOldJobs implements IRepairStep {
 
 	/** @var IJobList */
 	protected $jobList;
@@ -53,7 +53,7 @@ class DropOldJobs extends BasicEmitter implements RepairStep {
 	 *
 	 * @throws \Exception in case of failure
 	 */
-	public function run() {
+	public function run(IOutput $output) {
 		$oldJobs = $this->oldJobs();
 		foreach($oldJobs as $job) {
 			if($this->jobList->has($job['class'], $job['arguments'])) {
