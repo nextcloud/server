@@ -44,6 +44,7 @@ class ExcludeFoldersByPathFilterIterator extends \RecursiveFilterIterator {
 			// See https://github.com/owncloud/updater/issues/318#issuecomment-212497846
 			rtrim($root . '/updater', '/'),
 			rtrim($root . '/_oc_upgrade', '/'),
+			rtrim($root . '/__apps', '/'),
 		];
 		$customDataDir = \OC::$server->getConfig()->getSystemValue('datadirectory', '');
 		if($customDataDir !== '') {
