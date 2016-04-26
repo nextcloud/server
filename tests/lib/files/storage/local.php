@@ -70,5 +70,19 @@ class Local extends Storage {
 		$etag2 = $this->instance->getETag('test.txt');
 		$this->assertNotEquals($etag1, $etag2);
 	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testInvalidArgumentsEmptyArray() {
+		new \OC\Files\Storage\Local([]);
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 */
+	public function testInvalidArgumentsNoArray() {
+		new \OC\Files\Storage\Local(null);
+	}
 }
 
