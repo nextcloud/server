@@ -49,6 +49,13 @@ class Platform {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function getIntSize() {
+		return PHP_INT_SIZE;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getOcVersion() {
