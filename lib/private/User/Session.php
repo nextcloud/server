@@ -282,6 +282,13 @@ class Session implements IUserSession, Emitter {
 		$this->session->regenerateId();
 		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 		$user = $this->manager->checkPassword($uid, $password);
+		if ($user === false) {
+			// Password auth failed, maybe it's a token
+			$request = \OC::$server->getRequest();
+			if ($this->validateToken($request, $password)) {
+				$user = $this->getUser();
+			}
+		}
 		if ($user !== false) {
 			if (!is_null($user)) {
 				if ($user->isEnabled()) {
