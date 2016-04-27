@@ -25,7 +25,7 @@ trait BasicStructure {
 	private $cookieJar;
 
 	/** @var string */
-	private $requesttoken;
+	private $requestToken;
 
 	public function __construct($baseUrl, $admin, $regular_user_password) {
 
@@ -33,8 +33,8 @@ trait BasicStructure {
 		$this->baseUrl = $baseUrl;
 		$this->adminUser = $admin;
 		$this->regularUser = $regular_user_password;
-		$this->localBaseUrl = substr($this->baseUrl, 0, -4);
-		$this->remoteBaseUrl = substr($this->baseUrl, 0, -4);
+		$this->localBaseUrl = $this->baseUrl;
+		$this->remoteBaseUrl = $this->baseUrl;
 		$this->currentServer = 'LOCAL';
 		$this->cookieJar = new \GuzzleHttp\Cookie\CookieJar();
 
@@ -168,7 +168,7 @@ trait BasicStructure {
 	 * @param ResponseInterface $response
 	 */
 	private function extracRequestTokenFromResponse(ResponseInterface $response) {
-		$this->requesttoken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $response->getBody()->getContents()), 0, 89);
+		$this->requestToken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $response->getBody()->getContents()), 0, 89);
 	}
 
 	/**
@@ -196,7 +196,7 @@ trait BasicStructure {
 				'body' => [
 					'user' => $user,
 					'password' => $password,
-					'requesttoken' => $this->requesttoken,
+					'requesttoken' => $this->requestToken,
 				],
 				'cookies' => $this->cookieJar,
 			]
@@ -220,7 +220,7 @@ trait BasicStructure {
 				'cookies' => $this->cookieJar,
 			]
 		);
-		$request->addHeader('requesttoken', $this->requesttoken);
+		$request->addHeader('requesttoken', $this->requestToken);
 		try {
 			$this->response = $client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
