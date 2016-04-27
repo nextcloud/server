@@ -70,9 +70,10 @@ class BrokenUpdaterRepair extends BasicEmitter implements \OC\RepairStep {
 			'sabre/dav/lib/DAV/Version.php',
 		];
 
-		// First check whether the files have been copied the first time already
-		// if so there is no need to run the move routine.
-		if(file_exists($thirdPartyDir . '/icewind/streams/src/RetryWrapper.php')) {
+		// Check the hash for the autoload_classmap.php file, if the hash does match
+		// the expected value then the third-party folder has already been copied
+		// properly.
+		if(hash_file('sha512', $thirdPartyDir . '/composer/autoload_classmap.php') === 'abe09be19b6d427283cbfa7c4156d2c342cd9368d7d0564828a00ae02c435b642e7092cef444f94635f370dbe507eb6b2aa05109b32d8fb5d8a65c3a5a1c658f') {
 			$this->emit('\OC\Repair', 'info', ['Third-party files seem already to have been copied. No repair necessary.']);
 			return false;
 		}
