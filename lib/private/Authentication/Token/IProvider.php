@@ -29,7 +29,14 @@ interface IProvider {
 	/**
 	 * @param string $token
 	 * @throws InvalidTokenException
-	 * @return string user UID
+	 * @return IToken
 	 */
 	public function validateToken($token);
+
+	/**
+	 * Update token activity timestamp
+	 *
+	 * @param DefaultToken $token
+	 */
+	public function updateToken(IToken $token);
 }

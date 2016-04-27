@@ -83,7 +83,11 @@ class DefaultTokenProvider implements IProvider {
 	 *
 	 * @param DefaultToken $token
 	 */
-	public function updateToken(DefaultToken $token) {
+	public function updateToken(IToken $token) {
+		if (!($token instanceof DefaultToken)) {
+			throw new InvalidTokenException();
+		}
+		/** @var DefaultToken $token */
 		$token->setLastActivity(time());
 
 		$this->mapper->update($token);
@@ -130,14 +134,14 @@ class DefaultTokenProvider implements IProvider {
 	/**
 	 * @param string $token
 	 * @throws InvalidTokenException
-	 * @return string user UID
+	 * @return IToken user UID
 	 */
 	public function validateToken($token) {
 		$this->logger->debug('validating default token <' . $token . '>');
 		try {
 			$dbToken = $this->mapper->getToken($this->hashToken($token));
 			$this->logger->debug('valid token for ' . $dbToken->getUid());
-			return $dbToken->getUid();
+			return $dbToken;
 		} catch (DoesNotExistException $ex) {
 			$this->logger->warning('invalid token');
 			throw new InvalidTokenException();

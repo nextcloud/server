@@ -36,4 +36,11 @@ interface IToken {
 	 * @return string
 	 */
 	public function getId();
+
+	/**
+	 * Get the user UID
+	 *
+	 * @return string
+	 */
+	public function getUid();
 }

@@ -68,10 +68,14 @@ class TokenController extends Controller {
 	 */
 	public function generateToken($user, $password, $name = 'unknown client') {
 		if (is_null($user) || is_null($password)) {
-			return new Response([], Http::STATUS_UNPROCESSABLE_ENTITY);
+			$response = new Response([]);
+			$response->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
+			return $response;
 		}
 		if ($this->userManager->checkPassword($user, $password) === false) {
-			return new Response([], Http::STATUS_UNAUTHORIZED);
+			$response = new Response([]);
+			$response->setStatus(Http::STATUS_UNAUTHORIZED);
+			return $response;
 		}
 		$token = $this->secureRandom->generate(128);
 		$this->tokenProvider->generateToken($token, $user, $password, $name, IToken::PERMANENT_TOKEN);
