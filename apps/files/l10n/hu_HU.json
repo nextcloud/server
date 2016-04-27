@@ -103,6 +103,7 @@
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "PHP-FPM-mel akár 5 percbe is telhet, míg ez a beállítás érvénybe lép.",
     "Missing permissions to edit from here." : "Innen nem lehet szerkeszteni hiányzó jogosultság miatt.",
     "Settings" : "Beállítások",
+    "Show hidden files" : "Rejtett fájlok megjelenítése",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Használja ezt a címet <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">a Fájlok eléréséhez WebDAV-on keresztül</a>.",
     "Cancel upload" : "A feltöltés megszakítása",

@@ -83,6 +83,7 @@
     "Uninstall" : "Odinstalovat",
     "The app has been enabled but needs to be updated. You will be redirected to the update page in 5 seconds." : "Aplikace byla povolena ale je třeba ji aktualizovat. Za 5 sekund budete přesměrování na stránku pro aktualizaci.",
     "App update" : "Aktualizace aplikace",
+    "No apps found for {query}" : "Nebyly nalezeny žádné aplikace pro {query}",
     "An error occurred. Please upload an ASCII-encoded PEM certificate." : "Došlo k chybě. Nahrajte prosím ASCII-kódovaný PEM certifikát.",
     "Valid until {date}" : "Platný do {date}",
     "Delete" : "Smazat",

@@ -103,6 +103,7 @@
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Avec PHP-FPM il peut se passer jusqu'à 5 minutes pour que les changements soient appliqués.",
     "Missing permissions to edit from here." : "Manque de permissions pour éditer à partir d'ici.",
     "Settings" : "Paramètres",
+    "Show hidden files" : "Afficher les fichiers cachés",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Utilisez cette adresse pour <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">accéder à vos fichiers par WebDAV</a>",
     "Cancel upload" : "Annuler l'envoi",

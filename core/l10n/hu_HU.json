@@ -25,6 +25,7 @@
     "Error unfavoriting" : "Hiba a kedvencekből törléskor",
     "Couldn't send mail to following users: %s " : "Nem sikerült e-mailt küldeni a következő felhasználóknak: %s",
     "Preparing update" : "Felkészülés a frissítésre",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Kérjük, a frissítéshez a parancssort használja, mert az automatikus frissítés ki van kapcsolva a config.php-ban.",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Tábla ellenőrzése: %s",
     "Turned on maintenance mode" : "A karbantartási mód bekapcsolva",
@@ -95,6 +96,7 @@
     "Dec." : "dec.",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Problémák vannak a kódintegritás ellenőrzéssel. Bővebb információ…</a>",
     "Settings" : "Beállítások",
+    "Problem loading page, reloading in 5 seconds" : "Probléma adódott az oldal betöltése közben, újratöltés 5 másodpercen belül",
     "Saving..." : "Mentés...",
     "Dismiss" : "Elutasít",
     "seconds ago" : "pár másodperce",
@@ -160,6 +162,7 @@
     "Send" : "Küldés",
     "Sending ..." : "Küldés ...",
     "Email sent" : "Az e-mailt elküldtük!",
+    "Send link via email" : "Hivatkozás küldése levélben",
     "Shared with you and the group {group} by {owner}" : "{owner} megosztotta Önnel és a(z) {group} csoporttal",
     "Shared with you by {owner}" : "{owner} megosztotta Önnel",
     "group" : "csoport",
@@ -303,6 +306,9 @@
     "Start update" : "A frissítés megkezdése",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Nagyobb telepítések esetén úgy kerülhetők el az időtúllépések, hogy inkább a következő parancsot adja ki a telepítési alkönyvtárban:",
     "Detailed logs" : "Részletezett naplók",
+    "Update needed" : "Frissítés szükséges",
+    "Please use the command line updater because you have a big instance." : "Kérjük, a frissítéshez a parancssort használja, mert nagyobb frissítést készül telepíteni.",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Segítségért keresse fel a <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentációt</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Ez a %s folyamat éppen karbantartó üzemmódban van, ami eltarthat egy darabig.",
     "This page will refresh itself when the %s instance is available again." : "Ez az oldal frissíteni fogja magát amint a(z) %s példány ismét elérhető."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

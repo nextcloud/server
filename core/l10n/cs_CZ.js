@@ -162,6 +162,7 @@ OC.L10N.register(
     "Send" : "Odeslat",
     "Sending ..." : "Odesílám ...",
     "Email sent" : "Email odeslán",
+    "Send link via email" : "Odeslat odkaz přes email",
     "Shared with you and the group {group} by {owner}" : "S Vámi a skupinou {group} sdílí {owner}",
     "Shared with you by {owner}" : "S Vámi sdílí {owner}",
     "group" : "skupina",
@@ -305,6 +306,8 @@ OC.L10N.register(
     "Start update" : "Spustit aktualizaci",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Abyste zabránili vypršení časového limitu u větších instalací, můžete namísto toho spustit následující příkaz v hlavním adresáři:",
     "Detailed logs" : "Podrobné logy",
+    "Update needed" : "Potřeba aktualizace",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pro pomoc, shlédněte  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentaci</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Tato instalace %s je právě ve stavu údržby a to může chvíli trvat.",
     "This page will refresh itself when the %s instance is available again." : "Tato stránka se automaticky načte poté, co bude opět dostupná instance %s."
 },
