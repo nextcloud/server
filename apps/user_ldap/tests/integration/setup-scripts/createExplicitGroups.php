@@ -31,7 +31,8 @@ ldap_set_option($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
 $ok = ldap_bind($cr, $adn, $apwd);
 
 if (!$ok) {
-	die(ldap_error($cr));
+	echo ldap_error($cr);
+	die(1);
 }
 
 $ouName = 'Groups';
@@ -45,7 +46,8 @@ if (true) {
 	$entry['ou'] = $ouName;
 	$b = ldap_add($cr, $ouDN, $entry);
 	if (!$b) {
-		die(ldap_error($cr));
+		echo ldap_error($cr);
+		die(1);
 	}
 }
 
@@ -66,6 +68,7 @@ foreach ($groups as $cn) {
 	if ($ok) {
 		echo('created group ' . ': ' . $entry['cn'] . PHP_EOL);
 	} else {
-		die(ldap_error($cr));
+		echo ldap_error($cr);
+		die(1);
 	}
 }

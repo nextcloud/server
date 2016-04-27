@@ -30,7 +30,8 @@ ldap_set_option($cr, LDAP_OPT_PROTOCOL_VERSION, 3);
 $ok = ldap_bind($cr, $adn, $apwd);
 
 if (!$ok) {
-	die(ldap_error($cr));
+	echo ldap_error($cr);
+	die(1);
 }
 
 $ouName = 'Users';
@@ -54,6 +55,7 @@ foreach ($users as $uid) {
 	if ($ok) {
 		echo('created user ' . ': ' . $entry['cn'] . PHP_EOL);
 	} else {
-		die(ldap_error($cr));
+		echo ldap_error($cr);
+		die(1);
 	}
 }
