@@ -242,6 +242,7 @@ class Application extends \OCP\AppFramework\App {
 					$c->getServer()->getUserManager(),
 					new View(),
 					$c->query('KeyManager'),
+					$c->query('Util'),
 					$server->getConfig(),
 					$server->getMailer(),
 					$server->getL10N('encryption'),
