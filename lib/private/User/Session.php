@@ -96,11 +96,18 @@ class Session implements IUserSession, Emitter {
 	 * @param ISession $session
 	 * @param IProvider[] $tokenProviders
 	 */
-	public function __construct(IUserManager $manager, ISession $session, DefaultTokenProvider $tokenProvider, array $tokenProviders = []) {
+	public function __construct(IUserManager $manager, ISession $session, $tokenProvider, array $tokenProviders = []) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->tokenProvider = $tokenProvider;
 		$this->tokenProviders = $tokenProviders;
+	}
+
+	/**
+	 * @param DefaultTokenProvider $provider
+	 */
+	public function setTokenProvider(DefaultTokenProvider $provider) {
+		$this->tokenProvider = $provider;
 	}
 
 	/**
@@ -296,6 +303,13 @@ class Session implements IUserSession, Emitter {
 					$this->setLoginName($uid);
 					$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 					if ($this->isLoggedIn()) {
+						// Refresh the token
+						\OC::$server->getCsrfTokenManager()->refreshToken();
+						//we need to pass the user name, which may differ from login name
+						$user = $this->getUser()->getUID();
+						\OC_Util::setupFS($user);
+						//trigger creation of user home and /files folder
+						\OC::$server->getUserFolder($user);
 						return true;
 					} else {
 						// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
@@ -359,16 +373,18 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean
 	 */
 	public function createSessionToken(IRequest $request, $uid, $password) {
-		$this->session->regenerateId();
 		if (is_null($this->manager->get($uid))) {
 			// User does not exist
 			return false;
 		}
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
 		// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
-		$sessionId = session_id();
-		$token = $this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
-		return $this->loginWithToken($uid);
+		$loggedIn = $this->login($uid, $password);
+		if ($loggedIn) {
+			$sessionId = session_id();
+			$this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
+		}
+		return $loggedIn;
 	}
 
 	/**
@@ -402,7 +418,7 @@ class Session implements IUserSession, Emitter {
 	private function updateToken(IProvider $provider, IToken $token) {
 		// To save unnecessary DB queries, this is only done once a minute
 		$lastTokenUpdate = $this->session->get('last_token_update') ? : 0;
-		if ($lastTokenUpdate < (time () - 60)) {
+		if ($lastTokenUpdate < (time() - 60)) {
 			$provider->updateToken($token);
 			$this->session->set('last_token_update', time());
 		}

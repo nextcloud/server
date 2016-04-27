@@ -63,9 +63,8 @@ class LoginController extends Controller {
 	 * @param Session $userSession
 	 * @param IURLGenerator $urlGenerator
 	 */
-	function __construct($appName, IRequest $request, IUserManager $userManager,
-		IConfig $config, ISession $session, Session $userSession,
-		IURLGenerator $urlGenerator) {
+	function __construct($appName, IRequest $request, IUserManager $userManager, IConfig $config, ISession $session,
+		Session $userSession, IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -169,7 +168,15 @@ class LoginController extends Controller {
 	 */
 	public function tryLogin($user, $password, $redirect_url) {
 		// TODO: Add all the insane error handling
-		if ($this->userManager->checkPassword($user, $password) === false) {
+		$loginResult = $this->userManager->checkPassword($user, $password) === false;
+		if ($loginResult) {
+			$users = $this->userManager->getByEmail($user);
+			// we only allow login by email if unique
+			if (count($users) === 1) {
+				$loginResult = $this->userManager->checkPassword($users[0]->getUID(), $password);
+			}
+		}
+		if ($loginResult) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('login#showLoginForm'));
 		}
 		$this->userSession->createSessionToken($this->request, $user, $password);

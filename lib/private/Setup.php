@@ -364,7 +364,14 @@ class Setup {
 
 			$group =\OC::$server->getGroupManager()->createGroup('admin');
 			$group->addUser($user);
-			\OC_User::login($username, $password);
+
+			// Create a session token for the newly created user
+			// The token provider requires a working db, so it's not injected on setup
+			/* @var $userSession User\Session */
+			$userSession = \OC::$server->getUserSession();
+			$defaultTokenProvider = \OC::$server->query('OC\Authentication\Token\DefaultTokenProvider');
+			$userSession->setTokenProvider($defaultTokenProvider);
+			$userSession->createSessionToken($request, $username, $password);
 
 			//guess what this does
 			Installer::installShippedApps();
