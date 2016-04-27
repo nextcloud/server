@@ -132,6 +132,8 @@ class Updater extends BasicEmitter {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function upgrade() {
+		$this->emitRepairEvents();
+
 		$logLevel = $this->config->getSystemValue('loglevel', \OCP\Util::WARN);
 		$this->emit('\OC\Updater', 'setDebugLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
 		$this->config->setSystemValue('loglevel', \OCP\Util::DEBUG);
@@ -196,26 +198,6 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
-	 * Forward messages emitted by the repair routine
-	 *
-	 * @param Repair $repair repair routine
-	 */
-	private function emitRepairMessages(Repair $repair) {
-		$repair->listen('\OC\Repair', 'warning', function ($description) {
-			$this->emit('\OC\Updater', 'repairWarning', array($description));
-		});
-		$repair->listen('\OC\Repair', 'error', function ($description) {
-			$this->emit('\OC\Updater', 'repairError', array($description));
-		});
-		$repair->listen('\OC\Repair', 'info', function ($description) {
-			$this->emit('\OC\Updater', 'repairInfo', array($description));
-		});
-		$repair->listen('\OC\Repair', 'step', function ($description) {
-			$this->emit('\OC\Updater', 'repairStep', array($description));
-		});
-	}
-
-	/**
 	 * runs the update actions in maintenance mode, does not upgrade the source files
 	 * except the main .htaccess file
 	 *
@@ -245,8 +227,7 @@ class Updater extends BasicEmitter {
 		file_put_contents($this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 		// pre-upgrade repairs
-		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps());
-		$this->emitRepairMessages($repair);
+		$repair = new Repair(Repair::getBeforeUpgradeRepairSteps(), \OC::$server->getEventDispatcher());
 		$repair->run();
 
 		// simulate DB upgrade
@@ -278,8 +259,7 @@ class Updater extends BasicEmitter {
 			}
 
 			// post-upgrade repairs
-			$repair = new Repair(Repair::getRepairSteps());
-			$this->emitRepairMessages($repair);
+			$repair = new Repair(Repair::getRepairSteps(), \OC::$server->getEventDispatcher());
 			$repair->run();
 
 			//Invalidate update feed
@@ -362,7 +342,6 @@ class Updater extends BasicEmitter {
 	 * @throws NeedsUpdateException
 	 */
 	protected function doAppUpgrade() {
-		$this->emitRepairEvents();
 		$apps = \OC_App::getEnabledApps();
 		$priorityTypes = array('authentication', 'filesystem', 'logging');
 		$pseudoOtherType = 'other';

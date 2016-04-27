@@ -28,7 +28,6 @@
 
 namespace OC;
 
-use OC\Hooks\BasicEmitter;
 use OC\Hooks\Emitter;
 use OC\Repair\AssetCache;
 use OC\Repair\CleanTags;
@@ -51,7 +50,7 @@ use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Repair extends BasicEmitter implements IOutput{
+class Repair implements IOutput{
 	/* @var IRepairStep[] */
 	private $repairSteps;
 	/** @var EventDispatcher */
@@ -178,10 +177,11 @@ class Repair extends BasicEmitter implements IOutput{
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @param string $scope
+	 * @param string $method
+	 * @param array $arguments
 	 */
 	public function emit($scope, $method, array $arguments = []) {
-		parent::emit($scope, $method, $arguments);
 		if (!is_null($this->dispatcher)) {
 			$this->dispatcher->dispatch("$scope::$method",
 				new GenericEvent("$scope::$method", $arguments));
