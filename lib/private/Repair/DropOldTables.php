@@ -61,7 +61,7 @@ class DropOldTables implements IRepairStep {
 			if ($this->connection->tableExists($tableName)){
 				$this->connection->dropTable($tableName);
 			}
-			$output->advance();
+			$output->advance(1, "Drop old database table: $tableName");
 		}
 		$output->finishProgress();
 	}

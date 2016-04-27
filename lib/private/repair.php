@@ -55,6 +55,8 @@ class Repair implements IOutput{
 	private $repairSteps;
 	/** @var EventDispatcher */
 	private $dispatcher;
+	/** @var string */
+	private $currentStep;
 
 	/**
 	 * Creates a new repair step runner
@@ -78,7 +80,8 @@ class Repair implements IOutput{
 		}
 		// run each repair step
 		foreach ($this->repairSteps as $step) {
-			$this->emit('\OC\Repair', 'step', array($step->getName()));
+			$this->currentStep = $step->getName();
+			$this->emit('\OC\Repair', 'step', [$this->currentStep]);
 
 			if ($step instanceof Emitter) {
 				$step->listen('\OC\Repair', 'warning', function ($description) use ($self) {
@@ -206,15 +209,16 @@ class Repair implements IOutput{
 	 */
 	public function startProgress($max = 0) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'startProgress', [$max]);
+		$this->emit('\OC\Repair', 'startProgress', [$max, $this->currentStep]);
 	}
 
 	/**
 	 * @param int $step
+	 * @param string $description
 	 */
-	public function advance($step = 1) {
+	public function advance($step = 1, $description = '') {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'advance', [$step]);
+		$this->emit('\OC\Repair', 'advance', [$step, $description]);
 	}
 
 	/**
