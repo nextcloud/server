@@ -34,6 +34,7 @@ use OCP\IUserManager;
 use OCP\IGroupManager;
 use OCP\SystemTag\ISystemTag;
 use OCP\UserNotFoundException;
+use OCP\IUser;
 
 /**
  * Manager class for system tags
@@ -47,9 +48,6 @@ class SystemTagManager implements ISystemTagManager {
 
 	/** @var EventDispatcherInterface */
 	protected $dispatcher;
-
-	/** @var IUserManager */
-	protected $userManager;
 
 	/** @var IGroupManager */
 	protected $groupManager;
@@ -69,12 +67,10 @@ class SystemTagManager implements ISystemTagManager {
 	 */
 	public function __construct(
 		IDBConnection $connection,
-		IUserManager $userManager,
 		IGroupManager $groupManager,
 		EventDispatcherInterface $dispatcher
 	) {
 		$this->connection = $connection;
-		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->dispatcher = $dispatcher;
 
@@ -339,23 +335,12 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canUserAssignTag($tag, $userId) {
-		if (!$tag instanceof ISystemTag) {
-			$tags = $this->getTagsByIds([$tag]);
-			/** @var ISystemTag $tag */
-			$tag = current($tags);
-		}
-
-		if ($tag->isUserAssignable()) {
+	public function canUserAssignTag(ISystemTag $tag, IUser $user) {
+		if ($tag->isUserAssignable() && $tag->isUserVisible()) {
 			return true;
 		}
 
-		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			throw new UserNotFoundException($userId);
-		}
-
-		if ($this->groupManager->isAdmin($userId)) {
+		if ($this->groupManager->isAdmin($user->getUID())) {
 			return true;
 		}
 
@@ -365,23 +350,12 @@ class SystemTagManager implements ISystemTagManager {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canUserSeeTag($tag, $userId) {
-		if (!$tag instanceof ISystemTag) {
-			$tags = $this->getTagsByIds([$tag]);
-			/** @var ISystemTag $tag */
-			$tag = current($tags);
-		}
-
+	public function canUserSeeTag(ISystemTag $tag, IUser $user) {
 		if ($tag->isUserVisible()) {
 			return true;
 		}
 
-		$user = $this->userManager->get($userId);
-		if ($user === null) {
-			throw new UserNotFoundException($userId);
-		}
-
-		if ($this->groupManager->isAdmin($userId)) {
+		if ($this->groupManager->isAdmin($user->getUID())) {
 			return true;
 		}
 

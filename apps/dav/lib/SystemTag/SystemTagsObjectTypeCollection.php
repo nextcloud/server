@@ -95,21 +95,6 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	}
 
 	/**
-	 * Returns the user id
-	 *
-	 * @return string user id
-	 *
-	 * @throws NoUserException if no user exists in the session
-	 */
-	private function getUserId() {
-		$user = $this->userSession->getUser();
-		if ($user !== null) {
-			return $user->getUID();
-		}
-		throw new NoUserException();
-	}
-
-	/**
 	 * @param string $name
 	 * @param resource|string $data Initial payload
 	 * @throws Forbidden
@@ -136,7 +121,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		return new SystemTagsObjectMappingCollection(
 			$objectId,
 			$this->objectType,
-			$this->getUserId(),
+			$this->userSession->getUser(),
 			$this->tagManager,
 			$this->tagMapper
 		);

@@ -82,21 +82,6 @@ class SystemTagsByIdCollection implements ICollection {
 	}
 
 	/**
-	 * Returns the user id
-	 *
-	 * @return string user id
-	 *
-	 * @throws NoUserException if no user exists in the session
-	 */
-	private function getUserId() {
-		$user = $this->userSession->getUser();
-		if ($user !== null) {
-			return $user->getUID();
-		}
-		throw new NoUserException();
-	}
-
-	/**
 	 * @param string $name
 	 * @param resource|string $data Initial payload
 	 * @throws Forbidden
@@ -119,7 +104,7 @@ class SystemTagsByIdCollection implements ICollection {
 		try {
 			$tag = $this->tagManager->getTagsByIds([$name]);
 			$tag = current($tag);
-			if (!$this->tagManager->canUserSeeTag($tag, $this->getUserId())) {
+			if (!$this->tagManager->canUserSeeTag($tag, $this->userSession->getUser())) {
 				throw new NotFound('Tag with id ' . $name . ' not found');
 			}
 			return $this->makeNode($tag);
@@ -149,7 +134,7 @@ class SystemTagsByIdCollection implements ICollection {
 		try {
 			$tag = $this->tagManager->getTagsByIds([$name]);
 			$tag = current($tag);
-			if (!$this->tagManager->canUserSeeTag($tag, $this->getUserId())) {
+			if (!$this->tagManager->canUserSeeTag($tag, $this->userSession->getUser())) {
 				return false;
 			}
 			return true;
@@ -189,6 +174,6 @@ class SystemTagsByIdCollection implements ICollection {
 	 * @return SystemTagNode
 	 */
 	private function makeNode(ISystemTag $tag) {
-		return new SystemTagNode($tag, $this->getUserId(), $this->tagManager);
+		return new SystemTagNode($tag, $this->userSession->getUser(), $this->tagManager);
 	}
 }

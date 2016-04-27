@@ -44,11 +44,6 @@ class SystemTagManagerTest extends TestCase {
 	private $groupManager;
 
 	/**
-	 * @var IUserManager
-	 */
-	private $userManager;
-
-	/**
 	 * @var EventDispatcherInterface
 	 */
 	private $dispatcher;
@@ -61,15 +56,10 @@ class SystemTagManagerTest extends TestCase {
 		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
 			->getMock();
 
-		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
 		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')->getMock();
-		$this->groupManager->expects($this->any())
-			->method('isAdmin')
-			->will($this->returnValue(false));
 
 		$this->tagManager = new SystemTagManager(
 			$this->connection,
-			$this->userManager,
 			$this->groupManager,
 			$this->dispatcher
 		);
@@ -443,20 +433,18 @@ class SystemTagManagerTest extends TestCase {
 	 * @dataProvider visibilityCheckProvider
 	 */
 	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult) {
-		$userId = 'test';
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('test'));
 		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
 
-		$this->userManager->expects($this->once())
-			->method('get')
-			->with($userId)
-			->will($this->returnValue([]));
-		$this->groupManager->expects($this->once())
+		$this->groupManager->expects($this->any())
 			->method('isAdmin')
-			->with($userId)
+			->with('test')
 			->will($this->returnValue($isAdmin));
 
-		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $userID));
-		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1->getId(), $userID));
+		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $user));
 	}
 
 	public function assignabilityCheckProvider() {
@@ -475,21 +463,19 @@ class SystemTagManagerTest extends TestCase {
 	/**
 	 * @dataProvider assignabilityCheckProvider
 	 */
-	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult) {
-		$userId = 'test';
+	public function testAssignabilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult) {
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('test'));
 		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
 
-		$this->userManager->expects($this->once())
-			->method('get')
-			->with($userId)
-			->will($this->returnValue([]));
-		$this->groupManager->expects($this->once())
+		$this->groupManager->expects($this->any())
 			->method('isAdmin')
-			->with($userId)
+			->with('test')
 			->will($this->returnValue($isAdmin));
 
-		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1, $userID));
-		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1->getId(), $userID));
+		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1, $user));
 	}
 
 	/**

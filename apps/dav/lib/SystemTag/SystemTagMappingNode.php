@@ -29,6 +29,7 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\IUser;
 
 /**
  * Mapping node for system tag to object id
@@ -56,7 +57,7 @@ class SystemTagMappingNode extends SystemTagNode {
 	 * @param ISystemTag $tag system tag
 	 * @param string $objectId
 	 * @param string $objectType
-	 * @param string $userId user id
+	 * @param IUser $user user
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
 	 */
@@ -64,14 +65,14 @@ class SystemTagMappingNode extends SystemTagNode {
 		ISystemTag $tag,
 		$objectId,
 		$objectType,
-		$userId,
+		IUser $user,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper
 	) {
 		$this->objectId = $objectId;
 		$this->objectType = $objectType;
 		$this->tagMapper = $tagMapper;
-		parent::__construct($tag, $userId, $tagManager);
+		parent::__construct($tag, $user, $tagManager);
 	}
 
 	/**
@@ -97,10 +98,10 @@ class SystemTagMappingNode extends SystemTagNode {
 	 */
 	public function delete() {
 		try {
-			if (!$this->tagManager->canUserSeeTag($this->tag, $this->userId)) {
+			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {
 				throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found');
 			}
-			if (!$this->tagManager->canUserAssignTag($this->tag, $this->userId)) {
+			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
 				throw new Forbidden('No permission to unassign tag ' . $this->tag->getId());
 			}
 			$this->tagMapper->unassignTags($this->objectId, $this->objectType, $this->tag->getId());

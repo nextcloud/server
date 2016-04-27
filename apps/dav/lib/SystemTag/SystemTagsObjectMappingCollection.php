@@ -31,6 +31,7 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\IUser;
 
 /**
  * Collection containing tags by object id
@@ -58,11 +59,11 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	private $tagMapper;
 
 	/**
-	 * User id
+	 * User
 	 *
-	 * @var string
+	 * @var IUser
 	 */
-	private $userId;
+	private $user;
 
 
 	/**
@@ -70,26 +71,32 @@ class SystemTagsObjectMappingCollection implements ICollection {
 	 *
 	 * @param string $objectId object id
 	 * @param string $objectType object type
-	 * @param string $userId user id
-	 * @param ISystemTagManager $tagManager
-	 * @param ISystemTagObjectMapper $tagMapper
+	 * @param IUser $user user
+	 * @param ISystemTagManager $tagManager tag manager
+	 * @param ISystemTagObjectMapper $tagMapper tag mapper
 	 */
-	public function __construct($objectId, $objectType, $userId, $tagManager, $tagMapper) {
+	public function __construct(
+		$objectId,
+		$objectType,
+		IUser $user,
+		ISystemTagManager $tagManager,
+		ISystemTagObjectMapper $tagMapper
+	) {
 		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
 		$this->objectId = $objectId;
 		$this->objectType = $objectType;
-		$this->userId = $userId;
+		$this->user = $user;
 	}
 
 	function createFile($tagId, $data = null) {
 		try {
 			$tags = $this->tagManager->getTagsByIds([$tagId]);
 			$tag = current($tags);
-			if (!$this->tagManager->canUserSeeTag($tag, $this->userId)) {
+			if (!$this->tagManager->canUserSeeTag($tag, $this->user)) {
 				throw new PreconditionFailed('Tag with id ' . $tagId . ' does not exist, cannot assign');
 			}
-			if (!$this->tagManager->canUserAssignTag($tag, $this->userId)) {
+			if (!$this->tagManager->canUserAssignTag($tag, $this->user)) {
 				throw new Forbidden('No permission to assign tag ' . $tagId);
 			}
 
@@ -108,7 +115,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 			if ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true)) {
 				$tag = $this->tagManager->getTagsByIds([$tagId]);
 				$tag = current($tag);
-				if ($this->tagManager->canUserSeeTag($tag, $this->userId)) {
+				if ($this->tagManager->canUserSeeTag($tag, $this->user)) {
 					return $this->makeNode($tag);
 				}
 			}
@@ -129,7 +136,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 
 		// filter out non-visible tags
 		$tags = array_filter($tags, function($tag) {
-			return $this->tagManager->canUserSeeTag($tag, $this->userId);
+			return $this->tagManager->canUserSeeTag($tag, $this->user);
 		});
 
 		return array_values(array_map(function($tag) {
@@ -141,8 +148,12 @@ class SystemTagsObjectMappingCollection implements ICollection {
 		try {
 			$result = ($this->tagMapper->haveTag([$this->objectId], $this->objectType, $tagId, true));
 
-			if ($result && !$this->tagManager->canUserSeeTag($tagId, $this->userId)) {
-				return false;
+			if ($result) {
+				$tags = $this->tagManager->getTagsByIds([$tagId]);
+				$tag = current($tags);
+				if (!$this->tagManager->canUserSeeTag($tag, $this->user)) {
+					return false;
+				}
 			}
 
 			return $result;
@@ -187,7 +198,7 @@ class SystemTagsObjectMappingCollection implements ICollection {
 			$tag,
 			$this->objectId,
 			$this->objectType,
-			$this->userId,
+			$this->user,
 			$this->tagManager,
 			$this->tagMapper
 		);

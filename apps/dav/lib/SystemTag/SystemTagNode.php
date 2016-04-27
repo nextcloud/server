@@ -32,6 +32,7 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\SystemTag\TagAlreadyExistsException;
+use OCP\IUser;
 
 /**
  * DAV node representing a system tag, with the name being the tag id.
@@ -49,22 +50,22 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	protected $tagManager;
 
 	/**
-	 * User id
+	 * User
 	 *
-	 * @var string
+	 * @var IUser
 	 */
-	protected $userId;
+	protected $user;
 
 	/**
 	 * Sets up the node, expects a full path name
 	 *
 	 * @param ISystemTag $tag system tag
-	 * @param string $userId user id
+	 * @param IUser $user user
 	 * @param ISystemTagManager $tagManager tag manager
 	 */
-	public function __construct(ISystemTag $tag, $userId, ISystemTagManager $tagManager) {
+	public function __construct(ISystemTag $tag, IUser $user, ISystemTagManager $tagManager) {
 		$this->tag = $tag;
-		$this->userId = $userId;
+		$this->user = $user;
 		$this->tagManager = $tagManager;
 	}
 
@@ -109,10 +110,10 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	 */
 	public function update($name, $userVisible, $userAssignable) {
 		try {
-			if (!$this->tagManager->canUserSeeTag($this->tag, $this->userId)) {
+			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {
 				throw new NotFound('Tag with id ' . $this->tag->getId() . ' does not exist');
 			}
-			if (!$this->tagManager->canUserAssignTag($this->tag, $this->userId)) {
+			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
 				throw new Forbidden('No permission to update tag ' . $this->tag->getId());
 			}
 
@@ -146,10 +147,10 @@ class SystemTagNode implements \Sabre\DAV\INode {
 
 	public function delete() {
 		try {
-			if (!$this->tagManager->canUserSeeTag($this->tag, $this->userId)) {
+			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {
 				throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found');
 			}
-			if (!$this->tagManager->canUserAssignTag($this->tag, $this->userId)) {
+			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
 				throw new Forbidden('No permission to delete tag ' . $this->tag->getId());
 			}
 
