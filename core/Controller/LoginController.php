@@ -181,7 +181,7 @@ class LoginController extends Controller {
 		}
 		$this->userSession->createSessionToken($this->request, $user, $password);
 		if (!is_null($redirect_url) && $this->userSession->isLoggedIn()) {
-			$location = OC::$server->getURLGenerator()->getAbsoluteURL(urldecode($redirect_url));
+			$location = $this->urlGenerator->getAbsoluteURL(urldecode($redirect_url));
 			// Deny the redirect if the URL contains a @
 			// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
 			if (strpos($location, '@') === false) {
