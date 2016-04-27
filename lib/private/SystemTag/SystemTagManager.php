@@ -30,7 +30,14 @@ use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use OCP\IUserManager;
+use OCP\IGroupManager;
+use OCP\SystemTag\ISystemTag;
+use OCP\UserNotFoundException;
 
+/**
+ * Manager class for system tags
+ */
 class SystemTagManager implements ISystemTagManager {
 
 	const TAG_TABLE = 'systemtag';
@@ -40,6 +47,12 @@ class SystemTagManager implements ISystemTagManager {
 
 	/** @var EventDispatcherInterface */
 	protected $dispatcher;
+
+	/** @var IUserManager */
+	protected $userManager;
+
+	/** @var IGroupManager */
+	protected $groupManager;
 
 	/**
 	 * Prepared query for selecting tags directly
@@ -54,8 +67,15 @@ class SystemTagManager implements ISystemTagManager {
 	 * @param IDBConnection $connection database connection
 	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct(IDBConnection $connection, EventDispatcherInterface $dispatcher) {
+	public function __construct(
+		IDBConnection $connection,
+		IUserManager $userManager,
+		IGroupManager $groupManager,
+		EventDispatcherInterface $dispatcher
+	) {
 		$this->connection = $connection;
+		$this->userManager = $userManager;
+		$this->groupManager = $groupManager;
 		$this->dispatcher = $dispatcher;
 
 		$query = $this->connection->getQueryBuilder();
@@ -314,6 +334,58 @@ class SystemTagManager implements ISystemTagManager {
 				'Tag id(s) not found', 0, $tagNotFoundException, $tagNotFoundException->getMissingTags()
 			);
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canUserAssignTag($tag, $userId) {
+		if (!$tag instanceof ISystemTag) {
+			$tags = $this->getTagsByIds([$tag]);
+			/** @var ISystemTag $tag */
+			$tag = current($tags);
+		}
+
+		if ($tag->isUserAssignable()) {
+			return true;
+		}
+
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			throw new UserNotFoundException($userId);
+		}
+
+		if ($this->groupManager->isAdmin($userId)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canUserSeeTag($tag, $userId) {
+		if (!$tag instanceof ISystemTag) {
+			$tags = $this->getTagsByIds([$tag]);
+			/** @var ISystemTag $tag */
+			$tag = current($tags);
+		}
+
+		if ($tag->isUserVisible()) {
+			return true;
+		}
+
+		$user = $this->userManager->get($userId);
+		if ($user === null) {
+			throw new UserNotFoundException($userId);
+		}
+
+		if ($this->groupManager->isAdmin($userId)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private function createSystemTagFromRow($row) {

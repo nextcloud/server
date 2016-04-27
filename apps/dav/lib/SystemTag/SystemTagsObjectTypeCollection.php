@@ -95,14 +95,18 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	}
 
 	/**
-	 * Returns whether the currently logged in user is an administrator
+	 * Returns the user id
+	 *
+	 * @return string user id
+	 *
+	 * @throws NoUserException if no user exists in the session
 	 */
-	private function isAdmin() {
+	private function getUserId() {
 		$user = $this->userSession->getUser();
 		if ($user !== null) {
-			return $this->groupManager->isAdmin($user->getUID());
+			return $user->getUID();
 		}
-		return false;
+		throw new NoUserException();
 	}
 
 	/**
@@ -132,7 +136,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		return new SystemTagsObjectMappingCollection(
 			$objectId,
 			$this->objectType,
-			$this->isAdmin(),
+			$this->getUserId(),
 			$this->tagManager,
 			$this->tagMapper
 		);

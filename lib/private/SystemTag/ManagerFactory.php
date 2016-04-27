@@ -59,6 +59,8 @@ class ManagerFactory implements ISystemTagManagerFactory {
 	public function getManager() {
 		return new SystemTagManager(
 			$this->serverContainer->getDatabaseConnection(),
+			$this->serverContainer->getUserManager(),
+			$this->serverContainer->getGroupManager(),
 			$this->serverContainer->getEventDispatcher()
 		);
 	}

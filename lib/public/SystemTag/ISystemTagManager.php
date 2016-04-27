@@ -113,4 +113,37 @@ interface ISystemTagManager {
 	 */
 	public function deleteTags($tagIds);
 
+	/**
+	 * Checks whether the given user is allowed to assign/unassign the tag with the
+	 * given id.
+	 *
+	 * @param string|\OCP\SystemTag\ISystemTag $tag tag id or system tag
+	 * @param string $userId user id
+	 *
+	 * @return true if the user is allowed to assign/unassign the tag, false otherwise
+	 *
+	 * @throws \OCP\SystemTag\TagNotFoundException if tag with the given id does not exist
+	 * @throws \OCP\UserNotFoundException if the given user id does not exist
+	 * @throws \InvalidArgumentException if the tag id is invalid (string instead of integer, etc.)
+	 *
+	 * @since 9.1.0
+	 */
+	public function canUserAssignTag($tag, $userId);
+
+	/**
+	 * Checks whether the given user is allowed to see the tag with the given id.
+	 *
+	 * @param string|\OCP\SystemTag\ISystemTag $tag tag id or system tag
+	 * @param string $userId user id
+	 *
+	 * @return true if the user is allowed to assign/unassign the tag, false otherwise
+	 *
+	 * @throws \OCP\SystemTag\TagNotFoundException if tag with the given id does not exist
+	 * @throws \OCP\UserNotFoundException if the given user id does not exist
+	 * @throws \InvalidArgumentException if the tag id is invalid (string instead of integer, etc.)
+	 *
+	 * @since 9.1.0
+	 */
+	public function canUserSeeTag($tag, $userId);
+
 }

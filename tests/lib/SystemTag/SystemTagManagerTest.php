@@ -17,6 +17,8 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
+use OCP\IUserManager;
+use OCP\IGroupManager;
 
 /**
  * Class TestSystemTagManager
@@ -37,6 +39,16 @@ class SystemTagManagerTest extends TestCase {
 	private $connection;
 
 	/**
+	 * @var IGroupManager
+	 */
+	private $groupManager;
+
+	/**
+	 * @var IUserManager
+	 */
+	private $userManager;
+
+	/**
 	 * @var EventDispatcherInterface
 	 */
 	private $dispatcher;
@@ -49,8 +61,16 @@ class SystemTagManagerTest extends TestCase {
 		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
 			->getMock();
 
+		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')->getMock();
+		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')->getMock();
+		$this->groupManager->expects($this->any())
+			->method('isAdmin')
+			->will($this->returnValue(false));
+
 		$this->tagManager = new SystemTagManager(
 			$this->connection,
+			$this->userManager,
+			$this->groupManager,
 			$this->dispatcher
 		);
 		$this->pruneTagsTables();
@@ -408,6 +428,68 @@ class SystemTagManagerTest extends TestCase {
 			1 => [$tag2->getId()],
 			2 => [],
 		], $tagIdMapping);
+	}
+
+	public function visibilityCheckProvider() {
+		return [
+			[false, false, false, false],
+			[true, false, false, true],
+			[false, false, true, true],
+			[true, false, true, true],
+		];
+	}
+
+	/**
+	 * @dataProvider visibilityCheckProvider
+	 */
+	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult) {
+		$userId = 'test';
+		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with($userId)
+			->will($this->returnValue([]));
+		$this->groupManager->expects($this->once())
+			->method('isAdmin')
+			->with($userId)
+			->will($this->returnValue($isAdmin));
+
+		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $userID));
+		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1->getId(), $userID));
+	}
+
+	public function assignabilityCheckProvider() {
+		return [
+			[false, false, false, false],
+			[true, false, false, false],
+			[true, true, false, true],
+			[false, true, false, false],
+			[false, false, true, true],
+			[false, true, true, true],
+			[true, false, true, true],
+			[true, true, true, true],
+		];
+	}
+
+	/**
+	 * @dataProvider assignabilityCheckProvider
+	 */
+	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult) {
+		$userId = 'test';
+		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with($userId)
+			->will($this->returnValue([]));
+		$this->groupManager->expects($this->once())
+			->method('isAdmin')
+			->with($userId)
+			->will($this->returnValue($isAdmin));
+
+		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1, $userID));
+		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1->getId(), $userID));
 	}
 
 	/**
