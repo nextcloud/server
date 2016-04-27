@@ -12,7 +12,7 @@ if [ ! -e "$TESTSCRIPT" ] ; then
 fi
 
 # sleep is necessary, otherwise the LDAP server cannot be connected to, yet.
-WEBUSER=`stat -c %U ../../../../config/config.php`
+WEBUSER=`ls -ld ../../../../config/config.php | awk '{print $3}'`
 OUT=""
 setup-scripts/start.sh > /dev/null && sleep 5 && \
     sudo -u "$WEBUSER" ../../../../occ app:enable user_ldap && \
