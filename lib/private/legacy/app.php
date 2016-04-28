@@ -1187,7 +1187,7 @@ class OC_App {
 	 * @param string[] $steps
 	 * @throws \OC\NeedsUpdateException
 	 */
-	private static function executeRepairSteps($appId, array $steps) {
+	public static function executeRepairSteps($appId, array $steps) {
 		if (empty($steps)) {
 			return;
 		}

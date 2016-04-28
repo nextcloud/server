@@ -69,8 +69,10 @@
 		}
 	},
 	"repair-steps": {
+		"install": [],
 		"pre-migration": [],
 		"post-migration": [],
-		"live-migration": []
+		"live-migration": [],
+		"uninstall": []
 	}
 }

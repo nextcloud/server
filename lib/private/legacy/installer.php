@@ -45,7 +45,7 @@ use OC\OCSClient;
 /**
  * This class provides the functionality needed to install, update and remove plugins/apps
  */
-class OC_Installer{
+class OC_Installer {
 
 	/**
 	 *
@@ -134,16 +134,19 @@ class OC_Installer{
 			self::includeAppScript($basedir . '/appinfo/install.php');
 		}
 
+		$appData = OC_App::getAppInfo($appId);
+		OC_App::executeRepairSteps($appId, $appData['repair-steps']['install']);
+
 		//set the installed version
 		\OC::$server->getAppConfig()->setValue($info['id'], 'installed_version', OC_App::getAppVersion($info['id']));
 		\OC::$server->getAppConfig()->setValue($info['id'], 'enabled', 'no');
 
 		//set remote/public handelers
 		foreach($info['remote'] as $name=>$path) {
-			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
+			OCP\Config::setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
 		}
 		foreach($info['public'] as $name=>$path) {
-			OCP\CONFIG::setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
+			OCP\Config::setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
 		}
 
 		OC_App::setAppTypes($info['id']);
@@ -474,52 +477,30 @@ class OC_Installer{
 	/**
 	 * Removes an app
 	 * @param string $name name of the application to remove
-	 * @param array $options options
 	 * @return boolean
 	 *
-	 * This function removes an app. $options is an associative array. The
-	 * following keys are optional:ja
-	 *   - keeppreferences: boolean, if true the user preferences won't be deleted
-	 *   - keepappconfig: boolean, if true the config will be kept
-	 *   - keeptables: boolean, if true the database will be kept
-	 *   - keepfiles: boolean, if true the user files will be kept
 	 *
 	 * This function works as follows
-	 *   -# including appinfo/remove.php
+	 *   -# call uninstall repair steps
 	 *   -# removing the files
 	 *
 	 * The function will not delete preferences, tables and the configuration,
 	 * this has to be done by the function oc_app_uninstall().
 	 */
-	public static function removeApp( $name, $options = array()) {
+	public static function removeApp($appId) {
 
-		if(isset($options['keeppreferences']) and $options['keeppreferences']==false ) {
-			// todo
-			// remove preferences
+		$appData = OC_App::getAppInfo($appId);
+		if (!is_null($appData)) {
+			OC_App::executeRepairSteps($appId, $appData['repair-steps']['uninstall']);
 		}
 
-		if(isset($options['keepappconfig']) and $options['keepappconfig']==false ) {
-			// todo
-			// remove app config
-		}
-
-		if(isset($options['keeptables']) and $options['keeptables']==false ) {
-			// todo
-			// remove app database tables
-		}
-
-		if(isset($options['keepfiles']) and $options['keepfiles']==false ) {
-			// todo
-			// remove user files
-		}
-
-		if(OC_Installer::isDownloaded( $name )) {
-			$appdir=OC_App::getInstallPath().'/'.$name;
-			OC_Helper::rmdirr($appdir);
+		if(OC_Installer::isDownloaded( $appId )) {
+			$appDir=OC_App::getInstallPath() . '/' . $appId;
+			OC_Helper::rmdirr($appDir);
 
 			return true;
 		}else{
-			\OCP\Util::writeLog('core', 'can\'t remove app '.$name.'. It is not installed.', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('core', 'can\'t remove app '.$appId.'. It is not installed.', \OCP\Util::ERROR);
 
 			return false;
 		}
@@ -589,6 +570,8 @@ class OC_Installer{
 		if (is_null($info)) {
 			return false;
 		}
+
+		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
 
 		$config = \OC::$server->getConfig();
 
