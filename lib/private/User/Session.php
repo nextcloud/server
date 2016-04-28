@@ -184,30 +184,27 @@ class Session implements IUserSession, Emitter {
 		if (OC_User::isIncognitoMode()) {
 			return null;
 		}
-		if ($this->activeUser) {
-			return $this->activeUser;
-		} else {
+		if (is_null($this->activeUser)) {
 			$uid = $this->session->get('user_id');
-			if ($uid !== null && $this->isValidSession($uid)) {
-				return $this->activeUser;
-			} else {
+			if (is_null($uid)) {
 				return null;
 			}
+			$this->activeUser = $this->manager->get($uid);
+			if (is_null($this->activeUser)) {
+				return null;
+			}
+			$this->validateSession($this->activeUser);
 		}
+		return $this->activeUser;
 	}
 
-	private function isValidSession($uid) {
-		$this->activeUser = $this->manager->get($uid);
-		if (is_null($this->activeUser)) {
-			// User does not exist
-			return false;
-		}
+	protected function validateSession(IUser $user) {
 		// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
 		$sessionId = session_id();
 		try {
 			$token = $this->tokenProvider->getToken($sessionId);
 		} catch (InvalidTokenException $ex) {
-			// Session was inalidated
+			// Session was invalidated
 			$this->logout();
 			return false;
 		}
@@ -217,7 +214,7 @@ class Session implements IUserSession, Emitter {
 		$lastCheck = $this->session->get('last_login_check') ? : 0;
 		if ($lastCheck < (time() - 60 * 5)) {
 			$pwd = $this->tokenProvider->getPassword($token, $sessionId);
-			if ($this->manager->checkPassword($uid, $pwd) === false) {
+			if ($this->manager->checkPassword($user->getUID(), $pwd) === false) {
 				// Password has changed -> log user out
 				$this->logout();
 				return false;
@@ -303,13 +300,7 @@ class Session implements IUserSession, Emitter {
 					$this->setLoginName($uid);
 					$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 					if ($this->isLoggedIn()) {
-						// Refresh the token
-						\OC::$server->getCsrfTokenManager()->refreshToken();
-						//we need to pass the user name, which may differ from login name
-						$user = $this->getUser()->getUID();
-						\OC_Util::setupFS($user);
-						//trigger creation of user home and /files folder
-						\OC::$server->getUserFolder($user);
+						$this->prepareUserLogin();
 						return true;
 					} else {
 						// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
@@ -324,6 +315,17 @@ class Session implements IUserSession, Emitter {
 			}
 		}
 		return false;
+	}
+
+	protected function prepareUserLogin() {
+		// TODO: mock/inject/use non-static
+		// Refresh the token
+		\OC::$server->getCsrfTokenManager()->refreshToken();
+		//we need to pass the user name, which may differ from login name
+		$user = $this->getUser()->getUID();
+		\OC_Util::setupFS($user);
+		//trigger creation of user home and /files folder
+		\OC::$server->getUserFolder($user);
 	}
 
 	/**
