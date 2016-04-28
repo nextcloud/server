@@ -147,14 +147,19 @@ class Manager extends PublicEmitter implements IUserManager {
 	 *
 	 * @param string $uid
 	 * @param \OCP\UserInterface $backend
+	 * @param bool $cacheUser If false the newly created user object will not be cached
 	 * @return \OC\User\User
 	 */
-	protected function getUserObject($uid, $backend) {
+	protected function getUserObject($uid, $backend, $cacheUser = true) {
 		if (isset($this->cachedUsers[$uid])) {
 			return $this->cachedUsers[$uid];
 		}
-		$this->cachedUsers[$uid] = new User($uid, $backend, $this, $this->config);
-		return $this->cachedUsers[$uid];
+
+		$user = new User($uid, $backend, $this, $this->config);
+		if ($cacheUser) {
+			$this->cachedUsers[$uid] = $user;
+		}
+		return $user;
 	}
 
 	/**
@@ -339,7 +344,7 @@ class Manager extends PublicEmitter implements IUserManager {
 					if (!$backend->userExists($uid)) {
 						continue;
 					}
-					$user = $this->getUserObject($uid, $backend);
+					$user = $this->getUserObject($uid, $backend, false);
 					$return = $callback($user);
 					if ($return === false) {
 						break;
