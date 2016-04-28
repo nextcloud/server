@@ -46,6 +46,7 @@
  */
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
+use OC\Installer;
 use OC\OCSClient;
 use OC\Repair;
 
@@ -304,7 +305,7 @@ class OC_App {
 	 */
 	public static function enable($app, $groups = null) {
 		self::$enabledAppsCache = array(); // flush
-		if (!OC_Installer::isInstalled($app)) {
+		if (!Installer::isInstalled($app)) {
 			$app = self::installApp($app);
 		}
 
@@ -340,7 +341,7 @@ class OC_App {
 			// Replace spaces in download link without encoding entire URL
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
 			$info = array('source' => 'http', 'href' => $download['downloadlink'], 'appdata' => $appData);
-			$app = OC_Installer::installApp($info);
+			$app = Installer::installApp($info);
 		}
 		return $app;
 	}
@@ -354,7 +355,7 @@ class OC_App {
 			return false;
 		}
 
-		return OC_Installer::removeApp($app);
+		return Installer::removeApp($app);
 	}
 
 	/**
@@ -827,7 +828,7 @@ class OC_App {
 					$info['removable'] = true;
 				}
 
-				$info['update'] = ($includeUpdateInfo) ? OC_Installer::isUpdateAvailable($app) : null;
+				$info['update'] = ($includeUpdateInfo) ? Installer::isUpdateAvailable($app) : null;
 
 				$appPath = self::getAppPath($app);
 				if($appPath !== false) {
@@ -1073,7 +1074,7 @@ class OC_App {
 			if ($appData && version_compare($shippedVersion, $appData['version'], '<')) {
 				$app = self::downloadApp($app);
 			} else {
-				$app = OC_Installer::installShippedApp($app);
+				$app = Installer::installShippedApp($app);
 			}
 		} else {
 			// Maybe the app is already installed - compare the version in this
