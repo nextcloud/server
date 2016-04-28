@@ -1,6 +1,7 @@
 OC.L10N.register(
     "comments",
     {
+    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Komentáře</strong> pro soubory <em>(vždy uvedeny v proudu)</em>",
     "You commented" : "Okomentoval(a) jsi",
     "%1$s commented" : "%1$s okomentován",
     "You commented on %2$s" : "Okomentoval(a) jsi %2$s",

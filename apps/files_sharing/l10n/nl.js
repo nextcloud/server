@@ -8,6 +8,7 @@ OC.L10N.register(
     "Could not authenticate to remote share, password might be wrong" : "Kon niet authenticeren bij externe share, misschien verkeerd wachtwoord",
     "Storage not valid" : "Opslag ongeldig",
     "Couldn't add remote share" : "Kon geen externe share toevoegen",
+    "Share API is disabled" : "Delen API is uitgeschakeld",
     "Shared with you" : "Gedeeld met u",
     "Shared with others" : "Gedeeld door u",
     "Shared by link" : "Gedeeld via een link",

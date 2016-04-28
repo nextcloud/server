@@ -8,6 +8,7 @@ OC.L10N.register(
     "Could not authenticate to remote share, password might be wrong" : "Die Authentifizierung an der entfernten Freigabe konnte nicht erfolgen, das Passwort könnte falsch sein",
     "Storage not valid" : "Speicher ungültig",
     "Couldn't add remote share" : "Entfernte Freigabe kann nicht hinzugefügt werden",
+    "Share API is disabled" : "Teilen-API ist deaktivert",
     "Shared with you" : "Mit Ihnen geteilt",
     "Shared with others" : "Von Ihnen geteilt",
     "Shared by link" : "Geteilt über einen Link",

@@ -25,6 +25,7 @@
     "Error unfavoriting" : "Chyba při odznačování jako oblíbené",
     "Couldn't send mail to following users: %s " : "Nebylo možné odeslat email následujícím uživatelům: %s",
     "Preparing update" : "Příprava na aktualizaci",
+    "Please use the command line updater because automatic updating is disabled in the config.php." : "Prosím použijte aktualizační příkazový řádek, protože automatická aktualizace je zakázána v config.php",
     "[%d / %d]: %s" : "[%d / %d]: %s",
     "[%d / %d]: Checking table %s" : "[%d / %d]: Kontrola tabulky %s",
     "Turned on maintenance mode" : "Zapnut režim údržby",
@@ -95,6 +96,7 @@
     "Dec." : "prosinec",
     "<a href=\"{docUrl}\">There were problems with the code integrity check. More information…</a>" : "<a href=\"{docUrl}\">Došlo k problémům při kontrole integrity kódu. Více informací…</a>",
     "Settings" : "Nastavení",
+    "Problem loading page, reloading in 5 seconds" : "Problém s načítáním stránky, stránka se obnoví za 5 sekund",
     "Saving..." : "Ukládám...",
     "Dismiss" : "Zamítnout",
     "seconds ago" : "před pár sekundami",
@@ -305,6 +307,7 @@
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Abyste zabránili vypršení časového limitu u větších instalací, můžete namísto toho spustit následující příkaz v hlavním adresáři:",
     "Detailed logs" : "Podrobné logy",
     "Update needed" : "Potřeba aktualizace",
+    "Please use the command line updater because you have a big instance." : "Prosím použijte aktualizační příkazový řádek, protože máte velkou instanci.",
     "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Pro pomoc, shlédněte  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentaci</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Tato instalace %s je právě ve stavu údržby a to může chvíli trvat.",
     "This page will refresh itself when the %s instance is available again." : "Tato stránka se automaticky načte poté, co bude opět dostupná instance %s."
