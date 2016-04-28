@@ -271,6 +271,9 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	 * @return bool
 	 */
 	public function __isset($name) {
+		if (in_array($name, $this->allowedKeys, true)) {
+			return true;
+		}
 		return isset($this->items['parameters'][$name]);
 	}
 
