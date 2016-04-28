@@ -59,7 +59,7 @@ class Session extends \Test\TestCase {
 			->will($this->returnValue(true));
 		$session->expects($this->at(2))
 			->method('set')
-			->with('last_login_check', time());
+			->with('last_login_check', $this->equalTo(time(), 10));
 
 		$session->expects($this->at(3))
 			->method('get')
@@ -70,7 +70,7 @@ class Session extends \Test\TestCase {
 			->with($token);
 		$session->expects($this->at(4))
 			->method('set')
-			->with('last_token_update', time());
+			->with('last_token_update', $this->equalTo(time(), 10));
 
 		$manager->expects($this->any())
 			->method('get')

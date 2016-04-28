@@ -277,7 +277,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue(false));
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
-			->with('login#showLoginForm')
+			->with('core.login.showLoginForm')
 			->will($this->returnValue($loginPageUrl));
 
 		$this->userSession->expects($this->never())

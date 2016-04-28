@@ -1076,7 +1076,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>100</length>
+				<length>200</length>
 			</field>
 
 			<field>
