@@ -335,11 +335,11 @@ class Manager extends PublicEmitter implements IUserManager {
 			$offset = 0;
 			do {
 				$users = $backend->getUsers($search, $limit, $offset);
-				foreach ($users as $user) {
-					$user = $this->get($user);
-					if (is_null($user)) {
+				foreach ($users as $uid) {
+					if (!$backend->userExists($uid)) {
 						continue;
 					}
+					$user = $this->getUserObject($uid, $backend);
 					$return = $callback($user);
 					if ($return === false) {
 						break;
