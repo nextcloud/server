@@ -4,7 +4,7 @@
 	"_comment3": "Put any custom mappings in a new file mimetypealiases.json in the config/ folder of ownCloud",
 
 	"_comment4": "After any change to mimetypealiases.json run:",
-	"_comment5": "./occ occ maintenance:mimetype:update-js",
+	"_comment5": "./occ maintenance:mimetype:update-js",
 	"_comment6": "Otherwise your update won't propagate through the system.",
 
 
