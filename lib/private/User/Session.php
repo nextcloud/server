@@ -332,7 +332,8 @@ class Session implements IUserSession, Emitter {
 	 * Tries to login the user with HTTP Basic Authentication
 	 * @return boolean if the login was successful
 	 */
-	public function tryBasicAuthLogin() {
+	public function tryBasicAuthLogin(IRequest $request) {
+		// TODO: use $request->server instead of super globals
 		if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
 			$result = $this->login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
 			if ($result === true) {
@@ -431,9 +432,7 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @todo check remember me cookie
 	 */
-	public function tryTokenLogin() {
-		// TODO: resolve cyclic dependency and inject IRequest somehow
-		$request = \OC::$server->getRequest();
+	public function tryTokenLogin(IRequest $request) {
 		$authHeader = $request->getHeader('Authorization');
 		if (strpos($authHeader, 'token ') === false) {
 			// No auth header, let's try session id

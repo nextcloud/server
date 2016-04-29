@@ -856,10 +856,7 @@ class OC {
 			} else {
 				// For guests: Load only filesystem and logging
 				OC_App::loadApps(array('filesystem', 'logging'));
-				$userSession = self::$server->getUserSession();
-				if (!$userSession->tryTokenLogin()) {
-					$userSession->tryBasicAuthLogin();
-				}
+				self::handleLogin($request);
 			}
 		}
 
@@ -903,6 +900,26 @@ class OC {
 			// Not handled and not logged in
 			header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
+	}
+
+	/**
+	 * Check login: apache auth, auth token, basic auth
+	 *
+	 * @param OCP\IRequest $request
+	 * @return boolean
+	 */
+	private static function handleLogin(OCP\IRequest $request) {
+		$userSession = self::$server->getUserSession();
+		if (OC_User::handleApacheAuth()) {
+			return true;
+		}
+		if ($userSession->tryTokenLogin($request)) {
+			return true;
+		}
+		if ($userSession->tryBasicAuthLogin($request)) {
+			return true;
+		}
+		return false;
 	}
 
 	protected static function handleAuthHeaders() {
