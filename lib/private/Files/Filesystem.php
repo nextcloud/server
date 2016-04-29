@@ -58,6 +58,7 @@
 
 namespace OC\Files;
 
+use OC\Cache\CappedMemoryCache;
 use OC\Files\Config\MountProviderCollection;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Storage\StorageFactory;
@@ -81,7 +82,7 @@ class Filesystem {
 
 	static private $usersSetup = array();
 
-	static private $normalizedPathCache = array();
+	static private $normalizedPathCache = null;
 
 	static private $listeningForProviders = false;
 
@@ -794,6 +795,10 @@ class Filesystem {
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false) {
+		if (is_null(self::$normalizedPathCache)) {
+			self::$normalizedPathCache = new CappedMemoryCache();
+		}
+
 		/**
 		 * FIXME: This is a workaround for existing classes and files which call
 		 *        this function with another type than a valid string. This
