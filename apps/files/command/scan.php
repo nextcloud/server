@@ -89,6 +89,15 @@ class Scan extends Base {
 			);
 	}
 
+	public function checkScanWarning($fullPath, OutputInterface $output) {
+		$normalizedPath = basename(\OC\Files\Filesystem::normalizePath($fullPath));
+		$path = basename($fullPath);
+
+		if ($normalizedPath !== $path) {
+			$output->writeln("\t<error>Entry \"" . $fullPath . '" will not be accessible due to incompatible encoding</error>');
+		}
+	}
+
 	protected function scanFiles($user, $path, $verbose, OutputInterface $output) {
 		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
@@ -126,6 +135,12 @@ class Scan extends Base {
 				}
 			});
 		}
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function($path) use ($output) {
+			$this->checkScanWarning($path, $output);
+		});
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function($path) use ($output) {
+			$this->checkScanWarning($path, $output);
+		});
 
 		try {
 			$scanner->scan($path);
@@ -133,7 +148,9 @@ class Scan extends Base {
 			$output->writeln("<error>Home storage for user $user not writable</error>");
 			$output->writeln("Make sure you're running the scan command only as the user the web server runs as");
 		} catch (\Exception $e) {
-			# exit the function if ctrl-c has been pressed 
+			if ($e->getMessage() !== 'ctrl-c') {
+				$output->writeln('<error>Exception while scanning: ' . $e->getMessage() . "\n" . $e->getTraceAsString() . '</error>');
+			}
 			return;
 		}
 	}
