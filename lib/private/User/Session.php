@@ -330,6 +330,8 @@ class Session implements IUserSession, Emitter {
 
 	/**
 	 * Tries to login the user with HTTP Basic Authentication
+	 *
+	 * @param IRequest $request
 	 * @return boolean if the login was successful
 	 */
 	public function tryBasicAuthLogin(IRequest $request) {

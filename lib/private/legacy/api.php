@@ -354,8 +354,9 @@ class OC_API {
 		// basic auth - because OC_User::login will create a new session we shall only try to login
 		// if user and pass are set
 		$userSession = \OC::$server->getUserSession();
+		$request = \OC::$server->getRequest();
 		try {
-			$loginSuccess = $userSession->tryTokenLogin();
+			$loginSuccess = $userSession->tryTokenLogin($request);
 			if (!$loginSuccess) {
 				$loginSuccess = $userSession->tryBasicAuthLogin();
 			}
