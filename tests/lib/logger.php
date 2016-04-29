@@ -107,4 +107,19 @@ class Logger extends TestCase {
 			$this->assertContains('checkPassword(*** username and password replaced ***)', $logLine);
 		}
 	}
+
+	/**
+	 * @dataProvider userAndPasswordData
+	 */
+	public function testDetectvalidateUserPass($user, $password) {
+		$e = new \Exception('test');
+		$this->logger->logException($e);
+		$logLines = $this->getLogs();
+
+		foreach($logLines as $logLine) {
+			$this->assertNotContains($user, $logLine);
+			$this->assertNotContains($password, $logLine);
+			$this->assertContains('validateUserPass(*** username and password replaced ***)', $logLine);
+		}
+	}
 }
