@@ -208,12 +208,30 @@ class Filesystem {
 	 */
 	private static $loader;
 
+	/** @var bool */
+	private static $logWarningWhenAddingStorageWrapper = true;
+
+	/**
+	 * @param bool $shouldLog
+	 * @internal
+	 */
+	public static function logWarningWhenAddingStorageWrapper($shouldLog) {
+		self::$logWarningWhenAddingStorageWrapper = (bool) $shouldLog;
+	}
+
 	/**
 	 * @param string $wrapperName
 	 * @param callable $wrapper
 	 * @param int $priority
 	 */
 	public static function addStorageWrapper($wrapperName, $wrapper, $priority = 50) {
+		if (self::$logWarningWhenAddingStorageWrapper) {
+			\OC::$server->getLogger()->warning("Storage wrapper '{wrapper}' was not registered via the 'OC_Filesystem - preSetup' hook which could cause potential problems.", [
+				'wrapper' => $wrapperName,
+				'app' => 'filesystem',
+			]);
+		}
+
 		$mounts = self::getMountManager()->getAll();
 		if (!self::getLoader()->addStorageWrapper($wrapperName, $wrapper, $priority, $mounts)) {
 			// do not re-wrap if storage with this name already existed
