@@ -100,7 +100,7 @@ class SMB extends \OC\Files\Storage\Common {
 	 * @return string
 	 */
 	protected function buildPath($path) {
-		return Filesystem::normalizePath($this->root . '/' . $path);
+		return Filesystem::normalizePath($this->root . '/' . $path, true, false, true);
 	}
 
 	/**

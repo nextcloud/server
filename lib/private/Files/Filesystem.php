@@ -790,11 +790,12 @@ class Filesystem {
 	 * Fix common problems with a file path
 	 *
 	 * @param string $path
-	 * @param bool $stripTrailingSlash
-	 * @param bool $isAbsolutePath
+	 * @param bool $stripTrailingSlash whether to strip the trailing slash
+	 * @param bool $isAbsolutePath whether the given path is absolute
+	 * @param bool $keepUnicode true to disable unicode normalization
 	 * @return string
 	 */
-	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false) {
+	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false, $keepUnicode = false) {
 		if (is_null(self::$normalizedPathCache)) {
 			self::$normalizedPathCache = new CappedMemoryCache();
 		}
@@ -818,18 +819,12 @@ class Filesystem {
 		}
 
 		//normalize unicode if possible
-		$path = \OC_Util::normalizeUnicode($path);
+		if (!$keepUnicode) {
+			$path = \OC_Util::normalizeUnicode($path);
+		}
 
 		//no windows style slashes
 		$path = str_replace('\\', '/', $path);
-
-		// When normalizing an absolute path, we need to ensure that the drive-letter
-		// is still at the beginning on windows
-		$windows_drive_letter = '';
-		if ($isAbsolutePath && \OC_Util::runningOnWindows() && preg_match('#^([a-zA-Z])$#', $path[0]) && $path[1] == ':' && $path[2] == '/') {
-			$windows_drive_letter = substr($path, 0, 2);
-			$path = substr($path, 2);
-		}
 
 		//add leading slash
 		if ($path[0] !== '/') {
@@ -856,7 +851,7 @@ class Filesystem {
 			$path = substr($path, 0, -2);
 		}
 
-		$normalizedPath = $windows_drive_letter . $path;
+		$normalizedPath = $path;
 		self::$normalizedPathCache[$cacheKey] = $normalizedPath;
 
 		return $normalizedPath;
