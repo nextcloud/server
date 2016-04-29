@@ -53,9 +53,7 @@ class SMB extends \OC\Files\Storage\Common {
 	 */
 	protected $share;
 
-	/**
-	 * @var string
-	 */
+	/** @var string	The folder that will act as root */
 	protected $root;
 
 	/**
@@ -63,32 +61,68 @@ class SMB extends \OC\Files\Storage\Common {
 	 */
 	protected $statCache;
 
-	public function __construct($params) {
-		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
-			if (Server::NativeAvailable()) {
-				$this->server = new NativeServer($params['host'], $params['user'], $params['password']);
-			} else {
-				$this->server = new Server($params['host'], $params['user'], $params['password']);
-			}
-			$this->share = $this->server->getShare(trim($params['share'], '/'));
+	/** @var bool */
+	protected $isInitialized = false;
 
-			$this->root = isset($params['root']) ? $params['root'] : '/';
-			if (!$this->root || $this->root[0] != '/') {
-				$this->root = '/' . $this->root;
-			}
-			if (substr($this->root, -1, 1) != '/') {
-				$this->root .= '/';
-			}
-		} else {
+	/** @var string Host where the connection should be made */
+	protected $host;
+
+	/** @var string User to connect*/
+	protected $user;
+
+	/** @var string */
+	protected $password;
+
+	/** @var string The share name that we'll use */
+	protected $shareName;
+
+	public function __construct($params) {
+		if (!isset($params['host']) || !isset($params['user']) || !isset($params['password'])  || !isset($params['share'])) {
 			throw new \Exception('Invalid configuration');
 		}
+
+		$this->host      = $params['host'];
+		$this->user      = $params['user'];
+		$this->password  = $params['password'];
+		$this->shareName = $params['share'];
+		$this->root      = isset($params['root']) ? $params['root'] : '/';
+
+		if (!$this->root || $this->root[0] != '/') {
+			$this->root = '/' . $this->root;
+		}
+		if (substr($this->root, -1, 1) != '/') {
+			$this->root .= '/';
+		}
+
 		$this->statCache = new CappedMemoryCache();
+	}
+
+	/**
+	 * initializes the Samba server connection and share
+	 *
+	 * @throws StorageNotAvailableException
+	 */
+	public function init() {
+		if($this->isInitialized) {
+			return;
+		}
+
+		if($this->password === '' && $this->user !== '') {
+			throw new StorageNotAvailableException('Password required when username given');
+		}
+
+		$serverClass = Server::NativeAvailable() ? 'NativeServer' : 'Server';
+		$this->server = new $serverClass($this->host, $this->user, $this->password);
+		$this->share = $this->server->getShare(trim($this->shareName, '/'));
+
+		$this->isInitialized = true;
 	}
 
 	/**
 	 * @return string
 	 */
 	public function getId() {
+		$this->init();
 		// FIXME: double slash to keep compatible with the old storage ids,
 		// failure to do so will lead to creation of a new storage id and
 		// loss of shares from the storage
@@ -109,6 +143,7 @@ class SMB extends \OC\Files\Storage\Common {
 	 * @throws StorageNotAvailableException
 	 */
 	protected function getFileInfo($path) {
+		$this->init();
 		try {
 			$path = $this->buildPath($path);
 			if (!isset($this->statCache[$path])) {
@@ -126,6 +161,7 @@ class SMB extends \OC\Files\Storage\Common {
 	 * @throws StorageNotAvailableException
 	 */
 	protected function getFolderContents($path) {
+		$this->init();
 		try {
 			$path = $this->buildPath($path);
 			$files = $this->share->dir($path);
@@ -160,8 +196,12 @@ class SMB extends \OC\Files\Storage\Common {
 	/**
 	 * @param string $path
 	 * @return bool
+	 * @throws StorageNotAvailableException
+	 * @throws \Icewind\SMB\Exception\FileInUseException
+	 * @throws \Icewind\SMB\Exception\InvalidTypeException
 	 */
 	public function unlink($path) {
+		$this->init();
 		try {
 			if ($this->is_dir($path)) {
 				return $this->rmdir($path);
@@ -188,6 +228,7 @@ class SMB extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
+		$this->init();
 		if (!$path and $this->root == '/') {
 			// mtime doesn't work for shares, but giving the nature of the backend,
 			// doing a full update is still just fast enough
@@ -202,8 +243,10 @@ class SMB extends \OC\Files\Storage\Common {
 	 * @param string $path
 	 * @param string $mode
 	 * @return resource
+	 * @throws StorageNotAvailableException
 	 */
 	public function fopen($path, $mode) {
+		$this->init();
 		$fullPath = $this->buildPath($path);
 		try {
 			switch ($mode) {
@@ -264,7 +307,15 @@ class SMB extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool
+	 * @throws StorageNotAvailableException
+	 * @throws \Icewind\SMB\Exception\FileInUseException
+	 * @throws \Icewind\SMB\Exception\InvalidTypeException
+	 */
 	public function rmdir($path) {
+		$this->init();
 		try {
 			$this->statCache = array();
 			$content = $this->share->dir($this->buildPath($path));
@@ -286,7 +337,14 @@ class SMB extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @param null $time
+	 * @return bool
+	 * @throws StorageNotAvailableException
+	 */
 	public function touch($path, $time = null) {
+		$this->init();
 		try {
 			if (!$this->file_exists($path)) {
 				$fh = $this->share->write($this->buildPath($path));
@@ -324,7 +382,13 @@ class SMB extends \OC\Files\Storage\Common {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool
+	 * @throws StorageNotAvailableException
+	 */
 	public function mkdir($path) {
+		$this->init();
 		$path = $this->buildPath($path);
 		try {
 			$this->share->mkdir($path);
@@ -387,6 +451,7 @@ class SMB extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function test() {
+		$this->init();
 		try {
 			return parent::test();
 		} catch (Exception $e) {
