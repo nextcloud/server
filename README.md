@@ -25,7 +25,7 @@ A personal cloud which runs on your own server.**
 * ...
 
 ## Installation instructions
-https://doc.owncloud.org/server/9.0/developer_manual/app/index.html
+https://doc.owncloud.org/server/9.1/developer_manual/app/index.html
 
 ## Contribution Guidelines
 https://owncloud.org/contribute/
@@ -47,4 +47,4 @@ https://www.transifex.com/projects/p/owncloud/
 [![Transifex](https://www.transifex.com/projects/p/owncloud/resource/core/chart/image_png)](https://www.transifex.com/projects/p/owncloud/)
 
 For more detailed information about translations:
-http://doc.owncloud.org/server/9.0/developer_manual/core/translation.html
+http://doc.owncloud.org/server/9.1/developer_manual/core/translation.html
