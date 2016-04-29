@@ -112,7 +112,9 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateDB(\OC::$server->getMimeTypeDetector(), \OC::$server->getMimeTypeLoader()));
 	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateJS(\OC::$server->getMimeTypeDetector()));
 	$application->add(new OC\Core\Command\Maintenance\Mode(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Maintenance\Repair(new \OC\Repair(\OC\Repair::getRepairSteps()), \OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Maintenance\Repair(
+		new \OC\Repair(\OC\Repair::getRepairSteps(), \OC::$server->getEventDispatcher()), \OC::$server->getConfig(),
+		\OC::$server->getEventDispatcher()));
 	$application->add(new OC\Core\Command\Maintenance\SingleUser(\OC::$server->getConfig()));
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger()));

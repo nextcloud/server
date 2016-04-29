@@ -48,9 +48,10 @@ interface IOutput {
 
 	/**
 	 * @param int $step
+	 * @param string $description
 	 * @since 9.1.0
 	 */
-	public function advance($step = 1);
+	public function advance($step = 1, $description = '');
 
 	/**
 	 * @param int $max

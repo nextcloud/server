@@ -28,7 +28,6 @@
 
 namespace OC;
 
-use OC\Hooks\BasicEmitter;
 use OC\Hooks\Emitter;
 use OC\Repair\AssetCache;
 use OC\Repair\CleanTags;
@@ -51,11 +50,13 @@ use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
-class Repair extends BasicEmitter implements IOutput{
+class Repair implements IOutput{
 	/* @var IRepairStep[] */
 	private $repairSteps;
 	/** @var EventDispatcher */
 	private $dispatcher;
+	/** @var string */
+	private $currentStep;
 
 	/**
 	 * Creates a new repair step runner
@@ -79,7 +80,8 @@ class Repair extends BasicEmitter implements IOutput{
 		}
 		// run each repair step
 		foreach ($this->repairSteps as $step) {
-			$this->emit('\OC\Repair', 'step', array($step->getName()));
+			$this->currentStep = $step->getName();
+			$this->emit('\OC\Repair', 'step', [$this->currentStep]);
 
 			if ($step instanceof Emitter) {
 				$step->listen('\OC\Repair', 'warning', function ($description) use ($self) {
@@ -178,10 +180,11 @@ class Repair extends BasicEmitter implements IOutput{
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * @param string $scope
+	 * @param string $method
+	 * @param array $arguments
 	 */
 	public function emit($scope, $method, array $arguments = []) {
-		parent::emit($scope, $method, $arguments);
 		if (!is_null($this->dispatcher)) {
 			$this->dispatcher->dispatch("$scope::$method",
 				new GenericEvent("$scope::$method", $arguments));
@@ -206,15 +209,16 @@ class Repair extends BasicEmitter implements IOutput{
 	 */
 	public function startProgress($max = 0) {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'startProgress', [$max]);
+		$this->emit('\OC\Repair', 'startProgress', [$max, $this->currentStep]);
 	}
 
 	/**
 	 * @param int $step
+	 * @param string $description
 	 */
-	public function advance($step = 1) {
+	public function advance($step = 1, $description = '') {
 		// for now just emit as we did in the past
-		$this->emit('\OC\Repair', 'advance', [$step]);
+		$this->emit('\OC\Repair', 'advance', [$step, $description]);
 	}
 
 	/**

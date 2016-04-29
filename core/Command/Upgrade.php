@@ -162,8 +162,59 @@ class Upgrade extends Command {
 					}
 				}
 			};
+			$repairListener = function($event) use ($progress, $output) {
+				if (!$event instanceof GenericEvent) {
+					return;
+				}
+				switch ($event->getSubject()) {
+					case '\OC\Repair::startProgress':
+						$progress->setMessage('Starting ...');
+						$output->writeln($event->getArgument(1));
+						$output->writeln('');
+						$progress->start($event->getArgument(0));
+						break;
+					case '\OC\Repair::advance':
+						$desc = $event->getArgument(1);
+						if (!empty($desc)) {
+							$progress->setMessage($desc);
+						}
+						$progress->advance($event->getArgument(0));
+
+						break;
+					case '\OC\Repair::finishProgress':
+						$progress->setMessage('Done');
+						$progress->finish();
+						$output->writeln('');
+						break;
+					case '\OC\Repair::step':
+						if(OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+							$output->writeln('<info>Repair step: ' . $event->getArgument(0) . '</info>');
+						}
+						break;
+					case '\OC\Repair::info':
+						if(OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
+							$output->writeln('<info>Repair info: ' . $event->getArgument(0) . '</info>');
+						}
+						break;
+					case '\OC\Repair::warning':
+						$output->writeln('<error>Repair warning: ' . $event->getArgument(0) . '</error>');
+						break;
+					case '\OC\Repair::error':
+						$output->writeln('<error>Repair error: ' . $event->getArgument(0) . '</error>');
+						break;
+				}
+			};
+
 			$dispatcher->addListener('\OC\DB\Migrator::executeSql', $listener);
 			$dispatcher->addListener('\OC\DB\Migrator::checkTable', $listener);
+			$dispatcher->addListener('\OC\Repair::startProgress', $repairListener);
+			$dispatcher->addListener('\OC\Repair::advance', $repairListener);
+			$dispatcher->addListener('\OC\Repair::finishProgress', $repairListener);
+			$dispatcher->addListener('\OC\Repair::step', $repairListener);
+			$dispatcher->addListener('\OC\Repair::info', $repairListener);
+			$dispatcher->addListener('\OC\Repair::warning', $repairListener);
+			$dispatcher->addListener('\OC\Repair::error', $repairListener);
+			
 
 			$updater->listen('\OC\Updater', 'maintenanceEnabled', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
@@ -205,12 +256,6 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'upgradeAppStoreApp', function ($app) use($output) {
 				$output->writeln('<info>Update 3rd-party app: ' . $app . '</info>');
 			});
-			$updater->listen('\OC\Updater', 'repairWarning', function ($app) use($output) {
-				$output->writeln('<error>Repair warning: ' . $app . '</error>');
-			});
-			$updater->listen('\OC\Updater', 'repairError', function ($app) use($output) {
-				$output->writeln('<error>Repair error: ' . $app . '</error>');
-			});
 			$updater->listen('\OC\Updater', 'appUpgradeCheckBefore', function () use ($output) {
 				$output->writeln('<info>Checking updates of apps</info>');
 			});
@@ -241,15 +286,6 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'finishedCheckCodeIntegrity', function () use($output) {
 				$output->writeln("<info>Finished code integrity check</info>");
 			});
-
-			if(OutputInterface::VERBOSITY_NORMAL < $output->getVerbosity()) {
-				$updater->listen('\OC\Updater', 'repairInfo', function ($message) use($output) {
-					$output->writeln('<info>Repair info: ' . $message . '</info>');
-				});
-				$updater->listen('\OC\Updater', 'repairStep', function ($message) use($output) {
-					$output->writeln('<info>Repair step: ' . $message . '</info>');
-				});
-			}
 
 			$success = $updater->upgrade();
 
