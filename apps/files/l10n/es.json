@@ -103,6 +103,7 @@
     "With PHP-FPM it might take 5 minutes for changes to be applied." : "Con PHP-FPM podría tomar 5 minutos para que los cambios se apliquen.",
     "Missing permissions to edit from here." : "Faltan permisos para poder editar desde aquí.",
     "Settings" : "Ajustes",
+    "Show hidden files" : "Mostrar archivos ocultos",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Introduce esta dirección <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\"> en el cliente de ownCloud para acceder a tus archivos a través de él</a>",
     "Cancel upload" : "Cancelar la subida",

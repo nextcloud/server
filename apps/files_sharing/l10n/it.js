@@ -24,6 +24,7 @@ OC.L10N.register(
     "Unknown share type" : "Tipo di condivisione sconosciuto",
     "Not a directory" : "Non è una cartella",
     "Can't change permissions for public share links" : "Impossibile cambiare i permessi per i collegamenti di condivisione pubblici",
+    "Wrong or no update parameter given" : "Parametro fornito non valido o non di aggiornamento",
     "Cannot increase permissions" : "Impossibile aumentare i permessi",
     "Shared with you" : "Condivisi con te",
     "Shared with others" : "Condivisi con altri",

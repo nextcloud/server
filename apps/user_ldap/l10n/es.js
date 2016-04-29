@@ -13,6 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : "No se pudo establecer la configuración %s",
     "Action does not exist" : "La acción no existe.",
     "The Base DN appears to be wrong" : "La Base DN parece estar mal",
+    "Testing configuration…" : "Probando configuración",
     "Configuration incorrect" : "Configuración Incorrecta",
     "Configuration incomplete" : "Configuración incompleta",
     "Configuration OK" : "Configuración correcta",
