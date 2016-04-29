@@ -139,7 +139,7 @@ OCA.Sharing.PublicApp = {
 			}).then(function (data) {
 				self._showTextPreview(data, previewHeight);
 			});
-		} else if (previewSupported === 'true' ||
+		} else if ((previewSupported === 'true' && mimetype.substr(0, mimetype.indexOf('/')) !== 'video') ||
 			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
 			mimetype !== 'image/svg+xml') {
 			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
