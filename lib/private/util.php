@@ -145,6 +145,7 @@ class OC_Util {
 
 		\OC\Files\Filesystem::initMountManager();
 
+		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(false);
 		\OC\Files\Filesystem::addStorageWrapper('mount_options', function ($mountPoint, \OCP\Files\Storage $storage, \OCP\Files\Mount\IMountPoint $mount) {
 			if ($storage->instanceOfStorage('\OC\Files\Storage\Common')) {
 				/** @var \OC\Files\Storage\Common $storage */
@@ -195,6 +196,7 @@ class OC_Util {
 		});
 
 		OC_Hook::emit('OC_Filesystem', 'preSetup', array('user' => $user));
+		\OC\Files\Filesystem::logWarningWhenAddingStorageWrapper(true);
 
 		//check if we are using an object storage
 		$objectStore = \OC::$server->getSystemConfig()->getValue('objectstore', null);
