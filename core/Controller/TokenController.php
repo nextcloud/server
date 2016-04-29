@@ -47,14 +47,14 @@ class TokenController extends Controller {
 	 * @param IRequest $request
 	 * @param Manager $userManager
 	 * @param DefaultTokenProvider $tokenProvider
-	 * @param ISecureRandom $crypto
+	 * @param ISecureRandom $secureRandom
 	 */
 	public function __construct($appName, IRequest $request, Manager $userManager, DefaultTokenProvider $tokenProvider,
-		ISecureRandom $crypto) {
+		ISecureRandom $secureRandom) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->tokenProvider = $tokenProvider;
-		$this->secureRandom = $crypto;
+		$this->secureRandom = $secureRandom;
 	}
 
 	/**
