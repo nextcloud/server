@@ -974,7 +974,6 @@
 				<default></default>
 				<notnull>false</notnull>
 			</field>
-
 			<field>
 				<!-- timestamp when the job was checked if it needs execution the last time -->
 				<name>last_checked</name>
