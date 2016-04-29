@@ -150,7 +150,7 @@ class Storage extends Wrapper {
 			return false;
 		}
 
-		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
+		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path, true, false, true);
 		$result = true;
 		$view = Filesystem::getView();
 		if (!isset($this->deletedFiles[$normalized]) && $view instanceof View) {

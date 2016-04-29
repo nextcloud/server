@@ -172,6 +172,15 @@ class OC_Util {
 			return $storage;
 		});
 
+		// install storage availability wrapper, before most other wrappers
+		\OC\Files\Filesystem::addStorageWrapper('oc_encoding', function ($mountPoint, $storage) {
+			// TODO: only do this opt-in if the mount option is specified
+			if (!$storage->instanceOfStorage('\OC\Files\Storage\Shared') && !$storage->isLocal()) {
+				return new \OC\Files\Storage\Wrapper\Encoding(['storage' => $storage]);
+			}
+			return $storage;
+		});
+
 		\OC\Files\Filesystem::addStorageWrapper('oc_quota', function ($mountPoint, $storage) {
 			// set up quota for home storages, even for other users
 			// which can happen when using sharing
