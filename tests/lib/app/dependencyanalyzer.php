@@ -33,6 +33,9 @@ class DependencyAnalyzer extends TestCase {
 			->method('getPhpVersion')
 			->will( $this->returnValue('5.4.3'));
 		$this->platformMock->expects($this->any())
+			->method('getIntSize')
+			->will( $this->returnValue('4'));
+		$this->platformMock->expects($this->any())
 			->method('getDatabase')
 			->will( $this->returnValue('mysql'));
 		$this->platformMock->expects($this->any())
@@ -73,8 +76,9 @@ class DependencyAnalyzer extends TestCase {
 	 * @param string $expectedMissing
 	 * @param string $minVersion
 	 * @param string $maxVersion
+	 * @param string $intSize
 	 */
-	public function testPhpVersion($expectedMissing, $minVersion, $maxVersion) {
+	public function testPhpVersion($expectedMissing, $minVersion, $maxVersion, $intSize) {
 		$app = array(
 			'dependencies' => array(
 				'php' => array()
@@ -85,6 +89,9 @@ class DependencyAnalyzer extends TestCase {
 		}
 		if (!is_null($maxVersion)) {
 			$app['dependencies']['php']['@attributes']['max-version'] = $maxVersion;
+		}
+		if (!is_null($intSize)) {
+			$app['dependencies']['php']['@attributes']['min-int-size'] = $intSize;
 		}
 		$missing = $this->analyser->analyze($app);
 
@@ -278,13 +285,14 @@ class DependencyAnalyzer extends TestCase {
 	 */
 	function providesPhpVersion() {
 		return array(
-			array(array(), null, null),
-			array(array(), '5.4', null),
-			array(array(), null, '5.5'),
-			array(array(), '5.4', '5.5'),
-			array(array('PHP 5.4.4 or higher is required.'), '5.4.4', null),
-			array(array('PHP with a version lower than 5.4.2 is required.'), null, '5.4.2'),
-			array(array(), '5.4', '5.4'),
+			array(array(), null, null, null),
+			array(array(), '5.4', null, null),
+			array(array(), null, '5.5', null),
+			array(array(), '5.4', '5.5', null),
+			array(array('PHP 5.4.4 or higher is required.'), '5.4.4', null, null),
+			array(array('PHP with a version lower than 5.4.2 is required.'), null, '5.4.2', null),
+			array(array('64bit or higher PHP required.'), null, null, 64),
+			array(array(), '5.4', '5.4', null),
 		);
 	}
 }
