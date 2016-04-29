@@ -74,9 +74,12 @@ class Availability extends \Test\TestCase {
 		$storage->expects($this->once())
 			->method('test')
 			->willReturn(true);
-		$storage->expects($this->once())
+		$storage->expects($this->exactly(2))
 			->method('setAvailability')
-			->with($this->equalTo(true));
+			->withConsecutive(
+				[$this->equalTo(false)], // prevents concurrent rechecks
+				[$this->equalTo(true)] // sets correct availability
+			);
 		$storage->expects($this->once())
 			->method('mkdir');
 

@@ -40,9 +40,13 @@ class Availability extends Wrapper {
 	}
 
 	/**
+	 * Only called if availability === false
+	 *
 	 * @return bool
 	 */
 	private function updateAvailability() {
+		// reset availability to false so that multiple requests don't recheck concurrently
+		$this->setAvailability(false);
 		try {
 			$result = $this->test();
 		} catch (\Exception $e) {
