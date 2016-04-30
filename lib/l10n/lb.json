@@ -4,10 +4,6 @@
     "PHP %s or higher is required." : "PHP %s oder méi nei ass néideg.",
     "PHP with a version lower than %s is required." : "PHP mat enger Versioun %s oder méi kleng ass néideg.",
     "Following databases are supported: %s" : "Dës Datebanke ginn ënnerstëtzt: %s",
-    "Help" : "Hëllef",
-    "Personal" : "Perséinlech",
-    "Users" : "Benotzer",
-    "Admin" : "Admin",
     "Unknown filetype" : "Onbekannten Fichier Typ",
     "Invalid image" : "Ongülteg d'Bild",
     "today" : "haut",
@@ -19,10 +15,14 @@
     "_%n year ago_::_%n years ago_" : ["%n Joer hier","%n Joer hier"],
     "_%n hour ago_::_%n hours ago_" : ["%n Stonn hier","%n Stonnen hier"],
     "seconds ago" : "Sekonnen hir",
+    "Apps" : "Applikatiounen",
+    "Help" : "Hëllef",
+    "Personal" : "Perséinlech",
+    "Users" : "Benotzer",
+    "Admin" : "Admin",
     "web services under your control" : "Web-Servicer ënnert denger Kontroll",
     "Authentication error" : "Authentifikatioun's Fehler",
     "%s shared »%s« with you" : "Den/D' %s huet »%s« mat dir gedeelt",
-    "Apps" : "Applikatiounen",
     "Data directory (%s) is invalid" : "Daten-Dossier (%s) ass ongëlteg"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

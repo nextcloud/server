@@ -5,7 +5,7 @@
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "การแชร์ %s ล้มเหลวไม่สามารถหา %s, บางทีอาจจะยังไม่สามารถเข้าถึงเซิร์ฟเวอร์ปัจจุบัน",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "แชร์ร่วมกับฉันผ่าน #ownCloud ด้วยไอดีคลาวด์ในเครือ สามารถดูได้ที่ %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "แชร์ร่วมกับฉันผ่าน #ownCloud ด้วยไอดีคลาวด์ในเครือ",
-    "Federated Cloud Sharing" : "สหพันธ์การแชร์คลาวด์",
+    "Federated Cloud Sharing" : "แชร์กับสหพันธ์คลาวด์",
     "Open documentation" : "เปิดเอกสาร",
     "Allow users on this server to send shares to other servers" : "อนุญาตให้ผู้ใช้บนเซิร์ฟเวอร์นี้ส่งแชร์ไปยังเซิร์ฟเวอร์อื่นๆ",
     "Allow users on this server to receive shares from other servers" : "อนุญาตให้ผู้ใช้บนเซิร์ฟเวอร์นี้ได้รับการแชร์จากเซิร์ฟเวอร์อื่นๆ",

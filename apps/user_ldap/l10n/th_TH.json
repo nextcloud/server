@@ -107,7 +107,7 @@
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>คำเตือน:</b> โมดูล PHP LDAP ยังไม่ได้ถูกติดตั้ง, ระบบด้านหลังจะไม่สามารถทำงานได้ กรุณาติดต่อผู้ดูแลระบบของคุณเพื่อทำการติดตั้งโมดูลดังกล่าว",
     "Connection Settings" : "ตั้งค่าการเชื่อมต่อ",
     "Configuration Active" : "ตั้งค่าการใช้งาน",
-    "When unchecked, this configuration will be skipped." : "เมื่อไม่เลือกการตั้งค่านี้จะถูกข้ามไป",
+    "When unchecked, this configuration will be skipped." : "ถ้าไม่เลือก การตั้งค่านี้จะถูกข้ามไป",
     "Backup (Replica) Host" : "การสำรองข้อมูลโฮสต์ (สำรอง) ",
     "Give an optional backup host. It must be a replica of the main LDAP/AD server." : "ให้โฮสต์สำรองข้อมูลที่จำเป็นของเซิร์ฟเวอร์ LDAP/AD หลัก",
     "Backup (Replica) Port" : "สำรองข้อมูลพอร์ต (จำลอง) ",
