@@ -47,6 +47,7 @@ use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
+use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
@@ -444,7 +445,14 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('MountConfigManager', function (Server $c) {
 			$loader = \OC\Files\Filesystem::getLoader();
 			$mountCache = $c->query('UserMountCache');
-			return new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
+			$manager =  new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
+
+			// builtin providers
+
+			$config = $c->getConfig();
+			$manager->registerProvider(new CacheMountProvider($config));
+
+			return $manager;
 		});
 		$this->registerService('IniWrapper', function ($c) {
 			return new IniGetWrapper();
