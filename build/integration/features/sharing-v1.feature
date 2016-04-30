@@ -209,7 +209,7 @@ Feature: sharing
     When sending "GET" to "/apps/files_sharing/api/v1/shares"
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And File "textfile0 (2).txt" should be included in the response
+    And File "textfile0.txt" should be included in the response
 
   Scenario: getting all shares of a user using another user
     Given user "user0" exists
@@ -280,7 +280,7 @@ Feature: sharing
       | share_type | 0 |
       | share_with | user1 |
       | file_source | A_NUMBER |
-      | file_target | /textfile0 (2).txt |
+      | file_target | /textfile0.txt |
       | path | /textfile0.txt |
       | permissions | 19 |
       | stime | A_NUMBER |
