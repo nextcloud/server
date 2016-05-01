@@ -13,6 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : "ไม่สามารถตั้งค่า %s",
     "Action does not exist" : "ไม่มีการดำเนินการ",
     "The Base DN appears to be wrong" : "Base DN ดูเหมือนจะไม่ถูกต้อง",
+    "Testing configuration…" : "กำลังทดสอบการตั้งค่า ...",
     "Configuration incorrect" : "การกำหนดค่าไม่ถูกต้อง",
     "Configuration incomplete" : "กำหนดค่าไม่สำเร็จ",
     "Configuration OK" : "กำหนดค่าเสร็จสมบูรณ์",

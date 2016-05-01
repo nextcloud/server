@@ -7,7 +7,7 @@ OC.L10N.register(
     "You commented on %2$s" : "คุณได้แสดงความคิดเห็นบน %2$s",
     "%1$s commented on %2$s" : "%1$s ได้ถูกแสดงความคิดเห็นบน %2$s",
     "Comments" : "ความคิดเห็น",
-    "Type in a new comment..." : "พิมพ์ความคิดเห็นใหม่ ...",
+    "Type in a new comment..." : "เพิ่มความคิดเห็นใหม่ ...",
     "Delete comment" : "ลบความคิดเห็น",
     "Post" : "โพสต์",
     "Cancel" : "ยกเลิก",

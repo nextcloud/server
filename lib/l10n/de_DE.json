@@ -7,6 +7,7 @@
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Es wurde festgestellt, dass die Beispielkonfiguration kopiert wurde. Dies kann Ihre Installation zerstören und wird nicht unterstützt. Bitte lesen Sie die Dokumentation, bevor Sie Änderungen an der config.php vornehmen.",
     "PHP %s or higher is required." : "PHP %s oder höher wird benötigt.",
     "PHP with a version lower than %s is required." : "PHP wird in einer früheren Version als %s benötigt.",
+    "%sbit or higher PHP required." : "%sbit oder höheres PHP wird benötigt.",
     "Following databases are supported: %s" : "Die folgenden Datenbanken werden unterstützt: %s",
     "The command line tool %s could not be found" : "Das Kommandozeilenwerkzeug %s konnte nicht gefunden werden",
     "The library %s is not available." : "Die Bibliothek %s ist nicht verfügbar.",
