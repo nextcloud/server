@@ -37,15 +37,19 @@
  *
  */
 
+namespace OC;
+
 use OC\App\CodeChecker\CodeChecker;
 use OC\App\CodeChecker\EmptyCheck;
 use OC\App\CodeChecker\PrivateCheck;
-use OC\OCSClient;
+use OC_App;
+use OC_DB;
+use OC_Helper;
 
 /**
  * This class provides the functionality needed to install, update and remove plugins/apps
  */
-class OC_Installer{
+class Installer {
 
 	/**
 	 *
@@ -134,16 +138,19 @@ class OC_Installer{
 			self::includeAppScript($basedir . '/appinfo/install.php');
 		}
 
-		//set the installed version
-		\OC::$server->getAppConfig()->setValue($info['id'], 'installed_version', OC_App::getAppVersion($info['id']));
-		\OC::$server->getAppConfig()->setValue($info['id'], 'enabled', 'no');
+		$appData = OC_App::getAppInfo($appId);
+		OC_App::executeRepairSteps($appId, $appData['repair-steps']['install']);
 
-		//set remote/public handelers
+		//set the installed version
+		\OC::$server->getConfig()->setAppValue($info['id'], 'installed_version', OC_App::getAppVersion($info['id']));
+		\OC::$server->getConfig()->setAppValue($info['id'], 'enabled', 'no');
+
+		//set remote/public handlers
 		foreach($info['remote'] as $name=>$path) {
-			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
+			\OC::$server->getConfig()->setAppValue('core', 'remote_'.$name, $info['id'].'/'.$path);
 		}
 		foreach($info['public'] as $name=>$path) {
-			OCP\CONFIG::setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
+			\OC::$server->getConfig()->setAppValue('core', 'public_'.$name, $info['id'].'/'.$path);
 		}
 
 		OC_App::setAppTypes($info['id']);
@@ -158,15 +165,15 @@ class OC_Installer{
 	 *
 	 * Checks whether or not an app is installed, i.e. registered in apps table.
 	 */
-	public static function isInstalled( $app ) {
-		return (\OC::$server->getAppConfig()->getValue($app, "installed_version") !== null);
+	public static function 	isInstalled( $app ) {
+		return (\OC::$server->getConfig()->getAppValue($app, "installed_version", null) !== null);
 	}
 
 	/**
 	 * @brief Update an application
 	 * @param array $info
 	 * @param bool $isShipped
-	 * @throws Exception
+	 * @throws \Exception
 	 * @return bool
 	 *
 	 * This function could work like described below, but currently it disables and then
@@ -229,7 +236,7 @@ class OC_Installer{
 	 *
 	 * @param integer $ocsId
 	 * @return bool
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function updateAppByOCSId($ocsId) {
 		$ocsClient = new OCSClient(
@@ -257,7 +264,7 @@ class OC_Installer{
 	/**
 	 * @param array $data
 	 * @return array
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public static function downloadApp($data = array()) {
 		$l = \OC::$server->getL10N('lib');
@@ -293,7 +300,7 @@ class OC_Installer{
 		$extractDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		OC_Helper::rmdirr($extractDir);
 		mkdir($extractDir);
-		if($archive=OC_Archive::open($path)) {
+		if($archive=\OC_Archive::open($path)) {
 			$archive->extract($extractDir);
 		} else {
 			OC_Helper::rmdirr($extractDir);
@@ -375,7 +382,7 @@ class OC_Installer{
 		}
 
 		// check the code for not allowed calls
-		if(!$isShipped && !OC_Installer::checkCode($extractDir)) {
+		if(!$isShipped && !Installer::checkCode($extractDir)) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because of not allowed code in the App"));
 		}
@@ -457,7 +464,7 @@ class OC_Installer{
 	 * The function will check if the app is already downloaded in the apps repository
 	 */
 	public static function isDownloaded( $name ) {
-		foreach(OC::$APPSROOTS as $dir) {
+		foreach(\OC::$APPSROOTS as $dir) {
 			$dirToTest  = $dir['path'];
 			$dirToTest .= '/';
 			$dirToTest .= $name;
@@ -474,52 +481,25 @@ class OC_Installer{
 	/**
 	 * Removes an app
 	 * @param string $name name of the application to remove
-	 * @param array $options options
 	 * @return boolean
 	 *
-	 * This function removes an app. $options is an associative array. The
-	 * following keys are optional:ja
-	 *   - keeppreferences: boolean, if true the user preferences won't be deleted
-	 *   - keepappconfig: boolean, if true the config will be kept
-	 *   - keeptables: boolean, if true the database will be kept
-	 *   - keepfiles: boolean, if true the user files will be kept
 	 *
 	 * This function works as follows
-	 *   -# including appinfo/remove.php
+	 *   -# call uninstall repair steps
 	 *   -# removing the files
 	 *
 	 * The function will not delete preferences, tables and the configuration,
 	 * this has to be done by the function oc_app_uninstall().
 	 */
-	public static function removeApp( $name, $options = array()) {
+	public static function removeApp($appId) {
 
-		if(isset($options['keeppreferences']) and $options['keeppreferences']==false ) {
-			// todo
-			// remove preferences
-		}
-
-		if(isset($options['keepappconfig']) and $options['keepappconfig']==false ) {
-			// todo
-			// remove app config
-		}
-
-		if(isset($options['keeptables']) and $options['keeptables']==false ) {
-			// todo
-			// remove app database tables
-		}
-
-		if(isset($options['keepfiles']) and $options['keepfiles']==false ) {
-			// todo
-			// remove user files
-		}
-
-		if(OC_Installer::isDownloaded( $name )) {
-			$appdir=OC_App::getInstallPath().'/'.$name;
-			OC_Helper::rmdirr($appdir);
+		if(Installer::isDownloaded( $appId )) {
+			$appDir=OC_App::getInstallPath() . '/' . $appId;
+			OC_Helper::rmdirr($appDir);
 
 			return true;
 		}else{
-			\OCP\Util::writeLog('core', 'can\'t remove app '.$name.'. It is not installed.', \OCP\Util::ERROR);
+			\OCP\Util::writeLog('core', 'can\'t remove app '.$appId.'. It is not installed.', \OCP\Util::ERROR);
 
 			return false;
 		}
@@ -536,25 +516,25 @@ class OC_Installer{
 	 */
 	public static function installShippedApps($softErrors = false) {
 		$errors = [];
-		foreach(OC::$APPSROOTS as $app_dir) {
+		foreach(\OC::$APPSROOTS as $app_dir) {
 			if($dir = opendir( $app_dir['path'] )) {
 				while( false !== ( $filename = readdir( $dir ))) {
 					if( substr( $filename, 0, 1 ) != '.' and is_dir($app_dir['path']."/$filename") ) {
 						if( file_exists( $app_dir['path']."/$filename/appinfo/info.xml" )) {
-							if(!OC_Installer::isInstalled($filename)) {
+							if(!Installer::isInstalled($filename)) {
 								$info=OC_App::getAppInfo($filename);
 								$enabled = isset($info['default_enable']);
 								if (($enabled || in_array($filename, \OC::$server->getAppManager()->getAlwaysEnabledApps()))
 									  && \OC::$server->getConfig()->getAppValue($filename, 'enabled') !== 'no') {
 									if ($softErrors) {
 										try {
-											OC_Installer::installShippedApp($filename);
+											Installer::installShippedApp($filename);
 										} catch (\Doctrine\DBAL\Exception\TableExistsException $e) {
 											$errors[$filename] = $e;
 											continue;
 										}
 									} else {
-										OC_Installer::installShippedApp($filename);
+										Installer::installShippedApp($filename);
 									}
 									\OC::$server->getConfig()->setAppValue($filename, 'enabled', 'yes');
 								}
@@ -589,6 +569,8 @@ class OC_Installer{
 		if (is_null($info)) {
 			return false;
 		}
+
+		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
 
 		$config = \OC::$server->getConfig();
 

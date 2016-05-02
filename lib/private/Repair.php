@@ -73,7 +73,6 @@ class Repair implements IOutput{
 	 * Run a series of repair steps for common problems
 	 */
 	public function run() {
-		$self = $this;
 		if (count($this->repairSteps) === 0) {
 			$this->emit('\OC\Repair', 'info', array('No repair steps available'));
 			return;
@@ -82,16 +81,6 @@ class Repair implements IOutput{
 		foreach ($this->repairSteps as $step) {
 			$this->currentStep = $step->getName();
 			$this->emit('\OC\Repair', 'step', [$this->currentStep]);
-
-			if ($step instanceof Emitter) {
-				$step->listen('\OC\Repair', 'warning', function ($description) use ($self) {
-					$self->emit('\OC\Repair', 'warning', array($description));
-				});
-				$step->listen('\OC\Repair', 'info', function ($description) use ($self) {
-					$self->emit('\OC\Repair', 'info', array($description));
-				});
-			}
-
 			$step->run($this);
 		}
 	}

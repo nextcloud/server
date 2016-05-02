@@ -36,7 +36,6 @@ namespace OC;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;
-use OC_Installer;
 use OCP\IConfig;
 use OC\Setup;
 use OCP\ILogger;
@@ -251,7 +250,7 @@ class Updater extends BasicEmitter {
 
 			// install new shipped apps on upgrade
 			OC_App::loadApps('authentication');
-			$errors = OC_Installer::installShippedApps(true);
+			$errors = Installer::installShippedApps(true);
 			foreach ($errors as $appId => $exception) {
 				/** @var \Exception $exception */
 				$this->log->logException($exception, ['app' => $appId]);
@@ -443,11 +442,11 @@ class Updater extends BasicEmitter {
 	private function upgradeAppStoreApps(array $disabledApps) {
 		foreach($disabledApps as $app) {
 			try {
-				if (OC_Installer::isUpdateAvailable($app)) {
+				if (Installer::isUpdateAvailable($app)) {
 					$ocsId = \OC::$server->getConfig()->getAppValue($app, 'ocsid', '');
 
 					$this->emit('\OC\Updater', 'upgradeAppStoreApp', array($app));
-					OC_Installer::updateAppByOCSId($ocsId);
+					Installer::updateAppByOCSId($ocsId);
 				}
 			} catch (\Exception $ex) {
 				$this->log->logException($ex, ['app' => 'core']);

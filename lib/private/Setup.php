@@ -367,7 +367,7 @@ class Setup {
 			\OC_User::login($username, $password);
 
 			//guess what this does
-			\OC_Installer::installShippedApps();
+			Installer::installShippedApps();
 
 			// create empty file in data dir, so we can later find
 			// out that this is indeed an ownCloud data directory
