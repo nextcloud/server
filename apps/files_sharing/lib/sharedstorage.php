@@ -318,14 +318,14 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return new \OC\Files\Cache\Shared_Cache($storage, $this->sourceStorage, $this->sourceRootInfo);
+		return new \OCA\Files_Sharing\Cache($storage, $this->sourceStorage, $this->sourceRootInfo);
 	}
 
 	public function getScanner($path = '', $storage = null) {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return new \OC\Files\Cache\SharedScanner($storage);
+		return new \OCA\Files_Sharing\Scanner($storage);
 	}
 
 	public function getPropagator($storage = null) {

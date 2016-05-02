@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\Files\Share;
+namespace OCA\Files_Sharing;
 
 /**
  * Maintains stuff around the sharing functionality

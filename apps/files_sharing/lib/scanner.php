@@ -21,15 +21,14 @@
  *
  */
 
-namespace OC\Files\Cache;
+namespace OCA\Files_Sharing;
 
 use OC\Files\ObjectStore\NoopScanner;
-use OC\Files\Storage\Shared;
 
 /**
  * Scanner for SharedStorage
  */
-class SharedScanner extends Scanner {
+class Scanner extends \OC\Files\Cache\Scanner {
 	private $sourceScanner;
 
 	/**

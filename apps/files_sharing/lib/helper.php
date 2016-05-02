@@ -36,9 +36,9 @@ use OCP\User;
 class Helper {
 
 	public static function registerHooks() {
-		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Shared_Updater', 'renameHook');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', '\OCA\Files_Sharing\Updater', 'renameHook');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', '\OCA\Files_Sharing\Hooks', 'unshareChildren');
-		\OCP\Util::connectHook('OC_Appconfig', 'post_set_value', '\OCA\Files\Share\Maintainer', 'configChangeHook');
+		\OCP\Util::connectHook('OC_Appconfig', 'post_set_value', '\OCA\Files_Sharing\Maintainer', 'configChangeHook');
 
 		\OCP\Util::connectHook('OC_User', 'post_deleteUser', '\OCA\Files_Sharing\Hooks', 'deleteUser');
 	}

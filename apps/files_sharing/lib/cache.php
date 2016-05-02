@@ -23,7 +23,7 @@
  *
  */
 
-namespace OC\Files\Cache;
+namespace OCA\Files_Sharing;
 
 use OC\Files\Cache\Wrapper\CacheJail;
 use OCP\Files\Cache\ICacheEntry;
@@ -34,7 +34,7 @@ use OCP\Files\Storage\IStorage;
  *
  * don't use this class directly if you need to get metadata, use \OC\Files\Filesystem::getFileInfo instead
  */
-class Shared_Cache extends CacheJail {
+class Cache extends CacheJail {
 	/**
 	 * @var \OC\Files\Storage\Shared
 	 */
