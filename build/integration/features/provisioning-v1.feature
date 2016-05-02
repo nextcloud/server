@@ -283,6 +283,7 @@ Feature: provisioning
 		And the HTTP status code should be "200"
 		And apps returned are
 			| comments |
+			| core |
 			| dav |
 			| federatedfilesharing |
 			| federation |
