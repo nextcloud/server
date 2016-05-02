@@ -21,6 +21,7 @@ OC.L10N.register(
     "Public upload is only possible for publicly shared folders" : "Le téléversement public est possible uniquement pour les dossiers partagés publiquement",
     "Invalid date, date format must be YYYY-MM-DD" : "Date invalide, le format doit être YYYY-MM-DD",
     "Unknown share type" : "Type de partage inconnu",
+    "Can't change permissions for public share links" : "Impossible de changer les permissions pour les liens de partage public",
     "Shared with you" : "Partagés avec vous",
     "Shared with others" : "Partagés avec d'autres",
     "Shared by link" : "Partagés par lien",

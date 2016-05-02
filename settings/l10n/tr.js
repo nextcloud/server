@@ -63,6 +63,7 @@ OC.L10N.register(
     "Experimental" : "Deneysel",
     "All" : "Tümü",
     "No apps found for your version" : "Sürümünüz için uygulama bulunamadı",
+    "The app will be downloaded from the app store" : "uygulama uygulama dükkanından indirilebilecek",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Resmi uygulamalar ownCloud topluluğu tarafından geliştirilir. ownCloud'a işlevsellik merkezli olarak hazırlanırlar ve günlük kullanıma hazırdırlar.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Onaylanan uygulamalar güvenilir geliştiriciler tarafından geliştirilir ve detaylı olmayan bir güvenlik kontrolünden geçirilir. Bunlar açık kaynak kod deposunda bulunmakta ve normal kullanım için kararlı oldukları varsayılmaktadır.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Bu uygulama güvenlik kontrolünden geçmedi veya yeni ya da kararsız olarak bilinmektedir. Kendiniz bu riski alarak yükleyebilirsiniz.",
