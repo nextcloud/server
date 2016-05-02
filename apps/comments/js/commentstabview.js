@@ -301,6 +301,11 @@
 			var limitExceeded = (len > this._commentMaxLength);
 			$field.toggleClass('error', limitExceeded);
 			$submitButton.prop('disabled', limitExceeded);
+
+			//submits form on ctrlEnter
+			if (ev.keyCode === 13 && ev.ctrlKey) {
+				$submitButton.click();
+		  }
 		},
 
 		_onClickComment: function(ev) {
