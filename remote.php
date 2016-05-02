@@ -166,5 +166,5 @@ try {
 } catch (Exception $ex) {
 	handleException($ex);
 } catch (Error $e) {
-	handleException($ex);
+	handleException($e);
 }
