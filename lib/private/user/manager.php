@@ -33,6 +33,7 @@
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
+use OCP\IUser;
 use OCP\IUserBackend;
 use OCP\IUserManager;
 use OCP\IConfig;
@@ -353,5 +354,18 @@ class Manager extends PublicEmitter implements IUserManager {
 				$offset += $limit;
 			} while (count($users) >= $limit);
 		}
+	}
+
+	/**
+	 * @param string $email
+	 * @return IUser[]
+	 * @since 9.1.0
+	 */
+	public function getByEmail($email) {
+		$userIds = $this->config->getUsersForUserValue('settings', 'email', $email);
+
+		return array_map(function($uid) {
+			return $this->get($uid);
+		}, $userIds);
 	}
 }

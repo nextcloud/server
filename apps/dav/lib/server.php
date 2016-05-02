@@ -84,6 +84,9 @@ class Server {
 
 		// acl
 		$acl = new DavAclPlugin();
+		$acl->principalCollectionSet = [
+			'principals/users', 'principals/groups'
+		];
 		$acl->defaultUsernamePath = 'principals/users';
 		$this->server->addPlugin($acl);
 

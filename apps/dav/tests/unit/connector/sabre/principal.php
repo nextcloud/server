@@ -255,4 +255,19 @@ class Principal extends TestCase {
 	public function testSearchPrincipals() {
 		$this->assertSame([], $this->connector->searchPrincipals('principals/users', []));
 	}
+
+	public function testFindByUri() {
+		$fooUser = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$fooUser
+			->expects($this->exactly(1))
+			->method('getUID')
+			->will($this->returnValue('foo'));
+
+		$this->userManager->expects($this->once())->method('getByEmail')->willReturn([
+			$fooUser
+		]);
+		$ret = $this->connector->findByUri('mailto:foo@bar.net', 'principals/users');
+		$this->assertSame('principals/users/foo', $ret);
+	}
 }
