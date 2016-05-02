@@ -370,9 +370,19 @@ class OC_App {
 			$app = self::getInternalAppIdByOcs($app);
 		}
 
-		self::$enabledAppsCache = array(); // flush
-		// check if app is a shipped app or not. if not delete
+		// flush
+		self::$enabledAppsCache = array();
+
+		// run uninstall steps
+		$appData = OC_App::getAppInfo($app);
+		if (!is_null($appData)) {
+			OC_App::executeRepairSteps($app, $appData['repair-steps']['uninstall']);
+		}
+
+		// emit disable hook - needed anymore ?
 		\OC_Hook::emit('OC_App', 'pre_disable', array('app' => $app));
+
+		// finally disable it
 		$appManager = \OC::$server->getAppManager();
 		$appManager->disableApp($app);
 	}

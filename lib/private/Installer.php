@@ -493,11 +493,6 @@ class Installer {
 	 */
 	public static function removeApp($appId) {
 
-		$appData = OC_App::getAppInfo($appId);
-		if (!is_null($appData)) {
-			OC_App::executeRepairSteps($appId, $appData['repair-steps']['uninstall']);
-		}
-
 		if(Installer::isDownloaded( $appId )) {
 			$appDir=OC_App::getInstallPath() . '/' . $appId;
 			OC_Helper::rmdirr($appDir);
