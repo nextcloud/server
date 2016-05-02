@@ -39,8 +39,12 @@ class TokenControllerTest extends TestCase {
 		parent::setUp();
 
 		$this->request = $this->getMock('\OCP\IRequest');
-		$this->userManager = $this->getMockWithoutInvokingTheOriginalConstructor('\OC\User\Manager');
-		$this->tokenProvider = $this->getMockWithoutInvokingTheOriginalConstructor('\OC\Authentication\Token\DefaultTokenProvider');
+		$this->userManager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->tokenProvider = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenProvider')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->secureRandom = $this->getMock('\OCP\Security\ISecureRandom');
 
 		$this->tokenController = new TokenController('core', $this->request, $this->userManager, $this->tokenProvider,

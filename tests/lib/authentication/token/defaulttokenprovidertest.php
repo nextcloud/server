@@ -40,7 +40,9 @@ class DefaultTokenProviderTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->mapper = $this->getMockWithoutInvokingTheOriginalConstructor('\OC\Authentication\Token\DefaultTokenMapper');
+		$this->mapper = $this->getMock('\OC\Authentication\Token\DefaultTokenMapper')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->crypto = $this->getMock('\OCP\Security\ICrypto');
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->logger = $this->getMock('\OCP\ILogger');
@@ -81,7 +83,9 @@ class DefaultTokenProviderTest extends TestCase {
 	}
 
 	public function testUpdateToken() {
-		$tk = $this->getMockWithoutInvokingTheOriginalConstructor('\OC\Authentication\Token\DefaultTokenProvider');
+		$tk = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenProvider')
+			->disableOriginalConstructor()
+			->getMock();
 		$tk->expects($this->once())
 			->method('setLastActivity')
 			->with(time());
@@ -94,7 +98,9 @@ class DefaultTokenProviderTest extends TestCase {
 
 	public function testGetPassword() {
 		$token = 'token1234';
-		$tk = $this->getMockWithoutInvokingTheOriginalConstructor('\OC\Authentication\Token\DefaultToken');
+		$tk = $this->getMockBuilder('\OC\Authentication\Token\DefaultToken')
+			->disableOriginalConstructor()
+			->getMock();
 		$tk->expects($this->once())
 			->method('getPassword')
 			->will($this->returnValue('someencryptedvalue'));

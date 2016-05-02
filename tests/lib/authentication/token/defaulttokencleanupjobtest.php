@@ -34,7 +34,9 @@ class DefaultTokenCleanupJobTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tokenProvider = $this->getMockWithoutInvokingTheOriginalConstructor('\OC\Authentication\Token\DefaultTokenProvider');
+		$this->tokenProvider = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenProvider')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->overwriteService('\OC\Authentication\Token\DefaultTokenProvider', $this->tokenProvider);
 		$this->job = new DefaultTokenCleanupJob();
 	}
