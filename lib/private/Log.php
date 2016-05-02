@@ -73,7 +73,7 @@ class Log implements ILogger {
 
 		// FIXME: Add this for backwards compatibility, should be fixed at some point probably
 		if($logger === null) {
-			$this->logger = 'OC_Log_'.ucfirst($this->config->getValue('log_type', 'owncloud'));
+			$this->logger = 'OC\\Log\\'.ucfirst($this->config->getValue('log_type', 'owncloud'));
 			call_user_func(array($this->logger, 'init'));
 		} else {
 			$this->logger = $logger;

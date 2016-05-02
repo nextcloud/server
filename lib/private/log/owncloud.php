@@ -27,13 +27,15 @@
  *
  */
 
+namespace OC\Log;
+
 /**
  * logging utilities
  *
  * Log is saved at data/owncloud.log (on default)
  */
 
-class OC_Log_Owncloud {
+class Owncloud {
 	static protected $logFile;
 
 	/**
@@ -41,7 +43,7 @@ class OC_Log_Owncloud {
 	 */
 	public static function init() {
 		$systemConfig = \OC::$server->getSystemConfig();
-		$defaultLogFile = $systemConfig->getValue("datadirectory", OC::$SERVERROOT.'/data').'/owncloud.log';
+		$defaultLogFile = $systemConfig->getValue("datadirectory", \OC::$SERVERROOT.'/data').'/owncloud.log';
 		self::$logFile = $systemConfig->getValue("logfile", $defaultLogFile);
 
 		/**
@@ -72,13 +74,13 @@ class OC_Log_Owncloud {
 		$format = $config->getValue('logdateformat', 'c');
 		$logTimeZone = $config->getValue( "logtimezone", 'UTC' );
 		try {
-			$timezone = new DateTimeZone($logTimeZone);
-		} catch (Exception $e) {
-			$timezone = new DateTimeZone('UTC');
+			$timezone = new \DateTimeZone($logTimeZone);
+		} catch (\Exception $e) {
+			$timezone = new \DateTimeZone('UTC');
 		}
-		$time = DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""));
+		$time = \DateTime::createFromFormat("U.u", number_format(microtime(true), 4, ".", ""));
 		if ($time === false) {
-			$time = new DateTime(null, $timezone);
+			$time = new \DateTime(null, $timezone);
 		} else {
 			// apply timezone if $time is created from UNIX timestamp
 			$time->setTimezone($timezone);

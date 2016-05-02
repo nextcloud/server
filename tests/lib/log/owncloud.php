@@ -15,12 +15,17 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace Test\Log;
+
+use OC\Log\Owncloud;
+use Test\TestCase;
+
 /**
- * Class Test_Log_Owncloud
+ * Class OwncloudTest
  *
  * @group DB
  */
-class Test_Log_Owncloud extends Test\TestCase
+class OwncloudTest extends TestCase
 {
 	private $restore_logfile;
 	private $restore_logdateformat;
@@ -32,7 +37,7 @@ class Test_Log_Owncloud extends Test\TestCase
 		$this->restore_logdateformat = $config->getSystemValue('logdateformat');
 		
 		$config->setSystemValue("logfile", $config->getSystemValue('datadirectory') . "/logtest");
-		OC_Log_Owncloud::init();
+		Owncloud::init();
 	}
 	protected function tearDown() {
 		$config = \OC::$server->getConfig();
@@ -46,7 +51,7 @@ class Test_Log_Owncloud extends Test\TestCase
 		} else {
 			$config->deleteSystemValue("restore_logdateformat");
 		}		
-		OC_Log_Owncloud::init();
+		Owncloud::init();
 		parent::tearDown();
 	}
 	
@@ -57,7 +62,7 @@ class Test_Log_Owncloud extends Test\TestCase
 
 		# set format & write log line
 		$config->setSystemValue('logdateformat', 'u');
-		OC_Log_Owncloud::write('test', 'message', \OCP\Util::ERROR);
+		Owncloud::write('test', 'message', \OCP\Util::ERROR);
 		
 		# read log line
 		$handle = @fopen($config->getSystemValue('logfile'), 'r');
