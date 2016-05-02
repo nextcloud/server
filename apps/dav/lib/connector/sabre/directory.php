@@ -64,9 +64,10 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 	 * @param \OC\Files\View $view
 	 * @param \OCP\Files\FileInfo $info
 	 * @param ObjectTree|null $tree
+	 * @param \OCP\Share\IManager $shareManager
 	 */
-	public function __construct($view, $info, $tree = null) {
-		parent::__construct($view, $info);
+	public function __construct($view, $info, $tree = null, $shareManager = null) {
+		parent::__construct($view, $info, $shareManager);
 		$this->tree = $tree;
 	}
 
@@ -202,9 +203,9 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 		}
 
 		if ($info['mimetype'] == 'httpd/unix-directory') {
-			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree);
+			$node = new \OCA\DAV\Connector\Sabre\Directory($this->fileView, $info, $this->tree, $this->shareManager);
 		} else {
-			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info);
+			$node = new \OCA\DAV\Connector\Sabre\File($this->fileView, $info, $this->shareManager);
 		}
 		if ($this->tree) {
 			$this->tree->cacheNode($node);
