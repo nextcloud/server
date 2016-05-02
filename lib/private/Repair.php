@@ -29,7 +29,6 @@
 namespace OC;
 
 use OC\Hooks\Emitter;
-use OC\Repair\AssetCache;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\DropOldJobs;
@@ -118,7 +117,6 @@ class Repair implements IOutput{
 		return [
 			new RepairMimeTypes(\OC::$server->getConfig()),
 			new RepairLegacyStorages(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
-			new AssetCache(),
 			new FillETags(\OC::$server->getDatabaseConnection()),
 			new CleanTags(\OC::$server->getDatabaseConnection()),
 			new DropOldTables(\OC::$server->getDatabaseConnection()),

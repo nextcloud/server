@@ -21,7 +21,7 @@
  *
  */
 
-namespace OC\Repair;
+namespace OCA\Core\Repair;
 
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
