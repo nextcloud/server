@@ -65,15 +65,17 @@ class TokenController extends Controller {
 	 *
 	 * @param string $user
 	 * @param string $password
+	 * @param string $name the name of the client
+	 * @return Response
 	 */
 	public function generateToken($user, $password, $name = 'unknown client') {
 		if (is_null($user) || is_null($password)) {
-			$response = new Response([]);
+			$response = new Response();
 			$response->setStatus(Http::STATUS_UNPROCESSABLE_ENTITY);
 			return $response;
 		}
 		if ($this->userManager->checkPassword($user, $password) === false) {
-			$response = new Response([]);
+			$response = new Response();
 			$response->setStatus(Http::STATUS_UNAUTHORIZED);
 			return $response;
 		}

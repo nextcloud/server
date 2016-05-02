@@ -24,6 +24,7 @@ namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Security\ICrypto;
@@ -42,17 +43,21 @@ class DefaultTokenProvider implements IProvider {
 	/** @var ILogger $logger */
 	private $logger;
 
+	/** @var ITimeFactory $time */
+	private $time;
+
 	/**
 	 * @param DefaultTokenMapper $mapper
 	 * @param ICrypto $crypto
 	 * @param IConfig $config
 	 * @param ILogger $logger
 	 */
-	public function __construct(DefaultTokenMapper $mapper, ICrypto $crypto, IConfig $config, ILogger $logger) {
+	public function __construct(DefaultTokenMapper $mapper, ICrypto $crypto, IConfig $config, ILogger $logger, ITimeFactory $time) {
 		$this->mapper = $mapper;
 		$this->crypto = $crypto;
 		$this->config = $config;
 		$this->logger = $logger;
+		$this->time = $time;
 	}
 
 	/**
@@ -61,7 +66,7 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $token
 	 * @param string $uid
 	 * @param string $password
-	 * @apram int $type token type
+	 * @param int $type token type
 	 * @return DefaultToken
 	 */
 	public function generateToken($token, $uid, $password, $name, $type = IToken::TEMPORARY_TOKEN) {
@@ -71,7 +76,7 @@ class DefaultTokenProvider implements IProvider {
 		$dbToken->setName($name);
 		$dbToken->setToken($this->hashToken($token));
 		$dbToken->setType($type);
-		$dbToken->setLastActivity(time());
+		$dbToken->setLastActivity($this->time->getTime());
 
 		$this->mapper->insert($dbToken);
 
@@ -88,7 +93,7 @@ class DefaultTokenProvider implements IProvider {
 			throw new InvalidTokenException();
 		}
 		/** @var DefaultToken $token */
-		$token->setLastActivity(time());
+		$token->setLastActivity($this->time->getTime());
 
 		$this->mapper->update($token);
 	}
@@ -126,7 +131,7 @@ class DefaultTokenProvider implements IProvider {
 	 * Invalidate (delete) old session tokens
 	 */
 	public function invalidateOldTokens() {
-		$olderThan = time() - (int) $this->config->getSystemValue('session_lifetime', 60 * 60 * 24);
+		$olderThan = $this->time->getTime() - (int) $this->config->getSystemValue('session_lifetime', 60 * 60 * 24);
 		$this->logger->info('Invalidating tokens older than ' . date('c', $olderThan));
 		$this->mapper->invalidateOld($olderThan);
 	}
@@ -153,7 +158,8 @@ class DefaultTokenProvider implements IProvider {
 	 * @return string
 	 */
 	private function hashToken($token) {
-		return hash('sha512', $token);
+		$secret = $this->config->getSystemValue('secret');
+		return hash('sha512', $token . $secret);
 	}
 
 	/**

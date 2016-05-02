@@ -40,7 +40,9 @@ use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Hooks\Emitter;
 use OC_User;
+use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -78,6 +80,11 @@ class Session implements IUserSession, Emitter {
 	private $session;
 
 	/*
+	 * @var ITimeFactory
+	 */
+	private $timeFacory;
+
+	/**
 	 * @var DefaultTokenProvider
 	 */
 	private $tokenProvider;
@@ -96,9 +103,11 @@ class Session implements IUserSession, Emitter {
 	 * @param ISession $session
 	 * @param IProvider[] $tokenProviders
 	 */
-	public function __construct(IUserManager $manager, ISession $session, $tokenProvider, array $tokenProviders = []) {
+	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider,
+		array $tokenProviders = []) {
 		$this->manager = $manager;
 		$this->session = $session;
+		$this->timeFacory = $timeFacory;
 		$this->tokenProvider = $tokenProvider;
 		$this->tokenProviders = $tokenProviders;
 	}
@@ -199,8 +208,7 @@ class Session implements IUserSession, Emitter {
 	}
 
 	protected function validateSession(IUser $user) {
-		// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
-		$sessionId = session_id();
+		$sessionId = $this->session->getId();
 		try {
 			$token = $this->tokenProvider->getToken($sessionId);
 		} catch (InvalidTokenException $ex) {
@@ -212,14 +220,15 @@ class Session implements IUserSession, Emitter {
 		// Check whether login credentials are still valid
 		// This check is performed each 5 minutes
 		$lastCheck = $this->session->get('last_login_check') ? : 0;
-		if ($lastCheck < (time() - 60 * 5)) {
+		$now = $this->timeFacory->getTime();
+		if ($lastCheck < ($now - 60 * 5)) {
 			$pwd = $this->tokenProvider->getPassword($token, $sessionId);
 			if ($this->manager->checkPassword($user->getUID(), $pwd) === false) {
 				// Password has changed -> log user out
 				$this->logout();
 				return false;
 			}
-			$this->session->set('last_login_check', time());
+			$this->session->set('last_login_check', $now);
 		}
 
 		// Session is valid, so the token can be refreshed
@@ -323,7 +332,7 @@ class Session implements IUserSession, Emitter {
 		\OC::$server->getCsrfTokenManager()->refreshToken();
 		//we need to pass the user name, which may differ from login name
 		$user = $this->getUser()->getUID();
-		\OC_Util::setupFS($user);
+		OC_Util::setupFS($user);
 		//trigger creation of user home and /files folder
 		\OC::$server->getUserFolder($user);
 	}
@@ -383,10 +392,9 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
-		// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
 		$loggedIn = $this->login($uid, $password);
 		if ($loggedIn) {
-			$sessionId = session_id();
+			$sessionId = $this->session->getId();
 			$this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
 		}
 		return $loggedIn;
@@ -423,9 +431,10 @@ class Session implements IUserSession, Emitter {
 	private function updateToken(IProvider $provider, IToken $token) {
 		// To save unnecessary DB queries, this is only done once a minute
 		$lastTokenUpdate = $this->session->get('last_token_update') ? : 0;
-		if ($lastTokenUpdate < (time() - 60)) {
+		$now = $this->timeFacory->getTime();
+		if ($lastTokenUpdate < ($now - 60)) {
 			$provider->updateToken($token);
-			$this->session->set('last_token_update', time());
+			$this->session->set('last_token_update', $now);
 		}
 	}
 
@@ -438,8 +447,7 @@ class Session implements IUserSession, Emitter {
 		$authHeader = $request->getHeader('Authorization');
 		if (strpos($authHeader, 'token ') === false) {
 			// No auth header, let's try session id
-			// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
-			$sessionId = session_id();
+			$sessionId = $this->session->getId();
 			return $this->validateToken($request, $sessionId);
 		} else {
 			$token = substr($authHeader, 6);
@@ -488,8 +496,7 @@ class Session implements IUserSession, Emitter {
 		$this->manager->emit('\OC\User', 'logout');
 		$user = $this->getUser();
 		if (!is_null($user)) {
-			// TODO: use ISession::getId(), https://github.com/owncloud/core/pull/24229
-			$this->tokenProvider->invalidateToken(session_id());
+			$this->tokenProvider->invalidateToken($this->session->getId());
 		}
 		$this->setUser(null);
 		$this->setLoginName(null);

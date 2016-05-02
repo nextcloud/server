@@ -18,12 +18,19 @@ use OC\User\User;
  */
 class Session extends \Test\TestCase {
 
+	/** @var \OCP\AppFramework\Utility\ITimeFactory */
+	private $timeFactory;
+
 	/** @var \OC\Authentication\Token\DefaultTokenProvider */
 	protected $defaultProvider;
 
 	protected function setUp() {
 		parent::setUp();
 
+		$this->timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$this->timeFactory->expects($this->any())
+			->method('getTime')
+			->will($this->returnValue(10000));
 		$this->defaultProvider = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenProvider')
 			->disableOriginalConstructor()
 			->getMock();
@@ -59,7 +66,7 @@ class Session extends \Test\TestCase {
 			->will($this->returnValue(true));
 		$session->expects($this->at(2))
 			->method('set')
-			->with('last_login_check', $this->equalTo(time(), 10));
+			->with('last_login_check', 10000);
 
 		$session->expects($this->at(3))
 			->method('get')
@@ -77,7 +84,7 @@ class Session extends \Test\TestCase {
 			->with($expectedUser->getUID())
 			->will($this->returnValue($expectedUser));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->defaultProvider, [$this->defaultProvider]);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$user = $userSession->getUser();
 		$this->assertSame($expectedUser, $user);
 	}
@@ -100,7 +107,7 @@ class Session extends \Test\TestCase {
 			->getMock();
 
 		$userSession = $this->getMockBuilder('\OC\User\Session')
-			->setConstructorArgs([$manager, $session, $this->defaultProvider, [$this->defaultProvider]])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]])
 			->setMethods([
 				'getUser'
 			])
@@ -127,7 +134,7 @@ class Session extends \Test\TestCase {
 			->method('getUID')
 			->will($this->returnValue('foo'));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->defaultProvider, [$this->defaultProvider]);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$userSession->setUser($user);
 	}
 
@@ -179,7 +186,7 @@ class Session extends \Test\TestCase {
 			->will($this->returnValue($user));
 
 		$userSession = $this->getMockBuilder('\OC\User\Session')
-			->setConstructorArgs([$manager, $session, $this->defaultProvider, [$this->defaultProvider]])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]])
 			->setMethods([
 				'prepareUserLogin'
 			])
@@ -223,7 +230,7 @@ class Session extends \Test\TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue($user));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->defaultProvider, [$this->defaultProvider]);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$userSession->login('foo', 'bar');
 	}
 
@@ -259,7 +266,7 @@ class Session extends \Test\TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue(false));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->defaultProvider, [$this->defaultProvider]);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$userSession->login('foo', 'bar');
 	}
 
@@ -279,7 +286,7 @@ class Session extends \Test\TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue(false));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->defaultProvider, [$this->defaultProvider]);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$userSession->login('foo', 'bar');
 	}
 
@@ -334,7 +341,7 @@ class Session extends \Test\TestCase {
 			//override, otherwise tests will fail because of setcookie()
 			array('setMagicInCookie'),
 			//there  are passed as parameters to the constructor
-			array($manager, $session, $this->defaultProvider, [$this->defaultProvider]));
+			array($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]));
 
 		$granted = $userSession->loginWithCookie('foo', $token);
 
@@ -379,7 +386,7 @@ class Session extends \Test\TestCase {
 		$token = 'goodToken';
 		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
-		$userSession = new \OC\User\Session($manager, $session, $this->defaultProvider, [$this->defaultProvider]);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$granted = $userSession->loginWithCookie('foo', 'badToken');
 
 		$this->assertSame($granted, false);
@@ -422,7 +429,7 @@ class Session extends \Test\TestCase {
 		$token = 'goodToken';
 		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
-		$userSession = new \OC\User\Session($manager, $session, $this->defaultProvider, [$this->defaultProvider]);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$granted = $userSession->loginWithCookie('foo', $token);
 
 		$this->assertSame($granted, false);
@@ -447,7 +454,7 @@ class Session extends \Test\TestCase {
 		$session = new Memory('');
 		$session->set('user_id', 'foo');
 		$userSession = $this->getMockBuilder('\OC\User\Session')
-			->setConstructorArgs([$manager, $session, $this->defaultProvider, [$this->defaultProvider]])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]])
 			->setMethods([
 				'validateSession'
 			])

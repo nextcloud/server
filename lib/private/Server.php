@@ -218,11 +218,13 @@ class Server extends ServerContainer implements IServerContainer {
 			$crypto = $c->getCrypto();
 			$config = $c->getConfig();
 			$logger = $c->getLogger();
-			return new \OC\Authentication\Token\DefaultTokenProvider($mapper, $crypto, $config, $logger);
+			$timeFactory = new TimeFactory();
+			return new \OC\Authentication\Token\DefaultTokenProvider($mapper, $crypto, $config, $logger, $timeFactory);
 		});
 		$this->registerService('UserSession', function (Server $c) {
 			$manager = $c->getUserManager();
 			$session = new \OC\Session\Memory('');
+			$timeFactory = new TimeFactory();
 			// Token providers might require a working database. This code
 			// might however be called when ownCloud is not yet setup.
 			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
@@ -235,7 +237,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$tokenProviders = [];
 			}
 			
-			$userSession = new \OC\User\Session($manager, $session, $defaultTokenProvider, $tokenProviders);
+			$userSession = new \OC\User\Session($manager, $session, $timeFactory, $defaultTokenProvider, $tokenProviders);
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
