@@ -29,7 +29,7 @@
 
 namespace OC\Archive;
 
-class ZIP extends \OC_Archive{
+class ZIP extends Archive{
 	/**
 	 * @var \ZipArchive zip
 	 */

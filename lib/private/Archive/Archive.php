@@ -28,15 +28,14 @@
  *
  */
 
-use OC\Archive\TAR;
-use OC\Archive\ZIP;
+namespace OC\Archive;
 
-abstract class OC_Archive{
+abstract class Archive{
 	/**
 	 * Open any of the supported archive types
 	 *
 	 * @param string $path
-	 * @return OC_Archive|void
+	 * @return Archive|void
 	 */
 	public static function open($path) {
 		$mime = \OC::$server->getMimeTypeDetector()->detect($path);

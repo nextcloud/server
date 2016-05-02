@@ -300,7 +300,7 @@ class Installer {
 		$extractDir = \OC::$server->getTempManager()->getTemporaryFolder();
 		OC_Helper::rmdirr($extractDir);
 		mkdir($extractDir);
-		if($archive=\OC_Archive::open($path)) {
+		if($archive=\OC\Archive\Archive::open($path)) {
 			$archive->extract($extractDir);
 		} else {
 			OC_Helper::rmdirr($extractDir);
