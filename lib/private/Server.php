@@ -623,7 +623,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('ShareManager', function(Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('sharing.managerFactory', '\OC\Share20\ProviderFactory');
-			/** @var \OC\Share20\IProviderFactory $factory */
+			/** @var \OCP\Share\IProviderFactory $factory */
 			$factory = new $factoryClass($this);
 
 			$manager = new \OC\Share20\Manager(
