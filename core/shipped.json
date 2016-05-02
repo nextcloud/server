@@ -40,8 +40,9 @@
     "workflow"
   ],
   "alwaysEnabled": [
-    "files",
+    "core",
     "dav",
+    "files",
     "federatedfilesharing"
   ]
 }
