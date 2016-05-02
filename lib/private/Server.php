@@ -313,7 +313,7 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerService('ActivityManager', function (Server $c) {
-			return new ActivityManager(
+			return new \OC\Activity\Manager(
 				$c->getRequest(),
 				$c->getUserSession(),
 				$c->getConfig()

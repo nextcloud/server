@@ -44,7 +44,7 @@ class Server extends \Test\TestCase {
 
 	public function dataTestQuery() {
 		return [
-			['ActivityManager', '\OC\ActivityManager'],
+			['ActivityManager', '\OC\Activity\Manager'],
 			['ActivityManager', '\OCP\Activity\IManager'],
 			['AllConfig', '\OC\AllConfig'],
 			['AllConfig', '\OCP\IConfig'],
