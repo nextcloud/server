@@ -25,6 +25,8 @@
 namespace OCA\Files_Sharing\AppInfo;
 
 use OCA\FederatedFileSharing\DiscoveryManager;
+use OCA\Files_Sharing\Controllers\ShareInfo;
+use OCA\Files_Sharing\Middleware\ShareInfoMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -32,7 +34,6 @@ use OCA\Files_Sharing\Controllers\ExternalSharesController;
 use OCA\Files_Sharing\Controllers\ShareController;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use \OCP\IContainer;
-use OCA\Files_Sharing\Capabilities;
 
 class Application extends App {
 	public function __construct(array $urlParams = array()) {
@@ -67,6 +68,15 @@ class Application extends App {
 				$c->query('Request'),
 				$c->query('ExternalManager'),
 				$c->query('HttpClientService')
+			);
+		});
+
+		$container->registerService('ShareInfoController', function (SimpleContainer $c) use ($server) {
+			return new ShareInfo(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$server->getLogger(),
+				$server->getShareManager()
 			);
 		});
 
@@ -105,9 +115,17 @@ class Application extends App {
 				$c['ControllerMethodReflector']
 			);
 		});
+		$container->registerService('ShareInfoMiddleware', function (SimpleContainer $c) use ($server) {
+			return new ShareInfoMiddleware(
+				$c->query('AppName'),
+				$server->getAppManager(),
+				$server->getShareManager()
+			);
+		});
 
 		// Execute middlewares
 		$container->registerMiddleware('SharingCheckMiddleware');
+		$container->registerMiddleWare('ShareInfoMiddleware');
 
 		$container->registerService('MountProvider', function (IContainer $c) {
 			/** @var \OCP\IServerContainer $server */
