@@ -28,6 +28,9 @@
  *
  */
 
+use OC\Archive\TAR;
+use OC\Archive\ZIP;
+
 abstract class OC_Archive{
 	/**
 	 * Open any of the supported archive types
@@ -40,11 +43,11 @@ abstract class OC_Archive{
 
 		switch($mime) {
 			case 'application/zip':
-				return new OC_Archive_ZIP($path);
+				return new ZIP($path);
 			case 'application/x-gzip':
-				return new OC_Archive_TAR($path);
+				return new TAR($path);
 			case 'application/x-bzip2':
-				return new OC_Archive_TAR($path);
+				return new TAR($path);
 		}
 	}
 

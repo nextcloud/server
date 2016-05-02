@@ -6,6 +6,8 @@
  * See the COPYING-README file.
  */
 
+use OC\Archive\TAR;
+
 class Test_Archive_TAR extends Test_Archive {
 	protected function setUp() {
 		parent::setUp();
@@ -17,10 +19,10 @@ class Test_Archive_TAR extends Test_Archive {
 
 	protected function getExisting() {
 		$dir = OC::$SERVERROOT . '/tests/data';
-		return new OC_Archive_TAR($dir . '/data.tar.gz');
+		return new TAR($dir . '/data.tar.gz');
 	}
 
 	protected function getNew() {
-		return new OC_Archive_TAR(OCP\Files::tmpFile('.tar.gz'));
+		return new TAR(OCP\Files::tmpFile('.tar.gz'));
 	}
 }

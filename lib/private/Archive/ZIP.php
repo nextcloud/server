@@ -27,9 +27,11 @@
  *
  */
 
-class OC_Archive_ZIP extends OC_Archive{
+namespace OC\Archive;
+
+class ZIP extends \OC_Archive{
 	/**
-	 * @var ZipArchive zip
+	 * @var \ZipArchive zip
 	 */
 	private $zip=null;
 	private $path;
@@ -39,10 +41,10 @@ class OC_Archive_ZIP extends OC_Archive{
 	 */
 	function __construct($source) {
 		$this->path=$source;
-		$this->zip=new ZipArchive();
-		if($this->zip->open($source, ZipArchive::CREATE)) {
+		$this->zip=new \ZipArchive();
+		if($this->zip->open($source, \ZipArchive::CREATE)) {
 		}else{
-			OCP\Util::writeLog('files_archive', 'Error while opening archive '.$source, OCP\Util::WARN);
+			\OCP\Util::writeLog('files_archive', 'Error while opening archive '.$source, \OCP\Util::WARN);
 		}
 	}
 	/**
@@ -193,7 +195,7 @@ class OC_Archive_ZIP extends OC_Archive{
 			}else{
 				$ext='';
 			}
-			$tmpFile=OCP\Files::tmpFile($ext);
+			$tmpFile=\OCP\Files::tmpFile($ext);
 			\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 			if($this->fileExists($path)) {
 				$this->extractFile($path, $tmpFile);

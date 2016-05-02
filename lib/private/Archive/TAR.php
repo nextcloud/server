@@ -30,7 +30,9 @@
  *
  */
 
-class OC_Archive_TAR extends OC_Archive {
+namespace OC\Archive;
+
+class TAR extends \OC_Archive {
 	const PLAIN = 0;
 	const GZIP = 1;
 	const BZIP = 2;
@@ -39,7 +41,7 @@ class OC_Archive_TAR extends OC_Archive {
 	private $cachedHeaders;
 
 	/**
-	 * @var Archive_Tar tar
+	 * @var \Archive_Tar tar
 	 */
 	private $tar = null;
 	private $path;
@@ -50,7 +52,7 @@ class OC_Archive_TAR extends OC_Archive {
 	function __construct($source) {
 		$types = array(null, 'gz', 'bz2');
 		$this->path = $source;
-		$this->tar = new Archive_Tar($source, $types[self::getTarType($source)]);
+		$this->tar = new \Archive_Tar($source, $types[self::getTarType($source)]);
 	}
 
 	/**
@@ -137,13 +139,13 @@ class OC_Archive_TAR extends OC_Archive {
 	 */
 	function rename($source, $dest) {
 		//no proper way to delete, rename entire archive, rename file and remake archive
-		$tmp = OCP\Files::tmpFolder();
+		$tmp = \OCP\Files::tmpFolder();
 		$this->tar->extract($tmp);
 		rename($tmp . $source, $tmp . $dest);
 		$this->tar = null;
 		unlink($this->path);
 		$types = array(null, 'gz', 'bz');
-		$this->tar = new Archive_Tar($this->path, $types[self::getTarType($this->path)]);
+		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
 		$this->tar->createModify(array($tmp), '', $tmp . '/');
 		$this->fileList = false;
 		$this->cachedHeaders = false;
@@ -256,7 +258,7 @@ class OC_Archive_TAR extends OC_Archive {
 	 * @return bool
 	 */
 	function extractFile($path, $dest) {
-		$tmp = OCP\Files::tmpFolder();
+		$tmp = \OCP\Files::tmpFolder();
 		if (!$this->fileExists($path)) {
 			return false;
 		}
@@ -268,7 +270,7 @@ class OC_Archive_TAR extends OC_Archive {
 		if ($success) {
 			rename($tmp . $path, $dest);
 		}
-		OCP\Files::rmdirr($tmp);
+		\OCP\Files::rmdirr($tmp);
 		return $success;
 	}
 
@@ -324,9 +326,9 @@ class OC_Archive_TAR extends OC_Archive {
 		$this->fileList = false;
 		$this->cachedHeaders = false;
 		//no proper way to delete, extract entire archive, delete file and remake archive
-		$tmp = OCP\Files::tmpFolder();
+		$tmp = \OCP\Files::tmpFolder();
 		$this->tar->extract($tmp);
-		OCP\Files::rmdirr($tmp . $path);
+		\OCP\Files::rmdirr($tmp . $path);
 		$this->tar = null;
 		unlink($this->path);
 		$this->reopen();
@@ -347,7 +349,7 @@ class OC_Archive_TAR extends OC_Archive {
 		} else {
 			$ext = '';
 		}
-		$tmpFile = OCP\Files::tmpFile($ext);
+		$tmpFile = \OCP\Files::tmpFile($ext);
 		if ($this->fileExists($path)) {
 			$this->extractFile($path, $tmpFile);
 		} elseif ($mode == 'r' or $mode == 'rb') {
@@ -383,6 +385,6 @@ class OC_Archive_TAR extends OC_Archive {
 			$this->tar = null;
 		}
 		$types = array(null, 'gz', 'bz');
-		$this->tar = new Archive_Tar($this->path, $types[self::getTarType($this->path)]);
+		$this->tar = new \Archive_Tar($this->path, $types[self::getTarType($this->path)]);
 	}
 }
