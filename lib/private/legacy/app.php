@@ -164,7 +164,7 @@ class OC_App {
 	protected static function registerAutoloading($app, $path) {
 		// Register on PSR-4 composer autoloader
 		$appNamespace = \OC\AppFramework\App::buildAppNamespace($app);
-		\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/src/', true);
+		\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
 		if (defined('PHPUNIT_RUN')) {
 			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
 		}
