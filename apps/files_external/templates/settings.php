@@ -10,6 +10,7 @@
 	$l->t("Check for changes");
 	$l->t("Never");
 	$l->t("Once every direct access");
+	$l->t("Enable encoding compatibility (decreases performance)");
 
 	script('files_external', 'settings');
 	style('files_external', 'settings');
