@@ -89,6 +89,9 @@ class InfoParser {
 		if (!array_key_exists('uninstall', $array['repair-steps'])) {
 			$array['repair-steps']['uninstall'] = [];
 		}
+		if (!array_key_exists('background-jobs', $array)) {
+			$array['background-jobs'] = [];
+		}
 
 		if (array_key_exists('documentation', $array) && is_array($array['documentation'])) {
 			foreach ($array['documentation'] as $key => $url) {
@@ -128,6 +131,9 @@ class InfoParser {
 		if (isset($array['repair-steps']['uninstall']['step']) && is_array($array['repair-steps']['uninstall']['step'])) {
 			$array['repair-steps']['uninstall'] = $array['repair-steps']['uninstall']['step'];
 		}
+		if (isset($array['background-jobs']['job']) && is_array($array['background-jobs']['job'])) {
+			$array['background-jobs'] = $array['background-jobs']['job'];
+		}
 		return $array;
 	}
 
@@ -147,10 +153,7 @@ class InfoParser {
 			if (!isset($array[$element])) {
 				$array[$element] = "";
 			}
-			/**
-			 * @var \SimpleXMLElement $node
-			 */
-
+			/** @var \SimpleXMLElement $node */
 			// Has attributes
 			if ($attributes = $node->attributes()) {
 				$data = [

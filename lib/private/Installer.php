@@ -133,6 +133,8 @@ class Installer {
 			}
 		}
 
+		\OC_App::setupBackgroundJobs($info['background-jobs']);
+
 		//run appinfo/install.php
 		if((!isset($data['noinstall']) or $data['noinstall']==false)) {
 			self::includeAppScript($basedir . '/appinfo/install.php');
@@ -569,6 +571,7 @@ class Installer {
 		if (is_null($info)) {
 			return false;
 		}
+		\OC_App::setupBackgroundJobs($info['background-jobs']);
 
 		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
 

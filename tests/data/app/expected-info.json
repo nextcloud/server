@@ -74,5 +74,6 @@
 		"post-migration": [],
 		"live-migration": [],
 		"uninstall": []
-	}
+	},
+	"background-jobs": []
 }
