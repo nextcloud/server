@@ -153,11 +153,6 @@ class Application extends App {
 		return $this->getContainer()->query('SyncService');
 	}
 
-	public function setupCron() {
-		$jl = $this->getContainer()->getServer()->getJobList();
-		$jl->add(new SyncJob());
-	}
-
 	public function generateBirthdays() {
 		try {
 			/** @var BirthdayService $migration */
