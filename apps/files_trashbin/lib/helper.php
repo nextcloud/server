@@ -28,9 +28,9 @@ namespace OCA\Files_Trashbin;
 
 use OC\Files\FileInfo;
 use OCP\Constants;
+use OCP\Files\Cache\ICacheEntry;
 
-class Helper
-{
+class Helper {
 	/**
 	 * Retrieves the contents of a trash bin directory.
 	 *
@@ -41,7 +41,7 @@ class Helper
 	 * @param bool $sortDescending true for descending sort, false otherwise
 	 * @return \OCP\Files\FileInfo[]
 	 */
-	public static function getTrashFiles($dir, $user, $sortAttribute = '', $sortDescending = false){
+	public static function getTrashFiles($dir, $user, $sortAttribute = '', $sortDescending = false) {
 		$result = array();
 		$timestamp = null;
 
@@ -51,57 +51,48 @@ class Helper
 			throw new \Exception('Directory does not exists');
 		}
 
-		$dirContent = $view->opendir($dir);
-		if ($dirContent === false) {
-			return $result;
-		}
-
 		$mount = $view->getMount($dir);
 		$storage = $mount->getStorage();
 		$absoluteDir = $view->getAbsolutePath($dir);
 		$internalPath = $mount->getInternalPath($absoluteDir);
 
-		if (is_resource($dirContent)) {
-			$originalLocations = \OCA\Files_Trashbin\Trashbin::getLocations($user);
-			while (($entryName = readdir($dirContent)) !== false) {
-				if (!\OC\Files\Filesystem::isIgnoredDir($entryName)) {
-					$id = $entryName;
-					if ($dir === '' || $dir === '/') {
-						$size = $view->filesize($id);
-						$pathparts = pathinfo($entryName);
-						$timestamp = substr($pathparts['extension'], 1);
-						$id = $pathparts['filename'];
+		$originalLocations = \OCA\Files_Trashbin\Trashbin::getLocations($user);
+		$dirContent = $storage->getCache()->getFolderContents($mount->getInternalPath($view->getAbsolutePath($dir)));
+		foreach ($dirContent as $entry) {
+			$entryName = $entry->getName();
+			$id = $entry->getId();
+			$name = $entryName;
+			if ($dir === '' || $dir === '/') {
+				$pathparts = pathinfo($entryName);
+				$timestamp = substr($pathparts['extension'], 1);
+				$name = $pathparts['filename'];
 
-					} else if ($timestamp === null) {
-						// for subfolders we need to calculate the timestamp only once
-						$size = $view->filesize($dir . '/' . $id);
-						$parts = explode('/', ltrim($dir, '/'));
-						$timestamp = substr(pathinfo($parts[0], PATHINFO_EXTENSION), 1);
-					}
-					$originalPath = '';
-					if (isset($originalLocations[$id][$timestamp])) {
-						$originalPath = $originalLocations[$id][$timestamp];
-						if (substr($originalPath, -1) === '/') {
-							$originalPath = substr($originalPath, 0, -1);
-						}
-					}
-					$i = array(
-						'name' => $id,
-						'mtime' => $timestamp,
-						'mimetype' => $view->is_dir($dir . '/' . $entryName) ? 'httpd/unix-directory' : \OC::$server->getMimeTypeDetector()->detectPath($id),
-						'type' => $view->is_dir($dir . '/' . $entryName) ? 'dir' : 'file',
-						'directory' => ($dir === '/') ? '' : $dir,
-						'size' => $size,
-						'etag' => '',
-						'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE
-					);
-					if ($originalPath) {
-						$i['extraData'] = $originalPath.'/'.$id;
-					}
-					$result[] = new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i, $mount);
+			} else if ($timestamp === null) {
+				// for subfolders we need to calculate the timestamp only once
+				$parts = explode('/', ltrim($dir, '/'));
+				$timestamp = substr(pathinfo($parts[0], PATHINFO_EXTENSION), 1);
+			}
+			$originalPath = '';
+			if (isset($originalLocations[$id][$timestamp])) {
+				$originalPath = $originalLocations[$id][$timestamp];
+				if (substr($originalPath, -1) === '/') {
+					$originalPath = substr($originalPath, 0, -1);
 				}
 			}
-			closedir($dirContent);
+			$i = array(
+				'name' => $name,
+				'mtime' => $timestamp,
+				'mimetype' => $entry->getMimeType(),
+				'type' => $entry->getMimeType() === ICacheEntry::DIRECTORY_MIMETYPE ? 'dir' : 'file',
+				'directory' => ($dir === '/') ? '' : $dir,
+				'size' => $entry->getSize(),
+				'etag' => '',
+				'permissions' => Constants::PERMISSION_ALL - Constants::PERMISSION_SHARE
+			);
+			if ($originalPath) {
+				$i['extraData'] = $originalPath . '/' . $id;
+			}
+			$result[] = new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i, $mount);
 		}
 
 		if ($sortAttribute !== '') {
@@ -112,6 +103,7 @@ class Helper
 
 	/**
 	 * Format file infos for JSON
+	 *
 	 * @param \OCP\Files\FileInfo[] $fileInfos file infos
 	 */
 	public static function formatFileInfos($fileInfos) {
