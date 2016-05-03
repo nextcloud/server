@@ -28,23 +28,25 @@
  *
  */
 
-abstract class OC_Archive{
+namespace OC\Archive;
+
+abstract class Archive{
 	/**
 	 * Open any of the supported archive types
 	 *
 	 * @param string $path
-	 * @return OC_Archive|void
+	 * @return Archive|void
 	 */
 	public static function open($path) {
 		$mime = \OC::$server->getMimeTypeDetector()->detect($path);
 
 		switch($mime) {
 			case 'application/zip':
-				return new OC_Archive_ZIP($path);
+				return new ZIP($path);
 			case 'application/x-gzip':
-				return new OC_Archive_TAR($path);
+				return new TAR($path);
 			case 'application/x-bzip2':
-				return new OC_Archive_TAR($path);
+				return new TAR($path);
 		}
 	}
 

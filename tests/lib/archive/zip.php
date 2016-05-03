@@ -6,6 +6,8 @@
  * See the COPYING-README file.
  */
 
+use OC\Archive\ZIP;
+
 class Test_Archive_ZIP extends Test_Archive {
 	protected function setUp() {
 		parent::setUp();
@@ -17,10 +19,10 @@ class Test_Archive_ZIP extends Test_Archive {
 
 	protected function getExisting() {
 		$dir = OC::$SERVERROOT . '/tests/data';
-		return new OC_Archive_ZIP($dir . '/data.zip');
+		return new ZIP($dir . '/data.zip');
 	}
 
 	protected function getNew() {
-		return new OC_Archive_ZIP(OCP\Files::tmpFile('.zip'));
+		return new ZIP(OCP\Files::tmpFile('.zip'));
 	}
 }
