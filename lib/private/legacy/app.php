@@ -108,7 +108,7 @@ class OC_App {
 		foreach($apps as $app) {
 			$path = self::getAppPath($app);
 			if($path !== false) {
-				\OC::$loader->addValidRoot($path);
+				self::registerAutoloading($app, $path);
 			}
 		}
 
@@ -137,7 +137,10 @@ class OC_App {
 		if($appPath === false) {
 			return;
 		}
-		\OC::$loader->addValidRoot($appPath); // in case someone calls loadApp() directly
+
+		// in case someone calls loadApp() directly
+		self::registerAutoloading($app, $appPath);
+
 		if (is_file($appPath . '/appinfo/app.php')) {
 			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			if ($checkUpgrade and self::shouldUpgrade($app)) {
@@ -153,6 +156,22 @@ class OC_App {
 			}
 			\OC::$server->getEventLogger()->end('load_app_' . $app);
 		}
+	}
+
+	/**
+	 * @param string $app
+	 * @param string $path
+	 */
+	protected static function registerAutoloading($app, $path) {
+		// Register on PSR-4 composer autoloader
+		$appNamespace = \OC\AppFramework\App::buildAppNamespace($app);
+		\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);
+		if (defined('PHPUNIT_RUN')) {
+			\OC::$composerAutoloader->addPsr4($appNamespace . '\\Tests\\', $path . '/tests/', true);
+		}
+
+		// Register on legacy autoloader
+		\OC::$loader->addValidRoot($path);
 	}
 
 	/**

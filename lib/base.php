@@ -103,6 +103,9 @@ class OC {
 	 */
 	public static $loader = null;
 
+	/** @var \Composer\Autoload\ClassLoader $composerAutoloader */
+	public static $composerAutoloader = null;
+
 	/**
 	 * @var \OC\Server
 	 */
@@ -493,7 +496,7 @@ class OC {
 		self::$CLI = (php_sapi_name() == 'cli');
 
 		// Add default composer PSR-4 autoloader
-		require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
+		self::$composerAutoloader = require_once OC::$SERVERROOT . '/lib/composer/autoload.php';
 
 		try {
 			self::initPaths();
