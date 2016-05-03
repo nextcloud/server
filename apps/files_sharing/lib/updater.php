@@ -25,9 +25,9 @@
  *
  */
 
-namespace OC\Files\Cache;
+namespace OCA\Files_Sharing;
 
-class Shared_Updater {
+class Updater {
 
 	/**
 	 * @param array $params

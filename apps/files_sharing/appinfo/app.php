@@ -33,13 +33,6 @@ $l = \OC::$server->getL10N('files_sharing');
 \OC::$CLASSPATH['OC_Share_Backend_File'] = 'files_sharing/lib/share/file.php';
 \OC::$CLASSPATH['OC_Share_Backend_Folder'] = 'files_sharing/lib/share/folder.php';
 \OC::$CLASSPATH['OC\Files\Storage\Shared'] = 'files_sharing/lib/sharedstorage.php';
-\OC::$CLASSPATH['OC\Files\Cache\SharedScanner'] = 'files_sharing/lib/scanner.php';
-\OC::$CLASSPATH['OC\Files\Cache\Shared_Cache'] = 'files_sharing/lib/cache.php';
-\OC::$CLASSPATH['OC\Files\Cache\Shared_Permissions'] = 'files_sharing/lib/permissions.php';
-\OC::$CLASSPATH['OC\Files\Cache\Shared_Updater'] = 'files_sharing/lib/updater.php';
-\OC::$CLASSPATH['OC\Files\Cache\Shared_Watcher'] = 'files_sharing/lib/watcher.php';
-\OC::$CLASSPATH['OCA\Files\Share\Maintainer'] = 'files_sharing/lib/maintainer.php';
-\OC::$CLASSPATH['OCA\Files\Share\Proxy'] = 'files_sharing/lib/proxy.php';
 
 $application = new Application();
 $application->registerMountProviders();
