@@ -1190,6 +1190,7 @@ class OC_App {
 			self::loadApp($appId, false);
 			include $appPath . '/appinfo/update.php';
 		}
+		self::setupBackgroundJobs($appData['background-jobs']);
 
 		//set remote/public handlers
 		if (array_key_exists('ocsid', $appData)) {
@@ -1238,6 +1239,13 @@ class OC_App {
 		}
 		// run the steps
 		$r->run();
+	}
+
+	public static function setupBackgroundJobs(array $jobs) {
+		$queue = \OC::$server->getJobList();
+		foreach ($jobs as $job) {
+			$queue->add($job);
+		}
 	}
 
 	/**

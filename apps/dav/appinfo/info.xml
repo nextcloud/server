@@ -16,4 +16,7 @@
 	<dependencies>
 		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
+	<background-jobs>
+		<job>OCA\DAV\CardDAV\Sync\SyncJob</job>
+	</background-jobs>
 </info>
