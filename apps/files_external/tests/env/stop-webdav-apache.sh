@@ -7,6 +7,7 @@
 #
 # @author Morris Jobke
 # @copyright 2014 Morris Jobke <hey@morrisjobke.de>
+# @copyright 2016 Vincent Petry <pvince81@owncloud.com>
 #
 
 if ! command -v docker >/dev/null 2>&1; then
