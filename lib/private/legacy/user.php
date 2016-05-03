@@ -205,10 +205,13 @@ class OC_User {
 				self::getUserSession()->setLoginName($uid);
 				// setup the filesystem
 				OC_Util::setupFS($uid);
+				// first call the post_login hooks, the login-process needs to be
+				// completed before we can safely create the users folder.
+				// For example encryption needs to initialize the users keys first
+				// before we can create the user folder with the skeleton files
+				OC_Hook::emit("OC_User", "post_login", array("uid" => $uid, 'password' => ''));
 				//trigger creation of user home and /files folder
 				\OC::$server->getUserFolder($uid);
-
-				OC_Hook::emit("OC_User", "post_login", array("uid" => $uid, 'password' => ''));
 			}
 			return true;
 		}
