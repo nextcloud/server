@@ -48,11 +48,21 @@
  *
  */
 
+use OC\Cache\CappedMemoryCache;
+
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
 class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
-	private $cache = array();
+	/** @var CappedMemoryCache */
+	private $cache;
+
+	/**
+	 * OC_User_Database constructor.
+	 */
+	public function __construct() {
+		$this->cache = new CappedMemoryCache();
+	}
 
 	/**
 	 * Create a new user
