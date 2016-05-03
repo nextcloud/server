@@ -33,7 +33,7 @@ use Test\TestCase;
  */
 class ActivityTest extends TestCase {
 
-	/** @var \OC\ActivityManager */
+	/** @var \OCP\Activity\IManager */
 	private $activityManager;
 
 	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
@@ -70,7 +70,7 @@ class ActivityTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->activityManager = new \OC\ActivityManager(
+		$this->activityManager = new \OC\Activity\Manager(
 			$this->request,
 			$this->session,
 			$this->config

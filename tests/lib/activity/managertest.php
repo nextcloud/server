@@ -8,18 +8,22 @@
  *
 */
 
-class Test_ActivityManager extends \Test\TestCase {
+namespace Test\Activity;
 
-	/** @var \OC\ActivityManager */
+use Test\TestCase;
+
+class ManagerTest extends TestCase {
+
+	/** @var \OC\Activity\Manager */
 	private $activityManager;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	protected $request;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	protected $session;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 
 	protected function setUp() {
@@ -35,7 +39,7 @@ class Test_ActivityManager extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->activityManager = new \OC\ActivityManager(
+		$this->activityManager = new \OC\Activity\Manager(
 			$this->request,
 			$this->session,
 			$this->config
@@ -71,7 +75,7 @@ class Test_ActivityManager extends \Test\TestCase {
 	 */
 	public function testGetConsumersInvalidConsumer() {
 		$this->activityManager->registerConsumer(function() {
-			return new StdClass();
+			return new \stdClass();
 		});
 
 		$this->invokePrivate($this->activityManager, 'getConsumers');
@@ -88,7 +92,7 @@ class Test_ActivityManager extends \Test\TestCase {
 	 */
 	public function testGetExtensionsInvalidExtension() {
 		$this->activityManager->registerExtension(function() {
-			return new StdClass();
+			return new \stdClass();
 		});
 
 		$this->invokePrivate($this->activityManager, 'getExtensions');
@@ -119,10 +123,10 @@ class Test_ActivityManager extends \Test\TestCase {
 	}
 
 	public function testTranslate() {
-		$result = $this->activityManager->translate('APP0', '', '', array(), false, false, 'en');
+		$result = $this->activityManager->translate('APP0', '', array(), false, false, 'en');
 		$this->assertEquals('Stupid translation', $result);
 
-		$result = $this->activityManager->translate('APP1', '', '', array(), false, false, 'en');
+		$result = $this->activityManager->translate('APP1', '', array(), false, false, 'en');
 		$this->assertFalse($result);
 	}
 
@@ -259,7 +263,7 @@ class Test_ActivityManager extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException BadMethodCallException
+	 * @expectedException \BadMethodCallException
 	 * @expectedExceptionMessage App not set
 	 * @expectedExceptionCode 10
 	 */
@@ -269,7 +273,7 @@ class Test_ActivityManager extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException BadMethodCallException
+	 * @expectedException \BadMethodCallException
 	 * @expectedExceptionMessage Type not set
 	 * @expectedExceptionCode 11
 	 */
@@ -280,7 +284,7 @@ class Test_ActivityManager extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException BadMethodCallException
+	 * @expectedException \BadMethodCallException
 	 * @expectedExceptionMessage Affected user not set
 	 * @expectedExceptionCode 12
 	 */
@@ -292,7 +296,7 @@ class Test_ActivityManager extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException BadMethodCallException
+	 * @expectedException \BadMethodCallException
 	 * @expectedExceptionMessage Subject not set
 	 * @expectedExceptionCode 13
 	 */

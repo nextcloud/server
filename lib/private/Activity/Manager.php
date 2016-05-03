@@ -20,10 +20,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OC;
+namespace OC\Activity;
 
 
-use OC\Activity\Event;
 use OCP\Activity\IConsumer;
 use OCP\Activity\IEvent;
 use OCP\Activity\IExtension;
@@ -33,7 +32,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use OCP\IUserSession;
 
-class ActivityManager implements IManager {
+class Manager implements IManager {
 	/** @var IRequest */
 	protected $request;
 
