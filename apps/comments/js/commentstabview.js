@@ -305,7 +305,7 @@
 			//submits form on ctrl+Enter or cmd+Enter
 			if (ev.keyCode === 13 && (ev.ctrlKey || ev.metaKey)) {
 				$submitButton.click();
-		  }
+			}
 		},
 
 		_onClickComment: function(ev) {
