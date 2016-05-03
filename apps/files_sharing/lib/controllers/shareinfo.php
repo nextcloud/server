@@ -88,12 +88,16 @@ class ShareInfo extends Controller {
 			}
 		}
 
-		try {
-			$root = $share->getNode()->get($dir);
-		} catch (NotFoundException $e) {
-			$response = new Response();
-			$response->setStatus(Http::STATUS_NOT_FOUND);
-			return $response;
+		$root = $share->getNode();
+
+		if ($root instanceof Folder && $dir !== null) {
+			try {
+				$root = $root->get($dir);
+			} catch (NotFoundException $e) {
+				$response = new Response();
+				$response->setStatus(Http::STATUS_NOT_FOUND);
+				return $response;
+			}
 		}
 
 		$result = \OCA\Files\Helper::formatFileInfo($root->getFileInfo());
