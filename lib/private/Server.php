@@ -837,8 +837,7 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * For internal use only
-	 *
+	 * @internal For internal use only
 	 * @return \OC\SystemConfig
 	 */
 	public function getSystemConfig() {
@@ -1180,7 +1179,7 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('MountManager');
 	}
 
-	/*
+	/**
 	 * Get the MimeTypeDetector
 	 *
 	 * @return \OCP\Files\IMimeTypeDetector
