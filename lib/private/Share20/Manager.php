@@ -1212,6 +1212,10 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function sharingDisabledForUser($userId) {
+		if ($userId === null) {
+			return true;
+		}
+
 		if (isset($this->sharingDisabledForUsersCache[$userId])) {
 			return $this->sharingDisabledForUsersCache[$userId];
 		}
