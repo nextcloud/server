@@ -519,4 +519,16 @@ interface IServerContainer {
 	 * @since 9.0.0
 	 */
 	public function getContentSecurityPolicyManager();
+
+	/**
+	 * @return \OCP\IDateTimeZone
+	 * @since 8.0.0
+	 */
+	public function getDateTimeZone();
+
+	/**
+	 * @return \OCP\IDateTimeFormatter
+	 * @since 8.0.0
+	 */
+	public function getDateTimeFormatter();
 }
