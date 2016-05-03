@@ -142,4 +142,11 @@ interface IUserManager {
 	 * @since 9.0.0
 	 */
 	public function callForAllUsers (\Closure $callback, $search = '');
+
+	/**
+	 * @param string $email
+	 * @return IUser[]
+	 * @since 9.1.0
+	 */
+	public function getByEmail($email);
 }

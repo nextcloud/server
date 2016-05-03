@@ -40,11 +40,11 @@ script('core', [
 		</div>
 		<p class="grouptop">
 			<input type="text" name="user" id="user"
-				placeholder="<?php p($l->t('Username')); ?>"
+				placeholder="<?php p($l->t('Username or email')); ?>"
 				value="<?php p($_['loginName']); ?>"
 				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
 				autocomplete="on" autocapitalize="off" autocorrect="off" required>
-			<label for="user" class="infield"><?php p($l->t('Username')); ?></label>
+			<label for="user" class="infield"><?php p($l->t('Username or email')); ?></label>
 		</p>
 
 		<p class="groupbottom">

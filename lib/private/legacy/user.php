@@ -152,14 +152,22 @@ class OC_User {
 	/**
 	 * Try to login a user
 	 *
-	 * @param string $loginname The login name of the user to log in
+	 * @param string $loginName The login name of the user to log in
 	 * @param string $password The password of the user
 	 * @return boolean|null
 	 *
 	 * Log in a user and regenerate a new session - if the password is ok
 	 */
-	public static function login($loginname, $password) {
-		$result = self::getUserSession()->login($loginname, $password);
+	public static function login($loginName, $password) {
+
+		$result = self::getUserSession()->login($loginName, $password);
+		if (!$result) {
+			$users = \OC::$server->getUserManager()->getByEmail($loginName);
+			// we only allow login by email if unique
+			if (count($users) === 1) {
+				$result = self::getUserSession()->login($users[0]->getUID(), $password);
+			}
+		}
 		if ($result) {
 			// Refresh the token
 			\OC::$server->getCsrfTokenManager()->refreshToken();

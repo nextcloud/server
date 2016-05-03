@@ -196,6 +196,14 @@ class Principal implements BackendInterface {
 	 * @return string
 	 */
 	function findByUri($uri, $principalPrefix) {
+		if (substr($uri, 0, 7) === 'mailto:') {
+			$email = substr($uri, 7);
+			$users = $this->userManager->getByEmail($email);
+			if (count($users) === 1) {
+				return $this->principalPrefix . '/' . $users[0]->getUID();
+			}
+		}
+
 		return '';
 	}
 
