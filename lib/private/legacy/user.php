@@ -63,8 +63,6 @@ class OC_User {
 		return OC::$server->getUserSession();
 	}
 
-	private static $_backends = array();
-
 	private static $_usedBackends = array();
 
 	private static $_setupedBackends = array();
@@ -105,7 +103,7 @@ class OC_User {
 					break;
 				default:
 					\OCP\Util::writeLog('core', 'Adding default user backend ' . $backend . '.', \OCP\Util::DEBUG);
-					$className = 'OC_USER_' . strToUpper($backend);
+					$className = 'OC_USER_' . strtoupper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
@@ -183,6 +181,7 @@ class OC_User {
 	/**
 	 * Try to login a user using the magic cookie (remember login)
 	 *
+	 * @deprecated use \OCP\IUserSession::loginWithCookie()
 	 * @param string $uid The username of the user to log in
 	 * @param string $token
 	 * @return bool
@@ -249,6 +248,8 @@ class OC_User {
 
 	/**
 	 * Sets user id for session and triggers emit
+	 *
+	 * @param string $uid
 	 */
 	public static function setUserId($uid) {
 		$userSession = \OC::$server->getUserSession();
@@ -304,14 +305,11 @@ class OC_User {
 	/**
 	 * Check if the user is logged in, considers also the HTTP basic credentials
 	 *
+	 * @deprecated use \OC::$server->getUserSession()->isLoggedIn()
 	 * @return bool
 	 */
 	public static function isLoggedIn() {
-		if (\OC::$server->getSession()->get('user_id') !== null && self::$incognitoMode === false) {
-			return self::userExists(\OC::$server->getSession()->get('user_id'));
-		}
-
-		return false;
+		return \OC::$server->getUserSession()->isLoggedIn();
 	}
 
 	/**

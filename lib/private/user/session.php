@@ -32,6 +32,8 @@
 namespace OC\User;
 
 use OC\Hooks\Emitter;
+use OCP\ISession;
+use OCP\IUserManager;
 use OCP\IUserSession;
 
 /**
@@ -53,26 +55,20 @@ use OCP\IUserSession;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-	/**
-	 * @var \OC\User\Manager $manager
-	 */
+	/** @var \OC\User\Manager $manager */
 	private $manager;
 
-	/**
-	 * @var \OC\Session\Session $session
-	 */
+	/** @var \OC\Session\Session $session */
 	private $session;
 
-	/**
-	 * @var \OC\User\User $activeUser
-	 */
+	/** @var \OC\User\User $activeUser */
 	protected $activeUser;
 
 	/**
-	 * @param \OCP\IUserManager $manager
-	 * @param \OCP\ISession $session
+	 * @param IUserManager $manager
+	 * @param ISession $session
 	 */
-	public function __construct(\OCP\IUserManager $manager, \OCP\ISession $session) {
+	public function __construct(IUserManager $manager, ISession $session) {
 		$this->manager = $manager;
 		$this->session = $session;
 	}
@@ -107,7 +103,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * get the session object
 	 *
-	 * @return \OCP\ISession
+	 * @return ISession
 	 */
 	public function getSession() {
 		return $this->session;
@@ -116,10 +112,10 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * set the session object
 	 *
-	 * @param \OCP\ISession $session
+	 * @param ISession $session
 	 */
-	public function setSession(\OCP\ISession $session) {
-		if ($this->session instanceof \OCP\ISession) {
+	public function setSession(ISession $session) {
+		if ($this->session instanceof ISession) {
 			$this->session->close();
 		}
 		$this->session = $session;
@@ -170,7 +166,12 @@ class Session implements IUserSession, Emitter {
 	 * @return bool if logged in
 	 */
 	public function isLoggedIn() {
-		return $this->getUser() !== null;
+		$user = $this->getUser();
+		if (is_null($user)) {
+			return false;
+		}
+
+		return $user->isEnabled();
 	}
 
 	/**
@@ -226,15 +227,18 @@ class Session implements IUserSession, Emitter {
 					if ($this->isLoggedIn()) {
 						return true;
 					} else {
-						throw new LoginException('Login canceled by app');
+						// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
+						$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
+						throw new LoginException($message);
 					}
 				} else {
-					return false;
+					// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
+					$message = \OC::$server->getL10N('lib')->t('User disabled');
+					throw new LoginException($message);
 				}
 			}
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	/**

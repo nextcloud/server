@@ -31,32 +31,36 @@ namespace OCA\Provisioning_API;
 use \OC_OCS_Result;
 use \OC_Helper;
 use OCP\Files\NotFoundException;
+use OCP\IConfig;
+use OCP\IGroupManager;
 use OCP\ILogger;
+use OCP\IUserManager;
+use OCP\IUserSession;
 
 class Users {
 
-	/** @var \OCP\IUserManager */
+	/** @var IUserManager */
 	private $userManager;
-	/** @var \OCP\IConfig */
+	/** @var IConfig */
 	private $config;
-	/** @var \OCP\IGroupManager */
+	/** @var IGroupManager */
 	private $groupManager;
-	/** @var \OCP\IUserSession */
+	/** @var IUserSession */
 	private $userSession;
 	/** @var ILogger */
 	private $logger;
 
 	/**
-	 * @param \OCP\IUserManager $userManager
-	 * @param \OCP\IConfig $config
-	 * @param \OCP\IGroupManager $groupManager
-	 * @param \OCP\IUserSession $userSession
+	 * @param IUserManager $userManager
+	 * @param IConfig $config
+	 * @param IGroupManager $groupManager
+	 * @param IUserSession $userSession
 	 * @param ILogger $logger
 	 */
-	public function __construct(\OCP\IUserManager $userManager,
-								\OCP\IConfig $config,
-								\OCP\IGroupManager $groupManager,
-								\OCP\IUserSession $userSession,
+	public function __construct(IUserManager $userManager,
+								IConfig $config,
+								IGroupManager $groupManager,
+								IUserSession $userSession,
 								ILogger $logger) {
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -327,6 +331,50 @@ class Users {
 		} else {
 			return new OC_OCS_Result(null, 101);
 		}
+	}
+
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
+	public function disableUser($parameters) {
+		return $this->setEnabled($parameters, false);
+	}
+
+	/**
+	 * @param array $parameters
+	 * @return OC_OCS_Result
+	 */
+	public function enableUser($parameters) {
+		return $this->setEnabled($parameters, true);
+	}
+
+	/**
+	 * @param array $parameters
+	 * @param bool $value
+	 * @return OC_OCS_Result
+	 */
+	private function setEnabled($parameters, $value) {
+		// Check if user is logged in
+		$currentLoggedInUser = $this->userSession->getUser();
+		if ($currentLoggedInUser === null) {
+			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+		}
+
+		$targetUser = $this->userManager->get($parameters['userid']);
+		if($targetUser === null || $targetUser->getUID() === $currentLoggedInUser->getUID()) {
+			return new OC_OCS_Result(null, 101);
+		}
+
+		// If not permitted
+		$subAdminManager = $this->groupManager->getSubAdmin();
+		if(!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
+			return new OC_OCS_Result(null, 997);
+		}
+
+		// enable/disable the user now
+		$targetUser->setEnabled($value);
+		return new OC_OCS_Result(null, 100);
 	}
 
 	/**

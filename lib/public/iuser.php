@@ -32,6 +32,7 @@ namespace OCP;
  * @since 8.0.0
  */
 interface IUser {
+
 	/**
 	 * get the user id
 	 *

@@ -424,5 +424,15 @@ trait WebDav {
 	}
 
 
+	/**
+	 * @Given /^Downloading file "([^"]*)" as "([^"]*)"$/
+	 */
+	public function downloadingFileAs($fileName, $user) {
+		try {
+			$this->response = $this->makeDavRequest($user, 'GET', $fileName, []);
+		} catch (\GuzzleHttp\Exception\ServerException $ex) {
+			$this->response = $ex->getResponse();
+		}
+	}
 }
 

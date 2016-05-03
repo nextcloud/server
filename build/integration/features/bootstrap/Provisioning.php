@@ -35,7 +35,6 @@ trait Provisioning {
 		}
 		$this->userExists($user);
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
-
 	}
 
 	/**
@@ -231,6 +230,20 @@ trait Provisioning {
 	}
 
 	/**
+	 * @When /^assure user "([^"]*)" is disabled$/
+	 */
+	public function assureUserIsDisabled($user) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/disable";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->send($client->createRequest("PUT", $fullUrl, $options));
+	}
+
+	/**
 	 * @When /^Deleting the user "([^"]*)"$/
 	 * @param string $user
 	 */
@@ -360,6 +373,25 @@ trait Provisioning {
 		$respondedArray = $this->getArrayOfSubadminsResponded($this->response);
 		sort($respondedArray);
 		PHPUnit_Framework_Assert::assertContains($user, $respondedArray);
+		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
+	}
+
+	/**
+	 * @Given /^Assure user "([^"]*)" is subadmin of group "([^"]*)"$/
+	 * @param string $user
+	 * @param string $group
+	 */
+	public function assureUserIsSubadminOfGroup($user, $group) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user/subadmins";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+		$options['body'] = [
+							'groupid' => $group
+							];
+		$this->response = $client->send($client->createRequest("POST", $fullUrl, $options));
 		PHPUnit_Framework_Assert::assertEquals(200, $this->response->getStatusCode());
 	}
 
@@ -529,6 +561,38 @@ trait Provisioning {
 	}
 
 	/**
+	 * @Then /^user "([^"]*)" is disabled$/
+	 * @param string $user
+	 */
+	public function userIsDisabled($user) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		PHPUnit_Framework_Assert::assertEquals("false", $this->response->xml()->data[0]->enabled);
+	}
+
+	/**
+	 * @Then /^user "([^"]*)" is enabled$/
+	 * @param string $user
+	 */
+	public function userIsEnabled($user) {
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/cloud/users/$user";
+		$client = new Client();
+		$options = [];
+		if ($this->currentUser === 'admin') {
+			$options['auth'] = $this->adminUser;
+		}
+
+		$this->response = $client->get($fullUrl, $options);
+		PHPUnit_Framework_Assert::assertEquals("true", $this->response->xml()->data[0]->enabled);
+	}
+
+	/**
 	 * @Given user :user has a quota of :quota
 	 * @param string $user
 	 * @param string $quota
@@ -588,4 +652,5 @@ trait Provisioning {
 		}
 		$this->usingServer($previousServer);
 	}
+
 }
