@@ -17,6 +17,7 @@ OC.L10N.register(
     "Upload failed. Could not get file info." : "Feil ved opplasting. Klarte ikkje å henta filinfo.",
     "Invalid directory." : "Ugyldig mappe.",
     "Files" : "Filer",
+    "All files" : "Alle filer",
     "Favorites" : "Favorittar",
     "Home" : "Heime",
     "Close" : "Lukk",
