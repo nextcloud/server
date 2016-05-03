@@ -102,7 +102,7 @@ class LogSettingsController extends Controller {
 	 * @return StreamResponse
 	 */
 	public function download() {
-		$resp = new StreamResponse(\OC_Log_Owncloud::getLogFilePath());
+		$resp = new StreamResponse(\OC\Log\Owncloud::getLogFilePath());
 		$resp->addHeader('Content-Disposition', 'attachment; filename="owncloud.log"');
 		return $resp;
 	}

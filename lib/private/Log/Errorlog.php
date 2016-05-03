@@ -23,7 +23,9 @@
  * THE SOFTWARE.
  */
 
-class OC_Log_Errorlog {
+namespace OC\Log;
+
+class Errorlog {
 
 
 	/**

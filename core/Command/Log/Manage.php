@@ -115,7 +115,7 @@ class Manage extends Command {
 	 * @throws \InvalidArgumentException
 	 */
 	protected function validateBackend($backend) {
-		if (!class_exists('OC_Log_'.$backend)) {
+		if (!class_exists('OC\\Log\\'.ucfirst($backend))) {
 			throw new \InvalidArgumentException('Invalid backend');
 		}
 	}
