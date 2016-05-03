@@ -6,6 +6,9 @@ use GuzzleHttp\Message\ResponseInterface;
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait BasicStructure {
+
+	use Auth;
+
 	/** @var string */
 	private $currentUser = '';
 
