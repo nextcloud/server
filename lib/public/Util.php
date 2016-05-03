@@ -181,7 +181,12 @@ class Util {
 			self::$shareManager = \OC::$server->getShareManager();
 		}
 
-		return self::$shareManager->sharingDisabledForUser(\OC::$server->getUserSession()->getUser()->getUID());
+		$user = \OC::$server->getUserSession()->getUser();
+		if ($user !== null) {
+			$user = $user->getUID();
+		}
+
+		return self::$shareManager->sharingDisabledForUser($user);
 	}
 
 	/**
