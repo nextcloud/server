@@ -24,25 +24,24 @@
 
 namespace OC\Share20;
 
+use OC\Cache\CappedMemoryCache;
 use OC\Files\Mount\MoveableMount;
-use OCP\Files\IRootFolder;
-use OCP\Files\NotFoundException;
-use OCP\IUserManager;
-use OCP\Share\IManager;
-use OCP\Share\IProviderFactory;
-use OC\Share20\Exception\BackendError;
-use OCP\IConfig;
-use OCP\IL10N;
-use OCP\ILogger;
-use OCP\Security\ISecureRandom;
-use OCP\Security\IHasher;
-use OCP\Files\Mount\IMountManager;
-use OCP\IGroupManager;
 use OCP\Files\File;
 use OCP\Files\Folder;
-
-use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Files\IRootFolder;
+use OCP\Files\Mount\IMountManager;
+use OCP\Files\NotFoundException;
+use OCP\IConfig;
+use OCP\IGroupManager;
+use OCP\IL10N;
+use OCP\ILogger;
+use OCP\IUserManager;
+use OCP\Security\IHasher;
+use OCP\Security\ISecureRandom;
 use OCP\Share\Exceptions\GenericShareException;
+use OCP\Share\Exceptions\ShareNotFound;
+use OCP\Share\IManager;
+use OCP\Share\IProviderFactory;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -69,6 +68,9 @@ class Manager implements IManager {
 	private $userManager;
 	/** @var IRootFolder */
 	private $rootFolder;
+	/** @var CappedMemoryCache */
+	private $sharingDisabledForUsersCache;
+
 
 	/**
 	 * Manager constructor.
@@ -106,6 +108,7 @@ class Manager implements IManager {
 		$this->factory = $factory;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
+		$this->sharingDisabledForUsersCache = new CappedMemoryCache();
 	}
 
 	/**
@@ -1209,6 +1212,10 @@ class Manager implements IManager {
 	 * @return bool
 	 */
 	public function sharingDisabledForUser($userId) {
+		if (isset($this->sharingDisabledForUsersCache[$userId])) {
+			return $this->sharingDisabledForUsersCache[$userId];
+		}
+
 		if ($this->config->getAppValue('core', 'shareapi_exclude_groups', 'no') === 'yes') {
 			$groupsList = $this->config->getAppValue('core', 'shareapi_exclude_groups_list', '');
 			$excludedGroups = json_decode($groupsList);
@@ -1224,10 +1231,13 @@ class Manager implements IManager {
 				// if the user is only in groups which are disabled for sharing then
 				// sharing is also disabled for the user
 				if (empty($remainingGroups)) {
+					$this->sharingDisabledForUsersCache[$userId] = true;
 					return true;
 				}
 			}
 		}
+
+		$this->sharingDisabledForUsersCache[$userId] = false;
 		return false;
 	}
 

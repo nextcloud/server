@@ -63,6 +63,9 @@ class Util {
 	const ERROR=3;
 	const FATAL=4;
 
+	/** \OCP\Share\IManager */
+	private static $shareManager;
+
 	/**
 	 * get the current installed version of ownCloud
 	 * @return array
@@ -171,13 +174,14 @@ class Util {
 	 *
 	 * @return boolean
 	 * @since 7.0.0
+	 * @deprecated 9.1.0 Use \OC::$server->getShareManager()->sharingDisabledForUser
 	 */
 	public static function isSharingDisabledForUser() {
-		return \OC_Util::isSharingDisabledForUser(
-				\OC::$server->getConfig(),
-				\OC::$server->getGroupManager(),
-				\OC::$server->getUserSession()->getUser()
-		);
+		if (self::$shareManager === null) {
+			self::$shareManager = \OC::$server->getShareManager();
+		}
+
+		return self::$shareManager->sharingDisabledForUser(\OC::$server->getUserSession()->getUser()->getUID());
 	}
 
 	/**
