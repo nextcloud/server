@@ -48,6 +48,7 @@ use OCP\ISession;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 
 /**
  * Class Session
@@ -208,7 +209,11 @@ class Session implements IUserSession, Emitter {
 	}
 
 	protected function validateSession(IUser $user) {
-		$sessionId = $this->session->getId();
+		try {
+			$sessionId = $this->session->getId();
+		} catch (SessionNotAvailableException $ex) {
+			return;
+		}
 		try {
 			$token = $this->tokenProvider->getToken($sessionId);
 		} catch (InvalidTokenException $ex) {
@@ -394,8 +399,12 @@ class Session implements IUserSession, Emitter {
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
 		$loggedIn = $this->login($uid, $password);
 		if ($loggedIn) {
-			$sessionId = $this->session->getId();
-			$this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
+			try {
+				$sessionId = $this->session->getId();
+				$this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
+			} catch (SessionNotAvailableException $ex) {
+				
+			}
 		}
 		return $loggedIn;
 	}
@@ -447,8 +456,12 @@ class Session implements IUserSession, Emitter {
 		$authHeader = $request->getHeader('Authorization');
 		if (strpos($authHeader, 'token ') === false) {
 			// No auth header, let's try session id
-			$sessionId = $this->session->getId();
-			return $this->validateToken($request, $sessionId);
+			try {
+				$sessionId = $this->session->getId();
+				return $this->validateToken($request, $sessionId);
+			} catch (SessionNotAvailableException $ex) {
+				return false;
+			}
 		} else {
 			$token = substr($authHeader, 6);
 			return $this->validateToken($request, $token);
@@ -496,7 +509,11 @@ class Session implements IUserSession, Emitter {
 		$this->manager->emit('\OC\User', 'logout');
 		$user = $this->getUser();
 		if (!is_null($user)) {
-			$this->tokenProvider->invalidateToken($this->session->getId());
+			try {
+				$this->tokenProvider->invalidateToken($this->session->getId());
+			} catch (SessionNotAvailableException $ex) {
+				
+			}
 		}
 		$this->setUser(null);
 		$this->setLoginName(null);
