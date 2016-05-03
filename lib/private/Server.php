@@ -1179,7 +1179,7 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('MountManager');
 	}
 
-	/*
+	/**
 	 * Get the MimeTypeDetector
 	 *
 	 * @return \OCP\Files\IMimeTypeDetector
