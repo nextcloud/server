@@ -172,7 +172,7 @@
 				this.$el.find('.avatar').avatar(OC.getCurrentUser().uid, 28);
 			}
 			this.delegateEvents();
-			this.$el.find('textarea').on('keyup input change', this._onTypeComment);
+			this.$el.find('textarea').on('keydown input change', this._onTypeComment);
 		},
 
 		_formatItem: function(commentModel) {
@@ -273,7 +273,7 @@
 			// spawn form
 			$comment.after($formRow);
 			$formRow.data('commentEl', $comment);
-			$formRow.find('textarea').on('keyup input change', this._onTypeComment);
+			$formRow.find('textarea').on('keydown input change', this._onTypeComment);
 
 			// copy avatar element from original to avoid flickering
 			$formRow.find('.avatar').replaceWith($comment.find('.avatar').clone());
@@ -301,6 +301,11 @@
 			var limitExceeded = (len > this._commentMaxLength);
 			$field.toggleClass('error', limitExceeded);
 			$submitButton.prop('disabled', limitExceeded);
+
+			//submits form on ctrl+Enter or cmd+Enter
+			if (ev.keyCode === 13 && (ev.ctrlKey || ev.metaKey)) {
+				$submitButton.click();
+			}
 		},
 
 		_onClickComment: function(ev) {
