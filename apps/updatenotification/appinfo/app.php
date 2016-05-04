@@ -38,4 +38,16 @@ if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
 			\OC_App::registerAdmin('updatenotification', 'admin');
 		}
 	}
+
+	$manager = \OC::$server->getNotificationManager();
+	$manager->registerNotifier(function() {
+		return new \OCA\UpdateNotification\Notification\Notifier(
+			\OC::$server->getL10NFactory()
+		);
+	}, function() use ($l) {
+		return [
+			'id' => 'updatenotification',
+			'name' => $l->t('Update notifications'),
+		];
+	});
 }
