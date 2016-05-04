@@ -343,6 +343,15 @@ class FactoryTest extends TestCase {
 			[null, 'de', 'ru', ['de'], 'de', 'ru'],
 			[null, 'de,en', 'ru', ['de'], 'de', 'ru'],
 			[null, 'de-DE,en-US;q=0.8,en;q=0.6', 'ru', ['de'], 'de', 'ru'],
+
+			// Request lang should not be set for apps: Language is available
+			['files_pdfviewer', 'de', null, ['de'], 'de', ''],
+			['files_pdfviewer', 'de,en', null, ['de'], 'de', ''],
+			['files_pdfviewer', 'de-DE,en-US;q=0.8,en;q=0.6', null, ['de'], 'de', ''],
+			// Request lang should not be set for apps: Language is not available
+			['files_pdfviewer', 'de', null, ['ru'], 'en', ''],
+			['files_pdfviewer', 'de,en', null, ['ru', 'en'], 'en', ''],
+			['files_pdfviewer', 'de-DE,en-US;q=0.8,en;q=0.6', null, ['ru', 'en'], 'en', ''],
 		];
 	}
 

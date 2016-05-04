@@ -263,7 +263,7 @@ class Factory implements IFactory {
 			}
 		}
 
-		if (!$this->requestLanguage) {
+		if ($app === null && !$this->requestLanguage) {
 			$this->requestLanguage = 'en';
 		}
 		return 'en'; // Last try: English
