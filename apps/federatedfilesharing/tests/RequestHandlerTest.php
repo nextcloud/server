@@ -27,6 +27,7 @@ namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\DiscoveryManager;
+use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\FederatedFileSharing\RequestHandler;
 
 /**
@@ -74,7 +75,7 @@ class RequestHandlerTest extends TestCase {
 
 		$this->registerHttpHelper($httpHelperMock);
 
-		$this->s2s = new RequestHandler($this->federatedShareProvider);
+		$this->s2s = new RequestHandler($this->federatedShareProvider, \OC::$server->getDatabaseConnection());
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 	}
@@ -263,6 +264,78 @@ class RequestHandlerTest extends TestCase {
 		$dummyEntries = $query->fetchAll();
 
 		$this->assertSame(10, count($dummyEntries));
+	}
+
+	/**
+	 * @dataProvider dataTestGetShare
+	 *
+	 * @param bool $found
+	 * @param bool $correctId
+	 * @param bool $correctToken
+	 */
+	public function testGetShare($found, $correctId, $correctToken) {
+
+		$connection = \OC::$server->getDatabaseConnection();
+		$query = $connection->getQueryBuilder();
+		$stime = time();
+		$query->insert('share')
+			->values(
+				[
+					'share_type' => $query->createNamedParameter(FederatedShareProvider::SHARE_TYPE_REMOTE),
+					'uid_owner' => $query->createNamedParameter(self::TEST_FILES_SHARING_API_USER1),
+					'uid_initiator' => $query->createNamedParameter(self::TEST_FILES_SHARING_API_USER2),
+					'item_type' => $query->createNamedParameter('test'),
+					'item_source' => $query->createNamedParameter('1'),
+					'item_target' => $query->createNamedParameter('/1'),
+					'file_source' => $query->createNamedParameter('1'),
+					'file_target' => $query->createNamedParameter('/test.txt'),
+					'permissions' => $query->createNamedParameter('1'),
+					'stime' => $query->createNamedParameter($stime),
+					'token' => $query->createNamedParameter('token'),
+					'share_with' => $query->createNamedParameter('foo@bar'),
+				]
+			)->execute();
+		$id = $query->getLastInsertId();
+
+		$expected = [
+			'share_type' => (string)FederatedShareProvider::SHARE_TYPE_REMOTE,
+			'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+			'item_type' => 'test',
+			'item_source' => '1',
+			'item_target' => '/1',
+			'file_source' => '1',
+			'file_target' => '/test.txt',
+			'permissions' => '1',
+			'stime' => (string)$stime,
+			'token' => 'token',
+			'share_with' => 'foo@bar',
+			'id' => (string)$id,
+			'uid_initiator' => self::TEST_FILES_SHARING_API_USER2,
+			'parent' => null,
+			'accepted' => '0',
+			'expiration' => null,
+			'mail_send' => '0'
+		];
+
+		$searchToken = $correctToken ? 'token' : 'wrongToken';
+		$searchId = $correctId ? $id : -1;
+
+		$result = $this->invokePrivate($this->s2s, 'getShare', [$searchId, $searchToken]);
+
+		if ($found) {
+			$this->assertEquals($expected, $result);
+		} else {
+			$this->assertSame(false, $result);
+		}
+	}
+
+	public function dataTestGetShare() {
+		return [
+			[true, true, true],
+			[false, false, true],
+			[false, true, false],
+			[false, false, false],
+		];
 	}
 
 }

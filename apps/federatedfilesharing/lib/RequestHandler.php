@@ -29,6 +29,7 @@ use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity;
 use OCP\Files\NotFoundException;
+use OCP\IDBConnection;
 
 /**
  * Class RequestHandler
@@ -42,14 +43,21 @@ class RequestHandler {
 	/** @var FederatedShareProvider */
 	private $federatedShareProvider;
 
+	/** @var IDBConnection */
+	private $connection;
+
+	/** @var string */
+	private $shareTable = 'share';
 
 	/**
 	 * Server2Server constructor.
 	 *
 	 * @param FederatedShareProvider $federatedShareProvider
+	 * @param IDBConnection $connection
 	 */
-	public function __construct(FederatedShareProvider $federatedShareProvider) {
+	public function __construct(FederatedShareProvider $federatedShareProvider, IDBConnection $connection) {
 		$this->federatedShareProvider = $federatedShareProvider;
+		$this->connection = $connection;
 	}
 
 	/**
@@ -162,10 +170,10 @@ class RequestHandler {
 
 		$id = $params['id'];
 		$token = isset($_POST['token']) ? $_POST['token'] : null;
-		$share = self::getShare($id, $token);
+		$share = $this->getShare($id, $token);
 
 		if ($share) {
-			list($file, $link) = self::getFile($share['uid_owner'], $share['file_source']);
+			list($file, $link) = $this->getFile($share['uid_owner'], $share['file_source']);
 
 			$event = \OC::$server->getActivityManager()->generateEvent();
 			$event->setApp(Activity::FILES_SHARING_APP)
@@ -278,14 +286,22 @@ class RequestHandler {
 	 *
 	 * @param int $id
 	 * @param string $token
-	 * @return array
+	 * @return array|bool
 	 */
-	private function getShare($id, $token) {
-		$query = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `id` = ? AND `token` = ? AND `share_type` = ?');
-		$query->execute(array($id, $token, \OCP\Share::SHARE_TYPE_REMOTE));
-		$share = $query->fetchRow();
+	protected function getShare($id, $token) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')->from($this->shareTable)
+			->where($query->expr()->eq('token', $query->createNamedParameter($token)))
+			->andWhere($query->expr()->eq('share_type', $query->createNamedParameter(FederatedShareProvider::SHARE_TYPE_REMOTE)))
+			->andWhere($query->expr()->eq('id', $query->createNamedParameter($id)));
 
-		return $share;
+		$result = $query->execute()->fetchAll();
+
+		if (!empty($result) && isset($result[0])) {
+			return $result[0];
+		}
+
+		return false;
 	}
 
 	/**
