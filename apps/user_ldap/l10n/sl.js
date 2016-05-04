@@ -13,6 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : "Ni mogoče uveljaviti nastavitev %s",
     "Action does not exist" : "Dejanje ne obstaja",
     "The Base DN appears to be wrong" : "Enoznačno ime (DN) podatkovne zbirke je napačno",
+    "Testing configuration…" : "Poteka preizkušanje nastavitev ...",
     "Configuration incorrect" : "Nastavitev ni ustrezna",
     "Configuration incomplete" : "Nastavitev je nepopolna",
     "Configuration OK" : "Nastavitev je ustrezna",

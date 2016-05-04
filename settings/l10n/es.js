@@ -37,7 +37,7 @@ OC.L10N.register(
     "Unable to change full name" : "No se puede cambiar el nombre completo",
     "APCu" : "APCu",
     "Redis" : "Redis",
-    "Security & setup warnings" : "Avisos de seguidad y configuración",
+    "Security & setup warnings" : "Avisos de seguridad y configuración",
     "Sharing" : "Compartiendo",
     "Server-side encryption" : "Cifrado en el servidor",
     "External Storage" : "Almacenamiento externo",

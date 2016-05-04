@@ -11,6 +11,7 @@
     "_%n hour ago_::_%n hours ago_" : ["%n giờ trước"],
     "_%n minute ago_::_%n minutes ago_" : ["%n phút trước"],
     "seconds ago" : "vài giây trước",
+    "%s shared »%s« with you" : "%s đã chia sẻ »%s« với bạn",
     "Could not find category \"%s\"" : "không thể tìm thấy mục \"%s\"",
     "Apps" : "Ứng dụng",
     "Help" : "Giúp đỡ",
@@ -21,7 +22,6 @@
     "Application is not enabled" : "Ứng dụng không được BẬT",
     "Authentication error" : "Lỗi xác thực",
     "Token expired. Please reload page." : "Mã Token đã hết hạn. Hãy tải lại trang.",
-    "%s shared »%s« with you" : "%s đã chia sẻ »%s« với bạn",
     "Storage not available" : "Lưu trữ không có sẵn"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
