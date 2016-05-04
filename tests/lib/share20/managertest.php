@@ -2527,6 +2527,33 @@ class ManagerTest extends \Test\TestCase {
 
 		$this->manager->moveShare($share, 'recipient');
 	}
+
+	public function testAcceptShare() {
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setId('42')
+			->setProviderId('foo');
+
+		$this->defaultProvider->expects($this->once())
+			->method('accept')
+			->with(
+				$this->equalTo($share),
+				$this->equalTo('recipient')
+			);
+
+		$this->manager->acceptShare($share, 'recipient');
+	}
+
+	/**
+	 * @expectedException \InvalidArgumentException
+	 * @expectedExceptionMessage (re-)Accepting shares only implemeneted for group shares
+	 */
+	public function testAcceptShareInvalid() {
+		$share = $this->manager->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_USER);
+
+		$this->manager->acceptShare($share, 'recipient');
+	}
 }
 
 class DummyPassword {

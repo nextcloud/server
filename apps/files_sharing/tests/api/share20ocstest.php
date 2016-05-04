@@ -2084,4 +2084,96 @@ class Share20OCSTest extends \Test\TestCase {
 
 		$this->assertEquals($expected, $result);
 	}
+
+	public function testGetPendingShare() {
+		$node = $this->getMock('\OCP\Files\Node');
+		$node->method('getMimeType')->willReturn('myMime');
+		$node->method('getName')->willReturn('myName');
+
+		$now = new \DateTime();
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setId('42')
+			->setProviderId('foo')
+			->setSharedBy('initiator')
+			->setSharedWith('recipient')
+			->setShareOwner('owner')
+			->setNode($node)
+			->setPermissions(0)
+			->setShareTime($now);
+
+		$this->userManager
+			->expects($this->exactly(2))
+			->method('get')
+			->willReturn(null);
+
+		$this->shareManager->method('getShareById')
+			->willReturn($share);
+
+		$result = $this->ocs->getPendingShare('foo:42');
+
+		$expected = new \OC_OCS_Result([
+			'id' => 'foo:42',
+			'type' => \OCP\Share::SHARE_TYPE_GROUP,
+			'initiator' => 'initiator',
+			'owner' => 'owner',
+			'recipient' => 'recipient',
+			'mimetype' => 'myMime',
+			'name' => 'myName',
+			'mtime' => $now->getTimestamp(),
+		]);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	public function testGetGetPendingShares() {
+		$node = $this->getMock('\OCP\Files\Node');
+		$node->method('getMimeType')->willReturn('myMime');
+		$node->method('getName')->willReturn('myName');
+
+		$now = new \DateTime();
+		$share = \OC::$server->getShareManager()->newShare();
+		$share->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setId('42')
+			->setProviderId('foo')
+			->setSharedBy('initiator')
+			->setSharedWith('recipient')
+			->setShareOwner('owner')
+			->setNode($node)
+			->setPermissions(0)
+			->setShareTime($now);
+
+		$share2 = \OC::$server->getShareManager()->newShare();
+		$share2->setShareType(\OCP\Share::SHARE_TYPE_GROUP)
+			->setId('42')
+			->setProviderId('foo')
+			->setSharedBy('initiator')
+			->setSharedWith('recipient')
+			->setShareOwner('owner')
+			->setNode($node)
+			->setPermissions(\OCP\Constants::PERMISSION_READ);
+
+		$this->userManager
+			->expects($this->exactly(2))
+			->method('get')
+			->willReturn(null);
+
+		$this->shareManager->method('getSharedWith')
+			->willReturn([$share, $share2]);
+
+		$result = $this->ocs->getPendingShares();
+
+		$expected = new \OC_OCS_Result([[
+			'id' => 'foo:42',
+			'type' => \OCP\Share::SHARE_TYPE_GROUP,
+			'initiator' => 'initiator',
+			'owner' => 'owner',
+			'recipient' => 'recipient',
+			'mimetype' => 'myMime',
+			'name' => 'myName',
+			'mtime' => $now->getTimestamp(),
+		]]);
+
+		$this->assertEquals($expected, $result);
+	}
 }

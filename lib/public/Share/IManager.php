@@ -81,7 +81,6 @@ interface IManager {
 	 *
 	 * @param IShare $share
 	 * @param string $recipientId
-	 * @return IShare
 	 * @throws \InvalidArgumentException If $share is a link share or the $recipient does not match
 	 * @since 9.0.0
 	 */
@@ -94,7 +93,6 @@ interface IManager {
 	 *
 	 * @param IShare $share
 	 * @param string $recipientId
-	 * @return IShare
 	 * @since 9.1.0
 	 */
 	public function acceptShare(IShare $share, $recipientId);

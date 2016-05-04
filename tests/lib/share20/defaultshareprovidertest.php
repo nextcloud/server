@@ -2151,4 +2151,51 @@ class DefaultShareProviderTest extends \Test\TestCase {
 
 		$this->assertCount($toDelete ? 0 : 1, $data);
 	}
+
+	public function dataAccept() {
+		return [
+			['user1'],
+			['user2'],
+		];
+	}
+
+	/**
+	 * @dataProvider dataAccept
+	 * @param string $user
+	 */
+	public function testAccept($user) {
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->setValue('share_type', $qb->createNamedParameter(\OCP\Share::SHARE_TYPE_GROUP))
+			->setValue('uid_owner', $qb->createNamedParameter('owner'))
+			->setValue('uid_initiator', $qb->createNamedParameter('initiator'))
+			->setValue('share_with', $qb->createNamedParameter('group1'))
+			->setValue('item_type', $qb->createNamedParameter('file'))
+			->setValue('item_source', $qb->createNamedParameter(42))
+			->setValue('file_source', $qb->createNamedParameter(42))
+			->setValue('permissions', $qb->createNamedParameter(19));
+		$qb->execute();
+		$id = $qb->getLastInsertId();
+
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->insert('share')
+			->setValue('share_type', $qb->createNamedParameter(2))
+			->setValue('uid_owner', $qb->createNamedParameter('owner'))
+			->setValue('uid_initiator', $qb->createNamedParameter('initiator'))
+			->setValue('share_with', $qb->createNamedParameter('user1'))
+			->setValue('item_type', $qb->createNamedParameter('file'))
+			->setValue('item_source', $qb->createNamedParameter(42))
+			->setValue('file_source', $qb->createNamedParameter(42))
+			->setValue('permissions', $qb->createNamedParameter(0))
+			->setValue('parent', $qb->createNamedParameter($id));
+		$qb->execute();
+
+		$share = $this->provider->getShareById($id, $user);
+
+		$this->provider->accept($share, $user);
+
+		$share = $this->provider->getShareById($id, $user);
+
+		$this->assertSame(19, $share->getPermissions());
+	}
 }
