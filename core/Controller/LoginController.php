@@ -106,6 +106,7 @@ class LoginController extends Controller {
 		}
 
 		$parameters = array();
+		$id = $this->session->getId();
 		$loginMessages = $this->session->get('loginMessages');
 		$errors = [];
 		$messages = [];
@@ -167,16 +168,23 @@ class LoginController extends Controller {
 	 */
 	public function tryLogin($user, $password, $redirect_url) {
 		// TODO: Add all the insane error handling
-		$loginResult = $this->userManager->checkPassword($user, $password) === false;
-		if ($loginResult) {
+		$loginResult = $this->userManager->checkPassword($user, $password) !== false;
+		if (!$loginResult) {
 			$users = $this->userManager->getByEmail($user);
 			// we only allow login by email if unique
 			if (count($users) === 1) {
 				$loginResult = $this->userManager->checkPassword($users[0]->getUID(), $password);
 			}
 		}
-		if ($loginResult) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm'));
+		if (!$loginResult) {
+			$id = $this->session->getId();
+			$this->session->set('loginMessages', [
+				[],
+				['invalidpassword']
+			]);
+			// Read current user and append if possible
+			$args = !is_null($user) ? ['user' => $user] : [];
+			return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 		}
 		$this->userSession->createSessionToken($this->request, $user, $password);
 		if (!is_null($redirect_url) && $this->userSession->isLoggedIn()) {
@@ -187,7 +195,6 @@ class LoginController extends Controller {
 				return new RedirectResponse($location);
 			}
 		}
-		// TODO: Show invalid login warning
 		return new RedirectResponse($this->urlGenerator->linkTo('files', 'index'));
 	}
 
