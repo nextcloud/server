@@ -31,7 +31,6 @@ use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
 use OCP\Share\IManager;
-use Test\TestCase;
 
 /**
  * Class FederatedShareProviderTest
@@ -39,7 +38,7 @@ use Test\TestCase;
  * @package OCA\FederatedFileSharing\Tests
  * @group DB
  */
-class FederatedShareProviderTest extends TestCase {
+class FederatedShareProviderTest extends \Test\TestCase {
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -84,6 +83,8 @@ class FederatedShareProviderTest extends TestCase {
 		$this->config = $this->getMock('OCP\IConfig');
 		$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
 
+		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
+
 		$this->provider = new FederatedShareProvider(
 			$this->connection,
 			$this->addressHandler,
@@ -126,7 +127,10 @@ class FederatedShareProviderTest extends TestCase {
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
-				'sharedBy'
+				'shareOwner',
+				'shareOwner@http://localhost/',
+				'sharedBy',
+				'sharedBy@http://localhost/'
 			)->willReturn(true);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
@@ -189,7 +193,10 @@ class FederatedShareProviderTest extends TestCase {
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
-				'sharedBy'
+				'shareOwner',
+				'shareOwner@http://localhost/',
+				'sharedBy',
+				'sharedBy@http://localhost/'
 			)->willReturn(false);
 
 		$this->rootFolder->expects($this->once())
@@ -277,7 +284,10 @@ class FederatedShareProviderTest extends TestCase {
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
-				'sharedBy'
+				'shareOwner',
+				'shareOwner@http://localhost/',
+				'sharedBy',
+				'sharedBy@http://localhost/'
 			)->willReturn(true);
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
@@ -291,7 +301,27 @@ class FederatedShareProviderTest extends TestCase {
 		}
 	}
 
-	public function testUpdate() {
+	/**
+	 * @dataProvider datatTestUpdate
+	 *
+	 */
+	public function testUpdate($owner, $sharedBy) {
+
+		$this->provider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
+			->setConstructorArgs(
+				[
+					$this->connection,
+					$this->addressHandler,
+					$this->notifications,
+					$this->tokenHandler,
+					$this->l,
+					$this->logger,
+					$this->rootFolder,
+					$this->config,
+					$this->userManager
+				]
+			)->setMethods(['sendPermissionUpdate'])->getMock();
+
 		$share = $this->shareManager->newShare();
 
 		$node = $this->getMock('\OCP\Files\File');
@@ -299,8 +329,8 @@ class FederatedShareProviderTest extends TestCase {
 		$node->method('getName')->willReturn('myFile');
 
 		$share->setSharedWith('user@server.com')
-			->setSharedBy('sharedBy')
-			->setShareOwner('shareOwner')
+			->setSharedBy($sharedBy)
+			->setShareOwner($owner)
 			->setPermissions(19)
 			->setNode($node);
 
@@ -313,8 +343,17 @@ class FederatedShareProviderTest extends TestCase {
 				$this->equalTo('user@server.com'),
 				$this->equalTo('myFile'),
 				$this->anything(),
-				'sharedBy'
+				$owner,
+				$owner . '@http://localhost/',
+				$sharedBy,
+				$sharedBy . '@http://localhost/'
 			)->willReturn(true);
+
+		if($owner === $sharedBy) {
+			$this->provider->expects($this->never())->method('sendPermissionUpdate');
+		} else {
+			$this->provider->expects($this->once())->method('sendPermissionUpdate');
+		}
 
 		$this->rootFolder->expects($this->never())->method($this->anything());
 
@@ -326,6 +365,13 @@ class FederatedShareProviderTest extends TestCase {
 		$share = $this->provider->getShareById($share->getId());
 
 		$this->assertEquals(1, $share->getPermissions());
+	}
+
+	public function datatTestUpdate() {
+		return [
+			['sharedBy', 'shareOwner'],
+			['shareOwner', 'shareOwner']
+		];
 	}
 
 	public function testGetSharedBy() {

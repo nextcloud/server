@@ -32,7 +32,6 @@ namespace OCA\FederatedFileSharing\Tests;
 
 use OC\Files\Filesystem;
 use OCA\Files\Share;
-use OCA\Files_Sharing\Appinfo\Application;
 
 /**
  * Class Test_Files_Sharing_Base

@@ -67,9 +67,14 @@ class Notifications {
 	 * @param string $name
 	 * @param int $remote_id
 	 * @param string $owner
+	 * @param string $ownerFederatedId
+	 * @param string $sharedBy
+	 * @param string $sharedByFederatedId
 	 * @return bool
+	 * @throws \OC\HintException
+	 * @throws \OC\ServerNotAvailableException
 	 */
-	public function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner) {
+	public function sendRemoteShare($token, $shareWith, $name, $remote_id, $owner, $ownerFederatedId, $sharedBy, $sharedByFederatedId) {
 
 		list($user, $remote) = $this->addressHandler->splitUserRemote($shareWith);
 
@@ -83,6 +88,9 @@ class Notifications {
 				'name' => $name,
 				'remoteId' => $remote_id,
 				'owner' => $owner,
+				'ownerFederatedId' => $ownerFederatedId,
+				'sharedBy' => $sharedBy,
+				'sharedByFederatedId' => $sharedByFederatedId,
 				'remote' => $local,
 			);
 
@@ -101,34 +109,138 @@ class Notifications {
 	}
 
 	/**
+	 * ask owner to re-share the file with the given user
+	 *
+	 * @param string $token
+	 * @param int $id remote Id
+	 * @param int $shareId internal share Id
+	 * @param string $remote remote address of the owner
+	 * @param string $shareWith
+	 * @param int $permission
+	 * @return bool
+	 * @throws \OC\HintException
+	 * @throws \OC\ServerNotAvailableException
+	 */
+	public function requestReShare($token, $id, $shareId, $remote, $shareWith, $permission) {
+
+		$fields = array(
+			'shareWith' => $shareWith,
+			'token' => $token,
+			'permission' => $permission,
+			'remoteId' => $shareId
+		);
+
+		$url = $this->addressHandler->removeProtocolFromUrl($remote);
+		$result = $this->tryHttpPostToShareEndpoint(rtrim($url, '/'), '/' . $id . '/reshare', $fields);
+		$status = json_decode($result['result'], true);
+
+		$httpRequestSuccessful = $result['success'];
+		$ocsCallSuccessful = $status['ocs']['meta']['statuscode'] === 100 || $status['ocs']['meta']['statuscode'] === 200;
+		$validToken = isset($status['ocs']['data']['token']) && is_string($status['ocs']['data']['token']);
+		$validRemoteId = isset($status['ocs']['data']['remoteId']);
+
+		if ($httpRequestSuccessful && $ocsCallSuccessful && $validToken && $validRemoteId) {
+			return [
+				$status['ocs']['data']['token'],
+				(int)$status['ocs']['data']['remoteId']
+			];
+		}
+
+		return false;
+	}
+
+	/**
 	 * send server-to-server unshare to remote server
 	 *
 	 * @param string $remote url
 	 * @param int $id share id
 	 * @param string $token
-	 * @param int $try how often did we already tried to send the un-share request
 	 * @return bool
 	 */
-	public function sendRemoteUnShare($remote, $id, $token, $try = 0) {
-		$url = rtrim($remote, '/');
-		$fields = array('token' => $token, 'format' => 'json');
-		$url = $this->addressHandler->removeProtocolFromUrl($url);
-		$result = $this->tryHttpPostToShareEndpoint($url, '/'.$id.'/unshare', $fields);
+	public function sendRemoteUnShare($remote, $id, $token) {
+		$this->sendUpdateToRemote($remote, $id, $token, 'unshare');
+	}
+
+	/**
+	 * send server-to-server unshare to remote server
+	 *
+	 * @param string $remote url
+	 * @param int $id share id
+	 * @param string $token
+	 * @return bool
+	 */
+	public function sendRevokeShare($remote, $id, $token) {
+		$this->sendUpdateToRemote($remote, $id, $token, 'revoke');
+	}
+
+	/**
+	 * send notification to remote server if the permissions was changed
+	 *
+	 * @param string $remote
+	 * @param int $remoteId
+	 * @param string $token
+	 * @param int $permissions
+	 * @return bool
+	 */
+	public function sendPermissionChange($remote, $remoteId, $token, $permissions) {
+		$this->sendUpdateToRemote($remote, $remoteId, $token, ['permissions' => $permissions]);
+	}
+
+	/**
+	 * forward accept reShare to remote server
+	 * 
+	 * @param string $remote
+	 * @param int $remoteId
+	 * @param string $token
+	 */
+	public function sendAcceptShare($remote, $remoteId, $token) {
+		$this->sendUpdateToRemote($remote, $remoteId, $token, 'accept');
+	}
+
+	/**
+	 * forward decline reShare to remote server
+	 *
+	 * @param string $remote
+	 * @param int $remoteId
+	 * @param string $token
+	 */
+	public function sendDeclineShare($remote, $remoteId, $token) {
+		$this->sendUpdateToRemote($remote, $remoteId, $token, 'decline');
+	}
+
+	/**
+	 * inform remote server whether server-to-server share was accepted/declined
+	 *
+	 * @param string $remote
+	 * @param string $token
+	 * @param int $remoteId Share id on the remote host
+	 * @param string $action possible actions: accept, decline, unshare, revoke, permissions
+	 * @param array $data
+	 * @param int $try
+	 * @return boolean
+	 */
+	public function sendUpdateToRemote($remote, $remoteId, $token, $action, $data = [], $try = 0) {
+
+		$fields = array('token' => $token);
+		$url = $this->addressHandler->removeProtocolFromUrl($remote);
+		$result = $this->tryHttpPostToShareEndpoint(rtrim($url, '/'), '/' . $remoteId . '/' . $action, $fields);
 		$status = json_decode($result['result'], true);
 
-		if ($result['success'] && 
-			($status['ocs']['meta']['statuscode'] === 100 || 
+		if ($result['success'] &&
+			($status['ocs']['meta']['statuscode'] === 100 ||
 				$status['ocs']['meta']['statuscode'] === 200
 			)
 		) {
 			return true;
 		} elseif ($try === 0) {
 			// only add new job on first try
-			$this->jobList->add('OCA\FederatedFileSharing\BackgroundJob\UnShare',
+			$this->jobList->add('OCA\FederatedFileSharing\BackgroundJob\RetryJob',
 				[
 					'remote' => $remote,
-					'id' => $id,
+					'remoteId' => $remoteId,
 					'token' => $token,
+					'action' => $action,
+					'data' => json_encode($data),
 					'try' => $try,
 					'lastRun' => $this->getTimestamp()
 				]
@@ -137,6 +249,7 @@ class Notifications {
 
 		return false;
 	}
+
 
 	/**
 	 * return current timestamp

@@ -26,9 +26,8 @@ namespace OCA\FederatedFileSharing\Tests;
 
 use OCA\FederatedFileSharing\TokenHandler;
 use OCP\Security\ISecureRandom;
-use Test\TestCase;
 
-class TokenHandlerTest extends TestCase {
+class TokenHandlerTest extends \Test\TestCase {
 
 	/** @var  TokenHandler */
 	private $tokenHandler;

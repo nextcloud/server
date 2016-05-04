@@ -28,9 +28,8 @@ use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\Notifications;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
-use Test\TestCase;
 
-class NotificationsTest extends TestCase {
+class NotificationsTest extends \Test\TestCase {
 
 	/** @var  AddressHandler | \PHPUnit_Framework_MockObject_MockObject */
 	private $addressHandler;
@@ -85,14 +84,15 @@ class NotificationsTest extends TestCase {
 		return $instance;
 	}
 
+
 	/**
-	 * @dataProvider dataTestSendRemoteUnShare
+	 * @dataProvider dataTestSendUpdateToRemote
 	 *
 	 * @param int $try
 	 * @param array $httpRequestResult
 	 * @param bool $expected
 	 */
-	public function testSendRemoteUnShare($try, $httpRequestResult, $expected) {
+	public function testSendUpdateToRemote($try, $httpRequestResult, $expected) {
 		$remote = 'remote';
 		$id = 42;
 		$timestamp = 63576;
@@ -102,20 +102,22 @@ class NotificationsTest extends TestCase {
 		$instance->expects($this->any())->method('getTimestamp')->willReturn($timestamp);
 
 		$instance->expects($this->once())->method('tryHttpPostToShareEndpoint')
-			->with($remote, '/'.$id.'/unshare', ['token' => $token, 'format' => 'json'])
+			->with($remote, '/'.$id.'/unshare', ['token' => $token, 'data1Key' => 'data1Value'])
 			->willReturn($httpRequestResult);
 
 		$this->addressHandler->expects($this->once())->method('removeProtocolFromUrl')
 			->with($remote)->willReturn($remote);
-		
+
 		// only add background job on first try
 		if ($try === 0 && $expected === false) {
 			$this->jobList->expects($this->once())->method('add')
 				->with(
-					'OCA\FederatedFileSharing\BackgroundJob\UnShare',
+					'OCA\FederatedFileSharing\BackgroundJob\RetryJob',
 					[
 						'remote' => $remote,
-						'id' => $id,
+						'remoteId' => $id,
+						'action' => 'unshare',
+						'data' => json_encode(['data1Key' => 'data1Value']),
 						'token' => $token,
 						'try' => $try,
 						'lastRun' => $timestamp
@@ -124,14 +126,15 @@ class NotificationsTest extends TestCase {
 		} else {
 			$this->jobList->expects($this->never())->method('add');
 		}
-		
+
 		$this->assertSame($expected,
-			$instance->sendRemoteUnShare($remote, $id, $token, $try)
+			$instance->sendUpdateToRemote($remote, $id, $token, 'unshare', ['data1Key' => 'data1Value'], $try)
 		);
-		
+
 	}
-	
-	public function dataTestSendRemoteUnshare() {
+
+
+	public function dataTestSendUpdateToRemote() {
 		return [
 			// test if background job is added correctly
 			[0, ['success' => true, 'result' => json_encode(['ocs' => ['meta' => ['statuscode' => 200]]])], true],
