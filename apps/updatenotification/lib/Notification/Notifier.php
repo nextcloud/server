@@ -22,23 +22,33 @@
 namespace OCA\UpdateNotification\Notification;
 
 
-use OCP\App\IAppManager;
 use OCP\L10N\IFactory;
+use OCP\Notification\IManager;
 use OCP\Notification\INotification;
 use OCP\Notification\INotifier;
 
 class Notifier implements INotifier {
 
+	/** @var IManager */
+	protected $notificationManager;
+
 	/** @var IFactory */
 	protected $l10NFactory;
+
+	/** @var string[] */
+	protected $appVersions;
 
 	/**
 	 * Notifier constructor.
 	 *
+	 * @param IManager $notificationManager
 	 * @param IFactory $l10NFactory
 	 */
-	public function __construct(IFactory $l10NFactory) {
+	public function __construct(IManager $notificationManager, IFactory $l10NFactory) {
+		$this->notificationManager = $notificationManager;
 		$this->l10NFactory = $l10NFactory;
+		$this->appVersions = $this->getAppVersions();
+		\OC::$server->getLogger()->error(json_encode($this->appVersions));
 	}
 
 	/**
@@ -56,12 +66,44 @@ class Notifier implements INotifier {
 		$l = $this->l10NFactory->get('updatenotification', $languageCode);
 		if ($notification->getObjectType() === 'core') {
 			$appName = $l->t('ownCloud core');
+
+			$this->updateAlreadyInstalledCheck($notification, $this->getCoreVersions());
 		} else {
-			$appInfo = \OC_App::getAppInfo($notification->getObjectType());
+			$appInfo = $this->getAppInfo($notification->getObjectType());
 			$appName = ($appInfo === null) ? $notification->getObjectType() : $appInfo['name'];
+
+			if (isset($this->appVersions[$notification->getObjectType()])) {
+				$this->updateAlreadyInstalledCheck($notification, $this->appVersions[$notification->getObjectType()]);
+			}
 		}
 
 		$notification->setParsedSubject($l->t('Update for %1$s to version %2$s is available.', [$appName, $notification->getObjectId()]));
 		return $notification;
+	}
+
+	/**
+	 * Remove the notification and prevent rendering, when the update is installed
+	 *
+	 * @param INotification $notification
+	 * @param string $installedVersion
+	 * @throws \InvalidArgumentException When the update is already installed
+	 */
+	protected function updateAlreadyInstalledCheck(INotification $notification, $installedVersion) {
+		if (version_compare($notification->getObjectId(), $installedVersion, '<=')) {
+			$this->notificationManager->markProcessed($notification);
+			throw new \InvalidArgumentException();
+		}
+	}
+
+	protected function getCoreVersions() {
+		return implode('.', \OCP\Util::getVersion());
+	}
+
+	protected function getAppVersions() {
+		return \OC_App::getAppVersions();
+	}
+
+	protected function getAppInfo($appId) {
+		return \OC_App::getAppInfo($appId);
 	}
 }
