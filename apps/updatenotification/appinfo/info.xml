@@ -6,6 +6,7 @@
 	<licence>AGPL</licence>
 	<author>Lukas Reschke</author>
 	<version>0.2.0</version>
+	<namespace>UpdateNotification</namespace>
 	<default_enable/>
 	<dependencies>
 		<owncloud min-version="9.1" max-version="9.1" />

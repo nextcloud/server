@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\UpdateNotification\AppInfo;
+use OCA\UpdateNotification\AppInfo\Application;
 
 $application = new Application();
 $application->registerRoutes($this, ['routes' => [
