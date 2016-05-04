@@ -44,15 +44,16 @@ OC_Util::addScript('files', 'jquery.fileupload');
 
 $showLog = (\OC::$server->getConfig()->getSystemValue('log_type', 'owncloud') === 'owncloud');
 $numEntriesToLoad = 3;
-$entries = OC_Log_Owncloud::getEntries($numEntriesToLoad + 1);
+$entries = \OC\Log\Owncloud::getEntries($numEntriesToLoad + 1);
 $entriesRemaining = count($entries) > $numEntriesToLoad;
 $entries = array_slice($entries, 0, $numEntriesToLoad);
-$logFilePath = OC_Log_Owncloud::getLogFilePath();
+$logFilePath = \OC\Log\Owncloud::getLogFilePath();
 $doesLogFileExist = file_exists($logFilePath);
 $logFileSize = 0;
 if($doesLogFileExist) {
 	$logFileSize = filesize($logFilePath);
 }
+
 $config = \OC::$server->getConfig();
 $appConfig = \OC::$server->getAppConfig();
 $request = \OC::$server->getRequest();
