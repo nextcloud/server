@@ -2050,8 +2050,9 @@ OC.Util.History = {
 	 *
 	 * @param params to append to the URL, can be either a string
 	 * or a map
+	 * @param {boolean} [replace=false] whether to replace instead of pushing
 	 */
-	pushState: function(params) {
+	_pushState: function(params, replace) {
 		var strParams;
 		if (typeof(params) === 'string') {
 			strParams = params;
@@ -2061,7 +2062,11 @@ OC.Util.History = {
 		}
 		if (window.history.pushState) {
 			var url = location.pathname + '?' + strParams;
-			window.history.pushState(params, '', url);
+			if (replace) {
+				window.history.replaceState(params, '', url);
+			} else {
+				window.history.pushState(params, '', url);
+			}
 		}
 		// use URL hash for IE8
 		else {
@@ -2070,6 +2075,32 @@ OC.Util.History = {
 			// to the event queue
 			this._cancelPop = true;
 		}
+	},
+
+	/**
+	 * Push the current URL parameters to the history stack
+	 * and change the visible URL.
+	 * Note: this includes a workaround for IE8/IE9 that uses
+	 * the hash part instead of the search part.
+	 *
+	 * @param params to append to the URL, can be either a string
+	 * or a map
+	 */
+	pushState: function(params) {
+		return this._pushState(params, false);
+	},
+
+	/**
+	 * Push the current URL parameters to the history stack
+	 * and change the visible URL.
+	 * Note: this includes a workaround for IE8/IE9 that uses
+	 * the hash part instead of the search part.
+	 *
+	 * @param params to append to the URL, can be either a string
+	 * or a map
+	 */
+	replaceState: function(params) {
+		return this._pushState(params, true);
 	},
 
 	/**

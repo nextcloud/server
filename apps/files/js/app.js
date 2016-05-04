@@ -174,6 +174,7 @@
 
 			// detect when app changed their current directory
 			$('#app-content').delegate('>div', 'changeDirectory', _.bind(this._onDirectoryChanged, this));
+			$('#app-content').delegate('>div', 'afterChangeDirectory', _.bind(this._onAfterDirectoryChanged, this));
 			$('#app-content').delegate('>div', 'changeViewerMode', _.bind(this._onChangeViewerMode, this));
 
 			$('#app-navigation').on('itemChanged', _.bind(this._onNavigationChanged, this));
@@ -224,7 +225,16 @@
 		 */
 		_onDirectoryChanged: function(e) {
 			if (e.dir) {
-				this._changeUrl(this.navigation.getActiveItem(), e.dir);
+				this._changeUrl(this.navigation.getActiveItem(), e.dir, e.fileId);
+			}
+		},
+
+		/**
+		 * Event handler for when an app notified that its directory changed
+		 */
+		_onAfterDirectoryChanged: function(e) {
+			if (e.dir && e.fileId) {
+				this._changeUrl(this.navigation.getActiveItem(), e.dir, e.fileId);
 			}
 		},
 
@@ -263,12 +273,20 @@
 		/**
 		 * Change the URL to point to the given dir and view
 		 */
-		_changeUrl: function(view, dir) {
+		_changeUrl: function(view, dir, fileId) {
 			var params = {dir: dir};
 			if (view !== 'files') {
 				params.view = view;
+			} else if (fileId) {
+				params.fileid = fileId;
 			}
-			OC.Util.History.pushState(params);
+			var currentParams = OC.Util.History.parseUrlQuery();
+			if (currentParams.dir === params.dir && currentParams.view === params.view && currentParams.fileid !== params.fileid) {
+				// if only fileid changed or was added, replace instead of push
+				OC.Util.History.replaceState(params);
+			} else {
+				OC.Util.History.pushState(params);
+			}
 		}
 	};
 })();

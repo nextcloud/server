@@ -22,6 +22,7 @@
 describe('OCA.Files.App tests', function() {
 	var App = OCA.Files.App;
 	var pushStateStub;
+	var replaceStateStub;
 	var parseUrlQueryStub;
 	var oldLegacyFileActions;
 
@@ -48,6 +49,7 @@ describe('OCA.Files.App tests', function() {
 		OCA.Files.fileActions = new OCA.Files.FileActions();
 
 		pushStateStub = sinon.stub(OC.Util.History, 'pushState');
+		replaceStateStub = sinon.stub(OC.Util.History, 'replaceState');
 		parseUrlQueryStub = sinon.stub(OC.Util.History, 'parseUrlQuery');
 		parseUrlQueryStub.returns({});
 
@@ -59,6 +61,7 @@ describe('OCA.Files.App tests', function() {
 		window.FileActions = oldLegacyFileActions;
 
 		pushStateStub.restore();
+		replaceStateStub.restore();
 		parseUrlQueryStub.restore();
 	});
 
@@ -131,6 +134,23 @@ describe('OCA.Files.App tests', function() {
 			expect(pushStateStub.calledOnce).toEqual(true);
 			expect(pushStateStub.getCall(0).args[0].dir).toEqual('subdir');
 			expect(pushStateStub.getCall(0).args[0].view).toEqual('other');
+		});
+		it('replaces the state to the URL when fileid is known', function() {
+			$('#app-content-files').trigger(new $.Event('changeDirectory', {dir: 'subdir'}));
+			expect(pushStateStub.calledOnce).toEqual(true);
+			expect(pushStateStub.getCall(0).args[0].dir).toEqual('subdir');
+			expect(pushStateStub.getCall(0).args[0].view).not.toBeDefined();
+			expect(replaceStateStub.notCalled).toEqual(true);
+
+			parseUrlQueryStub.returns({dir: 'subdir'});
+
+			$('#app-content-files').trigger(new $.Event('afterChangeDirectory', {dir: 'subdir', fileId: 123}));
+
+			expect(pushStateStub.calledOnce).toEqual(true);
+			expect(replaceStateStub.calledOnce).toEqual(true);
+			expect(replaceStateStub.getCall(0).args[0].dir).toEqual('subdir');
+			expect(replaceStateStub.getCall(0).args[0].view).not.toBeDefined();
+			expect(replaceStateStub.getCall(0).args[0].fileid).toEqual(123);
 		});
 		describe('onpopstate', function() {
 			it('sends "urlChanged" event to current app', function() {
