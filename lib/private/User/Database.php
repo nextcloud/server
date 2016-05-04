@@ -55,7 +55,7 @@ use OC\Cache\CappedMemoryCache;
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
-class Database extends \OC_User_Backend implements \OCP\IUserBackend {
+class Database extends \OC\User\Backend implements \OCP\IUserBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
 
