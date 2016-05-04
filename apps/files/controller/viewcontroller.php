@@ -3,6 +3,7 @@
  * @author Christoph Wurst <christoph@winzerhof-wurst.at>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -26,6 +27,7 @@ namespace OCA\Files\Controller;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
+use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -35,6 +37,8 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use OCP\AppFramework\Http\NotFoundResponse;
+use OCP\Files\Folder;
 
 /**
  * Class ViewController
@@ -58,6 +62,8 @@ class ViewController extends Controller {
 	protected $eventDispatcher;
 	/** @var IUserSession */
 	protected $userSession;
+	/** @var \OCP\Files\Folder */
+	protected $userFolder;
 
 	/**
 	 * @param string $appName
@@ -68,6 +74,7 @@ class ViewController extends Controller {
 	 * @param IConfig $config
 	 * @param EventDispatcherInterface $eventDispatcherInterface
 	 * @param IUserSession $userSession
+	 * @param Folder $userFolder
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -76,7 +83,9 @@ class ViewController extends Controller {
 								IL10N $l10n,
 								IConfig $config,
 								EventDispatcherInterface $eventDispatcherInterface,
-								IUserSession $userSession) {
+								IUserSession $userSession,
+								Folder $userFolder
+	) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
 		$this->request = $request;
@@ -86,6 +95,7 @@ class ViewController extends Controller {
 		$this->config = $config;
 		$this->eventDispatcher = $eventDispatcherInterface;
 		$this->userSession = $userSession;
+		$this->userFolder = $userFolder;
 	}
 
 	/**
@@ -124,10 +134,15 @@ class ViewController extends Controller {
 	 *
 	 * @param string $dir
 	 * @param string $view
+	 * @param string $fileid
 	 * @return TemplateResponse
 	 * @throws \OCP\Files\NotFoundException
 	 */
-	public function index($dir = '', $view = '') {
+	public function index($dir = '', $view = '', $fileid = null) {
+		if ($fileid !== null) {
+			return $this->showFile($fileid);
+		}
+
 		$nav = new \OCP\Template('files', 'appnavigation', '');
 
 		// Load the files we need
@@ -238,5 +253,34 @@ class ViewController extends Controller {
 		$response->setContentSecurityPolicy($policy);
 
 		return $response;
+	}
+
+	/**
+	 * Redirects to the file list and highlight the given file id
+	 *
+	 * @param string $fileId file id to show
+	 * @return Response redirect response or not found response
+	 *
+	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 */
+	public function showFile($fileId) {
+		$files = $this->userFolder->getById($fileId);
+		$params = [];
+
+		if (!empty($files)) {
+			$file = current($files);
+			if ($file instanceof Folder) {
+				// set the full path to enter the folder
+				$params['dir'] = $this->userFolder->getRelativePath($file->getPath());
+			} else {
+				// set parent path as dir
+				$params['dir'] = $this->userFolder->getRelativePath($file->getParent()->getPath());
+				// and scroll to the entry
+				$params['scrollto'] = $file->getName();
+			}
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
+		}
+		return new NotFoundResponse();
 	}
 }
