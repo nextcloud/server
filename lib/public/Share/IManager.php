@@ -88,6 +88,18 @@ interface IManager {
 	public function moveShare(IShare $share, $recipientId);
 
 	/**
+	 * Accept the share as recipient.
+	 * This can also be reaccepting if the user deleted the share before but
+	 * th original share is still there (e.g. group shares)
+	 *
+	 * @param IShare $share
+	 * @param string $recipientId
+	 * @return IShare
+	 * @since 9.1.0
+	 */
+	public function acceptShare(IShare $share, $recipientId);
+
+	/**
 	 * Get shares shared by (initiated) by the provided user.
 	 *
 	 * @param string $userId

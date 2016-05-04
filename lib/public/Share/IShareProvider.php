@@ -91,6 +91,16 @@ interface IShareProvider {
 	public function move(\OCP\Share\IShare $share, $recipient);
 
 	/**
+	 * Accept a share as recipient
+	 * This can also be reaccepting (for for example group shares)
+	 *
+	 * @param \OCP\Share\IShare $share
+	 * @param string $recipient userId of recipient
+	 * @since 9.1.0
+	 */
+	public function accept(\OCP\Share\IShare $share, $recipient);
+
+	/**
 	 * Get all shares by the given user
 	 *
 	 * @param string $userId

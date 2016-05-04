@@ -38,26 +38,61 @@ class OCSShareWrapper {
 		);
 	}
 
+	/**
+	 * @return \OC_OCS_Result
+	 */
 	public function getAllShares() {
 		return $this->getShare20OCS()->getShares();
 	}
 
+	/**
+	 * @return \OC_OCS_Result
+	 */
 	public function createShare() {
 		return $this->getShare20OCS()->createShare();
 	}
 
+	/**
+	 * @param string[] $params
+	 * @return \OC_OCS_Result
+	 */
 	public function getShare($params) {
 		$id = $params['id'];
 		return $this->getShare20OCS()->getShare($id);
 	}
 
+	/**
+	 * @param string[] $params
+	 * @return \OC_OCS_Result
+	 */
 	public function updateShare($params) {
 		$id = $params['id'];
 		return $this->getShare20OCS()->updateShare($id);
 	}
 
+	/**
+	 * @param string[] $params
+	 * @return \OC_OCS_Result
+	 */
 	public function deleteShare($params) {
 		$id = $params['id'];
 		return $this->getShare20OCS()->deleteShare($id);
+	}
+
+	/**
+	 * @return \OC_OCS_Result
+	 */
+	public function getPendingShares() {
+		return $this->getShare20OCS()->getPendingShares();
+	}
+
+	public function getPendingShare($params) {
+		$id = $params['id'];
+		return $this->getShare20OCS()->getPendingShare($id);
+	}
+
+	public function acceptPendingShare($params) {
+		$id = $params['id'];
+		return $this->getShare20OCS()->acceptPendingShare($id);
 	}
 }

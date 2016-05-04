@@ -23,6 +23,7 @@
 
 namespace OCA\FederatedFileSharing;
 
+use OC\Share20\Exception\ProviderException;
 use OC\Share20\Share;
 use OCP\Files\IRootFolder;
 use OCP\IAppConfig;
@@ -246,6 +247,13 @@ class FederatedShareProvider implements IShareProvider {
 		 * federated shares.
 		 */
 		return $share;
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function accept(\OCP\Share\IShare $share, $recipient) {
+		throw new ProviderException('Not supported');
 	}
 
 	/**

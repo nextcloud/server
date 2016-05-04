@@ -674,6 +674,87 @@ class Share20OCS {
 		return new \OC_OCS_Result($this->formatShare($share));
 	}
 
+	private function formatPendingShare(\OCP\Share\IShare $share) {
+		$data = [
+			'id' => $share->getFullId(),
+			'type' => $share->getShareType(),
+		];
+
+		$initiator = $this->userManager->get($share->getSharedBy());
+		$owner = $this->userManager->get($share->getShareOwner());
+
+		$data['initiator'] = $initiator !== null ? $initiator->getDisplayName() : $share->getSharedBy();
+		$data['owner'] = $owner !== null ? $owner->getDisplayName() : $share->getShareOwner();
+
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_GROUP) {
+			$data['recipient'] = $share->getSharedWith();
+		}
+
+		$data['mimetype'] = $share->getNode()->getMimeType();
+		$data['name'] = $share->getNode()->getName();
+		$data['mtime'] = $share->getShareTime()->getTimestamp();
+
+
+		return $data;
+	}
+
+	/**
+	 * @return \OC_OCS_Result
+	 */
+	public function getPendingShares() {
+		// Get all group shares to this user
+		$shares = $this->shareManager->getSharedWith(
+			$this->currentUser->getUID(),
+			\OCP\Share::SHARE_TYPE_GROUP,
+			null,
+			-1,
+			0);
+
+		//Filter group shares
+		$shares = array_filter($shares, function (\OCP\Share\IShare $share) {
+			return $share->getPermissions() === 0;
+		});
+
+		$result = [];
+		foreach($shares as $share) {
+			$result[] = $this->formatPendingShare($share);
+		}
+
+		return new \OC_OCS_Result($result);
+	}
+	
+	public function getPendingShare($id) {
+		try {
+			$share = $this->shareManager->getShareById($id, $this->currentUser->getUID());
+		} catch (ShareNotFound $e) {
+			return new \OC_OCS_Result(null, 404, $this->l->t('Wrong share ID, share doesn\'t exist'));
+		}
+
+		if ($share->getPermissions() !== 0) {
+			return new \OC_OCS_Result(null, 404, $this->l->t('Share is not pending'));
+		}
+
+		return new \OC_OCS_Result($this->formatPendingShare($share));
+	}
+
+	public function acceptPendingShare($id) {
+		try {
+			$share = $this->shareManager->getShareById($id, $this->currentUser->getUID());
+		} catch (ShareNotFound $e) {
+			return new \OC_OCS_Result(null, 404, $this->l->t('Wrong share ID, share doesn\'t exist'));
+		}
+
+		if ($share->getPermissions() !== 0) {
+			return new \OC_OCS_Result(null, 404, $this->l->t('Share is not pending'));
+		}
+
+		$this->shareManager->acceptShare($share, $this->currentUser->getUID());
+		$share = $this->shareManager->getShareById($id, $this->currentUser->getUID());
+
+		$result = $this->formatShare($share);
+		return new \OC_OCS_Result($result);
+	}
+
 	/**
 	 * @param \OCP\Share\IShare $share
 	 * @return bool

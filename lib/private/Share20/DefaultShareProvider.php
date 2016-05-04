@@ -453,6 +453,59 @@ class DefaultShareProvider implements IShareProvider {
 	}
 
 	/**
+	 * Accepting a share for now only means reaccepting a group share
+	 *
+	 * @param \OCP\Share\IShare $share
+	 * @param string $recipient
+	 */
+	public function accept(\OCP\Share\IShare $share, $recipient) {
+		if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_GROUP) {
+			throw new ProviderException('Can\'t accept this share');
+		}
+
+		// Check if there is a usergroup share
+		$qb = $this->dbConn->getQueryBuilder();
+		$stmt = $qb->select('id')
+			->from('share')
+			->where($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_USERGROUP)))
+			->andWhere($qb->expr()->eq('share_with', $qb->createNamedParameter($recipient)))
+			->andWhere($qb->expr()->eq('parent', $qb->createNamedParameter($share->getId())))
+			->andWhere($qb->expr()->orX(
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('file')),
+				$qb->expr()->eq('item_type', $qb->createNamedParameter('folder'))
+			))
+			->setMaxResults(1)
+			->execute();
+
+		$data = $stmt->fetch();
+		$stmt->closeCursor();
+
+		// No user group share so no need to update
+		if ($data === false) {
+			return;
+		}
+		$id = $data['id'];
+
+		// Get permissions
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->select('permissions')
+			->from('share')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())));
+		$stmt = $qb->execute();
+
+		$data = $stmt->fetch();
+		$permissions = $data['permissions'];
+		$stmt->closeCursor();
+
+		// Update permissions
+		$qb = $this->dbConn->getQueryBuilder();
+		$qb->update('share')
+			->set('permissions', $qb->createNamedParameter($permissions))
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)));
+		$qb->execute();
+	}
+
+	/**
 	 * @inheritdoc
 	 */
 	public function getSharesBy($userId, $shareType, $node, $reshares, $limit, $offset) {

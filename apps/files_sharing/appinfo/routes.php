@@ -74,6 +74,21 @@ API::register('post',
 		'files_sharing');
 
 API::register('get',
+	'/apps/files_sharing/api/v1/shares/pending',
+	[$OCSShare, 'getPendingShares'],
+	'files_sharing');
+
+API::register('get',
+	'/apps/files_sharing/api/v1/shares/pending/{id}',
+	[$OCSShare, 'getPendingShare'],
+	'files_sharing');
+
+API::register('post',
+	'/apps/files_sharing/api/v1/shares/pending/{id}',
+	[$OCSShare, 'acceptPendingShare'],
+	'files_sharing');
+
+API::register('get',
 		'/apps/files_sharing/api/v1/shares/{id}',
 		[$OCSShare, 'getShare'],
 		'files_sharing');
