@@ -668,7 +668,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('getBackends')
-			->will($this->returnValue([new \Test\Util\User\Dummy(), new \OC_User_Database()]));
+			->will($this->returnValue([new \Test\Util\User\Dummy(), new \OC\User\Database()]));
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('clearBackends');
@@ -716,7 +716,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('getBackends')
-			->will($this->returnValue([new \Test\Util\User\Dummy(), new \OC_User_Database()]));
+			->will($this->returnValue([new \Test\Util\User\Dummy(), new \OC\User\Database()]));
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('search')

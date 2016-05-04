@@ -37,7 +37,7 @@ class Test_User_Database extends Test_User_Backend {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->backend=new OC_User_Database();
+		$this->backend=new \OC\User\Database();
 	}
 
 	protected function tearDown() {

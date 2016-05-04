@@ -94,7 +94,7 @@ class OC_User {
 				case 'mysql':
 				case 'sqlite':
 					\OCP\Util::writeLog('core', 'Adding user backend ' . $backend . '.', \OCP\Util::DEBUG);
-					self::$_usedBackends[$backend] = new OC_User_Database();
+					self::$_usedBackends[$backend] = new \OC\User\Database();
 					\OC::$server->getUserManager()->registerBackend(self::$_usedBackends[$backend]);
 					break;
 				case 'dummy':

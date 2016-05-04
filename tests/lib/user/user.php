@@ -225,7 +225,7 @@ class User extends \Test\TestCase {
 	public function testGetBackendClassName() {
 		$user = new \OC\User\User('foo', new \Test\Util\User\Dummy());
 		$this->assertEquals('Dummy', $user->getBackendClassName());
-		$user = new \OC\User\User('foo', new \OC_User_Database());
+		$user = new \OC\User\User('foo', new \OC\User\Database());
 		$this->assertEquals('Database', $user->getBackendClassName());
 	}
 
@@ -328,7 +328,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Database');
+		$backend = $this->getMock('\OC\User\Database');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -357,7 +357,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Database');
+		$backend = $this->getMock('\OC\User\Database');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
@@ -378,7 +378,7 @@ class User extends \Test\TestCase {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
-		$backend = $this->getMock('\OC_User_Database');
+		$backend = $this->getMock('\OC\User\Database');
 
 		$backend->expects($this->any())
 			->method('implementsActions')
