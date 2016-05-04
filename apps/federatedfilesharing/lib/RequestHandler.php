@@ -23,14 +23,21 @@
  *
  */
 
-namespace OCA\Files_Sharing\API;
+namespace OCA\FederatedFileSharing;
 
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Activity;
 use OCP\Files\NotFoundException;
 
-class Server2Server {
+/**
+ * Class RequestHandler
+ * 
+ * handles OCS Request to the federated share API
+ *
+ * @package OCA\FederatedFileSharing\API
+ */
+class RequestHandler {
 
 	/** @var FederatedShareProvider */
 	private $federatedShareProvider;

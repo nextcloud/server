@@ -100,7 +100,7 @@ API::register(
 // Server-to-Server Sharing
 if (\OC::$server->getAppManager()->isEnabledForUser('files_sharing')) {
 	$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
-	$s2s = new \OCA\Files_Sharing\API\Server2Server($federatedSharingApp->getFederatedShareProvider());
+	$s2s = new OCA\FederatedFileSharing\RequestHandler($federatedSharingApp->getFederatedShareProvider());
 	API::register('post',
 		'/cloud/shares',
 		array($s2s, 'createShare'),

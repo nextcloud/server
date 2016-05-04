@@ -23,14 +23,19 @@
  *
  */
 
-use OCA\Files_Sharing\Tests\TestCase;
+namespace OCA\FederatedFileSharing\Tests;
+
+use OC\Files\Filesystem;
+use OCA\FederatedFileSharing\DiscoveryManager;
+use OCA\FederatedFileSharing\RequestHandler;
 
 /**
- * Class Test_Files_Sharing_Api
+ * Class RequestHandlerTest
  *
+ * @package OCA\FederatedFileSharing\Tests
  * @group DB
  */
-class Test_Files_Sharing_S2S_OCS_API extends TestCase {
+class RequestHandlerTest extends TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 
@@ -69,7 +74,7 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 
 		$this->registerHttpHelper($httpHelperMock);
 
-		$this->s2s = new \OCA\Files_Sharing\API\Server2Server($this->federatedShareProvider);
+		$this->s2s = new RequestHandler($this->federatedShareProvider);
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 	}
@@ -194,14 +199,14 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 	function testDeleteUser($toDelete, $expected, $remainingUsers) {
 		$this->createDummyS2SShares();
 
-		$discoveryManager = new \OCA\FederatedFileSharing\DiscoveryManager(
+		$discoveryManager = new DiscoveryManager(
 			\OC::$server->getMemCacheFactory(),
 			\OC::$server->getHTTPClientService()
 		);
-		$manager = new OCA\Files_Sharing\External\Manager(
+		$manager = new \OCA\Files_Sharing\External\Manager(
 			\OC::$server->getDatabaseConnection(),
-			\OC\Files\Filesystem::getMountManager(),
-			\OC\Files\Filesystem::getLoader(),
+			Filesystem::getMountManager(),
+			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
