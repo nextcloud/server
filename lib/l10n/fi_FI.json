@@ -137,6 +137,8 @@
     "Username contains whitespace at the beginning or at the end" : "Käyttäjätunnus sisältää tyhjätilaa joko alussa tai lopussa",
     "A valid password must be provided" : "Anna kelvollinen salasana",
     "The username is already being used" : "Käyttäjätunnus on jo käytössä",
+    "Login canceled by app" : "Kirjautuminen peruttiin sovelluksen toimesta",
+    "User disabled" : "Käyttäjä poistettu käytöstä",
     "Could not obtain lock type %d on \"%s\"." : "Lukitustapaa %d ei saatu kohteelle \"%s\".",
     "Storage unauthorized. %s" : "Tallennustila ei ole valtuutettu. %s",
     "Storage incomplete configuration. %s" : "Tallennustilan puutteellinen määritys. %s",

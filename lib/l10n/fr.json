@@ -157,6 +157,7 @@
     "Username contains whitespace at the beginning or at the end" : "Le nom d'utilisateur contient des espaces au début ou à la fin",
     "A valid password must be provided" : "Un mot de passe valide doit être saisi",
     "The username is already being used" : "Ce nom d'utilisateur est déjà utilisé",
+    "User disabled" : "Utilisateur désactivé",
     "Could not obtain lock type %d on \"%s\"." : "Impossible d'obtenir le verrouillage de type %d sur \"%s\".",
     "Storage unauthorized. %s" : "Espace de stockage non autorisé. %s",
     "Storage incomplete configuration. %s" : "Configuration de l'espace de stockage incomplète. %s",

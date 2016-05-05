@@ -23,6 +23,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not allow shares from type %s" : "Ndarja e %s dështoi, ngaqë pjesa përgjegjëse e shërbyesit nuk lejon ndarje prej llojit %s",
     "Unknown share type" : "Lloj i panjohur ndarjesh",
     "Not a directory" : "S’është drejtori",
+    "Could not lock path" : "S’u kyç dot shtegu",
     "Can't change permissions for public share links" : "S’mund të ndryshohen lejet për lidhje ndarjesh publike",
     "Wrong or no update parameter given" : "Ose u dha parametër i gabuar përditësimesh, pse s’u dha fare ",
     "Cannot increase permissions" : "S’mund të fuqizohen lejet",

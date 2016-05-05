@@ -21,6 +21,7 @@
     "Sharing %s failed because the back end does not allow shares from type %s" : "O compartilhando %s falhou porque o backend não permite ações de tipo %s",
     "Unknown share type" : "Tipo de compartilhamento desconhecido",
     "Not a directory" : "Não é um diretório",
+    "Could not lock path" : "Não foi possível bloquear o caminho",
     "Can't change permissions for public share links" : "Não é possível alterar permissões para compartilhar links públicos",
     "Wrong or no update parameter given" : "Está errado ou nenhum parâmetro de atualização foi fornecido",
     "Cannot increase permissions" : "Não pode haver aumento de permissões",

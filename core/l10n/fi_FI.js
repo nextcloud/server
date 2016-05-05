@@ -273,6 +273,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Ota yhteys ylläpitäjään.",
     "An internal error occurred." : "Tapahtui sisäinen virhe",
     "Please try again or contact your administrator." : "Yritä uudestaan tai ota yhteys ylläpitäjään.",
+    "Username or email" : "Käyttäjätunnus tai sähköpostiosoite",
     "Log in" : "Kirjaudu sisään",
     "Wrong password. Reset it?" : "Väärä salasana. Haluatko palauttaa salasanan?",
     "Wrong password." : "Väärä salasana.",
@@ -301,6 +302,7 @@ OC.L10N.register(
     "Detailed logs" : "Yksityiskohtainen loki",
     "Update needed" : "Päivitys vaaditaan",
     "Please use the command line updater because you have a big instance." : "Käytä komentorivipäivitintä, koska käyttämäsi ownCloud on sen verran suuri.",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Apua saat <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">dokumentaatiosta</a>.",
     "This %s instance is currently in maintenance mode, which may take a while." : "Tämä %s-instanssi on parhaillaan huoltotilassa, huollossa saattaa kestää hetki.",
     "This page will refresh itself when the %s instance is available again." : "Tämä sivu päivittää itsensä, kun %s on jälleen käytettävissä."
 },

@@ -21,6 +21,7 @@
     "Sharing %s failed because the back end does not allow shares from type %s" : "Freigabe von %s fehlgeschlagen, da das Backend die Freigabe vom Typ %s nicht erlaubt.",
     "Unknown share type" : "Unbekannter Freigabetyp",
     "Not a directory" : "Kein Verzeichnis",
+    "Could not lock path" : "Pfad konnte nicht gesperrt werden",
     "Can't change permissions for public share links" : "Berechtigungen für öffentlich freigegebene Links konnten nicht geändert werden",
     "Wrong or no update parameter given" : "Falscher oder kein Updateparameter wurde übergeben",
     "Cannot increase permissions" : "Berechtigungen können nicht erhöht werden",

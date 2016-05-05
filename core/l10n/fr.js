@@ -282,6 +282,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Veuillez contacter votre administrateur.",
     "An internal error occurred." : "Une erreur interne est survenue.",
     "Please try again or contact your administrator." : "Veuillez réessayer ou contacter votre administrateur.",
+    "Username or email" : "Nom d'utilisateur ou e-mail",
     "Log in" : "Se connecter",
     "Wrong password. Reset it?" : "Mot de passe incorrect. Réinitialiser ?",
     "Wrong password." : "Mot de passe incorrect.",

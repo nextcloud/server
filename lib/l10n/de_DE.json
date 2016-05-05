@@ -158,6 +158,8 @@
     "Username contains whitespace at the beginning or at the end" : "Benutzername enthält Leerzeichen am Anfang oder Ende",
     "A valid password must be provided" : "Es muss ein gültiges Passwort angegeben werden",
     "The username is already being used" : "Der Benutzername existiert bereits",
+    "Login canceled by app" : "Anmeldung durch die App abgebrochen",
+    "User disabled" : "Nutzer deaktiviert",
     "Could not obtain lock type %d on \"%s\"." : "Sperrtyp %d auf „%s“ konnte nicht ermittelt werden.",
     "Storage unauthorized. %s" : "Speicher ungültig. %s",
     "Storage incomplete configuration. %s" : "Speicher-Konfiguration unvollständig. %s",
