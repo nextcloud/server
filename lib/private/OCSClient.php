@@ -128,7 +128,7 @@ class OCSClient {
 			$response = $client->get(
 				$this->getAppStoreUrl() . '/content/categories',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => [
 						'version' => implode('x', $targetVersion),
 					],
@@ -179,7 +179,7 @@ class OCSClient {
 			$response = $client->get(
 				$this->getAppStoreUrl() . '/content/data',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => [
 						'version' => implode('x', $targetVersion),
 						'filter' => $filter,
@@ -256,7 +256,7 @@ class OCSClient {
 			$response = $client->get(
 				$this->getAppStoreUrl() . '/content/data/' . urlencode($id),
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => [
 						'version' => implode('x', $targetVersion),
 					],
@@ -321,7 +321,7 @@ class OCSClient {
 			$response = $client->get(
 				$url,
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => [
 						'version' => implode('x', $targetVersion),
 					],
