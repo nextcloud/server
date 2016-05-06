@@ -222,7 +222,7 @@ class MailNotificationsTest extends \Test\TestCase {
 		$mailNotifications->method('getItemSharedWithUser')
 			->withAnyParameters()
 			->willReturn([
-				['file_target' => '/welcome.txt']
+				['file_target' => '/welcome.txt', 'item_source' => 123],
 			]);
 
 		$recipient = $this->getMockBuilder('\OCP\IUser')
@@ -239,10 +239,9 @@ class MailNotificationsTest extends \Test\TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRouteAbsolute')
 			->with(
-				$this->equalTo('files.view.index'),
+				$this->equalTo('files.viewcontroller.showFile'),
 				$this->equalTo([
-					'dir' => '/',
-					'scrollto' => 'welcome.txt'
+					'fileId' => 123,
 				])
 			);
 
