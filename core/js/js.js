@@ -2160,7 +2160,12 @@ OC.Util.History = {
 		if (!this._handlers.length) {
 			return;
 		}
-		params = (e && e.state) || this.parseUrlQuery() || {};
+		params = (e && e.state);
+		if (_.isString(params)) {
+			params = OC.parseQueryString(params);
+		} else if (!params) {
+			params = this.parseUrlQuery() || {};
+		}
 		for (var i = 0; i < this._handlers.length; i++) {
 			this._handlers[i](params);
 		}

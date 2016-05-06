@@ -122,35 +122,39 @@ describe('OCA.Files.App tests', function() {
 
 	describe('URL handling', function() {
 		it('pushes the state to the URL when current app changed directory', function() {
-			$('#app-content-files').trigger(new $.Event('changeDirectory', {dir: 'subdir'}));
+			$('#app-content-files').trigger(new $.Event('changeDirectory', {dir: 'sub dir'}));
 			expect(pushStateStub.calledOnce).toEqual(true);
-			expect(pushStateStub.getCall(0).args[0].dir).toEqual('subdir');
-			expect(pushStateStub.getCall(0).args[0].view).not.toBeDefined();
+			var params = OC.parseQueryString(pushStateStub.getCall(0).args[0]);
+			expect(params.dir).toEqual('sub dir');
+			expect(params.view).not.toBeDefined();
 
 			$('li[data-id=other]>a').click();
 			pushStateStub.reset();
 
-			$('#app-content-other').trigger(new $.Event('changeDirectory', {dir: 'subdir'}));
+			$('#app-content-other').trigger(new $.Event('changeDirectory', {dir: 'sub dir'}));
 			expect(pushStateStub.calledOnce).toEqual(true);
-			expect(pushStateStub.getCall(0).args[0].dir).toEqual('subdir');
-			expect(pushStateStub.getCall(0).args[0].view).toEqual('other');
+			params = OC.parseQueryString(pushStateStub.getCall(0).args[0]);
+			expect(params.dir).toEqual('sub dir');
+			expect(params.view).toEqual('other');
 		});
 		it('replaces the state to the URL when fileid is known', function() {
-			$('#app-content-files').trigger(new $.Event('changeDirectory', {dir: 'subdir'}));
+			$('#app-content-files').trigger(new $.Event('changeDirectory', {dir: 'sub dir'}));
 			expect(pushStateStub.calledOnce).toEqual(true);
-			expect(pushStateStub.getCall(0).args[0].dir).toEqual('subdir');
-			expect(pushStateStub.getCall(0).args[0].view).not.toBeDefined();
+			var params = OC.parseQueryString(pushStateStub.getCall(0).args[0]);
+			expect(params.dir).toEqual('sub dir');
+			expect(params.view).not.toBeDefined();
 			expect(replaceStateStub.notCalled).toEqual(true);
 
-			parseUrlQueryStub.returns({dir: 'subdir'});
+			parseUrlQueryStub.returns({dir: 'sub dir'});
 
-			$('#app-content-files').trigger(new $.Event('afterChangeDirectory', {dir: 'subdir', fileId: 123}));
+			$('#app-content-files').trigger(new $.Event('afterChangeDirectory', {dir: 'sub dir', fileId: 123}));
 
 			expect(pushStateStub.calledOnce).toEqual(true);
 			expect(replaceStateStub.calledOnce).toEqual(true);
-			expect(replaceStateStub.getCall(0).args[0].dir).toEqual('subdir');
-			expect(replaceStateStub.getCall(0).args[0].view).not.toBeDefined();
-			expect(replaceStateStub.getCall(0).args[0].fileid).toEqual(123);
+			params = OC.parseQueryString(replaceStateStub.getCall(0).args[0]);
+			expect(params.dir).toEqual('sub dir');
+			expect(params.view).not.toBeDefined();
+			expect(params.fileid).toEqual('123');
 		});
 		describe('onpopstate', function() {
 			it('sends "urlChanged" event to current app', function() {
