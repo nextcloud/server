@@ -180,7 +180,33 @@ function execute_tests {
 
 	# drop database
 	if [ "$DB" == "mysql" ] ; then
-		mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+		if [ ! -z "$USEDOCKER" ] ; then
+			echo "Fire up the mysql docker"
+			DOCKER_CONTAINER_ID=$(docker run \
+				-v $BASEDIR/tests/docker/mariadb:/etc/mysql/conf.d \
+				-e MYSQL_ROOT_PASSWORD=owncloud \
+				-e MYSQL_USER="$DATABASEUSER" \
+				-e MYSQL_PASSWORD=owncloud \
+				-e MYSQL_DATABASE="$DATABASENAME" \
+				-d mysql)
+			DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
+
+			echo "Waiting for MySQL initialisation ..."
+			if ! apps/files_external/tests/env/wait-for-connection $DATABASEHOST 3306 60; then
+				echo "[ERROR] Waited 60 seconds, no response" >&2
+				exit 1
+			fi
+
+			echo "MySQL is up."
+
+		else
+			if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
+				echo "Your mysql binary is not provided by mysql"
+				echo "To use the docker container set the USEDOCKER environment variable"
+				exit -1
+			fi
+			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+		fi
 	fi
 	if [ "$DB" == "mariadb" ] ; then
 		if [ ! -z "$USEDOCKER" ] ; then
