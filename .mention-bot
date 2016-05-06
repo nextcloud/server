@@ -13,7 +13,7 @@
       "files": [
         "lib/private/Activity/**",
         "lib/private/Notification/**",
-        "lib/public/activity/**",
+        "lib/public/Activity/**",
         "lib/public/notification/**"
       ]
     },
