@@ -14,6 +14,19 @@
 	width: 100%;
 }
 
+#app-sidebar .mainFileInfoView .icon {
+	display: inline-block;
+}
+
+#app-sidebar .mainFileInfoView .permalink {
+	margin-left: 10px;
+	opacity: .5;
+}
+#app-sidebar .mainFileInfoView .permalink-field>input {
+	clear: both;
+	width: 90%;
+}
+
 #app-sidebar .file-details-container {
 	display: inline-block;
 	float: left;
