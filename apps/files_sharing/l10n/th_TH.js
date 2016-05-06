@@ -23,6 +23,7 @@ OC.L10N.register(
     "Sharing %s failed because the back end does not allow shares from type %s" : "แชร์ %s ล้มเหลวเพราะแบ็กเอนด์ไม่อนุญาตให้แชร์ไฟล์ประเภท %s",
     "Unknown share type" : "ไม่รู้จักประเภทของแชร์",
     "Not a directory" : "ไม่ได้เป็นไดเรกทอรี",
+    "Could not lock path" : "ไม่สามารถล็อคเส้นทาง",
     "Can't change permissions for public share links" : "ไม่สามารถเปลี่ยนสิทธิ์สำหรับลิงค์แชร์สาธารณะ",
     "Wrong or no update parameter given" : "ไม่ถูกต้องหรือไม่ได้อัพเดทพารามิเตอร์",
     "Cannot increase permissions" : "ไม่สามารถเพิ่มสิทธิ์",

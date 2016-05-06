@@ -158,6 +158,8 @@
     "Username contains whitespace at the beginning or at the end" : "Username contains whitespace at the beginning or at the end",
     "A valid password must be provided" : "A valid password must be provided",
     "The username is already being used" : "The username is already being used",
+    "Login canceled by app" : "Login cancelled by app",
+    "User disabled" : "User disabled",
     "Could not obtain lock type %d on \"%s\"." : "Could not obtain lock type %d on \"%s\".",
     "Storage unauthorized. %s" : "Storage unauthorised. %s",
     "Storage incomplete configuration. %s" : "Storage incomplete configuration. %s",

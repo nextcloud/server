@@ -63,6 +63,7 @@ OC.L10N.register(
     "Experimental" : "Experimentiell",
     "All" : "Alla",
     "No apps found for your version" : "Inga appar funna för din version",
+    "The app will be downloaded from the app store" : "Appen kommer hämtas från appstore",
     "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Officiella appar är utvecklade av Owncloud's community. De erbjuder funtionalitet som är centralt för owncloud och redo för användning i produktion.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Godkända appar är utvecklade av betrodda utvecklare och har genomgått enklare säkerhetstester. De är aktivt utvecklade i ett öppet kodbibliotek och deras underhållare anser dom stabila nog för enklare till normalt användande.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Denna applikation är ej kontrollerad för säkerhetsbrister och är ny eller känd att orsaka instabilitetsproblem. Installera på egen risk.",
