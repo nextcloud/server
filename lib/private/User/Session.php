@@ -97,11 +97,14 @@ class Session implements IUserSession, Emitter {
 
 	/**
 	 * @var User $activeUser
+	 */
 	protected $activeUser;
 
 	/**
 	 * @param IUserManager $manager
 	 * @param ISession $session
+	 * @param ITimeFactory $timeFacory
+	 * @param IProvider $tokenProvider
 	 * @param IProvider[] $tokenProviders
 	 */
 	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider,
@@ -219,7 +222,7 @@ class Session implements IUserSession, Emitter {
 		} catch (InvalidTokenException $ex) {
 			// Session was invalidated
 			$this->logout();
-			return false;
+			return;
 		}
 
 		// Check whether login credentials are still valid
@@ -231,15 +234,13 @@ class Session implements IUserSession, Emitter {
 			if ($this->manager->checkPassword($user->getUID(), $pwd) === false) {
 				// Password has changed -> log user out
 				$this->logout();
-				return false;
+				return;
 			}
 			$this->session->set('last_login_check', $now);
 		}
 
 		// Session is valid, so the token can be refreshed
 		$this->updateToken($this->tokenProvider, $token);
-
-		return true;
 	}
 
 	/**
@@ -301,9 +302,7 @@ class Session implements IUserSession, Emitter {
 		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 		$user = $this->manager->checkPassword($uid, $password);
 		if ($user === false) {
-			// Password auth failed, maybe it's a token
-			$request = \OC::$server->getRequest();
-			if ($this->validateToken($request, $password)) {
+			if ($this->validateToken($password)) {
 				$user = $this->getUser();
 			}
 		}
@@ -349,9 +348,8 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean if the login was successful
 	 */
 	public function tryBasicAuthLogin(IRequest $request) {
-		// TODO: use $request->server instead of super globals
-		if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
-			$result = $this->login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
+			$result = $this->login($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW']);
 			if ($result === true) {
 				/**
 				 * Add DAV authenticated. This should in an ideal world not be
@@ -363,14 +361,14 @@ class Session implements IUserSession, Emitter {
 				$this->session->set(
 					Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
 				);
+				return true;
 			}
-			return $result;
 		}
 		return false;
 	}
 
 	private function loginWithToken($uid) {
-		//$this->manager->emit('\OC\User', 'preTokenLogin', array($uid));
+		// TODO: $this->manager->emit('\OC\User', 'preTokenLogin', array($uid));
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
 			// user does not exist
@@ -379,7 +377,7 @@ class Session implements IUserSession, Emitter {
 
 		//login
 		$this->setUser($user);
-		//$this->manager->emit('\OC\User', 'postTokenLogin', array($user));
+		// TODO: $this->manager->emit('\OC\User', 'postTokenLogin', array($user));
 		return true;
 	}
 
@@ -410,16 +408,15 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
-	 * @param IRequest $request
 	 * @param string $token
 	 * @return boolean
 	 */
-	private function validateToken(IRequest $request, $token) {
+	private function validateToken($token) {
 		foreach ($this->tokenProviders as $provider) {
 			try {
 				$token = $provider->validateToken($token);
 				if (!is_null($token)) {
-					$result = $this->loginWithToken($token->getUid());
+					$result = $this->loginWithToken($token->getUID());
 					if ($result) {
 						// Login success
 						$this->updateToken($provider, $token);
@@ -458,13 +455,13 @@ class Session implements IUserSession, Emitter {
 			// No auth header, let's try session id
 			try {
 				$sessionId = $this->session->getId();
-				return $this->validateToken($request, $sessionId);
+				return $this->validateToken($sessionId);
 			} catch (SessionNotAvailableException $ex) {
 				return false;
 			}
 		} else {
 			$token = substr($authHeader, 6);
-			return $this->validateToken($request, $token);
+			return $this->validateToken($token);
 		}
 	}
 
@@ -530,9 +527,9 @@ class Session implements IUserSession, Emitter {
 	public function setMagicInCookie($username, $token) {
 		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
 		$expires = time() + OC::$server->getConfig()->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		setcookie("oc_username", $username, $expires, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie("oc_token", $token, $expires, OC::$WEBROOT, '', $secureCookie, true);
-		setcookie("oc_remember_login", "1", $expires, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('oc_username', $username, $expires, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('oc_token', $token, $expires, OC::$WEBROOT, '', $secureCookie, true);
+		setcookie('oc_remember_login', '1', $expires, OC::$WEBROOT, '', $secureCookie, true);
 	}
 
 	/**
@@ -542,9 +539,9 @@ class Session implements IUserSession, Emitter {
 		//TODO: DI for cookies and IRequest
 		$secureCookie = OC::$server->getRequest()->getServerProtocol() === 'https';
 
-		unset($_COOKIE["oc_username"]); //TODO: DI
-		unset($_COOKIE["oc_token"]);
-		unset($_COOKIE["oc_remember_login"]);
+		unset($_COOKIE['oc_username']); //TODO: DI
+		unset($_COOKIE['oc_token']);
+		unset($_COOKIE['oc_remember_login']);
 		setcookie('oc_username', '', time() - 3600, OC::$WEBROOT, '', $secureCookie, true);
 		setcookie('oc_token', '', time() - 3600, OC::$WEBROOT, '', $secureCookie, true);
 		setcookie('oc_remember_login', '', time() - 3600, OC::$WEBROOT, '', $secureCookie, true);

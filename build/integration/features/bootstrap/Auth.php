@@ -61,14 +61,14 @@ trait Auth {
 	 * @When requesting :url with :method using basic auth
 	 */
 	public function requestingWithBasicAuth($url, $method) {
-		$this->sendRequest($url, $method, 'basic ' . base64_encode('user:user'));
+		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:123456'));
 	}
 
 	/**
 	 * @When requesting :url with :method using basic token auth
 	 */
 	public function requestingWithBasicTokenAuth($url, $method) {
-		$this->sendRequest($url, $method, 'basic ' . base64_encode('user:' . $this->clientToken));
+		$this->sendRequest($url, $method, 'basic ' . base64_encode('user0:' . $this->clientToken));
 	}
 
 	/**

@@ -36,18 +36,25 @@ class DefaultTokenProviderTest extends TestCase {
 	private $crypto;
 	private $config;
 	private $logger;
+	private $timeFactory;
+	private $time;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$this->mapper = $this->getMock('\OC\Authentication\Token\DefaultTokenMapper')
+		$this->mapper = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenMapper')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->crypto = $this->getMock('\OCP\Security\ICrypto');
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->logger = $this->getMock('\OCP\ILogger');
+		$this->timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$this->time = 1313131;
+		$this->timeFactory->expects($this->any())
+			->method('getTime')
+			->will($this->returnValue($this->time));
 
-		$this->tokenProvider = new DefaultTokenProvider($this->mapper, $this->crypto, $this->config, $this->logger);
+		$this->tokenProvider = new DefaultTokenProvider($this->mapper, $this->crypto, $this->config, $this->logger, $this->timeFactory);
 	}
 
 	public function testGenerateToken() {
@@ -61,11 +68,11 @@ class DefaultTokenProviderTest extends TestCase {
 		$toInsert->setUid($uid);
 		$toInsert->setPassword('encryptedpassword');
 		$toInsert->setName($name);
-		$toInsert->setToken(hash('sha512', $token));
+		$toInsert->setToken(hash('sha512', $token . '1f4h9s'));
 		$toInsert->setType($type);
-		$toInsert->setLastActivity(time());
+		$toInsert->setLastActivity($this->time);
 
-		$this->config->expects($this->once())
+		$this->config->expects($this->any())
 			->method('getSystemValue')
 			->with('secret')
 			->will($this->returnValue('1f4h9s'));
@@ -83,27 +90,20 @@ class DefaultTokenProviderTest extends TestCase {
 	}
 
 	public function testUpdateToken() {
-		$tk = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenProvider')
-			->disableOriginalConstructor()
-			->getMock();
-		$tk->expects($this->once())
-			->method('setLastActivity')
-			->with(time());
+		$tk = new DefaultToken();
 		$this->mapper->expects($this->once())
 			->method('update')
 			->with($tk);
 
 		$this->tokenProvider->updateToken($tk);
+
+		$this->assertEquals($this->time, $tk->getLastActivity());
 	}
 
 	public function testGetPassword() {
 		$token = 'token1234';
-		$tk = $this->getMockBuilder('\OC\Authentication\Token\DefaultToken')
-			->disableOriginalConstructor()
-			->getMock();
-		$tk->expects($this->once())
-			->method('getPassword')
-			->will($this->returnValue('someencryptedvalue'));
+		$tk = new DefaultToken();
+		$tk->setPassword('someencryptedvalue');
 		$this->config->expects($this->once())
 			->method('getSystemValue')
 			->with('secret')
@@ -134,7 +134,7 @@ class DefaultTokenProviderTest extends TestCase {
 			->will($this->returnValue(150));
 		$this->mapper->expects($this->once())
 			->method('invalidateOld')
-			->with(time() - 150);
+			->with($this->time - 150);
 
 		$this->tokenProvider->invalidateOldTokens();
 	}

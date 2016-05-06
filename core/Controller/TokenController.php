@@ -27,6 +27,7 @@ use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IToken;
 use OC\User\Manager;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 use OCP\Security\ISecureRandom;
@@ -66,7 +67,7 @@ class TokenController extends Controller {
 	 * @param string $user
 	 * @param string $password
 	 * @param string $name the name of the client
-	 * @return Response
+	 * @return JSONResponse
 	 */
 	public function generateToken($user, $password, $name = 'unknown client') {
 		if (is_null($user) || is_null($password)) {

@@ -51,6 +51,7 @@ class DefaultTokenProvider implements IProvider {
 	 * @param ICrypto $crypto
 	 * @param IConfig $config
 	 * @param ILogger $logger
+	 * @param ITimeFactory $time
 	 */
 	public function __construct(DefaultTokenMapper $mapper, ICrypto $crypto, IConfig $config, ILogger $logger, ITimeFactory $time) {
 		$this->mapper = $mapper;
@@ -66,6 +67,7 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $token
 	 * @param string $uid
 	 * @param string $password
+	 * @param string $name
 	 * @param int $type token type
 	 * @return DefaultToken
 	 */
@@ -86,7 +88,8 @@ class DefaultTokenProvider implements IProvider {
 	/**
 	 * Update token activity timestamp
 	 *
-	 * @param DefaultToken $token
+	 * @throws InvalidTokenException
+	 * @param IToken $token
 	 */
 	public function updateToken(IToken $token) {
 		if (!($token instanceof DefaultToken)) {
@@ -101,6 +104,7 @@ class DefaultTokenProvider implements IProvider {
 	/**
 	 * @param string $token
 	 * @throws InvalidTokenException
+	 * @return DefaultToken
 	 */
 	public function getToken($token) {
 		try {
@@ -113,6 +117,7 @@ class DefaultTokenProvider implements IProvider {
 	/**
 	 * @param DefaultToken $savedToken
 	 * @param string $token session token
+	 * @return string
 	 */
 	public function getPassword(DefaultToken $savedToken, $token) {
 		return $this->decryptPassword($savedToken->getPassword(), $token);
@@ -139,13 +144,13 @@ class DefaultTokenProvider implements IProvider {
 	/**
 	 * @param string $token
 	 * @throws InvalidTokenException
-	 * @return IToken user UID
+	 * @return DefaultToken user UID
 	 */
 	public function validateToken($token) {
 		$this->logger->debug('validating default token <' . $token . '>');
 		try {
 			$dbToken = $this->mapper->getToken($this->hashToken($token));
-			$this->logger->debug('valid token for ' . $dbToken->getUid());
+			$this->logger->debug('valid token for ' . $dbToken->getUID());
 			return $dbToken;
 		} catch (DoesNotExistException $ex) {
 			$this->logger->warning('invalid token');

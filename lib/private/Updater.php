@@ -216,6 +216,7 @@ class Updater extends BasicEmitter {
 		try {
 			Setup::updateHtaccess();
 			Setup::protectDataDirectory();
+			// TODO: replace with the new repair step mechanism https://github.com/owncloud/core/pull/24378
 			Setup::installBackgroundJobs();
 		} catch (\Exception $e) {
 			throw new \Exception($e->getMessage());

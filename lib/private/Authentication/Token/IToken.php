@@ -42,5 +42,5 @@ interface IToken {
 	 *
 	 * @return string
 	 */
-	public function getUid();
+	public function getUID();
 }

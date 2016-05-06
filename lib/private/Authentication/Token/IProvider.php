@@ -36,7 +36,7 @@ interface IProvider {
 	/**
 	 * Update token activity timestamp
 	 *
-	 * @param DefaultToken $token
+	 * @param IToken $token
 	 */
 	public function updateToken(IToken $token);
 }

@@ -98,7 +98,7 @@ class LoginController extends Controller {
 	 * @param string $redirect_url
 	 * @param string $remember_login
 	 *
-	 * @return TemplateResponse
+	 * @return TemplateResponse|RedirectResponse
 	 */
 	public function showLoginForm($user, $redirect_url, $remember_login) {
 		if ($this->userSession->isLoggedIn()) {
@@ -106,7 +106,6 @@ class LoginController extends Controller {
 		}
 
 		$parameters = array();
-		$id = $this->session->getId();
 		$loginMessages = $this->session->get('loginMessages');
 		$errors = [];
 		$messages = [];
@@ -177,7 +176,6 @@ class LoginController extends Controller {
 			}
 		}
 		if (!$loginResult) {
-			$id = $this->session->getId();
 			$this->session->set('loginMessages', [
 				[],
 				['invalidpassword']

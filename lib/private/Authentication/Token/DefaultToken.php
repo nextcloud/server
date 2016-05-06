@@ -74,7 +74,7 @@ class DefaultToken extends Entity implements IToken {
 		return $this->id;
 	}
 
-	public function getUid() {
+	public function getUID() {
 		return $this->uid;
 	}
 

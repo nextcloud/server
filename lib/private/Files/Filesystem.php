@@ -404,7 +404,7 @@ class Filesystem {
 
 		if (is_null($userObject)) {
 			\OCP\Util::writeLog('files', ' Backends provided no user object for ' . $user, \OCP\Util::ERROR);
-			throw new \OC\User\NoUserException('Backend provided no user object for ' . $user);
+			throw new \OC\User\NoUserException('Backends provided no user object for ' . $user);
 		}
 
 		self::$usersSetup[$user] = true;

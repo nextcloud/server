@@ -45,39 +45,43 @@ class Session extends \Test\TestCase {
 			->method('get')
 			->with('user_id')
 			->will($this->returnValue($expectedUser->getUID()));
+		$sessionId = 'abcdef12345';
 
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()
 			->getMock();
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue($sessionId));
 		$this->defaultProvider->expects($this->once())
 			->method('getToken')
 			->will($this->returnValue($token));
-		// TODO: check passed session id once it's mockable
-		$session->expects($this->at(1))
-			->method('last_login_check')
+		$session->expects($this->at(2))
+			->method('get')
+			->with('last_login_check')
 			->will($this->returnValue(null)); // No check has been run yet
 		$this->defaultProvider->expects($this->once())
 			->method('getPassword')
-			// TODO: check passed UID and session id once it's mockable
+			->with($token, $sessionId)
 			->will($this->returnValue('password123'));
 		$manager->expects($this->once())
 			->method('checkPassword')
 			->with($expectedUser->getUID(), 'password123')
 			->will($this->returnValue(true));
-		$session->expects($this->at(2))
+		$session->expects($this->at(3))
 			->method('set')
 			->with('last_login_check', 10000);
 
-		$session->expects($this->at(3))
+		$session->expects($this->at(4))
 			->method('get')
 			->with('last_token_update')
 			->will($this->returnValue(null)); // No check run so far
 		$this->defaultProvider->expects($this->once())
 			->method('updateToken')
 			->with($token);
-		$session->expects($this->at(4))
+		$session->expects($this->at(5))
 			->method('set')
-			->with('last_token_update', $this->equalTo(time(), 10));
+			->with('last_token_update', $this->equalTo(10000));
 
 		$manager->expects($this->any())
 			->method('get')
@@ -171,7 +175,7 @@ class Session extends \Test\TestCase {
 		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
-		$user->expects($this->once())
+		$user->expects($this->any())
 			->method('isEnabled')
 			->will($this->returnValue(true));
 		$user->expects($this->any())
@@ -197,6 +201,9 @@ class Session extends \Test\TestCase {
 		$this->assertEquals($user, $userSession->getUser());
 	}
 
+	/**
+	 * @expectedException \OC\User\LoginException
+	 */
 	public function testLoginValidPasswordDisabled() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
@@ -219,7 +226,7 @@ class Session extends \Test\TestCase {
 		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
-		$user->expects($this->once())
+		$user->expects($this->any())
 			->method('isEnabled')
 			->will($this->returnValue(false));
 		$user->expects($this->never())
