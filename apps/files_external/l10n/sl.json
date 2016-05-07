@@ -29,6 +29,7 @@
     "Admin defined" : "Skrbnik je določen",
     "Saved" : "Shranjeno",
     "Empty response from the server" : "S strežnika je prejet odziv brez vsebine.",
+    "Couldn't access. Please logout and login to activate this mount point" : "Dostop ni mogoč. Za priklop točke se odjavite in ponovno prijavite.",
     "Couldn't get the information from the ownCloud server: {code} {type}" : "Ni mogoče pridobiti podrobnosti s strežnika ownCloud:{koda} {vrsta}",
     "Couldn't get the list of external mount points: {type}" : "Ni mogoče pridobiti seznama zunanjih priklopnih točk: {type}",
     "There was an error with message: " : "Prišlo je do napake s sporočilom:",

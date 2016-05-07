@@ -29,6 +29,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Potrdi brisanje",
     "Mappings cleared successfully!" : "Preslikave so uspešno počiščene!",
     "Error while clearing the mappings." : "Napaka pri čiščenju preslikav.",
+    "LDAP Operations error. Anonymous bind might not be allowed." : "Napaka opravila LDAP: brezimne povezave morda niso dovoljene.",
     "Mode switch" : "Preklop načina",
     "Select attributes" : "Izbor atributov",
     "User found and settings verified." : "Uporabnik je najden in nastavitve so overjene.",

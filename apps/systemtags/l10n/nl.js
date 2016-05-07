@@ -15,6 +15,7 @@ OC.L10N.register(
     "%1$s created system tag %2$s" : "%1$s creëerde systeem tag %2$s",
     "You deleted system tag %2$s" : "Je verwijderde systeem tag %2$s",
     "%1$s deleted system tag %2$s" : "%1$s verwijderde systeem tag %2$s van het systeem",
+    "You updated system tag %3$s to %2$s" : "U werkte systeemtag %3$s bij naar  %2$s",
     "%1$s updated system tag %3$s to %2$s" : "%1$s hernoemde systeem tag %3$s naar %2$s",
     "You assigned system tag %3$s to %2$s" : "Je wees systeem tag %3$s aan %2$s toe",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s wees systeem tag %3$s aan %2$s toe",

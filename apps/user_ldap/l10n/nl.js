@@ -13,6 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : "Kon configuratie %s niet instellen",
     "Action does not exist" : "Actie bestaat niet",
     "The Base DN appears to be wrong" : "De Basis DN lijkt onjuist",
+    "Testing configuration…" : "Testen van de configuratie…",
     "Configuration incorrect" : "Configuratie onjuist",
     "Configuration incomplete" : "Configuratie incompleet",
     "Configuration OK" : "Configuratie OK",
