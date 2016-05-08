@@ -77,6 +77,8 @@ OC.L10N.register(
     "Settings" : "Setări",
     "WebDAV" : "WebDAV",
     "Cancel upload" : "Anulează încărcarea",
+    "No files in here" : "Niciun fișier aici",
+    "No entries found in this folder" : "Niciun element găsit în acest director",
     "Select all" : "Selectează tot",
     "Upload too large" : "Fișierul încărcat este prea mare",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fișierele pe care încerci să le încarci depășesc limita de încărcare maximă admisă pe acest server.",

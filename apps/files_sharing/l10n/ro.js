@@ -18,6 +18,7 @@ OC.L10N.register(
     "This share is password-protected" : "Această partajare este protejată cu parolă",
     "The password is wrong. Try again." : "Parola este incorectă. Încercaţi din nou.",
     "Password" : "Parolă",
+    "No entries found in this folder" : "Niciun element găsit în acest director",
     "Name" : "Nume",
     "Reasons might be:" : "Motive posibile ar fi:",
     "the item was removed" : "acest articol a fost șters",

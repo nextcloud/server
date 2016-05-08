@@ -26,6 +26,7 @@
     "Set an admin password." : "Setează o parolă de administrator.",
     "%s shared »%s« with you" : "%s Partajat »%s« cu tine de",
     "You are not allowed to share %s" : "Nu există permisiunea de partajare %s",
+    "Sharing %s failed, because this item is already shared with %s" : "Partajarea %s a eșuat deoarece acest element este deja partajat cu %s",
     "Share type %s is not valid for %s" : "Tipul partajării %s nu este valid pentru %s",
     "Could not find category \"%s\"" : "Cloud nu a gasit categoria \"%s\"",
     "Apps" : "Aplicații",

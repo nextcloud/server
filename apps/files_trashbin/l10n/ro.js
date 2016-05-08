@@ -10,6 +10,7 @@ OC.L10N.register(
     "Error" : "Eroare",
     "restored" : "restaurat",
     "No deleted files" : "Nu sunt fișiere șterse",
+    "No entries found in this folder" : "Niciun element găsit în acest director",
     "Select all" : "Selectează tot",
     "Name" : "Nume",
     "Deleted" : "A fost șters."

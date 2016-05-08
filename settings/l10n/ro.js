@@ -66,6 +66,7 @@ OC.L10N.register(
     "SSL" : "SSL",
     "TLS" : "TLS",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Modulul PHP \"Fileinfo\" lipsește. Va recomandam sa activaţi acest modul pentru a obține cele mai bune rezultate cu detectarea mime-type.",
+    "Open documentation" : "Deschide documentația",
     "Allow apps to use the Share API" : "Permite aplicațiilor să folosească API-ul de partajare",
     "Allow public uploads" : "Permite încărcări publice",
     "Allow users to send mail notification for shared files" : "Permite utilizatorilor sa expedieze notificări prin e-mail pentru dosarele comune",
