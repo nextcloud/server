@@ -24,6 +24,7 @@ namespace OC\Authentication\Token;
 
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\Mapper;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
 class DefaultTokenMapper extends Mapper {
@@ -38,24 +39,25 @@ class DefaultTokenMapper extends Mapper {
 	 * @param string $token
 	 */
 	public function invalidate($token) {
-		$sql = 'DELETE FROM `' . $this->getTableName() . '` '
-			. 'WHERE `token` = ?';
-		return $this->execute($sql, [
-				$token
-		]);
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('authtoken')
+			->andWhere($qb->expr()->eq('token', $qb->createParameter('token')))
+			->setParameter('token', $token)
+			->execute();
 	}
 
 	/**
 	 * @param int $olderThan
 	 */
 	public function invalidateOld($olderThan) {
-		$sql = 'DELETE FROM `' . $this->getTableName() . '` '
-			. 'WHERE `last_activity` < ? '
-			. 'AND `type` = ?';
-		$this->execute($sql, [
-			$olderThan,
-			IToken::TEMPORARY_TOKEN,
-		]);
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('authtoken')
+			->where($qb->expr()->lt('last_activity', $qb->createParameter('last_activity')))
+			->andWhere($qb->expr()->eq('type', $qb->createParameter('type')))
+			->setParameter('last_activity', $olderThan, IQueryBuilder::PARAM_INT)
+			->setParameter('type', IToken::TEMPORARY_TOKEN, IQueryBuilder::PARAM_INT)
+			->execute();
 	}
 
 	/**
@@ -66,12 +68,19 @@ class DefaultTokenMapper extends Mapper {
 	 * @return DefaultToken
 	 */
 	public function getToken($token) {
-		$sql = 'SELECT `id`, `uid`, `password`, `name`, `token`, `last_activity` '
-			. 'FROM `' . $this->getTableName() . '` '
-			. 'WHERE `token` = ?';
-		return $this->findEntity($sql, [
-				$token
-		]);
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+		$result = $qb->select('id', 'uid', 'password', 'name', 'type', 'token', 'last_activity')
+			->from('authtoken')
+			->where($qb->expr()->eq('token', $qb->createParameter('token')))
+			->setParameter('token', $token)
+			->execute();
+
+		$data = $result->fetch();
+		if ($data === false) {
+			throw new DoesNotExistException('token does not exist');
+		}
+		return DefaultToken::fromRow($data);
 	}
 
 }
