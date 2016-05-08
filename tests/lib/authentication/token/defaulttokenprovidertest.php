@@ -54,7 +54,8 @@ class DefaultTokenProviderTest extends TestCase {
 			->method('getTime')
 			->will($this->returnValue($this->time));
 
-		$this->tokenProvider = new DefaultTokenProvider($this->mapper, $this->crypto, $this->config, $this->logger, $this->timeFactory);
+		$this->tokenProvider = new DefaultTokenProvider($this->mapper, $this->crypto, $this->config, $this->logger,
+			$this->timeFactory);
 	}
 
 	public function testGenerateToken() {
@@ -116,6 +117,36 @@ class DefaultTokenProviderTest extends TestCase {
 		$actual = $this->tokenProvider->getPassword($tk, $token);
 
 		$this->assertEquals('passme', $actual);
+	}
+
+	/**
+	 * @expectedException \OC\Authentication\Exceptions\InvalidTokenException
+	 */
+	public function testGetPasswordDeletesInvalidToken() {
+		$token = 'token1234';
+		$tk = new DefaultToken();
+		$tk->setPassword('someencryptedvalue');
+		/* @var $tokenProvider DefaultTokenProvider */
+		$tokenProvider = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenProvider')
+			->setMethods([
+				'invalidateToken'
+			])
+			->setConstructorArgs([$this->mapper, $this->crypto, $this->config, $this->logger,
+				$this->timeFactory])
+			->getMock();
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('secret')
+			->will($this->returnValue('1f4h9s'));
+		$this->crypto->expects($this->once())
+			->method('decrypt')
+			->with('someencryptedvalue', $token . '1f4h9s')
+			->will($this->throwException(new \Exception('some crypto error occurred')));
+		$tokenProvider->expects($this->once())
+			->method('invalidateToken')
+			->with($token);
+
+		$tokenProvider->getPassword($tk, $token);
 	}
 
 	public function testInvalidateToken() {

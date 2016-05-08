@@ -69,10 +69,10 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-
 	/*
 	 * @var Manager $manager
 	 */
+
 	private $manager;
 
 	/*
@@ -107,8 +107,7 @@ class Session implements IUserSession, Emitter {
 	 * @param IProvider $tokenProvider
 	 * @param IProvider[] $tokenProviders
 	 */
-	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider,
-		array $tokenProviders = []) {
+	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider, array $tokenProviders = []) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFacory = $timeFacory;
@@ -230,7 +229,14 @@ class Session implements IUserSession, Emitter {
 		$lastCheck = $this->session->get('last_login_check') ? : 0;
 		$now = $this->timeFacory->getTime();
 		if ($lastCheck < ($now - 60 * 5)) {
-			$pwd = $this->tokenProvider->getPassword($token, $sessionId);
+			try {
+				$pwd = $this->tokenProvider->getPassword($token, $sessionId);
+			} catch (InvalidTokenException $ex) {
+				// An invalid token password was used -> log user out
+				$this->logout();
+				return;
+			}
+
 			if ($this->manager->checkPassword($user->getUID(), $pwd) === false) {
 				// Password has changed -> log user out
 				$this->logout();

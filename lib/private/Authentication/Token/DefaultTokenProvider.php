@@ -22,6 +22,7 @@
 
 namespace OC\Authentication\Token;
 
+use Exception;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
@@ -192,7 +193,13 @@ class DefaultTokenProvider implements IProvider {
 	 */
 	private function decryptPassword($password, $token) {
 		$secret = $this->config->getSystemValue('secret');
-		return $this->crypto->decrypt($password, $token . $secret);
+		try {
+			return $this->crypto->decrypt($password, $token . $secret);
+		} catch (Exception $ex) {
+			// Delete the invalid token
+			$this->invalidateToken($token);
+			throw new InvalidTokenException();
+		}
 	}
 
 }
