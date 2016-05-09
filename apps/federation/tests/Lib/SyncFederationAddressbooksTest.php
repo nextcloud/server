@@ -20,7 +20,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Federation\Tests\lib;
+namespace OCA\Federation\Tests\Lib;
 
 use OCA\Federation\DbHandler;
 use OCA\Federation\SyncFederationAddressBooks;
