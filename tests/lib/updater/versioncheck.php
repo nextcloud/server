@@ -90,20 +90,25 @@ class VersionCheckTest extends \Test\TestCase {
 			->will($this->returnValue(0));
 		$this->config
 			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('updater.server.url', 'https://updates.owncloud.com/server/')
+			->willReturn('https://updates.owncloud.com/server/');
+		$this->config
+			->expects($this->at(2))
 			->method('setAppValue')
 			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
-			->expects($this->at(3))
+			->expects($this->at(4))
 			->method('getAppValue')
 			->with('core', 'installedat')
 			->will($this->returnValue('installedat'));
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue('lastupdatedat'));
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(6))
 			->method('setAppValue')
 			->with('core', 'lastupdateResult', json_encode($expectedResult));
 
@@ -131,20 +136,25 @@ class VersionCheckTest extends \Test\TestCase {
 			->will($this->returnValue(0));
 		$this->config
 			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('updater.server.url', 'https://updates.owncloud.com/server/')
+			->willReturn('https://updates.owncloud.com/server/');
+		$this->config
+			->expects($this->at(2))
 			->method('setAppValue')
 			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
-			->expects($this->at(3))
+			->expects($this->at(4))
 			->method('getAppValue')
 			->with('core', 'installedat')
 			->will($this->returnValue('installedat'));
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue('lastupdatedat'));
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(6))
 			->method('setAppValue')
 			->with('core', 'lastupdateResult', 'false');
 
@@ -156,54 +166,6 @@ class VersionCheckTest extends \Test\TestCase {
 			->will($this->returnValue($updateXml));
 
 		$this->assertSame([], $this->updater->check());
-	}
-
-	public function testCheckWithUpdateUrl() {
-		$expectedResult = [
-			'version' => '8.0.4.2',
-			'versionstring' => 'ownCloud 8.0.4',
-			'url' => 'https://download.owncloud.org/community/owncloud-8.0.4.zip',
-			'web' => 'http://doc.owncloud.org/server/8.0/admin_manual/maintenance/upgrade.html',
-		];
-
-		$this->config
-			->expects($this->at(0))
-			->method('getAppValue')
-			->with('core', 'lastupdatedat')
-			->will($this->returnValue(0));
-		$this->config
-			->expects($this->at(1))
-			->method('setAppValue')
-			->with('core', 'lastupdatedat', $this->isType('integer'));
-		$this->config
-			->expects($this->at(3))
-			->method('getAppValue')
-			->with('core', 'installedat')
-			->will($this->returnValue('installedat'));
-		$this->config
-			->expects($this->at(4))
-			->method('getAppValue')
-			->with('core', 'lastupdatedat')
-			->will($this->returnValue('lastupdatedat'));
-		$this->config
-			->expects($this->at(5))
-			->method('setAppValue')
-			->with('core', 'lastupdateResult', json_encode($expectedResult));
-
-		$updateXml = '<?xml version="1.0"?>
-<owncloud>
-  <version>8.0.4.2</version>
-  <versionstring>ownCloud 8.0.4</versionstring>
-  <url>https://download.owncloud.org/community/owncloud-8.0.4.zip</url>
-  <web>http://doc.owncloud.org/server/8.0/admin_manual/maintenance/upgrade.html</web>
-</owncloud>';
-		$this->updater
-			->expects($this->once())
-			->method('getUrlContent')
-			->with($this->buildUpdateUrl('https://myupdater.com/'))
-			->will($this->returnValue($updateXml));
-
-		$this->assertSame($expectedResult, $this->updater->check('https://myupdater.com/'));
 	}
 
 	public function testCheckWithEmptyValidXmlResponse() {
@@ -221,15 +183,20 @@ class VersionCheckTest extends \Test\TestCase {
 			->will($this->returnValue(0));
 		$this->config
 			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('updater.server.url', 'https://updates.owncloud.com/server/')
+			->willReturn('https://updates.owncloud.com/server/');
+		$this->config
+			->expects($this->at(2))
 			->method('setAppValue')
 			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
-			->expects($this->at(3))
+			->expects($this->at(4))
 			->method('getAppValue')
 			->with('core', 'installedat')
 			->will($this->returnValue('installedat'));
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue('lastupdatedat'));
@@ -260,20 +227,25 @@ class VersionCheckTest extends \Test\TestCase {
 			->will($this->returnValue(0));
 		$this->config
 			->expects($this->at(1))
+			->method('getSystemValue')
+			->with('updater.server.url', 'https://updates.owncloud.com/server/')
+			->willReturn('https://updates.owncloud.com/server/');
+		$this->config
+			->expects($this->at(2))
 			->method('setAppValue')
 			->with('core', 'lastupdatedat', $this->isType('integer'));
 		$this->config
-			->expects($this->at(3))
+			->expects($this->at(4))
 			->method('getAppValue')
 			->with('core', 'installedat')
 			->will($this->returnValue('installedat'));
 		$this->config
-			->expects($this->at(4))
+			->expects($this->at(5))
 			->method('getAppValue')
 			->with('core', 'lastupdatedat')
 			->will($this->returnValue('lastupdatedat'));
 		$this->config
-			->expects($this->at(5))
+			->expects($this->at(6))
 			->method('setAppValue')
 			->with('core', 'lastupdateResult', json_encode($expectedResult));
 
