@@ -68,7 +68,7 @@ class Notifier implements INotifier {
 		$l = $this->l10nFactory->get('comments', $languageCode);
 		$comment = $this->commentsManager->get($notification->getObjectId());
 		$displayName = $comment->getActorId();
-		if($comment->getActorType() === 'user') {
+		if($comment->getActorType() === 'users') {
 			$commenter = $this->userManager->get($comment->getActorId());
 			if(!is_null($commenter)) {
 				$displayName = $commenter->getDisplayName();

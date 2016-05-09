@@ -72,7 +72,10 @@ class Listener {
 
 		foreach($mentions[0] as $mention) {
 			$user = substr($mention, 1); // @username → username
-			if(!$this->userManager->userExists($user)) {
+			if( ($comment->getActorType() === 'users' && $user === $comment->getActorId())
+				|| !$this->userManager->userExists($user)
+			) {
+				// do not notify unknown users or yourself
 				continue;
 			}
 			$notification = $this->notificationManager->createNotification();
