@@ -50,7 +50,7 @@ class UpdaterTest extends \Test\TestCase {
 
 	public function testValidEmptyXmlResponse(){
 		$updater = $this->getUpdaterMock(
-				'<?xml version="1.0"?><owncloud><version></version><versionstring></versionstring><url></url><web></web></owncloud>'
+			'<?xml version="1.0"?><owncloud><version></version><versionstring></versionstring><url></url><web></web></owncloud>'
 		);
 		$result = array_map('strval', $updater->check());
 
@@ -66,7 +66,7 @@ class UpdaterTest extends \Test\TestCase {
 
 	public function testValidUpdateResponse(){
 		$newUpdater = $this->getUpdaterMock(
-				'<?xml version="1.0"?>
+			'<?xml version="1.0"?>
 <owncloud>
   <version>7.0.3.4</version>
   <versionstring>ownCloud 7.0.3</versionstring>
@@ -89,14 +89,14 @@ class UpdaterTest extends \Test\TestCase {
 	protected function getUpdaterMock($content){
 		// Invalidate cache
 		$mockedConfig = $this->getMockBuilder('\OCP\IConfig')
-				->disableOriginalConstructor()
-				->getMock()
+			->disableOriginalConstructor()
+			->getMock()
 		;
 
 		$certificateManager = $this->getMock('\OCP\ICertificateManager');
 		$mockedHTTPHelper = $this->getMockBuilder('\OC\HTTPHelper')
-				->setConstructorArgs(array(\OC::$server->getConfig(), $certificateManager))
-				->getMock()
+			->setConstructorArgs(array(\OC::$server->getConfig(), $certificateManager))
+			->getMock()
 		;
 
 		$mockedHTTPHelper->expects($this->once())->method('getUrlContent')->will($this->returnValue($content));
