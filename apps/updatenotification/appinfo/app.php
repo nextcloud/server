@@ -45,7 +45,8 @@ if(\OC::$server->getConfig()->getSystemValue('updatechecker', true) === true) {
 			$manager,
 			\OC::$server->getL10NFactory()
 		);
-	}, function() use ($l) {
+	}, function() {
+		$l = \OC::$server->getL10N('updatenotification');
 		return [
 			'id' => 'updatenotification',
 			'name' => $l->t('Update notifications'),

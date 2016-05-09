@@ -101,7 +101,7 @@ class AdminController extends Controller {
 		}
 		$updateState = $this->updateChecker->getUpdateState();
 
-		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'));
+		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
 
 		$params = [
 			'isNewVersionAvailable' => ($updateState === []) ? false : true,

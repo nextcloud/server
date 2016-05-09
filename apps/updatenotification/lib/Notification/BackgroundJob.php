@@ -82,15 +82,12 @@ class BackgroundJob extends TimedJob {
 	 * Check for ownCloud update
 	 */
 	protected function checkCoreUpdate() {
-		if (in_array(\OC_Util::getChannel(), ['daily', 'git'])) {
+		if (in_array($this->getChannel(), ['daily', 'git'])) {
 			// "These aren't the update channels you're looking for." - Ben Obi-Wan Kenobi
 			return;
 		}
 
-		$updater = new VersionCheck(
-			$this->client,
-			$this->config
-		);
+		$updater = $this->createVersionCheck();
 
 		$status = $updater->check();
 		if (isset($status['version'])) {
@@ -104,7 +101,7 @@ class BackgroundJob extends TimedJob {
 	protected function checkAppUpdates() {
 		$apps = $this->appManager->getInstalledApps();
 		foreach ($apps as $app) {
-			$update = Installer::isUpdateAvailable($app);
+			$update = $this->isUpdateAvailable($app);
 			if ($update !== false) {
 				$this->createNotifications($app, $update);
 			}
@@ -134,8 +131,8 @@ class BackgroundJob extends TimedJob {
 			->setObject($app, $version)
 			->setSubject('update_available');
 
-		foreach ($this->getUsersToNotify() as $user) {
-			$notification->setUser($user->getUID());
+		foreach ($this->getUsersToNotify() as $uid) {
+			$notification->setUser($uid);
 			$this->notificationManager->notify($notification);
 		}
 
@@ -143,20 +140,25 @@ class BackgroundJob extends TimedJob {
 	}
 
 	/**
-	 * @return \OCP\IUser[]
+	 * @return string[]
 	 */
 	protected function getUsersToNotify() {
 		if ($this->users !== null) {
 			return $this->users;
 		}
 
-		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'));
+		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'), true);
+		$this->users = [];
 		foreach ($notifyGroups as $group) {
 			$groupToNotify = $this->groupManager->get($group);
 			if ($groupToNotify instanceof IGroup) {
-				$this->users = array_merge($this->users, $groupToNotify->getUsers());
+				foreach ($groupToNotify->getUsers() as $user) {
+					$this->users[$user->getUID()] = true;
+				}
 			}
 		}
+
+		$this->users = array_keys($this->users);
 
 		return $this->users;
 	}
@@ -172,5 +174,30 @@ class BackgroundJob extends TimedJob {
 		$notification->setApp('updatenotification')
 			->setObject($app, $version);
 		$this->notificationManager->markProcessed($notification);
+	}
+
+	/**
+	 * @return VersionCheck
+	 */
+	protected function createVersionCheck() {
+		return new VersionCheck(
+			$this->client,
+			$this->config
+		);
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getChannel() {
+		return \OC_Util::getChannel();
+	}
+
+	/**
+	 * @param string $app
+	 * @return string|false
+	 */
+	protected function isUpdateAvailable($app) {
+		return Installer::isUpdateAvailable($app);
 	}
 }
