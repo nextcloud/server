@@ -58,3 +58,18 @@ $eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, f
 		return !empty($nodes);
 	});
 });
+
+$notificationManager = \OC::$server->getNotificationManager();
+$notificationManager->registerNotifier(
+	function() {
+		return new \OCA\Comments\Notification\Notifier(
+			\OC::$server->getL10NFactory(),
+			\OC::$server->getUserFolder(),
+			\OC::$server->getCommentsManager(),
+			\OC::$server->getUserManager()
+		);
+	},
+	function () {
+		return ['id' => 'comments', 'name' => 'Comments'];
+	}
+);
