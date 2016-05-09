@@ -1579,7 +1579,7 @@ function initCore() {
 			}
 			$page.find('img').remove();
 			$page.find('div').remove(); // prevent odd double-clicks
-			$page.prepend($('<div/>').addClass('icon-loading-dark'));
+			$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
 		});
 	}
 
