@@ -48,7 +48,6 @@ class Notifier implements INotifier {
 		$this->notificationManager = $notificationManager;
 		$this->l10NFactory = $l10NFactory;
 		$this->appVersions = $this->getAppVersions();
-		\OC::$server->getLogger()->error(json_encode($this->appVersions));
 	}
 
 	/**
