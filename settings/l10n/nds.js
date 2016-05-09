@@ -2,6 +2,7 @@ OC.L10N.register(
     "settings",
     {
     "Saved" : "Gespeichert",
+    "Email sent" : "eMail gesendet",
     "External Storage" : "Externer Speicher",
     "Delete" : "Löschen",
     "Very weak password" : "Sehr schwaches Passwort",
