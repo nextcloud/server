@@ -796,7 +796,7 @@ class Manager implements ICommentsManager {
 				->setObject('comment', $comment->getId())
 				->setSubject('mention', [ $comment->getObjectType(), $comment->getObjectId() ])
 				->setDateTime($comment->getCreationDateTime())
-				->setLink($this->urlGenerator->linkToRoute(
+				->setLink($this->urlGenerator->linkToRouteAbsolute(
 					'comments.Notifications.view',
 					['id' => $comment->getId()])
 				);

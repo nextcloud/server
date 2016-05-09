@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ownCloud - Activity App
+ * ownCloud - Comments App
  *
  * @author Arthur Schiwon <blizzz@owncloud.com>
  *
