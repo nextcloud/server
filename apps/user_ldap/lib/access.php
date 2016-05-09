@@ -444,15 +444,6 @@ class Access extends LDAPUtility implements user\IUserTools {
 			return false;
 		}
 
-		if(is_null($ldapName)) {
-			$ldapName = $this->readAttribute($fdn, $nameAttribute);
-			if(!isset($ldapName[0]) && empty($ldapName[0])) {
-				\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$fdn.'.', \OCP\Util::INFO);
-				return false;
-			}
-			$ldapName = $ldapName[0];
-		}
-
 		if($isUser) {
 			$usernameAttribute = $this->connection->ldapExpertUsernameAttr;
 			if(!empty($usernameAttribute)) {
@@ -463,6 +454,15 @@ class Access extends LDAPUtility implements user\IUserTools {
 			}
 			$intName = $this->sanitizeUsername($username);
 		} else {
+			if(is_null($ldapName)) {
+				$ldapName = $this->readAttribute($fdn, $nameAttribute);
+				if(!isset($ldapName[0]) && empty($ldapName[0])) {
+					\OCP\Util::writeLog('user_ldap', 'No or empty name for '.$fdn.'.', \OCP\Util::INFO);
+					return false;
+				}
+				$ldapName = $ldapName[0];
+			}
+
 			$intName = $ldapName;
 		}
 
@@ -472,8 +472,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
-		if(($isUser && !\OCP\User::userExists($intName))
-			|| (!$isUser && !\OC_Group::groupExists($intName))) {
+		if(($isUser && !\OC::$server->getUserManager()->userExists($intName))
+			|| (!$isUser && !\OC::$server->getGroupManager->groupExists($intName))) {
 			if($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
 				return $intName;
