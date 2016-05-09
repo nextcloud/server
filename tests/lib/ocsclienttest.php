@@ -107,7 +107,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/categories',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
@@ -156,7 +156,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/categories',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
@@ -240,7 +240,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/categories',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
@@ -290,7 +290,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/data',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => [
 						'version' => implode('x', [8, 1, 0, 7]),
 						'filter' => 'approved',
@@ -347,7 +347,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/data',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => [
 						'version' => implode('x', [8, 1, 0, 7]),
 						'filter' => 'approved',
@@ -483,7 +483,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/data',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => [
 						'version' => implode('x', [8, 1, 0, 7]),
 						'filter' => 'approved',
@@ -573,7 +573,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/data/MyId',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
@@ -622,7 +622,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/data/MyId',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
@@ -750,7 +750,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/data/166053',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
@@ -886,7 +886,7 @@ class OCSClientTest extends \Test\TestCase {
 				->with(
 						'https://api.owncloud.com/v1/content/data/166053',
 						[
-								'timeout' => 5,
+								'timeout' => 20,
 								'query' => ['version' => '8x1x0x7'],
 						]
 				)
@@ -951,7 +951,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/data/MyId',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
@@ -993,7 +993,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/download/MyId/1',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
@@ -1042,7 +1042,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/download/MyId/1',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
@@ -1109,7 +1109,7 @@ class OCSClientTest extends \Test\TestCase {
 			->with(
 				'https://api.owncloud.com/v1/content/download/MyId/1',
 				[
-					'timeout' => 5,
+					'timeout' => 20,
 					'query' => ['version' => '8x1x0x7'],
 				]
 			)
