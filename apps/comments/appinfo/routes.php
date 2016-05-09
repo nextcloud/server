@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\Comments\AppInfo;
+use \OCA\Comments\AppInfo\Application;
 
 $application = new Application();
 $application->registerRoutes($this, ['routes' => [
