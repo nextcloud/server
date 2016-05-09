@@ -104,6 +104,7 @@ class Auth extends AbstractBasic {
 		} else {
 			\OC_Util::setUpFS(); //login hooks may need early access to the filesystem
 			if($this->userSession->login($username, $password)) {
+				$this->userSession->createSessionToken($this->request, $username, $password);
 				\OC_Util::setUpFS($this->userSession->getUser()->getUID());
 				$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
 				$this->session->close();
