@@ -28,7 +28,6 @@
 
 namespace OC;
 
-use OC\Hooks\Emitter;
 use OC\Repair\AssetCache;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
@@ -45,6 +44,7 @@ use OC\Repair\RepairMimeTypes;
 use OC\Repair\SearchLuceneTables;
 use OC\Repair\UpdateOutdatedOcsIds;
 use OC\Repair\RepairInvalidShares;
+use OCP\AppFramework\QueryException;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -93,15 +93,20 @@ class Repair implements IOutput{
 	 */
 	public function addStep($repairStep) {
 		if (is_string($repairStep)) {
-			if (class_exists($repairStep)) {
-				$s = new $repairStep();
-				if ($s instanceof IRepairStep) {
-					$this->repairSteps[] = $s;
+			try {
+				$s = \OC::$server->query($repairStep);
+			} catch (QueryException $e) {
+				if (class_exists($repairStep)) {
+					$s = new $repairStep();
 				} else {
-					throw new \Exception("Repair step '$repairStep' is not of type \\OCP\\Migration\\IRepairStep");
+					throw new \Exception("Repair step '$repairStep' is unknown");
 				}
+			}
+
+			if ($s instanceof IRepairStep) {
+				$this->repairSteps[] = $s;
 			} else {
-				throw new \Exception("Repair step '$repairStep' is unknown");
+				throw new \Exception("Repair step '$repairStep' is not of type \\OCP\\Migration\\IRepairStep");
 			}
 		} else {
 			$this->repairSteps[] = $repairStep;
