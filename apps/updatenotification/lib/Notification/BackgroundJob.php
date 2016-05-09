@@ -28,6 +28,7 @@ use OC\Updater\VersionCheck;
 use OCP\App\IAppManager;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
+use OCP\IGroup;
 use OCP\IGroupManager;
 use OCP\IUser;
 use OCP\Notification\IManager;
@@ -149,8 +150,14 @@ class BackgroundJob extends TimedJob {
 			return $this->users;
 		}
 
-		$groupToNotify = $this->groupManager->get('admin');
-		$this->users = $groupToNotify->getUsers();
+		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'));
+		foreach ($notifyGroups as $group) {
+			$groupToNotify = $this->groupManager->get($group);
+			if ($groupToNotify instanceof IGroup) {
+				$this->users = array_merge($this->users, $groupToNotify->getUsers());
+			}
+		}
+
 		return $this->users;
 	}
 

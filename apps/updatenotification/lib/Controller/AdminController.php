@@ -100,12 +100,17 @@ class AdminController extends Controller {
 			unset($channels[$key]);
 		}
 		$updateState = $this->updateChecker->getUpdateState();
+
+		$notifyGroups = json_decode($this->config->getAppValue('updatenotification', 'notify_groups', '["admin"]'));
+
 		$params = [
 			'isNewVersionAvailable' => ($updateState === []) ? false : true,
 			'lastChecked' => $lastUpdateCheck,
 			'currentChannel' => $currentChannel,
 			'channels' => $channels,
 			'newVersionString' => ($updateState === []) ? '' : $updateState['updateVersion'],
+
+			'notify_groups' => implode('|', $notifyGroups),
 		];
 
 		return new TemplateResponse($this->appName, 'admin', $params, '');
