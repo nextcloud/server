@@ -2,6 +2,9 @@
 
 namespace Test\Comments;
 
+use OC\Comments\Comment;
+use OCP\Comments\CommentsEvent;
+use OCP\Comments\ICommentsEventHandler;
 use OCP\Comments\ICommentsManager;
 use OCP\IUser;
 use Test\TestCase;
@@ -355,7 +358,7 @@ class ManagerTest extends TestCase {
 
 	public function testSaveNew() {
 		$manager = $this->getManager();
-		$comment = new \OC\Comments\Comment();
+		$comment = new Comment();
 		$comment
 			->setActor('users', 'alice')
 			->setObject('files', 'file64')
@@ -375,7 +378,7 @@ class ManagerTest extends TestCase {
 
 	public function testSaveUpdate() {
 		$manager = $this->getManager();
-		$comment = new \OC\Comments\Comment();
+		$comment = new Comment();
 		$comment
 				->setActor('users', 'alice')
 				->setObject('files', 'file64')
@@ -396,7 +399,7 @@ class ManagerTest extends TestCase {
 	 */
 	public function testSaveUpdateException() {
 		$manager = $this->getManager();
-		$comment = new \OC\Comments\Comment();
+		$comment = new Comment();
 		$comment
 				->setActor('users', 'alice')
 				->setObject('files', 'file64')
@@ -415,7 +418,7 @@ class ManagerTest extends TestCase {
 	 */
 	public function testSaveIncomplete() {
 		$manager = $this->getManager();
-		$comment = new \OC\Comments\Comment();
+		$comment = new Comment();
 		$comment->setMessage('from no one to nothing');
 		$manager->save($comment);
 	}
@@ -426,7 +429,7 @@ class ManagerTest extends TestCase {
 		$manager = $this->getManager();
 
 		for($i = 0; $i < 3; $i++) {
-			$comment = new \OC\Comments\Comment();
+			$comment = new Comment();
 			$comment
 					->setActor('users', 'alice')
 					->setObject('files', 'file64')
@@ -628,6 +631,37 @@ class ManagerTest extends TestCase {
 		$dateTimeGet = $manager->getReadMark('robot', '36',  $user);
 
 		$this->assertNull($dateTimeGet);
+	}
+
+	public function testSendEvent() {
+		$handler1 = $this->getMockBuilder(ICommentsEventHandler::class)->getMock();
+		$handler1->expects($this->exactly(3))
+			->method('handle');
+
+		$handler2 = $this->getMockBuilder(ICommentsEventHandler::class)->getMock();
+		$handler1->expects($this->exactly(3))
+			->method('handle');
+
+		$manager = $this->getManager();
+		$manager->registerEventHandler(function () use ($handler1) {return $handler1; });
+		$manager->registerEventHandler(function () use ($handler2) {return $handler2; });
+
+		$comment = new Comment();
+		$comment
+			->setActor('users', 'alice')
+			->setObject('files', 'file64')
+			->setMessage('very beautiful, I am impressed!')
+			->setVerb('comment');
+
+		// Add event
+		$manager->save($comment);
+
+		// Update event
+		$comment->setMessage('Different topic');
+		$manager->save($comment);
+
+		// Delete event
+		$manager->delete($comment->getId());
 	}
 
 }

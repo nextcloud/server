@@ -41,22 +41,33 @@ $activityManager = \OC::$server->getActivityManager();
 $activityManager->registerExtension(function() {
 	$application = new \OCP\AppFramework\App('comments');
 	/** @var \OCA\Comments\Activity\Extension $extension */
-	$extension = $application->getContainer()->query('OCA\Comments\Activity\Extension');
+	$extension = $application->getContainer()->query(\OCA\Comments\Activity\Extension::class);
 	return $extension;
 });
-
-$managerListener = function(\OCP\Comments\CommentsEvent $event) use ($activityManager) {
-	$application = new \OCP\AppFramework\App('comments');
-	/** @var \OCA\Comments\Activity\Listener $listener */
-	$listener = $application->getContainer()->query('OCA\Comments\Activity\Listener');
-	$listener->commentEvent($event);
-};
-
-$eventDispatcher->addListener(\OCP\Comments\CommentsEvent::EVENT_ADD, $managerListener);
 
 $eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, function(\OCP\Comments\CommentsEntityEvent $event) {
 	$event->addEntityCollection('files', function($name) {
 		$nodes = \OC::$server->getUserFolder()->getById(intval($name));
 		return !empty($nodes);
 	});
+});
+
+$notificationManager = \OC::$server->getNotificationManager();
+$notificationManager->registerNotifier(
+	function() {
+		$application = new \OCP\AppFramework\App('comments');
+		return $application->getContainer()->query(\OCA\Comments\Notification\Notifier::class);
+	},
+	function () {
+		$l = \OC::$server->getL10N('comments');
+		return ['id' => 'comments', 'name' => $l->t('Comments')];
+	}
+);
+
+$commentsManager = \OC::$server->getCommentsManager();
+$commentsManager->registerEventHandler(function () {
+	$application = new \OCP\AppFramework\App('comments');
+	/** @var \OCA\Comments\Activity\Extension $extension */
+	$handler = $application->getContainer()->query(\OCA\Comments\EventHandler::class);
+	return $handler;
 });
