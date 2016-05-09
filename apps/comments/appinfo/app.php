@@ -49,7 +49,6 @@ $managerListener = function(\OCP\Comments\CommentsEvent $event) use ($activityMa
 	$listener = $application->getContainer()->query('OCA\Comments\Activity\Listener');
 	$listener->commentEvent($event);
 };
-
 $eventDispatcher->addListener(\OCP\Comments\CommentsEvent::EVENT_ADD, $managerListener);
 
 $eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, function(\OCP\Comments\CommentsEntityEvent $event) {
@@ -58,6 +57,14 @@ $eventDispatcher->addListener(\OCP\Comments\CommentsEntityEvent::EVENT_ENTITY, f
 		return !empty($nodes);
 	});
 });
+
+$notificationListener = function(\OCP\Comments\CommentsEvent $event) {
+	$application = new \OCP\AppFramework\App('comments');
+	/** @var \OCA\Comments\Notification\Listener $listener */
+	$listener = $application->getContainer()->query('OCA\Comments\Notification\Listener');
+	$listener->evaluate($event);
+};
+$eventDispatcher->addListener(\OCP\Comments\CommentsEvent::EVENT_ADD, $notificationListener);
 
 $notificationManager = \OC::$server->getNotificationManager();
 $notificationManager->registerNotifier(
