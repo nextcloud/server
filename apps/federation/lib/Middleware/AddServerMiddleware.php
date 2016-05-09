@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\Federation\Middleware ;
+namespace OCA\Federation\Middleware;
 
 use OC\HintException;
 use OCP\AppFramework\Http;
