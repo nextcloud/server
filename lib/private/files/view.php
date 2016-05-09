@@ -726,7 +726,7 @@ class View {
 						$result = false;
 					}
 					// moving a file/folder within the same mount point
-				} elseif ($storage1 == $storage2) {
+				} elseif ($storage1 === $storage2) {
 					if ($storage1) {
 						$result = $storage1->rename($internalPath1, $internalPath2);
 					} else {
