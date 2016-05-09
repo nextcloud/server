@@ -454,6 +454,7 @@ class Session implements IUserSession, Emitter {
 	 * Tries to login the user with auth token header
 	 *
 	 * @todo check remember me cookie
+	 * @return boolean
 	 */
 	public function tryTokenLogin(IRequest $request) {
 		$authHeader = $request->getHeader('Authorization');

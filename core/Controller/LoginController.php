@@ -167,8 +167,8 @@ class LoginController extends Controller {
 	 */
 	public function tryLogin($user, $password, $redirect_url) {
 		// TODO: Add all the insane error handling
-		$loginResult = $this->userManager->checkPassword($user, $password) !== false;
-		if (!$loginResult) {
+		$loginResult = $this->userManager->checkPassword($user, $password);
+		if ($loginResult === false) {
 			$users = $this->userManager->getByEmail($user);
 			// we only allow login by email if unique
 			if (count($users) === 1) {
@@ -176,7 +176,7 @@ class LoginController extends Controller {
 				$loginResult = $this->userManager->checkPassword($user, $password);
 			}
 		}
-		if (!$loginResult) {
+		if ($loginResult === false) {
 			$this->session->set('loginMessages', [
 				[],
 				['invalidpassword']
@@ -185,7 +185,7 @@ class LoginController extends Controller {
 			$args = !is_null($user) ? ['user' => $user] : [];
 			return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 		}
-		$this->userSession->createSessionToken($this->request, $user, $password);
+		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $password);
 		if (!is_null($redirect_url) && $this->userSession->isLoggedIn()) {
 			$location = $this->urlGenerator->getAbsoluteURL(urldecode($redirect_url));
 			// Deny the redirect if the URL contains a @

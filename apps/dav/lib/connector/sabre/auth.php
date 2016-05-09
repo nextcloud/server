@@ -33,7 +33,7 @@ use Exception;
 use OC\AppFramework\Http\Request;
 use OCP\IRequest;
 use OCP\ISession;
-use OCP\IUserSession;
+use OC\User\Session;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\ServiceUnavailable;
@@ -45,7 +45,7 @@ class Auth extends AbstractBasic {
 
 	/** @var ISession */
 	private $session;
-	/** @var IUserSession */
+	/** @var Session */
 	private $userSession;
 	/** @var IRequest */
 	private $request;
@@ -54,12 +54,12 @@ class Auth extends AbstractBasic {
 
 	/**
 	 * @param ISession $session
-	 * @param IUserSession $userSession
+	 * @param Session $userSession
 	 * @param IRequest $request
 	 * @param string $principalPrefix
 	 */
 	public function __construct(ISession $session,
-								IUserSession $userSession,
+								Session $userSession,
 								IRequest $request,
 								$principalPrefix = 'principals/users/') {
 		$this->session = $session;

@@ -268,7 +268,7 @@ class LoginControllerTest extends TestCase {
 	}
 
 	public function testLoginWithInvalidCredentials() {
-		$user = 'jane';
+		$user = $this->getMock('\OCP\IUser');
 		$password = 'secret';
 		$loginPageUrl = 'some url';
 
@@ -288,16 +288,16 @@ class LoginControllerTest extends TestCase {
 	}
 
 	public function testLoginWithValidCredentials() {
-		$user = 'jane';
+		$user = $this->getMock('\OCP\IUser');
 		$password = 'secret';
 		$indexPageUrl = 'some url';
 
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->will($this->returnValue(true));
+			->will($this->returnValue($user));
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user, $password);
+			->with($this->request, $user->getUID(), $password);
 		$this->urlGenerator->expects($this->once())
 			->method('linkTo')
 			->with('files', 'index')
@@ -308,17 +308,21 @@ class LoginControllerTest extends TestCase {
 	}
 
 	public function testLoginWithValidCredentialsAndRedirectUrl() {
-		$user = 'jane';
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('jane'));
 		$password = 'secret';
 		$originalUrl = 'another%20url';
 		$redirectUrl = 'http://localhost/another url';
 
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->will($this->returnValue(true));
+			->with('jane', $password)
+			->will($this->returnValue($user));
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user, $password);
+			->with($this->request, $user->getUID(), $password);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->with()
@@ -329,7 +333,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($redirectUrl));
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse(urldecode($redirectUrl));
-		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, $originalUrl));
+		$this->assertEquals($expected, $this->loginController->tryLogin($user->getUID(), $password, $originalUrl));
 	}
 
 }

@@ -28,7 +28,7 @@ use OCP\IRequest;
 use OCP\IUser;
 use Test\TestCase;
 use OCP\ISession;
-use OCP\IUserSession;
+use OC\User\Session;
 
 /**
  * Class Auth
@@ -41,7 +41,7 @@ class Auth extends TestCase {
 	private $session;
 	/** @var \OCA\DAV\Connector\Sabre\Auth */
 	private $auth;
-	/** @var IUserSession */
+	/** @var Session */
 	private $userSession;
 	/** @var IRequest */
 	private $request;
@@ -50,7 +50,7 @@ class Auth extends TestCase {
 		parent::setUp();
 		$this->session = $this->getMockBuilder('\OCP\ISession')
 			->disableOriginalConstructor()->getMock();
-		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+		$this->userSession = $this->getMockBuilder('\OC\User\Session')
 			->disableOriginalConstructor()->getMock();
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()->getMock();
@@ -170,6 +170,10 @@ class Auth extends TestCase {
 			->method('login')
 			->with('MyTestUser', 'MyTestPassword')
 			->will($this->returnValue(true));
+		$this->userSession
+			->expects($this->once())
+			->method('createSessionToken')
+			->with($this->request, 'MyTestUser', 'MyTestPassword');
 		$this->session
 			->expects($this->once())
 			->method('set')
@@ -559,6 +563,9 @@ class Auth extends TestCase {
 			->method('login')
 			->with('username', 'password')
 			->will($this->returnValue(true));
+		$this->userSession
+			->expects($this->once())
+			->method('createSessionToken');
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
