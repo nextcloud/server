@@ -20,7 +20,7 @@
  */
 
 
-namespace OCA\Federation\Tests\Lib;
+namespace OCA\Federation\Tests;
 
 
 use OCA\Federation\Hooks;

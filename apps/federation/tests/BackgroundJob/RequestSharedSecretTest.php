@@ -24,7 +24,13 @@ namespace OCA\Federation\Tests\BackgroundJob;
 
 
 use OCA\Federation\BackgroundJob\RequestSharedSecret;
+use OCA\Federation\DbHandler;
+use OCA\Federation\TrustedServers;
 use OCP\AppFramework\Http;
+use OCP\BackgroundJob\IJobList;
+use OCP\Http\Client\IClient;
+use OCP\Http\Client\IResponse;
+use OCP\IURLGenerator;
 use Test\TestCase;
 
 class RequestSharedSecretTest extends TestCase {
