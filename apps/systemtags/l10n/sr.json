@@ -1,4 +1,6 @@
 { "translations": {
+    "Tags" : "Ознаке",
+    "Tagged files" : "Означени фајлови",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Системске ознаке</strong> за фајл су измењене",
     "%1$s assigned system tag %3$s" : "%1$s додели системску ознаку %3$s",
     "%1$s created system tag %2$s" : "%1$s направи системску ознаку %2$s",
@@ -7,8 +9,6 @@
     "%1$s assigned system tag %3$s to %2$s" : "%1$s додели системску ознаку %3$s на %2$s",
     "%s (not-assignable)" : "%s (недодељива)",
     "%s (invisible)" : "%s (невидљива)",
-    "Tags" : "Ознаке",
-    "Tagged files" : "Означени фајлови",
     "No files in here" : "Овде нема фајлова",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",
     "Name" : "назив",

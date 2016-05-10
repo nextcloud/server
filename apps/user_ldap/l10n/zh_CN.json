@@ -93,7 +93,6 @@
     "Test Base DN" : "测试基础DN",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "避免自动LDAP请求。用于更精确的设置，但需要一些LDAP知识。",
     "Manually enter LDAP filters (recommended for large directories)" : "手动输入LDAP筛选条件(建议用于大型目录)",
-    "Limit %s access to users meeting these criteria:" : "限制%s访问符合这些标准：",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "对于用户最常用的对象类为organizationalPerson，person，user和inetOrgPerson。如果你不确定选择哪些对象类，请咨询您的目录管理员。",
     "The filter specifies which LDAP users shall have access to the %s instance." : "该筛选条件指定哪些LDAP用户有权访问%s的实例。",
     "Verify settings and count users" : "验证设置和统计用户",

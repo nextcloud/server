@@ -1,8 +1,8 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Updated channel" : "アップデートチャンネル",
     "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
+    "Updated channel" : "アップデートチャンネル",
     "Updater" : "アップデート",
     "A new version is available: %s" : "新しいバージョンが利用可能: %s",
     "Open updater" : "アップデーターを開く",

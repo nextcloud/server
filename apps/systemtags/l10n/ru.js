@@ -1,6 +1,11 @@
 OC.L10N.register(
     "systemtags",
     {
+    "Tags" : "Метки",
+    "Tagged files" : "Файлы с метками",
+    "Select tags to filter by" : "Выберите метки для фильтра",
+    "Please select tags to filter by" : "Выберите метки для фильтра",
+    "No files found for the selected tags" : "Для выбранных меток фалов не найдено",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Системные метки</strong> файла были изменены",
     "%1$s assigned system tag %3$s" : "%1$s назначил системную метку %3$s",
     "%1$s unassigned system tag %3$s" : "%1$s отсоединил системную метку %3$s",
@@ -11,11 +16,6 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s отсоединил системную метку %3$s для %2$s",
     "%s (not-assignable)" : "%s (неназначаемые)",
     "%s (invisible)" : "%s (невидимые)",
-    "Tags" : "Метки",
-    "Tagged files" : "Файлы с метками",
-    "Select tags to filter by" : "Выберите метки для фильтра",
-    "Please select tags to filter by" : "Выберите метки для фильтра",
-    "No files found for the selected tags" : "Для выбранных меток фалов не найдено",
     "No files in here" : "Здесь нет файлов",
     "No entries found in this folder" : "Нет элементов в этом каталоге",
     "Name" : "Наименование контакта",

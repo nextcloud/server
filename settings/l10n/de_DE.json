@@ -139,7 +139,7 @@
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Wenn sich Ihre Installation nicht im Wurzelverzeichnis der Domain befindet und Cron aus dem System genutzt wird, kann es zu Fehlern bei der URL-Generierung kommen. Um dies zu verhindern, setzen Sie bitte die „overwrite.cli.url“-Option in Ihrer config.php auf das Web-Wurzelverzeichnis Ihrer Installation (Vorschlag: „%s“).",
     "It was not possible to execute the cronjob via CLI. The following technical errors have appeared:" : "Die Ausführung des Cron-Jobs über die Kommandozeile war nicht möglich. Die folgenden technischen Fehler sind dabei aufgetreten:",
     "Please double check the <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">installation guides ↗</a>, and check for any errors or warnings in the <a href=\"#log-section\">log</a>." : "Bitte überprüfen Sie noch einmal die <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Installationsanleitungen ↗</a> und kontrollieren Sie das <a href=\"#log-section\">Log</a> auf mögliche Fehler oder Warnungen.",
-    "All checks passed." : "Alle checks erfolgreich gepfüft.",
+    "All checks passed." : "Alle Checks bestanden.",
     "Open documentation" : "Dokumentation öffnen",
     "Allow apps to use the Share API" : "Apps die Benutzung der Share-API erlauben",
     "Allow users to share via link" : "Benutzern erlauben, Inhalte über Links zu teilen",

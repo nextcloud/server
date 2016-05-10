@@ -1,6 +1,11 @@
 OC.L10N.register(
     "systemtags",
     {
+    "Tags" : "Etiquetas",
+    "Tagged files" : "Arquivos etiquetados",
+    "Select tags to filter by" : "Selecionar etiquetas para filtrar por",
+    "Please select tags to filter by" : "Por favor selecione etiquetas para filtrar por",
+    "No files found for the selected tags" : "Não há arquivos encontrados para as etiquetas selecionadas",
     "<strong>System tags</strong> for a file have been modified" : "<strong>As etiquetas do sistema</strong> para um arquivo foram modificadas",
     "You assigned system tag %3$s" : "Você atribuiu uma etiqueta ao sistema %3$s",
     "%1$s assigned system tag %3$s" : "%1$s etiqueta de sistema atribuída %3$s",
@@ -18,11 +23,6 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s etiqueta de sistema não atribuída %3$s de %2$s",
     "%s (not-assignable)" : "%s (intransferível)",
     "%s (invisible)" : "%s (invisivel)",
-    "Tags" : "Etiquetas",
-    "Tagged files" : "Arquivos etiquetados",
-    "Select tags to filter by" : "Selecionar etiquetas para filtrar por",
-    "Please select tags to filter by" : "Por favor selecione etiquetas para filtrar por",
-    "No files found for the selected tags" : "Não há arquivos encontrados para as etiquetas selecionadas",
     "No files in here" : "Nenhum arquivo aqui",
     "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
     "Name" : "Nome",

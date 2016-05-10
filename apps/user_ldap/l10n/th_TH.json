@@ -94,7 +94,6 @@
     "Test Base DN" : "ทดสอบ Base DN",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "หลีกเลี่ยงการร้องขอ LDAP อัตโนมัติ ดีกว่าสำหรับการตั้งค่าที่มากกว่า แต่ต้องมีความรู้เรื่อง LDAP",
     "Manually enter LDAP filters (recommended for large directories)" : "ป้อนตัวกรอง LDAP ด้วยตนเอง (แนะนำสำหรับไดเรกทอรีขนาดใหญ่)",
-    "Limit %s access to users meeting these criteria:" : "จำกัด %s ให้เข้าถึงผู้ใช้ที่อยู่ในเงื่อนไขเหล่านี้:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "คลาสวัตถุที่พบมากที่สุดสำหรับผู้ใช้มี organizationalPerson, person, user และ inetOrgPerson หากคุณไม่แน่ใจว่าต้องเลือกคลาสวัตถุตัวไหนโปรดปรึกษาผู้ดูแลระบบไดเรกทอรีของคุณ",
     "The filter specifies which LDAP users shall have access to the %s instance." : "ระบุตัวกรองที่ผู้ใช้ LDAP จะมีการเข้าถึง %s",
     "Verify settings and count users" : "ตรวจสอบการตั้งค่าและการนับจำนวนผู้ใช้",

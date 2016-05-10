@@ -94,7 +94,6 @@
     "Test Base DN" : "Testo DN Bazë",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Shmang kërkesa LDAP automatike. Më e përshtatshme për instalime më të mëdha, por lyp ca dije rreth LDAP-it.",
     "Manually enter LDAP filters (recommended for large directories)" : "Jepni filtra LDAP dorazi (e këshilluar për drejtori të mëdha)",
-    "Limit %s access to users meeting these criteria:" : "Kufizo hyrje %s vetëm për përdorues që plotësojnë këtë kusht:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Klasat më të rëndomta objektesh për përdoruesit janë organizationalPerson, person, user, dhe inetOrgPerson. Nëse s’jeni i sigurt cilën klasë objekti të përzgjidhni, ju lutemi, lidhuni me përgjegjësin e drejtorisë suaj.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Filtri përcakton se cilët përdorues LDAP do të kenë hyrje te instanca %s.",
     "Verify settings and count users" : "Verifiko rregullimet dhe numëro përdoruesit",

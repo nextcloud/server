@@ -1,6 +1,11 @@
 OC.L10N.register(
     "systemtags",
     {
+    "Tags" : "Značky",
+    "Tagged files" : "Otagované soubory",
+    "Select tags to filter by" : "Vybrat tagy pro filtr",
+    "Please select tags to filter by" : "Vyberte prosím tagy pro filtrování",
+    "No files found for the selected tags" : "Nebyly nalezeny žádné soubory s vybranými tagy",
     "<strong>System tags</strong> for a file have been modified" : "<strong>Systémové tagy</strong> souboru byly upraveny",
     "You assigned system tag %3$s" : "Přidělili jste systémový tag %3$s",
     "%1$s assigned system tag %3$s" : "%1$s přiřadil systémový tag %3$s",
@@ -18,11 +23,6 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s odebral systémový tag %3$s ze %2$s",
     "%s (not-assignable)" : "%s (nepřiřaditelný)",
     "%s (invisible)" : "%s (neviditelný)",
-    "Tags" : "Značky",
-    "Tagged files" : "Otagované soubory",
-    "Select tags to filter by" : "Vybrat tagy pro filtr",
-    "Please select tags to filter by" : "Vyberte prosím tagy pro filtrování",
-    "No files found for the selected tags" : "Nebyly nalezeny žádné soubory s vybranými tagy",
     "No files in here" : "Žádné soubory",
     "No entries found in this folder" : "V této složce nebylo nic nalezeno",
     "Name" : "Název",

@@ -1,6 +1,11 @@
 OC.L10N.register(
     "systemtags",
     {
+    "Tags" : "Tags",
+    "Tagged files" : "Tagged files",
+    "Select tags to filter by" : "Select tags to filter by",
+    "Please select tags to filter by" : "Please select tags to filter by",
+    "No files found for the selected tags" : "No files found for the selected tags",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System tags</strong> for a file have been modified",
     "You assigned system tag %3$s" : "You assigned system tag %3$s",
     "%1$s assigned system tag %3$s" : "%1$s assigned system tag %3$s",
@@ -18,11 +23,6 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s unassigned system tag %3$s from %2$s",
     "%s (not-assignable)" : "%s (not-assignable)",
     "%s (invisible)" : "%s (invisible)",
-    "Tags" : "Tags",
-    "Tagged files" : "Tagged files",
-    "Select tags to filter by" : "Select tags to filter by",
-    "Please select tags to filter by" : "Please select tags to filter by",
-    "No files found for the selected tags" : "No files found for the selected tags",
     "No files in here" : "No files in here",
     "No entries found in this folder" : "No entries found in this folder",
     "Name" : "Name",

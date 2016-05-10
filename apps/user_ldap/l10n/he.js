@@ -95,7 +95,6 @@ OC.L10N.register(
     "Test Base DN" : "בדיקת DN בסיסי",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "נמנע מבקשות אוטומטיות של LDAP. מועדף עבור התקנות גדולות, אבל מחייב ידע מסויים של LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "הכנסת מסנני LDAP ידנית (מומלץ עבוק תיקיות גדולות)",
-    "Limit %s access to users meeting these criteria:" : "מגביל כניסות %s למשתמשים אשר עומדים בתנאים אלו:",
     "The filter specifies which LDAP users shall have access to the %s instance." : "הסינון קובע לאיזו משתמשי LDAP תהיה יכולת כניסה למקרה %s.",
     "Verify settings and count users" : "מאמת הגדרות וסופר משתמשים",
     "Saving" : "שמירה",

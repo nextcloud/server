@@ -73,7 +73,6 @@ OC.L10N.register(
     "You can specify Base DN for users and groups in the Advanced tab" : "Bazę DN można określić dla użytkowników i grup w karcie Zaawansowane",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Zapobiega automatycznym zapytaniom LDAP. Lepsze dla większych instalacji, lecz wymaga pewnej wiedzy o LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Ręcznie wprowadzaj filtry LDAP (zalecane dla dużych katalogów)",
-    "Limit %s access to users meeting these criteria:" : "Limit %s dostępu do podłączania użytkowników z tymi ustawieniami:",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Filtr określa, którzy użytkownicy LDAP powinni mieć dostęp do instancji %s.",
     "Saving" : "Zapisuję",
     "Back" : "Wróć",

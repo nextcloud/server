@@ -93,7 +93,6 @@
     "Test Base DN" : "기본 DN 시험",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "자동 LDAP 요청을 줄입니다. 대형 사이트에서 유용하지만 LDAP에 관한 지식이 필요합니다.",
     "Manually enter LDAP filters (recommended for large directories)" : "수동으로 LDAP 필터 입력(대형 사이트에 추천)",
-    "Limit %s access to users meeting these criteria:" : "다음 조건을 만족하는 사용자만 %s 접근 허용:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "일반적인 객체 클래스는 organizationalPerson, person, user, inetOrgPerson입니다. 어떤 객체 클래스를 사용해야 할 지 모르겠으면 디렉터리 서비스 관리자에게 연락하십시오.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "이 필터는 %s에 접근할 수 있는 LDAP 사용자를 설정합니다.",
     "Verify settings and count users" : "설정을 확인하고 사용자 수 계산",

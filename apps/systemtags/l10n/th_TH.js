@@ -1,6 +1,11 @@
 OC.L10N.register(
     "systemtags",
     {
+    "Tags" : "ป้ายกำกับ",
+    "Tagged files" : "ไฟล์ที่ติดแท็ก",
+    "Select tags to filter by" : "เลือกแท็กเพื่อกรองโดย",
+    "Please select tags to filter by" : "กรุณาเลือกแท็กเพื่อกรองโดย",
+    "No files found for the selected tags" : "ไม่พบไฟล์แท็กที่เลือก",
     "<strong>System tags</strong> for a file have been modified" : "<strong>แท็กระบบ</strong> สำหรับไฟล์ที่ได้รับการแก้ไข",
     "You assigned system tag %3$s" : "คุณได้กำหนดแท็กระบบ %3$s แล้ว",
     "%1$s assigned system tag %3$s" : "%1$s ได้ถูกกำหนดแท็กระบบ %3$s",
@@ -18,11 +23,6 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s ไม่ได้ถูกกำหนดแท็กระบบ %3$s เป็น %2$s",
     "%s (not-assignable)" : "%s (ไม่สามารถกำหนดได้)",
     "%s (invisible)" : "%s (มองไม่เห็น)",
-    "Tags" : "ป้ายกำกับ",
-    "Tagged files" : "ไฟล์ที่ติดแท็ก",
-    "Select tags to filter by" : "เลือกแท็กเพื่อกรองโดย",
-    "Please select tags to filter by" : "กรุณาเลือกแท็กเพื่อกรองโดย",
-    "No files found for the selected tags" : "ไม่พบไฟล์แท็กที่เลือก",
     "No files in here" : "ไม่มีไฟล์ที่นี่",
     "No entries found in this folder" : "ไม่พบรายการในโฟลเดอร์นี้",
     "Name" : "ชื่อ",

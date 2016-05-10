@@ -1,6 +1,9 @@
 OC.L10N.register(
     "systemtags",
     {
+    "Tags" : "Etykiety",
+    "Tagged files" : "Otagowane pliki",
+    "No files found for the selected tags" : "Nie znaleziono plików dla wybranych etykiet",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System etykiet</strong> dla pliku został zmieniony",
     "%1$s assigned system tag %3$s" : "%1$s przypisywalny system etykiet%3$s",
     "%1$s unassigned system tag %3$s" : "%1$s nieprzypisany system etykiet%3$s",
@@ -11,9 +14,6 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s nieprzypisany system etykiet %3$s z %2$s",
     "%s (not-assignable)" : "%s (nieprzypisalny)",
     "%s (invisible)" : "%s (niewidoczny)",
-    "Tags" : "Etykiety",
-    "Tagged files" : "Otagowane pliki",
-    "No files found for the selected tags" : "Nie znaleziono plików dla wybranych etykiet",
     "No files in here" : "Brak plików",
     "No entries found in this folder" : "Brak wpisów w tym folderze",
     "Name" : "Nazwa",

@@ -1,6 +1,11 @@
 OC.L10N.register(
     "systemtags",
     {
+    "Tags" : "Címkék",
+    "Tagged files" : "Címkézett fájlok",
+    "Select tags to filter by" : "Kiválasztott címkék a szűrő által:",
+    "Please select tags to filter by" : "Kéjük, válasszon ki címkét a szűréshez:",
+    "No files found for the selected tags" : "Nem található fájl a kiválasztott címkéhez.",
     "<strong>System tags</strong> for a file have been modified" : "A fájl <strong>rendszer címkéje</strong> módosítva lett",
     "You assigned system tag %3$s" : "%3$s rendszer címke hozzárendelve",
     "%1$s assigned system tag %3$s" : "%1$s hozzárendelte ezt a rendszer címkét: %3$s",
@@ -18,11 +23,6 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s elvette ezt a rendszer címkét %3$s tőle: %2$s",
     "%s (not-assignable)" : "%s (nem hozzárendelhető)",
     "%s (invisible)" : "%s (láthatatlan)",
-    "Tags" : "Címkék",
-    "Tagged files" : "Címkézett fájlok",
-    "Select tags to filter by" : "Kiválasztott címkék a szűrő által:",
-    "Please select tags to filter by" : "Kéjük, válasszon ki címkét a szűréshez:",
-    "No files found for the selected tags" : "Nem található fájl a kiválasztott címkéhez.",
     "No files in here" : "Itt nincsenek fájlok",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a könyvtárban",
     "Name" : "Név",

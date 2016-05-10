@@ -69,7 +69,6 @@
     "Detect Base DN" : "Anteman Oinarrizko DN",
     "Test Base DN" : "Egiaztatu Oinarrizko DN",
     "Manually enter LDAP filters (recommended for large directories)" : "Eskuz sartu LDAP iragazkiak (direktorio handietarako gomendatuta)",
-    "Limit %s access to users meeting these criteria:" : "Mugatu %s sarbidea baldintza horiek betetzen dituzten erabiltzaileei.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Iragazkiak zehazten du  ze LDAP erabiltzailek izango duten sarrera %s instantziara:",
     "Verify settings and count users" : "Egiaztatu ezarpetak eta zenbatu erabiltzaileak",
     "Saving" : "Gordetzen",

@@ -1,8 +1,8 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Updated channel" : "ปรับปรุงรูปแบบการอัพเดทเรียบร้อยแล้ว",
     "{version} is available. Get more information on how to update." : "มีรุ่นใหม่ {version} สามารถใช้ได้ รับข้อมูลเพิ่มเติมเกี่ยวกับวิธีการอัพเดท",
+    "Updated channel" : "ปรับปรุงรูปแบบการอัพเดทเรียบร้อยแล้ว",
     "Updater" : "อัพเดท",
     "A new version is available: %s" : "มีรุ่นใหม่ที่สามารถใช่ได้: %s",
     "Open updater" : "เปิดตัวอัพเดท",

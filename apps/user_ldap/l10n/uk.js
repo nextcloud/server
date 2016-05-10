@@ -58,7 +58,6 @@ OC.L10N.register(
     "You can specify Base DN for users and groups in the Advanced tab" : "Ви можете задати Базовий DN для користувачів і груп на вкладинці Додатково",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Уникати автоматичні запити LDAP. Краще для великих установок, але вимагає деякого LDAP знання.",
     "Manually enter LDAP filters (recommended for large directories)" : "Вручну введіть LDAP фільтри (рекомендується для великих каталогів)",
-    "Limit %s access to users meeting these criteria:" : "Обмежити %s доступ до користувачів, що відповідають цим критеріям:",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Фільтр визначає, які користувачі LDAP повинні мати доступ до примірника %s.",
     "Saving" : "Збереження",
     "Back" : "Назад",

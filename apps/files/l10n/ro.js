@@ -39,6 +39,8 @@ OC.L10N.register(
     "Details" : "Detalii",
     "Select" : "Alege",
     "Pending" : "În așteptare",
+    "This operation is forbidden" : "Operațiunea este interzisă",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Acest director nu este disponibil, te rugăm verifică logurile sau contactează un administrator",
     "Name" : "Nume",
     "Size" : "Mărime",
     "Modified" : "Modificat",
