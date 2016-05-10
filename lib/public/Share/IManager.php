@@ -22,7 +22,6 @@
 namespace OCP\Share;
 
 use OCP\Files\Node;
-use OCP\IUser;
 
 use OCP\Share\Exceptions\ShareNotFound;
 
@@ -122,7 +121,7 @@ interface IManager {
 	 * is reflected.
 	 *
 	 * @param string $id
-	 * @param IUser|null $recipient
+	 * @param string|null $recipient userID of the recipient
 	 * @return IShare
 	 * @throws ShareNotFound
 	 * @since 9.0.0
