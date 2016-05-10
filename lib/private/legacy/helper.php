@@ -67,21 +67,6 @@ class OC_Helper {
 	}
 
 	/**
-	 * get path to preview of file
-	 * @param string $path path
-	 * @return string the url
-	 *
-	 * Returns the path to the preview of the file.
-	 */
-	public static function previewIcon($path) {
-		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_preview', ['x' => 32, 'y' => 32, 'file' => $path]);
-	}
-
-	public static function publicPreviewIcon( $path, $token ) {
-		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_public_preview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
-	}
-
-	/**
 	 * Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size
@@ -460,22 +445,6 @@ class OC_Helper {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Shortens str to maxlen by replacing characters in the middle with '...', eg.
-	 * ellipsis('a very long string with lots of useless info to make a better example', 14) becomes 'a very ...example'
-	 *
-	 * @param string $str the string
-	 * @param string $maxlen the maximum length of the result
-	 * @return string with at most maxlen characters
-	 */
-	public static function ellipsis($str, $maxlen) {
-		if (strlen($str) > $maxlen) {
-			$characters = floor($maxlen / 2);
-			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
-		}
-		return $str;
 	}
 
 	/**

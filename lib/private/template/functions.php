@@ -184,18 +184,16 @@ function mimetype_icon( $mimetype ) {
  * Returns the path to the preview of the image.
  * @param string $path path of file
  * @return link to the preview
- *
- * For further information have a look at OC_Helper::previewIcon
  */
 function preview_icon( $path ) {
-	return OC_Helper::previewIcon( $path );
+	return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_preview', ['x' => 32, 'y' => 32, 'file' => $path]);
 }
 
 /**
  * @param string $path
  */
 function publicPreview_icon ( $path, $token ) {
-	return OC_Helper::publicPreviewIcon( $path, $token );
+	return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_public_preview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
 }
 
 /**
