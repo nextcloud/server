@@ -34,6 +34,7 @@ use OC\Repair\AssetCache;
 use OC\Repair\BrokenUpdaterRepair;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
+use OC\Repair\CopyRewriteBaseToConfig;
 use OC\Repair\DropOldJobs;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
@@ -144,6 +145,7 @@ class Repair extends BasicEmitter {
 			new Collation(\OC::$server->getConfig(), $connection),
 			new SqliteAutoincrement($connection),
 			new SearchLuceneTables(),
+			new CopyRewriteBaseToConfig(\OC::$server->getConfig()),
 		];
 
 		//There is no need to delete all previews on every single update
