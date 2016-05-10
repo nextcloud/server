@@ -169,28 +169,23 @@ function execute_tests {
 		dropdb -U $DATABASEUSER $DATABASENAME || true
 	fi
 	if [ "$1" == "oci" ] ; then
-		echo "drop the database"
-		sqlplus -s -l / as sysdba <<EOF
-			drop user $DATABASENAME cascade;
-EOF
+		echo "Fire up the oracle docker"
+		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
+		DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
-		echo "create the database"
-		sqlplus -s -l / as sysdba <<EOF
-			create user $DATABASENAME identified by owncloud;
-			alter user $DATABASENAME default tablespace users
-			temporary tablespace temp
-			quota unlimited on users;
-			grant create session
-			, create table
-			, create procedure
-			, create sequence
-			, create trigger
-			, create view
-			, create synonym
-			, alter session
-			to $DATABASENAME;
-			exit;
-EOF
+		echo "Waiting for Oracle initialization ... "
+
+		# Try to connect to the OCI host via sqlplus to ensure that the connection is already running
+      		for i in {1..48}
+                do
+                        if sqlplus "autotest/owncloud@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=$DATABASEHOST)(Port=1521))(CONNECT_DATA=(SID=XE)))" < /dev/null | grep 'Connected to'; then
+                                break;
+                        fi
+                        sleep 5
+                done
+
+		DATABASEUSER=autotest
+		DATABASENAME='XE'
 	fi
 
 	# copy autoconfig
