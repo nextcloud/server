@@ -26,6 +26,7 @@ use OCA\Files\Controller\ApiController;
 use OCP\AppFramework\App;
 use \OCA\Files\Service\TagService;
 use \OCP\IContainer;
+use OCA\Files\Controller\ViewController;
 
 class Application extends App {
 	public function __construct(array $urlParams=array()) {
@@ -45,6 +46,20 @@ class Application extends App {
 				$server->getPreviewManager(),
 				$server->getShareManager(),
 				$server->getConfig()
+			);
+		});
+
+		$container->registerService('ViewController', function (IContainer $c) use ($server) {
+			return new ViewController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$server->getURLGenerator(),
+				$server->getNavigationManager(),
+				$c->query('L10N'),
+				$server->getConfig(),
+				$server->getEventDispatcher(),
+				$server->getUserSession(),
+				$server->getUserFolder()
 			);
 		});
 

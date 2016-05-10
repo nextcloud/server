@@ -119,27 +119,9 @@ class MailNotifications {
 				}
 			}
 
-			// Link to folder, or root folder if a file
-
-			if ($itemType === 'folder') {
-				$args = array(
-					'dir' => $filename,
-				);
-			} else if (strpos($filename, '/')) {
-				$args = array(
-					'dir' => '/' . dirname($filename),
-					'scrollto' => basename($filename),
-				);
-			} else {
-				$args = array(
-					'dir' => '/',
-					'scrollto' => $filename,
-				);
-			}
-
 			$link = $this->urlGenerator->linkToRouteAbsolute(
-				'files.view.index',
-				$args
+				'files.viewcontroller.showFile',
+				['fileId' => $items[0]['item_source']]
 			);
 
 			list($htmlBody, $textBody) = $this->createMailBody($filename, $link, $expiration, 'internal');

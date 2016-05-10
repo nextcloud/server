@@ -1362,19 +1362,20 @@
 			return parseInt(this.$el.find('#permissions').val(), 10);
 		},
 		/**
-		 * @brief Changes the current directory and reload the file list.
-		 * @param targetDir target directory (non URL encoded)
-		 * @param changeUrl false if the URL must not be changed (defaults to true)
-		 * @param {boolean} force set to true to force changing directory
+		 * Changes the current directory and reload the file list.
+		 * @param {string} targetDir target directory (non URL encoded)
+		 * @param {boolean} [changeUrl=true] if the URL must not be changed (defaults to true)
+		 * @param {boolean} [force=false] set to true to force changing directory
+		 * @param {string} [fileId] optional file id, if known, to be appended in the URL
 		 */
-		changeDirectory: function(targetDir, changeUrl, force) {
+		changeDirectory: function(targetDir, changeUrl, force, fileId) {
 			var self = this;
 			var currentDir = this.getCurrentDirectory();
 			targetDir = targetDir || '/';
 			if (!force && currentDir === targetDir) {
 				return;
 			}
-			this._setCurrentDir(targetDir, changeUrl);
+			this._setCurrentDir(targetDir, changeUrl, fileId);
 			this.reload().then(function(success){
 				if (!success) {
 					self.changeDirectory(currentDir, true);
@@ -1389,8 +1390,9 @@
 		 * Sets the current directory name and updates the breadcrumb.
 		 * @param targetDir directory to display
 		 * @param changeUrl true to also update the URL, false otherwise (default)
+		 * @param {string} [fileId] file id
 		 */
-		_setCurrentDir: function(targetDir, changeUrl) {
+		_setCurrentDir: function(targetDir, changeUrl, fileId) {
 			targetDir = targetDir.replace(/\\/g, '/');
 			var previousDir = this.getCurrentDirectory(),
 				baseDir = OC.basename(targetDir);
@@ -1408,10 +1410,14 @@
 			this.$el.find('#dir').val(targetDir);
 
 			if (changeUrl !== false) {
-				this.$el.trigger(jQuery.Event('changeDirectory', {
+				var params = {
 					dir: targetDir,
 					previousDir: previousDir
-				}));
+				};
+				if (fileId) {
+					params.fileId = fileId;
+				}
+				this.$el.trigger(jQuery.Event('changeDirectory', params));
 			}
 			this.breadcrumb.setDirectory(this.getCurrentDirectory());
 		},
@@ -1557,6 +1563,18 @@
 
 			result.sort(this._sortComparator);
 			this.setFiles(result);
+
+			if (this.dirInfo) {
+				var newFileId = this.dirInfo.id;
+				// update fileid in URL
+				var params = {
+					dir: this.getCurrentDirectory()
+				};
+				if (newFileId) {
+					params.fileId = newFileId;
+				}
+				this.$el.trigger(jQuery.Event('afterChangeDirectory', params));
+			}
 			return true;
 		},
 

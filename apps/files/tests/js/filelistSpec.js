@@ -1358,6 +1358,15 @@ describe('OCA.Files.FileList tests', function() {
 			expect(handler.calledOnce).toEqual(true);
 			expect(handler.getCall(0).args[0].dir).toEqual('/somedir');
 		});
+		it('triggers "afterChangeDirectory" event with fileid after changing directory', function() {
+			var handler = sinon.stub();
+			$('#app-content-files').on('afterChangeDirectory', handler);
+			fileList.changeDirectory('/somedir');
+			deferredList.resolve(200, [testRoot].concat(testFiles));
+			expect(handler.calledOnce).toEqual(true);
+			expect(handler.getCall(0).args[0].dir).toEqual('/somedir');
+			expect(handler.getCall(0).args[0].fileId).toEqual(99);
+		});
 		it('changes the directory when receiving "urlChanged" event', function() {
 			$('#app-content-files').trigger(new $.Event('urlChanged', {view: 'files', dir: '/somedir'}));
 			expect(fileList.getCurrentDirectory()).toEqual('/somedir');
