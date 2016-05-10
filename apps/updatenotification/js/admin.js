@@ -44,9 +44,9 @@ $(document).ready(function(){
 		var newChannel = $('#release-channel').find(":selected").val();
 
 		if (newChannel === 'git' || newChannel === 'daily') {
-			$('#oca_updatenotification_groups').addClass('hidden');
+			$('#oca_updatenotification_groups em').removeClass('hidden');
 		} else {
-			$('#oca_updatenotification_groups').removeClass('hidden');
+			$('#oca_updatenotification_groups em').addClass('hidden');
 		}
 
 		$.post(
