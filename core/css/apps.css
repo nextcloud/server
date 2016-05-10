@@ -356,16 +356,10 @@
 
 	/* list of options for an entry */
 	#app-navigation .app-navigation-entry-menu ul {
-		display: block !important;
-	}
-
-	#app-navigation .app-navigation-entry-menu li {
-		float: left;
-		width: 38px !important;
+		display: flex !important;
 	}
 
 		#app-navigation .app-navigation-entry-menu li button {
-			float: right;
 			width: 36px !important;
 			height: 36px;
 			line-height: 36px;
