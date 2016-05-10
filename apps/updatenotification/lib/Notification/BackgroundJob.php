@@ -30,6 +30,7 @@ use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IGroup;
 use OCP\IGroupManager;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\Notification\IManager;
 
@@ -50,6 +51,9 @@ class BackgroundJob extends TimedJob {
 	/** @var IClientService */
 	protected $client;
 
+	/** @var IURLGenerator */
+	protected $urlGenerator;
+
 	/** @var IUser[] */
 	protected $users;
 
@@ -61,8 +65,9 @@ class BackgroundJob extends TimedJob {
 	 * @param IGroupManager $groupManager
 	 * @param IAppManager $appManager
 	 * @param IClientService $client
+	 * @param IURLGenerator $urlGenerator
 	 */
-	public function __construct(IConfig $config, IManager $notificationManager, IGroupManager $groupManager, IAppManager $appManager, IClientService $client) {
+	public function __construct(IConfig $config, IManager $notificationManager, IGroupManager $groupManager, IAppManager $appManager, IClientService $client, IURLGenerator $urlGenerator) {
 		// Run once a day
 		$this->setInterval(60 * 60 * 24);
 
@@ -71,6 +76,7 @@ class BackgroundJob extends TimedJob {
 		$this->groupManager = $groupManager;
 		$this->appManager = $appManager;
 		$this->client = $client;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	protected function run($argument) {
@@ -91,7 +97,8 @@ class BackgroundJob extends TimedJob {
 
 		$status = $updater->check();
 		if (isset($status['version'])) {
-			$this->createNotifications('core', $status['version']);
+			$url = $this->urlGenerator->linkToRouteAbsolute('settings_admin') . '#updater';
+			$this->createNotifications('core', $status['version'], $url);
 		}
 	}
 
@@ -103,7 +110,8 @@ class BackgroundJob extends TimedJob {
 		foreach ($apps as $app) {
 			$update = $this->isUpdateAvailable($app);
 			if ($update !== false) {
-				$this->createNotifications($app, $update);
+				$url = $this->urlGenerator->linkToRouteAbsolute('settings.AppSettings.viewApps') . '#app-' . $app;
+				$this->createNotifications($app, $update, $url);
 			}
 		}
 	}
@@ -113,8 +121,9 @@ class BackgroundJob extends TimedJob {
 	 *
 	 * @param string $app
 	 * @param string $version
+	 * @param string $url
 	 */
-	protected function createNotifications($app, $version) {
+	protected function createNotifications($app, $version, $url) {
 		$lastNotification = $this->config->getAppValue('updatenotification', $app, false);
 		if ($lastNotification === $version) {
 			// We already notified about this update
@@ -129,7 +138,8 @@ class BackgroundJob extends TimedJob {
 		$notification->setApp('updatenotification')
 			->setDateTime(new \DateTime())
 			->setObject($app, $version)
-			->setSubject('update_available');
+			->setSubject('update_available')
+			->setLink($url);
 
 		foreach ($this->getUsersToNotify() as $uid) {
 			$notification->setUser($uid);
