@@ -71,14 +71,14 @@ class Notifications extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
-	 * @param int $id		the comment ID
+	 * @param string $id		the comment ID
 	 * @return Response
 	 */
 	public function view($id) {
 		try {
 			$comment = $this->commentsManager->get($id);
 			if($comment->getObjectType() !== 'files') {
-				return new Response();
+				return new NotFoundResponse();
 			}
 			$files = $this->folder->getById($comment->getObjectId());
 			if(count($files) === 0) {
@@ -99,7 +99,7 @@ class Notifications extends Controller {
 
 			return new RedirectResponse($url);
 		} catch (\Exception $e) {
-			return new Response();
+			return new NotFoundResponse();
 		}
 	}
 
