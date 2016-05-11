@@ -174,6 +174,6 @@ class SystemTagsByIdCollection implements ICollection {
 	 * @return SystemTagNode
 	 */
 	private function makeNode(ISystemTag $tag) {
-		return new SystemTagNode($tag, $this->userSession->getUser(), $this->tagManager);
+		return new SystemTagNode($tag, $this->userSession->getUser(), $this->isAdmin(), $this->tagManager);
 	}
 }

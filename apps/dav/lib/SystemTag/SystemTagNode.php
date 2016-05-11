@@ -57,15 +57,24 @@ class SystemTagNode implements \Sabre\DAV\INode {
 	protected $user;
 
 	/**
+	 * Whether to allow permissions for admins
+	 *
+	 * @var bool
+	 */
+	protected $isAdmin;
+
+	/**
 	 * Sets up the node, expects a full path name
 	 *
 	 * @param ISystemTag $tag system tag
 	 * @param IUser $user user
+	 * @param bool $isAdmin whether to allow operations for admins
 	 * @param ISystemTagManager $tagManager tag manager
 	 */
-	public function __construct(ISystemTag $tag, IUser $user, ISystemTagManager $tagManager) {
+	public function __construct(ISystemTag $tag, IUser $user, $isAdmin, ISystemTagManager $tagManager) {
 		$this->tag = $tag;
 		$this->user = $user;
+		$this->isAdmin = $isAdmin;
 		$this->tagManager = $tagManager;
 	}
 
@@ -117,13 +126,14 @@ class SystemTagNode implements \Sabre\DAV\INode {
 				throw new Forbidden('No permission to update tag ' . $this->tag->getId());
 			}
 
-			// FIXME: admin should be able to change permissions still
-
-			// only renaming is allowed for regular users
-			if ($userVisible !== $this->tag->isUserVisible()
-				|| $userAssignable !== $this->tag->isUserAssignable()
-			) {
-				throw new Forbidden('No permission to update permissions for tag ' . $this->tag->getId());
+			// only admin is able to change permissions, regular users can only rename
+			if (!$this->isAdmin) {
+				// only renaming is allowed for regular users
+				if ($userVisible !== $this->tag->isUserVisible()
+					|| $userAssignable !== $this->tag->isUserAssignable()
+				) {
+					throw new Forbidden('No permission to update permissions for tag ' . $this->tag->getId());
+				}
 			}
 
 			$this->tagManager->updateTag($this->tag->getId(), $name, $userVisible, $userAssignable);
