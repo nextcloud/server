@@ -53,6 +53,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	const DISPLAYNAME_PROPERTYNAME = '{http://owncloud.org/ns}display-name';
 	const USERVISIBLE_PROPERTYNAME = '{http://owncloud.org/ns}user-visible';
 	const USERASSIGNABLE_PROPERTYNAME = '{http://owncloud.org/ns}user-assignable';
+	const CANASSIGN_PROPERTYNAME = '{http://owncloud.org/ns}can-assign';
 
 	/**
 	 * @var \Sabre\DAV\Server $server
@@ -206,7 +207,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		PropFind $propFind,
 		\Sabre\DAV\INode $node
 	) {
-		if (!($node instanceof SystemTagNode)) {
+		if (!($node instanceof SystemTagNode) && !($node instanceof SystemTagMappingNode)) {
 			return;
 		}
 
@@ -223,7 +224,13 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		});
 
 		$propFind->handle(self::USERASSIGNABLE_PROPERTYNAME, function() use ($node) {
+			// this is the tag's inherent property "is user assignable"
 			return $node->getSystemTag()->isUserAssignable() ? 'true' : 'false';
+		});
+
+		$propFind->handle(self::CANASSIGN_PROPERTYNAME, function() use ($node) {
+			// this is the effective permission for the current user
+			return $this->tagManager->canUserAssignTag($node->getSystemTag(), $this->userSession->getUser()) ? 'true' : 'false';
 		});
 	}
 

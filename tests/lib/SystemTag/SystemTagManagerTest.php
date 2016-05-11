@@ -493,6 +493,7 @@ class SystemTagManagerTest extends TestCase {
 			->will($this->returnValue($isAdmin));
 		$this->groupManager->expects($this->any())
 			->method('getUserGroupIds')
+			->with($user)
 			->will($this->returnValue($userGroupIds));
 
 		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1, $user));
