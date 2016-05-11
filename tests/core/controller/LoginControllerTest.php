@@ -299,8 +299,8 @@ class LoginControllerTest extends TestCase {
 			->method('createSessionToken')
 			->with($this->request, $user->getUID(), $password);
 		$this->urlGenerator->expects($this->once())
-			->method('linkTo')
-			->with('files', 'index')
+			->method('linkToRoute')
+			->with('files.view.index')
 			->will($this->returnValue($indexPageUrl));
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);

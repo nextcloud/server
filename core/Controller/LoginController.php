@@ -194,7 +194,7 @@ class LoginController extends Controller {
 				return new RedirectResponse($location);
 			}
 		}
-		return new RedirectResponse($this->urlGenerator->linkTo('files', 'index'));
+		return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
 	}
 
 }
