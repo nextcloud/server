@@ -65,7 +65,7 @@ class Listener {
 			return;
 		}
 
-		$ok = preg_match_all('/\B@[a-z0-9_-]+/i', $comment->getMessage(), $mentions);
+		$ok = preg_match_all('/\B@[a-z0-9_\-@\.\']+/i', $comment->getMessage(), $mentions);
 		if(!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
 			return;
 		}
