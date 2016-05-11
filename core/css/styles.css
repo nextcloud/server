@@ -31,6 +31,12 @@ body {
 	background-size: cover;
 }
 
+.two-factor-provider {
+	text-align: center;
+	width: 100%;
+	display: inline-block;
+}
+
 .float-spinner {
 	height: 32px;
 	display: none;

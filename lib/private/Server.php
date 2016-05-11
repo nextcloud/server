@@ -275,6 +275,11 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $userSession;
 		});
+
+		$this->registerService('\OC\Authentication\TwoFactorAuth\Manager', function (Server $c) {
+			return new \OC\Authentication\TwoFactorAuth\Manager($c->getAppManager(), $c->getSession());
+		});
+
 		$this->registerService('NavigationManager', function ($c) {
 			return new \OC\NavigationManager();
 		});
@@ -852,6 +857,13 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function setSession(\OCP\ISession $session) {
 		return $this->query('UserSession')->setSession($session);
+	}
+
+	/**
+	 * @return \OC\Authentication\TwoFactorAuth\Manager
+	 */
+	public function getTwoFactorAuthManager() {
+		return $this->query('\OC\Authentication\TwoFactorAuth\Manager');
 	}
 
 	/**

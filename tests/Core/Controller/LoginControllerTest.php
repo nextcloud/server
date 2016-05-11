@@ -21,6 +21,7 @@
 
 namespace Tests\Core\Controller;
 
+use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -47,6 +48,8 @@ class LoginControllerTest extends TestCase {
 	private $userSession;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var Manager */
+	private $twoFactorManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -58,6 +61,9 @@ class LoginControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->urlGenerator = $this->getMock('\\OCP\\IURLGenerator');
+		$this->twoFactorManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->loginController = new LoginController(
 			'core',
@@ -66,7 +72,8 @@ class LoginControllerTest extends TestCase {
 			$this->config,
 			$this->session,
 			$this->userSession,
-			$this->urlGenerator
+			$this->urlGenerator,
+			$this->twoFactorManager
 		);
 	}
 
@@ -299,6 +306,10 @@ class LoginControllerTest extends TestCase {
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
 			->with($this->request, $user->getUID(), $password);
+		$this->twoFactorManager->expects($this->once())
+			->method('isTwoFactorAuthenticated')
+			->with($user)
+			->will($this->returnValue(false));
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('files.view.index')
@@ -335,6 +346,33 @@ class LoginControllerTest extends TestCase {
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse(urldecode($redirectUrl));
 		$this->assertEquals($expected, $this->loginController->tryLogin($user->getUID(), $password, $originalUrl));
+	}
+	
+	public function testLoginWithTwoFactorEnforced() {
+		$user = $this->getMock('\OCP\IUser');
+		$password = 'secret';
+		$challengeUrl = 'challenge/url';
+
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->will($this->returnValue($user));
+		$this->userSession->expects($this->once())
+			->method('createSessionToken')
+			->with($this->request, $user->getUID(), $password);
+		$this->twoFactorManager->expects($this->once())
+			->method('isTwoFactorAuthenticated')
+			->with($user)
+			->will($this->returnValue(true));
+		$this->twoFactorManager->expects($this->once())
+			->method('prepareTwoFactorLogin')
+			->with($user);
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('core.TwoFactorChallenge.selectChallenge')
+			->will($this->returnValue($challengeUrl));
+
+		$expected = new \OCP\AppFramework\Http\RedirectResponse($challengeUrl);
+		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
 	}
 
 }

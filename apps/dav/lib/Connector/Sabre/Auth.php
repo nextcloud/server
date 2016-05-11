@@ -103,6 +103,7 @@ class Auth extends AbstractBasic {
 			return true;
 		} else {
 			\OC_Util::setUpFS(); //login hooks may need early access to the filesystem
+			// TODO: do not allow basic auth if the user is 2FA enforced
 			if($this->userSession->login($username, $password)) {
 				$this->userSession->createSessionToken($this->request, $username, $password);
 				\OC_Util::setUpFS($this->userSession->getUser()->getUID());
