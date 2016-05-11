@@ -53,6 +53,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 	const DISPLAYNAME_PROPERTYNAME = '{http://owncloud.org/ns}display-name';
 	const USERVISIBLE_PROPERTYNAME = '{http://owncloud.org/ns}user-visible';
 	const USERASSIGNABLE_PROPERTYNAME = '{http://owncloud.org/ns}user-assignable';
+	const GROUPS_PROPERTYNAME = '{http://owncloud.org/ns}groups';
 	const CANASSIGN_PROPERTYNAME = '{http://owncloud.org/ns}can-assign';
 
 	/**
@@ -183,14 +184,23 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$userAssignable = (bool)$data['userAssignable'];
 		}
 
-		if($userVisible === false || $userAssignable === false) {
+		$groups = [];
+		if (isset($data['groups'])) {
+			$groups = $data['groups'];
+		}
+
+		if($userVisible === false || $userAssignable === false || !empty($groups)) {
 			if(!$this->userSession->isLoggedIn() || !$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
 				throw new BadRequest('Not sufficient permissions');
 			}
 		}
 
 		try {
-			return $this->tagManager->createTag($tagName, $userVisible, $userAssignable);
+			$tag = $this->tagManager->createTag($tagName, $userVisible, $userAssignable);
+			if (!empty($groups)) {
+				$this->tagManager->setTagGroups($tag, $groups);
+			}
+			return $tag;
 		} catch (TagAlreadyExistsException $e) {
 			throw new Conflict('Tag already exists', 0, $e);
 		}
@@ -232,6 +242,17 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			// this is the effective permission for the current user
 			return $this->tagManager->canUserAssignTag($node->getSystemTag(), $this->userSession->getUser()) ? 'true' : 'false';
 		});
+
+		if ($this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
+			$propFind->handle(self::GROUPS_PROPERTYNAME, function() use ($node) {
+				$groups = [];
+				// no need to retrieve groups for namespaces that don't qualify
+				if ($node->getSystemTag()->isUserVisible() && !$node->getSystemTag()->isUserAssignable()) {
+					$groups = $this->tagManager->getTagGroups($node->getSystemTag());
+				}
+				return implode('|', $groups);
+			});
+		}
 	}
 
 	/**
@@ -247,6 +268,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			self::DISPLAYNAME_PROPERTYNAME,
 			self::USERVISIBLE_PROPERTYNAME,
 			self::USERASSIGNABLE_PROPERTYNAME,
+			self::GROUPS_PROPERTYNAME,
 		], function($props) use ($path) {
 			$node = $this->server->tree->getNodeForPath($path);
 			if (!($node instanceof SystemTagNode)) {
@@ -258,22 +280,35 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			$userVisible = $tag->isUserVisible();
 			$userAssignable = $tag->isUserAssignable();
 
+			$updateTag = false;
+
 			if (isset($props[self::DISPLAYNAME_PROPERTYNAME])) {
 				$name = $props[self::DISPLAYNAME_PROPERTYNAME];
+				$updateTag = true;
 			}
 
 			if (isset($props[self::USERVISIBLE_PROPERTYNAME])) {
 				$propValue = $props[self::USERVISIBLE_PROPERTYNAME];
 				$userVisible = ($propValue !== 'false' && $propValue !== '0');
+				$updateTag = true;
 			}
 
 			if (isset($props[self::USERASSIGNABLE_PROPERTYNAME])) {
 				$propValue = $props[self::USERASSIGNABLE_PROPERTYNAME];
 				$userAssignable = ($propValue !== 'false' && $propValue !== '0');
+				$updateTag = true;
 			}
 
-			$node->update($name, $userVisible, $userAssignable);
-			return true;
+			if ($updateTag) {
+				$node->update($name, $userVisible, $userAssignable);
+			}
+
+			if (isset($props[self::GROUPS_PROPERTYNAME])) {
+				$propValue = $props[self::GROUPS_PROPERTYNAME];
+				$groupIds = explode('|', $propValue);
+				$this->tagManager->setTagGroups($tag, $groupIds);
+			}
 		});
+
 	}
 }
