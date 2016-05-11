@@ -72,9 +72,9 @@ class Notifier implements INotifier {
 			$commenter = $this->userManager->get($comment->getActorId());
 			if(!is_null($commenter)) {
 				$displayName = $commenter->getDisplayName();
-			} else {
-				$displayName = $l->t('an unknown user');
 			}
+		} else if($comment->getActorType() === ICommentsManager::DELETED_USER) {
+			$displayName = $l->t('a now deleted user');
 		}
 		switch($notification->getSubject()) {
 			case 'mention':

@@ -69,8 +69,20 @@ class Listener {
 		if(!$ok || !isset($mentions[0]) || !is_array($mentions[0])) {
 			return;
 		}
+		$mentions = array_unique($mentions[0]);
 
-		foreach($mentions[0] as $mention) {
+		$notification = $this->notificationManager->createNotification();
+		$notification
+			->setApp('comments')
+			->setObject('comment', $comment->getId())
+			->setSubject('mention', [ $comment->getObjectType(), $comment->getObjectId() ])
+			->setDateTime($comment->getCreationDateTime())
+			->setLink($this->urlGenerator->linkToRouteAbsolute(
+				'comments.Notifications.view',
+				['id' => $comment->getId()])
+			);
+
+		foreach($mentions as $mention) {
 			$user = substr($mention, 1); // @username → username
 			if( ($comment->getActorType() === 'users' && $user === $comment->getActorId())
 				|| !$this->userManager->userExists($user)
@@ -78,18 +90,8 @@ class Listener {
 				// do not notify unknown users or yourself
 				continue;
 			}
-			$notification = $this->notificationManager->createNotification();
-			$notification
-				->setApp('comments')
-				->setUser($user)
-				->setObject('comment', $comment->getId())
-				->setSubject('mention', [ $comment->getObjectType(), $comment->getObjectId() ])
-				->setDateTime($comment->getCreationDateTime())
-				->setLink($this->urlGenerator->linkToRouteAbsolute(
-					'comments.Notifications.view',
-					['id' => $comment->getId()])
-				);
 
+			$notification->setUser($user);
 			$this->notificationManager->notify($notification);
 		}
 	}

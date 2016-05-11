@@ -77,6 +77,7 @@ $notificationManager->registerNotifier(
 		);
 	},
 	function () {
-		return ['id' => 'comments', 'name' => 'Comments'];
+		$l = \OC::$server->getL10N('comments');
+		return ['id' => 'comments', 'name' => $l->t('Comments')];
 	}
 );
