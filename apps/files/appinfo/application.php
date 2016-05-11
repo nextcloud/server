@@ -59,7 +59,8 @@ class Application extends App {
 				$server->getConfig(),
 				$server->getEventDispatcher(),
 				$server->getUserSession(),
-				$server->getUserFolder()
+				$server->getAppManager(),
+				$server->getRootFolder()
 			);
 		});
 

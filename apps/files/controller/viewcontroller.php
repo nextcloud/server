@@ -39,6 +39,7 @@ use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\Folder;
+use OCP\App\IAppManager;
 
 /**
  * Class ViewController
@@ -62,8 +63,10 @@ class ViewController extends Controller {
 	protected $eventDispatcher;
 	/** @var IUserSession */
 	protected $userSession;
+	/** @var IAppManager */
+	protected $appManager;
 	/** @var \OCP\Files\Folder */
-	protected $userFolder;
+	protected $rootFolder;
 
 	/**
 	 * @param string $appName
@@ -74,7 +77,8 @@ class ViewController extends Controller {
 	 * @param IConfig $config
 	 * @param EventDispatcherInterface $eventDispatcherInterface
 	 * @param IUserSession $userSession
-	 * @param Folder $userFolder
+	 * @param IAppManager $appManager
+	 * @param Folder $rootFolder
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -84,7 +88,8 @@ class ViewController extends Controller {
 								IConfig $config,
 								EventDispatcherInterface $eventDispatcherInterface,
 								IUserSession $userSession,
-								Folder $userFolder
+								IAppManager $appManager,
+								Folder $rootFolder
 	) {
 		parent::__construct($appName, $request);
 		$this->appName = $appName;
@@ -95,7 +100,8 @@ class ViewController extends Controller {
 		$this->config = $config;
 		$this->eventDispatcher = $eventDispatcherInterface;
 		$this->userSession = $userSession;
-		$this->userFolder = $userFolder;
+		$this->appManager = $appManager;
+		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -265,21 +271,33 @@ class ViewController extends Controller {
 	 * @NoAdminRequired
 	 */
 	public function showFile($fileId) {
-		$files = $this->userFolder->getById($fileId);
-		$params = [];
+		try {
+			$uid = $this->userSession->getUser()->getUID();
+			$baseFolder = $this->rootFolder->get($uid . '/files/');
+			$files = $baseFolder->getById($fileId);
+			$params = [];
 
-		if (!empty($files)) {
-			$file = current($files);
-			if ($file instanceof Folder) {
-				// set the full path to enter the folder
-				$params['dir'] = $this->userFolder->getRelativePath($file->getPath());
-			} else {
-				// set parent path as dir
-				$params['dir'] = $this->userFolder->getRelativePath($file->getParent()->getPath());
-				// and scroll to the entry
-				$params['scrollto'] = $file->getName();
+			if (empty($files) && $this->appManager->isEnabledForUser('files_trashbin')) {
+				$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
+				$files = $baseFolder->getById($fileId);
+				$params['view'] = 'trashbin';
 			}
-			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
+
+			if (!empty($files)) {
+				$file = current($files);
+				if ($file instanceof Folder) {
+					// set the full path to enter the folder
+					$params['dir'] = $baseFolder->getRelativePath($file->getPath());
+				} else {
+					// set parent path as dir
+					$params['dir'] = $baseFolder->getRelativePath($file->getParent()->getPath());
+					// and scroll to the entry
+					$params['scrollto'] = $file->getName();
+				}
+				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
+			}
+		} catch (\OCP\Files\NotFoundException $e) {
+			return new NotFoundResponse();
 		}
 		return new NotFoundResponse();
 	}
