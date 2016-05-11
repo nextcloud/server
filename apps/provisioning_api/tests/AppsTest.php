@@ -25,6 +25,8 @@
  */
 
 namespace OCA\Provisioning_API\Tests;
+
+
 use OC\OCSClient;
 use OCA\Provisioning_API\Apps;
 use OCP\API;
@@ -45,16 +47,19 @@ class AppsTest extends TestCase {
 	private $api;
 	/** @var IUserSession */
 	private $userSession;
-	/** @var OCSClient */
+	/** @var OCSClient|\PHPUnit_Framework_MockObject_MockObject */
 	private $ocsClient;
 
-	public function setup() {
-		parent::setup();
+	protected function setUp() {
+		parent::setUp();
+
 		$this->appManager = \OC::$server->getAppManager();
 		$this->groupManager = \OC::$server->getGroupManager();
 		$this->userSession = \OC::$server->getUserSession();
-		$this->ocsClient = $this->getMockBuilder('\OC\OCSClient')
-				->disableOriginalConstructor()->getMock();
+		$this->ocsClient = $this->getMockBuilder('OC\OCSClient')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->api = new Apps($this->appManager, $this->ocsClient);
 	}
 

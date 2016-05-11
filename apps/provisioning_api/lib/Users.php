@@ -43,7 +43,7 @@ class Users {
 	private $userManager;
 	/** @var IConfig */
 	private $config;
-	/** @var IGroupManager */
+	/** @var IGroupManager|\OC\Group\Manager */ // FIXME Requires a method that is not on the interface
 	private $groupManager;
 	/** @var IUserSession */
 	private $userSession;
