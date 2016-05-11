@@ -42,6 +42,7 @@ use OCP\IUser;
 class SystemTagManager implements ISystemTagManager {
 
 	const TAG_TABLE = 'systemtag';
+	const TAG_GROUP_TABLE = 'systemtag_group';
 
 	/** @var IDBConnection */
 	protected $connection;
@@ -364,5 +365,59 @@ class SystemTagManager implements ISystemTagManager {
 
 	private function createSystemTagFromRow($row) {
 		return new SystemTag((int)$row['id'], $row['name'], (bool)$row['visibility'], (bool)$row['editable']);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setTagGroups(ISystemTag $tag, $groupIds) {
+		// delete relationships first
+		$this->connection->beginTransaction();
+		try {
+			$query = $this->connection->getQueryBuilder();
+			$query->delete(self::TAG_GROUP_TABLE)
+				->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tag->getId())))
+				->execute();
+
+			// add each group id
+			$query = $this->connection->getQueryBuilder();
+			$query->insert(self::TAG_GROUP_TABLE)
+				->values([
+					'systemtagid' => $query->createNamedParameter($tag->getId()),
+					'gid' => $query->createParameter('gid'),
+				]);
+			foreach ($groupIds as $groupId) {
+				$query->setParameter('gid', $groupId);
+				$query->execute();
+			}
+
+			$this->connection->commit();
+		} catch (\Exception $e) {
+			$this->connection->rollback();
+			throw $e;
+		}
+
+		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTagGroups(ISystemTag $tag) {
+		$groupIds = [];
+		$query = $this->connection->getQueryBuilder();
+		$query->select('*')
+			->from(self::TAG_GROUP_TABLE)
+			->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tag->getId())))
+			->orderBy('gid');
+
+		$result = $query->execute();
+		while ($row = $result->fetch()) {
+			$groupIds[] = $row['gid'];
+		}
+
+		$result->closeCursor();
+
+		return $groupIds;
 	}
 }

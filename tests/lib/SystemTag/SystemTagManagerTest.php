@@ -478,6 +478,23 @@ class SystemTagManagerTest extends TestCase {
 		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1, $user));
 	}
 
+	public function testTagGroups() {
+		$tag1 = $this->tagManager->createTag('tag1', true, false);
+		$tag2 = $this->tagManager->createTag('tag2', true, false);
+		$this->tagManager->setTagGroups($tag1, ['group1', 'group2']);
+		$this->tagManager->setTagGroups($tag2, ['group2', 'group3']);
+
+		$this->assertEquals(['group1', 'group2'], $this->tagManager->getTagGroups($tag1));
+		$this->assertEquals(['group2', 'group3'], $this->tagManager->getTagGroups($tag2));
+
+		// change groups
+		$this->tagManager->setTagGroups($tag1, ['group3', 'group4']);
+		$this->tagManager->setTagGroups($tag2, []);
+
+		$this->assertEquals(['group3', 'group4'], $this->tagManager->getTagGroups($tag1));
+		$this->assertEquals([], $this->tagManager->getTagGroups($tag2));
+	}
+
 	/**
 	 * @param ISystemTag $tag1
 	 * @param ISystemTag $tag2

@@ -141,4 +141,24 @@ interface ISystemTagManager {
 	 */
 	public function canUserSeeTag(ISystemTag $tag, IUser $userId);
 
+	/**
+	 * Set groups that can assign a given tag.
+	 *
+	 * @param ISystemTag $tag tag for group assignment
+	 * @param string[] $groupIds group ids of groups that can assign/unassign the tag
+	 *
+	 * @since 9.1.0
+	 */
+	public function setTagGroups(ISystemTag $tag, $groupIds);
+
+	/**
+	 * Get groups that can assign a given tag.
+	 *
+	 * @param ISystemTag $tag tag for group assignment
+	 *
+	 * @return string[] group ids of groups that can assign/unassign the tag
+	 *
+	 * @since 9.1.0
+	 */
+	public function getTagGroups(ISystemTag $tag);
 }
