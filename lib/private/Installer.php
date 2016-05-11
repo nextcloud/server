@@ -564,7 +564,7 @@ class Installer {
 		}
 
 		//run appinfo/install.php
-		\OC::$loader->addValidRoot($appPath);
+		\OC_App::registerAutoloading($app, $appPath);
 		self::includeAppScript("$appPath/appinfo/install.php");
 
 		$info = OC_App::getAppInfo($app);
