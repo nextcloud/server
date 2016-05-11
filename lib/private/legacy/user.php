@@ -6,6 +6,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bartek Przybylski <bart.p.pl@gmail.com>
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Florian Preinstorfer <nblock@archlinux.us>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
@@ -67,7 +68,7 @@ class OC_User {
 
 	private static $_setupedBackends = array();
 
-	// bool, stores if a user want to access a resource anonymously, e.g if he opens a public link
+	// bool, stores if a user want to access a resource anonymously, e.g if they open a public link
 	private static $incognitoMode = false;
 
 	/**
@@ -148,37 +149,7 @@ class OC_User {
 	}
 
 	/**
-	 * Try to login a user
-	 *
-	 * @param string $loginName The login name of the user to log in
-	 * @param string $password The password of the user
-	 * @return boolean|null
-	 *
-	 * Log in a user and regenerate a new session - if the password is ok
-	 */
-	public static function login($loginName, $password) {
 
-		$result = self::getUserSession()->login($loginName, $password);
-		if (!$result) {
-			$users = \OC::$server->getUserManager()->getByEmail($loginName);
-			// we only allow login by email if unique
-			if (count($users) === 1) {
-				$result = self::getUserSession()->login($users[0]->getUID(), $password);
-			}
-		}
-		if ($result) {
-			// Refresh the token
-			\OC::$server->getCsrfTokenManager()->refreshToken();
-			//we need to pass the user name, which may differ from login name
-			$user = self::getUserSession()->getUser()->getUID();
-			OC_Util::setupFS($user);
-			//trigger creation of user home and /files folder
-			\OC::$server->getUserFolder($user);
-		}
-		return $result;
-	}
-
-	/**
 	 * Try to login a user using the magic cookie (remember login)
 	 *
 	 * @deprecated use \OCP\IUserSession::loginWithCookie()
@@ -280,28 +251,6 @@ class OC_User {
 			return $user->setDisplayName($displayName);
 		} else {
 			return false;
-		}
-	}
-
-	/**
-	 * Tries to login the user with HTTP Basic Authentication
-	 */
-	public static function tryBasicAuthLogin() {
-		if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
-			$result = \OC_User::login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-			if($result === true) {
-				/**
-				 * Add DAV authenticated. This should in an ideal world not be
-				 * necessary but the iOS App reads cookies from anywhere instead
-				 * only the DAV endpoint.
-				 * This makes sure that the cookies will be valid for the whole scope
-				 * @see https://github.com/owncloud/core/issues/22893
-				 */
-				\OC::$server->getSession()->set(
-					\OCA\DAV\Connector\Sabre\Auth::DAV_AUTHENTICATED,
-					\OC::$server->getUserSession()->getUser()->getUID()
-				);
-			}
 		}
 	}
 

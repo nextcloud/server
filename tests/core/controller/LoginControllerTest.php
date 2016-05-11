@@ -53,7 +53,9 @@ class LoginControllerTest extends TestCase {
 		$this->userManager = $this->getMock('\\OCP\\IUserManager');
 		$this->config = $this->getMock('\\OCP\\IConfig');
 		$this->session = $this->getMock('\\OCP\\ISession');
-		$this->userSession = $this->getMock('\\OCP\\IUserSession');
+		$this->userSession = $this->getMockBuilder('\\OC\\User\\Session')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->urlGenerator = $this->getMock('\\OCP\\IURLGenerator');
 
 		$this->loginController = new LoginController(
@@ -264,4 +266,74 @@ class LoginControllerTest extends TestCase {
 		);
 		$this->assertEquals($expectedResponse, $this->loginController->showLoginForm('0', '', ''));
 	}
+
+	public function testLoginWithInvalidCredentials() {
+		$user = $this->getMock('\OCP\IUser');
+		$password = 'secret';
+		$loginPageUrl = 'some url';
+
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->will($this->returnValue(false));
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('core.login.showLoginForm')
+			->will($this->returnValue($loginPageUrl));
+
+		$this->userSession->expects($this->never())
+			->method('createSessionToken');
+
+		$expected = new \OCP\AppFramework\Http\RedirectResponse($loginPageUrl);
+		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, ''));
+	}
+
+	public function testLoginWithValidCredentials() {
+		$user = $this->getMock('\OCP\IUser');
+		$password = 'secret';
+		$indexPageUrl = 'some url';
+
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->will($this->returnValue($user));
+		$this->userSession->expects($this->once())
+			->method('createSessionToken')
+			->with($this->request, $user->getUID(), $password);
+		$this->urlGenerator->expects($this->once())
+			->method('linkTo')
+			->with('files', 'index')
+			->will($this->returnValue($indexPageUrl));
+
+		$expected = new \OCP\AppFramework\Http\RedirectResponse($indexPageUrl);
+		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
+	}
+
+	public function testLoginWithValidCredentialsAndRedirectUrl() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('jane'));
+		$password = 'secret';
+		$originalUrl = 'another%20url';
+		$redirectUrl = 'http://localhost/another url';
+
+		$this->userManager->expects($this->once())
+			->method('checkPassword')
+			->with('jane', $password)
+			->will($this->returnValue($user));
+		$this->userSession->expects($this->once())
+			->method('createSessionToken')
+			->with($this->request, $user->getUID(), $password);
+		$this->userSession->expects($this->once())
+			->method('isLoggedIn')
+			->with()
+			->will($this->returnValue(true));
+		$this->urlGenerator->expects($this->once())
+			->method('getAbsoluteURL')
+			->with(urldecode($originalUrl))
+			->will($this->returnValue($redirectUrl));
+
+		$expected = new \OCP\AppFramework\Http\RedirectResponse(urldecode($redirectUrl));
+		$this->assertEquals($expected, $this->loginController->tryLogin($user->getUID(), $password, $originalUrl));
+	}
+
 }

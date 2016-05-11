@@ -6,6 +6,9 @@ use GuzzleHttp\Message\ResponseInterface;
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait BasicStructure {
+
+	use Auth;
+
 	/** @var string */
 	private $currentUser = '';
 
@@ -176,7 +179,7 @@ trait BasicStructure {
 	 * @param string $user
 	 */
 	public function loggingInUsingWebAs($user) {
-		$loginUrl = substr($this->baseUrl, 0, -5);
+		$loginUrl = substr($this->baseUrl, 0, -5) . '/login';
 		// Request a new session and extract CSRF token
 		$client = new Client();
 		$response = $client->get(

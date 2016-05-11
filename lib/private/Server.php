@@ -5,6 +5,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bernhard Reiter <ockham@raz.or.at>
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -208,12 +209,35 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $groupManager;
 		});
+		$this->registerService('OC\Authentication\Token\DefaultTokenMapper', function (Server $c) {
+			$dbConnection = $c->getDatabaseConnection();
+			return new Authentication\Token\DefaultTokenMapper($dbConnection);
+		});
+		$this->registerService('OC\Authentication\Token\DefaultTokenProvider', function (Server $c) {
+			$mapper = $c->query('OC\Authentication\Token\DefaultTokenMapper');
+			$crypto = $c->getCrypto();
+			$config = $c->getConfig();
+			$logger = $c->getLogger();
+			$timeFactory = new TimeFactory();
+			return new \OC\Authentication\Token\DefaultTokenProvider($mapper, $crypto, $config, $logger, $timeFactory);
+		});
 		$this->registerService('UserSession', function (Server $c) {
 			$manager = $c->getUserManager();
-
 			$session = new \OC\Session\Memory('');
-
-			$userSession = new \OC\User\Session($manager, $session);
+			$timeFactory = new TimeFactory();
+			// Token providers might require a working database. This code
+			// might however be called when ownCloud is not yet setup.
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+				$defaultTokenProvider = $c->query('OC\Authentication\Token\DefaultTokenProvider');
+				$tokenProviders = [
+					$defaultTokenProvider,
+				];
+			} else {
+				$defaultTokenProvider = null;
+				$tokenProviders = [];
+			}
+			
+			$userSession = new \OC\User\Session($manager, $session, $timeFactory, $defaultTokenProvider, $tokenProviders);
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
