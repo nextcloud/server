@@ -472,6 +472,11 @@ $CONFIG = array(
 'updatechecker' => true,
 
 /**
+ * URL that ownCloud should use to look for updates
+ */
+'updater.server.url' => 'https://updates.owncloud.com/server/',
+
+/**
  * Is ownCloud connected to the Internet or running in a closed network?
  */
 'has_internet_connection' => true,
