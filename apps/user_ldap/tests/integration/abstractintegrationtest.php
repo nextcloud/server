@@ -106,7 +106,8 @@ abstract class AbstractIntegrationTest {
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->ldap, $this->userManager);
+		$this->access = new Access($this->connection, $this->ldap, $this->userManager,
+			\OC::$server->getUserManager(), \OC::$server->getGroupManager());
 	}
 
 	/**

@@ -75,7 +75,8 @@ abstract class Proxy {
 		$userManager =
 			new user\Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image(), $db, $coreUserManager);
 		$connector = new Connection($this->ldap, $configPrefix);
-		$access = new Access($connector, $this->ldap, $userManager);
+		$access = new Access($connector, $this->ldap, $userManager,
+			\OC::$server->getUserManager(), \OC::$server->getGroupManager());
 		$access->setUserMapper($userMap);
 		$access->setGroupMapper($groupMap);
 		self::$accesses[$configPrefix] = $access;

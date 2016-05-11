@@ -50,6 +50,10 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 */
 	public $connection;
 	public $userManager;
+
+	public $ocUserManager;
+	public $ocGroupManager;
+
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
 
@@ -75,11 +79,14 @@ class Access extends LDAPUtility implements user\IUserTools {
 	protected $groupMapper;
 
 	public function __construct(Connection $connection, ILDAPWrapper $ldap,
-		user\Manager $userManager) {
+		user\Manager $userManager, \OC\User\Manager $ocUserManager,
+		\OC\Group\Manager $ocGroupManager) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
 		$this->userManager = $userManager;
 		$this->userManager->setLdapAccess($this);
+		$this->ocUserManager = $ocUserManager;
+		$this->ocGroupManager = $ocGroupManager;
 	}
 
 	/**
@@ -472,8 +479,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
-		if(($isUser && !\OC::$server->getUserManager()->userExists($intName))
-			|| (!$isUser && !\OC::$server->getGroupManager->groupExists($intName))) {
+		if(($isUser && !$this->ocUserManager->userExists($intName))
+			|| (!$isUser && !$this->ocGroupManager->groupExists($intName))) {
 			if($mapper->map($fdn, $intName, $uuid)) {
 				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
 				return $intName;

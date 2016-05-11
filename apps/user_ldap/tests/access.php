@@ -37,6 +37,10 @@ use \OCA\user_ldap\lib\ILDAPWrapper;
  * @package OCA\user_ldap\tests
  */
 class Test_Access extends \Test\TestCase {
+
+	private $ocUserManagerMock;
+	private $ocGroupManagerMock;
+
 	private function getConnectorAndLdapMock() {
 		static $conMethods;
 		static $accMethods;
@@ -63,10 +67,25 @@ class Test_Access extends \Test\TestCase {
 
 		return array($lw, $connector, $um);
 	}
+	
+	private function getOcManagers() {
+		if(is_null($this->ocUserManagerMock)) {
+			$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
+				->disableOriginalConstructor()
+				->getMock();
+		}
+		if(is_null($this->ocGroupManagerMock)) {
+			$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
+				->disableOriginalConstructor()
+				->getMock();
+		}
+		return array($this->ocUserManagerMock, $this->ocGroupManagerMock);
+	}
 
 	public function testEscapeFilterPartValidChars() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		$input = 'okay';
 		$this->assertTrue($input === $access->escapeFilterPart($input));
@@ -74,7 +93,8 @@ class Test_Access extends \Test\TestCase {
 
 	public function testEscapeFilterPartEscapeWildcard() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		$input = '*';
 		$expected = '\\\\*';
@@ -83,7 +103,8 @@ class Test_Access extends \Test\TestCase {
 
 	public function testEscapeFilterPartEscapeWildcard2() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		$input = 'foo*bar';
 		$expected = 'foo\\\\*bar';
@@ -93,7 +114,8 @@ class Test_Access extends \Test\TestCase {
 	/** @dataProvider convertSID2StrSuccessData */
 	public function testConvertSID2StrSuccess(array $sidArray, $sidExpected) {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		$sidBinary = implode('', $sidArray);
 		$this->assertSame($sidExpected, $access->convertSID2Str($sidBinary));
@@ -128,7 +150,8 @@ class Test_Access extends \Test\TestCase {
 
 	public function testConvertSID2StrInputError() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		$sidIllegal = 'foobar';
 		$sidExpected = '';
@@ -138,7 +161,8 @@ class Test_Access extends \Test\TestCase {
 
 	public function testGetDomainDNFromDNSuccess() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		$inputDN = 'uid=zaphod,cn=foobar,dc=my,dc=server,dc=com';
 		$domainDN = 'dc=my,dc=server,dc=com';
@@ -153,7 +177,8 @@ class Test_Access extends \Test\TestCase {
 
 	public function testGetDomainDNFromDNError() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		$inputDN = 'foobar';
 		$expected = '';
@@ -188,7 +213,8 @@ class Test_Access extends \Test\TestCase {
 
 	public function testStringResemblesDN() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		$cases = $this->getResemblesDNInputData();
 
@@ -209,8 +235,9 @@ class Test_Access extends \Test\TestCase {
 
 	public function testStringResemblesDNLDAPmod() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
 		$lw = new \OCA\user_ldap\lib\LDAP();
-		$access = new Access($con, $lw, $um);
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		if(!function_exists('ldap_explode_dn')) {
 			$this->markTestSkipped('LDAP Module not available');
@@ -225,7 +252,8 @@ class Test_Access extends \Test\TestCase {
 
 	public function testCacheUserHome() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 
 		$con->expects($this->once())
 			->method('writeToCache');
@@ -235,7 +263,8 @@ class Test_Access extends \Test\TestCase {
 
 	public function testBatchApplyUserAttributes() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$access = new Access($con, $lw, $um);
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 		$mapperMock = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
 			->disableOriginalConstructor()
 			->getMock();
@@ -295,7 +324,7 @@ class Test_Access extends \Test\TestCase {
 	 */
 	public function testSanitizeDN($attribute) {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
 
 		$dnFromServer = 'cn=Mixed Cases,ou=Are Sufficient To,ou=Test,dc=example,dc=org';
 
@@ -309,7 +338,7 @@ class Test_Access extends \Test\TestCase {
 				$attribute => array('count' => 1, $dnFromServer)
 			)));
 
-		$access = new Access($con, $lw, $um);
+		$access = new Access($con, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock);
 		$values = $access->readAttribute('uid=whoever,dc=example,dc=org', $attribute);
 		$this->assertSame($values[0], strtolower($dnFromServer));
 	}
