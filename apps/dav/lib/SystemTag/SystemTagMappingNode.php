@@ -24,6 +24,7 @@ namespace OCA\DAV\SystemTag;
 
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\MethodNotAllowed;
 
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -34,12 +35,11 @@ use OCP\IUser;
 /**
  * Mapping node for system tag to object id
  */
-class SystemTagMappingNode extends SystemTagNode {
-
+class SystemTagMappingNode implements \Sabre\DAV\INode {
 	/**
-	 * @var ISystemTagObjectMapper
+	 * @var ISystemTag
 	 */
-	private $tagMapper;
+	protected $tag;
 
 	/**
 	 * @var string
@@ -50,6 +50,23 @@ class SystemTagMappingNode extends SystemTagNode {
 	 * @var string
 	 */
 	private $objectType;
+
+	/**
+	 * User
+	 *
+	 * @var IUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ISystemTagManager
+	 */
+	protected $tagManager;
+
+	/**
+	 * @var ISystemTagObjectMapper
+	 */
+	private $tagMapper;
 
 	/**
 	 * Sets up the node, expects a full path name
@@ -69,10 +86,12 @@ class SystemTagMappingNode extends SystemTagNode {
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper
 	) {
+		$this->tag = $tag;
 		$this->objectId = $objectId;
 		$this->objectType = $objectType;
+		$this->user = $user;
+		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
-		parent::__construct($tag, $user, $tagManager);
 	}
 
 	/**
@@ -91,6 +110,43 @@ class SystemTagMappingNode extends SystemTagNode {
 	 */
 	public function getObjectType() {
 		return $this->objectType;
+	}
+
+	/**
+	 * Returns the system tag represented by this node
+	 *
+	 * @return ISystemTag system tag
+	 */
+	public function getSystemTag() {
+		return $this->tag;
+	}
+
+	/**
+	 *  Returns the id of the tag
+	 *
+	 * @return string
+	 */
+	public function getName() {
+		return $this->tag->getId();
+	}
+
+	/**
+	 * Renames the node
+	 *
+	 * @param string $name The new name
+	 *
+	 * @throws MethodNotAllowed not allowed to rename node
+	 */
+	public function setName($name) {
+		throw new MethodNotAllowed();
+	}
+
+	/**
+	 * Returns null, not supported
+	 *
+	 */
+	public function getLastModified() {
+		return null;
 	}
 
 	/**

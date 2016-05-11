@@ -36,6 +36,7 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\TagAlreadyExistsException;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
+use OCA\DAV\SystemTag\SystemTagMappingNode;
 
 /**
  * Sabre plugin to handle system tags:

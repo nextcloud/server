@@ -37,45 +37,50 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	 */
 	private $tagMapper;
 
+	/**
+	 * @var \OCP\IUser
+	 */
+	private $user;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
 		$this->tagMapper = $this->getMock('\OCP\SystemTag\ISystemTagObjectMapper');
+
+		$this->user = $this->getMock('\OCP\IUser');
 	}
 
-	public function getNode($isAdmin = true) {
+	public function getNode() {
 		return new \OCA\DAV\SystemTag\SystemTagsObjectMappingCollection (
 			111,
 			'files',
-			$isAdmin,
+			$this->user,
 			$this->tagManager,
 			$this->tagMapper
 		);
 	}
 
-	public function testAssignTagAsAdmin() {
-		$this->tagManager->expects($this->never())
-			->method('getTagsByIds');
-		$this->tagMapper->expects($this->once())
-			->method('assignTags')
-			->with(111, 'files', '555');
-
-		$this->getNode(true)->createFile('555');
-	}
-
-	public function testAssignTagAsUser() {
+	public function testAssignTag() {
 		$tag = new SystemTag('1', 'Test', true, true);
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->will($this->returnValue(true));
+		$this->tagManager->expects($this->once())
+			->method('canUserAssignTag')
+			->with($tag)
+			->will($this->returnValue(true));
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
-			->with('555')
+			->with(['555'])
 			->will($this->returnValue([$tag]));
 		$this->tagMapper->expects($this->once())
 			->method('assignTags')
 			->with(111, 'files', '555');
 
-		$this->getNode(false)->createFile('555');
+		$this->getNode()->createFile('555');
 	}
 
 	public function permissionsProvider() {
@@ -90,19 +95,27 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	/**
 	 * @dataProvider permissionsProvider
 	 */
-	public function testAssignTagAsUserNoPermission($userVisible, $userAssignable, $expectedException) {
+	public function testAssignTagNoPermission($userVisible, $userAssignable, $expectedException) {
 		$tag = new SystemTag('1', 'Test', $userVisible, $userAssignable);
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->will($this->returnValue($userVisible));
+		$this->tagManager->expects($this->any())
+			->method('canUserAssignTag')
+			->with($tag)
+			->will($this->returnValue($userAssignable));
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
-			->with('555')
+			->with(['555'])
 			->will($this->returnValue([$tag]));
 		$this->tagMapper->expects($this->never())
 			->method('assignTags');
 
 		$thrown = null;
 		try {
-			$this->getNode(false)->createFile('555');
+			$this->getNode()->createFile('555');
 		} catch (\Exception $e) {
 			$thrown = $e;
 		}
@@ -114,9 +127,9 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	 * @expectedException Sabre\DAV\Exception\PreconditionFailed
 	 */
 	public function testAssignTagNotFound() {
-		$this->tagMapper->expects($this->once())
-			->method('assignTags')
-			->with(111, 'files', '555')
+		$this->tagManager->expects($this->once())
+			->method('getTagsByIds')
+			->with(['555'])
 			->will($this->throwException(new TagNotFoundException()));
 
 		$this->getNode()->createFile('555');
@@ -129,28 +142,12 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 		$this->getNode()->createDirectory('789');
 	}
 
-	public function getChildProvider() {
-		return [
-			[
-				true,
-				true,
-			],
-			[
-				true,
-				false,
-			],
-			[
-				false,
-				true,
-			],
-		];
-	}
-
-	/**
-	 * @dataProvider getChildProvider
-	 */
-	public function testGetChild($isAdmin, $userVisible) {
-		$tag = new SystemTag(555, 'TheTag', $userVisible, false);
+	public function testGetChild() {
+		$tag = new SystemTag(555, 'TheTag', true, false);
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->will($this->returnValue(true));
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
@@ -162,17 +159,21 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 			->with(['555'])
 			->will($this->returnValue(['555' => $tag]));
 
-		$childNode = $this->getNode($isAdmin)->getChild('555');
+		$childNode = $this->getNode()->getChild('555');
 
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $childNode);
+		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $childNode);
 		$this->assertEquals('555', $childNode->getName());
 	}
 
 	/**
 	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
-	public function testGetChildUserNonVisible() {
+	public function testGetChildNonVisible() {
 		$tag = new SystemTag(555, 'TheTag', false, false);
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->will($this->returnValue(false));
 
 		$this->tagMapper->expects($this->once())
 			->method('haveTag')
@@ -184,7 +185,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 			->with(['555'])
 			->will($this->returnValue(['555' => $tag]));
 
-		$this->getNode(false)->getChild('555');
+		$this->getNode()->getChild('555');
 	}
 
 	/**
@@ -223,7 +224,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 		$this->getNode()->getChild('777');
 	}
 
-	public function testGetChildrenAsAdmin() {
+	public function testGetChildren() {
 		$tag1 = new SystemTag(555, 'TagOne', true, false);
 		$tag2 = new SystemTag(556, 'TagTwo', true, true);
 		$tag3 = new SystemTag(557, 'InvisibleTag', false, true);
@@ -238,43 +239,13 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 			->with(['555', '556', '557'])
 			->will($this->returnValue(['555' => $tag1, '556' => $tag2, '557' => $tag3]));
 
-		$children = $this->getNode(true)->getChildren();
+		$this->tagManager->expects($this->exactly(3))
+			->method('canUserSeeTag')
+			->will($this->returnCallback(function($tag) {
+				return $tag->isUserVisible();
+			}));
 
-		$this->assertCount(3, $children);
-
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $children[0]);
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $children[1]);
-		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagMappingNode', $children[2]);
-
-		$this->assertEquals(111, $children[0]->getObjectId());
-		$this->assertEquals('files', $children[0]->getObjectType());
-		$this->assertEquals($tag1, $children[0]->getSystemTag());
-
-		$this->assertEquals(111, $children[1]->getObjectId());
-		$this->assertEquals('files', $children[1]->getObjectType());
-		$this->assertEquals($tag2, $children[1]->getSystemTag());
-
-		$this->assertEquals(111, $children[2]->getObjectId());
-		$this->assertEquals('files', $children[2]->getObjectType());
-		$this->assertEquals($tag3, $children[2]->getSystemTag());
-	}
-
-	public function testGetChildrenAsUser() {
-		$tag1 = new SystemTag(555, 'TagOne', true, false);
-		$tag2 = new SystemTag(556, 'TagTwo', true, true);
-		$tag3 = new SystemTag(557, 'InvisibleTag', false, true);
-
-		$this->tagMapper->expects($this->once())
-			->method('getTagIdsForObjects')
-			->with([111], 'files')
-			->will($this->returnValue(['111' => ['555', '556', '557']]));
-
-		$this->tagManager->expects($this->once())
-			->method('getTagsByIds')
-			->with(['555', '556', '557'])
-			->will($this->returnValue(['555' => $tag1, '556' => $tag2, '557' => $tag3]));
-
-		$children = $this->getNode(false)->getChildren();
+		$children = $this->getNode()->getChildren();
 
 		$this->assertCount(2, $children);
 
@@ -290,16 +261,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 		$this->assertEquals($tag2, $children[1]->getSystemTag());
 	}
 
-	public function testChildExistsAsAdmin() {
-		$this->tagMapper->expects($this->once())
-			->method('haveTag')
-			->with([111], 'files', '555')
-			->will($this->returnValue(true));
-
-		$this->assertTrue($this->getNode(true)->childExists('555'));
-	}
-
-	public function testChildExistsWithVisibleTagAsUser() {
+	public function testChildExistsWithVisibleTag() {
 		$tag = new SystemTag(555, 'TagOne', true, false);
 
 		$this->tagMapper->expects($this->once())
@@ -308,14 +270,19 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->will($this->returnValue(true));
+
+		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
-			->with('555')
+			->with(['555'])
 			->will($this->returnValue([$tag]));
 
-		$this->assertTrue($this->getNode(false)->childExists('555'));
+		$this->assertTrue($this->getNode()->childExists('555'));
 	}
 
-	public function testChildExistsWithInvisibleTagAsUser() {
+	public function testChildExistsWithInvisibleTag() {
 		$tag = new SystemTag(555, 'TagOne', false, false);
 
 		$this->tagMapper->expects($this->once())
@@ -325,10 +292,10 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
-			->with('555')
+			->with(['555'])
 			->will($this->returnValue([$tag]));
 
-		$this->assertFalse($this->getNode(false)->childExists('555'));
+		$this->assertFalse($this->getNode()->childExists('555'));
 	}
 
 	public function testChildExistsNotFound() {
