@@ -18,7 +18,7 @@ namespace Test;
  */
 class User extends TestCase {
 	/**
-	 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+	 * @var \OC\User\Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 	 */
 	private $backend;
 	

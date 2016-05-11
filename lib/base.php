@@ -619,7 +619,7 @@ class OC {
 			self::$server->getSession()->set('user_id', '');
 		}
 
-		OC_User::useBackend(new OC_User_Database());
+		OC_User::useBackend(new \OC\User\Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
 		// Subscribe to the hook

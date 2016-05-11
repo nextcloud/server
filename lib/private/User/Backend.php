@@ -32,37 +32,13 @@
  *
  */
 
-/**
- * error code for functions not provided by the user backend
- * @deprecated Use \OC_User_Backend::NOT_IMPLEMENTED instead
- */
-define('OC_USER_BACKEND_NOT_IMPLEMENTED',   -501);
-
-/**
- * actions that user backends can define
- */
-/** @deprecated Use \OC_User_Backend::CREATE_USER instead */
-define('OC_USER_BACKEND_CREATE_USER',       1 << 0);
-/** @deprecated Use \OC_User_Backend::SET_PASSWORD instead */
-define('OC_USER_BACKEND_SET_PASSWORD',      1 << 4);
-/** @deprecated Use \OC_User_Backend::CHECK_PASSWORD instead */
-define('OC_USER_BACKEND_CHECK_PASSWORD',    1 << 8);
-/** @deprecated Use \OC_User_Backend::GET_HOME instead */
-define('OC_USER_BACKEND_GET_HOME',          1 << 12);
-/** @deprecated Use \OC_User_Backend::GET_DISPLAYNAME instead */
-define('OC_USER_BACKEND_GET_DISPLAYNAME',   1 << 16);
-/** @deprecated Use \OC_User_Backend::SET_DISPLAYNAME instead */
-define('OC_USER_BACKEND_SET_DISPLAYNAME',   1 << 20);
-/** @deprecated Use \OC_User_Backend::PROVIDE_AVATAR instead */
-define('OC_USER_BACKEND_PROVIDE_AVATAR',    1 << 24);
-/** @deprecated Use \OC_User_Backend::COUNT_USERS instead */
-define('OC_USER_BACKEND_COUNT_USERS',       1 << 28);
+namespace OC\User;
 
 /**
  * Abstract base class for user management. Provides methods for querying backend
  * capabilities.
  */
-abstract class OC_User_Backend implements \OCP\UserInterface {
+abstract class Backend implements \OCP\UserInterface {
 	/**
 	 * error code for functions not provided by the user backend
 	 */

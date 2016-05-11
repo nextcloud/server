@@ -32,7 +32,7 @@
 
 abstract class Test_User_Backend extends \Test\TestCase {
 	/**
-	 * @var OC_User_Backend $backend
+	 * @var \OC\User\Backend $backend
 	 */
 	protected $backend;
 
