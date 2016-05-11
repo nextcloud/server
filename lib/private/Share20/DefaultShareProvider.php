@@ -733,7 +733,7 @@ class DefaultShareProvider implements IShareProvider {
 	 * @throws InvalidShare
 	 */
 	private function createShare($data) {
-		$share = new Share($this->rootFolder);
+		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId((int)$data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])

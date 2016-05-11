@@ -30,6 +30,7 @@ use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IUserManager;
 use OCP\Share\IManager;
 
 /**
@@ -56,6 +57,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 	protected $rootFolder;
 	/** @var  IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
+	/** @var  IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	protected $userManager;
 
 	/** @var IManager */
 	protected $shareManager;
@@ -81,7 +84,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$this->logger = $this->getMock('OCP\ILogger');
 		$this->rootFolder = $this->getMock('OCP\Files\IRootFolder');
 		$this->config = $this->getMock('OCP\IConfig');
-		$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
+		$this->userManager = $this->getMock('OCP\IUserManager');
+		//$this->addressHandler = new AddressHandler(\OC::$server->getURLGenerator(), $this->l);
+		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')->disableOriginalConstructor()->getMock();
 
 		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
 
@@ -93,7 +98,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->l,
 			$this->logger,
 			$this->rootFolder,
-			$this->config
+			$this->config,
+			$this->userManager
 		);
 
 		$this->shareManager = \OC::$server->getShareManager();
@@ -119,6 +125,11 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
+
+		$this->addressHandler->expects($this->any())->method('generateRemoteURL')
+			->willReturn('http://localhost/');
+		$this->addressHandler->expects($this->any())->method('splitUserRemote')
+			->willReturn(['user', 'server.com']);
 
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
@@ -186,6 +197,11 @@ class FederatedShareProviderTest extends \Test\TestCase {
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 
+		$this->addressHandler->expects($this->any())->method('generateRemoteURL')
+			->willReturn('http://localhost/');
+		$this->addressHandler->expects($this->any())->method('splitUserRemote')
+			->willReturn(['user', 'server.com']);
+
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
 			->with(
@@ -233,7 +249,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
-		$shareWith = 'sharedBy@' . $this->addressHandler->generateRemoteURL();
+		$this->addressHandler->expects($this->any())->method('compareAddresses')
+			->willReturn(true);
+
+		$shareWith = 'sharedBy@localhost';
 
 		$share->setSharedWith($shareWith)
 			->setSharedBy('sharedBy')
@@ -269,6 +288,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
+
+		$this->addressHandler->expects($this->any())->method('splitUserRemote')
+			->willReturn(['user', 'server.com']);
+
 		$share->setSharedWith('user@server.com')
 			->setSharedBy('sharedBy')
 			->setShareOwner('shareOwner')
@@ -276,6 +299,9 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
+
+		$this->addressHandler->expects($this->any())->method('generateRemoteURL')
+			->willReturn('http://localhost/');
 
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
@@ -328,6 +354,10 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
 
+
+		$this->addressHandler->expects($this->any())->method('splitUserRemote')
+			->willReturn(['user', 'server.com']);
+
 		$share->setSharedWith('user@server.com')
 			->setSharedBy($sharedBy)
 			->setShareOwner($owner)
@@ -335,6 +365,8 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			->setNode($node);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
+		$this->addressHandler->expects($this->any())->method('generateRemoteURL')
+			->willReturn('http://localhost/');
 
 		$this->notifications->expects($this->once())
 			->method('sendRemoteShare')
@@ -378,6 +410,12 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$node = $this->getMock('\OCP\Files\File');
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
+
+		$this->addressHandler->expects($this->at(0))->method('splitUserRemote')
+			->willReturn(['user', 'server.com']);
+
+		$this->addressHandler->expects($this->at(1))->method('splitUserRemote')
+			->willReturn(['user2', 'server.com']);
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 		$this->notifications
@@ -484,6 +522,14 @@ class FederatedShareProviderTest extends \Test\TestCase {
 		$node = $this->getMock('\OCP\Files\File');
 		$node->method('getId')->willReturn(42);
 		$node->method('getName')->willReturn('myFile');
+
+		$this->addressHandler->expects($this->any())->method('splitUserRemote')
+			->willReturnCallback(function ($uid) {
+				if ($uid === 'user@server.com') {
+					return ['user', 'server.com'];
+				}
+				return ['user2', 'server.com'];
+		});
 
 		$this->tokenHandler->method('generateToken')->willReturn('token');
 		$this->notifications

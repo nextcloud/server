@@ -23,13 +23,12 @@
 
 namespace OCA\FederatedFileSharing;
 
-use OC\Files\View;
 use OC\Share20\Share;
 use OCP\Files\IRootFolder;
-use OCP\IAppConfig;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
+use OCP\IUserManager;
 use OCP\Share\IShare;
 use OCP\Share\IShareProvider;
 use OC\Share20\Exception\InvalidShare;
@@ -74,6 +73,9 @@ class FederatedShareProvider implements IShareProvider {
 	/** @var string */
 	private $externalShareTable = 'share_external';
 
+	/** @var IUserManager */
+	private $userManager;
+
 	/**
 	 * DefaultShareProvider constructor.
 	 *
@@ -85,6 +87,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param ILogger $logger
 	 * @param IRootFolder $rootFolder
 	 * @param IConfig $config
+	 * @param IUserManager $userManager
 	 */
 	public function __construct(
 			IDBConnection $connection,
@@ -94,7 +97,8 @@ class FederatedShareProvider implements IShareProvider {
 			IL10N $l10n,
 			ILogger $logger,
 			IRootFolder $rootFolder,
-			IConfig $config
+			IConfig $config,
+			IUserManager $userManager
 	) {
 		$this->dbConnection = $connection;
 		$this->addressHandler = $addressHandler;
@@ -104,6 +108,7 @@ class FederatedShareProvider implements IShareProvider {
 		$this->logger = $logger;
 		$this->rootFolder = $rootFolder;
 		$this->config = $config;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -699,7 +704,7 @@ class FederatedShareProvider implements IShareProvider {
 	 */
 	private function createShare($data) {
 
-		$share = new Share($this->rootFolder);
+		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId((int)$data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])
