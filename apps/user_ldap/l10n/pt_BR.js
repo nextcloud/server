@@ -96,6 +96,7 @@ OC.L10N.register(
     "Test Base DN" : "Teste Base DN",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Evita pedidos LDAP automáticos. Melhor para configurações maiores, mas requer algum conhecimento LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Inserir manualmente filtros LDAP (recomendado para grandes diretórios)",
+    "%s access is limited to users meeting these criteria:" : "%s o acesso está limitado aos usuários que atentam a esse critério:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "As classes de objetos mais comuns para os usuários são organizationalPerson, pessoa, usuário e inetOrgPerson. Se você não tem certeza de qual classe de objeto selecionar, por favor, consulte o seu administrador do diretório.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "O filtro especifica quais usuários LDAP devem ter acesso à instância do %s.",
     "Verify settings and count users" : "Verificar configurações e contas de usuários",
