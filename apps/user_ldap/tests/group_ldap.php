@@ -39,6 +39,24 @@ use \OCA\user_ldap\lib\ILDAPWrapper;
  * @package OCA\user_ldap\tests
  */
 class Test_Group_Ldap extends \Test\TestCase {
+
+	private $ocUserManagerMock;
+	private $ocGroupManagerMock;
+
+	private function getOcManagers() {
+		if(is_null($this->ocUserManagerMock)) {
+			$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
+				->disableOriginalConstructor()
+				->getMock();
+		}
+		if(is_null($this->ocGroupManagerMock)) {
+			$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
+				->disableOriginalConstructor()
+				->getMock();
+		}
+		return array($this->ocUserManagerMock, $this->ocGroupManagerMock);
+	}
+
 	private function getAccessMock() {
 		static $conMethods;
 		static $accMethods;
@@ -54,9 +72,11 @@ class Test_Group_Ldap extends \Test\TestCase {
 		$um = $this->getMockBuilder('\OCA\user_ldap\lib\user\Manager')
 			->disableOriginalConstructor()
 			->getMock();
+
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 								 $accMethods,
-								 array($connector, $lw, $um));
+								 array($connector, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock));
 
 		$access->expects($this->any())
 			->method('getConnection')

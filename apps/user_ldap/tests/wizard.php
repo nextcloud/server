@@ -40,6 +40,10 @@ use \OCA\user_ldap\lib\Wizard;
  * @package OCA\user_ldap\tests
  */
 class Test_Wizard extends \Test\TestCase {
+
+	private $ocUserManagerMock;
+	private $ocGroupManagerMock;
+
 	protected function setUp() {
 		parent::setUp();
 		//we need to make sure the consts are defined, otherwise tests will fail
@@ -51,6 +55,20 @@ class Test_Wizard extends \Test\TestCase {
 				define($const, 42);
 			}
 		}
+	}
+
+	private function getOcManagers() {
+		if(is_null($this->ocUserManagerMock)) {
+			$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
+				->disableOriginalConstructor()
+				->getMock();
+		}
+		if(is_null($this->ocGroupManagerMock)) {
+			$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
+				->disableOriginalConstructor()
+				->getMock();
+		}
+		return array($this->ocUserManagerMock, $this->ocGroupManagerMock);
 	}
 
 	private function getWizardAndMocks() {
@@ -73,8 +91,9 @@ class Test_Wizard extends \Test\TestCase {
 		$um = $this->getMockBuilder('\OCA\user_ldap\lib\user\Manager')
 					->disableOriginalConstructor()
 					->getMock();
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
-			$accMethods, array($connector, $lw, $um));
+			$accMethods, array($connector, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock));
 
 		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
 	}

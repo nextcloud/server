@@ -58,7 +58,10 @@ $userManager = new \OCA\user_ldap\lib\user\Manager(
 	\OC::$server->getDatabaseConnection(),
 	\OC::$server->getUserManager());
 
-$access = new \OCA\user_ldap\lib\Access($con, $ldapWrapper, $userManager);
+
+
+$access = new \OCA\user_ldap\lib\Access($con, $ldapWrapper, $userManager,
+			\OC::$server->getUserManager(), \OC::$server->getGroupManager());
 
 $wizard = new \OCA\user_ldap\lib\Wizard($configuration, $ldapWrapper, $access);
 

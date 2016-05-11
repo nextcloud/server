@@ -43,12 +43,30 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	protected $backend;
 	protected $access;
 	protected $configMock;
+	
+	private $ocUserManagerMock;
+	private $ocGroupManagerMock;
+
 
 	protected function setUp() {
 		parent::setUp();
 
 		\OC_User::clearBackends();
 		\OC_Group::clearBackends();
+	}
+
+	private function getOcManagers() {
+		if(is_null($this->ocUserManagerMock)) {
+			$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
+				->disableOriginalConstructor()
+				->getMock();
+		}
+		if(is_null($this->ocGroupManagerMock)) {
+			$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
+				->disableOriginalConstructor()
+				->getMock();
+		}
+		return array($this->ocUserManagerMock, $this->ocGroupManagerMock);
 	}
 
 	private function getAccessMock() {
@@ -93,9 +111,10 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 			->method('getDeletedUser')
 			->will($this->returnValue($offlineUser));
 
+		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 								 $accMethods,
-								 array($connector, $lw, $um));
+								 array($connector, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock));
 
 		$um->setLdapAccess($access);
 
