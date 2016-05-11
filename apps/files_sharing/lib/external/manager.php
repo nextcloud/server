@@ -338,6 +338,7 @@ class Manager {
 			$share = $getShare->fetch();
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 		}
+		$getShare->closeCursor();
 
 		$query = $this->connection->prepare('
 			DELETE FROM `*PREFIX*share_external`
