@@ -449,31 +449,51 @@ class SystemTagManagerTest extends TestCase {
 
 	public function assignabilityCheckProvider() {
 		return [
+			// no groups
 			[false, false, false, false],
 			[true, false, false, false],
 			[true, true, false, true],
 			[false, true, false, false],
+			// admin rulez
 			[false, false, true, true],
 			[false, true, true, true],
 			[true, false, true, true],
 			[true, true, true, true],
+			// ignored groups
+			[false, false, false, false, ['group1'], ['group1']],
+			[true, true, false, true, ['group1'], ['group1']],
+			[true, true, false, true, ['group1'], ['anothergroup']],
+			[false, true, false, false, ['group1'], ['group1']],
+			// admin has precedence over groups
+			[false, false, true, true, ['group1'], ['anothergroup']],
+			[false, true, true, true, ['group1'], ['anothergroup']],
+			[true, false, true, true, ['group1'], ['anothergroup']],
+			[true, true, true, true, ['group1'], ['anothergroup']],
+			// groups only checked when visible and user non-assignable and non-admin
+			[true, false, false, false, ['group1'], ['anothergroup1']],
+			[true, false, false, true, ['group1'], ['group1']],
+			[true, false, false, true, ['group1', 'group2'], ['group2', 'group3']],
 		];
 	}
 
 	/**
 	 * @dataProvider assignabilityCheckProvider
 	 */
-	public function testAssignabilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult) {
+	public function testAssignabilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult, $userGroupIds = [], $tagGroupIds = []) {
 		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('test'));
 		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
+		$this->tagManager->setTagGroups($tag1, $tagGroupIds);
 
 		$this->groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('test')
 			->will($this->returnValue($isAdmin));
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->will($this->returnValue($userGroupIds));
 
 		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1, $user));
 	}

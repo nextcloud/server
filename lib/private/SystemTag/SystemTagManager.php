@@ -337,12 +337,25 @@ class SystemTagManager implements ISystemTagManager {
 	 * {@inheritdoc}
 	 */
 	public function canUserAssignTag(ISystemTag $tag, IUser $user) {
+		// early check to avoid unneeded group lookups
 		if ($tag->isUserAssignable() && $tag->isUserVisible()) {
 			return true;
 		}
 
 		if ($this->groupManager->isAdmin($user->getUID())) {
 			return true;
+		}
+
+		if (!$tag->isUserVisible()) {
+			return false;
+		}
+
+		$groupIds = $this->groupManager->getUserGroupIds($user->getUID());
+		if (!empty($groupIds)) {
+			$matchingGroups = array_intersect($groupIds, $this->getTagGroups($tag));
+			if (!empty($matchingGroups)) {
+				return true;
+			}
 		}
 
 		return false;
