@@ -19,11 +19,11 @@
  *
  */
 
-namespace OCA\Files_Trashbin\Tests\BackgroundJob\ExpireTrash;
+namespace OCA\Files_Trashbin\Tests\BackgroundJob;
  
 use \OCA\Files_Trashbin\BackgroundJob\ExpireTrash;
 
-class ExpireTrash_Test extends \Test\TestCase {
+class ExpireTrashTest extends \Test\TestCase {
 	public function testConstructAndRun() {
 		$backgroundJob = new ExpireTrash(
 			$this->getMock('OCP\IUserManager'),

@@ -20,9 +20,10 @@
  *
  */
 
-use \OCA\Files_Trashbin\Expiration;
+use OCA\Files_Trashbin\Expiration;
+use \OCA\Files_Trashbin\Tests;
 
-class Expiration_Test extends \PHPUnit_Framework_TestCase {
+class ExpirationTest extends \Test\TestCase {
 	const SECONDS_PER_DAY = 86400; //60*60*24
 
 	const FAKE_TIME_NOW = 1000000;

@@ -26,14 +26,14 @@
  *
  */
 
-use OCA\Files_Trashbin;
+use OCA\Files_Trashbin\Tests;
 
 /**
  * Class Test_Encryption
  *
  * @group DB
  */
-class Test_Trashbin extends \Test\TestCase {
+class TrashbinTest extends \Test\TestCase {
 
 	const TEST_TRASHBIN_USER1 = "test-trashbin-user1";
 	const TEST_TRASHBIN_USER2 = "test-trashbin-user2";
@@ -74,11 +74,11 @@ class Test_Trashbin extends \Test\TestCase {
 
 		$config = \OC::$server->getConfig();
 		//configure trashbin
-		self::$rememberRetentionObligation = $config->getSystemValue('trashbin_retention_obligation', Files_Trashbin\Expiration::DEFAULT_RETENTION_OBLIGATION);
+		self::$rememberRetentionObligation = $config->getSystemValue('trashbin_retention_obligation', \OCA\Files_Trashbin\Expiration::DEFAULT_RETENTION_OBLIGATION);
 		$config->setSystemValue('trashbin_retention_obligation', 'auto, 2');
 
 		// register hooks
-		Files_Trashbin\Trashbin::registerHooks();
+		\OCA\Files_Trashbin\Trashbin::registerHooks();
 
 		// create test user
 		self::loginHelper(self::TEST_TRASHBIN_USER2, true);
@@ -675,7 +675,7 @@ class Test_Trashbin extends \Test\TestCase {
 
 
 // just a dummy class to make protected methods available for testing
-class TrashbinForTesting extends Files_Trashbin\Trashbin {
+class TrashbinForTesting extends \OCA\Files_Trashbin\Trashbin {
 
 	/**
 	 * @param OCP\Files\FileInfo[] $files
@@ -683,7 +683,7 @@ class TrashbinForTesting extends Files_Trashbin\Trashbin {
 	 */
 	public function dummyDeleteExpiredFiles($files, $limit) {
 		// dummy value for $retention_obligation because it is not needed here
-		return parent::deleteExpiredFiles($files, \Test_Trashbin::TEST_TRASHBIN_USER1, $limit, 0);
+		return parent::deleteExpiredFiles($files, TrashbinTest::TEST_TRASHBIN_USER1, $limit, 0);
 	}
 
 	/**
@@ -691,6 +691,6 @@ class TrashbinForTesting extends Files_Trashbin\Trashbin {
 	 * @param integer $availableSpace
 	 */
 	public function dummyDeleteFiles($files, $availableSpace) {
-		return parent::deleteFiles($files, \Test_Trashbin::TEST_TRASHBIN_USER1, $availableSpace);
+		return parent::deleteFiles($files, TrashbinTest::TEST_TRASHBIN_USER1, $availableSpace);
 	}
 }

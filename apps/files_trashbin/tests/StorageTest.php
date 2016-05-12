@@ -24,7 +24,7 @@
  *
  */
 
-namespace OCA\Files_trashbin\Tests\Storage;
+namespace OCA\Files_Trashbin\Tests;
 
 use OC\Files\Storage\Temporary;
 use OC\Files\Filesystem;
@@ -34,9 +34,9 @@ use OC\Files\Filesystem;
  *
  * @group DB
  *
- * @package OCA\Files_trashbin\Tests\Storage
+ * @package OCA\Files_Trashbin\Tests
  */
-class Storage extends \Test\TestCase {
+class StorageTest extends \Test\TestCase {
 	/**
 	 * @var string
 	 */
