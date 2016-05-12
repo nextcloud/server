@@ -21,7 +21,7 @@
  *
  */
 
-use OCA\user_ldap\lib\Helper;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\Mapping\UserMapping;

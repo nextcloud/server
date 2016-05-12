@@ -30,14 +30,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\user_ldap\lib\Helper as LDAPHelper;
+use OCA\User_LDAP\Helper as LDAPHelper;
 use OCA\User_LDAP\User_Proxy;
 
 class CheckUser extends Command {
 	/** @var \OCA\User_LDAP\User_Proxy */
 	protected $backend;
 
-	/** @var \OCA\User_LDAP\lib\Helper */
+	/** @var \OCA\User_LDAP\Helper */
 	protected $helper;
 
 	/** @var \OCA\User_LDAP\User\DeletedUsersIndex */

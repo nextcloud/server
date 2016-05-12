@@ -35,7 +35,7 @@ class Test_CleanUp extends \PHPUnit_Framework_TestCase {
 				->getMock();
 		$mocks['ocConfig']    = $this->getMock('\OCP\IConfig');
 		$mocks['db']          = $this->getMock('\OCP\IDBConnection');
-		$mocks['helper']      = $this->getMock('\OCA\user_ldap\lib\Helper');
+		$mocks['helper']      = $this->getMock('\OCA\User_LDAP\Helper');
 
 		return $mocks;
 	}

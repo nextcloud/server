@@ -31,7 +31,7 @@ OC_Util::checkAdminUser();
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
-$helper = new \OCA\user_ldap\lib\Helper();
+$helper = new \OCA\User_LDAP\Helper();
 $prefixes = $helper->getServerConfigurationPrefixes();
 $hosts = $helper->getServerConfigurationHosts();
 

@@ -27,7 +27,7 @@
 
 OCP\App::registerAdmin('user_ldap', 'settings');
 
-$helper = new \OCA\user_ldap\lib\Helper();
+$helper = new \OCA\User_LDAP\Helper();
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
 $ldapWrapper = new OCA\User_LDAP\LDAP();
 $ocConfig = \OC::$server->getConfig();
@@ -64,7 +64,7 @@ if(count($configPrefixes) > 0) {
 \OCP\Util::connectHook(
 	'\OCA\Files_Sharing\API\Server2Server',
 	'preLoginNameUsedAsUserName',
-	'\OCA\user_ldap\lib\Helper',
+	'\OCA\User_LDAP\Helper',
 	'loginName2UserName'
 );
 

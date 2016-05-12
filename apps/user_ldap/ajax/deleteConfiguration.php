@@ -30,7 +30,7 @@ OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
-$helper = new \OCA\user_ldap\lib\Helper();
+$helper = new \OCA\User_LDAP\Helper();
 if($helper->deleteServerConfiguration($prefix)) {
 	OCP\JSON::success();
 } else {

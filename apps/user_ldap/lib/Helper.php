@@ -25,9 +25,7 @@
  *
  */
 
-namespace OCA\user_ldap\lib;
-
-use OCA\User_LDAP\User_Proxy;
+namespace OCA\User_LDAP;
 
 class Helper {
 
