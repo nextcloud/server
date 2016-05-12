@@ -30,7 +30,6 @@ namespace OCA\User_LDAP\Tests;
 use OCA\User_LDAP\User_LDAP as UserLDAP;
 use \OCA\user_ldap\lib\Access;
 use \OCA\user_ldap\lib\Connection;
-use \OCA\user_ldap\lib\ILDAPWrapper;
 
 /**
  * Class Test_User_Ldap_Direct
@@ -65,7 +64,7 @@ class User_LDAPTest extends \Test\TestCase {
 			unset($uMethods[array_search('getDN', $uMethods)]);
 			unset($uMethods[array_search('__construct', $uMethods)]);
 		}
-		$lw  = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
+		$lw  = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 									$conMethods,
 									array($lw, null, null));

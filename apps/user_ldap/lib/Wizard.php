@@ -35,7 +35,6 @@ use OC\ServerNotAvailableException;
 use OCA\user_ldap\lib\Access;
 use OCA\user_ldap\lib\Configuration;
 use OCA\user_ldap\lib\Helper;
-use OCA\user_ldap\lib\ILDAPWrapper;
 
 class Wizard extends LDAPUtility {
 	static protected $l;

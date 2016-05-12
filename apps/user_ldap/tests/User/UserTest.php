@@ -61,7 +61,7 @@ class UserTest extends \Test\TestCase {
 			unset($accMethods[array_search('getConnection', $accMethods)]);
 			$umMethods = get_class_methods('\OCA\User_LDAP\User\Manager');
 		}
-		$lw = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
+		$lw = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
 		$im = $this->getMock('\OCP\Image');
 		if (is_null($userMgr)) {
 			$userMgr = $this->getMock('\OCP\IUserManager');

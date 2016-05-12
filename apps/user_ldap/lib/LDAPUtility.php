@@ -23,8 +23,6 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\user_ldap\lib\ILDAPWrapper;
-
 abstract class LDAPUtility {
 	protected $ldap;
 

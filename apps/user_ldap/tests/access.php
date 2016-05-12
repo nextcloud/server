@@ -27,7 +27,6 @@ namespace OCA\user_ldap\tests;
 
 use \OCA\user_ldap\lib\Access;
 use \OCA\user_ldap\lib\Connection;
-use \OCA\user_ldap\lib\ILDAPWrapper;
 
 /**
  * Class Test_Access
@@ -47,7 +46,7 @@ class Test_Access extends \Test\TestCase {
 			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
 			$umMethods  = get_class_methods('\OCA\User_LDAP\User\Manager');
 		}
-		$lw  = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
+		$lw  = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 									$conMethods,
 									array($lw, null, null));

@@ -33,7 +33,7 @@ use OCA\user_ldap\lib\Connection;
  * @package OCA\user_ldap\tests
  */
 class Test_Connection extends \Test\TestCase {
-	/** @var \OCA\user_ldap\lib\ILDAPWrapper  */
+	/** @var \OCA\User_LDAP\ILDAPWrapper  */
 	protected $ldap;
 
 	/** @var  Connection */
@@ -42,7 +42,7 @@ class Test_Connection extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->ldap       = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
+		$this->ldap       = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
 		$this->connection = $this->getMockBuilder('OCA\user_ldap\lib\Connection')
 								 ->setMethods(['getFromCache', 'writeToCache'])
@@ -58,7 +58,7 @@ class Test_Connection extends \Test\TestCase {
 		//background: upon login a bind is done with the user credentials
 		//which is valid for the whole LDAP resource. It needs to be reset
 		//to the agent's credentials
-		$lw  = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
+		$lw  = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
 
 		$connection = new Connection($lw, '', null);
 		$agent = array(
