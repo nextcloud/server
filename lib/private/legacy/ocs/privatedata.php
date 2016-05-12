@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Tom Needham <tom@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -21,15 +20,8 @@
  *
  */
 
-class OC_OCS_Config {
-
-	public static function apiConfig() {
-		$xml['version'] = '1.7';
-		$xml['website'] = 'ownCloud';
-		$xml['host'] = OCP\Util::getServerHost();
-		$xml['contact'] = '';
-		$xml['ssl'] = 'false';
-		return new OC_OCS_Result($xml);
-	}
-
+/**
+ * @deprecated Since 9.1.0 use \OC\OCS\PrivateData
+ */
+class OC_OCS_Privatedata extends \OC\OCS\PrivateData {
 }

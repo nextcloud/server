@@ -22,7 +22,9 @@
  *
  */
 
-class OC_OCS_Cloud {
+namespace OC\OCS;
+
+class Cloud {
 
 	public static function getCapabilities() {
 		$result = array();
@@ -31,22 +33,22 @@ class OC_OCS_Cloud {
 			'major' => $major,
 			'minor' => $minor,
 			'micro' => $micro,
-			'string' => OC_Util::getVersionString(),
-			'edition' => OC_Util::getEditionString(),
+			'string' => \OC_Util::getVersionString(),
+			'edition' => \OC_Util::getEditionString(),
 			);
 			
 		$result['capabilities'] = \OC::$server->getCapabilitiesManager()->getCapabilities();
 
-		return new OC_OCS_Result($result);
+		return new Result($result);
 	}
 	
 	public static function getCurrentUser() {
-		$userObject = \OC::$server->getUserManager()->get(OC_User::getUser());
+		$userObject = \OC::$server->getUserManager()->get(\OC_User::getUser());
 		$data  = array(
 			'id' => $userObject->getUID(),
 			'display-name' => $userObject->getDisplayName(),
 			'email' => $userObject->getEMailAddress(),
 		);
-		return new OC_OCS_Result($data);
+		return new Result($data);
 	}
 }

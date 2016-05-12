@@ -23,7 +23,7 @@ namespace OC\OCS;
 
 class Exception extends \Exception {
 
-	public function __construct(\OC_OCS_Result $result) {
+	public function __construct(Result $result) {
 		$this->result = $result;
 	}
 
