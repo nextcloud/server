@@ -22,7 +22,7 @@
  *
  */
 
-namespace OCA\user_ldap\tests;
+namespace OCA\User_LDAP\Tests;
 use OCA\User_LDAP\Connection;
 
 /**
@@ -30,9 +30,9 @@ use OCA\User_LDAP\Connection;
  *
  * @group DB
  *
- * @package OCA\user_ldap\tests
+ * @package OCA\User_LDAP\Tests
  */
-class Test_Connection extends \Test\TestCase {
+class ConnectionTest extends \Test\TestCase {
 	/** @var \OCA\User_LDAP\ILDAPWrapper  */
 	protected $ldap;
 

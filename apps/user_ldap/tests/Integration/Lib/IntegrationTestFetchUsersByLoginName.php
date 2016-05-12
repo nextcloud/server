@@ -19,16 +19,20 @@
  *
  */
 
-namespace OCA\user_ldap\tests\integration\lib;
+namespace OCA\User_LDAP\Tests\Integration\Lib;
 
-use OCA\User_LDAP\User\Manager as LDAPUserManager;
-use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
+use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User_LDAP;
 
 require_once __DIR__  . '/../../../../../lib/base.php';
 
-class IntegrationTestUserHome extends AbstractIntegrationTest {
+class IntegrationTestFetchUsersByLoginName extends AbstractIntegrationTest {
+	/** @var  UserMapping */
+	protected $mapping;
+
+	/** @var User_LDAP */
+	protected $backend;
 
 	/**
 	 * prepares the LDAP environment and sets up a test configuration for
@@ -37,29 +41,35 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 	public function init() {
 		require(__DIR__ . '/../setup-scripts/createExplicitUsers.php');
 		parent::init();
+
+		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
+		$this->mapping->clear();
+		$this->access->setUserMapper($this->mapping);
+		$this->backend = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig());
 	}
 
 	/**
-	 * tests countUsersByLoginName where it is expected that the login name does
+	 * tests fetchUserByLoginName where it is expected that the login name does
 	 * not match any LDAP user
 	 *
 	 * @return bool
 	 */
 	protected function case1() {
-		$result = $this->access->countUsersByLoginName('nothere');
-		return $result === 0;
+		$result = $this->access->fetchUsersByLoginName('nothere');
+		return $result === [];
 	}
 
 	/**
-	 * tests countUsersByLoginName where it is expected that the login name does
+	 * tests fetchUserByLoginName where it is expected that the login name does
 	 * match one LDAP user
 	 *
 	 * @return bool
 	 */
 	protected function case2() {
-		$result = $this->access->countUsersByLoginName('alice');
-		return $result === 1;
+		$result = $this->access->fetchUsersByLoginName('alice');
+		return count($result) === 1;
 	}
+
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');

@@ -28,11 +28,11 @@ use OCA\User_LDAP\User\User;
 use OCP\IUserManager;
 
 /**
- * Class Test_User_User
+ * Class UserTest
  *
  * @group DB
  *
- * @package OCA\user_ldap\tests
+ * @package OCA\User_LDAP\Tests\User
  */
 class UserTest extends \Test\TestCase {
 

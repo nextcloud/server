@@ -19,10 +19,10 @@
  *
  */
 
-namespace OCA\user_ldap\tests\integration\lib;
+namespace OCA\User_LDAP\Tests\Integration\Lib;
 
-use OCA\User_LDAP\Connection;
-use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
+
+use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 
 require_once __DIR__  . '/../../../../../lib/base.php';
 

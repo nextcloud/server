@@ -21,19 +21,19 @@
  *
  */
 
-namespace OCA\user_ldap\tests\mapping;
+namespace OCA\User_LDAP\Tests\Mapping;
 
-use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
 
 /**
- * Class Test_GroupMapping
+ * Class UserMappingTest
  *
  * @group DB
  *
- * @package OCA\user_ldap\tests\mapping
+ * @package OCA\User_LDAP\Tests\Mapping
  */
-class Test_GroupMapping extends AbstractMappingTest {
+class UserMappingTest extends AbstractMappingTest {
 	public function getMapper(\OCP\IDBConnection $dbMock) {
-		return new GroupMapping($dbMock);
+		return new UserMapping($dbMock);
 	}
 }

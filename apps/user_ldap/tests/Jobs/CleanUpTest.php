@@ -20,9 +20,9 @@
  *
  */
 
-namespace OCA\user_ldap\tests;
+namespace OCA\User_LDAP\Tests\Jobs;
 
-class Test_CleanUp extends \PHPUnit_Framework_TestCase {
+class CleanUpTest extends \Test\TestCase {
 	public function getMocks() {
 		$mocks = array();
 		$mocks['userBackend'] =

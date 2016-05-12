@@ -23,19 +23,19 @@
  *
  */
 
-namespace OCA\user_ldap\tests;
+namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 
 /**
- * Class Test_Access
+ * Class AccessTest
  *
  * @group DB
  *
- * @package OCA\user_ldap\tests
+ * @package OCA\User_LDAP\Tests
  */
-class Test_Access extends \Test\TestCase {
+class AccessTest extends \Test\TestCase {
 	private function getConnectorAndLdapMock() {
 		static $conMethods;
 		static $accMethods;

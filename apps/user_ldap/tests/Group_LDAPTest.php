@@ -35,9 +35,9 @@ use OCA\User_LDAP\Connection;
  *
  * @group DB
  *
- * @package OCA\user_ldap\tests
+ * @package OCA\User_LDAP\Tests
  */
-class GroupLDAPTest extends \Test\TestCase {
+class Group_LDAPTest extends \Test\TestCase {
 	private function getAccessMock() {
 		static $conMethods;
 		static $accMethods;

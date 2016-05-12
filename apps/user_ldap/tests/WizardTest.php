@@ -23,21 +23,16 @@
  *
  */
 
-namespace OCA\User_LDAP\tests;
+namespace OCA\User_LDAP\Tests;
 
 use \OCA\User_LDAP\Wizard;
-
-// use \OCA\User_LDAP\User_LDAP as UserLDAP;
-// use \OCA\User_LDAP\Access;
-// use \OCA\User_LDAP\Configuration;
-// use \OCA\User_LDAP\ILDAPWrapper;
 
 /**
  * Class Test_Wizard
  *
  * @group DB
  *
- * @package OCA\User_LDAP\tests
+ * @package OCA\User_LDAP\Tests
  */
 class WizardTest extends \Test\TestCase {
 	protected function setUp() {

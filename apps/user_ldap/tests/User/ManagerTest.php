@@ -32,7 +32,7 @@ use OCA\User_LDAP\User\Manager;
  *
  * @group DB
  *
- * @package OCA\user_ldap\tests
+ * @package OCA\User_LDAP\Tests\User
  */
 class ManagerTest extends \Test\TestCase {
 

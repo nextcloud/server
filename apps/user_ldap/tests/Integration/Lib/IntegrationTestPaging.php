@@ -19,54 +19,62 @@
  *
  */
 
-namespace OCA\user_ldap\tests\integration\lib;
+namespace OCA\User_LDAP\Tests\Integration\Lib;
 
+use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
+use OCA\User_LDAP\User_LDAP;
 
 require_once __DIR__  . '/../../../../../lib/base.php';
 
-class IntegrationTestBatchApplyUserAttributes extends AbstractIntegrationTest {
+class IntegrationTestPaging extends AbstractIntegrationTest {
+	/** @var  UserMapping */
+	protected $mapping;
+
+	/** @var User_LDAP */
+	protected $backend;
+
 	/**
 	 * prepares the LDAP environment and sets up a test configuration for
 	 * the LDAP backend.
 	 */
 	public function init() {
 		require(__DIR__ . '/../setup-scripts/createExplicitUsers.php');
-		require(__DIR__ . '/../setup-scripts/createUsersWithoutDisplayName.php');
 		parent::init();
 
-		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
-		$this->mapping->clear();
-		$this->access->setUserMapper($this->mapping);
+		$this->backend = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig());
 	}
 
 	/**
-	 * sets up the LDAP configuration to be used for the test
-	 */
-	protected function initConnection() {
-		parent::initConnection();
-		$this->connection->setConfiguration([
-				'ldapUserDisplayName' => 'displayname',
-		]);
-	}
-
-	/**
-	 * indirectly tests whether batchApplyUserAttributes does it job properly,
-	 * when a user without display name is included in the result set from LDAP.
+	 * tests that paging works properly against a simple example (reading all
+	 * of few users in smallest steps)
 	 *
 	 * @return bool
 	 */
 	protected function case1() {
-		$result = $this->access->fetchListOfUsers('objectclass=person', 'dn');
-		// on the original issue, PHP would emit a fatal error
-		// – cannot catch it here, but will render the test as unsuccessful
-		return is_array($result) && !empty($result);
-	}
+		$limit = 1;
+		$offset = 0;
 
+		$filter = 'objectclass=inetorgperson';
+		$attributes = ['cn', 'dn'];
+		$users = [];
+		do {
+			$result = $this->access->searchUsers($filter, $attributes, $limit, $offset);
+			foreach($result as $user) {
+				$users[] = $user['cn'];
+			}
+			$offset += $limit;
+		} while ($this->access->hasMoreResults());
+
+		if(count($users) === 2) {
+			return true;
+		}
+
+		return false;
+	}
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
-$test = new IntegrationTestBatchApplyUserAttributes($host, $port, $adn, $apwd, $bdn);
+$test = new IntegrationTestPaging($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();

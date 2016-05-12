@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\user_ldap\tests\integration;
+namespace OCA\User_LDAP\Tests\Integration;
 
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;

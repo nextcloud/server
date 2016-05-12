@@ -19,9 +19,9 @@
  *
  */
 
-namespace OCA\user_ldap\tests;
+namespace OCA\User_LDAP\Tests;
 
-class Test_Configuration extends \Test\TestCase {
+class ConfigurationTest extends \Test\TestCase {
 
 	public function configurationDataProvider() {
 		$inputWithDN = array(

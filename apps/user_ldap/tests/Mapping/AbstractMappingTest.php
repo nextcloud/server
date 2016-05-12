@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\user_ldap\tests\mapping;
+namespace OCA\User_LDAP\Tests\Mapping;
 
 abstract class AbstractMappingTest extends \Test\TestCase {
 	abstract public function getMapper(\OCP\IDBConnection $dbMock);

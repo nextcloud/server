@@ -1,8 +1,6 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -21,19 +19,18 @@
  *
  */
 
-namespace OCA\user_ldap\tests\mapping;
-
-use OCA\User_LDAP\Mapping\UserMapping;
+namespace OCA\User_LDAP\Tests\Integration;
 
 /**
- * Class Test_UserMapping
+ * Class FakeManager
  *
- * @group DB
- *
- * @package OCA\user_ldap\tests\mapping
+ * this is a mock of \OCA\User_LDAP\User\Manager which is a dependency of
+ * Access, that pulls plenty more things in. Because it is not needed in the
+ * scope of these tests, we replace it with a mock.
  */
-class Test_UserMapping extends AbstractMappingTest {
-	public function getMapper(\OCP\IDBConnection $dbMock) {
-		return new UserMapping($dbMock);
+class FakeManager extends \OCA\User_LDAP\User\Manager {
+	public function __construct() {
+		$this->ocConfig = \OC::$server->getConfig();
+		$this->image = new \OCP\Image();
 	}
 }

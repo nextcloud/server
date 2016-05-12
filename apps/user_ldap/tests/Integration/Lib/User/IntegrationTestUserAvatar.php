@@ -21,9 +21,11 @@
  *
  */
 
+namespace OCA\User_LDAP\Tests\Integration\Lib\User;
+
 use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
+use OCA\User_LDAP\Tests\Integration\AbstractIntegrationTest;
 
 require_once __DIR__  . '/../../../../../../lib/base.php';
 
@@ -41,7 +43,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 		$this->mapping = new UserMapping(\OC::$server->getDatabaseConnection());
 		$this->mapping->clear();
 		$this->access->setUserMapper($this->mapping);
-		$userBackend  = new OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig());
+		$userBackend  = new \OCA\User_LDAP\User_LDAP($this->access, \OC::$server->getConfig());
 		\OC_User::useBackend($userBackend);
 	}
 
