@@ -31,6 +31,3 @@ if (version_compare($installedVersion, '0.9.1', '<')) {
 	$m->removeReShares();
 	$m->updateInitiatorInfo();
 }
-
-\OC::$server->getJobList()->add('OCA\Files_sharing\Lib\DeleteOrphanedSharesJob');
-\OC::$server->getJobList()->add('OCA\Files_sharing\ExpireSharesJob');

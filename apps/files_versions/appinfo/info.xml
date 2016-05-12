@@ -21,4 +21,8 @@ In addition to the expiry of versions, ownCloud’s versions app makes certain n
 		<user>user-versions</user>
 	</documentation>
 	<default_enable/>
+
+	<background-jobs>
+		<job>OCA\Files_Versions\BackgroundJob\ExpireVersions</job>
+	</background-jobs>
 </info>

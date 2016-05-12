@@ -20,4 +20,9 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 		<lib>ldap</lib>
 		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
+
+	<background-jobs>
+		<job>OCA\user_ldap\lib\Jobs</job>
+		<job>\OCA\User_LDAP\Jobs\CleanUp</job>
+	</background-jobs>
 </info>

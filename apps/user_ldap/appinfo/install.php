@@ -24,6 +24,3 @@ $state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'doSet');
 if($state === 'doSet') {
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
 }
-
-OCP\Backgroundjob::registerJob('OCA\user_ldap\lib\Jobs');
-OCP\Backgroundjob::registerJob('\OCA\User_LDAP\Jobs\CleanUp');
