@@ -30,16 +30,16 @@ use Test\TestCase;
 class UtilTest extends TestCase {
 	private static $tempStorage = [];
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $configMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OC\Files\View|\PHPUnit_Framework_MockObject_MockObject */
 	private $filesMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManagerMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Files\Mount\IMountPoint|\PHPUnit_Framework_MockObject_MockObject */
 	private $mountMock;
 
 	/** @var Util */
@@ -72,10 +72,13 @@ class UtilTest extends TestCase {
 		$this->filesMock = $this->getMock('OC\Files\View');
 		$this->userManagerMock = $this->getMock('\OCP\IUserManager');
 
+		/** @var \OCA\Encryption\Crypto\Crypt $cryptMock */
 		$cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')
 			->disableOriginalConstructor()
 			->getMock();
+		/** @var \OCP\ILogger $loggerMock */
 		$loggerMock = $this->getMock('OCP\ILogger');
+		/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject $userSessionMock */
 		$userSessionMock = $this->getMockBuilder('OCP\IUserSession')
 			->disableOriginalConstructor()
 			->setMethods([
@@ -97,7 +100,7 @@ class UtilTest extends TestCase {
 			->will($this->returnSelf());
 
 
-		$this->configMock = $configMock = $this->getMock('OCP\IConfig');
+		$this->configMock = $this->getMock('OCP\IConfig');
 
 		$this->configMock->expects($this->any())
 			->method('getUserValue')
@@ -107,7 +110,7 @@ class UtilTest extends TestCase {
 			->method('setUserValue')
 			->will($this->returnCallback([$this, 'setValueTester']));
 
-		$this->instance = new Util($this->filesMock, $cryptMock, $loggerMock, $userSessionMock, $configMock, $this->userManagerMock);
+		$this->instance = new Util($this->filesMock, $cryptMock, $loggerMock, $userSessionMock, $this->configMock, $this->userManagerMock);
 	}
 
 	/**
@@ -157,8 +160,8 @@ class UtilTest extends TestCase {
 
 	/**
 	 * @dataProvider dataTestShouldEncryptHomeStorage
-	 * @param $returnValue return value from getAppValue()
-	 * @param $expected
+	 * @param string $returnValue return value from getAppValue()
+	 * @param bool $expected
 	 */
 	public function testShouldEncryptHomeStorage($returnValue, $expected) {
 		$this->configMock->expects($this->once())->method('getAppValue')
@@ -195,12 +198,16 @@ class UtilTest extends TestCase {
 	}
 
 	public function testGetStorage() {
+		$return = $this->getMockBuilder('OC\Files\Storage\Storage')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$path = '/foo/bar.txt';
 		$this->filesMock->expects($this->once())->method('getMount')->with($path)
 			->willReturn($this->mountMock);
-		$this->mountMock->expects($this->once())->method('getStorage')->willReturn(true);
+		$this->mountMock->expects($this->once())->method('getStorage')->willReturn($return);
 
-		$this->assertTrue($this->instance->getStorage($path));
+		$this->assertEquals($return, $this->instance->getStorage($path));
 	}
 
 }

@@ -32,27 +32,27 @@ use Test\TestCase;
 class RecoveryTest extends TestCase {
 	private static $tempStorage = [];
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\Encryption\IFile|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $fileMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OC\Files\View|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $viewMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $userSessionMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $keyManagerMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $configMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $cryptMock;
 	/**
@@ -201,7 +201,8 @@ class RecoveryTest extends TestCase {
 
 		$this->cryptMock->expects($this->once())
 			->method('decryptPrivateKey');
-		$this->assertNull($this->instance->recoverUsersFiles('password', 'admin'));
+		$this->instance->recoverUsersFiles('password', 'admin');
+		$this->assertTrue(true);
 	}
 
 	public function testRecoverFile() {
@@ -265,9 +266,11 @@ class RecoveryTest extends TestCase {
 			->will($this->returnSelf());
 
 		$this->cryptMock = $this->getMockBuilder('OCA\Encryption\Crypto\Crypt')->disableOriginalConstructor()->getMock();
+		/** @var \OCP\Security\ISecureRandom $randomMock */
 		$randomMock = $this->getMock('OCP\Security\ISecureRandom');
 		$this->keyManagerMock = $this->getMockBuilder('OCA\Encryption\KeyManager')->disableOriginalConstructor()->getMock();
 		$this->configMock = $this->getMock('OCP\IConfig');
+		/** @var \OCP\Encryption\Keys\IStorage $keyStorageMock */
 		$keyStorageMock = $this->getMock('OCP\Encryption\Keys\IStorage');
 		$this->fileMock = $this->getMock('OCP\Encryption\IFile');
 		$this->viewMock = $this->getMock('OC\Files\View');

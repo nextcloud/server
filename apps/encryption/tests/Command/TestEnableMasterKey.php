@@ -24,6 +24,7 @@ namespace OCA\Encryption\Tests\Command;
 
 
 use OCA\Encryption\Command\EnableMasterKey;
+use OCA\Encryption\Util;
 use Test\TestCase;
 
 class TestEnableMasterKey extends TestCase {

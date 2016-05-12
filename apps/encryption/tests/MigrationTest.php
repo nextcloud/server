@@ -39,7 +39,7 @@ class MigrationTest extends \Test\TestCase {
 	private $recovery_key_id = 'recovery_key_id';
 	private $moduleId;
 
-	/** @var  PHPUnit_Framework_MockObject_MockObject | ILogger */
+	/** @var  \PHPUnit_Framework_MockObject_MockObject | ILogger */
 	private $logger;
 
 	public static function setUpBeforeClass() {

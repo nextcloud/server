@@ -43,25 +43,25 @@ class KeyManagerTest extends TestCase {
 	/** @var string */
 	private $systemKeyId;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Encryption\Keys\IStorage|\PHPUnit_Framework_MockObject_MockObject */
 	private $keyStorageMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject */
 	private $cryptMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	private $userMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Session|\PHPUnit_Framework_MockObject_MockObject */
 	private $sessionMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Util|\PHPUnit_Framework_MockObject_MockObject */
 	private $utilMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $configMock;
 
 	public function setUp() {
@@ -245,6 +245,7 @@ class KeyManagerTest extends TestCase {
 	 */
 	public function testInit($useMasterKey) {
 
+		/** @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject $instance */
 		$instance = $this->getMockBuilder('OCA\Encryption\KeyManager')
 			->setConstructorArgs(
 				[
@@ -588,6 +589,7 @@ class KeyManagerTest extends TestCase {
 			->with('/admin/files/myfile.txt')
 			->willReturn(false);
 
+		/** @var \OC\Files\View $view */
 		$this->assertSame(0, $this->instance->getVersion('/admin/files/myfile.txt', $view));
 	}
 
@@ -604,6 +606,7 @@ class KeyManagerTest extends TestCase {
 			->with('/admin/files/myfile.txt')
 			->willReturn($fileInfo);
 
+		/** @var \OC\Files\View $view */
 		$this->assertSame(1337, $this->instance->getVersion('/admin/files/myfile.txt', $view));
 	}
 
@@ -633,6 +636,7 @@ class KeyManagerTest extends TestCase {
 			->with('/admin/files/myfile.txt')
 			->willReturn($fileInfo);
 
+		/** @var \OC\Files\View $view */
 		$this->instance->setVersion('/admin/files/myfile.txt', 5, $view);
 	}
 
@@ -644,6 +648,7 @@ class KeyManagerTest extends TestCase {
 			->with('/admin/files/myfile.txt')
 			->willReturn(false);
 
+		/** @var \OC\Files\View $view */
 		$this->instance->setVersion('/admin/files/myfile.txt', 5, $view);
 	}
 

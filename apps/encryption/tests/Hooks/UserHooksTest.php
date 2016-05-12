@@ -70,6 +70,10 @@ class UserHooksTest extends TestCase {
 	 */
 	private $cryptMock;
 	/**
+	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $loggerMock;
+	/**
 	 * @var UserHooks
 	 */
 	private $instance;
@@ -91,15 +95,16 @@ class UserHooksTest extends TestCase {
 	public function testLogout() {
 		$this->sessionMock->expects($this->once())
 			->method('clear');
-
-		$this->assertNull($this->instance->logout());
+		$this->instance->logout();
+		$this->assertTrue(true);
 	}
 
 	public function testPostCreateUser() {
 		$this->userSetupMock->expects($this->once())
 			->method('setupUser');
 
-		$this->assertNull($this->instance->postCreateUser($this->params));
+		$this->instance->postCreateUser($this->params);
+		$this->assertTrue(true);
 	}
 
 	public function testPostDeleteUser() {
@@ -107,7 +112,8 @@ class UserHooksTest extends TestCase {
 			->method('deletePublicKey')
 			->with('testUser');
 
-		$this->assertNull($this->instance->postDeleteUser($this->params));
+		$this->instance->postDeleteUser($this->params);
+		$this->assertTrue(true);
 	}
 
 	/**
@@ -273,6 +279,7 @@ class UserHooksTest extends TestCase {
 				]
 			)->setMethods(['initMountPoints'])->getMock();
 
+		/** @var \OCA\Encryption\Hooks\UserHooks $userHooks */
 		$this->assertNull($userHooks->setPassphrase($this->params));
 	}
 
@@ -285,7 +292,8 @@ class UserHooksTest extends TestCase {
 			->method('setupUser')
 			->with('testUser', 'password');
 
-		$this->assertNull($this->instance->postPasswordReset($this->params));
+		$this->instance->postPasswordReset($this->params);
+		$this->assertTrue(true);
 	}
 
 	protected function setUp() {

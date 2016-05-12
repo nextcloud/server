@@ -29,11 +29,11 @@ use Test\TestCase;
 
 class StatusControllerTest extends TestCase {
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
-	protected $requestMock;
+	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
+	private $requestMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
-	protected $l10nMock;
+	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
+	private $l10nMock;
 
 	/** @var  \OCA\Encryption\Session | \PHPUnit_Framework_MockObject_MockObject */
 	protected $sessionMock;

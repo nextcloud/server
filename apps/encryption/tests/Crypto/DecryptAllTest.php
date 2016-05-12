@@ -20,7 +20,7 @@
  */
 
 
-namespace OCA\Encryption\Tests\lib\Crypto;
+namespace OCA\Encryption\Tests\Crypto;
 
 
 use OCA\Encryption\Crypto\Crypt;

@@ -32,31 +32,31 @@ class SettingsControllerTest extends TestCase {
 	/** @var SettingsController */
 	private $controller;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $requestMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10nMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $userManagerMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IUserSession|\PHPUnit_Framework_MockObject_MockObject */
 	private $userSessionMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $keyManagerMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject */
 	private $cryptMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Session|\PHPUnit_Framework_MockObject_MockObject */
 	private $sessionMock;
 
-	/** @var  \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\ISession|\PHPUnit_Framework_MockObject_MockObject */
 	private $ocSessionMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Util|\PHPUnit_Framework_MockObject_MockObject */
 	private $utilMock;
 
 	protected function setUp() {
@@ -96,7 +96,7 @@ class SettingsControllerTest extends TestCase {
 			])
 			->getMock();
 
-		$this->ocSessionMock = $this->getMockBuilder('\OCP\ISession')->disableOriginalConstructor()->getMock();
+		$this->ocSessionMock = $this->getMockBuilder('OCP\ISession')->disableOriginalConstructor()->getMock();
 
 		$this->userSessionMock->expects($this->any())
 			->method('getUID')

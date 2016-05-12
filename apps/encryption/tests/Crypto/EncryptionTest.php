@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\Encryption\Tests\lib\Crypto;
+namespace OCA\Encryption\Tests\Crypto;
 
 use OCA\Encryption\Exceptions\PublicKeyMissingException;
 use Test\TestCase;
@@ -31,31 +31,31 @@ class EncryptionTest extends TestCase {
 	/** @var Encryption */
 	private $instance;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $keyManagerMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\EncryptAll|\PHPUnit_Framework_MockObject_MockObject */
 	private $encryptAllMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\DecryptAll|\PHPUnit_Framework_MockObject_MockObject */
 	private $decryptAllMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Session|\PHPUnit_Framework_MockObject_MockObject */
 	private $sessionMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject */
 	private $cryptMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCA\Encryption\Util|\PHPUnit_Framework_MockObject_MockObject */
 	private $utilMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $loggerMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10nMock;
 
-	/** @var \PHPUnit_Framework_MockObject_MockObject */
+	/** @var \OCP\Files\Storage|\PHPUnit_Framework_MockObject_MockObject */
 	private $storageMock;
 
 	public function setUp() {
@@ -410,7 +410,9 @@ class EncryptionTest extends TestCase {
 	}
 
 	public function testPrepareDecryptAll() {
+		/** @var \Symfony\Component\Console\Input\InputInterface $input */
 		$input = $this->getMock('Symfony\Component\Console\Input\InputInterface');
+		/** @var \Symfony\Component\Console\Output\OutputInterface $output */
 		$output = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
 
 		$this->decryptAllMock->expects($this->once())->method('prepare')

@@ -65,6 +65,7 @@ class HookManagerTest extends TestCase {
 	 */
 	public function testRegisterHooksWithInstance() {
 		$mock = $this->getMockBuilder('OCA\Encryption\Hooks\Contracts\IHook')->disableOriginalConstructor()->getMock();
+		/** @var \OCA\Encryption\Hooks\Contracts\IHook $mock */
 		self::$instance->registerHook($mock);
 
 		$hookInstances = self::invokePrivate(self::$instance, 'hookInstances');

@@ -29,11 +29,11 @@ use Test\TestCase;
 
 class SetupTest extends TestCase {
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Encryption\KeyManager|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $keyManagerMock;
 	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
+	 * @var \OCA\Encryption\Crypto\Crypt|\PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $cryptMock;
 	/**
@@ -55,6 +55,8 @@ class SetupTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		/** @var \OCP\ILogger $logMock */
+		/** @var \OCP\IUserSession $userSessionMock */
 		$this->instance = new Setup($logMock,
 			$userSessionMock,
 			$this->cryptMock,

@@ -28,47 +28,36 @@ use OCP\AppFramework\Http;
 use Test\TestCase;
 
 class RecoveryControllerTest extends TestCase {
-	/**
-	 * @var RecoveryController
-	 */
+	/** @var RecoveryController */
 	private $controller;
-	private $appName;
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
+	/** @var \OCP\IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $requestMock;
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $configMock;
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
+	/** @var \OCP\IL10N|\PHPUnit_Framework_MockObject_MockObject */
 	private $l10nMock;
-	/**
-	 * @var \PHPUnit_Framework_MockObject_MockObject
-	 */
+	/** @var \OCA\Encryption\Recovery|\PHPUnit_Framework_MockObject_MockObject */
 	private $recoveryMock;
 
 	public function adminRecoveryProvider() {
 		return [
-			['test', 'test', '1', 'Recovery key successfully enabled', HTTP::STATUS_OK],
-			['', 'test', '1', 'Missing recovery key password', HTTP::STATUS_BAD_REQUEST],
-			['test', '', '1', 'Please repeat the recovery key password', HTTP::STATUS_BAD_REQUEST],
-			['test', 'soimething that doesn\'t match', '1', 'Repeated recovery key password does not match the provided recovery key password', HTTP::STATUS_BAD_REQUEST],
-			['test', 'test', '0', 'Recovery key successfully disabled', HTTP::STATUS_OK],
+			['test', 'test', '1', 'Recovery key successfully enabled', Http::STATUS_OK],
+			['', 'test', '1', 'Missing recovery key password', Http::STATUS_BAD_REQUEST],
+			['test', '', '1', 'Please repeat the recovery key password', Http::STATUS_BAD_REQUEST],
+			['test', 'soimething that doesn\'t match', '1', 'Repeated recovery key password does not match the provided recovery key password', Http::STATUS_BAD_REQUEST],
+			['test', 'test', '0', 'Recovery key successfully disabled', Http::STATUS_OK],
 		];
 	}
 
 	/**
 	 * @dataProvider adminRecoveryProvider
 	 * @param $recoveryPassword
-	 * @param $passconfirm
+	 * @param $passConfirm
 	 * @param $enableRecovery
 	 * @param $expectedMessage
 	 * @param $expectedStatus
 	 */
-	public function testAdminRecovery($recoveryPassword, $passconfirm, $enableRecovery, $expectedMessage, $expectedStatus) {
+	public function testAdminRecovery($recoveryPassword, $passConfirm, $enableRecovery, $expectedMessage, $expectedStatus) {
 
 
 		$this->recoveryMock->expects($this->any())
@@ -80,7 +69,7 @@ class RecoveryControllerTest extends TestCase {
 			->willReturn(true);
 
 		$response = $this->controller->adminRecovery($recoveryPassword,
-			$passconfirm,
+			$passConfirm,
 			$enableRecovery);
 
 
@@ -92,11 +81,11 @@ class RecoveryControllerTest extends TestCase {
 
 	public function changeRecoveryPasswordProvider() {
 		return [
-			['test', 'test', 'oldtestFail', 'Could not change the password. Maybe the old password was not correct.', HTTP::STATUS_BAD_REQUEST],
-			['test', 'test', 'oldtest', 'Password successfully changed.', HTTP::STATUS_OK],
-			['test', 'notmatch', 'oldtest', 'Repeated recovery key password does not match the provided recovery key password', HTTP::STATUS_BAD_REQUEST],
-			['', 'test', 'oldtest', 'Please provide a new recovery password', HTTP::STATUS_BAD_REQUEST],
-			['test', 'test', '', 'Please provide the old recovery password', HTTP::STATUS_BAD_REQUEST]
+			['test', 'test', 'oldtestFail', 'Could not change the password. Maybe the old password was not correct.', Http::STATUS_BAD_REQUEST],
+			['test', 'test', 'oldtest', 'Password successfully changed.', Http::STATUS_OK],
+			['test', 'notmatch', 'oldtest', 'Repeated recovery key password does not match the provided recovery key password', Http::STATUS_BAD_REQUEST],
+			['', 'test', 'oldtest', 'Please provide a new recovery password', Http::STATUS_BAD_REQUEST],
+			['test', 'test', '', 'Please provide the old recovery password', Http::STATUS_BAD_REQUEST]
 		];
 	}
 
@@ -160,8 +149,7 @@ class RecoveryControllerTest extends TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->appName = 'encryption';
-		$this->requestMock = $this->getMockBuilder('\OCP\IRequest')
+		$this->requestMock = $this->getMockBuilder('OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -182,7 +170,7 @@ class RecoveryControllerTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->controller = new RecoveryController($this->appName,
+		$this->controller = new RecoveryController('encryption',
 			$this->requestMock,
 			$this->configMock,
 			$this->l10nMock,
