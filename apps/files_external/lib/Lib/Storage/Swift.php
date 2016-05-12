@@ -98,6 +98,8 @@ class Swift extends \OC\Files\Storage\Common {
 
 	const SUBCONTAINER_FILE = '.subcontainers';
 
+	const LARGE_OBJECT_THRESHOLD = 4294967296;
+
 	/**
 	 * translate directory path to container name
 	 *
@@ -147,6 +149,24 @@ class Swift extends \OC\Files\Storage\Common {
 	 */
 	private function doesObjectExist($path) {
 		return $this->fetchObject($path) !== false;
+	}
+
+	/**
+	* Get large object file segments paths. If a the specified resource
+	* isn't a Dynamic Large Object, then array will be empty.
+	**/
+	private function getFileSegments($path) {
+		// A later version of PHP OpenCloud with manifest support could do this
+		// better, but this works for now.
+		$defaultSegmentPath = sprintf('%s/%s/', $path, 'segment');
+		$objects = $this->getContainer()->objectList(array(
+			'path' => $defaultSegmentPath
+		));
+		$objectPaths = [];
+		foreach ($objects as $object) {
+			$objectPaths[] = $object->getName();
+		}
+		return $objectPaths;
 	}
 
 	public function __construct($params) {
@@ -350,7 +370,12 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$this->getContainer()->dataObject()->setName($path)->delete();
+			$containerName = $this->getContainer()->getName();
+			$pathsToDelete = array(sprintf('/%s/%s', $containerName, $path));
+			foreach ($this->getFileSegments($path) as $segmentPath) {
+				$pathsToDelete[] = sprintf('/%s/%s', $containerName, $segmentPath);
+			}
+			$this->getConnection()->bulkDelete($pathsToDelete);
 			$this->objectCache->remove($path);
 			$this->objectCache->remove($path . '/');
 		} catch (ClientErrorResponseException $e) {
@@ -465,11 +490,19 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->unlink($path2);
 
 			try {
-				$source = $this->fetchObject($path1);
-				$source->copy($this->bucket . '/' . $path2);
-				// invalidate target object to force repopulation on fetch
-				$this->objectCache->remove($path2);
-				$this->objectCache->remove($path2 . '/');
+				$fileSegments = $this->getFileSegments($path1);
+				if (count($fileSegments) == 0) {
+					// Normal file
+					$source = $this->fetchObject($path1);
+					$source->copy($this->bucket . '/' . $path2);
+					// invalidate target object to force repopulation on fetch
+					$this->objectCache->remove($path2);
+					$this->objectCache->remove($path2 . '/');
+				} else {
+					// Large object file
+					// TODO: Implement after PHP OpenCloud is upgraded
+					return false;
+				}
 			} catch (ClientErrorResponseException $e) {
 				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 				return false;
@@ -614,11 +647,19 @@ class Swift extends \OC\Files\Storage\Common {
 		if (!isset(self::$tmpFiles[$tmpFile])) {
 			return false;
 		}
-		$fileData = fopen($tmpFile, 'r');
-		$this->getContainer()->uploadObject(self::$tmpFiles[$tmpFile], $fileData);
+		if (filesize($tmpFile) < self::LARGE_OBJECT_THRESHOLD) {
+			$fileData = fopen($tmpFile, 'r');
+			$this->getContainer()->uploadObject(self::$tmpFiles[$tmpFile], $fileData);
+		} else {
+			$transfer = $this->getContainer()->setupObjectTransfer(array(
+				'name' => self::$tmpFiles[$tmpFile],
+				'path' => $tmpFile
+			));
+			$transfer->upload();
+		}
+		unlink($tmpFile);
 		// invalidate target object to force repopulation on fetch
 		$this->objectCache->remove(self::$tmpFiles[$tmpFile]);
-		unlink($tmpFile);
 	}
 
 	public function hasUpdated($path, $time) {
