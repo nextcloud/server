@@ -26,7 +26,7 @@ namespace OCA\User_LDAP;
 
 use OCA\user_ldap\lib\ILDAPWrapper;
 
-class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
+class Group_Proxy extends Proxy implements \OCP\GroupInterface {
 	private $backends = array();
 	private $refBackend = null;
 

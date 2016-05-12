@@ -28,10 +28,9 @@ namespace OCA\User_LDAP;
 
 use OCA\user_ldap\lib\ILDAPWrapper;
 use OCA\User_LDAP\User\User;
-use \OCA\user_ldap\User_LDAP;
 use OCP\IConfig;
 
-class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterface {
+class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface {
 	private $backends = array();
 	private $refBackend = null;
 
