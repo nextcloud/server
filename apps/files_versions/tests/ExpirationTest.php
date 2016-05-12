@@ -24,7 +24,7 @@ namespace OCA\Files_Versions\Tests;
 
 use \OCA\Files_Versions\Expiration;
 
-class Expiration_Test extends \Test\TestCase {
+class ExpirationTest extends \Test\TestCase {
 	const SECONDS_PER_DAY = 86400; //60*60*24
 
 	public function expirationData(){

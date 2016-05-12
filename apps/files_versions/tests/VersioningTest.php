@@ -29,6 +29,8 @@
  *
  */
 
+namespace OCA\Files_Versions\Tests;
+
 require_once __DIR__ . '/../appinfo/app.php';
 
 use OC\Files\Storage\Temporary;
@@ -39,7 +41,7 @@ use OC\Files\Storage\Temporary;
  *
  * @group DB
  */
-class Test_Files_Versioning extends \Test\TestCase {
+class VersioningTest extends \Test\TestCase {
 
 	const TEST_VERSIONS_USER = 'test-versions-user';
 	const TEST_VERSIONS_USER2 = 'test-versions-user2';
