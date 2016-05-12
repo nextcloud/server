@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\user_ldap\Command;
+namespace OCA\User_LDAP\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

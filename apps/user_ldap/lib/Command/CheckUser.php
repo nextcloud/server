@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\user_ldap\Command;
+namespace OCA\User_LDAP\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -28,7 +28,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use OCA\user_ldap\lib\user\User;
 use OCA\User_LDAP\lib\User\DeletedUsersIndex;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\user_ldap\lib\Helper as LDAPHelper;
@@ -48,10 +47,10 @@ class CheckUser extends Command {
 	protected $mapping;
 
 	/**
-	 * @param OCA\user_ldap\User_Proxy $uBackend
-	 * @param OCA\user_ldap\lib\Helper $helper
-	 * @param OCA\User_LDAP\lib\User\DeletedUsersIndex $dui
-	 * @param OCA\User_LDAP\Mapping\UserMapping $mapping
+	 * @param User_Proxy $uBackend
+	 * @param LDAPHelper $helper
+	 * @param DeletedUsersIndex $dui
+	 * @param UserMapping $mapping
 	 */
 	public function __construct(User_Proxy $uBackend, LDAPHelper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
 		$this->backend = $uBackend;

@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\user_ldap\Command;
+namespace OCA\User_LDAP\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,8 +39,8 @@ class ShowRemnants extends Command {
 	protected $dateFormatter;
 
 	/**
-	 * @param OCA\user_ldap\lib\user\DeletedUsersIndex $dui
-	 * @param OCP\IDateTimeFormatter $dateFormatter
+	 * @param DeletedUsersIndex $dui
+	 * @param IDateTimeFormatter $dateFormatter
 	 */
 	public function __construct(DeletedUsersIndex $dui, IDateTimeFormatter $dateFormatter) {
 		$this->dui = $dui;
@@ -74,7 +74,7 @@ class ShowRemnants extends Command {
 				$this->dateFormatter->formatDate($user->getLastLogin()) : '-';
 			$rows[] = array('ocName'      => $user->getOCName(),
 							'displayName' => $user->getDisplayName(),
-							'uid'         => $user->getUid(),
+							'uid'         => $user->getUID(),
 							'dn'          => $user->getDN(),
 							'lastLogin'   => $lastLogin,
 							'homePath'    => $user->getHomePath(),
