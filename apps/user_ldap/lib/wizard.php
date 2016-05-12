@@ -914,6 +914,8 @@ class Wizard extends LDAPUtility {
 					}
 					$parts++;
 				}
+				//excluding computer object class
+				$filter .= '(!(objectClass=computer))';
 				//wrap parts in AND condition
 				if($parts > 1) {
 					$filter = '(&' . $filter . ')';
@@ -1221,6 +1223,8 @@ class Wizard extends LDAPUtility {
 		if(is_array($availableFeatures)
 		   && count($availableFeatures) > 0) {
 			natcasesort($availableFeatures);
+			//Remove computer feature from the list returned by LDAP server
+			$availableFeatures = array_diff($availableFeatures, ["computer"]);
 			//natcasesort keeps indices, but we must get rid of them for proper
 			//sorting in the web UI. Therefore: array_values
 			$this->result->addOptions($dbkey, array_values($availableFeatures));
