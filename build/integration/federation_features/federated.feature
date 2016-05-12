@@ -179,8 +179,8 @@ Feature: federated
 		And user "user1" uploads chunk file "1" of "3" with "AAAAA" to "/PARENT (2)/textfile0.txt"
 		And user "user1" uploads chunk file "2" of "3" with "BBBBB" to "/PARENT (2)/textfile0.txt"
 		And user "user1" uploads chunk file "3" of "3" with "CCCCC" to "/PARENT (2)/textfile0.txt"
-		When Downloading file "/PARENT (2)/textfile0.txt" with range "bytes=5-9"
-		Then Downloaded content should be "BBBBB"
+		When Downloading file "/PARENT (2)/textfile0.txt" with range "bytes=3-13"
+		Then Downloaded content should be "AABBBBBCCCC"
 
 
 
