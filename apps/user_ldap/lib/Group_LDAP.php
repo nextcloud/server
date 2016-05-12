@@ -32,12 +32,12 @@
  *
  */
 
-namespace OCA\user_ldap;
+namespace OCA\User_LDAP;
 
 use OCA\user_ldap\lib\Access;
 use OCA\user_ldap\lib\BackendUtility;
 
-class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
+class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	protected $enabled = false;
 
 	/**

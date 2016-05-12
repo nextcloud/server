@@ -24,21 +24,21 @@
  *
  */
 
-namespace OCA\user_ldap\tests;
+namespace OCA\User_LDAP\Tests;
 
-use \OCA\user_ldap\GROUP_LDAP as GroupLDAP;
+use OCA\User_LDAP\Group_LDAP as GroupLDAP;
 use \OCA\user_ldap\lib\Access;
 use \OCA\user_ldap\lib\Connection;
 use \OCA\user_ldap\lib\ILDAPWrapper;
 
 /**
- * Class Test_Group_Ldap
+ * Class GroupLDAPTest
  *
  * @group DB
  *
  * @package OCA\user_ldap\tests
  */
-class Test_Group_Ldap extends \Test\TestCase {
+class GroupLDAPTest extends \Test\TestCase {
 	private function getAccessMock() {
 		static $conMethods;
 		static $accMethods;
@@ -325,7 +325,7 @@ class Test_Group_Ldap extends \Test\TestCase {
 	 * tests that a user listing is complete, if all it's members have the group
 	 * as their primary.
 	 */
-	public function  testUsersInGroupPrimaryMembersOnly() {
+	public function testUsersInGroupPrimaryMembersOnly() {
 		$access = $this->getAccessMock();
 		$this->enableGroups($access);
 
@@ -360,7 +360,7 @@ class Test_Group_Ldap extends \Test\TestCase {
 	 * tests that a user counting is complete, if all it's members have the group
 	 * as their primary.
 	 */
-	public function  testCountUsersInGroupPrimaryMembersOnly() {
+	public function testCountUsersInGroupPrimaryMembersOnly() {
 		$access = $this->getAccessMock();
 		$this->enableGroups($access);
 

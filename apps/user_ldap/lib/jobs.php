@@ -158,7 +158,7 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 	}
 
 	/**
-	 * @return \OCA\user_ldap\GROUP_LDAP|\OCA\user_ldap\Group_Proxy
+	 * @return \OCA\User_LDAP\Group_LDAP|\OCA\User_LDAP\Group_Proxy
 	 */
 	static private function getGroupBE() {
 		if(!is_null(self::$groupBE)) {
@@ -184,9 +184,9 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 			$userMapper  = new UserMapping($dbc);
 			$ldapAccess->setGroupMapper($groupMapper);
 			$ldapAccess->setUserMapper($userMapper);
-			self::$groupBE = new \OCA\user_ldap\GROUP_LDAP($ldapAccess);
+			self::$groupBE = new \OCA\User_LDAP\Group_LDAP($ldapAccess);
 		} else {
-			self::$groupBE = new \OCA\user_ldap\Group_Proxy($configPrefixes, $ldapWrapper);
+			self::$groupBE = new \OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
 		}
 
 		return self::$groupBE;

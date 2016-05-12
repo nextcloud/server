@@ -29,7 +29,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\user_ldap\User_Proxy;
-use OCA\user_ldap\Group_Proxy;
+use OCA\User_LDAP\Group_Proxy;
 use OCA\user_ldap\lib\Helper;
 use OCA\user_ldap\lib\LDAP;
 use OCP\IConfig;

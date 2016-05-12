@@ -22,7 +22,7 @@
  *
  */
 
-namespace OCA\user_ldap;
+namespace OCA\User_LDAP;
 
 use OCA\user_ldap\lib\ILDAPWrapper;
 
@@ -38,7 +38,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
-				new \OCA\user_ldap\GROUP_LDAP($this->getAccess($configPrefix));
+				new \OCA\User_LDAP\Group_LDAP($this->getAccess($configPrefix));
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}

@@ -47,12 +47,12 @@ if(count($configPrefixes) === 1) {
 	$ldapAccess->setUserMapper(new OCA\User_LDAP\Mapping\UserMapping($dbc));
 	$ldapAccess->setGroupMapper(new OCA\User_LDAP\Mapping\GroupMapping($dbc));
 	$userBackend  = new OCA\user_ldap\USER_LDAP($ldapAccess, $ocConfig);
-	$groupBackend = new OCA\user_ldap\GROUP_LDAP($ldapAccess);
+	$groupBackend = new \OCA\User_LDAP\Group_LDAP($ldapAccess);
 } else if(count($configPrefixes) > 1) {
 	$userBackend  = new OCA\user_ldap\User_Proxy(
 		$configPrefixes, $ldapWrapper, $ocConfig
 	);
-	$groupBackend  = new OCA\user_ldap\Group_Proxy($configPrefixes, $ldapWrapper);
+	$groupBackend  = new OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
 }
 
 if(count($configPrefixes) > 0) {
