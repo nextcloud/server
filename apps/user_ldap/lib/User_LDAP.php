@@ -29,7 +29,7 @@
  *
  */
 
-namespace OCA\user_ldap;
+namespace OCA\User_LDAP;
 
 use OC\User\NoUserException;
 use OCA\user_ldap\lib\BackendUtility;
@@ -38,7 +38,7 @@ use OCA\user_ldap\lib\user\OfflineUser;
 use OCA\User_LDAP\lib\User\User;
 use OCP\IConfig;
 
-class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface {
+class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface {
 	/** @var string[] $homesToKill */
 	protected $homesToKill = array();
 

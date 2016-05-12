@@ -24,7 +24,7 @@ namespace OCA\user_ldap\tests\integration\lib;
 use OCA\user_ldap\lib\user\Manager as LDAPUserManager;
 use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\user_ldap\USER_LDAP;
+use OCA\User_LDAP\User_LDAP;
 
 require_once __DIR__  . '/../../../../../lib/base.php';
 

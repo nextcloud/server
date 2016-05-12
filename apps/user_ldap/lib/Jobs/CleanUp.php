@@ -24,7 +24,7 @@ namespace OCA\User_LDAP\Jobs;
 
 use \OC\BackgroundJob\TimedJob;
 use \OCA\user_ldap\User_LDAP;
-use \OCA\user_ldap\User_Proxy;
+use \OCA\User_LDAP\User_Proxy;
 use \OCA\user_ldap\lib\Helper;
 use \OCA\user_ldap\lib\LDAP;
 use \OCA\user_ldap\lib\user\DeletedUsersIndex;

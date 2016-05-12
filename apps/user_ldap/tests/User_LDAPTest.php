@@ -25,9 +25,9 @@
  *
  */
 
-namespace OCA\user_ldap\tests;
+namespace OCA\User_LDAP\Tests;
 
-use \OCA\user_ldap\USER_LDAP as UserLDAP;
+use OCA\User_LDAP\User_LDAP as UserLDAP;
 use \OCA\user_ldap\lib\Access;
 use \OCA\user_ldap\lib\Connection;
 use \OCA\user_ldap\lib\ILDAPWrapper;
@@ -37,9 +37,9 @@ use \OCA\user_ldap\lib\ILDAPWrapper;
  *
  * @group DB
  *
- * @package OCA\user_ldap\tests
+ * @package OCA\User_LDAP\Tests
  */
-class Test_User_Ldap_Direct extends \Test\TestCase {
+class User_LDAPTest extends \Test\TestCase {
 	protected $backend;
 	protected $access;
 	protected $configMock;

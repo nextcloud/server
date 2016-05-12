@@ -27,7 +27,7 @@ namespace OCA\user_ldap\tests;
 
 use \OCA\user_ldap\lib\Wizard;
 
-// use \OCA\user_ldap\USER_LDAP as UserLDAP;
+// use \OCA\user_ldap\User_LDAP as UserLDAP;
 // use \OCA\user_ldap\lib\Access;
 // use \OCA\user_ldap\lib\Configuration;
 // use \OCA\user_ldap\lib\ILDAPWrapper;

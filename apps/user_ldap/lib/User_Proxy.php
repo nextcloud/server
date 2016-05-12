@@ -24,7 +24,7 @@
  *
  */
 
-namespace OCA\user_ldap;
+namespace OCA\User_LDAP;
 
 use OCA\user_ldap\lib\ILDAPWrapper;
 use OCA\User_LDAP\lib\User\User;
