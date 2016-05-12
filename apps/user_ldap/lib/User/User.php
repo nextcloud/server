@@ -464,7 +464,7 @@ class User {
 			}
 		}
 		if(!is_null($quota)) {
-			$user = $this->userManager->get($this->uid)->setQuota($quota);
+			$this->userManager->get($this->uid)->setQuota($quota);
 		}
 	}
 
@@ -502,16 +502,13 @@ class User {
 	 */
 	private function setOwnCloudAvatar() {
 		if(!$this->image->valid()) {
-			$this->log->log('user_ldap', 'jpegPhoto data invalid for '.$this->dn,
-				\OCP\Util::ERROR);
+			$this->log->log('jpegPhoto data invalid for '.$this->dn, \OCP\Util::ERROR);
 			return;
 		}
 		//make sure it is a square and not bigger than 128x128
 		$size = min(array($this->image->width(), $this->image->height(), 128));
 		if(!$this->image->centerCrop($size)) {
-			$this->log->log('user_ldap',
-				'croping image for avatar failed for '.$this->dn,
-				\OCP\Util::ERROR);
+			$this->log->log('croping image for avatar failed for '.$this->dn, \OCP\Util::ERROR);
 			return;
 		}
 

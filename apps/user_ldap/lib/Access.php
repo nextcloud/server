@@ -316,7 +316,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @return string|false LDAP DN on success, otherwise false
 	 */
 	public function groupname2dn($name) {
-		return $this->groupMapper->getDNbyName($name);
+		return $this->groupMapper->getDNByName($name);
 	}
 
 	/**
@@ -325,7 +325,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @return string|false with the LDAP DN on success, otherwise false
 	 */
 	public function username2dn($name) {
-		$fdn = $this->userMapper->getDNbyName($name);
+		$fdn = $this->userMapper->getDNByName($name);
 
 		//Check whether the DN belongs to the Base, to avoid issues on multi-
 		//server setups

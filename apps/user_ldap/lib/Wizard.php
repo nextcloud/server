@@ -34,6 +34,7 @@ namespace OCA\User_LDAP;
 use OC\ServerNotAvailableException;
 
 class Wizard extends LDAPUtility {
+	/** @var \OCP\IL10N */
 	static protected $l;
 	protected $access;
 	protected $cr;
@@ -1033,12 +1034,12 @@ class Wizard extends LDAPUtility {
 		$host = $this->configuration->ldapHost;
 		$hostInfo = parse_url($host);
 		if(!$hostInfo) {
-			throw new \Exception($this->l->t('Invalid Host'));
+			throw new \Exception(self::$l->t('Invalid Host'));
 		}
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Attempting to connect ', \OCP\Util::DEBUG);
 		$cr = $this->ldap->connect($host, $port);
 		if(!is_resource($cr)) {
-			throw new \Exception($this->l->t('Invalid Host'));
+			throw new \Exception(self::$l->t('Invalid Host'));
 		}
 
 		\OCP\Util::writeLog('user_ldap', 'Wiz: Setting LDAP Options ', \OCP\Util::DEBUG);

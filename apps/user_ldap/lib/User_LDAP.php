@@ -98,7 +98,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	public function getLDAPUserByLoginName($loginName) {
 		//find out dn of the user name
 		$attrs = $this->access->userManager->getAttributes();
-		$users = $this->access->fetchUsersByLoginName($loginName, $attrs, 1);
+		$users = $this->access->fetchUsersByLoginName($loginName, $attrs);
 		if(count($users) < 1) {
 			throw new \Exception('No user available for the given login name on ' .
 				$this->access->connection->ldapHost . ':' . $this->access->connection->ldapPort);
