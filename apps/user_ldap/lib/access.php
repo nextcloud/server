@@ -38,6 +38,7 @@
 namespace OCA\user_ldap\lib;
 
 use OCA\User_LDAP\User\IUserTools;
+use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 
@@ -76,7 +77,7 @@ class Access extends LDAPUtility implements IUserTools {
 	protected $groupMapper;
 
 	public function __construct(Connection $connection, ILDAPWrapper $ldap,
-		user\Manager $userManager) {
+		Manager $userManager) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
 		$this->userManager = $userManager;
