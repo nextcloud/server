@@ -178,7 +178,6 @@ class LoginController extends Controller {
 		}
 		if ($loginResult === false) {
 			$this->session->set('loginMessages', [
-				[],
 				['invalidpassword']
 			]);
 			// Read current user and append if possible
