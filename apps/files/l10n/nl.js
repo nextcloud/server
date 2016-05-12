@@ -74,6 +74,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Favoriet",
     "Favorite" : "Favoriet",
+    "Local link" : "Lokale link",
     "Folder" : "Map",
     "New folder" : "Nieuwe map",
     "{newname} already exists" : "{newname} bestaat al",

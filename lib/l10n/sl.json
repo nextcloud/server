@@ -93,6 +93,10 @@
     "Cannot set expiration date more than %s days in the future" : "Datuma pretaka ni mogoče nastaviti za več kot %s dni v prihodnosti.",
     "Could not find category \"%s\"" : "Kategorije \"%s\" ni mogoče najti.",
     "Apps" : "Programi",
+    "A valid username must be provided" : "Navedeno mora biti veljavno uporabniško ime",
+    "Username contains whitespace at the beginning or at the end" : "Uporabniško ime vsebuje presledni znak na začetku ali na koncu imena.",
+    "A valid password must be provided" : "Navedeno mora biti veljavno geslo",
+    "The username is already being used" : "Vpisano uporabniško ime je že v uporabi",
     "Help" : "Pomoč",
     "Personal" : "Osebno",
     "Users" : "Uporabniki",
@@ -129,10 +133,6 @@
     "Data directory (%s) is readable by other users" : "Podatkovna mapa (%s) ima določena dovoljenja za branje skupine.",
     "Data directory (%s) is invalid" : "Podatkovna mapa (%s) ni veljavna.",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Preverite, ali je v korenu podatkovne mape datoteka \".ocdata\".",
-    "A valid username must be provided" : "Navedeno mora biti veljavno uporabniško ime",
-    "Username contains whitespace at the beginning or at the end" : "Uporabniško ime vsebuje presledni znak na začetku ali na koncu imena.",
-    "A valid password must be provided" : "Navedeno mora biti veljavno geslo",
-    "The username is already being used" : "Vpisano uporabniško ime je že v uporabi",
     "Could not obtain lock type %d on \"%s\"." : "Ni mogoče pridobiti zaklepa %d na \"%s\".",
     "Storage not available" : "Shramba ni na voljo"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"

@@ -273,7 +273,7 @@ OC.L10N.register(
     "Please contact your administrator." : "Stopite v stik s skrbnikom sistema.",
     "An internal error occurred." : "Prišlo je do notranje napake.",
     "Please try again or contact your administrator." : "Poskusite znova ali pa stopite v stik s skrbnikom sistema.",
-    "Username or email" : "Uporabniško ime ali e-naslov",
+    "Username or email" : "Uporabniško ime ali elektronski naslov",
     "Log in" : "Prijava",
     "Wrong password. Reset it?" : "Napačno geslo. Ali ga želite ponastaviti?",
     "Wrong password." : "Napačno geslo!",

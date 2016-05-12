@@ -73,6 +73,7 @@
     "_%n byte_::_%n bytes_" : ["%n tavu","%n tavua"],
     "Favorited" : "Lisätty suosikkeihin",
     "Favorite" : "Suosikki",
+    "Local link" : "Paikallinen linkki",
     "Folder" : "Kansio",
     "New folder" : "Uusi kansio",
     "{newname} already exists" : "{newname} on jo olemassa",

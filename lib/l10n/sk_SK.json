@@ -93,6 +93,9 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Zdieľanie %s zlyhalo, pretože súbor sa nenašiel vo vyrovnávacej pamäti súborov",
     "Could not find category \"%s\"" : "Nemožno nájsť danú kategóriu \"%s\"",
     "Apps" : "Aplikácie",
+    "A valid username must be provided" : "Musíte zadať platné používateľské meno",
+    "A valid password must be provided" : "Musíte zadať platné heslo",
+    "The username is already being used" : "Meno používateľa je už použité",
     "Help" : "Pomoc",
     "Personal" : "Osobné",
     "Users" : "Používatelia",
@@ -136,9 +139,6 @@
     "Check the value of \"datadirectory\" in your configuration" : "Skontrolujte hodnotu \"datadirectory\" vo vašej konfigurácii",
     "Data directory (%s) is invalid" : "Priečinok dát (%s) je neplatný",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Prosím, skontrolujte, či priečinok dát obsahuje súbor \".ocdata\".",
-    "A valid username must be provided" : "Musíte zadať platné používateľské meno",
-    "A valid password must be provided" : "Musíte zadať platné heslo",
-    "The username is already being used" : "Meno používateľa je už použité",
     "Could not obtain lock type %d on \"%s\"." : "Nepodarilo sa získať zámok typu %d na „%s“.",
     "Storage not available" : "Úložisko nie je dostupné"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"

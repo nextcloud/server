@@ -75,6 +75,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n byte","%n byte"],
     "Favorited" : "Preferiti",
     "Favorite" : "Preferito",
+    "Local link" : "Collegamento locale",
     "Folder" : "Cartella",
     "New folder" : "Nuova cartella",
     "{newname} already exists" : "{newname} esiste già",

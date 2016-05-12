@@ -1,5 +1,9 @@
 { "translations": {
     "Server to server sharing is not enabled on this server" : "Partajarea server-server nu este activată pe acest server",
+    "Invalid or untrusted SSL certificate" : "Certificat SSL invalid sau emis de o autoritate care nu se află pe lista celor în care se are încredere",
+    "Not a directory" : "Nu este un director",
+    "Could not lock path" : "Calea nu a putut fi blocată",
+    "Cannot increase permissions" : "Nu se pot extinde permisiunile",
     "Shared with you" : "Partajat cu tine",
     "Shared with others" : "Partajat cu alții",
     "Nothing shared with you yet" : "Nimic nu e partajat cu tine încă",

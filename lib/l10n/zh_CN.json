@@ -68,6 +68,9 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "共享 %s 失败，因为未在文件缓存中找到文件。",
     "Could not find category \"%s\"" : "无法找到分类 \"%s\"",
     "Apps" : "应用",
+    "A valid username must be provided" : "必须提供合法的用户名",
+    "A valid password must be provided" : "必须提供合法的密码",
+    "The username is already being used" : "用户名已被使用",
     "Help" : "帮助",
     "Personal" : "个人",
     "Users" : "用户",
@@ -98,9 +101,6 @@
     "Data directory (%s) is readable by other users" : "文件目录 (%s) 可以被其他用户读取",
     "Data directory (%s) is invalid" : "文件目录 (%s) 无效",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "请确保文件根目录下包含有一个名为“.ocdata”的文件。",
-    "A valid username must be provided" : "必须提供合法的用户名",
-    "A valid password must be provided" : "必须提供合法的密码",
-    "The username is already being used" : "用户名已被使用",
     "Storage not available" : "存储空间不可用"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

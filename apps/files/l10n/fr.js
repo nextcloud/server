@@ -75,6 +75,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n octet","%n octets"],
     "Favorited" : "Marqué comme favori",
     "Favorite" : "Favoris",
+    "Local link" : "Dossier local",
     "Folder" : "Dossier",
     "New folder" : "Nouveau dossier",
     "{newname} already exists" : "{newname} existe déjà",

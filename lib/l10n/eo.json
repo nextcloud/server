@@ -53,6 +53,10 @@
     "Expiration date is in the past" : "Senvalidiĝa dato estintas",
     "Could not find category \"%s\"" : "Ne troviĝis kategorio “%s”",
     "Apps" : "Aplikaĵoj",
+    "A valid username must be provided" : "Valida uzantonomo devas proviziĝi",
+    "Username contains whitespace at the beginning or at the end" : "Uzantonomo enhavas blankospacon eke aŭ maleke",
+    "A valid password must be provided" : "Valida pasvorto devas proviziĝi",
+    "The username is already being used" : "La uzantonomo jam uzatas",
     "Help" : "Helpo",
     "Personal" : "Persona",
     "Users" : "Uzantoj",
@@ -76,10 +80,6 @@
     "Data directory (%s) is readable by other users" : "Dosierujo de datumoj (%s) legeblas de aliaj uzantoj",
     "Data directory (%s) must be an absolute path" : "Dosierujo de datumoj (%s) devas specifiĝi per absoluta vojo",
     "Data directory (%s) is invalid" : "Dosierujo de datumoj (%s) ne validas",
-    "A valid username must be provided" : "Valida uzantonomo devas proviziĝi",
-    "Username contains whitespace at the beginning or at the end" : "Uzantonomo enhavas blankospacon eke aŭ maleke",
-    "A valid password must be provided" : "Valida pasvorto devas proviziĝi",
-    "The username is already being used" : "La uzantonomo jam uzatas",
     "Storage connection error. %s" : "Memorokonekta eraro. %s",
     "Storage not available" : "Memoro ne disponeblas"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -83,6 +83,9 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Współdzielenie %s nie powiodło się, ponieważ plik nie może zostać odnaleziony w buforze plików",
     "Could not find category \"%s\"" : "Nie można odnaleźć kategorii \"%s\"",
     "Apps" : "Aplikacje",
+    "A valid username must be provided" : "Należy podać prawidłową nazwę użytkownika",
+    "A valid password must be provided" : "Należy podać prawidłowe hasło",
+    "The username is already being used" : "Ta nazwa użytkownika jest już używana",
     "Help" : "Pomoc",
     "Personal" : "Osobiste",
     "Users" : "Użytkownicy",
@@ -116,9 +119,6 @@
     "Data directory (%s) is readable by other users" : "Katalog danych (%s) jest możliwy do odczytania przez innych użytkowników",
     "Data directory (%s) is invalid" : "Katalog danych (%s) jest nieprawidłowy",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Sprawdź, czy katalog danych zawiera plik \".ocdata\".",
-    "A valid username must be provided" : "Należy podać prawidłową nazwę użytkownika",
-    "A valid password must be provided" : "Należy podać prawidłowe hasło",
-    "The username is already being used" : "Ta nazwa użytkownika jest już używana",
     "Could not obtain lock type %d on \"%s\"." : "Nie można uzyskać blokady typu %d na \"%s\".",
     "Storage not available" : "Pamięć nie dostępna"
 },"pluralForm" :"nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
