@@ -21,7 +21,7 @@
 
 namespace OCA\DAV\Tests\Unit\AppInfo;
 
-use OCA\Dav\AppInfo\Application;
+use OCA\DAV\AppInfo\Application;
 use OCP\Contacts\IManager;
 use Test\TestCase;
 

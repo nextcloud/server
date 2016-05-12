@@ -22,7 +22,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OC\BackgroundJob\TimedJob;
-use OCA\Dav\AppInfo\Application;
+use OCA\DAV\AppInfo\Application;
 
 class SyncJob extends TimedJob {
 
