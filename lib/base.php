@@ -438,7 +438,7 @@ class OC {
 			if (isset($_COOKIE[session_name()])) {
 				setcookie(session_name(), null, -1, self::$WEBROOT ? : '/');
 			}
-			$session->clear();
+			\OC::$server->getUserSession()->logout();
 		}
 
 		$session->set('LAST_ACTIVITY', time());
