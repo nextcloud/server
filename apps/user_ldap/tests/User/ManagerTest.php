@@ -23,9 +23,9 @@
  *
  */
 
-namespace OCA\user_ldap\tests;
+namespace OCA\User_LDAP\Tests\User;
 
-use OCA\user_ldap\lib\user\Manager;
+use OCA\User_LDAP\User\Manager;
 
 /**
  * Class Test_User_Manager
@@ -34,10 +34,10 @@ use OCA\user_ldap\lib\user\Manager;
  *
  * @package OCA\user_ldap\tests
  */
-class Test_User_Manager extends \Test\TestCase {
+class ManagerTest extends \Test\TestCase {
 
 	private function getTestInstances() {
-		$access = $this->getMock('\OCA\user_ldap\lib\user\IUserTools');
+		$access = $this->getMock('\OCA\User_LDAP\User\IUserTools');
 		$config = $this->getMock('\OCP\IConfig');
 		$filesys = $this->getMock('\OCA\user_ldap\lib\FilesystemHelper');
 		$log = $this->getMock('\OCA\user_ldap\lib\LogWrapper');
@@ -87,7 +87,7 @@ class Test_User_Manager extends \Test\TestCase {
 		// runtime caching the manager is broken.
 		$user = $manager->get($inputDN);
 
-		$this->assertInstanceOf('\OCA\user_ldap\lib\user\User', $user);
+		$this->assertInstanceOf('\OCA\User_LDAP\User\User', $user);
 	}
 
 	public function testGetByEDirectoryDN() {
@@ -114,7 +114,7 @@ class Test_User_Manager extends \Test\TestCase {
 		$manager->setLdapAccess($access);
 		$user = $manager->get($inputDN);
 
-		$this->assertInstanceOf('\OCA\user_ldap\lib\user\User', $user);
+		$this->assertInstanceOf('\OCA\User_LDAP\User\User', $user);
 	}
 
 	public function testGetByExoticDN() {
@@ -141,7 +141,7 @@ class Test_User_Manager extends \Test\TestCase {
 		$manager->setLdapAccess($access);
 		$user = $manager->get($inputDN);
 
-		$this->assertInstanceOf('\OCA\user_ldap\lib\user\User', $user);
+		$this->assertInstanceOf('\OCA\User_LDAP\User\User', $user);
 	}
 
 	public function testGetByDNNotExisting() {
@@ -200,7 +200,7 @@ class Test_User_Manager extends \Test\TestCase {
 		// runtime caching the manager is broken.
 		$user = $manager->get($uid);
 
-		$this->assertInstanceOf('\OCA\user_ldap\lib\user\User', $user);
+		$this->assertInstanceOf('\OCA\User_LDAP\User\User', $user);
 	}
 
 	public function testGetByUidNotExisting() {

@@ -33,7 +33,7 @@ $ldapWrapper = new OCA\user_ldap\lib\LDAP();
 $ocConfig = \OC::$server->getConfig();
 if(count($configPrefixes) === 1) {
 	$dbc = \OC::$server->getDatabaseConnection();
-	$userManager = new OCA\user_ldap\lib\user\Manager($ocConfig,
+	$userManager = new OCA\User_LDAP\User\Manager($ocConfig,
 		new OCA\user_ldap\lib\FilesystemHelper(),
 		new OCA\user_ldap\lib\LogWrapper(),
 		\OC::$server->getAvatarManager(),

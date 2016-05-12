@@ -28,11 +28,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use OCA\user_ldap\lib\user\DeletedUsersIndex;
+use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCP\IDateTimeFormatter;
 
 class ShowRemnants extends Command {
-	/** @var \OCA\User_LDAP\lib\User\DeletedUsersIndex */
+	/** @var \OCA\User_LDAP\User\DeletedUsersIndex */
 	protected $dui;
 
 	/** @var \OCP\IDateTimeFormatter */

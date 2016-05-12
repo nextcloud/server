@@ -20,7 +20,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OCA\user_ldap\lib\user\User;
+
+use OCA\User_LDAP\User\User;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
 
@@ -118,7 +119,7 @@ class IntegrationTestUserAvatar extends AbstractIntegrationTest {
 	}
 
 	protected function initUserManager() {
-		$this->userManager = new \OCA\user_ldap\lib\user\Manager(
+		$this->userManager = new \OCA\User_LDAP\User\Manager(
 			\OC::$server->getConfig(),
 			new \OCA\user_ldap\lib\FilesystemHelper(),
 			new \OCA\user_ldap\lib\LogWrapper(),

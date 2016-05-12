@@ -22,9 +22,9 @@
  *
  */
 
-namespace OCA\user_ldap\tests;
+namespace OCA\User_LDAP\Tests\User;
 
-use OCA\user_ldap\lib\user\User;
+use OCA\User_LDAP\User\User;
 use OCP\IUserManager;
 
 /**
@@ -34,10 +34,10 @@ use OCP\IUserManager;
  *
  * @package OCA\user_ldap\tests
  */
-class Test_User_User extends \Test\TestCase {
+class UserTest extends \Test\TestCase {
 
 	private function getTestInstances() {
-		$access  = $this->getMock('\OCA\user_ldap\lib\user\IUserTools');
+		$access  = $this->getMock('\OCA\User_LDAP\User\IUserTools');
 		$config  = $this->getMock('\OCP\IConfig');
 		$filesys = $this->getMock('\OCA\user_ldap\lib\FilesystemHelper');
 		$log     = $this->getMock('\OCA\user_ldap\lib\LogWrapper');
@@ -59,14 +59,14 @@ class Test_User_User extends \Test\TestCase {
 			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
 			//getConnection shall not be replaced
 			unset($accMethods[array_search('getConnection', $accMethods)]);
-			$umMethods = get_class_methods('\OCA\user_ldap\lib\user\Manager');
+			$umMethods = get_class_methods('\OCA\User_LDAP\User\Manager');
 		}
 		$lw = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
 		$im = $this->getMock('\OCP\Image');
 		if (is_null($userMgr)) {
 			$userMgr = $this->getMock('\OCP\IUserManager');
 		}
-		$um = $this->getMock('\OCA\user_ldap\lib\user\Manager',
+		$um = $this->getMock('\OCA\User_LDAP\User\Manager',
 			$umMethods, array($cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr));
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 			$conMethods, array($lw, null, null));
@@ -763,7 +763,7 @@ class Test_User_User extends \Test\TestCase {
 			'updateAvatar'
 		);
 
-		$userMock = $this->getMockBuilder('OCA\user_ldap\lib\user\User')
+		$userMock = $this->getMockBuilder('OCA\User_LDAP\User\User')
 			->setConstructorArgs(array($uid, $dn, $access, $config, $filesys, $image, $log, $avaMgr, $userMgr))
 			->setMethods($requiredMethods)
 			->getMock();

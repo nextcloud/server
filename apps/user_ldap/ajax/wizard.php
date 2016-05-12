@@ -49,7 +49,7 @@ $con->setConfiguration($configuration->getConfiguration());
 $con->ldapConfigurationActive = true;
 $con->setIgnoreValidation(true);
 
-$userManager = new \OCA\user_ldap\lib\user\Manager(
+$userManager = new \OCA\User_LDAP\User\Manager(
 	\OC::$server->getConfig(),
 	new \OCA\user_ldap\lib\FilesystemHelper(),
 	new \OCA\user_ldap\lib\LogWrapper(),

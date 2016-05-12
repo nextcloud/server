@@ -30,7 +30,7 @@ class Test_CleanUp extends \PHPUnit_Framework_TestCase {
 				->disableOriginalConstructor()
 				->getMock();
 		$mocks['deletedUsersIndex'] =
-			$this->getMockBuilder('\OCA\user_ldap\lib\user\deletedUsersIndex')
+			$this->getMockBuilder('\OCA\User_LDAP\User\DeletedUsersIndex')
 				->disableOriginalConstructor()
 				->getMock();
 		$mocks['ocConfig']    = $this->getMock('\OCP\IConfig');

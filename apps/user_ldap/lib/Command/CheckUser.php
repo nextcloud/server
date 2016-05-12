@@ -28,7 +28,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use OCA\User_LDAP\lib\User\DeletedUsersIndex;
+use OCA\User_LDAP\User\DeletedUsersIndex;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\user_ldap\lib\Helper as LDAPHelper;
 use OCA\User_LDAP\User_Proxy;
@@ -40,7 +40,7 @@ class CheckUser extends Command {
 	/** @var \OCA\User_LDAP\lib\Helper */
 	protected $helper;
 
-	/** @var \OCA\User_LDAP\lib\User\DeletedUsersIndex */
+	/** @var \OCA\User_LDAP\User\DeletedUsersIndex */
 	protected $dui;
 
 	/** @var \OCA\User_LDAP\Mapping\UserMapping */

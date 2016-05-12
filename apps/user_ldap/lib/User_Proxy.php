@@ -27,7 +27,7 @@
 namespace OCA\User_LDAP;
 
 use OCA\user_ldap\lib\ILDAPWrapper;
-use OCA\User_LDAP\lib\User\User;
+use OCA\User_LDAP\User\User;
 use \OCA\user_ldap\User_LDAP;
 use OCP\IConfig;
 
@@ -162,7 +162,7 @@ class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterf
 
 	/**
 	 * check if a user exists on LDAP
-	 * @param string|\OCA\User_LDAP\lib\User\User $user either the ownCloud user
+	 * @param string|\OCA\User_LDAP\User\User $user either the ownCloud user
 	 * name or an instance of that user
 	 * @return boolean
 	 */

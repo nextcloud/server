@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\user_ldap\lib\user;
+namespace OCA\User_LDAP\User;
 
 /**
  * IUserTools

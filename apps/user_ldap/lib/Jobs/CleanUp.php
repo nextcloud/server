@@ -27,7 +27,7 @@ use \OCA\user_ldap\User_LDAP;
 use \OCA\User_LDAP\User_Proxy;
 use \OCA\user_ldap\lib\Helper;
 use \OCA\user_ldap\lib\LDAP;
-use \OCA\user_ldap\lib\user\DeletedUsersIndex;
+use \OCA\User_LDAP\User\DeletedUsersIndex;
 use \OCA\User_LDAP\Mapping\UserMapping;
 
 /**
@@ -59,7 +59,7 @@ class CleanUp extends TimedJob {
 	/** @var \OCA\User_LDAP\Mapping\UserMapping */
 	protected $mapping;
 
-	/** @var \OCA\User_LDAP\lib\User\DeletedUsersIndex */
+	/** @var \OCA\User_LDAP\User\DeletedUsersIndex */
 	protected $dui;
 
 	public function __construct() {

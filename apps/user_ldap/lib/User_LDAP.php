@@ -34,8 +34,8 @@ namespace OCA\User_LDAP;
 use OC\User\NoUserException;
 use OCA\user_ldap\lib\BackendUtility;
 use OCA\user_ldap\lib\Access;
-use OCA\user_ldap\lib\user\OfflineUser;
-use OCA\User_LDAP\lib\User\User;
+use OCA\User_LDAP\User\OfflineUser;
+use OCA\User_LDAP\User\User;
 use OCP\IConfig;
 
 class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface {
@@ -201,7 +201,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	/**
 	 * checks whether a user is still available on LDAP
 	 *
-	 * @param string|\OCA\User_LDAP\lib\user\User $user either the ownCloud user
+	 * @param string|\OCA\User_LDAP\User\User $user either the ownCloud user
 	 * name or an instance of that user
 	 * @return bool
 	 * @throws \Exception

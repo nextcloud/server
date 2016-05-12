@@ -70,7 +70,7 @@ class Test_Wizard extends \Test\TestCase {
 
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 			$connMethods, array($lw, null, null));
-		$um = $this->getMockBuilder('\OCA\user_ldap\lib\user\Manager')
+		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
 					->disableOriginalConstructor()
 					->getMock();
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',

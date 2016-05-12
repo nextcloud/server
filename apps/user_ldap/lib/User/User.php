@@ -22,7 +22,7 @@
  *
  */
 
-namespace OCA\user_ldap\lib\user;
+namespace OCA\User_LDAP\User;
 
 use OCA\user_ldap\lib\Connection;
 use OCA\user_ldap\lib\FilesystemHelper;

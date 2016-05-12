@@ -25,7 +25,7 @@ use OCA\user_ldap\lib\Helper;
 use OCA\user_ldap\lib\LDAP;
 use OCA\User_LDAP\User_Proxy;
 use OCA\User_LDAP\Mapping\UserMapping;
-use OCA\User_LDAP\lib\User\DeletedUsersIndex;
+use OCA\User_LDAP\User\DeletedUsersIndex;
 
 $dbConnection = \OC::$server->getDatabaseConnection();
 $userMapping = new UserMapping($dbConnection);

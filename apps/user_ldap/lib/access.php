@@ -37,14 +37,15 @@
 
 namespace OCA\user_ldap\lib;
 
-use OCA\user_ldap\lib\user\OfflineUser;
+use OCA\User_LDAP\User\IUserTools;
+use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\Mapping\AbstractMapping;
 
 /**
  * Class Access
  * @package OCA\user_ldap\lib
  */
-class Access extends LDAPUtility implements user\IUserTools {
+class Access extends LDAPUtility implements IUserTools {
 	/**
 	 * @var \OCA\user_ldap\lib\Connection
 	 */

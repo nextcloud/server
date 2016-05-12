@@ -45,13 +45,13 @@ class Test_Access extends \Test\TestCase {
 		if(is_null($conMethods) || is_null($accMethods)) {
 			$conMethods = get_class_methods('\OCA\user_ldap\lib\Connection');
 			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
-			$umMethods  = get_class_methods('\OCA\user_ldap\lib\user\Manager');
+			$umMethods  = get_class_methods('\OCA\User_LDAP\User\Manager');
 		}
 		$lw  = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 									$conMethods,
 									array($lw, null, null));
-		$um = $this->getMock('\OCA\user_ldap\lib\user\Manager',
+		$um = $this->getMock('\OCA\User_LDAP\User\Manager',
 			$umMethods, array(
 				$this->getMock('\OCP\IConfig'),
 				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
@@ -244,7 +244,7 @@ class Test_Access extends \Test\TestCase {
 			->method('getNameByDN')
 			->will($this->returnValue('a_username'));
 
-		$userMock = $this->getMockBuilder('\OCA\user_ldap\lib\user\User')
+		$userMock = $this->getMockBuilder('\OCA\User_LDAP\User\User')
 			->disableOriginalConstructor()
 			->getMock();
 

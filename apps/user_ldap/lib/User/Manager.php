@@ -23,13 +23,10 @@
  *
  */
 
-namespace OCA\user_ldap\lib\user;
+namespace OCA\User_LDAP\User;
 
-use OCA\user_ldap\lib\user\IUserTools;
-use OCA\user_ldap\lib\user\User;
 use OCA\user_ldap\lib\LogWrapper;
 use OCA\user_ldap\lib\FilesystemHelper;
-use OCA\user_ldap\lib\user\OfflineUser;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -65,8 +62,8 @@ class Manager {
 	protected $avatarManager;
 
 	/**
-	 * array['byDN']	\OCA\user_ldap\lib\User[]
-	 * 	['byUid']	\OCA\user_ldap\lib\User[]
+	 * array['byDN']	\OCA\User_LDAP\User\User[]
+	 * 	['byUid']	\OCA\User_LDAP\User\User[]
 	 * @var array $users
 	 */
 	protected $users = array(
@@ -112,7 +109,7 @@ class Manager {
 	 * property array
 	 * @param string $dn the DN of the user
 	 * @param string $uid the internal (owncloud) username
-	 * @return \OCA\user_ldap\lib\User\User
+	 * @return \OCA\User_LDAP\User\User
 	 */
 	private function createAndCache($dn, $uid) {
 		$this->checkAccess();
@@ -187,7 +184,7 @@ class Manager {
 	/**
 	 * creates and returns an instance of OfflineUser for the specified user
 	 * @param string $id
-	 * @return \OCA\user_ldap\lib\user\OfflineUser
+	 * @return \OCA\User_LDAP\User\OfflineUser
 	 */
 	public function getDeletedUser($id) {
 		return new OfflineUser(
@@ -200,7 +197,7 @@ class Manager {
 	/**
 	 * @brief returns a User object by it's ownCloud username
 	 * @param string $id the DN or username of the user
-	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
+	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
 	 */
 	protected function createInstancyByUserName($id) {
 		//most likely a uid. Check whether it is a deleted user
@@ -217,7 +214,7 @@ class Manager {
 	/**
 	 * @brief returns a User object by it's DN or ownCloud username
 	 * @param string $id the DN or username of the user
-	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
+	 * @return \OCA\User_LDAP\User\User|\OCA\User_LDAP\User\OfflineUser|null
 	 * @throws \Exception when connection could not be established
 	 */
 	public function get($id) {

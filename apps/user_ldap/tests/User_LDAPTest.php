@@ -60,7 +60,7 @@ class User_LDAPTest extends \Test\TestCase {
 			$conMethods = get_class_methods('\OCA\user_ldap\lib\Connection');
 			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
 			unset($accMethods[array_search('getConnection', $accMethods)]);
-			$uMethods   = get_class_methods('\OCA\user_ldap\lib\user\User');
+			$uMethods   = get_class_methods('\OCA\User_LDAP\User\User');
 			unset($uMethods[array_search('getUsername', $uMethods)]);
 			unset($uMethods[array_search('getDN', $uMethods)]);
 			unset($uMethods[array_search('__construct', $uMethods)]);
@@ -72,11 +72,11 @@ class User_LDAPTest extends \Test\TestCase {
 
 		$this->configMock = $this->getMock('\OCP\IConfig');
 
-		$offlineUser = $this->getMockBuilder('\OCA\user_ldap\lib\user\OfflineUser')
+		$offlineUser = $this->getMockBuilder('\OCA\User_LDAP\User\OfflineUser')
 			->disableOriginalConstructor()
 			->getMock();
 
-		$um = $this->getMockBuilder('\OCA\user_ldap\lib\user\Manager')
+		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
 			->setMethods(['getDeletedUser'])
 			->setConstructorArgs([
 				$this->configMock,

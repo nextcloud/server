@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\user_ldap\lib\user;
+namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\Mapping\UserMapping;
 
@@ -63,7 +63,7 @@ class DeletedUsersIndex {
 
 	/**
 	 * reads LDAP users marked as deleted from the database
-	 * @return \OCA\user_ldap\lib\user\OfflineUser[]
+	 * @return \OCA\User_LDAP\User\OfflineUser[]
 	 */
 	private function fetchDeletedUsers() {
 		$deletedUsers = $this->config->getUsersForUserValue(
@@ -80,7 +80,7 @@ class DeletedUsersIndex {
 
 	/**
 	 * returns all LDAP users that are marked as deleted
-	 * @return \OCA\user_ldap\lib\user\OfflineUser[]
+	 * @return \OCA\User_LDAP\User\OfflineUser[]
 	 */
 	public function getUsers() {
 		if(is_array($this->deletedUsers)) {
