@@ -1065,10 +1065,9 @@
 
 			<field>
 				<name>name</name>
-				<type>text</type>
+				<type>clob</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>100</length>
 			</field>
 
 			<field>
