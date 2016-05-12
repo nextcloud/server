@@ -21,6 +21,9 @@
 
 namespace Test\Preview;
 
+/**
+ * @requires function Imagick::__construct
+ */
 class SVG extends Provider {
 
 	public function setUp() {
