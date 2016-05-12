@@ -24,9 +24,10 @@
  *
  */
 
-namespace OCA\user_ldap\lib;
+namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCA\user_ldap\lib\ILDAPWrapper;
 
 class LDAP implements ILDAPWrapper {
 	protected $curFunc = '';
@@ -160,7 +161,7 @@ class LDAP implements ILDAPWrapper {
 	/**
 	 * @param LDAP $link
 	 * @param resource $result
-	 * @return mixed|an
+	 * @return mixed
 	 */
 	public function nextEntry($link, $result) {
 		return $this->invokeLDAPMethod('next_entry', $link, $result);

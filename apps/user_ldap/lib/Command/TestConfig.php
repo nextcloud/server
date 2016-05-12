@@ -71,7 +71,7 @@ class TestConfig extends Command {
 	 * @return int
 	 */
 	protected function testConfig($configID) {
-		$lw = new \OCA\user_ldap\lib\LDAP();
+		$lw = new \OCA\User_LDAP\LDAP();
 		$connection = new Connection($lw, $configID);
 
 		//ensure validation is run before we attempt the bind

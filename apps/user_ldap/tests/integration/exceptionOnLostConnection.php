@@ -20,7 +20,7 @@
  */
 
 use OC\ServerNotAvailableException;
-use OCA\user_ldap\lib\LDAP;
+use OCA\User_LDAP\LDAP;
 
 /**
  * Class ExceptionOnLostConnection
@@ -51,7 +51,7 @@ class ExceptionOnLostConnection {
 	/** @var  string */
 	private $ldapHost;
 
-	/** @var  OCA\user_ldap\lib\LDAP */
+	/** @var  \OCA\User_LDAP\LDAP */
 	private $ldap;
 
 	/** @var  bool */

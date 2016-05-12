@@ -41,7 +41,7 @@ if(!isset($_POST['ldap_serverconfig_chooser'])) {
 }
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 
-$ldapWrapper = new \OCA\user_ldap\lib\LDAP();
+$ldapWrapper = new \OCA\User_LDAP\LDAP();
 $configuration = new \OCA\user_ldap\lib\Configuration($prefix);
 
 $con = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);

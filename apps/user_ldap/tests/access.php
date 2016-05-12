@@ -209,7 +209,7 @@ class Test_Access extends \Test\TestCase {
 
 	public function testStringResemblesDNLDAPmod() {
 		list($lw, $con, $um) = $this->getConnectorAndLdapMock();
-		$lw = new \OCA\user_ldap\lib\LDAP();
+		$lw = new \OCA\User_LDAP\LDAP();
 		$access = new Access($con, $lw, $um);
 
 		if(!function_exists('ldap_explode_dn')) {

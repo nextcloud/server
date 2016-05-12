@@ -29,7 +29,7 @@ OCP\App::registerAdmin('user_ldap', 'settings');
 
 $helper = new \OCA\user_ldap\lib\Helper();
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
-$ldapWrapper = new OCA\user_ldap\lib\LDAP();
+$ldapWrapper = new OCA\User_LDAP\LDAP();
 $ocConfig = \OC::$server->getConfig();
 if(count($configPrefixes) === 1) {
 	$dbc = \OC::$server->getDatabaseConnection();
