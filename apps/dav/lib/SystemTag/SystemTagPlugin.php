@@ -187,6 +187,9 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 		$groups = [];
 		if (isset($data['groups'])) {
 			$groups = $data['groups'];
+			if (is_string($groups)) {
+				$groups = explode('|', $groups);
+			}
 		}
 
 		if($userVisible === false || $userAssignable === false || !empty($groups)) {
@@ -308,6 +311,7 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$groupIds = explode('|', $propValue);
 				$this->tagManager->setTagGroups($tag, $groupIds);
 			}
+			return true;
 		});
 
 	}
