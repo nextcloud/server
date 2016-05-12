@@ -23,9 +23,9 @@
  *
  */
 
-namespace OCA\user_ldap\tests;
+namespace OCA\User_LDAP\tests;
 
-use \OCA\user_ldap\lib\Wizard;
+use \OCA\User_LDAP\Wizard;
 
 // use \OCA\user_ldap\User_LDAP as UserLDAP;
 // use \OCA\user_ldap\lib\Access;
@@ -37,9 +37,9 @@ use \OCA\user_ldap\lib\Wizard;
  *
  * @group DB
  *
- * @package OCA\user_ldap\tests
+ * @package OCA\User_LDAP\tests
  */
-class Test_Wizard extends \Test\TestCase {
+class WizardTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		//we need to make sure the consts are defined, otherwise tests will fail

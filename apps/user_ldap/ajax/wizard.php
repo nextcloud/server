@@ -60,7 +60,7 @@ $userManager = new \OCA\User_LDAP\User\Manager(
 
 $access = new \OCA\user_ldap\lib\Access($con, $ldapWrapper, $userManager);
 
-$wizard = new \OCA\user_ldap\lib\Wizard($configuration, $ldapWrapper, $access);
+$wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);
 
 switch($action) {
 	case 'guessPortAndTLS':

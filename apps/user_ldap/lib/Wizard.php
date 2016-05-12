@@ -29,9 +29,14 @@
  *
  */
 
-namespace OCA\user_ldap\lib;
+namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
+use OCA\user_ldap\lib\Access;
+use OCA\user_ldap\lib\Configuration;
+use OCA\user_ldap\lib\Helper;
+use OCA\user_ldap\lib\ILDAPWrapper;
+use OCA\user_ldap\lib\LDAPUtility;
 
 class Wizard extends LDAPUtility {
 	static protected $l;

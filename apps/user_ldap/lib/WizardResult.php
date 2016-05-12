@@ -23,7 +23,7 @@
  *
  */
 
-namespace OCA\user_ldap\lib;
+namespace OCA\User_LDAP;
 
 class WizardResult {
 	protected $changes = array();
