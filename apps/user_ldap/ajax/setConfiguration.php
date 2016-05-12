@@ -42,7 +42,7 @@ foreach($chkboxes as $boxid) {
 }
 
 $ldapWrapper = new OCA\User_LDAP\LDAP();
-$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
+$connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
 $connection->setConfiguration($_POST);
 $connection->saveConfiguration();
 OCP\JSON::success();

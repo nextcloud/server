@@ -29,7 +29,6 @@
 namespace OCA\User_LDAP;
 
 use OCA\user_ldap\lib\Access;
-use OCA\user_ldap\lib\Connection;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
 

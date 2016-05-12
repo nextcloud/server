@@ -22,7 +22,7 @@
 namespace OCA\user_ldap\tests\integration;
 
 use OCA\user_ldap\lib\Access;
-use OCA\user_ldap\lib\Connection;
+use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\LDAP;
 use OCA\User_LDAP\User\Manager;
 

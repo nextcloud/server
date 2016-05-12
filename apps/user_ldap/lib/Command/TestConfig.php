@@ -28,7 +28,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use \OCA\User_LDAP\Helper;
-use \OCA\user_ldap\lib\Connection;
+use \OCA\User_LDAP\Connection;
 
 class TestConfig extends Command {
 

@@ -46,7 +46,7 @@ class ManagerTest extends \Test\TestCase {
 		$dbc = $this->getMock('\OCP\IDBConnection');
 		$userMgr = $this->getMock('\OCP\IUserManager');
 
-		$connection = new \OCA\user_ldap\lib\Connection(
+		$connection = new \OCA\User_LDAP\Connection(
 			$lw  = $this->getMock('\OCA\User_LDAP\ILDAPWrapper'),
 			'',
 			null

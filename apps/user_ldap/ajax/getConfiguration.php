@@ -29,5 +29,5 @@ OCP\JSON::callCheck();
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 $ldapWrapper = new OCA\User_LDAP\LDAP();
-$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
+$connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
 OCP\JSON::success(array('configuration' => $connection->getConfiguration()));

@@ -44,7 +44,7 @@ $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 $ldapWrapper = new \OCA\User_LDAP\LDAP();
 $configuration = new \OCA\user_ldap\lib\Configuration($prefix);
 
-$con = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);
+$con = new \OCA\User_LDAP\Connection($ldapWrapper, '', null);
 $con->setConfiguration($configuration->getConfiguration());
 $con->ldapConfigurationActive = true;
 $con->setIgnoreValidation(true);
@@ -127,7 +127,7 @@ switch($action) {
 		}
 		$configuration->saveConfiguration();
 		//clear the cache on save
-		$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
+		$connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
 		$connection->clearCache();
 		OCP\JSON::success();
 		break;

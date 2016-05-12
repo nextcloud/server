@@ -55,7 +55,7 @@ class UserTest extends \Test\TestCase {
 		static $umMethods;
 
 		if(is_null($conMethods) || is_null($accMethods)) {
-			$conMethods = get_class_methods('\OCA\user_ldap\lib\Connection');
+			$conMethods = get_class_methods('\OCA\User_LDAP\Connection');
 			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
 			//getConnection shall not be replaced
 			unset($accMethods[array_search('getConnection', $accMethods)]);
@@ -68,7 +68,7 @@ class UserTest extends \Test\TestCase {
 		}
 		$um = $this->getMock('\OCA\User_LDAP\User\Manager',
 			$umMethods, array($cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc, $userMgr));
-		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
+		$connector = $this->getMock('\OCA\User_LDAP\Connection',
 			$conMethods, array($lw, null, null));
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 			$accMethods, array($connector, $lw, $um));

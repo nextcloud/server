@@ -23,7 +23,7 @@
  */
 
 namespace OCA\user_ldap\tests;
-use OCA\user_ldap\lib\Connection;
+use OCA\User_LDAP\Connection;
 
 /**
  * Class Test_Connection
@@ -44,7 +44,7 @@ class Test_Connection extends \Test\TestCase {
 
 		$this->ldap       = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
 		// we use a mock here to replace the cache mechanism, due to missing DI in LDAP backend.
-		$this->connection = $this->getMockBuilder('OCA\user_ldap\lib\Connection')
+		$this->connection = $this->getMockBuilder('OCA\User_LDAP\Connection')
 								 ->setMethods(['getFromCache', 'writeToCache'])
 								 ->setConstructorArgs([$this->ldap, '', null])
 								 ->getMock();

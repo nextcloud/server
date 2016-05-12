@@ -37,6 +37,7 @@
 
 namespace OCA\user_ldap\lib;
 
+use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\ILDAPWrapper;
 use OCA\User_LDAP\LDAPUtility;
 use OCA\User_LDAP\User\IUserTools;
@@ -50,7 +51,7 @@ use OCA\User_LDAP\Mapping\AbstractMapping;
  */
 class Access extends LDAPUtility implements IUserTools {
 	/**
-	 * @var \OCA\user_ldap\lib\Connection
+	 * @var \OCA\User_LDAP\Connection
 	 */
 	public $connection;
 	public $userManager;
@@ -135,7 +136,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 	/**
 	 * returns the Connection instance
-	 * @return \OCA\user_ldap\lib\Connection
+	 * @return \OCA\User_LDAP\Connection
 	 */
 	public function getConnection() {
 		return $this->connection;

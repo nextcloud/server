@@ -21,7 +21,7 @@
 
 namespace OCA\user_ldap\tests\integration\lib;
 
-use OCA\user_ldap\lib\Connection;
+use OCA\User_LDAP\Connection;
 use OCA\user_ldap\tests\integration\AbstractIntegrationTest;
 
 require_once __DIR__  . '/../../../../../lib/base.php';

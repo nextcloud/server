@@ -41,7 +41,7 @@ if(count($configPrefixes) === 1) {
 		$dbc,
 		\OC::$server->getUserManager()
 	);
-	$connector = new OCA\user_ldap\lib\Connection($ldapWrapper, $configPrefixes[0]);
+	$connector = new OCA\User_LDAP\Connection($ldapWrapper, $configPrefixes[0]);
 	$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper, $userManager);
 
 	$ldapAccess->setUserMapper(new OCA\User_LDAP\Mapping\UserMapping($dbc));
