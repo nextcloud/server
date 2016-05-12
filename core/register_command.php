@@ -116,6 +116,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 		new \OC\Repair(\OC\Repair::getRepairSteps(), \OC::$server->getEventDispatcher()), \OC::$server->getConfig(),
 		\OC::$server->getEventDispatcher()));
 	$application->add(new OC\Core\Command\Maintenance\SingleUser(\OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger()));
 
