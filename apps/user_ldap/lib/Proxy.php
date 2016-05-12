@@ -32,7 +32,6 @@ use OCA\user_ldap\lib\Access;
 use OCA\user_ldap\lib\Connection;
 use OCA\user_ldap\lib\FilesystemHelper;
 use OCA\user_ldap\lib\ILDAPWrapper;
-use OCA\user_ldap\lib\LogWrapper;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
 

@@ -67,10 +67,11 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 		$this->userManager = new LDAPUserManager(
 			\OC::$server->getConfig(),
 			new \OCA\user_ldap\lib\FilesystemHelper(),
-			new \OCA\user_ldap\lib\LogWrapper(),
+			new \OCA\User_LDAP\LogWrapper(),
 			\OC::$server->getAvatarManager(),
 			new \OCP\Image(),
-			\OC::$server->getDatabaseConnection()
+			\OC::$server->getDatabaseConnection(),
+			\OC::$server->getUserManager()
 		);
 	}
 
@@ -82,7 +83,7 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 	 */
 	protected function case1() {
 		\OC::$server->getConfig()->setAppValue('user_ldap', 'enforce_home_folder_naming_rule', false);
-		$userManager = \oc::$server->getUserManager();
+		$userManager = \OC::$server->getUserManager();
 		$userManager->clearBackends();
 		$userManager->registerBackend($this->backend);
 		$users = $userManager->search('', 5, 0);

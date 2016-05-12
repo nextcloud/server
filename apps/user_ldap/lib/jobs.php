@@ -30,6 +30,7 @@ namespace OCA\user_ldap\lib;
 
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\User\Manager;
 
 class Jobs extends \OC\BackgroundJob\TimedJob {
 	static private $groupsFromDB;
@@ -170,7 +171,7 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 		if(count($configPrefixes) === 1) {
 			//avoid the proxy when there is only one LDAP server configured
 			$dbc = \OC::$server->getDatabaseConnection();
-			$userManager = new user\Manager(
+			$userManager = new Manager(
 				\OC::$server->getConfig(),
 				new FilesystemHelper(),
 				new LogWrapper(),

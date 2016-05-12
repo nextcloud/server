@@ -81,7 +81,7 @@ class User_LDAPTest extends \Test\TestCase {
 			->setConstructorArgs([
 				$this->configMock,
 				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
-				$this->getMock('\OCA\user_ldap\lib\LogWrapper'),
+				$this->getMock('\OCA\User_LDAP\LogWrapper'),
 				$this->getMock('\OCP\IAvatarManager'),
 				$this->getMock('\OCP\Image'),
 				$this->getMock('\OCP\IDBConnection'),
