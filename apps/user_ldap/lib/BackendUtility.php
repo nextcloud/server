@@ -24,8 +24,6 @@
 namespace OCA\User_LDAP;
 
 
-use OCA\user_ldap\lib\Access;
-
 abstract class BackendUtility {
 	protected $access;
 

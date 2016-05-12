@@ -32,7 +32,6 @@
 namespace OCA\User_LDAP;
 
 use OC\User\NoUserException;
-use OCA\user_ldap\lib\Access;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
 use OCP\IConfig;
@@ -45,7 +44,7 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	protected $ocConfig;
 
 	/**
-	 * @param \OCA\user_ldap\lib\Access $access
+	 * @param Access $access
 	 * @param \OCP\IConfig $ocConfig
 	 */
 	public function __construct(Access $access, IConfig $ocConfig) {

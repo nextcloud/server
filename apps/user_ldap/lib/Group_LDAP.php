@@ -34,7 +34,6 @@
 
 namespace OCA\User_LDAP;
 
-use OCA\user_ldap\lib\Access;
 
 class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	protected $enabled = false;

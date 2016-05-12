@@ -32,7 +32,6 @@
 namespace OCA\User_LDAP;
 
 use OC\ServerNotAvailableException;
-use OCA\user_ldap\lib\Access;
 
 class Wizard extends LDAPUtility {
 	static protected $l;
@@ -59,6 +58,7 @@ class Wizard extends LDAPUtility {
 	 * Constructor
 	 * @param Configuration $configuration an instance of Configuration
 	 * @param ILDAPWrapper $ldap an instance of ILDAPWrapper
+	 * @param Access $access
 	 */
 	public function __construct(Configuration $configuration, ILDAPWrapper $ldap, Access $access) {
 		parent::__construct($ldap);

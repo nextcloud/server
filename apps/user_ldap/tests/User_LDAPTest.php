@@ -28,7 +28,7 @@
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\User_LDAP as UserLDAP;
-use \OCA\user_ldap\lib\Access;
+use \OCA\User_LDAP\Access;
 use \OCA\User_LDAP\Connection;
 
 /**
@@ -57,7 +57,7 @@ class User_LDAPTest extends \Test\TestCase {
 
 		if(is_null($conMethods) || is_null($accMethods)) {
 			$conMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
+			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
 			unset($accMethods[array_search('getConnection', $accMethods)]);
 			$uMethods   = get_class_methods('\OCA\User_LDAP\User\User');
 			unset($uMethods[array_search('getUsername', $uMethods)]);
@@ -92,7 +92,7 @@ class User_LDAPTest extends \Test\TestCase {
 			->method('getDeletedUser')
 			->will($this->returnValue($offlineUser));
 
-		$access = $this->getMock('\OCA\user_ldap\lib\Access',
+		$access = $this->getMock('\OCA\User_LDAP\Access',
 								 $accMethods,
 								 array($connector, $lw, $um));
 
@@ -126,8 +126,8 @@ class User_LDAPTest extends \Test\TestCase {
 
 	/**
 	 * Prepares the Access mock for checkPassword tests
-	 * @param \OCA\user_ldap\lib\Access $access mock
-	 * @param bool noDisplayName
+	 * @param \OCA\User_LDAP\Access $access mock
+	 * @param bool $noDisplayName
 	 * @return void
 	 */
 	private function prepareAccessForCheckPassword(&$access, $noDisplayName = false) {
@@ -295,7 +295,7 @@ class User_LDAPTest extends \Test\TestCase {
 
 	/**
 	 * Prepares the Access mock for getUsers tests
-	 * @param \OCA\user_ldap\lib\Access $access mock
+	 * @param \OCA\User_LDAP\Access $access mock
 	 * @return void
 	 */
 	private function prepareAccessForGetUsers(&$access) {

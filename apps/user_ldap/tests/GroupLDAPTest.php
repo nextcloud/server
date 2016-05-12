@@ -27,8 +27,8 @@
 namespace OCA\User_LDAP\Tests;
 
 use OCA\User_LDAP\Group_LDAP as GroupLDAP;
-use \OCA\user_ldap\lib\Access;
-use \OCA\User_LDAP\Connection;
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Connection;
 
 /**
  * Class GroupLDAPTest
@@ -44,7 +44,7 @@ class GroupLDAPTest extends \Test\TestCase {
 
 		if(is_null($conMethods) || is_null($accMethods)) {
 			$conMethods = get_class_methods('\OCA\User_LDAP\Connection');
-			$accMethods = get_class_methods('\OCA\user_ldap\lib\Access');
+			$accMethods = get_class_methods('\OCA\User_LDAP\Access');
 		}
 		$lw  = $this->getMock('\OCA\User_LDAP\ILDAPWrapper');
 		$connector = $this->getMock('\OCA\User_LDAP\Connection',
@@ -53,7 +53,7 @@ class GroupLDAPTest extends \Test\TestCase {
 		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
 			->disableOriginalConstructor()
 			->getMock();
-		$access = $this->getMock('\OCA\user_ldap\lib\Access',
+		$access = $this->getMock('\OCA\User_LDAP\Access',
 								 $accMethods,
 								 array($connector, $lw, $um));
 

@@ -35,11 +35,8 @@
  *
  */
 
-namespace OCA\user_ldap\lib;
+namespace OCA\User_LDAP;
 
-use OCA\User_LDAP\Connection;
-use OCA\User_LDAP\ILDAPWrapper;
-use OCA\User_LDAP\LDAPUtility;
 use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
@@ -47,7 +44,7 @@ use OCA\User_LDAP\Mapping\AbstractMapping;
 
 /**
  * Class Access
- * @package OCA\user_ldap\lib
+ * @package OCA\User_LDAP
  */
 class Access extends LDAPUtility implements IUserTools {
 	/**
