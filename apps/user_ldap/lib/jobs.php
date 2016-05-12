@@ -28,6 +28,10 @@
 
 namespace OCA\user_ldap\lib;
 
+use OCA\User_LDAP\FilesystemHelper;
+use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\LogWrapper;
 use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;

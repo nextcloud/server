@@ -66,7 +66,7 @@ class IntegrationTestUserHome extends AbstractIntegrationTest {
 	protected function initUserManager() {
 		$this->userManager = new LDAPUserManager(
 			\OC::$server->getConfig(),
-			new \OCA\user_ldap\lib\FilesystemHelper(),
+			new \OCA\User_LDAP\FilesystemHelper(),
 			new \OCA\User_LDAP\LogWrapper(),
 			\OC::$server->getAvatarManager(),
 			new \OCP\Image(),

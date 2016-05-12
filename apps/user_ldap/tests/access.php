@@ -53,7 +53,7 @@ class Test_Access extends \Test\TestCase {
 		$um = $this->getMock('\OCA\User_LDAP\User\Manager',
 			$umMethods, array(
 				$this->getMock('\OCP\IConfig'),
-				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
+				$this->getMock('\OCA\User_LDAP\FilesystemHelper'),
 				$this->getMock('\OCA\User_LDAP\LogWrapper'),
 				$this->getMock('\OCP\IAvatarManager'),
 				$this->getMock('\OCP\Image'),

@@ -79,7 +79,7 @@ class User_LDAPTest extends \Test\TestCase {
 			->setMethods(['getDeletedUser'])
 			->setConstructorArgs([
 				$this->configMock,
-				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
+				$this->getMock('\OCA\User_LDAP\FilesystemHelper'),
 				$this->getMock('\OCA\User_LDAP\LogWrapper'),
 				$this->getMock('\OCP\IAvatarManager'),
 				$this->getMock('\OCP\Image'),

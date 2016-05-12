@@ -25,7 +25,7 @@
 namespace OCA\User_LDAP\User;
 
 use OCA\user_ldap\lib\Connection;
-use OCA\user_ldap\lib\FilesystemHelper;
+use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\LogWrapper;
 use OCP\IAvatarManager;
 use OCP\IConfig;

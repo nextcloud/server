@@ -39,7 +39,7 @@ class ManagerTest extends \Test\TestCase {
 	private function getTestInstances() {
 		$access = $this->getMock('\OCA\User_LDAP\User\IUserTools');
 		$config = $this->getMock('\OCP\IConfig');
-		$filesys = $this->getMock('\OCA\user_ldap\lib\FilesystemHelper');
+		$filesys = $this->getMock('\OCA\User_LDAP\FilesystemHelper');
 		$log = $this->getMock('\OCA\User_LDAP\LogWrapper');
 		$avaMgr = $this->getMock('\OCP\IAvatarManager');
 		$image = $this->getMock('\OCP\Image');

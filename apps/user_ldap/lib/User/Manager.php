@@ -26,7 +26,7 @@
 namespace OCA\User_LDAP\User;
 
 use OCA\User_LDAP\LogWrapper;
-use OCA\user_ldap\lib\FilesystemHelper;
+use OCA\User_LDAP\FilesystemHelper;
 use OCP\IAvatarManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
@@ -73,7 +73,7 @@ class Manager {
 
 	/**
 	 * @param IConfig $ocConfig
-	 * @param \OCA\user_ldap\lib\FilesystemHelper $ocFilesystem object that
+	 * @param \OCA\User_LDAP\FilesystemHelper $ocFilesystem object that
 	 * gives access to necessary functions from the OC filesystem
 	 * @param  \OCA\User_LDAP\LogWrapper $ocLog
 	 * @param IAvatarManager $avatarManager
