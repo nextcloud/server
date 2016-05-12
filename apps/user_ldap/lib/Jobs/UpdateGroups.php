@@ -26,8 +26,10 @@
  *
  */
 
-namespace OCA\user_ldap\lib;
+namespace OCA\User_LDAP\Jobs;
 
+use OCA\User_LDAP\Access;
+use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\FilesystemHelper;
 use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\LDAP;
@@ -36,7 +38,7 @@ use OCA\User_LDAP\Mapping\GroupMapping;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\User\Manager;
 
-class Jobs extends \OC\BackgroundJob\TimedJob {
+class UpdateGroups extends \OC\BackgroundJob\TimedJob {
 	static private $groupsFromDB;
 
 	static private $groupBE;
@@ -50,7 +52,7 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 	 * @param mixed $argument
 	 */
 	public function run($argument){
-		Jobs::updateGroups();
+		self::updateGroups();
 	}
 
 	static public function updateGroups() {

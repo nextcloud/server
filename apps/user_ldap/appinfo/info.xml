@@ -24,7 +24,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	<namespace>User_LDAP</namespace>
 
 	<background-jobs>
-		<job>OCA\user_ldap\lib\Jobs</job>
-		<job>\OCA\User_LDAP\Jobs\CleanUp</job>
+		<job>OCA\user_ldap\Jobs\UpdateGroups</job>
+		<job>OCA\User_LDAP\Jobs\CleanUp</job>
 	</background-jobs>
 </info>
