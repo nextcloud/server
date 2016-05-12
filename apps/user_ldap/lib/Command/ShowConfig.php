@@ -28,8 +28,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use \OCA\User_LDAP\Helper;
-use \OCA\user_ldap\lib\Configuration;
+use OCA\User_LDAP\Helper;
+use OCA\User_LDAP\Configuration;
 
 class ShowConfig extends Command {
 	/** @var \OCA\User_LDAP\Helper */

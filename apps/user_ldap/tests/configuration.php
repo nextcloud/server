@@ -89,7 +89,7 @@ class Test_Configuration extends \Test\TestCase {
 	 * @dataProvider configurationDataProvider
 	 */
 	public function testSetValue($key, $input, $expected) {
-		$configuration = new \OCA\user_ldap\lib\Configuration('t01', false);
+		$configuration = new \OCA\User_LDAP\Configuration('t01', false);
 
 		$settingsInput = array(
 			'ldapBaseUsers' => array(

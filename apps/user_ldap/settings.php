@@ -67,7 +67,7 @@ $tmpl->assign('toc', $toc);
 $tmpl->assign('settingControls', $sControls);
 
 // assign default values
-$config = new \OCA\user_ldap\lib\Configuration('', false);
+$config = new \OCA\User_LDAP\Configuration('', false);
 $defaults = $config->getDefaults();
 foreach($defaults as $key => $default) {
 	$tmpl->assign($key.'_default', $default);
