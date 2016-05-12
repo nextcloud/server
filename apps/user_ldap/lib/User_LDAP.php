@@ -32,7 +32,6 @@
 namespace OCA\User_LDAP;
 
 use OC\User\NoUserException;
-use OCA\user_ldap\lib\BackendUtility;
 use OCA\user_ldap\lib\Access;
 use OCA\User_LDAP\User\OfflineUser;
 use OCA\User_LDAP\User\User;
