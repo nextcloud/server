@@ -29,6 +29,7 @@
 namespace OCA\user_ldap\lib;
 
 use OC\ServerNotAvailableException;
+use OCA\User_LDAP\LDAPUtility;
 
 /**
  * magic properties (incomplete)

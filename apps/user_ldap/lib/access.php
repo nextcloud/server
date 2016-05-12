@@ -37,6 +37,7 @@
 
 namespace OCA\user_ldap\lib;
 
+use OCA\User_LDAP\LDAPUtility;
 use OCA\User_LDAP\User\IUserTools;
 use OCA\User_LDAP\User\Manager;
 use OCA\User_LDAP\User\OfflineUser;
