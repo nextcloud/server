@@ -23,12 +23,12 @@
  *
  */
 
-use OCA\Files;
+use OCA\Files\Tests;
 
 /**
- * Class Test_Files_Helper
+ * Class Helper
  */
-class Test_Files_Helper extends \Test\TestCase {
+class HelperTest extends \Test\TestCase {
 
 	private function makeFileInfo($name, $size, $mtime, $isDir = false) {
 		return new \OC\Files\FileInfo(

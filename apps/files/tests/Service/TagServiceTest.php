@@ -20,9 +20,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Files;
+namespace OCA\Files\Tests\Service;
 
-use \OCA\Files\Service\TagService;
+use OCA\Files\Service\TagService;
 
 /**
  * Class TagServiceTest
@@ -55,13 +55,11 @@ class TagServiceTest extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->user = $this->getUniqueId('user');
+		$this->user = $this->getUniqueID('user');
 		\OC::$server->getUserManager()->createUser($this->user, 'test');
 		\OC_User::setUserId($this->user);
 		\OC_Util::setupFS($this->user);
-		/**
-		 * @var \OCP\IUser
-		 */
+		/** @var \OCP\IUser */
 		$user = new \OC\User\User($this->user, null);
 		/**
 		 * @var \OCP\IUserSession
@@ -105,12 +103,12 @@ class TagServiceTest extends \Test\TestCase {
 		$this->assertEquals(array($fileId), $this->tagger->getIdsForTag($tag2));
 
 		// remove tag
-		$result = $this->tagService->updateFileTags('subdir/test.txt', array($tag2));
+		$this->tagService->updateFileTags('subdir/test.txt', array($tag2));
 		$this->assertEquals(array(), $this->tagger->getIdsForTag($tag1));
 		$this->assertEquals(array($fileId), $this->tagger->getIdsForTag($tag2));
 
 		// clear tags
-		$result = $this->tagService->updateFileTags('subdir/test.txt', array());
+		$this->tagService->updateFileTags('subdir/test.txt', array());
 		$this->assertEquals(array(), $this->tagger->getIdsForTag($tag1));
 		$this->assertEquals(array(), $this->tagger->getIdsForTag($tag2));
 

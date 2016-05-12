@@ -26,6 +26,7 @@ namespace OCA\Files\Tests\Controller;
 
 use OCA\Files\Controller\ViewController;
 use OCP\AppFramework\Http;
+use OCP\IUser;
 use OCP\Template;
 use Test\TestCase;
 use OCP\IRequest;
