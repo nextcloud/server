@@ -148,13 +148,11 @@ class DefaultTokenProvider implements IProvider {
 	 * @return DefaultToken user UID
 	 */
 	public function validateToken($token) {
-		$this->logger->debug('validating default token <' . $token . '>');
 		try {
 			$dbToken = $this->mapper->getToken($this->hashToken($token));
-			$this->logger->debug('valid token for ' . $dbToken->getUID());
+			$this->logger->debug('valid default token for ' . $dbToken->getUID());
 			return $dbToken;
 		} catch (DoesNotExistException $ex) {
-			$this->logger->warning('invalid token');
 			throw new InvalidTokenException();
 		}
 	}
