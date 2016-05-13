@@ -62,7 +62,10 @@ class DefaultTokenProviderTest extends TestCase {
 		$token = 'token';
 		$uid = 'user';
 		$password = 'passme';
-		$name = 'Some browser';
+		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
+			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
+			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
+			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12';
 		$type = IToken::PERMANENT_TOKEN;
 
 		$toInsert = new DefaultToken();
