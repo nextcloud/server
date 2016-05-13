@@ -23,7 +23,7 @@
 namespace OCA\User_LDAP\Jobs;
 
 use \OC\BackgroundJob\TimedJob;
-use \OCA\user_ldap\User_LDAP;
+use \OCA\User_LDAP\User_LDAP;
 use \OCA\User_LDAP\User_Proxy;
 use \OCA\User_LDAP\Helper;
 use \OCA\User_LDAP\LDAP;
@@ -35,7 +35,7 @@ use \OCA\User_LDAP\Mapping\UserMapping;
  *
  * a Background job to clean up deleted users
  *
- * @package OCA\user_ldap\lib;
+ * @package OCA\User_LDAP\Jobs;
  */
 class CleanUp extends TimedJob {
 	/** @var int $limit amount of users that should be checked per run */
