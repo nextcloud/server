@@ -21,20 +21,19 @@ class AutoLoader extends TestCase {
 
 	public function testLeadingSlashOnClassName() {
 		$this->assertEquals([
-			\OC::$SERVERROOT . '/lib/private/files/storage/local.php',
-		], $this->loader->findClass('\OC\Files\Storage\Local'));
+			\OC::$SERVERROOT . '/lib/public/files/storage/local.php',
+		], $this->loader->findClass('\OCP\Files\Storage\Local'));
 	}
 
 	public function testNoLeadingSlashOnClassName() {
 		$this->assertEquals([
-			\OC::$SERVERROOT . '/lib/private/files/storage/local.php', 
-		], $this->loader->findClass('OC\Files\Storage\Local'));
+			\OC::$SERVERROOT . '/lib/public/files/storage/local.php',
+		], $this->loader->findClass('OCP\Files\Storage\Local'));
 	}
 
 	public function testLegacyPath() {
 		$this->assertEquals([
 			\OC::$SERVERROOT . '/lib/private/legacy/files.php', 
-			\OC::$SERVERROOT . '/lib/private/files.php',
 		], $this->loader->findClass('OC_Files'));
 	}
 
@@ -50,16 +49,9 @@ class AutoLoader extends TestCase {
 		], $this->loader->findClass('Test_Foo_Bar'));
 	}
 
-	public function testLoadCoreNamespace() {
-		$this->assertEquals([
-			\OC::$SERVERROOT . '/lib/private/foo/bar.php', 
-		], $this->loader->findClass('OC\Foo\Bar'));
-	}
-
 	public function testLoadCore() {
 		$this->assertEquals([
 			\OC::$SERVERROOT . '/lib/private/legacy/foo/bar.php', 
-			\OC::$SERVERROOT . '/lib/private/foo/bar.php',
 		], $this->loader->findClass('OC_Foo_Bar'));
 	}
 
@@ -82,11 +74,5 @@ class AutoLoader extends TestCase {
 
 	public function testLoadCoreNamespaceSettings() {
 		$this->assertEquals([], $this->loader->findClass('OC\Settings\Foo\Bar'));
-	}
-
-	public function testLoadCoreNamespaceRepair() {
-		$this->assertEquals([
-			\OC::$SERVERROOT . '/lib/private/repair/foo/bar.php',
-		], $this->loader->findClass('OC\Repair\Foo\Bar'));
 	}
 }
