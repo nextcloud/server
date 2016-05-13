@@ -128,8 +128,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->method('logout');
 		$this->session->expects($this->never())
 			->method('login')
-			->with($this->equalTo('user'), $this->equalTo('pass'))
-			->will($this->returnValue(true));
+			->with($this->equalTo('user'), $this->equalTo('pass'));
 		$this->reflector->reflect($this, __FUNCTION__);
 
 		$middleware->beforeController($this, __FUNCTION__, new Response());
@@ -151,8 +150,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 			->method('logout');
 		$this->session->expects($this->once())
 			->method('login')
-			->with($this->equalTo('user'), $this->equalTo('pass'))
-			->will($this->returnValue(true));
+			->with($this->equalTo('user'), $this->equalTo('pass'));
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
 
@@ -177,7 +175,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('login')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
-			->will($this->returnValue(false));
+			->will($this->throwException(new \OC\User\LoginException()));
 		$this->reflector->reflect($this, __FUNCTION__);
 		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
 

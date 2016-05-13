@@ -282,7 +282,6 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param string $uid
 	 * @param string $password
-	 * @return boolean|null
 	 * @throws LoginException
 	 */
 	public function login($uid, $password) {
@@ -293,29 +292,34 @@ class Session implements IUserSession, Emitter {
 			if ($this->validateToken($password)) {
 				$user = $this->getUser();
 			}
-		}
-		if ($user !== false) {
-			if (!is_null($user)) {
-				if ($user->isEnabled()) {
-					$this->setUser($user);
-					$this->setLoginName($uid);
-					$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
-					if ($this->isLoggedIn()) {
-						$this->prepareUserLogin();
-						return true;
-					} else {
-						// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-						$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
-						throw new LoginException($message);
-					}
-				} else {
-					// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
-					$message = \OC::$server->getL10N('lib')->t('User disabled');
-					throw new LoginException($message);
-				}
+			if ($user === false) {
+				// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
+				$message = \OC::$server->getL10N('lib')->t('User login failed, tried password and token login');
+				throw new LoginException($message);
 			}
 		}
-		return false;
+		if (is_null($user)) {
+			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
+			$message = \OC::$server->getL10N('lib')->t('Login failed unexpectedly');
+			throw new LoginException($message);
+		}
+		if (!$user->isEnabled()) {
+			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
+			$message = \OC::$server->getL10N('lib')->t('User disabled');
+			throw new LoginException($message);
+		}
+
+		$this->setUser($user);
+		$this->setLoginName($uid);
+		$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
+
+		if (!$this->isLoggedIn()) {
+			// injecting l10n does not work - there is a circular dependency between session and \OCP\L10N\IFactory
+			$message = \OC::$server->getL10N('lib')->t('Login canceled by app');
+			throw new LoginException($message);
+		}
+
+		$this->prepareUserLogin();
 	}
 
 	protected function prepareUserLogin() {
@@ -337,20 +341,23 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryBasicAuthLogin(IRequest $request) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
-			$result = $this->login($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW']);
-			if ($result === true) {
-				/**
-				 * Add DAV authenticated. This should in an ideal world not be
-				 * necessary but the iOS App reads cookies from anywhere instead
-				 * only the DAV endpoint.
-				 * This makes sure that the cookies will be valid for the whole scope
-				 * @see https://github.com/owncloud/core/issues/22893
-				 */
-				$this->session->set(
-					Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
-				);
-				return true;
+			try {
+				$this->login($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW']);
+			} catch (LoginException $ex) {
+				return false;
 			}
+
+			/**
+			 * Add DAV authenticated. This should in an ideal world not be
+			 * necessary but the iOS App reads cookies from anywhere instead
+			 * only the DAV endpoint.
+			 * This makes sure that the cookies will be valid for the whole scope
+			 * @see https://github.com/owncloud/core/issues/22893
+			 */
+			$this->session->set(
+				Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
+			);
+			return true;
 		}
 		return false;
 	}
@@ -387,16 +394,20 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
-		$loggedIn = $this->login($uid, $password);
-		if ($loggedIn) {
-			try {
-				$sessionId = $this->session->getId();
-				$this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
-			} catch (SessionNotAvailableException $ex) {
-				
-			}
+		try {
+			$this->login($uid, $password);
+		} catch (LoginException $ex) {
+			return false;
 		}
-		return $loggedIn;
+
+		try {
+			$sessionId = $this->session->getId();
+			$this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
+		} catch (SessionNotAvailableException $ex) {
+
+		}
+
+		return true;
 	}
 
 	/**

@@ -168,12 +168,12 @@ class Auth extends TestCase {
 		$this->userSession
 			->expects($this->once())
 			->method('login')
-			->with('MyTestUser', 'MyTestPassword')
-			->will($this->returnValue(true));
+			->with('MyTestUser', 'MyTestPassword');
 		$this->userSession
 			->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, 'MyTestUser', 'MyTestPassword');
+			->with($this->request, 'MyTestUser', 'MyTestPassword')
+			->will($this->returnValue(true));
 		$this->session
 			->expects($this->once())
 			->method('set')
@@ -561,11 +561,11 @@ class Auth extends TestCase {
 		$this->userSession
 			->expects($this->once())
 			->method('login')
-			->with('username', 'password')
-			->will($this->returnValue(true));
+			->with('username', 'password');
 		$this->userSession
 			->expects($this->once())
-			->method('createSessionToken');
+			->method('createSessionToken')
+			->will($this->returnValue(true));
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
@@ -604,7 +604,7 @@ class Auth extends TestCase {
 			->expects($this->once())
 			->method('login')
 			->with('username', 'password')
-			->will($this->returnValue(false));
+			->will($this->throwException(new \OC\User\LoginException()));
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
 		$this->assertEquals([false, 'Username or password was incorrect'], $response);
 	}

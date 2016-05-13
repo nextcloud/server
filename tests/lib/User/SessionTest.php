@@ -241,6 +241,9 @@ class SessionTest extends \Test\TestCase {
 		$userSession->login('foo', 'bar');
 	}
 
+	/**
+	 * @expectedException \OC\User\LoginException
+	 */
 	public function testLoginInvalidPassword() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
@@ -277,6 +280,9 @@ class SessionTest extends \Test\TestCase {
 		$userSession->login('foo', 'bar');
 	}
 
+	/**
+	 * @expectedException \OC\User\LoginException
+	 */
 	public function testLoginNonExisting() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())

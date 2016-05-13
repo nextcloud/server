@@ -22,6 +22,7 @@
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest;
 
+use OC\User\LoginException;
 use Sabre\DAV\Auth\Backend\BackendInterface;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
@@ -78,16 +79,19 @@ class Auth implements BackendInterface {
 	 */
 	function check(RequestInterface $request, ResponseInterface $response) {
 		$userSession = \OC::$server->getUserSession();
-		$result = $userSession->login($this->user, $this->password);
-		if ($result) {
-			//we need to pass the user name, which may differ from login name
-			$user = $userSession->getUser()->getUID();
-			\OC_Util::setupFS($user);
-			//trigger creation of user home and /files folder
-			\OC::$server->getUserFolder($user);
-			return [true, "principals/$user"];
+
+		try {
+			$userSession->login($this->user, $this->password);
+		} catch (LoginException $ex) {
+			return [false, "login failed"];
 		}
-		return [false, "login failed"];
+
+		//we need to pass the user name, which may differ from login name
+		$user = $userSession->getUser()->getUID();
+		\OC_Util::setupFS($user);
+		//trigger creation of user home and /files folder
+		\OC::$server->getUserFolder($user);
+		return [true, "principals/$user"];
 	}
 
 	/**
