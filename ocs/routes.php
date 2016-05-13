@@ -135,7 +135,7 @@ if (\OC::$server->getAppManager()->isEnabledForUser('files_sharing')) {
 
 	API::register('post',
 		'/cloud/shares/{id}/permissions',
-		array($s2s, 'update'),
+		array($s2s, 'updatePermissions'),
 		'files_sharing',
 		API::GUEST_AUTH
 	);

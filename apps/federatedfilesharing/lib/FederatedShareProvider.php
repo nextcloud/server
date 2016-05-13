@@ -313,8 +313,32 @@ class FederatedShareProvider implements IShareProvider {
 				->set('uid_initiator', $qb->createNamedParameter($share->getSharedBy()))
 				->execute();
 
+		// send the updated permission to the owner/initiator, if they are not the same
+		if ($share->getShareOwner() !== $share->getSharedBy()) {
+			$this->sendPermissionUpdate($share);
+		}
+
 		return $share;
 	}
+
+	/**
+	 * send the updated permission to the owner/initiator, if they are not the same
+	 *
+	 * @param IShare $share
+	 * @throws ShareNotFound
+	 * @throws \OC\HintException
+	 */
+	protected function sendPermissionUpdate(IShare $share) {
+		$remoteId = $this->getRemoteId($share);
+		// if the local user is the owner we send the permission change to the initiator
+		if ($this->userManager->userExists($share->getShareOwner())) {
+			list(, $remote) = $this->addressHandler->splitUserRemote($share->getSharedBy());
+		} else { // ... if not we send the permission change to the owner
+			list(, $remote) = $this->addressHandler->splitUserRemote($share->getShareOwner());
+		}
+		$this->notifications->sendPermissionChange($remote, $remoteId, $share->getToken(), $share->getPermissions());
+	}
+
 
 	/**
 	 * update successful reShare with the correct token

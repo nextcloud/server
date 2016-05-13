@@ -183,7 +183,7 @@ class Notifications {
 	 * @return bool
 	 */
 	public function sendPermissionChange($remote, $remoteId, $token, $permissions) {
-		$this->sendUpdateToRemote($remote, $remoteId, $token, ['permissions' => $permissions]);
+		$this->sendUpdateToRemote($remote, $remoteId, $token, 'permissions', ['permissions' => $permissions]);
 	}
 
 	/**
@@ -222,6 +222,10 @@ class Notifications {
 	public function sendUpdateToRemote($remote, $remoteId, $token, $action, $data = [], $try = 0) {
 
 		$fields = array('token' => $token);
+		foreach ($data as $key => $value) {
+			$fields[$key] = $value;
+		}
+
 		$url = $this->addressHandler->removeProtocolFromUrl($remote);
 		$result = $this->tryHttpPostToShareEndpoint(rtrim($url, '/'), '/' . $remoteId . '/' . $action, $fields);
 		$status = json_decode($result['result'], true);
