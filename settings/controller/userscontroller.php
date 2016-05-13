@@ -355,9 +355,13 @@ class UsersController extends Controller {
 		try {
 			$user = $this->userManager->createUser($username, $password);
 		} catch (\Exception $exception) {
+			$message = $exception->getMessage();
+			if (!$message) {
+				$message = $this->l10n->t('Unable to create user.');
+			}
 			return new DataResponse(
 				array(
-					'message' => (string)$this->l10n->t('Unable to create user.')
+					'message' => (string) $message,
 				),
 				Http::STATUS_FORBIDDEN
 			);
