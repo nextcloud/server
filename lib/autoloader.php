@@ -102,7 +102,6 @@ class Autoloader {
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
 			$paths[] = \OC::$SERVERROOT . '/lib/private/legacy/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
-			$paths[] = \OC::$SERVERROOT . '/lib/private/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OC\\') === 0) {
 			$split = explode('\\', $class, 3);
 
