@@ -21,6 +21,7 @@
     "Sharing %s failed because the back end does not allow shares from type %s" : "Sdílení %s selhalo, podpůrná vrstva nepodporuje typ sdílení %s",
     "Unknown share type" : "Neznámý typ sdílení",
     "Not a directory" : "Žádný adresář",
+    "Could not lock path" : "Nepodařilo se uzamknout cestu",
     "Can't change permissions for public share links" : "Nelze změnit oprávnění pro veřejně sdílené odkazy",
     "Wrong or no update parameter given" : "Chyba nebo žádná aktualizace dle zadaných parametrů",
     "Cannot increase permissions" : "Nelze navýšit oprávnění",

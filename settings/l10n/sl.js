@@ -198,7 +198,7 @@ OC.L10N.register(
     "Valid until %s" : "Veljavno do %s",
     "Import root certificate" : "Uvozi korensko potrdilo",
     "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Pozdravljeni,<br><br>obveščamo vas, da je račun %s pripravljen.<br><br>Uporabniško ime: %s<br>Dostop: <a href=\"%s\">%s</a><br><br>",
-    "Cheers!" : "Na zdravje!",
+    "Cheers!" : "Lep pozdrav!",
     "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Pozdravljeni,\n\nobveščamo vas, da je račun %s pripravljen.\n\nUporabniško ime: %s\nDostop: %s\n",
     "Administrator documentation" : "Skrbniška dokumentacija",
     "Online documentation" : "Spletna dokumentacija",

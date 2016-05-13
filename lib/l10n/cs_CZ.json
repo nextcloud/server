@@ -111,6 +111,8 @@
     "Username contains whitespace at the beginning or at the end" : "Uživatelské jméno obsahuje mezery na svém začátku nebo konci",
     "A valid password must be provided" : "Musíte zadat platné heslo",
     "The username is already being used" : "Uživatelské jméno je již využíváno",
+    "Login canceled by app" : "Přihlášení zrušeno aplikací",
+    "User disabled" : "Uživatel zakázán",
     "Help" : "Nápověda",
     "Personal" : "Osobní",
     "Users" : "Uživatelé",
