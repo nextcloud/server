@@ -21,7 +21,7 @@
 
 namespace OCA\Files_External\Command;
 
-use OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\Lib\StorageConfig;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 

@@ -21,8 +21,8 @@
 
 namespace OCA\Files_External\Tests\Command;
 
-use OCA\Files_external\Lib\StorageConfig;
-use OCA\Files_external\NotFoundException;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\Input;

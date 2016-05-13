@@ -24,8 +24,8 @@ namespace OCA\Files_External\Tests\Service;
 
 use \OC\Files\Filesystem;
 
-use \OCA\Files_external\NotFoundException;
-use \OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\DBConfigService;
 use OCA\Files_External\Service\StoragesService;
@@ -241,7 +241,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 
 
 	/**
-	 * @expectedException \OCA\Files_external\NotFoundException
+	 * @expectedException \OCA\Files_External\NotFoundException
 	 */
 	public function testNonExistingStorage() {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
@@ -324,7 +324,7 @@ abstract class StoragesServiceTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \OCA\Files_external\NotFoundException
+	 * @expectedException \OCA\Files_External\NotFoundException
 	 */
 	public function testDeleteUnexistingStorage() {
 		$this->service->removeStorage(255);

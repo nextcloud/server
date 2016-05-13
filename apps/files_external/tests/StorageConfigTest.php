@@ -21,9 +21,9 @@
  *
  */
 
-namespace OCA\Files_external\Tests;
+namespace OCA\Files_External\Tests;
 
-use \OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\Lib\StorageConfig;
 
 class StorageConfigTest extends \Test\TestCase {
 

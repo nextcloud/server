@@ -22,8 +22,8 @@
 namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
-use OCA\Files_external\Lib\StorageConfig;
-use OCA\Files_external\NotFoundException;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCP\IGroupManager;
 use OCP\IUserManager;

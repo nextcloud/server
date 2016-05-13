@@ -30,7 +30,7 @@ use \OCP\IL10N;
 use \OCP\AppFramework\Http\DataResponse;
 use \OCP\AppFramework\Http;
 use OCA\Files_External\Service\GlobalStoragesService;
-use \OCA\Files_external\NotFoundException;
+use OCA\Files_External\NotFoundException;
 
 /**
  * Global storages controller

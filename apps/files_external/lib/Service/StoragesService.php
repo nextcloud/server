@@ -26,8 +26,8 @@
 namespace OCA\Files_External\Service;
 
 use \OC\Files\Filesystem;
-use \OCA\Files_external\Lib\StorageConfig;
-use \OCA\Files_external\NotFoundException;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use OCP\Files\Config\IUserMountCache;

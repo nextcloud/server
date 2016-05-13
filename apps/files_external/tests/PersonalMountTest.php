@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\Files_external\Tests;
+namespace OCA\Files_External\Tests;
 
 use OC\Files\Mount\Manager;
 use OCA\Files_External\Lib\PersonalMount;

@@ -21,7 +21,7 @@
 
 namespace OCA\Files_External\Service;
 
-use \OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\Lib\StorageConfig;
 
 /**
  * Read mount config from legacy mount.json

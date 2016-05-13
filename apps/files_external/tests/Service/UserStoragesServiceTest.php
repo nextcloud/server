@@ -27,7 +27,7 @@ use \OC\Files\Filesystem;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserStoragesService;
-use \OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\Lib\StorageConfig;
 use Test\Traits\UserTrait;
 
 /**
@@ -185,7 +185,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 	}
 
 	/**
-	 * @expectedException \OCA\Files_external\NotFoundException
+	 * @expectedException \OCA\Files_External\NotFoundException
 	 */
 	public function testGetAdminStorage() {
 		$backend = $this->backendService->getBackend('identifier:\OCA\Files_External\Lib\Backend\SMB');
@@ -200,7 +200,7 @@ class UserStoragesServiceTest extends StoragesServiceTest {
 
 		$newStorage = $this->globalStoragesService->addStorage($storage);
 
-		$this->assertInstanceOf('\OCA\Files_external\Lib\StorageConfig', $this->globalStoragesService->getStorage($newStorage->getId()));
+		$this->assertInstanceOf('\OCA\Files_External\Lib\StorageConfig', $this->globalStoragesService->getStorage($newStorage->getId()));
 
 		$this->service->getStorage($newStorage->getId());
 	}

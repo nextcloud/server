@@ -32,8 +32,8 @@ use \OCP\IL10N;
 use \OCP\AppFramework\Http\DataResponse;
 use \OCP\AppFramework\Http;
 use OCA\Files_External\Service\UserStoragesService;
-use \OCA\Files_external\NotFoundException;
-use \OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
+use OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\Backend\Backend;
 
 /**

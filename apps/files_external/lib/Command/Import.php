@@ -23,7 +23,7 @@ namespace OCA\Files_External\Command;
 
 use OC\Core\Command\Base;
 use OC\User\NoUserException;
-use OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\BackendService;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\ImportLegacyStoragesService;

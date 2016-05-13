@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\Files_external;
+namespace OCA\Files_External;
 
 /**
  * Storage is not found

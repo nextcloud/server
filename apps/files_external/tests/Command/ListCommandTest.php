@@ -26,7 +26,7 @@ use OCA\Files_External\Lib\Auth\NullMechanism;
 use OCA\Files_External\Lib\Auth\Password\Password;
 use OCA\Files_External\Lib\Auth\Password\SessionCredentials;
 use OCA\Files_External\Lib\Backend\Local;
-use OCA\Files_external\Lib\StorageConfig;
+use OCA\Files_External\Lib\StorageConfig;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class ListCommandTest extends CommandTest {

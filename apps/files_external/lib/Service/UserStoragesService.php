@@ -27,8 +27,8 @@ use OCP\Files\Config\IUserMountCache;
 use \OCP\IUserSession;
 use \OC\Files\Filesystem;
 
-use \OCA\Files_external\Lib\StorageConfig;
-use \OCA\Files_external\NotFoundException;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
 use \OCA\Files_External\Service\BackendService;
 use \OCA\Files_External\Service\UserTrait;
 

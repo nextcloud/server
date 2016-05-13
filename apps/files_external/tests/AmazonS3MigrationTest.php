@@ -35,7 +35,7 @@ use OCA\Files_External\Lib\Storage\AmazonS3;
  *
  * @package OCA\Files_External\Tests
  */
-class AmazonS3Migration extends \Test\TestCase {
+class AmazonS3MigrationTest extends \Test\TestCase {
 
 	/**
 	 * @var \OC\Files\Storage\Storage instance

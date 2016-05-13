@@ -24,11 +24,9 @@
 
 namespace OCA\Files_External\Service;
 
-use \OCP\IUserSession;
-use \OC\Files\Filesystem;
 
-use \OCA\Files_external\Lib\StorageConfig;
-use \OCA\Files_external\NotFoundException;
+use \OC\Files\Filesystem;
+use OCA\Files_External\Lib\StorageConfig;
 
 /**
  * Service class to manage global external storages

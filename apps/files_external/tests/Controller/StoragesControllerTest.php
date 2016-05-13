@@ -25,8 +25,8 @@ use \OCP\AppFramework\Http;
 
 use \OCA\Files_External\Controller\GlobalStoragesController;
 use \OCA\Files_External\Service\GlobalStoragesService;
-use \OCA\Files_external\Lib\StorageConfig;
-use \OCA\Files_external\NotFoundException;
+use OCA\Files_External\Lib\StorageConfig;
+use OCA\Files_External\NotFoundException;
 
 abstract class StoragesControllerTest extends \Test\TestCase {
 
