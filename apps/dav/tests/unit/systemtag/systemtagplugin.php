@@ -28,6 +28,7 @@ use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\IUser;
+use OCP\SystemTag\ISystemTag;
 
 class SystemTagPlugin extends \Test\TestCase {
 
@@ -35,6 +36,8 @@ class SystemTagPlugin extends \Test\TestCase {
 	const DISPLAYNAME_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::DISPLAYNAME_PROPERTYNAME;
 	const USERVISIBLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERVISIBLE_PROPERTYNAME;
 	const USERASSIGNABLE_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::USERASSIGNABLE_PROPERTYNAME;
+	const CANASSIGN_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::CANASSIGN_PROPERTYNAME;
+	const GROUPS_PROPERTYNAME = \OCA\DAV\SystemTag\SystemTagPlugin::GROUPS_PROPERTYNAME;
 
 	/**
 	 * @var \Sabre\DAV\Server
@@ -100,22 +103,139 @@ class SystemTagPlugin extends \Test\TestCase {
 		$this->plugin->initialize($this->server);
 	}
 
-	public function testGetProperties() {
-		$systemTag = new SystemTag(1, 'Test', true, true);
+	public function getPropertiesDataProvider() {
+		return [
+			[
+				new SystemTag(1, 'Test', true, true),
+				[],
+				[
+					self::ID_PROPERTYNAME,
+					self::DISPLAYNAME_PROPERTYNAME,
+					self::USERVISIBLE_PROPERTYNAME,
+					self::USERASSIGNABLE_PROPERTYNAME,
+					self::CANASSIGN_PROPERTYNAME,
+				],
+				[
+					self::ID_PROPERTYNAME => '1',
+					self::DISPLAYNAME_PROPERTYNAME => 'Test',
+					self::USERVISIBLE_PROPERTYNAME => 'true',
+					self::USERASSIGNABLE_PROPERTYNAME => 'true',
+					self::CANASSIGN_PROPERTYNAME => 'true',
+				]
+			],
+			[
+				new SystemTag(1, 'Test', true, false),
+				[],
+				[
+					self::ID_PROPERTYNAME,
+					self::DISPLAYNAME_PROPERTYNAME,
+					self::USERVISIBLE_PROPERTYNAME,
+					self::USERASSIGNABLE_PROPERTYNAME,
+					self::CANASSIGN_PROPERTYNAME,
+				],
+				[
+					self::ID_PROPERTYNAME => '1',
+					self::DISPLAYNAME_PROPERTYNAME => 'Test',
+					self::USERVISIBLE_PROPERTYNAME => 'true',
+					self::USERASSIGNABLE_PROPERTYNAME => 'false',
+					self::CANASSIGN_PROPERTYNAME => 'false',
+				]
+			],
+			[
+				new SystemTag(1, 'Test', true, false),
+				['group1', 'group2'],
+				[
+					self::ID_PROPERTYNAME,
+					self::GROUPS_PROPERTYNAME,
+				],
+				[
+					self::ID_PROPERTYNAME => '1',
+					self::GROUPS_PROPERTYNAME => 'group1|group2',
+				]
+			],
+			[
+				new SystemTag(1, 'Test', true, true),
+				['group1', 'group2'],
+				[
+					self::ID_PROPERTYNAME,
+					self::GROUPS_PROPERTYNAME,
+				],
+				[
+					self::ID_PROPERTYNAME => '1',
+					// groups only returned when userAssignable is false
+					self::GROUPS_PROPERTYNAME => '',
+				]
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider getPropertiesDataProvider
+	 */
+	public function testGetProperties(ISystemTag $systemTag, $groups, $requestedProperties, $expectedProperties) {
+		$this->user->expects($this->any())
+			->method('getUID')
+			->willReturn('admin');
+		$this->groupManager
+			->expects($this->any())
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
+
+		$node = $this->getMockBuilder('\OCA\DAV\SystemTag\SystemTagNode')
+			->disableOriginalConstructor()
+			->getMock();
+		$node->expects($this->any())
+			->method('getSystemTag')
+			->will($this->returnValue($systemTag));
+
+		$this->tagManager->expects($this->any())
+			->method('canUserAssignTag')
+			->will($this->returnValue($systemTag->isUserAssignable()));
+
+		$this->tagManager->expects($this->any())
+			->method('getTagGroups')
+			->will($this->returnValue($groups));
+
+		$this->tree->expects($this->any())
+			->method('getNodeForPath')
+			->with('/systemtag/1')
+			->will($this->returnValue($node));
+
+		$propFind = new \Sabre\DAV\PropFind(
+			'/systemtag/1',
+			$requestedProperties,
+			0
+		);
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$node
+		);
+
+		$result = $propFind->getResultForMultiStatus();
+
+		$this->assertEmpty($result[404]);
+		$this->assertEquals($expectedProperties, $result[200]);
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testGetPropertiesForbidden() {
+		$systemTag = new SystemTag(1, 'Test', true, false);
 		$requestedProperties = [
 			self::ID_PROPERTYNAME,
-			self::DISPLAYNAME_PROPERTYNAME,
-			self::USERVISIBLE_PROPERTYNAME,
-			self::USERASSIGNABLE_PROPERTYNAME
+			self::GROUPS_PROPERTYNAME,
 		];
-		$expectedProperties = [
-			200 => [
-				self::ID_PROPERTYNAME => '1',
-				self::DISPLAYNAME_PROPERTYNAME => 'Test',
-				self::USERVISIBLE_PROPERTYNAME => 'true',
-				self::USERASSIGNABLE_PROPERTYNAME => 'true',
-			]
-		];
+		$this->user->expects($this->once())
+			->method('getUID')
+			->willReturn('admin');
+		$this->groupManager
+			->expects($this->once())
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(false);
 
 		$node = $this->getMockBuilder('\OCA\DAV\SystemTag\SystemTagNode')
 			->disableOriginalConstructor()
@@ -139,16 +259,19 @@ class SystemTagPlugin extends \Test\TestCase {
 			$propFind,
 			$node
 		);
-
-		$result = $propFind->getResultForMultiStatus();
-
-		$this->assertEmpty($result[404]);
-		unset($result[404]);
-		$this->assertEquals($expectedProperties, $result);
 	}
 
-	public function testUpdateProperties() {
+	public function testUpdatePropertiesAdmin() {
 		$systemTag = new SystemTag(1, 'Test', true, false);
+		$this->user->expects($this->any())
+			->method('getUID')
+			->willReturn('admin');
+		$this->groupManager
+			->expects($this->any())
+			->method('isAdmin')
+			->with('admin')
+			->willReturn(true);
+
 		$node = $this->getMockBuilder('\OCA\DAV\SystemTag\SystemTagNode')
 			->disableOriginalConstructor()
 			->getMock();
@@ -165,11 +288,16 @@ class SystemTagPlugin extends \Test\TestCase {
 			->method('update')
 			->with('Test changed', false, true);
 
+		$this->tagManager->expects($this->once())
+			->method('setTagGroups')
+			->with($systemTag, ['group1', 'group2']);
+
 		// properties to set
 		$propPatch = new \Sabre\DAV\PropPatch(array(
 			self::DISPLAYNAME_PROPERTYNAME => 'Test changed',
 			self::USERVISIBLE_PROPERTYNAME => 'false',
 			self::USERASSIGNABLE_PROPERTYNAME => 'true',
+			self::GROUPS_PROPERTYNAME => 'group1|group2',
 		));
 
 		$this->plugin->handleUpdateProperties(
@@ -189,64 +317,63 @@ class SystemTagPlugin extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException \Sabre\DAV\Exception\BadRequest
-	 * @expectedExceptionMessage Not sufficient permissions
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
-	public function testCreateNotAssignableTagAsRegularUser() {
-		$this->user->expects($this->once())
+	public function testUpdatePropertiesForbidden() {
+		$systemTag = new SystemTag(1, 'Test', true, false);
+		$this->user->expects($this->any())
 			->method('getUID')
 			->willReturn('admin');
 		$this->groupManager
-			->expects($this->once())
+			->expects($this->any())
 			->method('isAdmin')
 			->with('admin')
 			->willReturn(false);
 
-		$requestData = json_encode([
-			'name' => 'Test',
-			'userVisible' => true,
-			'userAssignable' => false,
-		]);
-
-		$node = $this->getMockBuilder('\OCA\DAV\SystemTag\SystemTagsByIdCollection')
+		$node = $this->getMockBuilder('\OCA\DAV\SystemTag\SystemTagNode')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->tagManager->expects($this->never())
-			->method('createTag');
+		$node->expects($this->any())
+			->method('getSystemTag')
+			->will($this->returnValue($systemTag));
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
-			->with('/systemtags')
+			->with('/systemtag/1')
 			->will($this->returnValue($node));
 
-		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
-			->disableOriginalConstructor()
-			->getMock();
-		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
-			->disableOriginalConstructor()
-			->getMock();
+		$node->expects($this->never())
+			->method('update');
 
-		$request->expects($this->once())
-			->method('getPath')
-			->will($this->returnValue('/systemtags'));
+		$this->tagManager->expects($this->never())
+			->method('setTagGroups');
 
-		$request->expects($this->once())
-			->method('getBodyAsString')
-			->will($this->returnValue($requestData));
+		// properties to set
+		$propPatch = new \Sabre\DAV\PropPatch(array(
+			self::GROUPS_PROPERTYNAME => 'group1|group2',
+		));
 
-		$request->expects($this->once())
-			->method('getHeader')
-			->with('Content-Type')
-			->will($this->returnValue('application/json'));
+		$this->plugin->handleUpdateProperties(
+			'/systemtag/1',
+			$propPatch
+		);
 
-		$this->plugin->httpPost($request, $response);
+		$propPatch->commit();
 	}
 
+	public function createTagInsufficientPermissionsProvider() {
+		return [
+			[true, false, ''],
+			[false, true, ''],
+			[true, true, 'group1|group2'],
+		];
+	}
 	/**
+	 * @dataProvider createTagInsufficientPermissionsProvider
 	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 * @expectedExceptionMessage Not sufficient permissions
 	 */
-	public function testCreateInvisibleTagAsRegularUser() {
+	public function testCreateNotAssignableTagAsRegularUser($userVisible, $userAssignable, $groups) {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
@@ -256,17 +383,23 @@ class SystemTagPlugin extends \Test\TestCase {
 			->with('admin')
 			->willReturn(false);
 
-		$requestData = json_encode([
+		$requestData = [
 			'name' => 'Test',
-			'userVisible' => false,
-			'userAssignable' => true,
-		]);
+			'userVisible' => $userVisible,
+			'userAssignable' => $userAssignable,
+		];
+		if (!empty($groups)) {
+			$requestData['groups'] = $groups;
+		}
+		$requestData = json_encode($requestData);
 
 		$node = $this->getMockBuilder('\OCA\DAV\SystemTag\SystemTagsByIdCollection')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->tagManager->expects($this->never())
 			->method('createTag');
+		$this->tagManager->expects($this->never())
+			->method('setTagGroups');
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
@@ -349,7 +482,18 @@ class SystemTagPlugin extends \Test\TestCase {
 		$this->plugin->httpPost($request, $response);
 	}
 
-	public function testCreateTagInByIdCollection() {
+	public function createTagProvider() {
+		return [
+			[true, false, ''],
+			[false, false, ''],
+			[true, false, 'group1|group2'],
+		];
+	}
+
+	/**
+	 * @dataProvider createTagProvider
+	 */
+	public function testCreateTagInByIdCollection($userVisible, $userAssignable, $groups) {
 		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
@@ -361,19 +505,33 @@ class SystemTagPlugin extends \Test\TestCase {
 
 		$systemTag = new SystemTag(1, 'Test', true, false);
 
-		$requestData = json_encode([
+		$requestData = [
 			'name' => 'Test',
-			'userVisible' => true,
-			'userAssignable' => false,
-		]);
+			'userVisible' => $userVisible,
+			'userAssignable' => $userAssignable,
+		];
+		if (!empty($groups)) {
+			$requestData['groups'] = $groups;
+		}
+		$requestData = json_encode($requestData);
 
 		$node = $this->getMockBuilder('\OCA\DAV\SystemTag\SystemTagsByIdCollection')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->tagManager->expects($this->once())
 			->method('createTag')
-			->with('Test', true, false)
+			->with('Test', $userVisible, $userAssignable)
 			->will($this->returnValue($systemTag));
+		
+		if (!empty($groups)) {
+			$this->tagManager->expects($this->once())
+				->method('setTagGroups')
+				->with($systemTag, explode('|', $groups))
+				->will($this->returnValue($systemTag));
+		} else {
+			$this->tagManager->expects($this->never())
+				->method('setTagGroups');
+		}
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
@@ -489,8 +647,6 @@ class SystemTagPlugin extends \Test\TestCase {
 	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testCreateTagToUnknownNode() {
-		$systemTag = new SystemTag(1, 'Test', true, false);
-
 		$node = $this->getMockBuilder('\OCA\DAV\SystemTag\SystemTagsObjectMappingCollection')
 			->disableOriginalConstructor()
 			->getMock();

@@ -24,12 +24,13 @@ namespace OCA\DAV\SystemTag;
 
 use OCP\IGroupManager;
 use OCP\IUserSession;
-use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Exception\BadRequest;
-use Sabre\DAV\Exception\UnsupportedMediaType;
 use Sabre\DAV\Exception\Conflict;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\UnsupportedMediaType;
 
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
@@ -246,16 +247,18 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 			return $this->tagManager->canUserAssignTag($node->getSystemTag(), $this->userSession->getUser()) ? 'true' : 'false';
 		});
 
-		if ($this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
-			$propFind->handle(self::GROUPS_PROPERTYNAME, function() use ($node) {
-				$groups = [];
-				// no need to retrieve groups for namespaces that don't qualify
-				if ($node->getSystemTag()->isUserVisible() && !$node->getSystemTag()->isUserAssignable()) {
-					$groups = $this->tagManager->getTagGroups($node->getSystemTag());
-				}
-				return implode('|', $groups);
-			});
-		}
+		$propFind->handle(self::GROUPS_PROPERTYNAME, function() use ($node) {
+			if (!$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
+				// property only available for admins
+				throw new Forbidden();
+			}
+			$groups = [];
+			// no need to retrieve groups for namespaces that don't qualify
+			if ($node->getSystemTag()->isUserVisible() && !$node->getSystemTag()->isUserAssignable()) {
+				$groups = $this->tagManager->getTagGroups($node->getSystemTag());
+			}
+			return implode('|', $groups);
+		});
 	}
 
 	/**
@@ -302,15 +305,21 @@ class SystemTagPlugin extends \Sabre\DAV\ServerPlugin {
 				$updateTag = true;
 			}
 
-			if ($updateTag) {
-				$node->update($name, $userVisible, $userAssignable);
-			}
-
 			if (isset($props[self::GROUPS_PROPERTYNAME])) {
+				if (!$this->groupManager->isAdmin($this->userSession->getUser()->getUID())) {
+					// property only available for admins
+					throw new Forbidden();
+				}
+
 				$propValue = $props[self::GROUPS_PROPERTYNAME];
 				$groupIds = explode('|', $propValue);
 				$this->tagManager->setTagGroups($tag, $groupIds);
 			}
+
+			if ($updateTag) {
+				$node->update($name, $userVisible, $userAssignable);
+			}
+
 			return true;
 		});
 
