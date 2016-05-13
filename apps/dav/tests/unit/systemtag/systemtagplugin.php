@@ -27,6 +27,7 @@ use OC\SystemTag\SystemTag;
 use OCP\IGroupManager;
 use OCP\IUserSession;
 use OCP\SystemTag\TagAlreadyExistsException;
+use OCP\IUser;
 
 class SystemTagPlugin extends \Test\TestCase {
 
@@ -61,6 +62,11 @@ class SystemTagPlugin extends \Test\TestCase {
 	private $userSession;
 
 	/**
+	 * @var IUser
+	 */
+	private $user;
+
+	/**
 	 * @var \OCA\DAV\SystemTag\SystemTagPlugin
 	 */
 	private $plugin;
@@ -75,7 +81,16 @@ class SystemTagPlugin extends \Test\TestCase {
 
 		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
 		$this->groupManager = $this->getMock('\OCP\IGroupManager');
+		$this->user = $this->getMock('\OCP\IUser');
 		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->userSession
+			->expects($this->any())
+			->method('getUser')
+			->willReturn($this->user);
+		$this->userSession
+			->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(true);
 
 		$this->plugin = new \OCA\DAV\SystemTag\SystemTagPlugin(
 			$this->tagManager,
@@ -178,18 +193,9 @@ class SystemTagPlugin extends \Test\TestCase {
 	 * @expectedExceptionMessage Not sufficient permissions
 	 */
 	public function testCreateNotAssignableTagAsRegularUser() {
-		$user = $this->getMock('\OCP\IUser');
-		$user->expects($this->once())
+		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
-		$this->userSession
-			->expects($this->once())
-			->method('isLoggedIn')
-			->willReturn(true);
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
 		$this->groupManager
 			->expects($this->once())
 			->method('isAdmin')
@@ -241,18 +247,9 @@ class SystemTagPlugin extends \Test\TestCase {
 	 * @expectedExceptionMessage Not sufficient permissions
 	 */
 	public function testCreateInvisibleTagAsRegularUser() {
-		$user = $this->getMock('\OCP\IUser');
-		$user->expects($this->once())
+		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
-		$this->userSession
-			->expects($this->once())
-			->method('isLoggedIn')
-			->willReturn(true);
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
 		$this->groupManager
 			->expects($this->once())
 			->method('isAdmin')
@@ -353,18 +350,9 @@ class SystemTagPlugin extends \Test\TestCase {
 	}
 
 	public function testCreateTagInByIdCollection() {
-		$user = $this->getMock('\OCP\IUser');
-		$user->expects($this->once())
+		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
-		$this->userSession
-			->expects($this->once())
-			->method('isLoggedIn')
-			->willReturn(true);
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
 		$this->groupManager
 			->expects($this->once())
 			->method('isAdmin')
@@ -431,18 +419,9 @@ class SystemTagPlugin extends \Test\TestCase {
 	}
 
 	public function testCreateTagInMappingCollection() {
-		$user = $this->getMock('\OCP\IUser');
-		$user->expects($this->once())
+		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
-		$this->userSession
-			->expects($this->once())
-			->method('isLoggedIn')
-			->willReturn(true);
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
 		$this->groupManager
 			->expects($this->once())
 			->method('isAdmin')
@@ -545,18 +524,9 @@ class SystemTagPlugin extends \Test\TestCase {
 	 * @expectedException \Sabre\DAV\Exception\Conflict
 	 */
 	public function testCreateTagConflict($nodeClass) {
-		$user = $this->getMock('\OCP\IUser');
-		$user->expects($this->once())
+		$this->user->expects($this->once())
 			->method('getUID')
 			->willReturn('admin');
-		$this->userSession
-			->expects($this->once())
-			->method('isLoggedIn')
-			->willReturn(true);
-		$this->userSession
-			->expects($this->once())
-			->method('getUser')
-			->willReturn($user);
 		$this->groupManager
 			->expects($this->once())
 			->method('isAdmin')
