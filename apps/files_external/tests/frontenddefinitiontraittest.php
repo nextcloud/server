@@ -33,12 +33,14 @@ class FrontendDefinitionTraitTest extends \Test\TestCase {
 		$trait = $this->getMockForTrait('\OCA\Files_External\Lib\FrontendDefinitionTrait');
 		$trait->setText('test');
 		$trait->addParameters([$param]);
-		$trait->setCustomJs('foo/bar.js');
+		$trait->addCustomJs('foo/bar.js');
+		$trait->addCustomJs('bar/foo.js');
 
 		$json = $trait->jsonSerializeDefinition();
 
 		$this->assertEquals('test', $json['name']);
-		$this->assertEquals('foo/bar.js', $json['custom']);
+		$this->assertContains('foo/bar.js', $json['custom']);
+		$this->assertContains('bar/foo.js', $json['custom']);
 
 		$configuration = $json['configuration'];
 		$this->assertArrayHasKey('foo', $configuration);

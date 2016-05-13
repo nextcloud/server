@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+	function displayGranted($tr) {
+		$tr.find('.configuration input.auth-param').attr('disabled', 'disabled').addClass('disabled-success');
+	}
+
 	OCA.External.Settings.mountConfig.whenSelectAuthMechanism(function($tr, authMechanism, scheme, onCompletion) {
 		if (authMechanism === 'oauth2::oauth2') {
 			var config = $tr.find('.configuration');
@@ -13,9 +17,7 @@ $(document).ready(function() {
 			onCompletion.then(function() {
 				var configured = $tr.find('[data-parameter="configured"]');
 				if ($(configured).val() == 'true') {
-					$tr.find('.configuration input').attr('disabled', 'disabled');
-					$tr.find('.configuration').append($('<span/>').attr('id', 'access')
-							.text(t('files_external', 'Access granted')));
+					displayGranted($tr);
 				} else {
 					var client_id = $tr.find('.configuration [data-parameter="client_id"]').val();
 					var client_secret = $tr.find('.configuration [data-parameter="client_secret"]')
@@ -43,10 +45,7 @@ $(document).ready(function() {
 											$(configured).val('true');
 											OCA.External.Settings.mountConfig.saveStorageConfig($tr, function(status) {
 												if (status) {
-													$tr.find('.configuration input').attr('disabled', 'disabled');
-													$tr.find('.configuration').append($('<span/>')
-															.attr('id', 'access')
-															.text(t('files_external', 'Access granted')));
+													displayGranted($tr);
 												}
 											});
 										} else {
