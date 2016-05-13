@@ -22,7 +22,6 @@
 namespace OCA\Files_External\Lib\Auth;
 
 use \OCP\IL10N;
-use \OCA\Files_External\Lib\Auth\AuthMechanism;
 use \OCA\Files_external\Lib\StorageConfig;
 
 /**
