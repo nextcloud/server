@@ -24,14 +24,14 @@
 namespace OCA\Files_External\Config;
 
 use OC\Files\Storage\Wrapper\Availability;
-use OCA\Files_external\Migration\StorageMigrator;
+use OCA\Files_External\Migration\StorageMigrator;
 use OCP\Files\Storage;
 use OC\Files\Mount\MountPoint;
 use OCP\Files\Storage\IStorageFactory;
 use OCA\Files_External\Lib\PersonalMount;
 use OCP\Files\Config\IMountProvider;
 use OCP\IUser;
-use OCA\Files_external\Service\UserStoragesService;
+use OCA\Files_External\Service\UserStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_External\Lib\StorageConfig;
 use OC\Files\Storage\FailedStorage;
