@@ -102,24 +102,6 @@ class Autoloader {
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
 			$paths[] = \OC::$SERVERROOT . '/lib/private/legacy/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
-			$paths[] = \OC::$SERVERROOT . '/lib/private/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
-		} elseif (strpos($class, 'OC\\') === 0) {
-			$split = explode('\\', $class, 3);
-
-			if (count($split) === 3) {
-				$split[1] = strtolower($split[1]);
-
-				if ($split[1] === 'core') {
-					// Covered by PSR-4 autoloader
-				} else if ($split[1] === 'settings') {
-					// Covered by PSR-4 autoloader
-				} else {
-					$paths[] = \OC::$SERVERROOT . '/lib/private/' . $split[1] . '/' . strtolower(str_replace('\\', '/', $split[2])) . '.php';
-				}
-
-			} else {
-				$paths[] = \OC::$SERVERROOT . '/lib/private/' . strtolower(str_replace('\\', '/', $split[1])) . '.php';
-			}
 		} elseif (strpos($class, 'OCP\\') === 0) {
 			$paths[] = \OC::$SERVERROOT . '/lib/public/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
 		} elseif (strpos($class, 'OCA\\') === 0) {
