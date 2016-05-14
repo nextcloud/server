@@ -105,7 +105,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Manca de permissions per editar a partir d'aicí.",
     "Settings" : "Paramètres",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Anullar lo mandadís",
     "No files in here" : "Pas cap de fichièr aicí",
     "Upload some content or sync with your devices!" : "Depausatz de contengut o sincronizatz vòstres aparelhs !",
     "No entries found in this folder" : "Cap d'entrada pas trobada dins aqueste dorsièr",

@@ -92,7 +92,6 @@ OC.L10N.register(
     "Save" : "Simpan",
     "Settings" : "Pengaturan",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Batal unggah",
     "No files in here" : "Tidak ada berkas disini",
     "Upload some content or sync with your devices!" : "Unggah beberapa konten dan sinkronisasikan dengan perangkat Anda!",
     "No entries found in this folder" : "Tidak ada entri yang ditemukan dalam folder ini",

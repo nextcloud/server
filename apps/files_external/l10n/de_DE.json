@@ -20,7 +20,6 @@
     "Personal" : "Persönlich",
     "System" : "System",
     "Grant access" : "Zugriff gestatten",
-    "Access granted" : "Zugriff gestattet",
     "Error configuring OAuth1" : "Fehler beim Konfigurieren von OAuth1",
     "Error configuring OAuth2" : "Fehler beim Konfigurieren von OAuth2",
     "Generate keys" : "Schlüssel erzeugen",

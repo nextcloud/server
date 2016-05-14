@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "Personligt",
     "System" : "System",
     "Grant access" : "Godkend adgang",
-    "Access granted" : "Adgang godkendt",
     "Error configuring OAuth1" : "Fejl under konfiguration af OAuth1",
     "Error configuring OAuth2" : "Fejl under konfiguration af OAuth2",
     "Generate keys" : "Opret nøgler.",

@@ -37,7 +37,6 @@ OC.L10N.register(
     "max. possible: " : "mwyaf. posib:",
     "Save" : "Cadw",
     "Settings" : "Gosodiadau",
-    "Cancel upload" : "Diddymu llwytho i fyny",
     "Upload too large" : "Maint llwytho i fyny'n rhy fawr",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Mae'r ffeiliau rydych yn ceisio llwytho i fyny'n fwy na maint mwyaf llwytho ffeiliau i fyny ar y gweinydd hwn.",
     "Text file" : "Ffeil destun"

@@ -90,7 +90,6 @@ OC.L10N.register(
     "Save" : "ذخیره",
     "Settings" : "تنظیمات",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "متوقف کردن بار گذاری",
     "No files in here" : "هیچ فایلی اینجا وجود ندارد",
     "Upload some content or sync with your devices!" : "محتوایی را آپلود کنید یا با دستگاه خود همگام‌سازی کنید!",
     "No entries found in this folder" : "هیچ ورودی‌ای در این پوشه وجود ندارد",

@@ -7,7 +7,6 @@ OC.L10N.register(
     "External storage" : "Išorinė saugykla",
     "Personal" : "Asmeniniai",
     "Grant access" : "Suteikti priėjimą",
-    "Access granted" : "Priėjimas suteiktas",
     "Saved" : "Išsaugoti",
     "Username" : "Prisijungimo vardas",
     "Password" : "Slaptažodis",

@@ -92,7 +92,6 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Settings" : "Axustes",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Encaboxar xuba",
     "No files in here" : "Nun hai nengún ficheru equí",
     "Upload some content or sync with your devices!" : "¡Xuba algún conteníu o sincroniza colos sos preseos!",
     "No entries found in this folder" : "Nenguna entrada en esta carpeta",

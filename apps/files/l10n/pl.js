@@ -96,7 +96,6 @@ OC.L10N.register(
     "Settings" : "Ustawienia",
     "Show hidden files" : "Pokaż ukryte pliki",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Anuluj wysyłanie",
     "No files in here" : "Brak plików",
     "No entries found in this folder" : "Brak wpisów w tym folderze",
     "Select all" : "Wybierz wszystko",

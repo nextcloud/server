@@ -102,7 +102,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Mankas permesoj por redakti ekde ĉi tie.",
     "Settings" : "Agordo",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Nuligi alŝuton",
     "No files in here" : "Neniu dosiero estas ĉi tie",
     "Upload some content or sync with your devices!" : "Alŝutu iom da enhavo aŭ sinkronigu kun viaj aparatoj!",
     "No entries found in this folder" : "Neniu enigo troviĝis en ĉi tiu dosierujo",

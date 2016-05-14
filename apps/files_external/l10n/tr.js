@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "Kişisel",
     "System" : "Sistem",
     "Grant access" : "Erişimi sağla",
-    "Access granted" : "Giriş kabul edildi",
     "Error configuring OAuth1" : "OAuth1 yapılandırma hatası",
     "Error configuring OAuth2" : "OAuth2 yapılandırma hatası",
     "Generate keys" : "Anahtarlar üret",

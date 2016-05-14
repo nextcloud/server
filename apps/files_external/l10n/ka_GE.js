@@ -4,7 +4,6 @@ OC.L10N.register(
     "External storage" : "ექსტერნალ საცავი",
     "Personal" : "პირადი",
     "Grant access" : "დაშვების მინიჭება",
-    "Access granted" : "დაშვება მინიჭებულია",
     "Username" : "მომხმარებლის სახელი",
     "Password" : "პაროლი",
     "Save" : "შენახვა",

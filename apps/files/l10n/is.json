@@ -105,7 +105,6 @@
     "Settings" : "Stillingar",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Notaðu þetta vistfang til að <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">nálgast skrárnar þínar með WebDAV</a>",
-    "Cancel upload" : "Hætta við innsendingu",
     "No files in here" : "Engar skrár hér",
     "Upload some content or sync with your devices!" : "Sendu inn eitthvað efni eða samstilltu við tækin þín!",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",

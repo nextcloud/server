@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "אישי",
     "System" : "מערכת",
     "Grant access" : "הענקת גישה",
-    "Access granted" : "הוענקה גישה",
     "Error configuring OAuth1" : "שגיאה בתצורת OAuth1",
     "Error configuring OAuth2" : "שגיאה בתצורת OAuth2",
     "Generate keys" : "יצירת מפתחות",

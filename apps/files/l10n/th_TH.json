@@ -106,7 +106,6 @@
     "Show hidden files" : "แสดงไฟล์ที่ซ่อนอยู่",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "ใช้ที่อยู่นี้เพื่อ <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">เข้าถึงไฟล์ของคุณผ่าน WebDAV</a>",
-    "Cancel upload" : "ยกเลิกการอัพโหลด",
     "No files in here" : "ไม่มีไฟล์ที่นี่",
     "Upload some content or sync with your devices!" : "อัพโหลดเนื้อหาบางส่วนหรือประสานข้อมูลกับอุปกรณ์ของคุณ! อีกครั้ง",
     "No entries found in this folder" : "ไม่พบรายการในโฟลเดอร์นี้",

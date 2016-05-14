@@ -106,7 +106,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "没有从这里进行编辑的权限",
     "Settings" : "设置",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "取消上传",
     "No files in here" : "无文件",
     "Upload some content or sync with your devices!" : "上传一些内容或者与设备同步!",
     "No entries found in this folder" : "此文件夹中无项目",

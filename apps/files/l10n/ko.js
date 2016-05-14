@@ -106,7 +106,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "여기에서 편집할 권한이 없습니다.",
     "Settings" : "설정",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "업로드 취소",
     "No files in here" : "여기에 파일 없음",
     "Upload some content or sync with your devices!" : "파일을 업로드하거나 장치와 동기화하십시오!",
     "No entries found in this folder" : "이 폴더에 항목 없음",

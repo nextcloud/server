@@ -63,7 +63,6 @@ OC.L10N.register(
     "Save" : "Lagre",
     "Settings" : "Innstillingar",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Avbryt opplasting",
     "Upload too large" : "For stor opplasting",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filene du prøver å lasta opp er større enn maksgrensa til denne tenaren.",
     "Text file" : "Tekst fil"

@@ -11,7 +11,6 @@ OC.L10N.register(
     "Personal" : "Personligt",
     "System" : "System",
     "Grant access" : "Bevilja åtkomst",
-    "Access granted" : "Åtkomst beviljad",
     "Generate keys" : "Generera nycklar",
     "Error generating key pair" : "Fel vid generering av nyckelpar",
     "All users. Type to select user or group." : "Alla användare. Skriv för att välja användare eller grupp.",

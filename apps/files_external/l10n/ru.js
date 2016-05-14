@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "Личное",
     "System" : "Система",
     "Grant access" : "Предоставить доступ",
-    "Access granted" : "Доступ предоставлен",
     "Error configuring OAuth1" : "Ошибка настройки OAuth1",
     "Error configuring OAuth2" : "Ошибка настройки OAuth2",
     "Generate keys" : "Создать ключи",

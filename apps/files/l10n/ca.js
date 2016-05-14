@@ -84,7 +84,6 @@ OC.L10N.register(
     "Save" : "Desa",
     "Settings" : "Arranjament",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Cancel·la la pujada",
     "No files in here" : "No hi ha arxius",
     "Upload some content or sync with your devices!" : "Pugi continguts o sincronitzi els seus dispositius.",
     "No entries found in this folder" : "No hi ha entrades en aquesta carpeta",

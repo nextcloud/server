@@ -70,7 +70,6 @@ OC.L10N.register(
     "Save" : "Guardar",
     "Settings" : "Configuración",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Cancelar subida",
     "Upload too large" : "El tamaño del archivo que querés subir es demasiado grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que intentás subir sobrepasan el tamaño máximo ",
     "Text file" : "Archivo de texto"

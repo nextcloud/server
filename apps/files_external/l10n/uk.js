@@ -10,7 +10,6 @@ OC.L10N.register(
     "Personal" : "Особисте",
     "System" : "Система",
     "Grant access" : "Дозволити доступ",
-    "Access granted" : "Доступ дозволено",
     "Generate keys" : "Створити ключі",
     "Error generating key pair" : "Помилка створення ключової пари",
     "All users. Type to select user or group." : "Всі користувачі. Введіть ім'я користувача або групи.",

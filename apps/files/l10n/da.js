@@ -96,7 +96,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Rettighed mangler til at redigere på dette sted",
     "Settings" : "Indstillinger",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Fortryd upload",
     "No files in here" : "Her er ingen filer",
     "Upload some content or sync with your devices!" : "Overfør indhold eller synkronisér med dine enheder!",
     "No entries found in this folder" : "Der blev ikke fundet poster i denne mappe",

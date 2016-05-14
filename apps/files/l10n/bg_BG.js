@@ -81,7 +81,6 @@ OC.L10N.register(
     "Save" : "Запис",
     "Settings" : "Настройки",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Отказване на качването",
     "No files in here" : "Тук няма файлове",
     "Upload some content or sync with your devices!" : "Качи съдържание или синхронизирай с твоите устройства!",
     "No entries found in this folder" : "Няма намерени записи в тази папка",

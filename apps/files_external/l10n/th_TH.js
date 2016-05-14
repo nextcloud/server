@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "ส่วนตัว",
     "System" : "ระบบ",
     "Grant access" : "อนุญาตให้เข้าถึงได้",
-    "Access granted" : "การเข้าถึงได้รับอนุญาตแล้ว",
     "Error configuring OAuth1" : "ข้อผิดพลาดในการกำหนดค่า OAuth1",
     "Error configuring OAuth2" : "ข้อผิดพลาดในการกำหนดค่า OAuth2",
     "Generate keys" : "สร้างคีย์",

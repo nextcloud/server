@@ -10,7 +10,6 @@ OC.L10N.register(
     "Personal" : "Osobiste",
     "System" : "System",
     "Grant access" : "Udziel dostępu",
-    "Access granted" : "Dostęp do",
     "Generate keys" : "Wygeneruj klucze",
     "Error generating key pair" : "Błąd podczas generowania pary kluczy",
     "All users. Type to select user or group." : "Wszyscy użytkownicy. Zacznij pisać, aby wybrać użytkownika lub grupę.",

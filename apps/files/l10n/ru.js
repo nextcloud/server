@@ -108,7 +108,6 @@ OC.L10N.register(
     "Show hidden files" : "Показать скрытые файлы",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Используйте этот адрес для <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">для доступа к вашим файлам по WebDAV</a>",
-    "Cancel upload" : "Отменить загрузку",
     "No files in here" : "Здесь нет файлов",
     "Upload some content or sync with your devices!" : "Загрузите что-нибудь или синхронизируйте со своими устройствами!",
     "No entries found in this folder" : "Ничего не найдено",

@@ -108,7 +108,6 @@ OC.L10N.register(
     "Show hidden files" : "Rejtett fájlok megjelenítése",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Használja ezt a címet <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">a Fájlok eléréséhez WebDAV-on keresztül</a>.",
-    "Cancel upload" : "A feltöltés megszakítása",
     "No files in here" : "Itt nincsenek fájlok",
     "Upload some content or sync with your devices!" : "Tölts fel néhány tartalmat, vagy szinkronizálj az eszközöddel!",
     "No entries found in this folder" : "Nincsenek bejegyzések ebben a könyvtárban",

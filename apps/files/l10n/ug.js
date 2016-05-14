@@ -30,7 +30,6 @@ OC.L10N.register(
     "Save" : "ساقلا",
     "Settings" : "تەڭشەكلەر",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
     "Text file" : "تېكىست ھۆججەت"
 },

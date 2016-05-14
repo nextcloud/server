@@ -31,7 +31,6 @@ OC.L10N.register(
     "Save" : "រក្សាទុក",
     "Settings" : "ការកំណត់",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "បោះបង់​ការ​ផ្ទុកឡើង",
     "Upload too large" : "ផ្ទុក​ឡើង​ធំ​ពេក",
     "Text file" : "ឯកសារ​អក្សរ"
 },

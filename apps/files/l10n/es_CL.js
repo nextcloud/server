@@ -17,7 +17,6 @@ OC.L10N.register(
     "%2$s changed %1$s" : "%2$s cambió %1$s",
     "You deleted %1$s" : "Ha borrado %1$s",
     "%2$s deleted %1$s" : "%2$s borró %1$s",
-    "Settings" : "Configuración",
-    "Cancel upload" : "cancelar subida"
+    "Settings" : "Configuración"
 },
 "nplurals=2; plural=(n != 1);");

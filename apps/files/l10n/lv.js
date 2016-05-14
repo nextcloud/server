@@ -81,7 +81,6 @@ OC.L10N.register(
     "Save" : "Saglabāt",
     "Settings" : "Iestatījumi",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Atcelt augšupielādi",
     "Upload some content or sync with your devices!" : "Augšupielādē kaut ko vai sinhronizē saturu ar savām ierīcēm!",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
     "Select all" : "Atzīmēt visu",

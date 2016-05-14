@@ -105,7 +105,6 @@
     "Settings" : "Ayarlar",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Dosyalarınıza WebDAV ile erişmek için <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">bu adresi kullanın</a>",
-    "Cancel upload" : "Yüklemeyi iptal et",
     "No files in here" : "Burada hiç dosya yok",
     "Upload some content or sync with your devices!" : "Bir şeyler yükleyin veya aygıtlarınızla eşitleyin!",
     "No entries found in this folder" : "Bu klasörde hiçbir girdi bulunamadı",

@@ -9,7 +9,6 @@ OC.L10N.register(
     "Personal" : "شخصی",
     "System" : "سیستم",
     "Grant access" : " مجوز اعطا دسترسی",
-    "Access granted" : "مجوز دسترسی صادر شد",
     "Error configuring OAuth1" : "خطا پیکربندی OAuth1",
     "Error configuring OAuth2" : "خطا پیکربندی OAuth2",
     "Generate keys" : "تولید کلید",

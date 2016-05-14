@@ -9,7 +9,6 @@ OC.L10N.register(
     "Personal" : "个人",
     "System" : "系统",
     "Grant access" : "授权",
-    "Access granted" : "权限已授予。",
     "Saved" : "已保存",
     "External mount error" : "外部挂载错误",
     "external-storage" : "外部存储",

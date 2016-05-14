@@ -109,7 +109,6 @@ OC.L10N.register(
     "Show hidden files" : "Shfaq kartela të fshehura",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Përdorni këtë adresë për <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">të hyrë te Kartelat tuaja përmes WebDAV-it</a>",
-    "Cancel upload" : "Anuloje ngarkimin",
     "No files in here" : "S’ka kartela këtu",
     "Upload some content or sync with your devices!" : "Ngarkoni ca lëndë ose bëni njëkohësim me pajisjet tuaja!",
     "No entries found in this folder" : "Në këtë dosje s’u gjetën zëra",

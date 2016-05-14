@@ -10,7 +10,6 @@ OC.L10N.register(
     "Personal" : "Henkilökohtainen",
     "System" : "Järjestelmä",
     "Grant access" : "Salli pääsy",
-    "Access granted" : "Pääsy sallittu",
     "Error configuring OAuth1" : "Virhe OAuth1:n asetuksia tehdessä",
     "Error configuring OAuth2" : "Virhe OAuth2:n asetuksia tehdessä",
     "Generate keys" : "Luo avaimet",

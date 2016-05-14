@@ -67,7 +67,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Недостасуваат пермисии за да уредувате од тука",
     "Settings" : "Подесувања",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Откажи прикачување",
     "No files in here" : "Тука нема датотеки",
     "No entries found in this folder" : "Нема ништо во оваа папка",
     "Select all" : "Избери се",

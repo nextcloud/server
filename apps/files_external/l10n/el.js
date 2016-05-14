@@ -21,7 +21,6 @@ OC.L10N.register(
     "Personal" : "Προσωπικά",
     "System" : "Σύστημα",
     "Grant access" : "Παροχή πρόσβασης",
-    "Access granted" : "Πρόσβαση παρασχέθηκε",
     "Error configuring OAuth1" : "Σφάλμα ρύθμισης του OAuth1",
     "Error configuring OAuth2" : "Σφάλμα ρύθμισης του OAuth2",
     "Generate keys" : "Δημιουργία κλειδιών",

@@ -32,7 +32,6 @@ OC.L10N.register(
     "max. possible: " : "max. méiglech:",
     "Save" : "Späicheren",
     "Settings" : "Astellungen",
-    "Cancel upload" : "Upload ofbriechen",
     "No entries found in this folder" : "Keng Elementer an dësem Dossier fonnt",
     "Select all" : "All auswielen",
     "Upload too large" : "Upload ze grouss",

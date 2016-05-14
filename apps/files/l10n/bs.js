@@ -64,7 +64,6 @@ OC.L10N.register(
     "Save" : "Spasi",
     "Settings" : "Postavke",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Prekini učitavanje",
     "Upload some content or sync with your devices!" : "Učitaj neki sadržaj ili sinhronizuj sa tvojim uređajima!",
     "Select all" : "Označi sve",
     "Upload too large" : "Učitavanje je preveliko",

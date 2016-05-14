@@ -51,7 +51,6 @@ OC.L10N.register(
     "Save" : "﻿ಉಳಿಸಿ",
     "Settings" : "ಆಯ್ಕೆ",
     "WebDAV" : "﻿WebDAV",
-    "Cancel upload" : "﻿ವರ್ಗಾವಣೆ ರದ್ದು ಮಾಡಿ",
     "Select all" : "﻿ಎಲ್ಲಾ ಆಯ್ಕೆ ಮಾಡಿ",
     "Upload too large" : "ದೊಡ್ಡ ಪ್ರಮಾಣದ ಪ್ರತಿಗಳನ್ನು ವರ್ಗಾವಣೆ ಮಾಡಲು ಸಾದ್ಯವಿಲ್ಲ",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ನೀವು ವರ್ಗಾಯಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತಿರುವ ಕಡತಗಳ ಗಾತ್ರ, ಈ ಗಣಕ ಕೋಶದ ಗರಿಷ್ಠ ಕಡತ ಮೀತಿಯಾನ್ನು ಮೀರುವಂತಿಲ್ಲ.",

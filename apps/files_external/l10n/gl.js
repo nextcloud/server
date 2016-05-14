@@ -10,7 +10,6 @@ OC.L10N.register(
     "Personal" : "Persoal",
     "System" : "Sistema",
     "Grant access" : "Permitir o acceso",
-    "Access granted" : "Concedeuse acceso",
     "Generate keys" : "Xerar chaves",
     "Error generating key pair" : "Produciuse un erro ao xerar o par de chaves",
     "All users. Type to select user or group." : "Todos os usuarios. Escriba para seleccionar usuario ou grupo.",

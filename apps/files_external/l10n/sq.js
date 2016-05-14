@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "Personale",
     "System" : "Sistem",
     "Grant access" : "Akordoji hyrje",
-    "Access granted" : "Hyrja u akordua",
     "Error configuring OAuth1" : "Gabim gjatë formësimit të OAuth1",
     "Error configuring OAuth2" : "Gabim gjatë formësimit të OAuth2",
     "Generate keys" : "Prodho kyçe",

@@ -109,7 +109,6 @@ OC.L10N.register(
     "Show hidden files" : "Näytä piilotetut tiedostot",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">päästäksesi tiedostoihisi WebDAV-liittymän kautta</a>",
-    "Cancel upload" : "Peru lähetys",
     "No files in here" : "Täällä ei ole tiedostoja",
     "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
     "No entries found in this folder" : "Ei kohteita tässä kansiossa",

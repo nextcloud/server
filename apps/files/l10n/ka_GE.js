@@ -42,7 +42,6 @@ OC.L10N.register(
     "Save" : "შენახვა",
     "Settings" : "პარამეტრები",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "ატვირთვის გაუქმება",
     "Upload too large" : "ასატვირთი ფაილი ძალიან დიდია",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",
     "Text file" : "ტექსტური ფაილი"

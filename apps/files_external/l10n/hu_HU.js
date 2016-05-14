@@ -6,7 +6,6 @@ OC.L10N.register(
     "Personal" : "Személyes",
     "System" : "Rendszer",
     "Grant access" : "Megadom a hozzáférést",
-    "Access granted" : "Érvényes hozzáférés",
     "Generate keys" : "Kulcsok generálása",
     "Error generating key pair" : "Hiba történt a kulcspár generálása közben",
     "All users. Type to select user or group." : "Összes felhasználó. Írj be egy felhasználót vagy csoportot.",

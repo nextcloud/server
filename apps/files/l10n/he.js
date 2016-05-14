@@ -107,7 +107,6 @@ OC.L10N.register(
     "Settings" : "הגדרות",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">access your Files via WebDAV</a>" : "ניתן להשתמש בכתובת זו כדי <a href=\"%s\" target=\"_blank\" rel=\"noreferrer\">להכנס לקבצים שלך באמצעות WebDAV</a>",
-    "Cancel upload" : "ביטול ההעלאה",
     "No files in here" : "אין כאן קבצים",
     "Upload some content or sync with your devices!" : "יש להעלות קצת תוכן או לסנכרן עם ההתקנים שלך!",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",

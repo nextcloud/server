@@ -101,7 +101,6 @@ OC.L10N.register(
     "Missing permissions to edit from here." : "Δεν υπάρχουν τα απαραίτητα δικαιώματα για να γίνει τροποποιήση σε αυτό το σημείο.",
     "Settings" : "Ρυθμίσεις",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Ακύρωση μεταφόρτωσης",
     "No files in here" : "Δεν υπάρχουν αρχεία",
     "Upload some content or sync with your devices!" : "Μεταφόρτωση περιεχομένου ή συγχρονισμός με τις συσκευές σας!",
     "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",

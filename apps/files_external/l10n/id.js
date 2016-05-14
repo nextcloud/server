@@ -19,7 +19,6 @@ OC.L10N.register(
     "Personal" : "Pribadi",
     "System" : "Sistem",
     "Grant access" : "Berikan hak akses",
-    "Access granted" : "Akses diberikan",
     "Error configuring OAuth1" : "Kesalahan mengkonfigurasi OAuth1",
     "Error configuring OAuth2" : "Kesalahan mengkonfigurasi OAuth2",
     "Generate keys" : "Hasilkan kunci",

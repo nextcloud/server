@@ -9,7 +9,6 @@ OC.L10N.register(
     "Personal" : "Persona",
     "System" : "Sistemo",
     "Grant access" : "Doni alirpermeson",
-    "Access granted" : "Alirpermeso donita",
     "Generate keys" : "Generi ŝlosilojn",
     "All users. Type to select user or group." : "Ĉiuj uzantoj. Tajpu por elekti uzanton aŭ grupon.",
     "(group)" : "(grupo)",

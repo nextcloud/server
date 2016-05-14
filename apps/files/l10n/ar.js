@@ -83,7 +83,6 @@ OC.L10N.register(
     "Save" : "حفظ",
     "Settings" : "إعدادات",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "إلغاء الرفع",
     "No files in here" : "لا يوجد ملفات هنا ",
     "Upload some content or sync with your devices!" : "ارفع بعض المحتوي او زامن مع اجهزتك !",
     "No entries found in this folder" : "لا يوجد مدخلات في هذا المجلد ",

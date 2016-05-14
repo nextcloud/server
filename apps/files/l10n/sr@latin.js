@@ -81,7 +81,6 @@ OC.L10N.register(
     "Save" : "Sačuvaj",
     "Settings" : "Postavke",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Otkaži otpremanje",
     "No files in here" : "Ovde nema fajlova",
     "Upload some content or sync with your devices!" : "Otpremite neki sadržaj ili sinhronizujte sa vašim uređajima!",
     "No entries found in this folder" : "Nema ničega u ovoj fascikli",

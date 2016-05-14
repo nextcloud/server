@@ -89,7 +89,6 @@ OC.L10N.register(
     "Save" : "Uložiť",
     "Settings" : "Nastavenia",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Zrušiť nahrávanie",
     "No files in here" : "Nie sú tu žiadne súbory",
     "Upload some content or sync with your devices!" : "Nahrajte nejaký obsah alebo synchronizujte zo svojimi zariadeniami!",
     "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",

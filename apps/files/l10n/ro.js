@@ -87,7 +87,6 @@ OC.L10N.register(
     "Save" : "Salvează",
     "Settings" : "Setări",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Anulează încărcarea",
     "No files in here" : "Niciun fișier aici",
     "No entries found in this folder" : "Niciun element găsit în acest director",
     "Select all" : "Selectează tot",

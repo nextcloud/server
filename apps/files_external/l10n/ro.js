@@ -6,7 +6,6 @@ OC.L10N.register(
     "External storage" : "Stocare externă",
     "Personal" : "Personal",
     "Grant access" : "Permite accesul",
-    "Access granted" : "Acces permis",
     "Generate keys" : "Generează chei",
     "Error generating key pair" : "Eroarea la generarea cheilor",
     "(group)" : "(grup)",

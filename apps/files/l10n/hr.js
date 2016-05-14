@@ -79,7 +79,6 @@ OC.L10N.register(
     "Save" : "Spremite",
     "Settings" : "Postavke",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "Prekini upload",
     "Upload some content or sync with your devices!" : "Aplodujte neki sadrzaj ili sinkronizirajte sa vasim uredjajem!",
     "No entries found in this folder" : "Zapis nije pronadjen u ovom direktorijumu ",
     "Select all" : "Selektiraj sve",

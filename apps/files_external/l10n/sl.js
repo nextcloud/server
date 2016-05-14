@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "Osebno",
     "System" : "Sistem",
     "Grant access" : "Odobri dostop",
-    "Access granted" : "Dostop je odobren",
     "Error configuring OAuth1" : "Napaka nastavljanja OAuth1",
     "Error configuring OAuth2" : "Napaka nastavljanja OAuth2",
     "Generate keys" : "Ustvari ključe",

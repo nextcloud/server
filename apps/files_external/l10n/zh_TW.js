@@ -21,7 +21,6 @@ OC.L10N.register(
     "Personal" : "個人",
     "System" : "系統",
     "Grant access" : "允許存取",
-    "Access granted" : "允許存取",
     "Error configuring OAuth1" : "設定 OAuth1 時發生錯誤",
     "Error configuring OAuth2" : "設定 OAuth2 時發生錯誤",
     "Generate keys" : "產生金鑰",
