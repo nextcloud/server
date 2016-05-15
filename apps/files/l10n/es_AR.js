@@ -29,6 +29,7 @@ OC.L10N.register(
     "Total file size {size1} exceeds upload limit {size2}" : "El tamaño total del archivo {size1} excede el límite {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "No hay suficiente espacio libre. Quiere subir {size1} pero solo quedan {size2}",
     "Could not get result from server." : "No se pudo obtener resultados del servidor.",
+    "Uploading..." : "Subiendo...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "La subida del archivo está en proceso. Si salís de la página ahora, la subida se cancelará.",
     "Actions" : "Acciones",
     "Download" : "Descargar",

@@ -24,6 +24,7 @@ OC.L10N.register(
     "Favorites" : "Омилени",
     "Upload cancelled." : "Преземањето е прекинато.",
     "Could not get result from server." : "Не можам да добијам резултат од серверот.",
+    "Uploading..." : "Подигнувам...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине.",
     "Actions" : "Акции",
     "Download" : "Преземи",

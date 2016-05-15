@@ -30,6 +30,8 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nincs elég szabad hely. A feltöltés mérete {size1}, de csak ennyi hely van: {size2}.",
     "Error uploading file \"{fileName}\": {message}" : "Hiba történt a fájlfeltöltés közben:  \"{fileName}\": {message}",
     "Could not get result from server." : "A kiszolgálótól nem kapható meg a művelet eredménye.",
+    "Uploading..." : "Feltöltés...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Fájlfeltöltés van folyamatban. Az oldal elhagyása megszakítja a feltöltést.",
     "Actions" : "Műveletek",
     "Download" : "Letöltés",

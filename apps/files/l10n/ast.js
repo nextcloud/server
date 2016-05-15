@@ -29,6 +29,7 @@ OC.L10N.register(
     "Total file size {size1} exceeds upload limit {size2}" : "El tamañu de ficheru total {size1} perpasa la llende de xuba {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nun hai abondu espaciu llibre, tas xubiendo {size1} pero namái falta {size2}",
     "Could not get result from server." : "Nun pudo obtenese'l resultáu del sirvidor.",
+    "Uploading..." : "Xubiendo...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "La xuba del ficheru ta en progresu. Si dexes agora la páxina, va encaboxase la xuba.",
     "Actions" : "Aiciones",
     "Download" : "Descargar",

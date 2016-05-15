@@ -17,6 +17,8 @@
     "Insufficient data: %s" : "Dati insufficienti: %s",
     "%s" : "%s",
     "Storage with id \"%i\" is not user editable" : "L'archiviazione con ID \"%i\" non è modificabile dall'utente",
+    "Dropbox App Configuration" : "Configurazione applicazione Dropbox",
+    "Google Drive App Configuration" : "Configurazione applicazione Google Drive",
     "Personal" : "Personale",
     "System" : "Sistema",
     "Grant access" : "Concedi l'accesso",

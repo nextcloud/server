@@ -30,6 +30,8 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Недостаточно свободного места, Вы загружаете {size1}, но осталось только {size2}",
     "Error uploading file \"{fileName}\": {message}" : "Ошибка загрузки файла \"{fileName}\": {message}",
     "Could not get result from server." : "Не удалось получить ответ от сервера.",
+    "Uploading..." : "Загрузка...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Идёт загрузка файла. Покинув страницу, вы прервёте загрузку.",
     "Actions" : "Действия",
     "Download" : "Скачать",

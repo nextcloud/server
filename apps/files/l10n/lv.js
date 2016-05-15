@@ -29,6 +29,7 @@ OC.L10N.register(
     "Total file size {size1} exceeds upload limit {size2}" : "Kopējais faila izmērs {size1} pārsniedz augšupielādes ierobežojumu {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nav pietiekami daudz brīvas vietas. Tiek augšupielādēti {size1}, bet pieejami tikai {size2}",
     "Could not get result from server." : "Nevar saņemt rezultātus no servera",
+    "Uploading..." : "Augšupielādē...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde.",
     "Actions" : "Darbības",
     "Download" : "Lejupielādēt",

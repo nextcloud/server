@@ -24,6 +24,7 @@ OC.L10N.register(
     "Upload cancelled." : "Opplasting avbroten.",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Klarte ikkje å lasta opp {filename} sidan det er ei mappe eller er 0 byte.",
     "Could not get result from server." : "Klarte ikkje å henta resultat frå tenaren.",
+    "Uploading..." : "Lastar opp …",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Fila lastar no opp. Viss du forlèt sida no vil opplastinga verta avbroten.",
     "Actions" : "Handlingar",
     "Download" : "Last ned",

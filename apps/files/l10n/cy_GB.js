@@ -15,6 +15,7 @@ OC.L10N.register(
     "Home" : "Cartref",
     "Close" : "Cau",
     "Upload cancelled." : "Diddymwyd llwytho i fyny.",
+    "Uploading..." : "Yn llwytho i fyny...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Mae ffeiliau'n cael eu llwytho i fyny. Bydd gadael y dudalen hon nawr yn diddymu'r broses.",
     "Actions" : "Gweithredoedd",
     "Download" : "Llwytho i lawr",

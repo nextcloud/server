@@ -30,6 +30,8 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ikke nok ledig plass. Du laster opp size1} men bare {size2} er ledig",
     "Error uploading file \"{fileName}\": {message}" : "Feil ved opplasting av fil \"{fileName}\": {message}",
     "Could not get result from server." : "Fikk ikke resultat fra serveren.",
+    "Uploading..." : "Laster opp...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen.",
     "Actions" : "Handlinger",
     "Download" : "Last ned",

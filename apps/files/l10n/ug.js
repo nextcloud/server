@@ -12,6 +12,7 @@ OC.L10N.register(
     "Close" : "ياپ",
     "Favorites" : "يىغقۇچ",
     "Upload cancelled." : "يۈكلەشتىن ۋاز كەچتى.",
+    "Uploading..." : "يۈكلەۋاتىدۇ…",
     "File upload is in progress. Leaving the page now will cancel the upload." : "ھۆججەت يۈكلەش مەشغۇلاتى ئېلىپ بېرىلىۋاتىدۇ. Leaving the page now will cancel the upload.",
     "Actions" : "مەشغۇلاتلار",
     "Download" : "چۈشۈر",

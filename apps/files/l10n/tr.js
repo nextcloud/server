@@ -30,6 +30,8 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Yeterince boş alan yok. Gönderdiğiniz boyut {size1} ancak {size2} alan mevcut",
     "Error uploading file \"{fileName}\": {message}" : "\"{fileName}\" dosyası yüklenirken hata: {message}",
     "Could not get result from server." : "Sunucudan sonuç alınamadı.",
+    "Uploading..." : "Yükleniyor...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Dosya yükleme işlemi sürüyor. Şu anda sayfadan ayrılmak yükleme işlemini iptal edecek.",
     "Actions" : "Eylemler",
     "Download" : "İndir",

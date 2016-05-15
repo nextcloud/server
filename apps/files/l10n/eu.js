@@ -29,6 +29,8 @@ OC.L10N.register(
     "Total file size {size1} exceeds upload limit {size2}" : "Fitxategiaren tamainak {size1} igotzeko muga {size2} gainditzen du",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ez dago leku nahikorik, zu {size1} igotzen ari zara baina bakarrik {size2} libre dago",
     "Could not get result from server." : "Ezin da zerbitzaritik emaitzik lortu",
+    "Uploading..." : "Igotzen...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.",
     "Actions" : "Ekintzak",
     "Download" : "Deskargatu",

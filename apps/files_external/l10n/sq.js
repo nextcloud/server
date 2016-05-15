@@ -19,6 +19,8 @@ OC.L10N.register(
     "Insufficient data: %s" : "Të dhëna të pamjaftueshme: %s",
     "%s" : "%s",
     "Storage with id \"%i\" is not user editable" : "Depozita me id \"%i\" s’është e përpunueshme nga përdoruesi",
+    "Dropbox App Configuration" : "Formësim i Aplikacionit Dropbox",
+    "Google Drive App Configuration" : "Formësim i Aplikacionit Google Drive",
     "Personal" : "Personale",
     "System" : "Sistem",
     "Grant access" : "Akordoji hyrje",

@@ -29,6 +29,8 @@ OC.L10N.register(
     "Total file size {size1} exceeds upload limit {size2}" : "Το συνολικό μέγεθος αρχείου {size1} υπερβαίνει το όριο μεταφόρτωσης {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Δεν υπάρχει αρκετός ελεύθερος χώρος, μεταφορτώνετε μέγεθος {size1} αλλά υπάρχει χώρος μόνο {size2}",
     "Could not get result from server." : "Αδυναμία λήψης αποτελέσματος από το διακομιστή.",
+    "Uploading..." : "Μεταφόρτωση...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή.",
     "Actions" : "Ενέργειες",
     "Download" : "Λήψη",

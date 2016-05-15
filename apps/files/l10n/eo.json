@@ -26,6 +26,7 @@
     "Total file size {size1} exceeds upload limit {size2}" : "Tuta dosiergrando {size1} transpasas alŝutolimon {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ne sufiĉas libera spaco: vi alŝutas {size1} sed nur {size2} restas",
     "Could not get result from server." : "Ne povis ekhaviĝi rezulto el la servilo.",
+    "Uploading..." : "Alŝutante...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Dosieralŝuto plenumiĝas. Lasi la paĝon nun nuligus la alŝuton.",
     "Actions" : "Agoj",
     "Download" : "Elŝuti",

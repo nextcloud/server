@@ -29,6 +29,8 @@ OC.L10N.register(
     "Total file size {size1} exceeds upload limit {size2}" : "Mida total del fitxer {size1} excedeix el límit de pujada {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "No hi ha prou espai lliure, està carregant {size1} però només pot {size2}",
     "Could not get result from server." : "No hi ha resposta del servidor.",
+    "Uploading..." : "Pujant...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
     "Actions" : "Accions",
     "Download" : "Baixa",

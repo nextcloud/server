@@ -21,6 +21,7 @@ OC.L10N.register(
     "Close" : "বন্ধ",
     "Favorites" : "প্রিয়জন",
     "Upload cancelled." : "আপলোড বাতিল করা হয়েছে।",
+    "Uploading..." : "আপলোড করা হচ্ছে..........",
     "File upload is in progress. Leaving the page now will cancel the upload." : "ফাইল আপলোড চলমান। এই পৃষ্ঠা পরিত্যাগ করলে আপলোড বাতিল করা হবে।",
     "Actions" : "পদক্ষেপসমূহ",
     "Download" : "ডাউনলোড",

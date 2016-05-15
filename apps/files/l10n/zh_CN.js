@@ -30,6 +30,8 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "没有足够的可用空间，您正在上传 {size1} 的文件但是只有 {size2} 可用。",
     "Error uploading file \"{fileName}\": {message}" : "上传文件错误 \"{fileName}\": {message}",
     "Could not get result from server." : "不能从服务器得到结果",
+    "Uploading..." : "上传中...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "文件正在上传中。现在离开此页会导致上传动作被取消。",
     "Actions" : "动作",
     "Download" : "下载",

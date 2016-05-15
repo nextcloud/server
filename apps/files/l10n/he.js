@@ -30,6 +30,8 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "לא קיים מספיק מקום פנוי, הקובץ המיועד להעלאה {size1} אבל נשאר {size2} בלבד",
     "Error uploading file \"{fileName}\": {message}" : "שגיאה בזמן העלאת קובץ \"{fileName}\": {message}",
     "Could not get result from server." : "לא ניתן לגשת לתוצאות מהשרת.",
+    "Uploading..." : "העלאה...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "מתבצעת כעת העלאת קבצים. עזיבה של העמוד תבטל את ההעלאה.",
     "Actions" : "פעולות",
     "Download" : "הורדה",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "comments",
     {
-    "Type in a new comment..." : "Ingrese un nuevo comentario...",
+    "Type in a new comment..." : "Escribe un nuevo comentario...",
     "Delete comment" : "Borrar comentario",
     "Post" : "Publicar",
     "Cancel" : "Cancelar",

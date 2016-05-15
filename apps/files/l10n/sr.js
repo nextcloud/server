@@ -29,6 +29,8 @@ OC.L10N.register(
     "Total file size {size1} exceeds upload limit {size2}" : "Величина {size1} превазилази ограничење за отпремање од {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Нема простора. Отпремате {size1} али само {size2} је преостало",
     "Could not get result from server." : "Не могу да добијем резултат са сервера.",
+    "Uploading..." : "Отпремам…",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Отпремање фајла је у току. Ако сада напустите страницу, отказаћете отпремање.",
     "Actions" : "Радње",
     "Download" : "Преузми",

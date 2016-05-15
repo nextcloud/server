@@ -17,6 +17,7 @@ OC.L10N.register(
     "Close" : "დახურვა",
     "Favorites" : "ფავორიტები",
     "Upload cancelled." : "ატვირთვა შეჩერებულ იქნა.",
+    "Uploading..." : "მიმდინარეობს ატვირთვა...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "მიმდინარეობს ფაილის ატვირთვა. სხვა გვერდზე გადასვლა გამოიწვევს ატვირთვის შეჩერებას",
     "Actions" : "მოქმედებები",
     "Download" : "ჩამოტვირთვა",

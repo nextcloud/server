@@ -12,6 +12,7 @@ OC.L10N.register(
     "Home" : "නිවස",
     "Close" : "වසන්න",
     "Upload cancelled." : "උඩුගත කිරීම අත් හරින්න ලදී",
+    "Uploading..." : "උඩුගත කෙරේ...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත",
     "Download" : "බාන්න",
     "Rename" : "නැවත නම් කරන්න",

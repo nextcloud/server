@@ -29,6 +29,7 @@ OC.L10N.register(
     "Total file size {size1} exceeds upload limit {size2}" : "مجموع سایز {size1} بیشتر از محدودیت آپلود {size2} است",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "ظرفیت لازم وجود ندارد، شما آپلودی با حجم {size1}  را انجام میدهید اما تنها {size2} فضا باقی مانده است",
     "Could not get result from server." : "امکان دریافت نتایج از سرور وجود ندارد.",
+    "Uploading..." : "درحال بارگذاری...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "آپلودکردن پرونده در حال پیشرفت است. در صورت خروج از صفحه آپلود لغو میگردد. ",
     "Actions" : "فعالیت ها",
     "Download" : "دانلود",

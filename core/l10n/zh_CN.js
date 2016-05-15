@@ -155,6 +155,7 @@ OC.L10N.register(
     "Send" : "发送",
     "Sending ..." : "正在发送...",
     "Email sent" : "邮件已发送",
+    "Send link via email" : "通过邮件发送链接",
     "Shared with you and the group {group} by {owner}" : "{owner} 共享给您及 {group} 组",
     "Shared with you by {owner}" : "{owner} 与您共享",
     "group" : "群组",
@@ -272,6 +273,7 @@ OC.L10N.register(
     "Please contact your administrator." : "请联系你的管理员。",
     "An internal error occurred." : "发生了内部错误。",
     "Please try again or contact your administrator." : "请重试或联系管理员。",
+    "Username or email" : "用户名或邮箱",
     "Log in" : "登录",
     "Wrong password. Reset it?" : "密码错误。要重置么？",
     "Wrong password." : "密码错误",
@@ -298,6 +300,7 @@ OC.L10N.register(
     "Start update" : "开始更新",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "为进行避免较大的安装时超时，你可以在你的安装目录下运行下面的命令：",
     "Detailed logs" : "详细日志",
+    "Update needed" : "需要更新",
     "This %s instance is currently in maintenance mode, which may take a while." : "该 %s 实例当前处于维护模式，这将进行一些时间。",
     "This page will refresh itself when the %s instance is available again." : "当实例 %s 再次可用时这个页面将刷新。"
 },

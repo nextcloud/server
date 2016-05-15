@@ -7,6 +7,7 @@ OC.L10N.register(
     "Files" : "ឯកសារ",
     "Close" : "បិទ",
     "Upload cancelled." : "បាន​បោះបង់​ការ​ផ្ទុក​ឡើង។",
+    "Uploading..." : "កំពុងដាក់បញ្ចូល...",
     "Download" : "ទាញយក",
     "Rename" : "ប្ដូរ​ឈ្មោះ",
     "Delete" : "លុប",

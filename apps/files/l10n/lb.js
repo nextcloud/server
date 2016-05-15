@@ -13,6 +13,7 @@ OC.L10N.register(
     "Close" : "Zoumaachen",
     "Favorites" : "Favoriten",
     "Upload cancelled." : "Upload ofgebrach.",
+    "Uploading..." : "Lueden erop...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
     "Download" : "Download",
     "Rename" : "Ëmbenennen",

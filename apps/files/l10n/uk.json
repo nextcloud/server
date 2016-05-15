@@ -27,6 +27,8 @@
     "Total file size {size1} exceeds upload limit {size2}" : "Розмір файлу {size1} перевищує обмеження {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Недостатньо вільного місця, ви вивантажуєте {size1}, а залишилося лише {size2}",
     "Could not get result from server." : "Не вдалося отримати результат від сервера.",
+    "Uploading..." : "Вивантаження...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Виконується вивантаження файлу. Закриття цієї сторінки приведе до скасування вивантаження.",
     "Actions" : "Дії",
     "Download" : "Завантажити",

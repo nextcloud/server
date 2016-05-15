@@ -30,6 +30,8 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ekki nægilegt laust pláss, þú ert að senda inn {size1} en einungis {size2} eru eftir",
     "Error uploading file \"{fileName}\": {message}" : "Villa við að senda inn skrána \"{fileName}\": {message}",
     "Could not get result from server." : "Fékk ekki niðurstöður frá þjóni.",
+    "Uploading..." : "Sendi inn ...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending hætta.",
     "Actions" : "Aðgerðir",
     "Download" : "Niðurhal",

@@ -30,6 +30,8 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Není dostatek místa pro uložení, velikost souboru je {size1}, zbývá pouze {size2}",
     "Error uploading file \"{fileName}\": {message}" : "Chyba nahrávání souboru \"{fileName}\": {message}",
     "Could not get result from server." : "Nepodařilo se získat výsledek ze serveru.",
+    "Uploading..." : "Odesílám...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Probíhá odesílání souboru. Opuštění stránky způsobí zrušení nahrávání.",
     "Actions" : "Činnosti",
     "Download" : "Stáhnout",

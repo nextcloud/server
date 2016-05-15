@@ -28,6 +28,8 @@
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Não existe espaço suficiente. Está a enviar {size1} mas apenas existe {size2} disponível",
     "Error uploading file \"{fileName}\": {message}" : "Erro ao carregar o ficheiro \"{fileName}\": {message}",
     "Could not get result from server." : "Não foi possível obter o resultado do servidor.",
+    "Uploading..." : "A carregar...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Envio de ficheiro em progresso. Se deixar a página agora, irá cancelar o envio.",
     "Actions" : "Ações",
     "Download" : "Descarregar",

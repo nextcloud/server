@@ -27,6 +27,8 @@
     "Total file size {size1} exceeds upload limit {size2}" : "Celková veľkosť súboru {size1} prekračuje upload limit {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Nie je dostatok voľného miesta, chcete nahrať {size1} ale k dispozíciji je len {size2}",
     "Could not get result from server." : "Nepodarilo sa dostať výsledky zo servera.",
+    "Uploading..." : "Nahrávam...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Opustenie stránky zruší práve prebiehajúce odosielanie súboru.",
     "Actions" : "Akcie",
     "Download" : "Sťahovanie",

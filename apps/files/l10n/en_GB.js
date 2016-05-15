@@ -30,6 +30,8 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Not enough free space, you are uploading {size1} but only {size2} is left",
     "Error uploading file \"{fileName}\": {message}" : "Error uploading file \"{fileName}\": {message}",
     "Could not get result from server." : "Could not get result from server.",
+    "Uploading..." : "Uploading...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "File upload is in progress. Leaving the page now will cancel the upload.",
     "Actions" : "Actions",
     "Download" : "Download",
