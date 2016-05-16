@@ -41,6 +41,8 @@
     "Unable to determine date" : "Nu s-a putut determina data",
     "This operation is forbidden" : "Operațiunea este interzisă",
     "This directory is unavailable, please check the logs or contact the administrator" : "Acest director nu este disponibil, te rugăm verifică logurile sau contactează un administrator",
+    "Could not move \"{file}\", target exists" : "Nu s-a putut muta fișierul \"{file}\", există deja un altul cu același nume în directorul destinație",
+    "Could not move \"{file}\"" : "Nu s-a putut muta fișierul \"{file}\"",
     "{newName} already exists" : "{newName} există deja",
     "Could not rename \"{fileName}\"" : "Nu s-a putut redenumi \"{fileName}\"",
     "Could not create file \"{file}\"" : "Nu s-a putut crea fișierul \"{file}\"",

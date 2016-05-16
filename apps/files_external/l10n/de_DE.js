@@ -19,6 +19,8 @@ OC.L10N.register(
     "Insufficient data: %s" : "Unzureichende Daten: %s",
     "%s" : "%s",
     "Storage with id \"%i\" is not user editable" : "Der Speicher mit der ID „%i“ ist nicht bearbeitbar durch Benutzer",
+    "Dropbox App Configuration" : "Dropbox-App Konfiguration",
+    "Google Drive App Configuration" : "Google Drive - App Konfiguration",
     "Personal" : "Persönlich",
     "System" : "System",
     "Grant access" : "Zugriff gestatten",

@@ -147,6 +147,7 @@ OC.L10N.register(
     "days" : "天",
     "Enforce expiration date" : "强制过期日期",
     "Allow resharing" : "允许再次共享",
+    "Allow sharing with groups" : "允许群组共享",
     "Restrict users to only share with users in their groups" : "限制仅与组内用户分享",
     "Allow users to send mail notification for shared files to other users" : "允许用户发送共享文件的邮件通知给其他用户",
     "Exclude groups from sharing" : "在分享中排除组",

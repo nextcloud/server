@@ -11,6 +11,8 @@ OC.L10N.register(
     "Nothing shared with you yet" : "Nimic nu e partajat cu tine încă",
     "Nothing shared yet" : "Nimic partajat încă",
     "Cancel" : "Anulare",
+    "No ownCloud installation (7 or higher) found at {remote}" : "Nu s-a găsit nicio instanță ownCloud (versiunea 7 sau mai mare) la {remote}",
+    "Invalid ownCloud url" : "URL ownCloud invalid",
     "Shared by" : "impartite in ",
     "Sharing" : "Partajare",
     "A file or folder has been <strong>shared</strong>" : "Un fișier sau director a fost <strong>partajat</strong>",
