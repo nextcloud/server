@@ -68,7 +68,7 @@ class Test_Wizard extends \Test\TestCase {
 				->disableOriginalConstructor()
 				->getMock();
 		}
-		return array($this->ocUserManagerMock, $this->ocGroupManagerMock);
+		return [$this->ocUserManagerMock, $this->ocGroupManagerMock];
 	}
 
 	private function getWizardAndMocks() {
@@ -95,7 +95,7 @@ class Test_Wizard extends \Test\TestCase {
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 			$accMethods, array($connector, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock));
 
-		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
+		return [new Wizard($conf, $lw, $access), $conf, $lw, $access];
 	}
 
 	private function prepareLdapWrapperForConnections(&$ldap) {

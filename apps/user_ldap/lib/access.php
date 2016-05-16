@@ -79,8 +79,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 	protected $groupMapper;
 
 	public function __construct(Connection $connection, ILDAPWrapper $ldap,
-		user\Manager $userManager, \OC\User\Manager $ocUserManager,
-		\OC\Group\Manager $ocGroupManager) {
+		user\Manager $userManager, \OCP\IUserManager $ocUserManager,
+		\OCP\IGroupManager $ocGroupManager) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
 		$this->userManager = $userManager;

@@ -49,7 +49,7 @@ class Test_User_User extends \Test\TestCase {
 		$dbc     = $this->getMock('\OCP\IDBConnection');
 		$userMgr  = $this->getMock('\OCP\IUserManager');
 
-		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr);
+		return [$access, $config, $filesys, $image, $log, $avaMgr, $dbc, $userMgr];
 	}
 
 	private function getOcManagers() {
@@ -63,7 +63,7 @@ class Test_User_User extends \Test\TestCase {
 				->disableOriginalConstructor()
 				->getMock();
 		}
-		return array($this->ocUserManagerMock, $this->ocGroupManagerMock);
+		return [$this->ocUserManagerMock, $this->ocGroupManagerMock];
 	}
 
 	private function getAdvancedMocks($cfMock, $fsMock, $logMock, $avaMgr, $dbc, $userMgr = null) {

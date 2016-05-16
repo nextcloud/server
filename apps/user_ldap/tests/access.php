@@ -65,9 +65,9 @@ class Test_Access extends \Test\TestCase {
 				$this->getMock('\OCP\IDBConnection'),
 				$this->getMock('\OCP\IUserManager')));
 
-		return array($lw, $connector, $um);
+		return [$lw, $connector, $um];
 	}
-	
+
 	private function getOcManagers() {
 		if(is_null($this->ocUserManagerMock)) {
 			$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
@@ -79,7 +79,7 @@ class Test_Access extends \Test\TestCase {
 				->disableOriginalConstructor()
 				->getMock();
 		}
-		return array($this->ocUserManagerMock, $this->ocGroupManagerMock);
+		return [$this->ocUserManagerMock, $this->ocGroupManagerMock];
 	}
 
 	public function testEscapeFilterPartValidChars() {

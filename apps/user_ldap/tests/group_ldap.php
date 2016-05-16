@@ -54,7 +54,7 @@ class Test_Group_Ldap extends \Test\TestCase {
 				->disableOriginalConstructor()
 				->getMock();
 		}
-		return array($this->ocUserManagerMock, $this->ocGroupManagerMock);
+		return [$this->ocUserManagerMock, $this->ocGroupManagerMock];
 	}
 
 	private function getAccessMock() {
@@ -76,7 +76,7 @@ class Test_Group_Ldap extends \Test\TestCase {
 		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 								 $accMethods,
-								 array($connector, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock));
+								 [$connector, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock]);
 
 		$access->expects($this->any())
 			->method('getConnection')
