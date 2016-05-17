@@ -903,7 +903,7 @@ class OC {
 	 * @param OCP\IRequest $request
 	 * @return boolean
 	 */
-	private static function handleLogin(OCP\IRequest $request) {
+	static function handleLogin(OCP\IRequest $request) {
 		$userSession = self::$server->getUserSession();
 		if (OC_User::handleApacheAuth()) {
 			return true;
