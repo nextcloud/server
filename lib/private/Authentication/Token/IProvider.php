@@ -27,6 +27,27 @@ use OC\Authentication\Exceptions\InvalidTokenException;
 interface IProvider {
 
 	/**
+	 * Create and persist a new token
+	 *
+	 * @param string $token
+	 * @param string $uid
+	 * @param string $password
+	 * @param string $name
+	 * @param int $type token type
+	 * @return DefaultToken
+	 */
+	public function generateToken($token, $uid, $password, $name, $type = IToken::TEMPORARY_TOKEN);
+
+	/**
+	 * Get a token by token id
+	 *
+	 * @param string $tokenId
+	 * @throws InvalidTokenException
+	 * @return IToken
+	 */
+	public function getToken($tokenId) ;
+	
+	/**
 	 * @param string $token
 	 * @throws InvalidTokenException
 	 * @return IToken
@@ -34,9 +55,25 @@ interface IProvider {
 	public function validateToken($token);
 
 	/**
+	 * Invalidate (delete) the given session token
+	 *
+	 * @param string $token
+	 */
+	public function invalidateToken($token);
+
+	/**
 	 * Update token activity timestamp
 	 *
 	 * @param IToken $token
 	 */
 	public function updateToken(IToken $token);
+
+	/**
+	 * Get the (unencrypted) password of the given token
+	 *
+	 * @param IToken $token
+	 * @param string $tokenId
+	 * @return string
+	 */
+	public function getPassword(IToken $token, $tokenId);
 }
