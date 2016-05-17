@@ -60,6 +60,7 @@ interface ICache {
 	 * @param string $key
 	 * @return bool
 	 * @since 6.0.0
+	 * @deprecated 9.1.0 Directly read from GET to prevent race conditions
 	 */
 	public function hasKey($key);
 
