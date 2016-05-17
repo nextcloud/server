@@ -477,4 +477,36 @@ class Session extends \Test\TestCase {
 		$this->assertEquals($users['bar'], $userSession->getUser());
 	}
 
+	public function testTryTokenLoginWithDisabledUser() {
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$session = new Memory('');
+		$token = $this->getMock('\OC\Authentication\Token\IToken');
+		$user = $this->getMock('\OCP\IUser');
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider);
+		$request = $this->getMock('\OCP\IRequest');
+
+		$request->expects($this->once())
+			->method('getHeader')
+			->with('Authorization')
+			->will($this->returnValue('token xxxxx'));
+		$this->defaultProvider->expects($this->once())
+			->method('validateToken')
+			->with('xxxxx')
+			->will($this->returnValue($token));
+		$token->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+		$manager->expects($this->once())
+			->method('get')
+			->with('user123')
+			->will($this->returnValue($user));
+		$user->expects($this->once())
+			->method('isEnabled')
+			->will($this->returnValue(false));
+
+		$this->assertFalse($userSession->tryTokenLogin($request));
+	}
+
 }

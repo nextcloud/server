@@ -362,6 +362,10 @@ class Session implements IUserSession, Emitter {
 			// user does not exist
 			return false;
 		}
+		if (!$user->isEnabled()) {
+			// disabled users can not log in
+			return false;
+		}
 
 		//login
 		$this->setUser($user);
