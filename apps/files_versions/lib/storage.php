@@ -532,13 +532,15 @@ class Storage {
 			$files = $view->getDirectoryContent($dir);
 
 			foreach ($files as $file) {
+				$fileData = $file->getData();
+				$filePath = $dir . '/' . $fileData['name'];
 				if ($file['type'] === 'dir') {
-					array_push($dirs, $file['path']);
+					array_push($dirs, $filePath);
 				} else {
-					$versionsBegin = strrpos($file['path'], '.v');
+					$versionsBegin = strrpos($filePath, '.v');
 					$relPathStart = strlen(self::VERSIONS_ROOT);
-					$version = substr($file['path'], $versionsBegin + 2);
-					$relpath = substr($file['path'], $relPathStart, $versionsBegin - $relPathStart);
+					$version = substr($filePath, $versionsBegin + 2);
+					$relpath = substr($filePath, $relPathStart, $versionsBegin - $relPathStart);
 					$key = $version . '#' . $relpath;
 					$versions[$key] = array('path' => $relpath, 'timestamp' => $version);
 				}
