@@ -633,6 +633,9 @@ class OC {
 		//setup extra user backends
 		if (!self::checkUpgrade(false)) {
 			OC_User::setupBackends();
+		} else {
+			// Run upgrades in incognito mode
+			OC_User::setIncognitoMode(true);
 		}
 
 		self::registerCacheHooks();
