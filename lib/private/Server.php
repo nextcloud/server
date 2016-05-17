@@ -277,7 +277,7 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 
 		$this->registerService('\OC\Authentication\TwoFactorAuth\Manager', function (Server $c) {
-			return new \OC\Authentication\TwoFactorAuth\Manager($c->getAppManager(), $c->getSession());
+			return new \OC\Authentication\TwoFactorAuth\Manager($c->getAppManager(), $c->getSession(), $c->getConfig());
 		});
 
 		$this->registerService('NavigationManager', function ($c) {

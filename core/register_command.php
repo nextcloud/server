@@ -57,6 +57,13 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\Enable(\OC::$server->getAppManager()));
 	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
+	
+	$application->add(new OC\Core\Command\TwoFactorAuth\Enable(
+		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
+	));
+	$application->add(new OC\Core\Command\TwoFactorAuth\Disable(
+		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
+	));
 
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));

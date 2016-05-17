@@ -26,6 +26,7 @@ use OC;
 use OC\App\AppManager;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\TwoFactorAuth\IProvider;
+use OCP\IConfig;
 use OCP\ISession;
 use OCP\IUser;
 
@@ -39,13 +40,18 @@ class Manager {
 	/** @var ISession */
 	private $session;
 
+	/** @var IConfig */
+	private $config;
+
 	/**
 	 * @param AppManager $appManager
 	 * @param ISession $session
+	 * @param IConfig $config
 	 */
-	public function __construct(AppManager $appManager, ISession $session) {
+	public function __construct(AppManager $appManager, ISession $session, IConfig $config) {
 		$this->appManager = $appManager;
 		$this->session = $session;
+		$this->config = $config;
 	}
 
 	/**
@@ -55,7 +61,26 @@ class Manager {
 	 * @return boolean
 	 */
 	public function isTwoFactorAuthenticated(IUser $user) {
-		return count($this->getProviders($user)) > 0;
+		$twoFactorEnabled = ((int) $this->config->getUserValue($user->getUID(), 'core', 'two_factor_auth_disabled', 0)) === 0;
+		return $twoFactorEnabled && count($this->getProviders($user)) > 0;
+	}
+
+	/**
+	 * Disable 2FA checks for the given user
+	 *
+	 * @param IUser $user
+	 */
+	public function disableTwoFactorAuthentication(IUser $user) {
+		$this->config->setUserValue($user->getUID(), 'core', 'two_factor_auth_disabled', 1);
+	}
+
+	/**
+	 * Enable all 2FA checks for the given user
+	 *
+	 * @param IUser $user
+	 */
+	public function enableTwoFactorAuthentication(IUser $user) {
+		$this->config->deleteUserValue($user->getUID(), 'core', 'two_factor_auth_disabled');
 	}
 
 	/**
