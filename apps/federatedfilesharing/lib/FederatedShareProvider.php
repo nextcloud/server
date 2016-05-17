@@ -133,7 +133,6 @@ class FederatedShareProvider implements IShareProvider {
 		$shareWith = $share->getSharedWith();
 		$itemSource = $share->getNodeId();
 		$itemType = $share->getNodeType();
-		$uidOwner = $share->getShareOwner();
 		$permissions = $share->getPermissions();
 		$sharedBy = $share->getSharedBy();
 		
@@ -160,7 +159,7 @@ class FederatedShareProvider implements IShareProvider {
 			throw new \Exception($message_t);
 		}
 
-		$shareWith = $user . '@' . $remote;
+		$share->setSharedWith($user . '@' . $remote);
 
 		try {
 			$remoteShare = $this->getShareFromExternalShareTable($share);
@@ -169,45 +168,74 @@ class FederatedShareProvider implements IShareProvider {
 		}
 
 		if ($remoteShare) {
-			$uidOwner = $remoteShare['owner'] . '@' . $remoteShare['remote'];
-			$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, 'tmp_token_' . time());
-			list($token, $remoteId) = $this->askOwnerToReShare($shareWith, $share, $shareId);
-			// remote share was create successfully if we get a valid token as return
-			$send = is_string($token) && $token !== '';
-			if ($send) {
-				$this->updateSuccessfulReshare($shareId, $token);
-				$this->storeRemoteId($shareId, $remoteId);
+			try {
+				$uidOwner = $remoteShare['owner'] . '@' . $remoteShare['remote'];
+				$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, 'tmp_token_' . time());
+				list($token, $remoteId) = $this->askOwnerToReShare($shareWith, $share, $shareId);
+				// remote share was create successfully if we get a valid token as return
+				$send = is_string($token) && $token !== '';
+				if ($send) {
+					$this->updateSuccessfulReshare($shareId, $token);
+					$this->storeRemoteId($shareId, $remoteId);
+				}
+			} catch (\Exception $e) {
+				// fall back to old re-share behavior if the remote server
+				// doesn't support flat re-shares (was introduced with ownCloud 9.1)
+				$data = $this->getRawShare($shareId);
+				$brokenShare = $this->createShareObject($data);
+				$this->removeShareFromTable($brokenShare);
+				list($shareId, $send) = $this->createFederatedShare($share);
 			}
 		} else {
-			$token = $this->tokenHandler->generateToken();
-			$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, $token);
-			$sharedByFederatedId = $share->getSharedBy();
-			if ($this->userManager->userExists($sharedByFederatedId)) {
-				$sharedByFederatedId = $sharedByFederatedId . '@' . $this->addressHandler->generateRemoteURL();
-			}
-			$send = $this->notifications->sendRemoteShare(
-				$token,
-				$shareWith,
-				$share->getNode()->getName(),
-				$shareId,
-				$share->getShareOwner(),
-				$share->getShareOwner() . '@' . $this->addressHandler->generateRemoteURL(),
-				$share->getSharedBy(),
-				$sharedByFederatedId
-			);
+			list($shareId, $send) = $this->createFederatedShare($share);
 		}
 
 		$data = $this->getRawShare($shareId);
-		$share = $this->createShare($data);
+		$share = $this->createShareObject($data);
 
 		if ($send === false) {
-			$this->delete($share);
+			$this->removeShareFromTable($share);
 			$message_t = $this->l->t('Sharing %s failed, could not find %s, maybe the server is currently unreachable.',
 				[$share->getNode()->getName(), $shareWith]);
 			throw new \Exception($message_t);
 		}
 
 		return $share;
+	}
+
+	/**
+	 * create federated share and inform the recipient
+	 *
+	 * @param IShare $share
+	 * @return array
+	 */
+	protected function createFederatedShare(IShare $share) {
+		$token = $this->tokenHandler->generateToken();
+		$shareId = $this->addShareToDB(
+			$share->getNodeId(),
+			$share->getNodeType(),
+			$share->getSharedWith(),
+			$share->getSharedBy(),
+			$share->getShareOwner(),
+			$share->getPermissions(),
+			$token
+		);
+		$sharedByFederatedId = $share->getSharedBy();
+		if ($this->userManager->userExists($sharedByFederatedId)) {
+			$sharedByFederatedId = $sharedByFederatedId . '@' . $this->addressHandler->generateRemoteURL();
+		}
+		$send = $this->notifications->sendRemoteShare(
+			$token,
+			$share->getSharedWith(),
+			$share->getNode()->getName(),
+			$shareId,
+			$share->getShareOwner(),
+			$share->getShareOwner() . '@' . $this->addressHandler->generateRemoteURL(),
+			$share->getSharedBy(),
+			$sharedByFederatedId
+		);
+
+		return [$shareId, $send];
 	}
 
 	/**
@@ -421,7 +449,7 @@ class FederatedShareProvider implements IShareProvider {
 
 		$cursor = $qb->execute();
 		while($data = $cursor->fetch()) {
-			$children[] = $this->createShare($data);
+			$children[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
 
@@ -562,7 +590,7 @@ class FederatedShareProvider implements IShareProvider {
 		$cursor = $qb->execute();
 		$shares = [];
 		while($data = $cursor->fetch()) {
-			$shares[] = $this->createShare($data);
+			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
 
@@ -589,7 +617,7 @@ class FederatedShareProvider implements IShareProvider {
 		}
 
 		try {
-			$share = $this->createShare($data);
+			$share = $this->createShareObject($data);
 		} catch (InvalidShare $e) {
 			throw new ShareNotFound();
 		}
@@ -614,7 +642,7 @@ class FederatedShareProvider implements IShareProvider {
 
 		$shares = [];
 		while($data = $cursor->fetch()) {
-			$shares[] = $this->createShare($data);
+			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
 
@@ -653,7 +681,7 @@ class FederatedShareProvider implements IShareProvider {
 		$cursor = $qb->execute();
 
 		while($data = $cursor->fetch()) {
-			$shares[] = $this->createShare($data);
+			$shares[] = $this->createShareObject($data);
 		}
 		$cursor->closeCursor();
 
@@ -684,7 +712,7 @@ class FederatedShareProvider implements IShareProvider {
 		}
 
 		try {
-			$share = $this->createShare($data);
+			$share = $this->createShareObject($data);
 		} catch (InvalidShare $e) {
 			throw new ShareNotFound();
 		}
@@ -726,7 +754,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * @throws InvalidShare
 	 * @throws ShareNotFound
 	 */
-	private function createShare($data) {
+	private function createShareObject($data) {
 
 		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId((int)$data['id'])

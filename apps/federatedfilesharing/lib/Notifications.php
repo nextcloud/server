@@ -23,6 +23,7 @@
 
 namespace OCA\FederatedFileSharing;
 
+use OCP\AppFramework\Http;
 use OCP\BackgroundJob\IJobList;
 use OCP\Http\Client\IClientService;
 
@@ -291,6 +292,12 @@ class Notifications {
 				$result['success'] = true;
 				break;
 			} catch (\Exception $e) {
+				// if flat re-sharing is not supported by the remote server
+				// we re-throw the exception and fall back to the old behaviour.
+				// (flat re-shares has been introduced in ownCloud 9.1)
+				if ($e->getCode() === Http::STATUS_INTERNAL_SERVER_ERROR) {
+					throw $e;
+				}
 				$try++;
 				$protocol = 'http://';
 			}
