@@ -26,6 +26,7 @@
 namespace OCA\Files_Sharing\AppInfo;
 
 use OCA\FederatedFileSharing\DiscoveryManager;
+use OCA\Files_Sharing\Controllers\FooController;
 use OCA\Files_Sharing\MountProvider;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -68,6 +69,12 @@ class Application extends App {
 				$c->query('Request'),
 				$c->query('ExternalManager'),
 				$c->query('HttpClientService')
+			);
+		});
+		$container->registerService('FooController', function (SimpleContainer $c) {
+			return new FooController(
+				$c->query('AppName'),
+				$c->query('Request')
 			);
 		});
 
