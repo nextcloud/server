@@ -20,18 +20,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Files_sharing\Tests\External;
+namespace OCA\Files_Sharing\Tests\External;
 
-use OCA\Files_sharing\Tests\TestCase;
+use OCA\Files_Sharing\Tests\TestCase;
 
 /**
  * Class Cache
  *
  * @group DB
  *
- * @package OCA\Files_sharing\Tests\External
+ * @package OCA\Files_Sharing\Tests\External
  */
-class Cache extends TestCase {
+class CacheTest extends TestCase {
 
 	/**
 	 * @var \OC\Files\Storage\Storage

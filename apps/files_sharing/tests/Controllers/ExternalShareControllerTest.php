@@ -20,8 +20,9 @@
  *
  */
 
-namespace OCA\Files_Sharing\Controllers;
+namespace OCA\Files_Sharing\Tests\Controllers;
 
+use OCA\Files_Sharing\Controllers\ExternalSharesController;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\Http\Client\IClientService;
@@ -41,6 +42,7 @@ class ExternalShareControllerTest extends \Test\TestCase {
 	private $clientService;
 
 	public function setUp() {
+		parent::setUp();
 		$this->request = $this->getMockBuilder('\\OCP\\IRequest')
 			->disableOriginalConstructor()->getMock();
 		$this->externalManager = $this->getMockBuilder('\\OCA\\Files_Sharing\\External\\Manager')

@@ -26,15 +26,14 @@
  *
  */
 
-use OCA\Files\Share;
-use OCA\Files_sharing\Tests\TestCase;
+namespace OCA\Files_Sharing\Tests;
 
 /**
- * Class Test_Files_Sharing_Api
+ * Class ApiTest
  *
  * @group DB
  */
-class Test_Files_Sharing_Api extends TestCase {
+class ApiTest extends TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 
@@ -125,7 +124,7 @@ class Test_Files_Sharing_Api extends TestCase {
 	function testCreateShareUserFile() {
 		// simulate a post request
 		$data['path'] = $this->filename;
-		$data['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$data['shareWith'] = self::TEST_FILES_SHARING_API_USER2;
 		$data['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
 		$request = $this->createRequest($data);
@@ -148,7 +147,7 @@ class Test_Files_Sharing_Api extends TestCase {
 	function testCreateShareUserFolder() {
 		// simulate a post request
 		$data['path'] = $this->folder;
-		$data['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$data['shareWith'] = self::TEST_FILES_SHARING_API_USER2;
 		$data['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
 		$request = $this->createRequest($data);
@@ -172,7 +171,7 @@ class Test_Files_Sharing_Api extends TestCase {
 	function testCreateShareGroupFile() {
 		// simulate a post request
 		$data['path'] = $this->filename;
-		$data['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1;
+		$data['shareWith'] = self::TEST_FILES_SHARING_API_GROUP1;
 		$data['shareType'] = \OCP\Share::SHARE_TYPE_GROUP;
 
 		$request = $this->createRequest($data);
@@ -195,7 +194,7 @@ class Test_Files_Sharing_Api extends TestCase {
 	function testCreateShareGroupFolder() {
 		// simulate a post request
 		$data['path'] = $this->folder;
-		$data['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_GROUP1;
+		$data['shareWith'] = self::TEST_FILES_SHARING_API_GROUP1;
 		$data['shareType'] = \OCP\Share::SHARE_TYPE_GROUP;
 
 		$request = $this->createRequest($data);
@@ -347,7 +346,7 @@ class Test_Files_Sharing_Api extends TestCase {
 		// to no
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
 		$post['path'] = $this->filename;
-		$post['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$post['shareWith'] = self::TEST_FILES_SHARING_API_USER2;
 		$post['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
 		$request = $this->createRequest($post);
@@ -370,7 +369,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		$post = [];
 		$post['path'] = $this->filename;
-		$post['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$post['shareWith'] = self::TEST_FILES_SHARING_API_USER2;
 		$post['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
 		$request = $this->createRequest($post);
@@ -392,7 +391,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		$post = [];
 		$post['path'] = $this->filename;
-		$post['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
+		$post['shareWith'] = self::TEST_FILES_SHARING_API_USER2;
 		$post['shareType'] = \OCP\Share::SHARE_TYPE_USER;
 
 		$request = $this->createRequest($post);
@@ -1194,7 +1193,7 @@ class Test_Files_Sharing_Api extends TestCase {
 	 */
 	public function testShareFolderWithAMountPoint() {
 		// user 1 shares a folder with user2
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$fileInfo = $this->view->getFileInfo($this->folder);
 
@@ -1207,9 +1206,9 @@ class Test_Files_Sharing_Api extends TestCase {
 		);
 
 		// user2 shares a file from the folder as link
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$view = new \OC\Files\View('/' . \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2 . '/files');
+		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 		$view->mkdir("localDir");
 
 		// move mount point to the folder "localDir"
@@ -1242,7 +1241,7 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->assertTrue($result !== false);
 		$view->unlink('localDir');
 
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->shareManager->deleteShare($share);
 	}
@@ -1251,8 +1250,8 @@ class Test_Files_Sharing_Api extends TestCase {
 	 * Post init mount points hook for mounting simulated ext storage
 	 */
 	public static function initTestMountPointsHook($data) {
-		if ($data['user'] === \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1) {
-			\OC\Files\Filesystem::mount(self::$tempStorage, array(), '/' . \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1 . '/files' . self::TEST_FOLDER_NAME);
+		if ($data['user'] === self::TEST_FILES_SHARING_API_USER1) {
+			\OC\Files\Filesystem::mount(self::$tempStorage, array(), '/' . self::TEST_FILES_SHARING_API_USER1 . '/files' . self::TEST_FOLDER_NAME);
 		}
 	}
 
@@ -1267,10 +1266,10 @@ class Test_Files_Sharing_Api extends TestCase {
 		// needed because the sharing code sometimes switches the user internally and mounts the user's
 		// storages. In our case the temp storage isn't mounted automatically, so doing it in the post hook
 		// (similar to how ext storage works)
-		OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\Test_Files_Sharing_Api', 'initTestMountPointsHook');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
 
 		// logging in will auto-mount the temp storage for user1 as well
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$fileInfo = $this->view->getFileInfo($this->folder);
 
@@ -1284,44 +1283,44 @@ class Test_Files_Sharing_Api extends TestCase {
 		);
 
 		// user2: check that mount point name appears correctly
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		$view = new \OC\Files\View('/' . \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2 . '/files');
+		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
 
 		$this->assertTrue($view->file_exists($this->folder));
 		$this->assertTrue($view->file_exists($this->folder . '/test.txt'));
 
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->shareManager->deleteShare($share);
 
-		\OC_Hook::clear('OC_Filesystem', 'post_initMountPoints', '\Test_Files_Sharing_Api', 'initTestMountPointsHook');
+		\OC_Hook::clear('OC_Filesystem', 'post_initMountPoints', '\OCA\Files_Sharing\Tests\ApiTest', 'initTestMountPointsHook');
 	}
 	/**
 	 * @expectedException \Exception
 	 */
 	public function testShareNonExisting() {
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$id = PHP_INT_MAX - 1;
-		\OCP\Share::shareItem('file', $id, \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+		\OCP\Share::shareItem('file', $id, \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
 	}
 
 	/**
 	 * @expectedException \Exception
 	 */
 	public function testShareNotOwner() {
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 		\OC\Files\Filesystem::file_put_contents('foo.txt', 'bar');
 		$info = \OC\Files\Filesystem::getFileInfo('foo.txt');
 
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, self::TEST_FILES_SHARING_API_USER2, 31);
 	}
 
 	public function testDefaultExpireDate() {
-		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		// TODO drop this once all code paths use the DI version - otherwise
 		// the cache inside this config object is out of date because
@@ -1346,13 +1345,13 @@ class Test_Files_Sharing_Api extends TestCase {
 		$shareCreated = $now - 3 * 24 * 60 * 60;
 		$expireDate = date($dateFormat, $now + 2 * 24 * 60 * 60);
 
-		$info = OC\Files\Filesystem::getFileInfo($this->filename);
+		$info = \OC\Files\Filesystem::getFileInfo($this->filename);
 		$this->assertTrue($info instanceof \OC\Files\FileInfo);
 
 		$result = \OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ);
 		$this->assertTrue(is_string($result));
 
-		$result = \OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
+		$result = \OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
 		$this->assertTrue($result);
 
 		$result = \OCP\Share::setExpirationDate('file', $info->getId() , $expireDate, $now);
@@ -1376,7 +1375,7 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $share['share_type']);
 
 		//cleanup
-		$result = \OCP\Share::unshare('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
+		$result = \OCP\Share::unshare('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue($result);
 		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
 		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');

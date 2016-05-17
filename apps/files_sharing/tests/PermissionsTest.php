@@ -22,16 +22,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+
+namespace OCA\Files_Sharing\Tests;
+
 use OC\Files\Cache\Cache;
 use OC\Files\Storage\Storage;
 use OC\Files\View;
 
 /**
- * Class Test_Files_Sharing_Permissions
+ * Class PermissionsTest
  *
  * @group DB
  */
-class Test_Files_Sharing_Permissions extends OCA\Files_sharing\Tests\TestCase {
+class PermissionsTest extends TestCase {
 
 	/** @var Storage */
 	private $sharedStorageRestrictedShare;

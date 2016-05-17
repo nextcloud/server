@@ -26,11 +26,11 @@ use OCA\Files_Sharing\Capabilities;
 use OCA\Files_Sharing\Tests\TestCase;
 
 /**
- * Class FilesSharingCapabilitiesTest
+ * Class CapabilitiesTest
  *
  * @group DB
  */
-class FilesSharingCapabilitiesTest extends \Test\TestCase {
+class CapabilitiesTest extends \Test\TestCase {
 
 	/**
 	 * Test for the general part in each return statement and assert.

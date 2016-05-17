@@ -24,14 +24,14 @@
  *
  */
 
-use OCA\Files\Share;
+namespace OCA\Files_Sharing\Tests;
 
 /**
- * Class Test_Files_Sharing_Api
+ * Class SharedStorageTest
  *
  * @group DB
  */
-class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
+class SharedStorageTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();

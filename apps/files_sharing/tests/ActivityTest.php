@@ -22,16 +22,16 @@
  *
  */
 
-namespace OCA\Files_sharing\Tests;
+namespace OCA\Files_Sharing\Tests;
 
 /**
- * Class Activity
+ * Class ActivityTest
  *
  * @group DB
  *
- * @package OCA\Files_sharing\Tests
+ * @package OCA\Files_Sharing\Tests
  */
-class Activity extends \OCA\Files_Sharing\Tests\TestCase {
+class ActivityTest extends TestCase {
 
 	/**
 	 * @var \OCA\Files_Sharing\Activity

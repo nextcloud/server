@@ -23,15 +23,15 @@
  *
  */
 
-use OCA\Files\Share;
-use OCA\Files_sharing\Tests\TestCase;
+namespace OCA\Files_Sharing\Tests;
+
 
 /**
- * Class Test_Files_Sharing
+ * Class BackendTest
  *
  * @group DB
  */
-class Test_Files_Sharing_Backend extends TestCase {
+class BackendTest extends TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 

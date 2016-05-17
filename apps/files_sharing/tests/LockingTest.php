@@ -21,20 +21,20 @@
  *
  */
 
-namespace OCA\Files_sharing\Tests;
+namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Lock\ILockingProvider;
 
 /**
- * Class Locking
+ * Class LockingTest
  *
  * @group DB
  *
- * @package OCA\Files_sharing\Tests
+ * @package OCA\Files_Sharing\Tests
  */
-class Locking extends TestCase {
+class LockingTest extends TestCase {
 	/**
 	 * @var \Test\Util\User\Dummy
 	 */

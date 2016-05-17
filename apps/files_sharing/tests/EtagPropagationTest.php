@@ -23,19 +23,19 @@
  *
  */
 
-namespace OCA\Files_sharing\Tests;
+namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
 
 /**
- * Class EtagPropagation
+ * Class EtagPropagationTest
  *
  * @group DB
  *
- * @package OCA\Files_sharing\Tests
+ * @package OCA\Files_Sharing\Tests
  */
-class EtagPropagation extends PropagationTestCase {
+class EtagPropagationTest extends PropagationTestCase {
 
 	/**
 	 * "user1" is the admin who shares a folder "sub1/sub2/folder" with "user2" and "user3"

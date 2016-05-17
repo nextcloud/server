@@ -25,12 +25,14 @@
  *
  */
 
+namespace OCA\Files_Sharing\Tests;
+
 /**
- * Class Test_Files_Sharing_Watcher
+ * Class WatcherTest
  *
  * @group DB
  */
-class Test_Files_Sharing_Watcher extends OCA\Files_sharing\Tests\TestCase {
+class WatcherTest extends TestCase {
 
 	/** @var \OC\Files\Storage\Storage */
 	private $ownerStorage;

@@ -24,18 +24,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-use OCA\Files_sharing\Tests\TestCase;
 
+namespace OCA\Files_Sharing\Tests;
 
 /**
- * Class Test_Files_Sharing_Cache
+ * Class CacheTest
  *
  * @group DB
  */
-class Test_Files_Sharing_Cache extends TestCase {
+class CacheTest extends TestCase {
 
 	/**
-	 * @var OC\Files\View
+	 * @var \OC\Files\View
 	 */
 	public $user2View;
 

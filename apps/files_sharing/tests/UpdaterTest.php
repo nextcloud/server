@@ -24,13 +24,14 @@
  *
  */
 
+namespace OCA\Files_Sharing\Tests;
 
 /**
- * Class Test_Files_Sharing_Updater
+ * Class UpdaterTest
  *
  * @group DB
  */
-class Test_Files_Sharing_Updater extends OCA\Files_Sharing\Tests\TestCase {
+class UpdaterTest extends TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_updater_test';
 

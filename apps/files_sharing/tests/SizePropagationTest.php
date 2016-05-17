@@ -21,20 +21,20 @@
  *
  */
 
-namespace OCA\Files_sharing\Tests;
+namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
 use Test\Traits\MountProviderTrait;
 use Test\Traits\UserTrait;
 
 /**
- * Class SizePropagation
+ * Class SizePropagationTest
  *
  * @group DB
  *
- * @package OCA\Files_sharing\Tests
+ * @package OCA\Files_Sharing\Tests
  */
-class SizePropagation extends TestCase {
+class SizePropagationTest extends TestCase {
 	use UserTrait;
 	use MountProviderTrait;
 

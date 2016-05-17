@@ -24,14 +24,14 @@
  *
  */
 
-use OCA\Files\Share;
+namespace OCA\Files_Sharing\Tests;
 
 /**
- * Class Test_Files_Sharing
+ * Class ShareTest
  *
  * @group DB
  */
-class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
+class ShareTest extends TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 
@@ -112,7 +112,7 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 	}
 
 	/**
-	 * @param OC\Files\FileInfo[] $content
+	 * @param \OC\Files\FileInfo[] $content
 	 * @param string[] $expected
 	 */
 	public function verifyDirContent($content, $expected) {
@@ -240,10 +240,10 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 			\OCP\Constants::PERMISSION_READ
 		);
 
-		$this->loginHelper(\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2);
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
 		$info = \OC\Files\Filesystem::getFileInfo($this->filename);
 
-		$this->assertSame(\Test_Files_Sharing::TEST_FILES_SHARING_API_USER1, $info->getOwner()->getUID());
+		$this->assertSame(self::TEST_FILES_SHARING_API_USER1, $info->getOwner()->getUID());
 	}
 }

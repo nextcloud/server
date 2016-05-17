@@ -25,12 +25,14 @@
  *
  */
 
+namespace OCA\Files_Sharing\Tests;
+
 /**
- * Class Test_Files_Sharing_Api
+ * Class SharedMountTest
  *
  * @group DB
  */
-class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
+class SharedMountTest extends TestCase {
 
 	protected function setUp() {
 		parent::setUp();

@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\Files_sharing\Tests;
+namespace OCA\Files_Sharing\Tests;
 
 abstract class PropagationTestCase extends TestCase {
 	/**

@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\Files_sharing\Tests;
+namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\Filesystem;
 use OC\Files\View;
@@ -27,9 +27,9 @@ use OC\Files\View;
 /**
  * @group DB
  *
- * @package OCA\Files_sharing\Tests
+ * @package OCA\Files_Sharing\Tests
  */
-class GroupEtagPropagation extends PropagationTestCase {
+class GroupEtagPropagationTest extends PropagationTestCase {
 	/**
 	 * "user1" creates /test, /test/sub and shares with group1
 	 * "user2" (in group1) reshares /test with group2 and reshared /test/sub with group3

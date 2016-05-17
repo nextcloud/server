@@ -20,16 +20,16 @@
  *
  */
 
-namespace Test\BackgroundJob;
+namespace OCA\Files_Sharing\Tests;
 
-use OCA\Files_sharing\Lib\DeleteOrphanedSharesJob;
+use OCA\Files_Sharing\DeleteOrphanedSharesJob;
 
 /**
  * Class DeleteOrphanedSharesJobTest
  *
  * @group DB
  *
- * @package Test\BackgroundJob
+ * @package OCA\Files_Sharing\Tests
  */
 class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 

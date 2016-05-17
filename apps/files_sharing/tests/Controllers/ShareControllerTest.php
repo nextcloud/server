@@ -26,10 +26,11 @@
  *
  */
 
-namespace OCA\Files_Sharing\Controllers;
+namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files_Sharing\Controllers\ShareController;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -71,6 +72,7 @@ class ShareControllerTest extends \Test\TestCase {
 	private $federatedShareProvider;
 
 	protected function setUp() {
+		parent::setUp();
 		$this->appName = 'files_sharing';
 
 		$this->shareManager = $this->getMockBuilder('\OC\Share20\Manager')->disableOriginalConstructor()->getMock();
@@ -126,6 +128,7 @@ class ShareControllerTest extends \Test\TestCase {
 		// Set old user
 		\OC_User::setUserId($this->oldUser);
 		\OC_Util::setupFS($this->oldUser);
+		parent::tearDown();
 	}
 
 	public function testShowAuthenticateNotAuthenticated() {

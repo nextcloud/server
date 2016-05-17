@@ -23,12 +23,14 @@
  *
  */
 
+namespace OCA\Files_Sharing\Tests;
+
 /**
  * Tests for the external Storage class for remote shares.
  *
  * @group DB
  */
-class Test_Files_Sharing_External_Storage extends \Test\TestCase {
+class ExternalStorageTest extends \Test\TestCase {
 
 	function optionsProvider() {
 		return array(

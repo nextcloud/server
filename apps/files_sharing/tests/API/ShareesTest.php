@@ -25,7 +25,7 @@
 namespace OCA\Files_Sharing\Tests\API;
 
 use OCA\Files_Sharing\API\Sharees;
-use OCA\Files_sharing\Tests\TestCase;
+use OCA\Files_Sharing\Tests\TestCase;
 use OCP\AppFramework\Http;
 use OCP\Share;
 

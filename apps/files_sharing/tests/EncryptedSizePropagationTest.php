@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\Files_sharing\Tests;
+namespace OCA\Files_Sharing\Tests;
 
 use OC\Files\View;
 use Test\Traits\EncryptionTrait;
@@ -27,7 +27,7 @@ use Test\Traits\EncryptionTrait;
 /**
  * @group DB
  */
-class EncryptedSizePropagation extends SizePropagation {
+class EncryptedSizePropagationTest extends SizePropagationTest {
 	use EncryptionTrait;
 
 	protected function setupUser($name, $password = '') {
