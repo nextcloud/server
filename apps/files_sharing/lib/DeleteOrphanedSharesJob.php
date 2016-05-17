@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA\Files_sharing\Lib;
+namespace OCA\Files_Sharing;
 
 use OC\BackgroundJob\TimedJob;
 

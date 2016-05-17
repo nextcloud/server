@@ -73,6 +73,8 @@ class DropOldJobs implements IRepairStep {
 			['class' => 'OC_Cache_FileGlobalGC', 'arguments' => null],
 			['class' => 'OC\Cache\FileGlobalGC', 'arguments' => null],
 			['class' => 'OCA\Files\BackgroundJob\DeleteOrphanedTagsJob', 'arguments' => null],
+			['class' => 'OCA\Files_sharing\Lib\DeleteOrphanedSharesJob', 'arguments' => null],
+			['class' => 'OCA\Files_sharing\ExpireSharesJob', 'arguments' => null],
 		];
 	}
 
