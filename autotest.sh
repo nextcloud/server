@@ -215,7 +215,7 @@ function execute_tests {
 		if [ ! -z "$USEDOCKER" ] ; then
 			echo "Fire up the postgres docker"
 			DOCKER_CONTAINER_ID=$(docker run -e POSTGRES_USER="$DATABASEUSER" -e POSTGRES_PASSWORD=owncloud -d postgres)
-			DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
+    		DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 			echo "Waiting for Postgres initialisation ..."
 
@@ -230,14 +230,14 @@ function execute_tests {
 	if [ "$DB" == "oci" ] ; then
 		echo "Fire up the oracle docker"
 		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
-		DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
+		DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
 		echo "Waiting for Oracle initialization ... "
 
 		# Try to connect to the OCI host via sqlplus to ensure that the connection is already running
       		for i in {1..48}
                 do
-                        if sqlplus "system/oracle@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=$DATABASEHOST)(Port=1521))(CONNECT_DATA=(SID=XE)))" < /dev/null | grep 'Connected to'; then
+                        if sqlplus "autotest/owncloud@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=$DATABASEHOST)(Port=1521))(CONNECT_DATA=(SID=XE)))" < /dev/null | grep 'Connected to'; then
                                 break;
                         fi
                         sleep 5
@@ -324,3 +324,4 @@ fi
 #  - DON'T TRY THIS AT HOME!
 #  - if you really need it: we feel sorry for you
 #
+
