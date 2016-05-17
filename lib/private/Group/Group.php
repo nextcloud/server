@@ -46,7 +46,7 @@ class Group implements IGroup {
 	private $usersLoaded;
 
 	/**
-	 * @var \OC_Group_Backend[]|\OC_Group_Database[] $backend
+	 * @var \OC\Group\Backend[]|\OC\Group\Database[] $backend
 	 */
 	private $backends;
 
@@ -62,7 +62,7 @@ class Group implements IGroup {
 
 	/**
 	 * @param string $gid
-	 * @param \OC_Group_Backend[] $backends
+	 * @param \OC\Group\Backend[] $backends
 	 * @param \OC\User\Manager $userManager
 	 * @param \OC\Hooks\PublicEmitter $emitter
 	 */
@@ -136,7 +136,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preAddUser', array($this, $user));
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC_Group_Backend::ADD_TO_GROUP)) {
+			if ($backend->implementsActions(\OC\Group\Backend::ADD_TO_GROUP)) {
 				$backend->addToGroup($user->getUID(), $this->gid);
 				if ($this->users) {
 					$this->users[$user->getUID()] = $user;
@@ -160,7 +160,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preRemoveUser', array($this, $user));
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC_Group_Backend::REMOVE_FROM_GOUP) and $backend->inGroup($user->getUID(), $this->gid)) {
+			if ($backend->implementsActions(\OC\Group\Backend::REMOVE_FROM_GOUP) and $backend->inGroup($user->getUID(), $this->gid)) {
 				$backend->removeFromGroup($user->getUID(), $this->gid);
 				$result = true;
 			}
@@ -209,7 +209,7 @@ class Group implements IGroup {
 	public function count($search = '') {
 		$users = false;
 		foreach ($this->backends as $backend) {
-			if($backend->implementsActions(\OC_Group_Backend::COUNT_USERS)) {
+			if($backend->implementsActions(\OC\Group\Backend::COUNT_USERS)) {
 				if($users === false) {
 					//we could directly add to a bool variable, but this would
 					//be ugly
@@ -257,7 +257,7 @@ class Group implements IGroup {
 			$this->emitter->emit('\OC\Group', 'preDelete', array($this));
 		}
 		foreach ($this->backends as $backend) {
-			if ($backend->implementsActions(\OC_Group_Backend::DELETE_GROUP)) {
+			if ($backend->implementsActions(\OC\Group\Backend::DELETE_GROUP)) {
 				$result = true;
 				$backend->deleteGroup($this->gid);
 			}

@@ -29,12 +29,12 @@
 
 namespace Test\Util\Group;
 
-use OC_Group_Backend;
+use OC\Group\Backend;
 
 /**
  * dummy group backend, does not keep state, only for testing use
  */
-class Dummy extends OC_Group_Backend {
+class Dummy extends Backend {
 	private $groups=array();
 	/**
 	 * Try to create a new group

@@ -31,7 +31,7 @@
  */
 abstract class Test_Group_Backend extends \Test\TestCase {
 	/**
-	 * @var OC_Group_Backend $backend
+	 * @var \OC\Group\Backend $backend
 	 */
 	protected $backend;
 
