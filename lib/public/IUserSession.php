@@ -34,6 +34,8 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
 
+use OCP\User\LoginException;
+
 /**
  * User session
  * @since 6.0.0
@@ -60,7 +62,7 @@ interface IUserSession {
 	/**
 	 * set the currently active user
 	 *
-	 * @param \OCP\IUser|null $user
+	 * @param IUser|null $user
 	 * @since 8.0.0
 	 */
 	public function setUser($user);
@@ -68,7 +70,7 @@ interface IUserSession {
 	/**
 	 * get the current active user
 	 *
-	 * @return \OCP\IUser|null Current user, otherwise null
+	 * @return IUser|null Current user, otherwise null
 	 * @since 8.0.0
 	 */
 	public function getUser();

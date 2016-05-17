@@ -360,7 +360,7 @@ class OC_API {
 			if (!$loginSuccess) {
 				$loginSuccess = $userSession->tryBasicAuthLogin($request);
 			}
-		} catch (\OC\User\LoginException $e) {
+		} catch (\OCP\User\LoginException $e) {
 			return false;
 		}
 	

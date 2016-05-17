@@ -604,7 +604,7 @@ class Auth extends TestCase {
 			->expects($this->once())
 			->method('login')
 			->with('username', 'password')
-			->will($this->throwException(new \OC\User\LoginException()));
+			->will($this->throwException(new \OCP\User\LoginException()));
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
 		$this->assertEquals([false, 'Username or password was incorrect'], $response);
 	}

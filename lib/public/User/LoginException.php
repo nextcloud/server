@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
@@ -20,7 +21,13 @@
  *
  */
 
-namespace OC\User;
+namespace OCP\User;
 
-class LoginException extends \Exception {
+use Exception;
+
+/**
+ * @since 9.1.0
+ */
+class LoginException extends Exception {
+
 }

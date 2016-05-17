@@ -31,7 +31,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
 use OC\AppFramework\Http\Request;
-use OC\User\LoginException;
+use OCP\User\LoginException;
 use OC\User\Session;
 use OCP\IRequest;
 use OCP\ISession;

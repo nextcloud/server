@@ -22,7 +22,7 @@
 
 namespace OCA\DAV\Tests\Unit\Connector\Sabre\RequestTest;
 
-use OC\User\LoginException;
+use OCP\User\LoginException;
 use Sabre\DAV\Auth\Backend\BackendInterface;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
