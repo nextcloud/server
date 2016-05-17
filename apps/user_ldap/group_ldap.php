@@ -469,16 +469,17 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 					// apply filter via ldap search to see if this user is in this
 					// dynamic group
 					$userMatch = $this->access->readAttribute(
-						$uid,
+						$userDN,
 						$this->access->connection->ldapUserDisplayName,
 						$memberUrlFilter
 					);
 					if ($userMatch !== false) {
 						// match found so this user is in this group
-						$pos = strpos($dynamicGroup['dn'][0], ',');
-						if ($pos !== false) {
-							$membershipGroup = substr($dynamicGroup['dn'][0],3,$pos-3);
-							$groups[] = $membershipGroup;
+						$groupName = $this->access->dn2groupname($dynamicGroup['dn'][0]);
+						if(is_string($groupName)) {
+							// be sure to never return false if the dn could not be
+							// resolved to a name, for whatever reason.
+							$groups[] = $groupName;
 						}
 					}
 				} else {
@@ -530,11 +531,12 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		if(isset($this->cachedGroupsByMember[$uid])) {
-			$groups = $this->cachedGroupsByMember[$uid];
+			$groups[] = $this->cachedGroupsByMember[$uid];
 		} else {
-			$groups = array_values($this->getGroupsByMember($uid));
-			$groups = $this->access->ownCloudGroupNames($groups);
-			$this->cachedGroupsByMember[$uid] = $groups;
+			$groupsByMember = array_values($this->getGroupsByMember($uid));
+			$groupsByMember = $this->access->ownCloudGroupNames($groupsByMember);
+			$this->cachedGroupsByMember[$uid] = $groupsByMember;
+			$groups = array_merge($groups, $groupsByMember);
 		}
 
 		if($primaryGroup !== false) {
