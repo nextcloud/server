@@ -284,7 +284,13 @@ class AppConfig implements IAppConfig {
 				$sql->expr()->in('configkey', $sql->createParameter('legit_configs'))
 			))
 			->setParameter('appid', 'files_sharing', \PDO::PARAM_STR)
-			->setParameter('legit_configs', ['enabled', 'installed_version', 'types'], Connection::PARAM_STR_ARRAY);
+			->setParameter('legit_configs', [
+				'enabled',
+				'installed_version',
+				'types',
+				'incoming_server2server_share_enabled',
+				'outgoing_server2server_share_enabled',
+			], Connection::PARAM_STR_ARRAY);
 		$result = $sql->execute();
 
 		while ($row = $result->fetch()) {
