@@ -31,7 +31,7 @@ interface ICompositeExpression {
 	 *
 	 * @param array $parts
 	 *
-	 * @return \OCP\DB\ICompositeExpression
+	 * @return ICompositeExpression
 	 * @since 8.2.0
 	 */
 	public function addMultiple(array $parts = array());
@@ -41,7 +41,7 @@ interface ICompositeExpression {
 	 *
 	 * @param mixed $part
 	 *
-	 * @return \OCP\DB\ICompositeExpression
+	 * @return ICompositeExpression
 	 * @since 8.2.0
 	 */
 	public function add($part);
