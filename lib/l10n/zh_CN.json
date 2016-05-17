@@ -78,6 +78,7 @@
     "Recommended" : "推荐",
     "No app name specified" : "没有指定的 App 名称",
     "web services under your control" : "您控制的网络服务",
+    "File is currently busy, please try again later" : "文件当前正忙，请稍后再试",
     "Can't read file" : "无法读取文件",
     "Application is not enabled" : "应用程序未启用",
     "Authentication error" : "认证出错",
