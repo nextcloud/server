@@ -24,11 +24,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Files_Sharing\AppInfo;
 
 use OCP\API;
 
-$application = new Application();
+$application = new \OCA\Files_Sharing\AppInfo\Application();
 $application->registerRoutes($this, [
 	'resources' => [
 		'ExternalShares' => ['url' => '/api/externalShares'],
