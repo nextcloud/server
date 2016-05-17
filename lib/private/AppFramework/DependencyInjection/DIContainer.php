@@ -148,6 +148,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getRootFolder();
 		});
 
+		$this->registerService('OCP\\Http\\Client\\IClientService', function($c) {
+			return $this->getServer()->getHTTPClientService();
+		});
+
 		$this->registerService('OCP\\IGroupManager', function($c) {
 			return $this->getServer()->getGroupManager();
 		});
