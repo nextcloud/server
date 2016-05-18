@@ -361,6 +361,13 @@ $(document).ready(function () {
 	if (oc_config.enable_avatars) {
 		$('#avatar .avatardiv').avatar(OC.currentUser, 145);
 	}
+
+	// Show token views
+	var collection = new OC.Settings.AuthTokenCollection();
+	var view = new OC.Settings.AuthTokenView({
+		collection: collection
+	});
+	view.reload();
 });
 
 if (!OC.Encryption) {

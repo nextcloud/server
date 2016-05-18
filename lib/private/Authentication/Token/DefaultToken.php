@@ -22,6 +22,7 @@
 
 namespace OC\Authentication\Token;
 
+use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 
 /**
@@ -38,7 +39,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setLastActivity(int $lastActivity)
  * @method int getLastActivity()
  */
-class DefaultToken extends Entity implements IToken {
+class DefaultToken extends Entity implements IToken, JsonSerializable {
 
 	/**
 	 * @var string user UID
@@ -85,6 +86,15 @@ class DefaultToken extends Entity implements IToken {
 	 */
 	public function getPassword() {
 		return parent::getPassword();
+	}
+
+	public function jsonSerialize() {
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'lastActivity' => $this->lastActivity,
+			'type' => $this->type,
+		];
 	}
 
 }

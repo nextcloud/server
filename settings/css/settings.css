@@ -100,6 +100,21 @@ input#identity {
 table.nostyle label { margin-right: 2em; }
 table.nostyle td { padding: 0.2em 0; }
 
+#sessions,
+#devices {
+	min-height: 180px;
+}
+#sessions table,
+#devices table {
+	width: 100%;
+	min-height: 150px;
+	padding-top: 25px;
+}
+#sessions table th,
+#devices table th {
+	font-weight: 800;
+}
+
 /* USERS */
 #newgroup-init a span { margin-left: 20px; }
 #newgroup-init a span:before {

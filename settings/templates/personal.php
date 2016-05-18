@@ -139,6 +139,36 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
+<div id="sessions" class="section">
+	<h2><?php p($l->t('Sessions'));?></h2>
+	<?php p($l->t('These are the web browsers currently logged in to your ownCloud.'));?>
+	<table>
+		<thead>
+			<tr>
+				<th>Browser</th>
+				<th>Most recent activity</th>
+			</tr>
+		</thead>
+		<tbody class="token-list icon-loading">
+		</tbody>
+	</table>
+</div>
+
+<div id="devices" class="section">
+	<h2><?php p($l->t('Devices'));?></h2>
+	<?php p($l->t("You've linked these devices."));?>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Most recent activity</th>
+			</tr>
+		</thead>
+		<tbody class="token-list icon-loading">
+		</tbody>
+	</table>
+</div>
+
 <form id="language" class="section">
 	<h2>
 		<label for="languageinput"><?php p($l->t('Language'));?></label>

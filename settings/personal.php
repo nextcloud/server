@@ -42,6 +42,9 @@ $config = \OC::$server->getConfig();
 $urlGenerator = \OC::$server->getURLGenerator();
 
 // Highlight navigation entry
+OC_Util::addScript('settings', 'authtoken');
+OC_Util::addScript('settings', 'authtoken_collection');
+OC_Util::addScript('settings', 'authtoken_view');
 OC_Util::addScript( 'settings', 'personal' );
 OC_Util::addScript('settings', 'certificates');
 OC_Util::addStyle( 'settings', 'settings' );
@@ -171,6 +174,8 @@ $tmpl->assign('groups', $groups2);
 // add hardcoded forms from the template
 $formsAndMore = [];
 $formsAndMore[]= ['anchor' => 'avatar', 'section-name' => $l->t('Personal info')];
+$formsAndMore[]= ['anchor' => 'sessions', 'section-name' => $l->t('Sessions')];
+$formsAndMore[]= ['anchor' => 'devices', 'section-name' => $l->t('Devices')];
 $formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];
 
 $forms=OC_App::getForms('personal');

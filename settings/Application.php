@@ -29,7 +29,9 @@
 namespace OC\Settings;
 
 use OC\Files\View;
+use OC\Server;
 use OC\Settings\Controller\AppSettingsController;
+use OC\Settings\Controller\AuthSettingsController;
 use OC\Settings\Controller\CertificateController;
 use OC\Settings\Controller\CheckSetupController;
 use OC\Settings\Controller\EncryptionController;
@@ -39,10 +41,9 @@ use OC\Settings\Controller\MailSettingsController;
 use OC\Settings\Controller\SecuritySettingsController;
 use OC\Settings\Controller\UsersController;
 use OC\Settings\Middleware\SubadminMiddleware;
-use \OCP\AppFramework\App;
+use OCP\AppFramework\App;
 use OCP\IContainer;
-use \OCP\Util;
-use OC\Server;
+use OCP\Util;
 
 /**
  * @package OC\Settings
@@ -95,6 +96,15 @@ class Application extends App {
 				$c->query('INavigationManager'),
 				$c->query('IAppManager'),
 				$c->query('OcsClient')
+			);
+		});
+		$container->registerService('AuthSettingsController', function(IContainer $c) {
+			return new AuthSettingsController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('ServerContainer')->query('OC\Authentication\Token\IProvider'),
+				$c->query('UserManager'),
+				$c->query('UserId')
 			);
 		});
 		$container->registerService('SecuritySettingsController', function(IContainer $c) {
