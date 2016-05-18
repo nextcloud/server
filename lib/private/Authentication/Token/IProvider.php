@@ -23,6 +23,7 @@
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OCP\IUser;
 
 interface IProvider {
 
@@ -67,6 +68,17 @@ interface IProvider {
 	 * @param IToken $token
 	 */
 	public function updateToken(IToken $token);
+
+	/**
+	 * Get all token of a user
+	 *
+	 * The provider may limit the number of result rows in case of an abuse
+	 * where a high number of (session) tokens is generated
+	 *
+	 * @param IUser $user
+	 * @return IToken[]
+	 */
+	public function getTokenByUser(IUser $user);
 
 	/**
 	 * Get the (unencrypted) password of the given token

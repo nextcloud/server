@@ -141,4 +141,22 @@ class DefaultTokenMapperTest extends TestCase {
 		$this->mapper->getToken($token);
 	}
 
+	public function testGetTokenByUser() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user1'));
+
+		$this->assertCount(2, $this->mapper->getTokenByUser($user));
+	}
+
+	public function testGetTokenByUserNotFound() {
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user1000'));
+
+		$this->assertCount(0, $this->mapper->getTokenByUser($user));
+	}
+
 }
