@@ -22,9 +22,6 @@
 
 namespace OC\Authentication\Token;
 
-/**
- * @since 9.1.0
- */
 interface IToken {
 
 	const TEMPORARY_TOKEN = 0;
@@ -43,4 +40,11 @@ interface IToken {
 	 * @return string
 	 */
 	public function getUID();
+
+	/**
+	 * Get the (encrypted) login password
+	 *
+	 * @return string
+	 */
+	public function getPassword();
 }

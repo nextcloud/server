@@ -103,25 +103,27 @@ class DefaultTokenProvider implements IProvider {
 	}
 
 	/**
-	 * @param string $token
+	 * Get a token by token id
+	 *
+	 * @param string $tokenId
 	 * @throws InvalidTokenException
 	 * @return DefaultToken
 	 */
-	public function getToken($token) {
+	public function getToken($tokenId) {
 		try {
-			return $this->mapper->getToken($this->hashToken($token));
+			return $this->mapper->getToken($this->hashToken($tokenId));
 		} catch (DoesNotExistException $ex) {
 			throw new InvalidTokenException();
 		}
 	}
 
 	/**
-	 * @param DefaultToken $savedToken
-	 * @param string $token session token
+	 * @param IToken $savedToken
+	 * @param string $tokenId session token
 	 * @return string
 	 */
-	public function getPassword(DefaultToken $savedToken, $token) {
-		return $this->decryptPassword($savedToken->getPassword(), $token);
+	public function getPassword(IToken $savedToken, $tokenId) {
+		return $this->decryptPassword($savedToken->getPassword(), $tokenId);
 	}
 
 	/**

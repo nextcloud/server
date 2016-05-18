@@ -77,5 +77,14 @@ class DefaultToken extends Entity implements IToken {
 	public function getUID() {
 		return $this->uid;
 	}
+	
+	/**
+	 * Get the (encrypted) login password
+	 *
+	 * @return string
+	 */
+	public function getPassword() {
+		return parent::getPassword();
+	}
 
 }

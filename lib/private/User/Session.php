@@ -35,7 +35,6 @@ namespace OC\User;
 
 use OC;
 use OC\Authentication\Exceptions\InvalidTokenException;
-use OC\Authentication\Token\DefaultTokenProvider;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Hooks\Emitter;
@@ -69,35 +68,20 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-	/*
-	 * @var Manager $manager
-	 */
-
+	
+	/** @var Manager $manager */
 	private $manager;
 
-	/*
-	 * @var ISession $session
-	 */
+	/** @var ISession $session */
 	private $session;
 
-	/*
-	 * @var ITimeFactory
-	 */
+	/** @var ITimeFactory */
 	private $timeFacory;
 
-	/**
-	 * @var DefaultTokenProvider
-	 */
+	/** @var IProvider */
 	private $tokenProvider;
 
-	/**
-	 * @var IProvider[]
-	 */
-	private $tokenProviders;
-
-	/**
-	 * @var User $activeUser
-	 */
+	/** @var User $activeUser */
 	protected $activeUser;
 
 	/**
@@ -105,20 +89,18 @@ class Session implements IUserSession, Emitter {
 	 * @param ISession $session
 	 * @param ITimeFactory $timeFacory
 	 * @param IProvider $tokenProvider
-	 * @param IProvider[] $tokenProviders
 	 */
-	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider, array $tokenProviders = []) {
+	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFacory = $timeFacory;
 		$this->tokenProvider = $tokenProvider;
-		$this->tokenProviders = $tokenProviders;
 	}
 
 	/**
-	 * @param DefaultTokenProvider $provider
+	 * @param IProvider $provider
 	 */
-	public function setTokenProvider(DefaultTokenProvider $provider) {
+	public function setTokenProvider(IProvider $provider) {
 		$this->tokenProvider = $provider;
 	}
 
@@ -246,7 +228,7 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// Session is valid, so the token can be refreshed
-		$this->updateToken($this->tokenProvider, $token);
+		$this->updateToken($token);
 	}
 
 	/**
@@ -418,34 +400,31 @@ class Session implements IUserSession, Emitter {
 	 * @return boolean
 	 */
 	private function validateToken($token) {
-		foreach ($this->tokenProviders as $provider) {
-			try {
-				$token = $provider->validateToken($token);
-				if (!is_null($token)) {
-					$result = $this->loginWithToken($token->getUID());
-					if ($result) {
-						// Login success
-						$this->updateToken($provider, $token);
-						return true;
-					}
+		try {
+			$token = $this->tokenProvider->validateToken($token);
+			if (!is_null($token)) {
+				$result = $this->loginWithToken($token->getUID());
+				if ($result) {
+					// Login success
+					$this->updateToken($token);
+					return true;
 				}
-			} catch (InvalidTokenException $ex) {
-				
 			}
+		} catch (InvalidTokenException $ex) {
+
 		}
 		return false;
 	}
 
 	/**
-	 * @param IProvider $provider
 	 * @param IToken $token
 	 */
-	private function updateToken(IProvider $provider, IToken $token) {
+	private function updateToken(IToken $token) {
 		// To save unnecessary DB queries, this is only done once a minute
 		$lastTokenUpdate = $this->session->get('last_token_update') ? : 0;
 		$now = $this->timeFacory->getTime();
 		if ($lastTokenUpdate < ($now - 60)) {
-			$provider->updateToken($token);
+			$this->tokenProvider->updateToken($token);
 			$this->session->set('last_token_update', $now);
 		}
 	}
