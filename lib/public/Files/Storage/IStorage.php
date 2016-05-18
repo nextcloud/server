@@ -454,4 +454,10 @@ interface IStorage {
 	 * @since 9.0.0
 	 */
 	public function getWatcher();
+
+	/**
+	 * @return string
+	 * @since 9.1.0
+	 */
+	public function getIndexerIdentifier();
 }
