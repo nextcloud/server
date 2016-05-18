@@ -46,6 +46,7 @@
     "Could not move \"{file}\"" : "Nie można było przenieść \"{file}\"",
     "Could not create file \"{file}\"" : "Nie można było utworzyć pliku \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Nie można było utworzyć pliku \"{file}\", ponieważ ten plik już istnieje.",
+    "Could not create folder \"{dir}\"" : "Nie można utworzyć folderu „{dir}”",
     "Could not create folder \"{dir}\" because it already exists" : "Nie można utworzyć folderu „{dir}”, ponieważ już istnieje.",
     "Error deleting file \"{fileName}\"." : "Błąd podczas usuwania pliku „{fileName}”.",
     "No entries in this folder match '{filter}'" : "Brak wyników pasujących do '{filter}'",

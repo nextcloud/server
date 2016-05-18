@@ -1,4 +1,5 @@
 { "translations": {
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Otrzymano błędne żądanie tokenów. Sprawdź, czy klucz aplikacji oraz klucz poufny są poprawne.",
     "Step 1 failed. Exception: %s" : "Krok 1 błędny. Błąd: %s",
     "Step 2 failed. Exception: %s" : "Krok 2 błędny. Błąd: %s",
     "External storage" : "Zewnętrzne zasoby dyskowe",
