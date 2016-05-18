@@ -33,7 +33,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use OCP\IUserManager;
 use OCP\IGroupManager;
 use OCP\SystemTag\ISystemTag;
-use OCP\UserNotFoundException;
 use OCP\IUser;
 
 /**
@@ -409,8 +408,6 @@ class SystemTagManager implements ISystemTagManager {
 			$this->connection->rollback();
 			throw $e;
 		}
-
-		return false;
 	}
 
 	/**
@@ -419,7 +416,7 @@ class SystemTagManager implements ISystemTagManager {
 	public function getTagGroups(ISystemTag $tag) {
 		$groupIds = [];
 		$query = $this->connection->getQueryBuilder();
-		$query->select('*')
+		$query->select('gid')
 			->from(self::TAG_GROUP_TABLE)
 			->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tag->getId())))
 			->orderBy('gid');

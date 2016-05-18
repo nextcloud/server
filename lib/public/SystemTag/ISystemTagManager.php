@@ -135,7 +135,7 @@ interface ISystemTagManager {
 	 * @param ISystemTag $tag tag to check permission for
 	 * @param IUser $user user to check permission for
 	 *
-	 * @return true if the user is allowed to assign/unassign the tag, false otherwise
+	 * @return true if the user can see the tag, false otherwise
 	 *
 	 * @since 9.1.0
 	 */
