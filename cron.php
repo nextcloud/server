@@ -138,6 +138,7 @@ try {
 		$executedJobs = [];
 		while ($job = $jobList->getNext()) {
 			if (isset($executedJobs[$job->getId()])) {
+				$jobList->unlockJob($job);
 				break;
 			}
 

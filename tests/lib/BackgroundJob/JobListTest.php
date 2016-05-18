@@ -9,7 +9,7 @@
 namespace Test\BackgroundJob;
 
 use OCP\BackgroundJob\IJob;
-use OCP\IDBConnection;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use Test\TestCase;
 
 /**
@@ -22,20 +22,31 @@ class JobListTest extends TestCase {
 	/** @var \OC\BackgroundJob\JobList */
 	protected $instance;
 
+	/** @var \OCP\IDBConnection */
+	protected $connection;
+
 	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
+
+	/** @var \OCP\AppFramework\Utility\ITimeFactory|\PHPUnit_Framework_MockObject_MockObject */
+	protected $timeFactory;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$connection = \OC::$server->getDatabaseConnection();
-		$this->clearJobsList($connection);
-		$this->config = $this->getMock('\OCP\IConfig');
-		$this->instance = new \OC\BackgroundJob\JobList($connection, $this->config);
+		$this->connection = \OC::$server->getDatabaseConnection();
+		$this->clearJobsList();
+		$this->config = $this->getMock('OCP\IConfig');
+		$this->timeFactory = $this->getMock('OCP\AppFramework\Utility\ITimeFactory');
+		$this->instance = new \OC\BackgroundJob\JobList(
+			$this->connection,
+			$this->config,
+			$this->timeFactory
+		);
 	}
 
-	protected function clearJobsList(IDBConnection $connection) {
-		$query = $connection->getQueryBuilder();
+	protected function clearJobsList() {
+		$query = $this->connection->getQueryBuilder();
 		$query->delete('jobs');
 		$query->execute();
 	}
@@ -131,8 +142,6 @@ class JobListTest extends TestCase {
 		$this->instance->add($job, $argument);
 
 		$this->assertFalse($this->instance->has($job, 10));
-
-		$this->instance->remove($job, $argument);
 	}
 
 	public function testGetLastJob() {
@@ -144,50 +153,65 @@ class JobListTest extends TestCase {
 		$this->assertEquals(15, $this->instance->getLastJob());
 	}
 
+	protected function createTempJob($class, $argument, $reservedTime = 0, $lastChecked = 0) {
+		if ($lastChecked === 0) {
+			$lastChecked = time();
+		}
+
+		$query = $this->connection->getQueryBuilder();
+		$query->insert('jobs')
+			->values([
+				'class' => $query->createNamedParameter($class),
+				'argument' => $query->createNamedParameter($argument),
+				'last_run' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+				'last_checked' => $query->createNamedParameter($lastChecked, IQueryBuilder::PARAM_INT),
+				'reserved_at' => $query->createNamedParameter($reservedTime, IQueryBuilder::PARAM_INT),
+			]);
+		$query->execute();
+	}
+
 	public function testGetNext() {
 		$job = new TestJob();
-		$this->instance->add($job, 1);
-		$this->instance->add($job, 2);
+		$this->createTempJob(get_class($job), 1, 0, 12345);
+		$this->createTempJob(get_class($job), 2, 0, 12346);
 
 		$jobs = $this->getAllSorted();
+		$savedJob1 = $jobs[0];
 
-		$savedJob1 = $jobs[count($jobs) - 2];
-		$savedJob2 = $jobs[count($jobs) - 1];
-
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('backgroundjob', 'lastjob', 0)
-			->will($this->returnValue($savedJob2->getId()));
-
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
 		$nextJob = $this->instance->getNext();
 
 		$this->assertEquals($savedJob1, $nextJob);
-
-		$this->instance->remove($job, 1);
-		$this->instance->remove($job, 2);
 	}
 
-	public function testGetNextWrapAround() {
+	public function testGetNextSkipReserved() {
 		$job = new TestJob();
-		$this->instance->add($job, 1);
-		$this->instance->add($job, 2);
+		$this->createTempJob(get_class($job), 1, 123456789, 12345);
+		$this->createTempJob(get_class($job), 2, 0, 12346);
 
-		$jobs = $this->getAllSorted();
-
-		$savedJob1 = $jobs[count($jobs) - 2];
-		$savedJob2 = $jobs[count($jobs) - 1];
-
-		$this->config->expects($this->once())
-			->method('getAppValue')
-			->with('backgroundjob', 'lastjob', 0)
-			->will($this->returnValue($savedJob1->getId()));
-
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
 		$nextJob = $this->instance->getNext();
 
-		$this->assertEquals($savedJob2, $nextJob);
+		$this->assertEquals(get_class($job), get_class($nextJob));
+		$this->assertEquals(2, $nextJob->getArgument());
+	}
 
-		$this->instance->remove($job, 1);
-		$this->instance->remove($job, 2);
+	public function testGetNextSkipNonExisting() {
+		$job = new TestJob();
+		$this->createTempJob('\OC\Non\Existing\Class', 1, 0, 12345);
+		$this->createTempJob(get_class($job), 2, 0, 12346);
+
+		$this->timeFactory->expects($this->atLeastOnce())
+			->method('getTime')
+			->willReturn(123456789);
+		$nextJob = $this->instance->getNext();
+
+		$this->assertEquals(get_class($job), get_class($nextJob));
+		$this->assertEquals(2, $nextJob->getArgument());
 	}
 
 	/**
@@ -203,8 +227,6 @@ class JobListTest extends TestCase {
 		$addedJob = $jobs[count($jobs) - 1];
 
 		$this->assertEquals($addedJob, $this->instance->getById($addedJob->getId()));
-
-		$this->instance->remove($job, $argument);
 	}
 
 	public function testSetLastRun() {
@@ -223,33 +245,5 @@ class JobListTest extends TestCase {
 
 		$this->assertGreaterThanOrEqual($timeStart, $addedJob->getLastRun());
 		$this->assertLessThanOrEqual($timeEnd, $addedJob->getLastRun());
-
-		$this->instance->remove($job);
-	}
-
-	public function testGetNextNonExisting() {
-		$job = new TestJob();
-		$this->instance->add($job, 1);
-		$this->instance->add('\OC\Non\Existing\Class');
-		$this->instance->add($job, 2);
-
-		$jobs = $this->getAllSorted();
-
-		$savedJob1 = $jobs[count($jobs) - 2];
-		$savedJob2 = $jobs[count($jobs) - 1];
-
-		$this->config->expects($this->any())
-			->method('getAppValue')
-			->with('backgroundjob', 'lastjob', 0)
-			->will($this->returnValue($savedJob1->getId()));
-
-		$this->instance->getNext();
-
-		$nextJob = $this->instance->getNext();
-
-		$this->assertEquals($savedJob2, $nextJob);
-
-		$this->instance->remove($job, 1);
-		$this->instance->remove($job, 2);
 	}
 }
