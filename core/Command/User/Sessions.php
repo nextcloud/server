@@ -59,7 +59,7 @@ class Sessions extends Command {
 		$user = $this->userManager->get($uid);
 		if(is_null($user)) {
 			$output->writeln('<error>User "' . $uid . '" does not exist</error>');
-			return;
+			return 1;
 		}
 
 		$rows = [];
@@ -73,7 +73,7 @@ class Sessions extends Command {
 		}
 		if(empty($rows)) {
 			$output->writeln('No sessions for user "' . $uid . '" available.');
-			return;
+			return 0;
 		}
 
 		/** @var \Symfony\Component\Console\Helper\TableHelper $table */
