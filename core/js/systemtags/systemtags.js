@@ -36,7 +36,7 @@
 
 			var scope;
 			if (!tag.userAssignable) {
-				scope = t('core', 'not assignable');
+				scope = t('core', 'restricted');
 			}
 			if (!tag.userVisible) {
 				// invisible also implicitly means not assignable

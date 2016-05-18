@@ -487,7 +487,7 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				expect(models[0].locked).toBeFalsy();
 				expect(models[1].id).toEqual('3');
 				expect(models[1].name).toEqual('test3');
-				// not assignable / cannot assign locks the entry
+				// restricted / cannot assign locks the entry
 				expect(models[1].locked).toEqual(true);
 				expect(models[2].id).toEqual('4');
 				expect(models[2].name).toEqual('test4');
