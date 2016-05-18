@@ -134,6 +134,7 @@ class DefaultTokenProvider implements IProvider {
 	/**
 	 * @param IToken $savedToken
 	 * @param string $tokenId session token
+	 * @throws InvalidTokenException
 	 * @return string
 	 */
 	public function getPassword(IToken $savedToken, $tokenId) {
@@ -203,6 +204,7 @@ class DefaultTokenProvider implements IProvider {
 	 *
 	 * @param string $password
 	 * @param string $token
+	 * @throws InvalidTokenException
 	 * @return string the decrypted key
 	 */
 	private function decryptPassword($password, $token) {

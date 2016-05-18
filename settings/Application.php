@@ -104,6 +104,8 @@ class Application extends App {
 				$c->query('Request'),
 				$c->query('ServerContainer')->query('OC\Authentication\Token\IProvider'),
 				$c->query('UserManager'),
+				$c->query('ServerContainer')->getSession(),
+				$c->query('ServerContainer')->getSecureRandom(),
 				$c->query('UserId')
 			);
 		});

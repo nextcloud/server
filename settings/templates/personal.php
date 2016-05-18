@@ -147,6 +147,7 @@ if($_['passwordChangeSupported']) {
 			<tr>
 				<th>Browser</th>
 				<th>Most recent activity</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody class="token-list icon-loading">
@@ -162,11 +163,21 @@ if($_['passwordChangeSupported']) {
 			<tr>
 				<th>Name</th>
 				<th>Most recent activity</th>
+				<th><a class="icon-delete"></a></th>
 			</tr>
 		</thead>
 		<tbody class="token-list icon-loading">
 		</tbody>
 	</table>
+	<p><?php p($l->t('A device password is a passcode that gives an app or device permissions to access your ownCloud account.'));?></p>
+	<div id="device-token-form">
+		<input id="device-token-name" type="text" placeholder="Device name">
+		<button id="device-add-token" class="button">Create new device password</button>
+	</div>
+	<div id="device-token-result" class="hidden">
+		<span id="device-new-token"></span>
+		<button id="device-token-hide" class="button">Done</button>
+	</div>
 </div>
 
 <form id="language" class="section">

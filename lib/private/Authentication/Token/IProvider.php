@@ -35,7 +35,7 @@ interface IProvider {
 	 * @param string $password
 	 * @param string $name
 	 * @param int $type token type
-	 * @return DefaultToken
+	 * @return IToken
 	 */
 	public function generateToken($token, $uid, $password, $name, $type = IToken::TEMPORARY_TOKEN);
 
@@ -85,6 +85,7 @@ interface IProvider {
 	 *
 	 * @param IToken $token
 	 * @param string $tokenId
+	 * @throws InvalidTokenException
 	 * @return string
 	 */
 	public function getPassword(IToken $token, $tokenId);

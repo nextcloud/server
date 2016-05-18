@@ -100,10 +100,6 @@ input#identity {
 table.nostyle label { margin-right: 2em; }
 table.nostyle td { padding: 0.2em 0; }
 
-#sessions,
-#devices {
-	min-height: 180px;
-}
 #sessions table,
 #devices table {
 	width: 100%;
@@ -113,6 +109,24 @@ table.nostyle td { padding: 0.2em 0; }
 #sessions table th,
 #devices table th {
 	font-weight: 800;
+}
+#sessions table th,
+#sessions table td,
+#devices table th,
+#devices table td {
+   padding: 10px;
+}
+
+#sessions .token-list td,
+#devices .token-list td {
+   border-top: 1px solid #DDD;
+}
+
+#device-new-token {
+	padding: 10px;
+	font-family: monospace;
+	font-size: 1.4em;
+	background-color: lightyellow;
 }
 
 /* USERS */

@@ -22,41 +22,56 @@
 
 namespace OC\Settings\Controller;
 
+use OC\AppFramework\Http;
+use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Token\IProvider;
+use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IUserManager;
+use OCP\Security\ISecureRandom;
+use OCP\Session\Exceptions\SessionNotAvailableException;
 
 class AuthSettingsController extends Controller {
 
 	/** @var IProvider */
 	private $tokenProvider;
 
-	/**
-	 * @var IUserManager
-	 */
+	/** @var IUserManager */
 	private $userManager;
+
+	/** @var ISession */
+	private $session;
 
 	/** @var string */
 	private $uid;
+
+	/** @var ISecureRandom */
+	private $random;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IProvider $tokenProvider
 	 * @param IUserManager $userManager
+	 * @param ISession $session
+	 * @param ISecureRandom $random
 	 * @param string $uid
 	 */
-	public function __construct($appName, IRequest $request, IProvider $tokenProvider, IUserManager $userManager, $uid) {
+	public function __construct($appName, IRequest $request, IProvider $tokenProvider, IUserManager $userManager, ISession $session, ISecureRandom $random, $uid) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->userManager = $userManager;
 		$this->uid = $uid;
+		$this->session = $session;
+		$this->random = $random;
 	}
 
 	/**
 	 * @NoAdminRequired
+	 * @NoSubadminRequired
 	 *
 	 * @return JSONResponse
 	 */
@@ -66,6 +81,54 @@ class AuthSettingsController extends Controller {
 			return [];
 		}
 		return $this->tokenProvider->getTokenByUser($user);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
+	 *
+	 * @return JSONResponse
+	 */
+	public function create($name) {
+		try {
+			$sessionId = $this->session->getId();
+		} catch (SessionNotAvailableException $ex) {
+			$resp = new JSONResponse();
+			$resp->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
+			return $resp;
+		}
+
+		try {
+			$sessionToken = $this->tokenProvider->getToken($sessionId);
+			$password = $this->tokenProvider->getPassword($sessionToken, $sessionId);
+		} catch (InvalidTokenException $ex) {
+			$resp = new JSONResponse();
+			$resp->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
+			return $resp;
+		}
+
+		$token = $this->generateRandomDeviceToken();
+		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $password, $name, IToken::PERMANENT_TOKEN);
+
+		return [
+			'token' => $token,
+			'deviceToken' => $deviceToken
+		];
+	}
+
+	/**
+	 * Return a 20 digit device password
+	 *
+	 * Example: ABCDE-FGHIJ-KLMNO-PQRST
+	 *
+	 * @return string
+	 */
+	private function generateRandomDeviceToken() {
+		$groups = [];
+		for ($i = 0; $i < 4; $i++) {
+			$groups[] = $this->random->generate(5, implode('', range('A', 'Z')));
+		}
+		return implode('-', $groups);
 	}
 
 }
