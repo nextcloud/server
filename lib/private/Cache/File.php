@@ -172,7 +172,9 @@ class File implements ICache {
 	public function gc() {
 		$storage = $this->getStorage();
 		if ($storage and $storage->is_dir('/')) {
-			$now = time();
+			// extra hour safety, in case of stray part chunks that take longer to write,
+			// because touch() is only called after the chunk was finished
+			$now = time() - 3600;
 			$dh = $storage->opendir('/');
 			if (!is_resource($dh)) {
 				return null;
