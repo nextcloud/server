@@ -19,7 +19,5 @@
  *
  */
 
-namespace OCA\FederatedFileSharing\AppInfo;
-
-$app = new Application('federatedfilesharing');
+$app = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
 $app->registerSettings();
