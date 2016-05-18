@@ -10,9 +10,10 @@
  */
 
 
-namespace OC\AppFramework\Middleware\Security;
+namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http\Request;
+use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OCP\AppFramework\Http;

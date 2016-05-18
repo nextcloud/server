@@ -22,7 +22,7 @@
  */
 
 
-namespace OC\AppFramework\Http;
+namespace Test\AppFramework\Http;
 
 use OC\AppFramework\Http;
 

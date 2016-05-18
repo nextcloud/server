@@ -8,8 +8,9 @@
  * See the COPYING-README file.
  */
 
-namespace OC\AppFramework\Http;
+namespace Test\AppFramework\Http;
 
+use OC\AppFramework\Http\Request;
 use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\Security\ISecureRandom;

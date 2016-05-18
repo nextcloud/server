@@ -10,7 +10,7 @@
  */
 
 
-namespace OC\AppFramework\Middleware\Security;
+namespace Test\AppFramework\Middleware;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\SessionMiddleware;

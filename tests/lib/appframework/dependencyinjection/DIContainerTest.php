@@ -24,10 +24,10 @@
  */
 
 
-namespace OC\AppFramework\DependencyInjection;
+namespace Test\AppFramework\DependencyInjection;
+
 
 use \OC\AppFramework\Http\Request;
-
 
 class DIContainerTest extends \Test\TestCase {
 

@@ -21,7 +21,10 @@
 *
 */
 
-namespace OCP\AppFramework\Db;
+namespace Test\AppFramework\Db;
+
+
+use OCP\AppFramework\Db\Entity;
 
 
 /**

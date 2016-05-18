@@ -22,7 +22,7 @@
  */
 
 
-namespace OC\AppFramework;
+namespace Test\AppFramework\Middleware;
 
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
