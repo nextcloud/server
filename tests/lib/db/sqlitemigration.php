@@ -6,12 +6,14 @@
  * See the COPYING-README file.
  */
 
+namespace Test\DB;
+
 /**
- * Class TestSqliteMigration
+ * Class SqliteMigration
  *
  * @group DB
  */
-class TestSqliteMigration extends \Test\TestCase {
+class SqliteMigration extends \Test\TestCase {
 
 	/** @var \Doctrine\DBAL\Connection */
 	private $connection;
