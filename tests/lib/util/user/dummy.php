@@ -27,12 +27,12 @@
 
 namespace Test\Util\User;
 
-use OC_User_Backend;
+use \OC\User\Backend;
 
 /**
  * dummy user backend, does not keep state, only for testing use
  */
-class Dummy extends OC_User_Backend implements \OCP\IUserBackend {
+class Dummy extends Backend implements \OCP\IUserBackend {
 	private $users = array();
 	private $displayNames = array();
 

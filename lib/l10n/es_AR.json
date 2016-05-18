@@ -36,6 +36,8 @@
     "%s shared »%s« with you" : "%s compartió \"%s\" con vos",
     "Could not find category \"%s\"" : "No fue posible encontrar la categoría \"%s\"",
     "Apps" : "Apps",
+    "A valid username must be provided" : "Debe ingresar un nombre de usuario válido",
+    "A valid password must be provided" : "Debe ingresar una contraseña válida",
     "Help" : "Ayuda",
     "Personal" : "Personal",
     "Users" : "Usuarios",
@@ -45,8 +47,6 @@
     "Application is not enabled" : "La aplicación no está habilitada",
     "Authentication error" : "Error al autenticar",
     "Token expired. Please reload page." : "Token expirado. Por favor, recargá la página.",
-    "A valid username must be provided" : "Debe ingresar un nombre de usuario válido",
-    "A valid password must be provided" : "Debe ingresar una contraseña válida",
     "Storage not available" : "Almacenamiento no disponible"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

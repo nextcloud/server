@@ -19,6 +19,9 @@
     "%s shared »%s« with you" : "%s споделено »%s« со вас",
     "Could not find category \"%s\"" : "Не можам да најдам категорија „%s“",
     "Apps" : "Аппликации",
+    "A valid username must be provided" : "Мора да се обезбеди валидно корисничко име ",
+    "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
+    "The username is already being used" : "Корисничкото име е веќе во употреба",
     "Help" : "Помош",
     "Personal" : "Лично",
     "Users" : "Корисници",
@@ -29,9 +32,6 @@
     "Authentication error" : "Грешка во автентикација",
     "Token expired. Please reload page." : "Жетонот е истечен. Ве молам превчитајте ја страницата.",
     "Unknown user" : "Непознат корисник",
-    "A valid username must be provided" : "Мора да се обезбеди валидно корисничко име ",
-    "A valid password must be provided" : "Мора да се обезбеди валидна лозинка",
-    "The username is already being used" : "Корисничкото име е веќе во употреба",
     "Storage not available" : "Сториџот не е достапен"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

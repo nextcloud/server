@@ -159,10 +159,11 @@ class OC_App {
 	}
 
 	/**
+	 * @internal
 	 * @param string $app
 	 * @param string $path
 	 */
-	protected static function registerAutoloading($app, $path) {
+	public static function registerAutoloading($app, $path) {
 		// Register on PSR-4 composer autoloader
 		$appNamespace = \OC\AppFramework\App::buildAppNamespace($app);
 		\OC::$composerAutoloader->addPsr4($appNamespace . '\\', $path . '/lib/', true);

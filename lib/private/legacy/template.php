@@ -36,7 +36,7 @@
 
 use OC\TemplateLayout;
 
-require_once __DIR__.'/../template/functions.php';
+require_once __DIR__.'/template/functions.php';
 
 /**
  * This class provides the templates for ownCloud.

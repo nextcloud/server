@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "Einka",
     "System" : "Kerfi",
     "Grant access" : "Veita aðgengi",
-    "Access granted" : "Aðgengi veitt",
     "Error configuring OAuth1" : "Villa við uppsetningu OAuth1",
     "Error configuring OAuth2" : "Villa við uppsetningu OAuth2",
     "Generate keys" : "Útbúa lykla",

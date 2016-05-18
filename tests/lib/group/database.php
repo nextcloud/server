@@ -45,7 +45,7 @@ class Test_Group_Database extends Test_Group_Backend {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->backend = new OC_Group_Database();
+		$this->backend = new \OC\Group\Database();
 	}
 
 	protected function tearDown() {
@@ -60,7 +60,7 @@ class Test_Group_Database extends Test_Group_Backend {
 
 		$this->backend->createGroup($group);
 
-		$backend = new OC_Group_Database();
+		$backend = new \OC\Group\Database();
 		$this->assertFalse($backend->createGroup($group));
 	}
 }

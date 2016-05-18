@@ -12,6 +12,7 @@ OC.L10N.register(
     "Home" : "නිවස",
     "Close" : "වසන්න",
     "Upload cancelled." : "උඩුගත කිරීම අත් හරින්න ලදී",
+    "Uploading..." : "උඩුගත කෙරේ...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත",
     "Download" : "බාන්න",
     "Rename" : "නැවත නම් කරන්න",
@@ -33,7 +34,6 @@ OC.L10N.register(
     "max. possible: " : "හැකි උපරිමය:",
     "Save" : "සුරකින්න",
     "Settings" : "සිටුවම්",
-    "Cancel upload" : "උඩුගත කිරීම අත් හරින්න",
     "Upload too large" : "උඩුගත කිරීම විශාල වැඩිය",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ඔබ උඩුගත කිරීමට තැත් කරන ගොනු මෙම සේවාදායකයා උඩුගත කිරීමට ඉඩදී ඇති උපරිම ගොනු විශාලත්වයට වඩා වැඩිය",
     "Text file" : "පෙළ ගොනුව"

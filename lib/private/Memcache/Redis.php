@@ -37,33 +37,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	public function __construct($prefix = '') {
 		parent::__construct($prefix);
 		if (is_null(self::$cache)) {
-			// TODO allow configuring a RedisArray, see https://github.com/nicolasff/phpredis/blob/master/arrays.markdown#redis-arrays
-			self::$cache = new \Redis();
-			$config = \OC::$server->getSystemConfig()->getValue('redis', array());
-			if (isset($config['host'])) {
-				$host = $config['host'];
-			} else {
-				$host = '127.0.0.1';
-			}
-			if (isset($config['port'])) {
-				$port = $config['port'];
-			} else {
-				$port = 6379;
-			}
-			if (isset($config['timeout'])) {
-				$timeout = $config['timeout'];
-			} else {
-				$timeout = 0.0; // unlimited
-			}
-
-			self::$cache->connect($host, $port, $timeout);
-			if(isset($config['password']) && $config['password'] !== '') {
-				self::$cache->auth($config['password']);
-			}
-
-			if (isset($config['dbindex'])) {
-				self::$cache->select($config['dbindex']);
-			}
+			self::$cache = \OC::$server->getGetRedisFactory()->getInstance();
 		}
 	}
 
@@ -201,8 +175,7 @@ class Redis extends Cache implements IMemcacheTTL {
 	}
 
 	static public function isAvailable() {
-		return extension_loaded('redis')
-		&& version_compare(phpversion('redis'), '2.2.5', '>=');
+		return \OC::$server->getGetRedisFactory()->isAvailable();
 	}
 }
 

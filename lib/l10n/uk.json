@@ -86,6 +86,9 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Не вдалося поділитися %s, елемент не знайдено у файловому кеші.",
     "Could not find category \"%s\"" : "Не вдалося знайти категорію \"%s\"",
     "Apps" : "Додатки",
+    "A valid username must be provided" : "Потрібно задати вірне ім'я користувача",
+    "A valid password must be provided" : "Потрібно задати вірний пароль",
+    "The username is already being used" : "Ім'я користувача вже використовується",
     "Help" : "Допомога",
     "Personal" : "Особисте",
     "Users" : "Користувачі",
@@ -128,9 +131,6 @@
     "Check the value of \"datadirectory\" in your configuration" : "Перевірте значення \"datadirectory\" у своїй конфігурації",
     "Data directory (%s) is invalid" : "Каталог даних (%s) невірний",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Переконайтеся, що файл \".ocdata\" присутній у корені каталогу даних.",
-    "A valid username must be provided" : "Потрібно задати вірне ім'я користувача",
-    "A valid password must be provided" : "Потрібно задати вірний пароль",
-    "The username is already being used" : "Ім'я користувача вже використовується",
     "Could not obtain lock type %d on \"%s\"." : "Не вдалося отримати блокування типу %d для \"%s\"",
     "Storage not available" : "Сховище не доступне"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

@@ -11,107 +11,138 @@ namespace Test\User;
 
 use OC\Session\Memory;
 use OC\User\User;
-use OCP\ISession;
-use OCP\IUserManager;
-use OCP\UserInterface;
-use Test\TestCase;
 
 /**
  * @group DB
  * @package Test\User
  */
-class Session extends TestCase {
+class Session extends \Test\TestCase {
+
+	/** @var \OCP\AppFramework\Utility\ITimeFactory */
+	private $timeFactory;
+
+	/** @var \OC\Authentication\Token\DefaultTokenProvider */
+	protected $defaultProvider;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$this->timeFactory->expects($this->any())
+			->method('getTime')
+			->will($this->returnValue(10000));
+		$this->defaultProvider = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenProvider')
+			->disableOriginalConstructor()
+			->getMock();
+	}
+
 	public function testGetUser() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
+		$token = new \OC\Authentication\Token\DefaultToken();
+
+		$expectedUser = new User('foo', null);
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
-		$session->expects($this->once())
+		$session->expects($this->at(0))
 			->method('get')
 			->with('user_id')
-			->will($this->returnValue('foo'));
+			->will($this->returnValue($expectedUser->getUID()));
+		$sessionId = 'abcdef12345';
 
-		/** @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend */
-		$backend = $this->getMock('\Test\Util\User\Dummy');
-		$backend->expects($this->once())
-			->method('userExists')
-			->with('foo')
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue($sessionId));
+		$this->defaultProvider->expects($this->once())
+			->method('getToken')
+			->will($this->returnValue($token));
+		$session->expects($this->at(2))
+			->method('get')
+			->with('last_login_check')
+			->will($this->returnValue(null)); // No check has been run yet
+		$this->defaultProvider->expects($this->once())
+			->method('getPassword')
+			->with($token, $sessionId)
+			->will($this->returnValue('password123'));
+		$manager->expects($this->once())
+			->method('checkPassword')
+			->with($expectedUser->getUID(), 'password123')
 			->will($this->returnValue(true));
+		$session->expects($this->at(3))
+			->method('set')
+			->with('last_login_check', 10000);
 
-		$manager = new \OC\User\Manager();
-		$manager->registerBackend($backend);
+		$session->expects($this->at(4))
+			->method('get')
+			->with('last_token_update')
+			->will($this->returnValue(null)); // No check run so far
+		$this->defaultProvider->expects($this->once())
+			->method('updateToken')
+			->with($token);
+		$session->expects($this->at(5))
+			->method('set')
+			->with('last_token_update', $this->equalTo(10000));
 
-		$userSession = new \OC\User\Session($manager, $session);
+		$manager->expects($this->any())
+			->method('get')
+			->with($expectedUser->getUID())
+			->will($this->returnValue($expectedUser));
+
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$user = $userSession->getUser();
-		$this->assertEquals('foo', $user->getUID());
+		$this->assertSame($expectedUser, $user);
 	}
 
-	public function testIsLoggedIn() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
-		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
-		$session->expects($this->once())
-			->method('get')
-			->with('user_id')
-			->will($this->returnValue('foo'));
-
-		/** @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend */
-		$backend = $this->getMock('\Test\Util\User\Dummy');
-		$backend->expects($this->once())
-			->method('userExists')
-			->with('foo')
-			->will($this->returnValue(true));
-
-		$manager = new \OC\User\Manager();
-		$manager->registerBackend($backend);
-
-		$userSession = new \OC\User\Session($manager, $session);
-		$isLoggedIn = $userSession->isLoggedIn();
-		$this->assertTrue($isLoggedIn);
+	public function isLoggedInData() {
+		return [
+			[true],
+			[false],
+		];
 	}
 
-	public function testNotLoggedIn() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
+	/**
+	 * @dataProvider isLoggedInData
+	 */
+	public function testIsLoggedIn($isLoggedIn) {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
-		$session->expects($this->once())
-			->method('get')
-			->with('user_id')
-			->will($this->returnValue(null));
 
-		/** @var UserInterface | \PHPUnit_Framework_MockObject_MockObject $backend */
-		$backend = $this->getMock('\Test\Util\User\Dummy');
-		$backend->expects($this->never())
-			->method('userExists');
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$manager = new \OC\User\Manager();
-		$manager->registerBackend($backend);
-
-		$userSession = new \OC\User\Session($manager, $session);
-		$isLoggedIn = $userSession->isLoggedIn();
-		$this->assertFalse($isLoggedIn);
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]])
+			->setMethods([
+				'getUser'
+			])
+			->getMock();
+		$user = new User('sepp', null);
+		$userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($isLoggedIn ? $user : null));
+		$this->assertEquals($isLoggedIn, $userSession->isLoggedIn());
 	}
 
 	public function testSetUser() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->once())
 			->method('set')
 			->with('user_id', 'foo');
 
-		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMock('\OC\User\Manager');
 
 		$backend = $this->getMock('\Test\Util\User\Dummy');
 
-		/** @var User | \PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
 		$user->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('foo'));
 
-		$userSession = new \OC\User\Session($manager, $session);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$userSession->setUser($user);
 	}
 
 	public function testLoginValidPasswordEnabled() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->once())
 			->method('regenerateId');
@@ -127,8 +158,7 @@ class Session extends TestCase {
 							return false;
 							break;
 					}
-				},
-				'foo'));
+				}, 'foo'));
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -140,13 +170,12 @@ class Session extends TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
 		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
-		$user->expects($this->exactly(2))
+		$user->expects($this->any())
 			->method('isEnabled')
 			->will($this->returnValue(true));
 		$user->expects($this->any())
@@ -160,22 +189,27 @@ class Session extends TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue($user));
 
-		$userSession = new \OC\User\Session($manager, $session);
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]])
+			->setMethods([
+				'prepareUserLogin'
+			])
+			->getMock();
+		$userSession->expects($this->once())
+			->method('prepareUserLogin');
 		$userSession->login('foo', 'bar');
 		$this->assertEquals($user, $userSession->getUser());
 	}
 
 	/**
 	 * @expectedException \OC\User\LoginException
-	 * @expectedExceptionMessage User disabled
 	 */
 	public function testLoginValidPasswordDisabled() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
 		$session->expects($this->once())
-				->method('regenerateId');
+			->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -187,13 +221,12 @@ class Session extends TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
 		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$user = $this->getMock('\OC\User\User', array(), array('foo', $backend));
-		$user->expects($this->once())
+		$user->expects($this->any())
 			->method('isEnabled')
 			->will($this->returnValue(false));
 		$user->expects($this->never())
@@ -204,17 +237,16 @@ class Session extends TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue($user));
 
-		$userSession = new \OC\User\Session($manager, $session);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$userSession->login('foo', 'bar');
 	}
 
 	public function testLoginInvalidPassword() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
 		$session->expects($this->once())
-				->method('regenerateId');
+			->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -226,7 +258,6 @@ class Session extends TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
 		$backend = $this->getMock('\Test\Util\User\Dummy');
@@ -242,32 +273,31 @@ class Session extends TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue(false));
 
-		$userSession = new \OC\User\Session($manager, $session);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$userSession->login('foo', 'bar');
 	}
 
 	public function testLoginNonExisting() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
 		$session->expects($this->once())
-				->method('regenerateId');
+			->method('regenerateId');
 
-		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMock('\OC\User\Manager');
+
+		$backend = $this->getMock('\Test\Util\User\Dummy');
 
 		$manager->expects($this->once())
 			->method('checkPassword')
 			->with('foo', 'bar')
 			->will($this->returnValue(false));
 
-		$userSession = new \OC\User\Session($manager, $session);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$userSession->login('foo', 'bar');
 	}
 
 	public function testRememberLoginValidToken() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->exactly(1))
 			->method('set')
@@ -278,10 +308,9 @@ class Session extends TestCase {
 						default:
 							return false;
 					}
-				},
-				'foo'));
+				}, 'foo'));
 		$session->expects($this->once())
-				->method('regenerateId');
+			->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -314,13 +343,12 @@ class Session extends TestCase {
 		$token = 'goodToken';
 		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
-		/** @var \OC\User\Session $userSession */
 		$userSession = $this->getMock(
 			'\OC\User\Session',
 			//override, otherwise tests will fail because of setcookie()
 			array('setMagicInCookie'),
 			//there  are passed as parameters to the constructor
-			array($manager, $session));
+			array($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]));
 
 		$granted = $userSession->loginWithCookie('foo', $token);
 
@@ -328,12 +356,11 @@ class Session extends TestCase {
 	}
 
 	public function testRememberLoginInvalidToken() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
 		$session->expects($this->once())
-				->method('regenerateId');
+			->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -345,7 +372,6 @@ class Session extends TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
 		$backend = $this->getMock('\Test\Util\User\Dummy');
@@ -367,19 +393,18 @@ class Session extends TestCase {
 		$token = 'goodToken';
 		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
-		$userSession = new \OC\User\Session($manager, $session);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$granted = $userSession->loginWithCookie('foo', 'badToken');
 
 		$this->assertSame($granted, false);
 	}
 
 	public function testRememberLoginInvalidUser() {
-		/** @var ISession | \PHPUnit_Framework_MockObject_MockObject $session */
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->never())
 			->method('set');
 		$session->expects($this->once())
-				->method('regenerateId');
+			->method('regenerateId');
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
@@ -391,7 +416,6 @@ class Session extends TestCase {
 				unset($managerMethods[$i]);
 			}
 		}
-		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMock('\OC\User\Manager', $managerMethods, array());
 
 		$backend = $this->getMock('\Test\Util\User\Dummy');
@@ -412,7 +436,7 @@ class Session extends TestCase {
 		$token = 'goodToken';
 		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
-		$userSession = new \OC\User\Session($manager, $session);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]);
 		$granted = $userSession->loginWithCookie('foo', $token);
 
 		$this->assertSame($granted, false);
@@ -424,7 +448,6 @@ class Session extends TestCase {
 			'bar' => new User('bar', null)
 		);
 
-		/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject $manager */
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()
 			->getMock();
@@ -432,12 +455,20 @@ class Session extends TestCase {
 		$manager->expects($this->any())
 			->method('get')
 			->will($this->returnCallback(function ($uid) use ($users) {
-				return $users[$uid];
-			}));
+					return $users[$uid];
+				}));
 
 		$session = new Memory('');
 		$session->set('user_id', 'foo');
-		$userSession = new \OC\User\Session($manager, $session);
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, [$this->defaultProvider]])
+			->setMethods([
+				'validateSession'
+			])
+			->getMock();
+		$userSession->expects($this->any())
+			->method('validateSession');
+
 		$this->assertEquals($users['foo'], $userSession->getUser());
 
 		$session2 = new Memory('');
@@ -445,4 +476,5 @@ class Session extends TestCase {
 		$userSession->setSession($session2);
 		$this->assertEquals($users['bar'], $userSession->getUser());
 	}
+
 }

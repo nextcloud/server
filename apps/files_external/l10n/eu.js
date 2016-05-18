@@ -7,7 +7,6 @@ OC.L10N.register(
     "Personal" : "Pertsonala",
     "System" : "Sistema",
     "Grant access" : "Baimendu sarrera",
-    "Access granted" : "Sarrera baimendua",
     "All users. Type to select user or group." : "Erabiltzaile guztiak. Idatzi erabiltzaile edo taldea hautatzeko.",
     "(group)" : "(taldea)",
     "Saved" : "Gordeta",

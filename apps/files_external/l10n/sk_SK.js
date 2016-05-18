@@ -19,7 +19,6 @@ OC.L10N.register(
     "Personal" : "Osobné",
     "System" : "Systém",
     "Grant access" : "Povoliť prístup",
-    "Access granted" : "Prístup povolený",
     "Error configuring OAuth1" : "Chyba konfigurovania OAuth1",
     "Error configuring OAuth2" : "Chyba konfigurovania OAuth2",
     "Generate keys" : "Vytvoriť kľúče",

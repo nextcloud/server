@@ -5,6 +5,7 @@
     "Could not add server" : "Не удалось добавить сервер",
     "Federation" : "Объединение",
     "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Объединение серверов ownCloud позволит Вам подключиться к другим доверенным серверам ownCloud для обмена директориями пользователей. Это будет использовано, например, для автоматического завершения внешних пользователей при объединенном общем доступе.",
+    "Add server automatically once a federated share was created successfully" : "Добавить сервер автоматически, как только федеративный общий доступ будет успешно создан",
     "Trusted ownCloud Servers" : "Доверенные серверы ownCloud",
     "+ Add ownCloud server" : "+ Добавить сервер ownCloud",
     "ownCloud Server" : "Сервер ownCloud"

@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_external",
     {
+    "Fetching access tokens failed. Verify that your app key and secret are correct." : "Otrzymano błędne żądanie tokenów. Sprawdź, czy klucz aplikacji oraz klucz poufny są poprawne.",
     "Step 1 failed. Exception: %s" : "Krok 1 błędny. Błąd: %s",
     "Step 2 failed. Exception: %s" : "Krok 2 błędny. Błąd: %s",
     "External storage" : "Zewnętrzne zasoby dyskowe",
@@ -10,7 +11,6 @@ OC.L10N.register(
     "Personal" : "Osobiste",
     "System" : "System",
     "Grant access" : "Udziel dostępu",
-    "Access granted" : "Dostęp do",
     "Generate keys" : "Wygeneruj klucze",
     "Error generating key pair" : "Błąd podczas generowania pary kluczy",
     "All users. Type to select user or group." : "Wszyscy użytkownicy. Zacznij pisać, aby wybrać użytkownika lub grupę.",

@@ -80,6 +80,9 @@
     "Expiration date is in the past" : "Aegumise kuupäev on minevikus",
     "Could not find category \"%s\"" : "Ei leia kategooriat \"%s\"",
     "Apps" : "Rakendused",
+    "A valid username must be provided" : "Sisesta nõuetele vastav kasutajatunnus",
+    "A valid password must be provided" : "Sisesta nõuetele vastav parool",
+    "The username is already being used" : "Kasutajanimi on juba kasutuses",
     "Help" : "Abiinfo",
     "Personal" : "Isiklik",
     "Users" : "Kasutajad",
@@ -112,9 +115,6 @@
     "Data directory (%s) is readable by other users" : "Andmete kataloog (%s) on teistele kasutajate loetav",
     "Data directory (%s) is invalid" : "Andmete kataloog (%s) pole korrektne",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Palun veendu, et andmete kataloogis sisaldub fail \".ocdata\" ",
-    "A valid username must be provided" : "Sisesta nõuetele vastav kasutajatunnus",
-    "A valid password must be provided" : "Sisesta nõuetele vastav parool",
-    "The username is already being used" : "Kasutajanimi on juba kasutuses",
     "Could not obtain lock type %d on \"%s\"." : "Ei suutnud hankida %d tüüpi lukustust \"%s\".",
     "Storage not available" : "Andmehoidla pole saadaval"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

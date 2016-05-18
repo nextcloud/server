@@ -9,7 +9,6 @@ OC.L10N.register(
     "Personal" : "Личен",
     "System" : "Системен",
     "Grant access" : "Разреши достъп",
-    "Access granted" : "Достъпът разрешен",
     "Generate keys" : "Генериране на криптографски ключове",
     "Error generating key pair" : "Грешка при генериране на криптографски ключове",
     "All users. Type to select user or group." : "Всички потребители. Пиши, за да избереш потребител или група.",

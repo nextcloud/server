@@ -44,6 +44,7 @@ OC.L10N.register(
     "Test Configuration" : "Konfiguracja testowa",
     "Help" : "Pomoc",
     "Groups meeting these criteria are available in %s:" : "Przyłączenie do grupy z tymi ustawieniami dostępne jest w %s:",
+    "Only from these groups:" : "Tylko z tych grup:",
     "Search groups" : "Przeszukaj grupy",
     "Available groups" : "Dostępne grupy",
     "Selected groups" : "Wybrane grupy",

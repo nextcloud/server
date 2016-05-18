@@ -1,5 +1,6 @@
 <?php
 	use \OCA\Files_External\Lib\Backend\Backend;
+	use \OCA\Files_External\Lib\Auth\AuthMechanism;
 	use \OCA\Files_External\Lib\DefinitionParameter;
 	use \OCA\Files_External\Service\BackendService;
 
@@ -16,13 +17,16 @@
 	// load custom JS
 	foreach ($_['backends'] as $backend) {
 		/** @var Backend $backend */
-		if ($backend->getCustomJs()) {
-			script('files_external', $backend->getCustomJs());
+		$scripts = $backend->getCustomJs();
+		foreach ($scripts as $script) {
+			script('files_external', $script);
 		}
 	}
 	foreach ($_['authMechanisms'] as $authMechanism) {
-		if ($authMechanism->getCustomJs()) {
-			script('files_external', $authMechanism->getCustomJs());
+		/** @var AuthMechanism $authMechanism */
+		$scripts = $authMechanism->getCustomJs();
+		foreach ($scripts as $script) {
+			script('files_external', $script);
 		}
 	}
 

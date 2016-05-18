@@ -10,6 +10,7 @@
 	<types>
 		<filesystem/>
 	</types>
+	<namespace>DAV</namespace>
 	<public>
 		<webdav>appinfo/v1/publicwebdav.php</webdav>
 	</public>

@@ -10,7 +10,6 @@ OC.L10N.register(
     "Personal" : "Şəxsi",
     "System" : "Sistem",
     "Grant access" : "Yetkinin verilməsi",
-    "Access granted" : "Yetki verildi",
     "Generate keys" : "Açarları generasiya et",
     "Error generating key pair" : "Açar cütlüyünün generasiyası səhvi",
     "All users. Type to select user or group." : "Sistem istifadəçiləri. Daxil edin ki, istifadəçi və ya qrupu seçəsiniz.",

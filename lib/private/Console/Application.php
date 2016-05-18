@@ -98,7 +98,7 @@ class Application {
 					if($appPath === false) {
 						continue;
 					}
-					\OC::$loader->addValidRoot($appPath);
+					\OC_App::registerAutoloading($app, $appPath);
 					$file = $appPath . '/appinfo/register_command.php';
 					if (file_exists($file)) {
 						require $file;

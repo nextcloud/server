@@ -210,6 +210,7 @@
     "sunny" : "me diell",
     "Hello {name}, the weather is {weather}" : "Tungjatjeta {name}, koha është {weather}",
     "Hello {name}" : "Tungjatjeta {name}",
+    "new" : "re",
     "_download %n file_::_download %n files_" : ["shkarko %n kartelë","shkarko %n kartela"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "Përmirësimi po kryhet, braktisja e kësaj faqeje mund ta ndërpresë procesin në disa mjedise.",
     "Updating to {version}" : "Po përditësohet me {version}",

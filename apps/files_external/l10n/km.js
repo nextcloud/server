@@ -4,7 +4,6 @@ OC.L10N.register(
     "External storage" : "ឃ្លាំងផ្ទុក​ខាងក្រៅ",
     "Personal" : "ផ្ទាល់​ខ្លួន",
     "Grant access" : "ទទួល​សិទ្ធិ​ចូល",
-    "Access granted" : "បាន​ទទួល​សិទ្ធិ​ចូល",
     "Saved" : "បាន​រក្សាទុក",
     "Username" : "ឈ្មោះ​អ្នកប្រើ",
     "Password" : "ពាក្យសម្ងាត់",

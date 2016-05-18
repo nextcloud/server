@@ -190,7 +190,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		} else {
 			$this->emit('\OC\Group', 'preCreate', array($gid));
 			foreach ($this->backends as $backend) {
-				if ($backend->implementsActions(\OC_Group_Backend::CREATE_GROUP)) {
+				if ($backend->implementsActions(\OC\Group\Backend::CREATE_GROUP)) {
 					$backend->createGroup($gid);
 					$group = $this->getGroupObject($gid);
 					$this->emit('\OC\Group', 'postCreate', array($group));

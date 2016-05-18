@@ -22,7 +22,6 @@ OC.L10N.register(
     "Personal" : "개인",
     "System" : "시스템",
     "Grant access" : "접근 권한 부여",
-    "Access granted" : "접근 허가됨",
     "Error configuring OAuth1" : "OAuth1 설정 오류",
     "Error configuring OAuth2" : "OAuth2 설정 오류",
     "Generate keys" : "키 생성",

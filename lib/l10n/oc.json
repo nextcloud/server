@@ -94,6 +94,9 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Lo partiment de %s a fracassat perque lo fichièr es pas estat trobat dins los fichièrs meses en escondedor.",
     "Could not find category \"%s\"" : "Impossible de trobar la categoria \"%s\"",
     "Apps" : "Aplicacions",
+    "A valid username must be provided" : "Un nom d'utilizaire valid deu èsser sasit",
+    "A valid password must be provided" : "Un senhal valid deu èsser sasit",
+    "The username is already being used" : "Aqueste nom d'utilizaire es ja utilizat",
     "Help" : "Ajuda",
     "Personal" : "Personal",
     "Users" : "Utilizaires",
@@ -137,9 +140,6 @@
     "Check the value of \"datadirectory\" in your configuration" : "Verificatz la valor de \"datadirectory\" dins vòstra configuracion",
     "Data directory (%s) is invalid" : "Lo repertòri (%s) es pas valid",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Verificatz que lo repertòri de donadas conten un fichièr \".ocdata\" a sa raiç.",
-    "A valid username must be provided" : "Un nom d'utilizaire valid deu èsser sasit",
-    "A valid password must be provided" : "Un senhal valid deu èsser sasit",
-    "The username is already being used" : "Aqueste nom d'utilizaire es ja utilizat",
     "Could not obtain lock type %d on \"%s\"." : "Impossible d'obténer lo varrolhatge de tipe %d sus \"%s\".",
     "Storage not available" : "Supòrt d'emmagazinatge pas disponible"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"

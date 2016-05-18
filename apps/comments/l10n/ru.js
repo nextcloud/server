@@ -14,6 +14,7 @@ OC.L10N.register(
     "Allowed characters {count} of {max}" : "Допустимых символов {count} из {max}",
     "{count} unread comments" : "{count} непрочитанных комментариев",
     "Comment" : "Коментарий",
+    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Комментарии</strong> к файлам <em>(всегда перечислены в потоке)</em>",
     "You commented" : "Вы откомментировали",
     "%1$s commented" : "%1$s откомментировано",
     "You commented on %2$s" : "Вы откомментировали в %2$s",

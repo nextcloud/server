@@ -24,6 +24,7 @@ namespace OC\Files\Config;
 
 use OC\Hooks\Emitter;
 use OC\Hooks\EmitterTrait;
+use OCP\Files\Config\IHomeMountProvider;
 use OCP\Files\Config\IMountProviderCollection;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Config\IUserMountCache;
@@ -33,6 +34,11 @@ use OCP\IUser;
 
 class MountProviderCollection implements IMountProviderCollection, Emitter {
 	use EmitterTrait;
+
+	/**
+	 * @var \OCP\Files\Config\IHomeMountProvider[]
+	 */
+	private $homeProviders = [];
 
 	/**
 	 * @var \OCP\Files\Config\IMountProvider[]
@@ -78,6 +84,25 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	}
 
 	/**
+	 * Get the configured home mount for this user
+	 *
+	 * @param \OCP\IUser $user
+	 * @return \OCP\Files\Mount\IMountPoint
+	 * @since 9.1.0
+	 */
+	public function getHomeMountForUser(IUser $user) {
+		/** @var \OCP\Files\Config\IHomeMountProvider[] $providers */
+		$providers = array_reverse($this->homeProviders); // call the latest registered provider first to give apps an opportunity to overwrite builtin
+		foreach ($providers as $homeProvider) {
+			if ($mount = $homeProvider->getHomeMountForUser($user, $this->loader)) {
+				$mount->setMountPoint('/' . $user->getUID()); //make sure the mountpoint is what we expect
+				return $mount;
+			}
+		}
+		throw new \Exception('No home storage configured for user ' . $user);
+	}
+
+	/**
 	 * Add a provider for mount points
 	 *
 	 * @param \OCP\Files\Config\IMountProvider $provider
@@ -85,6 +110,17 @@ class MountProviderCollection implements IMountProviderCollection, Emitter {
 	public function registerProvider(IMountProvider $provider) {
 		$this->providers[] = $provider;
 		$this->emit('\OC\Files\Config', 'registerMountProvider', [$provider]);
+	}
+
+	/**
+	 * Add a provider for home mount points
+	 *
+	 * @param \OCP\Files\Config\IHomeMountProvider $provider
+	 * @since 9.1.0
+	 */
+	public function registerHomeProvider(IHomeMountProvider $provider) {
+		$this->homeProviders[] = $provider;
+		$this->emit('\OC\Files\Config', 'registerHomeMountProvider', [$provider]);
 	}
 
 	/**

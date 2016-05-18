@@ -47,7 +47,39 @@
 	width: 200px;
 	height: 36px;
 	display:inline-block;
+	text-align: center;
 }
+#uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    overflow: hidden;
+}
+#uploadprogressbar .label {
+    top: 6px;
+    opacity: 1;
+    overflow: hidden;
+    white-space: nowrap;
+	font-weight: normal;
+}
+#uploadprogressbar .label.inner {
+    color:white; 
+    position: absolute;
+    display: block;
+    width: 200px;
+}
+#uploadprogressbar .label.outer {
+    position: relative;
+    color: black;
+}
+#uploadprogressbar .desktop {
+	display: block;
+}
+#uploadprogressbar .mobile {
+	display: none;
+}
+
 #uploadprogressbar + stop {
 	font-size: 13px;
 }

@@ -17,6 +17,8 @@
     "Set an admin password." : "დააყენეთ ადმინისტრატორის პაროლი.",
     "Could not find category \"%s\"" : "\"%s\" კატეგორიის მოძებნა ვერ მოხერხდა",
     "Apps" : "აპლიკაციები",
+    "A valid username must be provided" : "უნდა მიუთითოთ არსებული მომხმარებლის სახელი",
+    "A valid password must be provided" : "უნდა მიუთითოთ არსებული პაროლი",
     "Help" : "დახმარება",
     "Personal" : "პირადი",
     "Users" : "მომხმარებელი",
@@ -24,8 +26,6 @@
     "web services under your control" : "web services under your control",
     "Application is not enabled" : "აპლიკაცია არ არის აქტიური",
     "Authentication error" : "ავთენტიფიკაციის შეცდომა",
-    "Token expired. Please reload page." : "Token–ს ვადა გაუვიდა. გთხოვთ განაახლოთ გვერდი.",
-    "A valid username must be provided" : "უნდა მიუთითოთ არსებული მომხმარებლის სახელი",
-    "A valid password must be provided" : "უნდა მიუთითოთ არსებული პაროლი"
+    "Token expired. Please reload page." : "Token–ს ვადა გაუვიდა. გთხოვთ განაახლოთ გვერდი."
 },"pluralForm" :"nplurals=1; plural=0;"
 }

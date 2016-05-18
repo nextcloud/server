@@ -39,6 +39,7 @@ class Client implements IClient {
 	private $config;
 	/** @var ICertificateManager */
 	private $certificateManager;
+	private $configured = false;
 
 	/**
 	 * @param IConfig $config
@@ -51,13 +52,16 @@ class Client implements IClient {
 		$this->config = $config;
 		$this->client = $client;
 		$this->certificateManager = $certificateManager;
-		$this->setDefaultOptions();
 	}
 
 	/**
 	 * Sets the default options to the client
 	 */
 	private function setDefaultOptions() {
+		if ($this->configured) {
+			return;
+		}
+		$this->configured = true;
 		// Either use user bundle or the system bundle if nothing is specified
 		if ($this->certificateManager->listCertificates() !== []) {
 			$this->client->setDefaultOption('verify', $this->certificateManager->getAbsoluteBundlePath());
@@ -65,7 +69,7 @@ class Client implements IClient {
 			// If the instance is not yet setup we need to use the static path as
 			// $this->certificateManager->getAbsoluteBundlePath() tries to instantiiate
 			// a view
-			if($this->config->getSystemValue('installed', false)) {
+			if ($this->config->getSystemValue('installed', false)) {
 				$this->client->setDefaultOption('verify', $this->certificateManager->getAbsoluteBundlePath(null));
 			} else {
 				$this->client->setDefaultOption('verify', \OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
@@ -73,13 +77,14 @@ class Client implements IClient {
 		}
 
 		$this->client->setDefaultOption('headers/User-Agent', 'ownCloud Server Crawler');
-		if($this->getProxyUri() !== '') {
+		if ($this->getProxyUri() !== '') {
 			$this->client->setDefaultOption('proxy', $this->getProxyUri());
 		}
 	}
 
 	/**
 	 * Get the proxy URI
+	 *
 	 * @return string
 	 */
 	private function getProxyUri() {
@@ -87,10 +92,10 @@ class Client implements IClient {
 		$proxyUserPwd = $this->config->getSystemValue('proxyuserpwd', null);
 		$proxyUri = '';
 
-		if(!is_null($proxyUserPwd)) {
-			$proxyUri .= $proxyUserPwd.'@';
+		if (!is_null($proxyUserPwd)) {
+			$proxyUri .= $proxyUserPwd . '@';
 		}
-		if(!is_null($proxyHost)) {
+		if (!is_null($proxyHost)) {
 			$proxyUri .= $proxyHost;
 		}
 
@@ -99,6 +104,7 @@ class Client implements IClient {
 
 	/**
 	 * Sends a GET request
+	 *
 	 * @param string $uri
 	 * @param array $options Array such as
 	 *              'query' => [
@@ -126,6 +132,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function get($uri, array $options = []) {
+		$this->setDefaultOptions();
 		$response = $this->client->get($uri, $options);
 		$isStream = isset($options['stream']) && $options['stream'];
 		return new Response($response, $isStream);
@@ -133,6 +140,7 @@ class Client implements IClient {
 
 	/**
 	 * Sends a HEAD request
+	 *
 	 * @param string $uri
 	 * @param array $options Array such as
 	 *              'headers' => [
@@ -155,12 +163,14 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function head($uri, $options = []) {
+		$this->setDefaultOptions();
 		$response = $this->client->head($uri, $options);
 		return new Response($response);
 	}
 
 	/**
 	 * Sends a POST request
+	 *
 	 * @param string $uri
 	 * @param array $options Array such as
 	 *              'body' => [
@@ -188,12 +198,14 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function post($uri, array $options = []) {
+		$this->setDefaultOptions();
 		$response = $this->client->post($uri, $options);
 		return new Response($response);
 	}
 
 	/**
 	 * Sends a PUT request
+	 *
 	 * @param string $uri
 	 * @param array $options Array such as
 	 *              'body' => [
@@ -221,12 +233,14 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function put($uri, array $options = []) {
+		$this->setDefaultOptions();
 		$response = $this->client->put($uri, $options);
 		return new Response($response);
 	}
 
 	/**
 	 * Sends a DELETE request
+	 *
 	 * @param string $uri
 	 * @param array $options Array such as
 	 *              'body' => [
@@ -254,6 +268,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function delete($uri, array $options = []) {
+		$this->setDefaultOptions();
 		$response = $this->client->delete($uri, $options);
 		return new Response($response);
 	}
@@ -261,6 +276,7 @@ class Client implements IClient {
 
 	/**
 	 * Sends a options request
+	 *
 	 * @param string $uri
 	 * @param array $options Array such as
 	 *              'body' => [
@@ -288,6 +304,7 @@ class Client implements IClient {
 	 * @throws \Exception If the request could not get completed
 	 */
 	public function options($uri, array $options = []) {
+		$this->setDefaultOptions();
 		$response = $this->client->options($uri, $options);
 		return new Response($response);
 	}

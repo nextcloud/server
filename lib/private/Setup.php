@@ -364,7 +364,14 @@ class Setup {
 
 			$group =\OC::$server->getGroupManager()->createGroup('admin');
 			$group->addUser($user);
-			\OC_User::login($username, $password);
+
+			// Create a session token for the newly created user
+			// The token provider requires a working db, so it's not injected on setup
+			/* @var $userSession User\Session */
+			$userSession = \OC::$server->getUserSession();
+			$defaultTokenProvider = \OC::$server->query('OC\Authentication\Token\DefaultTokenProvider');
+			$userSession->setTokenProvider($defaultTokenProvider);
+			$userSession->createSessionToken($request, $username, $password);
 
 			//guess what this does
 			Installer::installShippedApps();
@@ -382,11 +389,17 @@ class Setup {
 				$config->setSystemValue('logtimezone', date_default_timezone_get());
 			}
 
+			self::installBackgroundJobs();
+
 			//and we are done
 			$config->setSystemValue('installed', true);
 		}
 
 		return $error;
+	}
+
+	public static function installBackgroundJobs() {
+		\OC::$server->getJobList()->add('\OC\Authentication\Token\DefaultTokenCleanupJob');
 	}
 
 	/**
@@ -420,37 +433,47 @@ class Setup {
 
 		$htaccessContent = file_get_contents($setupHelper->pathToHtaccess());
 		$content = "#### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####\n";
-		if(strpos($htaccessContent, $content) === false) {
-			//custom 403 error page
-			$content.= "\nErrorDocument 403 ".$webRoot."/core/templates/403.php";
+		$htaccessContent = explode($content, $htaccessContent, 2)[0];
 
-			//custom 404 error page
-			$content.= "\nErrorDocument 404 ".$webRoot."/core/templates/404.php";
+		//custom 403 error page
+		$content.= "\nErrorDocument 403 ".$webRoot."/core/templates/403.php";
 
-			// ownCloud may be configured to live at the root folder without a
-			// trailing slash being specified. In this case manually set the
-			// rewrite base to `/`
-			$rewriteBase = $webRoot;
-			if($webRoot === '') {
-				$rewriteBase = '/';
-			}
+		//custom 404 error page
+		$content.= "\nErrorDocument 404 ".$webRoot."/core/templates/404.php";
 
-			// Add rewrite base
+		// Add rewrite rules if the RewriteBase is configured
+		$rewriteBase = $config->getSystemValue('htaccess.RewriteBase', '');
+		if($rewriteBase !== '') {
 			$content .= "\n<IfModule mod_rewrite.c>";
+			$content .= "\n  Options -MultiViews";
+			$content .= "\n  RewriteRule ^core/js/oc.js$ index.php [PT,E=PATH_INFO:$1]";
+			$content .= "\n  RewriteRule ^core/preview.png$ index.php [PT,E=PATH_INFO:$1]";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !\\.(css|js|svg|gif|png|html|ttf|woff|ico|jpg|jpeg)$";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !core/img/favicon.ico$";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/remote.php";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/public.php";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/cron.php";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/core/ajax/update.php";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/status.php";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs/v1.php";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs/v2.php";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/updater/";
+			$content .= "\n  RewriteCond %{REQUEST_FILENAME} !/ocs-provider/";
+			$content .= "\n  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
-			$content .= "\n  RewriteBase ".$rewriteBase;
+			$content .= "\n  RewriteBase " . $rewriteBase;
 			$content .= "\n  <IfModule mod_env.c>";
 			$content .= "\n    SetEnv front_controller_active true";
 			$content .= "\n    <IfModule mod_dir.c>";
 			$content .= "\n      DirectorySlash off";
 			$content .= "\n    </IfModule>";
-			$content.="\n  </IfModule>";
-			$content.="\n</IfModule>";
+			$content .= "\n  </IfModule>";
+			$content .= "\n</IfModule>";
+		}
 
-			if ($content !== '') {
-				//suppress errors in case we don't have permissions for it
-				@file_put_contents($setupHelper->pathToHtaccess(), $content . "\n", FILE_APPEND);
-			}
+		if ($content !== '') {
+			//suppress errors in case we don't have permissions for it
+			@file_put_contents($setupHelper->pathToHtaccess(), $htaccessContent.$content . "\n");
 		}
 
 	}

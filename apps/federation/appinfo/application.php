@@ -169,11 +169,6 @@ class Application extends \OCP\AppFramework\App {
 		});
 	}
 
-	public function setupCron() {
-		$jl = $this->getContainer()->getServer()->getJobList();
-		$jl->add(new SyncJob());
-	}
-
 	/**
 	 * @return SyncFederationAddressBooks
 	 */

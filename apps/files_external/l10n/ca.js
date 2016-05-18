@@ -10,7 +10,6 @@ OC.L10N.register(
     "Personal" : "Personal",
     "System" : "Sistema",
     "Grant access" : "Concedeix accés",
-    "Access granted" : "S'ha concedit l'accés",
     "Generate keys" : "Generar claus",
     "Error generating key pair" : "Error en generar el parell de claus",
     "All users. Type to select user or group." : "Tots els usuaris. Escriu per seleccionar un usuari o grup.",

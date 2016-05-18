@@ -99,6 +99,9 @@
     "Cannot set expiration date more than %s days in the future" : "Udløbsdato kan ikke sættes mere end %s dage ud i fremtiden",
     "Could not find category \"%s\"" : "Kunne ikke finde kategorien \"%s\"",
     "Apps" : "Apps",
+    "A valid username must be provided" : "Et gyldigt brugernavn skal angives",
+    "A valid password must be provided" : "En gyldig adgangskode skal angives",
+    "The username is already being used" : "Brugernavnet er allerede i brug",
     "Help" : "Hjælp",
     "Personal" : "Personligt",
     "Users" : "Brugere",
@@ -142,9 +145,6 @@
     "Check the value of \"datadirectory\" in your configuration" : "Tjek værdien for \"databibliotek\" i din konfiguration",
     "Data directory (%s) is invalid" : "Datamappen (%s) er ugyldig",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Tjek venligst at datamappen indeholder en fil, \".ocdata\" i dens rod.",
-    "A valid username must be provided" : "Et gyldigt brugernavn skal angives",
-    "A valid password must be provided" : "En gyldig adgangskode skal angives",
-    "The username is already being used" : "Brugernavnet er allerede i brug",
     "Could not obtain lock type %d on \"%s\"." : "Kunne ikke opnå en låsetype %d på \"%s\".",
     "Storage not available" : "Lagerplads er ikke tilgængeligt"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

@@ -20,7 +20,7 @@
  *
  */
 
-use OCA\Dav\AppInfo\Application;
+use OCA\DAV\AppInfo\Application;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 $app = new Application();

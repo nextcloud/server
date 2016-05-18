@@ -95,6 +95,9 @@
     "Sharing %s failed, because the file could not be found in the file cache" : "Gagal berbagi %s, karena berkas tidak ditemukan di berkas cache",
     "Could not find category \"%s\"" : "Tidak menemukan kategori \"%s\"",
     "Apps" : "Aplikasi",
+    "A valid username must be provided" : "Tuliskan nama pengguna yang valid",
+    "A valid password must be provided" : "Tuliskan sandi yang valid",
+    "The username is already being used" : "Nama pengguna ini telah digunakan",
     "Help" : "Bantuan",
     "Personal" : "Pribadi",
     "Users" : "Pengguna",
@@ -138,9 +141,6 @@
     "Check the value of \"datadirectory\" in your configuration" : "Periksa nilai \"datadirectory\" di konfigurasi Anda",
     "Data directory (%s) is invalid" : "Direktori data (%s) tidak sah",
     "Please check that the data directory contains a file \".ocdata\" in its root." : "Mohon periksa apakah direktori data berisi sebuah berkas \".ocdata\" di direktori induknya.",
-    "A valid username must be provided" : "Tuliskan nama pengguna yang valid",
-    "A valid password must be provided" : "Tuliskan sandi yang valid",
-    "The username is already being used" : "Nama pengguna ini telah digunakan",
     "Could not obtain lock type %d on \"%s\"." : "Tidak bisa memperoleh jenis kunci %d pada \"%s\".",
     "Storage not available" : "Penyimpanan tidak tersedia"
 },"pluralForm" :"nplurals=1; plural=0;"

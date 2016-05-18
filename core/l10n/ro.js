@@ -136,6 +136,7 @@ OC.L10N.register(
     "Could not unshare" : "Nu s-a putut elimina partajarea",
     "Share details could not be loaded for this item." : "Nu s-au putut încărca detaliile de partajare pentru acest element.",
     "Share" : "Partajează",
+    "Share with people on other ownClouds using the syntax username@example.com/owncloud" : "Partajează cu persoane din alte instanțe ownCloud folosind sintaxa nume_utilizator@exemplu.com/owncloud",
     "Share with users…" : "Partajează cu utilizatori...",
     "Warning" : "Atenție",
     "invisible" : "invizibil",

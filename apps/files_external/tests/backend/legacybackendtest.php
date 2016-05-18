@@ -62,7 +62,7 @@ class LegacyBackendTest extends \Test\TestCase {
 		$this->assertEquals('\OCA\Files_External\Tests\Backend\LegacyBackendTest', $backend->getStorageClass());
 		$this->assertEquals('Backend text', $backend->getText());
 		$this->assertEquals(123, $backend->getPriority());
-		$this->assertEquals('foo/bar.js', $backend->getCustomJs());
+		$this->assertContains('foo/bar.js', $backend->getCustomJs());
 		$this->assertArrayHasKey('builtin', $backend->getAuthSchemes());
 		$this->assertEquals($auth, $backend->getLegacyAuthMechanism());
 

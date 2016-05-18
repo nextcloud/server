@@ -20,7 +20,6 @@
     "Personal" : "Personlig",
     "System" : "System",
     "Grant access" : "Gi tilgang",
-    "Access granted" : "Tilgang innvilget",
     "Error configuring OAuth1" : "Feil ved konfigurering av OAuth1",
     "Error configuring OAuth2" : "Feil ved konfigurering av OAuth2",
     "Generate keys" : "Generer nøkler",

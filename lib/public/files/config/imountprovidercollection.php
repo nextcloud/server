@@ -40,12 +40,29 @@ interface IMountProviderCollection {
 	public function getMountsForUser(IUser $user);
 
 	/**
+	 * Get the configured home mount for this user
+	 *
+	 * @param \OCP\IUser $user
+	 * @return \OCP\Files\Mount\IMountPoint
+	 * @since 9.1.0
+	 */
+	public function getHomeMountForUser(IUser $user);
+
+	/**
 	 * Add a provider for mount points
 	 *
 	 * @param \OCP\Files\Config\IMountProvider $provider
 	 * @since 8.0.0
 	 */
 	public function registerProvider(IMountProvider $provider);
+
+	/**
+	 * Add a provider for home mount points
+	 *
+	 * @param \OCP\Files\Config\IHomeMountProvider $provider
+	 * @since 9.1.0
+	 */
+	public function registerHomeProvider(IHomeMountProvider $provider);
 
 	/**
 	 * Get the mount cache which can be used to search for mounts without setting up the filesystem

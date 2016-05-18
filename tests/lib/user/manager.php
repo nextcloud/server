@@ -118,7 +118,7 @@ class Manager extends \Test\TestCase {
 
 	public function testCheckPassword() {
 		/**
-		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var \OC\User\Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
 		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->once())
@@ -145,7 +145,7 @@ class Manager extends \Test\TestCase {
 
 	public function testCheckPasswordNotSupported() {
 		/**
-		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 * @var \OC\User\Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 		 */
 		$backend = $this->getMock('\Test\Util\User\Dummy');
 		$backend->expects($this->never())
