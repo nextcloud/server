@@ -29,7 +29,7 @@ namespace Test\Cache;
  *
  * @package Test\Cache
  */
-class CappedMemoryCache extends \Test_Cache {
+class CappedMemoryCache extends TestCache {
 	public function setUp() {
 		parent::setUp();
 		$this->instance = new \OC\Cache\CappedMemoryCache();

@@ -29,7 +29,7 @@ namespace Test\Cache;
  *
  * @package Test\Cache
  */
-class FileCache extends \Test_Cache {
+class FileCache extends TestCache {
 	/**
 	 * @var string
 	 * */
