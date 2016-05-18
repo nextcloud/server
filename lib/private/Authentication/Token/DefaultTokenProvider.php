@@ -28,6 +28,7 @@ use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
 use OCP\ILogger;
+use OCP\IUser;
 use OCP\Security\ICrypto;
 
 class DefaultTokenProvider implements IProvider {
@@ -100,6 +101,19 @@ class DefaultTokenProvider implements IProvider {
 		$token->setLastActivity($this->time->getTime());
 
 		$this->mapper->update($token);
+	}
+
+	/**
+	 * Get all token of a user
+	 *
+	 * The provider may limit the number of result rows in case of an abuse
+	 * where a high number of (session) tokens is generated
+	 *
+	 * @param IUser $user
+	 * @return IToken[]
+	 */
+	public function getTokenByUser(IUser $user) {
+		return $this->mapper->getTokenByUser($user);
 	}
 
 	/**

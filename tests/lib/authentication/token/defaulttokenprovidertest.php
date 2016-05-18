@@ -103,6 +103,16 @@ class DefaultTokenProviderTest extends TestCase {
 
 		$this->assertEquals($this->time, $tk->getLastActivity());
 	}
+	
+	public function testGetTokenByUser() {
+		$user = $this->getMock('\OCP\IUser');
+		$this->mapper->expects($this->once())
+			->method('getTokenByUser')
+			->with($user)
+			->will($this->returnValue(['token']));
+
+		$this->assertEquals(['token'], $this->tokenProvider->getTokenByUser($user));
+	}
 
 	public function testGetPassword() {
 		$token = 'token1234';
