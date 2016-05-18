@@ -6,23 +6,26 @@
  * See the COPYING-README file.
  */
 
-use OC\Archive\TAR;
+namespace Test\Archive;
 
-class Test_Archive_TAR extends Test_Archive {
+
+use OC\Archive\ZIP;
+
+class ZIPTest extends TestBase {
 	protected function setUp() {
 		parent::setUp();
 
-		if (OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('[Windows] tar archives are not supported on Windows');
+		if (\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('[Windows] ');
 		}
 	}
 
 	protected function getExisting() {
-		$dir = OC::$SERVERROOT . '/tests/data';
-		return new TAR($dir . '/data.tar.gz');
+		$dir = \OC::$SERVERROOT . '/tests/data';
+		return new ZIP($dir . '/data.zip');
 	}
 
 	protected function getNew() {
-		return new TAR(OCP\Files::tmpFile('.tar.gz'));
+		return new ZIP(\OCP\Files::tmpFile('.zip'));
 	}
 }

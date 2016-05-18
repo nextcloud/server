@@ -6,20 +6,23 @@
  * See the COPYING-README file.
  */
 
-abstract class Test_Archive extends \Test\TestCase {
+namespace Test\Archive;
+
+
+abstract class TestBase extends \Test\TestCase {
 	/**
-	 * @var OC_Archive
+	 * @var \OC\Archive\Archive
 	 */
 	protected $instance;
 
 	/**
 	 * get the existing test archive
-	 * @return OC_Archive
+	 * @return \OC\Archive\Archive
 	 */
 	abstract protected function getExisting();
 	/**
 	 * get a new archive for write testing
-	 * @return OC_Archive
+	 * @return \OC\Archive\Archive
 	 */
 	abstract protected function getNew();
 
@@ -51,17 +54,17 @@ abstract class Test_Archive extends \Test\TestCase {
 
 	public function testContent() {
 		$this->instance=$this->getExisting();
-		$dir=OC::$SERVERROOT.'/tests/data';
+		$dir=\OC::$SERVERROOT.'/tests/data';
 		$textFile=$dir.'/lorem.txt';
 		$this->assertEquals(file_get_contents($textFile), $this->instance->getFile('lorem.txt'));
 
-		$tmpFile=OCP\Files::tmpFile('.txt');
+		$tmpFile=\OCP\Files::tmpFile('.txt');
 		$this->instance->extractFile('lorem.txt', $tmpFile);
 		$this->assertEquals(file_get_contents($textFile), file_get_contents($tmpFile));
 	}
 
 	public function testWrite() {
-		$dir=OC::$SERVERROOT.'/tests/data';
+		$dir=\OC::$SERVERROOT.'/tests/data';
 		$textFile=$dir.'/lorem.txt';
 		$this->instance=$this->getNew();
 		$this->assertEquals(0, count($this->instance->getFiles()));
@@ -76,7 +79,7 @@ abstract class Test_Archive extends \Test\TestCase {
 	}
 
 	public function testReadStream() {
-		$dir=OC::$SERVERROOT.'/tests/data';
+		$dir=\OC::$SERVERROOT.'/tests/data';
 		$this->instance=$this->getExisting();
 		$fh=$this->instance->getStream('lorem.txt', 'r');
 		$this->assertTrue((bool)$fh);
@@ -85,11 +88,11 @@ abstract class Test_Archive extends \Test\TestCase {
 		$this->assertEquals(file_get_contents($dir.'/lorem.txt'), $content);
 	}
 	public function testWriteStream() {
-		$dir=OC::$SERVERROOT.'/tests/data';
+		$dir=\OC::$SERVERROOT.'/tests/data';
 		$this->instance=$this->getNew();
 		$fh=$this->instance->getStream('lorem.txt', 'w');
 		$source=fopen($dir.'/lorem.txt', 'r');
-		OCP\Files::streamCopy($source, $fh);
+		\OCP\Files::streamCopy($source, $fh);
 		fclose($source);
 		fclose($fh);
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
@@ -107,18 +110,18 @@ abstract class Test_Archive extends \Test\TestCase {
 		$this->assertFalse($this->instance->fileExists('/test/'));
 	}
 	public function testExtract() {
-		$dir=OC::$SERVERROOT.'/tests/data';
+		$dir=\OC::$SERVERROOT.'/tests/data';
 		$this->instance=$this->getExisting();
-		$tmpDir=OCP\Files::tmpFolder();
+		$tmpDir=\OCP\Files::tmpFolder();
 		$this->instance->extract($tmpDir);
 		$this->assertEquals(true, file_exists($tmpDir.'lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir.'dir/lorem.txt'));
 		$this->assertEquals(true, file_exists($tmpDir.'logo-wide.png'));
 		$this->assertEquals(file_get_contents($dir.'/lorem.txt'), file_get_contents($tmpDir.'lorem.txt'));
-		OCP\Files::rmdirr($tmpDir);
+		\OCP\Files::rmdirr($tmpDir);
 	}
 	public function testMoveRemove() {
-		$dir=OC::$SERVERROOT.'/tests/data';
+		$dir=\OC::$SERVERROOT.'/tests/data';
 		$textFile=$dir.'/lorem.txt';
 		$this->instance=$this->getNew();
 		$this->instance->addFile('lorem.txt', $textFile);
@@ -131,7 +134,7 @@ abstract class Test_Archive extends \Test\TestCase {
 		$this->assertFalse($this->instance->fileExists('target.txt'));
 	}
 	public function testRecursive() {
-		$dir=OC::$SERVERROOT.'/tests/data';
+		$dir=\OC::$SERVERROOT.'/tests/data';
 		$this->instance=$this->getNew();
 		$this->instance->addRecursive('/dir', $dir);
 		$this->assertTrue($this->instance->fileExists('/dir/lorem.txt'));
