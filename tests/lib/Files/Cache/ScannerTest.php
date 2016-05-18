@@ -7,6 +7,7 @@
  */
 
 namespace Test\Files\Cache;
+
 use OC\Files\Cache\CacheEntry;
 
 /**
@@ -146,6 +147,32 @@ class ScannerTest extends \Test\TestCase {
 
 		$cachedData = $this->cache->get('');
 		$this->assertnotEquals(-1, $cachedData['size']);
+
+		$this->assertFalse($this->cache->getIncomplete());
+	}
+
+	function testBackgroundScanOnlyRecurseIncomplete() {
+		$this->fillTestFolders();
+		$this->storage->mkdir('folder2');
+		$this->storage->file_put_contents('folder2/bar.txt', 'foobar');
+
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_SHALLOW);
+		$this->assertFalse($this->cache->inCache('folder/bar.txt'));
+		$this->assertFalse($this->cache->inCache('folder/2bar.txt'));
+		$this->assertFalse($this->cache->inCache('folder2/bar.txt'));
+		$this->cache->put('folder2', ['size' => 1]); // mark as complete
+
+		$cachedData = $this->cache->get('');
+		$this->assertEquals(-1, $cachedData['size']);
+
+		$this->scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE_INCOMPLETE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+
+		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
+		$this->assertTrue($this->cache->inCache('folder/bar.txt'));
+		$this->assertFalse($this->cache->inCache('folder2/bar.txt'));
+
+		$cachedData = $this->cache->get('');
+		$this->assertNotEquals(-1, $cachedData['size']);
 
 		$this->assertFalse($this->cache->getIncomplete());
 	}
