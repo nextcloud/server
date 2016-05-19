@@ -19,6 +19,8 @@
  *
  */
 
+namespace Test\Security;
+
 use \OC\Security\Certificate;
 
 class CertificateTest extends \Test\TestCase {

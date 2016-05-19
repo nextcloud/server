@@ -19,6 +19,8 @@
  *
  */
 
+namespace Test\Security\CSRF;
+
 class CsrfTokenTest extends \Test\TestCase {
 	public function testGetEncryptedValue() {
 		$csrfToken = new \OC\Security\CSRF\CsrfToken('MyCsrfToken');

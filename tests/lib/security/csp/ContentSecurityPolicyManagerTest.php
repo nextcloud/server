@@ -19,6 +19,9 @@
  *
  */
 
+namespace Test\Security\CSP;
+
+
 use OC\Security\CSP\ContentSecurityPolicyManager;
 
 class ContentSecurityPolicyManagerTest extends \Test\TestCase {

@@ -6,6 +6,8 @@
  * See the COPYING-README file.
  */
 
+namespace Test\Security;
+
 use OC\Security\Hasher;
 
 /**

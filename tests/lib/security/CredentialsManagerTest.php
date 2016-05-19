@@ -19,6 +19,8 @@
  *
  */
 
+namespace Test\Security;
+
 use \OCP\Security\ICrypto;
 use \OCP\IDBConnection;
 use \OC\Security\CredentialsManager;
