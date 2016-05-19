@@ -1,4 +1,7 @@
 <?php
+
+namespace Test\Repair;
+
 use OCP\Migration\IOutput;
 
 /**
@@ -25,7 +28,7 @@ class TestCollationRepair extends \OC\Repair\Collation {
  *
  * @see \OC\Repair\RepairMimeTypes
  */
-class TestRepairCollation extends \Test\TestCase {
+class RepairCollationTest extends \Test\TestCase {
 
 	/**
 	 * @var TestCollationRepair
