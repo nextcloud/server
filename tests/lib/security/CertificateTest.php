@@ -76,18 +76,18 @@ class CertificateTest extends \Test\TestCase {
 	}
 
 	public function testGetIssueDate() {
-		$expected = new DateTime('2015-08-27 20:03:42 GMT');
+		$expected = new \DateTime('2015-08-27 20:03:42 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getIssueDate()->getTimestamp());
-		$expected = new DateTime('2015-08-27 20:19:13 GMT');
+		$expected = new \DateTime('2015-08-27 20:19:13 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getIssueDate()->getTimestamp());
 	}
 
 	public function testGetExpireDate() {
-		$expected = new DateTime('2025-08-24 20:03:42 GMT');
+		$expected = new \DateTime('2025-08-24 20:03:42 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getExpireDate()->getTimestamp());
-		$expected = new DateTime('2025-08-24 20:19:13 GMT');
+		$expected = new \DateTime('2025-08-24 20:19:13 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getExpireDate()->getTimestamp());
-		$expected = new DateTime('2014-08-28 09:12:43 GMT');
+		$expected = new \DateTime('2014-08-28 09:12:43 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->expiredCertificate->getExpireDate()->getTimestamp());
 	}
 
