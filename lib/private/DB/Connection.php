@@ -33,7 +33,7 @@ use Doctrine\Common\EventManager;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\PreconditionNotMetException;
+use OCP\PreConditionNotMetException;
 
 class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	/**
@@ -262,7 +262,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
 	 * @return int number of new rows
 	 * @throws \Doctrine\DBAL\DBALException
-	 * @throws PreconditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
 		try {
@@ -294,7 +294,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			$affected = $updateQb->execute();
 
 			if ($affected === 0 && !empty($updatePreconditionValues)) {
-				throw new PreconditionNotMetException();
+				throw new PreConditionNotMetException();
 			}
 
 			return 0;
