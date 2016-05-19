@@ -179,7 +179,7 @@ class FederatedShareProvider implements IShareProvider {
 				// fall back to old re-share behavior if the remote server
 				// doesn't support flat re-shares (was introduced with ownCloud 9.1)
 				$this->removeShareFromTable($share);
-				$this->createFederatedShare($share);
+				$shareId = $this->createFederatedShare($share);
 			}
 			if ($send) {
 				$this->updateSuccessfulReshare($shareId, $token);
@@ -191,7 +191,7 @@ class FederatedShareProvider implements IShareProvider {
 			}
 
 		} else {
-			$this->createFederatedShare($share);
+			$shareId = $this->createFederatedShare($share);
 		}
 
 		$data = $this->getRawShare($shareId);
@@ -202,7 +202,7 @@ class FederatedShareProvider implements IShareProvider {
 	 * create federated share and inform the recipient
 	 *
 	 * @param IShare $share
-	 * @return array
+	 * @return int
 	 * @throws ShareNotFound
 	 * @throws \Exception
 	 */
@@ -241,6 +241,7 @@ class FederatedShareProvider implements IShareProvider {
 			throw new \Exception($message_t);
 		}
 
+		return $shareId;
 	}
 
 	/**
