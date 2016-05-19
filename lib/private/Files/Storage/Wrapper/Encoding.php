@@ -334,12 +334,7 @@ class Encoding extends Wrapper {
 	 */
 	public function rename($path1, $path2) {
 		// second name always NFC
-		$result = $this->storage->rename($this->findPathToUse($path1), $this->findPathToUse($path2));
-		if ($result) {
-			unset($this->namesCache[$path1]);
-			unset($this->namesCache[$path2]);
-		}
-		return $result;
+		return $this->storage->rename($this->findPathToUse($path1), $this->findPathToUse($path2));
 	}
 
 	/**
@@ -350,11 +345,7 @@ class Encoding extends Wrapper {
 	 * @return bool
 	 */
 	public function copy($path1, $path2) {
-		$result = $this->storage->copy($this->findPathToUse($path1), $this->findPathToUse($path2));
-		if ($result) {
-			unset($this->namesCache[$path2]);
-		}
-		return $result;
+		return $this->storage->copy($this->findPathToUse($path1), $this->findPathToUse($path2));
 	}
 
 	/**
@@ -424,11 +415,7 @@ class Encoding extends Wrapper {
 	 * @return bool
 	 */
 	public function touch($path, $mtime = null) {
-		$result = $this->storage->touch($this->findPathToUse($path), $mtime);
-		if ($result) {
-			unset($this->namesCache[$path]);
-		}
-		return $result;
+		return $this->storage->touch($this->findPathToUse($path), $mtime);
 	}
 
 	/**
