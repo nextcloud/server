@@ -20,8 +20,9 @@
  *
  */
 
-namespace OC;
+namespace Test;
 
+use OC\Updater;
 use OCP\IConfig;
 use OCP\ILogger;
 use OC\IntegrityCheck\Checker;

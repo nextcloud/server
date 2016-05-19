@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ownCloud
  *
@@ -20,12 +19,15 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class Test_TemplateFunctions extends \Test\TestCase {
+
+namespace Test;
+
+class TemplateFunctionsTest extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
 
-		$loader = new \OC\Autoloader([OC::$SERVERROOT . '/lib']);
+		$loader = new \OC\Autoloader([\OC::$SERVERROOT . '/lib']);
 		$loader->load('OC_Template');
 	}
 

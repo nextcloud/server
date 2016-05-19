@@ -6,12 +6,14 @@
  * See the COPYING-README file.
  */
 
+namespace Test;
+
 /**
- * Class Test_UrlGenerator
+ * Class UrlGeneratorTest
  *
  * @group DB
  */
-class Test_UrlGenerator extends \Test\TestCase {
+class UrlGeneratorTest extends \Test\TestCase {
 
 	/**
 	 * @small

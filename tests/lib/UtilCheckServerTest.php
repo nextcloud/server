@@ -6,18 +6,20 @@
  * See the COPYING-README file.
  */
 
+namespace Test;
+
 /**
  * Tests for server check functions
  *
  * @group DB
  */
-class Test_Util_CheckServer extends \Test\TestCase {
+class UtilCheckServerTest extends \Test\TestCase {
 
 	private $datadir;
 
 	/**
 	 * @param array $systemOptions
-	 * @return \OCP\IConfig | PHPUnit_Framework_MockObject_MockObject
+	 * @return \OCP\IConfig | \PHPUnit_Framework_MockObject_MockObject
 	 */
 	protected function getConfig($systemOptions) {
 		$systemOptions['datadirectory'] = $this->datadir;

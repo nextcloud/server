@@ -19,6 +19,8 @@
  *
  */
 
+namespace Test;
+
 use OC\OCSClient;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;

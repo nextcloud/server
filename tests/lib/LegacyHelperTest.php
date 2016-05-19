@@ -6,7 +6,11 @@
  * See the COPYING-README file.
  */
 
-class Test_Helper extends \Test\TestCase {
+namespace Test;
+
+use OC_Helper;
+
+class LegacyHelperTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider humanFileSizeProvider

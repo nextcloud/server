@@ -20,12 +20,14 @@
 *
 */
 
+namespace Test;
+
 /**
- * Class Test_Tags
+ * Class TagsTest
  *
  * @group DB
  */
-class Test_Tags extends \Test\TestCase {
+class TagsTest extends \Test\TestCase {
 
 	protected $objectType;
 	/** @var \OCP\IUser */
@@ -41,12 +43,12 @@ class Test_Tags extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		OC_User::clearBackends();
-		OC_User::useBackend('dummy');
+		\OC_User::clearBackends();
+		\OC_User::useBackend('dummy');
 		$userId = $this->getUniqueID('user_');
 		\OC::$server->getUserManager()->createUser($userId, 'pass');
-		OC_User::setUserId($userId);
-		$this->user = new OC\User\User($userId, null);
+		\OC_User::setUserId($userId);
+		$this->user = new \OC\User\User($userId, null);
 		$this->userSession = $this->getMock('\OCP\IUserSession');
 		$this->userSession
 			->expects($this->any())
@@ -54,8 +56,8 @@ class Test_Tags extends \Test\TestCase {
 			->will($this->returnValue($this->user));
 
 		$this->objectType = $this->getUniqueID('type_');
-		$this->tagMapper = new OC\Tagging\TagMapper(\OC::$server->getDatabaseConnection());
-		$this->tagMgr = new OC\TagManager($this->tagMapper, $this->userSession);
+		$this->tagMapper = new \OC\Tagging\TagMapper(\OC::$server->getDatabaseConnection());
+		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession);
 
 	}
 
@@ -73,7 +75,7 @@ class Test_Tags extends \Test\TestCase {
 			->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue(null));
-		$this->tagMgr = new OC\TagManager($this->tagMapper, $this->userSession);
+		$this->tagMgr = new \OC\TagManager($this->tagMapper, $this->userSession);
 		$this->assertNull($this->tagMgr->load($this->objectType));
 	}
 
@@ -236,7 +238,7 @@ class Test_Tags extends \Test\TestCase {
 
 		$this->assertTrue($tagger->rename('Wrok', 'Work'));
 		$this->assertTrue($tagger->hasTag('Work'));
-		$this->assertFalse($tagger->hastag('Wrok'));
+		$this->assertFalse($tagger->hasTag('Wrok'));
 		$this->assertFalse($tagger->rename('Wrok', 'Work')); // Rename non-existant tag.
 		$this->assertFalse($tagger->rename('Work', 'Family')); // Collide with existing tag.
 	}
@@ -284,28 +286,28 @@ class Test_Tags extends \Test\TestCase {
 
 	public function testShareTags() {
 		$testTag = 'TestTag';
-		OCP\Share::registerBackend('test', 'Test_Share_Backend');
+		\OCP\Share::registerBackend('test', 'Test_Share_Backend');
 
 		$tagger = $this->tagMgr->load('test');
 		$tagger->tagAs(1, $testTag);
 
 		$otherUserId = $this->getUniqueID('user2_');
 		\OC::$server->getUserManager()->createUser($otherUserId, 'pass');
-		OC_User::setUserId($otherUserId);
+		\OC_User::setUserId($otherUserId);
 		$otherUserSession = $this->getMock('\OCP\IUserSession');
 		$otherUserSession
 			->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue(new OC\User\User($otherUserId, null)));
+			->will($this->returnValue(new \OC\User\User($otherUserId, null)));
 
-		$otherTagMgr = new OC\TagManager($this->tagMapper, $otherUserSession);
+		$otherTagMgr = new \OC\TagManager($this->tagMapper, $otherUserSession);
 		$otherTagger = $otherTagMgr->load('test');
 		$this->assertFalse($otherTagger->hasTag($testTag));
 
-		OC_User::setUserId($this->user->getUID());
-		OCP\Share::shareItem('test', 1, OCP\Share::SHARE_TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
+		\OC_User::setUserId($this->user->getUID());
+		\OCP\Share::shareItem('test', 1, \OCP\Share::SHARE_TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
 
-		OC_User::setUserId($otherUserId);
+		\OC_User::setUserId($otherUserId);
 		$otherTagger = $otherTagMgr->load('test', array(), true); // Update tags, load shared ones.
 		$this->assertTrue($otherTagger->hasTag($testTag));
 		$this->assertContains(1, $otherTagger->getIdsForTag($testTag));

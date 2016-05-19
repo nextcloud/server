@@ -6,12 +6,14 @@
  * See the COPYING-README file.
  */
 
+namespace Test;
+
 /**
  * Test the storage functions of OC_Helper
  *
  * @group DB
  */
-class Test_Helper_Storage extends \Test\TestCase {
+class HelperStorageTest extends \Test\TestCase {
 	/** @var string */
 	private $user;
 	/** @var \OC\Files\Storage\Storage */

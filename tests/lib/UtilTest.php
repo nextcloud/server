@@ -1,12 +1,16 @@
 <?php
-
 /**
  * Copyright (c) 2012 Lukas Reschke <lukas@statuscode.ch>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
-class Test_Util extends \Test\TestCase {
+
+namespace Test;
+
+use OC_Util;
+
+class UtilTest extends \Test\TestCase {
 	public function testGetVersion() {
 		$version = \OCP\Util::getVersion();
 		$this->assertTrue(is_array($version));
@@ -46,7 +50,7 @@ class Test_Util extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Exception
+	 * @expectedException \Exception
 	 */
 	function testFormatDateWithInvalidTZ() {
 		OC_Util::formatDate(1350129205, false, 'Mordor/Barad-dûr');
@@ -283,7 +287,7 @@ class Test_Util extends \Test\TestCase {
 	 * @dataProvider defaultAppsProvider
 	 */
 	function testDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
-		$oldDefaultApps = \OCP\Config::getSystemValue('core', 'defaultapp', '');
+		$oldDefaultApps = \OCP\Config::getSystemValue('defaultapp', '');
 		// CLI is doing messy stuff with the webroot, so need to work it around
 		$oldWebRoot = \OC::$WEBROOT;
 		\OC::$WEBROOT = '';

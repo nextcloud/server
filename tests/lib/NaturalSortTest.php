@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class Test_NaturalSort extends \Test\TestCase {
+namespace Test;
+
+class NaturalSortTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider naturalSortDataProvider

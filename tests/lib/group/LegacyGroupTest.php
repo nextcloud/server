@@ -22,7 +22,12 @@
  *
  */
 
-class Test_Group extends \Test\TestCase {
+namespace Test\Group;
+
+use OC_Group;
+use OC_User;
+
+class LegacyGroupTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		OC_Group::clearBackends();

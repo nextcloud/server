@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class TestHTTPHelper extends \Test\TestCase {
+namespace Test;
+
+class HTTPHelperTest extends \Test\TestCase {
 
 	/** @var \OCP\IConfig*/
 	private $config;

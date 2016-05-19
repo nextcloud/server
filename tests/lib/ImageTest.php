@@ -6,7 +6,11 @@
  * See the COPYING-README file.
  */
 
-class Test_Image extends \Test\TestCase {
+namespace Test;
+
+use OC;
+
+class ImageTest extends \Test\TestCase {
 	public static function tearDownAfterClass() {
 		@unlink(OC::$SERVERROOT.'/tests/data/testimage2.png');
 		@unlink(OC::$SERVERROOT.'/tests/data/testimage2.jpg');
