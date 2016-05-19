@@ -23,7 +23,6 @@ namespace Test\IntegrityCheck;
 
 use OC\IntegrityCheck\Checker;
 use OC\Memcache\NullCache;
-use OCP\ICache;
 use phpseclib\Crypt\RSA;
 use phpseclib\File\X509;
 use Test\TestCase;
