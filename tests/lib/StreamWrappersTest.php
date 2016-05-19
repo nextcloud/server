@@ -56,7 +56,7 @@ class StreamWrappersTest extends \Test\TestCase {
 
 	public function testCloseStream() {
 		//ensure all basic stream stuff works
-		$sourceFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$sourceFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$tmpFile = \OC::$server->getTempManager()->getTemporaryFile('.txt');
 		$file = 'close://' . $tmpFile;
 		$this->assertTrue(file_exists($file));
