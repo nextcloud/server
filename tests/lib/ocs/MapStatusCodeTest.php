@@ -1,6 +1,4 @@
 <?php
-use OCP\AppFramework\Http;
-
 /**
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -21,13 +19,17 @@ use OCP\AppFramework\Http;
  *
  */
 
-class OcsResponseTest extends \Test\TestCase {
+namespace Test\OCS;
+
+use OCP\AppFramework\Http;
+
+class MapStatusCodeTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider providesStatusCodes
 	 */
 	public function testStatusCodeMapper($expected, $sc) {
-		$result = OC_API::mapStatusCodes($sc);
+		$result = \OC_API::mapStatusCodes($sc);
 		$this->assertEquals($expected, $result);
 	}
 

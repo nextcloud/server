@@ -19,6 +19,8 @@
  *
  */
 
+namespace OC\OCS;
+
 class Provider extends \OCP\AppFramework\Controller {
 	/** @var \OCP\App\IAppManager */
 	private $appManager;

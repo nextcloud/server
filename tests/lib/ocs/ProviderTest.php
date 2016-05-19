@@ -19,7 +19,11 @@
  *
  */
 
-class OcsProviderTest extends \Test\TestCase {
+namespace Test\OCS;
+
+use OC\OCS\Provider;
+
+class ProviderTest extends \Test\TestCase {
 	/** @var \OCP\IRequest */
 	private $request;
 	/** @var \OCP\App\IAppManager */
@@ -29,8 +33,6 @@ class OcsProviderTest extends \Test\TestCase {
 
 	public function setUp() {
 		parent::setUp();
-
-		require_once '../ocs-provider/provider.php';
 
 		$this->request = $this->getMockBuilder('\\OCP\\IRequest')->getMock();
 		$this->appManager = $this->getMockBuilder('\\OCP\\App\\IAppManager')->getMock();
