@@ -29,6 +29,7 @@ namespace OC\AppFramework\Db;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDb;
 use OCP\IDBConnection;
+use OCP\PreConditionNotMetException;
 
 /**
  * @deprecated use IDBConnection directly, will be removed in ownCloud 10
@@ -157,10 +158,24 @@ class Db implements IDb {
 	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
 	 * @return int number of new rows
 	 * @throws \Doctrine\DBAL\DBALException
-	 * @throws PreconditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
 		return $this->connection->setValues($table, $keys, $values, $updatePreconditionValues);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function lockTable($tableName) {
+		$this->connection->lockTable($tableName);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function unlockTable() {
+		$this->connection->unlockTable();
 	}
 
 	/**

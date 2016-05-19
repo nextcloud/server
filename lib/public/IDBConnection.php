@@ -125,6 +125,25 @@ interface IDBConnection {
 	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []);
 
 	/**
+	 * Create an exclusive read+write lock on a table
+	 *
+	 * Important Note: Due to the nature how locks work on different DBs, it is
+	 * only possible to lock one table at a time. You should also NOT start a
+	 * transaction while holding a lock.
+	 *
+	 * @param string $tableName
+	 * @since 9.1.0
+	 */
+	public function lockTable($tableName);
+
+	/**
+	 * Release a previous acquired lock again
+	 *
+	 * @since 9.1.0
+	 */
+	public function unlockTable();
+
+	/**
 	 * Start a transaction
 	 * @since 6.0.0
 	 */

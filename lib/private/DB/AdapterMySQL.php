@@ -24,6 +24,18 @@
 namespace OC\DB;
 
 class AdapterMySQL extends Adapter {
+
+	/**
+	 * @param string $tableName
+	 */
+	public function lockTable($tableName) {
+		$this->conn->executeUpdate('LOCK TABLES `' .$tableName . '` WRITE');
+	}
+
+	public function unlockTable() {
+		$this->conn->executeUpdate('UNLOCK TABLES');
+	}
+
 	public function fixupStatement($statement) {
 		$statement = str_replace(' ILIKE ', ' COLLATE utf8_general_ci LIKE ', $statement);
 		return $statement;
