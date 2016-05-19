@@ -19,8 +19,9 @@
  *
  */
 
-namespace OC\Settings\Controller;
+namespace Tests\Settings\Controller;
 
+use OC\Settings\Controller\AppSettingsController;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
@@ -36,7 +37,7 @@ use OC\OCSClient;
 /**
  * Class AppSettingsControllerTest
  *
- * @package OC\Settings\Controller
+ * @package Tests\Settings\Controller
  */
 class AppSettingsControllerTest extends TestCase {
 	/** @var AppSettingsController */

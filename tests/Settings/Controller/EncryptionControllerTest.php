@@ -19,10 +19,11 @@
  *
  */
 
-namespace OC\Settings\Controller;
+namespace Tests\Settings\Controller;
 
 use OC\DB\Connection;
 use OC\Files\View;
+use OC\Settings\Controller\EncryptionController;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -33,7 +34,7 @@ use Test\TestCase;
 /**
  * Class EncryptionControllerTest
  *
- * @package OC\Settings\Controller
+ * @package Tests\Settings\Controller
  */
 class EncryptionControllerTest extends TestCase {
 	/** @var IRequest */

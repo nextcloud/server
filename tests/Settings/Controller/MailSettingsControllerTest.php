@@ -7,12 +7,13 @@
  * later.
  * See the COPYING-README file.
  */
-namespace OC\Settings\Controller;
 
-use \OC\Settings\Application;
+namespace Tests\Settings\Controller;
+
+use OC\Settings\Application;
 
 /**
- * @package OC\Settings\Controller
+ * @package Tests\Settings\Controller
  */
 class MailSettingsControllerTest extends \Test\TestCase {
 

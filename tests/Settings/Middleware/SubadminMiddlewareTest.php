@@ -8,10 +8,11 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Settings\Middleware;
+namespace Tests\Settings\Middleware;
 
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Settings\Middleware\SubadminMiddleware;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\TemplateResponse;
 
@@ -19,7 +20,7 @@ use OCP\AppFramework\Http\TemplateResponse;
  * Verifies whether an user has at least subadmin rights.
  * To bypass use the `@NoSubadminRequired` annotation
  *
- * @package OC\Settings\Middleware
+ * @package Tests\Settings\Middleware
  */
 class SubadminMiddlewareTest extends \Test\TestCase {
 	/** @var SubadminMiddleware */

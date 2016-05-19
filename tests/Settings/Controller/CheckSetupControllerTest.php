@@ -19,8 +19,9 @@
  *
  */
 
-namespace OC\Settings\Controller;
+namespace Tests\Settings\Controller;
 
+use OC\Settings\Controller\CheckSetupController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDisplayResponse;
 use OCP\AppFramework\Http\DataResponse;
@@ -47,7 +48,7 @@ function version_compare($version1, $version2) {
 /**
  * Class CheckSetupControllerTest
  *
- * @package OC\Settings\Controller
+ * @package Tests\Settings\Controller
  */
 class CheckSetupControllerTest extends TestCase {
 	/** @var int */
