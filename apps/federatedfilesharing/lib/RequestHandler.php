@@ -251,7 +251,7 @@ class RequestHandler {
 					$this->federatedShareProvider->storeRemoteId((int)$result->getId(), $remoteId);
 					return new \OC_OCS_Result(['token' => $result->getToken(), 'remoteId' => $result->getId()]);
 				} catch (\Exception $e) {
-					return new \OC_OCS_Result(null, Http::STATUS_INTERNAL_SERVER_ERROR);
+					return new \OC_OCS_Result(null, Http::STATUS_BAD_REQUEST);
 				}
 			} else {
 				return new \OC_OCS_Result(null, Http::STATUS_FORBIDDEN);

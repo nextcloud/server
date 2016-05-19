@@ -272,6 +272,7 @@ class Notifications {
 	 * @param string $urlSuffix
 	 * @param array $fields post parameters
 	 * @return array
+	 * @throws \Exception
 	 */
 	protected function tryHttpPostToShareEndpoint($remoteDomain, $urlSuffix, array $fields) {
 		$client = $this->httpClientService->newClient();

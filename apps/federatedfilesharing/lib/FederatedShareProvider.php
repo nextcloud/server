@@ -171,36 +171,31 @@ class FederatedShareProvider implements IShareProvider {
 			try {
 				$uidOwner = $remoteShare['owner'] . '@' . $remoteShare['remote'];
 				$shareId = $this->addShareToDB($itemSource, $itemType, $shareWith, $sharedBy, $uidOwner, $permissions, 'tmp_token_' . time());
+				$share->setId($shareId);
 				list($token, $remoteId) = $this->askOwnerToReShare($shareWith, $share, $shareId);
 				// remote share was create successfully if we get a valid token as return
 				$send = is_string($token) && $token !== '';
-				if ($send) {
-					$this->updateSuccessfulReshare($shareId, $token);
-					$this->storeRemoteId($shareId, $remoteId);
-				}
 			} catch (\Exception $e) {
 				// fall back to old re-share behavior if the remote server
 				// doesn't support flat re-shares (was introduced with ownCloud 9.1)
-				$data = $this->getRawShare($shareId);
-				$brokenShare = $this->createShareObject($data);
-				$this->removeShareFromTable($brokenShare);
-				list($shareId, $send) = $this->createFederatedShare($share);
+				$this->removeShareFromTable($share);
+				$this->createFederatedShare($share);
 			}
+			if ($send) {
+				$this->updateSuccessfulReshare($shareId, $token);
+				$this->storeRemoteId($shareId, $remoteId);
+			} else {
+				$this->removeShareFromTable($share);
+				$message_t = $this->l->t('File is already shared with %s', [$shareWith]);
+				throw new \Exception($message_t);
+			}
+
 		} else {
-			list($shareId, $send) = $this->createFederatedShare($share);
+			$this->createFederatedShare($share);
 		}
 
 		$data = $this->getRawShare($shareId);
-		$share = $this->createShareObject($data);
-
-		if ($send === false) {
-			$this->removeShareFromTable($share);
-			$message_t = $this->l->t('Sharing %s failed, could not find %s, maybe the server is currently unreachable.',
-				[$share->getNode()->getName(), $shareWith]);
-			throw new \Exception($message_t);
-		}
-
-		return $share;
+		return $this->createShareObject($data);
 	}
 
 	/**
@@ -208,6 +203,8 @@ class FederatedShareProvider implements IShareProvider {
 	 *
 	 * @param IShare $share
 	 * @return array
+	 * @throws ShareNotFound
+	 * @throws \Exception
 	 */
 	protected function createFederatedShare(IShare $share) {
 		$token = $this->tokenHandler->generateToken();
@@ -235,7 +232,15 @@ class FederatedShareProvider implements IShareProvider {
 			$sharedByFederatedId
 		);
 
-		return [$shareId, $send];
+		if ($send === false) {
+			$data = $this->getRawShare($shareId);
+			$share = $this->createShareObject($data);
+			$this->removeShareFromTable($share);
+			$message_t = $this->l->t('Sharing %s failed, could not find %s, maybe the server is currently unreachable.',
+				[$share->getNode()->getName(), $share->getSharedWith()]);
+			throw new \Exception($message_t);
+		}
+
 	}
 
 	/**
