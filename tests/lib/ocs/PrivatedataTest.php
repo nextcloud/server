@@ -20,12 +20,16 @@
  *
  */
 
+namespace Test\OCS;
+
+use OC_OCS_Privatedata;
+
 /**
- * Class Test_OC_OCS_Privatedata
+ * Class PrivatedataTest
  *
  * @group DB
  */
-class Test_OC_OCS_Privatedata extends \Test\TestCase {
+class PrivatedataTest extends \Test\TestCase {
 	private $appKey;
 
 	protected function setUp() {

@@ -56,7 +56,7 @@ class Test_Factory_Unavailable_Cache2 {
 	}
 }
 
-class Test_Factory extends \Test\TestCase {
+class FactoryTest extends \Test\TestCase {
 	const AVAILABLE1 = '\\Test\\Memcache\\Test_Factory_Available_Cache1';
 	const AVAILABLE2 = '\\Test\\Memcache\\Test_Factory_Available_Cache2';
 	const UNAVAILABLE1 = '\\Test\\Memcache\\Test_Factory_Unavailable_Cache1';
