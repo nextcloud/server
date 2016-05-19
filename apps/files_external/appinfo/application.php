@@ -30,20 +30,26 @@ use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use \OCP\IContainer;
 use \OCA\Files_External\Service\BackendService;
+use \OCA\Files_External\Lib\Config\IBackendProvider;
+use \OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 
 /**
  * @package OCA\Files_External\Appinfo
  */
-class Application extends App {
+class Application extends App implements IBackendProvider, IAuthMechanismProvider {
+
 	public function __construct(array $urlParams = array()) {
 		parent::__construct('files_external', $urlParams);
 
-		$this->getContainer()->registerService('OCP\Files\Config\IUserMountCache', function (IAppContainer $c) {
+		$container = $this->getContainer();
+
+		$container->registerService('OCP\Files\Config\IUserMountCache', function (IAppContainer $c) {
 			return $c->getServer()->query('UserMountCache');
 		});
 
-		$this->loadBackends();
-		$this->loadAuthMechanisms();
+		$backendService = $container->query('OCA\\Files_External\\Service\\BackendService');
+		$backendService->registerBackendProvider($this);
+		$backendService->registerAuthMechanismProvider($this);
 
 		// app developers: do NOT depend on this! it will disappear with oC 9.0!
 		\OC::$server->getEventDispatcher()->dispatch(
@@ -63,13 +69,12 @@ class Application extends App {
 	}
 
 	/**
-	 * Load storage backends provided by this app
+	 * @{inheritdoc}
 	 */
-	protected function loadBackends() {
+	public function getBackends() {
 		$container = $this->getContainer();
-		$service = $container->query('OCA\\Files_External\\Service\\BackendService');
 
-		$service->registerBackends([
+		$backends = [
 			$container->query('OCA\Files_External\Lib\Backend\Local'),
 			$container->query('OCA\Files_External\Lib\Backend\FTP'),
 			$container->query('OCA\Files_External\Lib\Backend\DAV'),
@@ -80,24 +85,25 @@ class Application extends App {
 			$container->query('OCA\Files_External\Lib\Backend\Google'),
 			$container->query('OCA\Files_External\Lib\Backend\Swift'),
 			$container->query('OCA\Files_External\Lib\Backend\SFTP_Key'),
-		]);
+		];
 
 		if (!\OC_Util::runningOnWindows()) {
-			$service->registerBackends([
+			$backends += [
 				$container->query('OCA\Files_External\Lib\Backend\SMB'),
 				$container->query('OCA\Files_External\Lib\Backend\SMB_OC'),
-			]);
+			];
 		}
+
+		return $backends;
 	}
 
 	/**
-	 * Load authentication mechanisms provided by this app
+	 * @{inheritdoc}
 	 */
-	protected function loadAuthMechanisms() {
+	public function getAuthMechanisms() {
 		$container = $this->getContainer();
-		$service = $container->query('OCA\\Files_External\\Service\\BackendService');
 
-		$service->registerAuthMechanisms([
+		return [
 			// AuthMechanism::SCHEME_NULL mechanism
 			$container->query('OCA\Files_External\Lib\Auth\NullMechanism'),
 
@@ -123,7 +129,7 @@ class Application extends App {
 
 			// Specialized mechanisms
 			$container->query('OCA\Files_External\Lib\Auth\AmazonS3\AccessKey'),
-		]);
+		];
 	}
 
 }

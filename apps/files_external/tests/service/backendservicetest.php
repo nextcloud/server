@@ -49,6 +49,20 @@ class BackendServiceTest extends \Test\TestCase {
 		return $backend;
 	}
 
+	/**
+	 * @param string $class
+	 *
+	 * @return \OCA\Files_External\Lib\Auth\AuthMechanism
+	 */
+	protected function getAuthMechanismMock($class) {
+		$backend = $this->getMockBuilder('\OCA\Files_External\Lib\Auth\AuthMechanism')
+			->disableOriginalConstructor()
+			->getMock();
+		$backend->method('getIdentifier')->will($this->returnValue('identifier:'.$class));
+		$backend->method('getIdentifierAliases')->will($this->returnValue(['identifier:'.$class]));
+		return $backend;
+	}
+
 	public function testRegisterBackend() {
 		$service = new BackendService($this->config, $this->l10n);
 
@@ -74,6 +88,68 @@ class BackendServiceTest extends \Test\TestCase {
 		$this->assertArrayHasKey('identifier:\Foo\Bar', $backends);
 		$this->assertArrayHasKey('identifier_real', $backends);
 		$this->assertArrayNotHasKey('identifier_alias', $backends);
+	}
+
+	public function testBackendProvider() {
+		$service = new BackendService($this->config, $this->l10n);
+
+		$backend1 = $this->getBackendMock('\Foo\Bar');
+		$backend2 = $this->getBackendMock('\Bar\Foo');
+
+		$providerMock = $this->getMock('\OCA\Files_External\Lib\Config\IBackendProvider');
+		$providerMock->expects($this->once())
+			->method('getBackends')
+			->willReturn([$backend1, $backend2]);
+		$service->registerBackendProvider($providerMock);
+
+		$this->assertEquals($backend1, $service->getBackend('identifier:\Foo\Bar'));
+		$this->assertEquals($backend2, $service->getBackend('identifier:\Bar\Foo'));
+
+		$this->assertCount(2, $service->getBackends());
+	}
+
+	public function testAuthMechanismProvider() {
+		$service = new BackendService($this->config, $this->l10n);
+
+		$backend1 = $this->getAuthMechanismMock('\Foo\Bar');
+		$backend2 = $this->getAuthMechanismMock('\Bar\Foo');
+
+		$providerMock = $this->getMock('\OCA\Files_External\Lib\Config\IAuthMechanismProvider');
+		$providerMock->expects($this->once())
+			->method('getAuthMechanisms')
+			->willReturn([$backend1, $backend2]);
+		$service->registerAuthMechanismProvider($providerMock);
+
+		$this->assertEquals($backend1, $service->getAuthMechanism('identifier:\Foo\Bar'));
+		$this->assertEquals($backend2, $service->getAuthMechanism('identifier:\Bar\Foo'));
+
+		$this->assertCount(2, $service->getAuthMechanisms());
+	}
+
+	public function testMultipleBackendProviders() {
+		$service = new BackendService($this->config, $this->l10n);
+
+		$backend1a = $this->getBackendMock('\Foo\Bar');
+		$backend1b = $this->getBackendMock('\Bar\Foo');
+
+		$backend2 = $this->getBackendMock('\Dead\Beef');
+
+		$provider1Mock = $this->getMock('\OCA\Files_External\Lib\Config\IBackendProvider');
+		$provider1Mock->expects($this->once())
+			->method('getBackends')
+			->willReturn([$backend1a, $backend1b]);
+		$service->registerBackendProvider($provider1Mock);
+		$provider2Mock = $this->getMock('\OCA\Files_External\Lib\Config\IBackendProvider');
+		$provider2Mock->expects($this->once())
+			->method('getBackends')
+			->willReturn([$backend2]);
+		$service->registerBackendProvider($provider2Mock);
+
+		$this->assertEquals($backend1a, $service->getBackend('identifier:\Foo\Bar'));
+		$this->assertEquals($backend1b, $service->getBackend('identifier:\Bar\Foo'));
+		$this->assertEquals($backend2, $service->getBackend('identifier:\Dead\Beef'));
+
+		$this->assertCount(3, $service->getBackends());
 	}
 
 	public function testUserMountingBackends() {

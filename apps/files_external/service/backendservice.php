@@ -26,6 +26,8 @@ use \OCP\IConfig;
 
 use \OCA\Files_External\Lib\Backend\Backend;
 use \OCA\Files_External\Lib\Auth\AuthMechanism;
+use \OCA\Files_External\Lib\Config\IBackendProvider;
+use \OCA\Files_External\Lib\Config\IAuthMechanismProvider;
 
 /**
  * Service class to manage backend definitions
@@ -55,8 +57,14 @@ class BackendService {
 	/** @var Backend[] */
 	private $backends = [];
 
+	/** @var IBackendProvider[] */
+	private $backendProviders = [];
+
 	/** @var AuthMechanism[] */
 	private $authMechanisms = [];
+
+	/** @var IAuthMechanismProvider[] */
+	private $authMechanismProviders = [];
 
 	/**
 	 * @param IConfig $config
@@ -81,8 +89,43 @@ class BackendService {
 	}
 
 	/**
+	 * Register a backend provider
+	 *
+	 * @since 9.1.0
+	 * @param IBackendProvider $provider
+	 */
+	public function registerBackendProvider(IBackendProvider $provider) {
+		$this->backendProviders[] = $provider;
+	}
+
+	private function loadBackendProviders() {
+		foreach ($this->backendProviders as $provider) {
+			$this->registerBackends($provider->getBackends());
+		}
+		$this->backendProviders = [];
+	}
+
+	/**
+	 * Register an auth mechanism provider
+	 *
+	 * @since 9.1.0
+	 * @param IAuthMechanismProvider $provider
+	 */
+	public function registerAuthMechanismProvider(IAuthMechanismProvider $provider) {
+		$this->authMechanismProviders[] = $provider;
+	}
+
+	private function loadAuthMechanismProviders() {
+		foreach ($this->authMechanismProviders as $provider) {
+			$this->registerAuthMechanisms($provider->getAuthMechanisms());
+		}
+		$this->authMechanismProviders = [];
+	}
+
+	/**
 	 * Register a backend
 	 *
+	 * @deprecated 9.1.0 use registerBackendProvider()
 	 * @param Backend $backend
 	 */
 	public function registerBackend(Backend $backend) {
@@ -95,6 +138,7 @@ class BackendService {
 	}
 
 	/**
+	 * @deprecated 9.1.0 use registerBackendProvider()
 	 * @param Backend[] $backends
 	 */
 	public function registerBackends(array $backends) {
@@ -105,6 +149,7 @@ class BackendService {
 	/**
 	 * Register an authentication mechanism
 	 *
+	 * @deprecated 9.1.0 use registerAuthMechanismProvider()
 	 * @param AuthMechanism $authMech
 	 */
 	public function registerAuthMechanism(AuthMechanism $authMech) {
@@ -117,6 +162,7 @@ class BackendService {
 	}
 
 	/**
+	 * @deprecated 9.1.0 use registerAuthMechanismProvider()
 	 * @param AuthMechanism[] $mechanisms
 	 */
 	public function registerAuthMechanisms(array $mechanisms) {
@@ -131,6 +177,7 @@ class BackendService {
 	 * @return Backend[]
 	 */
 	public function getBackends() {
+		$this->loadBackendProviders();
 		// only return real identifiers, no aliases
 		$backends = [];
 		foreach ($this->backends as $backend) {
@@ -155,6 +202,7 @@ class BackendService {
 	 * @return Backend|null
 	 */
 	public function getBackend($identifier) {
+		$this->loadBackendProviders();
 		if (isset($this->backends[$identifier])) {
 			return $this->backends[$identifier];
 		}
@@ -167,6 +215,7 @@ class BackendService {
 	 * @return AuthMechanism[]
 	 */
 	public function getAuthMechanisms() {
+		$this->loadAuthMechanismProviders();
 		// only return real identifiers, no aliases
 		$mechanisms = [];
 		foreach ($this->authMechanisms as $mechanism) {
@@ -192,6 +241,7 @@ class BackendService {
 	 * @return AuthMechanism|null
 	 */
 	public function getAuthMechanism($identifier) {
+		$this->loadAuthMechanismProviders();
 		if (isset($this->authMechanisms[$identifier])) {
 			return $this->authMechanisms[$identifier];
 		}
