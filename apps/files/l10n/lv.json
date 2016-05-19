@@ -39,6 +39,8 @@
     "Select" : "Norādīt",
     "Pending" : "Gaida savu kārtu",
     "Unable to determine date" : "Neizdevās noteikt datumu",
+    "This operation is forbidden" : "Šī darbība ir aizliegta",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Šis direktorijs nav pieejams, lūdzu pārbaudiet žurnālus vai sazinieties ar administratoru",
     "No entries in this folder match '{filter}'" : "Šajā mapē nekas nav atrasts, meklējot pēc '{filter}'",
     "Name" : "Nosaukums",
     "Size" : "Izmērs",

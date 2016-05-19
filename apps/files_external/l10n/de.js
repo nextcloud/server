@@ -55,7 +55,7 @@ OC.L10N.register(
     "OAuth1" : "OAuth1",
     "App key" : "App-Schlüssel",
     "App secret" : "Geheime Zeichenkette der App",
-    "OAuth2" : "OAutch2",
+    "OAuth2" : "OAuth2",
     "Client ID" : "Client-ID",
     "Client secret" : "Geheime Zeichenkette des Client",
     "OpenStack" : "OpenStack",
