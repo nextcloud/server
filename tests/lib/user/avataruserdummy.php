@@ -20,7 +20,9 @@
 *
 */
 
-class Avatar_User_Dummy extends \Test\Util\User\Dummy {
+namespace Test\User;
+
+class AvatarUserDummy extends \Test\Util\User\Dummy {
 	public function canChangeAvatar($uid) {
 		return true;
 	}

@@ -20,6 +20,8 @@
 *
 */
 
+namespace Test\User;
+
 /**
  * Abstract class to provide the basis of backend-specific unit test classes.
  *
@@ -30,7 +32,7 @@
  * For an example see /tests/lib/user/dummy.php
  */
 
-abstract class Test_User_Backend extends \Test\TestCase {
+abstract class Backend extends \Test\TestCase {
 	/**
 	 * @var \OC\User\Backend $backend
 	 */
