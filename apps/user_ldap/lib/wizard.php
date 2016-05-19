@@ -866,7 +866,7 @@ class Wizard extends LDAPUtility {
 	 * @return string|false string with the filter on success, false otherwise
 	 * @throws \Exception
 	 */
-	private function composeLdapFilter($filterType) {
+	public function composeLdapFilter($filterType) {
 		$filter = '';
 		$parts = 0;
 		switch ($filterType) {
