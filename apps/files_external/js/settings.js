@@ -35,7 +35,7 @@ var MOUNT_OPTIONS_DROPDOWN_TEMPLATE =
 	'	</div>' +
 	'	<div class="optionRow">' +
 	'		<input id="mountOptionsEncoding" name="encoding_compatibility" type="checkbox" value="true"/>' +
-	'		<label for="mountOptionsEncoding">{{t "files_external" "Enable encoding compatibility (decreases performance)"}}</label>' +
+	'		<label for="mountOptionsEncoding">{{mountOptionsEncodingLabel}}</label>' +
 	'	</div>' +
 	'</div>';
 
@@ -493,7 +493,9 @@ MountOptionsDropdown.prototype = {
 			MountOptionsDropdown._template = template;
 		}
 
-		var $el = $(template());
+		var $el = $(template({
+			mountOptionsEncodingLabel: t('files_external', 'Compatibility with Mac NFD encoding (slow)')
+		}));
 		this.$el = $el;
 
 		this.setOptions(mountOptions, visibleOptions);

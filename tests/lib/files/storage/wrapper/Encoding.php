@@ -151,4 +151,53 @@ class Encoding extends \Test\Files\Storage\Storage {
 		$this->assertEquals(8, $this->instance->file_put_contents('/' . self::NFC_NAME, 'barbaric'));
 		$this->assertEquals('barbaric', $this->instance->file_get_contents('//' . self::NFC_NAME));
 	}
+
+	public function sourceAndTargetDirectoryProvider() {
+		return [
+			[self::NFC_NAME . '1', self::NFC_NAME . '2'],
+			[self::NFD_NAME . '1', self::NFC_NAME . '2'],
+			[self::NFC_NAME . '1', self::NFD_NAME . '2'],
+			[self::NFD_NAME . '1', self::NFD_NAME . '2'],
+		];
+	}
+
+	/**
+	 * @dataProvider sourceAndTargetDirectoryProvider
+	 */
+	public function testCopyAndMoveEncodedFolder($sourceDir, $targetDir) {
+		$this->sourceStorage->mkdir($sourceDir);
+		$this->sourceStorage->mkdir($targetDir);
+		$this->sourceStorage->file_put_contents($sourceDir . '/test.txt', 'bar');
+		$this->assertTrue($this->instance->copy(self::NFC_NAME . '1/test.txt', self::NFC_NAME . '2/test.txt'));
+
+		$this->assertTrue($this->instance->file_exists(self::NFC_NAME . '1/test.txt'));
+		$this->assertTrue($this->instance->file_exists(self::NFC_NAME . '2/test.txt'));
+		$this->assertEquals('bar', $this->instance->file_get_contents(self::NFC_NAME . '2/test.txt'));
+
+		$this->assertTrue($this->instance->rename(self::NFC_NAME . '1/test.txt', self::NFC_NAME . '2/test2.txt'));
+		$this->assertFalse($this->instance->file_exists(self::NFC_NAME . '1/test.txt'));
+		$this->assertTrue($this->instance->file_exists(self::NFC_NAME . '2/test2.txt'));
+
+		$this->assertEquals('bar', $this->instance->file_get_contents(self::NFC_NAME . '2/test2.txt'));
+	}
+
+	/**
+	 * @dataProvider sourceAndTargetDirectoryProvider
+	 */
+	public function testCopyAndMoveFromStorageEncodedFolder($sourceDir, $targetDir) {
+		$this->sourceStorage->mkdir($sourceDir);
+		$this->sourceStorage->mkdir($targetDir);
+		$this->sourceStorage->file_put_contents($sourceDir . '/test.txt', 'bar');
+		$this->assertTrue($this->instance->copyFromStorage($this->instance, self::NFC_NAME . '1/test.txt', self::NFC_NAME . '2/test.txt'));
+
+		$this->assertTrue($this->instance->file_exists(self::NFC_NAME . '1/test.txt'));
+		$this->assertTrue($this->instance->file_exists(self::NFC_NAME . '2/test.txt'));
+		$this->assertEquals('bar', $this->instance->file_get_contents(self::NFC_NAME . '2/test.txt'));
+
+		$this->assertTrue($this->instance->moveFromStorage($this->instance, self::NFC_NAME . '1/test.txt', self::NFC_NAME . '2/test2.txt'));
+		$this->assertFalse($this->instance->file_exists(self::NFC_NAME . '1/test.txt'));
+		$this->assertTrue($this->instance->file_exists(self::NFC_NAME . '2/test2.txt'));
+
+		$this->assertEquals('bar', $this->instance->file_get_contents(self::NFC_NAME . '2/test2.txt'));
+	}
 }

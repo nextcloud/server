@@ -53,12 +53,7 @@ class Encoding extends Wrapper {
 	 * @return bool true if the string is all ASCII, false otherwise
 	 */
 	private function isAscii($str) {
-		foreach (str_split($str) as $s) {
-			if (ord($s) > 127) {
-				return false;
-			}
-		}
-		return true;
+		return (bool) !preg_match('/[\\x80-\\xff]+/', $str);
 	}
 
 	/**
@@ -79,8 +74,7 @@ class Encoding extends Wrapper {
 		$sections = explode('/', $fullPath);
 		$path = '';
 		foreach ($sections as $section) {
-			$path .= $section;
-			$convertedPath = $this->findPathToUseLastSection($path);
+			$convertedPath = $this->findPathToUseLastSection($path, $section);
 			if ($convertedPath === null) {
 				// no point in continuing if the section was not found, use original path
 				return $fullPath;
@@ -88,7 +82,6 @@ class Encoding extends Wrapper {
 			$path = $convertedPath . '/';
 		}
 		$path = rtrim($path, '/');
-		$this->namesCache[$fullPath] = $path;
 		return $path;
 	}
 
@@ -96,39 +89,28 @@ class Encoding extends Wrapper {
 	 * Checks whether the last path section of the given path exists in NFC or NFD form
 	 * and returns the correct form. If no existing path found, returns null.
 	 *
-	 * @param string $fullPath path to check
+	 * @param string $basePath base path to check
+	 * @param string $lastSection last section of the path to check for NFD/NFC variations
 	 *
 	 * @return string|null original or converted path, or null if none of the forms was found
 	 */
-	private function findPathToUseLastSection($fullPath) {
-		$cachedPath = $this->namesCache[$fullPath];
-		if ($cachedPath !== null) {
-			return $cachedPath;
-		}
-
-		$sections = explode('/', $fullPath);
-		$lastSection = array_pop($sections);
-		$basePath = ltrim(implode('/', $sections) . '/', '/');
-
-		if ($lastSection === '' || $this->isAscii($lastSection)) {
+	private function findPathToUseLastSection($basePath, $lastSection) {
+		$fullPath = $basePath . $lastSection;
+		if ($lastSection === '' || $this->isAscii($lastSection) || $this->storage->file_exists($fullPath)) {
 			$this->namesCache[$fullPath] = $fullPath;
 			return $fullPath;
 		}
 
-		$result = $this->storage->file_exists($fullPath);
-		if ($result) {
-			$this->namesCache[$fullPath] = $fullPath;
-			return $fullPath;
-		}
 		// swap encoding
 		if (\Normalizer::isNormalized($lastSection, \Normalizer::FORM_C)) {
 			$otherFormPath = \Normalizer::normalize($lastSection, \Normalizer::FORM_D);
 		} else {
 			$otherFormPath = \Normalizer::normalize($lastSection, \Normalizer::FORM_C);
 		}
-		if ($this->storage->file_exists($basePath . $otherFormPath)) {
-			$this->namesCache[$fullPath] = $basePath . $otherFormPath;
-			return $basePath . $otherFormPath;
+		$otherFullPath = $basePath . $otherFormPath;
+		if ($this->storage->file_exists($otherFullPath)) {
+			$this->namesCache[$fullPath] = $otherFullPath;
+			return $otherFullPath;
 		}
 
 		// return original path, file did not exist at all
@@ -146,7 +128,7 @@ class Encoding extends Wrapper {
 		// note: no conversion here, method should not be called with non-NFC names!
 		$result = $this->storage->mkdir($path);
 		if ($result) {
-			unset($this->namesCache[$path]);
+			$this->namesCache[$path] = $path;
 		}
 		return $result;
 	}
@@ -326,11 +308,7 @@ class Encoding extends Wrapper {
 	 * @return bool
 	 */
 	public function file_put_contents($path, $data) {
-		$result = $this->storage->file_put_contents($this->findPathToUse($path), $data);
-		if ($result) {
-			unset($this->namesCache[$path]);
-		}
-		return $result;
+		return $this->storage->file_put_contents($this->findPathToUse($path), $data);
 	}
 
 	/**
@@ -356,7 +334,7 @@ class Encoding extends Wrapper {
 	 */
 	public function rename($path1, $path2) {
 		// second name always NFC
-		$result = $this->storage->rename($this->findPathToUse($path1), $path2);
+		$result = $this->storage->rename($this->findPathToUse($path1), $this->findPathToUse($path2));
 		if ($result) {
 			unset($this->namesCache[$path1]);
 			unset($this->namesCache[$path2]);
@@ -372,7 +350,7 @@ class Encoding extends Wrapper {
 	 * @return bool
 	 */
 	public function copy($path1, $path2) {
-		$result = $this->storage->copy($this->findPathToUse($path1), $path2);
+		$result = $this->storage->copy($this->findPathToUse($path1), $this->findPathToUse($path2));
 		if ($result) {
 			unset($this->namesCache[$path2]);
 		}
@@ -524,10 +502,10 @@ class Encoding extends Wrapper {
 	 */
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		if ($sourceStorage === $this) {
-			return $this->copy($this->findPathToUse($sourceInternalPath), $targetInternalPath);
+			return $this->copy($sourceInternalPath, $this->findPathToUse($targetInternalPath));
 		}
 
-		$result = $this->storage->copyFromStorage($sourceStorage, $this->findPathToUse($sourceInternalPath), $targetInternalPath);
+		$result = $this->storage->copyFromStorage($sourceStorage, $sourceInternalPath, $this->findPathToUse($targetInternalPath));
 		if ($result) {
 			unset($this->namesCache[$targetInternalPath]);
 		}
@@ -542,7 +520,7 @@ class Encoding extends Wrapper {
 	 */
 	public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
 		if ($sourceStorage === $this) {
-			$result = $this->rename($this->findPathToUse($sourceInternalPath), $targetInternalPath);
+			$result = $this->rename($sourceInternalPath, $this->findPathToUse($targetInternalPath));
 			if ($result) {
 				unset($this->namesCache[$sourceInternalPath]);
 				unset($this->namesCache[$targetInternalPath]);
@@ -550,7 +528,7 @@ class Encoding extends Wrapper {
 			return $result;
 		}
 
-		$result = $this->storage->moveFromStorage($sourceStorage, $this->findPathToUse($sourceInternalPath), $targetInternalPath);
+		$result = $this->storage->moveFromStorage($sourceStorage, $sourceInternalPath, $this->findPathToUse($targetInternalPath));
 		if ($result) {
 			unset($this->namesCache[$sourceInternalPath]);
 			unset($this->namesCache[$targetInternalPath]);
