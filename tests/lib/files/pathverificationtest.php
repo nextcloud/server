@@ -17,7 +17,7 @@ use OC\Files\View;
  *
  * @package Test\Files
  */
-class PathVerification extends \Test\TestCase {
+class PathVerificationTest extends \Test\TestCase {
 
 	/**
 	 * @var \OC\Files\View

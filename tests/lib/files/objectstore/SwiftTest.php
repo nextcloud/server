@@ -18,22 +18,22 @@
  *
  */
 
-namespace OCA\ObjectStore\Tests\Unit;
+namespace Test\Files\Cache\ObjectStore;
 
 use OC\Files\ObjectStore\ObjectStoreStorage;
-use OC\Files\ObjectStore\Swift as ObjectStoreToTest;
+use OC\Files\ObjectStore\Swift;
 
 /**
- * Class Swift
+ * Class SwiftTest
  *
  * @group DB
  *
- * @package OCA\ObjectStore\Tests\Unit
+ * @package Test\Files\Cache\ObjectStore
  */
-class Swift extends \Test\Files\Storage\Storage {
+class SwiftTest extends \Test\Files\Storage\Storage {
 
 	/**
-	 * @var ObjectStoreToTest
+	 * @var Swift
 	 */
 	private $objectStorage;
 
@@ -63,7 +63,7 @@ class Swift extends \Test\Files\Storage\Storage {
 		\OC_User::setUserId('test');
 
 		$config = \OC::$server->getConfig()->getSystemValue('objectstore');
-		$this->objectStorage = new ObjectStoreToTest($config['arguments']);
+		$this->objectStorage = new Swift($config['arguments']);
 		$config['objectstore'] = $this->objectStorage;
 		$this->instance = new ObjectStoreStorage($config);
 	}

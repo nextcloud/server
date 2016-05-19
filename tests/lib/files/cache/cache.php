@@ -8,7 +8,6 @@
 
 namespace Test\Files\Cache;
 
-use PHPUnit_Framework_MockObject_MockObject;
 
 class LongId extends \OC\Files\Storage\Temporary {
 	public function getId() {
@@ -491,7 +490,7 @@ class Cache extends \Test\TestCase {
 		$folderWith0308 = "\x53\x63\x68\x6f\xcc\x88\x6e";
 
 		/**
-		 * @var \OC\Files\Cache\Cache | PHPUnit_Framework_MockObject_MockObject $cacheMock
+		 * @var \OC\Files\Cache\Cache | \PHPUnit_Framework_MockObject_MockObject $cacheMock
 		 */
 		$cacheMock = $this->getMock('\OC\Files\Cache\Cache', array('normalize'), array($this->storage), '', true);
 

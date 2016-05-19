@@ -19,7 +19,7 @@
  *
  */
 
-namespace OC\Files\Type;
+namespace Test\Files\Type;
 
 use \OC\Files\Type\Loader;
 use \OCP\IDBConnection;

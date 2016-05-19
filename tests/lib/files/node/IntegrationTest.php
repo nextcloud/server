@@ -20,7 +20,7 @@ use OC\User\User;
  *
  * @package Test\Files\Node
  */
-class IntegrationTests extends \Test\TestCase {
+class IntegrationTest extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Node\Root $root
 	 */
