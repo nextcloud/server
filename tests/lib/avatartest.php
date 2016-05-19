@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright (c) 2013 Christopher Schäpers <christopher@schaepers.it>
  * This file is licensed under the Affero General Public License version 3 or
@@ -7,23 +6,25 @@
  * See the COPYING-README file.
  */
 
+namespace Test;
+
 use OCP\Files\Folder;
 
 class AvatarTest extends \Test\TestCase {
-	/** @var Folder | PHPUnit_Framework_MockObject_MockObject */
+	/** @var Folder | \PHPUnit_Framework_MockObject_MockObject */
 	private $folder;
 
 	/** @var \OC\Avatar */
 	private $avatar;
 
-	/** @var \OC\User\User | PHPUnit_Framework_MockObject_MockObject $user */
+	/** @var \OC\User\User | \PHPUnit_Framework_MockObject_MockObject $user */
 	private $user;
 
 	public function setUp() {
 		parent::setUp();
 
 		$this->folder = $this->getMock('\OCP\Files\Folder');
-		/** @var \OCP\IL10N | PHPUnit_Framework_MockObject_MockObject $l */
+		/** @var \OCP\IL10N | \PHPUnit_Framework_MockObject_MockObject $l */
 		$l = $this->getMock('\OCP\IL10N');
 		$l->method('t')->will($this->returnArgument(0));
 		$this->user = $this->getMockBuilder('\OC\User\User')->disableOriginalConstructor()->getMock();
@@ -41,7 +42,7 @@ class AvatarTest extends \Test\TestCase {
 				['avatar.128.jpg', true],
 			]));
 
-		$expected = new OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->getMock('\OCP\Files\File');
 		$file->method('getContent')->willReturn($expected->data());
@@ -56,7 +57,7 @@ class AvatarTest extends \Test\TestCase {
 				['avatar.jpg', true],
 			]));
 
-		$expected = new OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 
 		$file = $this->getMock('\OCP\Files\File');
 		$file->method('getContent')->willReturn($expected->data());
@@ -72,8 +73,8 @@ class AvatarTest extends \Test\TestCase {
 				['avatar.32.png', false],
 			]));
 
-		$expected = new OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
-		$expected2 = new OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$expected2 = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$expected2->resize(32);
 
 		$file = $this->getMock('\OCP\Files\File');
@@ -157,7 +158,7 @@ class AvatarTest extends \Test\TestCase {
 			->with('avatar.png')
 			->willReturn($newFile);
 
-		$image = new OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
+		$image = new \OC_Image(\OC::$SERVERROOT . '/tests/data/testavatar.png');
 		$newFile->expects($this->once())
 			->method('putContent')
 			->with($image->data());

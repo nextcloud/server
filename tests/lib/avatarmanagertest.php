@@ -18,6 +18,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+namespace Test;
+
 use OC\AvatarManager;
 use Test\Traits\UserTrait;
 use Test\Traits\MountProviderTrait;
@@ -48,7 +51,7 @@ class AvatarManagerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Exception
+	 * @expectedException \Exception
 	 * @expectedExceptionMessage user does not exist
 	 */
 	public function testGetAvatarInvalidUser() {

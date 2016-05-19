@@ -19,6 +19,8 @@
  *
  */
 
+namespace Test\Security\CSRF;
+
 class CsrfTokenManagerTest extends \Test\TestCase {
 	/** @var \OC\Security\CSRF\CsrfTokenManager */
 	private $csrfTokenManager;

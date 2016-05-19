@@ -9,7 +9,7 @@
  * later.
  * See the COPYING-README file.
  */
-namespace Test\Files\Cache;
+namespace Test\Files\Cache\ObjectStore;
 
 class NoopScanner extends \Test\TestCase {
 	/** @var \OC\Files\Storage\Storage $storage */

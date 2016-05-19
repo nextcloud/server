@@ -7,16 +7,14 @@
  * See the COPYING-README file.
  */
 
-namespace Test\Lib;
-
-use Test\TestCase;
+namespace Test;
 
 /**
  * Class AppConfig
  *
  * @group DB
  *
- * @package Test\Lib
+ * @package Test
  */
 class AppConfig extends TestCase {
 	/** @var \OCP\IAppConfig */

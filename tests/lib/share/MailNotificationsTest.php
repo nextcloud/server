@@ -19,6 +19,8 @@
  *
  */
 
+namespace Test\Share;
+
 use OC\Share\MailNotifications;
 use OCP\IL10N;
 use OCP\IUser;
@@ -33,15 +35,15 @@ use OCP\IURLGenerator;
 class MailNotificationsTest extends \Test\TestCase {
 	/** @var IL10N */
 	private $l10n;
-	/** @var IMailer | PHPUnit_Framework_MockObject_MockObject */
+	/** @var IMailer | \PHPUnit_Framework_MockObject_MockObject */
 	private $mailer;
 	/** @var ILogger */
 	private $logger;
-	/** @var Defaults | PHPUnit_Framework_MockObject_MockObject */
+	/** @var Defaults | \PHPUnit_Framework_MockObject_MockObject */
 	private $defaults;
-	/** @var IUser | PHPUnit_Framework_MockObject_MockObject */
+	/** @var IUser | \PHPUnit_Framework_MockObject_MockObject */
 	private $user;
-	/** @var IURLGenerator | PHPUnit_Framework_MockObject_MockObject */
+	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
 
 
@@ -209,7 +211,7 @@ class MailNotificationsTest extends \Test\TestCase {
 	public function testSendInternalShareMail() {
 		$this->setupMailerMock('TestUser shared »welcome.txt« with you', ['recipient@owncloud.com' => 'Recipient'], false);
 
-		/** @var MailNotifications | PHPUnit_Framework_MockObject_MockObject $mailNotifications */
+		/** @var MailNotifications | \PHPUnit_Framework_MockObject_MockObject $mailNotifications */
 		$mailNotifications = $this->getMock('OC\Share\MailNotifications',['getItemSharedWithUser'], [
 				$this->user,
 				$this->l10n,
@@ -286,7 +288,7 @@ class MailNotificationsTest extends \Test\TestCase {
 					->expects($this->once())
 					->method('send')
 					->with($message)
-					->will($this->throwException(new Exception('Some Exception Message')));
+					->will($this->throwException(new \Exception('Some Exception Message')));
 		}
 	}
 }

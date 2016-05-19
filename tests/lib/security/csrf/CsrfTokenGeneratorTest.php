@@ -19,6 +19,8 @@
  *
  */
 
+namespace Test\Security\CSRF;
+
 class CsrfTokenGeneratorTest extends \Test\TestCase {
 	/** @var \OCP\Security\ISecureRandom */
 	private $random;

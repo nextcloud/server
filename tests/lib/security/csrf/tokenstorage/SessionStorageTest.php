@@ -19,6 +19,8 @@
  *
  */
 
+namespace Test\Security\CSRF\TokenStorage;
+
 class SessionStorageTest extends \Test\TestCase {
 	/** @var \OCP\ISession */
 	private $session;

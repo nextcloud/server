@@ -24,12 +24,14 @@
  *
  */
 
+namespace Test\Group;
+
 /**
  * Class Test_Group_Backend
  *
  * @group DB
  */
-abstract class Test_Group_Backend extends \Test\TestCase {
+abstract class Backend extends \Test\TestCase {
 	/**
 	 * @var \OC\Group\Backend $backend
 	 */

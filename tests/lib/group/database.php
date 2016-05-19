@@ -23,12 +23,14 @@
  *
  */
 
+namespace Test\Group;
+
 /**
- * Class Test_Group_Database
+ * Class Database
  *
  * @group DB
  */
-class Test_Group_Database extends Test_Group_Backend {
+class Database extends Backend {
 	private $groups = array();
 
 	/**

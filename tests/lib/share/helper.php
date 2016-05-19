@@ -19,11 +19,13 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+namespace Test\Share;
+
 /**
  * @group DB
- * Class Test_Share_Helper
+ * Class Helper
  */
-class Test_Share_Helper extends \Test\TestCase {
+class Helper extends \Test\TestCase {
 
 	public function expireDateProvider() {
 		return array(

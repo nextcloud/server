@@ -19,7 +19,7 @@
  *
  */
 
-namespace Test\IntegrityCheck\Factories;
+namespace Test\IntegrityCheck\Helpers;
 
 use OC\IntegrityCheck\Helpers\EnvironmentHelper;
 use Test\TestCase;
