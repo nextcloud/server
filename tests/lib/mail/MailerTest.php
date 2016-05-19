@@ -6,11 +6,13 @@
  * See the COPYING-README file.
  */
 
-namespace Test;
+namespace Test\Mail;
+
 use OC\Mail\Mailer;
 use OCP\IConfig;
 use OC_Defaults;
 use OCP\ILogger;
+use Test\TestCase;
 
 class MailerTest extends TestCase {
 	/** @var IConfig */

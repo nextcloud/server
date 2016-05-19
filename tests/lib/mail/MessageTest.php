@@ -6,10 +6,11 @@
  * See the COPYING-README file.
  */
 
-namespace Test;
+namespace Test\Mail;
 
 use OC\Mail\Message;
 use Swift_Message;
+use Test\TestCase;
 
 class MessageTest extends TestCase {
 	/** @var Swift_Message */
