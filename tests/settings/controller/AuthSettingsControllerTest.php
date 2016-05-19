@@ -138,4 +138,19 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->assertEquals($expected, $this->controller->create($name));
 	}
 
+	public function testDestroy() {
+		$id = 123;
+		$user = $this->getMock('\OCP\IUser');
+
+		$this->userManager->expects($this->once())
+			->method('get')
+			->with($this->uid)
+			->will($this->returnValue($user));
+		$this->tokenProvider->expects($this->once())
+			->method('invalidateTokenById')
+			->with($user, $id);
+
+		$this->assertEquals([], $this->controller->destroy($id));
+	}
+
 }

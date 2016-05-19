@@ -47,7 +47,7 @@ interface IProvider {
 	 * @return IToken
 	 */
 	public function getToken($tokenId) ;
-	
+
 	/**
 	 * @param string $token
 	 * @throws InvalidTokenException
@@ -61,6 +61,14 @@ interface IProvider {
 	 * @param string $token
 	 */
 	public function invalidateToken($token);
+
+	/**
+	 * Invalidate (delete) the given token
+	 *
+	 * @param IUser $user
+	 * @param int $id
+	 */
+	public function invalidateTokenById(IUser $user, $id);
 
 	/**
 	 * Update token activity timestamp

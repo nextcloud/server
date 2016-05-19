@@ -141,12 +141,12 @@ if($_['passwordChangeSupported']) {
 
 <div id="sessions" class="section">
 	<h2><?php p($l->t('Sessions'));?></h2>
-	<?php p($l->t('These are the web browsers currently logged in to your ownCloud.'));?>
+	<span class="hidden-when-empty"><?php p($l->t('These are the web browsers currently logged in to your ownCloud.'));?></span>
 	<table>
-		<thead>
+		<thead class="token-list-header">
 			<tr>
-				<th>Browser</th>
-				<th>Most recent activity</th>
+				<th><?php p($l->t('Browser'));?></th>
+				<th><?php p($l->t('Most recent activity'));?></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -157,13 +157,13 @@ if($_['passwordChangeSupported']) {
 
 <div id="devices" class="section">
 	<h2><?php p($l->t('Devices'));?></h2>
-	<?php p($l->t("You've linked these devices."));?>
+	<span class="hidden-when-empty"><?php p($l->t("You've linked these devices."));?></span>
 	<table>
-		<thead>
+		<thead class="hidden-when-empty">
 			<tr>
-				<th>Name</th>
-				<th>Most recent activity</th>
-				<th><a class="icon-delete"></a></th>
+				<th><?php p($l->t('Name'));?></th>
+				<th><?php p($l->t('Most recent activity'));?></th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody class="token-list icon-loading">
@@ -175,7 +175,7 @@ if($_['passwordChangeSupported']) {
 		<button id="device-add-token" class="button">Create new device password</button>
 	</div>
 	<div id="device-token-result" class="hidden">
-		<span id="device-new-token"></span>
+		<input id="device-new-token" type="text" readonly="readonly"/>
 		<button id="device-token-hide" class="button">Done</button>
 	</div>
 </div>

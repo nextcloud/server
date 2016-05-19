@@ -22,14 +22,12 @@
 
 namespace OC\Authentication\Token;
 
-use JsonSerializable;
 use OCP\AppFramework\Db\Entity;
 
 /**
  * @method void setId(int $id)
  * @method void setUid(string $uid);
  * @method void setPassword(string $password)
- * @method string getPassword()
  * @method void setName(string $name)
  * @method string getName()
  * @method void setToken(string $token)
@@ -39,7 +37,7 @@ use OCP\AppFramework\Db\Entity;
  * @method void setLastActivity(int $lastActivity)
  * @method int getLastActivity()
  */
-class DefaultToken extends Entity implements IToken, JsonSerializable {
+class DefaultToken extends Entity implements IToken {
 
 	/**
 	 * @var string user UID

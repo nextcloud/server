@@ -151,6 +151,16 @@ class DefaultTokenProvider implements IProvider {
 	}
 
 	/**
+	 * Invalidate (delete) the given token
+	 *
+	 * @param IUser $user
+	 * @param int $id
+	 */
+	public function invalidateTokenById(IUser $user, $id) {
+		$this->mapper->deleteById($user, $id);
+	}
+
+	/**
 	 * Invalidate (delete) old session tokens
 	 */
 	public function invalidateOldTokens() {

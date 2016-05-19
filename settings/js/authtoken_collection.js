@@ -26,9 +26,25 @@
 	OC.Settings = OC.Settings || {};
 
 	var AuthTokenCollection = Backbone.Collection.extend({
+
 		model: OC.Settings.AuthToken,
+
+		/**
+		 * Show recently used sessions/devices first
+		 *
+		 * @param {OC.Settigns.AuthToken} t1
+		 * @param {OC.Settigns.AuthToken} t2
+		 * @returns {Boolean}
+		 */
+		comparator: function (t1, t2) {
+			var ts1 = parseInt(t1.get('lastActivity'), 10);
+			var ts2 = parseInt(t2.get('lastActivity'), 10);
+			return ts1 < ts2;
+		},
+
 		tokenType: null,
-		url: OC.generateUrl('/settings/personal/authtokens'),
+
+		url: OC.generateUrl('/settings/personal/authtokens')
 	});
 
 	OC.Settings.AuthTokenCollection = AuthTokenCollection;

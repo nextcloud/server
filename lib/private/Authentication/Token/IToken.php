@@ -22,7 +22,9 @@
 
 namespace OC\Authentication\Token;
 
-interface IToken {
+use JsonSerializable;
+
+interface IToken extends JsonSerializable {
 
 	const TEMPORARY_TOKEN = 0;
 	const PERMANENT_TOKEN = 1;
@@ -30,7 +32,7 @@ interface IToken {
 	/**
 	 * Get the token ID
 	 *
-	 * @return string
+	 * @return int
 	 */
 	public function getId();
 

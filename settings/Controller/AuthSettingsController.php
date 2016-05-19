@@ -60,7 +60,8 @@ class AuthSettingsController extends Controller {
 	 * @param ISecureRandom $random
 	 * @param string $uid
 	 */
-	public function __construct($appName, IRequest $request, IProvider $tokenProvider, IUserManager $userManager, ISession $session, ISecureRandom $random, $uid) {
+	public function __construct($appName, IRequest $request, IProvider $tokenProvider, IUserManager $userManager,
+		ISession $session, ISecureRandom $random, $uid) {
 		parent::__construct($appName, $request);
 		$this->tokenProvider = $tokenProvider;
 		$this->userManager = $userManager;
@@ -129,6 +130,22 @@ class AuthSettingsController extends Controller {
 			$groups[] = $this->random->generate(5, implode('', range('A', 'Z')));
 		}
 		return implode('-', $groups);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
+	 *
+	 * @return JSONResponse
+	 */
+	public function destroy($id) {
+		$user = $this->userManager->get($this->uid);
+		if (is_null($user)) {
+			return [];
+		}
+
+		$this->tokenProvider->invalidateTokenById($user, $id);
+		return [];
 	}
 
 }

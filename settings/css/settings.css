@@ -114,18 +114,22 @@ table.nostyle td { padding: 0.2em 0; }
 #sessions table td,
 #devices table th,
 #devices table td {
-   padding: 10px;
+	padding: 10px;
 }
 
 #sessions .token-list td,
 #devices .token-list td {
-   border-top: 1px solid #DDD;
+	border-top: 1px solid #DDD;
+}
+#sessions .token-list td a.icon-delete,
+#devices .token-list td a.icon-delete {
+	display: block;
+	opacity: 0.6;
 }
 
 #device-new-token {
-	padding: 10px;
+	width: 186px;
 	font-family: monospace;
-	font-size: 1.4em;
 	background-color: lightyellow;
 }
 
