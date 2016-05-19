@@ -19,7 +19,9 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Test_Share_Search extends \Test\TestCase {
+namespace Test\Share;
+
+class SearchResultSorter extends \Test\TestCase {
 	public function testSort() {
 		$search = 'lin';
 		$sorter = new \OC\Share\SearchResultSorter($search, 'foobar');

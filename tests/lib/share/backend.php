@@ -19,7 +19,9 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Test_Share_Backend implements OCP\Share_Backend {
+namespace Test\Share;
+
+class Backend implements \OCP\Share_Backend {
 
 	const FORMAT_SOURCE = 0;
 	const FORMAT_TARGET = 1;
