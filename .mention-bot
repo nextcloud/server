@@ -14,7 +14,7 @@
         "lib/private/Activity/**",
         "lib/private/Notification/**",
         "lib/public/Activity/**",
-        "lib/public/notification/**"
+        "lib/public/Notification/**"
       ]
     },
     {
