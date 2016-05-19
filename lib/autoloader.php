@@ -102,8 +102,6 @@ class Autoloader {
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
 			$paths[] = \OC::$SERVERROOT . '/lib/private/legacy/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
-		} elseif (strpos($class, 'OCP\\') === 0) {
-			$paths[] = \OC::$SERVERROOT . '/lib/public/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
 		} elseif (strpos($class, 'OCA\\') === 0) {
 			list(, $app, $rest) = explode('\\', $class, 3);
 			$app = strtolower($app);
