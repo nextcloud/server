@@ -6,9 +6,10 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Http\Client;
+namespace Test\Http\Client;
 
 use GuzzleHttp\Message\Response;
+use OC\Http\Client\Client;
 use OCP\IConfig;
 
 /**

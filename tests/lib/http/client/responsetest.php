@@ -6,10 +6,11 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Http\Client;
+namespace Test\Http\Client;
 
 use Guzzle\Stream\Stream;
 use GuzzleHttp\Message\Response as GuzzleResponse;
+use OC\Http\Client\Response;
 
 /**
  * Class ResponseTest

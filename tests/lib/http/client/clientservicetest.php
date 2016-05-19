@@ -6,9 +6,11 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Http\Client;
+namespace Test\Http\Client;
 
 use GuzzleHttp\Client as GuzzleClient;
+use OC\Http\Client\Client;
+use OC\Http\Client\ClientService;
 
 /**
  * Class ClientServiceTest
