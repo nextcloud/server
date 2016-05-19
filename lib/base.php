@@ -481,11 +481,7 @@ class OC {
 		$loaderStart = microtime(true);
 		require_once __DIR__ . '/autoloader.php';
 		self::$loader = new \OC\Autoloader([
-			OC::$SERVERROOT . '/lib',
-			OC::$SERVERROOT . '/core',
-			OC::$SERVERROOT . '/settings',
-			OC::$SERVERROOT . '/ocs',
-			OC::$SERVERROOT . '/ocs-provider',
+			OC::$SERVERROOT . '/lib/private/legacy',
 		]);
 		if (defined('PHPUNIT_RUN')) {
 			self::$loader->addValidRoot(OC::$SERVERROOT . '/tests');
