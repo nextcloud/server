@@ -441,6 +441,13 @@ class Wrapper implements \OC\Files\Storage\Storage, ILockingStorage {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getIndexerIdentifier() {
+		return $this->storage->getIndexerIdentifier();
+	}
+
+	/**
 	 * @return \OC\Files\Cache\Storage
 	 */
 	public function getStorageCache() {

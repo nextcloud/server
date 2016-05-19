@@ -72,6 +72,7 @@ abstract class Common implements Storage, ILockingStorage {
 	protected $propagator;
 	protected $storageCache;
 	protected $updater;
+	protected $indexerIdentifier;
 
 	protected $mountOptions = [];
 	protected $owner = null;
@@ -341,6 +342,10 @@ abstract class Common implements Storage, ILockingStorage {
 			$this->watcher->setPolicy((int)$this->getMountOption('filesystem_check_changes', $globalPolicy));
 		}
 		return $this->watcher;
+	}
+
+	public function getIndexerIdentifier() {
+		return $this->indexerIdentifier;
 	}
 
 	/**
