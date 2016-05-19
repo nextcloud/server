@@ -22,8 +22,9 @@
  */
 
 
-namespace OC\AppFramework;
+namespace Test\AppFramework;
 
+use OC\AppFramework\App;
 use OCP\AppFramework\Http\Response;
 
 

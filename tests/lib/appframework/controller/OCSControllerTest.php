@@ -22,10 +22,11 @@
  */
 
 
-namespace OCP\AppFramework;
+namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\OCSController;
 
 
 class ChildOCSController extends OCSController {}

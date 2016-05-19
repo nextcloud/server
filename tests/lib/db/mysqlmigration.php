@@ -6,12 +6,14 @@
  * See the COPYING-README file.
  */
 
+namespace Test\DB;
+
 /**
- * Class TestMySqlMigration
+ * Class MySqlMigration
  *
  * @group DB
  */
-class TestMySqlMigration extends \Test\TestCase {
+class MySqlMigration extends \Test\TestCase {
 
 	/** @var \Doctrine\DBAL\Connection */
 	private $connection;

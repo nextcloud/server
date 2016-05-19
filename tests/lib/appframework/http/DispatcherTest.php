@@ -22,8 +22,10 @@
  */
 
 
-namespace OC\AppFramework\Http;
+namespace Test\AppFramework\Http;
 
+use OC\AppFramework\Http\Dispatcher;
+use OC\AppFramework\Http\Request;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;

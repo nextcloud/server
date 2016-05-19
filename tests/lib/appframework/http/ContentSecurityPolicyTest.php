@@ -7,7 +7,7 @@
  */
 
 
-namespace OC\AppFramework\Http;
+namespace Test\AppFramework\Http;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\ContentSecurityPolicy;

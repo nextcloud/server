@@ -22,8 +22,10 @@
  */
 
 
-namespace OCP\AppFramework\Http;
+namespace Test\AppFramework\Http;
 
+
+use OCP\AppFramework\Http\DownloadResponse;
 
 class ChildDownloadResponse extends DownloadResponse {
 

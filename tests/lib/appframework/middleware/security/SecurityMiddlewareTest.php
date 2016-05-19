@@ -22,7 +22,7 @@
 
 
 
-namespace OC\AppFramework\Middleware\Security;
+namespace Test\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
@@ -31,6 +31,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryExcept
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
+use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;

@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-abstract class Test_Cache extends \Test\TestCase {
+namespace Test\Cache;
+
+abstract class TestCache extends \Test\TestCase {
 	/**
 	 * @var \OCP\ICache cache;
 	 */

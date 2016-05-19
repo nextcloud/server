@@ -22,9 +22,10 @@
  */
 
 
-namespace OCP\AppFramework;
+namespace Test\AppFramework\Controller;
 
 use OC\AppFramework\Http\Request;
+use OCP\AppFramework\ApiController;
 
 
 class ChildApiController extends ApiController {};

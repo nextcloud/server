@@ -22,10 +22,11 @@
  */
 
 
-namespace OC\AppFramework\Http;
+namespace Test\AppFramework\Http;
 
 
 use OCP\AppFramework\Http\StreamResponse;
+use OCP\AppFramework\Http\IOutput;
 use OCP\AppFramework\Http;
 
 

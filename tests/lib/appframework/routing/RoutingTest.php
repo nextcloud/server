@@ -1,8 +1,10 @@
 <?php
 
-namespace OC\AppFramework\Routing;
+namespace Test\AppFramework\Routing;
 
 use OC\AppFramework\DependencyInjection\DIContainer;
+use OC\AppFramework\Routing\RouteActionHandler;
+use OC\AppFramework\Routing\RouteConfig;
 
 class RoutingTest extends \Test\TestCase
 {

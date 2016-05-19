@@ -6,12 +6,11 @@ use OCP\Comments\ICommentsManager;
 use Test\TestCase;
 
 /**
- * Class Test_Comments_Manager
+ * Class ManagerTest
  *
  * @group DB
  */
-class Test_Comments_Manager extends TestCase
-{
+class ManagerTest extends TestCase {
 
 	public function setUp() {
 		parent::setUp();
