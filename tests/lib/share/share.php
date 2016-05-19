@@ -78,7 +78,7 @@ class Share extends \Test\TestCase {
 		\OC_Group::addToGroup($this->user4, $this->group2);
 		\OC_Group::addToGroup($this->user2, $this->groupAndUser);
 		\OC_Group::addToGroup($this->user3, $this->groupAndUser);
-		\OCP\Share::registerBackend('test', 'Test_Share_Backend');
+		\OCP\Share::registerBackend('test', 'Test\Share\Backend');
 		\OC_Hook::clear('OCP\\Share');
 		\OC::registerShareHooks();
 		$this->resharing = \OC::$server->getAppConfig()->getValue('core', 'shareapi_allow_resharing', 'yes');
@@ -92,7 +92,7 @@ class Share extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
-		$query = OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', $this->resharing);
 

@@ -51,7 +51,7 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 		parent::setUp();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		\OCP\Share::registerBackend('test', 'Test_Share_Backend');
+		\OCP\Share::registerBackend('test', 'Test\Share\Backend');
 
 		$config = $this->getMockBuilder('\OCP\IConfig')
 				->disableOriginalConstructor()->getMock();

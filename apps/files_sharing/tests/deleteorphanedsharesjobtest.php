@@ -154,7 +154,7 @@ class DeleteOrphanedSharesJobTest extends \Test\TestCase {
 	public function testKeepNonFileShares() {
 		$this->loginAsUser($this->user1);
 
-		\OCP\Share::registerBackend('test', 'Test_Share_Backend');
+		\OCP\Share::registerBackend('test', 'Test\Share\Backend');
 
 		$this->assertTrue(
 			\OCP\Share::shareItem('test', 'test.txt', \OCP\Share::SHARE_TYPE_USER, $this->user2, \OCP\Constants::PERMISSION_READ),
