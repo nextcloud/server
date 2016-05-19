@@ -53,7 +53,7 @@
  *
  */
 
-require_once 'public/constants.php';
+require_once 'public/Constants.php';
 
 /**
  * Class that is a namespace for all global OC variables
