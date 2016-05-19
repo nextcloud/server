@@ -94,7 +94,7 @@ class Autoloader {
 			$paths[] = \OC::$CLASSPATH[$class];
 			/**
 			 * @TODO: Remove this when necessary
-			 * Remove "apps/" from inclusion path for smooth migration to mutli app dir
+			 * Remove "apps/" from inclusion path for smooth migration to multi app dir
 			 */
 			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
 				\OCP\Util::writeLog('core', 'include path for class "' . $class . '" starts with "apps/"', \OCP\Util::DEBUG);
@@ -113,8 +113,6 @@ class Autoloader {
 				// If not found in the root of the app directory, insert '/lib' after app id and try again.
 				$paths[] = $appPath . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
 			}
-		} elseif (strpos($class, 'Test_') === 0) {
-			$paths[] = \OC::$SERVERROOT . '/tests/lib/' . strtolower(str_replace('_', '/', substr($class, 5)) . '.php');
 		} elseif (strpos($class, 'Test\\') === 0) {
 			$paths[] = \OC::$SERVERROOT . '/tests/lib/' . strtolower(str_replace('\\', '/', substr($class, 5)) . '.php');
 		}
