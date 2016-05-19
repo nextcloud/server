@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class Test_API extends \Test\TestCase {
+namespace Test;
+
+class APITest extends \Test\TestCase {
 
 	// Helps build a response variable
 
@@ -14,7 +16,7 @@ class Test_API extends \Test\TestCase {
 	 * @param string $message
 	 */
 	function buildResponse($shipped, $data, $code, $message=null) {
-		$resp = new OC_OCS_Result($data, $code, $message);
+		$resp = new \OC_OCS_Result($data, $code, $message);
 		$resp->addHeader('KEY', 'VALUE');
 		return [
 			'shipped' => $shipped,
@@ -26,13 +28,13 @@ class Test_API extends \Test\TestCase {
 	// Validate details of the result
 
 	/**
-	 * @param OC_OCS_Result $result
+	 * @param \OC_OCS_Result $result
 	 */
 	function checkResult($result, $success) {
 		// Check response is of correct type
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		// Check if it succeeded
-		/** @var $result OC_OCS_Result */
+		/** @var $result \OC_OCS_Result */
 		$this->assertEquals($success, $result->succeeded());
 	}
 
@@ -108,7 +110,7 @@ class Test_API extends \Test\TestCase {
 
 		// Test merging one success result
 		$response = $this->buildResponse(true, $data1, $statusCode);
-		$result = OC_API::mergeResponses([$response]);
+		$result = \OC_API::mergeResponses([$response]);
 		$this->assertEquals($response['response'], $result);
 		$this->checkResult($result, $succeeded);
 	}
@@ -170,7 +172,7 @@ class Test_API extends \Test\TestCase {
 			));
 
 		// Two shipped success results
-		$result = OC_API::mergeResponses(array(
+		$result = \OC_API::mergeResponses(array(
 			$this->buildResponse($shipped1, $data1, $statusCode1, "message1"),
 			$this->buildResponse($shipped2, $data2, $statusCode2, "message2"),
 		));

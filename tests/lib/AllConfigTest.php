@@ -9,13 +9,13 @@
 namespace Test;
 
 /**
- * Class TestAllConfig
+ * Class AllConfigTest
  *
  * @group DB
  *
  * @package Test
  */
-class TestAllConfig extends \Test\TestCase {
+class AllConfigTest extends \Test\TestCase {
 
 	/** @var  \OCP\IDBConnection */
 	protected $connection;

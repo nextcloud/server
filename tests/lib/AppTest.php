@@ -7,12 +7,15 @@
  * See the COPYING-README file.
  */
 
+namespace Test;
+use OCP\IAppConfig;
+
 /**
- * Class Test_App
+ * Class AppTest
  *
  * @group DB
  */
-class Test_App extends \Test\TestCase {
+class AppTest extends \Test\TestCase {
 
 	const TEST_USER1 = 'user1';
 	const TEST_USER2 = 'user2';
@@ -267,7 +270,7 @@ class Test_App extends \Test\TestCase {
 	 * @dataProvider appVersionsProvider
 	 */
 	public function testIsAppCompatible($ocVersion, $appInfo, $expectedResult) {
-		$this->assertEquals($expectedResult, OC_App::isAppCompatible($ocVersion, $appInfo));
+		$this->assertEquals($expectedResult, \OC_App::isAppCompatible($ocVersion, $appInfo));
 	}
 
 	/**
@@ -280,7 +283,7 @@ class Test_App extends \Test\TestCase {
 			'requiremin' => '6',
 			'requiremax' => '6',
 		);
-		$this->assertTrue(OC_App::isAppCompatible($ocVersion, $appInfo));
+		$this->assertTrue(\OC_App::isAppCompatible($ocVersion, $appInfo));
 	}
 
 	/**
@@ -478,9 +481,9 @@ class Test_App extends \Test\TestCase {
 	/**
 	 * Register an app config mock for testing purposes.
 	 *
-	 * @param $appConfig app config mock
+	 * @param IAppConfig $appConfig app config mock
 	 */
-	private function registerAppConfig($appConfig) {
+	private function registerAppConfig(IAppConfig $appConfig) {
 		\OC::$server->registerService('AppConfig', function ($c) use ($appConfig) {
 			return $appConfig;
 		});

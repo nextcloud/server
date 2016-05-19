@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
  * This file is licensed under the Affero General Public License version 3 or
@@ -7,14 +6,17 @@
  * See the COPYING-README file.
  */
 
+namespace Test\DB;
+
+use OC_DB;
 use OCP\Security\ISecureRandom;
 
 /**
- * Class Test_DBSchema
+ * Class DBSchemaTest
  *
  * @group DB
  */
-class Test_DBSchema extends \Test\TestCase {
+class DBSchemaTest extends \Test\TestCase {
 	protected $schema_file = 'static://test_db_scheme';
 	protected $schema_file2 = 'static://test_db_scheme2';
 	protected $table1;
@@ -23,8 +25,8 @@ class Test_DBSchema extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
-		$dbfile2 = OC::$SERVERROOT.'/tests/data/db_structure2.xml';
+		$dbfile = \OC::$SERVERROOT.'/tests/data/db_structure.xml';
+		$dbfile2 = \OC::$SERVERROOT.'/tests/data/db_structure2.xml';
 
 		$r = '_' . \OC::$server->getSecureRandom()->
 			generate(4, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS) . '_';

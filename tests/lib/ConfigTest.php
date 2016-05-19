@@ -8,7 +8,7 @@
 
 namespace Test;
 
-class ConfigTests extends TestCase {
+class ConfigTest extends TestCase {
 	const TESTCONTENT = '<?php $CONFIG=array("foo"=>"bar", "beers" => array("Appenzeller", "Guinness", "Kölsch"), "alcohol_free" => false);';
 
 	/** @var array */

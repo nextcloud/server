@@ -1,7 +1,8 @@
 <?php
 
+namespace Test;
 
-class Test_ContactsManager extends \Test\TestCase {
+class ContactsManagerTest extends \Test\TestCase {
 
 	/** @var \OC\ContactsManager */
 	private $cm;

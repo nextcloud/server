@@ -20,7 +20,9 @@
  *
  */
 
-class Test_ErrorHandler extends \Test\TestCase {
+namespace Test;
+
+class ErrorHandlerTest extends \Test\TestCase {
 
 	/**
 	 * provide username, password combinations for testRemovePassword

@@ -6,12 +6,16 @@
  * See the COPYING-README file.
  */
 
+namespace Test\DB;
+
+use OC_DB;
+
 /**
- * Class Test_DB
+ * Class LegacyDBTest
  *
  * @group DB
  */
-class Test_DB extends \Test\TestCase {
+class LegacyDBTest extends \Test\TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected static $schema_file = 'static://test_db_scheme';
@@ -45,7 +49,7 @@ class Test_DB extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$dbFile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
+		$dbFile = \OC::$SERVERROOT.'/tests/data/db_structure.xml';
 
 		$r = $this->getUniqueID('_', 4).'_';
 		$content = file_get_contents( $dbFile );

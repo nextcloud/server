@@ -21,8 +21,6 @@
 
 namespace Test;
 
-use OC\CapabilitiesManager;
-
 class CapabilitiesManagerTest extends TestCase {
 
 	/**
