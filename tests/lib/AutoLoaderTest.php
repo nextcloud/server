@@ -19,18 +19,6 @@ class AutoLoaderTest extends TestCase {
 		$this->loader = new \OC\AutoLoader([]);
 	}
 
-	public function testLeadingSlashOnClassName() {
-		$this->assertEquals([
-			\OC::$SERVERROOT . '/lib/public/files/storage/local.php',
-		], $this->loader->findClass('\OCP\Files\Storage\Local'));
-	}
-
-	public function testNoLeadingSlashOnClassName() {
-		$this->assertEquals([
-			\OC::$SERVERROOT . '/lib/public/files/storage/local.php',
-		], $this->loader->findClass('OCP\Files\Storage\Local'));
-	}
-
 	public function testLegacyPath() {
 		$this->assertEquals([
 			\OC::$SERVERROOT . '/lib/private/legacy/files.php', 
@@ -50,9 +38,7 @@ class AutoLoaderTest extends TestCase {
 	}
 
 	public function testLoadPublicNamespace() {
-		$this->assertEquals([
-			\OC::$SERVERROOT . '/lib/public/foo/bar.php',
-		], $this->loader->findClass('OCP\Foo\Bar'));
+		$this->assertEquals([], $this->loader->findClass('OCP\Foo\Bar'));
 	}
 
 	public function testLoadAppNamespace() {
