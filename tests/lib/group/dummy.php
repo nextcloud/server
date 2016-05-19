@@ -20,12 +20,14 @@
 *
 */
 
+namespace Test\Group;
+
 /**
- * Class Test_Group_Dummy
+ * Class Dummy
  *
  * @group DB
  */
-class Test_Group_Dummy extends Test_Group_Backend {
+class Dummy extends Backend {
 	protected function setUp() {
 		parent::setUp();
 		$this->backend=new \Test\Util\Group\Dummy();

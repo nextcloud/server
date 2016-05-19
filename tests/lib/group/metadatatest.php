@@ -22,7 +22,7 @@
 
 namespace Test\Group;
 
-class Test_MetaData extends \Test\TestCase {
+class MetaDataTest extends \Test\TestCase {
 	/** @var \OC\Group\Manager */
 	private $groupManager;
 	/** @var \OCP\IUserSession */
