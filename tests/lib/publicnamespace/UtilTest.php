@@ -2,8 +2,8 @@
 /**
  * ownCloud
  *
- * @author Thomas Müller
- * @copyright 2014 Thomas Müller thomas.mueller@tmit.eu
+ * @author Victor Dubiniuk
+ * @copyright 2015 Victor Dubiniuk victor.dubiniuk@owncloud.com
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -19,18 +19,32 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Test_OCPConfig extends \Test\TestCase {
+namespace Test\PublicNamespace;
 
-	public function testSetAppValueIfSetToNull() {
 
-		$key = $this->getUniqueID('key-');
-
-		$result = \OCP\Config::setAppValue('unit-test', $key, null);
-		$this->assertTrue($result);
-
-		$result = \OCP\Config::setAppValue('unit-test', $key, '12');
-		$this->assertTrue($result);
-
+class UtilTest extends \Test\TestCase {
+	protected function setUp() {
+		parent::setUp();
+		\OCP\Contacts::clear();
 	}
-
+	
+	 /**
+	 * @dataProvider channelProvider
+	 *
+	 * @param string $channel
+	 */
+	public function testOverrideChannel($channel) {
+		\OCP\Util::setChannel($channel);
+		$actual = \OCP\Util::getChannel($channel);
+		$this->assertEquals($channel, $actual);
+	}
+	
+	public function channelProvider() {
+		return [
+			['daily'],
+			['beta'],
+			['stable'],
+			['production']
+		];
+	}
 }

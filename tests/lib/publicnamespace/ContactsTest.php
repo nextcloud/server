@@ -19,15 +19,17 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Test_Contacts extends \Test\TestCase {
+namespace Test\PublicNamespace;
+
+class ContactsTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
-		OCP\Contacts::clear();
+		\OCP\Contacts::clear();
 	}
 
 	public function testDisabledIfEmpty() {
 		// pretty simple
-		$this->assertFalse(OCP\Contacts::isEnabled());
+		$this->assertFalse(\OCP\Contacts::isEnabled());
 	}
 
 	public function testEnabledAfterRegister() {
@@ -41,19 +43,19 @@ class Test_Contacts extends \Test\TestCase {
 			->method('getKey');
 
 		// not enabled before register
-		$this->assertFalse(OCP\Contacts::isEnabled());
+		$this->assertFalse(\OCP\Contacts::isEnabled());
 
 		// register the address book
-		OCP\Contacts::registerAddressBook($stub);
+		\OCP\Contacts::registerAddressBook($stub);
 
 		// contacts api shall be enabled
-		$this->assertTrue(OCP\Contacts::isEnabled());
+		$this->assertTrue(\OCP\Contacts::isEnabled());
 
 		// unregister the address book
-		OCP\Contacts::unregisterAddressBook($stub);
+		\OCP\Contacts::unregisterAddressBook($stub);
 
 		// not enabled after register
-		$this->assertFalse(OCP\Contacts::isEnabled());
+		$this->assertFalse(\OCP\Contacts::isEnabled());
 	}
 
 	public function testAddressBookEnumeration() {
@@ -69,8 +71,8 @@ class Test_Contacts extends \Test\TestCase {
 			->will($this->returnValue('A very simple Addressbook'));
 
 		// register the address book
-		OCP\Contacts::registerAddressBook($stub);
-		$all_books = OCP\Contacts::getAddressBooks();
+		\OCP\Contacts::registerAddressBook($stub);
+		$all_books = \OCP\Contacts::getAddressBooks();
 
 		$this->assertEquals(1, count($all_books));
 		$this->assertEquals('A very simple Addressbook', $all_books['SIMPLE_ADDRESS_BOOK']);
@@ -101,15 +103,15 @@ class Test_Contacts extends \Test\TestCase {
 		$stub2->expects($this->any())->method('search')->will($this->returnValue($searchResult2));
 
 		// register the address books
-		OCP\Contacts::registerAddressBook($stub1);
-		OCP\Contacts::registerAddressBook($stub2);
-		$all_books = OCP\Contacts::getAddressBooks();
+		\OCP\Contacts::registerAddressBook($stub1);
+		\OCP\Contacts::registerAddressBook($stub2);
+		$all_books = \OCP\Contacts::getAddressBooks();
 
 		// assert the count - doesn't hurt
 		$this->assertEquals(2, count($all_books));
 
 		// perform the search
-		$result = OCP\Contacts::search('x', array());
+		$result = \OCP\Contacts::search('x', array());
 
 		// we expect 4 hits
 		$this->assertEquals(4, count($result));
