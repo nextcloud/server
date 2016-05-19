@@ -1508,7 +1508,7 @@ class View extends \Test\TestCase {
 		$defaultView = new \OC\Files\View('/foo/files');
 		$defaultRootValue->setValue($defaultView);
 		$view = new \OC\Files\View($root);
-		$result = \Test_Helper::invokePrivate($view, 'shouldEmitHooks', [$path]);
+		$result = $this->invokePrivate($view, 'shouldEmitHooks', [$path]);
 		$defaultRootValue->setValue($oldRoot);
 		$this->assertEquals($shouldEmit, $result);
 	}
@@ -1872,7 +1872,7 @@ class View extends \Test\TestCase {
 
 		$this->assertEquals(ILockingProvider::LOCK_SHARED, $lockTypePre, 'File locked properly during pre-hook');
 		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $lockTypeDuring, 'File locked properly during operation');
-		$this->assertNull(null, $lockTypePost, 'No post hook, no lock check possible');
+		$this->assertNull($lockTypePost, 'No post hook, no lock check possible');
 
 		$this->assertEquals(ILockingProvider::LOCK_EXCLUSIVE, $lockTypeDuring, 'File still locked after fopen');
 
