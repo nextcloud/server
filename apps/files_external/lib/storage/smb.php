@@ -44,7 +44,7 @@ use OCP\Files\StorageNotAvailableException;
 
 class SMB extends \OC\Files\Storage\Common {
 	/**
-	 * @var \Icewind\SMB\Server
+	 * @var \Icewind\SMB\Server|\Icewind\SMB\NativeServer
 	 */
 	protected $server;
 
@@ -111,7 +111,7 @@ class SMB extends \OC\Files\Storage\Common {
 			throw new StorageNotAvailableException('Password required when username given');
 		}
 
-		$serverClass = Server::NativeAvailable() ? 'NativeServer' : 'Server';
+		$serverClass = Server::NativeAvailable() ? '\Icewind\SMB\NativeServer' : '\Icewind\SMB\Server';
 		$this->server = new $serverClass($this->host, $this->user, $this->password);
 		$this->share = $this->server->getShare(trim($this->shareName, '/'));
 
