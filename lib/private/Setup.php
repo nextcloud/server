@@ -371,6 +371,7 @@ class Setup {
 			$userSession = \OC::$server->getUserSession();
 			$defaultTokenProvider = \OC::$server->query('OC\Authentication\Token\DefaultTokenProvider');
 			$userSession->setTokenProvider($defaultTokenProvider);
+			$userSession->login($username, $password);
 			$userSession->createSessionToken($request, $username, $password);
 
 			//guess what this does
