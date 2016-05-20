@@ -19,6 +19,8 @@ OC.L10N.register(
     "Insufficient data: %s" : "Nedostatečná data: %s",
     "%s" : "%s",
     "Storage with id \"%i\" is not user editable" : "Úložiště s id \"%i\" uživatelé nemohou upravovat",
+    "Dropbox App Configuration" : "Nastavení aplikace Dropbox",
+    "Google Drive App Configuration" : "Nastavení aplikace Disk Google",
     "Personal" : "Osobní",
     "System" : "Systém",
     "Grant access" : "Povolit přístup",

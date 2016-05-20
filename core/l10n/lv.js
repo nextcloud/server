@@ -69,7 +69,7 @@ OC.L10N.register(
     "Error while sharing" : "Kļūda, daloties",
     "Error while unsharing" : "Kļūda, beidzot dalīties",
     "Error setting expiration date" : "Kļūda, iestatot termiņa datumu",
-    "Set expiration date" : "Iestaties termiņa datumu",
+    "Set expiration date" : "Iestatiet termiņa datumu",
     "Expiration date" : "Termiņa datums",
     "Resharing is not allowed" : "Atkārtota dalīšanās nav atļauta",
     "Share link" : "Dalīt saiti",
