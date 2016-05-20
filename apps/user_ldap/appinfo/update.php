@@ -30,7 +30,8 @@ $userFilterKey = 'ldapUserFilter';
 //loop through ldap servers configured and remove computer filter
 foreach($serverConfigurationPrefixes as $prefix) {
 	$configuration = new \OCA\user_ldap\lib\Configuration($prefix);
-	$access = \OCA\user_ldap\lib\AccessFactory::createAccess($prefix);
+	$accessFactory = new \OCA\user_ldap\lib\AccessFactory();
+	$access = $accessFactory->createAccess($prefix);
 	$wizard = new \OCA\user_ldap\lib\Wizard($configuration, $ldapWrapper, $access);
 
 	$setFeatures = $configuration->$userFilterObjectClassKey;

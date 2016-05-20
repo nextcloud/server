@@ -25,7 +25,11 @@ namespace OCA\user_ldap\lib;
 
 class AccessFactory {
 
-	public static function createAccess($configPrefix) {
+	public function __construct() {
+	}
+	
+
+	public function createAccess($configPrefix) {
 		$ocConfig = \OC::$server->getConfig();
 		$fs       = new FilesystemHelper();
 		$log      = new LogWrapper();
