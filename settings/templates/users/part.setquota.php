@@ -1,6 +1,6 @@
 <div class="quota">
 	<!-- Default storage -->
-	<span><?php p($l->t('Default quota'));?></span>
+	<span><?php p($l->t('Default Quota'));?></span>
 	<?php if((bool) $_['isAdmin']): ?>
 		<select id='default_quota' data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB")')) ?>" data-tipsy-gravity="s">
 			<option <?php if($_['default_quota'] === 'none') print_unescaped('selected="selected"');?> value='none'>
@@ -26,7 +26,7 @@
 	<?php endif; ?>
 	<?php if((bool) !$_['isAdmin']): ?>
 		: 
-		<?php if( $_['default_quota']=="none"): ?>
+		<?php if( $_['default_quota'] === 'none'): ?>
 			<?php p($l->t('Unlimited'));?>
 		<?php else: ?>
 			<?php p($_['default_quota']);?>
