@@ -29,6 +29,10 @@ use OCP\IDBConnection;
  * Propagate etags and mtimes within the storage
  */
 class Propagator implements IPropagator {
+	private $inBatch = false;
+
+	private $batch = [];
+
 	/**
 	 * @var \OC\Files\Storage\Storage
 	 */
@@ -58,6 +62,13 @@ class Propagator implements IPropagator {
 		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
 
 		$parents = $this->getParents($internalPath);
+
+		if ($this->inBatch) {
+			foreach ($parents as $parent) {
+				$this->addToBatch($parent, $time, $sizeDifference);
+			}
+			return;
+		}
 
 		$parentHashes = array_map('md5', $parents);
 		$etag = uniqid(); // since we give all folders the same etag we don't ask the storage for the etag
@@ -98,4 +109,79 @@ class Propagator implements IPropagator {
 		}
 		return $parents;
 	}
+
+	/**
+	 * Mark the beginning of a propagation batch
+	 *
+	 * Note that not all cache setups support propagation in which case this will be a noop
+	 *
+	 * Batching for cache setups that do support it has to be explicit since the cache state is not fully consistent
+	 * before the batch is committed.
+	 */
+	public function beginBatch() {
+		$this->inBatch = true;
+	}
+
+	private function addToBatch($internalPath, $time, $sizeDifference) {
+		if (!isset($this->batch[$internalPath])) {
+			$this->batch[$internalPath] = [
+				'hash' => md5($internalPath),
+				'time' => $time,
+				'size' => $sizeDifference
+			];
+		} else {
+			$this->batch[$internalPath]['size'] += $sizeDifference;
+			if ($time > $this->batch[$internalPath]['time']) {
+				$this->batch[$internalPath]['time'] = $time;
+			}
+		}
+	}
+
+	/**
+	 * Commit the active propagation batch
+	 */
+	public function commitBatch() {
+		if (!$this->inBatch) {
+			throw new \BadMethodCallException('Not in batch');
+		}
+		$this->inBatch = false;
+
+		$this->connection->beginTransaction();
+
+		$query = $this->connection->getQueryBuilder();
+		$storageId = (int)$this->storage->getStorageCache()->getNumericId();
+
+		$query->update('filecache')
+			->set('mtime', $query->createFunction('GREATEST(`mtime`, ' . $query->createParameter('time') . ')'))
+			->set('etag', $query->expr()->literal(uniqid()))
+			->where($query->expr()->eq('storage', $query->expr()->literal($storageId, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')));
+
+		$sizeQuery = $this->connection->getQueryBuilder();
+		$sizeQuery->update('filecache')
+			->set('size', $sizeQuery->createFunction('`size` + ' . $sizeQuery->createParameter('size')))
+			->where($query->expr()->eq('storage', $query->expr()->literal($storageId, IQueryBuilder::PARAM_INT)))
+			->andWhere($query->expr()->eq('path_hash', $query->createParameter('hash')))
+			->andWhere($sizeQuery->expr()->gt('size', $sizeQuery->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
+
+		foreach ($this->batch as $item) {
+			$query->setParameter('time', $item['time']);
+			$query->setParameter('hash', $item['hash']);
+
+			$query->execute();
+
+			if ($item['size']) {
+				$sizeQuery->setParameter('size', $item['size']);
+				$sizeQuery->setParameter('hash', $item['hash']);
+
+				$sizeQuery->execute();
+			}
+		}
+
+		$this->batch = [];
+
+		$this->connection->commit();
+	}
+
+
 }
