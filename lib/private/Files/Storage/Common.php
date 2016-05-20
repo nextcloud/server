@@ -345,7 +345,9 @@ abstract class Common implements Storage, ILockingStorage {
 	}
 
 	public function getIndexerIdentifier() {
-		return $this->indexerIdentifier;
+		return $this->indexerIdentifier ?
+			$this->indexerIdentifier :
+			'\OCA\Files\Search\DatabaseIndexer';
 	}
 
 	/**
