@@ -53,6 +53,7 @@ use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
+use OCP\Files\UnseekableException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
@@ -419,6 +420,39 @@ class View {
 			}
 			$size = $this->filesize($path);
 			return $size;
+		}
+		return false;
+	}
+
+	/**
+	 * @param string $path
+	 * @param int $from 
+	 * @param int $to
+	 * @return bool|mixed
+	 * @throws \OCP\Files\InvalidPathException, \OCP\Files\UnseekableException
+	 */
+	public function readfilePart($path, $from, $to) {
+		$this->assertPathLength($path);
+		@ob_end_clean();
+		$handle = $this->fopen($path, 'rb');
+		if ($handle) {
+			if (fseek($handle, $from) === 0) {
+			    $chunkSize = 8192; // 8 kB chunks
+			    $end = $to + 1;
+			    while (!feof($handle) && ftell($handle) < $end) {
+				$len = $end-ftell($handle);
+				if ($len > $chunkSize) { 
+				    $len = $chunkSize; 
+				}
+				echo fread($handle, $len);
+				flush();
+			    }
+			    $size = ftell($handle) - $from;
+			    return $size;
+			}
+			else {
+			    throw new \OCP\Files\UnseekableException('fseek error');
+			}
 		}
 		return false;
 	}
