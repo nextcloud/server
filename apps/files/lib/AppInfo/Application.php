@@ -24,6 +24,7 @@
 namespace OCA\Files\AppInfo;
 
 use OCA\Files\Controller\ApiController;
+use OCA\Files\Controller\SearchController;
 use OCP\AppFramework\App;
 use \OCA\Files\Service\TagService;
 use \OCP\IContainer;
@@ -47,6 +48,16 @@ class Application extends App {
 				$server->getPreviewManager(),
 				$server->getShareManager(),
 				$server->getConfig()
+			);
+		});
+
+		$container->registerService('SearchController', function (IContainer $c) use ($server) {
+			return new SearchController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$server->getUserSession(),
+				$server->getConfig(),
+				$server->getRootFolder()
 			);
 		});
 

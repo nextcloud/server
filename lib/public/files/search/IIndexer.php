@@ -36,12 +36,13 @@ interface IIndexer {
 
 	/**
 	 * search storages for query
-	 * @param $query
+	 * @param string $query
+	 * @param string $path limit search to a certain subdirectory
 	 * @param null|integer $page
 	 * @param null|integer $size
 	 * @return \OCP\Search\ScoredResult[]
 	 * @since 9.1.0
 	 */
-	public function search($query, $page=null, $size=null);
+	public function search($query, $path, $page=null, $size=null);
 
 }
