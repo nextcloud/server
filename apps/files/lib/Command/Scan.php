@@ -86,6 +86,11 @@ class Scan extends Base {
 				null,
 				InputOption::VALUE_NONE,
 				'will rescan all files of all known users'
+			)->addOption(
+				'unscanned',
+				null,
+				InputOption::VALUE_NONE,
+				'only scan files which are marked as not fully scanned'
 			);
 	}
 
@@ -98,7 +103,7 @@ class Scan extends Base {
 		}
 	}
 
-	protected function scanFiles($user, $path, $verbose, OutputInterface $output) {
+	protected function scanFiles($user, $path, $verbose, OutputInterface $output, $backgroundScan = false) {
 		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection(), \OC::$server->getLogger());
 		# check on each file/folder if there was a user interrupt (ctrl-c) and throw an exception
 		# printout and count
@@ -143,7 +148,11 @@ class Scan extends Base {
 		});
 
 		try {
-			$scanner->scan($path);
+			if ($backgroundScan) {
+				$scanner->backgroundScan($path);
+			}else {
+				$scanner->scan($path);
+			}
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Home storage for user $user not writable</error>");
 			$output->writeln("Make sure you're running the scan command only as the user the web server runs as");
@@ -210,7 +219,7 @@ class Scan extends Base {
 				if ($verbose) {$output->writeln(""); }
 				$output->writeln("Starting scan for user $user_count out of $users_total ($user)");
 				# full: printout data if $verbose was set
-				$this->scanFiles($user, $path, $verbose, $output);
+				$this->scanFiles($user, $path, $verbose, $output, $input->getOption('unscanned'));
 			} else {
 				$output->writeln("<error>Unknown user $user_count $user</error>");
 			}
