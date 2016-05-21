@@ -968,7 +968,24 @@
 			</field>
 
 			<field>
+				<!-- timestamp when the job was executed the last time -->
 				<name>last_run</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<!-- timestamp when the job was checked if it needs execution the last time -->
+				<name>last_checked</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+
+			<field>
+				<!-- timestamp when the job was reserved the last time, 1 day timeout -->
+				<name>reserved_at</name>
 				<type>integer</type>
 				<default></default>
 				<notnull>false</notnull>

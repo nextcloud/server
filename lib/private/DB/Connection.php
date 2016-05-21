@@ -25,6 +25,7 @@
  */
 
 namespace OC\DB;
+
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Configuration;
@@ -45,6 +46,8 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @var \OC\DB\Adapter $adapter
 	 */
 	protected $adapter;
+
+	protected $lockedTable = null;
 
 	public function connect() {
 		try {
@@ -281,7 +284,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			foreach ($values as $name => $value) {
 				$updateQb->set($name, $updateQb->createNamedParameter($value, $this->getType($value)));
 			}
-			$where = $updateQb->expr()->andx();
+			$where = $updateQb->expr()->andX();
 			$whereValues = array_merge($keys, $updatePreconditionValues);
 			foreach ($whereValues as $name => $value) {
 				$where->add($updateQb->expr()->eq(
@@ -299,6 +302,33 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 
 			return 0;
 		}
+	}
+
+	/**
+	 * Create an exclusive read+write lock on a table
+	 *
+	 * @param string $tableName
+	 * @throws \BadMethodCallException When trying to acquire a second lock
+	 * @since 9.1.0
+	 */
+	public function lockTable($tableName) {
+		if ($this->lockedTable !== null) {
+			throw new \BadMethodCallException('Can not lock a new table until the previous lock is released.');
+		}
+
+		$tableName = $this->tablePrefix . $tableName;
+		$this->lockedTable = $tableName;
+		$this->adapter->lockTable($tableName);
+	}
+
+	/**
+	 * Release a previous acquired lock again
+	 *
+	 * @since 9.1.0
+	 */
+	public function unlockTable() {
+		$this->adapter->unlockTable();
+		$this->lockedTable = null;
 	}
 
 	/**

@@ -362,7 +362,11 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService('JobList', function (Server $c) {
 			$config = $c->getConfig();
-			return new \OC\BackgroundJob\JobList($c->getDatabaseConnection(), $config);
+			return new \OC\BackgroundJob\JobList(
+				$c->getDatabaseConnection(),
+				$config,
+				new TimeFactory()
+			);
 		});
 		$this->registerService('Router', function (Server $c) {
 			$cacheFactory = $c->getMemCacheFactory();

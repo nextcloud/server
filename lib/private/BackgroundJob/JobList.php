@@ -25,27 +25,34 @@
 namespace OC\BackgroundJob;
 
 use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\BackgroundJob\IJob;
 use OCP\BackgroundJob\IJobList;
 use OCP\AutoloadNotAllowedException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IConfig;
+use OCP\IDBConnection;
 
 class JobList implements IJobList {
-	/** @var \OCP\IDBConnection */
+
+	/** @var IDBConnection */
 	protected $connection;
 
-	/**
-	 * @var \OCP\IConfig $config
-	 */
+	/**@var IConfig */
 	protected $config;
 
+	/**@var ITimeFactory */
+	protected $timeFactory;
+
 	/**
-	 * @param \OCP\IDBConnection $connection
-	 * @param \OCP\IConfig $config
+	 * @param IDBConnection $connection
+	 * @param IConfig $config
+	 * @param ITimeFactory $timeFactory
 	 */
-	public function __construct($connection, $config) {
+	public function __construct(IDBConnection $connection, IConfig $config, ITimeFactory $timeFactory) {
 		$this->connection = $connection;
 		$this->config = $config;
+		$this->timeFactory = $timeFactory;
 	}
 
 	/**
@@ -71,6 +78,7 @@ class JobList implements IJobList {
 					'class' => $query->createNamedParameter($class),
 					'argument' => $query->createNamedParameter($argument),
 					'last_run' => $query->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+					'last_checked' => $query->createNamedParameter($this->timeFactory->getTime(), IQueryBuilder::PARAM_INT),
 				]);
 			$query->execute();
 		}
@@ -167,45 +175,40 @@ class JobList implements IJobList {
 	 * @return IJob|null
 	 */
 	public function getNext() {
-		$lastId = $this->getLastJob();
-
 		$query = $this->connection->getQueryBuilder();
 		$query->select('*')
 			->from('jobs')
-			->where($query->expr()->lt('id', $query->createNamedParameter($lastId, IQueryBuilder::PARAM_INT)))
-			->orderBy('id', 'DESC')
+			->where($query->expr()->lte('reserved_at', $query->createNamedParameter($this->timeFactory->getTime() - 12 * 3600, IQueryBuilder::PARAM_INT)))
+			->orderBy('last_checked', 'ASC')
 			->setMaxResults(1);
+
+		$update = $this->connection->getQueryBuilder();
+		$update->update('jobs')
+			->set('reserved_at', $update->createNamedParameter($this->timeFactory->getTime()))
+			->set('last_checked', $update->createNamedParameter($this->timeFactory->getTime()))
+			->where($update->expr()->eq('id', $update->createParameter('jobid')));
+
+		$this->connection->lockTable('jobs');
 		$result = $query->execute();
 		$row = $result->fetch();
 		$result->closeCursor();
 
 		if ($row) {
-			$jobId = $row['id'];
+			$update->setParameter('jobid', $row['id']);
+			$update->execute();
+			$this->connection->unlockTable();
+
 			$job = $this->buildJob($row);
-		} else {
-			//begin at the start of the queue
-			$query = $this->connection->getQueryBuilder();
-			$query->select('*')
-				->from('jobs')
-				->orderBy('id', 'DESC')
-				->setMaxResults(1);
-			$result = $query->execute();
-			$row = $result->fetch();
-			$result->closeCursor();
 
-			if ($row) {
-				$jobId = $row['id'];
-				$job = $this->buildJob($row);
-			} else {
-				return null; //empty job list
+			if ($job === null) {
+				// Background job from disabled app, try again.
+				return $this->getNext();
 			}
-		}
 
-		if (is_null($job)) {
-			$this->removeById($jobId);
-			return $this->getNext();
-		} else {
 			return $job;
+		} else {
+			$this->connection->unlockTable();
+			return null;
 		}
 	}
 
@@ -267,13 +270,30 @@ class JobList implements IJobList {
 	 * @param IJob $job
 	 */
 	public function setLastJob($job) {
+		$this->unlockJob($job);
 		$this->config->setAppValue('backgroundjob', 'lastjob', $job->getId());
+	}
+
+	/**
+	 * Remove the reservation for a job
+	 *
+	 * @param IJob $job
+	 */
+	public function unlockJob($job) {
+		$query = $this->connection->getQueryBuilder();
+		$query->update('jobs')
+			->set('reserved_at', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
+			->where($query->expr()->eq('id', $query->createNamedParameter($job->getId(), IQueryBuilder::PARAM_INT)));
+		$query->execute();
 	}
 
 	/**
 	 * get the id of the last ran job
 	 *
 	 * @return int
+	 * @deprecated 9.1.0 - The functionality behind the value is deprecated, it
+	 *    only tells you which job finished last, but since we now allow multiple
+	 *    executors to run in parallel, it's not used to calculate the next job.
 	 */
 	public function getLastJob() {
 		return (int) $this->config->getAppValue('backgroundjob', 'lastjob', 0);

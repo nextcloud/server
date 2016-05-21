@@ -58,6 +58,26 @@ class Adapter {
 	}
 
 	/**
+	 * Create an exclusive read+write lock on a table
+	 *
+	 * @param string $tableName
+	 * @since 9.1.0
+	 */
+	public function lockTable($tableName) {
+		$this->conn->beginTransaction();
+		$this->conn->executeUpdate('LOCK TABLE `' .$tableName . '` IN EXCLUSIVE MODE');
+	}
+
+	/**
+	 * Release a previous acquired lock again
+	 *
+	 * @since 9.1.0
+	 */
+	public function unlockTable() {
+		$this->conn->commit();
+	}
+
+	/**
 	 * Insert a row if the matching row does not exists.
 	 *
 	 * @param string $table The table name (will replace *PREFIX* with the actual prefix)
