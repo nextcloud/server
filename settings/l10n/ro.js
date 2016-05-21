@@ -88,6 +88,7 @@ OC.L10N.register(
     "Less" : "Mai puțin",
     "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "În special atunci când este folosit clientul desktop pentru sincronizarea fișierelor, utilizarea SQLite este nerecomandată.",
     "Version" : "Versiunea",
+    "Cheers!" : "Noroc!",
     "Forum" : "Forum",
     "Profile picture" : "Imagine de profil",
     "Upload new" : "Încarcă una nouă",

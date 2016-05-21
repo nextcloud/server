@@ -161,6 +161,7 @@ OC.L10N.register(
     "Access forbidden" : "Acces restricționat",
     "File not found" : "Fișierul nu a fost găsit",
     "The share will expire on %s." : "Partajarea va expira în data de %s.",
+    "Cheers!" : "Noroc!",
     "Technical details" : "Detalii tehnice",
     "Type: %s" : "Tip: %s",
     "Code: %s" : "Cod: %s",
