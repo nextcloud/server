@@ -16,10 +16,13 @@ OC.Settings = _.extend(OC.Settings, {
 	 * for groups)
 	 *
 	 * @param $elements jQuery element (hidden input) to setup select2 on
-	 * @param [extraOptions] extra options hash to pass to select2
+	 * @param {Array} [extraOptions] extra options hash to pass to select2
+	 * @param {Array} [options] extra options
+	 * @param {Array} [options.excludeAdmins=false] flag whether to exclude admin groups
 	 */
-	setupGroupsSelect: function($elements, extraOptions) {
+	setupGroupsSelect: function($elements, extraOptions, options) {
 		var self = this;
+		options = options || {};
 		if ($elements.length > 0) {
 			// note: settings are saved through a "change" event registered
 			// on all input fields
@@ -48,9 +51,11 @@ OC.Settings = _.extend(OC.Settings, {
 							var results = [];
 
 							// add groups
-							$.each(data.data.adminGroups, function(i, group) {
-								results.push({id:group.id, displayname:group.name});
-							});
+							if (!options.excludeAdmins) {
+								$.each(data.data.adminGroups, function(i, group) {
+									results.push({id:group.id, displayname:group.name});
+								});
+							}
 							$.each(data.data.groups, function(i, group) {
 								results.push({id:group.id, displayname:group.name});
 							});

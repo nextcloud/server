@@ -24,6 +24,7 @@ namespace OCA\DAV\Tests\Unit\SystemTag;
 use Sabre\DAV\Exception\NotFound;
 use OC\SystemTag\SystemTag;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\SystemTag\ISystemTag;
 
 class SystemTagMappingNode extends \Test\TestCase {
 
@@ -37,14 +38,20 @@ class SystemTagMappingNode extends \Test\TestCase {
 	 */
 	private $tagMapper;
 
+	/**
+	 * @var \OCP\IUser
+	 */
+	private $user;
+
 	protected function setUp() {
 		parent::setUp();
 
 		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
 		$this->tagMapper = $this->getMock('\OCP\SystemTag\ISystemTagObjectMapper');
+		$this->user = $this->getMock('\OCP\IUser');
 	}
 
-	public function getMappingNode($isAdmin = true, $tag = null) {
+	public function getMappingNode($tag = null) {
 		if ($tag === null) {
 			$tag = new SystemTag(1, 'Test', true, true);
 		}
@@ -52,7 +59,7 @@ class SystemTagMappingNode extends \Test\TestCase {
 			$tag,
 			123,
 			'files',
-			$isAdmin,
+			$this->user,
 			$this->tagManager,
 			$this->tagMapper
 		);
@@ -60,28 +67,30 @@ class SystemTagMappingNode extends \Test\TestCase {
 
 	public function testGetters() {
 		$tag = new SystemTag(1, 'Test', true, false);
-		$node = $this->getMappingNode(true, $tag);
+		$node = $this->getMappingNode($tag);
 		$this->assertEquals('1', $node->getName());
 		$this->assertEquals($tag, $node->getSystemTag());
 		$this->assertEquals(123, $node->getObjectId());
 		$this->assertEquals('files', $node->getObjectType());
 	}
 
-	public function adminFlagProvider() {
-		return [[true], [false]];
-	}
-
-	/**
-	 * @dataProvider adminFlagProvider
-	 */
-	public function testDeleteTag($isAdmin) {
+	public function testDeleteTag() {
+		$node = $this->getMappingNode();
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($node->getSystemTag())
+			->will($this->returnValue(true));
+		$this->tagManager->expects($this->once())
+			->method('canUserAssignTag')
+			->with($node->getSystemTag())
+			->will($this->returnValue(true));
 		$this->tagManager->expects($this->never())
 			->method('deleteTags');
 		$this->tagMapper->expects($this->once())
 			->method('unassignTags')
 			->with(123, 'files', 1);
 
-		$this->getMappingNode($isAdmin)->delete();
+		$node->delete();
 	}
 
 	public function tagNodeDeleteProviderPermissionException() {
@@ -102,7 +111,15 @@ class SystemTagMappingNode extends \Test\TestCase {
 	/**
 	 * @dataProvider tagNodeDeleteProviderPermissionException
 	 */
-	public function testDeleteTagExpectedException($tag, $expectedException) {
+	public function testDeleteTagExpectedException(ISystemTag $tag, $expectedException) {
+		$this->tagManager->expects($this->any())
+			->method('canUserSeeTag')
+			->with($tag)
+			->will($this->returnValue($tag->isUserVisible()));
+		$this->tagManager->expects($this->any())
+			->method('canUserAssignTag')
+			->with($tag)
+			->will($this->returnValue($tag->isUserAssignable()));
 		$this->tagManager->expects($this->never())
 			->method('deleteTags');
 		$this->tagMapper->expects($this->never())
@@ -110,7 +127,7 @@ class SystemTagMappingNode extends \Test\TestCase {
 
 		$thrown = null;
 		try {
-			$this->getMappingNode(false, $tag)->delete();
+			$this->getMappingNode($tag)->delete();
 		} catch (\Exception $e) {
 			$thrown = $e;
 		}
@@ -122,11 +139,22 @@ class SystemTagMappingNode extends \Test\TestCase {
 	 * @expectedException Sabre\DAV\Exception\NotFound
 	 */
 	public function testDeleteTagNotFound() {
+		// assuming the tag existed at the time the node was created,
+		// but got deleted concurrently in the database
+		$tag = new SystemTag(1, 'Test', true, true);
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->will($this->returnValue($tag->isUserVisible()));
+		$this->tagManager->expects($this->once())
+			->method('canUserAssignTag')
+			->with($tag)
+			->will($this->returnValue($tag->isUserAssignable()));
 		$this->tagMapper->expects($this->once())
 			->method('unassignTags')
 			->with(123, 'files', 1)
 			->will($this->throwException(new TagNotFoundException()));
 
-		$this->getMappingNode()->delete();
+		$this->getMappingNode($tag)->delete();
 	}
 }

@@ -22,6 +22,9 @@
 
 namespace OCP\SystemTag;
 
+use OCP\IUser;
+use OCP\SystemTag\ISystemTag;
+
 /**
  * Public interface to access and manage system-wide tags.
  *
@@ -113,4 +116,49 @@ interface ISystemTagManager {
 	 */
 	public function deleteTags($tagIds);
 
+	/**
+	 * Checks whether the given user is allowed to assign/unassign the tag with the
+	 * given id.
+	 *
+	 * @param ISystemTag $tag tag to check permission for
+	 * @param IUser $user user to check permission for
+	 *
+	 * @return true if the user is allowed to assign/unassign the tag, false otherwise
+	 *
+	 * @since 9.1.0
+	 */
+	public function canUserAssignTag(ISystemTag $tag, IUser $user);
+
+	/**
+	 * Checks whether the given user is allowed to see the tag with the given id.
+	 *
+	 * @param ISystemTag $tag tag to check permission for
+	 * @param IUser $user user to check permission for
+	 *
+	 * @return true if the user can see the tag, false otherwise
+	 *
+	 * @since 9.1.0
+	 */
+	public function canUserSeeTag(ISystemTag $tag, IUser $userId);
+
+	/**
+	 * Set groups that can assign a given tag.
+	 *
+	 * @param ISystemTag $tag tag for group assignment
+	 * @param string[] $groupIds group ids of groups that can assign/unassign the tag
+	 *
+	 * @since 9.1.0
+	 */
+	public function setTagGroups(ISystemTag $tag, $groupIds);
+
+	/**
+	 * Get groups that can assign a given tag.
+	 *
+	 * @param ISystemTag $tag tag for group assignment
+	 *
+	 * @return string[] group ids of groups that can assign/unassign the tag
+	 *
+	 * @since 9.1.0
+	 */
+	public function getTagGroups(ISystemTag $tag);
 }

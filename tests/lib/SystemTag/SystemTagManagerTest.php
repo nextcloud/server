@@ -17,6 +17,8 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Test\TestCase;
+use OCP\IUserManager;
+use OCP\IGroupManager;
 
 /**
  * Class TestSystemTagManager
@@ -37,6 +39,11 @@ class SystemTagManagerTest extends TestCase {
 	private $connection;
 
 	/**
+	 * @var IGroupManager
+	 */
+	private $groupManager;
+
+	/**
 	 * @var EventDispatcherInterface
 	 */
 	private $dispatcher;
@@ -49,8 +56,11 @@ class SystemTagManagerTest extends TestCase {
 		$this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
 			->getMock();
 
+		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')->getMock();
+
 		$this->tagManager = new SystemTagManager(
 			$this->connection,
+			$this->groupManager,
 			$this->dispatcher
 		);
 		$this->pruneTagsTables();
@@ -408,6 +418,102 @@ class SystemTagManagerTest extends TestCase {
 			1 => [$tag2->getId()],
 			2 => [],
 		], $tagIdMapping);
+	}
+
+	public function visibilityCheckProvider() {
+		return [
+			[false, false, false, false],
+			[true, false, false, true],
+			[false, false, true, true],
+			[true, false, true, true],
+		];
+	}
+
+	/**
+	 * @dataProvider visibilityCheckProvider
+	 */
+	public function testVisibilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult) {
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('test'));
+		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
+
+		$this->groupManager->expects($this->any())
+			->method('isAdmin')
+			->with('test')
+			->will($this->returnValue($isAdmin));
+
+		$this->assertEquals($expectedResult, $this->tagManager->canUserSeeTag($tag1, $user));
+	}
+
+	public function assignabilityCheckProvider() {
+		return [
+			// no groups
+			[false, false, false, false],
+			[true, false, false, false],
+			[true, true, false, true],
+			[false, true, false, false],
+			// admin rulez
+			[false, false, true, true],
+			[false, true, true, true],
+			[true, false, true, true],
+			[true, true, true, true],
+			// ignored groups
+			[false, false, false, false, ['group1'], ['group1']],
+			[true, true, false, true, ['group1'], ['group1']],
+			[true, true, false, true, ['group1'], ['anothergroup']],
+			[false, true, false, false, ['group1'], ['group1']],
+			// admin has precedence over groups
+			[false, false, true, true, ['group1'], ['anothergroup']],
+			[false, true, true, true, ['group1'], ['anothergroup']],
+			[true, false, true, true, ['group1'], ['anothergroup']],
+			[true, true, true, true, ['group1'], ['anothergroup']],
+			// groups only checked when visible and user non-assignable and non-admin
+			[true, false, false, false, ['group1'], ['anothergroup1']],
+			[true, false, false, true, ['group1'], ['group1']],
+			[true, false, false, true, ['group1', 'group2'], ['group2', 'group3']],
+		];
+	}
+
+	/**
+	 * @dataProvider assignabilityCheckProvider
+	 */
+	public function testAssignabilityCheck($userVisible, $userAssignable, $isAdmin, $expectedResult, $userGroupIds = [], $tagGroupIds = []) {
+		$user = $this->getMockBuilder('\OCP\IUser')->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('test'));
+		$tag1 = $this->tagManager->createTag('one', $userVisible, $userAssignable);
+		$this->tagManager->setTagGroups($tag1, $tagGroupIds);
+
+		$this->groupManager->expects($this->any())
+			->method('isAdmin')
+			->with('test')
+			->will($this->returnValue($isAdmin));
+		$this->groupManager->expects($this->any())
+			->method('getUserGroupIds')
+			->with($user)
+			->will($this->returnValue($userGroupIds));
+
+		$this->assertEquals($expectedResult, $this->tagManager->canUserAssignTag($tag1, $user));
+	}
+
+	public function testTagGroups() {
+		$tag1 = $this->tagManager->createTag('tag1', true, false);
+		$tag2 = $this->tagManager->createTag('tag2', true, false);
+		$this->tagManager->setTagGroups($tag1, ['group1', 'group2']);
+		$this->tagManager->setTagGroups($tag2, ['group2', 'group3']);
+
+		$this->assertEquals(['group1', 'group2'], $this->tagManager->getTagGroups($tag1));
+		$this->assertEquals(['group2', 'group3'], $this->tagManager->getTagGroups($tag2));
+
+		// change groups
+		$this->tagManager->setTagGroups($tag1, ['group3', 'group4']);
+		$this->tagManager->setTagGroups($tag2, []);
+
+		$this->assertEquals(['group3', 'group4'], $this->tagManager->getTagGroups($tag1));
+		$this->assertEquals([], $this->tagManager->getTagGroups($tag2));
 	}
 
 	/**

@@ -24,21 +24,22 @@ namespace OCA\DAV\SystemTag;
 
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\MethodNotAllowed;
 
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\SystemTag\TagNotFoundException;
+use OCP\IUser;
 
 /**
  * Mapping node for system tag to object id
  */
-class SystemTagMappingNode extends SystemTagNode {
-
+class SystemTagMappingNode implements \Sabre\DAV\INode {
 	/**
-	 * @var ISystemTagObjectMapper
+	 * @var ISystemTag
 	 */
-	private $tagMapper;
+	protected $tag;
 
 	/**
 	 * @var string
@@ -51,12 +52,29 @@ class SystemTagMappingNode extends SystemTagNode {
 	private $objectType;
 
 	/**
+	 * User
+	 *
+	 * @var IUser
+	 */
+	protected $user;
+
+	/**
+	 * @var ISystemTagManager
+	 */
+	protected $tagManager;
+
+	/**
+	 * @var ISystemTagObjectMapper
+	 */
+	private $tagMapper;
+
+	/**
 	 * Sets up the node, expects a full path name
 	 *
 	 * @param ISystemTag $tag system tag
 	 * @param string $objectId
 	 * @param string $objectType
-	 * @param bool $isAdmin whether to allow permissions for admin
+	 * @param IUser $user user
 	 * @param ISystemTagManager $tagManager
 	 * @param ISystemTagObjectMapper $tagMapper
 	 */
@@ -64,14 +82,16 @@ class SystemTagMappingNode extends SystemTagNode {
 		ISystemTag $tag,
 		$objectId,
 		$objectType,
-		$isAdmin,
+		IUser $user,
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper
 	) {
+		$this->tag = $tag;
 		$this->objectId = $objectId;
 		$this->objectType = $objectType;
+		$this->user = $user;
+		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
-		parent::__construct($tag, $isAdmin, $tagManager);
 	}
 
 	/**
@@ -93,17 +113,52 @@ class SystemTagMappingNode extends SystemTagNode {
 	}
 
 	/**
+	 * Returns the system tag represented by this node
+	 *
+	 * @return ISystemTag system tag
+	 */
+	public function getSystemTag() {
+		return $this->tag;
+	}
+
+	/**
+	 *  Returns the id of the tag
+	 *
+	 * @return string
+	 */
+	public function getName() {
+		return $this->tag->getId();
+	}
+
+	/**
+	 * Renames the node
+	 *
+	 * @param string $name The new name
+	 *
+	 * @throws MethodNotAllowed not allowed to rename node
+	 */
+	public function setName($name) {
+		throw new MethodNotAllowed();
+	}
+
+	/**
+	 * Returns null, not supported
+	 *
+	 */
+	public function getLastModified() {
+		return null;
+	}
+
+	/**
 	 * Delete tag to object association
 	 */
 	public function delete() {
 		try {
-			if (!$this->isAdmin) {
-				if (!$this->tag->isUserVisible()) {
-					throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found');
-				}
-				if (!$this->tag->isUserAssignable()) {
-					throw new Forbidden('No permission to unassign tag ' . $this->tag->getId());
-				}
+			if (!$this->tagManager->canUserSeeTag($this->tag, $this->user)) {
+				throw new NotFound('Tag with id ' . $this->tag->getId() . ' not found');
+			}
+			if (!$this->tagManager->canUserAssignTag($this->tag, $this->user)) {
+				throw new Forbidden('No permission to unassign tag ' . $this->tag->getId());
 			}
 			$this->tagMapper->unassignTags($this->objectId, $this->objectType, $this->tag->getId());
 		} catch (TagNotFoundException $e) {

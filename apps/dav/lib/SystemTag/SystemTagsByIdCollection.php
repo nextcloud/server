@@ -32,6 +32,7 @@ use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\TagNotFoundException;
 use OCP\IGroupManager;
 use OCP\IUserSession;
+use OC\User\NoUserException;
 
 class SystemTagsByIdCollection implements ICollection {
 
@@ -69,6 +70,8 @@ class SystemTagsByIdCollection implements ICollection {
 
 	/**
 	 * Returns whether the currently logged in user is an administrator
+	 *
+	 * @return bool true if the user is an admin
 	 */
 	private function isAdmin() {
 		$user = $this->userSession->getUser();
@@ -101,7 +104,7 @@ class SystemTagsByIdCollection implements ICollection {
 		try {
 			$tag = $this->tagManager->getTagsByIds([$name]);
 			$tag = current($tag);
-			if (!$this->isAdmin() && !$tag->isUserVisible()) {
+			if (!$this->tagManager->canUserSeeTag($tag, $this->userSession->getUser())) {
 				throw new NotFound('Tag with id ' . $name . ' not found');
 			}
 			return $this->makeNode($tag);
@@ -131,7 +134,7 @@ class SystemTagsByIdCollection implements ICollection {
 		try {
 			$tag = $this->tagManager->getTagsByIds([$name]);
 			$tag = current($tag);
-			if (!$this->isAdmin() && !$tag->isUserVisible()) {
+			if (!$this->tagManager->canUserSeeTag($tag, $this->userSession->getUser())) {
 				return false;
 			}
 			return true;
@@ -171,6 +174,6 @@ class SystemTagsByIdCollection implements ICollection {
 	 * @return SystemTagNode
 	 */
 	private function makeNode(ISystemTag $tag) {
-		return new SystemTagNode($tag, $this->isAdmin(), $this->tagManager);
+		return new SystemTagNode($tag, $this->userSession->getUser(), $this->isAdmin(), $this->tagManager);
 	}
 }

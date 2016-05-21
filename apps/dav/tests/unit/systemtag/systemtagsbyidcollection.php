@@ -32,6 +32,11 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	 */
 	private $tagManager;
 
+	/**
+	 * @var \OCP\IUser
+	 */
+	private $user;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -39,14 +44,14 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	}
 
 	public function getNode($isAdmin = true) {
-		$user = $this->getMock('\OCP\IUser');
-		$user->expects($this->any())
+		$this->user = $this->getMock('\OCP\IUser');
+		$this->user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('testuser'));
 		$userSession = $this->getMock('\OCP\IUserSession');
 		$userSession->expects($this->any())
 			->method('getUser')
-			->will($this->returnValue($user));
+			->will($this->returnValue($this->user));
 		$groupManager = $this->getMock('\OCP\IGroupManager');
 		$groupManager->expects($this->any())
 			->method('isAdmin')
@@ -77,35 +82,19 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 		$this->getNode()->createDirectory('789');
 	}
 
-	public function getChildProvider() {
-		return [
-			[
-				true,
-				true,
-			],
-			[
-				true,
-				false,
-			],
-			[
-				false,
-				true,
-			],
-		];
-	}
-
-	/**
-	 * @dataProvider getChildProvider
-	 */
-	public function testGetChild($isAdmin, $userVisible) {
-		$tag = new SystemTag(123, 'Test', $userVisible, false);
+	public function testGetChild() {
+		$tag = new SystemTag(123, 'Test', true, false);
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->will($this->returnValue(true));
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['123'])
 			->will($this->returnValue([$tag]));
 
-		$childNode = $this->getNode($isAdmin)->getChild('123');
+		$childNode = $this->getNode()->getChild('123');
 
 		$this->assertInstanceOf('\OCA\DAV\SystemTag\SystemTagNode', $childNode);
 		$this->assertEquals('123', $childNode->getName());
@@ -198,27 +187,27 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 
 	public function childExistsProvider() {
 		return [
-			// admins, always visible
-			[true, true, true],
-			[true, false, true],
-			// non-admins, depends on flag
-			[false, true, true],
-			[false, false, false],
+			[true, true],
+			[false, false],
 		];
 	}
 
 	/**
 	 * @dataProvider childExistsProvider
 	 */
-	public function testChildExists($isAdmin, $userVisible, $expectedResult) {
+	public function testChildExists($userVisible, $expectedResult) {
 		$tag = new SystemTag(123, 'One', $userVisible, false);
+		$this->tagManager->expects($this->once())
+			->method('canUserSeeTag')
+			->with($tag)
+			->will($this->returnValue($userVisible));
 
 		$this->tagManager->expects($this->once())
 			->method('getTagsByIds')
 			->with(['123'])
 			->will($this->returnValue([$tag]));
 
-		$this->assertEquals($expectedResult, $this->getNode($isAdmin)->childExists('123'));
+		$this->assertEquals($expectedResult, $this->getNode()->childExists('123'));
 	}
 
 	public function testChildExistsNotFound() {

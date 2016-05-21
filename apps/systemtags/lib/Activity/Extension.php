@@ -324,7 +324,7 @@ class Extension implements IExtension {
 				case 'assignable':
 					return '<parameter>' . $matches[1] . '</parameter>';
 				case 'not-assignable':
-					return '<parameter>' . $l->t('%s (not-assignable)', $matches[1]) . '</parameter>';
+					return '<parameter>' . $l->t('%s (restricted)', $matches[1]) . '</parameter>';
 				case 'invisible':
 					return '<parameter>' . $l->t('%s (invisible)', $matches[1]) . '</parameter>';
 			}

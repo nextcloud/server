@@ -1383,6 +1383,49 @@
 	<table>
 
 		<!--
+		System tag to group mapping
+		-->
+		<name>*dbprefix*systemtag_group</name>
+
+		<declaration>
+
+		<!-- Foreign Key systemtag::id -->
+		<field>
+			<name>systemtagid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<field>
+			<name>gid</name>
+			<type>string</type>
+			<notnull>true</notnull>
+		</field>
+
+		<index>
+			<name>systemtag_group</name>
+			<primary>true</primary>
+			<unique>true</unique>
+			<field>
+				<name>gid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>systemtagid</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<!--
 		Namespaced Key-Value Store for arbitrary data.
 		 - Keys are namespaced per userid and appid.
 		 - E.g. (admin, files, foo) -> bar

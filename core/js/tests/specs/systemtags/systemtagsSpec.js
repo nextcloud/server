@@ -64,6 +64,6 @@ describe('OC.SystemTags tests', function() {
 		testScope(true, true, 'Fourty Two');
 		testScope(false, true, 'Fourty Two (invisible)');
 		testScope(false, false, 'Fourty Two (invisible)');
-		testScope(true, false, 'Fourty Two (not assignable)');
+		testScope(true, false, 'Fourty Two (restricted)');
 	});
 });
