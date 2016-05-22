@@ -21,7 +21,6 @@ OC.L10N.register(
     "%1$s assigned system tag %3$s to %2$s" : "%1$s назначил системную метку %3$s для %2$s",
     "You unassigned system tag %3$s from %2$s" : "Вы назначили системный тег %3$s из %2$s",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s отсоединил системную метку %3$s для %2$s",
-    "%s (not-assignable)" : "%s (неназначаемые)",
     "%s (invisible)" : "%s (невидимые)",
     "No files in here" : "Здесь нет файлов",
     "No entries found in this folder" : "Нет элементов в этом каталоге",

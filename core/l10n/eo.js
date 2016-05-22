@@ -134,7 +134,6 @@ OC.L10N.register(
     "Warning" : "Averto",
     "Error while sending notification" : "Eraris sendo de sciigo",
     "Non-existing tag #{tag}" : "Ne ekzistas etikedo #{tag}",
-    "not assignable" : "neatribuebla",
     "invisible" : "nevidebla",
     "({scope})" : "({scope})",
     "Delete" : "Forigi",

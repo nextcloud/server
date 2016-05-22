@@ -9,7 +9,6 @@ OC.L10N.register(
     "%1$s deleted system tag %2$s" : "%1$s обриса системску ознаку %2$s",
     "%1$s updated system tag %3$s to %2$s" : "%1$s ажурира системску ознаку %3$s на %2$s",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s додели системску ознаку %3$s на %2$s",
-    "%s (not-assignable)" : "%s (недодељива)",
     "%s (invisible)" : "%s (невидљива)",
     "No files in here" : "Овде нема фајлова",
     "No entries found in this folder" : "Нема ничега у овој фасцикли",

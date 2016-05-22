@@ -195,7 +195,6 @@ OC.L10N.register(
     "Warning" : "警告",
     "Error while sending notification" : "发送通知时出现错误",
     "Non-existing tag #{tag}" : "标签 #{tag} 不存在",
-    "not assignable" : "不可分配",
     "invisible" : "不可见",
     "({scope})" : "({scope})",
     "Delete" : "删除",

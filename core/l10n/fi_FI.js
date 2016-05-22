@@ -187,7 +187,6 @@ OC.L10N.register(
     "Warning" : "Varoitus",
     "Error while sending notification" : "Virhe ilmoitusta lähettäessä",
     "Non-existing tag #{tag}" : "Ei olemassa oleva tunniste #{tag}",
-    "not assignable" : "ei määritettävissä",
     "invisible" : "näkymätön",
     "({scope})" : "({scope})",
     "Delete" : "Poista",

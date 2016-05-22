@@ -165,6 +165,8 @@
     "Storage incomplete configuration. %s" : "Configurazione dell'archiviazione incompleta.%s",
     "Storage connection error. %s" : "Errore di connessione all'archiviazione. %s",
     "Storage not available" : "Archiviazione non disponibile",
-    "Storage connection timeout. %s" : "Timeout di connessione all'archiviazione. %s"
+    "Storage connection timeout. %s" : "Timeout di connessione all'archiviazione. %s",
+    "_%n file_::_%n files_" : ["%n file","%n file"],
+    "_%n window_::_%n windows_" : ["%n finestra","%n finestre"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -14,7 +14,6 @@ OC.L10N.register(
     "%1$s updated system tag %3$s to %2$s" : "%1$s ĝisdatigis sistemetikedon %3$s al %2$s",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s atribuis sistemetikedon %3$s al %2$s",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s malatribuis sistemetikedon %3$s el %2$s",
-    "%s (not-assignable)" : "%s (neatribuebla)",
     "%s (invisible)" : "%s (nevidebla)",
     "No files in here" : "Neniu dosiero estas ĉi tie",
     "No entries found in this folder" : "Neniu enigo troviĝis en ĉi tiu dosierujo",

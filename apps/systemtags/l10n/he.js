@@ -14,7 +14,6 @@ OC.L10N.register(
     "%1$s updated system tag %3$s to %2$s" : "%1$s עדכן/עדכנה תגית מערכת %3$s ל- %2$s",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s שייך/שייכה תגית מערכת %3$s ל- %2$s",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s הסיר/ה שיוך תגית מערכת %3$s מ- %2$s",
-    "%s (not-assignable)" : "%s (לא ניתן לשיוך)",
     "%s (invisible)" : "%s (נסתר)",
     "No files in here" : "אין כאן קבצים",
     "No entries found in this folder" : "לא נמצאו כניסות לתיקייה זו",

@@ -14,7 +14,6 @@ OC.L10N.register(
     "%1$s updated system tag %3$s to %2$s" : "%1$s uppfærði kerfismerki %3$s í %2$s",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s úthlutaði kerfismerki %3$s á %2$s",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s tók kerfismerki %3$s af %2$s",
-    "%s (not-assignable)" : "%s (ekki úthlutanlegt)",
     "%s (invisible)" : "%s (ósýnilegt)",
     "No files in here" : "Engar skrár hér",
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",

@@ -181,7 +181,6 @@ OC.L10N.register(
     "Warning" : "Uyarı",
     "Error while sending notification" : "Bildirim gönderilirken hata",
     "Non-existing tag #{tag}" : "Mevcut olmayan etiket #{tag}",
-    "not assignable" : "atanamaz",
     "invisible" : "görünmez",
     "({scope})" : "({scope})",
     "Delete" : "Sil",

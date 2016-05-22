@@ -192,7 +192,6 @@ OC.L10N.register(
     "Warning" : "Opozorilo",
     "Error while sending notification" : "Napaka med pošiljanjem obvestila",
     "Non-existing tag #{tag}" : "Neobstoječa oznaka #{tag}",
-    "not assignable" : "ni dodeljivo",
     "invisible" : "nevidno",
     "({scope})" : "({scope})",
     "Delete" : "Izbriši",

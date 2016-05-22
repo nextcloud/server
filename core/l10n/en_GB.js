@@ -195,7 +195,6 @@ OC.L10N.register(
     "Warning" : "Warning",
     "Error while sending notification" : "Error whilst sending notification",
     "Non-existing tag #{tag}" : "Non-existing tag #{tag}",
-    "not assignable" : "not assignable",
     "invisible" : "invisible",
     "({scope})" : "({scope})",
     "Delete" : "Delete",

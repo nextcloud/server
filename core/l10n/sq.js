@@ -195,7 +195,6 @@ OC.L10N.register(
     "Warning" : "Kujdes",
     "Error while sending notification" : "Gabim gjatë dërgimit të njoftimit",
     "Non-existing tag #{tag}" : "Etiketë #{tag} që s’ekziston",
-    "not assignable" : "e pacaktueshme",
     "invisible" : "e padukshme",
     "({scope})" : "({scope})",
     "Delete" : "Fshije",

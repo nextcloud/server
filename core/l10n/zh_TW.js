@@ -180,7 +180,6 @@ OC.L10N.register(
     "Warning" : "警告",
     "Error while sending notification" : "發送通知錯誤",
     "Non-existing tag #{tag}" : "不存在的標籤 #{tag}",
-    "not assignable" : "不可指定",
     "invisible" : "不可見",
     "({scope})" : "（{scope}）",
     "Delete" : "刪除",

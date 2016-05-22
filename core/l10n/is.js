@@ -181,7 +181,6 @@ OC.L10N.register(
     "Warning" : "Aðvörun",
     "Error while sending notification" : "Villa við að senda tilkynningu",
     "Non-existing tag #{tag}" : "Merki sem er ekki til #{tag}",
-    "not assignable" : "ekki úthlutanlegt",
     "invisible" : "ósýnilegt",
     "({scope})" : "({scope})",
     "Delete" : "Eyða",

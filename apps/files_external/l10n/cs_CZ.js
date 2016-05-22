@@ -113,7 +113,7 @@ OC.L10N.register(
     "Never" : "Nikdy",
     "Once every direct access" : "Jednou pro každý přímý přístup",
     "External Storage" : "Externí úložiště",
-    "Folder name" : "Název složky",
+    "Folder name" : "Název adresáře",
     "Authentication" : "Ověření",
     "Configuration" : "Nastavení",
     "Available for" : "Dostupné pro",

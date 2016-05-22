@@ -195,7 +195,6 @@ OC.L10N.register(
     "Warning" : "Varning",
     "Error while sending notification" : "Fel när notifikation skulle skickas",
     "Non-existing tag #{tag}" : "Icke-existerande tag #{tag}",
-    "not assignable" : "Ej tilldelningsbar",
     "invisible" : "osynlig",
     "({scope})" : "({scope})",
     "Delete" : "Radera",

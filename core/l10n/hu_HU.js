@@ -195,7 +195,6 @@ OC.L10N.register(
     "Warning" : "Figyelmeztetés",
     "Error while sending notification" : "Hiba történt az értesítő küldése közben",
     "Non-existing tag #{tag}" : "Nem létező címke #{tag}",
-    "not assignable" : "nem hozzárendelhető",
     "invisible" : "láthatatlan",
     "({scope})" : "({scope})",
     "Delete" : "Törlés",

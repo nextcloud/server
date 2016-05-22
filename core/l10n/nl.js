@@ -195,7 +195,6 @@ OC.L10N.register(
     "Warning" : "Waarschuwing",
     "Error while sending notification" : "Fout bij versturen melding",
     "Non-existing tag #{tag}" : "Niet bestaande tag #{tag}",
-    "not assignable" : "niet toewijsbaar",
     "invisible" : "onzichtbaar",
     "({scope})" : "({scope})",
     "Delete" : "Verwijder",

@@ -21,7 +21,6 @@ OC.L10N.register(
     "%1$s assigned system tag %3$s to %2$s" : "%1$s ได้ถูกกำหนดแท็กระบบ %3$s เป็น %2$s",
     "You unassigned system tag %3$s from %2$s" : "คุณยังไม่ได้ได้กำหนดแท็กระบบจาก %3$s เป็น %2$s",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s ไม่ได้ถูกกำหนดแท็กระบบ %3$s เป็น %2$s",
-    "%s (not-assignable)" : "%s (ไม่สามารถกำหนดได้)",
     "%s (invisible)" : "%s (มองไม่เห็น)",
     "No files in here" : "ไม่มีไฟล์ที่นี่",
     "No entries found in this folder" : "ไม่พบรายการในโฟลเดอร์นี้",

@@ -14,7 +14,6 @@ OC.L10N.register(
     "%1$s updated system tag %3$s to %2$s" : "%1$s, %3$s sistem etiketini %2$s olarak güncelledi",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s, %3$s sistem etiketini %2$s etiketine atadı",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s, %3$s sistem etiketinin %2$s atamasını kaldırdı",
-    "%s (not-assignable)" : "%s (atanamaz)",
     "%s (invisible)" : "%s (gizli)",
     "No files in here" : "Burada hiç dosya yok",
     "No entries found in this folder" : "Bu klasörde hiçbir girdi bulunamadı",

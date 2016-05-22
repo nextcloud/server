@@ -193,7 +193,6 @@
     "Warning" : "警告",
     "Error while sending notification" : "通知送信中にエラーが発生",
     "Non-existing tag #{tag}" : "存在しないタグ#{tag}",
-    "not assignable" : "割り当てできない",
     "invisible" : "不可視",
     "({scope})" : "({scope})",
     "Delete" : "削除",

@@ -181,7 +181,6 @@ OC.L10N.register(
     "Warning" : "אזהרה",
     "Error while sending notification" : "שגיאה בזמן שליחת הודעה",
     "Non-existing tag #{tag}" : "תגית לא קיימת #{tag}",
-    "not assignable" : "לא ניתן להקצאה",
     "invisible" : "בלתי גלוי",
     "({scope})" : "({scope})",
     "Delete" : "מחיקה",

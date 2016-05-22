@@ -156,7 +156,6 @@ OC.L10N.register(
     "Share" : "Jaga",
     "Warning" : "Hoiatus",
     "Error while sending notification" : "Tõrge teavituse saatmisel",
-    "not assignable" : "pole määratav",
     "invisible" : "nähtamatu",
     "({scope})" : "({scope})",
     "Delete" : "Kustuta",

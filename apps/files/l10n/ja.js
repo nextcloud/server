@@ -77,6 +77,7 @@ OC.L10N.register(
     "_%n byte_::_%n bytes_" : ["%n バイト"],
     "Favorited" : "お気に入り済",
     "Favorite" : "お気に入り",
+    "Local link" : "ローカルリンク",
     "Folder" : "フォルダー",
     "New folder" : "新しいフォルダー",
     "{newname} already exists" : "{newname} はすでに存在します",
