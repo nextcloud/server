@@ -206,7 +206,7 @@ class Session implements IUserSession, Emitter {
 			return;
 		}
 
-		// Check whether login credentials are still valid
+		// Check whether login credentials are still valid and the user was not disabled
 		// This check is performed each 5 minutes
 		$lastCheck = $this->session->get('last_login_check') ? : 0;
 		$now = $this->timeFacory->getTime();
@@ -219,8 +219,9 @@ class Session implements IUserSession, Emitter {
 				return;
 			}
 
-			if ($this->manager->checkPassword($user->getUID(), $pwd) === false) {
-				// Password has changed -> log user out
+			if ($this->manager->checkPassword($user->getUID(), $pwd) === false
+				|| !$user->isEnabled()) {
+				// Password has changed or user was disabled -> log user out
 				$this->logout();
 				return;
 			}

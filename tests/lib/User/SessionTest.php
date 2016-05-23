@@ -509,4 +509,51 @@ class SessionTest extends \Test\TestCase {
 		$this->assertFalse($userSession->tryTokenLogin($request));
 	}
 
+	public function testValidateSessionDisabledUser() {
+		$userManager = $this->getMock('\OCP\IUserManager');
+		$session = $this->getMock('\OCP\ISession');
+		$timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$tokenProvider = $this->getMock('\OC\Authentication\Token\IProvider');
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setConstructorArgs([$userManager, $session, $timeFactory, $tokenProvider])
+			->setMethods(['logout'])
+			->getMock();
+
+		$user = $this->getMock('\OCP\IUser');
+		$token = $this->getMock('\OC\Authentication\Token\IToken');
+
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue('sessionid'));
+		$tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessionid')
+			->will($this->returnValue($token));
+		$session->expects($this->once())
+			->method('get')
+			->with('last_login_check')
+			->will($this->returnValue(1000));
+		$timeFactory->expects($this->once())
+			->method('getTime')
+			->will($this->returnValue(5000));
+		$tokenProvider->expects($this->once())
+			->method('getPassword')
+			->with($token, 'sessionid')
+			->will($this->returnValue('123456'));
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user5'));
+		$userManager->expects($this->once())
+			->method('checkPassword')
+			->with('user5', '123456')
+			->will($this->returnValue(true));
+		$user->expects($this->once())
+			->method('isEnabled')
+			->will($this->returnValue(false));
+		$userSession->expects($this->once())
+			->method('logout');
+
+		$this->invokePrivate($userSession, 'validateSession', [$user]);
+	}
+
 }
