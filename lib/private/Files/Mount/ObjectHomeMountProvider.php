@@ -53,9 +53,9 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
 
-		$config = $this->multiBucketObjectStore($user);
+		$config = $this->getMultiBucketObjectStoreConfig($user);
 		if ($config === null) {
-			$config = $this->singleBucketObjectStore($user);
+			$config = $this->getSingleBucketObjectStoreConfig($user);
 		}
 
 		if ($config === null) {
@@ -69,7 +69,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 * @param IUser $user
 	 * @return array|null
 	 */
-	private function singleBucketObjectStore(IUser $user) {
+	private function getSingleBucketObjectStoreConfig(IUser $user) {
 		$config = $this->config->getSystemValue('objectstore');
 		if (!is_array($config)) {
 			return null;
@@ -93,7 +93,7 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 * @param IUser $user
 	 * @return array|null
 	 */
-	private function multiBucketObjectStore(IUser $user) {
+	private function getMultiBucketObjectStoreConfig(IUser $user) {
 		$config = $this->config->getSystemValue('objectstore_multibucket');
 		if (!is_array($config)) {
 			return null;
