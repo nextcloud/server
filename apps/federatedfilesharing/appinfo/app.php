@@ -20,7 +20,7 @@
  *
  */
 
-$app = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
+$app = new \OCA\FederatedFileSharing\AppInfo\Application();
 
 use OCA\FederatedFileSharing\Notifier;
 

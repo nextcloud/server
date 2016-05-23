@@ -31,6 +31,10 @@ class Application extends App {
 	/** @var FederatedShareProvider */
 	protected $federatedShareProvider;
 
+	public function __construct() {
+		parent::__construct('federatedfilesharing');
+	}
+
 	/**
 	 * register personal and admin settings page
 	 */

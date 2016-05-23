@@ -135,7 +135,7 @@ class FederatedShareProvider implements IShareProvider {
 		$itemType = $share->getNodeType();
 		$permissions = $share->getPermissions();
 		$sharedBy = $share->getSharedBy();
-		
+
 		/*
 		 * Check if file is not already shared with the remote user
 		 */
@@ -626,7 +626,7 @@ class FederatedShareProvider implements IShareProvider {
 			->from('share')
 			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
 			->andWhere($qb->expr()->eq('share_type', $qb->createNamedParameter(self::SHARE_TYPE_REMOTE)));
-		
+
 		$cursor = $qb->execute();
 		$data = $cursor->fetch();
 		$cursor->closeCursor();
@@ -727,13 +727,13 @@ class FederatedShareProvider implements IShareProvider {
 		$data = $cursor->fetch();
 
 		if ($data === false) {
-			throw new ShareNotFound();
+			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}
 
 		try {
 			$share = $this->createShareObject($data);
 		} catch (InvalidShare $e) {
-			throw new ShareNotFound();
+			throw new ShareNotFound('Share not found', $this->l->t('Could not find share'));
 		}
 
 		return $share;
