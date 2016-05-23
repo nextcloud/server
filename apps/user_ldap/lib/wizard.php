@@ -874,11 +874,18 @@ class Wizard extends LDAPUtility {
 				$objcs = $this->configuration->ldapUserFilterObjectclass;
 				//glue objectclasses
 				if(is_array($objcs) && count($objcs) > 0) {
-					$filter .= '(|';
+					$objectclassFilter = '';
+					$objectclassParts = 0;
 					foreach($objcs as $objc) {
-						$filter .= '(objectclass=' . $objc . ')';
+						$objectclassFilter .= '(objectclass=' . $objc . ')';
+						$objectclassParts ++;
 					}
-					$filter .= ')';
+
+					if($objectclassParts > 1) {
+						$filter .= '(|'.$objectclassFilter.')';
+					} else {
+						$filter .= $objectclassFilter;
+					}
 					$parts++;
 				}
 				//glue group memberships
@@ -916,6 +923,8 @@ class Wizard extends LDAPUtility {
 				}
 				//excluding computer object class
 				$filter .= '(!(objectClass=computer))';
+				$parts++;
+
 				//wrap parts in AND condition
 				if($parts > 1) {
 					$filter = '(&' . $filter . ')';
@@ -929,24 +938,38 @@ class Wizard extends LDAPUtility {
 				$objcs = $this->configuration->ldapGroupFilterObjectclass;
 				//glue objectclasses
 				if(is_array($objcs) && count($objcs) > 0) {
-					$filter .= '(|';
+					$objectclassFilter = '';
+					$objectclassParts = 0;
 					foreach($objcs as $objc) {
-						$filter .= '(objectclass=' . $objc . ')';
+						$objectclassFilter .= '(objectclass=' . $objc . ')';
+						$objectclassParts ++;
 					}
-					$filter .= ')';
+
+					if($objectclassParts > 1) {
+						$filter .= '(|'.$objectclassFilter.')';
+					} else {
+						$filter .= $objectclassFilter;
+					}
 					$parts++;
 				}
 				//glue group memberships
 				$cns = $this->configuration->ldapGroupFilterGroups;
 				if(is_array($cns) && count($cns) > 0) {
-					$filter .= '(|';
-					$base = $this->configuration->ldapBase[0];
+					$groupMembershipsFilter = '';
+					$groupMembershipsParts = 0;
 					foreach($cns as $cn) {
-						$filter .= '(cn=' . $cn . ')';
+						$groupMembershipsFilter.= '(cn=' . $cn . ')';
+						$groupMembershipsParts ++;
 					}
-					$filter .= ')';
+
+					if($groupMembershipsParts > 1) {
+						$filter .= '(|'.$groupMembershipsFilter.')';
+					} else {
+						$filter .= $groupMembershipsFilter;
+					}
+					$parts++;
 				}
-				$parts++;
+
 				//wrap parts in AND condition
 				if($parts > 1) {
 					$filter = '(&' . $filter . ')';
@@ -986,26 +1009,30 @@ class Wizard extends LDAPUtility {
 				$filterAttributes = '';
 				$attrsToFilter = $this->configuration->ldapLoginFilterAttributes;
 				if(is_array($attrsToFilter) && count($attrsToFilter) > 0) {
-					$filterAttributes = '(|';
+					$filterAttributes = '';
+					$filterAttributesParts = 0;
 					foreach($attrsToFilter as $attribute) {
 						$filterAttributes .= '(' . $attribute . $loginpart . ')';
+						$filterAttributesParts ++;
 					}
-					$filterAttributes .= ')';
+
+					if($filterAttributesParts > 1) {
+						$filterAttributes = '(|'.$filterAttributes.')';
+					}
 					$parts++;
 				}
 
-				$filterLogin = '';
+				$filterLogin = $filterUsername.$filterEmail.$filterAttributes;
 				if($parts > 1) {
-					$filterLogin = '(|';
-				}
-				$filterLogin .= $filterUsername;
-				$filterLogin .= $filterEmail;
-				$filterLogin .= $filterAttributes;
-				if($parts > 1) {
-					$filterLogin .= ')';
+					$filterLogin = '(|'.$filterLogin.')';
 				}
 
-				$filter = '(&'.$ulf.$filterLogin.')';
+				if((!empty($ulf))  &&  (!empty($filterLogin))) {
+					$filter = '(&'.$ulf.$filterLogin.')';
+				} else {
+					$filter = $ulf.$filterLogin;
+				}
+				
 				break;
 		}
 
