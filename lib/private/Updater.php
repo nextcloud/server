@@ -168,6 +168,7 @@ class Updater extends BasicEmitter {
 
 		$this->emit('\OC\Updater', 'resetLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
 		$this->config->setSystemValue('loglevel', $logLevel);
+		$this->config->setSystemValue('installed', true);
 
 		return $success;
 	}
