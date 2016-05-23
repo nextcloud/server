@@ -19,8 +19,9 @@
  *
  */
 
-namespace OC\Core\Controller;
+namespace Tests\Core\Controller;
 
+use OC\Core\Controller\LostController;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;

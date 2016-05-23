@@ -7,16 +7,18 @@
  * later.
  * See the COPYING-README file.
  */
-namespace OC\Settings\Controller;
+
+namespace Tests\Settings\Controller;
 
 use OC\Group\Group;
 use OC\Group\MetaData;
 use \OC\Settings\Application;
+use OC\Settings\Controller\GroupsController;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 
 /**
- * @package OC\Settings\Controller
+ * @package Tests\Settings\Controller
  */
 class GroupsControllerTest extends \Test\TestCase {
 

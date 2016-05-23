@@ -19,8 +19,9 @@
  *
  */
 
-namespace OC\Core\Controller;
+namespace Tests\Core\Controller;
 
+use OC\Core\Controller\LoginController;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;

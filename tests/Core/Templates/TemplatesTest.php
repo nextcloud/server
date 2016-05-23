@@ -2,7 +2,7 @@
 
 namespace Tests\Core\Templates;
 
-class Templates extends \Test\TestCase {
+class TemplatesTest extends \Test\TestCase {
 
 	public function test403() {
 		$template = \OC::$SERVERROOT . '/core/templates/403.php';

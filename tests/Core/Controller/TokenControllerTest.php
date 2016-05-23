@@ -20,9 +20,10 @@
  *
  */
 
-namespace OC\Core\Controller;
+namespace Tests\Core\Controller;
 
 use OC\AppFramework\Http;
+use OC\Core\Controller\TokenController;
 use OCP\AppFramework\Http\Response;
 use Test\TestCase;
 

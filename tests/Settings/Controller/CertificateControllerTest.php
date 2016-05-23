@@ -19,8 +19,9 @@
  *
  */
 
-namespace OC\Settings\Controller;
+namespace Tests\Settings\Controller;
 
+use OC\Settings\Controller\CertificateController;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -31,7 +32,7 @@ use OCP\ICertificateManager;
 /**
  * Class CertificateControllerTest
  *
- * @package OC\Settings\Controller
+ * @package Tests\Settings\Controller
  */
 class CertificateControllerTest extends \Test\TestCase {
 	/** @var CertificateController */

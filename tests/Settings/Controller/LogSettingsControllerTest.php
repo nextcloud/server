@@ -7,13 +7,14 @@
  * later.
  * See the COPYING-README file.
  */
-namespace Test\Settings\Controller;
+
+namespace Tests\Settings\Controller;
 
 use \OC\Settings\Application;
 use OC\Settings\Controller\LogSettingsController;
 
 /**
- * @package OC\Settings\Controller
+ * @package Tests\Settings\Controller
  */
 class LogSettingsControllerTest extends \Test\TestCase {
 

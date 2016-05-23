@@ -7,7 +7,8 @@
  * later.
  * See the COPYING-README file.
  */
-namespace OC\Settings\Controller;
+
+namespace Tests\Settings\Controller;
 
 use \OC\Settings\Application;
 use OCP\AppFramework\Http;
@@ -16,7 +17,7 @@ use OCP\AppFramework\Http\DataResponse;
 /**
  * @group DB
  *
- * @package OC\Settings\Controller
+ * @package Tests\Settings\Controller
  */
 class UsersControllerTest extends \Test\TestCase {
 

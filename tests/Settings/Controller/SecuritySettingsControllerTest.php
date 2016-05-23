@@ -7,12 +7,13 @@
  * later.
  * See the COPYING-README file.
  */
-namespace OC\Settings\Controller;
+namespace Tests\Settings\Controller;
 
 use \OC\Settings\Application;
+use OC\Settings\Controller\SecuritySettingsController;
 
 /**
- * @package OC\Settings\Controller
+ * @package Tests\Settings\Controller
  */
 class SecuritySettingsControllerTest extends \PHPUnit_Framework_TestCase {
 
