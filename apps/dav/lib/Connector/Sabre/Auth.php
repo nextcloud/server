@@ -31,10 +31,11 @@ namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
 use OC\AppFramework\Http\Request;
-use OCP\User\LoginException;
 use OC\User\Session;
+use OC\User\UserDisabledException;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\User\LoginException;
 use Sabre\DAV\Auth\Backend\AbstractBasic;
 use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\ServiceUnavailable;
@@ -109,6 +110,10 @@ class Auth extends AbstractBasic {
 				$this->userSession->login($username, $password);
 			} catch (LoginException $ex) {
 				$this->session->close();
+				if ($ex instanceof UserDisabledException) {
+					// Client should get 503, not 401
+					throw $ex;
+				}
 				return false;
 			}
 
