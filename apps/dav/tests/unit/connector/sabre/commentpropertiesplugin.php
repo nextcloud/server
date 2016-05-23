@@ -84,7 +84,8 @@ class CommentsPropertiesPlugin extends \Test\TestCase {
 	public function baseUriProvider() {
 		return [
 			['owncloud/remote.php/webdav/', '4567', 'owncloud/remote.php/dav/comments/files/4567'],
-			['owncloud/remote.php/wicked/', '4567', null]
+			['owncloud/remote.php/files/', '4567', 'owncloud/remote.php/dav/comments/files/4567'],
+			['owncloud/wicked.php/files/', '4567', null]
 		];
 	}
 
