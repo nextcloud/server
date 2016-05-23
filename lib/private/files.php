@@ -51,16 +51,16 @@ class OC_Files {
 	const UPLOAD_MIN_LIMIT_BYTES = 1048576; // 1 MiB
 
 
-	private static $MULTIPART_BOUNDARY = '';
+	private static $multipartBoundary = '';
 
 	/**
 	 * @return string
 	 */
 	private static function getBoundary() {
-		if (empty(self::$MULTIPART_BOUNDARY)) {
-			self::$MULTIPART_BOUNDARY = md5(mt_rand());
+		if (empty(self::$multipartBoundary)) {
+			self::$multipartBoundary = md5(mt_rand());
 		}
-		return self::$MULTIPART_BOUNDARY;
+		return self::$multipartBoundary;
 	}
 
 	/**
@@ -101,7 +101,7 @@ class OC_Files {
 	 * @param string $files ; separated list of files to download
 	 * @param array $params ; 'head' boolean to only send header of the request ; 'range' http range header
 	 */
-	public static function get($dir, $files, $params = array( 'head' => false )) {
+	public static function get($dir, $files, $params = null) {
 
 		$view = \OC\Files\Filesystem::getView();
 		$getType = self::FILE;
@@ -115,7 +115,7 @@ class OC_Files {
 			if (!is_array($files)) {
 				$filename = $dir . '/' . $files;
 				if (!$view->is_dir($filename)) {
-					self::getSingleFile($view, $dir, $files, $params);
+					self::getSingleFile($view, $dir, $files, is_null($params) ? array() : $params);
 					return;
 				}
 			}
