@@ -105,6 +105,13 @@ class ConvertType extends Command {
 				InputOption::VALUE_NONE,
 				'whether to create schema for all apps instead of only installed apps'
 			)
+			->addOption(
+				'chunk-size',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'the maximum number of database rows to handle in a single query, bigger tables will be handled in chunks of this size. Lower this if the process runs out of memory during conversion.',
+				1000
+			)
 		;
 	}
 
@@ -246,25 +253,60 @@ class ConvertType extends Command {
 	}
 
 	protected function copyTable(Connection $fromDB, Connection $toDB, $table, InputInterface $input, OutputInterface $output) {
+		$chunkSize = $input->getOption('chunk-size');
+
 		/** @var $progress \Symfony\Component\Console\Helper\ProgressHelper */
 		$progress = $this->getHelperSet()->get('progress');
-		$query = 'SELECT COUNT(*) FROM '.$table;
-		$count = $fromDB->fetchColumn($query);
-		$query = 'SELECT * FROM '.$table;
-		$statement = $fromDB->executeQuery($query);
+
+		$query = $fromDB->getQueryBuilder();
+		$query->automaticTablePrefix(false);
+		$query->selectAlias($query->createFunction('COUNT(*)'), 'num_entries')
+			->from($table);
+		$result = $query->execute();
+		$count = $result->fetchColumn();
+		$result->closeCursor();
+
+		$numChunks = ceil($count/$chunkSize);
+		if ($numChunks > 1) {
+			$output->writeln('chunked query, ' . $numChunks . ' chunks');
+		}
+
 		$progress->start($output, $count);
-		$progress->setRedrawFrequency($count > 100 ? 5 : 1);
-		while($row = $statement->fetch()) {
-			$progress->advance();
-			if ($input->getArgument('type') === 'oci') {
-				$data = $row;
-			} else {
-				$data = array();
-				foreach ($row as $columnName => $value) {
-					$data[$toDB->quoteIdentifier($columnName)] = $value;
+		$redraw = $count > $chunkSize ? 100 : ($count > 100 ? 5 : 1);
+		$progress->setRedrawFrequency($redraw);
+
+
+		$query = $fromDB->getQueryBuilder();
+		$query->automaticTablePrefix(false);
+		$query->select('*')
+			->from($table)
+			->setMaxResults($chunkSize);
+
+		$insertQuery = $toDB->getQueryBuilder();
+		$insertQuery->automaticTablePrefix(false);
+		$insertQuery->insert($table);
+		$parametersCreated = false;
+
+		for ($chunk = 0; $chunk < $numChunks; $chunk++) {
+			$query->setFirstResult($chunk * $chunkSize);
+
+			$result = $query->execute();
+
+			while ($row = $result->fetch()) {
+				$progress->advance();
+				if (!$parametersCreated) {
+					foreach ($row as $key => $value) {
+						$insertQuery->setValue($key, $insertQuery->createParameter($key));
+					}
+					$parametersCreated = true;
 				}
+
+				foreach ($row as $key => $value) {
+					$insertQuery->setParameter($key, $value);
+				}
+				$insertQuery->execute();
 			}
-			$toDB->insert($table, $data);
+			$result->closeCursor();
 		}
 		$progress->finish();
 	}
