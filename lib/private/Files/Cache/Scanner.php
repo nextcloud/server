@@ -341,7 +341,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
-						$children[] = $file;
+						$children[] = trim(\OC\Files\Filesystem::normalizePath($file), '/');
 					}
 				}
 			}
