@@ -27,6 +27,7 @@ namespace OCP\Files\Cache;
  * @since 9.0.0
  */
 interface IScanner {
+	const SCAN_RECURSIVE_INCOMPLETE = 2; // only recursive into not fully scanned folders
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
 
