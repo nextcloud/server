@@ -21,8 +21,8 @@
 
 namespace OCA\DAV\Comments;
 
+use OCP\Comments\CommentsEntityEvent;
 use OCP\Comments\ICommentsManager;
-use OCP\Files\IRootFolder;
 use OCP\ILogger;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -30,11 +30,12 @@ use Sabre\DAV\Exception\NotAuthenticated;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\ICollection;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RootCollection implements ICollection {
 
-	/** @var EntityTypeCollection[] */
-	private $entityTypeCollections = [];
+	/** @var EntityTypeCollection[]|null */
+	private $entityTypeCollections;
 
 	/** @var ICommentsManager */
 	protected $commentsManager;
@@ -47,34 +48,32 @@ class RootCollection implements ICollection {
 
 	/** @var IUserManager */
 	protected $userManager;
-	/**
-	 * @var IUserSession
-	 */
+
+	/** @var IUserSession */
 	protected $userSession;
-	/**
-	 * @var IRootFolder
-	 */
-	protected $rootFolder;
+
+	/** @var EventDispatcherInterface */
+	protected $dispatcher;
 
 	/**
 	 * @param ICommentsManager $commentsManager
 	 * @param IUserManager $userManager
 	 * @param IUserSession $userSession
-	 * @param IRootFolder $rootFolder
+	 * @param EventDispatcherInterface $dispatcher
 	 * @param ILogger $logger
 	 */
 	public function __construct(
 		ICommentsManager $commentsManager,
 		IUserManager $userManager,
 		IUserSession $userSession,
-		IRootFolder $rootFolder,
+		EventDispatcherInterface $dispatcher,
 		ILogger $logger)
 	{
 		$this->commentsManager = $commentsManager;
 		$this->logger = $logger;
 		$this->userManager = $userManager;
 		$this->userSession = $userSession;
-		$this->rootFolder = $rootFolder;
+		$this->dispatcher = $dispatcher;
 	}
 
 	/**
@@ -85,22 +84,28 @@ class RootCollection implements ICollection {
 	 * @throws NotAuthenticated
 	 */
 	protected function initCollections() {
-		if(!empty($this->entityTypeCollections)) {
+		if($this->entityTypeCollections !== null) {
 			return;
 		}
 		$user = $this->userSession->getUser();
 		if(is_null($user)) {
 			throw new NotAuthenticated();
 		}
-		$userFolder = $this->rootFolder->getUserFolder($user->getUID());
-		$this->entityTypeCollections['files'] = new EntityTypeCollection(
-			'files',
-			$this->commentsManager,
-			$userFolder,
-			$this->userManager,
-			$this->userSession,
-			$this->logger
-		);
+
+		$event = new CommentsEntityEvent(CommentsEntityEvent::EVENT_ENTITY);
+		$this->dispatcher->dispatch(CommentsEntityEvent::EVENT_ENTITY, $event);
+
+		$this->entityTypeCollections = [];
+		foreach ($event->getEntityCollections() as $entity => $entityExistsFunction) {
+			$this->entityTypeCollections[$entity] = new EntityTypeCollection(
+				$entity,
+				$this->commentsManager,
+				$this->userManager,
+				$this->userSession,
+				$this->logger,
+				$entityExistsFunction
+			);
+		}
 	}
 
 	/**
