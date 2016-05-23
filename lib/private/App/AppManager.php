@@ -301,7 +301,7 @@ class AppManager implements IAppManager {
 	 *
 	 * @param string $appId app id
 	 *
-	 * @return array app iinfo
+	 * @return array app info
 	 *
 	 * @internal
 	 */

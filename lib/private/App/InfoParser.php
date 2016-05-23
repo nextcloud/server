@@ -92,6 +92,9 @@ class InfoParser {
 		if (!array_key_exists('background-jobs', $array)) {
 			$array['background-jobs'] = [];
 		}
+		if (!array_key_exists('two-factor-providers', $array)) {
+			$array['two-factor-providers'] = [];
+		}
 
 		if (array_key_exists('documentation', $array) && is_array($array['documentation'])) {
 			foreach ($array['documentation'] as $key => $url) {

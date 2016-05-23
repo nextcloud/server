@@ -332,6 +332,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * Tries to login the user with HTTP Basic Authentication
 	 *
+	 * @todo do not allow basic auth if the user is 2FA enforced
 	 * @param IRequest $request
 	 * @return boolean if the login was successful
 	 */
