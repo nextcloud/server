@@ -28,7 +28,6 @@ use OCP\AppFramework\Db\Entity;
  * @method void setId(int $id)
  * @method void setUid(string $uid);
  * @method void setPassword(string $password)
- * @method string getPassword()
  * @method void setName(string $name)
  * @method string getName()
  * @method void setToken(string $token)
@@ -85,6 +84,15 @@ class DefaultToken extends Entity implements IToken {
 	 */
 	public function getPassword() {
 		return parent::getPassword();
+	}
+
+	public function jsonSerialize() {
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'lastActivity' => $this->lastActivity,
+			'type' => $this->type,
+		];
 	}
 
 }

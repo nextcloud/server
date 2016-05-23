@@ -1,4 +1,4 @@
-<?php
+/* global Backbone */
 
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -20,33 +20,14 @@
  *
  */
 
-namespace OC\Authentication\Token;
+(function(OC, Backbone) {
+	'use strict';
 
-use JsonSerializable;
+	OC.Settings = OC.Settings || {};
 
-interface IToken extends JsonSerializable {
+	var AuthToken = Backbone.Model.extend({
+	});
 
-	const TEMPORARY_TOKEN = 0;
-	const PERMANENT_TOKEN = 1;
+	OC.Settings.AuthToken = AuthToken;
 
-	/**
-	 * Get the token ID
-	 *
-	 * @return int
-	 */
-	public function getId();
-
-	/**
-	 * Get the user UID
-	 *
-	 * @return string
-	 */
-	public function getUID();
-
-	/**
-	 * Get the (encrypted) login password
-	 *
-	 * @return string
-	 */
-	public function getPassword();
-}
+})(OC, Backbone);

@@ -35,7 +35,7 @@ interface IProvider {
 	 * @param string $password
 	 * @param string $name
 	 * @param int $type token type
-	 * @return DefaultToken
+	 * @return IToken
 	 */
 	public function generateToken($token, $uid, $password, $name, $type = IToken::TEMPORARY_TOKEN);
 
@@ -47,7 +47,7 @@ interface IProvider {
 	 * @return IToken
 	 */
 	public function getToken($tokenId) ;
-	
+
 	/**
 	 * @param string $token
 	 * @throws InvalidTokenException
@@ -61,6 +61,14 @@ interface IProvider {
 	 * @param string $token
 	 */
 	public function invalidateToken($token);
+
+	/**
+	 * Invalidate (delete) the given token
+	 *
+	 * @param IUser $user
+	 * @param int $id
+	 */
+	public function invalidateTokenById(IUser $user, $id);
 
 	/**
 	 * Update token activity timestamp
@@ -85,6 +93,7 @@ interface IProvider {
 	 *
 	 * @param IToken $token
 	 * @param string $tokenId
+	 * @throws InvalidTokenException
 	 * @return string
 	 */
 	public function getPassword(IToken $token, $tokenId);

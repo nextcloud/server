@@ -1,4 +1,4 @@
-<?php
+/* global Backbone */
 
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -20,33 +20,33 @@
  *
  */
 
-namespace OC\Authentication\Token;
+(function(OC, Backbone) {
+	'use strict';
 
-use JsonSerializable;
+	OC.Settings = OC.Settings || {};
 
-interface IToken extends JsonSerializable {
+	var AuthTokenCollection = Backbone.Collection.extend({
 
-	const TEMPORARY_TOKEN = 0;
-	const PERMANENT_TOKEN = 1;
+		model: OC.Settings.AuthToken,
 
-	/**
-	 * Get the token ID
-	 *
-	 * @return int
-	 */
-	public function getId();
+		/**
+		 * Show recently used sessions/devices first
+		 *
+		 * @param {OC.Settigns.AuthToken} t1
+		 * @param {OC.Settigns.AuthToken} t2
+		 * @returns {Boolean}
+		 */
+		comparator: function (t1, t2) {
+			var ts1 = parseInt(t1.get('lastActivity'), 10);
+			var ts2 = parseInt(t2.get('lastActivity'), 10);
+			return ts1 < ts2;
+		},
 
-	/**
-	 * Get the user UID
-	 *
-	 * @return string
-	 */
-	public function getUID();
+		tokenType: null,
 
-	/**
-	 * Get the (encrypted) login password
-	 *
-	 * @return string
-	 */
-	public function getPassword();
-}
+		url: OC.generateUrl('/settings/personal/authtokens')
+	});
+
+	OC.Settings.AuthTokenCollection = AuthTokenCollection;
+
+})(OC, Backbone);

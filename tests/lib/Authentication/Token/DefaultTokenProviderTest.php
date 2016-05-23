@@ -170,6 +170,17 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->tokenProvider->invalidateToken('token7');
 	}
 
+	public function testInvaildateTokenById() {
+		$id = 123;
+		$user = $this->getMock('\OCP\IUser');
+
+		$this->mapper->expects($this->once())
+			->method('deleteById')
+			->with($user, $id);
+
+		$this->tokenProvider->invalidateTokenById($user, $id);
+	}
+
 	public function testInvalidateOldTokens() {
 		$defaultSessionLifetime = 60 * 60 * 24;
 		$this->config->expects($this->once())

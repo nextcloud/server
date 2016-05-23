@@ -134,6 +134,7 @@ class DefaultTokenProvider implements IProvider {
 	/**
 	 * @param IToken $savedToken
 	 * @param string $tokenId session token
+	 * @throws InvalidTokenException
 	 * @return string
 	 */
 	public function getPassword(IToken $savedToken, $tokenId) {
@@ -147,6 +148,16 @@ class DefaultTokenProvider implements IProvider {
 	 */
 	public function invalidateToken($token) {
 		$this->mapper->invalidate($this->hashToken($token));
+	}
+
+	/**
+	 * Invalidate (delete) the given token
+	 *
+	 * @param IUser $user
+	 * @param int $id
+	 */
+	public function invalidateTokenById(IUser $user, $id) {
+		$this->mapper->deleteById($user, $id);
 	}
 
 	/**
@@ -203,6 +214,7 @@ class DefaultTokenProvider implements IProvider {
 	 *
 	 * @param string $password
 	 * @param string $token
+	 * @throws InvalidTokenException
 	 * @return string the decrypted key
 	 */
 	private function decryptPassword($password, $token) {

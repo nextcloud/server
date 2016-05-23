@@ -159,4 +159,31 @@ class DefaultTokenMapperTest extends TestCase {
 		$this->assertCount(0, $this->mapper->getTokenByUser($user));
 	}
 
+	public function testDeleteById() {
+		$user = $this->getMock('\OCP\IUser');
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select('id')
+			->from('authtoken')
+			->where($qb->expr()->eq('token', $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206')));
+		$result = $qb->execute();
+		$id = $result->fetch()['id'];
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user1'));
+
+		$this->mapper->deleteById($user, $id);
+		$this->assertEquals(2, $this->getNumberOfTokens());
+	}
+
+	public function testDeleteByIdWrongUser() {
+		$user = $this->getMock('\OCP\IUser');
+		$id = 33;
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user10000'));
+
+		$this->mapper->deleteById($user, $id);
+		$this->assertEquals(3, $this->getNumberOfTokens());
+	}
+
 }

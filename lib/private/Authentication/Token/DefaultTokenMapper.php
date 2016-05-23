@@ -111,4 +111,17 @@ class DefaultTokenMapper extends Mapper {
 		return $entities;
 	}
 
+	/**
+	 * @param IUser $user
+	 * @param int $id
+	 */
+	public function deleteById(IUser $user, $id) {
+		/* @var $qb IQueryBuilder */
+		$qb = $this->db->getQueryBuilder();
+		$qb->delete('authtoken')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($id)))
+			->andWhere($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())));
+		$qb->execute();
+	}
+
 }

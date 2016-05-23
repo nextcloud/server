@@ -223,6 +223,7 @@ class Server extends ServerContainer implements IServerContainer {
 			$timeFactory = new TimeFactory();
 			return new \OC\Authentication\Token\DefaultTokenProvider($mapper, $crypto, $config, $logger, $timeFactory);
 		});
+		$this->registerAlias('OC\Authentication\Token\IProvider', 'OC\Authentication\Token\DefaultTokenProvider');
 		$this->registerService('UserSession', function (Server $c) {
 			$manager = $c->getUserManager();
 			$session = new \OC\Session\Memory('');
@@ -230,7 +231,7 @@ class Server extends ServerContainer implements IServerContainer {
 			// Token providers might require a working database. This code
 			// might however be called when ownCloud is not yet setup.
 			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
-				$defaultTokenProvider = $c->query('OC\Authentication\Token\DefaultTokenProvider');
+				$defaultTokenProvider = $c->query('OC\Authentication\Token\IProvider');
 			} else {
 				$defaultTokenProvider = null;
 			}
