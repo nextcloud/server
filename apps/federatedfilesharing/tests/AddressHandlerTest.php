@@ -27,9 +27,8 @@ namespace OCA\FederatedFileSharing\Tests;
 use OCA\FederatedFileSharing\AddressHandler;
 use OCP\IL10N;
 use OCP\IURLGenerator;
-use Test\TestCase;
 
-class AddressHandlerTest extends TestCase {
+class AddressHandlerTest extends \Test\TestCase {
 
 	/** @var  AddressHandler */
 	private $addressHandler;

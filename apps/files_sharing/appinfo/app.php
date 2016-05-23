@@ -103,15 +103,3 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 		}
 	}
 }
-
-$manager = \OC::$server->getNotificationManager();
-$manager->registerNotifier(function() {
-	return new \OCA\Files_Sharing\Notifier(
-		\OC::$server->getL10NFactory()
-	);
-}, function() use ($l) {
-	return [
-		'id' => 'files_sharing',
-		'name' => $l->t('Federated sharing'),
-	];
-});

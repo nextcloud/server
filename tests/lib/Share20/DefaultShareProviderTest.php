@@ -57,6 +57,8 @@ class DefaultShareProviderTest extends \Test\TestCase {
 		$this->groupManager = $this->getMock('OCP\IGroupManager');
 		$this->rootFolder = $this->getMock('OCP\Files\IRootFolder');
 
+		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
+
 		//Empty share table
 		$this->dbConn->getQueryBuilder()->delete('share')->execute();
 
@@ -587,7 +589,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testCreateUserShare() {
-		$share = new \OC\Share20\Share($this->rootFolder);
+		$share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
 
 		$shareOwner = $this->getMock('OCP\IUser');
 		$shareOwner->method('getUID')->WillReturn('shareOwner');
@@ -635,7 +637,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testCreateGroupShare() {
-		$share = new \OC\Share20\Share($this->rootFolder);
+		$share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
 
 		$shareOwner = $this->getMock('\OCP\IUser');
 		$shareOwner->method('getUID')->willReturn('shareOwner');
@@ -683,7 +685,7 @@ class DefaultShareProviderTest extends \Test\TestCase {
 	}
 
 	public function testCreateLinkShare() {
-		$share = new \OC\Share20\Share($this->rootFolder);
+		$share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
 
 		$shareOwner = $this->getMock('\OCP\IUser');
 		$shareOwner->method('getUID')->willReturn('shareOwner');

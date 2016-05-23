@@ -19,7 +19,7 @@
  *
  */
 
-namespace OCA\Files_Sharing;
+namespace OCA\FederatedFileSharing;
 
 
 use OCP\Notification\INotification;
@@ -54,9 +54,15 @@ class Notifier implements INotifier {
 			// Deal with known subjects
 			case 'remote_share':
 				$params = $notification->getSubjectParameters();
-				$notification->setParsedSubject(
-					(string) $l->t('You received "/%2$s" as a remote share from %1$s', $params)
-				);
+				if ($params[0] !== $params[1] && $params[1] !== null) {
+					$notification->setParsedSubject(
+						(string) $l->t('You received "/%3$s" as a remote share from %1$s (on behalf of %2$s)', $params)
+					);
+				} else {
+					$notification->setParsedSubject(
+						(string)$l->t('You received "/%3$s" as a remote share from %1$s', $params)
+					);
+				}
 
 				// Deal with the actions for a known subject
 				foreach ($notification->getActions() as $action) {

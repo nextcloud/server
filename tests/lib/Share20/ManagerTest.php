@@ -2283,6 +2283,9 @@ class ManagerTest extends \Test\TestCase {
 	}
 
 	public function testUpdateShareUser() {
+
+		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
+
 		$manager = $this->createManagerMock()
 			->setMethods([
 				'canShare',

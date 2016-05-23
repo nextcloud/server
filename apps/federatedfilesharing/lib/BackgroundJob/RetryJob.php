@@ -32,26 +32,26 @@ use OCP\BackgroundJob\IJobList;
 use OCP\ILogger;
 
 /**
- * Class UnShare
+ * Class RetryJob
  *
- * Background job to re-send the un-share notification to the remote server in
+ * Background job to re-send update of federated re-shares to the remote server in
  * case the server was not available on the first try
  *
  * @package OCA\FederatedFileSharing\BackgroundJob
  */
-class UnShare extends Job {
+class RetryJob extends Job {
 
 	/** @var  bool */
 	private $retainJob = true;
-	
+
 	/** @var Notifications */
 	private $notifications;
 
-	/** @var int max number of attempts to send the un-share request */
-	private $maxTry = 10;
+	/** @var int max number of attempts to send the request */
+	private $maxTry = 20;
 
-	/** @var int how much time should be between two tries (12 hours) */
-	private $interval = 43200;
+	/** @var int how much time should be between two tries (10 minutes) */
+	private $interval = 600;
 
 	/**
 	 * UnShare constructor.
@@ -77,7 +77,7 @@ class UnShare extends Job {
 				\OC::$server->getJobList()
 			);
 		}
-		
+
 	}
 
 	/**
@@ -99,12 +99,14 @@ class UnShare extends Job {
 
 	protected function run($argument) {
 		$remote = $argument['remote'];
-		$id = (int)$argument['id'];
+		$remoteId = $argument['remoteId'];
 		$token = $argument['token'];
+		$action = $argument['action'];
+		$data = json_decode($argument['data'], true);
 		$try = (int)$argument['try'] + 1;
 
-		$result = $this->notifications->sendRemoteUnShare($remote, $id, $token, $try);
-
+		$result = $this->notifications->sendUpdateToRemote($remote, $remoteId, $token, $action, $data, $try);
+		
 		if ($result === true || $try > $this->maxTry) {
 			$this->retainJob = false;
 		}
@@ -117,11 +119,13 @@ class UnShare extends Job {
 	 * @param array $argument
 	 */
 	protected function reAddJob(IJobList $jobList, array $argument) {
-		$jobList->add('OCA\FederatedFileSharing\BackgroundJob\UnShare',
+		$jobList->add('OCA\FederatedFileSharing\BackgroundJob\RetryJob',
 			[
 				'remote' => $argument['remote'],
-				'id' => $argument['id'],
+				'remoteId' => $argument['remoteId'],
 				'token' => $argument['token'],
+				'data' => $argument['data'],
+				'action' => $argument['action'],
 				'try' => (int)$argument['try'] + 1,
 				'lastRun' => time()
 			]

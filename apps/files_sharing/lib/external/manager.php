@@ -325,6 +325,10 @@ class Manager {
 	}
 
 	public function removeShare($mountPoint) {
+
+		$mountPointObj = $this->mountManager->find($mountPoint);
+		$id = $mountPointObj->getStorage()->getCache()->getId();
+
 		$mountPoint = $this->stripPath($mountPoint);
 		$hash = md5($mountPoint);
 
@@ -338,13 +342,43 @@ class Manager {
 			$share = $getShare->fetch();
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
 		}
+		$getShare->closeCursor();
 
 		$query = $this->connection->prepare('
 			DELETE FROM `*PREFIX*share_external`
 			WHERE `mountpoint_hash` = ?
 			AND `user` = ?
 		');
-		return (bool)$query->execute(array($hash, $this->uid));
+		$result = (bool)$query->execute(array($hash, $this->uid));
+
+		if($result) {
+			$this->removeReShares($id);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * remove re-shares from share table and mapping in the federated_reshares table
+	 * 
+	 * @param $mountPointId
+	 */
+	protected function removeReShares($mountPointId) {
+		$selectQuery = $this->connection->getQueryBuilder();
+		$query = $this->connection->getQueryBuilder();
+		$selectQuery->select('id')->from('share')
+			->where($selectQuery->expr()->eq('file_source', $query->createNamedParameter($mountPointId)));
+		$select = $selectQuery->getSQL();
+
+
+		$query->delete('federated_reshares')
+			->where($query->expr()->in('share_id', $query->createFunction('(' . $select . ')')));
+		$query->execute();
+
+		$deleteReShares = $this->connection->getQueryBuilder();
+		$deleteReShares->delete('share')
+			->where($deleteReShares->expr()->eq('file_source', $deleteReShares->createNamedParameter($mountPointId)));
+		$deleteReShares->execute();
 	}
 
 	/**

@@ -23,14 +23,22 @@
  *
  */
 
-use OCA\Files_Sharing\Tests\TestCase;
+namespace OCA\FederatedFileSharing\Tests;
+
+use OC\Files\Filesystem;
+use OCA\FederatedFileSharing\DiscoveryManager;
+use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\FederatedFileSharing\RequestHandler;
+use OCP\IUserManager;
+use OCP\Share\IShare;
 
 /**
- * Class Test_Files_Sharing_Api
+ * Class RequestHandlerTest
  *
+ * @package OCA\FederatedFileSharing\Tests
  * @group DB
  */
-class Test_Files_Sharing_S2S_OCS_API extends TestCase {
+class RequestHandlerTest extends TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 
@@ -40,12 +48,24 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 	private $connection;
 
 	/**
-	 * @var \OCA\Files_Sharing\API\Server2Server
+	 * @var RequestHandler
 	 */
 	private $s2s;
 
 	/** @var  \OCA\FederatedFileSharing\FederatedShareProvider | PHPUnit_Framework_MockObject_MockObject */
 	private $federatedShareProvider;
+
+	/** @var  \OCA\FederatedFileSharing\Notifications | PHPUnit_Framework_MockObject_MockObject */
+	private $notifications;
+
+	/** @var  \OCA\FederatedFileSharing\AddressHandler | PHPUnit_Framework_MockObject_MockObject */
+	private $addressHandler;
+	
+	/** @var  IUserManager | \PHPUnit_Framework_MockObject_MockObject */
+	private $userManager;
+
+	/** @var  IShare | \PHPUnit_Framework_MockObject_MockObject */
+	private $share;
 
 	protected function setUp() {
 		parent::setUp();
@@ -60,22 +80,42 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 				->setConstructorArgs([$config, $clientService])
 				->getMock();
 		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(true));
+		$this->share = $this->getMock('\OCP\Share\IShare');
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
 		$this->federatedShareProvider->expects($this->any())
 			->method('isOutgoingServer2serverShareEnabled')->willReturn(true);
 		$this->federatedShareProvider->expects($this->any())
 			->method('isIncomingServer2serverShareEnabled')->willReturn(true);
+		$this->federatedShareProvider->expects($this->any())->method('getShareById')
+			->willReturn($this->share);
 
+		$this->notifications = $this->getMockBuilder('OCA\FederatedFileSharing\Notifications')
+			->disableOriginalConstructor()->getMock();
+		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
+			->disableOriginalConstructor()->getMock();
+		$this->userManager = $this->getMock('OCP\IUserManager');
+		
 		$this->registerHttpHelper($httpHelperMock);
 
-		$this->s2s = new \OCA\Files_Sharing\API\Server2Server($this->federatedShareProvider);
+		$this->s2s = new RequestHandler(
+			$this->federatedShareProvider,
+			\OC::$server->getDatabaseConnection(),
+			\OC::$server->getShareManager(),
+			\OC::$server->getRequest(),
+			$this->notifications,
+			$this->addressHandler,
+			$this->userManager
+		);
 
 		$this->connection = \OC::$server->getDatabaseConnection();
 	}
 
 	protected function tearDown() {
 		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share_external`');
+		$query->execute();
+
+		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share`');
 		$query->execute();
 
 		$this->restoreHttpHelper();
@@ -135,28 +175,34 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 
 
 	function testDeclineShare() {
-		$dummy = \OCP\DB::prepare('
-			INSERT INTO `*PREFIX*share`
-			(`share_type`, `uid_owner`, `item_type`, `item_source`, `item_target`, `file_source`, `file_target`, `permissions`, `stime`, `token`, `share_with`)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-			');
-		$dummy->execute(array(\OCP\Share::SHARE_TYPE_REMOTE, self::TEST_FILES_SHARING_API_USER1, 'test', '1', '/1', '1', '/test.txt', '1', time(), 'token', 'foo@bar'));
 
-		$verify = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share`');
-		$result = $verify->execute();
-		$data = $result->fetchAll();
-		$this->assertSame(1, count($data));
+		$this->s2s = $this->getMockBuilder('\OCA\FederatedFileSharing\RequestHandler')
+			->setConstructorArgs(
+				[
+					$this->federatedShareProvider,
+					\OC::$server->getDatabaseConnection(),
+					\OC::$server->getShareManager(),
+					\OC::$server->getRequest(),
+					$this->notifications,
+					$this->addressHandler,
+					$this->userManager
+				]
+			)->setMethods(['executeDeclineShare', 'verifyShare'])->getMock();
+
+		$this->s2s->expects($this->once())->method('executeDeclineShare');
+
+		$this->s2s->expects($this->any())->method('verifyShare')->willReturn(true);
 
 		$_POST['token'] = 'token';
-		$this->s2s->declineShare(array('id' => $data[0]['id']));
 
-		$verify = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share`');
-		$result = $verify->execute();
-		$data = $result->fetchAll();
-		$this->assertEmpty($data);
+		$this->s2s->declineShare(array('id' => 42));
+
 	}
 
-	function testDeclineShareMultiple() {
+	function XtestDeclineShareMultiple() {
+
+		$this->share->expects($this->any())->method('verifyShare')->willReturn(true);
+
 		$dummy = \OCP\DB::prepare('
 			INSERT INTO `*PREFIX*share`
 			(`share_type`, `uid_owner`, `item_type`, `item_source`, `item_target`, `file_source`, `file_target`, `permissions`, `stime`, `token`, `share_with`)
@@ -194,14 +240,14 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 	function testDeleteUser($toDelete, $expected, $remainingUsers) {
 		$this->createDummyS2SShares();
 
-		$discoveryManager = new \OCA\FederatedFileSharing\DiscoveryManager(
+		$discoveryManager = new DiscoveryManager(
 			\OC::$server->getMemCacheFactory(),
 			\OC::$server->getHTTPClientService()
 		);
-		$manager = new OCA\Files_Sharing\External\Manager(
+		$manager = new \OCA\Files_Sharing\External\Manager(
 			\OC::$server->getDatabaseConnection(),
-			\OC\Files\Filesystem::getMountManager(),
-			\OC\Files\Filesystem::getLoader(),
+			Filesystem::getMountManager(),
+			Filesystem::getLoader(),
 			\OC::$server->getHTTPHelper(),
 			\OC::$server->getNotificationManager(),
 			$discoveryManager,
@@ -258,6 +304,78 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 		$dummyEntries = $query->fetchAll();
 
 		$this->assertSame(10, count($dummyEntries));
+	}
+
+	/**
+	 * @dataProvider dataTestGetShare
+	 *
+	 * @param bool $found
+	 * @param bool $correctId
+	 * @param bool $correctToken
+	 */
+	public function testGetShare($found, $correctId, $correctToken) {
+
+		$connection = \OC::$server->getDatabaseConnection();
+		$query = $connection->getQueryBuilder();
+		$stime = time();
+		$query->insert('share')
+			->values(
+				[
+					'share_type' => $query->createNamedParameter(FederatedShareProvider::SHARE_TYPE_REMOTE),
+					'uid_owner' => $query->createNamedParameter(self::TEST_FILES_SHARING_API_USER1),
+					'uid_initiator' => $query->createNamedParameter(self::TEST_FILES_SHARING_API_USER2),
+					'item_type' => $query->createNamedParameter('test'),
+					'item_source' => $query->createNamedParameter('1'),
+					'item_target' => $query->createNamedParameter('/1'),
+					'file_source' => $query->createNamedParameter('1'),
+					'file_target' => $query->createNamedParameter('/test.txt'),
+					'permissions' => $query->createNamedParameter('1'),
+					'stime' => $query->createNamedParameter($stime),
+					'token' => $query->createNamedParameter('token'),
+					'share_with' => $query->createNamedParameter('foo@bar'),
+				]
+			)->execute();
+		$id = $query->getLastInsertId();
+
+		$expected = [
+			'share_type' => (string)FederatedShareProvider::SHARE_TYPE_REMOTE,
+			'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+			'item_type' => 'test',
+			'item_source' => '1',
+			'item_target' => '/1',
+			'file_source' => '1',
+			'file_target' => '/test.txt',
+			'permissions' => '1',
+			'stime' => (string)$stime,
+			'token' => 'token',
+			'share_with' => 'foo@bar',
+			'id' => (string)$id,
+			'uid_initiator' => self::TEST_FILES_SHARING_API_USER2,
+			'parent' => null,
+			'accepted' => '0',
+			'expiration' => null,
+			'mail_send' => '0'
+		];
+
+		$searchToken = $correctToken ? 'token' : 'wrongToken';
+		$searchId = $correctId ? $id : -1;
+
+		$result = $this->invokePrivate($this->s2s, 'getShare', [$searchId, $searchToken]);
+
+		if ($found) {
+			$this->assertEquals($expected, $result);
+		} else {
+			$this->assertSame(false, $result);
+		}
+	}
+
+	public function dataTestGetShare() {
+		return [
+			[true, true, true],
+			[false, false, true],
+			[false, true, false],
+			[false, false, false],
+		];
 	}
 
 }

@@ -82,6 +82,8 @@ class Share20OCSTest extends \Test\TestCase {
 		$this->currentUser = $this->getMock('OCP\IUser');
 		$this->currentUser->method('getUID')->willReturn('currentUser');
 
+		$this->userManager->expects($this->any())->method('userExists')->willReturn(true);
+
 		$this->l = $this->getMock('\OCP\IL10N');
 		$this->l->method('t')
 			->will($this->returnCallback(function($text, $parameters = []) {

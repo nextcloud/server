@@ -81,7 +81,8 @@ class Application extends App {
 			\OC::$server->getL10N('federatedfilesharing'),
 			\OC::$server->getLogger(),
 			\OC::$server->getLazyRootFolder(),
-			\OC::$server->getConfig()
+			\OC::$server->getConfig(),
+			\OC::$server->getUserManager()
 		);
 	}
 
