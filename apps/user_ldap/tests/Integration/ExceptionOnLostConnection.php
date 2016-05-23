@@ -89,7 +89,7 @@ class ExceptionOnLostConnection {
 	 * the LDAP backend, as well as getting information about toxiproxy.
 	 * Also creates an instance of the LDAP class, the testee
 	 *
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function setUp() {
 		require_once __DIR__  . '/../../../../lib/base.php';
@@ -145,7 +145,7 @@ class ExceptionOnLostConnection {
 	 *
 	 * @param resource $ch
 	 * @param mixed $result
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	private function checkCurlResult($ch, $result) {
 		if($result === false) {
@@ -159,7 +159,7 @@ class ExceptionOnLostConnection {
 	 * enables or disabled the LDAP proxy service in toxiproxy
 	 *
 	 * @param bool $isEnabled whether is should be enabled or disables
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	private function setProxyState($isEnabled) {
 		if(!is_bool($isEnabled)) {
