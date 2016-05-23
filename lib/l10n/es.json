@@ -165,6 +165,8 @@
     "Storage incomplete configuration. %s" : "Configuración de almacenamiento incompleta. %s",
     "Storage connection error. %s" : "Error de conexión de almacenamiento. %s",
     "Storage not available" : "Almacenamiento no disponible",
-    "Storage connection timeout. %s" : "Tiempo de conexión de almacenamiento agotado. %s"
+    "Storage connection timeout. %s" : "Tiempo de conexión de almacenamiento agotado. %s",
+    "_%n file_::_%n files_" : ["%n archivo","%n archivos"],
+    "_%n window_::_%n windows_" : ["%n window","%n windows"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

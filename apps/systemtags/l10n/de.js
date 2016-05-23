@@ -21,6 +21,7 @@ OC.L10N.register(
     "%1$s assigned system tag %3$s to %2$s" : "%1$s hat System-Tag %3$s an %2$s angebracht",
     "You unassigned system tag %3$s from %2$s" : "Du hast den System-Tag %3$s von %2$s  entfernt",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s hat den System-Tag %3$s von %2$s entfernt",
+    "%s (restricted)" : "%s (eingeschränkt)",
     "%s (invisible)" : "%s (unsichtbar)",
     "No files in here" : "Keine Dateien vorhanden",
     "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",

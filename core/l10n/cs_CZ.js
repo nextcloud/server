@@ -195,6 +195,7 @@ OC.L10N.register(
     "Warning" : "Varování",
     "Error while sending notification" : "Chyba při odesílání upozornění",
     "Non-existing tag #{tag}" : "Neexistující tag #{tag}",
+    "restricted" : "omezeno",
     "invisible" : "neviditelný",
     "({scope})" : "({scope})",
     "Delete" : "Smazat",

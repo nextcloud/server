@@ -165,6 +165,8 @@
     "Storage incomplete configuration. %s" : "Speicher-Konfiguration unvollständig. %s",
     "Storage connection error. %s" : "Speicher-Verbindungsfehler. %s",
     "Storage not available" : "Speicher nicht verfügbar",
-    "Storage connection timeout. %s" : "Speicher-Verbindungszeitüberschreitung. %s"
+    "Storage connection timeout. %s" : "Speicher-Verbindungszeitüberschreitung. %s",
+    "_%n file_::_%n files_" : ["%n Datei","%n Dateien"],
+    "_%n window_::_%n windows_" : ["%n Fenster","%n Fenster"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

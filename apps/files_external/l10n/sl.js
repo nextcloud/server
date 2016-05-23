@@ -19,6 +19,7 @@ OC.L10N.register(
     "Insufficient data: %s" : "Nepopolni podatki: %s",
     "%s" : "%s",
     "Storage with id \"%i\" is not user editable" : "Shramba z ID \"%i\" ni uporabniško uredljiva.",
+    "Dropbox App Configuration" : "Nastavitve programa Dropbox",
     "Google Drive App Configuration" : "Nastavitve programa Google Drive",
     "Personal" : "Osebno",
     "System" : "Sistem",

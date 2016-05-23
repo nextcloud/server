@@ -19,6 +19,7 @@
     "%1$s assigned system tag %3$s to %2$s" : "Uporabnik %1$s je dodelil sistemsko oznako %3$s za %2$s",
     "You unassigned system tag %3$s from %2$s" : "Odstranili ste sistemsko oznako %3$s od %2$s",
     "%1$s unassigned system tag %3$s from %2$s" : "Uporabnik %1$s je prevzel sistemsko oznako %3$s od %2$s",
+    "%s (restricted)" : "%s (omejeno)",
     "%s (invisible)" : "%s (nevidno)",
     "No files in here" : "V mapi ni datotek",
     "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",

@@ -60,6 +60,7 @@ OC.L10N.register(
     "You removed the share of %2$s for %1$s" : "Odstranili ste mapo v souporabi %2$s za %1$s",
     "You shared %1$s with group %2$s" : "Omogočili ste souporabo %1$s s skupino %2$s",
     "You shared %1$s via link" : "Omogočili ste souporabo %1$s preko povezave",
+    "Your public link for %1$s expired" : "Javna povezava za %1$s je časovno potekla!",
     "%2$s shared %1$s with you" : "Uporabnik %2$s je omogočil souporabo %1$s",
     "Downloaded via public link" : "Prejeto preko javne povezave",
     "Shared with %2$s" : "V souporabi z %2$s",

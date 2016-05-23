@@ -5,6 +5,7 @@ OC.L10N.register(
     "Unknown filetype" : "نوع الملف غير معروف",
     "Invalid image" : "الصورة غير صالحة",
     "%s password reset" : "تمت إعادة ضبط كلمة مرور %s",
+    "Error deleting tag(s)" : "خطأ أثناء حذف العلامة (العلامات)",
     "Updated database" : "قاعدة بيانات المرفوعات",
     "Sunday" : "الأحد",
     "Monday" : "الأثنين",
