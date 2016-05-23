@@ -302,7 +302,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		}
 		$data = $this->scanFile($path, $reuse, -1, null, $lock);
 		if ($data and $data['mimetype'] === 'httpd/unix-directory') {
-			$size = $this->scanChildren($path, $recursive, $reuse, $data, $lock);
+			$size = $this->scanChildren($path, $recursive, $reuse, $data['fileid'], $lock);
 			$data['size'] = $size;
 		}
 		if ($lock) {
@@ -378,7 +378,9 @@ class Scanner extends BasicEmitter implements IScanner {
 				$size += $childSize;
 			}
 		}
-		$this->updateCache($path, array('size' => $size), $folderId);
+		if ($this->cacheActive) {
+			$this->cache->update($folderId, array('size' => $size));
+		}
 		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', array($path, $this->storageId));
 		return $size;
 	}
