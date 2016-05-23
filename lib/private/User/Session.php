@@ -288,12 +288,20 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function login($uid, $password) {
 		$this->session->regenerateId();
-		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
-		$user = $this->manager->checkPassword($uid, $password);
-		if ($user === false) {
-			if ($this->validateToken($password)) {
-				$user = $this->getUser();
+		if ($this->validateToken($password)) {
+			$user = $this->getUser();
+
+			// When logging in with token, the password must be decrypted first before passing to login hook
+			try {
+				$token = $this->tokenProvider->getToken($password);
+				$password = $this->tokenProvider->getPassword($token, $password);
+				$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
+			} catch (InvalidTokenException $ex) {
+				// Invalid token, nothing to do
 			}
+		} else {
+			$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
+			$user = $this->manager->checkPassword($uid, $password);
 		}
 		if ($user !== false) {
 			if (!is_null($user)) {
