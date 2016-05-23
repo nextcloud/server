@@ -123,8 +123,20 @@ class Scanner extends PublicEmitter {
 			if ($mount->getStorage()->instanceOfStorage('\OC\Files\Storage\Local') && $mount->getMountPoint() === '/') {
 				continue;
 			}
-			$scanner = $mount->getStorage()->getScanner();
+			$storage = $mount->getStorage();
+			$scanner = $storage->getScanner();
 			$this->attachListener($mount);
+
+			$scanner->listen('\OC\Files\Cache\Scanner', 'removeFromCache', function ($path) use ($storage) {
+				$this->triggerPropagator($storage, $path);
+			});
+			$scanner->listen('\OC\Files\Cache\Scanner', 'updateCache', function ($path) use ($storage) {
+				$this->triggerPropagator($storage, $path);
+			});
+			$scanner->listen('\OC\Files\Cache\Scanner', 'addToCache', function ($path) use ($storage) {
+				$this->triggerPropagator($storage, $path);
+			});
+
 			$scanner->backgroundScan();
 		}
 	}
