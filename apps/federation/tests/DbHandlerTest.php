@@ -21,7 +21,7 @@
  */
 
 
-namespace OCA\Federation\Tests\lib;
+namespace OCA\Federation\Tests;
 
 
 use OCA\Federation\DbHandler;

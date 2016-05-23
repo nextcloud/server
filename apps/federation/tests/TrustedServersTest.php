@@ -21,7 +21,7 @@
  */
 
 
-namespace OCA\Federation\Tests\lib;
+namespace OCA\Federation\Tests;
 
 
 use OCA\Federation\DbHandler;
@@ -38,7 +38,7 @@ use Test\TestCase;
 
 class TrustedServersTest extends TestCase {
 
-	/** @var  TrustedServers */
+	/** @var \PHPUnit_Framework_MockObject_MockObject | TrustedServers */
 	private $trustedServers;
 
 	/** @var  \PHPUnit_Framework_MockObject_MockObject | DbHandler */
@@ -101,7 +101,7 @@ class TrustedServersTest extends TestCase {
 	 * @param bool $success
 	 */
 	public function testAddServer($success) {
-		/** @var \PHPUnit_Framework_MockObject_MockObject | TrustedServers $trustedServer */
+		/** @var \PHPUnit_Framework_MockObject_MockObject|TrustedServers $trustedServers */
 		$trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
 			->setConstructorArgs(
 				[
@@ -172,7 +172,7 @@ class TrustedServersTest extends TestCase {
 			->with('federation', 'autoAddServers', '1')->willReturn($status);
 
 		$this->assertSame($expected,
-			$this->trustedServers->getAutoAddServers($status)
+			$this->trustedServers->getAutoAddServers()
 		);
 	}
 
@@ -208,6 +208,7 @@ class TrustedServersTest extends TestCase {
 				function($eventId, $event) {
 					$this->assertSame($eventId, 'OCP\Federation\TrustedServerEvent::remove');
 					$this->assertInstanceOf('Symfony\Component\EventDispatcher\GenericEvent', $event);
+					/** @var \Symfony\Component\EventDispatcher\GenericEvent $event */
 					$this->assertSame('url_hash', $event->getSubject());
 				}
 			);
@@ -215,9 +216,10 @@ class TrustedServersTest extends TestCase {
 	}
 
 	public function testGetServers() {
-		$this->dbHandler->expects($this->once())->method('getAllServer')->willReturn(true);
+		$this->dbHandler->expects($this->once())->method('getAllServer')->willReturn(['servers']);
 
-		$this->assertTrue(
+		$this->assertEquals(
+			['servers'],
 			$this->trustedServers->getServers()
 		);
 	}
@@ -257,7 +259,7 @@ class TrustedServersTest extends TestCase {
 
 		$server = 'server1';
 
-		/** @var \PHPUnit_Framework_MockObject_MockObject | TrustedServers $trustedServer */
+		/** @var \PHPUnit_Framework_MockObject_MockObject | TrustedServers $trustedServers */
 		$trustedServers = $this->getMockBuilder('OCA\Federation\TrustedServers')
 			->setConstructorArgs(
 				[
