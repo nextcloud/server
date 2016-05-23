@@ -30,5 +30,6 @@ namespace OCP\Files;
 
 /**
  * Exception for seek problem
+ * @since 9.1.0
  */
 class UnseekableException extends \Exception {}
