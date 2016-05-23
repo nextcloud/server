@@ -355,29 +355,45 @@ class Scanner extends BasicEmitter implements IScanner {
 	 * @param string $path
 	 * @param bool $recursive
 	 * @param int $reuse
-	 * @param array $folderData existing cache data for the folder to be scanned
+	 * @param int $folderId id for the folder to be scanned
 	 * @param bool $lock set to false to disable getting an additional read lock during scanning
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderData = null, $lock = true) {
+	protected function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1, $folderId = null, $lock = true) {
 		if ($reuse === -1) {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', array($path, $this->storageId));
 		$size = 0;
-		$childQueue = array();
-		if (is_array($folderData) and isset($folderData['fileid'])) {
-			$folderId = $folderData['fileid'];
-		} else {
+		if (!is_null($folderId)) {
 			$folderId = $this->cache->getId($path);
 		}
+		$childQueue = $this->handleChildren($path, $recursive, $reuse, $folderId, $lock, $size);
+
+		foreach ($childQueue as $child => $childId) {
+			$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE, $reuse, $childId, $lock);
+			if ($childSize === -1) {
+				$size = -1;
+			} else if ($size !== -1) {
+				$size += $childSize;
+			}
+		}
+		$this->updateCache($path, array('size' => $size), $folderId);
+		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', array($path, $this->storageId));
+		return $size;
+	}
+
+	private function handleChildren($path, $recursive, $reuse, $folderId, $lock, &$size) {
+		// we put this in it's own function so it cleans up the memory before we start recursing
 		$existingChildren = $this->getExistingChildren($folderId);
 		$newChildren = $this->getNewChildren($path);
 
 		if ($this->useTransactions) {
 			\OC::$server->getDatabaseConnection()->beginTransaction();
 		}
+
 		$exceptionOccurred = false;
+		$childQueue = [];
 		foreach ($newChildren as $file) {
 			$child = ($path) ? $path . '/' . $file : $file;
 			try {
@@ -385,7 +401,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				$data = $this->scanFile($child, $reuse, $folderId, $existingData, $lock);
 				if ($data) {
 					if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
-						$childQueue[$child] = $data;
+						$childQueue[$child] = $data['fileid'];
 					} else if ($data['size'] === -1) {
 						$size = -1;
 					} else if ($size !== -1) {
@@ -420,20 +436,7 @@ class Scanner extends BasicEmitter implements IScanner {
 			// we reload them here
 			\OC::$server->getMimeTypeLoader()->reset();
 		}
-
-		foreach ($childQueue as $child => $childData) {
-			$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE, $reuse, $childData, $lock);
-			if ($childSize === -1) {
-				$size = -1;
-			} else if ($size !== -1) {
-				$size += $childSize;
-			}
-		}
-		if (!is_array($folderData) or !isset($folderData['size']) or $folderData['size'] !== $size) {
-			$this->updateCache($path, array('size' => $size), $folderId);
-		}
-		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', array($path, $this->storageId));
-		return $size;
+		return $childQueue;
 	}
 
 	/**
@@ -466,7 +469,7 @@ class Scanner extends BasicEmitter implements IScanner {
 		} else {
 			$lastPath = null;
 			while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
-				$this->runBackgroundScanJob(function() use ($path) {
+				$this->runBackgroundScanJob(function () use ($path) {
 					$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
 				}, $path);
 				// FIXME: this won't proceed with the next item, needs revamping of getIncomplete()
