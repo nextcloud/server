@@ -714,13 +714,13 @@ class FederatedShareProvider implements IShareProvider {
 		$data = $cursor->fetch();
 
 		if ($data === false) {
-			throw new ShareNotFound();
+			throw new ShareNotFound('Share not found', $this->l('Could not find share'));
 		}
 
 		try {
 			$share = $this->createShareObject($data);
 		} catch (InvalidShare $e) {
-			throw new ShareNotFound();
+			throw new ShareNotFound('Share not found', $this->l('Could not find share'));
 		}
 
 		return $share;
