@@ -61,10 +61,28 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 				'class' => 'Test\Files\Mount\FakeObjectStore',
 			]);
 
-		$this->user->expects($this->once())
-			->method('getUID')
+		$this->user->method('getUID')
 			->willReturn('uid');
 		$this->loader->expects($this->never())->method($this->anything());
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->equalTo('uid'),
+				$this->equalTo('homeobjectstore'),
+				$this->equalTo('bucket'),
+				$this->equalTo(null)
+			)->willReturn(null);
+
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with(
+				$this->equalTo('uid'),
+				$this->equalTo('homeobjectstore'),
+				$this->equalTo('bucket'),
+				$this->equalTo('987'),
+				$this->equalTo(null)
+			);
 
 		$config = $this->invokePrivate($this->provider, 'getMultiBucketObjectStoreConfig', [$this->user, $this->loader]);
 
@@ -90,10 +108,28 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 				],
 			]);
 
-		$this->user->expects($this->once())
-			->method('getUID')
+		$this->user->method('getUID')
 			->willReturn('uid');
 		$this->loader->expects($this->never())->method($this->anything());
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->equalTo('uid'),
+				$this->equalTo('homeobjectstore'),
+				$this->equalTo('bucket'),
+				$this->equalTo(null)
+			)->willReturn(null);
+
+		$this->config->expects($this->once())
+			->method('setUserValue')
+			->with(
+				$this->equalTo('uid'),
+				$this->equalTo('homeobjectstore'),
+				$this->equalTo('bucket'),
+				$this->equalTo('myBucketPrefix987'),
+				$this->equalTo(null)
+			);
 
 		$config = $this->invokePrivate($this->provider, 'getMultiBucketObjectStoreConfig', [$this->user, $this->loader]);
 
@@ -108,6 +144,46 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 		$this->assertEquals('myBucketPrefix987', $config['arguments']['bucket']);
 	}
 
+	public function testMultiBucketBucketAlreadySet() {
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with($this->equalTo('objectstore_multibucket'), '')
+			->willReturn([
+				'class' => 'Test\Files\Mount\FakeObjectStore',
+				'arguments' => [
+					'bucket' => 'myBucketPrefix',
+				],
+			]);
+
+		$this->user->method('getUID')
+			->willReturn('uid');
+		$this->loader->expects($this->never())->method($this->anything());
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with(
+				$this->equalTo('uid'),
+				$this->equalTo('homeobjectstore'),
+				$this->equalTo('bucket'),
+				$this->equalTo(null)
+			)->willReturn('awesomeBucket1');
+
+		$this->config->expects($this->never())
+			->method('setUserValue');
+
+		$config = $this->invokePrivate($this->provider, 'getMultiBucketObjectStoreConfig', [$this->user, $this->loader]);
+
+		$this->assertArrayHasKey('class', $config);
+		$this->assertEquals($config['class'], 'Test\Files\Mount\FakeObjectStore');
+		$this->assertArrayHasKey('arguments', $config);
+		$this->assertArrayHasKey('user', $config['arguments']);
+		$this->assertSame($this->user, $config['arguments']['user']);
+		$this->assertArrayHasKey('objectstore', $config['arguments']);
+		$this->assertInstanceOf('Test\Files\Mount\FakeObjectStore', $config['arguments']['objectstore']);
+		$this->assertArrayHasKey('bucket', $config['arguments']);
+		$this->assertEquals('awesomeBucket1', $config['arguments']['bucket']);
+	}
+
 	public function testMultiBucketConfigFirst() {
 		$this->config->expects($this->once())
 			->method('getSystemValue')
@@ -116,8 +192,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 				'class' => 'Test\Files\Mount\FakeObjectStore',
 			]);
 
-		$this->user->expects($this->exactly(2))
-			->method('getUID')
+		$this->user->method('getUID')
 			->willReturn('uid');
 		$this->loader->expects($this->never())->method($this->anything());
 
@@ -138,8 +213,7 @@ class ObjectHomeMountProviderTest extends \Test\TestCase {
 				'class' => 'Test\Files\Mount\FakeObjectStore',
 			]);
 
-		$this->user->expects($this->once())
-			->method('getUID')
+		$this->user->method('getUID')
 			->willReturn('uid');
 		$this->loader->expects($this->never())->method($this->anything());
 		
