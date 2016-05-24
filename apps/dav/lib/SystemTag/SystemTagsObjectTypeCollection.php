@@ -31,7 +31,6 @@ use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OCP\IUserSession;
 use OCP\IGroupManager;
-use OCP\Files\IRootFolder;
 
 /**
  * Collection containing object ids by object type
@@ -64,9 +63,9 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	private $userSession;
 
 	/**
-	 * @var IRootFolder
+	 * @var \Closure
 	 **/
-	protected $fileRoot;
+	protected $childExistsFunction;
 
 	/**
 	 * Constructor
@@ -76,7 +75,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	 * @param ISystemTagObjectMapper $tagMapper
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
-	 * @param IRootFolder $fileRoot
+	 * @param \Closure $childExistsFunction
 	 */
 	public function __construct(
 		$objectType, 
@@ -84,14 +83,14 @@ class SystemTagsObjectTypeCollection implements ICollection {
 		ISystemTagObjectMapper $tagMapper,
 		IUserSession $userSession,
 		IGroupManager $groupManager,
-		IRootFolder $fileRoot
+		\Closure $childExistsFunction
 	) {
 		$this->tagManager = $tagManager;
 		$this->tagMapper = $tagMapper;
 		$this->objectType = $objectType;
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
-		$this->fileRoot = $fileRoot;
+		$this->childExistsFunction = $childExistsFunction;
 	}
 
 	/**
@@ -133,17 +132,13 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	}
 
 	/**
+	 * Checks if a child-node with the specified name exists
+	 *
 	 * @param string $name
+	 * @return bool
 	 */
 	function childExists($name) {
-		// TODO: make this more abstract
-		if ($this->objectType === 'files') {
-			// make sure the object is reachable for the current user
-			$userId = $this->userSession->getUser()->getUID();
-			$nodes = $this->fileRoot->getUserFolder($userId)->getById(intval($name));
-			return !empty($nodes);
-		}
-		return true;
+		return call_user_func($this->childExistsFunction, $name);
 	}
 
 	function delete() {
