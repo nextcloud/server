@@ -31,7 +31,7 @@ OC::$CLASSPATH['OC_Mount_Config'] = 'files_external/lib/config.php';
 require_once __DIR__ . '/../3rdparty/autoload.php';
 
 // register Application object singleton
-\OC_Mount_Config::$app = new \OCA\Files_external\Appinfo\Application();
+\OC_Mount_Config::$app = new \OCA\Files_External\AppInfo\Application();
 $appContainer = \OC_Mount_Config::$app->getContainer();
 
 \OC_Mount_Config::$app->registerSettings();

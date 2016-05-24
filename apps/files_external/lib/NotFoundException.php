@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -19,12 +19,10 @@
  *
  */
 
-$installedVersion = \OC::$server->getConfig()->getAppValue('files_external', 'installed_version');
+namespace OCA\Files_External;
 
-$app = new \OCA\Files_External\AppInfo\Application();
-
-// Migration to db config
-if (version_compare($installedVersion, '0.5.0', '<')) {
-	$migrator = $app->getContainer()->query('OCA\Files_External\Migration\StorageMigrator');
-	$migrator->migrateGlobal();
+/**
+ * Storage is not found
+ */
+class NotFoundException extends \Exception {
 }

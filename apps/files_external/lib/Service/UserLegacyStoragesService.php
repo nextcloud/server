@@ -19,12 +19,36 @@
  *
  */
 
-$installedVersion = \OC::$server->getConfig()->getAppValue('files_external', 'installed_version');
+namespace OCA\Files_External\Service;
 
-$app = new \OCA\Files_External\AppInfo\Application();
+use OCP\IUserSession;
 
-// Migration to db config
-if (version_compare($installedVersion, '0.5.0', '<')) {
-	$migrator = $app->getContainer()->query('OCA\Files_External\Migration\StorageMigrator');
-	$migrator->migrateGlobal();
+/**
+ * Read user defined mounts from the legacy mount.json
+ */
+class UserLegacyStoragesService extends LegacyStoragesService {
+	/**
+	 * @var IUserSession
+	 */
+	private $userSession;
+
+	/**
+	 * @param BackendService $backendService
+	 * @param IUserSession $userSession
+	 */
+	public function __construct(BackendService $backendService, IUserSession $userSession) {
+		$this->backendService = $backendService;
+		$this->userSession = $userSession;
+	}
+
+	/**
+	 * Read legacy config data
+	 *
+	 * @return array list of storage configs
+	 */
+	protected function readLegacyConfig() {
+		// read user config
+		$user = $this->userSession->getUser()->getUID();
+		return \OC_Mount_Config::readData($user);
+	}
 }

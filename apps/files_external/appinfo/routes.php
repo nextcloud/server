@@ -26,8 +26,6 @@
  *
  */
 
-namespace OCA\Files_External\AppInfo;
-
 /**
  * @var $this \OCP\Route\IRouter
  **/

@@ -19,12 +19,33 @@
  *
  */
 
-$installedVersion = \OC::$server->getConfig()->getAppValue('files_external', 'installed_version');
+namespace OCA\Files_External\Migration;
 
-$app = new \OCA\Files_External\AppInfo\Application();
+use OCP\IUser;
+use OCP\IUserSession;
 
-// Migration to db config
-if (version_compare($installedVersion, '0.5.0', '<')) {
-	$migrator = $app->getContainer()->query('OCA\Files_External\Migration\StorageMigrator');
-	$migrator->migrateGlobal();
+class DummyUserSession implements IUserSession {
+
+	/**
+	 * @var IUser
+	 */
+	private $user;
+
+	public function login($user, $password) {
+	}
+
+	public function logout() {
+	}
+
+	public function setUser($user) {
+		$this->user = $user;
+	}
+
+	public function getUser() {
+		return $this->user;
+	}
+
+	public function isLoggedIn() {
+		return !is_null($this->user);
+	}
 }

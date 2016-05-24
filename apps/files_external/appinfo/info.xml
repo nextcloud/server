@@ -19,6 +19,8 @@
 	</types>
 	<ocsid>166048</ocsid>
 
+	<namespace>Files_External</namespace>
+
 	<dependencies>
 		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>

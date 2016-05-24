@@ -19,12 +19,28 @@
  *
  */
 
-$installedVersion = \OC::$server->getConfig()->getAppValue('files_external', 'installed_version');
+namespace OCA\Files_External\Service;
 
-$app = new \OCA\Files_External\AppInfo\Application();
+class ImportLegacyStoragesService extends LegacyStoragesService {
+	private $data;
 
-// Migration to db config
-if (version_compare($installedVersion, '0.5.0', '<')) {
-	$migrator = $app->getContainer()->query('OCA\Files_External\Migration\StorageMigrator');
-	$migrator->migrateGlobal();
+	/**
+	 * @param BackendService $backendService
+	 */
+	public function __construct(BackendService $backendService) {
+		$this->backendService = $backendService;
+	}
+
+	public function setData($data) {
+		$this->data = $data;
+	}
+
+	/**
+	 * Read legacy config data
+	 *
+	 * @return array list of mount configs
+	 */
+	protected function readLegacyConfig() {
+		return $this->data;
+	}
 }

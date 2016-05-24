@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -19,12 +19,21 @@
  *
  */
 
-$installedVersion = \OC::$server->getConfig()->getAppValue('files_external', 'installed_version');
+namespace OCA\Files_External\Lib\Auth;
 
-$app = new \OCA\Files_External\AppInfo\Application();
+use \OCP\IL10N;
 
-// Migration to db config
-if (version_compare($installedVersion, '0.5.0', '<')) {
-	$migrator = $app->getContainer()->query('OCA\Files_External\Migration\StorageMigrator');
-	$migrator->migrateGlobal();
+/**
+ * Builtin authentication mechanism, for legacy backends
+ */
+class Builtin extends AuthMechanism {
+
+	public function __construct(IL10N $l) {
+		$this
+			->setIdentifier('builtin::builtin')
+			->setScheme(self::SCHEME_BUILTIN)
+			->setText($l->t('Builtin'))
+		;
+	}
+
 }
