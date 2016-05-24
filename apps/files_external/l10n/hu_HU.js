@@ -2,7 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "External storage" : "Külső tárolók",
-    "%s" : "%s",
     "Personal" : "Személyes",
     "System" : "Rendszer",
     "Grant access" : "Megadom a hozzáférést",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "Username" : "Felhasználónév",
     "Password" : "Jelszó",
     "Save" : "Mentés",
+    "%s" : "%s",
     "Access key" : "Hozzáférési kulcs",
     "Secret key" : "Titkos kulcs",
     "None" : "Egyik sem",

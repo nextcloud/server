@@ -33,8 +33,6 @@ OC.L10N.register(
     "Shared via public link" : "Споделено со јавна врска/линк",
     "Shared by %2$s" : "Споделено од %2$s",
     "Shares" : "Споделувања",
-    "Accept" : "Прифати",
-    "Decline" : "Одбиј",
     "This share is password-protected" : "Ова споделување е заштитено со лозинка",
     "The password is wrong. Try again." : "Лозинката е грешна. Обиди се повторно.",
     "Password" : "Лозинка",

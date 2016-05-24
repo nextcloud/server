@@ -1,6 +1,5 @@
 { "translations": {
     "External storage" : "Külső tárolók",
-    "%s" : "%s",
     "Personal" : "Személyes",
     "System" : "Rendszer",
     "Grant access" : "Megadom a hozzáférést",
@@ -18,6 +17,7 @@
     "Username" : "Felhasználónév",
     "Password" : "Jelszó",
     "Save" : "Mentés",
+    "%s" : "%s",
     "Access key" : "Hozzáférési kulcs",
     "Secret key" : "Titkos kulcs",
     "None" : "Egyik sem",

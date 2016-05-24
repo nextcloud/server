@@ -37,8 +37,6 @@ OC.L10N.register(
     "Removed public link" : "Avalik link on eemaldatud",
     "Public link expired" : "Avalik link aegus",
     "Shares" : "Jagamised",
-    "Accept" : "Nõustu",
-    "Decline" : "Lükka tagasi",
     "This share is password-protected" : "See jagamine on parooliga kaitstud",
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
     "Password" : "Parool",

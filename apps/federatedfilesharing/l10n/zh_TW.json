@@ -3,6 +3,8 @@
     "Sharing %s failed, because this item is already shared with %s" : "分享 %s 失敗，因為此項目目前已經與 %s 分享",
     "Not allowed to create a federated share with the same user" : "不允許與同一個使用者建立聯盟式分享",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "分享%s失敗，找不到%s，或許目前無法連線到該伺服器",
+    "Accept" : "接受",
+    "Decline" : "拒絕",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "可透過我的 #ownCloud 聯盟雲端 ID，與我分享，請看 %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "可透過我的 #ownCloud 聯盟雲端 ID，與我分享",
     "Federated Cloud Sharing" : "聯盟式雲端分享",

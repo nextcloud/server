@@ -21,6 +21,7 @@ OC.L10N.register(
     "%1$s assigned system tag %3$s to %2$s" : "%1$s は、%2$s に タグ %3$s を追加",
     "You unassigned system tag %3$s from %2$s" : "%2$s から タグ %3$s を解除",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s は%2$s から タグ %3$s  を解除",
+    "%s (restricted)" : "%s (制限)",
     "%s (invisible)" : "%s (不可視)",
     "No files in here" : "ファイルがありません",
     "No entries found in this folder" : "このフォルダーにはエントリーがありません",

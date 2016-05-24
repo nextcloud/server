@@ -195,6 +195,7 @@ OC.L10N.register(
     "Warning" : "Предупреждение",
     "Error while sending notification" : "Ошибка при отправке уведомления",
     "Non-existing tag #{tag}" : "Несуществующий тег #{tag}",
+    "restricted" : "ограниченный",
     "invisible" : "невидимый",
     "({scope})" : "({scope})",
     "Delete" : "Удалить",

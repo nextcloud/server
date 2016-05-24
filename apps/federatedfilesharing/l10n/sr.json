@@ -1,7 +1,10 @@
 { "translations": {
+    "Federated sharing" : "Здружено дељење",
     "Invalid Federated Cloud ID" : "Неисправан ИД Здруженог облака",
     "Sharing %s failed, because this item is already shared with %s" : "Дељење %s није успело зато што се ова ставка већ дели са %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Дељење %s није успело, није могуће пронаћи %s, можда сервер тренутно није доступан.",
+    "Accept" : "Прихвати",
+    "Decline" : "Одбиј",
     "Federated Cloud Sharing" : "Здружено дељење у облаку",
     "Open documentation" : "Отвори документацију",
     "Allow users on this server to send shares to other servers" : "Дозвољава корисницима овог сервера да шаљу дељења на друге сервере",

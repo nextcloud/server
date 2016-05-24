@@ -52,8 +52,6 @@ OC.L10N.register(
     "Shared via public link" : "Partejat per ligam public",
     "Shared by %2$s" : "Partejat per %2$s",
     "Shares" : "Partiments",
-    "Accept" : "Acceptar",
-    "Decline" : "Refusar",
     "This share is password-protected" : "Aqueste partiment es protegit per un senhal",
     "The password is wrong. Try again." : "Lo senhal es incorrècte. Ensajatz tornamai.",
     "Password" : "Senhal",
