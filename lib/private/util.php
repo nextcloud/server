@@ -948,7 +948,8 @@ class OC_Util {
 		}
 
 		$parameters['canResetPassword'] = true;
-		if (!\OC::$server->getSystemConfig()->getValue('lost_password_link')) {
+		$parameters['resetPasswordLink'] = \OC::$server->getSystemConfig()->getValue('lost_password_link', '');
+		if (!$parameters['resetPasswordLink']) {
 			if (isset($_REQUEST['user'])) {
 				$user = \OC::$server->getUserManager()->get($_REQUEST['user']);
 				if ($user instanceof \OCP\IUser) {
