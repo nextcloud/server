@@ -71,13 +71,12 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 
 		$this->userFolder = $this->getMockBuilder('\OCP\Files\Folder')
 			->getMock();
+		$userFolder = $this->userFolder;
 
-		$fileRoot = $this->getMockBuilder('\OCP\Files\IRootFolder')
-			->getMock();
-		$fileRoot->expects($this->any())
-			->method('getUserfolder')
-			->with('testuser')
-			->will($this->returnValue($this->userFolder));
+		$closure = function($name) use ($userFolder) {
+			$nodes = $userFolder->getById(intval($name));
+			return !empty($nodes);
+		};
 
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
 			'files',
@@ -85,7 +84,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			$this->tagMapper,
 			$userSession,
 			$groupManager,
-			$fileRoot
+			$closure
 		);
 	}
 
