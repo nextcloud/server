@@ -70,7 +70,8 @@ class RootCollection extends SimpleCollection {
 			\OC::$server->getSystemTagManager(),
 			\OC::$server->getSystemTagObjectMapper(),
 			\OC::$server->getUserSession(),
-			\OC::$server->getGroupManager()
+			\OC::$server->getGroupManager(),
+			\OC::$server->getEventDispatcher()
 		);
 		$commentsCollection = new Comments\RootCollection(
 			\OC::$server->getCommentsManager(),
