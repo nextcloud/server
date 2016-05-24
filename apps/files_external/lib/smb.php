@@ -112,7 +112,26 @@ class SMB extends Common {
 		try {
 			$path = $this->buildPath($path);
 			if (!isset($this->statCache[$path])) {
-				$this->statCache[$path] = $this->share->stat($path);
+				// $this->statCache[$path] = $this->share->stat($path);
+				$parentFolder = dirname($path);
+				if ($parentFolder === $path) {
+					// $path is "/" path ($this->root included)
+					$this->statCache[$path] = new \Icewind\SMB\FileInfo($path, basename($path), 0,
+							$this->shareMTime(), \Icewind\SMB\FileInfo::MODE_DIRECTORY);
+				} else {
+					$contents = $this->share->dir($parentFolder);
+					// look for $path info
+					$basenamePath = basename($path);
+					foreach ($contents as $content) {
+						if ($content->getName() === $basenamePath) {
+							$this->statCache[$path] = $content;
+						}
+					}
+				}
+				// TODO: throw exception in case something went wrong
+				if (!isset($this->statCache[$path])) {
+					throw new NotFoundException($path);
+				}
 			}
 			return $this->statCache[$path];
 		} catch (ConnectException $e) {
@@ -372,6 +391,25 @@ class SMB extends Common {
 	}
 
 	/**
+	 * get the best guess for the modification time of the share
+	 *
+	 * @param string $path the target path
+	 * @return int the calculated mtime for the share
+	 */
+	private function shareMTime() {
+		$path = $this->buildPath('/');
+		// $path will include $this->root
+		$files = $this->share->dir($path);
+		$lastMtime = 0;
+		foreach ($files as $file) {
+		    if ($file->getMTime() > $lastMtime) {
+		        $lastMtime = $file->getMTime();
+		    }
+		}
+		return $lastMtime;
+	}
+
+	/**
 	 * check if smbclient is installed
 	 */
 	public static function checkDependencies() {
@@ -388,7 +426,8 @@ class SMB extends Common {
 	 */
 	public function test() {
 		try {
-			return parent::test();
+			$this->getFolderContents('/');
+			return true;
 		} catch (Exception $e) {
 			return false;
 		}
