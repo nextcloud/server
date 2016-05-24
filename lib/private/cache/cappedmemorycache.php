@@ -64,8 +64,8 @@ class CappedMemoryCache implements ICache, \ArrayAccess {
 		return $this->hasKey($offset);
 	}
 
-	public function offsetGet($offset) {
-		return $this->get($offset);
+	public function &offsetGet($offset) {
+		return $this->cache[$offset];
 	}
 
 	public function offsetSet($offset, $value) {
