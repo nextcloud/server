@@ -124,7 +124,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\PreconditionFailed
+	 * @expectedException \Sabre\DAV\Exception\PreconditionFailed
 	 */
 	public function testAssignTagNotFound() {
 		$this->tagManager->expects($this->once())
@@ -136,7 +136,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateDirectory() {
 		$this->getNode()->createDirectory('789');
@@ -189,7 +189,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildRelationNotFound() {
 		$this->tagMapper->expects($this->once())
@@ -201,7 +201,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\BadRequest
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 */
 	public function testGetChildInvalidId() {
 		$this->tagMapper->expects($this->once())
@@ -213,7 +213,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildTagDoesNotExist() {
 		$this->tagMapper->expects($this->once())
@@ -317,7 +317,7 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\BadRequest
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 */
 	public function testChildExistsInvalidId() {
 		$this->tagMapper->expects($this->once())
@@ -329,14 +329,14 @@ class SystemTagsObjectMappingCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testDelete() {
 		$this->getNode()->delete();
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testSetName() {
 		$this->getNode()->setName('somethingelse');

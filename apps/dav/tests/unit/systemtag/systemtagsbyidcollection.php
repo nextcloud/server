@@ -69,14 +69,14 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateFile() {
 		$this->getNode()->createFile('555');
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateDirectory() {
 		$this->getNode()->createDirectory('789');
@@ -102,7 +102,7 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\BadRequest
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 */
 	public function testGetChildInvalidName() {
 		$this->tagManager->expects($this->once())
@@ -114,7 +114,7 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildNotFound() {
 		$this->tagManager->expects($this->once())
@@ -126,7 +126,7 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildUserNotVisible() {
 		$tag = new SystemTag(123, 'Test', false, false);
@@ -220,7 +220,7 @@ class SystemTagsByIdCollection extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\BadRequest
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 */
 	public function testChildExistsBadRequest() {
 		$this->tagManager->expects($this->once())

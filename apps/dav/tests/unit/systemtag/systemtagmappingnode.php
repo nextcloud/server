@@ -136,7 +136,7 @@ class SystemTagMappingNode extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testDeleteTagNotFound() {
 		// assuming the tag existed at the time the node was created,
