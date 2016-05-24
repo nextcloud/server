@@ -622,7 +622,7 @@ class OC {
 		\OCP\Util::connectHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
-			'\OC_User_Database',
+			'\OC\User\Database',
 			'preLoginNameUsedAsUserName'
 		);
 
