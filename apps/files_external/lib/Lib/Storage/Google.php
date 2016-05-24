@@ -57,6 +57,7 @@ class Google extends \OC\Files\Storage\Common {
 	const SPREADSHEET = 'application/vnd.google-apps.spreadsheet';
 	const DRAWING = 'application/vnd.google-apps.drawing';
 	const PRESENTATION = 'application/vnd.google-apps.presentation';
+	const MAP = 'application/vnd.google-apps.map';
 
 	public function __construct($params) {
 		if (isset($params['configured']) && $params['configured'] === 'true'
@@ -267,10 +268,12 @@ class Google extends \OC\Files\Storage\Common {
 					$name = $child->getTitle();
 					// Check if this is a Google Doc i.e. no extension in name
 					$extension = $child->getFileExtension();
-					if (empty($extension)
-						&& $child->getMimeType() !== self::FOLDER
-					) {
-						$name .= '.'.$this->getGoogleDocExtension($child->getMimeType());
+					if (empty($extension)) {
+						if ($child->getMimeType() === self::MAP) {
+							continue; // No method known to transfer map files, ignore it
+						} else if ($child->getMimeType() !== self::FOLDER) {
+							$name .= '.'.$this->getGoogleDocExtension($child->getMimeType());
+						}
 					}
 					if ($path === '') {
 						$filepath = $name;
