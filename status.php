@@ -31,8 +31,8 @@ try {
 
 	$systemConfig = \OC::$server->getSystemConfig();
 
-	$installed = $systemConfig->getValue('installed') == 1;
-	$maintenance = $systemConfig->getValue('maintenance', false);
+	$installed = (bool) $systemConfig->getValue('installed', false);
+	$maintenance = (bool) $systemConfig->getValue('maintenance', false);
 	$values=array(
 		'installed'=>$installed,
 		'maintenance' => $maintenance,
