@@ -970,12 +970,12 @@ $CONFIG = array(
 'cache_path' => '',
 
 /**
- * TTL of files located in the cache folder before they're removed by
+ * TTL of chunks located in the cache folder before they're removed by
  * garbage collection (in seconds). Increase this value if users have
  * issues uploading very large files via the ownCloud Client as upload isn't
  * completed within one day.
  */
-'cache_folder_gc_ttl' => 86400, // 60*60*24 = 1 day
+'cache_chunk_gc_ttl' => 86400, // 60*60*24 = 1 day
 
 /**
  * Using Object Store with ownCloud
