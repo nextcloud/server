@@ -25,10 +25,12 @@ namespace OCA\DAV\SystemTag;
 
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\SystemTag\SystemTagsEntityEvent;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\SimpleCollection;
 use OCP\IUserSession;
 use OCP\IGroupManager;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SystemTagsRelationsCollection extends SimpleCollection {
 
@@ -39,12 +41,14 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 	 * @param ISystemTagObjectMapper $tagMapper
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
+	 * @param EventDispatcherInterface $dispatcher
 	 */
 	public function __construct(
 		ISystemTagManager $tagManager,
 		ISystemTagObjectMapper $tagMapper,
 		IUserSession $userSession,
-		IGroupManager $groupManager
+		IGroupManager $groupManager,
+		EventDispatcherInterface $dispatcher
 	) {
 		$children = [
 			new SystemTagsObjectTypeCollection(
@@ -59,6 +63,20 @@ class SystemTagsRelationsCollection extends SimpleCollection {
 				}
 			),
 		];
+
+		$event = new SystemTagsEntityEvent(SystemTagsEntityEvent::EVENT_ENTITY);
+		$dispatcher->dispatch(SystemTagsEntityEvent::EVENT_ENTITY, $event);
+
+		foreach ($event->getEntityCollections() as $entity => $entityExistsFunction) {
+			$children[] = new SystemTagsObjectTypeCollection(
+				$entity,
+				$tagManager,
+				$tagMapper,
+				$userSession,
+				$groupManager,
+				$entityExistsFunction
+			);
+		}
 
 		parent::__construct('root', $children);
 	}
