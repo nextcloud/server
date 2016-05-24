@@ -111,7 +111,7 @@ class File implements ICache {
 		$keyPart = $key . '.' . $uniqueId . '.part';
 		if ($storage and $storage->file_put_contents($keyPart, $value)) {
 			if ($ttl === 0) {
-				$ttl = \OC::$server->getConfig()->getSystemValue('cache_folder_gc_ttl', 86400);
+				$ttl = 86400; // 60*60*24
 			}
 			$result = $storage->touch($keyPart, time() + $ttl);
 			$result &= $storage->rename($keyPart, $key);
