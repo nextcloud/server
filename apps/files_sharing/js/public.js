@@ -149,7 +149,7 @@ OCA.Sharing.PublicApp = {
 			img.attr('width', 128);
 			img.appendTo('#imgframe');
 		}
-		else {
+		else if (previewSupported === 'true') {
 			$('#imgframe > video').attr('poster', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
 		}
 
