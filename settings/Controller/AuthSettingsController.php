@@ -101,6 +101,7 @@ class AuthSettingsController extends Controller {
 
 		try {
 			$sessionToken = $this->tokenProvider->getToken($sessionId);
+			$loginName = $sessionToken->getLoginName();
 			$password = $this->tokenProvider->getPassword($sessionToken, $sessionId);
 		} catch (InvalidTokenException $ex) {
 			$resp = new JSONResponse();
@@ -109,7 +110,7 @@ class AuthSettingsController extends Controller {
 		}
 
 		$token = $this->generateRandomDeviceToken();
-		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $password, $name, IToken::PERMANENT_TOKEN);
+		$deviceToken = $this->tokenProvider->generateToken($token, $this->uid, $loginName, $password, $name, IToken::PERMANENT_TOKEN);
 
 		return [
 			'token' => $token,

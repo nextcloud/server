@@ -219,7 +219,7 @@ class Session implements IUserSession, Emitter {
 				return;
 			}
 
-			if ($this->manager->checkPassword($user->getUID(), $pwd) === false
+			if ($this->manager->checkPassword($token->getLoginName(), $pwd) === false
 				|| !$user->isEnabled()) {
 				// Password has changed or user was disabled -> log user out
 				$this->logout();
@@ -388,10 +388,11 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param IRequest $request
 	 * @param string $uid user UID
+	 * @param string $loginName login name
 	 * @param string $password
 	 * @return boolean
 	 */
-	public function createSessionToken(IRequest $request, $uid, $password) {
+	public function createSessionToken(IRequest $request, $uid, $loginName, $password) {
 		if (is_null($this->manager->get($uid))) {
 			// User does not exist
 			return false;
@@ -399,7 +400,7 @@ class Session implements IUserSession, Emitter {
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
 		try {
 			$sessionId = $this->session->getId();
-			$this->tokenProvider->generateToken($sessionId, $uid, $password, $name);
+			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $password, $name);
 		} catch (SessionNotAvailableException $ex) {
 
 		}

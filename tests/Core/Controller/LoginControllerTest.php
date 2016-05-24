@@ -304,8 +304,11 @@ class LoginControllerTest extends TestCase {
 			->method('checkPassword')
 			->will($this->returnValue($user));
 		$this->userSession->expects($this->once())
+			->method('login')
+			->with($user, $password);
+		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), $password);
+			->with($this->request, $user->getUID(), $user, $password);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
@@ -330,11 +333,11 @@ class LoginControllerTest extends TestCase {
 
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
-			->with('jane', $password)
+			->with('Jane', $password)
 			->will($this->returnValue($user));
 		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), $password);
+			->with($this->request, $user->getUID(), 'Jane', $password);
 		$this->userSession->expects($this->once())
 			->method('isLoggedIn')
 			->with()
@@ -345,11 +348,14 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($redirectUrl));
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse(urldecode($redirectUrl));
-		$this->assertEquals($expected, $this->loginController->tryLogin($user->getUID(), $password, $originalUrl));
+		$this->assertEquals($expected, $this->loginController->tryLogin('Jane', $password, $originalUrl));
 	}
 	
 	public function testLoginWithTwoFactorEnforced() {
 		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('john'));
 		$password = 'secret';
 		$challengeUrl = 'challenge/url';
 
@@ -357,8 +363,11 @@ class LoginControllerTest extends TestCase {
 			->method('checkPassword')
 			->will($this->returnValue($user));
 		$this->userSession->expects($this->once())
+			->method('login')
+			->with('john@doe.com', $password);
+		$this->userSession->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, $user->getUID(), $password);
+			->with($this->request, $user->getUID(), 'john@doe.com', $password);
 		$this->twoFactorManager->expects($this->once())
 			->method('isTwoFactorAuthenticated')
 			->with($user)
@@ -372,7 +381,7 @@ class LoginControllerTest extends TestCase {
 			->will($this->returnValue($challengeUrl));
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse($challengeUrl);
-		$this->assertEquals($expected, $this->loginController->tryLogin($user, $password, null));
+		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', $password, null));
 	}
 
 }

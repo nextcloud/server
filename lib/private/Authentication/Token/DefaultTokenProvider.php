@@ -68,14 +68,16 @@ class DefaultTokenProvider implements IProvider {
 	 *
 	 * @param string $token
 	 * @param string $uid
+	 * @param string $loginName
 	 * @param string $password
 	 * @param string $name
 	 * @param int $type token type
-	 * @return DefaultToken
+	 * @return IToken
 	 */
-	public function generateToken($token, $uid, $password, $name, $type = IToken::TEMPORARY_TOKEN) {
+	public function generateToken($token, $uid, $loginName, $password, $name, $type = IToken::TEMPORARY_TOKEN) {
 		$dbToken = new DefaultToken();
 		$dbToken->setUid($uid);
+		$dbToken->setLoginName($loginName);
 		$dbToken->setPassword($this->encryptPassword($password, $token));
 		$dbToken->setName($name);
 		$dbToken->setToken($this->hashToken($token));

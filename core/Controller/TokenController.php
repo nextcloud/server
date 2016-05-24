@@ -82,7 +82,7 @@ class TokenController extends Controller {
 			return $response;
 		}
 		$token = $this->secureRandom->generate(128);
-		$this->tokenProvider->generateToken($token, $loginResult->getUID(), $password, $name, IToken::PERMANENT_TOKEN);
+		$this->tokenProvider->generateToken($token, $loginResult->getUID(), $user, $password, $name, IToken::PERMANENT_TOKEN);
 		return [
 			'token' => $token,
 		];

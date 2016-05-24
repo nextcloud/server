@@ -149,7 +149,7 @@ class Auth extends TestCase {
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->exactly(3))
+		$user->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('MyTestUser'));
 		$this->userSession
@@ -157,7 +157,7 @@ class Auth extends TestCase {
 			->method('isLoggedIn')
 			->will($this->returnValue(true));
 		$this->userSession
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUser')
 			->will($this->returnValue($user));
 		$this->session
@@ -173,7 +173,7 @@ class Auth extends TestCase {
 		$this->userSession
 			->expects($this->once())
 			->method('createSessionToken')
-			->with($this->request, 'MyTestUser', 'MyTestPassword');
+			->with($this->request, 'MyTestUser', 'MyTestUser', 'MyTestPassword');
 		$this->session
 			->expects($this->once())
 			->method('set')
@@ -569,11 +569,11 @@ class Auth extends TestCase {
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->exactly(3))
+		$user->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('MyTestUser'));
 		$this->userSession
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUser')
 			->will($this->returnValue($user));
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
