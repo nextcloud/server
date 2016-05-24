@@ -61,6 +61,7 @@ class DefaultTokenProviderTest extends TestCase {
 	public function testGenerateToken() {
 		$token = 'token';
 		$uid = 'user';
+		$user = 'User';
 		$password = 'passme';
 		$name = 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
 			. 'User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2.12) Gecko/20101026 Firefox/3.6.12'
@@ -70,6 +71,7 @@ class DefaultTokenProviderTest extends TestCase {
 
 		$toInsert = new DefaultToken();
 		$toInsert->setUid($uid);
+		$toInsert->setLoginName($user);
 		$toInsert->setPassword('encryptedpassword');
 		$toInsert->setName($name);
 		$toInsert->setToken(hash('sha512', $token . '1f4h9s'));
@@ -88,7 +90,7 @@ class DefaultTokenProviderTest extends TestCase {
 			->method('insert')
 			->with($this->equalTo($toInsert));
 
-		$actual = $this->tokenProvider->generateToken($token, $uid, $password, $name, $type);
+		$actual = $this->tokenProvider->generateToken($token, $uid, $user, $password, $name, $type);
 
 		$this->assertEquals($toInsert, $actual);
 	}

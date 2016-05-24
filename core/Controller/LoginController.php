@@ -190,7 +190,10 @@ class LoginController extends Controller {
 			$args = !is_null($user) ? ['user' => $user] : [];
 			return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 		}
-		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $password);
+		// TODO: remove password checks from above and let the user session handle failures
+		// requires https://github.com/owncloud/core/pull/24616
+		$this->userSession->login($user, $password);
+		$this->userSession->createSessionToken($this->request, $loginResult->getUID(), $user, $password);
 
 		if ($this->twoFactorManager->isTwoFactorAuthenticated($loginResult)) {
 			$this->twoFactorManager->prepareTwoFactorLogin($loginResult);

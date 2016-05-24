@@ -63,8 +63,8 @@ class TwoFactorChallengeController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @PublicPage
 	 *
 	 * @return TemplateResponse
 	 */
@@ -79,8 +79,8 @@ class TwoFactorChallengeController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @PublicPage
 	 * @UseSession
 	 *
 	 * @param string $challengeProviderId
@@ -108,8 +108,8 @@ class TwoFactorChallengeController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
 	 * @NoCSRFRequired
-	 * @PublicPage
 	 * @UseSession
 	 *
 	 * @param string $challengeProviderId

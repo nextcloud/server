@@ -75,14 +75,21 @@ class TokenControllerTest extends TestCase {
 	}
 
 	public function testWithValidCredentials() {
+		$user = $this->getMock('\OCP\IUser');
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
 			->with('john', '123456')
-			->will($this->returnValue(true));
+			->will($this->returnValue($user));
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('john'));
 		$this->secureRandom->expects($this->once())
 			->method('generate')
 			->with(128)
 			->will($this->returnValue('verysecurerandomtoken'));
+		$this->tokenProvider->expects($this->once())
+			->method('generateToken')
+			->with('verysecurerandomtoken', 'john', 'john', '123456', 'unknown client', \OC\Authentication\Token\IToken::PERMANENT_TOKEN);
 		$expected = [
 			'token' => 'verysecurerandomtoken'
 		];

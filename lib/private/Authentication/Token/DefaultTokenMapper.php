@@ -71,7 +71,7 @@ class DefaultTokenMapper extends Mapper {
 	public function getToken($token) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$result = $qb->select('id', 'uid', 'password', 'name', 'type', 'token', 'last_activity')
+		$result = $qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'token', 'last_activity')
 			->from('authtoken')
 			->where($qb->expr()->eq('token', $qb->createParameter('token')))
 			->setParameter('token', $token)
@@ -96,7 +96,7 @@ class DefaultTokenMapper extends Mapper {
 	public function getTokenByUser(IUser $user) {
 		/* @var $qb IQueryBuilder */
 		$qb = $this->db->getQueryBuilder();
-		$qb->select('id', 'uid', 'password', 'name', 'type', 'token', 'last_activity')
+		$qb->select('id', 'uid', 'login_name', 'password', 'name', 'type', 'token', 'last_activity')
 			->from('authtoken')
 			->where($qb->expr()->eq('uid', $qb->createNamedParameter($user->getUID())))
 			->setMaxResults(1000);

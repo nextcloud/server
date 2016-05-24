@@ -27,6 +27,8 @@ use OCP\AppFramework\Db\Entity;
 /**
  * @method void setId(int $id)
  * @method void setUid(string $uid);
+ * @method void setLoginName(string $loginName)
+ * @method string getLoginName()
  * @method void setPassword(string $password)
  * @method void setName(string $name)
  * @method string getName()
@@ -43,6 +45,11 @@ class DefaultToken extends Entity implements IToken {
 	 * @var string user UID
 	 */
 	protected $uid;
+
+	/**
+	 * @var string login name used for generating the token
+	 */
+	protected $loginName;
 
 	/**
 	 * @var string encrypted user password
@@ -76,7 +83,16 @@ class DefaultToken extends Entity implements IToken {
 	public function getUID() {
 		return $this->uid;
 	}
-	
+
+	/**
+	 * Get the login name used when generating the token
+	 *
+	 * @return string
+	 */
+	public function getLoginName() {
+		return parent::getLoginName();
+	}
+
 	/**
 	 * Get the (encrypted) login password
 	 *

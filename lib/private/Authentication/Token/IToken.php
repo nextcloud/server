@@ -44,6 +44,13 @@ interface IToken extends JsonSerializable {
 	public function getUID();
 
 	/**
+	 * Get the login name used when generating the token
+	 *
+	 * @return string
+	 */
+	public function getLoginName();
+
+	/**
 	 * Get the (encrypted) login password
 	 *
 	 * @return string

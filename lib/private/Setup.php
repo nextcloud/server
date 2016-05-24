@@ -371,7 +371,8 @@ class Setup {
 			$userSession = \OC::$server->getUserSession();
 			$defaultTokenProvider = \OC::$server->query('OC\Authentication\Token\DefaultTokenProvider');
 			$userSession->setTokenProvider($defaultTokenProvider);
-			$userSession->createSessionToken($request, $username, $password);
+			$userSession->login($username, $password);
+			$userSession->createSessionToken($request, $userSession->getUser()->getUID(), $username, $password);
 
 			//guess what this does
 			Installer::installShippedApps();

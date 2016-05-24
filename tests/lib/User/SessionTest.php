@@ -38,8 +38,12 @@ class SessionTest extends \Test\TestCase {
 
 	public function testGetUser() {
 		$token = new \OC\Authentication\Token\DefaultToken();
+		$token->setLoginName('User123');
 
-		$expectedUser = new User('foo', null);
+		$expectedUser = $this->getMock('\OCP\IUser');
+		$expectedUser->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('user123'));
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->at(0))
 			->method('get')
@@ -66,7 +70,10 @@ class SessionTest extends \Test\TestCase {
 			->will($this->returnValue('password123'));
 		$manager->expects($this->once())
 			->method('checkPassword')
-			->with($expectedUser->getUID(), 'password123')
+			->with('User123', 'password123')
+			->will($this->returnValue(true));
+		$expectedUser->expects($this->once())
+			->method('isEnabled')
 			->will($this->returnValue(true));
 		$session->expects($this->at(3))
 			->method('set')
@@ -540,12 +547,12 @@ class SessionTest extends \Test\TestCase {
 			->method('getPassword')
 			->with($token, 'sessionid')
 			->will($this->returnValue('123456'));
-		$user->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user5'));
+		$token->expects($this->once())
+			->method('getLoginName')
+			->will($this->returnValue('User5'));
 		$userManager->expects($this->once())
 			->method('checkPassword')
-			->with('user5', '123456')
+			->with('User5', '123456')
 			->will($this->returnValue(true));
 		$user->expects($this->once())
 			->method('isEnabled')

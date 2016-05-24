@@ -89,6 +89,9 @@ class AuthSettingsControllerTest extends TestCase {
 			->method('getPassword')
 			->with($sessionToken, 'sessionid')
 			->will($this->returnValue($password));
+		$sessionToken->expects($this->once())
+			->method('getLoginName')
+			->will($this->returnValue('User13'));
 
 		$this->secureRandom->expects($this->exactly(4))
 			->method('generate')
@@ -98,7 +101,7 @@ class AuthSettingsControllerTest extends TestCase {
 
 		$this->tokenProvider->expects($this->once())
 			->method('generateToken')
-			->with($newToken, $this->uid, $password, $name, IToken::PERMANENT_TOKEN)
+			->with($newToken, $this->uid, 'User13', $password, $name, IToken::PERMANENT_TOKEN)
 			->will($this->returnValue($deviceToken));
 
 		$expected = [
