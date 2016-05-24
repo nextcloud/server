@@ -52,9 +52,27 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public function getHomeMountForUser(IUser $user, IStorageFactory $loader) {
+
+		$config = $this->getMultiBucketObjectStoreConfig($user);
+		if ($config === null) {
+			$config = $this->getSingleBucketObjectStoreConfig($user);
+		}
+
+		if ($config === null) {
+			return null;
+		}
+
+		return new MountPoint('\OC\Files\ObjectStore\HomeObjectStoreStorage', '/' . $user->getUID(), $config['arguments'], $loader);
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return array|null
+	 */
+	private function getSingleBucketObjectStoreConfig(IUser $user) {
 		$config = $this->config->getSystemValue('objectstore');
 		if (!is_array($config)) {
-			return null; //fall back to local home provider
+			return null;
 		}
 
 		// sanity checks
@@ -68,6 +86,49 @@ class ObjectHomeMountProvider implements IHomeMountProvider {
 		// instantiate object store implementation
 		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
 
-		return new MountPoint('\OC\Files\ObjectStore\HomeObjectStoreStorage', '/' . $user->getUID(), $config['arguments'], $loader);
+		return $config;
+	}
+
+	/**
+	 * @param IUser $user
+	 * @return array|null
+	 */
+	private function getMultiBucketObjectStoreConfig(IUser $user) {
+		$config = $this->config->getSystemValue('objectstore_multibucket');
+		if (!is_array($config)) {
+			return null;
+		}
+
+		// sanity checks
+		if (empty($config['class'])) {
+			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
+		}
+		if (!isset($config['arguments'])) {
+			$config['arguments'] = [];
+		}
+		$config['arguments']['user'] = $user;
+
+		$bucket = $this->config->getUserValue($user->getUID(), 'homeobjectstore', 'bucket', null);
+
+		if ($bucket === null) {
+			/*
+			 * Use any provided bucket argument as prefix
+			 * and add the mapping from username => bucket
+			 */
+			if (!isset($config['arguments']['bucket'])) {
+				$config['arguments']['bucket'] = '';
+			}
+			$mapper = new \OC\Files\ObjectStore\Mapper($user);
+			$config['arguments']['bucket'] .= $mapper->getBucket();
+
+			$this->config->setUserValue($user->getUID(), 'homeobjectstore', 'bucket', $config['arguments']['bucket']);
+		} else {
+			$config['arguments']['bucket'] = $bucket;
+		}
+
+		// instantiate object store implementation
+		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
+
+		return $config;
 	}
 }
