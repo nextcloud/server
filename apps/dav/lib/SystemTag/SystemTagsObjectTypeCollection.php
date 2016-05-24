@@ -96,6 +96,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 	/**
 	 * @param string $name
 	 * @param resource|string $data Initial payload
+	 * @return null|string
 	 * @throws Forbidden
 	 */
 	function createFile($name, $data = null) {
@@ -104,6 +105,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 
 	/**
 	 * @param string $name
+	 * @throws Forbidden
 	 */
 	function createDirectory($name) {
 		throw new Forbidden('Permission denied to create collections');
@@ -111,6 +113,8 @@ class SystemTagsObjectTypeCollection implements ICollection {
 
 	/**
 	 * @param string $objectId
+	 * @return SystemTagsObjectMappingCollection
+	 * @throws NotFound
 	 */
 	function getChild($objectId) {
 		// make sure the object exists and is reachable
@@ -151,6 +155,7 @@ class SystemTagsObjectTypeCollection implements ICollection {
 
 	/**
 	 * @param string $name
+	 * @throws Forbidden
 	 */
 	function setName($name) {
 		throw new Forbidden('Permission denied to rename this collection');
