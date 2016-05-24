@@ -167,7 +167,7 @@ class Auth extends TestCase {
 			->will($this->returnValue('AnotherUser'));
 		$this->userSession
 			->expects($this->once())
-			->method('login')
+			->method('logClientIn')
 			->with('MyTestUser', 'MyTestPassword')
 			->will($this->returnValue(true));
 		$this->userSession
@@ -192,7 +192,7 @@ class Auth extends TestCase {
 			->will($this->returnValue(false));
 		$this->userSession
 			->expects($this->once())
-			->method('login')
+			->method('logClientIn')
 			->with('MyTestUser', 'MyTestPassword')
 			->will($this->returnValue(false));
 		$this->session
@@ -560,7 +560,7 @@ class Auth extends TestCase {
 			->getMock();
 		$this->userSession
 			->expects($this->once())
-			->method('login')
+			->method('logClientIn')
 			->with('username', 'password')
 			->will($this->returnValue(true));
 		$this->userSession
@@ -602,7 +602,7 @@ class Auth extends TestCase {
 			->getMock();
 		$this->userSession
 			->expects($this->once())
-			->method('login')
+			->method('logClientIn')
 			->with('username', 'password')
 			->will($this->returnValue(false));
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);
