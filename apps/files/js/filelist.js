@@ -507,8 +507,6 @@
 			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
 
 			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
-
-			this.updateSearch();
 		},
 
 		/**
