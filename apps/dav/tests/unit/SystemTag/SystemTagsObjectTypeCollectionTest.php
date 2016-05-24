@@ -89,14 +89,14 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateFile() {
 		$this->node->createFile('555');
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateDirectory() {
 		$this->node->createDirectory('789');
@@ -114,7 +114,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildWithoutAccess() {
 		$this->userFolder->expects($this->once())
@@ -125,7 +125,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\MethodNotAllowed
+	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
 	 */
 	public function testGetChildren() {
 		$this->node->getChildren();
@@ -148,14 +148,14 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testDelete() {
 		$this->node->delete();
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testSetName() {
 		$this->node->setName('somethingelse');

@@ -79,7 +79,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\MethodNotAllowed
+	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
 	 */
 	public function testSetName() {
 		$this->getTagNode()->setName('2');
@@ -196,7 +196,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Conflict
+	 * @expectedException \Sabre\DAV\Exception\Conflict
 	 */
 	public function testUpdateTagAlreadyExists() {
 		$tag = new SystemTag(1, 'tag1', true, true);
@@ -216,7 +216,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testUpdateTagNotFound() {
 		$tag = new SystemTag(1, 'tag1', true, true);
@@ -294,7 +294,7 @@ class SystemTagNodeTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testDeleteTagNotFound() {
 		$tag = new SystemTag(1, 'tag1', true, true);
