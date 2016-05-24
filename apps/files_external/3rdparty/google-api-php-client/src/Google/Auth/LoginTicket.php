@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 
-require_once "Google/Auth/Exception.php";
+if (!class_exists('Google_Client')) {
+  require_once dirname(__FILE__) . '/../autoload.php';
+}
 
 /**
  * Class to hold information about an authenticated login.

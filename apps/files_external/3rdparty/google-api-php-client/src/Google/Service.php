@@ -17,6 +17,8 @@
 
 class Google_Service
 {
+  public $batchPath;
+  public $rootUrl;
   public $version;
   public $servicePath;
   public $availableScopes;
@@ -35,5 +37,20 @@ class Google_Service
   public function getClient()
   {
     return $this->client;
+  }
+
+  /**
+   * Create a new HTTP Batch handler for this service
+   *
+   * @return Google_Http_Batch
+   */
+  public function createBatch()
+  {
+    return new Google_Http_Batch(
+        $this->client,
+        false,
+        $this->rootUrl,
+        $this->batchPath
+    );
   }
 }

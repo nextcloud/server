@@ -39,8 +39,7 @@ use Icewind\Streams\RetryWrapper;
 
 set_include_path(get_include_path().PATH_SEPARATOR.
 	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
-require_once 'Google/Client.php';
-require_once 'Google/Service/Drive.php';
+require_once 'Google/autoload.php';
 
 class Google extends \OC\Files\Storage\Common {
 
@@ -159,7 +158,7 @@ class Google extends \OC\Files\Storage\Common {
 	/**
 	 * Set the Google_Service_Drive_DriveFile object in the cache
 	 * @param string $path
-	 * @param Google_Service_Drive_DriveFile|false $file
+	 * @param \Google_Service_Drive_DriveFile|false $file
 	 */
 	private function setDriveFile($path, $file) {
 		$path = trim($path, '/');
@@ -448,7 +447,7 @@ class Google extends \OC\Files\Storage\Common {
 							$response = $client->get($downloadUrl, [
 								'headers' => $httpRequest->getRequestHeaders(),
 								'stream' => true,
-								'verify' => __DIR__ . '/../../3rdparty/google-api-php-client/src/Google/IO/cacerts.pem',
+								'verify' => realpath(__DIR__ . '/../../../3rdparty/google-api-php-client/src/Google/IO/cacerts.pem'),
 							]);
 						} catch (RequestException $e) {
 							if(!is_null($e->getResponse())) {

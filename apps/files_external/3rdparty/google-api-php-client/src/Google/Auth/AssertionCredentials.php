@@ -15,14 +15,12 @@
  * limitations under the License.
  */
 
-require_once "Google/Auth/OAuth2.php";
-require_once "Google/Signer/P12.php";
-require_once "Google/Utils.php";
+if (!class_exists('Google_Client')) {
+  require_once dirname(__FILE__) . '/../autoload.php';
+}
 
 /**
  * Credentials object used for OAuth 2.0 Signed JWT assertion grants.
- *
- * @author Chirag Shah <chirags@google.com>
  */
 class Google_Auth_AssertionCredentials
 {

@@ -15,8 +15,9 @@
  * limitations under the License.
  */
  
-require_once 'Google/Auth/Exception.php';
-require_once 'Google/Verifier/Abstract.php';
+if (!class_exists('Google_Client')) {
+  require_once dirname(__FILE__) . '/../autoload.php';
+}
 
 /**
  * Verifies signatures using PEM encoded certificates.

@@ -15,20 +15,14 @@
  * limitations under the License.
  */
 
-require_once 'Google/Client.php';
-require_once 'Google/Exception.php';
-require_once 'Google/Utils.php';
-require_once 'Google/Http/Request.php';
-require_once 'Google/Http/MediaFileUpload.php';
-require_once 'Google/Http/REST.php';
+if (!class_exists('Google_Client')) {
+  require_once dirname(__FILE__) . '/../autoload.php';
+}
 
 /**
  * Implements the actual methods/resources of the discovered Google API using magic function
  * calling overloading (__call()), which on call will see if the method name (plus.activities.list)
  * is available in this service, and if so construct an apiHttpRequest representing it.
- *
- * @author Chris Chabot <chabotc@google.com>
- * @author Chirag Shah <chirags@google.com>
  *
  */
 class Google_Service_Resource
@@ -39,22 +33,25 @@ class Google_Service_Resource
       'fields' => array('type' => 'string', 'location' => 'query'),
       'trace' => array('type' => 'string', 'location' => 'query'),
       'userIp' => array('type' => 'string', 'location' => 'query'),
-      'userip' => array('type' => 'string', 'location' => 'query'),
       'quotaUser' => array('type' => 'string', 'location' => 'query'),
       'data' => array('type' => 'string', 'location' => 'body'),
       'mimeType' => array('type' => 'string', 'location' => 'header'),
       'uploadType' => array('type' => 'string', 'location' => 'query'),
       'mediaUpload' => array('type' => 'complex', 'location' => 'query'),
+      'prettyPrint' => array('type' => 'string', 'location' => 'query'),
   );
 
-  /** @var Google_Service $service */
-  private $service;
+  /** @var string $rootUrl */
+  private $rootUrl;
 
   /** @var Google_Client $client */
   private $client;
 
   /** @var string $serviceName */
   private $serviceName;
+
+  /** @var string $servicePath */
+  private $servicePath;
 
   /** @var string $resourceName */
   private $resourceName;
@@ -64,17 +61,18 @@ class Google_Service_Resource
 
   public function __construct($service, $serviceName, $resourceName, $resource)
   {
-    $this->service = $service;
+    $this->rootUrl = $service->rootUrl;
     $this->client = $service->getClient();
+    $this->servicePath = $service->servicePath;
     $this->serviceName = $serviceName;
     $this->resourceName = $resourceName;
-    $this->methods = isset($resource['methods']) ?
+    $this->methods = is_array($resource) && isset($resource['methods']) ?
         $resource['methods'] :
         array($resourceName => $resource);
   }
 
   /**
-   * TODO(ianbarber): This function needs simplifying.
+   * TODO: This function needs simplifying.
    * @param $name
    * @param $arguments
    * @param $expected_class - optional, the expected class name
@@ -84,6 +82,15 @@ class Google_Service_Resource
   public function call($name, $arguments, $expected_class = null)
   {
     if (! isset($this->methods[$name])) {
+      $this->client->getLogger()->error(
+          'Service method unknown',
+          array(
+              'service' => $this->serviceName,
+              'resource' => $this->resourceName,
+              'method' => $name
+          )
+      );
+
       throw new Google_Exception(
           "Unknown function: " .
           "{$this->serviceName}->{$this->resourceName}->{$name}()"
@@ -108,10 +115,13 @@ class Google_Service_Resource
             $this->convertToArrayAndStripNulls($parameters['postBody']);
       }
       $postBody = json_encode($parameters['postBody']);
+      if ($postBody === false && $parameters['postBody'] !== false) {
+        throw new Google_Exception("JSON encoding failed. Ensure all strings in the request are UTF-8 encoded.");
+      }
       unset($parameters['postBody']);
     }
 
-    // TODO(ianbarber): optParams here probably should have been
+    // TODO: optParams here probably should have been
     // handled already - this may well be redundant code.
     if (isset($parameters['optParams'])) {
       $optParams = $parameters['optParams'];
@@ -124,11 +134,20 @@ class Google_Service_Resource
     }
 
     $method['parameters'] = array_merge(
-        $method['parameters'],
-        $this->stackParameters
+        $this->stackParameters,
+        $method['parameters']
     );
     foreach ($parameters as $key => $val) {
       if ($key != 'postBody' && ! isset($method['parameters'][$key])) {
+        $this->client->getLogger()->error(
+            'Service parameter unknown',
+            array(
+                'service' => $this->serviceName,
+                'resource' => $this->resourceName,
+                'method' => $name,
+                'parameter' => $key
+            )
+        );
         throw new Google_Exception("($name) unknown parameter: '$key'");
       }
     }
@@ -138,6 +157,15 @@ class Google_Service_Resource
           $paramSpec['required'] &&
           ! isset($parameters[$paramName])
       ) {
+        $this->client->getLogger()->error(
+            'Service parameter missing',
+            array(
+                'service' => $this->serviceName,
+                'resource' => $this->resourceName,
+                'method' => $name,
+                'parameter' => $paramName
+            )
+        );
         throw new Google_Exception("($name) missing required param: '$paramName'");
       }
       if (isset($parameters[$paramName])) {
@@ -151,10 +179,18 @@ class Google_Service_Resource
       }
     }
 
-    $servicePath = $this->service->servicePath;
+    $this->client->getLogger()->info(
+        'Service Call',
+        array(
+            'service' => $this->serviceName,
+            'resource' => $this->resourceName,
+            'method' => $name,
+            'arguments' => $parameters,
+        )
+    );
 
     $url = Google_Http_REST::createRequestUri(
-        $servicePath,
+        $this->servicePath,
         $method['path'],
         $parameters
     );
@@ -164,7 +200,12 @@ class Google_Service_Resource
         null,
         $postBody
     );
-    $httpRequest->setBaseComponent($this->client->getBasePath());
+
+    if ($this->rootUrl) {
+      $httpRequest->setBaseComponent($this->rootUrl);
+    } else {
+      $httpRequest->setBaseComponent($this->client->getBasePath());
+    }
 
     if ($postBody) {
       $contentTypeHeader = array();
@@ -185,6 +226,10 @@ class Google_Service_Resource
           isset($parameters['mimeType']) ? $parameters['mimeType']['value'] : 'application/octet-stream',
           $parameters['data']['value']
       );
+    }
+
+    if (isset($parameters['alt']) && $parameters['alt']['value'] == 'media') {
+      $httpRequest->enableExpectedRaw();
     }
 
     if ($this->client->shouldDefer()) {

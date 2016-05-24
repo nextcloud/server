@@ -16,7 +16,7 @@
  */
 
 /**
- * Implementation of levels 1-3 of the URI Template spec. 
+ * Implementation of levels 1-3 of the URI Template spec.
  * @see http://tools.ietf.org/html/rfc6570
  */
 class Google_Utils_URITemplate
@@ -26,7 +26,7 @@ class Google_Utils_URITemplate
   const TYPE_SCALAR = "4";
 
   /**
-   * @var $operators array 
+   * @var $operators array
    * These are valid at the start of a template block to
    * modify the way in which the variables inside are
    * processed.
@@ -64,7 +64,7 @@ class Google_Utils_URITemplate
   /**
    * This function finds the first matching {...} block and
    * executes the replacement. It then calls itself to find
-   * subsequent blocks, if any. 
+   * subsequent blocks, if any.
    */
   private function resolveNextSection($string, $parameters)
   {
@@ -213,7 +213,7 @@ class Google_Utils_URITemplate
     
     if (isset($parameters[$key])) {
       $data_type = $this->getDataType($parameters[$key]);
-      switch($data_type) {
+      switch ($data_type) {
         case self::TYPE_SCALAR:
           $value = $this->getValue($parameters[$key], $length);
           break;
