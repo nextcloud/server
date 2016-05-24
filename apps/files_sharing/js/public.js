@@ -149,6 +149,9 @@ OCA.Sharing.PublicApp = {
 			img.attr('width', 128);
 			img.appendTo('#imgframe');
 		}
+		else {
+			$('#imgframe > video').attr('poster', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
+		}
 
 		if (this.fileList) {
 			// TODO: move this to a separate PublicFileList class that extends OCA.Files.FileList (+ unit tests)

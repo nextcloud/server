@@ -20,14 +20,10 @@ OCP\Util::addScript('files', 'newfilemenu');
 OCP\Util::addScript('files', 'files');
 OCP\Util::addScript('files', 'filelist');
 OCP\Util::addscript('files', 'keyboardshortcuts');
-
-$sysConfig = \OC::$server->getConfig();
-$thumbSizeX = $sysConfig->getSystemValue('preview_max_x', 1024);
-$thumbSizeY = $sysConfig->getSystemValue('preview_max_y', 1024);
 ?>
 
 <?php if ($_['previewSupported']): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
-	<link rel="image_src" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute( 'core_ajax_public_preview', array('x' => $thumbSizeX, 'y' => $thumbSizeY, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" />
+	<link rel="image_src" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute( 'core_ajax_public_preview', array('x' => $_['previewMaxX'], 'y' => $_['previewMaxY'], 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" />
 <?php endif; ?>
 
 <div id="notification-container">
@@ -96,7 +92,7 @@ $thumbSizeY = $sysConfig->getSystemValue('preview_max_y', 1024);
 			<?php else: ?>
 				<?php if ($_['previewEnabled'] && substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
 					<div id="imgframe">
-						<video tabindex="0" controls="" preload="none" style="max-width: <?php echo p($thumbSizeX); ?>px; max-height: <?php p($thumbSizeY); ?>px">
+						<video tabindex="0" controls="" preload="none" style="max-width: <?php p($_['previewMaxX']); ?>px; max-height: <?php p($_['previewMaxY']); ?>px">
 							<source src="<?php p($_['downloadURL']); ?>" type="<?php p($_['mimetype']); ?>" />
 						</video>
 					</div>
