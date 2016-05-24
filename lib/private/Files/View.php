@@ -337,10 +337,17 @@ class View {
 			return $this->removeMount($mount, $absolutePath);
 		}
 		if ($this->is_dir($path)) {
-			return $this->basicOperation('rmdir', $path, array('delete'));
+			$result = $this->basicOperation('rmdir', $path, array('delete'));
 		} else {
-			return false;
+			$result = false;
 		}
+
+		if (!$result && !$this->file_exists($path)) { //clear ghost files from the cache on delete
+			$storage = $mount->getStorage();
+			$internalPath = $mount->getInternalPath($absolutePath);
+			$storage->getUpdater()->remove($internalPath);
+		}
+		return $result;
 	}
 
 	/**
@@ -429,7 +436,7 @@ class View {
 
 	/**
 	 * @param string $path
-	 * @param int $from 
+	 * @param int $from
 	 * @param int $to
 	 * @return bool|mixed
 	 * @throws \OCP\Files\InvalidPathException
@@ -441,18 +448,18 @@ class View {
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
 			if (fseek($handle, $from) === 0) {
-			    $chunkSize = 8192; // 8 kB chunks
-			    $end = $to + 1;
-			    while (!feof($handle) && ftell($handle) < $end) {
-				$len = $end-ftell($handle);
-				if ($len > $chunkSize) { 
-				    $len = $chunkSize; 
+				$chunkSize = 8192; // 8 kB chunks
+				$end = $to + 1;
+				while (!feof($handle) && ftell($handle) < $end) {
+					$len = $end - ftell($handle);
+					if ($len > $chunkSize) {
+						$len = $chunkSize;
+					}
+					echo fread($handle, $len);
+					flush();
 				}
-				echo fread($handle, $len);
-				flush();
-			    }
-			    $size = ftell($handle) - $from;
-			    return $size;
+				$size = ftell($handle) - $from;
+				return $size;
 			}
 
 			throw new \OCP\Files\UnseekableException('fseek error');
@@ -679,7 +686,13 @@ class View {
 		if ($mount and $mount->getInternalPath($absolutePath) === '') {
 			return $this->removeMount($mount, $absolutePath);
 		}
-		return $this->basicOperation('unlink', $path, array('delete'));
+		$result = $this->basicOperation('unlink', $path, array('delete'));
+		if (!$result && !$this->file_exists($path)) { //clear ghost files from the cache on delete
+			$storage = $mount->getStorage();
+			$internalPath = $mount->getInternalPath($absolutePath);
+			$storage->getUpdater()->remove($internalPath);
+		}
+		return $result;
 	}
 
 	/**
