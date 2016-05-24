@@ -157,7 +157,7 @@ class Google extends \OC\Files\Storage\Common {
 	/**
 	 * Set the Google_Service_Drive_DriveFile object in the cache
 	 * @param string $path
-	 * @param Google_Service_Drive_DriveFile|false $file
+	 * @param \Google_Service_Drive_DriveFile|false $file
 	 */
 	private function setDriveFile($path, $file) {
 		$path = trim($path, '/');
