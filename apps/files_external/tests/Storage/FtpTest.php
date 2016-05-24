@@ -29,13 +29,13 @@ namespace OCA\Files_External\Tests\Storage;
 use \OCA\Files_External\Lib\Storage\FTP;
 
 /**
- * Class FTPTest
+ * Class FtpTest
  *
  * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
-class FTPTest extends \Test\Files\Storage\Storage {
+class FtpTest extends \Test\Files\Storage\Storage {
 	private $config;
 
 	protected function setUp() {

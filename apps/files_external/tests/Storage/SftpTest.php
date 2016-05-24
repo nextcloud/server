@@ -29,13 +29,13 @@ namespace OCA\Files_External\Tests\Storage;
 use \OCA\Files_External\Lib\Storage\SFTP;
 
 /**
- * Class SFTPTest
+ * Class SftpTest
  *
  * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
-class SFTPTest extends \Test\Files\Storage\Storage {
+class SftpTest extends \Test\Files\Storage\Storage {
 	/**
 	 * @var SFTP instance
 	 */

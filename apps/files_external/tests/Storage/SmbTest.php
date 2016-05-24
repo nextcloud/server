@@ -25,38 +25,62 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
-use \OC\Files\Storage\DAV;
+use \OCA\Files_External\Lib\Storage\SMB;
 
 /**
- * Class WebDAVTest
+ * Class SmbTest
  *
  * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
-class WebDAVTest extends \Test\Files\Storage\Storage {
+class SmbTest extends \Test\Files\Storage\Storage {
 
 	protected function setUp() {
 		parent::setUp();
 
 		$id = $this->getUniqueID();
-		$config = include('files_external/tests/config.webdav.php');
-		if ( ! is_array($config) or !$config['run']) {
-			$this->markTestSkipped('WebDAV backend not configured');
+		$config = include('files_external/tests/config.smb.php');
+		if (!is_array($config) or !$config['run']) {
+			$this->markTestSkipped('Samba backend not configured');
 		}
-		if (isset($config['wait'])) {
-			$this->waitDelay = $config['wait'];
+		if (substr($config['root'], -1, 1) != '/') {
+			$config['root'] .= '/';
 		}
-		$config['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new DAV($config);
+		$config['root'] .= $id; //make sure we have an new empty folder to work in
+		$this->instance = new SMB($config);
 		$this->instance->mkdir('/');
 	}
 
 	protected function tearDown() {
 		if ($this->instance) {
-			$this->instance->rmdir('/');
+			$this->instance->rmdir('');
 		}
 
 		parent::tearDown();
+	}
+
+	public function directoryProvider() {
+		// doesn't support leading/trailing spaces
+		return array(array('folder'));
+	}
+
+	public function testRenameWithSpaces() {
+		$this->instance->mkdir('with spaces');
+		$result = $this->instance->rename('with spaces', 'foo bar');
+		$this->assertTrue($result);
+		$this->assertTrue($this->instance->is_dir('foo bar'));
+	}
+
+	public function testStorageId() {
+		$this->instance = new SMB([
+			'host' => 'testhost',
+			'user' => 'testuser',
+			'password' => 'somepass',
+			'share' => 'someshare',
+			'root' => 'someroot',
+		]);
+		$this->assertEquals('smb::testuser@testhost//someshare//someroot/', $this->instance->getId());
+		$this->instance = null;
 	}
 }
