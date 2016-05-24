@@ -178,7 +178,7 @@ EOF
 		return;
 	fi
 
-	FILES_EXTERNAL_BACKEND_PATH=../apps/files_external/tests/storage
+	FILES_EXTERNAL_BACKEND_PATH=../apps/files_external/tests/Storage
 	FILES_EXTERNAL_BACKEND_ENV_PATH=../apps/files_external/tests/env
 
 	for startFile in `ls -1 $FILES_EXTERNAL_BACKEND_ENV_PATH | grep start`; do
@@ -198,7 +198,9 @@ EOF
 			# getting backend to test from filename
 			# it's the part between the dots startSomething.TestToRun.sh
 			testToRun=`echo $startFile | cut -d '-' -f 2`
-			testToRun="${testToRun}test.php"
+			# capitalize first letter
+			testToRun="${testToRun^}"
+			testToRun="${testToRun}Test.php"
 
 			# run the specific test
 			if [ -z "$NOCOVERAGE" ]; then
