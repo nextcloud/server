@@ -195,6 +195,13 @@ $CONFIG = array(
 'session_keepalive' => true,
 
 /**
+ * Enforce token authentication for clients, which blocks requests using the user
+ * password for enhanced security. Users need to generate tokens in personal settings
+ * which can be used as passwords on their clients.
+ */
+'token_auth_enforced' => false,
+
+/**
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.

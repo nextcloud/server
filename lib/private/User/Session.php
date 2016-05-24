@@ -368,6 +368,9 @@ class Session implements IUserSession, Emitter {
 			array('uid' => &$username)
 		);
 		$user = $this->manager->get($username);
+		if (is_null($user)) {
+			return true;
+		}
 		// DI not possible due to cyclic dependencies :'-/
 		return OC::$server->getTwoFactorAuthManager()->isTwoFactorAuthenticated($user);
 	}
