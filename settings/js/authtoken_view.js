@@ -71,7 +71,6 @@
 			list.html('');
 
 			// Show header only if there are tokens to show
-			console.log(tokens.length > 0);
 			this._toggleHeader(tokens.length > 0);
 
 			tokens.forEach(function(token) {
