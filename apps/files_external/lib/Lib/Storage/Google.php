@@ -444,7 +444,7 @@ class Google extends \OC\Files\Storage\Common {
 							$response = $client->get($downloadUrl, [
 								'headers' => $httpRequest->getRequestHeaders(),
 								'stream' => true,
-								'verify' => __DIR__ . '/../../3rdparty/google-api-php-client/src/Google/IO/cacerts.pem',
+								'verify' => realpath(__DIR__ . '/../../../3rdparty/google-api-php-client/src/Google/IO/cacerts.pem'),
 							]);
 						} catch (RequestException $e) {
 							if(!is_null($e->getResponse())) {
