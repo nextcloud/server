@@ -258,6 +258,7 @@ OC.L10N.register(
     "Current password" : "סיסמא נוכחית",
     "New password" : "סיסמא חדשה",
     "Change password" : "שינוי סיסמא",
+    "Name" : "שם",
     "Language" : "שפה",
     "Help translate" : "עזרה בתרגום",
     "Get the apps to sync your files" : "קבלת היישומים לסנכרון הקבצים שלך",

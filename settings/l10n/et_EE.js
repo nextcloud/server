@@ -197,6 +197,7 @@ OC.L10N.register(
     "Current password" : "Praegune parool",
     "New password" : "Uus parool",
     "Change password" : "Muuda parooli",
+    "Name" : "Nimi",
     "Language" : "Keel",
     "Help translate" : "Aita tõlkida",
     "Get the apps to sync your files" : "Hangi rakendusi failide sünkroniseerimiseks",

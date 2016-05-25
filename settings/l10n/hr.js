@@ -132,6 +132,7 @@ OC.L10N.register(
     "Current password" : "Trenutna lozinka",
     "New password" : "Nova lozinka",
     "Change password" : "Promijenite lozinku",
+    "Name" : "Naziv",
     "Language" : "Jezik",
     "Help translate" : "Pomozite prevesti",
     "Get the apps to sync your files" : "Koristite aplikacije za sinkronizaciju svojih datoteka",

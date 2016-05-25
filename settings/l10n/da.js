@@ -229,6 +229,7 @@ OC.L10N.register(
     "Current password" : "Nuværende adgangskode",
     "New password" : "Nyt kodeord",
     "Change password" : "Skift kodeord",
+    "Name" : "Navn",
     "Language" : "Sprog",
     "Help translate" : "Hjælp med oversættelsen",
     "Get the apps to sync your files" : "Hent applikationerne for at synkronisere dine filer",

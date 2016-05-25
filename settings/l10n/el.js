@@ -233,6 +233,7 @@ OC.L10N.register(
     "Current password" : "Τρέχων συνθηματικό",
     "New password" : "Νέο συνθηματικό",
     "Change password" : "Αλλαγή συνθηματικού",
+    "Name" : "Όνομα",
     "Language" : "Γλώσσα",
     "Help translate" : "Βοηθήστε στη μετάφραση",
     "Get the apps to sync your files" : "Λήψη της εφαρμογής για συγχρονισμό των αρχείων σας",

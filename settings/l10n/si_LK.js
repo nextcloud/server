@@ -33,6 +33,7 @@ OC.L10N.register(
     "Current password" : "වත්මන් මුරපදය",
     "New password" : "නව මුරපදය",
     "Change password" : "මුරපදය වෙනස් කිරීම",
+    "Name" : "නම",
     "Language" : "භාෂාව",
     "Help translate" : "පරිවර්ථන සහය",
     "Username" : "පරිශීලක නම",

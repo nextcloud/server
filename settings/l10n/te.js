@@ -9,6 +9,7 @@ OC.L10N.register(
     "Your email address" : "మీ ఈమెయిలు చిరునామా",
     "Password" : "సంకేతపదం",
     "New password" : "కొత్త సంకేతపదం",
+    "Name" : "పేరు",
     "Language" : "భాష",
     "Username" : "వాడుకరి పేరు"
 },

@@ -251,6 +251,7 @@ OC.L10N.register(
     "Current password" : "当前密码",
     "New password" : "新密码",
     "Change password" : "修改密码",
+    "Name" : "名称",
     "Language" : "语言",
     "Help translate" : "帮助翻译",
     "Get the apps to sync your files" : "安装应用进行文件同步",

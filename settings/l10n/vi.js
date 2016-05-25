@@ -56,6 +56,7 @@ OC.L10N.register(
     "Current password" : "Mật khẩu cũ",
     "New password" : "Mật khẩu mới",
     "Change password" : "Đổi mật khẩu",
+    "Name" : "Tên",
     "Language" : "Ngôn ngữ",
     "Help translate" : "Hỗ trợ dịch thuật",
     "Get the apps to sync your files" : "Nhận ứng dụng để đồng bộ file của bạn",

@@ -259,6 +259,7 @@ OC.L10N.register(
     "Current password" : "Nåværende passord",
     "New password" : "Nytt passord",
     "Change password" : "Endre passord",
+    "Name" : "Navn",
     "Language" : "Språk",
     "Help translate" : "Bidra til oversettelsen",
     "Get the apps to sync your files" : "Hent apper som synkroniserer filene dine",

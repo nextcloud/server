@@ -65,6 +65,7 @@ OC.L10N.register(
     "Current password" : "Passord",
     "New password" : "Nytt passord",
     "Change password" : "Endra passord",
+    "Name" : "Namn",
     "Language" : "Språk",
     "Help translate" : "Hjelp oss å omsetja",
     "Get the apps to sync your files" : "Få app-ar som kan synkronisera filene dine",

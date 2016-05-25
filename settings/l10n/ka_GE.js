@@ -52,6 +52,7 @@ OC.L10N.register(
     "Current password" : "მიმდინარე პაროლი",
     "New password" : "ახალი პაროლი",
     "Change password" : "პაროლის შეცვლა",
+    "Name" : "სახელი",
     "Language" : "ენა",
     "Help translate" : "თარგმნის დახმარება",
     "Get the apps to sync your files" : "აპლიკაცია ფაილების სინქრონიზაციისთვის",

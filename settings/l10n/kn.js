@@ -106,6 +106,7 @@ OC.L10N.register(
     "Current password" : "ಪ್ರಸ್ತುತ ಗುಪ್ತಪದ",
     "New password" : "﻿ಹೊಸ ಗುಪ್ತಪದ",
     "Change password" : "ಗುಪ್ತ ಪದವನ್ನು ಬದಲಾಯಿಸಿ",
+    "Name" : "﻿ಹೆಸರು",
     "Language" : "﻿ಭಾಷೆ",
     "Help translate" : "﻿ಭಾಷಾಂತರಿಸಲು ಸಹಾಯ ಮಾಡಿ",
     "Username" : "﻿ಬಳಕೆಯ ಹೆಸರು",

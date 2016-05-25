@@ -2,6 +2,8 @@
     "Step 1 failed. Exception: %s" : "Vaihe 1 epäonnistui. Poikkeus: %s",
     "Step 2 failed. Exception: %s" : "Vaihe 2 epäonnistui. Poikkeus: %s",
     "External storage" : "Ulkoinen tallennustila",
+    "Dropbox App Configuration" : "Dropbox-sovelluksen määritys",
+    "Google Drive App Configuration" : "Google Drive -sovelluksen määritys",
     "Personal" : "Henkilökohtainen",
     "System" : "Järjestelmä",
     "Grant access" : "Salli pääsy",

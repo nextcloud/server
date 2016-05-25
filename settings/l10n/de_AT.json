@@ -18,6 +18,7 @@
     "Password" : "Passwort",
     "New password" : "Neues Passwort",
     "Change password" : "Passwort ändern",
+    "Name" : "Name",
     "Username" : "Benutzername",
     "Other" : "Anderes"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

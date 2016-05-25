@@ -101,6 +101,7 @@ OC.L10N.register(
     "Current password" : "Parola curentă",
     "New password" : "Noua parolă",
     "Change password" : "Schimbă parola",
+    "Name" : "Nume",
     "Language" : "Limba",
     "Help translate" : "Ajută la traducere",
     "Get the apps to sync your files" : "Ia acum aplicatia pentru sincronizarea fisierelor ",

@@ -183,6 +183,7 @@ OC.L10N.register(
     "Current password" : "Hazırkı şifrə",
     "New password" : "Yeni şifrə",
     "Change password" : "Şifrəni dəyiş",
+    "Name" : "Ad",
     "Language" : "Dil",
     "Help translate" : "Tərcüməyə kömək",
     "Get the apps to sync your files" : "Fayllarınızın sinxronizasiyası üçün proqramları götürün",

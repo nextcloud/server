@@ -184,6 +184,7 @@ OC.L10N.register(
     "Current password" : "Текуща парола",
     "New password" : "Нова парола",
     "Change password" : "Промяна на паролата",
+    "Name" : "Име",
     "Language" : "Език",
     "Help translate" : "Помогни с превода",
     "Get the apps to sync your files" : "Изтегли програми за синхронизиране на файловете ти",

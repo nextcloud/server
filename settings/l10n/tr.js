@@ -260,6 +260,7 @@ OC.L10N.register(
     "Current password" : "Mevcut parola",
     "New password" : "Yeni parola",
     "Change password" : "Parola değiştir",
+    "Name" : "Ad",
     "Language" : "Dil",
     "Help translate" : "Çevirilere yardım edin",
     "Get the apps to sync your files" : "Dosyalarınızı eşitlemek için uygulamaları indirin",

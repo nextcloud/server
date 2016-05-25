@@ -255,6 +255,7 @@ OC.L10N.register(
     "Current password" : "รหัสผ่านปัจจุบัน",
     "New password" : "รหัสผ่านใหม่",
     "Change password" : "เปลี่ยนรหัสผ่าน",
+    "Name" : "ชื่อ",
     "Language" : "ภาษา",
     "Help translate" : "มาช่วยกันแปลสิ!",
     "Get the apps to sync your files" : "ใช้แอพพลิเคชันในการประสานไฟล์ของคุณ",

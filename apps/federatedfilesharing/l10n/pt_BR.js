@@ -1,10 +1,14 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
+    "Federated sharing" : "Compartilhamento associado",
     "Invalid Federated Cloud ID" : "Inválida Associação de Nuvem ID",
     "Sharing %s failed, because this item is already shared with %s" : "Compartilhamento %s falhou, porque este ítem já está compartilhado com %s",
     "Not allowed to create a federated share with the same user" : "Não é permitido criar um compartilhamento associado com o mesmo usuário",
+    "File is already shared with %s" : "O arquivo já é compartilhado com %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "O compartilhamento %s falhou, porque não foi possível encontrar %s, talvez o servidor esteja inacessível.",
+    "Accept" : "Aceitar",
+    "Decline" : "Rejeitar",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Compartilhe comigo através do meu #ownCloud Nuvem ID Federada, veja %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Compartilhe comigo através do meu #ownCloud Nuvem ID Federada",
     "Federated Cloud Sharing" : "Nuvem Associada Federada",

@@ -243,6 +243,7 @@ OC.L10N.register(
     "Current password" : "Núverandi lykilorð",
     "New password" : "Nýtt lykilorð",
     "Change password" : "Breyta lykilorði",
+    "Name" : "Heiti",
     "Language" : "Tungumál",
     "Help translate" : "Hjálpa við þýðingu",
     "Get the apps to sync your files" : "Náðu í forrit til að samstilla skrárnar þínar",

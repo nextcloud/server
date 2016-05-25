@@ -224,6 +224,7 @@ OC.L10N.register(
     "Current password" : "Поточний пароль",
     "New password" : "Новий пароль",
     "Change password" : "Змінити пароль",
+    "Name" : "Ім’я",
     "Language" : "Мова",
     "Help translate" : "Допомогти з перекладом",
     "Get the apps to sync your files" : "Отримати додатки для синхронізації ваших файлів",

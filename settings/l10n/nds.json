@@ -13,6 +13,7 @@
     "Port" : "Port",
     "Cancel" : "Abbrechen",
     "Password" : "Passwort",
+    "Name" : "Name",
     "Username" : "Benutzername"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

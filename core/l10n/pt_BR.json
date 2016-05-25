@@ -294,6 +294,7 @@
     "This means only administrators can use the instance." : "Isso significa que apenas os administradores podem usar esta instância.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte o seu administrador do sistema se esta mensagem persistir ou aparecer inesperadamente.",
     "Thank you for your patience." : "Obrigado pela sua paciência.",
+    "Two-step verification" : "Verificação em dois passos",
     "You are accessing the server from an untrusted domain." : "Você está acessando o servidor a partir de um domínio não confiável.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domains\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Por favor entre em contato com o administrador. Se você é um administrador deste exemplo, configure a definição \"trusted_domains\" em config/config.php. Um exemplo de configuração é fornecido em config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "Dependendo da configuração, como administrador, você também pode ser capaz de usar o botão abaixo para confiar neste domínio.",

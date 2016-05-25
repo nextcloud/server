@@ -260,6 +260,7 @@ OC.L10N.register(
     "Current password" : "Palavra-passe atual",
     "New password" : "Nova palavra-passe",
     "Change password" : "Alterar palavra-passe",
+    "Name" : "Nome",
     "Language" : "Idioma",
     "Help translate" : "Ajude a traduzir",
     "Get the apps to sync your files" : "Obtenha as aplicações para sincronizar os seus ficheiros",

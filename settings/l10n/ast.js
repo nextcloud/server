@@ -130,6 +130,7 @@ OC.L10N.register(
     "Current password" : "Contraseña actual",
     "New password" : "Contraseña nueva",
     "Change password" : "Camudar contraseña",
+    "Name" : "Nome",
     "Language" : "Llingua",
     "Help translate" : "Ayúdanos nes traducciones",
     "Get the apps to sync your files" : "Obtener les aplicaciones pa sincronizar ficheros",

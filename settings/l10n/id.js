@@ -233,6 +233,7 @@ OC.L10N.register(
     "Current password" : "Sandi saat ini",
     "New password" : "Sandi baru",
     "Change password" : "Ubah sandi",
+    "Name" : "Nama",
     "Language" : "Bahasa",
     "Help translate" : "Bantu menerjemahkan",
     "Get the apps to sync your files" : "Dapatkan aplikasi untuk sinkronisasi berkas Anda",

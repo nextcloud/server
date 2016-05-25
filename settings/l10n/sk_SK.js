@@ -211,6 +211,7 @@ OC.L10N.register(
     "Current password" : "Aktuálne heslo",
     "New password" : "Nové heslo",
     "Change password" : "Zmeniť heslo",
+    "Name" : "Názov",
     "Language" : "Jazyk",
     "Help translate" : "Pomôcť s prekladom",
     "Get the apps to sync your files" : "Získať aplikácie na synchronizáciu vašich súborov",

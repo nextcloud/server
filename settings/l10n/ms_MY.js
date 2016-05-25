@@ -24,6 +24,7 @@ OC.L10N.register(
     "Current password" : "Kata laluan semasa",
     "New password" : "Kata laluan baru",
     "Change password" : "Ubah kata laluan",
+    "Name" : "Nama",
     "Language" : "Bahasa",
     "Help translate" : "Bantu terjemah",
     "Username" : "Nama pengguna",

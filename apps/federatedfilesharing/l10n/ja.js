@@ -1,10 +1,13 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
+    "Federated sharing" : "連携共有",
     "Invalid Federated Cloud ID" : "無効な統合されたクラウドID",
     "Sharing %s failed, because this item is already shared with %s" : "%s を共有できませんでした。このアイテムはすでに %s に共有されています。",
     "Not allowed to create a federated share with the same user" : "同じユーザーでフェデレーション共有を作成することは出来ません",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s を共有できませんでした。%s が見つかりませんでした。現在サーバーに接続できないようです。",
+    "Accept" : "承諾",
+    "Decline" : "拒否《はてなキーワード》",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud の「クラウド連携ID」で私と共有できます。こちらを見てください。%s",
     "Share with me through my #ownCloud Federated Cloud ID" : "#ownCloud の「クラウド連携ID」で私と共有できます。",
     "Federated Cloud Sharing" : "統合されたクラウド共有",

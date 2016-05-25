@@ -161,6 +161,7 @@ OC.L10N.register(
     "Current password" : "Uneko pasahitza",
     "New password" : "Pasahitz berria",
     "Change password" : "Aldatu pasahitza",
+    "Name" : "Izena",
     "Language" : "Hizkuntza",
     "Help translate" : "Lagundu itzultzen",
     "Get the apps to sync your files" : "Lortu aplikazioak zure fitxategiak sinkronizatzeko",

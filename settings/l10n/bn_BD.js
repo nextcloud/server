@@ -60,6 +60,7 @@ OC.L10N.register(
     "Current password" : "বর্তমান কূটশব্দ",
     "New password" : "নতুন কূটশব্দ",
     "Change password" : "কূটশব্দ পরিবর্তন করুন",
+    "Name" : "নাম",
     "Language" : "ভাষা",
     "Help translate" : "অনুবাদ করতে সহায়তা করুন",
     "Get the apps to sync your files" : "আপনার ফাইলসমূহ সিংক করতে অ্যাপস নিন",

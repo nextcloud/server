@@ -134,6 +134,7 @@ OC.L10N.register(
     "Current password" : "Pašreizējā parole",
     "New password" : "Jauna parole",
     "Change password" : "Mainīt paroli",
+    "Name" : "Nosaukums",
     "Language" : "Valoda",
     "Help translate" : "Palīdzi tulkot",
     "Get the apps to sync your files" : "Saņem lietotnes, lai sinhronizētu savas datnes",

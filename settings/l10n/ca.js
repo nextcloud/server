@@ -207,6 +207,7 @@ OC.L10N.register(
     "Current password" : "Contrasenya actual",
     "New password" : "Contrasenya nova",
     "Change password" : "Canvia la contrasenya",
+    "Name" : "Nom",
     "Language" : "Idioma",
     "Help translate" : "Ajudeu-nos amb la traducció",
     "Get the apps to sync your files" : "Obtingueu les aplicacions per sincronitzar els vostres fitxers",

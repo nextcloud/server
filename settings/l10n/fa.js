@@ -186,6 +186,7 @@ OC.L10N.register(
     "Current password" : "گذرواژه کنونی",
     "New password" : "گذرواژه جدید",
     "Change password" : "تغییر گذر واژه",
+    "Name" : "نام",
     "Language" : "زبان",
     "Help translate" : "به ترجمه آن کمک کنید",
     "Get the apps to sync your files" : "برنامه ها را دریافت کنید تا فایل هایتان را همگام سازید",

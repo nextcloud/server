@@ -220,6 +220,7 @@ OC.L10N.register(
     "Current password" : "Тренутна лозинка",
     "New password" : "Нова лозинка",
     "Change password" : "Измени лозинку",
+    "Name" : "назив",
     "Language" : "Језик",
     "Help translate" : " Помозите у превођењу",
     "Get the apps to sync your files" : "Преузмите апликације ради синхронизовања ваших фајлова",

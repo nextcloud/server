@@ -1,8 +1,11 @@
 { "translations": {
+    "Federated sharing" : "Federated-Sharing",
     "Invalid Federated Cloud ID" : "Ungültige Federated-Cloud-ID",
     "Sharing %s failed, because this item is already shared with %s" : "Freigabe von %s fehlgeschlagen, da dieses Objekt schon mit %s geteilt wird",
     "Not allowed to create a federated share with the same user" : "Das Erstellen einer Federated Cloud Freigabe mit dem gleichen Benutzer ist nicht erlaubt",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Freigabe von %s fehlgeschlagen, da %s nicht gefunden wurde. Möglicherweise ist der Server nicht erreichbar.",
+    "Accept" : "Ok",
+    "Decline" : "Abgelehnt",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Teile mit mir über meine #ownCloud Federated-Cloud-ID, siehe %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Teile mit mir über meine #ownCloud Federated-Cloud-ID",
     "Federated Cloud Sharing" : "Federated-Cloud-Sharing",

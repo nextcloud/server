@@ -15,6 +15,7 @@ OC.L10N.register(
     "Email" : "E-bost",
     "Password" : "Cyfrinair",
     "New password" : "Cyfrinair newydd",
+    "Name" : "Enw",
     "Username" : "Enw defnyddiwr",
     "Other" : "Arall"
 },

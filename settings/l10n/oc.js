@@ -233,6 +233,7 @@ OC.L10N.register(
     "Current password" : "Senhal actual",
     "New password" : "Senhal novèl",
     "Change password" : "Cambiar de senhal",
+    "Name" : "Nom",
     "Language" : "Lenga",
     "Help translate" : "Ajudatz a tradusir",
     "Get the apps to sync your files" : "Obtenètz las aplicacions de sincronizacion de vòstres fichièrs",

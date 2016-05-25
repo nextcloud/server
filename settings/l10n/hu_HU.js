@@ -258,6 +258,7 @@ OC.L10N.register(
     "Current password" : "A jelenlegi jelszó",
     "New password" : "Az új jelszó",
     "Change password" : "A jelszó megváltoztatása",
+    "Name" : "Név",
     "Language" : "Nyelv",
     "Help translate" : "Segítsen a fordításban!",
     "Get the apps to sync your files" : "Töltse le az állományok szinkronizációjához szükséges programokat!",

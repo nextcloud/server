@@ -32,6 +32,7 @@ OC.L10N.register(
     "Current password" : "தற்போதைய கடவுச்சொல்",
     "New password" : "புதிய கடவுச்சொல்",
     "Change password" : "கடவுச்சொல்லை மாற்றுக",
+    "Name" : "பெயர்",
     "Language" : "மொழி",
     "Help translate" : "மொழிபெயர்க்க உதவி",
     "Username" : "பயனாளர் பெயர்",
