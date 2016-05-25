@@ -22,6 +22,7 @@
  */
 namespace OCA\Files_External\Tests\Service;
 
+use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\NotFoundException;
 use OCA\Files_External\Service\StoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;

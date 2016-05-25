@@ -23,6 +23,7 @@
 namespace OCA\Files_External\Tests\Controller;
 
 use \OCA\Files_External\Controller\UserStoragesController;
+use OCA\Files_External\Lib\StorageConfig;
 use \OCP\AppFramework\Http;
 use \OCA\Files_External\Service\BackendService;
 
