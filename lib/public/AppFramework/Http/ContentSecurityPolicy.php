@@ -85,4 +85,6 @@ class ContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	];
 	/** @var array Domains from which web-workers and nested browsing content can load elements */
 	protected $allowedChildSrcDomains = [];
+	/** @var array Domains from which the element can be embedded */
+	protected $allowedFrameAncestorDomains = [];
 }

@@ -67,6 +67,8 @@ class EmptyContentSecurityPolicy {
 	protected $allowedFontDomains = null;
 	/** @var array Domains from which web-workers and nested browsing content can load elements */
 	protected $allowedChildSrcDomains = null;
+	/** @var array Domains from which the element can be embedded */
+	protected $allowedFrameAncestorDomains = null;
 
 	/**
 	 * Whether inline JavaScript snippets are allowed or forbidden
@@ -313,6 +315,29 @@ class EmptyContentSecurityPolicy {
 	}
 
 	/**
+	 * Domains from which the element can be embedded
+	 * @param string $domain Domain to whitelist. Any passed value needs to be properly sanitized.
+	 * @return $this
+	 * @since 9.1.0
+	 */
+	public function addAllowedFrameAncestorDomain($domain) {
+		$this->allowedFrameAncestorDomains[] = $domain;
+		return $this;
+	}
+
+	/**
+	 * Remove the specified allowed frame ancestor domain from the allowed domains.
+	 *
+	 * @param string $domain
+	 * @return $this
+	 * @since 9.1.0
+	 */
+	public function disallowFrameAncestorDomain($domain) {
+		$this->allowedFrameAncestorDomains = array_diff($this->allowedFrameAncestorDomains, [$domain]);
+		return $this;
+	}
+
+	/**
 	 * Get the generated Content-Security-Policy as a string
 	 * @return string
 	 * @since 8.1.0
@@ -377,6 +402,11 @@ class EmptyContentSecurityPolicy {
 
 		if(!empty($this->allowedChildSrcDomains)) {
 			$policy .= 'child-src ' . implode(' ', $this->allowedChildSrcDomains);
+			$policy .= ';';
+		}
+
+		if(!empty($this->allowedFrameAncestorDomains)) {
+			$policy .= 'frame-ancestors ' . implode(' ', $this->allowedFrameAncestorDomains);
 			$policy .= ';';
 		}
 
