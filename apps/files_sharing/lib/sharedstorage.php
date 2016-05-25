@@ -737,9 +737,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 
 	public function isLocal() {
 		$this->init();
-		$ownerPath = $this->ownerView->getPath($this->share['item_source']);
-		list($targetStorage) = $this->ownerView->resolvePath($ownerPath);
-		return $targetStorage->isLocal();
+		return $this->sourceStorage->isLocal();
 	}
 
 	public function getSourceStorage() {
