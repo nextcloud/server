@@ -1,11 +1,6 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Lukas Reschke <lukas@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -24,16 +19,18 @@
  *
  */
 
-// Check user and app status
-OCP\JSON::checkAdminUser();
-OCP\JSON::checkAppEnabled('user_ldap');
-OCP\JSON::callCheck();
+namespace OCA\User_LDAP\Tests\Integration;
 
-$prefix = (string)$_POST['ldap_serverconfig_chooser'];
-$helper = new \OCA\User_LDAP\Helper();
-if($helper->deleteServerConfiguration($prefix)) {
-	OCP\JSON::success();
-} else {
-	$l = \OC::$server->getL10N('user_ldap');
-	OCP\JSON::error(array('message' => $l->t('Failed to delete the server configuration')));
+/**
+ * Class FakeManager
+ *
+ * this is a mock of \OCA\User_LDAP\User\Manager which is a dependency of
+ * Access, that pulls plenty more things in. Because it is not needed in the
+ * scope of these tests, we replace it with a mock.
+ */
+class FakeManager extends \OCA\User_LDAP\User\Manager {
+	public function __construct() {
+		$this->ocConfig = \OC::$server->getConfig();
+		$this->image = new \OCP\Image();
+	}
 }

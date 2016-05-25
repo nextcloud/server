@@ -1,11 +1,8 @@
 <?php
 /**
  * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
  * @author Lukas Reschke <lukas@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -24,16 +21,16 @@
  *
  */
 
-// Check user and app status
-OCP\JSON::checkAdminUser();
-OCP\JSON::checkAppEnabled('user_ldap');
-OCP\JSON::callCheck();
+namespace OCA\User_LDAP;
 
-$prefix = (string)$_POST['ldap_serverconfig_chooser'];
-$helper = new \OCA\User_LDAP\Helper();
-if($helper->deleteServerConfiguration($prefix)) {
-	OCP\JSON::success();
-} else {
-	$l = \OC::$server->getL10N('user_ldap');
-	OCP\JSON::error(array('message' => $l->t('Failed to delete the server configuration')));
+abstract class LDAPUtility {
+	protected $ldap;
+
+	/**
+	 * constructor, make sure the subclasses call this one!
+	 * @param ILDAPWrapper $ldapWrapper an instance of an ILDAPWrapper
+	 */
+	public function __construct(ILDAPWrapper $ldapWrapper) {
+		$this->ldap = $ldapWrapper;
+	}
 }

@@ -30,8 +30,8 @@ OCP\JSON::callCheck();
 
 $l = \OC::$server->getL10N('user_ldap');
 
-$ldapWrapper = new OCA\user_ldap\lib\LDAP();
-$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);
+$ldapWrapper = new OCA\User_LDAP\LDAP();
+$connection = new \OCA\User_LDAP\Connection($ldapWrapper, '', null);
 //needs to be true, otherwise it will also fail with an irritating message
 $_POST['ldap_configuration_active'] = 1;
 
