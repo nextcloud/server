@@ -26,6 +26,9 @@ namespace OCA\DAV\Tests\Unit\Connector\Sabre;
 
 use OCP\Files\ForbiddenException;
 
+/**
+ * @group DB
+ */
 class Directory extends \Test\TestCase {
 
 	/** @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject */
