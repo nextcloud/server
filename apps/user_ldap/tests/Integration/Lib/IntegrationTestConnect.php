@@ -160,6 +160,6 @@ class IntegrationTestConnect extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
-$test = new IntegrationConnect($host, $port, $adn, $apwd, $bdn);
+$test = new IntegrationTestConnect($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();

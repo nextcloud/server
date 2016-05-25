@@ -112,6 +112,6 @@ class IntegrationTestBackupServer extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
-$test = new IntegrationBackupServer($host, $port, $adn, $apwd, $bdn);
+$test = new IntegrationTestBackupServer($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();

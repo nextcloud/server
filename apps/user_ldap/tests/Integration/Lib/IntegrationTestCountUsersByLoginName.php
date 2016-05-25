@@ -60,6 +60,6 @@ class IntegrationTestCountUsersByLoginName extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
-$test = new IntegrationTestUserHome($host, $port, $adn, $apwd, $bdn);
+$test = new IntegrationTestCountUsersByLoginName($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();

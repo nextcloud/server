@@ -73,6 +73,6 @@ class IntegrationTestFetchUsersByLoginName extends AbstractIntegrationTest {
 }
 
 require_once(__DIR__ . '/../setup-scripts/config.php');
-$test = new IntegrationTestUserHome($host, $port, $adn, $apwd, $bdn);
+$test = new IntegrationTestFetchUsersByLoginName($host, $port, $adn, $apwd, $bdn);
 $test->init();
 $test->run();
