@@ -121,6 +121,17 @@ class LostController extends Controller {
 	 * @return TemplateResponse
 	 */
 	public function resetform($token, $userId) {
+		try {
+			$this->checkPasswordResetToken($token, $userId);
+		} catch (\Exception $e) {
+			return new TemplateResponse(
+				'core', 'error', [
+					"errors" => array(array("error" => $e->getMessage()))
+				],
+				'guest'
+			);
+		}
+
 		return new TemplateResponse(
 			'core',
 			'lostpassword/resetpassword',
@@ -129,6 +140,29 @@ class LostController extends Controller {
 			),
 			'guest'
 		);
+	}
+
+	/**
+	 * @param string $userId
+	 * @param string $userId
+	 * @throws \Exception
+	 */
+	private function checkPasswordResetToken($token, $userId) {
+		$user = $this->userManager->get($userId);
+
+		$splittedToken = explode(':', $this->config->getUserValue($userId, 'owncloud', 'lostpassword', null));
+		if(count($splittedToken) !== 2) {
+			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
+		}
+
+		if ($splittedToken[0] < ($this->timeFactory->getTime() - 60*60*12) ||
+			$user->getLastLogin() > $splittedToken[0]) {
+			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is expired'));
+		}
+
+		if (!StringUtils::equals($splittedToken[1], $token)) {
+			throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
+		}
 	}
 
 	/**
@@ -178,21 +212,8 @@ class LostController extends Controller {
 		}
 
 		try {
+			$this->checkPasswordResetToken($token, $userId);
 			$user = $this->userManager->get($userId);
-
-			$splittedToken = explode(':', $this->config->getUserValue($userId, 'owncloud', 'lostpassword', null));
-			if(count($splittedToken) !== 2) {
-				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
-			}
-
-			if ($splittedToken[0] < ($this->timeFactory->getTime() - 60*60*12) ||
-				$user->getLastLogin() > $splittedToken[0]) {
-				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is expired'));
-			}
-
-			if (!StringUtils::equals($splittedToken[1], $token)) {
-				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
-			}
 
 			if (!$user->setPassword($password)) {
 				throw new \Exception();
@@ -202,7 +223,6 @@ class LostController extends Controller {
 
 			$this->config->deleteUserValue($userId, 'owncloud', 'lostpassword');
 			@\OC_User::unsetMagicInCookie();
-
 		} catch (\Exception $e){
 			return $this->error($e->getMessage());
 		}

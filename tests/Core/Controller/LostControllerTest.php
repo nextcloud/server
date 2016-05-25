@@ -114,14 +114,115 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
-	public function testResetFormUnsuccessful() {
+	public function testResetFormInvalidToken() {
 		$userId = 'admin';
 		$token = 'MySecretToken';
+		$response = $this->lostController->resetform($token, $userId);
+		$expectedResponse = new TemplateResponse('core',
+			'error',
+			[
+				'errors' => [
+					['error' => 'Couldn\'t reset password because the token is invalid'],
+				]
+			],
+			'guest');
+		$this->assertEquals($expectedResponse, $response);
+	}
 
+	public function testResetFormInvalidTokenMatch() {
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getLastLogin')
+			->will($this->returnValue(12344));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('ValidTokenUser')
+			->will($this->returnValue($user));
+		$userId = 'ValidTokenUser';
+		$token = '12345:MySecretToken';
+		$response = $this->lostController->resetform($token, $userId);
+		$expectedResponse = new TemplateResponse('core',
+			'error',
+			[
+				'errors' => [
+					['error' => 'Couldn\'t reset password because the token is invalid'],
+				]
+			],
+			'guest');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+
+	public function testResetFormExpiredToken() {
+		$userId = 'ValidTokenUser';
+		$token = '12345:TheOnlyAndOnlyOneTokenToResetThePassword';
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()->getMock();
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('ValidTokenUser')
+			->will($this->returnValue($user));
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->will($this->returnValue(12345*60*60*12));
+		$userId = 'ValidTokenUser';
+		$token = 'TheOnlyAndOnlyOneTokenToResetThePassword';
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
+		$response = $this->lostController->resetform($token, $userId);
+		$expectedResponse = new TemplateResponse('core',
+			'error',
+			[
+				'errors' => [
+					['error' => 'Couldn\'t reset password because the token is expired'],
+				]
+			],
+			'guest');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testResetFormValidToken() {
+		$userId = 'ValidTokenUser';
+		$token = '12345:TheOnlyAndOnlyOneTokenToResetThePassword';
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getLastLogin')
+			->will($this->returnValue(12344));
+		$this->userManager
+			->expects($this->once())
+			->method('get')
+			->with('ValidTokenUser')
+			->will($this->returnValue($user));
+		$this->timeFactory
+			->expects($this->once())
+			->method('getTime')
+			->will($this->returnValue(12348));
+		$userId = 'ValidTokenUser';
+		$token = 'TheOnlyAndOnlyOneTokenToResetThePassword';
+		$this->config
+			->expects($this->once())
+			->method('getUserValue')
+			->with('ValidTokenUser', 'owncloud', 'lostpassword', null)
+			->will($this->returnValue('12345:TheOnlyAndOnlyOneTokenToResetThePassword'));
 		$this->urlGenerator
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.setPassword', array('userId' => 'admin', 'token' => 'MySecretToken'))
+			->with('core.lost.setPassword', array('userId' => 'ValidTokenUser', 'token' => 'TheOnlyAndOnlyOneTokenToResetThePassword'))
 			->will($this->returnValue('https://ownCloud.com/index.php/lostpassword/'));
 
 		$response = $this->lostController->resetform($token, $userId);
@@ -329,7 +430,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->with('NewPassword')
 			->will($this->returnValue(true));
 		$this->userManager
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('get')
 			->with('ValidTokenUser')
 			->will($this->returnValue($user));
