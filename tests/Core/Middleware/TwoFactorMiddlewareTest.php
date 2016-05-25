@@ -20,8 +20,9 @@
  *
  */
 
-namespace OC\Core\Middleware;
+namespace Test\Core\Middleware;
 
+use OC\Core\Middleware\TwoFactorMiddleware;
 use Test\TestCase;
 
 class TwoFactorMiddlewareTest extends TestCase {
