@@ -21,8 +21,10 @@ Turning the feature off removes shared files and folders on the server for all s
 		<files>public.php</files>
 	</public>
 
+	<namespace>Files_Sharing</namespace>
+
 	<background-jobs>
-		<job>OCA\Files_sharing\Lib\DeleteOrphanedSharesJob</job>
-		<job>OCA\Files_sharing\ExpireSharesJob</job>
+		<job>OCA\Files_Sharing\DeleteOrphanedSharesJob</job>
+		<job>OCA\Files_Sharing\ExpireSharesJob</job>
 	</background-jobs>
 </info>
