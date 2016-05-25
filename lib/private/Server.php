@@ -211,9 +211,23 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $groupManager;
 		});
+		$this->registerService('OC\Authentication\ClientLogin\AccessTokenMapper', function (Server $c) {
+			$dbConnection = $c->getDatabaseConnection();
+			return new \OC\Authentication\ClientLogin\AccessTokenMapper($dbConnection);
+		});
+		$this->registerService('OC\Authentication\ClientLogin\Coordinator', function (Server $c) {
+			return new \OC\Authentication\ClientLogin\Coordinator(
+				$c->query('OC\Authentication\ClientLogin\AccessTokenMapper'),
+				$c->query('OC\Authentication\Token\IProvider'),
+				$c->query('SecureRandom'),
+				$c->query('AllConfig'),
+				new TimeFactory()
+			);
+		});
+		$this->registerAlias('OC\Authentication\ClientLogin\IClientLoginCoordinator', 'OC\Authentication\ClientLogin\Coordinator');
 		$this->registerService('OC\Authentication\Token\DefaultTokenMapper', function (Server $c) {
 			$dbConnection = $c->getDatabaseConnection();
-			return new Authentication\Token\DefaultTokenMapper($dbConnection);
+			return new \OC\Authentication\Token\DefaultTokenMapper($dbConnection);
 		});
 		$this->registerService('OC\Authentication\Token\DefaultTokenProvider', function (Server $c) {
 			$mapper = $c->query('OC\Authentication\Token\DefaultTokenMapper');

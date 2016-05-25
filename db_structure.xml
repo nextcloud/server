@@ -1049,6 +1049,76 @@
 	</table>
 
 	<table>
+		<name>*dbprefix*client_access_tokens</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>200</length>
+			</field>
+
+			<!-- Foreign Key users::uid -->
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>client_name</name>
+				<type>clob</type>
+				<default></default>
+				<notnull>true</notnull>
+			</field>
+
+			<field>
+				<name>status</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>2</length>
+			</field>
+
+			<field>
+				<name>created_at</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<index>
+				<name>client_access_tokens_index</name>
+				<unique>true</unique>
+				<field>
+					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
 		<name>*dbprefix*authtoken</name>
 
 		<declaration>
