@@ -95,10 +95,12 @@ class AdminControllerTest extends TestCase {
 		}
 
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('core', 'lastupdatedat')
-			->willReturn('12345');
+			->willReturnMap([
+				['core', 'lastupdatedat', '', '12345'],
+				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
+			]);
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
@@ -115,6 +117,7 @@ class AdminControllerTest extends TestCase {
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '8.1.2',
+			'notify_groups' => 'admin',
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
@@ -136,10 +139,12 @@ class AdminControllerTest extends TestCase {
 		}
 
 		$this->config
-			->expects($this->once())
+			->expects($this->exactly(2))
 			->method('getAppValue')
-			->with('core', 'lastupdatedat')
-			->willReturn('12345');
+			->willReturnMap([
+				['core', 'lastupdatedat', '', '12345'],
+				['updatenotification', 'notify_groups', '["admin"]', '["admin"]'],
+			]);
 		$this->dateTimeFormatter
 			->expects($this->once())
 			->method('formatDateTime')
@@ -156,6 +161,7 @@ class AdminControllerTest extends TestCase {
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '',
+			'notify_groups' => 'admin',
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
