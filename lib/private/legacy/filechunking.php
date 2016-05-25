@@ -31,6 +31,13 @@ class OC_FileChunking {
 	protected $info;
 	protected $cache;
 
+	/**
+	 * TTL of chunks
+	 *
+	 * @var int
+	 */
+	protected $ttl;
+
 	static public function decodeName($name) {
 		preg_match('/(?P<name>.*)-chunking-(?P<transferid>\d+)-(?P<chunkcount>\d+)-(?P<index>\d+)/', $name, $matches);
 		return $matches;
@@ -41,6 +48,7 @@ class OC_FileChunking {
 	 */
 	public function __construct($info) {
 		$this->info = $info;
+		$this->ttl = \OC::$server->getConfig()->getSystemValue('cache_chunk_gc_ttl', 86400);
 	}
 
 	public function getPrefix() {
@@ -67,7 +75,7 @@ class OC_FileChunking {
 	public function store($index, $data) {
 		$cache = $this->getCache();
 		$name = $this->getPrefix().$index;
-		$cache->set($name, $data);
+		$cache->set($name, $data, $this->ttl);
 
 		return $cache->size($name);
 	}
