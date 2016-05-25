@@ -1,9 +1,11 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -24,37 +26,38 @@
 
 namespace OCA\Files_External\Tests\Storage;
 
-use \OCA\Files_External\Lib\Storage\OwnCloud;
+use \OCA\Files_External\Lib\Storage\AmazonS3;
 
 /**
- * Class OwnCloudTest
+ * Class Amazons3Test
  *
  * @group DB
  *
  * @package OCA\Files_External\Tests\Storage
  */
-class OwnCloudTest extends \Test\Files\Storage\Storage {
+class Amazons3Test extends \Test\Files\Storage\Storage {
 
 	private $config;
 
 	protected function setUp() {
 		parent::setUp();
 
-		$id = $this->getUniqueID();
-		$this->config = include('files_external/tests/config.php');
-		if ( ! is_array($this->config) or ! isset($this->config['owncloud']) or ! $this->config['owncloud']['run']) {
-			$this->markTestSkipped('ownCloud backend not configured');
+		$this->config = include('files_external/tests/config.amazons3.php');
+		if ( ! is_array($this->config) or ! $this->config['run']) {
+			$this->markTestSkipped('AmazonS3 backend not configured');
 		}
-		$this->config['owncloud']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new OwnCloud($this->config['owncloud']);
-		$this->instance->mkdir('/');
+		$this->instance = new AmazonS3($this->config);
 	}
 
 	protected function tearDown() {
 		if ($this->instance) {
-			$this->instance->rmdir('/');
+			$this->instance->rmdir('');
 		}
 
 		parent::tearDown();
+	}
+
+	public function testStat() {
+		$this->markTestSkipped('S3 doesn\'t update the parents folder mtime');
 	}
 }
