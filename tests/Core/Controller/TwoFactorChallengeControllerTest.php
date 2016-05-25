@@ -20,8 +20,9 @@
  *
  */
 
-namespace OC\Core\Controller;
+namespace Test\Core\Controller;
 
+use OC\Core\Controller\TwoFactorChallengeController;
 use Test\TestCase;
 
 class TwoFactorChallengeControllerTest extends TestCase {
