@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Lukas Reschke <lukas@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -18,18 +19,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-if (!defined('PHPUNIT_RUN')) {
-	define('PHPUNIT_RUN', 1);
+namespace OCA\DAV\Tests\unit;
+
+use OCA\DAV\Server;
+use OCP\IRequest;
+
+/**
+ * Class ServerTest
+ *
+ * @group DB
+ *
+ * @package OCA\DAV\Tests\Unit
+ */
+class ServerTest extends \Test\TestCase {
+
+	public function test() {
+		/** @var IRequest $r */
+		$r = $this->getMockBuilder('\OCP\IRequest')
+			->disableOriginalConstructor()->getMock();
+		$s = new Server($r, '/');
+		$this->assertNotNull($s->server);
+	}
 }
-
-require_once __DIR__.'/../../../../lib/base.php';
-
-if(!class_exists('PHPUnit_Framework_TestCase')) {
-	require_once('PHPUnit/Autoload.php');
-}
-
-\OC::$composerAutoloader->addPsr4('Test\\', OC::$SERVERROOT . '/tests/lib/', true);
-
-\OC_App::loadApp('dav');
-
-OC_Hook::clear();
