@@ -275,7 +275,7 @@ class OC_Files {
 				$view->readfilePart($filename, $rangeArray[0]['from'], $rangeArray[0]['to']);
 			    }
 			    else {
-				// check if file is seekable (if not throw UnseekableException)
+				// check if file is seekable (if not throw NotPermittedException)
 				// we have to check it before body contents
 				$view->readfilePart($filename, $rangeArray[0]['size'], $rangeArray[0]['size']);
 
@@ -289,7 +289,7 @@ class OC_Files {
 				}
 				echo "\r\n--".self::getBoundary()."--\r\n";
 			    }
-			} catch (\OCP\Files\UnseekableException $ex) {
+			} catch (\OCP\Files\NotPermittedException $ex) {
 			    // file is unseekable
 			    header_remove('Accept-Ranges');
 			    header_remove('Content-Range');
