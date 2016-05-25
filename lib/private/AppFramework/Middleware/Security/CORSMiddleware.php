@@ -26,13 +26,13 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\IRequest;
-use OCP\IUserSession;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Middleware;
+use OCP\IRequest;
 
 /**
  * This middleware sets the correct CORS headers on a response if the
@@ -53,18 +53,18 @@ class CORSMiddleware extends Middleware {
 	private $reflector;
 
 	/**
-	 * @var IUserSession
+	 * @var Session
 	 */
 	private $session;
 
 	/**
 	 * @param IRequest $request
 	 * @param ControllerMethodReflector $reflector
-	 * @param IUserSession $session
+	 * @param Session $session
 	 */
 	public function __construct(IRequest $request,
 								ControllerMethodReflector $reflector,
-								IUserSession $session) {
+								Session $session) {
 		$this->request = $request;
 		$this->reflector = $reflector;
 		$this->session = $session;
@@ -89,7 +89,7 @@ class CORSMiddleware extends Middleware {
 			$pass = $this->request->server['PHP_AUTH_PW'];
 
 			$this->session->logout();
-			if(!$this->session->login($user, $pass)) {
+			if(!$this->session->logClientIn($user, $pass)) {
 				throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
 			}
 		}
