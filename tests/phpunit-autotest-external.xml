@@ -8,13 +8,13 @@
 	<testsuite name='ownCloud files external'>
 		<directory suffix=".php">../apps/files_external/tests</directory>
 		<!-- exclude backends as they are called separately -->
-		<exclude>../apps/files_external/tests/storage/</exclude>
+		<exclude>../apps/files_external/tests/Storage/</exclude>
 	</testsuite>
 	<!-- filters for code coverage -->
 	<filter>
 		<!-- whitelist processUncoveredFilesFromWhitelist="true" -->
 		<whitelist>
-			<file>../lib/private/files/storage/dav.php</file>
+			<file>../lib/private/Files/Storage/DAV.php</file>
 			<directory suffix=".php">../apps/files_external</directory>
 			<exclude>
 				<directory suffix=".php">../apps/files_external/l10n</directory>
