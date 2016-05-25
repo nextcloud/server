@@ -24,6 +24,9 @@ class SessionTest extends \Test\TestCase {
 	/** @var \OC\Authentication\Token\DefaultTokenProvider */
 	protected $defaultProvider;
 
+	/** @var \OCP\IConfig */
+	private $config;
+
 	protected function setUp() {
 		parent::setUp();
 
@@ -34,6 +37,7 @@ class SessionTest extends \Test\TestCase {
 		$this->defaultProvider = $this->getMockBuilder('\OC\Authentication\Token\DefaultTokenProvider')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->config = $this->getMock('\OCP\IConfig');
 	}
 
 	public function testGetUser() {
@@ -95,7 +99,7 @@ class SessionTest extends \Test\TestCase {
 			->with($expectedUser->getUID())
 			->will($this->returnValue($expectedUser));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, $this->config);
 		$user = $userSession->getUser();
 		$this->assertSame($expectedUser, $user);
 	}
@@ -118,7 +122,7 @@ class SessionTest extends \Test\TestCase {
 			->getMock();
 
 		$userSession = $this->getMockBuilder('\OC\User\Session')
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, $this->config])
 			->setMethods([
 				'getUser'
 			])
@@ -145,7 +149,7 @@ class SessionTest extends \Test\TestCase {
 			->method('getUID')
 			->will($this->returnValue('foo'));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, $this->config);
 		$userSession->setUser($user);
 	}
 
@@ -197,7 +201,7 @@ class SessionTest extends \Test\TestCase {
 			->will($this->returnValue($user));
 
 		$userSession = $this->getMockBuilder('\OC\User\Session')
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, $this->config])
 			->setMethods([
 				'prepareUserLogin'
 			])
@@ -244,7 +248,7 @@ class SessionTest extends \Test\TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue($user));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, $this->config);
 		$userSession->login('foo', 'bar');
 	}
 
@@ -280,7 +284,7 @@ class SessionTest extends \Test\TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue(false));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, $this->config);
 		$userSession->login('foo', 'bar');
 	}
 
@@ -300,8 +304,62 @@ class SessionTest extends \Test\TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue(false));
 
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, $this->config);
 		$userSession->login('foo', 'bar');
+	}
+
+	public function testLogClientInNoTokenPasswordWith2fa() {
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$session = $this->getMock('\OCP\ISession');
+
+		/** @var \OC\User\Session $userSession */
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, $this->config])
+			->setMethods(['login'])
+			->getMock();
+
+		$this->defaultProvider->expects($this->once())
+			->method('getToken')
+			->with('doe')
+			->will($this->throwException(new \OC\Authentication\Exceptions\InvalidTokenException()));
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('token_auth_enforced', false)
+			->will($this->returnValue(true));
+
+		$this->assertFalse($userSession->logClientIn('john', 'doe'));
+	}
+
+	public function testLogClientInNoTokenPasswordNo2fa() {
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$session = $this->getMock('\OCP\ISession');
+		$user = $this->getMock('\OCP\IUser');
+
+		/** @var \OC\User\Session $userSession */
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, $this->config])
+			->setMethods(['login', 'isTwoFactorEnforced'])
+			->getMock();
+
+		$this->defaultProvider->expects($this->once())
+			->method('getToken')
+			->with('doe')
+			->will($this->throwException(new \OC\Authentication\Exceptions\InvalidTokenException()));
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('token_auth_enforced', false)
+			->will($this->returnValue(false));
+
+		$userSession->expects($this->once())
+			->method('isTwoFactorEnforced')
+			->with('john')
+			->will($this->returnValue(true));
+
+		$this->assertFalse($userSession->logClientIn('john', 'doe'));
 	}
 
 	public function testRememberLoginValidToken() {
@@ -355,7 +413,7 @@ class SessionTest extends \Test\TestCase {
 			//override, otherwise tests will fail because of setcookie()
 			array('setMagicInCookie'),
 			//there  are passed as parameters to the constructor
-			array($manager, $session, $this->timeFactory, $this->defaultProvider));
+			array($manager, $session, $this->timeFactory, $this->defaultProvider, $this->config));
 
 		$granted = $userSession->loginWithCookie('foo', $token);
 
@@ -400,7 +458,7 @@ class SessionTest extends \Test\TestCase {
 		$token = 'goodToken';
 		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, $this->config);
 		$granted = $userSession->loginWithCookie('foo', 'badToken');
 
 		$this->assertSame($granted, false);
@@ -443,7 +501,7 @@ class SessionTest extends \Test\TestCase {
 		$token = 'goodToken';
 		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, $this->config);
 		$granted = $userSession->loginWithCookie('foo', $token);
 
 		$this->assertSame($granted, false);
@@ -468,7 +526,7 @@ class SessionTest extends \Test\TestCase {
 		$session = new Memory('');
 		$session->set('user_id', 'foo');
 		$userSession = $this->getMockBuilder('\OC\User\Session')
-			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->defaultProvider, $this->config])
 			->setMethods([
 				'validateSession'
 			])
@@ -491,7 +549,7 @@ class SessionTest extends \Test\TestCase {
 		$session = new Memory('');
 		$token = $this->getMock('\OC\Authentication\Token\IToken');
 		$user = $this->getMock('\OCP\IUser');
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider);
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->defaultProvider, $this->config);
 		$request = $this->getMock('\OCP\IRequest');
 
 		$request->expects($this->once())
@@ -522,7 +580,7 @@ class SessionTest extends \Test\TestCase {
 		$timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
 		$tokenProvider = $this->getMock('\OC\Authentication\Token\IProvider');
 		$userSession = $this->getMockBuilder('\OC\User\Session')
-			->setConstructorArgs([$userManager, $session, $timeFactory, $tokenProvider])
+			->setConstructorArgs([$userManager, $session, $timeFactory, $tokenProvider, $this->config])
 			->setMethods(['logout'])
 			->getMock();
 

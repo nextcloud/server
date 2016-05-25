@@ -42,6 +42,7 @@ use OC_User;
 use OC_Util;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\AppFramework\Utility\ITimeFactory;
+use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IUser;
@@ -68,8 +69,8 @@ use OCP\Session\Exceptions\SessionNotAvailableException;
  * @package OC\User
  */
 class Session implements IUserSession, Emitter {
-	
-	/** @var Manager $manager */
+
+	/** @var IUserManager $manager */
 	private $manager;
 
 	/** @var ISession $session */
@@ -81,6 +82,9 @@ class Session implements IUserSession, Emitter {
 	/** @var IProvider */
 	private $tokenProvider;
 
+	/** @var IConfig */
+	private $config;
+
 	/** @var User $activeUser */
 	protected $activeUser;
 
@@ -89,12 +93,14 @@ class Session implements IUserSession, Emitter {
 	 * @param ISession $session
 	 * @param ITimeFactory $timeFacory
 	 * @param IProvider $tokenProvider
+	 * @param IConfig $config
 	 */
-	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider) {
+	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider, IConfig $config) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFacory = $timeFacory;
 		$this->tokenProvider = $tokenProvider;
+		$this->config = $config;
 	}
 
 	/**
@@ -279,7 +285,7 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
-	 * try to login with the provided credentials
+	 * try to log in with the provided credentials
 	 *
 	 * @param string $uid
 	 * @param string $password
@@ -327,6 +333,63 @@ class Session implements IUserSession, Emitter {
 		return false;
 	}
 
+	/**
+	 * Tries to log in a client
+	 *
+	 * Checks token auth enforced
+	 * Checks 2FA enabled
+	 *
+	 * @param string $user
+	 * @param string $password
+	 * @throws LoginException
+	 * @return boolean
+	 */
+	public function logClientIn($user, $password) {
+		$isTokenPassword = $this->isTokenPassword($password);
+		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
+			// TODO: throw LoginException instead (https://github.com/owncloud/core/pull/24616)
+			return false;
+		}
+		if (!$isTokenPassword && $this->isTwoFactorEnforced($user)) {
+			// TODO: throw LoginException instead (https://github.com/owncloud/core/pull/24616)
+			return false;
+		}
+		return $this->login($user, $password);
+	}
+
+	private function isTokenAuthEnforced() {
+		return $this->config->getSystemValue('token_auth_enforced', false);
+	}
+
+	protected function isTwoFactorEnforced($username) {
+		\OCP\Util::emitHook(
+			'\OCA\Files_Sharing\API\Server2Server',
+			'preLoginNameUsedAsUserName',
+			array('uid' => &$username)
+		);
+		$user = $this->manager->get($username);
+		if (is_null($user)) {
+			return true;
+		}
+		// DI not possible due to cyclic dependencies :'-/
+		return OC::$server->getTwoFactorAuthManager()->isTwoFactorAuthenticated($user);
+	}
+
+	/**
+	 * Check if the given 'password' is actually a device token
+	 *
+	 * @param type $password
+	 * @return boolean
+	 */
+	public function isTokenPassword($password) {
+		try {
+			$this->tokenProvider->getToken($password);
+			return true;
+		} catch (InvalidTokenException $ex) {
+			return false;
+		}
+	}
+
 	protected function prepareUserLogin() {
 		// TODO: mock/inject/use non-static
 		// Refresh the token
@@ -347,7 +410,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryBasicAuthLogin(IRequest $request) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
-			$result = $this->login($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW']);
+			$result = $this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW']);
 			if ($result === true) {
 				/**
 				 * Add DAV authenticated. This should in an ideal world not be
