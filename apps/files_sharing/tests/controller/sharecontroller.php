@@ -183,7 +183,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testAutehnticateInvalidToken() {
+	public function testAuthenticateInvalidToken() {
 		$this->shareManager
 			->expects($this->once())
 			->method('getShareByToken')
@@ -333,6 +333,8 @@ class ShareControllerTest extends \Test\TestCase {
 				[
 					['max_filesize_animated_gifs_public_sharing', 10, 10],
 					['enable_previews', true, true],
+					['preview_max_x', 1024, 1024],
+					['preview_max_y', 1024, 1024],
 				]
 			);
 		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
@@ -364,6 +366,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'maxSizeAnimateGif' => 10,
 			'previewSupported' => true,
 			'previewEnabled' => true,
+			'previewMaxX' => 1024,
+			'previewMaxY' => 1024,
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
