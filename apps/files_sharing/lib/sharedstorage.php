@@ -44,6 +44,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	private $share;   // the shared resource
 	private $files = array();
 	private static $isInitialized = array();
+	private $local = null;
 
 	/**
 	 * @var \OC\Files\View
@@ -705,9 +706,12 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public function isLocal() {
-		$this->init();
-		$ownerPath = $this->ownerView->getPath($this->share['item_source']);
-		list($targetStorage) = $this->ownerView->resolvePath($ownerPath);
-		return $targetStorage->isLocal();
+		if (!is_null($this->local)) {
+			$this->init();
+			$ownerPath = $this->ownerView->getPath($this->share['item_source']);
+			list($targetStorage) = $this->ownerView->resolvePath($ownerPath);
+			$this->local = $targetStorage->isLocal();
+		}
+		return $this->local;
 	}
 }
