@@ -1,7 +1,7 @@
 <?php
 /**
  * @author André Gaul <gaul@web-yard.de>
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christian Berendt <berendt@b1-systems.de>
  * @author Christopher T. Johnson <ctjctj@gmail.com>

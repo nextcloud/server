@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Christian Berendt <berendt@b1-systems.de>
  * @author j-ed <juergen@eisfair.org>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Ross Nicoll <jrn@jrn.me.uk>

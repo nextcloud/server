@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

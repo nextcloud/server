@@ -1,15 +1,15 @@
 ownCloud is written by:
  - AW-UC <git@a-wesemann.de>
+ - Achim Königs <garfonso@tratschtante.de>
  - Adam Williamson <awilliam@redhat.com>
  - Administrator <Administrator@WINDOWS-2012>
  - Aldo "xoen" Giambelluca <xoen@xoen.org>
  - Alex Weirig <alex.weirig@technolink.lu>
  - Alexander Bergolth <leo@strike.wu.ac.at>
- - Andreas Böhler <dev@aboehler.at>
  - Andreas Fischer <bantu@owncloud.com>
  - Andrew Brown <andrew@casabrown.com>
  - André Gaul <gaul@web-yard.de>
- - Arthur Schiwon <blizzz@owncloud.com>
+ - Arthur Schiwon <blizzz@arthur-schiwon.de>
  - Bart Visscher <bartv@thisnet.nl>
  - Bartek Przybylski <bart.p.pl@gmail.com>
  - Bastien Ho <bastienho@urbancube.fr>
@@ -18,38 +18,38 @@ ownCloud is written by:
  - Bernhard Posselt <dev@bernhard-posselt.com>
  - Bernhard Reiter <ockham@raz.or.at>
  - Birk Borkason <daniel.niccoli@gmail.com>
- - Björn Schießle <schiessle@owncloud.com>
+ - Björn Schießle <bjoern@schiessle.org>
  - Borjan Tchakaloff <borjan@tchakaloff.fr>
  - Brice Maron <brice@bmaron.net>
  - Byron Marohn <combustible@live.com>
  - C Montero-Luque <cml@owncloud.com>
+ - Carla Schroder <carla@owncloud.com>
  - Carlos Cerrillo <ccerrillo@gmail.com>
  - Christian Berendt <berendt@b1-systems.de>
  - Christian Kampka <christian@kampka.net>
- - Christian Schnidrig <christian.schnidrig@switch.ch>
  - Christian Weiske <cweiske@cweiske.de>
  - Christoph Schaefer <christophł@wolkesicher.de>
+ - Christoph Wurst <christoph@owncloud.com>
  - Christopher Schäpers <kondou@ts.unde.re>
  - Christopher T. Johnson <ctjctj@gmail.com>
  - Clark Tomlinson <fallen013@gmail.com>
  - Craig Morrissey <craig@owncloud.com>
  - Dan Bartram <daneybartram@gmail.com>
  - Daniel Hansson <enoch85@gmail.com>
+ - Daniel Jagszent <daniel@jagszent.de>
  - Daniel Molkentin <daniel@molkentin.de>
  - Daniel Tosello <tosello.daniel@gmail.com>
  - David Prévot <taffit@debian.org>
  - Dominik Schmidt <dev@dominik-schmidt.de>
- - Donald Buczek <buczek@molgen.mpg.de>
  - Edward Crompton <edward.crompton@gmail.com>
  - Fabian Henze <flyser42@gmx.de>
  - Faruk Uzun <farukuzun@collabora.com>
  - Felix Böhm <felixboehm@gmx.de>
  - Felix Moeller <mail@felixmoeller.de>
- - Florian Preinstorfer <nblock@archlinux.us>
  - Florian Pritz <bluewind@xinu.at>
- - Florian Scholz <FlorianScholz@bgstyle.de>
  - Florin Peter <github@florin-peter.de>
- - Frank Karlitschek <frank@owncloud.org>
+ - Francesco Rovelli <francesco.rovelli@gmail.com>
+ - Frank Karlitschek <frank@karlitschek.de>
  - François Kubler <francois@kubler.org>
  - Frédéric Fortier <frederic.fortier@oronospolytechnique.com>
  - Gadzy <dev@gadzy.fr>
@@ -61,6 +61,7 @@ ownCloud is written by:
  - Individual IT Services <info@individual-it.net>
  - Jakob Sack <mail@jakobsack.de>
  - Jan-Christoph Borchardt <hey@jancborchardt.net>
+ - Jarrett <JetUni@users.noreply.github.com>
  - Jean-Louis Dupond <jean-louis@dupond.be>
  - Jens-Christian Fischer <jens-christian.fischer@switch.ch>
  - Jesús Macias <jmacias@solidgear.es>
@@ -70,6 +71,7 @@ ownCloud is written by:
  - Johannes Willnecker <johannes@willnecker.com>
  - Jonny007-MKD <1-23-4-5@web.de>
  - Jost Baron <Jost.Baron@gmx.de>
+ - Julius Haertl <jus@bitgrid.net>
  - Jörn Friedrich Dreyer <jfd@butonic.de>
  - Kamil Domanski <kdomanski@kdemail.net>
  - Klaas Freitag <freitag@owncloud.com>
@@ -80,9 +82,10 @@ ownCloud is written by:
  - Lennart Rosam <lennart.rosam@medien-systempartner.de>
  - Leonardo Diez <leio10@users.noreply.github.com>
  - Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
- - Lukas Reschke <lukas@owncloud.com>
+ - Lukas Reschke <lukas@statuscode.ch>
  - Luke Policinski <lpolicinski@gmail.com>
  - Lyonel Vincent <lyonel@ezix.org>
+ - Manish Bisht <manish.bisht490@gmail.com>
  - Mario Kolling <mario.kolling@serpro.gov.br>
  - Markus Goetz <markus@woboq.com>
  - Martin Konrad <info@martin-konrad.net>
@@ -95,7 +98,6 @@ ownCloud is written by:
  - Michael Kuhn <suraia@ikkoku.de>
  - Michael Roitzsch <reactorcontrol@icloud.com>
  - Michael Roth <michael.roth@rz.uni-augsburg.de>
- - Michael Telatynski <7t3chguy@gmail.com>
  - Michael U <mdusher@users.noreply.github.com>
  - Miguel Prokop <miguel.prokop@vtu.com>
  - Mitar <mitar.git@tnode.com>
@@ -112,12 +114,15 @@ ownCloud is written by:
  - Pascal de Bruijn <pmjdebruijn@pcode.nl>
  - Patrick Paysant <ppaysant@linagora.com>
  - Pellaeon Lin <nfsmwlin@gmail.com>
+ - Petr Svoboda <weits666@gmail.com>
+ - Phiber2000 <phiber2000@gmx.de>
  - Phil Davis <phil.davis@inf.org>
  - Philipp Kapfer <philipp.kapfer@gmx.at>
  - Philippe Jung <phil.jung@free.fr>
  - Philippe Le Brouster <plb@nebkha.net>
  - Pierre Jochem <pierrejochem@msn.com>
  - Pierre Ozoux <pierre@ozoux.net>
+ - Piotr Filiciak <piotr@filiciak.pl>
  - Qingping Hou <dave2008713@gmail.com>
  - Raghu Nayyar <hey@raghunayyar.com>
  - Raghu Nayyar <me@iraghu.com>
@@ -136,20 +141,20 @@ ownCloud is written by:
  - SA <stephen@mthosting.net>
  - Sam Tuke <mail@samtuke.com>
  - Sander <brantje@gmail.com>
- - Sascha Schmidt <realriot@realriot.de>
  - Sean Comeau <sean@ftlnetworks.ca>
  - Sebastian Döll <sebastian.doell@libasys.de>
+ - Senorsen <senorsen.zhang@gmail.com>
  - Serge Martin <edb@sigluy.net>
  - Simon Könnecke <simonkoennecke@gmail.com>
  - Sjors van der Pluijm <sjors@desjors.nl>
  - Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
  - Stefan Rado <owncloud@sradonia.net>
+ - Stefan Weil <sw@weilnetz.de>
  - Steffen Lindner <mail@steffen-lindner.de>
  - Stephan Peijnik <speijnik@anexia-it.com>
  - TheSFReader <TheSFReader@gmail.com>
  - Thibaut GRIDEL <tgridel@free.fr>
  - Thomas Müller <thomas.mueller@tmit.eu>
- - Thomas Schmidt <tschmidt@suse.de>
  - Thomas Tanghus <thomas@tanghus.net>
  - Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
  - Tim Dettrick <t.dettrick@uq.edu.au>
@@ -178,11 +183,12 @@ ownCloud is written by:
  - ideaship <ideaship@users.noreply.github.com>
  - j-ed <juergen@eisfair.org>
  - jknockaert <jasper@knockaert.nl>
+ - josh4trunks <joshruehlig@gmail.com>
  - macjohnny <estebanmarin@gmx.ch>
- - marc0s <marcos@tenak.net>
  - martin-rueegg <martin.rueegg@metaworx.ch>
  - martin.mattel@diemattels.at <martin.mattel@diemattels.at>
  - michag86 <micha_g@arcor.de>
+ - mmccarn <mmccarn-github@mmsionline.us>
  - nishiki <nishiki@yaegashi.fr>
  - root <root@oc.(none)>
  - scambra <sergio@entrecables.com>

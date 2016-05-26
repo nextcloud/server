@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Carla Schroder <carla@owncloud.com>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

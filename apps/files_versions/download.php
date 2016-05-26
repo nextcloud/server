@@ -1,8 +1,8 @@
 <?php
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
