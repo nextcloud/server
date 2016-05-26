@@ -27,22 +27,22 @@ use OC\Authentication\TwoFactorAuth\Manager;
 
 class ManagerTest extends TestCase {
 
-	/** @var OCP\IUser */
+	/** @var \OCP\IUser|\PHPUnit_Framework_MockObject_MockObject */
 	private $user;
 
-	/** @var OC\App\AppManager */
+	/** @var \OC\App\AppManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
 
-	/** @var OCP\ISession */
+	/** @var \OCP\ISession|\PHPUnit_Framework_MockObject_MockObject */
 	private $session;
 
 	/** @var Manager */
 	private $manager;
 
-	/** @var \OCP\IConfig */
+	/** @var \OCP\IConfig|\PHPUnit_Framework_MockObject_MockObject */
 	private $config;
 
-	/** @var \OCP\Authentication\TwoFactorAuth\IProvider */
+	/** @var \OCP\Authentication\TwoFactorAuth\IProvider|\PHPUnit_Framework_MockObject_MockObject */
 	private $fakeProvider;
 
 	protected function setUp() {
@@ -169,7 +169,7 @@ class ManagerTest extends TestCase {
 			->with('two_factor_auth_uid')
 			->will($this->returnValue(false));
 
-		$this->assertequals(false, $this->manager->needsSecondFactor());
+		$this->assertEquals(false, $this->manager->needsSecondFactor());
 	}
 
 	public function testPrepareTwoFactorLogin() {
