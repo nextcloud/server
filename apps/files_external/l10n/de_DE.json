@@ -16,6 +16,7 @@
     "Error generating key pair" : "Fehler beim Erzeugen des Schlüsselpaares",
     "All users. Type to select user or group." : "Alle Benutzer. Benutzer oder Gruppe zur Auswahl eingeben.",
     "(group)" : "(group)",
+    "Compatibility with Mac NFD encoding (slow)" : "Kompatibilität mit MAC NFD-Kodierung (langsam)",
     "Admin defined" : "Administrator definiert",
     "Saved" : "Gespeichert",
     "Empty response from the server" : "Leere Antwort vom Server erhalten",

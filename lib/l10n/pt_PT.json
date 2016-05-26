@@ -7,6 +7,7 @@
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Foi detectado que a configuração de amostra foi copiada. Isso pode danificar a sua instalação e não é suportado. Por favor, leia a documentação antes de realizar mudanças no config.php",
     "PHP %s or higher is required." : "Necessário PHP %s ou maior.",
     "PHP with a version lower than %s is required." : "É necessário um PHP com uma versão inferir a %s.",
+    "%sbit or higher PHP required." : "PHP requerido %sbit ou superior.",
     "Following databases are supported: %s" : "As seguintes bases de dados são suportadas: %s",
     "The command line tool %s could not be found" : "A ferramenta de linha de comento %s não foi encontrada",
     "The library %s is not available." : "A biblioteca %s não está disponível.",
@@ -107,6 +108,8 @@
     "Username contains whitespace at the beginning or at the end" : "Nome de utilizador contém espaço em branco no início ou no fim",
     "A valid password must be provided" : "Uma password válida deve ser fornecida",
     "The username is already being used" : "O nome de utilizador já está a ser usado",
+    "Login canceled by app" : "Sessão cancelada pela app",
+    "User disabled" : "Utilziador desativado",
     "Help" : "Ajuda",
     "Personal" : "Pessoal",
     "Users" : "Utilizadores",
@@ -159,6 +162,8 @@
     "Storage incomplete configuration. %s" : "Configuração incompleta do armazenamento. %s",
     "Storage connection error. %s" : "Erro de ligação ao armazenamento. %s",
     "Storage not available" : "Armazenamento indisposinvel",
-    "Storage connection timeout. %s" : "Tempo de ligação ao armazenamento expirou. %s"
+    "Storage connection timeout. %s" : "Tempo de ligação ao armazenamento expirou. %s",
+    "_%n file_::_%n files_" : ["%n ficheiro","%n ficheiros"],
+    "_%n window_::_%n windows_" : ["%n janela","%n janelas"]
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
