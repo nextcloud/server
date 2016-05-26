@@ -16,8 +16,8 @@ Andreas Schönebeck <aschoenebeck@web.de>
 Andreas Ergenzinger <andreas.ergenzinger@gmx.de> AndreasErgenzinger <andreas.ergenzinger@gmx.de>
 Andrew Brown <andrew@casabrown.com>
 André Gaul <gaul@web-yard.de>
-Arthur Schiwon <blizzz@owncloud.com> Arthur Schiwon <blizzz@arthur-schiwon.de>
-Arthur Schiwon <blizzz@owncloud.com> blizzz <blizzz@owncloud.com>
+Arthur Schiwon <blizzz@arthur-schiwon.de> Arthur Schiwon <blizzz@owncloud.com>
+Arthur Schiwon <blizzz@arthur-schiwon.de> blizzz <blizzz@owncloud.com>
 Artur Duque de Souza <asouza@kde.org>
 Axel Roenn <axel@mpim-bonn.mpg.de>
 Bagera <victor@baquero-wihlborg.se>
@@ -30,14 +30,15 @@ Benjamin Diele <benjamin@diele.be>
 Benjamin Liles <benliles@arch.tamu.edu>
 Bernhard Posselt <dev@bernhard-posselt.com> Bernhard Posselt <nukeawhale@gmail.com>
 Bernhard Posselt <dev@bernhard-posselt.com> Bernhard Posselt <Raydiation@users.noreply.github.com>
+Bernhard Posselt <dev@bernhard-posselt.com> Bernhard Posselt <BernhardPosselt@users.noreply.github.com>
 Bernhard Reiter <ockham@raz.or.at>
 Birk Borkason <daniel.niccoli@gmail.com>
-Björn Schießle <schiessle@owncloud.com> Bjoern Schiessle <schiesbn@woody.(none)>
-Björn Schießle <schiessle@owncloud.com> Björn Schießle <bjoern@schiessle.org>
-Björn Schießle <schiessle@owncloud.com> Björn Schießle <schiesbn@potato.(none)>
-Björn Schießle <schiessle@owncloud.com> Björn Schiessle <schiessle@owncloud.com>
-Björn Schießle <schiessle@owncloud.com> Bjoern Schießle <schiessle@owncloud.com>
-Björn Schießle <schiessle@owncloud.com> Bjoern Schiessle <schiessle@owncloud.com>
+Björn Schießle <bjoern@schiessle.org> Bjoern Schiessle <schiesbn@woody.(none)>
+Björn Schießle <bjoern@schiessle.org> Björn Schießle <schiessle@owncloud.com>
+Björn Schießle <bjoern@schiessle.org> Björn Schießle <schiesbn@potato.(none)>
+Björn Schießle <bjoern@schiessle.org> Björn Schiessle <schiessle@owncloud.com>
+Björn Schießle <bjoern@schiessle.org> Bjoern Schießle <schiessle@owncloud.com>
+Björn Schießle <bjoern@schiessle.org> Bjoern Schiessle <schiessle@owncloud.com>
 BlackEagle <ike.devolder@gmail.com>
 Boris Rybalkin <ribalkin@gmail.com>
 Borjan Tchakaloff <borjan@tchakaloff.fr>
@@ -61,6 +62,8 @@ Christian Berendt <berendt@b1-systems.de>
 Christian Kampka <christian@kampka.net>
 Christian Koch <koch.chris@gmail.com>
 Christian Reiner <github@christian-reiner.info> Christian Reiner <arkascha@balder.site>
+Christoph Wurst <christoph@owncloud.com> Christoph Wurst <ChristophWurst@users.noreply.github.com>
+Christoph Wurst <christoph@owncloud.com> Christoph Wurst <christoph@winzerhof-wurst.at>
 Christopher Bunn <b11.chris@gmail.com>
 Christopher Schäpers <kondou@ts.unde.re> Christopher <kondou@ts.unde.re>
 Christopher Schäpers <kondou@ts.unde.re> kondou <kondou@ts.unde.re>
@@ -123,11 +126,11 @@ Florian Vichot <florian.vichot@gmail.com>
 Florin Peter <github@florin-peter.de> Florin Peter <fp@datawerk.de>
 Florin Peter <github@florin-peter.de> FlorinPeter <github@florin-peter.de>
 Francesco Piraneo G. <fpiraneo@iface.ch>
-Frank Karlitschek <frank@owncloud.org> Frank Karlitschek <frank@dev.(none)>
-Frank Karlitschek <frank@owncloud.org> Frank Karlitschek <frank@devel.(none)>
-Frank Karlitschek <frank@owncloud.org> Frank Karlitschek <frank@oc.(none)>
-Frank Karlitschek <frank@owncloud.org> Frank Karlitschek <karlitschek@gmx.de>
-Frank Karlitschek <frank@owncloud.org> Frank Karlitschek <karlitschek@kde.org>
+Frank Karlitschek <frank@karlitschek.de> Frank Karlitschek <frank@dev.(none)>
+Frank Karlitschek <frank@karlitschek.de> Frank Karlitschek <frank@devel.(none)>
+Frank Karlitschek <frank@karlitschek.de> Frank Karlitschek <frank@oc.(none)>
+Frank Karlitschek <frank@karlitschek.de> Frank Karlitschek <frank@owncloud.org>
+Frank Karlitschek <frank@karlitschek.de> Frank Karlitschek <karlitschek@kde.org>
 François Kubler <francois@kubler.org>
 Frédéric Fortier <frederic.fortier@oronospolytechnique.com> Frédéric Fortier <frederic.fortier@polymtl.ca>
 Frederik Gladhorn <gladhorn@kde.org>
@@ -206,8 +209,8 @@ Sebastian Döll <sebastian.doell@libasys.de> libasys <sebastian.doell@libasys.de
 Lode Hoste <zillode@zillode.be>
 lolozere <laurent@chedanne.pro>
 Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
-Lukas Reschke <lukas@owncloud.com> Lukas Reschke <lukas@owncloud.org>
-Lukas Reschke <lukas@owncloud.com> Lukas Reschke <lukas@statuscode.ch>
+Lukas Reschke <lukas@statuscode.ch> Lukas Reschke <lukas@owncloud.com>
+Lukas Reschke <lukas@statuscode.ch> Lukas Reschke <lukas@owncloud.org>
 Luke Policinski <lpolicinski@gmail.com>
 Lyonel Vincent <lyonel@ezix.org>
 macjohnny <estebanmarin@gmx.ch>
@@ -309,6 +312,7 @@ Robin McCorkell <robin@mccorkell.me.uk> Robin McCorkell <rmccorkell@karoshi.org.
 Robin McCorkell <robin@mccorkell.me.uk> Robin McCorkell <rmccorkell@owncloud.com>
 Rodrigo Hjort <rodrigo.hjort@gmail.com>
 Roeland Jago Douma <rullzer@owncloud.com> Roeland Jago Douma <roeland@famdouma.nl>
+Roeland Jago Douma <rullzer@owncloud.com> Roeland Douma <rullzer@users.noreply.github.com>
 rok <brejktru@gmail.com>
 Roland Hager <roland.hager@tu-berlin.de>
 Roland van Laar <roland@micite.net>
@@ -368,6 +372,7 @@ TheSFReader <TheSFReader@gmail.com>
 Thibaut GRIDEL <tgridel@free.fr>
 thomas <thomas@thomas-VirtualBox.(none)>
 Thomas Müller <thomas.mueller@tmit.eu> Thomas Mueller <thomas.mueller@tmit.eu>
+Thomas Müller <thomas.mueller@tmit.eu> Thomas Müller <DeepDiver1975@users.noreply.github.com>
 Thomas Olsen <tol@tanghus>
 Thomas Schmidt <tschmidt@suse.de>
 Thomas Tanghus <thomas@tanghus.net>
