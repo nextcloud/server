@@ -3,7 +3,7 @@
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bartek Przybylski <bart.p.pl@gmail.com>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Byron Marohn <combustible@live.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Georg Ehrke <georg@owncloud.com>
@@ -11,7 +11,7 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Johannes Willnecker <johannes@willnecker.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>

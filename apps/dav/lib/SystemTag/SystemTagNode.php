@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

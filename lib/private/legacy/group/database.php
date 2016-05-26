@@ -1,6 +1,5 @@
 <?php
 /**
- * @author Jakob Sack <mail@jakobsack.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *

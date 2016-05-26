@@ -1,7 +1,8 @@
 <?php
 /**
  * @author cetra3 <peter@parashift.com.au>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Phil Davis <phil.davis@inf.org>
  * @author Robin Appelman <icewind@owncloud.com>

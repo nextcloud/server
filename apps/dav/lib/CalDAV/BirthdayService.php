@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Achim Königs <garfonso@tratschtante.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

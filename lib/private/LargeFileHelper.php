@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Roitzsch <reactorcontrol@icloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

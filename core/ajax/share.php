@@ -1,14 +1,14 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Craig Morrissey <craig@owncloud.com>
  * @author dampfklon <me@dampfklon.de>
  * @author Felix Böhm <felixboehm@gmx.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Leonardo Diez <leio10@users.noreply.github.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Ramiro Aparicio <rapariciog@gmail.com>

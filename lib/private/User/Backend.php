@@ -1,19 +1,6 @@
 <?php
 /**
- * @author Aldo "xoen" Giambelluca <xoen@xoen.org>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Dominik Schmidt <dev@dominik-schmidt.de>
- * @author Georg Ehrke <georg@owncloud.com>
- * @author Jakob Sack <mail@jakobsack.de>
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Sam Tuke <mail@samtuke.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0

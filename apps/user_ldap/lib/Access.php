@@ -2,14 +2,14 @@
 /**
  * @author Alexander Bergolth <leo@strike.wu.ac.at>
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Benjamin Diele <benjamin@diele.be>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Donald Buczek <buczek@molgen.mpg.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lorenzo M. Catucci <lorenzo@sancho.ccd.uniroma2.it>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Lyonel Vincent <lyonel@ezix.org>
  * @author Mario Kolling <mario.kolling@serpro.gov.br>
  * @author Morris Jobke <hey@morrisjobke.de>

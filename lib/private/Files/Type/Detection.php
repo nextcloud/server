@@ -2,7 +2,7 @@
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Jens-Christian Fischer <jens-christian.fischer@switch.ch>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>

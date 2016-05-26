@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Dominik Schmidt <dev@dominik-schmidt.de>
- * @author Frank Karlitschek <frank@owncloud.org>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Frank Karlitschek <frank@karlitschek.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>

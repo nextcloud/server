@@ -1,8 +1,8 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Christoph Wurst <christoph@winzerhof-wurst.at>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Tobias Kaminsky <tobias@kaminsky.me>
  * @author Tom Needham <tom@owncloud.com>

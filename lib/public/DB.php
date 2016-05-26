@@ -3,7 +3,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Dan Bartram <daneybartram@gmail.com>
  * @author Felix Moeller <mail@felixmoeller.de>
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>

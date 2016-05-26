@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

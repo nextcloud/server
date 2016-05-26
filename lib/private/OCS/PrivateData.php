@@ -2,9 +2,10 @@
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Frank Karlitschek <frank@owncloud.org>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Frank Karlitschek <frank@karlitschek.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  *

@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *

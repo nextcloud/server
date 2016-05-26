@@ -1,9 +1,9 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Pascal de Bruijn <pmjdebruijn@pcode.nl>
  * @author Robin Appelman <icewind@owncloud.com>
