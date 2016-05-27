@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "{version} er tilgængelig. Få mere information om hvordan du opdaterer.",
     "Updated channel" : "Kanal opdateret",
+    "ownCloud core" : "ownCloud kerne",
     "Updater" : "Updater",
     "A new version is available: %s" : "Der er en ny version tligængelig: %s",
     "Open updater" : "Åbn for opdatering",

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Error generating key pair" : "Error al generar el par de claves",
     "All users. Type to select user or group." : "Todos los usuarios. Teclee para seleccionar un usuario o grupo.",
     "(group)" : "(grupo)",
+    "Compatibility with Mac NFD encoding (slow)" : "Compatibilidad con codificación Mac MFD (lento)",
     "Admin defined" : "Admin definido",
     "Saved" : "Guardado",
     "Empty response from the server" : "Respuesta vacía desde el servidor",

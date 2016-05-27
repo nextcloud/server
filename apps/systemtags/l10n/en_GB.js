@@ -21,6 +21,7 @@ OC.L10N.register(
     "%1$s assigned system tag %3$s to %2$s" : "%1$s assigned system tag %3$s to %2$s",
     "You unassigned system tag %3$s from %2$s" : "You unassigned system tag %3$s from %2$s",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s unassigned system tag %3$s from %2$s",
+    "%s (restricted)" : "%s (restricted)",
     "%s (invisible)" : "%s (invisible)",
     "No files in here" : "No files in here",
     "No entries found in this folder" : "No entries found in this folder",

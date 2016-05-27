@@ -106,6 +106,7 @@ OC.L10N.register(
     "__language_name__" : "__όνομα_γλώσσας__",
     "Unlimited" : "Απεριόριστο",
     "Personal info" : "Προσωπικές Πληροφορίες",
+    "Devices" : "Συσκευές",
     "Sync clients" : "Συγχρονισμός πελατών",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Όλα (καίρια ζητήματα, σφάλματα, προειδοποιήσεις, πληροφορίες, αποσφαλμάτωση)",
     "Info, warnings, errors and fatal issues" : "Πληροφορίες, προειδοποιήσεις, σφάλματα και καίρια ζητήματα",

@@ -18,6 +18,7 @@ OC.L10N.register(
     "Error generating key pair" : "Error generating key pair",
     "All users. Type to select user or group." : "All users. Type to select user or group.",
     "(group)" : "(group)",
+    "Compatibility with Mac NFD encoding (slow)" : "Compatibility with Mac NFD encoding (slow)",
     "Admin defined" : "Admin defined",
     "Saved" : "Saved",
     "Empty response from the server" : "Empty response from the server",

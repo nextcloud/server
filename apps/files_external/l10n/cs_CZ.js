@@ -18,6 +18,7 @@ OC.L10N.register(
     "Error generating key pair" : "Chyba při vytváření páru klíčů",
     "All users. Type to select user or group." : "Všichni uživatelé. Začněte psát pro výběr uživatelů a skupin.",
     "(group)" : "(skupina)",
+    "Compatibility with Mac NFD encoding (slow)" : "Kompatibilita s Mac NFD kódováním (pomalé)",
     "Admin defined" : "Nastaveno administrátorem",
     "Saved" : "Uloženo",
     "Empty response from the server" : "Prázdná odpověď serveru",
