@@ -18,6 +18,7 @@ OC.L10N.register(
     "Error generating key pair" : "Gabim gjatë prodhimit të çiftit të kyçeve",
     "All users. Type to select user or group." : "Krejt përdoruesit. Shtypni që të përzgjidhet përdorues ose grup.",
     "(group)" : "(grup)",
+    "Compatibility with Mac NFD encoding (slow)" : "Pëerputhshmëri me kodim Mac NFD (e ngadaltë)",
     "Admin defined" : "Përcaktuar nga përgjegjësi",
     "Saved" : "U ruajt",
     "Empty response from the server" : "Përgjigje e zbrazët prej shërbyesit",
