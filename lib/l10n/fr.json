@@ -165,6 +165,7 @@
     "Storage incomplete configuration. %s" : "Configuration de l'espace de stockage incomplète. %s",
     "Storage connection error. %s" : "Erreur de connexion à l'espace stockage. %s",
     "Storage not available" : "Support de stockage non disponible",
-    "Storage connection timeout. %s" : "Le délai d'attente pour la connexion à l'espace de stockage a été dépassé. %s"
+    "Storage connection timeout. %s" : "Le délai d'attente pour la connexion à l'espace de stockage a été dépassé. %s",
+    "_%n file_::_%n files_" : ["%n fichier","%n fichiers"]
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
