@@ -350,10 +350,13 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		if($groupID === false) {
 			throw new \Exception('Not a valid group');
 		}
+		if(!is_string($search)) {
+			throw new \InvalidArgumentException('String expected as search parameter');
+		}
 
 		$filterParts = [];
 		$filterParts[] = $this->access->getFilterForUserCount();
-		if(!empty($search)) {
+		if($search !== '') {
 			$filterParts[] = $this->access->getFilterPartForUserSearch($search);
 		}
 		$filterParts[] = 'primaryGroupID=' . $groupID;
@@ -651,7 +654,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 				$groupUsers[] = $this->access->dn2username($ldap_users[0]['dn'][0]);
 			} else {
 				//we got DNs, check if we need to filter by search or we can give back all of them
-				if(!empty($search)) {
+				if($search !== '') {
 					if(!$this->access->readAttribute($member,
 						$this->access->connection->ldapUserDisplayName,
 						$this->access->getFilterPartForUserSearch($search))) {
@@ -707,7 +710,7 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return false;
 		}
 
-		if(empty($search)) {
+		if(is_string($search) && $search === '') {
 			$groupUsers = count($members) + $primaryUserCount;
 			$this->access->connection->writeToCache($cacheKey, $groupUsers);
 			return $groupUsers;
@@ -819,9 +822,8 @@ class Group_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			return array();
 		}
 		$search = $this->access->escapeFilterPart($search, true);
-		$pagingSize = $this->access->connection->ldapPagingSize;
-		if ((! $this->access->connection->hasPagedResultSupport)
-		   	|| empty($pagingSize)) {
+		$pagingSize = intval($this->access->connection->ldapPagingSize);
+		if (!$this->access->connection->hasPagedResultSupport || $pagingSize <= 0) {
 			return $this->getGroupsChunk($search, $limit, $offset);
 		}
 		$maxGroups = 100000; // limit max results (just for safety reasons)
