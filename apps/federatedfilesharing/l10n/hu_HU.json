@@ -3,8 +3,6 @@
     "Sharing %s failed, because this item is already shared with %s" : "%s megosztása nem sikerült, mert ez már meg van osztva vele: %s",
     "Not allowed to create a federated share with the same user" : "Azonos felhasználóval nem lehet létrehozni egyesített megosztást",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s megosztása sikertelen, mert %s nem található; talán a szerver jelenleg nem elérhető.",
-    "Accept" : "Elfogadás",
-    "Decline" : "Elutasítás",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével, lásd %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével ",
     "Federated Cloud Sharing" : "Megosztás Egyesített Felhőben",

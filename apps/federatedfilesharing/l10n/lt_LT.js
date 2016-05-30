@@ -1,8 +1,6 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Accept" : "Priimti",
-    "Decline" : "Atmesti",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Pasidalink su manimi per #ownCloud padebesius, plačiau %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Pasidalink su manimi per #ownCloud padebesius",
     "Federated Cloud Sharing" : "Viešas dalijimasis padebesiu",

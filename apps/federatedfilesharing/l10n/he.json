@@ -1,11 +1,8 @@
 { "translations": {
-    "Federated sharing" : "שיתוף מאוגד",
     "Invalid Federated Cloud ID" : "זיהוי ענן מאוגד לא חוקי",
     "Sharing %s failed, because this item is already shared with %s" : "שיתוף %s נכשל, כיוון שפריט זה כבר משותף עם %s",
     "Not allowed to create a federated share with the same user" : "אסור ליצור שיתוף מאוגד עם אותו משתמש",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "שיתוף %s נכשל, לא ניתן לאתר %s, ייתכן שהשרת לא ניתן להשגה כרגע.",
-    "Accept" : "אישור",
-    "Decline" : "סירוב",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "שיתוף איתי באמצעות מספר זהות שרת ה- #ownCloud המאוגד שלי, ניתן לראות %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "שיתוף איתי באמצעות מספר זהות שרת ה- #ownCloud המאוגד שלי",
     "Federated Cloud Sharing" : "ענן שיתוף מאוגד",
