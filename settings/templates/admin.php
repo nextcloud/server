@@ -132,6 +132,20 @@ if ($_['databaseOverload']) {
 <?php
 }
 
+// Is the Transaction isolation level READ_COMMITED?
+if ($_['invalidTransactionIsolationLevel']) {
+	?>
+	<div class="section">
+		<h2><?php p($l->t('Transaction isolation level'));?></h2>
+
+		<p class="securitywarning">
+			<?php p($l->t('Your database does not run with "READ COMMITED" transaction isolation level. This can cause problems when multiple actions are executed in parallel.')); ?>
+		</p>
+
+	</div>
+<?php
+}
+
 // Windows Warning
 if ($_['WindowsWarning']) {
 	?>
