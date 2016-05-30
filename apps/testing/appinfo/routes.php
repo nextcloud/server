@@ -22,6 +22,7 @@
 namespace OCA\Testing\AppInfo;
 
 use OCA\Testing\Config;
+use OCA\Testing\Locking\Provisioning;
 use OCP\API;
 
 $config = new Config(
@@ -44,3 +45,17 @@ API::register(
 	'testing',
 	API::ADMIN_AUTH
 );
+
+$locking = new Provisioning(
+	\OC::$server->getLockingProvider(),
+	\OC::$server->getDatabaseConnection(),
+	\OC::$server->getConfig(),
+	\OC::$server->getRequest()
+);
+API::register('get', '/apps/testing/api/v1/lockprovisioning', [$locking, 'isLockingEnabled'], 'files_lockprovisioning', API::ADMIN_AUTH);
+API::register('get', '/apps/testing/api/v1/lockprovisioning/{type}/{user}', [$locking, 'isLocked'], 'files_lockprovisioning', API::ADMIN_AUTH);
+API::register('post', '/apps/testing/api/v1/lockprovisioning/{type}/{user}', [$locking, 'acquireLock'], 'files_lockprovisioning', API::ADMIN_AUTH);
+API::register('put', '/apps/testing/api/v1/lockprovisioning/{type}/{user}', [$locking, 'changeLock'], 'files_lockprovisioning', API::ADMIN_AUTH);
+API::register('delete', '/apps/testing/api/v1/lockprovisioning/{type}/{user}', [$locking, 'releaseLock'], 'files_lockprovisioning', API::ADMIN_AUTH);
+API::register('delete', '/apps/testing/api/v1/lockprovisioning/{type}', [$locking, 'releaseAll'], 'files_lockprovisioning', API::ADMIN_AUTH);
+API::register('delete', '/apps/testing/api/v1/lockprovisioning', [$locking, 'releaseAll'], 'files_lockprovisioning', API::ADMIN_AUTH);
