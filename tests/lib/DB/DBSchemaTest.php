@@ -8,6 +8,7 @@
 
 namespace Test\DB;
 
+use Doctrine\DBAL\Connection;
 use OC_DB;
 use OCP\Security\ISecureRandom;
 
@@ -89,25 +90,38 @@ class DBSchemaTest extends \Test\TestCase {
 		$dbfile = \OC::$SERVERROOT.'/db_structure.xml';
 		$schema_file = 'static://live_db_scheme';
 
-		$randomPrefix = strtolower($this->getUniqueID('', 4) . '_');
+		$randomPrefix = strtolower($this->getUniqueID('', 2, false) . '_');
 		$content = file_get_contents($dbfile);
 		// Add prefix to index names to make them unique
-		$content = str_replace('<name>', '<name>*dbprefix*', $content);
-		$content = str_replace('*dbprefix**dbprefix*', '*dbprefix*', $content);
-		$content = str_replace('*dbprefix*', 'oc_' . $randomPrefix, $content);
+		#$content = str_replace('<name>', '<name>*dbprefix*', $content);
+		#$content = str_replace('*dbprefix**dbprefix*', '*dbprefix*', $content);
+		$content = str_replace('*dbprefix*', $randomPrefix, $content);
 		file_put_contents($schema_file, $content);
 
+		$this->mockDBPrefix($randomPrefix);
+
 		// The method OC_DB::tableExists() adds the prefix itself
-		$this->assertTableNotExist($randomPrefix . 'filecache');
+		$this->assertTableNotExist('filecache');
 		\OC_DB::createDbFromStructure($schema_file);
-		$this->assertTableExist($randomPrefix . 'filecache');
+		$this->assertTableExist('filecache');
 		\OC_DB::updateDbFromStructure($schema_file);
-		$this->assertTableExist($randomPrefix . 'filecache');
+		$this->assertTableExist('filecache');
 		\OC_DB::removeDBStructure($schema_file);
-		$this->assertTableNotExist($randomPrefix . 'filecache');
+		$this->assertTableNotExist('filecache');
+
+		$this->mockDBPrefix('oc_');
 
 		unlink($schema_file);
 		$this->assertTrue(true, 'Asserting that no error occurred when updating with the same schema that is already installed');
+	}
+
+	protected function mockDBPrefix($prefix) {
+		$connection = \OC::$server->getDatabaseConnection();
+		$this->invokePrivate($connection, 'tablePrefix', [$prefix]);
+		/** @var Connection $connection */
+		$connection->getConfiguration()->setFilterSchemaAssetsExpression('/^' . $prefix . '/');
+
+		\OC::$server->getConfig()->setSystemValue('dbtableprefix', $prefix);
 	}
 
 	/**

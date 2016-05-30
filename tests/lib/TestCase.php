@@ -194,14 +194,16 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 *
 	 * @param string $prefix
 	 * @param int $length
+	 * @param bool $allowNumbers
 	 * @return string
 	 */
-	protected static function getUniqueID($prefix = '', $length = 13) {
-		return $prefix . \OC::$server->getSecureRandom()->generate(
-			$length,
-			// Do not use dots and slashes as we use the value for file names
-			ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER
-		);
+	protected static function getUniqueID($prefix = '', $length = 13, $allowNumbers = true) {
+		$chars = ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER;
+		if ($allowNumbers) {
+			$chars .= ISecureRandom::CHAR_DIGITS;
+		}
+
+		return $prefix . \OC::$server->getSecureRandom()->generate($length, $chars);
 	}
 
 	public static function tearDownAfterClass() {
