@@ -97,6 +97,15 @@ if (!$_['isAnnotationsWorking']) {
 <?php
 }
 
+// Is the Transaction isolation level READ_COMMITED?
+if ($_['invalidTransactionIsolationLevel']) {
+	?>
+	<li>
+		<?php p($l->t('Your database does not run with "READ COMMITED" transaction isolation level. This can cause problems when multiple actions are executed in parallel.')); ?>
+	</li>
+<?php
+}
+
 // Windows Warning
 if ($_['WindowsWarning']) {
 	?>

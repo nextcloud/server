@@ -103,6 +103,19 @@ $externalBackends = (count($backends) > 1) ? true : false;
 $template->assign('encryptionReady', \OC::$server->getEncryptionManager()->isReady());
 $template->assign('externalBackendsEnabled', $externalBackends);
 
+/** @var \Doctrine\DBAL\Connection $connection */
+$connection = \OC::$server->getDatabaseConnection();
+try {
+	if ($connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
+		$template->assign('invalidTransactionIsolationLevel', false);
+	} else {
+		$template->assign('invalidTransactionIsolationLevel', $connection->getTransactionIsolation() !== \Doctrine\DBAL\Connection::TRANSACTION_READ_COMMITTED);
+	}
+} catch (\Doctrine\DBAL\DBALException $e) {
+	// ignore
+	$template->assign('invalidTransactionIsolationLevel', false);
+}
+
 $encryptionModules = \OC::$server->getEncryptionManager()->getEncryptionModules();
 $defaultEncryptionModuleId = \OC::$server->getEncryptionManager()->getDefaultEncryptionModuleId();
 
