@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<database>
+	<name>*dbname*</name>
+	<create>true</create>
+	<overwrite>false</overwrite>
+	<charset>utf8</charset>
+
+	<table>
+		<name>*dbprefix*ctvt_test</name>
+
+		<declaration>
+			<field>
+				<name>test_column</name>
+				*COLUMNDETAILS*
+				<default></default>
+				<notnull>false</notnull>
+			</field>
+		</declaration>
+	</table>
+</database>

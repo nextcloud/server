@@ -270,6 +270,44 @@ class LegacyDBTest extends \Test\TestCase {
 		$this->assertSame($expected, $actual);
 	}
 
+	public function testTypeChangeWithData() {
+		$outFile = 'static://test_db_text_clob.xml';
+		$prefix = strtolower($this->getUniqueID('', 4) . '_');
+		$tableName = '*PREFIX*' . $prefix . 'ctvt_test';
+		$content = file_get_contents(\OC::$SERVERROOT . '/tests/data/db_text_clob.xml');
+		$content = str_replace('*dbprefix*', '*dbprefix*' . $prefix, $content);
+
+		$testString = 'Öäüß\'Ћö雙喜\xE2\x80\xA2';
+
+		$contentText = str_replace('*COLUMNDETAILS*', '<type>text</type><length>255</length>', $content);
+		file_put_contents($outFile, $contentText);
+		OC_DB::createDbFromStructure($outFile);
+
+		$query = OC_DB::prepare("INSERT INTO `{$tableName}` (`test_column`) VALUES (?)");
+		$result = $query->execute(array($testString));
+		$this->assertEquals(1, $result);
+
+		$actual = OC_DB::prepare("SELECT `test_column` FROM `{$tableName}`")->execute()->fetchOne();
+		$this->assertSame($testString, $actual);
+
+		$contentText = str_replace('*COLUMNDETAILS*', '<type>text</type><length>4000</length>', $content);
+		file_put_contents($outFile, $contentText);
+		OC_DB::updateDbFromStructure($outFile);
+
+		$actual = OC_DB::prepare("SELECT `test_column` FROM `{$tableName}`")->execute()->fetchOne();
+		$this->assertSame($testString, $actual);
+
+		$contentText = str_replace('*COLUMNDETAILS*', '<type>clob</type>', $content);
+		file_put_contents($outFile, $contentText);
+		OC_DB::updateDbFromStructure($outFile);
+
+		$actual = OC_DB::prepare("SELECT `test_column` FROM `{$tableName}`")->execute()->fetchOne();
+		$this->assertSame($testString, $actual);
+
+		OC_DB::removeDBStructure($outFile);
+		unlink($outFile);
+	}
+
 	/**
 	 * Insert, select and delete decimal(12,2) values
 	 * @dataProvider decimalData
