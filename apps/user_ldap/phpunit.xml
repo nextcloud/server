@@ -1,0 +1,9 @@
+<phpunit bootstrap="../../tests/bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="ldap_tests">
+            <directory suffix=".php">tests</directory>
+            <exclude>tests/Integration</exclude>
+        </testsuite>
+    </testsuites>
+</phpunit>
+
