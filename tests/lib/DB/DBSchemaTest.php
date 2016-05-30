@@ -85,6 +85,31 @@ class DBSchemaTest extends \Test\TestCase {
 		$this->assertTableNotExist($this->table2);
 	}
 
+	public function testSchemaUnchanged() {
+		$dbfile = \OC::$SERVERROOT.'/db_structure.xml';
+		$schema_file = 'static://live_db_scheme';
+
+		$randomPrefix = strtolower($this->getUniqueID('', 4) . '_');
+		$content = file_get_contents($dbfile);
+		// Add prefix to index names to make them unique
+		$content = str_replace('<name>', '<name>*dbprefix*', $content);
+		$content = str_replace('*dbprefix**dbprefix*', '*dbprefix*', $content);
+		$content = str_replace('*dbprefix*', 'oc_' . $randomPrefix, $content);
+		file_put_contents($schema_file, $content);
+
+		// The method OC_DB::tableExists() adds the prefix itself
+		$this->assertTableNotExist($randomPrefix . 'filecache');
+		\OC_DB::createDbFromStructure($schema_file);
+		$this->assertTableExist($randomPrefix . 'filecache');
+		\OC_DB::updateDbFromStructure($schema_file);
+		$this->assertTableExist($randomPrefix . 'filecache');
+		\OC_DB::removeDBStructure($schema_file);
+		$this->assertTableNotExist($randomPrefix . 'filecache');
+
+		unlink($schema_file);
+		$this->assertTrue(true, 'Asserting that no error occurred when updating with the same schema that is already installed');
+	}
+
 	/**
 	 * @param string $table
 	 */
