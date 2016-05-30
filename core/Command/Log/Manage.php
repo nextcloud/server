@@ -78,7 +78,8 @@ class Manage extends Command {
 			$toBeSet['log_type'] = $backend;
 		}
 
-		if ($level = $input->getOption('level')) {
+		$level = $input->getOption('level');
+		if ($level !== null) {
 			if (is_numeric($level)) {
 				$levelNum = $level;
 				// sanity check
