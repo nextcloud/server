@@ -25,6 +25,7 @@
 
 namespace OC\Files\Utils;
 
+use OC\Files\Cache\Cache;
 use OC\Files\Filesystem;
 use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
@@ -182,6 +183,11 @@ class Scanner extends PublicEmitter {
 			}
 			try {
 				$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+				$cache = $storage->getCache();
+				if ($cache instanceof Cache) {
+					// only re-calculate for the root folder we scanned, anything below that is taken care of by the scanner
+					$cache->correctFolderSize($relativePath);
+				}
 			} catch (StorageNotAvailableException $e) {
 				$this->logger->error('Storage ' . $storage->getId() . ' not available');
 				$this->logger->logException($e);
