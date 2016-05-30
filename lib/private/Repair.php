@@ -29,6 +29,7 @@
 namespace OC;
 
 use OC\Repair\AssetCache;
+use OC\Repair\AvatarPermissions;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\DropOldJobs;
@@ -132,6 +133,7 @@ class Repair implements IOutput{
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new SharePropagation(\OC::$server->getConfig()),
+			new AvatarPermissions(\OC::$server->getDatabaseConnection()),
 		];
 	}
 
