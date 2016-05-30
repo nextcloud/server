@@ -276,8 +276,6 @@
 			containerWidth -= $('#app-navigation-toggle').width();
 
 			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
-
-			this.updateSearch();
 		},
 
 		/**
