@@ -84,5 +84,36 @@ class LocalTest extends Storage {
 	public function testInvalidArgumentsNoArray() {
 		new \OC\Files\Storage\Local(null);
 	}
+
+	/**
+	 * @expectedException \OC\ForbiddenException
+	 */
+	public function testDisallowSymlinksOutsideDatadir() {
+		$subDir1 = $this->tmpDir . 'sub1';
+		$subDir2 = $this->tmpDir . 'sub2';
+		$sym = $this->tmpDir . 'sub1/sym';
+		mkdir($subDir1);
+		mkdir($subDir2);
+
+		symlink($subDir2, $sym);
+
+		$storage = new \OC\Files\Storage\Local(['datadir' => $subDir1]);
+
+		$storage->file_put_contents('sym/foo', 'bar');
+	}
+
+	public function testDisallowSymlinksInsideDatadir() {
+		$subDir1 = $this->tmpDir . 'sub1';
+		$subDir2 = $this->tmpDir . 'sub1/sub2';
+		$sym = $this->tmpDir . 'sub1/sym';
+		mkdir($subDir1);
+		mkdir($subDir2);
+
+		symlink($subDir2, $sym);
+
+		$storage = new \OC\Files\Storage\Local(['datadir' => $subDir1]);
+
+		$storage->file_put_contents('sym/foo', 'bar');
+	}
 }
 
