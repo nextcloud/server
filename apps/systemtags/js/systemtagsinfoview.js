@@ -12,7 +12,7 @@
 
 	function modelToSelection(model) {
 		var data = model.toJSON();
-		if (!OC.isUserAdmin() && !data.userAssignable) {
+		if (!OC.isUserAdmin() && !data.canAssign) {
 			data.locked = true;
 		}
 		return data;

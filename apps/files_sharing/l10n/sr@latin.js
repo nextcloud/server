@@ -51,8 +51,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Dodaj na svoj ownCloud",
     "Download" : "Preuzmi",
     "Download %s" : "Preuzmi %s",
-    "Direct link" : "Direktna prečica",
-    "Allow users on this server to send shares to other servers" : "Dozvoli korisnicima na ovom serveru da šalju deljene resurse na druge servere",
-    "Allow users on this server to receive shares from other servers" : "Dozvoli korisnicima na ovom serveru da primaju deljene resurse sa drugih servera"
+    "Direct link" : "Direktna prečica"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

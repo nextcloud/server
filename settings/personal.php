@@ -42,17 +42,21 @@ $config = \OC::$server->getConfig();
 $urlGenerator = \OC::$server->getURLGenerator();
 
 // Highlight navigation entry
+OC_Util::addScript('settings', 'authtoken');
+OC_Util::addScript('settings', 'authtoken_collection');
+OC_Util::addScript('settings', 'authtoken_view');
 OC_Util::addScript( 'settings', 'personal' );
 OC_Util::addScript('settings', 'certificates');
 OC_Util::addStyle( 'settings', 'settings' );
 \OC_Util::addVendorScript('strengthify/jquery.strengthify');
 \OC_Util::addVendorStyle('strengthify/strengthify');
-\OC_Util::addScript('files', 'jquery.iframe-transport');
 \OC_Util::addScript('files', 'jquery.fileupload');
 if ($config->getSystemValue('enable_avatars', true) === true) {
 	\OC_Util::addVendorScript('jcrop/js/jquery.Jcrop');
 	\OC_Util::addVendorStyle('jcrop/css/jquery.Jcrop');
 }
+
+\OC::$server->getEventDispatcher()->dispatch('OC\Settings\Personal::loadAdditionalScripts');
 
 // Highlight navigation entry
 OC::$server->getNavigationManager()->setActiveEntry('personal');
@@ -170,6 +174,8 @@ $tmpl->assign('groups', $groups2);
 // add hardcoded forms from the template
 $formsAndMore = [];
 $formsAndMore[]= ['anchor' => 'avatar', 'section-name' => $l->t('Personal info')];
+$formsAndMore[]= ['anchor' => 'sessions', 'section-name' => $l->t('Sessions')];
+$formsAndMore[]= ['anchor' => 'devices', 'section-name' => $l->t('Devices')];
 $formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];
 
 $forms=OC_App::getForms('personal');

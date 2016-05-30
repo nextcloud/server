@@ -5,6 +5,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Bernhard Reiter <ockham@raz.or.at>
  * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
@@ -47,7 +48,11 @@ use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Files\Config\UserMountCache;
 use OC\Files\Config\UserMountCacheListener;
+use OC\Files\Mount\CacheMountProvider;
+use OC\Files\Mount\LocalHomeMountProvider;
+use OC\Files\Mount\ObjectHomeMountProvider;
 use OC\Files\Node\HookConnector;
+use OC\Files\Node\LazyRoot;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Http\Client\ClientService;
@@ -59,6 +64,7 @@ use OC\Lock\DBLockingProvider;
 use OC\Lock\MemcacheLockingProvider;
 use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
+use OC\Memcache\ArrayCache;
 use OC\Notification\Manager;
 use OC\Security\CertificateManager;
 use OC\Security\CSP\ContentSecurityPolicyManager;
@@ -72,6 +78,7 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
+use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\Security\IContentSecurityPolicyManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -117,7 +124,8 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getLogger(),
 				$c->getL10N('core'),
 				new View(),
-				$util
+				$util,
+				new ArrayCache()
 			);
 		});
 
@@ -170,6 +178,11 @@ class Server extends ServerContainer implements IServerContainer {
 			$connector->viewToNode();
 			return $root;
 		});
+		$this->registerService('LazyRootFolder', function(Server $c) {
+			return new LazyRoot(function() use ($c) {
+				return $c->getRootFolder();
+			});
+		});
 		$this->registerService('UserManager', function (Server $c) {
 			$config = $c->getConfig();
 			return new \OC\User\Manager($config);
@@ -198,12 +211,32 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $groupManager;
 		});
+		$this->registerService('OC\Authentication\Token\DefaultTokenMapper', function (Server $c) {
+			$dbConnection = $c->getDatabaseConnection();
+			return new Authentication\Token\DefaultTokenMapper($dbConnection);
+		});
+		$this->registerService('OC\Authentication\Token\DefaultTokenProvider', function (Server $c) {
+			$mapper = $c->query('OC\Authentication\Token\DefaultTokenMapper');
+			$crypto = $c->getCrypto();
+			$config = $c->getConfig();
+			$logger = $c->getLogger();
+			$timeFactory = new TimeFactory();
+			return new \OC\Authentication\Token\DefaultTokenProvider($mapper, $crypto, $config, $logger, $timeFactory);
+		});
+		$this->registerAlias('OC\Authentication\Token\IProvider', 'OC\Authentication\Token\DefaultTokenProvider');
 		$this->registerService('UserSession', function (Server $c) {
 			$manager = $c->getUserManager();
-
 			$session = new \OC\Session\Memory('');
-
-			$userSession = new \OC\User\Session($manager, $session);
+			$timeFactory = new TimeFactory();
+			// Token providers might require a working database. This code
+			// might however be called when ownCloud is not yet setup.
+			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
+				$defaultTokenProvider = $c->query('OC\Authentication\Token\IProvider');
+			} else {
+				$defaultTokenProvider = null;
+			}
+			
+			$userSession = new \OC\User\Session($manager, $session, $timeFactory, $defaultTokenProvider, $c->getConfig());
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
@@ -243,6 +276,11 @@ class Server extends ServerContainer implements IServerContainer {
 			});
 			return $userSession;
 		});
+
+		$this->registerService('\OC\Authentication\TwoFactorAuth\Manager', function (Server $c) {
+			return new \OC\Authentication\TwoFactorAuth\Manager($c->getAppManager(), $c->getSession(), $c->getConfig());
+		});
+
 		$this->registerService('NavigationManager', function ($c) {
 			return new \OC\NavigationManager();
 		});
@@ -302,8 +340,12 @@ class Server extends ServerContainer implements IServerContainer {
 				'\\OC\\Memcache\\ArrayCache'
 			);
 		});
+		$this->registerService('RedisFactory', function (Server $c) {
+			$systemConfig = $c->getSystemConfig();
+			return new RedisFactory($systemConfig);
+		});
 		$this->registerService('ActivityManager', function (Server $c) {
-			return new ActivityManager(
+			return new \OC\Activity\Manager(
 				$c->getRequest(),
 				$c->getUserSession(),
 				$c->getConfig()
@@ -313,19 +355,24 @@ class Server extends ServerContainer implements IServerContainer {
 			return new AvatarManager(
 				$c->getUserManager(),
 				$c->getRootFolder(),
-				$c->getL10N('lib')
+				$c->getL10N('lib'),
+				$c->getLogger()
 			);
 		});
 		$this->registerService('Logger', function (Server $c) {
 			$logClass = $c->query('AllConfig')->getSystemValue('log_type', 'owncloud');
-			$logger = 'OC_Log_' . ucfirst($logClass);
+			$logger = 'OC\\Log\\' . ucfirst($logClass);
 			call_user_func(array($logger, 'init'));
 
 			return new Log($logger);
 		});
 		$this->registerService('JobList', function (Server $c) {
 			$config = $c->getConfig();
-			return new \OC\BackgroundJob\JobList($c->getDatabaseConnection(), $config);
+			return new \OC\BackgroundJob\JobList(
+				$c->getDatabaseConnection(),
+				$config,
+				new TimeFactory()
+			);
 		});
 		$this->registerService('Router', function (Server $c) {
 			$cacheFactory = $c->getMemCacheFactory();
@@ -434,7 +481,16 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('MountConfigManager', function (Server $c) {
 			$loader = \OC\Files\Filesystem::getLoader();
 			$mountCache = $c->query('UserMountCache');
-			return new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
+			$manager =  new \OC\Files\Config\MountProviderCollection($loader, $mountCache);
+
+			// builtin providers
+
+			$config = $c->getConfig();
+			$manager->registerProvider(new CacheMountProvider($config));
+			$manager->registerHomeProvider(new LocalHomeMountProvider());
+			$manager->registerHomeProvider(new ObjectHomeMountProvider($config));
+
+			return $manager;
 		});
 		$this->registerService('IniWrapper', function ($c) {
 			return new IniGetWrapper();
@@ -516,14 +572,17 @@ class Server extends ServerContainer implements IServerContainer {
 			);
 		});
 		$this->registerService('LockingProvider', function (Server $c) {
-			if ($c->getConfig()->getSystemValue('filelocking.enabled', true) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
+			$ini = $c->getIniWrapper();
+			$config = $c->getConfig();
+			$ttl = $config->getSystemValue('filelocking.ttl', max(3600, $ini->getNumeric('max_execution_time')));
+			if ($config->getSystemValue('filelocking.enabled', true) or (defined('PHPUNIT_RUN') && PHPUNIT_RUN)) {
 				/** @var \OC\Memcache\Factory $memcacheFactory */
 				$memcacheFactory = $c->getMemCacheFactory();
 				$memcache = $memcacheFactory->createLocking('lock');
 				if (!($memcache instanceof \OC\Memcache\NullCache)) {
-					return new MemcacheLockingProvider($memcache);
+					return new MemcacheLockingProvider($memcache, $ttl);
 				}
-				return new DBLockingProvider($c->getDatabaseConnection(), $c->getLogger(), new TimeFactory());
+				return new DBLockingProvider($c->getDatabaseConnection(), $c->getLogger(), new TimeFactory(), $ttl);
 			}
 			return new NoopLockingProvider();
 		});
@@ -602,7 +661,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('ShareManager', function(Server $c) {
 			$config = $c->getConfig();
 			$factoryClass = $config->getSystemValue('sharing.managerFactory', '\OC\Share20\ProviderFactory');
-			/** @var \OC\Share20\IProviderFactory $factory */
+			/** @var \OCP\Share\IProviderFactory $factory */
 			$factory = new $factoryClass($this);
 
 			$manager = new \OC\Share20\Manager(
@@ -615,7 +674,7 @@ class Server extends ServerContainer implements IServerContainer {
 				$c->getL10N('core'),
 				$factory,
 				$c->getUserManager(),
-				$c->getRootFolder()
+				$c->getLazyRootFolder()
 			);
 
 			return $manager;
@@ -722,6 +781,17 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
+	 * Returns the root folder of ownCloud's data directory
+	 * This is the lazy variant so this gets only initialized once it
+	 * is actually used.
+	 *
+	 * @return \OCP\Files\IRootFolder
+	 */
+	public function getLazyRootFolder() {
+		return $this->query('LazyRootFolder');
+	}
+
+	/**
 	 * Returns a view to ownCloud's files folder
 	 *
 	 * @param string $userId user ID
@@ -791,6 +861,13 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
+	 * @return \OC\Authentication\TwoFactorAuth\Manager
+	 */
+	public function getTwoFactorAuthManager() {
+		return $this->query('\OC\Authentication\TwoFactorAuth\Manager');
+	}
+
+	/**
 	 * @return \OC\NavigationManager
 	 */
 	public function getNavigationManager() {
@@ -805,8 +882,7 @@ class Server extends ServerContainer implements IServerContainer {
 	}
 
 	/**
-	 * For internal use only
-	 *
+	 * @internal For internal use only
 	 * @return \OC\SystemConfig
 	 */
 	public function getSystemConfig() {
@@ -834,7 +910,7 @@ class Server extends ServerContainer implements IServerContainer {
 	 *
 	 * @param string $app appid
 	 * @param string $lang
-	 * @return \OC_L10N
+	 * @return IL10N
 	 */
 	public function getL10N($app, $lang = null) {
 		return $this->getL10NFactory()->get($app, $lang);
@@ -873,6 +949,16 @@ class Server extends ServerContainer implements IServerContainer {
 	public function getMemCacheFactory() {
 		return $this->query('MemCacheFactory');
 	}
+
+	/**
+	 * Returns an \OC\RedisFactory instance
+	 *
+	 * @return \OC\RedisFactory
+	 */
+	public function getGetRedisFactory() {
+		return $this->query('RedisFactory');
+	}
+
 
 	/**
 	 * Returns the current session
@@ -1148,7 +1234,7 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('MountManager');
 	}
 
-	/*
+	/**
 	 * Get the MimeTypeDetector
 	 *
 	 * @return \OCP\Files\IMimeTypeDetector

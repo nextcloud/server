@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Personal" : "Лично",
     "Grant access" : "Дозволи пристап",
-    "Access granted" : "Пристапот е дозволен",
     "Saved" : "Снимено",
     "Username" : "Корисничко име",
     "Password" : "Лозинка",
@@ -20,6 +19,7 @@ OC.L10N.register(
     "ownCloud" : "ownCloud",
     "Share" : "Сподели",
     "Name" : "Име",
+    "Enable encryption" : "Овозможи енкрипција",
     "External Storage" : "Надворешно складиште",
     "Folder name" : "Име на папка",
     "Configuration" : "Конфигурација",

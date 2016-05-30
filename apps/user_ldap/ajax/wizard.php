@@ -41,26 +41,26 @@ if(!isset($_POST['ldap_serverconfig_chooser'])) {
 }
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
 
-$ldapWrapper = new \OCA\user_ldap\lib\LDAP();
-$configuration = new \OCA\user_ldap\lib\Configuration($prefix);
+$ldapWrapper = new \OCA\User_LDAP\LDAP();
+$configuration = new \OCA\User_LDAP\Configuration($prefix);
 
-$con = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);
+$con = new \OCA\User_LDAP\Connection($ldapWrapper, '', null);
 $con->setConfiguration($configuration->getConfiguration());
 $con->ldapConfigurationActive = true;
 $con->setIgnoreValidation(true);
 
-$userManager = new \OCA\user_ldap\lib\user\Manager(
+$userManager = new \OCA\User_LDAP\User\Manager(
 	\OC::$server->getConfig(),
-	new \OCA\user_ldap\lib\FilesystemHelper(),
-	new \OCA\user_ldap\lib\LogWrapper(),
+	new \OCA\User_LDAP\FilesystemHelper(),
+	new \OCA\User_LDAP\LogWrapper(),
 	\OC::$server->getAvatarManager(),
 	new \OCP\Image(),
 	\OC::$server->getDatabaseConnection(),
 	\OC::$server->getUserManager());
 
-$access = new \OCA\user_ldap\lib\Access($con, $ldapWrapper, $userManager);
+$access = new \OCA\User_LDAP\Access($con, $ldapWrapper, $userManager);
 
-$wizard = new \OCA\user_ldap\lib\Wizard($configuration, $ldapWrapper, $access);
+$wizard = new \OCA\User_LDAP\Wizard($configuration, $ldapWrapper, $access);
 
 switch($action) {
 	case 'guessPortAndTLS':
@@ -127,7 +127,7 @@ switch($action) {
 		}
 		$configuration->saveConfiguration();
 		//clear the cache on save
-		$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
+		$connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
 		$connection->clearCache();
 		OCP\JSON::success();
 		break;

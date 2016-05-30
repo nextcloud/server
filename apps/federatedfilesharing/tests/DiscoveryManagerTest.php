@@ -26,9 +26,8 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use Test\TestCase;
 
-class DiscoveryManagerTest extends TestCase {
+class DiscoveryManagerTest extends \Test\TestCase {
 	/** @var ICache */
 	private $cache;
 	/** @var IClient */

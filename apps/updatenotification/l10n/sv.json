@@ -1,6 +1,6 @@
 { "translations": {
-    "Updated channel" : "Uppdaterad kanal",
     "{version} is available. Get more information on how to update." : "{version} är tillgänglig. Få mer information om hur du uppdaterar.",
+    "Updated channel" : "Uppdaterad kanal",
     "Updater" : "Uppdaterare",
     "A new version is available: %s" : "En ny version är tillgänglig: %s",
     "Open updater" : "Öppna uppdateraren",

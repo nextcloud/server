@@ -1,9 +1,9 @@
 OC.L10N.register(
     "settings",
     {
-    "Invalid request" : "Cais annilys",
     "Authentication error" : "Gwall dilysu",
     "Email sent" : "Anfonwyd yr e-bost",
+    "Invalid request" : "Cais annilys",
     "Delete" : "Dileu",
     "Groups" : "Grwpiau",
     "undo" : "dadwneud",
@@ -15,6 +15,7 @@ OC.L10N.register(
     "Email" : "E-bost",
     "Password" : "Cyfrinair",
     "New password" : "Cyfrinair newydd",
+    "Name" : "Enw",
     "Username" : "Enw defnyddiwr",
     "Other" : "Arall"
 },

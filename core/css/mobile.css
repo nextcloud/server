@@ -10,15 +10,25 @@
 	-webkit-box-pack: center;
 	-webkit-box-align: center;
 
+	display: -webkit-flex;
+	-webkit-flex-direction: row;
+	-webkit-align-self: center;
+	-webkit-align-items: center;
+
 	display: -moz-box;
 	-moz-box-orient: horizontal;
 	-moz-box-pack: center;
 	-moz-box-align: center;
 
-	display: box;
-	box-orient: horizontal;
-	box-pack: center;
-	box-align: center;
+	display: -ms-flexbox;
+	-ms-flex-direction: row;
+	-ms-flex-pack: center;
+	-ms-flex-align: center;
+
+	display: flex;
+	flex-direction: row;
+	align-self: center;
+	align-items: center;
 }
 
 /* on mobile public share, show only the icon of the logo, hide the text */

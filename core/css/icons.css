@@ -14,15 +14,93 @@
 	background-image: url('../img/breadcrumb.svg');
 }
 
-.icon-loading {
-	background-image: url('../img/loading.gif');
+.loading,
+.loading-small,
+.icon-loading,
+.icon-loading-dark,
+.icon-loading-small,
+.icon-loading-small-dark {
+	position: relative;
 }
-.icon-loading-dark {
-	background-image: url('../img/loading-dark.gif');
+.loading:after,
+.loading-small:after,
+.icon-loading:after,
+.icon-loading-dark:after,
+.icon-loading-small:after,
+.icon-loading-small-dark:after {
+	z-index: 2;
+	content: "";
+	height: 32px;
+	width: 32px;
+	margin: -17px 0 0 -17px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	border-radius: 100%;
+	-webkit-animation: rotate .8s infinite linear;
+	animation: rotate .8s infinite linear;
+	-webkit-transform-origin: center;
+	-ms-transform-origin: center;
+	transform-origin: center;
 }
-.icon-loading-small {
-	background-image: url('../img/loading-small.gif');
+.loading:after,
+.loading-small:after,
+.icon-loading:after,
+.icon-loading-dark:after,
+.icon-loading-small:after,
+.icon-loading-small-dark:after {
+	border: 1px solid rgba(85, 85, 85, 0.5);
+	border-top-color: #555;
 }
+
+.icon-loading-dark:after,
+.icon-loading-small-dark:after {
+	border: 1px solid rgba(187, 187, 187, 0.5);
+	border-top-color: #BBB;
+}
+
+.icon-loading-small:after,
+.icon-loading-small-dark:after {
+	height: 16px;
+	width: 16px;
+	margin: -9px 0 0 -9px;
+}
+
+/* Css replaced elements don't have ::after nor ::before */
+img.icon-loading, object.icon-loading, video.icon-loading, button.icon-loading, textarea.icon-loading, input.icon-loading, select.icon-loading {
+	background-image: url("../img/loading.gif");
+}
+img.icon-loading-dark, object.icon-loading-dark, video.icon-loading-dark, button.icon-loading-dark, textarea.icon-loading-dark, input.icon-loading-dark, select.icon-loading-dark {
+	background-image: url("../img/loading-dark.gif");
+}
+img.icon-loading-small, object.icon-loading-small, video.icon-loading-small, button.icon-loading-small, textarea.icon-loading-small, input.icon-loading-small, select.icon-loading-small {
+	background-image: url("../img/loading-small.gif");
+}
+img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-small-dark, button.icon-loading-small-dark, textarea.icon-loading-small-dark, input.icon-loading-small-dark, select.icon-loading-small-dark {
+	background-image: url("../img/loading-small-dark.gif");
+}
+
+@-webkit-keyframes rotate {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+@keyframes rotate {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(360deg);
+		transform: rotate(360deg);
+	}
+}
+
 .icon-32 {
 	background-size: 32px !important;
 }
@@ -84,6 +162,9 @@
 
 .icon-download {
 	background-image: url('../img/actions/download.svg');
+}
+.icon-download-white {
+	background-image: url('../img/actions/download-white.svg');
 }
 
 .icon-edit {

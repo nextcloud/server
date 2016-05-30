@@ -1,20 +1,32 @@
 <?php
 	use \OCA\Files_External\Lib\Backend\Backend;
+	use \OCA\Files_External\Lib\Auth\AuthMechanism;
 	use \OCA\Files_External\Lib\DefinitionParameter;
 	use \OCA\Files_External\Service\BackendService;
+
+	$l->t("Enable encryption");
+	$l->t("Enable previews");
+	$l->t("Enable sharing");
+	$l->t("Check for changes");
+	$l->t("Never");
+	$l->t("Once every direct access");
 
 	script('files_external', 'settings');
 	style('files_external', 'settings');
 
 	// load custom JS
 	foreach ($_['backends'] as $backend) {
-		if ($backend->getCustomJs()) {
-			script('files_external', $backend->getCustomJs());
+		/** @var Backend $backend */
+		$scripts = $backend->getCustomJs();
+		foreach ($scripts as $script) {
+			script('files_external', $script);
 		}
 	}
 	foreach ($_['authMechanisms'] as $authMechanism) {
-		if ($authMechanism->getCustomJs()) {
-			script('files_external', $authMechanism->getCustomJs());
+		/** @var AuthMechanism $authMechanism */
+		$scripts = $authMechanism->getCustomJs();
+		foreach ($scripts as $script) {
+			script('files_external', $script);
 		}
 	}
 
@@ -124,7 +136,7 @@
 					</td>
 				<?php endif; ?>
 				<td class="mountOptionsToggle hidden">
-					<img class="svg action"
+					<img class="svg"
 						title="<?php p($l->t('Advanced settings')); ?>"
 						alt="<?php p($l->t('Advanced settings')); ?>"
 						src="<?php print_unescaped(image_path('core', 'actions/settings.svg')); ?>"
@@ -132,7 +144,7 @@
 					<input type="hidden" class="mountOptions" value="" />
 				</td>
 				<td class="hidden">
-					<img class="svg action"
+					<img class="svg"
 						alt="<?php p($l->t('Delete')); ?>"
 						title="<?php p($l->t('Delete')); ?>"
 						src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>"

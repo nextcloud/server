@@ -10,7 +10,6 @@ OC.L10N.register(
     "Shared with you" : "Дељено са вама",
     "Shared with others" : "Дељено са осталима",
     "Shared by link" : "Дељено путем везе",
-    "Federated sharing" : "Здружено дељење",
     "Nothing shared with you yet" : "Још увек се ништа са вама не дели",
     "Files and folders others share with you will show up here" : "Фајлови и фасцикле које други деле са вама појавиће се овде",
     "Nothing shared yet" : "Још се ништа не дели",
@@ -41,8 +40,6 @@ OC.L10N.register(
     "You shared %1$s via link" : "Поделили сте %1$s путем везе",
     "%2$s shared %1$s with you" : "%2$s подели %1$s са вама",
     "Shares" : "Дељења",
-    "Accept" : "Прихвати",
-    "Decline" : "Одбиј",
     "This share is password-protected" : "Дељење је заштићено лозинком",
     "The password is wrong. Try again." : "Лозинка је погрешна. Покушајте поново.",
     "Password" : "Лозинка",
@@ -58,13 +55,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Додај у свој облак",
     "Download" : "Преузми",
     "Download %s" : "Преузми %s",
-    "Direct link" : "Директна веза",
-    "Federated Cloud Sharing" : "Здружено дељење у облаку",
-    "Open documentation" : "Отвори документацију",
-    "Allow users on this server to send shares to other servers" : "Дозвољава корисницима овог сервера да шаљу дељења на друге сервере",
-    "Allow users on this server to receive shares from other servers" : "Дозвољава корисницима овог сервера да примају дељења са других сервера",
-    "Federated Cloud" : "Здружени облак",
-    "Your Federated Cloud ID:" : "ИД вашег здруженог облака:",
-    "HTML Code:" : "ХТМЛ кôд:"
+    "Direct link" : "Директна веза"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

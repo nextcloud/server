@@ -1,6 +1,6 @@
 {
 	"vendor": [
-		"jquery/jquery.min.js",
+		"jquery/dist/jquery.min.js",
 		"jquery-migrate/jquery-migrate.min.js",
 		"jquery-ui/ui/jquery-ui.custom.js",
 		"underscore/underscore.js",
@@ -32,6 +32,7 @@
 		"sharedialogview.js",
 		"sharedialogexpirationview.js",
 		"sharedialoglinkshareview.js",
+		"sharedialogmailview.js",
 		"sharedialogresharerinfoview.js",
 		"sharedialogshareelistview.js",
 		"octemplate.js",

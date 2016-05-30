@@ -21,10 +21,10 @@
 
 $installedVersion = \OC::$server->getConfig()->getAppValue('files_external', 'installed_version');
 
-$app = new \OCA\Files_external\Appinfo\Application();
+$app = new \OCA\Files_External\AppInfo\Application();
 
 // Migration to db config
 if (version_compare($installedVersion, '0.5.0', '<')) {
-	$migrator = $app->getContainer()->query('OCA\Files_external\Migration\StorageMigrator');
+	$migrator = $app->getContainer()->query('OCA\Files_External\Migration\StorageMigrator');
 	$migrator->migrateGlobal();
 }

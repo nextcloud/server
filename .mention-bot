@@ -11,10 +11,10 @@
     {
       "name": "nickvergessen",
       "files": [
-        "lib/private/activity/**",
-        "lib/private/notification/**",
-        "lib/public/activity/**",
-        "lib/public/notification/**"
+        "lib/private/Activity/**",
+        "lib/private/Notification/**",
+        "lib/public/Activity/**",
+        "lib/public/Notification/**"
       ]
     },
     {

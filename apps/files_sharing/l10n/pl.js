@@ -31,7 +31,6 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s współdzieli %1$s z Tobą",
     "%2$s removed the share for %1$s" : "%2$s usunął udział dla %1$s",
     "Shares" : "Udziały",
-    "Accept" : "Akceptuj",
     "This share is password-protected" : "Udział ten jest chroniony hasłem",
     "The password is wrong. Try again." : "To hasło jest niewłaściwe. Spróbuj ponownie.",
     "Password" : "Hasło",
@@ -47,8 +46,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Dodaj do twojego ownCloud",
     "Download" : "Pobierz",
     "Download %s" : "Pobierz %s",
-    "Direct link" : "Bezpośredni link",
-    "Open documentation" : "Otwórz dokumentację",
-    "Add to your website" : "Dodaj do swojej strony"
+    "Direct link" : "Bezpośredni link"
 },
 "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

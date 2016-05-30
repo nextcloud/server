@@ -23,6 +23,7 @@
 
 namespace OC\Share20;
 
+use OC\Files\Mount\MoveableMount;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
@@ -200,7 +201,12 @@ class Manager implements IManager {
 		}
 
 		// And you can't share your rootfolder
-		if ($this->rootFolder->getUserFolder($share->getSharedBy())->getPath() === $share->getNode()->getPath()) {
+		if ($this->userManager->userExists($share->getSharedBy())) {
+			$sharedPath = $this->rootFolder->getUserFolder($share->getSharedBy())->getPath();
+		} else {
+			$sharedPath = $this->rootFolder->getUserFolder($share->getShareOwner())->getPath();
+		}
+		if ($sharedPath === $share->getNode()->getPath()) {
 			throw new \InvalidArgumentException('You can\'t share your root folder');
 		}
 
@@ -215,8 +221,19 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('A share requires permissions');
 		}
 
+		/*
+		 * Quick fix for #23536
+		 * Non moveable mount points do not have update and delete permissions
+		 * while we 'most likely' do have that on the storage.
+		 */
+		$permissions = $share->getNode()->getPermissions();
+		$mount = $share->getNode()->getMountPoint();
+		if (!($mount instanceof MoveableMount)) {
+			$permissions |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
+		}
+
 		// Check that we do not share with more permissions than we have
-		if ($share->getPermissions() & ~$share->getNode()->getPermissions()) {
+		if ($share->getPermissions() & ~$permissions) {
 			$message_t = $this->l->t('Cannot increase permissions of %s', [$share->getNode()->getPath()]);
 			throw new GenericShareException($message_t, $message_t, 404);
 		}
@@ -224,6 +241,17 @@ class Manager implements IManager {
 		// Check that read permissions are always set
 		if (($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
 			throw new \InvalidArgumentException('Shares need at least read permissions');
+		}
+
+		if ($share->getNode() instanceof \OCP\Files\File) {
+			if ($share->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
+				$message_t = $this->l->t('Files can\'t be shared with delete permissions');
+				throw new GenericShareException($message_t);
+			}
+			if ($share->getPermissions() & \OCP\Constants::PERMISSION_CREATE) {
+				$message_t = $this->l->t('Files can\'t be shared with create permissions');
+				throw new GenericShareException($message_t);
+			}
 		}
 	}
 
@@ -493,6 +521,24 @@ class Manager implements IManager {
 
 		$this->generalCreateChecks($share);
 
+		// Verify if there are any issues with the path
+		$this->pathCreateChecks($share->getNode());
+
+		/*
+		 * On creation of a share the owner is always the owner of the path
+		 * Except for mounted federated shares.
+		 */
+		$storage = $share->getNode()->getStorage();
+		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+			$parent = $share->getNode()->getParent();
+			while($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+				$parent = $parent->getParent();
+			}
+			$share->setShareOwner($parent->getOwner()->getUID());
+		} else {
+			$share->setShareOwner($share->getNode()->getOwner()->getUID());
+		}
+
 		//Verify share type
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$this->userCreateChecks($share);
@@ -524,24 +570,6 @@ class Manager implements IManager {
 			if ($share->getPassword() !== null) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 			}
-		}
-
-		// Verify if there are any issues with the path
-		$this->pathCreateChecks($share->getNode());
-
-		/*
-		 * On creation of a share the owner is always the owner of the path
-		 * Except for mounted federated shares.
-		 */
-		$storage = $share->getNode()->getStorage();
-		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
-			$parent = $share->getNode()->getParent();
-			while($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
-				$parent = $parent->getParent();
-			}
-			$share->setShareOwner($parent->getOwner()->getUID());
-		} else {
-			$share->setShareOwner($share->getNode()->getOwner()->getUID());
 		}
 
 		// Cannot share with the owner
@@ -690,7 +718,11 @@ class Manager implements IManager {
 		}
 
 		if ($share->getPermissions() !== $originalShare->getPermissions()) {
-			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+			if ($this->userManager->userExists($share->getShareOwner())) {
+				$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+			} else {
+				$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+			}
 			\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
@@ -806,7 +838,7 @@ class Manager implements IManager {
 	 * @param string $recipientId
 	 */
 	public function deleteFromSelf(\OCP\Share\IShare $share, $recipientId) {
-		list($providerId, ) = $this->splitFullId($share->getId());
+		list($providerId, ) = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->deleteFromSelf($share, $recipientId);
@@ -832,7 +864,7 @@ class Manager implements IManager {
 			}
 		}
 
-		list($providerId, ) = $this->splitFullId($share->getId());
+		list($providerId, ) = $this->splitFullId($share->getFullId());
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->move($share, $recipientId);
@@ -964,12 +996,30 @@ class Manager implements IManager {
 	public function getShareByToken($token) {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
 
-		$share = $provider->getShareByToken($token);
+		try {
+			$share = $provider->getShareByToken($token);
+		} catch (ShareNotFound $e) {
+			$share = null;
+		}
+
+		// If it is not a link share try to fetch a federated share by token
+		if ($share === null) {
+			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_REMOTE);
+			$share = $provider->getShareByToken($token);
+		}
 
 		if ($share->getExpirationDate() !== null &&
 			$share->getExpirationDate() <= new \DateTime()) {
 			$this->deleteShare($share);
 			throw new ShareNotFound();
+		}
+
+		/*
+		 * Reduce the permissions for link shares if public upload is not enabled
+		 */
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK &&
+			!$this->shareApiLinkAllowPublicUpload()) {
+			$share->setPermissions($share->getPermissions() & ~(\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE));
 		}
 
 		return $share;
@@ -1007,6 +1057,34 @@ class Manager implements IManager {
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function userDeleted($uid) {
+		$types = [\OCP\Share::SHARE_TYPE_USER, \OCP\Share::SHARE_TYPE_GROUP, \OCP\Share::SHARE_TYPE_LINK, \OCP\Share::SHARE_TYPE_REMOTE];
+
+		foreach ($types as $type) {
+			$provider = $this->factory->getProviderForType($type);
+			$provider->userDeleted($uid, $type);
+		}
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function groupDeleted($gid) {
+		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
+		$provider->groupDeleted($gid);
+	}
+
+	/**
+	 * @inheritdoc
+	 */
+	public function userDeletedFromGroup($uid, $gid) {
+		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_GROUP);
+		$provider->userDeletedFromGroup($uid, $gid);
+	}
+
+	/**
 	 * Get access list to a path. This means
 	 * all the users and groups that can access a given path.
 	 *
@@ -1038,7 +1116,7 @@ class Manager implements IManager {
 	 * @return \OCP\Share\IShare;
 	 */
 	public function newShare() {
-		return new \OC\Share20\Share($this->rootFolder);
+		return new \OC\Share20\Share($this->rootFolder, $this->userManager);
 	}
 
 	/**

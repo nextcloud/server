@@ -1,8 +1,8 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Updated channel" : "Bijgewerkt kanaal",
     "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
+    "Updated channel" : "Bijgewerkt kanaal",
     "Updater" : "Updater",
     "A new version is available: %s" : "Er is een nieuwe versie beschikbaar: %s",
     "Open updater" : "Open updater",

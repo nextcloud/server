@@ -1,11 +1,11 @@
 OC.L10N.register(
     "settings",
     {
-    "Updates" : "Թարմացումներ",
-    "Language changed" : "Լեզուն փոխվեց",
     "Wrong password" : "Սխալ գաղտնաբառ",
     "Unable to change password" : "Չկարողացա փոխել գաղտնաբառը",
     "Saved" : "Պահված",
+    "Updates" : "Թարմացումներ",
+    "Language changed" : "Լեզուն փոխվեց",
     "Delete" : "Ջնջել",
     "Very weak password" : "Շատ թույլ գաղտնաբառ",
     "Weak password" : "Թույլ գաղտնաբառ",
@@ -23,6 +23,7 @@ OC.L10N.register(
     "Password" : "Գաղտնաբառ",
     "New password" : "Նոր գաղտնաբառ",
     "Change password" : "Փոխել գաղտնաբառը",
+    "Name" : "Անուն",
     "Language" : "Լեզու",
     "Help translate" : "Օգնել թարգմանել",
     "Username" : "Օգտանուն",

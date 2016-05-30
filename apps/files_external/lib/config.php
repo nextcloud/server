@@ -33,7 +33,7 @@
  */
 
 use phpseclib\Crypt\AES;
-use \OCA\Files_External\Appinfo\Application;
+use \OCA\Files_External\AppInfo\Application;
 use \OCA\Files_External\Lib\Backend\LegacyBackend;
 use \OCA\Files_External\Lib\StorageConfig;
 use \OCA\Files_External\Lib\Backend\Backend;
@@ -91,7 +91,7 @@ class OC_Mount_Config {
 		$userStoragesService->setUser($user);
 
 		foreach ($userGlobalStoragesService->getStorages() as $storage) {
-			/** @var \OCA\Files_external\Lib\StorageConfig $storage */
+			/** @var \OCA\Files_External\Lib\StorageConfig $storage */
 			$mountPoint = '/'.$uid.'/files'.$storage->getMountPoint();
 			$mountEntry = self::prepareMountPointEntry($storage, false);
 			foreach ($mountEntry['options'] as &$option) {

@@ -50,7 +50,7 @@ $appId = OC_App::cleanAppId($appId);
 $config = \OC::$server->getConfig();
 $config->setSystemValue('maintenance', true);
 try {
-	$result = OC_Installer::updateAppByOCSId($appId);
+	$result = \OC\Installer::updateAppByOCSId($appId);
 	$config->setSystemValue('maintenance', false);
 } catch(Exception $ex) {
 	$config->setSystemValue('maintenance', false);

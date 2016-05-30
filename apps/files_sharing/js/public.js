@@ -139,7 +139,7 @@ OCA.Sharing.PublicApp = {
 			}).then(function (data) {
 				self._showTextPreview(data, previewHeight);
 			});
-		} else if (previewSupported === 'true' ||
+		} else if ((previewSupported === 'true' && mimetype.substr(0, mimetype.indexOf('/')) !== 'video') ||
 			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
 			mimetype !== 'image/svg+xml') {
 			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
@@ -148,6 +148,9 @@ OCA.Sharing.PublicApp = {
 			img.attr('src', OC.Util.replaceSVGIcon(mimetypeIcon));
 			img.attr('width', 128);
 			img.appendTo('#imgframe');
+		}
+		else if (previewSupported === 'true') {
+			$('#imgframe > video').attr('poster', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
 		}
 
 		if (this.fileList) {
@@ -292,6 +295,24 @@ OCA.Sharing.PublicApp = {
 	},
 
 	_saveToOwnCloud: function (remote, token, owner, ownerDisplayName, name, isProtected) {
+		var toggleLoading = function() {
+			var iconClass = $('#save-button-confirm').attr('class');
+			var loading = iconClass.indexOf('icon-loading-small') !== -1;
+			if(loading) {
+				$('#save-button-confirm')
+				.removeClass("icon-loading-small")
+				.addClass("icon-confirm");
+				
+			}
+			else {
+				$('#save-button-confirm')
+				.removeClass("icon-confirm")
+				.addClass("icon-loading-small");
+
+			}
+		};
+
+		toggleLoading();
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
 		
 		if(remote.substr(-1) !== '/') {
@@ -309,6 +330,7 @@ OCA.Sharing.PublicApp = {
 			// this check needs to happen on the server due to the Content Security Policy directive
 			$.get(OC.generateUrl('apps/files_sharing/testremote'), {remote: remote}).then(function (protocol) {
 				if (protocol !== 'http' && protocol !== 'https') {
+					toggleLoading();
 					OC.dialogs.alert(t('files_sharing', 'No ownCloud installation (7 or higher) found at {remote}', {remote: remote}),
 						t('files_sharing', 'Invalid ownCloud url'));
 				} else {

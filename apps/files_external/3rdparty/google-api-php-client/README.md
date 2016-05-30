@@ -25,10 +25,13 @@ For the latest installation and setup instructions, see [the documentation](http
 See the examples/ directory for examples of the key client features.
 ```PHP
 <?php
-  require_once 'google-api-php-client/autoload.php'; // or wherever autoload.php is located
+
+  require_once 'google-api-php-client/src/Google/autoload.php'; // or wherever autoload.php is located
+  
   $client = new Google_Client();
   $client->setApplicationName("Client_Library_Examples");
   $client->setDeveloperKey("YOUR_APP_KEY");
+  
   $service = new Google_Service_Books($client);
   $optParams = array('filter' => 'free-ebooks');
   $results = $service->volumes->listVolumes('Henry David Thoreau', $optParams);
@@ -36,7 +39,12 @@ See the examples/ directory for examples of the key client features.
   foreach ($results as $item) {
     echo $item['volumeInfo']['title'], "<br /> \n";
   }
+  
 ```
+
+### Service Specific Examples ###
+
+YouTube: https://github.com/youtube/api-samples/tree/master/php
 
 ## Frequently Asked Questions ##
 
@@ -49,6 +57,10 @@ If there is a specific bug with the library, please file a issue in the Github i
 ### How do I contribute? ###
 
 We accept contributions via Github Pull Requests, but all contributors need to be covered by the standard Google Contributor License Agreement. You can find links, and more instructions, in the documentation: https://developers.google.com/api-client-library/php/contribute
+
+### I want an example of X! ### 
+
+If X is a feature of the library, file away! If X is an example of using a specific service, the best place to go is to the teams for those specific APIs - our preference is to link to their examples rather than add them to the library, as they can then pin to specific versions of the library. If you have any examples for other APIs, let us know and we will happily add a link to the README above!
 
 ### Why do you still support 5.2? ###
 
@@ -68,10 +80,26 @@ $opt_params = array(
 );
 ```
 
+### How do I set a field to null? ###
+
+The library strips out nulls from the objects sent to the Google APIs as its the default value of all of the uninitialised properties. To work around this, set the field you want to null to Google_Model::NULL_VALUE. This is a placeholder that will be replaced with a true null when sent over the wire.
+
 ## Code Quality ##
 
-Copy the ruleset.xml in style/ into a new directory named GAPI/ in your
-/usr/share/php/PHP/CodeSniffer/Standards (or appropriate equivalent directory),
-and run code sniffs with:
+Run the PHPUnit tests with PHPUnit. You can configure an API key and token in BaseTest.php to run all calls, but this will require some setup on the Google Developer Console.
 
-        phpcs --standard=GAPI src/
+    phpunit tests/
+
+### Coding Style
+
+To check for coding style violations, run
+
+```
+vendor/bin/phpcs src --standard=style/ruleset.xml -np 
+```
+
+To automatically fix (fixable) coding style violations, run  
+
+```
+vendor/bin/phpcbf src --standard=style/ruleset.xml
+```

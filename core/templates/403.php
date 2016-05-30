@@ -1,4 +1,5 @@
 <?php
+// @codeCoverageIgnoreStart
 if(!isset($_)) {//also provide standalone error page
 	require_once '../../lib/base.php';
 	
@@ -6,6 +7,7 @@ if(!isset($_)) {//also provide standalone error page
 	$tmpl->printPage();
 	exit;
 }
+// @codeCoverageIgnoreEnd
 ?>
 <ul>
 	<li class='error'>

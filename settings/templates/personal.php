@@ -139,6 +139,47 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
+<div id="sessions" class="section">
+	<h2><?php p($l->t('Sessions'));?></h2>
+	<span class="hidden-when-empty"><?php p($l->t('These are the web browsers currently logged in to your ownCloud.'));?></span>
+	<table>
+		<thead class="token-list-header">
+			<tr>
+				<th><?php p($l->t('Browser'));?></th>
+				<th><?php p($l->t('Most recent activity'));?></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody class="token-list icon-loading">
+		</tbody>
+	</table>
+</div>
+
+<div id="devices" class="section">
+	<h2><?php p($l->t('Devices'));?></h2>
+	<span class="hidden-when-empty"><?php p($l->t("You've linked these devices."));?></span>
+	<table>
+		<thead class="hidden-when-empty">
+			<tr>
+				<th><?php p($l->t('Name'));?></th>
+				<th><?php p($l->t('Most recent activity'));?></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody class="token-list icon-loading">
+		</tbody>
+	</table>
+	<p><?php p($l->t('A device password is a passcode that gives an app or device permissions to access your ownCloud account.'));?></p>
+	<div id="device-token-form">
+		<input id="device-token-name" type="text" placeholder="Device name">
+		<button id="device-add-token" class="button">Create new device password</button>
+	</div>
+	<div id="device-token-result" class="hidden">
+		<input id="device-new-token" type="text" readonly="readonly"/>
+		<button id="device-token-hide" class="button">Done</button>
+	</div>
+</div>
+
 <form id="language" class="section">
 	<h2>
 		<label for="languageinput"><?php p($l->t('Language'));?></label>
@@ -160,7 +201,7 @@ if($_['passwordChangeSupported']) {
 		<?php endforeach;?>
 	</select>
 	<?php if (OC_Util::getEditionString() === ''): ?>
-	<a href="https://www.transifex.com/projects/p/owncloud/team/<?php p($_['activelanguage']['code']);?>/"
+	<a href="https://www.transifex.com/projects/p/owncloud/"
 		target="_blank" rel="noreferrer">
 		<em><?php p($l->t('Help translate'));?></em>
 	</a>
@@ -170,15 +211,15 @@ if($_['passwordChangeSupported']) {
 <div id="clientsbox" class="section clientsbox">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" rel="noreferrer" target="_blank">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'desktopapp.svg')); ?>"
+		<img src="<?php print_unescaped(image_path('core', 'desktopapp.svg')); ?>"
 			alt="<?php p($l->t('Desktop client'));?>" />
 	</a>
 	<a href="<?php p($_['clients']['android']); ?>" rel="noreferrer" target="_blank">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'googleplay.png')); ?>"
+		<img src="<?php print_unescaped(image_path('core', 'googleplay.png')); ?>"
 			alt="<?php p($l->t('Android app'));?>" />
 	</a>
 	<a href="<?php p($_['clients']['ios']); ?>" rel="noreferrer" target="_blank">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'appstore.svg')); ?>"
+		<img src="<?php print_unescaped(image_path('core', 'appstore.svg')); ?>"
 			alt="<?php p($l->t('iOS app'));?>" />
 	</a>
 

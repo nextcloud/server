@@ -72,7 +72,6 @@ OC.L10N.register(
     "Test Base DN" : "Testi Baas DN-i",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Väldib automaatseid LDAP päringuid, Parem suurematele saitidele, aga nõuab mõningaid teadmisi LDAP kohta.",
     "Manually enter LDAP filters (recommended for large directories)" : "Sisesta LDAP filtrid automaatselt (sooitatav suurtele kataloogidele)",
-    "Limit %s access to users meeting these criteria:" : "Piira %s liigpääs kriteeriumiga sobivatele kasutajatele:",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Filter määrab millised LDAP kasutajad pääsevad ligi %s instantsile.",
     "Saving" : "Salvestamine",
     "Back" : "Tagasi",

@@ -68,7 +68,7 @@
 }
 
 #header .logo {
-	background-image: url(../img/logo-icon.svg);
+	background-image: url('../img/logo-icon.svg');
 	background-repeat: no-repeat;
 	background-size: 175px;
 	background-position: center 30px;
@@ -293,6 +293,12 @@
 	float: right;
 	color: #bbb;
 	cursor: pointer;
+}
+#settings .icon-loading-small-dark {
+	display: inline-block;
+	margin-bottom: -3px;
+	margin-right: 6px;
+	background-size: 16px 16px;
 }
 #expand {
 	display: block;

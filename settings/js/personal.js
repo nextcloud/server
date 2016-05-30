@@ -110,8 +110,15 @@ function updateAvatar (hidedefault) {
 	}
 	$displaydiv.css({'background-color': ''});
 	$displaydiv.avatar(OC.currentUser, 145, true);
-
-	$('#removeavatar').removeClass('hidden').addClass('inlineblock');
+	$.get(OC.generateUrl(
+		'/avatar/{user}/{size}',
+		{user: OC.currentUser, size: 1}
+	), function (result) {
+		if (typeof(result) === 'string') {
+			// Show the delete button when the avatar is custom
+			$('#removeavatar').removeClass('hidden').addClass('inlineblock');
+		}
+	});
 }
 
 function showAvatarCropper () {
@@ -166,7 +173,7 @@ function cleanCropper () {
 
 function avatarResponseHandler (data) {
 	if (typeof data === 'string') {
-		data = $.parseJSON(data);
+		data = JSON.parse(data);
 	}
 	var $warning = $('#avatar .warning');
 	$warning.hide();
@@ -248,10 +255,10 @@ $(document).ready(function () {
 		done: function (e, data) {
 			var response = data;
 			if (typeof data.result === 'string') {
-				response = $.parseJSON(data.result);
+				response = JSON.parse(data.result);
 			} else if (data.result && data.result.length) {
 				// fetch response from iframe
-				response = $.parseJSON(data.result[0].body.innerText);
+				response = JSON.parse(data.result[0].body.innerText);
 			} else {
 				response = data.result;
 			}
@@ -354,6 +361,13 @@ $(document).ready(function () {
 	if (oc_config.enable_avatars) {
 		$('#avatar .avatardiv').avatar(OC.currentUser, 145);
 	}
+
+	// Show token views
+	var collection = new OC.Settings.AuthTokenCollection();
+	var view = new OC.Settings.AuthTokenView({
+		collection: collection
+	});
+	view.reload();
 });
 
 if (!OC.Encryption) {

@@ -20,8 +20,15 @@ OC.L10N.register(
     "October" : "Oktubre",
     "November" : "Nobyembre",
     "December" : "Disyembre",
+    "seconds ago" : "(na) segundo ang nakalipas",
+    "No" : "Hindi",
+    "Yes" : "Oo",
+    "Cancel" : "I-cancel",
     "Error" : "Error",
     "Password" : "Password",
+    "Send" : "Ipadala",
+    "Share" : "I-share",
+    "Help" : "Tulong",
     "Username" : "Username"
 },
 "nplurals=2; plural=(n > 1);");

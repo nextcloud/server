@@ -7,7 +7,6 @@ OC.L10N.register(
     "Personal" : "Lično",
     "System" : "Sistemsko",
     "Grant access" : "Dozvoli pristup",
-    "Access granted" : "Pristup Dozvoljen",
     "All users. Type to select user or group." : "Svi korisnici. Kucajte da biste izabrali korisnika ili grupu.",
     "(group)" : "(grupa)",
     "Saved" : "Sačuvano",

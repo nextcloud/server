@@ -2,7 +2,6 @@ OC.L10N.register(
     "files_external",
     {
     "Personal" : "Անձնական",
-    "Never" : "Երբեք",
     "Saved" : "Պահված",
     "Username" : "Օգտանուն",
     "Password" : "Գաղտնաբառ",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "Dropbox" : "Dropbox",
     "Share" : "Կիսվել",
     "Name" : "Անուն",
+    "Never" : "Երբեք",
     "Folder name" : "Պանակի անուն",
     "Delete" : "Ջնջել"
 },

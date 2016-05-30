@@ -24,8 +24,8 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\IUser;
-use OCP\IGroup;
+use OCP\IUserManager;
+use OCP\Share\Exceptions\IllegalIDChangeException;
 
 class Share implements \OCP\Share\IShare {
 
@@ -67,15 +67,31 @@ class Share implements \OCP\Share\IShare {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(IRootFolder $rootFolder) {
+	/** @var IUserManager */
+	private $userManager;
+
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function setId($id) {
-		$this->id = $id;
+		if (is_int($id)) {
+			$id = (string)$id;
+		}
+
+		if(!is_string($id)) {
+			throw new \InvalidArgumentException('String expected.');
+		}
+
+		if ($this->id !== null) {
+			throw new IllegalIDChangeException('Not allowed to assign a new internal id to a share');
+		}
+
+		$this->id = trim($id);
 		return $this;
 	}
 
@@ -100,7 +116,15 @@ class Share implements \OCP\Share\IShare {
 	 * @inheritdoc
 	 */
 	public function setProviderId($id) {
-		$this->providerId = $id;
+		if(!is_string($id)) {
+			throw new \InvalidArgumentException('String expected.');
+		}
+
+		if ($this->providerId !== null) {
+			throw new IllegalIDChangeException('Not allowed to assign a new provider id to a share');
+		}
+
+		$this->providerId = trim($id);
 		return $this;
 	}
 
@@ -124,7 +148,13 @@ class Share implements \OCP\Share\IShare {
 				throw new NotFoundException();
 			}
 
-			$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
+			// for federated shares the owner can be a remote user, in this
+			// case we use the initiator
+			if($this->userManager->userExists($this->shareOwner)) {
+				$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
+			} else {
+				$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
+			}
 
 			$nodes = $userFolder->getById($this->fileId);
 			if (empty($nodes)) {

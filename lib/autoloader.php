@@ -94,7 +94,7 @@ class Autoloader {
 			$paths[] = \OC::$CLASSPATH[$class];
 			/**
 			 * @TODO: Remove this when necessary
-			 * Remove "apps/" from inclusion path for smooth migration to mutli app dir
+			 * Remove "apps/" from inclusion path for smooth migration to multi app dir
 			 */
 			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
 				\OCP\Util::writeLog('core', 'include path for class "' . $class . '" starts with "apps/"', \OCP\Util::DEBUG);
@@ -102,26 +102,6 @@ class Autoloader {
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
 			$paths[] = \OC::$SERVERROOT . '/lib/private/legacy/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
-			$paths[] = \OC::$SERVERROOT . '/lib/private/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
-		} elseif (strpos($class, 'OC\\') === 0) {
-			$split = explode('\\', $class, 3);
-
-			if (count($split) === 3) {
-				$split[1] = strtolower($split[1]);
-
-				if ($split[1] === 'core') {
-					$paths[] = \OC::$SERVERROOT . '/core/' . strtolower(str_replace('\\', '/', $split[2])) . '.php';
-				} else if ($split[1] === 'settings') {
-					$paths[] = \OC::$SERVERROOT . '/settings/' . strtolower(str_replace('\\', '/', $split[2])) . '.php';
-				} else {
-					$paths[] = \OC::$SERVERROOT . '/lib/private/' . $split[1] . '/' . strtolower(str_replace('\\', '/', $split[2])) . '.php';
-				}
-
-			} else {
-				$paths[] = \OC::$SERVERROOT . '/lib/private/' . strtolower(str_replace('\\', '/', $split[1])) . '.php';
-			}
-		} elseif (strpos($class, 'OCP\\') === 0) {
-			$paths[] = \OC::$SERVERROOT . '/lib/public/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
 		} elseif (strpos($class, 'OCA\\') === 0) {
 			list(, $app, $rest) = explode('\\', $class, 3);
 			$app = strtolower($app);
@@ -131,10 +111,10 @@ class Autoloader {
 				// If not found in the root of the app directory, insert '/lib' after app id and try again.
 				$paths[] = $appPath . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
 			}
-		} elseif (strpos($class, 'Test_') === 0) {
-			$paths[] = \OC::$SERVERROOT . '/tests/lib/' . strtolower(str_replace('_', '/', substr($class, 5)) . '.php');
-		} elseif (strpos($class, 'Test\\') === 0) {
-			$paths[] = \OC::$SERVERROOT . '/tests/lib/' . strtolower(str_replace('\\', '/', substr($class, 5)) . '.php');
+		} elseif ($class === 'Test\\TestCase') {
+			// This File is considered public API, so we make sure that the class
+			// can still be loaded, although the PSR-4 paths have not been loaded.
+			$paths[] = \OC::$SERVERROOT . '/tests/lib/TestCase.php';
 		}
 		return $paths;
 	}

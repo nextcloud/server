@@ -6,10 +6,11 @@
     "Failed to write to disk" : "دىسكىغا يازالمىدى",
     "Not enough storage available" : "يېتەرلىك ساقلاش بوشلۇقى يوق",
     "Files" : "ھۆججەتلەر",
-    "Favorites" : "يىغقۇچ",
     "Home" : "ئۆي",
     "Close" : "ياپ",
+    "Favorites" : "يىغقۇچ",
     "Upload cancelled." : "يۈكلەشتىن ۋاز كەچتى.",
+    "Uploading..." : "يۈكلەۋاتىدۇ…",
     "File upload is in progress. Leaving the page now will cancel the upload." : "ھۆججەت يۈكلەش مەشغۇلاتى ئېلىپ بېرىلىۋاتىدۇ. Leaving the page now will cancel the upload.",
     "Actions" : "مەشغۇلاتلار",
     "Download" : "چۈشۈر",
@@ -28,7 +29,6 @@
     "Save" : "ساقلا",
     "Settings" : "تەڭشەكلەر",
     "WebDAV" : "WebDAV",
-    "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ",
     "Text file" : "تېكىست ھۆججەت"
 },"pluralForm" :"nplurals=1; plural=0;"

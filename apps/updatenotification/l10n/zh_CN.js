@@ -1,8 +1,8 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Updated channel" : "更新通道",
     "{version} is available. Get more information on how to update." : "新版本 {version} 已可以使用。获取更多升级相关信息。",
+    "Updated channel" : "更新通道",
     "Updater" : "更新管理器",
     "A new version is available: %s" : "有可用的新版本： %s",
     "Open updater" : "打开更新管理器",

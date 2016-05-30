@@ -1,0 +1,10 @@
+OC.L10N.register(
+    "federation",
+    {
+    "Server added to the list of trusted ownClouds" : "Server ditambahkan ke daftar ownCloud yang dipercaya",
+    "Server is already in the list of trusted servers." : "Server sudah ada pada daftar server terpercaya",
+    "No ownCloud server found" : "Tidak ada server ownCloud yang ditemukan",
+    "Could not add server" : "Tidak dapat menambahkan server",
+    "Federation" : "Federasi"
+},
+"nplurals=1; plural=0;");

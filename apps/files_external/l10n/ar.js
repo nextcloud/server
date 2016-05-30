@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Personal" : "شخصي",
     "System" : "النظام",
-    "Never" : "أبدا",
     "Saved" : "حفظ",
     "Username" : "إسم المستخدم",
     "Password" : "كلمة السر",
@@ -23,6 +22,7 @@ OC.L10N.register(
     "ownCloud" : "ownCloud",
     "Share" : "شارك",
     "Name" : "اسم",
+    "Never" : "أبدا",
     "Folder name" : "اسم المجلد",
     "Configuration" : "إعداد",
     "Delete" : "إلغاء"

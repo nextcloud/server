@@ -8,7 +8,6 @@ OCP\Util::addStyle('files_sharing', 'mobile');
 OCP\Util::addScript('files_sharing', 'public');
 OCP\Util::addScript('files', 'fileactions');
 OCP\Util::addScript('files', 'fileactionsmenu');
-OCP\Util::addScript('files', 'jquery.iframe-transport');
 OCP\Util::addScript('files', 'jquery.fileupload');
 
 // JS required for folders
@@ -21,12 +20,10 @@ OCP\Util::addScript('files', 'newfilemenu');
 OCP\Util::addScript('files', 'files');
 OCP\Util::addScript('files', 'filelist');
 OCP\Util::addscript('files', 'keyboardshortcuts');
-
-$thumbSize = 1024;
 ?>
 
 <?php if ($_['previewSupported']): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
-	<link rel="image_src" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute( 'core_ajax_public_preview', array('x' => $thumbSize, 'y' => $thumbSize, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" />
+	<link rel="image_src" href="<?php p(\OC::$server->getURLGenerator()->linkToRoute( 'core_ajax_public_preview', array('x' => $_['previewMaxX'], 'y' => $_['previewMaxY'], 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" />
 <?php endif; ?>
 
 <div id="notification-container">
@@ -95,7 +92,7 @@ $thumbSize = 1024;
 			<?php else: ?>
 				<?php if ($_['previewEnabled'] && substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
 					<div id="imgframe">
-						<video tabindex="0" controls="" preload="none">
+						<video tabindex="0" controls="" preload="none" style="max-width: <?php p($_['previewMaxX']); ?>px; max-height: <?php p($_['previewMaxY']); ?>px">
 							<source src="<?php p($_['downloadURL']); ?>" type="<?php p($_['mimetype']); ?>" />
 						</video>
 					</div>

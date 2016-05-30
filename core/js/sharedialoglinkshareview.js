@@ -24,28 +24,22 @@
 			'<br />' +
 			'<label for="linkText-{{cid}}" class="hidden-visually">{{urlLabel}}</label>' +
 			'<input id="linkText-{{cid}}" class="linkText {{#unless isLinkShare}}hidden{{/unless}}" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
-			'   {{#if showPasswordCheckBox}}' +
-			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
-			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
-			'   {{/if}}' +
-			'<div id="linkPass" class="linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
-			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'</div>' +
 			'    {{#if publicUpload}}' +
 			'<div id="allowPublicUploadWrapper">' +
 			'    <span class="icon-loading-small hidden"></span>' +
 			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload-{{cid}}" class="checkbox publicUploadCheckbox" {{{publicUploadChecked}}} />' +
 			'<label for="sharingDialogAllowPublicUpload-{{cid}}">{{publicUploadLabel}}</label>' +
 			'</div>' +
+			'    {{/if}}' +			
+			'    {{#if showPasswordCheckBox}}' +
+			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
+			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
 			'    {{/if}}' +
-			'    {{#if mailPublicNotificationEnabled}}' +
-			'<form id="emailPrivateLink" class="emailPrivateLinkForm">' +
-			'    <input id="email" class="emailField" value="" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
-			'    <input id="emailButton" class="emailButton" type="submit" value="{{mailButtonText}}" />' +
-			'</form>' +
-			'    {{/if}}' +
+			'<div id="linkPass" class="linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
+			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
+			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
+			'    <span class="icon-loading-small hidden"></span>' +
+			'</div>' +
 			'{{else}}' +
 			// FIXME: this doesn't belong in this view
 			'{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}' +
@@ -76,7 +70,6 @@
 		showLink: true,
 
 		events: {
-			'submit .emailPrivateLinkForm': '_onEmailPrivateLink',
 			'focusout input.linkPassText': 'onPasswordEntered',
 			'keyup input.linkPassText': 'onPasswordKeyUp',
 			'click .linkCheckbox': 'onLinkCheckBoxChange',
@@ -112,7 +105,6 @@
 
 			_.bindAll(
 				this,
-				'_onEmailPrivateLink',
 				'onLinkCheckBoxChange',
 				'onPasswordEntered',
 				'onPasswordKeyUp',
@@ -218,34 +210,6 @@
 			});
 		},
 
-		_onEmailPrivateLink: function(event) {
-			event.preventDefault();
-
-			var $emailField = this.$el.find('.emailField');
-			var $emailButton = this.$el.find('.emailButton');
-			var email = $emailField.val();
-			if (email !== '') {
-				$emailField.prop('disabled', true);
-				$emailButton.prop('disabled', true);
-				$emailField.val(t('core', 'Sending ...'));
-				this.model.sendEmailPrivateLink(email).done(function() {
-					$emailField.css('font-weight', 'bold').val(t('core','Email sent'));
-					setTimeout(function() {
-						$emailField.val('');
-						$emailField.css('font-weight', 'normal');
-						$emailField.prop('disabled', false);
-						$emailButton.prop('disabled', false);
-					}, 2000);
-				}).fail(function() {
-					$emailField.val(email);
-					$emailField.css('font-weight', 'normal');
-					$emailField.prop('disabled', false);
-					$emailButton.prop('disabled', false);
-				});
-			}
-			return false;
-		},
-
 		render: function() {
 			var linkShareTemplate = this.template();
 			var resharingAllowed = this.model.sharePermissionPossible();
@@ -298,39 +262,6 @@
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send')
 			}));
-
-			var $emailField = this.$el.find('.emailField');
-			if (isLinkShare && $emailField.length !== 0) {
-				$emailField.autocomplete({
-					minLength: 1,
-					source: function (search, response) {
-						$.get(
-							OC.generateUrl('core/ajax/share.php'), {
-								fetch: 'getShareWithEmail',
-								search: search.term
-							}, function(result) {
-								if (result.status == 'success' && result.data.length > 0) {
-									response(result.data);
-								}
-							});
-						},
-					select: function( event, item ) {
-						$emailField.val(item.item.email);
-						return false;
-					}
-				})
-				.data("ui-autocomplete")._renderItem = function( ul, item ) {
-					return $('<li>')
-						.append('<a>' + escapeHTML(item.displayname) + "<br>" + escapeHTML(item.email) + '</a>' )
-						.appendTo( ul );
-				};
-			}
-
-			// TODO drop with IE8 drop
-			if($('html').hasClass('ie8')) {
-				this.$el.find('#linkPassText').removeAttr('placeholder');
-				this.$el.find('#linkPassText').val('');
-			}
 
 			this.delegateEvents();
 

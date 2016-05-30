@@ -9,6 +9,7 @@ OC.L10N.register(
     "Host" : "Host",
     "Location" : "Ort",
     "Share" : "Freigeben",
+    "Name" : "Name",
     "Folder name" : "Ordner Name",
     "Delete" : "Löschen"
 },

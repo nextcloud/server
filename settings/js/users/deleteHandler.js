@@ -191,7 +191,7 @@ DeleteHandler.prototype.deleteEntry = function(keepNotification) {
 	payload[dh.ajaxParamID] = dh.oidToDelete;
 	return $.ajax({
 		type: 'DELETE',
-		url: OC.generateUrl(dh.ajaxEndpoint+'/'+this.oidToDelete),
+		url: OC.generateUrl(dh.ajaxEndpoint+'/{oid}',{oid: this.oidToDelete}),
 		// FIXME: do not use synchronous ajax calls as they block the browser !
 		async: false,
 		success: function (result) {

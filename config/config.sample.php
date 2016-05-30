@@ -195,6 +195,13 @@ $CONFIG = array(
 'session_keepalive' => true,
 
 /**
+ * Enforce token authentication for clients, which blocks requests using the user
+ * password for enhanced security. Users need to generate tokens in personal settings
+ * which can be used as passwords on their clients.
+ */
+'token_auth_enforced' => false,
+
+/**
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.
@@ -362,6 +369,31 @@ $CONFIG = array(
 'overwrite.cli.url' => '',
 
 /**
+ * To have clean URLs without `/index.php` this parameter needs to be configured.
+ *
+ * This parameter will be written as "RewriteBase" on update and installation of
+ * ownCloud to your `.htaccess` file. While this value is often simply the URL
+ * path of the ownCloud installation it cannot be set automatically properly in
+ * every scenario and needs thus some manual configuration.
+ *
+ * In a standard Apache setup this usually equals the folder that ownCloud is
+ * accessible at. So if ownCloud is accessible via "https://mycloud.org/owncloud"
+ * the correct value would most likely be "/owncloud". If ownCloud is running
+ * under "https://mycloud.org/" then it would be "/".
+ *
+ * Note that above rule is not valid in every case, there are some rare setup
+ * cases where this may not apply. However, to avoid any update problems this
+ * configuration value is explicitly opt-in.
+ *
+ * After setting this value run `occ maintenance:update:htaccess` and when following
+ * conditions are met ownCloud uses URLs without index.php in it:
+ *
+ * - `mod_rewrite` is installed
+ * - `mod_env` is installed
+ */
+'htaccess.RewriteBase' => '/',
+
+/**
  * The URL of your proxy server, for example ``proxy.example.com:8081``.
  */
 'proxy' => '',
@@ -430,14 +462,14 @@ $CONFIG = array(
  * Both minimum and maximum times can be set together to explicitly define
  * version deletion. For migration purposes, this setting is installed
  * initially set to "auto", which is equivalent to the default setting in
- * ownCloud 8.1 and before.
+ * ownCloud 8.1 and before. 
  *
  * Available values:
  *
  * * ``auto``      
  *     default setting. Automatically expire versions according to expire 
- *     rules. Please refer to Files_versions online documentation for more 
- *     info.
+ *     rules. Please refer to :doc:`../configuration_files/file_versioning` for 
+ *     more information.
  * * ``D, auto``   
  *     keep versions at least for D days, apply expire rules to all versions 
  *     that are older than D days
@@ -470,6 +502,11 @@ $CONFIG = array(
  * available.
  */
 'updatechecker' => true,
+
+/**
+ * URL that ownCloud should use to look for updates
+ */
+'updater.server.url' => 'https://updates.owncloud.com/server/',
 
 /**
  * Is ownCloud connected to the Internet or running in a closed network?
@@ -585,17 +622,6 @@ $CONFIG = array(
 'cron_log' => true,
 
 /**
- * Location of the lock file for cron executions can be specified here.
- * Default is within the tmp directory. The file is named in the following way:
- * owncloud-server-$INSTANCEID-cron.lock
- * where $INSTANCEID is the string specified in the ``instanceid`` field.
- * Because the cron lock file is accessed at regular intervals, it may prevent
- * enabled disk drives from spinning down. A different location for this file
- * can solve such issues.
- */
-'cron.lockfile.location' => '',
-
-/**
  * Enables log rotation and limits the total size of logfiles. The default is 0,
  * or no rotation. Specify a size in bytes, for example 104857600 (100 megabytes
  * = 100 * 1024 * 1024 bytes). A new logfile is created with a new name when the
@@ -610,21 +636,6 @@ $CONFIG = array(
  *
  * Some of the ownCloud code may be stored in alternate locations.
  */
-
-/**
- * ownCloud uses some 3rd party PHP components to provide certain functionality.
- * These components are shipped as part of the software package and reside in
- * ``owncloud/3rdparty``. Use this option to configure a different location. 
- * For example, if your location is /var/www/owncloud/foo/3rdparty, then the 
- * correct configuration is '3rdpartyroot' => '/var/www/owncloud/foo/',
- */
-'3rdpartyroot' => '',
-
-/**
- * If you have an alternate ``3rdpartyroot``, you must also configure the URL as
- * seen by a Web browser.
- */
-'3rdpartyurl' => '',
 
 /**
  * This section is for configuring the download links for ownCloud clients, as
@@ -740,7 +751,7 @@ $CONFIG = array(
  */
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
-	'-convert-to pdf -outdir ',
+	'--convert-to pdf --outdir ',
 
 /**
  * Only register providers that have been explicitly enabled
@@ -932,6 +943,30 @@ $CONFIG = array(
 	//array('other.host.local', 11211),
 ),
 
+/**
+ * Connection options for memcached, see http://apprize.info/php/scaling/15.html
+ */
+'memcached_options' => array(
+	// Set timeouts to 50ms
+	\Memcached::OPT_CONNECT_TIMEOUT => 50,
+	\Memcached::OPT_RETRY_TIMEOUT =>   50,
+	\Memcached::OPT_SEND_TIMEOUT =>    50,
+	\Memcached::OPT_RECV_TIMEOUT =>    50,
+	\Memcached::OPT_POLL_TIMEOUT =>    50,
+
+	// Enable compression
+	\Memcached::OPT_COMPRESSION =>          true,
+
+	// Turn on consistent hashing
+	\Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
+
+	// Enable Binary Protocol
+	\Memcached::OPT_BINARY_PROTOCOL =>      true,
+
+	// Binary serializer vill be enabled if the igbinary PECL module is available
+	//\Memcached::OPT_SERIALIZER => \Memcached::SERIALIZER_IGBINARY,
+),
+
 
 /**
  * Location of the cache folder, defaults to ``data/$user/cache`` where
@@ -940,6 +975,14 @@ $CONFIG = array(
  * and ``$user`` is the user.
  */
 'cache_path' => '',
+
+/**
+ * TTL of chunks located in the cache folder before they're removed by
+ * garbage collection (in seconds). Increase this value if users have
+ * issues uploading very large files via the ownCloud Client as upload isn't
+ * completed within one day.
+ */
+'cache_chunk_gc_ttl' => 86400, // 60*60*24 = 1 day
 
 /**
  * Using Object Store with ownCloud
@@ -1010,10 +1053,11 @@ $CONFIG = array(
 
 /**
  * Additional driver options for the database connection, eg. to enable SSL
- * encryption in MySQL.
+ * encryption in MySQL or specify a custom wait timeout on a cheap hoster.
  */
 'dbdriveroptions' => array(
 	PDO::MYSQL_ATTR_SSL_CA => '/file/path/to/ca_cert.pem',
+	PDO::MYSQL_ATTR_INIT_COMMAND => 'SET wait_timeout = 28800'
 ),
 
 /**
@@ -1097,8 +1141,9 @@ $CONFIG = array(
 'quota_include_external_storage' => false,
 
 /**
- * Specifies how often the filesystem is checked for changes made outside
- * ownCloud.
+ * Specifies how often the local filesystem (the ownCloud data/ directory, and 
+ * NFS mounts in data/) is checked for changes made outside ownCloud. This 
+ * does not apply to external storages.
  *
  * 0 -> Never check the filesystem for outside changes, provides a performance
  * increase when it's certain that no changes are made directly to the
@@ -1194,6 +1239,15 @@ $CONFIG = array(
 'filelocking.enabled' => true,
 
 /**
+ * Set the time-to-live for locks in secconds.
+ *
+ * Any lock older than this will be automatically cleaned up.
+ *
+ * If not set this defaults to either 1 hour or the php max_execution_time, whichever is higher.
+ */
+'filelocking.ttl' => 3600,
+
+/**
  * Memory caching backend for file locking
  *
  * Because most memcache backends can clean values without warning using redis
@@ -1202,12 +1256,30 @@ $CONFIG = array(
 'memcache.locking' => '\\OC\\Memcache\\Redis',
 
 /**
+ * Disable the web based updater
+ */
+'upgrade.disable-web' => false,
+
+/**
  * Set this ownCloud instance to debugging mode
  *
  * Only enable this for local development and not in production environments
  * This will disable the minifier and outputs some additional debug information
  */
 'debug' => false,
+
+/**
+ * Sets the data-fingerprint of the current data served
+ *
+ * This is a property used by the clients to find out if a backup has been
+ * restored on the server. Once a backup is restored run
+ * ./occ maintenance:data-fingerprint
+ * To set this to a new value.
+ *
+ * Updating/Deleting this value can make connected clients stall until
+ * the user has resolved conflicts.
+ */
+'data-fingerprint' => '',
 
 /**
  * This entry is just here to show a warning in case somebody copied the sample

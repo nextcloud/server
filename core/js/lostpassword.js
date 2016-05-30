@@ -81,12 +81,12 @@ OC.Lostpassword = {
 					$('#password').parents('form').attr('action'),
 					{
 						password : $('#password').val(),
-						proceed: $('#encrypted-continue').attr('checked') ? 'true' : 'false'
+						proceed: $('#encrypted-continue').is(':checked') ? 'true' : 'false'
 					},
 					OC.Lostpassword.resetDone
 			);
 		}
-		if($('#encrypted-continue').attr('checked')) {
+		if($('#encrypted-continue').is(':checked')) {
 			$('#reset-password #submit').hide();
 			$('#reset-password #float-spinner').removeClass('hidden');
 		}

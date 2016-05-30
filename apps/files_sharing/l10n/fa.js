@@ -28,7 +28,6 @@ OC.L10N.register(
     "You shared %1$s via link" : "شما %1$s را توسط پیوند به اشتراک گذاشتید",
     "%2$s shared %1$s with you" : "%2$s مورد %1$s را با شما به اشتراک گذاشت",
     "Shares" : "موارد به اشتراک گذاشته",
-    "Accept" : "قبول",
     "This share is password-protected" : "این اشتراک توسط رمز عبور محافظت می شود",
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید.",
     "Password" : "گذرواژه",
@@ -44,8 +43,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "افزودن به ownCloud شما",
     "Download" : "دانلود",
     "Download %s" : "دانلود %s",
-    "Direct link" : "پیوند مستقیم",
-    "Open documentation" : "بازکردن مستند",
-    "HTML Code:" : "کد HTML :"
+    "Direct link" : "پیوند مستقیم"
 },
 "nplurals=1; plural=0;");

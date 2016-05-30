@@ -141,7 +141,7 @@ describe('OCA.Sharing.Util tests', function() {
 				permissions: OC.PERMISSION_ALL,
 				shareOwner: 'User One',
 				etag: 'abc',
-				shareTypes: [OC.Share.SHARE_TYPE_USER]
+				shareTypes: []
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');

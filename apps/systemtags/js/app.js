@@ -28,7 +28,8 @@
 				{
 					id: 'systemtags',
 					scrollContainer: $('#app-content'),
-					fileActions: this._createFileActions()
+					fileActions: this._createFileActions(),
+					config: OCA.Files.App.getFilesConfig()
 				}
 			);
 

@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Password" : "Password"
+    "Cancel" : "I-cancel",
+    "Password" : "Password",
+    "Download" : "I-download"
 },
 "nplurals=2; plural=(n > 1);");

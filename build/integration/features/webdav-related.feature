@@ -68,13 +68,22 @@ Feature: webdav-related
 		And Downloading last public shared file with range "bytes=51-77"
 		Then Downloaded content should be "example file for developers"
 
+	Scenario: download a public shared file inside a folder with range
+		Given user "user0" exists
+		And As an "user0"
+		When creating a share with
+			| path | PARENT |
+			| shareType | 3 |
+		And Downloading last public shared file inside a folder "/parent.txt" with range "bytes=1-7"
+		Then Downloaded content should be "wnCloud"
+
 	Scenario: Downloading a file on the old endpoint should serve security headers
 		Given using dav path "remote.php/webdav"
 		And As an "admin"
 		When Downloading file "/welcome.txt"
 		Then The following headers should be set
 			|Content-Disposition|attachment|
-			|Content-Security-Policy|default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src * data: blob:; font-src 'self' data:; media-src *; connect-src *|
+			|Content-Security-Policy|default-src 'none';|
 			|X-Content-Type-Options |nosniff|
 			|X-Download-Options|noopen|
 			|X-Frame-Options|Sameorigin|
@@ -89,7 +98,7 @@ Feature: webdav-related
 		When Downloading file "/welcome.txt"
 		Then The following headers should be set
 			|Content-Disposition|attachment|
-			|Content-Security-Policy|default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src * data: blob:; font-src 'self' data:; media-src *; connect-src *|
+			|Content-Security-Policy|default-src 'none';|
 			|X-Content-Type-Options |nosniff|
 			|X-Download-Options|noopen|
 			|X-Frame-Options|Sameorigin|
@@ -241,3 +250,47 @@ Feature: webdav-related
 			| 0 |
 			| 1 |
 			| 3 |
+
+	Scenario: Upload chunked file asc with new chunking
+		Given using dav path "remote.php/dav"
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
+		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
+		When As an "user0"
+		And Downloading file "/files/user0/myChunkedFile.txt"
+		Then Downloaded content should be "AAAAABBBBBCCCCC"
+
+	Scenario: Upload chunked file desc with new chunking
+		Given using dav path "remote.php/dav"
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
+		When As an "user0"
+		And Downloading file "/files/user0/myChunkedFile.txt"
+		Then Downloaded content should be "AAAAABBBBBCCCCC"
+
+	Scenario: Upload chunked file random with new chunking
+		Given using dav path "remote.php/dav"
+		And user "user0" exists
+		And user "user0" creates a new chunking upload with id "chunking-42"
+		And user "user0" uploads new chunk file "2" with "BBBBB" to id "chunking-42"
+		And user "user0" uploads new chunk file "3" with "CCCCC" to id "chunking-42"
+		And user "user0" uploads new chunk file "1" with "AAAAA" to id "chunking-42"
+		And user "user0" moves new chunk file with id "chunking-42" to "/myChunkedFile.txt"
+		When As an "user0"
+		And Downloading file "/files/user0/myChunkedFile.txt"
+		Then Downloaded content should be "AAAAABBBBBCCCCC"
+
+	Scenario: A disabled user cannot use webdav
+		Given user "userToBeDisabled" exists
+		And As an "admin"
+		And assure user "userToBeDisabled" is disabled
+		When Downloading file "/welcome.txt" as "userToBeDisabled"
+		Then the HTTP status code should be "503"
+

@@ -28,38 +28,47 @@
 
 			this._started = true;
 
+			var self = this;
+
 			$(window).on('beforeunload.inprogress', function () {
 				return t('core', 'The upgrade is in progress, leaving this page might interrupt the process in some environments.');
 			});
 
-			this.addMessage(t(
+			$('#update-progress-title').html(t(
 				'core',
-				'Updating {productName} to version {version}, this may take a while.', {
-					productName: options.productName || 'ownCloud',
+				'Updating to {version}', {
 					version: options.version
-				}),
-				'bold'
-			).append('<br />'); // FIXME: these should be ul/li with CSS paddings!
+				})
+			);
 
 			var updateEventSource = new OC.EventSource(OC.webroot+'/core/ajax/update.php');
 			updateEventSource.listen('success', function(message) {
-				$('<span>').append(message).append('<br />').appendTo($el);
+				self.setMessage(message);
 			});
 			updateEventSource.listen('notice', function(message) {
-				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
+				self.setPermanentMessage(message);
 				hasWarnings = true;
 			});
 			updateEventSource.listen('error', function(message) {
+				$('#update-progress-message').hide();
+				$('#update-progress-icon')
+					.addClass('icon-error-white')
+					.removeClass('icon-loading-dark');
 				message = message || t('core', 'An error occurred.');
 				$(window).off('beforeunload.inprogress');
-				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
+				self.setErrorMessage(message);
 				message = t('core', 'Please reload the page.');
 				$('<span>').addClass('error').append('<a href=".">'+message+'</a><br />').appendTo($el);
 				updateEventSource.close();
 			});
 			updateEventSource.listen('failure', function(message) {
 				$(window).off('beforeunload.inprogress');
-				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
+				$('#update-progress-message').hide();
+				$('#update-progress-icon')
+					.addClass('icon-error-white')
+					.removeClass('icon-loading-dark');
+
+				self.setErrorMessage(message);
 				var span = $('<span>')
 					.addClass('bold');
 				if(message === 'Exception: Updates between multiple major versions and downgrades are unsupported.') {
@@ -74,17 +83,23 @@
 			updateEventSource.listen('done', function() {
 				$(window).off('beforeunload.inprogress');
 
+				$('#update-progress-message').hide();
+
+				$('#update-progress-icon')
+					.addClass('icon-checkmark-white')
+					.removeClass('icon-loading-dark');
+
 				if (hasWarnings) {
-					$('<span>').addClass('bold')
-						.append('<br />')
-						.append(t('core', 'The update was successful. There were warnings.'))
-						.appendTo($el);
+					$el.find('.update-show-detailed').before(
+						$('<span>')
+							.append('<br />')
+							.append(t('core', 'The update was successful. There were warnings.'))
+					);
 					var message = t('core', 'Please reload the page.');
-					$('<span>').append('<br />').append(message).append('<br />').appendTo($el);
+					$('<span>').append(message).append('<br />').appendTo($el);
 				} else {
 					// FIXME: use product name
-					$('<span>').addClass('bold')
-						.append('<br />')
+					$('<span>')
 						.append(t('core', 'The update was successful. Redirecting you to ownCloud now.'))
 						.appendTo($el);
 					setTimeout(function () {
@@ -94,10 +109,33 @@
 			});
 		},
 
-		addMessage: function(message, className) {
-			var $span = $('<span>');
-			$span.addClass(className).append(message).append('<br />').appendTo(this.$el);
-			return $span;
+		setMessage: function(message) {
+			$('#update-progress-message').html(message);
+			$('#update-progress-detailed')
+				.append($('<span>'))
+				.append(message)
+				.append($('<br>'));
+		},
+
+		setPermanentMessage: function(message) {
+			$('#update-progress-message').html(message);
+			$('#update-progress-message-warnings')
+				.show()
+				.append($('<ul>').append(message));
+			$('#update-progress-detailed')
+				.append($('<span>'))
+				.append(message)
+				.append($('<br>'));
+		},
+		
+		setErrorMessage: function (message) {
+			$('#update-progress-message-error')
+				.show()
+				.html(message);
+			$('#update-progress-detailed')
+				.append($('<span>'))
+				.append(message)
+				.append($('<br>'));
 		}
 	};
 
@@ -106,13 +144,19 @@
 $(document).ready(function() {
 	$('.updateButton').on('click', function() {
 		var $updateEl = $('.update');
-		var $progressEl = $('.updateProgress');
+		var $progressEl = $('.update-progress');
 		$progressEl.removeClass('hidden');
 		$('.updateOverview').addClass('hidden');
+		$('#update-progress-message-error').hide();
+		$('#update-progress-message-warnings').hide();
 		OC.Update.start($progressEl, {
 			productName: $updateEl.attr('data-productname'),
-			version: $updateEl.attr('data-version'),
+			version: $updateEl.attr('data-version')
 		});
+		return false;
+	});
+	$('.update-show-detailed').on('click', function() {
+		$('#update-progress-detailed').toggleClass('hidden');
 		return false;
 	});
 });

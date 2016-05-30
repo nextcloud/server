@@ -12,11 +12,16 @@
 }
 
 td.mountPoint, td.backend { width:160px; }
-#externalStorage td>img.action { visibility:hidden; padding-top:7px; }
-#externalStorage tr:hover>td>img.action { visibility:visible; cursor:pointer; }
+#externalStorage td>img { padding-top:7px; opacity: 0.5; }
+#externalStorage td>img:hover { padding-top:7px; cursor:pointer; opacity: 1; }
 #addMountPoint>td { border:none; }
 #addMountPoint>td.applicable { visibility:hidden; }
 #addMountPoint>td.hidden { visibility:hidden; }
+
+#externalStorage .icon-settings {
+	padding: 11px 20px;
+	vertical-align: text-bottom;
+}
 
 #selectBackend {
 	margin-left: -10px;
@@ -43,6 +48,10 @@ td.mountPoint, td.backend { width:160px; }
 	min-width: 144px; /* 130px plus 2x7px padding */
 	display: inline-block;
 	margin-right: 6px;
+}
+
+#externalStorage td.configuration input.disabled-success {
+	background-color: rgba(134, 255, 110, 0.9);
 }
 
 

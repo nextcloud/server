@@ -38,7 +38,7 @@ $(document).ready(function(){
 	$('#backgroundjobs span.crondate').tipsy({gravity: 's', live: true});
 
 	$('#backgroundjobs input').change(function(){
-		if($(this).attr('checked')){
+		if($(this).is(':checked')){
 			var mode = $(this).val();
 			if (mode === 'ajax' || mode === 'webcron' || mode === 'cron') {
 				OC.AppConfig.setValue('core', 'backgroundjobs_mode', mode);
@@ -131,7 +131,7 @@ $(document).ready(function(){
 			$('#setting_smtphost').removeClass('hidden');
 			$('#mail_smtpsecure_label').removeClass('hidden');
 			$('#mail_smtpsecure').removeClass('hidden');
-			if ($('#mail_smtpauth').attr('checked')) {
+			if ($('#mail_smtpauth').is(':checked')) {
 				$('#mail_credentials').removeClass('hidden');
 			}
 		}

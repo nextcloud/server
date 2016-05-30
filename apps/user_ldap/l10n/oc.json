@@ -93,7 +93,6 @@
     "Test Base DN" : "Testar lo DN de basa",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Evita las requèstas LDAP automaticas. Melhor per las installacions de grand ample, mas demanda de coneissenças en LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Sasir los filtres LDAP manualament (recomandat pels annuaris de grand ample)",
-    "Limit %s access to users meeting these criteria:" : "Limitar l'accès a %s als utilizaires que respèctan aquestes critèris :",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Las classas d'objèctes frequentas pels utilizaires son : organizationalPerson, person, user e inetOrgPerson. Se sètz pas segur de la classa d'utilizar, demandatz a l'administrator de l'annuari.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Lo filtre especifica quins utilizaires LDAP auràn accès a l'instància %s.",
     "Verify settings and count users" : "Verificar los paramètres e comptar los utilizaires",

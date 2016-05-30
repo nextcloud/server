@@ -19,8 +19,7 @@
  *
  */
 
-use OCA\Dav\AppInfo\Application;
+use OCA\DAV\AppInfo\Application;
 
 $app = new Application();
-$app->setupCron();
 $app->generateBirthdays();

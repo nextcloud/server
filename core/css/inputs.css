@@ -57,7 +57,8 @@ input[type="email"],
 input[type="tel"],
 input[type="url"],
 input[type="time"] {
-	-webkit-appearance:textfield; -moz-appearance:textfield;
+	-webkit-appearance:textfield;
+	-moz-appearance:textfield;
 	box-sizing:content-box;
 }
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
@@ -74,11 +75,7 @@ textarea:hover, textarea:focus, textarea:active {
 	opacity: 1;
 }
 
-.ie8 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
-.ie8 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
-
-/* ie8 doesn't support :checked */
-html:not(.ie8) input[type="checkbox"].checkbox {
+input[type="checkbox"].checkbox {
 	position: absolute;
 	left:-10000px;
 	top: auto;
@@ -87,7 +84,7 @@ html:not(.ie8) input[type="checkbox"].checkbox {
 	overflow: hidden;
 }
 
-html:not(.ie8) input[type="checkbox"].checkbox + label:before {
+input[type="checkbox"].checkbox + label:before {
 	content: "";
 	display: inline-block;
 
@@ -99,41 +96,106 @@ html:not(.ie8) input[type="checkbox"].checkbox + label:before {
 	opacity: 0.7;
 }
 
-html:not(.ie8) input[type="checkbox"].checkbox:disabled +label:before { opacity: .6; }
+input[type="checkbox"].checkbox:disabled +label:before { opacity: .6; }
 
-html:not(.ie8) input[type="checkbox"].checkbox.u-left +label:before { float: left; }
-html:not(.ie8) input[type="checkbox"].checkbox.u-hidden + label:before { display: none; }
+input[type="checkbox"].checkbox.u-left +label:before { float: left; }
+input[type="checkbox"].checkbox.u-hidden + label:before { display: none; }
 
-html:not(.ie8) input[type="checkbox"].checkbox--white + label:before {
-	background-image: url('../img/actions/checkbox-white.svg');
-}
-
-html:not(.ie8) input[type="checkbox"].checkbox:checked + label:before {
+input[type="checkbox"].checkbox:checked + label:before {
 	background-image: url('../img/actions/checkbox-checked.svg');
 }
 
-html:not(.ie8) input[type="checkbox"].checkbox:disabled + label:before {
+input[type="checkbox"].checkbox:indeterminate + label:before {
+	background-image: url('../img/actions/checkbox-mixed.svg');
+}
+
+input[type="checkbox"].checkbox:disabled + label:before {
 	background-image: url('../img/actions/checkbox-disabled.svg');
 }
 
-html:not(.ie8) input[type="checkbox"].checkbox:checked:disabled + label:before {
+input[type="checkbox"].checkbox:checked:disabled + label:before {
 	background-image: url('../img/actions/checkbox-checked-disabled.svg');
 }
 
-html:not(.ie8) input[type="checkbox"].checkbox--white:checked + label:before {
+input[type="checkbox"].checkbox:indeterminate:disabled + label:before {
+	background-image: url('../img/actions/checkbox-mixed-disabled.svg');
+}
+
+input[type="checkbox"].checkbox--white + label:before {
+	background-image: url('../img/actions/checkbox-white.svg');
+}
+
+input[type="checkbox"].checkbox--white:checked + label:before {
 	background-image: url('../img/actions/checkbox-checked-white.svg');
 }
 
-html:not(.ie8) input[type="checkbox"].checkbox--white:disabled + label:before {
+input[type="checkbox"].checkbox--white:indeterminate + label:before {
+	background-image: url('../img/actions/checkbox-mixed-white.svg');
+}
+
+input[type="checkbox"].checkbox--white:disabled + label:before {
 	background-image: url('../img/actions/checkbox-disabled-white.svg');
 }
 
-html:not(.ie8) input[type="checkbox"].checkbox--white:checked:disabled + label:before {
+input[type="checkbox"].checkbox--white:checked:disabled + label:before {
 	background-image: url('../img/actions/checkbox-checked-disabled.svg');
 }
 
-html:not(.ie8) input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
+input[type="checkbox"].checkbox--white:indeterminate:disabled + label:before {
+	background-image: url('../img/actions/checkbox-mixed-disabled.svg');
+}
+
+input[type="checkbox"].checkbox:hover+label:before, input[type="checkbox"]:focus+label:before {
 	color:#111 !important;
+}
+
+input[type="radio"].radio {
+	position: absolute;
+	left:-10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+input[type="radio"].radio + label:before {
+	content: "";
+	display: inline-block;
+
+	height: 20px;
+	width: 20px;
+	vertical-align: middle;
+
+	background: url('../img/actions/radio.svg') left top no-repeat;
+	opacity: 0.7;
+}
+
+input[type="radio"].radio:checked + label:before {
+	background-image: url('../img/actions/radio-checked.svg');
+}
+
+input[type="radio"].radio:disabled + label:before {
+	background-image: url('../img/actions/radio-disabled.svg');
+}
+
+input[type="radio"].radio:checked:disabled + label:before {
+	background-image: url('../img/actions/radio-checked-disabled.svg');
+}
+
+input[type="radio"].radio--white + label:before {
+	background-image: url('../img/actions/radio-white.svg');
+}
+
+input[type="radio"].radio--white:checked + label:before {
+	background-image: url('../img/actions/radio-checked.svg');
+}
+
+input[type="radio"].radio--white:disabled + label:before {
+	background-image: url('../img/actions/radio-disabled.svg');
+}
+
+input[type="radio"].radio--white:checked:disabled + label:before {
+	background-image: url('../img/actions/radio-checked-disabled.svg');
 }
 
 input[type="time"] {

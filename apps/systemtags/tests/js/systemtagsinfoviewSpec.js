@@ -62,9 +62,9 @@ describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 			fetchStub.yieldTo('success', view.selectedTagsCollection);
 			expect(setDataStub.calledOnce).toEqual(true);
 			expect(setDataStub.getCall(0).args[0]).toEqual([{
-				id: '1', name: 'test1', userVisible: true, userAssignable: true
+				id: '1', name: 'test1', userVisible: true, userAssignable: true, canAssign: true
 			}, {
-				id: '3', name: 'test3', userVisible: true, userAssignable: true
+				id: '3', name: 'test3', userVisible: true, userAssignable: true, canAssign: true
 			}]);
 
 			expect(view.$el.hasClass('hidden')).toEqual(false);
@@ -79,7 +79,7 @@ describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 			view = new OCA.SystemTags.SystemTagsInfoView();
 			view.selectedTagsCollection.add([
 				{id: '1', name: 'test1'},
-				{id: '3', name: 'test3', userVisible: false, userAssignable: false}
+				{id: '3', name: 'test3', userVisible: false, userAssignable: false, canAssign: false}
 			]);
 
 			var callback = sinon.stub();
@@ -87,9 +87,9 @@ describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 
 			expect(callback.calledOnce).toEqual(true);
 			expect(callback.getCall(0).args[0]).toEqual([{
-				id: '1', name: 'test1', userVisible: true, userAssignable: true
+				id: '1', name: 'test1', userVisible: true, userAssignable: true, canAssign: true
 			}, {
-				id: '3', name: 'test3', userVisible: false, userAssignable: false
+				id: '3', name: 'test3', userVisible: false, userAssignable: false, canAssign: false
 			}]);
 
 			inputViewSpy.restore();
@@ -103,7 +103,7 @@ describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 			view = new OCA.SystemTags.SystemTagsInfoView();
 			view.selectedTagsCollection.add([
 				{id: '1', name: 'test1'},
-				{id: '3', name: 'test3', userAssignable: false}
+				{id: '3', name: 'test3', userAssignable: false, canAssign: false}
 			]);
 
 			var callback = sinon.stub();
@@ -111,9 +111,33 @@ describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 
 			expect(callback.calledOnce).toEqual(true);
 			expect(callback.getCall(0).args[0]).toEqual([{
-				id: '1', name: 'test1', userVisible: true, userAssignable: true
+				id: '1', name: 'test1', userVisible: true, userAssignable: true, canAssign: true
 			}, {
-				id: '3', name: 'test3', userVisible: true, userAssignable: false, locked: true
+				id: '3', name: 'test3', userVisible: true, userAssignable: false, canAssign: false, locked: true
+			}]);
+
+			inputViewSpy.restore();
+		});
+		it('does not set locked flag on non-assignable tags when canAssign overrides it with true', function() {
+			isAdminStub.returns(false);
+
+			var inputViewSpy = sinon.spy(OC.SystemTags, 'SystemTagsInputField');
+			var element = $('<input type="hidden" val="1,4"/>');
+			view.remove();
+			view = new OCA.SystemTags.SystemTagsInfoView();
+			view.selectedTagsCollection.add([
+				{id: '1', name: 'test1'},
+				{id: '4', name: 'test4', userAssignable: false, canAssign: true}
+			]);
+
+			var callback = sinon.stub();
+			inputViewSpy.getCall(0).args[0].initSelection(element, callback);
+
+			expect(callback.calledOnce).toEqual(true);
+			expect(callback.getCall(0).args[0]).toEqual([{
+				id: '1', name: 'test1', userVisible: true, userAssignable: true, canAssign: true
+			}, {
+				id: '4', name: 'test4', userVisible: true, userAssignable: false, canAssign: true
 			}]);
 
 			inputViewSpy.restore();
@@ -152,7 +176,8 @@ describe('OCA.SystemTags.SystemTagsInfoView tests', function() {
 				id: '2',
 				name: 'test2',
 				userVisible: true,
-				userAssignable: true
+				userAssignable: true,
+				canAssign: true
 			});
 
 			createStub.restore();

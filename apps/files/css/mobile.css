@@ -67,7 +67,15 @@ table td.filename .nametext .innernametext {
 }
 
 /* shorten elements for mobile */
-#uploadprogressbar {
+#uploadprogressbar, #uploadprogressbar .label.inner {
 	width: 50px;
 }
+/* hide desktop-only parts */
+#uploadprogressbar .desktop {
+	display: none !important;
+}
+#uploadprogressbar .mobile {
+	display: block !important;
+}
+
 }

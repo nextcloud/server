@@ -100,40 +100,22 @@ try {
 			}
 		}
 
-		$instanceId = $config->getSystemValue('instanceid');
-		$lockFileName = 'owncloud-server-' . $instanceId . '-cron.lock';
-		$lockDirectory = $config->getSystemValue('cron.lockfile.location', sys_get_temp_dir());
-		$lockDirectory = rtrim($lockDirectory, '\\/');
-		$lockFile = $lockDirectory . '/' . $lockFileName;
-
-		if (!file_exists($lockFile)) {
-			touch($lockFile);
-		}
-
 		// We call ownCloud from the CLI (aka cron)
 		if ($appMode != 'cron') {
 			\OCP\BackgroundJob::setExecutionType('cron');
 		}
 
-		// open the file and try to lock it. If it is not locked, the background
-		// job can be executed, otherwise another instance is already running
-		$fp = fopen($lockFile, 'w');
-		$isLocked = flock($fp, LOCK_EX|LOCK_NB, $wouldBlock);
-
-		// check if backgroundjobs is still running. The wouldBlock check is
-		// needed on systems with advisory locking, see
-		// http://php.net/manual/en/function.flock.php#45464
-		if (!$isLocked || $wouldBlock) {
-			echo "Another instance of cron.php is still running!" . PHP_EOL;
-			exit(1);
-		}
-
 		// Work
 		$jobList = \OC::$server->getJobList();
+
+		// We only ask for jobs for 14 minutes, because after 15 minutes the next
+		// system cron task should spawn.
+		$endTime = time() + 14 * 60;
 
 		$executedJobs = [];
 		while ($job = $jobList->getNext()) {
 			if (isset($executedJobs[$job->getId()])) {
+				$jobList->unlockJob($job);
 				break;
 			}
 
@@ -144,11 +126,11 @@ try {
 			$jobList->setLastJob($job);
 			$executedJobs[$job->getId()] = true;
 			unset($job);
-		}
 
-		// unlock the file
-		flock($fp, LOCK_UN);
-		fclose($fp);
+			if (time() > $endTime) {
+				break;
+			}
+		}
 
 	} else {
 		// We call cron.php from some website
@@ -174,5 +156,7 @@ try {
 	exit();
 
 } catch (Exception $ex) {
+	\OCP\Util::writeLog('cron', $ex->getMessage(), \OCP\Util::FATAL);
+} catch (Error $ex) {
 	\OCP\Util::writeLog('cron', $ex->getMessage(), \OCP\Util::FATAL);
 }

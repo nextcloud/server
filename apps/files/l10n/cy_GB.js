@@ -15,6 +15,7 @@ OC.L10N.register(
     "Home" : "Cartref",
     "Close" : "Cau",
     "Upload cancelled." : "Diddymwyd llwytho i fyny.",
+    "Uploading..." : "Yn llwytho i fyny...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Mae ffeiliau'n cael eu llwytho i fyny. Bydd gadael y dudalen hon nawr yn diddymu'r broses.",
     "Actions" : "Gweithredoedd",
     "Download" : "Llwytho i lawr",
@@ -37,7 +38,6 @@ OC.L10N.register(
     "max. possible: " : "mwyaf. posib:",
     "Save" : "Cadw",
     "Settings" : "Gosodiadau",
-    "Cancel upload" : "Diddymu llwytho i fyny",
     "Upload too large" : "Maint llwytho i fyny'n rhy fawr",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Mae'r ffeiliau rydych yn ceisio llwytho i fyny'n fwy na maint mwyaf llwytho ffeiliau i fyny ar y gweinydd hwn.",
     "Text file" : "Ffeil destun"

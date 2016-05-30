@@ -30,6 +30,7 @@
     "provisioning_api",
     "sharepoint",
     "systemtags",
+    "systemtags_management",
     "templateeditor",
     "updatenotification",
     "user_external",

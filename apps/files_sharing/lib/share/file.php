@@ -1,4 +1,6 @@
 <?php
+use OCA\FederatedFileSharing\FederatedShareProvider;
+
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
@@ -39,6 +41,18 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	const FORMAT_TARGET_NAMES = 6;
 
 	private $path;
+
+	/** @var FederatedShareProvider */
+	private $federatedShareProvider;
+
+	public function __construct(FederatedShareProvider $federatedShareProvider = null) {
+		if ($federatedShareProvider) {
+			$this->federatedShareProvider = $federatedShareProvider;
+		} else {
+			$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
+			$this->federatedShareProvider = $federatedSharingApp->getFederatedShareProvider();
+		}
+	}
 
 	public function isValidSource($itemSource, $uidOwner) {
 		try {
@@ -173,7 +187,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	 */
 	public function isShareTypeAllowed($shareType) {
 		if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
-			return \OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled();
+			return $this->federatedShareProvider->isOutgoingServer2serverShareEnabled();
 		}
 
 		return true;

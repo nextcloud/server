@@ -1,7 +1,22 @@
 OC.L10N.register(
     "comments",
     {
+    "Type in a new comment..." : "輸入新留言…",
+    "Delete comment" : "刪除留言",
+    "Post" : "送出",
     "Cancel" : "取消",
-    "Save" : "儲存"
+    "Edit comment" : "編輯留言",
+    "[Deleted user]" : "[已刪除的使用者]",
+    "Comments" : "留言",
+    "No other comments available" : "沒有其他留言",
+    "More comments..." : "更多留言…",
+    "Save" : "儲存",
+    "Allowed characters {count} of {max}" : "已輸入 {count} / 長度限制 {max}",
+    "{count} unread comments" : "{count} 則未讀留言",
+    "Comment" : "留言",
+    "You commented" : "您留言",
+    "%1$s commented" : "%1$s 留言",
+    "You commented on %2$s" : "您對 %2$s 留言",
+    "%1$s commented on %2$s" : "%1$s 對 %2$s 留言"
 },
 "nplurals=1; plural=0;");

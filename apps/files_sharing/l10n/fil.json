@@ -1,4 +1,6 @@
 { "translations": {
-    "Password" : "Password"
+    "Cancel" : "I-cancel",
+    "Password" : "Password",
+    "Download" : "I-download"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

@@ -31,8 +31,6 @@
     "Shared via public link" : "Споделено со јавна врска/линк",
     "Shared by %2$s" : "Споделено од %2$s",
     "Shares" : "Споделувања",
-    "Accept" : "Прифати",
-    "Decline" : "Одбиј",
     "This share is password-protected" : "Ова споделување е заштитено со лозинка",
     "The password is wrong. Try again." : "Лозинката е грешна. Обиди се повторно.",
     "Password" : "Лозинка",
@@ -48,14 +46,6 @@
     "Add to your ownCloud" : "Додади во вашиот ownCloud",
     "Download" : "Преземи",
     "Download %s" : "Преземи %s",
-    "Direct link" : "Директна врска",
-    "Federated Cloud Sharing" : "Федерирано клауд споделување",
-    "Open documentation" : "Отвори ја документацијата",
-    "Federated Cloud" : "Федериран клауд",
-    "Your Federated Cloud ID:" : "Вашиот федериран Cloud ID:",
-    "Share it:" : "Сподели го:",
-    "Add to your website" : "Додади на твојот веб сајт",
-    "Share with me via ownCloud" : "Сподели со мене преку ownCloud",
-    "HTML Code:" : "HTML код:"
+    "Direct link" : "Директна врска"
 },"pluralForm" :"nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;"
 }

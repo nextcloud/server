@@ -31,7 +31,7 @@ OC_Util::checkAdminUser();
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
-$helper = new \OCA\user_ldap\lib\Helper();
+$helper = new \OCA\User_LDAP\Helper();
 $prefixes = $helper->getServerConfigurationPrefixes();
 $hosts = $helper->getServerConfigurationHosts();
 
@@ -67,7 +67,7 @@ $tmpl->assign('toc', $toc);
 $tmpl->assign('settingControls', $sControls);
 
 // assign default values
-$config = new \OCA\user_ldap\lib\Configuration('', false);
+$config = new \OCA\User_LDAP\Configuration('', false);
 $defaults = $config->getDefaults();
 foreach($defaults as $key => $default) {
 	$tmpl->assign($key.'_default', $default);

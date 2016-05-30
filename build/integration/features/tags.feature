@@ -21,6 +21,18 @@ Feature: tags
     Then The response should have a status code "400"
     And "0" tags should exist for "admin"
 
+  Scenario: Creating a not user-assignable tag with groups as admin should work
+    Given user "user0" exists
+    When "admin" creates a "not user-assignable" tag with name "TagWithGroups" and groups "group1|group2"
+    Then The response should have a status code "201"
+    And The "not user-assignable" tag with name "TagWithGroups" has the groups "group1|group2"
+
+  Scenario: Creating a normal tag with groups as regular user should fail
+    Given user "user0" exists
+    When "user0" creates a "normal" tag with name "MySuperAwesomeTagName" and groups "group1|group2"
+    Then The response should have a status code "400"
+    And "0" tags should exist for "user0"
+
   Scenario: Renaming a normal tag as regular user should work
     Given user "user0" exists
     Given "admin" creates a "normal" tag with name "MySuperAwesomeTagName"
@@ -44,6 +56,19 @@ Feature: tags
     Then The response should have a status code "404"
     And The following tags should exist for "admin"
       |MySuperAwesomeTagName|false|true|
+
+  Scenario: Editing tag groups as admin should work
+    Given user "user0" exists
+    Given "admin" creates a "not user-assignable" tag with name "TagWithGroups" and groups "group1|group2"
+    When "admin" edits the tag with name "TagWithGroups" and sets its groups to "group1|group3"
+    Then The response should have a status code "207"
+    And The "not user-assignable" tag with name "TagWithGroups" has the groups "group1|group3"
+
+  Scenario: Editing tag groups as regular user should fail
+    Given user "user0" exists
+    Given "admin" creates a "not user-assignable" tag with name "TagWithGroups"
+    When "user0" edits the tag with name "TagWithGroups" and sets its groups to "group1|group3"
+    Then The response should have a status code "403"
 
   Scenario: Deleting a normal tag as regular user should work
     Given user "user0" exists
@@ -121,6 +146,23 @@ Feature: tags
     Then The response should have a status code "403"
     And "/myFileToTag.txt" shared by "user0" has the following tags
       |MyFirstTag|
+
+  Scenario: Assigning a not user-assignable tag to a file shared by someone else as regular user belongs to tag's groups should work
+    Given user "user0" exists
+    Given user "user1" exists
+    Given group "group1" exists
+    Given user "user1" belongs to group "group1"
+    Given "admin" creates a "not user-assignable" tag with name "MySuperAwesomeTagName" and groups "group1"
+    Given user "user0" uploads file "data/textfile.txt" to "/myFileToTag.txt"
+    Given As "user0" sending "POST" to "/apps/files_sharing/api/v1/shares" with
+      | path | myFileToTag.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    When "user1" adds the tag "MySuperAwesomeTagName" to "/myFileToTag.txt" shared by "user0"
+    Then The response should have a status code "201"
+    And "/myFileToTag.txt" shared by "user0" has the following tags
+      |MySuperAwesomeTagName|
+
 
   Scenario: Assigning a not user-visible tag to a file shared by someone else as regular user should fail
     Given user "user0" exists
@@ -368,3 +410,18 @@ Feature: tags
     And "/myFileToTag.txt" shared by "user0" has the following tags for "user1"
       ||
     And The response should have a status code "404"
+
+  Scenario: User can assign tags when in the tag's groups
+    Given user "user0" exists
+    Given group "group1" exists
+    Given user "user0" belongs to group "group1"
+    When "admin" creates a "not user-assignable" tag with name "TagWithGroups" and groups "group1|group2"
+    Then The response should have a status code "201"
+    And the user "user0" can assign the "not user-assignable" tag with name "TagWithGroups"
+
+  Scenario: User cannot assign tags when not in the tag's groups
+    Given user "user0" exists
+    When "admin" creates a "not user-assignable" tag with name "TagWithGroups" and groups "group1|group2"
+    Then The response should have a status code "201"
+    And the user "user0" cannot assign the "not user-assignable" tag with name "TagWithGroups"
+

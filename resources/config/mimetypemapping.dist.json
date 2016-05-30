@@ -78,6 +78,8 @@
 	"kra": ["application/x-krita"],
 	"lwp": ["application/vnd.lotus-wordpro"],
 	"m2t": ["video/mp2t"],
+	"m4a": ["audio/mp4"],
+	"m4b": ["audio/m4b"],
 	"m4v": ["video/mp4"],
 	"markdown": ["text/markdown"],
 	"mdown": ["text/markdown"],

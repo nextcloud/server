@@ -1,8 +1,9 @@
 OC.L10N.register(
     "settings",
     {
-    "External Storage" : "Externer Speicher",
     "Saved" : "Gespeichert",
+    "Email sent" : "eMail gesendet",
+    "External Storage" : "Externer Speicher",
     "Delete" : "Löschen",
     "Very weak password" : "Sehr schwaches Passwort",
     "Weak password" : "Schwaches Passwort",
@@ -14,6 +15,7 @@ OC.L10N.register(
     "Port" : "Port",
     "Cancel" : "Abbrechen",
     "Password" : "Passwort",
+    "Name" : "Name",
     "Username" : "Benutzername"
 },
 "nplurals=2; plural=(n != 1);");

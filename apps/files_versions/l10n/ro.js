@@ -1,9 +1,10 @@
 OC.L10N.register(
     "files_versions",
     {
-    "Could not revert: %s" : "Nu a putut reveni: %s",
+    "Could not revert: %s" : "Nu s-a putut reveni: %s",
     "Versions" : "Versiuni",
-    "Restore" : "Restabilire",
+    "Failed to revert {file} to revision {timestamp}." : "S-a eșuat restaurarea fișierului  {file} la revizia {timestamp}.",
+    "Restore" : "Restaurare",
     "No other versions available" : "Nu există alte versiuni disponibile",
     "More versions..." : "Mai multe versiuni..."
 },

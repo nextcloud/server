@@ -32,7 +32,7 @@
 /** @var $application Symfony\Component\Console\Application */
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Check(\OC::$server->getConfig()));
-$infoParser = new \OC\App\InfoParser(\OC::$server->getHTTPHelper(), \OC::$server->getURLGenerator());
+$infoParser = new \OC\App\InfoParser(\OC::$server->getURLGenerator());
 $application->add(new OC\Core\Command\App\CheckCode($infoParser));
 $application->add(new OC\Core\Command\L10n\CreateJs());
 $application->add(new \OC\Core\Command\Integrity\SignApp(
@@ -57,6 +57,13 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	$application->add(new OC\Core\Command\App\Enable(\OC::$server->getAppManager()));
 	$application->add(new OC\Core\Command\App\GetPath());
 	$application->add(new OC\Core\Command\App\ListApps(\OC::$server->getAppManager()));
+	
+	$application->add(new OC\Core\Command\TwoFactorAuth\Enable(
+		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
+	));
+	$application->add(new OC\Core\Command\TwoFactorAuth\Disable(
+		\OC::$server->getTwoFactorAuthManager(), \OC::$server->getUserManager()
+	));
 
 	$application->add(new OC\Core\Command\Background\Cron(\OC::$server->getConfig()));
 	$application->add(new OC\Core\Command\Background\WebCron(\OC::$server->getConfig()));
@@ -108,16 +115,22 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	);
 	$application->add(new OC\Core\Command\Encryption\ShowKeyStorageRoot($util));
 
+	$application->add(new OC\Core\Command\Maintenance\DataFingerprint(\OC::$server->getConfig(), new \OC\AppFramework\Utility\TimeFactory()));
 	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateDB(\OC::$server->getMimeTypeDetector(), \OC::$server->getMimeTypeLoader()));
 	$application->add(new OC\Core\Command\Maintenance\Mimetype\UpdateJS(\OC::$server->getMimeTypeDetector()));
 	$application->add(new OC\Core\Command\Maintenance\Mode(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Maintenance\Repair(new \OC\Repair(\OC\Repair::getRepairSteps()), \OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Maintenance\Repair(
+		new \OC\Repair(\OC\Repair::getRepairSteps(), \OC::$server->getEventDispatcher()), \OC::$server->getConfig(),
+		\OC::$server->getEventDispatcher()));
 	$application->add(new OC\Core\Command\Maintenance\SingleUser(\OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Maintenance\UpdateHtaccess());
 
 	$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig(), \OC::$server->getLogger()));
 
 	$application->add(new OC\Core\Command\User\Add(\OC::$server->getUserManager(), \OC::$server->getGroupManager()));
 	$application->add(new OC\Core\Command\User\Delete(\OC::$server->getUserManager()));
+	$application->add(new OC\Core\Command\User\Disable(\OC::$server->getUserManager()));
+	$application->add(new OC\Core\Command\User\Enable(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\LastSeen(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\Report(\OC::$server->getUserManager()));
 	$application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager()));

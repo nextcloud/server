@@ -62,6 +62,11 @@ describe('OCA.Files.MainFileInfoDetailView tests', function() {
 			expect(view.$el.find('.date').attr('title')).toEqual(dateExpected);
 			clock.restore();
 		});
+		it('displays permalink', function() {
+			view.setFileInfo(testFileInfo);
+			expect(view.$el.find('.permalink').attr('href'))
+				.toEqual(OC.getProtocol() + '://' + OC.getHost() + OC.generateUrl('/f/5'));
+		});
 		it('displays favorite icon', function() {
 			testFileInfo.set('tags', [OC.TAG_FAVORITE]);
 			view.setFileInfo(testFileInfo);

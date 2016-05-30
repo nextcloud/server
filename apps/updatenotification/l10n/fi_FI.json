@@ -1,6 +1,6 @@
 { "translations": {
-    "Updated channel" : "Päivitetty kanava",
     "{version} is available. Get more information on how to update." : "{version} on saatavilla. Tarjolla on lisätietoja päivittämisestä.",
+    "Updated channel" : "Päivitetty kanava",
     "Updater" : "Päivitysohjelma",
     "A new version is available: %s" : "Uusi versio on saatavilla: %s",
     "Open updater" : "Avaa päivitysohjelma",

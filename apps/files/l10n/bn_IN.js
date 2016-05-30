@@ -13,6 +13,7 @@ OC.L10N.register(
     "Invalid directory." : "অবৈধ ডিরেক্টরি।",
     "Files" : "ফাইলস",
     "Close" : "বন্ধ",
+    "Uploading..." : "আপলোডইং ...",
     "Download" : "ডাউনলোড করুন",
     "Rename" : "পুনঃনামকরণ",
     "Delete" : "মুছে ফেলা",

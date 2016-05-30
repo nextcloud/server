@@ -32,9 +32,11 @@ OC.L10N.register(
     "%2$s shared %1$s with you" : "%2$s jagas sinuga %1$s",
     "Downloaded via public link" : "Alla laetud avalikult lingilt",
     "Shared with %2$s" : "Jagatud kasutajaga %2$s",
+    "Shared with group %2$s" : "Jagatud grupiga %2$s",
+    "Shared via public link" : "Jagatud avaliku lingiga",
+    "Removed public link" : "Avalik link on eemaldatud",
+    "Public link expired" : "Avalik link aegus",
     "Shares" : "Jagamised",
-    "Accept" : "Nõustu",
-    "Decline" : "Lükka tagasi",
     "This share is password-protected" : "See jagamine on parooliga kaitstud",
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",
     "Password" : "Parool",
@@ -50,13 +52,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Lisa oma ownCloudi",
     "Download" : "Lae alla",
     "Download %s" : "Laadi alla %s",
-    "Direct link" : "Otsene link",
-    "Open documentation" : "Ava dokumentatsioon",
-    "Allow users on this server to send shares to other servers" : "Luba selle serveri kasutajatel saata faile teistesse serveritesse",
-    "Allow users on this server to receive shares from other servers" : "Luba selle serveri kasutajatel võtta vastu jagamisi teistest serveritest",
-    "Share it:" : "Jaga seda:",
-    "Add to your website" : "Lisa oma veebisaidile",
-    "Share with me via ownCloud" : "Jaga minuga läbi ownCloudiga",
-    "HTML Code:" : "HTML kood:"
+    "Direct link" : "Otsene link"
 },
 "nplurals=2; plural=(n != 1);");

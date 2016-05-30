@@ -16,6 +16,7 @@ Feature: capabilities
 			| files_sharing | resharing | 1 |
 			| files_sharing | federation@@@outgoing | 1 |
 			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | 1 |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
@@ -35,6 +36,7 @@ Feature: capabilities
 			| files_sharing | resharing | 1 |
 			| files_sharing | federation@@@outgoing | 1 |
 			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | 1 |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
@@ -73,6 +75,7 @@ Feature: capabilities
 			| files_sharing | resharing | 1 |
 			| files_sharing | federation@@@outgoing | 1 |
 			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | 1 |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
@@ -92,6 +95,7 @@ Feature: capabilities
 			| files_sharing | resharing | EMPTY |
 			| files_sharing | federation@@@outgoing | 1 |
 			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | 1 |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
@@ -111,6 +115,7 @@ Feature: capabilities
 			| files_sharing | resharing | 1 |
 			| files_sharing | federation@@@outgoing | EMPTY |
 			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | 1 |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
@@ -130,6 +135,7 @@ Feature: capabilities
 			| files_sharing | resharing | 1 |
 			| files_sharing | federation@@@outgoing | 1 |
 			| files_sharing | federation@@@incoming | EMPTY |
+			| files_sharing | group_sharing         | 1 |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
@@ -150,6 +156,7 @@ Feature: capabilities
 			| files_sharing | resharing | 1 |
 			| files_sharing | federation@@@outgoing | 1 |
 			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | 1 |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
@@ -170,6 +177,7 @@ Feature: capabilities
 			| files_sharing | resharing | 1 |
 			| files_sharing | federation@@@outgoing | 1 |
 			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | 1 |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
@@ -190,6 +198,7 @@ Feature: capabilities
 			| files_sharing | resharing | 1 |
 			| files_sharing | federation@@@outgoing | 1 |
 			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | 1 |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |
@@ -212,6 +221,27 @@ Feature: capabilities
 			| files_sharing | resharing | 1 |
 			| files_sharing | federation@@@outgoing | 1 |
 			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | 1 |
+			| files | bigfilechunking | 1 |
+			| files | undelete | 1 |
+			| files | versioning | 1 |
+
+	Scenario: Changing group sharing allowed
+		Given As an "admin"
+		And parameter "shareapi_allow_group_sharing" of app "core" is set to "no"
+		When sending "GET" to "/cloud/capabilities"
+		Then the HTTP status code should be "200"
+		And fields of capabilities match with
+			| capability | path_to_element | value |
+			| core | pollinterval | 60 |
+			| core | webdav-root | remote.php/webdav |
+			| files_sharing | api_enabled | 1 |
+			| files_sharing | public@@@enabled | 1 |
+			| files_sharing | public@@@upload | 1 |
+			| files_sharing | resharing | 1 |
+			| files_sharing | federation@@@outgoing | 1 |
+			| files_sharing | federation@@@incoming | 1 |
+			| files_sharing | group_sharing         | EMPTY |
 			| files | bigfilechunking | 1 |
 			| files | undelete | 1 |
 			| files | versioning | 1 |

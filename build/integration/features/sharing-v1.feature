@@ -209,7 +209,7 @@ Feature: sharing
     When sending "GET" to "/apps/files_sharing/api/v1/shares"
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
-    And File "textfile0 (2).txt" should be included in the response
+    And File "textfile0.txt" should be included in the response
 
   Scenario: getting all shares of a user using another user
     Given user "user0" exists
@@ -251,6 +251,20 @@ Feature: sharing
     And User "user2" should be included in the response
     And User "user3" should not be included in the response
 
+  Scenario: Reshared files can be still accessed if a user in the middle removes it.
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user3" exists
+    And file "textfile0.txt" of user "user0" is shared with user "user1"
+    And file "textfile0 (2).txt" of user "user1" is shared with user "user2"
+    And file "textfile0 (2).txt" of user "user2" is shared with user "user3"
+    And As an "user1"
+    When User "user1" deletes file "/textfile0 (2).txt"
+    And As an "user3"
+    And Downloading file "/textfile0 (2).txt" with range "bytes=1-7"
+    Then Downloaded content should be "wnCloud"
+
   Scenario: getting share info of a share
     Given user "user0" exists
     And user "user1" exists
@@ -266,7 +280,7 @@ Feature: sharing
       | share_type | 0 |
       | share_with | user1 |
       | file_source | A_NUMBER |
-      | file_target | /textfile0 (2).txt |
+      | file_target | /textfile0.txt |
       | path | /textfile0.txt |
       | permissions | 19 |
       | stime | A_NUMBER |
@@ -566,3 +580,132 @@ Feature: sharing
       | path | welcome.txt |
       | shareType | 3      |
     Then share ids should match
+
+  Scenario: Correct webdav share-permissions for owned file
+    Given user "user0" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    When as "user0" gets properties of folder "/tmp.txt" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "19"
+
+  Scenario: Correct webdav share-permissions for received file with edit and reshare permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    And file "tmp.txt" of user "user0" is shared with user "user1"
+    When as "user1" gets properties of folder "/tmp.txt" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "19"
+
+  Scenario: Correct webdav share-permissions for received file with edit permissions but no reshare permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    And file "tmp.txt" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 3 |
+    When as "user1" gets properties of folder "/tmp.txt" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "3"
+
+  Scenario: Correct webdav share-permissions for received file with reshare permissions but no edit permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And User "user0" uploads file with content "foo" to "/tmp.txt"
+    And file "tmp.txt" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 17 |
+    When as "user1" gets properties of folder "/tmp.txt" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "17"
+
+  Scenario: Correct webdav share-permissions for owned folder
+    Given user "user0" exists
+    And user "user0" created a folder "/tmp"
+    When as "user0" gets properties of folder "/" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "31"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "31"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions but edit
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 29 |
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "29"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions but create
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 27 |
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "27"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions but delete
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 23 |
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "23"
+
+  Scenario: Correct webdav share-permissions for received folder with all permissions but share
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user0" created a folder "/tmp"
+    And file "/tmp" of user "user0" is shared with user "user1"
+    And As an "user0"
+    And Updating last share with
+      | permissions | 15 |
+    When as "user1" gets properties of folder "/tmp" with
+      |{http://open-collaboration-services.org/ns}share-permissions |
+    Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "15"
+
+  Scenario: unique target names for incomming shares
+    Given user "user0" exists
+    And user "user1" exists
+    And user "user2" exists
+    And user "user0" created a folder "/foo"
+    And user "user1" created a folder "/foo"
+    When file "/foo" of user "user0" is shared with user "user2"
+    And file "/foo" of user "user1" is shared with user "user2"
+    Then user "user2" should see following elements
+      | /foo/       |
+      | /foo%20(2)/ |
+
+  Scenario: Creating a new share with a disabled user
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And assure user "user0" is disabled
+    And As an "user0"
+    When sending "POST" to "/apps/files_sharing/api/v1/shares" with
+      | path | welcome.txt |
+      | shareWith | user1 |
+      | shareType | 0 |
+    Then the OCS status code should be "997"
+    And the HTTP status code should be "401"

@@ -1,8 +1,8 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Updated channel" : "Kanali u përditësua",
     "{version} is available. Get more information on how to update." : "Është gati {version}. Merrni më tepër informacion se si ta përditësoni.",
+    "Updated channel" : "Kanali u përditësua",
     "Updater" : "Përditësues",
     "A new version is available: %s" : "Ka gati një version të ri: %s",
     "Open updater" : "Hapni përditësuesin",

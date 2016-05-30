@@ -1,6 +1,6 @@
 { "translations": {
-    "Updated channel" : "Posodobljen kanal",
     "{version} is available. Get more information on how to update." : "Na voljo je nova različica {version}. Na voljo je več podrobnosti o nadgradnji.",
+    "Updated channel" : "Posodobljen kanal",
     "Updater" : "Posodabljalnik",
     "A new version is available: %s" : "Na voljo je nova različica: %s",
     "Open updater" : "Odpri posodabljalnik",

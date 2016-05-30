@@ -38,7 +38,7 @@
 				var tr = oldCreateRow.apply(this, arguments);
 				var sharePermissions = fileData.permissions;
 				if (fileData.mountType && fileData.mountType === "external-root"){
-					// for external storages we cant use the permissions of the mountpoint
+					// for external storages we can't use the permissions of the mountpoint
 					// instead we show all permissions and only use the share permissions from the mountpoint to handle resharing
 					sharePermissions = sharePermissions | (OC.PERMISSION_ALL & ~OC.PERMISSION_SHARE);
 				}
@@ -111,8 +111,9 @@
 
 				_.each($files, function(file) {
 					var $tr = $(file);
-					var shareTypes = $tr.attr('data-share-types');
-					if (shareTypes) {
+					var shareTypes = $tr.attr('data-share-types') || '';
+					var shareOwner = $tr.attr('data-share-owner');
+					if (shareTypes || shareOwner) {
 						var hasLink = false;
 						var hasShares = false;
 						_.each(shareTypes.split(',') || [], function(shareType) {
@@ -122,6 +123,8 @@
 							} else if (shareType === OC.Share.SHARE_TYPE_USER) {
 								hasShares = true;
 							} else if (shareType === OC.Share.SHARE_TYPE_GROUP) {
+								hasShares = true;
+							} else if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
 								hasShares = true;
 							}
 						});

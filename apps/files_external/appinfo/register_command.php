@@ -37,9 +37,9 @@ $groupManager = OC::$server->getGroupManager();
 
 $app = \OC_Mount_Config::$app;
 
-$globalStorageService = $app->getContainer()->query('\OCA\Files_external\Service\GlobalStoragesService');
-$userStorageService = $app->getContainer()->query('\OCA\Files_external\Service\UserStoragesService');
-$importLegacyStorageService = $app->getContainer()->query('\OCA\Files_external\Service\ImportLegacyStoragesService');
+$globalStorageService = $app->getContainer()->query('\OCA\Files_External\Service\GlobalStoragesService');
+$userStorageService = $app->getContainer()->query('\OCA\Files_External\Service\UserStoragesService');
+$importLegacyStorageService = $app->getContainer()->query('\OCA\Files_External\Service\ImportLegacyStoragesService');
 $backendService = $app->getContainer()->query('OCA\Files_External\Service\BackendService');
 
 /** @var Symfony\Component\Console\Application $application */

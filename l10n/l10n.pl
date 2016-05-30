@@ -74,6 +74,23 @@ sub getPluralInfo {
 	return $info;
 }
 
+sub init() {
+	# let's get the version from stdout of xgettext
+	my $out = `xgettext --version`;
+	# we assume the first line looks like this 'xgettext (GNU gettext-tools) 0.19.3'
+	$out = substr $out, 29, index($out, "\n")-29;
+	$out =~ s/^\s+|\s+$//g;
+	$out = "v" . $out;
+	my $actual = version->parse($out);
+	# 0.18.3 introduced JavaScript as a language option
+	my $expected = version->parse('v0.18.3');
+	if ($actual < $expected) {
+		die( "Minimum expected version of xgettext is " . $expected . ". Detected: " . $actual );
+	}
+}
+
+init();
+
 my $task = shift( @ARGV );
 my $place = '..';
 
@@ -117,7 +134,7 @@ if( $task eq 'read' ){
 			else{
 				$keywords = '--keyword=t --keyword=n:1,2';
 			}
-			my $language = ( $file =~ /\.js$/ ? 'Python' : 'PHP');
+			my $language = ( $file =~ /\.js$/ ? 'Javascript' : 'PHP');
 			my $joinexisting = ( -e $output ? '--join-existing' : '');
 			print "    Reading $file\n";
 			`xgettext --output="$output" $joinexisting $keywords --language=$language "$file" --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="8.0.0" --package-name="ownCloud Core" --msgid-bugs-address="translations\@owncloud.org"`;

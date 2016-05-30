@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete" : "ਹਟਾਓ",
     "Details" : "ਵੇਰਵ",
     "Upload" : "ਅੱਪਲੋਡ",
-    "Settings" : "ਸੈਟਿੰਗ",
-    "Cancel upload" : "ਅੱਪਲੋਡ ਰੱਦ ਕਰੋ"
+    "Settings" : "ਸੈਟਿੰਗ"
 },
 "nplurals=2; plural=(n != 1);");

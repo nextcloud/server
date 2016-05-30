@@ -14,10 +14,15 @@ To prevent a user from running out of disk space, the ownCloud Deleted files app
 	<types>
 		<filesystem/>
 	</types>
+	<namespace>Files_Trashbin</namespace>
 	<dependencies>
 		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
 	<documentation>
 		<user>user-trashbin</user>
 	</documentation>
+
+	<background-jobs>
+		<job>OCA\Files_Trashbin\BackgroundJob\ExpireTrash</job>
+	</background-jobs>
 </info>

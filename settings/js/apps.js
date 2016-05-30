@@ -119,6 +119,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					$('#apps-list-empty').removeClass('hidden').find('h2').text(t('settings', 'No apps found for your version'));
 				}
 
+				$('.enable.needs-download').tipsy({fallback: t('settings', 'The app will be downloaded from the app store')});
+
 				$('.app-level .official').tipsy({fallback: t('settings', 'Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use.')});
 				$('.app-level .approved').tipsy({fallback: t('settings', 'Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use.')});
 				$('.app-level .experimental').tipsy({fallback: t('settings', 'This app is not checked for security issues and is new or known to be unstable. Install at your own risk.')});
@@ -191,15 +193,15 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging') ||
 			OC.Settings.Apps.isType(app, 'prevent_group_restriction')) {
 			page.find(".groups-enable").hide();
-			page.find(".groups-enable__checkbox").attr('checked', null);
+			page.find(".groups-enable__checkbox").prop('checked', false);
 		} else {
 			page.find('#group_select').val((app.groups || []).join('|'));
 			if (app.active) {
 				if (app.groups.length) {
 					OC.Settings.Apps.setupGroupsSelect(page.find('#group_select'));
-					page.find(".groups-enable__checkbox").attr('checked','checked');
+					page.find(".groups-enable__checkbox").prop('checked', true);
 				} else {
-					page.find(".groups-enable__checkbox").attr('checked', null);
+					page.find(".groups-enable__checkbox").prop('checked', false);
 				}
 				page.find(".groups-enable").show();
 			} else {
@@ -287,7 +289,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 						if (OC.Settings.Apps.isType(app, 'filesystem') || OC.Settings.Apps.isType(app, 'prelogin') ||
 							OC.Settings.Apps.isType(app, 'authentication') || OC.Settings.Apps.isType(app, 'logging')) {
-							element.parent().find(".groups-enable").attr('checked', null);
+							element.parent().find(".groups-enable").prop('checked', true);
 							element.parent().find(".groups-enable").hide();
 							element.parent().find('#group_select').hide().val(null);
 						} else {
@@ -506,7 +508,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (apps.length === 0) {
 			$appList.addClass('hidden');
 			$emptyList.removeClass('hidden');
-			$emptyList.removeClass('hidden').find('h2').text(t('settings', 'No apps found for "{query}"', {
+			$emptyList.removeClass('hidden').find('h2').text(t('settings', 'No apps found for {query}', {
 				query: query
 			}));
 		} else {
