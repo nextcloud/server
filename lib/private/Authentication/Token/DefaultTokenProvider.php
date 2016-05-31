@@ -23,6 +23,7 @@ namespace OC\Authentication\Token;
 
 use Exception;
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\IConfig;
@@ -68,7 +69,7 @@ class DefaultTokenProvider implements IProvider {
 	 * @param string $token
 	 * @param string $uid
 	 * @param string $loginName
-	 * @param string $password
+	 * @param string|null $password
 	 * @param string $name
 	 * @param int $type token type
 	 * @return IToken
@@ -77,7 +78,9 @@ class DefaultTokenProvider implements IProvider {
 		$dbToken = new DefaultToken();
 		$dbToken->setUid($uid);
 		$dbToken->setLoginName($loginName);
-		$dbToken->setPassword($this->encryptPassword($password, $token));
+		if (!is_null($password)) {
+			$dbToken->setPassword($this->encryptPassword($password, $token));
+		}
 		$dbToken->setName($name);
 		$dbToken->setToken($this->hashToken($token));
 		$dbToken->setType($type);
@@ -136,10 +139,15 @@ class DefaultTokenProvider implements IProvider {
 	 * @param IToken $savedToken
 	 * @param string $tokenId session token
 	 * @throws InvalidTokenException
+	 * @throws PasswordlessTokenException
 	 * @return string
 	 */
 	public function getPassword(IToken $savedToken, $tokenId) {
-		return $this->decryptPassword($savedToken->getPassword(), $tokenId);
+		$password = $savedToken->getPassword();
+		if (is_null($password)) {
+			throw new PasswordlessTokenException();
+		}
+		return $this->decryptPassword($password, $tokenId);
 	}
 
 	/**

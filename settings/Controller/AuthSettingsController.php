@@ -23,6 +23,7 @@ namespace OC\Settings\Controller;
 
 use OC\AppFramework\Http;
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OCP\AppFramework\Controller;
@@ -101,7 +102,11 @@ class AuthSettingsController extends Controller {
 		try {
 			$sessionToken = $this->tokenProvider->getToken($sessionId);
 			$loginName = $sessionToken->getLoginName();
-			$password = $this->tokenProvider->getPassword($sessionToken, $sessionId);
+			try {
+				$password = $this->tokenProvider->getPassword($sessionToken, $sessionId);
+			} catch (PasswordlessTokenException $ex) {
+				$password = null;
+			}
 		} catch (InvalidTokenException $ex) {
 			$resp = new JSONResponse();
 			$resp->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);

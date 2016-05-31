@@ -621,4 +621,42 @@ class SessionTest extends \Test\TestCase {
 		$this->invokePrivate($userSession, 'validateSession', [$user]);
 	}
 
+	public function testValidateSessionNoPassword() {
+		$userManager = $this->getMock('\OCP\IUserManager');
+		$session = $this->getMock('\OCP\ISession');
+		$timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$tokenProvider = $this->getMock('\OC\Authentication\Token\IProvider');
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setConstructorArgs([$userManager, $session, $timeFactory, $tokenProvider, $this->config])
+			->setMethods(['logout'])
+			->getMock();
+
+		$user = $this->getMock('\OCP\IUser');
+		$token = $this->getMock('\OC\Authentication\Token\IToken');
+
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue('sessionid'));
+		$tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('sessionid')
+			->will($this->returnValue($token));
+		$session->expects($this->once())
+			->method('get')
+			->with('last_login_check')
+			->will($this->returnValue(1000));
+		$timeFactory->expects($this->once())
+			->method('getTime')
+			->will($this->returnValue(5000));
+		$tokenProvider->expects($this->once())
+			->method('getPassword')
+			->with($token, 'sessionid')
+			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordlessTokenException()));
+		$session->expects($this->once())
+			->method('set')
+			->with('last_login_check', 5000);
+
+		$this->invokePrivate($userSession, 'validateSession', [$user]);
+	}
+
 }

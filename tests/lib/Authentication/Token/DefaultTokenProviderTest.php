@@ -135,6 +135,17 @@ class DefaultTokenProviderTest extends TestCase {
 	}
 
 	/**
+	 * @expectedException \OC\Authentication\Exceptions\PasswordlessTokenException
+	 */
+	public function testGetPasswordPasswordLessToken() {
+		$token = 'token1234';
+		$tk = new DefaultToken();
+		$tk->setPassword(null);
+
+		$this->tokenProvider->getPassword($tk, $token);
+	}
+
+	/**
 	 * @expectedException \OC\Authentication\Exceptions\InvalidTokenException
 	 */
 	public function testGetPasswordDeletesInvalidToken() {

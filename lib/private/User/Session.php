@@ -32,6 +32,7 @@ namespace OC\User;
 
 use OC;
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Hooks\Emitter;
@@ -46,6 +47,7 @@ use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use OCP\Session\Exceptions\SessionNotAvailableException;
+use OCP\Util;
 
 /**
  * Class Session
@@ -220,6 +222,10 @@ class Session implements IUserSession, Emitter {
 				// An invalid token password was used -> log user out
 				$this->logout();
 				return;
+			} catch (PasswordlessTokenException $ex) {
+				// Token has no password, nothing to check
+				$this->session->set('last_login_check', $now);
+				return;
 			}
 
 			if ($this->manager->checkPassword($token->getLoginName(), $pwd) === false
@@ -297,8 +303,12 @@ class Session implements IUserSession, Emitter {
 			// When logging in with token, the password must be decrypted first before passing to login hook
 			try {
 				$token = $this->tokenProvider->getToken($password);
-				$password = $this->tokenProvider->getPassword($token, $password);
-				$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
+				try {
+					$password = $this->tokenProvider->getPassword($token, $password);
+					$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
+				} catch (PasswordlessTokenException $ex) {
+					$this->manager->emit('\OC\User', 'preLogin', array($uid, ''));
+				}
 			} catch (InvalidTokenException $ex) {
 				// Invalid token, nothing to do
 			}
@@ -359,7 +369,7 @@ class Session implements IUserSession, Emitter {
 	}
 
 	protected function isTwoFactorEnforced($username) {
-		\OCP\Util::emitHook(
+		Util::emitHook(
 			'\OCA\Files_Sharing\API\Server2Server',
 			'preLoginNameUsedAsUserName',
 			array('uid' => &$username)
@@ -452,7 +462,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $password
 	 * @return boolean
 	 */
-	public function createSessionToken(IRequest $request, $uid, $loginName, $password) {
+	public function createSessionToken(IRequest $request, $uid, $loginName, $password = null) {
 		if (is_null($this->manager->get($uid))) {
 			// User does not exist
 			return false;
