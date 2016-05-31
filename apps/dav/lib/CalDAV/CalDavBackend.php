@@ -1319,7 +1319,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 			throw new \Sabre\DAV\Exception\BadRequest('Calendar objects must have a VJOURNAL, VEVENT or VTODO component');
 		}
 		if ($componentType === 'VEVENT' && $component->DTSTART) {
-			$firstOccurence = $component->DTSTART->getDateTime()->getTimeStamp();
+			$firstOccurrence = $component->DTSTART->getDateTime()->getTimeStamp();
 			// Finding the last occurrence is a bit harder
 			if (!isset($component->RRULE)) {
 				if (isset($component->DTEND)) {
@@ -1333,7 +1333,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					$endDate->modify('+1 day');
 					$lastOccurrence = $endDate->getTimeStamp();
 				} else {
-					$lastOccurrence = $firstOccurence;
+					$lastOccurrence = $firstOccurrence;
 				}
 			} else {
 				$it = new EventIterator($vObject, (string)$component->UID);
