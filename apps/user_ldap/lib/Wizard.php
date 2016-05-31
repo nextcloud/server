@@ -217,7 +217,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		$attr = $this->configuration->ldapUserDisplayName;
-		if($attr !== 'displayName' && !empty($attr)) {
+		if((is_string($attr)) && ($attr !== '') && ($attr !== 'displayName')) {
 			// most likely not the default value with upper case N,
 			// verify it still produces a result
 			$count = intval($this->countUsersWithAttribute($attr, true));
@@ -259,7 +259,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		$attr = $this->configuration->ldapEmailAttribute;
-		if(!empty($attr)) {
+		if((is_string($attr)) && ($attr !== '')) {
 			$count = intval($this->countUsersWithAttribute($attr, true));
 			if($count > 0) {
 				return false;
@@ -549,7 +549,7 @@ class Wizard extends LDAPUtility {
 		}
 		//make sure the use display name is set
 		$displayName = $this->configuration->ldapGroupDisplayName;
-		if(empty($displayName)) {
+		if((!is_string($displayName)) || ($displayName === '')) {
 			$d = $this->configuration->getDefaults();
 			$this->applyFind('ldap_group_display_name',
 							 $d['ldap_group_display_name']);
@@ -573,7 +573,7 @@ class Wizard extends LDAPUtility {
 		}
 		//make sure the use display name is set
 		$displayName = $this->configuration->ldapUserDisplayName;
-		if(empty($displayName)) {
+		if((!is_string($displayName)) || ($displayName === '')) {
 			$d = $this->configuration->getDefaults();
 			$this->applyFind('ldap_display_name', $d['ldap_display_name']);
 		}
@@ -901,7 +901,7 @@ class Wizard extends LDAPUtility {
 							$er = $this->ldap->firstEntry($cr, $rr);
 							$attrs = $this->ldap->getAttributes($cr, $er);
 							$dn = $this->ldap->getDN($cr, $er);
-							if(empty($dn)) {
+							if((!is_string($dn)) || ($dn === '')) {
 								continue;
 							}
 							$filterPart = '(memberof=' . $dn . ')';
@@ -920,7 +920,7 @@ class Wizard extends LDAPUtility {
 				if($parts > 1) {
 					$filter = '(&' . $filter . ')';
 				}
-				if(empty($filter)) {
+				if((!is_string($filter)) || ($filter === '')) {
 					$filter = '(objectclass=*)';
 				}
 				break;
@@ -971,7 +971,7 @@ class Wizard extends LDAPUtility {
 						//fallback
 						$attr = 'cn';
 					}
-					if(!empty($attr)) {
+					if((is_string($attr)) && ($attr !== '')) {
 						$filterUsername = '(' . $attr . $loginpart . ')';
 						$parts++;
 					}
@@ -1096,8 +1096,8 @@ class Wizard extends LDAPUtility {
 		$agent = $this->configuration->ldapAgentName;
 		$pwd = $this->configuration->ldapAgentPassword;
 
-		return ( (!empty($agent) && !empty($pwd))
-		       || (empty($agent) &&  empty($pwd)));
+		return ( (is_string($agent) && ($agent !== '') && is_string($pwd) && ($pwd !== ''))
+		       ||  ((!is_string($agent) || ($agent === ''))  &&  ((!is_string($pwd)) || ($pwd === ''))));
 	}
 
 	/**
@@ -1108,7 +1108,7 @@ class Wizard extends LDAPUtility {
 		$this->checkAgentRequirements();
 		foreach($reqs as $option) {
 			$value = $this->configuration->$option;
-			if(empty($value)) {
+			if((!is_string($value)) || ($value === '')) {
 				return false;
 			}
 		}
@@ -1234,7 +1234,7 @@ class Wizard extends LDAPUtility {
 		if(is_array($setFeatures) && !empty($setFeatures)) {
 			//something is already configured? pre-select it.
 			$this->result->addChange($dbkey, $setFeatures);
-		} else if($po && !empty($maxEntryObjC)) {
+		} else if($po && (is_string($maxEntryObjC)) && ($maxEntryObjC !== '')) {
 			//pre-select objectclass with most result entries
 			$maxEntryObjC = str_replace($p, '', $maxEntryObjC);
 			$this->applyFind($dbkey, $maxEntryObjC);
