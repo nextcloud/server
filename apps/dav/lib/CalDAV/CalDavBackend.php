@@ -489,7 +489,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	function getCalendarObjects($calendarId) {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'componenttype'])
+		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'componenttype', 'classification'])
 			->from('calendarobjects')
 			->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)));
 		$stmt = $query->execute();
@@ -504,6 +504,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'calendarid'   => $row['calendarid'],
 					'size'         => (int)$row['size'],
 					'component'    => strtolower($row['componenttype']),
+					'classification'=> $row['classification']
 			];
 		}
 
@@ -529,7 +530,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	function getCalendarObject($calendarId, $objectUri) {
 
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype'])
+		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification'])
 				->from('calendarobjects')
 				->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 				->andWhere($query->expr()->eq('uri', $query->createNamedParameter($objectUri)));
@@ -547,6 +548,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'size'          => (int)$row['size'],
 				'calendardata'  => $this->readBlob($row['calendardata']),
 				'component'     => strtolower($row['componenttype']),
+				'classification'=> $row['classification']
 		];
 	}
 
@@ -564,7 +566,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	function getMultipleCalendarObjects($calendarId, array $uris) {
 		$query = $this->db->getQueryBuilder();
-		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype'])
+		$query->select(['id', 'uri', 'lastmodified', 'etag', 'calendarid', 'size', 'calendardata', 'componenttype', 'classification'])
 				->from('calendarobjects')
 				->where($query->expr()->eq('calendarid', $query->createNamedParameter($calendarId)))
 				->andWhere($query->expr()->in('uri', $query->createParameter('uri')))
@@ -584,6 +586,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'size'         => (int)$row['size'],
 					'calendardata' => $this->readBlob($row['calendardata']),
 					'component'    => strtolower($row['componenttype']),
+					'classification' => $row['classification']
 			];
 
 		}
@@ -679,6 +682,11 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 * @param int $classification
 	 */
 	public function setClassification($calendarObjectId, $classification) {
+		if (!in_array($classification, [
+			self::CLASSIFICATION_PUBLIC, self::CLASSIFICATION_PRIVATE, self::CLASSIFICATION_CONFIDENTIAL
+		])) {
+			throw new \InvalidArgumentException();
+		}
 		$query = $this->db->getQueryBuilder();
 		$query->update('calendarobjects')
 			->set('classification', $query->createNamedParameter($classification))

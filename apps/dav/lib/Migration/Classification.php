@@ -55,7 +55,7 @@ class Classification implements IRepairStep {
 		foreach ($calendars as $calendar) {
 			$objects = $this->calDavBackend->getCalendarObjects($calendar['id']);
 			foreach ($objects as $object) {
-				$calObject = $this->calDavBackend->getCalendarObject($calendar['id'], $object['id']);
+				$calObject = $this->calDavBackend->getCalendarObject($calendar['id'], $object['uri']);
 				$classification = $this->extractClassification($calObject['calendardata']);
 				$this->calDavBackend->setClassification($object['id'], $classification);
 			}
