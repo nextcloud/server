@@ -449,7 +449,16 @@ class DAV extends Common {
 		if ($this->file_exists($path)) {
 			try {
 				$this->statCache->remove($path);
-				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
+				$this->client->proppatch($this->encodePath($path), ['{DAV:}lastmodified' => $mtime]);
+				// non-owncloud clients might not have accepted the property, need to recheck it
+				$response = $this->client->propfind($this->encodePath($path), ['{DAV:}getlastmodified'], 0);
+				if (isset($response['{DAV:}getlastmodified'])) {
+					$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
+					if ($remoteMtime !== $mtime) {
+						// server has not accepted the mtime
+						return false;
+					}
+				}
 			} catch (ClientHttpException $e) {
 				if ($e->getHttpStatus() === 501) {
 					return false;
@@ -506,13 +515,18 @@ class DAV extends Common {
 		$path1 = $this->cleanPath($path1);
 		$path2 = $this->cleanPath($path2);
 		try {
+			// overwrite directory ?
+			if ($this->is_dir($path2)) {
+				// needs trailing slash in destination
+				$path2 = rtrim($path2, '/') . '/';
+			}
 			$this->client->request(
 				'MOVE',
 				$this->encodePath($path1),
 				null,
-				array(
-					'Destination' => $this->createBaseUri() . $this->encodePath($path2)
-				)
+				[
+					'Destination' => $this->createBaseUri() . $this->encodePath($path2),
+				]
 			);
 			$this->statCache->clear($path1 . '/');
 			$this->statCache->clear($path2 . '/');
@@ -530,10 +544,22 @@ class DAV extends Common {
 	/** {@inheritdoc} */
 	public function copy($path1, $path2) {
 		$this->init();
-		$path1 = $this->encodePath($this->cleanPath($path1));
-		$path2 = $this->createBaseUri() . $this->encodePath($this->cleanPath($path2));
+		$path1 = $this->cleanPath($path1);
+		$path2 = $this->cleanPath($path2);
 		try {
-			$this->client->request('COPY', $path1, null, array('Destination' => $path2));
+			// overwrite directory ?
+			if ($this->is_dir($path2)) {
+				// needs trailing slash in destination
+				$path2 = rtrim($path2, '/') . '/';
+			}
+			$this->client->request(
+				'COPY',
+				$this->encodePath($path1),
+				null,
+				[
+					'Destination' => $this->createBaseUri() . $this->encodePath($path2),
+				]
+			);
 			$this->statCache->clear($path2 . '/');
 			$this->statCache->set($path2, true);
 			$this->removeCachedFile($path2);
