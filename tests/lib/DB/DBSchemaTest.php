@@ -45,6 +45,7 @@ class DBSchemaTest extends \Test\TestCase {
 	protected function tearDown() {
 		unlink($this->schema_file);
 		unlink($this->schema_file2);
+		$this->mockDBPrefix('oc_');
 
 		parent::tearDown();
 	}
@@ -92,10 +93,17 @@ class DBSchemaTest extends \Test\TestCase {
 
 		$randomPrefix = strtolower($this->getUniqueID('', 2, false) . '_');
 		$content = file_get_contents($dbfile);
-		// Add prefix to index names to make them unique
-		#$content = str_replace('<name>', '<name>*dbprefix*', $content);
-		#$content = str_replace('*dbprefix**dbprefix*', '*dbprefix*', $content);
+
+		// Add prefix to index names to make them unique for testing (oc_ exists in parallel)
+		$content = str_replace('<name>', '<name>*dbprefix*', $content);
+		$content = str_replace('*dbprefix**dbprefix*', '*dbprefix*', $content);
 		$content = str_replace('*dbprefix*', $randomPrefix, $content);
+
+		// Shorten index names that are too long, now that we added the prefix to make them unique
+		$content = preg_replace_callback('/<name>([a-zA-Z0-9_]{28,})<\/name>/', function($match) use ($randomPrefix) {
+			return $randomPrefix . substr(md5($match[1]), 0, 26);
+		}, $content);
+
 		file_put_contents($schema_file, $content);
 
 		$this->mockDBPrefix($randomPrefix);
