@@ -174,14 +174,14 @@ class Access extends LDAPUtility implements IUserTools {
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
-			if(!empty($attr)) {
+			if($attr !== '') {
 				//do not throw this message on userExists check, irritates
 				\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
 			}
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
-		if (empty($attr) && ($filter === 'objectclass=*' || $this->ldap->countEntries($cr, $rr) === 1)) {
+		if (($attr !== '') && ($filter === 'objectclass=*' || $this->ldap->countEntries($cr, $rr) === 1)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
 			return array();
 		}
@@ -457,7 +457,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 		if($isUser) {
 			$usernameAttribute = $this->connection->ldapExpertUsernameAttr;
-			if(!empty($usernameAttribute)) {
+			if($usernameAttribute !== '') {
 				$username = $this->readAttribute($fdn, $usernameAttribute);
 				$username = $username[0];
 			} else {
@@ -1156,7 +1156,7 @@ class Access extends LDAPUtility implements IUserTools {
 	private function combineFilter($filters, $operator) {
 		$combinedFilter = '('.$operator;
 		foreach($filters as $filter) {
-			if(!empty($filter) && $filter[0] !== '(') {
+			if((is_string($filter)) && ($filter !== '') && $filter[0] !== '(') {
 				$filter = '('.$filter.')';
 			}
 			$combinedFilter.=$filter;
@@ -1239,7 +1239,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 		$search = $this->prepareSearchTerm($search);
 		if(!is_array($searchAttributes) || count($searchAttributes) === 0) {
-			if(empty($fallbackAttribute)) {
+			if((!is_string($fallbackAttribute)) || ($fallbackAttribute === '')) {
 				return '';
 			}
 			$filter[] = $fallbackAttribute . '=' . $search;
@@ -1265,8 +1265,12 @@ class Access extends LDAPUtility implements IUserTools {
 
 		$allowEnum = $config->getAppValue('core', 'shareapi_allow_share_dialog_user_enumeration', 'yes');
 
-		$result = empty($term) ? '*' :
-			$allowEnum !== 'no' ? $term . '*' : $term;
+		$result = $term;
+		if((!is_string($term)) || ($term === '')) {
+			$result = '*';
+		} else if ($allowEnum !== 'no') {
+			$result = $term . '*';
+		}
 		return $result;
 	}
 
@@ -1313,7 +1317,7 @@ class Access extends LDAPUtility implements IUserTools {
 		$filter       = $this->connection->ldapUserFilter;
 		$base         = $this->connection->ldapBaseUsers;
 
-		if($this->connection->ldapUuidUserAttribute === 'auto' && empty($uuidOverride)) {
+		if($this->connection->ldapUuidUserAttribute === 'auto' && ((!is_string($uuidOverride)) || ($uuidOverride === ''))) {
 			// Sacrebleu! The UUID attribute is unknown :( We need first an
 			// existing DN to be able to reliably detect it.
 			$result = $this->search($filter, $base, ['dn'], 1);
@@ -1369,7 +1373,7 @@ class Access extends LDAPUtility implements IUserTools {
 			return true;
 		}
 
-		if(!empty($uuidOverride) && !$force) {
+		if((is_string($uuidOverride)) && ($uuidOverride !== '') && !$force) {
 			$this->connection->$uuidAttr = $uuidOverride;
 			return true;
 		}
@@ -1412,7 +1416,8 @@ class Access extends LDAPUtility implements IUserTools {
 		if($this->detectUuidAttribute($dn, $isUser)) {
 			$uuid = $this->readAttribute($dn, $this->connection->$uuidAttr);
 			if( !is_array($uuid)
-				&& !empty($uuidOverride)
+				&& (is_string($uuidOverride))
+				&& ($uuidOverride !== '')
 				&& $this->detectUuidAttribute($dn, $isUser, true)) {
 					$uuid = $this->readAttribute($dn,
 												 $this->connection->$uuidAttr);
