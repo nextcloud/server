@@ -1108,7 +1108,7 @@ class Wizard extends LDAPUtility {
 		$this->checkAgentRequirements();
 		foreach($reqs as $option) {
 			$value = $this->configuration->$option;
-			if((!is_string($value)) || ($value === '')) {
+			if(empty($value)) {
 				return false;
 			}
 		}
