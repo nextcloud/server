@@ -665,11 +665,11 @@
 	OCA.Files.FileActions.updateFileActionSpinner = function($downloadButtonElement, showIt) {
 		var $icon = $downloadButtonElement.find('.icon');
 		if (showIt) {
-			var $loadingIcon = $('<span class="icon loading"></span>');
+			var $loadingIcon = $('<span class="icon icon-loading-small"></span>');
 			$icon.after($loadingIcon);
 			$icon.addClass('hidden');
 		} else {
-			$downloadButtonElement.find('.loading').remove();
+			$downloadButtonElement.find('.icon-loading-small').remove();
 			$downloadButtonElement.find('.icon').removeClass('hidden');
 		}
 	};
