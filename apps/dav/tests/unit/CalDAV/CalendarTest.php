@@ -189,4 +189,53 @@ class CalendarTest extends TestCase {
 			'birthday calendar' => [false, false, false, BirthdayService::BIRTHDAY_CALENDAR_URI]
 		];
 	}
+
+	/**
+	 * @dataProvider providesConfidentialClassificationData
+	 * @param $expectedChildren
+	 * @param $isShared
+	 */
+	public function testConfidentialClassification($expectedChildren, $isShared) {
+		$calObject0 = ['uri' => 'event-0', 'classification' => CalDavBackend::CLASSIFICATION_PUBLIC];
+		$calObject1 = ['uri' => 'event-1', 'classification' => CalDavBackend::CLASSIFICATION_PRIVATE];
+		$calObject2 = ['uri' => 'event-2', 'classification' => CalDavBackend::CLASSIFICATION_CONFIDENTIAL];
+
+		/** @var \PHPUnit_Framework_MockObject_MockObject | CalDavBackend $backend */
+		$backend = $this->getMockBuilder('OCA\DAV\CalDAV\CalDavBackend')->disableOriginalConstructor()->getMock();
+		$backend->expects($this->any())->method('getCalendarObjects')->willReturn([
+			$calObject0, $calObject1, $calObject2
+		]);
+		$backend->expects($this->any())->method('getMultipleCalendarObjects')
+			->with(666, ['event-0', 'event-1', 'event-2'])
+			->willReturn([
+			$calObject0, $calObject1, $calObject2
+		]);
+		$backend->expects($this->any())->method('getCalendarObject')
+			->willReturn($calObject2)->with(666, 'event-2');
+
+		$calendarInfo = [
+			'principaluri' => 'user2',
+			'id' => 666,
+			'uri' => 'cal',
+		];
+
+		if ($isShared) {
+			$calendarInfo['{http://owncloud.org/ns}owner-principal'] = 'user1';
+
+		}
+		$c = new Calendar($backend, $calendarInfo, $this->l10n);
+		$children = $c->getChildren();
+		$this->assertEquals($expectedChildren, count($children));
+		$children = $c->getMultipleChildren(['event-0', 'event-1', 'event-2']);
+		$this->assertEquals($expectedChildren, count($children));
+
+		$this->assertEquals(!$isShared, $c->childExists('event-2'));
+	}
+
+	public function providesConfidentialClassificationData() {
+		return [
+			[3, false],
+			[2, true]
+		];
+	}
 }

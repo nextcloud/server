@@ -25,7 +25,9 @@ namespace OCA\DAV\CalDAV;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\IL10N;
 use Sabre\CalDAV\Backend\BackendInterface;
+use Sabre\CalDAV\CalendarObject;
 use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
 
 class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
@@ -162,11 +164,75 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		parent::propPatch($propPatch);
 	}
 
+	function getChild($name) {
+
+		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name);
+
+		if (!$obj) {
+			throw new NotFound('Calendar object not found');
+		}
+
+		if ($this->isShared() && $obj['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL) {
+			throw new NotFound('Calendar object not found');
+		}
+
+		$obj['acl'] = $this->getChildACL();
+
+		return new CalendarObject($this->caldavBackend, $this->calendarInfo, $obj);
+
+	}
+
+	function getChildren() {
+
+		$objs = $this->caldavBackend->getCalendarObjects($this->calendarInfo['id']);
+		$children = [];
+		foreach ($objs as $obj) {
+			if ($this->isShared() && $obj['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL) {
+				continue;
+			}
+			$obj['acl'] = $this->getChildACL();
+			$children[] = new CalendarObject($this->caldavBackend, $this->calendarInfo, $obj);
+		}
+		return $children;
+
+	}
+
+	function getMultipleChildren(array $paths) {
+
+		$objs = $this->caldavBackend->getMultipleCalendarObjects($this->calendarInfo['id'], $paths);
+		$children = [];
+		foreach ($objs as $obj) {
+			if ($this->isShared() && $obj['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL) {
+				continue;
+			}
+			$obj['acl'] = $this->getChildACL();
+			$children[] = new CalendarObject($this->caldavBackend, $this->calendarInfo, $obj);
+		}
+		return $children;
+
+	}
+
+	function childExists($name) {
+		$obj = $this->caldavBackend->getCalendarObject($this->calendarInfo['id'], $name);
+		if (!$obj) {
+			return false;
+		}
+		if ($this->isShared() && $obj['classification'] === CalDavBackend::CLASSIFICATION_CONFIDENTIAL) {
+			return false;
+		}
+
+		return true;
+	}
+
 	private function canWrite() {
 		if (isset($this->calendarInfo['{http://owncloud.org/ns}read-only'])) {
 			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];
 		}
 		return true;
+	}
+
+	private function isShared() {
+		return isset($this->calendarInfo['{http://owncloud.org/ns}owner-principal']);
 	}
 
 }
