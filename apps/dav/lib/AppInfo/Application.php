@@ -108,6 +108,14 @@ class Application extends App {
 				$g
 			);
 		});
+
+		$container->registerService('OCA\DAV\Migration\Classification', function ($c) {
+			/** @var IAppContainer $c */
+			return new Classification(
+				$c->query('CalDavBackend'),
+				$c->getServer()->getUserManager()
+			);
+		});
 	}
 
 	/**
@@ -165,22 +173,6 @@ class Application extends App {
 			$userManager->callForAllUsers(function($user) use($migration) {
 				/** @var IUser $user */
 				$migration->syncUser($user->getUID());
-			});
-		} catch (\Exception $ex) {
-			$this->getContainer()->getServer()->getLogger()->logException($ex);
-		}
-	}
-
-	public function migrateClassification() {
-		try {
-			/** @var CalDavBackend $calDavBackend */
-			$calDavBackend = $this->getContainer()->query('CalDavBackend');
-			$migration = new Classification($calDavBackend);
-			$userManager = $this->getContainer()->getServer()->getUserManager();
-
-			$userManager->callForAllUsers(function($user) use($migration) {
-				/** @var IUser $user */
-				$migration->runForUser($user);
 			});
 		} catch (\Exception $ex) {
 			$this->getContainer()->getServer()->getLogger()->logException($ex);

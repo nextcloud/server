@@ -20,4 +20,9 @@
 	<background-jobs>
 		<job>OCA\DAV\CardDAV\Sync\SyncJob</job>
 	</background-jobs>
+	<repair-steps>
+		<post-migration>
+			<job>OCA\DAV\Migration\Classification</job>
+		</post-migration>
+	</repair-steps>
 </info>
