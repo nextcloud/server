@@ -370,12 +370,17 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$containerName = $this->getContainer()->getName();
-			$pathsToDelete = array(sprintf('/%s/%s', $containerName, $path));
-			foreach ($this->getFileSegments($path) as $segmentPath) {
-				$pathsToDelete[] = sprintf('/%s/%s', $containerName, $segmentPath);
+			$fileSegments = $this->getFileSegments($path);
+			if (count($fileSegments) == 0) {
+				$this->getContainer()->dataObject()->setName($path)->delete();
+			} else {
+				$containerName = $this->getContainer()->getName();
+				$pathsToDelete = array(sprintf('/%s/%s', $containerName, $path));
+				foreach ($fileSegments as $segmentPath) {
+					$pathsToDelete[] = sprintf('/%s/%s', $containerName, $segmentPath);
+				}
+				$this->getConnection()->bulkDelete($pathsToDelete);
 			}
-			$this->getConnection()->bulkDelete($pathsToDelete);
 			$this->objectCache->remove($path);
 			$this->objectCache->remove($path . '/');
 		} catch (ClientErrorResponseException $e) {
