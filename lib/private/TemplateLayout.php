@@ -73,7 +73,7 @@ class TemplateLayout extends \OC_Template {
 
 			// Code integrity notification
 			$integrityChecker = \OC::$server->getIntegrityCodeChecker();
-			if(\OC_User::isAdminUser(\OC_User::getUser()) && !$integrityChecker->hasPassedCheck()) {
+			if(\OC_User::isAdminUser(\OC_User::getUser()) && $integrityChecker->isCodeCheckEnforced() && !$integrityChecker->hasPassedCheck()) {
 				\OCP\Util::addScript('core', 'integritycheck-failed-notification');
 			}
 
