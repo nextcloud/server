@@ -16,7 +16,7 @@ OC.L10N.register(
     "Error configuring OAuth2" : "Ошибка настройки OAuth2",
     "Generate keys" : "Создать ключи",
     "Error generating key pair" : "Ошибка создания ключевой пары",
-    "All users. Type to select user or group." : "Все пользователи. Введите имя пользователя или группы.",
+    "All users. Type to select user or group." : "Все пользователи. Для выбора введите имя пользователя или группы.",
     "(group)" : "(группа)",
     "Compatibility with Mac NFD encoding (slow)" : "Совместимость с кодировкой Mac NFD (медленно)",
     "Admin defined" : "Определено админом",

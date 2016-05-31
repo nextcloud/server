@@ -9,6 +9,7 @@ OC.L10N.register(
     "Unable to change password" : "Imposibil de schimbat parola",
     "Enabled" : "Activat",
     "Not enabled" : "Dezactivat",
+    "Federated Cloud Sharing" : "Partajare federalizata cloud",
     "Migration Completed" : "Migrare încheiată",
     "Group already exists." : "Grupul există deja.",
     "Unable to add group." : "Nu se poate adăuga grupul.",
