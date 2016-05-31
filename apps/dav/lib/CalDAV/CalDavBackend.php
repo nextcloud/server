@@ -504,7 +504,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'calendarid'   => $row['calendarid'],
 					'size'         => (int)$row['size'],
 					'component'    => strtolower($row['componenttype']),
-					'classification'=> $row['classification']
+					'classification'=> (int)$row['classification']
 			];
 		}
 
@@ -548,7 +548,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 				'size'          => (int)$row['size'],
 				'calendardata'  => $this->readBlob($row['calendardata']),
 				'component'     => strtolower($row['componenttype']),
-				'classification'=> $row['classification']
+				'classification'=> (int)$row['classification']
 		];
 	}
 
@@ -586,7 +586,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 					'size'         => (int)$row['size'],
 					'calendardata' => $this->readBlob($row['calendardata']),
 					'component'    => strtolower($row['componenttype']),
-					'classification' => $row['classification']
+					'classification' => (int)$row['classification']
 			];
 
 		}
