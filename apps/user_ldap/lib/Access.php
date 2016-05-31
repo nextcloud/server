@@ -174,14 +174,14 @@ class Access extends LDAPUtility implements IUserTools {
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
-			if($attr !== '') {
+			if(is_string($attr) && ($attr !== '')) {
 				//do not throw this message on userExists check, irritates
 				\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
 			}
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
-		if (($attr !== '') && ($filter === 'objectclass=*' || $this->ldap->countEntries($cr, $rr) === 1)) {
+		if (((!is_string($attr)) || ($attr === '')) && ($filter === 'objectclass=*' || $this->ldap->countEntries($cr, $rr) === 1)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
 			return array();
 		}
@@ -457,7 +457,7 @@ class Access extends LDAPUtility implements IUserTools {
 
 		if($isUser) {
 			$usernameAttribute = $this->connection->ldapExpertUsernameAttr;
-			if($usernameAttribute !== '') {
+			if((is_string($usernameAttribute)) && ($usernameAttribute !== '')) {
 				$username = $this->readAttribute($fdn, $usernameAttribute);
 				$username = $username[0];
 			} else {
