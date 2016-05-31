@@ -178,7 +178,7 @@ class User {
 		if(isset($ldapEntry[$attr])) {
 			$displayName2 = $ldapEntry[$attr][0];
 		}
-		if(!empty($displayName)) {
+		if((is_string($displayName)) && ($displayName !== '')) {
 			$this->composeAndStoreDisplayName($displayName);
 			$this->access->cacheUserDisplayName(
 				$this->getUsername(),
@@ -265,7 +265,7 @@ class User {
 			}
 		}
 
-		if(!empty($path)) {
+		if((is_string($path)) && ($path !== '')) {
 			//if attribute's value is an absolute path take this, otherwise append it to data dir
 			//check for / at the beginning or pattern c:\ resp. c:/
 			if(   '/' !== $path[0]
@@ -382,7 +382,7 @@ class User {
 	 * @returns string the effective display name
 	 */
 	public function composeAndStoreDisplayName($displayName, $displayName2 = '') {
-		if(!empty($displayName2)) {
+		if((is_string($displayName2)) && ($displayName2 !== '')) {
 			$displayName .= ' (' . $displayName2 . ')';
 		}
 		$this->store('displayName', $displayName);
@@ -424,7 +424,7 @@ class User {
 		$email = $valueFromLDAP;
 		if(is_null($valueFromLDAP)) {
 			$emailAttribute = $this->connection->ldapEmailAttribute;
-			if(!empty($emailAttribute)) {
+			if((is_string($emailAttribute)) && ($emailAttribute !== '')) {
 				$aEmail = $this->access->readAttribute($this->dn, $emailAttribute);
 				if(is_array($aEmail) && (count($aEmail) > 0)) {
 					$email = $aEmail[0];
@@ -456,7 +456,7 @@ class User {
 
 		if(is_null($valueFromLDAP)) {
 			$quotaAttribute = $this->connection->ldapQuotaAttribute;
-			if(!empty($quotaAttribute)) {
+			if((is_string($quotaAttribute)) && ($quotaAttribute !== '')) {
 				$aQuota = $this->access->readAttribute($this->dn, $quotaAttribute);
 				if($aQuota && (count($aQuota) > 0)) {
 					$quota = $aQuota[0];
