@@ -94,11 +94,10 @@ class Owncloud {
 		$url = ($request->getRequestUri() !== '') ? $request->getRequestUri() : '--';
 		$method = is_string($request->getMethod()) ? $request->getMethod() : '--';
 		if(\OC::$server->getConfig()->getSystemValue('installed', false)) {
-			$userObj = \OC::$server->getUserSession()->getUser();
+			$user = (\OC_User::getUser()) ? \OC_User::getUser() : '--';
 		} else {
-			$userObj = null;
+			$user = '--';
 		}
-		$user = !is_null($userObj) ? $userObj->getUID() : '--';
 		$entry = compact(
 			'reqId',
 			'remoteAddr',
