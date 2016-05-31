@@ -24,4 +24,3 @@ use OCA\DAV\AppInfo\Application;
 
 $app = new Application();
 $app->generateBirthdays();
-$app->migrateClassification();
