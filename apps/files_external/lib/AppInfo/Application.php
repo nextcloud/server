@@ -89,10 +89,8 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		];
 
 		if (!\OC_Util::runningOnWindows()) {
-			$backends += [
-				$container->query('OCA\Files_External\Lib\Backend\SMB'),
-				$container->query('OCA\Files_External\Lib\Backend\SMB_OC'),
-			];
+			$backends[] = $container->query('OCA\Files_External\Lib\Backend\SMB');
+			$backends[] = $container->query('OCA\Files_External\Lib\Backend\SMB_OC');
 		}
 
 		return $backends;
