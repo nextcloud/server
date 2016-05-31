@@ -738,7 +738,7 @@ class OC_Util {
 			),
 			'functions' => [
 				'xml_parser_create' => 'libxml',
-				'mb_detect_encoding' => 'mb multibyte',
+				'mb_strcut' => 'mb multibyte',
 				'ctype_digit' => 'ctype',
 				'json_encode' => 'JSON',
 				'gd_info' => 'GD',
