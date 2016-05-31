@@ -158,7 +158,7 @@ class Configuration {
 					break;
 				case 'homeFolderNamingRule':
 					$trimmedVal = trim($val);
-					if(!empty($trimmedVal) && strpos($val, 'attr:') === false) {
+					if(is_string($trimmedVal) && ($trimmedVal !== '') && strpos($val, 'attr:') === false) {
 						$val = 'attr:'.$trimmedVal;
 					}
 					break;
@@ -306,7 +306,7 @@ class Configuration {
 			foreach($value as $key => $val) {
 				if(is_string($val)) {
 					$val = trim($val);
-					if(!empty($val)) {
+					if((is_string($val)) && ($val !== '')) {
 						//accidental line breaks are not wanted and can cause
 						// odd behaviour. Thus, away with them.
 						$finalValue[] = $val;
