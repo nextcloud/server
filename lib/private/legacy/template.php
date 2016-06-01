@@ -316,6 +316,11 @@ class OC_Template extends \OC\Template\Base {
 		* @param string $hint An optional hint message - needs to be properly escaped
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
+		if ($error_msg === $hint) {
+			// If the hint is the same as the message there is no need to display it twice.
+			$hint = '';
+		}
+
 		try {
 			$content = new \OC_Template( '', 'error', 'error', false );
 			$errors = array(array('error' => $error_msg, 'hint' => $hint));
