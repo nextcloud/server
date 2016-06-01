@@ -39,7 +39,6 @@ OC.L10N.register(
     "For anonymous access, leave DN and Password empty." : "Para acceso anónimo, dejá DN y contraseña vacíos.",
     "One Base DN per line" : "Una DN base por línea",
     "You can specify Base DN for users and groups in the Advanced tab" : "Podés especificar el DN base para usuarios y grupos en la pestaña \"Avanzado\"",
-    "Limit %s access to users meeting these criteria:" : "Limitar acceso %s a los usuarios que cumplen con este criterio:",
     "The filter specifies which LDAP users shall have access to the %s instance." : "El filtro especifica cuáles usuarios LDAP deben tener acceso a la instancia %s.",
     "Back" : "Volver",
     "Continue" : "Continuar",

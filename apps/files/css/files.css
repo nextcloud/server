@@ -828,3 +828,8 @@ html.ie8 #controls .button.new {
 .app-files .actions .button.new .icon {
 	margin-bottom: 2px;
 }
+
+.canDrop,
+#filestable tbody tr.canDrop {
+  background-color: rgba(255, 255, 140, 1);
+}

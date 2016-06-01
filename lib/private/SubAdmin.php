@@ -1,9 +1,9 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *

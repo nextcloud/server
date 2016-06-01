@@ -370,7 +370,8 @@ describe('OCA.External.Settings tests', function() {
 					encrypt: true,
 					previews: true,
 					enable_sharing: false,
-					filesystem_check_changes: 0
+					filesystem_check_changes: 0,
+					encoding_compatibility: false
 				});
 			});
 		});

@@ -2,13 +2,15 @@
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Tom Needham <tom@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
@@ -337,7 +339,7 @@ class OC_API {
 		}
 
 		// reuse existing login
-		$loggedIn = OC_User::isLoggedIn();
+		$loggedIn = \OC::$server->getUserSession()->isLoggedIn();
 		if ($loggedIn === true) {
 			$ocsApiRequest = isset($_SERVER['HTTP_OCS_APIREQUEST']) ? $_SERVER['HTTP_OCS_APIREQUEST'] === 'true' : false;
 			if ($ocsApiRequest) {
@@ -353,35 +355,25 @@ class OC_API {
 
 		// basic auth - because OC_User::login will create a new session we shall only try to login
 		// if user and pass are set
-		if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) ) {
-			$authUser = $_SERVER['PHP_AUTH_USER'];
-			$authPw = $_SERVER['PHP_AUTH_PW'];
-			try {
-				$return = OC_User::login($authUser, $authPw);
-			} catch (\OC\User\LoginException $e) {
-				return false;
+		$userSession = \OC::$server->getUserSession();
+		$request = \OC::$server->getRequest();
+		try {
+			$loginSuccess = $userSession->tryTokenLogin($request);
+			if (!$loginSuccess) {
+				$loginSuccess = $userSession->tryBasicAuthLogin($request);
 			}
-			if ($return === true) {
-				self::$logoutRequired = true;
+		} catch (\OC\User\LoginException $e) {
+			return false;
+		}
+	
+		if ($loginSuccess === true) {
+			self::$logoutRequired = true;
 
-				// initialize the user's filesystem
-				\OC_Util::setUpFS(\OC_User::getUser());
-				self::$isLoggedIn = true;
+			// initialize the user's filesystem
+			\OC_Util::setUpFS(\OC_User::getUser());
+			self::$isLoggedIn = true;
 
-				/**
-				 * Add DAV authenticated. This should in an ideal world not be
-				 * necessary but the iOS App reads cookies from anywhere instead
-				 * only the DAV endpoint.
-				 * This makes sure that the cookies will be valid for the whole scope
-				 * @see https://github.com/owncloud/core/issues/22893
-				 */
-				\OC::$server->getSession()->set(
-					\OCA\DAV\Connector\Sabre\Auth::DAV_AUTHENTICATED,
-					\OC::$server->getUserSession()->getUser()->getUID()
-				);
-
-				return \OC_User::getUser();
-			}
+			return \OC_User::getUser();
 		}
 
 		return false;

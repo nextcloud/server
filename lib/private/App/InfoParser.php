@@ -1,7 +1,8 @@
 <?php
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
@@ -91,6 +92,9 @@ class InfoParser {
 		}
 		if (!array_key_exists('background-jobs', $array)) {
 			$array['background-jobs'] = [];
+		}
+		if (!array_key_exists('two-factor-providers', $array)) {
+			$array['two-factor-providers'] = [];
 		}
 
 		if (array_key_exists('documentation', $array) && is_array($array['documentation'])) {

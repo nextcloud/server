@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

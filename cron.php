@@ -7,7 +7,6 @@
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Oliver Kohl D.Sc. <oliver@kohl.bz>
- * @author Phil Davis <phil.davis@inf.org>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -100,32 +99,9 @@ try {
 			}
 		}
 
-		$instanceId = $config->getSystemValue('instanceid');
-		$lockFileName = 'owncloud-server-' . $instanceId . '-cron.lock';
-		$lockDirectory = $config->getSystemValue('cron.lockfile.location', sys_get_temp_dir());
-		$lockDirectory = rtrim($lockDirectory, '\\/');
-		$lockFile = $lockDirectory . '/' . $lockFileName;
-
-		if (!file_exists($lockFile)) {
-			touch($lockFile);
-		}
-
 		// We call ownCloud from the CLI (aka cron)
 		if ($appMode != 'cron') {
 			\OCP\BackgroundJob::setExecutionType('cron');
-		}
-
-		// open the file and try to lock it. If it is not locked, the background
-		// job can be executed, otherwise another instance is already running
-		$fp = fopen($lockFile, 'w');
-		$isLocked = flock($fp, LOCK_EX|LOCK_NB, $wouldBlock);
-
-		// check if backgroundjobs is still running. The wouldBlock check is
-		// needed on systems with advisory locking, see
-		// http://php.net/manual/en/function.flock.php#45464
-		if (!$isLocked || $wouldBlock) {
-			echo "Another instance of cron.php is still running!" . PHP_EOL;
-			exit(1);
 		}
 
 		// Work
@@ -138,6 +114,7 @@ try {
 		$executedJobs = [];
 		while ($job = $jobList->getNext()) {
 			if (isset($executedJobs[$job->getId()])) {
+				$jobList->unlockJob($job);
 				break;
 			}
 
@@ -153,10 +130,6 @@ try {
 				break;
 			}
 		}
-
-		// unlock the file
-		flock($fp, LOCK_UN);
-		fclose($fp);
 
 	} else {
 		// We call cron.php from some website

@@ -94,7 +94,6 @@ OC.L10N.register(
     "Test Base DN" : "Otestovať základnú DN",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Bráni automatickým LDAP požiadavkám. Výhodné pre objemné nastavenia ale vyžaduje si dobrú znalosť o LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Ručné vloženie LDAP filtrov (odporúčané pre rozsiahle adresáre)",
-    "Limit %s access to users meeting these criteria:" : "Obmedziť %s prístup na používateľov spĺňajúcich tieto kritériá:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Najčastejšie triedy objektov pre používateľov sú organizationalPerson, user a inetOrgPerson. Ak si nie ste istí, ktoré triedy máte zvoliť, obráťte sa na správcu LDAP.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Tento filter LDAP určuje, ktorí používatelia majú prístup k %s inštancii.",
     "Verify settings and count users" : "Overiť nastavenia a spočítať používateľov",

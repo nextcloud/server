@@ -1,8 +1,8 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Updated channel" : "Frissített csatorna",
     "{version} is available. Get more information on how to update." : "{version} rendelkezésre áll. További információ a frissítéshez.",
+    "Updated channel" : "Frissített csatorna",
     "Updater" : "Frissítéskezelő",
     "A new version is available: %s" : "Új verzió érhető el: %s",
     "Open updater" : "Frissítő megnyitása",

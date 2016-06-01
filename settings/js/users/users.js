@@ -840,7 +840,7 @@ $(document).ready(function () {
 				}).fail(function(result) {
 					OC.Notification.showTemporary(t('settings', 'Error creating user: {message}', {
 						message: result.responseJSON.message
-					}));
+					}, undefined, {escape: false}));
 				}).success(function(){
 					$('#newuser').get(0).reset();
 				});

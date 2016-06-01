@@ -122,6 +122,7 @@ OC.L10N.register(
     "Current password" : "Nuna pasvorto",
     "New password" : "Nova pasvorto",
     "Change password" : "Ŝanĝi la pasvorton",
+    "Name" : "Nomo",
     "Language" : "Lingvo",
     "Help translate" : "Helpu traduki",
     "Get the apps to sync your files" : "Ekhavu la aplikaĵojn por sinkronigi viajn dosierojn",

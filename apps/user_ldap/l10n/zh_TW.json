@@ -83,7 +83,6 @@
     "Detect Base DN" : "偵測 Base DN",
     "Test Base DN" : "測試 Base DN",
     "Manually enter LDAP filters (recommended for large directories)" : "手動輸入 LDAP篩選器 (建議在大型的資料環境)",
-    "Limit %s access to users meeting these criteria:" : "當遇到以下標準時，限制%s存取使用者:",
     "The filter specifies which LDAP users shall have access to the %s instance." : "篩選起指定哪些LDAP的使用者應該擁有存取%s的權限",
     "Verify settings and count users" : "驗證設定並計算使用者數",
     "Saving" : "儲存",

@@ -4,7 +4,6 @@ OC.L10N.register(
     "External storage" : "Ārējā krātuve",
     "Personal" : "Personīgi",
     "Grant access" : "Piešķirt pieeju",
-    "Access granted" : "Piešķirta pieeja",
     "Saved" : "Saglabāts",
     "Username" : "Lietotājvārds",
     "Password" : "Parole",

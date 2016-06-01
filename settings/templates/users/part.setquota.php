@@ -25,10 +25,11 @@
 		</select>
 	<?php endif; ?>
 	<?php if((bool) !$_['isAdmin']): ?>
-		<select class='quota' disabled="disabled">
-			<option selected="selected">
-				<?php p($_['default_quota']);?>
-			</option>
-		</select>
+		: 
+		<?php if( $_['default_quota'] === 'none'): ?>
+			<?php p($l->t('Unlimited'));?>
+		<?php else: ?>
+			<?php p($_['default_quota']);?>
+		<?php endif; ?>
 	<?php endif; ?>
 </div>

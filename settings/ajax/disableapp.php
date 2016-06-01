@@ -2,7 +2,7 @@
 /**
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Kamil Domanski <kdomanski@kdemail.net>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0

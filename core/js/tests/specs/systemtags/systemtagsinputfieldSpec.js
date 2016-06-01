@@ -68,7 +68,7 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				view.collection.add([
 					new OC.SystemTags.SystemTagModel({id: '1', name: 'abc'}),
 					new OC.SystemTags.SystemTagModel({id: '2', name: 'def'}),
-					new OC.SystemTags.SystemTagModel({id: '3', name: 'abd', userAssignable: false}),
+					new OC.SystemTags.SystemTagModel({id: '3', name: 'abd', userAssignable: false, canAssign: false}),
 				]);
 			});
 			it('does not create dummy tag when user types non-matching name', function() {
@@ -84,6 +84,7 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				expect(result.isNew).toEqual(true);
 				expect(result.userVisible).toEqual(true);
 				expect(result.userAssignable).toEqual(true);
+				expect(result.canAssign).toEqual(true);
 			});
 			it('creates dummy tag when user types non-matching name even with prefix of existing tag', function() {
 				var opts = select2Stub.getCall(0).args[0];
@@ -93,6 +94,7 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				expect(result.isNew).toEqual(true);
 				expect(result.userVisible).toEqual(true);
 				expect(result.userAssignable).toEqual(true);
+				expect(result.canAssign).toEqual(true);
 			});
 			it('creates the real tag and fires select event after user selects the dummy tag', function() {
 				var selectHandler = sinon.stub();
@@ -110,14 +112,16 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				expect(createStub.getCall(0).args[0]).toEqual({
 					name: 'newname',
 					userVisible: true,
-					userAssignable: true
+					userAssignable: true,
+					canAssign: true
 				});
 
 				var newModel = new OC.SystemTags.SystemTagModel({
 					id: '123',
 					name: 'newname',
 					userVisible: true,
-					userAssignable: true
+					userAssignable: true,
+					canAssign: true
 				});
 
 				// not called yet
@@ -186,7 +190,8 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				expect(createStub.getCall(0).args[0]).toEqual({
 					name: 'newname',
 					userVisible: true,
-					userAssignable: true
+					userAssignable: true,
+					canAssign: true
 				});
 
 				var newModel = new OC.SystemTags.SystemTagModel({
@@ -320,7 +325,8 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				testTags = [
 					new OC.SystemTags.SystemTagModel({id: '1', name: 'test1'}),
 					new OC.SystemTags.SystemTagModel({id: '2', name: 'test2'}),
-					new OC.SystemTags.SystemTagModel({id: '3', name: 'test3', userAssignable: false}),
+					new OC.SystemTags.SystemTagModel({id: '3', name: 'test3', userAssignable: false, canAssign: false}),
+					new OC.SystemTags.SystemTagModel({id: '4', name: 'test4', userAssignable: false, canAssign: true})
 				];
 			});
 			afterEach(function() {
@@ -328,7 +334,7 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 			});
 			it('grabs values from the full collection', function() {
 				var $el = view.$el.find('input');
-				$el.val('1,3');
+				$el.val('1,3,4');
 				var opts = select2Stub.getCall(0).args[0];
 				var callback = sinon.stub();
 				opts.initSelection($el, callback);
@@ -339,11 +345,16 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 
 				expect(callback.calledOnce).toEqual(true);
 				var models = callback.getCall(0).args[0];
-				expect(models.length).toEqual(2);
+				expect(models.length).toEqual(3);
 				expect(models[0].id).toEqual('1');
 				expect(models[0].name).toEqual('test1');
+				expect(models[0].locked).toBeFalsy();
 				expect(models[1].id).toEqual('3');
 				expect(models[1].name).toEqual('test3');
+				expect(models[1].locked).toBeFalsy();
+				expect(models[2].id).toEqual('4');
+				expect(models[2].name).toEqual('test4');
+				expect(models[2].locked).toBeFalsy();
 			});
 		});
 		describe('autocomplete', function() {
@@ -356,7 +367,7 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				view.collection.add([
 					new OC.SystemTags.SystemTagModel({id: '1', name: 'abc'}),
 					new OC.SystemTags.SystemTagModel({id: '2', name: 'def'}),
-					new OC.SystemTags.SystemTagModel({id: '3', name: 'abd', userAssignable: false}),
+					new OC.SystemTags.SystemTagModel({id: '3', name: 'abd', userAssignable: false, canAssign: false}),
 					new OC.SystemTags.SystemTagModel({id: '4', name: 'Deg'}),
 				]);
 			});
@@ -379,13 +390,15 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 						id: '1',
 						name: 'abc',
 						userVisible: true,
-						userAssignable: true
+						userAssignable: true,
+						canAssign: true
 					},
 					{
 						id: '3',
 						name: 'abd',
 						userVisible: true,
-						userAssignable: false
+						userAssignable: false,
+						canAssign: false
 					}
 				]);
 			});
@@ -405,13 +418,15 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 						id: '2',
 						name: 'def',
 						userVisible: true,
-						userAssignable: true
+						userAssignable: true,
+						canAssign: true
 					},
 					{
 						id: '4',
 						name: 'Deg',
 						userVisible: true,
-						userAssignable: true
+						userAssignable: true,
+						canAssign: true
 					}
 				]);
 			});
@@ -445,7 +460,8 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				testTags = [
 					new OC.SystemTags.SystemTagModel({id: '1', name: 'test1'}),
 					new OC.SystemTags.SystemTagModel({id: '2', name: 'test2'}),
-					new OC.SystemTags.SystemTagModel({id: '3', name: 'test3', userAssignable: false}),
+					new OC.SystemTags.SystemTagModel({id: '3', name: 'test3', userAssignable: false, canAssign: false}),
+					new OC.SystemTags.SystemTagModel({id: '4', name: 'test4', userAssignable: false, canAssign: true})
 				];
 				view.render();
 			});
@@ -454,7 +470,7 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 			});
 			it('grabs values from the full collection', function() {
 				var $el = view.$el.find('input');
-				$el.val('1,3');
+				$el.val('1,3,4');
 				var opts = select2Stub.getCall(0).args[0];
 				var callback = sinon.stub();
 				opts.initSelection($el, callback);
@@ -465,11 +481,17 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 
 				expect(callback.calledOnce).toEqual(true);
 				var models = callback.getCall(0).args[0];
-				expect(models.length).toEqual(2);
+				expect(models.length).toEqual(3);
 				expect(models[0].id).toEqual('1');
 				expect(models[0].name).toEqual('test1');
+				expect(models[0].locked).toBeFalsy();
 				expect(models[1].id).toEqual('3');
 				expect(models[1].name).toEqual('test3');
+				// restricted / cannot assign locks the entry
+				expect(models[1].locked).toEqual(true);
+				expect(models[2].id).toEqual('4');
+				expect(models[2].name).toEqual('test4');
+				expect(models[2].locked).toBeFalsy();
 			});
 		});
 		describe('autocomplete', function() {
@@ -483,8 +505,9 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 				view.collection.add([
 					new OC.SystemTags.SystemTagModel({id: '1', name: 'abc'}),
 					new OC.SystemTags.SystemTagModel({id: '2', name: 'def'}),
-					new OC.SystemTags.SystemTagModel({id: '3', name: 'abd', userAssignable: false}),
+					new OC.SystemTags.SystemTagModel({id: '3', name: 'abd', userAssignable: false, canAssign: false}),
 					new OC.SystemTags.SystemTagModel({id: '4', name: 'Deg'}),
+					new OC.SystemTags.SystemTagModel({id: '5', name: 'abe', userAssignable: false, canAssign: true})
 				]);
 			});
 			afterEach(function() {
@@ -506,7 +529,15 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 						id: '1',
 						name: 'abc',
 						userVisible: true,
-						userAssignable: true
+						userAssignable: true,
+						canAssign: true
+					},
+					{
+						id: '5',
+						name: 'abe',
+						userVisible: true,
+						userAssignable: false,
+						canAssign: true
 					}
 				]);
 			});
@@ -526,13 +557,15 @@ describe('OC.SystemTags.SystemTagsInputField tests', function() {
 						id: '2',
 						name: 'def',
 						userVisible: true,
-						userAssignable: true
+						userAssignable: true,
+						canAssign: true
 					},
 					{
 						id: '4',
 						name: 'Deg',
 						userVisible: true,
-						userAssignable: true
+						userAssignable: true,
+						canAssign: true
 					}
 				]);
 			});

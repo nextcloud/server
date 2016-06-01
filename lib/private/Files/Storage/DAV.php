@@ -1,11 +1,11 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Carlos Cerrillo <ccerrillo@gmail.com>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Philipp Kapfer <philipp.kapfer@gmx.at>

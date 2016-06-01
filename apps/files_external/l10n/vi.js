@@ -4,7 +4,6 @@ OC.L10N.register(
     "External storage" : "Lưu trữ ngoài",
     "Personal" : "Cá nhân",
     "Grant access" : "Cấp quyền truy cập",
-    "Access granted" : "Đã cấp quyền truy cập",
     "Saved" : "Đã lưu",
     "Username" : "Tên đăng nhập",
     "Password" : "Mật khẩu",

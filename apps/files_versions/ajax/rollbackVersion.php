@@ -1,9 +1,9 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Frank Karlitschek <frank@owncloud.org>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Frank Karlitschek <frank@karlitschek.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Sam Tuke <mail@samtuke.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

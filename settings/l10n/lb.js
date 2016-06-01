@@ -41,6 +41,7 @@ OC.L10N.register(
     "Current password" : "Momentan 't Passwuert",
     "New password" : "Neit Passwuert",
     "Change password" : "Passwuert änneren",
+    "Name" : "Numm",
     "Language" : "Sprooch",
     "Help translate" : "Hëllef iwwersetzen",
     "Desktop client" : "Desktop-Programm",

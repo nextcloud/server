@@ -146,7 +146,6 @@ OC.L10N.register(
     "access control" : "контрола на пристап",
     "Share" : "Сподели",
     "Warning" : "Предупредување",
-    "not assignable" : "не може да се додаде",
     "invisible" : "невидлив",
     "Delete" : "Избриши",
     "Rename" : "Преименувај",

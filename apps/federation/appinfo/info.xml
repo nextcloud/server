@@ -15,4 +15,8 @@
 	<types>
 		<authentication/>
 	</types>
+
+	<background-jobs>
+		<job>OCA\Federation\SyncJob</job>
+	</background-jobs>
 </info>

@@ -1,15 +1,15 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Daniel Molkentin <daniel@molkentin.de>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -46,8 +46,8 @@ $sortGroupsBy = \OC\Group\MetaData::SORT_USERCOUNT;
 
 if (\OC_App::isEnabled('user_ldap')) {
 	$isLDAPUsed =
-		   $groupManager->isBackendUsed('\OCA\user_ldap\GROUP_LDAP')
-		|| $groupManager->isBackendUsed('\OCA\user_ldap\Group_Proxy');
+		   $groupManager->isBackendUsed('\OCA\User_LDAP\Group_LDAP')
+		|| $groupManager->isBackendUsed('\OCA\User_LDAP\Group_Proxy');
 	if ($isLDAPUsed) {
 		// LDAP user count can be slow, so we sort by group name here
 		$sortGroupsBy = \OC\Group\MetaData::SORT_GROUPNAME;

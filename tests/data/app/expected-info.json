@@ -75,5 +75,6 @@
 		"live-migration": [],
 		"uninstall": []
 	},
-	"background-jobs": []
+	"background-jobs": [],
+	"two-factor-providers": []
 }

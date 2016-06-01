@@ -2,6 +2,7 @@
 /**
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0

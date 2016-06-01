@@ -1,12 +1,12 @@
 <?php
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -50,4 +50,13 @@ if(isset($_GET['downloadStartSecret'])
 	setcookie('ocDownloadStarted', $_GET['downloadStartSecret'], time() + 20, '/');
 }
 
-OC_Files::get($dir, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD');
+$server_params = array( 'head' => \OC::$server->getRequest()->getMethod() == 'HEAD' );
+
+/**
+ * Http range requests support
+ */
+if (isset($_SERVER['HTTP_RANGE'])) {
+	$server_params['range'] = \OC::$server->getRequest()->getHeader('Range');
+}
+
+OC_Files::get($dir, $files_list, $server_params);

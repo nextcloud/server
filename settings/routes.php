@@ -1,11 +1,12 @@
 <?php
 /**
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Christoph Wurst <christoph@owncloud.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Raghu Nayyar <me@iraghu.com>
  * @author Robin Appelman <icewind@owncloud.com>
@@ -36,7 +37,8 @@ $application = new Application();
 $application->registerRoutes($this, [
 	'resources' => [
 		'groups' => ['url' => '/settings/users/groups'],
-		'users' => ['url' => '/settings/users/users']
+		'users' => ['url' => '/settings/users/users'],
+		'AuthSettings' => ['url' => '/settings/personal/authtokens'],
 	],
 	'routes' => [
 		['name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST'],

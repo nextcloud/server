@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -98,7 +98,7 @@ class Application {
 					if($appPath === false) {
 						continue;
 					}
-					\OC::$loader->addValidRoot($appPath);
+					\OC_App::registerAutoloading($app, $appPath);
 					$file = $appPath . '/appinfo/register_command.php';
 					if (file_exists($file)) {
 						require $file;

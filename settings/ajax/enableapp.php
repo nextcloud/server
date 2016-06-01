@@ -4,7 +4,7 @@
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Kamil Domanski <kdomanski@kdemail.net>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

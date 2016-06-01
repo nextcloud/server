@@ -1,9 +1,9 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -24,11 +24,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-namespace OCA\Files_Sharing\AppInfo;
 
 use OCP\API;
 
-$application = new Application();
+$application = new \OCA\Files_Sharing\AppInfo\Application();
 $application->registerRoutes($this, [
 	'resources' => [
 		'ExternalShares' => ['url' => '/api/externalShares'],

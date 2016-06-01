@@ -1,7 +1,7 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Gadzy <dev@gadzy.fr>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
@@ -26,15 +26,13 @@
  *
  */
 
-namespace OCA\Files_Sharing\Appinfo;
-
 $l = \OC::$server->getL10N('files_sharing');
 
 \OC::$CLASSPATH['OC_Share_Backend_File'] = 'files_sharing/lib/share/file.php';
 \OC::$CLASSPATH['OC_Share_Backend_Folder'] = 'files_sharing/lib/share/folder.php';
 \OC::$CLASSPATH['OC\Files\Storage\Shared'] = 'files_sharing/lib/sharedstorage.php';
 
-$application = new Application();
+$application = new \OCA\Files_Sharing\AppInfo\Application();
 $application->registerMountProviders();
 
 \OCA\Files_Sharing\Helper::registerHooks();
@@ -103,15 +101,3 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 		}
 	}
 }
-
-$manager = \OC::$server->getNotificationManager();
-$manager->registerNotifier(function() {
-	return new \OCA\Files_Sharing\Notifier(
-		\OC::$server->getL10NFactory()
-	);
-}, function() use ($l) {
-	return [
-		'id' => 'files_sharing',
-		'name' => $l->t('Federated sharing'),
-	];
-});

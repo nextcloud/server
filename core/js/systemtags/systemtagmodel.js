@@ -23,14 +23,17 @@
 
 		defaults: {
 			userVisible: true,
-			userAssignable: true
+			userAssignable: true,
+			canAssign: true
 		},
 
 		davProperties: {
 			'id': '{' + NS_OWNCLOUD + '}id',
 			'name': '{' + NS_OWNCLOUD + '}display-name',
 			'userVisible': '{' + NS_OWNCLOUD + '}user-visible',
-			'userAssignable': '{' + NS_OWNCLOUD + '}user-assignable'
+			'userAssignable': '{' + NS_OWNCLOUD + '}user-assignable',
+			// read-only, effective permissions computed by the server,
+			'canAssign': '{' + NS_OWNCLOUD + '}can-assign'
 		},
 
 		parse: function(data) {
@@ -38,7 +41,8 @@
 				id: data.id,
 				name: data.name,
 				userVisible: data.userVisible === true || data.userVisible === 'true',
-				userAssignable: data.userAssignable === true || data.userAssignable === 'true'
+				userAssignable: data.userAssignable === true || data.userAssignable === 'true',
+				canAssign: data.canAssign === true || data.canAssign === 'true'
 			};
 		}
 	});

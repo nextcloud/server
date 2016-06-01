@@ -28,7 +28,6 @@ OC.L10N.register(
     "You shared %1$s via link" : "شما %1$s را توسط پیوند به اشتراک گذاشتید",
     "%2$s shared %1$s with you" : "%2$s مورد %1$s را با شما به اشتراک گذاشت",
     "Shares" : "موارد به اشتراک گذاشته",
-    "Accept" : "قبول",
     "This share is password-protected" : "این اشتراک توسط رمز عبور محافظت می شود",
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید.",
     "Password" : "گذرواژه",

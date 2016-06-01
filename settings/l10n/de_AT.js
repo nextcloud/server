@@ -20,6 +20,7 @@ OC.L10N.register(
     "Password" : "Passwort",
     "New password" : "Neues Passwort",
     "Change password" : "Passwort ändern",
+    "Name" : "Name",
     "Username" : "Benutzername",
     "Other" : "Anderes"
 },

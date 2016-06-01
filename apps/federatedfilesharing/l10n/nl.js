@@ -1,10 +1,13 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
+    "Federated sharing" : "Federated sharing",
     "Invalid Federated Cloud ID" : "Ongeldige Federated Cloud ID",
     "Sharing %s failed, because this item is already shared with %s" : "Delen van %s is mislukt, omdat het object al wordt gedeeld met %s",
     "Not allowed to create a federated share with the same user" : "Het is niet toegestaan om een gefedereerde share met dezelfde gebruikersserver te maken",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Delen van %s mislukt, kon %s niet vinden, misschien is de server niet bereikbaar.",
+    "Accept" : "Accepteren",
+    "Decline" : "Afwijzen",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Deel met mij via mijn #ownCloud federated Cloud ID, zie %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Deel met mij via mijn #ownCloud federated Cloud ID",
     "Federated Cloud Sharing" : "Federated Cloud Sharing",

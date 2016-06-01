@@ -4,6 +4,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
+ * @author Manish Bisht <manish.bisht490@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>

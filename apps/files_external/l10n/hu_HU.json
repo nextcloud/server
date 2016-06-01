@@ -1,10 +1,8 @@
 { "translations": {
     "External storage" : "Külső tárolók",
-    "%s" : "%s",
     "Personal" : "Személyes",
     "System" : "Rendszer",
     "Grant access" : "Megadom a hozzáférést",
-    "Access granted" : "Érvényes hozzáférés",
     "Generate keys" : "Kulcsok generálása",
     "Error generating key pair" : "Hiba történt a kulcspár generálása közben",
     "All users. Type to select user or group." : "Összes felhasználó. Írj be egy felhasználót vagy csoportot.",
@@ -19,6 +17,7 @@
     "Username" : "Felhasználónév",
     "Password" : "Jelszó",
     "Save" : "Mentés",
+    "%s" : "%s",
     "Access key" : "Hozzáférési kulcs",
     "Secret key" : "Titkos kulcs",
     "None" : "Egyik sem",

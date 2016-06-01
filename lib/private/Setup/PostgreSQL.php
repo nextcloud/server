@@ -5,6 +5,7 @@
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

@@ -1,11 +1,11 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Robin Appelman <icewind@owncloud.com>

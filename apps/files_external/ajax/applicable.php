@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.

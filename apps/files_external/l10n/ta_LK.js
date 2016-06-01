@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Personal" : "தனிப்பட்ட",
     "Grant access" : "அனுமதியை வழங்கல்",
-    "Access granted" : "அனுமதி வழங்கப்பட்டது",
     "Username" : "பயனாளர் பெயர்",
     "Password" : "கடவுச்சொல்",
     "Save" : "சேமிக்க ",

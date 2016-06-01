@@ -102,6 +102,7 @@ OC.L10N.register(
     "Current password" : "Contraseña actual",
     "New password" : "Nueva contraseña:",
     "Change password" : "Cambiar contraseña",
+    "Name" : "Nombre",
     "Language" : "Idioma",
     "Help translate" : "Ayudanos a traducir",
     "Get the apps to sync your files" : "Obtené Apps para sincronizar tus archivos",

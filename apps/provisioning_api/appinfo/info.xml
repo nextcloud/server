@@ -18,6 +18,7 @@
 		<admin>admin-provisioning-api</admin>
 	</documentation>
 	<version>0.5.0</version>
+	<namespace>Provisioning_API</namespace>
 	<types>
 		<prevent_group_restriction/>
 	</types>

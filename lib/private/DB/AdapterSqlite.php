@@ -27,6 +27,18 @@
 namespace OC\DB;
 
 class AdapterSqlite extends Adapter {
+
+	/**
+	 * @param string $tableName
+	 */
+	public function lockTable($tableName) {
+		$this->conn->executeUpdate('BEGIN EXCLUSIVE TRANSACTION');
+	}
+
+	public function unlockTable() {
+		$this->conn->executeUpdate('COMMIT TRANSACTION');
+	}
+
 	public function fixupStatement($statement) {
 		$statement = preg_replace('( I?LIKE \?)', '$0 ESCAPE \'\\\'', $statement);
 		$statement = preg_replace('/`(\w+)` ILIKE \?/', 'LOWER($1) LIKE LOWER(?)', $statement);

@@ -1,18 +1,7 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Frank Karlitschek <frank@owncloud.org>
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
- * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Steffen Lindner <mail@steffen-lindner.de>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
- * @author Victor Dubiniuk <dubiniuk@owncloud.com>
- * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -61,19 +50,15 @@ class VersionCheck {
 	/**
 	 * Check if a new version is available
 	 *
-	 * @param string $updaterUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
 	 * @return array|bool
 	 */
-	public function check($updaterUrl = null) {
-
+	public function check() {
 		// Look up the cache - it is invalidated all 30 minutes
 		if (((int)$this->config->getAppValue('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
-		if (is_null($updaterUrl)) {
-			$updaterUrl = 'https://updates.owncloud.com/server/';
-		}
+		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.owncloud.com/server/');
 
 		$this->config->setAppValue('core', 'lastupdatedat', time());
 

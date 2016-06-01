@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Lennart Rosam <hello@takuto.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -41,8 +42,8 @@ foreach($chkboxes as $boxid) {
 	}
 }
 
-$ldapWrapper = new OCA\user_ldap\lib\LDAP();
-$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
+$ldapWrapper = new OCA\User_LDAP\LDAP();
+$connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
 $connection->setConfiguration($_POST);
 $connection->saveConfiguration();
 OCP\JSON::success();

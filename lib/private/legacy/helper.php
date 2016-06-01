@@ -1,8 +1,8 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Fabian Henze <flyser42@gmx.de>
@@ -12,7 +12,7 @@
  * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Olivier Paroz <github@oparoz.com>
@@ -64,21 +64,6 @@ class OC_Helper {
 			$url = OC::$server->getURLGenerator()->getAbsoluteURL(OC::$server->getURLGenerator()->linkTo('', 'public.php').'?service='.$service);
 		}
 		return $url . (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
-	}
-
-	/**
-	 * get path to preview of file
-	 * @param string $path path
-	 * @return string the url
-	 *
-	 * Returns the path to the preview of the file.
-	 */
-	public static function previewIcon($path) {
-		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_preview', ['x' => 32, 'y' => 32, 'file' => $path]);
-	}
-
-	public static function publicPreviewIcon( $path, $token ) {
-		return \OC::$server->getURLGenerator()->linkToRoute('core_ajax_public_preview', ['x' => 32, 'y' => 32, 'file' => $path, 't' => $token]);
 	}
 
 	/**
@@ -460,22 +445,6 @@ class OC_Helper {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Shortens str to maxlen by replacing characters in the middle with '...', eg.
-	 * ellipsis('a very long string with lots of useless info to make a better example', 14) becomes 'a very ...example'
-	 *
-	 * @param string $str the string
-	 * @param string $maxlen the maximum length of the result
-	 * @return string with at most maxlen characters
-	 */
-	public static function ellipsis($str, $maxlen) {
-		if (strlen($str) > $maxlen) {
-			$characters = floor($maxlen / 2);
-			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
-		}
-		return $str;
 	}
 
 	/**

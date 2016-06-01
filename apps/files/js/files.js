@@ -385,6 +385,7 @@ var dragOptions={
 	cursorAt: { left: 24, top: 18 },
 	helper: createDragShadow,
 	cursor: 'move',
+
 	start: function(event, ui){
 		var $selectedFiles = $('td.filename input:checkbox:checked');
 		if (!$selectedFiles.length) {
@@ -398,6 +399,26 @@ var dragOptions={
 			$selectedFiles = $(this);
 		}
 		$selectedFiles.closest('tr').fadeTo(250, 1).removeClass('dragging');
+	},
+	drag: function(event, ui) {
+		var scrollingArea = FileList.$container;
+		var currentScrollTop = $(scrollingArea).scrollTop();
+		var scrollArea = Math.min(Math.floor($(window).innerHeight() / 2), 100);
+
+		var bottom = $(window).innerHeight() - scrollArea;
+		var top = $(window).scrollTop() + scrollArea;
+		if (event.pageY < top) {
+			$('html, body').animate({
+
+				scrollTop: $(scrollingArea).scrollTop(currentScrollTop - 10)
+			}, 400);
+
+		} else if (event.pageY > bottom) {
+			$('html, body').animate({
+				scrollTop: $(scrollingArea).scrollTop(currentScrollTop + 10)
+			}, 400);
+		}
+
 	}
 };
 // sane browsers support using the distance option

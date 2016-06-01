@@ -1,6 +1,8 @@
 <?php
 
-require_once "Google/Model.php";
+if (!class_exists('Google_Client')) {
+  require_once dirname(__FILE__) . '/autoload.php';
+}
 
 /**
  * Extension to the regular Google_Model that automatically
@@ -48,10 +50,13 @@ class Google_Collection extends Google_Model implements Iterator, Countable
 
   public function count()
   {
+    if (!isset($this->modelData[$this->collection_key])) {
+      return 0;
+    }
     return count($this->modelData[$this->collection_key]);
   }
 
-  public function offsetExists ($offset)
+  public function offsetExists($offset)
   {
     if (!is_numeric($offset)) {
       return parent::offsetExists($offset);

@@ -91,6 +91,7 @@ OC.L10N.register(
     "Current password" : "كلمات السر الحالية",
     "New password" : "كلمات سر جديدة",
     "Change password" : "عدل كلمة السر",
+    "Name" : "الاسم",
     "Language" : "اللغة",
     "Help translate" : "ساعد في الترجمه",
     "Get the apps to sync your files" : "احصل على التطبيقات لمزامنة ملفاتك",

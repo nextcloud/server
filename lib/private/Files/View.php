@@ -1,23 +1,26 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author cmeh <cmeh@users.noreply.github.com>
  * @author Florin Peter <github@florin-peter.de>
  * @author Jesús Macias <jmacias@solidgear.es>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Klaas Freitag <freitag@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Luke Policinski <lpolicinski@gmail.com>
  * @author Martin Mattel <martin.mattel@diemattels.at>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Petr Svoboda <weits666@gmail.com>
+ * @author Piotr Filiciak <piotr@filiciak.pl>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Sam Tuke <mail@samtuke.com>
+ * @author Stefan Weil <sw@weilnetz.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
@@ -53,6 +56,7 @@ use OCP\Files\InvalidCharacterInPathException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\ReservedWordException;
+use OCP\Files\UnseekableException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\IUser;
 use OCP\Lock\ILockingProvider;
@@ -419,6 +423,39 @@ class View {
 			}
 			$size = $this->filesize($path);
 			return $size;
+		}
+		return false;
+	}
+
+	/**
+	 * @param string $path
+	 * @param int $from 
+	 * @param int $to
+	 * @return bool|mixed
+	 * @throws \OCP\Files\InvalidPathException
+	 * @throws \OCP\Files\UnseekableException
+	 */
+	public function readfilePart($path, $from, $to) {
+		$this->assertPathLength($path);
+		@ob_end_clean();
+		$handle = $this->fopen($path, 'rb');
+		if ($handle) {
+			if (fseek($handle, $from) === 0) {
+			    $chunkSize = 8192; // 8 kB chunks
+			    $end = $to + 1;
+			    while (!feof($handle) && ftell($handle) < $end) {
+				$len = $end-ftell($handle);
+				if ($len > $chunkSize) { 
+				    $len = $chunkSize; 
+				}
+				echo fread($handle, $len);
+				flush();
+			    }
+			    $size = ftell($handle) - $from;
+			    return $size;
+			}
+
+			throw new \OCP\Files\UnseekableException('fseek error');
 		}
 		return false;
 	}

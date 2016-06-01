@@ -5,10 +5,14 @@
 	<description>Displays update notifications for ownCloud and provides the SSO for the updater.</description>
 	<licence>AGPL</licence>
 	<author>Lukas Reschke</author>
-	<version>0.2.0</version>
+	<version>0.2.1</version>
 	<namespace>UpdateNotification</namespace>
 	<default_enable/>
 	<dependencies>
 		<owncloud min-version="9.1" max-version="9.1" />
 	</dependencies>
+
+	<background-jobs>
+		<job>OCA\UpdateNotification\Notification\BackgroundJob</job>
+	</background-jobs>
 </info>

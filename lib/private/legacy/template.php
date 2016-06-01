@@ -2,18 +2,20 @@
 /**
  * @author Adam Williamson <awilliam@redhat.com>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Brice Maron <brice@bmaron.net>
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Hendrik Leppelsack <hendrik@leppelsack.de>
  * @author Individual IT Services <info@individual-it.net>
  * @author Jakob Sack <mail@jakobsack.de>
+ * @author Jan-Christoph Borchardt <hey@jancborchardt.net>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Raghu Nayyar <hey@raghunayyar.com>
  * @author Robin Appelman <icewind@owncloud.com>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
@@ -36,7 +38,7 @@
 
 use OC\TemplateLayout;
 
-require_once __DIR__.'/../template/functions.php';
+require_once __DIR__.'/template/functions.php';
 
 /**
  * This class provides the templates for ownCloud.

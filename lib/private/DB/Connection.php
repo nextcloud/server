@@ -5,6 +5,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roeland Jago Douma <rullzer@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -25,6 +26,7 @@
  */
 
 namespace OC\DB;
+
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Configuration;
@@ -33,7 +35,7 @@ use Doctrine\Common\EventManager;
 use OC\DB\QueryBuilder\QueryBuilder;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
-use OCP\PreconditionNotMetException;
+use OCP\PreConditionNotMetException;
 
 class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	/**
@@ -45,6 +47,8 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @var \OC\DB\Adapter $adapter
 	 */
 	protected $adapter;
+
+	protected $lockedTable = null;
 
 	public function connect() {
 		try {
@@ -262,7 +266,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @param array $updatePreconditionValues ensure values match preconditions (column name => value)
 	 * @return int number of new rows
 	 * @throws \Doctrine\DBAL\DBALException
-	 * @throws PreconditionNotMetException
+	 * @throws PreConditionNotMetException
 	 */
 	public function setValues($table, array $keys, array $values, array $updatePreconditionValues = []) {
 		try {
@@ -281,7 +285,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			foreach ($values as $name => $value) {
 				$updateQb->set($name, $updateQb->createNamedParameter($value, $this->getType($value)));
 			}
-			$where = $updateQb->expr()->andx();
+			$where = $updateQb->expr()->andX();
 			$whereValues = array_merge($keys, $updatePreconditionValues);
 			foreach ($whereValues as $name => $value) {
 				$where->add($updateQb->expr()->eq(
@@ -294,11 +298,38 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			$affected = $updateQb->execute();
 
 			if ($affected === 0 && !empty($updatePreconditionValues)) {
-				throw new PreconditionNotMetException();
+				throw new PreConditionNotMetException();
 			}
 
 			return 0;
 		}
+	}
+
+	/**
+	 * Create an exclusive read+write lock on a table
+	 *
+	 * @param string $tableName
+	 * @throws \BadMethodCallException When trying to acquire a second lock
+	 * @since 9.1.0
+	 */
+	public function lockTable($tableName) {
+		if ($this->lockedTable !== null) {
+			throw new \BadMethodCallException('Can not lock a new table until the previous lock is released.');
+		}
+
+		$tableName = $this->tablePrefix . $tableName;
+		$this->lockedTable = $tableName;
+		$this->adapter->lockTable($tableName);
+	}
+
+	/**
+	 * Release a previous acquired lock again
+	 *
+	 * @since 9.1.0
+	 */
+	public function unlockTable() {
+		$this->adapter->unlockTable();
+		$this->lockedTable = null;
 	}
 
 	/**

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -19,7 +20,7 @@
  *
  */
 
-use OCA\Dav\AppInfo\Application;
+use OCA\DAV\AppInfo\Application;
 
 $app = new Application();
 $app->generateBirthdays();

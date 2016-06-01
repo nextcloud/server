@@ -176,7 +176,6 @@ OC.L10N.register(
     "Warning" : "Advarsel",
     "Error while sending notification" : "Feil ved sending av varsling",
     "Non-existing tag #{tag}" : "Ikke-eksisterende merkelapp #{tag}",
-    "not assignable" : "kan ikke tilordnes",
     "invisible" : "usynlig",
     "({scope})" : "({scope})",
     "Delete" : "Slett",

@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Dominik Schmidt <dev@dominik-schmidt.de>
- * @author Frank Karlitschek <frank@owncloud.org>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Frank Karlitschek <frank@karlitschek.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -31,7 +32,7 @@ OC_Util::checkAdminUser();
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
-$helper = new \OCA\user_ldap\lib\Helper();
+$helper = new \OCA\User_LDAP\Helper();
 $prefixes = $helper->getServerConfigurationPrefixes();
 $hosts = $helper->getServerConfigurationHosts();
 
@@ -67,7 +68,7 @@ $tmpl->assign('toc', $toc);
 $tmpl->assign('settingControls', $sControls);
 
 // assign default values
-$config = new \OCA\user_ldap\lib\Configuration('', false);
+$config = new \OCA\User_LDAP\Configuration('', false);
 $defaults = $config->getDefaults();
 foreach($defaults as $key => $default) {
 	$tmpl->assign($key.'_default', $default);

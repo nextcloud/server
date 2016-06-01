@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
@@ -31,7 +31,7 @@ use \OCA\Files_External\Service\BackendService;
 // we must use the same container
 $appContainer = \OC_Mount_Config::$app->getContainer();
 $backendService = $appContainer->query('OCA\Files_External\Service\BackendService');
-$globalStoragesService = $appContainer->query('OCA\Files_external\Service\GlobalStoragesService');
+$globalStoragesService = $appContainer->query('OCA\Files_External\Service\GlobalStoragesService');
 
 \OC_Util::addVendorScript('select2/select2');
 \OC_Util::addVendorStyle('select2/select2');

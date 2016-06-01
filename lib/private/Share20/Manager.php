@@ -1,6 +1,7 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
@@ -201,7 +202,12 @@ class Manager implements IManager {
 		}
 
 		// And you can't share your rootfolder
-		if ($this->rootFolder->getUserFolder($share->getSharedBy())->getPath() === $share->getNode()->getPath()) {
+		if ($this->userManager->userExists($share->getSharedBy())) {
+			$sharedPath = $this->rootFolder->getUserFolder($share->getSharedBy())->getPath();
+		} else {
+			$sharedPath = $this->rootFolder->getUserFolder($share->getShareOwner())->getPath();
+		}
+		if ($sharedPath === $share->getNode()->getPath()) {
 			throw new \InvalidArgumentException('You can\'t share your root folder');
 		}
 
@@ -713,7 +719,11 @@ class Manager implements IManager {
 		}
 
 		if ($share->getPermissions() !== $originalShare->getPermissions()) {
-			$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+			if ($this->userManager->userExists($share->getShareOwner())) {
+				$userFolder = $this->rootFolder->getUserFolder($share->getShareOwner());
+			} else {
+				$userFolder = $this->rootFolder->getUserFolder($share->getSharedBy());
+			}
 			\OC_Hook::emit('OCP\Share', 'post_update_permissions', array(
 				'itemType' => $share->getNode() instanceof \OCP\Files\File ? 'file' : 'folder',
 				'itemSource' => $share->getNode()->getId(),
@@ -1107,7 +1117,7 @@ class Manager implements IManager {
 	 * @return \OCP\Share\IShare;
 	 */
 	public function newShare() {
-		return new \OC\Share20\Share($this->rootFolder);
+		return new \OC\Share20\Share($this->rootFolder, $this->userManager);
 	}
 
 	/**

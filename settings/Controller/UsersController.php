@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Clark Tomlinson <fallen013@gmail.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
@@ -355,9 +356,13 @@ class UsersController extends Controller {
 		try {
 			$user = $this->userManager->createUser($username, $password);
 		} catch (\Exception $exception) {
+			$message = $exception->getMessage();
+			if (!$message) {
+				$message = $this->l10n->t('Unable to create user.');
+			}
 			return new DataResponse(
 				array(
-					'message' => (string)$this->l10n->t('Unable to create user.')
+					'message' => (string) $message,
 				),
 				Http::STATUS_FORBIDDEN
 			);

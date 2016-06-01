@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Dominik Schmidt <dev@dominik-schmidt.de>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -27,33 +28,34 @@
 
 OCP\App::registerAdmin('user_ldap', 'settings');
 
-$helper = new \OCA\user_ldap\lib\Helper();
+$helper = new \OCA\User_LDAP\Helper();
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
-$ldapWrapper = new OCA\user_ldap\lib\LDAP();
+$ldapWrapper = new OCA\User_LDAP\LDAP();
 $ocConfig = \OC::$server->getConfig();
 if(count($configPrefixes) === 1) {
 	$dbc = \OC::$server->getDatabaseConnection();
-	$userManager = new OCA\user_ldap\lib\user\Manager($ocConfig,
-		new OCA\user_ldap\lib\FilesystemHelper(),
-		new OCA\user_ldap\lib\LogWrapper(),
+	$userManager = new OCA\User_LDAP\User\Manager($ocConfig,
+		new OCA\User_LDAP\FilesystemHelper(),
+		new OCA\User_LDAP\LogWrapper(),
 		\OC::$server->getAvatarManager(),
 		new \OCP\Image(),
 		$dbc,
 		\OC::$server->getUserManager()
 	);
-	$connector = new OCA\user_ldap\lib\Connection($ldapWrapper, $configPrefixes[0]);
-	$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper, $userManager,
+	
+	$connector = new OCA\User_LDAP\Connection($ldapWrapper, $configPrefixes[0]);
+	$ldapAccess = new OCA\User_LDAP\Access($connector, $ldapWrapper, $userManager,
 						\OC::$server->getUserManager(), \OC::$server->getGroupManager());
 
 	$ldapAccess->setUserMapper(new OCA\User_LDAP\Mapping\UserMapping($dbc));
 	$ldapAccess->setGroupMapper(new OCA\User_LDAP\Mapping\GroupMapping($dbc));
-	$userBackend  = new OCA\user_ldap\USER_LDAP($ldapAccess, $ocConfig);
-	$groupBackend = new OCA\user_ldap\GROUP_LDAP($ldapAccess);
+	$userBackend  = new OCA\User_LDAP\User_LDAP($ldapAccess, $ocConfig);
+	$groupBackend = new \OCA\User_LDAP\Group_LDAP($ldapAccess);
 } else if(count($configPrefixes) > 1) {
-	$userBackend  = new OCA\user_ldap\User_Proxy(
+	$userBackend  = new OCA\User_LDAP\User_Proxy(
 		$configPrefixes, $ldapWrapper, $ocConfig
 	);
-	$groupBackend  = new OCA\user_ldap\Group_Proxy($configPrefixes, $ldapWrapper);
+	$groupBackend  = new OCA\User_LDAP\Group_Proxy($configPrefixes, $ldapWrapper);
 }
 
 if(count($configPrefixes) > 0) {
@@ -65,7 +67,7 @@ if(count($configPrefixes) > 0) {
 \OCP\Util::connectHook(
 	'\OCA\Files_Sharing\API\Server2Server',
 	'preLoginNameUsedAsUserName',
-	'\OCA\user_ldap\lib\Helper',
+	'\OCA\User_LDAP\Helper',
 	'loginName2UserName'
 );
 

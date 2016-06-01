@@ -52,8 +52,6 @@ OC.L10N.register(
     "Shared via public link" : "Zdieľané prostredníctvom verejného odkazu",
     "Shared by %2$s" : "Zdieľané s %2$s",
     "Shares" : "Zdieľanie",
-    "Accept" : "Schváliť",
-    "Decline" : "Odmietnuť",
     "This share is password-protected" : "Toto zdieľanie je chránené heslom",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",
     "Password" : "Heslo",

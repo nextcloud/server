@@ -206,7 +206,8 @@
 				tag = this.collection.create({
 					name: e.object.name.trim(),
 					userVisible: true,
-					userAssignable: true
+					userAssignable: true,
+					canAssign: true
 				}, {
 					success: function(model) {
 						self._addToSelect2Selection(model.toJSON());
@@ -263,7 +264,7 @@
 					var tagModels = collection.filterByName(query.term.trim());
 					if (!self._isAdmin) {
 						tagModels = _.filter(tagModels, function(tagModel) {
-							return tagModel.get('userAssignable');
+							return tagModel.get('canAssign');
 						});
 					}
 					query.callback({
@@ -331,6 +332,7 @@
 					name: term,
 					userAssignable: true,
 					userVisible: true,
+					canAssign: true,
 					isNew: true
 				};
 			} else {
@@ -346,7 +348,7 @@
 
 			function modelToSelection(model) {
 				var data = model.toJSON();
-				if (!self._isAdmin && !data.userAssignable) {
+				if (!self._isAdmin && !data.canAssign) {
 					// lock static tags for non-admins
 					data.locked = true;
 				}

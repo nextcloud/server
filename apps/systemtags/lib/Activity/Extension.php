@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Vincent Petry <pvince81@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -324,7 +325,7 @@ class Extension implements IExtension {
 				case 'assignable':
 					return '<parameter>' . $matches[1] . '</parameter>';
 				case 'not-assignable':
-					return '<parameter>' . $l->t('%s (not-assignable)', $matches[1]) . '</parameter>';
+					return '<parameter>' . $l->t('%s (restricted)', $matches[1]) . '</parameter>';
 				case 'invisible':
 					return '<parameter>' . $l->t('%s (invisible)', $matches[1]) . '</parameter>';
 			}

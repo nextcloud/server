@@ -1,14 +1,11 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
- * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Steffen Lindner <mail@steffen-lindner.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
@@ -168,6 +165,7 @@ class Updater extends BasicEmitter {
 
 		$this->emit('\OC\Updater', 'resetLogLevel', [ $logLevel, $this->logLevelNames[$logLevel] ]);
 		$this->config->setSystemValue('loglevel', $logLevel);
+		$this->config->setSystemValue('installed', true);
 
 		return $success;
 	}
@@ -240,6 +238,13 @@ class Updater extends BasicEmitter {
 
 		if ($this->updateStepEnabled) {
 			$this->doCoreUpgrade();
+
+			try {
+				// TODO: replace with the new repair step mechanism https://github.com/owncloud/core/pull/24378
+				Setup::installBackgroundJobs();
+			} catch (\Exception $e) {
+				throw new \Exception($e->getMessage());
+			}
 
 			// update all shipped apps
 			$disabledApps = $this->checkAppsRequirements();

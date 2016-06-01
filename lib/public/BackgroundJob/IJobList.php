@@ -93,10 +93,21 @@ interface IJobList {
 	public function setLastJob($job);
 
 	/**
+	 * Remove the reservation for a job
+	 *
+	 * @param IJob $job
+	 * @since 9.1.0
+	 */
+	public function unlockJob($job);
+
+	/**
 	 * get the id of the last ran job
 	 *
 	 * @return int
 	 * @since 7.0.0
+	 * @deprecated 9.1.0 - The functionality behind the value is deprecated, it
+	 *    only tells you which job finished last, but since we now allow multiple
+	 *    executors to run in parallel, it's not used to calculate the next job.
 	 */
 	public function getLastJob();
 

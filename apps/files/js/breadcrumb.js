@@ -39,6 +39,8 @@
 		}
 		if (options.onDrop) {
 			this.onDrop = options.onDrop;
+			this.onOver = options.onOver;
+			this.onOut = options.onOut;
 		}
 		if (options.getCrumbUrl) {
 			this.getCrumbUrl = options.getCrumbUrl;
@@ -60,6 +62,8 @@
 		breadcrumbs: [],
 		onClick: null,
 		onDrop: null,
+		onOver: null,
+		onOut: null,
 
 		/**
 		 * Sets the directory to be displayed as breadcrumb.
@@ -127,7 +131,10 @@
 			if (this.onDrop) {
 				this.$el.find('.crumb:not(.last)').droppable({
 					drop: this.onDrop,
-					tolerance: 'pointer'
+					over: this.onOver,
+					out: this.onOut,
+					tolerance: 'pointer',
+					hoverClass: 'canDrop'
 				});
 			}
 

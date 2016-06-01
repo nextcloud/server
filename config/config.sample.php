@@ -195,6 +195,13 @@ $CONFIG = array(
 'session_keepalive' => true,
 
 /**
+ * Enforce token authentication for clients, which blocks requests using the user
+ * password for enhanced security. Users need to generate tokens in personal settings
+ * which can be used as passwords on their clients.
+ */
+'token_auth_enforced' => false,
+
+/**
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.
@@ -362,6 +369,31 @@ $CONFIG = array(
 'overwrite.cli.url' => '',
 
 /**
+ * To have clean URLs without `/index.php` this parameter needs to be configured.
+ *
+ * This parameter will be written as "RewriteBase" on update and installation of
+ * ownCloud to your `.htaccess` file. While this value is often simply the URL
+ * path of the ownCloud installation it cannot be set automatically properly in
+ * every scenario and needs thus some manual configuration.
+ *
+ * In a standard Apache setup this usually equals the folder that ownCloud is
+ * accessible at. So if ownCloud is accessible via "https://mycloud.org/owncloud"
+ * the correct value would most likely be "/owncloud". If ownCloud is running
+ * under "https://mycloud.org/" then it would be "/".
+ *
+ * Note that above rule is not valid in every case, there are some rare setup
+ * cases where this may not apply. However, to avoid any update problems this
+ * configuration value is explicitly opt-in.
+ *
+ * After setting this value run `occ maintenance:update:htaccess` and when following
+ * conditions are met ownCloud uses URLs without index.php in it:
+ *
+ * - `mod_rewrite` is installed
+ * - `mod_env` is installed
+ */
+'htaccess.RewriteBase' => '/',
+
+/**
  * The URL of your proxy server, for example ``proxy.example.com:8081``.
  */
 'proxy' => '',
@@ -470,6 +502,11 @@ $CONFIG = array(
  * available.
  */
 'updatechecker' => true,
+
+/**
+ * URL that ownCloud should use to look for updates
+ */
+'updater.server.url' => 'https://updates.owncloud.com/server/',
 
 /**
  * Is ownCloud connected to the Internet or running in a closed network?
@@ -583,17 +620,6 @@ $CONFIG = array(
  * Log successful cron runs.
  */
 'cron_log' => true,
-
-/**
- * Location of the lock file for cron executions can be specified here.
- * Default is within the tmp directory. The file is named in the following way:
- * owncloud-server-$INSTANCEID-cron.lock
- * where $INSTANCEID is the string specified in the ``instanceid`` field.
- * Because the cron lock file is accessed at regular intervals, it may prevent
- * enabled disk drives from spinning down. A different location for this file
- * can solve such issues.
- */
-'cron.lockfile.location' => '',
 
 /**
  * Enables log rotation and limits the total size of logfiles. The default is 0,
@@ -917,6 +943,30 @@ $CONFIG = array(
 	//array('other.host.local', 11211),
 ),
 
+/**
+ * Connection options for memcached, see http://apprize.info/php/scaling/15.html
+ */
+'memcached_options' => array(
+	// Set timeouts to 50ms
+	\Memcached::OPT_CONNECT_TIMEOUT => 50,
+	\Memcached::OPT_RETRY_TIMEOUT =>   50,
+	\Memcached::OPT_SEND_TIMEOUT =>    50,
+	\Memcached::OPT_RECV_TIMEOUT =>    50,
+	\Memcached::OPT_POLL_TIMEOUT =>    50,
+
+	// Enable compression
+	\Memcached::OPT_COMPRESSION =>          true,
+
+	// Turn on consistent hashing
+	\Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
+
+	// Enable Binary Protocol
+	\Memcached::OPT_BINARY_PROTOCOL =>      true,
+
+	// Binary serializer vill be enabled if the igbinary PECL module is available
+	//\Memcached::OPT_SERIALIZER => \Memcached::SERIALIZER_IGBINARY,
+),
+
 
 /**
  * Location of the cache folder, defaults to ``data/$user/cache`` where
@@ -925,6 +975,14 @@ $CONFIG = array(
  * and ``$user`` is the user.
  */
 'cache_path' => '',
+
+/**
+ * TTL of chunks located in the cache folder before they're removed by
+ * garbage collection (in seconds). Increase this value if users have
+ * issues uploading very large files via the ownCloud Client as upload isn't
+ * completed within one day.
+ */
+'cache_chunk_gc_ttl' => 86400, // 60*60*24 = 1 day
 
 /**
  * Using Object Store with ownCloud
@@ -1083,8 +1141,9 @@ $CONFIG = array(
 'quota_include_external_storage' => false,
 
 /**
- * Specifies how often the filesystem is checked for changes made outside
- * ownCloud.
+ * Specifies how often the local filesystem (the ownCloud data/ directory, and 
+ * NFS mounts in data/) is checked for changes made outside ownCloud. This 
+ * does not apply to external storages.
  *
  * 0 -> Never check the filesystem for outside changes, provides a performance
  * increase when it's certain that no changes are made directly to the

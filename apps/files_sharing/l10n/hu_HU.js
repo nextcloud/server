@@ -53,8 +53,6 @@ OC.L10N.register(
     "Shared via public link" : "Megosztva publikus hivatkozással",
     "Shared by %2$s" : "Megosztó: %2$s",
     "Shares" : "Megosztások",
-    "Accept" : "Elfogadás",
-    "Decline" : "Elutasítás",
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",
     "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
     "Password" : "Jelszó",

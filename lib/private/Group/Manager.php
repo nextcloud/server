@@ -1,11 +1,11 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author macjohnny <estebanmarin@gmx.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
@@ -190,7 +190,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 		} else {
 			$this->emit('\OC\Group', 'preCreate', array($gid));
 			foreach ($this->backends as $backend) {
-				if ($backend->implementsActions(\OC_Group_Backend::CREATE_GROUP)) {
+				if ($backend->implementsActions(\OC\Group\Backend::CREATE_GROUP)) {
 					$backend->createGroup($gid);
 					$group = $this->getGroupObject($gid);
 					$this->emit('\OC\Group', 'postCreate', array($group));

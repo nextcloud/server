@@ -1,6 +1,7 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -115,7 +116,8 @@ class ProviderFactory implements IProviderFactory {
 				$l,
 				$this->serverContainer->getLogger(),
 				$this->serverContainer->getLazyRootFolder(),
-				$this->serverContainer->getConfig()
+				$this->serverContainer->getConfig(),
+				$this->serverContainer->getUserManager()
 			);
 		}
 

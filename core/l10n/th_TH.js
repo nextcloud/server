@@ -180,7 +180,6 @@ OC.L10N.register(
     "Warning" : "คำเตือน",
     "Error while sending notification" : "เกิดข้อผิดพลาดขณะกำลังส่งการแจ้งเตือน",
     "Non-existing tag #{tag}" : "ไม่มีแท็กนี้อยู่ #{tag}",
-    "not assignable" : "ไม่ได้รับมอบหมาย",
     "invisible" : "จะมองไม่เห็น",
     "({scope})" : "({scope})",
     "Delete" : "ลบ",

@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Phil Davis <phil.davis@inf.org>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *

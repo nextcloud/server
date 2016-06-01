@@ -1,9 +1,9 @@
 <?php
 /**
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Georg Ehrke <georg@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *

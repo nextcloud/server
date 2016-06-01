@@ -15,6 +15,7 @@ OC.L10N.register(
     "Cancel" : "منسوخ کریں",
     "Password" : "پاسورڈ",
     "New password" : "نیا پاسورڈ",
+    "Name" : "اسم",
     "Username" : "یوزر نیم",
     "Other" : "دیگر"
 },

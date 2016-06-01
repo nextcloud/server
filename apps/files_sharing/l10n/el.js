@@ -52,8 +52,6 @@ OC.L10N.register(
     "Shared via public link" : "Διαμοιράστηκε μέσω δημόσιου συνδέσμου",
     "Shared by %2$s" : "Διαμοιράστηκε από %2$s",
     "Shares" : "Κοινόχρηστοι φάκελοι",
-    "Accept" : "Αποδοχή",
-    "Decline" : "Απόρριψη",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
     "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",
     "Password" : "Κωδικός πρόσβασης",

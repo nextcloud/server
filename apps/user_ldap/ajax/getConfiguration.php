@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -28,6 +29,6 @@ OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
-$ldapWrapper = new OCA\user_ldap\lib\LDAP();
-$connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, $prefix);
+$ldapWrapper = new OCA\User_LDAP\LDAP();
+$connection = new \OCA\User_LDAP\Connection($ldapWrapper, $prefix);
 OCP\JSON::success(array('configuration' => $connection->getConfiguration()));

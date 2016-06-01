@@ -1,8 +1,9 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
@@ -30,7 +31,7 @@ OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
 $prefix = (string)$_POST['ldap_serverconfig_chooser'];
-$helper = new \OCA\user_ldap\lib\Helper();
+$helper = new \OCA\User_LDAP\Helper();
 if($helper->deleteServerConfiguration($prefix)) {
 	OCP\JSON::success();
 } else {

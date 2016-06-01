@@ -92,7 +92,6 @@
     "Test Base DN" : "Uji Base DN",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Mencegah permintaan LDAP otomatis. Berguna untuk setelan yang lebih besar, tapi memerlukan beberapa pengetahuan LDAP.",
     "Manually enter LDAP filters (recommended for large directories)" : "Masukkan penyaring LDAP secara manual (direkomendasikan untuk direktori yang besar)",
-    "Limit %s access to users meeting these criteria:" : "Batasi akses %s untuk pengguna yang sesuai dengan kriteria berikut:",
     "The most common object classes for users are organizationalPerson, person, user, and inetOrgPerson. If you are not sure which object class to select, please consult your directory admin." : "Kelas obyek yang umum untuk pengguna adalah organizationalPerson, person, user, dan inetOrgPerson. Jika Anda tidak yakin kelas obyek mana yang akan dipilih, silakan konsultasi dengan admin direktori Anda.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Penyaring menentukan pengguna LDAP mana yang memiliki akses ke %s.",
     "Verify settings and count users" : "Verifikasi setelan dan jumlah pengguna",

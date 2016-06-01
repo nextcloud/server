@@ -1,6 +1,7 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -26,9 +27,8 @@ use OCP\Http\Client\IClient;
 use OCP\Http\Client\IClientService;
 use OCP\ICache;
 use OCP\ICacheFactory;
-use Test\TestCase;
 
-class DiscoveryManagerTest extends TestCase {
+class DiscoveryManagerTest extends \Test\TestCase {
 	/** @var ICache */
 	private $cache;
 	/** @var IClient */

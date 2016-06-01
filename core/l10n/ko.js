@@ -176,7 +176,6 @@ OC.L10N.register(
     "Warning" : "경고",
     "Error while sending notification" : "알림을 보내는 중 오류 발생",
     "Non-existing tag #{tag}" : "존재하지 않는 태그 #{tag}",
-    "not assignable" : "할당할 수 없음",
     "invisible" : "보이지 않음",
     "({scope})" : "({scope})",
     "Delete" : "삭제",

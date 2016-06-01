@@ -31,6 +31,12 @@ body {
 	background-size: cover;
 }
 
+.two-factor-provider {
+	text-align: center;
+	width: 100%;
+	display: inline-block;
+}
+
 .float-spinner {
 	height: 32px;
 	display: none;
@@ -801,8 +807,6 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 .ui-dialog {position:fixed !important;}
 span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 
-.loading { background: url('../img/loading.gif') no-repeat center; cursor: wait; }
-.loading-small { background: url('../img/loading-small.gif') no-repeat center; cursor: wait; }
 .move2trash { /* decrease spinner size */
 	width: 16px;
 	height: 16px;
@@ -858,7 +862,9 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 div.crumb {
 	float: left;
 	display: block;
-	background: url('../img/breadcrumb.svg') no-repeat right center;
+	background-image: url('../img/breadcrumb.svg');
+	background-repeat: no-repeat;
+	background-position: right center;
 	height: 44px;
 	background-size: auto 24px;
 }

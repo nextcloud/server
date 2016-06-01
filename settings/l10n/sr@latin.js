@@ -25,6 +25,7 @@ OC.L10N.register(
     "Current password" : "Trenutna lozinka",
     "New password" : "Nova lozinka",
     "Change password" : "Izmeni lozinku",
+    "Name" : "naziv",
     "Language" : "Jezik",
     "Get the apps to sync your files" : "Preuzmite aplikacije za sinhronizaciju Vaših fajlova",
     "Desktop client" : "Desktop klijent",

@@ -1,7 +1,8 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -73,6 +74,12 @@ class DropOldJobs implements IRepairStep {
 			['class' => 'OC_Cache_FileGlobalGC', 'arguments' => null],
 			['class' => 'OC\Cache\FileGlobalGC', 'arguments' => null],
 			['class' => 'OCA\Files\BackgroundJob\DeleteOrphanedTagsJob', 'arguments' => null],
+
+			['class' => 'OCA\Files_sharing\Lib\DeleteOrphanedSharesJob', 'arguments' => null],
+			['class' => 'OCA\Files_sharing\ExpireSharesJob', 'arguments' => null],
+
+			['class' => 'OCA\user_ldap\lib\Jobs', 'arguments' => null],
+			['class' => '\OCA\User_LDAP\Jobs\CleanUp', 'arguments' => null],
 		];
 	}
 

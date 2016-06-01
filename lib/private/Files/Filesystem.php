@@ -1,13 +1,12 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Florin Peter <github@florin-peter.de>
- * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
@@ -397,7 +396,6 @@ class Filesystem {
 		if (isset(self::$usersSetup[$user])) {
 			return;
 		}
-		$root = \OC_User::getHome($user);
 
 		$userManager = \OC::$server->getUserManager();
 		$userObject = $userManager->get($user);
@@ -409,50 +407,26 @@ class Filesystem {
 
 		self::$usersSetup[$user] = true;
 
-		$homeStorage = \OC::$server->getConfig()->getSystemValue('objectstore');
-		if (!empty($homeStorage)) {
-			// sanity checks
-			if (empty($homeStorage['class'])) {
-				\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
-			}
-			if (!isset($homeStorage['arguments'])) {
-				$homeStorage['arguments'] = array();
-			}
-			// instantiate object store implementation
-			$homeStorage['arguments']['objectstore'] = new $homeStorage['class']($homeStorage['arguments']);
-			// mount with home object store implementation
-			$homeStorage['class'] = '\OC\Files\ObjectStore\HomeObjectStoreStorage';
-		} else {
-			$homeStorage = array(
-				//default home storage configuration:
-				'class' => '\OC\Files\Storage\Home',
-				'arguments' => array()
-			);
-		}
-		$homeStorage['arguments']['user'] = $userObject;
-
-		// check for legacy home id (<= 5.0.12)
-		if (\OC\Files\Cache\Storage::exists('local::' . $root . '/')) {
-			$homeStorage['arguments']['legacy'] = true;
-		}
-
-		$mount = new MountPoint($homeStorage['class'], '/' . $user, $homeStorage['arguments'], self::getLoader());
-		self::getMountManager()->addMount($mount);
-
-		$home = \OC\Files\Filesystem::getStorage($user);
-
-		// Chance to mount for other storages
 		/** @var \OC\Files\Config\MountProviderCollection $mountConfigManager */
 		$mountConfigManager = \OC::$server->getMountProviderCollection();
+
+		// home mounts are handled seperate since we need to ensure this is mounted before we call the other mount providers
+		$homeMount = $mountConfigManager->getHomeMountForUser($userObject);
+
+		self::getMountManager()->addMount($homeMount);
+
+		\OC\Files\Filesystem::getStorage($user);
+
+		// Chance to mount for other storages
 		if ($userObject) {
 			$mounts = $mountConfigManager->getMountsForUser($userObject);
 			array_walk($mounts, array(self::$mounts, 'addMount'));
-			$mounts[] = $mount;
+			$mounts[] = $homeMount;
 			$mountConfigManager->registerMounts($userObject, $mounts);
 		}
 
 		self::listenForNewMountProviders($mountConfigManager, $userManager);
-		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user, 'user_dir' => $root));
+		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user));
 	}
 
 	/**

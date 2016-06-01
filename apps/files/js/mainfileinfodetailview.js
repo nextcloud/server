@@ -12,7 +12,13 @@
 	var TEMPLATE =
 		'<div class="thumbnailContainer"><a href="#" class="thumbnail action-default"><div class="stretcher"/></a></div>' +
 		'<div class="file-details-container">' +
-		'<div class="fileName"><h3 title="{{name}}" class="ellipsis">{{name}}</h3></div>' +
+		'<div class="fileName">' +
+			'<h3 title="{{name}}" class="ellipsis">{{name}}</h3>' +
+			'<a class="permalink" href="{{permalink}}" title="{{permalinkTitle}}">' +
+				'<span class="icon icon-public"></span>' +
+				'<span class="hidden-visually">{{permalinkTitle}}</span>' +
+			'</a>' +
+		'</div>' +
 		'	<div class="file-details ellipsis">' +
 		'		<a href="#" ' +
 		'		class="action action-favorite favorite">' +
@@ -20,6 +26,9 @@
 		'		</a>' +
 		'		{{#if hasSize}}<span class="size" title="{{altSize}}">{{size}}</span>, {{/if}}<span class="date" title="{{altDate}}">{{date}}</span>' +
 		'	</div>' +
+		'</div>' +
+		'<div class="hidden permalink-field">' +
+			'<input type="text" value="{{permalink}}" placeholder="{{permalinkTitle}}" readonly="readonly"/>' +
 		'</div>';
 
 	/**
@@ -50,7 +59,9 @@
 
 		events: {
 			'click a.action-favorite': '_onClickFavorite',
-			'click a.action-default': '_onClickDefaultAction'
+			'click a.action-default': '_onClickDefaultAction',
+			'click a.permalink': '_onClickPermalink',
+			'focus .permalink-field>input': '_onFocusPermalink'
 		},
 
 		template: function(data) {
@@ -72,6 +83,20 @@
 			}
 		},
 
+		_onClickPermalink: function() {
+			var $row = this.$('.permalink-field');
+			$row.toggleClass('hidden');
+			if (!$row.hasClass('hidden')) {
+				$row.find('>input').focus();
+			}
+			// cancel click, user must right-click + copy or middle click
+			return false;
+		},
+
+		_onFocusPermalink: function() {
+			this.$('.permalink-field>input').select();
+		},
+
 		_onClickFavorite: function(event) {
 			event.preventDefault();
 			this._fileActions.triggerAction('Favorite', this.model, this._fileList);
@@ -85,6 +110,11 @@
 		_onModelChanged: function() {
 			// simply re-render
 			this.render();
+		},
+
+		_makePermalink: function(fileId) {
+			var baseUrl = OC.getProtocol() + '://' + OC.getHost();
+			return baseUrl + OC.generateUrl('/f/{fileId}', {fileId: fileId});
 		},
 
 		setFileInfo: function(fileInfo) {
@@ -118,7 +148,9 @@
 					altDate: OC.Util.formatDate(this.model.get('mtime')),
 					date: OC.Util.relativeModifiedDate(this.model.get('mtime')),
 					starAltText: isFavorite ? t('files', 'Favorited') : t('files', 'Favorite'),
-					starIcon: OC.imagePath('core', isFavorite ? 'actions/starred' : 'actions/star')
+					starIcon: OC.imagePath('core', isFavorite ? 'actions/starred' : 'actions/star'),
+					permalink: this._makePermalink(this.model.get('id')),
+					permalinkTitle: t('files', 'Local link')
 				}));
 
 				// TODO: we really need OC.Previews

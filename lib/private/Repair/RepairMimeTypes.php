@@ -6,6 +6,7 @@
  * @author Normal Ra <normalraw@gmail.com>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  * @author Vincent Petry <pvince81@owncloud.com>
  *

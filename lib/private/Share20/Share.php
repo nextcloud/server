@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -24,8 +25,7 @@ use OCP\Files\File;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
-use OCP\IUser;
-use OCP\IGroup;
+use OCP\IUserManager;
 use OCP\Share\Exceptions\IllegalIDChangeException;
 
 class Share implements \OCP\Share\IShare {
@@ -68,8 +68,12 @@ class Share implements \OCP\Share\IShare {
 	/** @var IRootFolder */
 	private $rootFolder;
 
-	public function __construct(IRootFolder $rootFolder) {
+	/** @var IUserManager */
+	private $userManager;
+
+	public function __construct(IRootFolder $rootFolder, IUserManager $userManager) {
 		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -145,7 +149,13 @@ class Share implements \OCP\Share\IShare {
 				throw new NotFoundException();
 			}
 
-			$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
+			// for federated shares the owner can be a remote user, in this
+			// case we use the initiator
+			if($this->userManager->userExists($this->shareOwner)) {
+				$userFolder = $this->rootFolder->getUserFolder($this->shareOwner);
+			} else {
+				$userFolder = $this->rootFolder->getUserFolder($this->sharedBy);
+			}
 
 			$nodes = $userFolder->getById($this->fileId);
 			if (empty($nodes)) {

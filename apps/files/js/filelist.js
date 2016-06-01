@@ -271,6 +271,12 @@
 			// if dropping on folders is allowed, then also allow on breadcrumbs
 			if (this._folderDropOptions) {
 				breadcrumbOptions.onDrop = _.bind(this._onDropOnBreadCrumb, this);
+				breadcrumbOptions.onOver = function() {
+					self.$el.find('td.filename.ui-droppable').droppable('disable');
+				}
+				breadcrumbOptions.onOut = function() {
+					self.$el.find('td.filename.ui-droppable').droppable('enable');
+				}
 			}
 			this.breadcrumb = new OCA.Files.BreadCrumb(breadcrumbOptions);
 
@@ -501,8 +507,6 @@
 			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
 
 			this.$table.find('>thead').width($('#app-content').width() - OC.Util.getScrollBarWidth());
-
-			this.updateSearch();
 		},
 
 		/**
@@ -657,7 +661,7 @@
 		_onClickDownloadSelected: function(event) {
 			var files;
 			var dir = this.getCurrentDirectory();
-			if (this.isAllSelected()) {
+			if (this.isAllSelected() && this.getSelectedFiles().length > 1) {
 				files = OC.basename(dir);
 				dir = OC.dirname(dir) || '/';
 			}
@@ -785,6 +789,13 @@
 			}
 
 			this.move(_.pluck(files, 'name'), targetPath);
+
+			// re-enable td elements to be droppable
+			// sometimes the filename drop handler is still called after re-enable,
+			// it seems that waiting for a short time before re-enabling solves the problem
+			setTimeout(function() {
+				self.$el.find('td.filename.ui-droppable').droppable('enable');
+			}, 10);
 		},
 
 		/**
@@ -1309,7 +1320,7 @@
 			}
 			// allow dropping on folders
 			if (this._folderDropOptions && mime === 'httpd/unix-directory') {
-				filenameTd.droppable(this._folderDropOptions);
+				tr.droppable(this._folderDropOptions);
 			}
 
 			if (options.hidden) {
@@ -1362,19 +1373,20 @@
 			return parseInt(this.$el.find('#permissions').val(), 10);
 		},
 		/**
-		 * @brief Changes the current directory and reload the file list.
-		 * @param targetDir target directory (non URL encoded)
-		 * @param changeUrl false if the URL must not be changed (defaults to true)
-		 * @param {boolean} force set to true to force changing directory
+		 * Changes the current directory and reload the file list.
+		 * @param {string} targetDir target directory (non URL encoded)
+		 * @param {boolean} [changeUrl=true] if the URL must not be changed (defaults to true)
+		 * @param {boolean} [force=false] set to true to force changing directory
+		 * @param {string} [fileId] optional file id, if known, to be appended in the URL
 		 */
-		changeDirectory: function(targetDir, changeUrl, force) {
+		changeDirectory: function(targetDir, changeUrl, force, fileId) {
 			var self = this;
 			var currentDir = this.getCurrentDirectory();
 			targetDir = targetDir || '/';
 			if (!force && currentDir === targetDir) {
 				return;
 			}
-			this._setCurrentDir(targetDir, changeUrl);
+			this._setCurrentDir(targetDir, changeUrl, fileId);
 			this.reload().then(function(success){
 				if (!success) {
 					self.changeDirectory(currentDir, true);
@@ -1389,8 +1401,9 @@
 		 * Sets the current directory name and updates the breadcrumb.
 		 * @param targetDir directory to display
 		 * @param changeUrl true to also update the URL, false otherwise (default)
+		 * @param {string} [fileId] file id
 		 */
-		_setCurrentDir: function(targetDir, changeUrl) {
+		_setCurrentDir: function(targetDir, changeUrl, fileId) {
 			targetDir = targetDir.replace(/\\/g, '/');
 			var previousDir = this.getCurrentDirectory(),
 				baseDir = OC.basename(targetDir);
@@ -1408,10 +1421,14 @@
 			this.$el.find('#dir').val(targetDir);
 
 			if (changeUrl !== false) {
-				this.$el.trigger(jQuery.Event('changeDirectory', {
+				var params = {
 					dir: targetDir,
 					previousDir: previousDir
-				}));
+				};
+				if (fileId) {
+					params.fileId = fileId;
+				}
+				this.$el.trigger(jQuery.Event('changeDirectory', params));
 			}
 			this.breadcrumb.setDirectory(this.getCurrentDirectory());
 		},
@@ -1557,6 +1574,18 @@
 
 			result.sort(this._sortComparator);
 			this.setFiles(result);
+
+			if (this.dirInfo) {
+				var newFileId = this.dirInfo.id;
+				// update fileid in URL
+				var params = {
+					dir: this.getCurrentDirectory()
+				};
+				if (newFileId) {
+					params.fileId = newFileId;
+				}
+				this.$el.trigger(jQuery.Event('afterChangeDirectory', params));
+			}
 			return true;
 		},
 

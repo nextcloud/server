@@ -3,7 +3,7 @@
  * @author Adam Williamson <awilliam@redhat.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Gapczynski <GapczynskiM@gmail.com>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -28,7 +28,7 @@
  */
 set_include_path(get_include_path().PATH_SEPARATOR.
 	\OC_App::getAppPath('files_external').'/3rdparty/google-api-php-client/src');
-require_once 'Google/Client.php';
+require_once 'Google/autoload.php';
 
 OCP\JSON::checkAppEnabled('files_external');
 OCP\JSON::checkLoggedIn();

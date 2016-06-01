@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
@@ -27,6 +28,8 @@ require_once __DIR__.'/../../../../lib/base.php';
 if(!class_exists('PHPUnit_Framework_TestCase')) {
 	require_once('PHPUnit/Autoload.php');
 }
+
+\OC::$composerAutoloader->addPsr4('Test\\', OC::$SERVERROOT . '/tests/lib/', true);
 
 \OC_App::loadApp('dav');
 

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Joas Schilling <nickvergessen@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
  *
@@ -733,7 +734,7 @@ class DefaultShareProvider implements IShareProvider {
 	 * @throws InvalidShare
 	 */
 	private function createShare($data) {
-		$share = new Share($this->rootFolder);
+		$share = new Share($this->rootFolder, $this->userManager);
 		$share->setId((int)$data['id'])
 			->setShareType((int)$data['share_type'])
 			->setPermissions((int)$data['permissions'])

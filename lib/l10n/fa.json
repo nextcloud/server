@@ -44,6 +44,9 @@
     "%s shared »%s« with you" : "%s به اشتراک گذاشته شده است »%s« توسط شما",
     "Could not find category \"%s\"" : "دسته بندی %s یافت نشد",
     "Apps" : "  برنامه ها",
+    "A valid username must be provided" : "نام کاربری صحیح باید وارد شود",
+    "A valid password must be provided" : "رمز عبور صحیح باید وارد شود",
+    "The username is already being used" : "نام‌کاربری قبلا استفاده شده است",
     "Help" : "راه‌نما",
     "Personal" : "شخصی",
     "Users" : "کاربران",
@@ -65,9 +68,6 @@
     "PHP module %s not installed." : "ماژول PHP %s نصب نشده است.",
     "PostgreSQL >= 9 required" : "PostgreSQL >= 9 نیاز است",
     "Please upgrade your database version" : "لطفا نسخه‌ی پایگاه‌داده‌ی خود را بروز کنید",
-    "A valid username must be provided" : "نام کاربری صحیح باید وارد شود",
-    "A valid password must be provided" : "رمز عبور صحیح باید وارد شود",
-    "The username is already being used" : "نام‌کاربری قبلا استفاده شده است",
     "Storage not available" : "فضای ذخیره سازی موجود نیست"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

@@ -2,6 +2,7 @@
 /**
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Olivier Paroz <github@oparoz.com>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *

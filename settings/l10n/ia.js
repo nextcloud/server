@@ -29,6 +29,7 @@ OC.L10N.register(
     "Current password" : "Contrasigno currente",
     "New password" : "Nove contrasigno",
     "Change password" : "Cambiar contrasigno",
+    "Name" : "Nomine",
     "Language" : "Linguage",
     "Help translate" : "Adjuta a traducer",
     "Get the apps to sync your files" : "Obtene le apps (applicationes) pro synchronizar tu files",

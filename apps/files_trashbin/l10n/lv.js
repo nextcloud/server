@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete" : "Dzēst",
     "Delete permanently" : "Dzēst pavisam",
     "Error" : "Kļūda",
+    "This operation is forbidden" : "Šī darbība ir aizliegta",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Šis direktorijs nav pieejams, lūdzu pārbaudiet žurnālus vai sazinieties ar administratoru",
     "restored" : "atjaunots",
     "No deleted files" : "Nav dzēstu failu",
     "You will be able to recover deleted files from here" : "No šejienes būs iespējams atgūt dzēstos failus",

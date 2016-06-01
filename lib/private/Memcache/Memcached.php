@@ -2,6 +2,8 @@
 /**
  * @author Andreas Fischer <bantu@owncloud.com>
  * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
@@ -26,6 +28,7 @@
 
 namespace OC\Memcache;
 
+use OC\HintException;
 use OCP\IMemcache;
 
 class Memcached extends Cache implements IMemcache {
@@ -52,6 +55,35 @@ class Memcached extends Cache implements IMemcache {
 				}
 			}
 			self::$cache->addServers($servers);
+
+			$defaultOptions = [
+				\Memcached::OPT_CONNECT_TIMEOUT => 50,
+				\Memcached::OPT_RETRY_TIMEOUT =>   50,
+				\Memcached::OPT_SEND_TIMEOUT =>    50,
+				\Memcached::OPT_RECV_TIMEOUT =>    50,
+				\Memcached::OPT_POLL_TIMEOUT =>    50,
+
+				// Enable compression
+				\Memcached::OPT_COMPRESSION =>          true,
+
+				// Turn on consistent hashing
+				\Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
+
+				// Enable Binary Protocol
+				\Memcached::OPT_BINARY_PROTOCOL =>      true,
+			];
+			// by default enable igbinary serializer if available
+			if (\Memcached::HAVE_IGBINARY) {
+				$defaultOptions[\Memcached::OPT_SERIALIZER] =
+					\Memcached::SERIALIZER_IGBINARY;
+			}
+			$options = \OC::$server->getConfig()->getSystemValue('memcached_options', []);
+			if (is_array($options)) {
+				$options = $options + $defaultOptions;
+				self::$cache->setOptions($options);
+			} else {
+				throw new HintException("Expected 'memcached_options' config to be an array, got $options");
+			}
 		}
 	}
 

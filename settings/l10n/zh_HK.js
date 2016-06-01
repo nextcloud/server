@@ -43,6 +43,7 @@ OC.L10N.register(
     "Password" : "密碼",
     "New password" : "新密碼",
     "Change password" : "更改密碼",
+    "Name" : "名稱",
     "Language" : "語言",
     "Help translate" : "幫忙翻譯",
     "Android app" : "Android 應用程式",

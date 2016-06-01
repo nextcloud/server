@@ -30,16 +30,27 @@ use OCP\SystemTag\ManagerEvent;
 use OCP\SystemTag\TagAlreadyExistsException;
 use OCP\SystemTag\TagNotFoundException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use OCP\IUserManager;
+use OCP\IGroupManager;
+use OCP\SystemTag\ISystemTag;
+use OCP\IUser;
 
+/**
+ * Manager class for system tags
+ */
 class SystemTagManager implements ISystemTagManager {
 
 	const TAG_TABLE = 'systemtag';
+	const TAG_GROUP_TABLE = 'systemtag_group';
 
 	/** @var IDBConnection */
 	protected $connection;
 
 	/** @var EventDispatcherInterface */
 	protected $dispatcher;
+
+	/** @var IGroupManager */
+	protected $groupManager;
 
 	/**
 	 * Prepared query for selecting tags directly
@@ -54,8 +65,13 @@ class SystemTagManager implements ISystemTagManager {
 	 * @param IDBConnection $connection database connection
 	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct(IDBConnection $connection, EventDispatcherInterface $dispatcher) {
+	public function __construct(
+		IDBConnection $connection,
+		IGroupManager $groupManager,
+		EventDispatcherInterface $dispatcher
+	) {
 		$this->connection = $connection;
+		$this->groupManager = $groupManager;
 		$this->dispatcher = $dispatcher;
 
 		$query = $this->connection->getQueryBuilder();
@@ -316,7 +332,102 @@ class SystemTagManager implements ISystemTagManager {
 		}
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canUserAssignTag(ISystemTag $tag, IUser $user) {
+		// early check to avoid unneeded group lookups
+		if ($tag->isUserAssignable() && $tag->isUserVisible()) {
+			return true;
+		}
+
+		if ($this->groupManager->isAdmin($user->getUID())) {
+			return true;
+		}
+
+		if (!$tag->isUserVisible()) {
+			return false;
+		}
+
+		$groupIds = $this->groupManager->getUserGroupIds($user);
+		if (!empty($groupIds)) {
+			$matchingGroups = array_intersect($groupIds, $this->getTagGroups($tag));
+			if (!empty($matchingGroups)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canUserSeeTag(ISystemTag $tag, IUser $user) {
+		if ($tag->isUserVisible()) {
+			return true;
+		}
+
+		if ($this->groupManager->isAdmin($user->getUID())) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private function createSystemTagFromRow($row) {
 		return new SystemTag((int)$row['id'], $row['name'], (bool)$row['visibility'], (bool)$row['editable']);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setTagGroups(ISystemTag $tag, $groupIds) {
+		// delete relationships first
+		$this->connection->beginTransaction();
+		try {
+			$query = $this->connection->getQueryBuilder();
+			$query->delete(self::TAG_GROUP_TABLE)
+				->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tag->getId())))
+				->execute();
+
+			// add each group id
+			$query = $this->connection->getQueryBuilder();
+			$query->insert(self::TAG_GROUP_TABLE)
+				->values([
+					'systemtagid' => $query->createNamedParameter($tag->getId()),
+					'gid' => $query->createParameter('gid'),
+				]);
+			foreach ($groupIds as $groupId) {
+				$query->setParameter('gid', $groupId);
+				$query->execute();
+			}
+
+			$this->connection->commit();
+		} catch (\Exception $e) {
+			$this->connection->rollback();
+			throw $e;
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getTagGroups(ISystemTag $tag) {
+		$groupIds = [];
+		$query = $this->connection->getQueryBuilder();
+		$query->select('gid')
+			->from(self::TAG_GROUP_TABLE)
+			->where($query->expr()->eq('systemtagid', $query->createNamedParameter($tag->getId())))
+			->orderBy('gid');
+
+		$result = $query->execute();
+		while ($row = $result->fetch()) {
+			$groupIds[] = $row['gid'];
+		}
+
+		$result->closeCursor();
+
+		return $groupIds;
 	}
 }

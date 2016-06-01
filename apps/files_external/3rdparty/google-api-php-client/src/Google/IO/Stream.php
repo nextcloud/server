@@ -21,7 +21,9 @@
  * @author Stuart Langley <slangley@google.com>
  */
 
-require_once 'Google/IO/Abstract.php';
+if (!class_exists('Google_Client')) {
+  require_once dirname(__FILE__) . '/../autoload.php';
+}
 
 class Google_IO_Stream extends Google_IO_Abstract
 {
@@ -40,12 +42,23 @@ class Google_IO_Stream extends Google_IO_Abstract
     "verify_peer" => true,
   );
 
+  public function __construct(Google_Client $client)
+  {
+    if (!ini_get('allow_url_fopen')) {
+      $error = 'The stream IO handler requires the allow_url_fopen runtime ' .
+               'configuration to be enabled';
+      $client->getLogger()->critical($error);
+      throw new Google_IO_Exception($error);
+    }
+
+    parent::__construct($client);
+  }
+
   /**
    * Execute an HTTP Request
    *
-   * @param Google_HttpRequest $request the http request to be executed
-   * @return Google_HttpRequest http request with the response http code,
-   * response headers and response body filled in
+   * @param Google_Http_Request $request the http request to be executed
+   * @return array containing response headers, body, and http code
    * @throws Google_IO_Exception on curl or IO error
    */
   public function executeRequest(Google_Http_Request $request)
@@ -74,7 +87,7 @@ class Google_IO_Stream extends Google_IO_Abstract
     $requestSslContext = array_key_exists('ssl', $default_options) ?
         $default_options['ssl'] : array();
 
-    if (!array_key_exists("cafile", $requestSslContext)) {
+    if (!$this->client->isAppEngine() && !array_key_exists("cafile", $requestSslContext)) {
       $requestSslContext["cafile"] = dirname(__FILE__) . '/cacerts.pem';
     }
 
@@ -97,6 +110,16 @@ class Google_IO_Stream extends Google_IO_Abstract
       $url = self::ZLIB . $url;
     }
 
+    $this->client->getLogger()->debug(
+        'Stream request',
+        array(
+            'url' => $url,
+            'method' => $request->getRequestMethod(),
+            'headers' => $requestHeaders,
+            'body' => $request->getPostBody()
+        )
+    );
+
     // We are trapping any thrown errors in this method only and
     // throwing an exception.
     $this->trappedErrorNumber = null;
@@ -109,13 +132,13 @@ class Google_IO_Stream extends Google_IO_Abstract
     // END - error trap.
 
     if ($this->trappedErrorNumber) {
-      throw new Google_IO_Exception(
-          sprintf(
-              "HTTP Error: Unable to connect: '%s'",
-              $this->trappedErrorString
-          ),
-          $this->trappedErrorNumber
+      $error = sprintf(
+          "HTTP Error: Unable to connect: '%s'",
+          $this->trappedErrorString
       );
+
+      $this->client->getLogger()->error('Stream ' . $error);
+      throw new Google_IO_Exception($error, $this->trappedErrorNumber);
     }
 
     $response_data = false;
@@ -132,16 +155,25 @@ class Google_IO_Stream extends Google_IO_Abstract
     }
 
     if (false === $response_data) {
-      throw new Google_IO_Exception(
-          sprintf(
-              "HTTP Error: Unable to connect: '%s'",
-              $respHttpCode
-          ),
+      $error = sprintf(
+          "HTTP Error: Unable to connect: '%s'",
           $respHttpCode
       );
+
+      $this->client->getLogger()->error('Stream ' . $error);
+      throw new Google_IO_Exception($error, $respHttpCode);
     }
 
     $responseHeaders = $this->getHttpResponseHeaders($http_response_header);
+
+    $this->client->getLogger()->debug(
+        'Stream response',
+        array(
+            'code' => $respHttpCode,
+            'headers' => $responseHeaders,
+            'body' => $response_data,
+        )
+    );
 
     return array($response_data, $responseHeaders, $respHttpCode);
   }

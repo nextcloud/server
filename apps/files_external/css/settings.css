@@ -18,6 +18,11 @@ td.mountPoint, td.backend { width:160px; }
 #addMountPoint>td.applicable { visibility:hidden; }
 #addMountPoint>td.hidden { visibility:hidden; }
 
+#externalStorage .icon-settings {
+	padding: 11px 20px;
+	vertical-align: text-bottom;
+}
+
 #selectBackend {
 	margin-left: -10px;
 	width: 150px;
@@ -43,6 +48,10 @@ td.mountPoint, td.backend { width:160px; }
 	min-width: 144px; /* 130px plus 2x7px padding */
 	display: inline-block;
 	margin-right: 6px;
+}
+
+#externalStorage td.configuration input.disabled-success {
+	background-color: rgba(134, 255, 110, 0.9);
 }
 
 

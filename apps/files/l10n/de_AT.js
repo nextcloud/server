@@ -21,7 +21,6 @@ OC.L10N.register(
     "You deleted %1$s" : "Du hast %1$s gelöscht",
     "%2$s deleted %1$s" : "%2$s löschte %1$s",
     "Save" : "Speichern",
-    "Settings" : "Einstellungen",
-    "Cancel upload" : "Hochladen abbrechen"
+    "Settings" : "Einstellungen"
 },
 "nplurals=2; plural=(n != 1);");
