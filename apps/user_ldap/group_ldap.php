@@ -33,6 +33,7 @@ namespace OCA\user_ldap;
 
 use OCA\user_ldap\lib\Access;
 use OCA\user_ldap\lib\BackendUtility;
+use OC\Cache\CappedMemoryCache;
 
 class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	protected $enabled = false;
@@ -40,12 +41,12 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	/**
 	 * @var string[] $cachedGroupMembers array of users with gid as key
 	 */
-	protected $cachedGroupMembers = array();
+	protected $cachedGroupMembers;
 
 	/**
 	 * @var string[] $cachedGroupsByMember array of groups with uid as key
 	 */
-	protected $cachedGroupsByMember = array();
+	protected $cachedGroupsByMember;
 
 	public function __construct(Access $access) {
 		parent::__construct($access);
@@ -54,6 +55,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		if(!empty($filter) && !empty($gassoc)) {
 			$this->enabled = true;
 		}
+
+		$this->cachedGroupMembers = new CappedMemoryCache();
+		$this->cachedGroupsByMember = new CappedMemoryCache();
 	}
 
 	/**
