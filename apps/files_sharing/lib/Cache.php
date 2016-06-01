@@ -38,7 +38,7 @@ use OCP\Files\Storage\IStorage;
  */
 class Cache extends CacheJail {
 	/**
-	 * @var \OC\Files\Storage\Shared
+	 * @var \OCA\Files_Sharing\SharedStorage
 	 */
 	private $storage;
 
@@ -58,7 +58,7 @@ class Cache extends CacheJail {
 	private $sourceCache;
 
 	/**
-	 * @param \OC\Files\Storage\Shared $storage
+	 * @param \OCA\Files_Sharing\SharedStorage $storage
 	 * @param IStorage $sourceStorage
 	 * @param ICacheEntry $sourceRootInfo
 	 */

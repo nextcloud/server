@@ -37,7 +37,7 @@ use OC\Files\View;
  */
 class SharedMount extends MountPoint implements MoveableMount {
 	/**
-	 * @var \OC\Files\Storage\Shared $storage
+	 * @var \OCA\Files_Sharing\SharedStorage $storage
 	 */
 	protected $storage = null;
 
@@ -212,7 +212,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	public function removeMount() {
 		$mountManager = \OC\Files\Filesystem::getMountManager();
-		/** @var $storage \OC\Files\Storage\Shared */
+		/** @var $storage \OCA\Files_Sharing\SharedStorage */
 		$storage = $this->getStorage();
 		$result = $storage->unshareStorage();
 		$mountManager->removeMount($this->mountPoint);
