@@ -252,7 +252,6 @@ OC.L10N.register(
     "Current password" : "Nykyinen salasana",
     "New password" : "Uusi salasana",
     "Change password" : "Vaihda salasana",
-    "These are the web browsers currently logged in to your ownCloud." : "Nämä ovat parhaillaan ownCloudiisi sisäänkirjautuneet selaimet.",
     "Browser" : "Selain",
     "Most recent activity" : "Viimeisimmät toimet",
     "You've linked these devices." : "Olet linkittänyt nämä laitteet.",

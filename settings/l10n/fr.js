@@ -262,7 +262,6 @@ OC.L10N.register(
     "Current password" : "Mot de passe actuel",
     "New password" : "Nouveau mot de passe",
     "Change password" : "Changer de mot de passe",
-    "These are the web browsers currently logged in to your ownCloud." : "Voici tous les navigateurs web actuellement connectés à votre ownCloud.",
     "Browser" : "Navigateur",
     "Most recent activity" : "Activité la plus récente",
     "You've linked these devices." : "Vous avez liés ces périphériques.",

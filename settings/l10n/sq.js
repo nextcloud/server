@@ -266,7 +266,6 @@ OC.L10N.register(
     "Current password" : "Fjalëkalimi i tanishëm",
     "New password" : "Fjalëkalimi i ri",
     "Change password" : "Ndrysho fjalëkalimin",
-    "These are the web browsers currently logged in to your ownCloud." : "Këta janë shfletuesit e futur tani në ownCloud-in tuaj.",
     "Browser" : "Shfletues",
     "Most recent activity" : "Veprimtaria më e freskët",
     "You've linked these devices." : "I keni të lidhura këto pajisje.",

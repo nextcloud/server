@@ -266,7 +266,6 @@ OC.L10N.register(
     "Current password" : "現在のパスワード",
     "New password" : "新しいパスワード",
     "Change password" : "パスワードを変更",
-    "These are the web browsers currently logged in to your ownCloud." : "現在システムにログインしているWebブラウザ",
     "Browser" : "ブラウザ",
     "Most recent activity" : "最新のアクティビティ",
     "You've linked these devices." : "以下のデバイスをリンクしました。",
