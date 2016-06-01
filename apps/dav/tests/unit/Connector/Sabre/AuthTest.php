@@ -27,11 +27,12 @@
 
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OC\Authentication\TwoFactorAuth\Manager;
+use OC\User\Session;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\IUser;
 use Test\TestCase;
-use OCP\ISession;
-use OC\User\Session;
 
 /**
  * Class AuthTest
@@ -48,6 +49,8 @@ class AuthTest extends TestCase {
 	private $userSession;
 	/** @var IRequest */
 	private $request;
+	/** @var Manager */
+	private $twoFactorManager;
 
 	public function setUp() {
 		parent::setUp();
@@ -57,10 +60,14 @@ class AuthTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()->getMock();
+		$this->twoFactorManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->auth = new \OCA\DAV\Connector\Sabre\Auth(
 			$this->session,
 			$this->userSession,
-			$this->request
+			$this->request,
+			$this->twoFactorManager
 		);
 	}
 
@@ -292,6 +299,59 @@ class AuthTest extends TestCase {
 			->expects($this->once())
 			->method('passesCSRFCheck')
 			->willReturn(false);
+		$this->auth->check($request, $response);
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\NotAuthenticated
+	 * @expectedExceptionMessage 2FA challenge not passed.
+	 */
+	public function testAuthenticateAlreadyLoggedInWithoutTwoFactorChallengePassed() {
+		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession
+			->expects($this->any())
+			->method('isLoggedIn')
+			->willReturn(true);
+		$this->request
+			->expects($this->any())
+			->method('getMethod')
+			->willReturn('PROPFIND');
+		$this->request
+			->expects($this->any())
+			->method('isUserAgent')
+			->with([
+				'/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/',
+				'/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/',
+				'/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/',
+			])
+			->willReturn(false);
+		$this->session
+			->expects($this->any())
+			->method('get')
+			->with('AUTHENTICATED_TO_DAV_BACKEND')
+			->will($this->returnValue('LoggedInUser'));
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('LoggedInUser'));
+		$this->userSession
+			->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->request
+			->expects($this->once())
+			->method('passesCSRFCheck')
+			->willReturn(true);
+		$this->twoFactorManager->expects($this->once())
+			->method('needsSecondFactor')
+			->will($this->returnValue(true));
 		$this->auth->check($request, $response);
 	}
 
