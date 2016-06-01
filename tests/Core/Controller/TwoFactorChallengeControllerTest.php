@@ -69,9 +69,10 @@ class TwoFactorChallengeControllerTest extends TestCase {
 
 		$expected = new \OCP\AppFramework\Http\TemplateResponse('core', 'twofactorselectchallenge', [
 			'providers' => $providers,
-			], 'guest');
+			'redirect_url' => '/some/url',
+		], 'guest');
 
-		$this->assertEquals($expected, $this->controller->selectChallenge());
+		$this->assertEquals($expected, $this->controller->selectChallenge('/some/url'));
 	}
 
 	public function testShowChallenge() {
@@ -112,7 +113,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			'template' => '<html/>',
 			], 'guest');
 
-		$this->assertEquals($expected, $this->controller->showChallenge('myprovider'));
+		$this->assertEquals($expected, $this->controller->showChallenge('myprovider', '/re/dir/ect/url'));
 	}
 
 	public function testShowInvalidChallenge() {
@@ -132,7 +133,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse('select/challenge/url');
 
-		$this->assertEquals($expected, $this->controller->showChallenge('myprovider'));
+		$this->assertEquals($expected, $this->controller->showChallenge('myprovider', 'redirect/url'));
 	}
 
 	public function testSolveChallenge() {
@@ -207,6 +208,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.showChallenge', [
 				'challengeProviderId' => 'myprovider',
+				'redirect_url' => '/url',
 			])
 			->will($this->returnValue('files/index/url'));
 		$provider->expects($this->once())
@@ -214,7 +216,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 			->will($this->returnValue('myprovider'));
 
 		$expected = new \OCP\AppFramework\Http\RedirectResponse('files/index/url');
-		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token'));
+		$this->assertEquals($expected, $this->controller->solveChallenge('myprovider', 'token', '/url'));
 	}
 
 }

@@ -369,7 +369,8 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			$session = $app->getServer()->getSession();
 			$urlGenerator = $app->getServer()->getURLGenerator();
 			$reflector = $c['ControllerMethodReflector'];
-			return new TwoFactorMiddleware($twoFactorManager, $userSession, $session, $urlGenerator, $reflector);
+			$request = $app->getServer()->getRequest();
+			return new TwoFactorMiddleware($twoFactorManager, $userSession, $session, $urlGenerator, $reflector, $request);
 		});
 
 		$middleWares = &$this->middleWares;

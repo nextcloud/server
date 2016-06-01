@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
  *
@@ -31,6 +32,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Utility\IControllerMethodReflector;
+use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
 
@@ -51,6 +53,9 @@ class TwoFactorMiddleware extends Middleware {
 	/** @var IControllerMethodReflector */
 	private $reflector;
 
+	/** @var IRequest */
+	private $request;
+
 	/**
 	 * @param Manager $twoFactorManager
 	 * @param Session $userSession
@@ -58,12 +63,13 @@ class TwoFactorMiddleware extends Middleware {
 	 * @param IURLGenerator $urlGenerator
 	 */
 	public function __construct(Manager $twoFactorManager, Session $userSession, ISession $session,
-		IURLGenerator $urlGenerator, IControllerMethodReflector $reflector) {
+		IURLGenerator $urlGenerator, IControllerMethodReflector $reflector, IRequest $request) {
 		$this->twoFactorManager = $twoFactorManager;
 		$this->userSession = $userSession;
 		$this->session = $session;
 		$this->urlGenerator = $urlGenerator;
 		$this->reflector = $reflector;
+		$this->request = $request;
 	}
 
 	/**
@@ -110,7 +116,9 @@ class TwoFactorMiddleware extends Middleware {
 
 	public function afterException($controller, $methodName, Exception $exception) {
 		if ($exception instanceof TwoFactorAuthRequiredException) {
-			return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.selectChallenge'));
+			return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.selectChallenge', [
+					'redirect_url' => urlencode($this->request->server['REQUEST_URI']),
+			]));
 		}
 		if ($exception instanceof UserAlreadyLoggedInException) {
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));

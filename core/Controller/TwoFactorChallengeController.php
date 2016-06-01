@@ -65,14 +65,16 @@ class TwoFactorChallengeController extends Controller {
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
 	 *
+	 * @param string $redirect_url
 	 * @return TemplateResponse
 	 */
-	public function selectChallenge() {
+	public function selectChallenge($redirect_url) {
 		$user = $this->userSession->getUser();
 		$providers = $this->twoFactorManager->getProviders($user);
 
 		$data = [
 			'providers' => $providers,
+			'redirect_url' => $redirect_url,
 		];
 		return new TemplateResponse($this->appName, 'twofactorselectchallenge', $data, 'guest');
 	}
@@ -83,9 +85,10 @@ class TwoFactorChallengeController extends Controller {
 	 * @UseSession
 	 *
 	 * @param string $challengeProviderId
+	 * @param string $redirect_url
 	 * @return TemplateResponse
 	 */
-	public function showChallenge($challengeProviderId) {
+	public function showChallenge($challengeProviderId, $redirect_url) {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
 		if (is_null($provider)) {
@@ -98,10 +101,12 @@ class TwoFactorChallengeController extends Controller {
 		} else {
 			$error = false;
 		}
+		$tmpl = $provider->getTemplate($user);
+		$tmpl->assign('redirect_url', $redirect_url);
 		$data = [
 			'error' => $error,
 			'provider' => $provider,
-			'template' => $provider->getTemplate($user)->fetchPage(),
+			'template' => $tmpl->fetchPage(),
 		];
 		return new TemplateResponse($this->appName, 'twofactorshowchallenge', $data, 'guest');
 	}
@@ -113,9 +118,10 @@ class TwoFactorChallengeController extends Controller {
 	 *
 	 * @param string $challengeProviderId
 	 * @param string $challenge
+	 * @param string $redirect_url
 	 * @return RedirectResponse
 	 */
-	public function solveChallenge($challengeProviderId, $challenge) {
+	public function solveChallenge($challengeProviderId, $challenge, $redirect_url = null) {
 		$user = $this->userSession->getUser();
 		$provider = $this->twoFactorManager->getProvider($user, $challengeProviderId);
 		if (is_null($provider)) {
@@ -123,11 +129,17 @@ class TwoFactorChallengeController extends Controller {
 		}
 
 		if ($this->twoFactorManager->verifyChallenge($challengeProviderId, $user, $challenge)) {
+			if (!is_null($redirect_url)) {
+				return new RedirectResponse($this->urlGenerator->getAbsoluteURL(urldecode($redirect_url)));
+			}
 			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
 		}
 
 		$this->session->set('two_factor_auth_error', true);
-		return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.showChallenge', ['challengeProviderId' => $provider->getId()]));
+		return new RedirectResponse($this->urlGenerator->linkToRoute('core.TwoFactorChallenge.showChallenge', [
+			'challengeProviderId' => $provider->getId(),
+			'redirect_url' => $redirect_url,
+		]));
 	}
 
 }

@@ -23,6 +23,7 @@
 namespace Test\Core\Middleware;
 
 use OC\Core\Middleware\TwoFactorMiddleware;
+use OC\AppFramework\Http\Request;
 use Test\TestCase;
 
 class TwoFactorMiddlewareTest extends TestCase {
@@ -32,6 +33,7 @@ class TwoFactorMiddlewareTest extends TestCase {
 	private $session;
 	private $urlGenerator;
 	private $reflector;
+	private $request;
 
 	/** @var TwoFactorMiddleware */
 	private $middleware;
@@ -48,8 +50,17 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->session = $this->getMock('\OCP\ISession');
 		$this->urlGenerator = $this->getMock('\OCP\IURLGenerator');
 		$this->reflector = $this->getMock('\OCP\AppFramework\Utility\IControllerMethodReflector');
+		$this->request = new Request(
+			[
+				'server' => [
+					'REQUEST_URI' => 'test/url'
+				]
+			],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
 
-		$this->middleware = new TwoFactorMiddleware($this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator, $this->reflector);
+		$this->middleware = new TwoFactorMiddleware($this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator, $this->reflector, $this->request);
 	}
 
 	public function testBeforeControllerNotLoggedIn() {
@@ -162,8 +173,8 @@ class TwoFactorMiddlewareTest extends TestCase {
 		$this->urlGenerator->expects($this->once())
 			->method('linkToRoute')
 			->with('core.TwoFactorChallenge.selectChallenge')
-			->will($this->returnValue('redirect/url'));
-		$expected = new \OCP\AppFramework\Http\RedirectResponse('redirect/url');
+			->will($this->returnValue('test/url'));
+		$expected = new \OCP\AppFramework\Http\RedirectResponse('test/url');
 
 		$this->assertEquals($expected, $this->middleware->afterException(null, 'index', $ex));
 	}
