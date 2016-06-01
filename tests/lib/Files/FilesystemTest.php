@@ -92,6 +92,7 @@ class FilesystemTest extends \Test\TestCase {
 		}
 
 		$this->logout();
+		$this->invokePrivate('\OC\Files\Filesystem', 'normalizedPathCache', [null]);
 		parent::tearDown();
 	}
 
@@ -188,6 +189,32 @@ class FilesystemTest extends \Test\TestCase {
 	 */
 	public function testNormalizePath($expected, $path, $stripTrailingSlash = true) {
 		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash));
+	}
+
+	public function normalizePathKeepUnicodeData() {
+		$nfdName = 'ümlaut';
+		$nfcName = 'ümlaut';
+		return [
+			['/' . $nfcName, $nfcName, true],
+			['/' . $nfcName, $nfcName, false],
+			['/' . $nfdName, $nfdName, true],
+			['/' . $nfcName, $nfdName, false],
+		];
+	}
+
+	/**
+	 * @dataProvider normalizePathKeepUnicodeData
+	 */
+	public function testNormalizePathKeepUnicode($expected, $path, $keepUnicode = false) {
+		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, true, false, $keepUnicode));
+	}
+
+	public function testNormalizePathKeepUnicodeCache() {
+		$nfdName = 'ümlaut';
+		$nfcName = 'ümlaut';
+		// call in succession due to cache
+		$this->assertEquals('/' . $nfcName, \OC\Files\Filesystem::normalizePath($nfdName, true, false, false));
+		$this->assertEquals('/' . $nfdName, \OC\Files\Filesystem::normalizePath($nfdName, true, false, true));
 	}
 
 	public function isValidPathData() {
