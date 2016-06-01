@@ -188,6 +188,7 @@ class MountPoint implements IMountPoint {
 	 * @return string
 	 */
 	public function getInternalPath($path) {
+		$path = Filesystem::normalizePath($path);
 		if ($this->mountPoint === $path or $this->mountPoint . '/' === $path) {
 			$internalPath = '';
 		} else {
