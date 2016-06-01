@@ -166,7 +166,12 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 * @return mixed
 	 */
 	protected static function invokePrivate($object, $methodName, array $parameters = array()) {
-		$reflection = new \ReflectionClass(get_class($object));
+		if (is_string($object)) {
+			$className = $object;
+		} else {
+			$className = get_class($object);
+		}
+		$reflection = new \ReflectionClass($className);
 
 		if ($reflection->hasMethod($methodName)) {
 			$method = $reflection->getMethod($methodName);
