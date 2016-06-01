@@ -30,6 +30,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use OC\Files\View;
 use OCA\DAV\Upload\FutureFile;
+use OCP\Files\ForbiddenException;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\IFile;
@@ -310,6 +311,8 @@ class FilesPlugin extends ServerPlugin {
 						return $directDownloadUrl['url'];
 					}
 				} catch (StorageNotAvailableException $e) {
+					return false;
+				} catch (ForbiddenException $e) {
 					return false;
 				}
 				return false;
