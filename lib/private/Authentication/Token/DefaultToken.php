@@ -27,7 +27,6 @@ use OCP\AppFramework\Db\Entity;
  * @method void setId(int $id)
  * @method void setUid(string $uid);
  * @method void setLoginName(string $loginName)
- * @method string getLoginName()
  * @method void setPassword(string $password)
  * @method void setName(string $name)
  * @method string getName()

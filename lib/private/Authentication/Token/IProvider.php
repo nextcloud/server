@@ -22,6 +22,7 @@
 namespace OC\Authentication\Token;
 
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Exceptions\PasswordlessTokenException;
 use OCP\IUser;
 
 interface IProvider {
@@ -32,7 +33,7 @@ interface IProvider {
 	 * @param string $token
 	 * @param string $uid
 	 * @param string $loginName
-	 * @param string $password
+	 * @param string|null $password
 	 * @param string $name
 	 * @param int $type token type
 	 * @return IToken
@@ -94,6 +95,7 @@ interface IProvider {
 	 * @param IToken $token
 	 * @param string $tokenId
 	 * @throws InvalidTokenException
+	 * @throws PasswordlessTokenException
 	 * @return string
 	 */
 	public function getPassword(IToken $token, $tokenId);

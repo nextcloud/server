@@ -1084,8 +1084,7 @@
 				<name>password</name>
 				<type>clob</type>
 				<default></default>
-				<notnull>true</notnull>
-				<length>4000</length>
+				<notnull>false</notnull>
 			</field>
 
 			<field>
