@@ -55,7 +55,7 @@ class OC_Defaults {
 		$this->defaultName = 'ownCloud'; /* short name, used when referring to the software */
 		$this->defaultTitle = 'ownCloud'; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = 'https://owncloud.org';
-		$this->defaultSyncClientUrl = 'https://owncloud.org/sync-clients/';
+		$this->defaultSyncClientUrl = 'https://owncloud.org/install/#install-clients';
 		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8';
 		$this->defaultiTunesAppId = '543672169';
 		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.owncloud.android';
