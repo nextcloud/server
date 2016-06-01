@@ -50,6 +50,17 @@ interface ICredentialsManager {
 	public function retrieve($userId, $identifier);
 
 	/**
+	 * Retrieve a set of credentials for all users with those credentials set
+	 *
+	 * Note that this doesn't include system-wide credentials
+	 *
+	 * @param $identifier
+	 * @return array
+	 * @since 9.1.0
+	 */
+	public function retrieveMultiUser($identifier);
+
+	/**
 	 * Delete a set of credentials
 	 *
 	 * @param string|null $userId Null for system-wide credentials

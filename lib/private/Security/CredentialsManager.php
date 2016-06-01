@@ -80,8 +80,7 @@ class CredentialsManager implements ICredentialsManager {
 		$qb->select('credentials')
 			->from(self::DB_TABLE)
 			->where($qb->expr()->eq('user', $qb->createNamedParameter($userId)))
-			->andWhere($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)))
-		;
+			->andWhere($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)));
 		$result = $qb->execute()->fetch();
 
 		if (!$result) {
@@ -90,6 +89,32 @@ class CredentialsManager implements ICredentialsManager {
 		$value = $result['credentials'];
 
 		return json_decode($this->crypto->decrypt($value), true);
+	}
+
+	/**
+	 * Retrieve a set of credentials for all users with those credentials set
+	 *
+	 * Note that this doesn't include system-wide credentials
+	 *
+	 * @param $identifier
+	 * @return array
+	 */
+	public function retrieveMultiUser($identifier) {
+		$qb = $this->dbConnection->getQueryBuilder();
+		$qb->select(['credentials', 'user'])
+			->from(self::DB_TABLE)
+			->where($qb->expr()->isNotNull('user'))
+			->andWhere($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)));
+		$results = $qb->execute()->fetchAll();
+
+		$keys = array_map(function ($item) {
+			return $item['user'];
+		}, $results);
+		$values = array_map(function ($item) {
+			return json_decode($this->crypto->decrypt($item['credentials']), true);
+		}, $results);
+
+		return array_combine($keys, $values);
 	}
 
 	/**
@@ -103,8 +128,7 @@ class CredentialsManager implements ICredentialsManager {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)
 			->where($qb->expr()->eq('user', $qb->createNamedParameter($userId)))
-			->andWhere($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)))
-		;
+			->andWhere($qb->expr()->eq('identifier', $qb->createNamedParameter($identifier)));
 		return $qb->execute();
 	}
 
@@ -117,8 +141,7 @@ class CredentialsManager implements ICredentialsManager {
 	public function erase($userId) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete(self::DB_TABLE)
-			->where($qb->expr()->eq('user', $qb->createNamedParameter($userId)))
-		;
+			->where($qb->expr()->eq('user', $qb->createNamedParameter($userId)));
 		return $qb->execute();
 	}
 

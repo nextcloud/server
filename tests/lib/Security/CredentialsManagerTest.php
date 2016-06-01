@@ -27,10 +27,10 @@ use \OC\Security\CredentialsManager;
 
 class CredentialsManagerTest extends \Test\TestCase {
 
-	/** @var ICrypto */
+	/** @var ICrypto|\PHPUnit_Framework_MockObject_MockObject */
 	protected $crypto;
 
-	/** @var IDBConnection */
+	/** @var IDBConnection|\PHPUnit_Framework_MockObject_MockObject */
 	protected $dbConnection;
 
 	/** @var CredentialsManager */
@@ -53,6 +53,18 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$result->expects($this->any())
 			->method('fetch')
 			->will($this->returnValue($row));
+
+		return $result;
+	}
+
+	private function getQeuryResultMultiple($rows) {
+		$result = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$result->expects($this->any())
+			->method('fetchAll')
+			->will($this->returnValue($rows));
 
 		return $result;
 	}
@@ -101,4 +113,39 @@ class CredentialsManagerTest extends \Test\TestCase {
 		$this->manager->retrieve($userId, $identifier);
 	}
 
+	public function testRetrieveMultiUser() {
+		$expected = [
+			'a' => '1',
+			'b' => '2',
+			'c' => '3'
+		];
+
+		$db = [
+			['user' => 'a', 'credentials' => 'one'],
+			['user' => 'b', 'credentials' => 'two'],
+			['user' => 'c', 'credentials' => 'three'],
+		];
+
+		$this->crypto->expects($this->exactly(count($db)))
+			->method('decrypt')
+			->willReturnMap([
+				['one', '', '1'],
+				['two', '', '2'],
+				['three', '', '3'],
+			]);
+
+		$qb = $this->getMockBuilder('\OC\DB\QueryBuilder\QueryBuilder')
+			->setConstructorArgs([$this->dbConnection])
+			->setMethods(['execute'])
+			->getMock();
+		$qb->expects($this->once())
+			->method('execute')
+			->willReturn($this->getQeuryResultMultiple($db));
+
+		$this->dbConnection->expects($this->once())
+			->method('getQueryBuilder')
+			->willReturn($qb);
+
+		$this->assertEquals($expected, $this->manager->retrieveMultiUser('foo'));
+	}
 }
