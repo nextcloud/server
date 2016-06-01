@@ -190,15 +190,15 @@ class OC_L10N implements \OCP\IL10N {
 				)
 				&& file_exists($transFile)) {
 				// load the translations file
-				if($this->load($transFile)) {
-					//merge with translations from theme
-					$theme = \OC::$server->getConfig()->getSystemValue('theme');
-					if (!empty($theme)) {
-						$transFile = OC::$SERVERROOT.'/themes/'.$theme.substr($transFile, strlen(OC::$SERVERROOT));
-						if (file_exists($transFile)) {
-							$this->load($transFile, true);
-						}
-					}
+				$this->load($transFile);
+			}
+
+			//merge with translations from theme
+			$theme = \OC::$server->getConfig()->getSystemValue('theme');
+			if (!empty($theme)) {
+				$transFile = OC::$SERVERROOT.'/themes/'.$theme.substr($transFile, strlen(OC::$SERVERROOT));
+				if (file_exists($transFile)) {
+					$this->load($transFile, true);
 				}
 			}
 
@@ -476,6 +476,22 @@ class OC_L10N implements \OCP\IL10N {
 				if(substr($file, -5, 5) === '.json' && substr($file, 0, 4) !== 'l10n') {
 					$i = substr($file, 0, -5);
 					$available[] = $i;
+				}
+			}
+		}
+
+		$config = \OC::$server->getConfig();
+		// merge with translations from theme
+		$theme = $config->getSystemValue('theme');
+		if(!empty($theme)) {
+			$themeDir = \OC::$SERVERROOT . '/themes/' . $theme . substr($dir, strlen(\OC::$SERVERROOT));
+			if(is_dir($themeDir)) {
+				$files=scandir($dir);
+				foreach($files as $file) {
+					if(substr($file, -5, 5) === '.json' && substr($file, 0, 4) !== 'l10n') {
+						$i = substr($file, 0, -5);
+						$available[] = $i;
+					}
 				}
 			}
 		}
