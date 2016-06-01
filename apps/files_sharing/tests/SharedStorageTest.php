@@ -522,7 +522,7 @@ class SharedStorageTest extends TestCase {
 
 		$mount = $view2->getMount('/foo');
 		$this->assertInstanceOf('\OCA\Files_Sharing\SharedMount', $mount);
-		/** @var \OC\Files\Storage\Shared $storage */
+		/** @var \OCA\Files_Sharing\SharedStorage $storage */
 		$storage = $mount->getStorage();
 
 		$this->assertEquals(self::TEST_FILES_SHARING_API_USER1, $storage->getOwner(''));

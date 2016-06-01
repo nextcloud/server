@@ -88,13 +88,13 @@ class EncryptionWrapperTest extends TestCase {
 			[true, ['OCA\Files_Trashbin\Storage']],
 
 			// Do not wrap shared storages
-			[false, ['OC\Files\Storage\Shared']],
+			[false, ['OCA\Files_Sharing\SharedStorage']],
 			[false, ['OCA\Files_Sharing\External\Storage']],
 			[false, ['OC\Files\Storage\OwnCloud']],
-			[false, ['OC\Files\Storage\Shared', 'OCA\Files_Sharing\External\Storage']],
-			[false, ['OC\Files\Storage\Shared', 'OC\Files\Storage\OwnCloud']],
+			[false, ['OCA\Files_Sharing\SharedStorage', 'OCA\Files_Sharing\External\Storage']],
+			[false, ['OCA\Files_Sharing\SharedStorage', 'OC\Files\Storage\OwnCloud']],
 			[false, ['OCA\Files_Sharing\External\Storage', 'OC\Files\Storage\OwnCloud']],
-			[false, ['OC\Files\Storage\Shared', 'OCA\Files_Sharing\External\Storage', 'OC\Files\Storage\OwnCloud']],
+			[false, ['OCA\Files_Sharing\SharedStorage', 'OCA\Files_Sharing\External\Storage', 'OC\Files\Storage\OwnCloud']],
 		];
 	}
 

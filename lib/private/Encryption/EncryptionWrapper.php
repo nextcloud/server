@@ -80,7 +80,7 @@ class EncryptionWrapper {
 			'mount' => $mount
 		];
 
-		if (!$storage->instanceOfStorage('OC\Files\Storage\Shared')
+		if (!$storage->instanceOfStorage('OCA\Files_Sharing\SharedStorage')
 			&& !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')
 			&& !$storage->instanceOfStorage('OC\Files\Storage\OwnCloud')) {
 

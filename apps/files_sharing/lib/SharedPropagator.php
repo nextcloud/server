@@ -26,7 +26,7 @@ use OC\Files\Cache\Propagator;
 
 class SharedPropagator extends Propagator {
 	/**
-	 * @var \OC\Files\Storage\Shared
+	 * @var \OCA\Files_Sharing\SharedStorage
 	 */
 	protected $storage;
 

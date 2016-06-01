@@ -1337,7 +1337,7 @@ class View {
 						$subStorage = $mount->getStorage();
 						if ($subStorage) {
 							// exclude shared storage ?
-							if ($extOnly && $subStorage instanceof \OC\Files\Storage\Shared) {
+							if ($extOnly && $subStorage instanceof \OCA\Files_Sharing\SharedStorage) {
 								continue;
 							}
 							$subCache = $subStorage->getCache('');

@@ -28,11 +28,10 @@
  *
  */
 
-namespace OC\Files\Storage;
+namespace OCA\Files_Sharing;
 
 use OC\Files\Filesystem;
 use OC\Files\Cache\FailedCache;
-use OCA\Files_Sharing\ISharedStorage;
 use OCP\Constants;
 use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Storage\IStorage;
@@ -41,7 +40,7 @@ use OCP\Lock\ILockingProvider;
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
+class SharedStorage extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 
 	private $share;   // the shared resource
 

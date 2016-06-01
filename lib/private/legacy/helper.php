@@ -580,7 +580,7 @@ class OC_Helper {
 		$quota = \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		$storage = $rootInfo->getStorage();
 		$sourceStorage = $storage;
-		if ($storage->instanceOfStorage('\OC\Files\Storage\Shared')) {
+		if ($storage->instanceOfStorage('\OCA\Files_Sharing\SharedStorage')) {
 			$includeExtStorage = false;
 			$sourceStorage = $storage->getSourceStorage();
 		}

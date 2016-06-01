@@ -465,6 +465,10 @@ abstract class Common implements Storage, ILockingStorage {
 	 * @return bool
 	 */
 	public function instanceOfStorage($class) {
+		if (ltrim($class, '\\') === 'OC\Files\Storage\Shared') {
+			// FIXME Temporary fix to keep existing checks working
+			$class = '\OCA\Files_Sharing\SharedStorage';
+		}
 		return is_a($this, $class);
 	}
 
