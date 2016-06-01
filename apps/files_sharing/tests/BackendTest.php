@@ -78,7 +78,7 @@ class BackendTest extends TestCase {
 		$this->assertTrue(\OCP\Share::shareItem('folder', $fileinfo2['fileid'], \OCP\Share::SHARE_TYPE_USER,
 				self::TEST_FILES_SHARING_API_USER3, 31));
 
-		$backend = new \OC_Share_Backend_Folder();
+		$backend = new \OCA\Files_Sharing\ShareBackend\Folder();
 
 		$result = $backend->getParents($fileinfo3['fileid']);
 		$this->assertSame(2, count($result));

@@ -24,7 +24,9 @@
  *
  */
 
-class OC_Share_Backend_Folder extends OC_Share_Backend_File implements OCP\Share_Backend_Collection {
+namespace OCA\Files_Sharing\ShareBackend;
+
+class Folder extends File implements \OCP\Share_Backend_Collection {
 
 	/**
 	 * get shared parents
