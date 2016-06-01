@@ -50,20 +50,14 @@ class WizardTest extends \Test\TestCase {
 				define($const, 42);
 			}
 		}
-	}
 
-	private function getOcManagers() {
-		if(is_null($this->ocUserManagerMock)) {
-			$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
-				->disableOriginalConstructor()
-				->getMock();
-		}
-		if(is_null($this->ocGroupManagerMock)) {
-			$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
-				->disableOriginalConstructor()
-				->getMock();
-		}
-		return [$this->ocUserManagerMock, $this->ocGroupManagerMock];
+		$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 	}
 
 	private function getWizardAndMocks() {
@@ -87,9 +81,8 @@ class WizardTest extends \Test\TestCase {
 					->disableOriginalConstructor()
 					->getMock();
 
-		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
 		$access = $this->getMock('\OCA\User_LDAP\Access',
-			$accMethods, array($connector, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock));
+			$accMethods, array($connector, $lw, $um, $this->ocUserManagerMock, $this->ocGroupManagerMock));
 
 		return [new Wizard($conf, $lw, $access), $conf, $lw, $access];
 	}

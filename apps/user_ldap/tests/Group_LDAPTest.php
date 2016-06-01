@@ -42,18 +42,16 @@ class Group_LDAPTest extends \Test\TestCase {
 	private $ocUserManagerMock;
 	private $ocGroupManagerMock;
 
-	private function getOcManagers() {
-		if(is_null($this->ocUserManagerMock)) {
-			$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
-				->disableOriginalConstructor()
-				->getMock();
-		}
-		if(is_null($this->ocGroupManagerMock)) {
-			$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
-				->disableOriginalConstructor()
-				->getMock();
-		}
-		return [$this->ocUserManagerMock, $this->ocGroupManagerMock];
+	protected function setUp() {
+		parent::setUp();
+
+		$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 	}
 
 	private function getAccessMock() {
@@ -72,10 +70,9 @@ class Group_LDAPTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
 		$access = $this->getMock('\OCA\User_LDAP\Access',
 								 $accMethods,
-								 [$connector, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock]);
+								 [$connector, $lw, $um, $this->ocUserManagerMock, $this->ocGroupManagerMock]);
 
 		$access->expects($this->any())
 			->method('getConnection')

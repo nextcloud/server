@@ -52,20 +52,14 @@ class User_LDAPTest extends \Test\TestCase {
 
 		\OC_User::clearBackends();
 		\OC_Group::clearBackends();
-	}
 
-	private function getOcManagers() {
-		if(is_null($this->ocUserManagerMock)) {
-			$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
-				->disableOriginalConstructor()
-				->getMock();
-		}
-		if(is_null($this->ocGroupManagerMock)) {
-			$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
-				->disableOriginalConstructor()
-				->getMock();
-		}
-		return [$this->ocUserManagerMock, $this->ocGroupManagerMock];
+		$this->ocUserManagerMock = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->ocGroupManagerMock = $this->getMockBuilder('\OC\Group\Manager')
+			->disableOriginalConstructor()
+			->getMock();
 	}
 
 	private function getAccessMock() {
@@ -109,11 +103,10 @@ class User_LDAPTest extends \Test\TestCase {
 		$um->expects($this->any())
 			->method('getDeletedUser')
 			->will($this->returnValue($offlineUser));
-		
-		list($ocUserManagerMock, $ocGroupManagerMock) = $this->getOcManagers();
+
 		$access = $this->getMock('\OCA\User_LDAP\Access',
 								 $accMethods,
-								 [$connector, $lw, $um, $ocUserManagerMock, $ocGroupManagerMock]);
+								 [$connector, $lw, $um, $this->ocUserManagerMock, $this->ocGroupManagerMock]);
 
 		$um->setLdapAccess($access);
 
