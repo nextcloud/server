@@ -25,11 +25,22 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
 use OC\Console\Application;
-use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class OccController extends Controller {
-	private $allowedCommands = ['status', 'config:list'];
+	
+	/** @var array  */
+	private $allowedCommands = [
+		'app:disable',
+		'app:enable',
+		'app:getpath',
+		'app:list',
+		'check',
+		'config:list',
+		'status',
+		'upgrade'
+	];
 
 	public function __construct($appName, IRequest $request) {
 		parent::__construct($appName, $request);
@@ -39,26 +50,36 @@ class OccController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * Execute occ command
+	 * Sample request
+	 *	POST http://domain.tld/index.php/occ/status',
+	 * 		{
+	 *			'params': {
+	 * 					'--no-warnings':'1',
+	 *		 			'--output':'json'
+	 * 			},
+	 * 			'token': 'someToken'
+	 * 		}
 	 *
 	 * @param string $command
-	 * @param $token
+	 * @param string $token
+	 * @param array $params
 	 *
 	 * @return JSONResponse
 	 * @throws \Exception
 	 */
-	public function execute($command, $token) {
+	public function execute($command, $token, $params = []) {
 		try {
 			$this->validateRequest($command, $token);
 
-			$input = new StringInput(
-				sprintf("%s --output=json --no-warnings", $command)
-			);
 			$output = new BufferedOutput();
 			$formatter = $output->getFormatter();
 			$formatter->setDecorated(false);
 			$application = new Application(\OC::$server->getConfig(), \OC::$server->getEventDispatcher(), $this->request);
 			$application->setAutoExit(false);
-			$application->loadCommands($input, $output);
+			$application->loadCommands(new ArrayInput(), $output);
+
+			$inputArray = array_merge(['command' => $command], $params);
+			$input = new ArrayInput($inputArray);
 
 			$exitCode = $application->run($input, $output);
 			$response = $output->fetch();
@@ -78,6 +99,11 @@ class OccController extends Controller {
 		return new JSONResponse($json);
 	}
 
+	/**
+	 * Check if command is allowed and has a valid security token
+	 * @param $command
+	 * @param $token
+	 */
 	protected function validateRequest($command, $token){
 		if (!in_array($command, $this->allowedCommands)) {
 			throw new \UnexpectedValueException(sprintf('Command "%s" is not allowed to run via web request', $command));
