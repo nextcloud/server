@@ -148,6 +148,15 @@ class AvatarPermissionsTest extends \Test\TestCase {
 		$qb->insert('filecache')
 			->values([
 				'path' => $qb->createNamedParameter($path),
+				'path_hash' => $qb->createNamedParameter(md5($path)),
+				'parent' => $qb->createNamedParameter(42),
+				'mimetype' => $qb->createNamedParameter(23),
+				'mimepart' => $qb->createNamedParameter(32),
+				'size' => $qb->createNamedParameter(16),
+				'mtime' => $qb->createNamedParameter(1),
+				'storage_mtime' => $qb->createNamedParameter(2),
+				'encrypted' => $qb->createNamedParameter(0),
+				'unencrypted_size' => $qb->createNamedParameter(0),
 				'storage' => $qb->createNamedParameter($storage),
 				'permissions' => $qb->createNamedParameter($permissions),
 			]);
