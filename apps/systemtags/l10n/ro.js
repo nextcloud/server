@@ -21,6 +21,7 @@ OC.L10N.register(
     "%1$s assigned system tag %3$s to %2$s" : "%1$s a atribuit eticheta de sistem %3$s la %2$s",
     "You unassigned system tag %3$s from %2$s" : "Ai înlăturat eticheta de sistem %3$s de la %2$s",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s a înlăturat eticheta de sistem %3$s de la %2$s",
+    "%s (restricted)" : "%s (restricționat)",
     "%s (invisible)" : "%s (invizibil)",
     "No files in here" : "Niciun fișier aici",
     "No entries found in this folder" : "Niciun element găsit în acest director",

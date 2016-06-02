@@ -19,7 +19,7 @@ OC.L10N.register(
     "Allow users on this server to receive shares from other servers" : "Permitir que os utilizadores neste servidor recebam as partilhas de outros servidores",
     "Federated Cloud" : "Nuvem Federada",
     "Your Federated Cloud ID:" : "A Sua Id. da Nuvem Federada",
-    "Share it:" : "Partilhe-a:",
+    "Share it:" : "Partilhe:",
     "Add to your website" : "Adicione ao seu site da Web",
     "Share with me via ownCloud" : "Partilhe comigo via ownCloud",
     "HTML Code:" : "Código HTML:"

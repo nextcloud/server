@@ -1,4 +1,5 @@
 { "translations": {
+    "Invalid Federated Cloud ID" : "Неправильний Об'єднаний Хмарний Ідентіфікатор ",
     "Sharing %s failed, because this item is already shared with %s" : "Не вдалося поділитися %s, оскільки файл вже в загальному доступі з %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Не вдалося поділитися %s, не вдалося знайти %s, можливо, сервер не доступний.",
     "Federated Cloud Sharing" : "Об’єднання хмарних сховищ",
