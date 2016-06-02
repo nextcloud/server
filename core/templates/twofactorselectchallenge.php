@@ -7,7 +7,12 @@
 <?php foreach ($_['providers'] as $provider): ?>
 	<li>
 		<a class="two-factor-provider"
-		   href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge', ['challengeProviderId' => $provider->getId()])) ?>">
+		   href="<?php p(\OC::$server->getURLGenerator()->linkToRoute('core.TwoFactorChallenge.showChallenge',
+							[
+								'challengeProviderId' => $provider->getId(),
+								'redirect_url' => $_['redirect_url'],
+							]
+						)) ?>">
 			<?php p($provider->getDescription()) ?>
 		</a>
 	</li>
