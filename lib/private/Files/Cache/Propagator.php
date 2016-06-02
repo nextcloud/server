@@ -79,7 +79,7 @@ class Propagator implements IPropagator {
 		}, $parentHashes);
 
 		$builder->update('filecache')
-			->set('mtime', $builder->createFunction('GREATEST(`mtime`, ' . $builder->createNamedParameter($time) . ')'))
+			->set('mtime', $builder->createFunction('GREATEST(`mtime`, ' . $builder->createNamedParameter($time, IQueryBuilder::PARAM_INT) . ')'))
 			->set('etag', $builder->createNamedParameter($etag, IQueryBuilder::PARAM_STR))
 			->where($builder->expr()->eq('storage', $builder->createNamedParameter($storageId, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('path_hash', $hashParams));
@@ -165,13 +165,13 @@ class Propagator implements IPropagator {
 			->andWhere($sizeQuery->expr()->gt('size', $sizeQuery->expr()->literal(-1, IQueryBuilder::PARAM_INT)));
 
 		foreach ($this->batch as $item) {
-			$query->setParameter('time', $item['time']);
+			$query->setParameter('time', $item['time'], IQueryBuilder::PARAM_INT);
 			$query->setParameter('hash', $item['hash']);
 
 			$query->execute();
 
 			if ($item['size']) {
-				$sizeQuery->setParameter('size', $item['size']);
+				$sizeQuery->setParameter('size', $item['size'], IQueryBuilder::PARAM_INT);
 				$sizeQuery->setParameter('hash', $item['hash']);
 
 				$sizeQuery->execute();
