@@ -57,7 +57,7 @@ script('core', [
 		</p>
 
 		<?php if (!empty($_['invalidpassword']) && !empty($_['canResetPassword'])) { ?>
-		<a id="lost-password" class="warning" href="">
+		<a id="lost-password" class="warning" href="<?php p($_['resetPasswordLink']); ?>">
 			<?php p($l->t('Wrong password. Reset it?')); ?>
 		</a>
 		<?php } else if (!empty($_['invalidpassword'])) { ?>
