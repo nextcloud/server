@@ -25,7 +25,6 @@ namespace OCA\DAV\CalDAV;
 use OCA\DAV\DAV\Sharing\IShareable;
 use OCP\IL10N;
 use Sabre\CalDAV\Backend\BackendInterface;
-use Sabre\CalDAV\CalendarObject;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\PropPatch;
@@ -222,6 +221,18 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 		}
 
 		return true;
+	}
+
+	function calendarQuery(array $filters) {
+
+		$uris = $this->caldavBackend->calendarQuery($this->calendarInfo['id'], $filters);
+		if ($this->isShared()) {
+			return array_filter($uris, function ($uri) {
+				return $this->childExists($uri);
+			});
+		}
+
+		return $uris;
 	}
 
 	private function canWrite() {
