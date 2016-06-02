@@ -321,7 +321,7 @@ class ShareController extends Controller {
 			 * The OC_Util methods require a view. This just uses the node API
 			 */
 			$freeSpace = $share->getNode()->getStorage()->free_space($share->getNode()->getInternalPath());
-			if ($freeSpace !== \OCP\Files\FileInfo::SPACE_UNKNOWN) {
+			if ($freeSpace < \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 				$freeSpace = max($freeSpace, 0);
 			} else {
 				$freeSpace = (INF > 0) ? INF: PHP_INT_MAX; // work around https://bugs.php.net/bug.php?id=69188
