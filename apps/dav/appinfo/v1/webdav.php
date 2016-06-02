@@ -42,6 +42,7 @@ $authBackend = new \OCA\DAV\Connector\Sabre\Auth(
 	\OC::$server->getSession(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getRequest(),
+	\OC::$server->getTwoFactorAuthManager(),
 	'principals/'
 );
 $requestUri = \OC::$server->getRequest()->getRequestUri();

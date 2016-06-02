@@ -25,7 +25,6 @@
 namespace OCA\DAV;
 
 use OCA\DAV\CalDAV\Schedule\IMipPlugin;
-use OCA\DAV\Connector\FedAuth;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin;
 use OCA\DAV\Connector\Sabre\DavAclPlugin;
@@ -57,7 +56,8 @@ class Server {
 		$authBackend = new Auth(
 			\OC::$server->getSession(),
 			\OC::$server->getUserSession(),
-			\OC::$server->getRequest()
+			\OC::$server->getRequest(),
+			\OC::$server->getTwoFactorAuthManager()
 		);
 
 		// Set URL explicitly due to reverse-proxy situations

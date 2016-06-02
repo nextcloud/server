@@ -34,6 +34,7 @@ $authBackend = new Auth(
 	\OC::$server->getSession(),
 	\OC::$server->getUserSession(),
 	\OC::$server->getRequest(),
+	\OC::$server->getTwoFactorAuthManager(),
 	'principals/'
 );
 $principalBackend = new Principal(
