@@ -24,6 +24,7 @@
  */
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
+use OCA\DAV\Connector\Sabre\FilesPlugin;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\PropFind;
 use Sabre\DAV\PropPatch;
@@ -36,16 +37,16 @@ use Test\TestCase;
  * See the COPYING-README file.
  */
 class FilesPluginTest extends TestCase {
-	const GETETAG_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::GETETAG_PROPERTYNAME;
-	const FILEID_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::FILEID_PROPERTYNAME;
-	const INTERNAL_FILEID_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::INTERNAL_FILEID_PROPERTYNAME;
-	const SIZE_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::SIZE_PROPERTYNAME;
-	const PERMISSIONS_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::PERMISSIONS_PROPERTYNAME;
-	const LASTMODIFIED_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::LASTMODIFIED_PROPERTYNAME;
-	const DOWNLOADURL_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::DOWNLOADURL_PROPERTYNAME;
-	const OWNER_ID_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::OWNER_ID_PROPERTYNAME;
-	const OWNER_DISPLAY_NAME_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME;
-	const DATA_FINGERPRINT_PROPERTYNAME = \OCA\DAV\Connector\Sabre\FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME;
+	const GETETAG_PROPERTYNAME = FilesPlugin::GETETAG_PROPERTYNAME;
+	const FILEID_PROPERTYNAME = FilesPlugin::FILEID_PROPERTYNAME;
+	const INTERNAL_FILEID_PROPERTYNAME = FilesPlugin::INTERNAL_FILEID_PROPERTYNAME;
+	const SIZE_PROPERTYNAME = FilesPlugin::SIZE_PROPERTYNAME;
+	const PERMISSIONS_PROPERTYNAME = FilesPlugin::PERMISSIONS_PROPERTYNAME;
+	const LASTMODIFIED_PROPERTYNAME = FilesPlugin::LASTMODIFIED_PROPERTYNAME;
+	const DOWNLOADURL_PROPERTYNAME = FilesPlugin::DOWNLOADURL_PROPERTYNAME;
+	const OWNER_ID_PROPERTYNAME = FilesPlugin::OWNER_ID_PROPERTYNAME;
+	const OWNER_DISPLAY_NAME_PROPERTYNAME = FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME;
+	const DATA_FINGERPRINT_PROPERTYNAME = FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME;
 
 	/**
 	 * @var \Sabre\DAV\Server | \PHPUnit_Framework_MockObject_MockObject
@@ -58,7 +59,7 @@ class FilesPluginTest extends TestCase {
 	private $tree;
 
 	/**
-	 * @var \OCA\DAV\Connector\Sabre\FilesPlugin
+	 * @var FilesPlugin
 	 */
 	private $plugin;
 
@@ -84,11 +85,11 @@ class FilesPluginTest extends TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->config = $this->getMock('\OCP\IConfig');
-		$this->config->method('getSystemValue')
+		$this->config->expects($this->any())->method('getSystemValue')
 			->with($this->equalTo('data-fingerprint'), $this->equalTo(''))
 			->willReturn('my_fingerprint');
 
-		$this->plugin = new \OCA\DAV\Connector\Sabre\FilesPlugin(
+		$this->plugin = new FilesPlugin(
 			$this->tree,
 			$this->view,
 			$this->config
@@ -263,7 +264,7 @@ class FilesPluginTest extends TestCase {
 	}
 
 	public function testGetPublicPermissions() {
-		$this->plugin = new \OCA\DAV\Connector\Sabre\FilesPlugin(
+		$this->plugin = new FilesPlugin(
 			$this->tree,
 			$this->view,
 			$this->config,
@@ -331,7 +332,7 @@ class FilesPluginTest extends TestCase {
 		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Directory')
 			->disableOriginalConstructor()
 			->getMock();
-		$node->method('getPath')->willReturn('/');
+		$node->expects($this->any())->method('getPath')->willReturn('/');
 
 		$propFind = new PropFind(
 			'/',
@@ -432,10 +433,15 @@ class FilesPluginTest extends TestCase {
 			->method('isDeletable')
 			->willReturn(false);
 
-		$this->view->expects($this->once())
+		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+			->disableOriginalConstructor()
+			->getMock();
+		$node->expects($this->once())
 			->method('getFileInfo')
-			->with('FolderA/test.txt')
 			->willReturn($fileInfoFolderATestTXT);
+
+		$this->tree->expects($this->once())->method('getNodeForPath')
+			->willReturn($node);
 
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}
@@ -448,10 +454,15 @@ class FilesPluginTest extends TestCase {
 			->method('isDeletable')
 			->willReturn(true);
 
-		$this->view->expects($this->once())
+		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+			->disableOriginalConstructor()
+			->getMock();
+		$node->expects($this->once())
 			->method('getFileInfo')
-			->with('FolderA/test.txt')
 			->willReturn($fileInfoFolderATestTXT);
+
+		$this->tree->expects($this->once())->method('getNodeForPath')
+			->willReturn($node);
 
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}
@@ -461,10 +472,15 @@ class FilesPluginTest extends TestCase {
 	 * @expectedExceptionMessage FolderA/test.txt does not exist
 	 */
 	public function testMoveSrcNotExist() {
-		$this->view->expects($this->once())
+		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\Node')
+			->disableOriginalConstructor()
+			->getMock();
+		$node->expects($this->once())
 			->method('getFileInfo')
-			->with('FolderA/test.txt')
-			->willReturn(false);
+			->willReturn(null);
+
+		$this->tree->expects($this->once())->method('getNodeForPath')
+			->willReturn($node);
 
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
 	}

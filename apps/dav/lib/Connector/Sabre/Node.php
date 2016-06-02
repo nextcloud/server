@@ -347,4 +347,8 @@ abstract class Node implements \Sabre\DAV\INode {
 	public function changeLock($type) {
 		$this->fileView->changeLock($this->path, $type);
 	}
+
+	public function getFileInfo() {
+		return $this->info;
+	}
 }
