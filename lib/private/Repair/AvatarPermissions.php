@@ -20,6 +20,7 @@
  */
 namespace OC\Repair;
 
+use Doctrine\DBAL\Platforms\OraclePlatform;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -71,9 +72,16 @@ class AvatarPermissions implements IRepairStep {
 			->from('storages')
 			->where($qb->expr()->like('id', $qb2->createParameter('like')));
 
+		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+			// '' is null on oracle
+			$path = $qb2->expr()->isNull('path');
+		} else {
+			$path = $qb2->expr()->eq('path', $qb2->createNamedParameter(''));
+		}
+
 		$qb2->update('filecache')
 			->set('permissions', $qb2->createNamedParameter(23))
-			->where($qb2->expr()->eq('path', $qb2->createNamedParameter('')))
+			->where($path)
 			->andWhere($qb2->expr()->in('storage', $qb2->createFunction($qb->getSQL())))
 			->andWhere($qb2->expr()->neq('permissions', $qb2->createNamedParameter(23)))
 			->setParameter('like', 'home::%');
