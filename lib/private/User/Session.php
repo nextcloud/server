@@ -460,6 +460,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $uid user UID
 	 * @param string $loginName login name
 	 * @param string $password
+	 * @throws SessionNotAvailableException
 	 * @return boolean
 	 */
 	public function createSessionToken(IRequest $request, $uid, $loginName, $password = null) {
@@ -468,13 +469,35 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
-		try {
-			$sessionId = $this->session->getId();
-			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $password, $name);
-		} catch (SessionNotAvailableException $ex) {
-
-		}
+		$sessionId = $this->session->getId();
+		$pwd = $this->getPassword($password);
+		$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name);
 		return true;
+	}
+
+	/**
+	 * Checks if the given password is a token.
+	 * If yes, the password is extracted from the token.
+	 * If no, the same password is returned.
+	 *
+	 * @param string $password either the login password or a device token
+	 * @return string|null the password or null if none was set in the token
+	 */
+	private function getPassword($password) {
+		if (is_null($password)) {
+			// This is surely no token ;-)
+			return null;
+		}
+		try {
+			$token = $this->tokenProvider->getToken($password);
+			try {
+				return $this->tokenProvider->getPassword($token, $password);
+			} catch (PasswordlessTokenException $ex) {
+				return null;
+			}
+		} catch (InvalidTokenException $ex) {
+			return $password;
+		}
 	}
 
 	/**
