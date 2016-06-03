@@ -9,7 +9,7 @@ If you want to [contribute](https://nextcloud.com/contribute/), you are very wel
 - on our IRC channels #nextcloud & #nextcloud-dev irc://#nextcloud-dev@freenode.net (on freenode) and 
 - our forum at https://help.nextcloud.com
 
-Please read the [Code of Condact](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere, and to explain how together we can strengthen and support each other.
+Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere, and to explain how together we can strengthen and support each other.
 
 if you want to join the Github organization just let us know and we’ll add you! :)
 
