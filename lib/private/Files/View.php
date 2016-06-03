@@ -691,8 +691,10 @@ class View {
 			$storage = $mount->getStorage();
 			$internalPath = $mount->getInternalPath($absolutePath);
 			$storage->getUpdater()->remove($internalPath);
+			return true;
+		} else {
+			return $result;
 		}
-		return $result;
 	}
 
 	/**
