@@ -18,6 +18,7 @@ OC.L10N.register(
     "Error generating key pair" : "Erreur lors de la génération des clés",
     "All users. Type to select user or group." : "Tous les utilisateurs. Cliquez ici pour restreindre.",
     "(group)" : "(groupe)",
+    "Compatibility with Mac NFD encoding (slow)" : "Compatibilité avec l'encodage Mac NFD (lent)",
     "Admin defined" : "Défini par l'administrateur",
     "Saved" : "Sauvegardé",
     "Empty response from the server" : "Réponse vide du serveur",

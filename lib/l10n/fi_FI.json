@@ -144,8 +144,6 @@
     "Storage incomplete configuration. %s" : "Tallennustilan puutteellinen määritys. %s",
     "Storage connection error. %s" : "Tallennustilan yhteysvirhe. %s",
     "Storage not available" : "Tallennustila ei ole käytettävissä",
-    "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s",
-    "_%n file_::_%n files_" : ["%n tiedosto","%n tiedostoa"],
-    "_%n window_::_%n windows_" : ["%n ikkuna","%n ikkunaa"]
+    "Storage connection timeout. %s" : "Tallennustilan yhteyden aikakatkaisu. %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

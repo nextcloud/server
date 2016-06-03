@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete" : "Läschen",
     "Delete permanently" : "Permanent läschen",
     "Error" : "Fehler",
+    "This operation is forbidden" : "Dës Operatioun ass verbueden.",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Dësen Dossier ass net disponibel, w.e.g. kontrolléiert d'Protokoller oder kontaktéiert den Administrateur",
     "restored" : "erëmhiergestallt",
     "No deleted files" : "Keng geläscht Fichieren",
     "You will be able to recover deleted files from here" : "Du kanns geläscht Fichieren aus desëm Dossier erëmhierstellen",

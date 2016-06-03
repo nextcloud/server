@@ -165,8 +165,6 @@
     "Storage incomplete configuration. %s" : "Formësim jo i plotë i depozitës. %s",
     "Storage connection error. %s" : "Gabim lidhje te depozita. %s",
     "Storage not available" : "Pa depozitë gati",
-    "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s",
-    "_%n file_::_%n files_" : ["%n kartelë","%n kartela"],
-    "_%n window_::_%n windows_" : ["%n dritare","%n dritare"]
+    "Storage connection timeout. %s" : "Mbarim kohe lidhjeje për depozitën. %s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

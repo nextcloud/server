@@ -165,8 +165,6 @@
     "Storage incomplete configuration. %s" : "設定が未完了のストレージです。 %s",
     "Storage connection error. %s" : "ストレージへの接続エラー｡ %s",
     "Storage not available" : "ストレージが利用できません",
-    "Storage connection timeout. %s" : "ストレージへの接続がタイムアウト。 %s",
-    "_%n file_::_%n files_" : ["%n ファイル"],
-    "_%n window_::_%n windows_" : ["%n ウィンドウ"]
+    "Storage connection timeout. %s" : "ストレージへの接続がタイムアウト。 %s"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

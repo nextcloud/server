@@ -19,6 +19,8 @@
     "Unshare" : "Net méi deelen",
     "Details" : "Detailer",
     "Select" : "Auswielen",
+    "This operation is forbidden" : "Dës Operatioun ass verbueden.",
+    "This directory is unavailable, please check the logs or contact the administrator" : "Dësen Dossier ass net disponibel, w.e.g. kontrolléiert d'Logs oder kontaktéiert den Administrateur",
     "Name" : "Numm",
     "Size" : "Gréisst",
     "Modified" : "Geännert",

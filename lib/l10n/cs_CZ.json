@@ -165,8 +165,6 @@
     "Storage incomplete configuration. %s" : "Nekompletní konfigurace úložiště. %s",
     "Storage connection error. %s" : "Chyba připojení úložiště. %s",
     "Storage not available" : "Úložiště není dostupné",
-    "Storage connection timeout. %s" : "Vypršení připojení k úložišti. %s",
-    "_%n file_::_%n files_" : ["%n soubor","%n soubory","%n souborů"],
-    "_%n window_::_%n windows_" : ["%n okno","%n okna","%n oken"]
+    "Storage connection timeout. %s" : "Vypršení připojení k úložišti. %s"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

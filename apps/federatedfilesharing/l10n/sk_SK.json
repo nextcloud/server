@@ -2,6 +2,8 @@
     "Invalid Federated Cloud ID" : "Neplatné združené Cloud ID",
     "Sharing %s failed, because this item is already shared with %s" : "Zdieľanie %s zlyhalo, pretože táto položka už je zdieľaná s %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Zdieľanie %s zlyhalo, nepodarilo sa nájsť %s, možno je server v súčasnej dobe nedostupný.",
+    "Accept" : "Schváliť",
+    "Decline" : "Odmietnuť",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Zdieľajte so mnou pomocou môjho #ownCloud Federated Cloud ID, viac n %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "Zdieľajte so mnou pomocou môjho #ownCloud Federated Cloud ID",
     "Federated Cloud Sharing" : "Združené cloudové zdieľanie",

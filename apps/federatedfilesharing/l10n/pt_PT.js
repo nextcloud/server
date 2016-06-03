@@ -1,7 +1,7 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Partilha federada",
+    "Federated sharing" : "Partilha Federada",
     "Invalid Federated Cloud ID" : "Id. de Nuvem Federada Inválida",
     "Sharing %s failed, because this item is already shared with %s" : "A partilha %s falhou, porque este item já está a ser partilhado com %s",
     "Not allowed to create a federated share with the same user" : "Não é possível criar uma partilha federada com o mesmo utilizador",
@@ -18,8 +18,8 @@ OC.L10N.register(
     "Allow users on this server to send shares to other servers" : "Permitir que os utilizadores neste servidor enviem as partilhas para outros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir que os utilizadores neste servidor recebam as partilhas de outros servidores",
     "Federated Cloud" : "Nuvem Federada",
-    "Your Federated Cloud ID:" : "A Sua Id. da Nuvem Federada",
-    "Share it:" : "Partilhe:",
+    "Your Federated Cloud ID:" : "A sua id. da Nuvem Federada:",
+    "Share it:" : "Partilhe-a:",
     "Add to your website" : "Adicione ao seu site da Web",
     "Share with me via ownCloud" : "Partilhe comigo via ownCloud",
     "HTML Code:" : "Código HTML:"

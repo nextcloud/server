@@ -1,10 +1,13 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
+    "Federated sharing" : "แบ่งปันสหพันธ์",
     "Invalid Federated Cloud ID" : "ไอดีคลาวด์ในเครือไม่ถูกต้อง",
     "Sharing %s failed, because this item is already shared with %s" : "การแชร์ %s ล้มเหลวเพราะรายการนี้ถูกแชร์กับ %s",
     "Not allowed to create a federated share with the same user" : "ไม่อนุญาตให้สร้างแชร์สหพันธ์กับผู้ใช้เดียวกัน",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "การแชร์ %s ล้มเหลวไม่สามารถหา %s, บางทีอาจจะยังไม่สามารถเข้าถึงเซิร์ฟเวอร์ปัจจุบัน",
+    "Accept" : "ยอมรับ",
+    "Decline" : "ลดลง",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "แชร์กับฉันผ่าน #ownCloud ด้วยไอดีคลาวด์สหพันธ์ สามารถดูได้ที่ %s",
     "Share with me through my #ownCloud Federated Cloud ID" : "แชร์กับฉันผ่าน #ownCloud ด้วยไอดีคลาวด์สหพันธ์",
     "Federated Cloud Sharing" : "แชร์กับสหพันธ์คลาวด์",
