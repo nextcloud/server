@@ -1,11 +1,14 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
-    "Federated sharing" : "Souporaba zveznega oblaka",
+    "Federated sharing" : "Souporaba v zveznem oblaku",
     "Invalid Federated Cloud ID" : "Neveljaven ID zveznega oblaka ownCloud",
     "Sharing %s failed, because this item is already shared with %s" : "Nastavljanje souporabe %s je spodletelo, ker je ima uporabnik %s predmet že v souporabi.",
     "Not allowed to create a federated share with the same user" : "Ni dovoljeno ustvariti souporabe zveznega oblaka z istim uporabnikom",
+    "File is already shared with %s" : "Datoteka je že v souporabi pri %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Omogočanje souporabe %s je spodletelo, ker ni mogoče najti %s. Najverjetneje je strežnik nedosegljiv.",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "Uporabnik %1$s vam je omogočil oddaljeno souporabo mape \"/%3$s\" (v imenu %2$s)",
+    "You received \"/%3$s\" as a remote share from %1$s" : "Uporabnik %1$s vam je omogočil oddaljeno souporabo mape \"/%3$s\"",
     "Accept" : "Sprejmi",
     "Decline" : "Zavrni",
     "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Omogoči souporabo prek #ownCloud ID zveznega oblaka, več na %s",
