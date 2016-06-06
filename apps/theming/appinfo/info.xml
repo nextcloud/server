@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<info>
+	<id>theming</id>
+	<name>Theming</name>
+	<description>Adjust the Nextcloud theme</description>
+	<licence>AGPL</licence>
+	<author>Bjoern Schiessle</author>
+	<version>0.1.0</version>
+	<namespace>Theming</namespace>
+	<category>other</category>
+	<dependencies>
+		<owncloud min-version="9.0" max-version="9.1" />
+	</dependencies>
+	<default_enable/>
+</info>
