@@ -118,6 +118,8 @@ class DecryptAll extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
 		try {
+			
+			
 			if ($this->encryptionManager->isEnabled() === true) {
 				$output->write('Disable server side encryption... ');
 				$this->config->setAppValue('core', 'encryption_enabled', 'no');
@@ -127,8 +129,15 @@ class DecryptAll extends Command {
 				return;
 			}
 
+			$uid = $input->getArgument('user');
+			if (empty($uid)) {
+				$message = 'your ownCloud';
+			} else {
+				$message = "$uid's account";
+			}
+
 			$output->writeln("\n");
-			$output->writeln('You are about to start to decrypt all files stored in your ownCloud.');
+			$output->writeln("You are about to start to decrypt all files stored in $message.");
 			$output->writeln('It will depend on the encryption module and your setup if this is possible.');
 			$output->writeln('Depending on the number and size of your files this can take some time');
 			$output->writeln('Please make sure that no user access his files during this process!');
@@ -140,6 +149,7 @@ class DecryptAll extends Command {
 				$result = $this->decryptAll->decryptAll($input, $output, $user);
 				if ($result === false) {
 					$output->writeln(' aborted.');
+					$output->write('Enable server side encryption... ');
 					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				}
 				$this->resetSingleUserAndTrashbin();
