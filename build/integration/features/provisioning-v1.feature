@@ -293,6 +293,7 @@ Feature: provisioning
 			| files_versions |
 			| provisioning_api |
 			| systemtags |
+			| theming |
 			| updatenotification |
 
 	Scenario: get app info

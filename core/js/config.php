@@ -47,7 +47,7 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 $l = \OC::$server->getL10N('core');
 
 // Enable OC_Defaults support
-$defaults = new OC_Defaults();
+$defaults = \OC::$server->getThemingDefaults();
 
 // Get the config
 $apps_paths = array();

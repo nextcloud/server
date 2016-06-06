@@ -73,6 +73,8 @@ use OC\Security\SecureRandom;
 use OC\Security\TrustedDomainHelper;
 use OC\Session\CryptoWrapper;
 use OC\Tagging\TagMapper;
+use OCA\Theming\Template;
+use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\Security\IContentSecurityPolicyManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -561,6 +563,17 @@ class Server extends ServerContainer implements IServerContainer {
 			/** @var \OCP\Comments\ICommentsManagerFactory $factory */
 			$factory = new $factoryClass($this);
 			return $factory->getManager();
+		});
+		$this->registerService('ThemingDefaults', function(Server $c) {
+			if($this->getConfig()->getSystemValue('installed', false) && $this->getAppManager()->isInstalled('theming')) {
+				return new Template(
+					$this->getConfig(),
+					$this->getL10N('theming'),
+					$this->getURLGenerator(),
+					new \OC_Defaults()
+				);
+			}
+			return new \OC_Defaults();
 		});
 		$this->registerService('EventDispatcher', function () {
 			return new EventDispatcher();
@@ -1204,6 +1217,14 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCommentsManager() {
 		return $this->query('CommentsManager');
+	}
+
+	/**
+	 * @internal Not public by intention.
+	 * @return \OC_Defaults
+	 */
+	public function getThemingDefaults() {
+		return $this->query('ThemingDefaults');
 	}
 
 	/**
