@@ -13,6 +13,7 @@ OC.L10N.register(
     " Could not set configuration %s" : "%s yapılandırması ayarlanamadı",
     "Action does not exist" : "Eylem mevcut değil",
     "The Base DN appears to be wrong" : "Base DN yanlış gibi görünüyor",
+    "Testing configuration…" : "Yapılandırma sınanıyor...",
     "Configuration incorrect" : "Yapılandırma geçersiz",
     "Configuration incomplete" : "Yapılandırma tamamlanmamış",
     "Configuration OK" : "Yapılandırma tamam",
