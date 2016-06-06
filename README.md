@@ -32,7 +32,7 @@ if you want to join the Github organization just let us know and we’ll add you
 https://nextcloud.com/contribute/
 
 ## Support
-Learn about the different ways you can get support for ownCloud: https://nextcloud.com/support/
+Learn about the different ways you can get support for Nextcloud: https://nextcloud.com/support/
 
 ## Get in touch
 * :clipboard: [Forum](https://help.nextcloud.com)
