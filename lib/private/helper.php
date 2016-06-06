@@ -500,7 +500,7 @@ class OC_Helper {
 	 */
 	public static function freeSpace($dir) {
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
-		if ($freeSpace !== \OCP\Files\FileInfo::SPACE_UNKNOWN) {
+		if ($freeSpace < \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 			$freeSpace = max($freeSpace, 0);
 			return $freeSpace;
 		} else {
