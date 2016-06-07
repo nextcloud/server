@@ -101,8 +101,8 @@ class UserStoragesController extends StoragesController {
 	 *
 	 * {@inheritdoc}
 	 */
-	public function show($id) {
-		return parent::show($id);
+	public function show($id, $origin = null) {
+		return parent::show($id, $origin);
 	}
 
 	/**
@@ -170,7 +170,8 @@ class UserStoragesController extends StoragesController {
 		$backend,
 		$authMechanism,
 		$backendOptions,
-		$mountOptions
+		$mountOptions,
+		$origin = null
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
@@ -200,7 +201,7 @@ class UserStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage);
+		$this->updateStorageStatus($storage, $origin);
 
 		return new DataResponse(
 			$storage,

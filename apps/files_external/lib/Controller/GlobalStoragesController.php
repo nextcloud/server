@@ -139,7 +139,8 @@ class GlobalStoragesController extends StoragesController {
 		$mountOptions,
 		$applicableUsers,
 		$applicableGroups,
-		$priority
+		$priority,
+		$origin = null
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
@@ -172,7 +173,7 @@ class GlobalStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage);
+		$this->updateStorageStatus($storage, $origin);
 
 		return new DataResponse(
 			$storage,

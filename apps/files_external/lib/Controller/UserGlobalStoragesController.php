@@ -111,11 +111,11 @@ class UserGlobalStoragesController extends StoragesController {
 	 *
 	 * @NoAdminRequired
 	 */
-	public function show($id) {
+	public function show($id, $origin = null) {
 		try {
 			$storage = $this->service->getStorage($id);
 
-			$this->updateStorageStatus($storage);
+			$this->updateStorageStatus($storage, $origin);
 		} catch (NotFoundException $e) {
 			return new DataResponse(
 				[
@@ -146,7 +146,8 @@ class UserGlobalStoragesController extends StoragesController {
 	 */
 	public function update(
 		$id,
-		$backendOptions
+		$backendOptions,
+		$origin = null
 	) {
 		try {
 			$storage = $this->service->getStorage($id);
