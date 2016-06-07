@@ -433,8 +433,12 @@ class Share20OCSTest extends \Test\TestCase {
 			->method('getRelativePath')
 			->will($this->returnArgument(0));
 
+		$userFolder->method('getById')
+			->with($share->getNodeId())
+			->willReturn([$share->getNode()]);
+
 		$this->rootFolder->method('getUserFolder')
-			->with($share->getShareOwner())
+			->with($this->currentUser->getUID())
 			->willReturn($userFolder);
 
 		$this->urlGenerator
@@ -2006,8 +2010,19 @@ class Share20OCSTest extends \Test\TestCase {
 			->willReturn('myLink');
 
 
-		$this->rootFolder->method('getUserFolder')->with($share->getShareOwner())->will($this->returnSelf());
-		$this->rootFolder->method('getRelativePath')->will($this->returnArgument(0));
+		$this->rootFolder->method('getUserFolder')
+			->with($this->currentUser->getUID())
+			->will($this->returnSelf());
+
+		if (!$exception) {
+			$this->rootFolder->method('getById')
+				->with($share->getNodeId())
+				->willReturn([$share->getNode()]);
+
+			$this->rootFolder->method('getRelativePath')
+				->with($share->getNode()->getPath())
+				->will($this->returnArgument(0));
+		}
 
 		try {
 			$result = $this->invokePrivate($this->ocs, 'formatShare', [$share]);
