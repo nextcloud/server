@@ -19,3 +19,4 @@
 <?php endforeach; ?>
 </ul>
 </fieldset>
+<a class="two-factor-cancel" <?php print_unescaped($_['logout_attribute']); ?>><?php p($l->t('Cancel login')) ?></a>
