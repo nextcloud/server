@@ -30,7 +30,14 @@
 			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload-{{cid}}" class="checkbox publicUploadCheckbox" {{{publicUploadChecked}}} />' +
 			'<label for="sharingDialogAllowPublicUpload-{{cid}}">{{publicUploadLabel}}</label>' +
 			'</div>' +
-			'    {{/if}}' +			
+			'{{#if hideFileList}}' +
+			'<div id="hideFileListWrapper">' +
+			'    <span class="icon-loading-small hidden"></span>' +
+			'    <input type="checkbox" value="1" name="hideFileList" id="sharingDialogHideFileList-{{cid}}" class="checkbox hideFileListCheckbox" {{{hideFileListChecked}}} />' +
+			'<label for="sharingDialogHideFileList-{{cid}}">{{hideFileListLabel}}</label>' +
+			'</div>' +
+			'{{/if}}' +
+			'    {{/if}}' +
 			'    {{#if showPasswordCheckBox}}' +
 			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
 			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
@@ -74,7 +81,8 @@
 			'keyup input.linkPassText': 'onPasswordKeyUp',
 			'click .linkCheckbox': 'onLinkCheckBoxChange',
 			'click .linkText': 'onLinkTextClick',
-			'change .publicUploadCheckbox': 'onAllowPublicUploadChange',
+            'change .publicUploadCheckbox': 'onAllowPublicUploadChange',
+            'change .hideFileListCheckbox': 'onHideFileListChange',
 			'click .showPasswordCheckbox': 'onShowPasswordClick'
 		},
 
@@ -90,6 +98,10 @@
 			});
 
 			this.model.on('change:allowPublicUploadStatus', function() {
+				view.render();
+			});
+
+			this.model.on('change:hideFileListStatus', function() {
 				view.render();
 			});
 
@@ -110,6 +122,7 @@
 				'onPasswordKeyUp',
 				'onLinkTextClick',
 				'onShowPasswordClick',
+				'onHideFileListChange',
 				'onAllowPublicUploadChange'
 			);
 		},
@@ -208,7 +221,21 @@
 			this.model.saveLinkShare({
 				permissions: permissions
 			});
-		},
+        },
+
+        onHideFileListChange: function () {
+            var $checkbox = this.$('.hideFileListCheckbox');
+            $checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
+
+            var permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ;
+            if ($checkbox.is(':checked')) {
+                permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE;
+            }
+
+            this.model.saveLinkShare({
+                permissions: permissions
+            });
+        },
 
 		render: function() {
 			var linkShareTemplate = this.template();
@@ -237,6 +264,13 @@
 				publicUploadChecked = 'checked="checked"';
 			}
 
+			var hideFileList = publicUploadChecked;
+
+			var hideFileListChecked = '';
+			if(this.model.isHideFileListSet()) {
+				hideFileListChecked = 'checked="checked"';
+			}
+
 			var isLinkShare = this.model.get('linkShare').isLinkShare;
 			var isPasswordSet = !!this.model.get('linkShare').password;
 			var showPasswordCheckBox = isLinkShare
@@ -246,6 +280,7 @@
 			this.$el.html(linkShareTemplate({
 				cid: this.cid,
 				shareAllowed: true,
+				hideFileList: hideFileList,
 				isLinkShare: isLinkShare,
 				shareLinkURL: this.model.get('linkShare').link,
 				linkShareLabel: t('core', 'Share link'),
@@ -257,7 +292,9 @@
 				showPasswordCheckBox: showPasswordCheckBox,
 				publicUpload: publicUpload && isLinkShare,
 				publicUploadChecked: publicUploadChecked,
-				publicUploadLabel: t('core', 'Allow editing'),
+				hideFileListChecked: hideFileListChecked,
+                publicUploadLabel: t('core', 'Allow editing'),
+                hideFileListLabel: t('core', 'Hide file listing'),
 				mailPublicNotificationEnabled: isLinkShare && this.configModel.isMailPublicNotificationEnabled(),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send')

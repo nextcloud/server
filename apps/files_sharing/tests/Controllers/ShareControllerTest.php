@@ -372,6 +372,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewEnabled' => true,
 			'previewMaxX' => 1024,
 			'previewMaxY' => 1024,
+			'hideFileList' => false,
+			'shareOwner' => 'ownerDisplay'
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();

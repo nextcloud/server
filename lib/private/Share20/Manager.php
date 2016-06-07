@@ -239,8 +239,11 @@ class Manager implements IManager {
 			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
+
 		// Check that read permissions are always set
-		if (($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
+		// Link shares are allowed to have no read permissions to allow upload to hidden folders
+		if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK &&
+			($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
 			throw new \InvalidArgumentException('Shares need at least read permissions');
 		}
 
