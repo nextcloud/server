@@ -215,7 +215,7 @@ class OC_Mount_Config {
 	 * @return int see self::STATUS_*
 	 * @throws Exception
 	 */
-	public static function getBackendStatus($class, $options, $isPersonal, $origin = null) {
+	public static function getBackendStatus($class, $options, $isPersonal, $testOnly = null) {
 		if (self::$skipTest) {
 			return StorageNotAvailableException::STATUS_SUCCESS;
 		}
@@ -228,7 +228,7 @@ class OC_Mount_Config {
 				$storage = new $class($options);
 
 				try {
-					$result = $storage->test($isPersonal, $origin);
+					$result = $storage->test($isPersonal, $testOnly);
 					$storage->setAvailability($result);
 					if ($result) {
 						return StorageNotAvailableException::STATUS_SUCCESS;
