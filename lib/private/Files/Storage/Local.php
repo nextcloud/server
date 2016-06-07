@@ -157,7 +157,7 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function filemtime($path) {
 		clearstatcache($this->getSourcePath($path));
-		return filemtime($this->getSourcePath($path));
+		return $this->file_exists($path) ? filemtime($this->getSourcePath($path)) : false;
 	}
 
 	public function touch($path, $mtime = null) {
@@ -188,7 +188,7 @@ class Local extends \OC\Files\Storage\Common {
 			return '';
 		}
 
-		$handle = fopen($fileName,'rb');
+		$handle = fopen($fileName, 'rb');
 		$content = fread($handle, $fileSize);
 		fclose($handle);
 		return $content;
@@ -377,7 +377,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		if($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')){
+		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')) {
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
 			 */
