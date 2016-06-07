@@ -129,7 +129,7 @@ class DecryptAll extends Command {
 
 			$uid = $input->getArgument('user');
 			//FIXME WHEN https://github.com/owncloud/core/issues/24994 is fixed
-			if (empty($uid)) {
+			if ($uid === null) {
 				$message = 'your ownCloud';
 			} else {
 				$message = "$uid's account";
@@ -148,7 +148,7 @@ class DecryptAll extends Command {
 				$result = $this->decryptAll->decryptAll($input, $output, $user);
 				if ($result === false) {
 					$output->writeln(' aborted.');
-					$output->writeln('Enable server side encryption... ');
+					$output->writeln('Server side encryption remains enabled');
 					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				}
 				$this->resetSingleUserAndTrashbin();
