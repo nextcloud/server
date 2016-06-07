@@ -100,15 +100,8 @@ class Share20OCS {
 	 */
 	protected function formatShare(\OCP\Share\IShare $share) {
 		$sharedBy = $this->userManager->get($share->getSharedBy());
-		// for federated shares the owner can be a remote user, in this
-		// case we use the initiator
-		if ($this->userManager->userExists($share->getShareOwner())) {
-			$shareOwner = $this->userManager->get($share->getShareOwner());
-			$localUser = $share->getShareOwner();
-		} else {
-			$shareOwner = $this->userManager->get($share->getSharedBy());
-			$localUser = $share->getSharedBy();
-		}
+		$shareOwner = $this->userManager->get($share->getShareOwner());
+
 		$result = [
 			'id' => $share->getId(),
 			'share_type' => $share->getShareType(),
@@ -123,8 +116,16 @@ class Share20OCS {
 			'displayname_file_owner' => $shareOwner !== null ? $shareOwner->getDisplayName() : $share->getShareOwner(),
 		];
 
-		$node = $share->getNode();
-		$result['path'] = $this->rootFolder->getUserFolder($localUser)->getRelativePath($node->getPath());
+		$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
+		$nodes = $userFolder->getById($share->getNodeId());
+
+		if (empty($nodes)) {
+			throw new NotFoundException();
+		}
+
+		$node = $nodes[0];
+
+		$result['path'] = $userFolder->getRelativePath($node->getPath());
 		if ($node instanceOf \OCP\Files\Folder) {
 			$result['item_type'] = 'folder';
 		} else {
@@ -535,7 +536,6 @@ class Share20OCS {
 			$federatedShares = $this->shareManager->getSharesBy($this->currentUser->getUID(), \OCP\Share::SHARE_TYPE_REMOTE, $path, $reshares, -1, 0);
 			$shares = array_merge($shares, $federatedShares);
 		}
-
 
 		$formatted = [];
 		foreach ($shares as $share) {
