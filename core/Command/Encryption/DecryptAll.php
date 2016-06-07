@@ -111,7 +111,8 @@ class DecryptAll extends Command {
 		$this->addArgument(
 			'user',
 			InputArgument::OPTIONAL,
-			'user for which you want to decrypt all files (optional)'
+			'user for which you want to decrypt all files (optional)',
+			''
 		);
 	}
 
