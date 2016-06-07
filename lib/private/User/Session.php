@@ -361,7 +361,14 @@ class Session implements IUserSession, Emitter {
 			// TODO: throw LoginException instead (https://github.com/owncloud/core/pull/24616)
 			return false;
 		}
-		return $this->login($user, $password);
+		if (!$this->login($user, $password) ) {
+			$users = $this->manager->getByEmail($user);
+			if (count($users) === 1) {
+				return $this->login($users[0]->getUID(), $password);
+			}
+			return false;
+		}
+		return true;
 	}
 
 	private function isTokenAuthEnforced() {
@@ -376,7 +383,11 @@ class Session implements IUserSession, Emitter {
 		);
 		$user = $this->manager->get($username);
 		if (is_null($user)) {
-			return true;
+			$users = $this->manager->getByEmail($username);
+			if (count($users) !== 1) {
+				return true;
+			}
+			$user = $users[0];
 		}
 		// DI not possible due to cyclic dependencies :'-/
 		return OC::$server->getTwoFactorAuthManager()->isTwoFactorAuthenticated($user);
@@ -385,7 +396,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * Check if the given 'password' is actually a device token
 	 *
-	 * @param type $password
+	 * @param string $password
 	 * @return boolean
 	 */
 	public function isTokenPassword($password) {
