@@ -223,7 +223,8 @@ describe('OCA.External.Settings tests', function() {
 					applicableGroups: [],
 					mountOptions: {
 						'previews': true
-					}
+					},
+					testOnly: true
 				});
 
 				// TODO: respond and check data-id
