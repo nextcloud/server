@@ -168,11 +168,11 @@ class Google extends \OC\Files\Storage\Common {
 		$path = trim($path, '/');
 		$this->driveFiles[$path] = $file;
 		if ($file === false) {
-			// Set all child paths as false
+			// Remove all children
 			$len = strlen($path);
 			foreach ($this->driveFiles as $key => $file) {
 				if (substr($key, 0, $len) === $path) {
-					$this->driveFiles[$key] = false;
+					unset($this->driveFiles[$key]);
 				}
 			}
 		}
