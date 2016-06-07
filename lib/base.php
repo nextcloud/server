@@ -513,7 +513,9 @@ class OC {
 
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
-				OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+				$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
+				$protocol = in_array($claimedProtocol, ['HTTP/1.0', 'HTTP/1.1', 'HTTP/2']) ? $claimedProtocol : 'HTTP/1.1';
+				header($protocol . ' ' . OC_Response::STATUS_SERVICE_UNAVAILABLE);
 			}
 			// we can't use the template error page here, because this needs the
 			// DI container which isn't available yet
