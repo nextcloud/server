@@ -58,6 +58,19 @@ $excludedGroupsList = $appConfig->getValue('core', 'shareapi_exclude_groups_list
 $excludedGroupsList = explode(',', $excludedGroupsList); // FIXME: this should be JSON!
 $template->assign('shareExcludedGroupsList', implode('|', $excludedGroupsList));
 
+/** @var \Doctrine\DBAL\Connection $connection */
+$connection = \OC::$server->getDatabaseConnection();
+try {
+	if ($connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
+		$template->assign('invalidTransactionIsolationLevel', false);
+	} else {
+		$template->assign('invalidTransactionIsolationLevel', $connection->getTransactionIsolation() !== \Doctrine\DBAL\Connection::TRANSACTION_READ_COMMITTED);
+	}
+} catch (\Doctrine\DBAL\DBALException $e) {
+	// ignore
+	$template->assign('invalidTransactionIsolationLevel', false);
+}
+
 // Check if connected using HTTPS
 $template->assign('isConnectedViaHTTPS', OC_Request::serverProtocol() === 'https');
 $template->assign('enforceHTTPSEnabled', $config->getSystemValue('forcessl', false));
