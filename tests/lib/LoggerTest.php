@@ -89,7 +89,7 @@ class LoggerTest extends TestCase {
 		foreach($logLines as $logLine) {
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('login(*** username and password replaced ***)', $logLine);
+			$this->assertContains('login(*** sensitive parameters replaced ***)', $logLine);
 		}
 	}
 
@@ -104,7 +104,7 @@ class LoggerTest extends TestCase {
 		foreach($logLines as $logLine) {
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('checkPassword(*** username and password replaced ***)', $logLine);
+			$this->assertContains('checkPassword(*** sensitive parameters replaced ***)', $logLine);
 		}
 	}
 
@@ -119,7 +119,7 @@ class LoggerTest extends TestCase {
 		foreach($logLines as $logLine) {
 			$this->assertNotContains($user, $logLine);
 			$this->assertNotContains($password, $logLine);
-			$this->assertContains('validateUserPass(*** username and password replaced ***)', $logLine);
+			$this->assertContains('validateUserPass(*** sensitive parameters replaced ***)', $logLine);
 		}
 	}
 }
