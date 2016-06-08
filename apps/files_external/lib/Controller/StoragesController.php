@@ -238,7 +238,7 @@ abstract class StoragesController extends Controller {
 	 *
 	 * @param StorageConfig $storage storage configuration
 	 */
-	protected function updateStorageStatus(StorageConfig &$storage, $testOnly = null) {
+	protected function updateStorageStatus(StorageConfig &$storage, $testOnly = true) {
 		try {
 			$this->manipulateStorageConfig($storage);
 
@@ -294,7 +294,7 @@ abstract class StoragesController extends Controller {
 	 *
 	 * @return DataResponse
 	 */
-	public function show($id, $testOnly = null) {
+	public function show($id, $testOnly = true) {
 		try {
 			$storage = $this->service->getStorage($id);
 

@@ -111,7 +111,7 @@ class UserGlobalStoragesController extends StoragesController {
 	 *
 	 * @NoAdminRequired
 	 */
-	public function show($id, $testOnly = null) {
+	public function show($id, $testOnly = true) {
 		try {
 			$storage = $this->service->getStorage($id);
 
@@ -147,7 +147,7 @@ class UserGlobalStoragesController extends StoragesController {
 	public function update(
 		$id,
 		$backendOptions,
-		$testOnly = null
+		$testOnly = true
 	) {
 		try {
 			$storage = $this->service->getStorage($id);

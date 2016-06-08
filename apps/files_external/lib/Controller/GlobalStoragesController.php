@@ -140,7 +140,7 @@ class GlobalStoragesController extends StoragesController {
 		$applicableUsers,
 		$applicableGroups,
 		$priority,
-		$testOnly = null
+		$testOnly = true
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,

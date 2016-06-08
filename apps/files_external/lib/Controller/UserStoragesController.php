@@ -101,7 +101,7 @@ class UserStoragesController extends StoragesController {
 	 *
 	 * {@inheritdoc}
 	 */
-	public function show($id, $testOnly = null) {
+	public function show($id, $testOnly = true) {
 		return parent::show($id, $testOnly);
 	}
 
@@ -171,7 +171,7 @@ class UserStoragesController extends StoragesController {
 		$authMechanism,
 		$backendOptions,
 		$mountOptions,
-		$testOnly = null
+		$testOnly = true
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
