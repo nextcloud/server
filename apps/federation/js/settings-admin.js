@@ -56,10 +56,10 @@ $(document).ready(function () {
 		}
 	});
 
-	// remove trusted server from list
-	$( "#listOfTrustedServers" ).on('click', 'li', function() {
-		var id = $(this).attr('id');
-		var $this = $(this);
+// remove trusted server from list
+	$( "#listOfTrustedServers" ).on('click', 'li > .icon-delete', function() {
+		var id = $(this).parent().attr('id');
+		var $this = $(this).parent();
 		$.ajax({
 			url: OC.generateUrl('/apps/federation/trusted-servers/' + id),
 			type: 'DELETE',
