@@ -86,13 +86,25 @@ class DecryptAllTest extends TestCase {
 		$this->invokePrivate($this->instance, 'output', [$this->outputInterface]);
 	}
 
-	/**
-	 * @dataProvider dataTrueFalse
-	 * @param bool $prepareResult
-	 */
-	public function testDecryptAll($prepareResult, $user) {
+	public function dataDecryptAll() {
+		return [
+			[true, 'user1', true],
+			[false, 'user1', true],
+			[true, '0', true],
+			[false, '0', true],
+			[true, '', false],
+		];
+	}
 
-		if (!empty($user)) {
+	/**
+	 * @dataProvider dataDecryptAll
+	 * @param bool $prepareResult
+	 * @param string $user
+	 * @param bool $userExistsChecked
+	 */
+	public function testDecryptAll($prepareResult, $user, $userExistsChecked) {
+
+		if ($userExistsChecked) {
 			$this->userManager->expects($this->once())->method('userExists')->willReturn(true);
 		} else {
 			$this->userManager->expects($this->never())->method('userExists');
@@ -125,15 +137,6 @@ class DecryptAllTest extends TestCase {
 		$instance->decryptAll($this->inputInterface, $this->outputInterface, $user);
 	}
 
-	public function dataTrueFalse() {
-		return [
-			[true, 'user1'],
-			[false, 'user1'],
-			[true, ''],
-			[true, null]
-		];
-	}
-
 	/**
 	 * test decrypt all call with a user who doesn't exists
 	 */
@@ -147,8 +150,16 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
+	public function dataTrueFalse() {
+		return [
+			[true],
+			[false],
+		];
+	}
+
 	/**
 	 * @dataProvider dataTrueFalse
+	 * @param bool $success
 	 */
 	public function testPrepareEncryptionModules($success) {
 
