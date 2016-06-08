@@ -460,7 +460,6 @@ class Session implements IUserSession, Emitter {
 	 * @param string $uid user UID
 	 * @param string $loginName login name
 	 * @param string $password
-	 * @throws SessionNotAvailableException
 	 * @return boolean
 	 */
 	public function createSessionToken(IRequest $request, $uid, $loginName, $password = null) {
@@ -469,10 +468,16 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
-		$sessionId = $this->session->getId();
-		$pwd = $this->getPassword($password);
-		$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name);
-		return true;
+		try {
+			$sessionId = $this->session->getId();
+			$pwd = $this->getPassword($password);
+			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name);
+			return true;
+		} catch (SessionNotAvailableException $ex) {
+			// This can happen with OCC, where a memory session is used
+			// if a memory session is used, we shouldn't create a session token anyway
+			return false;
+		}
 	}
 
 	/**
