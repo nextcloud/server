@@ -60,4 +60,13 @@ class GoogleTest extends \Test\Files\Storage\Storage {
 
 		parent::tearDown();
 	}
+
+	public function testSameNameAsFolderWithExtension() {
+		$this->assertTrue($this->instance->mkdir('testsamename'));
+		$this->assertEquals(13, $this->instance->file_put_contents('testsamename.txt', 'some contents'));
+		$this->assertEquals('some contents', $this->instance->file_get_contents('testsamename.txt'));
+		$this->assertTrue($this->instance->is_dir('testsamename'));
+		$this->assertTrue($this->instance->unlink('testsamename.txt'));
+		$this->assertTrue($this->instance->rmdir('testsamename'));
+	}
 }
