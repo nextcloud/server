@@ -252,6 +252,7 @@ class ShareController extends Controller {
 	 * @param string $path
 	 * @return TemplateResponse|RedirectResponse
 	 * @throws NotFoundException
+	 * @throws \Exception
 	 */
 	public function showShare($token, $path = '') {
 		\OC_User::setIncognitoMode(true);
@@ -373,12 +374,17 @@ class ShareController extends Controller {
 	 * @param string $files
 	 * @param string $path
 	 * @param string $downloadStartSecret
-	 * @return void|RedirectResponse
+	 * @return void|OCP\AppFramework\Http\Response
+	 * @throws NotFoundException
 	 */
 	public function downloadShare($token, $files = null, $path = '', $downloadStartSecret = '') {
 		\OC_User::setIncognitoMode(true);
 
 		$share = $this->shareManager->getShareByToken($token);
+
+		if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+			return new OCP\AppFramework\Http\DataResponse('Share is read-only');
+		}
 
 		// Share is password protected - check whether the user is permitted to access the share
 		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
