@@ -104,7 +104,7 @@ interface IConfig {
 	 * Writes a new app wide value
 	 *
 	 * @param string $appName the appName that we want to store the value under
-	 * @param string $key the key of the value, under which will be saved
+	 * @param string|float|int $key the key of the value, under which will be saved
 	 * @param string $value the value that should be stored
 	 * @return void
 	 * @since 6.0.0
@@ -149,6 +149,7 @@ interface IConfig {
 	 * @param string $value the value that you want to store
 	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
 	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
+	 * @throws \UnexpectedValueException when trying to store an unexpected value
 	 * @since 6.0.0 - parameter $precondition was added in 8.0.0
 	 */
 	public function setUserValue($userId, $appName, $key, $value, $preCondition = null);

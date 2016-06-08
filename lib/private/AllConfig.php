@@ -154,7 +154,7 @@ class AllConfig implements \OCP\IConfig {
 	 *
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key of the value, under which will be saved
-	 * @param string $value the value that should be stored
+	 * @param string|float|int $value the value that should be stored
 	 */
 	public function setAppValue($appName, $key, $value) {
 		\OC::$server->getAppConfig()->setValue($appName, $key, $value);
@@ -198,11 +198,16 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $userId the userId of the user that we want to store the value under
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key under which the value is being stored
-	 * @param string $value the value that you want to store
+	 * @param string|float|int $value the value that you want to store
 	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
 	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
+	 * @throws \UnexpectedValueException when trying to store an unexpected value
 	 */
 	public function setUserValue($userId, $appName, $key, $value, $preCondition = null) {
+		if (!is_int($value) && !is_float($value) && !is_string($value)) {
+			throw new \UnexpectedValueException('Only integers, floats and strings are allowed as value');
+		}
+
 		// TODO - FIXME
 		$this->fixDIInit();
 
