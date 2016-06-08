@@ -413,7 +413,7 @@ class ViewControllerTest extends TestCase {
 			->will($this->returnValue([]));
 
 		if ($useShowFile) {
-			$this->expectException('OCP\Files\NotFoundException');
+			$this->setExpectedException('OCP\Files\NotFoundException');
 			$this->viewController->showFile(123);
 		} else {
 			$response = $this->viewController->index('MyDir', 'MyView', '123');
