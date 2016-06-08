@@ -415,4 +415,22 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		return $this->sourceStorage;
 	}
 
+	public function file_get_contents($path) {
+		$info = [
+			'target' => $this->getMountPoint() . '/' . $path,
+			'source' => $this->getSourcePath($path),
+		];
+		\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_get_contents', $info);
+		return parent::file_get_contents($path);
+	}
+
+	public function file_put_contents($path, $data) {
+		$info = [
+			'target' => $this->getMountPoint() . '/' . $path,
+			'source' => $this->getSourcePath($path),
+		];
+		\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_put_contents', $info);
+		return parent::file_put_contents($path, $data);
+	}
+
 }
