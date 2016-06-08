@@ -326,7 +326,7 @@ class Google extends \OC\Files\Storage\Common {
 				$stat['size'] = 0;
 			} else {
 				// Check if this is a Google Doc
-				if ($this->getMimeType($path) !== $file->getMimeType()) {
+				if ($this->isGoogleDocFile($file)) {
 					// Return unknown file size
 					$stat['size'] = \OCP\Files\FileInfo::SPACE_UNKNOWN;
 				} else {
