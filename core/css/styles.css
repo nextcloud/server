@@ -25,6 +25,7 @@ body {
 
 #body-login {
 	text-align: center;
+	background-color: #0082c9;
 	background-image: url('../img/background.jpg');
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
@@ -113,7 +114,8 @@ body {
 	width: 155px;
 	max-width: 50%;
 	cursor: text;
-	background-color: #112;
+	background-color: transparent;
+	border: 1px solid rgba(255, 255, 255, .5);
 }
 
 /* CONTENT ------------------------------------------------------------------ */
