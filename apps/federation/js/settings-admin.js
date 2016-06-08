@@ -58,8 +58,8 @@ $(document).ready(function () {
 
 // remove trusted server from list
 	$( "#listOfTrustedServers" ).on('click', 'li > .icon-delete', function() {
-		var id = $(this).parent().attr('id');
 		var $this = $(this).parent();
+		id = $this.attr('id');
 		$.ajax({
 			url: OC.generateUrl('/apps/federation/trusted-servers/' + id),
 			type: 'DELETE',
