@@ -519,6 +519,7 @@ if ($_['cronErrors']) {
 					p($entry->time);
 				}?>
 			</td>
+			<td><?php isset($entry->user) ? p($entry->user) : p('--') ?></td>
 		</tr>
 		<?php endforeach;?>
 	</table>
