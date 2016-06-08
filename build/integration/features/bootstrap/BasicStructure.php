@@ -261,6 +261,17 @@ trait BasicStructure {
 	}
 
 	/**
+	 * @Given User :user modifies text of :filename with text :text
+	 * @param string $user
+	 * @param string $filename
+	 * @param string $text
+	 */
+	public function modifyTextOfFile($user, $filename, $text) {
+		self::removeFile("../../data/$user/files", "$filename");
+		file_put_contents("../../data/$user/files" . "$filename", "$text");
+	}
+
+	/**
 	 * @BeforeSuite
 	 */
 	public static function addFilesToSkeleton(){
