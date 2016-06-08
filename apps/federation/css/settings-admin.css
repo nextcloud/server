@@ -17,10 +17,13 @@
 	cursor: pointer;
 }
 
-#listOfTrustedServers li:hover {
-	cursor: pointer;
-}
-
 #listOfTrustedServers .status {
 	margin-right: 10px;
+}
+
+#listOfTrustedServers .icon {
+	cursor: pointer;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 10px;
 }

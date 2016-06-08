@@ -23,7 +23,7 @@ style('federation', 'settings-admin')
 	</p>
 	<ul id="listOfTrustedServers">
 		<?php foreach($_['trustedServers'] as $trustedServer) { ?>
-			<li id="<?php p($trustedServer['id']); ?>" class="icon-delete">
+			<li id="<?php p($trustedServer['id']); ?>">
 				<?php if((int)$trustedServer['status'] === TrustedServers::STATUS_OK) { ?>
 					<span class="status success"></span>
 				<?php
@@ -36,6 +36,7 @@ style('federation', 'settings-admin')
 					<span class="status error"></span>
 				<?php } ?>
 				<?php p($trustedServer['url']); ?>
+				<span class="icon icon-delete"></span>
 			</li>
 		<?php } ?>
 	</ul>

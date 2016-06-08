@@ -42,8 +42,9 @@ $(document).ready(function () {
 					$('ul#listOfTrustedServers').prepend(
 						$('<li>')
 								.attr('id', data.id)
-								.attr('class', 'icon-delete')
-								.html('<span class="status indeterminate"></span>' + data.url)
+								.html('<span class="status indeterminate"></span>' +
+									data.url +
+									'<span class="icon icon-delete"></span>')
 					);
 					OC.msg.finishedSuccess('#ocFederationAddServer .msg', data.message);
 				})
@@ -56,10 +57,10 @@ $(document).ready(function () {
 		}
 	});
 
-	// remove trusted server from list
-	$( "#listOfTrustedServers" ).on('click', 'li', function() {
-		var id = $(this).attr('id');
-		var $this = $(this);
+// remove trusted server from list
+	$( "#listOfTrustedServers" ).on('click', 'li > .icon-delete', function() {
+		var $this = $(this).parent();
+		id = $this.attr('id');
 		$.ajax({
 			url: OC.generateUrl('/apps/federation/trusted-servers/' + id),
 			type: 'DELETE',
