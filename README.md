@@ -18,7 +18,7 @@ if you want to join the Github organization just let us know and we’ll add you
 
 *This is by the community, for the community. Everyone is welcome! :)*
 
-![](https://github.com/nextcloud/screenshots/blob/master/files/files_menu.png)
+![](https://github.com/nextcloud/screenshots/blob/master/files/filelist.png)
 
 ## Why is this so awesome?
 * :file_folder: **Access your Data** You can store your files, contacts, calendars and more on a server of your choosing.
