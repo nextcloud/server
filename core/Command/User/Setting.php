@@ -95,13 +95,27 @@ class Setting extends Base {
 				'value',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'The new value of the config'
+				'The new value of the setting'
 			)
 			->addOption(
 				'update-only',
 				null,
 				InputOption::VALUE_NONE,
 				'Only updates the value, if it is not set before, it is not being added'
+			)
+
+			// Delete
+			->addOption(
+				'delete',
+				null,
+				InputOption::VALUE_NONE,
+				'Specify this option to delete the config'
+			)
+			->addOption(
+				'error-if-not-exists',
+				null,
+				InputOption::VALUE_NONE,
+				'Checks whether the setting exists before deleting it'
 			)
 		;
 	}
@@ -113,14 +127,30 @@ class Setting extends Base {
 		}
 
 		if ($input->getArgument('key') === '' && $input->hasParameterOption('--default-value')) {
-			throw new \InvalidArgumentException('The "default-value" option can only be used when getting a single setting.');
+			throw new \InvalidArgumentException('The "default-value" option can only be used when specifying a key.');
 		}
 
+		if ($input->getArgument('key') === '' && $input->hasParameterOption('--value')) {
+			throw new \InvalidArgumentException('The "value" option can only be used when specifying a key.');
+		}
 		if ($input->hasParameterOption('--value') && $input->hasParameterOption('--default-value')) {
 			throw new \InvalidArgumentException('The "value" option can not be used together with "default-value".');
 		}
 		if ($input->hasParameterOption('--update-only') && !$input->hasParameterOption('--value')) {
 			throw new \InvalidArgumentException('The "update-only" option can only be used together with "value".');
+		}
+
+		if ($input->getArgument('key') === '' && $input->hasParameterOption('--delete')) {
+			throw new \InvalidArgumentException('The "delete" option can only be used when specifying a key.');
+		}
+		if ($input->hasParameterOption('--delete') && $input->hasParameterOption('--default-value')) {
+			throw new \InvalidArgumentException('The "value" option can not be used together with "default-value".');
+		}
+		if ($input->hasParameterOption('--delete') && $input->hasParameterOption('--value')) {
+			throw new \InvalidArgumentException('The "value" option can not be used together with "value".');
+		}
+		if ($input->hasParameterOption('--error-if-not-exists') && !$input->hasParameterOption('--delete')) {
+			throw new \InvalidArgumentException('The "error-if-not-exists" option can only be used together with "delete".');
 		}
 	}
 
@@ -145,6 +175,14 @@ class Setting extends Base {
 				}
 
 				$this->config->setUserValue($uid, $app, $key, $input->getOption('value'));
+
+			} else if ($input->hasParameterOption('--delete')) {
+				if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
+					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
+					return 1;
+				}
+
+				$this->config->deleteUserValue($uid, $app, $key);
 
 			} else if ($value !== null) {
 				$output->writeln($value);
