@@ -267,3 +267,7 @@ if ($updaterAppPanel) {
 $template->assign('forms', $formsAndMore);
 
 $template->printPage();
+
+$util = new \OC_Util();
+$util->createHtaccessTestFile(\OC::$server->getConfig());
+

@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Tags" : "Etykiety",
     "Tagged files" : "Otagowane pliki",
+    "Select tags to filter by" : "Wybierz tagi do filtru",
+    "Please select tags to filter by" : "Proszę wybrać tagi do filtrów",
     "No files found for the selected tags" : "Nie znaleziono plików dla wybranych etykiet",
     "<strong>System tags</strong> for a file have been modified" : "<strong>System etykiet</strong> dla pliku został zmieniony",
     "%1$s assigned system tag %3$s" : "%1$s przypisywalny system etykiet%3$s",

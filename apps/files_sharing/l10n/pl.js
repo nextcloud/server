@@ -21,6 +21,7 @@ OC.L10N.register(
     "Remote share password" : "Hasło do zdalnego zasobu",
     "Cancel" : "Anuluj",
     "Add remote share" : "Dodaj zdalny zasób",
+    "No ownCloud installation (7 or higher) found at {remote}" : "Nie znaleziono instalacji ownCloud (w wersji 7 lub nowszej) na {remote}",
     "Invalid ownCloud url" : "Błędny adres URL",
     "Shared by" : "Udostępniane przez",
     "Sharing" : "Udostępnianie",

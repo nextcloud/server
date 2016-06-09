@@ -88,7 +88,7 @@ interface IAppConfig {
 	 * sets a value in the appconfig
 	 * @param string $app app
 	 * @param string $key key
-	 * @param string $value value
+	 * @param string|float|int $value value
 	 * @deprecated 8.0.0 use method setAppValue of \OCP\IConfig
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
