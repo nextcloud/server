@@ -43,6 +43,7 @@
     "Unable to determine date" : "Nie można ustalić daty",
     "This operation is forbidden" : "Ta operacja jest niedozwolona",
     "This directory is unavailable, please check the logs or contact the administrator" : "Ten folder jest niedostępny, proszę sprawdzić logi lub skontaktować się z administratorem.",
+    "Could not move \"{file}\", target exists" : "Nie można było przenieść „{file}” – plik o takiej nazwie już istnieje",
     "Could not move \"{file}\"" : "Nie można było przenieść \"{file}\"",
     "Could not create file \"{file}\"" : "Nie można było utworzyć pliku \"{file}\"",
     "Could not create file \"{file}\" because it already exists" : "Nie można było utworzyć pliku \"{file}\", ponieważ ten plik już istnieje.",

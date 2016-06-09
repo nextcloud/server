@@ -6,6 +6,7 @@ OC.L10N.register(
     "Authentication error" : "Błąd uwierzytelniania",
     "Please provide an admin recovery password, otherwise all user data will be lost" : "Podaj hasło odzyskiwania administratora, w przeciwnym razie wszystkie dane użytkownika zostaną utracone",
     "Wrong admin recovery password. Please check the password and try again." : "Błędne hasło odzyskiwania. Sprawdź hasło i spróbuj ponownie.",
+    "Backend doesn't support password change, but the user's encryption key was successfully updated." : "Zaplecze nie obsługuje zmiany hasła, ale klucz szyfrowania użytkownika został pomyślnie zaktualizowany.",
     "Unable to change password" : "Nie można zmienić hasła",
     "Enabled" : "Włączone",
     "Not enabled" : "Nie włączone",
