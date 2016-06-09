@@ -26,6 +26,13 @@
 
 namespace OCA\DAV\Connector;
 
+use Sabre\DAV\Auth\Backend\AbstractBasic;
+
+/**
+ * Class PublicAuth
+ *
+ * @package OCA\DAV\Connector
+ */
 class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 
 	/**
@@ -40,6 +47,10 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 	 */
 	public function __construct($config) {
 		$this->config = $config;
+
+		// setup realm
+		$defaults = new \OC_Defaults();
+		$this->realm = $defaults->getName();
 	}
 
 	/**

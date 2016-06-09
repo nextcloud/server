@@ -66,6 +66,10 @@ class Auth extends AbstractBasic {
 		$this->userSession = $userSession;
 		$this->request = $request;
 		$this->principalPrefix = $principalPrefix;
+
+		// setup realm
+		$defaults = new \OC_Defaults();
+		$this->realm = $defaults->getName();
 	}
 
 	/**
