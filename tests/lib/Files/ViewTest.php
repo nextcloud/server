@@ -2417,7 +2417,7 @@ class ViewTest extends \Test\TestCase {
 
 		$content = $view->getDirectoryContent('', $filter);
 
-		$files = array_map(function(FileInfo $info) {
+		$files = array_map(function (FileInfo $info) {
 			return $info->getName();
 		}, $content);
 		sort($files);
@@ -2443,5 +2443,54 @@ class ViewTest extends \Test\TestCase {
 		$this->assertEquals('fooo', $view->file_get_contents(''));
 		$data = $view->getFileInfo('.');
 		$this->assertEquals('', $data->getChecksum());
+	}
+
+	public function testDeleteGhostFile() {
+		$storage = new Temporary(array());
+		$scanner = $storage->getScanner();
+		$cache = $storage->getCache();
+		$storage->file_put_contents('foo.txt', 'bar');
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$scanner->scan('');
+
+		$storage->unlink('foo.txt');
+
+		$this->assertTrue($cache->inCache('foo.txt'));
+
+		$view = new \OC\Files\View('/test');
+		$rootInfo = $view->getFileInfo('');
+		$this->assertEquals(3, $rootInfo->getSize());
+		$view->unlink('foo.txt');
+		$newInfo = $view->getFileInfo('');
+
+		$this->assertFalse($cache->inCache('foo.txt'));
+		$this->assertNotEquals($rootInfo->getEtag(), $newInfo->getEtag());
+		$this->assertEquals(0, $newInfo->getSize());
+	}
+
+	public function testDeleteGhostFolder() {
+		$storage = new Temporary(array());
+		$scanner = $storage->getScanner();
+		$cache = $storage->getCache();
+		$storage->mkdir('foo');
+		$storage->file_put_contents('foo/foo.txt', 'bar');
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$scanner->scan('');
+
+		$storage->rmdir('foo');
+
+		$this->assertTrue($cache->inCache('foo'));
+		$this->assertTrue($cache->inCache('foo/foo.txt'));
+
+		$view = new \OC\Files\View('/test');
+		$rootInfo = $view->getFileInfo('');
+		$this->assertEquals(3, $rootInfo->getSize());
+		$view->rmdir('foo');
+		$newInfo = $view->getFileInfo('');
+
+		$this->assertFalse($cache->inCache('foo'));
+		$this->assertFalse($cache->inCache('foo/foo.txt'));
+		$this->assertNotEquals($rootInfo->getEtag(), $newInfo->getEtag());
+		$this->assertEquals(0, $newInfo->getSize());
 	}
 }

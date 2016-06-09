@@ -123,6 +123,25 @@ class AllConfigTest extends \Test\TestCase {
 		$config->deleteUserValue('userPreCond', 'appPreCond', 'keyPreCond');
 	}
 
+	public function dataSetUserValueUnexpectedValue() {
+		return [
+			[true],
+			[false],
+			[null],
+			[new \stdClass()],
+		];
+	}
+
+	/**
+	 * @dataProvider dataSetUserValueUnexpectedValue
+	 * @param mixed $value
+	 * @expectedException \UnexpectedValueException
+	 */
+	public function testSetUserValueUnexpectedValue($value) {
+		$config = $this->getConfig();
+		$config->setUserValue('userSetBool', 'appSetBool', 'keySetBool', $value);
+	}
+
 	/**
 	 * @expectedException \OCP\PreConditionNotMetException
 	 */
