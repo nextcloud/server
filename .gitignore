@@ -23,6 +23,7 @@
 !/apps/provisioning_api
 !/apps/systemtags
 !/apps/testing
+!/apps/admin_audit
 !/apps/updatenotification
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
