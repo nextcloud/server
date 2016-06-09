@@ -74,6 +74,10 @@ class Auth extends AbstractBasic {
 		$this->twoFactorManager = $twoFactorManager;
 		$this->request = $request;
 		$this->principalPrefix = $principalPrefix;
+
+		// setup realm
+		$defaults = new \OC_Defaults();
+		$this->realm = $defaults->getName();
 	}
 
 	/**
