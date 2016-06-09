@@ -206,9 +206,7 @@ class OC_Helper {
 
 			foreach ($files as $fileInfo) {
 				/** @var SplFileInfo $fileInfo */
-				if ($fileInfo->isLink()) {
-					unlink($fileInfo->getPathname());
-				} else if ($fileInfo->isDir()) {
+				if ($fileInfo->isDir()) {
 					rmdir($fileInfo->getRealPath());
 				} else {
 					unlink($fileInfo->getRealPath());

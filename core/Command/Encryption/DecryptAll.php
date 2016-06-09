@@ -111,8 +111,7 @@ class DecryptAll extends Command {
 		$this->addArgument(
 			'user',
 			InputArgument::OPTIONAL,
-			'user for which you want to decrypt all files (optional)',
-			''
+			'user for which you want to decrypt all files (optional)'
 		);
 	}
 
@@ -128,16 +127,8 @@ class DecryptAll extends Command {
 				return;
 			}
 
-			$uid = $input->getArgument('user');
-			//FIXME WHEN https://github.com/owncloud/core/issues/24994 is fixed
-			if ($uid === null) {
-				$message = 'your ownCloud';
-			} else {
-				$message = "$uid's account";
-			}
-
 			$output->writeln("\n");
-			$output->writeln("You are about to start to decrypt all files stored in $message.");
+			$output->writeln('You are about to start to decrypt all files stored in your ownCloud.');
 			$output->writeln('It will depend on the encryption module and your setup if this is possible.');
 			$output->writeln('Depending on the number and size of your files this can take some time');
 			$output->writeln('Please make sure that no user access his files during this process!');
@@ -149,7 +140,6 @@ class DecryptAll extends Command {
 				$result = $this->decryptAll->decryptAll($input, $output, $user);
 				if ($result === false) {
 					$output->writeln(' aborted.');
-					$output->writeln('Server side encryption remains enabled');
 					$this->config->setAppValue('core', 'encryption_enabled', 'yes');
 				}
 				$this->resetSingleUserAndTrashbin();

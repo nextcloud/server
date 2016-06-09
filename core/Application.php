@@ -120,8 +120,7 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('UserManager'),
-				$c->query('ServerContainer')->query('OC\Authentication\Token\IProvider'),
-				$c->query('TwoFactorAuthManager'),
+				$c->query('OC\Authentication\Token\DefaultTokenProvider'),
 				$c->query('SecureRandom')
 			);
 		});

@@ -33,7 +33,7 @@ class TwoFactorChallengeControllerTest extends TestCase {
 	private $session;
 	private $urlGenerator;
 
-	/** @var TwoFactorChallengeController|\PHPUnit_Framework_MockObject_MockObject */
+	/** TwoFactorChallengeController */
 	private $controller;
 
 	protected function setUp() {
@@ -47,20 +47,9 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$this->session = $this->getMock('\OCP\ISession');
 		$this->urlGenerator = $this->getMock('\OCP\IURLGenerator');
 
-		$this->controller = $this->getMockBuilder('OC\Core\Controller\TwoFactorChallengeController')
-			->setConstructorArgs([
-				'core',
-				$this->request,
-				$this->twoFactorManager,
-				$this->userSession,
-				$this->session,
-				$this->urlGenerator,
-			])
-			->setMethods(['getLogoutAttribute'])
-			->getMock();
-		$this->controller->expects($this->any())
-			->method('getLogoutAttribute')
-			->willReturn('logoutAttribute');
+		$this->controller = new TwoFactorChallengeController(
+			'core', $this->request, $this->twoFactorManager, $this->userSession, $this->session, $this->urlGenerator
+		);
 	}
 
 	public function testSelectChallenge() {
@@ -81,7 +70,6 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$expected = new \OCP\AppFramework\Http\TemplateResponse('core', 'twofactorselectchallenge', [
 			'providers' => $providers,
 			'redirect_url' => '/some/url',
-			'logout_attribute' => 'logoutAttribute',
 		], 'guest');
 
 		$this->assertEquals($expected, $this->controller->selectChallenge('/some/url'));
@@ -122,7 +110,6 @@ class TwoFactorChallengeControllerTest extends TestCase {
 		$expected = new \OCP\AppFramework\Http\TemplateResponse('core', 'twofactorshowchallenge', [
 			'error' => true,
 			'provider' => $provider,
-			'logout_attribute' => 'logoutAttribute',
 			'template' => '<html/>',
 			], 'guest');
 

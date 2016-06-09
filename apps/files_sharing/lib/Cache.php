@@ -81,7 +81,7 @@ class Cache extends CacheJail {
 	}
 
 	protected function formatCacheEntry($entry) {
-		$path = isset($entry['path']) ? $entry['path'] : '';
+		$path = $entry['path'];
 		$entry = parent::formatCacheEntry($entry);
 		$sharePermissions = $this->storage->getPermissions($path);
 		if (isset($entry['permissions'])) {

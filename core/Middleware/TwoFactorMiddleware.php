@@ -82,11 +82,6 @@ class TwoFactorMiddleware extends Middleware {
 			return;
 		}
 
-		if ($controller instanceof \OC\Core\Controller\LoginController && $methodName === 'logout') {
-			// Don't block the logout page, to allow canceling the 2FA
-			return;
-		}
-
 		if ($this->userSession->isLoggedIn()) {
 			$user = $this->userSession->getUser();
 

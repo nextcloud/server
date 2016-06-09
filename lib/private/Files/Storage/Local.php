@@ -33,31 +33,20 @@
  */
 
 namespace OC\Files\Storage;
-
-use OCP\Files\ForbiddenException;
-
 /**
  * for local filestore, we only have to map the paths
  */
 class Local extends \OC\Files\Storage\Common {
 	protected $datadir;
 
-	protected $dataDirLength;
-
-	protected $allowSymlinks = false;
-
-	protected $realDataDir;
-
 	public function __construct($arguments) {
 		if (!isset($arguments['datadir']) || !is_string($arguments['datadir'])) {
 			throw new \InvalidArgumentException('No data directory set for local storage');
 		}
 		$this->datadir = $arguments['datadir'];
-		$this->realDataDir = rtrim(realpath($this->datadir), '/') . '/';
 		if (substr($this->datadir, -1) !== '/') {
 			$this->datadir .= '/';
 		}
-		$this->dataDirLength = strlen($this->realDataDir);
 	}
 
 	public function __destruct() {
@@ -168,7 +157,7 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function filemtime($path) {
 		clearstatcache($this->getSourcePath($path));
-		return $this->file_exists($path) ? filemtime($this->getSourcePath($path)) : false;
+		return filemtime($this->getSourcePath($path));
 	}
 
 	public function touch($path, $mtime = null) {
@@ -199,7 +188,7 @@ class Local extends \OC\Files\Storage\Common {
 			return '';
 		}
 
-		$handle = fopen($fileName, 'rb');
+		$handle = fopen($fileName,'rb');
 		$content = fread($handle, $fileSize);
 		fclose($handle);
 		return $content;
@@ -348,27 +337,10 @@ class Local extends \OC\Files\Storage\Common {
 	 *
 	 * @param string $path
 	 * @return string
-	 * @throws ForbiddenException
 	 */
 	public function getSourcePath($path) {
 		$fullPath = $this->datadir . $path;
-		if ($this->allowSymlinks || $path === '') {
-			return $fullPath;
-		}
-		$pathToResolve = $fullPath;
-		$realPath = realpath($pathToResolve);
-		while ($realPath === false) { // for non existing files check the parent directory
-			$pathToResolve = dirname($pathToResolve);
-			$realPath = realpath($pathToResolve);
-		}
-		if ($realPath) {
-			$realPath = $realPath . '/';
-		}
-		if (substr($realPath, 0, $this->dataDirLength) === $this->realDataDir) {
-			return $fullPath;
-		} else {
-			throw new ForbiddenException("Following symlinks is not allowed ('$fullPath' -> '$realPath' not inside '{$this->realDataDir}')", false);
-		}
+		return $fullPath;
 	}
 
 	/**
@@ -405,7 +377,7 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
-		if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')) {
+		if($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')){
 			/**
 			 * @var \OC\Files\Storage\Local $sourceStorage
 			 */
