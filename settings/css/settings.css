@@ -120,6 +120,10 @@ table.nostyle td { padding: 0.2em 0; }
 #sessions .token-list td,
 #devices .token-list td {
 	border-top: 1px solid #DDD;
+	text-overflow: ellipsis;
+	max-width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
 }
 #sessions .token-list td a.icon-delete,
 #devices .token-list td a.icon-delete {
