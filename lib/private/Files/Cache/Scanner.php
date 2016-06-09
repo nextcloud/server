@@ -38,7 +38,6 @@ use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
 use OCP\Config;
 use OCP\Files\Cache\IScanner;
-use OCP\Files\ForbiddenException;
 use OCP\Files\Storage\ILockingStorage;
 use OCP\Lock\ILockingProvider;
 
@@ -141,11 +140,7 @@ class Scanner extends BasicEmitter implements IScanner {
 				}
 			}
 
-			try {
-				$data = $this->getData($file);
-			} catch (ForbiddenException $e) {
-				return null;
-			}
+			$data = $this->getData($file);
 
 			if ($data) {
 

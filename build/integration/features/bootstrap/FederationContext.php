@@ -12,7 +12,7 @@ require __DIR__ . '/../../vendor/autoload.php';
  */
 class FederationContext implements Context, SnippetAcceptingContext {
 
-	use WebDav;
+	use Sharing;
 
 	/**
 	 * @Given /^User "([^"]*)" from server "(LOCAL|REMOTE)" shares "([^"]*)" with user "([^"]*)" from server "(LOCAL|REMOTE)"$/

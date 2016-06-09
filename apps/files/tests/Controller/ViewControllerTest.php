@@ -26,7 +26,6 @@ namespace OCA\Files\Tests\Controller;
 
 use OCA\Files\Controller\ViewController;
 use OCP\AppFramework\Http;
-use OCP\Files\NotFoundException;
 use OCP\IUser;
 use OCP\Template;
 use Test\TestCase;
@@ -260,8 +259,7 @@ class ViewControllerTest extends TestCase {
 				'isPublic' => false,
 				'defaultFileSorting' => 'name',
 				'defaultFileSortingDirection' => 'asc',
-				'showHiddenFiles' => 0,
-				'fileNotFound' => 0,
+				'showHiddenFiles' => false,
 				'mailNotificationEnabled' => 'no',
 				'mailPublicNotificationEnabled' => 'no',
 				'allowShareWithLink' => 'yes',
@@ -412,14 +410,11 @@ class ViewControllerTest extends TestCase {
 			->with(123)
 			->will($this->returnValue([]));
 
+		$expected = new Http\NotFoundResponse();
 		if ($useShowFile) {
-			$this->setExpectedException('OCP\Files\NotFoundException');
-			$this->viewController->showFile(123);
+			$this->assertEquals($expected, $this->viewController->showFile(123));
 		} else {
-			$response = $this->viewController->index('MyDir', 'MyView', '123');
-			$this->assertInstanceOf('OCP\AppFramework\Http\TemplateResponse', $response);
-			$params = $response->getParams();
-			$this->assertEquals(1, $params['fileNotFound']);
+			$this->assertEquals($expected, $this->viewController->index('/whatever', '', '123'));
 		}
 	}
 

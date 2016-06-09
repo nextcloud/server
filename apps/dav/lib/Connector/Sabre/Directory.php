@@ -196,8 +196,6 @@ class Directory extends \OCA\DAV\Connector\Sabre\Node
 				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 			} catch (\OCP\Files\InvalidPathException $ex) {
 				throw new InvalidPath($ex->getMessage());
-			} catch (ForbiddenException $e) {
-				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 		}
 

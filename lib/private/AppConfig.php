@@ -143,7 +143,7 @@ class AppConfig implements IAppConfig {
 	 *
 	 * @param string $app app
 	 * @param string $key key
-	 * @param string|float|int $value value
+	 * @param string $value value
 	 * @return bool True if the value was inserted or updated, false if the value was the same
 	 */
 	public function setValue($app, $key, $value) {

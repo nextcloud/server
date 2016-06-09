@@ -17,4 +17,3 @@ $template = $_['template'];
 <span class="warning"><?php p($l->t('An error occured while verifying the token')); ?></span>
 <?php endif; ?>
 <?php print_unescaped($template); ?>
-<a class="two-factor-cancel" <?php print_unescaped($_['logout_attribute']); ?>><?php p($l->t('Cancel login')) ?></a>

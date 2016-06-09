@@ -80,7 +80,7 @@ class DecryptAll {
 		$this->input = $input;
 		$this->output = $output;
 
-		if ($user !== '' && $this->userManager->userExists($user) === false) {
+		if (!empty($user) && $this->userManager->userExists($user) === false) {
 			$this->output->writeln('User "' . $user . '" does not exist. Please check the username and try again');
 			return false;
 		}
@@ -141,7 +141,7 @@ class DecryptAll {
 		$this->output->writeln("\n");
 
 		$userList = [];
-		if ($user === '') {
+		if (empty($user)) {
 
 			$fetchUsersProgress = new ProgressBar($this->output);
 			$fetchUsersProgress->setFormat(" %message% \n [%bar%]");
