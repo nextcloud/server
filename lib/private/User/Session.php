@@ -470,11 +470,39 @@ class Session implements IUserSession, Emitter {
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
 		try {
 			$sessionId = $this->session->getId();
-			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $password, $name);
+			$pwd = $this->getPassword($password);
+			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name);
+			return true;
 		} catch (SessionNotAvailableException $ex) {
-
+			// This can happen with OCC, where a memory session is used
+			// if a memory session is used, we shouldn't create a session token anyway
+			return false;
 		}
-		return true;
+	}
+
+	/**
+	 * Checks if the given password is a token.
+	 * If yes, the password is extracted from the token.
+	 * If no, the same password is returned.
+	 *
+	 * @param string $password either the login password or a device token
+	 * @return string|null the password or null if none was set in the token
+	 */
+	private function getPassword($password) {
+		if (is_null($password)) {
+			// This is surely no token ;-)
+			return null;
+		}
+		try {
+			$token = $this->tokenProvider->getToken($password);
+			try {
+				return $this->tokenProvider->getPassword($token, $password);
+			} catch (PasswordlessTokenException $ex) {
+				return null;
+			}
+		} catch (InvalidTokenException $ex) {
+			return $password;
+		}
 	}
 
 	/**
