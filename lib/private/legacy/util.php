@@ -1128,19 +1128,8 @@ class OC_Util {
 		return $encoded;
 	}
 
-	/**
-	 * Check if the .htaccess file is working
-	 * @param \OCP\IConfig $config
-	 * @return bool
-	 * @throws Exception
-	 * @throws \OC\HintException If the test file can't get written.
-	 */
-	public function isHtaccessWorking(\OCP\IConfig $config) {
 
-		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
-			return true;
-		}
-
+	public function createHtaccessTestFile(\OCP\IConfig $config) {
 		// php dev server does not support htaccess
 		if (php_sapi_name() === 'cli-server') {
 			return false;
@@ -1148,7 +1137,7 @@ class OC_Util {
 
 		// testdata
 		$fileName = '/htaccesstest.txt';
-		$testContent = 'testcontent';
+		$testContent = 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.';
 
 		// creating a test file
 		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
@@ -1164,6 +1153,28 @@ class OC_Util {
 		}
 		fwrite($fp, $testContent);
 		fclose($fp);
+	}
+
+	/**
+	 * Check if the .htaccess file is working
+	 * @param \OCP\IConfig $config
+	 * @return bool
+	 * @throws Exception
+	 * @throws \OC\HintException If the test file can't get written.
+	 */
+	public function isHtaccessWorking(\OCP\IConfig $config) {
+
+		if (\OC::$CLI || !$config->getSystemValue('check_for_working_htaccess', true)) {
+			return true;
+		}
+
+		$testContent = $this->createHtaccessTestFile($config);
+		if ($testContent === false) {
+			return false;
+		}
+
+		$fileName = '/htaccesstest.txt';
+		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
 
 		// accessing the file via http
 		$url = \OC::$server->getURLGenerator()->getAbsoluteURL(OC::$WEBROOT . '/data' . $fileName);

@@ -38,6 +38,10 @@ body {
 	display: inline-block;
 }
 
+a.two-factor-cancel {
+	color: #fff;
+}
+
 .float-spinner {
 	height: 32px;
 	display: none;

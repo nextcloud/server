@@ -349,7 +349,7 @@ class OC_API {
 			if ($ocsApiRequest) {
 
 				// initialize the user's filesystem
-				\OC_Util::setUpFS(\OC_User::getUser());
+				\OC_Util::setupFS(\OC_User::getUser());
 				self::$isLoggedIn = true;
 
 				return OC_User::getUser();
@@ -374,7 +374,7 @@ class OC_API {
 			self::$logoutRequired = true;
 
 			// initialize the user's filesystem
-			\OC_Util::setUpFS(\OC_User::getUser());
+			\OC_Util::setupFS(\OC_User::getUser());
 			self::$isLoggedIn = true;
 
 			return \OC_User::getUser();

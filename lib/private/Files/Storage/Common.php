@@ -643,6 +643,9 @@ abstract class Common implements Storage, ILockingStorage {
 		$data = [];
 		$data['mimetype'] = $this->getMimeType($path);
 		$data['mtime'] = $this->filemtime($path);
+		if ($data['mtime'] === false) {
+			$data['mtime'] = time();
+		}
 		if ($data['mimetype'] == 'httpd/unix-directory') {
 			$data['size'] = -1; //unknown
 		} else {

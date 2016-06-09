@@ -16,7 +16,6 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
-use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\Response;
 
@@ -29,7 +28,9 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->reflector = new ControllerMethodReflector();
-		$this->session = $this->getMock('\OCP\IUserSession');
+		$this->session = $this->getMockBuilder('\OC\User\Session')
+			->disableOriginalConstructor()
+			->getMock();
 	}
 
 	/**
@@ -127,7 +128,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->never())
 			->method('logout');
 		$this->session->expects($this->never())
-			->method('login')
+			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->will($this->returnValue(true));
 		$this->reflector->reflect($this, __FUNCTION__);
@@ -150,7 +151,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('logout');
 		$this->session->expects($this->once())
-			->method('login')
+			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->will($this->returnValue(true));
 		$this->reflector->reflect($this, __FUNCTION__);
@@ -175,7 +176,7 @@ class CORSMiddlewareTest extends \Test\TestCase {
 		$this->session->expects($this->once())
 			->method('logout');
 		$this->session->expects($this->once())
-			->method('login')
+			->method('logClientIn')
 			->with($this->equalTo('user'), $this->equalTo('pass'))
 			->will($this->returnValue(false));
 		$this->reflector->reflect($this, __FUNCTION__);

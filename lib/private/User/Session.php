@@ -361,7 +361,14 @@ class Session implements IUserSession, Emitter {
 			// TODO: throw LoginException instead (https://github.com/owncloud/core/pull/24616)
 			return false;
 		}
-		return $this->login($user, $password);
+		if (!$this->login($user, $password) ) {
+			$users = $this->manager->getByEmail($user);
+			if (count($users) === 1) {
+				return $this->login($users[0]->getUID(), $password);
+			}
+			return false;
+		}
+		return true;
 	}
 
 	private function isTokenAuthEnforced() {
@@ -376,7 +383,11 @@ class Session implements IUserSession, Emitter {
 		);
 		$user = $this->manager->get($username);
 		if (is_null($user)) {
-			return true;
+			$users = $this->manager->getByEmail($username);
+			if (count($users) !== 1) {
+				return true;
+			}
+			$user = $users[0];
 		}
 		// DI not possible due to cyclic dependencies :'-/
 		return OC::$server->getTwoFactorAuthManager()->isTwoFactorAuthenticated($user);
@@ -385,7 +396,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * Check if the given 'password' is actually a device token
 	 *
-	 * @param type $password
+	 * @param string $password
 	 * @return boolean
 	 */
 	public function isTokenPassword($password) {
@@ -470,11 +481,39 @@ class Session implements IUserSession, Emitter {
 		$name = isset($request->server['HTTP_USER_AGENT']) ? $request->server['HTTP_USER_AGENT'] : 'unknown browser';
 		try {
 			$sessionId = $this->session->getId();
-			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $password, $name);
+			$pwd = $this->getPassword($password);
+			$this->tokenProvider->generateToken($sessionId, $uid, $loginName, $pwd, $name);
+			return true;
 		} catch (SessionNotAvailableException $ex) {
-
+			// This can happen with OCC, where a memory session is used
+			// if a memory session is used, we shouldn't create a session token anyway
+			return false;
 		}
-		return true;
+	}
+
+	/**
+	 * Checks if the given password is a token.
+	 * If yes, the password is extracted from the token.
+	 * If no, the same password is returned.
+	 *
+	 * @param string $password either the login password or a device token
+	 * @return string|null the password or null if none was set in the token
+	 */
+	private function getPassword($password) {
+		if (is_null($password)) {
+			// This is surely no token ;-)
+			return null;
+		}
+		try {
+			$token = $this->tokenProvider->getToken($password);
+			try {
+				return $this->tokenProvider->getPassword($token, $password);
+			} catch (PasswordlessTokenException $ex) {
+				return null;
+			}
+		} catch (InvalidTokenException $ex) {
+			return $password;
+		}
 	}
 
 	/**

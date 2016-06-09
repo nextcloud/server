@@ -161,6 +161,8 @@ class ObjectTree extends \Sabre\DAV\Tree {
 				throw new \Sabre\DAV\Exception\NotFound('Storage ' . $path . ' is invalid');
 			} catch (LockedException $e) {
 				throw new \Sabre\DAV\Exception\Locked();
+			} catch (ForbiddenException $e) {
+				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 		}
 

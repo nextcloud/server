@@ -27,9 +27,9 @@ namespace OCA\Files\Controller;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
-use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\INavigationManager;
@@ -37,7 +37,6 @@ use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\Files\Folder;
 use OCP\App\IAppManager;
 
@@ -142,11 +141,15 @@ class ViewController extends Controller {
 	 * @param string $view
 	 * @param string $fileid
 	 * @return TemplateResponse
-	 * @throws \OCP\Files\NotFoundException
 	 */
 	public function index($dir = '', $view = '', $fileid = null) {
+		$fileNotFound = false;
 		if ($fileid !== null) {
-			return $this->showFile($fileid);
+			try {
+				return $this->showFile($fileid);
+			} catch (NotFoundException $e) {
+				$fileNotFound = true;
+			}
 		}
 
 		$nav = new \OCP\Template('files', 'appnavigation', '');
@@ -245,6 +248,7 @@ class ViewController extends Controller {
 		$params['defaultFileSortingDirection'] = $this->config->getUserValue($user, 'files', 'file_sorting_direction', 'asc');
 		$showHidden = (bool) $this->config->getUserValue($this->userSession->getUser()->getUID(), 'files', 'show_hidden', false);
 		$params['showHiddenFiles'] = $showHidden ? 1 : 0;
+		$params['fileNotFound'] = $fileNotFound ? 1 : 0;
 		$params['appNavigation'] = $nav;
 		$params['appContents'] = $contentItems;
 		$this->navigationManager->setActiveEntry('files_index');
@@ -265,40 +269,37 @@ class ViewController extends Controller {
 	 * Redirects to the file list and highlight the given file id
 	 *
 	 * @param string $fileId file id to show
-	 * @return Response redirect response or not found response
+	 * @return RedirectResponse redirect response or not found response
+	 * @throws \OCP\Files\NotFoundException
 	 *
 	 * @NoCSRFRequired
 	 * @NoAdminRequired
 	 */
 	public function showFile($fileId) {
-		try {
-			$uid = $this->userSession->getUser()->getUID();
-			$baseFolder = $this->rootFolder->get($uid . '/files/');
+		$uid = $this->userSession->getUser()->getUID();
+		$baseFolder = $this->rootFolder->get($uid . '/files/');
+		$files = $baseFolder->getById($fileId);
+		$params = [];
+
+		if (empty($files) && $this->appManager->isEnabledForUser('files_trashbin')) {
+			$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
 			$files = $baseFolder->getById($fileId);
-			$params = [];
-
-			if (empty($files) && $this->appManager->isEnabledForUser('files_trashbin')) {
-				$baseFolder = $this->rootFolder->get($uid . '/files_trashbin/files/');
-				$files = $baseFolder->getById($fileId);
-				$params['view'] = 'trashbin';
-			}
-
-			if (!empty($files)) {
-				$file = current($files);
-				if ($file instanceof Folder) {
-					// set the full path to enter the folder
-					$params['dir'] = $baseFolder->getRelativePath($file->getPath());
-				} else {
-					// set parent path as dir
-					$params['dir'] = $baseFolder->getRelativePath($file->getParent()->getPath());
-					// and scroll to the entry
-					$params['scrollto'] = $file->getName();
-				}
-				return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
-			}
-		} catch (\OCP\Files\NotFoundException $e) {
-			return new NotFoundResponse();
+			$params['view'] = 'trashbin';
 		}
-		return new NotFoundResponse();
+
+		if (!empty($files)) {
+			$file = current($files);
+			if ($file instanceof Folder) {
+				// set the full path to enter the folder
+				$params['dir'] = $baseFolder->getRelativePath($file->getPath());
+			} else {
+				// set parent path as dir
+				$params['dir'] = $baseFolder->getRelativePath($file->getParent()->getPath());
+				// and scroll to the entry
+				$params['scrollto'] = $file->getName();
+			}
+			return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index', $params));
+		}
+		throw new \OCP\Files\NotFoundException();
 	}
 }
