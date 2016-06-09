@@ -81,8 +81,8 @@
 			'keyup input.linkPassText': 'onPasswordKeyUp',
 			'click .linkCheckbox': 'onLinkCheckBoxChange',
 			'click .linkText': 'onLinkTextClick',
-            'change .publicUploadCheckbox': 'onAllowPublicUploadChange',
-            'change .hideFileListCheckbox': 'onHideFileListChange',
+			'change .publicUploadCheckbox': 'onAllowPublicUploadChange',
+			'change .hideFileListCheckbox': 'onHideFileListChange',
 			'click .showPasswordCheckbox': 'onShowPasswordClick'
 		},
 
@@ -221,21 +221,21 @@
 			this.model.saveLinkShare({
 				permissions: permissions
 			});
-        },
+		},
 
-        onHideFileListChange: function () {
-            var $checkbox = this.$('.hideFileListCheckbox');
-            $checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
+		onHideFileListChange: function () {
+			var $checkbox = this.$('.hideFileListCheckbox');
+			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
 
-            var permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ;
-            if ($checkbox.is(':checked')) {
-                permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE;
-            }
+			var permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ;
+			if ($checkbox.is(':checked')) {
+				permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE;
+			}
 
-            this.model.saveLinkShare({
-                permissions: permissions
-            });
-        },
+			this.model.saveLinkShare({
+				permissions: permissions
+			});
+		},
 
 		render: function() {
 			var linkShareTemplate = this.template();
@@ -293,8 +293,8 @@
 				publicUpload: publicUpload && isLinkShare,
 				publicUploadChecked: publicUploadChecked,
 				hideFileListChecked: hideFileListChecked,
-                publicUploadLabel: t('core', 'Allow editing'),
-                hideFileListLabel: t('core', 'Hide file listing'),
+				publicUploadLabel: t('core', 'Allow editing'),
+				hideFileListLabel: t('core', 'Hide file listing'),
 				mailPublicNotificationEnabled: isLinkShare && this.configModel.isMailPublicNotificationEnabled(),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send')
