@@ -90,9 +90,10 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 			</span>
 		</div>
 	</div></header>
-<div id="content-wrapper" <?php if(isset($_['hideFileList']) && $_['hideFileList'] === true){ print_unescaped(" class=\"content-wrapper-upload\"");} ?>>
+<div id="content-wrapper">
 	<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
-		<div id="preview">
+	<div id="content">
+	<div id="preview">
 			<?php if (isset($_['folder'])): ?>
 				<?php print_unescaped($_['folder']); ?>
 			<?php else: ?>
