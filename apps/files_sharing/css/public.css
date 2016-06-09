@@ -159,36 +159,63 @@ thead {
 	cursor: pointer;
 }
 
-#body-public #emptycontent h2 {
+
+
+#public-upload .avatardiv {
+	margin: 0 auto;
+}
+
+#public-upload #emptycontent h2 {
 	margin: 10px 0 5px 0;
 }
 
-#body-public #emptycontent h2+p {
+#public-upload #emptycontent h2+p {
 	margin-bottom: 30px;
 }
 
-#body-public #emptycontent .icon-folder {
+#public-upload #emptycontent .icon-folder {
 	height: 16px;
 	width: 16px;
 	background-size: 16px;
 	display: inline-block;
 	vertical-align: text-top;
 	margin-bottom: 0;
+	margin-right: 5px;
 	opacity: 1;
 }
 
-#body-public #emptycontent .button {
-	background-size: 32px;
-	height: 32px;
-	width: 32px;
-	background-position: 16px; 
+#public-upload #emptycontent .button {
+	background-size: 16px;
+	height: 16px;
+	width: 16px;
+	background-position: 16px;
 	opacity: .7;
 	font-size: 20px;
 	margin: 20px;
 	padding: 10px 20px;
-	padding-left: 64px;
+	padding-left: 42px;
+	font-weight: normal;
 }
 
-#body-public .avatardiv {
-	margin: 0 auto;
+#public-upload #emptycontent ul {
+	width: 160px;
+	margin: 25px auto;
+	text-align: left;
+}
+
+#public-upload #emptycontent li {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 7px 0;
+}
+
+#public-upload #emptycontent li img {
+	vertical-align: text-bottom;
+	margin-right: 5px;
+}
+
+#public-upload li span.icon-loading-small {
+	padding-left: 18px;
+	margin-right: 7px;
 }

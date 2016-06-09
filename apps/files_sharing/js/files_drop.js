@@ -15,24 +15,33 @@
 				// Prevent the default browser drop action:
 				e.preventDefault();
 			});
-			$('#publicUploadDiv').fileupload({
+			$('#public-upload').fileupload({
 				url: OC.linkTo('files', 'ajax/upload.php'),
 				dataType: 'json',
-				//maxFileSize: fileUploadContainer.data('maxupload'),
-				messages: {
-					maxFileSize: t('files_sharing', 'File is bigger than allowed.')
-				},
-				dropZone: $('#publicUploadDiv'),
+				dropZone: $('#public-upload'),
 				formData: {
 					dirToken: $('#sharingToken').val()
+				},
+				add: function(e, data) {
+					_.each(data['files'], function(file) {
+						$('#public-upload ul').append('<li data-name="'+escapeHTML(file.name)+'"><span class="icon-loading-small"></span> '+escapeHTML(file.name)+'</li>');
+					});
+					data.submit();
+				},
+				success: function (response) {
+					var mimeTypeUrl = OC.MimeType.getIconUrl(response['mimetype']);
+					$('#public-upload ul li[data-name="'+escapeHTML(response['filename'])+'"]').html('<img src="'+escapeHTML(mimeTypeUrl)+'"/> '+escapeHTML(response['filename']));
 				}
 			});
-
+			$('#public-upload .button.icon-upload').click(function(e) {
+				e.preventDefault();
+				$('#public-upload #emptycontent input').focus().trigger('click');
+			});
 		}
 	};
 
 	$(document).ready(function() {
-		if($('#uploadOnlyInterface').val() === "1") {
+		if($('#upload-only-interface').val() === "1") {
 			$('.avatardiv').avatar($('#sharingUserId').val(), 128, true);
 		}
 

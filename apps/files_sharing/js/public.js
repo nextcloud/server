@@ -238,11 +238,6 @@ OCA.Sharing.PublicApp = {
 			$(this).select();
 		});
 
-		$(document).on('click', '.content-wrapper-upload', function (e) {
-			//e.preventDefault();
-			$('#file_upload_start').focus().trigger('click');
-		});
-
 		$('.save-form').submit(function (event) {
 			event.preventDefault();
 
@@ -307,9 +302,7 @@ OCA.Sharing.PublicApp = {
 				$('#save-button-confirm')
 				.removeClass("icon-loading-small")
 				.addClass("icon-confirm");
-
-			}
-			else {
+			} else {
 				$('#save-button-confirm')
 				.removeClass("icon-confirm")
 				.addClass("icon-loading-small");
@@ -319,7 +312,6 @@ OCA.Sharing.PublicApp = {
 
 		toggleLoading();
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
-
 		if(remote.substr(-1) !== '/') {
 			remote += '/'
 		};

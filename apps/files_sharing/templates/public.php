@@ -41,7 +41,9 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <input type="hidden" name="previewSupported" value="<?php p($_['previewSupported'] ? 'true' : 'false'); ?>" id="previewSupported">
 <input type="hidden" name="mimetypeIcon" value="<?php p(\OC::$server->getMimeTypeDetector()->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
-<input type="hidden" name="filesize" value="<?php p($_['nonHumanFileSize']); ?>" id="filesize">
+<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)): ?>
+	<input type="hidden" name="filesize" value="<?php p($_['nonHumanFileSize']); ?>" id="filesize">
+<?php endif; ?>
 <input type="hidden" name="maxSizeAnimateGif" value="<?php p($_['maxSizeAnimateGif']); ?>" id="maxSizeAnimateGif">
 
 
@@ -89,7 +91,7 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 		</div>
 	</div></header>
 <div id="content-wrapper" <?php if(isset($_['hideFileList']) && $_['hideFileList'] === true){ print_unescaped(" class=\"content-wrapper-upload\"");} ?>>
-		<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
+	<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
 		<div id="preview">
 			<?php if (isset($_['folder'])): ?>
 				<?php print_unescaped($_['folder']); ?>
@@ -117,13 +119,17 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 			<?php endif; ?>
 		</div>
 		<?php } else { ?>
-		<input type="hidden" id="uploadOnlyInterface" value="1"/>
-			<div id="publicUploadDiv">
+		<input type="hidden" id="upload-only-interface" value="1"/>
+			<div id="public-upload">
 				<div id="emptycontent" class="">
 					<div id="displayavatar"><div class="avatardiv"></div></div>
 					<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
 					<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
+					<input type="file" name="files[]" class="hidden" multiple>
+
 					<a href="#" class="button icon-upload"><?php p($l->t('Select')) ?></a>
+					<ul>
+					</ul>
 				</div>
 			</div>
 		<?php } ?>
