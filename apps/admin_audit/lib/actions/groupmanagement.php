@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
+ * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -18,60 +18,56 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+
 namespace OCA\Admin_Audit\Actions;
 
+
+use OCA\Admin_Audit\Actions\Action;
+use OCP\IGroup;
+use OCP\IUser;
+
 /**
- * Class UserManagement logs all user management related actions.
+ * Class GroupManagement logs all group manager related events
  *
- * @package OCA\Admin_Audit\Actions
+ * @package OCA\Admin_Audit
  */
-class UserManagement extends Action {
+class GroupManagement extends Action {
+
 	/**
-	 * Log creation of users
+	 * log add user to group event
 	 *
-	 * @param array $params
+	 * @param IGroup $group
+	 * @param IUser $user
 	 */
-	public function create(array $params) {
-		$this->log(
-			'User created: "%s"',
-			$params,
+	public function addUser(IGroup $group, IUser $user) {
+		$this->log('User "%s" added to group "%s"',
 			[
-				'uid',
+				'group' => $group->getGID(),
+				'user' => $user->getUID()
+			],
+			[
+				'user', 'group'
 			]
 		);
 	}
 
 	/**
-	 * Log deletion of users
+	 * log remove user from group event
 	 *
-	 * @param array $params
+	 * @param IGroup $group
+	 * @param IUser $user
 	 */
-	public function delete(array $params) {
-		$this->log(
-			'User deleted: "%s"',
-			$params,
+	public function removeUser(IGroup $group, IUser $user) {
+		$this->log('User "%s" removed from group "%s"',
 			[
-				'uid',
+				'group' => $group->getGID(),
+				'user' => $user->getUID()
+			],
+			[
+				'user', 'group'
 			]
 		);
 	}
 
-	/**
-	 * Logs changing of the user scope
-	 *
-	 * @param \OCP\IUser $user
-	 */
-	public function setPassword(\OCP\IUser $user) {
-		if($user->getBackendClassName() === 'Database') {
-			$this->log(
-				'Password of user "%s" has been changed',
-				[
-					'user' => $user->getUID(),
-				],
-				[
-					'user',
-				]
-			);
-		}
-	}
 }
