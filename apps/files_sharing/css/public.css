@@ -158,3 +158,37 @@ thead {
 	opacity: 1;
 	cursor: pointer;
 }
+
+#body-public #emptycontent h2 {
+	margin: 10px 0 5px 0;
+}
+
+#body-public #emptycontent h2+p {
+	margin-bottom: 30px;
+}
+
+#body-public #emptycontent .icon-folder {
+	height: 16px;
+	width: 16px;
+	background-size: 16px;
+	display: inline-block;
+	vertical-align: text-top;
+	margin-bottom: 0;
+	opacity: 1;
+}
+
+#body-public #emptycontent .button {
+	background-size: 32px;
+	height: 32px;
+	width: 32px;
+	background-position: 16px; 
+	opacity: .7;
+	font-size: 20px;
+	margin: 20px;
+	padding: 10px 20px;
+	padding-left: 64px;
+}
+
+#body-public .avatardiv {
+	margin: 0 auto;
+}

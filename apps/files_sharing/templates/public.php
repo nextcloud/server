@@ -9,6 +9,7 @@ OCP\Util::addScript('files_sharing', 'public');
 OCP\Util::addScript('files', 'fileactions');
 OCP\Util::addScript('files', 'fileactionsmenu');
 OCP\Util::addScript('files', 'jquery.fileupload');
+OCP\Util::addScript('files_sharing', 'files_drop');
 
 // JS required for folders
 OCP\Util::addStyle('files', 'files');
@@ -30,6 +31,7 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 	<div id="notification" style="display: none;"></div>
 </div>
 
+<input type="hidden" id="sharingUserId" value="<?php p($_['owner']) ?>">
 <input type="hidden" id="filesApp" name="filesApp" value="1">
 <input type="hidden" id="isPublic" name="isPublic" value="1">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
@@ -115,14 +117,18 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 			<?php endif; ?>
 		</div>
 		<?php } else { ?>
-			<div id="emptycontent" class="">
-			<div class="icon-upload"></div>
-			<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
-			<a href="#" class="inlineblock button">Select</a>
+		<input type="hidden" id="uploadOnlyInterface" value="1"/>
+			<div id="publicUploadDiv">
+				<div id="emptycontent" class="">
+					<div id="displayavatar"><div class="avatardiv"></div></div>
+					<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
+					<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
+					<a href="#" class="button icon-upload"><?php p($l->t('Select')) ?></a>
+				</div>
 			</div>
 		<?php } ?>
 </div>
-<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === true)): ?>
+<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] !== true)): ?>
 	<input type="hidden" name="dir" id="dir" value="" />
 	<div class="hiddenuploadfield">
 	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]"
