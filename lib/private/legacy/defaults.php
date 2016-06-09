@@ -31,7 +31,12 @@
 class OC_Defaults {
 
 	private $theme;
+
+	/** @var \OCP\IL10N */
 	private $l;
+
+	/** @var \OCA\Theming\Template */
+	private $template;
 
 	private $defaultEntity;
 	private $defaultName;
@@ -49,21 +54,45 @@ class OC_Defaults {
 
 	function __construct() {
 		$this->l = \OC::$server->getL10N('lib');
+		$config = \OC::$server->getConfig();
+
+		
+		try {
+			$themingAppEnabled = $config->getSystemValue('installed', false) && \OCP\App::isEnabled('theming');
+		} catch (\Exception $e) {
+			$themingAppEnabled = false;
+		}
+
+		$config = \OC::$server->getConfig();
+
+		if ($themingAppEnabled) {
+			$this->template = new \OCA\Theming\Template(
+				$config,
+				$this->l,
+				\OC::$server->getURLGenerator(),
+				new \OCA\Theming\Init($config, \OC::$server->getLogger())
+			);
+			$this->defaultName = $this->template->getName(); /* short name, used when referring to the software */
+			$this->defaultBaseUrl = $this->template->getUrl();
+			$this->defaultSlogan = $this->template->getSlogan();
+			$this->defaultMailHeaderColor = $this->template->getColor(); /* header color of mail notifications */
+		} else {
+			$this->defaultName = 'Nextcloud';
+			$this->defaultBaseUrl = 'https://nextcloud.com';
+			$this->defaultSlogan = $this->l->t('a safe home for all your data');
+			$this->defaultMailHeaderColor = '#0082c9'; /* header color of mail notifications */
+		}
 		$version = \OCP\Util::getVersion();
 
 		$this->defaultEntity = 'Nextcloud'; /* e.g. company name, used for footers and copyright notices */
-		$this->defaultName = 'Nextcloud'; /* short name, used when referring to the software */
 		$this->defaultTitle = 'Nextcloud'; /* can be a longer name, for titles */
-		$this->defaultBaseUrl = 'https://nextcloud.com';
 		$this->defaultSyncClientUrl = 'https://nextcloud.com/install';
 		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8';
 		$this->defaultiTunesAppId = '543672169';
 		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.owncloud.android';
 		$this->defaultDocBaseUrl = 'https://doc.owncloud.org';
 		$this->defaultDocVersion = $version[0] . '.' . $version[1]; // used to generate doc links
-		$this->defaultSlogan = $this->l->t('a safe home for all your data');
 		$this->defaultLogoClaim = '';
-		$this->defaultMailHeaderColor = '#0082c9'; /* header color of mail notifications */
 
 		$themePath = OC::$SERVERROOT . '/themes/' . OC_Util::getTheme() . '/defaults.php';
 		if (file_exists($themePath)) {

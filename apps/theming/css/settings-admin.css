@@ -1,3 +1,24 @@
 #theming input {
     width: 17em;
 }
+
+#theming .upload-logo-field {
+    display: none;
+}
+
+#theming .theme-undo {
+    cursor: pointer;
+}
+
+#theming .icon {
+    display: inline-block;
+}
+
+#theming .theming-label {
+    min-width: 6em;
+    display: inline-block;
+}
+
+#theming .icon-upload {
+    display: inline-flex;
+}
