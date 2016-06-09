@@ -117,7 +117,7 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 		<?php } else { ?>
 			<div id="emptycontent" class="">
 			<div class="icon-upload"></div>
-			<h2>Upload files to <?php print_unescaped($_['shareOwner']); ?></h2>
+			<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
 			<a href="#" class="inlineblock button">Select</a>
 			</div>
 		<?php } ?>
