@@ -54,7 +54,7 @@ else
 fi
 
 if ! [ -x "$PHPUNIT" ]; then
-	echo "phpunit executable not found, please install phpunit version >= 3.7" >&2
+	echo "phpunit executable not found, please install phpunit version >= 4.4" >&2
 	exit 3
 fi
 
