@@ -76,16 +76,32 @@ class Setting extends Base {
 				''
 			)
 			->addOption(
+				'ignore-missing-user',
+				null,
+				InputOption::VALUE_NONE,
+				'Use this option to ignore errors when the user does not exist'
+			)
+
+			// Get
+			->addOption(
 				'default-value',
 				null,
 				InputOption::VALUE_REQUIRED,
 				'(Only applicable on get) If no default value is set and the config does not exist, the command will exit with 1'
 			)
+
+			// Set
 			->addOption(
-				'ignore-missing-user',
+				'value',
+				null,
+				InputOption::VALUE_REQUIRED,
+				'The new value of the config'
+			)
+			->addOption(
+				'update-only',
 				null,
 				InputOption::VALUE_NONE,
-				'Use this option to ignore errors when the user does not exist'
+				'Only updates the value, if it is not set before, it is not being added'
 			)
 		;
 	}
@@ -97,7 +113,14 @@ class Setting extends Base {
 		}
 
 		if ($input->getArgument('key') === '' && $input->hasParameterOption('--default-value')) {
-			throw new \InvalidArgumentException('The default-value option can only be used when getting a single setting.');
+			throw new \InvalidArgumentException('The "default-value" option can only be used when getting a single setting.');
+		}
+
+		if ($input->hasParameterOption('--value') && $input->hasParameterOption('--default-value')) {
+			throw new \InvalidArgumentException('The "value" option can not be used together with "default-value".');
+		}
+		if ($input->hasParameterOption('--update-only') && !$input->hasParameterOption('--value')) {
+			throw new \InvalidArgumentException('The "update-only" option can only be used together with "value".');
 		}
 	}
 
@@ -115,7 +138,15 @@ class Setting extends Base {
 
 		if ($key !== '') {
 			$value = $this->config->getUserValue($uid, $app, $key, null);
-			if ($value !== null) {
+			if ($input->hasParameterOption('--value')) {
+				if ($input->hasParameterOption('--update-only') && $value === null) {
+					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
+					return 1;
+				}
+
+				$this->config->setUserValue($uid, $app, $key, $input->getOption('value'));
+
+			} else if ($value !== null) {
 				$output->writeln($value);
 			} else {
 				if ($input->hasParameterOption('--default-value')) {
