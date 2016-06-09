@@ -41,6 +41,13 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <input type="hidden" name="previewSupported" value="<?php p($_['previewSupported'] ? 'true' : 'false'); ?>" id="previewSupported">
 <input type="hidden" name="mimetypeIcon" value="<?php p(\OC::$server->getMimeTypeDetector()->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
+<?php
+$upload_max_filesize = OC::$server->getIniWrapper()->getBytes('upload_max_filesize');
+$post_max_size = OC::$server->getIniWrapper()->getBytes('post_max_size');
+$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+?>
+<input type="hidden" name="maxFilesizeUpload" value="<?php p($maxUploadFilesize); ?>" id="maxFilesizeUpload">
+
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)): ?>
 	<input type="hidden" name="filesize" value="<?php p($_['nonHumanFileSize']); ?>" id="filesize">
 <?php endif; ?>
