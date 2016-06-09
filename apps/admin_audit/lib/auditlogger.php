@@ -30,6 +30,7 @@ use OCA\Admin_Audit\Actions\GroupManagement;
 use OCA\Admin_Audit\Actions\Sharing;
 use OCA\Admin_Audit\Actions\Trashbin;
 use OCA\Admin_Audit\Actions\UserManagement;
+use OCA\Admin_Audit\Actions\Versions;
 use OCP\IGroupManager;
 use OCP\ILogger;
 use OCP\IUserSession;
@@ -71,6 +72,7 @@ class AuditLogger {
 		$this->authHooks();
 		$this->fileHooks();
 		$this->trashbinHooks();
+		$this->versionsHooks();
 	}
 
 	/**
@@ -164,6 +166,12 @@ class AuditLogger {
 			$fileActions,
 			'delete'
 		);
+	}
+
+	public function versionsHooks() {
+		$versionsActions = new Versions($this->logger);
+		Util::connectHook('\OCP\Versions', 'rollback', $versionsActions, 'rollback');
+		Util::connectHook('\OCP\Versions', 'delete',$versionsActions, 'delete');
 	}
 
 	/**
