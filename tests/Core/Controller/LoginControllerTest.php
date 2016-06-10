@@ -29,6 +29,7 @@ use OCP\IConfig;
 use OCP\IRequest;
 use OCP\ISession;
 use OCP\IURLGenerator;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 use Test\TestCase;
@@ -36,19 +37,19 @@ use Test\TestCase;
 class LoginControllerTest extends TestCase {
 	/** @var LoginController */
 	private $loginController;
-	/** @var IRequest */
+	/** @var IRequest | \PHPUnit_Framework_MockObject_MockObject */
 	private $request;
-	/** @var IUserManager */
+	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
-	/** @var IConfig */
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var ISession */
+	/** @var ISession | \PHPUnit_Framework_MockObject_MockObject */
 	private $session;
-	/** @var IUserSession */
+	/** @var IUserSession | \PHPUnit_Framework_MockObject_MockObject */
 	private $userSession;
-	/** @var IURLGenerator */
+	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
-	/** @var Manager */
+	/** @var Manager | \PHPUnit_Framework_MockObject_MockObject */
 	private $twoFactorManager;
 
 	public function setUp() {
@@ -296,6 +297,7 @@ class LoginControllerTest extends TestCase {
 	}
 
 	public function testLoginWithValidCredentials() {
+		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMock('\OCP\IUser');
 		$password = 'secret';
 		$indexPageUrl = 'some url';
@@ -323,6 +325,7 @@ class LoginControllerTest extends TestCase {
 	}
 
 	public function testLoginWithValidCredentialsAndRedirectUrl() {
+		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMock('\OCP\IUser');
 		$user->expects($this->any())
 			->method('getUID')
@@ -352,6 +355,7 @@ class LoginControllerTest extends TestCase {
 	}
 	
 	public function testLoginWithTwoFactorEnforced() {
+		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
 		$user = $this->getMock('\OCP\IUser');
 		$user->expects($this->any())
 			->method('getUID')
@@ -380,8 +384,36 @@ class LoginControllerTest extends TestCase {
 			->with('core.TwoFactorChallenge.selectChallenge')
 			->will($this->returnValue($challengeUrl));
 
-		$expected = new \OCP\AppFramework\Http\RedirectResponse($challengeUrl);
+		$expected = new RedirectResponse($challengeUrl);
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', $password, null));
 	}
 
+	public function testToNotLeakLoginName() {
+		/** @var IUser | \PHPUnit_Framework_MockObject_MockObject $user */
+		$user = $this->getMock('\OCP\IUser');
+		$user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('john'));
+
+		$this->userManager->expects($this->exactly(2))
+			->method('checkPassword')
+			->withConsecutive(
+				['john@doe.com', 'just wrong'],
+				['john', 'just wrong']
+				)
+			->willReturn(false);
+		
+		$this->userManager->expects($this->once())
+			->method('getByEmail')
+			->with('john@doe.com')
+			->willReturn([$user]);
+
+		$this->urlGenerator->expects($this->once())
+			->method('linkToRoute')
+			->with('core.login.showLoginForm', ['user' => 'john@doe.com'])
+			->will($this->returnValue(''));
+
+		$expected = new RedirectResponse('');
+		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', 'just wrong', null));
+	}
 }

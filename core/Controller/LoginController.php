@@ -171,6 +171,7 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	public function tryLogin($user, $password, $redirect_url) {
+		$originalUser = $user;
 		// TODO: Add all the insane error handling
 		/* @var $loginResult IUser */
 		$loginResult = $this->userManager->checkPassword($user, $password);
@@ -186,8 +187,8 @@ class LoginController extends Controller {
 			$this->session->set('loginMessages', [
 				['invalidpassword']
 			]);
-			// Read current user and append if possible
-			$args = !is_null($user) ? ['user' => $user] : [];
+			// Read current user and append if possible - we need to return the unmodified user otherwise we will leak the login name
+			$args = !is_null($user) ? ['user' => $originalUser] : [];
 			return new RedirectResponse($this->urlGenerator->linkToRoute('core.login.showLoginForm', $args));
 		}
 		// TODO: remove password checks from above and let the user session handle failures
