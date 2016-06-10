@@ -578,9 +578,8 @@ html.ie8 #body-login form input[type="checkbox"] {
 }
 
 /* Fixes for log in page, TODO should be removed some time */
-#body-login .update,
-#body-login .error {
-	margin: 35px auto;
+#body-login ul.error-wide {
+        margin-top: 35px;
 }
 #body-login .warning {
 	margin: 0 7px 5px 4px;
