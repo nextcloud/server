@@ -1,15 +1,16 @@
 <?php
 /**
  * @copyright 2013 Thomas Tanghus (thomas@tanghus.net)
- * @copyright 2015 Lukas Reschke lukas@owncloud.com
+ * @copyright 2016 Lukas Reschke lukas@owncloud.com
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
 
-namespace OC\AppFramework\Http;
+namespace Test\AppFramework\Http;
 
+use OC\AppFramework\Http\Request;
 use OC\Security\CSRF\CsrfToken;
 use OC\Security\CSRF\CsrfTokenManager;
 use OCP\Security\ISecureRandom;
@@ -740,15 +741,15 @@ class RequestTest extends \Test\TestCase {
 	 */
 	public function testUserAgent($testAgent, $userAgent, $matches) {
 		$request = new Request(
-				[
-						'server' => [
-								'HTTP_USER_AGENT' => $testAgent,
-						]
-				],
-				$this->secureRandom,
-				$this->config,
-				$this->csrfTokenManager,
-				$this->stream
+			[
+				'server' => [
+					'HTTP_USER_AGENT' => $testAgent,
+				]
+			],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
 		);
 
 		$this->assertSame($matches, $request->isUserAgent($userAgent));
@@ -762,11 +763,11 @@ class RequestTest extends \Test\TestCase {
 	 */
 	public function testUndefinedUserAgent($testAgent, $userAgent, $matches) {
 		$request = new Request(
-				[],
-				$this->secureRandom,
-				$this->config,
-				$this->csrfTokenManager,
-				$this->stream
+			[],
+			$this->secureRandom,
+			$this->config,
+			$this->csrfTokenManager,
+			$this->stream
 		);
 
 		$this->assertFalse($request->isUserAgent($userAgent));
@@ -1322,6 +1323,10 @@ class RequestTest extends \Test\TestCase {
 					'get' => [
 						'requesttoken' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
+					'cookies' => [
+						'nc_sameSiteCookiestrict' => 'true',
+						'nc_sameSiteCookielax' => 'true',
+					],
 				],
 				$this->secureRandom,
 				$this->config,
@@ -1348,6 +1353,10 @@ class RequestTest extends \Test\TestCase {
 					'post' => [
 						'requesttoken' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
 					],
+					'cookies' => [
+						'nc_sameSiteCookiestrict' => 'true',
+						'nc_sameSiteCookielax' => 'true',
+					],
 				],
 				$this->secureRandom,
 				$this->config,
@@ -1357,15 +1366,91 @@ class RequestTest extends \Test\TestCase {
 			->getMock();
 		$token = new CsrfToken('AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds');
 		$this->csrfTokenManager
-				->expects($this->once())
-				->method('isTokenValid')
-				->with($token)
-				->willReturn(true);
+			->expects($this->once())
+			->method('isTokenValid')
+			->with($token)
+			->willReturn(true);
 
 		$this->assertTrue($request->passesCSRFCheck());
 	}
 
 	public function testPassesCSRFCheckWithHeader() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'nc_sameSiteCookiestrict' => 'true',
+						'nc_sameSiteCookielax' => 'true',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$token = new CsrfToken('AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds');
+		$this->csrfTokenManager
+			->expects($this->once())
+			->method('isTokenValid')
+			->with($token)
+			->willReturn(true);
+
+		$this->assertTrue($request->passesCSRFCheck());
+	}
+
+	public function testFailsCSRFCheckWithGetAndWithoutCookies() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'get' => [
+						'requesttoken' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$this->csrfTokenManager
+			->expects($this->never())
+			->method('isTokenValid');
+
+		$this->assertFalse($request->passesCSRFCheck());
+	}
+
+	public function testFailsCSRFCheckWithPostAndWithoutCookies() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'post' => [
+						'requesttoken' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$this->csrfTokenManager
+			->expects($this->never())
+			->method('isTokenValid');
+
+		$this->assertFalse($request->passesCSRFCheck());
+	}
+
+	public function testFailsCSRFCheckWithHeaderAndWithoutCookies() {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1381,14 +1466,153 @@ class RequestTest extends \Test\TestCase {
 				$this->stream
 			])
 			->getMock();
-		$token = new CsrfToken('AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds');
 		$this->csrfTokenManager
-				->expects($this->once())
-				->method('isTokenValid')
-				->with($token)
-				->willReturn(true);
+			->expects($this->never())
+			->method('isTokenValid');
 
-		$this->assertTrue($request->passesCSRFCheck());
+		$this->assertFalse($request->passesCSRFCheck());
+	}
+
+	public function testFailsCSRFCheckWithHeaderAndNotAllChecksPassing() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'nc_sameSiteCookiestrict' => 'true',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$this->csrfTokenManager
+			->expects($this->never())
+			->method('isTokenValid');
+
+		$this->assertFalse($request->passesCSRFCheck());
+	}
+
+	public function testPassesStrictCookieCheckWithAllCookies() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'nc_sameSiteCookiestrict' => 'true',
+						'nc_sameSiteCookielax' => 'true',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertTrue($request->passesStrictCookieCheck());
+	}
+
+	public function testFailStrictCookieCheckWithOnlyLaxCookie() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'nc_sameSiteCookielax' => 'true',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertFalse($request->passesStrictCookieCheck());
+	}
+
+	public function testFailStrictCookieCheckWithOnlyStrictCookie() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'nc_sameSiteCookiestrict' => 'true',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertFalse($request->passesStrictCookieCheck());
+	}
+
+	public function testPassesLaxCookieCheck() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'nc_sameSiteCookielax' => 'true',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertTrue($request->passesLaxCookieCheck());
+	}
+
+	public function testFailsLaxCookieCheckWithOnlyStrictCookie() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'server' => [
+						'HTTP_REQUESTTOKEN' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'nc_sameSiteCookiestrict' => 'true',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+
+		$this->assertFalse($request->passesLaxCookieCheck());
 	}
 
 	/**
@@ -1426,10 +1650,10 @@ class RequestTest extends \Test\TestCase {
 
 		$token = new CsrfToken($invalidToken);
 		$this->csrfTokenManager
-				->expects($this->any())
-				->method('isTokenValid')
-				->with($token)
-				->willReturn(false);
+			->expects($this->any())
+			->method('isTokenValid')
+			->with($token)
+			->willReturn(false);
 
 		$this->assertFalse($request->passesCSRFCheck());
 	}

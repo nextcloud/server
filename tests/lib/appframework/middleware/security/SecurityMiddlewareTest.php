@@ -31,6 +31,7 @@ use OC\Appframework\Middleware\Security\Exceptions\CrossSiteRequestForgeryExcept
 use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
 use OC\Appframework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
+use OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicy;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -255,7 +256,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
 			->will($this->returnValue(false));
-
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->will($this->returnValue(true));
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
 	}
@@ -274,19 +277,81 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
 	}
 
-
 	/**
 	 * @PublicPage
 	 */
-	public function testFailCsrfCheck(){
+	public function testPassesCsrfCheck(){
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
+			->will($this->returnValue(true));
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
 			->will($this->returnValue(true));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
 	}
 
+	/**
+	 * @PublicPage
+	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException
+	 */
+	public function testFailCsrfCheck(){
+		$this->request->expects($this->once())
+			->method('passesCSRFCheck')
+			->will($this->returnValue(false));
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->will($this->returnValue(true));
+
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+	}
+
+	/**
+	 * @PublicPage
+	 * @StrictCookieRequired
+	 * @expectedException \OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException
+	 */
+	public function testStrictCookieRequiredCheck() {
+		$this->request->expects($this->never())
+			->method('passesCSRFCheck');
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->will($this->returnValue(false));
+
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+	}
+
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 */
+	public function testNoStrictCookieRequiredCheck() {
+		$this->request->expects($this->never())
+			->method('passesStrictCookieCheck')
+			->will($this->returnValue(false));
+
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @StrictCookieRequired
+	 */
+	public function testPassesStrictCookieRequiredCheck() {
+		$this->request
+			->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+	}
 
 	/**
 	 * @NoCSRFRequired
@@ -359,6 +424,30 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$expected = new RedirectResponse('http://localhost/index.php?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp');
 		$this->assertEquals($expected , $response);
 	}
+
+	public function testAfterExceptionRedirectsToWebRootAfterStrictCookieFail() {
+		$this->request = new Request(
+			[
+				'server' => [
+						'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+						'REQUEST_URI' => 'owncloud/index.php/apps/specialapp',
+					],
+			],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
+
+		$this->middleware = $this->getMiddleware(false, false);
+		$response = $this->middleware->afterException(
+			$this->controller,
+			'test',
+			new StrictCookieMissingException()
+		);
+
+		$expected = new RedirectResponse(\OC::$WEBROOT);
+		$this->assertEquals($expected , $response);
+	}
+
 
 	/**
 	 * @return array

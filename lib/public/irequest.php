@@ -144,6 +144,22 @@ interface IRequest {
 	public function passesCSRFCheck();
 
 	/**
+	* Checks if the strict cookie has been sent with the request
+	*
+	* @return bool
+	* @since 9.0.0
+	*/
+	public function passesStrictCookieCheck();
+
+	/**
+	 * Checks if the lax cookie has been sent with the request
+	 *
+	 * @return bool
+	 * @since 9.1.0
+	 */
+	public function passesLaxCookieCheck();
+
+	/**
 	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging
 	 * If `mod_unique_id` is installed this value will be taken.
 	 *

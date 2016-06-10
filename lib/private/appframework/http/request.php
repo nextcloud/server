@@ -448,6 +448,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return false;
 		}
 
+		if(!$this->passesStrictCookieCheck()) {
+			return false;
+		}
+
 		if (isset($this->items['get']['requesttoken'])) {
 			$token = $this->items['get']['requesttoken'];
 		} elseif (isset($this->items['post']['requesttoken'])) {
@@ -461,6 +465,35 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$token = new CsrfToken($token);
 
 		return $this->csrfTokenManager->isTokenValid($token);
+	}
+
+	/**
+	 * Checks if the strict cookie has been sent with the request
+	 *
+	 * @return bool
+	 * @since 9.1.0
+	 */
+	public function passesStrictCookieCheck() {
+		if($this->getCookie('nc_sameSiteCookiestrict') === 'true'
+			&& $this->passesLaxCookieCheck()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if the lax cookie has been sent with the request
+	 *
+	 * @return bool
+	 * @since 9.1.0
+	 */
+	public function passesLaxCookieCheck() {
+		if($this->getCookie('nc_sameSiteCookielax') === 'true') {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

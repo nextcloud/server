@@ -30,6 +30,7 @@ use OC\Appframework\Middleware\Security\Exceptions\AppNotEnabledException;
 use OC\Appframework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException;
 use OC\Appframework\Middleware\Security\Exceptions\NotAdminException;
 use OC\Appframework\Middleware\Security\Exceptions\NotLoggedInException;
+use OC\AppFramework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OCP\AppFramework\Http\ContentSecurityPolicy;
@@ -132,6 +133,13 @@ class SecurityMiddleware extends Middleware {
 			}
 		}
 
+		// Check for strict cookie requirement
+		if($this->reflector->hasAnnotation('StrictCookieRequired') || !$this->reflector->hasAnnotation('NoCSRFRequired')) {
+			if(!$this->request->passesStrictCookieCheck()) {
+				throw new StrictCookieMissingException();
+			}
+		}
+
 		// CSRF check - also registers the CSRF token since the session may be closed later
 		Util::callRegister();
 		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
@@ -184,6 +192,9 @@ class SecurityMiddleware extends Middleware {
 	 */
 	public function afterException($controller, $methodName, \Exception $exception) {
 		if($exception instanceof SecurityException) {
+			if($exception instanceof StrictCookieMissingException) {
+				return new RedirectResponse(\OC::$WEBROOT);
+			}
 
 			if (stripos($this->request->getHeader('Accept'),'html') === false) {
 				$response = new JSONResponse(
