@@ -28,6 +28,8 @@
 						errors.push('File is too big');
 					}
 
+					$('#drop-upload-done-indicator').addClass('hidden');
+					$('#drop-upload-progress-indicator').removeClass('hidden');
 					_.each(data['files'], function(file) {
 						if(errors.length === 0) {
 							$('#public-upload ul').append('<li data-toggle="tooltip" title="'+escapeHTML(file.name)+'" data-name="'+escapeHTML(file.name)+'"><span class="icon-loading-small"></span> '+escapeHTML(file.name)+'</li>');
@@ -37,7 +39,6 @@
 							OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: file.name}));
 							$('#public-upload ul').append('<li data-toggle="tooltip" title="'+escapeHTML(file.name)+'" data-name="'+escapeHTML(file.name)+'"><img src="'+OC.imagePath('core', 'actions/error.svg')+'"/> '+escapeHTML(file.name)+'</li>');
 							$('[data-toggle="tooltip"]').tooltip();
-
 						}
 					});
 				},
@@ -46,6 +47,16 @@
 						var mimeTypeUrl = OC.MimeType.getIconUrl(response['mimetype']);
 						$('#public-upload ul li[data-name="' + escapeHTML(response['filename']) + '"]').html('<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + escapeHTML(response['filename']));
 						$('[data-toggle="tooltip"]').tooltip();
+					}
+				},
+				progressall: function (e, data) {
+					var progress = parseInt(data.loaded / data.total * 100, 10);
+					if(progress === 100) {
+						$('#drop-upload-done-indicator').removeClass('hidden');
+						$('#drop-upload-progress-indicator').addClass('hidden');
+					} else {
+						$('#drop-upload-done-indicator').addClass('hidden');
+						$('#drop-upload-progress-indicator').removeClass('hidden');
 					}
 				}
 			});
