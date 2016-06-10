@@ -298,6 +298,7 @@ OC.L10N.register(
     "Thank you for your patience." : "Ju faleminderit për durimin.",
     "Two-step verification" : "Verifikim dyhapësh",
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Siguria e zgjeruar është aktivizuar për llogarinë tuaj. Ju lutemi, bëni mirëfilltësimin duke përdorur një faktor të dytë.",
+    "Cancel login" : "Anuloje hyrjen",
     "Please authenticate using the selected factor." : "Ju lutemi, bëni mirëfilltësimin duke përdorur faktorin e përzgjedhur.",
     "An error occured while verifying the token" : "Ndodhi një gabim gjatë verifikimit të token-it",
     "You are accessing the server from an untrusted domain." : "Po hyni në shërbyes nga një përkatësi jo e besuar.",

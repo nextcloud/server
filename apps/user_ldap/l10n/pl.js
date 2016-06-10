@@ -31,6 +31,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Potwierdź usunięcie",
     "Mappings cleared successfully!" : "Mapowanie wyczyszczone!",
     "Error while clearing the mappings." : "Błąd podczas czyszczenia mapowania.",
+    "Mode switch" : "Przełącznik trybów",
     "Select attributes" : "Wybierz atrybuty",
     "_%s group found_::_%s groups found_" : ["%s znaleziona grupa","%s znalezionych grup","%s znalezionych grup"],
     "_%s user found_::_%s users found_" : ["%s znaleziony użytkownik","%s znalezionych użytkowników","%s znalezionych użytkowników"],

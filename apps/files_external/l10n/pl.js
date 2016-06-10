@@ -16,6 +16,7 @@ OC.L10N.register(
     "Saved" : "Zapisano",
     "Username" : "Nazwa użytkownika",
     "Password" : "Hasło",
+    "Credentials required" : "Wymagane poświadczenia",
     "Save" : "Zapisz",
     "Storage with id \"%i\" not found" : "Id magazynu nie został znaleziony",
     "Invalid mount point" : "Nieprawidłowy punkt montowania",
