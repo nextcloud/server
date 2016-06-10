@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.0" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
- <g fill-rule="evenodd" transform="matrix(.86667 0 0 .86667 -172.05 -864.43)" fill="#55739a">
-  <path d="m200.2 999.72c-0.28913 0-0.53125 0.2421-0.53125 0.53117v12.784c0 0.2985 0.23264 0.5312 0.53125 0.5312h15.091c0.2986 0 0.53124-0.2327 0.53124-0.5312l0.0004-10.474c0-0.2889-0.24211-0.5338-0.53124-0.5338l-7.5457 0.0005-2.3076-2.3078z" fill-rule="evenodd" fill="#55739a"/>
+<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.0">
+ <g fill-rule="evenodd" transform="matrix(.86667 0 0 .86667 -172.05 -864.43)" fill="#0082c9">
+  <path d="m200.2 999.72c-0.28913 0-0.53125 0.2421-0.53125 0.53117v12.784c0 0.2985 0.23264 0.5312 0.53125 0.5312h15.091c0.2986 0 0.53124-0.2327 0.53124-0.5312l0.0004-10.474c0-0.2889-0.24211-0.5338-0.53124-0.5338l-7.5457 0.0005-2.3076-2.3078z" fill-rule="evenodd" fill="#0082c9"/>
  </g>
 </svg>

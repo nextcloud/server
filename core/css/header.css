@@ -38,7 +38,7 @@
 	z-index: 2000;
 	height: 45px;
 	line-height: 2.5em;
-	background-color: #1d2d44;
+	background-color: #0082c9;
 	box-sizing: border-box;
 }
 
@@ -80,7 +80,7 @@
 #header .logo-icon {
 	/* display logo so appname can be shown next to it */
 	display: inline-block;
-	background-image: url(../img/logo-icon.svg);
+	background-image: url('../img/logo-icon.svg');
 	background-repeat: no-repeat;
 	width: 62px;
 	height: 34px;
@@ -291,7 +291,7 @@
 
 #settings {
 	float: right;
-	color: #bbb;
+	color: #ddd;
 	cursor: pointer;
 }
 #expand {
@@ -324,17 +324,22 @@
 	top: 45px;
 	z-index: 2000;
 	display: none;
-	background-color: rgba(0, 0, 0, .97);
+	background: rgb(255, 255, 255);
+	border: 1px solid rgb(204, 204, 204);
 	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
 	border-radius: 3px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 	box-sizing: border-box;
 }
+#expanddiv:after {
+	border-color: rgba(0, 0, 0, 0);
+	border-bottom-color: rgba(255, 255, 255, 1);
+}
 	#expanddiv a {
 		display: block;
 		height: 40px;
-		color: #fff;
+		color: #000;
 		padding: 4px 12px 0;
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 		opacity: .7;

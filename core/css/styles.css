@@ -25,12 +25,11 @@ body {
 
 #body-login {
 	text-align: center;
-	background: #1d2d44; /* Old browsers */
-	background: -moz-linear-gradient(top, #35537a 0%, #1d2d44 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d44)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Chrome10+,Safari5.1+ */
-	background: linear-gradient(top, #35537a 0%,#1d2d44 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */
+	background-color: #0082c9;
+	background-image: url('../img/background.jpg');
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .float-spinner {
@@ -109,7 +108,8 @@ body {
 	width: 155px;
 	max-width: 50%;
 	cursor: text;
-	background-color: #112;
+	background-color: transparent;
+	border: 1px solid rgba(255, 255, 255, .5);
 }
 
 /* CONTENT ------------------------------------------------------------------ */
