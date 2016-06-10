@@ -72,8 +72,13 @@ class FilesPlugin extends \Test\TestCase {
 		$this->view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
+		$request = $this->getMock('\OCP\IRequest');
 
-		$this->plugin = new \OCA\DAV\Connector\Sabre\FilesPlugin($this->tree, $this->view);
+		$this->plugin = new \OCA\DAV\Connector\Sabre\FilesPlugin(
+			$this->tree,
+			$this->view,
+			$request
+		);
 		$this->plugin->initialize($this->server);
 	}
 
@@ -237,7 +242,11 @@ class FilesPlugin extends \Test\TestCase {
 	}
 
 	public function testGetPublicPermissions() {
-		$this->plugin = new \OCA\DAV\Connector\Sabre\FilesPlugin($this->tree, $this->view, true);
+		$this->plugin = new \OCA\DAV\Connector\Sabre\FilesPlugin(
+			$this->tree,
+			$this->view,
+			$this->getMock('\OCP\IRequest'),
+			true);
 		$this->plugin->initialize($this->server);
 
 		$propFind = new \Sabre\DAV\PropFind(

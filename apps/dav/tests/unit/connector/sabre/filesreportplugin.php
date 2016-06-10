@@ -336,7 +336,11 @@ class FilesReportPlugin extends \Test\TestCase {
 			->method('getSize')
 			->will($this->returnValue(1024));
 
-		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\FilesPlugin($this->tree, $this->view));
+		$this->server->addPlugin(new \OCA\DAV\Connector\Sabre\FilesPlugin(
+			$this->tree,
+			$this->view,
+			$this->getMock('\OCP\IRequest')
+		));
 		$this->plugin->initialize($this->server);
 		$responses = $this->plugin->prepareResponses($requestedProps, [$node1, $node2]);
 
