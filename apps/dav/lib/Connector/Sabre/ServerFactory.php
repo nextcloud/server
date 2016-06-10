@@ -100,10 +100,9 @@ class ServerFactory {
 		$server->setBaseUri($baseUri);
 
 		// Load plugins
-		$defaults = new \OC_Defaults();
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin($this->config));
-		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, $defaults->getName()));
+		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend));
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));

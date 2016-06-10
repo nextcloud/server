@@ -31,13 +31,14 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\IManager;
+use Sabre\DAV\Auth\Backend\AbstractBasic;
 
 /**
  * Class PublicAuth
  *
  * @package OCA\DAV\Connector
  */
-class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
+class PublicAuth extends AbstractBasic {
 
 	/** @var \OCP\Share\IShare */
 	private $share;
@@ -62,6 +63,10 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 		$this->request = $request;
 		$this->shareManager = $shareManager;
 		$this->session = $session;
+
+		// setup realm
+		$defaults = new \OC_Defaults();
+		$this->realm = $defaults->getName();
 	}
 
 	/**
@@ -99,7 +104,7 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 					if (in_array('XMLHttpRequest', explode(',', $this->request->getHeader('X-Requested-With')))) {
 						// do not re-authenticate over ajax, use dummy auth name to prevent browser popup
 						http_response_code(401);
-						header('WWW-Authenticate', 'DummyBasic real="ownCloud"');
+						header('WWW-Authenticate','DummyBasic realm="' . $this->realm . '"');
 						throw new \Sabre\DAV\Exception\NotAuthenticated('Cannot authenticate over ajax calls');
 					}
 					return false;

@@ -36,6 +36,10 @@ class FedAuth extends AbstractBasic {
 	public function __construct(DbHandler $db) {
 		$this->db = $db;
 		$this->principalPrefix = 'principals/system/';
+
+		// setup realm
+		$defaults = new \OC_Defaults();
+		$this->realm = $defaults->getName();
 	}
 
 	/**
