@@ -141,6 +141,7 @@ class Server {
 						$this->server->tree,
 						$view,
 						\OC::$server->getConfig(),
+						$this->request,
 						false,
 						!\OC::$server->getConfig()->getSystemValue('debug', false)
 					)

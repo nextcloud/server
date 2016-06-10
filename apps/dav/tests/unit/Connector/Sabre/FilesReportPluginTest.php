@@ -343,7 +343,8 @@ class FilesReportPluginTest extends \Test\TestCase {
 			new \OCA\DAV\Connector\Sabre\FilesPlugin(
 				$this->tree,
 				$this->view,
-				$config
+				$config,
+				$this->getMock('\OCP\IRequest')
 			)
 		);
 		$this->plugin->initialize($this->server);

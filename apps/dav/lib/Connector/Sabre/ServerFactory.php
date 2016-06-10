@@ -144,6 +144,7 @@ class ServerFactory {
 					$objectTree,
 					$view,
 					$this->config,
+					$this->request,
 					false,
 					!$this->config->getSystemValue('debug', false)
 				)

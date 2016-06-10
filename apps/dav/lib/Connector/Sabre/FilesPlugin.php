@@ -42,6 +42,7 @@ use \Sabre\HTTP\RequestInterface;
 use \Sabre\HTTP\ResponseInterface;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IConfig;
+use OCP\IRequest;
 
 class FilesPlugin extends ServerPlugin {
 
@@ -96,19 +97,28 @@ class FilesPlugin extends ServerPlugin {
 	private $config;
 
 	/**
+	 * @var IRequest
+	 */
+	private $request;
+
+	/**
 	 * @param Tree $tree
 	 * @param View $view
+	 * @param IConfig $config
+	 * @param IRequest $request
 	 * @param bool $isPublic
 	 * @param bool $downloadAttachment
 	 */
 	public function __construct(Tree $tree,
 								View $view,
 								IConfig $config,
+								IRequest $request,
 								$isPublic = false,
 								$downloadAttachment = true) {
 		$this->tree = $tree;
 		$this->fileView = $view;
 		$this->config = $config;
+		$this->request = $request;
 		$this->isPublic = $isPublic;
 		$this->downloadAttachment = $downloadAttachment;
 	}
@@ -225,7 +235,18 @@ class FilesPlugin extends ServerPlugin {
 
 		// adds a 'Content-Disposition: attachment' header
 		if ($this->downloadAttachment) {
-			$response->addHeader('Content-Disposition', 'attachment');
+			$filename = $node->getName();
+			if ($this->request->isUserAgent(
+				[
+					\OC\AppFramework\Http\Request::USER_AGENT_IE,
+					\OC\AppFramework\Http\Request::USER_AGENT_ANDROID_MOBILE_CHROME,
+					\OC\AppFramework\Http\Request::USER_AGENT_FREEBOX,
+				])) {
+				$response->addHeader('Content-Disposition', 'attachment; filename="' . rawurlencode($filename) . '"');
+			} else {
+				$response->addHeader('Content-Disposition', 'attachment; filename*=UTF-8\'\'' . rawurlencode($filename)
+													 . '; filename="' . rawurlencode($filename) . '"');
+			}
 		}
 
 		if ($node instanceof \OCA\DAV\Connector\Sabre\File) {
