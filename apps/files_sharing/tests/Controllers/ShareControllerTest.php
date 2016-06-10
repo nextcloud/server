@@ -32,6 +32,7 @@ namespace OCA\Files_Sharing\Tests\Controllers;
 use OC\Files\Filesystem;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCA\Files_Sharing\Controllers\ShareController;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -372,6 +373,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'previewEnabled' => true,
 			'previewMaxX' => 1024,
 			'previewMaxY' => 1024,
+			'hideFileList' => false,
+			'shareOwner' => 'ownerDisplay'
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
@@ -430,10 +433,13 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->shareController->showShare('token');
 	}
 
-
 	public function testDownloadShare() {
 		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getPassword')->willReturn('password');
+		$share
+			->expects($this->once())
+			->method('getPermissions')
+			->willReturn(\OCP\Constants::PERMISSION_READ);
 
 		$this->shareManager
 			->expects($this->once())
@@ -449,6 +455,26 @@ class ShareControllerTest extends \Test\TestCase {
 		// Test with a password protected share and no authentication
 		$response = $this->shareController->downloadShare('validtoken');
 		$expectedResponse = new RedirectResponse('redirect');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDownloadShareWithCreateOnlyShare() {
+		$share = $this->getMock('\OCP\Share\IShare');
+		$share->method('getPassword')->willReturn('password');
+		$share
+			->expects($this->once())
+			->method('getPermissions')
+			->willReturn(\OCP\Constants::PERMISSION_CREATE);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('validtoken')
+			->willReturn($share);
+
+		// Test with a password protected share and no authentication
+		$response = $this->shareController->downloadShare('validtoken');
+		$expectedResponse = new DataResponse('Share is read-only');
 		$this->assertEquals($expectedResponse, $response);
 	}
 

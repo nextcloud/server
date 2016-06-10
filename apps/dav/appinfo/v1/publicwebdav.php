@@ -67,7 +67,12 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, func
 	$share = $authBackend->getShare();
 	$owner = $share->getShareOwner();
 	$isWritable = $share->getPermissions() & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
+	$isReadable = $share->getPermissions() & \OCP\Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
+
+	if (!$isReadable) {
+		return false;
+	}
 
 	if (!$isWritable) {
 		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, $storage) {

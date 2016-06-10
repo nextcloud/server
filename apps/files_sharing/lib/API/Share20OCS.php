@@ -602,6 +602,7 @@ class Share20OCS {
 
 			if ($newPermissions !== null &&
 				$newPermissions !== \OCP\Constants::PERMISSION_READ &&
+				$newPermissions !== (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE) &&
 				$newPermissions !== (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE)) {
 				$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 				return new \OC_OCS_Result(null, 400, $this->l->t('Can\'t change permissions for public share links'));
