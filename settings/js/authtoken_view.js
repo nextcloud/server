@@ -27,7 +27,7 @@
 
 	var TEMPLATE_TOKEN =
 		'<tr data-id="{{id}}">'
-		+ '<td>{{name}}</td>'
+		+ '<td><span class="token-name"    title="{{name}}">{{name}}</span></td>'
 		+ '<td><span class="last-activity" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
 		+ '<td><a class="icon-delete" title="' + t('core', 'Disconnect') + '"></a></td>'
 		+ '<tr>';
@@ -80,6 +80,7 @@
 				viewData.lastActivityTime = OC.Util.formatDate(ts, 'LLL');
 				var html = _this.template(viewData);
 				var $html = $(html);
+				$html.find('.token-name').tooltip();
 				$html.find('.last-activity').tooltip();
 				$html.find('.icon-delete').tooltip();
 				list.append($html);
