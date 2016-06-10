@@ -103,7 +103,7 @@ describe('OC.SetupChecks tests', function() {
 		it('should return an error if data directory is not protected', function(done) {
 			var async = OC.SetupChecks.checkDataProtected();
 
-			suite.server.requests[0].respond(200);
+			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, 'file contents');
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
