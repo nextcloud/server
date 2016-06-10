@@ -106,7 +106,12 @@ class Install extends Command {
 		$dbUser = $input->getOption('database-user');
 		$dbPass = $input->getOption('database-pass');
 		$dbName = $input->getOption('database-name');
-		$dbHost = $input->getOption('database-host');
+		if ($db === 'oci') {
+			// an empty hostname needs to be read from the raw parameters
+			$dbHost = $input->getParameterOption('--database-host', '');
+		} else {
+			$dbHost = $input->getOption('database-host');
+		}
 		$dbTablePrefix = 'oc_';
 		if ($input->hasParameterOption('--database-table-prefix')) {
 			$dbTablePrefix = (string) $input->getOption('database-table-prefix');
