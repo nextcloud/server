@@ -293,6 +293,7 @@ table td.filename .thumbnail {
 	float: left;
 	position: absolute;
 	z-index: 4;
+	border: 1px solid #f7f7f7;
 }
 table td.filename input.filename {
 	width: 70%;

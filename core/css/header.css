@@ -152,9 +152,6 @@
 	padding-bottom: 10px;
 	background-color: rgba(0, 0, 0, .97);
 	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
-	border-radius: 3px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
 	display: none;
 	/*overflow-y: auto;
 	overflow-x: hidden;*/
@@ -333,9 +330,6 @@
 	background: rgb(255, 255, 255);
 	border: 1px solid rgb(204, 204, 204);
 	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
-	border-radius: 3px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
 	box-sizing: border-box;
 }
 #expanddiv:after {
