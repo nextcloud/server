@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Virheellinen kansio.",
     "Files" : "Tiedostot",
     "All files" : "Kaikki tiedostot",
+    "File could not be found" : "TIedostoa ei löytynyt",
     "Home" : "Koti",
     "Close" : "Sulje",
     "Favorites" : "Suosikit",

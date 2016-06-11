@@ -26,13 +26,10 @@ use DateTime;
 use DateTimeZone;
 use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
-use OCA\DAV\Connector\Sabre\Principal;
 use OCP\IL10N;
-use Sabre\CalDAV\Xml\Property\SupportedCalendarComponentSet;
 use Sabre\DAV\PropPatch;
 use Sabre\DAV\Xml\Property\Href;
 use Sabre\DAVACL\IACL;
-use Test\TestCase;
 
 /**
  * Class CalDavBackendTest
@@ -41,54 +38,7 @@ use Test\TestCase;
  *
  * @package OCA\DAV\Tests\unit\CalDAV
  */
-class CalDavBackendTest extends TestCase {
-
-	/** @var CalDavBackend */
-	private $backend;
-
-	/** @var Principal | \PHPUnit_Framework_MockObject_MockObject */
-	private $principal;
-
-	const UNIT_TEST_USER = 'principals/users/caldav-unit-test';
-	const UNIT_TEST_USER1 = 'principals/users/caldav-unit-test1';
-	const UNIT_TEST_GROUP = 'principals/groups/caldav-unit-test-group';
-
-	public function setUp() {
-		parent::setUp();
-
-		$this->principal = $this->getMockBuilder('OCA\DAV\Connector\Sabre\Principal')
-			->disableOriginalConstructor()
-			->setMethods(['getPrincipalByPath', 'getGroupMembership'])
-			->getMock();
-		$this->principal->expects($this->any())->method('getPrincipalByPath')
-			->willReturn([
-				'uri' => 'principals/best-friend'
-			]);
-		$this->principal->expects($this->any())->method('getGroupMembership')
-			->withAnyParameters()
-			->willReturn([self::UNIT_TEST_GROUP]);
-
-		$db = \OC::$server->getDatabaseConnection();
-		$this->backend = new CalDavBackend($db, $this->principal);
-
-		$this->tearDown();
-	}
-
-	public function tearDown() {
-		parent::tearDown();
-
-		if (is_null($this->backend)) {
-			return;
-		}
-		$books = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		foreach ($books as $book) {
-			$this->backend->deleteCalendar($book['id']);
-		}
-		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
-		foreach ($subscriptions as $subscription) {
-			$this->backend->deleteSubscription($subscription['id']);
-		}
-	}
+class CalDavBackendTest extends AbstractCalDavBackendTest {
 
 	public function testCalendarOperations() {
 
@@ -232,6 +182,7 @@ EOD;
 		$calendarObjects = $this->backend->getCalendarObjects($calendarId);
 		$this->assertEquals(1, count($calendarObjects));
 		$this->assertEquals($calendarId, $calendarObjects[0]['calendarid']);
+		$this->assertArrayHasKey('classification', $calendarObjects[0]);
 
 		// get the cards
 		$calendarObject = $this->backend->getCalendarObject($calendarId, $uri);
@@ -241,6 +192,7 @@ EOD;
 		$this->assertArrayHasKey('lastmodified', $calendarObject);
 		$this->assertArrayHasKey('etag', $calendarObject);
 		$this->assertArrayHasKey('size', $calendarObject);
+		$this->assertArrayHasKey('classification', $calendarObject);
 		$this->assertEquals($calData, $calendarObject['calendardata']);
 
 		// update the card
@@ -310,6 +262,7 @@ EOD;
 			$this->assertArrayHasKey('lastmodified', $card);
 			$this->assertArrayHasKey('etag', $card);
 			$this->assertArrayHasKey('size', $card);
+			$this->assertArrayHasKey('classification', $card);
 			$this->assertEquals($calData, $card['calendardata']);
 		}
 
@@ -361,49 +314,6 @@ EOD;
 			'end' => [[0], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => null, 'end' => new DateTime('2013-09-12 14:00:00', new DateTimeZone('UTC'))], 'prop-filters' => []]],],
 			'future' => [[3], [], [['name' => 'VEVENT', 'is-not-defined' => false, 'comp-filters' => [], 'time-range' => ['start' => new DateTime('2099-09-12 14:00:00', new DateTimeZone('UTC')), 'end' => null], 'prop-filters' => []]],],
 		];
-	}
-
-	private function createTestCalendar() {
-		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', [
-			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587FF'
-		]);
-		$calendars = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER);
-		$this->assertEquals(1, count($calendars));
-		$this->assertEquals(self::UNIT_TEST_USER, $calendars[0]['principaluri']);
-		/** @var SupportedCalendarComponentSet $components */
-		$components = $calendars[0]['{urn:ietf:params:xml:ns:caldav}supported-calendar-component-set'];
-		$this->assertEquals(['VEVENT','VTODO'], $components->getValue());
-		$color = $calendars[0]['{http://apple.com/ns/ical/}calendar-color'];
-		$this->assertEquals('#1C4587FF', $color);
-		$this->assertEquals('Example', $calendars[0]['uri']);
-		$this->assertEquals('Example', $calendars[0]['{DAV:}displayname']);
-		$calendarId = $calendars[0]['id'];
-
-		return $calendarId;
-	}
-
-	private function createEvent($calendarId, $start = '20130912T130000Z', $end = '20130912T140000Z') {
-
-		$calData = <<<EOD
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:ownCloud Calendar
-BEGIN:VEVENT
-CREATED;VALUE=DATE-TIME:20130910T125139Z
-UID:47d15e3ec8
-LAST-MODIFIED;VALUE=DATE-TIME:20130910T125139Z
-DTSTAMP;VALUE=DATE-TIME:20130910T125139Z
-SUMMARY:Test Event
-DTSTART;VALUE=DATE-TIME:$start
-DTEND;VALUE=DATE-TIME:$end
-CLASS:PUBLIC
-END:VEVENT
-END:VCALENDAR
-EOD;
-		$uri0 = $this->getUniqueID('event');
-		$this->backend->createCalendarObject($calendarId, $uri0, $calData);
-
-		return $uri0;
 	}
 
 	public function testSyncSupport() {
@@ -464,43 +374,20 @@ EOD;
 	/**
 	 * @dataProvider providesCalDataForGetDenormalizedData
 	 */
-	public function testGetDenormalizedData($expectedFirstOccurance, $calData) {
-		$actual = $this->invokePrivate($this->backend, 'getDenormalizedData', [$calData]);
-		$this->assertEquals($expectedFirstOccurance, $actual['firstOccurence']);
+	public function testGetDenormalizedData($expected, $key, $calData) {
+		$actual = $this->backend->getDenormalizedData($calData);
+		$this->assertEquals($expected, $actual[$key]);
 	}
 
 	public function providesCalDataForGetDenormalizedData() {
 		return [
-			[0, "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nDTSTART;VALUE=DATE:16040222\r\nDTEND;VALUE=DATE:16040223\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
-			[null, "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"]
+			'first occurrence before unix epoch starts' => [0, 'firstOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nDTSTART;VALUE=DATE:16040222\r\nDTEND;VALUE=DATE:16040223\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'no first occurrence because yearly' => [null, 'firstOccurence', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Sabre//Sabre VObject 3.5.0//EN\r\nCALSCALE:GREGORIAN\r\nBEGIN:VEVENT\r\nUID:413F269B-B51B-46B1-AFB6-40055C53A4DC\r\nDTSTAMP:20160309T095056Z\r\nRRULE:FREQ=YEARLY\r\nSUMMARY:SUMMARY\r\nTRANSP:TRANSPARENT\r\nEND:VEVENT\r\nEND:VCALENDAR\r\n"],
+			'CLASS:PRIVATE' => [CalDavBackend::CLASSIFICATION_PRIVATE, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//dmfs.org//mimedir.icalendar//EN\r\nBEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nX-LIC-LOCATION:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Berlin:20160419T130000\r\nSUMMARY:Test\r\nCLASS:PRIVATE\r\nTRANSP:OPAQUE\r\nSTATUS:CONFIRMED\r\nDTEND;TZID=Europe/Berlin:20160419T140000\r\nLAST-MODIFIED:20160419T074202Z\r\nDTSTAMP:20160419T074202Z\r\nCREATED:20160419T074202Z\r\nUID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310\r\nEND:VEVENT\r\nEND:VCALENDAR"],
+			'CLASS:PUBLIC' => [CalDavBackend::CLASSIFICATION_PUBLIC, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//dmfs.org//mimedir.icalendar//EN\r\nBEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nX-LIC-LOCATION:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Berlin:20160419T130000\r\nSUMMARY:Test\r\nCLASS:PUBLIC\r\nTRANSP:OPAQUE\r\nSTATUS:CONFIRMED\r\nDTEND;TZID=Europe/Berlin:20160419T140000\r\nLAST-MODIFIED:20160419T074202Z\r\nDTSTAMP:20160419T074202Z\r\nCREATED:20160419T074202Z\r\nUID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310\r\nEND:VEVENT\r\nEND:VCALENDAR"],
+			'CLASS:CONFIDENTIAL' => [CalDavBackend::CLASSIFICATION_CONFIDENTIAL, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//dmfs.org//mimedir.icalendar//EN\r\nBEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nX-LIC-LOCATION:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Berlin:20160419T130000\r\nSUMMARY:Test\r\nCLASS:CONFIDENTIAL\r\nTRANSP:OPAQUE\r\nSTATUS:CONFIRMED\r\nDTEND;TZID=Europe/Berlin:20160419T140000\r\nLAST-MODIFIED:20160419T074202Z\r\nDTSTAMP:20160419T074202Z\r\nCREATED:20160419T074202Z\r\nUID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310\r\nEND:VEVENT\r\nEND:VCALENDAR"],
+			'no class set -> public' => [CalDavBackend::CLASSIFICATION_PUBLIC, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//dmfs.org//mimedir.icalendar//EN\r\nBEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nX-LIC-LOCATION:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Berlin:20160419T130000\r\nSUMMARY:Test\r\nTRANSP:OPAQUE\r\nDTEND;TZID=Europe/Berlin:20160419T140000\r\nLAST-MODIFIED:20160419T074202Z\r\nDTSTAMP:20160419T074202Z\r\nCREATED:20160419T074202Z\r\nUID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310\r\nEND:VEVENT\r\nEND:VCALENDAR"],
+			'unknown class -> private' => [CalDavBackend::CLASSIFICATION_PRIVATE, 'classification', "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//dmfs.org//mimedir.icalendar//EN\r\nBEGIN:VTIMEZONE\r\nTZID:Europe/Berlin\r\nX-LIC-LOCATION:Europe/Berlin\r\nBEGIN:DAYLIGHT\r\nTZOFFSETFROM:+0100\r\nTZOFFSETTO:+0200\r\nTZNAME:CEST\r\nDTSTART:19700329T020000\r\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\nEND:DAYLIGHT\r\nBEGIN:STANDARD\r\nTZOFFSETFROM:+0200\r\nTZOFFSETTO:+0100\r\nTZNAME:CET\r\nDTSTART:19701025T030000\r\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\nEND:STANDARD\r\nEND:VTIMEZONE\r\nBEGIN:VEVENT\r\nDTSTART;TZID=Europe/Berlin:20160419T130000\r\nSUMMARY:Test\r\nCLASS:VERTRAULICH\r\nTRANSP:OPAQUE\r\nSTATUS:CONFIRMED\r\nDTEND;TZID=Europe/Berlin:20160419T140000\r\nLAST-MODIFIED:20160419T074202Z\r\nDTSTAMP:20160419T074202Z\r\nCREATED:20160419T074202Z\r\nUID:2e468c48-7860-492e-bc52-92fa0daeeccf.1461051722310\r\nEND:VEVENT\r\nEND:VCALENDAR"],
 		];
-	}
-
-	private function assertAcl($principal, $privilege, $acl) {
-		foreach($acl as $a) {
-			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
-				$this->assertTrue(true);
-				return;
-			}
-		}
-		$this->fail("ACL does not contain $principal / $privilege");
-	}
-
-	private function assertNotAcl($principal, $privilege, $acl) {
-		foreach($acl as $a) {
-			if ($a['principal'] === $principal && $a['privilege'] === $privilege) {
-				$this->fail("ACL contains $principal / $privilege");
-				return;
-			}
-		}
-		$this->assertTrue(true);
-	}
-
-	private function assertAccess($shouldHaveAcl, $principal, $privilege, $acl) {
-		if ($shouldHaveAcl) {
-			$this->assertAcl($principal, $privilege, $acl);
-		} else {
-			$this->assertNotAcl($principal, $privilege, $acl);
-		}
 	}
 }

@@ -296,6 +296,7 @@
     "Thank you for your patience." : "Vielen Dank für Deine Geduld.",
     "Two-step verification" : "Bestätigung in zwei Schritten",
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Die erweiterte Sicherheit wurde für dich Konto aktiviert. Bitte authentifiziere dich mit einem zweiten Faktor. ",
+    "Cancel login" : "Anmelden abbrechen",
     "Please authenticate using the selected factor." : "Bitte authentifiziere dich mit dem ausgewählten zweiten Faktor. ",
     "An error occured while verifying the token" : "Es ist ein Fehler bei der Verifizierung des Tokens aufgetreten",
     "You are accessing the server from an untrusted domain." : "Du greifst von einer nicht vertrauenswürdigen Domain auf den Server zu.",

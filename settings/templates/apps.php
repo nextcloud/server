@@ -91,7 +91,21 @@ script(
 			<a id="adminDocumentation" class="appslink" href="{{documentation.admin}}" target="_blank" rel="noreferrer"><?php p($l->t('Admin documentation'));?> ↗</a>
 			</span>
 			{{/if}}
+
+			{{#if documentation.developer}}
+			<span class="developerDocumentation">
+			<a id="developerDocumentation" class="appslink" href="{{documentation.developer}}" target="_blank" rel="noreferrer"><?php p($l->t('Developer documentation'));?> ↗</a>
+			</span>
+			{{/if}}
 		</p>
+		{{/if}}
+
+		{{#if website}}
+		<a id="userDocumentation" class="appslink" href="{{website}}" target="_blank" rel="noreferrer"><?php p($l->t('Visit website'));?> ↗</a>
+		{{/if}}
+
+		{{#if bugs}}
+		<a id="adminDocumentation" class="appslink" href="{{bugs}}" target="_blank" rel="noreferrer"><?php p($l->t('Report a bug'));?> ↗</a>
 		{{/if}}
 	</div><!-- end app-description-container -->
 	<div class="app-description-toggle-show" role="link"><?php p($l->t("Show description …"));?></div>

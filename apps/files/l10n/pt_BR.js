@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Diretório inválido.",
     "Files" : "Arquivos",
     "All files" : "Todos os arquivos",
+    "File could not be found" : "O arquivo não foi encontrado",
     "Home" : "Home",
     "Close" : "Fechar",
     "Favorites" : "Favoritos",

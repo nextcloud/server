@@ -73,6 +73,11 @@ class FilesPluginTest extends TestCase {
 	 */
 	private $config;
 
+	/**
+	 * @var \OCP\IRequest | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $request;
+
 	public function setUp() {
 		parent::setUp();
 		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
@@ -88,11 +93,13 @@ class FilesPluginTest extends TestCase {
 		$this->config->expects($this->any())->method('getSystemValue')
 			->with($this->equalTo('data-fingerprint'), $this->equalTo(''))
 			->willReturn('my_fingerprint');
+		$this->request = $this->getMock('\OCP\IRequest');
 
 		$this->plugin = new FilesPlugin(
 			$this->tree,
 			$this->view,
-			$this->config
+			$this->config,
+			$this->request
 		);
 		$this->plugin->initialize($this->server);
 	}
@@ -268,6 +275,7 @@ class FilesPluginTest extends TestCase {
 			$this->tree,
 			$this->view,
 			$this->config,
+			$this->getMock('\OCP\IRequest'),
 			true);
 		$this->plugin->initialize($this->server);
 
@@ -483,5 +491,61 @@ class FilesPluginTest extends TestCase {
 			->willReturn($node);
 
 		$this->plugin->checkMove('FolderA/test.txt', 'test.txt');
+	}
+
+	public function downloadHeadersProvider() {
+		return [
+			[
+				false,
+				'attachment; filename*=UTF-8\'\'somefile.xml; filename="somefile.xml"'
+			],
+			[
+				true,
+				'attachment; filename="somefile.xml"'
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider downloadHeadersProvider
+	 */
+	public function testDownloadHeaders($isClumsyAgent, $contentDispositionHeader) {
+		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
+		$response = $this->getMockBuilder('Sabre\HTTP\ResponseInterface')
+				->disableOriginalConstructor()
+				->getMock();
+
+		$request
+			->expects($this->once())
+			->method('getPath')
+			->will($this->returnValue('test/somefile.xml'));
+
+		$node = $this->getMockBuilder('\OCA\DAV\Connector\Sabre\File')
+			->disableOriginalConstructor()
+			->getMock();
+		$node
+			->expects($this->once())
+			->method('getName')
+			->will($this->returnValue('somefile.xml'));
+
+		$this->tree
+			->expects($this->once())
+			->method('getNodeForPath')
+			->with('test/somefile.xml')
+			->will($this->returnValue($node));
+
+		$this->request
+			->expects($this->once())
+			->method('isUserAgent')
+			->will($this->returnValue($isClumsyAgent));
+
+		$response
+			->expects($this->once())
+			->method('addHeader')
+			->with('Content-Disposition', $contentDispositionHeader);
+
+		$this->plugin->httpGet($request, $response);
 	}
 }

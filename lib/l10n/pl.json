@@ -28,6 +28,7 @@
     "_%n minute ago_::_%n minutes ago_" : ["%n minute temu","%n minut temu","%n minut temu"],
     "seconds ago" : "sekund temu",
     "Empty filename is not allowed" : "Pusta nazwa nie jest dozwolona.",
+    "4-byte characters are not supported in file names" : "Znaki 4-bajtowe są niedozwolone w nazwach plików",
     "File name contains at least one invalid character" : "Nazwa pliku zawiera co najmniej jeden nieprawidłowy znak",
     "File name is too long" : "Nazwa pliku zbyt długa",
     "App directory already exists" : "Katalog aplikacji już isnieje",

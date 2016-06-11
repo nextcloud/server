@@ -296,6 +296,7 @@
     "Thank you for your patience." : "Спасибо за терпение.",
     "Two-step verification" : "Двухшаговая проверка",
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Для вашей учётной записи включена повышенная безопасность. Пожалуйста, аутентифицируйтесь через второй фактор.",
+    "Cancel login" : "Отменить вход",
     "Please authenticate using the selected factor." : "Пожалуйста, аутентифицируйтесь выбранным фактором.",
     "An error occured while verifying the token" : "При проверке токена возникла ошибка.",
     "You are accessing the server from an untrusted domain." : "Вы пытаетесь получить доступ к серверу с недоверенного домена.",

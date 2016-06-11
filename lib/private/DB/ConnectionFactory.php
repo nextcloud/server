@@ -104,6 +104,10 @@ class ConnectionFactory {
 				break;
 			case 'oci':
 				$eventManager->addEventSubscriber(new OracleSessionInit);
+				// the driverOptions are unused in dbal and need to be mapped to the parameters
+				if (isset($additionalConnectionParams['driverOptions'])) {
+					$additionalConnectionParams = array_merge($additionalConnectionParams, $additionalConnectionParams['driverOptions']);
+				}
 				break;
 			case 'sqlite3':
 				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];

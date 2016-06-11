@@ -5,7 +5,7 @@
 	<description>ownCloud WebDAV endpoint</description>
 	<licence>AGPL</licence>
 	<author>owncloud.org</author>
-	<version>0.2.4</version>
+	<version>0.2.5</version>
 	<default_enable/>
 	<types>
 		<filesystem/>
@@ -20,4 +20,9 @@
 	<background-jobs>
 		<job>OCA\DAV\CardDAV\Sync\SyncJob</job>
 	</background-jobs>
+	<repair-steps>
+		<post-migration>
+			<job>OCA\DAV\Migration\Classification</job>
+		</post-migration>
+	</repair-steps>
 </info>

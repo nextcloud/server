@@ -454,4 +454,57 @@ class Group_LDAPTest extends \Test\TestCase {
 		$groupBackend->getUserGroups('userX');
 	}
 
+	public function testGetGroupsByMember() {
+		$access = $this->getAccessMock();
+
+		$access->connection->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function($name) {
+				if($name === 'useMemberOfToDetectMembership') {
+					return 0;
+				} else if($name === 'ldapDynamicGroupMemberURL') {
+					return '';
+				} else if($name === 'ldapNestedGroups') {
+					return false;
+				}
+				return 1;
+			}));
+
+		$dn = 'cn=userX,dc=foobar';
+
+		$access->connection->hasPrimaryGroups = false;
+
+		$access->expects($this->exactly(2))
+			->method('username2dn')
+			->will($this->returnValue($dn));
+
+		$access->expects($this->never())
+			->method('readAttribute')
+			->with($dn, 'memberOf');
+
+		$group1 = [
+			'cn' => 'group1',
+			'dn' => ['cn=group1,ou=groups,dc=domain,dc=com'],
+		];
+		$group2 = [
+			'cn' => 'group2',
+			'dn' => ['cn=group2,ou=groups,dc=domain,dc=com'],
+		];
+
+		$access->expects($this->once())
+			->method('ownCloudGroupNames')
+			->with([$group1, $group2])
+			->will($this->returnValue(['group1', 'group2']));
+
+		$access->expects($this->once())
+			->method('fetchListOfGroups')
+			->will($this->returnValue([$group1, $group2]));
+
+		$groupBackend = new GroupLDAP($access);
+		$groups = $groupBackend->getUserGroups('userX');
+		$this->assertEquals(['group1', 'group2'], $groups);
+
+		$groupsAgain = $groupBackend->getUserGroups('userX');
+		$this->assertEquals(['group1', 'group2'], $groupsAgain);
+	}
 }
