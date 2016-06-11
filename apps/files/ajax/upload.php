@@ -161,6 +161,15 @@ if (\OC\Files\Filesystem::isValidPath($dir) === true) {
 			$resolution = null;
 		}
 
+		if(isset($_POST['dirToken'])) {
+			// If it is a read only share the resolution will always be autorename
+			$shareManager = \OC::$server->getShareManager();
+			$share = $shareManager->getShareByToken((string)$_POST['dirToken']);
+			if (!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+				$resolution = 'autorename';
+			}
+		}
+
 		// target directory for when uploading folders
 		$relativePath = '';
 		if(!empty($_POST['file_directory'])) {
@@ -247,6 +256,21 @@ if (\OC\Files\Filesystem::isValidPath($dir) === true) {
 }
 
 if ($error === false) {
+	// Do not leak file information if it is a read-only share
+	if(isset($_POST['dirToken'])) {
+		$shareManager = \OC::$server->getShareManager();
+		$share = $shareManager->getShareByToken((string)$_POST['dirToken']);
+		if (!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+			$newResults = [];
+			foreach($result as $singleResult) {
+				$fileName = $singleResult['originalname'];
+				$newResults['filename'] = $fileName;
+				$newResults['mimetype'] = \OC::$server->getMimeTypeDetector()->detectPath($fileName);
+			}
+			$result = $newResults;
+		}
+	}
+
 	OCP\JSON::encodedPrint($result);
 } else {
 	OCP\JSON::error(array(array('data' => array_merge(array('message' => $error, 'code' => $errorCode), $storageStats))));

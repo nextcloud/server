@@ -584,6 +584,7 @@ class Share20OCS {
 
 			if ($newPermissions !== null &&
 				$newPermissions !== \OCP\Constants::PERMISSION_READ &&
+				$newPermissions !== (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE) &&
 				$newPermissions !== (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE)) {
 				return new \OC_OCS_Result(null, 400, 'can\'t change permission for public link share');
 			}

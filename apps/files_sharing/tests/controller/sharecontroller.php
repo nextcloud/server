@@ -1,8 +1,9 @@
 <?php
 /**
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <icewind@owncloud.com>
  * @author Roeland Jago Douma <rullzer@owncloud.com>
@@ -26,9 +27,12 @@
  *
  */
 
-namespace OCA\Files_Sharing\Controllers;
+namespace OCA\Files_Sharing\Tests\Controllers;
 
 use OC\Files\Filesystem;
+use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCA\Files_Sharing\Controllers\ShareController;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\AppFramework\Http\NotFoundResponse;
 use OCP\AppFramework\Http\RedirectResponse;
@@ -66,8 +70,11 @@ class ShareControllerTest extends \Test\TestCase {
 	private $shareManager;
 	/** @var IUserManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
+	/** @var  FederatedShareProvider | \PHPUnit_Framework_MockObject_MockObject */
+	private $federatedShareProvider;
 
 	protected function setUp() {
+		parent::setUp();
 		$this->appName = 'files_sharing';
 
 		$this->shareManager = $this->getMockBuilder('\OC\Share20\Manager')->disableOriginalConstructor()->getMock();
@@ -76,6 +83,12 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->previewManager = $this->getMock('\OCP\IPreview');
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->userManager = $this->getMock('\OCP\IUserManager');
+		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
+			->disableOriginalConstructor()->getMock();
+		$this->federatedShareProvider->expects($this->any())
+			->method('isOutgoingServer2serverShareEnabled')->willReturn(true);
+		$this->federatedShareProvider->expects($this->any())
+			->method('isIncomingServer2serverShareEnabled')->willReturn(true);
 
 		$this->shareController = new \OCA\Files_Sharing\Controllers\ShareController(
 			$this->appName,
@@ -88,7 +101,8 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->shareManager,
 			$this->session,
 			$this->previewManager,
-			$this->getMock('\OCP\Files\IRootFolder')
+			$this->getMock('\OCP\Files\IRootFolder'),
+			$this->federatedShareProvider
 		);
 
 
@@ -116,6 +130,7 @@ class ShareControllerTest extends \Test\TestCase {
 		// Set old user
 		\OC_User::setUserId($this->oldUser);
 		\OC_Util::setupFS($this->oldUser);
+		parent::tearDown();
 	}
 
 	public function testShowAuthenticateNotAuthenticated() {
@@ -173,7 +188,7 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-	public function testAutehnticateInvalidToken() {
+	public function testAuthenticateInvalidToken() {
 		$this->shareManager
 			->expects($this->once())
 			->method('getShareByToken')
@@ -247,11 +262,11 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('access')
 			->with($this->callback(function(array $data) {
 				return $data['itemType'] === 'file' &&
-					$data['itemSource'] === 100 &&
-					$data['uidOwner'] === 'initiator' &&
-					$data['token'] === 'token' &&
-					$data['errorCode'] === 403 &&
-					$data['errorMessage'] === 'Wrong password';
+				$data['itemSource'] === 100 &&
+				$data['uidOwner'] === 'initiator' &&
+				$data['token'] === 'token' &&
+				$data['errorCode'] === 403 &&
+				$data['errorMessage'] === 'Wrong password';
 			}));
 
 		$response = $this->shareController->authenticate('token', 'invalidpassword');
@@ -323,6 +338,8 @@ class ShareControllerTest extends \Test\TestCase {
 				[
 					['max_filesize_animated_gifs_public_sharing', 10, 10],
 					['enable_previews', true, true],
+					['preview_max_x', 1024, 1024],
+					['preview_max_y', 1024, 1024],
 				]
 			);
 		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
@@ -354,6 +371,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'maxSizeAnimateGif' => 10,
 			'previewSupported' => true,
 			'previewEnabled' => true,
+			'hideFileList' => false,
+			'shareOwner' => 'ownerDisplay'
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();
@@ -412,10 +431,13 @@ class ShareControllerTest extends \Test\TestCase {
 		$this->shareController->showShare('token');
 	}
 
-
 	public function testDownloadShare() {
 		$share = $this->getMock('\OCP\Share\IShare');
 		$share->method('getPassword')->willReturn('password');
+		$share
+			->expects($this->once())
+			->method('getPermissions')
+			->willReturn(\OCP\Constants::PERMISSION_READ);
 
 		$this->shareManager
 			->expects($this->once())
@@ -431,6 +453,26 @@ class ShareControllerTest extends \Test\TestCase {
 		// Test with a password protected share and no authentication
 		$response = $this->shareController->downloadShare('validtoken');
 		$expectedResponse = new RedirectResponse('redirect');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testDownloadShareWithCreateOnlyShare() {
+		$share = $this->getMock('\OCP\Share\IShare');
+		$share->method('getPassword')->willReturn('password');
+		$share
+			->expects($this->once())
+			->method('getPermissions')
+			->willReturn(\OCP\Constants::PERMISSION_CREATE);
+
+		$this->shareManager
+			->expects($this->once())
+			->method('getShareByToken')
+			->with('validtoken')
+			->willReturn($share);
+
+		// Test with a password protected share and no authentication
+		$response = $this->shareController->downloadShare('validtoken');
+		$expectedResponse = new DataResponse('Share is read-only');
 		$this->assertEquals($expectedResponse, $response);
 	}
 

@@ -307,6 +307,7 @@ class ShareController extends Controller {
 		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($share->getNode()->getSize());
 
 		// Show file list
+		$hideFileList = false;
 		if ($share->getNode() instanceof \OCP\Files\Folder) {
 			$shareTmpl['dir'] = $rootFolder->getRelativePath($path->getPath());
 
@@ -322,12 +323,14 @@ class ShareController extends Controller {
 
 			$uploadLimit = Util::uploadLimit();
 			$maxUploadFilesize = min($freeSpace, $uploadLimit);
+			$hideFileList = $share->getPermissions() & \OCP\Constants::PERMISSION_READ ? false : true;
 
 			$folder = new Template('files', 'list', '');
 			$folder->assign('dir', $rootFolder->getRelativePath($path->getPath()));
 			$folder->assign('dirToken', $token);
 			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
 			$folder->assign('isPublic', true);
+			$folder->assign('hideFileList', $hideFileList);
 			$folder->assign('publicUploadEnabled', 'no');
 			$folder->assign('uploadMaxFilesize', $maxUploadFilesize);
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
@@ -338,6 +341,8 @@ class ShareController extends Controller {
 			$shareTmpl['folder'] = $folder->fetchPage();
 		}
 
+		$shareTmpl['hideFileList'] = $hideFileList;
+		$shareTmpl['shareOwner'] = $this->userManager->get($share->getShareOwner())->getDisplayName();
 		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', array('token' => $token));
 		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
 		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
@@ -360,12 +365,15 @@ class ShareController extends Controller {
 	 * @param string $files
 	 * @param string $path
 	 * @param string $downloadStartSecret
-	 * @return void|RedirectResponse
+	 * @return void|OCP\AppFramework\Http\Response
 	 */
 	public function downloadShare($token, $files = null, $path = '', $downloadStartSecret = '') {
 		\OC_User::setIncognitoMode(true);
 
 		$share = $this->shareManager->getShareByToken($token);
+		if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+			return new OCP\AppFramework\Http\DataResponse('Share is read-only');
+		}
 
 		// Share is password protected - check whether the user is permitted to access the share
 		if ($share->getPassword() !== null && !$this->linkShareAuth($share)) {
