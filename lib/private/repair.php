@@ -35,6 +35,7 @@ use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\CopyRewriteBaseToConfig;
 use OC\Repair\DropOldJobs;
+use OC\Repair\EncryptionCompatibility;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
 use OC\Repair\SqliteAutoincrement;
@@ -139,6 +140,7 @@ class Repair extends BasicEmitter {
 	public static function getBeforeUpgradeRepairSteps() {
 		$connection = \OC::$server->getDatabaseConnection();
 		$steps = [
+			new EncryptionCompatibility(),
 			new InnoDB(),
 			new Collation(\OC::$server->getConfig(), $connection),
 			new SqliteAutoincrement($connection),
