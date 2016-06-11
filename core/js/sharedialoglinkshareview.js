@@ -30,13 +30,13 @@
 			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload-{{cid}}" class="checkbox publicUploadCheckbox" {{{publicUploadChecked}}} />' +
 			'<label for="sharingDialogAllowPublicUpload-{{cid}}">{{publicUploadLabel}}</label>' +
 			'</div>' +
-			'{{#if hideFileList}}' +
+			'        {{#if hideFileList}}' +
 			'<div id="hideFileListWrapper">' +
 			'    <span class="icon-loading-small hidden"></span>' +
 			'    <input type="checkbox" value="1" name="hideFileList" id="sharingDialogHideFileList-{{cid}}" class="checkbox hideFileListCheckbox" {{{hideFileListChecked}}} />' +
 			'<label for="sharingDialogHideFileList-{{cid}}">{{hideFileListLabel}}</label>' +
 			'</div>' +
-			'{{/if}}' +
+			'        {{/if}}' +
 			'    {{/if}}' +
 			'    {{#if showPasswordCheckBox}}' +
 			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
