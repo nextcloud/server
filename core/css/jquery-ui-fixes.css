@@ -17,7 +17,7 @@
 }
 .ui-widget-header {
 	border: 1px solid #0082c9;
-	background: #0082c9 url('images/ui-bg_flat_35_1d2d44_40x100.png') 50% 50% repeat-x;
+	background: #0082c9;
 	color: #ffffff;
 }
 .ui-widget-header a {

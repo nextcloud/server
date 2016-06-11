@@ -660,7 +660,7 @@ td.avatar {
 	margin: 0 auto;
 	max-width: 60%;
 	z-index: 8000;
-	background-color: #fc4;
+	background-color: #fff;
 	border: 0;
 	padding: 1px 8px;
 	display: none;
@@ -689,6 +689,7 @@ td.avatar {
 	position: absolute;
 	right: 0;
 	top: 0;
+	margin-top: 2px;
 }
 #notification .row.closeable {
 	padding-right: 20px;
