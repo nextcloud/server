@@ -480,6 +480,70 @@ class OC {
 		@ini_set('gd.jpeg_ignore_warning', 1);
 	}
 
+	/**
+	 * Send the same site cookies
+	 */
+	private static function sendSameSiteCookies() {
+		$cookieParams = session_get_cookie_params();
+		$secureCookie = ($cookieParams['secure'] === true) ? 'secure; ' : '';
+		$policies = [
+			'lax',
+			'strict',
+		];
+		foreach($policies as $policy) {
+			header(
+				sprintf(
+					'Set-Cookie: nc_sameSiteCookie%s=true; path=%s; httponly;' . $secureCookie . 'expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=%s',
+					$policy,
+					$cookieParams['path'],
+					$policy
+				),
+				false
+			);
+		}
+	}
+
+	/**
+	 * Same Site cookie to further mitigate CSRF attacks. This cookie has to
+	 * be set in every request if cookies are sent to add a second level of
+	 * defense against CSRF.
+	 *
+	 * If the cookie is not sent this will set the cookie and reload the page.
+	 * We use an additional cookie since we want to protect logout CSRF and
+	 * also we can't directly interfere with PHP's session mechanism.
+	 */
+	private static function performSameSiteCookieProtection() {
+		if(count($_COOKIE) > 0) {
+			$request = \OC::$server->getRequest();
+			$requestUri = $request->getScriptName();
+			$processingScript = explode('/', $requestUri);
+			$processingScript = $processingScript[count($processingScript)-1];
+
+			// For the "index.php" endpoint only a lax cookie is required.
+			if($processingScript === 'index.php') {
+				if(!$request->passesLaxCookieCheck()) {
+					self::sendSameSiteCookies();
+					header('Location: '.$_SERVER['REQUEST_URI']);
+					exit();
+				}
+			} else {
+				// All other endpoints require the lax and the strict cookie
+				if(!$request->passesStrictCookieCheck()) {
+					self::sendSameSiteCookies();
+					// Debug mode gets access to the resources without strict cookie
+					// due to the fact that the SabreDAV browser also lives there.
+					if(!\OC::$server->getConfig()->getSystemValue('debug', false)) {
+						http_response_code(\OCP\AppFramework\Http::STATUS_SERVICE_UNAVAILABLE);
+						exit();
+					}
+				}
+			}
+		} elseif(!isset($_COOKIE['nc_sameSiteCookielax']) || !isset($_COOKIE['nc_sameSiteCookiestrict'])) {
+			self::sendSameSiteCookies();
+		}
+	}
+
+
 	public static function init() {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
@@ -588,6 +652,8 @@ class OC {
 		if(self::$server->getRequest()->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', true);
 		}
+
+		self::performSameSiteCookieProtection();
 
 		if (!defined('OC_CONSOLE')) {
 			$errors = OC_Util::checkServer(\OC::$server->getConfig());
