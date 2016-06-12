@@ -43,6 +43,7 @@ OCP\JSON::setContentTypeHeader('text/plain');
 // If no token is sent along, rely on login only
 
 $errorCode = null;
+$errorFileName = null;
 
 $l = \OC::$server->getL10N('files');
 if (empty($_POST['dirToken'])) {
@@ -225,6 +226,7 @@ if (\OC\Files\Filesystem::isValidPath($dir) === true) {
 
 				} else {
 					$error = $l->t('Upload failed. Could not find uploaded file');
+					$errorFileName = $files['name'][$i];
 				}
 			} catch(Exception $ex) {
 				$error = $ex->getMessage();
@@ -272,5 +274,9 @@ if ($error === false) {
 	}
 	OCP\JSON::encodedPrint($result);
 } else {
-	OCP\JSON::error(array(array('data' => array_merge(array('message' => $error, 'code' => $errorCode), $storageStats))));
+	OCP\JSON::error(array(array('data' => array_merge(array(
+		'message' => $error,
+		'code' => $errorCode,
+		'filename' => $errorFileName
+	), $storageStats))));
 }

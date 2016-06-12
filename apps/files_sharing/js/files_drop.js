@@ -9,12 +9,24 @@
  */
 
 (function ($) {
+	var TEMPLATE =
+		'<li data-toggle="tooltip" title="{{name}}" data-name="{{name}}">' +
+		'{{#if isUploading}}' +
+		'<span class="icon-loading-small"></span> {{name}}' +
+		'{{else}}' +
+		'<img src="' + OC.imagePath('core', 'actions/error.svg') + '"/> {{name}}' +
+		'{{/if}}' +
+		'</li>';
 	var Drop = {
+		/** @type {Function} **/
+		_template: undefined,
+
 		initialize: function () {
 			$(document).bind('drop dragover', function (e) {
 				// Prevent the default browser drop action:
 				e.preventDefault();
 			});
+			var output = this.template();
 			$('#public-upload').fileupload({
 				url: OC.linkTo('files', 'ajax/upload.php'),
 				dataType: 'json',
@@ -32,12 +44,12 @@
 					$('#drop-upload-progress-indicator').removeClass('hidden');
 					_.each(data['files'], function(file) {
 						if(errors.length === 0) {
-							$('#public-upload ul').append('<li data-toggle="tooltip" title="'+escapeHTML(file.name)+'" data-name="'+escapeHTML(file.name)+'"><span class="icon-loading-small"></span> '+escapeHTML(file.name)+'</li>');
+							$('#public-upload ul').append(output({isUploading: true, name: escapeHTML(file.name)}));
 							$('[data-toggle="tooltip"]').tooltip();
 							data.submit();
 						} else {
 							OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: file.name}));
-							$('#public-upload ul').append('<li data-toggle="tooltip" title="'+escapeHTML(file.name)+'" data-name="'+escapeHTML(file.name)+'"><img src="'+OC.imagePath('core', 'actions/error.svg')+'"/> '+escapeHTML(file.name)+'</li>');
+							$('#public-upload ul').append(output({isUploading: false, name: escapeHTML(file.name)}));
 							$('[data-toggle="tooltip"]').tooltip();
 						}
 					});
@@ -47,7 +59,13 @@
 						var mimeTypeUrl = OC.MimeType.getIconUrl(response['mimetype']);
 						$('#public-upload ul li[data-name="' + escapeHTML(response['filename']) + '"]').html('<img src="' + escapeHTML(mimeTypeUrl) + '"/> ' + escapeHTML(response['filename']));
 						$('[data-toggle="tooltip"]').tooltip();
+					} else {
+						var name = response[0]['data']['filename'];
+						OC.Notification.showTemporary(OC.L10N.translate('files_sharing', 'Could not upload "{filename}"', {filename: name}));
+						$('#public-upload ul li[data-name="' + escapeHTML(name) + '"]').html(output({isUploading: false, name: escapeHTML(name)}));
+						$('[data-toggle="tooltip"]').tooltip();
 					}
+
 				},
 				progressall: function (e, data) {
 					var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -64,6 +82,17 @@
 				e.preventDefault();
 				$('#public-upload #emptycontent input').focus().trigger('click');
 			});
+		},
+
+		/**
+		 * @returns {Function} from Handlebars
+		 * @private
+		 */
+		template: function () {
+			if (!this._template) {
+				this._template = Handlebars.compile(TEMPLATE);
+			}
+			return this._template;
 		}
 	};
 
