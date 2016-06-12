@@ -764,8 +764,7 @@ class ApiTest extends TestCase {
 		// we should get exactly one result
 		$this->assertCount(1, $data);
 
-		$expectedPath = $this->folder . $this->subfolder;
-		$this->assertEquals($expectedPath, $data[0]['path']);
+		$this->assertEquals($this->subfolder, $data[0]['path']);
 
 		$this->shareManager->deleteShare($share2);
 		$this->shareManager->deleteShare($share1);
@@ -801,6 +800,9 @@ class ApiTest extends TestCase {
 			->setPermissions(1);
 		$share3 = $this->shareManager->createShare($share3);
 
+		/*
+		 * Test as recipient
+		 */
 		$request = $this->createRequest(['path' => '/', 'subfiles' => 'true']);
 		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER3);
 		$result = $ocs->getShares();
@@ -811,9 +813,37 @@ class ApiTest extends TestCase {
 
 		// we should get exactly one result
 		$this->assertCount(1, $data);
+		$this->assertEquals($this->subsubfolder, $data[0]['path']);
 
-		$expectedPath = $this->folder . $this->subfolder . $this->subsubfolder;
-		$this->assertEquals($expectedPath, $data[0]['path']);
+		/*
+		 * Test for first owner/initiator
+		 */
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER1);
+		$result = $ocs->getShares();
+		$this->assertTrue($result->succeeded());
+
+		// test should return one share within $this->folder
+		$data = $result->getData();
+
+		// we should get exactly one result
+		$this->assertCount(1, $data);
+		$this->assertEquals($this->folder . $this->subfolder, $data[0]['path']);
+
+		/*
+		 * Test for second initiator
+		 */
+		$request = $this->createRequest([]);
+		$ocs = $this->createOCS($request, self::TEST_FILES_SHARING_API_USER2);
+		$result = $ocs->getShares();
+		$this->assertTrue($result->succeeded());
+
+		// test should return one share within $this->folder
+		$data = $result->getData();
+
+		// we should get exactly one result
+		$this->assertCount(1, $data);
+		$this->assertEquals($this->subfolder . $this->subsubfolder, $data[0]['path']);
 
 		$this->shareManager->deleteShare($share1);
 		$this->shareManager->deleteShare($share2);
@@ -922,8 +952,7 @@ class ApiTest extends TestCase {
 		// we should get exactly one result
 		$this->assertCount(1, $data);
 
-		$expectedPath = $this->folder.$this->subfolder.$this->filename;
-		$this->assertEquals($expectedPath, $data[0]['path']);
+		$this->assertEquals($this->filename, $data[0]['path']);
 
 		$this->shareManager->deleteShare($share1);
 		$this->shareManager->deleteShare($share2);

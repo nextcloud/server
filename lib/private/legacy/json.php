@@ -64,7 +64,9 @@ class OC_JSON{
 	 * @deprecated Use annotation based ACLs from the AppFramework instead
 	 */
 	public static function checkLoggedIn() {
-		if( !OC_User::isLoggedIn()) {
+		$twoFactorAuthManger = \OC::$server->getTwoFactorAuthManager();
+		if( !OC_User::isLoggedIn()
+			|| $twoFactorAuthManger->needsSecondFactor()) {
 			$l = \OC::$server->getL10N('lib');
 			http_response_code(\OCP\AppFramework\Http::STATUS_UNAUTHORIZED);
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error'), 'error' => 'authentication_error' )));

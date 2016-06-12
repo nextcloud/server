@@ -32,6 +32,8 @@ OC.L10N.register(
     "Could not get result from server." : "Nie można uzyskać wyniku z serwera.",
     "Uploading..." : "Wgrywanie....",
     "..." : "...",
+    "{seconds} second{plural_s} left" : "Pozostało sekund: {seconds}",
+    "{seconds}s" : "{seconds} s",
     "File upload is in progress. Leaving the page now will cancel the upload." : "Wysyłanie pliku jest w toku. Jeśli opuścisz tę stronę, wysyłanie zostanie przerwane.",
     "Actions" : "Akcje",
     "Download" : "Pobierz",

@@ -31,10 +31,12 @@ use OCA\DAV\CardDAV\SyncService;
 use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\HookManager;
+use OCA\DAV\Migration\Classification;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\IManager;
 use OCP\IUser;
+use Sabre\VObject\Reader;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Application extends App {
@@ -104,6 +106,14 @@ class Application extends App {
 				$c->query('CalDavBackend'),
 				$c->query('CardDavBackend'),
 				$g
+			);
+		});
+
+		$container->registerService('OCA\DAV\Migration\Classification', function ($c) {
+			/** @var IAppContainer $c */
+			return new Classification(
+				$c->query('CalDavBackend'),
+				$c->getServer()->getUserManager()
 			);
 		});
 	}

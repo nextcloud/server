@@ -1,8 +1,19 @@
 OC.L10N.register(
     "comments",
     {
+    "Type in a new comment..." : "Напиши нов коментар...",
+    "Delete comment" : "Изтрий коментар",
     "Cancel" : "Отказ",
+    "Edit comment" : "Редактирай коментра",
+    "[Deleted user]" : "[Изтрит потребител]",
+    "Comments" : "Коментари",
+    "No other comments available" : "Няма други коментари",
+    "More comments..." : "Още коментари...",
     "Save" : "Запазване",
-    "Comment" : "Коментар"
+    "Allowed characters {count} of {max}" : "Позволени символи {count} от {max}",
+    "{count} unread comments" : "{count} нечетени коментари",
+    "Comment" : "Коментар",
+    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Коментари</strong> на файлове <em>(винаги изписвани в stream-а)</em>",
+    "You commented" : "Вие коментирахте"
 },
 "nplurals=2; plural=(n != 1);");

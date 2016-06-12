@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Drejtori e pavlefshme.",
     "Files" : "Kartela",
     "All files" : "Krejt kartelat",
+    "File could not be found" : "Kartela s’u gjet dot",
     "Home" : "Kreu",
     "Close" : "Mbylle",
     "Favorites" : "Të parapëlqyera",

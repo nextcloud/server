@@ -1,6 +1,9 @@
 { "translations": {
+    "Update notifications" : "Frissítési értesítés",
     "{version} is available. Get more information on how to update." : "{version} rendelkezésre áll. További információ a frissítéshez.",
     "Updated channel" : "Frissített csatorna",
+    "ownCloud core" : "ownCloud mag",
+    "Update for %1$s to version %2$s is available." : "%1$s frissíthető %2$s verzióra.",
     "Updater" : "Frissítéskezelő",
     "A new version is available: %s" : "Új verzió érhető el: %s",
     "Open updater" : "Frissítő megnyitása",

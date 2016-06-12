@@ -27,6 +27,8 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nie można odszyfrować tego pliku, prawdopodobnie jest to plik udostępniony. Poproś właściciela pliku o ponowne udostępnianie pliku Tobie.",
     "The share will expire on %s." : "Ten zasób wygaśnie %s",
     "Cheers!" : "Dzięki!",
+    "Enable recovery key" : "Włącz klucz odzyskiwania",
+    "Disable recovery key" : "Wyłącz klucz odzyskiwania",
     "Recovery key password" : "Hasło klucza odzyskiwania",
     "Repeat recovery key password" : "Powtórz hasło klucza odzyskiwania",
     "Change recovery key password:" : "Zmień hasło klucza odzyskiwania",
