@@ -381,9 +381,7 @@ class OC_App {
 
 		$settings = array();
 		// by default, settings only contain the help menu
-		/*
-		 * FIXME: Add help sidebar back once documentation is properly branded.
-		 * if (OC_Util::getEditionString() === '' &&
+		if (OC_Util::getEditionString() === '' &&
 			\OC::$server->getSystemConfig()->getValue('knowledgebaseenabled', true) == true
 		) {
 			$settings = array(
@@ -395,7 +393,7 @@ class OC_App {
 					"icon" => $urlGenerator->imagePath("settings", "help.svg")
 				)
 			);
-		}*/
+		}
 
 		// if the user is logged-in
 		if (OC_User::isLoggedIn()) {
