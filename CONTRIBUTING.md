@@ -1,6 +1,6 @@
 ## Submitting issues
 
-If you have questions about how to install or use Nextcloud, please direct these to the [mailing list][mailinglist] or our [forum][forum]. We are also available on [IRC][irc].
+If you have questions about how to install or use Nextcloud, please direct these to our [forum][forum]. We are also available on [IRC][irc].
 
 ### Short version
 
@@ -20,7 +20,6 @@ If you have questions about how to install or use Nextcloud, please direct these
 Help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
 
 [template]: https://raw.github.com/nextcloud/core/master/issue_template.md
-[mailinglist]: https://newsletter.nextcloud.com/?p=subscribe&id=1
 [forum]: https://help.nextcloud.com/
 [irc]: https://webchat.freenode.net/?channels=nextcloud
 
