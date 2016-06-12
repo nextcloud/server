@@ -154,21 +154,17 @@
 			// Default permissions are Edit (CRUD) and Share
 			// Check if these permissions are possible
 			var permissions = OC.PERMISSION_READ;
-			if (shareType === OC.Share.SHARE_TYPE_REMOTE) {
-				permissions = OC.PERMISSION_CREATE | OC.PERMISSION_UPDATE | OC.PERMISSION_READ;
-			} else {
-				if (this.updatePermissionPossible()) {
-					permissions = permissions | OC.PERMISSION_UPDATE;
-				}
-				if (this.createPermissionPossible()) {
-					permissions = permissions | OC.PERMISSION_CREATE;
-				}
-				if (this.deletePermissionPossible()) {
-					permissions = permissions | OC.PERMISSION_DELETE;
-				}
-				if (this.configModel.get('isResharingAllowed') && (this.sharePermissionPossible())) {
-					permissions = permissions | OC.PERMISSION_SHARE;
-				}
+			if (this.updatePermissionPossible()) {
+				permissions = permissions | OC.PERMISSION_UPDATE;
+			}
+			if (this.createPermissionPossible()) {
+				permissions = permissions | OC.PERMISSION_CREATE;
+			}
+			if (this.deletePermissionPossible()) {
+				permissions = permissions | OC.PERMISSION_DELETE;
+			}
+			if (this.configModel.get('isResharingAllowed') && (this.sharePermissionPossible())) {
+				permissions = permissions | OC.PERMISSION_SHARE;
 			}
 
 			attributes.permissions = permissions;
@@ -274,6 +270,13 @@
 		 */
 		isPublicUploadAllowed: function() {
 			return this.get('allowPublicUploadStatus');
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
+		isHideFileListSet: function() {
+			return this.get('hideFileListStatus');
 		},
 
 		/**
@@ -411,12 +414,6 @@
 			if(!_.isObject(share)) {
 				throw "Unknown Share";
 			}
-			if(   share.share_type === OC.Share.SHARE_TYPE_REMOTE
-			   && (   permission === OC.PERMISSION_SHARE
-				   || permission === OC.PERMISSION_DELETE))
-			{
-				return false;
-			}
 			return (share.permissions & permission) === permission;
 		},
 
@@ -487,7 +484,7 @@
 					} else {
 						deferred.resolve();
 					}
-			});
+				});
 
 			return deferred.promise();
 		},
@@ -557,8 +554,8 @@
 		 */
 		editPermissionPossible: function() {
 			return    this.createPermissionPossible()
-				   || this.updatePermissionPossible()
-				   || this.deletePermissionPossible();
+				|| this.updatePermissionPossible()
+				|| this.deletePermissionPossible();
 		},
 
 		/**
@@ -566,8 +563,8 @@
 		 */
 		hasEditPermission: function(shareIndex) {
 			return    this.hasCreatePermission(shareIndex)
-				   || this.hasUpdatePermission(shareIndex)
-				   || this.hasDeletePermission(shareIndex);
+				|| this.hasUpdatePermission(shareIndex)
+				|| this.hasDeletePermission(shareIndex);
 		},
 
 		_getUrl: function(base, params) {
@@ -695,6 +692,16 @@
 				});
 			}
 
+			var hideFileListStatus = false;
+			if(!_.isUndefined(data.shares)) {
+				$.each(data.shares, function (key, value) {
+					if (value.share_type === OC.Share.SHARE_TYPE_LINK) {
+						hideFileListStatus = (value.permissions & OC.PERMISSION_READ) ? false : true;
+						return true;
+					}
+				});
+			}
+
 			/** @type {OC.Share.Types.ShareInfo[]} **/
 			var shares = _.map(data.shares, function(share) {
 				// properly parse some values because sometimes the server
@@ -767,7 +774,8 @@
 				shares: shares,
 				linkShare: linkShare,
 				permissions: permissions,
-				allowPublicUploadStatus: allowPublicUploadStatus
+				allowPublicUploadStatus: allowPublicUploadStatus,
+				hideFileListStatus: hideFileListStatus
 			};
 		},
 
