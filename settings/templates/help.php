@@ -16,19 +16,19 @@
 	<?php } ?>
 
 		<li>
-			<a href="https://owncloud.org/support" target="_blank" rel="noreferrer">
+			<a href="https://docs.nextcloud.org/" target="_blank" rel="noreferrer">
 				<?php p($l->t('Online documentation')); ?> ↗
 			</a>
 		</li>
 		<li>
-			<a href="https://forum.owncloud.org" target="_blank" rel="noreferrer">
+			<a href="https://help.nextcloud.com" target="_blank" rel="noreferrer">
 				<?php p($l->t('Forum')); ?> ↗
 			</a>
 		</li>
 
 	<?php if($_['admin']) { ?>
 		<li>
-			<a href="https://github.com/owncloud/core/blob/master/CONTRIBUTING.md"
+			<a href="https://github.com/nextcloud/server/blob/master/CONTRIBUTING.md"
 				target="_blank" rel="noreferrer">
 				<?php p($l->t('Issue tracker')); ?> ↗
 			</a>
@@ -36,7 +36,7 @@
 	<?php } ?>
 
 	<li>
-		<a href="https://owncloud.com/subscriptions/" target="_blank" rel="noreferrer">
+		<a href="https://nextcloud.com/enterprise/" target="_blank" rel="noreferrer">
 			<?php p($l->t('Commercial support')); ?> ↗
 		</a>
 	</li>
