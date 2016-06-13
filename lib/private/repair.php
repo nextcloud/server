@@ -31,6 +31,7 @@ namespace OC;
 use OC\Hooks\BasicEmitter;
 use OC\Hooks\Emitter;
 use OC\Repair\AssetCache;
+use OC\Repair\AvatarPermissions;
 use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\CopyRewriteBaseToConfig;
@@ -116,6 +117,7 @@ class Repair extends BasicEmitter {
 			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			new AvatarPermissions(\OC::$server->getDatabaseConnection()),
 		];
 	}
 
