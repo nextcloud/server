@@ -31,7 +31,7 @@ script(
 
 <?php if($_['appstoreEnabled']): ?>
 	<li>
-		<a class="app-external" target="_blank" href="https://owncloud.org/dev"><?php p($l->t('Developer documentation'));?> ↗</a>
+		<a class="app-external" target="_blank" href="https://docs.nextcloud.org/server/9/developer_manual/"><?php p($l->t('Developer documentation'));?> ↗</a>
 	</li>
 <?php endif; ?>
 </script>
@@ -103,12 +103,12 @@ script(
 
 	{{#if missingMinOwnCloudVersion}}
 		<div class="app-dependencies">
-			<p><?php p($l->t('This app has no minimum ownCloud version assigned. This will be an error in ownCloud 11 and later.')); ?></p>
+			<p><?php p($l->t('This app has no minimum Nextcloud version assigned. This will be an error in Nextcloud 11 and later.')); ?></p>
 		</div>
 	{{else}}
 		{{#if missingMaxOwnCloudVersion}}
 			<div class="app-dependencies">
-				<p><?php p($l->t('This app has no maximum ownCloud version assigned. This will be an error in ownCloud 11 and later.')); ?></p>
+				<p><?php p($l->t('This app has no maximum Nextcloud version assigned. This will be an error in Nextcloud 11 and later.')); ?></p>
 			</div>
 		{{/if}}
 	{{/if}}
