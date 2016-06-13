@@ -159,12 +159,6 @@ if($_['passwordChangeSupported']) {
 			</option>
 		<?php endforeach;?>
 	</select>
-	<?php if (OC_Util::getEditionString() === ''): ?>
-	<a href="https://www.transifex.com/projects/p/owncloud/"
-		target="_blank" rel="noreferrer">
-		<em><?php p($l->t('Help translate'));?></em>
-	</a>
-	<?php endif; ?>
 </form>
 
 <div id="clientsbox" class="section clientsbox">
@@ -185,11 +179,11 @@ if($_['passwordChangeSupported']) {
 	<?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
 		<?php print_unescaped($l->t('If you want to support the project
-		<a href="https://owncloud.org/contribute"
+		<a href="https://nextcloud.com/contribute"
 			target="_blank" rel="noreferrer">join development</a>
 		or
-		<a href="https://owncloud.org/promote"
-			target="_blank" rel="noreferrer">spread the word</a>!'));?>
+		<a href="https://help.nextcloud.com/"
+			target="_blank" rel="noreferrer">help other users</a>!'));?>
 	</p>
 	<?php endif; ?>
 
