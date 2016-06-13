@@ -72,6 +72,9 @@ try {
 } catch(\OCP\Files\NotFoundException $e) {
 	OCP\JSON::error(['data' => ['message' => 'File not found']]);
 	return;
+} catch(\OCP\Files\StorageNotAvailableException $e) {
+	OCP\JSON::error(['data' => ['message' => 'Storage not available']]);
+	return;
 }
 
 if ($success) {
