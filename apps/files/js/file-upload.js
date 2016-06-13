@@ -494,7 +494,7 @@ OC.Upload = {
 				 * @param {object} e
 				 * @param {object} data
 				 */
-				done:function(e, data) {
+				done: function(e, data) {
 					OC.Upload.log('done', e, data);
 					// handle different responses (json or body from iframe for ie)
 					var response;
@@ -667,7 +667,12 @@ OC.Upload = {
 						OC.Upload._hideProgressBar();
 					}
 				});
-
+				fileupload.on('fileuploaddragover', function(){
+					$('#app-content').addClass('file-drag');
+				});
+				fileupload.on('fileuploaddragleave fileuploaddrop', function (){
+					$('#app-content').removeClass('file-drag');
+				});
 			} else {
 				// for all browsers that don't support the progress bar
 				// IE 8 & 9

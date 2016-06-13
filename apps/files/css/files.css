@@ -68,7 +68,13 @@
 }
 
 .app-files #app-content {
+	transition: background-color 0.3s ease;
 	overflow-x: hidden;
+}
+
+.file-drag, .file-drag #filestable tbody tr, .file-drag #filestable tbody tr:hover {
+	transition: background-color 0.3s ease;
+	background-color: rgb(179, 230, 255);
 }
 
 /* icons for sidebar */
@@ -113,6 +119,7 @@
 }
 
 #filestable tbody tr {
+	transition: background-color 0.3s ease;
 	background-color: #fff;
 	height: 40px;
 }
@@ -125,6 +132,7 @@
 #filestable tbody tr.selected,
 #filestable tbody tr.searchresult,
 table tr.mouseOver td {
+	transition: background-color 0.3s ease;
 	background-color: #f8f8f8;
 }
 tbody a { color:#000; }
