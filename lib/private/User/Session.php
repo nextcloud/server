@@ -348,10 +348,11 @@ class Session implements IUserSession, Emitter {
 	 *
 	 * @param string $user
 	 * @param string $password
+	 * @param IRequest $request
 	 * @throws LoginException
 	 * @return boolean
 	 */
-	public function logClientIn($user, $password) {
+	public function logClientIn($user, $password, IRequest $request) {
 		$isTokenPassword = $this->isTokenPassword($password);
 		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
 			// TODO: throw LoginException instead (https://github.com/owncloud/core/pull/24616)
@@ -368,6 +369,9 @@ class Session implements IUserSession, Emitter {
 			}
 			return false;
 		}
+
+		$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
+
 		return true;
 	}
 
@@ -428,7 +432,8 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryBasicAuthLogin(IRequest $request) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
-			$result = $this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW']);
+			$request = \OC::$server->getRequest();
+			$result = $this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request);
 			if ($result === true) {
 				/**
 				 * Add DAV authenticated. This should in an ideal world not be
