@@ -57,7 +57,7 @@ if ($_['showShareIT']) {
 				style="padding:10px;background-color:#0082c9;color:#fff;border-radius:3px;padding-left:4px;">
 				<img src="<?php p($_['owncloud_logo_path']); ?>"
 					style="width:50px;position:relative;top:8px;">
-				<?php p($l->t('Share with me via ownCloud')); ?>
+				<?php p($l->t('Share with me via Nextcloud')); ?>
 			</a>
 		</p>
 
@@ -67,7 +67,7 @@ if ($_['showShareIT']) {
 	style="padding:10px;background-color:#0082c9;color:#fff;border-radius:3px;padding-left:4px;">
 	<img src="<?php  p(\OC::$server->getURLGenerator()->getAbsoluteURL($_['owncloud_logo_path'])); ?>"
 		style="width:50px;position:relative;top:8px;">
-	<?php p($l->t('Share with me via ownCloud')); ?>
+	<?php p($l->t('Share with me via Nextcloud')); ?>
 
 </a></xmp>
 		</p>
