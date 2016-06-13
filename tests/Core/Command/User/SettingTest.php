@@ -37,9 +37,6 @@ class SettingTest extends TestCase {
 	/** @var \Symfony\Component\Console\Output\OutputInterface|\PHPUnit_Framework_MockObject_MockObject */
 	protected $consoleOutput;
 
-	/** @var \Symfony\Component\Console\Command\Command */
-	protected $command;
-
 	protected function setUp() {
 		parent::setUp();
 
@@ -58,8 +55,23 @@ class SettingTest extends TestCase {
 		$this->consoleOutput = $this->getMockBuilder('Symfony\Component\Console\Output\OutputInterface')
 			->disableOriginalConstructor()
 			->getMock();
+	}
 
-		$this->command = new Setting($this->userManager, $this->config, $this->connection);
+	public function getCommand(array $methods = []) {
+		if (empty($methods)) {
+			return new Setting($this->userManager, $this->config, $this->connection);
+		} else {
+			$mock = $this->getMockBuilder('OC\Core\Command\User\Setting')
+				->setConstructorArgs([
+					$this->userManager,
+					$this->config,
+					$this->connection,
+				])
+				->setMethods($methods)
+				->getMock();
+			return $mock;
+		}
+
 	}
 
 	public function dataCheckInput() {
@@ -201,11 +213,25 @@ class SettingTest extends TestCase {
 				->willReturn($user);
 		}
 
+		$command = $this->getCommand();
 		try {
-			$this->invokePrivate($this->command, 'checkInput', [$this->consoleInput]);
+			$this->invokePrivate($command, 'checkInput', [$this->consoleInput]);
 			$this->assertFalse($expectedException);
 		} catch (\InvalidArgumentException $e) {
 			$this->assertEquals($expectedException, $e->getMessage());
 		}
+	}
+
+	public function testCheckInputExceptionCatch() {
+		$command = $this->getCommand(['checkInput']);
+		$command->expects($this->once())
+			->method('checkInput')
+			->willThrowException(new \InvalidArgumentException('test'));
+
+		$this->consoleOutput->expects($this->once())
+			->method('writeln')
+			->with('<error>test</error>');
+
+		$this->assertEquals(1, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 }
