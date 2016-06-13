@@ -136,20 +136,20 @@ class Setting extends Base {
 		if ($input->hasParameterOption('--value') && $input->hasParameterOption('--default-value')) {
 			throw new \InvalidArgumentException('The "value" option can not be used together with "default-value".');
 		}
-		if ($input->hasParameterOption('--update-only') && !$input->hasParameterOption('--value')) {
+		if ($input->getOption('update-only') && !$input->hasParameterOption('--value')) {
 			throw new \InvalidArgumentException('The "update-only" option can only be used together with "value".');
 		}
 
-		if ($input->getArgument('key') === '' && $input->hasParameterOption('--delete')) {
+		if ($input->getArgument('key') === '' && $input->getOption('delete')) {
 			throw new \InvalidArgumentException('The "delete" option can only be used when specifying a key.');
 		}
-		if ($input->hasParameterOption('--delete') && $input->hasParameterOption('--default-value')) {
-			throw new \InvalidArgumentException('The "value" option can not be used together with "default-value".');
+		if ($input->getOption('delete') && $input->hasParameterOption('--default-value')) {
+			throw new \InvalidArgumentException('The "delete" option can not be used together with "default-value".');
 		}
-		if ($input->hasParameterOption('--delete') && $input->hasParameterOption('--value')) {
-			throw new \InvalidArgumentException('The "value" option can not be used together with "value".');
+		if ($input->getOption('delete') && $input->hasParameterOption('--value')) {
+			throw new \InvalidArgumentException('The "delete" option can not be used together with "value".');
 		}
-		if ($input->hasParameterOption('--error-if-not-exists') && !$input->hasParameterOption('--delete')) {
+		if ($input->getOption('error-if-not-exists') && !$input->getOption('delete')) {
 			throw new \InvalidArgumentException('The "error-if-not-exists" option can only be used together with "delete".');
 		}
 	}
