@@ -22,6 +22,8 @@
 
 namespace OC\Encryption;
 
+use OC\Cache\CappedMemoryCache;
+
 class File implements \OCP\Encryption\IFile {
 
 	/** @var Util */
@@ -36,6 +38,7 @@ class File implements \OCP\Encryption\IFile {
 
 	public function __construct(Util $util) {
 		$this->util = $util;
+		$this->cache = new CappedMemoryCache();
 	}
 
 
