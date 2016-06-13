@@ -21,6 +21,7 @@
 
 namespace OC\Authentication\TwoFactorAuth;
 
+use Exception;
 use OC;
 use OC\App\AppManager;
 use OCP\AppFramework\QueryException;
@@ -112,7 +113,8 @@ class Manager {
 					$provider = OC::$server->query($class);
 					$providers[$provider->getId()] = $provider;
 				} catch (QueryException $exc) {
-					// Provider class can not be resolved, ignore it
+					// Provider class can not be resolved
+					throw new Exception("Could not load two-factor auth provider $class");
 				}
 			}
 		}
