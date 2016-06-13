@@ -36,6 +36,7 @@ use OC\Repair\DropOldJobs;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
 use OC\Repair\RemoveOldShares;
+use OC\Repair\RemoveRootShares;
 use OC\Repair\SharePropagation;
 use OC\Repair\SqliteAutoincrement;
 use OC\Repair\DropOldTables;
@@ -136,6 +137,7 @@ class Repair implements IOutput{
 			new SharePropagation(\OC::$server->getConfig()),
 			new RemoveOldShares(\OC::$server->getDatabaseConnection()),
 			new AvatarPermissions(\OC::$server->getDatabaseConnection()),
+			new RemoveRootShares(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager(), \OC::$server->getRootFolder()),
 		];
 	}
 
