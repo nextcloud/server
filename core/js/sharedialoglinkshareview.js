@@ -42,17 +42,17 @@
 			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
 			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
 			'    {{/if}}' +
+			'<div id="linkPass" class="linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
+			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
+			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
+			'    <span class="icon-loading-small hidden"></span>' +
+			'</div>' +
 			'    {{#if mailPublicNotificationEnabled}}' +
 			'<form id="emailPrivateLink" class="emailPrivateLinkForm">' +
 			'    <input id="email" class="emailField" value="{{email}}" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
 			'    <input id="emailButton" class="emailButton" type="submit" value="{{mailButtonText}}" />' +
 			'</form>' +
 			'    {{/if}}' +
-			'<div id="linkPass" class="linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
-			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'</div>' +
 			'{{else}}' +
 			// FIXME: this doesn't belong in this view
 			'{{#if noSharingPlaceholder}}<input id="shareWith-{{cid}}" class="shareWithField" type="text" placeholder="{{noSharingPlaceholder}}" disabled="disabled"/>{{/if}}' +
