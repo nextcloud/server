@@ -124,12 +124,16 @@ class UserMountCache implements IUserMountCache {
 	}
 
 	private function addToCache(ICachedMountInfo $mount) {
-		$this->connection->insertIfNotExist('*PREFIX*mounts', [
-			'storage_id' => $mount->getStorageId(),
-			'root_id' => $mount->getRootId(),
-			'user_id' => $mount->getUser()->getUID(),
-			'mount_point' => $mount->getMountPoint()
-		], ['root_id', 'user_id']);
+		if ($mount->getStorageId() !== -1) {
+			$this->connection->insertIfNotExist('*PREFIX*mounts', [
+				'storage_id' => $mount->getStorageId(),
+				'root_id' => $mount->getRootId(),
+				'user_id' => $mount->getUser()->getUID(),
+				'mount_point' => $mount->getMountPoint()
+			], ['root_id', 'user_id']);
+		} else {
+			$this->logger->error('Error getting storage info for mount at ' . $mount->getMountPoint());
+		}
 	}
 
 	private function setMountPoint(ICachedMountInfo $mount) {
