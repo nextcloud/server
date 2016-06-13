@@ -370,9 +370,19 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
+		if ($this->supportsCookies($request)) {
+			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
+		}
 
 		return true;
+	}
+
+	protected function supportsCookies(IRequest $request) {
+		if (!is_null($request->getCookie('cookie_test'))) {
+			return true;
+		}
+		setcookie('cookie_test', 'test', $this->timeFacory->getTime() + 3600);
+		return false;
 	}
 
 	private function isTokenAuthEnforced() {
@@ -432,7 +442,6 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryBasicAuthLogin(IRequest $request) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
-			$request = \OC::$server->getRequest();
 			$result = $this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request);
 			if ($result === true) {
 				/**
