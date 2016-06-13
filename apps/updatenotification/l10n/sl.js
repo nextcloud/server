@@ -1,7 +1,7 @@
 OC.L10N.register(
     "updatenotification",
     {
-    "Update notifications" : "Posodobite obvestila",
+    "Update notifications" : "Posodobi obvestila",
     "{version} is available. Get more information on how to update." : "Na voljo je nova različica {version}. Na voljo je več podrobnosti o nadgradnji.",
     "Updated channel" : "Posodobljen kanal",
     "Update for %1$s to version %2$s is available." : "Posodobitev %1$s na različico %2$s je na voljo.",

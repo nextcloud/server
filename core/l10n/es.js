@@ -298,6 +298,7 @@ OC.L10N.register(
     "Thank you for your patience." : "Gracias por su paciencia.",
     "Two-step verification" : "Verificación en dos pasos",
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "La seguridad mejorada se ha habilitado para tu cuenta. Por favor, autenticar utilizando un segundo factor.",
+    "Cancel login" : "Cancelar inicio de sesión",
     "Please authenticate using the selected factor." : "Por favor, autenticar utilizando el factor seleccionado.",
     "An error occured while verifying the token" : "Ocurrió un error mientras se verificaba el \"token\".",
     "You are accessing the server from an untrusted domain." : "Está accediendo al servidor desde un dominio inseguro.",

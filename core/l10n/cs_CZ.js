@@ -298,6 +298,7 @@ OC.L10N.register(
     "Thank you for your patience." : "Děkujeme za vaši trpělivost.",
     "Two-step verification" : "Dvoufázové ověření",
     "Enhanced security has been enabled for your account. Please authenticate using a second factor." : "Bylo zapnuto vylepšené zabezpečení pro tento účet. Přihlašte se za použití druhého faktoru.",
+    "Cancel login" : "Zrušit přihlášení",
     "Please authenticate using the selected factor." : "Přihlašte se za použití vybraného faktoru.",
     "An error occured while verifying the token" : "Chyba při ověřování tokenu",
     "You are accessing the server from an untrusted domain." : "Přistupujete na server z nedůvěryhodné domény.",

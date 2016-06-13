@@ -30,6 +30,7 @@ OC.L10N.register(
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "لا يوجد مساحة تخزين كافية، انت تقوم برفع {size1} ولكن المساحه المتوفره هي {size2}.",
     "Could not get result from server." : "تعذر الحصول على نتيجة من الخادم",
     "Uploading..." : "ترفيع...",
+    "..." : "...",
     "File upload is in progress. Leaving the page now will cancel the upload." : "عملية رفع الملفات قيد التنفيذ. اغلاق الصفحة سوف يلغي عملية رفع الملفات.",
     "Actions" : "* تطبيقات.\n* أنشطة.",
     "Download" : "تحميل",

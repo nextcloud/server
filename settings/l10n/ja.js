@@ -222,6 +222,7 @@ OC.L10N.register(
     "Documentation:" : "ドキュメント:",
     "User documentation" : "ユーザードキュメント",
     "Admin documentation" : "管理者ドキュメント",
+    "Report a bug" : "バグを報告",
     "Show description …" : "説明を表示 ...",
     "Hide description …" : "説明を隠す ...",
     "This app has an update available." : "このアプリでアップデートが利用できます.",

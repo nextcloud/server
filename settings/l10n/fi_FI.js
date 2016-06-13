@@ -208,6 +208,8 @@ OC.L10N.register(
     "Documentation:" : "Ohjeistus:",
     "User documentation" : "Käyttäjädokumentaatio",
     "Admin documentation" : "Ylläpitäjän ohjeistus",
+    "Visit website" : "Käy verkkosivustolla",
+    "Report a bug" : "Ilmoita viasta",
     "Show description …" : "Näytä kuvaus…",
     "Hide description …" : "Piilota kuvaus…",
     "This app has an update available." : "Tähän sovellukseen on päivitys saatavilla.",
