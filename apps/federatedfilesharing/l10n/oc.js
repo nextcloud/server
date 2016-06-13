@@ -1,8 +1,10 @@
 OC.L10N.register(
     "federatedfilesharing",
     {
+    "Federated sharing" : "Federated sharing",
     "Invalid Federated Cloud ID" : "ID Federated Cloud incorrècte",
     "Sharing %s failed, because this item is already shared with %s" : "Lo partiment de %s a fracassat perque aqueste objècte es ja partejat amb %s",
+    "File is already shared with %s" : "Lo fichièr es ja partejat amb %s",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Lo partiment de %s a fracassat : impossible de trobar %s. Benlèu que lo servidor es momentanèament injonhable.",
     "Accept" : "Acceptar",
     "Decline" : "Refusar",
@@ -17,6 +19,6 @@ OC.L10N.register(
     "Share it:" : "Partejar :",
     "Add to your website" : "Apondre a vòstre site web",
     "Share with me via ownCloud" : "Partejatz amb ieu via ownCloud",
-    "HTML Code:" : "Còde HTML :"
+    "HTML Code:" : "Còdi HTML :"
 },
 "nplurals=2; plural=(n > 1);");

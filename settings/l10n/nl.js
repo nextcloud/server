@@ -216,6 +216,7 @@ OC.L10N.register(
     "Documentation:" : "Documentatie:",
     "User documentation" : "Gebruikersdocumentatie",
     "Admin documentation" : "Beheerdocumentatie",
+    "Report a bug" : "Rapporteer een fout",
     "Show description …" : "Toon beschrijving ...",
     "Hide description …" : "Verberg beschrijving ...",
     "This app has an update available." : "Er is een update beschikbaar voor deze applicatie.",

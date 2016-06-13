@@ -223,6 +223,7 @@ OC.L10N.register(
     "Documentation:" : "Dokumentim:",
     "User documentation" : "Dokumentim për përdoruesit",
     "Admin documentation" : "Dokumentim për përgjegjësit",
+    "Report a bug" : "Njoftoni një të metë",
     "Show description …" : "Shfaq përshkrim …",
     "Hide description …" : "Fshihe përshkrimin …",
     "This app has an update available." : "Ka gati një përditësim për këtë aplikacion.",

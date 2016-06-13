@@ -223,6 +223,8 @@ OC.L10N.register(
     "Documentation:" : "Документация:",
     "User documentation" : "Пользовательская документация",
     "Admin documentation" : "Документация для администратора",
+    "Visit website" : "Посетите веб-сайт",
+    "Report a bug" : "Сообщить об ошибке",
     "Show description …" : "Показать описание ...",
     "Hide description …" : "Скрыть описание ...",
     "This app has an update available." : "Для этого приложения доступно обновление.",
