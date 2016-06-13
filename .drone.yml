@@ -1,5 +1,9 @@
 build:
-  backend:
+  jsunit:
+    image: morrisjobke/nextcloud-ci-jsunit:1.0.2
+    commands:
+      - ./autotest-js.sh
+  sqlite:
     image: morrisjobke/nextcloud-ci-php7:1.0
     commands:
       - git submodule update --init
