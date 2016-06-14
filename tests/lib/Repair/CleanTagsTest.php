@@ -25,6 +25,9 @@ class CleanTagsTest extends \Test\TestCase {
 	/** @var \OCP\IDBConnection */
 	protected $connection;
 
+	/** @var \OCP\IUserManager|\PHPUnit_Framework_MockObject_MockObject */
+	protected $userManager;
+
 	/** @var int */
 	protected $createdFile;
 
@@ -38,8 +41,12 @@ class CleanTagsTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
+		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
+			->disableOriginalConstructor()
+			->getMock();
+
 		$this->connection = \OC::$server->getDatabaseConnection();
-		$this->repair = new \OC\Repair\CleanTags($this->connection);
+		$this->repair = new \OC\Repair\CleanTags($this->connection, $this->userManager);
 		$this->cleanUpTables();
 	}
 
@@ -86,6 +93,20 @@ class CleanTagsTest extends \Test\TestCase {
 		self::invokePrivate($this->repair, 'deleteOrphanCategoryEntries', [$this->outputMock]);
 		$this->assertEntryCount('vcategory_to_object', 2, 'Assert tag entries count after cleaning category entries');
 		$this->assertEntryCount('vcategory', 2, 'Assert tag categories count after cleaning category entries');
+
+
+		$this->addTagCategory('TestRepairCleanTags', 'contacts', 'userExists'); // Retained
+		$this->assertEntryCount('vcategory', 3, 'Assert tag categories count before cleaning categories by users');
+
+		$this->userManager->expects($this->exactly(2))
+			->method('userExists')
+			->willReturnMap([
+				['userExists', true],
+				['TestRepairCleanTags', false],
+			]);
+
+		self::invokePrivate($this->repair, 'deleteOrphanTags', [$this->outputMock]);
+		$this->assertEntryCount('vcategory', 1, 'Assert tag categories count after cleaning categories by users');
 	}
 
 	/**
@@ -107,13 +128,14 @@ class CleanTagsTest extends \Test\TestCase {
 	 *
 	 * @param string $category
 	 * @param string $type
+	 * @param string $user
 	 * @return int
 	 */
-	protected function addTagCategory($category, $type) {
+	protected function addTagCategory($category, $type, $user = 'TestRepairCleanTags') {
 		$qb = $this->connection->getQueryBuilder();
 		$qb->insert('vcategory')
 			->values([
-				'uid'		=> $qb->createNamedParameter('TestRepairCleanTags'),
+				'uid'		=> $qb->createNamedParameter($user),
 				'category'	=> $qb->createNamedParameter($category),
 				'type'		=> $qb->createNamedParameter($type),
 			])
