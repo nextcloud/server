@@ -13,7 +13,7 @@ build:
   sqlite:
     image: morrisjobke/nextcloud-ci-php7:1.0
     commands:
-      - rm -rf data/* data/.* config/config.php # TODO: remove this - temporary fix for CI issues
+      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - ./autotest.sh sqlite
