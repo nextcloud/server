@@ -435,20 +435,11 @@ trait WebDav {
 		}
 	}
 
-	/*
-	 * @When user "([^"]*)" favorites folder "([^"]*)"
-	 * @param string $user
-	 * @param string $path
-	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
+	/**
+	 * @When user :user favorites element :path
 	 */
-	public function userFavoritesFolder($user, $path, $propertiesTable) {
-		$properties = null;
-		if ($propertiesTable instanceof \Behat\Gherkin\Node\TableNode) {
-			foreach ($propertiesTable->getRows() as $row) {
-				$properties[] = $row[0];
-			}
-		}
-		$this->response = $this->favFolder($user, $path, 0, $properties);
+	public function userFavoritesFolder($user, $path){
+		$this->response = $this->favFolder($user, $path, 0, null);
 	}
 
 	/*Set the elements of a proppatch, $folderDepth requires 1 to see elements without children*/
@@ -466,11 +457,21 @@ trait WebDav {
 		$client = new SClient($settings);
 		if (!$properties) {
 			$properties = [
-				'{http://owncloud.org/ns}favorite'
+				'{http://owncloud.org/ns}favorite' => 1
 			];
 		}
-		echo $properties,
+
 		$response = $client->proppatch($this->davPath . '/' . ltrim($path, '/'), $properties, $folderDepth);
 		return $response;
+	}
+
+	/**
+	 * @Then /^as "([^"]*)" gets properties of file "([^"]*)" with$/
+	 * @param string $user
+	 * @param string $path
+	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
+	 */
+	public function asGetsPropertiesOfFileWith($user, $path, $propertiesTable) {
+		$this->asGetsPropertiesOfFolderWith($user, $path, $propertiesTable);
 	}
 }
