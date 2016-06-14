@@ -1267,11 +1267,7 @@
                 e.preventDefault();
                 this._getDroppedFiles(dataTransfer).always(function (files) {
                     data.files = files;
-                    if (that._trigger(
-                            'drop',
-                            $.Event('drop', {delegatedEvent: e}),
-                            data
-                        ) !== false) {
+                    if (that._trigger('drop', e, data) !== false) {
                         that._onAdd(e, data);
                     }
                 });
