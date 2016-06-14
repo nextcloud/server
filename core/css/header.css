@@ -68,7 +68,7 @@
 }
 
 #header .logo {
-	background-image: url(../img/logo-icon.svg);
+	background-image: url('../img/logo-icon.svg?v=1');
 	background-repeat: no-repeat;
 	background-size: 175px;
 	background-position: center 30px;
@@ -80,7 +80,7 @@
 #header .logo-icon {
 	/* display logo so appname can be shown next to it */
 	display: inline-block;
-	background-image: url('../img/logo-icon.svg');
+	background-image: url('../img/logo-icon.svg?v=1');
 	background-repeat: no-repeat;
 	width: 62px;
 	height: 34px;
