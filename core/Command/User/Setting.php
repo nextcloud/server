@@ -57,7 +57,7 @@ class Setting extends Base {
 		parent::configure();
 		$this
 			->setName('user:setting')
-			->setDescription('adds a user')
+			->setDescription('Read and modify user settings')
 			->addArgument(
 				'uid',
 				InputArgument::REQUIRED,
@@ -66,7 +66,7 @@ class Setting extends Base {
 			->addArgument(
 				'app',
 				InputArgument::OPTIONAL,
-				'Restrict the preferences to a given app',
+				'Restrict the settings to a given app',
 				''
 			)
 			->addArgument(
