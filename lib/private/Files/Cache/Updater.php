@@ -25,6 +25,8 @@
  */
 
 namespace OC\Files\Cache;
+
+use OCP\Files\Cache\ICacheEntry;
 use OCP\Files\Cache\IUpdater;
 use OCP\Files\Storage\IStorage;
 
@@ -150,12 +152,20 @@ class Updater implements IUpdater {
 			$parent = '';
 		}
 
+		$entry = $this->cache->get($path);
+
 		$this->cache->remove($path);
-		if ($this->cache instanceof Cache) {
-			$this->cache->correctFolderSize($parent);
-		}
+
 		$this->correctParentStorageMtime($path);
-		$this->propagator->propagateChange($path, time());
+		if ($entry instanceof ICacheEntry) {
+			$this->propagator->propagateChange($path, time(), -$entry->getSize());
+		} else {
+			$this->propagator->propagateChange($path, time());
+			if ($this->cache instanceof Cache) {
+				$this->cache->correctFolderSize($parent);
+			}
+		}
+
 	}
 
 	/**
