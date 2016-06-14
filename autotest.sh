@@ -303,9 +303,18 @@ function execute_tests {
 	else
 		echo "No coverage"
 	fi
-	echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
-	"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+
+	if [ -d "$2" ]; then
+	    for f in $(find "$2" -name '*.php'); do
+			echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" / "$f" "$3"
+			"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$f" "$3"
+			RESULT=$?
+	    done;
+	else
+	    echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	    "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
 		RESULT=$?
+	fi
 
 	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then
 		cd ..
