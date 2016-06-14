@@ -223,6 +223,7 @@ OC.L10N.register(
     "Documentation:" : "Dokumentation:",
     "User documentation" : "Dokumentation für Benutzer",
     "Admin documentation" : "Dokumentation für Administratoren",
+    "Visit website" : "Webseite besuchen",
     "Report a bug" : "Melden Sie einen technischen Fehler",
     "Show description …" : "Beschreibung anzeigen…",
     "Hide description …" : "Beschreibung ausblenden…",
