@@ -170,6 +170,7 @@ class Updater {
 		list($targetStorage, $targetInternalPath) = $this->view->resolvePath($target);
 
 		if ($sourceStorage && $targetStorage) {
+			$sourceCache = $sourceStorage->getCache($sourceInternalPath);
 			$targetCache = $targetStorage->getCache($sourceInternalPath);
 			if ($targetCache->inCache($targetInternalPath)) {
 				$targetCache->remove($targetInternalPath);
@@ -187,7 +188,7 @@ class Updater {
 				$targetCache->update($fileId, array('mimetype' => $mimeType));
 			}
 
-			$targetCache->correctFolderSize($sourceInternalPath);
+			$sourceCache->correctFolderSize($sourceInternalPath);
 			$targetCache->correctFolderSize($targetInternalPath);
 			$this->correctParentStorageMtime($sourceStorage, $sourceInternalPath);
 			$this->correctParentStorageMtime($targetStorage, $targetInternalPath);
