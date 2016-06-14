@@ -667,11 +667,22 @@ OC.Upload = {
 						OC.Upload._hideProgressBar();
 					}
 				});
-				fileupload.on('fileuploaddragover', function(){
+				fileupload.on('fileuploaddragover', function(e, data){
 					$('#app-content').addClass('file-drag');
+
+					var filerow = $(e.delegatedEvent.target).closest('tr');
+
+					if(!filerow.hasClass('dropping-to-dir')){
+						$('.dropping-to-dir').removeClass('dropping-to-dir');
+					}
+
+					if(filerow.attr('data-type') === 'dir'){
+						filerow.addClass('dropping-to-dir');
+					}
 				});
-				fileupload.on('fileuploaddragleave fileuploaddrop', function (){
+				fileupload.on('fileuploaddragleave fileuploaddrop', function (e, data){
 					$('#app-content').removeClass('file-drag');
+					$('.dropping-to-dir').removeClass('dropping-to-dir');
 				});
 			} else {
 				// for all browsers that don't support the progress bar

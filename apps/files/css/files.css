@@ -77,6 +77,10 @@
 	background-color: rgb(179, 230, 255);
 }
 
+.dropping-to-dir .thumbnail {
+	background-image: url(/nextcloud/core/img/filetypes/folder-drag-accept.svg)!important;
+}
+
 /* icons for sidebar */
 .nav-icon-files {
 	background-image: url('../img/folder.svg');

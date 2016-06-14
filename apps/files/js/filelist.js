@@ -2528,9 +2528,7 @@
 					return false;
 				}
 
-				console.log(e);
 				var dropTarget = $(e.delegatedEvent.target);
-				console.log(dropTarget);
 
 				// check if dropped inside this container and not another one
 				if (dropTarget.length
