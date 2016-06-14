@@ -1,4 +1,11 @@
 build:
+  integration:
+    image: morrisjobke/nextcloud-ci-php7:1.0.3
+    commands:
+      - git submodule update --init
+      - ./occ maintenance:install --admin-pass=admin
+      - cd build/integration
+      - ./run.sh
   jsunit:
     image: morrisjobke/nextcloud-ci-jsunit:1.0.2
     commands:
