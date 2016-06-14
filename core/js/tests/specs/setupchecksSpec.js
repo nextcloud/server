@@ -103,7 +103,7 @@ describe('OC.SetupChecks tests', function() {
 		it('should return an error if data directory is not protected', function(done) {
 			var async = OC.SetupChecks.checkDataProtected();
 
-			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, 'file contents');
+			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.');
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
@@ -114,7 +114,18 @@ describe('OC.SetupChecks tests', function() {
 				done();
 			});
 		});
-		
+
+		it('should return no error if data directory is protected and returns another content', function(done) {
+			var async = OC.SetupChecks.checkDataProtected();
+
+			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, 'Another page');
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+
 		it('should not return an error if data directory is protected', function(done) {
 			var async = OC.SetupChecks.checkDataProtected();
 
