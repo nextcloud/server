@@ -30,6 +30,7 @@ namespace OCA\User_LDAP;
 
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\User\Manager;
 
 abstract class Proxy {
 	static private $accesses = array();
@@ -72,7 +73,7 @@ abstract class Proxy {
 			$coreUserManager = \OC::$server->getUserManager();
 		}
 		$userManager =
-			new user\Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image(), $db, $coreUserManager);
+			new Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image(), $db, $coreUserManager);
 		$connector = new Connection($this->ldap, $configPrefix);
 		$access = new Access($connector, $this->ldap, $userManager);
 		$access->setUserMapper($userMap);

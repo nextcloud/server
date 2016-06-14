@@ -685,7 +685,7 @@ Feature: sharing
       |{http://open-collaboration-services.org/ns}share-permissions |
     Then the single response should contain a property "{http://open-collaboration-services.org/ns}share-permissions" with value "15"
 
-  Scenario: unique target names for incomming shares
+  Scenario: unique target names for incoming shares
     Given user "user0" exists
     And user "user1" exists
     And user "user2" exists

@@ -223,6 +223,8 @@ OC.L10N.register(
     "Documentation:" : "Documentação:",
     "User documentation" : "Documentação do usuário",
     "Admin documentation" : "Documentação para Administração",
+    "Visit website" : "Visitar website",
+    "Report a bug" : "Registrar um bug",
     "Show description …" : "Mostrar descrição ...",
     "Hide description …" : "Esconder descrição ...",
     "This app has an update available." : "Este aplicativo tem uma atualização disponível.",

@@ -223,6 +223,7 @@ OC.L10N.register(
     "Documentation:" : "Dokumentace:",
     "User documentation" : "Dokumentace uživatele",
     "Admin documentation" : "Dokumentace pro administrátory",
+    "Report a bug" : "Nahlásit chybu",
     "Show description …" : "Zobrazit popis ...",
     "Hide description …" : "Skrýt popis ...",
     "This app has an update available." : "Pro tuto aplikaci je dostupná aktualizace.",

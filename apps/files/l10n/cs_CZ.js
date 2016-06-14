@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Neplatný adresář",
     "Files" : "Soubory",
     "All files" : "Všechny soubory",
+    "File could not be found" : "Soubor nelze nalézt",
     "Home" : "Domů",
     "Close" : "Zavřít",
     "Favorites" : "Oblíbené",
