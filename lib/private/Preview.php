@@ -422,7 +422,6 @@ class Preview {
 				// .ocTransferId*.part file from chunked file upload.
 				if (!empty($fileId)) {
 					$previewPath = $this->getPreviewPath($fileId);
-					$this->userView->deleteAll($previewPath);
 					$this->userView->rmdir($previewPath);
 				}
 			}
