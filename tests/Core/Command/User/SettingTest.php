@@ -190,11 +190,11 @@ class SettingTest extends TestCase {
 	/**
 	 * @dataProvider dataCheckInput
 	 *
-	 * @param $arguments
-	 * @param $options
-	 * @param $parameterOptions
-	 * @param $user
-	 * @param $expectedException
+	 * @param array $arguments
+	 * @param array $options
+	 * @param array $parameterOptions
+	 * @param mixed $user
+	 * @param string $expectedException
 	 */
 	public function testCheckInput($arguments, $options, $parameterOptions, $user, $expectedException) {
 		$this->consoleInput->expects($this->any())
@@ -233,5 +233,234 @@ class SettingTest extends TestCase {
 			->with('<error>test</error>');
 
 		$this->assertEquals(1, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function dataExecuteDelete() {
+		return [
+			['config', false, null, 0],
+			['config', true, null, 0],
+			[null, false, null, 0],
+			[null, true, '<error>The setting does not exist for user "username".</error>', 1],
+		];
+	}
+
+	/**
+	 * @dataProvider dataExecuteDelete
+	 *
+	 * @param string|null $value
+	 * @param bool $errorIfNotExists
+	 * @param string $expectedLine
+	 * @param int $expectedReturn
+	 */
+	public function testExecuteDelete($value, $errorIfNotExists, $expectedLine, $expectedReturn) {
+		$command = $this->getCommand([
+			'writeArrayInOutputFormat',
+			'checkInput',
+			'getUserSettings',
+		]);
+
+		$this->consoleInput->expects($this->any())
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'username'],
+				['app', 'appname'],
+				['key', 'configkey'],
+			]);
+
+		$command->expects($this->once())
+			->method('checkInput');
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('username', 'appname', 'configkey', null)
+			->willReturn($value);
+
+		$this->consoleInput->expects($this->atLeastOnce())
+			->method('hasParameterOption')
+			->willReturnMap([
+				['--delete', true],
+				['--error-if-not-exists', $errorIfNotExists],
+			]);
+
+		if ($expectedLine === null) {
+			$this->consoleOutput->expects($this->never())
+				->method('writeln');
+			$this->config->expects($this->once())
+				->method('deleteUserValue')
+				->with('username', 'appname', 'configkey');
+
+		} else {
+			$this->consoleOutput->expects($this->once())
+				->method('writeln')
+				->with($expectedLine);
+			$this->config->expects($this->never())
+				->method('deleteUserValue');
+		}
+
+		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function dataExecuteSet() {
+		return [
+			['config', false, null, 0],
+			['config', true, null, 0],
+			[null, false, null, 0],
+			[null, true, '<error>The setting does not exist for user "username".</error>', 1],
+		];
+	}
+
+	/**
+	 * @dataProvider dataExecuteSet
+	 *
+	 * @param string|null $value
+	 * @param bool $updateOnly
+	 * @param string $expectedLine
+	 * @param int $expectedReturn
+	 */
+	public function testExecuteSet($value, $updateOnly, $expectedLine, $expectedReturn) {
+		$command = $this->getCommand([
+			'writeArrayInOutputFormat',
+			'checkInput',
+			'getUserSettings',
+		]);
+
+		$this->consoleInput->expects($this->any())
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'username'],
+				['app', 'appname'],
+				['key', 'configkey'],
+			]);
+
+		$command->expects($this->once())
+			->method('checkInput');
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('username', 'appname', 'configkey', null)
+			->willReturn($value);
+
+		$this->consoleInput->expects($this->atLeastOnce())
+			->method('hasParameterOption')
+			->willReturnMap([
+				['--value', true],
+				['--update-only', $updateOnly],
+			]);
+
+		if ($expectedLine === null) {
+			$this->consoleOutput->expects($this->never())
+				->method('writeln');
+
+			$this->consoleInput->expects($this->once())
+				->method('getOption')
+				->with('value')
+				->willReturn('setValue');
+
+			$this->config->expects($this->once())
+				->method('setUserValue')
+				->with('username', 'appname', 'configkey', 'setValue');
+		} else {
+			$this->consoleOutput->expects($this->once())
+				->method('writeln')
+				->with($expectedLine);
+			$this->config->expects($this->never())
+				->method('setUserValue');
+		}
+
+		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function dataExecuteGet() {
+		return [
+			['config', null, 'config', 0],
+			[null, 'config', 'config', 0],
+			[null, null, '<error>The setting does not exist for user "username".</error>', 1],
+		];
+	}
+
+	/**
+	 * @dataProvider dataExecuteGet
+	 *
+	 * @param string|null $value
+	 * @param string|null $defaultValue
+	 * @param string $expectedLine
+	 * @param int $expectedReturn
+	 */
+	public function testExecuteGet($value, $defaultValue, $expectedLine, $expectedReturn) {
+		$command = $this->getCommand([
+			'writeArrayInOutputFormat',
+			'checkInput',
+			'getUserSettings',
+		]);
+
+		$this->consoleInput->expects($this->any())
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'username'],
+				['app', 'appname'],
+				['key', 'configkey'],
+			]);
+
+		$command->expects($this->once())
+			->method('checkInput');
+
+		$this->config->expects($this->once())
+			->method('getUserValue')
+			->with('username', 'appname', 'configkey', null)
+			->willReturn($value);
+
+		if ($value === null) {
+			if ($defaultValue === null) {
+				$this->consoleInput->expects($this->atLeastOnce())
+					->method('hasParameterOption')
+					->willReturnMap([
+						['--default-value', false],
+					]);
+			} else {
+				$this->consoleInput->expects($this->atLeastOnce())
+					->method('hasParameterOption')
+					->willReturnMap([
+						['--default-value', true],
+					]);
+				$this->consoleInput->expects($this->once())
+					->method('getOption')
+					->with('default-value')
+					->willReturn($defaultValue);
+			}
+		}
+
+		$this->consoleOutput->expects($this->once())
+			->method('writeln')
+			->with($expectedLine);
+
+		$this->assertEquals($expectedReturn, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
+	}
+
+	public function testExecuteList() {
+		$command = $this->getCommand([
+			'writeArrayInOutputFormat',
+			'checkInput',
+			'getUserSettings',
+		]);
+
+		$this->consoleInput->expects($this->any())
+			->method('getArgument')
+			->willReturnMap([
+				['uid', 'username'],
+				['app', 'appname'],
+				['key', ''],
+			]);
+
+		$command->expects($this->once())
+			->method('checkInput');
+		$command->expects($this->once())
+			->method('getUserSettings')
+			->willReturn(['settings']);
+		$command->expects($this->once())
+			->method('writeArrayInOutputFormat')
+			->with($this->consoleInput, $this->consoleOutput, ['settings']);
+
+
+		$this->assertEquals(0, $this->invokePrivate($command, 'execute', [$this->consoleInput, $this->consoleOutput]));
 	}
 }

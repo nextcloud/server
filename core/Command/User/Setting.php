@@ -175,6 +175,7 @@ class Setting extends Base {
 				}
 
 				$this->config->setUserValue($uid, $app, $key, $input->getOption('value'));
+				return 0;
 
 			} else if ($input->hasParameterOption('--delete')) {
 				if ($input->hasParameterOption('--error-if-not-exists') && $value === null) {
@@ -183,28 +184,25 @@ class Setting extends Base {
 				}
 
 				$this->config->deleteUserValue($uid, $app, $key);
+				return 0;
 
 			} else if ($value !== null) {
 				$output->writeln($value);
+				return 0;
 			} else {
 				if ($input->hasParameterOption('--default-value')) {
 					$output->writeln($input->getOption('default-value'));
+					return 0;
 				} else {
 					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
 					return 1;
 				}
 			}
 		} else {
-			$this->listUserSettings($input, $output, $uid, $app);
+			$settings = $this->getUserSettings($uid, $app);
+			$this->writeArrayInOutputFormat($input, $output, $settings);
+			return 0;
 		}
-
-		return 0;
-	}
-
-	protected function listUserSettings(InputInterface $input, OutputInterface $output, $uid, $app) {
-		$settings = $this->getUserSettings($uid, $app);
-
-		$this->writeArrayInOutputFormat($input, $output, $settings);
 	}
 
 	protected function getUserSettings($uid, $app) {
