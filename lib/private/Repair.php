@@ -127,7 +127,7 @@ class Repair implements IOutput{
 			new RepairLegacyStorages(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new AssetCache(),
 			new FillETags(\OC::$server->getDatabaseConnection()),
-			new CleanTags(\OC::$server->getDatabaseConnection()),
+			new CleanTags(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager()),
 			new DropOldTables(\OC::$server->getDatabaseConnection()),
 			new DropOldJobs(\OC::$server->getJobList()),
 			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
