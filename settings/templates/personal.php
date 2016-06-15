@@ -133,7 +133,6 @@ if($_['passwordChangeSupported']) {
 	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="svg"></label>
 	<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	<br/>
-	<div class="strengthify-wrapper"></div>
 </form>
 <?php
 }
