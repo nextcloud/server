@@ -254,7 +254,10 @@ class Storage extends DAV implements ISharedStorage {
 
 		$client = $this->httpClient->newClient();
 		try {
-			$result = $client->get($url)->getBody();
+			$result = $client->get($url, [
+				'timeout' => 3,
+				'connect_timeout' => 3,
+			])->getBody();
 			$data = json_decode($result);
 			$returnValue = (is_object($data) && !empty($data->version));
 		} catch (ConnectException $e) {
@@ -301,7 +304,11 @@ class Storage extends DAV implements ISharedStorage {
 		// TODO: DI
 		$client = \OC::$server->getHTTPClientService()->newClient();
 		try {
-			$response = $client->post($url, ['body' => ['password' => $password]]);
+			$response = $client->post($url, [
+				'body' => ['password' => $password],
+				'timeout' => 3,
+				'connect_timeout' => 3,
+			]);
 		} catch (\GuzzleHttp\Exception\RequestException $e) {
 			if ($e->getCode() === 401 || $e->getCode() === 403) {
 				throw new ForbiddenException();

@@ -287,7 +287,9 @@ class Notifications {
 			$endpoint = $this->discoveryManager->getShareEndpoint($protocol . $remoteDomain);
 			try {
 				$response = $client->post($protocol . $remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT, [
-					'body' => $fields
+					'body' => $fields,
+					'timeout' => 3,
+					'connect_timeout' => 3,
 				]);
 				$result['result'] = $response->getBody();
 				$result['success'] = true;
