@@ -214,7 +214,7 @@ trait WebDav {
 		}
 
 		$value = $keys[$key];
-		if ($value !== $expectedValue) {
+		if ($value != $expectedValue) {
 			throw new \Exception("Property \"$key\" found with value \"$value\", expected \"$expectedValue\"");
 		}
 	}
@@ -438,12 +438,19 @@ trait WebDav {
 	/**
 	 * @When user :user favorites element :path
 	 */
-	public function userFavoritesFolder($user, $path){
-		$this->response = $this->favFolder($user, $path, 0, null);
+	public function userFavoritesElement($user, $path){
+		$this->response = $this->changeFavStateOfAnElement($user, $path, 1, 0, null);
+	}
+
+	/**
+	 * @When user :user unfavorites element :path
+	 */
+	public function userUnfavoritesElement($user, $path){
+		$this->response = $this->changeFavStateOfAnElement($user, $path, 0, 0, null);
 	}
 
 	/*Set the elements of a proppatch, $folderDepth requires 1 to see elements without children*/
-	public function favFolder($user, $path, $folderDepth, $properties = null){
+	public function changeFavStateOfAnElement($user, $path, $favOrUnfav, $folderDepth, $properties = null){
 		$fullUrl = substr($this->baseUrl, 0, -4);
 		$settings = array(
 			'baseUri' => $fullUrl,
@@ -457,7 +464,7 @@ trait WebDav {
 		$client = new SClient($settings);
 		if (!$properties) {
 			$properties = [
-				'{http://owncloud.org/ns}favorite' => 1
+				'{http://owncloud.org/ns}favorite' => $favOrUnfav
 			];
 		}
 
