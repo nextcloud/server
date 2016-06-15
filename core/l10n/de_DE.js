@@ -189,7 +189,7 @@ OC.L10N.register(
     "Please reload the page." : "Bitte laden Sie die Seite neu.",
     "The update was unsuccessful. " : "Die Aktualisierung war nicht erfolgreich.",
     "The update was successful. There were warnings." : "Das Update war erfolgreich. Warnungen wurden ausgegeben.",
-    "The update was successful. Redirecting you to ownCloud now." : "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet.",
+    "The update was successful. Redirecting you to Nextcloud now." : "Das Update war erfolgreich. Sie werden nun zu Nextcloud weitergeleitet.",
     "Searching other places" : "Andere Orte durchsuchen",
     "No search results in other folders" : "Keine Suchergebnisse in anderen Ordnern",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} Suchergebnis in anderen Ordnern","{count} Suchergebnisse in anderen Ordnern"],

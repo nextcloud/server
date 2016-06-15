@@ -205,7 +205,7 @@ OC.L10N.register(
     "The update was unsuccessful. For more information <a href=\"{url}\">check our forum post</a> covering this issue." : "Das Update war nicht erfolgreich. Für weitere Informationen <a href=\"{url}\"> schaue bitte in unser Forum </a> um das Problem zu lösen.",
     "The update was unsuccessful. " : "Die Aktualisierung war nicht erfolgreich.",
     "The update was successful. There were warnings." : "Das Update war erfolgreich. Warnungen wurden ausgegeben.",
-    "The update was successful. Redirecting you to ownCloud now." : "Das Update war erfolgreich. Du wirst nun zu ownCloud weitergeleitet.",
+    "The update was successful. Redirecting you to Nextcloud now." : "Das Update war erfolgreich. Du wirst nun zu Nextcloud weitergeleitet.",
     "Searching other places" : "Andere Orte durchsuchen",
     "No search results in other folders" : "Keine Suchergebnisse in anderen Ordnern",
     "_{count} search result in another folder_::_{count} search results in other folders_" : ["{count} Suchergebnis im anderen Ordner","{count} Suchergebnisse in anderen Ordnern"],
