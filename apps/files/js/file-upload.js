@@ -273,7 +273,7 @@ OC.Upload = {
 		var self = this;
 		if ( $('#file_upload_start').exists() ) {
 			var file_upload_param = {
-				dropZone: $('#content'), // restrict dropZone to content div
+				dropZone: $('#app-content'), // restrict dropZone to app-content div
 				pasteZone: null, 
 				autoUpload: false,
 				sequentialUploads: true,
@@ -494,7 +494,7 @@ OC.Upload = {
 				 * @param {object} e
 				 * @param {object} data
 				 */
-				done:function(e, data) {
+				done: function(e, data) {
 					OC.Upload.log('done', e, data);
 					// handle different responses (json or body from iframe for ie)
 					var response;
@@ -667,7 +667,29 @@ OC.Upload = {
 						OC.Upload._hideProgressBar();
 					}
 				});
+				fileupload.on('fileuploaddragover', function(e){
+					$('#app-content').addClass('file-drag');
 
+					var filerow = $(e.delegatedEvent.target).closest('tr');
+
+					if(!filerow.hasClass('dropping-to-dir')){
+						$('.dropping-to-dir').removeClass('dropping-to-dir');
+						$('.dir-drop').removeClass('dir-drop');
+						$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
+					}
+
+					if(filerow.attr('data-type') === 'dir'){
+						$('#app-content').addClass('dir-drop');
+						filerow.addClass('dropping-to-dir');
+						filerow.find('.thumbnail').addClass('icon-filetype-folder-drag-accept');
+					}
+				});
+				fileupload.on('fileuploaddragleave fileuploaddrop', function (){
+					$('#app-content').removeClass('file-drag');
+					$('.dropping-to-dir').removeClass('dropping-to-dir');
+					$('.dir-drop').removeClass('dir-drop');
+					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
+				});
 			} else {
 				// for all browsers that don't support the progress bar
 				// IE 8 & 9
