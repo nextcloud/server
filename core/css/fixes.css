@@ -108,12 +108,6 @@ select {
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4c320000', endColorstr='#4c320000');
 }
 
-/* IE8 doesn't have rounded corners, so the strengthify bar should be wider */
-.lte8 #body-login .strengthify-wrapper {
-	width: 271px;
-	left: 6px;
-}
-
 /* fix background of navigation popup in IE8 */
 .ie8 #navigation,
 .ie8 #expanddiv {
