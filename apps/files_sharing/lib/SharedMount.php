@@ -52,7 +52,10 @@ class SharedMount extends MountPoint implements MoveableMount {
 	private $user;
 
 	/** @var \OCP\Share\IShare */
-	private $share;
+	private $superShare;
+
+	/** @var \OCP\Share\IShare[] */
+	private $groupedShares;
 
 	/**
 	 * @param string $storage
@@ -63,10 +66,13 @@ class SharedMount extends MountPoint implements MoveableMount {
 	public function __construct($storage, array $mountpoints, $arguments = null, $loader = null) {
 		$this->user = $arguments['user'];
 		$this->recipientView = new View('/' . $this->user . '/files');
-		$this->share = $arguments['newShare'];
-		$newMountPoint = $this->verifyMountPoint($this->share, $mountpoints);
+
+		$this->superShare = $arguments['superShare'];
+		$this->groupedShares = $arguments['groupedShares'];
+
+		$newMountPoint = $this->verifyMountPoint($this->superShare, $mountpoints);
 		$absMountPoint = '/' . $this->user . '/files' . $newMountPoint;
-		$arguments['ownerView'] = new View('/' . $this->share->getShareOwner() . '/files');
+		$arguments['ownerView'] = new View('/' . $this->superShare->getShareOwner() . '/files');
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
 	}
 
@@ -108,7 +114,11 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 */
 	private function updateFileTarget($newPath, &$share) {
 		$share->setTarget($newPath);
-		\OC::$server->getShareManager()->moveShare($share, $this->user);
+
+		foreach ($this->groupedShares as $share) {
+			$share->setTarget($newPath);
+			\OC::$server->getShareManager()->moveShare($share, $this->user);
+		}
 	}
 
 
@@ -214,7 +224,7 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @return \OCP\Share\IShare
 	 */
 	public function getShare() {
-		return $this->share;
+		return $this->superShare;
 	}
 
 	/**
@@ -223,6 +233,6 @@ class SharedMount extends MountPoint implements MoveableMount {
 	 * @return int
 	 */
 	public function getStorageRootId() {
-		return $this->share->getNodeId();
+		return $this->getShare()->getNodeId();
 	}
 }

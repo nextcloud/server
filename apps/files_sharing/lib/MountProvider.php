@@ -75,16 +75,21 @@ class MountProvider implements IMountProvider {
 			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID();
 		});
 
-		$mounts = [];
-		foreach ($shares as $share) {
+		$groupedShares = $this->groupShares($shares);
 
+		$superShares = $this->superShares($groupedShares);
+
+
+		$mounts = [];
+		foreach ($superShares as $share) {
 			try {
 				$mounts[] = new SharedMount(
 					'\OC\Files\Storage\Shared',
 					$mounts,
 					[
 						'user' => $user->getUID(),
-						'newShare' => $share,
+						'superShare' => $share[0],
+						'groupedShares' => $share[1],
 					],
 					$storageFactory
 				);
@@ -96,5 +101,64 @@ class MountProvider implements IMountProvider {
 
 		// array_filter removes the null values from the array
 		return array_filter($mounts);
+	}
+
+	/**
+	 * @param \OCP\Share\IShare[] $shares
+	 * @return \OCP\Share\IShare[]
+	 */
+	private function groupShares(array $shares) {
+		$tmp = [];
+
+		foreach ($shares as $share) {
+			if (!isset($tmp[$share->getNodeId()])) {
+				$tmp[$share->getNodeId()] = [];
+			}
+			$tmp[$share->getNodeId()][$share->getTarget()][] = $share;
+		}
+
+		$result = [];
+		foreach ($tmp as $tmp2) {
+			foreach ($tmp2 as $item) {
+				$result[] = $item;
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Extract super shares
+	 *
+	 * @param array $shares Array of \OCP\Share\IShare[]
+	 * @return array Tuple of [superShare, groupedShares]
+	 */
+	private function superShares(array $groupedShares) {
+		$result = [];
+
+		/** @var \OCP\Share\IShare[] $shares */
+		foreach ($groupedShares as $shares) {
+			if (count($shares) === 0) {
+				continue;
+			}
+
+			$superShare = $this->shareManager->newShare();
+
+			$superShare->setId($shares[0]->getId())
+				->setShareOwner($shares[0]->getShareOwner())
+				->setNodeId($shares[0]->getNodeId())
+				->setTarget($shares[0]->getTarget());
+
+			$permissions = 0;
+			foreach ($shares as $share) {
+				$permissions |= $share->getPermissions();
+			}
+
+			$superShare->setPermissions($permissions);
+
+			$result[] = [$superShare, $shares];
+		}
+
+		return $result;
 	}
 }
