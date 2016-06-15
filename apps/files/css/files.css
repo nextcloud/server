@@ -585,19 +585,19 @@ html.ie8 .column-mtime .selectedActions {
 #fileList a.action.action-menu {
 	padding-top: 17px;
 	padding-bottom: 17px;
-	padding-left:14px;
-	padding-right:0px;
+	padding-left: 14px;
+	padding-right: 14px;
 }
 
 #fileList .filesize {
-	padding-top:0px;
-	padding-bottom:0px;
-	padding-left:60px;
-	padding-right:15px;
+	padding-top: 0;
+	padding-bottom: 0;
+	padding-left: 60px;
+	padding-right: 15px;
 }
 
 #fileList .popovermenu {
-	margin-right: -5px;
+	margin-right: 6px;
 }
 .ie8 #fileList .popovermenu {
 	margin-top: -10px;
