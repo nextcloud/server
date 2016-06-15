@@ -89,7 +89,7 @@ class CORSMiddleware extends Middleware {
 			$pass = $this->request->server['PHP_AUTH_PW'];
 
 			$this->session->logout();
-			if(!$this->session->logClientIn($user, $pass)) {
+			if(!$this->session->logClientIn($user, $pass, $this->request)) {
 				throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
 			}
 		}
