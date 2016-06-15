@@ -77,6 +77,14 @@
 	background-color: rgb(179, 230, 255);
 }
 
+.app-files #app-content.dir-drop, .file-drag #filestable tbody tr{
+	background-color: rgba(0, 0, 0, 0);
+}
+
+.app-files #app-content.dir-drop #filestable tbody tr.dropping-to-dir{
+	background-color: rgb(179, 230, 255);
+}
+
 .dropping-to-dir .thumbnail {
 	background-image: url(/nextcloud/core/img/filetypes/folder-drag-accept.svg)!important;
 }

@@ -674,15 +674,18 @@ OC.Upload = {
 
 					if(!filerow.hasClass('dropping-to-dir')){
 						$('.dropping-to-dir').removeClass('dropping-to-dir');
+						$('.dir-drop').removeClass('dir-drop');
 					}
 
 					if(filerow.attr('data-type') === 'dir'){
+						$('#app-content').addClass('dir-drop');
 						filerow.addClass('dropping-to-dir');
 					}
 				});
 				fileupload.on('fileuploaddragleave fileuploaddrop', function (e, data){
 					$('#app-content').removeClass('file-drag');
 					$('.dropping-to-dir').removeClass('dropping-to-dir');
+					$('.dir-drop').removeClass('dir-drop');
 				});
 			} else {
 				// for all browsers that don't support the progress bar
