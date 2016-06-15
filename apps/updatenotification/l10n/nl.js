@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "{version} is available. Get more information on how to update." : "{version} is beschikbaar. Meer informatie over het bijwerken.",
     "Updated channel" : "Bijgewerkt kanaal",
+    "Update for %1$s to version %2$s is available." : "Update voor %1$s naar versie %2$s is beschikbaar.",
     "Updater" : "Updater",
     "A new version is available: %s" : "Er is een nieuwe versie beschikbaar: %s",
     "Open updater" : "Open updater",
