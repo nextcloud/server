@@ -1404,7 +1404,7 @@ class RequestTest extends \Test\TestCase {
 		$this->assertTrue($request->passesCSRFCheck());
 	}
 
-	public function testFailsCSRFCheckWithGetAndWithoutCookies() {
+	public function testPassesCSRFCheckWithGetAndWithoutCookies() {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1421,13 +1421,14 @@ class RequestTest extends \Test\TestCase {
 			])
 			->getMock();
 		$this->csrfTokenManager
-			->expects($this->never())
-			->method('isTokenValid');
+			->expects($this->once())
+			->method('isTokenValid')
+			->willReturn(true);
 
-		$this->assertFalse($request->passesCSRFCheck());
+		$this->assertTrue($request->passesCSRFCheck());
 	}
 
-	public function testFailsCSRFCheckWithPostAndWithoutCookies() {
+	public function testPassesCSRFCheckWithPostAndWithoutCookies() {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1444,13 +1445,14 @@ class RequestTest extends \Test\TestCase {
 			])
 			->getMock();
 		$this->csrfTokenManager
-			->expects($this->never())
-			->method('isTokenValid');
+			->expects($this->once())
+			->method('isTokenValid')
+			->willReturn(true);
 
-		$this->assertFalse($request->passesCSRFCheck());
+		$this->assertTrue($request->passesCSRFCheck());
 	}
 
-	public function testFailsCSRFCheckWithHeaderAndWithoutCookies() {
+	public function testPassesCSRFCheckWithHeaderAndWithoutCookies() {
 		/** @var Request $request */
 		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
 			->setMethods(['getScriptName'])
@@ -1467,10 +1469,11 @@ class RequestTest extends \Test\TestCase {
 			])
 			->getMock();
 		$this->csrfTokenManager
-			->expects($this->never())
-			->method('isTokenValid');
+			->expects($this->once())
+			->method('isTokenValid')
+			->willReturn(true);
 
-		$this->assertFalse($request->passesCSRFCheck());
+		$this->assertTrue($request->passesCSRFCheck());
 	}
 
 	public function testFailsCSRFCheckWithHeaderAndNotAllChecksPassing() {
@@ -1521,6 +1524,32 @@ class RequestTest extends \Test\TestCase {
 			->getMock();
 
 		$this->assertTrue($request->passesStrictCookieCheck());
+	}
+
+	public function testFailsSRFCheckWithPostAndWithCookies() {
+		/** @var Request $request */
+		$request = $this->getMockBuilder('\OC\AppFramework\Http\Request')
+			->setMethods(['getScriptName'])
+			->setConstructorArgs([
+				[
+					'post' => [
+						'requesttoken' => 'AAAHGxsTCTc3BgMQESAcNR0OAR0=:MyTotalSecretShareds',
+					],
+					'cookies' => [
+						'foo' => 'bar',
+					],
+				],
+				$this->secureRandom,
+				$this->config,
+				$this->csrfTokenManager,
+				$this->stream
+			])
+			->getMock();
+		$this->csrfTokenManager
+			->expects($this->never())
+			->method('isTokenValid');
+
+		$this->assertFalse($request->passesCSRFCheck());
 	}
 
 	public function testFailStrictCookieCheckWithOnlyLaxCookie() {
