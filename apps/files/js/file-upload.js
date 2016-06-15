@@ -667,7 +667,7 @@ OC.Upload = {
 						OC.Upload._hideProgressBar();
 					}
 				});
-				fileupload.on('fileuploaddragover', function(e, data){
+				fileupload.on('fileuploaddragover', function(e){
 					$('#app-content').addClass('file-drag');
 
 					var filerow = $(e.delegatedEvent.target).closest('tr');
@@ -675,17 +675,20 @@ OC.Upload = {
 					if(!filerow.hasClass('dropping-to-dir')){
 						$('.dropping-to-dir').removeClass('dropping-to-dir');
 						$('.dir-drop').removeClass('dir-drop');
+						$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
 					}
 
 					if(filerow.attr('data-type') === 'dir'){
 						$('#app-content').addClass('dir-drop');
 						filerow.addClass('dropping-to-dir');
+						filerow.find('.thumbnail').addClass('icon-filetype-folder-drag-accept');
 					}
 				});
-				fileupload.on('fileuploaddragleave fileuploaddrop', function (e, data){
+				fileupload.on('fileuploaddragleave fileuploaddrop', function (){
 					$('#app-content').removeClass('file-drag');
 					$('.dropping-to-dir').removeClass('dropping-to-dir');
 					$('.dir-drop').removeClass('dir-drop');
+					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
 				});
 			} else {
 				// for all browsers that don't support the progress bar

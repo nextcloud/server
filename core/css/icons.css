@@ -353,6 +353,10 @@ img.icon-loading-small-dark, object.icon-loading-small-dark, video.icon-loading-
 	background-image: url('../img/filetypes/folder.svg');
 }
 
+.icon-filetype-folder-drag-accept {
+    background-image: url('../img/filetypes/folder-drag-accept.svg')!important;
+}
+
 .icon-home {
 	background-image: url('../img/places/home.svg');
 }
