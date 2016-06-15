@@ -67,7 +67,7 @@
 				} else {
 					span.append(t('core', 'The update was unsuccessful. ' +
 						'Please report this issue to the ' +
-						'<a href="https://github.com/owncloud/core/issues" target="_blank">ownCloud community</a>.'));
+						'<a href="https://github.com/nextcloud/server/issues" target="_blank">Nextcloud community</a>.'));
 				}
 				span.appendTo($el);
 			});
@@ -85,7 +85,7 @@
 					// FIXME: use product name
 					$('<span>').addClass('bold')
 						.append('<br />')
-						.append(t('core', 'The update was successful. Redirecting you to ownCloud now.'))
+						.append(t('core', 'The update was successful. Redirecting you to Nextcloud now.'))
 						.appendTo($el);
 					setTimeout(function () {
 						OC.redirect(OC.webroot + '/');
