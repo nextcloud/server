@@ -273,7 +273,7 @@ OC.Upload = {
 		var self = this;
 		if ( $('#file_upload_start').exists() ) {
 			var file_upload_param = {
-				dropZone: $('#content'), // restrict dropZone to content div
+				dropZone: $('#app-content'), // restrict dropZone to app-content div
 				pasteZone: null, 
 				autoUpload: false,
 				sequentialUploads: true,
