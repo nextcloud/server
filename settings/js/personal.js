@@ -336,7 +336,8 @@ $(document).ready(function () {
 			t('core', 'So-so password'),
 			t('core', 'Good password'),
 			t('core', 'Strong password')
-		]
+		],
+		drawTitles: true,
 	});
 
 	// does the user have a custom avatar? if he does show #removeavatar
