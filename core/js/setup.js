@@ -109,7 +109,8 @@ $(document).ready(function() {
 			t('core', 'So-so password'),
 			t('core', 'Good password'),
 			t('core', 'Strong password')
-		]
+		],
+		drawTitles: true,
 	});
 
 	// centers the database chooser if it is too wide
