@@ -38,6 +38,8 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
 try {
+	OC_App::loadApps(['session']);
+	OC_App::loadApps(['authentication']);
 	// load all apps to get all api routes properly setup
 	OC_App::loadApps();
 
