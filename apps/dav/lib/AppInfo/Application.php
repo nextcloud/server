@@ -32,6 +32,7 @@ use OCA\DAV\Connector\Sabre\Principal;
 use OCA\DAV\DAV\GroupPrincipalBackend;
 use OCA\DAV\HookManager;
 use OCA\DAV\Migration\Classification;
+use OCA\DAV\Migration\GenerateBirthdays;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\IManager;
@@ -116,6 +117,16 @@ class Application extends App {
 				$c->getServer()->getUserManager()
 			);
 		});
+
+		$container->registerService('OCA\DAV\Migration\GenerateBirthdays', function ($c) {
+			/** @var IAppContainer $c */
+			/** @var BirthdayService $b */
+			$b = $c->query('BirthdayService');
+			return new GenerateBirthdays(
+				$b,
+				$c->getServer()->getUserManager()
+			);
+		});
 	}
 
 	/**
@@ -164,18 +175,4 @@ class Application extends App {
 		return $this->getContainer()->query('SyncService');
 	}
 
-	public function generateBirthdays() {
-		try {
-			/** @var BirthdayService $migration */
-			$migration = $this->getContainer()->query('BirthdayService');
-			$userManager = $this->getContainer()->getServer()->getUserManager();
-
-			$userManager->callForAllUsers(function($user) use($migration) {
-				/** @var IUser $user */
-				$migration->syncUser($user->getUID());
-			});
-		} catch (\Exception $ex) {
-			$this->getContainer()->getServer()->getLogger()->logException($ex);
-		}
-	}
 }
