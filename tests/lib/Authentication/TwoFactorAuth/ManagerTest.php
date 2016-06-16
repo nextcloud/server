@@ -86,6 +86,10 @@ class ManagerTest extends TestCase {
 						'\OCA\MyCustom2faApp\FakeProvider',
 					],
 		]));
+
+		$this->manager->expects($this->once())
+			->method('loadTwoFactorApp')
+			->with('mycustom2faapp');
 	}
 
 	/**
@@ -97,6 +101,9 @@ class ManagerTest extends TestCase {
 			->method('getEnabledAppsForUser')
 			->with($this->user)
 			->will($this->returnValue(['faulty2faapp']));
+		$this->manager->expects($this->once())
+			->method('loadTwoFactorApp')
+			->with('faulty2faapp');
 
 		$this->appManager->expects($this->once())
 			->method('getAppInfo')
