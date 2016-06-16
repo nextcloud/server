@@ -197,7 +197,7 @@ if($_['passwordChangeSupported']) {
 		<tbody class="token-list icon-loading">
 		</tbody>
 	</table>
-	<p><?php p($l->t('An app password is a passcode that gives an app or device permissions to access your ownCloud account.'));?></p>
+	<p><?php p($l->t('An app password is a passcode that gives an app or device permissions to access your %s account.', [$theme->getName()]));?></p>
 	<div id="app-password-form">
 		<input id="app-password-name" type="text" placeholder="<?php p($l->t('App name')); ?>">
 		<button id="add-app-password" class="button"><?php p($l->t('Create new app password')); ?></button>
