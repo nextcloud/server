@@ -504,9 +504,9 @@ $CONFIG = array(
 'updatechecker' => true,
 
 /**
- * URL that ownCloud should use to look for updates
+ * URL that Nextcloud should use to look for updates
  */
-'updater.server.url' => 'https://updates.owncloud.com/server/',
+'updater.server.url' => 'https://updates.nextcloud.org/server/',
 
 /**
  * Is ownCloud connected to the Internet or running in a closed network?
