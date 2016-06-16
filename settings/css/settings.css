@@ -161,10 +161,6 @@ table.nostyle td { padding: 0.2em 0; }
 	width: 32px;
 }
 
-.ie8 #newgroup-form .icon-add {
-	height: 30px;
-}
-
 .isgroup .groupname {
 	width: 85%;
 	display: block;
@@ -280,10 +276,6 @@ input.userFilter {width: 200px;}
 #headerAvatar {
 	width: 32px;
 }
-
-
-.ie8 table.hascontrols{border-collapse:collapse;width: 100%;}
-.ie8 table.hascontrols tbody tr{border-collapse:collapse;border: 1px solid #ddd !important;}
 
 /* used to highlight a user row in red */
 #userlist tr.row-warning {
@@ -538,18 +530,6 @@ span.indeterminate {
 	left: 189px;
 	width: 131px;
 	margin-top: -7px;
-}
-
-.ie8 .strengthify-wrapper {
-	left: 389px;
-}
-
-.onlyInIE8 {
-	display: none;
-}
-
-.ie8 .onlyInIE8 {
-	display: inline;
 }
 
 /* OPERA hack for strengthify*/

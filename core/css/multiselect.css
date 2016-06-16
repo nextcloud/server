@@ -111,10 +111,3 @@ ul.multiselectoptions > li.creator > input {
 	padding: 5px;
 	margin: -5px;
 }
-
-.ie8 div.multiselect span:first-child {
-	display:block;
-	position:relative;
-	width: 90%;
-	margin-right:-1px;
-}
