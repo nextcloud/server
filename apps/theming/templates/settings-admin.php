@@ -6,7 +6,8 @@ script('theming', '3rdparty/jscolor/jscolor');
 style('theming', 'settings-admin');
 ?>
 <div id="theming" class="section">
-	<h2><?php p($l->t('Theming')); ?></h2>
+	<h2 class="inlineblock"><?php p($l->t('Theming')); ?></h2>
+		<div id="theming_settings_msg" class="msg success inlineblock" style="display: none;">Saved</div>
 	<?php if ($_['themable'] === false) { ?>
 	<p>
 		<?php p($_['errorMessage']) ?>

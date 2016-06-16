@@ -22,3 +22,7 @@
 #theming .icon-upload {
     display: inline-flex;
 }
+
+div#theming_settings_msg {
+    margin-left: 10px;
+}

@@ -25,7 +25,9 @@ namespace OCA\Theming\Controller;
 
 use OCA\Theming\Template;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IL10N;
 use OCP\IRequest;
 
 /**
@@ -39,11 +41,28 @@ class ThemingController extends Controller {
 	
 	/** @var Template */
 	private $template;
-	
-	public function __construct($appName, IRequest $request, Template $template) {
+
+	/** @var IL10N */
+	private $l;
+
+	/**
+	 * ThemingController constructor.
+	 *
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param Template $template
+	 * @param IL10N $l
+	 */
+	public function __construct(
+		$appName,
+		IRequest $request,
+		Template $template,
+		IL10N $l
+	) {
 		parent::__construct($appName, $request);
 		
 		$this->template = $template;
+		$this->l = $l;
 	}
 
 	/**
@@ -54,7 +73,15 @@ class ThemingController extends Controller {
 	 */
 	public function updateStylesheet($setting, $value) {
 		$this->template->set($setting, $value);
-		return new DataResponse();
+		return new DataResponse(
+			[
+				'data' =>
+					[
+						'message' => $this->l->t('Saved')
+					],
+				'status' => 'success'
+			]
+		);
 	}
 
 	/**
@@ -65,12 +92,27 @@ class ThemingController extends Controller {
 	public function updateLogo() {
 		$newLogo = $this->request->getUploadedFile('uploadlogo');
 		if (empty($newLogo)) {
-			return new DataResponse(['message' => 'No logo uploaded'], Http::STATUS_UNPROCESSABLE_ENTITY);
+			return new DataResponse(
+				[
+					'data' => [
+						'message' => $this->l->t('No logo uploaded')
+					]
+				],
+				Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
 		$this->template->set('logoName', $newLogo['name']);
 		rename($newLogo['tmp_name'], \OC::$SERVERROOT . '/themes/theming-app/core/img/' . $newLogo['name']);
 		
-		return new DataResponse(['name' => $newLogo['name']]);
+		return new DataResponse(
+			[
+				'data' =>
+					[
+						'name' => $newLogo['name'],
+						'message' => $this->l->t('Saved')
+					],
+				'status' => 'success'
+			]
+		);
 	}
 
 	/**
@@ -81,6 +123,15 @@ class ThemingController extends Controller {
 	 */
 	public function undo($setting) {
 		$value = $this->template->undo($setting);
-		return new DataResponse(['value' => $value]);
+		return new DataResponse(
+			[
+				'data' =>
+					[
+						'value' => $value,
+						'message' => $this->l->t('Saved')
+					],
+				'status' => 'success'
+			]
+		);
 	}
 }
