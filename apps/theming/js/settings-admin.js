@@ -20,9 +20,14 @@
  */
 
 function setThemingValue(setting, value) {
+	OC.msg.startSaving('#theming_settings_msg');
 	$.post(
 		OC.generateUrl('/apps/theming/ajax/updateStylesheet'), {'setting' : setting, 'value' : value}
-	);
+	).done(function(response) {
+		OC.msg.finishedSaving('#theming_settings_msg', response);
+	}).fail(function(response) {
+		OC.msg.finishedSaving('#theming_settings_msg', response);
+	});
 	preview(setting, value);
 }
 
@@ -45,12 +50,15 @@ $(document).ready(function () {
 
 	var uploadparms = {
 		pasteZone: null,
-		done: function (e, data) {
-			preview('logoName', data.result.name);
+		done: function (e, response) {
+			preview('logoName', response.result.data.name);
+			OC.msg.finishedSaving('#theming_settings_msg', response.result);
 		},
-		submit: function(e, data) {
+		submit: function(e, response) {
+			OC.msg.startSaving('#theming_settings_msg');
 		},
 		fail: function (e, data){
+			OC.msg.finishedSaving('#theming_settings_msg', response);
 		}
 	};
 	
@@ -86,18 +94,20 @@ $(document).ready(function () {
 	
 	$('.theme-undo').click(function (e) {
 		var setting = $(this).data('setting');
+		OC.msg.startSaving('#theming_settings_msg');
 		$.post(
 			OC.generateUrl('/apps/theming/ajax/undoChanges'), {'setting' : setting}
-		).done(function(data) {
+		).done(function(response) {
 			if (setting === 'color') {
 				var colorPicker = document.getElementById('theming-color');
-				colorPicker.style.backgroundColor = data.value;
-				colorPicker.value = data.value.slice(1);
+				colorPicker.style.backgroundColor = response.data.value;
+				colorPicker.value = response.data.value.slice(1);
 			} else if (setting !== 'logoName') {
 				var input = document.getElementById('theming-'+setting);
-				input.value = data.value;
+				input.value = response.data.value;
 			}
-			preview(setting, data.value);
+			preview(setting, response.data.value);
+			OC.msg.finishedSaving('#theming_settings_msg', response);
 		});
 	});
 });
