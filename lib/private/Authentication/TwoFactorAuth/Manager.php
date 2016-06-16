@@ -24,6 +24,7 @@ namespace OC\Authentication\TwoFactorAuth;
 use Exception;
 use OC;
 use OC\App\AppManager;
+use OC_App;
 use OCP\AppFramework\QueryException;
 use OCP\Authentication\TwoFactorAuth\IProvider;
 use OCP\IConfig;
@@ -110,6 +111,7 @@ class Manager {
 			$providerClasses = $info['two-factor-providers'];
 			foreach ($providerClasses as $class) {
 				try {
+					$this->loadTwoFactorApp($appId);
 					$provider = OC::$server->query($class);
 					$providers[$provider->getId()] = $provider;
 				} catch (QueryException $exc) {
@@ -123,6 +125,17 @@ class Manager {
 			/* @var $provider IProvider */
 			return $provider->isTwoFactorAuthEnabledForUser($user);
 		});
+	}
+
+	/**
+	 * Load an app by ID if it has not been loaded yet
+	 *
+	 * @param string $appId
+	 */
+	protected function loadTwoFactorApp($appId) {
+		if (!OC_App::isAppLoaded($appId)) {
+			OC_App::loadApp($appId);
+		}
 	}
 
 	/**
