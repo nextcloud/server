@@ -177,7 +177,7 @@ $tmpl->assign('groups', $groups2);
 $formsAndMore = [];
 $formsAndMore[]= ['anchor' => 'avatar', 'section-name' => $l->t('Personal info')];
 $formsAndMore[]= ['anchor' => 'sessions', 'section-name' => $l->t('Sessions')];
-$formsAndMore[]= ['anchor' => 'devices', 'section-name' => $l->t('Devices')];
+$formsAndMore[]= ['anchor' => 'apppasswords', 'section-name' => $l->t('App passwords')];
 $formsAndMore[]= ['anchor' => 'clientsbox', 'section-name' => $l->t('Sync clients')];
 
 $forms=OC_App::getForms('personal');

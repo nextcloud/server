@@ -183,9 +183,9 @@ if($_['passwordChangeSupported']) {
 	</table>
 </div>
 
-<div id="devices" class="section">
-	<h2><?php p($l->t('Devices'));?></h2>
-	<span class="hidden-when-empty"><?php p($l->t("You've linked these devices."));?></span>
+<div id="apppasswords" class="section">
+	<h2><?php p($l->t('App passwords'));?></h2>
+	<span class="hidden-when-empty"><?php p($l->t("You've linked these apps."));?></span>
 	<table>
 		<thead class="hidden-when-empty">
 			<tr>
@@ -197,14 +197,14 @@ if($_['passwordChangeSupported']) {
 		<tbody class="token-list icon-loading">
 		</tbody>
 	</table>
-	<p><?php p($l->t('A device password is a passcode that gives an app or device permissions to access your ownCloud account.'));?></p>
-	<div id="device-token-form">
-		<input id="device-token-name" type="text" placeholder="Device name">
-		<button id="device-add-token" class="button">Create new device password</button>
+	<p><?php p($l->t('An app password is a passcode that gives an app or device permissions to access your ownCloud account.'));?></p>
+	<div id="app-password-form">
+		<input id="app-password-name" type="text" placeholder="App name">
+		<button id="add-app-password" class="button">Create new app password</button>
 	</div>
-	<div id="device-token-result" class="hidden">
-		<input id="device-new-token" type="text" readonly="readonly"/>
-		<button id="device-token-hide" class="button">Done</button>
+	<div id="app-password-result" class="hidden">
+		<input id="new-app-password" type="text" readonly="readonly"/>
+		<button id="app-password-hide" class="button">Done</button>
 	</div>
 </div>
 
