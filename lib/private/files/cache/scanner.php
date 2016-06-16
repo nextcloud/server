@@ -261,7 +261,7 @@ class Scanner extends BasicEmitter {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		if ($lock) {
-			$this->storage->acquireLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
+			$this->lockingProvider->acquireLock('scanner::' . $this->storageId . '::' . $path, ILockingProvider::LOCK_EXCLUSIVE);
 			$this->storage->acquireLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
 		}
 		$data = $this->scanFile($path, $reuse, -1, null, $lock);
@@ -271,7 +271,7 @@ class Scanner extends BasicEmitter {
 		}
 		if ($lock) {
 			$this->storage->releaseLock($path, ILockingProvider::LOCK_SHARED, $this->lockingProvider);
-			$this->storage->releaseLock('scanner::' . $path, ILockingProvider::LOCK_EXCLUSIVE, $this->lockingProvider);
+			$this->lockingProvider->releaseLock('scanner::' . $this->storageId . '::' . $path, ILockingProvider::LOCK_EXCLUSIVE);
 		}
 		return $data;
 	}
