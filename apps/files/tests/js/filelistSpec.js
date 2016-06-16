@@ -2364,14 +2364,12 @@ describe('OCA.Files.FileList tests', function() {
 			 */
 			function dropOn($target, data) {
 				var eventData = {
-					originalEvent: {
+					delegatedEvent: {
 						target: $target
 					}
 				};
 				var ev = new $.Event('fileuploaddrop', eventData);
-				// using triggerHandler instead of trigger so we can pass
-				// extra data
-				$uploader.triggerHandler(ev, data || {});
+				$uploader.trigger(ev, data || {});
 				return ev;
 			}
 
