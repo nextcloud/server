@@ -32,6 +32,7 @@ namespace OC\Files\Storage;
 use GuzzleHttp\Exception\RequestException;
 use Icewind\Streams\IteratorDirectory;
 use Icewind\Streams\RetryWrapper;
+use OCP\Files\StorageNotAvailableException;
 
 require_once __DIR__ . '/../3rdparty/Dropbox/autoload.php';
 
@@ -94,6 +95,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 			if ($list) {
 				try {
 					$response = $this->dropbox->getMetaData($path);
+				} catch (\Dropbox_Exception_Forbidden $e) {
+					throw new StorageNotAvailableException('Dropbox API rate limit exceeded', StorageNotAvailableException::STATUS_ERROR, $e);
 				} catch (\Exception $exception) {
 					\OCP\Util::writeLog('files_external', $exception->getMessage(), \OCP\Util::ERROR);
 					return false;
@@ -127,6 +130,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 						return $response;
 					}
 					return null;
+				} catch (\Dropbox_Exception_Forbidden $e) {
+					throw new StorageNotAvailableException('Dropbox API rate limit exceeded', StorageNotAvailableException::STATUS_ERROR, $e);
 				} catch (\Exception $exception) {
 					if ($exception instanceof \Dropbox_Exception_NotFound) {
 						// don't log, might be a file_exist check
