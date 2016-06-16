@@ -1,104 +1,30 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="20.937906"
-   width="120.39989"
-   version="1.1"
-   id="svg3386"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="s10.svg">
-  <metadata
-     id="metadata3396">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <defs
-     id="defs3394" />
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1301"
-     inkscape:window-height="744"
-     id="namedview3392"
-     showgrid="false"
-     inkscape:zoom="9.4269191"
-     inkscape:cx="72.929447"
-     inkscape:cy="23.198457"
-     inkscape:window-x="65"
-     inkscape:window-y="24"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg3386"
-     fit-margin-right="2.4"
-     fit-margin-top="0"
-     fit-margin-left="0"
-     fit-margin-bottom="0" />
-  <g
-     id="g3795"
-     transform="matrix(0.068322,0,0,0.068322,15.885816,-50.963429)">
-    <path
-       id="path3797"
-       transform="translate(-21.071,-112.5)"
-       d="m 330.36,858.43 43.111,108.06 117.64,9.2572 -89.445,74.392 27.55,114.75 -98.391,-62.079 -100.62,61.66 28.637,-112.76 -89.734,-76.638 116.09,-7.6094 z"
-       inkscape:connector-curvature="0"
-       style="fill:#ffcc00" />
-  </g>
-  <g
-     transform="matrix(0.068322,0,0,0.068322,-8.0871839,-50.963429)"
-     id="g3807">
-    <path
-       style="fill:#ffcc00"
-       inkscape:connector-curvature="0"
-       d="m 330.36,858.43 43.111,108.06 117.64,9.2572 -89.445,74.392 27.55,114.75 -98.391,-62.079 -100.62,61.66 28.637,-112.76 -89.734,-76.638 116.09,-7.6094 z"
-       transform="translate(-21.071,-112.5)"
-       id="path3809" />
-  </g>
-  <g
-     transform="matrix(0.068322,0,0,0.068322,39.885816,-50.963429)"
-     id="g3897">
-    <path
-       style="fill:#ffcc00"
-       inkscape:connector-curvature="0"
-       d="m 330.36,858.43 43.111,108.06 117.64,9.2572 -89.445,74.392 27.55,114.75 -98.391,-62.079 -100.62,61.66 28.637,-112.76 -89.734,-76.638 116.09,-7.6094 z"
-       transform="translate(-21.071,-112.5)"
-       id="path3899" />
-  </g>
-  <g
-     id="g3939"
-     transform="matrix(0.068322,0,0,0.068322,63.885816,-50.963429)">
-    <path
-       id="path3941"
-       transform="translate(-21.071,-112.5)"
-       d="m 330.36,858.43 43.111,108.06 117.64,9.2572 -89.445,74.392 27.55,114.75 -98.391,-62.079 -100.62,61.66 28.637,-112.76 -89.734,-76.638 116.09,-7.6094 z"
-       inkscape:connector-curvature="0"
-       style="fill:#ffcc00" />
-  </g>
-  <g
-     transform="matrix(0.068322,0,0,0.068322,87.885816,-50.963429)"
-     id="g3981">
-    <path
-       style="fill:#ffcc00"
-       inkscape:connector-curvature="0"
-       d="m 330.36,858.43 43.111,108.06 117.64,9.2572 -89.445,74.392 27.55,114.75 -98.391,-62.079 -100.62,61.66 28.637,-112.76 -89.734,-76.638 116.09,-7.6094 z"
-       transform="translate(-21.071,-112.5)"
-       id="path3983" />
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg3386" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" sodipodi:docname="s10.svg" inkscape:version="0.91 r13725"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="120.4px"
+	 height="20.938px" viewBox="0 0 120.4 20.938" enable-background="new 0 0 120.4 20.938" xml:space="preserve">
+<sodipodi:namedview  id="namedview3392" fit-margin-left="0" showgrid="false" bordercolor="#666666" objecttolerance="10" inkscape:zoom="9.4269191" gridtolerance="10" pagecolor="#ffffff" borderopacity="1" inkscape:cy="23.198457" guidetolerance="10" inkscape:cx="72.929447" fit-margin-top="0" fit-margin-bottom="0" fit-margin-right="2.4" inkscape:current-layer="svg3386" inkscape:window-maximized="1" inkscape:window-y="24" inkscape:window-x="65" inkscape:window-height="744" inkscape:window-width="1301" inkscape:pageshadow="2" inkscape:pageopacity="0">
+	</sodipodi:namedview>
+<g id="g3795" transform="matrix(0.068322,0,0,0.068322,15.885816,-50.963429)">
+	<path id="path3797" inkscape:connector-curvature="0" fill="#0082C9" d="M309.293,745.934l43.109,108.059l117.636,9.248
+		l-89.449,74.398l27.558,114.749l-98.396-62.077l-100.612,61.662l28.63-112.762l-89.735-76.642l116.092-7.604L309.293,745.934z"/>
+</g>
+<g id="g3807" transform="matrix(0.068322,0,0,0.068322,-8.0871839,-50.963429)">
+	<path id="path3809" inkscape:connector-curvature="0" fill="#0082C9" d="M309.283,745.935l43.109,108.059l117.65,9.248
+		l-89.449,74.398l27.558,114.749l-98.397-62.077l-100.626,61.662l28.644-112.762l-89.735-76.642l116.092-7.604L309.283,745.935z"/>
+</g>
+<g id="g3897" transform="matrix(0.068322,0,0,0.068322,39.885816,-50.963429)">
+	<path id="path3899" inkscape:connector-curvature="0" fill="#0082C9" d="M309.292,745.935l43.109,108.059l117.636,9.248
+		l-89.449,74.398l27.558,114.749l-98.396-62.077l-100.612,61.662l28.63-112.762l-89.735-76.642l116.092-7.604L309.292,745.935z"/>
+</g>
+<g id="g3939" transform="matrix(0.068322,0,0,0.068322,63.885816,-50.963429)">
+	<path id="path3941" inkscape:connector-curvature="0" fill="#0082C9" d="M309.292,745.935l43.109,108.059l117.636,9.248
+		l-89.449,74.398l27.558,114.749l-98.396-62.077l-100.612,61.662l28.63-112.762l-89.735-76.642l116.092-7.604L309.292,745.935z"/>
+</g>
+<g id="g3981" transform="matrix(0.068322,0,0,0.068322,87.885816,-50.963429)">
+	<path id="path3983" inkscape:connector-curvature="0" fill="#0082C9" d="M309.292,745.935l43.109,108.059l117.636,9.248
+		l-89.449,74.398l27.558,114.749l-98.397-62.077l-100.612,61.662l28.63-112.762l-89.735-76.642l116.092-7.604L309.292,745.935z"/>
+</g>
 </svg>
