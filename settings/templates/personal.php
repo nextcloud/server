@@ -199,12 +199,12 @@ if($_['passwordChangeSupported']) {
 	</table>
 	<p><?php p($l->t('An app password is a passcode that gives an app or device permissions to access your ownCloud account.'));?></p>
 	<div id="app-password-form">
-		<input id="app-password-name" type="text" placeholder="App name">
-		<button id="add-app-password" class="button">Create new app password</button>
+		<input id="app-password-name" type="text" placeholder="<?php p($l->t('App name')); ?>">
+		<button id="add-app-password" class="button"><?php p($l->t('Create new app password')); ?></button>
 	</div>
 	<div id="app-password-result" class="hidden">
 		<input id="new-app-password" type="text" readonly="readonly"/>
-		<button id="app-password-hide" class="button">Done</button>
+		<button id="app-password-hide" class="button"><?php p($l->t('Done')); ?></button>
 	</div>
 </div>
 
