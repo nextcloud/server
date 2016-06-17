@@ -208,6 +208,22 @@ class AuthTest extends TestCase {
 		$this->assertFalse($this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
 	}
 
+	public function testValidateUserPassWithPasswordLoginForbidden() {
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->will($this->returnValue(false));
+		$this->userSession
+			->expects($this->once())
+			->method('logClientIn')
+			->with('MyTestUser', 'MyTestPassword')
+			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordLoginForbiddenException()));
+		$this->session
+			->expects($this->once())
+			->method('close');
+
+		$this->assertFalse($this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
+	}
 
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenForNonGet() {
 		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')

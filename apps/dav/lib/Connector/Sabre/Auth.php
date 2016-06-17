@@ -31,6 +31,7 @@ namespace OCA\DAV\Connector\Sabre;
 
 use Exception;
 use OC\AppFramework\Http\Request;
+use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\User\Session;
 use OCP\IRequest;
@@ -115,12 +116,18 @@ class Auth extends AbstractBasic {
 			return true;
 		} else {
 			\OC_Util::setupFS(); //login hooks may need early access to the filesystem
-			if($this->userSession->logClientIn($username, $password, $this->request)) {
-				\OC_Util::setupFS($this->userSession->getUser()->getUID());
-				$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
-				$this->session->close();
-				return true;
-			} else {
+			try {
+				if ($this->userSession->logClientIn($username, $password, $this->request)) {
+					\OC_Util::setupFS($this->userSession->getUser()->getUID());
+					$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
+					$this->session->close();
+					return true;
+				} else {
+					$this->session->close();
+					return false;
+				}
+			} catch (PasswordLoginForbiddenException $ex) {
+				// TODO: throw sabre exception
 				$this->session->close();
 				return false;
 			}
