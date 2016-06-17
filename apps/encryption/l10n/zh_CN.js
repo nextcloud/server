@@ -15,6 +15,7 @@ OC.L10N.register(
     "Could not change the password. Maybe the old password was not correct." : "不能修改密码。旧密码可能不正确。",
     "Could not update the private key password." : "不能更新私有密钥。",
     "The old password was not correct, please try again." : "原始密码错误，请重试。",
+    "The current log-in password was not correct, please try again." : "当前登录密码不正确，请重试。",
     "Private key password successfully updated." : "私钥密码成功更新。",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "无效的私有密钥。请到您的个人配置里去更新私有密钥，来恢复对加密文件的访问。",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "加密应用被启用了，但是你的加密密钥没有初始化，请重新登出登录系统一次。",
