@@ -97,13 +97,24 @@ class DefaultTokenProviderTest extends TestCase {
 
 	public function testUpdateToken() {
 		$tk = new DefaultToken();
+		$tk->setLastActivity($this->time - 200);
 		$this->mapper->expects($this->once())
 			->method('update')
 			->with($tk);
 
-		$this->tokenProvider->updateToken($tk);
+		$this->tokenProvider->updateTokenActivity($tk);
 
 		$this->assertEquals($this->time, $tk->getLastActivity());
+	}
+
+	public function testUpdateTokenDebounce() {
+		$tk = new DefaultToken();
+		$tk->setLastActivity($this->time - 30);
+		$this->mapper->expects($this->never())
+			->method('update')
+			->with($tk);
+
+		$this->tokenProvider->updateTokenActivity($tk);
 	}
 	
 	public function testGetTokenByUser() {

@@ -97,14 +97,17 @@ class DefaultTokenProvider implements IProvider {
 	 * @throws InvalidTokenException
 	 * @param IToken $token
 	 */
-	public function updateToken(IToken $token) {
+	public function updateTokenActivity(IToken $token) {
 		if (!($token instanceof DefaultToken)) {
 			throw new InvalidTokenException();
 		}
 		/** @var DefaultToken $token */
-		$token->setLastActivity($this->time->getTime());
-
-		$this->mapper->update($token);
+		$now = $this->time->getTime();
+		if ($token->getLastActivity() < ($now - 60)) {
+			// Update token only once per minute
+			$token->setLastActivity($now);
+			$this->mapper->update($token);
+		}
 	}
 
 	/**

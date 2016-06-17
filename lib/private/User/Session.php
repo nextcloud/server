@@ -237,8 +237,7 @@ class Session implements IUserSession, Emitter {
 			$this->session->set('last_login_check', $now);
 		}
 
-		// Session is valid, so the token can be refreshed
-		$this->updateToken($token);
+		$this->tokenProvider->updateTokenActivity($token);
 	}
 
 	/**
@@ -541,7 +540,7 @@ class Session implements IUserSession, Emitter {
 				$result = $this->loginWithToken($token->getUID());
 				if ($result) {
 					// Login success
-					$this->updateToken($token);
+					$this->tokenProvider->updateTokenActivity($token);
 					return true;
 				}
 			}
@@ -549,19 +548,6 @@ class Session implements IUserSession, Emitter {
 
 		}
 		return false;
-	}
-
-	/**
-	 * @param IToken $token
-	 */
-	private function updateToken(IToken $token) {
-		// To save unnecessary DB queries, this is only done once a minute
-		$lastTokenUpdate = $this->session->get('last_token_update') ? : 0;
-		$now = $this->timeFacory->getTime();
-		if ($lastTokenUpdate < ($now - 60)) {
-			$this->tokenProvider->updateToken($token);
-			$this->session->set('last_token_update', $now);
-		}
 	}
 
 	/**

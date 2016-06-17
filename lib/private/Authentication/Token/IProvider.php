@@ -76,7 +76,7 @@ interface IProvider {
 	 *
 	 * @param IToken $token
 	 */
-	public function updateToken(IToken $token);
+	public function updateTokenActivity(IToken $token);
 
 	/**
 	 * Get all token of a user
