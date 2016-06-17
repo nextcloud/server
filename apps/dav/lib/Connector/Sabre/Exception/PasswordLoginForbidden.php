@@ -23,10 +23,10 @@
 namespace OCA\DAV\Connector\Sabre\Exception;
 
 use DOMElement;
-use Sabre\DAV\Exception;
 use Sabre\DAV\Server;
+use Sabre\DAV\Exception\NotAuthenticated;
 
-class PasswordLoginForbidden extends Exception {
+class PasswordLoginForbidden extends NotAuthenticated {
 
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
 
