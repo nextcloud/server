@@ -74,6 +74,11 @@ class DefaultToken extends Entity implements IToken {
 	 */
 	protected $lastActivity;
 
+	/**
+	 * @var int
+	 */
+	protected $lastCheck;
+
 	public function getId() {
 		return $this->id;
 	}
@@ -107,6 +112,24 @@ class DefaultToken extends Entity implements IToken {
 			'lastActivity' => $this->lastActivity,
 			'type' => $this->type,
 		];
+	}
+
+	/**
+	 * Get the timestamp of the last password check
+	 *
+	 * @return int
+	 */
+	public function getLastCheck() {
+		return parent::getLastCheck();
+	}
+
+	/**
+	 * Get the timestamp of the last password check
+	 *
+	 * @param int $time
+	 */
+	public function setLastCheck($time) {
+		return parent::setLastCheck($time);
 	}
 
 }

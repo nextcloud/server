@@ -92,6 +92,18 @@ class DefaultTokenProvider implements IProvider {
 	}
 
 	/**
+	 * Save the updated token
+	 *
+	 * @param IToken $token
+	 */
+	public function updateToken(IToken $token) {
+		if (!($token instanceof DefaultToken)) {
+			throw new InvalidTokenException();
+		}
+		$this->mapper->update($token);
+	}
+
+	/**
 	 * Update token activity timestamp
 	 *
 	 * @throws InvalidTokenException
@@ -179,21 +191,6 @@ class DefaultTokenProvider implements IProvider {
 		$olderThan = $this->time->getTime() - (int) $this->config->getSystemValue('session_lifetime', 60 * 60 * 24);
 		$this->logger->info('Invalidating tokens older than ' . date('c', $olderThan));
 		$this->mapper->invalidateOld($olderThan);
-	}
-
-	/**
-	 * @param string $token
-	 * @throws InvalidTokenException
-	 * @return DefaultToken user UID
-	 */
-	public function validateToken($token) {
-		try {
-			$dbToken = $this->mapper->getToken($this->hashToken($token));
-			$this->logger->debug('valid default token for ' . $dbToken->getUID());
-			return $dbToken;
-		} catch (DoesNotExistException $ex) {
-			throw new InvalidTokenException();
-		}
 	}
 
 	/**
