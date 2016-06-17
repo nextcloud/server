@@ -41,8 +41,6 @@ $l = \OC::$server->getL10N('files_sharing');
 \OC::$CLASSPATH['OCA\Files\Share\Maintainer'] = 'files_sharing/lib/maintainer.php';
 \OC::$CLASSPATH['OCA\Files\Share\Proxy'] = 'files_sharing/lib/proxy.php';
 
-$application = new Application();
-$application->registerMountProviders();
 
 \OCP\App::registerAdmin('files_sharing', 'settings-admin');
 \OCP\App::registerPersonal('files_sharing', 'settings-personal');
@@ -51,6 +49,9 @@ $application->registerMountProviders();
 
 \OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
 \OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
+
+$application = new Application();
+$application->registerMountProviders();
 
 $eventDispatcher = \OC::$server->getEventDispatcher();
 $eventDispatcher->addListener(
