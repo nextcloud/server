@@ -197,14 +197,27 @@ class Session implements IUserSession, Emitter {
 		return $this->activeUser;
 	}
 
+	/**
+	 * Validate whether the current session is valid
+	 *
+	 * - For token-authenticated clients, the token validity is checked
+	 * - For browsers, the session token validity is checked
+	 */
 	protected function validateSession() {
-		try {
-			$sessionId = $this->session->getId();
-		} catch (SessionNotAvailableException $ex) {
-			return;
+		$token = null;
+		$appPassword = $this->session->get('app_password');
+
+		if (is_null($appPassword)) {
+			try {
+				$token = $this->session->getId();
+			} catch (SessionNotAvailableException $ex) {
+				return;
+			}
+		} else {
+			$token = $appPassword;
 		}
 
-		if (!$this->validateToken($sessionId)) {
+		if (!$this->validateToken($token)) {
 			// Session was invalidated
 			$this->logout();
 		}
@@ -282,7 +295,6 @@ class Session implements IUserSession, Emitter {
 
 			$this->loginWithToken($password);
 			$user = $this->getUser();
-			$this->tokenProvider->updateTokenActivity($token);
 		} else {
 			$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 			$user = $this->manager->checkPassword($uid, $password);
@@ -341,7 +353,10 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		if ($this->supportsCookies($request)) {
+		if ($isTokenPassword) {
+			$this->session->set('app_password', $password);
+		} else if($this->supportsCookies($request)) {
+			// Password login, but cookies supported -> create (browser) session token
 			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
 		}
 
@@ -458,7 +473,6 @@ class Session implements IUserSession, Emitter {
 
 		//login
 		$this->setUser($user);
-		$this->tokenProvider->updateTokenActivity($dbToken);
 
 		$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 		return true;
@@ -581,6 +595,8 @@ class Session implements IUserSession, Emitter {
 		if (!$this->checkTokenCredentials($dbToken, $token)) {
 			return false;
 		}
+
+		$this->tokenProvider->updateTokenActivity($dbToken);
 
 		return true;
 	}
