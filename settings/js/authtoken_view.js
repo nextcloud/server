@@ -27,9 +27,9 @@
 
 	var TEMPLATE_TOKEN =
 		'<tr data-id="{{id}}">'
-		+ '<td><span class="token-name"    title="{{name}}">{{name}}</span></td>'
-		+ '<td><span class="last-activity" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
-		+ '<td><a class="icon-delete" title="' + t('core', 'Disconnect') + '"></a></td>'
+		+ '<td class="has-tooltip" title="{{name}}"><span class="token-name">{{name}}</span></td>'
+		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
+		+ '<td><a class="icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '"></a></td>'
 		+ '<tr>';
 
 	var SubView = Backbone.View.extend({
@@ -80,9 +80,7 @@
 				viewData.lastActivityTime = OC.Util.formatDate(ts, 'LLL');
 				var html = _this.template(viewData);
 				var $html = $(html);
-				$html.find('.token-name').tooltip();
-				$html.find('.last-activity').tooltip();
-				$html.find('.icon-delete').tooltip();
+				$html.find('.has-tooltip').tooltip({container: 'body'});
 				list.append($html);
 			});
 		},
