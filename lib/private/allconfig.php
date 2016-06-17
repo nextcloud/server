@@ -27,6 +27,7 @@
  */
 
 namespace OC;
+use OC\Cache\CappedMemoryCache;
 use OCP\IDBConnection;
 use OCP\PreConditionNotMetException;
 
@@ -58,14 +59,15 @@ class AllConfig implements \OCP\IConfig {
 	 *   - deleteAllUserValues
 	 *   - deleteAppFromAllUsers
 	 *
-	 * @var array $userCache
+	 * @var CappedMemoryCache $userCache
 	 */
-	private $userCache = array();
+	private $userCache;
 
 	/**
 	 * @param SystemConfig $systemConfig
 	 */
 	function __construct(SystemConfig $systemConfig) {
+		$this->userCache = new CappedMemoryCache();
 		$this->systemConfig = $systemConfig;
 	}
 
