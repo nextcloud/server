@@ -208,6 +208,9 @@ class AuthTest extends TestCase {
 		$this->assertFalse($this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
 	}
 
+	/**
+	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden
+	 */
 	public function testValidateUserPassWithPasswordLoginForbidden() {
 		$this->userSession
 			->expects($this->once())
@@ -222,7 +225,7 @@ class AuthTest extends TestCase {
 			->expects($this->once())
 			->method('close');
 
-		$this->assertFalse($this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
+		$this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']);
 	}
 
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenForNonGet() {
