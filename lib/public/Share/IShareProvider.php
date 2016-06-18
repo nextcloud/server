@@ -92,6 +92,17 @@ interface IShareProvider {
 	public function move(\OCP\Share\IShare $share, $recipient);
 
 	/**
+	 * Get all shares by the given user in a folder
+	 *
+	 * @param string $userId
+	 * @param Node|null $node
+	 * @param bool $reshares Also get the shares where $user is the owner instead of just the shares where $user is the initiator
+	 * @return \OCP\Share\IShare[]
+	 * @since 9.2.0
+	 */
+	public function getSharesInFolder($userId, $node, $reshares);
+
+	/**
 	 * Get all shares by the given user
 	 *
 	 * @param string $userId

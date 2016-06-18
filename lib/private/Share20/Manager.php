@@ -34,6 +34,7 @@ use OCP\Files\File;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Mount\IMountManager;
+use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
 use OCP\IGroupManager;
@@ -48,6 +49,7 @@ use OCP\Share\IManager;
 use OCP\Share\IProviderFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
+use OCP\Share\IShareProvider;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -879,6 +881,14 @@ class Manager implements IManager {
 		$provider = $this->factory->getProvider($providerId);
 
 		$provider->move($share, $recipientId);
+	}
+
+	public function getSharesInFolder($userId, Node $node, $reshares = false) {
+		$providers = $this->factory->getAllProviders();
+
+		return array_reduce($providers, function($shares, IShareProvider $provider) use ($userId, $node, $reshares) {
+			return $shares + $provider->getSharesInFolder($userId, $node, $reshares);
+		}, []);
 	}
 
 	/**

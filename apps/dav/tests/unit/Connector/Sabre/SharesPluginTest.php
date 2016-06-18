@@ -206,6 +206,14 @@ class SharesPluginTest extends \Test\TestCase {
 			->method('get')
 			->with('/subdir')
 			->will($this->returnValue($node));
+		
+		$dummyShares = array_map(function($type) {
+			$share = $this->getMock('\OCP\Share\IShare');
+			$share->expects($this->any())
+				->method('getShareType')
+				->will($this->returnValue($type));
+			return $share;
+		}, $shareTypes);
 
 		$this->shareManager->expects($this->any())
 			->method('getSharesBy')
@@ -222,6 +230,17 @@ class SharesPluginTest extends \Test\TestCase {
 				}
 
 				return [];
+			}));
+
+		$this->shareManager->expects($this->any())
+			->method('getSharesInFolder')
+			->with(
+				$this->equalTo('user1'),
+				$this->anything(),
+				$this->equalTo(false)
+			)
+			->will($this->returnCallback(function ($userId, $node, $flag) use ($shareTypes, $dummyShares) {
+				return [111 => $dummyShares];
 			}));
 
 		// simulate sabre recursive PROPFIND traversal
