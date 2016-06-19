@@ -101,6 +101,7 @@ class DropOldTables implements IRepairStep {
 			'clndr_repeat',
 			'contacts_addressbooks',
 			'contacts_cards',
+			'contacts_cards_properties',
 			'gallery_albums',
 			'gallery_photos'
 		];
