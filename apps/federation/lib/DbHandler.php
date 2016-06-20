@@ -61,7 +61,7 @@ class DbHandler {
 	}
 
 	/**
-	 * add server to the list of trusted ownCloud servers
+	 * add server to the list of trusted Nextcloud servers
 	 *
 	 * @param string $url
 	 * @return int
@@ -86,14 +86,14 @@ class DbHandler {
 		if ($result) {
 			return (int)$this->connection->lastInsertId('*PREFIX*'.$this->dbTable);
 		} else {
-			$message = 'Internal failure, Could not add ownCloud as trusted server: ' . $url;
+			$message = 'Internal failure, Could not add Nextcloud as trusted server: ' . $url;
 			$message_t = $this->l->t('Could not add server');
 			throw new HintException($message, $message_t);
 		}
 	}
 
 	/**
-	 * remove server from the list of trusted ownCloud servers
+	 * remove server from the list of trusted Nextcloud servers
 	 *
 	 * @param int $id
 	 */

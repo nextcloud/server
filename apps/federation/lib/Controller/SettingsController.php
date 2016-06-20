@@ -56,7 +56,7 @@ class SettingsController extends Controller {
 
 
 	/**
-	 * add server to the list of trusted ownClouds
+	 * add server to the list of trusted Nextclouds
 	 *
 	 * @param string $url
 	 * @return DataResponse
@@ -70,13 +70,13 @@ class SettingsController extends Controller {
 			[
 				'url' => $url,
 				'id' => $id,
-				'message' => (string) $this->l->t('Server added to the list of trusted ownClouds')
+				'message' => (string) $this->l->t('Server added to the list of trusted Nextclouds')
 			]
 		);
 	}
 
 	/**
-	 * add server to the list of trusted ownClouds
+	 * add server to the list of trusted Nextclouds
 	 *
 	 * @param int $id
 	 * @return DataResponse
@@ -111,8 +111,8 @@ class SettingsController extends Controller {
 		}
 
 		if ($this->trustedServers->isOwnCloudServer($url) === false) {
-			$message = 'No ownCloud server found';
-			$hint = $this->l->t('No ownCloud server found');
+			$message = 'No Nextcloud server found';
+			$hint = $this->l->t('No Nextcloud server found');
 			throw new HintException($message, $hint);
 		}
 
