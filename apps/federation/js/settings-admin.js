@@ -60,11 +60,11 @@ $(document).ready(function () {
 // remove trusted server from list
 	$( "#listOfTrustedServers" ).on('click', 'li > .icon-delete', function() {
 		var $this = $(this).parent();
-		id = $this.attr('id');
+		var id = $this.attr('id');
 		$.ajax({
 			url: OC.generateUrl('/apps/federation/trusted-servers/' + id),
 			type: 'DELETE',
-			success: function(response) {
+			success: function() {
 				$this.remove();
 			}
 		});
