@@ -28,41 +28,15 @@ use OCP\IUserSession;
 
 class Trashbin extends Action {
 
-	/** @var IUserSession */
-	private $userSession;
-
-	/**
-	 * Trashbin constructor.
-	 *
-	 * @param ILogger $logger
-	 * @param IUserSession $userSession
-	 */
-	public function __construct(ILogger $logger, IUserSession $userSession) {
-		parent::__construct($logger);
-		$this->userSession = $userSession;
-	}
-
 	public function delete($params) {
-		$this->log('File "%s" deleted from trash bin by "%s"',
-			[
-				'path' => $params['path'],
-				'user' => $this->userSession->getUser()->getUID()
-			],
-			[
-				'path', 'user'
-			]
+		$this->log('File "%s" deleted from trash bin.',
+			['path' => $params['path']], ['path']
 		);
 	}
 
 	public function restore($params) {
-		$this->log('File "%s" restored from trash bin by "%s"',
-			[
-				'path' => $params['filePath'],
-				'user' => $this->userSession->getUser()->getUID()
-			],
-			[
-				'path', 'user'
-			]
+		$this->log('File "%s" restored from trash bin.',
+			['path' => $params['filePath']], ['path']
 		);
 	}
 
