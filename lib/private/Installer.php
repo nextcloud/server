@@ -392,7 +392,7 @@ class Installer {
 		// check if the app is compatible with this version of ownCloud
 		if(!OC_App::isAppCompatible(\OCP\Util::getVersion(), $info)) {
 			OC_Helper::rmdirr($extractDir);
-			throw new \Exception($l->t("App can't be installed because it is not compatible with this version of ownCloud"));
+			throw new \Exception($l->t("App can't be installed because it is not compatible with this version of the server"));
 		}
 
 		// check if shipped tag is set which is only allowed for apps that are shipped with ownCloud

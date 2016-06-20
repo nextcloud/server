@@ -138,7 +138,7 @@ if($_['passwordChangeSupported']) {
 
 <div id="sessions" class="section">
 	<h2><?php p($l->t('Sessions'));?></h2>
-	<span class="hidden-when-empty"><?php p($l->t('These are the web, desktop and mobile clients currently logged in to your ownCloud.'));?></span>
+	<span class="hidden-when-empty"><?php p($l->t('These are the web, desktop and mobile clients currently logged in to your account.'));?></span>
 	<table>
 		<thead class="token-list-header">
 			<tr>
@@ -166,7 +166,7 @@ if($_['passwordChangeSupported']) {
 		<tbody class="token-list icon-loading">
 		</tbody>
 	</table>
-	<p><?php p($l->t('A device password is a passcode that gives an app or device permissions to access your ownCloud account.'));?></p>
+	<p><?php p($l->t('A device password is a passcode that gives an app or device permissions to access your account.'));?></p>
 	<div id="device-token-form">
 		<input id="device-token-name" type="text" placeholder="Device name">
 		<button id="device-add-token" class="button">Create new device password</button>
@@ -197,7 +197,7 @@ if($_['passwordChangeSupported']) {
 			</option>
 		<?php endforeach;?>
 	</select>
-	<?php if (OC_Util::getEditionString() === ''): ?>
+	<?php if (false && OC_Util::getEditionString() === ''): ?>
 	<a href="https://www.transifex.com/projects/p/owncloud/"
 		target="_blank" rel="noreferrer">
 		<em><?php p($l->t('Help translate'));?></em>
@@ -223,10 +223,10 @@ if($_['passwordChangeSupported']) {
 	<?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
 		<?php print_unescaped($l->t('If you want to support the project
-		<a href="https://owncloud.org/contribute"
+		<a href="https://nextcloud.com/contribute"
 			target="_blank" rel="noreferrer">join development</a>
 		or
-		<a href="https://owncloud.org/promote"
+		<a href="https://nextcloud.com/contribute"
 			target="_blank" rel="noreferrer">spread the word</a>!'));?>
 	</p>
 	<?php endif; ?>

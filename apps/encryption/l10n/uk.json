@@ -35,7 +35,7 @@
     "New recovery key password" : "Новий пароль ключа відновлення",
     "Repeat new recovery key password" : "Повторіть новий пароль ключа відновлення",
     "Change Password" : "Змінити Пароль",
-    "ownCloud basic encryption module" : "базовий модуль шифрування ownCloud",
+    "basic encryption module" : "базовий модуль шифрування",
     "Your private key password no longer matches your log-in password." : "Пароль вашого закритого ключа більше не відповідає паролю від вашого облікового запису.",
     "Set your old private key password to your current log-in password:" : "Замініть старий пароль від закритого ключа на новий пароль входу:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Якщо ви не пам'ятаєте ваш старий пароль, ви можете звернутися до адміністратора щоб його відновити.",
