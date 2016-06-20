@@ -178,7 +178,7 @@ class AuditLogger {
 	 * connect to trash bin hooks
 	 */
 	private function trashbinHooks() {
-		$trashActions = new Trashbin($this->logger, $this->userSession);
+		$trashActions = new Trashbin($this->logger);
 		Util::connectHook('\OCP\Trashbin', 'preDelete', $trashActions, 'delete');
 		Util::connectHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', $trashActions, 'restore');
 	}
