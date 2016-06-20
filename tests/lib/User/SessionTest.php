@@ -151,7 +151,7 @@ class SessionTest extends \Test\TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getToken')
 			->with('bar')
-			->will($this->throwException('\OC\Authentication\Exceptions\InvalidTokenException'));
+			->will($this->throwException(new \OC\Authentication\Exceptions\InvalidTokenException()));
 		$session->expects($this->exactly(2))
 			->method('set')
 			->with($this->callback(function ($key) {
@@ -698,9 +698,15 @@ class SessionTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$session = new Memory('');
-		$token = $this->getMock('\OC\Authentication\Token\IToken');
+		$token = new \OC\Authentication\Token\DefaultToken();
+		$token->setLoginName('fritz');
+		$token->setUid('fritz0');
+		$token->setLastCheck(100); // Needs check
 		$user = $this->getMock('\OCP\IUser');
-		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config);
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setMethods(['logout'])
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config])
+			->getMock();
 		$request = $this->getMock('\OCP\IRequest');
 
 		$request->expects($this->once())
@@ -708,15 +714,12 @@ class SessionTest extends \Test\TestCase {
 			->with('Authorization')
 			->will($this->returnValue('token xxxxx'));
 		$this->tokenProvider->expects($this->once())
-			->method('validateToken')
+			->method('getToken')
 			->with('xxxxx')
 			->will($this->returnValue($token));
-		$token->expects($this->once())
-			->method('getUID')
-			->will($this->returnValue('user123'));
 		$manager->expects($this->once())
 			->method('get')
-			->with('user123')
+			->with('fritz0')
 			->will($this->returnValue($user));
 		$user->expects($this->once())
 			->method('isEnabled')
@@ -762,16 +765,14 @@ class SessionTest extends \Test\TestCase {
 		$user->expects($this->once())
 			->method('isEnabled')
 			->will($this->returnValue(false));
-		$this->tokenProvider->expects($this->once())
-			->method('invalidateToken')
-			->with($token);
-		$session->expects($this->once())
-			->method('logout');
 		$tokenProvider->expects($this->once())
-			->method('updateToken')
-			->with($token);
+			->method('invalidateToken')
+			->with('APP-PASSWORD');
+		$userSession->expects($this->once())
+			->method('logout');
 
-		$this->invokePrivate($userSession, 'validateSession', [$user]);
+		$userSession->setUser($user);
+		$this->invokePrivate($userSession, 'validateSession');
 	}
 
 	public function testValidateSessionNoPassword() {

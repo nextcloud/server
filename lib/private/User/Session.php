@@ -550,14 +550,12 @@ class Session implements IUserSession, Emitter {
 			$pwd = $this->tokenProvider->getPassword($dbToken, $token);
 		} catch (InvalidTokenException $ex) {
 			// An invalid token password was used -> log user out
-			$this->logout();
 			return false;
 		} catch (PasswordlessTokenException $ex) {
 			// Token has no password
 
 			if (!is_null($this->activeUser) && !$this->activeUser->isEnabled()) {
 				$this->tokenProvider->invalidateToken($token);
-				$this->logout();
 				return false;
 			}
 
@@ -570,7 +568,6 @@ class Session implements IUserSession, Emitter {
 			|| (!is_null($this->activeUser) && !$this->activeUser->isEnabled())) {
 			$this->tokenProvider->invalidateToken($token);
 			// Password has changed or user was disabled -> log user out
-			$this->logout();
 			return false;
 		}
 		$dbToken->setLastCheck($now);
@@ -613,20 +610,21 @@ class Session implements IUserSession, Emitter {
 		if (strpos($authHeader, 'token ') === false) {
 			// No auth header, let's try session id
 			try {
-				$sessionId = $this->session->getId();
+				$token = $this->session->getId();
 			} catch (SessionNotAvailableException $ex) {
 				return false;
 			}
-
-			if (!$this->validateToken($sessionId)) {
-				return false;
-			}
-
-			return $this->loginWithToken($sessionId);
 		} else {
 			$token = substr($authHeader, 6);
-			return $this->validateToken($token);
 		}
+
+		if (!$this->loginWithToken($token)) {
+			return false;
+		}
+		if(!$this->validateToken($token)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
