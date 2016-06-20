@@ -204,9 +204,9 @@ class DependencyAnalyzerTest extends TestCase {
 			array(array(), array('@attributes' => array('min-version' => '8', 'max-version' => '8'))),
 			array(array(), array('@attributes' => array('min-version' => '8.0', 'max-version' => '8.0'))),
 			array(array(), array('@attributes' => array('min-version' => '8.0.2', 'max-version' => '8.0.2'))),
-			array(array('ownCloud 8.0.3 or higher is required.'), array('@attributes' => array('min-version' => '8.0.3'))),
-			array(array('ownCloud 9 or higher is required.'), array('@attributes' => array('min-version' => '9'))),
-			[['ownCloud 8.0.1 or lower is required.'], ['@attributes' => ['max-version' => '8.0.1']]],
+			array(array('Server version 8.0.3 or higher is required.'), array('@attributes' => array('min-version' => '8.0.3'))),
+			array(array('Server version 9 or higher is required.'), array('@attributes' => array('min-version' => '9'))),
+			[['Server version 8.0.1 or lower is required.'], ['@attributes' => ['max-version' => '8.0.1']]],
 		);
 	}
 
