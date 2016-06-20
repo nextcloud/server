@@ -62,7 +62,7 @@
     "All" : "Все",
     "No apps found for your version" : "Не найдено приложений для вашей версии",
     "The app will be downloaded from the app store" : "Приложение будет скачано из магазина приложений",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Официальные приложения разработаны силами сообщества ownCloud. Они составляют основу возможностей ownCloud и готовы к эксплуатации.",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Официальные приложения разработаны силами сообщества Nextcloud. Они составляют основу возможностей Nextcloud и готовы к эксплуатации.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Подтвержденные приложения разработаны доверенными разработчиками и прошли краткую проверку на наличие проблем с безопасностью. Они активно поддерживаются в открытых репозиториях и сопровождающие их разработчики подтверждают, что приложения достаточно стабильны для нормальной работы.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Это приложение не проверялось на наличие проблем с безопасностью, также оно может работать нестабильно. Устанавливайте на свой страх и риск.",
     "Update to %s" : "Обновить до %s",

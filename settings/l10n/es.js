@@ -64,7 +64,7 @@ OC.L10N.register(
     "All" : "Todos",
     "No apps found for your version" : "No se han encontrado aplicaciones para su versión",
     "The app will be downloaded from the app store" : "La app debe ser descargada desde una app store",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Las aplicaciones oficiales se desarrollan por y dentro de la comunidad ownCloud. Estas ofrecen una funcionalidad crucial en ownCloud y están listas para su uso en producción. ",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Las aplicaciones oficiales se desarrollan por y dentro de la comunidad Nextcloud. Estas ofrecen una funcionalidad crucial en Nextcloud y están listas para su uso en producción. ",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Las aplicaciones aprobadas las desarrollan desarrolladores de confianza y han pasado un control de seguridad superficial. Estas se mantienen activamente en un repositorio de código abierto y sus encargados las consideran estables para un uso normal.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Esta aplicación no está verificada por problemas de seguridad además de ser reciente o conocida por ser inestable. Instálela bajo su propio riesgo.",
     "Update to %s" : "Actualizar a %s",
