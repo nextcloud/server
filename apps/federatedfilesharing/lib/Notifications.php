@@ -295,7 +295,7 @@ class Notifications {
 			} catch (\Exception $e) {
 				// if flat re-sharing is not supported by the remote server
 				// we re-throw the exception and fall back to the old behaviour.
-				// (flat re-shares has been introduced in ownCloud 9.1)
+				// (flat re-shares has been introduced in Nextcloud 9.1)
 				if ($e->getCode() === Http::STATUS_INTERNAL_SERVER_ERROR) {
 					throw $e;
 				}

@@ -6,8 +6,8 @@
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deling af %s mislykkedes - kunne ikke finde %s. Måske er serveren ikke tilgængelig i øjeblikket.",
     "Accept" : "Acceptér",
     "Decline" : "Afvis",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med mig gennem min #ownCloud Federated Cloud ID, se %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Del med mig gennem min #ownCloud Federated Cloud ID",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med mig gennem min #Nextcloud Federated Cloud ID, se %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Del med mig gennem min #Nextcloud Federated Cloud ID",
     "Federated Cloud Sharing" : "Sammensluttet Cloud deling",
     "Open documentation" : "Åben dokumentation",
     "Allow users on this server to send shares to other servers" : "Tillad brugere på denne server, at sende delinger til andre servere",
@@ -16,7 +16,7 @@
     "Your Federated Cloud ID:" : "Din Federated Cloud ID:",
     "Share it:" : "Del:",
     "Add to your website" : "Tilføj til dit websted",
-    "Share with me via ownCloud" : "Del med mig gennem ownCloud",
+    "Share with me via Nextcloud" : "Del med mig gennem Nextcloud",
     "HTML Code:" : "HTMLkode:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

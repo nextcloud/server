@@ -10,8 +10,8 @@ OC.L10N.register(
     "You received \"/%3$s\" as a remote share from %1$s" : "%1$s からリモート共有として \"/%3$s\" を受け取りました。",
     "Accept" : "承諾",
     "Decline" : "拒否《はてなキーワード》",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud の「クラウド連携ID」で私と共有できます。こちらを見てください。%s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "#ownCloud の「クラウド連携ID」で私と共有できます。",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud の「クラウド連携ID」で私と共有できます。こちらを見てください。%s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud の「クラウド連携ID」で私と共有できます。",
     "Federated Cloud Sharing" : "統合されたクラウド共有",
     "Open documentation" : "ドキュメントを開く",
     "Allow users on this server to send shares to other servers" : "ユーザーがこのサーバーから他のサーバーに共有することを許可する",
@@ -20,7 +20,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "あなたのクラウド連携ID：",
     "Share it:" : "以下で共有:",
     "Add to your website" : "ウェブサイトに追加",
-    "Share with me via ownCloud" : "OwnCloud経由で共有",
+    "Share with me via Nextcloud" : "Nextcloud経由で共有",
     "HTML Code:" : "HTMLコード:"
 },
 "nplurals=1; plural=0;");

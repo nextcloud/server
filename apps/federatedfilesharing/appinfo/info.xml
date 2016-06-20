@@ -2,7 +2,7 @@
 <info>
     <id>federatedfilesharing</id>
     <name>Federated File Sharing</name>
-    <description>Provide federated file sharing across ownCloud servers</description>
+    <description>Provide federated file sharing across servers</description>
     <licence>AGPL</licence>
     <author>Bjoern Schiessle, Roeland Jago Douma</author>
     <version>0.3.0</version>

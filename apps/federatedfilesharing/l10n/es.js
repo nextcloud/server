@@ -11,8 +11,8 @@ OC.L10N.register(
     "You received \"/%3$s\" as a remote share from %1$s" : "Has recibido \"/%3$s\" como un recurso compartido remoto de %1$s",
     "Accept" : "Aceptar",
     "Decline" : "Denegar",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Compartirlo conmigo a través de mi ID Nube Federada #ownCloud, ver %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Compartirlo conmigo a través de mi ID Nube Federada #ownCloud",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Compartirlo conmigo a través de mi ID Nube Federada #Nextcloud, ver %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Compartirlo conmigo a través de mi ID Nube Federada #Nextcloud",
     "Federated Cloud Sharing" : "Compartido en Cloud Federado",
     "Open documentation" : "Documentación abierta",
     "Allow users on this server to send shares to other servers" : "Permitir a usuarios de este servidor compartir con usuarios de otros servidores",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Su ID Nube Federada:",
     "Share it:" : "Compartir:",
     "Add to your website" : "Añadir a su sitio web",
-    "Share with me via ownCloud" : "Compartirlo conmigo vía OwnCloud",
+    "Share with me via Nextcloud" : "Compartirlo conmigo vía Nextcloud",
     "HTML Code:" : "Código HTML:"
 },
 "nplurals=2; plural=(n != 1);");

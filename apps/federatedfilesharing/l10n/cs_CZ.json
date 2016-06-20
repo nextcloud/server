@@ -9,8 +9,8 @@
     "You received \"/%3$s\" as a remote share from %1$s" : "Obdrželi jste \"/%3$s\" jako vzdálené sdílení od %1$s",
     "Accept" : "Přijmout",
     "Decline" : "Zamítnout",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID, více na %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Sdílej se mnou pomocí mého #ownCloud sdruženého cloud ID",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Sdílej se mnou pomocí mého #Nextcloud sdruženého cloud ID, více na %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Sdílej se mnou pomocí mého #Nextcloud sdruženého cloud ID",
     "Federated Cloud Sharing" : "Propojené cloudové sdílení",
     "Open documentation" : "Otevřít dokumentaci",
     "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery",
@@ -19,7 +19,7 @@
     "Your Federated Cloud ID:" : "Vaše sdružené cloud ID:",
     "Share it:" : "Sdílet:",
     "Add to your website" : "Přidat na svou webovou stránku",
-    "Share with me via ownCloud" : "Sdíleno se mnou přes ownCloud",
+    "Share with me via Nextcloud" : "Sdíleno se mnou přes Nextcloud",
     "HTML Code:" : "HTML kód:"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }
