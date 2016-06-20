@@ -49,14 +49,14 @@
 .icon-loading-dark:after,
 .icon-loading-small:after,
 .icon-loading-small-dark:after {
-	border: 1px solid rgba(85, 85, 85, 0.5);
-	border-top-color: #555;
+	border: 2px solid rgba(150, 150, 150, .5);
+	border-top-color: rgb(100, 100, 100);
 }
 
 .icon-loading-dark:after,
 .icon-loading-small-dark:after {
-	border: 1px solid rgba(187, 187, 187, 0.5);
-	border-top-color: #BBB;
+	border: 2px solid rgba(187, 187, 187, .5);
+	border-top-color: #bbb;
 }
 
 .icon-loading-small:after,
