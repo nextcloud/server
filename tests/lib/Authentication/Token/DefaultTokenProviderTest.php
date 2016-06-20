@@ -218,30 +218,4 @@ class DefaultTokenProviderTest extends TestCase {
 		$this->tokenProvider->invalidateOldTokens();
 	}
 
-	public function testValidateToken() {
-		$token = 'sometoken';
-		$dbToken = new DefaultToken();
-		$this->mapper->expects($this->once())
-			->method('getToken')
-			->with(hash('sha512', $token))
-			->will($this->returnValue($dbToken));
-
-		$actual = $this->tokenProvider->validateToken($token);
-
-		$this->assertEquals($dbToken, $actual);
-	}
-
-	/**
-	 * @expectedException \OC\Authentication\Exceptions\InvalidTokenException
-	 */
-	public function testValidateInvalidToken() {
-		$token = 'sometoken';
-		$this->mapper->expects($this->once())
-			->method('getToken')
-			->with(hash('sha512', $token))
-			->will($this->throwException(new DoesNotExistException('')));
-
-		$this->tokenProvider->validateToken($token);
-	}
-
 }
