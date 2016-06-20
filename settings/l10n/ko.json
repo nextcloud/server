@@ -61,7 +61,7 @@
     "Experimental" : "실험적",
     "All" : "모두",
     "No apps found for your version" : "설치된 버전에 대한 앱 없음",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "공식 앱은 ownCloud 커뮤니티 내에서 개발됩니다. ownCloud의 주요 기능을 제공하며 상용 환경에서 사용 가능합니다.",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "공식 앱은 Nextcloud 커뮤니티 내에서 개발됩니다. Nextcloud의 주요 기능을 제공하며 상용 환경에서 사용 가능합니다.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "승인된 앱은 신뢰할 수 있는 개발자가 개발하며 보안 검사를 통과했습니다. 열린 코드 저장소에서 관리되며 일반적인 환경에서 사용할 수 있는 수준으로 관리됩니다.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "이 앱의 보안 문제가 점검되지 않았고, 출시된 지 얼마 지나지 않았거나 아직 불안정합니다. 본인 책임 하에 설치하십시오.",
     "Update to %s" : "%s(으)로 업데이트",

@@ -61,7 +61,7 @@
     "Experimental" : "実験的",
     "All" : "すべて",
     "No apps found for your version" : "現在のバージョンに対応するアプリはありません",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "公式アプリは ownCloud コミュニティにより開発されています。コミュニティは ownCloud の中心機能を提供し、製品としての使用の準備ができています。",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "公式アプリは Nextcloud コミュニティにより開発されています。コミュニティは Nextcloud の中心機能を提供し、製品としての使用の準備ができています。",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "承認されたアプリは信頼された開発者により開発され、大まかなセキュリティチェックに合格しています。アプリは積極的にオープンソースコードレポジトリでメンテナンスされ、メンテナは通常の用途では安定していると考えます。",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "このアプリはセキュリティチェックされていません、新規アプリか安定性が確認されていないアプリです。自己責任でインストールしてください。",
     "Update to %s" : "%sにアップデート",

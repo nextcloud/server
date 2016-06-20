@@ -61,7 +61,7 @@
     "Experimental" : "Experimental",
     "All" : "All",
     "No apps found for your version" : "No apps found for your version",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use.",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "This app is not checked for security issues and is new or known to be unstable. Install at your own risk.",
     "Update to %s" : "Update to %s",

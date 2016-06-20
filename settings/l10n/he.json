@@ -61,7 +61,7 @@
     "Experimental" : "ניסיוני",
     "All" : "הכל",
     "No apps found for your version" : "לא נמצאו יישומים לגרסה שלך",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "יישומים רישמיים מפותחים על ידי קהילת ownCloud. הם מציעים פונקיונאליות, התאמה ל- ownCloud ומוכנים לשימוש כבד.",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "יישומים רישמיים מפותחים על ידי קהילת Nextcloud. הם מציעים פונקיונאליות, התאמה ל- Nextcloud ומוכנים לשימוש כבד.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "יישומים מאושרים מפותחים על ידי מפתחים מהימנים ועברו בדיקת הבטחה ראשונית. הם נשמרים באופן פעיל במאגר קוד פתוח והמתזקים שלהם מייעדים אותם לשימוש מזדמן ורגיל.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "יישום זה לא נבדק לבעיות אבטחה והוא חדש או ידוע כלא יציב. התקנת יישום זה הנה על אחריותך בלבד.",
     "Update to %s" : "עדכון ל- %s",
