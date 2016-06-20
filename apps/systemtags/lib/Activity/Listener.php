@@ -188,6 +188,10 @@ class Listener {
 			$activity->setAffectedUser($user);
 
 			foreach ($tags as $tag) {
+				// don't publish activity for non-admins if tag is invisible
+				if (!$tag->isUserVisible() && !$this->groupManager->isAdmin($user)) {
+					continue;
+				}
 				if ($event->getEvent() === MapperEvent::EVENT_ASSIGN) {
 					$activity->setSubject(Extension::ASSIGN_TAG, [
 						$actor,
