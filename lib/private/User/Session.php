@@ -454,12 +454,13 @@ class Session implements IUserSession, Emitter {
 		}
 		$uid = $dbToken->getUID();
 
+		$password = '';
 		try {
 			$password = $this->tokenProvider->getPassword($dbToken, $token);
-			$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 		} catch (PasswordlessTokenException $ex) {
-			$this->manager->emit('\OC\User', 'preLogin', array($uid, ''));
+			// Ignore and use empty string instead
 		}
+		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
