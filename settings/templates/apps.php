@@ -117,12 +117,12 @@ script(
 
 	{{#if missingMinOwnCloudVersion}}
 		<div class="app-dependencies">
-			<p><?php p($l->t('This app has no minimum ownCloud version assigned. This will be an error in ownCloud 11 and later.')); ?></p>
+			<p><?php p($l->t('This app has no minimum Nextcloud version assigned. This will be an error in the future.')); ?></p>
 		</div>
 	{{else}}
 		{{#if missingMaxOwnCloudVersion}}
 			<div class="app-dependencies">
-				<p><?php p($l->t('This app has no maximum ownCloud version assigned. This will be an error in ownCloud 11 and later.')); ?></p>
+				<p><?php p($l->t('This app has no maximum Nextcloud version assigned. This will be an error in the future.')); ?></p>
 			</div>
 		{{/if}}
 	{{/if}}
