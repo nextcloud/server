@@ -275,7 +275,7 @@ OC.L10N.register(
     "New password" : "รหัสผ่านใหม่",
     "New Password" : "รหัสผ่านใหม่",
     "Reset password" : "เปลี่ยนรหัสผ่านใหม่",
-    "This ownCloud instance is currently in single user mode." : "ขณะนี้ ownCloud อยู่ในโหมดผู้ใช้คนเดียว",
+    "This Nextcloud instance is currently in single user mode." : "ขณะนี้ Nextcloud อยู่ในโหมดผู้ใช้คนเดียว",
     "This means only administrators can use the instance." : "ซึ่งหมายความว่าผู้ดูแลระบบสามารถใช้อินสแตนซ์",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "ติดต่อผู้ดูแลระบบของคุณหากข้อความนี้ยังคงมีอยู่หรือปรากฏโดยไม่คาดคิด",
     "Thank you for your patience." : "ขอบคุณสำหรับความอดทนของคุณ เราจะนำความคิดเห็นของท่านมาปรับปรุงระบบให้ดียิ่งขึ้น",

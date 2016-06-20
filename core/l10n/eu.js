@@ -203,7 +203,7 @@ OC.L10N.register(
     "New password" : "Pasahitz berria",
     "New Password" : "Pasahitz Berria",
     "Reset password" : "Berrezarri pasahitza",
-    "This ownCloud instance is currently in single user mode." : "ownCloud instantzia hau erabiltzaile bakar moduan dago.",
+    "This Nextcloud instance is currently in single user mode." : "Nextcloud instantzia hau erabiltzaile bakar moduan dago.",
     "This means only administrators can use the instance." : "Honek administradoreak bakarrik erabili dezakeela esan nahi du.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Jarri harremanetan zure sistema administratzailearekin mezu hau irauten badu edo bat-batean agertu bada.",
     "Thank you for your patience." : "Milesker zure patzientziagatik.",

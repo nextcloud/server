@@ -69,7 +69,7 @@ OC.L10N.register(
     "the link expired" : "連結過期",
     "sharing is disabled" : "分享功能已停用",
     "For more info, please ask the person who sent this link." : "請詢問告訴您此連結的人以瞭解更多",
-    "Add to your ownCloud" : "加入到你的 ownCloud",
+    "Add to your Nextcloud" : "加入到你的 Nextcloud",
     "Download" : "下載",
     "Download %s" : "下載 %s",
     "Direct link" : "直接連結",

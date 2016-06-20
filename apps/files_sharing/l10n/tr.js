@@ -88,7 +88,7 @@ OC.L10N.register(
     "the link expired" : "bağlantı süresi dolmuş",
     "sharing is disabled" : "paylaşım devre dışı",
     "For more info, please ask the person who sent this link." : "Daha fazla bilgi için bu bağlantıyı aldığınız kişi ile iletişime geçin.",
-    "Add to your ownCloud" : "ownCloud'ınıza Ekleyin",
+    "Add to your Nextcloud" : "Nextcloud'ınıza Ekleyin",
     "Download" : "İndir",
     "Download %s" : "İndir: %s",
     "Direct link" : "Doğrudan bağlantı",

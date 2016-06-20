@@ -88,7 +88,7 @@ OC.L10N.register(
     "the link expired" : "lidhja ka skaduar",
     "sharing is disabled" : "ndarjet janë çaktivizuar",
     "For more info, please ask the person who sent this link." : "Për më shumë të dhëna, ju lutemi, pyetni personin që ju dërgoi këtë lidhje.",
-    "Add to your ownCloud" : "Shtojeni te ownCloud-i juaj",
+    "Add to your Nextcloud" : "Shtojeni te Nextcloud-i juaj",
     "Download" : "Shkarko",
     "Download %s" : "Shkarko %s",
     "Direct link" : "Lidhje e drejtpërdrejtë",

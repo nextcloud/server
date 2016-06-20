@@ -48,7 +48,7 @@ OC.L10N.register(
     "the link expired" : "prečica je istekla",
     "sharing is disabled" : "deljenje je onemogućeno",
     "For more info, please ask the person who sent this link." : "Za više informacija, molimo Vas da se obratite osobi koja je poslala prečicu.",
-    "Add to your ownCloud" : "Dodaj na svoj ownCloud",
+    "Add to your Nextcloud" : "Dodaj na svoj Nextcloud",
     "Download" : "Preuzmi",
     "Download %s" : "Preuzmi %s",
     "Direct link" : "Direktna prečica",
