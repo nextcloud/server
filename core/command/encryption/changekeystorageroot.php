@@ -142,7 +142,7 @@ class ChangeKeyStorageRoot extends Command {
 
 		$result = $this->rootView->file_put_contents(
 			$newRoot . '/' . Storage::KEY_STORAGE_MARKER,
-			'ownCloud will detect this folder as key storage root only if this file exists'
+			'Nextcloud will detect this folder as key storage root only if this file exists'
 		);
 
 		if ($result === false) {

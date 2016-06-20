@@ -128,7 +128,7 @@ class DecryptAll extends Command {
 			}
 
 			$output->writeln("\n");
-			$output->writeln('You are about to start to decrypt all files stored in your ownCloud.');
+			$output->writeln('You are about to start to decrypt all files stored in your Nextcloud.');
 			$output->writeln('It will depend on the encryption module and your setup if this is possible.');
 			$output->writeln('Depending on the number and size of your files this can take some time');
 			$output->writeln('Please make sure that no user access his files during this process!');

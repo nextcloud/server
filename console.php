@@ -37,7 +37,7 @@ define('OC_CONSOLE', 1);
 // Show warning if a PHP version below 5.4.0 is used, this has to happen here
 // because base.php will already use 5.4 syntax.
 if (version_compare(PHP_VERSION, '5.4.0') === -1) {
-	echo 'This version of ownCloud requires at least PHP 5.4.0'.PHP_EOL;
+	echo 'This version of Nextcloud requires at least PHP 5.4.0'.PHP_EOL;
 	echo 'You are currently running ' . PHP_VERSION . '. Please update your PHP version.'.PHP_EOL;
 	return;
 }
@@ -71,11 +71,11 @@ try {
 
 	$oldWorkingDir = getcwd();
 	if ($oldWorkingDir === false) {
-		echo "This script can be run from the ownCloud root directory only." . PHP_EOL;
+		echo "This script can be run from the Nextcloud root directory only." . PHP_EOL;
 		echo "Can't determine current working dir - the script will continue to work but be aware of the above fact." . PHP_EOL;
 	} else if ($oldWorkingDir !== __DIR__ && !chdir(__DIR__)) {
-		echo "This script can be run from the ownCloud root directory only." . PHP_EOL;
-		echo "Can't change to ownCloud root directory." . PHP_EOL;
+		echo "This script can be run from the Nextcloud root directory only." . PHP_EOL;
+		echo "Can't change to Nextcloud root directory." . PHP_EOL;
 		exit(1);
 	}
 

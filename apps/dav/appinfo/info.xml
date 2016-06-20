@@ -2,7 +2,7 @@
 <info>
 	<id>dav</id>
 	<name>WebDAV</name>
-	<description>ownCloud WebDAV endpoint</description>
+	<description>WebDAV endpoint</description>
 	<licence>AGPL</licence>
 	<author>owncloud.org</author>
 	<version>0.1.6</version>
