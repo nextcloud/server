@@ -32,7 +32,7 @@
     "Failed to open archive when installing app" : "Ha fallat l'obertura del fitxer en instal·lar l'aplicació",
     "App does not provide an info.xml file" : "L'aplicació no proporciona un fitxer info.xml",
     "App can't be installed because of not allowed code in the App" : "L'aplicació no es pot instal·lar perquè hi ha codi no autoritzat en l'aplicació",
-    "App can't be installed because it is not compatible with this version of ownCloud" : "L'aplicació no es pot instal·lar perquè no és compatible amb aquesta versió d'ownCloud",
+    "App can't be installed because it is not compatible with this version of Nextcloud" : "L'aplicació no es pot instal·lar perquè no és compatible amb aquesta versió d'Nextcloud",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "L'aplicació no es pot instal·lar perquè conté l'etiqueta <shipped>vertader</shipped> que no es permet per aplicacions no enviades",
     "Application is not enabled" : "L'aplicació no està habilitada",
     "Authentication error" : "Error d'autenticació",

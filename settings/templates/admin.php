@@ -362,7 +362,7 @@ if ($_['cronErrors']) {
 		<p><?php p($l->t('Please read carefully before activating server-side encryption: ')); ?></p>
 		<ul>
 			<li><?php p($l->t('Once encryption is enabled, all files uploaded to the server from that point forward will be encrypted at rest on the server. It will only be possible to disable encryption at a later date if the active encryption module supports that function, and all pre-conditions (e.g. setting a recover key) are met.')); ?></li>
-			<li><?php p($l->t('Encryption alone does not guarantee security of the system. Please see ownCloud documentation for more information about how the encryption app works, and the supported use cases.')); ?></li>
+			<li><?php p($l->t('Encryption alone does not guarantee security of the system. Please see Nextcloud documentation for more information about how the encryption app works, and the supported use cases.')); ?></li>
 			<li><?php p($l->t('Be aware that encryption always increases the file size.')); ?></li>
 			<li><?php p($l->t('It is always good to create regular backups of your data, in case of encryption make sure to backup the encryption keys along with your data.')); ?></li>
 		</ul>
