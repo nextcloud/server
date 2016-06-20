@@ -303,12 +303,12 @@ class DependencyAnalyzer {
 
 		if (!is_null($minVersion)) {
 			if ($this->compareSmaller($this->platform->getOcVersion(), $minVersion)) {
-				$missing[] = (string)$this->l->t('ownCloud %s or higher is required.', $minVersion);
+				$missing[] = (string)$this->l->t('Server version %s or higher is required.', $minVersion);
 			}
 		}
 		if (!is_null($maxVersion)) {
 			if ($this->compareBigger($this->platform->getOcVersion(), $maxVersion)) {
-				$missing[] = (string)$this->l->t('ownCloud %s or lower is required.', $maxVersion);
+				$missing[] = (string)$this->l->t('Server version %s or lower is required.', $maxVersion);
 			}
 		}
 		return $missing;
