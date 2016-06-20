@@ -144,18 +144,20 @@ interface IRequest {
 	public function passesCSRFCheck();
 
 	/**
-	* Checks if the strict cookie has been sent with the request
-	*
-	* @return bool
-	* @since 9.0.0
-	*/
+	 * Checks if the strict cookie has been sent with the request if the request
+	 * is including any cookies.
+	 *
+	 * @return bool
+	 * @since 9.0.0
+	 */
 	public function passesStrictCookieCheck();
 
 	/**
-	 * Checks if the lax cookie has been sent with the request
+	 * Checks if the lax cookie has been sent with the request if the request
+	 * is including any cookies.
 	 *
 	 * @return bool
-	 * @since 9.1.0
+	 * @since 9.0.0
 	 */
 	public function passesLaxCookieCheck();
 
