@@ -306,6 +306,9 @@ class SessionTest extends \Test\TestCase {
 		$userSession->login('foo', 'bar');
 	}
 
+	/**
+	 * @expectedException \OC\Authentication\Exceptions\PasswordLoginForbiddenException
+	 */
 	public function testLogClientInNoTokenPasswordWith2fa() {
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()
@@ -329,7 +332,7 @@ class SessionTest extends \Test\TestCase {
 			->with('token_auth_enforced', false)
 			->will($this->returnValue(true));
 
-		$this->assertFalse($userSession->logClientIn('john', 'doe', $request));
+		$userSession->logClientIn('john', 'doe', $request);
 	}
 
 	public function testLogClientInWithTokenPassword() {
@@ -371,6 +374,9 @@ class SessionTest extends \Test\TestCase {
 		$this->assertTrue($userSession->logClientIn('john', 'doe', $request));
 	}
 
+	/**
+	 * @expectedException \OC\Authentication\Exceptions\PasswordLoginForbiddenException
+	 */
 	public function testLogClientInNoTokenPasswordNo2fa() {
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()
@@ -399,7 +405,7 @@ class SessionTest extends \Test\TestCase {
 			->with('john')
 			->will($this->returnValue(true));
 
-		$this->assertFalse($userSession->logClientIn('john', 'doe', $request));
+		$userSession->logClientIn('john', 'doe', $request);
 	}
 
 	public function testRememberLoginValidToken() {

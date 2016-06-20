@@ -33,6 +33,7 @@ namespace OC\User;
 use OC;
 use OC\Authentication\Exceptions\InvalidTokenException;
 use OC\Authentication\Exceptions\PasswordlessTokenException;
+use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\Token\IProvider;
 use OC\Authentication\Token\IToken;
 use OC\Hooks\Emitter;
@@ -350,17 +351,16 @@ class Session implements IUserSession, Emitter {
 	 * @param string $password
 	 * @param IRequest $request
 	 * @throws LoginException
+	 * @throws PasswordLoginForbiddenException
 	 * @return boolean
 	 */
 	public function logClientIn($user, $password, IRequest $request) {
 		$isTokenPassword = $this->isTokenPassword($password);
 		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
-			// TODO: throw LoginException instead (https://github.com/owncloud/core/pull/24616)
-			return false;
+			throw new PasswordLoginForbiddenException();
 		}
 		if (!$isTokenPassword && $this->isTwoFactorEnforced($user)) {
-			// TODO: throw LoginException instead (https://github.com/owncloud/core/pull/24616)
-			return false;
+			throw new PasswordLoginForbiddenException();
 		}
 		if (!$this->login($user, $password) ) {
 			$users = $this->manager->getByEmail($user);
@@ -442,19 +442,22 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function tryBasicAuthLogin(IRequest $request) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
-			$result = $this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request);
-			if ($result === true) {
-				/**
-				 * Add DAV authenticated. This should in an ideal world not be
-				 * necessary but the iOS App reads cookies from anywhere instead
-				 * only the DAV endpoint.
-				 * This makes sure that the cookies will be valid for the whole scope
-				 * @see https://github.com/owncloud/core/issues/22893
-				 */
-				$this->session->set(
-					Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
-				);
-				return true;
+			try {
+				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request)) {
+					/**
+					 * Add DAV authenticated. This should in an ideal world not be
+					 * necessary but the iOS App reads cookies from anywhere instead
+					 * only the DAV endpoint.
+					 * This makes sure that the cookies will be valid for the whole scope
+					 * @see https://github.com/owncloud/core/issues/22893
+					 */
+					$this->session->set(
+						Auth::DAV_AUTHENTICATED, $this->getUser()->getUID()
+					);
+					return true;
+				}
+			} catch (PasswordLoginForbiddenException $ex) {
+				// Nothing to do
 			}
 		}
 		return false;
