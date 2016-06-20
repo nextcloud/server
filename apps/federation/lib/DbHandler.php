@@ -61,7 +61,7 @@ class DbHandler {
 	}
 
 	/**
-	 * add server to the list of trusted ownCloud servers
+	 * add server to the list of trusted servers
 	 *
 	 * @param string $url
 	 * @return int
@@ -93,7 +93,7 @@ class DbHandler {
 	}
 
 	/**
-	 * remove server from the list of trusted ownCloud servers
+	 * remove server from the list of trusted servers
 	 *
 	 * @param int $id
 	 */
