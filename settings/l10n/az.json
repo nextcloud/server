@@ -188,7 +188,7 @@
     "iOS app" : "iOS proqramı",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Əgər siz proektə dəstək vermək istəyirsinizsə\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">Təkmilləşdirməyə üzv</a>\n\t\tyada\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">söz yaymaq</a>!",
     "Show First Run Wizard again" : "İlk işəsalma sehirbazını yenidən göstər",
-    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Tərəfindən yaradılıb{communityopen}ownCloud cəmiyyəti{linkclose},   {githubopen}mənbə kodları{linkclose} altında lisenziya edilib {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Tərəfindən yaradılıb{communityopen}Nextcloud cəmiyyəti{linkclose},   {githubopen}mənbə kodları{linkclose} altında lisenziya edilib {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
     "Show storage location" : "Depo ünvanını göstər",
     "Show last log in" : "Son girişi göstər",
     "Show user backend" : "Daxili istifadəçini göstər",

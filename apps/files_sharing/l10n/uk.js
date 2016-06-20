@@ -52,7 +52,7 @@ OC.L10N.register(
     "the link expired" : "посилання застаріло",
     "sharing is disabled" : "обмін заборонений",
     "For more info, please ask the person who sent this link." : "Для отримання додаткової інформації, будь ласка, зверніться до особи, яка надіслала це посилання.",
-    "Add to your ownCloud" : "Додати до вашого ownCloud",
+    "Add to your Nextcloud" : "Додати до вашого Nextcloud",
     "Download" : "Завантажити",
     "Download %s" : "Завантажити %s",
     "Direct link" : "Пряме посилання",

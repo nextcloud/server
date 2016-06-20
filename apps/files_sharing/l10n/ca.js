@@ -35,7 +35,7 @@ OC.L10N.register(
     "the link expired" : "l'enllaç ha vençut",
     "sharing is disabled" : "s'ha desactivat la compartició",
     "For more info, please ask the person who sent this link." : "Per més informació contacteu amb qui us ha enviat l'enllaç.",
-    "Add to your ownCloud" : "Afegiu a ownCloud",
+    "Add to your Nextcloud" : "Afegiu a Nextcloud",
     "Download" : "Baixa",
     "Download %s" : "Baixa %s",
     "Direct link" : "Enllaç directe",

@@ -197,8 +197,8 @@ class OC {
 			}
 		}
 		if (empty(OC::$THIRDPARTYROOT) || !file_exists(OC::$THIRDPARTYROOT)) {
-			throw new \RuntimeException('3rdparty directory not found! Please put the ownCloud 3rdparty'
-				. ' folder in the ownCloud folder or the folder above.'
+			throw new \RuntimeException('3rdparty directory not found! Please put the Nextcloud 3rdparty'
+				. ' folder in the Nextcloud folder or the folder above.'
 				. ' You can also configure the location in the config.php file.');
 		}
 
@@ -223,15 +223,15 @@ class OC {
 		}
 
 		if (empty(OC::$APPSROOTS)) {
-			throw new \RuntimeException('apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
+			throw new \RuntimeException('apps directory not found! Please put the Nextcloud apps folder in the Nextcloud folder'
 				. ' or the folder above. You can also configure the location in the config.php file.');
 		}
 		$paths = array();
 		foreach (OC::$APPSROOTS as $path) {
 			$paths[] = $path['path'];
 			if (!is_dir($path['path'])) {
-				throw new \RuntimeException(sprintf('App directory "%s" not found! Please put the ownCloud apps folder in the'
-					. ' ownCloud folder or the folder above. You can also configure the location in the'
+				throw new \RuntimeException(sprintf('App directory "%s" not found! Please put the Nextcloud apps folder in the'
+					. ' Nextcloud folder or the folder above. You can also configure the location in the'
 					. ' config.php file.', $path['path']));
 			}
 		}

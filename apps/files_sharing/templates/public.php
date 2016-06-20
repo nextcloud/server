@@ -84,9 +84,9 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 						?>
 						<span id="save" data-protected="<?php p($_['protected']) ?>"
 							  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
-						<button id="save-button"><?php p($l->t('Add to your ownCloud')) ?></button>
+						<button id="save-button"><?php p($l->t('Add to your Nextcloud')) ?></button>
 						<form class="save-form hidden" action="#">
-							<input type="text" id="remote_address" placeholder="example.com/owncloud"/>
+							<input type="text" id="remote_address" placeholder="example.com/nextcloud"/>
 							<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
 						</form>
 					</span>

@@ -88,7 +88,7 @@ OC.L10N.register(
     "the link expired" : "tengillinn er útrunninn",
     "sharing is disabled" : "slökkt er á skráadeilingu",
     "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil.",
-    "Add to your ownCloud" : "Bæta í þitt eigið ownCloud",
+    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Download" : "Niðurhal",
     "Download %s" : "Sækja %s",
     "Direct link" : "Beinn tengill",

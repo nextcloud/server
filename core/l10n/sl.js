@@ -248,7 +248,7 @@ OC.L10N.register(
     "New password" : "Novo geslo",
     "New Password" : "Novo geslo",
     "Reset password" : "Ponastavi geslo",
-    "This ownCloud instance is currently in single user mode." : "Ta seja oblaka ownCloud je trenutno v načinu enega sočasnega uporabnika.",
+    "This Nextcloud instance is currently in single user mode." : "Ta seja oblaka Nextcloud je trenutno v načinu enega sočasnega uporabnika.",
     "This means only administrators can use the instance." : "To pomeni, da lahko oblak uporabljajo le osebe s skrbniškimi dovoljenji.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Stopite v stik s skrbnikom sistema, če se bo sporočilo še naprej nepričakovano prikazovalo.",
     "Thank you for your patience." : "Hvala za potrpežljivost!",

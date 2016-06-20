@@ -1,6 +1,6 @@
 {
 	"_comment" : "Array of mimetype aliases.",
-	"_comment2": "Any changes you make here will be overwritten on an update of ownCloud.",
+	"_comment2": "Any changes you make here will be overwritten on an update of Nextcloud.",
 	"_comment3": "Put any custom mappings in a new file mimetypealiases.json in the config/ folder of ownCloud",
 
 	"_comment4": "After any change to mimetypealiases.json run:",

@@ -155,7 +155,7 @@ OC.L10N.register(
     "New password" : "﻿ಹೊಸ ಗುಪ್ತಪದ",
     "New Password" : "ಹೊಸ ಗುಪ್ತಪದ",
     "Reset password" : "ಗುಪ್ತ ಪದವನ್ನು ಮರುಹೊಂದಿಸಿ",
-    "This ownCloud instance is currently in single user mode." : "ಪ್ರಸ್ತುತ ಕ್ರಮದಲ್ಲಿ, ಈ OwnCloud ನ್ನು ಕೇವಲ ಒಬ್ಬನೇ ಬಳಕೆದಾರ ಮಾತ್ರ ಬಳಸಬಹುದಾಗಿದೆ.",
+    "This Nextcloud instance is currently in single user mode." : "ಪ್ರಸ್ತುತ ಕ್ರಮದಲ್ಲಿ, ಈ Nextcloud ನ್ನು ಕೇವಲ ಒಬ್ಬನೇ ಬಳಕೆದಾರ ಮಾತ್ರ ಬಳಸಬಹುದಾಗಿದೆ.",
     "This means only administrators can use the instance." : "ಇದರ ಅರ್ಥ, ಸದ್ಯದ ನಿದರ್ಶನದಲ್ಲಿ ನಿರ್ವಾಹಕರು ಮಾತ್ರ ಬಳಸಬಹುದಾಗಿದೆ.",
     "Thank you for your patience." : "﻿ನಿಮ್ಮ ತಾಳ್ಮೆಗೆ ಧನ್ಯವಾದಗಳು.",
     "Start update" : "ನವೀಕರಿಣವನ್ನು ಆರಂಭಿಸಿ",

@@ -282,7 +282,7 @@ OC.L10N.register(
     "New password" : "新しいパスワードを入力",
     "New Password" : "新しいパスワード",
     "Reset password" : "パスワードをリセット",
-    "This ownCloud instance is currently in single user mode." : "このownCloudインスタンスは、現在シングルユーザーモードです。",
+    "This Nextcloud instance is currently in single user mode." : "このNextcloudインスタンスは、現在シングルユーザーモードです。",
     "This means only administrators can use the instance." : "これは、管理者のみがインスタンスを利用できることを意味しています。",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "このメッセージが引き続きもしくは予期せず現れる場合は、システム管理者に問い合わせてください。",
     "Thank you for your patience." : "しばらくお待ちください。",

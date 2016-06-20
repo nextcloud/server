@@ -12,7 +12,7 @@ Feature: webdav-related
 	Scenario: download a file with range
 		Given using dav path "remote.php/webdav"
 		And As an "admin"
-		When Downloading file "/welcome.txt" with range "bytes=51-77"
+		When Downloading file "/welcome.txt" with range "bytes=52-78"
 		Then Downloaded content should be "example file for developers"
 
 	Scenario: Upload forbidden if quota is 0
@@ -39,7 +39,7 @@ Feature: webdav-related
 		When user "user0" has a quota of "10 MB"
 		Then as "user0" gets properties of folder "/" with
 		  |{DAV:}quota-available-bytes|
-		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485429"
+		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485428"
 
 	Scenario: Retrieving folder quota of shared folder with quota when no quota is set for recipient
 		Given using dav path "remote.php/webdav"
@@ -57,7 +57,7 @@ Feature: webdav-related
 		  | shareWith | user0 |
 		Then as "user0" gets properties of folder "/testquota" with
 		  |{DAV:}quota-available-bytes|
-		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485429"
+		And the single response should contain a property "{DAV:}quota-available-bytes" with value "10485428"
 
 	Scenario: download a public shared file with range
 		Given user "user0" exists
@@ -65,7 +65,7 @@ Feature: webdav-related
 		When creating a share with
 			| path | welcome.txt |
 			| shareType | 3 |
-		And Downloading last public shared file with range "bytes=51-77"
+		And Downloading last public shared file with range "bytes=52-78"
 		Then Downloaded content should be "example file for developers"
 
 	Scenario: Downloading a file on the old endpoint should serve security headers
@@ -81,7 +81,7 @@ Feature: webdav-related
 			|X-Permitted-Cross-Domain-Policies|none|
 			|X-Robots-Tag|none|
 			|X-XSS-Protection|1; mode=block|
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
 	Scenario: Downloading a file on the new endpoint should serve security headers
 		Given using dav path "remote.php/dav/files/admin/"
@@ -96,18 +96,18 @@ Feature: webdav-related
 			|X-Permitted-Cross-Domain-Policies|none|
 			|X-Robots-Tag|none|
 			|X-XSS-Protection|1; mode=block|
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
 	Scenario: Doing a GET with a web login should work without CSRF token on the new backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/dav/files/admin/welcome.txt" without requesttoken
-		Then Downloaded content should start with "Welcome to your ownCloud account!"
+		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a GET with a web login should work with CSRF token on the new backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/dav/files/admin/welcome.txt" with requesttoken
-		Then Downloaded content should start with "Welcome to your ownCloud account!"
+		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a PROPFIND with a web login should not work without CSRF token on the new backend
@@ -123,13 +123,13 @@ Feature: webdav-related
 	Scenario: Doing a GET with a web login should work without CSRF token on the old backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/webdav/welcome.txt" without requesttoken
-		Then Downloaded content should start with "Welcome to your ownCloud account!"
+		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a GET with a web login should work with CSRF token on the old backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
-		Then Downloaded content should start with "Welcome to your ownCloud account!"
+		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a PROPFIND with a web login should not work without CSRF token on the old backend

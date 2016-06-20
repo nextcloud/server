@@ -88,7 +88,7 @@ OC.L10N.register(
     "the link expired" : "срок действия ссылки истёк",
     "sharing is disabled" : "общий доступ отключён",
     "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку.",
-    "Add to your ownCloud" : "Добавить в свой ownCloud",
+    "Add to your Nextcloud" : "Добавить в свой Nextcloud",
     "Download" : "Скачать",
     "Download %s" : "Скачать %s",
     "Direct link" : "Прямая ссылка",
