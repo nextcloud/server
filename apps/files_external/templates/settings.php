@@ -51,13 +51,17 @@
 			break;
 		case DefinitionParameter::VALUE_BOOLEAN: ?>
 			<?php $checkboxId = uniqid("checkbox_"); ?>
+			<div>
+			<label>
 			<input type="checkbox"
 				id="<?php p($checkboxId); ?>"
 				<?php if (!empty($classes)): ?> class="checkbox <?php p(implode(' ', $classes)); ?>"<?php endif; ?>
 				data-parameter="<?php p($parameter->getName()); ?>"
 				<?php if ($value === true): ?> checked="checked"<?php endif; ?>
 			/>
-			<label for="<?php p($checkboxId); ?>"><?php p($placeholder); ?></label>
+			<?php p($placeholder); ?>
+			</label>
+			</div>
 			<?php
 			break;
 		case DefinitionParameter::VALUE_HIDDEN: ?>
