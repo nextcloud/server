@@ -64,7 +64,7 @@ OC.L10N.register(
     "All" : "Mind",
     "No apps found for your version" : "Nem található alkalmazás a verziód számára",
     "The app will be downloaded from the app store" : "Az alkalmazás letöltésre kerül az alkalmazástárból",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "A hivatalos alkalmazásokat az ownCloud közösségen belül fejlesztik. \nAz általuk nyújtott központi ownCloud funkciók készen állnak a produktív használatra.",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "A hivatalos alkalmazásokat az Nextcloud közösségen belül fejlesztik. \nAz általuk nyújtott központi Nextcloud funkciók készen állnak a produktív használatra.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "A jóváhagyott alkalmazásokat megbízható fejlesztők készítik, amik megfelelnek a felületes biztonsági ellenőrzésnek. Nyílt forráskódú tárolóban aktívan karbantartják és biztosítják a stabil használatot.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Ez az alkalmazás még nincs biztonságilag ellenőrizve és vagy új, vagy ismert instabil. Telepítés csak saját felelősségre!",
     "Update to %s" : "Frissítés erre: %s",

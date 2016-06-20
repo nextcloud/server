@@ -61,7 +61,7 @@
     "Experimental" : "Á tilraunastigi",
     "All" : "Allt",
     "No apps found for your version" : "Engin forrit fundust fyrir útgáfuna þína",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Opinber forrit eru þróuð af og innan ownCloud samfélagsins. Þau virka með kjarnaeiginleikum ownCloud og eru tilbúin til notkunar í raunvinnslu.",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Opinber forrit eru þróuð af og innan Nextcloud samfélagsins. Þau virka með kjarnaeiginleikum Nextcloud og eru tilbúin til notkunar í raunvinnslu.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Samþykkt forrit eru þróuð af treystum forriturum og hafa gengist undir lauslegar öryggisprófanir. Þau eru í virku viðhaldi í opnum hugbúnaðarsöfnum og umsjónarmenn þeirra dæma þau nógu stöðug til notkunar í allri venjulegri vinnslu.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Þetta forrit hefur ekki verið öryggisprófað, er nýtt erða þekkt fyrir ótöðugleika við vissar aðstæður. Uppsetning er á þína ábyrgð.",
     "Update to %s" : "Uppfæra í %s",

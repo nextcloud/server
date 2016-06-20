@@ -61,7 +61,7 @@
     "Experimental" : "实验",
     "All" : "全部",
     "No apps found for your version" : "未找到适合当前版本的应用",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "官方应用是由 ownCloud 社区开发。他们提供 ownCloud 的功能核心并准备用于生产。",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "官方应用是由 Nextcloud 社区开发。他们提供 Nextcloud 的功能核心并准备用于生产。",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "已认可的应用是由值得信赖的开发商开发，并已通过了一个粗略的安全检查。他们放在一个开放的代码库并且维护人员认为他们是稳定的差不多可以正常使用。",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "此应用未检查安全问题，它是新的或已知是不稳定的。安装风险自担。",
     "Update to %s" : "更新为 %s",

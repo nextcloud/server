@@ -62,7 +62,7 @@ OC.L10N.register(
     "Experimental" : "Експериментальні",
     "All" : "Всі",
     "No apps found for your version" : "Немає застосунків для вашої версії",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Офіційні додатки розроблені спільнотою ownCloud. Вони реалізують основні можливості ownCloud і готові до використання в продакшені.",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Офіційні додатки розроблені спільнотою Nextcloud. Вони реалізують основні можливості Nextcloud і готові до використання в продакшені.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Схвалені додатки розроблені довіреними розробниками і пройшли незалежну перевірку безпеки. Їх активно супроводжують у репозиторії з відкритим кодом, а їх розробники стежать, щоб вони були стабільні й прийнятні для повсякденного використання.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Ця програма не перевірена на вразливості безпеки і є новою або нестабільною. Встановлюйте її на власний ризик.",
     "Update to %s" : "Оновити до %s",

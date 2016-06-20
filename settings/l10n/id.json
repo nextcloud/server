@@ -61,7 +61,7 @@
     "Experimental" : "Uji Coba",
     "All" : "Semua",
     "No apps found for your version" : "Aplikasi tidak ditemukan untuk versi ini.",
-    "Official apps are developed by and within the ownCloud community. They offer functionality central to ownCloud and are ready for production use." : "Aplikasi resmi dikembangkan oleh komunitas ownCloud. Mereka menawarkan fitur pusat bagi ownCloud dan siap digunakan untuk penggunaan produksi.",
+    "Official apps are developed by and within the Nextcloud community. They offer functionality central to Nextcloud and are ready for production use." : "Aplikasi resmi dikembangkan oleh komunitas Nextcloud. Mereka menawarkan fitur pusat bagi Nextcloud dan siap digunakan untuk penggunaan produksi.",
     "Approved apps are developed by trusted developers and have passed a cursory security check. They are actively maintained in an open code repository and their maintainers deem them to be stable for casual to normal use." : "Aplikasi tersetujui dikembangkan oleh pengembang terpercaya dan telah lulus pemeriksaan keamanan. Mereka secara aktif dipelihara direpositori kode terbuka dan pemelihara sudah memastikan mereka stabil untuk penggunaan normal.",
     "This app is not checked for security issues and is new or known to be unstable. Install at your own risk." : "Apl ini belum diperiksa masalah keamanannya dan masih baru atau biasanya tidak stabil. Instal dengan resiko Anda sendiri.",
     "Update to %s" : "Perbarui ke %s",
