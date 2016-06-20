@@ -18,7 +18,7 @@ OC.L10N.register(
     "New recovery key password" : "Nova pasvorto de restaŭroŝlosilo",
     "Repeat new recovery key password" : "Ripetu la novan pasvorton de restaŭroŝlosilo",
     "Change Password" : "Ŝarĝi pasvorton",
-    "ownCloud basic encryption module" : "Baza ĉifrada modulo de ownCloud",
+    "Nextcloud basic encryption module" : "Baza ĉifrada modulo de Nextcloud",
     "Old log-in password" : "Malnova ensaluta pasvorto",
     "Current log-in password" : "Nuna ensaluta pasvorto",
     "Update Private Key Password" : "Ĝisdatigi la pasvorton de la malpublika ŝlosilo",

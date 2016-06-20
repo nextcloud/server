@@ -19,7 +19,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplicatia de criptare este activata dar tastatura nu este initializata , va rugam deconectati-va si reconectati-va",
     "The share will expire on %s." : "Partajarea va expira în data de %s.",
     "Change Password" : "Schimbă parola",
-    "ownCloud basic encryption module" : "modul de ecnriptie bazic ownCloud",
+    "Nextcloud basic encryption module" : "modul de ecnriptie bazic Nextcloud",
     "Enabled" : "Activat",
     "Disabled" : "Dezactivat"
 },
