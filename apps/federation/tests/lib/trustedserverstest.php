@@ -338,7 +338,7 @@ class TrustedServersTest extends TestCase {
 	/**
 	 * @dataProvider dataTestCheckOwnCloudVersionTooLow
 	 * @expectedException \OC\HintException
-	 * @expectedExceptionMessage Remote server version is too low. ownCloud 9.0 is required.
+	 * @expectedExceptionMessage Remote server version is too low. Nextcloud 9.0 is required.
 	 */
 	public function testCheckOwnCloudVersionTooLow($status) {
 		$this->invokePrivate($this->trustedServers, 'checkOwnCloudVersion', [$status]);

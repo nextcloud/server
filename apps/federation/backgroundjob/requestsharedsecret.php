@@ -39,7 +39,7 @@ use OCP\IURLGenerator;
 /**
  * Class RequestSharedSecret
  *
- * Ask remote ownCloud to request a sharedSecret from this server
+ * Ask remote Nextcloud to request a sharedSecret from this server
  *
  * @package OCA\Federation\Backgroundjob
  */
