@@ -44,7 +44,7 @@
     "New recovery key password" : "Nuova password della chiave di ripristino",
     "Repeat new recovery key password" : "Ripeti la nuova password della chiave di ripristino",
     "Change Password" : "Modifica password",
-    "ownCloud basic encryption module" : "Modulo di cifratura base di ownCloud",
+    "basic encryption module" : "Modulo di cifratura base di",
     "Your private key password no longer matches your log-in password." : "La password della chiave privata non corrisponde più alla password di accesso.",
     "Set your old private key password to your current log-in password:" : "Imposta la vecchia password della chiave privata sull'attuale password di accesso:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Se non ricordi la vecchia password puoi chiedere al tuo amministratore di recuperare i file.",

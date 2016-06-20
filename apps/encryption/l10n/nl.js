@@ -46,7 +46,7 @@ OC.L10N.register(
     "New recovery key password" : "Nieuwe wachtwoord herstelsleutel",
     "Repeat new recovery key password" : "Herhaal nieuwe wachtwoord herstelsleutel",
     "Change Password" : "Wijzigen wachtwoord",
-    "ownCloud basic encryption module" : "ownCloud basis versleutelingsmodule",
+    "basic encryption module" : "basis versleutelingsmodule",
     "Your private key password no longer matches your log-in password." : "Het wachtwoord van uw privésleutel komt niet meer overeen met uw inlogwachtwoord.",
     "Set your old private key password to your current log-in password:" : "Stel het wachtwoord van uw oude privésleutel in op uw huidige inlogwachtwoord.",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Als u uw oude wachtwoord niet meer weet, kunt u uw beheerder vragen uw bestanden terug te halen.",

@@ -44,7 +44,7 @@
     "New recovery key password" : "Yeni kurtarma anahtarı parolası",
     "Repeat new recovery key password" : "Yeni kurtarma anahtarı parolasını yineleyin",
     "Change Password" : "Parola Değiştir",
-    "ownCloud basic encryption module" : "ownCloud basit şifreleme modülü",
+    "basic encryption module" : "basit şifreleme modülü",
     "Your private key password no longer matches your log-in password." : "Özel anahtar parolanız artık oturum açma parolanız ile eşleşmiyor.",
     "Set your old private key password to your current log-in password:" : "Eski özel anahtar parolanızı, geçerli oturum açma parolanız olarak ayarlayın:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Eğer eski parolanızı hatırlamıyorsanız, yöneticinizden dosyalarınızı kurtarmasını talep edebilirsiniz.",

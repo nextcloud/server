@@ -43,7 +43,7 @@ OC.L10N.register(
     "New recovery key password" : "Uusi salausavaimen salasana",
     "Repeat new recovery key password" : "Toista uusi salausavaimen salasana",
     "Change Password" : "Vaihda salasana",
-    "ownCloud basic encryption module" : "ownCloudin perussalausmoduuli",
+    "basic encryption module" : "in perussalausmoduuli",
     "Your private key password no longer matches your log-in password." : "Salaisen avaimesi salasana ei enää vastaa kirjautumissalasanaasi.",
     "Set your old private key password to your current log-in password:" : "Aseta yksityisen avaimen vanha salasana vastaamaan nykyistä kirjautumissalasanaasi:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Jos et muista vanhaa salasanaasi, voit pyytää ylläpitäjää palauttamaan tiedostosi.",

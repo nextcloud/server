@@ -44,7 +44,7 @@
     "New recovery key password" : "Ny adgangskode for gendannelsesnøgle",
     "Repeat new recovery key password" : "Gentag ny adgangskode for gendannelsesnøgle",
     "Change Password" : "Skift Kodeord",
-    "ownCloud basic encryption module" : "ownCloud basis krypteringsmodul",
+    "basic encryption module" : "basis krypteringsmodul",
     "Your private key password no longer matches your log-in password." : "Dit private nøglekodeord stemmer ikke længere overens med dit login-kodeord.",
     "Set your old private key password to your current log-in password:" : "Sæt dit gamle, private nøglekodeord til at være dit nuværende login-kodeord. ",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Hvis du ikke kan huske dit gamle kodeord kan du bede din administrator om at gendanne dine filer.",

@@ -46,7 +46,7 @@ OC.L10N.register(
     "New recovery key password" : "Nytt passord for gjenopprettingsnøkkel",
     "Repeat new recovery key password" : "Gjenta nytt passord for gjenopprettingsnøkkel",
     "Change Password" : "Endre passord",
-    "ownCloud basic encryption module" : "ownCloud grunnleggende krypteringsmodul",
+    "basic encryption module" : "grunnleggende krypteringsmodul",
     "Your private key password no longer matches your log-in password." : "Passordet for din private nøkkel stemmer ikke lenger med påloggingspassordet ditt.",
     "Set your old private key password to your current log-in password:" : "Sett ditt gamle passord for privat nøkkel til ditt nåværende påloggingspassord:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Hvis du ikke husker det gamle passordet ditt kan du spørre administratoren om å gjenopprette filene dine.",

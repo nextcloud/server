@@ -42,7 +42,7 @@
     "New recovery key password" : "Sandi kunci pemulihan baru",
     "Repeat new recovery key password" : "Ulangi sandi kunci pemulihan baru",
     "Change Password" : "Ubah Sandi",
-    "ownCloud basic encryption module" : "Modul enkripsi dasar ownCloud",
+    "basic encryption module" : "Modul enkripsi dasar",
     "Your private key password no longer matches your log-in password." : "Sandi kunci private Anda tidak lagi cocok dengan sandi masuk Anda.",
     "Set your old private key password to your current log-in password:" : "Setel sandi kunci private Anda untuk sandi masuk Anda saat ini:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Jika Anda tidak ingat sandi lama, Anda dapat meminta administrator Anda untuk memulihkan berkas.",

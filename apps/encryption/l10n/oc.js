@@ -44,7 +44,7 @@ OC.L10N.register(
     "New recovery key password" : "Novèl senhal de la clau de recuperacion",
     "Repeat new recovery key password" : "Repetissètz lo novèl senhal de la clau de recuperacion",
     "Change Password" : "Cambiar de senhal",
-    "ownCloud basic encryption module" : "Modul de chiframent de basa d'ownCloud",
+    "basic encryption module" : "Modul de chiframent de basa d'",
     "Your private key password no longer matches your log-in password." : "Lo senhal de vòstra clau privada correspond pas mai a vòstre senhal de connexion.",
     "Set your old private key password to your current log-in password:" : "Fasètz de vòstre senhal de connexion lo senhal de vòstra clau privada :",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Se vos remembratz pas mai de vòstre ancian senhal, podètz demandar a vòstre administrator de recuperar vòstres fichièrs.",

@@ -46,7 +46,7 @@ OC.L10N.register(
     "New recovery key password" : "Новый пароль ключа восстановления",
     "Repeat new recovery key password" : "Повторите новый пароль ключа восстановления",
     "Change Password" : "Изменить пароль",
-    "ownCloud basic encryption module" : "Базовый модуль шифрования ownCloud",
+    "basic encryption module" : "Базовый модуль шифрования",
     "Your private key password no longer matches your log-in password." : "Пароль закрытого ключа больше не соответствует паролю вашей учетной записи.",
     "Set your old private key password to your current log-in password:" : "Замените старый пароль закрытого ключа на текущий пароль учётной записи.",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Если вы не помните свой старый пароль, вы можете попросить своего администратора восстановить ваши файлы",

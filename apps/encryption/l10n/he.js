@@ -46,7 +46,7 @@ OC.L10N.register(
     "New recovery key password" : "סיסמת מפתח שחזור חדשה",
     "Repeat new recovery key password" : "יש לחזור על סיסמת מפתח השחזור החדשה",
     "Change Password" : "שינוי סיסמא",
-    "ownCloud basic encryption module" : "מודול הצפנה בסיסי של ownCloud",
+    "basic encryption module" : "מודול הצפנה בסיסי של",
     "Your private key password no longer matches your log-in password." : "סיסמת המפתח האישי שלך כבר אינה מתאימה לסיסמת ההתחברות שלך.",
     "Set your old private key password to your current log-in password:" : "יש להחליף את סיסמת המפתח האישי הישנה בסיסמת ההתחברות הנוכחית:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "אם הסיסמא הישנה נשכחה ניתן לפנות למנהל על מנת שישחזר את הקבצים שלך.",

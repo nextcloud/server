@@ -38,7 +38,7 @@ OC.L10N.register(
     "New recovery key password" : "Parola nouă a cheii de recuperare",
     "Repeat new recovery key password" : "Repetă parola nouă a cheii de recuperare",
     "Change Password" : "Schimbă parola",
-    "ownCloud basic encryption module" : "modulul ownCloud de bază pentru criptare",
+    "basic encryption module" : "modululde bază pentru criptare",
     "Your private key password no longer matches your log-in password." : "Parola cheii tale private nu se mai potrivește cu parola pentru autentificare.",
     "Old log-in password" : "Parola veche pentru autentificare",
     "Current log-in password" : "Parola curentă pentru autentificare",

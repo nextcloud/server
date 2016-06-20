@@ -46,7 +46,7 @@ OC.L10N.register(
     "New recovery key password" : "Neues Passwort für den Wiederherstellungsschlüssel",
     "Repeat new recovery key password" : "Neues Passwort für den Wiederherstellungsschlüssel wiederholen",
     "Change Password" : "Passwort ändern",
-    "ownCloud basic encryption module" : "ownCloud-Basisverschlüsselungsmodul",
+    "basic encryption module" : "Basisverschlüsselungsmodul",
     "Your private key password no longer matches your log-in password." : "Das Privatschlüsselpasswort stimmt nicht länger mit dem Anmeldepasswort überein.",
     "Set your old private key password to your current log-in password:" : "Ihr altes Privatschlüsselpasswort auf Ihr aktuelles Anmeldepasswort stellen:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Falls Sie sich nicht an Ihr altes Passwort erinnern können, fragen Sie bitte Ihren Administrator, um Ihre Dateien wiederherzustellen.",

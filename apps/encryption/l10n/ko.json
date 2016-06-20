@@ -44,7 +44,7 @@
     "New recovery key password" : "새 복구 키 암호",
     "Repeat new recovery key password" : "새 복구 키 암호 확인",
     "Change Password" : "암호 변경",
-    "ownCloud basic encryption module" : "ownCloud 기본 암호화 모듈",
+    "basic encryption module" : "기본 암호화 모듈",
     "Your private key password no longer matches your log-in password." : "개인 키 암호와 로그인 암호가 일치하지 않습니다.",
     "Set your old private key password to your current log-in password:" : "기존 개인 키 암호를 로그인 암호와 동일하게 설정하십시오:",
     " If you don't remember your old password you can ask your administrator to recover your files." : " 이전 암호가 기억나지 않으면 시스템 관리자에게 파일 복구를 요청하십시오.",

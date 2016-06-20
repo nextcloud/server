@@ -38,7 +38,7 @@ OC.L10N.register(
     "New recovery key password" : "Naujas atstatymo rakto slaptažodis",
     "Repeat new recovery key password" : "Pakartokite naują atstatymo rakto slaptažodį",
     "Change Password" : "Pakeisti slaptažodį",
-    "ownCloud basic encryption module" : "ownCloud bazinis šifravimo modulis",
+    "basic encryption module" : "bazinis šifravimo modulis",
     "Your private key password no longer matches your log-in password." : "Privataus rakto slaptažodis nebe sutampa su prisijungimo slaptažodžiu.",
     "Set your old private key password to your current log-in password:" : "Nustatyti Jūsų privataus rakto slaptažodį į Jūsų dabartinį slaptažodį.",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Jei nepamenate savo seno slaptažodžio, galite paprašyti administratoriaus atkurti Jūsų failus.",
