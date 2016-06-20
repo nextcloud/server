@@ -37,13 +37,13 @@ if (count($matches) > 0 && $matches[1] <= 9) {
 }
 
 $cloudID = \OC::$server->getUserSession()->getUser()->getCloudId();
-$url = 'https://owncloud.org/federation#' . $cloudID;
+$url = 'https://nextcloud.com/federation#' . $cloudID;
 $ownCloudLogoPath = \OC::$server->getURLGenerator()->imagePath('core', 'logo-icon.svg');
 
 $tmpl = new OCP\Template('federatedfilesharing', 'settings-personal');
 $tmpl->assign('outgoingServer2serverShareEnabled', $federatedShareProvider->isOutgoingServer2serverShareEnabled());
-$tmpl->assign('message_with_URL', $l->t('Share with me through my #ownCloud Federated Cloud ID, see %s', [$url]));
-$tmpl->assign('message_without_URL', $l->t('Share with me through my #ownCloud Federated Cloud ID', [$cloudID]));
+$tmpl->assign('message_with_URL', $l->t('Share with me through my #Nextcloud Federated Cloud ID, see %s', [$url]));
+$tmpl->assign('message_without_URL', $l->t('Share with me through my #Nextcloud Federated Cloud ID', [$cloudID]));
 $tmpl->assign('owncloud_logo_path', $ownCloudLogoPath);
 $tmpl->assign('reference', $url);
 $tmpl->assign('cloudId', $cloudID);

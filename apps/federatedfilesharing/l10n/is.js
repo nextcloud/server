@@ -11,8 +11,8 @@ OC.L10N.register(
     "You received \"/%3$s\" as a remote share from %1$s" : "Þú tókst við \"/%3$s\" sem fjartengdri sameign frá %1$s",
     "Accept" : "Samþykkja",
     "Decline" : "Hafna",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #ownCloud Federated Cloud ID, sjá %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #ownCloud Federated Cloud ID",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID, sjá %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Deila með mér í gegnum víðværa skýjasambandsauðkennið mitt #Nextcloud Federated Cloud ID",
     "Federated Cloud Sharing" : "Deiling með skýjasambandi",
     "Open documentation" : "Opna hjálparskjöl",
     "Allow users on this server to send shares to other servers" : "Leyfa notendum á þessum þjóni að senda sameignir til annarra þjóna",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Skýjasambandsauðkennið þitt (Federated Cloud ID):",
     "Share it:" : "Deila því:",
     "Add to your website" : "Bæta við vefsvæðið þitt",
-    "Share with me via ownCloud" : "Deila með mér í gegnum ownCloud",
+    "Share with me via Nextcloud" : "Deila með mér í gegnum Nextcloud",
     "HTML Code:" : "HTML-kóði:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -11,8 +11,8 @@ OC.L10N.register(
     "You received \"/%3$s\" as a remote share from %1$s" : "Du tog emot \"/%3$s\" som en fjärrdelning från %1$s",
     "Accept" : "Acceptera",
     "Decline" : "Neka",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Dela med mig genom min #owncloud Federated Cloud ID, se %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Dela med mig genom min #ownCloud Federated Cloud ID",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Dela med mig genom min #Nextcloud Federated Cloud ID, se %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Dela med mig genom min #Nextcloud Federated Cloud ID",
     "Federated Cloud Sharing" : "Federate Cloud delning",
     "Open documentation" : "Öppna dokumentation",
     "Allow users on this server to send shares to other servers" : "Tillåt användare på denna server att skicka utdelningar till andra servrar",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Ditt Federated Cloud ID",
     "Share it:" : "Dela detta:",
     "Add to your website" : "Lägg till på din hemsida",
-    "Share with me via ownCloud" : "Dela med mig via Owncloud",
+    "Share with me via Nextcloud" : "Dela med mig via Nextcloud",
     "HTML Code:" : "HTML Kod:"
 },
 "nplurals=2; plural=(n != 1);");

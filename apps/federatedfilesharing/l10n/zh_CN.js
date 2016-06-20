@@ -16,7 +16,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "你的联合云ID：",
     "Share it:" : "分享它：",
     "Add to your website" : "添加到您的网站",
-    "Share with me via ownCloud" : "通过联合云与我共享",
+    "Share with me via Nextcloud" : "通过联合云与我共享",
     "HTML Code:" : "HTML 代码:"
 },
 "nplurals=1; plural=0;");

@@ -8,8 +8,8 @@ OC.L10N.register(
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s paylaşımı başarısız. %s bulunamadı veya sunucu şu anda ulaşılamıyor olabilir.",
     "Accept" : "Kabul et",
     "Decline" : "Reddet",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "#ownCloud Birleşik Bulut kimliğim ile paylaş, bkz %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "#ownCloud Birleşmiş Bulut kimliğim ile paylaş",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "#Nextcloud Birleşik Bulut kimliğim ile paylaş, bkz %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "#Nextcloud Birleşmiş Bulut kimliğim ile paylaş",
     "Federated Cloud Sharing" : "Birleşmiş Bulut Paylaşımı",
     "Open documentation" : "Belgelendirmeyi aç",
     "Allow users on this server to send shares to other servers" : "Bu sunucudaki kullanıcıların diğer sunuculara paylaşım göndermelerine izin ver",
@@ -18,7 +18,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Birleşmiş Bulut Kimliğiniz:",
     "Share it:" : "Paylaşın:",
     "Add to your website" : "Web sitenize ekleyin",
-    "Share with me via ownCloud" : "Benimle ownCloud aracılığıyla paylaşın",
+    "Share with me via Nextcloud" : "Benimle Nextcloud aracılığıyla paylaşın",
     "HTML Code:" : "HTML Kodu:"
 },
 "nplurals=2; plural=(n > 1);");

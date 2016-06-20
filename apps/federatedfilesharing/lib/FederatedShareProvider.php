@@ -177,7 +177,7 @@ class FederatedShareProvider implements IShareProvider {
 				$send = is_string($token) && $token !== '';
 			} catch (\Exception $e) {
 				// fall back to old re-share behavior if the remote server
-				// doesn't support flat re-shares (was introduced with ownCloud 9.1)
+				// doesn't support flat re-shares (was introduced with Nextcloud 9.1)
 				$this->removeShareFromTable($share);
 				$shareId = $this->createFederatedShare($share);
 			}
@@ -859,7 +859,7 @@ class FederatedShareProvider implements IShareProvider {
 	}
 
 	/**
-	 * check if users from other ownCloud instances are allowed to mount public links share by this instance
+	 * check if users from other Nextcloud instances are allowed to mount public links share by this instance
 	 *
 	 * @return bool
 	 */

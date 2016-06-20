@@ -8,8 +8,8 @@ OC.L10N.register(
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Deling %s feilet, fant ikke %s, kanskje servern er utilgjengelig for øyeblikket.",
     "Accept" : "Aksepter",
     "Decline" : "Avslå",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Del med meg gjennom min #ownCloud ID for sammenknyttet sky, se %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Del med meg gjennom min #ownCloud ID for sammenknyttet sky",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Del med meg gjennom min #Nextcloud ID for sammenknyttet sky, se %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Del med meg gjennom min #Nextcloud ID for sammenknyttet sky",
     "Federated Cloud Sharing" : "Sammenknyttet sky-deling",
     "Open documentation" : "Åpne dokumentasjonen",
     "Allow users on this server to send shares to other servers" : "Tillat at brukere på denne serveren sender delinger til andre servere",
@@ -18,7 +18,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "Din ID for sammenknyttet sky:",
     "Share it:" : "Del den:",
     "Add to your website" : "Legg på websiden din",
-    "Share with me via ownCloud" : "Del med meg via ownCloud",
+    "Share with me via Nextcloud" : "Del med meg via Nextcloud",
     "HTML Code:" : "HTML-kode:"
 },
 "nplurals=2; plural=(n != 1);");

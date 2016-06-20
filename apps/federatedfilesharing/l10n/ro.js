@@ -11,8 +11,8 @@ OC.L10N.register(
     "You received \"/%3$s\" as a remote share from %1$s" : "Ai primit \"/%3$s\" ca partajare remote de la %1$s",
     "Accept" : "Accept",
     "Decline" : "Refuză",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Partajează cu mine prin #ownCloud Federated Cloud ID, vezi %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Partajează cu mine prin #ownCloud Federated Cloud ID",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Partajează cu mine prin #Nextcloud Federated Cloud ID, vezi %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Partajează cu mine prin #Nextcloud Federated Cloud ID",
     "Federated Cloud Sharing" : "Partajare federalizata cloud",
     "Open documentation" : "Deschide documentația",
     "Allow users on this server to send shares to other servers" : "Permite utilizatorilor de pe acest server să transmită partajări către alte servere",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "ID Cloud federalizat:",
     "Share it:" : "Partajează:",
     "Add to your website" : "Adaugă la site-ul tău Web",
-    "Share with me via ownCloud" : "Partajează cu mine via ownCloud",
+    "Share with me via Nextcloud" : "Partajează cu mine via Nextcloud",
     "HTML Code:" : "Cod HTML:"
 },
 "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));");

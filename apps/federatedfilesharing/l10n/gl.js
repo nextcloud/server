@@ -6,8 +6,8 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "Non está permitido crear unha compartición federada co mesmo usuario",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "Fallou a compartición de %s, non foi posíbel atopar %s,é probábel que o servidor non estea accesíbel.",
     "Accept" : "Aceptar",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Comparte comigo a través do meu ID da nube federada do #ownCloud , vexa %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Comparte comigo a través do meu ID da nube federada do #ownCloud",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Comparte comigo a través do meu ID da nube federada do #Nextcloud , vexa %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Comparte comigo a través do meu ID da nube federada do #Nextcloud",
     "Federated Cloud Sharing" : "Nube federada compartida",
     "Open documentation" : "Abrir a documentación",
     "Allow users on this server to send shares to other servers" : "Permitir aos usuarios deste servidor enviar comparticións a outros servidores",
@@ -15,7 +15,7 @@ OC.L10N.register(
     "Federated Cloud" : "Nube federada",
     "Your Federated Cloud ID:" : "ID da súa nube federada:",
     "Share it:" : "Compártao:",
-    "Share with me via ownCloud" : "Comparte comigo a través do ownCloud",
+    "Share with me via Nextcloud" : "Comparte comigo a través do Nextcloud",
     "HTML Code:" : "Código HTML:"
 },
 "nplurals=2; plural=(n != 1);");
