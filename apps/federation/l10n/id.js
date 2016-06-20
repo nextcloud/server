@@ -1,9 +1,9 @@
 OC.L10N.register(
     "federation",
     {
-    "Server added to the list of trusted ownClouds" : "Server ditambahkan ke daftar ownCloud yang dipercaya",
+    "Server added to the list of trusted Nextclouds" : "Server ditambahkan ke daftar Nextcloud yang dipercaya",
     "Server is already in the list of trusted servers." : "Server sudah ada pada daftar server terpercaya",
-    "No ownCloud server found" : "Tidak ada server ownCloud yang ditemukan",
+    "No Nextcloud server found" : "Tidak ada server Nextcloud yang ditemukan",
     "Could not add server" : "Tidak dapat menambahkan server",
     "Federation" : "Federasi"
 },

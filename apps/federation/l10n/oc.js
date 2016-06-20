@@ -1,9 +1,9 @@
 OC.L10N.register(
     "federation",
     {
-    "No ownCloud server found" : "Cap de servidor ownCloud pas trobat",
+    "No Nextcloud server found" : "Cap de servidor Nextcloud pas trobat",
     "Could not add server" : "Impossible d'apondre un servidor",
     "Federation" : "Federacion",
-    "ownCloud Server" : "Servidor ownCloud"
+    "Nextcloud Server" : "Servidor Nextcloud"
 },
 "nplurals=2; plural=(n > 1);");
