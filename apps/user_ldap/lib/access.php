@@ -730,7 +730,14 @@ class Access extends LDAPUtility implements user\IUserTools {
 				$user->unmark();
 				$user = $this->userManager->get($ocName);
 			}
-			$user->processAttributes($userRecord);
+			if ($user !== null) {
+				$user->processAttributes($userRecord);
+			} else {
+				\OC::$server->getLogger()->debug(
+					"The ldap user manager returned null for $ocName",
+					['app'=>'user_ldap']
+				);
+			}
 		}
 	}
 
