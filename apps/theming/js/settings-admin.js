@@ -52,6 +52,7 @@ $(document).ready(function () {
 
 	var uploadParamsLogo = {
 		pasteZone: null,
+		dropZone: null,
 		done: function (e, response) {
 			preview('logoMime', response.result.data.name);
 			OC.msg.finishedSaving('#theming_settings_msg', response.result);
@@ -65,6 +66,7 @@ $(document).ready(function () {
 	};
 	var uploadParamsLogin = {
 		pasteZone: null,
+		dropZone: null,
 		done: function (e, response) {
 			preview('backgroundMime', response.result.data.name);
 			OC.msg.finishedSaving('#theming_settings_msg', response.result);
