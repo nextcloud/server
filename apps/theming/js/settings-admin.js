@@ -36,22 +36,37 @@ function preview(setting, value) {
 		var headerClass = document.getElementById('header');
 		headerClass.style.background = value;
 		headerClass.style.backgroundImage = '../img/logo-icon.svg';
-
 	}
-	if (setting === 'logoName') {
+	if (setting === 'logoMime') {
+		console.log(setting);
 		var logos = document.getElementsByClassName('logo-icon');
-		for (var i = 0; i < logos.length; i++) {
-			logos[i].style.background= "url('" + OC.getRootPath() + "/themes/theming-app/core/img/" + value + "')";
+		if(value !== '') {
+			logos[0].style.background = "url('" + OC.generateUrl('/apps/theming/logo') + "')";
+		} else {
+			logos[0].style.background = "url('" + OC.getRootPath() + '/core/img/logo-icon.svg'+"')";
 		}
 	}
 }
 
 $(document).ready(function () {
 
-	var uploadparms = {
+	var uploadParamsLogo = {
 		pasteZone: null,
 		done: function (e, response) {
-			preview('logoName', response.result.data.name);
+			preview('logoMime', response.result.data.name);
+			OC.msg.finishedSaving('#theming_settings_msg', response.result);
+		},
+		submit: function(e, response) {
+			OC.msg.startSaving('#theming_settings_msg');
+		},
+		fail: function (e, data){
+			OC.msg.finishedSaving('#theming_settings_msg', response);
+		}
+	};
+	var uploadParamsLogin = {
+		pasteZone: null,
+		done: function (e, response) {
+			preview('backgroundMime', response.result.data.name);
 			OC.msg.finishedSaving('#theming_settings_msg', response.result);
 		},
 		submit: function(e, response) {
@@ -62,7 +77,8 @@ $(document).ready(function () {
 		}
 	};
 	
-	$('#uploadlogo').fileupload(uploadparms);
+	$('#uploadlogo').fileupload(uploadParamsLogo);
+	$('#upload-login-background').fileupload(uploadParamsLogin);
 
 	$('#theming-name').keyup(function (e) {
 		if (e.keyCode == 13) {
@@ -102,7 +118,7 @@ $(document).ready(function () {
 				var colorPicker = document.getElementById('theming-color');
 				colorPicker.style.backgroundColor = response.data.value;
 				colorPicker.value = response.data.value.slice(1);
-			} else if (setting !== 'logoName') {
+			} else if (setting !== 'logoMime' && setting !== 'backgroundMime') {
 				var input = document.getElementById('theming-'+setting);
 				input.value = response.data.value;
 			}

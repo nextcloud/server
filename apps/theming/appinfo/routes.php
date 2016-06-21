@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,7 +20,6 @@
  *
  */
 
-
 namespace OCA\Theming\AppInfo;
 
 (new \OCP\AppFramework\App('theming'))->registerRoutes($this, array('routes' => array(
@@ -37,6 +37,21 @@ namespace OCA\Theming\AppInfo;
 		'name' => 'Theming#updateLogo',
 		'url' => '/ajax/updateLogo',
 		'verb' => 'POST'
+	],
+	[
+		'name' => 'Theming#getStylesheet',
+		'url' => '/styles.css',
+		'verb' => 'GET',
+	],
+	[
+		'name' => 'Theming#getLogo',
+		'url' => '/logo',
+		'verb' => 'GET',
+	],
+	[
+	'name' => 'Theming#getLoginBackground',
+	'url' => '/loginbackground',
+	'verb' => 'GET',
 	],
 )));
 
