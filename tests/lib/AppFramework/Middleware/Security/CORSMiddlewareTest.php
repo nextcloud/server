@@ -164,6 +164,31 @@ class CORSMiddlewareTest extends \Test\TestCase {
 	 * @CORS
 	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\SecurityException
 	 */
+	public function testCORSShouldFailIfPasswordLoginIsForbidden() {
+		$request = new Request(
+			['server' => [
+				'PHP_AUTH_USER' => 'user',
+				'PHP_AUTH_PW' => 'pass'
+			]],
+			$this->getMock('\OCP\Security\ISecureRandom'),
+			$this->getMock('\OCP\IConfig')
+		);
+		$this->session->expects($this->once())
+			->method('logout');
+		$this->session->expects($this->once())
+			->method('logClientIn')
+			->with($this->equalTo('user'), $this->equalTo('pass'))
+			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordLoginForbiddenException));
+		$this->reflector->reflect($this, __FUNCTION__);
+		$middleware = new CORSMiddleware($request, $this->reflector, $this->session);
+
+		$middleware->beforeController($this, __FUNCTION__, new Response());
+	}
+
+	/**
+	 * @CORS
+	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\SecurityException
+	 */
 	public function testCORSShouldNotAllowCookieAuth() {
 		$request = new Request(
 			['server' => [

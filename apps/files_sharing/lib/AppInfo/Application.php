@@ -115,7 +115,8 @@ class Application extends App {
 			$server = $c->query('ServerContainer');
 			return new MountProvider(
 				$server->getConfig(),
-				$server->getShareManager()
+				$server->getShareManager(),
+				$server->getLogger()
 			);
 		});
 

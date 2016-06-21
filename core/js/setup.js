@@ -43,7 +43,8 @@ $(document).ready(function() {
 
 	$('input[checked]').trigger('click');
 
-	$('#showAdvanced').click(function() {
+	$('#showAdvanced').click(function(e) {
+		e.preventDefault();
 		$('#datadirContent').slideToggle(250);
 		$('#databaseBackend').slideToggle(250);
 		$('#databaseField').slideToggle(250);

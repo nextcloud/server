@@ -24,5 +24,8 @@
 		<post-migration>
 			<job>OCA\DAV\Migration\Classification</job>
 		</post-migration>
+		<live-migration>
+			<job>OCA\DAV\Migration\GenerateBirthdays</job>
+		</live-migration>
 	</repair-steps>
 </info>

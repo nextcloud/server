@@ -1,7 +1,11 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "无法写入“config”目录！",
+    "This can usually be fixed by giving the webserver write access to the config directory" : "给 WEB 服务器 Config 目录设置写权限可以修复这个问题。",
     "See %s" : "查看 %s",
+    "Sample configuration detected" : "示例配置检测",
     "PHP %s or higher is required." : "要求 PHP 版本 %s 或者更高。",
+    "The command line tool %s could not be found" : "命令行工具 %s 未找到",
+    "The library %s is not available." : "库文件 %s 不可用",
     "Unknown filetype" : "未知的文件类型",
     "Invalid image" : "无效的图像",
     "today" : "今天",

@@ -4,6 +4,7 @@ OC.L10N.register(
     "Update notifications" : "Posodobi obvestila",
     "{version} is available. Get more information on how to update." : "Na voljo je nova različica {version}. Na voljo je več podrobnosti o nadgradnji.",
     "Updated channel" : "Posodobljen kanal",
+    "ownCloud core" : "Jedro ownCloud",
     "Update for %1$s to version %2$s is available." : "Posodobitev %1$s na različico %2$s je na voljo.",
     "Updater" : "Posodabljalnik",
     "A new version is available: %s" : "Na voljo je nova različica: %s",

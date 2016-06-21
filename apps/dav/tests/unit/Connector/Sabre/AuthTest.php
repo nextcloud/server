@@ -159,7 +159,7 @@ class AuthTest extends TestCase {
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->exactly(4))
+		$user->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('MyTestUser'));
 		$this->userSession
@@ -167,7 +167,7 @@ class AuthTest extends TestCase {
 			->method('isLoggedIn')
 			->will($this->returnValue(true));
 		$this->userSession
-			->expects($this->exactly(4))
+			->expects($this->exactly(3))
 			->method('getUser')
 			->will($this->returnValue($user));
 		$this->session
@@ -178,12 +178,8 @@ class AuthTest extends TestCase {
 		$this->userSession
 			->expects($this->once())
 			->method('logClientIn')
-			->with('MyTestUser', 'MyTestPassword')
+			->with('MyTestUser', 'MyTestPassword', $this->request)
 			->will($this->returnValue(true));
-		$this->userSession
-			->expects($this->once())
-			->method('createSessionToken')
-			->with($this->request, 'MyTestUser', 'MyTestUser', 'MyTestPassword');
 		$this->session
 			->expects($this->once())
 			->method('set')
@@ -212,6 +208,25 @@ class AuthTest extends TestCase {
 		$this->assertFalse($this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']));
 	}
 
+	/**
+	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden
+	 */
+	public function testValidateUserPassWithPasswordLoginForbidden() {
+		$this->userSession
+			->expects($this->once())
+			->method('isLoggedIn')
+			->will($this->returnValue(false));
+		$this->userSession
+			->expects($this->once())
+			->method('logClientIn')
+			->with('MyTestUser', 'MyTestPassword')
+			->will($this->throwException(new \OC\Authentication\Exceptions\PasswordLoginForbiddenException()));
+		$this->session
+			->expects($this->once())
+			->method('close');
+
+		$this->invokePrivate($this->auth, 'validateUserPass', ['MyTestUser', 'MyTestPassword']);
+	}
 
 	public function testAuthenticateAlreadyLoggedInWithoutCsrfTokenForNonGet() {
 		$request = $this->getMockBuilder('Sabre\HTTP\RequestInterface')
@@ -626,17 +641,14 @@ class AuthTest extends TestCase {
 			->method('logClientIn')
 			->with('username', 'password')
 			->will($this->returnValue(true));
-		$this->userSession
-			->expects($this->once())
-			->method('createSessionToken');
 		$user = $this->getMockBuilder('\OCP\IUser')
 			->disableOriginalConstructor()
 			->getMock();
-		$user->expects($this->exactly(4))
+		$user->expects($this->exactly(3))
 			->method('getUID')
 			->will($this->returnValue('MyTestUser'));
 		$this->userSession
-			->expects($this->exactly(4))
+			->expects($this->exactly(3))
 			->method('getUser')
 			->will($this->returnValue($user));
 		$response = $this->auth->check($server->httpRequest, $server->httpResponse);

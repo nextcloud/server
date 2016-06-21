@@ -223,6 +223,7 @@ OC.L10N.register(
     "Documentation:" : "Dokumentace:",
     "User documentation" : "Dokumentace uživatele",
     "Admin documentation" : "Dokumentace pro administrátory",
+    "Visit website" : "Navštívit webovou stránku",
     "Report a bug" : "Nahlásit chybu",
     "Show description …" : "Zobrazit popis ...",
     "Hide description …" : "Skrýt popis ...",

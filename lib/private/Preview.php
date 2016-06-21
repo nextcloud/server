@@ -136,9 +136,9 @@ class Preview {
 
 		//check if there are preview backends
 		if (!\OC::$server->getPreviewManager()
-						 ->hasProviders()
+				->hasProviders()
 			&& \OC::$server->getConfig()
-						   ->getSystemValue('enable_previews', true)
+				->getSystemValue('enable_previews', true)
 		) {
 			\OCP\Util::writeLog('core', 'No preview providers exist', \OCP\Util::ERROR);
 			throw new \Exception('No preview providers');
@@ -410,6 +410,10 @@ class Preview {
 	 * Deletes all previews of a file
 	 */
 	public function deleteAllPreviews() {
+		$thumbnailMount = $this->userView->getMount($this->getThumbnailsFolder());
+		$propagator = $thumbnailMount->getStorage()->getPropagator();
+		$propagator->beginBatch();
+
 		$toDelete = $this->getChildren();
 		$toDelete[] = $this->getFileInfo();
 
@@ -422,11 +426,12 @@ class Preview {
 				// .ocTransferId*.part file from chunked file upload.
 				if (!empty($fileId)) {
 					$previewPath = $this->getPreviewPath($fileId);
-					$this->userView->deleteAll($previewPath);
 					$this->userView->rmdir($previewPath);
 				}
 			}
 		}
+
+		$propagator->commitBatch();
 	}
 
 	/**
@@ -573,8 +578,8 @@ class Preview {
 	 * @return integer[]
 	 */
 	private function applyAspectRatio($askedWidth, $askedHeight, $originalWidth = 0, $originalHeight = 0) {
-		if(!$originalWidth){
-			$originalWidth= $this->maxPreviewWidth;
+		if (!$originalWidth) {
+			$originalWidth = $this->maxPreviewWidth;
 		}
 		if (!$originalHeight) {
 			$originalHeight = $this->maxPreviewHeight;
@@ -1113,7 +1118,7 @@ class Preview {
 		$preview = null;
 
 		$previewProviders = \OC::$server->getPreviewManager()
-										->getProviders();
+			->getProviders();
 		foreach ($previewProviders as $supportedMimeType => $providers) {
 			if (!preg_match($supportedMimeType, $this->mimeType)) {
 				continue;
@@ -1127,7 +1132,7 @@ class Preview {
 
 				\OCP\Util::writeLog(
 					'core', 'Generating preview for "' . $file . '" with "' . get_class($provider)
-							. '"', \OCP\Util::DEBUG
+					. '"', \OCP\Util::DEBUG
 				);
 
 				/** @var $provider Provider */
@@ -1261,7 +1266,7 @@ class Preview {
 
 		$absPath = Files\Filesystem::normalizePath($view->getAbsolutePath($path));
 		$fileInfo = $view->getFileInfo($path);
-		if($fileInfo === false) {
+		if ($fileInfo === false) {
 			return;
 		}
 		self::addPathToDeleteFileMapper($absPath, $fileInfo);

@@ -39,6 +39,7 @@ class ExcludeFileByNameFilterIterator extends \RecursiveFilterIterator {
 		'.DS_Store', // Mac OS X
 		'Thumbs.db', // Microsoft Windows
 		'.directory', // Dolphin (KDE)
+		'.webapp', // Gentoo/Funtoo & derivatives use a tool known as webapp-config to manager wep-apps.
 	];
 
 	/**

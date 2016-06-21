@@ -21,6 +21,7 @@ OC.L10N.register(
     "%1$s assigned system tag %3$s to %2$s" : "%1$s wees systeem tag %3$s aan %2$s toe",
     "You unassigned system tag %3$s from %2$s" : "Je maakte toewijzing systeem tag %3$s van %2$s ongedaan",
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s verwijderde systeem tag %3$s van %2$s",
+    "%s (restricted)" : "%s (beperkt)",
     "%s (invisible)" : "%s (onzichtbaar)",
     "No files in here" : "Hier geen bestanden",
     "No entries found in this folder" : "Niets gevonden in deze map",

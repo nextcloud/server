@@ -25,6 +25,7 @@ namespace OC\Repair;
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\IUserManager;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
@@ -38,11 +39,18 @@ class CleanTags implements IRepairStep {
 	/** @var IDBConnection */
 	protected $connection;
 
+	/** @var IUserManager */
+	protected $userManager;
+
+	protected $deletedTags = 0;
+
 	/**
 	 * @param IDBConnection $connection
+	 * @param IUserManager $userManager
 	 */
-	public function __construct(IDBConnection $connection) {
+	public function __construct(IDBConnection $connection, IUserManager $userManager) {
 		$this->connection = $connection;
+		$this->userManager = $userManager;
 	}
 
 	/**
@@ -56,9 +64,56 @@ class CleanTags implements IRepairStep {
 	 * Updates the configuration after running an update
 	 */
 	public function run(IOutput $output) {
+		$this->deleteOrphanTags($output);
 		$this->deleteOrphanFileEntries($output);
 		$this->deleteOrphanTagEntries($output);
 		$this->deleteOrphanCategoryEntries($output);
+	}
+
+	/**
+	 * Delete tags for deleted users
+	 */
+	protected function deleteOrphanTags(IOutput $output) {
+		$offset = 0;
+		while ($this->checkTags($offset)) {
+			$offset += 50;
+		}
+
+		$output->info(sprintf('%d tags of deleted users have been removed.', $this->deletedTags));
+	}
+
+	protected function checkTags($offset) {
+		$query = $this->connection->getQueryBuilder();
+		$query->select('uid')
+			->from('vcategory')
+			->groupBy('uid')
+			->orderBy('uid')
+			->setMaxResults(50)
+			->setFirstResult($offset);
+		$result = $query->execute();
+
+		$users = [];
+		$hadResults = false;
+		while ($row = $result->fetch()) {
+			$hadResults = true;
+			if (!$this->userManager->userExists($row['uid'])) {
+				$users[] = $row['uid'];
+			}
+		}
+		$result->closeCursor();
+
+		if (!$hadResults) {
+			// No more tags, stop looping
+			return false;
+		}
+
+		if (!empty($users)) {
+			$query = $this->connection->getQueryBuilder();
+			$query->delete('vcategory')
+				->where($query->expr()->in('uid', $query->createNamedParameter($users, IQueryBuilder::PARAM_STR_ARRAY)));
+			$this->deletedTags += $query->execute();
+		}
+		return true;
 	}
 
 	/**

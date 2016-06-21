@@ -28,7 +28,7 @@ use OCP\Files\Node;
 use OCP\IUser;
 
 class LazyStorageMountInfo extends CachedMountInfo {
-	/** @var IMountPoint  */
+	/** @var IMountPoint */
 	private $mount;
 
 	/**
@@ -47,7 +47,11 @@ class LazyStorageMountInfo extends CachedMountInfo {
 	 */
 	public function getStorageId() {
 		if (!$this->storageId) {
-			$this->storageId = $this->mount->getStorage()->getStorageCache()->getNumericId();
+			$storage = $this->mount->getStorage();
+			if (!$storage) {
+				return -1;
+			}
+			$this->storageId = $storage->getStorageCache()->getNumericId();
 		}
 		return parent::getStorageId();
 	}
