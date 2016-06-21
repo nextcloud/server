@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Robin Appelman <icewind@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -20,7 +19,15 @@
  *
  */
 
-use OCA\DAV\AppInfo\Application;
+namespace OCA\Files_Sharing\External;
 
-$app = new Application();
-$app->generateBirthdays();
+class Watcher extends \OC\Files\Cache\Watcher {
+	/**
+	 * remove deleted files in $path from the cache
+	 *
+	 * @param string $path
+	 */
+	public function cleanFolder($path) {
+		// not needed, the scanner takes care of this
+	}
+}

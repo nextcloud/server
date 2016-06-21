@@ -26,6 +26,7 @@ namespace OCA\Files_Sharing;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\Share\IManager;
 
@@ -41,12 +42,19 @@ class MountProvider implements IMountProvider {
 	protected $shareManager;
 
 	/**
+	 * @var ILogger
+	 */
+	protected $logger;
+
+	/**
 	 * @param \OCP\IConfig $config
 	 * @param IManager $shareManager
+	 * @param ILogger $logger
 	 */
-	public function __construct(IConfig $config, IManager $shareManager) {
+	public function __construct(IConfig $config, IManager $shareManager, ILogger $logger) {
 		$this->config = $config;
 		$this->shareManager = $shareManager;
+		$this->logger = $logger;
 	}
 
 
@@ -67,15 +75,20 @@ class MountProvider implements IMountProvider {
 		$mounts = [];
 		foreach ($shares as $share) {
 
-			$mounts[] = new SharedMount(
-				'\OC\Files\Storage\Shared',
-				$mounts,
-				[
-					'user' => $user->getUID(),
-					'newShare' => $share,
-				],
-				$storageFactory
-			);
+			try {
+				$mounts[] = new SharedMount(
+					'\OC\Files\Storage\Shared',
+					$mounts,
+					[
+						'user' => $user->getUID(),
+						'newShare' => $share,
+					],
+					$storageFactory
+				);
+			} catch (\Exception $e) {
+				$this->logger->logException($e);
+				$this->logger->error('Error while trying to create shared mount');
+			}
 		}
 
 		// array_filter removes the null values from the array

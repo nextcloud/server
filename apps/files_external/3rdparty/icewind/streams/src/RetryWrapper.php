@@ -44,7 +44,7 @@ class RetryWrapper extends Wrapper {
 		$result = parent::stream_read($count);
 
 		$bytesReceived = strlen($result);
-		while ($bytesReceived < $count && !$this->stream_eof()) {
+		while (strlen($result) > 0 && $bytesReceived < $count && !$this->stream_eof()) {
 			$result .= parent::stream_read($count - $bytesReceived);
 			$bytesReceived = strlen($result);
 		}
@@ -54,11 +54,13 @@ class RetryWrapper extends Wrapper {
 
 	public function stream_write($data) {
 		$bytesToSend = strlen($data);
-		$result = parent::stream_write($data);
+		$bytesWritten = parent::stream_write($data);
+		$result = $bytesWritten;
 
-		while ($result < $bytesToSend && !$this->stream_eof()) {
+		while ($bytesWritten > 0 && $result < $bytesToSend && !$this->stream_eof()) {
 			$dataLeft = substr($data, $result);
-			$result += parent::stream_write($dataLeft);
+			$bytesWritten = parent::stream_write($dataLeft);
+			$result += $bytesWritten;
 		}
 
 		return $result;

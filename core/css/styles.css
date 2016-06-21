@@ -376,26 +376,26 @@ a.two-factor-cancel {
 }
 #body-login .grouptop input,
 .grouptop input {
-	margin-bottom: 0;
-	border-bottom: 0;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
+	margin-bottom: 0 !important;
+	border-bottom: 0 !important;
+	border-bottom-left-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
 }
 #body-login .groupmiddle input,
 .groupmiddle input {
-	margin-top: 0;
-	margin-bottom: 0;
-	border-top: 0;
-	border-bottom: 0;
-	border-radius: 0;
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+	border-top: 0 !important;
+	border-bottom: 0 !important;
+	border-radius: 0 !important;
 	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
 }
 #body-login .groupbottom input,
 .groupbottom input {
-	margin-top: 0;
-	border-top: 0;
-	border-top-right-radius: 0;
-	border-top-left-radius: 0;
+	margin-top: 0 !important;
+	border-top: 0 !important;
+	border-top-right-radius: 0 !important;
+	border-top-left-radius: 0 !important;
 	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
 }
 #body-login .groupbottom input[type=submit] {

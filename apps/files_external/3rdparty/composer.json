@@ -9,7 +9,7 @@
 	},
 	"require": {
 		"icewind/smb": "1.1.0",
-		"icewind/streams": "0.4"
+		"icewind/streams": "0.4.1"
 	}
 }
 

@@ -277,19 +277,23 @@ class Helper {
 	/**
 	 * get default share folder
 	 *
+	 * @param \OC\Files\View
 	 * @return string
 	 */
-	public static function getShareFolder() {
+	public static function getShareFolder($view = null) {
+		if ($view === null) {
+			$view = Filesystem::getView();
+		}
 		$shareFolder = \OC::$server->getConfig()->getSystemValue('share_folder', '/');
 		$shareFolder = Filesystem::normalizePath($shareFolder);
 
-		if (!Filesystem::file_exists($shareFolder)) {
+		if (!$view->file_exists($shareFolder)) {
 			$dir = '';
 			$subdirs = explode('/', $shareFolder);
 			foreach ($subdirs as $subdir) {
 				$dir = $dir . '/' . $subdir;
-				if (!Filesystem::is_dir($dir)) {
-					Filesystem::mkdir($dir);
+				if (!$view->is_dir($dir)) {
+					$view->mkdir($dir);
 				}
 			}
 		}

@@ -1,7 +1,7 @@
 <?php
+
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Christoph Wurst <christoph@owncloud.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -20,7 +20,10 @@
  *
  */
 
-use OCA\DAV\AppInfo\Application;
+namespace OC\Authentication\Exceptions;
 
-$app = new Application();
-$app->generateBirthdays();
+use Exception;
+
+class PasswordLoginForbiddenException extends Exception {
+
+}

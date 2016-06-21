@@ -306,16 +306,21 @@ class SessionTest extends \Test\TestCase {
 		$userSession->login('foo', 'bar');
 	}
 
+	/**
+	 * @expectedException \OC\Authentication\Exceptions\PasswordLoginForbiddenException
+	 */
 	public function testLogClientInNoTokenPasswordWith2fa() {
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()
 			->getMock();
 		$session = $this->getMock('\OCP\ISession');
+		$request = $this->getMock('\OCP\IRequest');
+		$user = $this->getMock('\OCP\IUser');
 
 		/** @var \OC\User\Session $userSession */
 		$userSession = $this->getMockBuilder('\OC\User\Session')
 			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config])
-			->setMethods(['login'])
+			->setMethods(['login', 'supportsCookies', 'createSessionToken', 'getUser'])
 			->getMock();
 
 		$this->tokenProvider->expects($this->once())
@@ -327,15 +332,58 @@ class SessionTest extends \Test\TestCase {
 			->with('token_auth_enforced', false)
 			->will($this->returnValue(true));
 
-		$this->assertFalse($userSession->logClientIn('john', 'doe'));
+		$userSession->logClientIn('john', 'doe', $request);
 	}
 
+	public function testLogClientInWithTokenPassword() {
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+		$session = $this->getMock('\OCP\ISession');
+		$request = $this->getMock('\OCP\IRequest');
+		$user = $this->getMock('\OCP\IUser');
+
+		/** @var \OC\User\Session $userSession */
+		$userSession = $this->getMockBuilder('\OC\User\Session')
+			->setConstructorArgs([$manager, $session, $this->timeFactory, $this->tokenProvider, $this->config])
+			->setMethods(['isTokenPassword', 'login', 'supportsCookies', 'createSessionToken', 'getUser'])
+			->getMock();
+
+		$userSession->expects($this->once())
+			->method('isTokenPassword')
+			->will($this->returnValue(true));
+		$userSession->expects($this->once())
+			->method('login')
+			->with('john', 'doe')
+			->will($this->returnValue(true));
+
+		$userSession->expects($this->once())
+			->method('supportsCookies')
+			->with($request)
+			->will($this->returnValue(true));
+		$userSession->expects($this->once())
+			->method('getUser')
+			->will($this->returnValue($user));
+		$user->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('user123'));
+		$userSession->expects($this->once())
+			->method('createSessionToken')
+			->with($request, 'user123', 'john', 'doe');
+		
+		$this->assertTrue($userSession->logClientIn('john', 'doe', $request));
+	}
+
+	/**
+	 * @expectedException \OC\Authentication\Exceptions\PasswordLoginForbiddenException
+	 */
 	public function testLogClientInNoTokenPasswordNo2fa() {
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()
 			->getMock();
 		$session = $this->getMock('\OCP\ISession');
 		$user = $this->getMock('\OCP\IUser');
+		$request = $this->getMock('\OCP\IRequest');
 
 		/** @var \OC\User\Session $userSession */
 		$userSession = $this->getMockBuilder('\OC\User\Session')
@@ -357,7 +405,7 @@ class SessionTest extends \Test\TestCase {
 			->with('john')
 			->will($this->returnValue(true));
 
-		$this->assertFalse($userSession->logClientIn('john', 'doe'));
+		$userSession->logClientIn('john', 'doe', $request);
 	}
 
 	public function testRememberLoginValidToken() {

@@ -26,6 +26,7 @@ namespace OC\AppFramework\Middleware\Security;
 
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
 use OC\AppFramework\Utility\ControllerMethodReflector;
+use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\User\Session;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
@@ -89,8 +90,12 @@ class CORSMiddleware extends Middleware {
 			$pass = $this->request->server['PHP_AUTH_PW'];
 
 			$this->session->logout();
-			if(!$this->session->logClientIn($user, $pass)) {
-				throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
+			try {
+				if (!$this->session->logClientIn($user, $pass, $this->request)) {
+					throw new SecurityException('CORS requires basic auth', Http::STATUS_UNAUTHORIZED);
+				}
+			} catch (PasswordLoginForbiddenException $ex) {
+				throw new SecurityException('Password login forbidden, use token instead', Http::STATUS_UNAUTHORIZED);
 			}
 		}
 	}

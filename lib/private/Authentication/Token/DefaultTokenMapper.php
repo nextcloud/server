@@ -77,6 +77,7 @@ class DefaultTokenMapper extends Mapper {
 			->execute();
 
 		$data = $result->fetch();
+		$result->closeCursor();
 		if ($data === false) {
 			throw new DoesNotExistException('token does not exist');
 		}

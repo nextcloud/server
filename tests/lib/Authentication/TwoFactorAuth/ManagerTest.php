@@ -55,7 +55,10 @@ class ManagerTest extends TestCase {
 		$this->session = $this->getMock('\OCP\ISession');
 		$this->config = $this->getMock('\OCP\IConfig');
 
-		$this->manager = new Manager($this->appManager, $this->session, $this->config);
+		$this->manager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
+			->setConstructorArgs([$this->appManager, $this->session, $this->config])
+			->setMethods(['loadTwoFactorApp']) // Do not actually load the apps
+			->getMock();
 
 		$this->fakeProvider = $this->getMock('\OCP\Authentication\TwoFactorAuth\IProvider');
 		$this->fakeProvider->expects($this->any())
@@ -83,6 +86,10 @@ class ManagerTest extends TestCase {
 						'\OCA\MyCustom2faApp\FakeProvider',
 					],
 		]));
+
+		$this->manager->expects($this->once())
+			->method('loadTwoFactorApp')
+			->with('mycustom2faapp');
 	}
 
 	/**
@@ -94,6 +101,9 @@ class ManagerTest extends TestCase {
 			->method('getEnabledAppsForUser')
 			->with($this->user)
 			->will($this->returnValue(['faulty2faapp']));
+		$this->manager->expects($this->once())
+			->method('loadTwoFactorApp')
+			->with('faulty2faapp');
 
 		$this->appManager->expects($this->once())
 			->method('getAppInfo')

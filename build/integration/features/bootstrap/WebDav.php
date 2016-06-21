@@ -214,7 +214,7 @@ trait WebDav {
 		}
 
 		$value = $keys[$key];
-		if ($value !== $expectedValue) {
+		if ($value != $expectedValue) {
 			throw new \Exception("Property \"$key\" found with value \"$value\", expected \"$expectedValue\"");
 		}
 	}
@@ -434,5 +434,51 @@ trait WebDav {
 			$this->response = $ex->getResponse();
 		}
 	}
-}
 
+	/**
+	 * @When user :user favorites element :path
+	 */
+	public function userFavoritesElement($user, $path){
+		$this->response = $this->changeFavStateOfAnElement($user, $path, 1, 0, null);
+	}
+
+	/**
+	 * @When user :user unfavorites element :path
+	 */
+	public function userUnfavoritesElement($user, $path){
+		$this->response = $this->changeFavStateOfAnElement($user, $path, 0, 0, null);
+	}
+
+	/*Set the elements of a proppatch, $folderDepth requires 1 to see elements without children*/
+	public function changeFavStateOfAnElement($user, $path, $favOrUnfav, $folderDepth, $properties = null){
+		$fullUrl = substr($this->baseUrl, 0, -4);
+		$settings = array(
+			'baseUri' => $fullUrl,
+			'userName' => $user,
+		);
+		if ($user === 'admin') {
+			$settings['password'] = $this->adminUser[1];
+		} else {
+			$settings['password'] = $this->regularUser;
+		}
+		$client = new SClient($settings);
+		if (!$properties) {
+			$properties = [
+				'{http://owncloud.org/ns}favorite' => $favOrUnfav
+			];
+		}
+
+		$response = $client->proppatch($this->davPath . '/' . ltrim($path, '/'), $properties, $folderDepth);
+		return $response;
+	}
+
+	/**
+	 * @Then /^as "([^"]*)" gets properties of file "([^"]*)" with$/
+	 * @param string $user
+	 * @param string $path
+	 * @param \Behat\Gherkin\Node\TableNode|null $propertiesTable
+	 */
+	public function asGetsPropertiesOfFileWith($user, $path, $propertiesTable) {
+		$this->asGetsPropertiesOfFolderWith($user, $path, $propertiesTable);
+	}
+}

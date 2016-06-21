@@ -854,7 +854,7 @@ MountConfigListView.prototype = _.extend({
 		this.configureAuthMechanism($tr, storageConfig.authMechanism, onCompletion);
 
 		if (storageConfig.backendOptions) {
-			$td.children().each(function() {
+			$td.find('input, select').each(function() {
 				var input = $(this);
 				var val = storageConfig.backendOptions[input.data('parameter')];
 				if (val !== undefined) {
@@ -1001,7 +1001,7 @@ MountConfigListView.prototype = _.extend({
 			newElement = $('<input type="password" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" placeholder="'+ trimmedPlaceholder+'" />');
 		} else if (placeholder.type === MountConfigListView.ParameterTypes.BOOLEAN) {
 			var checkboxId = _.uniqueId('checkbox_');
-			newElement = $('<input type="checkbox" id="'+checkboxId+'" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" /><label for="'+checkboxId+'">'+ trimmedPlaceholder+'</label>');
+			newElement = $('<div><label><input type="checkbox" id="'+checkboxId+'" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />'+ trimmedPlaceholder+'</label></div>');
 		} else if (placeholder.type === MountConfigListView.ParameterTypes.HIDDEN) {
 			newElement = $('<input type="hidden" class="'+classes.join(' ')+'" data-parameter="'+parameter+'" />');
 		} else {
