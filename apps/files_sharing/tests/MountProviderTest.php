@@ -24,6 +24,7 @@ namespace OCA\Files_Sharing\Tests;
 use OCA\Files_Sharing\MountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUser;
 use OCP\Share\IShare;
 use OCP\Share\IManager;
@@ -46,6 +47,9 @@ class MountProviderTest extends \Test\TestCase {
 	/** @var IManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $shareManager;
 
+	/** @var ILogger | \PHPUnit_Framework_MockObject_MockObject */
+	private $logger;
+
 	public function setUp() {
 		parent::setUp();
 
@@ -53,11 +57,13 @@ class MountProviderTest extends \Test\TestCase {
 		$this->user = $this->getMock('OCP\IUser');
 		$this->loader = $this->getMock('OCP\Files\Storage\IStorageFactory');
 		$this->shareManager = $this->getMock('\OCP\Share\IManager');
+		$this->logger = $this->getMock('\OCP\ILogger');
 
-		$this->provider = new MountProvider($this->config, $this->shareManager);
+		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger);
 	}
 
 	public function testExcludeShares() {
+		/** @var IShare | \PHPUnit_Framework_MockObject_MockObject $share1 */
 		$share1 = $this->getMock('\OCP\Share\IShare');
 		$share1->expects($this->once())
 			->method('getPermissions')
@@ -79,6 +85,7 @@ class MountProviderTest extends \Test\TestCase {
 			->method('getPermissions')
 			->will($this->returnValue(0));
 
+		/** @var IShare | \PHPUnit_Framework_MockObject_MockObject $share4 */
 		$share4 = $this->getMock('\OCP\Share\IShare');
 		$share4->expects($this->once())
 			->method('getPermissions')
