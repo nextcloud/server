@@ -175,6 +175,39 @@ class DefaultTokenProviderTest extends TestCase {
 		$tokenProvider->getPassword($tk, $token);
 	}
 
+	public function testSetPassword() {
+		$token = new DefaultToken();
+		$tokenId = 'token123';
+		$password = '123456';
+
+		$this->config->expects($this->once())
+			->method('getSystemValue')
+			->with('secret')
+			->will($this->returnValue('ocsecret'));
+		$this->crypto->expects($this->once())
+			->method('encrypt')
+			->with($password, $tokenId . 'ocsecret')
+			->will($this->returnValue('encryptedpassword'));
+		$this->mapper->expects($this->once())
+			->method('update')
+			->with($token);
+
+		$this->tokenProvider->setPassword($token, $tokenId, $password);
+
+		$this->assertEquals('encryptedpassword', $token->getPassword());
+	}
+
+	/**
+	 * @expectedException \OC\Authentication\Exceptions\InvalidTokenException
+	 */
+	public function testSetPasswordInvalidToken() {
+		$token = $this->getMock('\OC\Authentication\Token\IToken');
+		$tokenId = 'token123';
+		$password = '123456';
+
+		$this->tokenProvider->setPassword($token, $tokenId, $password);
+	}
+
 	public function testInvalidateToken() {
 		$this->mapper->expects($this->once())
 			->method('invalidate')

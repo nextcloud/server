@@ -151,6 +151,23 @@ class DefaultTokenProvider implements IProvider {
 	}
 
 	/**
+	 * Encrypt and set the password of the given token
+	 *
+	 * @param IToken $token
+	 * @param string $tokenId
+	 * @param string $password
+	 * @throws InvalidTokenException
+	 */
+	public function setPassword(IToken $token, $tokenId, $password) {
+		if (!($token instanceof DefaultToken)) {
+			throw new InvalidTokenException();
+		}
+		/** @var DefaultToken $token */
+		$token->setPassword($this->encryptPassword($password, $tokenId));
+		$this->mapper->update($token);
+	}
+
+	/**
 	 * Invalidate (delete) the given session token
 	 *
 	 * @param string $token

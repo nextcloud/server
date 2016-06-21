@@ -99,4 +99,14 @@ interface IProvider {
 	 * @return string
 	 */
 	public function getPassword(IToken $token, $tokenId);
+
+	/**
+	 * Encrypt and set the password of the given token
+	 *
+	 * @param IToken $token
+	 * @param string $tokenId
+	 * @param string $password
+	 * @throws InvalidTokenException
+	 */
+	public function setPassword(IToken $token, $tokenId, $password);
 }

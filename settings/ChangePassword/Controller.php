@@ -46,6 +46,7 @@ class Controller {
 			exit();
 		}
 		if (!is_null($password) && \OC_User::setPassword($username, $password)) {
+			\OC::$server->getUserSession()->updateSessionTokenPassword($password);
 			\OC_JSON::success();
 		} else {
 			\OC_JSON::error();
