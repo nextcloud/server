@@ -288,8 +288,8 @@ class Notifications {
 			try {
 				$response = $client->post($protocol . $remoteDomain . $endpoint . $urlSuffix . '?format=' . self::RESPONSE_FORMAT, [
 					'body' => $fields,
-					'timeout' => 3,
-					'connect_timeout' => 3,
+					'timeout' => 10,
+					'connect_timeout' => 10,
 				]);
 				$result['result'] = $response->getBody();
 				$result['success'] = true;

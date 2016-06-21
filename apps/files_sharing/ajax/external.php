@@ -78,8 +78,8 @@ $externalManager = new \OCA\Files_Sharing\External\Manager(
 if (substr($remote, 0, 5) === 'https') {
 	try {
 		\OC::$server->getHTTPClientService()->newClient()->get($remote, [
-			'timeout' => 3,
-			'connect_timeout' => 3,
+			'timeout' => 10,
+			'connect_timeout' => 10,
 		])->getBody();
 	} catch (\Exception $e) {
 		\OCP\JSON::error(array('data' => array('message' => $l->t('Invalid or untrusted SSL certificate'))));
