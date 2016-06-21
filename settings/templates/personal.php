@@ -139,6 +139,34 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
+<form id="language" class="section">
+	<h2>
+		<label for="languageinput"><?php p($l->t('Language'));?></label>
+	</h2>
+	<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
+		<option value="<?php p($_['activelanguage']['code']);?>">
+			<?php p($_['activelanguage']['name']);?>
+		</option>
+		<?php foreach($_['commonlanguages'] as $language):?>
+			<option value="<?php p($language['code']);?>">
+				<?php p($language['name']);?>
+			</option>
+		<?php endforeach;?>
+		<optgroup label="––––––––––"></optgroup>
+		<?php foreach($_['languages'] as $language):?>
+			<option value="<?php p($language['code']);?>">
+				<?php p($language['name']);?>
+			</option>
+		<?php endforeach;?>
+	</select>
+	<?php if (OC_Util::getEditionString() === ''): ?>
+	<a href="https://www.transifex.com/projects/p/owncloud/"
+		target="_blank" rel="noreferrer">
+		<em><?php p($l->t('Help translate'));?></em>
+	</a>
+	<?php endif; ?>
+</form>
+
 <div id="sessions" class="section">
 	<h2><?php p($l->t('Sessions'));?></h2>
 	<span class="hidden-when-empty"><?php p($l->t('These are the web, desktop and mobile clients currently logged in to your ownCloud.'));?></span>
@@ -179,34 +207,6 @@ if($_['passwordChangeSupported']) {
 		<button id="device-token-hide" class="button">Done</button>
 	</div>
 </div>
-
-<form id="language" class="section">
-	<h2>
-		<label for="languageinput"><?php p($l->t('Language'));?></label>
-	</h2>
-	<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
-		<option value="<?php p($_['activelanguage']['code']);?>">
-			<?php p($_['activelanguage']['name']);?>
-		</option>
-		<?php foreach($_['commonlanguages'] as $language):?>
-			<option value="<?php p($language['code']);?>">
-				<?php p($language['name']);?>
-			</option>
-		<?php endforeach;?>
-		<optgroup label="––––––––––"></optgroup>
-		<?php foreach($_['languages'] as $language):?>
-			<option value="<?php p($language['code']);?>">
-				<?php p($language['name']);?>
-			</option>
-		<?php endforeach;?>
-	</select>
-	<?php if (OC_Util::getEditionString() === ''): ?>
-	<a href="https://www.transifex.com/projects/p/owncloud/"
-		target="_blank" rel="noreferrer">
-		<em><?php p($l->t('Help translate'));?></em>
-	</a>
-	<?php endif; ?>
-</form>
 
 <div id="clientsbox" class="section clientsbox">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
