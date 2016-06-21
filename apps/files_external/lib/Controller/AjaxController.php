@@ -24,6 +24,7 @@
 
 namespace OCA\Files_External\Controller;
 
+use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\JSONResponse;
@@ -32,10 +33,16 @@ use OCA\Files_External\Lib\Auth\PublicKey\RSA;
 class AjaxController extends Controller {
 	/** @var RSA */
 	private $rsaMechanism;
+	/** @var GlobalAuth  */
+	private $globalAuth;
 
-	public function __construct($appName, IRequest $request, RSA $rsaMechanism) {
+	public function __construct($appName,
+								IRequest $request,
+								RSA $rsaMechanism,
+								GlobalAuth $globalAuth) {
 		parent::__construct($appName, $request);
 		$this->rsaMechanism = $rsaMechanism;
+		$this->globalAuth = $globalAuth;
 	}
 
 	private function generateSshKeys() {
@@ -60,5 +67,16 @@ class AjaxController extends Controller {
 			),
 			'status' => 'success'
 		));
+	}
+
+	/**
+	 * @param string $uid
+	 * @param string $user
+	 * @param string $password
+	 * @return bool
+	 */
+	public function saveGlobalCredentials($uid, $user, $password) {
+		$this->globalAuth->saveAuth($uid, $user, $password);
+		return true;
 	}
 }
