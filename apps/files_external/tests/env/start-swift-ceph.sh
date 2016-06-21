@@ -74,6 +74,11 @@ if [[ $ready != 'READY=1' ]]; then
     docker logs $container
     exit 1
 fi
+if ! "$thisFolder"/env/wait-for-connection ${host} 80 600; then
+    echo "[ERROR] Waited 600 seconds, no response" >&2
+    docker logs $container
+    exit 1
+fi
 echo "Waiting another 15 seconds"
 sleep 15
 
