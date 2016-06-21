@@ -49,9 +49,9 @@ namespace OCA\Theming\AppInfo;
 		'verb' => 'GET',
 	],
 	[
-	'name' => 'Theming#getLoginBackground',
-	'url' => '/loginbackground',
-	'verb' => 'GET',
+		'name' => 'Theming#getLoginBackground',
+		'url' => '/loginbackground',
+		'verb' => 'GET',
 	],
 )));
 
