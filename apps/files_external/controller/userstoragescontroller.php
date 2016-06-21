@@ -104,8 +104,8 @@ class UserStoragesController extends StoragesController {
 	 *
 	 * {@inheritdoc}
 	 */
-	public function show($id) {
-		return parent::show($id);
+	public function show($id, $testOnly = true) {
+		return parent::show($id, $testOnly);
 	}
 
 	/**
@@ -162,6 +162,7 @@ class UserStoragesController extends StoragesController {
 	 * @param string $authMechanism authentication mechanism identifier
 	 * @param array $backendOptions backend-specific options
 	 * @param array $mountOptions backend-specific mount options
+	 * @param bool $testOnly whether to storage should only test the connection or do more things
 	 *
 	 * @return DataResponse
 	 *
@@ -173,7 +174,8 @@ class UserStoragesController extends StoragesController {
 		$backend,
 		$authMechanism,
 		$backendOptions,
-		$mountOptions
+		$mountOptions,
+		$testOnly = true
 	) {
 		$storage = $this->createStorage(
 			$mountPoint,
@@ -203,7 +205,7 @@ class UserStoragesController extends StoragesController {
 			);
 		}
 
-		$this->updateStorageStatus($storage);
+		$this->updateStorageStatus($storage, $testOnly);
 
 		return new DataResponse(
 			$storage,
