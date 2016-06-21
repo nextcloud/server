@@ -226,7 +226,9 @@ function execute_tests {
 
 			echo "Postgres is up."
 		else
-			dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
+			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
+				dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
+			fi
 		fi
 	fi
 	if [ "$DB" == "oci" ] ; then
