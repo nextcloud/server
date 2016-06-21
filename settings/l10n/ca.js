@@ -10,6 +10,7 @@ OC.L10N.register(
     "Unable to change password" : "No es pot canviar la contrasenya",
     "Enabled" : "Activat",
     "Not enabled" : "Desactivat",
+    "Federated Cloud Sharing" : "Compartició federada de núvol",
     "A problem occurred, please check your log files (Error: %s)" : "S'ha produït un problema, si us plau revisi els arxius de registre (Error: %s)",
     "Migration Completed" : "Migració completada",
     "Group already exists." : "El grup ja existeix.",
