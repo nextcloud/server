@@ -676,4 +676,21 @@ class Session implements IUserSession, Emitter {
 		setcookie('oc_remember_login', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
 	}
 
+	/**
+	 * Update password of the browser session token if there is one
+	 *
+	 * @param string $password
+	 */
+	public function updateSessionTokenPassword($password) {
+		try {
+			$sessionId = $this->session->getId();
+			$token = $this->tokenProvider->getToken($sessionId);
+			$this->tokenProvider->setPassword($token, $sessionId, $password);
+		} catch (SessionNotAvailableException $ex) {
+			// Nothing to do
+		} catch (InvalidTokenException $ex) {
+			// Nothing to do
+		}
+	}
+
 }

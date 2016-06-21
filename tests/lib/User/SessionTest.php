@@ -818,4 +818,69 @@ class SessionTest extends \Test\TestCase {
 		$this->invokePrivate($userSession, 'validateSession', [$user]);
 	}
 
+	public function testUpdateSessionTokenPassword() {
+		$userManager = $this->getMock('\OCP\IUserManager');
+		$session = $this->getMock('\OCP\ISession');
+		$timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$tokenProvider = $this->getMock('\OC\Authentication\Token\IProvider');
+		$userSession = new \OC\User\Session($userManager, $session, $timeFactory, $tokenProvider, $this->config);
+
+		$password = '123456';
+		$sessionId ='session1234';
+		$token = new \OC\Authentication\Token\DefaultToken();
+
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue($sessionId));
+		$tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->will($this->returnValue($token));
+		$tokenProvider->expects($this->once())
+			->method('setPassword')
+			->with($token, $sessionId, $password);
+
+		$userSession->updateSessionTokenPassword($password);
+	}
+
+	public function testUpdateSessionTokenPasswordNoSessionAvailable() {
+		$userManager = $this->getMock('\OCP\IUserManager');
+		$session = $this->getMock('\OCP\ISession');
+		$timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$tokenProvider = $this->getMock('\OC\Authentication\Token\IProvider');
+		$userSession = new \OC\User\Session($userManager, $session, $timeFactory, $tokenProvider, $this->config);
+
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->throwException(new \OCP\Session\Exceptions\SessionNotAvailableException()));
+
+		$userSession->updateSessionTokenPassword('1234');
+	}
+
+	public function testUpdateSessionTokenPasswordInvalidTokenException() {
+		$userManager = $this->getMock('\OCP\IUserManager');
+		$session = $this->getMock('\OCP\ISession');
+		$timeFactory = $this->getMock('\OCP\AppFramework\Utility\ITimeFactory');
+		$tokenProvider = $this->getMock('\OC\Authentication\Token\IProvider');
+		$userSession = new \OC\User\Session($userManager, $session, $timeFactory, $tokenProvider, $this->config);
+
+		$password = '123456';
+		$sessionId ='session1234';
+		$token = new \OC\Authentication\Token\DefaultToken();
+
+		$session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue($sessionId));
+		$tokenProvider->expects($this->once())
+			->method('getToken')
+			->with($sessionId)
+			->will($this->returnValue($token));
+		$tokenProvider->expects($this->once())
+			->method('setPassword')
+			->with($token, $sessionId, $password)
+			->will($this->throwException(new \OC\Authentication\Exceptions\InvalidTokenException()));
+
+		$userSession->updateSessionTokenPassword($password);
+	}
+
 }
