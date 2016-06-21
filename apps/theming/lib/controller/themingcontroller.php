@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,14 +20,13 @@
  *
  */
 
-
 namespace OCA\Theming\Controller;
-
 
 use OCA\Theming\Template;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
 
@@ -38,24 +38,26 @@ use OCP\IRequest;
  * @package OCA\Theming\Controller
  */
 class ThemingController extends Controller {
-	
 	/** @var Template */
 	private $template;
-
 	/** @var IL10N */
 	private $l;
+	/** @var IConfig */
+	private $config;
 
 	/**
 	 * ThemingController constructor.
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
+	 * @param IConfig $config
 	 * @param Template $template
 	 * @param IL10N $l
 	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
+		IConfig $config,
 		Template $template,
 		IL10N $l
 	) {
@@ -63,11 +65,12 @@ class ThemingController extends Controller {
 		
 		$this->template = $template;
 		$this->l = $l;
+		$this->config = $config;
 	}
 
 	/**
-	 * @param $setting
-	 * @param $value
+	 * @param string $setting
+	 * @param string $value
 	 * @return DataResponse
 	 * @internal param string $color
 	 */
@@ -85,29 +88,39 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * update Nextcloud logo
+	 * Update the logos and background image
 	 *
 	 * @return DataResponse
 	 */
 	public function updateLogo() {
 		$newLogo = $this->request->getUploadedFile('uploadlogo');
-		if (empty($newLogo)) {
+		$newBackgroundLogo = $this->request->getUploadedFile('upload-login-background');
+		if (empty($newLogo) && empty($newBackgroundLogo)) {
 			return new DataResponse(
 				[
 					'data' => [
-						'message' => $this->l->t('No logo uploaded')
+						'message' => $this->l->t('No file uploaded')
 					]
 				],
 				Http::STATUS_UNPROCESSABLE_ENTITY);
 		}
-		$this->template->set('logoName', $newLogo['name']);
-		rename($newLogo['tmp_name'], \OC::$SERVERROOT . '/themes/theming-app/core/img/' . $newLogo['name']);
-		
+		$name = '';
+		if(!empty($newLogo)) {
+			rename($newLogo['tmp_name'], $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/themedinstancelogo');
+			$this->template->set('logoMime', $newLogo['type']);
+			$name = $newLogo['name'];
+		}
+		if(!empty($newBackgroundLogo)) {
+			rename($newBackgroundLogo['tmp_name'], $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/themedbackgroundlogo');
+			$this->template->set('backgroundMime', $newBackgroundLogo['type']);
+			$name = $newBackgroundLogo['name'];
+		}
+
 		return new DataResponse(
 			[
 				'data' =>
 					[
-						'name' => $newLogo['name'],
+						'name' => $name,
 						'message' => $this->l->t('Saved')
 					],
 				'status' => 'success'
@@ -116,7 +129,7 @@ class ThemingController extends Controller {
 	}
 
 	/**
-	 * revert setting to default value
+	 * Revert setting to default value
 	 *
 	 * @param string $setting setting which should be reverted
 	 * @return DataResponse
@@ -133,5 +146,88 @@ class ThemingController extends Controller {
 				'status' => 'success'
 			]
 		);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return Http\StreamResponse
+	 */
+	public function getLogo() {
+		$pathToLogo = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
+		if(!file_exists($pathToLogo)) {
+			return new DataResponse();
+		}
+
+		\OC_Response::setExpiresHeader(gmdate('D, d M Y H:i:s', time() + (60*60*24*45)) . ' GMT');
+		\OC_Response::enableCaching();
+		$response = new Http\StreamResponse($pathToLogo);
+		$response->cacheFor(3600);
+		$response->addHeader('Content-Disposition', 'attachment');
+		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'logoMime', ''));
+		return $response;
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 *
+	 * @return Http\StreamResponse
+	 */
+	public function getLoginBackground() {
+		$pathToLogo = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedbackgroundlogo';
+		if(!file_exists($pathToLogo)) {
+			return new DataResponse();
+		}
+
+		\OC_Response::setExpiresHeader(gmdate('D, d M Y H:i:s', time() + (60*60*24*45)) . ' GMT');
+		\OC_Response::enableCaching();
+		$response = new Http\StreamResponse($pathToLogo);
+		$response->cacheFor(3600);
+		$response->addHeader('Content-Disposition', 'attachment');
+		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'backgroundMime', ''));
+		return $response;
+	}
+
+	/**
+	 * @NoCSRFRequired
+	 * @PublicPage
+	 *
+	 * @return Http\DataDownloadResponse
+	 */
+	public function getStylesheet() {
+		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$responseCss = '';
+		$color = $this->config->getAppValue($this->appName, 'color');
+		if($color !== '') {
+			$responseCss .= sprintf(
+				'#body-user #header,#body-settings #header,#body-public #header {background-color: %s}',
+				$color
+			);
+		}
+		$logo = $this->config->getAppValue($this->appName, 'logoMime');
+		if($logo !== '') {
+			$responseCss .= sprintf('#header .logo {
+				background-image: url(\'./logo?v='.$cacheBusterValue.'\');
+			}
+			#header .logo-icon {
+				background-image: url(\'./logo?v='.$cacheBusterValue.'\');
+				background-size: 62px 34px;
+			}'
+			);
+		}
+		$backgroundLogo = $this->config->getAppValue($this->appName, 'backgroundMime');
+		if($backgroundLogo !== '') {
+			$responseCss .= '#body-login {
+				background-image: url(\'./loginbackground?v='.$cacheBusterValue.'\');
+			}';
+		}
+
+		\OC_Response::setExpiresHeader(gmdate('D, d M Y H:i:s', time() + (60*60*24*45)) . ' GMT');
+		\OC_Response::enableCaching();
+		$response = new Http\DataDownloadResponse($responseCss, 'style.css', 'text/css');
+		$response->cacheFor(3600);
+		return $response;
 	}
 }

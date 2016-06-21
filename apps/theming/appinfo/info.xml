@@ -4,7 +4,7 @@
 	<name>Theming</name>
 	<description>Adjust the Nextcloud theme</description>
 	<licence>AGPL</licence>
-	<author>Bjoern Schiessle</author>
+	<author>Nextcloud</author>
 	<version>0.1.0</version>
 	<namespace>Theming</namespace>
 	<category>other</category>

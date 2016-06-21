@@ -1,6 +1,7 @@
 <?php
 /**
  * @copyright Copyright (c) 2016 Bjoern Schiessle <bjoern@schiessle.org>
+ * @copyright Copyright (c) 2016 Lukas Reschke <lukas@statuscode.ch>
  *
  * @license GNU AGPL version 3 or any later version
  *
@@ -19,9 +20,7 @@
  *
  */
 
-
 namespace OCA\Theming;
-
 
 use OCP\IConfig;
 use OCP\IL10N;
@@ -34,34 +33,21 @@ use OCP\IURLGenerator;
  *
  * @package OCA\Theming
  */
-class Template {
-	
+class Template extends \OC_Defaults {
 	/** @var IConfig */
 	private $config;
-	
 	/** @var  IL10N */
 	private $l;
-
 	/** @var IURLGenerator */
 	private $urlGenerator;
-
-	/** @var Init */
-	private $init;
-
 	/** @var string */
 	private $name;
-
 	/** @var string */
 	private $url;
-
 	/** @var string */
 	private $slogan;
-
 	/** @var string */
 	private $color;
-
-	/** @var string */
-	private $logoName;
 
 	/**
 	 * Template constructor.
@@ -69,30 +55,33 @@ class Template {
 	 * @param IConfig $config
 	 * @param IL10N $l
 	 * @param IURLGenerator $urlGenerator
-	 * @param Init $init
+	 * @param \OC_Defaults $defaults
 	 */
 	public function __construct(IConfig $config,
 								IL10N $l,
 								IURLGenerator $urlGenerator,
-								Init $init
+								\OC_Defaults $defaults
 	) {
+		parent::__construct();
 		$this->config = $config;
 		$this->l = $l;
 		$this->urlGenerator = $urlGenerator;
-		$this->init = $init;
 
-		$this->name = 'Nextcloud';
-		$this->url = 'https://nextcloud.com';
-		$this->slogan = $this->l->t('a safe home for all your data');
-		$this->color = '#0082c9';
-		$this->logoName = 'logo-icon.svg';
+		$this->name = $defaults->getName();
+		$this->url = $defaults->getBaseUrl();
+		$this->slogan = $defaults->getSlogan();
+		$this->color = $defaults->getMailHeaderColor();
 	}
 
 	public function getName() {
 		return $this->config->getAppValue('theming', 'name', $this->name);
 	}
+
+	public function getEntity() {
+		return $this->config->getAppValue('theming', 'name', $this->name);
+	}
 	
-	public function getUrl() {
+	public function getBaseUrl() {
 		return $this->config->getAppValue('theming', 'url', $this->url);
 	}
 
@@ -100,73 +89,57 @@ class Template {
 		return $this->config->getAppValue('theming', 'slogan', $this->slogan);
 	}
 
-	public function getColor() {
+	public function getMailHeaderColor() {
 		return $this->config->getAppValue('theming', 'color', $this->color);
 	}
 
-	public function getLogoName() {
-		return $this->config->getAppValue('theming', 'logoName', $this->logoName);
+	/**
+	 * Increases the cache buster key
+	 */
+	private function increaseCacheBuster() {
+		$cacheBusterKey = $this->config->getAppValue('theming', 'cachebuster', '0');
+		$this->config->setAppValue('theming', 'cachebuster', (int)$cacheBusterKey+1);
 	}
 
 	/**
-	 * update setting in the database
+	 * Update setting in the database
 	 *
-	 * @param $setting
-	 * @param $value
+	 * @param string $setting
+	 * @param string $value
 	 */
 	public function set($setting, $value) {
-		$this->init->prepareThemeFolder();
 		$this->config->setAppValue('theming', $setting, $value);
-		$this->writeCSSFile();
+		$this->increaseCacheBuster();
 	}
 
 	/**
-	 * revert settings to the default value
+	 * Revert settings to the default value
 	 *
 	 * @param string $setting setting which should be reverted
 	 * @return string default value
 	 */
 	public function undo($setting) {
-		$returnValue = '';
-		if ($this->$setting) {
-			$this->config->setAppValue('theming', $setting, $this->$setting);
-			$this->writeCSSFile();
-			$returnValue = $this->$setting;
+		$this->config->deleteAppValue('theming', $setting);
+		$this->increaseCacheBuster();
+
+		switch ($setting) {
+			case 'name':
+				$returnValue = $this->getEntity();
+				break;
+			case 'url':
+				$returnValue = $this->getBaseUrl();
+				break;
+			case 'slogan':
+				$returnValue = $this->getSlogan();
+				break;
+			case 'color':
+				$returnValue = $this->getMailHeaderColor();
+				break;
+			default:
+				$returnValue = '';
+				break;
 		}
 
 		return $returnValue;
 	}
-
-	/**
-	 * write setting to a css file
-	 */
-	private function writeCSSFile() {
-		$logo = $this->getLogoName();
-		$color = $this->getColor();
-
-		$css = "
-		#body-user #header,
-        #body-settings #header,
-        #body-public #header {
-	        background-color: $color;
-        }
-        
-        
-        /* use logos from theme */
-        #header .logo {
-	        background-image: url('../img/$logo');
-	        width: 250px;
-	        height: 121px;
-        }
-        #header .logo-icon {
-	        background-image: url('../img/$logo');
-	        width: 62px;
-	        height: 34px;
-        }";
-
-		$root = \OC::$SERVERROOT . '/themes/theming-app/core';
-
-		file_put_contents($root . '/css/styles.css', $css);
-	}
-
 }
