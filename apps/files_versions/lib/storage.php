@@ -306,6 +306,17 @@ class Storage {
 				$versionCreated = true;
 			}
 
+			$fileToRestore =  'files_versions' . $filename . '.v' . $revision;
+
+			$oldFileInfo = $users_view->getFileInfo($fileToRestore);
+			$newFileInfo = $files_view->getFileInfo($filename);
+			$cache = $newFileInfo->getStorage()->getCache();
+			$cache->update(
+				$newFileInfo->getId(), [
+					'size' => $oldFileInfo->getSize()
+				]
+			);
+
 			// rollback
 			if (self::copyFileContents($users_view, 'files_versions' . $filename . '.v' . $revision, 'files' . $filename)) {
 				$files_view->touch($file, $revision);
