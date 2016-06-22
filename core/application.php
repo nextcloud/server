@@ -28,6 +28,7 @@ namespace OC\Core;
 
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
+use OC\Core\Controller\OccController;
 use \OCP\AppFramework\App;
 use OC\Core\Controller\LostController;
 use OC\Core\Controller\UserController;
@@ -87,6 +88,18 @@ class Application extends App {
 				$c->query('UserSession'),
 				$c->query('UserFolder'),
 				$c->query('Logger')
+			);
+		});
+		$container->registerService('OccController', function(SimpleContainer $c) {
+			return new OccController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('Config'),
+				new \OC\Console\Application(
+					$c->query('Config'),
+					$c->query('ServerContainer')->getEventDispatcher(),
+					$c->query('Request')
+				)
 			);
 		});
 
