@@ -40,11 +40,12 @@ function preview(setting, value) {
 	if (setting === 'logoMime') {
 		console.log(setting);
 		var logos = document.getElementsByClassName('logo-icon');
+		var timestamp = new Date().getTime();
 		if(value !== '') {
-			logos[0].style.background = "url('" + OC.generateUrl('/apps/theming/logo') + "')";
+			logos[0].style.background = "url('" + OC.generateUrl('/apps/theming/logo') + "?v" + timestamp + "')";
 			logos[0].style.backgroundSize = "62px 34px";
 		} else {
-			logos[0].style.background = "url('" + OC.getRootPath() + '/core/img/logo-icon.svg'+"')";
+			logos[0].style.background = "url('" + OC.getRootPath() + '/core/img/logo-icon.svg?v' + timestamp +"')";
 			logos[0].style.backgroundSize = "62px 34px";
 		}
 	}
