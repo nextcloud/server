@@ -292,7 +292,7 @@ OC.L10N.register(
     "New password" : "Fjalëkalim i ri",
     "New Password" : "Fjalëkalim i Ri",
     "Reset password" : "Ricaktoni fjalëkalimin",
-    "This ownCloud instance is currently in single user mode." : "Kjo instancë ownCloud është aktualisht në gjendje me përdorues të vetëm.",
+    "This Nextcloud instance is currently in single user mode." : "Kjo instancë Nextcloud është aktualisht në gjendje me përdorues të vetëm.",
     "This means only administrators can use the instance." : "Kjo do të thotë që instancën mund ta përdorin vetëm administratorët.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Nëse ky mesazh shfaqet vazhdimisht ose u shfaq papritmas, lidhuni me përgjegjësin e sistemit.",
     "Thank you for your patience." : "Ju faleminderit për durimin.",

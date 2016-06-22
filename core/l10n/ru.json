@@ -290,7 +290,7 @@
     "New password" : "Новый пароль",
     "New Password" : "Новый пароль",
     "Reset password" : "Сбросить пароль",
-    "This ownCloud instance is currently in single user mode." : "Сервер ownCloud в настоящее время работает в однопользовательском режиме.",
+    "This Nextcloud instance is currently in single user mode." : "Сервер Nextcloud в настоящее время работает в однопользовательском режиме.",
     "This means only administrators can use the instance." : "Это значит, что только администраторы могут использовать сервер.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
     "Thank you for your patience." : "Спасибо за терпение.",

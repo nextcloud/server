@@ -267,7 +267,7 @@ OC.L10N.register(
     "New password" : "Nowe hasło",
     "New Password" : "Nowe hasło",
     "Reset password" : "Zresetuj hasło",
-    "This ownCloud instance is currently in single user mode." : "Ta instalacja ownCloud działa obecnie w trybie pojedynczego użytkownika.",
+    "This Nextcloud instance is currently in single user mode." : "Ta instalacja Nextcloud działa obecnie w trybie pojedynczego użytkownika.",
     "This means only administrators can use the instance." : "To oznacza, że tylko administratorzy mogą w tej chwili używać aplikacji.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Skontaktuj się z administratorem, jeśli ten komunikat pojawił się nieoczekiwanie lub wyświetla się ciągle.",
     "Thank you for your patience." : "Dziękuję za cierpliwość.",

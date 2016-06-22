@@ -241,7 +241,7 @@ OC.L10N.register(
     "New password" : "Uus parool",
     "New Password" : "Uus parool",
     "Reset password" : "Nulli parool",
-    "This ownCloud instance is currently in single user mode." : "See ownCloud on momendil seadistatud ühe kasutaja jaoks.",
+    "This Nextcloud instance is currently in single user mode." : "See Nextcloud on momendil seadistatud ühe kasutaja jaoks.",
     "This means only administrators can use the instance." : "See tähendab, et seda saavad kasutada ainult administraatorid.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontakteeru oma süsteemihalduriga, kui see teade püsib või on tekkinud ootamatult.",
     "Thank you for your patience." : "Täname kannatlikkuse eest.",

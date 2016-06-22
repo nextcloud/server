@@ -291,7 +291,7 @@ OC.L10N.register(
     "New password" : "Új jelszó",
     "New Password" : "Új jelszó",
     "Reset password" : "Jelszó-visszaállítás",
-    "This ownCloud instance is currently in single user mode." : "Ez az ownCloud szolgáltatás jelenleg egyfelhasználós üzemmódban működik.",
+    "This Nextcloud instance is currently in single user mode." : "Ez az Nextcloud szolgáltatás jelenleg egyfelhasználós üzemmódban működik.",
     "This means only administrators can use the instance." : "Ez azt jelenti, hogy csak az adminisztrátor használhatja ezt a példányt",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ha ez az üzenet ismételten vagy indokolatlanul megjelenik, akkor keresse fel a rendszergazdáját!",
     "Thank you for your patience." : "Köszönjük a türelmét!",
