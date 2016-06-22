@@ -6,7 +6,7 @@
  *
  * This code is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the 
+ * published by the Free Software Foundation, either version 3 of the
  * License, or (at your opinion) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -42,8 +42,10 @@ function preview(setting, value) {
 		var logos = document.getElementsByClassName('logo-icon');
 		if(value !== '') {
 			logos[0].style.background = "url('" + OC.generateUrl('/apps/theming/logo') + "')";
+			logos[0].style.backgroundSize = "62px 34px";
 		} else {
 			logos[0].style.background = "url('" + OC.getRootPath() + '/core/img/logo-icon.svg'+"')";
+			logos[0].style.backgroundSize = "62px 34px";
 		}
 	}
 }
@@ -78,7 +80,7 @@ $(document).ready(function () {
 			OC.msg.finishedSaving('#theming_settings_msg', response);
 		}
 	};
-	
+
 	$('#uploadlogo').fileupload(uploadParamsLogo);
 	$('#upload-login-background').fileupload(uploadParamsLogin);
 
@@ -109,7 +111,7 @@ $(document).ready(function () {
 	$('#theming-color').change(function (e) {
 		setThemingValue('color', '#' + $(this).val());
 	});
-	
+
 	$('.theme-undo').click(function (e) {
 		var setting = $(this).data('setting');
 		OC.msg.startSaving('#theming_settings_msg');
