@@ -5,6 +5,7 @@ OC.L10N.register(
     "No shared links" : "Keng gedeelte Linken",
     "Cancel" : "Ofbriechen",
     "Shared by" : "Gedeelt vun",
+    "Sharing" : "Gedeelt",
     "The password is wrong. Try again." : "Den Passwuert ass incorrect. Probeier ed nach eng keier.",
     "Password" : "Passwuert",
     "No entries found in this folder" : "Keng Elementer an dësem Dossier fonnt",

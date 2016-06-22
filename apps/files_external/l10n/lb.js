@@ -6,6 +6,7 @@ OC.L10N.register(
     "Username" : "Benotzernumm",
     "Password" : "Passwuert",
     "Save" : "Späicheren",
+    "None" : "Keng",
     "Port" : "Port",
     "Region" : "Regioun",
     "URL" : "URL",

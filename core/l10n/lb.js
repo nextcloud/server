@@ -83,6 +83,7 @@ OC.L10N.register(
     "can share" : "kann deelen",
     "can edit" : "kann änneren",
     "create" : "erstellen",
+    "change" : "änneren",
     "delete" : "läschen",
     "access control" : "Zougrëffskontroll",
     "Share" : "Deelen",
