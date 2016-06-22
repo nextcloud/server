@@ -29,6 +29,7 @@
 
 			var self = this;
 			var xhr = this.xhrProvider();
+			headers = headers || {};
 
 			if (this.userName) {
 				headers['Authorization'] = 'Basic ' + btoa(this.userName + ':' + this.password);
