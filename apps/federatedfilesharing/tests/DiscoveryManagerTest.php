@@ -77,7 +77,10 @@ class DiscoveryManagerTest extends \Test\TestCase {
 		$this->client
 			->expects($this->once())
 			->method('get')
-			->with('https://myhost.com/ocs-provider/', [])
+			->with('https://myhost.com/ocs-provider/', [
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			])
 			->willReturn($response);
 		$this->cache
 			->expects($this->at(0))
@@ -111,7 +114,10 @@ class DiscoveryManagerTest extends \Test\TestCase {
 		$this->client
 			->expects($this->once())
 			->method('get')
-			->with('https://myhost.com/ocs-provider/', [])
+			->with('https://myhost.com/ocs-provider/', [
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			])
 			->willReturn($response);
 
 		$expectedResult = '/public.php/MyCustomEndpoint/';
@@ -131,7 +137,10 @@ class DiscoveryManagerTest extends \Test\TestCase {
 		$this->client
 			->expects($this->once())
 			->method('get')
-			->with('https://myhost.com/ocs-provider/', [])
+			->with('https://myhost.com/ocs-provider/', [
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			])
 			->willReturn($response);
 
 		$expectedResult = '/public.php/webdav';
@@ -151,7 +160,10 @@ class DiscoveryManagerTest extends \Test\TestCase {
 		$this->client
 			->expects($this->once())
 			->method('get')
-			->with('https://myhost.com/ocs-provider/', [])
+			->with('https://myhost.com/ocs-provider/', [
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			])
 			->willReturn($response);
 
 		$expectedResult = '/ocs/v2.php/cloud/MyCustomShareEndpoint';
@@ -171,7 +183,10 @@ class DiscoveryManagerTest extends \Test\TestCase {
 		$this->client
 			->expects($this->once())
 			->method('get')
-			->with('https://myhost.com/ocs-provider/', [])
+			->with('https://myhost.com/ocs-provider/', [
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			])
 			->willReturn($response);
 		$this->cache
 			->expects($this->at(0))
