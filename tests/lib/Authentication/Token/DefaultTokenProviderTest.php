@@ -97,13 +97,24 @@ class DefaultTokenProviderTest extends TestCase {
 
 	public function testUpdateToken() {
 		$tk = new DefaultToken();
+		$tk->setLastActivity($this->time - 200);
 		$this->mapper->expects($this->once())
 			->method('update')
 			->with($tk);
 
-		$this->tokenProvider->updateToken($tk);
+		$this->tokenProvider->updateTokenActivity($tk);
 
 		$this->assertEquals($this->time, $tk->getLastActivity());
+	}
+
+	public function testUpdateTokenDebounce() {
+		$tk = new DefaultToken();
+		$tk->setLastActivity($this->time - 30);
+		$this->mapper->expects($this->never())
+			->method('update')
+			->with($tk);
+
+		$this->tokenProvider->updateTokenActivity($tk);
 	}
 	
 	public function testGetTokenByUser() {
@@ -238,32 +249,6 @@ class DefaultTokenProviderTest extends TestCase {
 			->with($this->time - 150);
 
 		$this->tokenProvider->invalidateOldTokens();
-	}
-
-	public function testValidateToken() {
-		$token = 'sometoken';
-		$dbToken = new DefaultToken();
-		$this->mapper->expects($this->once())
-			->method('getToken')
-			->with(hash('sha512', $token))
-			->will($this->returnValue($dbToken));
-
-		$actual = $this->tokenProvider->validateToken($token);
-
-		$this->assertEquals($dbToken, $actual);
-	}
-
-	/**
-	 * @expectedException \OC\Authentication\Exceptions\InvalidTokenException
-	 */
-	public function testValidateInvalidToken() {
-		$token = 'sometoken';
-		$this->mapper->expects($this->once())
-			->method('getToken')
-			->with(hash('sha512', $token))
-			->will($this->throwException(new DoesNotExistException('')));
-
-		$this->tokenProvider->validateToken($token);
 	}
 
 }

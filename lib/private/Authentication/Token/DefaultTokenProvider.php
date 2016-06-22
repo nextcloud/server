@@ -92,19 +92,34 @@ class DefaultTokenProvider implements IProvider {
 	}
 
 	/**
-	 * Update token activity timestamp
+	 * Save the updated token
 	 *
-	 * @throws InvalidTokenException
 	 * @param IToken $token
 	 */
 	public function updateToken(IToken $token) {
 		if (!($token instanceof DefaultToken)) {
 			throw new InvalidTokenException();
 		}
-		/** @var DefaultToken $token */
-		$token->setLastActivity($this->time->getTime());
-
 		$this->mapper->update($token);
+	}
+
+	/**
+	 * Update token activity timestamp
+	 *
+	 * @throws InvalidTokenException
+	 * @param IToken $token
+	 */
+	public function updateTokenActivity(IToken $token) {
+		if (!($token instanceof DefaultToken)) {
+			throw new InvalidTokenException();
+		}
+		/** @var DefaultToken $token */
+		$now = $this->time->getTime();
+		if ($token->getLastActivity() < ($now - 60)) {
+			// Update token only once per minute
+			$token->setLastActivity($now);
+			$this->mapper->update($token);
+		}
 	}
 
 	/**
@@ -193,21 +208,6 @@ class DefaultTokenProvider implements IProvider {
 		$olderThan = $this->time->getTime() - (int) $this->config->getSystemValue('session_lifetime', 60 * 60 * 24);
 		$this->logger->info('Invalidating tokens older than ' . date('c', $olderThan));
 		$this->mapper->invalidateOld($olderThan);
-	}
-
-	/**
-	 * @param string $token
-	 * @throws InvalidTokenException
-	 * @return DefaultToken user UID
-	 */
-	public function validateToken($token) {
-		try {
-			$dbToken = $this->mapper->getToken($this->hashToken($token));
-			$this->logger->debug('valid default token for ' . $dbToken->getUID());
-			return $dbToken;
-		} catch (DoesNotExistException $ex) {
-			throw new InvalidTokenException();
-		}
 	}
 
 	/**

@@ -50,13 +50,6 @@ interface IProvider {
 	public function getToken($tokenId) ;
 
 	/**
-	 * @param string $token
-	 * @throws InvalidTokenException
-	 * @return IToken
-	 */
-	public function validateToken($token);
-
-	/**
 	 * Invalidate (delete) the given session token
 	 *
 	 * @param string $token
@@ -72,11 +65,18 @@ interface IProvider {
 	public function invalidateTokenById(IUser $user, $id);
 
 	/**
-	 * Update token activity timestamp
+	 * Save the updated token
 	 *
 	 * @param IToken $token
 	 */
 	public function updateToken(IToken $token);
+
+	/**
+	 * Update token activity timestamp
+	 *
+	 * @param IToken $token
+	 */
+	public function updateTokenActivity(IToken $token);
 
 	/**
 	 * Get all token of a user
