@@ -144,7 +144,7 @@ class RecipientPropagator {
 			->setParameter('appid', 'files_sharing', \PDO::PARAM_STR);
 
 		foreach ($shareIdChunks as $shareIds) {
-			$sql->setParameter('shareids', $shareIds, Connection::PARAM_INT_ARRAY);
+			$sql->setParameter('shareids', $shareIds, Connection::PARAM_STR_ARRAY);
 			$result = $sql->execute();
 
 			while ($row = $result->fetch()) {
