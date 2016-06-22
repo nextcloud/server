@@ -139,7 +139,7 @@
     "Use the following link to reset your password: {link}" : "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}",
     "New password" : "Mật khẩu mới",
     "Reset password" : "Khôi phục mật khẩu",
-    "This ownCloud instance is currently in single user mode." : "OwnCloud trong trường hợp này đang ở chế độ người dùng duy nhất.",
+    "This Nextcloud instance is currently in single user mode." : "Nextcloud trong trường hợp này đang ở chế độ người dùng duy nhất.",
     "This means only administrators can use the instance." : "Điều này có nghĩa chỉ có người quản trị có thể sử dụng trong trường hợp này.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
     "Thank you for your patience." : "Cảm ơn sự kiên nhẫn của bạn."

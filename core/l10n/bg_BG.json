@@ -204,7 +204,7 @@
     "New password" : "Нова парола",
     "New Password" : "Нова Парола",
     "Reset password" : "Възстановяване на паролата",
-    "This ownCloud instance is currently in single user mode." : "В момента този ownCloud е в режим допускащ само един потребител.",
+    "This Nextcloud instance is currently in single user mode." : "В момента този Nextcloud е в режим допускащ само един потребител.",
     "This means only administrators can use the instance." : "Това означава, че само администраторът може да го използва.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Свържи се със системния си администратор ако това съобщение се задържи твърде дълго или се е появило неочаквано.",
     "Thank you for your patience." : "Благодарим за търпението.",

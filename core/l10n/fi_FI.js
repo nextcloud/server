@@ -284,7 +284,7 @@ OC.L10N.register(
     "New password" : "Uusi salasana",
     "New Password" : "Uusi salasana",
     "Reset password" : "Palauta salasana",
-    "This ownCloud instance is currently in single user mode." : "Tämä ownCloud-asennus on parhaillaan single user -tilassa.",
+    "This Nextcloud instance is currently in single user mode." : "Tämä Nextcloud-asennus on parhaillaan single user -tilassa.",
     "This means only administrators can use the instance." : "Se tarkoittaa, että vain ylläpitäjät voivat nyt käyttää tätä ownCloudia.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Ota yhteys järjestelmän ylläpitäjään, jos tämä viesti ilmenee uudelleen tai odottamatta.",
     "Thank you for your patience." : "Kiitos kärsivällisyydestäsi.",

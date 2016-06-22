@@ -292,7 +292,7 @@ OC.L10N.register(
     "New password" : "新密码",
     "New Password" : "新密码",
     "Reset password" : "重置密码",
-    "This ownCloud instance is currently in single user mode." : "当前ownCloud实例运行在单用户模式下。",
+    "This Nextcloud instance is currently in single user mode." : "当前Nextcloud实例运行在单用户模式下。",
     "This means only administrators can use the instance." : "这意味着只有管理员才能在实例上操作。",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "如果这个消息一直存在或不停出现，请联系你的系统管理员。",
     "Thank you for your patience." : "感谢让你久等了。",

@@ -292,7 +292,7 @@ OC.L10N.register(
     "New password" : "Nieuw wachtwoord",
     "New Password" : "Nieuw wachtwoord",
     "Reset password" : "Reset wachtwoord",
-    "This ownCloud instance is currently in single user mode." : "Deze ownCloud werkt momenteel in enkele gebruiker modus.",
+    "This Nextcloud instance is currently in single user mode." : "Deze Nextcloud werkt momenteel in enkele gebruiker modus.",
     "This means only administrators can use the instance." : "Dat betekent dat alleen beheerders deze installatie kunnen gebruiken.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Neem contact op met uw systeembeheerder als deze melding aanhoudt of onverwacht verscheen.",
     "Thank you for your patience." : "Bedankt voor uw geduld.",

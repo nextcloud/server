@@ -249,7 +249,7 @@ OC.L10N.register(
     "New password" : "Νέο συνθηματικό",
     "New Password" : "Νέος Κωδικός",
     "Reset password" : "Επαναφορά συνθηματικού",
-    "This ownCloud instance is currently in single user mode." : "Αυτή η εγκατάσταση ownCloud είναι τώρα σε κατάσταση ενός χρήστη.",
+    "This Nextcloud instance is currently in single user mode." : "Αυτή η εγκατάσταση Nextcloud είναι τώρα σε κατάσταση ενός χρήστη.",
     "This means only administrators can use the instance." : "Αυτό σημαίνει ότι μόνο διαχειριστές μπορούν να χρησιμοποιήσουν την εγκατάσταση.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Επικοινωνήστε με το διαχειριστή του συστήματος αν αυτό το μήνυμα συνεχίζει να εμφανίζεται ή εμφανίστηκε απρόσμενα.",
     "Thank you for your patience." : "Σας ευχαριστούμε για την υπομονή σας.",

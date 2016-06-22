@@ -266,7 +266,7 @@
     "New password" : "새 암호",
     "New Password" : "새 암호",
     "Reset password" : "암호 재설정",
-    "This ownCloud instance is currently in single user mode." : "ownCloud 인스턴스가 현재 단일 사용자 모드로 동작 중입니다.",
+    "This Nextcloud instance is currently in single user mode." : "Nextcloud 인스턴스가 현재 단일 사용자 모드로 동작 중입니다.",
     "This means only administrators can use the instance." : "현재 시스템 관리자만 인스턴스를 사용할 수 있습니다.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "이 메시지가 계속 표시되거나, 예상하지 못하였을 때 표시된다면 시스템 관리자에게 연락하십시오",
     "Thank you for your patience." : "기다려 주셔서 감사합니다.",
