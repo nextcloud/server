@@ -669,13 +669,14 @@ OC.Upload = {
 				});
 				fileupload.on('fileuploaddragover', function(e){
 					$('#app-content').addClass('file-drag');
+					$('#emptycontent .icon-folder').addClass('icon-filetype-folder-drag-accept');
 
 					var filerow = $(e.delegatedEvent.target).closest('tr');
 
 					if(!filerow.hasClass('dropping-to-dir')){
+						$('.dropping-to-dir .icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
 						$('.dropping-to-dir').removeClass('dropping-to-dir');
 						$('.dir-drop').removeClass('dir-drop');
-						$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
 					}
 
 					if(filerow.attr('data-type') === 'dir'){
