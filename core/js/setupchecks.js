@@ -76,7 +76,8 @@
 			$.ajax({
 				type: 'PROPFIND',
 				url: url,
-				complete: afterCall
+				complete: afterCall,
+				allowAuthErrors: true
 			});
 			return deferred.promise();
 		},
@@ -209,7 +210,8 @@
 			$.ajax({
 				type: 'GET',
 				url: OC.linkTo('', oc_dataURL+'/htaccesstest.txt?t=' + (new Date()).getTime()),
-				complete: afterCall
+				complete: afterCall,
+				allowAuthErrors: true
 			});
 			return deferred.promise();
 		},
