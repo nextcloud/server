@@ -163,6 +163,28 @@ describe('OCA.Trashbin.FileList tests', function() {
 
 			expect(fileList.findFileEl('One.txt.d11111')[0]).toEqual($tr[0]);
 		});
+		it('renders rows with the correct data when in root after calling setFiles with the same data set', function() {
+			// dir listing is false when in root
+			$('#dir').val('/');
+			fileList.setFiles(testFiles);
+			fileList.setFiles(fileList.files);
+			var $rows = fileList.$el.find('tbody tr');
+			var $tr = $rows.eq(0);
+			expect($rows.length).toEqual(4);
+			expect($tr.attr('data-id')).toEqual('1');
+			expect($tr.attr('data-type')).toEqual('file');
+			expect($tr.attr('data-file')).toEqual('One.txt.d11111');
+			expect($tr.attr('data-size')).not.toBeDefined();
+			expect($tr.attr('data-etag')).toEqual('abc');
+			expect($tr.attr('data-permissions')).toEqual('9'); // read and delete
+			expect($tr.attr('data-mime')).toEqual('text/plain');
+			expect($tr.attr('data-mtime')).toEqual('11111000');
+			expect($tr.find('a.name').attr('href')).toEqual('#');
+
+			expect($tr.find('.nametext').text().trim()).toEqual('One.txt');
+
+			expect(fileList.findFileEl('One.txt.d11111')[0]).toEqual($tr[0]);
+		});
 		it('renders rows with the correct data when in subdirectory', function() {
 			// dir listing is true when in a subdir
 			$('#dir').val('/subdir');
