@@ -8,19 +8,25 @@
 
 #theming .theme-undo {
     cursor: pointer;
+    opacity: .5;
+    padding: 9px;
+    vertical-align: bottom;
 }
 
 #theming .icon {
     display: inline-block;
 }
 
-#theming .theming-label {
-    min-width: 6em;
+#theming label span {
     display: inline-block;
+    min-width: 90px;
+    padding: 8px 0px;
 }
 
 #theming .icon-upload {
     display: inline-flex;
+    padding: 8px;
+    margin: 0;
 }
 
 div#theming_settings_msg {
