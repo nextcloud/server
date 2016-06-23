@@ -17,6 +17,13 @@ build:
       - git submodule update --init
       - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - ./autotest.sh sqlite
+  mysql:
+    image: morrisjobke/nextcloud-ci-php7:1.0.4
+    commands:
+      - sleep 10 # gives the database enough time to initialize
+      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
+      - git submodule update --init
+      - ./autotest.sh mysql
   postgres:
     image: morrisjobke/nextcloud-ci-php7:1.0
     commands:
@@ -33,3 +40,10 @@ compose:
     environment:
       - POSTGRES_USER=oc_autotest
       - POSTGRES_PASSWORD=oc_autotest
+  mysql:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=owncloud
+      - MYSQL_USER=oc_autotest
+      - MYSQL_PASSWORD=owncloud
+      - MYSQL_DATABASE=oc_autotest
