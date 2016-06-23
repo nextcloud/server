@@ -327,8 +327,8 @@ var OC={
 	 * @return {string}
 	 */
 	imagePath:function(app,file){
-		if(file.indexOf('.')==-1){//if no extension is given, use png or svg depending on browser support
-			file+=(OC.Util.hasSVGSupport())?'.svg':'.png';
+		if(file.indexOf('.')==-1){//if no extension is given, use svg
+			file+='.svg';
 		}
 		return OC.filePath(app,'img',file);
 	},
@@ -612,9 +612,6 @@ var OC={
 						.fail(function(jqxhr, settings, e) {
 							throw e;
 						});
-					}
-					if(!OC.Util.hasSVGSupport()) {
-						OC.Util.replaceSVG();
 					}
 				}).show();
 			}, 'html');
@@ -1358,49 +1355,6 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 }
 
 /**
- * check if the browser support svg images
- * @return {boolean}
- */
-function SVGSupport() {
-	return SVGSupport.checkMimeType.correct && !!document.createElementNS && !!document.createElementNS('http://www.w3.org/2000/svg', "svg").createSVGRect;
-}
-SVGSupport.checkMimeType=function(){
-	$.ajax({
-		url: OC.imagePath('core','breadcrumb.svg'),
-		success:function(data,text,xhr){
-			var headerParts=xhr.getAllResponseHeaders().split("\n");
-			var headers={};
-			$.each(headerParts,function(i,text){
-				if(text){
-					var parts=text.split(':',2);
-					if(parts.length===2){
-						var value=parts[1].trim();
-						if(value[0]==='"'){
-							value=value.substr(1,value.length-2);
-						}
-						headers[parts[0].toLowerCase()]=value;
-					}
-				}
-			});
-			if(headers["content-type"]!=='image/svg+xml'){
-				OC.Util.replaceSVG();
-				SVGSupport.checkMimeType.correct=false;
-			}
-		}
-	});
-};
-SVGSupport.checkMimeType.correct=true;
-
-/**
- * Replace all svg images with png for browser compatibility
- * @param $el
- * @deprecated use OC.Util.replaceSVG instead
- */
-function replaceSVG($el){
-	return OC.Util.replaceSVG($el);
-}
-
-/**
  * prototypical inheritance functions
  * @todo Write documentation
  * usage:
@@ -1515,12 +1469,6 @@ function initCore() {
 		!!oc_config.session_keepalive) {
 
 		initSessionHeartBeat();
-	}
-
-	if(!OC.Util.hasSVGSupport()){ //replace all svg images with png images for browser that don't support svg
-		OC.Util.replaceSVG();
-	}else{
-		SVGSupport.checkMimeType();
 	}
 
 	OC.registerMenu($('#expand'), $('#expanddiv'));
@@ -1791,24 +1739,21 @@ OC.Util = {
 	},
 	/**
 	 * Returns whether the browser supports SVG
+	 * @deprecated SVG is always supported (since 9.0)
 	 * @return {boolean} true if the browser supports SVG, false otherwise
 	 */
-	// TODO: replace with original function
-	hasSVGSupport: SVGSupport,
+	hasSVGSupport: function(){
+		return true
+	},
 	/**
 	 * If SVG is not supported, replaces the given icon's extension
 	 * from ".svg" to ".png".
 	 * If SVG is supported, return the image path as is.
 	 * @param {string} file image path with svg extension
+	 * @deprecated SVG is always supported (since 9.0)
 	 * @return {string} fixed image path with png extension if SVG is not supported
 	 */
 	replaceSVGIcon: function(file) {
-		if (file && !OC.Util.hasSVGSupport()) {
-			var i = file.lastIndexOf('.svg');
-			if (i >= 0) {
-				file = file.substr(0, i) + '.png' + file.substr(i+4);
-			}
-		}
 		return file;
 	},
 	/**
@@ -1816,39 +1761,9 @@ OC.Util = {
 	 * with PNG images.
 	 *
 	 * @param $el root element from which to search, defaults to $('body')
+	 * @deprecated SVG is always supported (since 9.0)
 	 */
-	replaceSVG: function($el) {
-		if (!$el) {
-			$el = $('body');
-		}
-		$el.find('img.svg').each(function(index,element){
-			element=$(element);
-			var src=element.attr('src');
-			element.attr('src',src.substr(0, src.length-3) + 'png');
-		});
-		$el.find('.svg').each(function(index,element){
-			element = $(element);
-			var background = element.css('background-image');
-			if (background){
-				var i = background.lastIndexOf('.svg');
-				if (i >= 0){
-					background = background.substr(0,i) + '.png' + background.substr(i + 4);
-					element.css('background-image', background);
-				}
-			}
-			element.find('*').each(function(index, element) {
-				element = $(element);
-				var background = element.css('background-image');
-				if (background) {
-					var i = background.lastIndexOf('.svg');
-					if(i >= 0){
-						background = background.substr(0,i) + '.png' + background.substr(i + 4);
-						element.css('background-image', background);
-					}
-				}
-			});
-		});
-	},
+	replaceSVG: function($el) {},
 
 	/**
 	 * Fix image scaling for IE8, since background-size is not supported.
