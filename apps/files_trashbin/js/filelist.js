@@ -93,6 +93,8 @@
 
 		_renderRow: function(fileData, options) {
 			options = options || {};
+			// make a copy to avoid changing original object
+			fileData = _.extend({}, fileData);
 			var dir = this.getCurrentDirectory();
 			var dirListing = dir !== '' && dir !== '/';
 			// show deleted time as mtime
