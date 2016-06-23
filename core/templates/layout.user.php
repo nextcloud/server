@@ -39,7 +39,7 @@
 	<header role="banner"><div id="header">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 				id="owncloud" tabindex="1">
-				<div class="logo-icon svg">
+				<div class="logo-icon">
 					<h1 class="hidden-visually">
 						<?php p($theme->getName()); ?>
 					</h1>
@@ -56,11 +56,11 @@
 						}
 					?>
 				</h1>
-				<div class="icon-caret svg"></div>
+				<div class="icon-caret"></div>
 			</a>
 
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
-			<div id="settings" class="svg">
+			<div id="settings">
 				<div id="expand" tabindex="6" role="link" class="menutoggle">
 					<?php if ($_['enableAvatars']): ?>
 					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown'); } else { print_unescaped('" style="display: none'); } ?>">
@@ -73,7 +73,7 @@
 					</div>
 					<?php endif; ?>
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
-					<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>">
+					<img alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>">
 				</div>
 				<div id="expanddiv">
 				<ul>
@@ -81,14 +81,14 @@
 					<li>
 						<a href="<?php print_unescaped($entry['href']); ?>"
 							<?php if( $entry["active"] ): ?> class="active"<?php endif; ?>>
-							<img class="svg" alt="" src="<?php print_unescaped($entry['icon']); ?>">
+							<img alt="" src="<?php print_unescaped($entry['icon']); ?>">
 							<?php p($entry['name']) ?>
 						</a>
 					</li>
 				<?php endforeach; ?>
 					<li>
 						<a id="logout" <?php print_unescaped(OC_User::getLogoutAttribute()); ?>>
-							<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/logout.svg')); ?>">
+							<img alt="" src="<?php print_unescaped(image_path('', 'actions/logout.svg')); ?>">
 							<?php p($l->t('Log out'));?>
 						</a>
 					</li>
@@ -100,20 +100,20 @@
 				<label for="searchbox" class="hidden-visually">
 					<?php p($l->t('Search'));?>
 				</label>
-				<input id="searchbox" class="svg" type="search" name="query"
+				<input id="searchbox" type="search" name="query"
 					value="" required
 					autocomplete="off" tabindex="5">
 			</form>
 		</div></header>
 
 		<nav role="navigation"><div id="navigation">
-			<div id="apps" class="svg">
+			<div id="apps">
 				<ul>
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li data-id="<?php p($entry['id']); ?>">
 						<a href="<?php print_unescaped($entry['href']); ?>" tabindex="3"
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-							<img class="app-icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>">
+							<img class="app-icon" alt="" src="<?php print_unescaped($entry['icon']); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
 								<?php p($entry['name']); ?>
@@ -128,7 +128,7 @@
 					<li id="apps-management">
 						<a href="<?php print_unescaped(\OC::$server->getURLGenerator()->linkToRoute('settings.AppSettings.viewApps')); ?>" tabindex="4"
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
-							<img class="app-icon svg" alt="" src="<?php print_unescaped(image_path('settings', 'apps.svg')); ?>">
+							<img class="app-icon" alt="" src="<?php print_unescaped(image_path('settings', 'apps.svg')); ?>">
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
 								<?php p($l->t('Apps')); ?>

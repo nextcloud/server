@@ -592,7 +592,7 @@ var OC={
 			var arrowclass = settings.hasClass('topright') ? 'up' : 'left';
 			var jqxhr = $.get(OC.filePath(props.appid, '', props.scriptName), function(data) {
 				popup.html(data).ready(function() {
-					popup.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close svg"></a>').show();
+					popup.prepend('<span class="arrow '+arrowclass+'"></span><h2>'+t('core', 'Settings')+'</h2><a class="close"></a>').show();
 					popup.find('.close').bind('click', function() {
 						popup.remove();
 					});

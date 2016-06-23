@@ -202,7 +202,7 @@ if ($_['cronErrors']) {
 
 	<div class="section" id="shareAPI">
 		<h2><?php p($l->t('Sharing'));?></h2>
-		<a target="_blank"  el="noreferrer" class="icon-info svg"
+		<a target="_blank"  el="noreferrer" class="icon-info"
 			title="<?php p($l->t('Open documentation'));?>"
 			href="<?php p(link_to_docs('admin-sharing')); ?>"></a>
 		<p id="enable">
@@ -314,7 +314,7 @@ if ($_['cronErrors']) {
 		endif; ?>
 	</p>
 	<?php endif; ?>
-	<a target="_blank" rel="noreferrer" class="icon-info svg"
+	<a target="_blank" rel="noreferrer" class="icon-info"
 		title="<?php p($l->t('Open documentation'));?>"
 		href="<?php p(link_to_docs('admin-background-jobs')); ?>"></a>
 
@@ -346,7 +346,7 @@ if ($_['cronErrors']) {
 
 <div class="section" id='encryptionAPI'>
 	<h2><?php p($l->t('Server-side encryption')); ?></h2>
-	<a target="_blank" rel="noreferrer" class="icon-info svg"
+	<a target="_blank" rel="noreferrer" class="icon-info"
 		title="<?php p($l->t('Open documentation'));?>"
 		href="<?php p(link_to_docs('admin-encryption')); ?>"></a>
 
@@ -412,7 +412,7 @@ if ($_['cronErrors']) {
 <div class="section" id="mail_general_settings">
 	<form id="mail_general_settings_form" class="mail_settings">
 		<h2><?php p($l->t('Email server'));?></h2>
-		<a target="_blank" rel="noreferrer" class="icon-info svg"
+		<a target="_blank" rel="noreferrer" class="icon-info"
 			title="<?php p($l->t('Open documentation'));?>"
 			href="<?php p(link_to_docs('admin-email')); ?>"></a>
 
