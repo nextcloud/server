@@ -473,6 +473,8 @@ class FederatedShareProvider implements IShareProvider {
 
 		$isOwner = false;
 
+		$this->removeShareFromTable($share);
+
 		// if the local user is the owner we can send the unShare request directly...
 		if ($this->userManager->userExists($share->getShareOwner())) {
 			$this->notifications->sendRemoteUnShare($remote, $share->getId(), $share->getToken());
@@ -494,8 +496,6 @@ class FederatedShareProvider implements IShareProvider {
 			}
 			$this->notifications->sendRevokeShare($remote, $remoteId, $share->getToken());
 		}
-
-		$this->removeShareFromTable($share);
 	}
 
 	/**
