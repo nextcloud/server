@@ -39,9 +39,9 @@
 		<div class="avatardiv"></div>
 		<div class="warning hidden"></div>
 		<?php if ($_['avatarChangeSupported']): ?>
-		<label for="uploadavatar" class="inlineblock button icon-upload svg" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>"></label>
-		<div class="inlineblock button icon-folder svg" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></div>
-		<div class="hidden button icon-delete svg" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></div>
+		<label for="uploadavatar" class="inlineblock button icon-upload" id="uploadavatarbutton" title="<?php p($l->t('Upload new')); ?>"></label>
+		<div class="inlineblock button icon-folder" id="selectavatar" title="<?php p($l->t('Select from Files')); ?>"></div>
+		<div class="hidden button icon-delete" id="removeavatar" title="<?php p($l->t('Remove image')); ?>"></div>
 		<input type="file" name="files[]" id="uploadavatar" class="hiddenuploadfield">
 		<p><em><?php p($l->t('png or jpg, max. 20 MB')); ?></em></p>
 		<?php else: ?>
@@ -130,7 +130,7 @@ if($_['passwordChangeSupported']) {
 		placeholder="<?php echo $l->t('New password');?>"
 		data-typetoggle="#personal-show"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />
-	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="svg"></label>
+	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 	<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	<br/>
 	<div class="strengthify-wrapper"></div>

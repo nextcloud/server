@@ -51,14 +51,14 @@ script('core', [
 				autocomplete="off" autocapitalize="off" autocorrect="off" required>
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
 			<input type="checkbox" id="show" name="show">
-			<label for="show" class="svg"></label>
+			<label for="show"></label>
 			<div class="strengthify-wrapper"></div>
 		</p>
 	</fieldset>
 
 	<?php if(!$_['directoryIsSet'] OR !$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<fieldset id="advancedHeader">
-		<legend><a id="showAdvanced"><?php p($l->t( 'Storage & database' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
+		<legend><a id="showAdvanced"><?php p($l->t( 'Storage & database' )); ?> <img src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" /></a></legend>
 	</fieldset>
 	<?php endif; ?>
 
@@ -162,7 +162,7 @@ script('core', [
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>"></div>
 
 	<p class="info">
-		<span class="icon-info-white svg"></span>
+		<span class="icon-info-white"></span>
 		<?php p($l->t('Need help?'));?>
 		<a target="_blank" rel="noreferrer" href="<?php p(link_to_docs('admin-install')); ?>"><?php p($l->t('See the documentation'));?> ↗</a>
 	</p>
