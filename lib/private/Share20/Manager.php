@@ -446,14 +446,9 @@ class Manager implements IManager {
 			throw new \InvalidArgumentException('Link shares can\'t have reshare permissions');
 		}
 
-		// We don't allow deletion on link shares
-		if ($share->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
-			throw new \InvalidArgumentException('Link shares can\'t have delete permissions');
-		}
-
 		// Check if public upload is allowed
 		if (!$this->shareApiLinkAllowPublicUpload() &&
-			($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE))) {
+			($share->getPermissions() & (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE))) {
 			throw new \InvalidArgumentException('Public upload not allowed');
 		}
 	}
