@@ -582,6 +582,12 @@ var UserList = {
 		if (quota === 'other') {
 			return;
 		}
+		if (isNaN(parseInt(quota, 10)) || parseInt(quota, 10) < 0) {
+			// the select component has added the bogus value, delete it again
+			$select.find('option[selected]').remove();
+			OC.Notification.showTemporary(t('core', 'Invalid quota value "{val}"', {val: quota}));
+			return;
+		}
 		UserList._updateQuota(uid, quota, function(returnedQuota){
 			if (quota !== returnedQuota) {
 				$select.find(':selected').text(returnedQuota);
