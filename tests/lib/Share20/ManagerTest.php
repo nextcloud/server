@@ -37,6 +37,7 @@ use OCP\Security\ISecureRandom;
 use OCP\Security\IHasher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IGroupManager;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class ManagerTest
@@ -70,9 +71,11 @@ class ManagerTest extends \Test\TestCase {
 	protected $userManager;
 	/** @var IRootFolder | \PHPUnit_Framework_MockObject_MockObject */
 	protected $rootFolder;
+	/** @var  EventDispatcher | \PHPUnit_Framework_MockObject_MockObject */
+	protected $eventDispatcher;
 
 	public function setUp() {
-		
+
 		$this->logger = $this->getMock('\OCP\ILogger');
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->secureRandom = $this->getMock('\OCP\Security\ISecureRandom');
@@ -81,6 +84,7 @@ class ManagerTest extends \Test\TestCase {
 		$this->groupManager = $this->getMock('\OCP\IGroupManager');
 		$this->userManager = $this->getMock('\OCP\IUserManager');
 		$this->rootFolder = $this->getMock('\OCP\Files\IRootFolder');
+		$this->eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
 
 		$this->l = $this->getMock('\OCP\IL10N');
 		$this->l->method('t')
@@ -100,7 +104,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->l,
 			$this->factory,
 			$this->userManager,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->eventDispatcher
 		);
 
 		$this->defaultProvider = $this->getMockBuilder('\OC\Share20\DefaultShareProvider')
@@ -127,7 +132,8 @@ class ManagerTest extends \Test\TestCase {
 				$this->l,
 				$this->factory,
 				$this->userManager,
-				$this->rootFolder
+				$this->rootFolder,
+				$this->eventDispatcher
 			]);
 	}
 
@@ -146,7 +152,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$group = $this->getMock('\OCP\IGroup');
 		$group->method('getGID')->willReturn('sharedWithGroup');
-	
+
 		return [
 			[\OCP\Share::SHARE_TYPE_USER, 'sharedWithUser'],
 			[\OCP\Share::SHARE_TYPE_GROUP, 'sharedWithGroup'],
@@ -2022,7 +2028,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->l,
 			$factory,
 			$this->userManager,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->eventDispatcher
 		);
 
 		$share = $this->getMock('\OCP\Share\IShare');
@@ -2054,7 +2061,8 @@ class ManagerTest extends \Test\TestCase {
 			$this->l,
 			$factory,
 			$this->userManager,
-			$this->rootFolder
+			$this->rootFolder,
+			$this->eventDispatcher
 		);
 
 		$share = $this->getMock('\OCP\Share\IShare');
