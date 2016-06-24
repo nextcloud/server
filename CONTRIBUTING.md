@@ -27,7 +27,7 @@ Help us to maximize the effort we can spend fixing issues and adding new feature
 
 Thanks for wanting to contribute source code to Nextcloud. That's great!
 
-Please read the [Developer Manuals][devmanual] to learn how to create your first application or how to test the ownCloud code with PHPUnit.
+Please read the [Developer Manuals][devmanual] to learn how to create your first application or how to test the Nextcloud code with PHPUnit.
 
 In order to constantly increase the quality of our software we can no longer accept pull request which submit un-tested code.
 It is a must have that changed and added code segments are unit tested.
