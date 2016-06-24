@@ -77,6 +77,18 @@ class DBConfigService {
 	}
 
 	/**
+	 * Get all configured mounts
+	 *
+	 * @return array
+	 */
+	public function getAllMounts() {
+		$builder = $this->connection->getQueryBuilder();
+		$query = $builder->select(['mount_id', 'mount_point', 'storage_backend', 'auth_backend', 'priority', 'type'])
+			->from('external_mounts');
+		return $this->getMountsFromQuery($query);
+	}
+
+	/**
 	 * Get admin defined mounts
 	 *
 	 * @return array

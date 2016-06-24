@@ -282,4 +282,14 @@ class DBConfigServiceTest extends TestCase {
 		$this->assertCount(1, $mounts);
 		$this->assertEquals($id1, $mounts[0]['mount_id']);
 	}
+
+	public function testGetAllMounts() {
+		$id1 = $this->addMount('/test', 'foo', 'bar', 100, DBConfigService::MOUNT_TYPE_ADMIN);
+		$id2 = $this->addMount('/test2', 'foo2', 'bar2', 100, DBConfigService::MOUNT_TYPE_PERSONAl);
+
+		$mounts = $this->dbConfig->getAllMounts();
+		$this->assertCount(2, $mounts);
+		$this->assertEquals($id1, $mounts[0]['mount_id']);
+		$this->assertEquals($id2, $mounts[1]['mount_id']);
+	}
 }

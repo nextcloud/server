@@ -162,4 +162,23 @@ class GlobalStoragesService extends StoragesService {
 	protected function isApplicable(StorageConfig $config) {
 		return true;
 	}
+
+	/**
+	 * Get all configured admin and personal mounts
+	 *
+	 * @return array map of storage id to storage config
+	 */
+	public function getStorageForAllUsers() {
+		$mounts = $this->dbConfig->getAllMounts();
+		$configs = array_map([$this, 'getStorageConfigFromDBMount'], $mounts);
+		$configs = array_filter($configs, function ($config) {
+			return $config instanceof StorageConfig;
+		});
+
+		$keys = array_map(function (StorageConfig $config) {
+			return $config->getId();
+		}, $configs);
+
+		return array_combine($keys, $configs);
+	}
 }
