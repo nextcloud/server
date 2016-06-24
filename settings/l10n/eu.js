@@ -164,6 +164,7 @@ OC.L10N.register(
     "Language" : "Hizkuntza",
     "Help translate" : "Lagundu itzultzen",
     "Name" : "Izena",
+    "Done" : "Egina",
     "Get the apps to sync your files" : "Lortu aplikazioak zure fitxategiak sinkronizatzeko",
     "Desktop client" : "Mahaigaineko bezeroa",
     "Android app" : "Android aplikazioa",

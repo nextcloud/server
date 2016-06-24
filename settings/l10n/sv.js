@@ -274,6 +274,7 @@ OC.L10N.register(
     "Browser" : "Webbläsare",
     "Most recent activity" : "Senaste aktivitet",
     "Name" : "Namn",
+    "Done" : "Färdig",
     "Get the apps to sync your files" : "Skaffa apparna för att synkronisera dina filer",
     "Desktop client" : "Skrivbordsklient",
     "Android app" : "Android-app",

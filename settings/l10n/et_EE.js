@@ -200,6 +200,7 @@ OC.L10N.register(
     "Language" : "Keel",
     "Help translate" : "Aita tõlkida",
     "Name" : "Nimi",
+    "Done" : "Valmis",
     "Get the apps to sync your files" : "Hangi rakendusi failide sünkroniseerimiseks",
     "Desktop client" : "Töölaua klient",
     "Android app" : "Androidi rakendus",

@@ -227,6 +227,7 @@ OC.L10N.register(
     "Language" : "Мова",
     "Help translate" : "Допомогти з перекладом",
     "Name" : "Ім’я",
+    "Done" : "Готово",
     "Get the apps to sync your files" : "Отримати додатки для синхронізації ваших файлів",
     "Desktop client" : "Клієнт для ПК",
     "Android app" : "Android-додаток",

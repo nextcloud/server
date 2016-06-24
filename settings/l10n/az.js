@@ -186,6 +186,7 @@ OC.L10N.register(
     "Language" : "Dil",
     "Help translate" : "Tərcüməyə kömək",
     "Name" : "Ad",
+    "Done" : "Edildi",
     "Get the apps to sync your files" : "Fayllarınızın sinxronizasiyası üçün proqramları götürün",
     "Desktop client" : "Desktop client",
     "Android app" : "Android proqramı",

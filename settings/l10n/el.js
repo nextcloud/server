@@ -236,6 +236,7 @@ OC.L10N.register(
     "Language" : "Γλώσσα",
     "Help translate" : "Βοηθήστε στη μετάφραση",
     "Name" : "Όνομα",
+    "Done" : "Ολοκληρώθηκε",
     "Get the apps to sync your files" : "Λήψη της εφαρμογής για συγχρονισμό των αρχείων σας",
     "Desktop client" : "Πελάτης σταθερού υπολογιστή",
     "Android app" : "Εφαρμογή Android",

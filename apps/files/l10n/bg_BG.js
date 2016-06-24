@@ -90,6 +90,7 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитваш да качиш са по-големи от позволеното на този сървър.",
     "No favorites" : "Няма любими",
     "Files and folders you mark as favorite will show up here" : "Файловете и папките които отбелязваш като любими ще се показват тук",
-    "Text file" : "Текстов файл"
+    "Text file" : "Текстов файл",
+    "New text file.txt" : "Нов текст file.txt"
 },
 "nplurals=2; plural=(n != 1);");

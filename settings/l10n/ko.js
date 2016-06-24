@@ -253,6 +253,7 @@ OC.L10N.register(
     "Language" : "언어",
     "Help translate" : "번역 돕기",
     "Name" : "이름",
+    "Done" : "완료",
     "Get the apps to sync your files" : "파일 동기화 앱 가져오기",
     "Desktop client" : "데스크톱 클라이언트",
     "Android app" : "Android 앱",

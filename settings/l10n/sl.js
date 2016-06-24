@@ -236,6 +236,7 @@ OC.L10N.register(
     "Browser" : "Brskalnik",
     "Most recent activity" : "Zadnja dejavnost",
     "Name" : "Ime",
+    "Done" : "Končano",
     "Get the apps to sync your files" : "Pridobi programe za usklajevanje datotek",
     "Desktop client" : "Namizni odjemalec",
     "Android app" : "Program za Android",

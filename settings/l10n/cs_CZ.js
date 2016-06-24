@@ -274,6 +274,7 @@ OC.L10N.register(
     "Browser" : "Prohlížeč",
     "Most recent activity" : "Nejnovější aktivity",
     "Name" : "Název",
+    "Done" : "Dokončeno",
     "Get the apps to sync your files" : "Získat aplikace pro synchronizaci vašich souborů",
     "Desktop client" : "Aplikace pro počítač",
     "Android app" : "Aplikace pro Android",

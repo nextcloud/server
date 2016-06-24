@@ -214,6 +214,7 @@ OC.L10N.register(
     "Language" : "Jazyk",
     "Help translate" : "Pomôcť s prekladom",
     "Name" : "Názov",
+    "Done" : "Hotovo",
     "Get the apps to sync your files" : "Získať aplikácie na synchronizáciu vašich súborov",
     "Desktop client" : "Desktopový klient",
     "Android app" : "Android aplikácia",

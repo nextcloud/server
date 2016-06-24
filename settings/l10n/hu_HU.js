@@ -261,6 +261,7 @@ OC.L10N.register(
     "Language" : "Nyelv",
     "Help translate" : "Segítsen a fordításban!",
     "Name" : "Név",
+    "Done" : "Kész",
     "Get the apps to sync your files" : "Töltse le az állományok szinkronizációjához szükséges programokat!",
     "Desktop client" : "Asztali kliens",
     "Android app" : "Android applikáció",

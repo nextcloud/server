@@ -263,6 +263,7 @@ OC.L10N.register(
     "Language" : "Dil",
     "Help translate" : "Çevirilere yardım edin",
     "Name" : "Ad",
+    "Done" : "Bitti",
     "Get the apps to sync your files" : "Dosyalarınızı eşitlemek için uygulamaları indirin",
     "Desktop client" : "Masaüstü istemcisi",
     "Android app" : "Android uygulaması",

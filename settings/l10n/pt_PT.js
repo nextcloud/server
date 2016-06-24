@@ -273,6 +273,7 @@ OC.L10N.register(
     "Browser" : "Navegador",
     "Most recent activity" : "Atividade mais recente",
     "Name" : "Nome",
+    "Done" : "Concluído",
     "Get the apps to sync your files" : "Obtenha as aplicações para sincronizar os seus ficheiros",
     "Desktop client" : "Cliente Desktop",
     "Android app" : "Aplicação Android",

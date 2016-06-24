@@ -125,6 +125,7 @@ OC.L10N.register(
     "Language" : "Lingvo",
     "Help translate" : "Helpu traduki",
     "Name" : "Nomo",
+    "Done" : "Farita",
     "Get the apps to sync your files" : "Ekhavu la aplikaĵojn por sinkronigi viajn dosierojn",
     "Desktop client" : "Labortabla kliento",
     "Android app" : "Android-aplikaĵo",

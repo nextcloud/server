@@ -187,6 +187,7 @@ OC.L10N.register(
     "Language" : "Език",
     "Help translate" : "Помогни с превода",
     "Name" : "Име",
+    "Done" : "Завършен",
     "Get the apps to sync your files" : "Изтегли програми за синхронизиране на файловете ти",
     "Desktop client" : "Клиент за настолен компютър",
     "Android app" : "Андроид приложение",

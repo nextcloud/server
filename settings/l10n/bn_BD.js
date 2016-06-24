@@ -63,6 +63,7 @@ OC.L10N.register(
     "Language" : "ভাষা",
     "Help translate" : "অনুবাদ করতে সহায়তা করুন",
     "Name" : "নাম",
+    "Done" : "শেষ হলো",
     "Get the apps to sync your files" : "আপনার ফাইলসমূহ সিংক করতে অ্যাপস নিন",
     "Show First Run Wizard again" : "প্রথমবার চালানোর যাদুকর পূনরায় প্রদর্শন কর",
     "Username" : "ব্যবহারকারী",

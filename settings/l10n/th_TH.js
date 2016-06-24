@@ -258,6 +258,7 @@ OC.L10N.register(
     "Language" : "ภาษา",
     "Help translate" : "มาช่วยกันแปลสิ!",
     "Name" : "ชื่อ",
+    "Done" : "เสร็จสิ้น",
     "Get the apps to sync your files" : "ใช้แอพพลิเคชันในการประสานไฟล์ของคุณ",
     "Desktop client" : "เดสก์ทอปผู้ใช้",
     "Android app" : "แอพฯ แอนดรอยด์",

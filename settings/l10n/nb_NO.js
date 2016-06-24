@@ -262,6 +262,7 @@ OC.L10N.register(
     "Language" : "Språk",
     "Help translate" : "Bidra til oversettelsen",
     "Name" : "Navn",
+    "Done" : "Ferdig",
     "Get the apps to sync your files" : "Hent apper som synkroniserer filene dine",
     "Desktop client" : "Skrivebordsklient",
     "Android app" : "Android-app",

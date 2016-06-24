@@ -137,6 +137,7 @@ OC.L10N.register(
     "Language" : "Valoda",
     "Help translate" : "Palīdzi tulkot",
     "Name" : "Nosaukums",
+    "Done" : "Pabeigts",
     "Get the apps to sync your files" : "Saņem lietotnes, lai sinhronizētu savas datnes",
     "Desktop client" : "Darbvirsmas klients",
     "Android app" : "Android lietotne",
