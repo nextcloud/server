@@ -203,6 +203,7 @@ if($_['passwordChangeSupported']) {
 		<button id="add-app-password" class="button"><?php p($l->t('Create new app password')); ?></button>
 	</div>
 	<div id="app-password-result" class="hidden">
+		<span id="new-app-login-name"></span>
 		<input id="new-app-password" type="text" readonly="readonly"/>
 		<button id="app-password-hide" class="button"><?php p($l->t('Done')); ?></button>
 	</div>
