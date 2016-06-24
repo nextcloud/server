@@ -139,6 +139,7 @@
 
 			this._result = $('#app-password-result');
 			this._newAppLoginName = $('#new-app-login-name');
+			this._newAppLoginName.on('focus', _.bind(this._onNewTokenLoginNameFocus, this));
 			this._newAppPassword = $('#new-app-password');
 			this._newAppPassword.on('focus', _.bind(this._onNewTokenFocus, this));
 			this._hideAppPasswordBtn = $('#app-password-hide');
@@ -184,9 +185,7 @@
 			$.when(creatingToken).done(function(resp) {
 				_this.collection.add(resp.deviceToken);
 				_this.render();
-				_this._newAppLoginName.text(t('core', 'You may now configure your client with username "{loginName}" and the following password:', {
-					loginName: resp.loginName
-				}));
+				_this._newAppLoginName.val(resp.loginName);
 				_this._newAppPassword.val(resp.token);
 				_this._toggleFormResult(false);
 				_this._newAppPassword.select();
@@ -198,6 +197,10 @@
 			$.when(creatingToken).always(function() {
 				_this._toggleAddingToken(false);
 			});
+		},
+
+		_onNewTokenLoginNameFocus: function() {
+			this._newAppLoginName.select();
 		},
 
 		_onNewTokenFocus: function() {
