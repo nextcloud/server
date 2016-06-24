@@ -185,7 +185,7 @@ class CommentNode implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 				$msg = 'Message exceeds allowed character limit of ';
 				throw new BadRequest($msg . IComment::MAX_MESSAGE_LENGTH, 0, $e);
 			}
-			return false;
+			throw $e;
 		}
 	}
 

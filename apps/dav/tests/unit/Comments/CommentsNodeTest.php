@@ -166,6 +166,10 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->assertTrue($this->node->updateComment($msg));
 	}
 
+	/**
+	 * @expectedException Exception
+	 * @expectedExceptionMessage buh!
+	 */
 	public function testUpdateCommentLogException() {
 		$msg = null;
 
@@ -198,7 +202,7 @@ class CommentsNodeTest extends \Test\TestCase {
 		$this->logger->expects($this->once())
 			->method('logException');
 
-		$this->assertFalse($this->node->updateComment($msg));
+		$this->node->updateComment($msg);
 	}
 
 	/**
