@@ -184,6 +184,13 @@
 
 			search.setHandler('folder',  this.handleFolderClick.bind(this));
 			search.setHandler(['file', 'audio', 'image'], this.handleFileClick.bind(this));
+
+			if (self.fileAppLoaded()) {
+				// hide results when switching directory outside of search results
+				$('#app-content').delegate('>div', 'changeDirectory', function() {
+					search.clear();
+				});
+			}
 		}
 	};
 	OCA.Search.Files = Files;
