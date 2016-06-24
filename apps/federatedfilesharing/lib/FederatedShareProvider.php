@@ -217,28 +217,31 @@ class FederatedShareProvider implements IShareProvider {
 			$share->getPermissions(),
 			$token
 		);
-		$sharedByFederatedId = $share->getSharedBy();
-		if ($this->userManager->userExists($sharedByFederatedId)) {
-			$sharedByFederatedId = $sharedByFederatedId . '@' . $this->addressHandler->generateRemoteURL();
-		}
-		$send = $this->notifications->sendRemoteShare(
-			$token,
-			$share->getSharedWith(),
-			$share->getNode()->getName(),
-			$shareId,
-			$share->getShareOwner(),
-			$share->getShareOwner() . '@' . $this->addressHandler->generateRemoteURL(),
-			$share->getSharedBy(),
-			$sharedByFederatedId
-		);
 
-		if ($send === false) {
-			$data = $this->getRawShare($shareId);
-			$share = $this->createShareObject($data);
-			$this->removeShareFromTable($share);
-			$message_t = $this->l->t('Sharing %s failed, could not find %s, maybe the server is currently unreachable.',
-				[$share->getNode()->getName(), $share->getSharedWith()]);
-			throw new \Exception($message_t);
+		try {
+			$sharedByFederatedId = $share->getSharedBy();
+			if ($this->userManager->userExists($sharedByFederatedId)) {
+				$sharedByFederatedId = $sharedByFederatedId . '@' . $this->addressHandler->generateRemoteURL();
+			}
+			$send = $this->notifications->sendRemoteShare(
+				$token,
+				$share->getSharedWith(),
+				$share->getNode()->getName(),
+				$shareId,
+				$share->getShareOwner(),
+				$share->getShareOwner() . '@' . $this->addressHandler->generateRemoteURL(),
+				$share->getSharedBy(),
+				$sharedByFederatedId
+			);
+
+			if ($send === false) {
+				$message_t = $this->l->t('Sharing %s failed, could not find %s, maybe the server is currently unreachable.',
+					[$share->getNode()->getName(), $share->getSharedWith()]);
+				throw new \Exception($message_t);
+			}
+		} catch (\Exception $e) {
+			$this->removeShareFromTableById($shareId);
+			throw $e;
 		}
 
 		return $shareId;
@@ -526,13 +529,22 @@ class FederatedShareProvider implements IShareProvider {
 	 * @param IShare $share
 	 */
 	public function removeShareFromTable(IShare $share) {
+		$this->removeShareFromTableById($share->getId());
+	}
+
+	/**
+	 * remove share from table
+	 *
+	 * @param string $shareId
+	 */
+	private function removeShareFromTableById($shareId) {
 		$qb = $this->dbConnection->getQueryBuilder();
 		$qb->delete('share')
-			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())));
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($shareId)));
 		$qb->execute();
 
 		$qb->delete('federated_reshares')
-			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($share->getId())));
+			->where($qb->expr()->eq('share_id', $qb->createNamedParameter($shareId)));
 		$qb->execute();
 	}
 
