@@ -384,7 +384,8 @@ class OC_Util {
 	}
 
 	/**
-	 * @description get the update channel of the current installed of ownCloud.
+	 * Get the currently configured release channel
+	 *
 	 * @return string
 	 */
 	public static function getChannel() {
@@ -421,7 +422,7 @@ class OC_Util {
 			// Allow overriding update channel
 			
 			if (\OC::$server->getSystemConfig()->getValue('installed', false)) {
-				$channel = \OC::$server->getAppConfig()->getValue('core', 'OC_Channel');
+				$channel = \OC::$server->getConfig()->getSystemValue('updater.release.channel', null);
 			} else {
 				/** @var $OC_Channel string */
 				$channel = $OC_Channel;
