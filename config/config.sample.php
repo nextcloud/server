@@ -194,13 +194,6 @@ $CONFIG = array(
 'session_keepalive' => true,
 
 /**
- * Enforce token authentication for clients, which blocks requests using the user
- * password for enhanced security. Users need to generate tokens in personal settings
- * which can be used as passwords on their clients.
- */
-'token_auth_enforced' => false,
-
-/**
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.
@@ -935,30 +928,6 @@ $CONFIG = array(
 	//array('other.host.local', 11211),
 ),
 
-/**
- * Connection options for memcached, see http://apprize.info/php/scaling/15.html
- */
-'memcached_options' => array(
-	// Set timeouts to 50ms
-	\Memcached::OPT_CONNECT_TIMEOUT => 50,
-	\Memcached::OPT_RETRY_TIMEOUT =>   50,
-	\Memcached::OPT_SEND_TIMEOUT =>    50,
-	\Memcached::OPT_RECV_TIMEOUT =>    50,
-	\Memcached::OPT_POLL_TIMEOUT =>    50,
-
-	// Enable compression
-	\Memcached::OPT_COMPRESSION =>          true,
-
-	// Turn on consistent hashing
-	\Memcached::OPT_LIBKETAMA_COMPATIBLE => true,
-
-	// Enable Binary Protocol
-	\Memcached::OPT_BINARY_PROTOCOL =>      true,
-
-	// Binary serializer vill be enabled if the igbinary PECL module is available
-	//\Memcached::OPT_SERIALIZER => \Memcached::SERIALIZER_IGBINARY,
-),
-
 
 /**
  * Location of the cache folder, defaults to ``data/$user/cache`` where
@@ -967,14 +936,6 @@ $CONFIG = array(
  * and ``$user`` is the user.
  */
 'cache_path' => '',
-
-/**
- * TTL of chunks located in the cache folder before they're removed by
- * garbage collection (in seconds). Increase this value if users have
- * issues uploading very large files via the Nextcloud Client as upload isn't
- * completed within one day.
- */
-'cache_chunk_gc_ttl' => 86400, // 60*60*24 = 1 day
 
 /**
  * Using Object Store with Nextcloud
@@ -1231,26 +1192,12 @@ $CONFIG = array(
 'filelocking.enabled' => true,
 
 /**
- * Set the time-to-live for locks in secconds.
- *
- * Any lock older than this will be automatically cleaned up.
- *
- * If not set this defaults to either 1 hour or the php max_execution_time, whichever is higher.
- */
-'filelocking.ttl' => 3600,
-
-/**
  * Memory caching backend for file locking
  *
  * Because most memcache backends can clean values without warning using redis
  * is highly recommended to *avoid data loss*.
  */
 'memcache.locking' => '\\OC\\Memcache\\Redis',
-
-/**
- * Disable the web based updater
- */
-'upgrade.disable-web' => false,
 
 /**
  * Set this Nextcloud instance to debugging mode
