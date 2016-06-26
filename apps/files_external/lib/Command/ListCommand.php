@@ -56,6 +56,8 @@ class ListCommand extends Base {
 	 */
 	protected $userManager;
 
+	const ALL = -1;
+
 	function __construct(GlobalStoragesService $globalService, UserStoragesService $userService, IUserSession $userSession, IUserManager $userManager) {
 		parent::__construct();
 		$this->globalService = $globalService;
@@ -67,7 +69,7 @@ class ListCommand extends Base {
 	protected function configure() {
 		$this
 			->setName('files_external:list')
-			->setDescription('List configured mounts')
+			->setDescription('List configured admin or personal mounts')
 			->addArgument(
 				'user_id',
 				InputArgument::OPTIONAL,
@@ -82,16 +84,27 @@ class ListCommand extends Base {
 				null,
 				InputOption::VALUE_NONE,
 				'don\'t truncate long values in table output'
+			)->addOption(
+				'all',
+				'a',
+				InputOption::VALUE_NONE,
+				'show both system wide mounts and all personal mounts'
 			);
 		parent::configure();
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$userId = $input->getArgument('user_id');
-		$storageService = $this->getStorageService($userId);
+		if ($input->getOption('all')) {
+			/** @var  $mounts StorageConfig[] */
+			$mounts = $this->globalService->getStorageForAllUsers();
+			$userId = self::ALL;
+		} else {
+			$userId = $input->getArgument('user_id');
+			$storageService = $this->getStorageService($userId);
 
-		/** @var  $mounts StorageConfig[] */
-		$mounts = $storageService->getAllStorages();
+			/** @var  $mounts StorageConfig[] */
+			$mounts = $storageService->getAllStorages();
+		}
 
 		$this->listMounts($userId, $mounts, $input, $output);
 	}
@@ -102,13 +115,15 @@ class ListCommand extends Base {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 */
-	public function listMounts($userId, array $mounts, InputInterface $input, OutputInterface $output){
+	public function listMounts($userId, array $mounts, InputInterface $input, OutputInterface $output) {
 		$outputType = $input->getOption('output');
 		if (count($mounts) === 0) {
 			if ($outputType === self::OUTPUT_FORMAT_JSON || $outputType === self::OUTPUT_FORMAT_JSON_PRETTY) {
 				$output->writeln('[]');
 			} else {
-				if ($userId) {
+				if ($userId === self::ALL) {
+					$output->writeln("<info>No mounts configured</info>");
+				} else if ($userId) {
 					$output->writeln("<info>No mounts configured by $userId</info>");
 				} else {
 					$output->writeln("<info>No admin mounts configured</info>");
@@ -119,9 +134,12 @@ class ListCommand extends Base {
 
 		$headers = ['Mount ID', 'Mount Point', 'Storage', 'Authentication Type', 'Configuration', 'Options'];
 
-		if (!$userId) {
+		if (!$userId || $userId === self::ALL) {
 			$headers[] = 'Applicable Users';
 			$headers[] = 'Applicable Groups';
+		}
+		if ($userId === self::ALL) {
+			$headers[] = 'Type';
 		}
 
 		if (!$input->getOption('show-password')) {
@@ -150,9 +168,12 @@ class ListCommand extends Base {
 					$config->getBackendOptions(),
 					$config->getMountOptions()
 				];
-				if (!$userId) {
+				if (!$userId || $userId === self::ALL) {
 					$values[] = $config->getApplicableUsers();
 					$values[] = $config->getApplicableGroups();
+				}
+				if ($userId === self::ALL) {
+					$values[] = $config->getType() === StorageConfig::MOUNT_TYPE_ADMIN ? 'admin' : 'personal';
 				}
 
 				return array_combine($keys, $values);
@@ -167,7 +188,9 @@ class ListCommand extends Base {
 			$defaultMountOptions = [
 				'encrypt' => true,
 				'previews' => true,
-				'filesystem_check_changes' => 1
+				'filesystem_check_changes' => 1,
+				'enable_sharing' => false,
+				'encoding_compatibility' => false
 			];
 			$rows = array_map(function (StorageConfig $config) use ($userId, $defaultMountOptions, $full) {
 				$storageConfig = $config->getBackendOptions();
@@ -213,7 +236,7 @@ class ListCommand extends Base {
 					$optionsString
 				];
 
-				if (!$userId) {
+				if (!$userId || $userId === self::ALL) {
 					$applicableUsers = implode(', ', $config->getApplicableUsers());
 					$applicableGroups = implode(', ', $config->getApplicableGroups());
 					if ($applicableUsers === '' && $applicableGroups === '') {
@@ -221,6 +244,9 @@ class ListCommand extends Base {
 					}
 					$values[] = $applicableUsers;
 					$values[] = $applicableGroups;
+				}
+				if ($userId === self::ALL) {
+					$values[] = $config->getType() === StorageConfig::MOUNT_TYPE_ADMIN ? 'Admin' : 'Personal';
 				}
 
 				return $values;

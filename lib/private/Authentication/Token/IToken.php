@@ -55,4 +55,18 @@ interface IToken extends JsonSerializable {
 	 * @return string
 	 */
 	public function getPassword();
+
+	/**
+	 * Get the timestamp of the last password check
+	 *
+	 * @return int
+	 */
+	public function getLastCheck();
+
+	/**
+	 * Get the timestamp of the last password check
+	 *
+	 * @param int $time
+	 */
+	public function setLastCheck($time);
 }

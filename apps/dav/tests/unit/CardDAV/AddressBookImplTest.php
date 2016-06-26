@@ -43,6 +43,9 @@ class AddressBookImplTest extends TestCase {
 	/** @var  AddressBook | \PHPUnit_Framework_MockObject_MockObject */
 	private $addressBook;
 
+	/** @var \OCP\IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
+
 	/** @var  CardDavBackend | \PHPUnit_Framework_MockObject_MockObject */
 	private $backend;
 
@@ -61,11 +64,13 @@ class AddressBookImplTest extends TestCase {
 		$this->backend = $this->getMockBuilder('\OCA\DAV\CardDAV\CardDavBackend')
 			->disableOriginalConstructor()->getMock();
 		$this->vCard = $this->getMock('Sabre\VObject\Component\VCard');
+		$this->urlGenerator = $this->getMock('OCP\IURLGenerator');
 
 		$this->addressBookImpl = new AddressBookImpl(
 			$this->addressBook,
 			$this->addressBookInfo,
-			$this->backend
+			$this->backend,
+			$this->urlGenerator
 		);
 	}
 
@@ -87,7 +92,8 @@ class AddressBookImplTest extends TestCase {
 				[
 					$this->addressBook,
 					$this->addressBookInfo,
-					$this->backend
+					$this->backend,
+					$this->urlGenerator,
 				]
 			)
 			->setMethods(['vCard2Array', 'readCard'])
@@ -100,15 +106,18 @@ class AddressBookImplTest extends TestCase {
 			->with($this->addressBookInfo['id'], $pattern, $searchProperties)
 			->willReturn(
 				[
-					'cardData1',
-					'cardData2'
+					['uri' => 'foo.vcf', 'carddata' => 'cardData1'],
+					['uri' => 'bar.vcf', 'carddata' => 'cardData2']
 				]
 			);
 
 		$addressBookImpl->expects($this->exactly(2))->method('readCard')
 			->willReturn($this->vCard);
 		$addressBookImpl->expects($this->exactly(2))->method('vCard2Array')
-			->with($this->vCard)->willReturn('vCard');
+			->withConsecutive(
+				['foo.vcf', $this->vCard],
+				['bar.vcf', $this->vCard]
+			)->willReturn('vCard');
 
 		$result = $addressBookImpl->search($pattern, $searchProperties, []);
 		$this->assertTrue((is_array($result)));
@@ -130,7 +139,8 @@ class AddressBookImplTest extends TestCase {
 				[
 					$this->addressBook,
 					$this->addressBookInfo,
-					$this->backend
+					$this->backend,
+					$this->urlGenerator,
 				]
 			)
 			->setMethods(['vCard2Array', 'createUid', 'createEmptyVCard'])
@@ -146,7 +156,7 @@ class AddressBookImplTest extends TestCase {
 		$this->backend->expects($this->never())->method('updateCard');
 		$this->backend->expects($this->never())->method('getCard');
 		$addressBookImpl->expects($this->once())->method('vCard2Array')
-			->with($this->vCard)->willReturn(true);
+			->with('uid.vcf', $this->vCard)->willReturn(true);
 
 		$this->assertTrue($addressBookImpl->createOrUpdate($properties));
 	}
@@ -161,7 +171,8 @@ class AddressBookImplTest extends TestCase {
 	public function testUpdate() {
 
 		$uid = 'uid';
-		$properties = ['UID' => $uid, 'FN' => 'John Doe'];
+		$uri = 'bla.vcf';
+		$properties = ['URI' => $uri, 'UID' => $uid, 'FN' => 'John Doe'];
 
 		/** @var \PHPUnit_Framework_MockObject_MockObject | AddressBookImpl $addressBookImpl */
 		$addressBookImpl = $this->getMockBuilder('OCA\DAV\CardDAV\AddressBookImpl')
@@ -169,7 +180,8 @@ class AddressBookImplTest extends TestCase {
 				[
 					$this->addressBook,
 					$this->addressBookInfo,
-					$this->backend
+					$this->backend,
+					$this->urlGenerator,
 				]
 			)
 			->setMethods(['vCard2Array', 'createUid', 'createEmptyVCard', 'readCard'])
@@ -178,7 +190,7 @@ class AddressBookImplTest extends TestCase {
 		$addressBookImpl->expects($this->never())->method('createUid');
 		$addressBookImpl->expects($this->never())->method('createEmptyVCard');
 		$this->backend->expects($this->once())->method('getCard')
-			->with($this->addressBookInfo['id'], $uid . '.vcf')
+			->with($this->addressBookInfo['id'], $uri)
 			->willReturn(['carddata' => 'data']);
 		$addressBookImpl->expects($this->once())->method('readCard')
 			->with('data')->willReturn($this->vCard);
@@ -187,7 +199,7 @@ class AddressBookImplTest extends TestCase {
 		$this->backend->expects($this->never())->method('createCard');
 		$this->backend->expects($this->once())->method('updateCard');
 		$addressBookImpl->expects($this->once())->method('vCard2Array')
-			->with($this->vCard)->willReturn(true);
+			->with($uri, $this->vCard)->willReturn(true);
 
 		$this->assertTrue($addressBookImpl->createOrUpdate($properties));
 	}
@@ -251,7 +263,8 @@ class AddressBookImplTest extends TestCase {
 				[
 					$this->addressBook,
 					$this->addressBookInfo,
-					$this->backend
+					$this->backend,
+					$this->urlGenerator,
 				]
 			)
 			->setMethods(['getUid'])

@@ -63,6 +63,7 @@ class DefaultTokenMapperTest extends TestCase {
 			'token' => $qb->createNamedParameter('9c5a2e661482b65597408a6bb6c4a3d1af36337381872ac56e445a06cdb7fea2b1039db707545c11027a4966919918b19d875a8b774840b18c6cbb7ae56fe206'),
 			'type' => $qb->createNamedParameter(IToken::TEMPORARY_TOKEN),
 			'last_activity' => $qb->createNamedParameter($this->time - 120, IQueryBuilder::PARAM_INT), // Two minutes ago
+			'last_check' => $this->time - 60 * 10, // 10mins ago
 		])->execute();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user2'),
@@ -72,6 +73,7 @@ class DefaultTokenMapperTest extends TestCase {
 			'token' => $qb->createNamedParameter('1504445f1524fc801035448a95681a9378ba2e83930c814546c56e5d6ebde221198792fd900c88ed5ead0555780dad1ebce3370d7e154941cd5de87eb419899b'),
 			'type' => $qb->createNamedParameter(IToken::TEMPORARY_TOKEN),
 			'last_activity' => $qb->createNamedParameter($this->time - 60 * 60 * 24 * 3, IQueryBuilder::PARAM_INT), // Three days ago
+			'last_check' => $this->time -  10, // 10secs ago
 		])->execute();
 		$qb->insert('authtoken')->values([
 			'uid' => $qb->createNamedParameter('user1'),
@@ -81,6 +83,7 @@ class DefaultTokenMapperTest extends TestCase {
 			'token' => $qb->createNamedParameter('47af8697ba590fb82579b5f1b3b6e8066773a62100abbe0db09a289a62f5d980dc300fa3d98b01d7228468d1ab05c1aa14c8d14bd5b6eee9cdf1ac14864680c3'),
 			'type' => $qb->createNamedParameter(IToken::TEMPORARY_TOKEN),
 			'last_activity' => $qb->createNamedParameter($this->time - 120, IQueryBuilder::PARAM_INT), // Two minutes ago
+			'last_check' => $this->time - 60 * 10, // 10mins ago
 		])->execute();
 	}
 
@@ -127,6 +130,7 @@ class DefaultTokenMapperTest extends TestCase {
 		$token->setToken('1504445f1524fc801035448a95681a9378ba2e83930c814546c56e5d6ebde221198792fd900c88ed5ead0555780dad1ebce3370d7e154941cd5de87eb419899b');
 		$token->setType(IToken::TEMPORARY_TOKEN);
 		$token->setLastActivity($this->time - 60 * 60 * 24 * 3);
+		$token->setLastCheck($this->time - 10);
 
 		$dbToken = $this->mapper->getToken($token->getToken());
 

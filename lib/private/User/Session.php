@@ -193,53 +193,35 @@ class Session implements IUserSession, Emitter {
 			if (is_null($this->activeUser)) {
 				return null;
 			}
-			$this->validateSession($this->activeUser);
+			$this->validateSession();
 		}
 		return $this->activeUser;
 	}
 
-	protected function validateSession(IUser $user) {
-		try {
-			$sessionId = $this->session->getId();
-		} catch (SessionNotAvailableException $ex) {
-			return;
+	/**
+	 * Validate whether the current session is valid
+	 *
+	 * - For token-authenticated clients, the token validity is checked
+	 * - For browsers, the session token validity is checked
+	 */
+	protected function validateSession() {
+		$token = null;
+		$appPassword = $this->session->get('app_password');
+
+		if (is_null($appPassword)) {
+			try {
+				$token = $this->session->getId();
+			} catch (SessionNotAvailableException $ex) {
+				return;
+			}
+		} else {
+			$token = $appPassword;
 		}
-		try {
-			$token = $this->tokenProvider->getToken($sessionId);
-		} catch (InvalidTokenException $ex) {
+
+		if (!$this->validateToken($token)) {
 			// Session was invalidated
 			$this->logout();
-			return;
 		}
-
-		// Check whether login credentials are still valid and the user was not disabled
-		// This check is performed each 5 minutes
-		$lastCheck = $this->session->get('last_login_check') ? : 0;
-		$now = $this->timeFacory->getTime();
-		if ($lastCheck < ($now - 60 * 5)) {
-			try {
-				$pwd = $this->tokenProvider->getPassword($token, $sessionId);
-			} catch (InvalidTokenException $ex) {
-				// An invalid token password was used -> log user out
-				$this->logout();
-				return;
-			} catch (PasswordlessTokenException $ex) {
-				// Token has no password, nothing to check
-				$this->session->set('last_login_check', $now);
-				return;
-			}
-
-			if ($this->manager->checkPassword($token->getLoginName(), $pwd) === false
-				|| !$user->isEnabled()) {
-				// Password has changed or user was disabled -> log user out
-				$this->logout();
-				return;
-			}
-			$this->session->set('last_login_check', $now);
-		}
-
-		// Session is valid, so the token can be refreshed
-		$this->updateToken($token);
 	}
 
 	/**
@@ -299,20 +281,21 @@ class Session implements IUserSession, Emitter {
 	public function login($uid, $password) {
 		$this->session->regenerateId();
 		if ($this->validateToken($password)) {
-			$user = $this->getUser();
-
 			// When logging in with token, the password must be decrypted first before passing to login hook
 			try {
 				$token = $this->tokenProvider->getToken($password);
 				try {
-					$password = $this->tokenProvider->getPassword($token, $password);
-					$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
+					$loginPassword = $this->tokenProvider->getPassword($token, $password);
+					$this->manager->emit('\OC\User', 'preLogin', array($uid, $loginPassword));
 				} catch (PasswordlessTokenException $ex) {
 					$this->manager->emit('\OC\User', 'preLogin', array($uid, ''));
 				}
 			} catch (InvalidTokenException $ex) {
 				// Invalid token, nothing to do
 			}
+
+			$this->loginWithToken($password);
+			$user = $this->getUser();
 		} else {
 			$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 			$user = $this->manager->checkPassword($uid, $password);
@@ -370,7 +353,10 @@ class Session implements IUserSession, Emitter {
 			return false;
 		}
 
-		if ($this->supportsCookies($request)) {
+		if ($isTokenPassword) {
+			$this->session->set('app_password', $password);
+		} else if($this->supportsCookies($request)) {
+			// Password login, but cookies supported -> create (browser) session token
 			$this->createSessionToken($request, $this->getUser()->getUID(), $user, $password);
 		}
 
@@ -463,8 +449,22 @@ class Session implements IUserSession, Emitter {
 		return false;
 	}
 
-	private function loginWithToken($uid) {
-		// TODO: $this->manager->emit('\OC\User', 'preTokenLogin', array($uid));
+	private function loginWithToken($token) {
+		try {
+			$dbToken = $this->tokenProvider->getToken($token);
+		} catch (InvalidTokenException $ex) {
+			return false;
+		}
+		$uid = $dbToken->getUID();
+
+		$password = '';
+		try {
+			$password = $this->tokenProvider->getPassword($dbToken, $token);
+		} catch (PasswordlessTokenException $ex) {
+			// Ignore and use empty string instead
+		}
+		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
+
 		$user = $this->manager->get($uid);
 		if (is_null($user)) {
 			// user does not exist
@@ -477,7 +477,8 @@ class Session implements IUserSession, Emitter {
 
 		//login
 		$this->setUser($user);
-		// TODO: $this->manager->emit('\OC\User', 'postTokenLogin', array($user));
+
+		$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
 		return true;
 	}
 
@@ -534,37 +535,71 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * @param IToken $dbToken
+	 * @param string $token
+	 * @return boolean
+	 */
+	private function checkTokenCredentials(IToken $dbToken, $token) {
+		// Check whether login credentials are still valid and the user was not disabled
+		// This check is performed each 5 minutes
+		$lastCheck = $dbToken->getLastCheck() ? : 0;
+		$now = $this->timeFacory->getTime();
+		if ($lastCheck > ($now - 60 * 5)) {
+			// Checked performed recently, nothing to do now
+			return true;
+		}
+
+		try {
+			$pwd = $this->tokenProvider->getPassword($dbToken, $token);
+		} catch (InvalidTokenException $ex) {
+			// An invalid token password was used -> log user out
+			return false;
+		} catch (PasswordlessTokenException $ex) {
+			// Token has no password
+
+			if (!is_null($this->activeUser) && !$this->activeUser->isEnabled()) {
+				$this->tokenProvider->invalidateToken($token);
+				return false;
+			}
+
+			$dbToken->setLastCheck($now);
+			$this->tokenProvider->updateToken($dbToken);
+			return true;
+		}
+
+		if ($this->manager->checkPassword($dbToken->getLoginName(), $pwd) === false
+			|| (!is_null($this->activeUser) && !$this->activeUser->isEnabled())) {
+			$this->tokenProvider->invalidateToken($token);
+			// Password has changed or user was disabled -> log user out
+			return false;
+		}
+		$dbToken->setLastCheck($now);
+		$this->tokenProvider->updateToken($dbToken);
+		return true;
+	}
+
+	/**
+	 * Check if the given token exists and performs password/user-enabled checks
+	 *
+	 * Invalidates the token if checks fail
+	 *
 	 * @param string $token
 	 * @return boolean
 	 */
 	private function validateToken($token) {
 		try {
-			$token = $this->tokenProvider->validateToken($token);
-			if (!is_null($token)) {
-				$result = $this->loginWithToken($token->getUID());
-				if ($result) {
-					// Login success
-					$this->updateToken($token);
-					return true;
-				}
-			}
+			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $ex) {
-
+			return false;
 		}
-		return false;
-	}
 
-	/**
-	 * @param IToken $token
-	 */
-	private function updateToken(IToken $token) {
-		// To save unnecessary DB queries, this is only done once a minute
-		$lastTokenUpdate = $this->session->get('last_token_update') ? : 0;
-		$now = $this->timeFacory->getTime();
-		if ($lastTokenUpdate < ($now - 60)) {
-			$this->tokenProvider->updateToken($token);
-			$this->session->set('last_token_update', $now);
+		if (!$this->checkTokenCredentials($dbToken, $token)) {
+			return false;
 		}
+
+		$this->tokenProvider->updateTokenActivity($dbToken);
+
+		return true;
 	}
 
 	/**
@@ -578,15 +613,21 @@ class Session implements IUserSession, Emitter {
 		if (strpos($authHeader, 'token ') === false) {
 			// No auth header, let's try session id
 			try {
-				$sessionId = $this->session->getId();
-				return $this->validateToken($sessionId);
+				$token = $this->session->getId();
 			} catch (SessionNotAvailableException $ex) {
 				return false;
 			}
 		} else {
 			$token = substr($authHeader, 6);
-			return $this->validateToken($token);
 		}
+
+		if (!$this->loginWithToken($token)) {
+			return false;
+		}
+		if(!$this->validateToken($token)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -674,6 +715,23 @@ class Session implements IUserSession, Emitter {
 		setcookie('oc_username', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
 		setcookie('oc_token', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
 		setcookie('oc_remember_login', '', time() - 3600, OC::$WEBROOT . '/', '', $secureCookie, true);
+	}
+
+	/**
+	 * Update password of the browser session token if there is one
+	 *
+	 * @param string $password
+	 */
+	public function updateSessionTokenPassword($password) {
+		try {
+			$sessionId = $this->session->getId();
+			$token = $this->tokenProvider->getToken($sessionId);
+			$this->tokenProvider->setPassword($token, $sessionId, $password);
+		} catch (SessionNotAvailableException $ex) {
+			// Nothing to do
+		} catch (InvalidTokenException $ex) {
+			// Nothing to do
+		}
 	}
 
 }

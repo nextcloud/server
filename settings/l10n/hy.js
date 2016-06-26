@@ -23,9 +23,9 @@ OC.L10N.register(
     "Password" : "Գաղտնաբառ",
     "New password" : "Նոր գաղտնաբառ",
     "Change password" : "Փոխել գաղտնաբառը",
-    "Name" : "Անուն",
     "Language" : "Լեզու",
     "Help translate" : "Օգնել թարգմանել",
+    "Name" : "Անուն",
     "Username" : "Օգտանուն",
     "Group" : "Խումբ",
     "Other" : "Այլ"

@@ -32,6 +32,7 @@ class ContactsManagerTest extends TestCase {
 		/** @var IManager | \PHPUnit_Framework_MockObject_MockObject $cm */
 		$cm = $this->getMockBuilder('OCP\Contacts\IManager')->disableOriginalConstructor()->getMock();
 		$cm->expects($this->exactly(2))->method('registerAddressBook');
+		$urlGenerator = $this->getMockBuilder('OCP\IUrlGenerator')->disableOriginalConstructor()->getMock();
 		/** @var CardDavBackend | \PHPUnit_Framework_MockObject_MockObject $backEnd */
 		$backEnd = $this->getMockBuilder('OCA\DAV\CardDAV\CardDavBackend')->disableOriginalConstructor()->getMock();
 		$backEnd->method('getAddressBooksForUser')->willReturn([
@@ -39,6 +40,6 @@ class ContactsManagerTest extends TestCase {
 			]);
 
 		$app = new ContactsManager($backEnd);
-		$app->setupContactsProvider($cm, 'user01');
+		$app->setupContactsProvider($cm, 'user01', $urlGenerator);
 	}
 }

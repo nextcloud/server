@@ -84,7 +84,10 @@ class DiscoveryManager {
 
 		// Read the data from the response body
 		try {
-			$response = $this->client->get($remote . '/ocs-provider/');
+			$response = $this->client->get($remote . '/ocs-provider/', [
+				'timeout' => 10,
+				'connect_timeout' => 10,
+			]);
 			if($response->getStatusCode() === 200) {
 				$decodedService = json_decode($response->getBody(), true);
 				if(is_array($decodedService)) {

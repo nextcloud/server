@@ -75,6 +75,7 @@ if ($debugging) {
 }
 
 $server->addPlugin(new \Sabre\CardDAV\VCFExportPlugin());
+$server->addPlugin(new \OCA\DAV\CardDAV\ImageExportPlugin(\OC::$server->getLogger()));
 $server->addPlugin(new ExceptionLoggerPlugin('carddav', \OC::$server->getLogger()));
 
 // And off we go!
