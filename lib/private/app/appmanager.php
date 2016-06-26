@@ -256,7 +256,7 @@ class AppManager implements IAppManager {
 		}
 		unset($this->installedAppsCache[$appId]);
 		$this->appConfig->setValue($appId, 'enabled', 'no');
-		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_ENABLE, new ManagerEvent(
+		$this->dispatcher->dispatch(ManagerEvent::EVENT_APP_DISABLE, new ManagerEvent(
 			ManagerEvent::EVENT_APP_DISABLE, $appId
 		));
 		$this->clearAppsCache();
