@@ -80,33 +80,6 @@ class AdminController extends Controller {
 	}
 
 	/**
-	 * Whether the instance is compatible with the updater
-	 *
-	 * @return bool
-	 */
-	protected function isCompatibleWithUpdater() {
-		$updaterCompatible = true;
-		if(!function_exists('proc_open') || !function_exists('shell_exec')) {
-			$updaterCompatible = false;
-		} else {
-			$whichUnzip = shell_exec('command -v unzip');
-			if(!class_exists('ZipArchive') && empty($whichUnzip)) {
-				$updaterCompatible = false;
-			}
-
-			$whichPhp = shell_exec('command -v php');
-			if(empty($whichPhp)) {
-				$updaterCompatible = false;
-			}
-		}
-		if(!function_exists('curl_exec')) {
-			$updaterCompatible = false;
-		}
-
-		return $updaterCompatible;
-	}
-
-	/**
 	 * @return TemplateResponse
 	 */
 	public function displayPanel() {
@@ -121,6 +94,7 @@ class AdminController extends Controller {
 			'production',
 		];
 		$currentChannel = \OCP\Util::getChannel();
+
 		// Remove the currently used channel from the channels list
 		if(($key = array_search($currentChannel, $channels)) !== false) {
 			unset($channels[$key]);
@@ -132,7 +106,6 @@ class AdminController extends Controller {
 			'currentChannel' => $currentChannel,
 			'channels' => $channels,
 			'newVersionString' => ($updateState === []) ? '' : $updateState['updateVersion'],
-			'updaterRequirementsFulfilled' => $this->isCompatibleWithUpdater(),
 		];
 
 		return new TemplateResponse($this->appName, 'admin', $params, '');
