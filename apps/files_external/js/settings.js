@@ -305,7 +305,8 @@ StorageConfig.prototype = {
 			mountPoint: this.mountPoint,
 			backend: this.backend,
 			authMechanism: this.authMechanism,
-			backendOptions: this.backendOptions
+			backendOptions: this.backendOptions,
+			testOnly: true
 		};
 		if (this.id) {
 			data.id = this.id;
@@ -332,6 +333,7 @@ StorageConfig.prototype = {
 		$.ajax({
 			type: 'GET',
 			url: OC.generateUrl(this._url + '/{id}', {id: this.id}),
+			data: {'testOnly': true},
 			success: options.success,
 			error: options.error
 		});
@@ -911,6 +913,7 @@ MountConfigListView.prototype = _.extend({
 			$.ajax({
 				type: 'GET',
 				url: OC.generateUrl('apps/files_external/userglobalstorages'),
+				data: {'testOnly': true},
 				contentType: 'application/json',
 				success: function(result) {
 					var onCompletion = jQuery.Deferred();

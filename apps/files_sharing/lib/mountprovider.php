@@ -27,6 +27,7 @@ use OC\User\NoUserException;
 use OCP\Files\Config\IMountProvider;
 use OCP\Files\Storage\IStorageFactory;
 use OCP\IConfig;
+use OCP\ILogger;
 use OCP\IUser;
 
 class MountProvider implements IMountProvider {
@@ -36,10 +37,17 @@ class MountProvider implements IMountProvider {
 	protected $config;
 
 	/**
-	 * @param \OCP\IConfig $config
+	 * @var ILogger
 	 */
-	public function __construct(IConfig $config) {
+	protected $logger;
+
+	/**
+	 * @param \OCP\IConfig $config
+	 * @param ILogger $logger
+	 */
+	public function __construct(IConfig $config, ILogger $logger) {
 		$this->config = $config;
+		$this->logger = $logger;
 	}
 
 
@@ -55,19 +63,25 @@ class MountProvider implements IMountProvider {
 		$shares = array_filter($shares, function ($share) {
 			return $share['permissions'] > 0;
 		});
-		$shares = array_map(function ($share) use ($user, $storageFactory) {
+		$mounts = [];
+		foreach ($shares as $share) {
+			try {
+				$mounts[] = new SharedMount(
+					'\OC\Files\Storage\Shared',
+					$mounts,
+					[
+						'share' => $share,
+						'user' => $user->getUID()
+					],
+					$storageFactory
+				);
+			} catch (\Exception $e) {
+				$this->logger->logException($e);
+				$this->logger->error('Error while trying to create shared mount');
+			}
+		}
 
-			return new SharedMount(
-				'\OC\Files\Storage\Shared',
-				'/' . $user->getUID() . '/' . $share['file_target'],
-				array(
-					'share' => $share,
-					'user' => $user->getUID()
-				),
-				$storageFactory
-			);
-		}, $shares);
 		// array_filter removes the null values from the array
-		return array_filter($shares);
+		return array_filter($mounts);
 	}
 }
