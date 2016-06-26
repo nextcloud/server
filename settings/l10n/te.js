@@ -9,8 +9,8 @@ OC.L10N.register(
     "Your email address" : "మీ ఈమెయిలు చిరునామా",
     "Password" : "సంకేతపదం",
     "New password" : "కొత్త సంకేతపదం",
-    "Name" : "పేరు",
     "Language" : "భాష",
+    "Name" : "పేరు",
     "Username" : "వాడుకరి పేరు"
 },
 "nplurals=2; plural=(n != 1);");

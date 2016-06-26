@@ -101,33 +101,37 @@ table.nostyle label { margin-right: 2em; }
 table.nostyle td { padding: 0.2em 0; }
 
 #sessions table,
-#devices table {
+#apppasswords table {
 	width: 100%;
 	min-height: 150px;
 	padding-top: 25px;
 }
 #sessions table th,
-#devices table th {
+#apppasswords table th {
 	font-weight: 800;
 }
 #sessions table th,
 #sessions table td,
-#devices table th,
-#devices table td {
+#apppasswords table th,
+#apppasswords table td {
 	padding: 10px;
 }
 
 #sessions .token-list td,
-#devices .token-list td {
+#apppasswords .token-list td {
 	border-top: 1px solid #DDD;
+	text-overflow: ellipsis;
+	max-width: 200px;
+	white-space: nowrap;
+	overflow: hidden;
 }
 #sessions .token-list td a.icon-delete,
-#devices .token-list td a.icon-delete {
+#apppasswords .token-list td a.icon-delete {
 	display: block;
 	opacity: 0.6;
 }
 
-#device-new-token {
+#new-app-password {
 	width: 186px;
 	font-family: monospace;
 	background-color: lightyellow;

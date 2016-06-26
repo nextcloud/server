@@ -41,6 +41,11 @@ class Export extends ListCommand {
 				'user_id',
 				InputArgument::OPTIONAL,
 				'user id to export the personal mounts for, if no user is provided admin mounts will be exported'
+			)->addOption(
+				'all',
+				'a',
+				InputOption::VALUE_NONE,
+				'show both system wide mounts and all personal mounts'
 			);
 	}
 
@@ -48,6 +53,7 @@ class Export extends ListCommand {
 		$listCommand = new ListCommand($this->globalService, $this->userService, $this->userSession, $this->userManager);
 		$listInput = new ArrayInput([], $listCommand->getDefinition());
 		$listInput->setArgument('user_id', $input->getArgument('user_id'));
+		$listInput->setOption('all', $input->getOption('all'));
 		$listInput->setOption('output', 'json_pretty');
 		$listInput->setOption('show-password', true);
 		$listInput->setOption('full', true);

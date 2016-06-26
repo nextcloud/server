@@ -337,10 +337,10 @@
 					$comment.data('commentEl').remove();
 					$comment.remove();
 				},
-				error: function(msg) {
+				error: function() {
 					$loading.addClass('hidden');
 					$comment.removeClass('disabled');
-					OC.Notification.showTemporary(msg);
+					OC.Notification.showTemporary(t('comments', 'Error occurred while retrieving comment with id {id}', {id: commentId}));
 				}
 			});
 
@@ -388,12 +388,12 @@
 							.html(self._formatMessage(model.get('message')));
 						$row.remove();
 					},
-					error: function(msg) {
+					error: function() {
 						$submit.removeClass('hidden');
 						$loading.addClass('hidden');
 						$textArea.prop('disabled', false);
 
-						OC.Notification.showTemporary(msg);
+						OC.Notification.showTemporary(t('comments', 'Error occurred while updating comment with id {id}', {id: commentId}));
 					}
 				});
 			} else {
@@ -413,12 +413,12 @@
 						$loading.addClass('hidden');
 						$textArea.val('').prop('disabled', false);
 					},
-					error: function(msg) {
+					error: function() {
 						$submit.removeClass('hidden');
 						$loading.addClass('hidden');
 						$textArea.prop('disabled', false);
 
-						OC.Notification.showTemporary(msg);
+						OC.Notification.showTemporary(t('comments', 'Error occurred while posting comment'));
 					}
 				});
 			}

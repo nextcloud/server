@@ -369,6 +369,17 @@ $(document).ready(function () {
 		collection: collection
 	});
 	view.reload();
+
+	// 'redirect' to anchor sections
+	// anchors are lost on redirects (e.g. while solving the 2fa challenge) otherwise
+	// example: /settings/person?section=devices will result in /settings/person?#devices
+	if (!window.location.hash) {
+		var query = OC.parseQueryString(location.search);
+		if (query && query.section) {
+			OC.Util.History.replaceState({});
+			window.location.hash = query.section;
+		}
+	}
 });
 
 if (!OC.Encryption) {

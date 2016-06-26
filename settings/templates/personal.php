@@ -138,47 +138,6 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
-<div id="sessions" class="section">
-	<h2><?php p($l->t('Sessions'));?></h2>
-	<span class="hidden-when-empty"><?php p($l->t('These are the web, desktop and mobile clients currently logged in to your account.'));?></span>
-	<table>
-		<thead class="token-list-header">
-			<tr>
-				<th><?php p($l->t('Browser'));?></th>
-				<th><?php p($l->t('Most recent activity'));?></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody class="token-list icon-loading">
-		</tbody>
-	</table>
-</div>
-
-<div id="devices" class="section">
-	<h2><?php p($l->t('Devices'));?></h2>
-	<span class="hidden-when-empty"><?php p($l->t("You've linked these devices."));?></span>
-	<table>
-		<thead class="hidden-when-empty">
-			<tr>
-				<th><?php p($l->t('Name'));?></th>
-				<th><?php p($l->t('Most recent activity'));?></th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody class="token-list icon-loading">
-		</tbody>
-	</table>
-	<p><?php p($l->t('A device password is a passcode that gives an app or device permissions to access your account.'));?></p>
-	<div id="device-token-form">
-		<input id="device-token-name" type="text" placeholder="Device name">
-		<button id="device-add-token" class="button">Create new device password</button>
-	</div>
-	<div id="device-token-result" class="hidden">
-		<input id="device-new-token" type="text" readonly="readonly"/>
-		<button id="device-token-hide" class="button">Done</button>
-	</div>
-</div>
-
 <form id="language" class="section">
 	<h2>
 		<label for="languageinput"><?php p($l->t('Language'));?></label>
@@ -199,13 +158,54 @@ if($_['passwordChangeSupported']) {
 			</option>
 		<?php endforeach;?>
 	</select>
-	<?php if (false && OC_Util::getEditionString() === ''): ?>
+	<?php if (OC_Util::getEditionString() === ''): ?>
 	<a href="https://www.transifex.com/projects/p/owncloud/"
 		target="_blank" rel="noreferrer">
 		<em><?php p($l->t('Help translate'));?></em>
 	</a>
 	<?php endif; ?>
 </form>
+
+<div id="sessions" class="section">
+	<h2><?php p($l->t('Sessions'));?></h2>
+	<span class="hidden-when-empty"><?php p($l->t('These are the web, desktop and mobile clients currently logged in to your account.'));?></span>
+	<table>
+		<thead class="token-list-header">
+			<tr>
+				<th><?php p($l->t('Browser'));?></th>
+				<th><?php p($l->t('Most recent activity'));?></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody class="token-list icon-loading">
+		</tbody>
+	</table>
+</div>
+
+<div id="apppasswords" class="section">
+	<h2><?php p($l->t('App passwords'));?></h2>
+	<span class="hidden-when-empty"><?php p($l->t("You've linked these apps."));?></span>
+	<table>
+		<thead class="hidden-when-empty">
+			<tr>
+				<th><?php p($l->t('Name'));?></th>
+				<th><?php p($l->t('Most recent activity'));?></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody class="token-list icon-loading">
+		</tbody>
+	</table>
+	<p><?php p($l->t('An app password is a passcode that gives an app or device permissions to access your %s account.', [$theme->getName()]));?></p>
+	<div id="app-password-form">
+		<input id="app-password-name" type="text" placeholder="<?php p($l->t('App name')); ?>">
+		<button id="add-app-password" class="button"><?php p($l->t('Create new app password')); ?></button>
+	</div>
+	<div id="app-password-result" class="hidden">
+		<input id="new-app-password" type="text" readonly="readonly"/>
+		<button id="app-password-hide" class="button"><?php p($l->t('Done')); ?></button>
+	</div>
+</div>
 
 <div id="clientsbox" class="section clientsbox">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>

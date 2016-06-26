@@ -27,9 +27,9 @@
 
 	var TEMPLATE_TOKEN =
 		'<tr data-id="{{id}}">'
-		+ '<td>{{name}}</td>'
-		+ '<td><span class="last-activity" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
-		+ '<td><a class="icon-delete" title="' + t('core', 'Disconnect') + '"></a></td>'
+		+ '<td class="has-tooltip" title="{{name}}"><span class="token-name">{{name}}</span></td>'
+		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
+		+ '<td><a class="icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '"></a></td>'
 		+ '<tr>';
 
 	var SubView = Backbone.View.extend({
@@ -80,8 +80,7 @@
 				viewData.lastActivityTime = OC.Util.formatDate(ts, 'LLL');
 				var html = _this.template(viewData);
 				var $html = $(html);
-				$html.find('.last-activity').tooltip();
-				$html.find('.icon-delete').tooltip();
+				$html.find('.has-tooltip').tooltip({container: 'body'});
 				list.append($html);
 			});
 		},
@@ -104,13 +103,13 @@
 
 		_tokenName: undefined,
 
-		_addTokenBtn: undefined,
+		_addAppPasswordBtn: undefined,
 
 		_result: undefined,
 
-		_newToken: undefined,
+		_newAppPassword: undefined,
 
-		_hideTokenBtn: undefined,
+		_hideAppPasswordBtn: undefined,
 
 		_addingToken: false,
 
@@ -120,7 +119,7 @@
 			var tokenTypes = [0, 1];
 			var _this = this;
 			_.each(tokenTypes, function(type) {
-				var el = type === 0 ? '#sessions' : '#devices';
+				var el = type === 0 ? '#sessions' : '#apppasswords';
 				_this._views.push(new SubView({
 					el: el,
 					type: type,
@@ -131,16 +130,16 @@
 				$el.on('click', 'a.icon-delete', _.bind(_this._onDeleteToken, _this));
 			});
 
-			this._form = $('#device-token-form');
-			this._tokenName = $('#device-token-name');
-			this._addTokenBtn = $('#device-add-token');
-			this._addTokenBtn.click(_.bind(this._addDeviceToken, this));
+			this._form = $('#app-password-form');
+			this._tokenName = $('#app-password-name');
+			this._addAppPasswordBtn = $('#add-app-password');
+			this._addAppPasswordBtn.click(_.bind(this._addAppPassword, this));
 
-			this._result = $('#device-token-result');
-			this._newToken = $('#device-new-token');
-			this._newToken.on('focus', _.bind(this._onNewTokenFocus, this));
-			this._hideTokenBtn = $('#device-token-hide');
-			this._hideTokenBtn.click(_.bind(this._hideToken, this));
+			this._result = $('#app-password-result');
+			this._newAppPassword = $('#new-app-password');
+			this._newAppPassword.on('focus', _.bind(this._onNewTokenFocus, this));
+			this._hideAppPasswordBtn = $('#app-password-hide');
+			this._hideAppPasswordBtn.click(_.bind(this._hideToken, this));
 		},
 
 		render: function() {
@@ -167,7 +166,7 @@
 			});
 		},
 
-		_addDeviceToken: function() {
+		_addAppPassword: function() {
 			var _this = this;
 			this._toggleAddingToken(true);
 
@@ -182,9 +181,9 @@
 			$.when(creatingToken).done(function(resp) {
 				_this.collection.add(resp.deviceToken);
 				_this.render();
-				_this._newToken.val(resp.token);
+				_this._newAppPassword.val(resp.token);
 				_this._toggleFormResult(false);
-				_this._newToken.select();
+				_this._newAppPassword.select();
 				_this._tokenName.val('');
 			});
 			$.when(creatingToken).fail(function() {
@@ -196,7 +195,7 @@
 		},
 
 		_onNewTokenFocus: function() {
-			this._newToken.select();
+			this._newAppPassword.select();
 		},
 
 		_hideToken: function() {
@@ -205,7 +204,7 @@
 
 		_toggleAddingToken: function(state) {
 			this._addingToken = state;
-			this._addTokenBtn.toggleClass('icon-loading-small', state);
+			this._addAppPasswordBtn.toggleClass('icon-loading-small', state);
 		},
 
 		_onDeleteToken: function(event) {

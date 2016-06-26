@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Type in a new comment..." : "Напиши нов коментар...",
     "Delete comment" : "Изтрий коментар",
+    "Post" : "Публикация",
     "Cancel" : "Отказ",
     "Edit comment" : "Редактирай коментра",
     "[Deleted user]" : "[Изтрит потребител]",
