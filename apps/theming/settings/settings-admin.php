@@ -26,12 +26,7 @@ $config = \OC::$server->getConfig();
 $l = \OC::$server->getL10N('theming');
 $urlGenerator = \OC::$server->getURLGenerator();
 
-$theming = new \OCA\Theming\Template(
-	$config,
-	$l,
-	\OC::$server->getURLGenerator(),
-	new OC_Defaults()
-);
+$theming = \OC::$server->getThemingDefaults();
 
 $themable = true;
 $errorMessage = '';
