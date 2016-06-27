@@ -328,7 +328,7 @@ class Manager {
 	public function removeShare($mountPoint) {
 
 		$mountPointObj = $this->mountManager->find($mountPoint);
-		$id = $mountPointObj->getStorage()->getCache()->getId();
+		$id = $mountPointObj->getStorage()->getCache()->getId('');
 
 		$mountPoint = $this->stripPath($mountPoint);
 		$hash = md5($mountPoint);
