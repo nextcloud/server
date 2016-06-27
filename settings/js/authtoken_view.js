@@ -1,4 +1,4 @@
-/* global Backbone, Handlebars, moment */
+/* global Handlebars, moment */
 
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -20,7 +20,7 @@
  *
  */
 
-(function(OC, _, Backbone, $, Handlebars, moment) {
+(function(OC, _, $, Handlebars, moment) {
 	'use strict';
 
 	OC.Settings = OC.Settings || {};
@@ -32,7 +32,7 @@
 		+ '<td><a class="icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '"></a></td>'
 		+ '<tr>';
 
-	var SubView = Backbone.View.extend({
+	var SubView = OC.Backbone.View.extend({
 		collection: null,
 
 		/**
@@ -94,7 +94,7 @@
 		}
 	});
 
-	var AuthTokenView = Backbone.View.extend({
+	var AuthTokenView = OC.Backbone.View.extend({
 		collection: null,
 
 		_views: [],
@@ -237,4 +237,4 @@
 
 	OC.Settings.AuthTokenView = AuthTokenView;
 
-})(OC, _, Backbone, $, Handlebars, moment);
+})(OC, _, $, Handlebars, moment);
