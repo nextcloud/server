@@ -220,6 +220,8 @@
 
 			var destroyingToken = token.destroy();
 
+			$row.find('.icon-delete').tooltip('hide');
+
 			var _this = this;
 			$.when(destroyingToken).fail(function() {
 				OC.Notification.showTemporary(t('core', 'Error while deleting the token'));
