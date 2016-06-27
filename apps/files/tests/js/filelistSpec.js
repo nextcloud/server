@@ -989,6 +989,17 @@ describe('OCA.Files.FileList tests', function() {
 			expect($summary.find('.info').text()).toEqual("1 folder and 3 files");
 			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 		});
+		it('filters the list of non-rendered rows using filter()', function() {
+			var $summary = $('#filestable .summary');
+			var $nofilterresults = fileList.$el.find(".nofilterresults");
+			fileList.setFiles(generateFiles(0, 64));
+
+			fileList.setFilter('63');
+			expect($('#fileList tr:not(.hidden)').length).toEqual(1);
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual("0 folders and 1 file matches '63'");
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+		});
 		it('hides the emptyfiles notice when using filter()', function() {
 			expect(fileList.files.length).toEqual(0);
 			expect(fileList.files).toEqual([]);
