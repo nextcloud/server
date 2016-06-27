@@ -131,10 +131,18 @@ table.nostyle td { padding: 0.2em 0; }
 	opacity: 0.6;
 }
 
+#new-app-login-name,
 #new-app-password {
 	width: 186px;
 	font-family: monospace;
 	background-color: lightyellow;
+}
+.app-password-row {
+	display: table-row;
+}
+.app-password-label {
+	display: table-cell;
+	padding-right: 1em;
 }
 
 /* USERS */

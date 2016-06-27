@@ -203,8 +203,16 @@ if($_['passwordChangeSupported']) {
 		<button id="add-app-password" class="button"><?php p($l->t('Create new app password')); ?></button>
 	</div>
 	<div id="app-password-result" class="hidden">
-		<input id="new-app-password" type="text" readonly="readonly"/>
-		<button id="app-password-hide" class="button"><?php p($l->t('Done')); ?></button>
+		<span><?php p($l->t('Use the credentials below to configure your app or device.')); ?></span>
+		<div class="app-password-row">
+			<span class="app-password-label"><?php p($l->t('Username')); ?></span>
+			<input id="new-app-login-name" type="text" readonly="readonly"/>
+		</div>
+		<div class="app-password-row">
+			<span class="app-password-label"><?php p($l->t('Password')); ?></span>
+			<input id="new-app-password" type="text" readonly="readonly"/>
+			<button id="app-password-hide" class="button"><?php p($l->t('Done')); ?></button>
+		</div>
 	</div>
 </div>
 
