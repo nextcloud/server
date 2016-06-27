@@ -52,6 +52,7 @@ function preview(setting, value) {
 }
 
 $(document).ready(function () {
+	$('#theming [data-toggle="tooltip"]').tooltip();
 
 	var uploadParamsLogo = {
 		pasteZone: null,
