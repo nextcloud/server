@@ -315,6 +315,36 @@ class SessionTest extends \Test\TestCase {
 	}
 
 	/**
+	 * When using a device token, the loginname must match the one that was used
+	 * when generating the token on the browser.
+	 */
+	public function testLoginWithDifferentTokenLoginName() {
+		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
+		$manager = $this->getMock('\OC\User\Manager');
+		$backend = $this->getMock('\Test\Util\User\Dummy');
+		$userSession = new \OC\User\Session($manager, $session, $this->timeFactory, $this->tokenProvider, $this->config);
+		$username = 'user123';
+		$token = new \OC\Authentication\Token\DefaultToken();
+		$token->setLoginName($username);
+
+		$session->expects($this->never())
+			->method('set');
+		$session->expects($this->once())
+			->method('regenerateId');
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('bar')
+			->will($this->returnValue($token));
+
+		$manager->expects($this->once())
+			->method('checkPassword')
+			->with('foo', 'bar')
+			->will($this->returnValue(false));
+
+		$userSession->login('foo', 'bar');
+	}
+
+	/**
 	 * @expectedException \OC\Authentication\Exceptions\PasswordLoginForbiddenException
 	 */
 	public function testLogClientInNoTokenPasswordWith2fa() {

@@ -215,7 +215,7 @@
 
 			var permissions = OC.PERMISSION_READ;
 			if($checkbox.is(':checked')) {
-				permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ;
+				permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ | OC.PERMISSION_DELETE;
 			}
 
 			this.model.saveLinkShare({

@@ -131,10 +131,18 @@ table.nostyle td { padding: 0.2em 0; }
 	opacity: 0.6;
 }
 
+#new-app-login-name,
 #new-app-password {
 	width: 186px;
 	font-family: monospace;
 	background-color: lightyellow;
+}
+.app-password-row {
+	display: table-row;
+}
+.app-password-label {
+	display: table-cell;
+	padding-right: 1em;
 }
 
 /* USERS */
@@ -159,10 +167,6 @@ table.nostyle td { padding: 0.2em 0; }
 	top: 3px;
 	height: 32px;
 	width: 32px;
-}
-
-.ie8 #newgroup-form .icon-add {
-	height: 30px;
 }
 
 .isgroup .groupname {
@@ -280,10 +284,6 @@ input.userFilter {width: 200px;}
 #headerAvatar {
 	width: 32px;
 }
-
-
-.ie8 table.hascontrols{border-collapse:collapse;width: 100%;}
-.ie8 table.hascontrols tbody tr{border-collapse:collapse;border: 1px solid #ddd !important;}
 
 /* used to highlight a user row in red */
 #userlist tr.row-warning {

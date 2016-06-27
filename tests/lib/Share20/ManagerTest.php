@@ -1329,24 +1329,6 @@ class ManagerTest extends \Test\TestCase {
 
 	/**
 	 * @expectedException Exception
-	 * @expectedExceptionMessage Link shares can't have delete permissions
-	 */
-	public function testLinkCreateChecksDeletePermissions() {
-		$share = $this->manager->newShare();
-
-		$share->setPermissions(\OCP\Constants::PERMISSION_DELETE);
-
-		$this->config
-			->method('getAppValue')
-			->will($this->returnValueMap([
-				['core', 'shareapi_allow_links', 'yes', 'yes'],
-			]));
-
-		$this->invokePrivate($this->manager, 'linkCreateChecks', [$share]);
-	}
-
-	/**
-	 * @expectedException Exception
 	 * @expectedExceptionMessage Public upload not allowed
 	 */
 	public function testLinkCreateChecksNoPublicUpload() {
