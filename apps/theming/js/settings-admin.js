@@ -86,28 +86,34 @@ $(document).ready(function () {
 	$('#uploadlogo').fileupload(uploadParamsLogo);
 	$('#upload-login-background').fileupload(uploadParamsLogin);
 
-	$('#theming-name').keyup(function (e) {
+	$('#theming-name').change(function(e) {
+		var el = $(this);
+		$.when(el.focusout()).then(function() {
+			setThemingValue('name', $(this).val());
+		});
 		if (e.keyCode == 13) {
 			setThemingValue('name', $(this).val());
 		}
-	}).focusout(function (e) {
-		setThemingValue('name', $(this).val());
 	});
 
-	$('#theming-url').keyup(function (e) {
+	$('#theming-url').change(function(e) {
+		var el = $(this);
+		$.when(el.focusout()).then(function() {
+			setThemingValue('url', $(this).val());
+		});
 		if (e.keyCode == 13) {
 			setThemingValue('url', $(this).val());
 		}
-	}).focusout(function (e) {
-		setThemingValue('url', $(this).val());
 	});
 
-	$('#theming-slogan').keyup(function (e) {
+	$('#theming-slogan').change(function(e) {
+		var el = $(this);
+		$.when(el.focusout()).then(function() {
+			setThemingValue('slogan', $(this).val());
+		});
 		if (e.keyCode == 13) {
 			setThemingValue('slogan', $(this).val());
 		}
-	}).focusout(function (e) {
-		setThemingValue('slogan', $(this).val());
 	});
 
 	$('#theming-color').change(function (e) {
