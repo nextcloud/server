@@ -2351,22 +2351,36 @@
 		 * @param filter
 		 */
 		setFilter:function(filter) {
+			var total = 0;
 			this._filter = filter;
 			this.fileSummary.setFilter(filter, this.files);
+			total = this.fileSummary.getTotal();
 			if (!this.$el.find('.mask').exists()) {
 				this.hideIrrelevantUIWhenNoFilesMatch();
 			}
 			var that = this;
+			var visibleCount = 0;
 			filter = filter.toLowerCase();
-			this.$fileList.find('tr').each(function(i,e) {
-				var $e = $(e);
+
+			function filterRows(tr) {
+				var $e = $(tr);
 				if ($e.data('file').toString().toLowerCase().indexOf(filter) === -1) {
 					$e.addClass('hidden');
 				} else {
+					visibleCount++;
 					$e.removeClass('hidden');
 				}
-			});
-			that.$container.trigger('scroll');
+			}
+
+			var $trs = this.$fileList.find('tr');
+			do {
+				_.each($trs, filterRows);
+				if (visibleCount < total) {
+					$trs = this._nextPage(false);
+				}
+			} while (visibleCount < total);
+
+			this.$container.trigger('scroll');
 		},
 		hideIrrelevantUIWhenNoFilesMatch:function() {
 			if (this._filter && this.fileSummary.summary.totalDirs + this.fileSummary.summary.totalFiles === 0) {
