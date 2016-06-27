@@ -67,23 +67,17 @@ class AdminControllerTest extends TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->dateTimeFormatter = $this->getMock('\\OCP\\IDateTimeFormatter');
 
-		$this->adminController = $this->getMockBuilder('\OCA\UpdateNotification\Controller\AdminController')
-			->setConstructorArgs(
-				[
-					'updatenotification',
-					$this->request,
-					$this->jobList,
-					$this->secureRandom,
-					$this->config,
-					$this->timeFactory,
-					$this->l10n,
-					$this->updateChecker,
-					$this->dateTimeFormatter,
-				]
-			)
-			->setMethods(['isCompatibleWithUpdater'])
-			->getMock()
-		;
+		$this->adminController = new AdminController(
+			'updatenotification',
+			$this->request,
+			$this->jobList,
+			$this->secureRandom,
+			$this->config,
+			$this->timeFactory,
+			$this->l10n,
+			$this->updateChecker,
+			$this->dateTimeFormatter
+		);
 	}
 
 	public function testDisplayPanelWithUpdate() {
@@ -114,10 +108,6 @@ class AdminControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getUpdateState')
 			->willReturn(['updateVersion' => '8.1.2']);
-		$this->adminController
-			->expects($this->once())
-			->method('isCompatibleWithUpdater')
-			->willReturn(true);
 
 		$params = [
 			'isNewVersionAvailable' => true,
@@ -125,53 +115,6 @@ class AdminControllerTest extends TestCase {
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '8.1.2',
-			'updaterRequirementsFulfilled' => true,
-		];
-
-		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
-		$this->assertEquals($expected, $this->adminController->displayPanel());
-	}
-
-	public function testDisplayPanelWithUpdateAndIncompatibleUpdaterApp() {
-		$channels = [
-			'daily',
-			'beta',
-			'stable',
-			'production',
-		];
-		$currentChannel = \OCP\Util::getChannel();
-
-		// Remove the currently used channel from the channels list
-		if(($key = array_search($currentChannel, $channels)) !== false) {
-			unset($channels[$key]);
-		}
-
-		$this->config
-			->expects($this->once())
-			->method('getAppValue')
-			->with('core', 'lastupdatedat')
-			->willReturn('12345');
-		$this->dateTimeFormatter
-			->expects($this->once())
-			->method('formatDateTime')
-			->with('12345')
-			->willReturn('LastCheckedReturnValue');
-		$this->updateChecker
-			->expects($this->once())
-			->method('getUpdateState')
-			->willReturn(['updateVersion' => '8.1.2']);
-		$this->adminController
-			->expects($this->once())
-			->method('isCompatibleWithUpdater')
-			->willReturn(false);
-
-		$params = [
-			'isNewVersionAvailable' => true,
-			'lastChecked' => 'LastCheckedReturnValue',
-			'currentChannel' => \OCP\Util::getChannel(),
-			'channels' => $channels,
-			'newVersionString' => '8.1.2',
-			'updaterRequirementsFulfilled' => false,
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
@@ -206,10 +149,6 @@ class AdminControllerTest extends TestCase {
 			->expects($this->once())
 			->method('getUpdateState')
 			->willReturn([]);
-		$this->adminController
-			->expects($this->once())
-			->method('isCompatibleWithUpdater')
-			->willReturn(true);
 
 		$params = [
 			'isNewVersionAvailable' => false,
@@ -217,7 +156,6 @@ class AdminControllerTest extends TestCase {
 			'currentChannel' => \OCP\Util::getChannel(),
 			'channels' => $channels,
 			'newVersionString' => '',
-			'updaterRequirementsFulfilled' => true,
 		];
 
 		$expected = new TemplateResponse('updatenotification', 'admin', $params, '');
