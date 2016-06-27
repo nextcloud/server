@@ -26,25 +26,48 @@ namespace OCA\Files_External\Controller;
 
 use OCA\Files_External\Lib\Auth\Password\GlobalAuth;
 use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\Response;
+use OCP\IGroupManager;
 use OCP\IRequest;
 use OCP\AppFramework\Http\JSONResponse;
 use OCA\Files_External\Lib\Auth\PublicKey\RSA;
+use OCP\IUserSession;
 
 class AjaxController extends Controller {
 	/** @var RSA */
 	private $rsaMechanism;
 	/** @var GlobalAuth  */
 	private $globalAuth;
+	/** @var IUserSession */
+	private $userSession;
+	/** @var IGroupManager */
+	private $groupManager;
 
+	/**
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param RSA $rsaMechanism
+	 * @param GlobalAuth $globalAuth
+	 * @param IUserSession $userSession
+	 * @param IGroupManager $groupManager
+	 */
 	public function __construct($appName,
 								IRequest $request,
 								RSA $rsaMechanism,
-								GlobalAuth $globalAuth) {
+								GlobalAuth $globalAuth,
+								IUserSession $userSession,
+								IGroupManager $groupManager) {
 		parent::__construct($appName, $request);
 		$this->rsaMechanism = $rsaMechanism;
 		$this->globalAuth = $globalAuth;
+		$this->userSession = $userSession;
+		$this->groupManager = $groupManager;
 	}
 
+	/**
+	 * @return array
+	 */
 	private function generateSshKeys() {
 		$key = $this->rsaMechanism->createKey();
 		// Replace the placeholder label with a more meaningful one
@@ -70,13 +93,26 @@ class AjaxController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
 	 * @param string $uid
 	 * @param string $user
 	 * @param string $password
 	 * @return bool
 	 */
 	public function saveGlobalCredentials($uid, $user, $password) {
-		$this->globalAuth->saveAuth($uid, $user, $password);
-		return true;
+		$currentUser = $this->userSession->getUser();
+
+		// Non-admins can only edit their own credentials
+		$allowedToEdit = (
+			$this->groupManager->isAdmin($currentUser->getUID()) || $currentUser->getUID() === $uid
+		) ? true : false;
+
+		if ($allowedToEdit) {
+			$this->globalAuth->saveAuth($uid, $user, $password);
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
