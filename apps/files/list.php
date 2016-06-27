@@ -20,9 +20,6 @@
  *
  */
 
-// Check if we are a user
-OCP\User::checkLoggedIn();
-
 $config = \OC::$server->getConfig();
 // TODO: move this to the generated config.js
 $publicUploadEnabled = $config->getAppValue('core', 'shareapi_allow_public_upload', 'yes');
