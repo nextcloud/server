@@ -89,6 +89,11 @@ class Template extends \OC_Defaults {
 		return $this->config->getAppValue('theming', 'slogan', $this->slogan);
 	}
 
+	/**
+	 * Color that is used for the header as well as for mail headers
+	 *
+	 * @return string
+	 */
 	public function getMailHeaderColor() {
 		return $this->config->getAppValue('theming', 'color', $this->color);
 	}
