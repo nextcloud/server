@@ -257,7 +257,13 @@ class ApiTest extends TestCase {
 		$this->assertTrue($result->succeeded());
 
 		$data = $result->getData();
-		$this->assertEquals(7, $data['permissions']);
+		$this->assertEquals(
+			\OCP\Constants::PERMISSION_READ |
+			\OCP\Constants::PERMISSION_CREATE |
+			\OCP\Constants::PERMISSION_UPDATE |
+			\OCP\Constants::PERMISSION_DELETE,
+			$data['permissions']
+		);
 		$this->assertEmpty($data['expiration']);
 		$this->assertTrue(is_string($data['token']));
 
@@ -1081,7 +1087,13 @@ class ApiTest extends TestCase {
 		$this->assertTrue($result->succeeded());
 
 		$share1 = $this->shareManager->getShareById($share1->getFullId());
-		$this->assertEquals(7, $share1->getPermissions());
+		$this->assertEquals(
+			\OCP\Constants::PERMISSION_READ |
+			\OCP\Constants::PERMISSION_CREATE |
+			\OCP\Constants::PERMISSION_UPDATE |
+			\OCP\Constants::PERMISSION_DELETE,
+			$share1->getPermissions()
+		);
 
 		// cleanup
 		$this->shareManager->deleteShare($share1);
