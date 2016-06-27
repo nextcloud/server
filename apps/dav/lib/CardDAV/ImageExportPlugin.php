@@ -108,8 +108,18 @@ class ImageExportPlugin extends ServerPlugin {
 			$photo = $vObject->PHOTO;
 			$type = $this->getType($photo);
 
-			$valType = $photo->getValueType();
-			$val = ($valType === 'URI' ? $photo->getRawMimeDirValue() : $photo->getValue());
+			$val = $photo->getValue();
+			if ($photo->getValueType() === 'URI') {
+				$parsed = \Sabre\URI\parse($val);
+				//only allow data://
+				if ($parsed['scheme'] !== 'data') {
+					return false;
+				}
+				if (substr_count($parsed['path'], ';') === 1) {
+					list($type,) = explode(';', $parsed['path']);
+				}
+				$val = file_get_contents($val);
+			}
 			return [
 				'Content-Type' => $type,
 				'body' => $val
