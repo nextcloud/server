@@ -51,6 +51,8 @@
 namespace OC\User;
 
 use OC\Cache\CappedMemoryCache;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
@@ -58,12 +60,14 @@ use OC\Cache\CappedMemoryCache;
 class Database extends \OC\User\Backend implements \OCP\IUserBackend {
 	/** @var CappedMemoryCache */
 	private $cache;
-
+	/** @var EventDispatcher */
+	private $eventDispatcher;
 	/**
 	 * OC_User_Database constructor.
 	 */
-	public function __construct() {
+	public function __construct($eventDispatcher = null) {
 		$this->cache = new CappedMemoryCache();
+		$this->eventDispatcher = $eventDispatcher ? $eventDispatcher : \OC::$server->getEventDispatcher();
 	}
 
 	/**
@@ -115,6 +119,8 @@ class Database extends \OC\User\Backend implements \OCP\IUserBackend {
 	 */
 	public function setPassword($uid, $password) {
 		if ($this->userExists($uid)) {
+			$event = new GenericEvent($password);
+			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?');
 			$result = $query->execute(array(\OC::$server->getHasher()->hash($password), $uid));
 
