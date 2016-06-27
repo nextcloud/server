@@ -27,8 +27,6 @@
  *
  */
 
-OC_Util::checkAdminUser();
-
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
