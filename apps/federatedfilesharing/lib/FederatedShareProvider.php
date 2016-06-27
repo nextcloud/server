@@ -240,6 +240,7 @@ class FederatedShareProvider implements IShareProvider {
 				throw new \Exception($message_t);
 			}
 		} catch (\Exception $e) {
+			$this->logger->error('Failed to notify remote server of federated share, removing share (' . $e->getMessage() . ')');
 			$this->removeShareFromTableById($shareId);
 			throw $e;
 		}
