@@ -192,6 +192,7 @@ $(document).ready(function () {
 		$('#pass2').showPassword().keyup();
 	}
 	$("#passwordbutton").click(function () {
+		OC.msg.startSaving('#password-error-msg');
 		var isIE8or9 = $('html').hasClass('lte9');
 		// FIXME - TODO - once support for IE8 and IE9 is dropped
 		// for IE8 and IE9 this will check additionally if the typed in password
@@ -208,25 +209,32 @@ $(document).ready(function () {
 				if (data.status === "success") {
 					$('#pass1').val('');
 					$('#pass2').val('').change();
-					// Hide a possible errormsg and show successmsg
-					$('#password-changed').removeClass('hidden').addClass('inlineblock');
-					$('#password-error').removeClass('inlineblock').addClass('hidden');
+					OC.msg.finishedSaving('#password-error-msg', data);
 				} else {
 					if (typeof(data.data) !== "undefined") {
-						$('#password-error').text(data.data.message);
+						OC.msg.finishedSaving('#password-error-msg', data);
 					} else {
-						$('#password-error').text(t('Unable to change password'));
+						OC.msg.finishedSaving('#password-error-msg',
+							{
+								'status' : 'error',
+								'data' : {
+									'message' : t('core', 'Unable to change password')
+								}
+							}
+						);
 					}
-					// Hide a possible successmsg and show errormsg
-					$('#password-changed').removeClass('inlineblock').addClass('hidden');
-					$('#password-error').removeClass('hidden').addClass('inlineblock');
 				}
 			});
 			return false;
 		} else {
-			// Hide a possible successmsg and show errormsg
-			$('#password-changed').removeClass('inlineblock').addClass('hidden');
-			$('#password-error').removeClass('hidden').addClass('inlineblock');
+			OC.msg.finishedSaving('#password-error-msg',
+				{
+					'status' : 'error',
+					'data' : {
+						'message' : t('core', 'Unable to change password')
+					}
+				}
+			);
 			return false;
 		}
 

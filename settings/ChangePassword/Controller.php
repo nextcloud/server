@@ -30,6 +30,8 @@
  */
 namespace OC\Settings\ChangePassword;
 
+use OC\HintException;
+
 class Controller {
 	public static function changePersonalPassword($args) {
 		// Check if we are an user
@@ -39,17 +41,22 @@ class Controller {
 		$username = \OC_User::getUser();
 		$password = isset($_POST['personal-password']) ? $_POST['personal-password'] : null;
 		$oldPassword = isset($_POST['oldpassword']) ? $_POST['oldpassword'] : '';
+		$l = new \OC_L10n('settings');
 
 		if (!\OC_User::checkPassword($username, $oldPassword)) {
-			$l = new \OC_L10n('settings');
 			\OC_JSON::error(array("data" => array("message" => $l->t("Wrong password")) ));
 			exit();
 		}
-		if (!is_null($password) && \OC_User::setPassword($username, $password)) {
-			\OC::$server->getUserSession()->updateSessionTokenPassword($password);
-			\OC_JSON::success();
-		} else {
-			\OC_JSON::error();
+
+		try {
+			if (!is_null($password) && \OC_User::setPassword($username, $password)) {
+				\OC::$server->getUserSession()->updateSessionTokenPassword($password);
+				\OC_JSON::success(['data' => ['message' => $l->t('Saved')]]);
+			} else {
+				\OC_JSON::error();
+			}
+		} catch (HintException $e) {
+			\OC_JSON::error(['data' => ['message' => $e->getHint()]]);
 		}
 	}
 
@@ -150,10 +157,14 @@ class Controller {
 
 			}
 		} else { // if encryption is disabled, proceed
-			if (!is_null($password) && \OC_User::setPassword($username, $password)) {
-				\OC_JSON::success(array('data' => array('username' => $username)));
-			} else {
-				\OC_JSON::error(array('data' => array('message' => $l->t('Unable to change password'))));
+			try {
+				if (!is_null($password) && \OC_User::setPassword($username, $password)) {
+					\OC_JSON::success(array('data' => array('username' => $username)));
+				} else {
+					\OC_JSON::error(array('data' => array('message' => $l->t('Unable to change password'))));
+				}
+			} catch (HintException $e) {
+				\OC_JSON::error(array('data' => array('message' => $e->getHint())));
 			}
 		}
 	}
