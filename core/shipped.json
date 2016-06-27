@@ -32,6 +32,7 @@
     "systemtags",
     "systemtags_management",
     "templateeditor",
+    "theming",
     "updatenotification",
     "user_external",
     "user_ldap",
