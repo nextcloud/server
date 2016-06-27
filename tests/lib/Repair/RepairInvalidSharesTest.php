@@ -124,6 +124,93 @@ class RepairInvalidSharesTest extends TestCase {
 	}
 
 	/**
+	 * Test remove expiration date for non-link shares
+	 */
+	public function testAddShareLinkDeletePermission() {
+		$oldPerms = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE;
+		$newPerms = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
+
+		// share with old permissions
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_LINK),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'item_type' => $qb->expr()->literal('folder'),
+				'item_source' => $qb->expr()->literal(123),
+				'item_target' => $qb->expr()->literal('/123'),
+				'file_source' => $qb->expr()->literal(123),
+				'file_target' => $qb->expr()->literal('/test'),
+				'permissions' => $qb->expr()->literal($oldPerms),
+				'stime' => $qb->expr()->literal(time()),
+			])
+			->execute();
+
+		$bogusShareId = $this->getLastShareId();
+
+		// share with read-only permissions
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_LINK),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'item_type' => $qb->expr()->literal('folder'),
+				'item_source' => $qb->expr()->literal(123),
+				'item_target' => $qb->expr()->literal('/123'),
+				'file_source' => $qb->expr()->literal(123),
+				'file_target' => $qb->expr()->literal('/test'),
+				'permissions' => $qb->expr()->literal(\OCP\Constants::PERMISSION_READ),
+				'stime' => $qb->expr()->literal(time()),
+			])
+			->execute();
+
+		$keepThisShareId = $this->getLastShareId();
+
+		// user share to keep
+		$qb = $this->connection->getQueryBuilder();
+		$qb->insert('share')
+			->values([
+				'share_type' => $qb->expr()->literal(Constants::SHARE_TYPE_USER),
+				'share_with' => $qb->expr()->literal('recipientuser1'),
+				'uid_owner' => $qb->expr()->literal('user1'),
+				'item_type' => $qb->expr()->literal('folder'),
+				'item_source' => $qb->expr()->literal(123),
+				'item_target' => $qb->expr()->literal('/123'),
+				'file_source' => $qb->expr()->literal(123),
+				'file_target' => $qb->expr()->literal('/test'),
+				'permissions' => $qb->expr()->literal(3),
+				'stime' => $qb->expr()->literal(time()),
+			])
+			->execute();
+
+		$keepThisShareId2 = $this->getLastShareId();
+
+		/** @var IOutput | \PHPUnit_Framework_MockObject_MockObject $outputMock */
+		$outputMock = $this->getMockBuilder('\OCP\Migration\IOutput')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->repair->run($outputMock);
+
+		$results = $this->connection->getQueryBuilder()
+			->select('*')
+			->from('share')
+			->orderBy('permissions', 'ASC')
+			->execute()
+			->fetchAll();
+
+		$this->assertCount(3, $results);
+
+		$untouchedShare = $results[0];
+		$untouchedShare2 = $results[1];
+		$updatedShare = $results[2];
+		$this->assertEquals($keepThisShareId, $untouchedShare['id'], 'sanity check');
+		$this->assertEquals($keepThisShareId2, $untouchedShare2['id'], 'sanity check');
+		$this->assertEquals($bogusShareId, $updatedShare['id'], 'sanity check');
+		$this->assertEquals($newPerms, $updatedShare['permissions'], 'delete permission was added');
+	}
+
+	/**
 	 * Test remove shares where the parent share does not exist anymore
 	 */
 	public function testSharesNonExistingParent() {

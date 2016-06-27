@@ -118,6 +118,7 @@ class AuthSettingsController extends Controller {
 
 		return [
 			'token' => $token,
+			'loginName' => $loginName,
 			'deviceToken' => $deviceToken
 		];
 	}

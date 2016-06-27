@@ -20,14 +20,14 @@
  *
  */
 
-(function(OC, Backbone) {
+(function(OC) {
 	'use strict';
 
 	OC.Settings = OC.Settings || {};
 
-	var AuthToken = Backbone.Model.extend({
+	var AuthToken = OC.Backbone.Model.extend({
 	});
 
 	OC.Settings.AuthToken = AuthToken;
 
-})(OC, Backbone);
+})(OC);

@@ -1,4 +1,4 @@
-/* global Backbone, Handlebars, moment */
+/* global Handlebars, moment */
 
 /**
  * @author Christoph Wurst <christoph@owncloud.com>
@@ -20,7 +20,7 @@
  *
  */
 
-(function(OC, _, Backbone, $, Handlebars, moment) {
+(function(OC, _, $, Handlebars, moment) {
 	'use strict';
 
 	OC.Settings = OC.Settings || {};
@@ -32,7 +32,7 @@
 		+ '<td><a class="icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '"></a></td>'
 		+ '<tr>';
 
-	var SubView = Backbone.View.extend({
+	var SubView = OC.Backbone.View.extend({
 		collection: null,
 
 		/**
@@ -94,7 +94,7 @@
 		}
 	});
 
-	var AuthTokenView = Backbone.View.extend({
+	var AuthTokenView = OC.Backbone.View.extend({
 		collection: null,
 
 		_views: [],
@@ -106,6 +106,8 @@
 		_addAppPasswordBtn: undefined,
 
 		_result: undefined,
+
+		_newAppLoginName: undefined,
 
 		_newAppPassword: undefined,
 
@@ -136,6 +138,8 @@
 			this._addAppPasswordBtn.click(_.bind(this._addAppPassword, this));
 
 			this._result = $('#app-password-result');
+			this._newAppLoginName = $('#new-app-login-name');
+			this._newAppLoginName.on('focus', _.bind(this._onNewTokenLoginNameFocus, this));
 			this._newAppPassword = $('#new-app-password');
 			this._newAppPassword.on('focus', _.bind(this._onNewTokenFocus, this));
 			this._hideAppPasswordBtn = $('#app-password-hide');
@@ -181,6 +185,7 @@
 			$.when(creatingToken).done(function(resp) {
 				_this.collection.add(resp.deviceToken);
 				_this.render();
+				_this._newAppLoginName.val(resp.loginName);
 				_this._newAppPassword.val(resp.token);
 				_this._toggleFormResult(false);
 				_this._newAppPassword.select();
@@ -192,6 +197,10 @@
 			$.when(creatingToken).always(function() {
 				_this._toggleAddingToken(false);
 			});
+		},
+
+		_onNewTokenLoginNameFocus: function() {
+			this._newAppLoginName.select();
 		},
 
 		_onNewTokenFocus: function() {
@@ -220,6 +229,8 @@
 
 			var destroyingToken = token.destroy();
 
+			$row.find('.icon-delete').tooltip('hide');
+
 			var _this = this;
 			$.when(destroyingToken).fail(function() {
 				OC.Notification.showTemporary(t('core', 'Error while deleting the token'));
@@ -237,4 +248,4 @@
 
 	OC.Settings.AuthTokenView = AuthTokenView;
 
-})(OC, _, Backbone, $, Handlebars, moment);
+})(OC, _, $, Handlebars, moment);
