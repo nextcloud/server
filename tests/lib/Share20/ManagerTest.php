@@ -20,6 +20,7 @@
  */
 namespace Test\Share20;
 
+use OC\HintException;
 use OCP\Files\IRootFolder;
 use OCP\IUserManager;
 use OCP\Share\Exceptions\ShareNotFound;
@@ -38,6 +39,7 @@ use OCP\Security\IHasher;
 use OCP\Files\Mount\IMountManager;
 use OCP\IGroupManager;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class ManagerTest
@@ -549,16 +551,12 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]));
 
-		$hookListner = $this->getMockBuilder('Dummy')->setMethods(['listner'])->getMock();
-		\OCP\Util::connectHook('\OC\Share', 'verifyPassword', $hookListner, 'listner');
-
-		$hookListner->expects($this->once())
-			->method('listner')
-			->with([
-				'password' => 'password',
-				'accepted' => true,
-				'message' => ''
-			]);
+		$this->eventDispatcher->expects($this->once())->method('dispatch')
+			->willReturnCallback(function($eventName, GenericEvent $event) {
+				$this->assertSame('OCP\PasswordPolicy::validate', $eventName);
+				$this->assertSame('password', $event->getSubject());
+			}
+			);
 
 		$result = $this->invokePrivate($this->manager, 'verifyPassword', ['password']);
 		$this->assertNull($result);
@@ -573,8 +571,14 @@ class ManagerTest extends \Test\TestCase {
 				['core', 'shareapi_enforce_links_password', 'no', 'no'],
 		]));
 
-		$dummy = new DummyPassword();
-		\OCP\Util::connectHook('\OC\Share', 'verifyPassword', $dummy, 'listner');
+		$this->eventDispatcher->expects($this->once())->method('dispatch')
+			->willReturnCallback(function($eventName, GenericEvent $event) {
+				$this->assertSame('OCP\PasswordPolicy::validate', $eventName);
+				$this->assertSame('password', $event->getSubject());
+				throw new HintException('message', 'password not accepted');
+			}
+			);
+
 		$this->invokePrivate($this->manager, 'verifyPassword', ['password']);
 	}
 
@@ -2536,13 +2540,6 @@ class ManagerTest extends \Test\TestCase {
 		$this->defaultProvider->method('move')->with($share, 'recipient')->will($this->returnArgument(0));
 
 		$this->manager->moveShare($share, 'recipient');
-	}
-}
-
-class DummyPassword {
-	public function listner($array) {
-		$array['accepted'] = false;
-		$array['message'] = 'password not accepted';
 	}
 }
 

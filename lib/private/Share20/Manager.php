@@ -145,24 +145,12 @@ class Manager implements IManager {
 			return;
 		}
 
+		// Let others verify the password
 		try {
 			$event = new GenericEvent($password);
 			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
 		} catch (HintException $e) {
 			throw new \Exception($e->getHint());
-		}
-
-		// Let others verify the password
-		$accepted = true;
-		$message = '';
-		\OCP\Util::emitHook('\OC\Share', 'verifyPassword', [
-				'password' => $password,
-				'accepted' => &$accepted,
-				'message' => &$message
-		]);
-
-		if (!$accepted) {
-			throw new \Exception($message);
 		}
 	}
 
