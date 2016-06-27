@@ -280,7 +280,7 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function login($uid, $password) {
 		$this->session->regenerateId();
-		if ($this->validateToken($password)) {
+		if ($this->validateToken($password, $uid)) {
 			// When logging in with token, the password must be decrypted first before passing to login hook
 			try {
 				$token = $this->tokenProvider->getToken($password);
@@ -584,12 +584,21 @@ class Session implements IUserSession, Emitter {
 	 * Invalidates the token if checks fail
 	 *
 	 * @param string $token
+	 * @param string $user login name
 	 * @return boolean
 	 */
-	private function validateToken($token) {
+	private function validateToken($token, $user = null) {
 		try {
 			$dbToken = $this->tokenProvider->getToken($token);
 		} catch (InvalidTokenException $ex) {
+			return false;
+		}
+
+		// Check if login names match
+		if (!is_null($user) && $dbToken->getLoginName() !== $user) {
+			// TODO: this makes it imposssible to use different login names on browser and client
+			// e.g. login by e-mail 'user@example.com' on browser for generating the token will not
+			//      allow to use the client token with the login name 'user'.
 			return false;
 		}
 
