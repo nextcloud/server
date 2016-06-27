@@ -61,7 +61,7 @@ Feature: sharing
     And the HTTP status code should be "200"
     And Share fields of last share match with
       | id | A_NUMBER |
-      | permissions | 7 |
+      | permissions | 15 |
       | expiration | +3 days |
       | url | AN_URL |
       | token | A_TOKEN |
@@ -159,7 +159,7 @@ Feature: sharing
       | share_type | 3 |
       | file_source | A_NUMBER |
       | file_target | /FOLDER |
-      | permissions | 7 |
+      | permissions | 15 |
       | stime | A_NUMBER |
       | token | A_TOKEN |
       | storage | A_NUMBER |
@@ -189,7 +189,7 @@ Feature: sharing
       | share_type | 3 |
       | file_source | A_NUMBER |
       | file_target | /FOLDER |
-      | permissions | 7 |
+      | permissions | 15 |
       | stime | A_NUMBER |
       | token | A_TOKEN |
       | storage | A_NUMBER |
