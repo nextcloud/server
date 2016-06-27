@@ -107,7 +107,11 @@ class DAV extends Common {
 			}
 			if ($this->secure === true) {
 				// inject mock for testing
-				$certPath = \OC_User::getHome(\OC_User::getUser()) . '/files_external/rootcerts.crt';
+				$certManager = \OC::$server->getCertificateManager();
+				if (is_null($certManager)) { //no user
+					$certManager = \OC::$server->getCertificateManager(null);
+				}
+				$certPath = $certManager->getAbsoluteBundlePath();
 				if (file_exists($certPath)) {
 					$this->certPath = $certPath;
 				}
@@ -812,6 +816,7 @@ class DAV extends Common {
 	 * which might be temporary
 	 */
 	private function convertException(Exception $e, $path = '') {
+		\OC::$server->getLogger()->logException($e);
 		Util::writeLog('files_external', $e->getMessage(), Util::ERROR);
 		if ($e instanceof ClientHttpException) {
 			if ($e->getHttpStatus() === Http::STATUS_LOCKED) {
