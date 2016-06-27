@@ -24,6 +24,7 @@ use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Template;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -40,6 +41,8 @@ class ThemingControllerTest extends TestCase {
 	private $l10n;
 	/** @var ThemingController */
 	private $themingController;
+	/** @var IRootFolder */
+	private $rootFolder;
 
 	public function setUp() {
 		$this->request = $this->getMock('\\OCP\\IRequest');
@@ -47,12 +50,15 @@ class ThemingControllerTest extends TestCase {
 		$this->template = $this->getMockBuilder('\\OCA\\Theming\\Template')
 			->disableOriginalConstructor()->getMock();
 		$this->l10n = $this->getMock('\\OCP\\IL10N');
+		$this->rootFolder = $this->getMock('\\OCP\\Files\\IRootFolder');
+
 		$this->themingController = new ThemingController(
 			'theming',
 			$this->request,
 			$this->config,
 			$this->template,
-			$this->l10n
+			$this->l10n,
+			$this->rootFolder
 		);
 
 		return parent::setUp();
@@ -130,16 +136,24 @@ class ThemingControllerTest extends TestCase {
 			->method('getUploadedFile')
 			->with('upload-login-background')
 			->willReturn(null);
-		$this->config
-			->expects($this->at(0))
-			->method('getSystemValue')
-			->with('datadirectory', \OC::$SERVERROOT . '/data')
-			->willReturn($destination);
 		$this->l10n
 			->expects($this->once())
 			->method('t')
 			->with('Saved')
 			->willReturn('Saved');
+		$file = $this->getMockBuilder('\\OCP\\Files\\File')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->rootFolder
+			->expects($this->once())
+			->method('newFile')
+			->with('themedinstancelogo')
+			->willReturn($file);
+		$file
+			->expects($this->once())
+			->method('fopen')
+			->with('w')
+			->willReturn(fopen($destination . '/themedinstancelogo', 'w'));
 
 		$expected = new DataResponse(
 			[
@@ -174,16 +188,25 @@ class ThemingControllerTest extends TestCase {
 				'type' => 'text/svg',
 				'name' => 'logo.svg',
 			]);
-		$this->config
-			->expects($this->at(0))
-			->method('getSystemValue')
-			->with('datadirectory', \OC::$SERVERROOT . '/data')
-			->willReturn($destination);
 		$this->l10n
 			->expects($this->once())
 			->method('t')
 			->with('Saved')
 			->willReturn('Saved');
+		$file = $this->getMockBuilder('\\OCP\\Files\\File')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->rootFolder
+			->expects($this->once())
+			->method('newFile')
+			->with('themedbackgroundlogo')
+			->willReturn($file);
+		$file
+			->expects($this->once())
+			->method('fopen')
+			->with('w')
+			->willReturn(fopen($destination . '/themedbackgroundlogo', 'w'));
+
 
 		$expected = new DataResponse(
 			[

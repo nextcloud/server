@@ -26,6 +26,7 @@ use OCA\Theming\Template;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
@@ -44,6 +45,8 @@ class ThemingController extends Controller {
 	private $l;
 	/** @var IConfig */
 	private $config;
+	/** @var IRootFolder */
+	private $rootFolder;
 
 	/**
 	 * ThemingController constructor.
@@ -53,19 +56,22 @@ class ThemingController extends Controller {
 	 * @param IConfig $config
 	 * @param Template $template
 	 * @param IL10N $l
+	 * @param IRootFolder $rootFolder
 	 */
 	public function __construct(
 		$appName,
 		IRequest $request,
 		IConfig $config,
 		Template $template,
-		IL10N $l
+		IL10N $l,
+		IRootFolder $rootFolder
 	) {
 		parent::__construct($appName, $request);
 		
 		$this->template = $template;
 		$this->l = $l;
 		$this->config = $config;
+		$this->rootFolder = $rootFolder;
 	}
 
 	/**
@@ -106,12 +112,14 @@ class ThemingController extends Controller {
 		}
 		$name = '';
 		if(!empty($newLogo)) {
-			rename($newLogo['tmp_name'], $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/themedinstancelogo');
+			$target = $this->rootFolder->newFile('themedinstancelogo');
+			stream_copy_to_stream(fopen($newLogo['tmp_name'], 'r'), $target->fopen('w'));
 			$this->template->set('logoMime', $newLogo['type']);
 			$name = $newLogo['name'];
 		}
 		if(!empty($newBackgroundLogo)) {
-			rename($newBackgroundLogo['tmp_name'], $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data') . '/themedbackgroundlogo');
+			$target = $this->rootFolder->newFile('themedbackgroundlogo');
+			stream_copy_to_stream(fopen($newBackgroundLogo['tmp_name'], 'r'), $target->fopen('w'));
 			$this->template->set('backgroundMime', $newBackgroundLogo['type']);
 			$name = $newBackgroundLogo['name'];
 		}
