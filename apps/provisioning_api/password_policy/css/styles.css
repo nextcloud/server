@@ -1,0 +1,19 @@
+/**
+ * @author Jan-Christoph Borchardt http://jancborchardt.net
+ *
+ * @copyright Copyright (c) 2015, ownCloud, Inc.
+ *
+ * This code is covered by the ownCloud Commercial License.
+ *
+ * You should have received a copy of the ownCloud Commercial License
+ * along with this program. If not, see <https://owncloud.com/licenses/owncloud-commercial/>.
+ *
+ */
+
+#password-policy input[type='number'] {
+  width: 30px;
+}
+
+#password_policy .indented {
+  margin-left: 24px;
+}

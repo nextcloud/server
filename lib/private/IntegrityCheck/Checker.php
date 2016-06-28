@@ -108,7 +108,11 @@ class Checker {
 		 * applicable for very specific scenarios and we should not advertise it
 		 * too prominent. So please do not add it to config.sample.php.
 		 */
-		$isIntegrityCheckDisabled = $this->config->getSystemValue('integrity.check.disabled', false);
+		if ($this->config !== null) {
+			$isIntegrityCheckDisabled = $this->config->getSystemValue('integrity.check.disabled', false);
+		} else {
+			$isIntegrityCheckDisabled = false;
+		}
 		if($isIntegrityCheckDisabled === true) {
 			return false;
 		}
@@ -401,7 +405,10 @@ class Checker {
 			return json_decode($cachedResults, true);
 		}
 
-		return json_decode($this->config->getAppValue('core', self::CACHE_KEY, '{}'), true);
+		if ($this->config !== null) {
+			return json_decode($this->config->getAppValue('core', self::CACHE_KEY, '{}'), true);
+		}
+		return [];
 	}
 
 	/**
@@ -416,7 +423,9 @@ class Checker {
 		if(!empty($result)) {
 			$resultArray[$scope] = $result;
 		}
-		$this->config->setAppValue('core', self::CACHE_KEY, json_encode($resultArray));
+		if ($this->config !== null) {
+			$this->config->setAppValue('core', self::CACHE_KEY, json_encode($resultArray));
+		}
 		$this->cache->set(self::CACHE_KEY, json_encode($resultArray));
 	}
 

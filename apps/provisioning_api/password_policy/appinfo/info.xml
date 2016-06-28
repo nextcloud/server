@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<info>
+	<id>password_policy</id>
+	<name>Password policy</name>
+	<licence>Commercial</licence>
+	<author>ownCloud Inc.</author>
+	<description>Allows administrators to set a password policy like minimum characters, numbers, etc.</description>
+	<shipped>true</shipped>
+	<dependencies>
+		<owncloud min-version="8.1.1" max-version="9.0" />
+		<php min-version="5.4" />
+	</dependencies>
+</info>

@@ -354,7 +354,8 @@ class Share20OCS {
 				$share->setPermissions(
 					\OCP\Constants::PERMISSION_READ |
 					\OCP\Constants::PERMISSION_CREATE |
-					\OCP\Constants::PERMISSION_UPDATE
+					\OCP\Constants::PERMISSION_UPDATE |
+					\OCP\Constants::PERMISSION_DELETE
 				);
 			} else {
 				$share->setPermissions(\OCP\Constants::PERMISSION_READ);
@@ -591,7 +592,7 @@ class Share20OCS {
 
 			$newPermissions = null;
 			if ($publicUpload === 'true') {
-				$newPermissions = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE;
+				$newPermissions = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
 			} else if ($publicUpload === 'false') {
 				$newPermissions = \OCP\Constants::PERMISSION_READ;
 			}
@@ -602,13 +603,21 @@ class Share20OCS {
 
 			if ($newPermissions !== null &&
 				$newPermissions !== \OCP\Constants::PERMISSION_READ &&
-				$newPermissions !== (\OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE) &&
-				$newPermissions !== (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE)) {
+				// legacy
+				$newPermissions !== (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE) &&
+				// correct
+				$newPermissions !== (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE)
+			) {
 				$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 				return new \OC_OCS_Result(null, 400, $this->l->t('Can\'t change permissions for public share links'));
 			}
 
-			if ($newPermissions === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE)) {
+			if (
+				// legacy
+				$newPermissions === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE) ||
+				// correct
+				$newPermissions === (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE)
+			) {
 				if (!$this->shareManager->shareApiLinkAllowPublicUpload()) {
 					$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 					return new \OC_OCS_Result(null, 403, $this->l->t('Public upload disabled by the administrator'));
@@ -618,6 +627,9 @@ class Share20OCS {
 					$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 					return new \OC_OCS_Result(null, 400, $this->l->t('Public upload is only possible for publicly shared folders'));
 				}
+
+				// normalize to correct public upload permissions
+				$newPermissions = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
 			}
 
 			if ($newPermissions !== null) {

@@ -52,6 +52,10 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 		$backendService->registerBackendProvider($this);
 		$backendService->registerAuthMechanismProvider($this);
 
+		// force-load auth mechanisms since some will register hooks
+		// TODO: obsolete these and use the TokenProvider to get the user's password from the session
+		$this->getAuthMechanisms();
+
 		// app developers: do NOT depend on this! it will disappear with oC 9.0!
 		\OC::$server->getEventDispatcher()->dispatch(
 			'OCA\\Files_External::loadAdditionalBackends'

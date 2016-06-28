@@ -72,6 +72,25 @@ class RepairInvalidShares implements IRepairStep {
 	}
 
 	/**
+	 * In the past link shares with public upload enabled were missing the delete permission.
+	 */
+	private function addShareLinkDeletePermission(IOutput $out) {
+		$oldPerms = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE;
+		$newPerms = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
+		$builder = $this->connection->getQueryBuilder();
+		$builder
+			->update('share')
+			->set('permissions', $builder->expr()->literal($newPerms))
+			->where($builder->expr()->eq('share_type', $builder->expr()->literal(\OC\Share\Constants::SHARE_TYPE_LINK)))
+			->andWhere($builder->expr()->eq('permissions', $builder->expr()->literal($oldPerms)));
+
+		$updatedEntries = $builder->execute();
+		if ($updatedEntries > 0) {
+			$out->info('Fixed link share permissions for ' . $updatedEntries . ' shares');
+		}
+	}
+
+	/**
 	 * Remove shares where the parent share does not exist anymore
 	 */
 	private function removeSharesNonExistingParent(IOutput $out) {
@@ -112,6 +131,10 @@ class RepairInvalidShares implements IRepairStep {
 		if (version_compare($ocVersionFromBeforeUpdate, '8.2.0.7', '<')) {
 			// this situation was only possible before 8.2
 			$this->removeExpirationDateFromNonLinkShares($out);
+		}
+		if (version_compare($ocVersionFromBeforeUpdate, '9.1.0.9', '<')) {
+			// this situation was only possible before 9.1
+			$this->addShareLinkDeletePermission($out);
 		}
 
 		$this->removeSharesNonExistingParent($out);
