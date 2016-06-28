@@ -162,7 +162,6 @@
 		text-overflow: ellipsis;
 		overflow: hidden;
 		display: inline-block;
-		width: 201px; /* fallback for IE8 */
 		width: calc(100% - 49px);
 		line-height: 44px;
 		float: left;
@@ -309,12 +308,6 @@
 .edge #app-navigation .app-navigation-entry-menu:after {
 	border: 1px solid #eee;
 }
-.ie8 .bubble {
-	margin-top: 18px;
-}
-.ie8 .bubble:after {
-	display: none;
-}
 /* miraculous border arrow stuff */
 .bubble:after,
 #app-navigation .app-navigation-entry-menu:after {
@@ -392,7 +385,6 @@
 	#app-navigation .app-navigation-entry-edit input {
 		border-bottom-right-radius: 0;
 		border-top-right-radius: 0;
-		width: 204px; /* fallback for IE8 */
 		width: calc(100% - 36px);
 		padding: 5px;
 		margin-right: 0;

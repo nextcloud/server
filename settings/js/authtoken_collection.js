@@ -20,12 +20,12 @@
  *
  */
 
-(function(OC, Backbone) {
+(function(OC) {
 	'use strict';
 
 	OC.Settings = OC.Settings || {};
 
-	var AuthTokenCollection = Backbone.Collection.extend({
+	var AuthTokenCollection = OC.Backbone.Collection.extend({
 
 		model: OC.Settings.AuthToken,
 
@@ -49,4 +49,4 @@
 
 	OC.Settings.AuthTokenCollection = AuthTokenCollection;
 
-})(OC, Backbone);
+})(OC);
