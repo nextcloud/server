@@ -13,7 +13,7 @@
     "All" : "Бүгд",
     "Email" : "И-мэйл",
     "Password" : "Нууц үг",
-    "Done" : "Болсон",
-    "Username" : "Хэрэглэгчийн нэр"
+    "Username" : "Хэрэглэгчийн нэр",
+    "Done" : "Болсон"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
