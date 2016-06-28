@@ -39,7 +39,8 @@ describe('OCA.Versions.VersionsTabView', function() {
 		fetchStub = sinon.stub(VersionCollection.prototype, 'fetch');
 		fileInfoModel = new OCA.Files.FileInfoModel({
 			id: 123,
-			name: 'test.txt'
+			name: 'test.txt',
+			permissions: OC.PERMISSION_READ | OC.PERMISSION_UPDATE
 		});
 		tabView = new VersionsTabView();
 		tabView.render();
@@ -86,12 +87,37 @@ describe('OCA.Versions.VersionsTabView', function() {
 			expect($item.find('.revertVersion').length).toEqual(1);
 			expect($item.find('.preview').attr('src')).toEqual(version2.getPreviewUrl());
 		});
+
+		it('does not render revert button when no update permissions', function() {
+
+			fileInfoModel.set('permissions', OC.PERMISSION_READ);
+			tabView.setFileInfo(fileInfoModel);
+			tabView.collection.set(testVersions);
+
+			var version1 = testVersions[0];
+			var version2 = testVersions[1];
+			var $versions = tabView.$el.find('.versions>li');
+			expect($versions.length).toEqual(2);
+			var $item = $versions.eq(0);
+			expect($item.find('.downloadVersion').attr('href')).toEqual(version1.getDownloadUrl());
+			expect($item.find('.versiondate').text()).toEqual('seconds ago');
+			expect($item.find('.revertVersion').length).toEqual(0);
+			expect($item.find('.preview').attr('src')).toEqual(version1.getPreviewUrl());
+
+			$item = $versions.eq(1);
+			expect($item.find('.downloadVersion').attr('href')).toEqual(version2.getDownloadUrl());
+			expect($item.find('.versiondate').text()).toEqual('2 days ago');
+			expect($item.find('.revertVersion').length).toEqual(0);
+			expect($item.find('.preview').attr('src')).toEqual(version2.getPreviewUrl());
+		});
 	});
 
 	describe('More versions', function() {
 		var hasMoreResultsStub;
 
 		beforeEach(function() {
+			tabView.setFileInfo(fileInfoModel);
+			fetchStub.reset();
 			tabView.collection.set(testVersions);
 			hasMoreResultsStub = sinon.stub(VersionCollection.prototype, 'hasMoreResults');
 		});
