@@ -47,7 +47,9 @@
 		<input name="oca_updatenotification_groups_list" type="hidden" id="oca_updatenotification_groups_list" value="<?php p($_['notify_groups']) ?>" style="width: 400px">
 		<em class="<?php if (!in_array($currentChannel, ['daily', 'git'])) p('hidden'); ?>">
 			<br />
-			<?php p($l->t('Only notification for app updates are available, because the selected update channel for the server itself does not allow notifications.')); ?>
+			<?php p($l->t('Only notification for app updates are available.')); ?>
+			<?php if ($currentChannel === 'daily') p($l->t('The selected update channel makes dedicated notifications for the server obsolete.')); ?>
+			<?php if ($currentChannel === 'git') p($l->t('The selected update channel does not support updates of the server.')); ?>
 		</em>
 	</p>
 </form>
