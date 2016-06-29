@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+	<table>
+		<name>*dbprefix*external_config</name>
+		<declaration>
+			<field>
+				<name>config_id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>6</length>
+			</field>
+		</declaration>
+	</table>
+</database>
