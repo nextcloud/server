@@ -8,15 +8,17 @@
 
 namespace Test\DB;
 
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use OC_DB;
 use OCP\Security\ISecureRandom;
+use Test\TestCase;
 
 /**
  * Class DBSchemaTest
  *
  * @group DB
  */
-class DBSchemaTest extends \Test\TestCase {
+class DBSchemaTest extends TestCase {
 	protected $schema_file = 'static://test_db_scheme';
 	protected $schema_file2 = 'static://test_db_scheme2';
 	protected $table1;
@@ -53,7 +55,6 @@ class DBSchemaTest extends \Test\TestCase {
 	 * @medium
 	 */
 	public function testSchema() {
-		$platform = \OC::$server->getDatabaseConnection()->getDatabasePlatform();
 		$this->doTestSchemaCreating();
 		$this->doTestSchemaChanging();
 		$this->doTestSchemaDumping();
@@ -97,7 +98,7 @@ class DBSchemaTest extends \Test\TestCase {
 	 */
 	public function assertTableNotExist($table) {
 		$platform = \OC::$server->getDatabaseConnection()->getDatabasePlatform();
-		if ($platform instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
+		if ($platform instanceof SqlitePlatform) {
 			// sqlite removes the tables after closing the DB
 			$this->assertTrue(true);
 		} else {
