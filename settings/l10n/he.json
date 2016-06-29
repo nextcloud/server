@@ -277,6 +277,7 @@
     "An app password is a passcode that gives an app or device permissions to access your %s account." : "סיסמת יישום הנה קוד סיסמא שמאפשרת ליישום או התקן הרשאות גישה לחשבון %s שלך.",
     "App name" : "שם יישום",
     "Create new app password" : "יצירת סיסמת יישום חדשה",
+    "Use the credentials below to configure your app or device." : "יש להשתמש באישורים מטה להגדרת היישום או ההתקן שלך.",
     "Username" : "שם משתמש",
     "Done" : "הסתיים",
     "Get the apps to sync your files" : "קבלת היישומים לסנכרון הקבצים שלך",

@@ -264,6 +264,7 @@ OC.L10N.register(
     "An app password is a passcode that gives an app or device permissions to access your %s account." : "Sovellussalasana on suojakoodi, joka antaa sovellukselle tai laitteelle käyttöoikeuden %s-tiliisi.",
     "App name" : "Sovelluksen nimi",
     "Create new app password" : "Luo uusi sovellussalasana",
+    "Use the credentials below to configure your app or device." : "Käytä alla olevia kirjautumistietoja määrittääksesi sovelluksesi tai laitteen.",
     "Username" : "Käyttäjätunnus",
     "Done" : "Valmis",
     "Get the apps to sync your files" : "Aseta sovellukset synkronoimaan tiedostosi",
