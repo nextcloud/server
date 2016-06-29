@@ -848,7 +848,7 @@ class CardDavBackend implements BackendInterface, SyncSupport {
 		$query = $this->db->getQueryBuilder();
 		$query->select('*')->from($this->dbCardsTable)
 				->where($query->expr()->eq('uri', $query->createNamedParameter($uri)))
-				->where($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
+				->andWhere($query->expr()->eq('addressbookid', $query->createNamedParameter($addressBookId)));
 		$queryResult = $query->execute();
 		$contact = $queryResult->fetch();
 		$queryResult->closeCursor();
