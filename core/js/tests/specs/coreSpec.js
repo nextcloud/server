@@ -231,22 +231,12 @@ describe('Core base tests', function() {
 		});
 		describe('Images', function() {
 			it('Generates image path with given extension', function() {
-				var svgSupportStub = sinon.stub(OC.Util, 'hasSVGSupport', function() { return true; });
 				expect(OC.imagePath('core', 'somefile.jpg')).toEqual(OC.webroot + '/core/img/somefile.jpg');
 				expect(OC.imagePath(TESTAPP, 'somefile.jpg')).toEqual(TESTAPP_ROOT + '/img/somefile.jpg');
-				svgSupportStub.restore();
 			});
-			it('Generates image path with svg extension when svg support exists', function() {
-				var svgSupportStub = sinon.stub(OC.Util, 'hasSVGSupport', function() { return true; });
+			it('Generates image path with svg extension', function() {
 				expect(OC.imagePath('core', 'somefile')).toEqual(OC.webroot + '/core/img/somefile.svg');
 				expect(OC.imagePath(TESTAPP, 'somefile')).toEqual(TESTAPP_ROOT + '/img/somefile.svg');
-				svgSupportStub.restore();
-			});
-			it('Generates image path with png ext when svg support is not available', function() {
-				var svgSupportStub = sinon.stub(OC.Util, 'hasSVGSupport', function() { return false; });
-				expect(OC.imagePath('core', 'somefile')).toEqual(OC.webroot + '/core/img/somefile.png');
-				expect(OC.imagePath(TESTAPP, 'somefile')).toEqual(TESTAPP_ROOT + '/img/somefile.png');
-				svgSupportStub.restore();
 			});
 		});
 	});
@@ -502,32 +492,6 @@ describe('Core base tests', function() {
 			$toggle.click();
 			clock.tick(1 * 1000);
 			expect($navigation.is(':visible')).toEqual(false);
-		});
-	});
-	describe('SVG extension replacement', function() {
-		var svgSupportStub;
-
-		beforeEach(function() {
-			svgSupportStub = sinon.stub(OC.Util, 'hasSVGSupport');
-		});
-		afterEach(function() {
-			svgSupportStub.restore();
-		});
-		it('does not replace svg extension with png when SVG is supported', function() {
-			svgSupportStub.returns(true);
-			expect(
-				OC.Util.replaceSVGIcon('/path/to/myicon.svg?someargs=1')
-			).toEqual(
-				'/path/to/myicon.svg?someargs=1'
-			);
-		});
-		it('replaces svg extension with png when SVG not supported', function() {
-			svgSupportStub.returns(false);
-			expect(
-				OC.Util.replaceSVGIcon('/path/to/myicon.svg?someargs=1')
-			).toEqual(
-				'/path/to/myicon.png?someargs=1'
-			);
 		});
 	});
 	describe('Util', function() {
@@ -1017,4 +981,3 @@ describe('Core base tests', function() {
 		});
 	});
 });
-
