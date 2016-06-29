@@ -397,7 +397,7 @@ class SMB extends Common implements INotifyStorage {
 	public function isUpdatable($path) {
 		try {
 			$info = $this->getFileInfo($path);
-			return !$info->isHidden() && !$info->isReadOnly();
+			return !$info->isHidden() && (!$info->isReadOnly() || $this->is_dir($path));
 		} catch (NotFoundException $e) {
 			return false;
 		} catch (ForbiddenException $e) {
