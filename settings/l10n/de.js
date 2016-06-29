@@ -279,6 +279,7 @@ OC.L10N.register(
     "An app password is a passcode that gives an app or device permissions to access your %s account." : "Ein App-Passwort ist ein Passwort, dass einer App oder einem Gerät erlaubt auf Ihren %s-Konto zuzugreifen.",
     "App name" : "App-Name",
     "Create new app password" : "Neues App-Passwort erstellen",
+    "Use the credentials below to configure your app or device." : "Verwende die folgenden Zugangsdaten um deine App oder dein Gerät zu konfigurieren.",
     "Username" : "Benutzername",
     "Done" : "Erledigt",
     "Get the apps to sync your files" : "Lade die Apps zur Synchronisierung Deiner Daten herunter",

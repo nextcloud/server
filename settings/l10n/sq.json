@@ -277,6 +277,7 @@
     "An app password is a passcode that gives an app or device permissions to access your %s account." : "Fjalëkalimet e aplikacioneve janë kodkalime që u japin leje një aplikacioni ose pajisjeje të hyjnë në llogarinë tuaj %s.",
     "App name" : "Emër aplikacioni",
     "Create new app password" : "Krijoni fjalëkalim aplikacioni të ri",
+    "Use the credentials below to configure your app or device." : "Përdorni kredencialet më poshtë për të formësuar aplikacionin apo pajisjen tuaj.",
     "Username" : "Emër përdoruesi",
     "Done" : "U bë",
     "Get the apps to sync your files" : "Merrni aplikacionet për njëkohësim të kartelave tuaja",
