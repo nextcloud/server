@@ -20,7 +20,7 @@ build:
   mysql:
     image: morrisjobke/nextcloud-ci-php7:1.0.4
     commands:
-      - sleep 10 # gives the database enough time to initialize
+      - sleep 15 # gives the database enough time to initialize
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - ./autotest.sh mysql
