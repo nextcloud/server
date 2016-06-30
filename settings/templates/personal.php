@@ -118,8 +118,7 @@ if($_['passwordChangeSupported']) {
 ?>
 <form id="passwordform" class="section">
 	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
-	<div class="hidden icon-checkmark" id="password-changed"></div>
-	<div class="hidden" id="password-error"><?php p($l->t('Unable to change your password'));?></div>
+	<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
 	<br>
 	<label for="pass1" class="onlyInIE8"><?php echo $l->t('Current password');?>: </label>
 	<input type="password" id="pass1" name="oldpassword"
