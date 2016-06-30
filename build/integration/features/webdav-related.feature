@@ -241,3 +241,35 @@ Feature: webdav-related
 			| 0 |
 			| 1 |
 			| 3 |
+
+
+	Scenario: Copying files into a folder with edit permissions
+		Given using dav path "remote.php/webdav"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testcopypermissionsAllowed"
+		And as "user1" creating a share with
+			| path | testcopypermissionsAllowed |
+			| shareType | 0 |
+			| permissions | 31 |
+			| shareWith | user0 |
+		And User "user0" uploads file with content "copytest" to "/copytest.txt"
+		When User "user0" copies file "/copytest.txt" to "/testcopypermissionsAllowed/copytest.txt"
+		Then the HTTP status code should be "201"
+
+
+	Scenario: Copying files into a folder without edit permissions
+		Given using dav path "remote.php/webdav"
+		And user "user0" exists
+		And user "user1" exists
+		And As an "user1"
+		And user "user1" created a folder "/testcopypermissionsNotAllowed"
+		And as "user1" creating a share with
+			| path | testcopypermissionsNotAllowed |
+			| shareType | 0 |
+			| permissions | 1 |
+			| shareWith | user0 |
+		And User "user0" uploads file with content "copytest" to "/copytest.txt"
+		When User "user0" copies file "/copytest.txt" to "/testcopypermissionsNotAllowed/copytest.txt"
+		Then the HTTP status code should be "403"
