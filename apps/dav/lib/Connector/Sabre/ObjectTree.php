@@ -71,7 +71,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 	 * is present.
 	 *
 	 * @param string $path chunk file path to convert
-	 * 
+	 *
 	 * @return string path to real file
 	 */
 	private function resolveChunkFile($path) {
@@ -196,6 +196,15 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
 
+		$infoDestination = $this->fileView->getFileInfo(dirname($destinationPath));
+		$infoSource = $this->fileView->getFileInfo($sourcePath);
+		$destinationPermission = $infoDestination && $infoDestination->isUpdateable();
+		$sourcePermission =  $infoSource && $infoSource->isDeletable();
+
+		if (!$destinationPermission || !$sourcePermission) {
+			throw new Forbidden();
+		}
+
 		$targetNodeExists = $this->nodeExists($destinationPath);
 		$sourceNode = $this->getNodeForPath($sourcePath);
 		if ($sourceNode instanceof \Sabre\DAV\ICollection && $targetNodeExists) {
@@ -271,6 +280,12 @@ class ObjectTree extends \Sabre\DAV\Tree {
 	public function copy($source, $destination) {
 		if (!$this->fileView) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
+		}
+
+
+		$info = $this->fileView->getFileInfo(dirname($destination));
+		if ($info && !$info->isUpdateable()) {
+			throw new Forbidden();
 		}
 
 		// this will trigger existence check
