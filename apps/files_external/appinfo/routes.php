@@ -45,7 +45,12 @@ namespace OCA\Files_External\AppInfo;
 				'url' => '/ajax/public_key.php',
 				'verb' => 'POST',
 				'requirements' => array()
-			)
+			),
+			[
+				'name' => 'Ajax#saveGlobalCredentials',
+				'url' => '/globalcredentials',
+				'verb' => 'POST',
+			],
 		)
 	)
 );
