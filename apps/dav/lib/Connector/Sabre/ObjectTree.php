@@ -186,9 +186,13 @@ class ObjectTree extends \Sabre\DAV\Tree {
 	 *
 	 * @param string $sourcePath The path to the file which should be moved
 	 * @param string $destinationPath The full destination path, so not just the destination parent node
-	 * @throws \Sabre\DAV\Exception\BadRequest
-	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
+	 * @throws FileLocked
+	 * @throws Forbidden
+	 * @throws InvalidPath
 	 * @throws \Sabre\DAV\Exception\Forbidden
+	 * @throws \Sabre\DAV\Exception\Locked
+	 * @throws \Sabre\DAV\Exception\NotFound
+	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 * @return int
 	 */
 	public function move($sourcePath, $destinationPath) {
@@ -274,6 +278,13 @@ class ObjectTree extends \Sabre\DAV\Tree {
 	 *
 	 * @param string $source
 	 * @param string $destination
+	 * @throws FileLocked
+	 * @throws Forbidden
+	 * @throws InvalidPath
+	 * @throws \Exception
+	 * @throws \Sabre\DAV\Exception\Forbidden
+	 * @throws \Sabre\DAV\Exception\Locked
+	 * @throws \Sabre\DAV\Exception\NotFound
 	 * @throws \Sabre\DAV\Exception\ServiceUnavailable
 	 * @return void
 	 */
