@@ -26,8 +26,12 @@
  */
 namespace OC\Setup;
 
+<<<<<<< HEAD
 use OC\AllConfig;
 use OC\DB\ConnectionFactory;
+=======
+use OC\DB\MigrationService;
+>>>>>>> 87aa059... Integrate doctrine migrations with core and app upgrade
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\ILogger;
@@ -144,4 +148,13 @@ abstract class AbstractDatabase {
 	 * @param string $userName
 	 */
 	abstract public function setupDatabase($userName);
+
+	public function runMigrations() {
+		if (!is_dir(\OC::$SERVERROOT."/core/Migrations")) {
+			return;
+		}
+		$ms = new MigrationService();
+		$mc = $ms->buildConfiguration('core', \OC::$server->getDatabaseConnection());
+		$ms->migrate($mc, true);
+	}
 }

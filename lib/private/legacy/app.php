@@ -1122,8 +1122,14 @@ class OC_App {
 		}
 		$appData = self::getAppInfo($appId);
 		self::executeRepairSteps($appId, $appData['repair-steps']['pre-migration']);
-		if (file_exists($appPath . '/appinfo/database.xml')) {
-			OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
+		if (isset($appData['use-migrations']) && $appData['use-migrations'] === true) {
+			$ms = new \OC\DB\MigrationService();
+			$mc = $ms->buildConfiguration($appId, \OC::$server->getDatabaseConnection());
+			$ms->migrate($mc, true);
+		} else {
+			if (file_exists($appPath . '/appinfo/database.xml')) {
+				OC_DB::updateDbFromStructure($appPath . '/appinfo/database.xml');
+			}
 		}
 		self::executeRepairSteps($appId, $appData['repair-steps']['post-migration']);
 		self::setupLiveMigrations($appId, $appData['repair-steps']['live-migration']);

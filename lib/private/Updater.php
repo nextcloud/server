@@ -284,8 +284,13 @@ class Updater extends BasicEmitter {
 	protected function doCoreUpgrade() {
 		$this->emit('\OC\Updater', 'dbUpgradeBefore');
 
-		// do the real upgrade
-		\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
+		// execute core migrations
+		if (is_dir(\OC::$SERVERROOT."/core/Migrations")) {
+			$ms = new \OC\DB\MigrationService();
+			$mc = $ms->buildConfiguration('core', \OC::$server->getDatabaseConnection());
+
+			$ms->migrate($mc, true);
+		}
 
 		$this->emit('\OC\Updater', 'dbUpgrade');
 	}

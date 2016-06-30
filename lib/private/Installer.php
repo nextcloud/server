@@ -102,11 +102,17 @@ class Installer {
 		$info = OC_App::getAppInfo($basedir.'/appinfo/info.xml', true);
 
 		//install the database
-		if(is_file($basedir.'/appinfo/database.xml')) {
-			if (\OC::$server->getAppConfig()->getValue($info['id'], 'installed_version') === null) {
-				OC_DB::createDbFromStructure($basedir.'/appinfo/database.xml');
-			} else {
-				OC_DB::updateDbFromStructure($basedir.'/appinfo/database.xml');
+		if (isset($appData['use-migrations']) && $appData['use-migrations'] === 'true') {
+			$ms = new \OC\DB\MigrationService();
+			$mc = $ms->buildConfiguration($appId, \OC::$server->getDatabaseConnection());
+			$ms->migrate($mc);
+		} else {
+			if(is_file($basedir.'/appinfo/database.xml')) {
+				if (\OC::$server->getAppConfig()->getValue($info['id'], 'installed_version') === null) {
+					OC_DB::createDbFromStructure($basedir . '/appinfo/database.xml');
+				} else {
+					OC_DB::updateDbFromStructure($basedir . '/appinfo/database.xml');
+				}
 			}
 		}
 
@@ -472,8 +478,15 @@ class Installer {
 	 * @return integer
 	 */
 	public static function installShippedApp($app) {
+
+		$info = OC_App::getAppInfo($app);
+		if (is_null($info)) {
+			return false;
+		}
+
 		//install the database
 		$appPath = OC_App::getAppPath($app);
+<<<<<<< HEAD
 		if(is_file("$appPath/appinfo/database.xml")) {
 			try {
 				OC_DB::createDbFromStructure("$appPath/appinfo/database.xml");
@@ -483,6 +496,15 @@ class Installer {
 					'Please ask for help via one of our <a href="https://nextcloud.com/support/" target="_blank" rel="noreferrer">support channels</a>.',
 					0, $e
 				);
+=======
+		if (isset($info['use-migrations']) && $info['use-migrations'] === 'true') {
+			$ms = new \OC\DB\MigrationService();
+			$mc = $ms->buildConfiguration($app, \OC::$server->getDatabaseConnection());
+			$ms->migrate($mc);
+		} else {
+			if(is_file($appPath.'/appinfo/database.xml')) {
+				OC_DB::createDbFromStructure($appPath . '/appinfo/database.xml');
+>>>>>>> 87aa059... Integrate doctrine migrations with core and app upgrade
 			}
 		}
 
@@ -490,10 +512,6 @@ class Installer {
 		\OC_App::registerAutoloading($app, $appPath);
 		self::includeAppScript("$appPath/appinfo/install.php");
 
-		$info = OC_App::getAppInfo($app);
-		if (is_null($info)) {
-			return false;
-		}
 		\OC_App::setupBackgroundJobs($info['background-jobs']);
 
 		OC_App::executeRepairSteps($app, $info['repair-steps']['install']);
