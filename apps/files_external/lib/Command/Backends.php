@@ -104,6 +104,10 @@ class Backends extends Base {
 			$result['storage_class'] = $backend->getStorageClass();
 			$authBackends = $this->backendService->getAuthMechanismsByScheme(array_keys($backend->getAuthSchemes()));
 			$result['supported_authentication_backends'] = array_keys($authBackends);
+			$authConfig = array_map(function (AuthMechanism $auth) {
+				return $this->serializeAuthBackend($auth)['configuration'];
+			}, $authBackends);
+			$result['authentication_configuration'] = array_combine(array_keys($authBackends), $authConfig);
 		}
 		return $result;
 	}
