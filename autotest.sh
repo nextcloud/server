@@ -200,12 +200,16 @@ function execute_tests {
 			echo "MySQL is up."
 
 		else
-			if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
-				echo "Your mysql binary is not provided by mysql"
-				echo "To use the docker container set the USEDOCKER environment variable"
-				exit -1
-			fi
-			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
+                if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
+                    echo "Your mysql binary is not provided by mysql"
+                    echo "To use the docker container set the USEDOCKER environment variable"
+                    exit -1
+                fi
+                mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+            else
+                DATABASEHOST=127.0.0.1
+            fi
 		fi
 	fi
 	if [ "$DB" == "mariadb" ] ; then
