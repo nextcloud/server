@@ -986,7 +986,17 @@ class Manager implements IManager {
 	public function getShareByToken($token) {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
 
-		$share = $provider->getShareByToken($token);
+		try {
+			$share = $provider->getShareByToken($token);
+		} catch (ShareNotFound $e) {
+			//Ignore
+		}
+
+		// If it is not a link share try to fetch a federated share by token
+		if ($share === null) {
+			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_REMOTE);
+			$share = $provider->getShareByToken($token);
+		}
 
 		if ($share->getExpirationDate() !== null &&
 			$share->getExpirationDate() <= new \DateTime()) {
