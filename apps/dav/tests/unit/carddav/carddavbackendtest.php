@@ -605,6 +605,11 @@ class CardDavBackendTest extends TestCase {
 		$this->assertSame(5489543, (int)$result['lastmodified']);
 		$this->assertSame('etag0', $result['etag']);
 		$this->assertSame(120, (int)$result['size']);
+
+		// this shouldn't return any result because 'uri1' is in address book 1
+		// see https://github.com/nextcloud/server/issues/229
+		$result = $this->backend->getContact(0, 'uri1');
+		$this->assertEmpty($result);
 	}
 
 	public function testGetContactFail() {
