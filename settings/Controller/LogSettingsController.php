@@ -105,7 +105,8 @@ class LogSettingsController extends Controller {
 	 */
 	public function download() {
 		$resp = new StreamResponse(\OC\Log\Owncloud::getLogFilePath());
-		$resp->addHeader('Content-Disposition', 'attachment; filename="owncloud.log"');
+		$resp->addHeader('Content-Type', 'application/octet-stream');
+		$resp->addHeader('Content-Disposition', 'attachment; filename="nextcloud.log"');
 		return $resp;
 	}
 }

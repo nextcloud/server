@@ -12,6 +12,7 @@ namespace Tests\Settings\Controller;
 
 use \OC\Settings\Application;
 use OC\Settings\Controller\LogSettingsController;
+use OCP\AppFramework\Http\StreamResponse;
 
 /**
  * @package Tests\Settings\Controller
@@ -70,6 +71,9 @@ class LogSettingsControllerTest extends \Test\TestCase {
 	public function testDownload() {
 		$response = $this->logSettingsController->download();
 
-		$this->assertInstanceOf('\OCP\AppFramework\Http\StreamResponse', $response);
+		$expected = new StreamResponse(\OC\Log\Owncloud::getLogFilePath());
+		$expected->addHeader('Content-Type', 'application/octet-stream');
+		$expected->addHeader('Content-Disposition', 'attachment; filename="nextcloud.log"');
+		$this->assertEquals($expected, $response);
 	}
 }
