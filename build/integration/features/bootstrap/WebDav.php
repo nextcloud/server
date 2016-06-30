@@ -64,9 +64,25 @@ trait WebDav {
 		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
 	}
 
+
+
 	/**
-	 * @When /^Downloading file "([^"]*)" with range "([^"]*)"$/
+	 * @When /^User "([^"]*)" copies file "([^"]*)" to "([^"]*)"$/
+	 * @param string $user
+	 * @param string $fileSource
+	 * @param string $fileDestination
 	 */
+	public function userCopiesFileTo($user, $fileSource, $fileDestination) {
+		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
+		$headers['Destination'] = $fullUrl . $fileDestination;
+		try {
+			$this->response = $this->makeDavRequest($user, 'COPY', $fileSource, $headers);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			// 4xx and 5xx responses cause an exception
+			$this->response = $e->getResponse();
+		}
+	}
+
 	public function downloadFileWithRange($fileSource, $range){
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
 		$headers['Range'] = $range;

@@ -56,6 +56,11 @@ class TestDoubleFileView extends \OC\Files\View {
 	public function getRelativePath($path) {
 		return $path;
 	}
+
+	public function getFileInfo($path, $includeMountPoints = true) {
+		$objectTreeTest = new ObjectTreeTest();
+		return $objectTreeTest->getFileInfoMock();
+	}
 }
 
 /**
@@ -66,6 +71,21 @@ class TestDoubleFileView extends \OC\Files\View {
  * @package OCA\DAV\Tests\Unit\Connector\Sabre
  */
 class ObjectTree extends \Test\TestCase {
+
+	public function getFileInfoMock() {
+		$mock = $this->getMock('\OCP\Files\FileInfo');
+		$mock
+			->expects($this->any())
+			->method('isDeletable')
+			->willReturn(true);
+		$mock
+			->expects($this->any())
+			->method('isUpdateable')
+			->willReturn(true);
+
+		return $mock;
+	}
+
 
 	/**
 	 * @dataProvider moveFailedProvider
