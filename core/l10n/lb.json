@@ -262,6 +262,11 @@
     "These apps will be updated:" : "D!es Apps wäerten aktualiséiert ginn:",
     "These incompatible apps will be disabled:" : "Dës inkompatibel Apps wäerten ofgeschalt ginn:",
     "The theme %s has been disabled." : "D'Thema %s gouf ofgeschalt.",
-    "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "W.e.g. géi sécher dass d'Datebank, de configuréierten Dossier an den Daten Dossier ofgeséchert sinn éiers de weider gees."
+    "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "W.e.g. géi sécher dass d'Datebank, de configuréierten Dossier an den Daten Dossier ofgeséchert sinn éiers de weider gees.",
+    "Start update" : "Update starten",
+    "Detailed logs" : "Detailléiert Loggs",
+    "For help, see the  <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">documentation</a>." : "Fir Hëllef, kuck am <a target=\"_blank\" rel=\"noreferrer\" href=\"%s\">Documentatioun</a>.",
+    "This %s instance is currently in maintenance mode, which may take a while." : "Dës %s Instanz ass am Moment am Maintenance Modus, dat kënnt ee Moment brauche.",
+    "This page will refresh itself when the %s instance is available again." : "Dës Säit luet nees automatesch wann d' %s Instanz nees disponibel ass."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
