@@ -58,7 +58,7 @@ class TestDoubleFileView extends \OC\Files\View {
 	}
 
 	public function getFileInfo($path, $includeMountPoints = true) {
-		$objectTreeTest = new ObjectTreeTest();
+		$objectTreeTest = new ObjectTree();
 		return $objectTreeTest->getFileInfoMock();
 	}
 }
