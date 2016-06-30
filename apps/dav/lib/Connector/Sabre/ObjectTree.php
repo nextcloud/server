@@ -296,7 +296,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 
 		$info = $this->fileView->getFileInfo(dirname($destination));
 		if ($info && !$info->isUpdateable()) {
-			throw new Forbidden('No permissions to move object.');
+			throw new Forbidden('No permissions to copy object.');
 		}
 
 		// this will trigger existence check
