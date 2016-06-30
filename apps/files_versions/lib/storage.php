@@ -78,7 +78,7 @@ class Storage {
 		//until the end one version per week
 		6 => array('intervalEndsAfter' => -1,      'step' => 604800),
 	);
-	
+
 	/** @var \OCA\Files_Versions\AppInfo\Application */
 	private static $application;
 
@@ -325,6 +325,13 @@ class Storage {
 			$files_view = new View('/'. User::getUser().'/files');
 			$versionCreated = false;
 
+			$fileInfo = $files_view->getFileInfo($file);
+
+			// check if user has the permissions to revert a version
+			if (!$fileInfo->isUpdateable()) {
+				return false;
+			}
+
 			//first create a new version
 			$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
 			if (!$users_view->file_exists($version)) {
@@ -338,10 +345,9 @@ class Storage {
 			// This has to happen manually here since the file is manually copied below
 			$oldVersion = $users_view->getFileInfo($fileToRestore)->getEncryptedVersion();
 			$oldFileInfo = $users_view->getFileInfo($fileToRestore);
-			$newFileInfo = $files_view->getFileInfo($filename);
-			$cache = $newFileInfo->getStorage()->getCache();
+			$cache = $fileInfo->getStorage()->getCache();
 			$cache->update(
-				$newFileInfo->getId(), [
+				$fileInfo->getId(), [
 					'encrypted' => $oldVersion,
 					'encryptedVersion' => $oldVersion,
 					'size' => $oldFileInfo->getSize()
@@ -681,7 +687,7 @@ class Storage {
 	public static function expire($filename) {
 		$config = \OC::$server->getConfig();
 		$expiration = self::getExpiration();
-		
+
 		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' && $expiration->isEnabled()) {
 
 			if (!Filesystem::file_exists($filename)) {
