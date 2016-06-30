@@ -202,7 +202,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 		$sourcePermission =  $infoSource && $infoSource->isDeletable();
 
 		if (!$destinationPermission || !$sourcePermission) {
-			throw new Forbidden();
+			throw new Forbidden('No permissions to move object.');
 		}
 
 		$targetNodeExists = $this->nodeExists($destinationPath);
@@ -285,7 +285,7 @@ class ObjectTree extends \Sabre\DAV\Tree {
 
 		$info = $this->fileView->getFileInfo(dirname($destination));
 		if ($info && !$info->isUpdateable()) {
-			throw new Forbidden();
+			throw new Forbidden('No permissions to move object.');
 		}
 
 		// this will trigger existence check
