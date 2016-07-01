@@ -32,6 +32,7 @@ use OCA\Dav\Migration\AddressBookAdapter;
 use OCA\Dav\Migration\CalendarAdapter;
 use OCA\Dav\Migration\MigrateAddressbooks;
 use OCA\Dav\Migration\MigrateCalendars;
+use OCA\Dav\Migration\NothingToDoException;
 use \OCP\AppFramework\App;
 use OCP\AppFramework\IAppContainer;
 use OCP\Contacts\IManager;
@@ -190,6 +191,8 @@ class Application extends App {
 				/** @var IUser $user */
 				$migration->migrateForUser($user->getUID());
 			});
+		} catch (NothingToDoException $ex) {
+			// nothing to do, yay!
 		} catch (\Exception $ex) {
 			$this->getContainer()->getServer()->getLogger()->logException($ex);
 		}
@@ -206,6 +209,8 @@ class Application extends App {
 				/** @var IUser $user */
 				$migration->migrateForUser($user->getUID());
 			});
+		} catch (NothingToDoException $ex) {
+			// nothing to do, yay!
 		} catch (\Exception $ex) {
 			$this->getContainer()->getServer()->getLogger()->logException($ex);
 		}

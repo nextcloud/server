@@ -65,7 +65,7 @@ class CalendarAdapter {
 
 	public function setup() {
 		if (!$this->dbConnection->tableExists($this->sourceCalendarTable)) {
-			throw new \DomainException('Calendar tables are missing. Nothing to do.');
+			throw new NothingToDoException('Calendar tables are missing');
 		}
 	}
 
