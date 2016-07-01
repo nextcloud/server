@@ -48,6 +48,8 @@ class File extends \Test\TestCase {
 		parent::setUp();
 
 		\OC_Hook::clear();
+		$storageFactory = \OC\Files\Filesystem::getLoader();
+		$this->invokePrivate($storageFactory, 'storageWrappers', [[]]);
 
 		$this->user = $this->getUniqueID('user_');
 		$userManager = \OC::$server->getUserManager();
