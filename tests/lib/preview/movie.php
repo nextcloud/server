@@ -21,6 +21,11 @@
 
 namespace Test\Preview;
 
+/**
+ * Class Movie
+ * @package Test\Preview
+ * @group DB
+ */
 class Movie extends Provider {
 
 	public function setUp() {
