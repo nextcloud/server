@@ -55,12 +55,12 @@ class OC_Defaults {
 		$this->defaultName = 'Nextcloud'; /* short name, used when referring to the software */
 		$this->defaultTitle = 'Nextcloud'; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = 'https://nextcloud.com';
-		$this->defaultSyncClientUrl = 'https://nextcloud.com/install/';
+		$this->defaultSyncClientUrl = 'https://nextcloud.com/install';
 		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8';
 		$this->defaultiTunesAppId = '543672169';
-		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.nextcloud.client';
-		$this->defaultDocBaseUrl = 'https://docs.nextcloud.org';
-		$this->defaultDocVersion = $version[0]; // used to generate doc links
+		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.owncloud.android';
+		$this->defaultDocBaseUrl = 'https://doc.owncloud.org';
+		$this->defaultDocVersion = $version[0] . '.' . $version[1]; // used to generate doc links
 		$this->defaultSlogan = $this->l->t('a safe home for all your data');
 		$this->defaultLogoClaim = '';
 		$this->defaultMailHeaderColor = '#0082c9'; /* header color of mail notifications */
