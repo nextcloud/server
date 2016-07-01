@@ -142,9 +142,6 @@ class EncryptionTest extends TestCase {
 		$this->cryptMock->expects($this->any())
 			->method('multiKeyEncrypt')
 			->willReturn(true);
-		$this->cryptMock->expects($this->any())
-			->method('setAllFileKeys')
-			->willReturn(true);
 
 		$this->instance->end('/foo/bar');
 	}

@@ -21,6 +21,11 @@
 
 namespace Test\Preview;
 
+/**
+ * Class Office
+ * @package Test\Preview
+ * @group DB
+ */
 class Office extends Provider {
 
 	public function setUp() {
