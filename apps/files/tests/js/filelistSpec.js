@@ -1323,6 +1323,10 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.changeDirectory('/another\\subdir');
 			expect(fileList.getCurrentDirectory()).toEqual('/another/subdir');
 		});
+		it('converts backslashes to slashes and removes traversals when calling changeDirectory()', function() {
+			fileList.changeDirectory('/another\\subdir/../foo\\../bar\\..\\file/..\\folder/../');
+			expect(fileList.getCurrentDirectory()).toEqual('/another/subdir/foo/bar/file/folder/');
+		});
 		it('switches to root dir when current directory does not exist', function() {
 			fileList.changeDirectory('/unexist');
 			deferredList.reject(404);
