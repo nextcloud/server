@@ -16,6 +16,7 @@
     "Error generating key pair" : "Prišlo je do napake med ustvarjanjem para ključev",
     "All users. Type to select user or group." : "Vsi uporabniki. Skupino ali uporabnika je mogoče tudi izbrati.",
     "(group)" : "(skupina)",
+    "Compatibility with Mac NFD encoding (slow)" : "Usklajenost z Mac NFD šifriranjem (počasno)",
     "Admin defined" : "Skrbnik je določen",
     "Saved" : "Shranjeno",
     "Empty response from the server" : "S strežnika je prejet odziv brez vsebine.",

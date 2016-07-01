@@ -26,6 +26,8 @@ namespace OC\DB;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Types\BigIntType;
+use Doctrine\DBAL\Types\Type;
 
 class SQLiteMigrator extends Migrator {
 
@@ -75,6 +77,15 @@ class SQLiteMigrator extends Migrator {
 		$platform->registerDoctrineTypeMapping('tinyint unsigned', 'integer');
 		$platform->registerDoctrineTypeMapping('smallint unsigned', 'integer');
 		$platform->registerDoctrineTypeMapping('varchar ', 'string');
+
+		// with sqlite autoincrement columns is of type integer
+		foreach ($targetSchema->getTables() as $table) {
+			foreach ($table->getColumns() as $column) {
+				if ($column->getType() instanceof BigIntType && $column->getAutoincrement()) {
+					$column->setType(Type::getType('integer'));
+				}
+			}
+		}
 
 		return parent::getDiff($targetSchema, $connection);
 	}
