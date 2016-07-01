@@ -29,7 +29,11 @@
 		'<tr data-id="{{id}}">'
 		+ '<td class="has-tooltip" title="{{name}}"><span class="token-name">{{name}}</span></td>'
 		+ '<td><span class="last-activity has-tooltip" title="{{lastActivityTime}}">{{lastActivity}}</span></td>'
+		+ '{{#if canDelete}}'
 		+ '<td><a class="icon-delete has-tooltip" title="' + t('core', 'Disconnect') + '"></a></td>'
+		+ '{{else}}'
+		+ '<td></td>'
+		+ '{{/if}}'
 		+ '<tr>';
 
 	var SubView = OC.Backbone.View.extend({
