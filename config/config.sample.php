@@ -498,12 +498,23 @@ $CONFIG = array(
 /**
  * URL that Nextcloud should use to look for updates
  */
-'updater.server.url' => 'https://updates.nextcloud.org/server/',
+'updater.server.url' => 'https://updates.nextcloud.org/updater_server/',
 
 /**
  * Release channel to use for updates
  */
 'updater.release.channel' => 'stable',
+
+/**
+ * Whether to enable the web updater via web.
+ *
+ * The updater is in beta at the moment. While it has been tested extensively there
+ * may be some edgecases we didn't cover so before enabling make sure to have a backup
+ * of your data and your Nextcloud program code.
+ *
+ * If you encounter any issues please report it at https://github.com/nextcloud/updater/issues
+ */
+'updater.enable.beta.web.updater' => false,
 
 /**
  * Is Nextcloud connected to the Internet or running in a closed network?

@@ -18,7 +18,11 @@
 
 	<?php if($isNewVersionAvailable === true): ?>
 		<strong><?php p($l->t('A new version is available: %s', [$newVersionString])); ?></strong>
-		<input type="button" id="oca_updatenotification_button" value="<?php p($l->t('Open updater')) ?>">
+		<?php if(\OC::$server->getConfig()->getSystemValue('updater.enable.beta.web.updater', false)): ?>
+			<input type="button" id="oca_updatenotification_button" value="<?php p($l->t('Open updater (beta)')) ?>">
+		<?php else: ?>
+			<br/><em><?php p($l->t('Updates via web are in beta. If you want to help testing them please set "updater.enable.beta.web.updater" to true in your config file and have proper backups.')) ?></em>
+		<?php endif; ?>
 	<?php else: ?>
 		<strong><?php print_unescaped($l->t('Your version is up to date.')); ?></strong>
 		<span class="icon-info svg" title="<?php p($l->t('Checked on %s', [$lastCheckedDate])) ?>"></span>
