@@ -24,6 +24,7 @@ namespace Test\Settings\Controller;
 
 use OC\AppFramework\Http;
 use OC\Authentication\Exceptions\InvalidTokenException;
+use OC\Authentication\Token\DefaultToken;
 use OC\Authentication\Token\IToken;
 use OC\Settings\Controller\AuthSettingsController;
 use OCP\AppFramework\Http\JSONResponse;
@@ -56,10 +57,17 @@ class AuthSettingsControllerTest extends TestCase {
 	}
 
 	public function testIndex() {
-		$result = [
-			'token1',
-			'token2',
+		$token1 = new DefaultToken();
+		$token1->setId(100);
+		$token2 = new DefaultToken();
+		$token2->setId(200);
+		$tokens = [
+			$token1,
+			$token2,
 		];
+		$sessionToken = new DefaultToken();
+		$sessionToken->setId(100);
+
 		$this->userManager->expects($this->once())
 			->method('get')
 			->with($this->uid)
@@ -67,9 +75,31 @@ class AuthSettingsControllerTest extends TestCase {
 		$this->tokenProvider->expects($this->once())
 			->method('getTokenByUser')
 			->with($this->user)
-			->will($this->returnValue($result));
+			->will($this->returnValue($tokens));
+		$this->session->expects($this->once())
+			->method('getId')
+			->will($this->returnValue('session123'));
+		$this->tokenProvider->expects($this->once())
+			->method('getToken')
+			->with('session123')
+			->will($this->returnValue($sessionToken));
 
-		$this->assertEquals($result, $this->controller->index());
+		$this->assertEquals([
+			[
+				'id' => 100,
+				'name' => null,
+				'lastActivity' => null,
+				'type' => null,
+				'canDelete' => false,
+			],
+			[
+				'id' => 200,
+				'name' => null,
+				'lastActivity' => null,
+				'type' => null,
+				'canDelete' => true,
+			]
+		], $this->controller->index());
 	}
 
 	public function testCreate() {
@@ -107,6 +137,7 @@ class AuthSettingsControllerTest extends TestCase {
 		$expected = [
 			'token' => $newToken,
 			'deviceToken' => $deviceToken,
+			'loginName' => 'User13',
 		];
 		$this->assertEquals($expected, $this->controller->create($name));
 	}
