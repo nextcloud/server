@@ -426,7 +426,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	 */
 	public function rename($source, $target) {
 		try {
-			if (!$this->is_dir($target) && $this->file_exists($target)) {
+			if ($this->file_exists($target)) {
 				$this->unlink($target);
 			}
 			return $this->getConnection()->rename(
