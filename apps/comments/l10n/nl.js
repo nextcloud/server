@@ -14,6 +14,7 @@ OC.L10N.register(
     "Allowed characters {count} of {max}" : "{count} van de {max} toegestane tekens",
     "Error occurred while retrieving comment with id {id}" : "Er trad een fout op bij het ophalen van reactie met id {id}",
     "Error occurred while updating comment with id {id}" : "Er trad een fout op bij het bijwerken van reactie met id {id}",
+    "Error occurred while posting comment" : "Er trad een fout op bij het plaatsten van een reactie",
     "{count} unread comments" : "{count} ongelezen reacties",
     "Comment" : "Reactie",
     "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Reacties</strong> voor bestanden <em>(altijd getoond in de stroom)</em>",

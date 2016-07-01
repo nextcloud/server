@@ -278,6 +278,7 @@ OC.L10N.register(
     "Name" : "Naam",
     "App name" : "App naam",
     "Create new app password" : "Creëer nieuw app wachtwoord",
+    "Use the credentials below to configure your app or device." : "Gebruik onderstaande inloggegevens om uw app of apparaat te configureren.",
     "Username" : "Gebruikersnaam",
     "Done" : "Gedaan",
     "Get the apps to sync your files" : "Download de apps om bestanden te synchroniseren",
