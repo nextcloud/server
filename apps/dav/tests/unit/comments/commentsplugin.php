@@ -449,16 +449,6 @@ class CommentsPlugin extends \Test\TestCase {
 			->with('users', 'alice', 'files', '42')
 			->will($this->returnValue($comment));
 
-		$this->commentsManager->expects($this->any())
-			->method('setMessage')
-			->with('')
-			->will($this->throwException(new \InvalidArgumentException()));
-
-		$this->commentsManager->expects($this->any())
-			->method('setVerb')
-			->with('')
-			->will($this->throwException(new \InvalidArgumentException()));
-
 		$this->userSession->expects($this->once())
 			->method('getUser')
 			->will($this->returnValue($user));
