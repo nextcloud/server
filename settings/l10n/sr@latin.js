@@ -27,11 +27,11 @@ OC.L10N.register(
     "Change password" : "Izmeni lozinku",
     "Language" : "Jezik",
     "Name" : "naziv",
+    "Username" : "Korisničko ime",
     "Get the apps to sync your files" : "Preuzmite aplikacije za sinhronizaciju Vaših fajlova",
     "Desktop client" : "Desktop klijent",
     "Android app" : "Android aplikacija",
     "iOS app" : "iOS aplikacija",
-    "Username" : "Korisničko ime",
     "Create" : "Napravi",
     "Group" : "Grupa",
     "Other" : "Drugo"
