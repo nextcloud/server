@@ -217,10 +217,6 @@ class FederatedShareProviderTest extends \Test\TestCase {
 				'sharedBy@http://localhost/'
 			)->willReturn(false);
 
-		$this->rootFolder->expects($this->once())
-			->method('getUserFolder')
-			->with('shareOwner')
-			->will($this->returnSelf());
 		$this->rootFolder->method('getById')
 			->with('42')
 			->willReturn([$node]);
@@ -230,6 +226,62 @@ class FederatedShareProviderTest extends \Test\TestCase {
 			$this->fail();
 		} catch (\Exception $e) {
 			$this->assertEquals('Sharing myFile failed, could not find user@server.com, maybe the server is currently unreachable.', $e->getMessage());
+		}
+
+		$qb = $this->connection->getQueryBuilder();
+		$stmt = $qb->select('*')
+			->from('share')
+			->where($qb->expr()->eq('id', $qb->createNamedParameter($share->getId())))
+			->execute();
+
+		$data = $stmt->fetch();
+		$stmt->closeCursor();
+
+		$this->assertFalse($data);
+	}
+
+	public function testCreateException() {
+		$share = $this->shareManager->newShare();
+
+		$node = $this->getMock('\OCP\Files\File');
+		$node->method('getId')->willReturn(42);
+		$node->method('getName')->willReturn('myFile');
+
+		$share->setSharedWith('user@server.com')
+			->setSharedBy('sharedBy')
+			->setShareOwner('shareOwner')
+			->setPermissions(19)
+			->setNode($node);
+
+		$this->tokenHandler->method('generateToken')->willReturn('token');
+
+		$this->addressHandler->expects($this->any())->method('generateRemoteURL')
+			->willReturn('http://localhost/');
+		$this->addressHandler->expects($this->any())->method('splitUserRemote')
+			->willReturn(['user', 'server.com']);
+
+		$this->notifications->expects($this->once())
+			->method('sendRemoteShare')
+			->with(
+				$this->equalTo('token'),
+				$this->equalTo('user@server.com'),
+				$this->equalTo('myFile'),
+				$this->anything(),
+				'shareOwner',
+				'shareOwner@http://localhost/',
+				'sharedBy',
+				'sharedBy@http://localhost/'
+			)->willThrowException(new \Exception('dummy'));
+
+		$this->rootFolder->method('getById')
+			->with('42')
+			->willReturn([$node]);
+
+		try {
+			$share = $this->provider->create($share);
+			$this->fail();
+		} catch (\Exception $e) {
+			$this->assertEquals('dummy', $e->getMessage());
 		}
 
 		$qb = $this->connection->getQueryBuilder();

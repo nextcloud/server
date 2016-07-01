@@ -187,7 +187,7 @@
 			}).fail(function(xhr) {
 				var msg = t('core', 'Error');
 				var result = xhr.responseJSON;
-				if (result.ocs && result.ocs.meta) {
+				if (result && result.ocs && result.ocs.meta) {
 					msg = result.ocs.meta.message;
 				}
 
