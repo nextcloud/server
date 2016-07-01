@@ -1336,6 +1336,11 @@ describe('OCA.Files.FileList tests', function() {
 			deferredList.reject(404);
 			expect(fileList.getCurrentDirectory()).toEqual('/');
 		});
+		it('switches to root dir when current directory returns 405', function() {
+			fileList.changeDirectory('/unexist');
+			deferredList.reject(405);
+			expect(fileList.getCurrentDirectory()).toEqual('/');
+		});
 		it('switches to root dir when current directory is forbidden', function() {
 			fileList.changeDirectory('/unexist');
 			deferredList.reject(403);

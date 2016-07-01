@@ -1469,7 +1469,7 @@
 				return false;
 			}
 
-			if (status === 404) {
+			if (status === 404 || status === 405) {
 				// go back home
 				this.changeDirectory('/');
 				return false;
