@@ -1404,7 +1404,7 @@
 		 * @param {string} [fileId] file id
 		 */
 		_setCurrentDir: function(targetDir, changeUrl, fileId) {
-			targetDir = targetDir.replace(/\\/g, '/');
+			targetDir = targetDir.replace(/\\/g, '/').replace(/\/\.\.\//g, '/');
 			var previousDir = this.getCurrentDirectory(),
 				baseDir = OC.basename(targetDir);
 
@@ -1552,7 +1552,7 @@
 				return false;
 			}
 
-			if (status === 404) {
+			if (status === 404 || status === 405) {
 				// go back home
 				this.changeDirectory('/');
 				return false;
