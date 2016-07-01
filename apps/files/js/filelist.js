@@ -513,7 +513,7 @@
 		 * Event handler for when the URL changed
 		 */
 		_onUrlChanged: function(e) {
-			if (e && e.dir) {
+			if (e && _.isString(e.dir)) {
 				this.changeDirectory(e.dir, false, true);
 			}
 		},
@@ -1415,6 +1415,9 @@
 				this.setPageTitle();
 			}
 
+			if (targetDir.length > 0 && targetDir[0] !== '/') {
+				targetDir = '/' + targetDir;
+			}
 			this._currentDirectory = targetDir;
 
 			// legacy stuff
