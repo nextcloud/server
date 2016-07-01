@@ -1327,6 +1327,10 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.changeDirectory('/another\\subdir/../foo\\../bar\\..\\file/..\\folder/../');
 			expect(fileList.getCurrentDirectory()).toEqual('/another/subdir/foo/bar/file/folder/');
 		});
+		it('does not convert folders with a ".." in the name', function() {
+			fileList.changeDirectory('/abc../def');
+			expect(fileList.getCurrentDirectory()).toEqual('/abc../def');
+		});
 		it('switches to root dir when current directory does not exist', function() {
 			fileList.changeDirectory('/unexist');
 			deferredList.reject(404);
