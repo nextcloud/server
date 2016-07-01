@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -80,7 +80,7 @@ class DecryptAll {
 		$this->input = $input;
 		$this->output = $output;
 
-		if (!empty($user) && $this->userManager->userExists($user) === false) {
+		if ($user !== '' && $this->userManager->userExists($user) === false) {
 			$this->output->writeln('User "' . $user . '" does not exist. Please check the username and try again');
 			return false;
 		}
@@ -133,6 +133,7 @@ class DecryptAll {
 
 	/**
 	 * iterate over all user and encrypt their files
+	 *
 	 * @param string $user which users files should be decrypted, default = all users
 	 */
 	protected function decryptAllUsersFiles($user = '') {
@@ -140,7 +141,7 @@ class DecryptAll {
 		$this->output->writeln("\n");
 
 		$userList = [];
-		if (empty($user)) {
+		if ($user === '') {
 
 			$fetchUsersProgress = new ProgressBar($this->output);
 			$fetchUsersProgress->setFormat(" %message% \n [%bar%]");
@@ -200,9 +201,9 @@ class DecryptAll {
 
 		$this->setupUserFS($uid);
 		$directories = array();
-		$directories[] =  '/' . $uid . '/files';
+		$directories[] = '/' . $uid . '/files';
 
-		while($root = array_pop($directories)) {
+		while ($root = array_pop($directories)) {
 			$content = $this->rootView->getDirectoryContent($root);
 			foreach ($content as $file) {
 				$path = $root . '/' . $file['name'];
@@ -213,9 +214,14 @@ class DecryptAll {
 					try {
 						$progress->setMessage("decrypt files for user $userCount: $path");
 						$progress->advance();
-						if ($this->decryptFile($path) === false) {
+						if ($file->isEncrypted() === false) {
 							$progress->setMessage("decrypt files for user $userCount: $path (already decrypted)");
 							$progress->advance();
+						} else {
+							if ($this->decryptFile($path) === false) {
+								$progress->setMessage("decrypt files for user $userCount: $path (already decrypted)");
+								$progress->advance();
+							}
 						}
 					} catch (\Exception $e) {
 						if (isset($this->failed[$uid])) {

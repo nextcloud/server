@@ -26,6 +26,7 @@ namespace Test\Encryption;
 use OC\Encryption\DecryptAll;
 use OC\Encryption\Exceptions\DecryptionFailedException;
 use OC\Encryption\Manager;
+use OC\Files\FileInfo;
 use OC\Files\View;
 use OCP\IUserManager;
 use Test\TestCase;
@@ -85,13 +86,25 @@ class DecryptAllTest extends TestCase {
 		$this->invokePrivate($this->instance, 'output', [$this->outputInterface]);
 	}
 
-	/**
-	 * @dataProvider dataTrueFalse
-	 * @param bool $prepareResult
-	 */
-	public function testDecryptAll($prepareResult, $user) {
+	public function dataDecryptAll() {
+		return [
+			[true, 'user1', true],
+			[false, 'user1', true],
+			[true, '0', true],
+			[false, '0', true],
+			[true, '', false],
+		];
+	}
 
-		if (!empty($user)) {
+	/**
+	 * @dataProvider dataDecryptAll
+	 * @param bool $prepareResult
+	 * @param string $user
+	 * @param bool $userExistsChecked
+	 */
+	public function testDecryptAll($prepareResult, $user, $userExistsChecked) {
+
+		if ($userExistsChecked) {
 			$this->userManager->expects($this->once())->method('userExists')->willReturn(true);
 		} else {
 			$this->userManager->expects($this->never())->method('userExists');
@@ -124,15 +137,6 @@ class DecryptAllTest extends TestCase {
 		$instance->decryptAll($this->inputInterface, $this->outputInterface, $user);
 	}
 
-	public function dataTrueFalse() {
-		return [
-			[true, 'user1'],
-			[false, 'user1'],
-			[true, ''],
-			[true, null]
-		];
-	}
-
 	/**
 	 * test decrypt all call with a user who doesn't exists
 	 */
@@ -146,8 +150,16 @@ class DecryptAllTest extends TestCase {
 		);
 	}
 
+	public function dataTrueFalse() {
+		return [
+			[true],
+			[false],
+		];
+	}
+
 	/**
 	 * @dataProvider dataTrueFalse
+	 * @param bool $success
 	 */
 	public function testPrepareEncryptionModules($success) {
 
@@ -242,15 +254,15 @@ class DecryptAllTest extends TestCase {
 		$this->view->expects($this->at(0))->method('getDirectoryContent')
 			->with('/user1/files')->willReturn(
 				[
-					['name' => 'foo', 'type'=>'dir'],
-					['name' => 'bar', 'type'=>'file'],
+					new FileInfo('path', null, 'intPath', ['name' => 'foo', 'type'=>'dir'], null),
+					new FileInfo('path', null, 'intPath', ['name' => 'bar', 'type'=>'file', 'encrypted'=>true], null)
 				]
 			);
 
 		$this->view->expects($this->at(3))->method('getDirectoryContent')
 			->with('/user1/files/foo')->willReturn(
 				[
-					['name' => 'subfile', 'type'=>'file']
+					new FileInfo('path', null, 'intPath', ['name' => 'subfile', 'type'=>'file', 'encrypted'=>true], null)
 				]
 			);
 
