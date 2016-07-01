@@ -143,7 +143,7 @@ class Updater extends BasicEmitter {
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
-		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.nextcloud.org/server/');
+		$updaterUrl = $this->config->getSystemValue('updater.server.url', 'https://updates.nextcloud.org/updater_server/');
 
 		$this->config->setAppValue('core', 'lastupdatedat', time());
 
