@@ -2352,13 +2352,16 @@
 		 */
 		setFilter:function(filter) {
 			var total = 0;
+			if (this._filter === filter) {
+				return;
+			}
 			this._filter = filter;
 			this.fileSummary.setFilter(filter, this.files);
 			total = this.fileSummary.getTotal();
 			if (!this.$el.find('.mask').exists()) {
 				this.hideIrrelevantUIWhenNoFilesMatch();
 			}
-			var that = this;
+
 			var visibleCount = 0;
 			filter = filter.toLowerCase();
 
@@ -2378,7 +2381,7 @@
 				if (visibleCount < total) {
 					$trs = this._nextPage(false);
 				}
-			} while (visibleCount < total);
+			} while (visibleCount < total && $trs.length > 0);
 
 			this.$container.trigger('scroll');
 		},

@@ -33,6 +33,8 @@ use \Doctrine\DBAL\Schema\Table;
 use \Doctrine\DBAL\Schema\Schema;
 use \Doctrine\DBAL\Schema\SchemaConfig;
 use \Doctrine\DBAL\Schema\Comparator;
+use Doctrine\DBAL\Types\StringType;
+use Doctrine\DBAL\Types\Type;
 use OCP\IConfig;
 use OCP\Security\ISecureRandom;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -194,7 +196,25 @@ class Migrator {
 		return new Table($newName, $table->getColumns(), $newIndexes, array(), 0, $table->getOptions());
 	}
 
+	/**
+	 * @param Schema $targetSchema
+	 * @param \Doctrine\DBAL\Connection $connection
+	 * @return \Doctrine\DBAL\Schema\SchemaDiff
+	 * @throws DBALException
+	 */
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+		// adjust varchar columns with a length higher then getVarcharMaxLength to clob
+		foreach ($targetSchema->getTables() as $table) {
+			foreach ($table->getColumns() as $column) {
+				if ($column->getType() instanceof StringType) {
+					if ($column->getLength() > $connection->getDatabasePlatform()->getVarcharMaxLength()) {
+						$column->setType(Type::getType('text'));
+						$column->setLength(null);
+					}
+				}
+			}
+		}
+
 		$filterExpression = $this->getFilterExpression();
 		$this->connection->getConfiguration()->
 		setFilterSchemaAssetsExpression($filterExpression);

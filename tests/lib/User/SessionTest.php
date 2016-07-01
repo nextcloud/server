@@ -729,6 +729,9 @@ class SessionTest extends \Test\TestCase {
 		$this->assertFalse($userSession->createSessionToken($request, $uid, $loginName, $password));
 	}
 
+	/**
+	 * @expectedException \OC\User\LoginException
+	 */
 	public function testTryTokenLoginWithDisabledUser() {
 		$manager = $this->getMockBuilder('\OC\User\Manager')
 			->disableOriginalConstructor()
@@ -761,7 +764,7 @@ class SessionTest extends \Test\TestCase {
 			->method('isEnabled')
 			->will($this->returnValue(false));
 
-		$this->assertFalse($userSession->tryTokenLogin($request));
+		$userSession->tryTokenLogin($request);
 	}
 
 	public function testValidateSessionDisabledUser() {

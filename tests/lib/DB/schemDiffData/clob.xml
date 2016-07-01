@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<database>
+	<table>
+		<name>*dbprefix*external_config</name>
+		<declaration>
+			<field>
+				<name>value</name>
+				<type>text</type>
+				<notnull>true</notnull>
+				<length>100000</length>
+			</field>
+		</declaration>
+	</table>
+</database>

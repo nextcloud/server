@@ -23,6 +23,7 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Schema\ColumnDiff;
 use Doctrine\DBAL\Schema\Schema;
 
 class OracleMigrator extends NoCheckMigrator {
@@ -39,7 +40,12 @@ class OracleMigrator extends NoCheckMigrator {
 			$tableDiff->name = $this->connection->quoteIdentifier($tableDiff->name);
 			foreach ($tableDiff->changedColumns as $column) {
 				$column->oldColumnName = $this->connection->quoteIdentifier($column->oldColumnName);
+				// auto increment is not relevant for oracle and can anyhow not be applied on change
+				$column->changedProperties = array_diff($column->changedProperties, ['autoincrement', 'unsigned']);
 			}
+			$tableDiff->changedColumns = array_filter($tableDiff->changedColumns, function (ColumnDiff $column) {
+				return count($column->changedProperties) > 0;
+			});
 		}
 
 		return $schemaDiff;
