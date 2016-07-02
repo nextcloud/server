@@ -1,8 +1,10 @@
 OC.L10N.register(
     "updatenotification",
     {
+    "Update notifications" : "Bildirimleri güncelle",
     "{version} is available. Get more information on how to update." : "Sürüm {version} hazır. Nasıl güncelleyeceğinizle ilgili daha fazla bilgi alın.",
     "Updated channel" : "Kanal güncellendi",
+    "ownCloud core" : "ownCloud çekirdeği",
     "Updater" : "Güncelleyici",
     "A new version is available: %s" : "Yeni bir sürüm mevcut: %s",
     "Open updater" : "Güncelleyiciyi aç",
