@@ -7,6 +7,8 @@ OC.L10N.register(
     "Step 1 failed. Exception: %s" : "Adım 1 başarısız. Özel durum: %s",
     "Step 2 failed. Exception: %s" : "Adım 2 başarısız. Özel durum: %s",
     "External storage" : "Harici depolama",
+    "Dropbox App Configuration" : "Dropbox'u yapılandır",
+    "Google Drive App Configuration" : "Google Drive'ı yapılandır",
     "Personal" : "Kişisel",
     "System" : "Sistem",
     "Grant access" : "Erişimi sağla",

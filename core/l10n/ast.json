@@ -213,6 +213,7 @@
     "new" : "nuevu",
     "_download %n file_::_download %n files_" : ["descargando %n ficheru","descargando %n ficheros"],
     "The upgrade is in progress, leaving this page might interrupt the process in some environments." : "L'actualización ta en cursu, salir d'esta páxina podría atayar el procesu en dellos entornos.",
+    "Updating to {version}" : "Anovando a {version}",
     "Please reload the page." : "Por favor, recarga la páxina",
     "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." : "L'anovamientu fízose con ésitu. Por favor, informa d'esti problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comuña ownCloud</a>.",
     "The update was successful. Redirecting you to ownCloud now." : "L'anovamientu fízose con ésitu. Redirixiendo agora al to ownCloud.",
