@@ -274,6 +274,7 @@
     "Most recent activity" : "Meest recente activiteit",
     "You've linked these apps." : "U hebt deze apps gelinkt.",
     "Name" : "Naam",
+    "An app password is a passcode that gives an app or device permissions to access your %s account." : "Een app wachtwoord is een toegangscode waarmee een app of apparaat toegang krijgt om uw %s account te gebruiken.",
     "App name" : "App naam",
     "Create new app password" : "Creëer nieuw app wachtwoord",
     "Use the credentials below to configure your app or device." : "Gebruik onderstaande inloggegevens om uw app of apparaat te configureren.",
