@@ -61,6 +61,7 @@
 	"application/x-compressed": "package/x-generic",
 	"application/x-dcraw": "image",
 	"application/x-deb": "package/x-generic",
+	"application/x-fictionbook+xml": "text",
 	"application/x-font": "image",
 	"application/x-gimp": "image",
 	"application/x-gzip": "package/x-generic",
