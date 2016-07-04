@@ -38,6 +38,9 @@ describe('OCA.Sharing.FileList tests', function() {
 			'<th class="hidden column-mtime">' +
 			'<a class="columntitle" data-sort="mtime"><span class="sort-indicator"></span></a>' +
 			'</th>' +
+			'<th class="column-expiration">' +
+			'<a class="columntitle"><span>Expiration date</span></a>' +
+			'</th>' +
 			'</tr></thead>' +
 			'<tbody id="fileList"></tbody>' +
 			'<tfoot></tfoot>' +
@@ -512,6 +515,15 @@ describe('OCA.Sharing.FileList tests', function() {
 
 			fileList.reload();
 
+			var currentdate = new Date();
+			var expirationDateInADay =
+				+ currentdate.getFullYear() + "-"
+				+ ((currentdate.getMonth()+1 < 10) ? "0" : "") + (currentdate.getMonth()+1) + "-"
+				+ ((currentdate.getDate()+1 < 10) ? "0" : "") + (currentdate.getDate()+1) + " "
+				+ ((currentdate.getHours()+1 < 10) ? "0" : "") + currentdate.getHours() + ":"
+				+ ((currentdate.getMinutes()+1 < 10) ? "0" : "") + currentdate.getMinutes() + ":"
+				+ ((currentdate.getSeconds()+1 < 10) ? "0" : "") + currentdate.getSeconds();
+
 			/* jshint camelcase: false */
 			ocsResponse = {
 				ocs: {
@@ -528,12 +540,28 @@ describe('OCA.Sharing.FileList tests', function() {
 						path: '/local path/local name.txt',
 						permissions: 1,
 						stime: 11111,
+						expiration: null,
 						share_type: OC.Share.SHARE_TYPE_LINK,
 						share_with: null,
 						token: 'abc',
 						mimetype: 'text/plain',
 						uid_owner: 'user1',
 						displayname_owner: 'User One'
+					},{
+						id: 8,
+						item_type: 'file',
+						item_source: 50,
+						file_source: 50,
+						path: '/local path2/local name2.txt',
+						permissions: 1,
+						stime: 11112,
+						expiration: expirationDateInADay,
+						share_type: OC.Share.SHARE_TYPE_LINK,
+						share_with: null,
+						token: 'abcd',
+						mimetype: 'text/plain2',
+						uid_owner: 'user2',
+						displayname_owner: 'User One2'
 					}]
 				}
 			};
@@ -570,10 +598,10 @@ describe('OCA.Sharing.FileList tests', function() {
 				JSON.stringify(ocsResponse)
 			);
 
-			// only renders the link share entry
+			// only renders the link share entries
 			var $rows = fileList.$el.find('tbody tr');
 			var $tr = $rows.eq(0);
-			expect($rows.length).toEqual(1);
+			expect($rows.length).toEqual(2);
 			expect($tr.attr('data-id')).toEqual('49');
 			expect($tr.attr('data-type')).toEqual('file');
 			expect($tr.attr('data-file')).toEqual('local name.txt');
@@ -588,8 +616,17 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.find('a.name').attr('href')).toEqual(
 				OC.webroot + '/remote.php/webdav/local%20path/local%20name.txt'
 			);
+			expect($tr.attr('data-expiration')).toEqual('0');
+			expect($tr.find('td:last-child span').text()).toEqual('Never');
 
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
+
+			// change to next row
+			$tr = $rows.eq(1);
+			expect($tr.attr('data-id')).toEqual('50');
+			expect($tr.attr('data-file')).toEqual('local name2.txt');
+			expect($tr.attr('data-expiration')).not.toEqual('0');
+			expect($tr.find('td:last-child span').text()).toEqual('in a day');
 		});
 		it('does not show virtual token recipient as recipient when password was set', function() {
 			/* jshint camelcase: false */
@@ -613,7 +650,7 @@ describe('OCA.Sharing.FileList tests', function() {
 			// only renders the link share entry
 			var $rows = fileList.$el.find('tbody tr');
 			var $tr = $rows.eq(0);
-			expect($rows.length).toEqual(1);
+			expect($rows.length).toEqual(2);
 			expect($tr.attr('data-id')).toEqual('49');
 			expect($tr.attr('data-type')).toEqual('file');
 			expect($tr.attr('data-file')).toEqual('local name.txt');
