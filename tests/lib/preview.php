@@ -288,6 +288,7 @@ class Preview extends TestCase {
 	 * Tests if a preview of max dimensions gets created
 	 *
 	 * @dataProvider dimensionsDataProvider
+	 * @requires function Imagick::__construct
 	 *
 	 * @param int $sampleId
 	 * @param int $widthAdjustment
@@ -359,6 +360,7 @@ class Preview extends TestCase {
 	 * Tests if the second preview will be based off the cached max preview
 	 *
 	 * @dataProvider dimensionsDataProvider
+	 * @requires function Imagick::__construct
 	 *
 	 * @param int $sampleId
 	 * @param int $widthAdjustment
@@ -444,6 +446,7 @@ class Preview extends TestCase {
 	 * of the dimensions set in the config
 	 *
 	 * @dataProvider aspectDataProvider
+	 * @requires function Imagick::__construct
 	 *
 	 * @param int $sampleId
 	 * @param bool $keepAspect
@@ -500,6 +503,7 @@ class Preview extends TestCase {
 	 * 300-188-with-aspect
 	 *
 	 * @dataProvider aspectDataProvider
+	 * @requires function Imagick::__construct
 	 *
 	 * @param int $sampleId
 	 * @param bool $keepAspect
