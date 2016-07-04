@@ -29,7 +29,7 @@
 				var $textPreview = $('<pre/>').text(content);
 				$thumbnailDiv.children('.stretcher').remove();
 				$thumbnailDiv.append($textPreview);
-				$thumbnailContainer.height(previewHeight);
+				$thumbnailContainer.css("max-height", previewHeight);
 			}, function () {
 				fallback();
 			});
