@@ -67,11 +67,12 @@
 	background-size: contain;
 }
 
-#app-sidebar .text {
+#app-sidebar .large.text {
 	overflow-y: scroll;
 	overflow-x: hidden;
-	padding-left: 5px;
+	padding-top: 15px;
 	font-size: 80%;
+	margin-left: 0;
 }
 
 #app-sidebar .thumbnail {
