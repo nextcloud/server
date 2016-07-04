@@ -117,7 +117,7 @@ var UserList = {
 		 * remove action
 		 */
 		if ($tr.find('td.remove img').length === 0 && OC.currentUser !== user.name) {
-			var deleteImage = $('<img class="svg action">').attr({
+			var deleteImage = $('<img class="action">').attr({
 				src: OC.imagePath('core', 'actions/delete')
 			});
 			var deleteLink = $('<a class="action delete">')

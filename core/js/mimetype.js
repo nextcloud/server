@@ -29,7 +29,7 @@ OC.MimeType = {
 	 * Cache that maps mimeTypes to icon urls
 	 */
 	_mimeTypeIcons: {},
-	
+
 	/**
 	 * Return the file icon we want to use for the given mimeType.
 	 * The file needs to be present in the supplied file list
@@ -60,7 +60,7 @@ OC.MimeType = {
 
 		return null;
 	},
-	
+
 	/**
 	 * Return the url to icon of the given mimeType
 	 *
@@ -91,19 +91,14 @@ OC.MimeType = {
 				path += icon;
 			}
 		}
-		
+
 		// If we do not yet have an icon fall back to the default
 		if (gotIcon === null) {
 			path = OC.webroot + '/core/img/filetypes/';
 			path += OC.MimeType._getFile(mimeType, OC.MimeTypeList.files);
 		}
 
-		// Use svg if we can
-		if(OC.Util.hasSVGSupport()){
-			path += '.svg';
-		} else {
-			path += '.png';
-		}
+		path += '.svg';
 
 		// Cache the result
 		OC.MimeType._mimeTypeIcons[mimeType] = path;
@@ -111,5 +106,3 @@ OC.MimeType = {
 	}
 
 };
-
-

@@ -145,7 +145,7 @@
 					break;
 				case 'closeButton':
 					if(value) {
-						var $closeButton = $('<a class="oc-dialog-close svg"></a>');
+						var $closeButton = $('<a class="oc-dialog-close"></a>');
 						this.$dialog.prepend($closeButton);
 						$closeButton.on('click', function() {
 							self.close();
