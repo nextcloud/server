@@ -26,7 +26,7 @@
 					<?php else: ?>style="visibility:hidden;"
 					<?php endif; ?>><img alt="<?php p($l->t('Delete')); ?>"
 										 title="<?php p($l->t('Delete')); ?>"
-										 class="svg action"
+										 class="action"
 										 src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>"/>
 				</td>
 			</tr>

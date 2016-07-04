@@ -38,7 +38,7 @@
 					'<span class="shareOption">' +
 						'<input id="canEdit-{{cid}}-{{shareWith}}" type="checkbox" name="edit" class="permissions checkbox" {{#if hasEditPermission}}checked="checked"{{/if}} />' +
 						'<label for="canEdit-{{cid}}-{{shareWith}}">{{canEditLabel}}</label>' +
-						'<a href="#" class="showCruds"><img class="svg" alt="{{crudsLabel}}" src="{{triangleSImage}}"/></a>' +
+						'<a href="#" class="showCruds"><img alt="{{crudsLabel}}" src="{{triangleSImage}}"/></a>' +
 					'</span>' +
 					'{{/if}}' +
 					'<div class="cruds hidden">' +
