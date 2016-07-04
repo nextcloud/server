@@ -10,9 +10,15 @@
     "More comments..." : "Flere kommentarer..",
     "Save" : "Lagre",
     "Allowed characters {count} of {max}" : "Antall tegn tillatt {count} av {max}",
+    "Error occurred while retrieving comment with id {id}" : "En feil oppstod ved henting av kommentar med id {id}",
+    "Error occurred while updating comment with id {id}" : "En feil oppstod ved oppdatering av kommentar med id {id}",
+    "Error occurred while posting comment" : "En feil oppstod ved innlegging av kommentar",
     "{count} unread comments" : "{count} uleste kommentarer",
     "Comment" : "Kommentar",
+    "<strong>Comments</strong> for files <em>(always listed in stream)</em>" : "<strong>Kommentarer</strong> for filer <em>(alltid listet i strømmen)</em>",
+    "You commented" : "Du kommenterte",
     "%1$s commented" : "%1$s kommentert",
+    "You commented on %2$s" : "Du kommenterte på %2$s",
     "%1$s commented on %2$s" : "%1$s kommenterte %2$s"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

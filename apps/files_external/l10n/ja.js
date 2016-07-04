@@ -18,6 +18,7 @@ OC.L10N.register(
     "Error generating key pair" : "キーペアの生成エラー",
     "All users. Type to select user or group." : "すべてのユーザー。ユーザー、グループを追加",
     "(group)" : "(グループ)",
+    "Compatibility with Mac NFD encoding (slow)" : "Mac NFD エンコード互換 (遅い)",
     "Admin defined" : "管理者設定済",
     "Saved" : "保存されました",
     "Empty response from the server" : "サーバーから空の応答がありました",

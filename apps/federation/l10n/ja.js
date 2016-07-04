@@ -7,9 +7,9 @@ OC.L10N.register(
     "Could not add server" : "サーバーを追加できませんでした",
     "Federation" : "連携",
     "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "ownCloud 連携機能では信頼済のownCloudのユーザーディレクトリを相互に接続することができます。例えば、連携で共有したときには、連携先の外部ユーザー名の自動補完を使えるようになります。",
-    "Add server automatically once a federated share was created successfully" : "追加するサーバは自動的に統合され、共有が追加されました",
-    "Trusted ownCloud Servers" : "ownCloudサーバを信頼する",
-    "+ Add ownCloud server" : "ownCloudサーバを追加",
+    "Add server automatically once a federated share was created successfully" : "ownCloudサーバー連携で一度でも共有が作成できた場合は、サーバーを自動的に追加します。",
+    "Trusted ownCloud Servers" : "信頼済 ownCloudサーバ",
+    "+ Add ownCloud server" : "＋ownCloudサーバを追加",
     "ownCloud Server" : "ownCloudサーバ"
 },
 "nplurals=1; plural=0;");
