@@ -549,7 +549,7 @@ $CONFIG = array(
  */
 
 /**
- * By default the Nextcloud logs are sent to the ``owncloud.log`` file in the
+ * By default the Nextcloud logs are sent to the ``nextcloud.log`` file in the
  * default Nextcloud data directory.
  * If syslogging is desired, set this parameter to ``syslog``.
  * Setting this parameter to ``errorlog`` will use the PHP error_log function
@@ -559,9 +559,9 @@ $CONFIG = array(
 
 /**
  * Log file path for the Nextcloud logging type.
- * Defaults to ``[datadirectory]/owncloud.log``
+ * Defaults to ``[datadirectory]/nextcloud.log``
  */
-'logfile' => '/var/log/owncloud.log',
+'logfile' => '/var/log/nextcloud.log',
 
 /**
  * Loglevel to start logging at. Valid values are: 0 = Debug, 1 = Info, 2 =
