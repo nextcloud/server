@@ -38,4 +38,4 @@ In some areas unit testing is hard (aka almost impossible) as of today - in thes
 ## Translations
 Please submit translations via [Transifex][transifex].
 
-[transifex]: https://www.transifex.com/projects/p/owncloud/
+[transifex]: https://www.transifex.com/nextcloud
