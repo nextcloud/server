@@ -321,6 +321,10 @@ class Storage {
 			// add expected leading slash
 			$file = '/' . ltrim($file, '/');
 			list($uid, $filename) = self::getUidAndFilename($file);
+			if ($uid === null || trim($filename, '/') === '') {
+				return false;
+			}
+
 			$users_view = new View('/'.$uid);
 			$files_view = new View('/'. User::getUser().'/files');
 			$versionCreated = false;
