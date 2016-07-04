@@ -228,6 +228,10 @@ class User_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 					return false;
 				}
 				$newDn = $this->access->getUserDnByUuid($uuid);
+				//check if renamed user is still valid by reapplying the ldap filter
+				if(!is_array($this->access->readAttribute($newDn, '', $this->access->connection->ldapUserFilter))) {
+					return false;
+				}
 				$this->access->getUserMapper()->setDNbyUUID($newDn, $uuid);
 				return true;
 			} catch (\Exception $e) {
