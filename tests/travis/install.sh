@@ -173,8 +173,8 @@ cat $BASEDIR/config/config.php
 echo "data directory:"
 ls -ll $DATADIR
 
-echo "owncloud.log:"
-[ -f "$DATADIR/owncloud.log" ] && cat $DATADIR/owncloud.log
-[ -f "$BASEDIR/data/owncloud.log" ] && cat $BASEDIR/data/owncloud.log
+echo "nextcloud.log:"
+[ -f "$DATADIR/nextcloud.log" ] && cat $DATADIR/nextcloud.log
+[ -f "$BASEDIR/data/nextcloud.log" ] && cat $BASEDIR/data/nextcloud.log
 
 cd $BASEDIR

@@ -16,6 +16,6 @@ PYTHONPATH="$SCRIPTPATH/pycalendar/src" python testcaldav.py --print-details-onf
 
 RESULT=$?
 
-tail "$/../../../../../data-autotest/owncloud.log"
+tail "$/../../../../../data-autotest/nextcloud.log"
 
 exit $RESULT
