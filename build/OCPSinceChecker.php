@@ -111,7 +111,7 @@ $errors = [];
 foreach($Regex as $file) {
 	$stmts = $parser->parse(file_get_contents($file[0]));
 
-	$visitor = new SinceTagCheckVisitor($this->blackListedClassNames);
+	$visitor = new SinceTagCheckVisitor();
 	$traverser = new \PhpParser\NodeTraverser();
 	$traverser->addVisitor($visitor);
 	$traverser->traverse($stmts);
