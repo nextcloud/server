@@ -56,10 +56,10 @@ class OC_Defaults {
 		$this->defaultTitle = 'Nextcloud'; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = 'https://nextcloud.com';
 		$this->defaultSyncClientUrl = 'https://nextcloud.com/install';
-		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8';
-		$this->defaultiTunesAppId = '543672169';
-		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.owncloud.android';
-		$this->defaultDocBaseUrl = 'https://doc.owncloud.org';
+		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/nextcloud/id1125420102?mt=8';
+		$this->defaultiTunesAppId = '1125420102';
+		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.nextcloud.client';
+		$this->defaultDocBaseUrl = 'https://docs.nextcloud.org';
 		$this->defaultDocVersion = $version[0] . '.' . $version[1]; // used to generate doc links
 		$this->defaultSlogan = $this->l->t('a safe home for all your data');
 		$this->defaultLogoClaim = '';
