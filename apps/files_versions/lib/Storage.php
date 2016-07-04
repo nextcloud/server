@@ -313,6 +313,7 @@ class Storage {
 	 *
 	 * @param string $file file name
 	 * @param int $revision revision timestamp
+	 * @return bool
 	 */
 	public static function rollback($file, $revision) {
 
@@ -323,12 +324,9 @@ class Storage {
 			if ($uid === null || trim($filename, '/') === '') {
 				return false;
 			}
+
 			$users_view = new View('/'.$uid);
 			$files_view = new View('/'. User::getUser().'/files');
-
-			if (!$files_view->isUpdatable($filename)) {
-				return false;
-			}
 
 			$versionCreated = false;
 
