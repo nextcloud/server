@@ -94,7 +94,7 @@ Eventually replace sensitive data as the name/IP-address of your LDAP server or 
 Insert your webserver log here
 ```
 
-#### Nextcloud log (data/owncloud.log)
+#### Nextcloud log (data/nextcloud.log)
 ```
 Insert your Nextcloud log here
 ```

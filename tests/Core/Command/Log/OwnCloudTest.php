@@ -101,7 +101,7 @@ class OwnCloudTest extends TestCase {
 			->will($this->returnValueMap([
 				['log_type', 'owncloud', 'log_type_value'],
 				['datadirectory', \OC::$SERVERROOT.'/data', '/data/directory/'],
-				['logfile', '/data/directory/owncloud.log', '/var/log/owncloud.log'],
+				['logfile', '/data/directory/nextcloud.log', '/var/log/nextcloud.log'],
 				['log_rotate_size', 0, 5 * 1024 * 1024],
 			]));
 
@@ -110,7 +110,7 @@ class OwnCloudTest extends TestCase {
 			->with('Log backend ownCloud: disabled');
 		$this->consoleOutput->expects($this->at(1))
 			->method('writeln')
-			->with('Log file: /var/log/owncloud.log');
+			->with('Log file: /var/log/nextcloud.log');
 		$this->consoleOutput->expects($this->at(2))
 			->method('writeln')
 			->with('Rotate at: 5 MB');
