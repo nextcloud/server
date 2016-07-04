@@ -34,22 +34,30 @@ Tell us what happens instead
 **Where did you install Nextcloud from:**
 
 **Signing status (Nextcloud 9.0 and above):**
+<details>
+<summary>Signing status</summary>
 
 ```
 Login as admin user into your Nextcloud and access 
 http://example.com/index.php/settings/integrity/failed 
 paste the results here.
 ```
+</details>
 
 **List of activated apps:**
+<details>
+<summary>App list</summary>
 
 ```
 If you have access to your command line run e.g.:
 sudo -u www-data php occ app:list
 from within your Nextcloud installation folder
 ```
+</details>
 
 **The content of config/config.php:**
+<details>
+<summary>Config report</summary>
 
 ```
 If you have access to your command line run e.g.:
@@ -61,6 +69,7 @@ or
 Insert your config.php content here
 (Without the database password, passwordsalt and secret)
 ```
+</details>
 
 **Are you using external storage, if yes which one:** local/smb/sftp/...
 
@@ -69,6 +78,8 @@ Insert your config.php content here
 **Are you using an external user-backend, if yes which one:** LDAP/ActiveDirectory/Webdav/...
 
 #### LDAP configuration (delete this part if not used)
+<details>
+<summary>LDAP config</summary>
 
 ```
 With access to your command line run e.g.:
@@ -82,6 +93,7 @@ SELECT * FROM `oc_appconfig` WHERE `appid` = 'user_ldap';
 
 Eventually replace sensitive data as the name/IP-address of your LDAP server or groups.
 ```
+</details>
 
 ### Client configuration
 **Browser:**
@@ -90,20 +102,29 @@ Eventually replace sensitive data as the name/IP-address of your LDAP server or 
 
 ### Logs
 #### Web server error log
+<details>
+<summary>Browser log</summary>
 ```
 Insert your webserver log here
 ```
+</details>
 
 #### Nextcloud log (data/owncloud.log)
+<details>
+<summary>Browser log</summary>
 ```
 Insert your Nextcloud log here
 ```
+</details>
 
 #### Browser log
+<details>
+<summary>Browser log</summary>
 ```
 Insert your browser log here, this could for example include:
 
 a) The javascript console log
-b) The network log 
+b) The network log
 c) ...
 ```
+</details>
