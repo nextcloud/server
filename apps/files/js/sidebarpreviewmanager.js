@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015
+ * Copyright (c) 2016
  *
  * This file is licensed under the Affero General Public License version 3
  * or later.
@@ -11,12 +11,30 @@
 (function () {
 	SidebarPreviewManager = function (fileList) {
 		this._fileList = fileList;
+		this._previewHandlers = {};
+		OC.Plugins.attach('OCA.Files.SidebarPreviewManager', this);
 	};
 
 	SidebarPreviewManager.prototype = {
+		addPreviewHandler: function (mime, handler) {
+			this._previewHandlers[mime] = handler;
+		},
+
+		getPreviewHandler: function (mime) {
+			var mimePart = mime.split('/').shift();
+			if (this._previewHandlers[mime]) {
+				return this._previewHandlers[mime];
+			} else if(this._previewHandlers[mimePart]) {
+				return this._previewHandlers[mimePart];
+			} else {
+				return this.fallbackPreview.bind(this);
+			}
+		},
+
 		loadPreview: function (model, $thumbnailDiv, $thumbnailContainer) {
-			// todo allow plugins to register custom handlers by mimetype
-			this.fallbackPreview(model, $thumbnailDiv, $thumbnailContainer);
+			var handler = this.getPreviewHandler(model.get('mimetype'));
+			var fallback = this.fallbackPreview.bind(this, model, $thumbnailDiv, $thumbnailContainer);
+			handler(model, $thumbnailDiv, $thumbnailContainer, fallback);
 		},
 
 		// previews for images and mimetype icons
@@ -74,7 +92,7 @@
 					var targetHeight = getTargetHeight(img);
 					if (isImage && targetHeight > smallPreviewSize) {
 						$thumbnailContainer.addClass((isLandscape(img) && !isSmall(img)) ? 'landscape' : 'portrait');
-						$thumbnailContainer.addClass('image');
+						$thumbnailContainer.addClass('large');
 					}
 
 					// only set background when we have an actual preview
