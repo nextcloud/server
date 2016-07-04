@@ -40,7 +40,7 @@ kill $PHPPID
 kill $PHPPID_FED
 
 if [ -z $HIDE_OC_LOGS ]; then
-	tail "../../data/owncloud.log"
+	tail "../../data/nextcloud.log"
 fi
 
 exit $RESULT

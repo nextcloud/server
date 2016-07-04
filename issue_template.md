@@ -109,7 +109,7 @@ Insert your webserver log here
 ```
 </details>
 
-#### Nextcloud log (data/owncloud.log)
+#### Nextcloud log (data/nextcloud.log)
 <details>
 <summary>Nextcloud log</summary>
 ```
