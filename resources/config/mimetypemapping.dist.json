@@ -52,6 +52,7 @@
 	"eps": ["application/postscript"],
 	"erf": ["image/x-dcraw"],
 	"exe": ["application/x-ms-dos-executable"],
+	"fb2": ["application/x-fictionbook+xml", "text/plain"],
 	"flac": ["audio/flac"],
 	"flv": ["video/x-flv"],
 	"gif": ["image/gif"],
