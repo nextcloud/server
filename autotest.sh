@@ -66,6 +66,12 @@ if [ -f config/config.php ]; then
 fi
 
 function restore_config {
+	if [ ! -z "$DOCKER_CONTAINER_ID" ]; then
+		echo "Kill the docker $DOCKER_CONTAINER_ID"
+		docker stop "$DOCKER_CONTAINER_ID"
+		docker rm -f "$DOCKER_CONTAINER_ID"
+	fi
+
 	# Restore existing config
 	if [ -f config/config-autotest-backup.php ]; then
 		mv config/config-autotest-backup.php config/config.php
@@ -73,7 +79,7 @@ function restore_config {
 }
 
 # restore config on exit, even when killed
-trap restore_config SIGINT SIGTERM
+trap restore_config EXIT
 
 # use tmpfs for datadir - should speedup unit test execution
 if [ -d /dev/shm ]; then
@@ -129,22 +135,6 @@ cat > ./tests/autoconfig-pgsql.php <<DELIM
 );
 DELIM
 
-cat > ./tests/autoconfig-oci.php <<DELIM
-<?php
-\$AUTOCONFIG = array (
-  'installed' => false,
-  'dbtype' => 'oci',
-  'dbtableprefix' => 'oc_',
-  'adminlogin' => '$ADMINLOGIN',
-  'adminpass' => 'admin',
-  'directory' => '$DATADIR',
-  'dbuser' => '$DATABASENAME',
-  'dbname' => 'XE',
-  'dbhost' => 'localhost',
-  'dbpass' => 'owncloud',
-);
-DELIM
-
 function execute_tests {
 	echo "Setup environment for $1 testing ..."
 	# back to root folder
@@ -169,28 +159,40 @@ function execute_tests {
 		dropdb -U $DATABASEUSER $DATABASENAME || true
 	fi
 	if [ "$1" == "oci" ] ; then
-		echo "drop the database"
-		sqlplus -s -l / as sysdba <<EOF
-			drop user $DATABASENAME cascade;
-EOF
+		echo "Fire up the oracle docker"
+		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
+		DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
-		echo "create the database"
-		sqlplus -s -l / as sysdba <<EOF
-			create user $DATABASENAME identified by owncloud;
-			alter user $DATABASENAME default tablespace users
-			temporary tablespace temp
-			quota unlimited on users;
-			grant create session
-			, create table
-			, create procedure
-			, create sequence
-			, create trigger
-			, create view
-			, create synonym
-			, alter session
-			to $DATABASENAME;
-			exit;
-EOF
+		echo "Waiting for Oracle initialization ... "
+
+		# Try to connect to the OCI host via sqlplus to ensure that the connection is already running
+      		for i in {1..48}
+                do
+                        if sqlplus "autotest/owncloud@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=$DATABASEHOST)(Port=1521))(CONNECT_DATA=(SID=XE)))" < /dev/null | grep 'Connected to'; then
+                                break;
+                        fi
+                        sleep 5
+                done
+
+		DATABASEUSER=autotest
+		DATABASENAME='XE'
+
+		cat > ./tests/autoconfig-oci.php <<DELIM
+<?php
+\$AUTOCONFIG = array (
+  'installed' => false,
+  'dbtype' => 'oci',
+  'dbtableprefix' => 'oc_',
+  'adminlogin' => '$ADMINLOGIN',
+  'adminpass' => 'admin',
+  'directory' => '$DATADIR',
+  'dbuser' => '$DATABASEUSER',
+  'dbname' => '$DATABASENAME',
+  'dbhost' => '$DATABASEHOST',
+  'dbpass' => 'owncloud',
+);
+DELIM
+
 	fi
 
 	# copy autoconfig
@@ -236,7 +238,6 @@ fi
 
 cd "$BASEDIR"
 
-restore_config
 #
 # NOTES on mysql:
 #  - CREATE DATABASE oc_autotest;
@@ -262,3 +263,4 @@ restore_config
 #  - DON'T TRY THIS AT HOME!
 #  - if you really need it: we feel sorry for you
 #
+

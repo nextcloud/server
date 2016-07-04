@@ -21,6 +21,7 @@
  */
 
 namespace OCA\Files_Encryption\Tests;
+use OC\HTTPHelper;
 
 /**
  * Class Share
@@ -43,6 +44,9 @@ class Share extends TestCase {
 	public $folder1;
 	public $subfolder;
 	public $subsubfolder;
+
+	/** @var HTTPHelper */
+	private $oldHttpHelper;
 
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
@@ -123,17 +127,20 @@ class Share extends TestCase {
 		$config = $this->getMockBuilder('\OCP\IConfig')
 				->disableOriginalConstructor()->getMock();
 		$certificateManager = $this->getMock('\OCP\ICertificateManager');
+		/** @var HTTPHelper | \PHPUnit_Framework_MockObject_MockObject $httpHelperMock */
 		$httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
 				->setConstructorArgs(array($config, $certificateManager))
 				->getMock();
-		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(array('success' => true, 'result' => "{'ocs' : { 'meta' : { 'statuscode' : 100 }}}")));
+		$httpHelperMock->expects($this->any())
+			->method('post')->with($this->anything())
+			->will($this->returnValue(array('success' => true, 'result' => '{"ocs" : { "meta" : { "statuscode" : 100 }}}')));
 
 		$this->registerHttpHelper($httpHelperMock);
 	}
 
 	/**
 	 * Register an http helper mock for testing purposes.
-	 * @param $httpHelper http helper mock
+	 * @param HTTPHelper $httpHelper http helper mock
 	 */
 	private function registerHttpHelper($httpHelper) {
 		$this->oldHttpHelper = \OC::$server->query('HTTPHelper');
