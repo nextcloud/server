@@ -18,7 +18,7 @@ $(document).ready(function(){
 		version = oc_updateState.updateVersion,
 		docLink = oc_updateState.updateLink,
 		text = t('core', '{version} is available. Get more information on how to update.', {version: version}),
-		element = $('<a>').attr('href', docLink).attr('target','_blank').text(text);
+		element = $('<a href="'+escapeHTML(docLink)+'" target="_blank">'+escapeHTML(text)+'</a>');
 
 	OC.Notification.showTemporary(
 		element,
