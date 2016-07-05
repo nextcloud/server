@@ -285,19 +285,6 @@ class ShareController extends Controller {
 			throw $e;
 		}
 
-		$rootFolder = null;
-		if ($share->getNode() instanceof \OCP\Files\Folder) {
-			/** @var \OCP\Files\Folder $rootFolder */
-			$rootFolder = $share->getNode();
-
-			try {
-				$folderNode = $rootFolder->get($path);
-			} catch (\OCP\Files\NotFoundException $e) {
-				$this->emitAccessShareHook($share, 404, 'Share not found');
-				throw new NotFoundException();
-			}
-		}
-
 		$shareTmpl = [];
 		$shareTmpl['displayName'] = $this->userManager->get($share->getShareOwner())->getDisplayName();
 		$shareTmpl['owner'] = $share->getShareOwner();
@@ -316,6 +303,16 @@ class ShareController extends Controller {
 		// Show file list
 		$hideFileList = false;
 		if ($share->getNode() instanceof \OCP\Files\Folder) {
+			/** @var \OCP\Files\Folder $rootFolder */
+			$rootFolder = $share->getNode();
+
+			try {
+				$folderNode = $rootFolder->get($path);
+			} catch (\OCP\Files\NotFoundException $e) {
+				$this->emitAccessShareHook($share, 404, 'Share not found');
+				throw new NotFoundException();
+			}
+
 			$shareTmpl['dir'] = $rootFolder->getRelativePath($folderNode->getPath());
 
 			/*
