@@ -1387,7 +1387,7 @@
 				return;
 			}
 			this._setCurrentDir(targetDir, changeUrl, fileId);
-			this.reload().then(function(success){
+			return this.reload().then(function(success){
 				if (!success) {
 					self.changeDirectory(currentDir, true);
 				}
