@@ -30,6 +30,7 @@ thisFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # create readiness notification socket
 notify_sock=$(readlink -f "$thisFolder"/dockerContainerCeph.$EXECUTOR_NUMBER.swift.sock)
+rm -f "$notify_sock" # in case an unfinished test left one behind
 mkfifo "$notify_sock"
 
 port=5034
@@ -67,7 +68,13 @@ if [[ $ready != 'READY=1' ]]; then
     docker logs $container
     exit 1
 fi
-sleep 1
+if ! "$thisFolder"/wait-for-connection ${host} 80 600; then
+    echo "[ERROR] Waited 600 seconds, no response" >&2
+    docker logs $container
+    exit 1
+fi
+echo "Waiting another 15 seconds"
+sleep 15
 
 cat > $thisFolder/swift.config.php <<DELIM
 <?php
@@ -101,5 +108,7 @@ if [ -n "$DEBUG" ]; then
     cat $thisFolder/swift.config.php
     echo "### contents of $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift"
     cat $thisFolder/dockerContainerCeph.$EXECUTOR_NUMBER.swift
+    echo "### docker logs"
+    docker logs $container
     echo "############## DEBUG info end ###########"
 fi
