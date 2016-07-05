@@ -50,7 +50,7 @@ class Invite implements XmlSerializable {
 	 * The organizer contains information about the person who shared the
 	 * object.
 	 *
-	 * @var array
+	 * @var array|null
 	 */
 	protected $organizer;
 

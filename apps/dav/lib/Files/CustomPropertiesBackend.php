@@ -58,7 +58,7 @@ class CustomPropertiesBackend implements BackendInterface {
 	private $connection;
 
 	/**
-	 * @var IUser
+	 * @var string
 	 */
 	private $user;
 

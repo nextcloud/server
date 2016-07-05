@@ -221,7 +221,7 @@ class SMB extends \OC\Files\Storage\Common {
 	/**
 	 * @param string $path
 	 * @param string $mode
-	 * @return resource
+	 * @return resource|false
 	 */
 	public function fopen($path, $mode) {
 		$fullPath = $this->buildPath($path);
