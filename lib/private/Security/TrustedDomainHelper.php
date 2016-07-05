@@ -84,7 +84,35 @@ class TrustedDomainHelper {
 			return true;
 		}
 
-		return in_array($domain, $trustedList, true);
-	}
+		if(in_array($domain, $trustedList, true)) {
+			return true;
+		}
 
+ 		// If a value contains a *, apply glob-style matching. Any second * is ignored.
+ 		foreach ($trustedList as $trusted) {
+ 			if($trusted == '*') {
+ 				return true;
+ 			}
+ 			$star = strpos($trusted, '*');
+ 			if($star === false) {
+ 				next;
+ 			}
+ 			if($star === 0) {
+ 				if(strrpos($domain, substr($trusted, 1)) !== false) {
+ 					return true;
+ 				}
+			} elseif($star === strlen($trusted)-1) {
+ 				if(strpos($domain, substr($trusted, 0, strlen($trusted)-1 )) !== false) {
+ 					return true;
+ 				}
+ 			} else {
+ 				if(strpos($domain, substr($trusted, 0, $star)) !== false
+ 				&& strrpos($domain, substr($trusted, $star+1 ), -strlen($trusted-$star-1)) !== false )
+ 				{
+ 					return true;
+ 				}
+ 			}
+ 		}
+ 		return false;
+	}
 }
