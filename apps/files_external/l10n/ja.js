@@ -30,7 +30,7 @@ OC.L10N.register(
     "external-storage" : "外部ストレージ",
     "Couldn't get the list of Windows network drive mount points: empty response from the server" : "Windows ネットワークドライブのマウントポイントリストを取得出来ませんでした:サーバーから空の応答がありました",
     "Some of the configured external mount points are not connected. Please click on the red row(s) for more information" : "いくつかの設定済み外部マウントポイントに接続できませんでした。詳細情報は赤い行をクリックしてください",
-    "Please enter the credentials for the {mount} mount" : " {mount} のマウントのために必要な資格情報を入力してください",
+    "Please enter the credentials for the {mount} mount" : " {mount} をマウントするための必要な資格情報を入力してください",
     "Username" : "ユーザー名",
     "Password" : "パスワード",
     "Credentials saved" : "資格情報を保存しました",

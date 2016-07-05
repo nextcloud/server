@@ -113,6 +113,7 @@ OC.L10N.register(
     "Send email" : "Unviar mensaxe",
     "More" : "Más",
     "Less" : "Menos",
+    "Especially when using the desktop client for file syncing the use of SQLite is discouraged." : "Especialmente cuando s'utiliza'l veceru d'escritoriu pa la sincronización de ficheros l'usu de SQLite ta desaconseyáu .",
     "Version" : "Versión",
     "Documentation:" : "Documentación:",
     "Enable only for specific groups" : "Habilitar namái pa grupos específicos",
