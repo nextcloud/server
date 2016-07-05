@@ -505,6 +505,24 @@ class Manager implements IManager {
 
 		$this->generalCreateChecks($share);
 
+		// Verify if there are any issues with the path
+		$this->pathCreateChecks($share->getNode());
+
+		/*
+		 * On creation of a share the owner is always the owner of the path
+		 * Except for mounted federated shares.
+		 */
+		$storage = $share->getNode()->getStorage();
+		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+			$parent = $share->getNode()->getParent();
+			while($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
+				$parent = $parent->getParent();
+			}
+			$share->setShareOwner($parent->getOwner()->getUID());
+		} else {
+			$share->setShareOwner($share->getNode()->getOwner()->getUID());
+		}
+
 		//Verify share type
 		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_USER) {
 			$this->userCreateChecks($share);
@@ -536,24 +554,6 @@ class Manager implements IManager {
 			if ($share->getPassword() !== null) {
 				$share->setPassword($this->hasher->hash($share->getPassword()));
 			}
-		}
-
-		// Verify if there are any issues with the path
-		$this->pathCreateChecks($share->getNode());
-
-		/*
-		 * On creation of a share the owner is always the owner of the path
-		 * Except for mounted federated shares.
-		 */
-		$storage = $share->getNode()->getStorage();
-		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
-			$parent = $share->getNode()->getParent();
-			while($parent->getStorage()->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
-				$parent = $parent->getParent();
-			}
-			$share->setShareOwner($parent->getOwner()->getUID());
-		} else {
-			$share->setShareOwner($share->getNode()->getOwner()->getUID());
 		}
 
 		// Cannot share with the owner
