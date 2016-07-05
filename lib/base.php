@@ -831,10 +831,14 @@ class OC {
 		}
 
 		$request = \OC::$server->getRequest();
+		// Check if requested URL matches 'index.php/occ'
+		$isOccControllerRequested = preg_match('|/index\.php$|', $request->getScriptName()) === 1
+			&& strpos($request->getPathInfo(), '/occ/') === 0;
+
 		$requestPath = $request->getRawPathInfo();
 		if (substr($requestPath, -3) !== '.js') { // we need these files during the upgrade
 			self::checkMaintenanceMode($request);
-			self::checkUpgrade();
+			$needUpgrade = self::checkUpgrade(!$isOccControllerRequested);
 		}
 
 		// emergency app disabling
@@ -852,8 +856,16 @@ class OC {
 			exit();
 		}
 
-		// Always load authentication apps
-		OC_App::loadApps(['authentication']);
+		try {
+			// Always load authentication apps
+			OC_App::loadApps(['authentication']);
+		} catch (\OC\NeedsUpdateException $e) {
+			if ($isOccControllerRequested && $needUpgrade){
+				OC::$server->getRouter()->match(\OC::$server->getRequest()->getRawPathInfo());
+				return;
+			}
+			throw $e;
+		}
 
 		// Load minimum set of apps
 		if (!self::checkUpgrade(false)
