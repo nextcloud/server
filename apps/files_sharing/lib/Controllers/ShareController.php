@@ -291,7 +291,7 @@ class ShareController extends Controller {
 			$rootFolder = $share->getNode();
 
 			try {
-				$path = $rootFolder->get($path);
+				$folderNode = $rootFolder->get($path);
 			} catch (\OCP\Files\NotFoundException $e) {
 				$this->emitAccessShareHook($share, 404, 'Share not found');
 				throw new NotFoundException();
@@ -316,7 +316,7 @@ class ShareController extends Controller {
 		// Show file list
 		$hideFileList = false;
 		if ($share->getNode() instanceof \OCP\Files\Folder) {
-			$shareTmpl['dir'] = $rootFolder->getRelativePath($path->getPath());
+			$shareTmpl['dir'] = $rootFolder->getRelativePath($folderNode->getPath());
 
 			/*
 			 * The OC_Util methods require a view. This just uses the node API
@@ -333,7 +333,7 @@ class ShareController extends Controller {
 			$hideFileList = $share->getPermissions() & \OCP\Constants::PERMISSION_READ ? false : true;
 
 			$folder = new Template('files', 'list', '');
-			$folder->assign('dir', $rootFolder->getRelativePath($path->getPath()));
+			$folder->assign('dir', $rootFolder->getRelativePath($folderNode->getPath()));
 			$folder->assign('dirToken', $token);
 			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
 			$folder->assign('isPublic', true);
