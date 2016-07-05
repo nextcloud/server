@@ -68,6 +68,10 @@ class Swift extends \OC\Files\Storage\Common {
 	 * @var array
 	 */
 	private $params;
+
+	/** @var string  */
+	private $id;
+
 	/**
 	 * @var array
 	 */

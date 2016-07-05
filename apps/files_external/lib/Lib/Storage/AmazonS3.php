@@ -74,6 +74,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 */
 	private $rescanDelay = 10;
 
+	/** @var string  */
+	private $id;
+
 	/**
 	 * @param string $path
 	 * @return string correctly encoded path

@@ -43,7 +43,7 @@ class DbHandler {
 	private $connection;
 
 	/** @var  IL10N */
-	private $l;
+	private $IL10N;
 
 	/** @var string  */
 	private $dbTable = 'trusted_servers';
@@ -87,7 +87,7 @@ class DbHandler {
 			return (int)$this->connection->lastInsertId('*PREFIX*'.$this->dbTable);
 		} else {
 			$message = 'Internal failure, Could not add ownCloud as trusted server: ' . $url;
-			$message_t = $this->l->t('Could not add server');
+			$message_t = $this->IL10N->t('Could not add server');
 			throw new HintException($message, $message_t);
 		}
 	}

@@ -43,6 +43,12 @@ class Server {
 	/** @var IRequest */
 	private $request;
 
+	/** @var  string */
+	private $baseUri;
+
+	/** @var Connector\Sabre\Server  */
+	protected $server;
+
 	public function __construct(IRequest $request, $baseUri) {
 		$this->request = $request;
 		$this->baseUri = $baseUri;
