@@ -26,21 +26,21 @@ build:
     commands:
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
-      - ./autotest.sh sqlite
+      - NOCOVERAGE=true ./autotest.sh sqlite
   mysql:
     image: nextcloudci/php7.0:1.0.9
     commands:
       - sleep 15 # gives the database enough time to initialize
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
-      - ./autotest.sh mysql
+      - NOCOVERAGE=true ./autotest.sh mysql
   postgres:
     image: nextcloudci/php7.0:1.0.9
     commands:
       - sleep 10 # gives the database enough time to initialize
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
-      - ./autotest.sh pgsql
+      - NOCOVERAGE=true ./autotest.sh pgsql
   integration:
     image: nextcloudci/php7.0:1.0.9
     commands:
