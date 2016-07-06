@@ -283,6 +283,11 @@ class ObjectTree extends \Sabre\DAV\Tree {
 			throw new InvalidPath($ex->getMessage());
 		}
 
+		// Webdav's copy will implicitly do a delete+create, so only create+delete permissions are required
+		if (!$this->fileView->isCreatable($destinationDir)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
+
 		try {
 			$this->fileView->copy($source, $destination);
 		} catch (StorageNotAvailableException $e) {
