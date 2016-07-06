@@ -18,28 +18,28 @@ build:
       - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - NOCOVERAGE=true ./autotest.sh sqlite
   sqlite:
-    image: nextcloudci/php5.6:1.0.6
+    image: nextcloudci/php7.0:1.0.9
     commands:
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - ./autotest.sh sqlite
   mysql:
-    image: nextcloudci/php5.6:1.0.6
+    image: nextcloudci/php7.0:1.0.9
     commands:
       - sleep 15 # gives the database enough time to initialize
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - ./autotest.sh mysql
   postgres:
-    image: nextcloudci/php5.6:1.0.6
+    image: nextcloudci/php7.0:1.0.9
     commands:
       - sleep 10 # gives the database enough time to initialize
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
       - ./autotest.sh pgsql
   integration:
-    image: nextcloudci/php5.6:1.0.6
+    image: nextcloudci/php7.0:1.0.9
     commands:
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
