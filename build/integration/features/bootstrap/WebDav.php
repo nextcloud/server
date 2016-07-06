@@ -61,7 +61,27 @@ trait WebDav {
 	public function userMovesFile($user, $fileSource, $fileDestination){
 		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
 		$headers['Destination'] = $fullUrl . $fileDestination;
-		$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
+		try {
+			$this->response = $this->makeDavRequest($user, "MOVE", $fileSource, $headers);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
+	 * @When /^User "([^"]*)" copies file "([^"]*)" to "([^"]*)"$/
+	 * @param string $user
+	 * @param string $fileSource
+	 * @param string $fileDestination
+	 */
+	public function userCopiesFile($user, $fileSource, $fileDestination){
+		$fullUrl = substr($this->baseUrl, 0, -4) . $this->davPath;
+		$headers['Destination'] = $fullUrl . $fileDestination;
+		try {
+			$this->response = $this->makeDavRequest($user, "COPY", $fileSource, $headers);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
 	}
 
 	/**
@@ -110,7 +130,11 @@ trait WebDav {
 	 * @When Downloading file :fileName
 	 */
 	public function downloadingFile($fileName) {
-		$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
+		try {
+			$this->response = $this->makeDavRequest($this->currentUser, 'GET', $fileName, []);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
 	}
 
 	/**
