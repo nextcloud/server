@@ -1473,6 +1473,43 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	}
 
 	/**
+	 * @param boolean $value
+	 * @param \OCA\DAV\CalDAV\Calendar $calendar
+	 */
+	 public function setPublishStatus($value, $calendar) {
+		 $query = $this->db->getQueryBuilder();
+		 if ($value) {
+			 $query->insert('dav_shares')
+            ->values([
+          			'principaluri' => $query->createNamedParameter($calendar->getPrincipalURI()),
+          			'type' => $query->createNamedParameter('calendar'),
+              	'access' => $query->createNamedParameter(self::CLASSIFICATION_PUBLIC),
+              	'resourceid' => $query->createNamedParameter($calendar->getResourceId())
+            	]);
+      } else {
+    		$query->delete('dav_shares')
+              ->Where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
+            	->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
+      }
+    	$query->execute();
+  }
+
+	/**
+	 * @param \OCA\DAV\CalDAV\Calendar $calendar
+	 * @return boolean
+	 */
+	public function getPublishStatus($calendar) {
+		$query = $this->db->getQueryBuilder();
+		$result = $query->select(['principaluri', 'access'])
+			->from('dav_shares')
+			->where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
+			->andWhere($query->expr()->eq('type', $query->createNamedParameter(self::CLASSIFICATION_PUBLIC)))
+			->execute();
+
+		return count($result->fetch()) > 0;
+	}
+
+	/**
 	 * @param int $resourceId
 	 * @param array $acl
 	 * @return array
