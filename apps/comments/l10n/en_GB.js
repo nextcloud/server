@@ -1,7 +1,7 @@
 OC.L10N.register(
     "comments",
     {
-    "Type in a new comment..." : "Type in a new comment...",
+    "Type in a new comment..." : "Type a new comment...",
     "Delete comment" : "Delete comment",
     "Post" : "Post",
     "Cancel" : "Cancel",
@@ -11,7 +11,7 @@ OC.L10N.register(
     "No other comments available" : "No other comments available",
     "More comments..." : "More comments...",
     "Save" : "Save",
-    "Allowed characters {count} of {max}" : "Allowed characters {count} of {max}",
+    "Allowed characters {count} of {max}" : "Allowed characters: {count} of {max}",
     "Error occurred while retrieving comment with id {id}" : "Error occurred while retrieving comment with id {id}",
     "Error occurred while updating comment with id {id}" : "Error occurred while updating comment with id {id}",
     "Error occurred while posting comment" : "Error occurred while posting comment",

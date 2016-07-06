@@ -44,7 +44,6 @@ OC.L10N.register(
     "New recovery key password" : "Νέος κωδικός κλειδιού ανάκτησης",
     "Repeat new recovery key password" : "Επαναλάβετε το νέο κωδικό κλειδιού ανάκτησης",
     "Change Password" : "Αλλαγή Κωδικού Πρόσβασης",
-    "ownCloud basic encryption module" : "Βασική μονάδα κρυπτογράφησης του ",
     "Your private key password no longer matches your log-in password." : "Ο κωδικός του ιδιωτικού κλειδιού σας δεν ταιριάζει πλέον με τον κωδικό σύνδεσής σας.",
     "Set your old private key password to your current log-in password:" : "Ορίστε τον παλιό σας κωδικό ιδιωτικού κλειδιού στον τρέχοντα κωδικό σύνδεσης.",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Εάν δεν θυμάστε τον παλιό σας κωδικό μπορείτε να ζητήσετε από τον διαχειριστή σας να επανακτήσει τα αρχεία σας.",
