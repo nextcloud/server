@@ -49,6 +49,11 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 			'host.two.test',
 			'[1fff:0:a88:85a3::ac1f]',
 			'host.three.test:443',
+			'*.leading.host',
+			'trailing.host*',
+			'cen*ter',
+			'*.leadingwith.port:123',
+			'trailingwith.port*:456',
 		];
 		return [
 			// empty defaults to false with 8.1
@@ -76,7 +81,27 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 			[$trustedHostTestList, 'localhost: evil.host', false],
 			// do not trust casting
 			[[1], '1', false],
+			// leading *
+			[$trustedHostTestList, 'abc.leading.host', true],
+			[$trustedHostTestList, 'abc.def.leading.host', true],
+			[$trustedHostTestList, 'abc.def.leading.host.another', false],
+			[$trustedHostTestList, 'abc.def.leading.host:123', true],
+			[$trustedHostTestList, 'leading.host', false],
+			// trailing *
+			[$trustedHostTestList, 'trailing.host', true],
+			[$trustedHostTestList, 'trailing.host.abc', true],
+			[$trustedHostTestList, 'trailing.host.abc.def', true],
+			[$trustedHostTestList, 'trailing.host.abc:123', true],
+			[$trustedHostTestList, 'another.trailing.host', false],
+			// center *
+			[$trustedHostTestList, 'center', true],
+			[$trustedHostTestList, 'cenxxxter', true],
+			[$trustedHostTestList, 'cen.x.y.ter', true],
+			// with port
+			[$trustedHostTestList, 'abc.leadingwith.port:123', true],
+			[$trustedHostTestList, 'abc.leadingwith.port:1234', false],
+			[$trustedHostTestList, 'trailingwith.port.abc:456', true],
+			[$trustedHostTestList, 'trailingwith.port.abc:123', false],
 		];
 	}
-
 }
