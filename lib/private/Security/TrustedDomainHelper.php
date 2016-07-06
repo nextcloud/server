@@ -70,7 +70,7 @@ class TrustedDomainHelper {
 
 		// Read trusted domains from config
 		$trustedList = $this->config->getSystemValue('trusted_domains', []);
-		if(!is_array($trustedList)) {
+		if (!is_array($trustedList)) {
 			return false;
 		}
 
@@ -79,38 +79,14 @@ class TrustedDomainHelper {
 			return true;
 		}
 
-		// Compare with port appended
-		if(in_array($domainWithPort, $trustedList, true)) {
-			return true;
-		}
-
-		if(in_array($domain, $trustedList, true)) {
-			return true;
-		}
-
- 		// If a value contains a *, apply glob-style matching. Any second * is ignored.
- 		foreach ($trustedList as $trusted) {
- 			if($trusted === '*') {
+		// match, allowing for * wildcards
+		foreach ($trustedList as $trusted) {
+			if (gettype($trusted) !== 'string') {
+				break;
+			}
+			$regex = '/^' . join('.*', array_map(function($v) { return preg_quote($v, '/'); }, explode('*', $trusted))) . '$/';
+			if (preg_match($regex, $domain) || preg_match($regex, $domainWithPort)) {
  				return true;
- 			}
- 			$star = strpos($trusted, '*');
- 			if($star === false) {
- 				break;
- 			}
- 			if($star === 0) {
- 				if(strrpos($domain, substr($trusted, 1)) !== false) {
- 					return true;
- 				}
-			} elseif($star === strlen($trusted)-1) {
- 				if(strpos($domain, substr($trusted, 0, strlen($trusted)-1 )) !== false) {
- 					return true;
- 				}
- 			} else {
- 				if(strpos($domain, substr($trusted, 0, $star)) !== false
- 				&& strrpos($domain, substr($trusted, $star+1 ), -strlen($trusted-$star-1)) !== false )
- 				{
- 					return true;
- 				}
  			}
  		}
  		return false;
