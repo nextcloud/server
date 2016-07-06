@@ -36,8 +36,8 @@ class PostgreSQL extends AbstractDatabase {
 
 		// adding port support through installer
 		if(!empty($this->dbPort)) {
-			// adding slashes for security reasons
-			$port = addslashes($this->dbPort);
+			// casting to int to avoid malicious input
+			$port = (int)$this->dbPort;
 		} else if(strpos($e_host, ':')) {
 			list($e_host, $port)=explode(':', $e_host, 2);
 		} else {

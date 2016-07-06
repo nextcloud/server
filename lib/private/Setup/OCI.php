@@ -63,8 +63,8 @@ class OCI extends AbstractDatabase {
 
 	public function setupDatabase($username) {
 		$e_host = addslashes($this->dbHost);
-		// adding slashes for security reasons
-		$e_port = addslashes($this->dbPort);
+		// casting to int to avoid malicious input
+		$e_port = (int)$this->dbPort;
 		$e_dbname = addslashes($this->dbName);
 		//check if the database user has admin right
 		if ($e_host == '') {
