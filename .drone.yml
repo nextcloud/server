@@ -8,21 +8,24 @@ build:
     commands:
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
-      - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - NOCOVERAGE=true ./autotest.sh sqlite
   sqlite-php5.5:
     image: nextcloudci/php5.5:1.0.7
     commands:
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
-      - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
+      - NOCOVERAGE=true ./autotest.sh sqlite
+  sqlite-php5.6:
+    image: nextcloudci/php5.6:1.0.6
+    commands:
+      - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
+      - git submodule update --init
       - NOCOVERAGE=true ./autotest.sh sqlite
   sqlite:
     image: nextcloudci/php7.0:1.0.9
     commands:
       - rm -rf data/* config/config.php # TODO: remove this - temporary fix for CI issues
       - git submodule update --init
-      - ./occ maintenance:install --database-name oc_autotest --database-user oc_autotest --admin-user admin --admin-pass admin --database sqlite --database-pass=''
       - ./autotest.sh sqlite
   mysql:
     image: nextcloudci/php7.0:1.0.9
