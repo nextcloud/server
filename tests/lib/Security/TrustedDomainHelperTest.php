@@ -102,6 +102,10 @@ class TrustedDomainHelperTest extends \Test\TestCase {
 			[$trustedHostTestList, 'abc.leadingwith.port:1234', false],
 			[$trustedHostTestList, 'trailingwith.port.abc:456', true],
 			[$trustedHostTestList, 'trailingwith.port.abc:123', false],
+			// bad hostname
+			[$trustedHostTestList, '-bad', false],
+			[$trustedHostTestList, '-bad.leading.host', false],
+			[$trustedHostTestList, 'bad..der.leading.host', false],
 		];
 	}
 }
