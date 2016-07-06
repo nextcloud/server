@@ -63,12 +63,14 @@ class OCI extends AbstractDatabase {
 
 	public function setupDatabase($username) {
 		$e_host = addslashes($this->dbHost);
+		// adding slashes for security reasons
+		$e_port = addslashes($this->dbPort);
 		$e_dbname = addslashes($this->dbName);
 		//check if the database user has admin right
 		if ($e_host == '') {
 			$easy_connect_string = $e_dbname; // use dbname as easy connect name
 		} else {
-			$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
+			$easy_connect_string = '//'.$e_host.(!empty($e_port) ? ":{$e_port}" : "").'/'.$e_dbname;
 		}
 		$this->logger->debug('connect string: ' . $easy_connect_string, ['app' => 'setup.oci']);
 		$connection = @oci_connect($this->dbUser, $this->dbPassword, $easy_connect_string);
