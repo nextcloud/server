@@ -236,7 +236,7 @@ $CONFIG = array(
 
 /**
  * The return address that you want to appear on emails sent by the Nextcloud
- * server, for example ``oc-admin@example.com``, substituting your own domain,
+ * server, for example ``nc-admin@example.com``, substituting your own domain,
  * of course.
  */
 'mail_domain' => 'example.com',
