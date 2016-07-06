@@ -6,13 +6,12 @@ namespace OCA\DAV\CalDAV\Publishing;
 
 use Sabre\DAV\PropFind;
 use Sabre\DAV\INode;
-use OCP\IRequest;
-use Sabre\CalDAV\IShareableCalendar;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
+use OCA\DAV\CalDAV\Calendar;
 
 class PublishPlugin extends ServerPlugin
 {
@@ -70,36 +69,42 @@ class PublishPlugin extends ServerPlugin
         $this->server->on('propFind',    [$this, 'propFind']);
     }
 
-    function propFind(PropFind $propFind, INode $node) {
-      if ($node instanceof IShareableCalendar) {
-        $token = md5(\OC::$server->getConfig()->getSystemValue('secret','') . $node->getName());
-        // $propFind->handle('{' . self::NS_CALENDARSERVER . '}publish-url', function() use ($node, $token) {
-        //   return new Publisher($token);
-        // });
+    public function propFind(PropFind $propFind, INode $node)
+    {
+        if ($node instanceof Calendar) {
+            $token = md5(\OC::$server->getConfig()->getSystemValue('secret', '').$node->getName());
 
-        $propFind->handle('{' . self::NS_CALENDARSERVER . '}pre-publish-url', function() use ($node, $token) {
+        $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $token) {
           if ($node->getPublishStatus()) {
-            return new Publisher($token);
+              return new Publisher($token, $node->getPublishStatus());
           }
         });
+
+        $propFind->handle('{'.self::NS_CALENDARSERVER.'}pre-publish-url', function () use ($node, $token) {
+          if ($node->getPublishStatus()) {
+              return new Publisher($token, false);
+          }
+        });
+        }
     }
-  }
 
   /**
    * We intercept this to handle POST requests on calendars.
    *
    * @param RequestInterface $request
    * @param ResponseInterface $response
+   *
    * @return null|bool
    */
-  function httpPost(RequestInterface $request, ResponseInterface $response) {
-
+  public function httpPost(RequestInterface $request, ResponseInterface $response)
+  {
       $path = $request->getPath();
 
       // Only handling xml
       $contentType = $request->getHeader('Content-Type');
-      if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false)
+      if (strpos($contentType, 'application/xml') === false && strpos($contentType, 'text/xml') === false) {
           return;
+      }
 
       // Making sure the node exists
       try {
@@ -123,11 +128,10 @@ class PublishPlugin extends ServerPlugin
 
       switch ($documentType) {
 
-
-          case '{' . self::NS_CALENDARSERVER . '}publish-calendar' :
+          case '{'.self::NS_CALENDARSERVER.'}publish-calendar' :
 
               // We can only deal with IShareableCalendar objects
-              if (!$node instanceof IShareableCalendar) {
+              if (!$node instanceof Calendar) {
                   return;
               }
               $this->server->transactionType = 'post-publish-calendar';
@@ -152,10 +156,10 @@ class PublishPlugin extends ServerPlugin
               // Breaking the event chain
               return false;
 
-          case '{' . self::NS_CALENDARSERVER . '}unpublish-calendar' :
+          case '{'.self::NS_CALENDARSERVER.'}unpublish-calendar' :
 
               // We can only deal with IShareableCalendar objects
-              if (!$node instanceof IShareableCalendar) {
+              if (!$node instanceof Calendar) {
                   return;
               }
               $this->server->transactionType = 'post-unpublish-calendar';
@@ -180,8 +184,5 @@ class PublishPlugin extends ServerPlugin
               return false;
 
       }
-
-
-
   }
 }

@@ -14,10 +14,17 @@ class Publisher implements XmlSerializable {
    protected $publishUrl;
 
    /**
+    * @var $isPublished
+    */
+    protected $isPublished;
+
+   /**
    * @param str $publishUrl
+   * @param boolean $isPublished
    */
-   function __construct($publishUrl) {
+   function __construct($publishUrl, $isPublished) {
      $this->publishUrl = $publishUrl;
+     $this->isPublished = $isPublished;
    }
 
    /**
@@ -49,7 +56,11 @@ class Publisher implements XmlSerializable {
    function xmlSerialize(Writer $writer) {
 
      $cs = '{' . Plugin::NS_CALENDARSERVER . '}';
-     $writer->write($this->publishUrl);
+     if (!$this->isPublished) {
+       $writer->write($this->publishUrl);
+     } else {
+       $writer->writeElement('{DAV:}href', $this->publishUrl);
+     }
 
   }
 }

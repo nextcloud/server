@@ -66,6 +66,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	const MAX_DATE = '2038-01-01';
 
+	const ACCESS_PUBLIC = 4;
 	const CLASSIFICATION_PUBLIC = 0;
 	const CLASSIFICATION_PRIVATE = 1;
 	const CLASSIFICATION_CONFIDENTIAL = 2;
@@ -1483,13 +1484,13 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
             ->values([
           			'principaluri' => $query->createNamedParameter($calendar->getPrincipalURI()),
           			'type' => $query->createNamedParameter('calendar'),
-              	'access' => $query->createNamedParameter(self::CLASSIFICATION_PUBLIC),
+              	'access' => $query->createNamedParameter(self::ACCESS_PUBLIC),
               	'resourceid' => $query->createNamedParameter($calendar->getResourceId())
             	]);
       } else {
     		$query->delete('dav_shares')
               ->Where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
-            	->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::CLASSIFICATION_PUBLIC)));
+            	->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)));
       }
     	$query->execute();
   }
