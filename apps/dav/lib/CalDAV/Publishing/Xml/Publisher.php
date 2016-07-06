@@ -57,9 +57,9 @@ class Publisher implements XmlSerializable {
 
      $cs = '{' . Plugin::NS_CALENDARSERVER . '}';
      if (!$this->isPublished) {
-       $writer->write($this->publishUrl);
+       $writer->write($this->publishUrl); // for pre-publish-url
      } else {
-       $writer->writeElement('{DAV:}href', $this->publishUrl);
+       $writer->writeElement('{DAV:}href', $this->publishUrl); // for publish-url
      }
 
   }

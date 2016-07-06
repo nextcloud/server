@@ -72,19 +72,18 @@ class PublishPlugin extends ServerPlugin
     public function propFind(PropFind $propFind, INode $node)
     {
         if ($node instanceof Calendar) {
-            $token = md5(\OC::$server->getConfig()->getSystemValue('secret', '').$node->getName());
+          $token = md5(\OC::$server->getConfig()->getSystemValue('secret', '').$node->getName());
+          $publishUrl = $this->server->getBaseUri() . 'public-calendars/' . $token;
 
-        $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $token) {
-          if ($node->getPublishStatus()) {
-              return new Publisher($token, $node->getPublishStatus());
-          }
-        });
+          $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $publishUrl) {
+            if ($node->getPublishStatus()) {
+                return new Publisher($publishUrl, $node->getPublishStatus());
+            }
+          });
 
-        $propFind->handle('{'.self::NS_CALENDARSERVER.'}pre-publish-url', function () use ($node, $token) {
-          if ($node->getPublishStatus()) {
-              return new Publisher($token, false);
-          }
-        });
+          $propFind->handle('{'.self::NS_CALENDARSERVER.'}pre-publish-url', function () use ($node, $publishUrl) {
+                return new Publisher($publishUrl, false);
+          });
         }
     }
 
