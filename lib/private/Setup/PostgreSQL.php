@@ -34,8 +34,11 @@ class PostgreSQL extends AbstractDatabase {
 		$e_user = addslashes($this->dbUser);
 		$e_password = addslashes($this->dbPassword);
 
-		// Fix database with port connection
-		if(strpos($e_host, ':')) {
+		// adding port support through installer
+		if(!empty($this->dbPort)) {
+			// adding slashes for security reasons
+			$port = addslashes($this->dbPort);
+		} else if(strpos($e_host, ':')) {
 			list($e_host, $port)=explode(':', $e_host, 2);
 		} else {
 			$port=false;
@@ -51,8 +54,8 @@ class PostgreSQL extends AbstractDatabase {
 			$connection = @pg_connect($connection_string);
 
 			if(!$connection)
-				throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
-						$this->trans->t('You need to enter either an existing account or the administrator.'));
+				throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL connection failed'),
+						$this->trans->t('Please check your connection details.'));
 		}
 		$e_user = pg_escape_string($this->dbUser);
 		//check for roles creation rights in postgresql
