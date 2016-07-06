@@ -1,14 +1,14 @@
 OC.L10N.register(
     "federation",
     {
-    "Server added to the list of trusted ownClouds" : "Strežnik je dodan na seznam potrjenih strežnikov ownCloud",
+    "Added to the list of trusted servers" : "Dodano na spisek varnih strežnikov",
     "Server is already in the list of trusted servers." : "Strežnik je že na seznamu potrjenih strežnikov.",
-    "No ownCloud server found" : "Ni mogoče najti nobenega strežnika ownCloud.",
+    "No server to federate found" : "Ne najdem strežnika za federiranje",
     "Could not add server" : "Ni mogoče dodati strežnika.",
     "Federation" : "Zvezni oblaki",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Zvezni oblak ownCloud omogoča povezovanje z drugimi potrjenimi strežniki ownCloud in souporabo uporabniških map in s prenosom dovoljenj na oddaljeni strežnik. Možnost je uporabljena za samodejno dokončanje izpisa zunanjih uporabnikov za souporabo s prenosom dovoljenj.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federiranje omogoča povezovanje z drugimi varnimi strežniki in izmenjavo spiska uporabnikov. Primer je samodejno dopolnjevanje zunanjih uporabnikov pri federacijski souporabi.",
     "Add server automatically once a federated share was created successfully" : "Strežnik dodaj samodejno, ko je povezava zveznega oblaka uspešno ustvarjena",
-    "Trusted ownCloud Servers" : "Zaupanja vredni strežniki ownCloud",
+    "Trusted Servers" : "Varni strežniki",
     "+ Add ownCloud server" : "+ Dodaj strežnik ownCloud",
     "ownCloud Server" : "Strežnik ownCloud"
 },

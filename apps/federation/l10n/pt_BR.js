@@ -1,14 +1,14 @@
 OC.L10N.register(
     "federation",
     {
-    "Server added to the list of trusted ownClouds" : "Servidor adicionado à lista de ownClouds confiáveis",
+    "Added to the list of trusted servers" : "Adicionado a lista de servidores confiáveis.",
     "Server is already in the list of trusted servers." : "O servidor já está na lista de servidores confiáveis.",
-    "No ownCloud server found" : "Nenhum servidor ownCloud encontrado",
+    "No server to federate found" : "Nenhum servidor encontrado para federar",
     "Could not add server" : "Não foi possível adicionar servidor",
     "Federation" : "Associação",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "A associação ownCloud permite que você conecte com outros ownCloud confiáveis para que haja troca de diretórios do usuário. Por exemplo, este será utilizado para usuários externos de complementação para compartilhamento associado.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federação permite que você conecte com outros servidores confiáveis para trocar o diretório do usuário. Por exemplo, este atributo será usado para completar automaticamente usuários externos para compartilhamento federado.",
     "Add server automatically once a federated share was created successfully" : "Adicionar servidor automaticamente uma vez que um compartilhamento associado foi criado com êxito",
-    "Trusted ownCloud Servers" : "Servidores OwnCloud Confiáveis",
+    "Trusted Servers" : "Servidores Confiáveis",
     "+ Add ownCloud server" : "+ Adicionar servidor ownCloud",
     "ownCloud Server" : "Servidor ownCloud"
 },

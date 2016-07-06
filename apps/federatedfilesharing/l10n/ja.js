@@ -7,6 +7,7 @@ OC.L10N.register(
     "Not allowed to create a federated share with the same user" : "同じユーザーでフェデレーション共有を作成することは出来ません",
     "File is already shared with %s" : "ファイルは既に %s と共有されています。",
     "Sharing %s failed, could not find %s, maybe the server is currently unreachable." : "%s を共有できませんでした。%s が見つかりませんでした。現在サーバーに接続できないようです。",
+    "You received \"/%3$s\" as a remote share from %1$s (on behalf of %2$s)" : "%1$s からリモート共有として \"/%3$s\" を受け取りました。(%2$s の代理として)",
     "You received \"/%3$s\" as a remote share from %1$s" : "%1$s からリモート共有として \"/%3$s\" を受け取りました。",
     "Accept" : "承諾",
     "Decline" : "拒否《はてなキーワード》",
@@ -20,7 +21,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "あなたのクラウド連携ID：",
     "Share it:" : "以下で共有:",
     "Add to your website" : "ウェブサイトに追加",
-    "Share with me via Nextcloud" : "Nextcloud経由で共有",
+    "Share with me via Nextcloud" : "OwnCloud経由で共有",
     "HTML Code:" : "HTMLコード:"
 },
 "nplurals=1; plural=0;");

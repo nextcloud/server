@@ -37,7 +37,6 @@
     "New recovery key password" : "Нова лозинка кључа за опоравак",
     "Repeat new recovery key password" : "Поновите нову лозинку кључа за опоравак",
     "Change Password" : "Измени лозинку",
-    "ownCloud basic encryption module" : "оунКлауд основни шифрарски модул",
     "Your private key password no longer matches your log-in password." : "Лозинка вашег личног кључа више није иста као ваша лозинка за пријаву.",
     "Set your old private key password to your current log-in password:" : "Поставите стару лозинку личног кључа као тренутну лозинку за пријаву:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Ако се не сећате старе лозинке, можете затражити од администратора да опорави ваше фајлове.",
