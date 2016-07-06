@@ -90,12 +90,12 @@ class TrustedDomainHelper {
 
  		// If a value contains a *, apply glob-style matching. Any second * is ignored.
  		foreach ($trustedList as $trusted) {
- 			if($trusted == '*') {
+ 			if($trusted === '*') {
  				return true;
  			}
  			$star = strpos($trusted, '*');
  			if($star === false) {
- 				next;
+ 				break;
  			}
  			if($star === 0) {
  				if(strrpos($domain, substr($trusted, 1)) !== false) {
