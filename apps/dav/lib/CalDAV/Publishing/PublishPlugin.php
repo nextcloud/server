@@ -72,7 +72,7 @@ class PublishPlugin extends ServerPlugin
     public function propFind(PropFind $propFind, INode $node)
     {
         if ($node instanceof Calendar) {
-          $token = md5(\OC::$server->getConfig()->getSystemValue('secret', '').$node->getName());
+          $token = md5(\OC::$server->getConfig()->getSystemValue('secret', '').$node->getResourceId());
           $publishUrl = $this->server->getBaseUri() . 'public-calendars/' . $token;
 
           $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $publishUrl) {
