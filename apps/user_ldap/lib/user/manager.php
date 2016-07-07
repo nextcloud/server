@@ -25,6 +25,7 @@
 
 namespace OCA\user_ldap\lib\user;
 
+use OC\Cache\CappedMemoryCache;
 use OCA\user_ldap\lib\user\IUserTools;
 use OCA\user_ldap\lib\user\User;
 use OCA\user_ldap\lib\LogWrapper;
@@ -65,14 +66,13 @@ class Manager {
 	protected $avatarManager;
 
 	/**
-	 * array['byDN']	\OCA\user_ldap\lib\User[]
-	 * 	['byUid']	\OCA\user_ldap\lib\User[]
-	 * @var array $users
+	 * @var CappedMemoryCache $usersByDN
 	 */
-	protected $users = array(
-		'byDN'  => array(),
-		'byUid' => array(),
-	);
+	protected $usersByDN;
+	/**
+	 * @var CappedMemoryCache $usersByUid
+	 */
+	protected $usersByUid;
 
 	/**
 	 * @param IConfig $ocConfig
@@ -96,6 +96,8 @@ class Manager {
 		$this->image         = $image;
 		$this->db            = $db;
 		$this->userManager   = $userManager;
+		$this->usersByDN     = new CappedMemoryCache();
+		$this->usersByUid    = new CappedMemoryCache();
 	}
 
 	/**
@@ -119,8 +121,8 @@ class Manager {
 		$user = new User($uid, $dn, $this->access, $this->ocConfig,
 			$this->ocFilesystem, clone $this->image, $this->ocLog,
 			$this->avatarManager, $this->userManager);
-		$this->users['byDN'][$dn]   = $user;
-		$this->users['byUid'][$uid] = $user;
+		$this->usersByDN[$dn]   = $user;
+		$this->usersByUid[$uid] = $user;
 		return $user;
 	}
 
@@ -222,10 +224,10 @@ class Manager {
 	 */
 	public function get($id) {
 		$this->checkAccess();
-		if(isset($this->users['byDN'][$id])) {
-			return $this->users['byDN'][$id];
-		} else if(isset($this->users['byUid'][$id])) {
-			return $this->users['byUid'][$id];
+		if(isset($this->usersByDN[$id])) {
+			return $this->usersByDN[$id];
+		} else if(isset($this->usersByUid[$id])) {
+			return $this->usersByUid[$id];
 		}
 
 		if($this->access->stringResemblesDN($id) ) {
