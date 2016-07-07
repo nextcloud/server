@@ -102,7 +102,7 @@ class PublishPlugin extends ServerPlugin
 
             $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $publishUrl) {
             if ($node->getPublishStatus()) {
-                return new Publisher($publishUrl, $node->getPublishStatus());
+                return new Publisher($publishUrl, true);
             }
           });
 
