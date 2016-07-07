@@ -33,7 +33,7 @@ use OCP\IConfig;
  * @deprecated Use \OCP\Http\Client\IClientService
  */
 class HTTPHelper {
-	const USER_AGENT = 'ownCloud Server Crawler';
+	const USER_AGENT = 'Nextcloud Server Crawler';
 
 	/** @var \OCP\IConfig */
 	private $config;

@@ -22,7 +22,9 @@
 !/apps/user_ldap
 !/apps/provisioning_api
 !/apps/systemtags
+!/apps/admin_audit
 !/apps/updatenotification
+!/apps/theming
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
 /apps/files_external/3rdparty/irodsphp/prods/test

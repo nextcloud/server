@@ -51,7 +51,7 @@ OC.L10N.register(
     "the link expired" : "saitei beidzies termiņš",
     "sharing is disabled" : "koplietošana nav ieslēgta",
     "For more info, please ask the person who sent this link." : "Vairāk informācijas vaicā personai, kas nosūtīja šo saiti.",
-    "Add to your ownCloud" : "Pievienot savam ownCloud",
+    "Add to your Nextcloud" : "Pievienot savam Nextcloud",
     "Download" : "Lejupielādēt",
     "Download %s" : "Lejupielādēt %s",
     "Direct link" : "Tiešā saite",

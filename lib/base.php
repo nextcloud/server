@@ -68,27 +68,27 @@ class OC {
 	 */
 	public static $CLASSPATH = array();
 	/**
-	 * The installation path for owncloud on the server (e.g. /srv/http/owncloud)
+	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
 	 */
 	public static $SERVERROOT = '';
 	/**
-	 * the current request path relative to the owncloud root (e.g. files/index.php)
+	 * the current request path relative to the Nextcloud root (e.g. files/index.php)
 	 */
 	private static $SUBURI = '';
 	/**
-	 * the owncloud root path for http requests (e.g. owncloud/)
+	 * the Nextcloud root path for http requests (e.g. nextcloud/)
 	 */
 	public static $WEBROOT = '';
 	/**
-	 * The installation path of the 3rdparty folder on the server (e.g. /srv/http/owncloud/3rdparty)
+	 * The installation path of the 3rdparty folder on the server (e.g. /srv/http/nextcloud/3rdparty)
 	 */
 	public static $THIRDPARTYROOT = '';
 	/**
-	 * the root path of the 3rdparty folder for http requests (e.g. owncloud/3rdparty)
+	 * the root path of the 3rdparty folder for http requests (e.g. nextcloud/3rdparty)
 	 */
 	public static $THIRDPARTYWEBROOT = '';
 	/**
-	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'path' and
+	 * The installation path array of the apps folder on the server (e.g. /srv/http/nextcloud) 'path' and
 	 * web path in 'url'
 	 */
 	public static $APPSROOTS = array();
@@ -101,7 +101,7 @@ class OC {
 	public static $REQUESTEDAPP = '';
 
 	/**
-	 * check if ownCloud runs in cli mode
+	 * check if Nextcloud runs in cli mode
 	 */
 	public static $CLI = false;
 
@@ -176,7 +176,7 @@ class OC {
 				OC::$WEBROOT = self::$config->getValue('overwritewebroot', '');
 			}
 
-			// Resolve /owncloud to /owncloud/ to ensure to always have a trailing
+			// Resolve /nextcloud to /nextcloud/ to ensure to always have a trailing
 			// slash which is required by URL generation.
 			if($_SERVER['REQUEST_URI'] === \OC::$WEBROOT &&
 					substr($_SERVER['REQUEST_URI'], -1) !== '/') {
@@ -199,8 +199,8 @@ class OC {
 			}
 		}
 		if (empty(OC::$THIRDPARTYROOT) || !file_exists(OC::$THIRDPARTYROOT)) {
-			throw new \RuntimeException('3rdparty directory not found! Please put the ownCloud 3rdparty'
-				. ' folder in the ownCloud folder or the folder above.'
+			throw new \RuntimeException('3rdparty directory not found! Please put the Nextcloud 3rdparty'
+				. ' folder in the Nextcloud folder or the folder above.'
 				. ' You can also configure the location in the config.php file.');
 		}
 
@@ -225,15 +225,15 @@ class OC {
 		}
 
 		if (empty(OC::$APPSROOTS)) {
-			throw new \RuntimeException('apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
+			throw new \RuntimeException('apps directory not found! Please put the Nextcloud apps folder in the Nextcloud folder'
 				. ' or the folder above. You can also configure the location in the config.php file.');
 		}
 		$paths = array();
 		foreach (OC::$APPSROOTS as $path) {
 			$paths[] = $path['path'];
 			if (!is_dir($path['path'])) {
-				throw new \RuntimeException(sprintf('App directory "%s" not found! Please put the ownCloud apps folder in the'
-					. ' ownCloud folder or the folder above. You can also configure the location in the'
+				throw new \RuntimeException(sprintf('App directory "%s" not found! Please put the Nextcloud apps folder in the'
+					. ' Nextcloud folder or the folder above. You can also configure the location in the'
 					. ' config.php file.', $path['path']));
 			}
 		}
@@ -411,7 +411,7 @@ class OC {
 		$ocVersion = \OCP\Util::getVersion();
 		$tmpl->assign('appsToUpgrade', $appManager->getAppsNeedingUpgrade($ocVersion));
 		$tmpl->assign('incompatibleAppsList', $appManager->getIncompatibleApps($ocVersion));
-		$tmpl->assign('productName', 'ownCloud'); // for now
+		$tmpl->assign('productName', 'Nextcloud'); // for now
 		$tmpl->assign('oldTheme', $oldTheme);
 		$tmpl->assign('releaseNotes', $releaseNotes->getReleaseNotes($installedVersion, $currentVersion));
 		$tmpl->printPage();
@@ -421,7 +421,7 @@ class OC {
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', true);
 
-		// set the cookie path to the ownCloud directory
+		// set the cookie path to the Nextcloud directory
 		$cookie_path = OC::$WEBROOT ? : '/';
 		ini_set('session.cookie_path', $cookie_path);
 
@@ -486,12 +486,93 @@ class OC {
 	}
 
 	/**
-	 * Try to set some values to the required ownCloud default
+	 * Try to set some values to the required Nextcloud default
 	 */
 	public static function setRequiredIniValues() {
 		@ini_set('default_charset', 'UTF-8');
 		@ini_set('gd.jpeg_ignore_warning', 1);
 	}
+
+	/**
+	 * Send the same site cookies
+	 */
+	private static function sendSameSiteCookies() {
+		$cookieParams = session_get_cookie_params();
+		$secureCookie = ($cookieParams['secure'] === true) ? 'secure; ' : '';
+		$policies = [
+			'lax',
+			'strict',
+		];
+		foreach($policies as $policy) {
+			header(
+				sprintf(
+					'Set-Cookie: nc_sameSiteCookie%s=true; path=%s; httponly;' . $secureCookie . 'expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=%s',
+					$policy,
+					$cookieParams['path'],
+					$policy
+				),
+				false
+			);
+		}
+	}
+
+	/**
+	 * Same Site cookie to further mitigate CSRF attacks. This cookie has to
+	 * be set in every request if cookies are sent to add a second level of
+	 * defense against CSRF.
+	 *
+	 * If the cookie is not sent this will set the cookie and reload the page.
+	 * We use an additional cookie since we want to protect logout CSRF and
+	 * also we can't directly interfere with PHP's session mechanism.
+	 */
+	private static function performSameSiteCookieProtection() {
+		if(count($_COOKIE) > 0) {
+			$request = \OC::$server->getRequest();
+			$requestUri = $request->getScriptName();
+			$processingScript = explode('/', $requestUri);
+			$processingScript = $processingScript[count($processingScript)-1];
+
+			// FIXME: In a SAML scenario we don't get any strict or lax cookie
+			// send for the ACS endpoint. Since we have some legacy code in Nextcloud
+			// (direct PHP files) the enforcement of lax cookies is performed here
+			// instead of the middleware.
+			//
+			// This means we cannot exclude some routes from the cookie validation,
+			// which normally is not a problem but is a little bit cumbersome for
+			// this use-case.
+			// Once the old legacy PHP endpoints have been removed we can move
+			// the verification into a middleware and also adds some exemptions.
+			//
+			// Questions about this code? Ask Lukas ;-)
+			$currentUrl = substr(explode('?',$request->getRequestUri(), 2)[0], strlen(\OC::$WEBROOT));
+			if($currentUrl === '/index.php/apps/user_saml/saml/acs') {
+				return;
+			}
+
+			// For the "index.php" endpoint only a lax cookie is required.
+			if($processingScript === 'index.php') {
+				if(!$request->passesLaxCookieCheck()) {
+					self::sendSameSiteCookies();
+					header('Location: '.$_SERVER['REQUEST_URI']);
+					exit();
+				}
+			} else {
+				// All other endpoints require the lax and the strict cookie
+				if(!$request->passesStrictCookieCheck()) {
+					self::sendSameSiteCookies();
+					// Debug mode gets access to the resources without strict cookie
+					// due to the fact that the SabreDAV browser also lives there.
+					if(!\OC::$server->getConfig()->getSystemValue('debug', false)) {
+						http_response_code(\OCP\AppFramework\Http::STATUS_SERVICE_UNAVAILABLE);
+						exit();
+					}
+				}
+			}
+		} elseif(!isset($_COOKIE['nc_sameSiteCookielax']) || !isset($_COOKIE['nc_sameSiteCookiestrict'])) {
+			self::sendSameSiteCookies();
+		}
+	}
+
 
 	public static function init() {
 		// calculate the root directories
@@ -526,7 +607,9 @@ class OC {
 
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
-				OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+				$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
+				$protocol = in_array($claimedProtocol, ['HTTP/1.0', 'HTTP/1.1', 'HTTP/2']) ? $claimedProtocol : 'HTTP/1.1';
+				header($protocol . ' ' . OC_Response::STATUS_SERVICE_UNAVAILABLE);
 			}
 			// we can't use the template error page here, because this needs the
 			// DI container which isn't available yet
@@ -599,6 +682,8 @@ class OC {
 		if(self::$server->getRequest()->getServerProtocol() === 'https') {
 			ini_set('session.cookie_secure', true);
 		}
+
+		self::performSameSiteCookieProtection();
 
 		if (!defined('OC_CONSOLE')) {
 			$errors = OC_Util::checkServer(\OC::$server->getConfig());
@@ -835,7 +920,7 @@ class OC {
 		// in the routing files of each app
 		OC::loadAppClassPaths();
 
-		// Check if ownCloud is installed or in maintenance (update) mode
+		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
 			$setupHelper = new OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(),

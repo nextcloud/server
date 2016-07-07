@@ -59,12 +59,16 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, func
 	$rootShare = \OCP\Share::resolveReShare($share);
 	$owner = $rootShare['uid_owner'];
 	$isWritable = $share['permissions'] & (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_CREATE);
+	$isReadable = $share['permissions'] & \OCP\Constants::PERMISSION_READ;
 	$fileId = $share['file_source'];
 
 	if (!$isWritable) {
 		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, $storage) {
 			return new \OC\Files\Storage\Wrapper\PermissionsMask(array('storage' => $storage, 'mask' => \OCP\Constants::PERMISSION_READ + \OCP\Constants::PERMISSION_SHARE));
 		});
+	}
+	if (!$isReadable) {
+		return false;
 	}
 
 	OC_Util::setupFS($owner);

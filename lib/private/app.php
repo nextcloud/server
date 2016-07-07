@@ -1104,7 +1104,7 @@ class OC_App {
 			$version = \OCP\Util::getVersion();
 			if (!self::isAppCompatible($version, $info)) {
 				throw new \Exception(
-					$l->t('App "%s" cannot be installed because it is not compatible with this version of ownCloud.',
+					$l->t('App "%s" cannot be installed because it is not compatible with this version of Nextcloud.',
 						array($info['name'])
 					)
 				);

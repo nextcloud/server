@@ -52,7 +52,7 @@ OC.L10N.register(
     "the link expired" : "linkin vaxtı bitmişdir",
     "sharing is disabled" : "paylaşım dayandırılmışdır",
     "For more info, please ask the person who sent this link." : "Ətraflı məlumat üçün, xahiş olunur linkin kim tərəfindən göndərilməsini soruşun.",
-    "Add to your ownCloud" : "Öz ownCloud-nuza əlavə edin",
+    "Add to your Nextcloud" : "Öz Nextcloud-nuza əlavə edin",
     "Download" : "Yüklə",
     "Download %s" : "Endir %s",
     "Direct link" : "Birbaşa link",

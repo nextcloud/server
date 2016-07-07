@@ -25,12 +25,6 @@
 
 $l = \OC::$server->getL10N('files_sharing');
 
-$isIE8 = false;
-preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
-if (count($matches) > 0 && $matches[1] <= 9) {
-	$isIE8 = true;
-}
-
 $cloudID = \OC::$server->getUserSession()->getUser()->getCloudId();
 $url = 'https://owncloud.org/federation#' . $cloudID;
 $ownCloudLogoPath = \OC::$server->getURLGenerator()->imagePath('core', 'logo-icon.svg');
@@ -42,6 +36,6 @@ $tmpl->assign('message_without_URL', $l->t('Share with me through my #ownCloud F
 $tmpl->assign('owncloud_logo_path', $ownCloudLogoPath);
 $tmpl->assign('reference', $url);
 $tmpl->assign('cloudId', $cloudID);
-$tmpl->assign('showShareIT', !$isIE8);
+$tmpl->assign('showShareIT', false);
 
 return $tmpl->fetchPage();

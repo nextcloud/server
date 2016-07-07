@@ -37,7 +37,7 @@ use OCP\Security\ISecureRandom;
 /**
  * Class OCSAuthAPI
  *
- * OCS API end-points to exchange shared secret between two connected ownClouds
+ * OCS API end-points to exchange shared secret between two connected Nextclouds
  *
  * @package OCA\Federation\API
  */

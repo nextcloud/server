@@ -74,6 +74,8 @@ class View extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		\OC_Hook::clear();
+		$storageFactory = \OC\Files\Filesystem::getLoader();
+		$this->invokePrivate($storageFactory, 'storageWrappers', [[]]);
 
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new \Test\Util\User\Dummy());

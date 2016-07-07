@@ -80,6 +80,7 @@ class ApiController extends Controller {
 	 *
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @StrictCookieRequired
 	 *
 	 * @param int $x
 	 * @param int $y

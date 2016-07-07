@@ -124,7 +124,7 @@
 					}
 					if(!data.forwardedForHeadersWorking) {
 						messages.push({
-							msg: t('core', 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target="_blank" href="{docLink}">documentation</a>.', {docLink: data.reverseProxyDocs}),
+							msg: t('core', 'The reverse proxy headers configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If you are not accessing Nextcloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to Nextcloud. Further information can be found in our <a target="_blank" href="{docLink}">documentation</a>.', {docLink: data.reverseProxyDocs}),
 							type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 						});
 					}
@@ -198,7 +198,7 @@
 			}
 			var afterCall = function(xhr) {
 				var messages = [];
-				if (xhr.status !== 403 && xhr.status !== 307 && xhr.status !== 301 && xhr.responseText !== '') {
+				if (xhr.status !== 403 && xhr.status !== 307 && xhr.status !== 301 && xhr.responseText === 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.') {
 					messages.push({
 						msg: t('core', 'Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root.'),
 						type: OC.SetupChecks.MESSAGE_TYPE_ERROR

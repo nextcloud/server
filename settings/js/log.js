@@ -64,6 +64,11 @@ OC.Log = {
 				timeTd.text(formatDate(entry.time * 1000));
 			}
 			row.append(timeTd);
+
+			var userTd = $('<td/>');
+			userTd.text(entry.user);
+			row.append(userTd);
+
 			$('#log').append(row);
 		}
 		OC.Log.loaded += entries.length;

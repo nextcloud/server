@@ -88,7 +88,7 @@ OC.L10N.register(
     "the link expired" : "הקישור פג תוקף",
     "sharing is disabled" : "השיתוף נוטרל",
     "For more info, please ask the person who sent this link." : "למידע נוסף, יש לפנות לשולח קישור זה.",
-    "Add to your ownCloud" : "הוספה ל- ownCloud שלך",
+    "Add to your Nextcloud" : "הוספה ל- Nextcloud שלך",
     "Download" : "הורדה",
     "Download %s" : "הורדה %s",
     "Direct link" : "קישור ישיר",

@@ -279,6 +279,13 @@
 		/**
 		 * @returns {boolean}
 		 */
+		isHideFileListSet: function() {
+			return this.get('hideFileListStatus');
+		},
+
+		/**
+		 * @returns {boolean}
+		 */
 		isFolder: function() {
 			return this.get('itemType') === 'folder';
 		},
@@ -487,7 +494,7 @@
 					} else {
 						deferred.resolve();
 					}
-			});
+				});
 
 			return deferred.promise();
 		},
@@ -557,8 +564,8 @@
 		 */
 		editPermissionPossible: function() {
 			return    this.createPermissionPossible()
-				   || this.updatePermissionPossible()
-				   || this.deletePermissionPossible();
+				|| this.updatePermissionPossible()
+				|| this.deletePermissionPossible();
 		},
 
 		/**
@@ -566,8 +573,8 @@
 		 */
 		hasEditPermission: function(shareIndex) {
 			return    this.hasCreatePermission(shareIndex)
-				   || this.hasUpdatePermission(shareIndex)
-				   || this.hasDeletePermission(shareIndex);
+				|| this.hasUpdatePermission(shareIndex)
+				|| this.hasDeletePermission(shareIndex);
 		},
 
 		_getUrl: function(base, params) {
@@ -695,6 +702,16 @@
 				});
 			}
 
+			var hideFileListStatus = false;
+			if(!_.isUndefined(data.shares)) {
+				$.each(data.shares, function (key, value) {
+					if (value.share_type === OC.Share.SHARE_TYPE_LINK) {
+						hideFileListStatus = (value.permissions & OC.PERMISSION_READ) ? false : true;
+						return true;
+					}
+				});
+			}
+
 			/** @type {OC.Share.Types.ShareInfo[]} **/
 			var shares = _.map(data.shares, function(share) {
 				// properly parse some values because sometimes the server
@@ -767,7 +784,8 @@
 				shares: shares,
 				linkShare: linkShare,
 				permissions: permissions,
-				allowPublicUploadStatus: allowPublicUploadStatus
+				allowPublicUploadStatus: allowPublicUploadStatus,
+				hideFileListStatus: hideFileListStatus
 			};
 		},
 

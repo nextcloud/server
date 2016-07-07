@@ -85,7 +85,7 @@ class AvatarController extends Controller {
 								IL10N $l10n,
 								IUserManager $userManager,
 								IUserSession $userSession,
-								Folder $userFolder,
+								Folder $userFolder = null,
 								ILogger $logger) {
 		parent::__construct($appName, $request);
 
@@ -101,6 +101,7 @@ class AvatarController extends Controller {
 	/**
 	 * @NoAdminRequired
 	 * @NoCSRFRequired
+	 * @PublicPage
 	 *
 	 * @param string $userId
 	 * @param int $size

@@ -49,7 +49,7 @@ OC.L10N.register(
     "the link expired" : "giltighet för länken har gått ut",
     "sharing is disabled" : "delning är inaktiverat",
     "For more info, please ask the person who sent this link." : "För mer information, kontakta den person som skickade den här länken.",
-    "Add to your ownCloud" : "Lägg till i din ownCloud",
+    "Add to your Nextcloud" : "Lägg till i din Nextcloud",
     "Download" : "Ladda ner",
     "Download %s" : "Ladda ner %s",
     "Direct link" : "Direkt länk",

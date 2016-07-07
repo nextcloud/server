@@ -57,7 +57,7 @@ class DummyGetResponsePlugin extends \Sabre\DAV\ServerPlugin {
 	 */
 	function httpGet(RequestInterface $request, ResponseInterface $response) {
 		$string = 'This is the WebDAV interface. It can only be accessed by ' .
-			'WebDAV clients such as the ownCloud desktop sync client.';
+			'WebDAV clients such as the Nextcloud desktop sync client.';
 		$stream = fopen('php://memory','r+');
 		fwrite($stream, $string);
 		rewind($stream);

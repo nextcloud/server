@@ -222,7 +222,7 @@ OC.L10N.register(
     "iOS app" : "Program za iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Če bi radi podprli projekt\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">pristopite razvoju</a>\n\t\tali\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">razširite glas</a>!",
     "Show First Run Wizard again" : "Zaženi čarovnika prvega zagona",
-    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Produkt razvija {communityopen}ownCloud skupnost{linkclose},  {githubopen}izvorna koda{linkclose} je licencirana pod {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Produkt razvija {communityopen}Nextcloud skupnost{linkclose},  {githubopen}izvorna koda{linkclose} je licencirana pod {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
     "Show storage location" : "Pokaži mesto shrambe",
     "Show last log in" : "Pokaži podatke zadnje prijave",
     "Show user backend" : "Pokaži ozadnji program",

@@ -48,7 +48,7 @@ OC.L10N.register(
     "the link expired" : "връзката е изтекла",
     "sharing is disabled" : "споделянето е изключено",
     "For more info, please ask the person who sent this link." : "За повече информация, моля питай човека, който е изпратил тази връзка.",
-    "Add to your ownCloud" : "Добави към своя ownCloud",
+    "Add to your Nextcloud" : "Добави към своя Nextcloud",
     "Download" : "Изтегли",
     "Download %s" : "Изтегли %s",
     "Direct link" : "Директна връзка",

@@ -16,7 +16,7 @@
     "karma-junit-reporter": "*",
     "karma-coverage": "*",
     "karma-phantomjs-launcher": "*",
-    "phantomjs": "*",
+    "phantomjs-prebuilt": "*",
     "jasmine-core": "~2.3.4"
   },
   "engine": "node >= 0.8"

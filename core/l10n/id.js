@@ -254,7 +254,7 @@ OC.L10N.register(
     "New password" : "Sandi baru",
     "New Password" : "Sandi Baru",
     "Reset password" : "Setel ulang sandi",
-    "This ownCloud instance is currently in single user mode." : "ownCloud ini sedang dalam mode pengguna tunggal.",
+    "This Nextcloud instance is currently in single user mode." : "Nextcloud ini sedang dalam mode pengguna tunggal.",
     "This means only administrators can use the instance." : "Ini berarti hanya administrator yang dapat menggunakan ownCloud.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
     "Thank you for your patience." : "Terima kasih atas kesabaran anda.",

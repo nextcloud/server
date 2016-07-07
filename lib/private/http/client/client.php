@@ -72,7 +72,7 @@ class Client implements IClient {
 			}
 		}
 
-		$this->client->setDefaultOption('headers/User-Agent', 'ownCloud Server Crawler');
+		$this->client->setDefaultOption('headers/User-Agent', 'Nextcloud Server Crawler');
 		if($this->getProxyUri() !== '') {
 			$this->client->setDefaultOption('proxy', $this->getProxyUri());
 		}

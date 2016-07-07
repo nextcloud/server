@@ -35,7 +35,7 @@
     "Failed to open archive when installing app" : "安装 App 是打开归档失败",
     "App does not provide an info.xml file" : "应用未提供 info.xml 文件",
     "App can't be installed because of not allowed code in the App" : "App 无法安装，因为 App 中有非法代码 ",
-    "App can't be installed because it is not compatible with this version of ownCloud" : "App 无法安装，因为和当前 ownCloud 版本不兼容",
+    "App can't be installed because it is not compatible with this version of Nextcloud" : "App 无法安装，因为和当前 Nextcloud 版本不兼容",
     "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" : "App 无法安装，因为 App 包含不允许在非内置 App 中使用的 <shipped>true</shipped> 标签",
     "Application is not enabled" : "应用程序未启用",
     "Authentication error" : "认证出错",

@@ -84,32 +84,37 @@ class FilesPlugin extends \Test\TestCase {
 
 	/**
 	 * @param string $class
+	 * @param bool $hasAllMethods
+	 * @return \PHPUnit_Framework_MockObject_MockObject|\Sabre\DAV\IFile
 	 */
-	private function createTestNode($class) {
+	private function createTestNode($class, $hasAllMethods = true)
+	{
 		$node = $this->getMockBuilder($class)
 			->disableOriginalConstructor()
 			->getMock();
-		$node->expects($this->any())
-			->method('getId')
-			->will($this->returnValue(123));
 
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/dummypath')
 			->will($this->returnValue($node));
 
-		$node->expects($this->any())
-			->method('getFileId')
-			->will($this->returnValue('00000123instanceid'));
-		$node->expects($this->any())
-			->method('getInternalFileId')
-			->will($this->returnValue('123'));
-		$node->expects($this->any())
-			->method('getEtag')
-			->will($this->returnValue('"abc"'));
-		$node->expects($this->any())
-			->method('getDavPermissions')
-			->will($this->returnValue('DWCKMSR'));
+		if ($hasAllMethods) {
+			$node->expects($this->any())
+				->method('getId')
+				->will($this->returnValue(123));
+			$node->expects($this->any())
+				->method('getFileId')
+				->will($this->returnValue('00000123instanceid'));
+			$node->expects($this->any())
+				->method('getInternalFileId')
+				->will($this->returnValue('123'));
+			$node->expects($this->any())
+				->method('getEtag')
+				->will($this->returnValue('"abc"'));
+			$node->expects($this->any())
+				->method('getDavPermissions')
+				->will($this->returnValue('DWCKMSR'));
+		}
 
 		return $node;
 	}
@@ -169,7 +174,7 @@ class FilesPlugin extends \Test\TestCase {
 	}
 
 	public function testGetPropertiesForFileHome() {
-		$node = $this->createTestNode('\OCA\DAV\Files\FilesHome');
+		$node = $this->createTestNode('\OCA\DAV\Files\FilesHome', false);
 
 		$propFind = new \Sabre\DAV\PropFind(
 			'/dummyPath',
@@ -190,9 +195,9 @@ class FilesPlugin extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$user->expects($this->never())->method('getUID');
 		$user->expects($this->never())->method('getDisplayName');
-		$node->expects($this->never())->method('getDirectDownload');
-		$node->expects($this->never())->method('getOwner');
-		$node->expects($this->never())->method('getSize');
+		// Method does not exist: $node->expects($this->never())->method('getDirectDownload');
+		// Method does not exist: $node->expects($this->never())->method('getOwner');
+		// Method does not exist: $node->expects($this->never())->method('getSize');
 
 		$this->plugin->handleGetProperties(
 			$propFind,
@@ -285,8 +290,7 @@ class FilesPlugin extends \Test\TestCase {
 			0
 		);
 
-		$node->expects($this->never())
-			->method('getDirectDownload');
+		// Method does not exist: $node->expects($this->never())->method('getDirectDownload');
 		$node->expects($this->once())
 			->method('getSize')
 			->will($this->returnValue(1025));

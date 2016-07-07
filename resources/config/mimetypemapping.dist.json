@@ -3,7 +3,7 @@
 	"_comment2": "The first index in the mime type array is the assumed correct mimetype",
 	"_comment3": "and the second (if present] is a secure alternative",
 
-	"_comment4": "Any changes you make here will be overwritten on an update of ownCloud",
+	"_comment4": "Any changes you make here will be overwritten on an update of Nextcloud",
 	"_comment5": "Put any custom mappings in a new file mimetypemapping.json in the config/ folder of ownCloud",
 
 

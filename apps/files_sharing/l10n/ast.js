@@ -34,7 +34,7 @@ OC.L10N.register(
     "the link expired" : "l'enllaz caducó",
     "sharing is disabled" : "la compartición ta deshabilitada",
     "For more info, please ask the person who sent this link." : "Pa más información, entrúga-y a la persona qu'unvió esti enllaz",
-    "Add to your ownCloud" : "Amestar al to ownCloud",
+    "Add to your Nextcloud" : "Amestar al to Nextcloud",
     "Download" : "Baxar",
     "Download %s" : "Descargar %s",
     "Direct link" : "Enllaz direutu"

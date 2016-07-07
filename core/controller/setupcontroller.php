@@ -105,7 +105,7 @@ class SetupController {
 
 	public function loadAutoConfig($post) {
 		if( file_exists($this->autoConfigFile)) {
-			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up ownCloud…', \OCP\Util::INFO);
+			\OCP\Util::writeLog('core', 'Autoconfig file found, setting up Nextcloud…', \OCP\Util::INFO);
 			$AUTOCONFIG = array();
 			include $this->autoConfigFile;
 			$post = array_merge ($post, $AUTOCONFIG);

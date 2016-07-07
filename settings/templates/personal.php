@@ -118,8 +118,7 @@ if($_['passwordChangeSupported']) {
 ?>
 <form id="passwordform" class="section">
 	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
-	<div class="hidden icon-checkmark" id="password-changed"></div>
-	<div class="hidden" id="password-error"><?php p($l->t('Unable to change your password'));?></div>
+	<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
 	<br>
 	<label for="pass1" class="onlyInIE8"><?php echo $l->t('Current password');?>: </label>
 	<input type="password" id="pass1" name="oldpassword"
@@ -133,7 +132,6 @@ if($_['passwordChangeSupported']) {
 	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show" class="svg"></label>
 	<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	<br/>
-	<div class="strengthify-wrapper"></div>
 </form>
 <?php
 }
@@ -159,12 +157,6 @@ if($_['passwordChangeSupported']) {
 			</option>
 		<?php endforeach;?>
 	</select>
-	<?php if (OC_Util::getEditionString() === ''): ?>
-	<a href="https://www.transifex.com/projects/p/owncloud/"
-		target="_blank" rel="noreferrer">
-		<em><?php p($l->t('Help translate'));?></em>
-	</a>
-	<?php endif; ?>
 </form>
 
 <div id="clientsbox" class="section clientsbox">
@@ -185,11 +177,11 @@ if($_['passwordChangeSupported']) {
 	<?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
 		<?php print_unescaped($l->t('If you want to support the project
-		<a href="https://owncloud.org/contribute"
+		<a href="https://nextcloud.com/contribute"
 			target="_blank" rel="noreferrer">join development</a>
 		or
-		<a href="https://owncloud.org/promote"
-			target="_blank" rel="noreferrer">spread the word</a>!'));?>
+		<a href="https://help.nextcloud.com/"
+			target="_blank" rel="noreferrer">help other users</a>!'));?>
 	</p>
 	<?php endif; ?>
 

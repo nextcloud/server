@@ -38,6 +38,7 @@ use OC\Repair\Collation;
 use OC\Repair\CopyRewriteBaseToConfig;
 use OC\Repair\DropOldJobs;
 use OC\Repair\EncryptionCompatibility;
+use OC\Repair\MoveChannelToSystemConfig;
 use OC\Repair\OldGroupMembershipShares;
 use OC\Repair\RemoveGetETagEntries;
 use OC\Repair\SqliteAutoincrement;
@@ -119,7 +120,7 @@ class Repair extends BasicEmitter {
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
 			new AvatarPermissions(\OC::$server->getDatabaseConnection()),
-			new BrokenUpdaterRepair(),
+			new MoveChannelToSystemConfig(\OC::$server->getConfig()),
 		];
 	}
 

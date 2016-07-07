@@ -253,8 +253,8 @@ class Upgrade extends Base {
 
 			return self::ERROR_SUCCESS;
 		} else if($this->config->getSystemValue('maintenance', false)) {
-			//Possible scenario: ownCloud core is updated but an app failed
-			$output->writeln('<warning>ownCloud is in maintenance mode</warning>');
+			//Possible scenario: Nextcloud server is updated but an app failed
+			$output->writeln('<warning>Nextcloud is in maintenance mode</warning>');
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '
 				. 'logfile (data/owncloud.log). If you want to re-run the '
 				. 'upgrade procedure, remove the "maintenance mode" from '
@@ -262,7 +262,7 @@ class Upgrade extends Base {
 				, true);
 			return self::ERROR_MAINTENANCE_MODE;
 		} else {
-			$output->writeln('<info>ownCloud is already latest version</info>');
+			$output->writeln('<info>Nextcloud is already latest version</info>');
 			return self::ERROR_UP_TO_DATE;
 		}
 	}

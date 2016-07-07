@@ -24,6 +24,7 @@
 namespace OC\Share20;
 
 use OC\Files\Mount\MoveableMount;
+use OC\HintException;
 use OCP\Files\IRootFolder;
 use OCP\Files\NotFoundException;
 use OCP\IUserManager;
@@ -42,6 +43,8 @@ use OCP\Files\Folder;
 
 use OCP\Share\Exceptions\ShareNotFound;
 use OCP\Share\Exceptions\GenericShareException;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * This class is the communication hub for all sharing related operations.
@@ -82,6 +85,7 @@ class Manager implements IManager {
 	 * @param IProviderFactory $factory
 	 * @param IUserManager $userManager
 	 * @param IRootFolder $rootFolder
+	 * @param EventDispatcher $eventDispatcher
 	 */
 	public function __construct(
 			ILogger $logger,
@@ -93,7 +97,8 @@ class Manager implements IManager {
 			IL10N $l,
 			IProviderFactory $factory,
 			IUserManager $userManager,
-			IRootFolder $rootFolder
+			IRootFolder $rootFolder,
+			EventDispatcher $eventDispatcher
 	) {
 		$this->logger = $logger;
 		$this->config = $config;
@@ -105,6 +110,7 @@ class Manager implements IManager {
 		$this->factory = $factory;
 		$this->userManager = $userManager;
 		$this->rootFolder = $rootFolder;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -134,16 +140,11 @@ class Manager implements IManager {
 		}
 
 		// Let others verify the password
-		$accepted = true;
-		$message = '';
-		\OCP\Util::emitHook('\OC\Share', 'verifyPassword', [
-				'password' => $password,
-				'accepted' => &$accepted,
-				'message' => &$message
-		]);
-
-		if (!$accepted) {
-			throw new \Exception($message);
+		try {
+			$event = new GenericEvent($password);
+			$this->eventDispatcher->dispatch('OCP\PasswordPolicy::validate', $event);
+		} catch (HintException $e) {
+			throw new \Exception($e->getHint());
 		}
 	}
 
@@ -233,8 +234,9 @@ class Manager implements IManager {
 			throw new GenericShareException($message_t, $message_t, 404);
 		}
 
-		// Check that read permissions are always set
-		if (($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
+		// Link shares are allowed to have no read permissions to allow upload to hidden folders
+		if ($share->getShareType() !== \OCP\Share::SHARE_TYPE_LINK &&
+			($share->getPermissions() & \OCP\Constants::PERMISSION_READ) === 0) {
 			throw new \InvalidArgumentException('Shares need at least read permissions');
 		}
 	}
@@ -984,7 +986,17 @@ class Manager implements IManager {
 	public function getShareByToken($token) {
 		$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_LINK);
 
-		$share = $provider->getShareByToken($token);
+		try {
+			$share = $provider->getShareByToken($token);
+		} catch (ShareNotFound $e) {
+			//Ignore
+		}
+
+		// If it is not a link share try to fetch a federated share by token
+		if ($share === null) {
+			$provider = $this->factory->getProviderForType(\OCP\Share::SHARE_TYPE_REMOTE);
+			$share = $provider->getShareByToken($token);
+		}
 
 		if ($share->getExpirationDate() !== null &&
 			$share->getExpirationDate() <= new \DateTime()) {

@@ -216,7 +216,7 @@ OC.L10N.register(
     "iOS app" : "aplicació para iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Si vol recolzar el projecte\n⇥⇥<a href=\"https://owncloud.org/contribute\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\"> unir-se al desenvolupament</a>\n⇥⇥o\n⇥⇥<a href=\"https://owncloud.org/promote\"\n⇥⇥⇥target=\"_blank\" rel=\"noreferrer\"> difondre'l !</a>!",
     "Show First Run Wizard again" : "Torna a mostrar l'assistent de primera execució",
-    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Desenvolupat per la {communityopen} comunitat ownCloud comunitat{linkclose} , el {githubopen} codi font {linkclose} està llicenciat sota la {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Desenvolupat per la {communityopen} comunitat Nextcloud comunitat{linkclose} , el {githubopen} codi font {linkclose} està llicenciat sota la {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}.",
     "Show storage location" : "Mostra la ubicació del magatzem",
     "Show last log in" : "Mostrar l'últim accés",
     "Show user backend" : "Mostrar backend d'usuari",

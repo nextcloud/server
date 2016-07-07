@@ -88,7 +88,7 @@ OC.L10N.register(
     "the link expired" : "A hiperligação expirou",
     "sharing is disabled" : "a partilha está desativada",
     "For more info, please ask the person who sent this link." : "Para mais informação, por favor, pergunte à pessoa que lhe enviou esta hiperligação.",
-    "Add to your ownCloud" : "Adicionar à sua ownCloud",
+    "Add to your Nextcloud" : "Adicionar à sua Nextcloud",
     "Download" : "Transferir",
     "Download %s" : "Transferir %s",
     "Direct link" : "Hiperligação direta",

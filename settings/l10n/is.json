@@ -193,7 +193,7 @@
     "iOS app" : "iOS-forrit",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">spread the word</a>!" : "Ef þú vilt styðja við verkefnið\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">taktu þátt í þróuninni</a>\n\t\teða\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\" rel=\"noreferrer\">láttu orð út ganga</a>!",
     "Show First Run Wizard again" : "Birta Fyrsta-skiptis-leiðarvísinn aftur",
-    "Developed by the {communityopen}ownCloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Þróað af {communityopen}ownCloud samfélaginu{linkclose}, {githubopen}grunnkóðinn{linkclose} er gefinn út með {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose} notkunarleyfinu.",
+    "Developed by the {communityopen}Nextcloud community{linkclose}, the {githubopen}source code{linkclose} is licensed under the {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose}." : "Þróað af {communityopen}Nextcloud samfélaginu{linkclose}, {githubopen}grunnkóðinn{linkclose} er gefinn út með {licenseopen}<abbr title=\"Affero General Public License\">AGPL</abbr>{linkclose} notkunarleyfinu.",
     "Show storage location" : "Birta staðsetningu gagnageymslu",
     "Show last log in" : "Birta síðustu innskráningu",
     "Show user backend" : "Birta bakenda notanda",

@@ -27,6 +27,11 @@ namespace OCA\Encryption\Tests;
 use OCA\Encryption\Migration;
 use OCP\ILogger;
 
+/**
+ * Class MigrationTest
+ * @package OCA\Encryption\Tests
+ * @group DB
+ */
 class MigrationTest extends \Test\TestCase {
 
 	const TEST_ENCRYPTION_MIGRATION_USER1='test_encryption_user1';
@@ -39,7 +44,7 @@ class MigrationTest extends \Test\TestCase {
 	private $recovery_key_id = 'recovery_key_id';
 	private $moduleId;
 
-	/** @var  PHPUnit_Framework_MockObject_MockObject | ILogger */
+	/** @var \PHPUnit_Framework_MockObject_MockObject | ILogger */
 	private $logger;
 
 	public static function setUpBeforeClass() {
@@ -512,12 +517,9 @@ class MigrationTest extends \Test\TestCase {
 	 */
 	public function testGetTargetDir($user, $keyPath, $filename, $trash, $systemMounts, $expected) {
 
-		$updater = $this->getMockBuilder('\OC\Files\Cache\Updater')
-			->disableOriginalConstructor()->getMock();
 		$view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()->getMock();
 		$view->expects($this->any())->method('file_exists')->willReturn(true);
-		$view->expects($this->any())->method('getUpdater')->willReturn($updater);
 
 
 		$m = $this->getMockBuilder('OCA\Encryption\Migration')

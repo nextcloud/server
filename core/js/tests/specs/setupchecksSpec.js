@@ -103,7 +103,7 @@ describe('OC.SetupChecks tests', function() {
 		it('should return an error if data directory is not protected', function(done) {
 			var async = OC.SetupChecks.checkDataProtected();
 
-			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, 'file contents');
+			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.');
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
@@ -114,7 +114,18 @@ describe('OC.SetupChecks tests', function() {
 				done();
 			});
 		});
-		
+
+		it('should return no error if data directory is protected and returns another content', function(done) {
+			var async = OC.SetupChecks.checkDataProtected();
+
+			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, 'Another page');
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+
 		it('should not return an error if data directory is protected', function(done) {
 			var async = OC.SetupChecks.checkDataProtected();
 
@@ -309,7 +320,7 @@ describe('OC.SetupChecks tests', function() {
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([{
-					msg: 'The reverse proxy headers configuration is incorrect, or you are accessing ownCloud from a trusted proxy. If you are not accessing ownCloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to ownCloud. Further information can be found in our <a target="_blank" href="https://docs.owncloud.org/foo/bar.html">documentation</a>.',
+					msg: 'The reverse proxy headers configuration is incorrect, or you are accessing Nextcloud from a trusted proxy. If you are not accessing Nextcloud from a trusted proxy, this is a security issue and can allow an attacker to spoof their IP address as visible to Nextcloud. Further information can be found in our <a target="_blank" href="https://docs.owncloud.org/foo/bar.html">documentation</a>.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}]);
 				done();

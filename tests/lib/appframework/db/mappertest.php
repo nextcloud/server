@@ -236,7 +236,9 @@ class MapperTest extends MapperTestUtility {
 		$entity->resetUpdatedFields();
 
 		$this->db->expects($this->never())
-			->method('prepareQuery');
+			->method('prepare');
+		$this->db->expects($this->never())
+			->method('prepare');
 
 		$this->mapper->update($entity);
 	}

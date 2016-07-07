@@ -24,22 +24,29 @@
 			'<br />' +
 			'<label for="linkText-{{cid}}" class="hidden-visually">{{urlLabel}}</label>' +
 			'<input id="linkText-{{cid}}" class="linkText {{#unless isLinkShare}}hidden{{/unless}}" type="text" readonly="readonly" value="{{shareLinkURL}}" />' +
-			'   {{#if showPasswordCheckBox}}' +
-			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
-			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
-			'   {{/if}}' +
-			'<div id="linkPass" class="linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
-			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
-			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
-			'    <span class="icon-loading-small hidden"></span>' +
-			'</div>' +
 			'    {{#if publicUpload}}' +
 			'<div id="allowPublicUploadWrapper">' +
 			'    <span class="icon-loading-small hidden"></span>' +
 			'    <input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload-{{cid}}" class="checkbox publicUploadCheckbox" {{{publicUploadChecked}}} />' +
 			'<label for="sharingDialogAllowPublicUpload-{{cid}}">{{publicUploadLabel}}</label>' +
 			'</div>' +
+			'        {{#if hideFileList}}' +
+			'<div id="hideFileListWrapper">' +
+			'    <span class="icon-loading-small hidden"></span>' +
+			'    <input type="checkbox" value="1" name="hideFileList" id="sharingDialogHideFileList-{{cid}}" class="checkbox hideFileListCheckbox" {{{hideFileListChecked}}} />' +
+			'<label for="sharingDialogHideFileList-{{cid}}">{{hideFileListLabel}}</label>' +
+			'</div>' +
+			'        {{/if}}' +
 			'    {{/if}}' +
+			'    {{#if showPasswordCheckBox}}' +
+			'<input type="checkbox" name="showPassword" id="showPassword-{{cid}}" class="checkbox showPasswordCheckbox" {{#if isPasswordSet}}checked="checked"{{/if}} value="1" />' +
+			'<label for="showPassword-{{cid}}">{{enablePasswordLabel}}</label>' +
+			'    {{/if}}' +
+			'<div id="linkPass" class="linkPass {{#unless isPasswordSet}}hidden{{/unless}}">' +
+			'    <label for="linkPassText-{{cid}}" class="hidden-visually">{{passwordLabel}}</label>' +
+			'    <input id="linkPassText-{{cid}}" class="linkPassText" type="password" placeholder="{{passwordPlaceholder}}" />' +
+			'    <span class="icon-loading-small hidden"></span>' +
+			'</div>' +
 			'    {{#if mailPublicNotificationEnabled}}' +
 			'<form id="emailPrivateLink" class="emailPrivateLinkForm">' +
 			'    <input id="email" class="emailField" value="{{email}}" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
@@ -82,6 +89,7 @@
 			'click .linkCheckbox': 'onLinkCheckBoxChange',
 			'click .linkText': 'onLinkTextClick',
 			'change .publicUploadCheckbox': 'onAllowPublicUploadChange',
+			'change .hideFileListCheckbox': 'onHideFileListChange',
 			'click .showPasswordCheckbox': 'onShowPasswordClick'
 		},
 
@@ -97,6 +105,10 @@
 			});
 
 			this.model.on('change:allowPublicUploadStatus', function() {
+				view.render();
+			});
+
+			this.model.on('change:hideFileListStatus', function() {
 				view.render();
 			});
 
@@ -118,6 +130,7 @@
 				'onPasswordKeyUp',
 				'onLinkTextClick',
 				'onShowPasswordClick',
+				'onHideFileListChange',
 				'onAllowPublicUploadChange'
 			);
 		},
@@ -218,6 +231,20 @@
 			});
 		},
 
+		onHideFileListChange: function () {
+			var $checkbox = this.$('.hideFileListCheckbox');
+			$checkbox.siblings('.icon-loading-small').removeClass('hidden').addClass('inlineblock');
+
+			var permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE | OC.PERMISSION_READ;
+			if ($checkbox.is(':checked')) {
+				permissions = OC.PERMISSION_UPDATE | OC.PERMISSION_CREATE;
+			}
+
+			this.model.saveLinkShare({
+				permissions: permissions
+			});
+		},
+
 		_onEmailPrivateLink: function(event) {
 			event.preventDefault();
 
@@ -274,15 +301,23 @@
 				publicUploadChecked = 'checked="checked"';
 			}
 
+			var hideFileList = publicUploadChecked;
+
+			var hideFileListChecked = '';
+			if(this.model.isHideFileListSet()) {
+				hideFileListChecked = 'checked="checked"';
+			}
+
 			var isLinkShare = this.model.get('linkShare').isLinkShare;
 			var isPasswordSet = !!this.model.get('linkShare').password;
 			var showPasswordCheckBox = isLinkShare
 				&& (   !this.configModel.get('enforcePasswordForPublicLink')
-					|| !this.model.get('linkShare').password);
+				|| !this.model.get('linkShare').password);
 
 			this.$el.html(linkShareTemplate({
 				cid: this.cid,
 				shareAllowed: true,
+				hideFileList: hideFileList,
 				isLinkShare: isLinkShare,
 				shareLinkURL: this.model.get('linkShare').link,
 				linkShareLabel: t('core', 'Share link'),
@@ -294,7 +329,9 @@
 				showPasswordCheckBox: showPasswordCheckBox,
 				publicUpload: publicUpload && isLinkShare,
 				publicUploadChecked: publicUploadChecked,
+				hideFileListChecked: hideFileListChecked,
 				publicUploadLabel: t('core', 'Allow editing'),
+				hideFileListLabel: t('core', 'Hide file listing'),
 				mailPublicNotificationEnabled: isLinkShare && this.configModel.isMailPublicNotificationEnabled(),
 				mailPrivatePlaceholder: t('core', 'Email link to person'),
 				mailButtonText: t('core', 'Send'),

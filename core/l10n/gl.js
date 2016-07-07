@@ -236,7 +236,7 @@ OC.L10N.register(
     "New password" : "Novo contrasinal",
     "New Password" : "Novo contrasinal",
     "Reset password" : "Restabelecer o contrasinal",
-    "This ownCloud instance is currently in single user mode." : "Esta instancia do ownCloud está actualmente en modo de usuario único.",
+    "This Nextcloud instance is currently in single user mode." : "Esta instancia do Nextcloud está actualmente en modo de usuario único.",
     "This means only administrators can use the instance." : "Isto significa que só os administradores poden utilizar a instancia.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Póñase en contacto co administrador do sistema se persiste esta mensaxe ou se aparece de forma inesperada.",
     "Thank you for your patience." : "Grazas pola súa paciencia.",

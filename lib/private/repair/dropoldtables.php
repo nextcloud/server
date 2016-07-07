@@ -71,6 +71,7 @@ class DropOldTables extends BasicEmitter implements RepairStep {
 	 */
 	protected function oldDatabaseTables() {
 		return [
+			'authtoken',
 			'calendar_calendars',
 			'calendar_objects',
 			'calendar_share_calendar',

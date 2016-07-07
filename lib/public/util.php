@@ -79,8 +79,8 @@ class Util {
 	 */
 	public static function setChannel($channel) {
 		//Flush timestamp to reload version.php
+		\OC::$server->getConfig()->setSystemValue('updater.release.channel', $channel);
 		\OC::$server->getSession()->set('OC_Version_Timestamp', 0);
-		\OC::$server->getAppConfig()->setValue('core', 'OC_Channel', $channel);
 	}
 	
 	/**
@@ -504,6 +504,11 @@ class Util {
 	 * @deprecated 9.0.0 Use annotations based on the app framework.
 	 */
 	public static function callCheck() {
+		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+			header('Location: '.\OC::$WEBROOT);
+			exit();
+		}
+
 		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
 			exit();
 		}

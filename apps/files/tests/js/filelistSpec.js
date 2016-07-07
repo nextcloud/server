@@ -1332,7 +1332,8 @@ describe('OCA.Files.FileList tests', function() {
 				'/../abc',
 				'/abc/..',
 				'/abc/../',
-				'/../abc/'
+				'/../abc/',
+				'/another\\subdir/../foo\\../bar\\..\\file/..\\folder/../'
 			], function(path) {
 				fileList.changeDirectory(path);
 				expect(fileList.getCurrentDirectory()).toEqual('/');
@@ -1340,9 +1341,10 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('allows paths with dotdot at the beginning or end', function() {
 			_.each([
-				'..abc',
-				'def..',
-				'...'
+				'/..abc',
+				'/def..',
+				'/...',
+				'/abc../def'
 			], function(path) {
 				fileList.changeDirectory(path);
 				expect(fileList.getCurrentDirectory()).toEqual(path);
@@ -1351,6 +1353,11 @@ describe('OCA.Files.FileList tests', function() {
 		it('switches to root dir when current directory does not exist', function() {
 			fileList.changeDirectory('/unexist');
 			deferredList.reject(404);
+			expect(fileList.getCurrentDirectory()).toEqual('/');
+		});
+		it('switches to root dir when current directory returns 405', function() {
+			fileList.changeDirectory('/unexist');
+			deferredList.reject(405);
 			expect(fileList.getCurrentDirectory()).toEqual('/');
 		});
 		it('switches to root dir when current directory is forbidden', function() {

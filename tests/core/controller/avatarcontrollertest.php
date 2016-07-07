@@ -93,7 +93,7 @@ class AvatarControllerTest extends \Test\TestCase {
 		$this->container['UserSession']->method('getUser')->willReturn($this->userMock);
 
 		$this->avatarFile = $this->getMock('OCP\Files\File');
-		$this->avatarFile->method('getContnet')->willReturn('image data');
+		$this->avatarFile->method('getContent')->willReturn('image data');
 		$this->avatarFile->method('getMimeType')->willReturn('image type');
 		$this->avatarFile->method('getEtag')->willReturn('my etag');
 	}

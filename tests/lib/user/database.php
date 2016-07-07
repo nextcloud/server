@@ -19,6 +19,9 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
+use OC\HintException;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
  * Class Test_User_Database
@@ -28,6 +31,8 @@
 class Test_User_Database extends Test_User_Backend {
 	/** @var array */
 	private $users;
+	/** @var  EventDispatcher | PHPUnit_Framework_MockObject_MockObject */
+	private $eventDispatcher;
 
 	public function getUser() {
 		$user = parent::getUser();
@@ -37,7 +42,8 @@ class Test_User_Database extends Test_User_Backend {
 
 	protected function setUp() {
 		parent::setUp();
-		$this->backend=new OC_User_Database();
+		$this->eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+		$this->backend=new OC_User_Database($this->eventDispatcher);
 	}
 
 	protected function tearDown() {
@@ -48,5 +54,42 @@ class Test_User_Database extends Test_User_Backend {
 			$this->backend->deleteUser($user);
 		}
 		parent::tearDown();
+	}
+
+	public function testVerifyPasswordEvent() {
+		$user = $this->getUser();
+		$this->backend->createUser($user, 'pass1');
+
+		$this->eventDispatcher->expects($this->once())->method('dispatch')
+			->willReturnCallback(
+				function ($eventName, GenericEvent $event) {
+					$this->assertSame('OCP\PasswordPolicy::validate',  $eventName);
+					$this->assertSame('newpass', $event->getSubject());
+				}
+			);
+
+		$this->backend->setPassword($user, 'newpass');
+		$this->assertSame($user, $this->backend->checkPassword($user, 'newpass'));
+	}
+
+	/**
+	 * @expectedException \OC\HintException
+	 * @expectedExceptionMessage password change failed
+	 */
+	public function testVerifyPasswordEventFail() {
+		$user = $this->getUser();
+		$this->backend->createUser($user, 'pass1');
+
+		$this->eventDispatcher->expects($this->once())->method('dispatch')
+			->willReturnCallback(
+				function ($eventName, GenericEvent $event) {
+					$this->assertSame('OCP\PasswordPolicy::validate',  $eventName);
+					$this->assertSame('newpass', $event->getSubject());
+					throw new HintException('password change failed', 'password change failed');
+				}
+			);
+
+		$this->backend->setPassword($user, 'newpass');
+		$this->assertSame($user, $this->backend->checkPassword($user, 'newpass'));
 	}
 }

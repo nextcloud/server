@@ -68,7 +68,7 @@ OC.L10N.register(
     "the link expired" : "lo ligam a expirat",
     "sharing is disabled" : "lo partiment es desactivat",
     "For more info, please ask the person who sent this link." : "Per mai d'informacions, contactatz la persona qu'a mandat aqueste ligam.",
-    "Add to your ownCloud" : "Apondre a vòstre ownCloud",
+    "Add to your Nextcloud" : "Apondre a vòstre Nextcloud",
     "Download" : "Telecargar",
     "Download %s" : "Telecargar %s",
     "Direct link" : "Ligam dirècte",
