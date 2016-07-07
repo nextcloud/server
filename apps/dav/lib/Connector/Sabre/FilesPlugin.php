@@ -244,6 +244,10 @@ class FilesPlugin extends ServerPlugin {
 	 * @param ResponseInterface $response
 	 */
 	function httpGet(RequestInterface $request, ResponseInterface $response) {
+		// Exclude published calendars
+		// TODO : Find a better way to do this
+		if (explode('/', $request->getPath())[0] === 'public-calendars') return;
+
 		// Only handle valid files
 		$node = $this->tree->getNodeForPath($request->getPath());
 		if (!($node instanceof IFile)) return;
