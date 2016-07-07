@@ -39,6 +39,6 @@ class ServerTest extends \Test\TestCase {
 		$r = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()->getMock();
 		$s = new Server($r, '/');
-		$this->assertNotNull($s->server);
+		$this->assertInstanceOf('OCA\DAV\Server', $s);
 	}
 }
