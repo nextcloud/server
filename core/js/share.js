@@ -442,7 +442,6 @@ OC.Share = _.extend(OC.Share || {}, {
 });
 
 $(document).ready(function() {
-
 	if(typeof monthNames != 'undefined'){
 		// min date should always be the next day
 		var minDate = new Date();

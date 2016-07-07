@@ -26,9 +26,6 @@
  *
  */
 
-// Check if we are a user
-OCP\User::checkLoggedIn();
-
 $filename = $_GET["file"];
 
 if(!\OC\Files\Filesystem::file_exists($filename)) {

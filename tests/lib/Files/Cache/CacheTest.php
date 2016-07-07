@@ -9,6 +9,8 @@
 namespace Test\Files\Cache;
 
 
+use Doctrine\DBAL\Platforms\MySqlPlatform;
+
 class LongId extends \OC\Files\Storage\Temporary {
 	public function getId() {
 		return 'long:' . str_repeat('foo', 50) . parent::getId();
@@ -108,6 +110,12 @@ class CacheTest extends \Test\TestCase {
 	 * @dataProvider folderDataProvider
 	 */
 	public function testFolder($folder) {
+		if(strpos($folder, 'F09F9890')) {
+			// 4 byte UTF doesn't work on mysql
+			if(\OC::$server->getDatabaseConnection()->getDatabasePlatform() instanceof MySqlPlatform) {
+				$this->markTestSkipped('MySQL doesn\'t support 4 byte UTF-8');
+			}
+		}
 		$file2 = $folder.'/bar';
 		$file3 = $folder.'/foo';
 		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');

@@ -648,12 +648,8 @@ class OC_Util {
 		if(OC_Util::runningOnWindows()) {
 			$errors[] = [
 				'error' => $l->t('Microsoft Windows Platform is not supported'),
-				'hint' => $l->t('Running ownCloud Server on the Microsoft Windows platform is not supported. We suggest you ' .
-					'use a Linux server in a virtual machine if you have no option for migrating the server itself. ' .
-					'Find Linux packages as well as easy to deploy virtual machine images on <a href="%s">%s</a>. ' .
-					'For migrating existing installations to Linux you can find some tips and a migration script ' .
-					'in <a href="%s">our documentation</a>.',
-					['https://owncloud.org/install/', 'owncloud.org/install/', 'https://owncloud.org/?p=8045'])
+				'hint' => $l->t('Running Nextcloud Server on the Microsoft Windows platform is not supported. We suggest you ' .
+					'use a Linux server in a virtual machine if you have no option for migrating the server itself.')
 			];
 		}
 
@@ -704,7 +700,7 @@ class OC_Util {
 					. '%sgiving the webserver write access to the root directory%s.',
 					array('<a href="' . $urlGenerator->linkToDocs('admin-dir_permissions') . '" target="_blank" rel="noreferrer">', '</a>'));
 				$errors[] = array(
-					'error' => 'Data directory (' . $CONFIG_DATADIRECTORY . ') not writable by ownCloud',
+					'error' => 'Data directory (' . $CONFIG_DATADIRECTORY . ') not writable',
 					'hint' => $permissionsHint
 				);
 			} else {
@@ -814,7 +810,7 @@ class OC_Util {
 			}
 			$errors[] = [
 				'error' => $l->t('PHP setting "%s" is not set to "%s".', [$setting[0], var_export($setting[1], true)]),
-				'hint' =>  $l->t('Adjusting this setting in php.ini will make ownCloud run again')
+				'hint' =>  $l->t('Adjusting this setting in php.ini will make Nextcloud run again')
 			];
 			$webServerRestart = true;
 		}

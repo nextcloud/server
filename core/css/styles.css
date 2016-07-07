@@ -25,6 +25,7 @@ body {
 
 #body-login {
 	text-align: center;
+	background-color: #0082c9;
 	background-image: url('../img/background.jpg');
 	background-position: 50% 50%;
 	background-repeat: no-repeat;
@@ -117,7 +118,8 @@ a.two-factor-cancel {
 	width: 155px;
 	max-width: 50%;
 	cursor: text;
-	background-color: #112;
+	background-color: transparent;
+	border: 1px solid rgba(255, 255, 255, .5);
 }
 
 /* CONTENT ------------------------------------------------------------------ */
@@ -343,8 +345,8 @@ a.two-factor-cancel {
 	display: inline-block;
 	position: relative;
 	left: 15px;
-	top: -21px;
-	width: 252px;
+	top: -23px;
+	width: 250px;
 }
 
 /* tipsy for the strengthify wrapper looks better with following font settings */
@@ -568,9 +570,8 @@ label.infield {
 }
 
 /* Fixes for log in page, TODO should be removed some time */
-#body-login .update,
-#body-login .error {
-	margin: 35px auto;
+#body-login ul.error-wide {
+        margin-top: 35px;
 }
 #body-login .warning {
 	margin: 0 7px 5px 4px;
@@ -651,7 +652,7 @@ td.avatar {
 	margin: 0 auto;
 	max-width: 60%;
 	z-index: 8000;
-	background-color: #fc4;
+	background-color: #fff;
 	border: 0;
 	padding: 1px 8px;
 	display: none;
@@ -680,6 +681,7 @@ td.avatar {
 	position: absolute;
 	right: 0;
 	top: 0;
+	margin-top: 2px;
 }
 #notification .row.closeable {
 	padding-right: 20px;

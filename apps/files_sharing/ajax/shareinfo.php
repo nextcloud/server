@@ -71,6 +71,11 @@ $shareManager = \OC::$server->getShareManager();
 $share = $shareManager->getShareByToken($token);
 $sharePermissions= (int)$share->getPermissions();
 
+if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+	OCP\JSON::error(array('data' => 'Share is not readable.'));
+	exit();
+}
+
 /**
  * @param \OCP\Files\FileInfo $dir
  * @param \OC\Files\View $view

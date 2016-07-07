@@ -11,8 +11,8 @@ OC.L10N.register(
     "You received \"/%3$s\" as a remote share from %1$s" : "\"/%3$s\" e morët si një ndarje të largët prej %1$s",
     "Accept" : "Pranoje",
     "Decline" : "Hidhe poshtë",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #ownCloud Federated Cloud, shihni %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #ownCloud Federated Cloud",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud, shihni %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Ndani me mua përmes ID-së time për #Nextcloud Federated Cloud",
     "Federated Cloud Sharing" : "Ndarje Në Re të Federuar ",
     "Open documentation" : "Hap dokumentimin",
     "Allow users on this server to send shares to other servers" : "Lejoju përdoruesve në këtë shërbyes të dërgojnë ndarje në shërbyes të tjerë",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "ID-ja juaj për Re të Federuar:",
     "Share it:" : "Ndajeni:",
     "Add to your website" : "Shtojeni te sajti juaj",
-    "Share with me via ownCloud" : "Ndani me mua përmes ownCloud-it",
+    "Share with me via Nextcloud" : "Ndani me mua përmes Nextcloud-it",
     "HTML Code:" : "Kod HTML:"
 },
 "nplurals=2; plural=(n != 1);");

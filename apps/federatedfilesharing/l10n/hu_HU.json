@@ -9,8 +9,8 @@
     "You received \"/%3$s\" as a remote share from %1$s" : "Kapott egy távoli megosztást: \"/%3$s\", innen: %1$s",
     "Accept" : "Elfogadás",
     "Decline" : "Elutasítás",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével, lásd %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "Ossza meg velem az #ownCloud Egyesített Felhő Azonosító segítségével ",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "Ossza meg velem az #Nextcloud Egyesített Felhő Azonosító segítségével, lásd %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "Ossza meg velem az #Nextcloud Egyesített Felhő Azonosító segítségével ",
     "Federated Cloud Sharing" : "Megosztás Egyesített Felhőben",
     "Open documentation" : "Dokumentáció megnyitása",
     "Allow users on this server to send shares to other servers" : "Engedélyezze ezen szerver felhasználóinak, hogy fájlokat osszanak meg más szerverekkel.",
@@ -19,7 +19,7 @@
     "Your Federated Cloud ID:" : "Egyesített felhő azonosító:",
     "Share it:" : "Ossza meg:",
     "Add to your website" : "Adja hozzá saját weboldalához",
-    "Share with me via ownCloud" : "Ossza meg velem ownCloud-on keresztül",
+    "Share with me via Nextcloud" : "Ossza meg velem Nextcloud-on keresztül",
     "HTML Code:" : "HTML kód:"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

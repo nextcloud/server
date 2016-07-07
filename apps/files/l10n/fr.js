@@ -39,7 +39,7 @@ OC.L10N.register(
     "{minutes}:{seconds}m" : "{minutes}:{seconds}m",
     "{seconds} second{plural_s} left" : "{seconds} seconde{plural_s} restante{plural_s}",
     "{seconds}s" : "{seconds}s",
-    "Any moment now..." : "D'un instant à l'autre...",
+    "Any moment now..." : "Dans quelques instants...",
     "Soon..." : "Bientôt...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} sur {totalSize} ({bitrate})",
     "File upload is in progress. Leaving the page now will cancel the upload." : "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier.",

@@ -11,8 +11,8 @@ OC.L10N.register(
     "You received \"/%3$s\" as a remote share from %1$s" : "קבלת \"/%3$s\" כשיתוף מרוחק מ- %1$s",
     "Accept" : "אישור",
     "Decline" : "סירוב",
-    "Share with me through my #ownCloud Federated Cloud ID, see %s" : "שיתוף איתי באמצעות מספר זהות שרת ה- #ownCloud המאוגד שלי, ניתן לראות %s",
-    "Share with me through my #ownCloud Federated Cloud ID" : "שיתוף איתי באמצעות מספר זהות שרת ה- #ownCloud המאוגד שלי",
+    "Share with me through my #Nextcloud Federated Cloud ID, see %s" : "שיתוף איתי באמצעות מספר זהות שרת ה- #Nextcloud המאוגד שלי, ניתן לראות %s",
+    "Share with me through my #Nextcloud Federated Cloud ID" : "שיתוף איתי באמצעות מספר זהות שרת ה- #Nextcloud המאוגד שלי",
     "Federated Cloud Sharing" : "ענן שיתוף מאוגד",
     "Open documentation" : "תיעוד פתוח",
     "Allow users on this server to send shares to other servers" : "מאפשר למשתמשים בשרת זה לשלוח שיתופים לשרתים אחרים",
@@ -21,7 +21,7 @@ OC.L10N.register(
     "Your Federated Cloud ID:" : "מספר זיהוי הענן המאוגד שלך:",
     "Share it:" : "שיתוף שלו:",
     "Add to your website" : "הוספה לאתר האינטרנט שלך",
-    "Share with me via ownCloud" : "שיתוף איתי באמצעות ownCloud",
+    "Share with me via Nextcloud" : "שיתוף איתי באמצעות Nextcloud",
     "HTML Code:" : "קוד HTML:"
 },
 "nplurals=2; plural=(n != 1);");

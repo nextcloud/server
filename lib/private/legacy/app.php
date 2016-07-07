@@ -421,7 +421,9 @@ class OC_App {
 
 		$settings = array();
 		// by default, settings only contain the help menu
-		if (OC_Util::getEditionString() === '' &&
+		/*
+		 * FIXME: Add help sidebar back once documentation is properly branded.
+		 if (OC_Util::getEditionString() === '' &&
 			\OC::$server->getSystemConfig()->getValue('knowledgebaseenabled', true) == true
 		) {
 			$settings = array(
@@ -433,7 +435,7 @@ class OC_App {
 					"icon" => $urlGenerator->imagePath("settings", "help.svg")
 				)
 			);
-		}
+		}*/
 
 		// if the user is logged-in
 		if (OC_User::isLoggedIn()) {
@@ -1137,7 +1139,7 @@ class OC_App {
 			$version = \OCP\Util::getVersion();
 			if (!self::isAppCompatible($version, $info)) {
 				throw new \Exception(
-					$l->t('App "%s" cannot be installed because it is not compatible with this version of ownCloud.',
+					$l->t('App "%s" cannot be installed because it is not compatible with this version of the server.',
 						array($info['name'])
 					)
 				);

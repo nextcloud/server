@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+COMPOSER=$(which composer)
+
+if [ -x "$COMPOSER" ]; then
+	echo "Using composer executable $COMPOSER"
+else
+	echo "Could not find composer executable" >&2
+	exit 1
+fi
+
 composer install
 
 SCENARIO_TO_RUN=$1
@@ -31,7 +40,7 @@ kill $PHPPID
 kill $PHPPID_FED
 
 if [ -z $HIDE_OC_LOGS ]; then
-	tail "../../data/owncloud.log"
+	tail "../../data/nextcloud.log"
 fi
 
 exit $RESULT

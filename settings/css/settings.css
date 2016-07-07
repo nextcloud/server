@@ -331,7 +331,7 @@ span.version {
 	padding-left: 25px;
 }
 .app-level .approved {
-	border-color: #e8c805;
+	border-color: #0082c9;
 }
 .app-level .experimental {
 	background-color: #ce3702;
@@ -533,9 +533,9 @@ span.indeterminate {
 }
 
 /* PASSWORD */
-.strengthify-wrapper {
+#passwordform .strengthify-wrapper {
 	position: absolute;
-	left: 189px;
+	left: 186px;
 	width: 131px;
 	margin-top: -7px;
 }
@@ -595,4 +595,13 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 
 #warning {
 	color: red;
+}
+
+/* SELECT */
+
+.select2-container-multi .select2-choices .select2-search-choice {
+	background-color: rgba(240,240,240,.9)!important;
+	border-color: rgba(240,240,240,.9)!important;
+	box-shadow: none!important;
+	background-image: none!important;
 }

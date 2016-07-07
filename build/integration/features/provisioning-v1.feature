@@ -282,6 +282,7 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And apps returned are
+			| admin_audit |
 			| comments |
 			| dav |
 			| federatedfilesharing |
@@ -292,6 +293,7 @@ Feature: provisioning
 			| files_versions |
 			| provisioning_api |
 			| systemtags |
+			| theming |
 			| updatenotification |
 
 	Scenario: get app info

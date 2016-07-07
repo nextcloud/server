@@ -362,7 +362,7 @@ class EncryptAll {
 		$this->output->writeln('A list of all newly created passwords was written to data/oneTimeEncryptionPasswords.csv');
 		$this->output->writeln('');
 		$this->output->writeln('Each of these users need to login to the web interface, go to the');
-		$this->output->writeln('personal settings section "ownCloud basic encryption module" and');
+		$this->output->writeln('personal settings section "basic encryption module" and');
 		$this->output->writeln('update the private key password to match the login password again by');
 		$this->output->writeln('entering the one-time password into the "old log-in password" field');
 		$this->output->writeln('and their current login password');

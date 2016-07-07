@@ -42,7 +42,7 @@ OC.L10N.register(
     "New recovery key password" : "Nové heslo obnovovacieho kľúča",
     "Repeat new recovery key password" : "Zopakujte nové heslo obnovovacieho kľúča",
     "Change Password" : "Zmeniť heslo",
-    "ownCloud basic encryption module" : "základný šifrovací modul ownCloud",
+    "basic encryption module" : "základný šifrovací modul",
     "Your private key password no longer matches your log-in password." : "Heslo vášho súkromného kľúča sa nezhoduje v vašim prihlasovacím heslom.",
     "Set your old private key password to your current log-in password:" : "Zmeňte si vaše staré heslo súkromného kľúča na rovnaké, aké je vaše aktuálne prihlasovacie heslo:",
     " If you don't remember your old password you can ask your administrator to recover your files." : "Ak si nepamätáte svoje staré heslo, môžete požiadať administrátora o obnovenie svojich súborov.",

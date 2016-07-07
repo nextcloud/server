@@ -50,6 +50,7 @@ class Install extends Command {
 			->addOption('database', null, InputOption::VALUE_REQUIRED, 'Supported database type', 'sqlite')
 			->addOption('database-name', null, InputOption::VALUE_REQUIRED, 'Name of the database')
 			->addOption('database-host', null, InputOption::VALUE_REQUIRED, 'Hostname of the database', 'localhost')
+			->addOption('database-port', null, InputOption::VALUE_REQUIRED, 'Port the database is listening on')
 			->addOption('database-user', null, InputOption::VALUE_REQUIRED, 'User name to connect to the database')
 			->addOption('database-pass', null, InputOption::VALUE_OPTIONAL, 'Password of the database user', null)
 			->addOption('database-table-prefix', null, InputOption::VALUE_OPTIONAL, 'Prefix for all tables (default: oc_)', null)
@@ -106,6 +107,7 @@ class Install extends Command {
 		$dbUser = $input->getOption('database-user');
 		$dbPass = $input->getOption('database-pass');
 		$dbName = $input->getOption('database-name');
+		$dbPort = $input->getOption('database-port');
 		if ($db === 'oci') {
 			// an empty hostname needs to be read from the raw parameters
 			$dbHost = $input->getParameterOption('--database-host', '');
@@ -158,6 +160,7 @@ class Install extends Command {
 			'dbpass' => $dbPass,
 			'dbname' => $dbName,
 			'dbhost' => $dbHost,
+			'dbport' => $dbPort,
 			'dbtableprefix' => $dbTablePrefix,
 			'adminlogin' => $adminLogin,
 			'adminpass' => $adminPassword,

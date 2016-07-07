@@ -1569,7 +1569,7 @@
 				return false;
 			}
 
-			if (status === 404) {
+			if (status === 404 || status === 405) {
 				// go back home
 				this.changeDirectory('/');
 				return false;
@@ -2548,12 +2548,13 @@
 			var self = this;
 
 			// handle upload events
-			var fileUploadStart = this.$el.find('#file_upload_start');
+			var fileUploadStart = this.$el;
+			var delegatedElement = '#file_upload_start';
 
 			// detect the progress bar resize
 			fileUploadStart.on('resized', this._onResize);
 
-			fileUploadStart.on('fileuploaddrop', function(e, data) {
+			fileUploadStart.on('fileuploaddrop', delegatedElement, function(e, data) {
 				OC.Upload.log('filelist handle fileuploaddrop', e, data);
 
 				if (self.$el.hasClass('hidden')) {
@@ -2561,7 +2562,8 @@
 					return false;
 				}
 
-				var dropTarget = $(e.originalEvent.target);
+				var dropTarget = $(e.delegatedEvent.target);
+
 				// check if dropped inside this container and not another one
 				if (dropTarget.length
 					&& !self.$el.is(dropTarget) // dropped on list directly

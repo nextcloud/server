@@ -4,7 +4,7 @@ OC.L10N.register(
     "Update notifications" : "アップデート通知",
     "{version} is available. Get more information on how to update." : "{version} が利用可能です。アップデート方法について詳細情報を確認してください。",
     "Updated channel" : "アップデートチャンネル",
-    "ownCloud core" : "ownCloud コア",
+    "Nextcloud core" : "Nextcloud core",
     "Update for %1$s to version %2$s is available." : "%1$s に対するバージョン %2$s へアップデートが利用可能です。",
     "Updater" : "アップデート",
     "A new version is available: %s" : "新しいバージョンが利用可能: %s",

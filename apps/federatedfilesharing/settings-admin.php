@@ -22,8 +22,6 @@
 
 use OCA\FederatedFileSharing\AppInfo\Application;
 
-\OC_Util::checkAdminUser();
-
 $app = new Application('federatedfilesharing');
 $federatedShareProvider = $app->getFederatedShareProvider();
 

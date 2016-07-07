@@ -42,6 +42,8 @@ abstract class AbstractDatabase {
 	/** @var string */
 	protected $dbHost;
 	/** @var string */
+	protected $dbPort;
+	/** @var string */
 	protected $tablePrefix;
 	/** @var IConfig */
 	protected $config;
@@ -78,11 +80,13 @@ abstract class AbstractDatabase {
 		$dbPass = $config['dbpass'];
 		$dbName = $config['dbname'];
 		$dbHost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
+		$dbPort = !empty($config['dbport']) ? $config['dbport'] : '';
 		$dbTablePrefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
 
 		$this->config->setSystemValues([
 			'dbname'		=> $dbName,
 			'dbhost'		=> $dbHost,
+			'dbport' => $dbPort,
 			'dbtableprefix'	=> $dbTablePrefix,
 		]);
 
@@ -90,6 +94,7 @@ abstract class AbstractDatabase {
 		$this->dbPassword = $dbPass;
 		$this->dbName = $dbName;
 		$this->dbHost = $dbHost;
+		$this->dbPort = $dbPort;
 		$this->tablePrefix = $dbTablePrefix;
 	}
 

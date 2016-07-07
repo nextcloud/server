@@ -100,8 +100,14 @@ class MySQL extends AbstractDatabase {
 				'tablePrefix' => $this->tablePrefix,
 		);
 
-		// adding port support
-		if (strpos($this->dbHost, ':')) {
+		// adding port support through installer
+		if(!empty($this->dbPort)) {
+			if (ctype_digit($this->dbPort)) {
+				$connectionParams['port'] = $this->dbPort;
+			} else {
+				$connectionParams['unix_socket'] = $this->dbPort;
+			}
+		} else if (strpos($this->dbHost, ':')) {
 			// Host variable may carry a port or socket.
 			list($host, $portOrSocket) = explode(':', $this->dbHost, 2);
 			if (ctype_digit($portOrSocket)) {

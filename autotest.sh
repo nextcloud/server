@@ -200,12 +200,16 @@ function execute_tests {
 			echo "MySQL is up."
 
 		else
-			if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
-				echo "Your mysql binary is not provided by mysql"
-				echo "To use the docker container set the USEDOCKER environment variable"
-				exit -1
-			fi
-			mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
+                if [ "mysql" != "$(mysql --version | grep -o mysql)" ] ; then
+                    echo "Your mysql binary is not provided by mysql"
+                    echo "To use the docker container set the USEDOCKER environment variable"
+                    exit -1
+                fi
+                mysql -u "$DATABASEUSER" -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" -h $DATABASEHOST || true
+            else
+                DATABASEHOST=127.0.0.1
+            fi
 		fi
 	fi
 	if [ "$DB" == "mariadb" ] ; then
@@ -253,7 +257,9 @@ function execute_tests {
 
 			echo "Postgres is up."
 		else
-			dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
+			if [ -z "$DRONE" ] ; then # no need to drop the DB when we are on CI
+				dropdb -U "$DATABASEUSER" "$DATABASENAME" || true
+			fi
 		fi
 	fi
 	if [ "$DB" == "oci" ] ; then
@@ -303,9 +309,18 @@ function execute_tests {
 	else
 		echo "No coverage"
 	fi
-	echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
-	"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+
+	if [ -d "$2" ]; then
+	    for f in $(find "$2" -name '*.php'); do
+			echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" / "$f" "$3"
+			"${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$f" "$3"
+			RESULT=$?
+	    done;
+	else
+	    echo "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
+	    "${PHPUNIT[@]}" --configuration phpunit-autotest.xml $GROUP $COVER --log-junit "autotest-results-$DB.xml" "$2" "$3"
 		RESULT=$?
+	fi
 
 	if [ "$PRIMARY_STORAGE_CONFIG" == "swift" ] ; then
 		cd ..

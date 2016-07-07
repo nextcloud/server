@@ -64,19 +64,19 @@ class OC {
 	 */
 	public static $CLASSPATH = array();
 	/**
-	 * The installation path for owncloud on the server (e.g. /srv/http/owncloud)
+	 * The installation path for Nextcloud  on the server (e.g. /srv/http/nextcloud)
 	 */
 	public static $SERVERROOT = '';
 	/**
-	 * the current request path relative to the owncloud root (e.g. files/index.php)
+	 * the current request path relative to the Nextcloud root (e.g. files/index.php)
 	 */
 	private static $SUBURI = '';
 	/**
-	 * the owncloud root path for http requests (e.g. owncloud/)
+	 * the Nextcloud root path for http requests (e.g. nextcloud/)
 	 */
 	public static $WEBROOT = '';
 	/**
-	 * The installation path array of the apps folder on the server (e.g. /srv/http/owncloud) 'path' and
+	 * The installation path array of the apps folder on the server (e.g. /srv/http/nextcloud) 'path' and
 	 * web path in 'url'
 	 */
 	public static $APPSROOTS = array();
@@ -92,7 +92,7 @@ class OC {
 	public static $REQUESTEDAPP = '';
 
 	/**
-	 * check if ownCloud runs in cli mode
+	 * check if Nextcloud runs in cli mode
 	 */
 	public static $CLI = false;
 
@@ -170,7 +170,7 @@ class OC {
 				OC::$WEBROOT = self::$config->getValue('overwritewebroot', '');
 			}
 
-			// Resolve /owncloud to /owncloud/ to ensure to always have a trailing
+			// Resolve /nextcloud to /nextcloud/ to ensure to always have a trailing
 			// slash which is required by URL generation.
 			if($_SERVER['REQUEST_URI'] === \OC::$WEBROOT &&
 					substr($_SERVER['REQUEST_URI'], -1) !== '/') {
@@ -200,15 +200,15 @@ class OC {
 		}
 
 		if (empty(OC::$APPSROOTS)) {
-			throw new \RuntimeException('apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
+			throw new \RuntimeException('apps directory not found! Please put the Nextcloud apps folder in the Nextcloud folder'
 				. ' or the folder above. You can also configure the location in the config.php file.');
 		}
 		$paths = array();
 		foreach (OC::$APPSROOTS as $path) {
 			$paths[] = $path['path'];
 			if (!is_dir($path['path'])) {
-				throw new \RuntimeException(sprintf('App directory "%s" not found! Please put the ownCloud apps folder in the'
-					. ' ownCloud folder or the folder above. You can also configure the location in the'
+				throw new \RuntimeException(sprintf('App directory "%s" not found! Please put the Nextcloud apps folder in the'
+					. ' Nextcloud folder or the folder above. You can also configure the location in the'
 					. ' config.php file.', $path['path']));
 			}
 		}
@@ -370,7 +370,7 @@ class OC {
 
 			// render error page
 			$template = new OC_Template('', 'update.use-cli', 'guest');
-			$template->assign('productName', 'ownCloud'); // for now
+			$template->assign('productName', 'owncloud'); // for now
 			$template->assign('version', OC_Util::getVersionString());
 			$template->assign('tooBig', $tooBig);
 
@@ -410,7 +410,7 @@ class OC {
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', true);
 
-		// set the cookie path to the ownCloud directory
+		// set the cookie path to the Nextcloud directory
 		$cookie_path = OC::$WEBROOT ? : '/';
 		ini_set('session.cookie_path', $cookie_path);
 
@@ -475,7 +475,7 @@ class OC {
 	}
 
 	/**
-	 * Try to set some values to the required ownCloud default
+	 * Try to set some values to the required Nextcloud default
 	 */
 	public static function setRequiredIniValues() {
 		@ini_set('default_charset', 'UTF-8');
@@ -514,7 +514,9 @@ class OC {
 
 		} catch (\RuntimeException $e) {
 			if (!self::$CLI) {
-				OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+				$claimedProtocol = strtoupper($_SERVER['SERVER_PROTOCOL']);
+				$protocol = in_array($claimedProtocol, ['HTTP/1.0', 'HTTP/1.1', 'HTTP/2']) ? $claimedProtocol : 'HTTP/1.1';
+				header($protocol . ' ' . OC_Response::STATUS_SERVICE_UNAVAILABLE);
 			}
 			// we can't use the template error page here, because this needs the
 			// DI container which isn't available yet
@@ -752,8 +754,8 @@ class OC {
 		$systemConfig = \OC::$server->getSystemConfig();
 		if ($systemConfig->getValue('installed', false) && $systemConfig->getValue('log_rotate_size', false) && !self::checkUpgrade(false)) {
 			//don't try to do this before we are properly setup
-			//use custom logfile path if defined, otherwise use default of owncloud.log in data directory
-			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/owncloud.log'));
+			//use custom logfile path if defined, otherwise use default of nextcloud.log in data directory
+			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', $systemConfig->getValue('logfile', $systemConfig->getValue('datadirectory', OC::$SERVERROOT . '/data') . '/nextcloud.log'));
 		}
 	}
 
@@ -819,7 +821,7 @@ class OC {
 		// in the routing files of each app
 		OC::loadAppClassPaths();
 
-		// Check if ownCloud is installed or in maintenance (update) mode
+		// Check if Nextcloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
 			$setupHelper = new OC\Setup(\OC::$server->getConfig(), \OC::$server->getIniWrapper(),
