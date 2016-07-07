@@ -1327,13 +1327,27 @@
 			return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 		},
 
+		_isValidPath: function(path) {
+			var sections = path.split('/');
+			for (var i = 0; i < sections.length; i++) {
+				if (sections[i] === '..') {
+					return false;
+				}
+			}
+			return true;
+		},
+
 		/**
 		 * Sets the current directory name and updates the breadcrumb.
 		 * @param targetDir directory to display
 		 * @param changeUrl true to also update the URL, false otherwise (default)
 		 */
 		_setCurrentDir: function(targetDir, changeUrl) {
-			targetDir = targetDir.replace(/\\/g, '/').replace(/\/\.\.\//g, '/');
+			targetDir = targetDir.replace(/\\/g, '/');
+			if (!this._isValidPath(targetDir)) {
+				targetDir = '/';
+				changeUrl = true;
+			}
 			var previousDir = this.getCurrentDirectory(),
 				baseDir = OC.basename(targetDir);
 

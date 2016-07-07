@@ -1323,13 +1323,32 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.changeDirectory('/another\\subdir');
 			expect(fileList.getCurrentDirectory()).toEqual('/another/subdir');
 		});
-		it('converts backslashes to slashes and removes traversals when calling changeDirectory()', function() {
-			fileList.changeDirectory('/another\\subdir/../foo\\../bar\\..\\file/..\\folder/../');
-			expect(fileList.getCurrentDirectory()).toEqual('/another/subdir/foo/bar/file/folder/');
+		it('switches to root dir when current directory is invalid', function() {
+			_.each([
+				'..',
+				'/..',
+				'../',
+				'/../',
+				'/../abc',
+				'/abc/..',
+				'/abc/../',
+				'/../abc/',
+				'/another\\subdir/../foo\\../bar\\..\\file/..\\folder/../'
+			], function(path) {
+				fileList.changeDirectory(path);
+				expect(fileList.getCurrentDirectory()).toEqual('/');
+			});
 		});
-		it('does not convert folders with a ".." in the name', function() {
-			fileList.changeDirectory('/abc../def');
-			expect(fileList.getCurrentDirectory()).toEqual('/abc../def');
+		it('allows paths with dotdot at the beginning or end', function() {
+			_.each([
+				'/..abc',
+				'/def..',
+				'/...',
+				'/abc../def'
+			], function(path) {
+				fileList.changeDirectory(path);
+				expect(fileList.getCurrentDirectory()).toEqual(path);
+			});
 		});
 		it('switches to root dir when current directory does not exist', function() {
 			fileList.changeDirectory('/unexist');
