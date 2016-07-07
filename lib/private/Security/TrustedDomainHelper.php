@@ -70,7 +70,7 @@ class TrustedDomainHelper {
 
 		// Read trusted domains from config
 		$trustedList = $this->config->getSystemValue('trusted_domains', []);
-		if(!is_array($trustedList)) {
+		if (!is_array($trustedList)) {
 			return false;
 		}
 
@@ -78,13 +78,20 @@ class TrustedDomainHelper {
 		if (preg_match(Request::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
 		}
-
-		// Compare with port appended
-		if(in_array($domainWithPort, $trustedList, true)) {
-			return true;
+		// Reject misformed domains in any case
+		if (strpos($domain,'-') === 0 || strpos($domain,'..') !== false) {
+			return false;
 		}
-
-		return in_array($domain, $trustedList, true);
+		// Match, allowing for * wildcards
+		foreach ($trustedList as $trusted) {
+			if (gettype($trusted) !== 'string') {
+				break;
+			}
+			$regex = '/^' . join('[-\.a-zA-Z0-9]*', array_map(function($v) { return preg_quote($v, '/'); }, explode('*', $trusted))) . '$/';
+			if (preg_match($regex, $domain) || preg_match($regex, $domainWithPort)) {
+ 				return true;
+ 			}
+ 		}
+ 		return false;
 	}
-
 }

@@ -58,6 +58,12 @@ $CONFIG = array(
  * Your list of trusted domains that users can log into. Specifying trusted
  * domains prevents host header poisoning. Do not remove this, as it performs
  * necessary security checks.
+ * You can specify:
+ * - the exact hostname of your host or virtual host, e.g. demo.example.org.
+ * - the exact hostname with permitted port, e.g. demo.example.org:443.
+ *   This disallows all other ports on this host
+ * - use * as a wildcard, e.g. ubos-raspberry-pi*.local will allow
+ *   ubos-raspberry-pi.local and ubos-raspberry-pi-2.local
  */
 'trusted_domains' =>
   array (
