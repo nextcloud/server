@@ -86,6 +86,9 @@
 }
 
 /* icons for sidebar */
+.nav-icon-recent {
+	background-image: url('../img/recent.svg');
+}
 .nav-icon-files {
 	background-image: url('../img/folder.svg');
 }
