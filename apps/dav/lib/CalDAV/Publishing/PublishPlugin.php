@@ -2,8 +2,6 @@
 
 namespace OCA\DAV\CalDAV\Publishing;
 
-//use OCA\DAV\CalDAV\Publishing\Xml;
-
 use Sabre\DAV\PropFind;
 use Sabre\DAV\INode;
 use Sabre\DAV\Server;
@@ -12,10 +10,11 @@ use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
 use OCA\DAV\CalDAV\Calendar;
+use OCP\IURLGenerator;
+use OCP\IConfig;
 
 class PublishPlugin extends ServerPlugin
 {
-    const NS_OWNCLOUD = 'http://owncloud.org/ns';
     const NS_CALENDARSERVER = 'http://calendarserver.org/ns/';
 
     /**
@@ -24,6 +23,31 @@ class PublishPlugin extends ServerPlugin
      * @var \Sabre\DAV\Server
      */
     protected $server;
+
+    /**
+     * Config instance to get instance secret.
+     *
+     * @var OCP\IConfig
+     */
+    protected $config;
+
+     /**
+      * URL Generator for absolute URLs.
+      *
+      * @var OCP\IURLGenerator
+      */
+     protected $urlGenerator;
+
+     /**
+      * PublishPlugin constructor.
+      *
+      * @param IURLGenerator $urlGenerator
+      */
+     public function __construct(IConfig $config, IURLGenerator $urlGenerator)
+     {
+         $this->config = $config;
+         $this->urlGenerator = $urlGenerator;
+     }
 
     /**
      * This method should return a list of server-features.
@@ -72,16 +96,17 @@ class PublishPlugin extends ServerPlugin
     public function propFind(PropFind $propFind, INode $node)
     {
         if ($node instanceof Calendar) {
-          $token = md5(\OC::$server->getConfig()->getSystemValue('secret', '').$node->getResourceId());
-          $publishUrl = $this->server->getBaseUri() . 'public-calendars/' . $token;
+            $token = md5($this->config->getSystemValue('secret', '').$node->getResourceId());
 
-          $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $publishUrl) {
+            $publishUrl = $this->urlGenerator->getAbsoluteURL($this->server->getBaseUri().'public-calendars/').$token;
+
+            $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $publishUrl) {
             if ($node->getPublishStatus()) {
                 return new Publisher($publishUrl, $node->getPublishStatus());
             }
           });
 
-          $propFind->handle('{'.self::NS_CALENDARSERVER.'}pre-publish-url', function () use ($node, $publishUrl) {
+            $propFind->handle('{'.self::NS_CALENDARSERVER.'}pre-publish-url', function () use ($node, $publishUrl) {
                 return new Publisher($publishUrl, false);
           });
         }

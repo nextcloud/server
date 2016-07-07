@@ -114,7 +114,10 @@ class Server {
 		$this->server->addPlugin(new \Sabre\CalDAV\Subscriptions\Plugin());
 		$this->server->addPlugin(new \Sabre\CalDAV\Notifications\Plugin());
 		$this->server->addPlugin(new DAV\Sharing\Plugin($authBackend, \OC::$server->getRequest()));
-		$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin());
+		$this->server->addPlugin(new \OCA\DAV\CalDAV\Publishing\PublishPlugin(
+			\OC::$server->getConfig(),
+			\OC::$server->getUrlGenerator()
+		));
 
 		// addressbook plugins
 		$this->server->addPlugin(new \OCA\DAV\CardDAV\Plugin());
