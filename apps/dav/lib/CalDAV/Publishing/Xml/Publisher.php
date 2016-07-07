@@ -9,17 +9,17 @@ use Sabre\Xml\XmlSerializable;
 class Publisher implements XmlSerializable {
 
   /**
-   * @var $publishUrl
+   * @var string $publishUrl
    */
    protected $publishUrl;
 
    /**
-    * @var $isPublished
+    * @var boolean $isPublished
     */
     protected $isPublished;
 
    /**
-   * @param str $publishUrl
+   * @param string $publishUrl
    * @param boolean $isPublished
    */
    function __construct($publishUrl, $isPublished) {
@@ -28,7 +28,7 @@ class Publisher implements XmlSerializable {
    }
 
    /**
-    * @return str
+    * @return string
     */
    function getValue() {
      return $this->publishUrl;
