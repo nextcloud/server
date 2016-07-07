@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Fetching request tokens failed. Verify that your app key and secret are correct." : "Não foi possível obter as senhas solicitadas. Verifique se o código e o segredo da sua app estão corretos.",
     "Fetching access tokens failed. Verify that your app key and secret are correct." : "Não foi possível obter as senhas de acesso. Verifique se o código e o segredo da sua app estão corretos.",
-    "Please provide a valid app key and secret." : "Por favor indique um segredo e chave de app válida.",
+    "Please provide a valid app key and secret." : "Por favor, indique um código e segredo de app válidos.",
     "Step 1 failed. Exception: %s" : "Passo 1 falhou. Exceção: %s",
     "Step 2 failed. Exception: %s" : "Passo 2 falhou. Exceção: %s",
     "External storage" : "Armazenamento Externo",
