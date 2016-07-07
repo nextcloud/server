@@ -35,9 +35,9 @@ try {
 		exit;
 	}
 
-	$request = \OC::$server->getRequest();
-	OC::checkMaintenanceMode($request);
+	OC::checkMaintenanceMode();
 	OC::checkSingleUserMode(true);
+	$request = \OC::$server->getRequest();
 	$pathInfo = $request->getPathInfo();
 
 	if (!$pathInfo && $request->getParam('service', '') === '') {
