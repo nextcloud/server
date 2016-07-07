@@ -2,6 +2,7 @@ OC.L10N.register(
     "systemtags",
     {
     "Tags" : "Žymės",
+    "Tagged files" : "Pažymėti failai",
     "No files in here" : "Čia nėra failų",
     "No entries found in this folder" : "Nerasta įrašų šiame aplanke",
     "Name" : "Pavadinimas",

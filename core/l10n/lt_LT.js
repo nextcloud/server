@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Please select a file." : "Pasirinkite failą.",
     "File is too big" : "Per didelis failas",
     "Invalid file provided" : "Netinkamas failas",
     "No image or file provided" : "Nenurodytas paveikslėlis ar failas",

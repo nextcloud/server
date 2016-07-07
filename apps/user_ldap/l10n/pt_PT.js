@@ -1,9 +1,9 @@
 OC.L10N.register(
     "user_ldap",
     {
-    "Failed to clear the mappings." : "Falhou ao limpar os mapas.",
+    "Failed to clear the mappings." : "Falhou ao limpar os mapeamentos.",
     "Failed to delete the server configuration" : "Erro ao eliminar a configuração do servidor",
-    "The configuration is invalid: anonymous bind is not allowed." : "A configuração é inválida: ligação anónima não é permitida.",
+    "The configuration is invalid: anonymous bind is not allowed." : "A configuração é inválida: não é permitida ligação anónima.",
     "The configuration is valid and the connection could be established!" : "A configuração está correcta e foi possível estabelecer a ligação!",
     "The configuration is valid, but the Bind failed. Please check the server settings and credentials." : "A configuração está correcta, mas não foi possível estabelecer a conexão. Por favor, verifique as configurações do servidor e as credenciais.",
     "The configuration is invalid. Please have a look at the logs for further details." : "A configuração é inválida. Por favor, veja o registo (log) do ownCloud para mais detalhes.",

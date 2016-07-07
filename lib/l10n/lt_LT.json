@@ -42,6 +42,7 @@
     "Set an admin username." : "Nustatyti administratoriaus naudotojo vardą.",
     "Set an admin password." : "Nustatyti administratoriaus slaptažodį.",
     "%s shared »%s« with you" : "%s pasidalino »%s« su tavimi",
+    "%s via %s" : "%s per %s",
     "Could not find category \"%s\"" : "Nepavyko rasti kategorijos „%s“",
     "Apps" : "Programos",
     "A valid username must be provided" : "Vartotojo vardas turi būti tinkamas",
@@ -55,6 +56,7 @@
     "Application is not enabled" : "Programa neįjungta",
     "Authentication error" : "Autentikacijos klaida",
     "Token expired. Please reload page." : "Sesija baigėsi. Prašome perkrauti puslapį.",
+    "PostgreSQL >= 9 required" : "Reikalinga PostgreSQL >= 9 versija",
     "Storage not available" : "Saugykla nepasiekiama"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }
