@@ -515,14 +515,8 @@ describe('OCA.Sharing.FileList tests', function() {
 
 			fileList.reload();
 
-			var currentdate = new Date();
-			var expirationDateInADay =
-				+ currentdate.getFullYear() + "-"
-				+ ((currentdate.getMonth()+1 < 10) ? "0" : "") + (currentdate.getMonth()+1) + "-"
-				+ ((currentdate.getDate()+1 < 10) ? "0" : "") + (currentdate.getDate()+1) + " "
-				+ ((currentdate.getHours()+1 < 10) ? "0" : "") + currentdate.getHours() + ":"
-				+ ((currentdate.getMinutes()+1 < 10) ? "0" : "") + currentdate.getMinutes() + ":"
-				+ ((currentdate.getSeconds()+1 < 10) ? "0" : "") + currentdate.getSeconds();
+			var expirationDateInADay = moment()
+				.add(1, 'days').format('YYYY-MM-DD HH:mm:ss');
 
 			/* jshint camelcase: false */
 			ocsResponse = {
@@ -617,7 +611,7 @@ describe('OCA.Sharing.FileList tests', function() {
 				OC.webroot + '/remote.php/webdav/local%20path/local%20name.txt'
 			);
 			expect($tr.attr('data-expiration')).toEqual('0');
-			expect($tr.find('td:last-child span').text()).toEqual('Never');
+			expect($tr.find('td:last-child span').text()).toEqual('');
 
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
 
