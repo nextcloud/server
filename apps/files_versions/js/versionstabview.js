@@ -15,7 +15,9 @@
 		'<a href="{{downloadUrl}}" class="downloadVersion"><img src="{{downloadIconUrl}}" />' +
 		'<span class="versiondate has-tooltip" title="{{formattedTimestamp}}">{{relativeTimestamp}}</span>' +
 		'</a>' +
+		'{{#canRevert}}' +
 		'<a href="#" class="revertVersion" title="{{revertLabel}}"><img src="{{revertIconUrl}}" /></a>' +
+		'{{/canRevert}}' +
 		'</li>';
 
 	var TEMPLATE =
@@ -109,6 +111,9 @@
 				},
 
 				error: function() {
+					fileInfoModel.trigger('busy', fileInfoModel, false);
+					self.$el.find('.versions').removeClass('hidden');
+					self._toggleLoading(false);
 					OC.Notification.showTemporary(
 						t('files_version', 'Failed to revert {file} to revision {timestamp}.', {
 							file: versionModel.getFullPath(),
@@ -183,6 +188,7 @@
 				revertIconUrl: OC.imagePath('core', 'actions/history'),
 				previewUrl: version.getPreviewUrl(),
 				revertLabel: t('files_versions', 'Restore'),
+				canRevert: (this.collection.getFileInfo().get('permissions') & OC.PERMISSION_UPDATE) !== 0
 			}, version.attributes);
 		},
 
