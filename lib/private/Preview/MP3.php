@@ -68,7 +68,7 @@ class MP3 extends Provider {
 	 * @return bool|\OCP\IImage false if the default image is missing or invalid
 	 */
 	private function getNoCoverThumbnail() {
-		$icon = \OC::$SERVERROOT . '/core/img/filetypes/audio.png';
+		$icon = \OC::$SERVERROOT . '/core/img/filetypes/audio.svg';
 
 		if(!file_exists($icon)) {
 			return false;

@@ -513,7 +513,7 @@
 		 * Event handler for when the URL changed
 		 */
 		_onUrlChanged: function(e) {
-			if (e && e.dir) {
+			if (e && _.isString(e.dir)) {
 				this.changeDirectory(e.dir, false, true);
 			}
 		},
@@ -1397,6 +1397,16 @@
 			return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
 		},
 
+		_isValidPath: function(path) {
+			var sections = path.split('/');
+			for (var i = 0; i < sections.length; i++) {
+				if (sections[i] === '..') {
+					return false;
+				}
+			}
+			return true;
+		},
+
 		/**
 		 * Sets the current directory name and updates the breadcrumb.
 		 * @param targetDir directory to display
@@ -1404,7 +1414,11 @@
 		 * @param {string} [fileId] file id
 		 */
 		_setCurrentDir: function(targetDir, changeUrl, fileId) {
-			targetDir = targetDir.replace(/\\/g, '/').replace(/\/\.\.\//g, '/');
+			targetDir = targetDir.replace(/\\/g, '/');
+			if (!this._isValidPath(targetDir)) {
+				targetDir = '/';
+				changeUrl = true;
+			}
 			var previousDir = this.getCurrentDirectory(),
 				baseDir = OC.basename(targetDir);
 
@@ -1415,6 +1429,9 @@
 				this.setPageTitle();
 			}
 
+			if (targetDir.length > 0 && targetDir[0] !== '/') {
+				targetDir = '/' + targetDir;
+			}
 			this._currentDirectory = targetDir;
 
 			// legacy stuff

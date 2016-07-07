@@ -140,7 +140,10 @@ class SystemTagManager implements ISystemTagManager {
 
 		if (!empty($nameSearchPattern)) {
 			$query->andWhere(
-				$query->expr()->like('name', $query->createNamedParameter('%' . $this->connection->escapeLikeParameter($nameSearchPattern) . '%'))
+				$query->expr()->like(
+					'name',
+					$query->createNamedParameter('%' . $this->connection->escapeLikeParameter($nameSearchPattern). '%')
+				)
 			);
 		}
 
