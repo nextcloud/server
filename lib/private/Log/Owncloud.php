@@ -33,7 +33,7 @@ namespace OC\Log;
 /**
  * logging utilities
  *
- * Log is saved at data/owncloud.log (on default)
+ * Log is saved at data/nextcloud.log (on default)
  */
 
 class Owncloud {
@@ -44,7 +44,7 @@ class Owncloud {
 	 */
 	public static function init() {
 		$systemConfig = \OC::$server->getSystemConfig();
-		$defaultLogFile = $systemConfig->getValue("datadirectory", \OC::$SERVERROOT.'/data').'/owncloud.log';
+		$defaultLogFile = $systemConfig->getValue("datadirectory", \OC::$SERVERROOT.'/data').'/nextcloud.log';
 		self::$logFile = $systemConfig->getValue("logfile", $defaultLogFile);
 
 		/**

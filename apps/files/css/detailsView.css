@@ -32,17 +32,17 @@
 	float: left;
 }
 
-#app-sidebar .thumbnailContainer.image {
+#app-sidebar .thumbnailContainer.large {
 	margin-left: -15px;
 	margin-right: -35px; /* 15 + 20 for the close button */
 	margin-top: -15px;
 }
 
-#app-sidebar .thumbnailContainer.image.portrait {
+#app-sidebar .thumbnailContainer.large.portrait {
 	margin: 0; /* if we don't fit the image anyway we give it back the margin */
 }
 
-#app-sidebar .image .thumbnail {
+#app-sidebar .large .thumbnail {
 	width:100%;
 	display:block;
 	background-repeat: no-repeat;
@@ -53,18 +53,26 @@
 	height: auto;
 }
 
-#app-sidebar .image .thumbnail .stretcher {
+#app-sidebar .large .thumbnail .stretcher {
 	content: '';
 	display: block;
 	padding-bottom: 56.25%; /* sets height of .thumbnail to 9/16 of the width */
 }
 
-#app-sidebar .image.portrait .thumbnail {
+#app-sidebar .large.portrait .thumbnail {
 	background-position: 50% top;
 }
 
-#app-sidebar .image.portrait .thumbnail {
+#app-sidebar .large.portrait .thumbnail {
 	background-size: contain;
+}
+
+#app-sidebar .large.text {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding-top: 15px;
+	font-size: 80%;
+	margin-left: 0;
 }
 
 #app-sidebar .thumbnail {

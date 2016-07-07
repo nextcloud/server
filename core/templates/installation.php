@@ -52,7 +52,6 @@ script('core', [
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
 			<input type="checkbox" id="show" name="show">
 			<label for="show"></label>
-			<div class="strengthify-wrapper"></div>
 		</p>
 	</fieldset>
 

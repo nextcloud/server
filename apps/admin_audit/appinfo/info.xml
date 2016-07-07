@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<info>
+	<id>admin_audit</id>
+	<name>Auditing / Logging</name>
+	<description>Provides logging abilities for Nextcloud such as logging file
+				accesses or otherwise sensitive actions.
+	</description>
+	<licence>AGPL</licence>
+	<author>Nextcloud</author>
+	<version>1.0.0</version>
+	<dependencies>
+		<owncloud min-version="9.0" max-version="9.1" />
+	</dependencies>
+	<types>
+		<logging/>
+	</types>
+	<default_enable/>
+</info>

@@ -3,7 +3,7 @@
     "The mountpoint name contains invalid characters." : "Le nom du point de montage contient des caractères non valides.",
     "Not allowed to create a federated share with the same user server" : "Non autorisé à créer un partage fédéré avec un utilisateur du même serveur",
     "Invalid or untrusted SSL certificate" : "Certificat SSL non valable ou non fiable",
-    "Could not authenticate to remote share, password might be wrong" : "Impossible de s'authentifier au partage distant : le mot de passe en probablement incorrect",
+    "Could not authenticate to remote share, password might be wrong" : "Impossible de s'authentifier au partage distant : le mot de passe est probablement incorrect",
     "Storage not valid" : "Support de stockage non valide",
     "Couldn't add remote share" : "Impossible d'ajouter le partage distant",
     "Shared with you" : "Partagés avec vous",
@@ -102,6 +102,10 @@
     "Add to your ownCloud" : "Ajouter à votre ownCloud",
     "Download" : "Télécharger",
     "Download %s" : "Télécharger %s",
-    "Direct link" : "Lien direct"
+    "Direct link" : "Lien direct",
+    "Upload files to %s" : "Téléversement des fichiers vers %s",
+    "Select or drop files" : "Sélectionner ou glisser-déposer vos fichiers",
+    "Uploading files…" : "Téléversement des fichiers...",
+    "Uploaded files:" : "Fichiers téléversés :"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

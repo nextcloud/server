@@ -104,6 +104,10 @@ OC.L10N.register(
     "Add to your ownCloud" : "Adiconar ao seu ownCloud",
     "Download" : "Baixar",
     "Download %s" : "Baixar %s",
-    "Direct link" : "Link direto"
+    "Direct link" : "Link direto",
+    "Upload files to %s" : "Carregar arquivos para %s",
+    "Select or drop files" : "Selecione e solte arquivos",
+    "Uploading files…" : "Carregando arquivos...",
+    "Uploaded files:" : "Arquivos carregados:"
 },
 "nplurals=2; plural=(n > 1);");

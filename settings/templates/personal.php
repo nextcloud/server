@@ -118,8 +118,7 @@ if($_['passwordChangeSupported']) {
 ?>
 <form id="passwordform" class="section">
 	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
-	<div class="hidden icon-checkmark" id="password-changed"></div>
-	<div class="hidden" id="password-error"><?php p($l->t('Unable to change your password'));?></div>
+	<div id="password-error-msg" class="msg success inlineblock" style="display: none;">Saved</div>
 	<br>
 	<label for="pass1" class="hidden-visually"><?php echo $l->t('Current password');?>: </label>
 	<input type="password" id="pass1" name="oldpassword"
@@ -133,7 +132,6 @@ if($_['passwordChangeSupported']) {
 	<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 	<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	<br/>
-	<div class="strengthify-wrapper"></div>
 </form>
 <?php
 }
@@ -169,7 +167,7 @@ if($_['passwordChangeSupported']) {
 
 <div id="sessions" class="section">
 	<h2><?php p($l->t('Sessions'));?></h2>
-	<span class="hidden-when-empty"><?php p($l->t('These are the web, desktop and mobile clients currently logged in to your ownCloud.'));?></span>
+	<span class="hidden-when-empty"><?php p($l->t('These are the web, desktop and mobile clients currently logged in to your account.'));?></span>
 	<table>
 		<thead class="token-list-header">
 			<tr>
@@ -234,10 +232,10 @@ if($_['passwordChangeSupported']) {
 	<?php if (OC_Util::getEditionString() === ''): ?>
 	<p>
 		<?php print_unescaped($l->t('If you want to support the project
-		<a href="https://owncloud.org/contribute"
+		<a href="https://nextcloud.com/contribute"
 			target="_blank" rel="noreferrer">join development</a>
 		or
-		<a href="https://owncloud.org/promote"
+		<a href="https://nextcloud.com/contribute"
 			target="_blank" rel="noreferrer">spread the word</a>!'));?>
 	</p>
 	<?php endif; ?>

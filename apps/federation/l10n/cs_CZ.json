@@ -1,12 +1,12 @@
 { "translations": {
-    "Server added to the list of trusted ownClouds" : "Server přidán do seznamu důvěryhodných ownCloudů",
+    "Added to the list of trusted servers" : "Přidán na seznam důvěryhodných serverů.",
     "Server is already in the list of trusted servers." : "Server je již přidán na seznam důvěryhodných serverů.",
-    "No ownCloud server found" : "Nenalezen žádný ownCloud server",
+    "No server to federate found" : "Nenalezen žádný server ke sdružování",
     "Could not add server" : "Nepodařilo se přidat server",
     "Federation" : "Sdružování",
-    "ownCloud Federation allows you to connect with other trusted ownClouds to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "ownCloud Sdružování vám dovoluje přistupovat k seznamům uživatelů na jiných důvěryhodných ownCloudech. Využívá se například k automatickému dokončování při výběru uživatele pro sdílení v rámci sdružení.",
+    "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Sdružování vám umožňuje se připojit k dalším důvěryhodným serverům za účelem výměny uživatelských adresářů. Používá se to např. pro automatické doplňování uživatelů při sdruženém sdílení.",
     "Add server automatically once a federated share was created successfully" : "Přidat server automaticky jakmile je úspěšně vytvořeno sdružené sdílení",
-    "Trusted ownCloud Servers" : "Důvěryhodné ownCloud servery",
+    "Trusted Servers" : "Důvěryhodné servery",
     "+ Add ownCloud server" : "+ Přidat ownCloud server",
     "ownCloud Server" : "ownCloud server"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"

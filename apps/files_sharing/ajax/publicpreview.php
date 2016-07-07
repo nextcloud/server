@@ -42,6 +42,13 @@ if($token === ''){
 }
 
 $linkedItem = \OCP\Share::getShareByToken($token);
+$shareManager = \OC::$server->getShareManager();
+$share = $shareManager->getShareByToken($token);
+if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+	OCP\JSON::error(array('data' => 'Share is not readable.'));
+	exit();
+}
+
 if($linkedItem === false || ($linkedItem['item_type'] !== 'file' && $linkedItem['item_type'] !== 'folder')) {
 	\OC_Response::setStatus(\OC_Response::STATUS_NOT_FOUND);
 	\OCP\Util::writeLog('core-preview', 'Passed token parameter is not valid', \OCP\Util::DEBUG);

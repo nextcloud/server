@@ -149,7 +149,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Usá este enlace para restablecer tu contraseña: {link}",
     "New password" : "Nueva contraseña:",
     "Reset password" : "Restablecer contraseña",
-    "This ownCloud instance is currently in single user mode." : "Esta instancia de ownCloud está en modo de usuario único.",
+    "This Nextcloud instance is currently in single user mode." : "Esta instancia de Nextcloud está en modo de usuario único.",
     "This means only administrators can use the instance." : "Esto significa que solo administradores pueden usar esta instancia.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacte su administrador de sistema si este mensaje persiste o aparece inesperadamente.",
     "Thank you for your patience." : "Gracias por su paciencia."

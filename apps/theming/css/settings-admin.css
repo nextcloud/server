@@ -1,0 +1,34 @@
+#theming input {
+    width: 17em;
+}
+
+#theming .upload-logo-field {
+    display: none;
+}
+
+#theming .theme-undo {
+    cursor: pointer;
+    opacity: .5;
+    padding: 9px;
+    vertical-align: bottom;
+}
+
+#theming .icon {
+    display: inline-block;
+}
+
+#theming label span {
+    display: inline-block;
+    min-width: 90px;
+    padding: 8px 0px;
+}
+
+#theming .icon-upload {
+    display: inline-flex;
+    padding: 8px;
+    margin: 0;
+}
+
+div#theming_settings_msg {
+    margin-left: 10px;
+}

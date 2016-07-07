@@ -66,7 +66,12 @@ $server = $serverFactory->createServer($baseuri, $requestUri, $authBackend, func
 
 	$share = $authBackend->getShare();
 	$owner = $share->getShareOwner();
+	$isReadable = $share->getPermissions() & \OCP\Constants::PERMISSION_READ;
 	$fileId = $share->getNodeId();
+
+	if (!$isReadable) {
+		return false;
+	}
 
 	\OC\Files\Filesystem::addStorageWrapper('sharePermissions', function ($mountPoint, $storage) use ($share) {
 		return new \OC\Files\Storage\Wrapper\PermissionsMask(array('storage' => $storage, 'mask' => $share->getPermissions() | \OCP\Constants::PERMISSION_SHARE));

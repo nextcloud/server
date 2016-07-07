@@ -19,8 +19,6 @@
  *
  */
 
-\OC_Util::checkAdminUser();
-
 $template = new OCP\Template('federation', 'settings-admin');
 
 $dbHandler = new \OCA\Federation\DbHandler(

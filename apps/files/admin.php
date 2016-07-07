@@ -27,8 +27,6 @@
  *
  */
 
-OCP\User::checkAdminUser();
-
 $htaccessWorking=(getenv('htaccessWorking')=='true');
 $upload_max_filesize = OC::$server->getIniWrapper()->getBytes('upload_max_filesize');
 $post_max_size = OC::$server->getIniWrapper()->getBytes('post_max_size');

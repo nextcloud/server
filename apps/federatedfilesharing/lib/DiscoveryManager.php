@@ -65,7 +65,7 @@ class DiscoveryManager {
 	 * Discover the actual data and do some naive caching to ensure that the data
 	 * is not requested multiple times.
 	 *
-	 * If no valid discovery data is found the ownCloud defaults are returned.
+	 * If no valid discovery data is found the Nextcloud defaults are returned.
 	 *
 	 * @param string $remote
 	 * @return array

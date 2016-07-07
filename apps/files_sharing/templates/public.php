@@ -9,6 +9,7 @@ OCP\Util::addScript('files_sharing', 'public');
 OCP\Util::addScript('files', 'fileactions');
 OCP\Util::addScript('files', 'fileactionsmenu');
 OCP\Util::addScript('files', 'jquery.fileupload');
+OCP\Util::addScript('files_sharing', 'files_drop');
 
 // JS required for folders
 OCP\Util::addStyle('files', 'files');
@@ -30,6 +31,7 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 	<div id="notification" style="display: none;"></div>
 </div>
 
+<input type="hidden" id="sharingUserId" value="<?php p($_['owner']) ?>">
 <input type="hidden" id="filesApp" name="filesApp" value="1">
 <input type="hidden" id="isPublic" name="isPublic" value="1">
 <input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
@@ -39,7 +41,16 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <input type="hidden" name="previewSupported" value="<?php p($_['previewSupported'] ? 'true' : 'false'); ?>" id="previewSupported">
 <input type="hidden" name="mimetypeIcon" value="<?php p(\OC::$server->getMimeTypeDetector()->mimeTypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
-<input type="hidden" name="filesize" value="<?php p($_['nonHumanFileSize']); ?>" id="filesize">
+<?php
+$upload_max_filesize = OC::$server->getIniWrapper()->getBytes('upload_max_filesize');
+$post_max_size = OC::$server->getIniWrapper()->getBytes('post_max_size');
+$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+?>
+<input type="hidden" name="maxFilesizeUpload" value="<?php p($maxUploadFilesize); ?>" id="maxFilesizeUpload">
+
+<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)): ?>
+	<input type="hidden" name="filesize" value="<?php p($_['nonHumanFileSize']); ?>" id="filesize">
+<?php endif; ?>
 <input type="hidden" name="maxSizeAnimateGif" value="<?php p($_['maxSizeAnimateGif']); ?>" id="maxSizeAnimateGif">
 
 
@@ -66,27 +77,30 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 		<div class="header-right">
 			<span id="details">
 				<?php
-				if ($_['server2serversharing']) {
-					?>
-					<span id="save" data-protected="<?php p($_['protected']) ?>"
-						  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
-					<button id="save-button"><?php p($l->t('Add to your ownCloud')) ?></button>
-					<form class="save-form hidden" action="#">
-						<input type="text" id="remote_address" placeholder="example.com/owncloud"/>
-						<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
-					</form>
-				</span>
+				if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) {
+					if ($_['server2serversharing']) {
+						?>
+						<span id="save" data-protected="<?php p($_['protected']) ?>"
+							  data-owner-display-name="<?php p($_['displayName']) ?>" data-owner="<?php p($_['owner']) ?>" data-name="<?php p($_['filename']) ?>">
+						<button id="save-button"><?php p($l->t('Add to your ownCloud')) ?></button>
+						<form class="save-form hidden" action="#">
+							<input type="text" id="remote_address" placeholder="example.com/owncloud"/>
+							<button id="save-button-confirm" class="icon-confirm svg" disabled></button>
+						</form>
+					</span>
+					<?php } ?>
+					<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
+						<img class="svg" alt="" src="<?php print_unescaped(image_path("core", "actions/download.svg")); ?>"/>
+						<span id="download-text"><?php p($l->t('Download'))?></span>
+					</a>
 				<?php } ?>
-				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
-					<img class="svg" alt="" src="<?php print_unescaped(image_path("core", "actions/download.svg")); ?>"/>
-					<span id="download-text"><?php p($l->t('Download'))?></span>
-				</a>
 			</span>
 		</div>
-</div></header>
+	</div></header>
 <div id="content-wrapper">
+	<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] === false)) { ?>
 	<div id="content">
-		<div id="preview">
+	<div id="preview">
 			<?php if (isset($_['folder'])): ?>
 				<?php print_unescaped($_['folder']); ?>
 			<?php else: ?>
@@ -112,7 +126,31 @@ OCP\Util::addscript('files', 'keyboardshortcuts');
 				</div>
 			<?php endif; ?>
 		</div>
+		<?php } else { ?>
+		<input type="hidden" id="upload-only-interface" value="1"/>
+			<div id="public-upload">
+				<div id="emptycontent" class="">
+					<div id="displayavatar"><div class="avatardiv"></div></div>
+					<h2><?php p($l->t('Upload files to %s', [$_['shareOwner']])) ?></h2>
+					<p><span class="icon-folder"></span> <?php p($_['filename']) ?></p>
+					<input type="file" name="files[]" class="hidden" multiple>
+
+					<a href="#" class="button icon-upload"><?php p($l->t('Select or drop files')) ?></a>
+					<div id="drop-upload-progress-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploading files…')) ?></div>
+					<div id="drop-upload-done-indicator" style="padding-top: 25px;" class="hidden"><?php p($l->t('Uploaded files:')) ?></div>
+					<ul>
+					</ul>
+				</div>
+			</div>
+		<?php } ?>
+</div>
+<?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] !== true)): ?>
+	<input type="hidden" name="dir" id="dir" value="" />
+	<div class="hiddenuploadfield">
+	<input type="file" id="file_upload_start" class="hiddenuploadfield" name="files[]"
+		data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
 	</div>
+	<?php endif; ?>
 	<footer>
 		<p class="info">
 			<?php print_unescaped($theme->getLongFooter()); ?>

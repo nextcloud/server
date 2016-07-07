@@ -22,8 +22,6 @@
  *
  */
 
-\OC_Util::checkAdminUser();
-
 $tmpl = new OCP\Template('encryption', 'settings-admin');
 
 $crypt = new \OCA\Encryption\Crypto\Crypt(

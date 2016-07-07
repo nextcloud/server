@@ -29,6 +29,27 @@ class Licenses
 /**
 @AUTHORS@
  *
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+EOD;
+		$this->licenseTextLegacy = <<<EOD
+/**
+@AUTHORS@
+ *
  * @copyright Copyright (c) @YEAR@, ownCloud, Inc.
  * @license AGPL-3.0
  *
@@ -46,7 +67,7 @@ class Licenses
  *
  */
 EOD;
-		$this->licenseText = str_replace('@YEAR@', date("Y"), $this->licenseText);
+		$this->licenseTextLegacy = str_replace('@YEAR@', date("Y"), $this->licenseTextLegacy);
 	}
 
 	/**
@@ -118,10 +139,15 @@ With help from many libraries and frameworks including:
 			echo "MIT licensed file: $path" . PHP_EOL;
 			return;
 		}
-		$source = $this->eatOldLicense($source);
-		$authors = $this->getAuthors($path, $gitRoot);
-		$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
+		if ($this->isOwnCloudLicensed($source)) {
+			$authors = $this->getAuthors($path, $gitRoot, true);
+			$license = str_replace('@AUTHORS@', $authors, $this->licenseTextLegacy);
+		} else {
+			$authors = $this->getAuthors($path, $gitRoot);
+			$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
+		}
 
+		$source = $this->eatOldLicense($source);
 		$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
 		file_put_contents($path,$source);
 		echo "License updated: $path" . PHP_EOL;
@@ -143,6 +169,19 @@ With help from many libraries and frameworks including:
 		return false;
 	}
 
+        private function isOwnCloudLicensed($source) {
+			$lines = explode(PHP_EOL, $source);
+			while(!empty($lines)) {
+				$line = $lines[0];
+				array_shift($lines);
+				if (strpos($line, 'ownCloud, Inc') !== false) {
+					return true;
+				}
+			}
+
+			return false;
+        }
+        
 	/**
 	 * @param string $source
 	 * @return string
@@ -177,7 +216,7 @@ With help from many libraries and frameworks including:
 		return implode(PHP_EOL, $lines);
 	}
 
-	private function getAuthors($file, $gitRoot) {
+	private function getAuthors($file, $gitRoot, $legacyFiles = false) {
 		// only add authors that changed code and not the license header
 		$licenseHeaderEndsAtLine = trim(shell_exec("grep -n '*/' $file | head -n 1 | cut -d ':' -f 1"));
 		$buildDir = getcwd();
@@ -205,10 +244,19 @@ With help from many libraries and frameworks including:
 			$authors = array_unique($authors);
 		}
 
-		$authors = array_map(function($author){
-			$this->authors[$author] = $author;
-			return " * @author $author";
-		}, $authors);
+		if ($legacyFiles) {
+			$authors = array_map(function($author){
+				$this->authors[$author] = $author;
+				return " * @author $author";
+			}, $authors);
+		} else {
+			$authors = array_map(function($author){
+				$this->authors[$author] = $author;
+					return " * @copyright Copyright (c) " .  date("Y") . ", $author";
+				}, $authors);
+		}
+                
+                
 		return implode(PHP_EOL, $authors);
 	}
 

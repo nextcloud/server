@@ -104,6 +104,10 @@ OC.L10N.register(
     "Add to your ownCloud" : "ownCloud に追加",
     "Download" : "ダウンロード",
     "Download %s" : "%s をダウンロード",
-    "Direct link" : "リンク"
+    "Direct link" : "リンク",
+    "Upload files to %s" : "%s にファイルをアップロード",
+    "Select or drop files" : "ファイルを選択するか、ドラッグ&ドロップしてください",
+    "Uploading files…" : "ファイルをアップロード中...",
+    "Uploaded files:" : "アップロード済ファイル:"
 },
 "nplurals=1; plural=0;");

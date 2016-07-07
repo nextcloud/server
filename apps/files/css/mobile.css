@@ -1,5 +1,9 @@
 @media only screen and (max-width: 768px) {
 
+.app-files #app-content.dir-drop{
+	background-color: rgba(255, 255, 255, 1)!important;
+}
+
 /* don’t require a minimum width for files table */
 #body-user #filestable {
 	min-width: initial !important;

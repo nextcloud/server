@@ -184,7 +184,7 @@ OC.L10N.register(
     "New password" : "Nova lozinka",
     "New Password" : "Nova Lozinka",
     "Reset password" : "Resetuj lozinku",
-    "This ownCloud instance is currently in single user mode." : "Ova ownCloud instanca je trenutno u jednokorisničkom načinu rada.",
+    "This Nextcloud instance is currently in single user mode." : "Ova Nextcloud instanca je trenutno u jednokorisničkom načinu rada.",
     "This means only administrators can use the instance." : "To znači da tu instancu mogu koristiti samo administratori.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktirajte svog administratora sistema ako se ova poruka ponavlja ili se pojavila neočekivano.",
     "Thank you for your patience." : "Hvala vam na strpljenju",
