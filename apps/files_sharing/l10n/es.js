@@ -101,7 +101,7 @@ OC.L10N.register(
     "the link expired" : "el enlace expiró",
     "sharing is disabled" : "compartir está desactivado",
     "For more info, please ask the person who sent this link." : "Para mayor información, contacte a la persona que le envió el enlace.",
-    "Add to your ownCloud" : "Agregue su propio ownCloud",
+    "Add to your ownCloud" : "Agregue a su ownCloud",
     "Download" : "Descargar",
     "Download %s" : "Descargar %s",
     "Direct link" : "Enlace directo"

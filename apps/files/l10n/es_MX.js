@@ -17,6 +17,7 @@ OC.L10N.register(
     "Upload failed. Could not get file info." : "Actualización fallida. No se pudo obtener información del archivo.",
     "Invalid directory." : "Directorio inválido.",
     "Files" : "Archivos",
+    "All files" : "Todos los archivos",
     "Home" : "Particular",
     "Close" : "Cerrar",
     "Favorites" : "Favoritos",
