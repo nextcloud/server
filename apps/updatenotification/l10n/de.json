@@ -10,7 +10,7 @@
     "Your version is up to date." : "Deine Version ist aktuell.",
     "Checked on %s" : "Geprüft auf %s",
     "Update channel:" : "Update-Kanal:",
-    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Du kannst immer auf eine neuere Version / experimentellen Kanal updaten, aber kein Downgrade auf einen stabileren Kanal durchführen.",
+    "You can always update to a newer version / experimental channel. But you can never downgrade to a more stable channel." : "Es kann immer auf eine neuere Version / experimentellen Kanal aktualisiert werden. Allerdings kann kein Downgrade auf einen stabileren Kanal durchgeführt werden.",
     "Notify members of the following groups about available updates:" : "Informiere die Mitglieder der folgenden Gruppen über verfügbare Updates:",
     "Only notification for app updates are available." : "Benachrichtigungen sind nur für Aktualisierungen von Apps verfügbar.",
     "The selected update channel makes dedicated notifications for the server obsolete." : "Der gewählte Aktualisierungskanal macht dedizierte Benachrichtigungen für Server Aktualisierungen obsolet.",
