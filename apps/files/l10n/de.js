@@ -42,7 +42,7 @@ OC.L10N.register(
     "Any moment now..." : "Jeden Augenblick...",
     "Soon..." : "Bald...",
     "{loadedSize} of {totalSize} ({bitrate})" : "{loadedSize} von {totalSize} ({bitrate})",
-    "File upload is in progress. Leaving the page now will cancel the upload." : "Dateiupload läuft. Wenn Du die Seite jetzt verlässt, wird der Upload abgebrochen.",
+    "File upload is in progress. Leaving the page now will cancel the upload." : "Dateiupload läuft. Wenn die Seite jetzt verlassen wird, bricht der Upload ab.",
     "Actions" : "Aktionen",
     "Download" : "Herunterladen",
     "Rename" : "Umbenennen",
