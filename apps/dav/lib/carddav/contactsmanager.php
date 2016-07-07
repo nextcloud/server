@@ -22,6 +22,7 @@
 namespace OCA\DAV\CardDAV;
 
 use OCP\Contacts\IManager;
+use OCP\IURLGenerator;
 
 class ContactsManager {
 
@@ -37,26 +38,29 @@ class ContactsManager {
 	/**
 	 * @param IManager $cm
 	 * @param string $userId
+	 * @param IURLGenerator $urlGenerator
 	 */
-	public function setupContactsProvider(IManager $cm, $userId) {
+	public function setupContactsProvider(IManager $cm, $userId, IURLGenerator $urlGenerator) {
 		$addressBooks = $this->backend->getAddressBooksForUser("principals/users/$userId");
-		$this->register($cm, $addressBooks);
+		$this->register($cm, $addressBooks, $urlGenerator);
 		$addressBooks = $this->backend->getAddressBooksForUser("principals/system/system");
-		$this->register($cm, $addressBooks);
+		$this->register($cm, $addressBooks, $urlGenerator);
 	}
 
 	/**
 	 * @param IManager $cm
 	 * @param $addressBooks
+	 * @param IURLGenerator $urlGenerator
 	 */
-	private function register(IManager $cm, $addressBooks) {
+	private function register(IManager $cm, $addressBooks, $urlGenerator) {
 		foreach ($addressBooks as $addressBookInfo) {
 			$addressBook = new \OCA\DAV\CardDAV\AddressBook($this->backend, $addressBookInfo);
 			$cm->registerAddressBook(
 				new AddressBookImpl(
 					$addressBook,
 					$addressBookInfo,
-					$this->backend
+					$this->backend,
+					$urlGenerator
 				)
 			);
 		}
