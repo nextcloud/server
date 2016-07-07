@@ -101,7 +101,7 @@
 					text = OC.Util.relativeModifiedDate(expirationTimestamp);
 				} else {
 					formatted = t('files_sharing', 'No expiration date set');
-					text = t('files_sharing', 'Never');
+					text = '';
 					modifiedColor = 160;
 				}
 				td = $('<td></td>').attr({"class": "date"});
