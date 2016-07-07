@@ -54,8 +54,6 @@ class Publisher implements XmlSerializable {
  	 * @return void
  	 */
    function xmlSerialize(Writer $writer) {
-
-     $cs = '{' . Plugin::NS_CALENDARSERVER . '}';
      if (!$this->isPublished) {
        $writer->write($this->publishUrl); // for pre-publish-url
      } else {
