@@ -110,7 +110,6 @@ OC.L10N.register(
     "never" : "kurrë",
     "deleted {userName}" : "u fshi {userName}",
     "add group" : "shto grup",
-    "Invalid quota value \"{val}\"" : "Vlerë kuotash e pavlefshme \"{val}\"",
     "Changing the password will result in data loss, because data recovery is not available for this user" : "Ndryshimi i fjalëkalimit do të sjellë humbje të dhënash, ngaqë rikthimi i të dhënave s’është i përdorshëm për këtë përdorues",
     "A valid username must be provided" : "Duhet dhënë një emër të vlefshëm përdoruesi",
     "Error creating user: {message}" : "Gabim gjatë krijimit të përdoruesit: {message}",

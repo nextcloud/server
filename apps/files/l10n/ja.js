@@ -21,7 +21,6 @@ OC.L10N.register(
     "Invalid directory." : "無効なディレクトリです。",
     "Files" : "ファイル",
     "All files" : "すべてのファイル",
-    "File could not be found" : "ファイルは見つかりませんでした。",
     "Home" : "ホーム",
     "Close" : "閉じる",
     "Favorites" : "お気に入り",

@@ -108,7 +108,6 @@
     "never" : "nunca",
     "deleted {userName}" : "eliminado {userName}",
     "add group" : "adicionar grupo",
-    "Invalid quota value \"{val}\"" : "Valor inválido de quota \"{val}\"",
     "Changing the password will result in data loss, because data recovery is not available for this user" : "Trocar a senha irá resultar em perda de dados, porque recuperação de dados não está disponível para este usuário",
     "A valid username must be provided" : "Forneça um nome de usuário válido",
     "Error creating user: {message}" : "Erro criando o usuário: {message}",

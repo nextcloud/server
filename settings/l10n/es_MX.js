@@ -59,7 +59,6 @@ OC.L10N.register(
     "Execute one task with each page loaded" : "Ejecutar una tarea con cada página cargada",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php se registra en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP.",
     "Encryption" : "Cifrado",
-    "Authentication required" : "Se necesita autenticación",
     "Server address" : "Dirección del servidor",
     "Port" : "Puerto",
     "More" : "Más",
