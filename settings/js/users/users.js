@@ -117,7 +117,7 @@ var UserList = {
 		 * remove action
 		 */
 		if ($tr.find('td.remove img').length === 0 && OC.currentUser !== user.name) {
-			var deleteImage = $('<img class="svg action">').attr({
+			var deleteImage = $('<img class="action">').attr({
 				src: OC.imagePath('core', 'actions/delete')
 			});
 			var deleteLink = $('<a class="action delete">')
@@ -138,10 +138,13 @@ var UserList = {
 				.find('option').attr('selected', null)
 				.first().attr('selected', 'selected');
 		} else {
-			if ($quotaSelect.find('option').filterAttr('value', user.quota).length > 0) {
-				$quotaSelect.find('option').filterAttr('value', user.quota).attr('selected', 'selected');
+			var $options = $quotaSelect.find('option');
+			var $foundOption = $options.filterAttr('value', user.quota);
+			if ($foundOption.length > 0) {
+				$foundOption.attr('selected', 'selected');
 			} else {
-				$quotaSelect.append('<option value="' + escapeHTML(user.quota) + '" selected="selected">' + escapeHTML(user.quota) + '</option>');
+				// append before "Other" entry
+				$options.last().before('<option value="' + escapeHTML(user.quota) + '" selected="selected">' + escapeHTML(user.quota) + '</option>');
 			}
 		}
 
@@ -576,6 +579,15 @@ var UserList = {
 		var $select = $(ev.target);
 		var uid = UserList.getUID($select);
 		var quota = $select.val();
+		if (quota === 'other') {
+			return;
+		}
+		if (isNaN(parseInt(quota, 10)) || parseInt(quota, 10) < 0) {
+			// the select component has added the bogus value, delete it again
+			$select.find('option[selected]').remove();
+			OC.Notification.showTemporary(t('core', 'Invalid quota value "{val}"', {val: quota}));
+			return;
+		}
 		UserList._updateQuota(uid, quota, function(returnedQuota){
 			if (quota !== returnedQuota) {
 				$select.find(':selected').text(returnedQuota);

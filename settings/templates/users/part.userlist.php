@@ -26,15 +26,15 @@
 			<td class="avatar"><div class="avatardiv"></div></td>
 		<?php endif; ?>
 			<th class="name" scope="row"></th>
-			<td class="displayName"><span></span> <img class="svg action"
+			<td class="displayName"><span></span> <img class="action"
 				src="<?php p(image_path('core', 'actions/rename.svg'))?>"
 				alt="<?php p($l->t("change full name"))?>" title="<?php p($l->t("change full name"))?>"/>
 			</td>
-			<td class="password"><span>●●●●●●●</span> <img class="svg action"
+			<td class="password"><span>●●●●●●●</span> <img class="action"
 				src="<?php print_unescaped(image_path('core', 'actions/rename.svg'))?>"
 				alt="<?php p($l->t("set new password"))?>" title="<?php p($l->t("set new password"))?>"/>
 			</td>
-			<td class="mailAddress"><span></span><div class="loading-small hidden"></div> <img class="svg action"
+			<td class="mailAddress"><span></span><div class="loading-small hidden"></div> <img class="action"
 				src="<?php p(image_path('core', 'actions/rename.svg'))?>"
 				alt="<?php p($l->t('change email address'))?>" title="<?php p($l->t('change email address'))?>"/>
 			</td>

@@ -8,7 +8,7 @@
 	<li id="newgroup-form" style="display: none">
 		<form>
 			<input type="text" id="newgroupname" placeholder="<?php p($l->t('Group')); ?>..." />
-			<input type="submit" class="button icon-add svg" value="" />
+			<input type="submit" class="button icon-add" value="" />
 		</form>
 	</li>
 	<!-- Everyone -->
@@ -45,7 +45,7 @@
 				<span class="usercount"><?php if($group['usercount'] > 0) { p($group['usercount']); } ?></span>
 				<?php if($_['isAdmin']): ?>
 				<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
-					<img src="<?php print_unescaped(image_path('core', 'actions/delete.svg')) ?>" class="svg" />
+					<img src="<?php print_unescaped(image_path('core', 'actions/delete.svg')) ?>" />
 				</a>
 				<?php endif; ?>
 			</span>

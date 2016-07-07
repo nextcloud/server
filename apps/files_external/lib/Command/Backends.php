@@ -98,15 +98,30 @@ class Backends extends Base {
 		$result = [
 			'name' => $data['name'],
 			'identifier' => $data['identifier'],
-			'configuration' => array_map(function (DefinitionParameter $parameter) {
-				return $parameter->getTypeName();
-			}, $data['configuration'])
+			'configuration' => $this->formatConfiguration($data['configuration'])
 		];
 		if ($backend instanceof Backend) {
 			$result['storage_class'] = $backend->getStorageClass();
 			$authBackends = $this->backendService->getAuthMechanismsByScheme(array_keys($backend->getAuthSchemes()));
 			$result['supported_authentication_backends'] = array_keys($authBackends);
+			$authConfig = array_map(function (AuthMechanism $auth) {
+				return $this->serializeAuthBackend($auth)['configuration'];
+			}, $authBackends);
+			$result['authentication_configuration'] = array_combine(array_keys($authBackends), $authConfig);
 		}
 		return $result;
+	}
+
+	/**
+	 * @param DefinitionParameter[] $parameters
+	 * @return string[]
+	 */
+	private function formatConfiguration(array $parameters) {
+		$configuration = array_filter($parameters, function (DefinitionParameter $parameter) {
+			return $parameter->getType() !== DefinitionParameter::VALUE_HIDDEN;
+		});
+		return array_map(function (DefinitionParameter $parameter) {
+			return $parameter->getTypeName();
+		}, $configuration);
 	}
 }
