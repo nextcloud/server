@@ -1959,7 +1959,7 @@ class View {
 		$mount = $this->getMountForLock($absolutePath, $lockMountPoint);
 		if ($mount) {
 			$storage = $mount->getStorage();
-			if ($storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
+			if ($storage && $storage->instanceOfStorage('\OCP\Files\Storage\ILockingStorage')) {
 				$storage->releaseLock(
 					$mount->getInternalPath($absolutePath),
 					$type,
