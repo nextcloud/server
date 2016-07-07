@@ -171,6 +171,7 @@ class ViewController extends Controller {
 
 		\OCP\Util::addScript('files', 'favoritesfilelist');
 		\OCP\Util::addScript('files', 'tagsplugin');
+		\OCP\Util::addScript('files', 'gotoplugin');
 		\OCP\Util::addScript('files', 'favoritesplugin');
 
 		\OCP\Util::addScript('files', 'detailfileinfoview');
