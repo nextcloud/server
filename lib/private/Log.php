@@ -64,6 +64,7 @@ class Log implements ILogger {
 		// Session/User
 		'login',
 		'checkPassword',
+		'loginWithPassword',
 		'updatePrivateKeyPassword',
 		'validateUserPass',
 
