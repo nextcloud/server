@@ -81,28 +81,7 @@ class AuthSettingsController extends Controller {
 		if (is_null($user)) {
 			return [];
 		}
-		$tokens = $this->tokenProvider->getTokenByUser($user);
-		
-		try {
-			$sessionId = $this->session->getId();
-		} catch (SessionNotAvailableException $ex) {
-			return $this->getServiceNotAvailableResponse();
-		}
-		try {
-			$sessionToken = $this->tokenProvider->getToken($sessionId);
-		} catch (InvalidTokenException $ex) {
-			return $this->getServiceNotAvailableResponse();
-		}
-
-		return array_map(function(IToken $token) use ($sessionToken) {
-			$data = $token->jsonSerialize();
-			if ($sessionToken->getId() === $token->getId()) {
-				$data['canDelete'] = false;
-			} else {
-				$data['canDelete'] = true;
-			}
-			return $data;
-		}, $tokens);
+		return $this->tokenProvider->getTokenByUser($user);
 	}
 
 	/**
@@ -115,7 +94,9 @@ class AuthSettingsController extends Controller {
 		try {
 			$sessionId = $this->session->getId();
 		} catch (SessionNotAvailableException $ex) {
-			return $this->getServiceNotAvailableResponse();
+			$resp = new JSONResponse();
+			$resp->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
+			return $resp;
 		}
 
 		try {
@@ -127,7 +108,9 @@ class AuthSettingsController extends Controller {
 				$password = null;
 			}
 		} catch (InvalidTokenException $ex) {
-			return $this->getServiceNotAvailableResponse();
+			$resp = new JSONResponse();
+			$resp->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
+			return $resp;
 		}
 
 		$token = $this->generateRandomDeviceToken();
@@ -138,12 +121,6 @@ class AuthSettingsController extends Controller {
 			'loginName' => $loginName,
 			'deviceToken' => $deviceToken
 		];
-	}
-
-	private function getServiceNotAvailableResponse() {
-		$resp = new JSONResponse();
-		$resp->setStatus(Http::STATUS_SERVICE_UNAVAILABLE);
-		return $resp;
 	}
 
 	/**

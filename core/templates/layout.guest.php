@@ -31,7 +31,7 @@
 				<?php if ($_['bodyid'] === 'body-login' ): ?>
 					<header role="banner">
 						<div id="header">
-							<div class="logo">
+							<div class="logo svg">
 								<h1 class="hidden-visually">
 									<?php p($theme->getName()); ?>
 								</h1>

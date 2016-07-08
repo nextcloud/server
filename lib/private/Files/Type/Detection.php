@@ -283,21 +283,21 @@ class Detection implements IMimeTypeDetector {
 
 		// Is it a dir?
 		if ($mimetype === 'dir') {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder.svg');
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder.png');
 			return $this->mimetypeIcons[$mimetype];
 		}
 		if ($mimetype === 'dir-shared') {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-shared.svg');
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-shared.png');
 			return $this->mimetypeIcons[$mimetype];
 		}
 		if ($mimetype === 'dir-external') {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-external.svg');
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/folder-external.png');
 			return $this->mimetypeIcons[$mimetype];
 		}
 
 		// Icon exists?
 		try {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $icon . '.svg');
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $icon . '.png');
 			return $this->mimetypeIcons[$mimetype];
 		} catch (\RuntimeException $e) {
 			// Specified image not found
@@ -306,13 +306,13 @@ class Detection implements IMimeTypeDetector {
 		// Try only the first part of the filetype
 		$mimePart = substr($icon, 0, strpos($icon, '-'));
 		try {
-			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $mimePart . '.svg');
+			$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/' . $mimePart . '.png');
 			return $this->mimetypeIcons[$mimetype];
 		} catch (\RuntimeException $e) {
 			// Image for the first part of the mimetype not found
 		}
 
-		$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/file.svg');
+		$this->mimetypeIcons[$mimetype] = $this->urlGenerator->imagePath('core', 'filetypes/file.png');
 		return $this->mimetypeIcons[$mimetype];
 	}
 }

@@ -333,20 +333,15 @@ EOD;
 
 	public function testSubscriptions() {
 		$id = $this->backend->createSubscription(self::UNIT_TEST_USER, 'Subscription', [
-			'{http://calendarserver.org/ns/}source' => new Href('test-source'),
-			'{http://apple.com/ns/ical/}calendar-color' => '#1C4587',
-			'{http://calendarserver.org/ns/}subscribed-strip-todos' => ''
+			'{http://calendarserver.org/ns/}source' => new Href('test-source')
 		]);
 
 		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
 		$this->assertEquals(1, count($subscriptions));
-		$this->assertEquals('#1C4587', $subscriptions[0]['{http://apple.com/ns/ical/}calendar-color']);
-		$this->assertEquals(true, $subscriptions[0]['{http://calendarserver.org/ns/}subscribed-strip-todos']);
 		$this->assertEquals($id, $subscriptions[0]['id']);
 
 		$patch = new PropPatch([
 				'{DAV:}displayname' => 'Unit test',
-				'{http://apple.com/ns/ical/}calendar-color' => '#ac0606',
 		]);
 		$this->backend->updateSubscription($id, $patch);
 		$patch->commit();
@@ -355,7 +350,6 @@ EOD;
 		$this->assertEquals(1, count($subscriptions));
 		$this->assertEquals($id, $subscriptions[0]['id']);
 		$this->assertEquals('Unit test', $subscriptions[0]['{DAV:}displayname']);
-		$this->assertEquals('#ac0606', $subscriptions[0]['{http://apple.com/ns/ical/}calendar-color']);
 
 		$this->backend->deleteSubscription($id);
 		$subscriptions = $this->backend->getSubscriptionsForUser(self::UNIT_TEST_USER);
