@@ -14,7 +14,7 @@
 			<th class="storageLocation" scope="col"><?php p($l->t('Storage location')); ?></th>
 			<th class="userBackend" scope="col"><?php p($l->t('User backend')); ?></th>
 			<th class="lastLogin" scope="col"><?php p($l->t('Last login')); ?></th>
-			<th id="headerRemove">&nbsp;</th>
+			<th class="userActions"></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -63,7 +63,21 @@
 			<td class="storageLocation"></td>
 			<td class="userBackend"></td>
 			<td class="lastLogin"></td>
-			<td class="remove"></td>
+			<td class="userActions"><span></span>
+				<div class="popovermenu bubble open menu">
+					<ul class="userActionsMenu">
+						<li>
+							<a href="#" class="menuitem action-togglestate permanent" data-action="togglestate"></a>
+						</li>
+						<li>
+							<a href="#" class="menuitem action-remove permanent" data-action="remove">
+								<span class="icon icon-delete"></span>
+								<span><?php p($l->t('Delete')); ?></span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</td>
 		</tr>
 	</tbody>
 </table>

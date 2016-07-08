@@ -48,11 +48,12 @@ var UserList = {
 	 *				'backend':			'LDAP',
 	 *				'email':			'username@example.org'
 	 *				'isRestoreDisabled':false
+	 *				'isEnabled':		true
 	 * 			}
 	 */
 	add: function (user) {
-		if (this.currentGid && this.currentGid !== '_everyone' && _.indexOf(user.groups, this.currentGid) < 0) {
-			return;
+		if (this.currentGid && this.currentGid !== '_everyone' && this.currentGid !== 'disabledUsers' && _.indexOf(user.groups, this.currentGid) < 0) {
+			return false;
 		}
 
 		var $tr = $userListBody.find('tr:first-child').clone();
@@ -77,6 +78,7 @@ var UserList = {
 		$tr.data('displayname', user.displayname);
 		$tr.data('mailAddress', user.email);
 		$tr.data('restoreDisabled', user.isRestoreDisabled);
+		$tr.data('userEnabled', user.isEnabled);
 		$tr.find('.name').text(user.name);
 		$tr.find('td.displayName > span').text(user.displayname);
 		$tr.find('td.mailAddress > span').text(user.email);
@@ -97,18 +99,17 @@ var UserList = {
 		$tdSubadmins.find('.action').tooltip({placement: 'top'});
 
 		/**
-		 * remove action
+		 * user actions menu
 		 */
-		if ($tr.find('td.remove img').length === 0 && OC.currentUser !== user.name) {
-			var deleteImage = $('<img class="action">').attr({
-				src: OC.imagePath('core', 'actions/delete')
+		if ($tr.find('td.userActions > span > img').length === 0 && OC.currentUser !== user.name) {
+			var menuImage = $('<img class="svg action">').attr({
+				src: OC.imagePath('core', 'actions/more')
 			});
-			var deleteLink = $('<a class="action delete">')
-				.attr({ href: '#', 'original-title': t('settings', 'Delete')})
-				.append(deleteImage);
-			$tr.find('td.remove').append(deleteLink);
+			var menuLink = $('<span class="toggleUserActions"></span>')
+				.append(menuImage);
+			$tr.find('td.userActions > span').replaceWith(menuLink);
 		} else if (OC.currentUser === user.name) {
-			$tr.find('td.remove a').remove();
+		 	$tr.find('td.userActions').empty();
 		}
 
 		/**
@@ -160,14 +161,6 @@ var UserList = {
 		 * append generated row to user list
 		 */
 		$tr.appendTo($userList);
-		if(UserList.isEmpty === true) {
-			//when the list was emptied, one row was left, necessary to keep
-			//add working and the layout unbroken. We need to remove this item
-			$tr.show();
-			$userListBody.find('tr:first').remove();
-			UserList.isEmpty = false;
-			UserList.checkUsersToLoad();
-		}
 
 		$quotaSelect.on('change', UserList.onQuotaSelect);
 
@@ -338,6 +331,9 @@ var UserList = {
 	getRestoreDisabled: function(element) {
 		return ($(element).closest('tr').data('restoreDisabled') || '');
 	},
+	getUserEnabled: function(element) {
+		return ($(element).closest('tr').data('userEnabled') || '');
+	},
 	initDeleteHandling: function() {
 		//set up handler
 		UserDeleteHandler = new DeleteHandler('/settings/users/users', 'username',
@@ -351,7 +347,7 @@ var UserList = {
 										UserList.undoRemove);
 
 		//when to mark user for delete
-		$userListBody.on('click', '.delete', function () {
+		$userListBody.on('click', '.action-remove', function () {
 			// Call function for handling delete/undo
 			var uid = UserList.getUID(this);
 
@@ -908,6 +904,54 @@ $(document).ready(function () {
 		UserList._triggerGroupEdit($td, isSubadminSelect);
 	});
 
+	$userListBody.on('click', '.toggleUserActions', function (event) {
+		event.stopPropagation();
+		var $td = $(this).closest('td');
+		var $tr = $($td).closest('tr');
+		var menudiv = $td.find('.popovermenu');
+
+		if(menudiv.is(':visible')) {
+			menudiv.fadeOut(100);
+			return;
+		}
+		menudiv.find('.action-togglestate').empty();
+		if($tr.data('userEnabled')) {
+			$('.action-togglestate', $td).html('<span class="icon icon-close"></span><span>'+t('settings', 'Disable')+'</span>');
+		} else {
+			$('.action-togglestate', $td).html('<span class="icon icon-add"></span><span>'+t('settings', 'Enable')+'</span>');
+		}
+		menudiv.click(function() { menudiv.fadeOut(100); });
+		menudiv.hover('', function() { menudiv.fadeOut(100); });
+		menudiv.fadeIn(100);
+	});
+
+	$userListBody.on('click', '.action-togglestate', function (event) {
+		event.stopPropagation();
+		var $td = $(this).closest('td');
+		var $tr = $td.closest('tr');
+		var uid = UserList.getUID($td);
+		var setEnabled = UserList.getUserEnabled($td) ? 0 : 1;
+		$.post(
+			OC.generateUrl('/settings/users/{id}/setEnabled', {id: uid}),
+			{username: uid, enabled: setEnabled},
+			function (result) {
+				if (result && result.status==='success'){
+					var count = GroupList.getUserCount(GroupList.getGroupLI('disabledUsers'));
+					$tr.remove();
+					if(result.data.enabled == 1) {
+						$tr.data('userEnabled', true);
+						GroupList.setUserCount(GroupList.getGroupLI('disabledUsers'), count-1);
+					} else {
+						$tr.data('userEnabled', false);
+						GroupList.setUserCount(GroupList.getGroupLI('disabledUsers'), count+1);
+					}
+				} else {
+					OC.dialogs.alert(result.data.message, t('settings', 'Unable to change status of {user}', {user: uid}));
+				}
+			}
+		);
+	});
+	
 	// init the quota field select box after it is shown the first time
 	$('#app-settings').one('show', function() {
 		$(this).find('#default_quota').singleSelect().on('change', UserList.onQuotaSelect);

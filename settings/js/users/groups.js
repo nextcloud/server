@@ -48,7 +48,8 @@ GroupList = {
 	},
 
 	getUserCount: function ($groupLiElement) {
-		return parseInt($groupLiElement.data('usercount'), 10);
+		var count = parseInt($groupLiElement.data('usercount'), 10);
+		return isNaN(count) ? 0 : count;
 	},
 
 	modGroupCount: function(gid, diff) {
@@ -208,10 +209,17 @@ GroupList = {
 
 	},
 
+	showDisabledUsers: function () {
+		UserList.empty();
+		UserList.update('disabledUsers');
+		$userGroupList.find('li').removeClass('active');
+		GroupList.getGroupLI('disabledUsers').addClass('active');
+	},
+
 	showGroup: function (gid) {
 		GroupList.activeGID = gid;
 		UserList.empty();
-		UserList.update(gid);
+		UserList.update(gid === '_everyone' ? '' : gid);
 		$userGroupList.find('li').removeClass('active');
 		if (gid !== undefined) {
 			//TODO: treat Everyone properly
@@ -362,6 +370,11 @@ $(document).ready( function () {
 	// click on group name
 	$userGroupList.on('click', '.isgroup', function () {
 		GroupList.showGroup(GroupList.getElementGID(this));
+	});
+
+	// show disabled users
+	$userGroupList.on('click', '.disabledusers', function () {
+		GroupList.showDisabledUsers();
 	});
 
 	$('#newgroupname').on('input', function(){
