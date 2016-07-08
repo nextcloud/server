@@ -130,7 +130,7 @@ class GetSharedSecret extends Job{
 	 * @param JobList $jobList
 	 * @param ILogger $logger
 	 */
-	protected function parentExecute($jobList, $logger) {
+	protected function parentExecute($jobList, $logger = null) {
 		parent::execute($jobList, $logger);
 	}
 

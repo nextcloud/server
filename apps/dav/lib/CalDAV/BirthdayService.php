@@ -35,6 +35,12 @@ class BirthdayService {
 	/** @var GroupPrincipalBackend */
 	private $principalBackend;
 
+	/** @var CalDavBackend  */
+	private $calDavBackEnd;
+
+	/** @var CardDavBackend  */
+	private $cardDavBackEnd;
+
 	/**
 	 * BirthdayService constructor.
 	 *

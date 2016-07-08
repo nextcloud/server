@@ -71,7 +71,7 @@ $shareManager = \OC::$server->getShareManager();
 $share = $shareManager->getShareByToken($token);
 $sharePermissions= (int)$share->getPermissions();
 
-if(!($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
+if($rootInfo === false || !($share->getPermissions() & \OCP\Constants::PERMISSION_READ)) {
 	OCP\JSON::error(array('data' => 'Share is not readable.'));
 	exit();
 }

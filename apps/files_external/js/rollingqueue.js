@@ -70,7 +70,7 @@ var RollingQueue = function (functionList, queueWindow, callback) {
 			throw "functionList must be an array";
 		}
 
-		for (i = 0; i < this.queueWindow; i++) {
+		for (var i = 0; i < this.queueWindow; i++) {
 			this.launchNext();
 		}
 	};

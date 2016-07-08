@@ -49,8 +49,8 @@ class SFTP extends \OC\Files\Storage\Common {
 	private $auth;
 
 	/**
-	* @var SFTP
-	*/
+	 * @var \phpseclib\Net\SFTP
+	 */
 	protected $client;
 
 	/**

@@ -24,6 +24,7 @@
 namespace OCA\Files_Sharing;
 
 use Doctrine\DBAL\Connection;
+use OCP\ICache;
 use OCP\IDBConnection;
 use OC\Cache\CappedMemoryCache;
 
@@ -38,7 +39,7 @@ class Migration {
 	/** @var IDBConnection */
 	private $connection;
 
-	/** @var  array with all shares we already saw */
+	/** @var  ICache with all shares we already saw */
 	private $shareCache;
 
 	/** @var string */

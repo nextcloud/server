@@ -8,6 +8,8 @@
  *
  */
 
+/* @global Handlebars */
+
 (function() {
 	var TEMPLATE =
 		'<div>' +
