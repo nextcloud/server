@@ -45,6 +45,7 @@ var UserList = {
 	 *				'backend':			'LDAP',
 	 *				'email':			'username@example.org'
 	 *				'isRestoreDisabled':false
+	 *				'isEnabled':		true
 	 * 			}
 	 * @param sort
 	 * @returns table row created for this user
@@ -57,6 +58,7 @@ var UserList = {
 		var $tr = $userListBody.find('tr:first-child').clone();
 		// this removes just the `display:none` of the template row
 		$tr.removeAttr('style');
+		$tr.toggleClass('disabled', !user.isEnabled);
 		var subAdminsEl;
 		var subAdminSelect;
 		var groupsSelect;
@@ -111,6 +113,21 @@ var UserList = {
 		subAdminsEl = $tr.find('td.subadmins');
 		if (subAdminsEl.length > 0) {
 			subAdminsEl.append(subAdminSelect);
+		}
+
+		/**
+		 * menu for user action
+		 */
+		if ($tr.find('td.userActions > img').length === 0 && OC.currentUser !== user.name) {
+			var menuImage = $('<img class="svg">').attr({
+				src: OC.imagePath('core', 'actions/menu')
+			});
+			var menuLink = $('<a class="action userActions">')
+				.attr({ href: '#'})
+				.append(menuImage);
+			$tr.find('td.userActions').prepend(menuLink);
+		} else if (OC.currentUser === user.name) {
+			$tr.find('td.userActions a').remove();
 		}
 
 		/**
@@ -782,7 +799,7 @@ $(document).ready(function () {
 				$td.find('img').show();
 			});
 	});
-
+	
 	// init the quota field select box after it is shown the first time
 	$('#app-settings').one('show', function() {
 		$(this).find('#default_quota').singleSelect().on('change', UserList.onQuotaSelect);

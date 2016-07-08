@@ -223,6 +223,7 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 #userlist {
 	position: relative;
 }
+
 #userlist .mailAddress,
 #userlist .storageLocation,
 #userlist .userBackend,
@@ -241,6 +242,10 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 	margin-left: -26px;
 	position: relative;
 	top: 3px;
+}
+
+#userlist tr.disabled {
+	background: repeating-linear-gradient(-45deg, white 0px, white 8px, lightpink 8px, lightpink 10px);
 }
 
 tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:pointer; }

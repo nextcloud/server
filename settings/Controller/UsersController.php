@@ -197,6 +197,7 @@ class UsersController extends Controller {
 			'email' => $displayName,
 			'isRestoreDisabled' => !$restorePossible,
 			'isAvatarAvailable' => $avatarAvailable,
+			'isEnabled' => $user->isEnabled(),
 		];
 	}
 
