@@ -71,5 +71,8 @@ class LogSettingsControllerTest extends \Test\TestCase {
 		$response = $this->logSettingsController->download();
 
 		$this->assertInstanceOf('\OCP\AppFramework\Http\StreamResponse', $response);
+		$headers = $response->getHeaders();
+		$this->assertEquals('application/octet-stream', $headers['Content-Type']);
+		$this->assertEquals('attachment; filename="owncloud.log"', $headers['Content-Disposition']);
 	}
 }
