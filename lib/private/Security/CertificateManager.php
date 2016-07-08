@@ -238,8 +238,9 @@ class CertificateManager implements ICertificateManager {
 		if (!$this->view->file_exists($targetBundle)) {
 			return true;
 		}
+
 		if (!is_null($uid)) { // also depend on the system bundle
-			$sourceBundles[] = $this->view->filemtime($this->getCertificateBundle(null));
+			$sourceMTimes[] = $this->view->filemtime($this->getCertificateBundle(null));
 		}
 
 		$sourceMTime = array_reduce($sourceMTimes, function ($max, $mtime) {
