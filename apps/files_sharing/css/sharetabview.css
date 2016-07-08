@@ -30,6 +30,7 @@
 	margin-left: 0;
 }
 .shareTabView input[type="text"].shareWithField,
+.shareTabView input[type="text"].emailField,
 .shareTabView input[type="text"].linkText {
 	width: 80%;
 }

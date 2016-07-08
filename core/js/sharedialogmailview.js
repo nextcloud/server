@@ -16,9 +16,9 @@
 	var TEMPLATE = 
 			'{{#if shareAllowed}}' +
 			'    {{#if mailPublicNotificationEnabled}}' +
-			'<form id="emailPrivateLink" class="emailPrivateLinkForm">' +
+			'<form id="emailPrivateLink" class="emailPrivateLinkForm oneline">' +
 			'    <input id="email" class="emailField" value="{{email}}" placeholder="{{mailPrivatePlaceholder}}" type="text" />' +
-			'    <input id="emailButton" class="emailButton" type="submit" value="{{mailButtonText}}" />' +
+			'    <a id="emailButton" class="icon icon-mail-grey" />' +
 			'</form>' +
 			'    {{/if}}' +
 			'{{/if}}'
@@ -48,7 +48,7 @@
 		showLink: true,
 
 		events: {
-			'submit .emailPrivateLinkForm': '_onEmailPrivateLink'
+			'click #emailButton': '_onEmailPrivateLink'
 		},
 
 		initialize: function(options) {
