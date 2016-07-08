@@ -783,7 +783,7 @@ class PreviewTest extends TestCase {
 		$filename = $this->samples[$sampleId]['sampleFileName'];
 		$splitFileName = pathinfo($filename);
 		$extension = $splitFileName['extension'];
-		$correction = ($extension === 'eps') ? 1 : 0;
+		$correction = ($extension === 'eps' && PHP_MAJOR_VERSION < 7) ? 1 : 0;
 		$maxPreviewHeight = $this->samples[$sampleId]['maxPreviewHeight'];
 		$maxPreviewHeight = $maxPreviewHeight - $correction;
 
