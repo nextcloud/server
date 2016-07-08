@@ -14,7 +14,7 @@
     "You deleted system tag %2$s" : "System-Kennzeichnung %2$s wurde gelöscht",
     "%1$s deleted system tag %2$s" : "%1$s hat System-Tag %2$s gelöscht",
     "You updated system tag %3$s to %2$s" : "System-Bezeichnung %3$s zu %2$s aktualisiert",
-    "%1$s updated system tag %3$s to %2$s" : "%1$s hat System-Tag von %3$s zu %2$s aktualisiert",
+    "%1$s updated system tag %3$s to %2$s" : "%1$s hat System-Bezeichnung von %3$s zu %2$s aktualisiert",
     "You assigned system tag %3$s to %2$s" : "System-Bezeichnung %3$s an %2$s zugewiesen",
     "%1$s assigned system tag %3$s to %2$s" : "%1$s hat System-Tag %3$s an %2$s angebracht",
     "You unassigned system tag %3$s from %2$s" : "System-Bezeichnung %3$s von %2$s entfernt",
