@@ -490,6 +490,124 @@ class UsersController extends Controller {
 	}
 
 	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @return DataResponse
+	 */
+	public function disable($id) {
+		$userId = $this->userSession->getUser()->getUID();
+		$user = $this->userManager->get($id);
+
+		if($userId === $id) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to delete user.')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Authentication error')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if($user) {
+			if($user->setEnabled(false)) {
+				return new DataResponse(
+					array(
+						'status' => 'success',
+						'data' => array(
+							'username' => $id
+						)
+					),
+					Http::STATUS_NO_CONTENT
+				);
+			}
+		}
+
+		return new DataResponse(
+			array(
+				'status' => 'error',
+				'data' => array(
+					'message' => (string)$this->l10n->t('Unable to disable user.')
+				)
+			),
+			Http::STATUS_FORBIDDEN
+		);
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @return DataResponse
+	 */
+	public function enable($id) {
+		$userId = $this->userSession->getUser()->getUID();
+		$user = $this->userManager->get($id);
+
+		if($userId === $id) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to delete user.')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if(!$this->isAdmin && !$this->groupManager->getSubAdmin()->isUserAccessible($this->userSession->getUser(), $user)) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Authentication error')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if($user) {
+			if($user->setEnabled(true)) {
+				return new DataResponse(
+					array(
+						'status' => 'success',
+						'data' => array(
+							'username' => $id
+						)
+					),
+					Http::STATUS_NO_CONTENT
+				);
+			}
+		}
+
+		return new DataResponse(
+			array(
+				'status' => 'error',
+				'data' => array(
+					'message' => (string)$this->l10n->t('Unable to enable user.')
+				)
+			),
+			Http::STATUS_FORBIDDEN
+		);
+	}
+
+	/**
 	 * Set the mail address of a user
 	 *
 	 * @NoAdminRequired

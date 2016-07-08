@@ -16,6 +16,7 @@
 			<th class="storageLocation" scope="col"><?php p($l->t('Storage Location')); ?></th>
 			<th class="userBackend" scope="col"><?php p($l->t('User Backend')); ?></th>
 			<th class="lastLogin" scope="col"><?php p($l->t('Last Login')); ?></th>
+			<th id="headerDisable">&nbsp;</th>
 			<th id="headerRemove">&nbsp;</th>
 		</tr>
 	</thead>
@@ -63,6 +64,7 @@
 			<td class="storageLocation"></td>
 			<td class="userBackend"></td>
 			<td class="lastLogin"></td>
+			<td class="disable"></td>
 			<td class="remove"></td>
 		</tr>
 	</tbody>

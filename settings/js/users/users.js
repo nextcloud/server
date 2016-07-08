@@ -116,18 +116,28 @@ var UserList = {
 		}
 
 		/**
-		 * menu for user action
+		 * disable/enable user action
 		 */
-		if ($tr.find('td.userActions > img').length === 0 && OC.currentUser !== user.name) {
-			var menuImage = $('<img class="svg">').attr({
-				src: OC.imagePath('core', 'actions/menu')
-			});
-			var menuLink = $('<a class="action userActions">')
-				.attr({ href: '#'})
-				.append(menuImage);
-			$tr.find('td.userActions').prepend(menuLink);
+		if ($tr.find('td.disable > img').length === 0 && OC.currentUser !== user.name) {
+			if(user.isEnabled) {
+				var disableImage = $('<img class="svg action">').attr({
+					src: OC.imagePath('core', 'actions/user-times')
+				});
+				var disableLink = $('<a class="action disableUser">')
+					.attr({ href: '#'})
+					.append(disableImage);
+				$tr.find('td.disable').prepend(disableLink);
+			} else {
+				var enableImage = $('<img class="svg action">').attr({
+					src: OC.imagePath('core', 'actions/user-plus')
+				});
+				var enableLink = $('<a class="action enableUser">')
+					.attr({ href: '#'})
+					.append(enableImage);
+				$tr.find('td.disable').prepend(enableLink);
+			}
 		} else if (OC.currentUser === user.name) {
-			$tr.find('td.userActions a').remove();
+			$tr.find('td.disable a').remove();
 		}
 
 		/**
