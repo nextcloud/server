@@ -396,10 +396,8 @@ class UtilTest extends \Test\TestCase {
 		$this->assertNotEmpty($errors);
 		\OCP\Files::rmdirr($dataDir);
 
-		if (!\OC_Util::runningOnWindows()) {
-			$errors = \OC_Util::checkDataDirectoryValidity('relative/path');
-			$this->assertNotEmpty($errors);
-		}
+		$errors = \OC_Util::checkDataDirectoryValidity('relative/path');
+		$this->assertNotEmpty($errors);
 	}
 
 	protected function setUp() {

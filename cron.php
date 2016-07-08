@@ -84,19 +84,17 @@ try {
 		set_time_limit(0);
 
 		// the cron job must be executed with the right user
-		if (!OC_Util::runningOnWindows())  {
-			if (!function_exists('posix_getuid')) {
-				echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
-				exit(0);
-			}
-			$user = posix_getpwuid(posix_getuid());
-			$configUser = posix_getpwuid(fileowner(OC::$SERVERROOT . '/config/config.php'));
-			if ($user['name'] !== $configUser['name']) {
-				echo "Console has to be executed with the same user as the web server is operated" . PHP_EOL;
-				echo "Current user: " . $user['name'] . PHP_EOL;
-				echo "Web server user: " . $configUser['name'] . PHP_EOL;
-				exit(0);
-			}
+		if (!function_exists('posix_getuid')) {
+			echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
+			exit(0);
+		}
+		$user = posix_getpwuid(posix_getuid());
+		$configUser = posix_getpwuid(fileowner(OC::$SERVERROOT . '/config/config.php'));
+		if ($user['name'] !== $configUser['name']) {
+			echo "Console has to be executed with the same user as the web server is operated" . PHP_EOL;
+			echo "Current user: " . $user['name'] . PHP_EOL;
+			echo "Web server user: " . $configUser['name'] . PHP_EOL;
+			exit(0);
 		}
 
 		// We call ownCloud from the CLI (aka cron)

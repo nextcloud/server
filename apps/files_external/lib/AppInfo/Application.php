@@ -90,12 +90,9 @@ class Application extends App implements IBackendProvider, IAuthMechanismProvide
 			$container->query('OCA\Files_External\Lib\Backend\Google'),
 			$container->query('OCA\Files_External\Lib\Backend\Swift'),
 			$container->query('OCA\Files_External\Lib\Backend\SFTP_Key'),
+			$container->query('OCA\Files_External\Lib\Backend\SMB'),
+			$container->query('OCA\Files_External\Lib\Backend\SMB_OC'),
 		];
-
-		if (!\OC_Util::runningOnWindows()) {
-			$backends[] = $container->query('OCA\Files_External\Lib\Backend\SMB');
-			$backends[] = $container->query('OCA\Files_External\Lib\Backend\SMB_OC');
-		}
 
 		return $backends;
 	}

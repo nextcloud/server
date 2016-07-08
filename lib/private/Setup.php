@@ -305,10 +305,6 @@ class Setup {
 			$trustedDomains = [$request->getInsecureServerHost()];
 		}
 
-		if (\OC_Util::runningOnWindows()) {
-			$dataDir = rtrim(realpath($dataDir), '\\');
-		}
-
 		//use sqlite3 when available, otherwise sqlite2 will be used.
 		if($dbType=='sqlite' and class_exists('SQLite3')) {
 			$dbType='sqlite3';

@@ -489,25 +489,7 @@ abstract class Common implements Storage, ILockingStorage {
 		}
 
 		// NOTE: $path will remain unverified for now
-		if (\OC_Util::runningOnWindows()) {
-			$this->verifyWindowsPath($fileName);
-		} else {
-			$this->verifyPosixPath($fileName);
-		}
-	}
-
-	/**
-	 * https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247%28v=vs.85%29.aspx
-	 * @param string $fileName
-	 * @throws InvalidPathException
-	 */
-	protected function verifyWindowsPath($fileName) {
-		$fileName = trim($fileName);
-		$this->scanForInvalidCharacters($fileName, "\\/<>:\"|?*");
-		$reservedNames = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'];
-		if (in_array(strtoupper($fileName), $reservedNames)) {
-			throw new ReservedWordException();
-		}
+		$this->verifyPosixPath($fileName);
 	}
 
 	/**

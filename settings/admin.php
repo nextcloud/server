@@ -154,9 +154,6 @@ $template->assign('cronErrors', $appConfig->getValue('core', 'cronErrors'));
 $path = getenv('PATH');
 $template->assign('getenvServerNotWorking', empty($path));
 
-// warn if Windows is used
-$template->assign('WindowsWarning', OC_Util::runningOnWindows());
-
 // warn if outdated version of a memcache module is used
 $caches = [
 	'apcu'	=> ['name' => $l->t('APCu'), 'version' => '4.0.6'],
