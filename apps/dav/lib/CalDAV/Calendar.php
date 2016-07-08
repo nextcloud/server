@@ -90,7 +90,7 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 	}
 
 	/**
-	 * @return str
+	 * @return string
 	 */
 	public function getPrincipalURI() {
 		return $this->calendarInfo['principaluri'];
@@ -123,6 +123,13 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 					'protected' => true,
 				];
 			}
+		}
+		if ($this->isPublic()) {
+			$acl[] = [
+				'privilege' => '{DAV:}read',
+				'principal' => 'principals/system/public',
+				'protected' => true,
+			];
 		}
 
 		/** @var CalDavBackend $calDavBackend */
@@ -262,6 +269,10 @@ class Calendar extends \Sabre\CalDAV\Calendar implements IShareable {
 			return !$this->calendarInfo['{http://owncloud.org/ns}read-only'];
 		}
 		return true;
+	}
+
+	private function isPublic() {
+		return isset($this->calendarInfo['{http://owncloud.org/ns}public']);
 	}
 
 	private function isShared() {
