@@ -6,13 +6,22 @@
 		 timeoutForMediumTests="900"
 		 timeoutForLargeTests="900"
 >
-	<testsuite name='ownCloud'>
-		<directory suffix='.php'>lib/</directory>
-		<directory suffix='.php'>settings/</directory>
-		<directory suffix='.php'>core/</directory>
-		<directory suffix='.php'>ocs-provider/</directory>
-		<file>apps.php</file>
-	</testsuite>
+	<testsuites>
+		<testsuite name='main'>
+			<directory suffix='.php'>lib/</directory>
+			<directory suffix='.php'>settings/</directory>
+			<directory suffix='.php'>core/</directory>
+			<directory suffix='.php'>ocs-provider/</directory>
+			<file>apps.php</file>
+			<exclude>
+				<directory suffix=".php">lib/Files/ObjectStore/</directory>
+			</exclude>
+		</testsuite>
+		<testsuite name='ObjectStore'>
+			<directory suffix="Test.php">lib/Files/ObjectStore/</directory>
+		</testsuite>
+	</testsuites>
+
 	<!-- filters for code coverage -->
 	<filter>
 		<!-- whitelist processUncoveredFilesFromWhitelist="true" -->
