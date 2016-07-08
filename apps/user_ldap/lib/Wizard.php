@@ -497,7 +497,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Could not connect to LDAP');
 		}
 
-		$obclasses = array('groupOfNames', 'group', 'posixGroup', '*');
+		$obclasses = array('groupOfNames', 'groupOfUniqueNames', 'group', 'posixGroup', '*');
 		$this->determineFeature($obclasses,
 								'objectclass',
 								'ldap_groupfilter_objectclass',
