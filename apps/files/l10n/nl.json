@@ -81,6 +81,7 @@
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Opslagruimte van {owner} zit bijna vol ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Je opslagruimte zit bijna vol ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["komt overeen met '{filter}'","komen overeen met '{filter}'"],
+    "View in folder" : "Bekijken in map",
     "Path" : "Pad",
     "_%n byte_::_%n bytes_" : ["%n byte","%n bytes"],
     "Favorited" : "Favoriet",

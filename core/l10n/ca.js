@@ -1,11 +1,13 @@
 OC.L10N.register(
     "core",
     {
+    "Please select a file." : "Seleccioneu un fitxer.",
     "File is too big" : "El fitxer és massa gran",
     "Invalid file provided" : "L'arxiu proporcionat no és vàlid",
     "No image or file provided" : "No s'han proporcionat imatges o fitxers",
     "Unknown filetype" : "Tipus de fitxer desconegut",
     "Invalid image" : "Imatge no vàlida",
+    "An error occurred. Please contact your admin." : "Hi ha hagut un error. Contacteu amb l'administrador.",
     "No temporary profile picture available, try again" : "No hi ha imatge temporal de perfil disponible, torneu a intentar-ho",
     "No crop data provided" : "No heu proporcionat dades del retall",
     "No valid crop data provided" : "Les dades del retall proporcionades no són vàlides",

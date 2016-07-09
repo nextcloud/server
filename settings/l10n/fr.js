@@ -110,6 +110,7 @@ OC.L10N.register(
     "never" : "jamais",
     "deleted {userName}" : "{userName} supprimé",
     "add group" : "ajouter un groupe",
+    "Invalid quota value \"{val}\"" : "Valeur de quota invalide \"{val}\"",
     "Changing the password will result in data loss, because data recovery is not available for this user" : "La modification du mot de passe entrainera la perte des données car la restauration de données n'est pas disponible pour cet utilisateur",
     "A valid username must be provided" : "Un nom d'utilisateur valide doit être saisi",
     "Error creating user: {message}" : "Erreur a la création d'un utilisateur : {message}",

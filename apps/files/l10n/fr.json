@@ -81,6 +81,7 @@
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "L'espace de stockage de {owner} est presque plein ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Votre espace de stockage est presque plein ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["correspond à '{filter}'","correspondent à '{filter}'"],
+    "View in folder" : "Voir dans le dossier",
     "Path" : "Chemin",
     "_%n byte_::_%n bytes_" : ["%n octet","%n octets"],
     "Favorited" : "Marqué comme favori",
