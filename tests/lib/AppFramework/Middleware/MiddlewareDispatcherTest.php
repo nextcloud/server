@@ -126,17 +126,15 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 
 
 	private function getControllerMock(){
-		return $this->getMock(
-			'OCP\AppFramework\Controller',
-			['method'],
-			['app',
+		return $this->getMockBuilder('OCP\AppFramework\Controller')
+			->setMethods(['method'])
+			->setConstructorArgs(['app',
 				new Request(
 					['method' => 'GET'],
-					$this->getMock('\OCP\Security\ISecureRandom'),
-					$this->getMock('\OCP\IConfig')
+					$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
+					$this->getMockBuilder('\OCP\IConfig')->getMock()
 				)
-			]
-		);
+			])->getMock();
 	}
 
 
@@ -149,13 +147,15 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 
 	public function testAfterExceptionShouldReturnResponseOfMiddleware(){
 		$response = new Response();
-		$m1 = $this->getMock('\OCP\AppFramework\Middleware',
-				array('afterException', 'beforeController'));
+		$m1 = $this->getMockBuilder('\OCP\AppFramework\Middleware')
+			->setMethods(['afterException', 'beforeController'])
+			->getMock();
 		$m1->expects($this->never())
 				->method('afterException');
 
-		$m2 = $this->getMock('OCP\AppFramework\Middleware',
-				array('afterException', 'beforeController'));
+		$m2 = $this->getMockBuilder('OCP\AppFramework\Middleware')
+			->setMethods(['afterException', 'beforeController'])
+			->getMock();
 		$m2->expects($this->once())
 				->method('afterException')
 				->will($this->returnValue($response));
@@ -274,7 +274,7 @@ class MiddlewareDispatcherTest extends \Test\TestCase {
 	public function testExceptionShouldRunAfterExceptionOfOnlyPreviouslyExecutedMiddlewares(){
 		$m1 = $this->getMiddleware();
 		$m2 = $this->getMiddleware(true);
-		$m3 = $this->getMock('\OCP\AppFramework\Middleware');
+		$m3 = $this->getMockBuilder('\OCP\AppFramework\Middleware')->getMock();
 		$m3->expects($this->never())
 				->method('afterException');
 		$m3->expects($this->never())
