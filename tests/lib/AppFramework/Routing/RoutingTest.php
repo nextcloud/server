@@ -76,7 +76,7 @@ class RoutingTest extends \Test\TestCase
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
-			->setConstructorArgs([\OC::$server->getLogger()])
+			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
 			->getMock();
 
 		// load route configuration
@@ -129,7 +129,7 @@ class RoutingTest extends \Test\TestCase
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
-			->setConstructorArgs([\OC::$server->getLogger()])
+			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
 			->getMock();
 
 		// we expect create to be called once:
@@ -156,7 +156,7 @@ class RoutingTest extends \Test\TestCase
 		// router mock
 		$router = $this->getMockBuilder('\OC\Route\Router')
 			->setMethods(['create'])
-			->setConstructorArgs([\OC::$server->getLogger()])
+			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
 			->getMock();
 
 		// route mocks
