@@ -9,8 +9,7 @@ Feature: webdav-related
 		And As an "user0"
 		When User "user0" moves file "/welcome.txt" to "/FOLDER/welcome.txt"
 		Then the HTTP status code should be "201"
-		And Downloading file "/FOLDER/welcome.txt"
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content when downloading file "/FOLDER/welcome.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Moving and overwriting a file old way
 		Given using dav path "remote.php/webdav"
@@ -19,8 +18,7 @@ Feature: webdav-related
 		And As an "user0"
 		When User "user0" moves file "/welcome.txt" to "/textfile0.txt"
 		Then the HTTP status code should be "204"
-		And Downloading file "/textfile0.txt"
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content when downloading file "/textfile0.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Moving a file to a folder with no permissions
 		Given using dav path "remote.php/webdav"
@@ -35,10 +33,10 @@ Feature: webdav-related
 		  | permissions | 1 |
 		  | shareWith | user0 |
 		And As an "user0"
-		When User "user0" moves file "/textfile0.txt" to "/testshare/textfile0.txt"
-		Then the HTTP status code should be "403"
-		And Downloading file "/testshare/textfile0.txt"
-		And the HTTP status code should be "404"
+		And User "user0" moves file "/textfile0.txt" to "/testshare/textfile0.txt"
+		And the HTTP status code should be "403"
+		When Downloading file "/testshare/textfile0.txt"
+ 		Then the HTTP status code should be "404"
 
 	Scenario: Moving a file to overwrite a file in a folder with no permissions
 		Given using dav path "remote.php/webdav"
@@ -56,8 +54,7 @@ Feature: webdav-related
 		And As an "user0"
 		When User "user0" moves file "/textfile0.txt" to "/testshare/overwritethis.txt"
 		Then the HTTP status code should be "403"
-		And Downloading file "/testshare/overwritethis.txt"
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content when downloading file "/testshare/overwritethis.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Copying a file
 		Given using dav path "remote.php/webdav"
@@ -66,8 +63,7 @@ Feature: webdav-related
 		And As an "user0"
 		When User "user0" copies file "/welcome.txt" to "/FOLDER/welcome.txt"
 		Then the HTTP status code should be "201"
-		And Downloading file "/FOLDER/welcome.txt"
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content when downloading file "/FOLDER/welcome.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Copying and overwriting a file
 		Given using dav path "remote.php/webdav"
@@ -76,8 +72,7 @@ Feature: webdav-related
 		And As an "user0"
 		When User "user0" copies file "/welcome.txt" to "/textfile1.txt"
 		Then the HTTP status code should be "204"
-		And Downloading file "/textfile1.txt"
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content when downloading file "/textfile1.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: Copying a file to a folder with no permissions
 		Given using dav path "remote.php/webdav"
@@ -113,8 +108,7 @@ Feature: webdav-related
 		And As an "user0"
 		When User "user0" copies file "/textfile0.txt" to "/testshare/overwritethis.txt"
 		Then the HTTP status code should be "403"
-		And Downloading file "/testshare/overwritethis.txt"
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content when downloading file "/testshare/overwritethis.txt" with range "bytes=0-6" should be "Welcome"
 
 	Scenario: download a file with range
 		Given using dav path "remote.php/webdav"
@@ -231,13 +225,13 @@ Feature: webdav-related
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/webdav/welcome.txt" without requesttoken
 		Then Downloaded content should start with "Welcome to your ownCloud account!"
-		Then the HTTP status code should be "200"
+		And the HTTP status code should be "200"
 
 	Scenario: Doing a GET with a web login should work with CSRF token on the old backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
 		Then Downloaded content should start with "Welcome to your ownCloud account!"
-		Then the HTTP status code should be "200"
+		And the HTTP status code should be "200"
 
 	Scenario: Doing a PROPFIND with a web login should not work without CSRF token on the old backend
 		Given Logging in using web as "admin"
