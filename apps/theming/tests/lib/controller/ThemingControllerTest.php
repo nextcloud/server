@@ -323,7 +323,7 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('');
 
-		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #fff}', 'style.css', 'text/css');
+		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #fff}', 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
@@ -356,7 +356,7 @@ class ThemingControllerTest extends TestCase {
 			#header .logo-icon {
 				background-image: url(\'./logo?v=0\');
 				background-size: 62px 34px;
-			}', 'style.css', 'text/css');
+			}', 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
@@ -385,7 +385,7 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new Http\DataDownloadResponse('#body-login {
 				background-image: url(\'./loginbackground?v=0\');
-			}', 'style.css', 'text/css');
+			}', 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
@@ -420,7 +420,7 @@ class ThemingControllerTest extends TestCase {
 				background-size: 62px 34px;
 			}#body-login {
 				background-image: url(\'./loginbackground?v=0\');
-			}', 'style.css', 'text/css');
+			}', 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
