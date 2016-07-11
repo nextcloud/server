@@ -47,7 +47,7 @@ OC.L10N.register(
     "Reset log level" : "Ripristina il livello del log",
     "Starting code integrity check" : "Avvio del controllo di integrità del codice",
     "Finished code integrity check" : "Controllo di integrità del codice terminato",
-    "%s (3rdparty)" : "%s (Terze parti)",
+    "%s (3rdparty)" : "%s (terze parti)",
     "%s (incompatible)" : "%s (incompatibile)",
     "Following apps have been disabled: %s" : "Le seguenti applicazioni sono state disabilitate: %s",
     "Already up to date" : "Già aggiornato",
