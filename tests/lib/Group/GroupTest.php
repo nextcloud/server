@@ -15,10 +15,10 @@ class GroupTest extends \Test\TestCase {
 
 	/**
 	 * @param string $uid
-	 * @param $backend
+	 * @param \OC\User\Backend $backend
 	 * @return User
 	 */
-	private function newUser($uid, $backend) {
+	private function newUser($uid, \OC\User\Backend $backend) {
 		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
