@@ -29,6 +29,9 @@ class UtilTest extends \Test\TestCase {
 		$this->assertTrue(is_string($edition));
 	}
 
+	/**
+	 * @group DB
+	 */
 	function testFormatDate() {
 		date_default_timezone_set("UTC");
 
@@ -41,6 +44,9 @@ class UtilTest extends \Test\TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	/**
+	 * @group DB
+	 */
 	function testFormatDateWithTZ() {
 		date_default_timezone_set("UTC");
 
@@ -69,6 +75,7 @@ class UtilTest extends \Test\TestCase {
 
 	/**
 	 * @dataProvider formatDateWithTZFromSessionData
+	 * @group DB
 	 */
 	function testFormatDateWithTZFromSession($offset, $expected, $expectedTimeZone) {
 		date_default_timezone_set("UTC");
@@ -285,6 +292,7 @@ class UtilTest extends \Test\TestCase {
 	 * Test default apps
 	 *
 	 * @dataProvider defaultAppsProvider
+	 * @group DB
 	 */
 	function testDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
 		$oldDefaultApps = \OCP\Config::getSystemValue('defaultapp', '');
