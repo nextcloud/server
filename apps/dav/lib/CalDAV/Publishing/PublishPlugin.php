@@ -91,7 +91,6 @@ class PublishPlugin extends ServerPlugin
 
         $this->server->on('method:POST', [$this, 'httpPost']);
         $this->server->on('propFind',    [$this, 'propFind']);
-        $this->server->on('method:GET',  [$this, 'httpGet'], 90); // 90 because it needs to be called before auth
     }
 
     public function propFind(PropFind $propFind, INode $node)
@@ -209,32 +208,5 @@ class PublishPlugin extends ServerPlugin
               return false;
 
       }
-  }
-
-  /**
-   * We intercept the GET requests to provide our shared calendars.
-   *
-   * @param Sabre\HTTP\RequestInterface $request
-   * @param Sabre\HTTP\ResponseInterface $response
-   */
-  public function httpGet(RequestInterface $request, ResponseInterface $response)
-  {
-      $path = $request->getPath();
-
-    // TODO : Find a better way to do this
-    list($path, $token) = explode('/', $path);
-      if ($path !== 'public-calendars') {
-          return;
-      }
-
-    // This is where the magic happens
-    // Find a place to put the functions getResourceIdFromToken($token) and getRessource($id)
-
-    $this->server->transactionType = 'access-published-calendar';
-
-      $response->setStatus(200);
-      $response->setBody('Success !');
-
-      return false;
   }
 }
