@@ -91,6 +91,7 @@ class PublishPlugin extends ServerPlugin
 
         $this->server->on('method:POST', [$this, 'httpPost']);
         $this->server->on('propFind',    [$this, 'propFind']);
+        $this->server->on('method:OPTIONS', [$this, 'httpOptions'], 5);
     }
 
     public function propFind(PropFind $propFind, INode $node)
@@ -209,4 +210,23 @@ class PublishPlugin extends ServerPlugin
 
       }
   }
+
+    public function httpOptions(RequestInterface $request, ResponseInterface $response) {
+        if ($request->getPath() == 'public-calendars') {
+            $methods = $this->server->getAllowedMethods($request->getPath());
+
+            $response->setHeader('Allow', strtoupper(implode(', ', $methods)));
+            $features = ['1', '3', 'extended-mkcol'];
+
+            $response->setHeader('DAV', implode(', ', $features));
+            $response->setHeader('MS-Author-Via', 'DAV');
+            $response->setHeader('Accept-Ranges', 'bytes');
+            $response->setHeader('Content-Length', '0');
+            $response->setStatus(200);
+
+            // Sending back false will interupt the event chain and tell the server
+            // we've handled this method.
+            return false;
+        }
+    }
 }
