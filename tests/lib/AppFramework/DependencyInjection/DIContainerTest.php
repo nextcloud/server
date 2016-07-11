@@ -36,10 +36,13 @@ class DIContainerTest extends \Test\TestCase {
 
 	protected function setUp(){
 		parent::setUp();
-		$this->container = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer',
-				['isAdminUser'], ['name']
-		);
-		$this->api = $this->getMock('OC\AppFramework\Core\API', array(), array('hi'));
+		$this->container = $this->getMockBuilder('OC\AppFramework\DependencyInjection\DIContainer')
+			->setMethods(['isAdminUser'])
+			->setConstructorArgs(['name'])
+			->getMock();
+		$this->api = $this->getMockBuilder('OC\AppFramework\Core\API')
+			->setConstructorArgs(['hi'])
+			->getMock();
 	}
 
 	public function testProvidesAPI(){
@@ -75,8 +78,12 @@ class DIContainerTest extends \Test\TestCase {
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware(){
 		$this->container['Request'] = new Request(
 			['method' => 'GET'],
-			$this->getMock('\OCP\Security\ISecureRandom'),
-			$this->getMock('\OCP\IConfig')
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')
+				->disableOriginalConstructor()
+				->getMock(),
+			$this->getMockBuilder('\OCP\IConfig')
+				->disableOriginalConstructor()
+				->getMock()
 		);
 		$security = $this->container['SecurityMiddleware'];
 		$dispatcher = $this->container['MiddlewareDispatcher'];

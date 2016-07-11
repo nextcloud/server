@@ -76,12 +76,18 @@ class ControllerTest extends \Test\TestCase {
 				'session' => ['sezession' => 'kein'],
 				'method' => 'hi',
 			],
-			$this->getMock('\OCP\Security\ISecureRandom'),
-			$this->getMock('\OCP\IConfig')
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')
+				->disableOriginalConstructor()
+				->getMock(),
+			$this->getMockBuilder('\OCP\IConfig')
+				->disableOriginalConstructor()
+				->getMock()
 		);
 
-		$this->app = $this->getMock('OC\AppFramework\DependencyInjection\DIContainer',
-									array('getAppName'), array('test'));
+		$this->app = $this->getMockBuilder('OC\AppFramework\DependencyInjection\DIContainer')
+			->setMethods(['getAppName'])
+			->setConstructorArgs(['test'])
+			->getMock();
 		$this->app->expects($this->any())
 				->method('getAppName')
 				->will($this->returnValue('apptemplate_advanced'));
