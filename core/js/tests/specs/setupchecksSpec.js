@@ -161,7 +161,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
+						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					}, {
 						msg: 'No memory cache has been configured. To enhance your performance please configure a memcache if available. Further information can be found in our <a target="_blank" rel="noreferrer" href="https://doc.owncloud.org/server/go.php?to=admin-performance">documentation</a>.',
@@ -192,7 +192,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 					{
-						msg: 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
+						msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
 						type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 					},
 					{
@@ -224,7 +224,7 @@ describe('OC.SetupChecks tests', function() {
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
 				{
-					msg: 'This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
+					msg: 'This server has no working Internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features.',
 					type: OC.SetupChecks.MESSAGE_TYPE_WARNING
 				}
 				]);
