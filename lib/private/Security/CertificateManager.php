@@ -233,7 +233,7 @@ class CertificateManager implements ICertificateManager {
 		if ($uid === '') {
 			$uid = $this->uid;
 		}
-		$sourceMTimes = [filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt')];
+		$sourceMTimes = [$this->getFilemtimeOfCaBundle()];
 		$targetBundle = $this->getCertificateBundle($uid);
 		if (!$this->view->file_exists($targetBundle)) {
 			return true;
@@ -248,4 +248,14 @@ class CertificateManager implements ICertificateManager {
 		}, 0);
 		return $sourceMTime > $this->view->filemtime($targetBundle);
 	}
+
+	/**
+	 * get mtime of ca-bundle shipped by Nextcloud
+	 *
+	 * @return int
+	 */
+	protected function getFilemtimeOfCaBundle() {
+		return filemtime(\OC::$SERVERROOT . '/resources/config/ca-bundle.crt');
+	}
+
 }
