@@ -59,20 +59,18 @@ try {
 
 	set_exception_handler('exceptionHandler');
 
-	if (!OC_Util::runningOnWindows())  {
-		if (!function_exists('posix_getuid')) {
-			echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
-			exit(0);
-		}
-		$user = posix_getpwuid(posix_getuid());
-		$configUser = posix_getpwuid(fileowner(OC::$configDir . 'config.php'));
-		if ($user['name'] !== $configUser['name']) {
-			echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
-			echo "Current user: " . $user['name'] . PHP_EOL;
-			echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
-			echo "Try adding 'sudo -u " . $configUser['name'] . " ' to the beginning of the command (without the single quotes)" . PHP_EOL;  
-			exit(0);
-		}
+	if (!function_exists('posix_getuid')) {
+		echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
+		exit(0);
+	}
+	$user = posix_getpwuid(posix_getuid());
+	$configUser = posix_getpwuid(fileowner(OC::$configDir . 'config.php'));
+	if ($user['name'] !== $configUser['name']) {
+		echo "Console has to be executed with the user that owns the file config/config.php" . PHP_EOL;
+		echo "Current user: " . $user['name'] . PHP_EOL;
+		echo "Owner of config.php: " . $configUser['name'] . PHP_EOL;
+		echo "Try adding 'sudo -u " . $configUser['name'] . " ' to the beginning of the command (without the single quotes)" . PHP_EOL;  
+		exit(0);
 	}
 
 	$oldWorkingDir = getcwd();

@@ -80,10 +80,6 @@ class DetectionTest extends \Test\TestCase {
 	}
 
 	public function testDetectString() {
-		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('[Windows] Strings have mimetype application/octet-stream on Windows');
-		}
-
 		$result = $this->detection->detectString("/data/data.tar.gz");
 		$expected = 'text/plain; charset=us-ascii';
 		$this->assertEquals($expected, $result);

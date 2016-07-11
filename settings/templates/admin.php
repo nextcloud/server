@@ -106,15 +106,6 @@ if ($_['invalidTransactionIsolationLevel']) {
 <?php
 }
 
-// Windows Warning
-if ($_['WindowsWarning']) {
-	?>
-	<li>
-		<?php p($l->t('Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience.')); ?>
-	</li>
-<?php
-}
-
 // Warning if memcache is outdated
 foreach ($_['OutdatedCacheWarning'] as $php_module => $data) {
 	?>

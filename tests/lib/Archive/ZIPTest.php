@@ -12,14 +12,6 @@ namespace Test\Archive;
 use OC\Archive\ZIP;
 
 class ZIPTest extends TestBase {
-	protected function setUp() {
-		parent::setUp();
-
-		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('[Windows] ');
-		}
-	}
-
 	protected function getExisting() {
 		$dir = \OC::$SERVERROOT . '/tests/data';
 		return new ZIP($dir . '/data.zip');

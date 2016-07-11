@@ -272,28 +272,6 @@ class FilesystemTest extends \Test\TestCase {
 		$this->assertSame($expected, \OC\Files\Filesystem::isFileBlacklisted($path));
 	}
 
-	public function normalizePathWindowsAbsolutePathData() {
-		return array(
-			array('C:/', 'C:\\'),
-			array('C:/', 'C:\\', false),
-			array('C:/tests', 'C:\\tests'),
-			array('C:/tests', 'C:\\tests', false),
-			array('C:/tests', 'C:\\tests\\'),
-			array('C:/tests/', 'C:\\tests\\', false),
-		);
-	}
-
-	/**
-	 * @dataProvider normalizePathWindowsAbsolutePathData
-	 */
-	public function testNormalizePathWindowsAbsolutePath($expected, $path, $stripTrailingSlash = true) {
-		if (!\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('This test is Windows only');
-		}
-
-		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash, true));
-	}
-
 	public function testNormalizePathUTF8() {
 		if (!class_exists('Patchwork\PHP\Shim\Normalizer')) {
 			$this->markTestSkipped('UTF8 normalizer Patchwork was not found');
