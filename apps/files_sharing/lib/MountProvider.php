@@ -75,10 +75,7 @@ class MountProvider implements IMountProvider {
 			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID();
 		});
 
-		$groupedShares = $this->groupShares($shares);
-
-		$superShares = $this->superShares($groupedShares);
-
+		$superShares = $this->buildSuperShares($shares);
 
 		$mounts = [];
 		foreach ($superShares as $share) {
@@ -88,7 +85,9 @@ class MountProvider implements IMountProvider {
 					$mounts,
 					[
 						'user' => $user->getUID(),
+						// parent share
 						'superShare' => $share[0],
+						// children/component of the superShare
 						'groupedShares' => $share[1],
 					],
 					$storageFactory
@@ -104,8 +103,11 @@ class MountProvider implements IMountProvider {
 	}
 
 	/**
+	 * Groups shares by path (nodeId) and target path
+	 *
 	 * @param \OCP\Share\IShare[] $shares
-	 * @return \OCP\Share\IShare[]
+	 * @return \OCP\Share\IShare[][] array of grouped shares, each element in the
+	 * array is a group which itself is an array of shares
 	 */
 	private function groupShares(array $shares) {
 		$tmp = [];
@@ -128,13 +130,18 @@ class MountProvider implements IMountProvider {
 	}
 
 	/**
-	 * Extract super shares
+	 * Build super shares (virtual share) by grouping them by node id and target,
+	 * then for each group compute the super share and return it along with the matching
+	 * grouped shares. The most permissive permissions are used based on the permissions
+	 * of all shares within the group.
 	 *
-	 * @param array $shares Array of \OCP\Share\IShare[]
+	 * @param \OCP\Share\IShare[] $allShares
 	 * @return array Tuple of [superShare, groupedShares]
 	 */
-	private function superShares(array $groupedShares) {
+	private function buildSuperShares(array $allShares) {
 		$result = [];
+
+		$groupedShares = $this->groupShares($allShares);
 
 		/** @var \OCP\Share\IShare[] $shares */
 		foreach ($groupedShares as $shares) {
@@ -144,11 +151,13 @@ class MountProvider implements IMountProvider {
 
 			$superShare = $this->shareManager->newShare();
 
+			// compute super share based on first entry of the group
 			$superShare->setId($shares[0]->getId())
 				->setShareOwner($shares[0]->getShareOwner())
 				->setNodeId($shares[0]->getNodeId())
 				->setTarget($shares[0]->getTarget());
 
+			// use most permissive permissions
 			$permissions = 0;
 			foreach ($shares as $share) {
 				$permissions |= $share->getPermissions();

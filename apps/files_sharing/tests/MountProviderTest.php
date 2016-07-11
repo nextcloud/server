@@ -68,56 +68,41 @@ class MountProviderTest extends \Test\TestCase {
 		$this->provider = new MountProvider($this->config, $this->shareManager, $this->logger);
 	}
 
+	private function makeMockShare($id, $nodeId, $owner = 'user2', $target = null, $permissions = 31) {
+		$share = $this->getMock('\OCP\Share\IShare');
+		$share->expects($this->any())
+			->method('getPermissions')
+			->will($this->returnValue($permissions));
+		$share->expects($this->any())
+			->method('getShareOwner')
+			->will($this->returnValue($owner));
+		$share->expects($this->any())
+			->method('getTarget')
+			->will($this->returnValue($target));
+		$share->expects($this->any())
+			->method('getId')
+			->will($this->returnValue($id));
+		$share->expects($this->any())
+			->method('getNodeId')
+			->will($this->returnValue($nodeId));
+		return $share;
+	}
+
 	public function testExcludeShares() {
-		/** @var IShare | \PHPUnit_Framework_MockObject_MockObject $share1 */
-		$share1 = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
-		$share1->expects($this->once())
-			->method('getPermissions')
-			->will($this->returnValue(0));
-
-		$share2 = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
-		$share2->expects($this->once())
-			->method('getPermissions')
-			->will($this->returnValue(31));
-		$share2->expects($this->any())
-			->method('getShareOwner')
-			->will($this->returnValue('user2'));
-		$share2->expects($this->any())
-			->method('getTarget')
-			->will($this->returnValue('/share2'));
-
-		$share3 = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
-		$share3->expects($this->once())
-			->method('getPermissions')
-			->will($this->returnValue(0));
-
-		/** @var IShare | \PHPUnit_Framework_MockObject_MockObject $share4 */
-		$share4 = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
-		$share4->expects($this->once())
-			->method('getPermissions')
-			->will($this->returnValue(31));
-		$share4->expects($this->any())
-			->method('getShareOwner')
-			->will($this->returnValue('user2'));
-		$share4->expects($this->any())
-			->method('getTarget')
-			->will($this->returnValue('/share4'));
-
-		$share5 = $this->getMockBuilder('\OCP\Share\IShare')->getMock();
-		$share5->expects($this->once())
-			->method('getPermissions')
-			->will($this->returnValue(31));
-		$share5->expects($this->any())
-			->method('getShareOwner')
-			->will($this->returnValue('user1'));
-
-		$userShares = [$share1, $share2];
-		$groupShares = [$share3, $share4, $share5];
-
+		$rootFolder = $this->getMock('\OCP\Files\IRootFolder');
+		$userManager = $this->getMock('\OCP\IUserManager');
+		$userShares = [
+			$this->makeMockShare(1, 100, 'user2', '/share2', 0),
+			$this->makeMockShare(2, 100, 'user2', '/share2', 31),
+		];
+		$groupShares = [
+			$this->makeMockShare(3, 100, 'user2', '/share2', 0),
+			$this->makeMockShare(4, 100, 'user2', '/share4', 31),
+			$this->makeMockShare(5, 100, 'user1', '/share4', 31),
+		];
 		$this->user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('user1'));
-
 		$this->shareManager->expects($this->at(0))
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_USER)
@@ -126,17 +111,27 @@ class MountProviderTest extends \Test\TestCase {
 			->method('getSharedWith')
 			->with('user1', \OCP\Share::SHARE_TYPE_GROUP, null, -1)
 			->will($this->returnValue($groupShares));
-
+		$this->shareManager->expects($this->any())
+			->method('newShare')
+			->will($this->returnCallback(function() use ($rootFolder, $userManager) {
+				return new \OC\Share20\Share($rootFolder, $userManager);
+			}));
 		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
-
 		$this->assertCount(2, $mounts);
-		$this->assertSharedMount($share1, $mounts[0]);
-		$this->assertSharedMount($share4, $mounts[1]);
-	}
-
-	private function assertSharedMount(IShare $share, IMountPoint $mount) {
-		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mount);
-		$this->assertEquals($share, $mount->getShare());
+		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[0]);
+		$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mounts[1]);
+		$mountedShare1 = $mounts[0]->getShare();
+		$this->assertEquals('2', $mountedShare1->getId());
+		$this->assertEquals('user2', $mountedShare1->getShareOwner());
+		$this->assertEquals(100, $mountedShare1->getNodeId());
+		$this->assertEquals('/share2', $mountedShare1->getTarget());
+		$this->assertEquals(31, $mountedShare1->getPermissions());
+		$mountedShare2 = $mounts[1]->getShare();
+		$this->assertEquals('4', $mountedShare2->getId());
+		$this->assertEquals('user2', $mountedShare2->getShareOwner());
+		$this->assertEquals(100, $mountedShare2->getNodeId());
+		$this->assertEquals('/share4', $mountedShare2->getTarget());
+		$this->assertEquals(31, $mountedShare2->getPermissions());
 	}
 }
 
