@@ -81,6 +81,7 @@ var UserList = {
 		$tr.data('displayname', user.displayname);
 		$tr.data('mailAddress', user.email);
 		$tr.data('restoreDisabled', user.isRestoreDisabled);
+		$tr.data('userEnabled', user.isEnabled);
 		$tr.find('.name').text(user.name);
 		$tr.find('td.displayName > span').text(user.displayname);
 		$tr.find('td.mailAddress > span').text(user.email);
@@ -118,7 +119,7 @@ var UserList = {
 		/**
 		 * disable/enable user action
 		 */
-		if ($tr.find('td.disable > img').length === 0 && OC.currentUser !== user.name) {
+		if ($tr.find('td.toggleUser > img').length === 0 && OC.currentUser !== user.name) {
 			if(user.isEnabled) {
 				var disableImage = $('<img class="svg action">').attr({
 					src: OC.imagePath('core', 'actions/user-times')
@@ -126,7 +127,7 @@ var UserList = {
 				var disableLink = $('<a class="action disableUser">')
 					.attr({ href: '#'})
 					.append(disableImage);
-				$tr.find('td.disable').prepend(disableLink);
+				$tr.find('td.toggleUser').prepend(disableLink);
 			} else {
 				var enableImage = $('<img class="svg action">').attr({
 					src: OC.imagePath('core', 'actions/user-plus')
@@ -134,10 +135,10 @@ var UserList = {
 				var enableLink = $('<a class="action enableUser">')
 					.attr({ href: '#'})
 					.append(enableImage);
-				$tr.find('td.disable').prepend(enableLink);
+				$tr.find('td.toggleUser').prepend(enableLink);
 			}
 		} else if (OC.currentUser === user.name) {
-			$tr.find('td.disable a').remove();
+			$tr.find('td.toggleUser a').remove();
 		}
 
 		/**
@@ -393,6 +394,9 @@ var UserList = {
 	},
 	getRestoreDisabled: function(element) {
 		return ($(element).closest('tr').data('restoreDisabled') || '');
+	},
+	getUserEnabled: function(element) {
+		return ($(element).closest('tr').data('userEnabled') || '');
 	},
 	initDeleteHandling: function() {
 		//set up handler
@@ -808,6 +812,47 @@ $(document).ready(function () {
 				$input.replaceWith($span);
 				$td.find('img').show();
 			});
+	});
+
+	$userListBody.on('click', '.toggleUser', function (event) {
+		event.stopPropagation();
+		var $td = $(this).closest('td');
+		var $tr = $td.closest('tr');
+		var uid = UserList.getUID($td);
+		var setEnabled = UserList.getUserEnabled($td) ? 0 : 1;
+		$.post(
+			OC.generateUrl('/settings/users/{id}/setEnabled', {id: uid}),
+			{username: uid, enabled: setEnabled},
+			function (result) {
+				if (result && result.status==='success'){
+					$td.empty();
+					if(result.data.enabled == 1) {
+						$tr.data('userEnabled', true);
+						$tr.toggleClass('disabled', false);
+						var disableImage = $('<img class="svg action">').attr({
+							src: OC.imagePath('core', 'actions/user-times')
+						});
+						var disableLink = $('<a class="action disableUser">')
+							.attr({ href: '#'})
+							.append(disableImage);
+						$td.prepend(disableLink);
+					} else {
+						$tr.data('userEnabled', false);
+						$tr.toggleClass('disabled', true);
+						var enableImage = $('<img class="svg action">').attr({
+							src: OC.imagePath('core', 'actions/user-plus')
+						});
+						var enableLink = $('<a class="action enableUser">')
+							.attr({ href: '#'})
+							.append(enableImage);
+						$td.prepend(enableLink);
+
+					}
+				} else {
+					OC.dialogs.alert(result.data.message, t('settings', 'Unable to change status of {user}', {user: uid}));
+				}
+			}
+		);
 	});
 	
 	// init the quota field select box after it is shown the first time

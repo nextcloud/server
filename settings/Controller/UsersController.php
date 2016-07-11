@@ -504,7 +504,7 @@ class UsersController extends Controller {
 				array(
 					'status' => 'error',
 					'data' => array(
-						'message' => (string)$this->l10n->t('Unable to delete user.')
+						'message' => (string)$this->l10n->t('Unable to disable user.')
 					)
 				),
 				Http::STATUS_FORBIDDEN
@@ -524,28 +524,26 @@ class UsersController extends Controller {
 		}
 
 		if($user) {
-			if($user->setEnabled(false)) {
-				return new DataResponse(
-					array(
-						'status' => 'success',
-						'data' => array(
-							'username' => $id
-						)
-					),
-					Http::STATUS_NO_CONTENT
-				);
-			}
-		}
-
-		return new DataResponse(
-			array(
-				'status' => 'error',
-				'data' => array(
-					'message' => (string)$this->l10n->t('Unable to disable user.')
+			$user->setEnabled(false);
+			return new DataResponse(
+				array(
+					'status' => 'success',
+					'data' => array(
+						'username' => $id,
+						'enabled' => 0
+					)
 				)
-			),
-			Http::STATUS_FORBIDDEN
-		);
+			);
+		} else {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to disable user.')
+					)
+				)
+			);
+		}
 	}
 
 	/**
@@ -563,7 +561,7 @@ class UsersController extends Controller {
 				array(
 					'status' => 'error',
 					'data' => array(
-						'message' => (string)$this->l10n->t('Unable to delete user.')
+						'message' => (string)$this->l10n->t('Unable to enable user.')
 					)
 				),
 				Http::STATUS_FORBIDDEN
@@ -583,28 +581,41 @@ class UsersController extends Controller {
 		}
 
 		if($user) {
-			if($user->setEnabled(true)) {
-				return new DataResponse(
-					array(
-						'status' => 'success',
-						'data' => array(
-							'username' => $id
-						)
-					),
-					Http::STATUS_NO_CONTENT
-				);
-			}
-		}
-
-		return new DataResponse(
-			array(
-				'status' => 'error',
-				'data' => array(
-					'message' => (string)$this->l10n->t('Unable to enable user.')
+			$user->setEnabled(true);
+			return new DataResponse(
+				array(
+					'status' => 'success',
+					'data' => array(
+						'username' => $id,
+						'enabled' => 1
+					)
 				)
-			),
-			Http::STATUS_FORBIDDEN
-		);
+			);
+		} else {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to enable user.')
+					)
+				)
+			);
+		}
+	}
+
+	/**
+	 * @NoAdminRequired
+	 *
+	 * @param string $id
+	 * @param int $enabled
+	 * @return DataResponse
+	 */
+	public function setEnabled($id, $enabled) {
+		if((bool)$enabled) {
+			return $this->enable($id);
+		} else {
+			return $this->disable($id);
+		}
 	}
 
 	/**

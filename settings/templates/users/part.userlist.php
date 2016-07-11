@@ -64,7 +64,7 @@
 			<td class="storageLocation"></td>
 			<td class="userBackend"></td>
 			<td class="lastLogin"></td>
-			<td class="disable"></td>
+			<td class="toggleUser"></td>
 			<td class="remove"></td>
 		</tr>
 	</tbody>
