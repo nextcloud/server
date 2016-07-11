@@ -890,7 +890,7 @@ class FolderTest extends \Test\TestCase {
 			'parent' => $id1
 		]);
 		$id3 = $cache->put('bar/foo/folder/asd.txt', [
-			'storage_mtime' => $baseTime,
+			'storage_mtime' => $baseTime - 100,
 			'mtime' => $baseTime - 100,
 			'mimetype' => 'text/plain',
 			'size' => 3,
@@ -905,6 +905,9 @@ class FolderTest extends \Test\TestCase {
 			return (int)$node->getId();
 		}, $nodes);
 		$this->assertEquals([$id2, $id1, $id3], $ids);// sort folders before files with the same mtime, folders get the lowest child mtime
+		$this->assertEquals($baseTime, $nodes[0]->getMTime());
+		$this->assertEquals($baseTime - 100, $nodes[1]->getMTime());
+		$this->assertEquals($baseTime - 100, $nodes[2]->getMTime());
 	}
 
 	public function testRecentJail() {
