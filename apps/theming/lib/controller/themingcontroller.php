@@ -234,7 +234,7 @@ class ThemingController extends Controller {
 
 		\OC_Response::setExpiresHeader(gmdate('D, d M Y H:i:s', time() + (60*60*24*45)) . ' GMT');
 		\OC_Response::enableCaching();
-		$response = new Http\DataDownloadResponse($responseCss, 'style.css', 'text/css');
+		$response = new Http\DataDownloadResponse($responseCss, 'style', 'text/css');
 		$response->cacheFor(3600);
 		return $response;
 	}
