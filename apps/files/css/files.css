@@ -89,6 +89,9 @@
 .nav-icon-files {
 	background-image: url('../img/folder.svg');
 }
+.nav-icon-recent {
+	background-image: url('../img/recent.svg');
+}
 .nav-icon-favorites {
 	background-image: url('../img/star.svg');
 }
