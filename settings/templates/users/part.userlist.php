@@ -16,8 +16,9 @@
 			<th class="storageLocation" scope="col"><?php p($l->t('Storage Location')); ?></th>
 			<th class="userBackend" scope="col"><?php p($l->t('User Backend')); ?></th>
 			<th class="lastLogin" scope="col"><?php p($l->t('Last Login')); ?></th>
-			<th id="headerDisable">&nbsp;</th>
-			<th id="headerRemove">&nbsp;</th>
+			<th class="userActions"></th>
+<!--			<th id="headerDisable">&nbsp;</th>-->
+<!--			<th id="headerRemove">&nbsp;</th>-->
 		</tr>
 	</thead>
 	<tbody>
@@ -64,8 +65,23 @@
 			<td class="storageLocation"></td>
 			<td class="userBackend"></td>
 			<td class="lastLogin"></td>
-			<td class="toggleUser"></td>
-			<td class="remove"></td>
+			<td class="userActions">
+				<div class="menudiv">
+					<ul class="userActionsMenu">
+						<li>
+							<a href="#" class="menuitem action action-togglestate permanent" data-action="togglestate">
+								<img class="svg action togglestate" src="" />
+							</a>
+						</li>
+						<li>
+							<a href="#" class="menuitem action action-remove permanent" data-action="remove">
+								<img class="svg action remove" src="<?php print_unescaped(image_path('core', 'actions/delete.svg'))?>" />
+								<span><?php p($l->t('Delete')); ?></span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</td>
 		</tr>
 	</tbody>
 </table>

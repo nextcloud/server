@@ -117,28 +117,17 @@ var UserList = {
 		}
 
 		/**
-		 * disable/enable user action
+		 * user actions menu
 		 */
-		if ($tr.find('td.toggleUser > img').length === 0 && OC.currentUser !== user.name) {
-			if(user.isEnabled) {
-				var disableImage = $('<img class="svg action">').attr({
-					src: OC.imagePath('core', 'actions/user-times')
-				});
-				var disableLink = $('<a class="action disableUser">')
-					.attr({ href: '#'})
-					.append(disableImage);
-				$tr.find('td.toggleUser').prepend(disableLink);
-			} else {
-				var enableImage = $('<img class="svg action">').attr({
-					src: OC.imagePath('core', 'actions/user-plus')
-				});
-				var enableLink = $('<a class="action enableUser">')
-					.attr({ href: '#'})
-					.append(enableImage);
-				$tr.find('td.toggleUser').prepend(enableLink);
-			}
+		if ($tr.find('td.userActions > img').length === 0 && OC.currentUser !== user.name) {
+			var menuImage = $('<img class="svg action">').attr({
+				src: OC.imagePath('core', 'actions/more')
+			});
+			var menuLink = $('<span class="toggleUserActions"></span>')
+				.append(menuImage);
+			$tr.find('td.userActions').prepend(menuLink);
 		} else if (OC.currentUser === user.name) {
-			$tr.find('td.toggleUser a').remove();
+			$tr.find('td.userActions a').remove();
 		}
 
 		/**
@@ -411,7 +400,7 @@ var UserList = {
 										UserList.undoRemove);
 
 		//when to mark user for delete
-		$userListBody.on('click', '.delete', function () {
+		$userListBody.on('click', '.action-remove', function () {
 			// Call function for handling delete/undo
 			var uid = UserList.getUID(this);
 			UserDeleteHandler.mark(uid);
@@ -814,7 +803,41 @@ $(document).ready(function () {
 			});
 	});
 
-	$userListBody.on('click', '.toggleUser', function (event) {
+	$userListBody.on('click', '.toggleUserActions', function (event) {
+		event.stopPropagation();
+		var $td = $(this).closest('td');
+		var $tr = $($td).closest('tr');
+		var menudiv = $td.find('.menudiv');
+
+		if(menudiv.is(':visible')) {
+			menudiv.find('.userActionsMenu').fadeOut(100);
+		}
+
+		if($tr.hasClass('disabled')) {
+			menudiv.find('.action-togglestate').find('span').remove();
+			$('.togglestate', $td).attr({
+				src: OC.imagePath('core', 'actions/user-plus')
+			});
+			$('.togglestate', $td).after('<span>'+t('settings', 'Enable')+'</span>');
+		} else {
+			menudiv.find('.action-togglestate').find('span').remove();
+			$('.togglestate', $td).attr({
+				src: OC.imagePath('core', 'actions/user-times')
+			});
+			$('.togglestate', $td).after('<span>'+t('settings', 'Disable')+'</span>');
+		}
+
+		menudiv.fadeIn(100);
+
+		menudiv.hover(function() {}, function() {
+			$(this).fadeOut(400);
+		});
+		menudiv.click(function() {
+			menudiv.fadeOut(100);
+		});
+	});
+
+	$userListBody.on('click', '.action-togglestate', function (event) {
 		event.stopPropagation();
 		var $td = $(this).closest('td');
 		var $tr = $td.closest('tr');
@@ -825,28 +848,12 @@ $(document).ready(function () {
 			{username: uid, enabled: setEnabled},
 			function (result) {
 				if (result && result.status==='success'){
-					$td.empty();
 					if(result.data.enabled == 1) {
 						$tr.data('userEnabled', true);
 						$tr.toggleClass('disabled', false);
-						var disableImage = $('<img class="svg action">').attr({
-							src: OC.imagePath('core', 'actions/user-times')
-						});
-						var disableLink = $('<a class="action disableUser">')
-							.attr({ href: '#'})
-							.append(disableImage);
-						$td.prepend(disableLink);
 					} else {
 						$tr.data('userEnabled', false);
 						$tr.toggleClass('disabled', true);
-						var enableImage = $('<img class="svg action">').attr({
-							src: OC.imagePath('core', 'actions/user-plus')
-						});
-						var enableLink = $('<a class="action enableUser">')
-							.attr({ href: '#'})
-							.append(enableImage);
-						$td.prepend(enableLink);
-
 					}
 				} else {
 					OC.dialogs.alert(result.data.message, t('settings', 'Unable to change status of {user}', {user: uid}));
