@@ -77,6 +77,10 @@ class Template extends \OC_Defaults {
 		return $this->config->getAppValue('theming', 'name', $this->name);
 	}
 
+	public function getTitle() {
+		return $this->config->getAppValue('theming', 'name', $this->name);
+	}
+
 	public function getEntity() {
 		return $this->config->getAppValue('theming', 'name', $this->name);
 	}

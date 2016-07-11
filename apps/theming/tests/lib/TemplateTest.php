@@ -91,6 +91,27 @@ class TemplateTest extends TestCase {
 		$this->assertEquals('MyCustomCloud', $this->template->getName());
 	}
 
+	public function testGetTitleWithDefault() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'name', 'Nextcloud')
+			->willReturn('Nextcloud');
+
+		$this->assertEquals('Nextcloud', $this->template->getTitle());
+	}
+
+	public function testGetTitleWithCustom() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'name', 'Nextcloud')
+			->willReturn('MyCustomCloud');
+
+		$this->assertEquals('MyCustomCloud', $this->template->getTitle());
+	}
+
+
 	public function testGetEntityWithDefault() {
 		$this->config
 			->expects($this->once())
