@@ -101,10 +101,10 @@ abstract class AbstractDatabase {
 	}
 
 	/**
+	 * @param array $configOverwrite
 	 * @return \OC\DB\Connection
-	 * @throws \OC\DatabaseSetupException
 	 */
-	protected function connect() {
+	protected function connect(array $configOverwrite = []) {
 		$systemConfig = $this->config->getSystemConfig();
 		$cf = new ConnectionFactory();
 		$connectionParams = $cf->createConnectionParams($systemConfig);
@@ -115,6 +115,7 @@ abstract class AbstractDatabase {
 		if (!$connectionParams['password']) {
 			$connectionParams['password'] = $this->dbPassword;
 		}
+		$connectionParams = array_merge($connectionParams, $configOverwrite);
 		return $cf->getConnection($systemConfig->getValue('dbtype', 'sqlite'), $connectionParams);
 	}
 
