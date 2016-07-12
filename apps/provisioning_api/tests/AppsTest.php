@@ -65,13 +65,13 @@ class AppsTest extends TestCase {
 
 	public function testGetAppInfo() {
 		$result = $this->api->getAppInfo(['appid' => 'provisioning_api']);
-		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertInstanceOf('\OC\OCS\Result', $result);
 		$this->assertTrue($result->succeeded());
 	}
 
 	public function testGetAppInfoOnBadAppID() {
 		$result = $this->api->getAppInfo(['appid' => 'not_provisioning_api']);
-		$this->assertInstanceOf('OC_OCS_Result', $result);
+		$this->assertInstanceOf('\OC\OCS\Result', $result);
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(API::RESPOND_NOT_FOUND, $result->getStatusCode());
 	}
