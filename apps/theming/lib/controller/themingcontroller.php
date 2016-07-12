@@ -30,6 +30,7 @@ use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCA\Theming\Util;
 
 /**
  * Class ThemingController
@@ -230,6 +231,12 @@ class ThemingController extends Controller {
 			$responseCss .= '#body-login {
 				background-image: url(\'./loginbackground?v='.$cacheBusterValue.'\');
 			}';
+		}
+		if(Util::invertTextColor($color)) {
+			$responseCss .= '#header .header-appname, #expandDisplayName { color: #000000; } ';
+			$responseCss .= '#header .icon-caret { background-image: url(/core/img/actions/caret-dark.svg); } ';
+			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'../../../core/img/actions/search.svg\') no-repeat 6px center; color: #000; }';
+			$responseCss .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }';
 		}
 
 		\OC_Response::setExpiresHeader(gmdate('D, d M Y H:i:s', time() + (60*60*24*45)) . ' GMT');

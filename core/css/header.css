@@ -324,6 +324,9 @@
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	opacity: 1;
 }
+#expand .icon-caret {
+	margin-top: 0;
+}
 #expanddiv {
 	position: absolute;
 	right: 10px;
