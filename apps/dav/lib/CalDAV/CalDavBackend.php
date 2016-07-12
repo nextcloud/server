@@ -1569,36 +1569,8 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 		$row = $result->fetch();
 		$result->closeCursor();
 
-		return $row;
+		return $row[0] > 0;
 	}
-
-	/**
-	 * @param string $token
-	 * @param string secret
-	 * @return int | boolean
-	 *
-	 * Function to get the ressource we're insteressed in. Most probably to put somewhere else.
-	 */
-	public function getResourceIdFromToken($token, $secret) {
-		$query = $this->db->getQueryBuilder();
- 		$result = $query->select('resourceid')
- 			->from('dav_shares')
- 			->where($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)))
- 			->execute();
-
-		$publications = [];
-		while($row = $result->fetch()) {
-			$publications[] = $row['resourceid'];
-		}
-
-		$i = 0;
-		$found = false;
-		while ($i < count($publications) && !$found) {
-			$found = md5($secret.$publications[$i]) === $token;
-			if (!$found) $i++;
-		}
-		return ($found) ? $publications[$i] : false;
-	 }
 
 	/**
 	 * @param int $resourceId

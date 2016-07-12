@@ -6,6 +6,7 @@ use Sabre\DAV\PropFind;
 use Sabre\DAV\INode;
 use Sabre\DAV\Server;
 use Sabre\DAV\ServerPlugin;
+use Sabre\DAV\Exception\NotFound;
 use Sabre\HTTP\RequestInterface;
 use Sabre\HTTP\ResponseInterface;
 use OCA\DAV\CalDAV\Publishing\Xml\Publisher;
@@ -102,14 +103,14 @@ class PublishPlugin extends ServerPlugin
             $publishUrl = $this->urlGenerator->getAbsoluteURL($this->server->getBaseUri().'public-calendars/').$token;
 
             $propFind->handle('{'.self::NS_CALENDARSERVER.'}publish-url', function () use ($node, $publishUrl) {
-            if ($node->getPublishStatus()) {
-                return new Publisher($publishUrl, true); // We return the publish-url only if the calendar is published.
-            }
-          });
+                if ($node->getPublishStatus()) {
+                    return new Publisher($publishUrl, true); // We return the publish-url only if the calendar is published.
+                }
+            });
 
             $propFind->handle('{'.self::NS_CALENDARSERVER.'}pre-publish-url', function () use ($node, $publishUrl) {
                 return new Publisher($publishUrl, false); // The pre-publish-url is always returned
-          });
+            });
         }
     }
 
@@ -134,7 +135,7 @@ class PublishPlugin extends ServerPlugin
       // Making sure the node exists
       try {
           $node = $this->server->tree->getNodeForPath($path);
-      } catch (DAV\Exception\NotFound $e) {
+      } catch (NotFound $e) {
           return;
       }
 
