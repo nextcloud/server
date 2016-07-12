@@ -1560,7 +1560,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 	 */
 	public function getPublishStatus($calendar) {
 		$query = $this->db->getQueryBuilder();
-		$result = $query->select('count(id)')
+		$result = $query->select($query->createFunction('COUNT(*)'))
 			->from('dav_shares')
 			->where($query->expr()->eq('resourceid', $query->createNamedParameter($calendar->getResourceId())))
 			->andWhere($query->expr()->eq('access', $query->createNamedParameter(self::ACCESS_PUBLIC)))
