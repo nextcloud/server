@@ -99,7 +99,6 @@
 				var callbackAddShare = function(result, share) {
 					var password = share.password || '';
 					if (result) {
-						//$.post(OC.generateUrl('/apps/files_sharing/api/externalShares'), {id: share.id});
 						$.post(OC.generateUrl('apps/files_sharing/external'), {
 							remote: share.remote,
 							token: share.token,

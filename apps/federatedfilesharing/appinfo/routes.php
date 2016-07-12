@@ -21,6 +21,6 @@
 
 return [
 	'routes' => [
-		['name' => 'SaveToOwnCloud#saveToOwnCloud', 'url' => '/saveToOwnCloud', 'verb' => 'POST'],
+		['name' => 'SaveToNextcloud#saveToNextcloud', 'url' => '/saveToNextcloud', 'verb' => 'POST'],
 	]
 ];

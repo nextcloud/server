@@ -50,10 +50,8 @@ $shareWith = \OCP\User::getUser() . '@' . $urlGenerator->getAbsoluteURL('/');
 
 $httpClient = \OC::$server->getHTTPClientService()->newClient();
 
-error_log("do th post");
-
 try {
-	$response = $httpClient->post($remote . '/index.php/apps/federatedfilesharing/saveToOwnCloud',
+	$response = $httpClient->post($remote . '/index.php/apps/federatedfilesharing/saveToNextcloud',
 		[
 			'body' =>
 				[

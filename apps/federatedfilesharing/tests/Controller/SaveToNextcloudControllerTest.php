@@ -24,7 +24,7 @@ namespace OCA\FederatedFileSharing\Tests\Controller;
 
 use OC\HintException;
 use OCA\FederatedFileSharing\AddressHandler;
-use OCA\FederatedFileSharing\Controller\SaveToOwnCloudController;
+use OCA\FederatedFileSharing\Controller\SaveToNextcloudController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
@@ -34,9 +34,9 @@ use OCP\Share;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
-class SaveToOwnCloudControllerTest extends \Test\TestCase {
+class SaveToNextcloudControllerTest extends \Test\TestCase {
 
-	/** @var  SaveToOwnCloudController */
+	/** @var  SaveToNextcloudController */
 	private $controller;
 
 	/** @var  \OCP\IRequest | \PHPUnit_Framework_MockObject_MockObject */
@@ -77,7 +77,7 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 		$this->share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
 		$this->session = $this->getMock('OCP\ISession');
 
-		$this->controller = new SaveToOwnCloudController(
+		$this->controller = new SaveToNextcloudController(
 			'federatedfilesharing', $this->request,
 			$this->federatedShareProvider,
 			$this->shareManager,
@@ -87,7 +87,7 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSaveToOwnCloud
+	 * @dataProvider dataTestSaveToNextcloud
 	 *
 	 * @param string $shareWith
 	 * @param bool $validShareWith
@@ -96,7 +96,7 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 	 * @param bool $createSuccessful
 	 * @param string $expectedReturnData
 	 */
-	public function testSaveToOwnCloud($shareWith, $validShareWith, $token, $validToken, $createSuccessful, $expectedReturnData) {
+	public function testSaveToNextcloud($shareWith, $validShareWith, $token, $validToken, $createSuccessful, $expectedReturnData) {
 		$this->addressHandler->expects($this->any())->method('splitUserRemote')
 			->with($shareWith)
 			->willReturnCallback(
@@ -133,7 +133,7 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 				}
 			);
 
-		$result = $this->controller->saveToOwnCloud($shareWith, $token);
+		$result = $this->controller->saveToNextcloud($shareWith, $token);
 
 		$errorCase = !$validShareWith || !$validToken || !$createSuccessful;
 
@@ -150,7 +150,7 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 
 	}
 
-	public function dataTestSaveToOwnCloud() {
+	public function dataTestSaveToNextcloud() {
 		return [
 			//shareWith, validShareWith, token, validToken, createSuccessful, expectedReturnData
 			['user@server', true, 'token', true, true, 'server'],

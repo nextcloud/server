@@ -32,7 +32,7 @@ use OCP\IRequest;
 use OCP\ISession;
 use OCP\Share\IManager;
 
-class SaveToOwnCloudController extends Controller {
+class SaveToNextcloudController extends Controller {
 
 	/** @var FederatedShareProvider */
 	private $federatedShareProvider;
@@ -47,7 +47,7 @@ class SaveToOwnCloudController extends Controller {
 	private $session;
 
 	/**
-	 * SaveToOwnCloudController constructor.
+	 * SaveToNextcloudController constructor.
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
@@ -72,7 +72,7 @@ class SaveToOwnCloudController extends Controller {
 	}
 
 	/**
-	 * save public link to my ownCloud by asking the owner to create a federated
+	 * save public link to my Nextcloud by asking the owner to create a federated
 	 * share with me
 	 *
 	 * @NoCSRFRequired
@@ -83,7 +83,7 @@ class SaveToOwnCloudController extends Controller {
 	 * @param string $password
 	 * @return JSONResponse
 	 */
-	public function saveToOwnCloud($shareWith, $token, $password = '') {
+	public function saveToNextcloud($shareWith, $token, $password = '') {
 
 		try {
 			list(, $server) = $this->addressHandler->splitUserRemote($shareWith);
