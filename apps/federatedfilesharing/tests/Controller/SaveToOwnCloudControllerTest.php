@@ -28,6 +28,7 @@ use OCA\FederatedFileSharing\Controller\SaveToOwnCloudController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
+use OCP\ISession;
 use OCP\IUserManager;
 use OCP\Share;
 use OCP\Share\IManager;
@@ -56,6 +57,9 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 	/** @var  IUserManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $userManager;
 
+	/** @var  ISession | \PHPUnit_Framework_MockObject_MockObject */
+	private $session;
+
 	/** @var  IShare */
 	private $share;
 
@@ -71,12 +75,14 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 		$this->rootFolder = $this->getMock('OCP\Files\IRootFolder');
 		$this->userManager = $this->getMock('OCP\IUserManager');
 		$this->share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
+		$this->session = $this->getMock('OCP\ISession');
 
 		$this->controller = new SaveToOwnCloudController(
 			'federatedfilesharing', $this->request,
 			$this->federatedShareProvider,
 			$this->shareManager,
-			$this->addressHandler
+			$this->addressHandler,
+			$this->session
 		);
 	}
 
@@ -101,9 +107,9 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 					throw new HintException($expectedReturnData, $expectedReturnData);
 				}
 			);
-		
+
 		$share = $this->share;
-		
+
 		$this->shareManager->expects($this->any())->method('getShareByToken')
 			->with($token)
 			->willReturnCallback(
@@ -114,7 +120,7 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 					throw new HintException($expectedReturnData, $expectedReturnData);
 				}
 			);
-		
+
 		$this->federatedShareProvider->expects($this->any())->method('create')
 			->with($share)
 			->willReturnCallback(
@@ -141,7 +147,7 @@ class SaveToOwnCloudControllerTest extends \Test\TestCase {
 			$this->assertSame($expectedReturnData, $result->getData()['remoteUrl']);
 
 		}
-		
+
 	}
 
 	public function dataTestSaveToOwnCloud() {

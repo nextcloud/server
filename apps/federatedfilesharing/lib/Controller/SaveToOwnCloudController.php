@@ -29,6 +29,7 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use OCP\ISession;
 use OCP\Share\IManager;
 
 class SaveToOwnCloudController extends Controller {
@@ -42,16 +43,32 @@ class SaveToOwnCloudController extends Controller {
 	/** @var IManager  */
 	private $shareManager;
 
+	/** @var  ISession */
+	private $session;
+
+	/**
+	 * SaveToOwnCloudController constructor.
+	 *
+	 * @param string $appName
+	 * @param IRequest $request
+	 * @param FederatedShareProvider $federatedShareProvider
+	 * @param IManager $shareManager
+	 * @param AddressHandler $addressHandler
+	 * @param ISession $session
+	 */
 	public function __construct($appName,
-								IRequest $request,
-								FederatedShareProvider $federatedShareProvider,
-								IManager $shareManager,
-								AddressHandler $addressHandler) {
+								   IRequest $request,
+								   FederatedShareProvider $federatedShareProvider,
+								   IManager $shareManager,
+								   AddressHandler $addressHandler,
+								   ISession $session
+	) {
 		parent::__construct($appName, $request);
 
 		$this->federatedShareProvider = $federatedShareProvider;
 		$this->shareManager = $shareManager;
 		$this->addressHandler = $addressHandler;
+		$this->session = $session;
 	}
 
 	/**
@@ -63,15 +80,24 @@ class SaveToOwnCloudController extends Controller {
 	 *
 	 * @param string $shareWith
 	 * @param string $token
+	 * @param string $password
 	 * @return JSONResponse
 	 */
-	public function saveToOwnCloud($shareWith, $token) {
+	public function saveToOwnCloud($shareWith, $token, $password = '') {
 
 		try {
 			list(, $server) = $this->addressHandler->splitUserRemote($shareWith);
 			$share = $this->shareManager->getShareByToken($token);
 		} catch (HintException $e) {
 			return new JSONResponse(['message' => $e->getHint()], Http::STATUS_BAD_REQUEST);
+		}
+
+		// make sure that user is authenticated in case of a password protected link
+		$storedPassword = $share->getPassword();
+		$authenticated = $this->session->get('public_link_authenticated') === $share->getId() ||
+			$this->shareManager->checkPassword($share, $password);
+		if (!empty($storedPassword) && !$authenticated ) {
+			return new JSONResponse(['message' => 'No permission to access the share'], Http::STATUS_BAD_REQUEST);
 		}
 
 		$share->setSharedWith($shareWith);
@@ -81,8 +107,8 @@ class SaveToOwnCloudController extends Controller {
 		} catch (\Exception $e) {
 			return new JSONResponse(['message' => $e->getMessage()], Http::STATUS_BAD_REQUEST);
 		}
-		
+
 		return new JSONResponse(['remoteUrl' => $server]);
 	}
-	
+
 }

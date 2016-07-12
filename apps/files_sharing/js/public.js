@@ -244,8 +244,10 @@ OCA.Sharing.PublicApp = {
 			var remote = $(this).find('input[type="text"]').val();
 			var token = $('#sharingToken').val();
 			var owner = $('#save').data('owner');
+			var ownerDisplayName = $('#save').data('owner-display-name');
 			var name = $('#save').data('name');
-			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token);
+			var isProtected = $('#save').data('protected') ? 1 : 0;
+			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token, owner, ownerDisplayName, name, isProtected);
 		});
 
 		$('#remote_address').on("keyup paste", function() {
@@ -293,7 +295,72 @@ OCA.Sharing.PublicApp = {
 	},
 
 
-	_saveToOwnCloud: function (remote, token) {
+	/**
+	 * fall back to old behaviour where we redirect the user to his server to mount
+	 * the public link instead of creating a dedicated federated share
+	 *
+	 * @param remote
+	 * @param token
+	 * @param owner
+	 * @param ownerDisplayName
+	 * @param name
+	 * @param isProtected
+	 * @private
+	 */
+	_legacySaveToOwnCloud: function (remote, token, owner, ownerDisplayName, name, isProtected) {
+
+		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
+
+		if(remote.substr(-1) !== '/') {
+			remote += '/'
+		}
+
+		var url = remote + 'index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
+			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) +"&ownerDisplayName=" + encodeURIComponent(ownerDisplayName) + "&name=" + encodeURIComponent(name) + "&protected=" + isProtected;
+
+
+		if (remote.indexOf('://') > 0) {
+			OC.redirect(url);
+		} else {
+			// if no protocol is specified, we automatically detect it by testing https and http
+			// this check needs to happen on the server due to the Content Security Policy directive
+			$.get(OC.generateUrl('apps/files_sharing/testremote'), {remote: remote}).then(function (protocol) {
+				if (protocol !== 'http' && protocol !== 'https') {
+					OC.dialogs.alert(t('files_sharing', 'No compatible server found at {remote}', {remote: remote}),
+						t('files_sharing', 'Invalid server URL'));
+				} else {
+					OC.redirect(protocol + '://' + url);
+				}
+			});
+		}
+	},
+
+	_saveToOwnCloud: function (remote, token, owner, ownerDisplayName, name, isProtected) {
+
+		var toggleLoading = function() {
+			var iconClass = $('#save-button-confirm').attr('class');
+			var loading = iconClass.indexOf('icon-loading-small') !== -1;
+			if(loading) {
+				$('#save-button-confirm')
+					.removeClass("icon-loading-small")
+					.addClass("icon-confirm");
+
+			}
+			else {
+				$('#save-button-confirm')
+					.removeClass("icon-confirm")
+					.addClass("icon-loading-small");
+
+			}
+		};
+
+		toggleLoading();
+
+		if (remote.indexOf('@') == -1) {
+			this._legacySaveToOwnCloud(remote, token, owner, ownerDisplayName, name, isProtected);
+			toggleLoading();
+			return;
+		}
 
 		$.post(
 			OC.generateUrl('/apps/federatedfilesharing/saveToOwnCloud'),
@@ -308,17 +375,7 @@ OCA.Sharing.PublicApp = {
 				if (url.indexOf('://') > 0) {
 					OC.redirect(url);
 				} else {
-					// if no protocol is specified, we automatically detect it by testing https and http
-					// this check needs to happen on the server due to the Content Security Policy directive
-					$.get(OC.generateUrl('apps/files_sharing/testremote'), {remote: remote}).then(function (protocol) {
-						if (protocol !== 'http' && protocol !== 'https') {
-							toggleLoading();
-							OC.dialogs.alert(t('files_sharing', 'No Nextcloud installation (7 or higher) found at {remote}', {remote: remote}),
-								t('files_sharing', 'Invalid ownCloud url'));
-						} else {
-							OC.redirect(protocol + '://' + url);
-						}
-					});
+					OC.redirect('http://' + url);
 				}
 			}
 		).fail(
@@ -326,7 +383,8 @@ OCA.Sharing.PublicApp = {
 				console.log("ERROR!");
 				console.log(jqXHR);
 				OC.dialogs.alert(JSON.parse(jqXHR.responseText).message,
-					t('files_sharing', 'Failed to add the public link to your ownCloud'));
+					t('files_sharing', 'Failed to add the public link to your Nextcloud'));
+				toggleLoading();
 			}
 		);
 	}

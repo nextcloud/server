@@ -107,11 +107,7 @@
 							ownerDisplayName: share.ownerDisplayName || share.owner,
 							name: share.name,
 							password: password}, function(result) {
-							if (result.status === 'error') {
-								OC.Notification.showTemporary(result.data.message);
-							} else {
-								fileList.reload();
-							}
+							OC.Notification.showTemporary(result.data.message);
 						});
 					}
 				};
