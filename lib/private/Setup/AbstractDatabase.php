@@ -23,6 +23,8 @@
  */
 namespace OC\Setup;
 
+use OC\AllConfig;
+use OC\DB\ConnectionFactory;
 use OCP\IConfig;
 use OCP\ILogger;
 use OCP\Security\ISecureRandom;
@@ -45,7 +47,7 @@ abstract class AbstractDatabase {
 	protected $dbPort;
 	/** @var string */
 	protected $tablePrefix;
-	/** @var IConfig */
+	/** @var AllConfig */
 	protected $config;
 	/** @var ILogger */
 	protected $logger;
@@ -96,6 +98,24 @@ abstract class AbstractDatabase {
 		$this->dbHost = $dbHost;
 		$this->dbPort = $dbPort;
 		$this->tablePrefix = $dbTablePrefix;
+	}
+
+	/**
+	 * @return \OC\DB\Connection
+	 * @throws \OC\DatabaseSetupException
+	 */
+	protected function connect() {
+		$systemConfig = $this->config->getSystemConfig();
+		$cf = new ConnectionFactory();
+		$connectionParams = $cf->createConnectionParams($systemConfig);
+		// we don't save username/password to the config immediately so this might not be set
+		if (!$connectionParams['user']) {
+			$connectionParams['user'] = $this->dbUser;
+		}
+		if (!$connectionParams['password']) {
+			$connectionParams['password'] = $this->dbPassword;
+		}
+		return $cf->getConnection($systemConfig->getValue('dbtype', 'sqlite'), $connectionParams);
 	}
 
 	/**

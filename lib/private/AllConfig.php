@@ -428,4 +428,8 @@ class AllConfig implements \OCP\IConfig {
 
 		return $userIDs;
 	}
+
+	public function getSystemConfig() {
+		return $this->systemConfig;
+	}
 }
