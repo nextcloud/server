@@ -21,8 +21,6 @@
     "Cancel" : "キャンセル",
     "Add remote share" : "リモート共有を追加",
     "You can upload into this folder" : "このフォルダーにアップロードできます",
-    "No ownCloud installation (7 or higher) found at {remote}" : "{remote} にはownCloud (7以上)がインストールされていません",
-    "Invalid ownCloud url" : "無効なownCloud URL です",
     "Shared by" : "共有者：",
     "Sharing" : "共有",
     "Share API is disabled" : "共有APIが無効です。",

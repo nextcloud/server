@@ -21,8 +21,6 @@
     "Cancel" : "Cancelar",
     "Add remote share" : "Adicionar partilha remota",
     "You can upload into this folder" : "Pode enviar para esta pasta",
-    "No ownCloud installation (7 or higher) found at {remote}" : "Não foi encontrada nenhuma instalação OwnCloud (7 ou superior) em {remote}",
-    "Invalid ownCloud url" : "Url da ownCloud inválido",
     "Shared by" : "Partilhado por",
     "Sharing" : "Partilha",
     "Share API is disabled" : "A partilha de API está desativada",

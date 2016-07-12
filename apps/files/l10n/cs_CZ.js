@@ -83,6 +83,7 @@ OC.L10N.register(
     "Storage of {owner} is almost full ({usedSpacePercent}%)" : "Úložiště uživatele {owner} je téměř plné ({usedSpacePercent}%)",
     "Your storage is almost full ({usedSpacePercent}%)" : "Vaše úložiště je téměř plné ({usedSpacePercent}%)",
     "_matches '{filter}'_::_match '{filter}'_" : ["odpovídá '{filter}'","odpovídá '{filter}'","odpovídá '{filter}'"],
+    "View in folder" : "Zobrazit v adresáři",
     "Path" : "Cesta",
     "_%n byte_::_%n bytes_" : ["%n bajt","%n bajty","%n bajtů"],
     "Favorited" : "Přidáno k oblíbeným",

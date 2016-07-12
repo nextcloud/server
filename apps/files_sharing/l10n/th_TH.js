@@ -23,8 +23,6 @@ OC.L10N.register(
     "Cancel" : "ยกเลิก",
     "Add remote share" : "เพิ่มรีโมทแชร์",
     "You can upload into this folder" : "คุณสามารถอัพโหลดลงในโฟลเดอร์นี้",
-    "No ownCloud installation (7 or higher) found at {remote}" : "ไม่มีการติดตั้ง ownCloud (7 หรือสูงกว่า) พบได้ที่ {remote}",
-    "Invalid ownCloud url" : "URL ownCloud ไม่ถูกต้อง",
     "Shared by" : "ถูกแชร์โดย",
     "Sharing" : "แชร์ข้อมูล",
     "Share API is disabled" : "แชร์ API ถูกปิดใช้งาน",

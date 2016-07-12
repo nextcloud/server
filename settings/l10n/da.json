@@ -117,7 +117,6 @@
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Den skrivebeskyttede konfiguration er blevet slået til. Dette forhindrer indstillinger af nogle konfigurationer via webgrænsefladen. I tillæg skal filen gøres skrivbar manuelt for hver opdatering.",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP opsætning blokere \"inline doc blocks\". dette gør at flere grundlæggende apps utilgængelige",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dette er sansynligvis forårsaget af et accelerator eller cache som Zend OPcache eller eAccelerator",
-    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Din server kører på Microsoft Windows. Vi anbefaler stærkt at anvende Linux for en optimal brugeroplevelse.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP modulet 'fileinfo' mangler. Vi anbefaler stærkt at aktivere dette modul til at få de bedste resultater med mime-type detektion.",
     "System locale can not be set to a one which supports UTF-8." : "Systemets lokalitet kan ikke sættes til et der bruger UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Det betyder at der kan være problemer med visse tegn i filnavne.",

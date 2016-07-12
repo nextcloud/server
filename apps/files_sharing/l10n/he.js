@@ -23,8 +23,6 @@ OC.L10N.register(
     "Cancel" : "ביטול",
     "Add remote share" : "הוספת שיתוף חיצוני",
     "You can upload into this folder" : "ניתן להעלות לתיקייה זו",
-    "No ownCloud installation (7 or higher) found at {remote}" : "לא נמצאה התקנת ownCloud (גרסה 7 ומעלה) ב- {remote}",
-    "Invalid ownCloud url" : "נתיב ownCloud לא חוקי",
     "Shared by" : "שותף על־ידי",
     "Sharing" : "שיתוף",
     "Share API is disabled" : "שיתוף API מנוטרל",

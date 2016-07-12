@@ -128,7 +128,6 @@ OC.L10N.register(
     "TLS" : "TLS",
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Vain luku -asetukset on otettu käyttöön. Tämä estää joidenkin asetusten määrittämisen selainkäyttöliittymän kautta. Lisäksi kyseinen tiedostoon tulee asettaa kirjoitusoikeus käsin joka päivityksen yhteydessä.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Tämä johtuu todennäköisesti välimuistista tai kiihdyttimestä kuten Zend OPcachesta tai eAcceleratorista.",
-    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Palvelimesi käyttöjärjestelmä on Microsoft Windows. Suosittelemme käyttämään parhaan mahdollisen käyttökokemuksen saavuttamiseksi Linuxia.",
     "%1$s below version %2$s is installed, for stability and performance reasons we recommend updating to a newer %1$s version." : "%1$s alle version %2$s on asennettu.  Vakauden ja suorituskyvyn vuoksi suosittelemme päivittämään uudempaan %1$s-versioon.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-moduuli \"fileinfo\" puuttuu. Sen käyttö on erittäin suositeltavaa, jotta MIME-tyypin havaitseminen onnistuu parhaalla mahdollisella tavalla.",
     "System locale can not be set to a one which supports UTF-8." : "Järjestelmän maa-asetusta ei voi asettaa UTF-8:aa tukevaksi.",

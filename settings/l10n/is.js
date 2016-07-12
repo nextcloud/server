@@ -123,7 +123,6 @@ OC.L10N.register(
     "NT LAN Manager" : "NT LAN stjórnun",
     "SSL" : "SSL",
     "TLS" : "TLS",
-    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "Þjónninn þinn er keyrandi á Microsoft Windows. Við mælum sterklega með Linux til að njóta sem best allra eiginleika fyrir notendurna.",
     "System locale can not be set to a one which supports UTF-8." : "Ekki var hægt að setja staðfærslu kerfisins á neina sem styður UTF-8.",
     "All checks passed." : "Stóðst allar prófanir.",
     "Open documentation" : "Opna hjálparskjöl",

@@ -23,8 +23,6 @@ OC.L10N.register(
     "Cancel" : "Anuloje",
     "Add remote share" : "Shtoni ndarje të largët",
     "You can upload into this folder" : "Mund të ngarkoni te kjo dosje",
-    "No ownCloud installation (7 or higher) found at {remote}" : "Te {remote} s’u gjet instalim ownCloud (7 ose më sipër)",
-    "Invalid ownCloud url" : "URL ownCloud e pavlefshme",
     "Shared by" : "Ndarë nga",
     "Sharing" : "Ndarje",
     "Share API is disabled" : "API i ndarjeve është çaktivizuar",

@@ -23,8 +23,6 @@ OC.L10N.register(
     "Cancel" : "Prekliči",
     "Add remote share" : "Dodaj oddaljeno mesto za souporabo",
     "You can upload into this folder" : "V to mapo je dovoljeno poslati datoteke",
-    "No ownCloud installation (7 or higher) found at {remote}" : "Na mestu {remote} ni nameščenega okolja ownCloud (različice 7 ali višje)",
-    "Invalid ownCloud url" : "Naveden je neveljaven naslov URL strežnika ownCloud",
     "Shared by" : "V souporabi z",
     "Sharing" : "Souporaba",
     "Share API is disabled" : "API za souporabo je izključen",

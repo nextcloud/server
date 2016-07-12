@@ -23,8 +23,6 @@ OC.L10N.register(
     "Cancel" : "取消",
     "Add remote share" : "添加远程分享",
     "You can upload into this folder" : "您可以上传文件至此文件夹",
-    "No ownCloud installation (7 or higher) found at {remote}" : "未发现 {remote} 安装有ownCloud (7 或更高版本)",
-    "Invalid ownCloud url" : "无效的 ownCloud 网址",
     "Shared by" : "共享人",
     "Sharing" : "共享",
     "Share API is disabled" : "共享 API 已被禁用",

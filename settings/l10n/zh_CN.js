@@ -127,7 +127,6 @@ OC.L10N.register(
     "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "只读配置已启用。这样可防止通过 WEB 接口设置一些配置。此外，每次更新后该文件需要手动设置为可写。",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP 被设置为移除行内 <doc> 块，这将导致数个核心应用无法访问。",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "这可能是由缓存/加速器造成的，例如 Zend OPcache 或 eAccelerator。",
-    "Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience." : "你的服务器是运行于 Microsoft Windows 系统。我们强烈推荐使用 Linux 系统以获得最佳的用户体验。比如中文文件夹和文件名支持。",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP模块'文件信息'丢失. 我们强烈建议启用此模块以便mime类型检测取得最佳结果.",
     "System locale can not be set to a one which supports UTF-8." : "系统语系无法设置为支持 UTF-8 的语系。",
     "This means that there might be problems with certain characters in file names." : "这意味着一些文件名中的特定字符可能有问题。",

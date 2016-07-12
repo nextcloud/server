@@ -21,8 +21,6 @@
     "Cancel" : "Отменить",
     "Add remote share" : "Добавить удалённый общий ресурс",
     "You can upload into this folder" : "Вы можете загружать в эту папку",
-    "No ownCloud installation (7 or higher) found at {remote}" : "На удаленном ресурсе {remote} не установлен ownCloud версии 7 или выше",
-    "Invalid ownCloud url" : "Неверный адрес ownCloud",
     "Shared by" : "Поделился",
     "Sharing" : "Общий доступ",
     "Share API is disabled" : "API общего доступа отключён",
