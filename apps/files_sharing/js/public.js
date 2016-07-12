@@ -356,7 +356,7 @@ OCA.Sharing.PublicApp = {
 
 		toggleLoading();
 
-		if (remote.indexOf('@') == -1) {
+		if (remote.indexOf('@') === -1) {
 			this._legacySaveToNextcloud(remote, token, owner, ownerDisplayName, name, isProtected);
 			toggleLoading();
 			return;
@@ -380,8 +380,6 @@ OCA.Sharing.PublicApp = {
 			}
 		).fail(
 			function (jqXHR) {
-				console.log("ERROR!");
-				console.log(jqXHR);
 				OC.dialogs.alert(JSON.parse(jqXHR.responseText).message,
 					t('files_sharing', 'Failed to add the public link to your Nextcloud'));
 				toggleLoading();

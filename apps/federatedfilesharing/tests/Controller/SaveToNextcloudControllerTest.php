@@ -28,8 +28,11 @@ use OCA\FederatedFileSharing\Controller\SaveToNextcloudController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
+use OCP\Http\Client\IClientService;
+use OCP\IL10N;
 use OCP\ISession;
 use OCP\IUserManager;
+use OCP\IUserSession;
 use OCP\Share;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
@@ -60,29 +63,44 @@ class SaveToNextcloudControllerTest extends \Test\TestCase {
 	/** @var  ISession | \PHPUnit_Framework_MockObject_MockObject */
 	private $session;
 
+	/** @var  IL10N | \PHPUnit_Framework_MockObject_MockObject */
+	private $l10n;
+
+	/** @var  IUserSession | \PHPUnit_Framework_MockObject_MockObject */
+	private $userSession;
+
+	/** @var  IClientService | \PHPUnit_Framework_MockObject_MockObject */
+	private $clientService;
+
 	/** @var  IShare */
 	private $share;
 
 	public function setUp() {
 		parent::setUp();
 
-		$this->request = $this->getMock('OCP\IRequest');
+		$this->request = $this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock();
 		$this->federatedShareProvider = $this->getMockBuilder('OCA\FederatedFileSharing\FederatedShareProvider')
 			->disableOriginalConstructor()->getMock();
-		$this->shareManager = $this->getMock('OCP\Share\IManager');
+		$this->shareManager = $this->getMockBuilder('OCP\Share\IManager')->disableOriginalConstructor()->getMock();
 		$this->addressHandler = $this->getMockBuilder('OCA\FederatedFileSharing\AddressHandler')
 			->disableOriginalConstructor()->getMock();
-		$this->rootFolder = $this->getMock('OCP\Files\IRootFolder');
-		$this->userManager = $this->getMock('OCP\IUserManager');
+		$this->rootFolder = $this->getMockBuilder('OCP\Files\IRootFolder')->disableOriginalConstructor()->getMock();
+		$this->userManager = $this->getMockBuilder('OCP\IUserManager')->disableOriginalConstructor()->getMock();
 		$this->share = new \OC\Share20\Share($this->rootFolder, $this->userManager);
-		$this->session = $this->getMock('OCP\ISession');
+		$this->session = $this->getMockBuilder('OCP\ISession')->disableOriginalConstructor()->getMock();
+		$this->l10n = $this->getMockBuilder('OCP\IL10N')->disableOriginalConstructor()->getMock();
+		$this->userSession = $this->getMockBuilder('OCP\IUserSession')->disableOriginalConstructor()->getMock();
+		$this->clientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->disableOriginalConstructor()->getMock();
 
 		$this->controller = new SaveToNextcloudController(
 			'federatedfilesharing', $this->request,
 			$this->federatedShareProvider,
 			$this->shareManager,
 			$this->addressHandler,
-			$this->session
+			$this->session,
+			$this->l10n,
+			$this->userSession,
+			$this->clientService
 		);
 	}
 

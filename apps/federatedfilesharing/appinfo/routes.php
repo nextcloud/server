@@ -22,5 +22,6 @@
 return [
 	'routes' => [
 		['name' => 'SaveToNextcloud#saveToNextcloud', 'url' => '/saveToNextcloud', 'verb' => 'POST'],
+		['name' => 'SaveToNextcloud#askForFederatedShare', 'url' => '/askForFederatedShare', 'verb' => 'POST'],
 	]
 ];

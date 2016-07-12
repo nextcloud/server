@@ -28,8 +28,11 @@ use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\Http\Client\IClientService;
+use OCP\IL10N;
 use OCP\IRequest;
 use OCP\ISession;
+use OCP\IUserSession;
 use OCP\Share\IManager;
 
 class SaveToNextcloudController extends Controller {
@@ -46,6 +49,15 @@ class SaveToNextcloudController extends Controller {
 	/** @var  ISession */
 	private $session;
 
+	/** @var IL10N */
+	private $l;
+
+	/** @var IUserSession */
+	private $userSession;
+
+	/** @var IClientService */
+	private $clientService;
+
 	/**
 	 * SaveToNextcloudController constructor.
 	 *
@@ -55,13 +67,19 @@ class SaveToNextcloudController extends Controller {
 	 * @param IManager $shareManager
 	 * @param AddressHandler $addressHandler
 	 * @param ISession $session
+	 * @param IL10N $l
+	 * @param IUserSession $userSession
+	 * @param IClientService $clientService
 	 */
 	public function __construct($appName,
-								   IRequest $request,
-								   FederatedShareProvider $federatedShareProvider,
-								   IManager $shareManager,
-								   AddressHandler $addressHandler,
-								   ISession $session
+								IRequest $request,
+								FederatedShareProvider $federatedShareProvider,
+								IManager $shareManager,
+								AddressHandler $addressHandler,
+								ISession $session,
+								IL10N $l,
+								IUserSession $userSession,
+								IClientService $clientService
 	) {
 		parent::__construct($appName, $request);
 
@@ -69,6 +87,9 @@ class SaveToNextcloudController extends Controller {
 		$this->shareManager = $shareManager;
 		$this->addressHandler = $addressHandler;
 		$this->session = $session;
+		$this->l = $l;
+		$this->userSession = $userSession;
+		$this->clientService = $clientService;
 	}
 
 	/**
@@ -109,6 +130,50 @@ class SaveToNextcloudController extends Controller {
 		}
 
 		return new JSONResponse(['remoteUrl' => $server]);
+	}
+
+	/**
+	 * ask other server to get a federated share
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @param string $token
+	 * @param string $remote
+	 * @param string $password
+	 * @return JSONResponse
+	 */
+	public function askForFederatedShare($token, $remote, $password = '') {
+		// check if server admin allows to mount public links from other servers
+		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() === false) {
+			return new JSONResponse(['message' => $this->l->t('Server to server sharing is not enabled on this server')], Http::STATUS_BAD_REQUEST);
+		}
+
+		$shareWith = $this->userSession->getUser()->getUID() . '@' . $this->addressHandler->generateRemoteURL();
+
+		$httpClient = $this->clientService->newClient();
+
+		try {
+			$httpClient->post($remote . '/index.php/apps/federatedfilesharing/saveToNextcloud',
+				[
+					'body' =>
+						[
+							'token' => $token,
+							'shareWith' => rtrim($shareWith, '/'),
+							'password' => $password
+						]
+				]
+			);
+		} catch (\Exception $e) {
+			if (empty($password)) {
+				$message = $this->l->t("Couldn't establish a federated share.");
+			} else {
+				$message = $this->l->t("Couldn't establish a federated share, maybe the password was wrong.");
+			}
+			return new JSONResponse(['message' => $message], Http::STATUS_BAD_REQUEST);
+		}
+
+		return new JSONResponse(['message' => $this->l->t('Federated Share request was successful, you will receive a invitation. Check your notifications.')]);
+
 	}
 
 }

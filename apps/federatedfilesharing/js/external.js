@@ -91,7 +91,6 @@
 		 * through the URL
 		 */
 		processIncomingShareFromUrl: function() {
-			var fileList = this.filesApp.fileList;
 			var params = OC.Util.History.parseUrlQuery();
 			//manually add server-to-server share
 			if (params.remote && params.token && params.owner && params.name) {
@@ -99,15 +98,25 @@
 				var callbackAddShare = function(result, share) {
 					var password = share.password || '';
 					if (result) {
-						$.post(OC.generateUrl('apps/files_sharing/external'), {
-							remote: share.remote,
-							token: share.token,
-							owner: share.owner,
-							ownerDisplayName: share.ownerDisplayName || share.owner,
-							name: share.name,
-							password: password}, function(result) {
-							OC.Notification.showTemporary(result.data.message);
-						});
+						$.post(
+							OC.generateUrl('apps/federatedfilesharing/askForFederatedShare'),
+							{
+								remote: share.remote,
+								token: share.token,
+								owner: share.owner,
+								ownerDisplayName: share.ownerDisplayName || share.owner,
+								name: share.name,
+								password: password
+							}
+						).done(
+							function(data) {
+								OC.Notification.showTemporary(data.message);
+						}
+						).fail(
+							function(data) {
+								OC.Notification.showTemporary(JSON.parse(data.responseText).message);
+							}
+						);
 					}
 				};
 
@@ -161,4 +170,3 @@
 })();
 
 OC.Plugins.register('OCA.Files.App', OCA.Sharing.ExternalShareDialogPlugin);
-
