@@ -28,7 +28,6 @@
 
 namespace OCA\Provisioning_API;
 
-use \OC_OCS_Result;
 use \OC_Helper;
 use OCP\Files\NotFoundException;
 use OCP\IConfig;
@@ -72,7 +71,7 @@ class Users {
 	/**
 	 * returns a list of users
 	 *
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function getUsers() {
 		$search = !empty($_GET['search']) ? $_GET['search'] : '';
@@ -82,7 +81,7 @@ class Users {
 		// Check if user is logged in
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		// Admin? Or SubAdmin?
@@ -107,17 +106,17 @@ class Users {
 
 			$users = array_slice($users, $offset, $limit);
 		} else {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 		$users = array_keys($users);
 
-		return new OC_OCS_Result([
+		return new \OC\OCS\Result([
 			'users' => $users
 		]);
 	}
 
 	/**
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function addUser() {
 		$userId = isset($_POST['userid']) ? $_POST['userid'] : null;
@@ -128,26 +127,26 @@ class Users {
 		$subAdminManager = $this->groupManager->getSubAdmin();
 
 		if (!$isAdmin && !$subAdminManager->isSubAdmin($user)) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		if($this->userManager->userExists($userId)) {
 			$this->logger->error('Failed addUser attempt: User already exists.', ['app' => 'ocs_api']);
-			return new OC_OCS_Result(null, 102, 'User already exists');
+			return new \OC\OCS\Result(null, 102, 'User already exists');
 		}
 
 		if(is_array($groups)) {
 			foreach ($groups as $group) {
 				if(!$this->groupManager->groupExists($group)){
-					return new OC_OCS_Result(null, 104, 'group '.$group.' does not exist');
+					return new \OC\OCS\Result(null, 104, 'group '.$group.' does not exist');
 				}
 				if(!$isAdmin && !$subAdminManager->isSubAdminofGroup($user, $this->groupManager->get($group))) {
-					return new OC_OCS_Result(null, 105, 'insufficient privileges for group '. $group);
+					return new \OC\OCS\Result(null, 105, 'insufficient privileges for group '. $group);
 				}
 			}
 		} else {
 			if(!$isAdmin) {
-				return new OC_OCS_Result(null, 106, 'no group specified (required for subadmins)');
+				return new \OC\OCS\Result(null, 106, 'no group specified (required for subadmins)');
 			}
 		}
 		
@@ -161,10 +160,10 @@ class Users {
 					$this->logger->info('Added userid '.$userId.' to group '.$group, ['app' => 'ocs_api']);
 				}
 			}
-			return new OC_OCS_Result(null, 100);
+			return new \OC\OCS\Result(null, 100);
 		} catch (\Exception $e) {
 			$this->logger->error('Failed addUser attempt with exception: '.$e->getMessage(), ['app' => 'ocs_api']);
-			return new OC_OCS_Result(null, 101, 'Bad request');
+			return new \OC\OCS\Result(null, 101, 'Bad request');
 		}
 	}
 
@@ -172,7 +171,7 @@ class Users {
 	 * gets user info
 	 *
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function getUser($parameters) {
 		$userId = $parameters['userid'];
@@ -180,7 +179,7 @@ class Users {
 		// Check if user is logged in
 		$currentLoggedInUser = $this->userSession->getUser();
 		if ($currentLoggedInUser === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		$data = [];
@@ -188,7 +187,7 @@ class Users {
 		// Check if the target user exists
 		$targetUserObject = $this->userManager->get($userId);
 		if($targetUserObject === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested user could not be found');
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND, 'The requested user could not be found');
 		}
 
 		// Admin? Or SubAdmin?
@@ -198,7 +197,7 @@ class Users {
 		} else {
 			// Check they are looking up themselves
 			if($currentLoggedInUser->getUID() !== $userId) {
-				return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+				return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 			}
 		}
 
@@ -207,14 +206,14 @@ class Users {
 		$data['email'] = $targetUserObject->getEMailAddress();
 		$data['displayname'] = $targetUserObject->getDisplayName();
 
-		return new OC_OCS_Result($data);
+		return new \OC\OCS\Result($data);
 	}
 
 	/** 
 	 * edit users
 	 *
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function editUser($parameters) {
 		/** @var string $targetUserId */
@@ -223,14 +222,15 @@ class Users {
 		// Check if user is logged in
 		$currentLoggedInUser = $this->userSession->getUser();
 		if ($currentLoggedInUser === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		$targetUser = $this->userManager->get($targetUserId);
 		if($targetUser === null) {
-			return new OC_OCS_Result(null, 997);
+			return new \OC\OCS\Result(null, 997);
 		}
 
+		$permittedFields = [];
 		if($targetUserId === $currentLoggedInUser->getUID()) {
 			// Editing self (display, email)
 			$permittedFields[] = 'display';
@@ -252,12 +252,12 @@ class Users {
 				$permittedFields[] = 'email';
 			} else {
 				// No rights
-				return new OC_OCS_Result(null, 997);
+				return new \OC\OCS\Result(null, 997);
 			}
 		}
 		// Check if permitted to edit this field
 		if(!in_array($parameters['_put']['key'], $permittedFields)) {
-			return new OC_OCS_Result(null, 997);
+			return new \OC\OCS\Result(null, 997);
 		}
 		// Process the edit
 		switch($parameters['_put']['key']) {
@@ -273,7 +273,7 @@ class Users {
 						$quota = \OCP\Util::computerFileSize($quota);
 					}
 					if ($quota === false) {
-						return new OC_OCS_Result(null, 103, "Invalid quota value {$parameters['_put']['value']}");
+						return new \OC\OCS\Result(null, 103, "Invalid quota value {$parameters['_put']['value']}");
 					}
 					if($quota === 0) {
 						$quota = 'default';
@@ -292,50 +292,49 @@ class Users {
 				if(filter_var($parameters['_put']['value'], FILTER_VALIDATE_EMAIL)) {
 					$targetUser->setEMailAddress($parameters['_put']['value']);
 				} else {
-					return new OC_OCS_Result(null, 102);
+					return new \OC\OCS\Result(null, 102);
 				}
 				break;
 			default:
-				return new OC_OCS_Result(null, 103);
-				break;
+				return new \OC\OCS\Result(null, 103);
 		}
-		return new OC_OCS_Result(null, 100);
+		return new \OC\OCS\Result(null, 100);
 	}
 
 	/**
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function deleteUser($parameters) {
 		// Check if user is logged in
 		$currentLoggedInUser = $this->userSession->getUser();
 		if ($currentLoggedInUser === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		$targetUser = $this->userManager->get($parameters['userid']);
 
 		if($targetUser === null || $targetUser->getUID() === $currentLoggedInUser->getUID()) {
-			return new OC_OCS_Result(null, 101);
+			return new \OC\OCS\Result(null, 101);
 		}
 
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if(!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
-			return new OC_OCS_Result(null, 997);
+			return new \OC\OCS\Result(null, 997);
 		}
 
 		// Go ahead with the delete
 		if($targetUser->delete()) {
-			return new OC_OCS_Result(null, 100);
+			return new \OC\OCS\Result(null, 100);
 		} else {
-			return new OC_OCS_Result(null, 101);
+			return new \OC\OCS\Result(null, 101);
 		}
 	}
 
 	/**
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function disableUser($parameters) {
 		return $this->setEnabled($parameters, false);
@@ -343,7 +342,7 @@ class Users {
 
 	/**
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function enableUser($parameters) {
 		return $this->setEnabled($parameters, true);
@@ -352,50 +351,50 @@ class Users {
 	/**
 	 * @param array $parameters
 	 * @param bool $value
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	private function setEnabled($parameters, $value) {
 		// Check if user is logged in
 		$currentLoggedInUser = $this->userSession->getUser();
 		if ($currentLoggedInUser === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		$targetUser = $this->userManager->get($parameters['userid']);
 		if($targetUser === null || $targetUser->getUID() === $currentLoggedInUser->getUID()) {
-			return new OC_OCS_Result(null, 101);
+			return new \OC\OCS\Result(null, 101);
 		}
 
 		// If not permitted
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if(!$this->groupManager->isAdmin($currentLoggedInUser->getUID()) && !$subAdminManager->isUserAccessible($currentLoggedInUser, $targetUser)) {
-			return new OC_OCS_Result(null, 997);
+			return new \OC\OCS\Result(null, 997);
 		}
 
 		// enable/disable the user now
 		$targetUser->setEnabled($value);
-		return new OC_OCS_Result(null, 100);
+		return new \OC\OCS\Result(null, 100);
 	}
 
 	/**
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function getUsersGroups($parameters) {
 		// Check if user is logged in
 		$loggedInUser = $this->userSession->getUser();
 		if ($loggedInUser === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		$targetUser = $this->userManager->get($parameters['userid']);
 		if($targetUser === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_NOT_FOUND);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_NOT_FOUND);
 		}
 
 		if($targetUser->getUID() === $loggedInUser->getUID() || $this->groupManager->isAdmin($loggedInUser->getUID())) {
 			// Self lookup or admin lookup
-			return new OC_OCS_Result([
+			return new \OC\OCS\Result([
 				'groups' => $this->groupManager->getUserGroupIds($targetUser)
 			]);
 		} else {
@@ -412,10 +411,10 @@ class Users {
 					$getSubAdminsGroups,
 					$this->groupManager->getUserGroupIds($targetUser)
 				);
-				return new OC_OCS_Result(array('groups' => $groups));
+				return new \OC\OCS\Result(array('groups' => $groups));
 			} else {
 				// Not permitted
-				return new OC_OCS_Result(null, 997);
+				return new \OC\OCS\Result(null, 997);
 			}
 		}
 		
@@ -423,76 +422,76 @@ class Users {
 
 	/**
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function addToGroup($parameters) {
 		// Check if user is logged in
 		$user = $this->userSession->getUser();
 		if ($user === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		// Check they're an admin
 		if(!$this->groupManager->isAdmin($user->getUID())) {
 			// This user doesn't have rights to add a user to this group
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		$groupId = !empty($_POST['groupid']) ? $_POST['groupid'] : null;
 		if($groupId === null) {
-			return new OC_OCS_Result(null, 101);
+			return new \OC\OCS\Result(null, 101);
 		}
 
 		$group = $this->groupManager->get($groupId);
 		$targetUser = $this->userManager->get($parameters['userid']);
 		if($group === null) {
-			return new OC_OCS_Result(null, 102);
+			return new \OC\OCS\Result(null, 102);
 		}
 		if($targetUser === null) {
-			return new OC_OCS_Result(null, 103);
+			return new \OC\OCS\Result(null, 103);
 		}
 
 		// Add user to group
 		$group->addUser($targetUser);
-		return new OC_OCS_Result(null, 100);
+		return new \OC\OCS\Result(null, 100);
 	}
 
 	/**
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function removeFromGroup($parameters) {
 		// Check if user is logged in
 		$loggedInUser = $this->userSession->getUser();
 		if ($loggedInUser === null) {
-			return new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED);
+			return new \OC\OCS\Result(null, \OCP\API::RESPOND_UNAUTHORISED);
 		}
 
 		$group = !empty($parameters['_delete']['groupid']) ? $parameters['_delete']['groupid'] : null;
 		if($group === null) {
-			return new OC_OCS_Result(null, 101);
+			return new \OC\OCS\Result(null, 101);
 		}
 
 		$group = $this->groupManager->get($group);
 		if($group === null) {
-			return new OC_OCS_Result(null, 102);
+			return new \OC\OCS\Result(null, 102);
 		}
 
 		$targetUser = $this->userManager->get($parameters['userid']);
 		if($targetUser === null) {
-			return new OC_OCS_Result(null, 103);
+			return new \OC\OCS\Result(null, 103);
 		}
 
 		// If they're not an admin, check they are a subadmin of the group in question
 		$subAdminManager = $this->groupManager->getSubAdmin();
 		if(!$this->groupManager->isAdmin($loggedInUser->getUID()) && !$subAdminManager->isSubAdminofGroup($loggedInUser, $group)) {
-			return new OC_OCS_Result(null, 104);
+			return new \OC\OCS\Result(null, 104);
 		}
 		// Check they aren't removing themselves from 'admin' or their 'subadmin; group
 		if($parameters['userid'] === $loggedInUser->getUID()) {
 			if($this->groupManager->isAdmin($loggedInUser->getUID())) {
 				if($group->getGID() === 'admin') {
-					return new OC_OCS_Result(null, 105, 'Cannot remove yourself from the admin group');
+					return new \OC\OCS\Result(null, 105, 'Cannot remove yourself from the admin group');
 				}
 			} else {
 				// Not an admin, check they are not removing themself from their subadmin group
@@ -502,21 +501,21 @@ class Users {
 				}
 
 				if(in_array($group->getGID(), $subAdminGroups, true)) {
-					return new OC_OCS_Result(null, 105, 'Cannot remove yourself from this group as you are a SubAdmin');
+					return new \OC\OCS\Result(null, 105, 'Cannot remove yourself from this group as you are a SubAdmin');
 				}
 			}
 		}
 
 		// Remove user from group
 		$group->removeUser($targetUser);
-		return new OC_OCS_Result(null, 100);
+		return new \OC\OCS\Result(null, 100);
 	}
 
 	/**
 	 * Creates a subadmin
 	 *
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function addSubAdmin($parameters) {
 		$group = $this->groupManager->get($_POST['groupid']);
@@ -524,28 +523,28 @@ class Users {
 
 		// Check if the user exists
 		if($user === null) {
-			return new OC_OCS_Result(null, 101, 'User does not exist');
+			return new \OC\OCS\Result(null, 101, 'User does not exist');
 		}
 		// Check if group exists
 		if($group === null) {
-			return new OC_OCS_Result(null, 102, 'Group:'.$_POST['groupid'].' does not exist');
+			return new \OC\OCS\Result(null, 102, 'Group:'.$_POST['groupid'].' does not exist');
 		}
 		// Check if trying to make subadmin of admin group
 		if(strtolower($_POST['groupid']) === 'admin') {
-			return new OC_OCS_Result(null, 103, 'Cannot create subadmins for admin group');
+			return new \OC\OCS\Result(null, 103, 'Cannot create subadmins for admin group');
 		}
 
 		$subAdminManager = $this->groupManager->getSubAdmin();
 
 		// We cannot be subadmin twice
 		if ($subAdminManager->isSubAdminofGroup($user, $group)) {
-			return new OC_OCS_Result(null, 100);
+			return new \OC\OCS\Result(null, 100);
 		}
 		// Go
 		if($subAdminManager->createSubAdmin($user, $group)) {
-			return new OC_OCS_Result(null, 100);
+			return new \OC\OCS\Result(null, 100);
 		} else {
-			return new OC_OCS_Result(null, 103, 'Unknown error occurred');
+			return new \OC\OCS\Result(null, 103, 'Unknown error occurred');
 		}
 	}
 
@@ -553,7 +552,7 @@ class Users {
 	 * Removes a subadmin from a group
 	 *
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function removeSubAdmin($parameters) {
 		$group = $this->groupManager->get($parameters['_delete']['groupid']);
@@ -562,22 +561,22 @@ class Users {
 
 		// Check if the user exists
 		if($user === null) {
-			return new OC_OCS_Result(null, 101, 'User does not exist');
+			return new \OC\OCS\Result(null, 101, 'User does not exist');
 		}
 		// Check if the group exists
 		if($group === null) {
-			return new OC_OCS_Result(null, 101, 'Group does not exist');
+			return new \OC\OCS\Result(null, 101, 'Group does not exist');
 		}
 		// Check if they are a subadmin of this said group
 		if(!$subAdminManager->isSubAdminofGroup($user, $group)) {
-			return new OC_OCS_Result(null, 102, 'User is not a subadmin of this group');
+			return new \OC\OCS\Result(null, 102, 'User is not a subadmin of this group');
 		}
 
 		// Go
 		if($subAdminManager->deleteSubAdmin($user, $group)) {
-			return new OC_OCS_Result(null, 100);
+			return new \OC\OCS\Result(null, 100);
 		} else {
-			return new OC_OCS_Result(null, 103, 'Unknown error occurred');
+			return new \OC\OCS\Result(null, 103, 'Unknown error occurred');
 		}
 	}
 
@@ -585,13 +584,13 @@ class Users {
 	 * Get the groups a user is a subadmin of
 	 *
 	 * @param array $parameters
-	 * @return OC_OCS_Result
+	 * @return \OC\OCS\Result
 	 */
 	public function getUserSubAdminGroups($parameters) {
 		$user = $this->userManager->get($parameters['userid']);
 		// Check if the user exists
 		if($user === null) {
-			return new OC_OCS_Result(null, 101, 'User does not exist');
+			return new \OC\OCS\Result(null, 101, 'User does not exist');
 		}
 
 		// Get the subadmin groups
@@ -601,9 +600,9 @@ class Users {
 		}
 
 		if(!$groups) {
-			return new OC_OCS_Result(null, 102, 'Unknown error occurred');
+			return new \OC\OCS\Result(null, 102, 'Unknown error occurred');
 		} else {
-			return new OC_OCS_Result($groups);
+			return new \OC\OCS\Result($groups);
 		}
 	}
 
