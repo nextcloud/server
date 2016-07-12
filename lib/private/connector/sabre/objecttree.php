@@ -206,6 +206,14 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 		// this will trigger existence check
 		$this->getNodeForPath($source);
 
+		$destinationDir = dirname($destination);
+		if ($destinationDir === '.') {
+			$destinationDir = '';
+		}
+		if (!$this->fileView->isCreatable($destinationDir)) {
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
+
 		try {
 			if ($this->fileView->is_file($source)) {
 				$this->fileView->copy($source, $destination);
