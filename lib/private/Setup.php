@@ -134,8 +134,8 @@ class Setup {
 				'name' => 'MySQL/MariaDB'
 			),
 			'pgsql' => array(
-				'type' => 'function',
-				'call' => 'pg_connect',
+				'type' => 'pdo',
+				'call' => 'pgsql',
 				'name' => 'PostgreSQL'
 			),
 			'oci' => array(
