@@ -40,7 +40,7 @@ namespace OCA\Theming\AppInfo;
 	],
 	[
 		'name' => 'Theming#getStylesheet',
-		'url' => '/styles.css',
+		'url' => '/styles',
 		'verb' => 'GET',
 	],
 	[
