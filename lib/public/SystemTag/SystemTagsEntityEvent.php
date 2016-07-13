@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -27,7 +27,7 @@ use Symfony\Component\EventDispatcher\Event;
  * Class SystemTagsEntityEvent
  *
  * @package OCP\SystemTag
- * @since 9.2.0
+ * @since 9.1.0
  */
 class SystemTagsEntityEvent extends Event {
 
@@ -42,7 +42,7 @@ class SystemTagsEntityEvent extends Event {
 	 * SystemTagsEntityEvent constructor.
 	 *
 	 * @param string $event
-	 * @since 9.2.0
+	 * @since 9.1.0
 	 */
 	public function __construct($event) {
 		$this->event = $event;
@@ -56,7 +56,7 @@ class SystemTagsEntityEvent extends Event {
 	 *                 should be handled for. The return should then be bool,
 	 *                 depending on whether tags are allowed (true) or not.
 	 * @throws \OutOfBoundsException when the entity name is already taken
-	 * @since 9.2.0
+	 * @since 9.1.0
 	 */
 	public function addEntityCollection($name, \Closure $entityExistsFunction) {
 		if (isset($this->collections[$name])) {
@@ -68,7 +68,7 @@ class SystemTagsEntityEvent extends Event {
 
 	/**
 	 * @return \Closure[]
-	 * @since 9.2.0
+	 * @since 9.1.0
 	 */
 	public function getEntityCollections() {
 		return $this->collections;
