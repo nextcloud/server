@@ -7,9 +7,9 @@ Please stay tuned while we get all the repositories up.
 
 Meanwhile check out https://nextcloud.com and follow us on https://twitter.com/nextclouders
 
-If you want to [contribute](https://nextcloud.com/contribute/), you are very welcome: 
+If you want to [contribute](https://nextcloud.com/contribute/), you are very welcome:
 
-- on our IRC channels #nextcloud & #nextcloud-dev irc://#nextcloud-dev@freenode.net (on freenode) and 
+- on our IRC channels #nextcloud & #nextcloud-dev irc://#nextcloud-dev@freenode.net (on freenode) and
 - our forum at https://help.nextcloud.com
 
 Please read the [Code of Conduct](https://nextcloud.com/community/code-of-conduct/). This document offers some guidance to ensure Nextcloud participants can cooperate effectively in a positive and inspiring atmosphere, and to explain how together we can strengthen and support each other.
@@ -30,7 +30,20 @@ if you want to join the Github organization just let us know and we’ll add you
 * ...
 
 ## Contribution Guidelines
-https://nextcloud.com/contribute/
+
+All contributions to this repository from June, 16 2016 on are considered to be
+licensed under the AGPLv3 or any later version.
+
+Nextcloud doesn't require a CLA (Contributor License Agreement).
+The copyright belongs to all the individual contributors. Therefore we recommend
+that every contributor adds following line to the header of a file, if he
+changed it substantially:
+
+```
+@copyright Copyright (c) <year>, <your name> (<your email address>)
+```
+
+More information how to contribute: https://nextcloud.com/contribute/
 
 ## Support
 Learn about the different ways you can get support for Nextcloud: https://nextcloud.com/support/
