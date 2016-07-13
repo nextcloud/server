@@ -181,6 +181,48 @@ describe('OC.Share.ShareItemModel', function() {
 
 			// TODO: check more attributes
 		});
+		it('groups reshare info into a single item', function() {
+			/* jshint camelcase: false */
+			fetchReshareDeferred.resolve(makeOcsResponse([
+				{
+					id: '1',
+					share_type: OC.Share.SHARE_TYPE_USER,
+					uid_owner: 'owner',
+					displayname_owner: 'Owner',
+					share_with: 'root',
+					permissions: 1
+				},
+				{
+					id: '2',
+					share_type: OC.Share.SHARE_TYPE_GROUP,
+					uid_owner: 'owner',
+					displayname_owner: 'Owner',
+					share_with: 'group1',
+					permissions: 15
+				},
+				{
+					id: '3',
+					share_type: OC.Share.SHARE_TYPE_GROUP,
+					uid_owner: 'owner',
+					displayname_owner: 'Owner',
+					share_with: 'group1',
+					permissions: 17
+				}
+			]));
+			fetchSharesDeferred.resolve(makeOcsResponse([]));
+
+			OC.currentUser = 'root';
+
+			model.fetch();
+
+			var reshare = model.get('reshare');
+			// max permissions
+			expect(reshare.permissions).toEqual(31);
+			// user share has higher priority
+			expect(reshare.share_type).toEqual(OC.Share.SHARE_TYPE_USER);
+			expect(reshare.share_with).toEqual('root');
+			expect(reshare.id).toEqual('1');
+		});
 		it('does not parse link share when for a different file', function() {
 			/* jshint camelcase: false */
 			fetchReshareDeferred.resolve(makeOcsResponse([]));
