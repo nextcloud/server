@@ -8,5 +8,4 @@ $(document).ready(function() {
 		OC.AppConfig.setValue('files_sharing', $(this).attr('name'), value);
 	});
 
-	$('.section .icon-info').tipsy({gravity: 'w'});
 });
