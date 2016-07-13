@@ -287,8 +287,16 @@ class Storage {
 			// add expected leading slash
 			$file = '/' . ltrim($file, '/');
 			list($uid, $filename) = self::getUidAndFilename($file);
+			if ($uid === null || trim($filename, '/') === '') {
+				return false;
+			}
 			$users_view = new \OC\Files\View('/'.$uid);
 			$files_view = new \OC\Files\View('/'.\OCP\User::getUser().'/files');
+
+			if (!$files_view->isUpdatable($filename)) {
+				return false;
+			}
+
 			$versionCreated = false;
 
 			//first create a new version
