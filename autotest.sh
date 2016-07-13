@@ -150,10 +150,17 @@ function execute_tests {
 	if [ "$1" == "oci" ] ; then
 		echo "Fire up the oracle docker"
 		DOCKER_CONTAINER_ID=$(docker run -d deepdiver/docker-oracle-xe-11g)
-		DATABASEHOST=$(docker inspect "$DOCKER_CONTAINER_ID" | grep IPAddress | cut -d '"' -f 4)
+		DATABASEHOST=$(docker inspect --format="{{.NetworkSettings.IPAddress}}" "$DOCKER_CONTAINER_ID")
 
-		echo "Waiting 120 seconds for Oracle initialization ... "
-		sleep 120
+		echo "Waiting for Oracle initialization ... "
+		# Try to connect to the OCI host via sqlplus to ensure that the connection is already running
+		for i in {1..48}
+            do
+                if sqlplus "autotest/owncloud@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(Host=$DATABASEHOST)(Port=1521))(CONNECT_DATA=(SID=XE)))" < /dev/null | grep 'Connected to'; then
+                    break;
+                fi
+                sleep 5
+            done
 
 		DATABASEUSER=autotest
 		DATABASENAME='XE'
@@ -161,7 +168,9 @@ function execute_tests {
 
 	# trigger installation
 	echo "Installing ...."
+	echo  ./occ maintenance:install --database="$1" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --database-table-prefix=oc_ --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
 	"$PHP" ./occ maintenance:install --database="$1" --database-name="$DATABASENAME" --database-host="$DATABASEHOST" --database-user="$DATABASEUSER" --database-pass=owncloud --database-table-prefix=oc_ --admin-user="$ADMINLOGIN" --admin-pass=admin --data-dir="$DATADIR"
+	more config/config.php
 
 	#test execution
 	echo "Testing with $1 ..."
