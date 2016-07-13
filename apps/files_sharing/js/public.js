@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014
+ * @copyright Copyright (c) 2016, Björn Schießle <bjoern@schiessle.org>
  *
  * This file is licensed under the Affero General Public License version 3
  * or later.
