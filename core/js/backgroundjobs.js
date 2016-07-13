@@ -23,5 +23,7 @@
 $(document).ready(function(){
 	$.get( OC.webroot+'/cron.php' );
 
-	$('.section .icon-info').tipsy({gravity: 'w'});
+	$('.section .icon-info').tooltip({
+		placement: 'right'
+	});
 });
