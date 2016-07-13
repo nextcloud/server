@@ -34,19 +34,19 @@ use OCP\ICacheFactory;
 use OCP\App\IAppManager;
 
 class CheckerTest extends TestCase {
-	/** @var EnvironmentHelper */
+	/** @var EnvironmentHelper | \PHPUnit_Framework_MockObject_MockObject */
 	private $environmentHelper;
-	/** @var AppLocator */
+	/** @var AppLocator | \PHPUnit_Framework_MockObject_MockObject */
 	private $appLocator;
 	/** @var Checker */
 	private $checker;
-	/** @var FileAccessHelper */
+	/** @var FileAccessHelper | \PHPUnit_Framework_MockObject_MockObject */
 	private $fileAccessHelper;
-	/** @var IConfig */
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
 	private $config;
-	/** @var ICacheFactory */
+	/** @var ICacheFactory | \PHPUnit_Framework_MockObject_MockObject */
 	private $cacheFactory;
-	/** @var IAppManager */
+	/** @var IAppManager | \PHPUnit_Framework_MockObject_MockObject */
 	private $appManager;
 
 	public function setUp() {
@@ -848,7 +848,7 @@ class CheckerTest extends TestCase {
 		$expected = [
 				'EXCEPTION' => [
 						'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
-						'message' => 'Certificate is not valid.',
+						'message' => 'App Certificate is not valid.',
 				]
 		];
 		$this->assertSame($expected, $this->checker->verifyCoreSignature());
@@ -923,7 +923,7 @@ class CheckerTest extends TestCase {
 			->method('verifyCoreSignature');
 		$this->appLocator
 			->expects($this->at(0))
-			->Method('getAllApps')
+			->method('getAllApps')
 			->will($this->returnValue([
 				'files',
 				'calendar',
@@ -1052,4 +1052,60 @@ class CheckerTest extends TestCase {
 		$result = $this->invokePrivate($this->checker, 'isCodeCheckEnforced');
 		$this->assertSame(false, $result);
 	}
+
+	public function testCertRevocation() {
+		$this->environmentHelper
+			->expects($this->once())
+			->method('getChannel')
+			->will($this->returnValue('stable'));
+		$this->config
+			->expects($this->any())
+			->method('getSystemValue')
+			->with('integrity.check.disabled', false)
+			->will($this->returnValue(false));
+
+		$this->appLocator
+			->expects($this->once())
+			->method('getAppPath')
+			->with('SomeApp')
+			->will($this->returnValue(\OC::$SERVERROOT . '/tests/data/integritycheck/app/'));
+		$signatureDataFile = '{
+    "hashes": {
+        "AnotherFile.txt": "1570ca9420e37629de4328f48c51da29840ddeaa03ae733da4bf1d854b8364f594aac560601270f9e1797ed4cd57c1aea87bf44cf4245295c94f2e935a2f0112",
+        "subfolder\/file.txt": "410738545fb623c0a5c8a71f561e48ea69e3ada0981a455e920a5ae9bf17c6831ae654df324f9328ff8453de179276ae51931cca0fa71fe8ccde6c083ca0574b"
+    },
+    "signature": "dYoohBaWIFR\/To1FXEbMQB5apUhVYlEauBGSPo12nq84wxWkBx2EM3KDRgkB5Sub2tr0CgmAc2EVjPhKIEzAam26cyUb48bJziz1V6wvW7z4GZAfaJpzLkyHdSfV5117VSf5w1rDcAeZDXfGUaaNEJPWytaF4ZIxVge7f3NGshHy4odFVPADy\/u6c43BWvaOtJ4m3aJQbP6sxCO9dxwcm5yJJJR3n36jfh229sdWBxyl8BhwhH1e1DEv78\/aiL6ckKFPVNzx01R6yDFt3TgEMR97YZ\/R6lWiXG+dsJ305jNFlusLu518zBUvl7g5yjzGN778H29b2C8VLZKmi\/h1CH9jGdD72fCqCYdenD2uZKzb6dsUtXtvBmVcVT6BUGz41W1pkkEEB+YJpMrHILIxAiHRGv1+aZa9\/Oz8LWFd+BEUQjC2LJgojPnpzaG\/msw1nBkX16NNVDWWtJ25Bc\/r\/mG46rwjWB\/cmV6Lwt6KODiqlxgrC4lm9ALOCEWw+23OcYhLwNfQTYevXqHqsFfXOkhUnM8z5vDUb\/HBraB1DjFXN8iLK+1YewD4P495e+SRzrR79Oi3F8SEqRIzRLfN2rnW1BTms\/wYsz0p67cup1Slk1XlNmHwbWX25NVd2PPlLOvZRGoqcKFpIjC5few8THiZfyjiNFwt3RM0AFdZcXY=",
+    "certificate": "-----BEGIN CERTIFICATE-----\r\nMIIE8jCCAtoCAhAIMA0GCSqGSIb3DQEBCwUAMG0xCzAJBgNVBAYTAlVTMQ8wDQYD\r\nVQQIDAZCb3N0b24xFjAUBgNVBAoMDW93bkNsb3VkIEluYy4xNTAzBgNVBAMMLG93\r\nbkNsb3VkIENvZGUgU2lnbmluZyBJbnRlcm1lZGlhdGUgQXV0aG9yaXR5MB4XDTE2\r\nMDUxODA5MzIwMFoXDTI2MDUxNjA5MzIwMFowEDEOMAwGA1UEAwwFdGFza3MwggIi\r\nMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQDwgaK\/DswWQalQs8RE9\/5dHk\/h\r\nRWS\/Jw0Wqh2ASaY+EDXw1Nt62GItiEjQ6R1CgrW4RHeL2g5yokbokYD9Wl3JeIbW\r\nv1FcfBuoEBriNQOUmTpFFH5qyR6tlBOzp3uecEF8KcmRsFF\/KlhQ+jNh2rj1q\/Tm\r\nMLvzJFnRhNbW7HNfl0TZjp0O5xtFdoOUimctIUyhUvunH2OY+ySZpdg\/Kqab\/uMQ\r\nLU2qBydj2nsV3HYwiKw2JvzEFxMQ4DGPbTbPVBT6RXEL\/yD8kWjDFzQLz+I0bkpV\r\nPoTy\/7LCX2xUlMTTCxRaIbvLpzKxlBkD9v66JhijF3zVVUhU8yslxCMKdNNvxMOH\r\n3IYnrND762pakq+UCv+nvdr39tGXUaEyqUVjWX7SoY56uIU\/wR3ny9NNuCacozGg\r\n81lPrVnBPv7NSD7eSkQvf5V2yp9BneZsvVkgiuWxB9PG2XmHMCbmG\/1I730pWEb+\r\nxm8q7MdXBf+2VWlP4aZiDDI3c\/tdO+kEiivPMpkf8aNNaFS\/QuC0jr7ZyMHhPxSK\r\nZ0lO00fca\/fyX0qv9T6EpHOoVrn2cN2z8Atot2iGk11N\/nzVv3gzMQQOCTSO+67i\r\nRN6BxqcmQIbsoLIa35nDkpzZH3ob8cCmrhAMLxVdS08o5fZ4uCzuBVp4ntjCLbrM\r\nVBfJrg82cOrkzLpzhQIDAQABMA0GCSqGSIb3DQEBCwUAA4ICAQCqVh0ZzU3UZ3tg\r\nsc8jDI+MMrUU6A1gUv0zmT4yWYi2PZwWuhJ5V5z9GftZZNl8AmeyvaDRPdAFP0x4\r\nD6MIUthG9TIfu4b1bRbj1W29U+7xFF3A0B8zuLtRlokvjYjhY+PLx6NHh1L+pkKq\r\n8G87+PXz2N9eSuf\/6Mx7Xgg\/xScfpVDzLRmHgwSczXvyzMRT66HrNeZZBn6bNckC\r\nXhfurg1oZmYR2lkhZLPEB3p5ZtNWEYmsdyQz9N\/J0SrDwcSeUXI4M6X1mCf4D7rX\r\nHRTeV5lH3VEQ+FfSL1mqDyRHCU3TKPzVjKNFHrk8XsnwZlcryWkgRodwHhVKZAeU\r\no2JmrmDGUMvJ3ktngI2TNGq99eYe3+lM4axFxr8VryRGfFu+0cR0x4ECasaHdLTy\r\nttitTcZ3+FCGTYCkhfWc0K2GegZzJiuMZ\/Culm+tvwX4Z9fH1caWKDI55rk2SULD\r\nuCjh94RGxlRKmgljQPVN\/buFDNE+x+Is18APa\/5YExQqvfVsRsQ72wk+pzttFdAr\r\nDQclXYVjITPOgmX7l654rw7CGUi1lNFAWf+O7psnwEvF3ytPbaYlqWQJlnaYByN8\r\neE5bAMBkEoDV2eLmJN4F4R0KQThUDy6dvK2XlI0HUbDZgMZbWMz+D3Fv54ZTRMaW\r\nn3MEtya90V9SVUbYcwp7dhF\/FVM3ug==\r\n-----END CERTIFICATE-----"
+}';
+		$this->fileAccessHelper
+			->expects($this->at(0))
+			->method('file_get_contents')
+			->with(
+				\OC::$SERVERROOT . '/tests/data/integritycheck/app//appinfo/signature.json'
+			)
+			->will($this->returnValue($signatureDataFile));
+		$this->fileAccessHelper
+			->expects($this->at(1))
+			->method('file_get_contents')
+			->with(
+				'/resources/codesigning/root.crt'
+			)
+			->will($this->returnValue(file_get_contents(__DIR__ .'/../../../resources/codesigning/root.crt')));
+		$this->fileAccessHelper
+			->expects($this->at(2))
+			->method('file_get_contents')
+			->with(
+				'/resources/codesigning/intermediate.crl.pem'
+			)
+			->will($this->returnValue(file_get_contents(__DIR__ .'/../../../resources/codesigning/intermediate.crl.pem')));
+		$expected = [
+			'EXCEPTION' => [
+				'class' => 'OC\\IntegrityCheck\\Exceptions\\InvalidSignatureException',
+				'message' => 'Certificate has been revoked.',
+			]
+		];
+
+		$this->assertSame($expected, $this->checker->verifyAppSignature('SomeApp'));
+	}
+
 }
