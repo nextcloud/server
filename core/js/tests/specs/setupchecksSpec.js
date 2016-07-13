@@ -103,7 +103,7 @@ describe('OC.SetupChecks tests', function() {
 		it('should return an error if data directory is not protected', function(done) {
 			var async = OC.SetupChecks.checkDataProtected();
 
-			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, 'file contents');
+			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, '*cough*HTACCESSFAIL*cough*');
 
 			async.done(function( data, s, x ){
 				expect(data).toEqual([
@@ -125,6 +125,18 @@ describe('OC.SetupChecks tests', function() {
 				done();
 			});
 		});
+
+		it('should not return an error if data directory is protected and redirects to main page', function(done) {
+			var async = OC.SetupChecks.checkDataProtected();
+
+			suite.server.requests[0].respond(200, {'Content-Type': 'text/plain'}, '<html><body>blah</body></html>');
+
+			async.done(function( data, s, x ){
+				expect(data).toEqual([]);
+				done();
+			});
+		});
+
 
 		it('should return an error if data directory is a boolean', function(done) {
 

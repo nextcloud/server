@@ -1143,7 +1143,8 @@ class OC_Util {
 
 		// testdata
 		$fileName = '/htaccesstest.txt';
-		$testContent = 'This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.';
+		// test content containing the string "HTACCESSFAIL"
+		$testContent = 'HTACCESSFAIL: This is used for testing whether htaccess is properly enabled to disallow access from the outside. This file can be safely removed.';
 
 		// creating a test file
 		$testFile = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/' . $fileName;
