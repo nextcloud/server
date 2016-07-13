@@ -31,7 +31,7 @@ if (!isset($_GET['t'])) {
 	exit;
 }
 
-$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
+$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application();
 $federatedShareProvider = $federatedSharingApp->getFederatedShareProvider();
 
 if ($federatedShareProvider->isOutgoingServer2serverShareEnabled() === false) {

@@ -22,7 +22,7 @@
 
 use OCA\FederatedFileSharing\AppInfo\Application;
 
-$app = new Application('federatedfilesharing');
+$app = new Application();
 $federatedShareProvider = $app->getFederatedShareProvider();
 
 $tmpl = new OCP\Template('federatedfilesharing', 'settings-admin');
