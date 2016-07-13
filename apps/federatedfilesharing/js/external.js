@@ -91,6 +91,7 @@
 		 * through the URL
 		 */
 		processIncomingShareFromUrl: function() {
+			var fileList = this.filesApp.fileList;
 			var params = OC.Util.History.parseUrlQuery();
 			//manually add server-to-server share
 			if (params.remote && params.token && params.owner && params.name) {
@@ -110,7 +111,11 @@
 							}
 						).done(
 							function(data) {
-								OC.Notification.showTemporary(data.message);
+								if (data.hasOwnProperty('legacyMount')) {
+									fileList.reload();
+								} else {
+									OC.Notification.showTemporary(data.message);
+								}
 						}
 						).fail(
 							function(data) {

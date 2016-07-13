@@ -1,6 +1,6 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
@@ -140,9 +140,12 @@ class SaveToNextcloudController extends Controller {
 	 * @param string $token
 	 * @param string $remote
 	 * @param string $password
+	 * @param string $owner (only for legacy reasons, can be removed with legacyMountPublicLink())
+	 * @param string $ownerDisplayName (only for legacy reasons, can be removed with legacyMountPublicLink())
+	 * @param string $name (only for legacy reasons, can be removed with legacyMountPublicLink())
 	 * @return JSONResponse
 	 */
-	public function askForFederatedShare($token, $remote, $password = '') {
+	public function askForFederatedShare($token, $remote, $password = '', $owner='', $ownerDisplayName = '', $name = '') {
 		// check if server admin allows to mount public links from other servers
 		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() === false) {
 			return new JSONResponse(['message' => $this->l->t('Server to server sharing is not enabled on this server')], Http::STATUS_BAD_REQUEST);
@@ -153,7 +156,7 @@ class SaveToNextcloudController extends Controller {
 		$httpClient = $this->clientService->newClient();
 
 		try {
-			$httpClient->post($remote . '/index.php/apps/federatedfilesharing/saveToNextcloud',
+			$response = $httpClient->post($remote . '/index.php/apps/federatedfilesharing/saveToNextcloud',
 				[
 					'body' =>
 						[
@@ -172,7 +175,130 @@ class SaveToNextcloudController extends Controller {
 			return new JSONResponse(['message' => $message], Http::STATUS_BAD_REQUEST);
 		}
 
-		return new JSONResponse(['message' => $this->l->t('Federated Share request was successful, you will receive a invitation. Check your notifications.')]);
+		$body = $response->getBody();
+		$result = json_decode($body, true);
+
+		if (is_array($result) && isset($result['remoteUrl'])) {
+			return new JSONResponse(['message' => $this->l->t('Federated Share request was successful, you will receive a invitation. Check your notifications.')]);
+		}
+
+		// if we doesn't get the expected response we assume that we try to add
+		// a federated share from a Nextcloud <= 9 server
+		return $this->legacyMountPublicLink($token, $remote, $password, $name, $owner, $ownerDisplayName);
+	}
+
+	/**
+	 * Allow Nextcloud to mount a public link directly
+	 *
+	 * This code was copied from the apps/files_sharing/ajax/external.php with
+	 * minimal changes, just to guarantee backward compatibility
+	 *
+	 * ToDo: Remove this method once Nextcloud 9 reaches end of life
+	 *
+	 * @param string $token
+	 * @param string $remote
+	 * @param string $password
+	 * @param string $name
+	 * @param string $owner
+	 * @param string $ownerDisplayName
+	 * @return JSONResponse
+	 */
+	private function legacyMountPublicLink($token, $remote, $password, $name, $owner, $ownerDisplayName) {
+
+		// Check for invalid name
+		if (!\OCP\Util::isValidFileName($name)) {
+			return new JSONResponse(['message' => $this->l->t('The mountpoint name contains invalid characters.')], Http::STATUS_BAD_REQUEST);
+		}
+		$currentUser = $this->userSession->getUser()->getUID();
+		$currentServer = $this->addressHandler->generateRemoteURL();
+		if (\OC\Share\Helper::isSameUserOnSameServer($owner, $remote, $currentUser, $currentServer)) {
+			return new JSONResponse(['message' => $this->l->t('Not allowed to create a federated share with the owner.')], Http::STATUS_BAD_REQUEST);
+		}
+		$discoveryManager = new \OCA\FederatedFileSharing\DiscoveryManager(
+			\OC::$server->getMemCacheFactory(),
+			\OC::$server->getHTTPClientService()
+		);
+		$externalManager = new \OCA\Files_Sharing\External\Manager(
+			\OC::$server->getDatabaseConnection(),
+			\OC\Files\Filesystem::getMountManager(),
+			\OC\Files\Filesystem::getLoader(),
+			\OC::$server->getHTTPHelper(),
+			\OC::$server->getNotificationManager(),
+			$discoveryManager,
+			\OC::$server->getUserSession()->getUser()->getUID()
+		);
+
+		// check for ssl cert
+		if (substr($remote, 0, 5) === 'https') {
+			try {
+				$client = $this->clientService->newClient();
+				$client->get($remote, [
+					'timeout' => 10,
+					'connect_timeout' => 10,
+				])->getBody();
+			} catch (\Exception $e) {
+				return new JSONResponse(['message' => $this->l->t('Invalid or untrusted SSL certificate')], Http::STATUS_BAD_REQUEST);
+			}
+		}
+		$mount = $externalManager->addShare($remote, $token, $password, $name, $ownerDisplayName, true);
+		/**
+		 * @var \OCA\Files_Sharing\External\Storage $storage
+		 */
+		$storage = $mount->getStorage();
+		try {
+			// check if storage exists
+			$storage->checkStorageAvailability();
+		} catch (\OCP\Files\StorageInvalidException $e) {
+			// note: checkStorageAvailability will already remove the invalid share
+			\OCP\Util::writeLog(
+				'federatedfilesharing',
+				'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
+				\OCP\Util::DEBUG
+			);
+			return new JSONResponse(['message' => $this->l->t('Could not authenticate to remote share, password might be wrong')], Http::STATUS_BAD_REQUEST);
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'federatedfilesharing',
+				'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
+				\OCP\Util::DEBUG
+			);
+			$externalManager->removeShare($mount->getMountPoint());
+			return new JSONResponse(['message' => $this->l->t('Storage not valid')], Http::STATUS_BAD_REQUEST);
+		}
+		$result = $storage->file_exists('');
+		if ($result) {
+			try {
+				$storage->getScanner()->scanAll();
+				return new JSONResponse(
+					[
+						'message' => $this->l->t('Federated Share successfully added'),
+						'legacyMount' => '1'
+					]
+				);
+			} catch (\OCP\Files\StorageInvalidException $e) {
+				\OCP\Util::writeLog(
+					'federatedfilesharing',
+					'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
+					\OCP\Util::DEBUG
+				);
+				return new JSONResponse(['message' => $this->l->t('Storage not valid')], Http::STATUS_BAD_REQUEST);
+			} catch (\Exception $e) {
+				\OCP\Util::writeLog(
+					'federatedfilesharing',
+					'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
+					\OCP\Util::DEBUG
+				);
+				return new JSONResponse(['message' => $this->l->t('Couldn\'t add remote share')], Http::STATUS_BAD_REQUEST);
+			}
+		} else {
+			$externalManager->removeShare($mount->getMountPoint());
+			\OCP\Util::writeLog(
+				'federatedfilesharing',
+				'Couldn\'t add remote share',
+				\OCP\Util::DEBUG
+			);
+			return new JSONResponse(['message' => $this->l->t('Couldn\'t add remote share')], Http::STATUS_BAD_REQUEST);
+		}
 
 	}
 
