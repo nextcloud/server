@@ -88,6 +88,11 @@ class MountProviderTest extends \Test\TestCase {
 		return $share;
 	}
 
+	/**
+	 * Tests excluding shares from the current view. This includes:
+	 * - shares that were opted out of (permissions === 0)
+	 * - shares with a group in which the owner is already in
+	 */
 	public function testExcludeShares() {
 		$rootFolder = $this->getMock('\OCP\Files\IRootFolder');
 		$userManager = $this->getMock('\OCP\IUserManager');
@@ -132,6 +137,159 @@ class MountProviderTest extends \Test\TestCase {
 		$this->assertEquals(100, $mountedShare2->getNodeId());
 		$this->assertEquals('/share4', $mountedShare2->getTarget());
 		$this->assertEquals(31, $mountedShare2->getPermissions());
+	}
+
+	public function mergeSharesDataProvider() {
+		// note: the user in the specs here is the shareOwner not recipient
+		// the recipient is always "user1"
+		return [
+			// #0: share as outsider with "group1" and "user1" with same permissions
+			[
+				[
+					[1, 100, 'user2', '/share2', 31], 
+				],
+				[
+					[2, 100, 'user2', '/share2', 31], 
+				],
+				[
+					// combined, user share has higher priority
+					['1', 100, 'user2', '/share2', 31],
+				],
+			],
+			// #1: share as outsider with "group1" and "user1" with different permissions
+			[
+				[
+					[1, 100, 'user2', '/share', 31], 
+				],
+				[
+					[2, 100, 'user2', '/share', 15], 
+				],
+				[
+					// use highest permissions
+					['1', 100, 'user2', '/share', 31],
+				],
+			],
+			// #2: share as outsider with "group1" and "group2" with same permissions
+			[
+				[
+				],
+				[
+					[1, 100, 'user2', '/share', 31], 
+					[2, 100, 'user2', '/share', 31], 
+				],
+				[
+					// combined, first group share has higher priority
+					['1', 100, 'user2', '/share', 31],
+				],
+			],
+			// #3: share as outsider with "group1" and "group2" with different permissions
+			[
+				[
+				],
+				[
+					[1, 100, 'user2', '/share', 31], 
+					[2, 100, 'user2', '/share', 15], 
+				],
+				[
+					// use higher permissions
+					['1', 100, 'user2', '/share', 31],
+				],
+			],
+			// #4: share as insider with "group1"
+			[
+				[
+				],
+				[
+					[1, 100, 'user1', '/share', 31], 
+				],
+				[
+					// no received share since "user1" is the sharer/owner
+				],
+			],
+			// #5: share as insider with "group1" and "group2" with different permissions
+			[
+				[
+				],
+				[
+					[1, 100, 'user1', '/share', 31], 
+					[2, 100, 'user1', '/share', 15], 
+				],
+				[
+					// no received share since "user1" is the sharer/owner
+				],
+			],
+			// #6: share as outside with "group1", recipient opted out
+			[
+				[
+				],
+				[
+					[1, 100, 'user2', '/share', 0], 
+				],
+				[
+					// no received share since "user1" opted out
+				],
+			],
+		];
+	}
+
+	/**
+	 * Tests merging shares.
+	 *
+	 * Happens when sharing the same entry to a user through multiple ways,
+	 * like several groups and also direct shares at the same time.
+	 *
+	 * @dataProvider mergeSharesDataProvider
+	 *
+	 * @param array $userShares array of user share specs
+	 * @param array $groupShares array of group share specs
+	 * @param array $expectedShares array of expected supershare specs
+	 */
+	public function testMergeShares($userShares, $groupShares, $expectedShares) {
+		$rootFolder = $this->getMock('\OCP\Files\IRootFolder');
+		$userManager = $this->getMock('\OCP\IUserManager');
+
+		$userShares = array_map(function($shareSpec) {
+			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4]);
+		}, $userShares);
+		$groupShares = array_map(function($shareSpec) {
+			return $this->makeMockShare($shareSpec[0], $shareSpec[1], $shareSpec[2], $shareSpec[3], $shareSpec[4]);
+		}, $groupShares);
+
+		$this->user->expects($this->any())
+			->method('getUID')
+			->will($this->returnValue('user1'));
+
+		$this->shareManager->expects($this->at(0))
+			->method('getSharedWith')
+			->with('user1', \OCP\Share::SHARE_TYPE_USER)
+			->will($this->returnValue($userShares));
+		$this->shareManager->expects($this->at(1))
+			->method('getSharedWith')
+			->with('user1', \OCP\Share::SHARE_TYPE_GROUP, null, -1)
+			->will($this->returnValue($groupShares));
+		$this->shareManager->expects($this->any())
+			->method('newShare')
+			->will($this->returnCallback(function() use ($rootFolder, $userManager) {
+				return new \OC\Share20\Share($rootFolder, $userManager);
+			}));
+
+		$mounts = $this->provider->getMountsForUser($this->user, $this->loader);
+
+		$this->assertCount(count($expectedShares), $mounts);
+
+		foreach ($mounts as $index => $mount) {
+			$expectedShare = $expectedShares[$index];
+			$this->assertInstanceOf('OCA\Files_Sharing\SharedMount', $mount);
+
+			// supershare
+			$share = $mount->getShare();
+
+			$this->assertEquals($expectedShare[0], $share->getId());
+			$this->assertEquals($expectedShare[1], $share->getNodeId());
+			$this->assertEquals($expectedShare[2], $share->getShareOwner());
+			$this->assertEquals($expectedShare[3], $share->getTarget());
+			$this->assertEquals($expectedShare[4], $share->getPermissions());
+		}
 	}
 }
 
