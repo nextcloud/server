@@ -1,7 +1,6 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Laurens Post <lkpost@scept.re>
+ * @author Joas Schilling <coding@schilljs.com>
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
