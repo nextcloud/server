@@ -358,7 +358,7 @@ class OC_Installer{
 			$appBelongingToId = $info['id'];
 			$previouslySigned = 'false';
 		}
-		if($data['appdata']['level'] === OC_App::officialApp || $previouslySigned === 'true') {
+		if (file_exists($extractDir . '/appinfo/signature.json') || $previouslySigned === 'true') {
 			\OC::$server->getConfig()->setAppValue($appBelongingToId, 'signed', 'true');
 			$integrityResult = \OC::$server->getIntegrityCodeChecker()->verifyAppSignature(
 					$appBelongingToId,

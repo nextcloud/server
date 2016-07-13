@@ -322,10 +322,30 @@ class Checker {
 		$x509 = new \phpseclib\File\X509();
 		$rootCertificatePublicKey = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot().'/resources/codesigning/root.crt');
 		$x509->loadCA($rootCertificatePublicKey);
-		$x509->loadX509($certificate);
+		$loadedCertificate = $x509->loadX509($certificate);
 		if(!$x509->validateSignature()) {
-			throw new InvalidSignatureException('Certificate is not valid.');
+			throw new InvalidSignatureException('App Certificate is not valid.');
 		}
+
+		// Check if the certificate has been revoked
+		$crlFileContent = $this->fileAccessHelper->file_get_contents($this->environmentHelper->getServerRoot().'/resources/codesigning/intermediate.crl.pem');
+		if ($crlFileContent && strlen($crlFileContent) > 0) {
+			$crl = new \phpseclib\File\X509();
+			$crl->loadCA($rootCertificatePublicKey);
+			$crl->loadCRL($crlFileContent);
+			if(!$crl->validateSignature()) {
+				throw new InvalidSignatureException('Certificate Revocation List is not valid.');
+			}
+			// Get the certificate's serial number.
+			$csn = $loadedCertificate['tbsCertificate']['serialNumber']->toString();
+
+			// Check certificate revocation status.
+			$revoked = $crl->getRevoked($csn);
+			if ($revoked) {
+				throw new InvalidSignatureException('Certificate has been revoked.');
+			}
+		}
+
 		// Verify if certificate has proper CN. "core" CN is always trusted.
 		if($x509->getDN(X509::DN_OPENSSL)['CN'] !== $certificateCN && $x509->getDN(X509::DN_OPENSSL)['CN'] !== 'core') {
 			throw new InvalidSignatureException(
