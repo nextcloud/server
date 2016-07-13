@@ -13,7 +13,7 @@ $(document).ready(function () {
 		return true;
 	});
 
-	$('#sslCertificate tr > td').tipsy({gravity: 'n', live: true});
+	$('#sslCertificate tr > td').tooltip({placement: 'bottom', container: 'body'});
 
 	$('#rootcert_import').fileupload({
 		pasteZone: null,
