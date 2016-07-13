@@ -68,14 +68,19 @@ class MountPoint implements IMountPoint {
 	 */
 	private $invalidStorage = false;
 
+	/** @var int|null  */
+	protected $mountId;
+
 	/**
 	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional) configuration for the storage backend
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 * @param array $mountOptions mount specific options
+	 * @param int|null $mountId
+	 * @throws \Exception
 	 */
-	public function __construct($storage, $mountpoint, $arguments = null, $loader = null, $mountOptions = null) {
+	public function __construct($storage, $mountpoint, $arguments = null, $loader = null, $mountOptions = null, $mountId = null) {
 		if (is_null($arguments)) {
 			$arguments = array();
 		}
@@ -102,6 +107,7 @@ class MountPoint implements IMountPoint {
 			$this->class = $storage;
 			$this->arguments = $arguments;
 		}
+		$this->mountId = $mountId;
 	}
 
 	/**
@@ -248,5 +254,9 @@ class MountPoint implements IMountPoint {
 	 */
 	public function getStorageRootId() {
 		return (int)$this->getStorage()->getCache()->getId('');
+	}
+
+	public function getMountId() {
+		return $this->mountId;
 	}
 }

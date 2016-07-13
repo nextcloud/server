@@ -59,4 +59,12 @@ interface ICachedMountInfo {
 	 * @since 9.0.0
 	 */
 	public function getMountPoint();
+
+	/**
+	 * Get the id of the configured mount
+	 *
+	 * @return int|null mount id or null if not applicable
+	 * @since 9.1.0
+	 */
+	public function getMountId();
 }

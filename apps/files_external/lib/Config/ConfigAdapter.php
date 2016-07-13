@@ -151,7 +151,8 @@ class ConfigAdapter implements IMountProvider {
 				'/' . $user->getUID() . '/files' . $storage->getMountPoint(),
 				null,
 				$loader,
-				$storage->getMountOptions()
+				$storage->getMountOptions(),
+				$storage->getId()
 			);
 			$mounts[$storage->getMountPoint()] = $mount;
 		}
