@@ -129,7 +129,7 @@ class ManagerTest extends \Test\TestCase {
 		$backend->expects($this->any())
 			->method('implementsActions')
 			->will($this->returnCallback(function ($actions) {
-				if ($actions === \OC_USER_BACKEND_CHECK_PASSWORD) {
+				if ($actions === \OC\USER\BACKEND::CHECK_PASSWORD) {
 					return true;
 				} else {
 					return false;
@@ -384,7 +384,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$backend->expects($this->once())
 			->method('implementsActions')
-			->with(\OC_USER_BACKEND_COUNT_USERS)
+			->with(\OC\USER\BACKEND::COUNT_USERS)
 			->will($this->returnValue(true));
 
 		$backend->expects($this->once())
@@ -413,7 +413,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$backend1->expects($this->once())
 			->method('implementsActions')
-			->with(\OC_USER_BACKEND_COUNT_USERS)
+			->with(\OC\USER\BACKEND::COUNT_USERS)
 			->will($this->returnValue(true));
 		$backend1->expects($this->once())
 			->method('getBackendName')
@@ -426,7 +426,7 @@ class ManagerTest extends \Test\TestCase {
 
 		$backend2->expects($this->once())
 			->method('implementsActions')
-			->with(\OC_USER_BACKEND_COUNT_USERS)
+			->with(\OC\USER\BACKEND::COUNT_USERS)
 			->will($this->returnValue(true));
 		$backend2->expects($this->once())
 			->method('getBackendName')
