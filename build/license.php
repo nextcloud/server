@@ -22,11 +22,14 @@ class Licenses
 {
 	protected $paths = [];
 	protected $mailMap = [];
+	protected $checkFiles = [];
 	public $authors = [];
 
 	public function __construct() {
 		$this->licenseText = <<<EOD
 /**
+@COPYRIGHT@
+ *
 @AUTHORS@
  *
  * @license GNU AGPL version 3 or any later version
@@ -48,9 +51,10 @@ class Licenses
 EOD;
 		$this->licenseTextLegacy = <<<EOD
 /**
+@COPYRIGHT@
+ *
 @AUTHORS@
  *
- * @copyright Copyright (c) @YEAR@, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -89,6 +93,7 @@ EOD;
 
 		if (is_file($folder)) {
 			$this->handleFile($folder, $gitRoot);
+			$this->printFilesToCheck();
 			return;
 		}
 
@@ -113,6 +118,8 @@ EOD;
 			/** @var SplFileInfo $file */
 			$this->handleFile($file, $gitRoot);
 		}
+
+		$this->printFilesToCheck();
 	}
 
 	function writeAuthorsFile() {
@@ -139,13 +146,15 @@ With help from many libraries and frameworks including:
 			echo "MIT licensed file: $path" . PHP_EOL;
 			return;
 		}
+		$copyrightNotices = $this->getCopyrightNotices($path, $source);
+		$authors = $this->getAuthors($path, $gitRoot);
 		if ($this->isOwnCloudLicensed($source)) {
-			$authors = $this->getAuthors($path, $gitRoot, true);
 			$license = str_replace('@AUTHORS@', $authors, $this->licenseTextLegacy);
+			$this->checkCopyrightState($path, $gitRoot);
 		} else {
-			$authors = $this->getAuthors($path, $gitRoot);
 			$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
 		}
+		$license = str_replace('@COPYRIGHT@', $copyrightNotices, $license);
 
 		$source = $this->eatOldLicense($source);
 		$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
@@ -155,6 +164,7 @@ With help from many libraries and frameworks including:
 
 	/**
 	 * @param string $source
+	 * @return bool
 	 */
 	private function isMITLicensed($source) {
 		$lines = explode(PHP_EOL, $source);
@@ -181,7 +191,7 @@ With help from many libraries and frameworks including:
 
 			return false;
         }
-        
+
 	/**
 	 * @param string $source
 	 * @return string
@@ -216,7 +226,68 @@ With help from many libraries and frameworks including:
 		return implode(PHP_EOL, $lines);
 	}
 
-	private function getAuthors($file, $gitRoot, $legacyFiles = false) {
+	private function getCopyrightNotices($path, $file) {
+		$licenseHeaderEndsAtLine = (int)trim(shell_exec("grep -n '*/' $path | head -n 1 | cut -d ':' -f 1"));
+		$lineByLine = explode(PHP_EOL, $file, $licenseHeaderEndsAtLine);
+		$copyrightNotice = [];
+		foreach ($lineByLine as $line) {
+			if (strpos($line, '@copyright') !== false) {
+				$copyrightNotice[] = $line;
+			}
+		}
+
+		return implode(PHP_EOL, $copyrightNotice);
+	}
+
+	/**
+	 * check if all lines where changed after the Nextcloud fork.
+	 * That's not a guarantee that we can switch to AGPLv3 or later,
+	 * but a good indicator that we should have a look at the file
+	 *
+	 * @param $path
+	 * @param $gitRoot
+	 */
+	private function checkCopyrightState($path, $gitRoot) {
+		// This was the date the Nextcloud fork was created
+		$deadline = new DateTime('06/06/2016');
+		$deadlineTimestamp = $deadline->getTimestamp();
+
+		$buildDir = getcwd();
+		if ($gitRoot) {
+			chdir($gitRoot);
+			$path = substr($path, strlen($gitRoot));
+		}
+		$out = shell_exec("git --no-pager blame --line-porcelain $path | sed -n 's/^author-time //p'");
+		if ($gitRoot) {
+			chdir($buildDir);
+		}
+		$timestampChanges = explode(PHP_EOL, $out);
+		$timestampChanges = array_slice($timestampChanges, 0, count($timestampChanges)-1);
+		foreach ($timestampChanges as $timestamp) {
+			if ((int)$timestamp < $deadlineTimestamp) {
+				return;
+			}
+		}
+
+		//all changes after the deadline
+		$this->checkFiles[] = $path;
+
+	}
+
+	private function printFilesToCheck() {
+		if (!empty($this->checkFiles)) {
+			print "\n";
+			print "For following files all lines changes since the Nextcloud fork." . PHP_EOL;
+			print "Please check if these files can be moved over to AGPLv3 or later" . PHP_EOL;
+			print "\n";
+			foreach ($this->checkFiles as $file) {
+				print $file . PHP_EOL;
+			}
+			print "\n";
+		}
+	}
+
+	private function getAuthors($file, $gitRoot) {
 		// only add authors that changed code and not the license header
 		$licenseHeaderEndsAtLine = trim(shell_exec("grep -n '*/' $file | head -n 1 | cut -d ':' -f 1"));
 		$buildDir = getcwd();
@@ -244,19 +315,11 @@ With help from many libraries and frameworks including:
 			$authors = array_unique($authors);
 		}
 
-		if ($legacyFiles) {
-			$authors = array_map(function($author){
-				$this->authors[$author] = $author;
-				return " * @author $author";
-			}, $authors);
-		} else {
-			$authors = array_map(function($author){
-				$this->authors[$author] = $author;
-					return " * @copyright Copyright (c) " .  date("Y") . ", $author";
-				}, $authors);
-		}
-                
-                
+		$authors = array_map(function($author){
+			$this->authors[$author] = $author;
+			return " * @author $author";
+		}, $authors);
+
 		return implode(PHP_EOL, $authors);
 	}
 
