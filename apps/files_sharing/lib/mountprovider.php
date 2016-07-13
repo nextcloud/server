@@ -50,6 +50,15 @@ class MountProvider implements IMountProvider {
 		$this->logger = $logger;
 	}
 
+	/**
+	 * Return items shared with user
+	 *
+	 * @internal
+	 */
+	public function getItemsSharedWithUser($uid) {
+		// only here to make it mockable/testable
+		return \OCP\Share::getItemsSharedWithUser('file', $uid);
+	}
 
 	/**
 	 * Get all mountpoints applicable for the user and check for shares where we need to update the etags
@@ -59,7 +68,7 @@ class MountProvider implements IMountProvider {
 	 * @return \OCP\Files\Mount\IMountPoint[]
 	 */
 	public function getMountsForUser(IUser $user, IStorageFactory $storageFactory) {
-		$shares = \OCP\Share::getItemsSharedWithUser('file', $user->getUID());
+		$shares = $this->getItemsSharedWithUser($user->getUID());
 		$shares = array_filter($shares, function ($share) {
 			return $share['permissions'] > 0;
 		});
