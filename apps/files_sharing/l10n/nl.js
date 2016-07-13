@@ -23,6 +23,8 @@ OC.L10N.register(
     "Cancel" : "Annuleren",
     "Add remote share" : "Toevoegen externe share",
     "You can upload into this folder" : "Je kunt uploaden naar deze map",
+    "No compatible server found at {remote}" : "Geen geschikte server gevonden op {remote}",
+    "Invalid server URL" : "Ongeldig server URL",
     "No expiration date set" : "Geen vervaldatum ingesteld",
     "Shared by" : "Gedeeld door",
     "Sharing" : "Delen",
