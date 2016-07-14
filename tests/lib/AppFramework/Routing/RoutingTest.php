@@ -18,6 +18,15 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleRoute($routes, 'folders.open', 'GET', '/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
+	public function testSimpleOCSRoute() {
+		$routes = ['ocs' => [
+				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'GET']
+			]
+		];
+
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/folders/{folderId}/open', 'FoldersController', 'open');
+	}
+
 	public function testSimpleRouteWithMissingVerb()
 	{
 		$routes = array('routes' => array(
@@ -25,6 +34,15 @@ class RoutingTest extends \Test\TestCase
 		));
 
 		$this->assertSimpleRoute($routes, 'folders.open', 'GET', '/folders/{folderId}/open', 'FoldersController', 'open');
+	}
+
+	public function testSimpleOCSRouteWithMissingVerb() {
+		$routes = ['ocs' => [
+				['name' => 'folders#open', 'url' => '/folders/{folderId}/open']
+			]
+		];
+
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'GET', '/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
 	public function testSimpleRouteWithLowercaseVerb()
@@ -36,6 +54,15 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open');
 	}
 
+	public function testSimpleOCSRouteWithLowercaseVerb() {
+		$routes = ['ocs' => [
+				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
+			]
+		];
+
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open');
+	}
+
 	public function testSimpleRouteWithRequirements()
 	{
 		$routes = array('routes' => array(
@@ -43,6 +70,15 @@ class RoutingTest extends \Test\TestCase
 		));
 
 		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array('something'));
+	}
+
+	public function testSimpleOCSRouteWithRequirements() {
+		$routes = ['ocs' => [
+				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'requirements' => ['something']]
+			]
+		];
+
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', ['something']);
 	}
 
 	public function testSimpleRouteWithDefaults()
@@ -54,6 +90,16 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array(), array('param' => 'foobar'));
 	}
 
+
+	public function testSimpleOCSRouteWithDefaults() {
+		$routes = ['ocs' => [
+				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'defaults' => ['param' => 'foobar']]
+			]
+		];
+
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', [], ['param' => 'foobar']);
+	}
+
 	public function testSimpleRouteWithPostfix()
 	{
 		$routes = array('routes' => array(
@@ -63,6 +109,14 @@ class RoutingTest extends \Test\TestCase
 		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array(), array(), '_something');
 	}
 
+	public function testSimpleOCSRouteWithPostfix() {
+		$routes = ['ocs' => [
+				['name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'postfix' => '_something']
+			]
+		];
+
+		$this->assertSimpleOCSRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', [], [], '_something');
+	}
 
 	/**
 	 * @expectedException \UnexpectedValueException
@@ -86,6 +140,27 @@ class RoutingTest extends \Test\TestCase
 		$config->register();
 	}
 
+	/**
+	 * @expectedException \UnexpectedValueException
+	 */
+	public function testSimpleOCSRouteWithBrokenName() {
+		$routes = ['ocs' => [
+			['name' => 'folders_open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
+		]];
+
+		// router mock
+		$router = $this->getMockBuilder('\OC\Route\Router')
+			->setMethods(['create'])
+			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
+			->getMock();
+
+		// load route configuration
+		$container = new DIContainer('app1');
+		$config = new RouteConfig($container, $router, $routes);
+
+		$config->register();
+	}
+
 	public function testSimpleRouteWithUnderScoreNames()
 	{
 		$routes = array('routes' => array(
@@ -93,6 +168,14 @@ class RoutingTest extends \Test\TestCase
 		));
 
 		$this->assertSimpleRoute($routes, 'admin_folders.open_current', 'DELETE', '/folders/{folderId}/open', 'AdminFoldersController', 'openCurrent');
+	}
+
+	public function testSimpleOCSRouteWithUnderScoreNames() {
+		$routes = ['ocs' => [
+			['name' => 'admin_folders#open_current', 'url' => '/folders/{folderId}/open', 'verb' => 'delete']
+		]];
+
+		$this->assertSimpleOCSRoute($routes, 'admin_folders.open_current', 'DELETE', '/folders/{folderId}/open', 'AdminFoldersController', 'openCurrent');
 	}
 
 	public function testResource()
@@ -137,6 +220,54 @@ class RoutingTest extends \Test\TestCase
 			->expects($this->once())
 			->method('create')
 			->with($this->equalTo('app1.' . $name), $this->equalTo($url))
+			->will($this->returnValue($route));
+
+		// load route configuration
+		$config = new RouteConfig($container, $router, $routes);
+
+		$config->register();
+	}
+
+	/**
+	 * @param $routes
+	 * @param string $name
+	 * @param string $verb
+	 * @param string $url
+	 * @param string $controllerName
+	 * @param string $actionName
+	 * @param array $requirements
+	 * @param array $defaults
+	 * @param string $postfix
+	 */
+	private function assertSimpleOCSRoute($routes,
+										  $name,
+										  $verb,
+										  $url,
+										  $controllerName,
+										  $actionName,
+										  array $requirements=array(),
+										  array $defaults=array(),
+										  $postfix='')
+	{
+		if ($postfix) {
+			$name .= $postfix;
+		}
+
+		// route mocks
+		$container = new DIContainer('app1');
+		$route = $this->mockRoute($container, $verb, $controllerName, $actionName, $requirements, $defaults);
+
+		// router mock
+		$router = $this->getMockBuilder('\OC\Route\Router')
+			->setMethods(['create'])
+			->setConstructorArgs([$this->getMockBuilder('\OCP\ILogger')->getMock()])
+			->getMock();
+
+		// we expect create to be called once:
+		$router
+			->expects($this->once())
+			->method('create')
+			->with($this->equalTo('ocs.app1.' . $name), $this->equalTo($url))
 			->will($this->returnValue($route));
 
 		// load route configuration

@@ -79,7 +79,7 @@ class RouteConfig {
 		$ocsRoutes = isset($routes['ocs']) ? $routes['ocs'] : [];
 		foreach ($ocsRoutes as $ocsRoute) {
 			$name = $ocsRoute['name'];
-			$postFix = '';
+			$postfix = '';
 
 			if (isset($ocsRoute['postfix'])) {
 				$postfix = $ocsRoute['postfix'];
