@@ -114,6 +114,13 @@ class MountPublicLinkController extends Controller {
 	 */
 	public function createFederatedShare($shareWith, $token, $password = '') {
 
+		if (!$this->federatedShareProvider->isOutgoingServer2serverShareEnabled()) {
+			return new JSONResponse(
+				['message' => 'This server doesn\'t support outgoing federated shares'],
+				Http::STATUS_BAD_REQUEST
+			);
+		}
+
 		try {
 			list(, $server) = $this->addressHandler->splitUserRemote($shareWith);
 			$share = $this->shareManager->getShareByToken($token);
@@ -126,7 +133,10 @@ class MountPublicLinkController extends Controller {
 		$authenticated = $this->session->get('public_link_authenticated') === $share->getId() ||
 			$this->shareManager->checkPassword($share, $password);
 		if (!empty($storedPassword) && !$authenticated ) {
-			return new JSONResponse(['message' => 'No permission to access the share'], Http::STATUS_BAD_REQUEST);
+			return new JSONResponse(
+				['message' => 'No permission to access the share'],
+				Http::STATUS_BAD_REQUEST
+			);
 		}
 
 		$share->setSharedWith($shareWith);

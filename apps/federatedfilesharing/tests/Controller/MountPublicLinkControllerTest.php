@@ -109,13 +109,26 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 	 * @dataProvider dataTestCreateFederatedShare
 	 *
 	 * @param string $shareWith
+	 * @param bool $outgoingSharesAllowed
 	 * @param bool $validShareWith
 	 * @param string $token
 	 * @param bool $validToken
 	 * @param bool $createSuccessful
 	 * @param string $expectedReturnData
 	 */
-	public function testCreateFederatedShare($shareWith, $validShareWith, $token, $validToken, $createSuccessful, $expectedReturnData) {
+	public function testCreateFederatedShare($shareWith,
+											 $outgoingSharesAllowed,
+											 $validShareWith,
+											 $token,
+											 $validToken,
+											 $createSuccessful,
+											 $expectedReturnData
+	) {
+
+		$this->federatedShareProvider->expects($this->any())
+			->method('isOutgoingServer2serverShareEnabled')
+			->willReturn($outgoingSharesAllowed);
+
 		$this->addressHandler->expects($this->any())->method('splitUserRemote')
 			->with($shareWith)
 			->willReturnCallback(
@@ -154,7 +167,7 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 
 		$result = $this->controller->createFederatedShare($shareWith, $token);
 
-		$errorCase = !$validShareWith || !$validToken || !$createSuccessful;
+		$errorCase = !$validShareWith || !$validToken || !$createSuccessful || !$outgoingSharesAllowed;
 
 		if ($errorCase) {
 			$this->assertSame(Http::STATUS_BAD_REQUEST, $result->getStatus());
@@ -171,15 +184,16 @@ class MountPublicLinkControllerTest extends \Test\TestCase {
 
 	public function dataTestCreateFederatedShare() {
 		return [
-			//shareWith, validShareWith, token, validToken, createSuccessful, expectedReturnData
-			['user@server', true, 'token', true, true, 'server'],
-			['user@server', false, 'token', true, true, 'invalid federated cloud id'],
-			['user@server', false, 'token', false, true, 'invalid federated cloud id'],
-			['user@server', false, 'token', false, false, 'invalid federated cloud id'],
-			['user@server', false, 'token', true, false, 'invalid federated cloud id'],
-			['user@server', true, 'token', false, true, 'invalid token'],
-			['user@server', true, 'token', false, false, 'invalid token'],
-			['user@server', true, 'token', true, false, 'can not create share']
+			//shareWith, outgoingSharesAllowed, validShareWith, token, validToken, createSuccessful, expectedReturnData
+			['user@server', true, true, 'token', true, true, 'server'],
+			['user@server', true, false, 'token', true, true, 'invalid federated cloud id'],
+			['user@server', true, false, 'token', false, true, 'invalid federated cloud id'],
+			['user@server', true, false, 'token', false, false, 'invalid federated cloud id'],
+			['user@server', true, false, 'token', true, false, 'invalid federated cloud id'],
+			['user@server', true, true, 'token', false, true, 'invalid token'],
+			['user@server', true, true, 'token', false, false, 'invalid token'],
+			['user@server', true, true, 'token', true, false, 'can not create share'],
+			['user@server', false, true, 'token', true, true, 'This server doesn\'t support outgoing federated shares'],
 		];
 	}
 
