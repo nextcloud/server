@@ -72,12 +72,15 @@ class Server {
 		$this->server->setBaseUri($this->baseUri);
 
 		$this->server->addPlugin(new BlockLegacyClientPlugin(\OC::$server->getConfig()));
-		$authPlugin = new Plugin($authBackend, 'ownCloud');
+		$authPlugin = new Plugin();
 		$this->server->addPlugin($authPlugin);
 
 		// allow setup of additional auth backends
 		$event = new SabrePluginEvent($this->server);
 		$dispatcher->dispatch('OCA\DAV\Connector\Sabre::authInit', $event);
+
+		// because we are throwing exceptions this plugin has to be the last one
+		$authPlugin->addBackend($authBackend);
 
 		// debugging
 		if(\OC::$server->getConfig()->getSystemValue('debug', false)) {
