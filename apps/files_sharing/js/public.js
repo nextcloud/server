@@ -248,7 +248,7 @@ OCA.Sharing.PublicApp = {
 			var ownerDisplayName = $('#save').data('owner-display-name');
 			var name = $('#save').data('name');
 			var isProtected = $('#save').data('protected') ? 1 : 0;
-			OCA.Sharing.PublicApp._saveToNextcloud(remote, token, owner, ownerDisplayName, name, isProtected);
+			OCA.Sharing.PublicApp._createFederatedShare(remote, token, owner, ownerDisplayName, name, isProtected);
 		});
 
 		$('#remote_address').on("keyup paste", function() {
@@ -308,7 +308,7 @@ OCA.Sharing.PublicApp = {
 	 * @param isProtected
 	 * @private
 	 */
-	_legacySaveToNextcloud: function (remote, token, owner, ownerDisplayName, name, isProtected) {
+	_legacyCreateFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {
 
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
 
@@ -336,7 +336,7 @@ OCA.Sharing.PublicApp = {
 		}
 	},
 
-	_saveToNextcloud: function (remote, token, owner, ownerDisplayName, name, isProtected) {
+	_createFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {
 
 		var toggleLoading = function() {
 			var iconClass = $('#save-button-confirm').attr('class');
@@ -358,13 +358,13 @@ OCA.Sharing.PublicApp = {
 		toggleLoading();
 
 		if (remote.indexOf('@') === -1) {
-			this._legacySaveToNextcloud(remote, token, owner, ownerDisplayName, name, isProtected);
+			this._legacyCreateFederatedShare(remote, token, owner, ownerDisplayName, name, isProtected);
 			toggleLoading();
 			return;
 		}
 
 		$.post(
-			OC.generateUrl('/apps/federatedfilesharing/saveToNextcloud'),
+			OC.generateUrl('/apps/federatedfilesharing/createFederatedShare'),
 			{
 				'shareWith': remote,
 				'token': token

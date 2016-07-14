@@ -4,7 +4,7 @@
  *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @copyright Copyright (c) 2016, Björn Schießle <bjoern@schiessle.org>
- * 
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ namespace OCA\FederatedFileSharing\Tests\Controller;
 
 use OC\HintException;
 use OCA\FederatedFileSharing\AddressHandler;
-use OCA\FederatedFileSharing\Controller\SaveToNextcloudController;
+use OCA\FederatedFileSharing\Controller\MountPublicLinkController;
 use OCA\FederatedFileSharing\FederatedShareProvider;
 use OCP\AppFramework\Http;
 use OCP\Files\IRootFolder;
@@ -35,13 +35,12 @@ use OCP\IL10N;
 use OCP\ISession;
 use OCP\IUserManager;
 use OCP\IUserSession;
-use OCP\Share;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
 
-class SaveToNextcloudControllerTest extends \Test\TestCase {
+class MountPublicLinkControllerTest extends \Test\TestCase {
 
-	/** @var  SaveToNextcloudController */
+	/** @var  MountPublicLinkController */
 	private $controller;
 
 	/** @var  \OCP\IRequest | \PHPUnit_Framework_MockObject_MockObject */
@@ -94,7 +93,7 @@ class SaveToNextcloudControllerTest extends \Test\TestCase {
 		$this->userSession = $this->getMockBuilder('OCP\IUserSession')->disableOriginalConstructor()->getMock();
 		$this->clientService = $this->getMockBuilder('OCP\Http\Client\IClientService')->disableOriginalConstructor()->getMock();
 
-		$this->controller = new SaveToNextcloudController(
+		$this->controller = new MountPublicLinkController(
 			'federatedfilesharing', $this->request,
 			$this->federatedShareProvider,
 			$this->shareManager,
@@ -107,7 +106,7 @@ class SaveToNextcloudControllerTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider dataTestSaveToNextcloud
+	 * @dataProvider dataTestCreateFederatedShare
 	 *
 	 * @param string $shareWith
 	 * @param bool $validShareWith
@@ -116,7 +115,7 @@ class SaveToNextcloudControllerTest extends \Test\TestCase {
 	 * @param bool $createSuccessful
 	 * @param string $expectedReturnData
 	 */
-	public function testSaveToNextcloud($shareWith, $validShareWith, $token, $validToken, $createSuccessful, $expectedReturnData) {
+	public function testCreateFederatedShare($shareWith, $validShareWith, $token, $validToken, $createSuccessful, $expectedReturnData) {
 		$this->addressHandler->expects($this->any())->method('splitUserRemote')
 			->with($shareWith)
 			->willReturnCallback(
@@ -153,7 +152,7 @@ class SaveToNextcloudControllerTest extends \Test\TestCase {
 				}
 			);
 
-		$result = $this->controller->saveToNextcloud($shareWith, $token);
+		$result = $this->controller->createFederatedShare($shareWith, $token);
 
 		$errorCase = !$validShareWith || !$validToken || !$createSuccessful;
 
@@ -170,7 +169,7 @@ class SaveToNextcloudControllerTest extends \Test\TestCase {
 
 	}
 
-	public function dataTestSaveToNextcloud() {
+	public function dataTestCreateFederatedShare() {
 		return [
 			//shareWith, validShareWith, token, validToken, createSuccessful, expectedReturnData
 			['user@server', true, 'token', true, true, 'server'],

@@ -37,7 +37,14 @@ use OCP\ISession;
 use OCP\IUserSession;
 use OCP\Share\IManager;
 
-class SaveToNextcloudController extends Controller {
+/**
+ * Class MountPublicLinkController
+ *
+ * convert public links to federated shares
+ *
+ * @package OCA\FederatedFileSharing\Controller
+ */
+class MountPublicLinkController extends Controller {
 
 	/** @var FederatedShareProvider */
 	private $federatedShareProvider;
@@ -61,7 +68,7 @@ class SaveToNextcloudController extends Controller {
 	private $clientService;
 
 	/**
-	 * SaveToNextcloudController constructor.
+	 * MountPublicLinkController constructor.
 	 *
 	 * @param string $appName
 	 * @param IRequest $request
@@ -95,8 +102,7 @@ class SaveToNextcloudController extends Controller {
 	}
 
 	/**
-	 * save public link to my Nextcloud by asking the owner to create a federated
-	 * share with me
+	 * send federated share to a user of a public link
 	 *
 	 * @NoCSRFRequired
 	 * @PublicPage
@@ -106,7 +112,7 @@ class SaveToNextcloudController extends Controller {
 	 * @param string $password
 	 * @return JSONResponse
 	 */
-	public function saveToNextcloud($shareWith, $token, $password = '') {
+	public function createFederatedShare($shareWith, $token, $password = '') {
 
 		try {
 			list(, $server) = $this->addressHandler->splitUserRemote($shareWith);
@@ -147,7 +153,7 @@ class SaveToNextcloudController extends Controller {
 	 * @param string $name (only for legacy reasons, can be removed with legacyMountPublicLink())
 	 * @return JSONResponse
 	 */
-	public function askForFederatedShare($token, $remote, $password = '', $owner='', $ownerDisplayName = '', $name = '') {
+	public function askForFederatedShare($token, $remote, $password = '', $owner = '', $ownerDisplayName = '', $name = '') {
 		// check if server admin allows to mount public links from other servers
 		if ($this->federatedShareProvider->isIncomingServer2serverShareEnabled() === false) {
 			return new JSONResponse(['message' => $this->l->t('Server to server sharing is not enabled on this server')], Http::STATUS_BAD_REQUEST);
@@ -158,14 +164,15 @@ class SaveToNextcloudController extends Controller {
 		$httpClient = $this->clientService->newClient();
 
 		try {
-			$response = $httpClient->post($remote . '/index.php/apps/federatedfilesharing/saveToNextcloud',
+			$response = $httpClient->post($remote . '/index.php/apps/federatedfilesharing/createFederatedShare',
 				[
 					'body' =>
 						[
 							'token' => $token,
 							'shareWith' => rtrim($shareWith, '/'),
 							'password' => $password
-						]
+						],
+					'connect_timeout' => 10,
 				]
 			);
 		} catch (\Exception $e) {

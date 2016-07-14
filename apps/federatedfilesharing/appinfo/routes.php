@@ -21,7 +21,7 @@
 
 return [
 	'routes' => [
-		['name' => 'SaveToNextcloud#saveToNextcloud', 'url' => '/saveToNextcloud', 'verb' => 'POST'],
-		['name' => 'SaveToNextcloud#askForFederatedShare', 'url' => '/askForFederatedShare', 'verb' => 'POST'],
+		['name' => 'MountPublicLink#createFederatedShare', 'url' => '/createFederatedShare', 'verb' => 'POST'],
+		['name' => 'MountPublicLink#askForFederatedShare', 'url' => '/askForFederatedShare', 'verb' => 'POST'],
 	]
 ];
