@@ -70,7 +70,9 @@ try {
  * Try the appframework routes
  */
 try {
-	OC::handleLogin(\OC::$server->getRequest());
+	if(!\OC::$server->getUserSession()->isLoggedIn()) {
+		OC::handleLogin(\OC::$server->getRequest());
+	}
 	OC::$server->getRouter()->match('/ocsapp'.\OC::$server->getRequest()->getRawPathInfo());
 } catch (ResourceNotFoundException $e) {
 	OC_API::setContentType();
