@@ -107,37 +107,37 @@ class SettingTest extends TestCase {
 			],
 
 			[
-				[['uid', 'username'], ['key', 'configkey']],
+				[['uid', 'username'], ['key', 'configkey'], ['value', '']],
 				[['ignore-missing-user', true]],
-				[['--value', true]],
+				[],
 				false,
 				false,
 			],
 			[
-				[['uid', 'username'], ['key', '']],
+				[['uid', 'username'], ['key', ''], ['value', '']],
 				[['ignore-missing-user', true]],
-				[['--value', true]],
+				[],
 				false,
-				'The "value" option can only be used when specifying a key.',
+				'The value argument can only be used when specifying a key.',
 			],
 			[
-				[['uid', 'username'], ['key', 'configkey']],
+				[['uid', 'username'], ['key', 'configkey'], ['value', '']],
 				[['ignore-missing-user', true]],
-				[['--value', true], ['--default-value', true]],
+				[['--default-value', true]],
 				false,
-				'The "value" option can not be used together with "default-value".',
+				'The value argument can not be used together with "default-value".',
 			],
 			[
-				[['uid', 'username'], ['key', 'configkey']],
+				[['uid', 'username'], ['key', 'configkey'], ['value', '']],
 				[['ignore-missing-user', true], ['update-only', true]],
-				[['--value', true]],
+				[],
 				false,
 				false,
 			],
 			[
-				[['uid', 'username'], ['key', 'configkey']],
+				[['uid', 'username'], ['key', 'configkey'], ['value', null]],
 				[['ignore-missing-user', true], ['update-only', true]],
-				[['--value', false]],
+				[],
 				false,
 				'The "update-only" option can only be used together with "value".',
 			],
@@ -164,9 +164,9 @@ class SettingTest extends TestCase {
 				'The "delete" option can not be used together with "default-value".',
 			],
 			[
-				[['uid', 'username'], ['key', 'configkey']],
+				[['uid', 'username'], ['key', 'configkey'], ['value', '']],
 				[['ignore-missing-user', true], ['delete', true]],
-				[['--value', true]],
+				[],
 				false,
 				'The "delete" option can not be used together with "value".',
 			],
@@ -324,12 +324,13 @@ class SettingTest extends TestCase {
 			'getUserSettings',
 		]);
 
-		$this->consoleInput->expects($this->any())
+		$this->consoleInput->expects($this->atLeast(4))
 			->method('getArgument')
 			->willReturnMap([
 				['uid', 'username'],
 				['app', 'appname'],
 				['key', 'configkey'],
+				['value', 'setValue'],
 			]);
 
 		$command->expects($this->once())
@@ -343,7 +344,6 @@ class SettingTest extends TestCase {
 		$this->consoleInput->expects($this->atLeastOnce())
 			->method('hasParameterOption')
 			->willReturnMap([
-				['--value', true],
 				['--update-only', $updateOnly],
 			]);
 
@@ -351,10 +351,8 @@ class SettingTest extends TestCase {
 			$this->consoleOutput->expects($this->never())
 				->method('writeln');
 
-			$this->consoleInput->expects($this->once())
-				->method('getOption')
-				->with('value')
-				->willReturn('setValue');
+			$this->consoleInput->expects($this->never())
+				->method('getOption');
 
 			$this->config->expects($this->once())
 				->method('setUserValue')

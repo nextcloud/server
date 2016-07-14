@@ -90,11 +90,11 @@ class Setting extends Base {
 			)
 
 			// Set
-			->addOption(
+			->addArgument(
 				'value',
-				null,
-				InputOption::VALUE_REQUIRED,
-				'The new value of the setting'
+				InputArgument::OPTIONAL,
+				'The new value of the setting',
+				null
 			)
 			->addOption(
 				'update-only',
@@ -129,13 +129,13 @@ class Setting extends Base {
 			throw new \InvalidArgumentException('The "default-value" option can only be used when specifying a key.');
 		}
 
-		if ($input->getArgument('key') === '' && $input->hasParameterOption('--value')) {
-			throw new \InvalidArgumentException('The "value" option can only be used when specifying a key.');
+		if ($input->getArgument('key') === '' && $input->getArgument('value') !== null) {
+			throw new \InvalidArgumentException('The value argument can only be used when specifying a key.');
 		}
-		if ($input->hasParameterOption('--value') && $input->hasParameterOption('--default-value')) {
-			throw new \InvalidArgumentException('The "value" option can not be used together with "default-value".');
+		if ($input->getArgument('value') !== null && $input->hasParameterOption('--default-value')) {
+			throw new \InvalidArgumentException('The value argument can not be used together with "default-value".');
 		}
-		if ($input->getOption('update-only') && !$input->hasParameterOption('--value')) {
+		if ($input->getOption('update-only') && $input->getArgument('value') === null) {
 			throw new \InvalidArgumentException('The "update-only" option can only be used together with "value".');
 		}
 
@@ -145,7 +145,7 @@ class Setting extends Base {
 		if ($input->getOption('delete') && $input->hasParameterOption('--default-value')) {
 			throw new \InvalidArgumentException('The "delete" option can not be used together with "default-value".');
 		}
-		if ($input->getOption('delete') && $input->hasParameterOption('--value')) {
+		if ($input->getOption('delete') && $input->getArgument('value') !== null) {
 			throw new \InvalidArgumentException('The "delete" option can not be used together with "value".');
 		}
 		if ($input->getOption('error-if-not-exists') && !$input->getOption('delete')) {
@@ -167,13 +167,13 @@ class Setting extends Base {
 
 		if ($key !== '') {
 			$value = $this->config->getUserValue($uid, $app, $key, null);
-			if ($input->hasParameterOption('--value')) {
+			if ($input->getArgument('value') !== null) {
 				if ($input->hasParameterOption('--update-only') && $value === null) {
 					$output->writeln('<error>The setting does not exist for user "' . $uid . '".</error>');
 					return 1;
 				}
 
-				$this->config->setUserValue($uid, $app, $key, $input->getOption('value'));
+				$this->config->setUserValue($uid, $app, $key, $input->getArgument('value'));
 				return 0;
 
 			} else if ($input->hasParameterOption('--delete')) {
