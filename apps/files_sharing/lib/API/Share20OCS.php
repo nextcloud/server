@@ -602,11 +602,12 @@ class Share20OCS {
 			}
 
 			if ($newPermissions !== null &&
-				$newPermissions !== \OCP\Constants::PERMISSION_READ &&
-				// legacy
-				$newPermissions !== (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE) &&
-				// correct
-				$newPermissions !== (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE)
+				!in_array($newPermissions, [
+					\OCP\Constants::PERMISSION_READ,
+					\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE, // legacy
+					\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE, // correct
+					\OCP\Constants::PERMISSION_CREATE, // hidden file list
+				])
 			) {
 				$share->getNode()->unlock(ILockingProvider::LOCK_SHARED);
 				return new \OC_OCS_Result(null, 400, $this->l->t('Can\'t change permissions for public share links'));
