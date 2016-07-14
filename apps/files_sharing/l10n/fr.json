@@ -21,6 +21,8 @@
     "Cancel" : "Annuler",
     "Add remote share" : "Ajouter un partage distant",
     "You can upload into this folder" : "Vous pouvez téléverser dans ce dossier",
+    "No compatible server found at {remote}" : "Aucun serveur compatible trouvé sur {remote}",
+    "Invalid server URL" : "URL serveur invalide",
     "No expiration date set" : "Aucune date d'expiration définie",
     "Shared by" : "Partagé par",
     "Sharing" : "Partage",

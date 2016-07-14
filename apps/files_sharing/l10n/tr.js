@@ -25,6 +25,7 @@ OC.L10N.register(
     "You can upload into this folder" : "Bu dizine yükleme yapabilirsiniz",
     "Shared by" : "Paylaşan",
     "Sharing" : "Paylaşım",
+    "Could not delete share" : "Paylaşım kaldırılamadı",
     "A file or folder has been <strong>shared</strong>" : "Bir dosya veya klasör <strong>paylaşıldı</strong>",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>Başka sunucudan</strong> bir dosya veya klasör paylaşıldı",
     "A public shared file or folder was <strong>downloaded</strong>" : "Herkese açık paylaşılan bir dosya veya klasör <strong>indirildi</strong>",
@@ -83,6 +84,7 @@ OC.L10N.register(
     "Add to your ownCloud" : "ownCloud'ınıza Ekleyin",
     "Download" : "İndir",
     "Download %s" : "İndir: %s",
-    "Direct link" : "Doğrudan bağlantı"
+    "Direct link" : "Doğrudan bağlantı",
+    "Uploaded files:" : "Yüklenmiş dosyalar:"
 },
 "nplurals=2; plural=(n > 1);");

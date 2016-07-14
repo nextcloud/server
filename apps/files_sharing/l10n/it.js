@@ -23,6 +23,8 @@ OC.L10N.register(
     "Cancel" : "Annulla",
     "Add remote share" : "Aggiungi condivisione remota",
     "You can upload into this folder" : "Puoi caricare in questa cartella",
+    "No compatible server found at {remote}" : "Nessun server compatibile trovato su {remote}",
+    "Invalid server URL" : "URL del server non valido",
     "No expiration date set" : "Nessuna data di scandenza impostata",
     "Shared by" : "Condiviso da",
     "Sharing" : "Condivisione",
