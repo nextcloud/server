@@ -189,6 +189,37 @@ Feature: sharing
       | url | AN_URL |
       | mimetype | httpd/unix-directory |
 
+  Scenario: Creating a new public share, updating its permissions for "hide file list"
+    Given user "user0" exists
+    And As an "user0"
+    When creating a share with
+      | path | FOLDER |
+      | shareType | 3 |
+    And Updating last share with
+      | permissions | 4 |
+    And the OCS status code should be "100"
+    And Getting info of last share
+    Then the OCS status code should be "100"
+    And the HTTP status code should be "200"
+    And Share fields of last share match with
+      | id | A_NUMBER |
+      | item_type | folder |
+      | item_source | A_NUMBER |
+      | share_type | 3 |
+      | file_source | A_NUMBER |
+      | file_target | /FOLDER |
+      | permissions | 4 |
+      | stime | A_NUMBER |
+      | token | A_TOKEN |
+      | storage | A_NUMBER |
+      | mail_send | 0 |
+      | uid_owner | user0 |
+      | storage_id | home::user0 |
+      | file_parent | A_NUMBER |
+      | displayname_owner | user0 |
+      | url | AN_URL |
+      | mimetype | httpd/unix-directory |
+
   Scenario: Creating a new public share, updating publicUpload option and getting its info
     Given user "user0" exists
     And As an "user0"
