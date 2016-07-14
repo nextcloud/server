@@ -34,15 +34,18 @@ use Icewind\SMB\Exception\ConnectException;
 use Icewind\SMB\Exception\Exception;
 use Icewind\SMB\Exception\ForbiddenException;
 use Icewind\SMB\Exception\NotFoundException;
+use Icewind\SMB\IShare;
 use Icewind\SMB\NativeServer;
 use Icewind\SMB\Server;
 use Icewind\Streams\CallbackWrapper;
 use Icewind\Streams\IteratorDirectory;
 use OC\Cache\CappedMemoryCache;
 use OC\Files\Filesystem;
+use OC\Files\Storage\Common;
+use OCP\Files\Storage\INotifyStorage;
 use OCP\Files\StorageNotAvailableException;
 
-class SMB extends \OC\Files\Storage\Common {
+class SMB extends Common implements INotifyStorage {
 	/**
 	 * @var \Icewind\SMB\Server
 	 */
@@ -101,6 +104,16 @@ class SMB extends \OC\Files\Storage\Common {
 	 */
 	protected function buildPath($path) {
 		return Filesystem::normalizePath($this->root . '/' . $path, true, false, true);
+	}
+
+	protected function relativePath($fullPath) {
+		if ($fullPath === $this->root) {
+			return '';
+		} else if (substr($fullPath, 0, strlen($this->root)) === $this->root) {
+			return substr($fullPath, strlen($this->root));
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -411,6 +424,50 @@ class SMB extends \OC\Files\Storage\Common {
 			return parent::test();
 		} catch (Exception $e) {
 			return false;
+		}
+	}
+
+	public function listen($path, callable $callback) {
+		$fullPath = $this->buildPath($path);
+		$oldRenamePath = null;
+		$this->share->notify($fullPath, function ($smbType, $fullPath) use (&$oldRenamePath, $callback) {
+			$path = $this->relativePath($fullPath);
+			if (is_null($path)) {
+				return true;
+			}
+			if ($smbType === IShare::NOTIFY_RENAMED_OLD) {
+				$oldRenamePath = $path;
+				return true;
+			}
+			$type = $this->mapNotifyType($smbType);
+			if (is_null($type)) {
+				return true;
+			}
+			if ($type === INotifyStorage::NOTIFY_RENAMED && !is_null($oldRenamePath)) {
+				$result = $callback($type, $path, $oldRenamePath);
+				$oldRenamePath = null;
+			} else {
+				$result = $callback($type, $path);
+			}
+			return $result;
+		});
+	}
+
+	private function mapNotifyType($smbType) {
+		switch ($smbType) {
+			case IShare::NOTIFY_ADDED:
+				return INotifyStorage::NOTIFY_ADDED;
+			case IShare::NOTIFY_REMOVED:
+				return INotifyStorage::NOTIFY_REMOVED;
+			case IShare::NOTIFY_MODIFIED:
+			case IShare::NOTIFY_ADDED_STREAM:
+			case IShare::NOTIFY_MODIFIED_STREAM:
+			case IShare::NOTIFY_REMOVED_STREAM:
+				return INotifyStorage::NOTIFY_MODIFIED;
+			case IShare::NOTIFY_RENAMED_NEW:
+				return INotifyStorage::NOTIFY_RENAMED;
+			default:
+				return null;
 		}
 	}
 }
