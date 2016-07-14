@@ -103,6 +103,7 @@ Feature: sharing
       | shareType | 3 |
     And Updating last share with
       | expireDate | +3 days |
+    And the OCS status code should be "100"
     And Getting info of last share 
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -134,6 +135,7 @@ Feature: sharing
       | shareType | 3 |
     And Updating last share with 
       | password | publicpw |
+    And the OCS status code should be "100"
     And Getting info of last share 
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -164,6 +166,7 @@ Feature: sharing
       | shareType | 3 |
     And Updating last share with
       | permissions | 7 |
+    And the OCS status code should be "100"
     And Getting info of last share 
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
@@ -194,6 +197,7 @@ Feature: sharing
       | shareType | 3 |
     And Updating last share with
       | publicUpload | true |
+    And the OCS status code should be "100"
     And Getting info of last share 
     Then the OCS status code should be "100"
     And the HTTP status code should be "200"
