@@ -88,41 +88,6 @@ class MySQL extends AbstractDatabase {
 	}
 
 	/**
-	 * @return \OC\DB\Connection
-	 * @throws \OC\DatabaseSetupException
-	 */
-	private function connect() {
-
-		$connectionParams = array(
-				'host' => $this->dbHost,
-				'user' => $this->dbUser,
-				'password' => $this->dbPassword,
-				'tablePrefix' => $this->tablePrefix,
-		);
-
-		// adding port support through installer
-		if(!empty($this->dbPort)) {
-			if (ctype_digit($this->dbPort)) {
-				$connectionParams['port'] = $this->dbPort;
-			} else {
-				$connectionParams['unix_socket'] = $this->dbPort;
-			}
-		} else if (strpos($this->dbHost, ':')) {
-			// Host variable may carry a port or socket.
-			list($host, $portOrSocket) = explode(':', $this->dbHost, 2);
-			if (ctype_digit($portOrSocket)) {
-				$connectionParams['port'] = $portOrSocket;
-			} else {
-				$connectionParams['unix_socket'] = $portOrSocket;
-			}
-			$connectionParams['host'] = $host;
-		}
-
-		$cf = new ConnectionFactory();
-		return $cf->getConnection('mysql', $connectionParams);
-	}
-
-	/**
 	 * @param $username
 	 * @param IDBConnection $connection
 	 * @return array

@@ -57,7 +57,7 @@ class SetupTest extends \Test\TestCase {
 			->method('is_callable')
 			->will($this->returnValue(false));
 		$this->setupClass
-			->expects($this->once())
+			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
 			->will($this->returnValue([]));
 		$result = $this->setupClass->getSupportedDatabases();
@@ -76,15 +76,15 @@ class SetupTest extends \Test\TestCase {
 				array('sqlite', 'mysql', 'oci', 'pgsql')
 			));
 		$this->setupClass
-			->expects($this->once())
+			->expects($this->any())
 			->method('class_exists')
 			->will($this->returnValue(false));
 		$this->setupClass
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('is_callable')
 			->will($this->returnValue(false));
 		$this->setupClass
-			->expects($this->once())
+			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
 			->will($this->returnValue([]));
 		$result = $this->setupClass->getSupportedDatabases();
@@ -100,17 +100,17 @@ class SetupTest extends \Test\TestCase {
 				array('sqlite', 'mysql', 'pgsql', 'oci')
 			));
 		$this->setupClass
-			->expects($this->once())
+			->expects($this->any())
 			->method('class_exists')
 			->will($this->returnValue(true));
 		$this->setupClass
-			->expects($this->exactly(2))
+			->expects($this->any())
 			->method('is_callable')
 			->will($this->returnValue(true));
 		$this->setupClass
-			->expects($this->once())
+			->expects($this->any())
 			->method('getAvailableDbDriversForPdo')
-			->will($this->returnValue(['mysql']));
+			->will($this->returnValue(['mysql', 'pgsql']));
 		$result = $this->setupClass->getSupportedDatabases();
 		$expectedResult = array(
 			'sqlite' => 'SQLite',
