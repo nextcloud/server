@@ -17,8 +17,6 @@
 			<th class="userBackend" scope="col"><?php p($l->t('User Backend')); ?></th>
 			<th class="lastLogin" scope="col"><?php p($l->t('Last Login')); ?></th>
 			<th class="userActions"></th>
-<!--			<th id="headerDisable">&nbsp;</th>-->
-<!--			<th id="headerRemove">&nbsp;</th>-->
 		</tr>
 	</thead>
 	<tbody>
@@ -65,17 +63,17 @@
 			<td class="storageLocation"></td>
 			<td class="userBackend"></td>
 			<td class="lastLogin"></td>
-			<td class="userActions">
-				<div class="menudiv">
+			<td class="userActions"><span></span>
+				<div class="popovermenu bubble open menu">
 					<ul class="userActionsMenu">
 						<li>
 							<a href="#" class="menuitem action action-togglestate permanent" data-action="togglestate">
-								<img class="svg action togglestate" src="" />
+								<img class="svg icon togglestate" src="" />
 							</a>
 						</li>
 						<li>
 							<a href="#" class="menuitem action action-remove permanent" data-action="remove">
-								<img class="svg action remove" src="<?php print_unescaped(image_path('core', 'actions/delete.svg'))?>" />
+								<img class="svg icon remove" src="<?php print_unescaped(image_path('core', 'actions/delete.svg'))?>" />
 								<span><?php p($l->t('Delete')); ?></span>
 							</a>
 						</li>

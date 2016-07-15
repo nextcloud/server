@@ -119,15 +119,15 @@ var UserList = {
 		/**
 		 * user actions menu
 		 */
-		if ($tr.find('td.userActions > img').length === 0 && OC.currentUser !== user.name) {
+		if ($tr.find('td.userActions > span > img').length === 0 && OC.currentUser !== user.name) {
 			var menuImage = $('<img class="svg action">').attr({
 				src: OC.imagePath('core', 'actions/more')
 			});
 			var menuLink = $('<span class="toggleUserActions"></span>')
 				.append(menuImage);
-			$tr.find('td.userActions').prepend(menuLink);
+			$tr.find('td.userActions > span').prepend(menuLink);
 		} else if (OC.currentUser === user.name) {
-			$tr.find('td.userActions a').remove();
+			$tr.find('td.userActions > span > img').remove();
 		}
 
 		/**
@@ -807,12 +807,12 @@ $(document).ready(function () {
 		event.stopPropagation();
 		var $td = $(this).closest('td');
 		var $tr = $($td).closest('tr');
-		var menudiv = $td.find('.menudiv');
+		var menudiv = $td.find('.popovermenu');
 
 		if(menudiv.is(':visible')) {
-			menudiv.find('.userActionsMenu').fadeOut(100);
+			menudiv.fadeOut(100);
+			return;
 		}
-
 		if($tr.hasClass('disabled')) {
 			menudiv.find('.action-togglestate').find('span').remove();
 			$('.togglestate', $td).attr({
@@ -826,15 +826,9 @@ $(document).ready(function () {
 			});
 			$('.togglestate', $td).after('<span>'+t('settings', 'Disable')+'</span>');
 		}
-
+		menudiv.click(function() { menudiv.fadeOut(100); });
+		menudiv.hover('', function() { menudiv.fadeOut(100); });
 		menudiv.fadeIn(100);
-
-		menudiv.hover(function() {}, function() {
-			$(this).fadeOut(400);
-		});
-		menudiv.click(function() {
-			menudiv.fadeOut(100);
-		});
 	});
 
 	$userListBody.on('click', '.action-togglestate', function (event) {

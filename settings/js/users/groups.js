@@ -205,6 +205,13 @@ GroupList = {
 
 	},
 
+	showDisabledUsers: function () {
+		UserList.empty();
+		UserList.update('disabledUsers');
+		$userGroupList.find('li').removeClass('active');
+		GroupList.getGroupLI('disabledUsers').addClass('active');
+	},
+
 	showGroup: function (gid) {
 		GroupList.activeGID = gid;
 		UserList.empty();
@@ -351,6 +358,11 @@ $(document).ready( function () {
 	// click on group name
 	$userGroupList.on('click', '.isgroup', function () {
 		GroupList.showGroup(GroupList.getElementGID(this));
+	});
+
+	// show disabled users
+	$userGroupList.on('click', '.disabledusers', function () {
+		GroupList.showDisabledUsers();
 	});
 
 	$('#newgroupname').on('input', function(){

@@ -248,62 +248,34 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 	background: repeating-linear-gradient(-45deg, white 0px, white 10px, lightpink 10px, lightpink 11px);
 }
 
-#userlist .menudiv {
-	position: relative;
+.bubble {
+	z-index:1;
+	right: -5px;
+}
+.bubble:after {
+	right: 5px;
 }
 
-#userlist .menudiv>ul.userActionsMenu {
-	position:absolute;
+.popovermenu a.menuitem, .popovermenu label.menuitem, .popovermenu .menuitem {
+	padding: 10px;
+	margin: -5px -10px -5px -15px;
+}
+
+#userlist .popovermenu {
+	margin-top: 1px;
+}
+
+#userlist .popovermenu>ul.userActionsMenu {
 	right: 10px;
-	z-index: 999;
-	list-style: none;
-	cursor: pointer;
-	background: rgb(255, 255, 255);
-	border: 1px solid rgb(204, 204, 204);
-	box-shadow: 0 1px 10px rgba(50, 50, 50, .7);
-	border-radius: 3px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	box-sizing: border-box;
-	padding: 1.2em;
+	padding: 0 1.2em 1.2em;
+	width: 5em;
 }
 
-#userlist .menudiv>ul.list li {
-	padding:10px;
-	border-bottom: solid 1px #ccc;
-}
-
-#userlist .menudiv>ul.list li:hover {
-	background:#EC6603; color:#fff;
-}
-
-#userlist .menudiv>ul.list li:last-child { border:none }
-
-#userlist .menudiv>ul.userActionsMenu a span {
+#userlist .popovermenu>ul.userActionsMenu a span {
 	margin-left: 1em;
 }
 
-#userlist .menudiv:after {
-	bottom: 100%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border-color: rgba(0, 0, 0, 0);
-	border-bottom-color: rgba(0, 0, 0, .97);
-	border-width: 8px;
-	margin-left: -8px;
-}
-
-#userlist .menudiv:after {
-	border-color: rgba(0, 0, 0, 0);
-	border-bottom-color: rgba(165, 165, 165, 1);
-	right: 10px;
-}
-
-#userlist .menudiv {
+#userlist .popovermenu {
 	display:none;
 }
 
