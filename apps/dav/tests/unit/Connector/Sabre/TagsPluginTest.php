@@ -65,8 +65,12 @@ class TagsPluginTest extends \Test\TestCase {
 		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->tagger = $this->getMock('\OCP\ITags');
-		$this->tagManager = $this->getMock('\OCP\ITagManager');
+		$this->tagger = $this->getMockBuilder('\OCP\ITags')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->tagManager = $this->getMockBuilder('\OCP\ITagManager')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->tagManager->expects($this->any())
 			->method('load')
 			->with('files')

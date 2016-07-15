@@ -67,7 +67,9 @@ class CustomPropertiesBackendTest extends \Test\TestCase {
 
 		$userId = $this->getUniqueID('testcustompropertiesuser');
 
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue($userId));

@@ -132,7 +132,10 @@ class SyncServiceTest extends TestCase {
 		$userManager = $this->getMockBuilder('OCP\IUserManager')->disableOriginalConstructor()->getMock();
 		$logger = $this->getMockBuilder('OCP\ILogger')->disableOriginalConstructor()->getMock();
 		/** @var SyncService | \PHPUnit_Framework_MockObject_MockObject $ss */
-		$ss = $this->getMock('OCA\DAV\CardDAV\SyncService', ['ensureSystemAddressBookExists', 'requestSyncReport', 'download'], [$backend, $userManager, $logger]);
+		$ss = $this->getMockBuilder('OCA\DAV\CardDAV\SyncService')
+			->setMethods(['ensureSystemAddressBookExists', 'requestSyncReport', 'download'])
+			->setConstructorArgs([$backend, $userManager, $logger])
+			->getMock();
 		$ss->method('requestSyncReport')->withAnyParameters()->willReturn(['response' => $response, 'token' => 'sync-token-1']);
 		$ss->method('ensureSystemAddressBookExists')->willReturn(['id' => 1]);
 		$ss->method('download')->willReturn([

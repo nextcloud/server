@@ -41,7 +41,9 @@ class BlockLegacyClientPluginTest extends TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMock('\OCP\IConfig');
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->blockLegacyClientVersionPlugin = new BlockLegacyClientPlugin($this->config);
 	}
 
@@ -66,7 +68,9 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 */
 	public function testBeforeHandlerException($userAgent) {
 		/** @var \Sabre\HTTP\RequestInterface $request */
-		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request
 			->expects($this->once())
 			->method('getHeader')
@@ -101,7 +105,9 @@ class BlockLegacyClientPluginTest extends TestCase {
 	 */
 	public function testBeforeHandlerSuccess($userAgent) {
 		/** @var \Sabre\HTTP\RequestInterface $request */
-		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request
 			->expects($this->once())
 			->method('getHeader')
@@ -119,7 +125,9 @@ class BlockLegacyClientPluginTest extends TestCase {
 
 	public function testBeforeHandlerNoUserAgent() {
 		/** @var \Sabre\HTTP\RequestInterface $request */
-		$request = $this->getMock('\Sabre\HTTP\RequestInterface');
+		$request = $this->getMockBuilder('\Sabre\HTTP\RequestInterface')
+			->disableOriginalConstructor()
+			->getMock();
 		$request
 			->expects($this->once())
 			->method('getHeader')

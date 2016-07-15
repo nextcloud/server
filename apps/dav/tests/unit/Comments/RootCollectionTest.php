@@ -46,13 +46,23 @@ class RootCollectionTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$this->commentsManager = $this->getMock('\OCP\Comments\ICommentsManager');
-		$this->userManager = $this->getMock('\OCP\IUserManager');
-		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->commentsManager = $this->getMockBuilder('\OCP\Comments\ICommentsManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->dispatcher = new EventDispatcher();
-		$this->logger = $this->getMock('\OCP\ILogger');
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->collection = new \OCA\DAV\Comments\RootCollection(
 			$this->commentsManager,
