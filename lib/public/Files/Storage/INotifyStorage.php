@@ -23,6 +23,8 @@ namespace OCP\Files\Storage;
 
 /**
  * Storage backend that support active notifications
+ *
+ * @since 9.1.0
  */
 interface INotifyStorage {
 	const NOTIFY_ADDED = 1;
@@ -42,6 +44,8 @@ interface INotifyStorage {
 	 *
 	 * @param string $path
 	 * @param callable $callback
+	 *
+	 * @since 9.1.0
 	 */
 	public function listen($path, callable $callback);
 }
