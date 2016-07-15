@@ -38,7 +38,7 @@ class FedAuth extends AbstractBasic {
 		$this->principalPrefix = 'principals/system/';
 
 		// setup realm
-		$defaults = new \OC_Defaults();
+		$defaults = new \OCP\Defaults();
 		$this->realm = $defaults->getName();
 	}
 

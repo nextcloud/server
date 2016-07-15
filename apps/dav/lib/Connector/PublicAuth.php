@@ -65,7 +65,7 @@ class PublicAuth extends AbstractBasic {
 		$this->session = $session;
 
 		// setup realm
-		$defaults = new \OC_Defaults();
+		$defaults = new \OCP\Defaults();
 		$this->realm = $defaults->getName();
 	}
 

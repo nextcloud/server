@@ -26,8 +26,8 @@
 namespace OC\Console;
 
 use OC_App;
-use OC_Defaults;
 use OCP\Console\ConsoleEvent;
+use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IRequest;
 use Symfony\Component\Console\Application as SymfonyApplication;
@@ -51,7 +51,7 @@ class Application {
 	 * @param IRequest $request
 	 */
 	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher, IRequest $request) {
-		$defaults = new OC_Defaults;
+		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
 		$this->dispatcher = $dispatcher;

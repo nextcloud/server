@@ -37,7 +37,7 @@
 
 OC_Util::checkLoggedIn();
 
-$defaults = new OC_Defaults(); // initialize themable default strings and urls
+$defaults = \OC::$server->getThemingDefaults();
 $certificateManager = \OC::$server->getCertificateManager();
 $config = \OC::$server->getConfig();
 $urlGenerator = \OC::$server->getURLGenerator();

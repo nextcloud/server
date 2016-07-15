@@ -78,7 +78,7 @@ class Auth extends AbstractBasic {
 		$this->principalPrefix = $principalPrefix;
 
 		// setup realm
-		$defaults = new \OC_Defaults();
+		$defaults = new \OCP\Defaults();
 		$this->realm = $defaults->getName();
 	}
 

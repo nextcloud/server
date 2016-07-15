@@ -562,7 +562,7 @@ class Server extends ServerContainer implements IServerContainer {
 			return new Mailer(
 				$c->getConfig(),
 				$c->getLogger(),
-				new \OC_Defaults()
+				$c->getThemingDefaults()
 			);
 		});
 		$this->registerService('OcsClient', function (Server $c) {
