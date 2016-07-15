@@ -55,8 +55,12 @@ class CommentsPluginTest extends \Test\TestCase {
 			->setMethods(['getRequestUri'])
 			->getMock();
 
-		$this->commentsManager = $this->getMock('\OCP\Comments\ICommentsManager');
-		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->commentsManager = $this->getMockBuilder('\OCP\Comments\ICommentsManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->plugin = new CommentsPluginImplementation($this->commentsManager, $this->userSession);
 	}
@@ -80,7 +84,9 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$requestData = json_encode($commentData);
 
-		$user = $this->getMock('OCP\IUser');
+		$user = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('alice'));
@@ -174,7 +180,9 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$path = 'comments/files/666';
 
-		$user = $this->getMock('OCP\IUser');
+		$user = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->expects($this->never())
 			->method('getUID');
 
@@ -256,7 +264,9 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$requestData = json_encode($commentData);
 
-		$user = $this->getMock('OCP\IUser');
+		$user = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->expects($this->never())
 			->method('getUID');
 
@@ -342,7 +352,9 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$requestData = json_encode($commentData);
 
-		$user = $this->getMock('OCP\IUser');
+		$user = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->expects($this->never())
 			->method('getUID');
 
@@ -430,7 +442,9 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$requestData = json_encode($commentData);
 
-		$user = $this->getMock('OCP\IUser');
+		$user = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('alice'));
@@ -522,7 +536,9 @@ class CommentsPluginTest extends \Test\TestCase {
 
 		$requestData = json_encode($commentData);
 
-		$user = $this->getMock('OCP\IUser');
+		$user = $this->getMockBuilder('OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->expects($this->once())
 			->method('getUID')
 			->will($this->returnValue('alice'));
@@ -599,7 +615,11 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/' . $path)
-			->will($this->returnValue($this->getMock('\Sabre\DAV\INode')));
+			->will($this->returnValue(
+				$this->getMockBuilder('\Sabre\DAV\INode')
+					->disableOriginalConstructor()
+					->getMock()
+			));
 
 		$this->server->expects($this->any())
 			->method('getRequestUri')
@@ -618,7 +638,11 @@ class CommentsPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/' . $path)
-			->will($this->returnValue($this->getMock('\Sabre\DAV\INode')));
+			->will($this->returnValue(
+				$this->getMockBuilder('\Sabre\DAV\INode')
+					->disableOriginalConstructor()
+					->getMock()
+			));
 
 		$this->server->expects($this->any())
 			->method('getRequestUri')

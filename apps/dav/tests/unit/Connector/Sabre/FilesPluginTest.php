@@ -89,11 +89,15 @@ class FilesPluginTest extends TestCase {
 		$this->view = $this->getMockBuilder('\OC\Files\View')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->config = $this->getMock('\OCP\IConfig');
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->config->expects($this->any())->method('getSystemValue')
 			->with($this->equalTo('data-fingerprint'), $this->equalTo(''))
 			->willReturn('my_fingerprint');
-		$this->request = $this->getMock('\OCP\IRequest');
+		$this->request = $this->getMockBuilder('\OCP\IRequest')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->plugin = new FilesPlugin(
 			$this->tree,
@@ -275,7 +279,9 @@ class FilesPluginTest extends TestCase {
 			$this->tree,
 			$this->view,
 			$this->config,
-			$this->getMock('\OCP\IRequest'),
+			$this->getMockBuilder('\OCP\IRequest')
+				->disableOriginalConstructor()
+				->getMock(),
 			true);
 		$this->plugin->initialize($this->server);
 

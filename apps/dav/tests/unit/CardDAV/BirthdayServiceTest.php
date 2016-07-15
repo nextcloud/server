@@ -105,8 +105,10 @@ class BirthdayServiceTest extends TestCase {
 		$this->cardDav->expects($this->once())->method('getShares')->willReturn([]);
 
 		/** @var BirthdayService | \PHPUnit_Framework_MockObject_MockObject $service */
-		$service = $this->getMock('\OCA\DAV\CalDAV\BirthdayService',
-			['buildBirthdayFromContact', 'birthdayEvenChanged'], [$this->calDav, $this->cardDav, $this->groupPrincialBackend]);
+		$service = $this->getMockBuilder('\OCA\DAV\CalDAV\BirthdayService')
+			->setMethods(['buildBirthdayFromContact', 'birthdayEvenChanged'])
+			->setConstructorArgs([$this->calDav, $this->cardDav, $this->groupPrincialBackend])
+			->getMock();
 
 		if ($expectedOp === 'delete') {
 			$this->calDav->expects($this->once())->method('getCalendarObject')->willReturn('');

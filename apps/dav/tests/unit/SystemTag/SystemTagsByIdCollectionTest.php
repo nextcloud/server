@@ -41,19 +41,23 @@ class SystemTagsByIdCollectionTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->getMock();
 	}
 
 	public function getNode($isAdmin = true) {
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 		$this->user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('testuser'));
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->getMock();
 		$userSession->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
-		$groupManager = $this->getMock('\OCP\IGroupManager');
+		$groupManager = $this->getMockBuilder('\OCP\IGroupManager')
+			->getMock();
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')

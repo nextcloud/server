@@ -42,10 +42,18 @@ class EntityTypeCollectionTest extends \Test\TestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$this->commentsManager = $this->getMock('\OCP\Comments\ICommentsManager');
-		$this->userManager = $this->getMock('\OCP\IUserManager');
-		$this->userSession = $this->getMock('\OCP\IUserSession');
-		$this->logger = $this->getMock('\OCP\ILogger');
+		$this->commentsManager = $this->getMockBuilder('\OCP\Comments\ICommentsManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userManager = $this->getMockBuilder('\OCP\IUserManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->logger = $this->getMockBuilder('\OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$instance = $this;
 

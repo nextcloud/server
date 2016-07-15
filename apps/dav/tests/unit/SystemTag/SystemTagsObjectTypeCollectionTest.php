@@ -47,26 +47,33 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
-		$this->tagMapper = $this->getMock('\OCP\SystemTag\ISystemTagObjectMapper');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->getMock();
+		$this->tagMapper = $this->getMockBuilder('\OCP\SystemTag\ISystemTagObjectMapper')
+			->getMock();
 
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('testuser'));
-		$userSession = $this->getMock('\OCP\IUserSession');
+		$userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->getMock();
 		$userSession->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($user));
-		$groupManager = $this->getMock('\OCP\IGroupManager');
+		$groupManager = $this->getMockBuilder('\OCP\IGroupManager')
+			->getMock();
 		$groupManager->expects($this->any())
 			->method('isAdmin')
 			->with('testuser')
 			->will($this->returnValue(true));
 
-		$this->userFolder = $this->getMock('\OCP\Files\Folder');
+		$this->userFolder = $this->getMockBuilder('\OCP\Files\Folder')
+			->getMock();
 
-		$fileRoot = $this->getMock('\OCP\Files\IRootFolder');
+		$fileRoot = $this->getMockBuilder('\OCP\Files\IRootFolder')
+			->getMock();
 		$fileRoot->expects($this->any())
 			->method('getUserfolder')
 			->with('testuser')

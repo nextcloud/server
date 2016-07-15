@@ -82,11 +82,19 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
-		$this->tagMapper = $this->getMock('\OCP\SystemTag\ISystemTagObjectMapper');
-		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->tagMapper = $this->getMockBuilder('\OCP\SystemTag\ISystemTagObjectMapper')
+			->disableOriginalConstructor()
+			->getMock();
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
 
-		$user = $this->getMock('\OCP\IUser');
+		$user = $this->getMockBuilder('\OCP\IUser')
+			->disableOriginalConstructor()
+			->getMock();
 		$user->expects($this->any())
 			->method('getUID')
 			->will($this->returnValue('testuser'));
@@ -114,7 +122,11 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/' . $path)
-			->will($this->returnValue($this->getMock('\Sabre\DAV\INode')));
+			->will($this->returnValue(
+				$this->getMockBuilder('\Sabre\DAV\INode')
+					->disableOriginalConstructor()
+					->getMock()
+			));
 
 		$this->server->expects($this->any())
 			->method('getRequestUri')
@@ -133,7 +145,11 @@ class FilesReportPluginTest extends \Test\TestCase {
 		$this->tree->expects($this->any())
 			->method('getNodeForPath')
 			->with('/' . $path)
-			->will($this->returnValue($this->getMock('\Sabre\DAV\INode')));
+			->will($this->returnValue(
+				$this->getMockBuilder('\Sabre\DAV\INode')
+					->disableOriginalConstructor()
+					->getMock()
+			));
 
 		$this->server->expects($this->any())
 			->method('getRequestUri')
@@ -337,14 +353,18 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('getSize')
 			->will($this->returnValue(1024));
 
-		$config = $this->getMock('\OCP\IConfig');
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->server->addPlugin(
 			new \OCA\DAV\Connector\Sabre\FilesPlugin(
 				$this->tree,
 				$this->view,
 				$config,
-				$this->getMock('\OCP\IRequest')
+				$this->getMockBuilder('\OCP\IRequest')
+					->disableOriginalConstructor()
+					->getMock()
 			)
 		);
 		$this->plugin->initialize($this->server);
@@ -494,7 +514,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(true));
 
-		$tag1 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag1 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -502,7 +524,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->will($this->returnValue(true));
 
-		$tag2 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag2 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag2->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -539,7 +563,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(false));
 
-		$tag1 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag1 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -547,7 +573,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->will($this->returnValue(true));
 
-		$tag2 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag2 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag2->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -573,7 +601,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isAdmin')
 			->will($this->returnValue(false));
 
-		$tag1 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag1 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag1->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));
@@ -581,7 +611,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->method('isUserVisible')
 			->will($this->returnValue(true));
 
-		$tag2 = $this->getMock('\OCP\SystemTag\ISystemTag');
+		$tag2 = $this->getMockBuilder('\OCP\SystemTag\ISystemTag')
+			->disableOriginalConstructor()
+			->getMock();
 		$tag2->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('123'));

@@ -83,10 +83,14 @@ class SystemTagPluginTest extends \Test\TestCase {
 
 		$this->server = new \Sabre\DAV\Server($this->tree);
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
-		$this->groupManager = $this->getMock('\OCP\IGroupManager');
-		$this->user = $this->getMock('\OCP\IUser');
-		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->getMock();
+		$this->groupManager = $this->getMockBuilder('\OCP\IGroupManager')
+			->getMock();
+		$this->user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
+		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->getMock();
 		$this->userSession
 			->expects($this->any())
 			->method('getUser')

@@ -65,7 +65,9 @@ class FileTest extends \Test\TestCase {
 	}
 
 	private function getMockStorage() {
-		$storage = $this->getMock('\OCP\Files\Storage');
+		$storage = $this->getMockBuilder('\OCP\Files\Storage')
+			->disableOriginalConstructor()
+			->getMock();
 		$storage->expects($this->any())
 			->method('getId')
 			->will($this->returnValue('home::someuser'));
@@ -144,13 +146,14 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testSimplePutFails($thrownException, $expectedException, $checkPreviousClass = true) {
 		// setup
-		$storage = $this->getMock(
-			'\OC\Files\Storage\Local',
-			['fopen'],
-			[['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]]
-		);
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Local')
+			->setMethods(['fopen'])
+			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
+			->getMock();
 		\OC\Files\Filesystem::mount($storage, [], $this->user . '/');
-		$view = $this->getMock('\OC\Files\View', array('getRelativePath', 'resolvePath'), array());
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->setMethods(['getRelativePath', 'resolvePath'])
+			->getMock();
 		$view->expects($this->atLeastOnce())
 			->method('resolvePath')
 			->will($this->returnCallback(
@@ -202,13 +205,14 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testChunkedPutFails($thrownException, $expectedException, $checkPreviousClass = false) {
 		// setup
-		$storage = $this->getMock(
-			'\OC\Files\Storage\Local',
-			['fopen'],
-			[['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]]
-		);
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Local')
+			->setMethods(['fopen'])
+			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
+			->getMock();
 		\OC\Files\Filesystem::mount($storage, [], $this->user . '/');
-		$view = $this->getMock('\OC\Files\View', ['getRelativePath', 'resolvePath'], []);
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->setMethods(['getRelativePath', 'resolvePath'])
+			->getMock();
 		$view->expects($this->atLeastOnce())
 			->method('resolvePath')
 			->will($this->returnCallback(
@@ -526,8 +530,9 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testSimplePutFailsSizeCheck() {
 		// setup
-		$view = $this->getMock('\OC\Files\View',
-			array('rename', 'getRelativePath', 'filesize'));
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->setMethods(['rename', 'getRelativePath', 'filesize'])
+			->getMock();
 		$view->expects($this->any())
 			->method('rename')
 			->withAnyParameters()
@@ -643,7 +648,9 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testSimplePutInvalidChars() {
 		// setup
-		$view = $this->getMock('\OC\Files\View', array('getRelativePath'));
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->setMethods(['getRelativePath'])
+			->getMock();
 		$view->expects($this->any())
 			->method('getRelativePath')
 			->will($this->returnArgument(0));
@@ -678,7 +685,9 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testSetNameInvalidChars() {
 		// setup
-		$view = $this->getMock('\OC\Files\View', array('getRelativePath'));
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->setMethods(['getRelativePath'])
+			->getMock();
 
 		$view->expects($this->any())
 			->method('getRelativePath')
@@ -695,8 +704,9 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testUploadAbort() {
 		// setup
-		$view = $this->getMock('\OC\Files\View',
-			array('rename', 'getRelativePath', 'filesize'));
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->setMethods(['rename', 'getRelativePath', 'filesize'])
+			->getMock();
 		$view->expects($this->any())
 			->method('rename')
 			->withAnyParameters()
@@ -740,8 +750,8 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testDeleteWhenAllowed() {
 		// setup
-		$view = $this->getMock('\OC\Files\View',
-			array());
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->getMock();
 
 		$view->expects($this->once())
 			->method('unlink')
@@ -762,8 +772,8 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testDeleteThrowsWhenDeletionNotAllowed() {
 		// setup
-		$view = $this->getMock('\OC\Files\View',
-			array());
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->getMock();
 
 		$info = new \OC\Files\FileInfo('/test.txt', $this->getMockStorage(), null, array(
 			'permissions' => 0
@@ -780,8 +790,8 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testDeleteThrowsWhenDeletionFailed() {
 		// setup
-		$view = $this->getMock('\OC\Files\View',
-			array());
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->getMock();
 
 		// but fails
 		$view->expects($this->once())
@@ -803,8 +813,8 @@ class FileTest extends \Test\TestCase {
 	 */
 	public function testDeleteThrowsWhenDeletionThrows() {
 		// setup
-		$view = $this->getMock('\OC\Files\View',
-			array());
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->getMock();
 
 		// but fails
 		$view->expects($this->once())
@@ -953,7 +963,9 @@ class FileTest extends \Test\TestCase {
 	 * @expectedException \Sabre\DAV\Exception\ServiceUnavailable
 	 */
 	public function testGetFopenFails() {
-		$view = $this->getMock('\OC\Files\View', ['fopen'], array());
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->setMethods(['fopen'])
+			->getMock();
 		$view->expects($this->atLeastOnce())
 			->method('fopen')
 			->will($this->returnValue(false));
@@ -971,7 +983,9 @@ class FileTest extends \Test\TestCase {
 	 * @expectedException \OCA\DAV\Connector\Sabre\Exception\Forbidden
 	 */
 	public function testGetFopenThrows() {
-		$view = $this->getMock('\OC\Files\View', ['fopen'], array());
+		$view = $this->getMockBuilder('\OC\Files\View')
+			->setMethods(['fopen'])
+			->getMock();
 		$view->expects($this->atLeastOnce())
 			->method('fopen')
 			->willThrowException(new ForbiddenException('', true));

@@ -46,8 +46,10 @@ class SystemTagNodeTest extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->tagManager = $this->getMock('\OCP\SystemTag\ISystemTagManager');
-		$this->user = $this->getMock('\OCP\IUser');
+		$this->tagManager = $this->getMockBuilder('\OCP\SystemTag\ISystemTagManager')
+			->getMock();
+		$this->user = $this->getMockBuilder('\OCP\IUser')
+			->getMock();
 	}
 
 	protected function getTagNode($isAdmin = true, $tag = null) {
