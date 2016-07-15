@@ -32,6 +32,9 @@ use Sabre\HTTP\Response;
 class ExceptionLoggerPlugin extends \Sabre\DAV\ServerPlugin {
 	protected $nonFatalExceptions = array(
 		'Sabre\DAV\Exception\NotAuthenticated' => true,
+		// If tokenauth can throw this exception (which is basically as
+		// NotAuthenticated. So not fatal.
+		'OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden' => true,
 		// the sync client uses this to find out whether files exist,
 		// so it is not always an error, log it as debug
 		'Sabre\DAV\Exception\NotFound' => true,
