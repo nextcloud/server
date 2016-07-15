@@ -18,7 +18,7 @@
  *    - TODO music upload button
  */
 
-/* global jQuery, humanFileSize */
+/* global jQuery, humanFileSize, md5 */
 
 /**
  * File upload object
@@ -34,11 +34,20 @@
 OC.FileUpload = function(uploader, data) {
 	this.uploader = uploader;
 	this.data = data;
+	var path = OC.joinPaths(this.uploader.fileList.getCurrentDirectory(), this.getFile().name);
+	this.id = 'web-file-upload-' + md5(path) + '-' + (new Date()).getTime();
 };
 OC.FileUpload.CONFLICT_MODE_DETECT = 0;
 OC.FileUpload.CONFLICT_MODE_OVERWRITE = 1;
 OC.FileUpload.CONFLICT_MODE_AUTORENAME = 2;
 OC.FileUpload.prototype = {
+
+	/**
+	 * Unique upload id
+	 *
+	 * @type string
+	 */
+	id: null,
 
 	/**
 	 * Upload element
@@ -65,6 +74,15 @@ OC.FileUpload.prototype = {
 	 * @type String
 	 */
 	_newName: null,
+
+	/**
+	 * Returns the unique upload id
+	 *
+	 * @return string
+	 */
+	getId: function() {
+		return this.id;
+	},
 
 	/**
 	 * Returns the file to be uploaded
@@ -143,6 +161,7 @@ OC.FileUpload.prototype = {
 	 * Submit the upload
 	 */
 	submit: function() {
+		var self = this;
 		var data = this.data;
 		var file = this.getFile();
 
@@ -192,19 +211,54 @@ OC.FileUpload.prototype = {
 			}
 		}
 
+		var chunkFolderPromise;
+		if ($.support.blobSlice
+			&& this.uploader.fileUploadParam.maxChunkSize
+			&& this.getFile().size > this.uploader.fileUploadParam.maxChunkSize
+		) {
+			data.isChunked = true;
+			chunkFolderPromise = this.uploader.davClient.createDirectory(
+				'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
+			);
+			// TODO: if fails, it means same id already existed, need to retry
+		} else {
+			chunkFolderPromise = $.Deferred().resolve().promise();
+		}
+
 		// wait for creation of the required directory before uploading
-		folderPromise.then(function() {
+		$.when(folderPromise, chunkFolderPromise).then(function() {
 			data.submit();
 		}, function() {
-			data.abort();
+			self.abort();
 		});
 
+	},
+
+	/**
+	 * Process end of transfer
+	 */
+	done: function() {
+		if (!this.data.isChunked) {
+			return $.Deferred().resolve().promise();
+		}
+
+		var uid = OC.getCurrentUser().uid;
+		return this.uploader.davClient.move(
+			'uploads/' + encodeURIComponent(uid) + '/' + encodeURIComponent(this.getId()) + '/.file',
+			'files/' + encodeURIComponent(uid) + '/' + OC.joinPaths(this.getFullPath(), this.getFileName())
+		);
 	},
 
 	/**
 	 * Abort the upload
 	 */
 	abort: function() {
+		if (this.data.isChunked) {
+			// delete transfer directory for this upload
+			this.uploader.davClient.remove(
+				'uploads/' + encodeURIComponent(OC.getCurrentUser().uid) + '/' + encodeURIComponent(this.getId())
+			);
+		}
 		this.data.abort();
 	},
 
@@ -280,7 +334,7 @@ OC.Uploader = function() {
 	this.init.apply(this, arguments);
 };
 
-OC.Uploader.prototype = {
+OC.Uploader.prototype = _.extend({
 	/**
 	 * @type Array<OC.FileUpload>
 	 */
@@ -384,7 +438,7 @@ OC.Uploader.prototype = {
 				self.filesClient.createDirectory(fullPath).always(function(status) {
 					// 405 is expected if the folder already exists
 					if ((status >= 200 && status < 300) || status === 405) {
-						self.$uploadEl.trigger($.Event('fileuploadcreatedfolder'), fullPath);
+						self.trigger('createdfolder', fullPath);
 						deferred.resolve();
 						return;
 					}
@@ -407,8 +461,8 @@ OC.Uploader.prototype = {
 	submitUploads: function(uploads) {
 		var self = this;
 		_.each(uploads, function(upload) {
-			upload.submit();
 			self._uploads[upload.data.uploadId] = upload;
+			upload.submit();
 		});
 	},
 
@@ -611,16 +665,6 @@ OC.Uploader.prototype = {
 		this.$uploadEl.trigger(new $.Event('resized'));
 	},
 
-	on: function() {
-		// forward events to upload element
-		this.$uploadEl.on.apply(this.$uploadEl, arguments);
-	},
-
-	off: function() {
-		// forward events to upload element
-		this.$uploadEl.off.apply(this.$uploadEl, arguments);
-	},
-
 	/**
 	 * Returns whether the given file is known to be a received shared file
 	 *
@@ -655,6 +699,12 @@ OC.Uploader.prototype = {
 
 		this.fileList = options.fileList;
 		this.filesClient = options.filesClient || OC.Files.getClient();
+		this.davClient = new OC.Files.Client({
+			host: OC.getHost(),
+			port: OC.getPort(),
+			root: OC.getRootPath() + '/remote.php/dav/',
+			useHTTPS: OC.getProtocol() === 'https'
+		});
 
 		$uploadEl = $($uploadEl);
 		this.$uploadEl = $uploadEl;
@@ -669,6 +719,7 @@ OC.Uploader.prototype = {
 				dropZone: options.dropZone, // restrict dropZone to content div
 				autoUpload: false,
 				sequentialUploads: true,
+				maxChunkSize: 10000000,
 				//singleFileUploads is on by default, so the data.files array will always have length 1
 				/**
 				 * on first add of every selection
@@ -692,7 +743,7 @@ OC.Uploader.prototype = {
 
 					var upload = new OC.FileUpload(self, data);
 					// can't link directly due to jQuery not liking cyclic deps on its ajax object
-					data.uploadId = _.uniqueId('file-upload');
+					data.uploadId = upload.getId();
 
 					// we need to collect all data upload objects before
 					// starting the upload so we can check their existence
@@ -842,7 +893,10 @@ OC.Uploader.prototype = {
 				},
 				fail: function(e, data) {
 					var upload = self.getUpload(data);
-					var status = upload.getResponseStatus();
+					var status = null;
+					if (upload) {
+						status = upload.getResponseStatus();
+					}
 					self.log('fail', e, upload);
 
 					if (data.textStatus === 'abort') {
@@ -914,10 +968,7 @@ OC.Uploader.prototype = {
 				// add progress handlers
 				fileupload.on('fileuploadadd', function(e, data) {
 					self.log('progress handle fileuploadadd', e, data);
-					//show cancel button
-					//if (data.dataType !== 'iframe') { //FIXME when is iframe used? only for ie?
-					//	$('#uploadprogresswrapper .stop').show();
-					//}
+					self.trigger('add', e, data);
 				});
 				// add progress handlers
 				fileupload.on('fileuploadstart', function(e, data) {
@@ -933,10 +984,12 @@ OC.Uploader.prototype = {
 							+ '</span></em>');
                     $('#uploadprogressbar').tipsy({gravity:'n', fade:true, live:true});
 					self._showProgressBar();
+					self.trigger('start', e, data);
 				});
 				fileupload.on('fileuploadprogress', function(e, data) {
 					self.log('progress handle fileuploadprogress', e, data);
 					//TODO progressbar in row
+					self.trigger('progress', e, data);
 				});
 				fileupload.on('fileuploadprogressall', function(e, data) {
 					self.log('progress handle fileuploadprogressall', e, data);
@@ -999,6 +1052,7 @@ OC.Uploader.prototype = {
 						})
 					);
 					$('#uploadprogressbar').progressbar('value', progress);
+					self.trigger('progressall', e, data);
 				});
 				fileupload.on('fileuploadstop', function(e, data) {
 					self.log('progress handle fileuploadstop', e, data);
@@ -1012,6 +1066,7 @@ OC.Uploader.prototype = {
 					if (data.errorThrown === 'abort') {
 						self._hideProgressBar();
 					}
+					self.trigger('fail', e, data);
 				});
 				var disableDropState = function() {
 					$('#app-content').removeClass('file-drag');
@@ -1046,22 +1101,36 @@ OC.Uploader.prototype = {
 						filerow.find('.thumbnail').addClass('icon-filetype-folder-drag-accept');
 					}
 				});
-				fileupload.on('fileuploaddragleave fileuploaddrop', disableDropState);
-			} else {
-				// for all browsers that don't support the progress bar
-				// IE 8 & 9
-
-				// show a spinner
-				fileupload.on('fileuploadstart', function() {
-					$('#upload').addClass('icon-loading');
-					$('#upload .icon-upload').hide();
+				fileupload.on('fileuploaddragleave fileuploaddrop', function (){
+					$('#app-content').removeClass('file-drag');
+					$('.dropping-to-dir').removeClass('dropping-to-dir');
+					$('.dir-drop').removeClass('dir-drop');
+					$('.icon-filetype-folder-drag-accept').removeClass('icon-filetype-folder-drag-accept');
 				});
 
-				// hide a spinner
-				fileupload.on('fileuploadstop fileuploadfail', function() {
-					$('#upload').removeClass('icon-loading');
-					$('#upload .icon-upload').show();
+				fileupload.on('fileuploadchunksend', function(e, data) {
+					// modify the request to adjust it to our own chunking
+					var upload = self.getUpload(data);
+					var range = data.contentRange.split(' ')[1];
+					var chunkId = range.split('/')[0];
+					data.url = OC.getRootPath() +
+						'/remote.php/dav/uploads' +
+						'/' + encodeURIComponent(OC.getCurrentUser().uid) +
+						'/' + encodeURIComponent(upload.getId()) +
+						'/' + encodeURIComponent(chunkId);
+					delete data.contentRange;
+					delete data.headers['Content-Range'];
 				});
+				fileupload.on('fileuploaddone', function(e, data) {
+					var upload = self.getUpload(data);
+					upload.done().then(function() {
+						self.trigger('done', e, upload);
+					});
+				});
+				fileupload.on('fileuploaddrop', function(e, data) {
+					self.trigger('drop', e, data);
+				});
+
 			}
 		}
 
@@ -1079,6 +1148,6 @@ OC.Uploader.prototype = {
 
 		return this.fileUploadParam;
 	}
-};
+}, OC.Backbone.Events);
 
 

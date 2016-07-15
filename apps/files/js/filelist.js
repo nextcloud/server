@@ -2661,16 +2661,18 @@
 
 		/**
 		 * Setup file upload events related to the file-upload plugin
+		 *
+		 * @param {OC.Uploader} uploader
 		 */
-		setupUploadEvents: function($uploadEl) {
+		setupUploadEvents: function(uploader) {
 			var self = this;
 
 			self._uploads = {};
 
 			// detect the progress bar resize
-			$uploadEl.on('resized', this._onResize);
+			uploader.on('resized', this._onResize);
 
-			$uploadEl.on('fileuploaddrop', function(e, data) {
+			uploader.on('drop', function(e, data) {
 				self._uploader.log('filelist handle fileuploaddrop', e, data);
 
 				if (self.$el.hasClass('hidden')) {
@@ -2734,7 +2736,7 @@
 					}
 				}
 			});
-			$uploadEl.on('fileuploadadd', function(e, data) {
+			uploader.on('add', function(e, data) {
 				self._uploader.log('filelist handle fileuploadadd', e, data);
 
 				// add ui visualization to existing folder
@@ -2766,16 +2768,16 @@
 			 * when file upload done successfully add row to filelist
 			 * update counter when uploading to sub folder
 			 */
-			$uploadEl.on('fileuploaddone', function(e, data) {
+			uploader.on('done', function(e, upload) {
 				self._uploader.log('filelist handle fileuploaddone', e, data);
 
+				var data = upload.data;
 				var status = data.jqXHR.status;
 				if (status < 200 || status >= 300) {
 					// error was handled in OC.Uploads already
 					return;
 				}
 
-				var upload = self._uploader.getUpload(data);
 				var fileName = upload.getFileName();
 				var fetchInfoPromise = self.addAndFetchFileInfo(fileName, upload.getFullPath());
 				if (!self._uploads) {
@@ -2785,10 +2787,10 @@
 					self._uploads[fileName] = fetchInfoPromise;
 				}
 			});
-			$uploadEl.on('fileuploadcreatedfolder', function(e, fullPath) {
+			uploader.on('createdfolder', function(e, fullPath) {
 				self.addAndFetchFileInfo(OC.basename(fullPath), OC.dirname(fullPath));
 			});
-			$uploadEl.on('fileuploadstop', function() {
+			uploader.on('stop', function() {
 				self._uploader.log('filelist handle fileuploadstop');
 
 				// prepare list of uploaded file names in the current directory
@@ -2804,7 +2806,7 @@
 				});
 				self.updateStorageStatistics();
 			});
-			$uploadEl.on('fileuploadfail', function(e, data) {
+			uploader.on('fail', function(e, data) {
 				self._uploader.log('filelist handle fileuploadfail', e, data);
 				
 				self._uploads = [];
