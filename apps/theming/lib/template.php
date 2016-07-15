@@ -77,6 +77,10 @@ class Template extends \OC_Defaults {
 		return $this->config->getAppValue('theming', 'name', $this->name);
 	}
 
+	public function getHTMLName() {
+		return $this->config->getAppValue('theming', 'name', $this->name);
+	}
+
 	public function getTitle() {
 		return $this->config->getAppValue('theming', 'name', $this->name);
 	}
@@ -91,6 +95,15 @@ class Template extends \OC_Defaults {
 
 	public function getSlogan() {
 		return $this->config->getAppValue('theming', 'slogan', $this->slogan);
+	}
+
+	public function getShortFooter() {
+		$slogan = $this->getSlogan();
+		$footer = '<a href="'. $this->getBaseUrl() . '" target="_blank"' .
+			' rel="noreferrer">' .$this->getEntity() . '</a>'.
+			($slogan !== '' ? ' – ' . $slogan : '');
+
+		return $footer;
 	}
 
 	/**
