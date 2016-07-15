@@ -51,7 +51,7 @@ class Application {
 	 * @param IRequest $request
 	 */
 	public function __construct(IConfig $config, EventDispatcherInterface $dispatcher, IRequest $request) {
-		$defaults = new OC_Defaults;
+		$defaults = \OC::$server->getThemingDefaults();
 		$this->config = $config;
 		$this->application = new SymfonyApplication($defaults->getName(), \OC_Util::getVersionString());
 		$this->dispatcher = $dispatcher;

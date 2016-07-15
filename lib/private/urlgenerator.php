@@ -218,7 +218,7 @@ class URLGenerator implements IURLGenerator {
 	 * @return string url to the online documentation
 	 */
 	public function linkToDocs($key) {
-		$theme = new OC_Defaults();
+		$theme = \OC::$server->getThemingDefaults();
 		return $theme->buildDocLinkToKey($key);
 	}
 }

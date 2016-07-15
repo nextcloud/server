@@ -123,8 +123,8 @@ class Application extends App {
 		$container->registerService('UserFolder', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getUserFolder();
 		});
-		$container->registerService('Defaults', function() {
-			return new \OC_Defaults;
+		$container->registerService('Defaults', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getThemingDefaults();
 		});
 		$container->registerService('Mailer', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getMailer();
