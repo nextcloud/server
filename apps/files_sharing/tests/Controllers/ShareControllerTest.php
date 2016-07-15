@@ -41,6 +41,7 @@ use OCP\ISession;
 use OCP\IUserManager;
 use OCP\Security\ISecureRandom;
 use OCP\IURLGenerator;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @group DB
@@ -72,6 +73,8 @@ class ShareControllerTest extends \Test\TestCase {
 	private $userManager;
 	/** @var  FederatedShareProvider | \PHPUnit_Framework_MockObject_MockObject */
 	private $federatedShareProvider;
+	/** @var EventDispatcherInterface | \PHPUnit_Framework_MockObject_MockObject */
+	private $eventDispatcher;
 
 	protected function setUp() {
 		parent::setUp();
@@ -89,6 +92,7 @@ class ShareControllerTest extends \Test\TestCase {
 			->method('isOutgoingServer2serverShareEnabled')->willReturn(true);
 		$this->federatedShareProvider->expects($this->any())
 			->method('isIncomingServer2serverShareEnabled')->willReturn(true);
+		$this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock();
 
 		$this->shareController = new \OCA\Files_Sharing\Controllers\ShareController(
 			$this->appName,
@@ -102,7 +106,8 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->session,
 			$this->previewManager,
 			$this->getMockBuilder('\OCP\Files\IRootFolder')->getMock(),
-			$this->federatedShareProvider
+			$this->federatedShareProvider,
+			$this->eventDispatcher
 		);
 
 
@@ -352,6 +357,10 @@ class ShareControllerTest extends \Test\TestCase {
 			->willReturn($share);
 
 		$this->userManager->method('get')->with('ownerUID')->willReturn($owner);
+
+		$this->eventDispatcher->expects($this->once())
+			->method('dispatch')
+			->with('OCA\Files_Sharing::loadAdditionalScripts');
 
 		$response = $this->shareController->showShare('token');
 		$sharedTmplParams = array(

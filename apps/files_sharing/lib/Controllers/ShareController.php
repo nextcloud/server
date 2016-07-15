@@ -54,6 +54,7 @@ use OCA\Files_Sharing\Activity;
 use \OCP\Files\NotFoundException;
 use OCP\Files\IRootFolder;
 use OCP\Share\Exceptions\ShareNotFound;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Class ShareController
@@ -82,6 +83,8 @@ class ShareController extends Controller {
 	protected $rootFolder;
 	/** @var FederatedShareProvider */
 	protected $federatedShareProvider;
+	/** @var EventDispatcherInterface */
+	protected $eventDispatcher;
 
 	/**
 	 * @param string $appName
@@ -96,6 +99,7 @@ class ShareController extends Controller {
 	 * @param IPreview $previewManager
 	 * @param IRootFolder $rootFolder
 	 * @param FederatedShareProvider $federatedShareProvider
+	 * @param EventDispatcherInterface $eventDispatcher
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -108,7 +112,8 @@ class ShareController extends Controller {
 								ISession $session,
 								IPreview $previewManager,
 								IRootFolder $rootFolder,
-								FederatedShareProvider $federatedShareProvider) {
+								FederatedShareProvider $federatedShareProvider,
+								EventDispatcherInterface $eventDispatcher) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
@@ -121,6 +126,7 @@ class ShareController extends Controller {
 		$this->previewManager = $previewManager;
 		$this->rootFolder = $rootFolder;
 		$this->federatedShareProvider = $federatedShareProvider;
+		$this->eventDispatcher = $eventDispatcher;
 	}
 
 	/**
@@ -375,6 +381,8 @@ class ShareController extends Controller {
 			OCP\Util::addScript('files', 'filelist');
 			OCP\Util::addscript('files', 'keyboardshortcuts');
 		}
+
+		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts');
 
 		$csp = new OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
