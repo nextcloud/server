@@ -125,24 +125,9 @@ var UserList = {
 			});
 			var menuLink = $('<span class="toggleUserActions"></span>')
 				.append(menuImage);
-			$tr.find('td.userActions > span').prepend(menuLink);
+			$tr.find('td.userActions > span').replaceWith(menuLink);
 		} else if (OC.currentUser === user.name) {
 			$tr.find('td.userActions > span > img').remove();
-		}
-
-		/**
-		 * remove action
-		 */
-		if ($tr.find('td.remove img').length === 0 && OC.currentUser !== user.name) {
-			var deleteImage = $('<img class="action">').attr({
-				src: OC.imagePath('core', 'actions/delete')
-			});
-			var deleteLink = $('<a class="action delete">')
-				.attr({ href: '#', 'original-title': t('settings', 'Delete')})
-				.append(deleteImage);
-			$tr.find('td.remove').append(deleteLink);
-		} else if (OC.currentUser === user.name) {
-			$tr.find('td.remove a').remove();
 		}
 
 		/**
@@ -418,6 +403,10 @@ var UserList = {
 		if(!limit) {
 			limit = UserList.usersToLoad;
 		}
+		if(gid=='disabledUsers') {
+			var showDisabled=true;
+			gid='';
+		}
 		$userList.siblings('.loading').css('visibility', 'visible');
 		UserList.updating = true;
 		if(gid === undefined) {
@@ -438,8 +427,10 @@ var UserList = {
 					if(UserList.has(user.name)) {
 						return true;
 					}
-					var $tr = UserList.add(user, user.lastLogin, false, user.backend);
-					trs.push($tr);
+					if((showDisabled && !user.isEnabled) || (!showDisabled && user.isEnabled)) {
+						var $tr = UserList.add(user, user.lastLogin, false, user.backend);
+						trs.push($tr);
+					}
 					loadedUsers++;
 				});
 				if (result.length > 0) {
@@ -842,12 +833,14 @@ $(document).ready(function () {
 			{username: uid, enabled: setEnabled},
 			function (result) {
 				if (result && result.status==='success'){
+					var count = GroupList.getUserCount(GroupList.getGroupLI('disabledUsers'));
+					$tr.remove();
 					if(result.data.enabled == 1) {
 						$tr.data('userEnabled', true);
-						$tr.toggleClass('disabled', false);
+						GroupList.setUserCount(GroupList.getGroupLI('disabledUsers'), count-1);
 					} else {
 						$tr.data('userEnabled', false);
-						$tr.toggleClass('disabled', true);
+						GroupList.setUserCount(GroupList.getGroupLI('disabledUsers'), count+1);
 					}
 				} else {
 					OC.dialogs.alert(result.data.message, t('settings', 'Unable to change status of {user}', {user: uid}));

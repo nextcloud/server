@@ -244,10 +244,6 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 	top: 3px;
 }
 
-#userlist tr.disabled {
-	background: repeating-linear-gradient(-45deg, white 0px, white 10px, lightpink 10px, lightpink 11px);
-}
-
 .bubble {
 	z-index:1;
 	right: -5px;

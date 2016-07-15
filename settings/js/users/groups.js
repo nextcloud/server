@@ -46,7 +46,8 @@ GroupList = {
 	},
 
 	getUserCount: function ($groupLiElement) {
-		return parseInt($groupLiElement.data('usercount'), 10);
+		var count = parseInt($groupLiElement.data('usercount'), 10);
+		return isNaN(count) ? 0 : count;
 	},
 
 	modGroupCount: function(gid, diff) {
