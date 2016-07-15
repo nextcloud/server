@@ -32,12 +32,12 @@ function setThemingValue(setting, value) {
 }
 
 function calculateLuminance(rgb) {
-	var hexValue = rgb.replace(/[^0-9A-Fa-f]/,'');
+	var hexValue = rgb.replace(/[^0-9A-Fa-f]/, '');
 	var r,g,b;
-	if(hexValue.length === 3) {
+	if (hexValue.length === 3) {
 		hexValue = hexValue[0] + hexValue[0] + hexValue[1] + hexValue[1] + hexValue[2] + hexValue[2];
 	}
-	if(hexValue.length !== 6) {
+	if (hexValue.length !== 6) {
 		return 0;
 	}
 	r = parseInt(hexValue.substring(0,2), 16);
@@ -74,7 +74,7 @@ function preview(setting, value) {
 		console.log(setting);
 		var logos = document.getElementsByClassName('logo-icon');
 		var timestamp = new Date().getTime();
-		if(value !== '') {
+		if (value !== '') {
 			logos[0].style.background = "url('" + OC.generateUrl('/apps/theming/logo') + "?v" + timestamp + "')";
 			logos[0].style.backgroundSize = "62px 34px";
 		} else {
