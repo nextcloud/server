@@ -114,7 +114,6 @@ class ServerFactory {
 		// FIXME: The following line is a workaround for legacy components relying on being able to send a GET to /
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\DummyGetResponsePlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\ExceptionLoggerPlugin('webdav', $this->logger));
-		$server->addPlugin(new \OCA\DAV\Connector\Sabre\IFrameTransportPlugin());
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\LockPlugin());
 		// Some WebDAV clients do require Class 2 WebDAV support (locking), since
 		// we do not provide locking we emulate it using a fake locking plugin.
