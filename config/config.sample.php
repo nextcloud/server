@@ -1169,22 +1169,6 @@ $CONFIG = array(
 'part_file_in_storage' => true,
 
 /**
- * All css and js files will be served by the Web server statically in one js
- * file and one css file if this is set to ``true``. This improves performance.
- */
-'asset-pipeline.enabled' => false,
-
-/**
- * The parent of the directory where css and js assets will be stored if
- * pipelining is enabled; this defaults to the Nextcloud directory. The assets
- * will be stored in a subdirectory of this directory named 'assets'. The
- * server *must* be configured to serve that directory as $WEBROOT/assets.
- * You will only likely need to change this if the main Nextcloud directory
- * is not writeable by the Web server in your configuration.
- */
-'assetdirectory' => '/var/www/nextcloud',
-
-/**
  * Where ``mount.json`` file should be stored, defaults to ``data/mount.json``
  * in the Nextcloud directory.
  */
