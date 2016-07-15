@@ -1,26 +1,6 @@
 <?php
 /** @var $l OC_L10N */
 /** @var $_ array */
-
-OCP\Util::addScript('files', 'file-upload');
-OCP\Util::addStyle('files_sharing', 'public');
-OCP\Util::addStyle('files_sharing', 'mobile');
-OCP\Util::addScript('files_sharing', 'public');
-OCP\Util::addScript('files', 'fileactions');
-OCP\Util::addScript('files', 'fileactionsmenu');
-OCP\Util::addScript('files', 'jquery.fileupload');
-OCP\Util::addScript('files_sharing', 'files_drop');
-
-// JS required for folders
-OCP\Util::addStyle('files', 'files');
-OCP\Util::addStyle('files', 'upload');
-OCP\Util::addScript('files', 'filesummary');
-OCP\Util::addScript('files', 'breadcrumb');
-OCP\Util::addScript('files', 'fileinfomodel');
-OCP\Util::addScript('files', 'newfilemenu');
-OCP\Util::addScript('files', 'files');
-OCP\Util::addScript('files', 'filelist');
-OCP\Util::addscript('files', 'keyboardshortcuts');
 ?>
 
 <?php if ($_['previewSupported']): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>

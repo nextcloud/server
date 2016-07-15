@@ -353,6 +353,29 @@ class ShareController extends Controller {
 		$shareTmpl['previewMaxX'] = $this->config->getSystemValue('preview_max_x', 1024);
 		$shareTmpl['previewMaxY'] = $this->config->getSystemValue('preview_max_y', 1024);
 
+		// Load files we need
+		OCP\Util::addScript('files', 'file-upload');
+		OCP\Util::addStyle('files_sharing', 'public');
+		OCP\Util::addStyle('files_sharing', 'mobile');
+		OCP\Util::addScript('files_sharing', 'public');
+		OCP\Util::addScript('files', 'fileactions');
+		OCP\Util::addScript('files', 'fileactionsmenu');
+		OCP\Util::addScript('files', 'jquery.fileupload');
+		OCP\Util::addScript('files_sharing', 'files_drop');
+
+		if (isset($shareTmpl['folder'])) {
+			// JS required for folders
+			OCP\Util::addStyle('files', 'files');
+			OCP\Util::addStyle('files', 'upload');
+			OCP\Util::addScript('files', 'filesummary');
+			OCP\Util::addScript('files', 'breadcrumb');
+			OCP\Util::addScript('files', 'fileinfomodel');
+			OCP\Util::addScript('files', 'newfilemenu');
+			OCP\Util::addScript('files', 'files');
+			OCP\Util::addScript('files', 'filelist');
+			OCP\Util::addscript('files', 'keyboardshortcuts');
+		}
+
 		$csp = new OCP\AppFramework\Http\ContentSecurityPolicy();
 		$csp->addAllowedFrameDomain('\'self\'');
 		$response = new TemplateResponse($this->appName, 'public', $shareTmpl, 'base');
