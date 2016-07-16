@@ -67,7 +67,7 @@ function preview(setting, value) {
 		headerAppName.style.color = textColor;
 
 		$(headerClass).find('.icon-caret').each(function() {
-			$(this).css('background-image','url(/core/img/actions/'+icon+'.svg)');
+			$(this).css('background-image', "url('" + OC.getRootPath() + '/core/img/actions/' + icon + ".svg')");
 		});
 	}
 	if (setting === 'logoMime') {

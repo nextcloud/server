@@ -234,8 +234,8 @@ class ThemingController extends Controller {
 		}
 		if(Util::invertTextColor($color)) {
 			$responseCss .= '#header .header-appname, #expandDisplayName { color: #000000; } ';
-			$responseCss .= '#header .icon-caret { background-image: url(/core/img/actions/caret-dark.svg); } ';
-			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'../../../core/img/actions/search.svg\') no-repeat 6px center; color: #000; }';
+			$responseCss .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); } ';
+			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }';
 			$responseCss .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }';
 		}
 
