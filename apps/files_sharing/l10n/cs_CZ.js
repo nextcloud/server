@@ -23,6 +23,8 @@ OC.L10N.register(
     "Cancel" : "Zrušit",
     "Add remote share" : "Přidat vzdálené úložiště",
     "You can upload into this folder" : "Můžete nahrávat do tohoto adresáře",
+    "No compatible server found at {remote}" : "Na {remote} nebyl nalezen kompatibilní server",
+    "Invalid server URL" : "Neplatná URL serveru",
     "No expiration date set" : "Není nastaveno datum vypršení platnosti",
     "Shared by" : "Sdílí",
     "Sharing" : "Sdílení",

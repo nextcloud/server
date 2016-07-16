@@ -60,8 +60,6 @@
     "Offending command was: \"%s\"" : "Il comando non consentito era: \"%s\"",
     "You need to enter either an existing account or the administrator." : "È necessario inserire un account esistente o l'amministratore.",
     "Offending command was: \"%s\", name: %s, password: %s" : "Il comando non consentito era: \"%s\", nome: %s, password: %s",
-    "PostgreSQL connection failed" : "Connessione a PostgreSQL non riuscita",
-    "Please check your connection details." : "Controlla le informazioni di connessione.",
     "PostgreSQL username and/or password not valid" : "Nome utente e/o password di PostgreSQL non validi",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X non è supportato e %s non funzionerà correttamente su questa piattaforma. Usalo a tuo rischio!",
     "For the best results, please consider using a GNU/Linux server instead." : "Per avere il risultato migliore, prendi in considerazione l'utilizzo di un server GNU/Linux.",
