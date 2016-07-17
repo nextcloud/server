@@ -33,7 +33,7 @@ Tell us what happens instead
 
 **Where did you install Nextcloud from:**
 
-**Signing status (Nextcloud 9.0 and above):**
+**Signing status:**
 <details>
 <summary>Signing status</summary>
 
