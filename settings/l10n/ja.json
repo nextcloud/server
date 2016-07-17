@@ -108,6 +108,7 @@
     "never" : "なし",
     "deleted {userName}" : "{userName} を削除しました",
     "add group" : "グループを追加",
+    "Invalid quota value \"{val}\"" : "クオータ値 \"{val}\" は不正な値です。",
     "Changing the password will result in data loss, because data recovery is not available for this user" : "このユーザーのデータ復旧が無効になっていますので、パスワードを変更するとユーザーはデータに二度とアクセスできません。",
     "A valid username must be provided" : "有効なユーザー名を指定する必要があります",
     "Error creating user: {message}" : "ユーザ作成エラー {message}",
