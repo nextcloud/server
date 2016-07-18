@@ -31,6 +31,7 @@ namespace OCA\Files_Sharing;
 use OC\Files\Filesystem;
 use OC\Files\View;
 use OCP\Files\NotFoundException;
+use OCP\Share\Exceptions\ShareNotFound;
 use OCP\User;
 
 class Helper {
@@ -53,29 +54,23 @@ class Helper {
 	public static function setupFromToken($token, $relativePath = null, $password = null) {
 		\OC_User::setIncognitoMode(true);
 
-		$linkItem = \OCP\Share::getShareByToken($token, !$password);
-		if($linkItem === false || ($linkItem['item_type'] !== 'file' && $linkItem['item_type'] !== 'folder')) {
+		$shareManager = \OC::$server->getShareManager();
+
+		try {
+			$share = $shareManager->getShareByToken($token);
+		} catch (ShareNotFound $e) {
 			\OC_Response::setStatus(404);
 			\OCP\Util::writeLog('core-preview', 'Passed token parameter is not valid', \OCP\Util::DEBUG);
 			exit;
 		}
 
-		if(!isset($linkItem['uid_owner']) || !isset($linkItem['file_source'])) {
-			\OC_Response::setStatus(500);
-			\OCP\Util::writeLog('core-preview', 'Passed token seems to be valid, but it does not contain all necessary information . ("' . $token . '")', \OCP\Util::WARN);
-			exit;
-		}
+		\OCP\JSON::checkUserExists($share->getShareOwner());
+		\OC_Util::tearDownFS();
+		\OC_Util::setupFS($share->getShareOwner());
 
-		$rootLinkItem = \OCP\Share::resolveReShare($linkItem);
-		$path = null;
-		if (isset($rootLinkItem['uid_owner'])) {
-			\OCP\JSON::checkUserExists($rootLinkItem['uid_owner']);
-			\OC_Util::tearDownFS();
-			\OC_Util::setupFS($rootLinkItem['uid_owner']);
-		}
 
 		try {
-			$path = Filesystem::getPath($linkItem['file_source']);
+			$path = Filesystem::getPath($share->getNodeId());
 		} catch (NotFoundException $e) {
 			\OCP\Util::writeLog('share', 'could not resolve linkItem', \OCP\Util::DEBUG);
 			\OC_Response::setStatus(404);
@@ -83,15 +78,8 @@ class Helper {
 			exit();
 		}
 
-		if (!isset($linkItem['item_type'])) {
-			\OCP\Util::writeLog('share', 'No item type set for share id: ' . $linkItem['id'], \OCP\Util::ERROR);
-			\OC_Response::setStatus(404);
-			\OCP\JSON::error(array('success' => false));
-			exit();
-		}
-
-		if (isset($linkItem['share_with']) && (int)$linkItem['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
-			if (!self::authenticate($linkItem, $password)) {
+		if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK && $share->getPassword() !== null) {
+			if (!self::authenticate($share, $password)) {
 				\OC_Response::setStatus(403);
 				\OCP\JSON::error(array('success' => false));
 				exit();
@@ -105,7 +93,7 @@ class Helper {
 		}
 
 		return array(
-			'linkItem' => $linkItem,
+			'share' => $share,
 			'basePath' => $basePath,
 			'realPath' => $path
 		);
@@ -114,53 +102,29 @@ class Helper {
 	/**
 	 * Authenticate link item with the given password
 	 * or with the session if no password was given.
-	 * @param array $linkItem link item array
+	 * @param \OCP\Share\IShare $share
 	 * @param string $password optional password
 	 *
 	 * @return boolean true if authorized, false otherwise
 	 */
-	public static function authenticate($linkItem, $password = null) {
+	public static function authenticate($share, $password = null) {
+		$shareManager = \OC::$server->getShareManager();
+
 		if ($password !== null) {
-			if ($linkItem['share_type'] == \OCP\Share::SHARE_TYPE_LINK) {
-				// Check Password
-				$newHash = '';
-				if(\OC::$server->getHasher()->verify($password, $linkItem['share_with'], $newHash)) {
-					// Save item id in session for future requests
-					\OC::$server->getSession()->set('public_link_authenticated', (string) $linkItem['id']);
-
-					/**
-					 * FIXME: Migrate old hashes to new hash format
-					 * Due to the fact that there is no reasonable functionality to update the password
-					 * of an existing share no migration is yet performed there.
-					 * The only possibility is to update the existing share which will result in a new
-					 * share ID and is a major hack.
-					 *
-					 * In the future the migration should be performed once there is a proper method
-					 * to update the share's password. (for example `$share->updatePassword($password)`
-					 *
-					 * @link https://github.com/owncloud/core/issues/10671
-					 */
-					if(!empty($newHash)) {
-
-					}
-				} else {
-					return false;
+			if ($share->getShareType() === \OCP\Share::SHARE_TYPE_LINK) {
+				if ($shareManager->checkPassword($share, $password)) {
+					\OC::$server->getSession()->set('public_link_authenticated', (string)$share->getId());
+					return true;
 				}
-			} else {
-				\OCP\Util::writeLog('share', 'Unknown share type '.$linkItem['share_type']
-					.' for share id '.$linkItem['id'], \OCP\Util::ERROR);
-				return false;
 			}
-
-		}
-		else {
+		} else {
 			// not authenticated ?
-			if ( ! \OC::$server->getSession()->exists('public_link_authenticated')
-				|| \OC::$server->getSession()->get('public_link_authenticated') !== (string)$linkItem['id']) {
-				return false;
+			if (\OC::$server->getSession()->exists('public_link_authenticated')
+				&& \OC::$server->getSession()->get('public_link_authenticated') !== (string)$share->getId()) {
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 
 	public static function getSharesFromItem($target) {
