@@ -1,6 +1,7 @@
 {
     "config" : {
-        "vendor-dir": "lib/composer"
+        "vendor-dir": "lib/composer",
+        "optimize-autoloader": true
     },
     "autoload" : {
         "psr-4": {
