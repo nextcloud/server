@@ -29,14 +29,10 @@ use OCP\Migration\IRepairStep;
 class AssetCache implements IRepairStep {
 
 	public function getName() {
-		return 'Clear asset cache after upgrade';
+		return 'Remove asset cache';
 	}
 
 	public function run(IOutput $output) {
-		if (!\OC_Template::isAssetPipelineEnabled()) {
-			$output->info('Asset pipeline disabled -> nothing to do');
-			return;
-		}
 		$assetDir = \OC::$server->getConfig()->getSystemValue('assetdirectory', \OC::$SERVERROOT) . '/assets';
 		\OC_Helper::rmdirr($assetDir, false);
 		$output->info('Asset cache cleared.');

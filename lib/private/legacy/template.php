@@ -395,46 +395,4 @@ class OC_Template extends \OC\Template\Base {
 		}
 		return 'HTTP/1.1';
 	}
-
-	/**
-	 * @return bool
-	 */
-	public static function isAssetPipelineEnabled() {
-		try {
-			if (\OCP\Util::needUpgrade()) {
-				// Don't use the compiled asset when we need to do an update
-				return false;
-			}
-		} catch (\Exception $e) {
-			// Catch any exception, because this code is also called when displaying
-			// an exception error page.
-			return false;
-		}
-
-		// asset management enabled?
-		$config = \OC::$server->getConfig();
-		$useAssetPipeline = $config->getSystemValue('asset-pipeline.enabled', false);
-		if (!$useAssetPipeline) {
-			return false;
-		}
-
-		// assets folder exists?
-		$assetDir = $config->getSystemValue('assetdirectory', \OC::$SERVERROOT) . '/assets';
-		if (!is_dir($assetDir)) {
-			if (!mkdir($assetDir)) {
-				\OCP\Util::writeLog('assets',
-					"Folder <$assetDir> does not exist and/or could not be generated.", \OCP\Util::ERROR);
-				return false;
-			}
-		}
-
-		// assets folder can be accessed?
-		if (!touch($assetDir."/.oc")) {
-			\OCP\Util::writeLog('assets',
-				"Folder <$assetDir> could not be accessed.", \OCP\Util::ERROR);
-			return false;
-		}
-		return $useAssetPipeline;
-	}
-
 }
