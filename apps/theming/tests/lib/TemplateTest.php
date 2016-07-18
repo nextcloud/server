@@ -91,6 +91,26 @@ class TemplateTest extends TestCase {
 		$this->assertEquals('MyCustomCloud', $this->template->getName());
 	}
 
+	public function testGetHTMLNameWithDefault() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'name', 'Nextcloud')
+			->willReturn('Nextcloud');
+
+		$this->assertEquals('Nextcloud', $this->template->getHTMLName());
+	}
+
+	public function testGetHTMLNameWithCustom() {
+		$this->config
+			->expects($this->once())
+			->method('getAppValue')
+			->with('theming', 'name', 'Nextcloud')
+			->willReturn('MyCustomCloud');
+
+		$this->assertEquals('MyCustomCloud', $this->template->getHTMLName());
+	}
+
 	public function testGetTitleWithDefault() {
 		$this->config
 			->expects($this->once())
@@ -170,6 +190,32 @@ class TemplateTest extends TestCase {
 			->willReturn('My custom Slogan');
 
 		$this->assertEquals('My custom Slogan', $this->template->getSlogan());
+	}
+
+	public function testGetShortFooter() {
+		$this->config
+			->expects($this->exactly(3))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'url', 'https://nextcloud.com/', 'url'],
+				['theming', 'name', 'Nextcloud', 'Name'],
+				['theming', 'slogan', 'Safe Data', 'Slogan'],
+			]);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer">Name</a> – Slogan', $this->template->getShortFooter());
+	}
+
+	public function testGetShortFooterEmptySlogan() {
+		$this->config
+			->expects($this->exactly(3))
+			->method('getAppValue')
+			->willReturnMap([
+				['theming', 'url', 'https://nextcloud.com/', 'url'],
+				['theming', 'name', 'Nextcloud', 'Name'],
+				['theming', 'slogan', 'Safe Data', ''],
+			]);
+
+		$this->assertEquals('<a href="url" target="_blank" rel="noreferrer">Name</a>', $this->template->getShortFooter());
 	}
 
 	public function testGetMailHeaderColorWithDefault() {

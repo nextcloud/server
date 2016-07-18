@@ -98,7 +98,7 @@ class ServerFactory {
 		$server->setBaseUri($baseUri);
 
 		// Load plugins
-		$defaults = new \OC_Defaults();
+		$defaults = new \OCP\Defaults();
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\MaintenancePlugin($this->config));
 		$server->addPlugin(new \OCA\DAV\Connector\Sabre\BlockLegacyClientPlugin($this->config));
 		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, $defaults->getName()));
