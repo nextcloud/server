@@ -103,18 +103,58 @@
 			viewData.title = viewData.name;
 
 			// pretty format sync client user agent
-			var matches = viewData.name.match(/Mozilla\/5\.0 \((\w+)\) mirall\/(\d+\.\d+\.\d+)/);
+			var matches = viewData.name.match(/Mozilla\/5\.0 \((\w+)\) (?:mirall|csyncoC)\/(\d+\.\d+\.\d+)/);
+
+			var userAgentMap = {
+				ie: /(?:MSIE|Trident) (\d+)/,
+				// Microsoft Edge User Agent from https://msdn.microsoft.com/en-us/library/hh869301(v=vs.85).aspx
+				edge: /^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/[0-9.]+ (?:Mobile Safari|Safari)\/[0-9.]+ Edge\/[0-9.]+$/,
+				// Firefox User Agent from https://developer.mozilla.org/en-US/docs/Web/HTTP/Gecko_user_agent_string_reference
+				firefox: /^Mozilla\/5\.0 \([^)]*(Windows|OS X|Linux)[^)]+\) Gecko\/[0-9.]+ Firefox\/(\d+)(?:\.\d)?$/,
+				// Chrome User Agent from https://developer.chrome.com/multidevice/user-agent
+				chrome: /^Mozilla\/5\.0 \([^)]*(Windows|OS X|Linux)[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/(\d+)[0-9.]+ (?:Mobile Safari|Safari)\/[0-9.]+$/,
+				// Safari User Agent from http://www.useragentstring.com/pages/Safari/
+				safari: /^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/([0-9]+)[0-9.]+ Safari\/[0-9.A-Z]+$/,
+				// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
+				androidChrome: /Android.*(?:; (.*) Build\/).*Chrome\/(\d+)[0-9.]+/,
+				iphone: / *CPU +iPhone +OS +(\d+)_\d+ +like +Mac +OS +X */,
+				iosClient: /^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/,
+				androidClient:/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/,
+				// DAVdroid/1.2 (2016/07/03; dav4android; okhttp3) Android/6.0.1
+				davDroid: /DAVdroid\/([0-9.]+)/
+			};
+			var nameMap = {
+				ie: t('setting', 'Internet Explorer'),
+				edge: t('setting', 'Edge'),
+				firefox: t('setting', 'Firefox'),
+				chrome: t('setting', 'Google Chrome'),
+				safari: t('setting', 'Safari'),
+				androidChrome: t('setting', 'Google Chrome for Android'),
+				iphone: t('setting', 'iPhone'),
+				iosClient: t('setting', 'iOS Client'),
+				androidClient: t('setting', 'Android Client'),
+				davDroid: 'DAVdroid'
+			};
 
 			if (matches) {
-				viewData.name = t('settings', 'Sync client ({os}) - Version {version}', {
+				viewData.name = t('settings', 'Sync client - {os}', {
 					os: matches[1],
 					version: matches[2]
-				})
+				});
+			}
+			for (var client in userAgentMap) {
+				if (matches = viewData.title.match(userAgentMap[client])) {
+					if (matches[2] && matches[1]) { // version number and os
+						viewData.name = nameMap[client] + ' ' + matches[2] + ' - ' + matches[1];
+					}else if (matches[1]) { // only version number
+						viewData.name = nameMap[client] + ' ' + matches[1];
+					} else {
+						viewData.name = nameMap[client];
+					}
+				}
 			}
 			if (viewData.current) {
-				viewData.name = t('settings', 'Current session', {
-					userAgent: viewData.name
-				})
+				viewData.name = t('settings', 'This session');
 			}
 			return viewData;
 		}
