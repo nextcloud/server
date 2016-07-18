@@ -51,7 +51,7 @@ class Defaults {
 	 * @since 6.0.0
 	 */
 	function __construct() {
-		$this->defaults = new \OC_Defaults();
+		$this->defaults = \OC::$server->getThemingDefaults();
 	}
 
 	/**

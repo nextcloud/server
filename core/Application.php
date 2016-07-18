@@ -35,7 +35,7 @@ use OC\Core\Controller\LostController;
 use OC\Core\Controller\TokenController;
 use OC\Core\Controller\TwoFactorChallengeController;
 use OC\Core\Controller\UserController;
-use OC_Defaults;
+use OCP\Defaults;
 use OCP\AppFramework\App;
 use OCP\Util;
 
@@ -165,8 +165,8 @@ class Application extends App {
 		$container->registerService('UserFolder', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getUserFolder();
 		});
-		$container->registerService('Defaults', function() {
-			return new OC_Defaults;
+		$container->registerService('Defaults', function(SimpleContainer $c) {
+			return $c->query('ServerContainer')->getThemingDefaults();
 		});
 		$container->registerService('Mailer', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getMailer();

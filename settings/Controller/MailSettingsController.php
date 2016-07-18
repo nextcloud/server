@@ -29,7 +29,6 @@ use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
 use OCP\Mail\IMailer;
-use OCP\Mail\IMessage;
 
 /**
  * @package OC\Settings\Controller

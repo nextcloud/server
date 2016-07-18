@@ -227,7 +227,7 @@ class Application extends App {
 			return $c->query('ServerContainer')->getMailer();
 		});
 		$container->registerService('Defaults', function(IContainer $c) {
-			return new \OC_Defaults;
+			return $c->query('ServerContainer')->getThemingDefaults();
 		});
 		$container->registerService('DefaultMailAddress', function(IContainer $c) {
 			return Util::getDefaultEmailAddress('no-reply');
