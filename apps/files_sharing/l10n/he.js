@@ -1,13 +1,6 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Server to server sharing is not enabled on this server" : "שיתוף שרת לשרת לא מופעל בשרת זה",
-    "The mountpoint name contains invalid characters." : "שם ה- mountpoint מכיל תווים לא חוקיים.",
-    "Not allowed to create a federated share with the same user server" : "יצירת שיתוף מאוגד עם אותו שרת משתמש אסורה",
-    "Invalid or untrusted SSL certificate" : "תעודת SSL לא חוקית או לא בטוחה",
-    "Could not authenticate to remote share, password might be wrong" : "לא ניתן לאמת שיתוף חיצוני, ייתכן שהסיסמא שגוייה",
-    "Storage not valid" : "אחסון לא חוקי",
-    "Couldn't add remote share" : "לא ניתן להוסיף שיתוף חיצוני",
     "Shared with you" : "שיתף/שיתפה אתך",
     "Shared with others" : "משותף עם אחרים",
     "Shared by link" : "משותף עם קישור",
@@ -17,11 +10,6 @@ OC.L10N.register(
     "Files and folders you share will show up here" : "קבצים ותיקיות ששיתפת יוצגו כאן",
     "No shared links" : "אין קישורים משותפים",
     "Files and folders you share by link will show up here" : "קבצים ותיקיות ששיתפת עם קישור יוצגו כאן",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "האם לשתף את השיתוף החיצוני {name} שהתקבל מ- {owner}@{remote}?",
-    "Remote share" : "שיתוף חיצוני",
-    "Remote share password" : "סיסמת שיתוף חיצוני",
-    "Cancel" : "ביטול",
-    "Add remote share" : "הוספת שיתוף חיצוני",
     "You can upload into this folder" : "ניתן להעלות לתיקייה זו",
     "Shared by" : "שותף על־ידי",
     "Sharing" : "שיתוף",
@@ -99,7 +87,6 @@ OC.L10N.register(
     "the link expired" : "הקישור פג תוקף",
     "sharing is disabled" : "השיתוף נוטרל",
     "For more info, please ask the person who sent this link." : "למידע נוסף, יש לפנות לשולח קישור זה.",
-    "Add to your ownCloud" : "הוספה ל- ownCloud שלך",
     "Download" : "הורדה",
     "Download %s" : "הורדה %s",
     "Direct link" : "קישור ישיר"

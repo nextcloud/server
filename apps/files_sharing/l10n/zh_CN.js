@@ -1,13 +1,6 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Server to server sharing is not enabled on this server" : "此服务器未启用服务器到服务器分享功能",
-    "The mountpoint name contains invalid characters." : "挂载点的名称包含无效字符。",
-    "Not allowed to create a federated share with the same user server" : "不允许使用相同的用户服务器创建联合共享",
-    "Invalid or untrusted SSL certificate" : "无效或是不被信任的 SSL 证书",
-    "Could not authenticate to remote share, password might be wrong" : "无法验证远程共享，可能是密码错误",
-    "Storage not valid" : "存储无效",
-    "Couldn't add remote share" : "无法添加远程分享",
     "Shared with you" : "分享给您的文件",
     "Shared with others" : "您分享的文件",
     "Shared by link" : "分享链接的文件",
@@ -17,11 +10,6 @@ OC.L10N.register(
     "Files and folders you share will show up here" : "您共享的文件和文件夹将显示在这里",
     "No shared links" : "无分享链接",
     "Files and folders you share by link will show up here" : "您通过链接共享的文件和文件夹将显示在这里",
-    "Do you want to add the remote share {name} from {owner}@{remote}?" : "您要添加 {name} 来自 {owner}@{remote} 的远程分享吗？",
-    "Remote share" : "远程分享",
-    "Remote share password" : "远程分享密码",
-    "Cancel" : "取消",
-    "Add remote share" : "添加远程分享",
     "You can upload into this folder" : "您可以上传文件至此文件夹",
     "Shared by" : "共享人",
     "Sharing" : "共享",
@@ -99,7 +87,6 @@ OC.L10N.register(
     "the link expired" : "链接过期",
     "sharing is disabled" : "分享已禁用",
     "For more info, please ask the person who sent this link." : "欲知详情，请联系发给你链接的人。",
-    "Add to your ownCloud" : "添加到您的 ownCloud",
     "Download" : "下载",
     "Download %s" : "下载 %s",
     "Direct link" : "直接链接"
