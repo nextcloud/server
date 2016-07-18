@@ -1568,8 +1568,7 @@ class CalDavBackend extends AbstractBackend implements SyncSupport, Subscription
 
 		$row = $result->fetch();
 		$result->closeCursor();
-
-		return $row[0] > 0;
+		return reset($row) > 0;
 	}
 
 	/**
