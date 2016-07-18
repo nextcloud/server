@@ -140,12 +140,12 @@ class PostgreSQL extends AbstractDatabase {
 
 	private function createDBUser(IDBConnection $connection) {
 		try {
-			if ($this->userExists($connection, $this->dbUser)) {
+			if ($this->userExists($connection)) {
 				// change the password
-				$query = $connection->prepare("ALTER ROLE " . addslashes($this->dbUser) . " CREATEDB WITH PASSWORD " . addslashes($this->dbPassword));
+				$query = $connection->prepare("ALTER ROLE " . addslashes($this->dbUser) . " CREATEDB WITH PASSWORD '" . addslashes($this->dbPassword) . "'");
 			} else {
 				// create the user
-				$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD " . addslashes($this->dbPassword));
+				$query = $connection->prepare("CREATE USER " . addslashes($this->dbUser) . " CREATEDB PASSWORD '" . addslashes($this->dbPassword) . "'");
 			}
 			$query->execute();
 		} catch (DatabaseException $e) {
