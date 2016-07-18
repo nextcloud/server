@@ -98,6 +98,7 @@ class AuthSettingsController extends Controller {
 			$data = $token->jsonSerialize();
 			if ($sessionToken->getId() === $token->getId()) {
 				$data['canDelete'] = false;
+				$data['current'] = true;
 			} else {
 				$data['canDelete'] = true;
 			}
