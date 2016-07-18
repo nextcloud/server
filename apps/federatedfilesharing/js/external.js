@@ -99,20 +99,29 @@
 				var callbackAddShare = function(result, share) {
 					var password = share.password || '';
 					if (result) {
-						//$.post(OC.generateUrl('/apps/files_sharing/api/externalShares'), {id: share.id});
-						$.post(OC.generateUrl('apps/files_sharing/external'), {
-							remote: share.remote,
-							token: share.token,
-							owner: share.owner,
-							ownerDisplayName: share.ownerDisplayName || share.owner,
-							name: share.name,
-							password: password}, function(result) {
-							if (result.status === 'error') {
-								OC.Notification.showTemporary(result.data.message);
-							} else {
-								fileList.reload();
+						$.post(
+							OC.generateUrl('apps/federatedfilesharing/askForFederatedShare'),
+							{
+								remote: share.remote,
+								token: share.token,
+								owner: share.owner,
+								ownerDisplayName: share.ownerDisplayName || share.owner,
+								name: share.name,
+								password: password
 							}
-						});
+						).done(
+							function(data) {
+								if (data.hasOwnProperty('legacyMount')) {
+									fileList.reload();
+								} else {
+									OC.Notification.showTemporary(data.message);
+								}
+						}
+						).fail(
+							function(data) {
+								OC.Notification.showTemporary(JSON.parse(data.responseText).message);
+							}
+						);
 					}
 				};
 
@@ -166,4 +175,3 @@
 })();
 
 OC.Plugins.register('OCA.Files.App', OCA.Sharing.ExternalShareDialogPlugin);
-

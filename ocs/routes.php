@@ -99,7 +99,7 @@ API::register(
 
 // Server-to-Server Sharing
 if (\OC::$server->getAppManager()->isEnabledForUser('files_sharing')) {
-	$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
+	$federatedSharingApp = new \OCA\FederatedFileSharing\AppInfo\Application();
 	$addressHandler = new \OCA\FederatedFileSharing\AddressHandler(
 		\OC::$server->getURLGenerator(),
 		\OC::$server->getL10N('federatedfilesharing')

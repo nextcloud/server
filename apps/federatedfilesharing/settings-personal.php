@@ -27,7 +27,7 @@ use OCA\FederatedFileSharing\AppInfo\Application;
 
 $l = \OC::$server->getL10N('federatedfilesharing');
 
-$app = new Application('federatedfilesharing');
+$app = new Application();
 $federatedShareProvider = $app->getFederatedShareProvider();
 
 $isIE8 = false;

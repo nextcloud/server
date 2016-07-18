@@ -20,11 +20,11 @@
  *
  */
 
-$app = new \OCA\FederatedFileSharing\AppInfo\Application('federatedfilesharing');
-
 use OCA\FederatedFileSharing\Notifier;
 
+$app = new \OCA\FederatedFileSharing\AppInfo\Application();
 $l = \OC::$server->getL10N('files_sharing');
+$eventDispatcher = \OC::$server->getEventDispatcher();
 
 $app->registerSettings();
 
@@ -39,3 +39,14 @@ $manager->registerNotifier(function() {
 		'name' => $l->t('Federated sharing'),
 	];
 });
+
+$federatedShareProvider = $app->getFederatedShareProvider();
+
+$eventDispatcher->addListener(
+	'OCA\Files::loadAdditionalScripts',
+	function() use ($federatedShareProvider) {
+		if ($federatedShareProvider->isIncomingServer2serverShareEnabled()) {
+			\OCP\Util::addScript('federatedfilesharing', 'external');
+		}
+	}
+);

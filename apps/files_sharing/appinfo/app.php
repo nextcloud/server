@@ -46,9 +46,6 @@ $eventDispatcher->addListener(
 	function() {
 		\OCP\Util::addScript('files_sharing', 'share');
 		\OCP\Util::addScript('files_sharing', 'sharetabview');
-		if (\OC::$server->getConfig()->getAppValue('files_sharing', 'incoming_server2server_share_enabled', 'yes') === 'yes') {
-			\OCP\Util::addScript('files_sharing', 'external');
-		}
 		\OCP\Util::addStyle('files_sharing', 'sharetabview');
 	}
 );

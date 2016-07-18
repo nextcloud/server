@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2014
+ * @copyright Copyright (c) 2016, Björn Schießle <bjoern@schiessle.org>
  *
  * This file is licensed under the Affero General Public License version 3
  * or later.
@@ -247,7 +248,7 @@ OCA.Sharing.PublicApp = {
 			var ownerDisplayName = $('#save').data('owner-display-name');
 			var name = $('#save').data('name');
 			var isProtected = $('#save').data('protected') ? 1 : 0;
-			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token, owner, ownerDisplayName, name, isProtected);
+			OCA.Sharing.PublicApp._createFederatedShare(remote, token, owner, ownerDisplayName, name, isProtected);
 		});
 
 		$('#remote_address').on("keyup paste", function() {
@@ -294,30 +295,26 @@ OCA.Sharing.PublicApp = {
 		this.fileList.changeDirectory(params.path || params.dir, false, true);
 	},
 
-	_saveToOwnCloud: function (remote, token, owner, ownerDisplayName, name, isProtected) {
-		var toggleLoading = function() {
-			var iconClass = $('#save-button-confirm').attr('class');
-			var loading = iconClass.indexOf('icon-loading-small') !== -1;
-			if(loading) {
-				$('#save-button-confirm')
-				.removeClass("icon-loading-small")
-				.addClass("icon-confirm");
 
-			}
-			else {
-				$('#save-button-confirm')
-				.removeClass("icon-confirm")
-				.addClass("icon-loading-small");
+	/**
+	 * fall back to old behaviour where we redirect the user to his server to mount
+	 * the public link instead of creating a dedicated federated share
+	 *
+	 * @param remote
+	 * @param token
+	 * @param owner
+	 * @param ownerDisplayName
+	 * @param name
+	 * @param isProtected
+	 * @private
+	 */
+	_legacyCreateFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {
 
-			}
-		};
-
-		toggleLoading();
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
 
 		if(remote.substr(-1) !== '/') {
 			remote += '/'
-		};
+		}
 
 		var url = remote + 'index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
 			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) +"&ownerDisplayName=" + encodeURIComponent(ownerDisplayName) + "&name=" + encodeURIComponent(name) + "&protected=" + isProtected;
@@ -330,7 +327,6 @@ OCA.Sharing.PublicApp = {
 			// this check needs to happen on the server due to the Content Security Policy directive
 			$.get(OC.generateUrl('apps/files_sharing/testremote'), {remote: remote}).then(function (protocol) {
 				if (protocol !== 'http' && protocol !== 'https') {
-					toggleLoading();
 					OC.dialogs.alert(t('files_sharing', 'No compatible server found at {remote}', {remote: remote}),
 						t('files_sharing', 'Invalid server URL'));
 				} else {
@@ -338,6 +334,58 @@ OCA.Sharing.PublicApp = {
 				}
 			});
 		}
+	},
+
+	_createFederatedShare: function (remote, token, owner, ownerDisplayName, name, isProtected) {
+
+		var toggleLoading = function() {
+			var iconClass = $('#save-button-confirm').attr('class');
+			var loading = iconClass.indexOf('icon-loading-small') !== -1;
+			if(loading) {
+				$('#save-button-confirm')
+					.removeClass("icon-loading-small")
+					.addClass("icon-confirm");
+
+			}
+			else {
+				$('#save-button-confirm')
+					.removeClass("icon-confirm")
+					.addClass("icon-loading-small");
+
+			}
+		};
+
+		toggleLoading();
+
+		if (remote.indexOf('@') === -1) {
+			this._legacyCreateFederatedShare(remote, token, owner, ownerDisplayName, name, isProtected);
+			toggleLoading();
+			return;
+		}
+
+		$.post(
+			OC.generateUrl('/apps/federatedfilesharing/createFederatedShare'),
+			{
+				'shareWith': remote,
+				'token': token
+			}
+		).done(
+			function (data) {
+				var url = data.remoteUrl;
+
+				if (url.indexOf('://') > 0) {
+					OC.redirect(url);
+				} else {
+					OC.redirect('http://' + url);
+				}
+			}
+		).fail(
+			function (jqXHR) {
+				OC.dialogs.alert(JSON.parse(jqXHR.responseText).message,
+					t('files_sharing', 'Failed to add the public link to your Nextcloud'));
+				toggleLoading();
+			}
+		);
 	}
 };
 
