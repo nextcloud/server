@@ -31,17 +31,50 @@ function setThemingValue(setting, value) {
 	preview(setting, value);
 }
 
+function calculateLuminance(rgb) {
+	var hexValue = rgb.replace(/[^0-9A-Fa-f]/, '');
+	var r,g,b;
+	if (hexValue.length === 3) {
+		hexValue = hexValue[0] + hexValue[0] + hexValue[1] + hexValue[1] + hexValue[2] + hexValue[2];
+	}
+	if (hexValue.length !== 6) {
+		return 0;
+	}
+	r = parseInt(hexValue.substring(0,2), 16);
+	g = parseInt(hexValue.substring(2,4), 16);
+	b = parseInt(hexValue.substring(4,6), 16);
+	return (0.299*r + 0.587*g + 0.114*b)/255;
+}
+
 function preview(setting, value) {
 	if (setting === 'color') {
 		var headerClass = document.getElementById('header');
+		var expandDisplayNameClass = document.getElementById('expandDisplayName');
+		var headerAppName = headerClass.getElementsByClassName('header-appname')[0];
+		var textColor, icon;
+
+		if (calculateLuminance(value) > 0.5) {
+			textColor = "#000000";
+			icon = 'caret-dark';
+		} else {
+			textColor = "#ffffff";
+			icon = 'caret';
+		}
+
 		headerClass.style.background = value;
 		headerClass.style.backgroundImage = '../img/logo-icon.svg';
+		expandDisplayNameClass.style.color = textColor;
+		headerAppName.style.color = textColor;
+
+		$(headerClass).find('.icon-caret').each(function() {
+			$(this).css('background-image', "url('" + OC.getRootPath() + '/core/img/actions/' + icon + ".svg')");
+		});
 	}
 	if (setting === 'logoMime') {
 		console.log(setting);
 		var logos = document.getElementsByClassName('logo-icon');
 		var timestamp = new Date().getTime();
-		if(value !== '') {
+		if (value !== '') {
 			logos[0].style.background = "url('" + OC.generateUrl('/apps/theming/logo') + "?v" + timestamp + "')";
 			logos[0].style.backgroundSize = "62px 34px";
 		} else {

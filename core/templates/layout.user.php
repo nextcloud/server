@@ -73,7 +73,7 @@
 					</div>
 					<?php endif; ?>
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
-					<img alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>">
+					<div class="icon-caret"></div>
 				</div>
 				<div id="expanddiv">
 				<ul>

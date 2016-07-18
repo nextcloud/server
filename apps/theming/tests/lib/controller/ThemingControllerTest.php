@@ -311,6 +311,33 @@ class ThemingControllerTest extends TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('theming', 'color', '')
+			->willReturn('#000');
+		$this->config
+			->expects($this->at(2))
+			->method('getAppValue')
+			->with('theming', 'logoMime', '')
+			->willReturn('');
+		$this->config
+			->expects($this->at(3))
+			->method('getAppValue')
+			->with('theming', 'backgroundMime', '')
+			->willReturn('');
+
+		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #000}', 'style', 'text/css');
+		$expected->cacheFor(3600);
+		@$this->assertEquals($expected, $this->themingController->getStylesheet());
+	}
+
+	public function testGetStylesheetWithOnlyColorInvert() {
+		$this->config
+			->expects($this->at(0))
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'color', '')
 			->willReturn('#fff');
 		$this->config
 			->expects($this->at(2))
@@ -323,7 +350,7 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('');
 
-		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #fff}', 'style', 'text/css');
+		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #fff}#header .header-appname, #expandDisplayName { color: #000000; } #header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); } .searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }', 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
@@ -400,7 +427,7 @@ class ThemingControllerTest extends TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('theming', 'color', '')
-			->willReturn('#abc');
+			->willReturn('#000');
 		$this->config
 			->expects($this->at(2))
 			->method('getAppValue')
@@ -412,7 +439,7 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
-		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #abc}#header .logo {
+		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #000}#header .logo {
 				background-image: url(\'./logo?v=0\');
 			}
 			#header .logo-icon {
@@ -421,6 +448,40 @@ class ThemingControllerTest extends TestCase {
 			}#body-login {
 				background-image: url(\'./loginbackground?v=0\');
 			}', 'style', 'text/css');
+		$expected->cacheFor(3600);
+		@$this->assertEquals($expected, $this->themingController->getStylesheet());
+	}
+	public function testGetStylesheetWithAllCombinedInverted() {
+		$this->config
+			->expects($this->at(0))
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'color', '')
+			->willReturn('#fff');
+		$this->config
+			->expects($this->at(2))
+			->method('getAppValue')
+			->with('theming', 'logoMime', '')
+			->willReturn('text/svg');
+		$this->config
+			->expects($this->at(3))
+			->method('getAppValue')
+			->with('theming', 'backgroundMime', '')
+			->willReturn('image/png');
+
+		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #fff}#header .logo {
+				background-image: url(\'./logo?v=0\');
+			}
+			#header .logo-icon {
+				background-image: url(\'./logo?v=0\');
+				background-size: 62px 34px;
+			}#body-login {
+				background-image: url(\'./loginbackground?v=0\');
+			}#header .header-appname, #expandDisplayName { color: #000000; } #header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); } .searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }', 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
