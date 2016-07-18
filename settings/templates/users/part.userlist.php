@@ -67,12 +67,12 @@
 				<div class="popovermenu bubble open menu">
 					<ul class="userActionsMenu">
 						<li>
-							<a href="#" class="menuitem action action-togglestate permanent" data-action="togglestate">
+							<a href="#" class="menuitem action-togglestate permanent" data-action="togglestate">
 								<img class="svg icon togglestate" src="" />
 							</a>
 						</li>
 						<li>
-							<a href="#" class="menuitem action action-remove permanent" data-action="remove">
+							<a href="#" class="menuitem action-remove permanent" data-action="remove">
 								<img class="svg icon remove" src="<?php print_unescaped(image_path('core', 'actions/delete.svg'))?>" />
 								<span><?php p($l->t('Delete')); ?></span>
 							</a>

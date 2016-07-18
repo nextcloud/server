@@ -252,9 +252,10 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 	right: 5px;
 }
 
-.popovermenu a.menuitem, .popovermenu label.menuitem, .popovermenu .menuitem {
+.popovermenu a.menuitem {
 	padding: 10px;
 	margin: -5px -10px -5px -15px;
+	height: 20px;
 }
 
 #userlist .popovermenu {
@@ -263,12 +264,11 @@ span.usersLastLoginTooltip { white-space: nowrap; }
 
 #userlist .popovermenu>ul.userActionsMenu {
 	right: 10px;
-	padding: 0 1.2em 1.2em;
-	width: 5em;
+	padding: 0 10px 10px;
 }
 
 #userlist .popovermenu>ul.userActionsMenu a span {
-	margin-left: 1em;
+	margin-left: 5px;
 }
 
 #userlist .popovermenu {

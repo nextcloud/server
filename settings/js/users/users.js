@@ -51,14 +51,13 @@ var UserList = {
 	 * @returns table row created for this user
 	 */
 	add: function (user, sort) {
-		if (this.currentGid && this.currentGid !== '_everyone' && _.indexOf(user.groups, this.currentGid) < 0) {
-			return;
+		if (this.currentGid && this.currentGid !== '_everyone' && this.currentGid !== 'disabledUsers' && _.indexOf(user.groups, this.currentGid) < 0) {
+			return false;
 		}
 
 		var $tr = $userListBody.find('tr:first-child').clone();
 		// this removes just the `display:none` of the template row
 		$tr.removeAttr('style');
-		$tr.toggleClass('disabled', !user.isEnabled);
 		var subAdminsEl;
 		var subAdminSelect;
 		var groupsSelect;
@@ -179,14 +178,6 @@ var UserList = {
 		 * append generated row to user list
 		 */
 		$tr.appendTo($userList);
-		if(UserList.isEmpty === true) {
-			//when the list was emptied, one row was left, necessary to keep
-			//add working and the layout unbroken. We need to remove this item
-			$tr.show();
-			$userListBody.find('tr:first').remove();
-			UserList.isEmpty = false;
-			UserList.checkUsersToLoad();
-		}
 
 		/**
 		 * sort list
@@ -403,10 +394,6 @@ var UserList = {
 		if(!limit) {
 			limit = UserList.usersToLoad;
 		}
-		if(gid=='disabledUsers') {
-			var showDisabled=true;
-			gid='';
-		}
 		$userList.siblings('.loading').css('visibility', 'visible');
 		UserList.updating = true;
 		if(gid === undefined) {
@@ -427,10 +414,8 @@ var UserList = {
 					if(UserList.has(user.name)) {
 						return true;
 					}
-					if((showDisabled && !user.isEnabled) || (!showDisabled && user.isEnabled)) {
-						var $tr = UserList.add(user, user.lastLogin, false, user.backend);
-						trs.push($tr);
-					}
+					var $tr = UserList.add(user);
+					trs.push($tr);
 					loadedUsers++;
 				});
 				if (result.length > 0) {
@@ -804,18 +789,18 @@ $(document).ready(function () {
 			menudiv.fadeOut(100);
 			return;
 		}
-		if($tr.hasClass('disabled')) {
-			menudiv.find('.action-togglestate').find('span').remove();
-			$('.togglestate', $td).attr({
-				src: OC.imagePath('core', 'actions/user-plus')
-			});
-			$('.togglestate', $td).after('<span>'+t('settings', 'Enable')+'</span>');
-		} else {
+		if($tr.data('userEnabled')) {
 			menudiv.find('.action-togglestate').find('span').remove();
 			$('.togglestate', $td).attr({
 				src: OC.imagePath('core', 'actions/user-times')
 			});
 			$('.togglestate', $td).after('<span>'+t('settings', 'Disable')+'</span>');
+		} else {
+			menudiv.find('.action-togglestate').find('span').remove();
+			$('.togglestate', $td).attr({
+				src: OC.imagePath('core', 'actions/user-plus')
+			});
+			$('.togglestate', $td).after('<span>'+t('settings', 'Enable')+'</span>');
 		}
 		menudiv.click(function() { menudiv.fadeOut(100); });
 		menudiv.hover('', function() { menudiv.fadeOut(100); });

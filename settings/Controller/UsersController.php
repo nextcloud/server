@@ -226,11 +226,6 @@ class UsersController extends Controller {
 	 * TODO: Tidy up and write unit tests - code is mainly static method calls
 	 */
 	public function index($offset = 0, $limit = 10, $gid = '', $pattern = '', $backend = '') {
-		// FIXME: The JS sends the group '_everyone' instead of no GID for the "all users" group.
-		if($gid === '_everyone') {
-			$gid = '';
-		}
-
 		// Remove backends
 		if(!empty($backend)) {
 			$activeBackends = $this->userManager->getBackends();
@@ -245,15 +240,18 @@ class UsersController extends Controller {
 
 		$users = [];
 		if ($this->isAdmin) {
-
-			if($gid !== '') {
+			if($gid !== '' && $gid !== 'disabledUsers') {
 				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
 				$batch = $this->userManager->search($pattern, $limit, $offset);
 			}
 
 			foreach ($batch as $user) {
-				$users[] = $this->formatUserForIndex($user);
+				if( ($gid!=='disabledUsers' && $user->isEnabled()) ||
+					($gid==='disabledUsers' && !$user->isEnabled())
+				) {
+					$users[] = $this->formatUserForIndex($user);
+				}
 			}
 
 		} else {
@@ -266,7 +264,7 @@ class UsersController extends Controller {
 			$subAdminOfGroups = $gids;
 
 			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
-			if($gid !== '' && !in_array($gid, $subAdminOfGroups)) {
+			if($gid !== '' && $gid!== 'disabledUsers' && !in_array($gid, $subAdminOfGroups)) {
 				$gid = '';
 			}
 
@@ -291,7 +289,11 @@ class UsersController extends Controller {
 					$this->groupManager->getUserGroupIds($user),
 					$subAdminOfGroups
 				));
-				$users[] = $this->formatUserForIndex($user, $userGroups);
+				if( ($gid!=='disabledUsers' && $user->isEnabled()) ||
+					($gid==='disabledUsers' && !$user->isEnabled())
+				) {
+					$users[] = $this->formatUserForIndex($user, $userGroups);
+				}
 			}
 		}
 
