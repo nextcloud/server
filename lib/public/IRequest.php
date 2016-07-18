@@ -61,6 +61,20 @@ namespace OCP;
  * @since 6.0.0
  */
 interface IRequest {
+	/**
+	 * @since 9.1.0
+	 */
+	const USER_AGENT_CLIENT_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
+
+	/**
+	 * @since 9.1.0
+	 */
+	const USER_AGENT_CLIENT_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
+
+	/**
+	 * @since 9.1.0
+	 */
+	const USER_AGENT_CLIENT_IOS = '/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/';
 
 	/**
 	 * @param string $name

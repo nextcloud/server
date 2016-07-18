@@ -67,10 +67,20 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
-	const USER_AGENT_OWNCLOUD_IOS = '/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/';
-	const USER_AGENT_OWNCLOUD_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
-	const USER_AGENT_OWNCLOUD_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
 	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)$/';
+
+	/**
+	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_IOS instead
+	 */
+	const USER_AGENT_OWNCLOUD_IOS = '/^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/';
+	/**
+	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_ANDROID instead
+	 */
+	const USER_AGENT_OWNCLOUD_ANDROID = '/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/';
+	/**
+	 * @deprecated use \OCP\IRequest::USER_AGENT_CLIENT_DESKTOP instead
+	 */
+	const USER_AGENT_OWNCLOUD_DESKTOP = '/^Mozilla\/5\.0 \([A-Za-z ]+\) (mirall|csyncoC)\/.*$/';
 
 	protected $inputStream;
 	protected $content;
