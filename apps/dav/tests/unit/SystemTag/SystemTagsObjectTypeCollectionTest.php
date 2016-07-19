@@ -71,13 +71,12 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 
 		$this->userFolder = $this->getMockBuilder('\OCP\Files\Folder')
 			->getMock();
+		$userFolder = $this->userFolder;
 
-		$fileRoot = $this->getMockBuilder('\OCP\Files\IRootFolder')
-			->getMock();
-		$fileRoot->expects($this->any())
-			->method('getUserfolder')
-			->with('testuser')
-			->will($this->returnValue($this->userFolder));
+		$closure = function($name) use ($userFolder) {
+			$nodes = $userFolder->getById(intval($name));
+			return !empty($nodes);
+		};
 
 		$this->node = new \OCA\DAV\SystemTag\SystemTagsObjectTypeCollection(
 			'files',
@@ -85,19 +84,19 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 			$this->tagMapper,
 			$userSession,
 			$groupManager,
-			$fileRoot
+			$closure
 		);
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateFile() {
 		$this->node->createFile('555');
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testForbiddenCreateDirectory() {
 		$this->node->createDirectory('789');
@@ -115,7 +114,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\NotFound
+	 * @expectedException \Sabre\DAV\Exception\NotFound
 	 */
 	public function testGetChildWithoutAccess() {
 		$this->userFolder->expects($this->once())
@@ -126,7 +125,7 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\MethodNotAllowed
+	 * @expectedException \Sabre\DAV\Exception\MethodNotAllowed
 	 */
 	public function testGetChildren() {
 		$this->node->getChildren();
@@ -149,14 +148,14 @@ class SystemTagsObjectTypeCollectionTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testDelete() {
 		$this->node->delete();
 	}
 
 	/**
-	 * @expectedException Sabre\DAV\Exception\Forbidden
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testSetName() {
 		$this->node->setName('somethingelse');
