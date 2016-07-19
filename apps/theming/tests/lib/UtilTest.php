@@ -65,4 +65,14 @@ class UtilTest extends TestCase {
 		$invert = Util::invertTextColor('');
 		$this->assertEquals(false, $invert);
 	}
+
+	public function testElementColorDefault() {
+		$elementColor = Util::elementColor("#000000");
+		$this->assertEquals('#000000', $elementColor);
+	}
+
+	public function testElementColorOnBrightBackground() {
+		$elementColor = Util::elementColor('#ffffff');
+		$this->assertEquals('#969696', $elementColor);
+	}
 }
