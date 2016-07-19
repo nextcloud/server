@@ -39,6 +39,21 @@ class Util {
 	}
 
 	/**
+	 * get color for on-page elements:
+	 * theme color by default, grey if theme color is to bright
+	 * @param $color
+	 * @return string
+	 */
+	public static function elementColor($color) {
+		$l = self::calculateLuminance($color);
+		if($l>0.8) {
+			return '#969696';
+		} else {
+			return $color;
+		}
+	}
+
+	/**
 	 * @param string $color rgb color value
 	 * @return float
 	 */
