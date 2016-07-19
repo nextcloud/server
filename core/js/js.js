@@ -625,7 +625,7 @@ var OC={
 	registerMenu: function($toggle, $menuEl) {
 		var self = this;
 		$menuEl.addClass('menu');
-		$toggle.on('click.menu', function(event) {
+		$toggle.on('hover.menu', function(event) {
 			// prevent the link event (append anchor to URL)
 			event.preventDefault();
 
