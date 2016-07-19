@@ -8,7 +8,7 @@
 				'{linkclose}',
 			],
 			[
-				'<a href="https://nextcloud.com/contact" target="_blank" rel="noreferrer">',
+				'<a href="https://nextcloud.com/contribute" target="_blank" rel="noreferrer">',
 				'<a href="https://github.com/nextcloud" target="_blank" rel="noreferrer">',
 				'<a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noreferrer">',
 				'</a>',
