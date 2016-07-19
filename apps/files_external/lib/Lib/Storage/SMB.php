@@ -405,6 +405,17 @@ class SMB extends Common implements INotifyStorage {
 		}
 	}
 
+	public function isDeletable($path) {
+		try {
+			$info = $this->getFileInfo($path);
+			return !$info->isHidden() && !$info->isReadOnly();
+		} catch (NotFoundException $e) {
+			return false;
+		} catch (ForbiddenException $e) {
+			return false;
+		}
+	}
+
 	/**
 	 * check if smbclient is installed
 	 */
