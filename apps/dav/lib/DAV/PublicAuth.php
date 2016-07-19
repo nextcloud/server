@@ -34,7 +34,8 @@ class PublicAuth implements BackendInterface {
 	 */
 	public function __construct() {
 		$this->publicURLs = [
-			'public-calendars'
+			'public-calendars',
+			'principals/system/public'
 		];
 	}
 
@@ -82,7 +83,7 @@ class PublicAuth implements BackendInterface {
 
 	/**
 	 * @param RequestInterface $request
-	 * @return array
+	 * @return bool
 	 */
 	private function isRequestPublic(RequestInterface $request) {
 		$params = $request->getQueryParameters();
@@ -93,6 +94,6 @@ class PublicAuth implements BackendInterface {
 		$matchingUrls = array_filter($this->publicURLs, function ($publicUrl) use ($url) {
 			return strpos($url, $publicUrl, 0) === 0;
 		});
-		return $matchingUrls;
+		return !empty($matchingUrls);
 	}
 }
