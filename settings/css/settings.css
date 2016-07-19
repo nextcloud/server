@@ -104,6 +104,7 @@ table.nostyle td { padding: 0.2em 0; }
 	width: 100%;
 	min-height: 150px;
 	padding-top: 5px;
+	max-width: 580px;
 }
 #sessions table th,
 #apppasswords table th {
