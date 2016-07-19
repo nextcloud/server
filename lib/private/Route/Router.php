@@ -150,6 +150,11 @@ class Router implements IRouter {
 				$collection = $this->getCollection($app);
 				$collection->addPrefix('/apps/' . $app);
 				$this->root->addCollection($collection);
+
+				// Also add the OCS collection
+				$collection = $this->getCollection($app.'.ocs');
+				$collection->addPrefix('/ocsapp/apps/' . $app);
+				$this->root->addCollection($collection);
 			}
 		}
 		if (!isset($this->loadedApps['core'])) {
@@ -237,6 +242,13 @@ class Router implements IRouter {
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
 			list(, , $app,) = explode('/', $url, 4);
+
+			$app = \OC_App::cleanAppId($app);
+			\OC::$REQUESTEDAPP = $app;
+			$this->loadRoutes($app);
+		} else if (substr($url, 0, 13) === '/ocsapp/apps/') {
+			// empty string / 'ocsapp' / 'apps' / $app / rest of the route
+			list(, , , $app,) = explode('/', $url, 5);
 
 			$app = \OC_App::cleanAppId($app);
 			\OC::$REQUESTEDAPP = $app;
