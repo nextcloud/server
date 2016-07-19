@@ -217,41 +217,39 @@ class ThemingController extends Controller {
 		$elementColor = Util::elementColor($color);
 		if($color !== '') {
 			$responseCss .= sprintf(
-				'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}',
+				'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}'."\n",
 				$color
 			);
-			$responseCss .= sprintf('
-				input[type="checkbox"].checkbox:checked + label:before {
-					background-image:url(\'' . \OC::$WEBROOT . '/core/img/actions/checkmark-white.svg\');
-					background-color: %s; background-position: center center; background-size:contain;
-					width:12px; height:12px; padding:0; margin:1px 6px 7px 2px;
-        		}',
+			$responseCss .= sprintf('input[type="checkbox"].checkbox:checked + label:before {' .
+				'background-image:url(\'' . \OC::$WEBROOT . '/core/img/actions/checkmark-white.svg\');' .
+				'background-color: %s; background-position: center center; background-size:contain;' .
+				'width:12px; height:12px; padding:0; margin:1px 6px 7px 2px;' .
+        		'}' . PHP_EOL,
 				$elementColor
 			);
 		}
 		$logo = $this->config->getAppValue($this->appName, 'logoMime');
 		if($logo !== '') {
-			$responseCss .= sprintf('#header .logo {
-				background-image: url(\'./logo?v='.$cacheBusterValue.'\');
-				background-size: contain;
-			}
-			#header .logo-icon {
-				background-image: url(\'./logo?v='.$cacheBusterValue.'\');
-				background-size: contain;
-			}'
+			$responseCss .= sprintf(
+				'#header .logo {' .
+				'background-image: url(\'./logo?v='.$cacheBusterValue.'\')' .
+				'background-size: contain;' .
+				'}' . PHP_EOL .
+				'#header .logo-icon {' .
+				'background-image: url(\'./logo?v='.$cacheBusterValue.'\');' .
+				'background-size: contain;' .
+				'}' . PHP_EOL
 			);
 		}
 		$backgroundLogo = $this->config->getAppValue($this->appName, 'backgroundMime');
 		if($backgroundLogo !== '') {
-			$responseCss .= '#body-login {
-				background-image: url(\'./loginbackground?v='.$cacheBusterValue.'\');
-			}';
+			$responseCss .= '#body-login {background-image: url(\'./loginbackground?v='.$cacheBusterValue.'\');}' . PHP_EOL;
 		}
 		if(Util::invertTextColor($color)) {
-			$responseCss .= '#header .header-appname, #expandDisplayName { color: #000000; } ';
-			$responseCss .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); } ';
-			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }';
-			$responseCss .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }';
+			$responseCss .= '#header .header-appname, #expandDisplayName { color: #000000; }' . PHP_EOL;
+			$responseCss .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . PHP_EOL;
+			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . PHP_EOL;
+			$responseCss .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . PHP_EOL;
 		}
 
 		\OC_Response::setExpiresHeader(gmdate('D, d M Y H:i:s', time() + (60*60*24*45)) . ' GMT');
