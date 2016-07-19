@@ -51,14 +51,20 @@ function preview(setting, value) {
 		var headerClass = document.getElementById('header');
 		var expandDisplayNameClass = document.getElementById('expandDisplayName');
 		var headerAppName = headerClass.getElementsByClassName('header-appname')[0];
-		var textColor, icon;
+		var textColor, elementColor, icon;
 
-		if (calculateLuminance(value) > 0.5) {
+		var luminance = calculateLuminance(value);
+		var elementColor = value;
+
+		if (luminance > 0.5) {
 			textColor = "#000000";
 			icon = 'caret-dark';
 		} else {
 			textColor = "#ffffff";
 			icon = 'caret';
+		}
+		if (luminance>0.8) {
+			elementColor = '#969696';
 		}
 
 		headerClass.style.background = value;
@@ -66,9 +72,14 @@ function preview(setting, value) {
 		expandDisplayNameClass.style.color = textColor;
 		headerAppName.style.color = textColor;
 
-		$(headerClass).find('.icon-caret').each(function() {
-			$(this).css('background-image', "url('" + OC.getRootPath() + '/core/img/actions/' + icon + ".svg')");
-		});
+		$('#previewStyles').html(
+			'#header .icon-caret { background-image: url(\'' + OC.getRootPath() + '/core/img/actions/' + icon + '.svg\') }' +
+			'input[type="checkbox"].checkbox:checked + label:before {' +
+			'background-image: url(\'' + OC.getRootPath() + '/core/img/actions/checkmark-white.svg\');' +
+			'background-color: ' + elementColor + ';' +
+			'background-position: center center; background-size:contain;' +
+			'width:12px; height:12px; padding:0; margin:1px 6px 7px 2px; }'
+		);
 	}
 	if (setting === 'logoMime') {
 		console.log(setting);
@@ -86,6 +97,8 @@ function preview(setting, value) {
 
 $(document).ready(function () {
 	$('#theming [data-toggle="tooltip"]').tooltip();
+
+	$('html > head').append($('<style type="text/css" id="previewStyles"></style>'));
 
 	var uploadParamsLogo = {
 		pasteZone: null,
