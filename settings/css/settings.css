@@ -38,8 +38,7 @@ input#openid, input#webdav { width:20em; }
 #displaynameform,
 #lostpassword,
 #groups,
-#passwordform,
-#language {
+#passwordform {
 	display: inline-block;
 	margin-bottom: 0;
 	padding-bottom: 0;
@@ -104,17 +103,17 @@ table.nostyle td { padding: 0.2em 0; }
 #apppasswords table {
 	width: 100%;
 	min-height: 150px;
-	padding-top: 25px;
+	padding-top: 5px;
 }
 #sessions table th,
 #apppasswords table th {
-	font-weight: 800;
+	opacity: .5;
 }
 #sessions table th,
 #sessions table td,
 #apppasswords table th,
 #apppasswords table td {
-	padding: 10px;
+	padding: 10px 10px 10px 0;
 }
 
 #sessions .token-list td,
