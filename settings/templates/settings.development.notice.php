@@ -9,7 +9,7 @@
 			],
 			[
 				'<a href="https://nextcloud.com/contribute" target="_blank" rel="noreferrer">',
-				'<a href="https://github.com/owncloud" target="_blank" rel="noreferrer">',
+				'<a href="https://github.com/nextcloud" target="_blank" rel="noreferrer">',
 				'<a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noreferrer">',
 				'</a>',
 			],
