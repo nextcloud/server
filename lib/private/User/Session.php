@@ -310,6 +310,7 @@ class Session implements IUserSession, Emitter {
 								$password,
 								IRequest $request,
 								OC\Security\Bruteforce\Throttler $throttler) {
+		$currentDelay = $throttler->getDelay($request->getRemoteAddress());
 		$throttler->sleepDelay($request->getRemoteAddress());
 
 		$isTokenPassword = $this->isTokenPassword($password);
@@ -326,6 +327,9 @@ class Session implements IUserSession, Emitter {
 			}
 
 			$throttler->registerAttempt('login', $request->getRemoteAddress(), ['uid' => $user]);
+			if($currentDelay === 0) {
+				$throttler->sleepDelay($request->getRemoteAddress());
+			}
 			return false;
 		}
 
@@ -405,7 +409,6 @@ class Session implements IUserSession, Emitter {
 	public function tryBasicAuthLogin(IRequest $request,
 									  OC\Security\Bruteforce\Throttler $throttler) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
-			$throttler->sleepDelay(\OC::$server->getRequest()->getRemoteAddress());
 			try {
 				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request, $throttler)) {
 					/**

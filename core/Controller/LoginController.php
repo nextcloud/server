@@ -178,6 +178,7 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	public function tryLogin($user, $password, $redirect_url) {
+		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
 		$this->throttler->sleepDelay($this->request->getRemoteAddress());
 
 		$originalUser = $user;
@@ -194,7 +195,9 @@ class LoginController extends Controller {
 		}
 		if ($loginResult === false) {
 			$this->throttler->registerAttempt('login', $this->request->getRemoteAddress(), ['user' => $originalUser]);
-
+			if($currentDelay === 0) {
+				$this->throttler->sleepDelay($this->request->getRemoteAddress());
+			}
 			$this->session->set('loginMessages', [
 				['invalidpassword']
 			]);
