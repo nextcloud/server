@@ -264,8 +264,6 @@ OC.L10N.register(
     "Change password" : "Ändra lösenord",
     "Language" : "Språk",
     "Help translate" : "Hjälp att översätta",
-    "Browser" : "Webbläsare",
-    "Most recent activity" : "Senaste aktivitet",
     "Name" : "Namn",
     "Username" : "Användarnamn",
     "Done" : "Färdig",

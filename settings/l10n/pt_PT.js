@@ -263,8 +263,6 @@ OC.L10N.register(
     "Change password" : "Alterar palavra-passe",
     "Language" : "Idioma",
     "Help translate" : "Ajude a traduzir",
-    "Browser" : "Navegador",
-    "Most recent activity" : "Atividade mais recente",
     "Name" : "Nome",
     "Username" : "Nome de utilizador",
     "Done" : "Concluído",
