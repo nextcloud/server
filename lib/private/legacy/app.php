@@ -1091,6 +1091,7 @@ class OC_App {
 	 * @throws Exception if no app-name was specified
 	 */
 	public static function installApp($app) {
+		$appName = $app; // $app will be overwritten, preserve name for error logging
 		$l = \OC::$server->getL10N('core');
 		$config = \OC::$server->getConfig();
 		$ocsClient = new OCSClient(
@@ -1163,7 +1164,11 @@ class OC_App {
 			}
 			\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 		} else {
-			throw new \Exception($l->t("No app name specified"));
+			if(empty($appName) ) {
+				throw new \Exception($l->t("No app name specified"));
+			} else {
+				throw new \Exception($l->t("App '%s' could not be installed!", $appName));
+			}
 		}
 
 		return $app;
