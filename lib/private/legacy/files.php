@@ -192,7 +192,7 @@ class OC_Files {
 	 * @return array $rangeArray ('from'=>int,'to'=>int), ...
 	 */
 	private static function parseHttpRangeHeader($rangeHeaderPos, $fileSize) {
-		$rArray=split(',', $rangeHeaderPos);
+		$rArray=explode(',', $rangeHeaderPos);
 		$minOffset = 0;
 		$ind = 0;
 
