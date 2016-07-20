@@ -29,6 +29,7 @@ namespace OCA\Files_Sharing\AppInfo;
 
 use OCA\FederatedFileSharing\DiscoveryManager;
 use OCA\Files_Sharing\API\Share20OCS;
+use OCA\Files_Sharing\Middleware\OCSShareAPIMiddleware;
 use OCA\Files_Sharing\MountProvider;
 use OCP\AppFramework\App;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -123,8 +124,16 @@ class Application extends App {
 			);
 		});
 
+		$container->registerService('OCSShareAPIMiddleware', function (SimpleContainer $c) use ($server) {
+			return new OCSShareAPIMiddleware(
+				$server->getShareManager(),
+				$server->getL10N($c->query('AppName'))
+			);
+		});
+
 		// Execute middlewares
 		$container->registerMiddleware('SharingCheckMiddleware');
+		$container->registerMiddleWare('OCSShareAPIMiddleware');
 
 		$container->registerService('MountProvider', function (IContainer $c) {
 			/** @var \OCP\IServerContainer $server */
