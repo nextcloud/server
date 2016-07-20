@@ -35,6 +35,7 @@ namespace OCP;
 /**
  * This class provides functions to manage apps in ownCloud
  * @since 5.0.0
+ * @deprecated 9.1.0 Use the AppFramework
  */
 class API {
 
@@ -66,6 +67,7 @@ class API {
 	 * @param array $defaults
 	 * @param array $requirements
 	 * @since 5.0.0
+	 * @deprecated 9.1.0 Use the AppFramework
 	 */
 	public static function register($method, $url, $action, $app, $authLevel = self::USER_AUTH,
 		$defaults = array(), $requirements = array()){
