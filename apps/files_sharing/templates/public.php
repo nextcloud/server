@@ -106,6 +106,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				</div>
 			<?php endif; ?>
 		</div>
+		</div>
 		<?php } else { ?>
 		<input type="hidden" id="upload-only-interface" value="1"/>
 			<div id="public-upload">
@@ -123,7 +124,6 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				</div>
 			</div>
 		<?php } ?>
-</div>
 <?php if (!isset($_['hideFileList']) || (isset($_['hideFileList']) && $_['hideFileList'] !== true)): ?>
 	<input type="hidden" name="dir" id="dir" value="" />
 	<div class="hiddenuploadfield">
