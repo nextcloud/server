@@ -474,9 +474,9 @@ OC.Upload = {
 						} else {
 							// HTTP connection problem
 							var message = t('files', 'Error uploading file "{fileName}": {message}', {
-								fileName: data.files[0].name,
+								fileName: escapeHTML(data.files[0].name),
 								message: data.errorThrown
-							});
+							}, undefined, {escape: false});
 							OC.Notification.show(message, {timeout: 0, type: 'error'});
 							if (data.result) {
 								var result = JSON.parse(data.result);

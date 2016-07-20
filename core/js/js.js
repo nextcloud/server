@@ -1127,7 +1127,7 @@ OC.Notification={
 	 *
 	 * @param {string} text Message to display
 	 * @param {Object} [options] options
-	 * @param {string] [options.type] notification type
+	 * @param {string} [options.type] notification type
 	 * @param {int} [options.timeout=0] timeout value, defaults to 0 (permanent)
 	 * @return {jQuery} jQuery element for notification row
 	 */
@@ -1143,7 +1143,7 @@ OC.Notification={
 	 * @param {array} [options] options array
 	 * @param {int} [options.timeout=7] timeout in seconds, if this is 0 it will show the message permanently
 	 * @param {boolean} [options.isHTML=false] an indicator for HTML notifications (true) or text (false)
-	 * @param {string] [options.type] notification type
+	 * @param {string} [options.type] notification type
 	 */
 	showTemporary: function(text, options) {
 		var self = this;
