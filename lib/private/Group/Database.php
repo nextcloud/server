@@ -285,7 +285,7 @@ class Database extends \OC\Group\Backend {
 		$parameters = [$gid];
 		$searchLike = '';
 		if ($search !== '') {
-			$parameters[] = '%' . $search . '%';
+			$parameters[] = '%' . $this->dbConn->escapeLikeParameter($search) . '%';
 			$searchLike = ' AND `uid` LIKE ?';
 		}
 
@@ -311,7 +311,7 @@ class Database extends \OC\Group\Backend {
 		$parameters = [$gid];
 		$searchLike = '';
 		if ($search !== '') {
-			$parameters[] = '%' . $search . '%';
+			$parameters[] = '%' . $this->dbConn->escapeLikeParameter($search) . '%';
 			$searchLike = ' AND `uid` LIKE ?';
 		}
 
