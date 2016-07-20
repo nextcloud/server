@@ -140,14 +140,14 @@ abstract class AbstractMapping {
 	 * @param string $search
 	 * @return string[]
 	 */
-	public function getNamesBySearch($search) {
+	public function getNamesBySearch($search, $prefixMatch = "", $postfixMatch = "") {
 		$query = $this->dbc->prepare('
 			SELECT `owncloud_name`
 			FROM `'. $this->getTableName() .'`
 			WHERE `owncloud_name` LIKE ?
 		');
 
-		$res = $query->execute(array($search));
+		$res = $query->execute(array($prefixMatch.$this->dbc->escapeLikeParameter($search).$postfixMatch));
 		$names = array();
 		if($res !== false) {
 			while($row = $query->fetch()) {
