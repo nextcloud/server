@@ -993,7 +993,7 @@ class OC {
 		if ($userSession->tryTokenLogin($request)) {
 			return true;
 		}
-		if ($userSession->tryBasicAuthLogin($request)) {
+		if ($userSession->tryBasicAuthLogin($request, \OC::$server->getBruteForceThrottler())) {
 			return true;
 		}
 		return false;

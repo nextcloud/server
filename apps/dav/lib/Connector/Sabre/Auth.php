@@ -33,6 +33,7 @@ use Exception;
 use OC\AppFramework\Http\Request;
 use OC\Authentication\Exceptions\PasswordLoginForbiddenException;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCA\DAV\Connector\Sabre\Exception\PasswordLoginForbidden;
 use OCP\IRequest;
@@ -58,23 +59,28 @@ class Auth extends AbstractBasic {
 	private $currentUser;
 	/** @var Manager */
 	private $twoFactorManager;
+	/** @var Throttler */
+	private $throttler;
 
 	/**
 	 * @param ISession $session
 	 * @param Session $userSession
 	 * @param IRequest $request
 	 * @param Manager $twoFactorManager
+	 * @param Throttler $throttler
 	 * @param string $principalPrefix
 	 */
 	public function __construct(ISession $session,
 								Session $userSession,
 								IRequest $request,
 								Manager $twoFactorManager,
+								Throttler $throttler,
 								$principalPrefix = 'principals/users/') {
 		$this->session = $session;
 		$this->userSession = $userSession;
 		$this->twoFactorManager = $twoFactorManager;
 		$this->request = $request;
+		$this->throttler = $throttler;
 		$this->principalPrefix = $principalPrefix;
 
 		// setup realm
@@ -107,6 +113,7 @@ class Auth extends AbstractBasic {
 	 * @param string $username
 	 * @param string $password
 	 * @return bool
+	 * @throws PasswordLoginForbidden
 	 */
 	protected function validateUserPass($username, $password) {
 		if ($this->userSession->isLoggedIn() &&
@@ -118,7 +125,7 @@ class Auth extends AbstractBasic {
 		} else {
 			\OC_Util::setupFS(); //login hooks may need early access to the filesystem
 			try {
-				if ($this->userSession->logClientIn($username, $password, $this->request)) {
+				if ($this->userSession->logClientIn($username, $password, $this->request, $this->throttler)) {
 					\OC_Util::setupFS($this->userSession->getUser()->getUID());
 					$this->session->set(self::DAV_AUTHENTICATED, $this->userSession->getUser()->getUID());
 					$this->session->close();

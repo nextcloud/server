@@ -364,7 +364,7 @@ class OC_API {
 		try {
 			$loginSuccess = $userSession->tryTokenLogin($request);
 			if (!$loginSuccess) {
-				$loginSuccess = $userSession->tryBasicAuthLogin($request);
+				$loginSuccess = $userSession->tryBasicAuthLogin($request, \OC::$server->getBruteForceThrottler());
 			}
 		} catch (\OC\User\LoginException $e) {
 			return false;

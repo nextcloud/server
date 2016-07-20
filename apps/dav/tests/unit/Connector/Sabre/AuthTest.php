@@ -28,6 +28,7 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OCP\IRequest;
 use OCP\ISession;
@@ -51,6 +52,8 @@ class AuthTest extends TestCase {
 	private $request;
 	/** @var Manager */
 	private $twoFactorManager;
+	/** @var Throttler */
+	private $throttler;
 
 	public function setUp() {
 		parent::setUp();
@@ -63,11 +66,15 @@ class AuthTest extends TestCase {
 		$this->twoFactorManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->throttler = $this->getMockBuilder('\OC\Security\Bruteforce\Throttler')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->auth = new \OCA\DAV\Connector\Sabre\Auth(
 			$this->session,
 			$this->userSession,
 			$this->request,
-			$this->twoFactorManager
+			$this->twoFactorManager,
+			$this->throttler
 		);
 	}
 

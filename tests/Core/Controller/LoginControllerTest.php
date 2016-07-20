@@ -23,6 +23,7 @@ namespace Tests\Core\Controller;
 
 use OC\Authentication\TwoFactorAuth\Manager;
 use OC\Core\Controller\LoginController;
+use OC\Security\Bruteforce\Throttler;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -51,6 +52,8 @@ class LoginControllerTest extends TestCase {
 	private $urlGenerator;
 	/** @var Manager | \PHPUnit_Framework_MockObject_MockObject */
 	private $twoFactorManager;
+	/** @var Throttler */
+	private $throttler;
 
 	public function setUp() {
 		parent::setUp();
@@ -65,6 +68,9 @@ class LoginControllerTest extends TestCase {
 		$this->twoFactorManager = $this->getMockBuilder('\OC\Authentication\TwoFactorAuth\Manager')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->throttler = $this->getMockBuilder('\OC\Security\Bruteforce\Throttler')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->loginController = new LoginController(
 			'core',
@@ -74,7 +80,8 @@ class LoginControllerTest extends TestCase {
 			$this->session,
 			$this->userSession,
 			$this->urlGenerator,
-			$this->twoFactorManager
+			$this->twoFactorManager,
+			$this->throttler
 		);
 	}
 
@@ -277,10 +284,27 @@ class LoginControllerTest extends TestCase {
 	}
 
 	public function testLoginWithInvalidCredentials() {
-		$user = $this->getMock('\OCP\IUser');
+		$user = 'MyUserName';
 		$password = 'secret';
 		$loginPageUrl = 'some url';
 
+		$this->request
+			->expects($this->exactly(4))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->exactly(2))
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(0);
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'MyUserName']);
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
 			->will($this->returnValue(false));
@@ -302,6 +326,19 @@ class LoginControllerTest extends TestCase {
 		$password = 'secret';
 		$indexPageUrl = 'some url';
 
+		$this->request
+			->expects($this->exactly(2))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(200);
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
 			->will($this->returnValue($user));
@@ -334,6 +371,19 @@ class LoginControllerTest extends TestCase {
 		$originalUrl = 'another%20url';
 		$redirectUrl = 'http://localhost/another url';
 
+		$this->request
+			->expects($this->exactly(2))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(200);
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
 			->with('Jane', $password)
@@ -363,6 +413,19 @@ class LoginControllerTest extends TestCase {
 		$password = 'secret';
 		$challengeUrl = 'challenge/url';
 
+		$this->request
+			->expects($this->exactly(2))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(200);
 		$this->userManager->expects($this->once())
 			->method('checkPassword')
 			->will($this->returnValue($user));
@@ -412,6 +475,23 @@ class LoginControllerTest extends TestCase {
 			->method('linkToRoute')
 			->with('core.login.showLoginForm', ['user' => 'john@doe.com'])
 			->will($this->returnValue(''));
+		$this->request
+			->expects($this->exactly(3))
+			->method('getRemoteAddress')
+			->willReturn('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('getDelay')
+			->with('192.168.0.1')
+			->willReturn(200);
+		$this->throttler
+			->expects($this->once())
+			->method('sleepDelay')
+			->with('192.168.0.1');
+		$this->throttler
+			->expects($this->once())
+			->method('registerAttempt')
+			->with('login', '192.168.0.1', ['user' => 'john@doe.com']);
 
 		$expected = new RedirectResponse('');
 		$this->assertEquals($expected, $this->loginController->tryLogin('john@doe.com', 'just wrong', null));

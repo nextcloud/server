@@ -66,6 +66,7 @@ use OC\Lock\NoopLockingProvider;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Notification\Manager;
+use OC\Security\Bruteforce\Throttler;
 use OC\Security\CertificateManager;
 use OC\Security\CSP\ContentSecurityPolicyManager;
 use OC\Security\Crypto;
@@ -502,6 +503,14 @@ class Server extends ServerContainer implements IServerContainer {
 		});
 		$this->registerService('TrustedDomainHelper', function ($c) {
 			return new TrustedDomainHelper($this->getConfig());
+		});
+		$this->registerService('Throttler', function(Server $c) {
+			return new Throttler(
+				$c->getDatabaseConnection(),
+				new TimeFactory(),
+				$c->getLogger(),
+				$c->getConfig()
+			);
 		});
 		$this->registerService('IntegrityCodeChecker', function (Server $c) {
 			// IConfig and IAppManager requires a working database. This code
@@ -1328,6 +1337,13 @@ class Server extends ServerContainer implements IServerContainer {
 	 */
 	public function getCsrfTokenManager() {
 		return $this->query('CsrfTokenManager');
+	}
+
+	/**
+	 * @return Throttler
+	 */
+	public function getBruteForceThrottler() {
+		return $this->query('Throttler');
 	}
 
 	/**

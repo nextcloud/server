@@ -22,7 +22,9 @@
 
 namespace OC\Core\Controller;
 
+use OC\AppFramework\Utility\TimeFactory;
 use OC\Authentication\TwoFactorAuth\Manager;
+use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OC_App;
 use OC_Util;
@@ -37,24 +39,20 @@ use OCP\IUser;
 use OCP\IUserManager;
 
 class LoginController extends Controller {
-
 	/** @var IUserManager */
 	private $userManager;
-
 	/** @var IConfig */
 	private $config;
-
 	/** @var ISession */
 	private $session;
-
 	/** @var Session */
 	private $userSession;
-
 	/** @var IURLGenerator */
 	private $urlGenerator;
-
 	/** @var Manager */
 	private $twoFactorManager;
+	/** @var Throttler */
+	private $throttler;
 
 	/**
 	 * @param string $appName
@@ -65,9 +63,17 @@ class LoginController extends Controller {
 	 * @param Session $userSession
 	 * @param IURLGenerator $urlGenerator
 	 * @param Manager $twoFactorManager
+	 * @param Throttler $throttler
 	 */
-	function __construct($appName, IRequest $request, IUserManager $userManager, IConfig $config, ISession $session,
-		Session $userSession, IURLGenerator $urlGenerator, Manager $twoFactorManager) {
+	function __construct($appName,
+						 IRequest $request,
+						 IUserManager $userManager,
+						 IConfig $config,
+						 ISession $session,
+						 Session $userSession,
+						 IURLGenerator $urlGenerator,
+						 Manager $twoFactorManager,
+						 Throttler $throttler) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -75,6 +81,7 @@ class LoginController extends Controller {
 		$this->userSession = $userSession;
 		$this->urlGenerator = $urlGenerator;
 		$this->twoFactorManager = $twoFactorManager;
+		$this->throttler = $throttler;
 	}
 
 	/**
@@ -171,6 +178,9 @@ class LoginController extends Controller {
 	 * @return RedirectResponse
 	 */
 	public function tryLogin($user, $password, $redirect_url) {
+		$currentDelay = $this->throttler->getDelay($this->request->getRemoteAddress());
+		$this->throttler->sleepDelay($this->request->getRemoteAddress());
+
 		$originalUser = $user;
 		// TODO: Add all the insane error handling
 		/* @var $loginResult IUser */
@@ -184,6 +194,10 @@ class LoginController extends Controller {
 			}
 		}
 		if ($loginResult === false) {
+			$this->throttler->registerAttempt('login', $this->request->getRemoteAddress(), ['user' => $originalUser]);
+			if($currentDelay === 0) {
+				$this->throttler->sleepDelay($this->request->getRemoteAddress());
+			}
 			$this->session->set('loginMessages', [
 				['invalidpassword']
 			]);
