@@ -161,7 +161,7 @@ class Throttler {
 			'occurred' => $this->timeFactory->getTime(),
 			'ip' => $ip,
 			'subnet' => $this->getSubnet($ip),
-			'metadata' => $metadata,
+			'metadata' => json_encode($metadata),
 		];
 
 		$this->logger->notice(
