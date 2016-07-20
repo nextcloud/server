@@ -75,4 +75,8 @@ class LazyStorageMountInfo extends CachedMountInfo {
 		}
 		return parent::getMountPoint();
 	}
+
+	public function getMountId() {
+		return $this->mount->getMountId();
+	}
 }

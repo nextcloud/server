@@ -170,6 +170,11 @@
 				<length>4000</length>
 			</field>
 
+			<field>
+				<name>mount_id</name>
+				<type>integer</type>
+			</field>
+
 			<index>
 				<name>mounts_user_index</name>
 				<unique>false</unique>
@@ -193,6 +198,15 @@
 				<unique>false</unique>
 				<field>
 					<name>root_id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>mounts_mount_id_index</name>
+				<unique>false</unique>
+				<field>
+					<name>mount_id</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>

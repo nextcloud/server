@@ -163,11 +163,13 @@ class UserMountCacheTest extends TestCase {
 		$user = $this->userManager->get('u1');
 
 		$storage = $this->getStorage(10, 20);
-		$mount = new MountPoint($storage, '/foo/');
+		$mount = new MountPoint($storage, '/bar/');
 
 		$this->cache->registerMounts($user, [$mount]);
 
 		$this->clearCache();
+
+		$mount = new MountPoint($storage, '/foo/');
 
 		$this->cache->registerMounts($user, [$mount]);
 
@@ -178,6 +180,29 @@ class UserMountCacheTest extends TestCase {
 		$this->assertCount(1, $cachedMounts);
 		$cachedMount = $cachedMounts[0];
 		$this->assertEquals('/foo/', $cachedMount->getMountPoint());
+	}
+
+	public function testChangeMountId() {
+		$user = $this->userManager->get('u1');
+
+		$storage = $this->getStorage(10, 20);
+		$mount = new MountPoint($storage, '/foo/', null, null, null, null);
+
+		$this->cache->registerMounts($user, [$mount]);
+
+		$this->clearCache();
+
+		$mount = new MountPoint($storage, '/foo/', null, null, null, 1);
+
+		$this->cache->registerMounts($user, [$mount]);
+
+		$this->clearCache();
+
+		$cachedMounts = $this->cache->getMountsForUser($user);
+
+		$this->assertCount(1, $cachedMounts);
+		$cachedMount = $cachedMounts[0];
+		$this->assertEquals(1, $cachedMount->getMountId());
 	}
 
 	public function testGetMountsForUser() {
