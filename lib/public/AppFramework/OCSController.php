@@ -31,6 +31,7 @@ namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\OCSResponse;
+use OCP\AppFramework\Http\Response;
 use OCP\IRequest;
 
 
@@ -69,6 +70,19 @@ abstract class OCSController extends ApiController {
 		});
 	}
 
+	/**
+	 * Since the OCS endpoints default to XML we need to find out the format
+	 * again
+	 * @param mixed $response the value that was returned from a controller and
+	 * is not a Response instance
+	 * @param string $format the format for which a formatter has been registered
+	 * @throws \DomainException if format does not match a registered formatter
+	 * @return Response
+	 * @since 9.1.0
+	 */
+	public function buildResponse($response, $format = 'xml') {
+		return parent::buildResponse($response, $format);
+	}
 
 	/**
 	 * Unwrap data and build ocs response

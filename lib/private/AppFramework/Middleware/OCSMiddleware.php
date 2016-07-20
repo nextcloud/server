@@ -72,7 +72,7 @@ class OCSMiddleware extends Middleware {
 		// if none is given try the first Accept header
 		if($format === null) {
 			$headers = $this->request->getHeader('Accept');
-			$format = $controller->getResponderByHTTPHeader($headers);
+			$format = $controller->getResponderByHTTPHeader($headers, 'xml');
 		}
 
 		return $format;
