@@ -164,7 +164,7 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 	public function testSearch() {
 		list($mapper,) = $this->initTest();
 
-		$names = $mapper->getNamesBySearch('%oo%');
+		$names = $mapper->getNamesBySearch('oo', '%', '%');
 		$this->assertTrue(is_array($names));
 		$this->assertSame(2, count($names));
 		$this->assertTrue(in_array('Foobar', $names));
