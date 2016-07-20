@@ -9,7 +9,7 @@
  * consider important for your instance to your working ``config.php``, and
  * apply configuration options that are pertinent for your instance.
  *
- * This file is used to generate the configuration documentation. 
+ * This file is used to generate the configuration documentation.
  * Please consider following requirements of the current parser:
  *  * all comments need to start with `/**` and end with ` *\/` - each on their
  *    own line
@@ -398,11 +398,8 @@ $CONFIG = array(
  * cases where this may not apply. However, to avoid any update problems this
  * configuration value is explicitly opt-in.
  *
- * After setting this value run `occ maintenance:update:htaccess` and when following
- * conditions are met Nextcloud uses URLs without index.php in it:
- *
- * - `mod_rewrite` is installed
- * - `mod_env` is installed
+ * After setting this value run `occ maintenance:update:htaccess` and when
+ * `mod_rewrite` is installed Nextcloud uses URLs without index.php in it.
  */
 'htaccess.RewriteBase' => '/',
 
@@ -439,20 +436,20 @@ $CONFIG = array(
  *
  * Available values:
  *
- * * ``auto``      
- *     default setting. keeps files and folders in the trash bin for 30 days 
- *     and automatically deletes anytime after that if space is needed (note: 
+ * * ``auto``
+ *     default setting. keeps files and folders in the trash bin for 30 days
+ *     and automatically deletes anytime after that if space is needed (note:
  *     files may not be deleted if space is not needed).
- * * ``D, auto``   
- *     keeps files and folders in the trash bin for D+ days, delete anytime if 
+ * * ``D, auto``
+ *     keeps files and folders in the trash bin for D+ days, delete anytime if
  *     space needed (note: files may not be deleted if space is not needed)
- * * ``auto, D``   
- *     delete all files in the trash bin that are older than D days   
+ * * ``auto, D``
+ *     delete all files in the trash bin that are older than D days
  *     automatically, delete other files anytime if space needed
- * * ``D1, D2``    
- *     keep files and folders in the trash bin for at least D1 days and 
+ * * ``D1, D2``
+ *     keep files and folders in the trash bin for at least D1 days and
  *     delete when exceeds D2 days
- * * ``disabled``  
+ * * ``disabled``
  *     trash bin auto clean disabled, files and folders will be kept forever
  */
 'trashbin_retention_obligation' => 'auto',
@@ -479,19 +476,19 @@ $CONFIG = array(
  *
  * Available values:
  *
- * * ``auto``      
- *     default setting. Automatically expire versions according to expire 
+ * * ``auto``
+ *     default setting. Automatically expire versions according to expire
  *     rules. Please refer to :doc:`../configuration_files/file_versioning` for
  *     more information.
- * * ``D, auto``   
- *     keep versions at least for D days, apply expire rules to all versions 
+ * * ``D, auto``
+ *     keep versions at least for D days, apply expire rules to all versions
  *     that are older than D days
- * * ``auto, D``   
- *     delete all versions that are older than D days automatically, delete 
+ * * ``auto, D``
+ *     delete all versions that are older than D days automatically, delete
  *     other versions according to expire rules
- * * ``D1, D2``    
+ * * ``D1, D2``
  *     keep versions for at least D1 days and delete when exceeds D2 days
- * * ``disabled``  
+ * * ``disabled``
  *     versions auto clean disabled, versions will be kept forever
  */
 'versions_retention_obligation' => 'auto',
@@ -865,9 +862,9 @@ $CONFIG = array(
 /**
  * Enable maintenance mode to disable Nextcloud
  *
- * If you want to prevent users from logging in to Nextcloud before you start 
- * doing some maintenance work, you need to set the value of the maintenance 
- * parameter to true. Please keep in mind that users who are already logged-in 
+ * If you want to prevent users from logging in to Nextcloud before you start
+ * doing some maintenance work, you need to set the value of the maintenance
+ * parameter to true. Please keep in mind that users who are already logged-in
  * are kicked out of Nextcloud instantly.
  */
 'maintenance' => false,
@@ -1155,7 +1152,7 @@ $CONFIG = array(
 
 /**
  * Specifies how often the local filesystem (the Nextcloud data/ directory, and
- * NFS mounts in data/) is checked for changes made outside Nextcloud. This 
+ * NFS mounts in data/) is checked for changes made outside Nextcloud. This
  * does not apply to external storages.
  *
  * 0 -> Never check the filesystem for outside changes, provides a performance
@@ -1195,7 +1192,7 @@ $CONFIG = array(
 
 /**
  * List of trusted proxy servers
- * 
+ *
  * If you configure these also consider setting `forwarded_for_headers` which
  * otherwise defaults to `HTTP_X_FORWARDED_FOR` (the `X-Forwarded-For` header).
  */

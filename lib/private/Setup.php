@@ -8,6 +8,7 @@
  * @author Bernhard Posselt <dev@bernhard-posselt.com>
  * @author Brice Maron <brice@bmaron.net>
  * @author Christoph Wurst <christoph@owncloud.com>
+ * @author Felix Anand Epp <work@felixepp.de>
  * @author François Kubler <francois@kubler.org>
  * @author Jakob Sack <mail@jakobsack.de>
  * @author Joas Schilling <coding@schilljs.com>
@@ -461,11 +462,8 @@ class Setup {
 			$content .= "\n  RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/.*";
 			$content .= "\n  RewriteRule . index.php [PT,E=PATH_INFO:$1]";
 			$content .= "\n  RewriteBase " . $rewriteBase;
-			$content .= "\n  <IfModule mod_env.c>";
-			$content .= "\n    SetEnv front_controller_active true";
-			$content .= "\n    <IfModule mod_dir.c>";
-			$content .= "\n      DirectorySlash off";
-			$content .= "\n    </IfModule>";
+			$content .= "\n  <IfModule mod_dir.c>";
+			$content .= "\n    DirectorySlash off";
 			$content .= "\n  </IfModule>";
 			$content .= "\n</IfModule>";
 		}

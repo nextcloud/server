@@ -5,6 +5,7 @@
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Clark Tomlinson <fallen013@gmail.com>
+ * @author Felix Anand Epp <work@felixepp.de>
  * @author Guillaume AMAT <guillaume.amat@informatique-libre.com>
  * @author Hasso Tepper <hasso@zone.ee>
  * @author Joas Schilling <coding@schilljs.com>
@@ -155,7 +156,7 @@ $array = array(
 			'versionstring'		=> OC_Util::getVersionString(),
 			'enable_avatars'	=> \OC::$server->getConfig()->getSystemValue('enable_avatars', true) === true,
 			'lost_password_link'=> \OC::$server->getConfig()->getSystemValue('lost_password_link', null),
-			'modRewriteWorking'	=> (getenv('front_controller_active') === 'true'),
+			'modRewriteWorking'	=> (\OC::$server->getConfig()->getSystemValue('htaccess.RewriteBase', '') !== ''),
 		)
 	),
 	"oc_appconfig" => json_encode(
