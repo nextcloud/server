@@ -444,7 +444,7 @@ describe('OC.Share.ShareDialogView', function() {
 				dialog.render();
 
 				dialog.$el.find('.emailPrivateLinkForm .emailField').val('a@b.c');
-				dialog.$el.find('.emailPrivateLinkForm').trigger('submit');
+				dialog.$el.find('#emailButton').trigger('click');
 
 				expect(sendEmailPrivateLinkStub.callCount).toEqual(1);
 				expect(dialog.$el.find('.emailPrivateLinkForm .emailField').val()).toEqual('Sending ...');
@@ -463,7 +463,7 @@ describe('OC.Share.ShareDialogView', function() {
 				dialog.render();
 
 				dialog.$el.find('.emailPrivateLinkForm .emailField').val('a@b.c');
-				dialog.$el.find('.emailPrivateLinkForm').trigger('submit');
+				dialog.$el.find('#emailButton').trigger('click');
 
 				expect(sendEmailPrivateLinkStub.callCount).toEqual(1);
 				expect(dialog.$el.find('.emailPrivateLinkForm .emailField').val()).toEqual('Sending ...');

@@ -10,7 +10,8 @@
 		"bootstrap/js/tooltip.js",
 		"backbone/backbone.js",
 		"es6-promise/dist/es6-promise.js",
-		"davclient.js/lib/client.js"
+		"davclient.js/lib/client.js",
+		"clipboard/dist/clipboard.js"
 	],
 	"libraries": [
 		"jquery-showpassword.js",

@@ -10,8 +10,9 @@
 	top: 2px;
 }
 
-.shareTabView .shareWithRemoteInfo {
-	padding: 11px 20px;
+.shareTabView .shareWithRemoteInfo,
+.shareTabView .clipboardButton {
+	padding-left: 10px;
 }
 
 .shareTabView label {
@@ -28,7 +29,9 @@
 	width: 94%;
 	margin-left: 0;
 }
-.shareTabView input[type="text"].shareWithField {
+.shareTabView input[type="text"].shareWithField,
+.shareTabView input[type="text"].emailField,
+.shareTabView input[type="text"].linkText {
 	width: 80%;
 }
 
