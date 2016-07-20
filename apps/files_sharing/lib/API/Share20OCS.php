@@ -493,7 +493,7 @@ class Share20OCS extends OCSController {
 			$userFolder = $this->rootFolder->getUserFolder($this->currentUser->getUID());
 			try {
 				$path = $userFolder->get($path);
-				$path->lock(ILockingProvider::LOCK_SHARED);
+				$this->lock($path);
 			} catch (\OCP\Files\NotFoundException $e) {
 				throw new OCSNotFoundException($this->l->t('Wrong path, file/folder doesn\'t exist'));
 			} catch (LockedException $e) {
@@ -659,7 +659,7 @@ class Share20OCS extends OCSController {
 				}
 
 				if ($share->getPermissions() & ~$maxPermissions) {
-					throw new OCSBadRequestException($this->l->t('Cannot increase permissions'));
+					throw new OCSNotFoundException($this->l->t('Cannot increase permissions'));
 				}
 			}
 		}
