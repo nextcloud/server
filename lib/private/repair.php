@@ -49,6 +49,7 @@ use OC\Repair\RepairMimeTypes;
 use OC\Repair\SearchLuceneTables;
 use OC\Repair\UpdateOutdatedOcsIds;
 use OC\Repair\RepairInvalidShares;
+use OC\Repair\RepairUnmergedShares;
 
 class Repair extends BasicEmitter {
 	/**
@@ -118,6 +119,12 @@ class Repair extends BasicEmitter {
 			new RemoveGetETagEntries(\OC::$server->getDatabaseConnection()),
 			new UpdateOutdatedOcsIds(\OC::$server->getConfig()),
 			new RepairInvalidShares(\OC::$server->getConfig(), \OC::$server->getDatabaseConnection()),
+			new RepairUnmergedShares(
+				\OC::$server->getConfig(),
+				\OC::$server->getDatabaseConnection(),
+				\OC::$server->getUserManager(),
+				\OC::$server->getGroupManager()
+			),
 			new AvatarPermissions(\OC::$server->getDatabaseConnection()),
 			new BrokenUpdaterRepair(),
 		];
