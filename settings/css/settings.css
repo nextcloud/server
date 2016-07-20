@@ -125,6 +125,11 @@ table.nostyle td { padding: 0.2em 0; }
 	white-space: nowrap;
 	overflow: hidden;
 }
+
+#sessions tr *:nth-child(2),
+#apppasswords tr *:nth-child(2) {
+	text-align: right;
+}
 #sessions .token-list td a.icon-delete,
 #apppasswords .token-list td a.icon-delete {
 	display: block;
