@@ -102,7 +102,7 @@ table.nostyle td { padding: 0.2em 0; }
 #sessions table,
 #apppasswords table {
 	width: 100%;
-	min-height: 150px;
+	min-height: 50px;
 	padding-top: 5px;
 	max-width: 580px;
 }
@@ -124,6 +124,11 @@ table.nostyle td { padding: 0.2em 0; }
 	max-width: 200px;
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+#sessions tr *:nth-child(2),
+#apppasswords tr *:nth-child(2) {
+	text-align: right;
 }
 #sessions .token-list td a.icon-delete,
 #apppasswords .token-list td a.icon-delete {
