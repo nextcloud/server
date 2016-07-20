@@ -32,6 +32,10 @@
  *
  */
 
+if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+	die();
+}
+
 // Set the content type to Javascript
 header("Content-type: text/javascript");
 
