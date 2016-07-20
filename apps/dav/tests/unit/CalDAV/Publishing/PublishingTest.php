@@ -70,7 +70,7 @@ class PluginTest extends TestCase {
 
 	public function testUnPublishing() {
 
-		$this->book->expects($this->once())->method('setPublishStatus')->with(true);
+		$this->book->expects($this->once())->method('setPublishStatus')->with(false);
 
 		// setup request
 		$request = new Request();
