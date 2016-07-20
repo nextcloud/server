@@ -513,6 +513,11 @@ class Util {
 	 * @deprecated 9.0.0 Use annotations based on the app framework.
 	 */
 	public static function callCheck() {
+		if(!\OC::$server->getRequest()->passesStrictCookieCheck()) {
+			header('Location: '.\OC::$WEBROOT);
+			exit();
+		}
+
 		if (!(\OC::$server->getRequest()->passesCSRFCheck())) {
 			exit();
 		}

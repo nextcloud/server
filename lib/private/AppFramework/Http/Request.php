@@ -465,6 +465,10 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			return false;
 		}
 
+		if(!$this->passesStrictCookieCheck()) {
+			return false;
+		}
+
 		if (isset($this->items['get']['requesttoken'])) {
 			$token = $this->items['get']['requesttoken'];
 		} elseif (isset($this->items['post']['requesttoken'])) {
@@ -479,6 +483,42 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 
 		return $this->csrfTokenManager->isTokenValid($token);
 	}
+
+	/**
+	 * Checks if the strict cookie has been sent with the request if the request
+	 * is including any cookies.
+	 *
+	 * @return bool
+	 * @since 9.1.0
+	 */
+	public function passesStrictCookieCheck() {
+		if(count($this->cookies) === 0) {
+			return true;
+		}
+		if($this->getCookie('nc_sameSiteCookiestrict') === 'true'
+			&& $this->passesLaxCookieCheck()) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Checks if the lax cookie has been sent with the request if the request
+	 * is including any cookies.
+	 *
+	 * @return bool
+	 * @since 9.1.0
+	 */
+	public function passesLaxCookieCheck() {
+		if(count($this->cookies) === 0) {
+			return true;
+		}
+		if($this->getCookie('nc_sameSiteCookielax') === 'true') {
+			return true;
+		}
+		return false;
+	}
+
 
 	/**
 	 * Returns an ID for the request, value is not guaranteed to be unique and is mostly meant for logging

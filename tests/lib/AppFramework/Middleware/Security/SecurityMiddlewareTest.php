@@ -31,6 +31,7 @@ use OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryExcept
 use OC\AppFramework\Middleware\Security\Exceptions\NotAdminException;
 use OC\AppFramework\Middleware\Security\Exceptions\NotLoggedInException;
 use OC\AppFramework\Middleware\Security\Exceptions\SecurityException;
+use OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicy;
@@ -57,28 +58,28 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$this->controller = $this->getMockBuilder('OCP\AppFramework\Controller')
 			->disableOriginalConstructor()
-				->getMock();
+			->getMock();
 		$this->reader = new ControllerMethodReflector();
 		$this->logger = $this->getMockBuilder(
-				'OCP\ILogger')
-				->disableOriginalConstructor()
-				->getMock();
+			'OCP\ILogger')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->navigationManager = $this->getMockBuilder(
-				'OCP\INavigationManager')
-				->disableOriginalConstructor()
-				->getMock();
+			'OCP\INavigationManager')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->urlGenerator = $this->getMockBuilder(
-				'OCP\IURLGenerator')
-				->disableOriginalConstructor()
-				->getMock();
+			'OCP\IURLGenerator')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->request = $this->getMockBuilder(
-				'OCP\IRequest')
-				->disableOriginalConstructor()
-				->getMock();
+			'OCP\IRequest')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->contentSecurityPolicyManager = $this->getMockBuilder(
-				'OC\Security\CSP\ContentSecurityPolicyManager')
-				->disableOriginalConstructor()
-				->getMock();
+			'OC\Security\CSP\ContentSecurityPolicyManager')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->middleware = $this->getMiddleware(true, true);
 		$this->secException = new SecurityException('hey', false);
 		$this->secAjaxException = new SecurityException('hey', true);
@@ -211,8 +212,8 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 */
 	public function testNoChecks(){
 		$this->request->expects($this->never())
-				->method('passesCSRFCheck')
-				->will($this->returnValue(false));
+			->method('passesCSRFCheck')
+			->will($this->returnValue(false));
 
 		$sec = $this->getMiddleware(false, false);
 
@@ -256,7 +257,9 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
 			->will($this->returnValue(false));
-
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->will($this->returnValue(true));
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
 	}
@@ -275,19 +278,81 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
 	}
 
-
 	/**
 	 * @PublicPage
 	 */
-	public function testFailCsrfCheck(){
+	public function testPassesCsrfCheck(){
 		$this->request->expects($this->once())
 			->method('passesCSRFCheck')
+			->will($this->returnValue(true));
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
 			->will($this->returnValue(true));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
 	}
 
+	/**
+	 * @PublicPage
+	 * @expectedException \OC\AppFramework\Middleware\Security\Exceptions\CrossSiteRequestForgeryException
+	 */
+	public function testFailCsrfCheck(){
+		$this->request->expects($this->once())
+			->method('passesCSRFCheck')
+			->will($this->returnValue(false));
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->will($this->returnValue(true));
+
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+	}
+
+	/**
+	 * @PublicPage
+	 * @StrictCookieRequired
+	 * @expectedException \OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException
+	 */
+	public function testStrictCookieRequiredCheck() {
+		$this->request->expects($this->never())
+			->method('passesCSRFCheck');
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->will($this->returnValue(false));
+
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+	}
+
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 */
+	public function testNoStrictCookieRequiredCheck() {
+		$this->request->expects($this->never())
+			->method('passesStrictCookieCheck')
+			->will($this->returnValue(false));
+
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+	}
+
+	/**
+	 * @PublicPage
+	 * @NoCSRFRequired
+	 * @StrictCookieRequired
+	 */
+	public function testPassesStrictCookieRequiredCheck() {
+		$this->request
+			->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+
+		$this->reader->reflect(__CLASS__, __FUNCTION__);
+		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+	}
 
 	/**
 	 * @NoCSRFRequired
@@ -331,40 +396,63 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 	public function testAfterExceptionReturnsRedirectForNotLoggedInUser() {
 		$this->request = new Request(
-				[
-						'server' =>
-								[
-										'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-										'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
-								]
-				],
-				$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-				$this->getMockBuilder('\OCP\IConfig')->getMock()
+			[
+				'server' =>
+					[
+						'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+						'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
+					]
+			],
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
+			$this->getMockBuilder('\OCP\IConfig')->getMock()
 		);
 		$this->middleware = $this->getMiddleware(false, false);
 		$this->urlGenerator
-				->expects($this->once())
-				->method('linkToRoute')
-				->with(
-					'core.login.showLoginForm',
-					[
-						'redirect_url' => 'owncloud%2Findex.php%2Fapps%2Fspecialapp',
-					]
-				)
-				->will($this->returnValue('http://localhost/index.php/login?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp'));
+			->expects($this->once())
+			->method('linkToRoute')
+			->with(
+				'core.login.showLoginForm',
+				[
+					'redirect_url' => 'owncloud%2Findex.php%2Fapps%2Fspecialapp',
+				]
+			)
+			->will($this->returnValue('http://localhost/index.php/login?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp'));
 		$this->logger
-				->expects($this->once())
-				->method('debug')
-				->with('Current user is not logged in');
+			->expects($this->once())
+			->method('debug')
+			->with('Current user is not logged in');
 		$response = $this->middleware->afterException(
-				$this->controller,
-				'test',
-				new NotLoggedInException()
+			$this->controller,
+			'test',
+			new NotLoggedInException()
 		);
-
 		$expected = new RedirectResponse('http://localhost/index.php/login?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp');
 		$this->assertEquals($expected , $response);
 	}
+
+	public function testAfterExceptionRedirectsToWebRootAfterStrictCookieFail() {
+		$this->request = new Request(
+			[
+				'server' => [
+					'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+					'REQUEST_URI' => 'owncloud/index.php/apps/specialapp',
+				],
+			],
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
+			$this->getMockBuilder('\OCP\IConfig')->getMock()
+		);
+
+		$this->middleware = $this->getMiddleware(false, false);
+		$response = $this->middleware->afterException(
+			$this->controller,
+			'test',
+			new StrictCookieMissingException()
+		);
+
+		$expected = new RedirectResponse(\OC::$WEBROOT);
+		$this->assertEquals($expected , $response);
+	}
+
 
 	/**
 	 * @return array
@@ -389,36 +477,34 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 	 */
 	public function testAfterExceptionReturnsTemplateResponse(SecurityException $exception) {
 		$this->request = new Request(
-				[
-						'server' =>
-								[
-										'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-										'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
-								]
-				],
-				$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
-				$this->getMockBuilder('\OCP\IConfig')->getMock()
+			[
+				'server' =>
+					[
+						'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+						'REQUEST_URI' => 'owncloud/index.php/apps/specialapp'
+					]
+			],
+			$this->getMockBuilder('\OCP\Security\ISecureRandom')->getMock(),
+			$this->getMockBuilder('\OCP\IConfig')->getMock()
 		);
 		$this->middleware = $this->getMiddleware(false, false);
 		$this->logger
-				->expects($this->once())
-				->method('debug')
-				->with($exception->getMessage());
+			->expects($this->once())
+			->method('debug')
+			->with($exception->getMessage());
 		$response = $this->middleware->afterException(
-				$this->controller,
-				'test',
-				$exception
+			$this->controller,
+			'test',
+			$exception
 		);
-
 		$expected = new TemplateResponse('core', '403', ['file' => $exception->getMessage()], 'guest');
 		$expected->setStatus($exception->getCode());
 		$this->assertEquals($expected , $response);
 	}
 
-
 	public function testAfterAjaxExceptionReturnsJSONError(){
 		$response = $this->middleware->afterException($this->controller, 'test',
-				$this->secAjaxException);
+			$this->secAjaxException);
 
 		$this->assertTrue($response instanceof JSONResponse);
 	}
@@ -440,10 +526,10 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 			->method('getDefaultPolicy')
 			->willReturn($defaultPolicy);
 		$this->contentSecurityPolicyManager
-				->expects($this->once())
-				->method('mergePolicies')
-				->with($defaultPolicy, $currentPolicy)
-				->willReturn($mergedPolicy);
+			->expects($this->once())
+			->method('mergePolicies')
+			->with($defaultPolicy, $currentPolicy)
+			->willReturn($mergedPolicy);
 		$response->expects($this->once())
 			->method('setContentSecurityPolicy')
 			->with($mergedPolicy);
