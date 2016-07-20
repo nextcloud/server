@@ -9,6 +9,9 @@ else
 	exit 1
 fi
 
+# Disable bruteforce protection because the integration tests do trigger them
+../../occ config:system:set auth.bruteforce.protection.enabled --value false --type bool
+
 composer install
 
 SCENARIO_TO_RUN=$1

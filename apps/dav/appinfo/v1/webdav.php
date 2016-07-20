@@ -43,6 +43,7 @@ $authBackend = new \OCA\DAV\Connector\Sabre\Auth(
 	\OC::$server->getUserSession(),
 	\OC::$server->getRequest(),
 	\OC::$server->getTwoFactorAuthManager(),
+	\OC::$server->getBruteForceThrottler(),
 	'principals/'
 );
 $requestUri = \OC::$server->getRequest()->getRequestUri();

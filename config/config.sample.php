@@ -208,6 +208,13 @@ $CONFIG = array(
 'token_auth_enforced' => false,
 
 /**
+ * Whether the bruteforce protection shipped with Nextcloud should be enabled or not.
+ *
+ * Disabling this is discouraged for security reasons.
+ */
+'auth.bruteforce.protection.enabled' => true,
+
+/**
  * The directory where the skeleton files are located. These files will be
  * copied to the data directory of new users. Leave empty to not copy any
  * skeleton files.

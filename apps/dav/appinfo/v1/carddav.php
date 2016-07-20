@@ -36,6 +36,7 @@ $authBackend = new Auth(
 	\OC::$server->getUserSession(),
 	\OC::$server->getRequest(),
 	\OC::$server->getTwoFactorAuthManager(),
+	\OC::$server->getBruteForceThrottler(),
 	'principals/'
 );
 $principalBackend = new Principal(

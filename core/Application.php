@@ -103,7 +103,8 @@ class Application extends App {
 				$c->query('Session'),
 				$c->query('UserSession'),
 				$c->query('URLGenerator'),
-				$c->query('TwoFactorAuthManager')
+				$c->query('TwoFactorAuthManager'),
+				$c->query('ServerContainer')->getBruteforceThrottler()
 			);
 		});
 		$container->registerService('TwoFactorChallengeController', function (SimpleContainer $c) {

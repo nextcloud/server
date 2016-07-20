@@ -95,7 +95,11 @@ class Session implements IUserSession, Emitter {
 	 * @param IProvider $tokenProvider
 	 * @param IConfig $config
 	 */
-	public function __construct(IUserManager $manager, ISession $session, ITimeFactory $timeFacory, $tokenProvider, IConfig $config) {
+	public function __construct(IUserManager $manager,
+								ISession $session,
+								ITimeFactory $timeFacory,
+								$tokenProvider,
+								IConfig $config) {
 		$this->manager = $manager;
 		$this->session = $session;
 		$this->timeFacory = $timeFacory;
@@ -280,7 +284,6 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function login($uid, $password) {
 		$this->session->regenerateId();
-
 		if ($this->validateToken($password, $uid)) {
 			return $this->loginWithToken($password);
 		} else {
@@ -298,11 +301,17 @@ class Session implements IUserSession, Emitter {
 	 * @param string $user
 	 * @param string $password
 	 * @param IRequest $request
+	 * @param OC\Security\Bruteforce\Throttler $throttler
 	 * @throws LoginException
 	 * @throws PasswordLoginForbiddenException
 	 * @return boolean
 	 */
-	public function logClientIn($user, $password, IRequest $request) {
+	public function logClientIn($user,
+								$password,
+								IRequest $request,
+								OC\Security\Bruteforce\Throttler $throttler) {
+		$throttler->sleepDelay($request->getRemoteAddress());
+
 		$isTokenPassword = $this->isTokenPassword($password);
 		if (!$isTokenPassword && $this->isTokenAuthEnforced()) {
 			throw new PasswordLoginForbiddenException();
@@ -315,6 +324,8 @@ class Session implements IUserSession, Emitter {
 			if (count($users) === 1) {
 				return $this->login($users[0]->getUID(), $password);
 			}
+
+			$throttler->registerAttempt('login', $request->getRemoteAddress(), ['uid' => $user]);
 			return false;
 		}
 
@@ -391,10 +402,12 @@ class Session implements IUserSession, Emitter {
 	 * @param IRequest $request
 	 * @return boolean if the login was successful
 	 */
-	public function tryBasicAuthLogin(IRequest $request) {
+	public function tryBasicAuthLogin(IRequest $request,
+									  OC\Security\Bruteforce\Throttler $throttler) {
 		if (!empty($request->server['PHP_AUTH_USER']) && !empty($request->server['PHP_AUTH_PW'])) {
+			$throttler->sleepDelay(\OC::$server->getRequest()->getRemoteAddress());
 			try {
-				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request)) {
+				if ($this->logClientIn($request->server['PHP_AUTH_USER'], $request->server['PHP_AUTH_PW'], $request, $throttler)) {
 					/**
 					 * Add DAV authenticated. This should in an ideal world not be
 					 * necessary but the iOS App reads cookies from anywhere instead

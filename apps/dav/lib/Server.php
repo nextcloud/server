@@ -64,7 +64,8 @@ class Server {
 			\OC::$server->getSession(),
 			\OC::$server->getUserSession(),
 			\OC::$server->getRequest(),
-			\OC::$server->getTwoFactorAuthManager()
+			\OC::$server->getTwoFactorAuthManager(),
+			\OC::$server->getBruteForceThrottler()
 		);
 
 		// Set URL explicitly due to reverse-proxy situations

@@ -29,6 +29,9 @@ namespace Test\AppFramework\DependencyInjection;
 
 use \OC\AppFramework\Http\Request;
 
+/**
+ * @group DB
+ */
 class DIContainerTest extends \Test\TestCase {
 
 	private $container;
@@ -73,7 +76,6 @@ class DIContainerTest extends \Test\TestCase {
 	public function testAppNameIsSetCorrectly(){
 		$this->assertEquals('name', $this->container['AppName']);
 	}
-
 
 	public function testMiddlewareDispatcherIncludesSecurityMiddleware(){
 		$this->container['Request'] = new Request(
