@@ -80,7 +80,7 @@ if ! "$thisFolder"/env/wait-for-connection ${host} 80 600; then
     exit 1
 fi
 echo "Waiting another 15 seconds"
-sleep 15
+sleep 15 
 
 cat > $thisFolder/config.swift.php <<DELIM
 <?php

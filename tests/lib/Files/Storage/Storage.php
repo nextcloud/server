@@ -105,6 +105,17 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertEquals(array(), $content);
 	}
 
+	public function fileNameProvider() {
+		return [
+			['file.txt'],
+			[' file.txt'],
+			['folder .txt'],
+			['file with space.txt'],
+			['spéciäl fäile'],
+			['test single\'quote.txt'],
+		];
+	}
+
 	public function directoryProvider() {
 		return [
 			['folder'],
@@ -336,22 +347,25 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertFalse($this->instance->file_exists('/lorem.txt'));
 	}
 
-	public function testFOpen() {
+	/**
+	 * @dataProvider fileNameProvider
+	 */
+	public function testFOpen($fileName) {
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 
-		$fh = @$this->instance->fopen('foo', 'r');
+		$fh = @$this->instance->fopen($fileName, 'r');
 		if ($fh) {
 			fclose($fh);
 		}
 		$this->assertFalse($fh);
-		$this->assertFalse($this->instance->file_exists('foo'));
+		$this->assertFalse($this->instance->file_exists($fileName));
 
-		$fh = $this->instance->fopen('foo', 'w');
+		$fh = $this->instance->fopen($fileName, 'w');
 		fwrite($fh, file_get_contents($textFile));
 		fclose($fh);
-		$this->assertTrue($this->instance->file_exists('foo'));
+		$this->assertTrue($this->instance->file_exists($fileName));
 
-		$fh = $this->instance->fopen('foo', 'r');
+		$fh = $this->instance->fopen($fileName, 'r');
 		$content = stream_get_contents($fh);
 		$this->assertEquals(file_get_contents($textFile), $content);
 	}
