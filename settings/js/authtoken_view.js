@@ -114,7 +114,7 @@
 				// Chrome User Agent from https://developer.chrome.com/multidevice/user-agent
 				chrome: /^Mozilla\/5\.0 \([^)]*(Windows|OS X|Linux)[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Chrome\/(\d+)[0-9.]+ (?:Mobile Safari|Safari)\/[0-9.]+$/,
 				// Safari User Agent from http://www.useragentstring.com/pages/Safari/
-				safari: /^Mozilla\/5\.0 \([^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\) Version\/([0-9]+)[0-9.]+ Safari\/[0-9.A-Z]+$/,
+				safari: /^Mozilla\/5\.0 \([^)]*(Windows|OS X)[^)]+\) AppleWebKit\/[0-9.]+ \(KHTML, like Gecko\)(?: Version\/([0-9]+)[0-9.]+)? Safari\/[0-9.A-Z]+$/,
 				// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 				androidChrome: /Android.*(?:; (.*) Build\/).*Chrome\/(\d+)[0-9.]+/,
 				iphone: / *CPU +iPhone +OS +(\d+)_\d+ +like +Mac +OS +X */,
