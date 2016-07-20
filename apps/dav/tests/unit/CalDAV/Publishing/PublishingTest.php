@@ -6,6 +6,8 @@ use OCA\DAV\CalDAV\Calendar;
 use OCA\DAV\CalDAV\Publishing\PublishPlugin;
 use OCA\DAV\Connector\Sabre\Auth;
 use OCP\IRequest;
+use OCP\IURLGenerator;
+use OCP\IConfig;
 use Sabre\DAV\Server;
 use Sabre\DAV\SimpleCollection;
 use Sabre\HTTP\Request;
@@ -14,12 +16,16 @@ use Test\TestCase;
 
 class PluginTest extends TestCase {
 
-	/** @var Plugin */
+	/** @var PublishPlugin */
 	private $plugin;
 	/** @var Server */
 	private $server;
 	/** @var Calendar | \PHPUnit_Framework_MockObject_MockObject */
 	private $book;
+	/** @var IConfig | \PHPUnit_Framework_MockObject_MockObject */
+	private $config;
+	/** @var IURLGenerator | \PHPUnit_Framework_MockObject_MockObject */
+	private $urlGenerator;
 
 	public function setUp() {
 		parent::setUp();
@@ -28,9 +34,15 @@ class PluginTest extends TestCase {
 		$authBackend = $this->getMockBuilder('OCA\DAV\DAV\PublicAuth')->disableOriginalConstructor()->getMock();
 		$authBackend->method('isDavAuthenticated')->willReturn(true);
 
+		$this->config = $this->getMock('\OCP\IConfig');
+		$this->config->expects($this->any())->method('getSystemValue')
+			->with($this->equalTo('secret'))
+			->willReturn('mysecret');
+
+		$this->urlGenerator = $this->getMock('OCP\IURLGenerator');
+
 		/** @var IRequest $request */
-		$request = $this->getMockBuilder('OCP\IRequest')->disableOriginalConstructor()->getMock();
-		$this->plugin = new PublishPlugin($authBackend, $request);
+		$this->plugin = new PublishPlugin($this->config, $this->urlGenerator);
 
 		$root = new SimpleCollection('calendars');
 		$this->server = new Server($root);
