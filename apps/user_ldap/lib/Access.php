@@ -623,7 +623,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * "Developers"
 	 */
 	private function _createAltInternalOwnCloudNameForGroups($name) {
-		$usedNames = $this->groupMapper->getNamesBySearch($name.'_%');
+		$usedNames = $this->groupMapper->getNamesBySearch($name, "", '_%');
 		if(!($usedNames) || count($usedNames) === 0) {
 			$lastNo = 1; //will become name_2
 		} else {
