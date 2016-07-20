@@ -121,7 +121,11 @@
 				iosClient: /^Mozilla\/5\.0 \(iOS\) ownCloud\-iOS.*$/,
 				androidClient:/^Mozilla\/5\.0 \(Android\) ownCloud\-android.*$/,
 				// DAVdroid/1.2 (2016/07/03; dav4android; okhttp3) Android/6.0.1
-				davDroid: /DAVdroid\/([0-9.]+)/
+				davDroid: /DAVdroid\/([0-9.]+)/,
+				// Mozilla/5.0 (U; Linux; Maemo; Jolla; Sailfish; like Android 4.3) AppleWebKit/538.1 (KHTML, like Gecko) WebPirate/2.0 like Mobile Safari/538.1 (compatible)
+				webPirate: /(Sailfish).*WebPirate\/(\d+)/,
+				// Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:31.0) Gecko/31.0 Firefox/31.0 SailfishBrowser/1.0
+				sailfishBrowser: /(Sailfish).*SailfishBrowser\/(\d+)/
 			};
 			var nameMap = {
 				ie: t('setting', 'Internet Explorer'),
@@ -133,7 +137,9 @@
 				iphone: t('setting', 'iPhone'),
 				iosClient: t('setting', 'iOS Client'),
 				androidClient: t('setting', 'Android Client'),
-				davDroid: 'DAVdroid'
+				davDroid: 'DAVdroid',
+				webPirate: 'WebPirate',
+				sailfishBrowser: 'SailfishBrowser'
 			};
 
 			if (matches) {

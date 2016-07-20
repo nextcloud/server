@@ -39,7 +39,7 @@
 		comparator: function (t1, t2) {
 			var ts1 = parseInt(t1.get('lastActivity'), 10);
 			var ts2 = parseInt(t2.get('lastActivity'), 10);
-			return ts1 < ts2;
+			return ts2 - ts1;
 		},
 
 		tokenType: null,
