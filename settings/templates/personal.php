@@ -172,7 +172,7 @@ if($_['passwordChangeSupported']) {
 		<thead class="token-list-header">
 			<tr>
 				<th><?php p($l->t('Device'));?></th>
-				<th><?php p($l->t('Recent activity'));?></th>
+				<th><?php p($l->t('Last activity'));?></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -188,7 +188,7 @@ if($_['passwordChangeSupported']) {
 		<thead class="hidden-when-empty">
 			<tr>
 				<th><?php p($l->t('Name'));?></th>
-				<th><?php p($l->t('Recent activity'));?></th>
+				<th><?php p($l->t('Last activity'));?></th>
 				<th></th>
 			</tr>
 		</thead>
