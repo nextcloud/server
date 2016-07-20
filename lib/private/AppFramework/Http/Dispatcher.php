@@ -167,10 +167,14 @@ class Dispatcher {
 			// if none is given try the first Accept header
 			if($format === null) {
 				$headers = $this->request->getHeader('Accept');
-				$format = $controller->getResponderByHTTPHeader($headers);
+				$format = $controller->getResponderByHTTPHeader($headers, null);
 			}
 
-			$response = $controller->buildResponse($response, $format);
+			if ($format !== null) {
+				$response = $controller->buildResponse($response, $format);
+			} else {
+				$response = $controller->buildResponse($response);
+			}
 		}
 
 		return $response;
