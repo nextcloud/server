@@ -334,6 +334,24 @@ EOD;
 		$this->assertEquals($event, $changes['added'][0]);
 	}
 
+	public function testPublications() {
+		$this->backend->createCalendar(self::UNIT_TEST_USER, 'Example', []);
+
+		$calendarInfo = $this->backend->getCalendarsForUser(self::UNIT_TEST_USER)[0];
+
+		$l10n = $this->getMockBuilder('\OCP\IL10N')
+			->disableOriginalConstructor()->getMock();
+
+		$calendar = new Calendar($this->backend, $calendarInfo, $l10n);
+		$this->backend->setPublishStatus(true, $calendar);
+		$this->assertEquals(true, $this->backend->getPublishStatus($calendar));
+
+		$publicCalendars = $this->backend->getPublicCalendars();
+		$this->assertEquals(1, count($publicCalendars));
+		$this->assertEquals(true, $publicCalendars[0]['{http://owncloud.org/ns}public']);
+
+	}
+
 	public function testSubscriptions() {
 		$id = $this->backend->createSubscription(self::UNIT_TEST_USER, 'Subscription', [
 			'{http://calendarserver.org/ns/}source' => new Href('test-source'),
