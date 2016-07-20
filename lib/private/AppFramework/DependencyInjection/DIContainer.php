@@ -38,6 +38,7 @@ use OC\AppFramework\Http\Dispatcher;
 use OC\AppFramework\Http\Output;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
+use OC\AppFramework\Middleware\OCSMiddleware;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -373,6 +374,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return new TwoFactorMiddleware($twoFactorManager, $userSession, $session, $urlGenerator, $reflector, $request);
 		});
 
+		$this->registerService('OCSMiddleware', function (SimpleContainer $c) {
+			return new OCSMiddleware(
+				$c['Request']
+			);
+		});
+
 		$middleWares = &$this->middleWares;
 		$this->registerService('MiddlewareDispatcher', function($c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
@@ -385,6 +392,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			}
 
 			$dispatcher->registerMiddleware($c['SessionMiddleware']);
+			$dispatcher->registerMiddleware($c['OCSMiddleware']);
 			return $dispatcher;
 		});
 
