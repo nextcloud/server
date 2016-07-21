@@ -35,50 +35,60 @@ class PostgreSQL extends AbstractDatabase {
 	public $dbprettyname = 'PostgreSQL';
 
 	public function setupDatabase($username) {
-		$connection = $this->connect([
-			'dbname' => 'postgres'
-		]);
-		//check for roles creation rights in postgresql
-		$builder = $connection->getQueryBuilder();
-		$builder->automaticTablePrefix(false);
-		$query = $builder
-			->select('rolname')
-			->from('pg_roles')
-			->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
-			->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
-
-		try {
-			$result = $query->execute();
-			$canCreateRoles = $result->rowCount() > 0;
-		} catch (DatabaseException $e) {
-			$canCreateRoles = false;
-		}
-
-		if($canCreateRoles) {
-			//use the admin login data for the new database user
-
-			//add prefix to the postgresql user name to prevent collisions
-			$this->dbUser='oc_'.$username;
-			//create a new password so we don't need to store the admin config in the config file
-			$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
-
-			$this->createDBUser($connection);
-		}
-
 		$systemConfig = $this->config->getSystemConfig();
-		$systemConfig->setValues([
-			'dbuser'		=> $this->dbUser,
-			'dbpassword'	=> $this->dbPassword,
-		]);
+		try {
+			$connection = $this->connect([
+				'dbname' => 'postgres'
+			]);
+			//check for roles creation rights in postgresql
+			$builder = $connection->getQueryBuilder();
+			$builder->automaticTablePrefix(false);
+			$query = $builder
+				->select('rolname')
+				->from('pg_roles')
+				->where($builder->expr()->eq('rolcreaterole', new Literal('TRUE')))
+				->andWhere($builder->expr()->eq('rolname', $builder->createNamedParameter($this->dbUser)));
 
-		//create the database
-		$this->createDatabase($connection);
-		$query = $connection->prepare("select count(*) FROM pg_class WHERE relname=? limit 1");
-		$query->execute([$this->tablePrefix . "users"]);
-		$tablesSetup = $query->fetchColumn() > 0;
+			try {
+				$result = $query->execute();
+				$canCreateRoles = $result->rowCount() > 0;
+			} catch (DatabaseException $e) {
+				$canCreateRoles = false;
+			}
 
-		// the connection to dbname=postgres is not needed anymore
-		$connection->close();
+			if ($canCreateRoles) {
+				//use the admin login data for the new database user
+
+				//add prefix to the postgresql user name to prevent collisions
+				$this->dbUser = 'oc_' . $username;
+				//create a new password so we don't need to store the admin config in the config file
+				$this->dbPassword = \OC::$server->getSecureRandom()->generate(30, \OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_DIGITS);
+
+				$this->createDBUser($connection);
+			}
+
+			$systemConfig->setValues([
+				'dbuser' => $this->dbUser,
+				'dbpassword' => $this->dbPassword,
+			]);
+
+			//create the database
+			$this->createDatabase($connection);
+			$query = $connection->prepare("select count(*) FROM pg_class WHERE relname=? limit 1");
+			$query->execute([$this->tablePrefix . "users"]);
+			$tablesSetup = $query->fetchColumn() > 0;
+
+			// the connection to dbname=postgres is not needed anymore
+			$connection->close();
+		} catch (\Exception $e) {
+			$this->logger->logException($e);
+			$this->logger->warning('Error trying to connect as "postgres", assuming database is setup and tables need to be created');
+			$tablesSetup = false;
+			$systemConfig->setValues([
+				'dbuser' => $this->dbUser,
+				'dbpassword' => $this->dbPassword,
+			]);
+		}
 
 		// connect to the ownCloud database (dbname=$this->dbname) and check if it needs to be filled
 		$this->dbUser = $systemConfig->getValue('dbuser');
@@ -93,13 +103,13 @@ class PostgreSQL extends AbstractDatabase {
 		}
 
 
-		if(!$tablesSetup) {
+		if (!$tablesSetup) {
 			\OC_DB::createDbFromStructure($this->dbDefinitionFile);
 		}
 	}
 
 	private function createDatabase(IDBConnection $connection) {
-		if(!$this->databaseExists($connection)) {
+		if (!$this->databaseExists($connection)) {
 			//The database does not exists... let's create it
 			$query = $connection->prepare("CREATE DATABASE " . addslashes($this->dbName) . " OWNER " . addslashes($this->dbUser));
 			try {
