@@ -92,14 +92,34 @@ class CheckSetupController extends Controller {
 			return false;
 		}
 
+		$siteArray = ['www.nextcloud.com',
+						'www.google.com',
+						'www.github.com'];
+
+		foreach($siteArray as $site) {
+			if ($this->isSiteReachable($site)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	* Chceks if the ownCloud server can connect to a specific URL using both HTTPS and HTTP
+	* @return bool
+	*/
+	private function isSiteReachable($sitename) {
+		$httpSiteName = 'http://' . $sitename . '/';
+		$httpsSiteName = 'https://' . $sitename . '/';
+
 		try {
 			$client = $this->clientService->newClient();
-			$client->get('https://www.owncloud.org/');
-			$client->get('http://www.owncloud.org/');
-			return true;
+			$client->get($httpSiteName);
+			$client->get($httpsSiteName);
 		} catch (\Exception $e) {
 			return false;
 		}
+		return true;
 	}
 
 	/**
