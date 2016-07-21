@@ -1,14 +1,16 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Andreas Fischer <bantu@owncloud.com>
- * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bartek Przybylski <bart.p.pl@gmail.com>
+ * @author Bart Visscher <bartv@thisnet.nl>
  * @author Björn Schießle <bjoern@schiessle.org>
  * @author Byron Marohn <combustible@live.com>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author j-ed <juergen@eisfair.org>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Johannes Willnecker <johannes@willnecker.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
  * @author Lukas Reschke <lukas@statuscode.ch>
@@ -18,7 +20,6 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

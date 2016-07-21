@@ -1,8 +1,10 @@
 <?php
 /**
- * @author Robin McCorkell <robin@mccorkell.me.uk>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Thomas Pulzer <t.pulzer@kniel.de>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
