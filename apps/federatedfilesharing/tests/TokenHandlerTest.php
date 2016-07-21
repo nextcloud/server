@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Björn Schießle <bjoern@schiessle.org>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

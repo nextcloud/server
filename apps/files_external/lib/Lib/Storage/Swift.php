@@ -1,5 +1,7 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Benjamin Liles <benliles@arch.tamu.edu>
  * @author Christian Berendt <berendt@b1-systems.de>
@@ -15,7 +17,6 @@
  * @author Tim Dettrick <t.dettrick@uq.edu.au>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
