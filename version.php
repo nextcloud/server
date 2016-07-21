@@ -25,12 +25,12 @@
 // We only can count up. The 4. digit is only for the internal patchlevel to trigger DB upgrades
 // between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
 // when updating major/minor version number.
-$OC_Version = array(9, 1, 0, 13);
+$OC_Version = array(9, 2, 0, 0);
 
 // The human readable string
-$OC_VersionString = '10.0 beta';
+$OC_VersionString = '11.0 alpha';
 
-$OC_VersionCanBeUpgradedFrom = array(9, 0);
+$OC_VersionCanBeUpgradedFrom = array(9, 1);
 
 // The ownCloud channel
 $OC_Channel = 'git';
