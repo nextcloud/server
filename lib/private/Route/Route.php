@@ -6,7 +6,7 @@
  * @author David Prévot <taffit@debian.org>
  * @author Felix Moeller <mail@felixmoeller.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Thomas Tanghus <thomas@tanghus.net>
  *

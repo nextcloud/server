@@ -19,7 +19,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Petr Svoboda <weits666@gmail.com>
  * @author Piotr Filiciak <piotr@filiciak.pl>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sam Tuke <mail@samtuke.com>

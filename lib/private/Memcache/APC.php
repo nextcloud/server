@@ -6,7 +6,7 @@
  * @author Clark Tomlinson <fallen013@gmail.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Otto Sabart <ottosabart@seberm.com>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  *
  * @license AGPL-3.0
  *

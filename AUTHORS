@@ -1,4 +1,4 @@
-ownCloud is written by:
+Nextcloud is written by:
  - AW-UC <git@a-wesemann.de>
  - Aaron Wood <aaronjwood@gmail.com>
  - Achim Königs <garfonso@tratschtante.de>
@@ -43,6 +43,7 @@ ownCloud is written by:
  - Daniel Molkentin <daniel@molkentin.de>
  - Daniel Tosello <tosello.daniel@gmail.com>
  - David Prévot <taffit@debian.org>
+ - David Toledo <dtoledo@solidgear.es>
  - Dominik Schmidt <dev@dominik-schmidt.de>
  - Fabian Henze <flyser42@gmx.de>
  - Faruk Uzun <farukuzun@collabora.com>
@@ -136,7 +137,7 @@ ownCloud is written by:
  - RealRancor <Fisch.666@gmx.de>
  - Remco Brenninkmeijer <requist1@starmail.nl>
  - Renaud Fortier <Renaud.Fortier@fsaa.ulaval.ca>
- - Robin Appelman <icewind@owncloud.com>
+ - Robin Appelman <robin@icewind.nl>
  - Robin McCorkell <robin@mccorkell.me.uk>
  - Roeland Jago Douma <roeland@famdouma.nl>
  - Roman Geber <rgeber@owncloudapps.com>
@@ -149,6 +150,7 @@ ownCloud is written by:
  - Sebastian Döll <sebastian.doell@libasys.de>
  - Senorsen <senorsen.zhang@gmail.com>
  - Serge Martin <edb@sigluy.net>
+ - Sergio Bertolin <sbertolin@solidgear.es>
  - Sergio Bertolín <sbertolin@solidgear.es>
  - Simon Könnecke <simonkoennecke@gmail.com>
  - Sjors van der Pluijm <sjors@desjors.nl>
@@ -201,6 +203,7 @@ ownCloud is written by:
  - michag86 <micha_g@arcor.de>
  - mmccarn <mmccarn-github@mmsionline.us>
  - nishiki <nishiki@yaegashi.fr>
+ - oparoz <owncloud@interfasys.ch>
  - root <root@oc.(none)>
  - scambra <sergio@entrecables.com>
  - scolebrook <scolebrook@mac.com>
