@@ -40,7 +40,7 @@ OC.L10N.register(
     "Checking whether the database schema can be updated (this can take a long time depending on the database size)" : "Controleert of het database schema geüpdatet kan worden (dit kan lang duren afhankelijk van de grootte van de de database)",
     "Checked database schema update" : "Database schema-update gecontroleerd",
     "Checking updates of apps" : "Controleert of er updates voor apps zijn",
-    "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Controleert of het database schema voor %s geüpdatet kan worden ( dit kan lang duren afhankelijk van de grootte van de database )",
+    "Checking whether the database schema for %s can be updated (this can take a long time depending on the database size)" : "Controleert of het database schema voor %s geüpdatet kan worden (dit kan lang duren afhankelijk van de grootte van de database)",
     "Checked database schema update for apps" : "Database schema-update voor apps gecontroleerd",
     "Updated \"%s\" to %s" : "Bijgewerkt \"%s\" naar %s",
     "Set log level to debug" : "Logniveau instellen op debug",
