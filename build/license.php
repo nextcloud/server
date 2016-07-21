@@ -124,7 +124,7 @@ EOD;
 
 	function writeAuthorsFile() {
 		ksort($this->authors);
-		$template = "ownCloud is written by:
+		$template = "Nextcloud is written by:
 @AUTHORS@
 
 With help from many libraries and frameworks including:
@@ -228,9 +228,10 @@ With help from many libraries and frameworks including:
 
 	private function getCopyrightNotices($path, $file) {
 		$licenseHeaderEndsAtLine = (int)trim(shell_exec("grep -n '*/' $path | head -n 1 | cut -d ':' -f 1"));
-		$lineByLine = explode(PHP_EOL, $file, $licenseHeaderEndsAtLine);
+		$lineByLine = explode(PHP_EOL, $file, $licenseHeaderEndsAtLine + 1);
 		$copyrightNotice = [];
-		foreach ($lineByLine as $line) {
+		$licensePart = array_slice($lineByLine, 0, $licenseHeaderEndsAtLine);
+		foreach ($licensePart as $line) {
 			if (strpos($line, '@copyright') !== false) {
 				$copyrightNotice[] = $line;
 			}
@@ -277,7 +278,7 @@ With help from many libraries and frameworks including:
 	private function printFilesToCheck() {
 		if (!empty($this->checkFiles)) {
 			print "\n";
-			print "For following files all lines changes since the Nextcloud fork." . PHP_EOL;
+			print "For following files all lines changed since the Nextcloud fork." . PHP_EOL;
 			print "Please check if these files can be moved over to AGPLv3 or later" . PHP_EOL;
 			print "\n";
 			foreach ($this->checkFiles as $file) {
@@ -349,6 +350,7 @@ if (isset($argv[1])) {
 	$licenses->exec($argv[1], isset($argv[2]) ? $argv[1] : false);
 } else {
 	$licenses->exec([
+		'../apps/admin_audit',
 		'../apps/comments',
 		'../apps/dav',
 		'../apps/encryption',
@@ -362,8 +364,10 @@ if (isset($argv[1])) {
 		'../apps/provisioning_api',
 		'../apps/systemtags',
 		'../apps/testing',
+		'../apps/theming',
 		'../apps/updatenotification',
 		'../apps/user_ldap',
+		'../build/integration/features/bootstrap',
 		'../core',
 		'../lib',
 		'../ocs',
