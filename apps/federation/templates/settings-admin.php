@@ -17,8 +17,8 @@ style('federation', 'settings-admin')
 
 	<h3><?php p($l->t('Trusted Servers')); ?></h3>
 	<p id="ocFederationAddServer">
-		<button id="ocFederationAddServerButton" class=""><?php p($l->t('+ Add ownCloud server')); ?></button>
-		<input id="serverUrl" class="hidden" type="text" value="" placeholder="<?php p($l->t('ownCloud Server')); ?>" name="server_url"/>
+		<button id="ocFederationAddServerButton" class=""><?php p($l->t('+ Add Nextcloud server')); ?></button>
+		<input id="serverUrl" class="hidden" type="text" value="" placeholder="<?php p($l->t('Nextcloud Server')); ?>" name="server_url"/>
 		<span class="msg"></span>
 	</p>
 	<ul id="listOfTrustedServers">
