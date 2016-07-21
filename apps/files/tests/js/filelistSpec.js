@@ -1351,9 +1351,9 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('allows paths with dotdot at the beginning or end', function() {
 			_.each([
-				'..abc',
-				'def..',
-				'...'
+				'/..abc',
+				'/def..',
+				'/...'
 			], function(path) {
 				fileList.changeDirectory(path);
 				expect(fileList.getCurrentDirectory()).toEqual(path);
@@ -1415,6 +1415,12 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.breadcrumb.setDirectory.calledWith('/anothersubdir')).toEqual(true);
 			setDirSpy.restore();
 			getFolderContentsStub.restore();
+		});
+		it('prepends a slash to directory if none was given', function() {
+			fileList.changeDirectory('');
+			expect(fileList.getCurrentDirectory()).toEqual('/');
+			fileList.changeDirectory('noslash');
+			expect(fileList.getCurrentDirectory()).toEqual('/noslash');
 		});
 	});
 	describe('breadcrumb events', function() {
