@@ -104,8 +104,9 @@ abstract class Controller {
 	 * @param string $acceptHeader
 	 * @return string the responder type
 	 * @since 7.0.0
+	 * @since 9.1.0 Added default parameter
 	 */
-	public function getResponderByHTTPHeader($acceptHeader) {
+	public function getResponderByHTTPHeader($acceptHeader, $default='json') {
 		$headers = explode(',', $acceptHeader);
 
 		// return the first matching responder
@@ -119,8 +120,8 @@ abstract class Controller {
 			}
 		}
 
-		// no matching header defaults to json
-		return 'json';
+		// no matching header return default
+		return $default;
 	}
 
 
