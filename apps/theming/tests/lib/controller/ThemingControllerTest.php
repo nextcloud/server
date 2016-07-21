@@ -314,6 +314,33 @@ class ThemingControllerTest extends TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('theming', 'color', '')
+			->willReturn('#000');
+		$this->config
+			->expects($this->at(2))
+			->method('getAppValue')
+			->with('theming', 'logoMime', '')
+			->willReturn('');
+		$this->config
+			->expects($this->at(3))
+			->method('getAppValue')
+			->with('theming', 'backgroundMime', '')
+			->willReturn('');
+
+		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #000}', 'style', 'text/css');
+		$expected->cacheFor(3600);
+		@$this->assertEquals($expected, $this->themingController->getStylesheet());
+	}
+
+	public function testGetStylesheetWithOnlyColorInvert() {
+		$this->config
+			->expects($this->at(0))
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'color', '')
 			->willReturn('#fff');
 		$this->config
 			->expects($this->at(2))
@@ -326,7 +353,7 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('');
 
-		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #fff}', 'style', 'text/css');
+		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}', 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
@@ -416,7 +443,43 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
-		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #abc}#header .logo {
+		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #abc}#header .logo {
+				background-image: url(\'./logo?v=0\');
+				background-size: contain;
+			}
+			#header .logo-icon {
+				background-image: url(\'./logo?v=0\');
+				background-size: contain;
+			}#body-login {
+				background-image: url(\'./loginbackground?v=0\');
+			}', 'style', 'text/css');
+		$expected->cacheFor(3600);
+		@$this->assertEquals($expected, $this->themingController->getStylesheet());
+	}
+
+	public function testGetStylesheetWithAllCombinedInverted() {
+		$this->config
+			->expects($this->at(0))
+			->method('getAppValue')
+			->with('theming', 'cachebuster', '0')
+			->willReturn('0');
+		$this->config
+			->expects($this->at(1))
+			->method('getAppValue')
+			->with('theming', 'color', '')
+			->willReturn('#fff');
+		$this->config
+			->expects($this->at(2))
+			->method('getAppValue')
+			->with('theming', 'logoMime', '')
+			->willReturn('text/svg');
+		$this->config
+			->expects($this->at(3))
+			->method('getAppValue')
+			->with('theming', 'backgroundMime', '')
+			->willReturn('image/png');
+
+		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}#header .logo {
 				background-image: url(\'./logo?v=0\');
 				background-size: contain;
 			}
