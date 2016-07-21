@@ -228,9 +228,10 @@ With help from many libraries and frameworks including:
 
 	private function getCopyrightNotices($path, $file) {
 		$licenseHeaderEndsAtLine = (int)trim(shell_exec("grep -n '*/' $path | head -n 1 | cut -d ':' -f 1"));
-		$lineByLine = explode(PHP_EOL, $file, $licenseHeaderEndsAtLine);
+		$lineByLine = explode(PHP_EOL, $file, $licenseHeaderEndsAtLine + 1);
 		$copyrightNotice = [];
-		foreach ($lineByLine as $line) {
+		$licensePart = array_slice($lineByLine, 0, $licenseHeaderEndsAtLine);
+		foreach ($licensePart as $line) {
 			if (strpos($line, '@copyright') !== false) {
 				$copyrightNotice[] = $line;
 			}
