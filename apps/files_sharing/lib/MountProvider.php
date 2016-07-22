@@ -75,7 +75,7 @@ class MountProvider implements IMountProvider {
 			return $share->getPermissions() > 0 && $share->getShareOwner() !== $user->getUID();
 		});
 
-		$superShares = $this->buildSuperShares($shares);
+		$superShares = $this->buildSuperShares($shares, $user);
 
 		$mounts = [];
 		foreach ($superShares as $share) {
@@ -116,17 +116,22 @@ class MountProvider implements IMountProvider {
 			if (!isset($tmp[$share->getNodeId()])) {
 				$tmp[$share->getNodeId()] = [];
 			}
-			$tmp[$share->getNodeId()][$share->getTarget()][] = $share;
+			$tmp[$share->getNodeId()][] = $share;
 		}
 
 		$result = [];
-		foreach ($tmp as $tmp2) {
-			foreach ($tmp2 as $item) {
-				$result[] = $item;
-			}
+		// sort by stime, the super share will be based on the least recent share
+		foreach ($tmp as &$tmp2) {
+			@usort($tmp2, function($a, $b) {
+				if ($a->getShareTime() < $b->getShareTime()) {
+					return -1;
+				}
+				return 1;
+			});
+			$result[] = $tmp2;
 		}
 
-		return $result;
+		return array_values($result);
 	}
 
 	/**
@@ -136,9 +141,10 @@ class MountProvider implements IMountProvider {
 	 * of all shares within the group.
 	 *
 	 * @param \OCP\Share\IShare[] $allShares
+	 * @param \OCP\IUser $user user
 	 * @return array Tuple of [superShare, groupedShares]
 	 */
-	private function buildSuperShares(array $allShares) {
+	private function buildSuperShares(array $allShares, \OCP\IUser $user) {
 		$result = [];
 
 		$groupedShares = $this->groupShares($allShares);
@@ -161,6 +167,11 @@ class MountProvider implements IMountProvider {
 			$permissions = 0;
 			foreach ($shares as $share) {
 				$permissions |= $share->getPermissions();
+				if ($share->getTarget() !== $superShare->getTarget()) {
+					// adjust target, for database consistency
+					$share->setTarget($superShare->getTarget());
+					$this->shareManager->moveShare($share, $user->getUID());
+				}
 			}
 
 			$superShare->setPermissions($permissions);
