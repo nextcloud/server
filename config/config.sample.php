@@ -569,7 +569,7 @@ $CONFIG = array(
  * Setting this parameter to ``errorlog`` will use the PHP error_log function
  * for logging.
  */
-'log_type' => 'owncloud',
+'log_type' => 'file',
 
 /**
  * Log file path for the Nextcloud logging type.

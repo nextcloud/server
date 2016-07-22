@@ -154,7 +154,7 @@ class ManageTest extends TestCase {
 	public function testGetConfiguration() {
 		$this->config->expects($this->at(0))
 			->method('getSystemValue')
-			->with('log_type', 'owncloud')
+			->with('log_type', 'file')
 			->willReturn('log_type_value');
 		$this->config->expects($this->at(1))
 			->method('getSystemValue')

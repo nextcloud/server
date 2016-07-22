@@ -31,7 +31,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class OwnCloud extends Command {
+class File extends Command {
 
 	/** @var IConfig */
 	protected $config;
@@ -43,8 +43,8 @@ class OwnCloud extends Command {
 
 	protected function configure() {
 		$this
-			->setName('log:owncloud')
-			->setDescription('manipulate ownCloud logging backend')
+			->setName('log:file')
+			->setDescription('manipulate logging backend')
 			->addOption(
 				'enable',
 				null,
@@ -70,7 +70,7 @@ class OwnCloud extends Command {
 		$toBeSet = [];
 
 		if ($input->getOption('enable')) {
-			$toBeSet['log_type'] = 'owncloud';
+			$toBeSet['log_type'] = 'file';
 		}
 
 		if ($file = $input->getOption('file')) {
@@ -89,12 +89,14 @@ class OwnCloud extends Command {
 		}
 
 		// display config
-		if ($this->config->getSystemValue('log_type', 'owncloud') === 'owncloud') {
+		// TODO: Drop backwards compatibility for config in the future
+		$logType = $this->config->getSystemValue('log_type', 'file');
+		if ($logType === 'file' || $logType === 'owncloud') {
 			$enabledText = 'enabled';
 		} else {
 			$enabledText = 'disabled';
 		}
-		$output->writeln('Log backend ownCloud: '.$enabledText);
+		$output->writeln('Log backend file: '.$enabledText);
 
 		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
 		$defaultLogFile = rtrim($dataDir, '/').'/nextcloud.log';
