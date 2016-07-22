@@ -8,8 +8,6 @@ OC.L10N.register(
     "Federation" : "Federazione",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "La federazione consente di connettersi ad altri server affidabili per accedere alla cartella utente. Ad esempio, può essere utilizzata per il completamento automatico di utenti esterni per la condivisione federata.",
     "Add server automatically once a federated share was created successfully" : "Aggiungi automaticamente il server dopo che una condivisione federata è stata creata con successo",
-    "Trusted Servers" : "Server affidabili",
-    "+ Add ownCloud server" : "+ Aggiungi server ownCloud",
-    "ownCloud Server" : "Server ownCloud"
+    "Trusted Servers" : "Server affidabili"
 },
 "nplurals=2; plural=(n != 1);");

@@ -8,8 +8,6 @@ OC.L10N.register(
     "Federation" : "Объединение",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Объединение серверов позволит Вам подключиться к другим доверенным серверам для обмена каталогами пользователей. Это будет использовано, например, для автоматического завершения внешних пользователей при объединенном общем доступе.",
     "Add server automatically once a federated share was created successfully" : "Добавить сервер автоматически, как только федеративный общий доступ будет успешно создан",
-    "Trusted Servers" : "Доверенные сервера",
-    "+ Add ownCloud server" : "+ Добавить сервер ownCloud",
-    "ownCloud Server" : "Сервер ownCloud"
+    "Trusted Servers" : "Доверенные сервера"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

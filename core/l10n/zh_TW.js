@@ -125,7 +125,6 @@ OC.L10N.register(
     "Good password" : "密碼強度佳",
     "Strong password" : "密碼強度極佳",
     "Your web server is not yet set up properly to allow file synchronization because the WebDAV interface seems to be broken." : "您的網頁伺服器無法提供檔案同步功能，因為 WebDAV 界面有問題",
-    "This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "伺服器沒有網際網路連線，有些功能，像是外部儲存、更新版通知將無法運作。從遠端存取資料或是寄送 email 通知可能也無法運作。建議您設定好網際網路連線以使用所有功能。",
     "Error occurred while checking server setup" : "檢查伺服器設定時發生錯誤",
     "Your data directory and your files are probably accessible from the Internet. The .htaccess file is not working. We strongly suggest that you configure your web server in a way that the data directory is no longer accessible or you move the data directory outside the web server document root." : "您的資料目錄和您的檔案可能從網路網路被存取，使.htaccess 檔案無法發揮效果，我們強烈建議您配置您的網頁伺服器讓資料目錄不再被訪問存取或者將您的資料目錄移出網頁伺服器根目錄。",
     "The \"{header}\" HTTP header is not configured to equal to \"{expected}\". This is a potential security or privacy risk and we recommend adjusting this setting." : "\"{header}\" HTTP 標頭配置與 \"{expected}\"不一樣，這是一個潛在安全性或者隱私上的風險，因此我們建議您調整此設定",

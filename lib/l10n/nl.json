@@ -121,6 +121,7 @@
     "App \"%s\" cannot be installed because it is not compatible with this version of the server." : "App \"%s\" kan niet worden geïnstalleerd, omdat deze niet compatible is met deze versie van de server.",
     "App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s" : "App \"%s\" kan niet worden geïnstalleerd, omdat de volgende afhankelijkheden niet zijn ingevuld: %s",
     "No app name specified" : "Geen app naam opgegeven.",
+    "App '%s' could not be installed!" : "App '%s' kon niet worden geïnstalleerd!",
     "a safe home for all your data" : "een veilige plek voor al je gegevens",
     "File is currently busy, please try again later" : "Bestandsverwerking bezig, probeer het later opnieuw",
     "Can't read file" : "Kan bestand niet lezen",

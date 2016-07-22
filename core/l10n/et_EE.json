@@ -113,7 +113,6 @@
     "So-so password" : "Enam-vähem sobiv parool",
     "Good password" : "Hea parool",
     "Strong password" : "Väga hea parool",
-    "This server has no working Internet connection. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. We suggest to enable Internet connection for this server if you want to have all features." : "Serveril puudub toimiv internetiühendus. See tähendab, et mõned funktsionaalsused, nagu näiteks väliste andmehoidlate ühendamine, teavitused uuendustest või kolmandate osapoolte rakenduste paigaldamine ei tööta. Eemalt failidele ligipääs ning teadete saatmine emailiga ei pruugi samuti toimida. Kui soovid täielikku funktsionaalsust, siis soovitame serverile tagada ligipääs internetti.",
     "Error occurred while checking server setup" : "Serveri seadete kontrolimisel tekkis viga",
     "Shared" : "Jagatud",
     "Shared with {recipients}" : "Jagatud {recipients}",

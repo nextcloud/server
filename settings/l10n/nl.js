@@ -283,6 +283,7 @@ OC.L10N.register(
     "Help translate" : "Help met vertalen",
     "Web, desktop and mobile clients currently logged in to your account." : "Web, desktop en mobiele clients zijn nu ingelogd op je account.",
     "Device" : "Apparaat",
+    "Last activity" : "Laatste activiteit",
     "Passcodes that give an app or device permissions to access your account." : "Een toegangscode die een app of apparaat toegang geven om je account te gebruiken.",
     "Name" : "Naam",
     "App name" : "Appnaam",
