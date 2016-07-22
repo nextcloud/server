@@ -435,7 +435,7 @@ $CONFIG = array(
  * Both minimum and maximum times can be set together to explicitly define
  * file and folder deletion. For migration purposes, this setting is installed
  * initially set to "auto", which is equivalent to the default setting in
- * Nextloud.
+ * Nextcloud.
  *
  * Available values:
  *
@@ -475,7 +475,7 @@ $CONFIG = array(
  * Both minimum and maximum times can be set together to explicitly define
  * version deletion. For migration purposes, this setting is installed
  * initially set to "auto", which is equivalent to the default setting in
- * Nextloud.
+ * Nextcloud.
  *
  * Available values:
  *
