@@ -88,7 +88,10 @@ class OCSMiddlewareTest extends \Test\TestCase {
 	 * @param string $message
 	 * @param int $code
 	 */
-	public function testAfterException($controller, $exception, $forward, $message = '', $code = 0) {
+	public function testAfterExceptionOCSv1($controller, $exception, $forward, $message = '', $code = 0) {
+		$this->request
+			->method('getScriptName')
+			->willReturn('/ocs/v1.php');
 		$OCSMiddleware = new OCSMiddleware($this->request);
 
 		try {
@@ -99,6 +102,37 @@ class OCSMiddlewareTest extends \Test\TestCase {
 
 			$this->assertSame($message, $this->invokePrivate($result, 'message'));
 			$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+			$this->assertSame(200, $result->getStatus());
+		} catch (\Exception $e) {
+			$this->assertTrue($forward);
+			$this->assertEquals($exception, $e);
+		}
+	}
+
+	/**
+	 * @dataProvider dataAfterException
+	 *
+	 * @param Controller $controller
+	 * @param \Exception $exception
+	 * @param bool $forward
+	 * @param string $message
+	 * @param int $code
+	 */
+	public function testAfterExceptionOCSv2($controller, $exception, $forward, $message = '', $code = 0) {
+		$this->request
+			->method('getScriptName')
+			->willReturn('/ocs/v2.php');
+		$OCSMiddleware = new OCSMiddleware($this->request);
+
+		try {
+			$result = $OCSMiddleware->afterException($controller, 'method', $exception);
+			$this->assertFalse($forward);
+
+			$this->assertInstanceOf('OCP\AppFramework\Http\OCSResponse', $result);
+
+			$this->assertSame($message, $this->invokePrivate($result, 'message'));
+			$this->assertSame($code, $this->invokePrivate($result, 'statuscode'));
+			$this->assertSame($code, $result->getStatus());
 		} catch (\Exception $e) {
 			$this->assertTrue($forward);
 			$this->assertEquals($exception, $e);
