@@ -15,7 +15,7 @@ In addition to the expiry of versions, the versions app makes certain never to u
 	</types>
 	<namespace>Files_Versions</namespace>
 	<dependencies>
-		<owncloud min-version="9.1" max-version="9.2" />
+		<owncloud min-version="9.2" max-version="9.2" />
 	</dependencies>
 	<documentation>
 		<user>user-versions</user>
