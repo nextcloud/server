@@ -330,6 +330,12 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			);
 		});
 
+		/**
+		 * App Framework default arguments
+		 */
+		$this->registerParameter('corsMethods', 'PUT, POST, GET, DELETE, PATCH');
+		$this->registerParameter('corsAllowedHeaders', 'Authorization, Content-Type, Accept');
+		$this->registerParameter('corsMaxAge', 1728000);
 
 		/**
 		 * Middleware
