@@ -12,6 +12,8 @@ use OC\Files\Cache\Cache;
 use OC\Files\FileInfo;
 use OC\Files\Mount\MountPoint;
 use OC\Files\Node\Node;
+use OC\Files\Storage\Temporary;
+use OC\Files\Storage\Wrapper\Jail;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OC\Files\View;
@@ -760,9 +762,9 @@ class FolderTest extends \Test\TestCase {
 	public function uniqueNameProvider() {
 		return [
 			// input, existing, expected
-			['foo', []					, 'foo'],
-			['foo', ['foo']				, 'foo (2)'],
-			['foo', ['foo', 'foo (2)']	, 'foo (3)']
+			['foo', [], 'foo'],
+			['foo', ['foo'], 'foo (2)'],
+			['foo', ['foo', 'foo (2)'], 'foo (3)']
 		];
 	}
 
@@ -782,7 +784,7 @@ class FolderTest extends \Test\TestCase {
 			->method('file_exists')
 			->will($this->returnCallback(function ($path) use ($existingFiles, $folderPath) {
 				foreach ($existingFiles as $existing) {
-					if ($folderPath . '/' . $existing === $path){
+					if ($folderPath . '/' . $existing === $path) {
 						return true;
 					}
 				}
@@ -791,5 +793,166 @@ class FolderTest extends \Test\TestCase {
 
 		$node = new \OC\Files\Node\Folder($root, $view, $folderPath);
 		$this->assertEquals($expected, $node->getNonExistingName($name));
+	}
+
+	public function testRecent() {
+		$manager = $this->getMock('\OC\Files\Mount\Manager');
+		$folderPath = '/bar/foo';
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->getMock('\OC\Files\View');
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Files\Node\Root $root */
+		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn', 'getMount'), array($manager, $view, $this->user));
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Files\FileInfo $folderInfo */
+		$folderInfo = $this->getMockBuilder('\OC\Files\FileInfo')
+			->disableOriginalConstructor()->getMock();
+
+		$baseTime = 1000;
+		$storage = new Temporary();
+		$mount = new MountPoint($storage, '');
+
+		$folderInfo->expects($this->any())
+			->method('getMountPoint')
+			->will($this->returnValue($mount));
+
+		$cache = $storage->getCache();
+
+		$id1 = $cache->put('bar/foo/inside.txt', [
+			'storage_mtime' => $baseTime,
+			'mtime' => $baseTime,
+			'mimetype' => 'text/plain',
+			'size' => 3
+		]);
+		$id2 = $cache->put('bar/foo/old.txt', [
+			'storage_mtime' => $baseTime - 100,
+			'mtime' => $baseTime - 100,
+			'mimetype' => 'text/plain',
+			'size' => 3
+		]);
+		$cache->put('bar/asd/outside.txt', [
+			'storage_mtime' => $baseTime,
+			'mtime' => $baseTime,
+			'mimetype' => 'text/plain',
+			'size' => 3
+		]);
+		$cache->put('bar/foo/toold.txt', [
+			'storage_mtime' => $baseTime - 600,
+			'mtime' => $baseTime - 600,
+			'mimetype' => 'text/plain',
+			'size' => 3
+		]);
+
+		$node = new \OC\Files\Node\Folder($root, $view, $folderPath, $folderInfo);
+
+
+		$nodes = $node->getRecent($baseTime - 500);
+		$ids = array_map(function (Node $node) {
+			return (int)$node->getId();
+		}, $nodes);
+		$this->assertEquals([$id1, $id2], $ids);
+	}
+
+	public function testRecentFolder() {
+		$manager = $this->getMock('\OC\Files\Mount\Manager');
+		$folderPath = '/bar/foo';
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->getMock('\OC\Files\View');
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Files\Node\Root $root */
+		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn', 'getMount'), array($manager, $view, $this->user));
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Files\FileInfo $folderInfo */
+		$folderInfo = $this->getMockBuilder('\OC\Files\FileInfo')
+			->disableOriginalConstructor()->getMock();
+
+		$baseTime = 1000;
+		$storage = new Temporary();
+		$mount = new MountPoint($storage, '');
+
+		$folderInfo->expects($this->any())
+			->method('getMountPoint')
+			->will($this->returnValue($mount));
+
+		$cache = $storage->getCache();
+
+		$id1 = $cache->put('bar/foo/folder', [
+			'storage_mtime' => $baseTime,
+			'mtime' => $baseTime,
+			'mimetype' => \OCP\Files\FileInfo::MIMETYPE_FOLDER,
+			'size' => 3
+		]);
+		$id2 = $cache->put('bar/foo/folder/bar.txt', [
+			'storage_mtime' => $baseTime,
+			'mtime' => $baseTime,
+			'mimetype' => 'text/plain',
+			'size' => 3,
+			'parent' => $id1
+		]);
+		$id3 = $cache->put('bar/foo/folder/asd.txt', [
+			'storage_mtime' => $baseTime,
+			'mtime' => $baseTime - 100,
+			'mimetype' => 'text/plain',
+			'size' => 3,
+			'parent' => $id1
+		]);
+
+		$node = new \OC\Files\Node\Folder($root, $view, $folderPath, $folderInfo);
+
+
+		$nodes = $node->getRecent($baseTime - 500);
+		$ids = array_map(function (Node $node) {
+			return (int)$node->getId();
+		}, $nodes);
+		$this->assertEquals([$id2, $id1, $id3], $ids);// sort folders before files with the same mtime, folders get the lowest child mtime
+	}
+
+	public function testRecentJail() {
+		$manager = $this->getMock('\OC\Files\Mount\Manager');
+		$folderPath = '/bar/foo';
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->getMock('\OC\Files\View');
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Files\Node\Root $root */
+		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn', 'getMount'), array($manager, $view, $this->user));
+		/** @var \PHPUnit_Framework_MockObject_MockObject|\OC\Files\FileInfo $folderInfo */
+		$folderInfo = $this->getMockBuilder('\OC\Files\FileInfo')
+			->disableOriginalConstructor()->getMock();
+
+		$baseTime = 1000;
+		$storage = new Temporary();
+		$jail = new Jail([
+			'storage' => $storage,
+			'root' => 'folder'
+		]);
+		$mount = new MountPoint($jail, '/bar/foo');
+
+		$folderInfo->expects($this->any())
+			->method('getMountPoint')
+			->will($this->returnValue($mount));
+
+		$cache = $storage->getCache();
+
+		$id1 = $cache->put('folder/inside.txt', [
+			'storage_mtime' => $baseTime,
+			'mtime' => $baseTime,
+			'mimetype' => 'text/plain',
+			'size' => 3
+		]);
+		$cache->put('outside.txt', [
+			'storage_mtime' => $baseTime - 100,
+			'mtime' => $baseTime - 100,
+			'mimetype' => 'text/plain',
+			'size' => 3
+		]);
+
+		$node = new \OC\Files\Node\Folder($root, $view, $folderPath, $folderInfo);
+
+		$nodes = $node->getRecent($baseTime - 500);
+		$ids = array_map(function (Node $node) {
+			return (int)$node->getId();
+		}, $nodes);
+		$this->assertEquals([$id1], $ids);
 	}
 }
