@@ -184,6 +184,18 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
+	 * Return vendor from which this version was published
+	 *
+	 * @return string Get the vendor
+	 */
+	private function getVendor() {
+		// this should really be a JSON file
+		require \OC::$SERVERROOT . '/version.php';
+		/** @var string $vendor */
+		return (string) $vendor;
+	}
+
+	/**
 	 * Whether an upgrade to a specified version is possible
 	 * @param string $oldVersion
 	 * @param string $newVersion
@@ -191,8 +203,22 @@ class Updater extends BasicEmitter {
 	 * @return bool
 	 */
 	public function isUpgradePossible($oldVersion, $newVersion, $allowedPreviousVersion) {
-		return (version_compare($allowedPreviousVersion, $oldVersion, '<=')
+		$allowedUpgrade = (version_compare($allowedPreviousVersion, $oldVersion, '<=')
 			&& (version_compare($oldVersion, $newVersion, '<=') || $this->config->getSystemValue('debug', false)));
+
+		if ($allowedUpgrade) {
+			return $allowedUpgrade;
+		}
+
+		// Upgrade not allowed, someone switching vendor?
+		if ($this->getVendor() !== $this->config->getAppValue('core', 'vendor', '')) {
+			$oldVersion = explode('.', $oldVersion);
+			$newVersion = explode('.', $newVersion);
+
+			return $oldVersion[0] === $newVersion[0] && $oldVersion[1] === $newVersion[1];
+		}
+
+		return false;
 	}
 
 	/**
@@ -279,6 +305,7 @@ class Updater extends BasicEmitter {
 
 			// only set the final version if everything went well
 			$this->config->setSystemValue('version', implode('.', \OCP\Util::getVersion()));
+			$this->config->setAppValue('core', 'vendor', $this->getVendor());
 		}
 	}
 
