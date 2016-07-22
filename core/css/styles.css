@@ -118,7 +118,7 @@ a.two-factor-cancel {
 	width: 155px;
 	max-width: 50%;
 	cursor: text;
-	background-color: transparent;
+	background-color: #0082c9;
 	border: 1px solid rgba(255, 255, 255, .5);
 }
 
