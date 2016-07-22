@@ -224,10 +224,11 @@ class ThemingController extends Controller {
 		if($logo !== '') {
 			$responseCss .= sprintf('#header .logo {
 				background-image: url(\'./logo?v='.$cacheBusterValue.'\');
+				background-size: contain;
 			}
 			#header .logo-icon {
 				background-image: url(\'./logo?v='.$cacheBusterValue.'\');
-				background-size: 62px 34px;
+				background-size: contain;
 			}'
 			);
 		}
