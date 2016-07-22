@@ -1,8 +1,10 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Vincent Petry <pvince81@owncloud.com>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

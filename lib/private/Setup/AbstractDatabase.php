@@ -1,11 +1,14 @@
 <?php
 /**
- * @author Bart Visscher <bartv@thisnet.nl>
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Manish Bisht <manish.bisht490@gmail.com>
- * @author Thomas Müller <thomas.mueller@tmit.eu>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Bart Visscher <bartv@thisnet.nl>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Manish Bisht <manish.bisht490@gmail.com>
+ * @author Robin Appelman <robin@icewind.nl>
+ * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Thomas Pulzer <t.pulzer@kniel.de>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

@@ -1,11 +1,12 @@
 <?php
 /**
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Phil Davis <phil.davis@inf.org>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

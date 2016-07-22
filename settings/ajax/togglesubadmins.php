@@ -1,10 +1,11 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Georg Ehrke <georg@owncloud.com>
  * @author Lukas Reschke <lukas@statuscode.ch>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

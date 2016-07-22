@@ -1,10 +1,12 @@
 <?php
 /**
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
  * @author Adam Williamson <awilliam@redhat.com>
  * @author Morris Jobke <hey@morrisjobke.de>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
