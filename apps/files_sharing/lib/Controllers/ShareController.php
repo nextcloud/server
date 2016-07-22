@@ -35,6 +35,8 @@ namespace OCA\Files_Sharing\Controllers;
 use OC_Files;
 use OC_Util;
 use OCA\FederatedFileSharing\FederatedShareProvider;
+use OCP\Defaults;
+use OCP\IL10N;
 use OCP\Template;
 use OCP\Share;
 use OCP\AppFramework\Controller;
@@ -84,6 +86,10 @@ class ShareController extends Controller {
 	protected $federatedShareProvider;
 	/** @var EventDispatcherInterface */
 	protected $eventDispatcher;
+	/** @var IL10N */
+	protected $l10n;
+	/** @var Defaults */
+	protected $defaults;
 
 	/**
 	 * @param string $appName
@@ -99,6 +105,8 @@ class ShareController extends Controller {
 	 * @param IRootFolder $rootFolder
 	 * @param FederatedShareProvider $federatedShareProvider
 	 * @param EventDispatcherInterface $eventDispatcher
+	 * @param IL10N $l10n
+	 * @param \OC_Defaults $defaults
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -112,7 +120,9 @@ class ShareController extends Controller {
 								IPreview $previewManager,
 								IRootFolder $rootFolder,
 								FederatedShareProvider $federatedShareProvider,
-								EventDispatcherInterface $eventDispatcher) {
+								EventDispatcherInterface $eventDispatcher,
+								IL10N $l10n,
+								\OC_Defaults $defaults) {
 		parent::__construct($appName, $request);
 
 		$this->config = $config;
@@ -126,6 +136,8 @@ class ShareController extends Controller {
 		$this->rootFolder = $rootFolder;
 		$this->federatedShareProvider = $federatedShareProvider;
 		$this->eventDispatcher = $eventDispatcher;
+		$this->l10n = $l10n;
+		$this->defaults = $defaults;
 	}
 
 	/**
@@ -352,12 +364,19 @@ class ShareController extends Controller {
 
 		$shareTmpl['hideFileList'] = $hideFileList;
 		$shareTmpl['shareOwner'] = $this->userManager->get($share->getShareOwner())->getDisplayName();
-		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', array('token' => $token));
+		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', ['token' => $token]);
+		$shareTmpl['shareUrl'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.showShare', ['token' => $token]);
 		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
 		$shareTmpl['previewEnabled'] = $this->config->getSystemValue('enable_previews', true);
 		$shareTmpl['previewMaxX'] = $this->config->getSystemValue('preview_max_x', 1024);
 		$shareTmpl['previewMaxY'] = $this->config->getSystemValue('preview_max_y', 1024);
 		$shareTmpl['disclaimer'] = $this->config->getAppValue('core', 'shareapi_public_link_disclaimertext', null);
+		if ($shareTmpl['previewSupported']) {
+			$shareTmpl['previewImage'] = $this->urlGenerator->linkToRouteAbsolute( 'core_ajax_public_preview',
+				['x' => 200, 'y' => 200, 'file' => $shareTmpl['directory_path'], 't' => $shareTmpl['dirToken']]);
+		} else {
+			$shareTmpl['previewImage'] = $this->urlGenerator->getAbsoluteURL($this->urlGenerator->imagePath('core', 'favicon-fb.png'));
+		}
 
 		// Load files we need
 		\OCP\Util::addScript('files', 'file-upload');
@@ -381,6 +400,14 @@ class ShareController extends Controller {
 			\OCP\Util::addScript('files', 'filelist');
 			\OCP\Util::addScript('files', 'keyboardshortcuts');
 		}
+
+		// OpenGraph Support: http://ogp.me/
+		\OCP\Util::addHeader('meta', ['property' => "og:title", 'content' => $this->defaults->getName() . ' - ' . $this->defaults->getSlogan()]);
+		\OCP\Util::addHeader('meta', ['property' => "og:description", 'content' => $this->l10n->t('%s is publicly shared', [$shareTmpl['filename']])]);
+		\OCP\Util::addHeader('meta', ['property' => "og:site_name", 'content' => $this->defaults->getName()]);
+		\OCP\Util::addHeader('meta', ['property' => "og:url", 'content' => $shareTmpl['shareUrl']]);
+		\OCP\Util::addHeader('meta', ['property' => "og:type", 'content' => "object"]);
+		\OCP\Util::addHeader('meta', ['property' => "og:image", 'content' => $shareTmpl['previewImage']]);
 
 		$this->eventDispatcher->dispatch('OCA\Files_Sharing::loadAdditionalScripts');
 

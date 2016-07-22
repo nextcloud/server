@@ -109,7 +109,9 @@ class ShareControllerTest extends \Test\TestCase {
 			$this->previewManager,
 			$this->getMockBuilder('\OCP\Files\IRootFolder')->getMock(),
 			$this->federatedShareProvider,
-			$this->eventDispatcher
+			$this->eventDispatcher,
+			$this->getMockBuilder('\OCP\IL10N')->getMock(),
+			$this->getMockBuilder('\OCP\Defaults')->getMock()
 		);
 
 
@@ -392,6 +394,8 @@ class ShareControllerTest extends \Test\TestCase {
 			'hideFileList' => false,
 			'shareOwner' => 'ownerDisplay',
 			'disclaimer' => 'My disclaimer text',
+			'shareUrl' => null,
+			'previewImage' => null
 		);
 
 		$csp = new \OCP\AppFramework\Http\ContentSecurityPolicy();

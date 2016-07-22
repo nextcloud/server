@@ -37,12 +37,14 @@ use OCA\Files_Sharing\Controllers\ExternalSharesController;
 use OCA\Files_Sharing\Controllers\ShareController;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use \OCP\IContainer;
+use OCP\IServerContainer;
 
 class Application extends App {
 	public function __construct(array $urlParams = array()) {
 		parent::__construct('files_sharing', $urlParams);
 
 		$container = $this->getContainer();
+		/** @var IServerContainer $server */
 		$server = $container->getServer();
 
 		/**
@@ -63,7 +65,9 @@ class Application extends App {
 				$server->getPreviewManager(),
 				$server->getRootFolder(),
 				$federatedSharingApp->getFederatedShareProvider(),
-				$server->getEventDispatcher()
+				$server->getEventDispatcher(),
+				$server->getL10N($c->query('AppName')),
+				$server->getThemingDefaults()
 			);
 		});
 		$container->registerService('ExternalSharesController', function (SimpleContainer $c) {
@@ -133,7 +137,7 @@ class Application extends App {
 		});
 
 		// Execute middlewares
-		$container->registerMiddleware('SharingCheckMiddleware');
+		$container->registerMiddleWare('SharingCheckMiddleware');
 		$container->registerMiddleWare('OCSShareAPIMiddleware');
 
 		$container->registerService('MountProvider', function (IContainer $c) {
