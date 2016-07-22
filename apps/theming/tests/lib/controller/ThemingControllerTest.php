@@ -383,10 +383,11 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new Http\DataDownloadResponse('#header .logo {
 				background-image: url(\'./logo?v=0\');
+				background-size: contain;
 			}
 			#header .logo-icon {
 				background-image: url(\'./logo?v=0\');
-				background-size: 62px 34px;
+				background-size: contain;
 			}', 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
@@ -445,10 +446,11 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #000}#header .logo {
 				background-image: url(\'./logo?v=0\');
+				background-size: contain;
 			}
 			#header .logo-icon {
 				background-image: url(\'./logo?v=0\');
-				background-size: 62px 34px;
+				background-size: contain;
 			}#body-login {
 				background-image: url(\'./loginbackground?v=0\');
 			}', 'style', 'text/css');
@@ -479,10 +481,11 @@ class ThemingControllerTest extends TestCase {
 
 		$expected = new Http\DataDownloadResponse('#body-user #header,#body-settings #header,#body-public #header {background-color: #fff}#header .logo {
 				background-image: url(\'./logo?v=0\');
+				background-size: contain;
 			}
 			#header .logo-icon {
 				background-image: url(\'./logo?v=0\');
-				background-size: 62px 34px;
+				background-size: contain;
 			}#body-login {
 				background-image: url(\'./loginbackground?v=0\');
 			}#header .header-appname, #expandDisplayName { color: #000000; } #header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); } .searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }', 'style', 'text/css');
