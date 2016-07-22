@@ -10,7 +10,7 @@ To prevent a user from running out of disk space, the Deleted files app will not
 	<licence>AGPL</licence>
 	<author>Bjoern Schiessle</author>
 	<default_enable/>
-	<version>0.9.0</version>
+	<version>1.0.0</version>
 	<types>
 		<filesystem/>
 	</types>
