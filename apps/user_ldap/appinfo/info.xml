@@ -18,7 +18,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 	</documentation>
 	<dependencies>
 		<lib>ldap</lib>
-		<owncloud min-version="9.1" max-version="9.1" />
+		<owncloud min-version="9.2" max-version="9.2" />
 	</dependencies>
 
 	<namespace>User_LDAP</namespace>

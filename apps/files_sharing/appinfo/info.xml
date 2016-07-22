@@ -15,7 +15,7 @@ Turning the feature off removes shared files and folders on the server for all s
 		<filesystem/>
 	</types>
 	<dependencies>
-		<owncloud min-version="9.1" max-version="9.1" />
+		<owncloud min-version="9.2" max-version="9.2" />
 	</dependencies>
 	<public>
 		<files>public.php</files>
