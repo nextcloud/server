@@ -1,11 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Roger Szabo <roger.szabo@web.de>
  *
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,10 +18,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-$state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'doSet');
-if($state === 'doSet') {
-	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
-}
 
-$helper = new \OCA\User_LDAP\Helper();
-$helper->setLDAPProvider();
+namespace OCP\LDAP;
+
+/**
+ * Interface IDeletionFlagSupport
+ *
+ * @package OCP\LDAP
+ * @since 9.2.0
+ */
+interface IDeletionFlagSupport {
+	/**
+	 * Flag record for deletion.
+	 * @param string $uid ownCloud user id
+	 * @since 9.2.0
+	 */
+	public function flagRecord($uid);
+	
+	/**
+	 * Unflag record for deletion.
+	 * @param string $uid ownCloud user id
+	 * @since 9.2.0
+	 */
+	public function unflagRecord($uid);
+}

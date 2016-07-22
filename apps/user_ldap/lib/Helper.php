@@ -10,6 +10,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *
@@ -182,6 +183,70 @@ class Helper {
 		}
 
 		return $domain;
+	}
+	
+	/**
+	 *
+	 * Set the LDAPProvider in the config
+	 *
+	 */
+	public function setLDAPProvider() {
+		$current = \OC::$server->getConfig()->getSystemValue('ldapProviderFactory', null);
+		if(is_null($current)) {
+			\OC::$server->getConfig()->setSystemValue('ldapProviderFactory', '\\OCA\\User_LDAP\\LDAPProviderFactory');
+		}
+	}
+	
+	/**
+	 * sanitizes a DN received from the LDAP server
+	 * @param array $dn the DN in question
+	 * @return array the sanitized DN
+	 */
+	public function sanitizeDN($dn) {
+		//treating multiple base DNs
+		if(is_array($dn)) {
+			$result = array();
+			foreach($dn as $singleDN) {
+				$result[] = $this->sanitizeDN($singleDN);
+			}
+			return $result;
+		}
+
+		//OID sometimes gives back DNs with whitespace after the comma
+		// a la "uid=foo, cn=bar, dn=..." We need to tackle this!
+		$dn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
+
+		//make comparisons and everything work
+		$dn = mb_strtolower($dn, 'UTF-8');
+
+		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
+		//to use the DN in search filters, \ needs to be escaped to \5c additionally
+		//to use them in bases, we convert them back to simple backslashes in readAttribute()
+		$replacements = array(
+			'\,' => '\5c2C',
+			'\=' => '\5c3D',
+			'\+' => '\5c2B',
+			'\<' => '\5c3C',
+			'\>' => '\5c3E',
+			'\;' => '\5c3B',
+			'\"' => '\5c22',
+			'\#' => '\5c23',
+			'('  => '\28',
+			')'  => '\29',
+			'*'  => '\2A',
+		);
+		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
+
+		return $dn;
+	}
+	
+	/**
+	 * converts a stored DN so it can be used as base parameter for LDAP queries, internally we store them for usage in LDAP filters
+	 * @param string $dn the DN
+	 * @return string
+	 */
+	public function DNasBaseParameter($dn) {
+		return str_ireplace('\\5c', '\\', $dn);
 	}
 
 	/**
