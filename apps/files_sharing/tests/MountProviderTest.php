@@ -85,6 +85,12 @@ class MountProviderTest extends \Test\TestCase {
 		$share->expects($this->any())
 			->method('getNodeId')
 			->will($this->returnValue($nodeId));
+		$share->expects($this->any())
+			->method('getShareTime')
+			->will($this->returnValue(
+				// compute share time based on id, simulating share order
+				new \DateTime('@' . (1469193980 + 1000 * $id))
+			));
 		return $share;
 	}
 
@@ -101,9 +107,9 @@ class MountProviderTest extends \Test\TestCase {
 			$this->makeMockShare(2, 100, 'user2', '/share2', 31),
 		];
 		$groupShares = [
-			$this->makeMockShare(3, 100, 'user2', '/share2', 0),
-			$this->makeMockShare(4, 100, 'user2', '/share4', 31),
-			$this->makeMockShare(5, 100, 'user1', '/share4', 31),
+			$this->makeMockShare(3, 100, 'user2', '/share2', 0), 
+			$this->makeMockShare(4, 101, 'user2', '/share4', 31), 
+			$this->makeMockShare(5, 100, 'user1', '/share4', 31), 
 		];
 		$this->user->expects($this->any())
 			->method('getUID')
@@ -134,7 +140,7 @@ class MountProviderTest extends \Test\TestCase {
 		$mountedShare2 = $mounts[1]->getShare();
 		$this->assertEquals('4', $mountedShare2->getId());
 		$this->assertEquals('user2', $mountedShare2->getShareOwner());
-		$this->assertEquals(100, $mountedShare2->getNodeId());
+		$this->assertEquals(101, $mountedShare2->getNodeId());
 		$this->assertEquals('/share4', $mountedShare2->getTarget());
 		$this->assertEquals(31, $mountedShare2->getPermissions());
 	}
@@ -227,6 +233,32 @@ class MountProviderTest extends \Test\TestCase {
 				],
 				[
 					// no received share since "user1" opted out
+				],
+			],
+			// #7: share as outsider with "group1" and "user1" where recipient renamed in between
+			[
+				[
+					[1, 100, 'user2', '/share2-renamed', 31], 
+				],
+				[
+					[2, 100, 'user2', '/share2', 31], 
+				],
+				[
+					// use target of least recent share
+					['1', 100, 'user2', '/share2-renamed', 31],
+				],
+			],
+			// #8: share as outsider with "group1" and "user1" where recipient renamed in between
+			[
+				[
+					[2, 100, 'user2', '/share2', 31], 
+				],
+				[
+					[1, 100, 'user2', '/share2-renamed', 31], 
+				],
+				[
+					// use target of least recent share
+					['1', 100, 'user2', '/share2-renamed', 31],
 				],
 			],
 		];
