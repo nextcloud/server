@@ -158,6 +158,10 @@ class RepairUnmergedShares implements IRepairStep {
 	 * @return boolean false if the share was not repaired, true if it was
 	 */
 	private function fixThisShare($groupShares, $subShares) {
+		if (empty($subShares)) {
+			return false;
+		}
+
 		$groupSharesById = [];
 		foreach ($groupShares as $groupShare) {
 			$groupSharesById[$groupShare['id']] = $groupShare;
@@ -253,27 +257,28 @@ class RepairUnmergedShares implements IRepairStep {
 			return;
 		}
 
+		// get all subshares grouped by item source
 		$subSharesByItemSource = $this->getSharesWithUser(DefaultShareProvider::SHARE_TYPE_USERGROUP, [$user->getUID()]);
-		if (empty($subSharesByItemSource)) {
-			// nothing to repair for this user
-			return;
-		}
-
-		$groupSharesByItemSource = $this->getSharesWithUser(Constants::SHARE_TYPE_GROUP, $groups);
-		if (empty($groupSharesByItemSource)) {
-			// shouldn't happen, those invalid shares must be cleant already by RepairInvalidShares
-			return;
-		}
 
 		// because sometimes one wants to give the user more permissions than the group share
 		$userSharesByItemSource = $this->getSharesWithUser(Constants::SHARE_TYPE_USER, [$user->getUID()]);
 
+		if (empty($subSharesByItemSource) && empty($userSharesByItemSource)) {
+			// nothing to repair for this user, no need to do extra queries
+			return;
+		}
+
+		$groupSharesByItemSource = $this->getSharesWithUser(Constants::SHARE_TYPE_GROUP, $groups);
+		if (empty($groupSharesByItemSource) && empty($userSharesByItemSource)) {
+			// nothing to repair for this user
+			return;
+		}
+
 		foreach ($groupSharesByItemSource as $itemSource => $groupShares) {
-			if (!isset($subSharesByItemSource[$itemSource])) {
-				// no subshares for this item source, skip it
-				continue;
+			$subShares = [];
+			if (isset($subSharesByItemSource[$itemSource])) {
+				$subShares = $subSharesByItemSource[$itemSource];
 			}
-			$subShares = $subSharesByItemSource[$itemSource];
 
 			if (isset($userSharesByItemSource[$itemSource])) {
 				// add it to the subshares to get a similar treatment
