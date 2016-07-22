@@ -309,7 +309,7 @@ class RepairUnmergedShares extends BasicEmitter implements \OC\RepairStep {
 
 	public function run() {
 		$ocVersionFromBeforeUpdate = $this->config->getSystemValue('version', '0.0.0');
-		if (version_compare($ocVersionFromBeforeUpdate, '9.0.4.1', '<')) {
+		if (version_compare($ocVersionFromBeforeUpdate, '9.0.4.2', '<')) {
 			// this situation was only possible between 9.0.0 and 9.0.4 included
 
 			$function = function(IUser $user) {
