@@ -21,11 +21,11 @@ use OC\Log\File;
 use Test\TestCase;
 
 /**
- * Class OwncloudTest
+ * Class FileTest
  *
  * @group DB
  */
-class OwncloudTest extends TestCase
+class FileTest extends TestCase
 {
 	private $restore_logfile;
 	private $restore_logdateformat;
