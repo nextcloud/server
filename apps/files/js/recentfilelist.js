@@ -28,6 +28,7 @@ $(document).ready(function () {
 				direction: 'desc'
 			};
 			this.initialize($el, options);
+			this._allowSorting = false;
 		};
 		RecentFileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
 			/** @lends OCA.Files.RecentFileList.prototype */ {
