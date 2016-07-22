@@ -29,7 +29,6 @@ class OCSShareAPIMiddleware extends Middleware {
 	 */
 	public function beforeController($controller, $methodName) {
 		if ($controller instanceof Share20OCS) {
-			/** @var Share20OCS $controller */
 			if (!$this->shareManager->shareApiEnabled()) {
 				throw new OCSNotFoundException($this->l->t('Share API is disabled'));
 			}
