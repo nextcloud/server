@@ -721,3 +721,33 @@ Feature: sharing
     And as "user0" the folder "merge-test-inside-twogroups-perms (2)" does not exist
     And as "user0" the folder "merge-test-inside-twogroups-perms (3)" does not exist
 
+  Scenario: Merging shares for recipient when shared from outside with group then user and recipient renames in between
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And user "user0" created a folder "merge-test-outside-groups-renamebeforesecondshare"
+    When folder "merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with group "group1"
+    And User "user1" moved folder "/merge-test-outside-groups-renamebeforesecondshare" to "/merge-test-outside-groups-renamebeforesecondshare-renamed"
+    And folder "merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with user "user1"
+    Then as "user1" gets properties of folder "merge-test-outside-groups-renamebeforesecondshare-renamed" with
+        |{http://owncloud.org/ns}permissions|
+    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
+    And as "user1" the folder "merge-test-outside-groups-renamebeforesecondshare" does not exist
+
+  Scenario: Merging shares for recipient when shared from outside with user then group and recipient renames in between
+    Given As an "admin"
+    And user "user0" exists
+    And user "user1" exists
+    And group "group1" exists
+    And user "user1" belongs to group "group1"
+    And user "user0" created a folder "merge-test-outside-groups-renamebeforesecondshare"
+    When folder "merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with user "user1"
+    And User "user1" moved folder "/merge-test-outside-groups-renamebeforesecondshare" to "/merge-test-outside-groups-renamebeforesecondshare-renamed"
+    And folder "merge-test-outside-groups-renamebeforesecondshare" of user "user0" is shared with group "group1"
+    Then as "user1" gets properties of folder "merge-test-outside-groups-renamebeforesecondshare-renamed" with
+        |{http://owncloud.org/ns}permissions|
+    And the single response should contain a property "{http://owncloud.org/ns}permissions" with value "SRDNVCK"
+    And as "user1" the folder "merge-test-outside-groups-renamebeforesecondshare" does not exist
+
