@@ -114,13 +114,14 @@ class Share extends \OC\Share\Constants {
 	 * @param mixed $parameters (optional)
 	 * @param int $limit Number of items to return (optional) Returns all by default
 	 * @param bool $includeCollections (optional)
+	 * @param bool $forceGrouping (optional) force grouping received shares
 	 * @return mixed Return depends on format
 	 * @since 7.0.0
 	 */
 	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
-		$parameters = null, $limit = -1, $includeCollections = false) {
+		$parameters = null, $limit = -1, $includeCollections = false, $forceGrouping = false) {
 
-		return \OC\Share\Share::getItemsSharedWithUser($itemType, $user, $format, $parameters, $limit, $includeCollections);
+		return \OC\Share\Share::getItemsSharedWithUser($itemType, $user, $format, $parameters, $limit, $includeCollections, $forceGrouping);
 	}
 
 	/**

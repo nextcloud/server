@@ -57,7 +57,7 @@ class MountProvider implements IMountProvider {
 	 */
 	public function getItemsSharedWithUser($uid) {
 		// only here to make it mockable/testable
-		return \OCP\Share::getItemsSharedWithUser('file', $uid);
+		return \OCP\Share::getItemsSharedWithUser('file', $uid, \OCP\Share::FORMAT_NONE, null, -1, false, true);
 	}
 
 	/**

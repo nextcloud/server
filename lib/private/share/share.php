@@ -328,12 +328,13 @@ class Share extends Constants {
 	 * @param mixed $parameters (optional)
 	 * @param int $limit Number of items to return (optional) Returns all by default
 	 * @param boolean $includeCollections (optional)
+	 * @param boolean $forceGrouping (optional) force grouping
 	 * @return mixed Return depends on format
 	 */
 	public static function getItemsSharedWithUser($itemType, $user, $format = self::FORMAT_NONE,
-												  $parameters = null, $limit = -1, $includeCollections = false) {
+												  $parameters = null, $limit = -1, $includeCollections = false, $forceGrouping = false) {
 		return self::getItems($itemType, null, self::$shareTypeUserAndGroups, $user, null, $format,
-			$parameters, $limit, $includeCollections);
+			$parameters, $limit, $includeCollections, false, true, $forceGrouping);
 	}
 
 	/**
@@ -1643,7 +1644,8 @@ class Share extends Constants {
 	 * @param int $limit Number of items to return, -1 to return all matches (optional)
 	 * @param boolean $includeCollections Include collection item types (optional)
 	 * @param boolean $itemShareWithBySource (optional)
-	 * @param boolean $checkExpireDate
+	 * @param boolean $checkExpireDate (optional)
+	 * @param boolean $forceGrouping (optional) force grouping
 	 * @return array
 	 *
 	 * See public functions getItem(s)... for parameter usage
@@ -1651,7 +1653,9 @@ class Share extends Constants {
 	 */
 	public static function getItems($itemType, $item = null, $shareType = null, $shareWith = null,
 									$uidOwner = null, $format = self::FORMAT_NONE, $parameters = null, $limit = -1,
-									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate  = true) {
+									$includeCollections = false, $itemShareWithBySource = false, $checkExpireDate  = true,
+									$forceGrouping = false
+	) {
 		if (!self::isEnabled()) {
 			return array();
 		}
@@ -1928,8 +1932,9 @@ class Share extends Constants {
 
 		}
 
-		// group items if we are looking for items shared with the current user
-		if (isset($shareWith) && $shareWith === \OCP\User::getUser()) {
+		// group items if we are looking for items shared with the current user,
+		// or forceGrouping was set because the caller does always want grouped results
+		if (isset($shareWith) && ($shareWith === \OCP\User::getUser() || $forceGrouping)) {
 			$items = self::groupItems($items, $itemType);
 		}
 
