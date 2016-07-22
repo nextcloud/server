@@ -26,6 +26,7 @@ namespace OCA\User_LDAP\Tests\Integration;
 use OCA\User_LDAP\Access;
 use OCA\User_LDAP\Connection;
 use OCA\User_LDAP\LDAP;
+use OCA\User_LDAP\Helper;
 use OCA\User_LDAP\User\Manager;
 
 abstract class AbstractIntegrationTest {
@@ -40,6 +41,9 @@ abstract class AbstractIntegrationTest {
 
 	/** @var Manager */
 	protected $userManager;
+	
+	/** @var Helper */
+	protected $helper;
 
 	/** @var  string */
 	protected $base;
@@ -65,6 +69,7 @@ abstract class AbstractIntegrationTest {
 		$this->initLDAPWrapper();
 		$this->initConnection();
 		$this->initUserManager();
+		$this->initHelper();
 		$this->initAccess();
 
 	}
@@ -103,12 +108,19 @@ abstract class AbstractIntegrationTest {
 	protected function initUserManager() {
 		$this->userManager = new FakeManager();
 	}
+	
+	/**
+	 * initializes the test Helper
+	 */
+	protected function initHelper() {
+		$this->helper = new Helper();
+	}
 
 	/**
 	 * initializes the Access test instance
 	 */
 	protected function initAccess() {
-		$this->access = new Access($this->connection, $this->ldap, $this->userManager);
+		$this->access = new Access($this->connection, $this->ldap, $this->userManager, $this->helper);
 	}
 
 	/**

@@ -69,8 +69,9 @@ class WizardTest extends \Test\TestCase {
 		$um = $this->getMockBuilder('\OCA\User_LDAP\User\Manager')
 					->disableOriginalConstructor()
 					->getMock();
+		$helper = new \OCA\User_LDAP\Helper();
 		$access = $this->getMock('\OCA\User_LDAP\Access',
-			$accMethods, array($connector, $lw, $um));
+			$accMethods, array($connector, $lw, $um, $helper));
 
 		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
 	}
