@@ -22,14 +22,39 @@ class Licenses
 {
 	protected $paths = [];
 	protected $mailMap = [];
+	protected $checkFiles = [];
 	public $authors = [];
 
 	public function __construct() {
 		$this->licenseText = <<<EOD
 /**
+@COPYRIGHT@
+ *
 @AUTHORS@
  *
- * @copyright Copyright (c) @YEAR@, ownCloud, Inc.
+ * @license GNU AGPL version 3 or any later version
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+EOD;
+		$this->licenseTextLegacy = <<<EOD
+/**
+@COPYRIGHT@
+ *
+@AUTHORS@
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -46,7 +71,7 @@ class Licenses
  *
  */
 EOD;
-		$this->licenseText = str_replace('@YEAR@', date("Y"), $this->licenseText);
+		$this->licenseTextLegacy = str_replace('@YEAR@', date("Y"), $this->licenseTextLegacy);
 	}
 
 	/**
@@ -68,6 +93,7 @@ EOD;
 
 		if (is_file($folder)) {
 			$this->handleFile($folder, $gitRoot);
+			$this->printFilesToCheck();
 			return;
 		}
 
@@ -92,11 +118,13 @@ EOD;
 			/** @var SplFileInfo $file */
 			$this->handleFile($file, $gitRoot);
 		}
+
+		$this->printFilesToCheck();
 	}
 
 	function writeAuthorsFile() {
 		ksort($this->authors);
-		$template = "ownCloud is written by:
+		$template = "Nextcloud is written by:
 @AUTHORS@
 
 With help from many libraries and frameworks including:
@@ -118,10 +146,17 @@ With help from many libraries and frameworks including:
 			echo "MIT licensed file: $path" . PHP_EOL;
 			return;
 		}
-		$source = $this->eatOldLicense($source);
+		$copyrightNotices = $this->getCopyrightNotices($path, $source);
 		$authors = $this->getAuthors($path, $gitRoot);
-		$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
+		if ($this->isOwnCloudLicensed($source)) {
+			$license = str_replace('@AUTHORS@', $authors, $this->licenseTextLegacy);
+			$this->checkCopyrightState($path, $gitRoot);
+		} else {
+			$license = str_replace('@AUTHORS@', $authors, $this->licenseText);
+		}
+		$license = str_replace('@COPYRIGHT@', $copyrightNotices, $license);
 
+		$source = $this->eatOldLicense($source);
 		$source = "<?php" . PHP_EOL . $license . PHP_EOL . $source;
 		file_put_contents($path,$source);
 		echo "License updated: $path" . PHP_EOL;
@@ -129,6 +164,7 @@ With help from many libraries and frameworks including:
 
 	/**
 	 * @param string $source
+	 * @return bool
 	 */
 	private function isMITLicensed($source) {
 		$lines = explode(PHP_EOL, $source);
@@ -142,6 +178,19 @@ With help from many libraries and frameworks including:
 
 		return false;
 	}
+
+        private function isOwnCloudLicensed($source) {
+			$lines = explode(PHP_EOL, $source);
+			while(!empty($lines)) {
+				$line = $lines[0];
+				array_shift($lines);
+				if (strpos($line, 'ownCloud, Inc') !== false) {
+					return true;
+				}
+			}
+
+			return false;
+        }
 
 	/**
 	 * @param string $source
@@ -177,6 +226,68 @@ With help from many libraries and frameworks including:
 		return implode(PHP_EOL, $lines);
 	}
 
+	private function getCopyrightNotices($path, $file) {
+		$licenseHeaderEndsAtLine = (int)trim(shell_exec("grep -n '*/' $path | head -n 1 | cut -d ':' -f 1"));
+		$lineByLine = explode(PHP_EOL, $file, $licenseHeaderEndsAtLine + 1);
+		$copyrightNotice = [];
+		$licensePart = array_slice($lineByLine, 0, $licenseHeaderEndsAtLine);
+		foreach ($licensePart as $line) {
+			if (strpos($line, '@copyright') !== false) {
+				$copyrightNotice[] = $line;
+			}
+		}
+
+		return implode(PHP_EOL, $copyrightNotice);
+	}
+
+	/**
+	 * check if all lines where changed after the Nextcloud fork.
+	 * That's not a guarantee that we can switch to AGPLv3 or later,
+	 * but a good indicator that we should have a look at the file
+	 *
+	 * @param $path
+	 * @param $gitRoot
+	 */
+	private function checkCopyrightState($path, $gitRoot) {
+		// This was the date the Nextcloud fork was created
+		$deadline = new DateTime('06/06/2016');
+		$deadlineTimestamp = $deadline->getTimestamp();
+
+		$buildDir = getcwd();
+		if ($gitRoot) {
+			chdir($gitRoot);
+			$path = substr($path, strlen($gitRoot));
+		}
+		$out = shell_exec("git --no-pager blame --line-porcelain $path | sed -n 's/^author-time //p'");
+		if ($gitRoot) {
+			chdir($buildDir);
+		}
+		$timestampChanges = explode(PHP_EOL, $out);
+		$timestampChanges = array_slice($timestampChanges, 0, count($timestampChanges)-1);
+		foreach ($timestampChanges as $timestamp) {
+			if ((int)$timestamp < $deadlineTimestamp) {
+				return;
+			}
+		}
+
+		//all changes after the deadline
+		$this->checkFiles[] = $path;
+
+	}
+
+	private function printFilesToCheck() {
+		if (!empty($this->checkFiles)) {
+			print "\n";
+			print "For following files all lines changed since the Nextcloud fork." . PHP_EOL;
+			print "Please check if these files can be moved over to AGPLv3 or later" . PHP_EOL;
+			print "\n";
+			foreach ($this->checkFiles as $file) {
+				print $file . PHP_EOL;
+			}
+			print "\n";
+		}
+	}
+
 	private function getAuthors($file, $gitRoot) {
 		// only add authors that changed code and not the license header
 		$licenseHeaderEndsAtLine = trim(shell_exec("grep -n '*/' $file | head -n 1 | cut -d ':' -f 1"));
@@ -209,6 +320,7 @@ With help from many libraries and frameworks including:
 			$this->authors[$author] = $author;
 			return " * @author $author";
 		}, $authors);
+
 		return implode(PHP_EOL, $authors);
 	}
 
@@ -238,6 +350,7 @@ if (isset($argv[1])) {
 	$licenses->exec($argv[1], isset($argv[2]) ? $argv[1] : false);
 } else {
 	$licenses->exec([
+		'../apps/admin_audit',
 		'../apps/comments',
 		'../apps/dav',
 		'../apps/encryption',
@@ -251,8 +364,10 @@ if (isset($argv[1])) {
 		'../apps/provisioning_api',
 		'../apps/systemtags',
 		'../apps/testing',
+		'../apps/theming',
 		'../apps/updatenotification',
 		'../apps/user_ldap',
+		'../build/integration/features/bootstrap',
 		'../core',
 		'../lib',
 		'../ocs',
