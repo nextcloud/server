@@ -9,7 +9,7 @@
 	<author>Nextcloud</author>
 	<version>1.1.0</version>
 	<dependencies>
-		<owncloud min-version="9.0" max-version="9.1" />
+		<owncloud min-version="9.0" max-version="9.2" />
 	</dependencies>
 	<types>
 		<logging/>
