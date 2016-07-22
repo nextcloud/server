@@ -329,7 +329,28 @@ class RepairUnmergedSharesTest extends TestCase {
 				]
 			],
 			[
-				// #7 legitimate share with own group:
+				// #7 bogus share:
+				// - outsider shares with group1 and also user2
+				// - no subshare at all
+				// - one extra share entry for direct share to user2
+				// - non-matching targets
+				// - user share has more permissions
+				[
+					[Constants::SHARE_TYPE_GROUP, 123, 'recipientgroup1', '/test', 1],
+					[Constants::SHARE_TYPE_USER, 123, 'user2', '/test (2)', 31],
+					// different unrelated share
+					[Constants::SHARE_TYPE_GROUP, 456, 'recipientgroup1', '/test (5)', 31],
+				],
+				[
+					['/test', 1],
+					// user share repaired
+					['/test', 31],
+					// leave unrelated alone
+					['/test (5)', 31],
+				]
+			],
+			[
+				// #8 legitimate share with own group:
 				// - insider shares with both groups the user is already in
 				// - no subshares in this case
 				[
@@ -347,7 +368,7 @@ class RepairUnmergedSharesTest extends TestCase {
 				]
 			],
 			[
-				// #7 legitimate shares:
+				// #9 legitimate shares:
 				// - group share with same group
 				// - group share with other group
 				// - user share where recipient renamed
@@ -365,6 +386,25 @@ class RepairUnmergedSharesTest extends TestCase {
 					['/test', 31],
 					['/test', 31],
 					['/test legit rename', 31],
+					['/test', 31],
+					// leave unrelated alone
+					['/test (4)', 31],
+				]
+			],
+			[
+				// #10 legitimate share:
+				// - outsider shares with group and user directly with different permissions
+				// - no subshares
+				// - same targets
+				[
+					[Constants::SHARE_TYPE_GROUP, 123, 'samegroup1', '/test', 1],
+					[Constants::SHARE_TYPE_USER, 123, 'user3', '/test', 31],
+					// different unrelated share
+					[Constants::SHARE_TYPE_GROUP, 456, 'recipientgroup1', '/test (4)', 31],
+				],
+				[
+					// leave all alone
+					['/test', 1],
 					['/test', 31],
 					// leave unrelated alone
 					['/test (4)', 31],
