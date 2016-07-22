@@ -1,11 +1,13 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
+ * @author Bjoern Schiessle <bjoern@schiessle.org>
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

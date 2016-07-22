@@ -1,11 +1,12 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

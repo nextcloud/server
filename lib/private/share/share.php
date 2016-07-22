@@ -1,25 +1,26 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Bart Visscher <bartv@thisnet.nl>
  * @author Bernhard Reiter <ockham@raz.or.at>
- * @author Björn Schießle <schiessle@owncloud.com>
+ * @author Björn Schießle <bjoern@schiessle.org>
  * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Daniel Hansson <enoch85@gmail.com>
- * @author Joas Schilling <nickvergessen@owncloud.com>
+ * @author Joas Schilling <coding@schilljs.com>
  * @author Jörn Friedrich Dreyer <jfd@butonic.de>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Michael Kuhn <suraia@ikkoku.de>
  * @author Morris Jobke <hey@morrisjobke.de>
- * @author Robin Appelman <icewind@owncloud.com>
+ * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
- * @author Roeland Jago Douma <rullzer@owncloud.com>
+ * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Sebastian Döll <sebastian.doell@libasys.de>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Vincent Petry <pvince81@owncloud.com>
  * @author Volkan Gezer <volkangezer@gmail.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
