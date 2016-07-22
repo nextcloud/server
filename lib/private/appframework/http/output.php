@@ -1,9 +1,10 @@
 <?php
 /**
- * @author Bernhard Posselt <dev@bernhard-posselt.com>
- * @author Lukas Reschke <lukas@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Bernhard Posselt <dev@bernhard-posselt.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

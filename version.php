@@ -1,13 +1,12 @@
 <?php
 /**
- * @author Arthur Schiwon <blizzz@owncloud.com>
- * @author C Montero-Luque <cml@owncloud.com>
- * @author Frank Karlitschek <frank@owncloud.org>
- * @author Joas Schilling <nickvergessen@owncloud.com>
- * @author Lukas Reschke <lukas@owncloud.com>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Frank Karlitschek <frank@karlitschek.de>
+ * @author Joas Schilling <coding@schilljs.com>
+ * @author Lukas Reschke <lukas@statuscode.ch>
  * @author Vincent Petry <pvince81@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

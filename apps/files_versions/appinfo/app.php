@@ -1,10 +1,11 @@
 <?php
 /**
- * @author Björn Schießle <schiessle@owncloud.com>
- * @author Frank Karlitschek <frank@owncloud.org>
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Björn Schießle <bjoern@schiessle.org>
+ * @author Frank Karlitschek <frank@karlitschek.de>
  * @author Victor Dubiniuk <dubiniuk@owncloud.com>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify

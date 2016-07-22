@@ -1,8 +1,10 @@
 <?php
 /**
- * @author Lukas Reschke <lukas@owncloud.com>
- *
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ *
+ * @author Lukas Reschke <lukas@statuscode.ch>
+ * @author RealRancor <Fisch.666@gmx.de>
+ *
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
