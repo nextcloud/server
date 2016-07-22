@@ -105,7 +105,10 @@ class Log implements ILogger {
 		if($logger === null) {
 			// TODO: Drop backwards compatibility for config in the future
 			$logType = $this->config->getValue('log_type', 'file');
-			$this->logger = 'OC\\Log\\'.ucfirst($logType=='owncloud' ? 'file' : $logType);
+			if($logType==='owncloud') {
+				$logType = 'file';
+			}
+			$this->logger = 'OC\\Log\\'.ucfirst($logType);
 			call_user_func(array($this->logger, 'init'));
 		} else {
 			$this->logger = $logger;
