@@ -177,9 +177,10 @@ interface Folder extends Node {
 	public function getNonExistingName($name);
 
 	/**
-	 * @param int $since
+	 * @param int $limit
+	 * @param int $offset
 	 * @return \OCP\Files\Node[]
 	 * @since 9.1.0
 	 */
-	public function getRecent($since);
+	public function getRecent($limit, $offset = 0);
 }

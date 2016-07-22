@@ -198,8 +198,7 @@ class ApiController extends Controller {
 	 * @return DataResponse
 	 */
 	public function getRecentFiles() {
-		$since = time() - (60 * 60 * 24 * 7);//1 week
-		$nodes = $this->userFolder->getRecent($since);
+		$nodes = $this->userFolder->getRecent(100);
 		$files = $this->formatNodes($nodes);
 		return new DataResponse(['files' => $files]);
 	}

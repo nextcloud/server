@@ -363,10 +363,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	/**
-	 * @param int $since
+	 * @param int $limit
+	 * @param int $offset
 	 * @return \OCP\Files\Node[]
 	 */
-	public function getRecent($since) {
+	public function getRecent($limit, $offset = 0) {
 		$mimetypeLoader = \OC::$server->getMimeTypeLoader();
 		$mounts = $this->root->getMountsIn($this->path);
 		$mounts[] = $this->getMountPoint();
@@ -387,55 +388,19 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$query = $builder
 			->select('f.*')
 			->from('filecache', 'f')
-			->where($builder->expr()->gt('f.storage_mtime', $builder->createNamedParameter($since, IQueryBuilder::PARAM_INT)))
 			->andWhere($builder->expr()->in('f.storage', $builder->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)))
 			->andWhere($builder->expr()->orX(
 			// handle non empty folders separate
 				$builder->expr()->neq('f.mimetype', $builder->createNamedParameter($folderMimetype, IQueryBuilder::PARAM_INT)),
 				$builder->expr()->eq('f.size', new Literal(0))
 			))
-			->orderBy('f.mtime', 'DESC');
+			->orderBy('f.mtime', 'DESC')
+			->setMaxResults($limit)
+			->setFirstResult($offset);
 
 		$result = $query->execute()->fetchAll();
 
-		// select folders with their mtime being the mtime of the oldest file in the folder
-		// this way we still show new folders but dont bumb the folder every time a file in it is changed
-		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
-		$query = $builder
-			->select('p.fileid', 'p.storage', 'p.mimetype', 'p.mimepart', 'p.size', 'p.path', 'p.etag', 'f1.storage_mtime', 'f1.mtime', 'p.permissions')
-			->from('filecache', 'f1')
-			->leftJoin('f1', 'filecache', 'f2', $builder->expr()->andX( // find the f1 with lowest mtime in the folder
-				$builder->expr()->eq('f1.parent', 'f2.parent'),
-				$builder->expr()->gt('f1.storage_mtime', 'f2.storage_mtime')
-			))
-			->innerJoin('f1', 'filecache', 'p', $builder->expr()->eq('f1.parent', 'p.fileid'))
-			->where($builder->expr()->isNull('f2.fileid'))
-			->andWhere($builder->expr()->gt('f1.storage_mtime', $builder->createNamedParameter($since, IQueryBuilder::PARAM_INT)))
-			->andWhere($builder->expr()->in('f1.storage', $builder->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)))
-			->andWhere($builder->expr()->neq('f1.size', new Literal(0)))
-			->orderBy('f1.storage_mtime', 'DESC');
-
-		$folderResults = $query->execute()->fetchAll();
-
-		$found = []; // we sometimes get duplicate folders
-		$folderResults = array_filter($folderResults, function ($item) use (&$found) {
-			$isFound = isset($found[$item['fileid']]);
-			$found[$item['fileid']] = true;
-			return !$isFound;
-		});
-
-		$result = array_merge($folderResults, $result);
-
-		usort($result, function ($a, $b) use ($folderMimetype) {
-			$diff = $b['mtime'] - $a['mtime'];
-			if ($diff === 0) {
-				return $a['mimetype'] === $folderMimetype ? -1 : 1;
-			} else {
-				return $diff;
-			}
-		});
-
-		$files = array_filter(array_map(function (array $entry) use  ($mountMap, $mimetypeLoader) {
+		$files = array_filter(array_map(function (array $entry) use ($mountMap, $mimetypeLoader) {
 			$mount = $mountMap[$entry['storage']];
 			$entry['internalPath'] = $entry['path'];
 			$entry['mimetype'] = $mimetypeLoader->getMimetypeById($entry['mimetype']);

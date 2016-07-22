@@ -836,7 +836,7 @@ class FolderTest extends \Test\TestCase {
 			'mimetype' => 'text/plain',
 			'size' => 3
 		]);
-		$cache->put('bar/foo/toold.txt', [
+		$id3 = $cache->put('bar/foo/older.txt', [
 			'storage_mtime' => $baseTime - 600,
 			'mtime' => $baseTime - 600,
 			'mimetype' => 'text/plain',
@@ -846,11 +846,11 @@ class FolderTest extends \Test\TestCase {
 		$node = new \OC\Files\Node\Folder($root, $view, $folderPath, $folderInfo);
 
 
-		$nodes = $node->getRecent($baseTime - 500);
+		$nodes = $node->getRecent(5);
 		$ids = array_map(function (Node $node) {
 			return (int)$node->getId();
 		}, $nodes);
-		$this->assertEquals([$id1, $id2], $ids);
+		$this->assertEquals([$id1, $id2, $id3], $ids);
 	}
 
 	public function testRecentFolder() {
@@ -900,14 +900,13 @@ class FolderTest extends \Test\TestCase {
 		$node = new \OC\Files\Node\Folder($root, $view, $folderPath, $folderInfo);
 
 
-		$nodes = $node->getRecent($baseTime - 500);
+		$nodes = $node->getRecent(5);
 		$ids = array_map(function (Node $node) {
 			return (int)$node->getId();
 		}, $nodes);
-		$this->assertEquals([$id2, $id1, $id3], $ids);// sort folders before files with the same mtime, folders get the lowest child mtime
+		$this->assertEquals([$id2, $id3], $ids);
 		$this->assertEquals($baseTime, $nodes[0]->getMTime());
 		$this->assertEquals($baseTime - 100, $nodes[1]->getMTime());
-		$this->assertEquals($baseTime - 100, $nodes[2]->getMTime());
 	}
 
 	public function testRecentJail() {
@@ -952,7 +951,7 @@ class FolderTest extends \Test\TestCase {
 
 		$node = new \OC\Files\Node\Folder($root, $view, $folderPath, $folderInfo);
 
-		$nodes = $node->getRecent($baseTime - 500);
+		$nodes = $node->getRecent(5);
 		$ids = array_map(function (Node $node) {
 			return (int)$node->getId();
 		}, $nodes);
