@@ -109,15 +109,17 @@ class Manager {
 
 		foreach ($allApps as $appId) {
 			$info = $this->appManager->getAppInfo($appId);
-			$providerClasses = $info['two-factor-providers'];
-			foreach ($providerClasses as $class) {
-				try {
-					$this->loadTwoFactorApp($appId);
-					$provider = OC::$server->query($class);
-					$providers[$provider->getId()] = $provider;
-				} catch (QueryException $exc) {
-					// Provider class can not be resolved
-					throw new Exception("Could not load two-factor auth provider $class");
+			if (isset($info['two-factor-providers'])) {
+				$providerClasses = $info['two-factor-providers'];
+				foreach ($providerClasses as $class) {
+					try {
+						$this->loadTwoFactorApp($appId);
+						$provider = OC::$server->query($class);
+						$providers[$provider->getId()] = $provider;
+					} catch (QueryException $exc) {
+						// Provider class can not be resolved
+						throw new Exception("Could not load two-factor auth provider $class");
+					}
 				}
 			}
 		}
