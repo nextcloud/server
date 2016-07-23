@@ -8,6 +8,8 @@ OC.L10N.register(
     "Federation" : "Associação",
     "Federation allows you to connect with other trusted servers to exchange the user directory. For example this will be used to auto-complete external users for federated sharing." : "Federação permite que você conecte com outros servidores confiáveis para trocar o diretório do usuário. Por exemplo, este atributo será usado para completar automaticamente usuários externos para compartilhamento federado.",
     "Add server automatically once a federated share was created successfully" : "Adicionar servidor automaticamente uma vez que um compartilhamento associado foi criado com êxito",
-    "Trusted Servers" : "Servidores confiáveis"
+    "Trusted Servers" : "Servidores confiáveis",
+    "+ Add Nextcloud server" : "+ Adicionar servidor Nextcloud",
+    "Nextcloud Server" : "Servidor Nextcloud"
 },
 "nplurals=2; plural=(n > 1);");
