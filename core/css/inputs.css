@@ -187,7 +187,7 @@ input[type="radio"].radio--white + label:before {
 }
 
 input[type="radio"].radio--white:checked + label:before {
-	background-image: url('../img/actions/radio-checked.svg');
+	background-image: url('../img/actions/radio-checked-white.svg');
 }
 
 input[type="radio"].radio--white:disabled + label:before {

@@ -64,7 +64,7 @@ function preview(setting, value) {
 			icon = 'caret';
 		}
 		if (luminance>0.8) {
-			elementColor = '#969696';
+			elementColor = '#555555';
 		}
 
 		headerClass.style.background = value;
@@ -74,11 +74,15 @@ function preview(setting, value) {
 
 		$('#previewStyles').html(
 			'#header .icon-caret { background-image: url(\'' + OC.getRootPath() + '/core/img/actions/' + icon + '.svg\') }' +
-			'input[type="checkbox"].checkbox:checked + label:before {' +
-			'background-image: url(\'' + OC.getRootPath() + '/core/img/actions/checkmark-white.svg\');' +
-			'background-color: ' + elementColor + ';' +
-			'background-position: center center; background-size:contain;' +
-			'width:12px; height:12px; padding:0; margin:1px 6px 7px 2px; }'
+			'html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' +
+			'background-image:url(\'' + OC.getRootPath() + '/core/img/actions/checkmark-white.svg\');' +
+			'background-color: ' + elementColor + '; background-position: center center; background-size:contain;' +
+			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;}' +
+			'html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' +
+			'-webkit-mask-image: url(\'' + OC.getRootPath() + '/core/img/actions/radio-checked-white.svg\');' +
+			'-webkit-mask-repeat: no-repeat;' +
+			'background-color: ' + elementColor+ ';' +
+			'background-image: none; }'
 		);
 	}
 	if (setting === 'logoMime') {

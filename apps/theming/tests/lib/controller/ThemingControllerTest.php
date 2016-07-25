@@ -327,12 +327,25 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('');
 
-		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #000}' . PHP_EOL .
-			'input[type="checkbox"].checkbox:checked + label:before {' .
-			'background-image:url(\'' . \OC::$WEBROOT . '/core/img/actions/checkmark-white.svg\');' .
-			'background-color: #000; background-position: center center; background-size:contain;' .
-			'width:12px; height:12px; padding:0; margin:1px 6px 7px 2px;' .
-			'}' . PHP_EOL;
+		$elementColor = '#000';
+		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #000}' . "\n";
+		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
+			'background-color: %s; background-position: center center; background-size:contain;' .
+			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
+			"}\n",
+			\OC::$WEBROOT,
+			$elementColor
+		);
+		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'-webkit-mask-image: url(\'%s/core/img/actions/radio-checked-white.svg\');' .
+			'-webkit-mask-repeat: no-repeat;' .
+			'background-color: %s;' .
+			'background-image: none; '.
+			"}\n",
+			\OC::$WEBROOT,
+			$elementColor
+		);
 		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
@@ -359,17 +372,29 @@ class ThemingControllerTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'backgroundMime', '')
 			->willReturn('');
-
-		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}' . PHP_EOL .
-			'input[type="checkbox"].checkbox:checked + label:before {' .
-			'background-image:url(\'' . \OC::$WEBROOT . '/core/img/actions/checkmark-white.svg\');' .
-			'background-color: #969696; background-position: center center; background-size:contain;' .
-			'width:12px; height:12px; padding:0; margin:1px 6px 7px 2px;' .
-			'}' . PHP_EOL .
-			'#header .header-appname, #expandDisplayName { color: #000000; }' . PHP_EOL .
-			'#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . PHP_EOL .
-			'.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . PHP_EOL .
-			'.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . PHP_EOL;
+		$elementColor = '#555555';
+		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}' . "\n";
+		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
+			'background-color: %s; background-position: center center; background-size:contain;' .
+			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
+			"}\n",
+			\OC::$WEBROOT,
+			$elementColor
+		);
+		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'-webkit-mask-image: url(\'%s/core/img/actions/radio-checked-white.svg\');' .
+			'-webkit-mask-repeat: no-repeat;' .
+			'background-color: %s;' .
+			'background-image: none; '.
+			"}\n",
+			\OC::$WEBROOT,
+			$elementColor
+		);
+		$expectedCss .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n" .
+			'#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n" .
+			'.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n" .
+			'.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
 		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
@@ -400,11 +425,11 @@ class ThemingControllerTest extends TestCase {
 		$expectedCss = '#header .logo {' .
 			'background-image: url(\'./logo?v=0\')' .
 			'background-size: contain;' .
-			'}' . PHP_EOL .
+			'}' . "\n" .
 			'#header .logo-icon {' .
 			'background-image: url(\'./logo?v=0\');' .
 			'background-size: contain;' .
-			'}' . PHP_EOL;
+			'}' . "\n";
 		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
@@ -432,7 +457,7 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('text/svg');
 
-		$expectedCss = '#body-login {background-image: url(\'./loginbackground?v=0\');}' . PHP_EOL;
+		$expectedCss = '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
 		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
@@ -460,20 +485,33 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
-		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #000}' . PHP_EOL .
-			'input[type="checkbox"].checkbox:checked + label:before {' .
-			'background-image:url(\'' . \OC::$WEBROOT . '/core/img/actions/checkmark-white.svg\');' .
-			'background-color: #000; background-position: center center; background-size:contain;' .
-			'width:12px; height:12px; padding:0; margin:1px 6px 7px 2px;' .
-			'}' . PHP_EOL;
+		$elementColor = '#000';
+		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #000}' . "\n";
+		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
+			'background-color: %s; background-position: center center; background-size:contain;' .
+			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
+			"}\n",
+			\OC::$WEBROOT,
+			$elementColor
+		);
+		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'-webkit-mask-image: url(\'%s/core/img/actions/radio-checked-white.svg\');' .
+			'-webkit-mask-repeat: no-repeat;' .
+			'background-color: %s;' .
+			'background-image: none; '.
+			"}\n",
+			\OC::$WEBROOT,
+			$elementColor
+		);
 		$expectedCss .= '#header .logo {' .
 			'background-image: url(\'./logo?v=0\')' .
 			'background-size: contain;' .
-			'}' . PHP_EOL .
+			'}' . "\n" .
 			'#header .logo-icon {' .
 			'background-image: url(\'./logo?v=0\');' .
 			'background-size: contain;' .
-			'}' . PHP_EOL;
+			'}' . "\n";
 		$expectedCss .= '#body-login {background-image: url(\'./loginbackground?v=0\');}' . PHP_EOL;
 
 		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
@@ -502,13 +540,25 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
-
-		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}' . PHP_EOL .
-			'input[type="checkbox"].checkbox:checked + label:before {' .
-			'background-image:url(\'' . \OC::$WEBROOT . '/core/img/actions/checkmark-white.svg\');' .
-			'background-color: #969696; background-position: center center; background-size:contain;' .
-			'width:12px; height:12px; padding:0; margin:1px 6px 7px 2px;' .
-			'}' . PHP_EOL;
+		$elementColor = '#555555';
+		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}' . "\n";
+		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
+			'background-color: %s; background-position: center center; background-size:contain;' .
+			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
+			"}\n",
+			\OC::$WEBROOT,
+			$elementColor
+		);
+		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'-webkit-mask-image: url(\'%s/core/img/actions/radio-checked-white.svg\');' .
+			'-webkit-mask-repeat: no-repeat;' .
+			'background-color: %s;' .
+			'background-image: none; '.
+			"}\n",
+			\OC::$WEBROOT,
+			$elementColor
+		);
 		$expectedCss .= '#header .logo {' .
 			'background-image: url(\'./logo?v=0\')' .
 			'background-size: contain;' .
