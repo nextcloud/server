@@ -68,23 +68,23 @@ td.mountPoint, td.backend { width:160px; }
 	padding-left: 25px;
 }
 
-#body-settings .select2-results .select2-result-label {
+.files-external-select2 .select2-results .select2-result-label {
 	height: 32px;
 	padding: 3px;
 }
-.select2-results .select2-result-label > span {
+.files-external-select2 .select2-results .select2-result-label > span {
 	display: block;
 	position: relative;
 }
-.select2-results .select2-result-label .avatardiv {
+.files-external-select2 .select2-results .select2-result-label .avatardiv {
 	display:inline-block;
 }
-.select2-results .select2-result-label .avatardiv + span {
+.files-external-select2 .select2-results .select2-result-label .avatardiv + span {
 	position: absolute;
 	top: 5px;
 	margin-left: 10px;
 }
-.select2-results .select2-result-label .avatardiv[data-type="group"] + span {
+.files-external-select2 .select2-results .select2-result-label .avatardiv[data-type="group"] + span {
 	vertical-align: top;
 	top: 6px;
 	position: absolute;
