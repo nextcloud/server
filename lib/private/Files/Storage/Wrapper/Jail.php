@@ -377,7 +377,7 @@ class Jail extends Wrapper {
 	 */
 	public function getCache($path = '', $storage = null) {
 		if (!$storage) {
-			$storage = $this;
+			$storage = $this->storage;
 		}
 		$sourceCache = $this->storage->getCache($this->getSourcePath($path), $storage);
 		return new CacheJail($sourceCache, $this->rootPath);

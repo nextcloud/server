@@ -173,9 +173,11 @@ class ViewController extends Controller {
 		\OCP\Util::addscript('files', 'search');
 
 		\OCP\Util::addScript('files', 'favoritesfilelist');
+		\OCP\Util::addScript('files', 'recentfilelist');
 		\OCP\Util::addScript('files', 'tagsplugin');
 		\OCP\Util::addScript('files', 'gotoplugin');
 		\OCP\Util::addScript('files', 'favoritesplugin');
+		\OCP\Util::addScript('files', 'recentplugin');
 
 		\OCP\Util::addScript('files', 'detailfileinfoview');
 		\OCP\Util::addScript('files', 'sidebarpreviewmanager');

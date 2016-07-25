@@ -26,7 +26,10 @@
 
 namespace OC\Files\Node;
 
+use OC\DB\QueryBuilder\Literal;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\FileInfo;
+use OCP\Files\Mount\IMountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
@@ -357,5 +360,80 @@ class Folder extends Node implements \OCP\Files\Folder {
 	public function getNonExistingName($name) {
 		$uniqueName = \OC_Helper::buildNotExistingFileNameForView($this->getPath(), $name, $this->view);
 		return trim($this->getRelativePath($uniqueName), '/');
+	}
+
+	/**
+	 * @param int $limit
+	 * @param int $offset
+	 * @return \OCP\Files\Node[]
+	 */
+	public function getRecent($limit, $offset = 0) {
+		$mimetypeLoader = \OC::$server->getMimeTypeLoader();
+		$mounts = $this->root->getMountsIn($this->path);
+		$mounts[] = $this->getMountPoint();
+
+		$mounts = array_filter($mounts, function (IMountPoint $mount) {
+			return $mount->getStorage();
+		});
+		$storageIds = array_map(function (IMountPoint $mount) {
+			return $mount->getStorage()->getCache()->getNumericStorageId();
+		}, $mounts);
+		/** @var IMountPoint[] $mountMap */
+		$mountMap = array_combine($storageIds, $mounts);
+		$folderMimetype = $mimetypeLoader->getId(FileInfo::MIMETYPE_FOLDER);
+
+		//todo look into options of filtering path based on storage id (only search in files/ for home storage, filter by share root for shared, etc)
+
+		$builder = \OC::$server->getDatabaseConnection()->getQueryBuilder();
+		$query = $builder
+			->select('f.*')
+			->from('filecache', 'f')
+			->andWhere($builder->expr()->in('f.storage', $builder->createNamedParameter($storageIds, IQueryBuilder::PARAM_INT_ARRAY)))
+			->andWhere($builder->expr()->orX(
+			// handle non empty folders separate
+				$builder->expr()->neq('f.mimetype', $builder->createNamedParameter($folderMimetype, IQueryBuilder::PARAM_INT)),
+				$builder->expr()->eq('f.size', new Literal(0))
+			))
+			->orderBy('f.mtime', 'DESC')
+			->setMaxResults($limit)
+			->setFirstResult($offset);
+
+		$result = $query->execute()->fetchAll();
+
+		$files = array_filter(array_map(function (array $entry) use ($mountMap, $mimetypeLoader) {
+			$mount = $mountMap[$entry['storage']];
+			$entry['internalPath'] = $entry['path'];
+			$entry['mimetype'] = $mimetypeLoader->getMimetypeById($entry['mimetype']);
+			$entry['mimepart'] = $mimetypeLoader->getMimetypeById($entry['mimepart']);
+			$path = $this->getAbsolutePath($mount, $entry['path']);
+			if (is_null($path)) {
+				return null;
+			}
+			$fileInfo = new \OC\Files\FileInfo($path, $mount->getStorage(), $entry['internalPath'], $entry, $mount);
+			return $this->root->createNode($fileInfo->getPath(), $fileInfo);
+		}, $result));
+
+		return array_values(array_filter($files, function (Node $node) {
+			$relative = $this->getRelativePath($node->getPath());
+			return $relative !== null && $relative !== '/';
+		}));
+	}
+
+	private function getAbsolutePath(IMountPoint $mount, $path) {
+		$storage = $mount->getStorage();
+		if ($storage->instanceOfStorage('\OC\Files\Storage\Wrapper\Jail')) {
+			/** @var \OC\Files\Storage\Wrapper\Jail $storage */
+			$jailRoot = $storage->getSourcePath('');
+			$rootLength = strlen($jailRoot) + 1;
+			if ($path === $jailRoot) {
+				return $mount->getMountPoint();
+			} else if (substr($path, 0, $rootLength) === $jailRoot . '/') {
+				return $mount->getMountPoint() . substr($path, $rootLength);
+			} else {
+				return null;
+			}
+		} else {
+			return $mount->getMountPoint() . $path;
+		}
 	}
 }

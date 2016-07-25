@@ -471,5 +471,10 @@ class LazyRoot implements IRootFolder {
 		return $this->__call(__FUNCTION__, func_get_args());
 	}
 
-
+	/**
+	 * @inheritDoc
+	 */
+	public function getRecent($limit, $offset = 0) {
+		return $this->__call(__FUNCTION__, func_get_args());
+	}
 }
