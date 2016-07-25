@@ -29,7 +29,6 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 \OC::$server->getSession()->close();
 
-$files = $_POST['files'];
 $dir = '/';
 if (isset($_POST['dir'])) {
 	$dir = rtrim((string)$_POST['dir'], '/'). '/';
@@ -50,7 +49,7 @@ if (isset($_POST['allfiles']) && (string)$_POST['allfiles'] === 'true') {
 		$list[] = $fileName;
 	}
 } else {
-	$list = json_decode($files);
+	$list = json_decode($_POST['files']);
 }
 
 $error = array();
