@@ -198,7 +198,7 @@ class ViewControllerTest extends TestCase {
 			[
 				'id' => 'recent',
 				'appname' => 'files',
-				'script' => 'list.php',
+				'script' => 'recentlist.php',
 				'order' => 2,
 				'name' => (string)new \OC_L10N_String(new \OC_L10N('files'), 'Recent', []),
 				'active' => false,
