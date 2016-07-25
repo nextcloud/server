@@ -82,6 +82,7 @@
 	display: inline-block;
 	background-image: url('../img/logo-icon.svg');
 	background-repeat: no-repeat;
+	background-position: center center;
 	width: 62px;
 	height: 34px;
 }
