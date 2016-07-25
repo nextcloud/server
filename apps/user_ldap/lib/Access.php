@@ -20,6 +20,7 @@
  * @author Ralph Krimmel <rkrimme1@gwdg.de>
  * @author Renaud Fortier <Renaud.Fortier@fsaa.ulaval.ca>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *
@@ -77,13 +78,19 @@ class Access extends LDAPUtility implements IUserTools {
 	* @var AbstractMapping $userMapper
 	*/
 	protected $groupMapper;
+	
+	/**
+	 * @var \OCA\User_LDAP\Helper
+	 */
+	private $helper;
 
 	public function __construct(Connection $connection, ILDAPWrapper $ldap,
-		Manager $userManager) {
+		Manager $userManager, Helper $helper) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
 		$this->userManager = $userManager;
 		$this->userManager->setLdapAccess($this);
+		$this->helper = $helper;
 	}
 
 	/**
@@ -173,7 +180,7 @@ class Access extends LDAPUtility implements IUserTools {
 		// (cf. #12306), 500 is default for paging and should work everywhere.
 		$maxResults = $pagingSize > 20 ? $pagingSize : 500;
 		$this->initPagedSearch($filter, array($dn), array($attr), $maxResults, 0);
-		$dn = $this->DNasBaseParameter($dn);
+		$dn = $this->helper->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
 			if(!empty($attr)) {
@@ -201,7 +208,7 @@ class Access extends LDAPUtility implements IUserTools {
 			$values = array();
 			for($i=0;$i<$result[$attr]['count'];$i++) {
 				if($this->resemblesDN($attr)) {
-					$values[] = $this->sanitizeDN($result[$attr][$i]);
+					$values[] = $this->helper->sanitizeDN($result[$attr][$i]);
 				} elseif(strtolower($attr) === 'objectguid' || strtolower($attr) === 'guid') {
 					$values[] = $this->convertObjectGUID2Str($result[$attr][$i]);
 				} else {
@@ -240,49 +247,6 @@ class Access extends LDAPUtility implements IUserTools {
 		// if exploding a DN succeeds and does not end up in
 		// an empty array except for $r[count] being 0.
 		return (is_array($r) && count($r) > 1);
-	}
-
-	/**
-	 * sanitizes a DN received from the LDAP server
-	 * @param array $dn the DN in question
-	 * @return array the sanitized DN
-	 */
-	private function sanitizeDN($dn) {
-		//treating multiple base DNs
-		if(is_array($dn)) {
-			$result = array();
-			foreach($dn as $singleDN) {
-				$result[] = $this->sanitizeDN($singleDN);
-			}
-			return $result;
-		}
-
-		//OID sometimes gives back DNs with whitespace after the comma
-		// a la "uid=foo, cn=bar, dn=..." We need to tackle this!
-		$dn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
-
-		//make comparisons and everything work
-		$dn = mb_strtolower($dn, 'UTF-8');
-
-		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
-		//to use the DN in search filters, \ needs to be escaped to \5c additionally
-		//to use them in bases, we convert them back to simple backslashes in readAttribute()
-		$replacements = array(
-			'\,' => '\5c2C',
-			'\=' => '\5c3D',
-			'\+' => '\5c2B',
-			'\<' => '\5c3C',
-			'\>' => '\5c3E',
-			'\;' => '\5c3B',
-			'\"' => '\5c22',
-			'\#' => '\5c23',
-			'('  => '\28',
-			')'  => '\29',
-			'*'  => '\2A',
-		);
-		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
-
-		return $dn;
 	}
 
 	/**
@@ -1071,10 +1035,10 @@ class Access extends LDAPUtility implements IUserTools {
 						}
 						if($key !== 'dn') {
 							$selection[$i][$key] = $this->resemblesDN($key) ?
-								$this->sanitizeDN($item[$key])
+								$this->helper->sanitizeDN($item[$key])
 								: $item[$key];
 						} else {
-							$selection[$i][$key] = [$this->sanitizeDN($item[$key])];
+							$selection[$i][$key] = [$this->helper->sanitizeDN($item[$key])];
 						}
 					}
 
@@ -1298,7 +1262,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 * @return bool
 	 */
 	public function areCredentialsValid($name, $password) {
-		$name = $this->DNasBaseParameter($name);
+		$name = $this->helper->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;
 		$credentials = array(
 			'ldapAgentName' => $name,
@@ -1570,15 +1534,6 @@ class Access extends LDAPUtility implements IUserTools {
 	}
 
 	/**
-	 * converts a stored DN so it can be used as base parameter for LDAP queries, internally we store them for usage in LDAP filters
-	 * @param string $dn the DN
-	 * @return string
-	 */
-	private function DNasBaseParameter($dn) {
-		return str_ireplace('\\5c', '\\', $dn);
-	}
-
-	/**
 	 * checks if the given DN is part of the given base DN(s)
 	 * @param string $dn the DN
 	 * @param string[] $bases array containing the allowed base DN or DNs
@@ -1586,7 +1541,7 @@ class Access extends LDAPUtility implements IUserTools {
 	 */
 	public function isDNPartOfBase($dn, $bases) {
 		$belongsToBase = false;
-		$bases = $this->sanitizeDN($bases);
+		$bases = $this->helper->sanitizeDN($bases);
 
 		foreach($bases as $base) {
 			$belongsToBase = true;

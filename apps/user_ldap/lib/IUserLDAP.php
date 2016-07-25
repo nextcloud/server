@@ -1,11 +1,8 @@
 <?php
 /**
- * @copyright Copyright (c) 2016, ownCloud, Inc.
- *
- * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
- * @author Christopher Schäpers <kondou@ts.unde.re>
  * @author Roger Szabo <roger.szabo@web.de>
  *
+ * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -21,10 +18,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  *
  */
-$state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'doSet');
-if($state === 'doSet') {
-	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
-}
 
-$helper = new \OCA\User_LDAP\Helper();
-$helper->setLDAPProvider();
+namespace OCA\User_LDAP;
+
+interface IUserLDAP {
+
+	//Functions used by LDAPProvider
+	
+	/**
+	 * Return access for LDAP interaction.
+	 * @param string $uid
+	 * @return Access instance of Access for LDAP interaction
+	 */
+	public function getLDAPAccess($uid);
+	
+	/**
+	 * Return a new LDAP connection for the specified user.
+	 * @param string $uid
+	 * @return resource of the LDAP connection
+	 */
+	public function getNewLDAPConnection($uid);
+
+	/**
+	 * Return the username for the given LDAP DN, if available.
+	 * @param string $dn
+	 * @return string|false with the name to use in ownCloud
+	 */
+	public function dn2UserName($dn);
+}
