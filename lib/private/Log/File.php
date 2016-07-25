@@ -39,7 +39,7 @@ namespace OC\Log;
  * Log is saved at data/nextcloud.log (on default)
  */
 
-class Owncloud {
+class File {
 	static protected $logFile;
 
 	/**

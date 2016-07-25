@@ -17,15 +17,15 @@
 
 namespace Test\Log;
 
-use OC\Log\Owncloud;
+use OC\Log\File;
 use Test\TestCase;
 
 /**
- * Class OwncloudTest
+ * Class FileTest
  *
  * @group DB
  */
-class OwncloudTest extends TestCase
+class FileTest extends TestCase
 {
 	private $restore_logfile;
 	private $restore_logdateformat;
@@ -37,7 +37,7 @@ class OwncloudTest extends TestCase
 		$this->restore_logdateformat = $config->getSystemValue('logdateformat');
 		
 		$config->setSystemValue("logfile", $config->getSystemValue('datadirectory') . "/logtest");
-		Owncloud::init();
+		File::init();
 	}
 	protected function tearDown() {
 		$config = \OC::$server->getConfig();
@@ -51,7 +51,7 @@ class OwncloudTest extends TestCase
 		} else {
 			$config->deleteSystemValue("restore_logdateformat");
 		}		
-		Owncloud::init();
+		File::init();
 		parent::tearDown();
 	}
 	
@@ -62,7 +62,7 @@ class OwncloudTest extends TestCase
 
 		# set format & write log line
 		$config->setSystemValue('logdateformat', 'u');
-		Owncloud::write('test', 'message', \OCP\Util::ERROR);
+		File::write('test', 'message', \OCP\Util::ERROR);
 		
 		# read log line
 		$handle = @fopen($config->getSystemValue('logfile'), 'r');
