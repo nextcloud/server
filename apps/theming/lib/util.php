@@ -47,7 +47,7 @@ class Util {
 	public static function elementColor($color) {
 		$l = self::calculateLuminance($color);
 		if($l>0.8) {
-			return '#969696';
+			return '#555555';
 		} else {
 			return $color;
 		}
