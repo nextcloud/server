@@ -46,6 +46,12 @@ function calculateLuminance(rgb) {
 	return (0.299*r + 0.587*g + 0.114*b)/255;
 }
 
+function generateRadioButton(color) {
+	var radioButton = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16">' +
+		'<path d="M8 1a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 7-7 7 7 0 0 0-7-7zm0 1a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="' + color + '"/></svg>';
+	return btoa(radioButton);
+}
+
 function preview(setting, value) {
 	if (setting === 'color') {
 		var headerClass = document.getElementById('header');
@@ -74,15 +80,12 @@ function preview(setting, value) {
 
 		$('#previewStyles').html(
 			'#header .icon-caret { background-image: url(\'' + OC.getRootPath() + '/core/img/actions/' + icon + '.svg\') }' +
-			'html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' +
+			'input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' +
 			'background-image:url(\'' + OC.getRootPath() + '/core/img/actions/checkmark-white.svg\');' +
 			'background-color: ' + elementColor + '; background-position: center center; background-size:contain;' +
 			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;}' +
-			'html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' +
-			'-webkit-mask-image: url(\'' + OC.getRootPath() + '/core/img/actions/radio-checked-white.svg\');' +
-			'-webkit-mask-repeat: no-repeat;' +
-			'background-color: ' + elementColor+ ';' +
-			'background-image: none; }'
+			'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' +
+			'background-image: url(\'data:image/svg+xml;base64,' + generateRadioButton(elementColor) + '\'); }'
 		);
 	}
 	if (setting === 'logoMime') {

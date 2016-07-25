@@ -220,7 +220,7 @@ class ThemingController extends Controller {
 				'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
 				$color
 			);
-			$responseCss .= sprintf('html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+			$responseCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 				'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
 				'background-color: %s; background-position: center center; background-size:contain;' .
 				'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
@@ -228,15 +228,9 @@ class ThemingController extends Controller {
 				\OC::$WEBROOT,
 				$elementColor
 			);
-			$responseCss .= sprintf('html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-				'-webkit-mask-image: url(\'%s/core/img/actions/radio-checked-white.svg\');' .
-				'-webkit-mask-repeat: no-repeat;' .
-				'background-color: %s;' .
-				'background-image: none; '.
-				"}\n",
-				\OC::$WEBROOT,
-				$elementColor
-			);
+			$responseCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+				'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+				"}\n";
 		}
 		$logo = $this->config->getAppValue($this->appName, 'logoMime');
 		if($logo !== '') {
