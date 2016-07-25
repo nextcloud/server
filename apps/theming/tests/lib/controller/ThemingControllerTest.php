@@ -26,6 +26,7 @@ namespace OCA\Theming\Tests\Controller;
 
 use OCA\Theming\Controller\ThemingController;
 use OCA\Theming\Template;
+use OCA\Theming\Util;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\Files\IRootFolder;
@@ -329,7 +330,7 @@ class ThemingControllerTest extends TestCase {
 
 		$elementColor = '#000';
 		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #000}' . "\n";
-		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+		$expectedCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
 			'background-color: %s; background-position: center center; background-size:contain;' .
 			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
@@ -337,15 +338,9 @@ class ThemingControllerTest extends TestCase {
 			\OC::$WEBROOT,
 			$elementColor
 		);
-		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'-webkit-mask-image: url(\'%s/core/img/actions/radio-checked-white.svg\');' .
-			'-webkit-mask-repeat: no-repeat;' .
-			'background-color: %s;' .
-			'background-image: none; '.
-			"}\n",
-			\OC::$WEBROOT,
-			$elementColor
-		);
+		$expectedCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+			"}\n";
 		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
@@ -374,7 +369,7 @@ class ThemingControllerTest extends TestCase {
 			->willReturn('');
 		$elementColor = '#555555';
 		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}' . "\n";
-		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+		$expectedCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
 			'background-color: %s; background-position: center center; background-size:contain;' .
 			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
@@ -382,15 +377,9 @@ class ThemingControllerTest extends TestCase {
 			\OC::$WEBROOT,
 			$elementColor
 		);
-		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'-webkit-mask-image: url(\'%s/core/img/actions/radio-checked-white.svg\');' .
-			'-webkit-mask-repeat: no-repeat;' .
-			'background-color: %s;' .
-			'background-image: none; '.
-			"}\n",
-			\OC::$WEBROOT,
-			$elementColor
-		);
+		$expectedCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+			"}\n";
 		$expectedCss .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n" .
 			'#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n" .
 			'.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n" .
@@ -487,7 +476,7 @@ class ThemingControllerTest extends TestCase {
 
 		$elementColor = '#000';
 		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #000}' . "\n";
-		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+		$expectedCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
 			'background-color: %s; background-position: center center; background-size:contain;' .
 			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
@@ -495,15 +484,9 @@ class ThemingControllerTest extends TestCase {
 			\OC::$WEBROOT,
 			$elementColor
 		);
-		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'-webkit-mask-image: url(\'%s/core/img/actions/radio-checked-white.svg\');' .
-			'-webkit-mask-repeat: no-repeat;' .
-			'background-color: %s;' .
-			'background-image: none; '.
-			"}\n",
-			\OC::$WEBROOT,
-			$elementColor
-		);
+		$expectedCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+			"}\n";
 		$expectedCss .= '#header .logo {' .
 			'background-image: url(\'./logo?v=0\')' .
 			'background-size: contain;' .
@@ -542,7 +525,7 @@ class ThemingControllerTest extends TestCase {
 
 		$elementColor = '#555555';
 		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}' . "\n";
-		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+		$expectedCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
 			'background-color: %s; background-position: center center; background-size:contain;' .
 			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
@@ -550,15 +533,9 @@ class ThemingControllerTest extends TestCase {
 			\OC::$WEBROOT,
 			$elementColor
 		);
-		$expectedCss .= sprintf('html:not(.ie):not(.edge) input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'-webkit-mask-image: url(\'%s/core/img/actions/radio-checked-white.svg\');' .
-			'-webkit-mask-repeat: no-repeat;' .
-			'background-color: %s;' .
-			'background-image: none; '.
-			"}\n",
-			\OC::$WEBROOT,
-			$elementColor
-		);
+		$expectedCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+			"}\n";
 		$expectedCss .= '#header .logo {' .
 			'background-image: url(\'./logo?v=0\')' .
 			'background-size: contain;' .
