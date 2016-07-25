@@ -85,6 +85,8 @@ try {
 	OC_Response::setStatus(405);
 } catch (\OC\OCS\Exception $ex) {
 	OC_API::respond($ex->getResult(), OC_API::requestedFormat());
+} catch (\OC\User\LoginException $e) {
+	OC_API::respond(new OC_OCS_Result(null, \OCP\API::RESPOND_UNAUTHORISED, 'Unauthorised'));
 } catch (\Exception $e) {
 	OC_API::setContentType();
 	OC_OCS::notFound();

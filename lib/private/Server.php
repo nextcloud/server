@@ -642,7 +642,14 @@ class Server extends ServerContainer implements IServerContainer {
 			return $factory->getManager();
 		});
 		$this->registerService('ThemingDefaults', function(Server $c) {
-			if(class_exists('OCA\Theming\Template', false) && $this->getConfig()->getSystemValue('installed', false) && $this->getAppManager()->isInstalled('theming')) {
+			try {
+				$classExists = class_exists('OCA\Theming\Template');
+			} catch (\OCP\AutoloadNotAllowedException $e) {
+				// App disabled or in maintenance mode
+				$classExists = false;
+			}
+
+			if ($classExists && $this->getConfig()->getSystemValue('installed', false) && $this->getAppManager()->isInstalled('theming')) {
 				return new Template(
 					$this->getConfig(),
 					$this->getL10N('theming'),

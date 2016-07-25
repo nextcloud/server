@@ -30,7 +30,8 @@
  */
 
 namespace OC;
-use OCP\Defaults;
+
+
 use OCP\ICacheFactory;
 use OCP\IConfig;
 use OCP\IURLGenerator;

@@ -283,6 +283,7 @@ OC.L10N.register(
     "Help translate" : "Migliora la traduzione",
     "Web, desktop and mobile clients currently logged in to your account." : "Client web, desktop e mobile attualmente connessi al tuo account.",
     "Device" : "Dispositivo",
+    "Last activity" : "Ultima attività",
     "Passcodes that give an app or device permissions to access your account." : "Codici di accesso per fornire alle app oppure ai dispositivi il permesso di accedere al tuo account.",
     "Name" : "Nome",
     "App name" : "Nome applicazione",

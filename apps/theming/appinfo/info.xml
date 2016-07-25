@@ -10,7 +10,7 @@
 	<category>other</category>
 
 	<dependencies>
-		<owncloud min-version="9.0" max-version="9.1" />
+		<owncloud min-version="9.2" max-version="9.2" />
 	</dependencies>
 
 	<types>

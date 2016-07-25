@@ -2,7 +2,7 @@
 <info>
 	<id>dav</id>
 	<name>WebDAV</name>
-	<description>Nextcloud WebDAV endpoint</description>
+	<description>WebDAV endpoint</description>
 	<licence>AGPL</licence>
 	<author>owncloud.org</author>
 	<version>1.0.0</version>
@@ -15,7 +15,7 @@
 		<webdav>appinfo/v1/publicwebdav.php</webdav>
 	</public>
 	<dependencies>
-		<owncloud min-version="9.1" max-version="9.1" />
+		<owncloud min-version="9.2" max-version="9.2" />
 	</dependencies>
 	<background-jobs>
 		<job>OCA\DAV\CardDAV\Sync\SyncJob</job>
