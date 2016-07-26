@@ -306,7 +306,7 @@ class ManagerTest extends TestCase {
 		$this->appConfig->setValue('test1', 'enabled', 'yes');
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
-		$this->assertEquals(['dav', 'federatedfilesharing', 'files', 'test1', 'test3'], $this->manager->getInstalledApps());
+		$this->assertEquals(['dav', 'federatedfilesharing', 'files', 'test1', 'test3', 'workflowengine'], $this->manager->getInstalledApps());
 	}
 
 	public function testGetAppsForUser() {
@@ -320,7 +320,7 @@ class ManagerTest extends TestCase {
 		$this->appConfig->setValue('test2', 'enabled', 'no');
 		$this->appConfig->setValue('test3', 'enabled', '["foo"]');
 		$this->appConfig->setValue('test4', 'enabled', '["asd"]');
-		$this->assertEquals(['dav', 'federatedfilesharing', 'files', 'test1', 'test3'], $this->manager->getEnabledAppsForUser($user));
+		$this->assertEquals(['dav', 'federatedfilesharing', 'files', 'test1', 'test3', 'workflowengine'], $this->manager->getEnabledAppsForUser($user));
 	}
 
 	public function testGetAppsNeedingUpgrade() {
@@ -338,6 +338,7 @@ class ManagerTest extends TestCase {
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
 			'test4' => ['id' => 'test4', 'version' => '3.0.0', 'requiremin' => '8.1.0'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
+			'workflowengine' => ['id' => 'workflowengine'],
 		];
 
 		$this->manager->expects($this->any())
@@ -378,6 +379,7 @@ class ManagerTest extends TestCase {
 			'test2' => ['id' => 'test2', 'version' => '1.0.0', 'requiremin' => '8.2.0'],
 			'test3' => ['id' => 'test3', 'version' => '1.2.4', 'requiremin' => '9.0.0'],
 			'testnoversion' => ['id' => 'testnoversion', 'requiremin' => '8.2.0'],
+			'workflowengine' => ['id' => 'workflowengine'],
 		];
 
 		$this->manager->expects($this->any())
