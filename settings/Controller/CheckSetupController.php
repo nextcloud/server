@@ -36,6 +36,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\Http\Client\IClientService;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
 use OC_Util;
 use OCP\IURLGenerator;
@@ -56,6 +57,8 @@ class CheckSetupController extends Controller {
 	private $l10n;
 	/** @var Checker */
 	private $checker;
+	/** @var ILogger */
+	private $logger;
 
 	/**
 	 * @param string $AppName
@@ -66,6 +69,7 @@ class CheckSetupController extends Controller {
 	 * @param \OC_Util $util
 	 * @param IL10N $l10n
 	 * @param Checker $checker
+	 * @param ILogger $logger
 	 */
 	public function __construct($AppName,
 								IRequest $request,
@@ -74,7 +78,8 @@ class CheckSetupController extends Controller {
 								IURLGenerator $urlGenerator,
 								\OC_Util $util,
 								IL10N $l10n,
-								Checker $checker) {
+								Checker $checker,
+								ILogger $logger) {
 		parent::__construct($AppName, $request);
 		$this->config = $config;
 		$this->clientService = $clientService;
@@ -82,6 +87,7 @@ class CheckSetupController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 		$this->l10n = $l10n;
 		$this->checker = $checker;
+		$this->logger = $logger;
 	}
 
 	/**
@@ -118,6 +124,7 @@ class CheckSetupController extends Controller {
 			$client->get($httpSiteName);
 			$client->get($httpsSiteName);
 		} catch (\Exception $e) {
+			$this->logger->logException($e, ['app' => 'internet_connection_check']);
 			return false;
 		}
 		return true;
