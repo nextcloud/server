@@ -66,7 +66,8 @@ abstract class RequestTest extends TestCase {
 			\OC::$server->getTagManager(),
 			$this->getMockBuilder('\OCP\IRequest')
 				->disableOriginalConstructor()
-				->getMock()
+				->getMock(),
+			\OC::$server->getPreviewManager()
 		);
 	}
 
