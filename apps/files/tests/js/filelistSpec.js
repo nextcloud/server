@@ -1792,7 +1792,8 @@ describe('OCA.Files.FileList tests', function() {
 					type: 'file',
 					size: 12,
 					etag: 'abc',
-					permissions: OC.PERMISSION_ALL
+					permissions: OC.PERMISSION_ALL,
+					hasPreview: true
 				});
 				expect(files[1]).toEqual({
 					id: 3,
@@ -1802,7 +1803,8 @@ describe('OCA.Files.FileList tests', function() {
 					mtime: 234560000,
 					size: 58009,
 					etag: '123',
-					permissions: OC.PERMISSION_ALL
+					permissions: OC.PERMISSION_ALL,
+					hasPreview: true
 				});
 				expect(files[2]).toEqual({
 					id: 4,
@@ -1812,7 +1814,8 @@ describe('OCA.Files.FileList tests', function() {
 					mtime: 134560000,
 					size: 250,
 					etag: '456',
-					permissions: OC.PERMISSION_ALL
+					permissions: OC.PERMISSION_ALL,
+					hasPreview: true
 				});
 				expect(files[0].id).toEqual(1);
 				expect(files[0].name).toEqual('One.txt');
@@ -1833,7 +1836,8 @@ describe('OCA.Files.FileList tests', function() {
 					type: 'file',
 					size: 12,
 					etag: 'abc',
-					permissions: OC.PERMISSION_ALL
+					permissions: OC.PERMISSION_ALL,
+					hasPreview: true
 				});
 				expect(files[1]).toEqual({
 					id: 4,
@@ -1843,7 +1847,8 @@ describe('OCA.Files.FileList tests', function() {
 					mtime: 134560000,
 					size: 250,
 					etag: '456',
-					permissions: OC.PERMISSION_ALL
+					permissions: OC.PERMISSION_ALL,
+					hasPreview: true
 				});
 			});
 			describe('Download', function() {
