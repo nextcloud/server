@@ -47,6 +47,7 @@ use OC\Repair\RepairMimeTypes;
 use OC\Repair\SearchLuceneTables;
 use OC\Repair\UpdateOutdatedOcsIds;
 use OC\Repair\RepairInvalidShares;
+use OC\Repair\RepairUnmergedShares;
 use OCP\AppFramework\QueryException;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
@@ -138,6 +139,12 @@ class Repair implements IOutput{
 			new RemoveOldShares(\OC::$server->getDatabaseConnection()),
 			new AvatarPermissions(\OC::$server->getDatabaseConnection()),
 			new RemoveRootShares(\OC::$server->getDatabaseConnection(), \OC::$server->getUserManager(), \OC::$server->getLazyRootFolder()),
+			new RepairUnmergedShares(
+				\OC::$server->getConfig(),
+				\OC::$server->getDatabaseConnection(),
+				\OC::$server->getUserManager(),
+				\OC::$server->getGroupManager()
+			),
 		];
 	}
 

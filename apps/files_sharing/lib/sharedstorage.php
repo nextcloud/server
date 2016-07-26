@@ -42,11 +42,11 @@ use OCP\Lock\ILockingProvider;
  * Convert target path to source path and pass the function call to the correct storage provider
  */
 class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
-
-	private $share;   // the shared resource
-
 	/** @var \OCP\Share\IShare */
-	private $newShare;
+	private $superShare;
+
+	/** @var \OCP\Share\IShare[] */
+	private $groupedShares;
 
 	/**
 	 * @var \OC\Files\View
@@ -76,11 +76,14 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	public function __construct($arguments) {
 		$this->ownerView = $arguments['ownerView'];
 		$this->logger = \OC::$server->getLogger();
-		$this->newShare = $arguments['newShare'];
+
+		$this->superShare = $arguments['superShare'];
+		$this->groupedShares = $arguments['groupedShares'];
+
 		$this->user = $arguments['user'];
 
-		Filesystem::initMountPoints($this->newShare->getShareOwner());
-		$sourcePath = $this->ownerView->getPath($this->newShare->getNodeId());
+		Filesystem::initMountPoints($this->superShare->getShareOwner());
+		$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
 		list($storage, $internalPath) = $this->ownerView->resolvePath($sourcePath);
 
 		parent::__construct([
@@ -95,13 +98,20 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		}
 		$this->initialized = true;
 		try {
-			Filesystem::initMountPoints($this->newShare->getShareOwner());
-			$sourcePath = $this->ownerView->getPath($this->newShare->getNodeId());
+			Filesystem::initMountPoints($this->superShare->getShareOwner());
+			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
 			list($this->sourceStorage, $sourceInternalPath) = $this->ownerView->resolvePath($sourcePath);
 			$this->sourceRootInfo = $this->sourceStorage->getCache()->get($sourceInternalPath);
 		} catch (\Exception $e) {
 			$this->logger->logException($e);
 		}
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getShareId() {
+		return $this->superShare->getId();
 	}
 
 	private function isValid() {
@@ -119,15 +129,6 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	}
 
 	/**
-	 * get file cache of the shared item source
-	 *
-	 * @return int
-	 */
-	public function getSourceId() {
-		return $this->newShare->getNodeId();
-	}
-
-	/**
 	 * Get the permissions granted for a shared file
 	 *
 	 * @param string $target Shared target file path
@@ -137,7 +138,7 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		if (!$this->isValid()) {
 			return 0;
 		}
-		$permissions = $this->newShare->getPermissions();
+		$permissions = $this->superShare->getPermissions();
 		// part files and the mount point always have delete permissions
 		if ($target === '' || pathinfo($target, PATHINFO_EXTENSION) === 'part') {
 			$permissions |= \OCP\Constants::PERMISSION_DELETE;
@@ -259,30 +260,18 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	 * @return string
 	 */
 	public function getMountPoint() {
-		return $this->newShare->getTarget();
+		return $this->superShare->getTarget();
 	}
 
 	/**
 	 * @param string $path
 	 */
 	public function setMountPoint($path) {
-		$this->newShare->setTarget($path);
-	}
+		$this->superShare->setTarget($path);
 
-	/**
-	 * @return int
-	 */
-	public function getShareType() {
-		return $this->newShare->getShareType();
-	}
-
-	/**
-	 * get share ID
-	 *
-	 * @return integer unique share ID
-	 */
-	public function getShareId() {
-		return $this->newShare->getId();
+		foreach ($this->groupedShares as $share) {
+			$share->setTarget($path);
+		}
 	}
 
 	/**
@@ -291,14 +280,14 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	 * @return string
 	 */
 	public function getSharedFrom() {
-		return $this->newShare->getShareOwner();
+		return $this->superShare->getShareOwner();
 	}
 
 	/**
 	 * @return \OCP\Share\IShare
 	 */
 	public function getShare() {
-		return $this->newShare;
+		return $this->superShare;
 	}
 
 	/**
@@ -307,7 +296,7 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	 * @return string
 	 */
 	public function getItemType() {
-		return $this->newShare->getNodeType();
+		return $this->superShare->getNodeType();
 	}
 
 	public function getCache($path = '', $storage = null) {
@@ -336,7 +325,7 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	}
 
 	public function getOwner($path) {
-		return $this->newShare->getShareOwner();
+		return $this->superShare->getShareOwner();
 	}
 
 	/**
@@ -345,7 +334,9 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 	 * @return bool
 	 */
 	public function unshareStorage() {
-		\OC::$server->getShareManager()->deleteFromSelf($this->newShare, $this->user);
+		foreach ($this->groupedShares as $share) {
+			\OC::$server->getShareManager()->deleteFromSelf($share, $this->user);
+		}
 		return true;
 	}
 
@@ -361,7 +352,7 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		$targetStorage->acquireLock($targetInternalPath, $type, $provider);
 		// lock the parent folders of the owner when locking the share as recipient
 		if ($path === '') {
-			$sourcePath = $this->ownerView->getPath($this->newShare->getNodeId());
+			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
 			$this->ownerView->lockFile(dirname($sourcePath), ILockingProvider::LOCK_SHARED, true);
 		}
 	}
@@ -377,7 +368,7 @@ class Shared extends \OC\Files\Storage\Wrapper\Jail implements ISharedStorage {
 		$targetStorage->releaseLock($targetInternalPath, $type, $provider);
 		// unlock the parent folders of the owner when unlocking the share as recipient
 		if ($path === '') {
-			$sourcePath = $this->ownerView->getPath($this->newShare->getNodeId());
+			$sourcePath = $this->ownerView->getPath($this->superShare->getNodeId());
 			$this->ownerView->unlockFile(dirname($sourcePath), ILockingProvider::LOCK_SHARED, true);
 		}
 	}

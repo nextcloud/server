@@ -284,10 +284,10 @@ trait Sharing {
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('share_with', "$user"));
 	}
 
-	public function isUserOrGroupInSharedData($userOrGroup){
+	public function isUserOrGroupInSharedData($userOrGroup, $permissions = null){
 		$data = $this->response->xml()->data[0];
 		foreach($data as $element) {
-			if ($element->share_with == $userOrGroup){
+			if ($element->share_with == $userOrGroup && ($permissions === null || $permissions == $element->permissions)){
 				return True;
 			}
 		}
@@ -295,13 +295,13 @@ trait Sharing {
 	}
 
 	/**
-	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"$/
+	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"( with permissions ([\d]*))?$/
 	 *
 	 * @param string $filepath
 	 * @param string $user1
 	 * @param string $user2
 	 */
-	public function assureFileIsShared($filepath, $user1, $user2){
+	public function assureFileIsShared($entry, $filepath, $user1, $user2, $withPerms = null, $permissions = null){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
 		$client = new Client();
 		$options = [];
@@ -311,23 +311,23 @@ trait Sharing {
 			$options['auth'] = [$user1, $this->regularUser];
 		}
 		$this->response = $client->get($fullUrl, $options);
-		if ($this->isUserOrGroupInSharedData($user2)){
+		if ($this->isUserOrGroupInSharedData($user2, $permissions)){
 			return;
 		} else {
-			$this->createShare($user1, $filepath, 0, $user2, null, null, null);
+			$this->createShare($user1, $filepath, 0, $user2, null, null, $permissions);
 		}
 		$this->response = $client->get($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($user2));
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($user2, $permissions));
 	}
 
 	/**
-	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"$/
+	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"( with permissions ([\d]*))?$/
 	 *
 	 * @param string $filepath
 	 * @param string $user
 	 * @param string $group
 	 */
-	public function assureFileIsSharedWithGroup($filepath, $user, $group){
+	public function assureFileIsSharedWithGroup($entry, $filepath, $user, $group, $withPerms = null, $permissions = null){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
 		$client = new Client();
 		$options = [];
@@ -337,13 +337,13 @@ trait Sharing {
 			$options['auth'] = [$user, $this->regularUser];
 		}
 		$this->response = $client->get($fullUrl, $options);
-		if ($this->isUserOrGroupInSharedData($group)){
+		if ($this->isUserOrGroupInSharedData($group, $permissions)){
 			return;
 		} else {
-			$this->createShare($user, $filepath, 1, $group, null, null, null);
+			$this->createShare($user, $filepath, 1, $group, null, null, $permissions);
 		}
 		$this->response = $client->get($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($group));
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($group, $permissions));
 	}
 
 	/**
