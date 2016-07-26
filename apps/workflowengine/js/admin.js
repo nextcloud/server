@@ -28,11 +28,27 @@
 	});
 
 	Handlebars.registerHelper('getOperators', function(classname) {
-		return OCA.WorkflowEngine.availableChecks
-			.getOperatorsByClassName(classname);
+		var check = OCA.WorkflowEngine.getCheckByClass(classname);
+		if (!_.isUndefined(check)) {
+			return check['operators'];
+		}
+		return [];
 	});
 
-	OCA.WorkflowEngine = OCA.WorkflowEngine || {};
+	OCA.WorkflowEngine = OCA.WorkflowEngine || {
+			availablePlugins: [],
+			availableChecks: [],
+
+			getCheckByClass: function(className) {
+				var length = OCA.WorkflowEngine.availableChecks.length;
+				for (var i = 0; i < length; i++) {
+					if (OCA.WorkflowEngine.availableChecks[i]['class'] === className) {
+						return OCA.WorkflowEngine.availableChecks[i];
+					}
+				}
+				return undefined;
+			}
+	};
 
 	/**
 	 * 888b     d888               888          888
@@ -87,22 +103,6 @@
 		});
 
 	/**
-	 * @class OCA.WorkflowEngine.AvailableChecksCollection
-	 *
-	 * collection for all available checks
-	 */
-	OCA.WorkflowEngine.AvailableChecksCollection =
-		OC.Backbone.Collection.extend({
-			model: OCA.WorkflowEngine.AvailableCheck,
-			url: OC.generateUrl('apps/workflowengine/checks'),
-			getOperatorsByClassName: function(classname) {
-				return OCA.WorkflowEngine.availableChecks
-					.findWhere({'class': classname})
-					.get('operators');
-			}
-		});
-
-	/**
 	 * 888     888 d8b
 	 * 888     888 Y8P
 	 * 888     888
@@ -154,7 +154,6 @@
 			message: '',
 			errorMessage: '',
 			saving: false,
-			plugins: [],
 			initialize: function() {
 				// this creates a new copy of the object to definitely have a new reference and being able to reset the model
 				this.originalModel = JSON.parse(JSON.stringify(this.model));
@@ -167,13 +166,6 @@
 				if (this.model.get('id') === undefined) {
 					this.hasChanged = true;
 				}
-
-				this.plugins = OC.Plugins.getPlugins('OCA.WorkflowEngine.CheckPlugins');
-				_.each(this.plugins, function(plugin) {
-					if (_.isFunction(plugin.initialize)) {
-						plugin.initialize();
-					}
-				});
 			},
 			delete: function() {
 				this.model.destroy();
@@ -209,9 +201,8 @@
 			},
 			add: function() {
 				var checks = _.clone(this.model.get('checks')),
-					classname = OCA.WorkflowEngine.availableChecks.at(0).get('class'),
-					operators = OCA.WorkflowEngine.availableChecks
-						.getOperatorsByClassName(classname);
+					classname = OCA.WorkflowEngine.availableChecks[0]['class'],
+					operators = OCA.WorkflowEngine.availableChecks[0]['operators'];
 
 				checks.push({
 					'class': classname,
@@ -249,9 +240,10 @@
 				// if the class is changed most likely also the operators have changed
 				// with this we set the operator to the first possible operator
 				if (key === 'class') {
-					var operators = OCA.WorkflowEngine.availableChecks
-						.getOperatorsByClassName(value);
-					checks[id]['operator'] = operators[0];
+					var check = OCA.WorkflowEngine.getCheckByClass(value);
+					if (!_.isUndefined(check)) {
+						checks[id]['operator'] = check['operators'][0];
+					}
 				}
 				// model change will trigger render
 				this.model.set({'checks': checks});
@@ -294,7 +286,7 @@
 			render: function() {
 				this.$el.html(this.template({
 					operation: this.model.toJSON(),
-					classes: OCA.WorkflowEngine.availableChecks.toJSON(),
+					classes: OCA.WorkflowEngine.availableChecks,
 					hasChanged: this.hasChanged,
 					message: this.message,
 					errorMessage: this.errorMessage,
@@ -308,7 +300,7 @@
 						check = checks[id],
 						valueElement = $element.find('.check-value').first();
 
-					_.each(this.plugins, function(plugin) {
+					_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
 						if (_.isFunction(plugin.render)) {
 							plugin.render(valueElement, check['class'], check['value']);
 						}
@@ -334,6 +326,8 @@
 	OCA.WorkflowEngine.OperationsView =
 		OCA.WorkflowEngine.TemplateView.extend({
 			templateId: '#operations-template',
+			collection: null,
+			$el: null,
 			events: {
 				'click .button-add-operation': 'add'
 			},
@@ -341,6 +335,16 @@
 				this._initialize('OCA\\WorkflowEngine\\Operation');
 			},
 			_initialize: function(classname) {
+				OCA.WorkflowEngine.availablePlugins = OC.Plugins.getPlugins('OCA.WorkflowEngine.CheckPlugins');
+				_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
+					if (_.isFunction(plugin.initialize)) {
+						plugin.initialize();
+					}
+					if (_.isFunction(plugin.getCheck)) {
+						OCA.WorkflowEngine.availableChecks.push(plugin.getCheck());
+					}
+				});
+
 				this.collection.fetch({data: {
 					'class': classname
 				}});
