@@ -295,6 +295,7 @@ Feature: provisioning
 			| systemtags |
 			| theming |
 			| updatenotification |
+			| workflowengine |
 
 	Scenario: get app info
 		Given As an "admin"
