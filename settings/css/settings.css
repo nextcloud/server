@@ -445,6 +445,9 @@ span.version {
 table.grid td.date{
 	white-space: nowrap;
 }
+#log-section p {
+	margin-top:20px;
+}
 
 /* ADMIN */
 #security-warning li {
