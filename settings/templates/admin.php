@@ -514,6 +514,16 @@ if ($_['cronErrors']) {
 		</tr>
 		<?php endforeach;?>
 	</table>
+	<p><?php p($l->t('What to log'));?> <select name='loglevel' id='loglevel'>
+	<?php for ($i = 0; $i < 5; $i++):
+		$selected = '';
+		if ($i == $_['loglevel']):
+			$selected = 'selected="selected"';
+		endif; ?>
+			<option value='<?php p($i)?>' <?php p($selected) ?>><?php p($levelLabels[$i])?></option>
+	<?php endfor;?>
+	</select></p>
+
 	<?php if ($_['logFileSize'] > 0): ?>
 	<a href="<?php print_unescaped(OC::$server->getURLGenerator()->linkToRoute('settings.LogSettings.download')); ?>" class="button" id="downloadLog"><?php p($l->t('Download logfile'));?></a>
 	<?php endif; ?>
@@ -528,16 +538,6 @@ if ($_['cronErrors']) {
 	</em>
 	<?php endif; ?>
 	<?php endif; ?>
-
-	<p><?php p($l->t('What to log'));?> <select name='loglevel' id='loglevel'>
-	<?php for ($i = 0; $i < 5; $i++):
-		$selected = '';
-		if ($i == $_['loglevel']):
-			$selected = 'selected="selected"';
-		endif; ?>
-			<option value='<?php p($i)?>' <?php p($selected) ?>><?php p($levelLabels[$i])?></option>
-	<?php endfor;?>
-	</select></p>
 </div>
 
 <div class="section" id="admin-tips">
