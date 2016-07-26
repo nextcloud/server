@@ -383,8 +383,14 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			}
 
 			$user = $this->access->userManager->get($uid);
-			$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
-			$this->access->connection->writeToCache($cacheKey, $displayName);
+			if ($user instanceof User) {
+				$displayName = $user->composeAndStoreDisplayName($displayName, $displayName2);
+				$this->access->connection->writeToCache($cacheKey, $displayName);
+			}
+			if ($user instanceof OfflineUser) {
+				/** @var OfflineUser $user*/
+				$displayName = $user->getDisplayName();
+			}
 			return $displayName;
 		}
 
