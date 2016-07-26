@@ -341,18 +341,13 @@
 				this._initialize('OCA\\WorkflowEngine\\Operation');
 			},
 			_initialize: function(classname) {
-				var data = {};
-				if (this.operationsClass !== null) {
-					data['class'] = this.operationsClass;
-				}
 				this.collection.fetch({data: {
 					'class': classname
 				}});
 				this.collection.once('sync', this.render, this);
 			},
 			add: function() {
-				var operation = new OCA.WorkflowEngine.Operation();
-				this.collection.add(operation);
+				var operation = this.collection.create();
 				this.renderOperation(operation);
 			},
 			renderOperation: function(operation){
