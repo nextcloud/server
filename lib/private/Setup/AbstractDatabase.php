@@ -108,18 +108,34 @@ abstract class AbstractDatabase {
 	 * @return \OC\DB\Connection
 	 */
 	protected function connect(array $configOverwrite = []) {
-		$systemConfig = $this->config->getSystemConfig();
-		$cf = new ConnectionFactory();
-		$connectionParams = $cf->createConnectionParams($systemConfig);
-		// we don't save username/password to the config immediately so this might not be set
-		if (!$connectionParams['user']) {
-			$connectionParams['user'] = $this->dbUser;
+		$connectionParams = array(
+			'host' => $this->dbHost,
+			'user' => $this->dbUser,
+			'password' => $this->dbPassword,
+			'tablePrefix' => $this->tablePrefix,
+		);
+
+		// adding port support through installer
+		if (!empty($this->dbPort)) {
+			if (ctype_digit($this->dbPort)) {
+				$connectionParams['port'] = $this->dbPort;
+			} else {
+				$connectionParams['unix_socket'] = $this->dbPort;
+			}
+		} else if (strpos($this->dbHost, ':')) {
+			// Host variable may carry a port or socket.
+			list($host, $portOrSocket) = explode(':', $this->dbHost, 2);
+			if (ctype_digit($portOrSocket)) {
+				$connectionParams['port'] = $portOrSocket;
+			} else {
+				$connectionParams['unix_socket'] = $portOrSocket;
+			}
+			$connectionParams['host'] = $host;
 		}
-		if (!$connectionParams['password']) {
-			$connectionParams['password'] = $this->dbPassword;
-		}
+
 		$connectionParams = array_merge($connectionParams, $configOverwrite);
-		return $cf->getConnection($systemConfig->getValue('dbtype', 'sqlite'), $connectionParams);
+		$cf = new ConnectionFactory();
+		return $cf->getConnection($this->config->getSystemValue('dbtype', 'sqlite'), $connectionParams);
 	}
 
 	/**
