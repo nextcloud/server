@@ -242,62 +242,27 @@ class SharedMountTest extends TestCase {
 	}
 
 	public function dataPermissionMovedGroupShare() {
-		$data = [];
-
-		$powerset = function($permissions) {
-			$results = [\OCP\Constants::PERMISSION_READ];
-
-			foreach ($permissions as $permission) {
-				foreach ($results as $combination) {
-					$results[] = $permission | $combination;
-				}
-			}
-			return $results;
-		};
-
-		//Generate file permissions
-		$permissions = [
-			\OCP\Constants::PERMISSION_UPDATE,
-			\OCP\Constants::PERMISSION_SHARE,
+		return [
+			[
+				'file',
+				\OCP\Constants::PERMISSION_READ
+				|| \OCP\Constants::PERMISSION_UPDATE
+				|| \OCP\Constants::PERMISSION_SHARE,
+				\OCP\Constants::PERMISSION_READ
+				|| \OCP\Constants::PERMISSION_SHARE,
+			],
+			[
+				'folder',
+				\OCP\Constants::PERMISSION_READ
+				|| \OCP\Constants::PERMISSION_CREATE
+				|| \OCP\Constants::PERMISSION_UPDATE
+				|| \OCP\Constants::PERMISSION_DELETE
+				|| \OCP\Constants::PERMISSION_SHARE,
+				\OCP\Constants::PERMISSION_READ
+				|| \OCP\Constants::PERMISSION_CREATE
+				|| \OCP\Constants::PERMISSION_UPDATE,
+			],
 		];
-
-		$allPermissions = $powerset($permissions);
-
-		foreach ($allPermissions as $before) {
-			foreach ($allPermissions as $after) {
-				if ($before === $after) { continue; }
-
-				$data[] = [
-					'file', 
-					$before,
-					$after,
-				];
-			}
-		}
-
-		//Generate folder permissions
-		$permissions = [
-			\OCP\Constants::PERMISSION_UPDATE,
-			\OCP\Constants::PERMISSION_CREATE,
-			\OCP\Constants::PERMISSION_SHARE,
-			\OCP\Constants::PERMISSION_DELETE,
-		];
-
-		$allPermissions = $powerset($permissions);
-
-		foreach ($allPermissions as $before) {
-			foreach ($allPermissions as $after) {
-				if ($before === $after) { continue; }
-
-				$data[] = [
-					'folder',
-					$before,
-					$after,
-				];
-			}
-		}
-
-		return $data;
 	}
 
 
