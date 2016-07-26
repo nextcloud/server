@@ -1335,7 +1335,7 @@
 			// display actions
 			this.fileActions.display(filenameTd, !options.silent, this);
 
-			if (mime !== 'httpd/unix-directory') {
+			if (mime !== 'httpd/unix-directory' && fileData.hasPreview !== false) {
 				var iconDiv = filenameTd.find('.thumbnail');
 				// lazy load / newly inserted td ?
 				// the typeof check ensures that the default value of animate is true
