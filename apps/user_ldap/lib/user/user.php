@@ -433,7 +433,10 @@ class User {
 		}
 		if(!is_null($email)) {
 			$user = $this->userManager->get($this->uid);
-			$user->setEMailAddress($email);
+			$currentEmail = $user->getEMailAddress();
+			if ($currentEmail !== $email) {
+				$user->setEMailAddress($email);
+			}
 		}
 	}
 
