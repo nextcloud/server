@@ -34,6 +34,7 @@ use OCP\Files\Mount\IMountManager;
 use OCP\IConfig;
 use OCP\IDBConnection;
 use OCP\ILogger;
+use OCP\IPreview;
 use OCP\IRequest;
 use OCP\ITagManager;
 use OCP\IUserSession;
@@ -54,6 +55,8 @@ class ServerFactory {
 	private $tagManager;
 	/** @var IRequest */
 	private $request;
+	/** @var IPreview  */
+	private $previewManager;
 
 	/**
 	 * @param IConfig $config
@@ -63,6 +66,7 @@ class ServerFactory {
 	 * @param IMountManager $mountManager
 	 * @param ITagManager $tagManager
 	 * @param IRequest $request
+	 * @param IPreview $previewManager
 	 */
 	public function __construct(
 		IConfig $config,
@@ -71,7 +75,8 @@ class ServerFactory {
 		IUserSession $userSession,
 		IMountManager $mountManager,
 		ITagManager $tagManager,
-		IRequest $request
+		IRequest $request,
+		IPreview $previewManager
 	) {
 		$this->config = $config;
 		$this->logger = $logger;
@@ -80,6 +85,7 @@ class ServerFactory {
 		$this->mountManager = $mountManager;
 		$this->tagManager = $tagManager;
 		$this->request = $request;
+		$this->previewManager = $previewManager;
 	}
 
 	/**
@@ -145,6 +151,7 @@ class ServerFactory {
 					$view,
 					$this->config,
 					$this->request,
+					$this->previewManager,
 					false,
 					!$this->config->getSystemValue('debug', false)
 				)

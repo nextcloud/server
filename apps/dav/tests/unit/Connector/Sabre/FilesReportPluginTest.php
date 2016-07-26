@@ -25,6 +25,7 @@
 namespace OCA\DAV\Tests\unit\Connector\Sabre;
 
 use OCA\DAV\Connector\Sabre\FilesReportPlugin as FilesReportPluginImplementation;
+use OCP\IPreview;
 use Sabre\DAV\Exception\NotFound;
 use OCP\SystemTag\ISystemTagObjectMapper;
 use OC\Files\View;
@@ -60,6 +61,9 @@ class FilesReportPluginTest extends \Test\TestCase {
 	/** @var Folder|\PHPUnit_Framework_MockObject_MockObject **/
 	private $userFolder;
 
+	/** @var IPreview|\PHPUnit_Framework_MockObject_MockObject * */
+	private $previewManager;
+
 	public function setUp() {
 		parent::setUp();
 		$this->tree = $this->getMockBuilder('\Sabre\DAV\Tree')
@@ -90,6 +94,10 @@ class FilesReportPluginTest extends \Test\TestCase {
 			->disableOriginalConstructor()
 			->getMock();
 		$this->userSession = $this->getMockBuilder('\OCP\IUserSession')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$this->previewManager = $this->getMockBuilder('\OCP\IPreview')
 			->disableOriginalConstructor()
 			->getMock();
 
@@ -365,7 +373,8 @@ class FilesReportPluginTest extends \Test\TestCase {
 				$config,
 				$this->getMockBuilder('\OCP\IRequest')
 					->disableOriginalConstructor()
-					->getMock()
+					->getMock(),
+				$this->previewManager
 			)
 		);
 		$this->plugin->initialize($this->server);
