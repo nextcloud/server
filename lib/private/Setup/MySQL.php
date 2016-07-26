@@ -61,12 +61,20 @@ class MySQL extends AbstractDatabase {
 			//we can't use OC_BD functions here because we need to connect as the administrative user.
 			$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8 COLLATE utf8_bin;";
 			$connection->executeUpdate($query);
+		} catch (\Exception $ex) {
+			$this->logger->error('Database creation failed: {error}', [
+				'app' => 'mysql.setup',
+				'error' => $ex->getMessage()
+			]);
+			return;
+		}
 
+		try {
 			//this query will fail if there aren't the right permissions, ignore the error
 			$query="GRANT ALL PRIVILEGES ON `$name` . * TO '$user'";
 			$connection->executeUpdate($query);
 		} catch (\Exception $ex) {
-			$this->logger->error('Database creation failed: {error}', [
+			$this->logger->debug('Could not automatically grant privileges, this can be ignored if database user already had privileges: {error}', [
 				'app' => 'mysql.setup',
 				'error' => $ex->getMessage()
 			]);
