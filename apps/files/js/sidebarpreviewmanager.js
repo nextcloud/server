@@ -32,9 +32,18 @@
 		},
 
 		loadPreview: function (model, $thumbnailDiv, $thumbnailContainer) {
-			var handler = this.getPreviewHandler(model.get('mimetype'));
-			var fallback = this.fallbackPreview.bind(this, model, $thumbnailDiv, $thumbnailContainer);
-			handler(model, $thumbnailDiv, $thumbnailContainer, fallback);
+			if (model.get('hasPreview') === false) {
+				var mimeIcon = OC.MimeType.getIconUrl(model.get('mimetype'));
+				$thumbnailDiv.removeClass('icon-loading icon-32');
+				$thumbnailContainer.removeClass('image'); //fall back to regular view
+				$thumbnailDiv.css({
+					'background-image': 'url("' + mimeIcon + '")'
+				});
+			} else {
+				var handler = this.getPreviewHandler(model.get('mimetype'));
+				var fallback = this.fallbackPreview.bind(this, model, $thumbnailDiv, $thumbnailContainer);
+				handler(model, $thumbnailDiv, $thumbnailContainer, fallback);
+			}
 		},
 
 		// previews for images and mimetype icons
