@@ -47,7 +47,8 @@
 			baseUrl: this._baseUrl,
 			xmlNamespaces: {
 				'DAV:': 'd',
-				'http://owncloud.org/ns': 'oc'
+				'http://owncloud.org/ns': 'oc',
+				'http://nextcloud.org/ns': 'nc'
 			}
 		};
 		if (options.userName) {
@@ -61,6 +62,7 @@
 	};
 
 	Client.NS_OWNCLOUD = 'http://owncloud.org/ns';
+	Client.NS_NEXTCLOUD = 'http://nextcloud.org/ns';
 	Client.NS_DAV = 'DAV:';
 	Client._PROPFIND_PROPERTIES = [
 		/**
@@ -95,7 +97,11 @@
 		/**
 		 * File sizes
 		 */
-		[Client.NS_DAV, 'getcontentlength']
+		[Client.NS_DAV, 'getcontentlength'],
+		/**
+		 * Preview availability
+		 */
+		[Client.NS_NEXTCLOUD, 'has-preview']
 	];
 
 	/**
@@ -272,6 +278,13 @@
 			sizeProp = props['{' + Client.NS_OWNCLOUD + '}size'];
 			if (!_.isUndefined(sizeProp)) {
 				data.size = parseInt(sizeProp, 10);
+			}
+
+			var hasPreviewProp = props['{' + Client.NS_NEXTCLOUD + '}has-preview'];
+			if (!_.isUndefined(hasPreviewProp)) {
+				data.hasPreview = hasPreviewProp === 'true';
+			} else {
+				data.hasPreview = true;
 			}
 
 			var contentType = props['{' + Client.NS_DAV + '}getcontenttype'];
