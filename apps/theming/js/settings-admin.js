@@ -57,8 +57,7 @@ function preview(setting, value) {
 		var headerClass = document.getElementById('header');
 		var expandDisplayNameClass = document.getElementById('expandDisplayName');
 		var headerAppName = headerClass.getElementsByClassName('header-appname')[0];
-		var textColor, elementColor, icon;
-
+		var textColor, icon;
 		var luminance = calculateLuminance(value);
 		var elementColor = value;
 
