@@ -41,3 +41,8 @@
 	cursor: pointer;
 }
 
+.workflowengine .rules .icon-loading-small {
+	display: inline-block;
+	margin-right: 5px;
+}
+
