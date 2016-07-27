@@ -206,7 +206,7 @@
 
 				checks.push({
 					'class': classname,
-					'operator': operators[0],
+					'operator': operators[0]['operator'],
 					'value': ''
 				});
 				this.model.set({'checks': checks});
@@ -242,7 +242,7 @@
 				if (key === 'class') {
 					var check = OCA.WorkflowEngine.getCheckByClass(value);
 					if (!_.isUndefined(check)) {
-						checks[id]['operator'] = check['operators'][0];
+						checks[id]['operator'] = check['operators'][0]['operator'];
 					}
 				}
 				// model change will trigger render
