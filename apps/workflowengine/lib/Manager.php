@@ -110,8 +110,8 @@ class Manager implements IManager {
 			$checkInstance->setFileInfo($this->storage, $this->path);
 			return $checkInstance->executeCheck($check['operator'], $check['value']);
 		} else {
-			// Check is invalid, assume it matches.
-			return true;
+			// Check is invalid
+			throw new \RuntimeException('Check ' . htmlspecialchars($check['class']) . ' is invalid or does not exist');
 		}
 	}
 
@@ -258,10 +258,12 @@ class Manager implements IManager {
 		}
 		$result->closeCursor();
 
-		// TODO What if a check is missing? Should we throw?
-		// As long as we only allow AND-concatenation of checks, a missing check
-		// is like a matching check, so it evaluates to true and therefor blocks
-		// access. So better save than sorry.
+		$checkIds = array_diff($checkIds, array_keys($checks));
+
+		if (!empty($checkIds)) {
+			$missingCheck = array_pop($checkIds);
+			throw new \RuntimeException('Check #' . htmlspecialchars($missingCheck) . ' is invalid or does not exist');
+		}
 
 		return $checks;
 	}
