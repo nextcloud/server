@@ -24,6 +24,7 @@ namespace OCA\WorkflowEngine\Check;
 
 use OCP\Files\Storage\IStorage;
 use OCP\IGroupManager;
+use OCP\IL10N;
 use OCP\IUser;
 use OCP\IUserSession;
 use OCP\WorkflowEngine\ICheck;
@@ -42,13 +43,18 @@ class UserGroupMembership implements ICheck {
 	/** @var IGroupManager */
 	protected $groupManager;
 
+	/** @var IL10N */
+	protected $l;
+
 	/**
 	 * @param IUserSession $userSession
 	 * @param IGroupManager $groupManager
+	 * @param IL10N $l
 	 */
-	public function __construct(IUserSession $userSession, IGroupManager $groupManager) {
+	public function __construct(IUserSession $userSession, IGroupManager $groupManager, IL10N $l) {
 		$this->userSession = $userSession;
 		$this->groupManager = $groupManager;
+		$this->l = $l;
 	}
 
 	/**
@@ -83,11 +89,11 @@ class UserGroupMembership implements ICheck {
 	 */
 	public function validateCheck($operator, $value) {
 		if (!in_array($operator, ['is', '!is'])) {
-			throw new \UnexpectedValueException('Invalid operator', 1);
+			throw new \UnexpectedValueException($this->l->t('Operator %s is invalid', $operator), 1);
 		}
 
 		if (!$this->groupManager->groupExists($value)) {
-			throw new \UnexpectedValueException('Group does not exist', 2);
+			throw new \UnexpectedValueException($this->l->t('Group %s does not exist', $value), 2);
 		}
 	}
 

@@ -26,6 +26,7 @@ use OCP\AppFramework\QueryException;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Storage\IStorage;
 use OCP\IDBConnection;
+use OCP\IL10N;
 use OCP\IServerContainer;
 use OCP\WorkflowEngine\ICheck;
 use OCP\WorkflowEngine\IManager;
@@ -50,13 +51,18 @@ class Manager implements IManager {
 	/** @var IServerContainer|\OC\Server */
 	protected $container;
 
+	/** @var IL10N */
+	protected $l;
+
 	/**
 	 * @param IDBConnection $connection
 	 * @param IServerContainer $container
+	 * @param IL10N $l
 	 */
-	public function __construct(IDBConnection $connection, IServerContainer $container) {
+	public function __construct(IDBConnection $connection, IServerContainer $container, IL10N $l) {
 		$this->connection = $connection;
 		$this->container = $container;
+		$this->l = $l;
 	}
 
 	/**
@@ -111,7 +117,7 @@ class Manager implements IManager {
 			return $checkInstance->executeCheck($check['operator'], $check['value']);
 		} else {
 			// Check is invalid
-			throw new \RuntimeException('Check ' . htmlspecialchars($check['class']) . ' is invalid or does not exist');
+			throw new \UnexpectedValueException($this->l->t('Check %s is invalid or does not exist', $check['class']));
 		}
 	}
 
@@ -158,7 +164,7 @@ class Manager implements IManager {
 			return $row;
 		}
 
-		throw new \UnexpectedValueException('Operation does not exist');
+		throw new \UnexpectedValueException($this->l->t('Operation #%s does not exist', $id));
 	}
 
 	/**
@@ -262,7 +268,7 @@ class Manager implements IManager {
 
 		if (!empty($checkIds)) {
 			$missingCheck = array_pop($checkIds);
-			throw new \RuntimeException('Check #' . htmlspecialchars($missingCheck) . ' is invalid or does not exist');
+			throw new \UnexpectedValueException($this->l->t('Check #%s does not exist', $missingCheck));
 		}
 
 		return $checks;
