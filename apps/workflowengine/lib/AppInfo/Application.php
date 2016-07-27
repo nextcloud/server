@@ -40,9 +40,24 @@ class Application extends \OCP\AppFramework\App {
 		$dispatcher->addListener(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
 			function() {
-				Util::addStyle('workflowengine', 'admin');
-				Util::addScript('workflowengine', 'admin');
-				Util::addScript('workflowengine', 'usergroupmembershipplugin');
+				style('workflowengine', [
+					'admin',
+				]);
+
+				script('core', [
+					'oc-backbone-webdav',
+					'systemtags/systemtags',
+					'systemtags/systemtagmodel',
+					'systemtags/systemtagscollection',
+				]);
+
+				script('workflowengine', [
+					'admin',
+
+					// Check plugins
+					'filesystemtagsplugin',
+					'usergroupmembershipplugin',
+				]);
 			},
 			-100
 		);
