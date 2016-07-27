@@ -48,7 +48,7 @@
 					</select>
 					<select class="check-operator">
 						{{#each (getOperators class)}}
-						<option value="{{operator}}" {{selectItem this.operator ../operator}}>{{name}}</option>
+						<option value="{{operator}}" {{selectItem operator ../operator}}>{{name}}</option>
 						{{/each}}
 					</select>
 					<input type="text" class="check-value" value="{{value}}">
