@@ -44,12 +44,13 @@ OC_Util::addScript('files', 'jquery.fileupload');
 
 \OC::$server->getEventDispatcher()->dispatch('OC\Settings\Admin::loadAdditionalScripts');
 
-$showLog = (\OC::$server->getConfig()->getSystemValue('log_type', 'owncloud') === 'owncloud');
+$logType = \OC::$server->getConfig()->getSystemValue('log_type', 'file');
+$showLog = ($logType === 'file' || $logType === 'owncloud');
 $numEntriesToLoad = 3;
-$entries = \OC\Log\Owncloud::getEntries($numEntriesToLoad + 1);
+$entries = \OC\Log\File::getEntries($numEntriesToLoad + 1);
 $entriesRemaining = count($entries) > $numEntriesToLoad;
 $entries = array_slice($entries, 0, $numEntriesToLoad);
-$logFilePath = \OC\Log\Owncloud::getLogFilePath();
+$logFilePath = \OC\Log\File::getLogFilePath();
 $doesLogFileExist = file_exists($logFilePath);
 $logFileSize = 0;
 if($doesLogFileExist) {

@@ -93,8 +93,8 @@ class LogSettingsController extends Controller {
 	 */
 	public function getEntries($count=50, $offset=0) {
 		return new JSONResponse([
-			'data' => \OC\Log\Owncloud::getEntries($count, $offset),
-			'remain' => count(\OC\Log\Owncloud::getEntries(1, $offset + $count)) !== 0,
+			'data' => \OC\Log\File::getEntries($count, $offset),
+			'remain' => count(\OC\Log\File::getEntries(1, $offset + $count)) !== 0,
 		]);
 	}
 
@@ -106,7 +106,7 @@ class LogSettingsController extends Controller {
 	 * @return StreamResponse
 	 */
 	public function download() {
-		$resp = new StreamResponse(\OC\Log\Owncloud::getLogFilePath());
+		$resp = new StreamResponse(\OC\Log\File::getLogFilePath());
 		$resp->addHeader('Content-Type', 'application/octet-stream');
 		$resp->addHeader('Content-Disposition', 'attachment; filename="nextcloud.log"');
 		return $resp;

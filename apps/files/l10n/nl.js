@@ -21,6 +21,7 @@ OC.L10N.register(
     "Invalid directory." : "Ongeldige directory.",
     "Files" : "Bestanden",
     "All files" : "Alle bestanden",
+    "Recent" : "Recent",
     "File could not be found" : "Bestand kon niet worden gevonden",
     "Home" : "Thuis",
     "Close" : "Sluiten",

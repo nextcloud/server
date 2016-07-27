@@ -175,6 +175,11 @@
 		_clientSideSort: true,
 
 		/**
+		 * Whether or not users can change the sort attribute or direction
+		 */
+		_allowSorting: true,
+
+		/**
 		 * Current directory
 		 * @type String
 		 */
@@ -718,7 +723,7 @@
 				$target = $target.closest('a');
 			}
 			sort = $target.attr('data-sort');
-			if (sort) {
+			if (sort && this._allowSorting) {
 				if (this._sort === sort) {
 					this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc', true, true);
 				}

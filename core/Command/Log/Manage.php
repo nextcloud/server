@@ -34,7 +34,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Manage extends Command {
 
-	const DEFAULT_BACKEND = 'owncloud';
+	const DEFAULT_BACKEND = 'file';
 	const DEFAULT_LOG_LEVEL = 2;
 	const DEFAULT_TIMEZONE = 'UTC';
 
@@ -54,7 +54,7 @@ class Manage extends Command {
 				'backend',
 				null,
 				InputOption::VALUE_REQUIRED,
-				'set the logging backend [owncloud, syslog, errorlog]'
+				'set the logging backend [file, syslog, errorlog]'
 			)
 			->addOption(
 				'level',

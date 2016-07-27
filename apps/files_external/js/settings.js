@@ -93,6 +93,7 @@ function addSelect2 ($elements, userListLimit) {
 		placeholder: t('files_external', 'All users. Type to select user or group.'),
 		allowClear: true,
 		multiple: true,
+		dropdownCssClass: 'files-external-select2',
 		//minimumInputLength: 1,
 		ajax: {
 			url: OC.generateUrl('apps/files_external/applicable'),

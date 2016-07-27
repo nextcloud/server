@@ -31,6 +31,7 @@ namespace OCA\Files\Controller;
 
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Controller;
+use OCP\Files\Folder;
 use OCP\IConfig;
 use OCP\IRequest;
 use OCP\AppFramework\Http\DataResponse;
@@ -39,7 +40,7 @@ use OCP\AppFramework\Http\Response;
 use OCA\Files\Service\TagService;
 use OCP\IPreview;
 use OCP\Share\IManager;
-use OCP\Files\Node;
+use OC\Files\Node\Node;
 use OCP\IUserSession;
 
 /**
@@ -58,12 +59,18 @@ class ApiController extends Controller {
 	private $userSession;
 	/** IConfig */
 	private $config;
+	/** @var Folder */
+	private $userFolder;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
+	 * @param IUserSession $userSession
 	 * @param TagService $tagService
 	 * @param IPreview $previewManager
+	 * @param IManager $shareManager
+	 * @param IConfig $config
+	 * @param Folder $userFolder
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -71,13 +78,15 @@ class ApiController extends Controller {
 								TagService $tagService,
 								IPreview $previewManager,
 								IManager $shareManager,
-								IConfig $config) {
+								IConfig $config,
+								Folder $userFolder) {
 		parent::__construct($appName, $request);
 		$this->userSession = $userSession;
 		$this->tagService = $tagService;
 		$this->previewManager = $previewManager;
 		$this->shareManager = $shareManager;
 		$this->config = $config;
+		$this->userFolder = $userFolder;
 	}
 
 	/**
@@ -143,6 +152,28 @@ class ApiController extends Controller {
 	}
 
 	/**
+	 * @param \OCP\Files\Node[] $nodes
+	 * @return array
+	 */
+	private function formatNodes(array $nodes) {
+		return array_values(array_map(function (Node $node) {
+			/** @var \OC\Files\Node\Node $shareTypes */
+			$shareTypes = $this->getShareTypes($node);
+			$file = \OCA\Files\Helper::formatFileInfo($node->getFileInfo());
+			$parts = explode('/', dirname($node->getPath()), 4);
+			if (isset($parts[3])) {
+				$file['path'] = '/' . $parts[3];
+			} else {
+				$file['path'] = '/';
+			}
+			if (!empty($shareTypes)) {
+				$file['shareTypes'] = $shareTypes;
+			}
+			return $file;
+		}, $nodes));
+	}
+
+	/**
 	 * Returns a list of all files tagged with the given tag.
 	 *
 	 * @NoAdminRequired
@@ -151,24 +182,24 @@ class ApiController extends Controller {
 	 * @return DataResponse
 	 */
 	public function getFilesByTag($tagName) {
-		$files = array();
 		$nodes = $this->tagService->getFilesByTag($tagName);
-		foreach ($nodes as &$node) {
-			$shareTypes = $this->getShareTypes($node);
-			$fileInfo = $node->getFileInfo();
-			$file = \OCA\Files\Helper::formatFileInfo($fileInfo);
-			$parts = explode('/', dirname($fileInfo->getPath()), 4);
-			if(isset($parts[3])) {
-				$file['path'] = '/' . $parts[3];
-			} else {
-				$file['path'] = '/';
-			}
+		$files = $this->formatNodes($nodes);
+		foreach ($files as &$file) {
 			$file['tags'] = [$tagName];
-			if (!empty($shareTypes)) {
-				$file['shareTypes'] = $shareTypes;
-			}
-			$files[] = $file;
 		}
+		return new DataResponse(['files' => $files]);
+	}
+
+	/**
+	 * Returns a list of recently modifed files.
+	 *
+	 * @NoAdminRequired
+	 *
+	 * @return DataResponse
+	 */
+	public function getRecentFiles() {
+		$nodes = $this->userFolder->getRecent(100);
+		$files = $this->formatNodes($nodes);
 		return new DataResponse(['files' => $files]);
 	}
 

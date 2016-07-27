@@ -99,7 +99,7 @@ if (\OC::$server->getConfig()->getSystemValue('installed', false)) {
 	);
 
 	$application->add(new OC\Core\Command\Log\Manage(\OC::$server->getConfig()));
-	$application->add(new OC\Core\Command\Log\OwnCloud(\OC::$server->getConfig()));
+	$application->add(new OC\Core\Command\Log\File(\OC::$server->getConfig()));
 
 	$view = new \OC\Files\View();
 	$util = new \OC\Encryption\Util(

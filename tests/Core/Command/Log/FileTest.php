@@ -22,10 +22,10 @@
 namespace Tests\Core\Command\Log;
 
 
-use OC\Core\Command\Log\OwnCloud;
+use OC\Core\Command\Log\File;
 use Test\TestCase;
 
-class OwnCloudTest extends TestCase {
+class FileTest extends TestCase {
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
 	protected $config;
 	/** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -45,7 +45,7 @@ class OwnCloudTest extends TestCase {
 		$this->consoleInput = $this->getMock('Symfony\Component\Console\Input\InputInterface');
 		$this->consoleOutput = $this->getMock('Symfony\Component\Console\Output\OutputInterface');
 
-		$this->command = new OwnCloud($config);
+		$this->command = new File($config);
 	}
 
 	public function testEnable() {
@@ -55,7 +55,7 @@ class OwnCloudTest extends TestCase {
 			]));
 		$this->config->expects($this->once())
 			->method('setSystemValue')
-			->with('log_type', 'owncloud');
+			->with('log_type', 'file');
 
 		self::invokePrivate($this->command, 'execute', [$this->consoleInput, $this->consoleOutput]);
 	}
@@ -99,7 +99,7 @@ class OwnCloudTest extends TestCase {
 	public function testGetConfiguration() {
 		$this->config->method('getSystemValue')
 			->will($this->returnValueMap([
-				['log_type', 'owncloud', 'log_type_value'],
+				['log_type', 'file', 'log_type_value'],
 				['datadirectory', \OC::$SERVERROOT.'/data', '/data/directory/'],
 				['logfile', '/data/directory/nextcloud.log', '/var/log/nextcloud.log'],
 				['log_rotate_size', 0, 5 * 1024 * 1024],
@@ -107,7 +107,7 @@ class OwnCloudTest extends TestCase {
 
 		$this->consoleOutput->expects($this->at(0))
 			->method('writeln')
-			->with('Log backend ownCloud: disabled');
+			->with('Log backend file: disabled');
 		$this->consoleOutput->expects($this->at(1))
 			->method('writeln')
 			->with('Log file: /var/log/nextcloud.log');

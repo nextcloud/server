@@ -47,7 +47,8 @@ class Application extends App {
 				$c->query('TagService'),
 				$server->getPreviewManager(),
 				$server->getShareManager(),
-				$server->getConfig()
+				$server->getConfig(),
+				$server->getUserFolder()
 			);
 		});
 
