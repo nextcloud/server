@@ -199,7 +199,7 @@ class User_Proxy extends Proxy implements \OCP\IUserBackend, \OCP\UserInterface,
 	 * returns the username for the given LDAP DN, if available
 	 *
 	 * @param string $dn
-	 * @return string|false with the name to use in ownCloud
+	 * @return string|false with the username
 	 */
 	public function dn2UserName($dn) {
 		$id = 'DN,' . $dn;
