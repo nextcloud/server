@@ -2,7 +2,6 @@
 /**
  * @author Roger Szabo <roger.szabo@web.de>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -29,17 +28,17 @@ namespace OCP\LDAP;
  */
 interface ILDAPProvider {
 	/**
-	 * Translate an ownCloud username to LDAP DN.
-	 * @param string $uid ownCloud user id
+	 * Translate a user id to LDAP DN.
+	 * @param string $uid user id
 	 * @return string
 	 * @since 9.2.0
 	 */
 	public function getUserDN($uid);
 	
 	/**
-	 * Translate a LDAP DN to an ownCloud user name.
+	 * Translate a LDAP DN to an internal user name.
 	 * @param string $dn LDAP DN
-	 * @return string with the ownCloud user name
+	 * @return string with the internal user name
 	 * @throws \Exception if translation was unsuccessful
 	 * @since 9.2.0
 	 */
@@ -63,7 +62,7 @@ interface ILDAPProvider {
 	
 	/**
 	 * Return a new LDAP connection resource for the specified user. 
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @return resource of the LDAP connection
 	 * @since 9.2.0
 	 */
@@ -71,7 +70,7 @@ interface ILDAPProvider {
 	
 	/**
 	 * Get the LDAP base for users.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @return string the base for users
 	 * @throws \Exception if user id was not found in LDAP
 	 * @since 9.2.0
@@ -80,7 +79,7 @@ interface ILDAPProvider {
 	
 	/**
 	 * Get the LDAP base for groups.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @return string the base for groups
 	 * @throws \Exception if user id was not found in LDAP
 	 * @since 9.2.0
@@ -97,7 +96,7 @@ interface ILDAPProvider {
 	
 	/**
 	 * Clear the cache if a cache is used, otherwise do nothing.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @since 9.2.0
 	 */
 	public function clearCache($uid);

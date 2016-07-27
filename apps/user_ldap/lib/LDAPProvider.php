@@ -2,7 +2,6 @@
 /**
  * @author Roger Szabo <roger.szabo@web.de>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -58,8 +57,8 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	}
 	
 	/**
-	 * Translate an ownCloud user id to LDAP DN
-	 * @param string $uid ownCloud user id
+	 * Translate an user id to LDAP DN
+	 * @param string $uid user id
 	 * @return string with the LDAP DN
 	 * @throws \Exception if translation was unsuccessful
 	 */
@@ -75,16 +74,16 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	}
 	
 	/**
-	 * Translate a LDAP DN to an ownCloud user name. If there is no mapping between 
+	 * Translate a LDAP DN to an internal user name. If there is no mapping between 
 	 * the DN and the user name, a new one will be created.
 	 * @param string $dn LDAP DN
-	 * @return string with the ownCloud user name
+	 * @return string with the internal user name
 	 * @throws \Exception if translation was unsuccessful
 	 */
 	public function getUserName($dn) {
 		$result = $this->backend->dn2UserName($dn);
 		if(!$result){
-			throw new \Exception('Translation to ownCloud user name unsuccessful');
+			throw new \Exception('Translation to internal user name unsuccessful');
 		}
 		return $result;
 	}
@@ -110,7 +109,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	/**
 	 * Return a new LDAP connection resource for the specified user. 
 	 * The connection must be closed manually.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @return resource of the LDAP connection
 	 * @throws \Exception if user id was not found in LDAP
 	 */
@@ -123,7 +122,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	
 	/**
 	 * Get the LDAP base for users.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @return string the base for users
 	 * @throws \Exception if user id was not found in LDAP
 	 */
@@ -136,7 +135,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	
 	/**
 	 * Get the LDAP base for groups.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @return string the base for groups
 	 * @throws \Exception if user id was not found in LDAP
 	 */
@@ -149,7 +148,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	
 	/**
 	 * Clear the cache if a cache is used, otherwise do nothing.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @throws \Exception if user id was not found in LDAP
 	 */
 	public function clearCache($uid) {
@@ -171,7 +170,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	
 	/**
 	 * Flag record for deletion.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 */
 	public function flagRecord($uid) {
 		$this->deletedUsersIndex->markUser($uid);
@@ -179,7 +178,7 @@ class LDAPProvider implements ILDAPProvider, IDeletionFlagSupport {
 	
 	/**
 	 * Unflag record for deletion.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 */
 	public function unflagRecord($uid) {
 		//do nothing

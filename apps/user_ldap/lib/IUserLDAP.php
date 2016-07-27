@@ -2,7 +2,6 @@
 /**
  * @author Roger Szabo <roger.szabo@web.de>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -42,7 +41,7 @@ interface IUserLDAP {
 	/**
 	 * Return the username for the given LDAP DN, if available.
 	 * @param string $dn
-	 * @return string|false with the name to use in ownCloud
+	 * @return string|false with the username
 	 */
 	public function dn2UserName($dn);
 }

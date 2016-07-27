@@ -2,7 +2,6 @@
 /**
  * @author Roger Szabo <roger.szabo@web.de>
  *
- * @copyright Copyright (c) 2016, ownCloud, Inc.
  * @license AGPL-3.0
  *
  * This code is free software: you can redistribute it and/or modify
@@ -30,14 +29,14 @@ namespace OCP\LDAP;
 interface IDeletionFlagSupport {
 	/**
 	 * Flag record for deletion.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @since 9.2.0
 	 */
 	public function flagRecord($uid);
 	
 	/**
 	 * Unflag record for deletion.
-	 * @param string $uid ownCloud user id
+	 * @param string $uid user id
 	 * @since 9.2.0
 	 */
 	public function unflagRecord($uid);

@@ -37,7 +37,7 @@ class CleanUpTest extends \Test\TestCase {
 				->getMock();
 		$mocks['ocConfig']    = $this->getMock('\OCP\IConfig');
 		$mocks['db']          = $this->getMock('\OCP\IDBConnection');
-		$mocks['helper']      = new \OCA\User_LDAP\Helper();
+		$mocks['helper']      = $this->getMock('\OCA\User_LDAP\Helper');
 
 		return $mocks;
 	}
