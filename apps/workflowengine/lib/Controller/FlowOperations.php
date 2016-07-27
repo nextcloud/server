@@ -26,38 +26,19 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
-use OCP\WorkflowEngine\RegisterCheckEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class FlowOperations extends Controller {
 
 	/** @var Manager */
 	protected $manager;
 
-	/** @var EventDispatcherInterface */
-	protected $dispatcher;
-
 	/**
 	 * @param IRequest $request
 	 * @param Manager $manager
-	 * @param EventDispatcherInterface $dispatcher
 	 */
-	public function __construct(IRequest $request, Manager $manager, EventDispatcherInterface $dispatcher) {
+	public function __construct(IRequest $request, Manager $manager) {
 		parent::__construct('workflowengine', $request);
 		$this->manager = $manager;
-		$this->dispatcher = $dispatcher;
-	}
-
-	/**
-	 * @NoCSRFRequired
-	 *
-	 * @return JSONResponse
-	 */
-	public function getChecks() {
-		$event = new RegisterCheckEvent();
-		$this->dispatcher->dispatch('OCP\WorkflowEngine\RegisterCheckEvent', $event);
-
-		return new JSONResponse($event->getChecks());
 	}
 
 	/**
