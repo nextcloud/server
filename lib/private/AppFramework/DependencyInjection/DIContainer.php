@@ -289,6 +289,10 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getEventDispatcher();
 		});
 
+		$this->registerService('OCP\WorkflowEngine\IManager', function ($c) {
+			return $c->query('OCA\WorkflowEngine\Manager');
+		});
+
 		$this->registerService('OCP\\AppFramework\\IAppContainer', function ($c) {
 			return $c;
 		});
