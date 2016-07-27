@@ -231,7 +231,7 @@ class LoginController extends Controller {
 				return new RedirectResponse($location);
 			}
 		}
-		return new RedirectResponse($this->urlGenerator->linkToRoute('files.view.index'));
+		return new RedirectResponse(OC_Util::getDefaultPageUrl());
 	}
 
 }
