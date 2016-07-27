@@ -55,6 +55,7 @@ class Application extends \OCP\AppFramework\App {
 					'admin',
 
 					// Check plugins
+					'filesizeplugin',
 					'filesystemtagsplugin',
 					'usergroupmembershipplugin',
 				]);
