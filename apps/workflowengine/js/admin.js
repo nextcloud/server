@@ -75,12 +75,6 @@
 		});
 
 	/**
-	 * @class OCA.WorkflowEngine.AvailableCheck
-	 */
-	OCA.WorkflowEngine.AvailableCheck =
-		OC.Backbone.Model.extend({});
-
-	/**
 	 *  .d8888b.           888 888                   888    d8b
 	 * d88P  Y88b          888 888                   888    Y8P
 	 * 888    888          888 888                   888
@@ -335,12 +329,14 @@
 				this._initialize('OCA\\WorkflowEngine\\Operation');
 			},
 			_initialize: function(classname) {
-				OCA.WorkflowEngine.availablePlugins = OC.Plugins.getPlugins('OCA.WorkflowEngine.CheckPlugins');
-				_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
-					if (_.isFunction(plugin.getCheck)) {
-						OCA.WorkflowEngine.availableChecks.push(plugin.getCheck());
-					}
-				});
+				if (!OCA.WorkflowEngine.availablePlugins.length) {
+					OCA.WorkflowEngine.availablePlugins = OC.Plugins.getPlugins('OCA.WorkflowEngine.CheckPlugins');
+					_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
+						if (_.isFunction(plugin.getCheck)) {
+							OCA.WorkflowEngine.availableChecks.push(plugin.getCheck(classname));
+						}
+					});
+				}
 
 				this.collection.fetch({data: {
 					'class': classname
