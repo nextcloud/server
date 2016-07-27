@@ -58,7 +58,7 @@ class OCSMiddleware extends Middleware {
 			}
 			$response = new OCSResponse($format, $code, $exception->getMessage());
 
-			if ($this->request->getScriptName() === '/ocs/v2.php') {
+			if (substr_compare($this->request->getScriptName(), '/ocs/v2.php', -strlen('/ocs/v2.php')) === 0) {
 				$response->setStatus($code);
 			}
 			return $response;
