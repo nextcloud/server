@@ -27,11 +27,13 @@
     "updatenotification",
     "user_external",
     "user_ldap",
-    "user_saml"
+    "user_saml",
+    "workflowengine"
   ],
   "alwaysEnabled": [
     "files",
     "dav",
-    "federatedfilesharing"
+    "federatedfilesharing",
+    "workflowengine"
   ]
 }

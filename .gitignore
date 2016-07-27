@@ -27,6 +27,7 @@
 !/apps/admin_audit
 !/apps/updatenotification
 !/apps/theming
+!/apps/workflowengine
 /apps/files_external/3rdparty/irodsphp/PHPUnitTest
 /apps/files_external/3rdparty/irodsphp/web
 /apps/files_external/3rdparty/irodsphp/prods/test
