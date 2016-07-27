@@ -87,7 +87,7 @@ $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 				<?php if ($_['previewEnabled'] && substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
 					<div id="imgframe">
 						<video tabindex="0" controls="" preload="none" style="max-width: <?php p($_['previewMaxX']); ?>px; max-height: <?php p($_['previewMaxY']); ?>px">
-							<source src="<?php p($_['downloadURL']); ?>" type="<?php p($_['mimetype']); ?>" />
+							<source src="<?php p($_['downloadURL']); ?>" />
 						</video>
 					</div>
 				<?php else: ?>
