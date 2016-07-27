@@ -21,7 +21,6 @@
 
 return [
 	'routes' => [
-		['name' => 'flowOperations#getChecks', 'url' => '/checks', 'verb' => 'GET'], // TODO rm and do via js?
 		['name' => 'flowOperations#getOperations', 'url' => '/operations', 'verb' => 'GET'],
 		['name' => 'flowOperations#addOperation', 'url' => '/operations', 'verb' => 'POST'],
 		['name' => 'flowOperations#updateOperation', 'url' => '/operations/{id}', 'verb' => 'PUT'],

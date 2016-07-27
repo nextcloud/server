@@ -24,6 +24,16 @@
 	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {};
 
 	OCA.WorkflowEngine.Plugins.UserGroupMembershipPlugin = {
+		getCheck: function() {
+			return {
+				'class': 'OCA\\WorkflowEngine\\Check\\UserGroupMembership',
+				'name': t('workflowengine', 'User group membership'),
+				'operators': [
+					{'operator': 'is', 'name': t('workflowengine', 'is member of')},
+					{'operator': '!is', 'name': t('workflowengine', 'is not member of')}
+				]
+			};
+		},
 		render: function(element, classname, value) {
 			if (classname !== 'OCA\\WorkflowEngine\\Check\\UserGroupMembership') {
 				return;

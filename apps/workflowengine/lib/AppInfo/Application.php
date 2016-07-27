@@ -38,18 +38,6 @@ class Application extends \OCP\AppFramework\App {
 	public function registerHooksAndListeners() {
 		$dispatcher = $this->getContainer()->getServer()->getEventDispatcher();
 		$dispatcher->addListener(
-			'OCP\WorkflowEngine\RegisterCheckEvent',
-			function(RegisterCheckEvent $event) {
-				$event->addCheck(
-					'OCA\WorkflowEngine\Check\UserGroupMembership',
-					'User group membership',
-					['is', '!is']
-				);
-			},
-			-100
-		);
-
-		$dispatcher->addListener(
 			'OCP\WorkflowEngine::loadAdditionalSettingScripts',
 			function() {
 				Util::addStyle('workflowengine', 'admin');

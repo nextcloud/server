@@ -22,7 +22,7 @@
 /** @var array $_ */
 /** @var OC_L10N $l */
 ?>
-<div id="workflowengine" class="section workflowengine">
+<div id="<?php p($_['appid']); ?>" class="section workflowengine">
 	<h2 class="inlineblock"><?php p($_['heading']); ?></h2>
 	<script type="text/template" id="operations-template">
 		<div class="operations"></div>
@@ -48,7 +48,7 @@
 					</select>
 					<select class="check-operator">
 						{{#each (getOperators class)}}
-						<option value="{{this}}" {{selectItem this ../operator}}>{{this}}</option>
+						<option value="{{operator}}" {{selectItem operator ../operator}}>{{name}}</option>
 						{{/each}}
 					</select>
 					<input type="text" class="check-value" value="{{value}}">
