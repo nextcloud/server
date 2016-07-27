@@ -316,6 +316,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup12',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				false
 			),
@@ -330,6 +331,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				false
 			),
@@ -345,6 +347,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				false
 			),
@@ -360,6 +363,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				false,
 			),
@@ -375,6 +379,7 @@ class AppTest extends \Test\TestCase {
 					'appforgroup2',
 					'dav',
 					'federatedfilesharing',
+					'workflowengine',
 				),
 				true,
 			),
