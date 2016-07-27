@@ -35,7 +35,7 @@
 		return [];
 	});
 
-	OCA.WorkflowEngine = OCA.WorkflowEngine || {
+	OCA.WorkflowEngine = _.extend(OCA.WorkflowEngine || {}, {
 			availablePlugins: [],
 			availableChecks: [],
 
@@ -48,7 +48,7 @@
 				}
 				return undefined;
 			}
-	};
+	});
 
 	/**
 	 * 888b     d888               888          888
@@ -337,9 +337,6 @@
 			_initialize: function(classname) {
 				OCA.WorkflowEngine.availablePlugins = OC.Plugins.getPlugins('OCA.WorkflowEngine.CheckPlugins');
 				_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
-					if (_.isFunction(plugin.initialize)) {
-						plugin.initialize();
-					}
 					if (_.isFunction(plugin.getCheck)) {
 						OCA.WorkflowEngine.availableChecks.push(plugin.getCheck());
 					}
