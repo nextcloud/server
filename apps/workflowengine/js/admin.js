@@ -348,7 +348,6 @@
 				this.renderOperation(operation);
 			},
 			renderOperation: function(operation){
-				console.log(operation);
 				var subView = new OCA.WorkflowEngine.OperationView({
 						model: operation
 					}),
