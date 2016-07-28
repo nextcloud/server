@@ -93,7 +93,6 @@ input[type="checkbox"].checkbox + label:before {
 	vertical-align: middle;
 
 	background: url('../img/actions/checkbox.svg') left top no-repeat;
-	opacity: 0.7;
 }
 
 input[type="checkbox"].checkbox:disabled +label:before { opacity: .6; }
@@ -167,7 +166,6 @@ input[type="radio"].radio + label:before {
 	vertical-align: middle;
 
 	background: url('../img/actions/radio.svg') left top no-repeat;
-	opacity: 0.7;
 }
 
 input[type="radio"].radio:checked + label:before {
@@ -187,7 +185,7 @@ input[type="radio"].radio--white + label:before {
 }
 
 input[type="radio"].radio--white:checked + label:before {
-	background-image: url('../img/actions/radio-checked.svg');
+	background-image: url('../img/actions/radio-checked-white.svg');
 }
 
 input[type="radio"].radio--white:disabled + label:before {
