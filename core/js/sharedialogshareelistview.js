@@ -75,14 +75,9 @@
 									'</li>' +
 									'{{/if}}' +
 								'{{/if}}' +
-								'<li>' +
-									'<a href="#" class="menuitem action action-delete permanent unshare">' +
-										'<span class="icon icon-delete"></span>' +
-										'<span>{{unshareLabel}}</span>' +
-									'</a>' +
-								'</li>' +
 							'</ul>' +
 						'</div>' +
+						'<a href="#" class="unshare"><span class="icon-loading-small hidden"></span><span class="icon icon-delete"></span><span class="hidden-visually">{{unshareLabel}}</span></a>' +
 					'</span>' +
 				'</li>' +
 			'{{/each}}' +
@@ -107,6 +102,8 @@
 
 		/** @type {Function} **/
 		_template: undefined,
+
+		_menuOpen: false,
 
 		events: {
 			'click .unshare': 'onUnshare',
@@ -210,7 +207,7 @@
 			}));
 
 			if(this.configModel.areAvatarsEnabled()) {
-				this.$el.find('.avatar').each(function() {
+				this.$('.avatar').each(function() {
 					var $this = $(this);
 					if ($this.hasClass('imageplaceholderseed')) {
 						$this.css({width: 32, height: 32});
@@ -221,9 +218,18 @@
 				});
 			}
 
-			this.$el.find('.has-tooltip').tooltip({
+			this.$('.has-tooltip').tooltip({
 				placement: 'bottom'
 			});
+
+			var _this = this;
+			this.$('.popovermenu').on('afterHide', function() {
+				_this._menuOpen = false;
+			});
+			if (this._menuOpen) {
+				// Open menu again if it was opened before
+				OC.showMenu(null, this.$('.popovermenu'));
+			}
 
 			this.delegateEvents();
 
@@ -280,6 +286,7 @@
 			var $menu = $li.find('.popovermenu');
 
 			OC.showMenu(null, $menu);
+			this._menuOpen = true;
 		},
 
 		onPermissionChange: function(event) {
