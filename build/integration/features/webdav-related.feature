@@ -90,18 +90,18 @@ Feature: webdav-related
 			|X-Permitted-Cross-Domain-Policies|none|
 			|X-Robots-Tag|none|
 			|X-XSS-Protection|1; mode=block|
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
 	Scenario: Doing a GET with a web login should work without CSRF token on the old backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/webdav/welcome.txt" without requesttoken
-		Then Downloaded content should start with "Welcome to your ownCloud account!"
+		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a GET with a web login should work with CSRF token on the old backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/webdav/welcome.txt" with requesttoken
-		Then Downloaded content should start with "Welcome to your ownCloud account!"
+		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a PROPFIND with a web login should not work without CSRF token on the old backend
@@ -145,8 +145,8 @@ Feature: webdav-related
 		Given user "user0" exists
 		And user "user0" created a folder "/test"
 		When as "user0" gets properties of folder "/test" with
-			|{http://owncloud.org/ns}share-types|
-		Then the response should contain an empty property "{http://owncloud.org/ns}share-types"
+			|{https://nextcloud.com/ns}share-types|
+		Then the response should contain an empty property "{https://nextcloud.com/ns}share-types"
 
 	Scenario: A file that is shared to a user has a share-types property
 		Given user "user0" exists
@@ -158,7 +158,7 @@ Feature: webdav-related
 			| permissions | 31 |
 			| shareWith | user1 |
 		When as "user0" gets properties of folder "/test" with
-			|{http://owncloud.org/ns}share-types|
+			|{https://nextcloud.com/ns}share-types|
 		Then the response should contain a share-types property with
 			| 0 |
 
@@ -172,7 +172,7 @@ Feature: webdav-related
 			| permissions | 31 |
 			| shareWith | group1 |
 		When as "user0" gets properties of folder "/test" with
-			|{http://owncloud.org/ns}share-types|
+			|{https://nextcloud.com/ns}share-types|
 		Then the response should contain a share-types property with
 			| 1 |
 
@@ -184,7 +184,7 @@ Feature: webdav-related
 			| shareType | 3 |
 			| permissions | 31 |
 		When as "user0" gets properties of folder "/test" with
-			|{http://owncloud.org/ns}share-types|
+			|{https://nextcloud.com/ns}share-types|
 		Then the response should contain a share-types property with
 			| 3 |
 
@@ -208,7 +208,7 @@ Feature: webdav-related
 			| shareType   | 3     |
 			| permissions | 31    |
 		When as "user0" gets properties of folder "/test" with
-			|{http://owncloud.org/ns}share-types|
+			|{https://nextcloud.com/ns}share-types|
 		Then the response should contain a share-types property with
 			| 0 |
 			| 1 |
