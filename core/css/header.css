@@ -210,27 +210,22 @@
 	text-overflow:ellipsis;
 }
 	/* icon opacity and hover effect */
-	#navigation a img,
+	#navigation a svg,
 	#navigation a span {
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 		opacity: .5;
 	}
-	#navigation a:hover img,
-	#navigation a:focus img,
+	#navigation a:hover svg,
+	#navigation a:focus svg,
 	#navigation a:hover span,
 	#navigation a:focus span,
-	#navigation a.active img,
+	#navigation a.active svg,
 	#navigation a.active span {
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
 		opacity: .75;
 	}
 
 #navigation .app-icon {
-	-webkit-filter: invert(100%);
-	-moz-filter: invert(100%);
-	-o-filter: invert(100%);
-	-ms-filter: "progid:DXImageTransform.Microsoft.Invert(100%)";
-	filter: invert(100%);
 	margin: 0 auto;
 	padding: 0;
 	max-height: 32px;
