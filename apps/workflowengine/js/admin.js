@@ -242,7 +242,7 @@
 				// model change will trigger render
 				this.model.set({'checks': checks});
 			},
-			deleteCheck: function() {
+			deleteCheck: function(event) {
 				console.log(arguments);
 				var id = $(event.target.parentElement).data('id'),
 					checks = JSON.parse(JSON.stringify(this.model.get('checks')));
