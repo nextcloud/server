@@ -20,13 +20,13 @@
  */
 
 /** @var array $_ */
-/** @var OC_L10N $l */
+/** @var \OCP\IL10N $l */
 ?>
 <div id="<?php p($_['appid']); ?>" class="section workflowengine">
 	<h2 class="inlineblock"><?php p($_['heading']); ?></h2>
 	<script type="text/template" id="operations-template">
 		<div class="operations"></div>
-		<button class="button-add-operation">Add operation</button>
+		<button class="button-add-operation"><?php p($l->t('Add operation')); ?></button>
 	</script>
 
 	<script type="text/template" id="operation-template">
@@ -56,17 +56,17 @@
 				</div>
 				{{/each}}
 			</div>
-			<button class="button-add">Add check</button>
+			<button class="button-add"><?php p($l->t('Add check')); ?></button>
 			{{#if hasChanged}}
 				{{! reset only makes sense if the operation is already saved }}
 				{{#if operation.id}}
-					<button class="button-reset pull-right">Reset</button>
+					<button class="button-reset pull-right"><?php p($l->t('Reset')); ?></button>
 				{{/if}}
-				<button class="button-save pull-right">Save</button>
+				<button class="button-save pull-right"><?php p($l->t('Save')); ?></button>
 			{{/if}}
 			{{#if saving}}
 				<span class="icon-loading-small pull-right"></span>
-				<span class="pull-right">Saving ...</span>
+				<span class="pull-right"><?php p($l->t('Saving…')); ?></span>
 			{{else}}{{#if message}}
 				<span class="msg pull-right {{#if errorMessage}}error{{else}}success{{/if}}">
 					{{message}}{{#if errorMessage}} {{errorMessage}}{{/if}}
@@ -75,5 +75,5 @@
 		</div>
 	</script>
 
-	<div class="rules"><span class="icon-loading-small"></span> Loading ...</div>
+	<div class="rules"><span class="icon-loading-small"></span> <?php p($l->t('Loading…')); ?></div>
 </div>
