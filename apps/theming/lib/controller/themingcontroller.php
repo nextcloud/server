@@ -242,12 +242,19 @@ class ThemingController extends Controller {
 				'#header .logo-icon {' .
 				'background-image: url(\'./logo?v='.$cacheBusterValue.'\');' .
 				'background-size: contain;' .
+				'}' . "\n" .
+				'#firstrunwizard .firstrunwizard-header .logo {' .
+				'background-image: url(\'./logo?v='.$cacheBusterValue.'\');' .
+				'background-size: contain;' .
 				'}' . "\n"
 			);
 		}
 		$backgroundLogo = $this->config->getAppValue($this->appName, 'backgroundMime');
 		if($backgroundLogo !== '') {
 			$responseCss .= '#body-login {background-image: url(\'./loginbackground?v='.$cacheBusterValue.'\');}' . "\n";
+			$responseCss .= 'firstrunwizard .firstrunwizard-header {' .
+				'background-image: url(\'./loginbackground?v='.$cacheBusterValue.'\');' .
+			'}' . "\n";
 		}
 		if(Util::invertTextColor($color)) {
 			$responseCss .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
