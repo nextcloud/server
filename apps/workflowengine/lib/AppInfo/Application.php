@@ -58,6 +58,7 @@ class Application extends \OCP\AppFramework\App {
 					'filemimetypeplugin',
 					'filesizeplugin',
 					'filesystemtagsplugin',
+					'requestuseragentplugin',
 					'usergroupmembershipplugin',
 				]);
 			},
