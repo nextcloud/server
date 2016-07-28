@@ -14,7 +14,7 @@ Feature: dav-v2
 		And As an "admin"
 		And user "user0" exists
 		And As an "user0"
-		When Downloading file "/files/user0/welcome.txt" with range "bytes=51-77"
+		When Downloading file "/files/user0/welcome.txt" with range "bytes=52-78"
 		Then Downloaded content should be "example file for developers"
 
 	Scenario: Downloading a file on the new endpoint should serve security headers

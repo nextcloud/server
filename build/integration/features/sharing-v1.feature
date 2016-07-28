@@ -312,8 +312,8 @@ Feature: sharing
     And As an "user1"
     When User "user1" deletes file "/textfile0 (2).txt"
     And As an "user3"
-    And Downloading file "/textfile0 (2).txt" with range "bytes=1-7"
-    Then Downloaded content should be "wnCloud"
+    And Downloading file "/textfile0 (2).txt" with range "bytes=1-8"
+    Then Downloaded content should be "extcloud"
 
   Scenario: getting share info of a share
     Given user "user0" exists
@@ -500,9 +500,9 @@ Feature: sharing
     And User "user1" moved file "/textfile0.txt" to "/common/textfile0.txt"
     And User "user1" moved file "/common/textfile0.txt" to "/common/sub/textfile0.txt"
     And As an "user2"
-    When Downloading file "/common/sub/textfile0.txt" with range "bytes=9-17"
+    When Downloading file "/common/sub/textfile0.txt" with range "bytes=10-18"
     Then Downloaded content should be "test text"
-    And Downloaded content when downloading file "/textfile0.txt" with range "bytes=9-17" should be "test text"
+    And Downloaded content when downloading file "/textfile0.txt" with range "bytes=10-18" should be "test text"
     And user "user2" should see following elements
       | /common/sub/textfile0.txt |
 
@@ -521,7 +521,7 @@ Feature: sharing
     And User "user1" moved file "/textfile0.txt" to "/common/textfile0.txt"
     And User "user1" moved file "/common/textfile0.txt" to "/common/sub/textfile0.txt"
     And As an "user2"
-    When Downloading file "/textfile0.txt" with range "bytes=9-17"
+    When Downloading file "/textfile0.txt" with range "bytes=10-18"
     Then Downloaded content should be "test text"
     And user "user2" should see following elements
       | /common/sub/textfile0.txt |
