@@ -239,6 +239,10 @@ class DecryptAllTest extends TestCase {
 	}
 
 	public function testDecryptUsersFiles() {
+		$storage = $this->getMockBuilder('OC\Files\Storage\Shared')
+			->disableOriginalConstructor()
+			->getMock();
+
 		/** @var DecryptAll | \PHPUnit_Framework_MockObject_MockObject  $instance */
 		$instance = $this->getMockBuilder('OC\Encryption\DecryptAll')
 			->setConstructorArgs(
@@ -254,15 +258,15 @@ class DecryptAllTest extends TestCase {
 		$this->view->expects($this->at(0))->method('getDirectoryContent')
 			->with('/user1/files')->willReturn(
 				[
-					new FileInfo('path', null, 'intPath', ['name' => 'foo', 'type'=>'dir'], null),
-					new FileInfo('path', null, 'intPath', ['name' => 'bar', 'type'=>'file', 'encrypted'=>true], null)
+					new FileInfo('path', $storage, 'intPath', ['name' => 'foo', 'type'=>'dir'], null),
+					new FileInfo('path', $storage, 'intPath', ['name' => 'bar', 'type'=>'file', 'encrypted'=>true], null)
 				]
 			);
 
 		$this->view->expects($this->at(3))->method('getDirectoryContent')
 			->with('/user1/files/foo')->willReturn(
 				[
-					new FileInfo('path', null, 'intPath', ['name' => 'subfile', 'type'=>'file', 'encrypted'=>true], null)
+					new FileInfo('path', $storage, 'intPath', ['name' => 'subfile', 'type'=>'file', 'encrypted'=>true], null)
 				]
 			);
 
