@@ -132,7 +132,7 @@ OC.L10N.register(
     "Personal info" : "Información personal",
     "Sessions" : "Sesiones",
     "App passwords" : "Contraseñas de la app",
-    "Sync clients" : "Sincronizar clientes",
+    "Sync clients" : "Clientes de sincronización",
     "Everything (fatal issues, errors, warnings, info, debug)" : "Todo (Información, Avisos, Errores, debug y problemas fatales)",
     "Info, warnings, errors and fatal issues" : "Información, Avisos, Errores y problemas fatales",
     "Warnings, errors and fatal issues" : "Advertencias, errores y problemas fatales",
