@@ -21,6 +21,7 @@
  * @author Thomas Müller <thomas.mueller@tmit.eu>
  * @author Thomas Tanghus <thomas@tanghus.net>
  * @author Vincent Petry <pvince81@owncloud.com>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *
@@ -583,6 +584,16 @@ class Server extends ServerContainer implements IServerContainer {
 				$this->getConfig(),
 				$this->getLogger()
 			);
+		});
+		$this->registerService('LDAPProvider', function(Server $c) {
+			$config = $c->getConfig();
+			$factoryClass = $config->getSystemValue('ldapProviderFactory', null);
+			if(is_null($factoryClass)) {
+				throw new \Exception('ldapProviderFactory not set');
+			}
+			/** @var \OCP\LDAP\ILDAPProviderFactory $factory */
+			$factory = new $factoryClass($this);
+			return $factory->getLDAPProvider();
 		});
 		$this->registerService('LockingProvider', function (Server $c) {
 			$ini = $c->getIniWrapper();
@@ -1406,4 +1417,12 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('ShareManager');
 	}
 
+	/**
+	 * Returns the LDAP Provider
+	 *
+	 * @return \OCP\LDAP\ILDAPProvider
+	 */
+	public function getLDAPProvider() {
+		return $this->query('LDAPProvider');
+	}
 }

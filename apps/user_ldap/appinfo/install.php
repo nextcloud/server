@@ -4,6 +4,7 @@
  *
  * @author Arthur Schiwon <blizzz@arthur-schiwon.de>
  * @author Christopher Schäpers <kondou@ts.unde.re>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *
@@ -24,3 +25,6 @@ $state = OCP\Config::getSystemValue('ldapIgnoreNamingRules', 'doSet');
 if($state === 'doSet') {
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
 }
+
+$helper = new \OCA\User_LDAP\Helper();
+$helper->setLDAPProvider();
