@@ -33,6 +33,7 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\StreamResponse;
+use OCP\AppFramework\Utility\ITimeFactory;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -49,6 +50,10 @@ use OCA\Theming\Util;
 class ThemingController extends Controller {
 	/** @var Template */
 	private $template;
+	/** @var Util */
+	private $util;
+	/** @var ITimeFactory */
+	private $timeFactory;
 	/** @var IL10N */
 	private $l;
 	/** @var IConfig */
@@ -63,6 +68,8 @@ class ThemingController extends Controller {
 	 * @param IRequest $request
 	 * @param IConfig $config
 	 * @param Template $template
+	 * @param Util $util
+	 * @param ITimeFactory $timeFactory
 	 * @param IL10N $l
 	 * @param IRootFolder $rootFolder
 	 */
@@ -71,12 +78,16 @@ class ThemingController extends Controller {
 		IRequest $request,
 		IConfig $config,
 		Template $template,
+		Util $util,
+		ITimeFactory $timeFactory,
 		IL10N $l,
 		IRootFolder $rootFolder
 	) {
 		parent::__construct($appName, $request);
 
 		$this->template = $template;
+		$this->util = $util;
+		$this->timeFactory = $timeFactory;
 		$this->l = $l;
 		$this->config = $config;
 		$this->rootFolder = $rootFolder;
@@ -178,7 +189,7 @@ class ThemingController extends Controller {
 
 		$response = new Http\StreamResponse($pathToLogo);
 		$response->cacheFor(3600);
-		$response->addHeader('Expires', date(\DateTime::RFC2822));
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Content-Disposition', 'attachment');
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'logoMime', ''));
 		return $response;
@@ -198,7 +209,7 @@ class ThemingController extends Controller {
 
 		$response = new StreamResponse($pathToLogo);
 		$response->cacheFor(3600);
-		$response->addHeader('Expires', date(\DateTime::RFC2822));
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->addHeader('Content-Disposition', 'attachment');
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'backgroundMime', ''));
 		return $response;
@@ -214,7 +225,7 @@ class ThemingController extends Controller {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
 		$responseCss = '';
 		$color = $this->config->getAppValue($this->appName, 'color');
-		$elementColor = Util::elementColor($color);
+		$elementColor = $this->util->elementColor($color);
 		if($color !== '') {
 			$responseCss .= sprintf(
 				'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
@@ -229,7 +240,7 @@ class ThemingController extends Controller {
 				$elementColor
 			);
 			$responseCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-				'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+				'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($elementColor).'\');' .
 				"}\n";
 			$responseCss .= '
 				#firstrunwizard .firstrunwizard-header {
@@ -265,7 +276,7 @@ class ThemingController extends Controller {
 				'background-image: url(\'./loginbackground?v='.$cacheBusterValue.'\');' .
 			'}' . "\n";
 		}
-		if(Util::invertTextColor($color)) {
+		if($this->util->invertTextColor($color)) {
 			$responseCss .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
 			$responseCss .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
 			$responseCss .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
@@ -273,7 +284,7 @@ class ThemingController extends Controller {
 		}
 
 		$response = new DataDownloadResponse($responseCss, 'style', 'text/css');
-		$response->addHeader('Expires', date(\DateTime::RFC2822));
+		$response->addHeader('Expires', date(\DateTime::RFC2822, $this->timeFactory->getTime()));
 		$response->cacheFor(3600);
 		return $response;
 	}
