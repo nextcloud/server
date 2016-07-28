@@ -833,9 +833,15 @@ class OC_Util {
 		}
 
 		if(function_exists('xml_parser_create') &&
-			version_compare('2.7.0', LIBXML_DOTTED_VERSION) === 1) {
+			LIBXML_LOADED_VERSION < 20700 ) {
+			$version = LIBXML_LOADED_VERSION;
+			$major = floor($version/10000);
+			$version -= ($major * 10000);
+			$minor = floor($version/100);
+			$version -= ($minor * 100);
+			$patch = $version;
 			$errors[] = array(
-				'error' => $l->t('libxml2 2.7.0 is at least required. Currently %s is installed.', [LIBXML_DOTTED_VERSION]),
+				'error' => $l->t('libxml2 2.7.0 is at least required. Currently %s is installed.', [$major . '.' . $minor . '.' . $patch]),
 				'hint' => $l->t('To fix this issue update your libxml2 version and restart your web server.')
 			);
 		}
