@@ -27,62 +27,70 @@ use Test\TestCase;
 
 class UtilTest extends TestCase {
 
+	/** @var Util */
+	protected $util;
+
+	protected function setUp() {
+		parent::setUp();
+		$this->util = new Util();
+	}
+
 	public function testInvertTextColorLight() {
-		$invert = Util::invertTextColor('#ffffff');
+		$invert = $this->util->invertTextColor('#ffffff');
 		$this->assertEquals(true, $invert);
 	}
 
 	public function testInvertTextColorDark() {
-		$invert = Util::invertTextColor('#000000');
+		$invert = $this->util->invertTextColor('#000000');
 		$this->assertEquals(false, $invert);
 	}
 
 	public function testCalculateLuminanceLight() {
-		$luminance = Util::calculateLuminance('#ffffff');
+		$luminance = $this->util->calculateLuminance('#ffffff');
 		$this->assertEquals(1, $luminance);
 	}
 
 	public function testCalculateLuminanceDark() {
-		$luminance = Util::calculateLuminance('#000000');
+		$luminance = $this->util->calculateLuminance('#000000');
 		$this->assertEquals(0, $luminance);
 	}
 
 	public function testCalculateLuminanceLightShorthand() {
-		$luminance = Util::calculateLuminance('#fff');
+		$luminance = $this->util->calculateLuminance('#fff');
 		$this->assertEquals(1, $luminance);
 	}
 
 	public function testCalculateLuminanceDarkShorthand() {
-		$luminance = Util::calculateLuminance('#000');
+		$luminance = $this->util->calculateLuminance('#000');
 		$this->assertEquals(0, $luminance);
 	}
 	public function testInvertTextColorInvalid() {
-		$invert = Util::invertTextColor('aaabbbcccddd123');
+		$invert = $this->util->invertTextColor('aaabbbcccddd123');
 		$this->assertEquals(false, $invert);
 	}
 	
 	public function testInvertTextColorEmpty() {
-		$invert = Util::invertTextColor('');
+		$invert = $this->util->invertTextColor('');
 		$this->assertEquals(false, $invert);
 	}
 
 	public function testElementColorDefault() {
-		$elementColor = Util::elementColor("#000000");
+		$elementColor = $this->util->elementColor("#000000");
 		$this->assertEquals('#000000', $elementColor);
 	}
 
 	public function testElementColorOnBrightBackground() {
-		$elementColor = Util::elementColor('#ffffff');
+		$elementColor = $this->util->elementColor('#ffffff');
 		$this->assertEquals('#555555', $elementColor);
 	}
 
 	public function testGenerateRadioButtonWhite() {
-		$button = Util::generateRadioButton('#ffffff');
+		$button = $this->util->generateRadioButton('#ffffff');
 		$expected = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+PHBhdGggZD0iTTggMWE3IDcgMCAwIDAtNyA3IDcgNyAwIDAgMCA3IDcgNyA3IDAgMCAwIDctNyA3IDcgMCAwIDAtNy03em0wIDFhNiA2IDAgMCAxIDYgNiA2IDYgMCAwIDEtNiA2IDYgNiAwIDAgMS02LTYgNiA2IDAgMCAxIDYtNnptMCAyYTQgNCAwIDEgMCAwIDggNCA0IDAgMCAwIDAtOHoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=';
 		$this->assertEquals($expected, $button);
 	}
 	public function testGenerateRadioButtonBlack() {
-		$button = Util::generateRadioButton('#000000');
+		$button = $this->util->generateRadioButton('#000000');
 		$expected = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMTYiIHdpZHRoPSIxNiI+PHBhdGggZD0iTTggMWE3IDcgMCAwIDAtNyA3IDcgNyAwIDAgMCA3IDcgNyA3IDAgMCAwIDctNyA3IDcgMCAwIDAtNy03em0wIDFhNiA2IDAgMCAxIDYgNiA2IDYgMCAwIDEtNiA2IDYgNiAwIDAgMS02LTYgNiA2IDAgMCAxIDYtNnptMCAyYTQgNCAwIDEgMCAwIDggNCA0IDAgMCAwIDAtOHoiIGZpbGw9IiMwMDAwMDAiLz48L3N2Zz4=';
 		$this->assertEquals($expected, $button);
 	}
