@@ -486,7 +486,7 @@ class ThemingControllerTest extends TestCase {
 			->willReturn('text/svg');
 
 		$expectedData = '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
-		$expectedData .= 'firstrunwizard .firstrunwizard-header {' .
+		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
 			'background-image: url(\'./loginbackground?v=0\');' .
 			'}' . "\n";
 
@@ -559,7 +559,7 @@ class ThemingControllerTest extends TestCase {
 			'}' . "\n"
 		);
 		$expectedData .= '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
-		$expectedData .= 'firstrunwizard .firstrunwizard-header {' .
+		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
 			'background-image: url(\'./loginbackground?v=0\');' .
 			'}' . "\n";
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
@@ -631,7 +631,7 @@ class ThemingControllerTest extends TestCase {
 			'}' . "\n"
 		);
 		$expectedData .= '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
-		$expectedData .= 'firstrunwizard .firstrunwizard-header {' .
+		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
 			'background-image: url(\'./loginbackground?v=0\');' .
 			'}' . "\n";
 		$expectedData .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
