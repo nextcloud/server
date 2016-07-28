@@ -42,6 +42,10 @@ class ThemingControllerTest extends TestCase {
 	private $config;
 	/** @var Template */
 	private $template;
+	/** @var Util */
+	private $util;
+	/** @var \OCP\AppFramework\Utility\ITimeFactory */
+	private $timeFactory;
 	/** @var IL10N */
 	private $l10n;
 	/** @var ThemingController */
@@ -54,14 +58,24 @@ class ThemingControllerTest extends TestCase {
 		$this->config = $this->getMock('\\OCP\\IConfig');
 		$this->template = $this->getMockBuilder('\\OCA\\Theming\\Template')
 			->disableOriginalConstructor()->getMock();
+		$this->util = new Util();
+		$this->timeFactory = $this->getMockBuilder('OCP\AppFramework\Utility\ITimeFactory')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->l10n = $this->getMock('\\OCP\\IL10N');
 		$this->rootFolder = $this->getMock('\\OCP\\Files\\IRootFolder');
+
+		$this->timeFactory->expects($this->any())
+			->method('getTime')
+			->willReturn(123);
 
 		$this->themingController = new ThemingController(
 			'theming',
 			$this->request,
 			$this->config,
 			$this->template,
+			$this->util,
+			$this->timeFactory,
 			$this->l10n,
 			$this->rootFolder
 		);
@@ -273,6 +287,7 @@ class ThemingControllerTest extends TestCase {
 
 		@$expected = new Http\StreamResponse($tmpLogo);
 		$expected->cacheFor(3600);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		$expected->addHeader('Content-Disposition', 'attachment');
 		$expected->addHeader('Content-Type', 'text/svg');
 		@$this->assertEquals($expected, $this->themingController->getLogo());
@@ -301,6 +316,7 @@ class ThemingControllerTest extends TestCase {
 
 		@$expected = new Http\StreamResponse($tmpLogo);
 		$expected->cacheFor(3600);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		$expected->addHeader('Content-Disposition', 'attachment');
 		$expected->addHeader('Content-Type', 'image/png');
 		@$this->assertEquals($expected, $this->themingController->getLoginBackground());
@@ -344,7 +360,7 @@ class ThemingControllerTest extends TestCase {
 			$color
 		);
 		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($color).'\');' .
+			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($color).'\');' .
 			"}\n";
 
 		$expectedData .= '
@@ -359,6 +375,7 @@ class ThemingControllerTest extends TestCase {
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected->cacheFor(3600);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -399,7 +416,7 @@ class ThemingControllerTest extends TestCase {
 			\OC::$WEBROOT
 		);
 		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton('#555555').'\');' .
+			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton('#555555').'\');' .
 			"}\n";
 
 		$expectedData .= '
@@ -419,6 +436,7 @@ class ThemingControllerTest extends TestCase {
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected->cacheFor(3600);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -460,6 +478,7 @@ class ThemingControllerTest extends TestCase {
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected->cacheFor(3600);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -493,6 +512,7 @@ class ThemingControllerTest extends TestCase {
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected->cacheFor(3600);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -534,7 +554,7 @@ class ThemingControllerTest extends TestCase {
 			$color
 		);
 		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($color).'\');' .
+			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton($color).'\');' .
 			"}\n";
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
@@ -565,6 +585,7 @@ class ThemingControllerTest extends TestCase {
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected->cacheFor(3600);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
@@ -606,7 +627,7 @@ class ThemingControllerTest extends TestCase {
 			\OC::$WEBROOT
 		);
 		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton('#555555').'\');' .
+			'background-image: url(\'data:image/svg+xml;base64,'.$this->util->generateRadioButton('#555555').'\');' .
 			"}\n";
 		$expectedData .= '
 				#firstrunwizard .firstrunwizard-header {
@@ -641,6 +662,7 @@ class ThemingControllerTest extends TestCase {
 		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
 		$expected->cacheFor(3600);
+		$expected->addHeader('Expires', date(\DateTime::RFC2822, 123));
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 

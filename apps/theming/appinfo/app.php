@@ -31,7 +31,7 @@ $linkToCSS = \OC::$server->getURLGenerator()->linkToRoute(
 		'v' => \OC::$server->getConfig()->getAppValue('theming', 'cachebuster', '0'),
 	]
 );
-\OC_Util::addHeader(
+\OCP\Util::addHeader(
 	'link',
 	[
 		'rel' => 'stylesheet',

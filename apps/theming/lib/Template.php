@@ -40,7 +40,7 @@ use OCP\IURLGenerator;
 class Template extends \OC_Defaults {
 	/** @var IConfig */
 	private $config;
-	/** @var  IL10N */
+	/** @var IL10N */
 	private $l;
 	/** @var IURLGenerator */
 	private $urlGenerator;
