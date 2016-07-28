@@ -59,6 +59,7 @@ class Application extends \OCP\AppFramework\App {
 					'filesizeplugin',
 					'filesystemtagsplugin',
 					'requestremoteaddressplugin',
+					'requesttimeplugin',
 					'requesturlplugin',
 					'requestuseragentplugin',
 					'usergroupmembershipplugin',
