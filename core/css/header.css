@@ -212,8 +212,8 @@
 	/* icon opacity and hover effect */
 	#navigation a img,
 	#navigation a span {
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-		opacity: .6;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		opacity: .5;
 	}
 	#navigation a:hover img,
 	#navigation a:focus img,
@@ -221,8 +221,8 @@
 	#navigation a:focus span,
 	#navigation a.active img,
 	#navigation a.active span {
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-		opacity: 0.8;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+		opacity: .75;
 	}
 
 #navigation .app-icon {
@@ -356,8 +356,8 @@
 		height: 40px;
 		color: #000;
 		padding: 4px 12px 0;
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-		opacity: .7;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		opacity: .5;
 		box-sizing: border-box;
 	}
 	#expanddiv a img {
@@ -368,8 +368,8 @@
 	#expanddiv a:focus,
 	#expanddiv a:active,
 	#expanddiv a.active {
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-		opacity: 1;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+		opacity: .75;
 	}
 
 /* do not show display name when profile picture is present */
