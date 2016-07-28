@@ -24,9 +24,7 @@
  *
  */
 
-namespace OCA\Theming\AppInfo;
-
-(new \OCP\AppFramework\App('theming'))->registerRoutes($this, array('routes' => array(
+return ['routes' => [
 	[
 		'name' => 'Theming#updateStylesheet',
 		'url' => '/ajax/updateStylesheet',
@@ -57,5 +55,5 @@ namespace OCA\Theming\AppInfo;
 		'url' => '/loginbackground',
 		'verb' => 'GET',
 	],
-)));
+]];
 
