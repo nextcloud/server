@@ -50,7 +50,7 @@ class Install extends Command {
 	protected function configure() {
 		$this
 			->setName('maintenance:install')
-			->setDescription('install ownCloud')
+			->setDescription('install Nextcloud')
 			->addOption('database', null, InputOption::VALUE_REQUIRED, 'Supported database type', 'sqlite')
 			->addOption('database-name', null, InputOption::VALUE_REQUIRED, 'Name of the database')
 			->addOption('database-host', null, InputOption::VALUE_REQUIRED, 'Hostname of the database', 'localhost')
@@ -77,7 +77,7 @@ class Install extends Command {
 
 			// ignore the OS X setup warning
 			if(count($errors) !== 1 ||
-				(string)($errors[0]['error']) !== 'Mac OS X is not supported and ownCloud will not work properly on this platform. Use it at your own risk! ') {
+				(string)($errors[0]['error']) !== 'Mac OS X is not supported and Nextcloud will not work properly on this platform. Use it at your own risk! ') {
 				return 1;
 			}
 		}
@@ -91,7 +91,7 @@ class Install extends Command {
 			$this->printErrors($output, $errors);
 			return 1;
 		}
-		$output->writeln("ownCloud was successfully installed");
+		$output->writeln("Nextcloud was successfully installed");
 		return 0;
 	}
 
