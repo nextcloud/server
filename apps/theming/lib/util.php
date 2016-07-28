@@ -39,6 +39,21 @@ class Util {
 	}
 
 	/**
+	 * get color for on-page elements:
+	 * theme color by default, grey if theme color is to bright
+	 * @param $color
+	 * @return string
+	 */
+	public static function elementColor($color) {
+		$l = self::calculateLuminance($color);
+		if($l>0.8) {
+			return '#555555';
+		} else {
+			return $color;
+		}
+	}
+
+	/**
 	 * @param string $color rgb color value
 	 * @return float
 	 */
@@ -54,6 +69,16 @@ class Util {
 		$g = hexdec(substr($hex, 2, 2));
 		$b = hexdec(substr($hex, 4, 2));
 		return (0.299 * $r + 0.587 * $g + 0.114 * $b)/255;
+	}
+
+	/**
+	 * @param $color
+	 * @return string base64 encoded radio button svg
+	 */
+	public static function generateRadioButton($color) {
+		$radioButtonIcon = '<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16">' .
+			'<path d="M8 1a7 7 0 0 0-7 7 7 7 0 0 0 7 7 7 7 0 0 0 7-7 7 7 0 0 0-7-7zm0 1a6 6 0 0 1 6 6 6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8z" fill="'.$color.'"/></svg>';
+		return base64_encode($radioButtonIcon);
 	}
 
 }
