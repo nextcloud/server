@@ -261,7 +261,7 @@ class ThemingController extends Controller {
 		$backgroundLogo = $this->config->getAppValue($this->appName, 'backgroundMime');
 		if($backgroundLogo !== '') {
 			$responseCss .= '#body-login {background-image: url(\'./loginbackground?v='.$cacheBusterValue.'\');}' . "\n";
-			$responseCss .= 'firstrunwizard .firstrunwizard-header {' .
+			$responseCss .= '#firstrunwizard .firstrunwizard-header {' .
 				'background-image: url(\'./loginbackground?v='.$cacheBusterValue.'\');' .
 			'}' . "\n";
 		}
