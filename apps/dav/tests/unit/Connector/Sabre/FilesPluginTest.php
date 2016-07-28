@@ -48,6 +48,7 @@ class FilesPluginTest extends TestCase {
 	const OWNER_ID_PROPERTYNAME = FilesPlugin::OWNER_ID_PROPERTYNAME;
 	const OWNER_DISPLAY_NAME_PROPERTYNAME = FilesPlugin::OWNER_DISPLAY_NAME_PROPERTYNAME;
 	const DATA_FINGERPRINT_PROPERTYNAME = FilesPlugin::DATA_FINGERPRINT_PROPERTYNAME;
+	const HAS_PREVIEW_PROPERTYNAME = FilesPlugin::HAS_PREVIEW_PROPERTYNAME;
 
 	/**
 	 * @var \Sabre\DAV\Server | \PHPUnit_Framework_MockObject_MockObject
@@ -79,6 +80,11 @@ class FilesPluginTest extends TestCase {
 	 */
 	private $request;
 
+	/**
+	 * @var \OCP\IPreview | \PHPUnit_Framework_MockObject_MockObject
+	 */
+	private $previewManager;
+
 	public function setUp() {
 		parent::setUp();
 		$this->server = $this->getMockBuilder('\Sabre\DAV\Server')
@@ -99,12 +105,16 @@ class FilesPluginTest extends TestCase {
 		$this->request = $this->getMockBuilder('\OCP\IRequest')
 			->disableOriginalConstructor()
 			->getMock();
+		$this->previewManager = $this->getMockBuilder('\OCP\IPreview')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->plugin = new FilesPlugin(
 			$this->tree,
 			$this->view,
 			$this->config,
-			$this->request
+			$this->request,
+			$this->previewManager
 		);
 		$this->plugin->initialize($this->server);
 	}
@@ -139,6 +149,13 @@ class FilesPluginTest extends TestCase {
 		$node->expects($this->any())
 			->method('getDavPermissions')
 			->will($this->returnValue('DWCKMSR'));
+		$node->expects($this->any())
+			->method('getFileInfo')
+			->will($this->returnValue(
+				$this->getMockBuilder('\OCP\Files\FileInfo')
+				->disableOriginalConstructor()
+				->getMock()
+			));
 
 		return $node;
 	}
@@ -283,6 +300,7 @@ class FilesPluginTest extends TestCase {
 			$this->getMockBuilder('\OCP\IRequest')
 				->disableOriginalConstructor()
 				->getMock(),
+			$this->previewManager,
 			true);
 		$this->plugin->initialize($this->server);
 
@@ -554,5 +572,29 @@ class FilesPluginTest extends TestCase {
 			->with('Content-Disposition', $contentDispositionHeader);
 
 		$this->plugin->httpGet($request, $response);
+	}
+
+	public function testHasPreview() {
+		/** @var \OCA\DAV\Connector\Sabre\Directory | \PHPUnit_Framework_MockObject_MockObject $node */
+		$node = $this->createTestNode('\OCA\DAV\Connector\Sabre\Directory');
+
+		$propFind = new PropFind(
+			'/dummyPath',
+			array(
+				self::HAS_PREVIEW_PROPERTYNAME
+			),
+			0
+		);
+
+		$this->previewManager->expects($this->once())
+			->method('isAvailable')
+			->will($this->returnValue(false));
+
+		$this->plugin->handleGetProperties(
+			$propFind,
+			$node
+		);
+
+		$this->assertEquals("false", $propFind->get(self::HAS_PREVIEW_PROPERTYNAME));
 	}
 }
