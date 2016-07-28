@@ -368,3 +368,4 @@ Feature: tags
     And "/myFileToTag.txt" shared by "user0" has the following tags for "user1"
       ||
     And The response should have a status code "404"
+

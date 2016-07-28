@@ -97,22 +97,34 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
-	 * @When :user creates a :type tag with name :name
+	 * @param string $user
+	 * @param string $type
+	 * @param string $name
+	 * @param string $groups
 	 */
-	public function createsATagWithName($user, $type, $name) {
-		$userVisible = 'true';
-		$userAssignable = 'true';
+	private function createTag($user, $type, $name, $groups = null) {
+		$userVisible = true;
+		$userAssignable = true;
 		switch ($type) {
 			case 'normal':
 				break;
 			case 'not user-assignable':
-				$userAssignable = 'false';
+				$userAssignable = false;
 				break;
 			case 'not user-visible':
-				$userVisible = 'false';
+				$userVisible = false;
 				break;
 			default:
 				throw new \Exception('Unsupported type');
+		}
+
+		$body = [
+			'name' => $name,
+			'userVisible' => $userVisible,
+			'userAssignable' => $userAssignable,
+		];
+		if ($groups !== null) {
+			$body['groups'] = $groups;
 		}
 
 		try {
@@ -126,16 +138,41 @@ class TagsContext implements \Behat\Behat\Context\Context {
 					'headers' => [
 						'Content-Type' => 'application/json',
 					],
-					'body' => '{"name":"'.$name.'","userVisible":'.$userVisible.',"userAssignable":'.$userAssignable.'}',
+					'body' => json_encode($body)
 				]
 			);
-		} catch (\GuzzleHttp\Exception\ClientException $e){
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
 			$this->response = $e->getResponse();
 		}
 	}
 
 	/**
+	 * @When :user creates a :type tag with name :name
+	 * @param string $user
+	 * @param string $type
+	 * @param string $name
+	 * @throws \Exception
+	 */
+	public function createsATagWithName($user, $type, $name) {
+		$this->createTag($user, $type, $name);
+	}
+
+	/**
+	 * @When :user creates a :type tag with name :name and groups :groups
+	 * @param string $user
+	 * @param string $type
+	 * @param string $name
+	 * @param string $groups
+	 * @throws \Exception
+	 */
+	public function createsATagWithNameAndGroups($user, $type, $name, $groups) {
+		$this->createTag($user, $type, $name, $groups);
+	}
+
+	/**
 	 * @Then The response should have a status code :statusCode
+	 * @param int $statusCode
+	 * @throws \Exception
 	 */
 	public function theResponseShouldHaveAStatusCode($statusCode) {
 		if((int)$statusCode !== $this->response->getStatusCode()) {
@@ -149,21 +186,30 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	 * @param string $user
 	 * @return array
 	 */
-	private function requestTagsForUser($user) {
+	private function requestTagsForUser($user, $withGroups = false) {
 		try {
-			$request = $this->client->createRequest(
-				'PROPFIND',
-				$this->baseUrl . '/remote.php/dav/systemtags/',
-				[
-					'body' => '<?xml version="1.0"?>
+			$body = '<?xml version="1.0"?>
 <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
   <d:prop>
     <oc:id />
     <oc:display-name />
     <oc:user-visible />
-    <oc:user-assignable />
+	<oc:user-assignable />
+	<oc:can-assign />
+';
+
+			if ($withGroups) {
+				$body .= '<oc:groups />';
+			}
+
+			$body .= '
   </d:prop>
-</d:propfind>',
+</d:propfind>';
+			$request = $this->client->createRequest(
+				'PROPFIND',
+				$this->baseUrl . '/remote.php/dav/systemtags/',
+				[
+					'body' => $body,
 					'auth' => [
 						$user,
 						$this->getPasswordForUser($user),
@@ -187,11 +233,15 @@ class TagsContext implements \Behat\Behat\Context\Context {
 				continue;
 			}
 
+			// FIXME: use actual property names instead of guessing index position
 			$tags[$singleEntry[0]['value']] = [
 				'display-name' => $singleEntry[1]['value'],
 				'user-visible' => $singleEntry[2]['value'],
 				'user-assignable' => $singleEntry[3]['value'],
 			];
+			if (isset($singleEntry[5])) {
+				$tags[$singleEntry[0]['value']]['groups'] = $singleEntry[5]['value'];
+			}
 		}
 
 		return $tags;
@@ -199,6 +249,9 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then The following tags should exist for :user
+	 * @param string $user
+	 * @param TableNode $table
+	 * @throws \Exception
 	 */
 	public function theFollowingTagsShouldExistFor($user, TableNode $table) {
 		$tags = $this->requestTagsForUser($user);
@@ -230,12 +283,68 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
+	 * @Then The :type tag with name :tagName has the groups :groups
+	 */
+	public function theTagHasGroup($type, $tagName, $groups) {
+		$foundTag = $this->findTag($type, $tagName, 'admin', true);
+		if ($foundTag === null) {
+			throw new \Exception('No matching tag found');
+		}
+
+		if ($foundTag['groups'] !== $groups) {
+			throw new \Exception('Tag has groups "' . $foundTag['group'] . '" instead of the expected "' . $groups . '"');
+		}
+	}
+
+	/**
 	 * @Then :count tags should exist for :user
+	 * @param int $count
+	 * @param string $user
+	 * @throws \Exception
 	 */
 	public function tagsShouldExistFor($count, $user)  {
 		if((int)$count !== count($this->requestTagsForUser($user))) {
 			throw new \Exception("Expected $count tags, got ".count($this->requestTagsForUser($user)));
 		}
+	}
+
+	/**
+	 * Find tag by type and name
+	 *
+	 * @param string $type tag type
+	 * @param string $tagName tag name
+	 * @param string $user retrieved from which user
+	 * @param bool $withGroups whether to also query the tag's groups
+	 *
+	 * @return array tag values or null if not found
+	 */
+	private function findTag($type, $tagName, $user = 'admin', $withGroups = false) {
+		$tags = $this->requestTagsForUser($user, $withGroups);
+		$userAssignable = 'true';
+		$userVisible = 'true';
+		switch ($type) {
+			case 'normal':
+				break;
+			case 'not user-assignable':
+				$userAssignable = 'false';
+				break;
+			case 'not user-visible':
+				$userVisible = 'false';
+				break;
+			default:
+				throw new \Exception('Unsupported type');
+		}
+
+		$foundTag = null;
+		foreach ($tags as $tag) {
+			if ($tag['display-name'] === $tagName
+				&& $tag['user-visible'] === $userVisible
+				&& $tag['user-assignable'] === $userAssignable) {
+					$foundTag = $tag;
+					break;
+			}
+		}
+		return $foundTag;
 	}
 
 	/**
@@ -256,6 +365,10 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :user edits the tag with name :oldNmae and sets its name to :newName
+	 * @param string $user
+	 * @param string $oldName
+	 * @param string $newName
+	 * @throws \Exception
 	 */
 	public function editsTheTagWithNameAndSetsItsNameTo($user, $oldName, $newName) {
 		$tagId = $this->findTagIdByName($oldName);
@@ -289,7 +402,47 @@ class TagsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
+	 * @When :user edits the tag with name :oldNmae and sets its groups to :groups
+	 * @param string $user
+	 * @param string $oldName
+	 * @param string $groups
+	 * @throws \Exception
+	 */
+	public function editsTheTagWithNameAndSetsItsGroupsTo($user, $oldName, $groups) {
+		$tagId = $this->findTagIdByName($oldName);
+		if($tagId === 0) {
+			throw new \Exception('Could not find tag to rename');
+		}
+
+		try {
+			$request = $this->client->createRequest(
+				'PROPPATCH',
+				$this->baseUrl . '/remote.php/dav/systemtags/' . $tagId,
+				[
+					'body' => '<?xml version="1.0"?>
+<d:propertyupdate  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+  <d:set>
+   <d:prop>
+      <oc:groups>' . $groups . '</oc:groups>
+    </d:prop>
+  </d:set>
+</d:propertyupdate>',
+					'auth' => [
+						$user,
+						$this->getPasswordForUser($user),
+					],
+				]
+			);
+			$this->response = $this->client->send($request);
+		} catch (\GuzzleHttp\Exception\ClientException $e) {
+			$this->response = $e->getResponse();
+		}
+	}
+
+	/**
 	 * @When :user deletes the tag with name :name
+	 * @param string $user
+	 * @param string $name
 	 */
 	public function deletesTheTagWithName($user, $name)  {
 		$tagId = $this->findTagIdByName($name);
@@ -338,6 +491,10 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :taggingUser adds the tag :tagName to :fileName shared by :sharingUser
+	 * @param string $taggingUser
+	 * @param string $tagName
+	 * @param string $fileName
+	 * @param string $sharingUser
 	 */
 	public function addsTheTagToSharedBy($taggingUser, $tagName, $fileName, $sharingUser) {
 		$fileId = $this->getFileIdForPath($fileName, $sharingUser);
@@ -360,6 +517,10 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then :fileName shared by :sharingUser has the following tags
+	 * @param string $fileName
+	 * @param string $sharingUser
+	 * @param TableNode $table
+	 * @throws \Exception
 	 */
 	public function sharedByHasTheFollowingTags($fileName, $sharingUser, TableNode $table)  {
 		$loadedExpectedTags = $table->getTable();
@@ -406,6 +567,11 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then :fileName shared by :sharingUser has the following tags for :user
+	 * @param string $fileName
+	 * @param string $sharingUser
+	 * @param string $user
+	 * @param TableNode $table
+	 * @throws \Exception
 	 */
 	public function sharedByHasTheFollowingTagsFor($fileName, $sharingUser, $user, TableNode $table) {
 		$loadedExpectedTags = $table->getTable();
@@ -460,6 +626,10 @@ class TagsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :user removes the tag :tagName from :fileName shared by :shareUser
+	 * @param string $user
+	 * @param string $tagName
+	 * @param string $fileName
+	 * @param string $shareUser
 	 */
 	public function removesTheTagFromSharedBy($user, $tagName, $fileName, $shareUser) {
 		$tagId = $this->findTagIdByName($tagName);

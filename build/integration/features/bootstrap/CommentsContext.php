@@ -45,7 +45,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/** @AfterScenario */
-	public function teardownScenario(\Behat\Behat\Hook\Scope\AfterScenarioScope $scope) {
+	public function teardownScenario() {
 		$client = new \GuzzleHttp\Client();
 		try {
 			$client->delete(
@@ -66,6 +66,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 	}
 
 	/**
+	 * @param string $path
 	 * @return int
 	 */
 	private function getFileIdForPath($path) {
@@ -90,6 +91,11 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :user posts a comment with content :content on the file named :fileName it should return :statusCode
+	 * @param string $user
+	 * @param string $content
+	 * @param string $fileName
+	 * @param int $statusCode
+	 * @throws \Exception
 	 */
 	public function postsACommentWithContentOnTheFileNamedItShouldReturn($user, $content, $fileName, $statusCode)  {
 		$fileId = $this->getFileIdForPath($fileName);
@@ -123,6 +129,10 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then As :user load all the comments of the file named :fileName it should return :statusCode
+	 * @param string $user
+	 * @param string $fileName
+	 * @param int $statusCode
+	 * @throws \Exception
 	 */
 	public function asLoadloadAllTheCommentsOfTheFileNamedItShouldReturn($user, $fileName, $statusCode) {
 		$fileId = $this->getFileIdForPath($fileName);
@@ -135,7 +145,7 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 				$url,
 				[
 					'body' => '<?xml version="1.0" encoding="utf-8" ?>
-<oc:filter-comments xmlns:D="DAV:" xmlns:oc="http://owncloud.org/ns">
+<oc:filter-comments xmlns:oc="http://owncloud.org/ns">
     <oc:limit>200</oc:limit>
     <oc:offset>0</oc:offset>
 </oc:filter-comments>
@@ -167,6 +177,11 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Given As :user sending :verb to :url with
+	 * @param string $user
+	 * @param string $verb
+	 * @param string $url
+	 * @param \Behat\Gherkin\Node\TableNode $body
+	 * @throws \Exception
 	 */
 	public function asUserSendingToWith($user, $verb, $url, \Behat\Gherkin\Node\TableNode $body) {
 		$client = new \GuzzleHttp\Client();
@@ -179,6 +194,9 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then As :user delete the created comment it should return :statusCode
+	 * @param string $user
+	 * @param int $statusCode
+	 * @throws \Exception
 	 */
 	public function asDeleteTheCreatedCommentItShouldReturn($user, $statusCode) {
 		$url = $this->baseUrl.'/remote.php/dav/comments/files/'.$this->fileId.'/'.$this->commentId;
@@ -208,6 +226,9 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then the response should contain a property :key with value :value
+	 * @param string $key
+	 * @param string $value
+	 * @throws \Exception
 	 */
 	public function theResponseShouldContainAPropertyWithValue($key, $value) {
 		$keys = $this->response[0]['value'][2]['value'][0]['value'];
@@ -226,6 +247,8 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then the response should contain only :number comments
+	 * @param int $number
+	 * @throws \Exception
 	 */
 	public function theResponseShouldContainOnlyComments($number) {
 		if(count($this->response) !== (int)$number) {
@@ -235,6 +258,10 @@ class CommentsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then As :user edit the last created comment and set text to :text it should return :statusCode
+	 * @param string $user
+	 * @param string $text
+	 * @param int $statusCode
+	 * @throws \Exception
 	 */
 	public function asEditTheLastCreatedCommentAndSetTextToItShouldReturn($user, $text, $statusCode) {
 		$client = new \GuzzleHttp\Client();

@@ -315,3 +315,20 @@ Feature: provisioning
 		Then the OCS status code should be "100"
 		And the HTTP status code should be "200"
 		And app "files_external" is disabled
+
+	Scenario: Making a web request with an enabled user
+	    Given As an "admin"
+		And user "user0" exists
+		And As an "user0"
+		When sending "GET" to "/index.php/apps/files"
+		Then the HTTP status code should be "200"
+
+	Scenario: Making a web request with a disabled user
+	    Given As an "admin"
+		And user "user0" exists
+		And assure user "user0" is disabled
+		And As an "user0"
+		When sending "GET" to "/index.php/apps/files"
+		Then the OCS status code should be "999"
+		And the HTTP status code should be "200"
+

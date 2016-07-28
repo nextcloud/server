@@ -1,13 +1,12 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
 trait BasicStructure {
+
 	/** @var string */
 	private $currentUser = '';
 
@@ -17,6 +16,9 @@ trait BasicStructure {
 	/** @var string */
 	private $baseUrl = '';
 
+	/** @var int */
+	private $apiVersion = 1;
+
 	/** @var ResponseInterface */
 	private $response = null;
 
@@ -24,7 +26,7 @@ trait BasicStructure {
 	private $cookieJar;
 
 	/** @var string */
-	private $requesttoken;
+	private $requestToken;
 
 	public function __construct($baseUrl, $admin, $regular_user_password) {
 
@@ -32,8 +34,8 @@ trait BasicStructure {
 		$this->baseUrl = $baseUrl;
 		$this->adminUser = $admin;
 		$this->regularUser = $regular_user_password;
-		$this->localBaseUrl = substr($this->baseUrl, 0, -4);
-		$this->remoteBaseUrl = substr($this->baseUrl, 0, -4);
+		$this->localBaseUrl = $this->baseUrl;
+		$this->remoteBaseUrl = $this->baseUrl;
 		$this->currentServer = 'LOCAL';
 		$this->cookieJar = new \GuzzleHttp\Cookie\CookieJar();
 
@@ -52,29 +54,43 @@ trait BasicStructure {
 	}
 
 	/**
+	 * @Given /^using api version "([^"]*)"$/
+	 * @param string $version
+	 */
+	public function usingApiVersion($version) {
+		$this->apiVersion = $version;
+	}
+
+	/**
 	 * @Given /^As an "([^"]*)"$/
+	 * @param string $user
 	 */
 	public function asAn($user) {
 		$this->currentUser = $user;
 	}
 
 	/**
-	 * @Given /^Using server "([^"]*)"$/
+	 * @Given /^Using server "(LOCAL|REMOTE)"$/
+	 * @param string $server
+	 * @return string Previous used server
 	 */
 	public function usingServer($server) {
+		$previousServer = $this->currentServer;
 		if ($server === 'LOCAL'){
 			$this->baseUrl = $this->localBaseUrl;
 			$this->currentServer = 'LOCAL';
-		} elseif ($server === 'REMOTE'){
+			return $previousServer;
+		} else {
 			$this->baseUrl = $this->remoteBaseUrl;
 			$this->currentServer = 'REMOTE';
-		} else{
-			PHPUnit_Framework_Assert::fail("Server can only be LOCAL or REMOTE");
+			return $previousServer;
 		}
 	}
 
 	/**
 	 * @When /^sending "([^"]*)" to "([^"]*)"$/
+	 * @param string $verb
+	 * @param string $url
 	 */
 	public function sendingTo($verb, $url) {
 		$this->sendingToWith($verb, $url, null);
@@ -92,6 +108,8 @@ trait BasicStructure {
 
 	/**
 	 * This function is needed to use a vertical fashion in the gherkin tables.
+	 * @param array $arrayOfArrays
+	 * @return array
 	 */
 	public function simplifyArray($arrayOfArrays){
 		$a = array_map(function($subArray) { return $subArray[0]; }, $arrayOfArrays);
@@ -100,6 +118,9 @@ trait BasicStructure {
 
 	/**
 	 * @When /^sending "([^"]*)" to "([^"]*)" with$/
+	 * @param string $verb
+	 * @param string $url
+	 * @param \Behat\Gherkin\Node\TableNode $body
 	 */
 	public function sendingToWith($verb, $url, $body) {
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php" . $url;
@@ -130,6 +151,7 @@ trait BasicStructure {
 
 	/**
 	 * @Then /^the OCS status code should be "([^"]*)"$/
+	 * @param int $statusCode
 	 */
 	public function theOCSStatusCodeShouldBe($statusCode) {
 		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->getOCSResponse($this->response));
@@ -137,6 +159,7 @@ trait BasicStructure {
 
 	/**
 	 * @Then /^the HTTP status code should be "([^"]*)"$/
+	 * @param int $statusCode
 	 */
 	public function theHTTPStatusCodeShouldBe($statusCode) {
 		PHPUnit_Framework_Assert::assertEquals($statusCode, $this->response->getStatusCode());
@@ -146,14 +169,15 @@ trait BasicStructure {
 	 * @param ResponseInterface $response
 	 */
 	private function extracRequestTokenFromResponse(ResponseInterface $response) {
-		$this->requesttoken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $response->getBody()->getContents()), 0, 89);
+		$this->requestToken = substr(preg_replace('/(.*)data-requesttoken="(.*)">(.*)/sm', '\2', $response->getBody()->getContents()), 0, 89);
 	}
 
 	/**
 	 * @Given Logging in using web as :user
+	 * @param string $user
 	 */
 	public function loggingInUsingWebAs($user) {
-		$loginUrl = substr($this->baseUrl, 0, -5);
+		$loginUrl = substr($this->baseUrl, 0, -5) . '/login';
 		// Request a new session and extract CSRF token
 		$client = new Client();
 		$response = $client->get(
@@ -173,7 +197,7 @@ trait BasicStructure {
 				'body' => [
 					'user' => $user,
 					'password' => $password,
-					'requesttoken' => $this->requesttoken,
+					'requesttoken' => $this->requestToken,
 				],
 				'cookies' => $this->cookieJar,
 			]
@@ -183,6 +207,8 @@ trait BasicStructure {
 
 	/**
 	 * @When Sending a :method to :url with requesttoken
+	 * @param string $method
+	 * @param string $url
 	 */
 	public function sendingAToWithRequesttoken($method, $url) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
@@ -195,7 +221,7 @@ trait BasicStructure {
 				'cookies' => $this->cookieJar,
 			]
 		);
-		$request->addHeader('requesttoken', $this->requesttoken);
+		$request->addHeader('requesttoken', $this->requestToken);
 		try {
 			$this->response = $client->send($request);
 		} catch (\GuzzleHttp\Exception\ClientException $e) {
@@ -205,6 +231,8 @@ trait BasicStructure {
 
 	/**
 	 * @When Sending a :method to :url without requesttoken
+	 * @param string $method
+	 * @param string $url
 	 */
 	public function sendingAToWithoutRequesttoken($method, $url) {
 		$baseUrl = substr($this->baseUrl, 0, -5);
@@ -231,6 +259,17 @@ trait BasicStructure {
 	}
 
 	/**
+	 * @Given User :user modifies text of :filename with text :text
+	 * @param string $user
+	 * @param string $filename
+	 * @param string $text
+	 */
+	public function modifyTextOfFile($user, $filename, $text) {
+		self::removeFile("../../data/$user/files", "$filename");
+		file_put_contents("../../data/$user/files" . "$filename", "$text");
+	}
+
+	/**
 	 * @BeforeSuite
 	 */
 	public static function addFilesToSkeleton(){
@@ -248,7 +287,6 @@ trait BasicStructure {
 			mkdir("../../core/skeleton/PARENT/CHILD", 0777, true);
 		}
 		file_put_contents("../../core/skeleton/PARENT/CHILD/" . "child.txt", "ownCloud test text file\n");
-
 	}
 
 	/**
@@ -269,8 +307,6 @@ trait BasicStructure {
 		if (is_dir("../../core/skeleton/PARENT")) {
 			rmdir("../../core/skeleton/PARENT");
 		}
-
-
 	}
 }
 

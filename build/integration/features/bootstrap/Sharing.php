@@ -1,7 +1,5 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
@@ -9,7 +7,8 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 
 
-trait Sharing{
+trait Sharing {
+	use Provisioning;
 
 	/** @var int */
 	private $sharingApiVersion = 1;
@@ -22,10 +21,11 @@ trait Sharing{
 
 	/**
 	 * @Given /^as "([^"]*)" creating a share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 * @param string $user
+	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function asCreatingAShareWith($user, $body) {
-		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v1/shares";
+		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares";
 		$client = new Client();
 		$options = [];
 		if ($user === 'admin') {
@@ -54,10 +54,10 @@ trait Sharing{
 
 	/**
 	 * @When /^creating a share with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function creatingShare($body) {
-		return $this->asCreatingAShareWith($this->currentUser, $body);
+		$this->asCreatingAShareWith($this->currentUser, $body);
 	}
 
 	/**
@@ -112,7 +112,7 @@ trait Sharing{
 	 * @When /^Adding expiration date to last share$/
 	 */
 	public function addingExpirationDate() {
-		$share_id = $this->lastShareData->data[0]->id;
+		$share_id = (string) $this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
 		$options = [];
@@ -132,7 +132,7 @@ trait Sharing{
 	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function updatingLastShare($body) {
-		$share_id = $this->lastShareData->data[0]->id;
+		$share_id = (string) $this->lastShareData->data[0]->id;
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/$share_id";
 		$client = new Client();
 		$options = [];
@@ -225,6 +225,9 @@ trait Sharing{
 				elseif ((string)$element->$field == $contentExpected){
 					return True;
 				}
+				else{
+					print($element->$field);
+				}
 			}
 
 			return False;
@@ -247,6 +250,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^File "([^"]*)" should be included in the response$/
+	 *
+	 * @param string $filename
 	 */
 	public function checkSharedFileInResponse($filename){
 		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('file_target', "/$filename"));
@@ -254,6 +259,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^File "([^"]*)" should not be included in the response$/
+	 *
+	 * @param string $filename
 	 */
 	public function checkSharedFileNotInResponse($filename){
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('file_target', "/$filename"));
@@ -261,6 +268,8 @@ trait Sharing{
 
 	/**
 	 * @Then /^User "([^"]*)" should be included in the response$/
+	 *
+	 * @param string $user
 	 */
 	public function checkSharedUserInResponse($user){
 		PHPUnit_Framework_Assert::assertEquals(True, $this->isFieldInResponse('share_with', "$user"));
@@ -268,15 +277,17 @@ trait Sharing{
 
 	/**
 	 * @Then /^User "([^"]*)" should not be included in the response$/
+	 *
+	 * @param string $user
 	 */
 	public function checkSharedUserNotInResponse($user){
 		PHPUnit_Framework_Assert::assertEquals(False, $this->isFieldInResponse('share_with', "$user"));
 	}
 
-	public function isUserOrGroupInSharedData($userOrGroup){
+	public function isUserOrGroupInSharedData($userOrGroup, $permissions = null){
 		$data = $this->response->xml()->data[0];
 		foreach($data as $element) {
-			if ($element->share_with == $userOrGroup){
+			if ($element->share_with == $userOrGroup && ($permissions === null || $permissions == $element->permissions)){
 				return True;
 			}
 		}
@@ -284,9 +295,13 @@ trait Sharing{
 	}
 
 	/**
-	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"$/
+	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with user "([^"]*)"( with permissions ([\d]*))?$/
+	 *
+	 * @param string $filepath
+	 * @param string $user1
+	 * @param string $user2
 	 */
-	public function assureFileIsShared($filepath, $user1, $user2){
+	public function assureFileIsShared($entry, $filepath, $user1, $user2, $withPerms = null, $permissions = null){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
 		$client = new Client();
 		$options = [];
@@ -296,19 +311,23 @@ trait Sharing{
 			$options['auth'] = [$user1, $this->regularUser];
 		}
 		$this->response = $client->get($fullUrl, $options);
-		if ($this->isUserOrGroupInSharedData($user2)){
+		if ($this->isUserOrGroupInSharedData($user2, $permissions)){
 			return;
 		} else {
-			$this->createShare($user1, $filepath, 0, $user2, null, null, null);
+			$this->createShare($user1, $filepath, 0, $user2, null, null, $permissions);
 		}
 		$this->response = $client->get($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($user2));
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($user2, $permissions));
 	}
 
 	/**
-	 * @Given /^file "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"$/
+	 * @Given /^(file|folder|entry) "([^"]*)" of user "([^"]*)" is shared with group "([^"]*)"( with permissions ([\d]*))?$/
+	 *
+	 * @param string $filepath
+	 * @param string $user
+	 * @param string $group
 	 */
-	public function assureFileIsSharedWithGroup($filepath, $user, $group){
+	public function assureFileIsSharedWithGroup($entry, $filepath, $user, $group, $withPerms = null, $permissions = null){
 		$fullUrl = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares" . "?path=$filepath";
 		$client = new Client();
 		$options = [];
@@ -318,13 +337,13 @@ trait Sharing{
 			$options['auth'] = [$user, $this->regularUser];
 		}
 		$this->response = $client->get($fullUrl, $options);
-		if ($this->isUserOrGroupInSharedData($group)){
+		if ($this->isUserOrGroupInSharedData($group, $permissions)){
 			return;
 		} else {
-			$this->createShare($user, $filepath, 1, $group, null, null, null);
+			$this->createShare($user, $filepath, 1, $group, null, null, $permissions);
 		}
 		$this->response = $client->get($fullUrl, $options);
-		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($group));
+		PHPUnit_Framework_Assert::assertEquals(True, $this->isUserOrGroupInSharedData($group, $permissions));
 	}
 
 	/**
@@ -367,13 +386,21 @@ trait Sharing{
 
 	/**
 	 * @Then /^Share fields of last share match with$/
-	 * @param \Behat\Gherkin\Node\TableNode|null $formData
+	 * @param \Behat\Gherkin\Node\TableNode|null $body
 	 */
 	public function checkShareFields($body){
 		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
 			$fd = $body->getRowsHash();
 
 			foreach($fd as $field => $value) {
+				if (substr($field, 0, 10 ) === "share_with"){
+					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -5), $value);
+					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -5), $value);
+				}
+				if (substr($field, 0, 6 ) === "remote"){
+					$value = str_replace("REMOTE", substr($this->remoteBaseUrl, 0, -4), $value);
+					$value = str_replace("LOCAL", substr($this->localBaseUrl, 0, -4), $value);
+				}
 				if (!$this->isFieldInResponse($field, $value)){
 					PHPUnit_Framework_Assert::fail("$field" . " doesn't have value " . "$value");
 				}
@@ -385,7 +412,7 @@ trait Sharing{
 	 * @Then As :user remove all shares from the file named :fileName
 	 */
 	public function asRemoveAllSharesFromTheFileNamed($user, $fileName) {
-		$url = $this->baseUrl.'v2.php/apps/files_sharing/api/v1/shares?format=json';
+		$url = $this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares?format=json";
 		$client = new \GuzzleHttp\Client();
 		$res = $client->get(
 			$url,
@@ -405,7 +432,7 @@ trait Sharing{
 			if (stripslashes($data['path']) === $fileName) {
 				$id = $data['id'];
 				$client->delete(
-					$this->baseUrl.'v2.php/apps/files_sharing/api/v1/shares/'.$id,
+					$this->baseUrl . "v{$this->apiVersion}.php/apps/files_sharing/api/v{$this->sharingApiVersion}/shares/{$id}",
 					[
 						'auth' => [
 							$user,
@@ -439,59 +466,8 @@ trait Sharing{
 	public function shareIdsShouldMatch()
 	{
 		if ($this->savedShareId !== $this->lastShareData['data']['id']) {
-			throw new \Excetion('Expected the same link share to be returned');
+			throw new \Exception('Expected the same link share to be returned');
 		}
-	}
-
-	/**
-	 * @When /^getting sharees for$/
-	 * @param \Behat\Gherkin\Node\TableNode $body
-	 */
-	public function whenGettingShareesFor($body) {
-		$url = '/apps/files_sharing/api/v1/sharees';
-		if ($body instanceof \Behat\Gherkin\Node\TableNode) {
-			$parameters = [];
-			foreach ($body->getRowsHash() as $key => $value) {
-				$parameters[] = $key . '=' . $value;
-			}
-			if (!empty($parameters)) {
-				$url .= '?' . implode('&', $parameters);
-			}
-		}
-
-		$this->sendingTo('GET', $url);
-	}
-
-	/**
-	 * @Then /^"([^"]*)" sharees returned (are|is empty)$/
-	 * @param string $shareeType
-	 * @param string $isEmpty
-	 * @param \Behat\Gherkin\Node\TableNode|null $shareesList
-	 */
-	public function thenListOfSharees($shareeType, $isEmpty, $shareesList = null) {
-		if ($isEmpty !== 'is empty') {
-			$sharees = $shareesList->getRows();
-			$respondedArray = $this->getArrayOfShareesResponded($this->response, $shareeType);
-			PHPUnit_Framework_Assert::assertEquals($sharees, $respondedArray);
-		} else {
-			$respondedArray = $this->getArrayOfShareesResponded($this->response, $shareeType);
-			PHPUnit_Framework_Assert::assertEmpty($respondedArray);
-		}
-	}
-
-	public function getArrayOfShareesResponded(ResponseInterface $response, $shareeType) {
-		$elements = $response->xml()->data;
-		$elements = json_decode(json_encode($elements), 1);
-		if (strpos($shareeType, 'exact ') === 0) {
-			$elements = $elements['exact'];
-			$shareeType = substr($shareeType, 6);
-		}
-
-		$sharees = [];
-		foreach ($elements[$shareeType] as $element) {
-			$sharees[] = [$element['label'], $element['value']['shareType'], $element['value']['shareWith']];
-		}
-		return $sharees;
 	}
 }
 

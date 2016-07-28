@@ -73,6 +73,10 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :user requests addressbook :addressBook with statuscode :statusCode
+	 * @param string $user
+	 * @param string $addressBook
+	 * @param int $statusCode
+	 * @throws \Exception
 	 */
 	public function requestsAddressbookWithStatuscode($user, $addressBook, $statusCode) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$addressBook;
@@ -112,6 +116,10 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Given :user creates an addressbook named :addressBook with statuscode :statusCode
+	 * @param string $user
+	 * @param string $addressBook
+	 * @param int $statusCode
+	 * @throws \Exception
 	 */
 	public function createsAnAddressbookNamedWithStatuscode($user, $addressBook, $statusCode) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/addressbooks/users/'.$user.'/'.$addressBook;
@@ -121,9 +129,7 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 			'MKCOL',
 			$davUrl,
 			[
-				'body' => '<d:mkcol xmlns:c="urn:ietf:params:xml:ns:caldav"
-              xmlns:card="urn:ietf:params:xml:ns:carddav"
-              xmlns:cs="http://calendarserver.org/ns/"
+				'body' => '<d:mkcol xmlns:card="urn:ietf:params:xml:ns:carddav"
               xmlns:d="DAV:">
     <d:set>
       <d:prop>
@@ -158,6 +164,8 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When The CardDAV exception is :message
+	 * @param string $message
+	 * @throws \Exception
 	 */
 	public function theCarddavExceptionIs($message) {
 		$result = $this->responseXml['value'][0]['value'];
@@ -175,6 +183,8 @@ class CardDavContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When The CardDAV error message is :arg1
+	 * @param string $message
+	 * @throws \Exception
 	 */
 	public function theCarddavErrorMessageIs($message) {
 		$result = $this->responseXml['value'][1]['value'];

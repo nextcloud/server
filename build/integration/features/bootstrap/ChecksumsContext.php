@@ -2,7 +2,6 @@
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-use Behat\Gherkin\Node\TableNode;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\ResponseInterface;
 
@@ -50,6 +49,10 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When user :user uploads file :source to :destination with checksum :checksum
+	 * @param string $user
+	 * @param string $source
+	 * @param string $destination
+	 * @param string $checksum
 	 */
 	public function userUploadsFileToWithChecksum($user, $source, $destination, $checksum)
 	{
@@ -76,6 +79,8 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then The webdav response should have a status code :statusCode
+	 * @param int $statusCode
+	 * @throws \Exception
 	 */
 	public function theWebdavResponseShouldHaveAStatusCode($statusCode) {
 		if((int)$statusCode !== $this->response->getStatusCode()) {
@@ -85,6 +90,8 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When user :user request the checksum of :path via propfind
+	 * @param string $user
+	 * @param string $path
 	 */
 	public function userRequestTheChecksumOfViaPropfind($user, $path)
 	{
@@ -109,6 +116,8 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then The webdav checksum should match :checksum
+	 * @param string $checksum
+	 * @throws \Exception
 	 */
 	public function theWebdavChecksumShouldMatch($checksum)
 	{
@@ -128,6 +137,8 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When user :user downloads the file :path
+	 * @param string $user
+	 * @param string $path
 	 */
 	public function userDownloadsTheFile($user, $path)
 	{
@@ -144,6 +155,8 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then The header checksum should match :checksum
+	 * @param string $checksum
+	 * @throws \Exception
 	 */
 	public function theHeaderChecksumShouldMatch($checksum)
 	{
@@ -154,6 +167,9 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Given User :user copied file :source to :destination
+	 * @param string $user
+	 * @param string $source
+	 * @param string $destination
 	 */
 	public function userCopiedFileTo($user, $source, $destination)
 	{
@@ -204,6 +220,12 @@ class ChecksumsContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Given user :user uploads chunk file :num of :total with :data to :destination with checksum :checksum
+	 * @param string $user
+	 * @param int $num
+	 * @param int $total
+	 * @param string $data
+	 * @param string $destination
+	 * @param string $checksum
 	 */
 	public function userUploadsChunkFileOfWithToWithChecksum($user, $num, $total, $data, $destination, $checksum)
 	{

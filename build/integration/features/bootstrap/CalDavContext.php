@@ -71,6 +71,8 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @When :user requests calendar :calendar
+	 * @param string $user
+	 * @param string $calendar
 	 */
 	public function requestsCalendar($user, $calendar)  {
 		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$calendar;
@@ -93,6 +95,8 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then The CalDAV HTTP status code should be :code
+	 * @param int $code
+	 * @throws \Exception
 	 */
 	public function theCaldavHttpStatusCodeShouldBe($code) {
 		if((int)$code !== $this->response->getStatusCode()) {
@@ -115,6 +119,8 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then The exception is :message
+	 * @param string $message
+	 * @throws \Exception
 	 */
 	public function theExceptionIs($message) {
 		$result = $this->responseXml['value'][0]['value'];
@@ -132,6 +138,8 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Then The error message is :message
+	 * @param string $message
+	 * @throws \Exception
 	 */
 	public function theErrorMessageIs($message) {
 		$result = $this->responseXml['value'][1]['value'];
@@ -149,6 +157,8 @@ class CalDavContext implements \Behat\Behat\Context\Context {
 
 	/**
 	 * @Given :user creates a calendar named :name
+	 * @param string $user
+	 * @param string $name
 	 */
 	public function createsACalendarNamed($user, $name) {
 		$davUrl = $this->baseUrl . '/remote.php/dav/calendars/'.$user.'/'.$name;
