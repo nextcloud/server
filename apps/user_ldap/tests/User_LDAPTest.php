@@ -93,9 +93,11 @@ class User_LDAPTest extends \Test\TestCase {
 			->method('getDeletedUser')
 			->will($this->returnValue($offlineUser));
 
+		$helper = new \OCA\User_LDAP\Helper();
+		
 		$access = $this->getMock('\OCA\User_LDAP\Access',
 								 $accMethods,
-								 array($connector, $lw, $um));
+								 array($connector, $lw, $um, $helper));
 
 		$um->setLdapAccess($access);
 

@@ -11,6 +11,7 @@
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Robin Appelman <robin@icewind.nl>
  * @author Robin McCorkell <robin@mccorkell.me.uk>
+ * @author Roger Szabo <roger.szabo@web.de>
  *
  * @license AGPL-3.0
  *
@@ -52,6 +53,8 @@ class Connection extends LDAPUtility {
 	private $configID;
 	private $configured = false;
 	private $hasPagedResultSupport = true;
+	//whether connection should be kept on __destruct
+	private $dontDestruct = false;
 
 	/**
 	 * @var bool runtime flag that indicates whether supported primary groups are available
@@ -93,7 +96,7 @@ class Connection extends LDAPUtility {
 	}
 
 	public function __destruct() {
-		if($this->ldap->isResource($this->ldapConnectionRes)) {
+		if(!$this->dontDestruct && $this->ldap->isResource($this->ldapConnectionRes)) {
 			@$this->ldap->unbind($this->ldapConnectionRes);
 		};
 	}
@@ -105,6 +108,7 @@ class Connection extends LDAPUtility {
 		$this->configuration = new Configuration($this->configPrefix,
 												 !is_null($this->configID));
 		$this->ldapConnectionRes = null;
+		$this->dontDestruct = true;
 	}
 
 	/**
