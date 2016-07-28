@@ -56,7 +56,13 @@ class OCSMiddleware extends Middleware {
 			if ($code === 0) {
 				$code = Http::STATUS_INTERNAL_SERVER_ERROR;
 			}
-			return new OCSResponse($format, $code, $exception->getMessage());
+
+			$response = new OCSResponse($format, $code, $exception->getMessage());
+
+			if (substr_compare($this->request->getScriptName(), '/ocs/v2.php', -strlen('/ocs/v2.php')) === 0) {
+				$response->setStatus($code);
+			}
+			return $response;
 		}
 
 		throw $exception;
