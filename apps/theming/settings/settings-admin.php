@@ -23,8 +23,6 @@
  *
  */
 
-\OC_Util::checkAdminUser();
-
 $config = \OC::$server->getConfig();
 $l = \OC::$server->getL10N('theming');
 $urlGenerator = \OC::$server->getURLGenerator();
@@ -40,7 +38,7 @@ if ($theme !== '') {
 	$errorMessage = $l->t('You already use a custom theme');
 }
 
-$template = new OCP\Template('theming', 'settings-admin');
+$template = new \OCP\Template('theming', 'settings-admin');
 
 $template->assign('themable', $themable);
 $template->assign('errorMessage', $errorMessage);
