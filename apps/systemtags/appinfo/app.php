@@ -78,6 +78,9 @@ $mapperListener = function(MapperEvent $event) use ($activityManager) {
 $eventDispatcher->addListener(MapperEvent::EVENT_ASSIGN, $mapperListener);
 $eventDispatcher->addListener(MapperEvent::EVENT_UNASSIGN, $mapperListener);
 
+$app = new \OCA\SystemTags\AppInfo\Application();
+$app->registerAdminPage();
+
 $l = \OC::$server->getL10N('systemtags');
 
 \OCA\Files\App::getNavigationManager()->add(
