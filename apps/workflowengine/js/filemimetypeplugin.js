@@ -23,25 +23,35 @@
 	OCA.WorkflowEngine = OCA.WorkflowEngine || {};
 	OCA.WorkflowEngine.Plugins = OCA.WorkflowEngine.Plugins || {};
 
-	OCA.WorkflowEngine.Plugins.FileSizePlugin = {
+	OCA.WorkflowEngine.Plugins.FileMimeTypePlugin = {
 		getCheck: function() {
 			return {
-				'class': 'OCA\\WorkflowEngine\\Check\\FileSize',
-				'name': t('workflowengine', 'File size (upload)'),
+				'class': 'OCA\\WorkflowEngine\\Check\\FileMimeType',
+				'name': t('workflowengine', 'File mime type (upload)'),
 				'operators': [
-					{'operator': 'less', 'name': t('workflowengine', 'less')},
-					{'operator': '!greater', 'name': t('workflowengine', 'less or equals')},
-					{'operator': '!less', 'name': t('workflowengine', 'greater or equals')},
-					{'operator': 'greater', 'name': t('workflowengine', 'greater')}
+					{'operator': 'is', 'name': t('workflowengine', 'is')},
+					{'operator': '!is', 'name': t('workflowengine', 'is not')},
+					{'operator': 'matches', 'name': t('workflowengine', 'matches')},
+					{'operator': '!matches', 'name': t('workflowengine', 'does not match')}
 				]
 			};
 		},
 		render: function(element, check) {
-			if (check['class'] !== 'OCA\\WorkflowEngine\\Check\\FileSize') {
+			if (check['class'] !== 'OCA\\WorkflowEngine\\Check\\FileMimeType') {
 				return;
 			}
 
-			var placeholder = '12 MB'; // Do not translate!!!
+			var placeholder = t('workflowengine', 'text/plain');
+			if (check['operator'] === 'matches' || check['operator'] === '!matches') {
+				placeholder = t('workflowengine', '/^text\\/(plain|html)$/i');
+
+				if (this._validateRegex(check['value'])) {
+					$(element).removeClass('invalid-input');
+				} else {
+					$(element).addClass('invalid-input');
+				}
+			}
+
 			$(element).css('width', '250px')
 				.attr('placeholder', placeholder)
 				.attr('title', t('workflowengine', 'Example: {placeholder}', {placeholder: placeholder}))
@@ -49,8 +59,14 @@
 				.tooltip({
 					placement: 'bottom'
 				});
+		},
+
+		_validateRegex: function(string) {
+			var regexRegex = /^\/(.*)\/([gui]{0,3})$/,
+				result = regexRegex.exec(string);
+			return result !== null;
 		}
 	};
 })();
 
-OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.FileSizePlugin);
+OC.Plugins.register('OCA.WorkflowEngine.CheckPlugins', OCA.WorkflowEngine.Plugins.FileMimeTypePlugin);

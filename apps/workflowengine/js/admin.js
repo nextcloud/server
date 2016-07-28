@@ -296,7 +296,7 @@
 
 					_.each(OCA.WorkflowEngine.availablePlugins, function(plugin) {
 						if (_.isFunction(plugin.render)) {
-							plugin.render(valueElement, check['class'], check['value']);
+							plugin.render(valueElement, check);
 						}
 					});
 				}, this);
