@@ -231,6 +231,15 @@ class ThemingController extends Controller {
 			$responseCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
 				'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
 				"}\n";
+			$responseCss .= '
+				#firstrunwizard .firstrunwizard-header {
+				    background-color: ' . $color . ';
+				}
+				#firstrunwizard p a {
+				    color: ' . $color . ';
+				}
+				';
+
 		}
 		$logo = $this->config->getAppValue($this->appName, 'logoMime');
 		if($logo !== '') {
