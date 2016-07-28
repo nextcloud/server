@@ -30,7 +30,9 @@ namespace OCA\Theming\Controller;
 use OCA\Theming\Template;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
+use OCP\AppFramework\Http\DataDownloadResponse;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\StreamResponse;
 use OCP\Files\IRootFolder;
 use OCP\IConfig;
 use OCP\IL10N;
@@ -166,7 +168,7 @@ class ThemingController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @return Http\StreamResponse
+	 * @return StreamResponse|DataResponse
 	 */
 	public function getLogo() {
 		$pathToLogo = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedinstancelogo';
@@ -174,10 +176,9 @@ class ThemingController extends Controller {
 			return new DataResponse();
 		}
 
-		\OC_Response::setExpiresHeader(gmdate('D, d M Y H:i:s', time() + (60*60*24*45)) . ' GMT');
-		\OC_Response::enableCaching();
 		$response = new Http\StreamResponse($pathToLogo);
 		$response->cacheFor(3600);
+		$response->addHeader('Expires', date(\DateTime::RFC2822));
 		$response->addHeader('Content-Disposition', 'attachment');
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'logoMime', ''));
 		return $response;
@@ -187,7 +188,7 @@ class ThemingController extends Controller {
 	 * @PublicPage
 	 * @NoCSRFRequired
 	 *
-	 * @return Http\StreamResponse
+	 * @return StreamResponse|DataResponse
 	 */
 	public function getLoginBackground() {
 		$pathToLogo = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/') . '/themedbackgroundlogo';
@@ -195,10 +196,9 @@ class ThemingController extends Controller {
 			return new DataResponse();
 		}
 
-		\OC_Response::setExpiresHeader(gmdate('D, d M Y H:i:s', time() + (60*60*24*45)) . ' GMT');
-		\OC_Response::enableCaching();
-		$response = new Http\StreamResponse($pathToLogo);
+		$response = new StreamResponse($pathToLogo);
 		$response->cacheFor(3600);
+		$response->addHeader('Expires', date(\DateTime::RFC2822));
 		$response->addHeader('Content-Disposition', 'attachment');
 		$response->addHeader('Content-Type', $this->config->getAppValue($this->appName, 'backgroundMime', ''));
 		return $response;
@@ -208,7 +208,7 @@ class ThemingController extends Controller {
 	 * @NoCSRFRequired
 	 * @PublicPage
 	 *
-	 * @return Http\DataDownloadResponse
+	 * @return DataDownloadResponse
 	 */
 	public function getStylesheet() {
 		$cacheBusterValue = $this->config->getAppValue('theming', 'cachebuster', '0');
@@ -272,9 +272,8 @@ class ThemingController extends Controller {
 			$responseCss .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
 		}
 
-		\OC_Response::setExpiresHeader(gmdate('D, d M Y H:i:s', time() + (60*60*24*45)) . ' GMT');
-		\OC_Response::enableCaching();
-		$response = new Http\DataDownloadResponse($responseCss, 'style', 'text/css');
+		$response = new DataDownloadResponse($responseCss, 'style', 'text/css');
+		$response->addHeader('Expires', date(\DateTime::RFC2822));
 		$response->cacheFor(3600);
 		return $response;
 	}
