@@ -30,10 +30,15 @@
 	margin:0 auto;
 }
 
+
 #imgframe img,
 #imgframe video {
-	max-height:100%;
-	max-width:100%;
+	max-height: 100% !important;
+	max-width: 100% !important;
+}
+#imgframe video {
+	width: 854px;
+	height: 480px;
 }
 
 #imgframe .text-preview {
