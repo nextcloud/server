@@ -41,8 +41,8 @@
 				]
 			};
 		},
-		render: function(element, classname, value) {
-			if (classname !== 'OCA\\WorkflowEngine\\Check\\FileSystemTags') {
+		render: function(element, check) {
+			if (check['class'] !== 'OCA\\WorkflowEngine\\Check\\FileSystemTags') {
 				return;
 			}
 
