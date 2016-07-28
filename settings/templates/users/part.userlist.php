@@ -5,17 +5,17 @@
 			<th id="headerAvatar" scope="col"></th>
 		<?php endif; ?>
 			<th id="headerName" scope="col"><?php p($l->t('Username'))?></th>
-			<th id="headerDisplayName" scope="col"><?php p($l->t( 'Full Name' )); ?></th>
+			<th id="headerDisplayName" scope="col"><?php p($l->t( 'Full name' )); ?></th>
 			<th id="headerPassword" scope="col"><?php p($l->t( 'Password' )); ?></th>
 			<th class="mailAddress" scope="col"><?php p($l->t( 'Email' )); ?></th>
 			<th id="headerGroups" scope="col"><?php p($l->t( 'Groups' )); ?></th>
 		<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
-			<th id="headerSubAdmins" scope="col"><?php p($l->t('Group Admin for')); ?></th>
+			<th id="headerSubAdmins" scope="col"><?php p($l->t('Group admin for')); ?></th>
 		<?php endif;?>
 			<th id="headerQuota" scope="col"><?php p($l->t('Quota')); ?></th>
-			<th class="storageLocation" scope="col"><?php p($l->t('Storage Location')); ?></th>
-			<th class="userBackend" scope="col"><?php p($l->t('User Backend')); ?></th>
-			<th class="lastLogin" scope="col"><?php p($l->t('Last Login')); ?></th>
+			<th class="storageLocation" scope="col"><?php p($l->t('Storage location')); ?></th>
+			<th class="userBackend" scope="col"><?php p($l->t('User backend')); ?></th>
+			<th class="lastLogin" scope="col"><?php p($l->t('Last login')); ?></th>
 			<th id="headerRemove">&nbsp;</th>
 		</tr>
 	</thead>

@@ -91,11 +91,11 @@ var UserList = {
 		 */
 		// make them look like the multiselect buttons
 		// until they get time to really get initialized
-		groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" data-placehoder="Groups" title="' + t('settings', 'no group') + '"></select>')
+		groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" data-placehoder="Groups" title="' + t('settings', 'No group') + '"></select>')
 			.data('username', user.name)
 			.data('user-groups', user.groups);
 		if ($tr.find('td.subadmins').length > 0) {
-			subAdminSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" data-placehoder="subadmins" title="' + t('settings', 'no group') + '">')
+			subAdminSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" data-placehoder="subadmins" title="' + t('settings', 'No group') + '">')
 				.data('username', user.name)
 				.data('user-groups', user.groups)
 				.data('subadmin', user.subadmin);
@@ -501,7 +501,7 @@ var UserList = {
 		};
 		var label;
 		if (oc_isadmin) {
-			label = t('settings', 'add group');
+			label = t('settings', 'Add group');
 		}
 		else {
 			label = null;

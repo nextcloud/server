@@ -2,7 +2,7 @@
 	<!-- Add new group -->
 	<li id="newgroup-init">
 		<a href="#">
-			<span><?php p($l->t('Add Group'))?></span>
+			<span><?php p($l->t('Add group'))?></span>
 		</a>
 	</li>
 	<li id="newgroup-form" style="display: none">
