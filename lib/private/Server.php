@@ -616,7 +616,7 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('MimeTypeDetector', function (Server $c) {
 			return new \OC\Files\Type\Detection(
 				$c->getURLGenerator(),
-				\OC::$SERVERROOT . '/config/',
+				\OC::$configDir,
 				\OC::$SERVERROOT . '/resources/config/'
 			);
 		});
