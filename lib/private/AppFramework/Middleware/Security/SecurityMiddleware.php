@@ -42,6 +42,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\OCSController;
 use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IRequest;
@@ -112,7 +113,7 @@ class SecurityMiddleware extends Middleware {
 	 * This runs all the security checks before a method call. The
 	 * security checks are determined by inspecting the controller method
 	 * annotations
-	 * @param string $controller the controllername or string
+	 * @param Controller $controller the controller
 	 * @param string $methodName the name of the method
 	 * @throws SecurityException when a security check fails
 	 */
@@ -145,7 +146,14 @@ class SecurityMiddleware extends Middleware {
 		// CSRF check - also registers the CSRF token since the session may be closed later
 		Util::callRegister();
 		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
-			if(!$this->request->passesCSRFCheck()) {
+			/*
+			 * Only allow the CSRF check to fail on OCS Requests. This kind of
+			 * hacks around that we have no full token auth in place yet and we
+			 * do want to offer CSRF checks for web requests.
+			 */
+			if(!$this->request->passesCSRFCheck() && !(
+					$controller instanceof OCSController &&
+					$this->request->getHeader('OCS_APIREQUEST') === true)) {
 				throw new CrossSiteRequestForgeryException();
 			}
 		}

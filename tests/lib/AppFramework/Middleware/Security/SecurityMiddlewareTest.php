@@ -35,22 +35,38 @@ use OC\Appframework\Middleware\Security\Exceptions\StrictCookieMissingException;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OC\Security\CSP\ContentSecurityPolicy;
+use OC\Security\CSP\ContentSecurityPolicyManager;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http\TemplateResponse;
+use OCP\ILogger;
+use OCP\INavigationManager;
+use OCP\IRequest;
+use OCP\IURLGenerator;
 
 
 class SecurityMiddlewareTest extends \Test\TestCase {
 
+	/** @var SecurityMiddleware|\PHPUnit_Framework_MockObject_MockObject */
 	private $middleware;
+	/** @var Controller|\PHPUnit_Framework_MockObject_MockObject */
 	private $controller;
+	/** @var SecurityException */
 	private $secException;
+	/** @var SecurityException */
 	private $secAjaxException;
+	/** @var IRequest|\PHPUnit_Framework_MockObject_MockObject */
 	private $request;
+	/** @var ControllerMethodReflector */
 	private $reader;
+	/** @var ILogger|\PHPUnit_Framework_MockObject_MockObject */
 	private $logger;
+	/** @var INavigationManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $navigationManager;
+	/** @var IURLGenerator|\PHPUnit_Framework_MockObject_MockObject */
 	private $urlGenerator;
+	/** @var ContentSecurityPolicyManager|\PHPUnit_Framework_MockObject_MockObject */
 	private $contentSecurityPolicyManager;
 
 	protected function setUp() {
@@ -352,6 +368,45 @@ class SecurityMiddlewareTest extends \Test\TestCase {
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
+	}
+
+	public function dataCsrfOcsController() {
+		$controller = $this->getMockBuilder('OCP\AppFramework\Controller')
+			->disableOriginalConstructor()
+			->getMock();
+		$ocsController = $this->getMockBuilder('OCP\AppFramework\OCSController')
+			->disableOriginalConstructor()
+			->getMock();
+
+		return [
+			[$controller, false, true],
+			[$controller, true,  true],
+
+			[$ocsController, false, true],
+			[$ocsController, true,  true],
+		];
+	}
+
+	/**
+	 * @dataProvider dataCsrfOcsController
+	 * @param Controller $controller
+	 * @param bool $hasOcsApiHeader
+	 * @param bool $exception
+	 */
+	public function testCsrfOcsController(Controller $controller, $hasOcsApiHeader, $exception) {
+		$this->request
+			->method('getHeader')
+			->willReturn($hasOcsApiHeader ? 'true' : null);
+		$this->request->expects($this->once())
+			->method('passesStrictCookieCheck')
+			->willReturn(true);
+
+		try {
+			$this->middleware->beforeController($controller, 'foo');
+			$this->assertFalse($exception);
+		} catch (CrossSiteRequestForgeryException $e) {
+			$this->assertTrue($exception);
+		}
 	}
 
 	/**
