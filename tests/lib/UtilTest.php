@@ -349,21 +349,20 @@ class UtilTest extends \Test\TestCase {
 	}
 
 	public function testGetDefaultPageUrlWithRedirectUrlWithoutFrontController() {
-		putenv('front_controller_active=false');
-
+		\OC::$server->getConfig()->deleteSystemValue('htaccess.RewriteBase');
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com';
 		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/myRedirectUrl.com', OC_Util::getDefaultPageUrl());
 	}
 
 	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithoutFrontController() {
-		putenv('front_controller_active=false');
-
+		\OC::$server->getConfig()->deleteSystemValue('htaccess.RewriteBase');
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
 		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/index.php/apps/files/', OC_Util::getDefaultPageUrl());
 	}
 
 	public function testGetDefaultPageUrlWithRedirectUrlRedirectBypassWithFrontController() {
-		putenv('front_controller_active=true');
+		\OC::$WEBROOT = '/nextcloud';
+		\OC::$server->getConfig()->setSystemValue('htaccess.RewriteBase', \OC::$WEBROOT);
 		$_REQUEST['redirect_url'] = 'myRedirectUrl.com@foo.com:a';
 		$this->assertSame('http://localhost'.\OC::$WEBROOT.'/apps/files/', OC_Util::getDefaultPageUrl());
 	}
