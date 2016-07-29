@@ -273,3 +273,29 @@ Feature: webdav-related
 		And User "user0" uploads file with content "copytest" to "/copytest.txt"
 		When User "user0" copies file "/copytest.txt" to "/testcopypermissionsNotAllowed/copytest.txt"
 		Then the HTTP status code should be "403"
+
+	Scenario: Uploading a file having 0B as quota
+		Given using dav path "remote.php/dav"
+		And As an "admin"
+		And user "user0" exists
+		And user "user0" has a quota of "0 B"
+		And As an "user0"
+		When User "user0" uploads file "data/textfile.txt" to "/files/user0/asdf.txt"
+		Then the HTTP status code should be "507"
+	Scenario: Uploading a file as recipient using webdav new endpoint having quota
+		Given using dav path "remote.php/dav"
+		And As an "admin"
+		And user "user0" exists
+		And user "user1" exists
+		And user "user0" has a quota of "10 MB"
+		And user "user1" has a quota of "10 MB"
+		And As an "user1"
+		And user "user1" created a folder "/testquota"
+		And as "user1" creating a share with
+			| path | testquota |
+			| shareType | 0 |
+			| permissions | 31 |
+			| shareWith | user0 |
+		And As an "user0"
+		When User "user0" uploads file "data/textfile.txt" to "/files/user0/testquota/asdf.txt"
+		Then the HTTP status code should be "201"
