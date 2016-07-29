@@ -405,68 +405,6 @@ class ShareesAPIController extends OCSController {
 	}
 
 	/**
-	 * @param string $search
-	 */
-	protected function getEmails($search) {
-		$this->result['emails'] = [];
-		$this->result['exact']['emails'] = [];
-
-		$foundEmail = false;
-
-		// Search in contacts
-		//@todo Pagination missing
-		$addressBookContacts = $this->contactsManager->search($search, ['FN', 'EMAIL']);
-		foreach ($addressBookContacts as $contact) {
-			if (!isset($contact['EMAIL'])) {
-				continue;
-			}
-
-			$emails = $contact['EMAIL'];
-			if (!is_array($emails)) {
-				$emails = [$emails];
-			}
-
-			foreach ($emails as $email) {
-				if (strtolower($search) === strtolower($contact['FN']) ||
-					strtolower($search) === strtolower($email)
-				) {
-					if (strtolower($search) === strtolower($email)) {
-						$foundEmail = true;
-					}
-
-					$this->result['exact']['emails'][] = [
-						'label' => $contact['FN'],
-						'value' => [
-							'shareType' => Share::SHARE_TYPE_EMAIL,
-							'shareWith' => $email,
-						],
-					];
-				} else if ($this->shareeEnumeration) {
-					$this->result['emails'][] = [
-						'label' => $contact['FN'],
-						'value' => [
-							'shareType' => Share::SHARE_TYPE_EMAIL,
-							'shareWith' => $email,
-						],
-					];
-				}
-			}
-		}
-
-		if (!$foundEmail && substr_count($search, '@') >= 1 && $this->offset === 0) {
-			$this->result['exact']['emails'][] = [
-				'label' => $search,
-				'value' => [
-					'shareType' => Share::SHARE_TYPE_EMAIL,
-					'shareWith' => $search,
-				],
-			];
-		}
-
-		$this->reachedEndFor[] = 'emails';
-	}
-
-	/**
 	 * @NoAdminRequired
 	 *
 	 * @param string $search
@@ -487,17 +425,16 @@ class ShareesAPIController extends OCSController {
 
 		$shareTypes = [
 			Share::SHARE_TYPE_USER,
+			Share::SHARE_TYPE_EMAIL,
+			Share::SHARE_TYPE_REMOTE
 		];
 
 		if ($this->shareManager->allowGroupSharing()) {
 			$shareTypes[] = Share::SHARE_TYPE_GROUP;
 		}
 
-		$shareTypes[] = Share::SHARE_TYPE_EMAIL;
-		$shareTypes[] = Share::SHARE_TYPE_REMOTE;
-
-		if (is_array($shareType)) {
-			$shareTypes = array_intersect($shareTypes, $shareType);
+		if (isset($_GET['shareType']) && is_array($_GET['shareType'])) {
+			$shareTypes = array_intersect($shareTypes, $_GET['shareType']);
 			sort($shareTypes);
 		} else if (is_numeric($shareType)) {
 			$shareTypes = array_intersect($shareTypes, [(int) $shareType]);
@@ -581,6 +518,25 @@ class ShareesAPIController extends OCSController {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * add option to send share by mail
+	 *
+	 * @param string $search
+	 */
+	protected function getEmail($search) {
+		$this->result['emails'] = [];
+
+		if (substr_count($search, '@') >= 1 && substr_count($search, ' ') === 0 && $this->offset === 0) {
+			$this->result['exact']['emails'][] = [
+				'label' => $search,
+				'value' => [
+					'shareType' => Share::SHARE_TYPE_EMAIL,
+					'shareWith' => $search,
+				],
+			];
+		}
 	}
 
 	/**
