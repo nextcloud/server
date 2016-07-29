@@ -1520,13 +1520,19 @@ function initCore() {
 		var $menu = $('#header #settings');
 
 		$menu.delegate('a', 'click', function(event) {
-			var $page = $(event.target);
-			if (!$page.is('a')) {
-				$page = $page.closest('a');
+			if (!event.ctrlKey) {
+				var $page = $(event.target);
+				if (!$page.is('a')) {
+					$page = $page.closest('a');
+				}
+				$page.find('img').remove();
+				$page.find('div').remove(); // prevent odd double-clicks
+				$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
+			} else {
+				// Close navigation when opening entry in
+				// a new tab
+				OC.hideMenus();
 			}
-			$page.find('img').remove();
-			$page.find('div').remove(); // prevent odd double-clicks
-			$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
 		});
 	}
 
