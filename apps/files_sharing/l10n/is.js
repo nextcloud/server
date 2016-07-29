@@ -70,14 +70,20 @@ OC.L10N.register(
     "No entries found in this folder" : "Engar skrár fundust í þessari möppu",
     "Name" : "Nafn",
     "Share time" : "Deilingartími",
+    "Expiration date" : "Gildir til",
     "Sorry, this link doesn’t seem to work anymore." : "Því miður, þessi tengill virðist ekki virka lengur.",
     "Reasons might be:" : "Mögulegar ástæður gætu verið:",
     "the item was removed" : "atriðið var fjarlægt",
     "the link expired" : "tengillinn er útrunninn",
     "sharing is disabled" : "slökkt er á skráadeilingu",
     "For more info, please ask the person who sent this link." : "Til að vita meira skaltu hafa samband við þann sem sendi þér þennan tengil.",
+    "Add to your Nextcloud" : "Bæta í þitt eigið Nextcloud",
     "Download" : "Niðurhal",
     "Download %s" : "Sækja %s",
-    "Direct link" : "Beinn tengill"
+    "Direct link" : "Beinn tengill",
+    "Upload files to %s" : "Senda inn skrár á %s",
+    "Select or drop files" : "Veldu eða slepptu skrám",
+    "Uploading files…" : "Sendi inn skrár…",
+    "Uploaded files:" : "Innsendar skrár:"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s odebral systémový tag %3$s ze %2$s",
     "%s (restricted)" : "%s (omezeno)",
     "%s (invisible)" : "%s (neviditelný)",
+    "Name" : "Název",
     "No files in here" : "Žádné soubory",
     "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
-    "Name" : "Název",
     "Size" : "Velikost",
     "Modified" : "Upraveno"
 },

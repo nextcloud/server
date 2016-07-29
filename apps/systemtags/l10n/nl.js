@@ -23,9 +23,9 @@ OC.L10N.register(
     "%1$s unassigned system tag %3$s from %2$s" : "%1$s verwijderde systeemtag %3$s van %2$s",
     "%s (restricted)" : "%s (beperkt)",
     "%s (invisible)" : "%s (onzichtbaar)",
+    "Name" : "Naam",
     "No files in here" : "Hier geen bestanden",
     "No entries found in this folder" : "Niets gevonden in deze map",
-    "Name" : "Naam",
     "Size" : "Grootte",
     "Modified" : "Aangepast"
 },
