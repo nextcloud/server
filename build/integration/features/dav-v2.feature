@@ -14,7 +14,7 @@ Feature: dav-v2
 		And As an "admin"
 		And user "user0" exists
 		And As an "user0"
-		When Downloading file "/files/user0/welcome.txt" with range "bytes=51-77"
+		When Downloading file "/files/user0/welcome.txt" with range "bytes=52-78"
 		Then Downloaded content should be "example file for developers"
 
 	Scenario: Downloading a file on the new endpoint should serve security headers
@@ -30,18 +30,18 @@ Feature: dav-v2
 			|X-Permitted-Cross-Domain-Policies|none|
 			|X-Robots-Tag|none|
 			|X-XSS-Protection|1; mode=block|
-		And Downloaded content should start with "Welcome to your ownCloud account!"
+		And Downloaded content should start with "Welcome to your Nextcloud account!"
 
 	Scenario: Doing a GET with a web login should work without CSRF token on the new backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/dav/files/admin/welcome.txt" without requesttoken
-		Then Downloaded content should start with "Welcome to your ownCloud account!"
+		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a GET with a web login should work with CSRF token on the new backend
 		Given Logging in using web as "admin"
 		When Sending a "GET" to "/remote.php/dav/files/admin/welcome.txt" with requesttoken
-		Then Downloaded content should start with "Welcome to your ownCloud account!"
+		Then Downloaded content should start with "Welcome to your Nextcloud account!"
 		Then the HTTP status code should be "200"
 
 	Scenario: Doing a PROPFIND with a web login should not work without CSRF token on the new backend
