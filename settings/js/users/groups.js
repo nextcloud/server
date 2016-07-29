@@ -216,7 +216,7 @@ GroupList = {
 	showGroup: function (gid) {
 		GroupList.activeGID = gid;
 		UserList.empty();
-		UserList.update(gid=='_everyone'?'':gid);
+		UserList.update(gid === '_everyone' ? '' : gid);
 		$userGroupList.find('li').removeClass('active');
 		if (gid !== undefined) {
 			//TODO: treat Everyone properly
