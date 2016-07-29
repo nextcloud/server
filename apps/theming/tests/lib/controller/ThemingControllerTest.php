@@ -307,6 +307,9 @@ class ThemingControllerTest extends TestCase {
 	}
 
 	public function testGetStylesheetWithOnlyColor() {
+
+		$color = '#000';
+
 		$this->config
 			->expects($this->at(0))
 			->method('getAppValue')
@@ -316,7 +319,7 @@ class ThemingControllerTest extends TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('theming', 'color', '')
-			->willReturn('#000');
+			->willReturn($color);
 		$this->config
 			->expects($this->at(2))
 			->method('getAppValue')
@@ -328,25 +331,41 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('');
 
-		$elementColor = '#000';
-		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #000}' . "\n";
-		$expectedCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+		$expectedData = sprintf(
+			'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
+			$color
+		);
+		$expectedData .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
 			'background-color: %s; background-position: center center; background-size:contain;' .
 			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
 			"}\n",
 			\OC::$WEBROOT,
-			$elementColor
+			$color
 		);
-		$expectedCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($color).'\');' .
 			"}\n";
-		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
+
+		$expectedData .= '
+				#firstrunwizard .firstrunwizard-header {
+				    background-color: ' . $color . ';
+				}
+				#firstrunwizard p a {
+				    color: ' . $color . ';
+				}
+				';
+
+		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
+
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
 	public function testGetStylesheetWithOnlyColorInvert() {
+
+		$color = '#fff';
+
 		$this->config
 			->expects($this->at(0))
 			->method('getAppValue')
@@ -356,7 +375,7 @@ class ThemingControllerTest extends TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('theming', 'color', '')
-			->willReturn('#fff');
+			->willReturn($color);
 		$this->config
 			->expects($this->at(2))
 			->method('getAppValue')
@@ -367,24 +386,38 @@ class ThemingControllerTest extends TestCase {
 			->method('getAppValue')
 			->with('theming', 'backgroundMime', '')
 			->willReturn('');
-		$elementColor = '#555555';
-		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}' . "\n";
-		$expectedCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+
+		$expectedData = sprintf(
+			'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
+			$color
+		);
+		$expectedData .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
-			'background-color: %s; background-position: center center; background-size:contain;' .
+			'background-color: #555555; background-position: center center; background-size:contain;' .
 			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
 			"}\n",
-			\OC::$WEBROOT,
-			$elementColor
+			\OC::$WEBROOT
 		);
-		$expectedCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton('#555555').'\');' .
 			"}\n";
-		$expectedCss .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n" .
-			'#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n" .
-			'.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n" .
-			'.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
-		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
+
+		$expectedData .= '
+				#firstrunwizard .firstrunwizard-header {
+				    background-color: ' . $color . ';
+				}
+				#firstrunwizard p a {
+				    color: ' . $color . ';
+				}
+				';
+		$expectedData .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
+		$expectedData .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
+		$expectedData .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
+		$expectedData .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
+
+
+		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
+
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
@@ -411,15 +444,21 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('');
 
-		$expectedCss = '#header .logo {' .
+		$expectedData = '#header .logo {' .
 			'background-image: url(\'./logo?v=0\')' .
 			'background-size: contain;' .
 			'}' . "\n" .
 			'#header .logo-icon {' .
 			'background-image: url(\'./logo?v=0\');' .
 			'background-size: contain;' .
+			'}' . "\n" .
+			'#firstrunwizard .firstrunwizard-header .logo {' .
+			'background-image: url(\'./logo?v=0\');' .
+			'background-size: contain;' .
 			'}' . "\n";
-		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
+
+		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
+
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
@@ -446,13 +485,21 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('text/svg');
 
-		$expectedCss = '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
-		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
+		$expectedData = '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
+		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
+			'background-image: url(\'./loginbackground?v=0\');' .
+			'}' . "\n";
+
+		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
+
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
 
 	public function testGetStylesheetWithAllCombined() {
+
+		$color = '#000';
+
 		$this->config
 			->expects($this->at(0))
 			->method('getAppValue')
@@ -462,7 +509,7 @@ class ThemingControllerTest extends TestCase {
 			->expects($this->at(1))
 			->method('getAppValue')
 			->with('theming', 'color', '')
-			->willReturn('#000');
+			->willReturn($color);
 		$this->config
 			->expects($this->at(2))
 			->method('getAppValue')
@@ -474,34 +521,57 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
-		$elementColor = '#000';
-		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #000}' . "\n";
-		$expectedCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+		$expectedData = sprintf(
+			'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
+			$color);
+
+		$expectedData .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
 			'background-color: %s; background-position: center center; background-size:contain;' .
 			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
 			"}\n",
 			\OC::$WEBROOT,
-			$elementColor
+			$color
 		);
-		$expectedCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($color).'\');' .
 			"}\n";
-		$expectedCss .= '#header .logo {' .
+		$expectedData .= '
+				#firstrunwizard .firstrunwizard-header {
+				    background-color: ' . $color . ';
+				}
+				#firstrunwizard p a {
+				    color: ' . $color . ';
+				}
+				';
+		$expectedData .= sprintf(
+			'#header .logo {' .
 			'background-image: url(\'./logo?v=0\')' .
 			'background-size: contain;' .
 			'}' . "\n" .
 			'#header .logo-icon {' .
 			'background-image: url(\'./logo?v=0\');' .
 			'background-size: contain;' .
+			'}' . "\n" .
+			'#firstrunwizard .firstrunwizard-header .logo {' .
+			'background-image: url(\'./logo?v=0\');' .
+			'background-size: contain;' .
+			'}' . "\n"
+		);
+		$expectedData .= '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
+		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
+			'background-image: url(\'./loginbackground?v=0\');' .
 			'}' . "\n";
-		$expectedCss .= '#body-login {background-image: url(\'./loginbackground?v=0\');}' . PHP_EOL;
+		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
 
-		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
+
 	public function testGetStylesheetWithAllCombinedInverted() {
+
+		$color = '#fff';
+
 		$this->config
 			->expects($this->at(0))
 			->method('getAppValue')
@@ -523,33 +593,53 @@ class ThemingControllerTest extends TestCase {
 			->with('theming', 'backgroundMime', '')
 			->willReturn('image/png');
 
-		$elementColor = '#555555';
-		$expectedCss = '#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: #fff}' . "\n";
-		$expectedCss .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
+
+		$expectedData = sprintf(
+			'#body-user #header,#body-settings #header,#body-public #header,#body-login,.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid {background-color: %s}' . "\n",
+			$color);
+
+		$expectedData .= sprintf('input[type="checkbox"].checkbox:checked:enabled:not(.checkbox--white) + label:before {' .
 			'background-image:url(\'%s/core/img/actions/checkmark-white.svg\');' .
-			'background-color: %s; background-position: center center; background-size:contain;' .
+			'background-color: #555555; background-position: center center; background-size:contain;' .
 			'width:12px; height:12px; padding:0; margin:2px 6px 6px 2px; border-radius:1px;' .
 			"}\n",
-			\OC::$WEBROOT,
-			$elementColor
+			\OC::$WEBROOT
 		);
-		$expectedCss .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
-			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton($elementColor).'\');' .
+		$expectedData .= 'input[type="radio"].radio:checked:not(.radio--white):not(:disabled) + label:before {' .
+			'background-image: url(\'data:image/svg+xml;base64,'.Util::generateRadioButton('#555555').'\');' .
 			"}\n";
-		$expectedCss .= '#header .logo {' .
+		$expectedData .= '
+				#firstrunwizard .firstrunwizard-header {
+				    background-color: ' . $color . ';
+				}
+				#firstrunwizard p a {
+				    color: ' . $color . ';
+				}
+				';
+		$expectedData .= sprintf(
+			'#header .logo {' .
 			'background-image: url(\'./logo?v=0\')' .
 			'background-size: contain;' .
-			'}' . PHP_EOL .
+			'}' . "\n" .
 			'#header .logo-icon {' .
 			'background-image: url(\'./logo?v=0\');' .
 			'background-size: contain;' .
-			'}' . PHP_EOL;
-		$expectedCss .= '#body-login {background-image: url(\'./loginbackground?v=0\');}' . PHP_EOL;
-		$expectedCss .= '#header .header-appname, #expandDisplayName { color: #000000; }' . PHP_EOL .
-			'#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . PHP_EOL .
-			'.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . PHP_EOL .
-			'.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . PHP_EOL;
-		$expected = new Http\DataDownloadResponse($expectedCss, 'style', 'text/css');
+			'}' . "\n" .
+			'#firstrunwizard .firstrunwizard-header .logo {' .
+			'background-image: url(\'./logo?v=0\');' .
+			'background-size: contain;' .
+			'}' . "\n"
+		);
+		$expectedData .= '#body-login {background-image: url(\'./loginbackground?v=0\');}' . "\n";
+		$expectedData .= '#firstrunwizard .firstrunwizard-header {' .
+			'background-image: url(\'./loginbackground?v=0\');' .
+			'}' . "\n";
+		$expectedData .= '#header .header-appname, #expandDisplayName { color: #000000; }' . "\n";
+		$expectedData .= '#header .icon-caret { background-image: url(\'' . \OC::$WEBROOT . '/core/img/actions/caret-dark.svg\'); }' . "\n";
+		$expectedData .= '.searchbox input[type="search"] { background: transparent url(\'' . \OC::$WEBROOT . '/core/img/actions/search.svg\') no-repeat 6px center; color: #000; }' . "\n";
+		$expectedData .= '.searchbox input[type="search"]:focus,.searchbox input[type="search"]:active,.searchbox input[type="search"]:valid { color: #000; border: 1px solid rgba(0, 0, 0, .5); }' . "\n";
+		$expected = new Http\DataDownloadResponse($expectedData, 'style', 'text/css');
+
 		$expected->cacheFor(3600);
 		@$this->assertEquals($expected, $this->themingController->getStylesheet());
 	}
