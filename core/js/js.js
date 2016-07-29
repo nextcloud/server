@@ -1506,7 +1506,7 @@ function initCore() {
 			if(!$app.is('a')) {
 				$app = $app.closest('a');
 			}
-			if(!event.ctrlKey) {
+			if(!event.ctrlKey && !event.metaKey) {
 				$app.addClass('app-loading');
 			} else {
 				// Close navigation when opening app in
@@ -1525,7 +1525,7 @@ function initCore() {
 			if (!$page.is('a')) {
 				$page = $page.closest('a');
 			}
-			if(!event.ctrlKey) {
+			if(!event.ctrlKey && !event.metaKey) {
 				$page.find('img').remove();
 				$page.find('div').remove(); // prevent odd double-clicks
 				$page.prepend($('<div/>').addClass('icon-loading-small-dark'));
